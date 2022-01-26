@@ -5,18 +5,18 @@ describe 'BCF snapshot column',
          js: true,
          with_config: { edition: 'bim' },
          with_mail: false do
-  let(:project) { FactoryBot.create(:project, enabled_module_names: %w[bim work_package_tracking]) }
+  let(:project) { create(:project, enabled_module_names: %w[bim work_package_tracking]) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:permissions) { %i[add_work_packages view_work_packages view_linked_issues] }
-  let!(:work_package) { FactoryBot.create(:work_package, project: project) }
-  let!(:bcf_issue) { FactoryBot.create(:bcf_issue_with_viewpoint, work_package: work_package) }
+  let!(:work_package) { create(:work_package, project: project) }
+  let!(:bcf_issue) { create(:bcf_issue_with_viewpoint, work_package: work_package) }
   let(:user) do
-    FactoryBot.create :user,
+    create :user,
                       member_in_project: project,
                       member_with_permissions: permissions
   end
   let!(:query) do
-    query              = FactoryBot.build(:query, user: user, project: project)
+    query              = build(:query, user: user, project: project)
     query.column_names = ['subject', 'bcf_thumbnail']
     query.filters.clear
     query.show_hierarchies = false

@@ -34,7 +34,7 @@ describe ::API::V3::Utilities::CustomFieldInjector, clear_cache: true do
   let(:cf_path) { "customField#{custom_field.id}" }
   let(:field_format) { 'bool' }
   let(:custom_field) do
-    FactoryBot.build(:custom_field,
+    build(:custom_field,
                      id: 1,
                      field_format: field_format,
                      is_required: true)
@@ -73,7 +73,7 @@ describe ::API::V3::Utilities::CustomFieldInjector, clear_cache: true do
 
       context 'with default set' do
         let(:custom_field) do
-          FactoryBot.build(:custom_field,
+          build(:custom_field,
                            id: 1,
                            field_format: 'string',
                            default_value: 'foo',
@@ -97,7 +97,7 @@ describe ::API::V3::Utilities::CustomFieldInjector, clear_cache: true do
       it_behaves_like 'indicates length requirements'
 
       context 'custom field is not required' do
-        let(:custom_field) { FactoryBot.build(:custom_field, is_required: false) }
+        let(:custom_field) { build(:custom_field, is_required: false) }
 
         it 'marks the field as not required' do
           is_expected.to be_json_eql(false.to_json).at_path("#{cf_path}/required")
@@ -105,7 +105,7 @@ describe ::API::V3::Utilities::CustomFieldInjector, clear_cache: true do
       end
 
       context 'custom field has regex' do
-        let(:custom_field) { FactoryBot.build(:custom_field, regexp: 'Foo+bar') }
+        let(:custom_field) { build(:custom_field, regexp: 'Foo+bar') }
 
         it 'renders the regular expression' do
           is_expected.to be_json_eql('Foo+bar'.to_json).at_path("#{cf_path}/regularExpression")
@@ -113,7 +113,7 @@ describe ::API::V3::Utilities::CustomFieldInjector, clear_cache: true do
       end
 
       context 'custom field has minimum length' do
-        let(:custom_field) { FactoryBot.build(:custom_field, min_length: 5) }
+        let(:custom_field) { build(:custom_field, min_length: 5) }
 
         it_behaves_like 'indicates length requirements' do
           let(:min_length) { 5 }
@@ -121,7 +121,7 @@ describe ::API::V3::Utilities::CustomFieldInjector, clear_cache: true do
       end
 
       context 'custom field has maximum length' do
-        let(:custom_field) { FactoryBot.build(:custom_field, max_length: 5) }
+        let(:custom_field) { build(:custom_field, max_length: 5) }
 
         it_behaves_like 'indicates length requirements' do
           let(:max_length) { 5 }
@@ -131,11 +131,11 @@ describe ::API::V3::Utilities::CustomFieldInjector, clear_cache: true do
 
     describe 'version custom field' do
       let(:custom_field) do
-        FactoryBot.build(:version_wp_custom_field,
+        build(:version_wp_custom_field,
                          is_required: true)
       end
 
-      let(:assignable_versions) { FactoryBot.build_list(:version, 3) }
+      let(:assignable_versions) { build_list(:version, 3) }
 
       before do
         allow(schema)
@@ -178,7 +178,7 @@ describe ::API::V3::Utilities::CustomFieldInjector, clear_cache: true do
       end
 
       let(:custom_field) do
-        FactoryBot.create(
+        create(
           :list_wp_custom_field,
           is_required: true,
           possible_values: values
@@ -208,7 +208,7 @@ describe ::API::V3::Utilities::CustomFieldInjector, clear_cache: true do
 
     describe 'user custom field' do
       let(:custom_field) do
-        FactoryBot.build(:custom_field,
+        build(:custom_field,
                          field_format: 'user',
                          is_required: true)
       end
@@ -233,7 +233,7 @@ describe ::API::V3::Utilities::CustomFieldInjector, clear_cache: true do
 
           query = CGI.escape(::JSON.dump(params))
 
-          "#{api_v3_paths.principals}?filters=#{query}&pageSize=0"
+          "#{api_v3_paths.principals}?filters=#{query}&pageSize=-1"
         end
       end
     end
@@ -247,7 +247,7 @@ describe ::API::V3::Utilities::CustomFieldInjector, clear_cache: true do
                available_custom_fields: [custom_field])
       end
       let(:custom_field) do
-        FactoryBot.build(:custom_field,
+        build(:custom_field,
                          field_format: 'user',
                          is_required: true)
       end
@@ -263,7 +263,7 @@ describe ::API::V3::Utilities::CustomFieldInjector, clear_cache: true do
 
           query = CGI.escape(::JSON.dump(params))
 
-          "#{api_v3_paths.principals}?filters=#{query}&pageSize=0"
+          "#{api_v3_paths.principals}?filters=#{query}&pageSize=-1"
         end
       end
     end
@@ -297,7 +297,7 @@ describe ::API::V3::Utilities::CustomFieldInjector, clear_cache: true do
     let(:raw_value) { nil }
     let(:typed_value) { raw_value }
     let(:value) { '' }
-    let(:current_user) { FactoryBot.build(:user) }
+    let(:current_user) { build(:user) }
     subject { modified_class.new(represented, current_user: current_user, embed_links: true).to_json }
 
     before do
@@ -312,7 +312,7 @@ describe ::API::V3::Utilities::CustomFieldInjector, clear_cache: true do
 
       %w[user group placeholder_user].each do |type|
         describe "#{type} assignment" do
-          let(:value) { FactoryBot.build(type, id: 2) }
+          let(:value) { build(type, id: 2) }
 
           it_behaves_like 'has a titled link' do
             let(:link) { cf_path }
@@ -338,7 +338,7 @@ describe ::API::V3::Utilities::CustomFieldInjector, clear_cache: true do
     end
 
     context 'version custom field' do
-      let(:value) { FactoryBot.build_stubbed(:version, id: 2) }
+      let(:value) { build_stubbed(:version, id: 2) }
       let(:raw_value) { value.id.to_s }
       let(:typed_value) { value }
       let(:field_format) { 'version' }
@@ -365,7 +365,7 @@ describe ::API::V3::Utilities::CustomFieldInjector, clear_cache: true do
     end
 
     context 'list custom field' do
-      let(:value) { FactoryBot.build_stubbed(:custom_option) }
+      let(:value) { build_stubbed(:custom_option) }
       let(:typed_value) { value.value }
       let(:raw_value) { value.id.to_s }
       let(:field_format) { 'list' }
@@ -476,7 +476,7 @@ describe ::API::V3::Utilities::CustomFieldInjector, clear_cache: true do
     end
     let(:custom_value) { double('CustomValue', value: value, typed_value: typed_value) }
     let(:value) { '' }
-    let(:user) { FactoryBot.build_stubbed(:user) }
+    let(:user) { build_stubbed(:user) }
     let(:typed_value) { value }
     subject { modified_class.new(represented, current_user: user).to_json }
 
@@ -491,7 +491,7 @@ describe ::API::V3::Utilities::CustomFieldInjector, clear_cache: true do
 
       %w[user group placeholder_user].each do |type|
         describe "#{type} reading" do
-          let(:typed_value) { FactoryBot.build(type, id: 2) }
+          let(:typed_value) { build(type, id: 2) }
 
           it_behaves_like 'has a titled link' do
             let(:link) { cf_path }

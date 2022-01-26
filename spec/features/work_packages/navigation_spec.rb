@@ -29,9 +29,9 @@
 require 'spec_helper'
 
 RSpec.feature 'Work package navigation', js: true, selenium: true do
-  let(:user) { FactoryBot.create(:admin) }
-  let(:project) { FactoryBot.create(:project, name: 'Some project', enabled_module_names: [:work_package_tracking]) }
-  let(:work_package) { FactoryBot.build(:work_package, project: project) }
+  let(:user) { create(:admin) }
+  let(:project) { create(:project, name: 'Some project', enabled_module_names: [:work_package_tracking]) }
+  let(:work_package) { build(:work_package, project: project) }
   let(:global_html_title) { ::Components::HtmlTitle.new }
   let(:project_html_title) { ::Components::HtmlTitle.new project }
   let(:wp_display) { ::Components::WorkPackages::DisplayRepresentation.new }
@@ -40,12 +40,12 @@ RSpec.feature 'Work package navigation', js: true, selenium: true do
   end
 
   let!(:query) do
-    query = FactoryBot.build(:query, user: user, project: project)
+    query = build(:query, user: user, project: project)
     query.column_names = %w(id subject)
     query.name = "My fancy query"
 
     query.save!
-    FactoryBot.create(:view_work_packages_table,
+    create(:view_work_packages_table,
                       query: query)
 
     query
@@ -213,9 +213,9 @@ RSpec.feature 'Work package navigation', js: true, selenium: true do
   end
 
   describe 'moving back to filtered list after change' do
-    let!(:work_package) { FactoryBot.create(:work_package, project: project, subject: 'foo') }
+    let!(:work_package) { create(:work_package, project: project, subject: 'foo') }
     let!(:query) do
-      query = FactoryBot.build(:query, user: user, project: project)
+      query = build(:query, user: user, project: project)
       query.column_names = %w(id subject)
       query.name = "My fancy query"
       query.add_filter('subject', '~', ['foo'])
@@ -245,9 +245,9 @@ RSpec.feature 'Work package navigation', js: true, selenium: true do
   end
 
   context 'work package with an attachment' do
-    let!(:attachment) { FactoryBot.build(:attachment, filename: 'attachment-first.pdf') }
+    let!(:attachment) { build(:attachment, filename: 'attachment-first.pdf') }
     let!(:wp_with_attachment) do
-      FactoryBot.create :work_package, subject: 'WP attachment A', project: project, attachments: [attachment]
+      create :work_package, subject: 'WP attachment A', project: project, attachments: [attachment]
     end
 
     it 'will show it when navigating from table to single view' do
@@ -263,8 +263,8 @@ RSpec.feature 'Work package navigation', js: true, selenium: true do
   end
 
   context 'two work packages with card view' do
-    let!(:work_package) { FactoryBot.create :work_package, project: project }
-    let!(:work_package2) { FactoryBot.create :work_package, project: project }
+    let!(:work_package) { create :work_package, project: project }
+    let!(:work_package2) { create :work_package, project: project }
     let(:display_representation) { ::Components::WorkPackages::DisplayRepresentation.new }
     let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
     let(:cards) { ::Pages::WorkPackageCards.new(project) }

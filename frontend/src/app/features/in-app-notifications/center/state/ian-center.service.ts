@@ -11,6 +11,7 @@ import {
   shareReplay,
   switchMap,
   take,
+  tap,
 } from 'rxjs/operators';
 import {
   from,
@@ -69,11 +70,14 @@ export class IanCenterService extends UntilDestroyedMixin {
 
   private onReload = this.reload.pipe(
     debounceTime(0),
-    switchMap((setToLoading) => this.resourceService
+    tap((setToLoading) => {
+      if (setToLoading) {
+        this.store.setLoading(true);
+      }
+    }),
+    switchMap(() => this.resourceService
       .fetchNotifications(this.query.params)
       .pipe(
-        // We don't want to set loading if the request is sent in the background
-        setToLoading ? setLoading(this.store) : map((res) => res),
         switchMap(
           (results) => from(this.sideLoadInvolvedWorkPackages(results._embedded.elements))
             .pipe(
@@ -81,6 +85,14 @@ export class IanCenterService extends UntilDestroyedMixin {
             ),
         ),
       )),
+
+    // We need to be slower than the onReload subscribers set below.
+    // Because they're subscribers they're called next in the callback queue.
+    // We need our loading state to be set to false only after all data is in the store,
+    // but we cannot guarantee that here, since the data is set _after_ this piece of code
+    // gets run. The solution is to queue this piece of code back, allowing the store contents
+    // update before the loading state gets reset.
+    tap(() => setTimeout(() => this.store.setLoading(false))),
   );
 
   public selectedNotificationIndex = 0;

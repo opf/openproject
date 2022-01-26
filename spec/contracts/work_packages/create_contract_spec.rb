@@ -38,8 +38,8 @@ describe WorkPackages::CreateContract do
     end
   end
   let(:work_package_project) { project }
-  let(:project) { FactoryBot.build_stubbed(:project) }
-  let(:user) { FactoryBot.build_stubbed(:user) }
+  let(:project) { build_stubbed(:project) }
+  let(:user) { build_stubbed(:user) }
 
   subject(:contract) { described_class.new(work_package, user) }
   let(:validated_contract) do
@@ -139,7 +139,7 @@ describe WorkPackages::CreateContract do
 
     context 'if the user is different from the user the contract is evaluated for' do
       it 'is invalid' do
-        work_package.author = FactoryBot.build_stubbed(:user)
+        work_package.author = build_stubbed(:user)
 
         expect(validated_contract.errors.symbols_for(:author_id))
           .to match_array %i[invalid error_readonly]

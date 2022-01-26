@@ -32,12 +32,12 @@ describe 'random password generation',
          with_config: { session_store: :active_record_store },
          type: :feature,
          js: true do
-  shared_let(:admin) { FactoryBot.create :admin }
+  shared_let(:admin) { create :admin }
 
-  let(:auth_source) { FactoryBot.build :dummy_auth_source }
+  let(:auth_source) { build :dummy_auth_source }
   let(:old_password) { 'old_Password!123' }
   let(:new_password) { 'new_Password!123' }
-  let(:user) { FactoryBot.create :user, password: old_password, password_confirmation: old_password }
+  let(:user) { create :user, password: old_password, password_confirmation: old_password }
   let(:user_page) { ::Pages::Admin::Users::Edit.new(user.id) }
 
   describe 'as admin user' do

@@ -31,8 +31,8 @@ require 'spec_helper'
 require_relative '../support/pages/dashboard'
 
 describe 'Dashboard page members', type: :feature, js: true, with_mail: false do
-  shared_let(:type) { FactoryBot.create :type }
-  shared_let(:project) { FactoryBot.create :project, types: [type], description: 'My **custom** description' }
+  shared_let(:type) { create :type }
+  shared_let(:project) { create :project, types: [type], description: 'My **custom** description' }
 
   shared_let(:permissions) do
     %i[manage_dashboards
@@ -42,7 +42,7 @@ describe 'Dashboard page members', type: :feature, js: true, with_mail: false do
   end
 
   shared_let(:user) do
-    FactoryBot.create(:user,
+    create(:user,
                       firstname: 'Foo',
                       lastname: 'Bar',
                       member_in_project: project,
@@ -50,14 +50,14 @@ describe 'Dashboard page members', type: :feature, js: true, with_mail: false do
   end
 
   shared_let(:group) do
-    FactoryBot.create(:group,
+    create(:group,
                       name: 'DEV Team',
                       member_in_project: project,
                       member_with_permissions: permissions)
   end
 
   shared_let(:placeholder) do
-    FactoryBot.create(:placeholder_user,
+    create(:placeholder_user,
                       name: 'DEVELOPER PLACEHOLDER',
                       member_in_project: project,
                       member_with_permissions: permissions)

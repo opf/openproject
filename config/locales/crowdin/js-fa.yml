@@ -88,9 +88,6 @@ fa:
     button_export-pdf: "دانلود PDF"
     button_export-atom: "دریافت Atom"
     button_create: "ایجاد"
-    calendar:
-      title: 'Calendar'
-      too_many: 'There are %{count} work packages in total, but only %{max} can be shown.'
     card:
       add_new: 'Add new card'
       highlighting:

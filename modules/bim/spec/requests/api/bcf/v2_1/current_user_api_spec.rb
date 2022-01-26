@@ -35,7 +35,7 @@ describe 'BCF 2.1 current-user resource', type: :request, content_type: :json do
   include Rack::Test::Methods
 
   let(:current_user) do
-    FactoryBot.create(:user)
+    create(:user)
   end
 
   subject(:response) { last_response }

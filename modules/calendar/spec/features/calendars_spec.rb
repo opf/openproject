@@ -31,35 +31,35 @@
 require 'spec_helper'
 
 describe 'Work package calendars', type: :feature, js: true do
-  let(:project) { FactoryBot.create(:project) }
+  let(:project) { create(:project) }
   let(:user) do
-    FactoryBot.create(:user,
+    create(:user,
                       member_in_project: project,
                       member_with_permissions: %i[view_work_packages view_calendar])
   end
   let!(:current_work_package) do
-    FactoryBot.create(:work_package,
+    create(:work_package,
                       subject: 'Current work package',
                       project: project,
                       start_date: Date.today.at_beginning_of_month + 15.days,
                       due_date: Date.today.at_beginning_of_month + 15.days)
   end
   let!(:another_current_work_package) do
-    FactoryBot.create(:work_package,
+    create(:work_package,
                       subject: 'Another current work package',
                       project: project,
                       start_date: Date.today.at_beginning_of_month + 12.days,
                       due_date: Date.today.at_beginning_of_month + 18.days)
   end
   let!(:future_work_package) do
-    FactoryBot.create(:work_package,
+    create(:work_package,
                       subject: 'Future work package',
                       project: project,
                       start_date: Date.today.at_beginning_of_month.next_month + 15.days,
                       due_date: Date.today.at_beginning_of_month.next_month + 15.days)
   end
   let!(:another_future_work_package) do
-    FactoryBot.create(:work_package,
+    create(:work_package,
                       subject: 'Another future work package',
                       project: project,
                       start_date: Date.today.at_beginning_of_month.next_month + 12.days,

@@ -41,7 +41,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
   include_context 'bcf_topic with stubbed comment'
   let(:permissions) { %i[view_linked_issues view_work_packages manage_bcf] }
   let(:work_package) do
-    FactoryBot.build_stubbed(:stubbed_work_package, bcf_issue: bcf_topic)
+    build_stubbed(:stubbed_work_package, bcf_issue: bcf_topic)
   end
   let(:representer) do
     described_class.new(work_package,

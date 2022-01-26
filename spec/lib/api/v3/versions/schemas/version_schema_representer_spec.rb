@@ -31,7 +31,7 @@ require 'spec_helper'
 describe ::API::V3::Versions::Schemas::VersionSchemaRepresenter do
   include API::V3::Utilities::PathHelper
 
-  let(:current_user) { FactoryBot.build_stubbed(:user) }
+  let(:current_user) { build_stubbed(:user) }
 
   let(:self_link) { '/a/self/link' }
   let(:embedded) { true }
@@ -39,7 +39,7 @@ describe ::API::V3::Versions::Schemas::VersionSchemaRepresenter do
   let(:allowed_sharings) { %w(tree system) }
   let(:allowed_status) { %w(open fixed closed) }
   let(:custom_field) do
-    FactoryBot.build_stubbed(:int_version_custom_field)
+    build_stubbed(:int_version_custom_field)
   end
 
   let(:contract) do

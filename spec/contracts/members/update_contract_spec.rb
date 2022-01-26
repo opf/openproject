@@ -36,7 +36,7 @@ describe Members::UpdateContract do
 
   it_behaves_like 'member contract' do
     let(:member) do
-      FactoryBot.build_stubbed(:member,
+      build_stubbed(:member,
                                project: member_project,
                                roles: member_roles,
                                principal: member_principal)
@@ -47,7 +47,7 @@ describe Members::UpdateContract do
     describe 'validation' do
       context 'if the principal is changed' do
         before do
-          member.principal = FactoryBot.build_stubbed(:user)
+          member.principal = build_stubbed(:user)
         end
 
         it_behaves_like 'contract is invalid', user_id: :error_readonly
@@ -55,14 +55,14 @@ describe Members::UpdateContract do
 
       context 'if the project is changed' do
         before do
-          member.project = FactoryBot.build_stubbed(:project)
+          member.project = build_stubbed(:project)
         end
 
         it_behaves_like 'contract is invalid', project_id: :error_readonly
       end
 
       context 'if the principal is a locked user' do
-        let(:member_principal) { FactoryBot.build_stubbed(:locked_user) }
+        let(:member_principal) { build_stubbed(:locked_user) }
 
         it_behaves_like 'contract is valid'
       end

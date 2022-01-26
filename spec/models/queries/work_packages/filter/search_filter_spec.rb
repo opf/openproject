@@ -33,7 +33,7 @@ describe Queries::WorkPackages::Filter::SearchFilter, type: :model do
   let(:value) { 'bogus' }
   let(:operator) { '**' }
   let(:subject) { 'Some subject' }
-  let(:work_package) { FactoryBot.create(:work_package, subject: subject) }
+  let(:work_package) { create(:work_package, subject: subject) }
   let(:journal) { work_package.journals.last }
   let(:instance) do
     described_class.create!(name: :search, context: context, operator: operator, values: [value])
@@ -43,7 +43,7 @@ describe Queries::WorkPackages::Filter::SearchFilter, type: :model do
     subject { WorkPackage.joins(instance.joins).where(instance.where) }
 
     context '' do
-      let!(:work_package) { FactoryBot.create(:work_package, subject: "A bogus subject", description: "And a short description") }
+      let!(:work_package) { create(:work_package, subject: "A bogus subject", description: "And a short description") }
 
       it 'finds in subject' do
         instance.values = ['bogus subject']
@@ -70,7 +70,7 @@ describe Queries::WorkPackages::Filter::SearchFilter, type: :model do
 
   describe 'partial (not fuzzy) match of string in subject (#29832)' do
     subject { WorkPackage.joins(instance.joins).where(instance.where) }
-    let!(:work_package) { FactoryBot.create(:work_package, subject: "big old cat") }
+    let!(:work_package) { create(:work_package, subject: "big old cat") }
 
     it 'finds in subject' do
       instance.values = ['big cat']
@@ -81,7 +81,7 @@ describe Queries::WorkPackages::Filter::SearchFilter, type: :model do
 
   describe 'partial match of string in subject and description (#29832)' do
     subject { WorkPackage.joins(instance.joins).where(instance.where) }
-    let!(:work_package) { FactoryBot.create(:work_package, subject: "big", description: "cat") }
+    let!(:work_package) { create(:work_package, subject: "big", description: "cat") }
 
     it 'does not match a partial result currently' do
       instance.values = ['big cat']
@@ -103,7 +103,7 @@ describe Queries::WorkPackages::Filter::SearchFilter, type: :model do
         context 'WP with attachment' do
           let(:text) { 'lorem ipsum' }
           let(:filename) { 'plaintext-file.txt' }
-          let(:attachment) { FactoryBot.create(:attachment, container: work_package, filename: filename) }
+          let(:attachment) { create(:attachment, container: work_package, filename: filename) }
 
           before do
             allow_any_instance_of(Plaintext::Resolver).to receive(:text).and_return(text)
@@ -132,8 +132,8 @@ describe Queries::WorkPackages::Filter::SearchFilter, type: :model do
         context 'with two attachments' do
           let(:text) { 'lorem ipsum' }
           let(:filename) { 'plaintext-file.txt' }
-          let(:attachment) { FactoryBot.create(:attachment, container: work_package, filename: filename) }
-          let(:attachment2) { FactoryBot.create(:attachment, container: work_package, filename: filename) }
+          let(:attachment) { create(:attachment, container: work_package, filename: filename) }
+          let(:attachment2) { create(:attachment, container: work_package, filename: filename) }
 
           before do
             allow_any_instance_of(Plaintext::Resolver).to receive(:text).and_return(text)

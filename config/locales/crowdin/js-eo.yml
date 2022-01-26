@@ -88,9 +88,6 @@ eo:
     button_export-pdf: "Elŝuti PDF"
     button_export-atom: "Elŝuti Atom"
     button_create: "Krei"
-    calendar:
-      title: 'Kalendaro'
-      too_many: 'There are %{count} work packages in total, but only %{max} can be shown.'
     card:
       add_new: 'Aldoni novan karton'
       highlighting:

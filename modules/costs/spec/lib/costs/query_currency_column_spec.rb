@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe Costs::QueryCurrencyColumn, type: :model do
   let(:project) do
-    FactoryBot.build_stubbed(:project).tap do |p|
+    build_stubbed(:project).tap do |p|
       allow(p)
         .to receive(:costs_enabled?)
         .and_return(costs_enabled)

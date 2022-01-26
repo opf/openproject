@@ -35,13 +35,13 @@ describe WorkPackagesController, type: :controller do
     login_as current_user
   end
 
-  let(:stub_project) { FactoryBot.build_stubbed(:project, identifier: 'test_project', public: false) }
-  let(:current_user) { FactoryBot.build_stubbed(:user) }
-  let(:work_packages) { [FactoryBot.build_stubbed(:stubbed_work_package)] }
+  let(:stub_project) { build_stubbed(:project, identifier: 'test_project', public: false) }
+  let(:current_user) { build_stubbed(:user) }
+  let(:work_packages) { [build_stubbed(:stubbed_work_package)] }
 
   describe 'index' do
     let(:query) do
-      FactoryBot.build_stubbed(:query)
+      build_stubbed(:query)
     end
 
     before do
@@ -51,7 +51,7 @@ describe WorkPackagesController, type: :controller do
 
     describe 'bcf' do
       let(:mime_type) { 'bcf' }
-      let(:export_storage) { FactoryBot.build_stubbed(:work_packages_export) }
+      let(:export_storage) { build_stubbed(:work_packages_export) }
 
       before do
         service_instance = double('service_instance')

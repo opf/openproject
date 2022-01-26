@@ -3,7 +3,7 @@ shared_context 'user with stubbed permissions' do |attributes = {}|
     raise "'let(:permissions)' needs to be defined" unless defined?(:permissions)
     raise "'let(:project)' needs to be defined" unless defined?(:project)
 
-    FactoryBot.build_stubbed(:user, **attributes).tap do |u|
+    build_stubbed(:user, **attributes).tap do |u|
       allow(u)
         .to receive(:allowed_to?) do |queried_permission, queried_project|
         project == queried_project && permissions.include?(queried_permission)

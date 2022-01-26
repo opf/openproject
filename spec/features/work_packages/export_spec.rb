@@ -30,16 +30,16 @@ require 'spec_helper'
 require 'features/work_packages/work_packages_page'
 
 describe 'work package export', type: :feature do
-  let(:project) { FactoryBot.create :project_with_types, types: [type_a, type_b] }
-  let(:current_user) { FactoryBot.create :admin }
+  let(:project) { create :project_with_types, types: [type_a, type_b] }
+  let(:current_user) { create :admin }
 
-  let(:type_a) { FactoryBot.create :type, name: "Type A" }
-  let(:type_b) { FactoryBot.create :type, name: "Type B" }
+  let(:type_a) { create :type, name: "Type A" }
+  let(:type_b) { create :type, name: "Type B" }
 
-  let(:wp_1) { FactoryBot.create :work_package, project: project, done_ratio: 25, type: type_a }
-  let(:wp_2) { FactoryBot.create :work_package, project: project, done_ratio: 0, type: type_a }
-  let(:wp_3) { FactoryBot.create :work_package, project: project, done_ratio: 0, type: type_b }
-  let(:wp_4) { FactoryBot.create :work_package, project: project, done_ratio: 0, type: type_a }
+  let(:wp_1) { create :work_package, project: project, done_ratio: 25, type: type_a }
+  let(:wp_2) { create :work_package, project: project, done_ratio: 0, type: type_a }
+  let(:wp_3) { create :work_package, project: project, done_ratio: 0, type: type_b }
+  let(:wp_4) { create :work_package, project: project, done_ratio: 0, type: type_a }
 
   let(:work_packages_page) { WorkPackagesPage.new(project) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
@@ -172,7 +172,7 @@ describe 'work package export', type: :feature do
 
     describe 'with a manually sorted query', js: true do
       let(:query) do
-        FactoryBot.create :query,
+        create :query,
                           user: current_user,
                           project: project
       end
@@ -212,7 +212,7 @@ describe 'work package export', type: :feature do
   context 'PDF export', js: true do
     let(:export_type) { 'PDF' }
     let(:query) do
-      FactoryBot.create :query,
+      create :query,
                         user: current_user,
                         project: project
     end

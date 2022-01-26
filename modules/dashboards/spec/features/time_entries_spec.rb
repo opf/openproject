@@ -31,17 +31,17 @@ require 'spec_helper'
 require_relative '../support/pages/dashboard'
 
 describe 'Time entries widget on dashboard', type: :feature, js: true, with_mail: false do
-  let!(:type) { FactoryBot.create :type }
-  let!(:project) { FactoryBot.create :project, types: [type] }
-  let!(:other_project) { FactoryBot.create :project, types: [type] }
+  let!(:type) { create :type }
+  let!(:project) { create :project, types: [type] }
+  let!(:other_project) { create :project, types: [type] }
   let!(:work_package) do
-    FactoryBot.create :work_package,
+    create :work_package,
                       project: project,
                       type: type,
                       author: user
   end
   let!(:visible_time_entry) do
-    FactoryBot.create :time_entry,
+    create :time_entry,
                       work_package: work_package,
                       project: project,
                       user: user,
@@ -50,7 +50,7 @@ describe 'Time entries widget on dashboard', type: :feature, js: true, with_mail
                       comments: 'My comment'
   end
   let!(:other_visible_time_entry) do
-    FactoryBot.create :time_entry,
+    create :time_entry,
                       work_package: work_package,
                       project: project,
                       user: other_user,
@@ -59,25 +59,25 @@ describe 'Time entries widget on dashboard', type: :feature, js: true, with_mail
                       comments: 'Another`s comment'
   end
   let!(:invisible_time_entry) do
-    FactoryBot.create :time_entry,
+    create :time_entry,
                       work_package: work_package,
                       project: other_project,
                       user: user,
                       hours: 4
   end
   let(:role) do
-    FactoryBot.create(:role,
+    create(:role,
                       permissions: %i[view_time_entries
                                       view_dashboards
                                       manage_dashboards])
   end
   let(:other_user) do
-    FactoryBot.create(:user)
+    create(:user)
   end
   let(:user) do
-    FactoryBot.create(:user).tap do |u|
-      FactoryBot.create(:member, project: project, roles: [role], user: u)
-      FactoryBot.create(:member, project: other_project, roles: [role], user: u)
+    create(:user).tap do |u|
+      create(:member, project: project, roles: [role], user: u)
+      create(:member, project: other_project, roles: [role], user: u)
     end
   end
 

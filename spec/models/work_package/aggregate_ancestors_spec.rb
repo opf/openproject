@@ -29,43 +29,43 @@
 require 'spec_helper'
 
 describe WorkPackage::Ancestors, type: :model do
-  let(:user) { FactoryBot.create(:user) }
-  let(:project) { FactoryBot.create :project }
-  let(:project2) { FactoryBot.create :project }
+  let(:user) { create(:user) }
+  let(:project) { create :project }
+  let(:project2) { create :project }
 
   let!(:root_work_package) do
-    FactoryBot.create :work_package,
+    create :work_package,
                       project: project
   end
 
   let!(:intermediate) do
-    FactoryBot.create :work_package,
+    create :work_package,
                       parent: root_work_package,
                       project: project
   end
   let!(:intermediate_project2) do
-    FactoryBot.create :work_package,
+    create :work_package,
                       parent: root_work_package,
                       project: project2
   end
   let!(:leaf) do
-    FactoryBot.create :work_package,
+    create :work_package,
                       parent: intermediate,
                       project: project
   end
   let!(:leaf_project2) do
-    FactoryBot.create :work_package,
+    create :work_package,
                       parent: intermediate_project2,
                       project: project
   end
 
   let(:view_role) do
-    FactoryBot.build(:role,
+    build(:role,
                      permissions: [:view_work_packages])
   end
 
   let(:none_role) do
-    FactoryBot.build(:role,
+    build(:role,
                      permissions: [])
   end
 
@@ -81,7 +81,7 @@ describe WorkPackage::Ancestors, type: :model do
 
   context 'with permission in the first project' do
     before do
-      FactoryBot.create :member,
+      create :member,
                         user: user,
                         project: project,
                         roles: [view_role]
@@ -119,7 +119,7 @@ describe WorkPackage::Ancestors, type: :model do
 
     context 'and permission in second project' do
       before do
-        FactoryBot.create :member,
+        create :member,
                           user: user,
                           project: project2,
                           roles: [view_role]
@@ -141,7 +141,7 @@ describe WorkPackage::Ancestors, type: :model do
 
   context 'no permissions' do
     before do
-      FactoryBot.create :member,
+      create :member,
                         user: user,
                         project: project,
                         roles: [none_role]

@@ -75,23 +75,23 @@ module PermissionSpecHelpers
 end
 
 shared_examples_for 'a controller action with unrestricted access' do
-  let(:valid_user) { FactoryBot.create(:anonymous) }
+  let(:valid_user) { create(:anonymous) }
 
   extend PermissionSpecHelpers
   spec_permissions(false)
 end
 
 shared_examples_for 'a controller action with require_login' do
-  let(:valid_user)   { FactoryBot.create(:user) }
-  let(:invalid_user) { FactoryBot.create(:anonymous) }
+  let(:valid_user)   { create(:user) }
+  let(:invalid_user) { create(:anonymous) }
 
   extend PermissionSpecHelpers
   spec_permissions
 end
 
 shared_examples_for 'a controller action with require_admin' do
-  let(:valid_user)   { User.where(admin: true).first || FactoryBot.create(:admin) }
-  let(:invalid_user) { FactoryBot.create(:user) }
+  let(:valid_user)   { User.where(admin: true).first || create(:admin) }
+  let(:invalid_user) { create(:user) }
 
   extend PermissionSpecHelpers
   spec_permissions
@@ -100,7 +100,7 @@ end
 shared_examples_for 'a controller action which needs project permissions' do
   # Expecting the following environment
   #
-  # let(:project) { FactoryBot.create(:project) }
+  # let(:project) { create(:project) }
   #
   # def fetch
   #   get 'action', project_id: project.identifier
@@ -116,12 +116,12 @@ shared_examples_for 'a controller action which needs project permissions' do
   #   # other  - passed to response.should redirect_to(other)
   #   true
   # end
-  let(:valid_user) { FactoryBot.create(:user) }
-  let(:invalid_user) { FactoryBot.create(:user) }
+  let(:valid_user) { create(:user) }
+  let(:invalid_user) { create(:user) }
 
   def add_membership(user, permissions)
-    role   = FactoryBot.create(:role, permissions: Array(permissions))
-    member = FactoryBot.build(:member, user: user, project: project)
+    role   = create(:role, permissions: Array(permissions))
+    member = build(:member, user: user, project: project)
     member.roles = [role]
     member.save!
   end

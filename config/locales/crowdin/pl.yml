@@ -751,6 +751,8 @@ pl:
               group_without_name: "Grupy nienazwane nie są dozwolone."
         user:
           attributes:
+            base:
+              user_limit_reached: "User limit reached. No more accounts can be created on the current plan."
             password_confirmation:
               confirmation: "Powtórzone hasło różni się od wprowadzonego hasła!"
               format: "%{message}"
@@ -2213,7 +2215,6 @@ pl:
   permission_select_custom_fields: "Wybierz pola niestandardowe"
   permission_select_project_modules: "Wybieranie modułów projektu"
   permission_manage_types: "Select types"
-  permission_view_calendar: "Widok kalendarza"
   permission_view_changesets: "Zobacz repozytorium poprawek OpenProject"
   permission_view_commit_author_statistics: "Widok statystyk autorów"
   permission_view_work_package_watchers: "Zobacz listę obserwatorów"
@@ -2249,7 +2250,6 @@ pl:
       archived: "Zarchiwizowano"
   project_module_activity: "Działanie"
   project_module_forums: "Fora"
-  project_module_calendar: "Kalendarz"
   project_module_work_package_tracking: "Śledzenie pakietów roboczych"
   project_module_news: "Aktualności"
   project_module_repository: "Repozytorium"
@@ -2935,6 +2935,7 @@ pl:
       schema: 'Schemat'
     undisclosed:
       parent: Nie ujawniono — wybrany element nadrzędny jest niewidoczny ze względu na brak uprawnień.
+      ancestor: Undisclosed - The ancestor is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 'Pre-Autoryzacja'

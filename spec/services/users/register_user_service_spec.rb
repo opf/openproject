@@ -30,7 +30,7 @@
 require 'spec_helper'
 
 describe Users::RegisterUserService do
-  let(:user) { FactoryBot.build(:user) }
+  let(:user) { build(:user) }
   let(:instance) { described_class.new(user) }
   let(:call) { instance.call }
 
@@ -225,7 +225,7 @@ describe Users::RegisterUserService do
   end
 
   describe '#register_manually' do
-    let(:admin_stub) { FactoryBot.build_stubbed :admin }
+    let(:admin_stub) { build_stubbed :admin }
 
     it 'activates the user with mail' do
       allow(User).to receive_message_chain(:admin, :active).and_return([admin_stub])

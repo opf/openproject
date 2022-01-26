@@ -32,7 +32,7 @@ require_relative './shared_contract_examples'
 describe Roles::UpdateContract do
   it_behaves_like 'roles contract' do
     let(:role) do
-      FactoryBot.build_stubbed(:role,
+      build_stubbed(:role,
                                name: 'Some name',
                                assignable: !role_assignable).tap do |r|
         r.name = role_name
@@ -42,7 +42,7 @@ describe Roles::UpdateContract do
     end
 
     let(:global_role) do
-      FactoryBot.build_stubbed(:global_role,
+      build_stubbed(:global_role,
                                name: 'Some name').tap do |r|
         r.name = role_name
         r.permissions = role_permissions

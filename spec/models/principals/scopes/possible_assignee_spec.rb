@@ -31,29 +31,29 @@
 require 'spec_helper'
 
 describe Principals::Scopes::PossibleAssignee, type: :model do
-  let(:project) { FactoryBot.create(:project) }
-  let(:other_project) { FactoryBot.create(:project) }
+  let(:project) { create(:project) }
+  let(:other_project) { create(:project) }
   let(:role_assignable) { true }
-  let(:role) { FactoryBot.create(:role, assignable: role_assignable) }
+  let(:role) { create(:role, assignable: role_assignable) }
   let(:user_status) { :active }
   let!(:member_user) do
-    FactoryBot.create(:user,
+    create(:user,
                       status: user_status,
                       member_in_project: project,
                       member_through_role: role)
   end
   let!(:member_placeholder_user) do
-    FactoryBot.create(:placeholder_user,
+    create(:placeholder_user,
                       member_in_project: project,
                       member_through_role: role)
   end
   let!(:member_group) do
-    FactoryBot.create(:group,
+    create(:group,
                       member_in_project: project,
                       member_through_role: role)
   end
   let!(:other_project_member_user) do
-    FactoryBot.create(:group,
+    create(:group,
                       member_in_project: other_project,
                       member_through_role: role)
   end

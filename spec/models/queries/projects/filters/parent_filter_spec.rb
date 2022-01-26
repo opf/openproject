@@ -31,8 +31,8 @@
 require 'spec_helper'
 
 describe Queries::Projects::Filters::ParentFilter, type: :model do
-  let(:project1) { FactoryBot.build_stubbed(:project) }
-  let(:project2) { FactoryBot.build_stubbed(:project) }
+  let(:project1) { build_stubbed(:project) }
+  let(:project2) { build_stubbed(:project) }
 
   before do
     allow(Project)

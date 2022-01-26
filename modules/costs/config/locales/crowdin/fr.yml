@@ -101,7 +101,7 @@ fr:
   label_work_package_filter_add: "Ajouter filtre de lot de travaux"
   label_kind: "Type"
   label_less_or_equal: "<="
-  label_log_costs: "Consigner coûts unitaires"
+  label_log_costs: "Journaliser les coûts unitaires"
   label_no: "Non"
   label_option_plural: "Options"
   label_overall_costs: "Coûts globaux"

@@ -31,8 +31,8 @@ require 'spec_helper'
 describe ::API::V3::Projects::Copy::ProjectCopySchemaRepresenter do
   include API::V3::Utilities::PathHelper
 
-  shared_let(:current_user, reload: false) { FactoryBot.build_stubbed(:user) }
-  shared_let(:source_project, reload: false) { FactoryBot.build_stubbed(:project) }
+  shared_let(:current_user, reload: false) { build_stubbed(:user) }
+  shared_let(:source_project, reload: false) { build_stubbed(:project) }
   shared_let(:contract, reload: false) { ::Projects::CreateContract.new(source_project, current_user) }
 
   shared_let(:representer, reload: false) do

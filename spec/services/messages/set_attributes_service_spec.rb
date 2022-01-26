@@ -29,8 +29,8 @@
 require 'spec_helper'
 
 describe Messages::SetAttributesService, type: :model do
-  let(:user) { FactoryBot.build_stubbed(:user) }
-  let(:forum) { FactoryBot.build_stubbed(:forum) }
+  let(:user) { build_stubbed(:user) }
+  let(:forum) { build_stubbed(:forum) }
   let(:contract_instance) do
     contract = double('contract_instance')
     allow(contract)

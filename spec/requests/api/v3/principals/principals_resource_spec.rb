@@ -41,19 +41,19 @@ describe 'API v3 Principals resource', type: :request do
     end
     let(:order) { { name: :desc } }
     let(:filter) { nil }
-    let(:project) { FactoryBot.create(:project) }
-    let(:other_project) { FactoryBot.create(:project) }
-    let(:non_member_project) { FactoryBot.create(:project) }
-    let(:role) { FactoryBot.create(:role, permissions: permissions) }
+    let(:project) { create(:project) }
+    let(:other_project) { create(:project) }
+    let(:non_member_project) { create(:project) }
+    let(:role) { create(:role, permissions: permissions) }
     let(:permissions) { [] }
     let(:user) do
-      user = FactoryBot.create(:user,
+      user = create(:user,
                                member_in_project: project,
                                member_through_role: role,
                                lastname: 'Aaaa',
                                mail: 'aaaa@example.com')
 
-      FactoryBot.create(:member,
+      create(:member,
                         project: other_project,
                         principal: user,
                         roles: [role])
@@ -61,25 +61,25 @@ describe 'API v3 Principals resource', type: :request do
       user
     end
     let!(:other_user) do
-      FactoryBot.create(:user,
+      create(:user,
                         member_in_project: other_project,
                         member_through_role: role,
                         lastname: 'Bbbb')
     end
     let!(:user_in_non_member_project) do
-      FactoryBot.create(:user,
+      create(:user,
                         member_in_project: non_member_project,
                         member_through_role: role,
                         lastname: 'Cccc')
     end
     let!(:group) do
-      FactoryBot.create(:group,
+      create(:group,
                         member_in_project: project,
                         member_through_role: role,
                         lastname: 'Gggg')
     end
     let!(:placeholder_user) do
-      FactoryBot.create(:placeholder_user,
+      create(:placeholder_user,
                         member_in_project: project,
                         member_through_role: role,
                         name: 'Pppp')
@@ -133,7 +133,7 @@ describe 'API v3 Principals resource', type: :request do
     end
 
     context 'with a without a project membership' do
-      let(:user) { FactoryBot.create(:user) }
+      let(:user) { create(:user) }
 
       # The user herself
       it_behaves_like 'API V3 collection response', 1, 1, 'User'

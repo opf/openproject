@@ -88,9 +88,6 @@ de:
     button_export-pdf: "PDF-Download"
     button_export-atom: "Atom-Download"
     button_create: "Anlegen"
-    calendar:
-      title: 'Kalender'
-      too_many: 'Es gibt insgesamt %{count} Arbeitspakete, aber nur %{max} können angezeigt werden.'
     card:
       add_new: 'Neue Karte hinzufügen'
       highlighting:

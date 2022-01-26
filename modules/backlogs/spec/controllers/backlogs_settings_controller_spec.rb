@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe BacklogsSettingsController, type: :controller do
-  current_user { FactoryBot.build_stubbed :admin }
+  current_user { build_stubbed :admin }
 
   describe 'GET show' do
     it 'performs that request' do
@@ -39,7 +39,7 @@ describe BacklogsSettingsController, type: :controller do
     end
 
     context 'as regular user' do
-      current_user { FactoryBot.build_stubbed :user }
+      current_user { build_stubbed :user }
 
       it 'fails' do
         get :show
@@ -92,7 +92,7 @@ describe BacklogsSettingsController, type: :controller do
       end
 
       context 'with a non-admin' do
-        current_user { FactoryBot.build_stubbed :user }
+        current_user { build_stubbed :user }
 
         it 'does not update the settings' do
           expect(Setting)

@@ -29,16 +29,16 @@
 require 'spec_helper'
 
 describe 'filter me value', js: true do
-  let(:status) { FactoryBot.create :default_status }
-  let!(:priority) { FactoryBot.create :default_priority }
+  let(:status) { create :default_status }
+  let!(:priority) { create :default_priority }
   let(:project) do
-    FactoryBot.create :project,
+    create :project,
                       public: true,
                       members: project_members
   end
-  let(:role) { FactoryBot.create :existing_role, permissions: [:view_work_packages] }
-  let(:admin) { FactoryBot.create :admin }
-  let(:user) { FactoryBot.create :user }
+  let(:role) { create :existing_role, permissions: [:view_work_packages] }
+  let(:admin) { create :admin }
+  let(:user) { create :user }
   let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
   let(:filters) { ::Components::WorkPackages::Filters.new }
   let(:project_members) do
@@ -47,17 +47,17 @@ describe 'filter me value', js: true do
       user => role
     }
   end
-  let!(:role_anonymous) { FactoryBot.create(:anonymous_role, permissions: [:view_work_packages]) }
+  let!(:role_anonymous) { create(:anonymous_role, permissions: [:view_work_packages]) }
 
   describe 'assignee' do
-    let(:wp_admin) { FactoryBot.create :work_package, status: status, project: project, assigned_to: admin }
-    let(:wp_user) { FactoryBot.create :work_package, status: status, project: project, assigned_to: user }
+    let(:wp_admin) { create :work_package, status: status, project: project, assigned_to: admin }
+    let(:wp_user) { create :work_package, status: status, project: project, assigned_to: user }
 
     context 'as anonymous', with_settings: { login_required?: false } do
       current_user { User.anonymous }
 
       let(:assignee_query) do
-        query = FactoryBot.create(:query,
+        query = create(:query,
                                   name: 'Assignee Query',
                                   project: project,
                                   user: user)
@@ -128,15 +128,15 @@ describe 'filter me value', js: true do
 
   describe 'custom_field of type user' do
     let(:custom_field) do
-      FactoryBot.create(
+      create(
         :user_wp_custom_field,
         name: 'CF user',
         is_required: false
       )
     end
-    let(:type_task) { FactoryBot.create(:type_task, custom_fields: [custom_field]) }
+    let(:type_task) { create(:type_task, custom_fields: [custom_field]) }
     let(:project) do
-      FactoryBot.create(:project,
+      create(:project,
                         types: [type_task],
                         public: true,
                         work_package_custom_fields: [custom_field],
@@ -146,14 +146,14 @@ describe 'filter me value', js: true do
     let(:cf_accessor) { "cf_#{custom_field.id}" }
     let(:cf_accessor_frontend) { "customField#{custom_field.id}" }
     let(:wp_admin) do
-      FactoryBot.create :work_package,
+      create :work_package,
                         type: type_task,
                         project: project,
                         custom_field_values: { custom_field.id => admin.id }
     end
 
     let(:wp_user) do
-      FactoryBot.create :work_package,
+      create :work_package,
                         type: type_task,
                         project: project,
                         custom_field_values: { custom_field.id => user.id }
@@ -161,7 +161,7 @@ describe 'filter me value', js: true do
 
     context 'as anonymous', with_settings: { login_required?: false } do
       let(:assignee_query) do
-        query = FactoryBot.create(:query,
+        query = create(:query,
                                   name: 'CF user Query',
                                   project: project,
                                   user: user)

@@ -31,9 +31,9 @@
 require 'spec_helper'
 
 describe Grids::DeleteContract do
-  let(:user) { FactoryBot.build_stubbed(:user) }
+  let(:user) { build_stubbed(:user) }
   let(:grid) do
-    FactoryBot.build_stubbed(:grid)
+    build_stubbed(:grid)
   end
 
   let(:instance) { described_class.new(grid, user) }

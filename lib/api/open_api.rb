@@ -19,6 +19,14 @@ module API
       spec
     end
 
+    def assemble_spec(file_path)
+      spec = YAML.safe_load File.read(file_path.to_s)
+
+      substitute_refs(spec, path: file_path.parent, root_path: file_path.parent)
+    rescue Psych::SyntaxError => e
+      raise "Failed to load #{file_path}: #{e.class} #{e.message}"
+    end
+
     private
 
     def memoized_spec
@@ -33,14 +41,6 @@ module API
       else
         raise "Could not find openapi-spec.yml under #{spec_path}"
       end
-    end
-
-    def assemble_spec(file_path)
-      spec = YAML.safe_load File.read(file_path.to_s)
-
-      substitute_refs(spec, path: file_path.parent, root_path: file_path.parent)
-    rescue Psych::SyntaxError => e
-      raise "Failed to load #{file_path}: #{e.class} #{e.message}"
     end
 
     def substitute_refs(spec, path:, root_path:, root_spec: spec)

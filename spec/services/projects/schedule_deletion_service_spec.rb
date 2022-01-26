@@ -47,7 +47,7 @@ describe ::Projects::ScheduleDeletionService, type: :model do
     double('contract_errors')
   end
   let(:project_valid) { true }
-  let(:project) { FactoryBot.build_stubbed(:project) }
+  let(:project) { build_stubbed(:project) }
   let(:instance) do
     described_class.new(user: user,
                         model: project,
@@ -79,7 +79,7 @@ describe ::Projects::ScheduleDeletionService, type: :model do
 
     service
   end
-  let(:user) { FactoryBot.build_stubbed(:admin) }
+  let(:user) { build_stubbed(:admin) }
 
   subject { instance.call }
 

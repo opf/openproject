@@ -754,6 +754,8 @@ sk:
               group_without_name: "Nepomenované skupiny nie sú povolené."
         user:
           attributes:
+            base:
+              user_limit_reached: "User limit reached. No more accounts can be created on the current plan."
             password_confirmation:
               confirmation: "Password confirmation does not match password."
               format: "%{message}"
@@ -2216,7 +2218,6 @@ sk:
   permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Vyberte moduly projektu"
   permission_manage_types: "Vyberte typy"
-  permission_view_calendar: "Zobrazenie kalendára"
   permission_view_changesets: "Zobraziť revízie úložiska v programe OpenProject"
   permission_view_commit_author_statistics: "Zobraziť štatistiky o odovzdávkach do repozitára za autora"
   permission_view_work_package_watchers: "Zobrazenie zoznamu pozorovateľov"
@@ -2252,7 +2253,6 @@ sk:
       archived: "Archivované"
   project_module_activity: "Činnosť"
   project_module_forums: "Diskusie"
-  project_module_calendar: "Kalendár"
   project_module_work_package_tracking: "Sledovanie Pracovného balíka"
   project_module_news: "Novinky"
   project_module_repository: "Repozitár"
@@ -2941,6 +2941,7 @@ sk:
       schema: 'Schéma'
     undisclosed:
       parent: Undisclosed - The selected parent is invisible because of lacking permissions.
+      ancestor: Undisclosed - The ancestor is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 'Pre-Autorizácia'

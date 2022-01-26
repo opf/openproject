@@ -19,8 +19,10 @@ properties:
     - "$ref": "./formattable.yml"
     - {}
   details:
-    type: array of formattable
+    type: array
     readOnly: true
+    items:
+      type: string
   createdAt:
     type: string
     format: date-time

@@ -35,19 +35,19 @@ describe 'BCF 2.1 projects resource', type: :request, content_type: :json do
   include Rack::Test::Methods
 
   let(:view_only_user) do
-    FactoryBot.create(:user,
+    create(:user,
                       member_in_project: project)
   end
   let(:edit_user) do
-    FactoryBot.create(:user,
+    create(:user,
                       member_in_project: project,
                       member_with_permissions: [:edit_project])
   end
   let(:non_member_user) do
-    FactoryBot.create(:user)
+    create(:user)
   end
 
-  let(:project) { FactoryBot.create(:project, enabled_module_names: [:bim]) }
+  let(:project) { create(:project, enabled_module_names: [:bim]) }
 
   subject(:response) { last_response }
 
@@ -128,10 +128,10 @@ describe 'BCF 2.1 projects resource', type: :request, content_type: :json do
   describe 'GET /api/bcf/2.1/projects' do
     let(:path) { "/api/bcf/2.1/projects" }
     let(:current_user) { view_only_user }
-    let!(:invisible_project) { FactoryBot.create(:project, enabled_module_names: [:bcf]) }
+    let!(:invisible_project) { create(:project, enabled_module_names: [:bcf]) }
     let!(:non_bcf_project) do
-      FactoryBot.create(:project, enabled_module_names: [:work_packages]).tap do |p|
-        FactoryBot.create(:member,
+      create(:project, enabled_module_names: [:work_packages]).tap do |p|
+        create(:member,
                           project: p,
                           user: view_only_user,
                           roles: view_only_user.members.first.roles)

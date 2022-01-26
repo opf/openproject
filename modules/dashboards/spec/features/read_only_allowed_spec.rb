@@ -31,17 +31,17 @@ require 'spec_helper'
 require_relative '../support/pages/dashboard'
 
 describe 'Read only mode when user lacks edit permission on dashboard', type: :feature, js: true do
-  let!(:type) { FactoryBot.create :type }
-  let!(:project) { FactoryBot.create :project, types: [type] }
+  let!(:type) { create :type }
+  let!(:project) { create :project, types: [type] }
   let!(:work_package) do
-    FactoryBot.create :work_package,
+    create :work_package,
                       project: project,
                       type: type,
                       author: user,
                       responsible: user
   end
   let!(:dashboard) do
-    FactoryBot.create(:dashboard_with_table, project: project)
+    create(:dashboard_with_table, project: project)
   end
 
   let(:permissions) do
@@ -53,12 +53,12 @@ describe 'Read only mode when user lacks edit permission on dashboard', type: :f
   end
 
   let(:role) do
-    FactoryBot.create(:role, permissions: permissions)
+    create(:role, permissions: permissions)
   end
 
   let(:user) do
-    FactoryBot.create(:user).tap do |u|
-      FactoryBot.create(:member, project: project, user: u, roles: [role])
+    create(:user).tap do |u|
+      create(:member, project: project, user: u, roles: [role])
     end
   end
   let(:dashboard_page) do

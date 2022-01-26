@@ -29,19 +29,19 @@
 require 'spec_helper'
 
 describe MeetingContentsController do
-  shared_let(:role) { FactoryBot.create(:role, permissions: [:view_meetings]) }
-  shared_let(:project) { FactoryBot.create(:project) }
-  shared_let(:author) { FactoryBot.create(:user, member_in_project: project, member_through_role: role) }
-  shared_let(:watcher1) { FactoryBot.create(:user, member_in_project: project, member_through_role: role) }
-  shared_let(:watcher2) { FactoryBot.create(:user, member_in_project: project, member_through_role: role) }
+  shared_let(:role) { create(:role, permissions: [:view_meetings]) }
+  shared_let(:project) { create(:project) }
+  shared_let(:author) { create(:user, member_in_project: project, member_through_role: role) }
+  shared_let(:watcher1) { create(:user, member_in_project: project, member_through_role: role) }
+  shared_let(:watcher2) { create(:user, member_in_project: project, member_through_role: role) }
   shared_let(:meeting) do
     User.execute_as author do
-      FactoryBot.create(:meeting, author: author, project: project)
+      create(:meeting, author: author, project: project)
     end
   end
   shared_let(:meeting_agenda) do
     User.execute_as author do
-      FactoryBot.create(:meeting_agenda, meeting: meeting)
+      create(:meeting_agenda, meeting: meeting)
     end
   end
 

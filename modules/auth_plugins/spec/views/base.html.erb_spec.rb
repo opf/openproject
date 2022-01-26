@@ -32,7 +32,7 @@ describe 'layouts/base', type: :view do
   describe 'authenticator plugin' do
     include Redmine::MenuManager::MenuHelper
     helper Redmine::MenuManager::MenuHelper
-    let(:anonymous) { FactoryBot.build_stubbed(:anonymous) }
+    let(:anonymous) { build_stubbed(:anonymous) }
 
     before do
       allow(view).to receive(:current_menu_item).and_return('overview')

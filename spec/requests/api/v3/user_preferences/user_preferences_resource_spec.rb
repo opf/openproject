@@ -35,9 +35,9 @@ describe 'API v3 UserPreferences resource', type: :request, content_type: :json 
 
   subject(:response) { last_response }
 
-  let(:user) { FactoryBot.create(:user, preference: preference) }
+  let(:user) { create(:user, preference: preference) }
   let(:preference) do
-    FactoryBot.create(:user_preference,
+    create(:user_preference,
                       settings: {
                         daily_reminders: {
                           enabled: false,

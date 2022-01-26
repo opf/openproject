@@ -23,7 +23,7 @@ OpenProject cloud environment is hosted on a logically isolated virtual cloud at
 
 We offer secure hosting of your OpenProject cloud also in a German data center on request. Please [contact us](https://www.openproject.org/contact-us/).
 
-### Data backups
+### Data backups and end-to-end https encryption
 
 OpenProject cloud environment is continuously backing up user data with data at rest being fully encrypted with AES-256. Each individual instance is logically separated and data is persisted in a unique database schema, reducing the risk of intersection or data leaks between instances.
 
@@ -71,3 +71,7 @@ With OpenProject 11.1, we have automated this process in order to reduce manual 
 Please navigate to -> Administration -> GDPR and you can now online review and sign your DPA document directly within the application.
 
 ![OpenProject DPA](DPA.png)
+
+
+
+Find out more about [OpenProject's security features](../../../development/security/#openproject-security-features).

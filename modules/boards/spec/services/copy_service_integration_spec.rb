@@ -32,13 +32,13 @@ require 'spec_helper'
 
 describe Projects::CopyService, 'integration', type: :model do
   let(:current_user) do
-    FactoryBot.create(:user,
+    create(:user,
                       member_in_project: source,
                       member_through_role: role)
   end
-  let!(:source) { FactoryBot.create :project, enabled_module_names: %w[boards work_package_tracking] }
+  let!(:source) { create :project, enabled_module_names: %w[boards work_package_tracking] }
   let(:query) { board_view.contained_queries.first }
-  let(:role) { FactoryBot.create :role, permissions: %i[copy_projects] }
+  let(:role) { create :role, permissions: %i[copy_projects] }
   let(:instance) do
     described_class.new(source: source, user: current_user)
   end
@@ -56,13 +56,13 @@ describe Projects::CopyService, 'integration', type: :model do
 
   describe 'for a subproject board' do
     let(:current_user) do
-      FactoryBot.create(:user,
+      create(:user,
                         member_in_projects: [source, child_project],
                         member_through_role: role)
     end
-    let!(:child_project) { FactoryBot.create :project, parent: source }
+    let!(:child_project) { create :project, parent: source }
     let!(:board_view) do
-      FactoryBot.create :board_grid_with_query,
+      create :board_grid_with_query,
                         project: source,
                         name: 'Subproject board',
                         options: { "type" => "action", "attribute" => "subproject" }
@@ -96,9 +96,9 @@ describe Projects::CopyService, 'integration', type: :model do
   end
 
   describe 'for ordered work packages' do
-    let!(:board_view) { FactoryBot.create :board_grid_with_query, project: source, name: 'My Board' }
-    let!(:wp_1) { FactoryBot.create(:work_package, project: source, subject: 'Second') }
-    let!(:wp_2) { FactoryBot.create(:work_package, project: source, subject: 'First') }
+    let!(:board_view) { create :board_grid_with_query, project: source, name: 'My Board' }
+    let!(:wp_1) { create(:work_package, project: source, subject: 'Second') }
+    let!(:wp_2) { create(:work_package, project: source, subject: 'First') }
 
     before do
       ::OrderedWorkPackage.create(query: query, work_package: wp_1, position: 1234)

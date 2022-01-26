@@ -35,31 +35,31 @@ describe ::API::V3::Projects::UpdateFormAPI, content_type: :json do
   include API::V3::Utilities::PathHelper
 
   let(:project) do
-    FactoryBot.create(:project,
+    create(:project,
                       "custom_field_#{text_custom_field.id}": "CF text",
                       "custom_field_#{list_custom_field.id}": list_custom_field.custom_options.first)
   end
   let(:current_user) do
-    FactoryBot.create(:user,
+    create(:user,
                       member_in_project: project,
                       member_with_permissions: permissions)
   end
   let(:text_custom_field) do
-    FactoryBot.create(:text_project_custom_field)
+    create(:text_project_custom_field)
   end
   let(:list_custom_field) do
-    FactoryBot.create(:list_project_custom_field)
+    create(:list_project_custom_field)
   end
   let(:viable_parent_project) do
-    FactoryBot.create(:project).tap do |p|
-      FactoryBot.create(:member,
+    create(:project).tap do |p|
+      create(:member,
                         project: p,
                         principal: current_user,
                         roles: [parent_project_role])
     end
   end
   let(:parent_project_role) do
-    FactoryBot.create(:role, permissions: parent_project_permissions)
+    create(:role, permissions: parent_project_permissions)
   end
   let(:permissions) { [:edit_project] }
   let(:parent_project_permissions) { [:add_subprojects] }

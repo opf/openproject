@@ -29,12 +29,12 @@
 require File.expand_path("#{File.dirname(__FILE__)}/../../spec_helper.rb")
 
 describe 'Deleting a budget', type: :feature, js: true do
-  let(:project) { FactoryBot.create :project, enabled_module_names: %i[budgets costs] }
-  let(:user) { FactoryBot.create :admin }
+  let(:project) { create :project, enabled_module_names: %i[budgets costs] }
+  let(:user) { create :admin }
   let(:budget_subject) { "A budget subject" }
   let(:budget_description) { "A budget description" }
   let!(:budget) do
-    FactoryBot.create :budget,
+    create :budget,
                       subject: budget_subject,
                       description: budget_description,
                       author: user,
@@ -60,8 +60,8 @@ describe 'Deleting a budget', type: :feature, js: true do
   end
 
   context 'when WPs are assigned to this budget' do
-    let(:wp1) { FactoryBot.create :work_package, project: project, budget: budget }
-    let(:wp2) { FactoryBot.create :work_package, project: project, budget: budget }
+    let(:wp1) { create :work_package, project: project, budget: budget }
+    let(:wp2) { create :work_package, project: project, budget: budget }
     let(:budget_destroy_info_page) { Pages::DestroyInfo.new budget }
 
     before do
@@ -100,7 +100,7 @@ describe 'Deleting a budget', type: :feature, js: true do
 
     context 'with another budget to assign to' do
       let(:budget2) do
-        FactoryBot.create :budget,
+        create :budget,
                           subject: 'Another budget',
                           description: budget_description,
                           author: user,

@@ -40,7 +40,7 @@ describe OpenProject::TextFormatting,
   context 'inline linking attachments' do
     context 'work package with attachments' do
       let!(:work_package) do
-        FactoryBot.build_stubbed(:work_package).tap do |wp|
+        build_stubbed(:work_package).tap do |wp|
           allow(wp)
             .to receive(:attachments)
             .and_return attachments
@@ -48,7 +48,7 @@ describe OpenProject::TextFormatting,
       end
       let(:attachments) { [inlinable, non_inlinable] }
       let!(:inlinable) do
-        FactoryBot.build_stubbed(:attached_picture) do |a|
+        build_stubbed(:attached_picture) do |a|
           allow(a)
             .to receive(:filename)
             .and_return('my-image.jpg')
@@ -58,7 +58,7 @@ describe OpenProject::TextFormatting,
         end
       end
       let!(:non_inlinable) do
-        FactoryBot.build_stubbed(:attachment) do |a|
+        build_stubbed(:attachment) do |a|
           allow(a)
             .to receive(:filename)
             .and_return('whatever.pdf')

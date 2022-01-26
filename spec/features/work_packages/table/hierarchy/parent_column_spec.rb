@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe 'Work Package table parent column', js: true do
-  let(:user) { FactoryBot.create :admin }
-  let(:project) { FactoryBot.create(:project) }
+  let(:user) { create :admin }
+  let(:project) { create(:project) }
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
 
@@ -10,11 +10,11 @@ describe 'Work Package table parent column', js: true do
     login_as(user)
   end
 
-  let!(:parent) { FactoryBot.create(:work_package, project: project) }
-  let!(:child) { FactoryBot.create(:work_package, project: project, parent: parent) }
+  let!(:parent) { create(:work_package, project: project) }
+  let!(:child) { create(:work_package, project: project, parent: parent) }
 
   let!(:query) do
-    query              = FactoryBot.build(:query, user: user, project: project)
+    query              = build(:query, user: user, project: project)
     query.column_names = ['subject', 'parent']
     query.filters.clear
     query.show_hierarchies = false

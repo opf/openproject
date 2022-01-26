@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Bim::IfcModels::ViewConverterService do
-  let(:model) { FactoryBot.build :ifc_model }
+  let(:model) { build :ifc_model }
   subject { described_class.new(model) }
 
   before do
@@ -94,7 +94,7 @@ describe Bim::IfcModels::ViewConverterService do
 
         # mocking all convert! calls so they do nothing but create an empty dummy result file
         allow(subject).to receive(:convert!) do |source_file, ext|
-          expect(File.exists?(source_file)).to be_truthy, "Expected #{source_file} to exist."
+          expect(File.exist?(source_file)).to be_truthy, "Expected #{source_file} to exist."
 
           target_file_path = source_file.sub ext_regex, "." + ext
 

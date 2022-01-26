@@ -31,8 +31,8 @@ require 'spec_helper'
 describe ::API::V3::Queries::Schemas::GroupFilterDependencyRepresenter, clear_cache: true do
   include ::API::V3::Utilities::PathHelper
 
-  let(:project) { FactoryBot.build_stubbed(:project) }
-  let(:query) { FactoryBot.build_stubbed(:query, project: project) }
+  let(:project) { build_stubbed(:project) }
+  let(:query) { build_stubbed(:query, project: project) }
   let(:filter) { Queries::WorkPackages::Filter::GroupFilter.create!(context: query) }
   let(:form_embedded) { false }
 
@@ -50,7 +50,7 @@ describe ::API::V3::Queries::Schemas::GroupFilterDependencyRepresenter, clear_ca
         let(:path) { 'values' }
         let(:type) { '[]User' }
         let(:href) do
-          "#{api_v3_paths.principals}?filters=#{CGI.escape(JSON.dump(filter_query))}&pageSize=0"
+          "#{api_v3_paths.principals}?filters=#{CGI.escape(JSON.dump(filter_query))}&pageSize=-1"
         end
 
         context "for operator 'Queries::Operators::All'" do
@@ -108,7 +108,7 @@ describe ::API::V3::Queries::Schemas::GroupFilterDependencyRepresenter, clear_ca
 
     describe 'caching' do
       let(:operator) { Queries::Operators::Equals }
-      let(:other_project) { FactoryBot.build_stubbed(:project) }
+      let(:other_project) { build_stubbed(:project) }
 
       before do
         # fill the cache

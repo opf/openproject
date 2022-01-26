@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe MyController, type: :controller do
-  let(:user) { FactoryBot.create(:user) }
+  let(:user) { create(:user) }
 
   before(:each) do
     login_as(user)
@@ -120,7 +120,7 @@ describe MyController, type: :controller do
   end
 
   describe 'account' do
-    let(:custom_field) { FactoryBot.create :text_user_custom_field }
+    let(:custom_field) { create :text_user_custom_field }
     before do
       custom_field
       as_logged_in_user user do
@@ -174,7 +174,7 @@ describe MyController, type: :controller do
 
       context 'when user is invalid' do
         let(:user) do
-          FactoryBot.create(:user).tap do |u|
+          create(:user).tap do |u|
             u.update_column(:mail, 'something invalid')
           end
         end

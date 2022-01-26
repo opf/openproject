@@ -34,17 +34,17 @@ describe Groups::CleanupInheritedRolesService, 'integration', type: :model do
     instance.call(params)
   end
 
-  let(:project) { FactoryBot.create :project }
-  let(:role) { FactoryBot.create :role }
-  let(:current_user) { FactoryBot.create :admin }
+  let(:project) { create :project }
+  let(:role) { create :role }
+  let(:current_user) { create :admin }
   let(:roles) { [role] }
   let(:params) { { message: message } }
   let(:message) { "Some message" }
 
   let!(:group) do
-    FactoryBot.create(:group,
+    create(:group,
                       members: users).tap do |group|
-      FactoryBot.create(:member,
+      create(:member,
                         project: project,
                         principal: group,
                         roles: roles)
@@ -54,7 +54,7 @@ describe Groups::CleanupInheritedRolesService, 'integration', type: :model do
         .call(ids: users.map(&:id))
     end
   end
-  let(:users) { FactoryBot.create_list :user, 2 }
+  let(:users) { create_list :user, 2 }
   let(:member) { Member.find_by(principal: group) }
 
   let(:instance) do
@@ -103,7 +103,7 @@ describe Groups::CleanupInheritedRolesService, 'integration', type: :model do
   end
 
   context 'when also having own roles' do
-    let(:another_role) { FactoryBot.create(:role) }
+    let(:another_role) { create(:role) }
     let!(:first_user_member) do
       group
       Member.find_by(principal: users.first).tap do |m|
@@ -145,7 +145,7 @@ describe Groups::CleanupInheritedRolesService, 'integration', type: :model do
   end
 
   context 'when the user has had the role added by the group before' do
-    let(:another_role) { FactoryBot.create(:role) }
+    let(:another_role) { create(:role) }
     let!(:first_user_member) do
       Member.find_by(principal: users.first).tap do |m|
         m.member_roles.create(role: role)

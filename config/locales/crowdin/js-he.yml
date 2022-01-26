@@ -88,9 +88,6 @@ he:
     button_export-pdf: "הורד קובץ PDF"
     button_export-atom: "Download Atom"
     button_create: "צור"
-    calendar:
-      title: 'לוח שנה'
-      too_many: 'There are %{count} work packages in total, but only %{max} can be shown.'
     card:
       add_new: 'Add new card'
       highlighting:

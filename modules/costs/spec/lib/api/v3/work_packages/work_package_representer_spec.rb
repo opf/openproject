@@ -31,21 +31,21 @@ require 'spec_helper'
 describe ::API::V3::WorkPackages::WorkPackageRepresenter do
   include API::V3::Utilities::PathHelper
 
-  let(:project) { FactoryBot.create(:project) }
+  let(:project) { create(:project) }
   let(:role) do
-    FactoryBot.create(:role, permissions: %i[view_time_entries
+    create(:role, permissions: %i[view_time_entries
                                              view_cost_entries
                                              view_cost_rates
                                              view_work_packages])
   end
   let(:user) do
-    FactoryBot.create(:user,
+    create(:user,
                       member_in_project: project,
                       member_through_role: role)
   end
 
   let(:cost_entry_1) do
-    FactoryBot.create(:cost_entry,
+    create(:cost_entry,
                       work_package: work_package,
                       project: project,
                       units: 3,
@@ -54,7 +54,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
                       comments: 'Entry 1')
   end
   let(:cost_entry_2) do
-    FactoryBot.create(:cost_entry,
+    create(:cost_entry,
                       work_package: work_package,
                       project: project,
                       units: 3,
@@ -64,7 +64,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
   end
 
   let(:work_package) do
-    FactoryBot.create(:work_package,
+    create(:work_package,
                       project_id: project.id)
   end
   let(:representer) do
@@ -105,7 +105,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       describe 'spentTime' do
         context 'time entry with single hour' do
           let(:time_entry) do
-            FactoryBot.create(:time_entry,
+            create(:time_entry,
                               project: work_package.project,
                               work_package: work_package,
                               hours: 1.0)
@@ -118,7 +118,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
         context 'time entry with multiple hours' do
           let(:time_entry) do
-            FactoryBot.create(:time_entry,
+            create(:time_entry,
                               project: work_package.project,
                               work_package: work_package,
                               hours: 42.5)
@@ -139,18 +139,18 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
         context 'only view_own_time_entries permission' do
           let(:own_time_entries_role) do
-            FactoryBot.create(:role, permissions: %i[view_own_time_entries
+            create(:role, permissions: %i[view_own_time_entries
                                                      view_work_packages])
           end
 
           let(:user2) do
-            FactoryBot.create(:user,
+            create(:user,
                               member_in_project: project,
                               member_through_role: own_time_entries_role)
           end
 
           let!(:own_time_entry) do
-            FactoryBot.create(:time_entry,
+            create(:time_entry,
                               project: work_package.project,
                               work_package: work_package,
                               hours: 2,
@@ -158,7 +158,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           end
 
           let!(:other_time_entry) do
-            FactoryBot.create(:time_entry,
+            create(:time_entry,
                               project: work_package.project,
                               work_package: work_package,
                               hours: 1,

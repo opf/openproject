@@ -32,7 +32,7 @@ describe UsersHelper, type: :helper do
   include UsersHelper
 
   def build_user(status, blocked)
-    FactoryBot.build_stubbed(:user,
+    build_stubbed(:user,
                              status: status,
                              failed_login_count: 3).tap do |user|
       allow(user)

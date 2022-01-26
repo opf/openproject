@@ -34,10 +34,10 @@ describe 'API v3 Root resource' do
   include API::V3::Utilities::PathHelper
 
   let(:current_user) do
-    FactoryBot.create(:user, member_in_project: project, member_through_role: role)
+    create(:user, member_in_project: project, member_through_role: role)
   end
-  let(:role) { FactoryBot.create(:role, permissions: []) }
-  let(:project) { FactoryBot.create(:project, public: false) }
+  let(:role) { create(:role, permissions: []) }
+  let(:project) { create(:project, public: false) }
 
   describe '#get' do
     let(:response) { last_response }

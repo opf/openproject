@@ -31,7 +31,7 @@ require File.expand_path('../../../../spec_helper', __dir__)
 describe OpenProject::GithubIntegration::Services::UpsertCheckRun do
   subject(:upsert) { described_class.new.call(params, pull_request: github_pull_request) }
 
-  let(:github_pull_request) { FactoryBot.create :github_pull_request }
+  let(:github_pull_request) { create :github_pull_request }
   let(:params) do
     {
       'id' => 123,
@@ -74,7 +74,7 @@ describe OpenProject::GithubIntegration::Services::UpsertCheckRun do
   end
 
   context 'when a check run with that id already exists' do
-    let(:check_run) { FactoryBot.create(:github_check_run, github_id: 123, status: 'queued') }
+    let(:check_run) { create(:github_check_run, github_id: 123, status: 'queued') }
 
     it 'updates the check run' do
       expect { upsert }.to change { check_run.reload.status }.from('queued').to('completed')

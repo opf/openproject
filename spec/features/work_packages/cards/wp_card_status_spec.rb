@@ -30,22 +30,22 @@ require 'spec_helper'
 
 describe 'Update status from WP card', type: :feature, js: true do
   let(:manager_role) do
-    FactoryBot.create :role, permissions: %i[view_work_packages edit_work_packages]
+    create :role, permissions: %i[view_work_packages edit_work_packages]
   end
   let(:manager) do
-    FactoryBot.create :user,
+    create :user,
                       firstname: 'Manager',
                       lastname: 'Guy',
                       member_in_project: project,
                       member_through_role: manager_role
   end
-  let(:status1) { FactoryBot.create :status }
-  let(:status2) { FactoryBot.create :status }
+  let(:status1) { create :status }
+  let(:status2) { create :status }
 
-  let(:type) { FactoryBot.create :type }
-  let!(:project) { FactoryBot.create(:project, types: [type]) }
+  let(:type) { create :type }
+  let!(:project) { create(:project, types: [type]) }
   let!(:work_package) do
-    FactoryBot.create(:work_package,
+    create(:work_package,
                       project: project,
                       type: type,
                       status: status1,
@@ -53,7 +53,7 @@ describe 'Update status from WP card', type: :feature, js: true do
   end
 
   let!(:workflow) do
-    FactoryBot.create :workflow,
+    create :workflow,
                       type_id: type.id,
                       old_status: status1,
                       new_status: status2,

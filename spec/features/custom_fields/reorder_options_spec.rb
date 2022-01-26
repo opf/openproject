@@ -2,11 +2,11 @@ require 'spec_helper'
 require 'support/pages/custom_fields'
 
 describe 'Reordering custom options of a list custom field', js: true do
-  let(:user) { FactoryBot.create :admin }
+  let(:user) { create :admin }
   let(:cf_page) { Pages::CustomFields.new }
 
   let!(:custom_field) do
-    FactoryBot.create(
+    create(
       :list_wp_custom_field,
       name: "Platform",
       possible_values: %w[Playstation Xbox Nintendo PC Switch Mobile Dreamcast]

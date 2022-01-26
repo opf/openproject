@@ -32,10 +32,10 @@ require 'spec_helper'
 
 describe WorkPackages::DeleteService do
   let(:user) do
-    FactoryBot.build_stubbed(:user)
+    build_stubbed(:user)
   end
   let(:work_package) do
-    FactoryBot.build_stubbed(:work_package, type: FactoryBot.build_stubbed(:type))
+    build_stubbed(:work_package, type: build_stubbed(:type))
   end
   let(:instance) do
     described_class
@@ -95,10 +95,10 @@ describe WorkPackages::DeleteService do
 
   context 'with ancestors' do
     let(:parent) do
-      FactoryBot.build_stubbed(:work_package)
+      build_stubbed(:work_package)
     end
     let(:grandparent) do
-      FactoryBot.build_stubbed(:work_package)
+      build_stubbed(:work_package)
     end
     let(:expect_inherited_attributes_service_calls) do
       inherited_service_instance = double(WorkPackages::UpdateAncestorsService)
@@ -146,10 +146,10 @@ describe WorkPackages::DeleteService do
 
   context 'with descendants' do
     let(:child) do
-      FactoryBot.build_stubbed(:work_package)
+      build_stubbed(:work_package)
     end
     let(:grandchild) do
-      FactoryBot.build_stubbed(:work_package)
+      build_stubbed(:work_package)
     end
     let(:descendants) do
       [child, grandchild]

@@ -32,9 +32,9 @@ describe ::Query::Results, 'Subject filter integration', type: :model, with_mail
   let(:query_results) do
     ::Query::Results.new query
   end
-  let(:project_1) { FactoryBot.create :project }
+  let(:project_1) { create :project }
   let(:user_1) do
-    FactoryBot.create(:user,
+    create(:user,
                       firstname: 'user',
                       lastname: '1',
                       member_in_project: project_1,
@@ -42,28 +42,28 @@ describe ::Query::Results, 'Subject filter integration', type: :model, with_mail
   end
 
   let!(:contains_wp) do
-    FactoryBot.create(:work_package,
+    create(:work_package,
                       subject: 'The quick brown fox jumped',
                       project: project_1)
   end
   let!(:contains_reversed_wp) do
-    FactoryBot.create(:work_package,
+    create(:work_package,
                       subject: 'The quick brown fox jumped',
                       project: project_1)
   end
   let!(:partially_contains_wp) do
-    FactoryBot.create(:work_package,
+    create(:work_package,
                       subject: 'The quick brown goose jumped',
                       project: project_1)
   end
   let!(:not_contains_wp) do
-    FactoryBot.create(:work_package,
+    create(:work_package,
                       subject: 'Something completely different',
                       project: project_1)
   end
 
   let(:query) do
-    FactoryBot.build(:query,
+    build(:query,
                      user: user_1,
                      show_hierarchies: false,
                      project: project_1).tap do |q|

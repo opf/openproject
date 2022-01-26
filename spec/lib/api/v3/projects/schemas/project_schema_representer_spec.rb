@@ -32,7 +32,7 @@ describe ::API::V3::Projects::Schemas::ProjectSchemaRepresenter do
   include API::V3::Utilities::PathHelper
 
   let(:current_user) do
-    FactoryBot.build_stubbed(:user).tap do |user|
+    build_stubbed(:user).tap do |user|
       allow(user)
         .to receive(:allowed_to_globally?) do |permission|
         global_permissions.include?(permission)
@@ -45,7 +45,7 @@ describe ::API::V3::Projects::Schemas::ProjectSchemaRepresenter do
   let(:new_record) { true }
   let(:model_id) { 1 }
   let(:custom_field) do
-    FactoryBot.build_stubbed(:int_project_custom_field)
+    build_stubbed(:int_project_custom_field)
   end
   let(:allowed_status) { ['some status'] }
   let(:contract) do

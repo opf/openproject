@@ -34,7 +34,7 @@ describe "PATCH /api/v3/grids/:id/form", type: :request, content_type: :json do
   include API::V3::Utilities::PathHelper
 
   shared_let(:current_user) do
-    FactoryBot.create(:user)
+    create(:user)
   end
 
   let(:params) { {} }

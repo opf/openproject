@@ -43,7 +43,6 @@ export class NewProjectComponent extends UntilDestroyedMixin implements OnInit {
 
   hiddenFields:string[] = [
     'identifier',
-    'sendNotifications',
     'active',
   ];
 
@@ -114,6 +113,11 @@ export class NewProjectComponent extends UntilDestroyedMixin implements OnInit {
   }
 
   private isHiddenField(key:string|undefined):boolean {
+    // We explictly want to show the sendNotifications param
+    if (key === '_meta.sendNotifications') {
+      return false;
+    }
+
     return !!key && (this.hiddenFields.includes(key) || this.isMeta(key));
   }
 

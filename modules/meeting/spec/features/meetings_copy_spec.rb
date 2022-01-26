@@ -29,9 +29,9 @@
 require 'spec_helper'
 
 describe 'Meetings copy', type: :feature, js: true do
-  let(:project) { FactoryBot.create :project, enabled_module_names: %w[meetings] }
+  let(:project) { create :project, enabled_module_names: %w[meetings] }
   let(:user) do
-    FactoryBot.create(:user,
+    create(:user,
                       member_in_project: project,
                       member_with_permissions: permissions).tap do |u|
       u.pref[:time_zone] = 'UTC'
@@ -40,7 +40,7 @@ describe 'Meetings copy', type: :feature, js: true do
     end
   end
   let(:other_user) do
-    FactoryBot.create(:user,
+    create(:user,
                       member_in_project: project,
                       member_with_permissions: permissions)
   end
@@ -48,14 +48,14 @@ describe 'Meetings copy', type: :feature, js: true do
 
   let(:agenda_text) { "We will talk" }
   let!(:meeting) do
-    FactoryBot.create(:meeting,
+    create(:meeting,
                       author: other_user,
                       project: project,
                       title: 'Awesome meeting!',
                       location: 'Meeting room',
                       duration: 1.5,
                       start_time: DateTime.parse("2013-03-27 18:55:00")).tap do |m|
-      FactoryBot.create(:meeting_agenda, meeting: m, text: agenda_text)
+      create(:meeting_agenda, meeting: m, text: agenda_text)
       m.participants.build(user: other_user, attended: true)
     end
   end

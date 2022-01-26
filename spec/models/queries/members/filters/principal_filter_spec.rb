@@ -29,9 +29,9 @@
 require 'spec_helper'
 
 describe Queries::Members::Filters::PrincipalFilter, type: :model do
-  let(:user) { FactoryBot.build_stubbed(:user) }
-  let(:group) { FactoryBot.build_stubbed(:group) }
-  let(:current_user) { FactoryBot.build_stubbed(:user) }
+  let(:user) { build_stubbed(:user) }
+  let(:group) { build_stubbed(:group) }
+  let(:current_user) { build_stubbed(:user) }
 
   before do
     login_as(current_user)

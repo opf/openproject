@@ -34,9 +34,9 @@ require 'contracts/shared/model_contract_shared_context'
 describe Attachments::CreateContract do
   include_context 'ModelContract shared context'
 
-  let(:current_user) { FactoryBot.build_stubbed :user }
+  let(:current_user) { build_stubbed :user }
   let(:model) do
-    FactoryBot.build :attachment,
+    build :attachment,
                      container: container,
                      content_type: content_type,
                      file: file,
@@ -72,7 +72,7 @@ describe Attachments::CreateContract do
   end
 
   context 'with a user that is not the author' do
-    let(:user) { FactoryBot.build_stubbed :user }
+    let(:user) { build_stubbed :user }
 
     it_behaves_like 'contract is invalid', author: :invalid
   end
@@ -82,7 +82,7 @@ describe Attachments::CreateContract do
   end
 
   context 'with a container' do
-    let(:container) { FactoryBot.build_stubbed :work_package }
+    let(:container) { build_stubbed :work_package }
 
     before do
       allow(container)

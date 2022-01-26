@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'Job status', type: :feature, js: true do
-  shared_let(:admin) { FactoryBot.create :admin }
+  shared_let(:admin) { create :admin }
 
   before do
     login_as admin
@@ -43,7 +43,7 @@ describe 'Job status', type: :feature, js: true do
   end
 
   describe 'with a status that has an additional errors payload' do
-    let!(:status) { FactoryBot.create(:delayed_job_status, user: admin) }
+    let!(:status) { create(:delayed_job_status, user: admin) }
 
     before do
       status.update! payload: { errors: ['Some error', 'Another error'] }
@@ -59,7 +59,7 @@ describe 'Job status', type: :feature, js: true do
   end
 
   describe 'with a status with error and redirect' do
-    let!(:status) { FactoryBot.create(:delayed_job_status, user: admin) }
+    let!(:status) { create(:delayed_job_status, user: admin) }
 
     before do
       status.update! payload: { redirect: home_url, errors: ['Some error'] }

@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe CustomFields::SetAttributesService, type: :model do
-  let(:user) { FactoryBot.build_stubbed(:user) }
+  let(:user) { build_stubbed(:user) }
   let(:contract_instance) do
     contract = double('contract_instance')
     allow(contract)

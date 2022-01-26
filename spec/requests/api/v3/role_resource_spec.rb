@@ -34,16 +34,16 @@ describe 'API v3 roles resource', type: :request do
   include API::V3::Utilities::PathHelper
 
   let(:current_user) do
-    FactoryBot.create(:user,
+    create(:user,
                       member_in_project: project,
                       member_through_role: role)
   end
   let(:role) do
-    FactoryBot.create(:role,
+    create(:role,
                       permissions: permissions)
   end
   let(:permissions) { %i[view_members manage_members] }
-  let(:project) { FactoryBot.create(:project) }
+  let(:project) { create(:project) }
 
   subject(:response) { last_response }
 
@@ -97,7 +97,7 @@ describe 'API v3 roles resource', type: :request do
       end
 
       let(:non_member_role) { Role.non_member }
-      let(:global_role) { FactoryBot.create(:global_role) }
+      let(:global_role) { create(:global_role) }
       let(:roles) { [role, non_member_role, global_role] }
 
       let(:get_path) { api_v3_paths.path_for(:roles, filters: filters) }

@@ -31,28 +31,28 @@ require 'spec_helper'
 require_relative '../support/pages/dashboard'
 
 describe 'Arbitrary WorkPackage query table widget dashboard', type: :feature, js: true, with_mail: false do
-  let!(:type) { FactoryBot.create :type }
-  let!(:other_type) { FactoryBot.create :type }
-  let!(:priority) { FactoryBot.create :default_priority }
-  let!(:project) { FactoryBot.create :project, types: [type] }
-  let!(:other_project) { FactoryBot.create :project, types: [type] }
-  let!(:open_status) { FactoryBot.create :default_status }
+  let!(:type) { create :type }
+  let!(:other_type) { create :type }
+  let!(:priority) { create :default_priority }
+  let!(:project) { create :project, types: [type] }
+  let!(:other_project) { create :project, types: [type] }
+  let!(:open_status) { create :default_status }
   let!(:type_work_package) do
-    FactoryBot.create :work_package,
+    create :work_package,
                       project: project,
                       type: type,
                       author: user,
                       responsible: user
   end
   let!(:other_type_work_package) do
-    FactoryBot.create :work_package,
+    create :work_package,
                       project: project,
                       type: other_type,
                       author: user,
                       responsible: user
   end
   let!(:other_project_work_package) do
-    FactoryBot.create :work_package,
+    create :work_package,
                       project: other_project,
                       type: type,
                       author: user,
@@ -69,13 +69,13 @@ describe 'Arbitrary WorkPackage query table widget dashboard', type: :feature, j
   end
 
   let(:role) do
-    FactoryBot.create(:role, permissions: permissions)
+    create(:role, permissions: permissions)
   end
 
   let(:user) do
-    FactoryBot.create(:user).tap do |u|
-      FactoryBot.create(:member, project: project, user: u, roles: [role])
-      FactoryBot.create(:member, project: other_project, user: u, roles: [role])
+    create(:user).tap do |u|
+      create(:member, project: project, user: u, roles: [role])
+      create(:member, project: other_project, user: u, roles: [role])
     end
   end
   let(:dashboard_page) do

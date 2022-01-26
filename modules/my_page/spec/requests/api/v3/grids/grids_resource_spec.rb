@@ -34,14 +34,14 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
   include API::V3::Utilities::PathHelper
 
   shared_let(:current_user) do
-    FactoryBot.create(:user)
+    create(:user)
   end
 
-  let(:my_page_grid) { FactoryBot.create(:my_page, user: current_user) }
+  let(:my_page_grid) { create(:my_page, user: current_user) }
   let(:other_user) do
-    FactoryBot.create(:user)
+    create(:user)
   end
-  let(:other_my_page_grid) { FactoryBot.create(:my_page, user: other_user) }
+  let(:other_my_page_grid) { create(:my_page, user: other_user) }
 
   before do
     login_as(current_user)

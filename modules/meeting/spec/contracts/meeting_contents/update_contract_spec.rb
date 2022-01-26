@@ -33,8 +33,8 @@ require 'contracts/shared/model_contract_shared_context'
 
 describe MeetingContents::UpdateContract do
   include_context 'ModelContract shared context'
-  let(:agenda) { FactoryBot.build_stubbed(:meeting_agenda) }
-  let(:current_user) { FactoryBot.build_stubbed(:user) }
+  let(:agenda) { build_stubbed(:meeting_agenda) }
+  let(:current_user) { build_stubbed(:user) }
   let(:contract) { described_class.new(agenda, current_user) }
 
   context 'when not editable' do

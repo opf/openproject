@@ -15,6 +15,7 @@ import {
   EventInput,
 } from '@fullcalendar/core';
 import {
+  BehaviorSubject,
   combineLatest,
   Subject,
 } from 'rxjs';
@@ -27,7 +28,10 @@ import {
 } from 'rxjs/operators';
 import { StateService } from '@uirouter/angular';
 import resourceTimelinePlugin from '@fullcalendar/resource-timeline';
-import interactionPlugin, { EventResizeDoneArg } from '@fullcalendar/interaction';
+import interactionPlugin, {
+  EventReceiveArg,
+  EventResizeDoneArg,
+} from '@fullcalendar/interaction';
 import { FullCalendarComponent } from '@fullcalendar/angular';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
@@ -48,6 +52,8 @@ import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/w
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { CalendarDragDropService } from 'core-app/features/team-planner/team-planner/calendar-drag-drop.service';
 
 @Component({
   selector: 'op-team-planner',
@@ -71,11 +77,11 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
 
   @ViewChild('assigneeAutocompleter') assigneeAutocompleter:TemplateRef<unknown>;
 
-  private resizeSubject = new Subject<unknown>();
-
   calendarOptions$ = new Subject<CalendarOptions>();
 
   projectIdentifier:string|undefined = undefined;
+
+  showAddExistingPane = new BehaviorSubject<boolean>(false);
 
   showAddAssignee$ = new Subject<boolean>();
 
@@ -101,10 +107,12 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
   assignees:HalResource[] = [];
 
   text = {
+    add_existing: this.I18n.t('js.team_planner.add_existing'),
     assignees: this.I18n.t('js.team_planner.label_assignee_plural'),
     add_assignee: this.I18n.t('js.team_planner.add_assignee'),
     remove_assignee: this.I18n.t('js.team_planner.remove_assignee'),
     noData: this.I18n.t('js.team_planner.no_data'),
+    two_weeks: this.I18n.t('js.team_planner.two_weeks'),
   };
 
   principals$ = this.principalIds$
@@ -128,6 +136,8 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     readonly halEditing:HalResourceEditingService,
     readonly halNotification:HalResourceNotificationService,
     readonly schemaCache:SchemaCacheService,
+    readonly apiV3Service:ApiV3Service,
+    readonly calendarDrag:CalendarDragDropService,
   ) {
     super();
   }
@@ -145,8 +155,11 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
         this.ucCalendar.getApi().refetchEvents();
       });
 
-    this.resizeSubject
-      .pipe(this.untilDestroyed())
+    this.calendar.resize$
+      .pipe(
+        this.untilDestroyed(),
+        debounceTime(50),
+      )
       .subscribe(() => {
         this.ucCalendar.getApi().updateSize();
       });
@@ -214,11 +227,41 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
               month: 'long',
               day: 'numeric',
             },
-            initialView: 'resourceTimelineWeekDaysOnly',
+            initialView: this.calendar.initialView || 'resourceTimelineWeek',
+            customButtons: {
+              addExisting: {
+                text: this.text.add_existing,
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+                click: this.toggleAddExistingPane.bind(this),
+              },
+            },
+            headerToolbar: {
+              left: 'addExisting',
+              center: 'title',
+              right: 'prev,next today resourceTimelineWeek,resourceTimelineTwoWeeks',
+            },
             views: {
-              resourceTimelineWeekDaysOnly: {
+              resourceTimelineWeek: {
                 type: 'resourceTimeline',
                 duration: { weeks: 1 },
+                slotDuration: { days: 1 },
+                slotLabelFormat: [
+                  {
+                    weekday: 'long',
+                    day: '2-digit',
+                  },
+                ],
+                resourceAreaColumns: [
+                  {
+                    field: 'title',
+                    headerContent: this.text.assignees,
+                  },
+                ],
+              },
+              resourceTimelineTwoWeeks: {
+                type: 'resourceTimeline',
+                buttonText: this.text.two_weeks,
+                duration: { weeks: 2 },
                 slotDuration: { days: 1 },
                 slotLabelFormat: [
                   {
@@ -236,13 +279,16 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
             },
             events: this.calendarEventsFunction.bind(this) as unknown,
             resources: [],
+            resourceAreaWidth: '20%',
             select: this.handleDateClicked.bind(this) as unknown,
             resourceLabelContent: (data:ResourceLabelContentArg) => this.renderTemplate(this.resourceContent, data.resource.id, data),
             resourceLabelWillUnmount: (data:ResourceLabelContentArg) => this.unrenderTemplate(data.resource.id),
             // DnD configuration
             editable: true,
+            droppable: true,
             eventResize: (resizeInfo:EventResizeDoneArg) => this.updateEvent(resizeInfo),
             eventDrop: (dropInfo:EventDropArg) => this.updateEvent(dropInfo),
+            eventReceive: (dropInfo:EventReceiveArg) => this.updateEvent(dropInfo),
           } as CalendarOptions),
         );
       });
@@ -320,11 +366,15 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
         }
 
         const assignee = this.wpAssignee(workPackage);
+        const durationEditable = this.calendar.eventDurationEditable(workPackage);
+        const resourceEditable = this.eventResourceEditable(workPackage);
+
         return {
           id: `${workPackage.href as string}-${assignee}`,
           resourceId: assignee,
-          durationEditable: this.eventDurationEditable(workPackage),
-          resourceEditable: this.eventResourceEditable(workPackage),
+          editable: durationEditable || resourceEditable,
+          durationEditable,
+          resourceEditable,
           constraint: this.eventConstaints(workPackage),
           title: workPackage.subject,
           start: this.wpStartDate(workPackage),
@@ -341,7 +391,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     this.openNewSplitCreate(
       info.startStr,
       // end date is exclusive
-      moment(info.end).subtract(1, 'd').format('YYYY-MM-DD'),
+      this.calendar.getEndDateFromTimestamp(info.end),
       info.resource?.id || '',
     );
   }
@@ -372,19 +422,22 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     );
   }
 
-  private async updateEvent(info:EventResizeDoneArg|EventDropArg):Promise<void> {
+  private async updateEvent(info:EventResizeDoneArg|EventDropArg|EventReceiveArg):Promise<void> {
     const changeset = this.calendar.updateDates(info);
 
-    const resource = (info as EventDropArg).newResource;
+    const resource = info.event.getResources()[0];
     if (resource) {
       changeset.setValue('assignee', { href: resource.id });
     }
+
+    this.calendarDrag.handleDrop(changeset.projectedResource);
 
     try {
       const result = await this.halEditing.save(changeset);
       this.halNotification.showSave(result.resource, result.wasNew);
     } catch (e) {
       this.halNotification.showError(e.resource, changeset.projectedResource);
+      this.calendarDrag.handleDropError(changeset.projectedResource);
       info.revert();
     }
   }
@@ -395,13 +448,6 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     return !!schema.assignee?.writable && schema.isAttributeEditable('assignee');
   }
 
-  private eventDurationEditable(wp:WorkPackageResource):boolean {
-    const schema = this.schemaCache.of(wp);
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    const schemaEditable = !!schema.startDate.writable && !!schema.dueDate.writable && schema.isAttributeEditable('startDate');
-    return (wp.isLeaf || wp.scheduleManually) && schemaEditable && !this.calendar.isMilestone(wp);
-  }
-
   // Todo: Evaluate whether we really want to use that from a UI perspective ¯\_(ツ)_/¯
   // When users have the right to change the assignee but cannot change the date (due to hierarchy for example),
   // they are forced to drag the wp to the exact same date in the others assignee row. This might be confusing.
@@ -410,7 +456,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
   private eventConstaints(wp:WorkPackageResource):{ [key:string]:string|string[] } {
     const constraints:{ [key:string]:string|string[] } = {};
 
-    if (!this.eventDurationEditable(wp)) {
+    if (!this.calendar.eventDurationEditable(wp)) {
       constraints.start = this.wpStartDate(wp);
       constraints.end = this.wpEndDate(wp);
     }
@@ -433,5 +479,10 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
 
   private wpAssignee(wp:WorkPackageResource):string {
     return (wp.assignee as HalResource).href as string;
+  }
+
+  private toggleAddExistingPane():void {
+    document.getElementsByClassName('fc-addExisting-button')[0].classList.toggle('-active');
+    this.showAddExistingPane.next(!this.showAddExistingPane.getValue());
   }
 }

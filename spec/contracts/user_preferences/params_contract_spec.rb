@@ -34,10 +34,10 @@ require 'contracts/shared/model_contract_shared_context'
 describe UserPreferences::ParamsContract do
   include_context 'ModelContract shared context'
 
-  let(:current_user) { FactoryBot.build_stubbed(:user) }
+  let(:current_user) { build_stubbed(:user) }
   let(:preference_user) { current_user }
   let(:user_preference) do
-    FactoryBot.build_stubbed(:user_preference,
+    build_stubbed(:user_preference,
                              user: preference_user)
   end
   let(:params) do

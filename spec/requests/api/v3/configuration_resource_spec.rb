@@ -33,7 +33,7 @@ describe 'API v3 Configuration resource', type: :request do
   include Rack::Test::Methods
   include ::API::V3::Utilities::PathHelper
 
-  let(:user) { FactoryBot.create(:user) }
+  let(:user) { create(:user) }
   let(:configuration_path) { api_v3_paths.configuration }
   subject(:response) { last_response }
 

@@ -29,37 +29,37 @@
 require 'spec_helper'
 
 describe 'Work package filtering by user custom field', js: true do
-  let(:project) { FactoryBot.create :project }
+  let(:project) { create :project }
   let(:type) { project.types.first }
   let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
   let(:filters) { ::Components::WorkPackages::Filters.new }
   let!(:user_cf) do
-    FactoryBot.create(:user_wp_custom_field).tap do |cf|
+    create(:user_wp_custom_field).tap do |cf|
       type.custom_fields << cf
       project.work_package_custom_fields << cf
     end
   end
-  let(:role) { FactoryBot.create(:role, permissions: %i[view_work_packages save_queries]) }
+  let(:role) { create(:role, permissions: %i[view_work_packages save_queries]) }
   let!(:other_user) do
-    FactoryBot.create :user,
+    create :user,
                       firstname: 'Other',
                       lastname: 'User',
                       member_in_project: project,
                       member_through_role: role
   end
   let!(:placeholder_user) do
-    FactoryBot.create :placeholder_user,
+    create :placeholder_user,
                       member_in_project: project,
                       member_through_role: role
   end
   let!(:group) do
-    FactoryBot.create :group,
+    create :group,
                       member_in_project: project,
                       member_through_role: role
   end
 
   let!(:work_package_user) do
-    FactoryBot.create(:work_package,
+    create(:work_package,
                       type: type,
                       project: project).tap do |wp|
       wp.custom_field_values = { user_cf.id => other_user }
@@ -67,7 +67,7 @@ describe 'Work package filtering by user custom field', js: true do
     end
   end
   let!(:work_package_placeholder) do
-    FactoryBot.create(:work_package,
+    create(:work_package,
                       type: type,
                       project: project).tap do |wp|
       wp.custom_field_values = { user_cf.id => placeholder_user }
@@ -75,7 +75,7 @@ describe 'Work package filtering by user custom field', js: true do
     end
   end
   let!(:work_package_group) do
-    FactoryBot.create(:work_package,
+    create(:work_package,
                       type: type,
                       project: project).tap do |wp|
       wp.custom_field_values = { user_cf.id => group }
@@ -84,7 +84,7 @@ describe 'Work package filtering by user custom field', js: true do
   end
 
   current_user do
-    FactoryBot.create :user,
+    create :user,
                       member_in_project: project,
                       member_through_role: role
   end

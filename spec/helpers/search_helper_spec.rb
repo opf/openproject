@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'search/index', type: :helper do
-  let(:project) { FactoryBot.create(:project) }
+  let(:project) { create(:project) }
   let(:scope) { 'foobar' }
 
   before do
@@ -93,14 +93,14 @@ describe 'search/index', type: :helper do
     let(:event_description) { "The description of the event" }
     let(:attachment_fulltext) { "The fulltext of the attachment" }
     let(:attachment_filename) { "attachment_filename.txt" }
-    let(:journal) { FactoryBot.build_stubbed(:work_package_journal, notes: journal_notes) }
+    let(:journal) { build_stubbed(:work_package_journal, notes: journal_notes) }
     let(:event) do
       instance_double('WorkPackage',
                       last_journal: journal,
                       last_loaded_journal: journal,
                       event_description: event_description,
                       attachment_ids: [42],
-                      attachments: [FactoryBot.build_stubbed(:attachment, filename: attachment_filename)]).tap do |e|
+                      attachments: [build_stubbed(:attachment, filename: attachment_filename)]).tap do |e|
         scope = instance_double(ActiveRecord::Relation)
 
         allow(Attachment)

@@ -47,16 +47,16 @@ describe OpenProject::GithubIntegration::HookHandler do
     }
   end
   let(:host_name) { 'example.net' }
-  let(:user) { FactoryBot.create(:user) }
+  let(:user) { create(:user) }
   let(:role) do
-    FactoryBot.create(:role,
+    create(:role,
                       permissions: %i[view_work_packages add_work_package_notes])
   end
   let(:project) do
-    FactoryBot.create(:project, members: { user => role })
+    create(:project, members: { user => role })
   end
 
-  let(:work_packages) { FactoryBot.create_list :work_package, 4, project: project }
+  let(:work_packages) { create_list :work_package, 4, project: project }
   let(:journal_counts_before) { work_packages.map { |wp| wp.journals.count } }
   let(:journal_counts_after) { work_packages.map { |wp| wp.journals.count } }
 
@@ -265,13 +265,13 @@ describe OpenProject::GithubIntegration::HookHandler do
     end
 
     context 'when opened mentioning all work_packages with a user having access only to some' do
-      let(:project_without_permission) { FactoryBot.create(:project) }
+      let(:project_without_permission) { create(:project) }
       let(:work_packages) do
         [
-          FactoryBot.create(:work_package, project: project),
-          FactoryBot.create(:work_package, project: project_without_permission),
-          FactoryBot.create(:work_package, project: project_without_permission),
-          FactoryBot.create(:work_package, project: project)
+          create(:work_package, project: project),
+          create(:work_package, project: project_without_permission),
+          create(:work_package, project: project_without_permission),
+          create(:work_package, project: project)
         ]
       end
 
@@ -566,7 +566,7 @@ describe OpenProject::GithubIntegration::HookHandler do
   context 'when receiving a webhook for a check_run event' do
     let(:event) { 'check_run' }
     # github_id comes from the fixture files
-    let(:github_pull_request) { FactoryBot.create(:github_pull_request, :open, github_id: 606508565) }
+    let(:github_pull_request) { create(:github_pull_request, :open, github_id: 606508565) }
 
     before { github_pull_request }
 

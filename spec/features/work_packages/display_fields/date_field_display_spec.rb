@@ -29,24 +29,24 @@
 require 'spec_helper'
 
 describe 'Show the date of a Work Package', type: :feature, js: true do
-  let(:project) { FactoryBot.create :project }
-  let(:admin) { FactoryBot.create :admin }
+  let(:project) { create :project }
+  let(:admin) { create :admin }
   let(:work_package) do
-    FactoryBot.create :work_package,
+    create :work_package,
                       project: project,
                       due_date: Date.yesterday,
                       type: type,
                       status: open_status
   end
 
-  let(:open_status) { FactoryBot.create :default_status }
-  let(:closed_status) { FactoryBot.create :closed_status }
+  let(:open_status) { create :default_status }
+  let(:closed_status) { create :closed_status }
 
   let(:wp_page) { Pages::FullWorkPackage.new(work_package, project) }
 
-  let(:type) { FactoryBot.create :type }
+  let(:type) { create :type }
   let!(:workflow) do
-    FactoryBot.create :workflow,
+    create :workflow,
                       type_id: type.id,
                       old_status: open_status,
                       new_status: closed_status

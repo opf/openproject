@@ -33,14 +33,14 @@ describe Notifications::Scopes::UnsentRemindersBefore, type: :model do
     subject(:scope) { ::Notification.unsent_reminders_before(recipient: recipient, time: time) }
 
     let(:recipient) do
-      FactoryBot.create(:user)
+      create(:user)
     end
     let(:time) do
       Time.current
     end
 
     let(:notification) do
-      FactoryBot.create(:notification,
+      create(:notification,
                         recipient: notification_recipient,
                         read_ian: notification_read_ian,
                         mail_reminder_sent: notification_mail_reminder_sent,
@@ -74,7 +74,7 @@ describe Notifications::Scopes::UnsentRemindersBefore, type: :model do
     end
 
     context 'with a unread and not reminded notification that was created before the time and for different user' do
-      let(:notification_recipient) { FactoryBot.create(:user) }
+      let(:notification_recipient) { create(:user) }
 
       it_behaves_like 'is empty'
     end

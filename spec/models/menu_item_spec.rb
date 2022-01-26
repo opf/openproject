@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe MenuItem, type: :model do
   describe 'validations' do
-    let(:item) { FactoryBot.build :menu_item }
+    let(:item) { build :menu_item }
 
     it 'requires a title' do
       item.title = nil
@@ -45,9 +45,9 @@ describe MenuItem, type: :model do
     end
 
     describe 'scoped uniqueness of title' do
-      let!(:item) { FactoryBot.create :menu_item }
-      let(:another_item) { FactoryBot.build :menu_item, title: item.title }
-      let(:wiki_menu_item) { FactoryBot.build :wiki_menu_item, title: item.title }
+      let!(:item) { create :menu_item }
+      let(:another_item) { build :menu_item, title: item.title }
+      let(:wiki_menu_item) { build :wiki_menu_item, title: item.title }
 
       it 'does not allow for duplicate titles' do
         expect(another_item).not_to be_valid
@@ -61,8 +61,8 @@ describe MenuItem, type: :model do
   end
 
   context 'it should destroy' do
-    let!(:menu_item) { FactoryBot.create(:menu_item) }
-    let!(:child_item) { FactoryBot.create(:menu_item, parent_id: menu_item.id) }
+    let!(:menu_item) { create(:menu_item) }
+    let!(:child_item) { create(:menu_item, parent_id: menu_item.id) }
 
     example 'all children when deleting the parent' do
       menu_item.destroy

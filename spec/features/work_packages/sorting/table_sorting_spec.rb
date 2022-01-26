@@ -30,25 +30,25 @@ require 'spec_helper'
 require 'features/work_packages/work_packages_page'
 
 describe 'Select work package row', type: :feature, js: true do
-  let(:user) { FactoryBot.create(:admin) }
-  let(:project) { FactoryBot.create(:project) }
+  let(:user) { create(:admin) }
+  let(:project) { create(:project) }
   let(:work_packages_page) { WorkPackagesPage.new(project) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
 
   describe 'sorting by version' do
     let(:work_package_1) do
-      FactoryBot.create(:work_package, project: project)
+      create(:work_package, project: project)
     end
     let(:work_package_2) do
-      FactoryBot.create(:work_package, project: project)
+      create(:work_package, project: project)
     end
 
     let(:version_1) do
-      FactoryBot.create(:version, project: project,
+      create(:version, project: project,
                                   name: 'aaa_version')
     end
     let(:version_2) do
-      FactoryBot.create(:version, project: project,
+      create(:version, project: project,
                                   name: 'zzz_version')
     end
     let(:columns) { ::Components::WorkPackages::Columns.new }
@@ -106,31 +106,31 @@ describe 'Select work package row', type: :feature, js: true do
     let(:sort_by) { ::Components::WorkPackages::SortBy.new }
 
     let(:parent) do
-      FactoryBot.create :work_package,
+      create :work_package,
                         project: project
     end
     let(:child1) do
-      FactoryBot.create :work_package,
+      create :work_package,
                         project: project,
                         parent: parent
     end
     let(:child2) do
-      FactoryBot.create :work_package,
+      create :work_package,
                         project: project,
                         parent: parent
     end
     let(:grand_child1) do
-      FactoryBot.create :work_package,
+      create :work_package,
                         project: project,
                         parent: child1
     end
     let(:grand_child2) do
-      FactoryBot.create :work_package,
+      create :work_package,
                         project: project,
                         parent: child2
     end
     let(:grand_child3) do
-      FactoryBot.create :work_package,
+      create :work_package,
                         project: project,
                         parent: child1
     end

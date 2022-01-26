@@ -32,21 +32,21 @@ require_relative './../support/board_page'
 
 describe 'Subproject action board', type: :feature, js: true do
   let(:user) do
-    FactoryBot.create(:user,
+    create(:user,
                       member_in_project: project,
                       member_through_role: role)
   end
-  let(:type) { FactoryBot.create(:type_standard) }
+  let(:type) { create(:type_standard) }
   let(:project) do
-    FactoryBot.create(:project, name: 'Parent', types: [type], enabled_module_names: %i[work_package_tracking board_view])
+    create(:project, name: 'Parent', types: [type], enabled_module_names: %i[work_package_tracking board_view])
   end
   let(:subproject1) do
-    FactoryBot.create(:project, parent: project, name: 'Child 1', types: [type], enabled_module_names: %i[work_package_tracking])
+    create(:project, parent: project, name: 'Child 1', types: [type], enabled_module_names: %i[work_package_tracking])
   end
   let(:subproject2) do
-    FactoryBot.create(:project, parent: project, name: 'Child 2', types: [type], enabled_module_names: %i[work_package_tracking])
+    create(:project, parent: project, name: 'Child 2', types: [type], enabled_module_names: %i[work_package_tracking])
   end
-  let(:role) { FactoryBot.create(:role, permissions: permissions) }
+  let(:role) { create(:role, permissions: permissions) }
 
   let(:board_index) { Pages::BoardIndex.new(project) }
 
@@ -55,9 +55,9 @@ describe 'Subproject action board', type: :feature, js: true do
        edit_work_packages view_work_packages manage_public_queries move_work_packages]
   end
 
-  let!(:priority) { FactoryBot.create :default_priority }
-  let!(:open_status) { FactoryBot.create :default_status, name: 'Open' }
-  let!(:work_package) { FactoryBot.create :work_package, project: subproject1, subject: 'Foo', status: open_status }
+  let!(:priority) { create :default_priority }
+  let!(:open_status) { create :default_status, name: 'Open' }
+  let!(:work_package) { create :work_package, project: subproject1, subject: 'Foo', status: open_status }
 
   before do
     with_enterprise_token :board_view
@@ -74,7 +74,7 @@ describe 'Subproject action board', type: :feature, js: true do
     end
 
     let(:user) do
-      FactoryBot.create(:user,
+      create(:user,
                         member_in_projects: [project, subproject1, subproject2],
                         member_through_role: role)
     end
@@ -97,13 +97,13 @@ describe 'Subproject action board', type: :feature, js: true do
 
   context 'with permissions in all subprojects' do
     let(:user) do
-      FactoryBot.create(:user,
+      create(:user,
                         member_in_projects: [project, subproject1, subproject2],
                         member_through_role: role)
     end
 
     let(:only_parent_user) do
-      FactoryBot.create(:user,
+      create(:user,
                         member_in_project: project,
                         member_through_role: role)
     end
@@ -177,21 +177,21 @@ describe 'Subproject action board', type: :feature, js: true do
 
   context 'with permissions in only one subproject' do
     let(:user) do
-      FactoryBot.create(:user,
+      create(:user,
                         # The membership in subproject2 gets removed later on
                         member_in_projects: [project, subproject1, subproject2],
                         member_through_role: role)
     end
 
     let!(:board) do
-      FactoryBot.create(:subproject_board,
+      create(:subproject_board,
                         project: project,
                         projects_columns: [subproject1, subproject2])
     end
 
     let(:board_page) { Pages::Board.new(board) }
     let!(:invisible_work_package) do
-      FactoryBot.create :work_package, project: subproject2, status: open_status
+      create :work_package, project: subproject2, status: open_status
     end
 
     before do
@@ -218,13 +218,13 @@ describe 'Subproject action board', type: :feature, js: true do
 
   context 'with an archived subproject' do
     let(:user) do
-      FactoryBot.create(:user,
+      create(:user,
                         member_in_projects: [project, subproject1, subproject2],
                         member_through_role: role)
     end
 
     let!(:board) do
-      FactoryBot.create(:subproject_board,
+      create(:subproject_board,
                         project: project,
                         projects_columns: [subproject1])
     end

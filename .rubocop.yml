@@ -201,6 +201,9 @@ RSpec/ContextWording:
     - unless
     - for
 
+RSpec/FactoryBot/SyntaxMethods:
+  Enabled: true
+
 Style/Alias:
   Enabled: false
 

@@ -31,7 +31,7 @@ require 'spec_helper'
 require_relative '../shared_examples'
 
 describe Bim::Bcf::API::V2_1::Projects::SingleRepresenter, 'rendering' do
-  let(:project) { FactoryBot.build_stubbed(:project) }
+  let(:project) { build_stubbed(:project) }
 
   let(:instance) { described_class.new(project) }
 

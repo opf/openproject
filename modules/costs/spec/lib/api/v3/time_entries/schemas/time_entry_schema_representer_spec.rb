@@ -31,15 +31,15 @@ require 'spec_helper'
 describe ::API::V3::TimeEntries::Schemas::TimeEntrySchemaRepresenter do
   include API::V3::Utilities::PathHelper
 
-  let(:current_user) { FactoryBot.build_stubbed(:user) }
+  let(:current_user) { build_stubbed(:user) }
 
   let(:self_link) { '/a/self/link' }
   let(:embedded) { true }
   let(:new_record) { true }
-  let(:project) { FactoryBot.build_stubbed(:project) }
-  let(:user) { FactoryBot.build_stubbed(:user) }
+  let(:project) { build_stubbed(:project) }
+  let(:user) { build_stubbed(:user) }
   let(:assigned_project) { nil }
-  let(:activity) { FactoryBot.build_stubbed(:time_entry_activity) }
+  let(:activity) { build_stubbed(:time_entry_activity) }
 
   let(:contract) do
     contract = double('contract',
@@ -240,7 +240,7 @@ describe ::API::V3::TimeEntries::Schemas::TimeEntrySchemaRepresenter do
     end
 
     context 'custom value' do
-      let(:custom_field) { FactoryBot.build_stubbed(:time_entry_custom_field) }
+      let(:custom_field) { build_stubbed(:time_entry_custom_field) }
 
       before do
         allow(contract)

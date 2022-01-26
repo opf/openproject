@@ -37,35 +37,35 @@ describe Capabilities::Scopes::Default, type: :model do
   let(:non_member_permissions) { %i[] }
   let(:project_public) { false }
   let(:project_active) { true }
-  let!(:project) { FactoryBot.create(:project, public: project_public, active: project_active) }
+  let!(:project) { create(:project, public: project_public, active: project_active) }
   let(:role) do
-    FactoryBot.create(:role, permissions: permissions)
+    create(:role, permissions: permissions)
   end
   let(:global_role) do
-    FactoryBot.create(:global_role, permissions: global_permissions)
+    create(:global_role, permissions: global_permissions)
   end
   let(:user_admin) { false }
   let(:user_status) { Principal.statuses[:active] }
   let(:current_user_admin) { true }
-  let!(:user) { FactoryBot.create(:user, admin: user_admin, status: user_status) }
+  let!(:user) { create(:user, admin: user_admin, status: user_status) }
   let(:global_member) do
-    FactoryBot.create(:global_member,
+    create(:global_member,
                       principal: user,
                       roles: [global_role])
   end
   let(:member) do
-    FactoryBot.create(:member,
+    create(:member,
                       principal: user,
                       roles: [role],
                       project: project)
   end
   let(:non_member_role) do
-    FactoryBot.create(:non_member,
+    create(:non_member,
                       permissions: non_member_permissions)
   end
-  let(:own_role) { FactoryBot.create(:role, permissions: [] )}
+  let(:own_role) { create(:role, permissions: [] )}
   let(:own_member) do
-    FactoryBot.create(:member,
+    create(:member,
                       principal: current_user,
                       roles: [own_role],
                       project: project)
@@ -73,7 +73,7 @@ describe Capabilities::Scopes::Default, type: :model do
   let(:members) { [] }
 
   current_user do
-    FactoryBot.create(:user, admin: current_user_admin)
+    create(:user, admin: current_user_admin)
   end
 
   shared_examples_for 'consists of contract actions' do

@@ -30,23 +30,23 @@ require 'spec_helper'
 
 describe Projects::Activity, type: :model do
   let(:project) do
-    FactoryBot.create(:project)
+    create(:project)
   end
 
   let(:initial_time) { Time.now }
 
   let(:meeting) do
-    FactoryBot.create(:meeting,
+    create(:meeting,
                       project: project)
   end
 
   let(:meeting2) do
-    FactoryBot.create(:meeting,
+    create(:meeting,
                       project: project)
   end
 
   let(:work_package) do
-    FactoryBot.create(:work_package,
+    create(:work_package,
                       project: project)
   end
 

@@ -32,8 +32,8 @@ describe Color, type: :model do
   describe '- Relations ' do
     describe '#planning_element_types' do
       it 'can read planning_element_types w/ the help of the has_many association' do
-        color                 = FactoryBot.create(:color)
-        planning_element_type = FactoryBot.create(:type,
+        color                 = create(:color)
+        planning_element_type = create(:type,
                                                   color_id: color.id)
 
         color.reload
@@ -43,8 +43,8 @@ describe Color, type: :model do
       end
 
       it 'nullifies dependent planning_element_types' do
-        color                 = FactoryBot.create(:color)
-        planning_element_type = FactoryBot.create(:type,
+        color                 = create(:color)
+        planning_element_type = create(:type,
                                                   color_id: color.id)
 
         color.reload

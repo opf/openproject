@@ -32,14 +32,14 @@ describe 'bcf export',
          type: :feature,
          js: true,
          with_config: { edition: 'bim' } do
-  let(:status) { FactoryBot.create(:status, name: 'New', is_default: true) }
-  let(:closed_status) { FactoryBot.create(:closed_status, name: 'Closed') }
-  let(:project) { FactoryBot.create :project, enabled_module_names: %i[bim work_package_tracking] }
+  let(:status) { create(:status, name: 'New', is_default: true) }
+  let(:closed_status) { create(:closed_status, name: 'Closed') }
+  let(:project) { create :project, enabled_module_names: %i[bim work_package_tracking] }
 
-  let!(:open_work_package) { FactoryBot.create(:work_package, project: project, subject: 'Open WP', status: status) }
-  let!(:closed_work_package) { FactoryBot.create(:work_package, project: project, subject: 'Closed WP', status: closed_status) }
-  let!(:open_bcf_issue) { FactoryBot.create(:bcf_issue, work_package: open_work_package) }
-  let!(:closed_bcf_issue) { FactoryBot.create(:bcf_issue, work_package: closed_work_package) }
+  let!(:open_work_package) { create(:work_package, project: project, subject: 'Open WP', status: status) }
+  let!(:closed_work_package) { create(:work_package, project: project, subject: 'Closed WP', status: closed_status) }
+  let!(:open_bcf_issue) { create(:bcf_issue, work_package: open_work_package) }
+  let!(:closed_bcf_issue) { create(:bcf_issue, work_package: closed_work_package) }
 
   let(:permissions) do
     %i[view_ifc_models
@@ -52,13 +52,13 @@ describe 'bcf export',
   end
 
   let(:current_user) do
-    FactoryBot.create :user,
+    create :user,
                       member_in_project: project,
                       member_with_permissions: permissions
   end
 
   let!(:model) do
-    FactoryBot.create(:ifc_model_minimal_converted,
+    create(:ifc_model_minimal_converted,
                       project: project,
                       uploader: current_user)
   end

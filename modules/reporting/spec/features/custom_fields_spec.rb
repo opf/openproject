@@ -29,20 +29,20 @@
 require 'spec_helper'
 
 describe 'Custom fields reporting', type: :feature, js: true do
-  let(:type) { FactoryBot.create :type }
-  let(:project) { FactoryBot.create :project, types: [type] }
+  let(:type) { create :type }
+  let(:project) { create :project, types: [type] }
 
-  let(:user) { FactoryBot.create :admin }
+  let(:user) { create :admin }
 
   let(:work_package) do
-    FactoryBot.create :work_package,
+    create :work_package,
                       project: project,
                       type: type,
                       custom_values: initial_custom_values
   end
 
   let!(:time_entry1) do
-    FactoryBot.create :time_entry,
+    create :time_entry,
                       user: user,
                       work_package: work_package,
                       project: project,
@@ -50,7 +50,7 @@ describe 'Custom fields reporting', type: :feature, js: true do
   end
 
   let!(:time_entry2) do
-    FactoryBot.create :time_entry,
+    create :time_entry,
                       user: user,
                       work_package: work_package,
                       project: project,
@@ -63,7 +63,7 @@ describe 'Custom fields reporting', type: :feature, js: true do
 
   context 'with multi value cf' do
     let!(:custom_field) do
-      FactoryBot.create(:list_wp_custom_field,
+      create(:list_wp_custom_field,
                         name: "List CF",
                         multi_value: true,
                         types: [type],
@@ -77,7 +77,7 @@ describe 'Custom fields reporting', type: :feature, js: true do
     # Have a second work package in the test that will have no values
     # as this caused problems with casting the nil value of the custom value to 0.
     let!(:work_package2) do
-      FactoryBot.create :work_package,
+      create :work_package,
                         project: project,
                         type: type
     end
@@ -147,7 +147,7 @@ describe 'Custom fields reporting', type: :feature, js: true do
 
     context 'with additional WP with invalid value' do
       let!(:custom_field_2) do
-        FactoryBot.create(:list_wp_custom_field,
+        create(:list_wp_custom_field,
                           name: "Invalid List CF",
                           multi_value: true,
                           types: [type],
@@ -156,13 +156,13 @@ describe 'Custom fields reporting', type: :feature, js: true do
       end
 
       let!(:work_package2) do
-        FactoryBot.create :work_package,
+        create :work_package,
                           project: project,
                           custom_values: { custom_field_2.id => custom_value_for(custom_field_2, 'A') }
       end
 
       let!(:time_entry1) do
-        FactoryBot.create :time_entry,
+        create :time_entry,
                           user: user,
                           work_package: work_package2,
                           project: project,
@@ -200,7 +200,7 @@ describe 'Custom fields reporting', type: :feature, js: true do
 
   context 'with text CF' do
     let(:custom_field) do
-      FactoryBot.create(:text_wp_custom_field,
+      create(:text_wp_custom_field,
                         name: 'Text CF',
                         types: [type],
                         projects: [project])

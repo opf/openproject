@@ -30,8 +30,8 @@ require 'spec_helper'
 
 describe ::API::V3::Versions::VersionCollectionRepresenter do
   let(:self_link) { '/api/v3/projects/1/versions' }
-  let(:versions) { FactoryBot.build_stubbed_list(:version, 3) }
-  let(:user) { FactoryBot.build_stubbed(:user) }
+  let(:versions) { build_stubbed_list(:version, 3) }
+  let(:user) { build_stubbed(:user) }
   let(:representer) { described_class.new(versions, self_link: self_link, current_user: user) }
 
   include API::V3::Utilities::PathHelper

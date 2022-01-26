@@ -33,11 +33,11 @@ describe 'API v3 Query resource', type: :request do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:project) { FactoryBot.create(:project, identifier: 'test_project', public: false) }
+  let(:project) { create(:project, identifier: 'test_project', public: false) }
   let(:current_user) do
-    FactoryBot.create(:user, member_in_project: project, member_through_role: role)
+    create(:user, member_in_project: project, member_through_role: role)
   end
-  let(:role) { FactoryBot.create(:role, permissions: permissions) }
+  let(:role) { create(:role, permissions: permissions) }
   let(:permissions) { [:view_work_packages] }
 
   before do

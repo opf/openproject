@@ -30,22 +30,22 @@
 require 'spec_helper'
 
 shared_context 'with CreateFromJournalJob context' do
-  shared_let(:project) { FactoryBot.create(:project_with_types) }
+  shared_let(:project) { create(:project_with_types) }
   let(:permissions) { [] }
   let(:recipient) do
-    FactoryBot.create(:user,
+    create(:user,
                       notification_settings: recipient_notification_settings,
                       member_in_project: project,
-                      member_through_role: FactoryBot.create(:role, permissions: permissions),
+                      member_through_role: create(:role, permissions: permissions),
                       login: recipient_login)
   end
   let(:recipient_login) { "johndoe" }
   let(:other_user) do
     notification_settings = [
-      FactoryBot.build(:notification_setting, **notification_settings_all_false)
+      build(:notification_setting, **notification_settings_all_false)
     ]
 
-    FactoryBot.create(:user,
+    create(:user,
                       notification_settings: notification_settings)
   end
   let(:notification_settings_all_false) do
@@ -62,7 +62,7 @@ shared_context 'with CreateFromJournalJob context' do
 
   let(:recipient_notification_settings) do
     [
-      FactoryBot.build(:notification_setting, **notification_settings_all_true)
+      build(:notification_setting, **notification_settings_all_true)
     ]
   end
   let(:send_notifications) { true }
@@ -76,7 +76,7 @@ shared_context 'with CreateFromJournalJob context' do
         mail_reminder_sent: false
       }
     end
-    let(:notification) { FactoryBot.build_stubbed(:notification) }
+    let(:notification) { build_stubbed(:notification) }
 
     it 'creates a notification and returns it' do
       notifications_service = instance_double(Notifications::CreateService)
