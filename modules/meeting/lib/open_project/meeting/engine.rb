@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'open_project/plugins'
@@ -35,7 +35,7 @@ module OpenProject::Meeting
     include OpenProject::Plugins::ActsAsOpEngine
 
     register 'openproject-meeting',
-             author_url: 'https://www.openproject.com',
+             author_url: 'https://www.openproject.org',
              bundled: true do
       project_module :meetings do
         permission :view_meetings, meetings: %i[index show], meeting_agendas: %i[history show diff],
@@ -59,7 +59,6 @@ module OpenProject::Meeting
       menu :project_menu,
            :meetings, { controller: '/meetings', action: 'index' },
            caption: :project_module_meetings,
-           param: :project_id,
            after: :wiki,
            before: :members,
            icon: 'icon2 icon-meetings'

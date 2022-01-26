@@ -30,6 +30,7 @@ zh-CN:
       error_loading_the_list: "加载列表时出错：%{error_message}"
       error_permission_missing: "缺少创建公共查询的权限"
       error_cannot_move_into_self: "您不能将工作包移动到其自己的列中。"
+      text_hidden_list_warning: "并未显示所有列表，因为您缺少权限。有关详细信息，请联系您的管理员。"
       click_to_remove_list: "点击以移除此列表"
       board_type:
         text: '面板类型'

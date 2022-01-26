@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -38,7 +38,7 @@ describe 'Project templates', type: :feature, js: true do
     end
 
     it 'can make the project a template from settings' do
-      visit settings_generic_project_path(project)
+      visit project_settings_general_path(project)
 
       # Make a template
       find('.button', text: 'Set as template').click

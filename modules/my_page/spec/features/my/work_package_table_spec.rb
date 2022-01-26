@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -84,7 +84,7 @@ describe 'Arbitrary WorkPackage query table widget on my page', type: :feature, 
       # browser can get confused. Therefore we wait.
       sleep(1)
 
-      my_page.expect_and_dismiss_notification message: I18n.t('js.notice_successful_update')
+      my_page.expect_and_dismiss_toaster message: I18n.t('js.notice_successful_update')
 
       filter_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(3)')
       filter_area.expect_to_span(1, 2, 2, 3)
@@ -127,7 +127,7 @@ describe 'Arbitrary WorkPackage query table widget on my page', type: :feature, 
         input.native.send_keys(:return)
       end
 
-      my_page.expect_and_dismiss_notification message: I18n.t('js.notice_successful_update')
+      my_page.expect_and_dismiss_toaster message: I18n.t('js.notice_successful_update')
 
       sleep(1)
 

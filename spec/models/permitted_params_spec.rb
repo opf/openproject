@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -511,7 +511,6 @@ describe PermittedParams, type: :model do
                        'firstname',
                        'lastname',
                        'mail',
-                       'mail_notification',
                        'language',
                        'custom_fields',
                        'auth_source_id',
@@ -519,7 +518,7 @@ describe PermittedParams, type: :model do
 
     describe :user_create_as_admin do
       let(:attribute) { :user_create_as_admin }
-      let(:default_permissions) { %w[custom_fields firstname lastname language mail mail_notification auth_source_id] }
+      let(:default_permissions) { %w[custom_fields firstname lastname language mail auth_source_id] }
 
       context 'non-admin' do
         let(:hash) { Hash[all_permissions.zip(all_permissions)] }
@@ -591,7 +590,6 @@ describe PermittedParams, type: :model do
       'firstname',
       'lastname',
       'mail',
-      'mail_notification',
       'language',
       'custom_fields'
     ]
@@ -892,7 +890,7 @@ describe PermittedParams, type: :model do
     let (:attribute) { :wiki_content }
 
     describe 'title' do
-      let(:hash) { { 'comments' => 'blubs' } }
+      let(:hash) { { 'journal_notes' => 'blubs' } }
 
       it_behaves_like 'allows params'
     end
@@ -933,12 +931,6 @@ describe PermittedParams, type: :model do
 
     describe 'created_at' do
       let(:hash) { { 'created_at' => 'blubs' } }
-
-      it_behaves_like 'forbids params'
-    end
-
-    describe 'mail_notification' do
-      let(:hash) { { 'mail_notification' => 'blubs' } }
 
       it_behaves_like 'forbids params'
     end

@@ -79,8 +79,7 @@ describe 'Activity tab', js: true, selenium: true do
             idx + 1
           end
 
-        date_selector = ".work-package-details-activities-activity:nth-of-type(#{actual_index}) " +
-                        '.activity-date'
+        date_selector = ".work-package-details-activities-activity:nth-of-type(#{actual_index}) .activity-date"
         # Do not use :long format to match the printed date without double spaces
         # on the first 9 days of the month
         expect(page).to have_selector(date_selector,
@@ -131,6 +130,16 @@ describe 'Activity tab', js: true, selenium: true do
       context 'with reversed comments' do
         let(:comments_in_reverse) { true }
         it_behaves_like 'shows activities in order'
+      end
+
+      it 'can deep link to an activity' do
+        visit "/work_packages/#{work_package.id}/activity#activity-#{note_2.id}"
+
+        work_package_page.ensure_page_loaded
+        expect(page).to have_selector('.user-comment > .message',
+                                      text: initial_comment)
+
+        expect(page.current_url).to match /\/work_packages\/#{work_package.id}\/activity#activity-#{note_2.id}/
       end
 
       it 'can toggle between activities and comments-only' do

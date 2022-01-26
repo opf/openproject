@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -134,26 +134,26 @@ describe 'Search', type: :feature, js: true, with_settings: { per_page_options: 
 
       expect(current_path).to eql project_work_package_path(target_work_package.project, target_work_package, state: 'activity')
 
-      first_wp = work_packages.first
+      search_target = work_packages.last
 
       # Typing a work package id shall find that work package
-      global_search.search(first_wp.id.to_s, submit: false)
+      global_search.search(search_target.id.to_s, submit: false)
 
       # And it shall be marked as the direct hit.
-      global_search.expect_work_package_marked(first_wp)
+      global_search.expect_work_package_marked(search_target)
 
       # And the direct hit is opened when enter is pressed
       global_search.submit_with_enter
 
       expect(page)
-        .to have_selector('.subject', text: first_wp.subject)
+        .to have_selector('.subject', text: search_target.subject)
 
-      expect(current_path).to eql project_work_package_path(first_wp.project, first_wp, state: 'activity')
+      expect(current_path).to eql project_work_package_path(search_target.project, search_target, state: 'activity')
 
       # Typing a hash sign before an ID shall only suggest that work package and (no hits within the subject)
-      global_search.search("##{first_wp.id}", submit: false)
+      global_search.search("##{search_target.id}", submit: false)
 
-      global_search.expect_work_package_marked(first_wp)
+      global_search.expect_work_package_marked(search_target)
 
       # Expect to have 3 project scope selecting menu entries
       global_search.expect_scope('In this project ↵')
@@ -163,7 +163,7 @@ describe 'Search', type: :feature, js: true, with_settings: { per_page_options: 
       # Selection project scope 'In all projects' redirects away from current project.
       global_search.submit_in_global_scope
       expect(current_path).to match(/\/search/)
-      expect(current_url).to match(/\/search\?q=#{"%23#{first_wp.id}"}&work_packages=1&scope=all$/)
+      expect(current_url).to match(/\/search\?q=#{"%23#{search_target.id}"}&work_packages=1&scope=all$/)
     end
   end
 
@@ -209,6 +209,7 @@ describe 'Search', type: :feature, js: true, with_settings: { per_page_options: 
       end
     end
 
+    # rubocop:disable RSpec/MultipleMemoizedHelpers
     context 'project search' do
       let(:subproject) { FactoryBot.create :project, parent: project }
       let!(:other_work_package) do
@@ -269,9 +270,6 @@ describe 'Search', type: :feature, js: true, with_settings: { per_page_options: 
                               "customField#{custom_field_string.id}")
 
         table.expect_work_package_subject(work_packages[1].subject)
-
-        # Expect that changing the advanced filters will not affect the global search input.
-        expect(global_search.input.value).to eq query
 
         # Expect that a fresh global search will reset the advanced filters, i.e. that they are closed
         global_search.search work_packages[6].subject, submit: true
@@ -340,7 +338,44 @@ describe 'Search', type: :feature, js: true, with_settings: { per_page_options: 
         filters.expect_no_filter_by 'subprojectId', 'subprojectId'
       end
     end
+
+    context 'for a project search with attachments' do
+      let!(:attachment) do
+        FactoryBot.create(:attachment,
+                          container: work_packages[9]).tap do |a|
+          Attachment
+            .where(id: a.id)
+            .update_all(['fulltext = ?, fulltext_tsv = to_tsvector(?, ?)',
+                         attachment_text,
+                         'english',
+                         attachment_text])
+        end
+      end
+      let(:query) { "word" }
+      let(:attachment_text) { "A text with the #{query} included" }
+
+      it 'finds work packages with attachments' do
+        with_enterprise_token :attachment_filters
+
+        global_search.search query
+        global_search.submit_in_project_and_subproject_scope
+
+        expect(page)
+          .to have_content attachment_text
+
+        expect(page)
+          .to have_selector(".search-highlight", text: query)
+
+        page.find('[data-qa-tab-id="work_packages"]').click
+
+        table = Pages::EmbeddedWorkPackagesTable.new(find('.work-packages-embedded-view--container'))
+        table.ensure_work_package_not_listed!(work_packages[0])
+        table.ensure_work_package_not_listed!(work_packages[1])
+        table.expect_work_package_listed(work_packages[9])
+      end
+    end
   end
+  # rubocop:enable RSpec/MultipleMemoizedHelpers
 
   describe 'search for projects' do
     let!(:searched_for_project) { FactoryBot.create(:project, name: 'Searched for project') }
@@ -403,7 +438,8 @@ describe 'Search', type: :feature, js: true, with_settings: { per_page_options: 
     let(:wp_1) { FactoryBot.create :work_package, subject: "Foo && Bar", project: project }
     let(:wp_2) { FactoryBot.create :work_package, subject: "Foo # Bar", project: project }
     let(:wp_3) { FactoryBot.create :work_package, subject: "Foo &# Bar", project: project }
-    let!(:work_packages) { [wp_1, wp_2, wp_3] }
+    let(:wp_4) { FactoryBot.create :work_package, subject: %(Foo '' "" \(\) Bar), project: project }
+    let!(:work_packages) { [wp_1, wp_2, wp_3, wp_4] }
     let(:table) { Pages::EmbeddedWorkPackagesTable.new(find('.work-packages-embedded-view--container')) }
 
     let(:run_visit) { false }
@@ -437,6 +473,24 @@ describe 'Search', type: :feature, js: true, with_settings: { per_page_options: 
       global_search.submit_in_global_scope
       table.expect_work_package_listed(wp_1, wp_3)
       table.ensure_work_package_not_listed! wp_2
+
+      global_search.search '""'
+      global_search.find_option wp_4.subject
+      global_search.submit_in_global_scope
+      table.expect_work_package_listed(wp_4)
+
+      global_search.search "'"
+      global_search.find_option wp_4.subject
+      global_search.submit_in_global_scope
+      table.expect_work_package_listed(wp_4)
+    end
+  end
+
+  describe 'search hotkey' do
+    it 'opens and focuses the global search when you press the [s] hotkey' do
+      visit home_path
+      page.find('body').send_keys('s')
+      expect(page).to have_selector '[data-qa-search-open="1"]', wait: 10
     end
   end
 end

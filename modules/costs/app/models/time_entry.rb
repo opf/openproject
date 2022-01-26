@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 class TimeEntry < ApplicationRecord
@@ -34,7 +34,7 @@ class TimeEntry < ApplicationRecord
   belongs_to :project
   belongs_to :work_package
   belongs_to :user
-  belongs_to :activity, class_name: 'TimeEntryActivity', foreign_key: 'activity_id'
+  belongs_to :activity, class_name: 'TimeEntryActivity'
   belongs_to :rate, -> { where(type: %w[HourlyRate DefaultHourlyRate]) }, class_name: 'Rate'
 
   acts_as_customizable

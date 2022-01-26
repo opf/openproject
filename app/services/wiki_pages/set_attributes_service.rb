@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 # Handles setting the attributes of a wiki page.
@@ -72,6 +72,6 @@ class WikiPages::SetAttributesService < ::BaseServices::SetAttributes
   end
 
   def content_attribute?(name)
-    WikiContent.column_names.include?(name) || name.to_s == 'comments'
+    WikiContent.column_names.include?(name) || name.to_s == 'journal_notes'
   end
 end

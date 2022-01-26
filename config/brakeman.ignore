@@ -27,7 +27,7 @@
       "check_name": "RegexDoS",
       "message": "Model attribute used in regular expression",
       "file": "app/models/mail_handler.rb",
-      "line": 307,
+      "line": 333,
       "link": "https://brakemanscanner.org/docs/warning_types/denial_of_service/",
       "code": "/^(#{\"#{attr.to_s.humanize}|#{all_attribute_translations(user.language)[attr]}|#{all_attribute_translations(Setting.default_language)[attr]}\"})[ \\t]*:[ \\t]*(#{\".+\"})\\s*$/i",
       "render_path": null,
@@ -63,11 +63,31 @@
     {
       "warning_type": "File Access",
       "warning_code": 16,
+      "fingerprint": "0c8e4ef75de011104b612562d243bf83c5220f2e6d5dca0de8f29ebf79c0ecf5",
+      "check_name": "FileAccess",
+      "message": "Model attribute used in file name",
+      "file": "app/workers/attachments/finish_direct_upload_job.rb",
+      "line": 50,
+      "link": "https://brakemanscanner.org/docs/warning_types/file_access/",
+      "code": "File.unlink((Attachment.pending_direct_uploads.find_by(:id => attachment_id) and Attachment.pending_direct_uploads.find_by(:id => attachment_id).file.local_file).path)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Attachments::FinishDirectUploadJob",
+        "method": "perform"
+      },
+      "user_input": "Attachment.pending_direct_uploads.find_by(:id => attachment_id)",
+      "confidence": "Weak",
+      "note": "local_path is the filepath, not a user-writable attribute"
+    },
+    {
+      "warning_type": "File Access",
+      "warning_code": 16,
       "fingerprint": "17b434f459d32ad7cb67e8623cb0bb8a220368cfded118582167787985739fcd",
       "check_name": "SendFile",
       "message": "Model attribute used in file name",
       "file": "app/controllers/custom_styles_controller.rb",
-      "line": 129,
+      "line": 153,
       "link": "https://brakemanscanner.org/docs/warning_types/file_access/",
       "code": "send_file(CustomStyle.current.send(path_method))",
       "render_path": null,
@@ -87,7 +107,7 @@
       "check_name": "SQL",
       "message": "Possible SQL injection",
       "file": "lib/open_project/nested_set/rebuild_patch.rb",
-      "line": 164,
+      "line": 100,
       "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
       "code": "where(\"#{quoted_parent_column_name} IS NULL\")",
       "render_path": null,
@@ -107,7 +127,7 @@
       "check_name": "UnsafeReflection",
       "message": "Unsafe reflection method `const_get` called with model attribute",
       "file": "app/controllers/attribute_help_texts_controller.rb",
-      "line": 112,
+      "line": 135,
       "link": "https://brakemanscanner.org/docs/warning_types/remote_code_execution/",
       "code": "AttributeHelpText.const_get(AttributeHelpText.available_types.find do\n (mod == params.fetch(:name, \"WorkPackage\"))\n end)",
       "render_path": null,
@@ -238,7 +258,7 @@
       "check_name": "SQL",
       "message": "Possible SQL injection",
       "file": "app/models/work_package.rb",
-      "line": 529,
+      "line": 452,
       "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
       "code": "ActiveRecord::Base.connection.select_all(\"select    s.id as status_id,\\n        s.is_closed as closed,\\n        i.project_id as project_id,\\n        count(i.id) as total\\n      from\\n        #{WorkPackage.table_name} i, #{Status.table_name} s\\n      where\\n        i.status_id=s.id\\n        and i.project_id IN (#{project.descendants.active.map(&:id).join(\",\")})\\n      group by s.id, s.is_closed, i.project_id\")",
       "render_path": null,
@@ -278,7 +298,7 @@
       "check_name": "SQL",
       "message": "Possible SQL injection",
       "file": "lib/open_project/nested_set/rebuild_patch.rb",
-      "line": 139,
+      "line": 75,
       "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
       "code": "where([\"#{quoted_parent_column_name} = ? #{(lambda do\n \n end or lambda do\n scope_column_names.inject(\"\") do\n (str << \"AND #{connection.quote_column_name(column_name)} = #{connection.quote(node.send(column_name.to_sym))} \")\n end\n end).call(node)}\", node])",
       "render_path": null,
@@ -350,8 +370,48 @@
       "user_input": "Project.find(params[:project_id]).project_condition(Setting.display_subprojects_work_packages?)",
       "confidence": "High",
       "note": "Static SQL built from `project_condition`"
+    },
+    {
+      "warning_type": "File Access",
+      "warning_code": 16,
+      "fingerprint": "e500e6e18abe0a541b6e4969e3c3a65f9024604665fa8cd139e9c5e91f2d61ff",
+      "check_name": "FileAccess",
+      "message": "Model attribute used in file name",
+      "file": "modules/bim/app/controllers/bim/bcf/issues_controller.rb",
+      "line": 200,
+      "link": "https://brakemanscanner.org/docs/warning_types/file_access/",
+      "code": "File.new(Attachment.find_by!(:id => session[:bcf_file_id], :author => current_user).local_path)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Bim::Bcf::IssuesController",
+        "method": "get_persisted_file"
+      },
+      "user_input": "Attachment.find_by!(:id => session[:bcf_file_id], :author => current_user).local_path",
+      "confidence": "Medium",
+      "note": "local_path is the filepath, not a user-writable attribute"
+    },
+    {
+      "warning_type": "Command Injection",
+      "warning_code": 14,
+      "fingerprint": "e8ab6f7a78ab26980f0bd0e4e9cc22713c310466ef1e744d9d2999e895686a38",
+      "check_name": "Execute",
+      "message": "Possible command injection",
+      "file": "lib/open_project/scm/adapters/subversion.rb",
+      "line": 229,
+      "link": "https://brakemanscanner.org/docs/warning_types/command_injection/",
+      "code": "popen3([\"blame\", \"#{target(path)}@#{(identifier.to_i or \"HEAD\")}\"])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "OpenProject::SCM::Adapters::Subversion",
+        "method": "annotate"
+      },
+      "user_input": "target(path)",
+      "confidence": "Medium",
+      "note": "Path is properly escaped, arg cannot escape popen3"
     }
   ],
-  "updated": "2019-06-28 07:49:05 +0200",
-  "brakeman_version": "4.5.1"
+  "updated": "2021-07-13 21:23:46 +0200",
+  "brakeman_version": "5.0.4"
 }

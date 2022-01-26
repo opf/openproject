@@ -3,7 +3,7 @@ require_relative './edit_field'
 class WorkPackageStatusField < EditField
   def initialize(context)
     @context = context
-    @selector = ".wp-status-button"
+    @selector = "[data-qa-selector='op-wp-status-button']"
   end
 
   def input_selector
@@ -37,7 +37,7 @@ class WorkPackageStatusField < EditField
   end
 
   def set_value(content)
-    input_element.find('a', text: content).click
+    input_element.find('button', text: content).click
   end
 
   def active?

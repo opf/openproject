@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -91,12 +91,12 @@ describe Query, type: :model do
 
   describe 'highlighting' do
     context 'with EE' do
-      it '#hightlighted_attrirbutes accepts valid values' do
+      it '#highlighted_attributes accepts valid values' do
         query.highlighted_attributes = %w(status priority due_date)
         expect(query).to be_valid
       end
 
-      it '#hightlighted_attributes rejects invalid values' do
+      it '#highlighted_attributes rejects invalid values' do
         query.highlighted_attributes = %w(status bogus)
         expect(query).not_to be_valid
       end

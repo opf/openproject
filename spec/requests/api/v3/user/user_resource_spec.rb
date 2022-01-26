@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -197,10 +197,7 @@ describe 'API v3 User resource',
       context 'requesting nonexistent user' do
         let(:get_path) { api_v3_paths.user 9999 }
 
-        it_behaves_like 'not found' do
-          let(:id) { 9999 }
-          let(:type) { 'User' }
-        end
+        it_behaves_like 'not found'
       end
 
       context 'requesting current user' do
@@ -259,10 +256,7 @@ describe 'API v3 User resource',
       context 'with a non-existent user' do
         let(:path) { api_v3_paths.user 1337 }
 
-        it_behaves_like 'not found' do
-          let(:id) { 1337 }
-          let(:type) { 'User' }
-        end
+        it_behaves_like 'not found'
       end
     end
 

@@ -7,9 +7,9 @@ module OpenProject::Bim::Patches::FogFileUploaderPatch
     def fog_attributes
       return super unless path.ends_with?(".bcf")
 
-      {
-        "Content-Type" => "application/octet-stream"
-      }
+      super.merge({
+                    "Content-Type" => "application/octet-stream"
+                  })
     end
   end
 end

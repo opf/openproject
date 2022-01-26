@@ -25,11 +25,11 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 
 require 'spec_helper'
 
-describe Attachments::DeleteService, 'integration' do
+describe Attachments::DeleteService, 'integration', with_settings: { journal_aggregation_time_minutes: 0 } do
   subject(:call) { described_class.new(model: attachment, user: user).call }
 
   let(:user) do

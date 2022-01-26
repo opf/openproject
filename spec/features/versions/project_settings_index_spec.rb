@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -48,7 +48,7 @@ feature 'project settings index', type: :feature do
 
   @javascript
   scenario 'see versions listed in semver order' do
-    visit settings_versions_project_path(project)
+    visit project_settings_versions_path(project)
 
     names_in_order = page.all('.version .name').map { |el| el.text.strip }
 

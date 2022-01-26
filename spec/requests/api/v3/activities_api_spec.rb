@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -166,26 +166,10 @@ describe API::V3::Activities::ActivitiesAPI, type: :request, content_type: :json
         it_behaves_like 'valid activity request', 'Activity::Comment'
       end
 
-      context 'for an aggregated journal when requesting by the notes_id (which is not the aggregated journal`s id)`' do
-        let(:activity) do
-          work_package.journals.first.tap do |journal|
-            journal.update_column(:notes, comment)
-
-            work_package.subject = 'A new subject'
-            work_package.save!
-          end
-        end
-
-        it_behaves_like 'valid activity request', 'Activity::Comment'
-      end
-
       context 'requesting nonexistent activity' do
         let(:get_path) { api_v3_paths.activity 9999 }
 
-        it_behaves_like 'not found' do
-          let(:id) { 9999 }
-          let(:type) { 'Journal' }
-        end
+        it_behaves_like 'not found'
       end
 
       context 'without sufficient permissions' do

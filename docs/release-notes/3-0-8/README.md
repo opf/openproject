@@ -30,7 +30,7 @@ However, this is only half of the truth. With the OpenProject 3.0.8
 release we chose to alter our release process. While the changes for the
 release process of OpenProject itself are minor, you will notice that
 the [plugins listed on
-OpenProject.org](http://openproject.org/projects/plugins) now all have
+OpenProject.org](https://community.openproject.org/projects/plugins/) now all have
 3.0.8 as their most recent version. This was done with the intend of
 easing deployment. Subsequent releases will follow this schema as well.
 It is our commitment to ensure that plugins with a specific release

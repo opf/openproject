@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -156,7 +156,7 @@ describe OpenProject::AccessControl do
 
       it 'includes actions' do
         expect(subject.controller_actions)
-          .to include('project_settings/show')
+          .to include('projects/settings/general/show')
       end
     end
   end

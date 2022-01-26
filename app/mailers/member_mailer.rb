@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 # Sends mails for updates to memberships. There can be three cases we have to cover:
@@ -39,7 +39,7 @@
 # The mailer does not fan out in case a group is provided. The individual members of a group
 # need to be mailed to individually.
 
-class MemberMailer < BaseMailer
+class MemberMailer < ApplicationMailer
   include OpenProject::StaticRouting::UrlHelpers
   include OpenProject::TextFormatting
 

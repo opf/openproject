@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -61,9 +61,7 @@ describe 'API v3 Cost Type resource' do
       context 'cost type deleted' do
         let!(:cost_type) { FactoryBot.create(:cost_type, :deleted) }
 
-        it_behaves_like 'not found' do
-          let(:id) { cost_type.id }
-        end
+        it_behaves_like 'not found'
       end
 
       context 'invalid id' do

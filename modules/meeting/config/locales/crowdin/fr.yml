@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 #English strings go here for Rails i18n
 fr:
@@ -54,7 +54,7 @@ fr:
   label_meeting_agenda: "Ordre du jour"
   label_meeting_minutes: "Compte-rendu"
   label_meeting_close: "Fermer"
-  label_meeting_open: "Ouvertes"
+  label_meeting_open: "Ouvrir"
   label_meeting_agenda_close: "Fermer l'ordre du jour pour commencer les procès-verbaux"
   label_meeting_date_time: "Date/Heure"
   label_meeting_diff: "Différence"
@@ -63,6 +63,8 @@ fr:
   label_version: "Version"
   label_time_zone: "Fuseau horaire"
   label_start_date: "Date de début"
+  meeting:
+    copied: "Copié depuis la réunion #%{id}"
   notice_successful_notification: "Notification envoyée avec succès"
   notice_timezone_missing: Aucun fuseau horaire n'est défini et %{zone} est supposé. Pour choisir votre fuseau horaire, veuillez cliquer ici.
   permission_create_meetings: "Créer des réunions"

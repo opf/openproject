@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 class ColorsController < ApplicationController
@@ -36,7 +36,7 @@ class ColorsController < ApplicationController
   menu_item :colors
 
   def index
-    @colors = Color.all
+    @colors = Color.all.sort_by(&:name)
     respond_to do |format|
       format.html
     end

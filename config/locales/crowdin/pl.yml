@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 pl:
   no_results_title_text: Obecnie nie ma nic do wyświetlenia.
@@ -167,8 +167,8 @@ pl:
     enabled_in_project: 'Włączone w projekcie'
     contained_in_type: 'Zawartość'
     confirm_destroy_option: "Usunięcie tej opcji spowoduje usunięcie wszystkich powiązanych wystąpień (np. w Work Package). Czy na pewno chcesz to usunąć?"
-    reorder_alphabetical: "Reorder values alphabetically"
-    reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
+    reorder_alphabetical: "Ustaw kolejność wartości alfabetycznie"
+    reorder_confirmation: "Ostrzeżenie: Bieżąca kolejność dostępnych wartości zostanie utracona. Kontynuować?"
     tab:
       no_results_title_text: Nie ma jeszcze żadnych pól użytkownika.
       no_results_content_text: Utwórz pole użytkownika
@@ -295,8 +295,8 @@ pl:
       query_group_placeholder: "Nadaj nazwę tabeli"
       reset: "Resetuj do ustawień domyślnych"
       type_color_text: |
-        Kliknąć, aby przypisać lub zmienić kolor tego typu. Wybrany kolor odróżnia pakiety robocze
-        na wykresach Gantta. W związku z tym zalecane jest stosowanie mocnego koloru.
+        Wybrany kolor odróżnia różne typy
+        na wykresach Gantta lub w tabelach pakietów roboczych. W związku z tym zalecane jest stosowanie mocnego koloru.
   versions:
     overview:
       no_results_title_text: Nie ma jeszcze żadnego Zestawu zadań przypisanego do tej wersji.
@@ -316,6 +316,10 @@ pl:
       other: 'Wiele potomnych pakietów roboczych (%{count})'
     bulk:
       could_not_be_saved: "Nie można zapisać następujących pakietów roboczych:"
+      none_could_be_saved: "None of the %{total} work packages could be updated."
+      x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
+      selected_because_descendants: "While %{selected} work packages where selected, in total %{total} work packages are affected which includes descendants."
+      descendant: "descendant of selected"
     move:
       no_common_statuses_exists: "Brak stanu dostępnego dla wszystkich wybranych pakietów roboczych. Ich stanu nie można zmienić."
       unsupported_for_multiple_projects: 'Hurtowe przenoszenie / kopiowanie nie jest obsługiwane dla Zestawu zadań z różnych projektów'
@@ -459,6 +463,7 @@ pl:
         url: "ADRES URL"
       role:
         assignable: "Pakiety robocze mogą być przypisane do użytkowników i grup znajdujących się w posiadaniu tej roli w odpowiednim projekcie"
+        permissions: "Uprawnienia"
       time_entry:
         activity: "Działanie"
         hours: "Godziny"
@@ -478,7 +483,6 @@ pl:
         force_password_change: "Wymusza zmianę hasła przy następnym logowaniu"
         language: "Język"
         last_login_on: "Ostatnie logowanie"
-        mail_notification: "Powiadomienia e-mail"
         new_password: "Nowe hasło"
         password_confirmation: "Potwierdzenie"
         consented_at: "Zgodę na"
@@ -535,6 +539,7 @@ pl:
         before: "musi być przed %{date}."
         before_or_equal_to: "musi być przed lub równe %{date}."
         blank: "nie może być puste."
+        blank_nested: "musi mieć ustawioną właściwość '%{property}'."
         cant_link_a_work_package_with_a_descendant: "Zestaw zadań nie może być powiązany z jego podzadaniami."
         circular_dependency: "Ta relacja może wytworzyć zależność cykliczną."
         confirmation: "nie pasuje do %{attribute}."
@@ -543,21 +548,24 @@ pl:
         error_enterprise_only: "jest funkcją dostępną tylko w OpenProject Enterprise Edition"
         error_unauthorized: "— nie można uzyskac dostępu."
         error_readonly: "— podjęto próbę zapisu, ale nie jest zapisywalny."
-        email: "is not a valid email address."
+        email: "nie jest poprawnym adresem e-mail."
         empty: "nie może być puste."
         even: "musi być takie samo."
         exclusion: "jest już zajęte."
         file_too_large: "jest za długie (maksymalna wielkość to %{count} Bajtów)."
+        format: "nie pasuje do oczekiwanego formatu '%{expected}'."
+        format_nested: "nie pasuje do oczekiwanego formatu '%{expected}' na ścieżce %{path}."
         greater_than: "musi być większe niż %{count}."
         greater_than_or_equal_to: "musi być większe niż lub równe %{count}."
         greater_than_or_equal_to_start_date: "musi być późniejsza niż data początku albo równa jej."
         greater_than_start_date: "musi być późniejsza niż data początku."
         inclusion: "jest niezgodne z jednym z dozwolonych wartości."
+        inclusion_nested: "nie jest ustawione na jedną z dozwolonych wartości na ścieżce '%{path}'."
         invalid: "jest nieprawidłowe."
         invalid_url: 'nie jest poprawnym adresem URL.'
         invalid_url_scheme: 'nie jest obsługiwanym protokołem (dozwolone: %{allowed_schemes}).'
         less_than_or_equal_to: "musi być mniejsze niż lub równe %{count}."
-        not_available: "is not available due to a system configuration."
+        not_available: "jest niedostępne z powodu konfiguracji systemu."
         not_deletable: "— nie można usunąć."
         not_current_user: "nie jest bieżącym użytkownikiem."
         not_a_date: "nie jest poprawną datą."
@@ -573,14 +581,20 @@ pl:
         taken: "zostały już podjęte."
         too_long: "jest zbyt długi (maksymalnie %{count} znaków)."
         too_short: "jest zbyt krótkie (min. %{count} znaków)."
+        type_mismatch: "nie jest rodzaju '%{type}'"
+        type_mismatch_nested: "nie jest rodzaju '%{type}' na ścieżce '%{path}'"
         unchangeable: "nie można zmienić."
+        unknown_property: "nie jest znaną właściwością."
+        unknown_property_nested: "ma nieznaną ścieżkę '%{path}'."
         unremovable: "nie można usunąć."
         wrong_length: "ma nieprawidłową długość (powinno mieć %{count} znaków)."
       models:
         attachment:
           attributes:
             content_type:
-              not_whitelisted: "is set to '%{value}', which is not whitelisted for uploading."
+              blank: "Zawartość tego typu zwartości nie może być pusta."
+              not_whitelisted: "Plik został odrzucony przez automatyczny filtr. '%{value}' nie jest na białej liście do przesyłania."
+              format: "%{message}"
         capability:
           context:
             global: 'Globalna'
@@ -614,6 +628,21 @@ pl:
           overlaps: 'nałożenie.'
           outside: 'jest poza siatką.'
           end_before_start: 'wartość końcowa musi być większa niż wartość początkowa.'
+        notifications:
+          at_least_one_channel: 'Należy określić co najmniej jeden kanał dla wysyłania powiadomień.'
+          attributes:
+            read_ian:
+              read_on_creation: 'nie można ustawić na „prawda" przy tworzeniu powiadomień.'
+            mail_reminder_sent:
+              set_on_creation: 'nie można ustawić na „prawda" przy tworzeniu powiadomień.'
+            reason:
+              no_notification_reason: 'nie może być puste, ponieważ IAN jest wybrany jako kanał.'
+            reason_mail_digest:
+              no_notification_reason: 'nie może być puste, ponieważ streszczenie e-maili jest wybrane jako kanał.'
+        notification_settings:
+          only_one_global_setting: 'Musi być tylko jedno globalne ustawienie powiadomień.'
+          email_alerts_global: 'Ustawienia powiadomień e-mail mogą być ustawione tylko globalnie.'
+          format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -648,7 +677,6 @@ pl:
           filters:
             custom_fields:
               inexistent: "Brak pola niestandardowego dla tego filtra."
-              invalid: "Pole niestandardowe jest nieprawidłowe w danym kontekście."
         queries/filters/base:
           attributes:
             values:
@@ -678,6 +706,12 @@ pl:
           attributes:
             hours:
               day_limit: "jest zbyt wysoki, ponieważ pod jedną datą można zarejestrować maksymalnie 24 godziny."
+        user_preference:
+          attributes:
+            pause_reminders:
+              invalid_range: "może być tylko prawidłowym zakresem dat."
+            daily_reminders:
+              full_hour: "można skonfigurować tylko do dostarczenia o pełnej godzinie."
         wiki_page:
           attributes:
             slug:
@@ -689,6 +723,7 @@ pl:
               not_start_date: "nie jest w dniu rozpoczęcia, chociaż jest to wymagane dla Kamieni Milowych."
             parent:
               cannot_be_milestone: "nie może być kamieniem milowym."
+              cannot_be_self_assigned: "nie może być przypisany do siebie."
               cannot_be_in_another_project: "nie może być w innym projekcie."
               not_a_valid_parent: "jest nieprawidłowe."
             start_date:
@@ -705,6 +740,7 @@ pl:
               does_not_exist: "Podana kategoria nie istnieje."
             estimated_hours:
               only_values_greater_or_equal_zeroes_allowed: "musi być ≥ 0."
+          readonly_status: 'The work package is in a readonly status so its attributes cannot be changed.'
         type:
           attributes:
             attribute_groups:
@@ -715,6 +751,9 @@ pl:
               group_without_name: "Grupy nienazwane nie są dozwolone."
         user:
           attributes:
+            password_confirmation:
+              confirmation: "Powtórzone hasło różni się od wprowadzonego hasła!"
+              format: "%{message}"
             password:
               weak: "Musi zawierać znaki z następujących klas (co najmniej %{min_count} z %{all_count}): %{rules}."
               lowercase: "małe litery (np. 'a')"
@@ -764,6 +803,11 @@ pl:
       status: "Status pakietu roboczego"
       member: "Członek"
       news: "Aktualności"
+      notification:
+        one: "Powiadomienie"
+        few: "Powiadomienia"
+        many: "Powiadomienia"
+        other: "Powiadomień"
       placeholder_user: "Użytkownik zastępczy"
       project: "Projekt"
       query: "Kwerenda użytkownika"
@@ -778,7 +822,7 @@ pl:
       wiki: "Wiki"
       wiki_page: "Strona wiki"
       workflow: "Przepływ pracy"
-      work_package: "Zadanie"
+      work_package: "Pakiet roboczy"
       'doorkeeper/application': "Aplikacje OAuth"
   errors:
     header_invalid_fields: "Wystąpił problem z następującymi polami:"
@@ -796,7 +840,7 @@ pl:
     base: "Błąd ogólny:"
     blocks_ids: "Identyfikatory zablokowanych pakietów roboczych"
     category: "Kategoria"
-    comment: "Komentarz"
+    comment: "Typ kosztu"
     comments: "Komentarz"
     content: "Zawartość"
     color: "Kolor"
@@ -816,7 +860,6 @@ pl:
     firstname: "Imię"
     group: "Grupa"
     groups: "Grupy"
-    name: "Nazwa"
     id: "ID"
     is_default: "Wartość domyślna"
     is_for_all: "Dla wszystkich projektów"
@@ -826,6 +869,7 @@ pl:
     lastname: "Nazwisko"
     login: "Nazwa użytkownika"
     mail: "Adres e-mail"
+    name: "Nazwa"
     password: "Hasło"
     priority: "Priorytet"
     project: "Projekt"
@@ -1190,7 +1234,9 @@ pl:
   error_can_not_archive_project: "Tego projektu nie można zarchiwizować: %{errors}"
   error_can_not_delete_entry: "Nie można usunąć wpisu"
   error_can_not_delete_custom_field: "Nie można usunąć pola niestandardowego"
-  error_can_not_delete_type: "Ten typ zawiera pakiety robocze i nie może zostać usunięty."
+  error_can_not_delete_type:
+    explanation: 'Ten typ zawiera pakiety robocze i nie może być usunięty. Wszystkie włączone pakiety robocze można zobaczyć w <a target="_blank" href="%{url}">tym widoku</a>.'
+    archived_projects: 'Pakiety robocze istnieją również w zarchiwizowanych projektach. Musisz najpierw reaktywować następujące projekty, zanim będzie można zmienić typ odpowiednich pakietów roboczych: %{archived_projects}'
   error_can_not_delete_standard_type: "Nie można usunąć standardowych typów."
   error_can_not_invite_user: "Nie można wysłać zaproszenia do użytkownika."
   error_can_not_remove_role: "Ta Rola jest używana i nie można jej usunąć."
@@ -1219,6 +1265,7 @@ pl:
   error_no_type_in_project: "Żaden typ nie jest związany z tym projektem. Proszę sprawdzić ustawienia projektu."
   error_omniauth_registration_timed_out: "Upłynął limit czasu na zewnętrzną autoryzację. Spróbuj ponownie."
   error_omniauth_invalid_auth: "Dane uwierzytelniające zwrócone od dostawcy tożsamości były nieprawidłowe. Aby uzyskać dodatkową pomoc, skontaktuj się z administratorem."
+  error_password_change_failed: 'Wystąpił błąd podczas próby zmiany hasła.'
   error_scm_command_failed: "Wystąpił błąd podczas próby dostępu do repozytorium: %{value}"
   error_scm_not_found: "Nie znaleziono wpisu lub zmiany w repozytorium."
   error_unable_delete_status: "Status pakietu roboczego nie może zostać usunięty dopóki jest używany przynajmniej w jednym pakiecie roboczym."
@@ -1248,7 +1295,7 @@ pl:
   export:
     your_work_packages_export: "Eksport Twoich pakietów roboczych"
     succeeded: "Eksport został wykonany."
-    failed: "The export has failed: %{message}"
+    failed: "Eksport nie powiódł się: %{message}"
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1311,6 +1358,9 @@ pl:
   instructions_after_logout: "Możesz zalogować się ponownie klikając %{signin}."
   instructions_after_error: "Można spróbować się zalogować ponownie klikając %{signin}. Jeśli ten błąd będzie się powtarzał, poproś swojego admina o pomoc."
   menus:
+    admin:
+      mail_notification: "Powiadomienia e-mail"
+      incoming_outgoing: "Przychodzące i wychodzące"
     quick_add:
       label: "Otwórz menu szybkiego dodawania"
   my_account:
@@ -1323,6 +1373,33 @@ pl:
         action: "Czynność"
         expiration: "Wygasa"
       indefinite_expiration: "Nigdy"
+  notifications:
+    send_notifications: "Wyślij powiadomienia dla tej czynności"
+    work_packages:
+      subject:
+        created: "Pakiet roboczy został utworzony."
+        assigned: "Przypisano cię do %{work_package}"
+        subscribed: "Subskrybujesz %{work_package}"
+        mentioned: "Wspomniano o tobie w %{work_package}"
+        responsible: "Odpowiadasz za %{work_package}"
+        watched: "Obserwujesz %{work_package}"
+    update_info_mail:
+      body: >
+        Z radością ogłaszamy wydanie wersji OpenProject 12.0. Mamy nadzieję, że to niezwykle ważne wydanie znacznie usprawni sposób korzystania z OpenProject.
+
+        Począwszy od tej wersji, wprowadzamy powiadomienia w aplikacji. Od teraz będziesz otrzymywać powiadomienia o aktualizacjach pakietów roboczych bezpośrednio w OpenProject. Możesz oznaczyć te powiadomienia jako przeczytane, odpowiedzieć na komentarze lub nawet bezpośrednio modyfikować atrybuty pakietu roboczego bez opuszczania centrum powiadomień.
+
+        Oznacza to również, że nie będziemy już używać wiadomości e-mail do wysyłania powiadomień. Naszym zdaniem nowe centrum powiadomień jest lepszym miejscem do przeglądania tych aktualizacji i podejmowania działań. Niemniej jednak, jeśli zależy ci na otrzymywaniu aktualizacji pocztą elektroniczną, możesz otrzymywać codzienne przypomnienia e-mail w wybranych przez siebie porach.
+
+        Pamiętaj, aby zweryfikować nowe domyślne ustawienia powiadomień i ustawić swoje preferencje dotyczące powiadomień i przypomnień e-mail w ustawieniach konta. W celu dokonania zmian wybierz poniższy przycisk "Zmień ustawienia poczty elektronicznej".
+
+        Mamy nadzieję, że z powodzeniem będziesz korzystać z powiadomień w aplikacji, a Twoja wydajność dzięki nim znacznie się zwiększy.
+
+        Pozdrawiamy,
+        Zespół OpenProject
+      body_header: 'Wersja 12.0 z Centrum powiadomień'
+      body_subheader: 'Aktualności'
+      subject: 'Ważne zmiany w powiadomieniach w wydaniu 12.0'
   label_accessibility: "Dostępność"
   label_account: "Konto"
   label_active: "Aktywne"
@@ -1408,7 +1485,7 @@ pl:
   label_check_uncheck_all_in_column: "Sprawdź/Odznacz wszystko w kolumnie"
   label_check_uncheck_all_in_row: "Sprawdź/Odznacz wszystko w wierszu"
   label_child_element: "Element podrzędny"
-  label_chronological_order: "W porządku chronologicznym"
+  label_chronological_order: "Od najstarszych"
   label_close_versions: "Zamknij zakończone wersje"
   label_closed_work_packages: "Zamknięte"
   label_collapse: "Zwiń"
@@ -1451,7 +1528,7 @@ pl:
   label_deleted: "Usunięty"
   label_deleted_custom_field: "(usunięte pole niestandardowe)"
   label_deleted_custom_option: "(opcja usunięta)"
-  label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
+  label_missing_or_hidden_custom_option: "(brakująca wartość lub brak uprawnień do dostępu)"
   label_descending: "Malejąco"
   label_details: "Szczegóły"
   label_development_roadmap: "Droga rozwoju"
@@ -1468,7 +1545,7 @@ pl:
   label_duplicated_by: "Powielone przez"
   label_duplicate: "duplikat"
   label_duplicates: "Duplikaty"
-  label_edit: "Edycja"
+  label_edit: "Edytuj"
   label_edit_x: "Edytuj: %{x}"
   label_enable_multi_select: "Włącz wybór wielokrotny"
   label_enabled_project_custom_fields: 'Aktywne pola niestandardowe'
@@ -1496,7 +1573,6 @@ pl:
   label_feeds_access_key: "Klucz dostępu RSS"
   label_feeds_access_key_created_on: "Klucz dostępu RSS utworzony %{value} temu"
   label_feeds_access_key_type: "RSS"
-  label_file_added: "Plik dodany"
   label_file_plural: "Pliki"
   label_filter_add: "Dodaj filtr"
   label_filter_plural: "Filtry"
@@ -1563,7 +1639,7 @@ pl:
   label_loading: "Ładowanie..."
   label_lock_user: 'Zablokuj użytkownika'
   label_logged_as: "Zalogowany jako"
-  label_login: "Zaloguj"
+  label_login: "Logowanie"
   label_custom_logo: "Własne logo"
   label_custom_favicon: "Własny favicon"
   label_custom_touch_icon: "Własny touch icon"
@@ -1625,7 +1701,6 @@ pl:
   label_none_parentheses: "(brak)"
   label_not_contains: "nie zawierają"
   label_not_equals: "nie jest"
-  label_notify_member_plural: "Email updates"
   label_on: "wł"
   label_open_menu: "Otwórz menu"
   label_open_work_packages: "Otwarte"
@@ -1713,7 +1788,7 @@ pl:
   label_required: 'wymagane'
   label_requires: 'wymaga'
   label_result_plural: "Wyniki"
-  label_reverse_chronological_order: "W odwrotnej kolejności chronologicznej"
+  label_reverse_chronological_order: "Od najnowszych"
   label_revision: "Rewizja"
   label_revision_id: "Rewizja %{value}"
   label_revision_plural: "Rewizje"
@@ -1745,7 +1820,6 @@ pl:
   label_start_to_start: "rozpoczęcie-rozpoczęcie"
   label_statistics: "Statystyki"
   label_status: "Status"
-  label_status_updated: "Status pakietu roboczego zaktualizowany"
   label_stay_logged_in: "Pozostań zalogowany"
   label_storage_free_space: "Pozostałe miejsca na dysku"
   label_storage_used_space: "Używana przestrzeń dyskowa"
@@ -1829,21 +1903,17 @@ pl:
   label_wiki_show_submenu_item: "Pokaż jako pozycję podmenu "
   label_wiki_start: "Strona startowa"
   label_work_package: "Zadanie"
-  label_work_package_added: "Dodano zadanie"
   label_work_package_attachments: "Załączniki pakietu roboczego"
   label_work_package_category_new: "Nowa kategoria"
   label_work_package_category_plural: "Kategorie pakietów roboczych"
   label_work_package_hierarchy: "Hierarchia zadań"
   label_work_package_new: "Nowy pakiet roboczy"
-  label_work_package_note_added: "Notatka pakietu roboczego dodana"
   label_work_package_edit: "Edytuj pakiet roboczy %{name}"
   label_work_package_plural: "Pakiety robocze"
-  label_work_package_priority_updated: "Zaktualizowano priorytety pakietów roboczych"
   label_work_package_status: "Status pakietu roboczego"
   label_work_package_status_new: "Nowy status"
   label_work_package_status_plural: "Statusy pakietów roboczych"
   label_work_package_types: "Typy pakietów roboczych"
-  label_work_package_updated: "Pakiet roboczy zaktualizowany"
   label_work_package_tracking: "Śledzenie pakietów roboczych"
   label_work_package_view_all: "Pokaż wszystkie pakiety robocze"
   label_workflow: "Przepływ pracy"
@@ -1896,6 +1966,39 @@ pl:
       link_name_type: 'Nowy %{type_name}'
   mail:
     actions: 'Akcje'
+    digests:
+      including_mention_singular: 'zawierające wzmiankę'
+      including_mention_plural: 'zawierające wzmianki w liczbie %{number_mentioned}'
+      unread_notification_singular: '1 nieprzeczytane powiadomienie'
+      unread_notification_plural: 'Nieprzeczytanych powiadomień: %{number_unread} '
+      you_have: 'Masz'
+    logo_alt_text: 'Logo'
+    mention:
+      subject: "%{user_name} wspomniał o tobie w #%{id} - %{subject}"
+    notification:
+      center: 'Do centrum powiadomień'
+      see_in_center: 'Zobacz komentarz w centrum powiadomień'
+      settings: 'Zmień ustawienia poczty elektronicznej'
+    salutation: 'Cześć %{user}!'
+    work_packages:
+      created_at: 'Utworzono %{timestamp}, autor %{user} '
+      login_to_see_all: 'Zaloguj się, aby zobaczyć wszystkie powiadomienia.'
+      mentioned: '<b>Wspomniano o tobie w komentarzu</b>'
+      mentioned_by: '%{user} wspomniał o tobie w komentarzu'
+      more_to_see:
+        one: 'Istnieje jeszcze 1 pakiet roboczy z powiadomieniami.'
+        few: 'Istnieją jeszcze %{count} pakiety robocze z powiadomieniami.'
+        many: 'Istnieje jeszcze %{count} pakietów roboczych z powiadomieniami.'
+        other: 'Istnieją jeszcze %{count} pakietów roboczych z powiadomieniami.'
+      reason:
+        watched: 'Obserwowane'
+        assigned: 'Przypisane'
+        responsible: 'Osoba odpowiedzialna'
+        mentioned: 'Wzmianka'
+        subscribed: 'wszystkie'
+        prefix: 'Otrzymano z powodu ustawienia powiadomienia: %{reason}'
+      see_all: 'Zobacz wszystkie'
+      updated_at: 'Zaktualizowano %{timestamp}, autor %{user} '
   mail_body_account_activation_request: "A new user (%{value}) has registered. The account is pending your approval:"
   mail_body_account_information: "Informacje o koncie"
   mail_body_account_information_external: "You can use your %{value} account to log in."
@@ -1913,7 +2016,7 @@ pl:
     Zapraszamy do przeglądania naszego kanału na YouTube (%{youtube_link}), na którym udostępniamy webinarium (%{webinar_link}).
     i filmy „Rozpoczęcie pracy” (%{get_started_link}), aby jak najbardziej ułatwić rozpoczęcie pracy w OpenProject.
     <br />
-    Jeśli masz dodatkowe pytania, zapoznaj się z naszą dokumentacją (%{documentation_link}) lub skontaktuj się z nami (%{contact_us_link}).
+    Jeśli masz dodatkowe pytania, zapoznaj się z naszą dokumentacją (%{documentation_link}) lub skontaktuj się z naszym administratorem.
   mail_body_register_closing: "Twój zespół OpenProject"
   mail_body_register_ending: "Bądźmy w kontakcie! Z poważaniem,"
   mail_body_reminder: "Termin wykonania %{count} pakietów roboczych przypisanych do Ciebie kończy się w ciągu %{days} dni:"
@@ -2105,6 +2208,7 @@ pl:
   permission_protect_wiki_pages: "Blokowanie stron wiki"
   permission_rename_wiki_pages: "Zmiana nazw strony wiki"
   permission_save_queries: "Zapisz widoki"
+  permission_select_custom_fields: "Wybierz pola niestandardowe"
   permission_select_project_modules: "Wybieranie modułów projektu"
   permission_manage_types: "Select types"
   permission_view_calendar: "Widok kalendarza"
@@ -2269,7 +2373,11 @@ pl:
   setting_apiv3_cors_origins: "Dozwolone źródła mechanizmu Cross-Origin Resource Sharing (CORS) interfejsu API V3"
   setting_apiv3_cors_origins_text_html: >
     Jeśli mechanizm CORS jest włączony, są to źródła, których dostęp do interfejsu API OpenProject jest dozwolony. <br/> Sprawdź w <a href="%{origin_link}" target="_blank">dokumentacji nagłówka origin</a> jak należy określić oczekiwane wartości.
-  setting_attachment_whitelist: "Attachment upload whitelist"
+  setting_apiv3_docs: "Dokumentacja"
+  setting_apiv3_docs_enabled: "Włącz stronę z dokumentami"
+  setting_apiv3_docs_enabled_instructions_html: >
+    Jeśli strona z dokumentami jest włączona, możesz uzyskać interaktywny widok dokumentacji APIv3 pod adresem <a href="%{link}" target="_blank">%{link}</a>.
+  setting_attachment_whitelist: "Biała lista załączników do przesyłania"
   setting_email_delivery_method: "Metoda dostarczenia maila"
   setting_sendmail_location: "Lokalizacja pliku wykonywalnego sendmail"
   setting_smtp_enable_starttls_auto: "Automatycznie użyj STARTTLS, jeśli jest dostępny"
@@ -2306,7 +2414,6 @@ pl:
   setting_first_week_of_year: "Pierwszy tydzień w roku zawiera"
   setting_date_format: "Format daty"
   setting_default_language: "Język domyślny"
-  setting_default_notification_option: "Domyślna opcja powiadomienia"
   setting_default_projects_modules: "Domyślnie włączone moduły dla nowych projektów"
   setting_default_projects_public: "Nowe projekty są publiczne (domyślnie)"
   setting_diff_max_lines_displayed: "Maksymalna wyświetlana liczba linii różnic"
@@ -2316,6 +2423,7 @@ pl:
   setting_email_login: "Użyj adresu e-mail jako loginu"
   setting_enabled_scm: "Włączone SCM"
   setting_enabled_projects_columns: "Widoczny na liście projektów"
+  setting_notification_retention_period_days: "Okres przechowywania powiadomień"
   setting_feeds_enabled: "Włącz kanały"
   setting_feeds_limit: "Feed content limit"
   setting_file_max_size_displayed: "Maksymalny rozmiar plików tekstowych wyświetlanych w treści"
@@ -2329,7 +2437,7 @@ pl:
   setting_work_package_properties: "Właściwości pakietu roboczego"
   setting_work_package_startdate_is_adddate: "Użyj bieżącej daty jako daty początkowej dla nowych pakietów roboczych"
   setting_work_packages_export_limit: "Limit eksportowanych pakietów roboczych"
-  setting_journal_aggregation_time_minutes: "Wyświetl dzienniki jako zagregowane"
+  setting_journal_aggregation_time_minutes: "Działania użytkownika agregowane w ciągu"
   setting_log_requesting_user: "Rejestrowanie loginu, nazwy i adresu e-mail użytkownika dla wszystkich żądań"
   setting_login_required: "Wymagane uwierzytelnienie"
   setting_mail_from: "Adres emisji"
@@ -2386,11 +2494,12 @@ pl:
     brute_force_prevention: "Automatyczne blokowanie użytkowników"
     attachments:
       whitelist_text_html: >
-        Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
+        Zdefiniuj listę poprawnych rozszerzeń plików i/lub typów mime dla przesłanych plików. <br/> Wprowadź rozszerzenia plików (np. <code>%{ext_example}</code>) lub typy mime (np. <code>%{mime_example}</code>). <br/> Pozostaw puste, aby umożliwić przesłanie dowolnego typu pliku. Dozwolone wielokrotne wartości (jeden wiersz dla każdej wartości).
     notifications:
       retention_text: >
-        Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
-      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
+        Ustaw liczbę dni, w których powiadomienia dla użytkowników (źródło powiadomień w aplikacji) będą przechowywane w systemie. Wszystkie zdarzenia starsze niż ten okres zostaną usunięte.
+      events_explanation: 'Zarządza dla których zdarzeń są wysyłane wiadomości e-mail. Pakiety robocze są wyłączone z tej listy, ponieważ ich powiadomienia mogą być skonfigurowane specjalnie dla każdego użytkownika.'
+      delay_minutes_explanation: "Wysyłanie wiadomości e-mail może być opóźnione, aby umożliwić użytkownikom ze skonfigurowanymi powiadomieniami w aplikacji potwierdzenie powiadomienia w aplikacji przed wysłaniem wiadomości. Użytkownicy, którzy przeczytali powiadomienie w aplikacji nie otrzymają wiadomości e-mail dla powiadomień już przeczytanych."
     display:
       first_date_of_week_and_year_set: >
         Jeśli ustawiona jest opcja „%{day_of_week_setting_name}” albo „%{first_week_setting_name}”, druga musi zostać ustawiona w taki sposób, aby uniknąć niespójności we frontendzie.
@@ -2471,9 +2580,9 @@ pl:
   text_work_packages_destroy_confirmation: "Czy na pewno chcesz usunąć wybrane pakiety robocze?"
   text_work_packages_ref_in_commit_messages: "Odwołania i poprawki do pakietów roboczych w wiadomościach o zmianach"
   text_journal_added: "%{label} %{value} added"
-  text_journal_aggregation_time_explanation: "Połącz dzienniki dla wyświetlania, jeśli ich różnica wiekowa jest poniżej wskazanej wartości. To opóźni dostawę powiadomień mailowych o ten sam czas."
-  text_journal_changed: "%{label} zmieniono z %{old} <br/><strong>na</strong> %{new}"
-  text_journal_changed_plain: "%{label} zmieniono z %{old} \nna %{new}"
+  text_journal_aggregation_time_explanation: "Indywidualne czynności użytkownika (np. dwukrotna aktualizacja pakietu roboczego) są agregowane w pojedynczą czynność, jeśli ich różnica czasowa jest mniejsza niż określony przedział czasowy. Będą one wyświetlane jako pojedyncza czynność w aplikacji. Spowoduje to również opóźnienie powiadomień o tę samą ilość czasu, zmniejszając liczbę wysyłanych wiadomości e-mail."
+  text_journal_changed_html: "%{label} zmieniono z %{old} %{linebreak}<strong>na</strong> %{new}"
+  text_journal_changed_plain: "%{label} zmieniono z %{old} %{linebreak}na %{new}"
   text_journal_changed_no_detail: "%{label} updated"
   text_journal_changed_with_diff: "%{label} changed (%{link})"
   text_journal_deleted: "%{label} deleted (%{old})"
@@ -2501,7 +2610,6 @@ pl:
   text_regexp_info: "np. ^[A-Z0-9]+$"
   text_regexp_multiline: 'Wyrażenie regularne jest stosowane w trybie wielolinijkowym. np. ^---\s+'
   text_repository_usernames_mapping: "Wybierz lub zaktualizuj użytkownika OpenProject do każdego użytkownika w dzienniku repozytorium.\nUżytkownicy z tym samym loginem lub adresem e-mail w OpenProject i repozytorium są automatycznie mapowani."
-  text_select_mail_notifications: "Wybierz akcje które mają być przesyłane powiadomieniami e-mail."
   text_status_changed_by_changeset: "Zastosowane w zbiorze zmian %{value}."
   text_table_difference_description: "W tej tabeli wyświetlane sa pojedyncze %{entries}. Możesz porównać dwa elementy poprzez odznaczenie odpowiadających im pól wyboru. Po kliknięciu na przycick na dole wyświetlane są różnice."
   text_time_logged_by_changeset: "Zastosowane w zbiorze zmian %{value}."
@@ -2728,10 +2836,6 @@ pl:
     password_change_unsupported: Zmiana hasła nie jest obsługiwana.
     registered: "zarejestrowany"
     reset_failed_logins: "Resetuj nieudane logowania"
-    settings:
-      mail_notifications: "Wyślij powiadomienia emailem"
-      mail_project_explanaition: "W przypadku niezaznaczonych projektów, będziesz otrzymywać powiadomienia, które obserwujesz lub które dotyczą Ciebie (np. zadania, w których jesteś autorem lub osobą przypisaną)."
-      mail_self_notified: "Chcę być powiadamiany o zmianach, które sam wprowadzam"
     status_user_and_brute_force: "%{user} i %{brute_force}"
     status_change: "Zmiana statusu"
     text_change_disabled_for_provider_login: "Nazwa jest ustawiana przez dostawcę usług logowania i dlatego nie można jej zmienić."
@@ -2753,7 +2857,7 @@ pl:
     Osiągnięto limit użytkowników. Nie możesz aktywować kolejnych użytkowników. <a href="%{upgrade_url}"> uaktualnij swój plan </a> lub zablokuj członków, aby umożliwić korzystanie z dodatkowych użytkowników.
   warning_user_limit_reached_instructions: >
     Osiągnięto limit użytkownika (%{current}/%{max} aktywnych użytkowników). Skontaktuj się z sales@openproject.com do uaktualnienia planu Enterprise Edition i dodać więcej kont użytkowników.
-  0: >
+  warning_protocol_mismatch_html: >
 
   warning_bar:
     protocol_mismatch:
@@ -2792,6 +2896,8 @@ pl:
       code_409: "Nie można zaktualizować zasobu ze względu na modyfikacje powodujące konflikt."
       code_429: "Zbyt wiele prób. Spróbuj ponownie później."
       code_500: "Wystąpił błąd wewnętrzny."
+      not_found:
+        work_package: "Pakiet roboczy, którego szukasz nie został znaleziony lub został usunięty."
       expected:
         date: "RRRR-MM-DD (tylko data ISO 8601)"
         duration: "Czas trwania ISO 8601"

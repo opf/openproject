@@ -23,12 +23,12 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {Component, Input} from '@angular/core';
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
+import { Component, Input } from '@angular/core';
+import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
+import { I18nService } from "core-app/core/i18n/i18n.service";
 
 @Component({
   selector: 'tab-header',

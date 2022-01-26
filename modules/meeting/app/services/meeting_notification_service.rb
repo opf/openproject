@@ -15,11 +15,10 @@ class MeetingNotificationService
 
   def send_notifications!(content, action, include_author:)
     author_mail = meeting.author.mail
-    do_not_notify_author = meeting.author.pref[:no_self_notified] && !include_author
 
     recipients_with_errors = []
     meeting.participants.includes(:user).each do |recipient|
-      next if recipient.mail == author_mail && do_not_notify_author
+      next if recipient.mail == author_mail && !include_author
 
       MeetingMailer.send(action, content, content_type, recipient.user).deliver_now
     rescue StandardError => e

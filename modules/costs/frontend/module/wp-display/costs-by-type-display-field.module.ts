@@ -23,14 +23,14 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
 
-import { DisplayField } from "core-app/modules/fields/display/display-field.module";
-import { IFieldSchema } from "core-app/modules/fields/field.base";
-import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
-import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { DisplayField } from "core-app/shared/components/fields/display/display-field.module";
+import { IFieldSchema } from "core-app/shared/components/fields/field.base";
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
+import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 
 interface ICostsByType {
     costObjectId:string;

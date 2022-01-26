@@ -25,9 +25,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
-require 'legacy_spec_helper'
+require_relative './../legacy_spec_helper'
 
 describe Enumeration, type: :model do
   before do
@@ -84,10 +84,6 @@ describe Enumeration, type: :model do
     Enumeration.find(@low_priority.id).destroy(new_priority)
     assert_nil WorkPackage.find_by(priority_id: @low_priority.id)
     assert_equal @issues.size, new_priority.objects_count
-  end
-
-  it 'should be customizable' do
-    assert Enumeration.included_modules.include?(Redmine::Acts::Customizable::InstanceMethods)
   end
 
   it 'should belong to a project' do

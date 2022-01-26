@@ -47,7 +47,7 @@ To import your community instance into our cloud environment, please send us the
 
 For a package-based installation, you can create both as root user on your environment as follows: `openproject run backup`
 This creates the attachment and PostgreSQL-dump or MySQL-dump under /var/db/openproject/backup.
-If you are still running OpenProject under MySQL, your dump will be converted to PostgreSQL before importing, we will do this for you. More information about the backup tool can be found [here](../../../operations/backup/backup-guide-packaged-installation/).
+If you are still running OpenProject under MySQL, your dump will be converted to PostgreSQL before importing, we will do this for you. More information about the backup tool can be found [here](../../../installation-and-operations/operation/backing-up/).
 Please upload these documents as an attachment to a work package within your new OpenProject Enterprise cloud environment and send us the link to this work package via email.
 
 ## How can I export the documents loaded on OpenProject?
@@ -60,7 +60,7 @@ Access to the database (including the PostgreSQL tables) is restricted for the E
 
 ## Can I use LDAP authentican in my Enterprise cloud environment?
 
-You can use [LDAP authentication](/../../../system-admin-guide/authentication/ldap-authentication/) in your
+You can use [LDAP authentication](../../../system-admin-guide/authentication/ldap-authentication/) in your
 cloud environment. **However**, usually LDAP servers will _not_ be exposed to the internet, which they have to be for this to work.
 Whitelisting IPs is no option since the OpenProject servers' IPs are not permanent and can change without notice.
 Moreover we do not have a mechanism to list all IP addresses currently in use.

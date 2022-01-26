@@ -1,0 +1,15 @@
+#English strings go here
+fa:
+  js:
+    label_preview: 'Preview'
+    button_update: 'به روز رسانی'
+    avatars:
+      label_choose_avatar: "گزینش چهرک  از  پرونده"
+      uploading_avatar: "بارگذاری چهرک شما."
+      text_upload_instructions: |
+        چهرک دلخواه خود را از ۱۲۸ در ۱۲۸ پیکسل بارگذاری نمایید. پرونده‌های بزرگتر برش داده شده و دگرگون می‌شوند تا هم‌خوانی دید آید.
+        پس از انتخاب فرتور (عکس) و قبل از بارگذاری یک پیش‌نمایش نشان داده خواهد شد.
+      error_image_too_large: "اندازه فرتور (عکس) زیادی بزرگ است"
+      wrong_file_format: "چارچوب‌های jpg ، png ، gif رواست \n"
+      empty_file_error: "خواهشمند است یک فرتور (عکس) درست (jpg ، png ، gif) بارگذاری کنید"
+

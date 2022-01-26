@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 hu:
   js:
@@ -89,6 +89,7 @@ hu:
     button_update: "Frissítés"
     button_export-pdf: "PDF-fájl letöltése"
     button_export-atom: "Atom letöltés"
+    button_create: "Létrehoz"
     calendar:
       title: 'Naptár'
       too_many: 'Összesen %{count} munkacsomag van, de csak %{max} jeleníthető meg.'
@@ -128,7 +129,7 @@ hu:
       preview: 'Váltás az előnézeti módra'
       source_code: 'Váltás Markdown forrás módra'
       error_saving_failed: 'A dokumentum mentése a következő hiba miatt nem sikerült: %{error}'
-      error_initialization_failed: 'A CKEditor inicializálása nem sikerült!'
+      ckeditor_error: "Hiba történt a CKEditorban\n"
       mode:
         manual: 'Váltás Markdown forrásra'
         wysiwyg: 'Váltás a WYSIWYG szerkesztőre'
@@ -287,15 +288,17 @@ hu:
         new_features:
           text_new_features: "Itt találhatóak az új funkciók és a frissítések"
           learn_about: "Tudjon meg többet az új funkciókról"
-          standard:
-            learn_about_link: https://www.openproject.org/openproject-11-3-release
-            current_new_feature_html: >
-              A kiadás számos új funkciót és fejlesztést tartalmaz: <br> <ul class = "%{list_styling_class}"> <li> Új gomb a fejléc navigációjában projektek, felhasználók és munkacsomagok létrehozásához. </li> <li> Új meghívó a modális felhasználóknak, csoportoknak és teszt felhasználóknak lehetővé teszi új felhasználók hozzáadását vagy meghívását, valamint munkacsomagok hozzárendelését. </li> <li> GitHub integráció az OpenProject -be. </li> <li> API v3 kiterjesztések csoportokhoz és egyebek, azaz csoportokat és csoporttagokat hozhat létre, olvashat, frissíthet és törölhet az API-n keresztül. </li> <li> Többszörös kiválasztás a projekt egyedi típusmezői mezőihez. </li> <li> Biztonsági mentés létrehozása a webes felületről. < /li> </ul>
-
-          bim:
-            learn_about_link: https://www.openproject.org/blog/openproject-11-4-release
-            current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Take a look at our <a href="https://github.com/opf/openproject-revit-add-in">Revit Add-in</a> which lets you work on BCF work packages directly in Revit.</li> <li>IFC properties got a dedicated pane. Copying GUIDs has never been easier.</li> <li>Reverse clipping plane direction in BCF viewpoint and become compliant with future BCF 3.0 (Now same direction as Solibri). <li>Fixed viewing IFC models on mobile.</li> <li>Fixed export of work package views with BCF snapshot column.</li> </ul>
+          #Include the version to invalidate outdated translations in other locales.
+          #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
+          '12_0':
+            standard:
+              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
+              new_features_html: >
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>With the new <b>in-app notifications</b> you receive all important updates directly in the application and don't get a flood of emails anymore.</li> <li>The new <b>notification center</b> shows all the changes, including intuitive filter options, e.g. by reason for notification or projects. It even allows editing directly in a split view.</li> <li>Improved <b>notification settings</b> allow to fine-tune for which actions and in which projects you want to receive a notification.</li> <li><b>Email reminders</b> can be configured to receive important updates via a daily email summary.</li> <li>The work package auto-completer for relations now also shows additional information (project name, status, ...) to easily identify the respective work package.</li> </ul>
+            bim:
+              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
+              new_features_html: >
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Notification center: Reduce the number of mails you receive. Instead find and act upon all relevant notifications in one central place.</li> <li>All uploaded IFC files can now also be downloaded.</li> <li>The uploading and processing of IFC got faster and received better error messages.</li> <li>The <a href="https://github.com/opf/openproject-revit-add-in">OpenProject Revit Add-in</a> received many bug fixes.</li> </ul>
     label_activate: "Aktivál"
     label_add_column_after: "Oszlop hozzáadása utána"
     label_add_column_before: "Oszlop hozzáadása előtte"
@@ -350,13 +353,13 @@ hu:
     label_expand_project_menu: "Project menü kibontása"
     label_export: "Exportálás"
     label_export_preparing: "Az exportálás előkészítés alatt áll, és hamarosan letöltésre kerül."
-    label_filename: "Fájl"
+    label_filename: "File"
     label_filesize: "Méret"
     label_general: "Általános"
     label_global_roles: "Globális szerepek"
     label_greater_or_equal: ">="
     label_group: 'Csoport'
-    label_group_by: "Csoportosítás"
+    label_group_by: "Csoportosítás a következők szerint"
     label_group_plural: "Csoportok"
     label_hide_attributes: "Kevesebb mutatása"
     label_hide_column: "Oszlop elrejtése"
@@ -402,6 +405,7 @@ hu:
     label_quote_comment: "Hozzászólás idézése"
     label_recent: "Friss"
     label_reset: "Visszaállít, reset"
+    label_remove: "Eltávolítás"
     label_remove_column: "Oszlop eltávolítása"
     label_remove_columns: "Eltávolítja a kijelölt oszlopokat"
     label_remove_row: "Sor eltávolítása"
@@ -483,31 +487,99 @@ hu:
         next: ' Következő'
         got_it: 'Rendben'
       steps:
-        help_menu: 'A <b>Súgó</b> menüben találja a felhasználói útmutatót és további segítséget. <br> Élvezze az OpenProject munkáját!'
+        help_menu: "A Súgó (?) Menü <b> további súgóforrásokat </b> tartalmaz. Itt megtalálhatja a felhasználói útmutatót, valamint hasznos útmutatókat és egyebeket. <br> Élvezze munkáját az OpenProject segítségével!\n"
         members: 'Új <b>tagok</b> meghívása, hogy a projekthez csatlakozzanak.'
         project_selection: 'Kérjük, válasszon egyet a projektek közül, amelyek használható példa adatokat tartalmaznak az induláshoz. <br> A <b> Demo projekt </b> a legjobban megfelel a klasszikus projektmenedzsmentnek, míg a <b> Scrum projekt </b> jobb az agilis projektmenedzsment számára.'
-        quick_add_button: "Hozzon létre egy új projektet, vagy hívjon meg munkatársakat.\n"
-        sidebar_arrow: "A nyíl segítségével visszatérhet a projekt <b>főmenüjébe</b>."
+        quick_add_button: 'Kattintson a fejlécben található (+) ikonra hogy   <b>create a new project</b> vagy  <b>invite coworkers</b>.'
+        sidebar_arrow: "Használja a vissza nyilat bal felül hogy visszatérjen a projektekhez <b>main menu</b>.."
         welcome: 'Áldozzon három percet erre a bemutatóra, hogy megismerje a <b>legfontosabb szolgáltatásokat</b><br> Javasoljuk, hogy végezze el a lépéseket egészen a végéig. A túra bármikor újraindítható.'
         wiki: 'A <b>Wiki</b> modulban tudását dokumentálhatja és megoszthatja a csapatával.'
         backlogs:
-          overview: "Kezelje munkáját <b>Backlogs</b> nézetben.<br>Jobb oldalon van a Product Backlog vagy a Bug Backlog, bal oldalon a megfelelő sprint. Itt létrehozhat <b>epic, user stories és bug</b> típusokat, rangsorolhatja drag'n'drop segítségével, és hozzáadhatja őket a sprinthez."
+          overview: "Munka kezelése a <b>backlogs</b>  nézetben"
+          sprints: "Jobbra a termék- és a hibatár, balra pedig a megfelelő sprintek. Itt létrehozhatsz <b>képeket, felhasználói történeteket és hibákat</b>, drag & drop segítségével priorizálhatsz, és hozzáadhatod őket egy sprinthez.\n"
           task_board_arrow: 'A <b>Feladatlap</b> megjelenítéséhez nyissa meg a Sprint legördülő listát...'
           task_board_select: '... és válassza ki a <b>Feladatlap</b> bejegyzést.'
-          task_board: "A <b>Feladatlap</b> megjeleníti a sprint előrehaladását. Új feladatok vagy akadályok hozzáadása a + ikonhoz a felhasználói történet mellett. A drag'n'drop segítségével frissítheti az állapotot."
+          task_board: "A feladattábla megjeleníti <b> a sprint haladását </b>. Új feladatok vagy akadályok hozzáadásához kattintson a felhasználói történet melletti plusz (+) ikonra. <br> Az állapot húzással frissíthető.\n"
         boards:
-          overview: 'Kezeld a munkádat az intuitív <b>Boards</b> nézetben'
-          lists: 'Egy táblán belül több listát (oszlopot) hozhat létre, pl. hozzon létre egy KANBAN táblát.'
-          add: 'Kattintson a + gombra, és <b> új kártyát ad hozzá </b> a táblán belüli listához.'
-          drag: "Húzza és ejtse el a kártyákat egy listán belül, hogy átrendezze azokat, vagy egy másik listára helyezze őket. Egy dupla kattintással megnyithatja a részletek nézetet.\n"
+          overview: "Válassza a <b>táblák</b> lehetőséget a nézetváltáshoz, és kezelje projektjét az agilis táblák nézetben.\n"
+          lists: "Itt több listát (oszlopot) hozhat létre a táblán belül. Ezzel a funkcióval például <b> Kanban táblát </b> hozhat létre.\n"
+          add: "Kattintson a plusz (+) ikonra, ha <b> új kártyát szeretne létrehozni </b>, vagy <b> hozzáadni egy meglévő kártyát </b> a táblán lévő listához.\n"
+          drag: 'Egy adott listán belül húzza a kártyákat, hogy átrendezze őket, vagy áthelyezze őket egy másik listába. <br> A jobb felső sarokban található információs (i) ikonra kattintva vagy egy kártyára duplán kattintva megnyithatja annak részleteit.'
         wp:
           toggler: "Most vessünk egy pillantást a <b>Feladatcsoport</b> kiválasztására, amely részletesebb képet ad a munkáról."
-          list: 'Ez a <b>Munkacsomag</b> listázza a projekten belüli fontos munkákat, mint például task, feature, milestones, bug és így tovább.<br> A csomagban közvetlenül is létrehozhat vagy szerkeszthet egy munkacsomagot. A részletek megtekintéséhez kattintson duplán egy sorra.'
-          full_view: 'A <b>Munkacsomag részletei</b> alatt minden lényeges információt megtalál, például leírást, állapotot és prioritást, tevékenységeket, függőségeket vagy megjegyzéseket.'
-          back_button: 'A nyíl segítségével visszatérhet a munkacsomagok listájához.'
+          list: "Ez a <b> munkacsomag  </b> áttekintés a projekt összes munkájának listáját tartalmazza, például feladatokat, mérföldköveket, fázisokat és egyebeket. <br> A munkacsomagok közvetlenül ebből a nézetből hozhatók létre és szerkeszthetők. Egy adott munkacsomag részleteinek eléréséhez egyszerűen kattintson duplán a sorára.\n"
+          full_view: "A <b> munkacsomag részleteit </b> a nézet tartalmazza. Az adott munkacsomaggal kapcsolatos minden lényeges információt, például annak leírását, állapotát, prioritását, tevékenységeit, függőségeit és megjegyzéseit.\n"
+          back_button: "A bal felső sarokban lévő visszatérési nyíllal lépjen ki és térjen vissza a munkacsomagok listájához.\n"
           create_button: 'A <b>Létrehoz</b> gombbal tudsz új feladatot hozzáadni a projekthez.'
           timeline_button: 'Aktiválhatja a <b>Gantt-diagramot</b>, hogy létrehozzon egy idővonalat a projekthez.'
-          timeline: 'Itt szerkesztheti a projekt tervét. Hozzon létre új fázisokat, mérföldköveket és hozzon létre függőségeket. A csapat minden tagja bármikor megtekintheti és frissítheti a legújabb tervet.'
+          timeline: "Itt <b> szerkesztheti projekttervét </b>, új munkacsomagokat hozhat létre, például feladatokat, mérföldköveket, fázisokat és egyebeket, valamint <b> hozzáadhat függőségeket </b>. A csapat minden tagja bármikor láthatja és frissítheti a legújabb tervet.\n"
+    notifications:
+      title: "Értesítések"
+      no_unread: "Nincs olvasatlan értesítés"
+      reasons:
+        mentioned: 'megemlített'
+        watched: 'Megfigyelt'
+        assigned: 'assigned'
+        responsible: 'accountable'
+      facets:
+        unread: 'Olvasatlan'
+        all: 'Mind'
+      center:
+        and_more_users:
+          one: "és 1 másik\n"
+          other: 'és %{count} egyéb'
+        no_results:
+          at_all: 'New notifications will appear here when there is activity that concerns you'
+          with_current_filter: 'There are no notifications in this view at the moment'
+        mark_all_read: 'Mindegyik megjelölése olvasottként'
+        mark_as_read: 'Megjelölés olvasottként'
+        text_update_date: "%{date} szerint"
+        total_count_warning: "A %{newest_count} legfrissebb értesítések megjelenítése. %{more_count} több nem jelenik meg.\n"
+        empty_state:
+          no_notification: "Looks like you're all caught up."
+          no_notification_with_current_filter: "Change of involvement or go back to the Inbox to view notifications"
+          no_selection: "Click on a notification to view all activity details."
+        new_notifications:
+          message: 'There are new notifications.'
+          link_text: 'Click here to load them'
+      menu:
+        accountable: 'Felelős'
+        assigned: 'Assigned'
+        by_project: 'Unread by project'
+        by_reason: 'Involvement'
+        inbox: 'Inbox'
+        mentioned: '@mentioned'
+        watching: 'Watching'
+      settings:
+        change_notification_settings: 'To view and change your notification settings, <a target="_blank" href="%{url}">click here</a>'
+        title: "Értesítési beállítások"
+        notify_me: "Notify me"
+        reasons:
+          mentioned:
+            title: 'I am @mentioned'
+            description: 'Receive a notification every time someone mentions me anywhere'
+          involved:
+            title: 'Assigned to me or accountable'
+            description: 'Receive notifications for all activities on work packages for which I am assignee or accountable'
+          watched: 'Updates on watched items'
+          work_package_commented: 'All new comments'
+          work_package_created: 'New work packages'
+          work_package_processed: 'All status changes'
+          work_package_prioritized: 'All priority changes'
+          work_package_scheduled: 'All date changes'
+        global:
+          immediately:
+            title: 'Notify me immediately'
+            description: 'These settings apply to all projects. You can create project-specific exceptions below.'
+          delayed:
+            title: 'Also notify me for'
+            description: 'Receive notifications for these activities on work packages in all projects:'
+        project_specific:
+          title: 'Project-specific notification settings'
+          description: 'These project-specific settings override default settings above'
+          add: 'Beállítás hozzáadása a projekthez'
+          already_selected: 'A projekt már ki lett választva'
+          remove: 'Remove project settings'
     password_confirmation:
       field_description: 'A változás megerősítéséhez adja meg jelszavát.'
       title: 'Adja meg a jelszavát a folytatáshoz'
@@ -535,7 +607,39 @@ hu:
         copy_options: "Másolási beállítás"
       autocompleter:
         label: 'Projektnevek automatikus kiegészítése'
+    reminders:
+      settings:
+        daily:
+          add_time: "Idő hozzáadása\n"
+          enable: "Napi e-mail emlékeztetők engedélyezése\n"
+          explanation: 'You will receive these reminders only for unread notifications and only at hours you specify. %{no_time_zone}'
+          no_time_zone: 'Until you configure a time zone for your account, the times will be interpreted to be in UTC.'
+          time_label: 'Idő%{counter}:'
+          title: "Napi e-mail emlékeztető küldése az olvasatlan értesítésekről\n"
+        workdays:
+          title: 'Receive email reminders on these days'
+        immediate:
+          title: 'Send me an email reminder'
+          mentioned: 'Immediately when someone @mentions me'
+        alerts:
+          title: 'Email alerts for other items (that are not work packages)'
+          explanation: >
+            Notifications today are limited to work packages. You can choose to continue receiving email alerts for these events until they are included in notifications:
+          news_added: 'Hírek hozzáadva'
+          news_commented: 'Comment on a news item'
+          document_added: 'Documents added'
+          forum_messages: 'New forum messages'
+          wiki_page_added: 'Wiki oldal hozzáadva'
+          wiki_page_updated: 'Wiki oldal frissítve'
+          membership_added: 'Membership added'
+          membership_updated: 'Membership updated'
+        title: 'E-mail emlékeztetők'
+        pause:
+          label: 'Temporarily pause daily email reminders'
+          first_day: 'First day'
+          last_day: 'Last day'
     text_are_you_sure: "Biztos vagy benne?"
+    text_data_lost: "Az összes adat elveszhet"
     types:
       attribute_groups:
         error_duplicate_group_name: "A %{group} név már használatban van. A csoport névnek egyedinek kell lennie."
@@ -616,6 +720,10 @@ hu:
     relations_autocomplete:
       placeholder: "Gépeljen a kereséshez"
       parent_placeholder: "Válassz egy szülő objektumot vagy nyomd meg az ESC gombot  kilépéshez"
+    autocompleter:
+      placeholder: "Gépeljen a kereséshez"
+      notFoundText: "Nem található elem"
+      typeToSearchText: "Gépeljen a kereséshez"
     repositories:
       select_tag: 'Címke kiválasztása'
       select_branch: 'Branch kiválasztása'
@@ -810,11 +918,12 @@ hu:
         label_content: "Kattintson ide a menü átugrásához és a tartalom megtekintéséhez"
       placeholders:
         default: "-"
+        date: "Select date"
         formattable: "%{name}: kattints a módosításhoz!"
       query:
         column_names: "Oszlopok"
         group_by: "Csoport szintű eredmények"
-        group: "Csoportosítás"
+        group: "Csoportosítás a következők szerint"
         group_by_disabled_by_hierarchy: "A csoportosítás le van tiltva, mivel a hierarchia mód aktív."
         hierarchy_disabled_by_group_by: "A hierarchia mód le van tiltva az eredmények csoportosítása e-szerint %{column}."
         sort_ascending: "Növekvő sorrend"
@@ -1058,5 +1167,3 @@ hu:
       load_error_message: 'Hiba történt az eredmény betöltésekor.'
       validation_error_message: "Kérjük, javítsa ki az űrlapon található hibákat\n"
       advanced_settings: 'Speciális beállítások'
-
-

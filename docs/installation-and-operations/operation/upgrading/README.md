@@ -7,26 +7,25 @@ sidebar_navigation:
 # Upgrading your OpenProject installation
 
 <div class="alert alert-warning" role="alert">
-**Note**: In the rest of this guide, we assume that you have taken the necessary steps to [backup](../backing-up) your OpenProject installation before upgrading.
+**Note**: We strongly recommend that you have backed up your installation before upgrading OpenProject to a newer version, especially when performing multiple upgrades at once. Please follow the [backup](../backing-up) instructions.
 </div>
 
 | Topic                                                        | Content                                                     |
 | ------------------------------------------------------------ | ----------------------------------------------------------- |
-| [Package-based installation](#package-based-installation-(DEB/RPM)) | How to upgrade a package-based installation of OpenProject. |
-| [Docker-based installation](#docker-based-installation)      | How to upgrade a Docker-based installation of OpenProject.  |
+| [Package-based installation](#package-based-installation-debrpm) | How to upgrade a package-based installation of OpenProject. |
+| [Docker-based installation](#compose-based-installation)      | How to upgrade a Docker-based installation of OpenProject.  |
+| [Upgrade notes to 12.x](#upgrade-notes-to-12x)  | How to upgrade from OpenProject 9.x or greater to OpenProject 12.x.     |
 | [Upgrade notes for 8.x to 9.x](#upgrade-notes-for-8x-to-9x)  | How to upgrade from OpenProject 8.x to OpenProject 9.x.     |
 | [Upgrade notes for 7.x to 8.x](#upgrade-notes-for-openproject-7x-to-8x) | How to upgrade from OpenProject 7.x to OpenProject 8.x.     |
 
 ## Package-based installation (DEB/RPM)
 
-Upgrading OpenProject is as easy as installing a newer OpenProject package and
-running the `openproject configure` command.
+This section concerns upgrading of your OpenProject installation for packaged-based installation methods.
 
-<div class="alert alert-info" role="alert">
-
-Please note that the package-based installation uses different release channels for each MAJOR version of OpenProject. This means that if you want to switch from (e.g.) 9.x to 10.x, you will need to perform the steps described in the [installation section](../../installation/packaged) to update your package sources to point to the newer release channel. The rest of this section is only applicable if you want to upgrade a (e.g.) 10.x version to a 10.y version.
-
-</div>
+### Patch and minor releases
+Upgrading to a newer patch or minor version of OpenProject is as easy as installing a newer OpenProject package and
+running the `openproject configure` command. 
+Please follow the steps listed below according to your Linux distribution.
 
 ### Debian / Ubuntu
 
@@ -51,8 +50,34 @@ sudo zypper update openproject
 sudo openproject configure
 ```
 
+### Major upgrades
 
-<div class="alert alert-info" role="alert">
+OpenProject uses a different package repository for each Major version of OpenProject. 
+This means that if you want to switch from (e.g.) OpenProject 11.x to 12.x, you will need to explicitly update your package source to be able to install the newer versions.
+
+The necessary steps are the same as setting up the package source for the first time. You can also check the [installation guide](../../installation/packaged) for more information. Please follow the link below to see the appropriate steps for your Linux distribution.
+
+| Distribution (64 bits only)                 |
+| ------------------------------------------- |
+| [Ubuntu 20.04 Focal](../../installation/packaged/#ubuntu-2004)          |
+| [Ubuntu 18.04 Bionic Beaver](../../installation/packaged/#ubuntu-1804)  |
+| [Ubuntu 16.04 Xenial Xerus](../../installation/packaged/#ubuntu-1604)   |
+| [Debian 11 Bullseye](../../installation/packaged/#debian-11)            |
+| [Debian 10 Buster](../../installation/packaged/#debian-10)              |
+| [Debian 9 Stretch](../../installation/packaged/#debian-9)               |
+| [CentOS/RHEL 8.x](../../installation/packaged/#centos-8--rhel-8)        |
+| [CentOS/RHEL 7.x](../../installation/packaged/#centos-7--rhel-7)        |
+| [Suse Linux Enterprise Server 12](../../installation/packaged/#sles-12) |
+
+After following the steps to update the package source, updating the openproject package and running `openproject configure`, your system will be up to date.
+
+In case you experience issues, please note the exact steps you took, copy the output of all commands you ran and open a post in our [installation support forum](https://community.openproject.org/projects/openproject/forums/9).
+
+
+### Running openproject configure
+
+It is important that you run the `openproject configure` command after _every_ upgrade of OpenProject, as this will ensure your installation is being updated and necessary database migrations are being performed.
+
 Using `openproject configure`, the wizard will display new steps that weren't available yet or had not been configured in previous installations.
 
 If you want to perform changes to your configuration or are unsure what steps are available, you can safely run `openproject reconfigure` to walk through the entire configuration process again.
@@ -61,7 +86,7 @@ Note that this still takes previous values into consideration. Values that shoul
 </div>
 
 
-## Docker-based installation
+## Compose-based installation
 
 When using the Compose-based docker installation, you can simply do the following:
 
@@ -122,7 +147,14 @@ sudo chown -R 102 /volume1/openproject/*
 ```
 
 After that it's simply a matter of launching the new container mounted with the copied `pgdata` and `assets` folders
-as described in the [installation section](../../installation/docker/#recommended-usage).
+as described in the [installation section](../../installation/docker/#one-container-per-process-recommended).
+
+## Upgrade notes to 12.x
+
+There are no special steps or caveats when upgrading to OpenProject 12.x or higher from any version greater than 9.x.
+
+Simply follow the upgrade steps outlined above for your type of installation.
+
 
 ## Upgrade notes for 8.x to 9.x
 
@@ -132,7 +164,7 @@ These following points are some known issues regarding the update to 9.0.
 
 OpenProject 9.0. is deprecating MySQL support. You can expect full MySQL support for the course of 9.0 releases, but we are likely going to be dropping MySQL completely in one of the following releases.
 
-For more information regarding motivation behind this and migration steps, please see [https://www.openproject.org/deprecating-mysql-support](https://www.openproject.org/deprecating-mysql-support)/ In this post, you will find documentation for a mostly-automated migration script to PostgreSQL to help you get up and running with PostgreSQL.
+For more information regarding motivation behind this and migration steps, please see [this blog post](https://www.openproject.org/blog/deprecating-mysql-support/). In the post, you will find documentation for a mostly-automated migration script to PostgreSQL to help you get up and running with PostgreSQL.
 
 ### Package repository moved into opf/openproject
 
@@ -165,7 +197,7 @@ you will need to adjust that package source.
 
 ## Upgrade notes for OpenProject 7.x to 8.x
 
-These following points are some known issues around the update to 8.0. It does not contain the entire list of changes. To see all changes, [please browse the release notes](https://docs.openproject.org/release-notes/8-0-0/).
+These following points are some known issues around the update to 8.0. It does not contain the entire list of changes. To see all changes, [please browse the release notes](../../../release-notes/8-0-0/).
 
 ### Upgrades in NPM may result in package inconsistencies
 

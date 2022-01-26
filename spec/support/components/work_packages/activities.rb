@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module Components
@@ -36,6 +36,13 @@ module Components
 
       def initialize(work_package)
         @work_package = work_package
+        @container = '.work-package-details-activities-list'
+      end
+
+      def expect_wp_has_been_created_activity(work_package)
+        within @container do
+          expect(page).to have_content("created on #{work_package.created_at.strftime('%m/%d/%Y')}")
+        end
       end
 
       def hover_action(journal_id, action)

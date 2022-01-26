@@ -23,14 +23,14 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-See docs/COPYRIGHT.rdoc for more details.
+See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 <% if @entries.truncated? %>
   <tr class="<%= h params[:parent_id] %> entry file truncation-warning">
     <td colspan="7" style="padding-left: <%= 18 * params[:depth].to_i %>px;">
-      <div class="notification-box -warning">
-        <div class="notification-box--content">
+      <div class="op-toast -warning">
+        <div class="op-toast--content">
           <%= I18n.t "repositories.truncated", limit: @limit, truncated: @entries.truncated %>
         </div>
       </div>
@@ -64,7 +64,7 @@ See docs/COPYRIGHT.rdoc for more details.
       <%= link_to({ action: (entry.dir? ? 'show' : 'changes'), project_id: @project, repo_path: to_path_param(ent_path), rev: @rev },
                   class: 'icon-context',
                   aria: { label: (entry.dir? ? t('label_folder') : t('activerecord.attributes.attachment.file')) + " #{h(ent_name)}" }) do %>
-        <%= op_icon(entry.dir? ? 'icon-folder' : "icon-ticket #{Redmine::MimeType.css_class_of(ent_name)}") %>
+        <%= op_icon(entry.dir? ? 'icon-folder' : "icon-ticket #{OpenProject::MimeType.css_class_of(ent_name)}") %>
         <%= h(ent_name) %>
       <% end %>
     </td>

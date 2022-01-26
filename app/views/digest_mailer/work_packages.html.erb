@@ -1,0 +1,77 @@
+<table <%= placeholder_table_styles %>>
+  <tr>
+    <%= placeholder_cell('20px', vertical: false) %>
+  </tr>
+</table>
+
+<table <%= placeholder_table_styles(width:'100%',style: 'width:100%;max-width:700px;') %>>
+  <tr>
+    <%= placeholder_cell('12px', vertical: true) %>
+    <td>
+      <%= render partial: 'mailer/notification_mailer_header',
+                 locals: {
+                   summary: "#{I18n.t(:'mail.digests.you_have')} #{digest_summary_text(@notification_ids.length, @mentioned_count)}",
+                   button_href: notifications_center_url,
+                   button_text: I18n.t(:'mail.notification.center'),
+                   user: @user
+                 } %>
+
+      <% @aggregated_notifications.first(DigestMailer::MAX_SHOWN_WORK_PACKAGES).each do | work_package, notifications_by_work_package| %>
+        <%= render layout: 'mailer/notification_row',
+                   locals: {
+                     work_package: work_package,
+                     unique_reasons: unique_reasons_of_notifications(notifications_by_work_package),
+                     show_count: true,
+                     count: notifications_by_work_package.length,
+                     user: @user
+                   } do %>
+          <table <%= placeholder_table_styles %>>
+            <tr>
+              <td style="color: #878787; line-height: 24px; font-size: 14px; white-space: normal;">
+                <%= digest_notification_timestamp_text(notifications_by_work_package.first) %>
+                <%= digest_additional_author_text(notifications_by_work_package) %>
+              </td>
+            </tr>
+          </table>
+        <% end %>
+      <% end %>
+
+      <%= render layout: 'mailer/notification_settings_table' do %>
+        <% if @aggregated_notifications.length > DigestMailer::MAX_SHOWN_WORK_PACKAGES %>
+          <table>
+            <tr>
+              <td>
+                <span style="font-size:14px;">
+                  <% number_of_overflowing_work_packages = @aggregated_notifications.length - DigestMailer::MAX_SHOWN_WORK_PACKAGES %>
+                  <% count = number_of_overflowing_work_packages === 1 ? 'one' : 'other' %>
+                  <%= I18n.t(:"mail.work_packages.more_to_see.#{count}", count: number_of_overflowing_work_packages) %>
+                </span>
+              </td>
+              <%= placeholder_cell('10px', vertical: true) %>
+              <td>
+                <table <%= placeholder_table_styles %>>
+                  <tr>
+                    <td style="background: #D1E5F5; padding: 8px 12px; border: 1px solid #1A67A3; border-radius: 16px; overflow: hidden; text-overflow: ellipsis;">
+                      <a href="<%= notifications_center_url %>"
+                         target="_blank"
+                         style="color: #1A67A3; text-decoration: none; font-size: 14px;white-space: nowrap;">
+                        <%= I18n.t(:'mail.work_packages.see_all') %>
+                      </a>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        <% end %>
+      <% end %>
+
+      <table>
+        <tr>
+          <%= placeholder_cell('40px', vertical: false) %>
+        </tr>
+      </table>
+    </td>
+    <%= placeholder_cell('12px', vertical: true) %>
+  </tr>
+</table>

@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 class ::Widget::Table::EntryTable < ::Widget::Table
@@ -50,10 +50,10 @@ class ::Widget::Table::EntryTable < ::Widget::Table
   def colgroup
     content_tag :colgroup do
       FIELDS.each do
-        concat content_tag(:col, 'highlight-col' => true) {}
+        concat content_tag(:col, 'opHighlightCol' => true) {}
       end
-      concat content_tag(:col, 'highlight-col' => true) {}
-      concat content_tag(:col, 'highlight-col' => true) {}
+      concat content_tag(:col, 'opHighlightCol' => true) {}
+      concat content_tag(:col, 'opHighlightCol' => true) {}
       concat content_tag(:col) {}
     end
   end

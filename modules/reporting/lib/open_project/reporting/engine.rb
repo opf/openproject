@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module OpenProject::Reporting
@@ -35,7 +35,7 @@ module OpenProject::Reporting
     config.eager_load_paths += Dir["#{config.root}/lib/"]
 
     register 'openproject-reporting',
-             author_url: 'https://www.openproject.com',
+             author_url: 'https://www.openproject.org',
              bundled: true do
       view_actions = %i[index show drill_down available_values display_report_list]
       edit_actions = %i[create update rename destroy]
@@ -72,7 +72,6 @@ module OpenProject::Reporting
       menu :project_menu,
            :costs,
            { controller: '/cost_reports', action: 'index' },
-           param: :project_id,
            after: :news,
            caption: :cost_reports_title,
            if: Proc.new { |project| project.module_enabled?(:costs) },
@@ -81,7 +80,6 @@ module OpenProject::Reporting
       menu :project_menu,
            :costs_menu,
            { controller: '/cost_reports', action: 'index' },
-           param: :project_id,
            if: Proc.new { |project| project.module_enabled?(:costs) },
            partial: '/cost_reports/report_menu',
            parent: :costs

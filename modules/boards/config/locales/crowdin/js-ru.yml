@@ -30,6 +30,7 @@ ru:
       error_loading_the_list: "Ошибка загрузки списка: %{error_message}"
       error_permission_missing: "Отсутствует разрешение на создание публичных запросов"
       error_cannot_move_into_self: "Вы не можете переместить пакет работ в свой столбец."
+      text_hidden_list_warning: "Не все списки отображаются, потому что у вас недостаточно прав доступа. Обратитесь к администратору за дополнительной информацией."
       click_to_remove_list: "Нажмите, чтобы удалить этот список"
       board_type:
         text: 'Тип доски'
@@ -52,7 +53,7 @@ ru:
         action_text_version: >
           Форум с автоматическими колонками на основе атрибутов версии. Идеально подходит для планирования разработки продукта.
         action_type:
-          assignee: правопреемник
+          assignee: исполнитель
           status: статус
           version: версия
           subproject: подпроект
@@ -60,7 +61,7 @@ ru:
         board_type_title:
           assignee: Назначенный
           status: Состояние
-          version: Стадия
+          version: Этапы
           subproject: Подпроект
           subtasks: Родитель-Потомок
           basic: Базовый

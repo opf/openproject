@@ -1,0 +1,62 @@
+# Schema: MembershipModel
+---
+type: object
+required:
+- createdAt
+- updatedAt
+properties:
+  id:
+    type: integer
+    description: Membership id
+    readOnly: true
+    minimum: 0
+    exclusiveMinimum: true
+  createdAt:
+    type: string
+    format: date-time
+    description: Time of creation
+    readOnly: true
+  updatedAt:
+    type: string
+    format: date-time
+    description: Time of latest update
+    readOnly: true
+  _links:
+    type: object
+    required:
+    - self
+    - roles
+    - principal
+    properties:
+      self:
+        allOf:
+        - "$ref": "./link.yml"
+        - description: |-
+            This membership
+
+            **Resource**: Membership
+          readOnly: true
+      project:
+        allOf:
+        - "$ref": "./link.yml"
+        - description: |-
+            The project for which the membership is granted
+
+            **Resource**: Project
+          readOnly: true
+      roles:
+        allOf:
+        - "$ref": "./link.yml"
+        - description: |-
+            The list of roles the user or group is granted in the project
+
+            **Resource**: RoleCollection
+          readOnly: true
+      principal:
+        allOf:
+        - "$ref": "./link.yml"
+        - description: |-
+            The user or group that was granted membership
+
+            **Resource**: User or Group
+          readOnly: true

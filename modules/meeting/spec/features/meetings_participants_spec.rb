@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -69,7 +69,7 @@ describe 'Meetings participants', type: :feature do
 
     edit_page.invite(viewer_user)
     show_page = edit_page.click_save
-    show_page.expect_notification(message: 'Successful update')
+    show_page.expect_toast(message: 'Successful update')
 
     show_page.expect_invited(viewer_user)
 
@@ -77,8 +77,24 @@ describe 'Meetings participants', type: :feature do
 
     edit_page.uninvite(viewer_user)
     show_page = edit_page.click_save
-    show_page.expect_notification(message: 'Successful update')
+    show_page.expect_toast(message: 'Successful update')
 
     show_page.expect_uninvited(viewer_user)
+  end
+
+  context 'with an invalid user reference' do
+    let(:show_page) { Pages::Meetings::Show.new(meeting) }
+    let(:meeting_participant) { FactoryBot.create :meeting_participant, user: viewer_user, meeting: meeting }
+
+    before do
+      meeting_participant.update_column(:user_id, 12341234)
+    end
+
+    it 'still allows to view the meeting' do
+      show_page.visit!
+
+      show_page.expect_invited meeting.author
+      show_page.expect_uninvited viewer_user
+    end
   end
 end

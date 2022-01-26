@@ -31,7 +31,7 @@ module Bim
           ['created_at', { caption: IfcModel.human_attribute_name(:created_at) }],
           ['updated_at', { caption: IfcModel.human_attribute_name(:updated_at) }],
           ['uploader', { caption: IfcModel.human_attribute_name(:uploader) }],
-          ['processing', { caption: I18n.t('ifc_models.processing_state.label') }]
+          ['processing', { caption: I18n.t('ifc_models.conversion_status.label') }]
         ]
       end
     end

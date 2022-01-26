@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 class MeetingContentsController < ApplicationController
@@ -138,6 +138,6 @@ class MeetingContentsController < ApplicationController
   end
 
   def content_params
-    params.require(@content_type).permit(:text, :lock_version, :comment)
+    params.require(@content_type).permit(:text, :lock_version, :journal_notes)
   end
 end

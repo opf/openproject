@@ -23,15 +23,15 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-See docs/COPYRIGHT.rdoc for more details.
+See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 <html>
   <head>
     <style>
       :root {
-        color-scheme: light dark;
-        supported-color-schemes: light dark;
+        color-scheme: light;
+        supported-color-schemes: light;
       }
 
       body {
@@ -41,13 +41,14 @@ See docs/COPYRIGHT.rdoc for more details.
         background: #FFFFFF;
       }
 
+      /* Enforcing the white background */
       @media (prefers-color-scheme: dark) {
         body {
-          color: #CCC !important;
-          background: #222222 !important;
+          color: #484848 !important;
+          background: #FFFFFF !important;
         }
       }
-      
+
       h1, h2, h3 { font-family: "Trebuchet MS", Verdana, sans-serif; margin: 0px; }
       h1 { font-size: 1.2em; }
       h2, h3 { font-size: 1.1em; }
@@ -67,22 +68,59 @@ See docs/COPYRIGHT.rdoc for more details.
         margin-left: 2.4em;
         padding-left: 0.6em;
       }
+      pre {
+        white-space: normal;
+      }
+      img {
+        width: 100%;
+      }
       .footer {
         font-size: 0.8em;
         font-style: italic;
+        border-top-width: 1px;
+        border-top-color: #ccc;
+        border-top-style: solid;
+      }
+      .header,
+      .body,
+      .footer {
+        max-width: 700px;
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
       }
       a.user-mention:before {
         content: '@';
         color: #878787;
       }
     </style>
+
+    <meta name="x-apple-disable-message-reformatting">
+    <meta name="viewport" content="initial-scale=1.0">
   </head>
-  <body>
-      <span class="header"><%= OpenProject::TextFormatting::Renderer.format_text(Setting.localized_emails_header) %></span>
+  <body style="padding: 0">
+      <table class="header">
+        <tr>
+          <td>
+            <%= OpenProject::TextFormatting::Renderer.format_text(Setting.localized_emails_header) %>
+          </td>
+        </tr>
+      </table>
       <%= call_hook(:view_layouts_mailer_html_before_content, self.assigns) %>
-      <%= yield %>
+      <table class="body">
+        <tr>
+          <td>
+            <%= yield %>
+          </td>
+        </tr>
+      </table>
       <%= call_hook(:view_layouts_mailer_html_after_content, self.assigns) %>
-      <hr />
-      <span class="footer"><%= OpenProject::TextFormatting::Renderer.format_text(Setting.localized_emails_footer) %></span>
+      <table class="footer">
+        <tr>
+          <td>
+            <%= OpenProject::TextFormatting::Renderer.format_text(Setting.localized_emails_footer) %>
+          </td>
+        </tr>
+      </table>
   </body>
 </html>

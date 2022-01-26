@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module API
@@ -51,11 +51,13 @@ module API
             # since not all things are equally named between APIv3 and the rails code,
             # we need to convert some names manually
             case record
+            when Project
+              :project
             when IssuePriority
               :priority
             when AnonymousUser, DeletedUser, SystemUser
               :user
-            when Journal, Journal::AggregatedJournal
+            when Journal
               :activity
             when Changeset
               :revision

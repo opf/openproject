@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -57,7 +57,7 @@ describe ::API::V3::Configuration::ConfigurationRepresenter do
         context 'if logged in' do
           it_behaves_like 'has an untitled link' do
             let(:link) { 'userPreferences' }
-            let(:href) { api_v3_paths.my_preferences }
+            let(:href) { api_v3_paths.user_preferences(current_user.id) }
           end
         end
 
@@ -66,7 +66,7 @@ describe ::API::V3::Configuration::ConfigurationRepresenter do
 
           it_behaves_like 'has an untitled link' do
             let(:link) { 'userPreferences' }
-            let(:href) { api_v3_paths.my_preferences }
+            let(:href) { api_v3_paths.user_preferences(current_user.id) }
           end
         end
       end

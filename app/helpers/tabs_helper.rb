@@ -25,18 +25,22 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module TabsHelper
   # Renders tabs and their content
   def render_tabs(tabs, form = nil)
     if tabs.any?
-      selected_tab = tabs.detect { |t| t[:name] == params[:tab] } if params[:tab].present?
-      render partial: 'common/tabs', locals: { f: form, tabs: tabs, selected_tab: selected_tab || tabs.first }
+      selected = selected_tab(tabs)
+      render partial: 'common/tabs', locals: { f: form, tabs: tabs, selected_tab: selected }
     else
       content_tag 'p', I18n.t(:label_no_data), class: 'nodata'
     end
+  end
+
+  def selected_tab(tabs)
+    tabs.detect { |t| t[:name] == params[:tab] } || tabs.first
   end
 
   # Render tabs from the ui/extensible tabs manager

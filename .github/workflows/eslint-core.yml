@@ -1,0 +1,21 @@
+name: "Core/Frontend-Linting"
+on:
+  pull_request:
+    branches:
+      - dev
+      - release/*
+    paths:
+      - '**.js'
+      - '**.ts'
+
+jobs:
+  eslint:
+    name: eslint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - uses: opf/action-eslint@v2
+        with:
+          reporter: github-pr-check

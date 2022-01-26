@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 es:
   error_can_not_delete_export_card_configuration: "Esta configuración no puede ser eliminada."
@@ -29,8 +29,8 @@ es:
   label_export_card_configuration_plural: "Exportar configuraciones de tarjetas"
   label_export_card_activate: "Activar"
   label_export_card_deactivate: "Desactivar"
-  notice_export_card_configuration_activated: "Configuración activada correctamente"
-  notice_export_card_configuration_deactivated: "Configuración desactivada correctamente"
+  notice_export_card_configuration_activated: "Configuración activada exitosamente."
+  notice_export_card_configuration_deactivated: "Configuración desactivada exitosamente."
   error_can_not_activate_export_card_configuration: "Esta configuración no puede activarse"
   error_can_not_deactivate_export_card_configuration: "Esta configuración no puede desactivarse"
   validation_error_required_keys_not_present: "Clave(s) obligatorias no presentes:"

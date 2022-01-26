@@ -25,14 +25,14 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 class Query < ApplicationRecord
   include Timelines
   include Highlighting
   include ManualSorting
-  include Queries::AvailableFilters
+  include Queries::Filters::AvailableFilters
 
   belongs_to :project
   belongs_to :user

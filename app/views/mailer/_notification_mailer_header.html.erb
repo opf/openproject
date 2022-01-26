@@ -1,0 +1,64 @@
+<table <%= placeholder_table_styles(width:'100%',style: "width:100%;min-width:100%") %>>
+  <tr>
+    <td>
+      <table <%= placeholder_table_styles %>>
+        <tr>
+          <td>
+            <table <%= placeholder_table_styles(width:'100%',style: "width:100%") %>>
+              <tr>
+                <td>
+                  <span style="font-size: 24px; color: #333333;">
+                    <%= I18n.t(:'mail.salutation', user: user.firstname) %>
+                  </span>
+                </td>
+              </tr>
+              <tr>
+                <%= placeholder_cell('8px', vertical: false) %>
+              </tr>
+              <tr>
+                <td>
+                  <span style="font-size:16px; color: #1A67A3; font-weight: bold;">
+                     <%= summary %>
+                  </span>
+                </td>
+              </tr>
+              <tr>
+                <%= placeholder_cell('24px', vertical: false) %>
+              </tr>
+              <% if defined?(button_href) && defined?(button_text) %>
+                <tr>
+                  <td>
+                    <table <%= placeholder_table_styles %>>
+                      <tr>
+                        <td style="background: #D1E5F5; padding: 8px 12px; border: 1px solid #1A67A3; border-radius: 16px; overflow: hidden; text-overflow: ellipsis;">
+                          <a href="<%= button_href %>"
+                             target="_blank"
+                             style="color: #1A67A3; text-decoration: none; font-size: 14px;">
+                            <%= button_text %>
+                          </a>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              <% end %>
+              <tr>
+                <%= placeholder_cell('40px', vertical: false) %>
+              </tr>
+            </table>
+          </td>
+          <%= placeholder_cell('16px', vertical: true) %>
+          <td style="vertical-align: top;">
+            <table <%= placeholder_table_styles %>>
+              <tr>
+                <td style="width: 96px; height: 96px; max-width: 96px;">
+                  <%= logo_tag(alt: "#{Setting.app_title} #{I18n.t(:'mail.logo_alt_text')}", style: "width: 96px;max-width: 96px;max-height: 96px;") %>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>

@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 ro:
   activerecord:
@@ -68,3 +68,6 @@ ro:
   permission_edit_budgets: "Editarea bugetelor"
   permission_view_budgets: "Vezi bugete"
   project_module_budgets: "Bugetele"
+  text_budget_reassign_to: "Reatribuiți-le acestui buget:"
+  text_budget_delete: "Ștergeți bugetul din toate pachetele de lucru"
+  text_budget_destroy_assigned_wp: "Există %{count} pachete de lucru alocate acestui buget. Ce doriți să faceți?"

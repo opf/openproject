@@ -13,7 +13,7 @@ Due to the fact that the OpenProject Foundation provides releases in the form of
 
 ## Release notes
 
-You can find the release notes for major stable releases [here](https://www.openproject.org/release-notes/).
+You can find the release notes for major stable releases [here](../../release-notes/).
 
 ## Release cycles
 
@@ -39,7 +39,7 @@ You can find the release notes for major stable releases [here](https://www.open
 
 ### Semantic versioning
 
-* OpenProject follows the idea of [Semantic Versioning](http://semver.org/).
+* OpenProject follows the idea of [Semantic Versioning](https://semver.org/).
 * Therefore the version is a composition of three digits in the format of e.g. 0.1.1 and can be summarised as followed:
   * MAJOR version when you make incompatible API changes,
   * MINOR version when you add functionality in a backwards-compatible manner, and

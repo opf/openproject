@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -65,7 +65,7 @@ describe 'Projects module administration',
 
     click_button 'Save'
 
-    settings_page.expect_notification message: I18n.t(:notice_successful_update)
+    settings_page.expect_toast message: I18n.t(:notice_successful_update)
 
     expect(page)
       .to have_checked_field 'Activity'
@@ -81,7 +81,7 @@ describe 'Projects module administration',
     click_button 'Save'
 
     expect(page)
-      .to have_selector '.notification-box.-error',
+      .to have_selector '.op-toast.-error',
                         text: I18n.t(:'activerecord.errors.models.project.attributes.enabled_modules.dependency_missing',
                                      dependency: 'Work package tracking',
                                      module: 'Calendar')
@@ -90,7 +90,7 @@ describe 'Projects module administration',
 
     click_button 'Save'
 
-    settings_page.expect_notification message: I18n.t(:notice_successful_update)
+    settings_page.expect_toast message: I18n.t(:notice_successful_update)
 
     expect(page)
       .to have_checked_field 'Activity'
@@ -100,5 +100,23 @@ describe 'Projects module administration',
 
     expect(page)
       .to have_checked_field 'Work package tracking'
+  end
+
+  context 'with a user who does not have the correct permissions (#38097)' do
+    let(:user_without_permission) do
+      FactoryBot.create(:user,
+                        member_in_project: project,
+                        member_with_permissions: %i(edit_project))
+    end
+
+    before do
+      login_as user_without_permission
+      settings_page.visit_tab!('general')
+    end
+
+    it "I can't see the modules menu item" do
+      expect(page)
+        .not_to have_selector('[data-name="settings_modules"]')
+    end
   end
 end

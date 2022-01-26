@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 # = OpenProject configuration file
@@ -166,6 +166,19 @@
 # default configuration options for all environments
 default:
   log_level: info
+
+  # web server configuration
+  # web:
+  #   workers: 2
+  #   timeout: 60
+  #   wait_timeout: 10
+  #   min_threads: 4
+  #   max_threads: 16
+
+  # statsd configuration
+  # statsd:
+  #   host: 127.0.0.1
+  #   port: 8125
 
   # Outgoing emails configuration (see examples above)
   email_delivery_method: :smtp

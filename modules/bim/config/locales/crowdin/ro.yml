@@ -113,10 +113,12 @@ ro:
       check_1: 'Verificați dacă ați încărcat cel puțin un model IFC.'
       check_2: 'Verificați dacă cel puțin un model IFC este setat la "Default".'
     no_results: "În acest proiect nu au fost încărcate modele IFC."
-    processing_state:
+    conversion_status:
       label: 'Se procesează...'
-      in_progress: 'În lucru'
+      pending: 'în așteptare'
+      processing: 'Se procesează'
       completed: 'Finalizat'
+      error: 'Eroare'
     processing_notice:
       processing_default: 'Următoarele modele IFC implicite sunt încă în curs de procesare și, prin urmare, nu sunt încă disponibile:'
     flash_messages:

@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -37,8 +37,8 @@ describe CustomField, type: :model do
   let(:field2) { FactoryBot.build :custom_field }
 
   describe '#name' do
-    it { should validate_presence_of(:name) }
-    it { should validate_length_of(:name).is_at_most(30) }
+    it { is_expected.to validate_presence_of(:name) }
+    it { is_expected.to validate_length_of(:name).is_at_most(256) }
 
     describe 'uniqueness' do
       describe 'WHEN value, locale and type are identical' do

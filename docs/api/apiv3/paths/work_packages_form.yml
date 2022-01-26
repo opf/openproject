@@ -1,0 +1,12 @@
+# /api/v3/work_packages/form
+---
+post:
+  responses:
+    '200':
+      description: OK
+      headers: {}
+  tags:
+  - Work Packages
+  description: ''
+  operationId: Work_Package_Create_Form
+  summary: Work Package Create Form

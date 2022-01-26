@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -147,6 +147,58 @@ shared_examples_for 'project contract' do
 
     it 'is invalid' do
       expect_valid(false, status: %i(inclusion))
+    end
+  end
+
+  context 'when the identifier consists of only letters' do
+    let(:project_identifier) { 'abc' }
+
+    it_behaves_like 'is valid'
+  end
+
+  context 'when the identifier consists of letters followed by numbers' do
+    let(:project_identifier) { 'abc12' }
+
+    it_behaves_like 'is valid'
+  end
+
+  context 'when the identifier consists of letters followed by numbers with a hyphen in between' do
+    let(:project_identifier) { 'abc-12' }
+
+    it_behaves_like 'is valid'
+  end
+  
+  context 'when the identifier consists of letters followed by numbers with an underscore in between' do
+    let(:project_identifier) { 'abc_12' }
+
+    it_behaves_like 'is valid'
+  end
+
+  context 'when the identifier consists of numbers followed by letters with a hyphen in between' do
+    let(:project_identifier) { '12-abc' }
+
+    it_behaves_like 'is valid'
+  end
+
+  context 'when the identifier consists of numbers followed by letters with an underscore in between' do
+    let(:project_identifier) { '12_abc' }
+
+    it_behaves_like 'is valid'
+  end
+
+  context 'when the identifier consists of only numbers' do
+    let(:project_identifier) { '12' }
+
+    it 'is invalid' do
+      expect_valid(false, identifier: %i(invalid))
+    end
+  end
+
+  context 'when the identifier consists of a reserved word' do
+    let(:project_identifier) { 'new' }
+
+    it 'is invalid' do
+      expect_valid(false, identifier: %i(exclusion))
     end
   end
 

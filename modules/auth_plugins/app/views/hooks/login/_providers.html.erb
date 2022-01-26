@@ -23,7 +23,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-See docs/COPYRIGHT.rdoc for more details.
+See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
@@ -35,7 +35,9 @@ See docs/COPYRIGHT.rdoc for more details.
       opts[:origin] = params['back_url']
     end
   %>
-  <a href="<%= omniauth_start_path(pro[:name], opts) %>" class="auth-provider auth-provider-<%= pro[:name] %> button">
+  <a
+    href="<%= omniauth_start_path(pro[:name], opts) %>"
+    class="auth-provider auth-provider-<%= pro[:name] %> <%= pro[:icon] ? 'auth-provider--imaged' : '' %> button">
     <span class="auth-provider-name"><%= pro[:display_name] || pro[:name] %></span>
   </a>
 <% end %>

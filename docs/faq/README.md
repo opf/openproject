@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
-  title: Development FAQ
-  priority: 001
+  title: FAQ
+  priority: 950
 description: Frequently asked questions for OpenProject (FAQ)
 robots: index, follow
 keywords: FAQ, introduction, tutorial, project management software, frequently asked questions, help
@@ -71,13 +71,13 @@ Here are resources to get to know OpenProject:
 
 ### Can I run OpenProject as a single user?
 
-Our minimum plan for the Enterprise cloud edition and Enterprise on-premises edition is five users. Our pricing scheme covers three subscription options: Community Edition ($0), Enterprise cloud (€4.95/member/month or approximately $5.60/member/month), and Enterprise on-premises (€5.95/member/month or approximately $6.73/member/month). We recommend to start the [Community version](https://www.openproject.org/download-and-installation/) free of charge if the five user minimum is an issue for you.
+Our minimum plan for the Enterprise cloud edition and Enterprise on-premises edition is five users. Our pricing scheme covers three subscription options: Community Edition ($0), Enterprise cloud (€5.95/member/month or $7.25/member/month), and Enterprise on-premises (€5.95/member/month or $7.25/member/month). We recommend to start the [Community version](https://www.openproject.org/download-and-installation/) free of charge if the five user minimum is an issue for you.
 
 ### OpenProject is Open Source. Which kind of license does it come with? What am I allowed to do? What can I change?
 
-OpenProject comes with the GNU General Public License v3 (GPLv3). You can find out more about the copyright [here](https://github.com/opf/openproject/blob/dev/docs/COPYRIGHT.rdoc).
+OpenProject comes with the GNU General Public License v3 (GPLv3). You can find out more about the copyright [here](https://github.com/opf/openproject/blob/dev/COPYRIGHT).
 In accordance with the terms set by the GPLv3 license, users can make modifications, create copies and redistribute the work. 
-Terms and conditions regarding GPLv3 are available at http://www.gnu.org/licenses/gpl-3.0.en.html.
+Terms and conditions regarding GPLv3 are available at http://www.gnu.org/licenses/gpl-3.0.en.html or in [our repository](https://github.com/opf/openproject/blob/dev/LICENSE).
 
 ### Is OpenProject free of charge?
 
@@ -109,9 +109,9 @@ Most of this kind of questions will be answered in the respective sections for e
 
 ### I cannot log in, I do not know my password. What can I do?
 
-As a first step please try to [reset your password](#reset-your-password). Please look in your spam folder, too, if you didn't receive an email.
+As a first step please try to [reset your password](../getting-started/sign-in-registration/#reset-your-password). Please look in your spam folder, too, if you didn't receive an email.
 
-If that doesn't help please contact your admin for login related topics. He/she can [set a new password for you](../../system-admin-guide/users-permissions/users/#manage-user-settings).
+If that doesn't help please contact your admin for login related topics. He/she can [set a new password for you](../system-admin-guide/users-permissions/users/#manage-user-settings).
 
 If you don't know the URL of your OpenProject Enterprise cloud, you can find it on [this website](https://www.openproject.org/request-organization) on the basis of your email address.
 
@@ -119,9 +119,9 @@ If you don't know the URL of your OpenProject Enterprise cloud, you can find it 
 
 Look in your spam folder for the email. 
 
-Ask your system admin to [set a new password for you](../../system-admin-guide/users-permissions/users/#manage-user-settings).
+Ask your system admin to [set a new password for you](../system-admin-guide/users-permissions/users/#manage-user-settings).
 
-If you are the system administrator of an on-premises installation (Enterprise on-premises or Community Edition) please have a look at [this FAQ](../../installation-and-operations/operation/faq/#i-lost-access-to-my-admin-account-how-do-i-reset-my-password).
+If you are the system administrator of an on-premises installation (Enterprise on-premises or Community Edition) please have a look at [this FAQ](../installation-and-operations/operation/faq/#i-lost-access-to-my-admin-account-how-do-i-reset-my-password).
 
 ### How can I reverse changes?
 
@@ -136,11 +136,11 @@ You can invite new users in the system administration as long as you have enough
 For the Community Edition you can have as many users as you need for free. 
 If you are using Enterprise on-premises, please write an email to sales @ openproject.com.
 
-If you are using the Enterprise cloud, you can easily upgrade or downgrade the number of users by navigating to *Administration -> Billing -> Manage subscription* and choosing the new amount of users which you need in your system. Find out more [here](../cloud-edition-guide/manage-subscription).
+If you are using the Enterprise cloud, you can easily upgrade or downgrade the number of users by navigating to *Administration -> Billing -> Manage subscription* and choosing the new amount of users which you need in your system. Find out more [here](../enterprise-guide/enterprise-cloud-guide/manage-cloud-subscription).
 
 ### How can I change the day my week starts with, etc.?
 
-You can do this as a system administrator in the [System settings](../system-admin-guide/system-settings/display-settings/#time-and-date-formatting).
+You can do this as a system administrator in the [System settings](../system-admin-guide/system-settings/display-settings/#time-and-date-formatting-aggregation-of-changes-in-activity).
 
 ### How can I add a RACI matrix in OpenProject?
 
@@ -176,7 +176,7 @@ There is no native iOS or Android app for OpenProject, but OpenProject is respon
 
 ### Is it possible to connect MS Project and OpenProject or to migrate from MS Project to OpenProject?
 
-Yes, please use the free [Excel synchronization](../user-guide/integrations/Excel Synchronization/) for this.
+Yes, please use the free [Excel synchronization](../system-admin-guide/integrations/excel-synchronization/) for this.
 
 ### Are there plan/actual comparisons in OpenProject?
 
@@ -188,7 +188,7 @@ No, it's not possible to use OpenProject without Internet access (Enterprise clo
 
 ### Can I import tasks from spreadsheets like Excel or LibreOffice?
 
-Yes, that’s possible. Please have a look at our [Excel sync](../user-guide/integrations/Excel%20Synchronization).
+Yes, that’s possible. Please have a look at our [Excel sync](../system-admin-guide/integrations/excel-synchronization/).
 
 ### Does OpenProject have guest accounts?
 
@@ -264,17 +264,17 @@ To migrate from Bitnami **to Enterprise cloud** please provide these:
 - data as database dump (.sql file)
 - attachment folder
 
-You can use the first two steps of [this instruction](../installation-and-operations/faq/#how-can-i-migrate-from-bitnami-to-the-official-openproject-installation-packages). Please contact us to discuss your migration.
+You can use the first two steps of [this instruction](../installation-and-operations/installation-faq/#how-can-i-migrate-from-bitnami-to-the-official-openproject-installation-packages). Please contact us to discuss your migration.
 
-To migrate from Bitnami **to Enterprise on premises** please use [this instruction](../installation-and-operations/faq/#how-can-i-migrate-from-bitnami-to-the-official-openproject-installation-packages). We offer (paid) installation support to help you migrate to OpenProject (for the Enterprise on-premises edition). Please contact us to request it.
+To migrate from Bitnami **to Enterprise on premises** please use [this instruction](../installation-and-operations/installation-faq/#how-can-i-migrate-from-bitnami-to-the-official-openproject-installation-packages). We offer (paid) installation support to help you migrate to OpenProject (for the Enterprise on-premises edition). Please contact us to request it.
 
 ### How can I migrate from Jira/Confluence to OpenProject?
 
 At the moment there are these ways to migrate:
 
 - our [API](../api/)
-- our [Excel sync](../user-guide/integrations/Excel%20Synchronization)
-- Using a [Markdown export app](https://marketplace.atlassian.com/apps/1221351/markdown-exporter-for-confluence?hosting=cloud&tab=overview) you can export pages from Confluence and paste them (via copy & paste) into OpenProject in e.g. the wiki. This should preserve at least most of the layout. Attachments would then have to be added manually.
+- our [Excel sync](../system-admin-guide/integrations/excel-synchronization)
+- Using a [Markdown export app](https://marketplace.atlassian.com/apps/1221351/markdown-exporter-for-confluence) you can export pages from Confluence and paste them (via copy & paste) into OpenProject in e.g. the wiki. This should preserve at least most of the layout. Attachments would then have to be added manually.
 
 For more information please contact us.
 
@@ -288,7 +288,7 @@ We will provide a database dump which you can upload into your Enterprise on-pre
 
 ### How can I migrate from Community Edition to Enterprise on-premises?
 
-If you [book Enterprise on-premises](../enterprise-edition-guide/activate-enterprise-edition/#order-the-enterprise-on-premises-edition) you will receive an Enterprise token. Use it to activate the Enterprise premium features. For detailed activation instructions please refer to the [Enterprise activation guide](../enterprise-edition-guide/activate-enterprise-edition/). You can keep your data that you created in the Community Edition.
+If you [book Enterprise on-premises](../enterprise-guide/enterprise-on-premises-guide/activate-enterprise-on-premises/#order-the-enterprise-on-premises-edition) you will receive an Enterprise token. Use it to activate the Enterprise premium features. For detailed activation instructions please refer to the [Enterprise activation guide](../enterprise-guide/enterprise-on-premises-guide/activate-enterprise-on-premises/). You can keep your data that you created in the Community Edition.
 
 ### How can I migrate from Enterprise on-premises to Community Edition?
 
@@ -304,7 +304,7 @@ Please have a look at [this section](../installation-and-operations/misc).
 
 We welcome everybody willing to help make OpenProject better. There are a lot of possibilities for helping, be it [improving the translations](../development/translate-openproject) via crowdin, answering questions in the [forums](https://community.openproject.org/projects/openproject/forums) or by fixing bugs and implementing features.
 
-If you want to code, a good starting point would be to make yourself familiar with the [basic approaches for developing](https://docs.openproject.org/development/) in OpenProject and opening a pull request on GitHub referencing an existing bug report or feature request. Find our GitHub page [here](https://github.com/opf/openproject).
+If you want to code, a good starting point would be to make yourself familiar with the [basic approaches for developing](../development/) in OpenProject and opening a pull request on GitHub referencing an existing bug report or feature request. Find our GitHub page [here](https://github.com/opf/openproject).
 
 If in doubt on how you should start, you can also just [contact us](https://www.openproject.org/contact-us/).
 
@@ -339,15 +339,15 @@ It does not expire. However, the certification training always covers the curren
 
 ### Where can I find out more about pricing?
 
-You can find the price calculator [here](https://www.openproject.org/pricing) and FAQ regarding pricing [here](https://www.openproject.org/pricing/#FAQ).
+You can find the price calculator [here](https://www.openproject.org/pricing) and FAQ regarding pricing [here](https://www.openproject.org/pricing/#faq).
 
 ## Topic-specific FAQ
 
 Here are some selected links to other FAQ pages. Please use the menu to navigate to a topic's section to find more FAQs or use the search bar in the header.
 
-- [FAQ for work packages](../user-guide/work-packages/faq)
-- [FAQ for Gantt chart](../user-guide/gantt-chart/faq)
-- [FAQ for Enterprise on-premises](../enterprise-guide/enterprise-on-premises-guide/faq)
-- [FAQ for Enterprise cloud](../enterprise-guide/enterprise-cloud-guide/faq)
-- [FAQ for system administration](../system-admin-guide/faq)
-- [FAQ for installation, operation and upgrades](../installation-and-operations/faq)
+- [FAQ for work packages](../user-guide/work-packages/work-packages-faq)
+- [FAQ for Gantt chart](../user-guide/gantt-chart/gantt-chart-faq)
+- [FAQ for Enterprise on-premises](../enterprise-guide/enterprise-on-premises-guide/enterprise-on-premises-faq)
+- [FAQ for Enterprise cloud](../enterprise-guide/enterprise-cloud-guide/enterprise-cloud-faq)
+- [FAQ for system administration](../system-admin-guide/system-admin-guide-faq)
+- [FAQ for installation, operation and upgrades](../installation-and-operations/installation-faq)

@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module OpenProject
@@ -159,6 +159,34 @@ module OpenProject
       def ldap_tls_options
         val = self['ldap_tls_options']
         val.presence || {}
+      end
+
+      def web_workers
+        Integer(web['workers'].presence)
+      end
+
+      def web_timeout
+        Integer(web['timeout'].presence)
+      end
+
+      def web_wait_timeout
+        Integer(web['wait_timeout'].presence)
+      end
+
+      def web_min_threads
+        Integer(ENV['RAILS_MIN_THREADS'].presence || web['min_threads'].presence)
+      end
+
+      def web_max_threads
+        Integer(ENV['RAILS_MAX_THREADS'].presence || web['max_threads'].presence)
+      end
+
+      def statsd_host
+        ENV['STATSD_HOST'].presence || statsd['host'].presence
+      end
+
+      def statsd_port
+        Integer(ENV['STATSD_PORT'].presence || statsd['port'].presence)
       end
 
       private

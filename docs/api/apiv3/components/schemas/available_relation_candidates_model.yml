@@ -1,0 +1,24 @@
+# Schema: Available_relation_candidatesModel
+---
+type: object
+example:
+  _links:
+    self:
+      href: "/api/v3/projects/14/work_packages"
+  total: 2
+  count: 2
+  _type: Collection
+  _embedded:
+    elements:
+    - _type: WorkPackage
+      _links:
+        self:
+          href: "/api/v3/work_packages/1"
+      id: 1
+      subject: Skipped other properties for brevity
+    - _type: WorkPackage
+      _links:
+        self:
+          href: "/api/v3/work_packages/2"
+      id: 2
+      subject: Skipped other properties for brevity

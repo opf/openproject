@@ -12,7 +12,7 @@ You can **create additional custom fields for different sections**, e.g. work pa
 
 Custom fields enable to configure your OpenProject exactly to your needs, i.e. to adapt work package forms to your company specific requirements.
 
-<video src="https://www.openproject.org/wp-content/uploads/2020/12/OpenProject-Forms-and-Custom-Fields-1.mp4" type="video/mp4" controls="" style="width:100%"></video>
+<video src="https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Forms-and-Custom-Fields-1.mp4" type="video/mp4" controls="" style="width:100%"></video>
 
 ## Add a new custom field
 

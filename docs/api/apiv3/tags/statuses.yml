@@ -1,0 +1,20 @@
+---
+description: |-
+  ## Linked Properties
+
+  |  Link         | Description               | Type          | Constraints | Supported operations |
+  |:-------------:|-------------------------- | ------------- | ----------- | -------------------- |
+  | self          | This status               | Status        | not null    | READ                 |
+
+  ## Local Properties
+
+  | Property         | Description                                                   | Type    | Constraints   | Supported operations |
+  | :--------:       | -------------                                                 | ------- | -----------   | -------------------- |
+  | id               | Status id                                                     | Integer | x > 0         | READ                 |
+  | name             | Status name                                                   | String  |               | READ                 |
+  | position         | Sort index of the status                                      | Integer |               | READ                 |
+  | isDefault        |                                                               | Boolean |               | READ                 |
+  | isClosed         | are tickets of this status considered closed?                 | Boolean |               | READ                 |
+  | isReadonly       | are tickets of this status read only?                         | Boolean |               | READ                 |
+  | defaultDoneRatio | The percentageDone being applied when changing to this status | Integer | 0 <= x <= 100 | READ                 |
+name: Statuses

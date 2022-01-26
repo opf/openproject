@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
@@ -48,9 +48,9 @@ describe WorkPackage, type: :model do
   let!(:budget) { FactoryBot.create(:budget, project: project) }
 
   def move_to_project(work_package, project)
-    service = WorkPackages::MoveService.new(work_package, user)
-
-    service.call(project)
+    WorkPackages::UpdateService
+      .new(model: work_package, user: user)
+      .call(project: project)
   end
 
   it 'should update cost entries on move' do

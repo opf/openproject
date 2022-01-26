@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'open_project/plugins'
@@ -48,15 +48,9 @@ module OpenProject::Backlogs
     include OpenProject::Plugins::ActsAsOpEngine
 
     register 'openproject-backlogs',
-             author_url: 'https://www.openproject.com',
+             author_url: 'https://www.openproject.org',
              bundled: true,
              settings: settings do
-      OpenProject::AccessControl.permission(:edit_project).tap do |add|
-        add.controller_actions << 'projects/project_done_statuses'
-        add.controller_actions << 'projects/rebuild_positions'
-        add.controller_actions << 'backlogs_project_settings/show'
-      end
-
       OpenProject::AccessControl.permission(:add_work_packages).tap do |add|
         add.controller_actions << 'rb_stories/create'
         add.controller_actions << 'rb_tasks/create'
@@ -73,7 +67,8 @@ module OpenProject::Backlogs
         # SYNTAX: permission :name_of_permission, { :controller_name => [:action1, :action2] }
 
         # Master backlog permissions
-        permission :view_master_backlog, rb_master_backlogs: :index,
+        permission :view_master_backlog,
+                   rb_master_backlogs: :index,
                    rb_sprints: %i[index show],
                    rb_wikis: :show,
                    rb_stories: %i[index show],
@@ -81,7 +76,8 @@ module OpenProject::Backlogs
                    rb_burndown_charts: :show,
                    rb_export_card_configurations: %i[index show]
 
-        permission :view_taskboards, rb_taskboards: :show,
+        permission :view_taskboards,
+                   rb_taskboards: :show,
                    rb_sprints: :show,
                    rb_stories: :show,
                    rb_tasks: %i[index show],
@@ -90,10 +86,20 @@ module OpenProject::Backlogs
                    rb_burndown_charts: :show,
                    rb_export_card_configurations: %i[index show]
 
+        permission :select_done_statuses,
+                   {
+                     'projects/settings/backlogs': %i[show update rebuild_positions]
+                   },
+                   require: :member
+
         # Sprint permissions
         # :show_sprints and :list_sprints are implicit in :view_master_backlog permission
-        permission :update_sprints, rb_sprints: %i[edit update],
-                   rb_wikis: %i[edit update]
+        permission :update_sprints,
+                   {
+                     rb_sprints: %i[edit update],
+                     rb_wikis: %i[edit update]
+                   },
+                   require: :member
       end
 
       menu :project_menu,
@@ -101,8 +107,14 @@ module OpenProject::Backlogs
            { controller: '/rb_master_backlogs', action: :index },
            caption: :project_module_backlogs,
            before: :calendar,
-           param: :project_id,
            icon: 'icon2 icon-backlogs'
+
+      menu :project_menu,
+           :settings_backlogs,
+           { controller: '/projects/settings/backlogs', action: :show },
+           caption: :label_backlogs,
+           parent: :settings,
+           before: :settings_storage
     end
 
     # We still override version and project settings views from the core! URH
@@ -113,7 +125,6 @@ module OpenProject::Backlogs
                Status
                Type
                Project
-               ProjectsController
                User
                VersionsController
                Version]
@@ -131,6 +142,20 @@ module OpenProject::Backlogs
       next if Versions::BaseContract.included_modules.include?(OpenProject::Backlogs::Patches::Versions::BaseContractPatch)
 
       Versions::BaseContract.prepend(OpenProject::Backlogs::Patches::Versions::BaseContractPatch)
+
+      # Add available settings to the user preferences
+      UserPreferences::Schema.merge!(
+        'definitions/UserPreferences/properties',
+        {
+          'backlogs_task_color' => {
+            'type' => 'string'
+          },
+          'backlogs_versions_default_fold_state' => {
+            'type' => 'string',
+            "enum" => %w[open closed]
+          }
+        }
+      )
     end
 
     extend_api_response(:v3, :work_packages, :work_package,

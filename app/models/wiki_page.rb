@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 class WikiPage < ApplicationRecord
@@ -40,6 +40,7 @@ class WikiPage < ApplicationRecord
               url_attribute: :slug,
               scope: :wiki_id, # Unique slugs per WIKI
               sync_url: true, # Keep slug updated on #rename
+              locale: :en,
               adapter: OpenProject::ActsAsUrl::Adapter::OpActiveRecord # use a custom adapter able to handle edge cases
 
   acts_as_watchable
@@ -143,7 +144,7 @@ class WikiPage < ApplicationRecord
   end
 
   def content_for_version(version = nil)
-    journal = content.versions.find_by(version: version.to_i) if version
+    journal = content.journals.find_by(version: version.to_i) if version
 
     if journal.nil? || content.version == journal.version
       content
@@ -161,15 +162,15 @@ class WikiPage < ApplicationRecord
     version_from = version_from ? version_from.to_i : version_to - 1
     version_to, version_from = version_from, version_to unless version_from < version_to
 
-    content_to = content.versions.find_by(version: version_to)
-    content_from = content.versions.find_by(version: version_from)
+    content_to = content.journals.find_by(version: version_to)
+    content_from = content.journals.find_by(version: version_from)
 
     content_to && content_from ? Wikis::Diff.new(content_to, content_from) : nil
   end
 
   def annotate(version = nil)
     version = version ? version.to_i : content.version
-    c = content.versions.find_by(version: version)
+    c = content.journals.find_by(version: version)
     c ? Wikis::Annotate.new(c) : nil
   end
 

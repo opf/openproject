@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -141,14 +141,25 @@ describe Project, type: :model do
   end
 
   describe 'name' do
-    let(:project) { FactoryBot.build_stubbed :project, name: '     Hello    World   ' }
+    let(:name) { '     Hello    World   ' }
+    let(:project) { described_class.new FactoryBot.attributes_for(:project, name: name) }
 
-    before do
-      project.valid?
+    context 'with white spaces in the name' do
+      it 'trims the name' do
+        project.save
+        expect(project.name).to eql('Hello World')
+      end
     end
 
-    it 'trims the name' do
-      expect(project.name).to eql('Hello World')
+    context 'when updating the name' do
+      it 'persists the update' do
+        project.save
+        project.name = 'A new name'
+        project.save
+        project.reload
+
+        expect(project.name).to eql('A new name')
+      end
     end
   end
 
@@ -165,132 +176,6 @@ describe Project, type: :model do
       other_project_work_package
 
       expect(project.types_used_by_work_packages).to match_array [project_work_package.type]
-    end
-  end
-
-  context '#rolled_up_versions' do
-    let!(:project) { FactoryBot.create(:project) }
-    let!(:parent_version1) { FactoryBot.create(:version, project: project) }
-    let!(:parent_version2) { FactoryBot.create(:version, project: project) }
-
-    it 'should include the versions for the current project' do
-      expect(project.rolled_up_versions)
-        .to match_array [parent_version1, parent_version2]
-    end
-
-    it 'should include versions for a subproject' do
-      subproject = FactoryBot.create(:project, parent: project)
-      subproject_version = FactoryBot.create(:version, project: subproject)
-
-      project.reload
-
-      expect(project.rolled_up_versions)
-        .to match_array [parent_version1, parent_version2, subproject_version]
-    end
-
-    it 'should include versions for a sub-subproject' do
-      subproject = FactoryBot.create(:project, parent: project)
-      sub_subproject = FactoryBot.create(:project, parent: subproject)
-      sub_subproject_version = FactoryBot.create(:version, project: sub_subproject)
-
-      project.reload
-
-      expect(project.rolled_up_versions)
-        .to match_array [parent_version1, parent_version2, sub_subproject_version]
-    end
-
-    it 'should only check active projects' do
-      subproject = FactoryBot.create(:project, parent: project)
-      FactoryBot.create(:version, project: subproject)
-      subproject.update(active: false)
-
-      project.reload
-
-      expect(subproject)
-        .not_to be_active
-      expect(project.rolled_up_versions)
-        .to match_array [parent_version1, parent_version2]
-    end
-  end
-
-  context '#notified_users' do
-    let(:project) { FactoryBot.create(:project) }
-    let(:role) { FactoryBot.create(:role) }
-
-    let(:principal) { raise NotImplementedError }
-    let(:mail_notification) { false }
-
-    before do
-      FactoryBot.create(:member,
-                        project: project,
-                        principal: principal,
-                        roles: [role],
-                        mail_notification: mail_notification)
-    end
-
-    context 'members with selected mail notification' do
-      let(:principal) { FactoryBot.create(:user, mail_notification: 'selected') }
-      let(:mail_notification) { true }
-
-      it 'are included' do
-        expect(project.notified_users)
-          .to include(principal)
-      end
-    end
-
-    context 'members with unselected mail notification' do
-      let(:principal) { FactoryBot.create(:user, mail_notification: 'selected') }
-      let(:mail_notification) { false }
-
-      it 'are not included' do
-        expect(project.notified_users)
-          .to be_empty
-      end
-    end
-
-    context 'members with `all` notification' do
-      let(:principal) { FactoryBot.create(:user, mail_notification: 'all') }
-
-      it 'are included' do
-        expect(project.notified_users)
-          .to include(principal)
-      end
-    end
-
-    context 'members with `none` mail notification' do
-      let(:principal) { FactoryBot.create(:user, mail_notification: 'none') }
-
-      it 'are not included' do
-        expect(project.notified_users)
-          .to be_empty
-      end
-    end
-
-    context 'members with `only_my_events` mail notification' do
-      let(:principal) { FactoryBot.create(:user, mail_notification: 'only_my_events') }
-
-      it 'are not included' do
-        expect(project.notified_users)
-          .to be_empty
-      end
-    end
-
-    context 'members with `only_assigned` mail notification' do
-      let(:principal) { FactoryBot.create(:user, mail_notification: 'only_assigned') }
-
-      it 'are not included' do
-        expect(project.notified_users)
-          .to be_empty
-      end
-    end
-
-    context 'members with `only_owner` mail notification' do
-      let(:principal) { FactoryBot.create(:user, mail_notification: 'only_owner') }
-
-      it 'are not included' do
-        expect(project.notified_users)
-          .to be_empty
-      end
     end
   end
 end

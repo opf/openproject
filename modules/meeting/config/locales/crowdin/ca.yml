@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 #English strings go here for Rails i18n
 ca:
@@ -53,8 +53,8 @@ ca:
   label_meeting_edit: "Edit Meeting"
   label_meeting_agenda: "Agenda"
   label_meeting_minutes: "Minutes"
-  label_meeting_close: "Tancar"
-  label_meeting_open: "Obert"
+  label_meeting_close: "Tanca"
+  label_meeting_open: "Obre"
   label_meeting_agenda_close: "Close the agenda to begin the Minutes"
   label_meeting_date_time: "Date/Time"
   label_meeting_diff: "Diff"
@@ -63,6 +63,8 @@ ca:
   label_version: "Versió"
   label_time_zone: "Zona horària"
   label_start_date: "Data d'inici"
+  meeting:
+    copied: "Copied from Meeting #%{id}"
   notice_successful_notification: "Notification sent successfully"
   notice_timezone_missing: No time zone is set and %{zone} is assumed. To choose your time zone, please click here.
   permission_create_meetings: "Create meetings"

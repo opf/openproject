@@ -1,0 +1,28 @@
+<div id="detail-panel-watchers">
+  <div class="op-toast -error"
+       *ngIf="error">
+    <div class="op-toast--content">
+      <p [textContent]="text.loadingError"></p>
+    </div>
+  </div>
+  <div [hidden]="error">
+    <div class="work-package--watchers form--selected-value--list"
+         [ngClass]="{'-read-only': !allowedToRemove}">
+
+      <op-wp-watcher-entry
+                  *ngFor="let watcher of watching; trackBy:trackByHref"
+                  [watcher]="watcher">
+      </op-wp-watcher-entry>
+    </div>
+    <div class="work-package--watchers-lookup hide-when-print"
+         [hidden]="!allowedToAdd">
+      <form name="watcherForm" novalidate>
+        <user-autocompleter [clearAfterSelection]="true"
+                            (onChange)="addWatcher($event)"
+                            [url]="availableWatchersPath"
+                            class="wp-watcher--autocomplete">
+        </user-autocompleter>
+      </form>
+    </div>
+  </div>
+</div>

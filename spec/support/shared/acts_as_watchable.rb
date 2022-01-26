@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 shared_examples_for 'acts_as_watchable included' do
@@ -160,35 +160,6 @@ MESSAGE
       it 'contains members allowed to view' do
         expect(model_instance.possible_watcher_users)
           .to match_array([user_with_permission])
-      end
-    end
-  end
-
-  describe '#watcher_recipients' do
-    before do
-      watching_user
-      model_instance.reload
-    end
-
-    subject { model_instance.watcher_recipients }
-
-    it 'has the watching user' do
-      is_expected.to match_array([watching_user])
-    end
-
-    context 'when the permission to watch has been removed' do
-      before do
-        if is_public_permission
-          watching_user.memberships.destroy_all
-        else
-          watcher_role.remove_permission! watch_permission
-        end
-
-        model_instance.reload
-      end
-
-      it 'is empty' do
-        is_expected.to match_array([])
       end
     end
   end

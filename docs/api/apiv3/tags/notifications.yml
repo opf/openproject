@@ -1,0 +1,28 @@
+---
+description: |-
+  Notifications are created through notifiable actions in OpenProject.
+  This endpoint only returns in-app notifications.
+
+  ## Actions
+
+  None yet
+
+  ## Linked Properties
+
+  | Link          | Description                              | Type            | Constraints           | Supported operations | Condition                                 |
+  | :-----------: | ---------------------------------------- | --------------  | --------------------- | -------------------- | ----------------------------------------- |
+  | self          | This notification                        | Notification    | not null              | READ                 |                                           |
+  | project       | The project containng the resource       | Project         | not null              | READ                 |                                           |
+  | actor         | The user that caused the notification    | User            | not null              | READ                 |                                           |
+  | resource      | The resource the notification belongs to | Polymorphic     | not null              | READ                 |                                           |
+  | activity      | The journal the notification belongs to  | Polymorphic     |                       | READ                 | optional                                  |
+
+  ## Local Properties
+
+  | Property     | Description                                               | Type          | Constraints                                          | Supported operations | Condition                                                   |
+  | :----------: | --------------------------------------------------------- | --------      | ---------------------------------------------------- | -------------------- | ----------------------------------------------------------- |
+  | id           | Primary key                                               | Integer       |                                                      | READ                 |                                                             |
+  | subject      | The subject of the notification                           | String        |                                                      | READ                 |                                                             |
+  | reason       | The reason causing the notification                       | String        |                                                      | READ                 |                                                             |
+  | readIAN      | Whether the notification is read                          | Boolean       |                                                      | READ                 |                                                             |
+name: Notifications

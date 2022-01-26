@@ -1,0 +1,44 @@
+# Schema: Time_Entry_ActivityModel
+---
+type: object
+properties:
+  id:
+    type: integer
+    description: Time entries' id
+    readOnly: true
+    minimum: 0
+    exclusiveMinimum: true
+  name:
+    type: string
+    description: The human readable name chosen for this activity
+    readOnly: true
+  position:
+    type: string
+    format: date
+    description: The rank the activity has in a list of activities
+    readOnly: true
+  default:
+    type: boolean
+    description: Flag to signal whether this activity is the default activity
+    readOnly: true
+  _links:
+    type: object
+    required:
+    - self
+    - projects
+    properties:
+      self:
+        allOf:
+        - "$ref": "./link.yml"
+        - description: |-
+            This time entry activity
+
+            **Resource**: TimeEntriesActivity
+          readOnly: true
+      projects:
+        allOf:
+        - "$ref": "./link.yml"
+        - description: |-
+            List of projects the time entry is active in
+
+            **Resource**: []Project

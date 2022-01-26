@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 it:
   no_results_title_text: Al momento non c'è niente da visualizzare.
@@ -167,8 +167,8 @@ it:
     enabled_in_project: 'Abilitato nel progetto'
     contained_in_type: 'Contenuto nel tipo'
     confirm_destroy_option: "L'eliminazione di un'opzione eliminerà tutte le sue occorrenze (ad es. nelle macro-attività). Procedere all'eliminazione?"
-    reorder_alphabetical: "Reorder values alphabetically"
-    reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
+    reorder_alphabetical: "Riordina i valori alfabeticamente"
+    reorder_confirmation: "Attenzione: l'ordine corrente dei valori disponibili sarà perso. Continuare?"
     tab:
       no_results_title_text: Al momento non esistono campi personalizzati.
       no_results_content_text: Crea un nuovo campo personalizzato
@@ -196,7 +196,7 @@ it:
       scheduled: "L'eliminazione è stata programmata e verrà eseguita in background. Verrai avvisato del risultato."
       schedule_failed: "Il progetto non può essere eliminato: %{errors}"
       failed: "Eliminazione del progetto %{name} non riuscita"
-      failed_text: "La richiesta di eliminare il progetto %{name} non è riuscita. Il progetto è stato archiviato."
+      failed_text: "La richiesta di eliminare il progetto %{name} non è riuscita. Il progetto è stato lasciato in archivio."
       completed: "Eliminazione del progetto %{name} completata"
       completed_text: "La richiesta di cancellare il progetto '%{name}' è stata completata."
     index:
@@ -295,7 +295,8 @@ it:
       query_group_placeholder: "Assegnare un nome alla tabella"
       reset: "Ripristino predefinite"
       type_color_text: |
-        Clicca per assegnare o cambiare il colore di questo tipo. Il colore selezionato distingue le macro-attività nei diagrammi di Gantt. Ti consigliamo di utilizzare un colore forte.
+        Il colore selezionato distingue diverse tipologie
+        neidiagrammi Gantt o nelle tabelle delle macro-attività. Si consiglia quindi di utilizzare colori forti.
   versions:
     overview:
       no_results_title_text: Al momento non vi è alcuna macro-attività assegnata a questa versione.
@@ -313,6 +314,10 @@ it:
       other: '%{count} macro-attività discendenti'
     bulk:
       could_not_be_saved: "Le seguenti macro-attività non possono essere salvate:"
+      none_could_be_saved: "None of the %{total} work packages could be updated."
+      x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
+      selected_because_descendants: "While %{selected} work packages where selected, in total %{total} work packages are affected which includes descendants."
+      descendant: "descendant of selected"
     move:
       no_common_statuses_exists: "Nessuno stato disponibile per tutte le macro-attività selezionate. Non è possibile cambiare lo stato."
       unsupported_for_multiple_projects: 'Il comando sposta/copia multiplo non è supportato per macroattività da più progetti'
@@ -456,6 +461,7 @@ it:
         url: "URL"
       role:
         assignable: "È possibile assegnare macro-attività ad utenti e gruppi che hanno questo ruolo nel rispettivo progetto"
+        permissions: "Permessi"
       time_entry:
         activity: "Attività"
         hours: "Ore"
@@ -475,7 +481,6 @@ it:
         force_password_change: "Richiedi la modifica della password al prossimo login"
         language: "Linguaggio"
         last_login_on: "Ultimo accesso"
-        mail_notification: "Notifiche email"
         new_password: "Nuova password"
         password_confirmation: "Conferma"
         consented_at: "Consenso a"
@@ -518,10 +523,10 @@ it:
         watcher: "Osservatore"
       'doorkeeper/application':
         uid: "Client ID"
-        secret: "Segreto del client"
+        secret: "Chiave segreta del client"
         owner: "Proprietario"
-        redirect_uri: "Reindirizzamento URl"
-        client_credentials_user_id: "ID utente credenziali client"
+        redirect_uri: "Reindirizzamento URI"
+        client_credentials_user_id: "ID utente delle credenziali client"
         scopes: "Ambiti"
         confidential: "Confidenziale"
     errors:
@@ -532,6 +537,7 @@ it:
         before: "deve essere precedente al %{date}."
         before_or_equal_to: "deve essere precedente o uguale al %{date}."
         blank: "non può essere lasciato vuoto."
+        blank_nested: "deve avere la proprietà '%{property}' impostata."
         cant_link_a_work_package_with_a_descendant: "Una macro-attività non può essere collegato a una delle sue sottoattività."
         circular_dependency: "Questa relazione creerebbe una dipendenza circolare."
         confirmation: "non coincide con %{attribute}."
@@ -545,11 +551,14 @@ it:
         even: "deve essere pari."
         exclusion: "è riservato."
         file_too_large: "è troppo grande (la dimensione massima è %{count} Byte)."
+        format: "non corrisponde al formato previsto '%{expected}'."
+        format_nested: "non corrisponde al formato previsto '%{expected}' al percorso '%{path}'."
         greater_than: "deve essere maggiore di %{count}."
         greater_than_or_equal_to: "deve essere maggiore o uguale di %{count}."
         greater_than_or_equal_to_start_date: "deve essere successivo o uguale alla data di inizio."
         greater_than_start_date: "deve essere successivo alla data di inizio."
         inclusion: "non è impostata su uno dei valori consentiti."
+        inclusion_nested: "non è impostato su uno dei valori consentiti al percorso '%{path}'."
         invalid: "non è valido."
         invalid_url: 'non è un URL valido.'
         invalid_url_scheme: 'non è un protocollo supportato (ammessi: %{allowed_schemes}).'
@@ -570,20 +579,26 @@ it:
         taken: "è già stato usato."
         too_long: "è troppo lungo (il massimo è %{count} caratteri)."
         too_short: "è troppo breve (il minimo è %{count} caratteri)."
+        type_mismatch: "non è di tipo '%{type}'"
+        type_mismatch_nested: "non è di tipo '%{type}' al percorso '%{path}'"
         unchangeable: "non può essere modificato."
+        unknown_property: "non è una proprietà conosciuta."
+        unknown_property_nested: "ha il percorso sconosciuto '%{path}'."
         unremovable: "non può essere rimosso."
         wrong_length: "è della lunghezza sbagliata (dovrebbe essere %{count} caratteri)."
       models:
         attachment:
           attributes:
             content_type:
-              not_whitelisted: "è impostato a '%{value}', che non è autorizzato per il caricamento."
+              blank: "Il tipo di contenuto del file non può essere vuoto."
+              not_whitelisted: "Il file è stato rifiutato da un filtro automatico. Non è possibile caricare '%{value}'."
+              format: "%{message}"
         capability:
           context:
             global: 'Globale'
           query:
             filters:
-              minimum: "devi includere almeno un filtro per principale, contesto o id con l'operatore '='."
+              minimum: "necessità di includere almeno un filtro per il principale, per il contesto o per l'id con l'operatore '='."
         custom_field:
           at_least_one_custom_option: "Deve essere disponibile almeno un'opzione."
         custom_actions:
@@ -604,13 +619,28 @@ it:
               secured_uri: 'deve essere un URI HTTPS/SSL.'
               forbidden_uri: 'è vietato dal server.'
             scopes:
-              not_match_configured: "non corrisponde ai campi disponibili."
+              not_match_configured: "non corrisponde a nessuno degli ambiti disponibili."
         enterprise_token:
           unreadable: "non può essere letto. Sei sicuro che si tratta di un token di assistenza?"
         grids/grid:
           overlaps: 'sovrapposizione.'
           outside: 'è fuori dalla griglia.'
           end_before_start: 'il valore finale deve essere più grande del valore iniziale.'
+        notifications:
+          at_least_one_channel: 'Deve essere specificato almeno un canale per l''invio delle notifiche.'
+          attributes:
+            read_ian:
+              read_on_creation: 'non può essere impostato su vero nella creazione delle notifiche.'
+            mail_reminder_sent:
+              set_on_creation: 'non può essere impostato su vero nella creazione delle notifiche.'
+            reason:
+              no_notification_reason: 'non può essere vuoto perché IAN è scelto come canale.'
+            reason_mail_digest:
+              no_notification_reason: 'non può essere vuoto perché la mail automatica è scelta come canale.'
+        notification_settings:
+          only_one_global_setting: 'Ci deve essere una sola impostazione globale di notifica.'
+          email_alerts_global: 'Le impostazioni di notifica email possono essere impostate solo globalmente.'
+          format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -645,7 +675,6 @@ it:
           filters:
             custom_fields:
               inexistent: "Nessun campo personalizzato per il filtro."
-              invalid: "Il campo personalizzato non è valido nel contesto dato."
         queries/filters/base:
           attributes:
             values:
@@ -675,6 +704,12 @@ it:
           attributes:
             hours:
               day_limit: "è troppo alto: puoi registrare fino a 24 ore al giorno."
+        user_preference:
+          attributes:
+            pause_reminders:
+              invalid_range: "può essere solo un intervallo di date valido."
+            daily_reminders:
+              full_hour: "può essere configurato solo per essere consegnato a un'ora puntuale."
         wiki_page:
           attributes:
             slug:
@@ -686,6 +721,7 @@ it:
               not_start_date: "non è sulla data di inizio, nonostante sia obbligatorio per i traguardi."
             parent:
               cannot_be_milestone: "non può essere un traguardo."
+              cannot_be_self_assigned: "non può essere assegnato a se stesso."
               cannot_be_in_another_project: "non può essere in un altro progetto."
               not_a_valid_parent: "non è valido."
             start_date:
@@ -702,6 +738,7 @@ it:
               does_not_exist: "La categoria specificata non esiste."
             estimated_hours:
               only_values_greater_or_equal_zeroes_allowed: "deve essere >=0."
+          readonly_status: 'The work package is in a readonly status so its attributes cannot be changed.'
         type:
           attributes:
             attribute_groups:
@@ -712,6 +749,9 @@ it:
               group_without_name: "Non sono ammessi gruppi senza nome."
         user:
           attributes:
+            password_confirmation:
+              confirmation: "Le password non corrispondono."
+              format: "%{message}"
             password:
               weak: "Deve contenere caratteri delle seguenti classi (almeno %{min_count} di %{all_count}): %{rules}."
               lowercase: "minuscolo (es. 'a')"
@@ -757,6 +797,9 @@ it:
       status: "Stato della macro-attività"
       member: "Membro"
       news: "Notizie"
+      notification:
+        one: "Notifica"
+        other: "Notifiche"
       placeholder_user: "Utente segnaposto"
       project: "Progetto"
       query: "Query personalizzata"
@@ -807,7 +850,6 @@ it:
     firstname: "Nome"
     group: "Gruppo"
     groups: "Gruppi"
-    name: "Nome"
     id: "ID"
     is_default: "Valore predefinito"
     is_for_all: "Per tutti progetti"
@@ -817,6 +859,7 @@ it:
     lastname: "Cognome"
     login: "Nome utente"
     mail: "Email"
+    name: "Nome"
     password: "Password"
     priority: "Priorità"
     project: "Progetto"
@@ -877,7 +920,7 @@ it:
   button_change_password: "Cambia password"
   button_check_all: "Seleziona tutti"
   button_clear: "Pulisci"
-  button_click_to_reveal: "Clicca per visualizzare"
+  button_click_to_reveal: "Clicca per mostrare"
   button_close: 'Chiuso'
   button_collapse_all: "Comprimi Tutto"
   button_configure: "Configura"
@@ -1157,7 +1200,9 @@ it:
   error_can_not_archive_project: "Questo progetto non può essere archiviato: %{errors}"
   error_can_not_delete_entry: "Impossibile eliminare la voce"
   error_can_not_delete_custom_field: "Impossibile eliminare il campo personalizzato"
-  error_can_not_delete_type: "Questo tipo risulta contenere macro-attività e non può essere eliminato."
+  error_can_not_delete_type:
+    explanation: 'Questo tipo contiene macro-attività e non può essere eliminato. Puoi vedere tutte le macro-attività interessate in <a target="_blank" href="%{url}">questa vista</a>.'
+    archived_projects: 'Ci sono macro-attività anche nei progetti archiviati. Devi prima riattivare i seguenti progetti, prima di poter modificare il tipo delle rispettive macro-attività: %{archived_projects}'
   error_can_not_delete_standard_type: "Tipi standard non possono essere eliminati."
   error_can_not_invite_user: "Impossibile inviare l'invito all'utente."
   error_can_not_remove_role: "Questo ruolo è in uso e non può essere eliminato."
@@ -1186,6 +1231,7 @@ it:
   error_no_type_in_project: "Nessun tipo è associato a questo progetto. Si prega di controllare le impostazioni del progetto."
   error_omniauth_registration_timed_out: "La registrazione tramite un provider di autenticazione esterno è scaduta. Per favore riprova."
   error_omniauth_invalid_auth: "Le informazioni di autenticazione restituite dal provider d'identità non sono valide. Contatta il tuo amministratore per ulteriori informazioni."
+  error_password_change_failed: 'Si è verificato un errore durante il tentativo di modifica della password.'
   error_scm_command_failed: "Si è verificato un errore durante il tentativo di accesso all'archivio: %{value}"
   error_scm_not_found: "La voce o la revisione non è stata trovata nell'archivio."
   error_unable_delete_status: "Lo stato della macro-attività non può essere eliminato poiché è utilizzato da almeno una macro-attività."
@@ -1278,6 +1324,9 @@ it:
   instructions_after_logout: "Può accedere nuovamente cliccando %{signin}."
   instructions_after_error: "Si può provare ad accedere nuovamente cliccando %{signin}. Se l'errore persiste, chiedi aiuto al tuo amministratore."
   menus:
+    admin:
+      mail_notification: "Notifiche email"
+      incoming_outgoing: "Entrate & Uscite"
     quick_add:
       label: "Apri menu di aggiunta rapida"
   my_account:
@@ -1290,6 +1339,33 @@ it:
         action: "Azione"
         expiration: "Scade"
       indefinite_expiration: "Mai"
+  notifications:
+    send_notifications: "Invia notifiche per questa azione"
+    work_packages:
+      subject:
+        created: "La macro-attività è stata creata."
+        assigned: "Sei stato assegnato a %{work_package}"
+        subscribed: "Ti sei abbonato a %{work_package}"
+        mentioned: "Sei stato menzionato in %{work_package}"
+        responsible: "Sei diventato responsabile per %{work_package}"
+        watched: "Stai guardando il %{work_package}"
+    update_info_mail:
+      body: >
+        Siamo lieti di annunciare il rilascio di OpenProject 12.0. Si tratta di una versione importante che si spera migliorerà significativamente il modo in cui si utilizza OpenProject.
+
+        A partire da questa versione, stiamo introducendo le notifiche in-app. D'ora in poi, riceverai notifiche per gli aggiornamenti ai pacchetti di lavoro direttamente in OpenProject. È possibile contrassegnare queste notifiche come lette, rispondere a un commento o persino modificare direttamente gli attributi del pacchetto di lavoro senza uscire dal centro notifiche.
+
+        Ciò significa anche che non utilizzeremo più le e-mail per le notifiche. Riteniamo che il nuovo centro notifiche sia un posto migliore per visualizzare e agire in base a questi aggiornamenti. Tuttavia, se desideri continuare a ricevere aggiornamenti via e-mail, puoi scegliere di ricevere promemoria giornalieri via e-mail in momenti particolari di tua scelta.
+
+        Assicurati di verificare le nuove impostazioni di notifica predefinite e imposta le tue preferenze per le notifiche e i promemoria via e-mail tramite le impostazioni del tuo account. Puoi farlo tramite il pulsante "Modifica impostazioni e-mail" qui sotto. Ci auguriamo che tu trovi utili le notifiche in-app e che ti rendano ancora più produttivo.
+
+        Sinceramente 
+
+        Il team di OpenProject
+
+      body_header: 'Versione 12.0 con Centro Notifiche'
+      body_subheader: 'Notizie'
+      subject: 'Modifiche importanti alle notifiche con il rilascio della versione 12.0'
   label_accessibility: "Accessibilità"
   label_account: "Account"
   label_active: "Attivo"
@@ -1375,7 +1451,7 @@ it:
   label_check_uncheck_all_in_column: "Seleziona/Deseleziona tutto nella colonna"
   label_check_uncheck_all_in_row: "Seleziona/deseleziona tutto nella riga"
   label_child_element: "Elemento figlio"
-  label_chronological_order: "In ordine cronologico"
+  label_chronological_order: "Prima i meno recenti"
   label_close_versions: "Chiudi le versioni complete"
   label_closed_work_packages: "chiuso"
   label_collapse: "Comprimi"
@@ -1463,7 +1539,6 @@ it:
   label_feeds_access_key: "Chiave di accesso RSS"
   label_feeds_access_key_created_on: "Chiave di accesso RSS creato %{value} fa"
   label_feeds_access_key_type: "RSS"
-  label_file_added: "File aggiunto"
   label_file_plural: "File"
   label_filter_add: "Aggiungi filtro"
   label_filter_plural: "Filtri"
@@ -1592,7 +1667,6 @@ it:
   label_none_parentheses: "(nessuno)"
   label_not_contains: "non contiene"
   label_not_equals: "non è"
-  label_notify_member_plural: "Aggiornamenti email"
   label_on: "il"
   label_open_menu: "Apri menu"
   label_open_work_packages: "aperte"
@@ -1680,7 +1754,7 @@ it:
   label_required: 'obbligatorio'
   label_requires: 'richiede'
   label_result_plural: "Risultati"
-  label_reverse_chronological_order: "In ordine cronologico inverso"
+  label_reverse_chronological_order: "Prima i più recenti"
   label_revision: "Revisione"
   label_revision_id: "Revisione %{value}"
   label_revision_plural: "Revisioni"
@@ -1712,7 +1786,6 @@ it:
   label_start_to_start: "dall'inizio all'inizio"
   label_statistics: "Statistiche"
   label_status: "Stato"
-  label_status_updated: "Stato della macro-attiività aggiornato"
   label_stay_logged_in: "Resta connesso"
   label_storage_free_space: "Spazio di archiviazione su disco rimanente"
   label_storage_used_space: "Spazio di archiviazione su disco utilizzato"
@@ -1776,7 +1849,7 @@ it:
   label_view_diff: "Mostra le differenze"
   label_view_revisions: "Vedi revisioni"
   label_watched_work_packages: "Macro-attività osservate"
-  label_what_is_this: "Che cos'è questo?"
+  label_what_is_this: "Cos'è questo?"
   label_week: "Settimana"
   label_wiki_content_added: "Pagina wiki aggiunta"
   label_wiki_content_updated: "Pagina wiki aggiornata"
@@ -1796,21 +1869,17 @@ it:
   label_wiki_show_submenu_item: "Mostra come voce di sottomenù di "
   label_wiki_start: "Pagina iniziale"
   label_work_package: "Macro-attività"
-  label_work_package_added: "Macro-attività aggiunta"
   label_work_package_attachments: "Allegati macro-attività"
   label_work_package_category_new: "Nuova categoria"
   label_work_package_category_plural: "Categorie della macro-attività"
   label_work_package_hierarchy: "Gerarchia Macro-attività"
   label_work_package_new: "Nuova macro-attività"
-  label_work_package_note_added: "Aggiunta nota alla macro-attività"
   label_work_package_edit: "Modifica la macro-attività %{name}"
   label_work_package_plural: "Macro-attività"
-  label_work_package_priority_updated: "Priorità della macro-attività aggiornata"
   label_work_package_status: "Stato della macro-attività"
   label_work_package_status_new: "Nuovo stato"
   label_work_package_status_plural: "Stati della macro-attività"
   label_work_package_types: "Tipi di macro-attività"
-  label_work_package_updated: "Macro-attività aggiornata"
   label_work_package_tracking: "Monitoraggio macro-attività"
   label_work_package_view_all: "Vedi tutte le macro-attività"
   label_workflow: "Flusso di lavoro"
@@ -1863,6 +1932,37 @@ it:
       link_name_type: 'Nuovo %{type_name}'
   mail:
     actions: 'Azioni'
+    digests:
+      including_mention_singular: 'inclusa una menzione'
+      including_mention_plural: 'incluse %{number_mentioned} menzioni'
+      unread_notification_singular: '1 notifica non letta'
+      unread_notification_plural: '%{number_unread} notifiche non lette'
+      you_have: 'Hai'
+    logo_alt_text: 'Logo'
+    mention:
+      subject: "%{user_name} ti ha menzionato nel n.%{id} - %{subject}"
+    notification:
+      center: 'Al centro notifiche'
+      see_in_center: 'Vedi commento nel centro notifiche'
+      settings: 'Modifica impostazioni email'
+    salutation: 'Ciao %{user}!'
+    work_packages:
+      created_at: 'Creato il %{timestamp} da %{user} '
+      login_to_see_all: 'Accedi per visualizzare tutte le notifiche.'
+      mentioned: 'You have been <b>menzionato in un commento</b>'
+      mentioned_by: '%{user} ti ha citato in un commento'
+      more_to_see:
+        one: 'C''è un altro pacchetto di lavoro con le notifiche.'
+        other: 'Ci sono altri %{count} pacchetti di lavoro con notifiche.'
+      reason:
+        watched: 'Visto'
+        assigned: 'Assegnato'
+        responsible: 'Responsabile'
+        mentioned: 'Menzionato'
+        subscribed: 'tutti'
+        prefix: 'Ricevuto a causa dell''impostazione della notifica: %{reason}'
+      see_all: 'Vedi tutti'
+      updated_at: 'Aggiornato il %{timestamp} da %{user}'
   mail_body_account_activation_request: "Un nuovo utente (%{value}) si è registrato. L'account è in attesa di approvazione:"
   mail_body_account_information: "Informazioni sul tuo account"
   mail_body_account_information_external: "Puoi usare il tuo %{value} account per accedere."
@@ -1880,7 +1980,7 @@ it:
     Date un'occhiata al nostro canale youtube (%{youtube_link}) dove forniamo un webinar (%{webinar_link})
     e video su “Come iniziare” (%{get_started_link}), in modo da rendere i tuoi primi passi in OpenProject più facili possibile.
     <br />
-    Se hai ulteriori domande, consulta la nostra documentazione (%{documentation_link}) o contattaci (%{contact_us_link}).
+    Se hai ulteriori domande, consulta la nostra documentazione (%{documentation_link}) o contatta l'amministratore.
   mail_body_register_closing: "Il tuo team OpenProject"
   mail_body_register_ending: "Resta in contatto! Cordiali saluti,"
   mail_body_reminder: "%{count} macro-attività a te assegnata/e scadono nei prossimi %{days} giorni:"
@@ -2071,6 +2171,7 @@ it:
   permission_protect_wiki_pages: "Proteggere l'accesso a pagine wiki"
   permission_rename_wiki_pages: "Rinominare pagine wiki"
   permission_save_queries: "Salva viste"
+  permission_select_custom_fields: "Seleziona campi personalizzati"
   permission_select_project_modules: "Seleziona moduli del progetto"
   permission_manage_types: "Seleziona i tipi"
   permission_view_calendar: "Vedi calendario"
@@ -2237,7 +2338,11 @@ it:
   setting_apiv3_cors_origins: "Origini di condivisione CORS (Cross-Origin Resource Sharing) API V3 consentite"
   setting_apiv3_cors_origins_text_html: >
     Se CORS è abilitato, queste sono le origini che possono accedere alle API di OpenProject. <br/> Controlla la <a href="%{origin_link}" target="_blank">Documentazione sull'intestazione dell'origine</a> per sapere come specificare i valori previsti.
-  setting_attachment_whitelist: "Attachment upload whitelist"
+  setting_apiv3_docs: "Documentazione"
+  setting_apiv3_docs_enabled: "Abilita pagina di documenti"
+  setting_apiv3_docs_enabled_instructions_html: >
+    Se la pagina dei documenti è abilitata, puoi ottenere una vista interattiva della documentazione APIv3 sotto <a href="%{link}" target="_blank">%{link}</a>.
+  setting_attachment_whitelist: "Whitelist di caricamento di allegati"
   setting_email_delivery_method: "Metodo di invio e-mail"
   setting_sendmail_location: "Percorso dell'eseguibile del programma di invio della posta"
   setting_smtp_enable_starttls_auto: "Usa automaticamente, se disponibile, STARTTLS"
@@ -2274,7 +2379,6 @@ it:
   setting_first_week_of_year: "La prima settimana dell'anno contiene"
   setting_date_format: "Formato data"
   setting_default_language: "Linguaggio predefinito"
-  setting_default_notification_option: "Opzione di notifica predefinita"
   setting_default_projects_modules: "Moduli abilitati in automatico su nuovi progetti"
   setting_default_projects_public: "I nuovi progetti sono pubblici come impostazione predefinita"
   setting_diff_max_lines_displayed: "Numero massimo di linee diff visualizzate"
@@ -2284,6 +2388,7 @@ it:
   setting_email_login: "Usa email come login"
   setting_enabled_scm: "SCM Abilitato"
   setting_enabled_projects_columns: "Visibile nell'elenco dei progetti"
+  setting_notification_retention_period_days: "Periodo di conservazione della notifica"
   setting_feeds_enabled: "Abilita Feed"
   setting_feeds_limit: "Limite al contenuto del contributo"
   setting_file_max_size_displayed: "Dimensione massima dei file di testo visualizzati inline"
@@ -2297,7 +2402,7 @@ it:
   setting_work_package_properties: "Proprietà della macro-attività"
   setting_work_package_startdate_is_adddate: "Usa la data corrente come data di inizio per le nuove macro-attività"
   setting_work_packages_export_limit: "Limite di esportazione delle macro-attività"
-  setting_journal_aggregation_time_minutes: "Mostra i rapporti aggregando per"
+  setting_journal_aggregation_time_minutes: "Azioni utente aggregate all'interno"
   setting_log_requesting_user: "Registra il nome d'accesso, il nome utente, e l'indirizzo mail per tutte le richieste"
   setting_login_required: "Autenticazione richiesta"
   setting_mail_from: "Indirizzo e-mail di emissione"
@@ -2354,11 +2459,12 @@ it:
     brute_force_prevention: "Blocco automatico degli utenti"
     attachments:
       whitelist_text_html: >
-        Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
+        Definisci un elenco di estensioni di file valide e/o tipi MIME per i file caricati. <br/> Inserisci le estensioni dei file (ad es. <code>%{ext_example}</code>) o i tipi MIME (ad es. <code>%{mime_example}</code>). <br/> Lascia vuoto per consentire il caricamento di qualsiasi tipo di file. Sono consentiti più valori (una riga per ogni valore).
     notifications:
       retention_text: >
         Impostare il numero di giorni di notifica per gli utenti (la fonte per le notifiche in-app) sarà mantenuto nel sistema. Eventuali eventi più vecchi verranno eliminati.
-      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
+      events_explanation: 'Determina per quale evento viene inviata un''e-mail. Le macro-attività sono escluse da questo elenco in quanto le notifiche per essi possono essere configurate in modo specifico per ogni utente.'
+      delay_minutes_explanation: "L'invio di e-mail può essere ritardato per consentire agli utenti con la notifica in-app configurata di confermare la notifica all'interno dell'applicazione prima che la mail venga inviata. Gli utenti che leggono una notifica all'interno dell'applicazione non riceveranno un'email per la notifica già letta."
     display:
       first_date_of_week_and_year_set: >
         Se le opzioni "%{day_of_week_setting_name}" o "%{first_week_setting_name}" sono impostate, dev'esser impostata anche l'altra per evitare incoerenze in vetrina.
@@ -2439,9 +2545,9 @@ it:
   text_work_packages_destroy_confirmation: "Sei sicuro di che voler eliminare le/le macro-attività selezionata/e?"
   text_work_packages_ref_in_commit_messages: "Macro-attivita che sono correlate e/o modificate nei messaggi di conferma"
   text_journal_added: "%{label} %{value} aggiunto"
-  text_journal_aggregation_time_explanation: "Aggrega i rapporti se la loro distanza temporale è inferiore all'intervallo di tempo specificato. Questo ritarderà inoltre della stessa quantità di tempo anche le notifiche via posta elettronica."
-  text_journal_changed: "modificato da %{old} <br/><strong>a</strong> %{new} %{label}"
-  text_journal_changed_plain: "%{label} cambiato da %{old} \na %{new}"
+  text_journal_aggregation_time_explanation: "Le azioni individuali di un utente (ad es. l'aggiornamento di un pacchetto di lavoro due volte) sono aggregati in un'unica azione se la loro differenza di età è inferiore al periodo di tempo specificato. Verranno visualizzate come un'unica azione all'interno dell'applicazione. Questo ritarderà anche le notifiche della stessa quantità di tempo, riducendo il numero di e-mail inviate."
+  text_journal_changed_html: "%{label} modificato da %{old} %{linebreak}<strong>a</strong> %{new}"
+  text_journal_changed_plain: "%{label} modificato da %{old} %{linebreak}a %{new}"
   text_journal_changed_no_detail: "%{label} aggiornata"
   text_journal_changed_with_diff: "%{label} cambiato (%{link})"
   text_journal_deleted: "%{label} cancellato (%{old})"
@@ -2469,7 +2575,6 @@ it:
   text_regexp_info: "es. ^[A-Z0-9]+$"
   text_regexp_multiline: 'L''espressione regolare viene applicata in modalità multi-linea. ad esempio, ^---\s+'
   text_repository_usernames_mapping: "Seleziona o aggiorna l'utente OpenProject mappato per ogni nome utente trovato nel registro dell'archivio. Gli utenti con lo stesso nome utente e repository OpenProject o e-mail vengono mappati automaticamente."
-  text_select_mail_notifications: "Seleziona le azioni per cui l'e-mail deve essere inviata."
   text_status_changed_by_changeset: "Stato variato a partire dalla modifica %{value}."
   text_table_difference_description: "In questa tabella sono mostrate le singole %{entries}. È possibile visualizzare le differenze tra due voci selezionando prima le corrispondenti caselle di controllo nella tabella. Cliccando sul pulsante sotto la tabella saranno mostrate le differenze."
   text_time_logged_by_changeset: "Stato variato a partire dalla modifica %{value}."
@@ -2692,10 +2797,6 @@ it:
     password_change_unsupported: La modifica della password non è supportata.
     registered: "registrato"
     reset_failed_logins: "Azzera gli accessi falliti"
-    settings:
-      mail_notifications: "Invio notifiche via mail"
-      mail_project_explanaition: "Per i progetti non selezionati, si riceveranno solo le notifiche sulle cose che guardi o in cui sei coinvolto (es. macro-attività di cui sei l'autore o che ti sono state assegnate)."
-      mail_self_notified: "Voglio essere informato delle modifiche che faccio io stesso"
     status_user_and_brute_force: "%{user} e %{brute_force}"
     status_change: "Cambiamento di stato"
     text_change_disabled_for_provider_login: "Il nome è impostato dal servizio con cui hai effettuato l'accesso e non può essere modificato."
@@ -2717,7 +2818,7 @@ it:
     Raggiunto il limite di utente. Non puoi attivare altri utenti. Per favore<a href="%{upgrade_url}">aggiorna il tuo piano</a> o blocca i membri per consentire altri utenti.
   warning_user_limit_reached_instructions: >
     Raggiunto il limite di utenti (%{current}/%{max} utenti attivi). Si prega di contattare sales@openproject.com per aggiornare il tuo piano Enterprise Edition e aggiungere ulteriori utenti.
-  0: >
+  warning_protocol_mismatch_html: >
 
   warning_bar:
     protocol_mismatch:
@@ -2756,6 +2857,8 @@ it:
       code_409: "Impossibile aggiornare la risorsa a causa di modifiche in conflitto."
       code_429: "Troppe richieste. Sei pregato di riprovare più tardi."
       code_500: "Si è verificato un errore interno."
+      not_found:
+        work_package: "La macro-attività che stai cercando non può essere trovata o è stata eliminata."
       expected:
         date: "AAAA-MM-GG (solo date ISO 8601)"
         duration: "Durata ISO 8601"
@@ -2800,11 +2903,11 @@ it:
     errors:
       messages:
         #Common error messages
-        invalid_request: 'Nella richiesta non è presente un parametro richiesto, include un valore di parametro non supportato, o non è valido.'
+        invalid_request: 'La richiesta manca un parametro obbligatorio, include un valore non supportato in un parametro, o non è scritto correttamente.'
         invalid_redirect_uri: "Il reindirizzamento dell'URI richiesto non è valido o non corrisponde all'URI di reindirizzamento del client."
         unauthorized_client: 'Il client non è autorizzato ad eseguire questa richiesta usando questo metodo.'
         access_denied: 'Il proprietario della risorsa o il server di autorizzazione hanno rifiutato la richiesta.'
-        invalid_scope: 'Lo scopo richiesto non è non valido, sconosciuto o malformato.'
+        invalid_scope: 'L''ambito richiesto non è valido, è sconosciuto o non è scritto bene.'
         invalid_code_challenge_method: 'Il metodo di sfida del codice deve essere semplice o S256.'
         server_error: 'Il server di autorizzazione ha riscontrato una condizione inaspettata che ha impedito di elaborare la richiesta.'
         temporarily_unavailable: 'Il server di autorizzazione non è attualmente in grado di gestire la richiesta a causa di un sovraccarico temporaneo o della manutenzione del server.'

@@ -47,7 +47,7 @@
   - Auto-completion for work packages
   - Quick selection for custom queries
   - Responsible added to work package summary
-  - Responible can be assigned via context menu and bulk edit
+  - Responsible can be assigned via context menu and bulk edit
   - Easier navigation to work packages through shorter URL
 
 ## Add work package queries as menu items to sidebar
@@ -99,7 +99,7 @@ please refer to the release notes:
 notes](https://www.ruby-lang.org/en/news/2013/12/25/ruby-2-1-0-is-released/)
 
 [Rails 3.2 release
-notes](http://guides.rubyonrails.org/v3.2.14/3_2_release_notes.html)
+notes](https://guides.rubyonrails.org/v3.2.14/3_2_release_notes.html)
 
 If you have an older version of OpenProject, please follow the
-[migration guideline](https://docs.openproject.org/installation-and-operations/operation/upgrading/).
+[migration guideline](../../installation-and-operations/operation/upgrading/).

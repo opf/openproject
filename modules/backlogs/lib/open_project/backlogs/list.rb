@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module OpenProject::Backlogs::List
@@ -58,7 +58,7 @@ module OpenProject::Backlogs::List
       remove_from_list
       reload
 
-      prev = self.class.find_by_id(prev_id.to_i)
+      prev = self.class.find_by(id: prev_id.to_i)
 
       # If it should be the first story, move it to the 1st position
       if prev.blank?
@@ -146,7 +146,12 @@ module OpenProject::Backlogs::List
     end
 
     def set_default_prev_positions_silently(prev)
-      prev.version.rebuild_positions(prev.project)
+      if prev.is_task?
+        prev.version.rebuild_task_positions(prev)
+      else
+        prev.version.rebuild_story_positions(prev.project)
+      end
+
       prev.reload.position
     end
   end

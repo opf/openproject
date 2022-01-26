@@ -1,0 +1,113 @@
+# Schema: NotificationModel
+---
+type: object
+properties:
+  id:
+    type: integer
+    description: Notification id
+    readOnly: true
+    minimum: 0
+    exclusiveMinimum: true
+  subject:
+    type: string
+    description: The subject of the notification
+    readOnly: true
+  reason:
+    type: string
+    description: The reason for the notification (such as mentioned, involved, watched)
+    readOnly: true
+  readIAN:
+    type: boolean
+    description: Whether the notification is marked as read
+    readOnly: true
+  createdAt:
+    type: string
+    format: date-time
+    description: The time the notification was created at
+    readOnly: true
+  updatedAt:
+    type: string
+    format: date-time
+    description: The time the notification was last updated
+    readOnly: true
+  _links:
+    type: object
+    required:
+    - self
+    - project
+    - actor
+    properties:
+      self:
+        allOf:
+        - "$ref": "./link.yml"
+        - description: |-
+            This notification
+
+            **Resource**: Notification
+          readOnly: true
+      project:
+        allOf:
+        - "$ref": "./link.yml"
+        - description: |-
+            The project the notification originated in
+
+            **Resource**: Project
+          readOnly: true
+      actor:
+        allOf:
+        - "$ref": "./link.yml"
+        - description: |-
+            The user that caused the notification
+
+            **Resource**: User
+          readOnly: true
+      resource:
+        allOf:
+          - "$ref": "./link.yml"
+          - description: |-
+              The linked resource of the notification, if any.
+
+              **Resource**: Polymorphic
+            readOnly: true
+      activity:
+        allOf:
+          - "$ref": "./link.yml"
+          - description: |-
+              The journal activity, if the notification originated from a journal entry
+
+              **Resource**: Activity
+            readOnly: true
+example:
+  _type: News
+  id: 1
+  title: asperiores possimus nam doloribus ab
+  summary: Celebrer spiculum colo viscus claustrum atque. Id nulla culpa sumptus.
+    Comparo crapula depopulo demonstro.
+  description:
+    format: markdown
+    raw: Videlicet deserunt aequitas cognatus. Concedo quia est quia pariatur vorago
+      vallum. Calco autem atavus accusamus conscendo cornu ulterius. Tam patria ago
+      consectetur ventito sustineo nihil caecus. Supra officiis eos velociter somniculosus
+      tonsor qui. Suffragium aduro arguo angustus cogito quia tolero vulnus. Supplanto
+      sortitus cresco apud vestrum qui.
+    html: "<p>Videlicet deserunt aequitas cognatus. Concedo quia est quia pariatur
+      vorago vallum. Calco autem atavus accusamus conscendo cornu ulterius. Tam patria
+      ago consectetur ventito sustineo nihil caecus. Supra officiis eos velociter
+      somniculosus tonsor qui. Suffragium aduro arguo angustus cogito quia tolero
+      vulnus. Supplanto sortitus cresco apud vestrum qui.</p>"
+  createdAt: '2015-03-20T12:57:01Z'
+  _links:
+    self:
+      href: "/api/v3/news/1"
+      title: asperiores possimus nam doloribus ab
+    project:
+      href: "/api/v3/projects/1"
+      title: A project
+    author:
+      href: "/api/v3/users/2"
+      title: Peggie Feeney
+  _embedded:
+    project:
+      _type: Project...
+    author:
+      _type: User...

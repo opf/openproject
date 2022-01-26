@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module Users
@@ -34,12 +34,12 @@ module Users
 
     protected
 
-    def before_perform(params)
+    def before_perform(params, _service_result)
       call_hook :service_update_user_before_save,
                 params: params,
                 user: model
 
-      super(params)
+      super
     end
 
     def persist(service_result)

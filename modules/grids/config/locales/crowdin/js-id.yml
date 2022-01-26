@@ -2,7 +2,7 @@ id:
   js:
     grid:
       add_widget: 'Add widget'
-      remove: 'Remove widget'
+      remove: 'Hapus widget'
       configure: 'Configure widget'
       upsale:
         text: "Some widgets, like the work package graph widget, are only available in the "
@@ -16,7 +16,7 @@ id:
         members:
           title: 'Member'
           no_results: 'No visible members.'
-          view_all_members: 'Lihat semua anggota'
+          view_all_members: 'View all members'
           add: 'Member'
           too_many: 'Displaying %{count} of %{total} members.'
         news:

@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 sk:
   activerecord:
@@ -76,7 +76,7 @@ sk:
     task_color: "Farba úlohy"
     unassigned: "Nepriradené"
     x_more: "ďalších %{count}..."
-  backlogs_active: "aktívny"
+  backlogs_active: "aktívne"
   backlogs_any: "akékoľvek"
   backlogs_card_specification: "Typy štítkov pre tlač karty"
   backlogs_inactive: "Projekt nevykazuje žiadne činnosti"
@@ -120,7 +120,7 @@ sk:
   label_not_prioritized: "bez priority"
   label_points: "body"
   label_points_burn_down: "Nadol"
-  label_points_burn_up: "Hore"
+  label_points_burn_up: "Nahor"
   label_product_backlog: "product backlog"
   label_select_all: "Vybrať všetko"
   label_sprint_backlog: "sprint backlog"
@@ -137,6 +137,7 @@ sk:
   label_wiki: "Wiki"
   permission_view_master_backlog: "View master backlog"
   permission_view_taskboards: "View taskboards"
+  permission_select_done_statuses: "Select done statuses"
   permission_update_sprints: "Aktualizácia šprinty"
   points_accepted: "body prijaté"
   points_committed: "body odovzdané"
@@ -146,7 +147,7 @@ sk:
   project_module_backlogs: "Backlogs"
   rb_label_copy_tasks: "Skopírovať pracovné balíčky"
   rb_label_copy_tasks_all: "Všetky"
-  rb_label_copy_tasks_none: "Žiadny"
+  rb_label_copy_tasks_none: "Žiadne"
   rb_label_copy_tasks_open: "Otvorené"
   rb_label_link_to_original: "Obsahuje odkaz na pôvodný príbeh"
   remaining_hours: "zvyšné hodiny"

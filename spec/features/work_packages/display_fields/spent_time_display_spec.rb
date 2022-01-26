@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -56,7 +56,7 @@ describe 'Logging time within the work package view', type: :feature, js: true d
 
     # a click on save creates a time entry
     time_logging_modal.perform_action I18n.t('js.label_create')
-    wp_page.expect_and_dismiss_notification message: I18n.t(:notice_successful_create)
+    wp_page.expect_and_dismiss_toaster message: I18n.t(:notice_successful_create)
   end
 
   context 'as an admin' do

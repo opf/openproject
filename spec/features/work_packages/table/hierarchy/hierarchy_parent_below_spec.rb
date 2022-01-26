@@ -128,7 +128,7 @@ describe 'Work Package table hierarchy parent below', js: true do
       wp_table.expect_work_package_listed(child, child2, parent, grandparent)
 
       # Expect pagination to be correct
-      expect(page).to have_selector('.pagination--item.-current', text: '3')
+      expect(page).to have_selector('.op-pagination--item_current', text: '3')
 
       # Expect count to be correct (one additional parent shown)
       expect(page).to have_selector('.wp--row', count: 4)

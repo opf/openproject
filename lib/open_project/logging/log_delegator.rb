@@ -55,7 +55,7 @@ module OpenProject
         def clean_backtrace(exception)
           return nil unless exception&.backtrace
 
-          Rails.backtrace_cleaner.clean exception.backtrace, :full
+          Rails.backtrace_cleaner.clean exception.backtrace
         end
 
         ##
@@ -83,10 +83,17 @@ module OpenProject
         # A lambda handler for logging the error
         # to rails.
         def rails_logger_handler(message, context = {})
-          Rails.logger.public_send(
-            context[:level],
+          Rails.logger.public_send(context[:level]) do
             "#{context_string(context)} #{message}"
-          )
+          end
+
+          if context.key?(:exception)
+            Rails.logger.debug do
+              exception = context[:exception]
+              trace = context[:backtrace]&.join('; ')
+              "[#{exception.class}] #{exception.message}: #{trace}"
+            end
+          end
         end
 
         ##

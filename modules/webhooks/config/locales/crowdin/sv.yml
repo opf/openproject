@@ -38,7 +38,7 @@ sv:
         time: 'Leveranstid'
       form:
         introduction: >
-          Skicka en POST begäran till payload URL nedan för alla händelser i projektet din prenumeration. Payload kommer att motsvara APIv3-representationen av objektet som ändras.
+          Send a POST request to the payload URL below for any event in the project you're subscribed to. Payload will correspond to the APIv3 representation of the object being modified.
         apiv3_doc_url: För mer information, besök API-dokumentationen
         description:
           placeholder: 'Valfri beskrivning för webhook.'

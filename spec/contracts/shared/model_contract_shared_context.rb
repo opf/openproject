@@ -1,6 +1,8 @@
 shared_context 'ModelContract shared context' do
   def expect_contract_valid
-    expect(contract.validate).to eq(true)
+    expect(contract.validate)
+      .to eq(true),
+          "Contract is invalid with the following errors: #{contract.errors.details}"
   end
 
   def expect_contract_invalid(errors = {})

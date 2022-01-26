@@ -2,7 +2,7 @@ vi:
   js:
     grid:
       add_widget: 'Add widget'
-      remove: 'Remove widget'
+      remove: 'Xóa widget'
       configure: 'Configure widget'
       upsale:
         text: "Một số widget, như widget biểu đồ gói công việc, chỉ có sẵn trong"

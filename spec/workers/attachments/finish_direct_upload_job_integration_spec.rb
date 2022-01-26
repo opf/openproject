@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -99,6 +99,26 @@ describe Attachments::FinishDirectUploadJob, 'integration', type: :job do
       expect(container.lock_version)
         .to eql 0
     end
+
+    describe 'attachment created event' do
+      let(:attachment_ids) { [] }
+
+      let!(:subscription) do
+        OpenProject::Notifications.subscribe(OpenProject::Events::ATTACHMENT_CREATED) do |payload|
+          attachment_ids << payload[:attachment].id
+        end
+      end
+
+      after do
+        OpenProject::Notifications.unsubscribe(OpenProject::Events::ATTACHMENT_CREATED, subscription)
+      end
+
+      it "is triggered" do
+        job.perform(pending_attachment.id)
+        pending_attachment.reload
+        expect(attachment_ids).to include(pending_attachment.id)
+      end
+    end
   end
 
   context 'for a non journalized container' do
@@ -133,6 +153,19 @@ describe Attachments::FinishDirectUploadJob, 'integration', type: :job do
 
       expect(container.attachments).to be_empty
       expect { pending_attachment.reload }.to raise_error(ActiveRecord::RecordNotFound)
+    end
+
+    context 'when the job is getting a whitelist override' do
+      it "Does save the attachment" do
+        job.perform(pending_attachment.id, whitelist: false)
+
+        container.reload
+
+        expect(container.attachments.count).to eq 1
+        expect { pending_attachment.reload }.not_to raise_error(ActiveRecord::RecordNotFound)
+
+        expect(pending_attachment.downloads).to eq 0
+      end
     end
   end
 

@@ -2,63 +2,50 @@ require 'spec_helper'
 require 'features/page_objects/notification'
 
 describe 'Copy work packages through Rails view', js: true do
-  let(:dev_role) do
-    FactoryBot.create :role,
-                      permissions: %i[view_work_packages]
-  end
-  let(:mover_role) do
-    FactoryBot.create :role,
-                      permissions: %i[view_work_packages copy_work_packages move_work_packages manage_subtasks assign_versions
-                                      add_work_packages]
-  end
-  let(:dev) do
+  shared_let(:type) { FactoryBot.create :type, name: 'Bug' }
+  shared_let(:type2) { FactoryBot.create :type, name: 'Risk' }
+
+  shared_let(:project) { FactoryBot.create(:project, name: 'Source', types: [type, type2]) }
+  shared_let(:project2) { FactoryBot.create(:project, name: 'Target', types: [type, type2]) }
+
+  shared_let(:dev) do
     FactoryBot.create :user,
                       firstname: 'Dev',
                       lastname: 'Guy',
                       member_in_project: project,
-                      member_through_role: dev_role
+                      member_with_permissions: %i[view_work_packages]
   end
-  let(:mover) do
-    FactoryBot.create :admin,
+  shared_let(:mover) do
+    FactoryBot.create :user,
                       firstname: 'Manager',
                       lastname: 'Guy',
-                      member_in_project: project,
-                      member_through_role: mover_role
+                      member_in_projects: [project, project2],
+                      member_with_permissions: %i[view_work_packages
+                                                  copy_work_packages
+                                                  move_work_packages
+                                                  manage_subtasks
+                                                  assign_versions
+                                                  add_work_packages]
   end
 
-  let(:type) { FactoryBot.create :type, name: 'Bug' }
-  let(:type2) { FactoryBot.create :type, name: 'Risk' }
-
-  let!(:project) { FactoryBot.create(:project, name: 'Source', types: [type, type2]) }
-  let!(:project2) { FactoryBot.create(:project, name: 'Target', types: [type, type2]) }
-
-  let!(:work_package) do
+  shared_let(:work_package) do
     FactoryBot.create(:work_package,
                       author: dev,
                       project: project,
                       type: type)
   end
-  let!(:work_package2) do
+  shared_let(:work_package2) do
     FactoryBot.create(:work_package,
                       author: dev,
                       project: project,
                       type: type)
   end
-
-  let(:status) { work_package.status }
-  let!(:version) { FactoryBot.create :version, project: project2 }
-  let!(:status2) { FactoryBot.create :default_status }
-  let!(:workflow) do
-    FactoryBot.create :workflow,
-                      type_id: type2.id,
-                      old_status: work_package.status,
-                      new_status: status2,
-                      role: mover_role
-  end
+  shared_let(:version) { FactoryBot.create :version, project: project2 }
 
   let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
   let(:context_menu) { Components::WorkPackages::ContextMenu.new }
   let(:display_representation) { ::Components::WorkPackages::DisplayRepresentation.new }
+  let(:notes) { ::Components::WysiwygEditor.new }
 
   before do
     login_as current_user
@@ -80,15 +67,16 @@ describe 'Copy work packages through Rails view', js: true do
         context_menu.choose 'Bulk copy'
 
         expect(page).to have_selector('#new_project_id')
-        select 'Target', from: 'new_project_id'
+        select project2.name, from: 'new_project_id'
 
         sleep 1
 
         expect(page).to have_select('Project', selected: 'Target')
       end
 
-      it 'sets the version on copy' do
+      it 'sets the version on copy and leaves a note' do
         select version.name, from: 'version_id'
+        notes.set_markdown 'A note on copy'
         click_on 'Copy and follow'
 
         wp_table.expect_work_package_count 2
@@ -102,35 +90,83 @@ describe 'Copy work packages through Rails view', js: true do
         copied_wps = WorkPackage.last(2)
         expect(copied_wps.map(&:project_id).uniq).to eq([project2.id])
         expect(copied_wps.map(&:version_id).uniq).to eq([version.id])
+        expect(copied_wps.map { |wp| wp.journals.last.notes }.uniq).to eq(['A note on copy'])
       end
 
-      describe 'copy and follow' do
-        before do
-          click_on 'Copy and follow'
+      context 'with a work package having a child' do
+        let!(:child) do
+          FactoryBot.create(:work_package,
+                            author: dev,
+                            project: project,
+                            type: type,
+                            parent: work_package)
         end
 
-        it 'moves parent and child wp to a new project' do
+        it 'moves parent and child wp to a new project with the hierarchy amended' do
+          click_on 'Copy and follow'
+
           expect_angular_frontend_initialized
-          wp_table.expect_work_package_count 2
+          wp_table.expect_work_package_count 3
           expect(page).to have_selector('#projects-menu', text: 'Target')
 
           # Should not move the sources
-          work_package2.reload
-          work_package.reload
-          expect(work_package.project_id).to eq(project.id)
-          expect(work_package2.project_id).to eq(project.id)
+          expect(work_package.reload.project_id).to eq(project.id)
+          expect(work_package2.reload.project_id).to eq(project.id)
 
           # Check project of last two created wps
-          copied_wps = WorkPackage.last(2)
-          expect(copied_wps.map(&:project_id)).to eq([project2.id, project2.id])
+          copied_wps = WorkPackage.last(3)
+          expect(copied_wps.map(&:project_id).uniq).to eq([project2.id])
+
+          expect(project2.work_packages.find_by(subject: child.subject).parent)
+            .to eq project2.work_packages.find_by(subject: work_package.subject)
+        end
+      end
+
+      context 'when the target project does not have the type' do
+        let!(:child) do
+          FactoryBot.create(:work_package,
+                            author: dev,
+                            project: project,
+                            type: type,
+                            parent: work_package)
         end
 
-        context 'when the target project does not have the type' do
-          let!(:project2) { FactoryBot.create(:project, name: 'Target', types: [type2]) }
+        before do
+          project2.types = [type2]
+        end
 
-          it 'does moves the work package and changes the type' do
-            expect(page).to have_selector('.flash.error', text: "Failed to save 2 work package(s) on 2 selected:")
-          end
+        it 'fails, informing of the reasons' do
+          click_on 'Copy and follow'
+
+          expect(page)
+            .to have_selector(
+              '.flash.error',
+              text: I18n.t('work_packages.bulk.none_could_be_saved', total: 3)
+            )
+
+          expect(page)
+            .to have_selector(
+              '.flash.error',
+              text: I18n.t('work_packages.bulk.selected_because_descendants', total: 3, selected: 2)
+            )
+
+          expect(page)
+            .to have_selector(
+              '.flash.error',
+              text: "#{work_package.id}: Type #{I18n.t('activerecord.errors.messages.inclusion')}"
+            )
+
+          expect(page)
+            .to have_selector(
+              '.flash.error',
+              text: "#{work_package2.id}: Type #{I18n.t('activerecord.errors.messages.inclusion')}"
+            )
+
+          expect(page)
+            .to have_selector(
+              '.flash.error',
+              text: "#{child.id} (descendant of selected): Type #{I18n.t('activerecord.errors.messages.inclusion')}"
+            )
         end
       end
     end

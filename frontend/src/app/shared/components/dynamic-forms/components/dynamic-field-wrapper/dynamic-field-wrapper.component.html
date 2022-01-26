@@ -1,0 +1,40 @@
+<op-form-field
+  *ngIf="field.type !== 'booleanInput'"
+  [control]="field?.formControl"
+  [label]="to?.label"
+  [hidden]="field?.hide"
+  [noWrapLabel]="to?.noWrapLabel"
+  [required]="to?.required"
+  [helpTextAttribute]="to?.property"
+  [helpTextAttributeScope]="to?.helpTextAttributeScope || dynamicFormComponent?.helpTextAttributeScope"
+  [showValidationErrorOn]="to?.showValidationErrorOn || dynamicFormComponent?.showValidationErrorsOn"
+  [attr.data-qa-field-name]="to?.property"
+>
+  <ng-container #fieldComponent slot="input"></ng-container>
+
+  <formly-validation-message
+    class="op-form-field--error"
+    [field]="field"
+    slot="errors"
+  ></formly-validation-message>
+</op-form-field>
+
+<op-checkbox-field
+  *ngIf="field.type === 'booleanInput'"
+  [control]="field?.formControl"
+  [label]="to?.label"
+  [hidden]="field?.hide"
+  [required]="to?.required"
+  [helpTextAttribute]="to?.property"
+  [helpTextAttributeScope]="to?.helpTextAttributeScope || dynamicFormComponent?.helpTextAttributeScope"
+  [showValidationErrorOn]="to?.showValidationErrorOn || dynamicFormComponent?.showValidationErrorsOn"
+  [attr.data-qa-field-name]="to?.property"
+>
+  <ng-container #fieldComponent slot="input"></ng-container>
+
+  <formly-validation-message
+    class="op-form-field--error"
+    [field]="field"
+    slot="errors"
+  ></formly-validation-message>
+</op-checkbox-field>

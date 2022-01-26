@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module API
@@ -291,7 +291,7 @@ module API
             # keep the appended filters between requests.
             filters = static_filters + instance_filters.call(represented)
 
-            api_v3_paths.path_for(:principals, filters: filters, page_size: 0)
+            api_v3_paths.path_for(:principals, filters: filters, page_size: -1)
           }
         end
 

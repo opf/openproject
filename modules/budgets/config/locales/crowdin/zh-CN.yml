@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 zh-CN:
   activerecord:
@@ -68,3 +68,6 @@ zh-CN:
   permission_edit_budgets: "编辑预算"
   permission_view_budgets: "查看预算"
   project_module_budgets: "预算"
+  text_budget_reassign_to: "将它们重新分配给此预算："
+  text_budget_delete: "从所有工作包中删除预算"
+  text_budget_destroy_assigned_wp: "有 %{count} 个工作包被分配到此预算。您想做什么？"

@@ -23,18 +23,18 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 source 'https://rubygems.org'
 
-ruby '~> 2.7.4'
+ruby '~> 2.7.5'
 
 gem 'actionpack-xml_parser', '~> 2.0.0'
 gem 'activemodel-serializers-xml', '~> 1.0.1'
-gem 'activerecord-import', '~> 1.0.2'
+gem 'activerecord-import', '~> 1.2.0'
 gem 'activerecord-session_store', '~> 2.0.0'
-gem 'rails', '~> 6.1.3'
+gem 'rails', '~> 6.1.4'
 gem 'responders', '~> 3.0'
 
 gem 'rdoc', '>= 2.4.2'
@@ -58,7 +58,7 @@ gem 'awesome_nested_set', '~> 3.4.0'
 gem 'rubytree', '~> 1.0.0'
 gem 'typed_dag', '~> 2.0.2'
 
-gem 'addressable', '~> 2.7.0'
+gem 'addressable', '~> 2.8.0'
 
 # Remove whitespace from model input
 gem "auto_strip_attributes", "~> 2.5"
@@ -73,7 +73,7 @@ gem 'htmldiff'
 gem 'stringex', '~> 2.8.5'
 
 # CommonMark markdown parser with GFM extension
-gem 'commonmarker', '~> 0.21.0'
+gem 'commonmarker', '~> 0.23.0'
 
 # HTML pipeline for transformations on text formatter output
 # such as sanitization or additional features
@@ -95,8 +95,9 @@ gem 'semantic', '~> 1.6.1'
 # used for statistics on svn repositories
 gem 'svg-graph', '~> 2.2.0'
 
-gem 'date_validator', '~> 0.11.0'
+gem 'date_validator', '~> 0.12.0'
 gem 'email_validator', '~> 2.2.3'
+gem 'json_schemer', '~> 0.2.18'
 gem 'ruby-duration', '~> 3.2.0'
 
 # provide compatible filesystem information for available storage
@@ -108,10 +109,10 @@ gem 'posix-spawn', '~> 0.3.13', require: false
 gem 'bcrypt', '~> 3.1.6'
 
 gem 'multi_json', '~> 1.15.0'
-gem 'oj', '~> 3.11.0'
+gem 'oj', '~> 3.13.0'
 
 gem 'daemons'
-gem 'delayed_cron_job', '~> 0.7.4'
+gem 'delayed_cron_job', '~> 0.8.0'
 gem 'delayed_job_active_record', '~> 4.1.5'
 
 gem 'rack-protection', '~> 2.1.0'
@@ -141,7 +142,7 @@ gem 'structured_warnings', '~> 0.4.0'
 
 # catch exceptions and send them to any airbrake compatible backend
 # don't require by default, instead load on-demand when actually configured
-gem 'airbrake', '~> 11.0.0', require: false
+gem 'airbrake', '~> 12.0.0', require: false
 
 gem 'prawn', '~> 2.2'
 gem 'prawn-markup', '~> 0.3.0'
@@ -149,26 +150,21 @@ gem 'prawn-markup', '~> 0.3.0'
 gem 'cells-erb', '~> 0.1.0'
 gem 'cells-rails', '~> 0.0.9'
 
-gem 'meta-tags', '~> 2.14.0'
+gem 'meta-tags', '~> 2.16.0'
 
 group :production do
   # we use dalli as standard memcache client
   # requires memcached 1.4+
-  gem 'dalli', '~> 2.7.10'
-
-  # Unicorn worker killer to restart unicorn child workers
-  gem 'unicorn-worker-killer', require: false
+  gem 'dalli', '~> 3.0.3'
 end
 
-gem 'i18n-js', '~> 3.8.0'
+gem 'i18n-js', '~> 3.9.0'
 gem 'rails-i18n', '~> 6.0.0'
 gem 'sprockets', '~> 3.7.0'
 
-# required by Procfile, for deployment on heroku or packaging with packager.io.
-# also, better than thin since we can control worker concurrency.
-gem 'unicorn'
-
-gem 'puma', '~> 5.3.0' # used for development and optionally for production
+gem 'puma', '~> 5.5'
+gem 'rack-timeout', '~> 0.6.0', require: "rack/timeout/base"
+gem 'puma-plugin-statsd', '~> 2.0'
 
 gem 'nokogiri', '~> 1.12.5'
 
@@ -180,7 +176,7 @@ gem 'aws-sdk-core', '~> 3.107'
 # File upload via fog + screenshots on travis
 gem 'aws-sdk-s3', '~> 1.91'
 
-gem 'openproject-token', '~> 2.2'
+gem 'openproject-token', '~> 2.2.0'
 
 gem 'plaintext', '~> 0.3.2'
 
@@ -192,9 +188,9 @@ gem 'mini_magick', '~> 4.11.0', require: false
 
 # Sentry error reporting, loaded on demand
 group :sentry do
-  gem "sentry-delayed_job", '~> 4.4.0', require: false
-  gem "sentry-rails", '~> 4.4.0', require: false
-  gem "sentry-ruby", '~> 4.4.1',  require: false
+  gem "sentry-delayed_job", '~> 4.8.0', require: false
+  gem "sentry-rails", '~> 4.8.0', require: false
+  gem "sentry-ruby", '~> 4.8.0',  require: false
 end
 
 group :test do
@@ -222,10 +218,10 @@ group :test do
   # brings back testing for 'assigns' and 'assert_template' extracted in rails 5
   gem 'rails-controller-testing', '~> 1.0.2'
 
-  gem 'capybara', '~> 3.35.0'
+  gem 'capybara', '~> 3.36.0'
   gem 'capybara-screenshot', '~> 1.0.17'
-  gem 'selenium-webdriver', '~> 3.14'
-  gem 'webdrivers', '~> 4.6.0'
+  gem 'selenium-webdriver', '~> 4.0'
+  gem 'webdrivers', '~> 5.0.0'
 
   gem 'fuubar', '~> 2.5.0'
   gem 'timecop', '~> 0.9.0'
@@ -239,7 +235,7 @@ group :test do
 
   gem 'equivalent-xml', '~> 0.6'
   gem 'json_spec', '~> 1.1.4'
-  gem 'shoulda-matchers', '~> 4.5', require: nil
+  gem 'shoulda-matchers', '~> 5.0', require: nil
 
   gem 'parallel_tests', '~> 3.1'
 end
@@ -249,7 +245,7 @@ group :ldap do
 end
 
 group :development do
-  gem 'listen', '~> 3.5.1' # Use for event-based reloaders
+  gem 'listen', '~> 3.7.0' # Use for event-based reloaders
 
   gem 'faker'
   gem 'letter_opener'
@@ -283,18 +279,15 @@ group :development, :test do
   gem 'pry-rescue', '~> 1.5.2'
   gem 'pry-stack_explorer', '~> 0.6.0'
 
-  # Dangerfile scanner on travis and locally
-  gem 'danger', '~> 8.2.0'
-
   # Brakeman scanner
-  gem 'brakeman', '~> 5.0.0'
+  gem 'brakeman', '~> 5.1.0'
   gem 'danger-brakeman'
 end
 
-gem 'bootsnap', '~> 1.7.0', require: false
+gem 'bootsnap', '~> 1.9.1', require: false
 
 # API gems
-gem 'grape', '~> 1.5.0'
+gem 'grape', '~> 1.6.0'
 gem 'grape_logging', '~> 1.8.4'
 gem 'roar', '~> 1.1.0'
 
@@ -310,7 +303,7 @@ platforms :mri, :mingw, :x64_mingw do
   end
 
   # Support application loading when no database exists yet.
-  gem 'activerecord-nulldb-adapter', '~> 0.7.0'
+  gem 'activerecord-nulldb-adapter', '~> 0.8.0'
 
   # Have application level locks on the database to have a mutex shared between workers/hosts.
   # We e.g. employ this to safeguard the creation of journals.
@@ -320,8 +313,6 @@ end
 gem 'openproject-translations',
     git: 'https://github.com/opf/openproject-translations.git',
     branch: 'dev'
-
-gem 'newrelic_rpm', require: ENV.has_key?('NEW_RELIC_LICENSE_KEY')
 
 # Load Gemfile.local, Gemfile.plugins, plugins', and custom Gemfiles
 gemfiles = Dir.glob File.expand_path('{Gemfile.plugins,Gemfile.modules,Gemfile.local,lib/plugins/*/Gemfile}',

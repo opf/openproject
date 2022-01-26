@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'tree' # gem install rubytree
@@ -85,7 +85,7 @@ class Redmine::MenuManager::TreeNode < Tree::TreeNode
     child
   end
 
-  # Wrapp remove! making sure to decrement the last_items counter if
+  # Wrap remove! making sure to decrement the last_items counter if
   # the removed child was a last item
   def remove!(child)
     @last_items_count -= +1 if child && child.last

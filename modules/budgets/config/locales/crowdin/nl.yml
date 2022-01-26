@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 nl:
   activerecord:
@@ -68,3 +68,6 @@ nl:
   permission_edit_budgets: "Edit budgets"
   permission_view_budgets: "View budgets"
   project_module_budgets: "Budgets"
+  text_budget_reassign_to: "Wijs ze opnieuw toe aan dit budget:"
+  text_budget_delete: "Verwijder het budget uit alle werkpakketten"
+  text_budget_destroy_assigned_wp: "Er zijn %{count} werkpakketten aan dit budget toegewezen. Wat wilt u doen?"

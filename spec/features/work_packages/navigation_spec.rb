@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -147,10 +147,10 @@ RSpec.feature 'Work package navigation', js: true, selenium: true do
     visit '/work_packages/999999999'
 
     page404 = ::Pages::Page.new
-    page404.expect_notification type: :error, message: I18n.t(:notice_file_not_found)
+    page404.expect_toast type: :error, message: I18n.t(:notice_file_not_found)
 
     visit "/projects/#{project.identifier}/work_packages/999999999"
-    page404.expect_and_dismiss_notification type: :error, message: I18n.t('api_v3.errors.code_404')
+    page404.expect_and_dismiss_toaster type: :error, message: I18n.t('api_v3.errors.not_found.work_package')
   end
 
   # Regression #29994
@@ -232,7 +232,7 @@ RSpec.feature 'Work package navigation', js: true, selenium: true do
       subject = full_view.edit_field :subject
       subject.update 'bar'
 
-      full_view.expect_and_dismiss_notification message: 'Successful update.'
+      full_view.expect_and_dismiss_toaster message: 'Successful update.'
 
       # Go back to list
       full_view.go_back
@@ -279,6 +279,25 @@ RSpec.feature 'Work package navigation', js: true, selenium: true do
       # move to second details
       split2 = cards.open_full_screen_by_details work_package2
       split2.expect_subject
+    end
+  end
+
+  context 'when visiting a query that will lead to a query validation error' do
+    let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
+
+    it 'will output a correct error message (Regression #39880)' do
+      url_query =
+        "query_id=%7B%22%7B%22&query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject" \
+        "%22%2C%22type%22%2C%22status%22%2C%22assignee%22%2C%22updatedAt%22%5D%2C" \
+        "%22tv%22%3Afalse%2C%22hla%22%3A%5B%22status%22%2C%22priority%22%2C%22dueDate" \
+        "%22%5D%2C%22hi%22%3Afalse%2C%22g%22%3A%22%22%2C%22t%22%3A%22updatedAt%3Adesc" \
+        "%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A" \
+        "%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A20%7D"
+
+      visit "/projects/#{project.identifier}/work_packages?#{url_query}"
+
+      wp_table.expect_toast message: 'Your view is erroneous and could not be processed.', type: :error
+      expect(page).to have_selector 'li', text: 'Bad request: id is invalid'
     end
   end
 end

@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 class Widget::Table < Widget::Base
@@ -69,7 +69,7 @@ class Widget::Table < Widget::Base
     if @subject.result.count <= 0
       write(content_tag(:div, '', class: 'generic-table--no-results-container') do
         content_tag(:i, '', class: 'icon-info1') +
-          content_tag(:h2, I18n.t(:no_results_title_text), class: 'generic-table--no-results-title')
+          content_tag(:span, I18n.t(:no_results_title_text), class: 'generic-table--no-results-title')
       end)
     else
       str = render_widget(resolve_table, @subject, @options.reverse_merge(to: @output))

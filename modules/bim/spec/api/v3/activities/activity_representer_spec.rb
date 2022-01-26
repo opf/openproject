@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -47,9 +47,6 @@ describe ::API::V3::Activities::ActivityRepresenter do
   end
   let(:journal) do
     FactoryBot.build_stubbed(:work_package_journal).tap do |journal|
-      allow(journal)
-        .to receive(:notes_id)
-        .and_return(journal.id)
       allow(journal)
         .to receive(:get_changes)
         .and_return(changes)

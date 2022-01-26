@@ -139,7 +139,7 @@ ja:
     restdt:
       delivery_failed_with_code: 'トークンの配信に失敗しました。 (エラーコード %{code})'
     strategies:
-      totp: '認証システムアプリケーション'
+      totp: '認証システム アプリケーション'
       sns: 'Amazon SNS'
       resdt: 'SMS Rest API'
     mobile_transmit_notification: "ワンタイムパスワードが携帯電話に送信されました。"

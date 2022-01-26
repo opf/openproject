@@ -25,10 +25,10 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Projects::Orders::LatestActivityAtOrder < Queries::BaseOrder
+class Queries::Projects::Orders::LatestActivityAtOrder < Queries::Orders::Base
   self.model = Project
 
   def self.key

@@ -23,7 +23,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-See docs/COPYRIGHT.rdoc for more details.
+See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
@@ -31,13 +31,13 @@ See docs/COPYRIGHT.rdoc for more details.
   <% if pro[:icon] %>
     <style type="text/css">
       #content .login-auth-providers a.auth-provider.auth-provider-<%= pro[:name] %> {
-        background-image: url('<%= image_path(pro[:icon]) %>');
+        background-image: url('<%= asset_path(pro[:icon]) %>');
       }
-      #top-menu #nav-login-content .login-auth-providers a.auth-provider.auth-provider-<%= pro[:name] %> {
-        background-image: url('<%= image_path(pro[:icon]) %>') ;
+      .op-app-header #nav-login-content .login-auth-providers a.auth-provider.auth-provider-<%= pro[:name] %> {
+        background-image:  url('<%= asset_path(pro[:icon]) %>') ;
       }
-      .modal-wrapper .login-auth-providers a.auth-provider.auth-provider-<%= pro[:name] %> {
-        background-image: url('<%= image_path(pro[:icon]) %>') ;
+      .op-modal .login-auth-providers a.auth-provider.auth-provider-<%= pro[:name] %> {
+        background-image: url('<%= asset_path(pro[:icon]) %>') ;
       }
     </style>
   <% end -%>

@@ -60,7 +60,7 @@ Alternatively, you could install OpenProject on a virtual machine with Internet 
 
 OpenProject has traditionally supported both MySQL and PostgreSQL, but in order to optimize for performance and SQL functionality, it is unfeasible to support both DBMS that are becoming more and more disjunct when trying to use more modern SQL features. This shift has started some years ago when full-text search was added for PostgreSQL, but at the time MySQL did not yet support it - and as of yet many distributions still do not support MySQL 8 natively.
 
-This led us to the path of removing support in the upcoming stable releases of OpenProject in order to focus on these goals. [Please see our blog post on the matter for additional notes](https://www.openproject.org/deprecating-mysql-support/).
+This led us to the path of removing support in the upcoming stable releases of OpenProject in order to focus on these goals. [Please see our blog post on the matter for additional notes](https://www.openproject.org/blog/deprecating-mysql-support/).
 
 ### How can I migrate my existing MySQL database to PostgreSQL ?
 
@@ -83,7 +83,7 @@ Please follow these steps:
 
 The Community Edition and [Enterprise on-premises edition](https://www.openproject.org/enterprise-edition/) are on-premises solutions and thus need installation from your side while the [Enterprise cloud edition](https://www.openproject.org/hosting/) is hosted by us. 
 The Community edition is for free and we ask you to do the installation yourself. Of course we support you with a clear and easy [installation guide](https://www.openproject.org/download-and-installation/). 
-If you would like us to install the **Enterprise on-premises edition** for you, we are charging a fee of €150 (excluding VAT) for this once-off service. You can add the installation support during your [Enterprise on-premises edition booking process](../../enterprise-edition-guide/activate-enterprise-edition/#order-the-enterprise-on-premises-edition).
+If you would like us to install the **Enterprise on-premises edition** for you, we are charging a fee of €150 (excluding VAT) for this once-off service. You can add the installation support during your [Enterprise on-premises edition booking process](../../enterprise-guide/enterprise-on-premises-guide/activate-enterprise-on-premises/#order-the-enterprise-on-premises-edition).
 
 ### How do I get SSL certificates (in case of installation support by OpenProject employee)? Do we have to purchase them?
 
@@ -91,7 +91,7 @@ You can either order the SSL certificates from your ISP or we can create them du
 
 ### How do you implement the routing so that the page requests intended for this project domain of ours land on the Apache server that is part of the OpenProject installation? What agreements or requirements do we have to discuss with our domain/webspace provider?
 
-A DNS record needs to be placed at the ISP that connects the domain name you would like your OpenProject installation to be reachable at (e.g. [community.openproject.](http://community.openproject.com/)org) to the IP Address of your designated server (e.g. 13.226.159.10). The ports do not matter here as they can simply all be routed to the server. The server will then only listen on 80 and 443 and redirect 80 to 443. Depending on your network configuration, additional configurations need to be carried out e.g. on intermediary load balancers or switches.
+A DNS record needs to be placed at the ISP that connects the domain name you would like your OpenProject installation to be reachable at (e.g. [community.openproject.org](https://community.openproject.com/)) to the IP Address of your designated server (e.g. 13.226.159.10). The ports do not matter here as they can simply all be routed to the server. The server will then only listen on 80 and 443 and redirect 80 to 443. Depending on your network configuration, additional configurations need to be carried out e.g. on intermediary load balancers or switches.
 
 ### Does the email address used by OpenProject have to be within the our domain for OpenProject or can this also be another address?
 
@@ -129,6 +129,18 @@ Another approach would be to restart OpenProject completely, especially after ch
 
 This will be done automatically in case the package based installation is used.
 
+
+
+### The packaged installation cannot be installed or upgraded due to errors. What could cause them?
+
+For packaged installations, the openproject package behaves just like every other system package (dpkg or rpm packages, depending on your distribution). If you encounter errors while trying to install or upgrade, please check the following pieces of information first.
+
+1. You have enough free space available on `/opt` or your root `/` partition. Verify that `df -h` has at least a few GB of free space.
+2. You have enough inodes on your partitions left. Verify with `df -i` . As OpenProject packages contains a high number of files, these might cause problems with low free inode counts.
+3. Make sure you do not have a virus scanner such as Sophos or other pieces of software blocking the installation of packages.
+
+
+
 ### After upgrading I receive the error message "Your OpenProject installation has pending database migrations. You have likely missed running the migrations on your last upgrade. Please check the upgrade guide to properly upgrade your installation." What does that mean?
 
 For some updates of OpenProject, the database layout needs to be adapted to support new features and fix bugs. These changes need to be carried out as part of the update process. This is why it is important to always run `sudo openproject configure`as part of the update process. 
@@ -148,6 +160,8 @@ Mind, that repository integration in the sense that you will be able to checkout
 
 ### How can I uninstall OpenProject (Community Edition or Enterprise on-premises)?
 
-The package based installation is intended to be run on a dedicated system. Dedicated in this case means that no other application software should be served by the server. The system can be either physical or virtual. Removing OpenProject is then equivalent with removing that system. 
+The package based installation is intended to be run on a dedicated system. Dedicated in this case means that no other application software should be served by the server. The system can be either physical or virtual. Removing OpenProject is then equivalent with removing that system or docker instances. 
+
 In case the database is stored on a different system, e.g. within a database cluster, it needs to be removed separately. The database URL can be found within the OpenProject installation, via `openproject config:get DATABASE_URL`.
+
 In case the attachments are stored on a different system, e.g. on an NFS or on S3, they also need to be removed separately.

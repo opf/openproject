@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 ##
@@ -39,7 +39,8 @@ module Users
     def destroy(user_object)
       # as destroying users is a lengthy process we handle it in the background
       # and lock the account now so that no action can be performed with it
-      user_object.locked!
+      # don't use "locked!" handle as it will raise on invalid users
+      user_object.update_column(:status, User.statuses[:locked])
       ::Principals::DeleteJob.perform_later(user_object)
 
       logout! if self_delete?

@@ -18,7 +18,7 @@ OpenProject offers a fresh, new look.
 
 The old timeline view has been removed and is replaced by the new
 interactive Gantt chart. Make sure to [migrate your timeline
-reports](https://www.openproject.org/old-timeline-view-discontinued-please-migrate-timeline-openproject-7-0/)
+reports](https://www.openproject.org/blog/old-timeline-view-discontinued-please-migrate-timeline-openproject-7-0/)
 prior to upgrading to OpenProject 8. Embedded timeline views (using the
 old timeline) are removed. Instead, you can use embedded work package
 tables (see below).
@@ -154,4 +154,4 @@ installations, there are some minor changes you need to do in order to
 perform the upgrade.
 
 [Please visit our upgrade guides for more
-information](https://www.openproject.org/operations/upgrading/).
+information](../../installation-and-operations/operation/upgrading/).

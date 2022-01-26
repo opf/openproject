@@ -22,5 +22,5 @@ We use MessageBird. At the moment this can't be changed.
 
 ## Additional information
 
-For additional information and FAQ have a look at the other FAQ sections, e.g. [in the Installation and upgrade guide](../../installation-and-operations/faq).
+For additional information and FAQ have a look at the other FAQ sections, e.g. [in the Installation and upgrade guide](../../installation-and-operations/installation-faq).
 

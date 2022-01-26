@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 class UserPassword < ApplicationRecord
@@ -94,7 +94,7 @@ class UserPassword < ApplicationRecord
   protected
 
   # Save hashed_password from the initially passed plain password
-  # if it is is set.
+  # if it's set.
   def salt_and_hash_password!
     return if plain_password.nil?
 

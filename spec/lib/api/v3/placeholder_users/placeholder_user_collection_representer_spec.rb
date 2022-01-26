@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -49,6 +49,10 @@ describe ::API::V3::PlaceholderUsers::PlaceholderUserCollectionRepresenter do
       .to receive(:page)
       .with(page)
       .and_return(placeholders)
+
+    allow(placeholders)
+      .to receive(:count)
+      .and_return(total)
 
     placeholders
   end

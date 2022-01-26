@@ -1,0 +1,25 @@
+# Schema: CustomactionModel
+---
+type: object
+properties:
+  id:
+    type: integer
+    description: Custom action id
+    readOnly: true
+    minimum: 0
+    exclusiveMinimum: true
+  name:
+    type: string
+    description: The user selected name of the custom action
+    readOnly: true
+  description:
+    type: string
+    description: A text describing the custom action
+  _links:
+    type: object
+    properties:
+      executeImmediately:
+        allOf:
+        - "$ref": "./link.yml"
+        - description: Apply the action to a work package
+          readOnly: true

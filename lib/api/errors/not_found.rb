@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module API
@@ -34,10 +34,22 @@ module API
       identifier 'NotFound'
       code 404
 
-      def initialize(*args)
-        opts = args.last.is_a?(Hash) ? args.last : {}
+      def initialize(_message = nil, exception: nil, model: nil)
+        # Try to find a localizable error message for
+        # the not found error by checking the "model" property set by rails.
+        model ||= exception&.model&.underscore
+        super not_found_message(model)
+      end
 
-        super opts[:message] || I18n.t('api_v3.errors.code_404')
+      private
+
+
+      def not_found_message(model)
+        if model.present?
+          I18n.t("api_v3.errors.not_found.#{model}", default: I18n.t('api_v3.errors.code_404'))
+        else
+          I18n.t('api_v3.errors.code_404')
+        end
       end
     end
   end

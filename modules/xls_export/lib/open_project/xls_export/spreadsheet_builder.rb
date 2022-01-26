@@ -40,7 +40,7 @@ module OpenProject::XlsExport
       end
     end
 
-    # Update column widths and wrap text if neccessary
+    # Update column widths and wrap text if necessary
     def update_sheet_widths
       @column_widths.count.times do |idx|
         if @column_widths[idx] > 60

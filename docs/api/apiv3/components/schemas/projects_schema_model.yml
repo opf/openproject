@@ -1,0 +1,129 @@
+# Schema: Projects_schemaModel
+---
+type: object
+example:
+  _type: Schema
+  _dependencies: []
+  id:
+    type: Integer
+    name: ID
+    required: true
+    hasDefault: false
+    writable: false
+  name:
+    type: String
+    name: Name
+    required: true
+    hasDefault: false
+    writable: true
+    minLength: 1
+    maxLength: 255
+  identifier:
+    type: String
+    name: Identifier
+    required: true
+    hasDefault: false
+    writable: true
+    minLength: 1
+    maxLength: 100
+  description:
+    type: Formattable
+    name: Description
+    required: false
+    hasDefault: false
+    writable: true
+  public:
+    type: Boolean
+    name: Public
+    required: true
+    hasDefault: false
+    writable: true
+  active:
+    type: Boolean
+    name: Active
+    required: true
+    hasDefault: true
+    writable: true
+  status:
+    type: ProjectStatus
+    name: Status
+    required: false
+    hasDefault: true
+    writable: true
+    _links:
+      allowedValues:
+      - href: "/api/v3/project_statuses/on_track"
+        title: On track
+      - href: "/api/v3/project_statuses/at_risk"
+        title: At risk
+      - href: "/api/v3/project_statuses/off_track"
+        title: Off track
+  statusExplanation:
+    type: Formattable
+    name: Status explanation
+    required: false
+    hasDefault: false
+    writable: true
+  parent:
+    type: Project
+    name: Subproject of
+    required: false
+    hasDefault: false
+    writable: true
+    location: _links
+    visibility: default
+    _links: {}
+  createdAt:
+    type: DateTime
+    name: Created on
+    required: true
+    hasDefault: false
+    writable: false
+  updatedAt:
+    type: DateTime
+    name: Updated on
+    required: true
+    hasDefault: false
+    writable: false
+  customField30:
+    type: Integer
+    name: Integer project custom field
+    required: false
+    hasDefault: false
+    writable: true
+    visibility: default
+  customField31:
+    type: CustomOption
+    name: List project custom field
+    required: false
+    hasDefault: false
+    writable: true
+    location: _links
+    visibility: default
+    _links: {}
+  customField32:
+    type: Version
+    name: Version project custom field
+    required: false
+    hasDefault: false
+    writable: true
+    location: _links
+    visibility: default
+    _links: {}
+  customField34:
+    type: Boolean
+    name: Boolean project custom field
+    required: false
+    hasDefault: false
+    writable: true
+    visibility: default
+  customField35:
+    type: String
+    name: Text project custom field
+    required: true
+    hasDefault: false
+    writable: true
+    visibility: default
+  _links:
+    self:
+      href: "/api/v3/projects/schema"

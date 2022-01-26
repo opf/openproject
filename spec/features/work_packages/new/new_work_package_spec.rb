@@ -30,7 +30,7 @@ describe 'new work package', js: true do
   let(:project_field) { wp_page.edit_field :project }
   let(:assignee_field) { wp_page.edit_field :assignee }
   let(:type_field) { wp_page.edit_field :type }
-  let(:notification) { PageObjects::Notifications.new(page) }
+  let(:toaster) { PageObjects::Notifications.new(page) }
 
   def disable_leaving_unsaved_warning
     FactoryBot.create(:user_preference, user: user, others: { warn_on_leaving_unsaved: false })
@@ -40,7 +40,7 @@ describe 'new work package', js: true do
     scroll_to_and_click find('#work-packages--edit-actions-save')
 
     if expect_success
-      notification.expect_success('Successful creation.')
+      toaster.expect_success('Successful creation.')
     end
   end
 
@@ -93,8 +93,8 @@ describe 'new work package', js: true do
       save_work_package!
 
       # safegurards
-      wp_page.dismiss_notification!
-      wp_page.expect_no_notification(
+      wp_page.dismiss_toaster!
+      wp_page.expect_no_toaster(
         message: 'Successful creation. Click here to open this work package in fullscreen view.'
       )
 
@@ -113,8 +113,8 @@ describe 'new work package', js: true do
       subject_field.send_keys(:enter)
 
       # safegurards
-      wp_page.dismiss_notification!
-      wp_page.expect_no_notification(
+      wp_page.dismiss_toaster!
+      wp_page.expect_no_toaster(
         message: 'Successful creation. Click here to open this work package in fullscreen view.'
       )
 
@@ -132,7 +132,7 @@ describe 'new work package', js: true do
         subject_field.send_keys(:backspace)
 
         save_work_package!(false)
-        notification.expect_error("Subject can't be blank.")
+        toaster.expect_error("Subject can't be blank.")
       end
     end
 
@@ -202,7 +202,7 @@ describe 'new work package', js: true do
           cf.set_value 'foo'
           save_work_package!(false)
 
-          notification.expect_error("#{custom_field1.name} can't be blank.")
+          toaster.expect_error("#{custom_field1.name} can't be blank.")
 
           cf1.set 'Custom field content'
           save_work_package!(true)
@@ -227,12 +227,12 @@ describe 'new work package', js: true do
       let(:create_method) { method(:create_work_package) }
     end
 
-    it 'allows to go to the full page through the notification (Regression #37555)' do
+    it 'allows to go to the full page through the toaster (Regression #37555)' do
       create_work_package(type_task, project.name)
       save_work_package!
 
-      wp_page.expect_notification message: 'Successful creation. Click here to open this work package in fullscreen view.'
-      page.find('.notification-box--target-link', text: 'Click here to open this work package in fullscreen view.').click
+      wp_page.expect_toast message: 'Successful creation. Click here to open this work package in fullscreen view.'
+      page.find('.op-toast--target-link', text: 'Click here to open this work package in fullscreen view.').click
 
       full_page = Pages::FullWorkPackage.new(WorkPackage.last)
       full_page.ensure_page_loaded
@@ -247,7 +247,7 @@ describe 'new work package', js: true do
 
       wp_page.subject_field.set('new work package')
       save_work_package!
-      wp_page.dismiss_notification!
+      wp_page.dismiss_toaster!
 
       expect(page).to have_selector('.wp--row.-checked')
 
@@ -261,7 +261,7 @@ describe 'new work package', js: true do
       table_subject.submit_by_enter
       table_subject.expect_state_text new_subject
 
-      wp_page.expect_notification(
+      wp_page.expect_toast(
         message: 'Successful update. Click here to open this work package in fullscreen view.'
       )
 
@@ -331,7 +331,7 @@ describe 'new work package', js: true do
 
       wp_page.subject_field.set('new work package')
       save_work_package!
-      wp_page.dismiss_notification!
+      wp_page.dismiss_toaster!
 
       assignee_field.expect_state_text user.name
       wp = WorkPackage.last
@@ -373,7 +373,7 @@ describe 'new work package', js: true do
     it 'shows a 403 error on creation paths' do
       paths.each do |path|
         visit path
-        wp_page.expect_notification(type: :error, message: I18n.t('api_v3.errors.code_403'))
+        wp_page.expect_toast(type: :error, message: I18n.t('api_v3.errors.code_403'))
       end
     end
   end
@@ -394,7 +394,7 @@ describe 'new work package', js: true do
       sleep(0.2)
       subject_field.update('new work package')
 
-      wp_page.expect_and_dismiss_notification(
+      wp_page.expect_and_dismiss_toaster(
         message: 'Successful creation.'
       )
 
@@ -461,23 +461,23 @@ describe 'new work package', js: true do
 
       split_create_page.save!
 
-      split_create_page.expect_and_dismiss_notification(message: I18n.t('js.notice_successful_create'))
+      split_create_page.expect_and_dismiss_toaster(message: I18n.t('js.notice_successful_create'))
 
       split_create_page.expect_attributes(combinedDate: "no start date - #{parent.due_date.strftime('%m/%d/%Y')}")
 
-      expect(split_create_page).to have_selector('.wp-breadcrumb', text: "Parent:\n#{parent.subject}")
+      expect(split_create_page).to have_selector('[data-qa-selector="op-wp-breadcrumb"]', text: "Parent:\n#{parent.subject}")
     end
 
     it 'from the relations tab' do
       wp_page.visit_tab!('relations')
 
-      click_link('Create new child')
+      click_button('Create new child')
 
       subject = EditField.new wp_page, :subject
       subject.set_value 'Child'
       subject.submit_by_enter
 
-      wp_page.expect_and_dismiss_notification(message: I18n.t('js.notice_successful_create'))
+      wp_page.expect_and_dismiss_toaster(message: I18n.t('js.notice_successful_create'))
       sleep 1
 
       # Move to the newly created child
@@ -485,7 +485,7 @@ describe 'new work package', js: true do
 
       wp_page.expect_attributes(combinedDate: "#{parent.start_date.strftime('%m/%d/%Y')} - #{parent.due_date.strftime('%m/%d/%Y')}")
 
-      expect(wp_page).to have_selector('.wp-breadcrumb', text: "Parent:\n#{parent.subject}")
+      expect(wp_page).to have_selector('[data-qa-selector="op-wp-breadcrumb"]', text: "Parent:\n#{parent.subject}")
     end
   end
 end

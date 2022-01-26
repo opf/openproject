@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 #English strings go here for Rails i18n
 uk:
@@ -38,7 +38,7 @@ uk:
       meeting_agenda: "Порядок денний"
       meeting_minutes: "Хвилини"
   description_attended: "Участь"
-  description_invite: "запрошені"
+  description_invite: "Запрошені"
   events:
     meeting: Нотатки до зустрічі
     meeting_agenda: Порядок денний зустрічі редагувався
@@ -62,7 +62,9 @@ uk:
   label_icalendar: "Надіслати iCalendar"
   label_version: "Версія"
   label_time_zone: "Часовий пояс"
-  label_start_date: "Початок"
+  label_start_date: "Дата початку"
+  meeting:
+    copied: "Copied from Meeting #%{id}"
   notice_successful_notification: "Повідомлення успішно надіслано"
   notice_timezone_missing: Часовий пояс не встановлено і %{zone} передбачається. Щоб вибрати часовий пояс, натисніть тут.
   permission_create_meetings: "Створюйте зустрічі"
@@ -74,14 +76,14 @@ uk:
   permission_send_meeting_agendas_notification: "Надіслати повідомлення про перегляд для порядку денного"
   permission_create_meeting_minutes: "Керування хвилинами"
   permission_send_meeting_minutes_notification: "Надішліть повідомлення про перегляд за хвилини"
-  permission_meetings_send_invite: "Invite users to meetings"
-  permission_send_meeting_agendas_icalendar: "Send meeting agenda as calendar entry"
+  permission_meetings_send_invite: "Запросити користувачів до зустрічей"
+  permission_send_meeting_agendas_icalendar: "Позначити план зустрічі записом у календарі"
   project_module_meetings: "Зустрічі"
   text_duration_in_hours: "Тривалість у годинах"
   text_in_hours: "у годинах"
   text_meeting_agenda_for_meeting: 'порядку денного засідання %{meeting}'
   text_meeting_closing_are_you_sure: "Дійсно закрити нараду?"
-  text_meeting_agenda_open_are_you_sure: "This will overwrite all changes in the minutes! Do you want to continue?"
+  text_meeting_agenda_open_are_you_sure: "Це вмить призведе до виправлення усіх змін! Бажаєте продовжити?"
   text_meeting_minutes_for_meeting: 'протокол засідання %{meeting}'
   text_review_meeting_agenda: "%{author} поставив %{link} на розгляд."
   text_review_meeting_minutes: "%{author} поставив %{link} на розгляд."

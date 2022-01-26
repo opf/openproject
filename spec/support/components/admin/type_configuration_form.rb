@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module Components
@@ -39,11 +39,11 @@ module Components
       end
 
       def add_attribute_group_button
-        page.find 'a', text: I18n.t('js.admin.type_form.add_group')
+        page.find 'button', text: I18n.t('js.admin.type_form.add_group')
       end
 
       def add_table_button
-        page.find 'a', text: I18n.t('js.admin.type_form.add_table')
+        page.find 'button', text: I18n.t('js.admin.type_form.add_table')
       end
 
       def reset_button

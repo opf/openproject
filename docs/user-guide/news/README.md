@@ -31,7 +31,7 @@ In the News module in the project menu on the left, you will see all news from a
 
 ![news](1567425159667.png)
 
-In the news details, click the **Add a comment** link to comment on the news. Type in your comment and click the blue **Add** button. Your comment, along with all other comments, is then displayed below the news entry description, in reverse chronological order.
+In the news details, click the **Add a comment** link to comment on the news. Type in your comment and click the blue **Add** button. Your comment, along with all other comments, is then displayed below the news entry description, newest first.
 
  ![comment-news](comment-news.png)
 

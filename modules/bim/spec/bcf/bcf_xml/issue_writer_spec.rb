@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -182,7 +182,7 @@ describe ::OpenProject::Bim::BcfXml::IssueWriter do
     it 'replaces the BCF viewpoints names to use its uuid only' do
       uuid = bcf_issue.viewpoints.first.uuid
       viewpoint_node = subject.at("/Markup/Viewpoints[@Guid='#{uuid}']")
-      expect(viewpoint_node.at('Viewpoint').content).to eql("#{uuid}.xml")
+      expect(viewpoint_node.at('Viewpoint').content).to eql("#{uuid}.bcfv")
       expect(viewpoint_node.at('Snapshot').content).to eql("#{uuid}.png")
     end
   end

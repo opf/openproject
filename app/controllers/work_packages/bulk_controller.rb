@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 class WorkPackages::BulkController < ApplicationController
@@ -37,6 +37,8 @@ class WorkPackages::BulkController < ApplicationController
   include RelationsHelper
   include QueriesHelper
 
+  include WorkPackages::FlashBulkError
+
   def edit
     setup_edit
   end
@@ -44,13 +46,13 @@ class WorkPackages::BulkController < ApplicationController
   def update
     @call = ::WorkPackages::Bulk::UpdateService
       .new(user: current_user, work_packages: @work_packages)
-      .call(params: params)
+      .call(attributes_for_update)
 
     if @call.success?
       flash[:notice] = t(:notice_successful_update)
       redirect_back_or_default(controller: '/work_packages', action: :index, project_id: @project)
     else
-      @bulk_errors = @call.errors
+      error_flash(@work_packages, @call)
       setup_edit
       render action: :edit
     end
@@ -86,8 +88,7 @@ class WorkPackages::BulkController < ApplicationController
   def setup_edit
     @available_statuses = @projects.map { |p| Workflow.available_statuses(p) }.inject(&:&)
     @custom_fields = @projects.map(&:all_work_package_custom_fields).inject(&:&)
-    @assignables = possible_assignees
-    @responsibles = @assignables
+    @assignables = @responsibles = possible_assignees
     @types = @projects.map(&:types).inject(&:&)
   end
 
@@ -107,6 +108,17 @@ class WorkPackages::BulkController < ApplicationController
     @projects.inject(Principal.all) do |scope, project|
       scope.where(id: Principal.possible_assignee(project))
     end
+  end
+
+  def attributes_for_update
+    return {} unless params.has_key? :work_package
+
+    permitted_params
+      .update_work_package
+      .tap { |attributes| attributes[:custom_field_values]&.reject! { |_k, v| v.blank? } }
+      .reject { |_k, v| v.blank? }
+      .transform_values { |v| v == 'none' ? '' : v }
+      .to_h
   end
 
   def user

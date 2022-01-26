@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 sv:
   activerecord:
@@ -85,7 +85,7 @@ sv:
   label_currency: "Valuta"
   label_currency_format: "Formatet för valuta"
   label_current_default_rate: "Nuvarande standardtimpris"
-  label_date_on: "på"
+  label_date_on: "den"
   label_deleted_cost_types: "Borttagna kostnadstyper"
   label_locked_cost_types: "Låsta kostnadstyper"
   label_display_cost_entries: "Visa enhetskostnader"

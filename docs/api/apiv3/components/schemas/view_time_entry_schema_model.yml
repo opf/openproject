@@ -1,0 +1,83 @@
+# Schema: View_time_entry_schemaModel
+---
+type: object
+example:
+  _type: Schema
+  _dependencies: []
+  id:
+    type: Integer
+    name: ID
+    required: true
+    hasDefault: false
+    writable: false
+    options: {}
+  createdAt:
+    type: DateTime
+    name: Created on
+    required: true
+    hasDefault: false
+    writable: false
+    options: {}
+  updatedAt:
+    type: DateTime
+    name: Updated on
+    required: true
+    hasDefault: false
+    writable: false
+    options: {}
+  spentOn:
+    type: Date
+    name: Date
+    required: true
+    hasDefault: false
+    writable: true
+    options: {}
+  hours:
+    type: Duration
+    name: Hours
+    required: true
+    hasDefault: false
+    writable: true
+    options: {}
+  user:
+    type: User
+    name: User
+    required: true
+    hasDefault: false
+    writable: false
+    options: {}
+  workPackage:
+    type: WorkPackage
+    name: Work package
+    required: false
+    hasDefault: false
+    writable: true
+    location: _links
+    _links: {}
+  project:
+    type: Project
+    name: Project
+    required: false
+    hasDefault: false
+    writable: true
+    location: _links
+    _links: {}
+  activity:
+    type: TimeEntriesActivity
+    name: Activity
+    required: true
+    hasDefault: true
+    writable: true
+    location: _links
+    _links: {}
+  customField29:
+    type: String
+    name: sfsdfsdfsdfsdfdsf
+    required: false
+    hasDefault: false
+    writable: true
+    options:
+      rtl: 
+  _links:
+    self:
+      href: "/api/v3/time_entries/schema"

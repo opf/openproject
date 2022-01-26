@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'support/pages/page'
@@ -56,22 +56,22 @@ module Pages
       def model_viewer_visible(visible)
         # Ensure the canvas is present
         canvas_selector = '.op-ifc-viewer--model-canvas'
-        expect(page).to (visible ? have_selector(canvas_selector, wait: 10) : have_no_selector(canvas_selector, wait: 10))
+        expect(page).to(visible ? have_selector(canvas_selector, wait: 10) : have_no_selector(canvas_selector, wait: 10))
         # Ensure Xeokit is initialized. Only then the toolbar is generated.
         toolbar_selector = '.xeokit-toolbar'
-        expect(page).to (visible ? have_selector(toolbar_selector, wait: 10) : have_no_selector(toolbar_selector, wait: 10))
+        expect(page).to(visible ? have_selector(toolbar_selector, wait: 10) : have_no_selector(toolbar_selector, wait: 10))
       end
 
       def model_viewer_shows_a_toolbar(visible)
         selector = '.xeokit-btn'
 
         if visible
-          within ('.op-ifc-viewer--toolbar') do
-            expect(page).to have_selector(selector, count: 9)
+          within('[data-qa-selector="op-ifc-viewer--toolbar-container"]') do
+            expect(page).to have_selector(selector, count: 8)
           end
         else
           expect(page).to have_no_selector(selector)
-          expect(page).to have_no_selector('.op-ifc-viewer--toolbar')
+          expect(page).to have_no_selector('[data-qa-selector="op-ifc-viewer--toolbar-container"]')
         end
       end
 
@@ -99,7 +99,9 @@ module Pages
 
       def switch_view(value)
         page.find('#bim-view-toggle-button').click
-        page.find('.menu-item', text: value, exact_text: true).click
+        within('#bim-view-context-menu') do
+          page.find('.menu-item', text: value, exact_text: true).click
+        end
       end
 
       def expect_view_toggle_at(value)

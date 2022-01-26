@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -91,7 +91,7 @@ describe 'boards onboarding tour', js: true do
 
       step_through_onboarding_board_tour
 
-      step_through_onboarding_main_menu_tour
+      step_through_onboarding_main_menu_tour has_full_capabilities: true
     end
 
     it "I see the board onboarding tour in the scrum project" do
@@ -105,7 +105,7 @@ describe 'boards onboarding tour', js: true do
 
       step_through_onboarding_board_tour
 
-      step_through_onboarding_main_menu_tour
+      step_through_onboarding_main_menu_tour has_full_capabilities: true
     end
   end
 end

@@ -1,0 +1,23 @@
+.op-link
+  @include unset-button-styles
+  display: inline
+  color: var(--content-link-color)
+  text-decoration: none
+  cursor: pointer
+
+  &:hover,
+  &:active
+    color: var(--content-link-hover-active-color)
+    text-decoration: underline
+
+  &:focus
+    color: var(--content-link-hover-active-color)
+
+  &_inactive
+    pointer-events: none
+    cursor: default
+
+  // Ensure op-icon within a link gets inline-block
+  // to avoid it receiving any text-decoration on hover
+  .op-icon--wrapper
+    display: inline-block

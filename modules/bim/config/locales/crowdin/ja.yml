@@ -113,10 +113,12 @@ ja:
       check_1: 'IFCモデルが1つ以上アップロードされていることを確認してください。'
       check_2: '1つ以上のIFCモデルが"デフォルト"に設定されていることを確認してください。'
     no_results: "このプロジェクトにはIFCモデルがアップロードされていません。"
-    processing_state:
+    conversion_status:
       label: '処理中ですか？'
-      in_progress: '進行中'
+      pending: 'Pending'
+      processing: 'Processing'
       completed: '完了しました'
+      error: 'エラー！'
     processing_notice:
       processing_default: '以下のデフォルトIFCモデルは処理中のため利用できません。'
     flash_messages:

@@ -23,13 +23,15 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 FactoryBot.define do
   factory :meeting do |m|
     author factory: :user
     project
+    start_time { Date.tomorrow + 10.hours }
+    duration { 1.0 }
     m.sequence(:title) { |n| "Meeting #{n}" }
 
     after(:create) do |meeting, evaluator|

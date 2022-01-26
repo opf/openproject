@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 hu:
   error_can_not_delete_export_card_configuration: "Ez az elrendezés nem törölhető."
@@ -27,10 +27,10 @@ hu:
   label_export_card_configuration_new: "Új export kártya elrendezés"
   label_export_card_configuration: "Export kártya elrendezés"
   label_export_card_configuration_plural: "Export kártya elrendezések"
-  label_export_card_activate: "Aktivál"
+  label_export_card_activate: "Aktiválás"
   label_export_card_deactivate: "Deaktiválás"
-  notice_export_card_configuration_activated: "Beállítás sikeresen aktiválva"
-  notice_export_card_configuration_deactivated: "Beállítás sikeresen deaktiválva"
+  notice_export_card_configuration_activated: "Elrendezés sikeresen aktiválva."
+  notice_export_card_configuration_deactivated: "Elrendezés sikeresen deaktiválva."
   error_can_not_activate_export_card_configuration: "Ez az elrendezés nem aktiválható"
   error_can_not_deactivate_export_card_configuration: "Ez az elrendezés nem deaktiválható"
   validation_error_required_keys_not_present: "Szükséges kulcs(ok) nincs(enek) jelen:"

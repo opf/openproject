@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 class CategoriesController < ApplicationController
@@ -48,7 +48,7 @@ class CategoriesController < ApplicationController
       respond_to do |format|
         format.html do
           flash[:notice] = I18n.t(:notice_successful_create)
-          redirect_to settings_categories_project_path(@project)
+          redirect_to project_settings_categories_path(@project)
         end
         format.js do
           render locals: { project: @project, category: @category }
@@ -70,7 +70,7 @@ class CategoriesController < ApplicationController
     @category.attributes = permitted_params.category
     if @category.save
       flash[:notice] = I18n.t(:notice_successful_update)
-      redirect_to settings_categories_project_path(@project)
+      redirect_to project_settings_categories_path(@project)
     else
       render action: 'edit'
     end
@@ -81,12 +81,12 @@ class CategoriesController < ApplicationController
     if @issue_count == 0
       # No issue assigned to this category
       @category.destroy
-      redirect_to settings_categories_project_path(@project)
+      redirect_to project_settings_categories_path(@project)
       return
     elsif params[:todo]
       reassign_to = @project.categories.find_by(id: params[:reassign_to_id]) if params[:todo] == 'reassign'
       @category.destroy(reassign_to)
-      redirect_to settings_categories_project_path(@project)
+      redirect_to project_settings_categories_path(@project)
       return
     end
     @categories = @project.categories - [@category]

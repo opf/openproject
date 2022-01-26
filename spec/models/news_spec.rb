@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 require 'spec_helper'
 require File.expand_path('../support/shared/become_member', __dir__)
@@ -109,8 +109,7 @@ describe News, type: :model do
     end
   end
 
-  describe '#save',
-           with_settings: { notified_events: %w(news_added) } do
+  describe '#save' do
     it 'sends email notifications when created' do
       FactoryBot.create(:user,
                         member_in_project: project,

@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module Components
@@ -52,7 +52,7 @@ module Components
 
     def open!
       SeleniumHubWaiter.wait
-      container.find(".help-text--for-#{help_text.attribute_name}").click
+      container.find("[data-qa-help-text-for='#{help_text.attribute_name}']").click
       expect(page).to have_selector('.attribute-help-text--modal h1', text: help_text.attribute_caption)
     end
 

@@ -28,7 +28,7 @@ In order to see a project and work in it, you have to be a member of a project. 
 | [Groups as project members](#behavior-of-groups-as-project-members) | Understand the effects of adding groups as project members.  |
 | [Placeholder users as project members](#behavior-of-placeholder-users-as-project-members) | Understand how to differentiate between regular users and placeholder users. |
 
-<video src="https://www.openproject.org/wp-content/uploads/2020/12/OpenProject-Invite-and-Manage-Members.mp4" type="video/mp4" controls="" style="width:100%"></video>
+<video src="https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Invite-and-Manage-Members.mp4" type="video/mp4" controls="" style="width:100%"></video>
 
 ## View members
 
@@ -40,7 +40,7 @@ To view the list of **all project members and their roles** in the project, sele
 
 ## Add existing users
 
-To add existing users, [placeholder users](../../system-admin-guide/users-permissions/placeholder-users) or groups to a project, [select the project](../projects/#select-a-project) for which you want to add members. In the project menu on the left, select the **Members** module.
+To add existing users, [placeholder users](../../system-admin-guide/users-permissions/placeholder-users) or groups to a project, [select the project](../projects/#open-an-existing-project) for which you want to add members. In the project menu on the left, select the **Members** module.
 
 In the [members list](#view-members) you will get an overview of the current members of this project.
 
@@ -58,7 +58,7 @@ You can also invite users who do not have an OpenProject account, yet. There are
 
 **Invite in members module**
 
-[Select the project](../projects/#select-a-project) for which you want to add members. In the project menu on the left, select the **Members** module.
+[Select the project](../projects/#open-an-existing-project) for which you want to add members. In the project menu on the left, select the **Members** module.
 
 Type in the email address of the new member. If OpenProject does not find an existing user, the **Invite** information will automatically be put before the email address. Press the Enter key or select the text "Invite ...". Assign a role to this new member and click the blue **Add** button.
 

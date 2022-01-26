@@ -23,7 +23,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
 @include breakpoint(680px down)
@@ -50,11 +50,14 @@
   #main
     margin-top: var(--header-height)
 
-    .-header-scrolled &
+    ._header-scrolled &
       margin-top: 0
 
   #content-wrapper
-    height: initial
+    height: 100%
+    // Take care that the wrapper has the available screen height at the least
+    // Check for example notification center on mobile before changing that
+    min-height: calc(100vh - var(--header-height))
   // ------------------- END CHANGED SCROLL BEHAVIOR
 
   #content-wrapper

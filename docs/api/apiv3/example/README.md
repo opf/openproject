@@ -147,7 +147,7 @@ A form:
 * contains a *schema* describing the properties of the work package as well as listing the available values for those referencing other resources. E.g. the projects in which work packages can be created (read in which the user has the permission to create work packages) are listed.
 * notes the current *errors* in the payload. E.g. a work package cannot be created outside of a project so a project reference needs to be provided.
 
-The API documentation offers detailed information [on forms in general](../forms) and on the [work package create form](../endpoints/work-packages#work-packages-work-package-create-form) in particular.
+The API documentation offers detailed information [on forms in general](../forms) and on the [work package create form](../endpoints/work-packages/#work-package-create-form-for-project) in particular.
 
 We will first fetch the empty form:
 
@@ -226,7 +226,7 @@ The set of available custom fields might change depending on the values provided
 As some custom fields reference other resources (e.g. list and user) while others are scalar values (e.g. integer and float), setting the properties requires to have them set in different parts of the body payload. This is the same as for the `subject` property vs. the `project` property.
 The schema can instruct the client where to set them properly. All properties with an `availableValues` section either listing values themselves or linking to them need to be placed in the `_links` section of the payload.
 
-```
+```json
 {
   # Scalar values
   "customFieldX": 123,

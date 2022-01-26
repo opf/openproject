@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -86,7 +86,9 @@ describe 'API v3 Relation resource', type: :request do
         get path
       end
 
-      it_behaves_like 'API V3 collection response', 1, 1, 'Relation'
+      it_behaves_like 'API V3 collection response', 1, 1, 'Relation' do
+        let(:elements) { [visible_relation] }
+      end
     end
 
     context 'when not having view_work_packages' do
@@ -96,7 +98,8 @@ describe 'API v3 Relation resource', type: :request do
         get path
       end
 
-      it_behaves_like 'not found'
+      it_behaves_like 'not found',
+                      I18n.t('api_v3.errors.not_found.work_package')
     end
   end
 end

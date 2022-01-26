@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module Costs::NumberHelper
@@ -36,7 +36,12 @@ module Costs::NumberHelper
 
     # All locales seem to have their delimiters set to "".
     # We thus remove all typical delimiters that are not the separator.
-    separator = I18n.t(:'number.format.separator')
+    separator =
+      if I18n.exists?(:'number.currency.format.separator')
+        I18n.t(:'number.currency.format.separator')
+      else
+        I18n.t(:'number.format.separator', default: '.')
+      end
 
     if separator
       delimiters = Regexp.new('[ .,’˙]'.gsub(separator, ''))

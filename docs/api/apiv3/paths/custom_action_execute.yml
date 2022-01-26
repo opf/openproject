@@ -1,0 +1,107 @@
+# /api/v3/custom_actions/{id}/execute
+---
+post:
+  parameters:
+  - description: The id of the custom action to execute
+    example: '1'
+    in: path
+    name: id
+    required: true
+    schema:
+      type: integer
+  responses:
+    '200':
+      description: OK
+      headers: {}
+    '400':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:InvalidRequestBody
+                message: The request body was not a single JSON object.
+      description: Occurs when the client did not send a valid JSON object in the
+        request body.
+      headers: {}
+    '403':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not authorized to access this resource.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** edit work packages - Additional permissions might be required based on the custom action.
+      headers: {}
+    '404':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The requested resource could not be found.
+      description: Returned if the custom action does not exist.
+      headers: {}
+    '409':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:UpdateConflict
+                message: Couldn't update the resource because of conflicting modifications.
+      description: Returned if the client provided an outdated lockVersion or no lockVersion
+        at all.
+      headers: {}
+    '422':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _embedded:
+                  details:
+                    attribute: delay
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:PropertyConstraintViolation
+                message: Delay must be a number greater than or equal to 0
+      description: Returned if the custom action was not executed successfully e.g.
+        when a constraint on a work package property was violated.
+      headers: {}
+  tags:
+  - Custom actions
+  description: |-
+    A POST to this end point executes the custom action on the work package provided in the payload. The altered work package will be returned. In order to avoid executing
+     the custom action unbeknown to a change that has already taken place, the client has to provide the work package's current lockVersion.
+  operationId: Execute_custom_action
+  requestBody:
+    content:
+      application/json:
+        schema:
+          example:
+            _links:
+              workPackage:
+                href: "/api/v3/work_packages/42"
+            lockVersion: '3'
+          properties:
+            _links:
+              properties:
+                workPackage:
+                  properties:
+                    href:
+                      type: string
+                  type: object
+              type: object
+            lockVersion:
+              type: string
+          type: object
+  summary: Execute custom action

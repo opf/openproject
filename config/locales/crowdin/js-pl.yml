@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 pl:
   js:
@@ -59,7 +59,7 @@ pl:
     button_check_all: "Zaznacz wszystko"
     button_configure-form: "Skonfiguruj formularz"
     button_confirm: "Potwierdź"
-    button_continue: "Dalej"
+    button_continue: "Kontynuuj"
     button_copy: "Kopiuj"
     button_custom-fields: "Pola niestandardowe"
     button_delete: "Usuń"
@@ -87,6 +87,7 @@ pl:
     button_update: "Aktualizacja"
     button_export-pdf: "Pobierz plik PDF"
     button_export-atom: "Pobierz Atom"
+    button_create: "Utwórz"
     calendar:
       title: 'Kalendarz'
       too_many: 'Łącznie pakietów roboczych jest %{count}, ale pokazać można tylko %{max}.'
@@ -126,7 +127,7 @@ pl:
       preview: 'Przełącz tryb podglądu'
       source_code: 'Przełącz tryb źródła Markdown'
       error_saving_failed: 'Zapisywanie dokumentu nie powiodło się, błąd: %{error}'
-      error_initialization_failed: 'Nie można zainicjować programu CKEditor!'
+      ckeditor_error: 'Wystąpił błąd w CKEditor'
       mode:
         manual: 'Przełącz na źródło Markdown'
         wysiwyg: 'Przełącz na edytor WYSIWYG'
@@ -185,8 +186,8 @@ pl:
         new_group: 'Nowa Grupa'
         reset_to_defaults: 'Resetuj do ustawień domyślnych'
       enterprise:
-        text_reprieve_days_left: "%{days} days until end of grace period"
-        text_expired: "expired"
+        text_reprieve_days_left: "Liczba dni do końca okresu karencji: %{days}"
+        text_expired: "wygasł"
         trial:
           confirmation: "Potwierdzenie adresu e-mail"
           confirmation_info: >
@@ -284,14 +285,17 @@ pl:
         new_features:
           text_new_features: "Przeczytaj o nowych funkcjach i aktualizacjach produktów."
           learn_about: "Dowiedz się więcej o nowych funkcjach"
-          standard:
-            learn_about_link: https://www.openproject.org/openproject-11-3-release
-            current_new_feature_html: >
-              Wersja zawiera różne nowe funkcje i ulepszenia: <br> <ul class="%{list_styling_class}"> <li>Nowy przycisk w nawigacji nagłówka, pozwalający tworzyć projekty, użytkowników i pakiety robocze.</li> <li>Nowe okno modalne zaproszenia dla użytkowników, grup i użytkowników zastępczych umożliwia łatwe dodawanie lub zapraszanie nowych użytkowników i przypisywanie ich do pakietów roboczych.</li> <li>Integracja GitHub z OpenProject.</li> <li>Rozszerzenia API v3 dla grup i więcej, np. tworzenie, odczyt, aktualizowanie i usuwanie grup i członków grup za pomocą interfejsu API.</li> <li>Wielokrotny wybór niestandardowych pól projektu z listy typów.</li> <li>Tworzenie kopii zapasowej z interfejsu przeglądarkowego.</li> </ul>
-          bim:
-            learn_about_link: https://www.openproject.org/blog/openproject-11-4-release
-            current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Take a look at our <a href="https://github.com/opf/openproject-revit-add-in">Revit Add-in</a> which lets you work on BCF work packages directly in Revit.</li> <li>IFC properties got a dedicated pane. Copying GUIDs has never been easier.</li> <li>Reverse clipping plane direction in BCF viewpoint and become compliant with future BCF 3.0 (Now same direction as Solibri). <li>Fixed viewing IFC models on mobile.</li> <li>Fixed export of work package views with BCF snapshot column.</li> </ul>
+          #Include the version to invalidate outdated translations in other locales.
+          #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
+          '12_0':
+            standard:
+              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
+              new_features_html: >
+                Wersja zawiera różne nowe funkcje i ulepszenia: <br> <ul class="%{list_styling_class}"> <li>Dzięki nowym <b>powiadomieniom w aplikacji</b> otrzymujesz wszystkie ważne aktualizacje bezpośrednio w aplikacji i nie przychodzi do ciebie ogromna ilość wiadomości e-mail.</li> <li>Nowe <b>Centrum powiadomień</b> pokazuje wszystkie zmiany, w tym intuicyjne opcje filtrowania np. wg przyczyny powiadomienia lub projektów. Umożliwia ono nawet edycję bezpośrednio w widoku podzielonym.</li> <li>Poprawione <b>ustawienia powiadomień</b> pozwalają na dostosowanie dla jakich czynności i w których projektach chcesz otrzymywać powiadomienia.</li> <li><b>Przypomnienia e-mail</b> można skonfigurować tak, aby otrzymywać ważne aktualizacje za pomocą dziennego podsumowania w wiadomości e-mail.</li> <li>Auto uzupełnianie pakietu roboczego dla relacji wyświetla teraz również dodatkowe informacje (nazwa projektu, status, itp.), aby łatwo zidentyfikować odpowiedni pakiet roboczy.</li> </ul>
+            bim:
+              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
+              new_features_html: >
+                Wersja zawiera różne nowe funkcje i ulepszenia: <br> <ul class="%{list_styling_class}"> <li>Centrum powiadomień: Zmniejsz liczbę otrzymywanych wiadomości. Zamiast tego wszystkie istotne powiadomienia znajdziesz w jednym centralnym miejscu.</li> <li>Możesz również pobierać wszystkie przesłane pliki IFC.</li> <li>Przesyłanie i przetwarzanie IFC stało się szybsze i otrzymało lepsze komunikaty o błędach.</li> <li>Natomiast w<a href="https://github.com/opf/openproject-revit-add-in">Dodatku OpenProject Revit</a> poprawiliśmy wiele usterek.</li> </ul>
     label_activate: "Aktywuj"
     label_add_column_after: "Dodaj kolumnę po"
     label_add_column_before: "Dodaj kolumnę przed"
@@ -398,6 +402,7 @@ pl:
     label_quote_comment: "Cytuj komentarz"
     label_recent: "Najnowsze"
     label_reset: "Reset"
+    label_remove: "Usuń"
     label_remove_column: "Usuń kolumnę"
     label_remove_columns: "Usuń zaznaczone kolumny"
     label_remove_row: "Usuń wiersz"
@@ -479,31 +484,101 @@ pl:
         next: 'Następny'
         got_it: 'OK'
       steps:
-        help_menu: 'W menu <b>Pomoc</b> znajdziesz przewodnik użytkownika i dodatkowe zasoby pomocy. <br> Życzymy miłej pracy w OpenProject!'
+        help_menu: 'Menu Pomoc (?) zapewnia <b>dodatkowe zasoby pomocy</b>. Tutaj znajdziesz przewodnik użytkownika, pomocne filmy instruktażowe i wiele więcej. <br> Życzymy miłej pracy w OpenProject!'
         members: 'Zaproś nowych <b>członków</b> do swojego projektu.'
-        project_selection: 'Aby rozpocząć, kliknij jeden z projektów z przydatnymi danymi demonstracyjnymi. <br> <b>Projekt Demo</b> najlepiej nadaje się do klasycznego zarządzania projektami, natomiast <b>projekt Scrum</b> jest lepszy do zwinnego zarządzania projektami.'
-        quick_add_button: 'Utwórz nowy projekt lub zaproś współpracowników.'
-        sidebar_arrow: "Strzałka umożliwia powrót do <b>menu głównego</b> projektu."
+        project_selection: 'Kliknij na jeden z projektów demonstracyjnych, które przygotowaliśmy. Dane demonstracyjne są obecnie dostępne tylko w języku angielskim. <br> Ogólny <b>projekt demo</b> najlepiej pasuje do klasycznego zarządzania projektami, natomiast <b>projekt Scrum</b> jest lepszy do zwinnego zarządzania projektami.'
+        quick_add_button: 'Kliknij ikonę plus (+) w nawigacji nagłówka, aby <b>utworzyć nowy projekt</b> lub <b>zaprosić współpracowników</b>.'
+        sidebar_arrow: "Użyj strzałki powrotu w lewym górnym rogu, aby wrócić do <b>menu głównego</b> projektu."
         welcome: "Poświęć trzy minuty na zapoznanie się z <b>najważniejszymi funkcjami</b>. \n <br> Zalecamy wykonanie tych kroków do końca. Zwiedzanie można w każdej chwili zacząć od nowa."
         wiki: 'W <b>wiki</b> możesz dokumentować wiedzę i dzielić się nią z zespołem.'
         backlogs:
-          overview: "Zarządzaj swoją pracą w widoku <b>Backlogs</b>. <br> Po prawej stronie znajduje się backlog produktu lub backlog usterek, po lewej stronie znajdują się odpowiednie sprinty. Tutaj można tworzyć <b>wydarzenia, wpisy użytkownika i usterki</b>, nadawać priorytety metodą przeciągania i upuszczania oraz dodawać je do sprintu."
-          task_board_arrow: 'Aby zobaczyć swój <b>panel zadań</b>, otwórz menu rozwijane Sprint...'
-          task_board_select: '...i wybierz wpis <b>Panel zadań</b>.'
-          task_board: "<b>Panel zadań</b> przedstawia postęp tego sprintu. Dodaj nowe zadania lub przeszkody za pomocą ikony + obok wpisu użytkownika. Stan można zaktualizować metodą przeciągania i upuszczania."
+          overview: "Zarządzaj swoją pracą w widoku <b>backlogs</b>."
+          sprints: "Po prawej stronie znajduje się backlog produktu i backlog usterek, a po lewej stronie znajdują się odpowiednie sprinty. Tutaj można tworzyć <b>wydarzenia, wpisy użytkownika i usterki</b>, nadawać priorytety metodą przeciągania i upuszczania oraz dodawać je do sprintu."
+          task_board_arrow: 'Aby zobaczyć swój <b>panel zadań</b>, otwórz menu rozwijane sprint...'
+          task_board_select: '...i wybierz wpis <b>panel zadań</b>.'
+          task_board: "Panel zadań przedstawia <b>postęp tego sprintu</b>. Dodaj nowe zadania lub przeszkody, klikając ikonę (+) obok wpisu użytkownika. <br>Stan można zaktualizować metodą przeciągania i upuszczania."
         boards:
-          overview: 'Zarządzać pracą w intuicyjnym widoku <b>Tablice</b>.'
-          lists: 'Można utworzyć wiele list (kolumn) w jednym widoku tablicy, np. w celu utworzenia tablicy KANBAN.'
-          add: 'Kliknięcie przycisku + <b>dodaje nową kartę</b> do listy na tablicy.'
-          drag: 'Przeciągaj i upuszczaj karty w obrębie listy, aby zmienić ich kolejność lub przeciągaj je do innej listy. Dwukrotne kliknięcie otwiera widok szczegółów.'
+          overview: 'Wybierz <b>tablice</b>, aby zmienić widok i zarządzać projektem za pomocą widoku tablic.'
+          lists: 'Tutaj możesz utworzyć wiele list (kolumn) w jednym widoku tablicy. Ta funkcja pozwala ci na przykład na utworzenie <b>tablicy Kanban</b>.'
+          add: 'Kliknij ikonę plus (+), aby <b>utworzyć nową kartę</b> lub <b>dodać istniejącą kartę</b> do listy na tablicy.'
+          drag: 'Przeciągaj i upuszczaj swoje karty w obrębie danej listy, aby zmienić ich kolejność lub przenieść je do innej listy. <br> Możesz kliknąć ikonę info (i) w prawym górnym rogu lub kliknąć dwukrotnie na karcie, aby wyświetlić jej szczegóły.'
         wp:
-          toggler: "Teraz przyjrzyjmy się sekcji <b>Zadania</b>, która zapewnia bardziej szczegółowy widok Twojej pracy."
-          list: 'Jest to lista <b>Zadania</b>, zawierająca ważne zadania w projekcie, takie jak zadania robocze, kamienie milowe, etapy i inne. <br> Pakiety robocze możesz tworzyć lub edytować bezpośrednio na tej liście. Aby wyświetlić szczegóły listy, można dwukrotnie kliknąć żądany wiersz.'
-          full_view: 'W okienku <b>Właściwości pakietów roboczych</b> znajdziesz wszystkie istotne informacje, takie jak opis, stan i priorytet, aktywność, zależności lub komentarze.'
-          back_button: 'Strzałka umożliwia powrót do listy pakietów roboczych.'
-          create_button: 'Przycisk <b>Utwórz</b> doda nowy pakiet roboczy do projektu.'
-          timeline_button: 'Aby utworzyć oś czasu projektu, można uaktywnić <b>wykres Gantta</b>.'
-          timeline: 'Tutaj można edytować plan projektu. Twórz nowe etapy, kamienie milowe i dodawaj zależności. Wszyscy członkowie zespołu mogą w każdej chwili wyświetlić i zaktualizować najnowszy plan.'
+          toggler: "Teraz przyjrzyjmy się sekcji <b>pakiet roboczy</b>, która zapewnia bardziej szczegółowy widok twojej pracy."
+          list: 'Ten przegląd pakietu <b>roboczego</b> zapewnia listę wszystkich zadań w twoim projekcie, takich jak zadania robocze, kamienie milowe, etapy i inne. <br> Pakiety robocze możesz tworzyć i edytować bezpośrednio w tym widoku. Aby wyświetlić szczegóły danego pakietu roboczego, po prostu kliknij dwukrotnie jego wiersz.'
+          full_view: 'W widoku <b>szczegółów pakietu roboczego</b> znajdziesz wszystkie istotne informacje dotyczące danego pakietu roboczego, takie jak opis, stan i priorytet, aktywność, zależności oraz komentarze.'
+          back_button: 'Użyj strzałki powrotu w lewym górnym rogu, aby wyjść i powrócić do listy pakietów roboczych.'
+          create_button: 'Przycisk <b>+ Utwórz</b> doda nowy pakiet roboczy do twojego projektu.'
+          timeline_button: 'Aby utworzyć oś czasu dla twojego projektu, możesz uaktywnić widok <b>wykresu Gantta</b>.'
+          timeline: 'Tutaj możesz <b>edytować plan projektu.</b>, tworzyć nowe pakiety robocze, takie jak zadania robocze, kamienie milowe i inne oraz <b>dodawać  zależności</b>. Wszyscy członkowie zespołu mogą w każdej chwili wyświetlić i zaktualizować najnowszy plan.'
+    notifications:
+      title: "Powiadomienia"
+      no_unread: "Brak nieprzeczytanych powiadomień"
+      reasons:
+        mentioned: 'wzmianka'
+        watched: 'obserwowane'
+        assigned: 'przypisane'
+        responsible: 'osoba odpowiedzialna'
+      facets:
+        unread: 'Nieprzeczytane'
+        all: 'Wszystko'
+      center:
+        and_more_users:
+          one: 'i 1 inny'
+          few: 'i %{count} inne'
+          many: 'i %{count} inne'
+          other: 'i %{count} innych'
+        no_results:
+          at_all: 'Nowe powiadomienia pojawią się tutaj, gdy pojawi się aktywność, która dotyczy ciebie'
+          with_current_filter: 'Obecnie brak powiadomień w tym widoku'
+        mark_all_read: 'Oznacz wszystko jako przeczytane'
+        mark_as_read: 'Oznacz jako przeczytane'
+        text_update_date: "%{date} dodał"
+        total_count_warning: "Wyświetlono najnowsze powiadomienia: %{newest_count}. Nie wyświetlono %{more_count}."
+        empty_state:
+          no_notification: "Wygląda na to, że jesteś już na bieżąco."
+          no_notification_with_current_filter: "Zmień zaangażowanie lub wróć do skrzynki odbiorczej, aby wyświetlić powiadomienia"
+          no_selection: "Kliknij powiadomienie, aby wyświetlić wszystkie szczegóły aktywności."
+        new_notifications:
+          message: 'Masz nowe powiadomienia.'
+          link_text: 'Kliknij tutaj, aby je wczytać'
+      menu:
+        accountable: 'Osoba odpowiedzialna'
+        assigned: 'Przypisane'
+        by_project: 'Nieprzeczytane wg projektu'
+        by_reason: 'Zaangażowanie'
+        inbox: 'Inbox'
+        mentioned: '@wzmianka'
+        watching: 'Obserwowane'
+      settings:
+        change_notification_settings: 'Aby wyświetlić i zmienić ustawienia powiadomień, <a target="_blank" href="%{url}">kliknij tutaj</a>'
+        title: "Ustawienia powiadomień"
+        notify_me: "Powiadom mnie"
+        reasons:
+          mentioned:
+            title: '@wzmianka o mnie'
+            description: 'Otrzymuj powiadomienie za każdym razem, gdy pojawi się o tobie wzmianka gdziekolwiek'
+          involved:
+            title: 'Przypisane do mnie lub moja odpowiedzialność'
+            description: 'Otrzymuj powiadomienia o wszystkich czynnościach w pakietach roboczych, do których jesteś przypisany lub za które ponosisz odpowiedzialność'
+          watched: 'Aktualizacje obserwowanych pozycji'
+          work_package_commented: 'Wszystkie nowe komentarze'
+          work_package_created: 'Nowe pakiety robocze'
+          work_package_processed: 'Wszystkie zmiany statusu'
+          work_package_prioritized: 'Wszystkie zmiany priorytetów'
+          work_package_scheduled: 'Wszystkie zmiany daty'
+        global:
+          immediately:
+            title: 'Powiadom mnie natychmiast'
+            description: 'Te ustawienia dotyczą wszystkich projektów. Poniżej możesz utworzyć wyjątki dla określonych projektów.'
+          delayed:
+            title: 'Powiadom mnie również o'
+            description: 'Otrzymuj powiadomienia o następujących czynnościach w pakietach roboczych dla wszystkich projektów:'
+        project_specific:
+          title: 'Ustawienia powiadomień dla danego projektu'
+          description: 'Te ustawienia dla danego projektu zastępują ustawienia domyślne powyżej'
+          add: 'Dodaj ustawienie dla projektu'
+          already_selected: 'Ten projekt jest już wybrany'
+          remove: 'Usuń ustawienia projektu'
     password_confirmation:
       field_description: 'Musisz wprowadzić hasło do twojego konta aby potwierdzić te zmiany.'
       title: 'Potwierdź hasło aby kontynuować'
@@ -530,7 +605,39 @@ pl:
         copy_options: "Opcje kopiowania"
       autocompleter:
         label: 'Autouzupełnianie projektu'
-    text_are_you_sure: "Jesteś pewien?"
+    reminders:
+      settings:
+        daily:
+          add_time: 'Dodaj czas'
+          enable: 'Włącz codzienne przypomnienia e-mail'
+          explanation: 'Otrzymasz te przypomnienia tylko dla nieprzeczytanych powiadomień i tylko w określonych przez Ciebie godzinach. %{no_time_zone}'
+          no_time_zone: 'Dopóki nie skonfigurujesz strefy czasowej dla swojego konta, czas będzie interpretowany jako UTC.'
+          time_label: 'Czas %{counter}:'
+          title: 'Wyślij mi codzienne przypomnienia e-mail dla nieprzeczytanych powiadomień'
+        workdays:
+          title: 'Otrzymuj przypomnienia e-mail w tych dniach'
+        immediate:
+          title: 'Wyślij mi przypomnienie e-mail'
+          mentioned: 'Natychmiast, gdy pojawi się @wzmianka o mnie'
+        alerts:
+          title: 'Powiadomienia e-mail dla innych elementów (które nie są pakietami roboczymi)'
+          explanation: >
+            Dzisiaj powiadomienia są ograniczone do pakietów roboczych. Możesz nadal otrzymywać powiadomienia e-mail dla tych zdarzeń, dopóki nie zostaną one zawarte w powiadomieniach:
+          news_added: 'Wiadomość dodana'
+          news_commented: 'Komentarz do nowości'
+          document_added: 'Dodanie dokumentu'
+          forum_messages: 'Nowe wiadomości na forum'
+          wiki_page_added: 'Dodano stronę wiki'
+          wiki_page_updated: 'Zaktualizowano stronę wiki'
+          membership_added: 'Dodanie członkostwa'
+          membership_updated: 'Aktualizacja członkostwa'
+        title: 'Przypomnienia e-mail'
+        pause:
+          label: 'Tymczasowo wstrzymuj codzienne przypomnienia e-mail'
+          first_day: 'Pierwszy dzień'
+          last_day: 'Ostatni dzień'
+    text_are_you_sure: "Jesteś pewny?"
+    text_data_lost: "Wszystkie wprowadzone dane zostaną utracone."
     types:
       attribute_groups:
         error_duplicate_group_name: "Nazwa  %{group} jest użyta więcej niż raz. Nazwy grup muszą być unikalne."
@@ -611,6 +718,10 @@ pl:
     relations_autocomplete:
       placeholder: "Wpisz szukaną frazę"
       parent_placeholder: "Wybierz nowy element nadrzędny albo naciśnij klawisz Escape, aby anulować."
+    autocompleter:
+      placeholder: "Wpisz szukaną frazę"
+      notFoundText: "Nie znaleziono elementów"
+      typeToSearchText: "Wpisz szukaną frazę"
     repositories:
       select_tag: 'Wybierz tag'
       select_branch: 'Wybierz gałąź'
@@ -761,7 +872,7 @@ pl:
       no_results:
         title: Brak pakietów prac do wyświetlenia.
         description: Pakiety prac nie zostały utworzone albo wszystkie są odfiltrowane.
-      limited_results: Only %{count} work packages can be shown in manual sorting mode. Please reduce the results by filtering, or switch to automatic sorting.
+      limited_results: W trybie sortowania ręcznego można pokazać tylko ograniczoną liczbę pakietów roboczych (%{count}). Zmniejsz liczbę wyników filtrowania lub przełącz na sortowanie automatyczne.
       property_groups:
         details: "Szczegóły"
         people: "Ludzie"
@@ -804,6 +915,7 @@ pl:
         label_content: "Kliknij tutaj, aby pominąć menu i przejść do treści"
       placeholders:
         default: "-"
+        date: "Wybierz datę"
         formattable: "%{name}: kliknij, aby edytować..."
       query:
         column_names: "Kolumny"
@@ -1050,11 +1162,9 @@ pl:
           user: 'Użytkownik może się teraz zalogować, aby uzyskać dostęp do %{project}.  Tymczasem możesz już planować z tym użytkownikiem i na przykład przypisać pakiety robocze.'
           placeholder: 'Symbolu zastępczego można teraz użyć w %{project}. Tymczasem możesz już planować z tym użytkownikiem i na przykład przypisać pakiety robocze.'
           group: 'Grupa jest teraz częścią %{project}. Tymczasem możesz już planować z tą grupą i na przykład przypisać pakiety robocze.'
-        next_button: 'Dalej'
+        next_button: 'Kontynuuj'
     forms:
       submit_success_message: 'Formularz został przesłany'
       load_error_message: 'Podczas ładowania formularza wystąpił błąd'
       validation_error_message: 'Napraw błędy obecne w formularzu'
       advanced_settings: 'Zaawansowane ustawienia'
-
-

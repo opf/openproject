@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 #English strings go here for Rails i18n
 pt:
@@ -54,7 +54,7 @@ pt:
   label_meeting_agenda: "Agenda"
   label_meeting_minutes: "Atas"
   label_meeting_close: "Fechar"
-  label_meeting_open: "Aberto"
+  label_meeting_open: "Abrir"
   label_meeting_agenda_close: "Fechar a agenda para iniciar a Ata"
   label_meeting_date_time: "Data/Horário"
   label_meeting_diff: "Diferenças"
@@ -63,6 +63,8 @@ pt:
   label_version: "Versão"
   label_time_zone: "Fuso horário"
   label_start_date: "Data de início"
+  meeting:
+    copied: "Copiado para a Reunião #%{id}"
   notice_successful_notification: "Notificação enviada com sucesso"
   notice_timezone_missing: Nenhum fuso horário está definido, portanto assumiu-se %{zone}. Para escolher o seu fuso horário, clique aqui.
   permission_create_meetings: "Criar reuniões"

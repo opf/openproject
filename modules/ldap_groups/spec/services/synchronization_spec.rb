@@ -162,7 +162,8 @@ describe LdapGroups::SynchronizeGroupsService, with_ee: %i[ldap_groups] do
             group_foo.destroy
 
             expect { synced_foo.reload }.to raise_error ActiveRecord::RecordNotFound
-            expect(group_bar.users).to match_array([user_aa729, user_bb459, user_cc414])
+            expect(group_bar.users)
+              .to match_array([user_aa729.reload, user_bb459.reload, user_cc414.reload])
 
             expect(::LdapGroups::Membership.where(group_id: synced_foo_id)).to be_empty
           end

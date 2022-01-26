@@ -23,12 +23,12 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { Injectable } from "@angular/core";
 import { HttpClient } from '@angular/common/http';
-import { HalResourceNotificationService } from "core-app/modules/hal/services/hal-resource-notification.service";
+import { HalResourceNotificationService } from "core-app/features/hal/services/hal-resource-notification.service";
 
 @Injectable()
 export class CostBudgetSubformAugmentService {

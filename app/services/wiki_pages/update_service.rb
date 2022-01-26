@@ -25,13 +25,13 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 class WikiPages::UpdateService < ::BaseServices::Update
   include Attachments::ReplaceAttachments
 
-  private
+  protected
 
   def persist(service_result)
     service_result = super(service_result)

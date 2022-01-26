@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 require 'spec_helper'
 
@@ -48,6 +48,6 @@ class WorkPackageCards
   end
 
   def card(work_package)
-    page.find(".wp-card-#{work_package.id}")
+    page.find(".op-wp-single-card-#{work_package.id}")
   end
 end

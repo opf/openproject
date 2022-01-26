@@ -1,0 +1,31 @@
+@import "helpers"
+
+.op-ian-center
+  display: grid
+  grid-template-rows: 1fr auto
+  height: 100%
+
+  &--content
+    height: 100%
+
+  &--viewport
+    height: 100%
+    // Avoid infinite horizontal scrolling on mobile iOS (#39849)
+    overflow-x: hidden
+    @include styled-scroll-bar
+
+  &--max-warning
+    margin-bottom: 0
+    text-align: center
+    font-style: italic
+
+  // While loading, appear to be showing one item row
+  &--loading-indicator
+    height: 100px
+    overflow: hidden // FIXME this shouldn't be necessary with proper svg scaling
+
+  :host
+    .-browser-safari &
+      // Because of Safari's viewport bug, the address bar overlaps content with height: 100vh
+      // Check #38082 before changing it
+      height: 100%

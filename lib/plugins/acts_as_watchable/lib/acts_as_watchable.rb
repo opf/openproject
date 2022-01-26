@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 #-- encoding: UTF-8
@@ -159,11 +159,6 @@ module Redmine
           user.present? &&
             (watchers.loaded? && watchers.map(&:user_id).any? { |uid| uid == user.id } ||
              watcher_user_ids.any? { |uid| uid == user.id })
-        end
-
-        # Returns an array of watchers
-        def watcher_recipients
-          possible_watcher_users & watcher_users.active.where.not(mail_notification: 'none')
         end
 
         module ClassMethods

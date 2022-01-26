@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -54,7 +54,7 @@ describe 'Assigned to me embedded query on my page', type: :feature, js: true do
   let!(:assigned_to_other_work_package) do
     FactoryBot.create :work_package,
                       project: project,
-                      subject: 'Not assigend to me',
+                      subject: 'Not assigned to me',
                       type: type,
                       author: user,
                       assigned_to: other_user
@@ -159,7 +159,7 @@ describe 'Assigned to me embedded query on my page', type: :feature, js: true do
     type_field.openSelectField
     type_field.set_value type.name
 
-    embedded_table.expect_notification(
+    embedded_table.expect_toast(
       message: 'Successful creation. Click here to open this work package in fullscreen view.'
     )
 
@@ -182,7 +182,7 @@ describe 'Assigned to me embedded query on my page', type: :feature, js: true do
       expect(page)
         .not_to have_selector('.subject', text: assigned_work_package_2.subject)
 
-      page.find('.pagination--item a', text: '2').click
+      page.find('.op-pagination--item button', text: '2').click
 
       expect(page)
         .not_to have_selector('.subject', text: assigned_work_package.subject)
@@ -192,7 +192,7 @@ describe 'Assigned to me embedded query on my page', type: :feature, js: true do
 
     assigned_area.resize_to(1, 2)
 
-    my_page.expect_notification(message: I18n.t('js.notice_successful_update'))
+    my_page.expect_toast(message: I18n.t('js.notice_successful_update'))
 
     assigned_area.expect_to_span(1, 1, 2, 3)
     # has been moved down by resizing

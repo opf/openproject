@@ -23,14 +23,15 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 class BudgetsController < ApplicationController
   include AttachableServiceCall
 
-  before_action :find_budget, only: %i[show edit update copy]
+  before_action :find_budget, only: %i[show edit update copy destroy_info]
   before_action :find_budgets, only: :destroy
+  before_action :check_and_update_belonging_work_packages, only: :destroy
   before_action :find_project, only: %i[new create update_material_budget_item update_labor_budget_item]
   before_action :find_optional_project, only: :index
 
@@ -141,6 +142,10 @@ class BudgetsController < ApplicationController
     redirect_to action: 'index', project_id: @project
   end
 
+  def destroy_info
+    @possible_other_budgets = @project.budgets.where.not(id: @budget.id)
+  end
+
   def update_material_budget_item
     @element_id = params[:element_id]
 
@@ -234,7 +239,7 @@ class BudgetsController < ApplicationController
     }
 
     if current_user.allowed_to?(permission, project)
-      response["#{element_id}_costs"] = number_to_currency(costs)
+      response["#{element_id}_costs_text"] = number_to_currency(costs)
       response["#{element_id}_cost_value"] = unitless_currency_number(costs)
     end
 
@@ -257,5 +262,28 @@ class BudgetsController < ApplicationController
       .where(project_id: @project.id)
       .page(page_param)
       .per_page(per_page_param)
+  end
+
+  def check_and_update_belonging_work_packages
+    if params[:todo]
+      update_belonging_work_packages
+    end
+
+    budget = Budget.find(params[:id])
+    if budget.work_packages.any?
+      redirect_to destroy_info_budget_path(budget)
+    end
+  end
+
+  def update_belonging_work_packages
+    reassign_to_id = params[:reassign_to_id]
+    budget_id = params[:id]
+
+    budget_exists = Budget.visible(current_user).exists?(id: reassign_to_id) if params[:todo] == 'reassign'
+    reassign_to = budget_exists ? reassign_to_id : nil
+
+    WorkPackage
+      .where(budget_id: budget_id)
+      .update_all(budget_id: reassign_to, updated_at: DateTime.now)
   end
 end

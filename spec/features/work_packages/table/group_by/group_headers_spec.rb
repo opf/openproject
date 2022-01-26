@@ -36,10 +36,10 @@ describe 'Work Package table group headers', js: true do
     group_by.enable_via_menu 'Category'
 
     # Expect table to be grouped as WP created above
-    expect(page).to have_selector('.group--value .count', count: 3)
-    expect(page).to have_selector('.group--value', text: 'Foo (1)')
-    expect(page).to have_selector('.group--value', text: 'Bar (1)')
-    expect(page).to have_selector('.group--value', text: '- (1)')
+    group_by.expect_number_of_groups 3
+    group_by.expect_grouped_by_value 'Foo', 1
+    group_by.expect_grouped_by_value 'Bar', 1
+    group_by.expect_grouped_by_value '-', 1
 
     # Update category of wp_none
     cat = wp_table.edit_field(wp_none, :category)
@@ -49,8 +49,8 @@ describe 'Work Package table group headers', js: true do
     loading_indicator_saveguard
 
     # Expect changed groups
-    expect(page).to have_selector('.group--value .count', count: 2)
-    expect(page).to have_selector('.group--value', text: 'Foo (2)')
-    expect(page).to have_selector('.group--value', text: 'Bar (1)')
+    group_by.expect_number_of_groups 2
+    group_by.expect_grouped_by_value 'Foo', 2
+    group_by.expect_grouped_by_value 'Bar', 1
   end
 end

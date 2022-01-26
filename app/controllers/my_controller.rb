@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 class MyController < ApplicationController
@@ -45,7 +45,8 @@ class MyController < ApplicationController
   menu_item :settings,            only: [:settings]
   menu_item :password,            only: [:password]
   menu_item :access_token,        only: [:access_token]
-  menu_item :mail_notifications,  only: [:mail_notifications]
+  menu_item :notifications,       only: [:notifications]
+  menu_item :reminders,           only: [:reminders]
 
   def account; end
 
@@ -55,7 +56,7 @@ class MyController < ApplicationController
     # If mail changed, expire all other sessions
     if @user.previous_changes['mail'] && ::Sessions::DropOtherSessionsService.call(@user, session)
       flash[:info] = "#{flash[:notice]} #{t(:notice_account_other_session_expired)}"
-      flash[:notice] = nil
+      flash.delete :notice
     end
   end
 
@@ -81,23 +82,33 @@ class MyController < ApplicationController
   # Administer access tokens
   def access_token; end
 
-  # Configure user's mail notifications
-  def mail_notifications; end
+  # Configure user's in app notifications
+  def notifications
+    render html: '',
+           layout: 'angular/angular',
+           locals: {
+             menu_name: :my_menu,
+             page_title: [I18n.t(:label_my_account), I18n.t('js.notifications.settings.title')]
+           }
+  end
 
-  def update_mail_notifications
-    write_email_settings(redirect_to: :mail_notifications)
+  # Configure user's mail reminders
+  def reminders
+    render html: '',
+           layout: 'angular/angular',
+           locals: { menu_name: :my_menu }
   end
 
   # Create a new feeds key
   def generate_rss_key
-    if request.post?
-      token = Token::RSS.create!(user: current_user)
-      flash[:info] = [
-        t('my.access_token.notice_reset_token', type: 'RSS').html_safe,
-        content_tag(:strong, token.plain_value),
-        t('my.access_token.token_value_warning')
-      ]
-    end
+    token = Token::RSS.create!(user: current_user)
+    flash[:info] = [
+      # rubocop:disable Rails/OutputSafety
+      t('my.access_token.notice_reset_token', type: 'RSS').html_safe,
+      # rubocop:enable Rails/OutputSafety
+      content_tag(:strong, token.plain_value),
+      t('my.access_token.token_value_warning')
+    ]
   rescue StandardError => e
     Rails.logger.error "Failed to reset user ##{current_user.id} RSS key: #{e}"
     flash[:error] = t('my.access_token.failed_to_reset_token', error: e.message)
@@ -107,14 +118,14 @@ class MyController < ApplicationController
 
   # Create a new API key
   def generate_api_key
-    if request.post?
-      token = Token::API.create!(user: current_user)
-      flash[:info] = [
-        t('my.access_token.notice_reset_token', type: 'API').html_safe,
-        content_tag(:strong, token.plain_value),
-        t('my.access_token.token_value_warning')
-      ]
-    end
+    token = Token::API.create!(user: current_user)
+    flash[:info] = [
+      # rubocop:disable Rails/OutputSafety
+      t('my.access_token.notice_reset_token', type: 'API').html_safe,
+      # rubocop:enable Rails/OutputSafety
+      content_tag(:strong, token.plain_value),
+      t('my.access_token.token_value_warning')
+    ]
   rescue StandardError => e
     Rails.logger.error "Failed to reset user ##{current_user.id} API key: #{e}"
     flash[:error] = t('my.access_token.failed_to_reset_token', error: e.message)
@@ -139,16 +150,6 @@ class MyController < ApplicationController
       return true
     end
     false
-  end
-
-  def write_email_settings(redirect_to:)
-    update_service = UpdateUserEmailSettingsService.new(@user)
-    if update_service.call(mail_notification: permitted_params.user[:mail_notification],
-                           self_notified: params[:self_notified] == '1',
-                           notified_project_ids: params[:notified_project_ids])
-      flash[:notice] = I18n.t(:notice_account_updated)
-      redirect_to(action: redirect_to)
-    end
   end
 
   def write_settings

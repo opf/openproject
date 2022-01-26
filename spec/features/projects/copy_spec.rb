@@ -23,33 +23,28 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
+# rubocop:disable RSpec:MultipleMemoizedHelpers
 describe 'Projects copy',
          type: :feature,
          js: true do
   describe 'with a full copy example' do
     let!(:project) do
-      project = FactoryBot.create(:project,
-                                  parent: parent_project,
-                                  types: active_types,
-                                  custom_field_values: { project_custom_field.id => 'some text cf' })
+      FactoryBot.create(:project,
+                        parent: parent_project,
+                        types: active_types,
+                        members: { user => role },
+                        custom_field_values: { project_custom_field.id => 'some text cf' }).tap do |p|
+        p.work_package_custom_fields << wp_custom_field
+        p.types.first.custom_fields << wp_custom_field
 
-      FactoryBot.create(:member,
-                        project: project,
-                        user: user,
-                        roles: [role])
-
-      project.work_package_custom_fields << wp_custom_field
-      project.types.first.custom_fields << wp_custom_field
-
-      # Enable wiki
-      project.enabled_module_names += ['wiki']
-
-      project
+        # Enable wiki
+        p.enabled_module_names += ['wiki']
+      end
     end
 
     let!(:parent_project) do
@@ -81,7 +76,7 @@ describe 'Projects copy',
       FactoryBot.create(:role,
                         permissions: permissions)
     end
-    let(:permissions) { %i(copy_projects edit_project add_subprojects manage_types view_work_packages) }
+    let(:permissions) { %i(copy_projects edit_project add_subprojects manage_types view_work_packages select_custom_fields) }
     let(:wp_user) do
       user = FactoryBot.create(:user)
 
@@ -147,16 +142,24 @@ describe 'Projects copy',
       editor = ::Components::WysiwygEditor.new "[data-qa-field-name='customField#{project_custom_field.id}']"
       editor.expect_value 'some text cf'
 
+      # Deactivate sending of mails during copying
+      click_on 'Copy options'
+      uncheck 'Send email notifications during the project copy'
+
       click_button 'Save'
 
       expect(page).to have_text 'The job has been queued and will be processed shortly.'
 
-      perform_enqueued_jobs
+      # ensure all jobs are run especially emails which might be sent later on
+      while perform_enqueued_jobs > 0 do end
 
       copied_project = Project.find_by(name: 'Copied project')
 
       expect(copied_project)
         .to be_present
+
+      # Will redirect to the new project automatically once the copy process is done
+      expect(page).to have_current_path(Regexp.new("#{project_path(copied_project)}/?"))
 
       copied_settings_page = Pages::Projects::Settings.new(copied_project)
       copied_settings_page.visit!
@@ -300,3 +303,4 @@ describe 'Projects copy',
     end
   end
 end
+# rubocop:enable RSpec:MultipleMemoizedHelpers

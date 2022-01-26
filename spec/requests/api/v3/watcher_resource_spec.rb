@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -97,7 +97,8 @@ describe 'API v3 Watcher resource', type: :request, content_type: :json do
     context 'user not allowed to see work package' do
       let(:permissions) { [] }
 
-      it_behaves_like 'not found'
+      it_behaves_like 'not found',
+                      I18n.t('api_v3.errors.not_found.work_package')
     end
   end
 
@@ -154,10 +155,8 @@ describe 'API v3 Watcher resource', type: :request, content_type: :json do
     context 'when the work package does not exist' do
       let(:post_path) { api_v3_paths.work_package_watchers 9999 }
 
-      it_behaves_like 'not found' do
-        let(:id) { 9999 }
-        let(:type) { 'WorkPackage' }
-      end
+      it_behaves_like 'not found',
+                      I18n.t('api_v3.errors.not_found.work_package')
     end
 
     context 'when the user does not exist' do
@@ -243,10 +242,8 @@ describe 'API v3 Watcher resource', type: :request, content_type: :json do
       context 'when work package doesn\'t exist' do
         let(:delete_path) { api_v3_paths.watcher watching_user.id, 9999 }
 
-        it_behaves_like 'not found' do
-          let(:id) { 9999 }
-          let(:type) { 'WorkPackage' }
-        end
+        it_behaves_like 'not found',
+                        I18n.t('api_v3.errors.not_found.work_package')
       end
     end
 

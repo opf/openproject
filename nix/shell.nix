@@ -24,6 +24,7 @@ in
       gems
 
       op-get-test-failures
+      nodePackages.webfonts-generator
     ];
 
     CHROME_BINARY = "${google-chrome}/bin/google-chrome";

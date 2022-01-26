@@ -37,7 +37,7 @@ In the upper section, you have to specify the connection details of your LDAP se
 
 
 
-- **Name:** Arbitrary identifier used to show which authentication source a user is coming from (e.g., in the [Administration > Users view](https://www.openproject.org/help/administration/manage-users/))
+- **Name:** Arbitrary identifier used to show which authentication source a user is coming from (e.g., in the [Administration > Users view](../../users-permissions/users/))
 - **Host:** Full hostname to the LDAP server
 - **Port :** LDAP port. Will usually be 389 for LDAP and StartTLS and 636 for LDAP over SSL connections.
 - **Connection encryption**: Select the appropriate connection encryption.
@@ -52,7 +52,7 @@ In the upper section, you have to specify the connection details of your LDAP se
 
 If you use `start_tls` , certificate details and host names will be verified on connections as recommended for security. In case you use a custom untrusted certificate authority (CA) that your LDAP is connecting to, you can place this CA in your system's trusted CA store if possible. For some distributions, you will need to specify this CA manually to OpenProject.
 
-You can do this by using the [advanced configuration](https://docs.openproject.org/installation-and-operations/configuration/) function of OpenProject. You can define the CA path by setting the following ENV variable:
+You can do this by using the [advanced configuration](../../../installation-and-operations/configuration/) function of OpenProject. You can define the CA path by setting the following ENV variable:
 
 ```bash
 OPENPROJECT_LDAP__TLS__OPTIONS_CA__FILE="/path/to/the/root-ca.crt"
@@ -100,7 +100,7 @@ Next you can define what sections OpenProject will look for in the LDAP and also
 
 
 - **Base DN**: Enter the Base DN to search within for users and groups in the LDAP tree
-- **Filter string**: Enter an optional [LDAP RFC4515 filter string](https://tools.ietf.org/search/rfc4515) to further reduce the returned set of users. This allows you to restrict access to OpenProject with a very flexible filter. For group synchronization, only users matching this filter will be added as well.
+- **Filter string**: Enter an optional [LDAP RFC4515 filter string](https://datatracker.ietf.org/doc/html/rfc4515) to further reduce the returned set of users. This allows you to restrict access to OpenProject with a very flexible filter. For group synchronization, only users matching this filter will be added as well.
 - **Automatic user creation:** Check to automatically  create users in OpenProject when they first login in OpenProject. It  will use the LDAP attribute mapping below to fill out required  attributes. The user will be forwarded to a registration screen to  complete required attributes if they are missing in the LDAP.
 
 ##### Filter Examples

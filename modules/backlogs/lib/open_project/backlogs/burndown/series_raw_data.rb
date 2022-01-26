@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module OpenProject::Backlogs::Burndown
@@ -91,7 +91,8 @@ module OpenProject::Backlogs::Burndown
       FROM
         work_package_journals
       JOIN journals AS id_journals
-      ON work_package_journals.journal_id = id_journals.id
+      ON work_package_journals.id = id_journals.data_id
+        AND id_journals.data_type = '#{Journal::WorkPackageJournal.name}'
         AND #{version_query}
         AND #{project_id_query}
         AND #{type_id_query}
@@ -137,7 +138,8 @@ module OpenProject::Backlogs::Burndown
                 journals
               JOIN
                 work_package_journals
-              ON journals.id = work_package_journals.journal_id
+              ON work_package_journals.id = journals.data_id
+                AND journals.data_type = '#{Journal::WorkPackageJournal.name}'
                 AND #{version_query}
                 AND #{project_id_query}
                 AND #{type_id_query}

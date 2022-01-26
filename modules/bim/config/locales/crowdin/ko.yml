@@ -113,10 +113,12 @@ ko:
       check_1: '하나 이상의 IFC 모델을 업로드했는지 확인하세요.'
       check_2: '하나 이상의 IFC 모델이 "기본값"으로 설정되었는지 확인하세요.'
     no_results: "이 프로젝트에서 업로드된 IFC 모델이 없습니다."
-    processing_state:
+    conversion_status:
       label: '처리 중입니까?'
-      in_progress: '진행 중'
+      pending: '대기 중'
+      processing: '처리 중'
       completed: '완료'
+      error: '오류'
     processing_notice:
       processing_default: '다음 기본 IFC 모델이 아직 처리 중이므로 사용 가능하지 않습니다.'
     flash_messages:

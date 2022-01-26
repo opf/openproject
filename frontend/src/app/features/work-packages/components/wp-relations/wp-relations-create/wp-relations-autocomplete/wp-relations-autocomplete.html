@@ -1,0 +1,13 @@
+<op-autocompleter
+  classes="wp-relations-autocomplete"
+  data-qa-selector="wp-relations-autocomplete"
+  [appendTo]="appendToContainer"
+  [placeholder]="inputPlaceholder"
+  [typeToSearchText]="inputPlaceholder"
+  [loading]="isLoading"
+  [resource]="autocompleterOptions.resource"
+  [defaultData]="false"
+  (open)="onOpen()"
+  (change)="onWorkPackageSelected($event)"
+  [getOptionsFn]="autocompleterOptions.getOptionsFn"
+></op-autocompleter>

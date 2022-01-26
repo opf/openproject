@@ -1,0 +1,26 @@
+---
+description: |-
+  Custom actions are a preconfigured set of changes that are applied to a work package.
+
+  Currently, this resource is a stub. The conditions and changes defined for the custom action are not yet present in the resource.
+
+  ## Actions
+
+  | Link                | Description                                                          | Condition                                                                                                                        |
+  |:-------------------:|----------------------------------------------------------------------| ---------------------------------------                                                                                          |
+  | executeImmediately  | Apply the action to a work package                                   |
+
+  ## Linked Properties
+
+  | Property         | Description                                               | Type                  | Constraints                      | Supported operations |
+  | :--------------: | ------------------------------------------------------    | -----------           | -------------------------------- | -------------------- |
+  | self             | This custom action                                        | CustomAction          | not null                         | READ                 |
+
+  ## Local Properties
+
+  | Property         | Description                                              | Type                  | Constraints  | Supported operations |
+  | :--------------: | ------------------------------------------------------   | -----------           | ------------ | -------------------- |
+  | id               | Custom action id                                         | Integer               | x > 0        | READ                 |
+  | name             | The user selected name of the custom action              | String                |              | READ                 |
+  | description      | A text describing the custom action                      | String                |              | READ                 |
+name: Custom actions

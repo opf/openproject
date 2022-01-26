@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 en:
@@ -104,6 +104,7 @@ en:
     button_update: "Update"
     button_export-pdf: "Download PDF"
     button_export-atom: "Download Atom"
+    button_create: "Create"
 
     calendar:
       title: 'Calendar'
@@ -149,7 +150,7 @@ en:
       preview: 'Toggle preview mode'
       source_code: 'Toggle Markdown source mode'
       error_saving_failed: 'Saving the document failed with the following error: %{error}'
-      error_initialization_failed: 'Failed to initialize CKEditor!'
+      ckeditor_error: 'An error occurred within CKEditor'
       mode:
         manual: 'Switch to Markdown source'
         wysiwyg: 'Switch to WYSIWYG editor'
@@ -315,29 +316,30 @@ en:
         new_features:
           text_new_features: "Read about new features and product updates."
           learn_about: "Learn more about the new features"
-          standard:
-            learn_about_link: https://www.openproject.org/openproject-11-3-release
-            current_new_feature_html: >
-              The release contains various new features and improvements: <br>
-              <ul class="%{list_styling_class}">
-                <li>New button in header navigation to create projects, users and work packages.</li>
-                <li>A new invite modal for users, groups and placeholder users allows to easily add or invite new users and assign them to work packages.</li>
-                <li>GitHub integration into OpenProject.</li>
-                <li>API v3 extensions for groups and more, i.e. create, read, update and delete groups and group members through the API.</li>
-                <li>Multi-selection for project custom fields of type list.</li>
-                <li>Creation of backup from the web interface.</li>
-              </ul>
-          bim:
-            learn_about_link: https://www.openproject.org/blog/openproject-11-4-release
-            current_new_feature_html: >
-              The release contains various new features and improvements: <br>
-              <ul class="%{list_styling_class}">
-                <li>Take a look at our <a href="https://github.com/opf/openproject-revit-add-in">Revit Add-in</a> which lets you work on BCF work packages directly in Revit.</li>
-                <li>IFC properties got a dedicated pane. Copying GUIDs has never been easier.</li>
-                <li>Reverse clipping plane direction in BCF viewpoint and become compliant with future BCF 3.0 (Now same direction as Solibri).
-                <li>Fixed viewing IFC models on mobile.</li>
-                <li>Fixed export of work package views with BCF snapshot column.</li>
-              </ul>
+          # Include the version to invalidate outdated translations in other locales.
+          # Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
+          '12_0':
+            standard:
+              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
+              new_features_html: >
+                The release contains various new features and improvements: <br>
+                <ul class="%{list_styling_class}">
+                  <li>With the new <b>in-app notifications</b> you receive all important updates directly in the application and don't get a flood of emails anymore.</li>
+                  <li>The new <b>notification center</b> shows all the changes, including intuitive filter options, e.g. by reason for notification or projects. It even allows editing directly in a split view.</li>
+                  <li>Improved <b>notification settings</b> allow to fine-tune for which actions and in which projects you want to receive a notification.</li>
+                  <li><b>Email reminders</b> can be configured to receive important updates via a daily email summary.</li>
+                  <li>The work package auto-completer for relations now also shows additional information (project name, status, ...) to easily identify the respective work package.</li>
+                </ul>
+            bim:
+              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
+              new_features_html: >
+                The release contains various new features and improvements: <br>
+                <ul class="%{list_styling_class}">
+                  <li>Notification center: Reduce the number of mails you receive. Instead find and act upon all relevant notifications in one central place.</li>
+                  <li>All uploaded IFC files can now also be downloaded.</li>
+                  <li>The uploading and processing of IFC got faster and received better error messages.</li>
+                  <li>The <a href="https://github.com/opf/openproject-revit-add-in">OpenProject Revit Add-in</a> received many bug fixes.</li>
+                </ul>
 
     label_activate: "Activate"
     label_add_column_after: "Add column after"
@@ -445,6 +447,7 @@ en:
     label_quote_comment: "Quote this comment"
     label_recent: "Recent"
     label_reset: "Reset"
+    label_remove: "Remove"
     label_remove_column: "Remove column"
     label_remove_columns: "Remove selected columns"
     label_remove_row: "Remove row"
@@ -528,32 +531,100 @@ en:
         next: 'Next'
         got_it: 'Got it'
       steps:
-        help_menu: 'In the <b>Help</b> menu you will find a user guide and additional help resources. <br> Enjoy your work with OpenProject!'
-        members: 'Invite new <b>Members</b> to join your project.'
-        project_selection: 'Please click on one of the projects with useful demo data to get started. <br> The <b>Demo project</b> suits best for classical project management, while the <b>Scrum project</b> is better for Agile project management.'
-        quick_add_button: 'Create a new project or invite coworkers.'
-        sidebar_arrow: "With the arrow you can navigate back to the project's <b>Main menu</b>."
+        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide and helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
+        members: 'Invite new <b>members</b> to join your project.'
+        project_selection: 'Please click on one of the demo projects that we have prepared. Demo data is currently only available in English. <br> The general <b>demo project</b> suits best for classical project management, while the <b>Scrum project</b> is better for agile project management.'
+        quick_add_button: 'Click on the plus (+) icon in the header navigation to <b>create a new project</b> or to <b>invite coworkers</b>.'
+        sidebar_arrow: "Use the return arrow in the top left corner to return to the project’s <b>main menu</b>."
         welcome: 'Take a three minutes introduction tour to learn the most <b>important features</b>. <br> We recommend completing the steps until the end. You can restart the tour any time.'
-        wiki: 'Within the <b>Wiki</b> you can document and share knowledge together with your team.'
+        wiki: 'Within the <b>wiki</b> you can document and share knowledge together with your team.'
         backlogs:
-          overview: "Manage your work in the <b>Backlogs</b> view. <br> On the right you have the Product Backlog or a Bug Backlog, on the left you will have the respective sprints. Here you can create <b>epics, user stories, and bugs</b>, prioritize via drag'n'drop and add them to a sprint."
-          task_board_arrow: 'To see your <b>Task board</b>, open the Sprint drop-down...'
-          task_board_select: '... and select the <b>Task board</b> entry.'
-          task_board: "The <b>Task board</b> visualizes the progress for this sprint. Add new tasks or impediments with the + icon next to a user story. Via drag'n'drop you can update the status."
+          overview: "Manage your work in the <b>backlogs</b> view."
+          sprints: "On the right you have the product backlog and the bug backlog, on the left you have the respective sprints. Here you can create <b>epics, user stories, and bugs</b>, prioritize via drag & drop and add them to a sprint."
+          task_board_arrow: 'To see your <b>task board</b>, open the sprint drop-down...'
+          task_board_select: '...and select the <b>task board</b> entry.'
+          task_board: "The task board visualizes the <b>progress for this sprint</b>. Click on the plus (+) icon next to a user story to add new tasks or impediments. <br> The status can be updated by drag and drop."
         boards:
-          overview: 'Manage your work within an intuitive <b>Boards</b> view.'
-          lists: 'You can create multiple lists (columns) within one Board view, e.g. to create a KANBAN board.'
-          add: 'Click the + will <b>add a new card</b> to the list within a Board.'
-          drag: 'Drag & Drop your cards within a list to re-order, or to another list. A double click will open the details view.'
+          overview: 'Select <b>boards</b> to shift the view and manage your project using the agile boards view.'
+          lists: 'Here you can create multiple lists (columns) within your board. This feature allows you to create a <b>Kanban board</b>, for example.'
+          add: 'Click on the plus (+) icon to <b>create a new card</b> or <b>add an existing card</b> to the list on the board.'
+          drag: 'Drag and drop your cards within a given list to reorder them, or to move them to another list. <br> You can click the info (i) icon in the upper right-hand corner or double-click a card to open its details.'
         wp:
-          toggler: "Now let's have a look at the <b>Work package</b> section, which gives you a more detailed view of your work."
-          list: 'This is the <b>Work package</b> list with the important work within your project, such as tasks, milestones, phases, and more. <br> You can create or edit a work package directly within this list. To see its details you can double click on a row.'
-          full_view: 'Within the <b>Work package details</b> you find all relevant information, such as description, status and priority, activities, dependencies or comments.'
-          back_button: 'With the arrow you can navigate back to the work package list.'
-          create_button: 'The <b>Create</b> button will add a new work package to your project.'
-          timeline_button: 'You can activate the <b>Gantt chart</b> to create a timeline for your project.'
-          timeline: 'Here you can edit your project plan. Create new phases, milestones, and add dependencies. All team members can see and update the latest plan at any time.'
+          toggler: "Now let's have a look at the <b>work package</b> section, which gives you a more detailed view of your work."
+          list: 'This <b>work</b> package overview provides a list of all the work in your project, such as tasks, milestones, phases, and more. <br> Work packages can be created and edited directly from this view. To access the details of a particular work package, simply double-click its row.'
+          full_view: 'The <b>work package details</b> view provides all the relevant information pertaining to a given work package, such as its description, status, priority, activities, dependencies, and comments.'
+          back_button: 'Use the return arrow in the top left corner to exit and return to the work package list.'
+          create_button: 'The <b>+ Create</b> button will add a new work package to your project.'
+          timeline_button: 'You can activate the <b>Gantt chart</b> view to create a timeline for your project.'
+          timeline: 'Here you can <b>edit your project plan</b>, create new work packages, such as tasks, milestones, phases, and more, as well as <b>add dependencies</b>. All team members can see and update the latest plan at any time.'
 
+    notifications:
+      title: "Notifications"
+      no_unread: "No unread notifications"
+      reasons:
+        mentioned: 'mentioned'
+        watched: 'watched'
+        assigned: 'assigned'
+        responsible: 'accountable'
+      facets:
+        unread: 'Unread'
+        all: 'All'
+      center:
+        and_more_users:
+          one: 'and 1 other'
+          other: 'and %{count} others'
+        no_results:
+          at_all: 'New notifications will appear here when there is activity that concerns you'
+          with_current_filter: 'There are no notifications in this view at the moment'
+        mark_all_read: 'Mark all as read'
+        mark_as_read: 'Mark as read'
+        text_update_date: "%{date} by"
+        total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
+        empty_state:
+          no_notification: "Looks like you're all caught up."
+          no_notification_with_current_filter: "Change of involvement or go back to the Inbox to view notifications"
+          no_selection: "Click on a notification to view all activity details."
+        new_notifications:
+          message: 'There are new notifications.'
+          link_text: 'Click here to load them'
+      menu:
+        accountable: 'Accountable'
+        assigned: 'Assigned'
+        by_project: 'Unread by project'
+        by_reason: 'Involvement'
+        inbox: 'Inbox'
+        mentioned: '@mentioned'
+        watching: 'Watching'
+      settings:
+        change_notification_settings: 'To view and change your notification settings, <a target="_blank" href="%{url}">click here</a>'
+        title: "Notification settings"
+        notify_me: "Notify me"
+        reasons:
+          mentioned:
+            title: 'I am @mentioned'
+            description: 'Receive a notification every time someone mentions me anywhere'
+          involved:
+            title: 'Assigned to me or accountable'
+            description: 'Receive notifications for all activities on work packages for which I am assignee or accountable'
+          watched: 'Updates on watched items'
+          work_package_commented: 'All new comments'
+          work_package_created: 'New work packages'
+          work_package_processed: 'All status changes'
+          work_package_prioritized: 'All priority changes'
+          work_package_scheduled: 'All date changes'
+        global:
+          immediately:
+            title: 'Notify me immediately'
+            description: 'These settings apply to all projects. You can create project-specific exceptions below.'
+          delayed:
+            title: 'Also notify me for'
+            description: 'Receive notifications for these activities on work packages in all projects:'
+        project_specific:
+          title: 'Project-specific notification settings'
+          description: 'These project-specific settings override default settings above'
+          add: 'Add setting for project'
+          already_selected: 'This project is already selected'
+          remove: 'Remove project settings'
 
     password_confirmation:
       field_description: 'You need to enter your account password to confirm this change.'
@@ -587,7 +658,42 @@ en:
       autocompleter:
         label: 'Project autocompletion'
 
+    reminders:
+      settings:
+        daily:
+          add_time: 'Add time'
+          enable: 'Enable daily email reminders'
+          explanation: 'You will receive these reminders only for unread notifications and only at hours you specify. %{no_time_zone}'
+          no_time_zone: 'Until you configure a time zone for your account, the times will be interpreted to be in UTC.'
+          time_label: 'Time %{counter}:'
+          title: 'Send me daily email reminders for unread notifications'
+        workdays:
+          title: 'Receive email reminders on these days'
+        immediate:
+          title: 'Send me an email reminder'
+          mentioned: 'Immediately when someone @mentions me'
+        alerts:
+          title: 'Email alerts for other items (that are not work packages)'
+          explanation: >
+            Notifications today are limited to work packages.
+            You can choose to continue receiving email alerts for these events until they are included in notifications:
+          news_added: 'News added'
+          news_commented: 'Comment on a news item'
+          document_added: 'Documents added'
+          forum_messages: 'New forum messages'
+          wiki_page_added: 'Wiki page added'
+          wiki_page_updated: 'Wiki page updated'
+          membership_added: 'Membership added'
+          membership_updated: 'Membership updated'
+        title: 'Email reminders'
+        pause:
+          label: 'Temporarily pause daily email reminders'
+          first_day: 'First day'
+          last_day: 'Last day'
+
+
     text_are_you_sure: "Are you sure?"
+    text_data_lost: "All entered data will be lost."
 
     types:
       attribute_groups:
@@ -678,6 +784,11 @@ en:
     relations_autocomplete:
       placeholder: "Type to search"
       parent_placeholder: "Choose new parent or press escape to cancel."
+
+    autocompleter:
+      placeholder: "Type to search"
+      notFoundText: "No items found"
+      typeToSearchText: "Type to search"
 
     repositories:
       select_tag: 'Select tag'
@@ -880,6 +991,7 @@ en:
         label_content: "Click here to skip over the menu and go to the content"
       placeholders:
         default: "-"
+        date: "Select date"
         formattable: "%{name}: Click to edit..."
       query:
         column_names: "Columns"
@@ -1147,5 +1259,3 @@ en:
       load_error_message: 'There was an error loading the form'
       validation_error_message: 'Please fix the errors present in the form'
       advanced_settings: 'Advanced settings'
-
-

@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 class Principals::DeleteJob < ApplicationJob
@@ -54,7 +54,12 @@ class Principals::DeleteJob < ApplicationJob
   end
 
   def delete_associated(principal)
+    delete_notifications(principal)
     delete_private_queries(principal)
+  end
+
+  def delete_notifications(principal)
+    ::Notification.where(recipient: principal).delete_all
   end
 
   def delete_private_queries(principal)

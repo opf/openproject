@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -52,8 +52,6 @@ describe OpenProject::JournalFormatter::CustomField do
   end
 
   describe 'a multi-select user field' do
-    subject(:rendered) { instance.render(key, values) }
-
     let(:user1) { FactoryBot.build_stubbed :user, firstname: 'Foo', lastname: 'Bar' }
     let(:user2) { FactoryBot.build_stubbed :user, firstname: 'Bla', lastname: 'Blub' }
 
@@ -69,13 +67,7 @@ describe OpenProject::JournalFormatter::CustomField do
     let(:wherestub) { class_double(Principal) }
     let(:values) { [nil, "#{user1.id},#{user2.id}"] }
 
-    let(:expected) do
-      I18n.t(:text_journal_changed,
-             label: "<strong>#{custom_field.name}</strong>",
-             linebreak: '',
-             old: "<i title=\"#{old_formatted_value}\">#{old_formatted_value}</i>",
-             new: "<i title=\"#{new_formatted_value}\">#{new_formatted_value}</i>")
-    end
+    subject(:rendered) { instance.render(key, values) }
 
     before do
       allow(Principal)
@@ -141,11 +133,11 @@ describe OpenProject::JournalFormatter::CustomField do
     let(:new_formatted_value) { format_value(values.last, custom_field) }
 
     let(:expected) do
-      I18n.t(:text_journal_changed,
+      I18n.t(:text_journal_changed_html,
              label: "<strong>#{custom_field.name}</strong>",
-             old: "<i title=\"#{format_value(values.first, custom_field)}\">#{format_value(values.first, custom_field)}</i>",
              linebreak: '',
-             new: "<i title=\"#{format_value(values.last, custom_field)}\">#{format_value(values.last, custom_field)}</i>")
+             old: "<i title=\"#{old_formatted_value}\">#{old_formatted_value}</i>",
+             new: "<i title=\"#{new_formatted_value}\">#{new_formatted_value}</i>")
     end
 
     it { expect(instance.render(key, values)).to eq(expected) }
@@ -225,7 +217,7 @@ describe OpenProject::JournalFormatter::CustomField do
     let(:key) { 'custom_values0' }
 
     let(:expected) do
-      I18n.t(:text_journal_changed,
+      I18n.t(:text_journal_changed_html,
              label: "<strong>#{I18n.t(:label_deleted_custom_field)}</strong>",
              linebreak: '',
              old: "<i title=\"#{values.first}\">#{values.first}</i>",
@@ -303,7 +295,7 @@ describe OpenProject::JournalFormatter::CustomField do
       let(:values) { %w[1,2 3,4] }
 
       let(:expected) do
-        I18n.t(:text_journal_changed,
+        I18n.t(:text_journal_changed_html,
                label: "<strong>#{custom_field.name}</strong>",
                linebreak: '',
                old: "<i title=\"cf 1, cf 2\">cf 1, cf 2</i>",
@@ -318,7 +310,7 @@ describe OpenProject::JournalFormatter::CustomField do
       let(:new_custom_option_names) { [[4, 'cf 4']] }
 
       let(:expected) do
-        I18n.t(:text_journal_changed,
+        I18n.t(:text_journal_changed_html,
                label: "<strong>#{custom_field.name}</strong>",
                linebreak: '',
                old: "<i title=\"cf 1, cf 2\">cf 1, cf 2</i>",

@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module API
@@ -35,14 +35,14 @@ module API
       # with the previous private setting `maximum_page_size`.
       # The actual value is taken from
       # max(Setting.per_page_options)
-      DEFAULT_API_MAX_SIZE ||= 500
+      DEFAULT_API_MAX_SIZE = 500
 
       ##
       # Determine set page_size from string
       def resolve_page_size(string)
         resolved_value = to_i_or_nil(string)
-        # a page size of 0 is a magic number for the maximum page size value
-        if resolved_value == 0 || resolved_value.to_i > maximum_page_size
+        # a page size of -1 is a magic number for the maximum page size value
+        if resolved_value == -1 || resolved_value.to_i > maximum_page_size
           resolved_value = maximum_page_size
         end
         resolved_value

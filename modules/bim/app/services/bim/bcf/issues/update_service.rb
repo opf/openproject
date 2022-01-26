@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module Bim::Bcf
@@ -33,7 +33,7 @@ module Bim::Bcf
     class UpdateService < ::BaseServices::Update
       private
 
-      def before_perform(params)
+      def before_perform(params, service_result)
         wp_call = ::WorkPackages::UpdateService
           .new(model: model.work_package,
                user: user,
@@ -43,7 +43,7 @@ module Bim::Bcf
         if wp_call.success?
           issue_params = params.slice(*Bim::Bcf::Issue::SETTABLE_ATTRIBUTES)
 
-          super(issue_params)
+          super(issue_params, service_result)
         else
           wp_call
         end

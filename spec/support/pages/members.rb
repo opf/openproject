@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'support/components/ng_select_autocomplete_helpers'
@@ -234,7 +234,7 @@ module Pages
     end
 
     def go_to_page!(number)
-      find('.pagination--pages a', text: number.to_s).click
+      find('.op-pagination--pages a', text: number.to_s).click
     end
   end
 end

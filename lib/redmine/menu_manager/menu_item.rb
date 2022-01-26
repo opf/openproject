@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 class Redmine::MenuManager::MenuItem < Redmine::MenuManager::TreeNode
@@ -54,7 +54,7 @@ class Redmine::MenuManager::MenuItem < Redmine::MenuManager::TreeNode
     @name = name
     @url = url
     @condition = options[:if]
-    @param = options[:param] || :id
+    @param = options[:param] || :project_id
     @icon = options[:icon]
     @icon_after = options[:icon_after]
     @caption = options[:caption]

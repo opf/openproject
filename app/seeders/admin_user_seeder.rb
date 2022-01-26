@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 class AdminUserSeeder < Seeder
   def seed_data!
@@ -54,10 +54,10 @@ class AdminUserSeeder < Seeder
       user.firstname = 'OpenProject'
       user.lastname = 'Admin'
       user.mail = ENV['ADMIN_EMAIL'].presence || 'admin@example.net'
-      user.mail_notification = User::USER_MAIL_OPTION_ONLY_MY_EVENTS.first
       user.language = I18n.locale.to_s
       user.status = User.statuses[:active]
       user.force_password_change = force_password_change?
+      user.notification_settings.build(involved: true, mentioned: true, watched: true)
     end
   end
 

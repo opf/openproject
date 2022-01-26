@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -208,7 +208,7 @@ describe 'Subproject action board', type: :feature, js: true do
       board_page.expect_card subproject1.name, work_package.subject
 
       # No error is to be displayed as erroneous columns are filtered out
-      expect(page).not_to have_selector('.notification-box.-error')
+      expect(page).not_to have_selector('.op-toast.-error')
       board_page.expect_no_list(subproject2.name)
 
       expect(page)

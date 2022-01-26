@@ -45,7 +45,7 @@ Also, you can log time to a work package directly from your work  package list v
 
 We are very happy that OpenProject is now 100% translated into Slovenian.  Zabavaj se!
 
-![flag-slovenia](https://1t1rycb9er64f1pgy2iuseow-wpengine.netdna-ssl.com/wp-content/uploads/2020/05/flag-slovenia-300x200.jpg)
+![flag-slovenia](flag-slovenia-300x200.jpg)
 
 ### Attribution of cards to a project
 

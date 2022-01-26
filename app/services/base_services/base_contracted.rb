@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module BaseServices
@@ -58,8 +58,8 @@ module BaseServices
 
     def perform(params = nil)
       service_context do
-        service_call = before_perform(params)
-
+        service_call = validate_params(params)
+        service_call = before_perform(params, service_call) if service_call.success?
         service_call = validate_contract(service_call) if service_call.success?
         service_call = after_validate(params, service_call) if service_call.success?
         service_call = persist(service_call) if service_call.success?
@@ -69,7 +69,11 @@ module BaseServices
       end
     end
 
-    def before_perform(_params)
+    def validate_params(_params)
+      ServiceResult.new(success: true, result: model)
+    end
+
+    def before_perform(*)
       ServiceResult.new(success: true, result: model)
     end
 

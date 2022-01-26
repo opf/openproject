@@ -4,7 +4,7 @@ sidebar_navigation:
   priority: 800
 description: How to set up integration of Kerberos for authentication with OpenProject.
 robots: index, follow
-keywords: Kereros, authentication
+keywords: Kerberos, authentication
 
 
 ---
@@ -168,7 +168,7 @@ Once the configuration is completed, restart your OpenProject and Apache2 server
 
 From there on, you will be forced to the Kerberos login flow whenever accessing OpenProject. For existing users that will be found by their login attribute provided in the `X-Authenticated-User`, they will be automatically logged in.
 
-For non-existing users, if you have an LDAP configured with automatic user registration activated (check out our [LDAP authentication guide](https://docs.openproject.org/system-admin-guide/authentication/ldap-authentication/) for that), users will be created automatically with the attributes retrieved from the LDAP.
+For non-existing users, if you have an LDAP configured with automatic user registration activated (check out our [LDAP authentication guide](../../../system-admin-guide/authentication/ldap-authentication/) for that), users will be created automatically with the attributes retrieved from the LDAP.
 
 
 

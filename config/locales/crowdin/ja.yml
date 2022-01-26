@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 ja:
   no_results_title_text: 現在表示する対象がありません。
@@ -294,11 +294,11 @@ ja:
       query_group_placeholder: "テーブルに名前を付けます"
       reset: "デフォルトに戻す"
       type_color_text: |
-        クリックして、このタイプの色を割り当てたり、変更したりします。選択した色は、ガントチャートのワークパッケージを区別します。
-        このため、はっきりした色を使用することをお勧めします。
+        The selected color distinguishes different types
+        in Gantt charts or work packages tables. It is therefore recommended to use a strong color.
   versions:
     overview:
-      no_results_title_text: このバージョンに割り当てられているワークパッケージはありません。
+      no_results_title_text: このバージョンに割り当てられている作業項目はありません。
   wiki:
     page_not_editable_index: 要求されたページは (まだ) 存在しません。すべてのwikiページの索引にリダイレクトされました。
     no_results_title_text: 現在、Wikiページはありません。
@@ -309,9 +309,13 @@ ja:
       no_results_title_text: 現在、ワークフローはありません。
   work_packages:
     x_descendants:
-      other: '%{count} 件のワークパッケージの子孫'
+      other: '%{count} つの作業項目の子孫'
     bulk:
       could_not_be_saved: "次のワークパッケージを保存できませんでした:"
+      none_could_be_saved: "None of the %{total} work packages could be updated."
+      x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
+      selected_because_descendants: "While %{selected} work packages where selected, in total %{total} work packages are affected which includes descendants."
+      descendant: "descendant of selected"
     move:
       no_common_statuses_exists: "選択されたすべてのワークパッケージに利用できるステータスはありません。 それらの状態は変更できません。"
       unsupported_for_multiple_projects: '複数のプロジェクトからのワークパッケージの一括移動 / コピーはサポートされていません'
@@ -446,8 +450,8 @@ ja:
           off_track: '脱線'
       query:
         column_names: "列"
-        relations_to_type_column: "%{type} との関係"
-        relations_of_type_column: "%{type} 関係"
+        relations_to_type_column: "%{type} との関連"
+        relations_of_type_column: "%{type} 関連"
         group_by: "グループ化"
         filters: "フィルタ"
         timeline_labels: "タイムラインのラベル"
@@ -455,6 +459,7 @@ ja:
         url: "URL"
       role:
         assignable: "それぞれのプロジェクトで、ワークパッケージはこの役割をもつユーザーおよびグループに割り当てることができます。"
+        permissions: "権限"
       time_entry:
         activity: "活動"
         hours: " 時間"
@@ -474,7 +479,6 @@ ja:
         force_password_change: "次回ログイン時にパスワード変更を強制する"
         language: "言語"
         last_login_on: "最終ログイン日時"
-        mail_notification: "電子メールの通知"
         new_password: "新しいパスワード"
         password_confirmation: "確認のため再入力"
         consented_at: "同意しました。"
@@ -531,6 +535,7 @@ ja:
         before: "は%{date}の前にしてください。"
         before_or_equal_to: "は%{date}より以前にしてください。"
         blank: "は空白にすることができません。"
+        blank_nested: "needs to have the property '%{property}' set."
         cant_link_a_work_package_with_a_descendant: "親子関係にあるワークパッケージ間で関係の設定はできません。"
         circular_dependency: "この関係は循環依存になります。"
         confirmation: "は%{attribute} と一致しません。"
@@ -544,11 +549,14 @@ ja:
         even: "は偶数にしてください。"
         exclusion: "は予約されています。"
         file_too_large: "は大きすぎます (最大サイズは%{count}バイト)"
+        format: "does not match the expected format '%{expected}'."
+        format_nested: "does not match the expected format '%{expected}' at path '%{path}'."
         greater_than: "は%{count}より大きい値にしてください。"
         greater_than_or_equal_to: "は%{count}以上の値にしてください。"
         greater_than_or_equal_to_start_date: "は開始日以後にしてください。"
         greater_than_start_date: "は開始日より後にしてください。"
         inclusion: "は許可されている値ではありません。"
+        inclusion_nested: "is not set to one of the allowed values at path '%{path}'."
         invalid: "は不正な値です。"
         invalid_url: 'は有効な URL ではありません。'
         invalid_url_scheme: 'はサポートされたプロトコルではありません (可能: %{allowed_schemes})。'
@@ -569,20 +577,26 @@ ja:
         taken: "は既に使用されています。"
         too_long: "は%{count}文字以内を入力してください。"
         too_short: "は%{count}文字以上を入力してください。"
+        type_mismatch: "is not of type '%{type}'"
+        type_mismatch_nested: "is not of type '%{type}' at path '%{path}'"
         unchangeable: "変更できません。"
+        unknown_property: "is not a known property."
+        unknown_property_nested: "has the unknown path '%{path}'."
         unremovable: "削除できません。"
         wrong_length: "は%{count}文字を入力してください。"
       models:
         attachment:
           attributes:
             content_type:
-              not_whitelisted: "is set to '%{value}', which is not whitelisted for uploading."
+              blank: "The content type of the file cannot be blank."
+              not_whitelisted: "The file was rejected by an automatic filter. '%{value}' is not whitelisted for upload."
+              format: "%{message}"
         capability:
           context:
             global: '全般'
           query:
             filters:
-              minimum: "'=' 演算子を使用した、プリンシパル、コンテキスト、ID に対するフィルターを少なくとも 1 つ含める必要があります。"
+              minimum: "need to include at least one filter for principal, context or id with the '=' operator."
         custom_field:
           at_least_one_custom_option: "少なくとも 1 つオプションが有効である必要があります。"
         custom_actions:
@@ -610,6 +624,21 @@ ja:
           overlaps: 'オーバーラップ。'
           outside: 'グリッドの外側です。'
           end_before_start: '終了値は開始値よりも大きくする必要があります。'
+        notifications:
+          at_least_one_channel: 'At least one channel for sending notifications needs to be specified.'
+          attributes:
+            read_ian:
+              read_on_creation: 'cannot be set to true on notification creation.'
+            mail_reminder_sent:
+              set_on_creation: 'cannot be set to true on notification creation.'
+            reason:
+              no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
+            reason_mail_digest:
+              no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
+        notification_settings:
+          only_one_global_setting: 'There must only be one global notification setting.'
+          email_alerts_global: 'The email notification settings can only be set globally.'
+          format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -644,7 +673,6 @@ ja:
           filters:
             custom_fields:
               inexistent: "フィルターのカスタムフィールドはありません。"
-              invalid: "カスタムフィールドは、指定されたコンテキストでは無効です。"
         queries/filters/base:
           attributes:
             values:
@@ -674,6 +702,12 @@ ja:
           attributes:
             hours:
               day_limit: "1日あたり最大24時間まで記録できます。"
+        user_preference:
+          attributes:
+            pause_reminders:
+              invalid_range: "can only be a valid date range."
+            daily_reminders:
+              full_hour: "can only be configured to be delivered at a full hour."
         wiki_page:
           attributes:
             slug:
@@ -685,6 +719,7 @@ ja:
               not_start_date: "は開始日になっていません。これはマイルストーンの場倍、必要である。"
             parent:
               cannot_be_milestone: "はマイルストーンにすることはできません。"
+              cannot_be_self_assigned: "cannot be assigned to itself."
               cannot_be_in_another_project: "は別のプロジェクトに属することはできません。"
               not_a_valid_parent: "は不正な値です。"
             start_date:
@@ -701,6 +736,7 @@ ja:
               does_not_exist: "指定されたカテゴリは存在しません。"
             estimated_hours:
               only_values_greater_or_equal_zeroes_allowed: ">= 0 にする必要があります。"
+          readonly_status: 'The work package is in a readonly status so its attributes cannot be changed.'
         type:
           attributes:
             attribute_groups:
@@ -711,6 +747,9 @@ ja:
               group_without_name: "名前のないグループは指定できません。"
         user:
           attributes:
+            password_confirmation:
+              confirmation: "Password confirmation does not match password."
+              format: "%{message}"
             password:
               weak: "次の文字の種類が含まれるようにしてください (%{all_count} つのうちに %{min_count} つ以上)：%{rules}。"
               lowercase: "アルファベット小文字 (例: 'a')"
@@ -754,6 +793,8 @@ ja:
       status: "ステータス名"
       member: "メンバー"
       news: "ニュース"
+      notification:
+        other: "Notifications"
       placeholder_user: "プレースホルダー ユーザー"
       project: "プロジェクト"
       query: "ユーザのクエリ"
@@ -803,7 +844,6 @@ ja:
     firstname: "名前"
     group: "グループ"
     groups: "グループ"
-    name: "名称"
     id: "ID"
     is_default: "デフォルト値"
     is_for_all: "全プロジェクト向け"
@@ -813,6 +853,7 @@ ja:
     lastname: "苗字"
     login: "ユーザー名"
     mail: "電子メールアドレス"
+    name: "名称"
     password: "パスワード"
     priority: "優先度"
     project: "プロジェクト"
@@ -1039,7 +1080,7 @@ ja:
         other: "%{count}秒"
     units:
       hour:
-        other: "時間"
+        other: "時"
   default_activity_development: "開発作業"
   default_activity_management: "管理"
   default_activity_other: "その他"
@@ -1078,7 +1119,7 @@ ja:
   default_priority_low: "低め"
   default_priority_normal: "通常"
   default_priority_high: "高め"
-  default_priority_immediate: "急いで"
+  default_priority_immediate: "急ぎ"
   default_role_anonymous: "匿名ユーザ"
   default_role_developer: "開発者"
   default_role_project_admin: "プロジェクト管理者"
@@ -1141,7 +1182,9 @@ ja:
   error_can_not_archive_project: "このプロジェクトはアーカイブできません: %{errors}"
   error_can_not_delete_entry: "エントリを削除できません"
   error_can_not_delete_custom_field: "カスタムフィールドを削除できません。"
-  error_can_not_delete_type: "この種類のワークパッケージが存在するため、削除できません。"
+  error_can_not_delete_type:
+    explanation: 'This type contains work packages and cannot be deleted. You can see all affected work packages in <a target="_blank" href="%{url}">this view</a>.'
+    archived_projects: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the type of the respective work packages: %{archived_projects}'
   error_can_not_delete_standard_type: "標準型は削除できません。"
   error_can_not_invite_user: "ユーザーへの招待状の送信に失敗しました。"
   error_can_not_remove_role: "このロールは使用されています。削除できません。"
@@ -1166,10 +1209,11 @@ ja:
   error_must_be_project_member: "プロジェクトのメンバーである必要があります。"
   error_migrations_are_pending: "OpenProject のインストールはデータベースの移行が保留中です。前回のアップグレード時に移行の実行を行っていない可能性があります。アップグレードガイドを確認して、適切にインストールをアップグレードしてください。"
   error_migrations_visit_upgrade_guides: "アップグレードガイドのドキュメントをご覧ください"
-  error_no_default_work_package_status: "｀ワークパッケージ目の既定のステータスが定義されていません。 設定をご確認してください（管理→ワークパッケージステータス）。"
+  error_no_default_work_package_status: "｀ワークパッケージ目の既定のステータスが定義されていません。 設定をご確認してください（管理→作業項目ステータス）。"
   error_no_type_in_project: "このプロジェクトには関連付けられているワークパッケージの種類がありません。プロジェクトの設定をご確認してください。"
   error_omniauth_registration_timed_out: "外部認証プロバイダーを経由して登録がタイムアウトしました。もう一度やり直してください。"
   error_omniauth_invalid_auth: "IDプロバイダーから返された認証情報が無効です。詳細については管理者に連絡してください"
+  error_password_change_failed: 'An error occurred when trying to change the password.'
   error_scm_command_failed: "「%{value}」リポジトリにアクセスしようとしてエラーが発生しました。"
   error_scm_not_found: "リポジトリに、エントリ/リビジョンが存在しません。"
   error_unable_delete_status: "一つ以上のワークパッケージによって使用されているため、ステータスを削除できません。"
@@ -1262,6 +1306,9 @@ ja:
   instructions_after_logout: "%{signin}をクリックして再びログインできます。"
   instructions_after_error: "%{signin} をクリックして再びログインを試行できます。エラーが解決しない場合は、管理者にお問い合わせください。"
   menus:
+    admin:
+      mail_notification: "電子メールの通知"
+      incoming_outgoing: "Incoming & Outgoing"
     quick_add:
       label: "クイック追加メニューを開く"
   my_account:
@@ -1274,6 +1321,33 @@ ja:
         action: "操作"
         expiration: "有効期限"
       indefinite_expiration: "なし"
+  notifications:
+    send_notifications: "Send notifications for this action"
+    work_packages:
+      subject:
+        created: "The work package was created."
+        assigned: "You have been assigned to %{work_package}"
+        subscribed: "You subscribed to %{work_package}"
+        mentioned: "You have been mentioned in %{work_package}"
+        responsible: "You have become accountable for %{work_package}"
+        watched: "You are watching %{work_package}"
+    update_info_mail:
+      body: >
+        We are excited to announce the release of OpenProject 12.0. It's a major release that will hopefully significantly improve the way you use OpenProject.
+
+        Starting with this release, we are introducing in-app notifications. From now on, you will receive notifications for updates to work packages directly in OpenProject. You can mark these notifications as read, reply to a comment or even directly modify work package attributes without leaving the notification center.
+
+        This also means that we will no longer be using emails for notifications. We think the new notification center is a better place to view and act upon these updates. Nevertheless, if you would like continue receiving updates via email, you can choose to receive daily email reminders at particular times of your choosing.
+
+        Please make sure to verify your new default notification settings, and set your preferences for notifications and email reminders via your account settings. You can do this through the “Change email settings” button bellow.
+
+        We hope you find in-app notifications useful and that they makes you even more productive.
+
+        Sincerely,
+        The OpenProject team
+      body_header: 'Version 12.0 with Notification Center'
+      body_subheader: 'ニュース'
+      subject: 'Important changes to notifications with the release of 12.0'
   label_accessibility: "アクセシビリティ"
   label_account: "アカウント"
   label_active: "アクティブ"
@@ -1359,7 +1433,7 @@ ja:
   label_check_uncheck_all_in_column: "すべての欄をチェック/チェックを外す"
   label_check_uncheck_all_in_row: "すべての行をチェック/チェックを外す"
   label_child_element: "子要素"
-  label_chronological_order: "古い順"
+  label_chronological_order: "Oldest first"
   label_close_versions: "完了したバージョンを終了にする"
   label_closed_work_packages: "完了"
   label_collapse: "折りたたむ"
@@ -1447,7 +1521,6 @@ ja:
   label_feeds_access_key: "RSSアクセスキー"
   label_feeds_access_key_created_on: "RSSアクセスキーが%{value}前に作成されました"
   label_feeds_access_key_type: "RSS"
-  label_file_added: "ファイルが追加されました。"
   label_file_plural: "ファイルを添付する"
   label_filter_add: "フィルタを追加"
   label_filter_plural: "フィルタ"
@@ -1576,7 +1649,6 @@ ja:
   label_none_parentheses: "(なし)"
   label_not_contains: "含まない"
   label_not_equals: "等しくない"
-  label_notify_member_plural: "電子メールで更新の通知"
   label_on: "オン"
   label_open_menu: "メニューを開く"
   label_open_work_packages: "未完了"
@@ -1645,7 +1717,7 @@ ja:
   label_registration_manual_activation: "手動でアカウントの有効化"
   label_related_work_packages: "関係するワークパッケージ"
   label_relates: "関係している"
-  label_relates_to: "関係している"
+  label_relates_to: "関連している"
   label_relation_delete: "関係の削除"
   label_relation_new: "新しい関係"
   label_release_notes: "リリースノート"
@@ -1664,7 +1736,7 @@ ja:
   label_required: '必須'
   label_requires: '要求'
   label_result_plural: "検索結果"
-  label_reverse_chronological_order: "新しい順"
+  label_reverse_chronological_order: "Newest first"
   label_revision: "リビジョン"
   label_revision_id: "リビジョン%{value}"
   label_revision_plural: "リビジョン"
@@ -1696,7 +1768,6 @@ ja:
   label_start_to_start: "最初～最初"
   label_statistics: "統計情報"
   label_status: "ステータス"
-  label_status_updated: "ステータスの更新"
   label_stay_logged_in: "ログインを維持"
   label_storage_free_space: "残りのディスク容量"
   label_storage_used_space: "使用ディスク容量"
@@ -1780,21 +1851,17 @@ ja:
   label_wiki_show_submenu_item: "上位のメニュー項目"
   label_wiki_start: "開始ページ"
   label_work_package: "ワーク パッケージ"
-  label_work_package_added: "ワークパッケージが追加されました"
   label_work_package_attachments: "ワークパッケージの添付ファイル"
   label_work_package_category_new: "新規カテゴリ"
   label_work_package_category_plural: "ワークパッケージのカテゴリ"
   label_work_package_hierarchy: "ワークパッケージの階層"
   label_work_package_new: "新しいワークパッケージ"
-  label_work_package_note_added: "仕事項目の注記が追加されました。"
   label_work_package_edit: "ワークパッケージ %{name} を編集"
   label_work_package_plural: "ワークパッケージ"
-  label_work_package_priority_updated: "ワークパッケージの優先度が更新されました"
   label_work_package_status: "ステータス名"
   label_work_package_status_new: "新規ステータス"
   label_work_package_status_plural: "ステータスの種類"
   label_work_package_types: "ワークパッケージの種類"
-  label_work_package_updated: "ワークパッケージが更新されました"
   label_work_package_tracking: "ワークパッケージの追跡"
   label_work_package_view_all: "全てのワークパッケージを表示"
   label_workflow: "ワークフロー"
@@ -1817,7 +1884,7 @@ ja:
     other: "%{count} プロジェクト"
     zero: "プロジェクトがありません"
   label_yesterday: "昨日"
-  label_role_type: "タイプ"
+  label_role_type: "種別"
   label_member_role: "プロジェクトの役割"
   label_global_role: "グローバルロール"
   label_not_changeable: "（変更不可）"
@@ -1847,6 +1914,36 @@ ja:
       link_name_type: '新しい %{type_name}'
   mail:
     actions: '操作'
+    digests:
+      including_mention_singular: 'including a mention'
+      including_mention_plural: 'including %{number_mentioned} mentions'
+      unread_notification_singular: '1 unread notification'
+      unread_notification_plural: '%{number_unread} unread notifications'
+      you_have: 'You have'
+    logo_alt_text: 'Logo'
+    mention:
+      subject: "%{user_name} mentioned you in #%{id} - %{subject}"
+    notification:
+      center: 'To notification center'
+      see_in_center: 'See comment in notification center'
+      settings: 'Change email settings'
+    salutation: 'Hey %{user}!'
+    work_packages:
+      created_at: 'Created at %{timestamp} by %{user} '
+      login_to_see_all: 'Log in to see all notifications.'
+      mentioned: 'You have been <b>mentioned in a comment</b>'
+      mentioned_by: '%{user} mentioned you in a comment'
+      more_to_see:
+        other: 'There are %{count} more work packages with notifications.'
+      reason:
+        watched: 'Watched'
+        assigned: 'Assigned'
+        responsible: '責任者'
+        mentioned: 'Mentioned'
+        subscribed: '全て'
+        prefix: 'Received because of the notification setting: %{reason}'
+      see_all: 'See all'
+      updated_at: 'Updated at %{timestamp} by %{user}'
   mail_body_account_activation_request: "新規ユーザー(%{value})が登録されました。このアカウントは承認待ちです："
   mail_body_account_information: "アカウント情報"
   mail_body_account_information_external: "%{value} アカウントを使ってログインできます。"
@@ -1861,10 +1958,10 @@ ja:
   mail_body_register_header_title: "プロジェクトへの招待メール"
   mail_body_register_user: "%{name}さん"
   mail_body_register_links_html: |
-    私たちがウェビナー (%{webinar_link}) の場としている YouTube チャンネル (%{youtube_link}) を自由に閲覧して下さい。
-    OpenProject の最初のステップを簡単にする “Get started”(はじめに) ビデオ (%{get_started_link}) があります。
+    Please feel free to browse our youtube channel (%{youtube_link}) where we provide a webinar (%{webinar_link})
+    and “Get started” videos (%{get_started_link}) to make your first steps in OpenProject as easy as possible.
     <br />
-    さらに質問がある場合、ドキュメント (%{documentation_link}) を参照するか、問い合わせ先 (%{contact_us_link}) に連絡してください。
+    If you have any further questions, consult our documentation (%{documentation_link}) or contact your administrator.
   mail_body_register_closing: "あなたのOpenProjectチーム"
   mail_body_register_ending: "連絡をお待ちしています！よろしくお願いいたします。"
   mail_body_reminder: "担当している %{count}件 のワークパッケージが %{days} 日内に期限を迎えます："
@@ -2054,6 +2151,7 @@ ja:
   permission_protect_wiki_pages: "Wikiページの凍結"
   permission_rename_wiki_pages: "Wikiページ名の変更"
   permission_save_queries: "ビューを保存"
+  permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "プロジェクトでモジュールの選択"
   permission_manage_types: "ワークパッケージのタイプを選択"
   permission_view_calendar: "カレンダーの閲覧"
@@ -2220,6 +2318,10 @@ ja:
   setting_apiv3_cors_origins: "API V3のオリジン間リソース共有 (CORS) が許可されています"
   setting_apiv3_cors_origins_text_html: >
     CORS が有効になっている場合、これらは OpenProject API へのアクセスが許可されている起源です。 <br/> 期待される値を指定する方法については、 <a href="%{origin_link}" target="_blank">Origin ヘッダー</a> のドキュメントを確認してください。
+  setting_apiv3_docs: "文章"
+  setting_apiv3_docs_enabled: "Enable docs page"
+  setting_apiv3_docs_enabled_instructions_html: >
+    If the docs page is enabled you can get an interactive view of the APIv3 documentation under <a href="%{link}" target="_blank">%{link}</a>.
   setting_attachment_whitelist: "Attachment upload whitelist"
   setting_email_delivery_method: "メールの配信方法"
   setting_sendmail_location: "Sendmail の実行可能ファイルの場所"
@@ -2257,7 +2359,6 @@ ja:
   setting_first_week_of_year: "年の最初の週に含む"
   setting_date_format: "日付の形式"
   setting_default_language: "デフォルトの言語"
-  setting_default_notification_option: "デフォルトのメール通知オプション"
   setting_default_projects_modules: "新規プロジェクトにおいてデフォルトで有効になるモジュール"
   setting_default_projects_public: "デフォルトで新しいプロジェクトは公開にする"
   setting_diff_max_lines_displayed: "差分の表示行数の上限"
@@ -2267,6 +2368,7 @@ ja:
   setting_email_login: "メールアドレスをログインに使用する"
   setting_enabled_scm: "使用するバージョン管理システム"
   setting_enabled_projects_columns: "プロジェクトリストに表示する"
+  setting_notification_retention_period_days: "Notification retention period"
   setting_feeds_enabled: "フィードを有効にする"
   setting_feeds_limit: "フィードの項目数の上限"
   setting_file_max_size_displayed: "画面表示するテキストファイルの最大サイズ"
@@ -2280,7 +2382,7 @@ ja:
   setting_work_package_properties: "項目名"
   setting_work_package_startdate_is_adddate: "今日の日付を新しいワークパッケージの開始日とする"
   setting_work_packages_export_limit: "エクスポートする項目数の上限"
-  setting_journal_aggregation_time_minutes: "期間内の履歴記述を集計して表示する"
+  setting_journal_aggregation_time_minutes: "User actions aggregated within"
   setting_log_requesting_user: "全てのリクエストに対し、ユーザのログイン名、名前、メールアドレスをログに記録する"
   setting_login_required: "認証が必要"
   setting_mail_from: "送信元のメールアドレス"
@@ -2341,7 +2443,8 @@ ja:
     notifications:
       retention_text: >
         Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
-      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
+      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
+      delay_minutes_explanation: "メール送信を遅らせることで、アプリ内通知を設定したユーザーが、メールを送信前にアプリケーション内で通知を確認できるようにすることができます。 アプリケーション内で通知を読んだユーザーは、すでに読んだ通知の電子メールを受け取りません。"
     display:
       first_date_of_week_and_year_set: >
         オプション "%{day_of_week_setting_name}" または "%{first_week_setting_name}" が設定されている場合、フロントエンドでの不整合を避けるために、もう一方も設定する必要があります。
@@ -2422,9 +2525,9 @@ ja:
   text_work_packages_destroy_confirmation: "選択したワークパッケージを削除してもよろしいですか？"
   text_work_packages_ref_in_commit_messages: "コミットメッセージ内でのワークパッケージの参照 / 修正"
   text_journal_added: "%{label}で%{value}を追加"
-  text_journal_aggregation_time_explanation: "発生時刻の差が指定された期間内であれば、履歴記述を集計して表示する。またメールの通知がこの期間で遅らせます。"
-  text_journal_changed: "%{label} は %{old} <br/><strong>から</strong> %{new}　に変更されました"
-  text_journal_changed_plain: "%{label} は %{old} \nから %{new} に変更されました"
+  text_journal_aggregation_time_explanation: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent."
+  text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
+  text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label}を更新"
   text_journal_changed_with_diff: "%{label}を変更（%{link}）"
   text_journal_deleted: "%{label}を削除（%{old}）"
@@ -2453,7 +2556,6 @@ ja:
   text_regexp_info: "例) ^[A-Z0-9]+$"
   text_regexp_multiline: '正規表現は、複数行モードで適用されます。例えば、^---\s+'
   text_repository_usernames_mapping: "リポジトリのログから検出されたユーザ名をどのOpenProjectユーザに関連づけるかを選択してください。\nログ上のユーザ名またはメールアドレスがOpenProjectのユーザと一致する場合は自動的に関連づけます。"
-  text_select_mail_notifications: "電子メール通知の送信対象とする操作を選択してください。"
   text_status_changed_by_changeset: "変更履歴%{value}で適用されました。"
   text_table_difference_description: "この表には、単一の %{entries} が表示されています。 まず、表の対応するチェックボックスを選択して、両者の項目の違いを見ることができます。 表の下のボタンをクリックすると、違いが表示されます。"
   text_time_logged_by_changeset: "変更履歴%{value}で適用されました。"
@@ -2674,10 +2776,6 @@ ja:
     password_change_unsupported: パスワードの変更はサポートされていません。
     registered: "登録済み"
     reset_failed_logins: "失敗したログイン数をリセットする"
-    settings:
-      mail_notifications: "メール通知を送信"
-      mail_project_explanaition: "未選択プロジェクトでは、ウォッチ又は関与している事柄（例： 自分が作成者又は担当者のワークパッケージ）のみメールが送信されます。"
-      mail_self_notified: "自分自身による変更の通知を希望"
     status_user_and_brute_force: "%{user}かつ%{brute_force}"
     status_change: "ステータスの変更"
     text_change_disabled_for_provider_login: "名前はログインプロバイダーによって設定されるため、変更できません。"
@@ -2698,7 +2796,7 @@ ja:
     ユーザー制限に達しました。 これ以上ユーザーをアクティブにすることはできません。 追加のユーザーが参加できるように<a href="%{upgrade_url}">プランをアップグレード</a>するか、メンバーをブロックしてください。
   warning_user_limit_reached_instructions: >
     ユーザー制限（%{current}/%{max} アクティブユーザー）に達しました。 sales@openproject.com に連絡してEnterprise Editionプランをアップグレードし、ユーザーを追加してください。
-  0: >
+  warning_protocol_mismatch_html: >
 
   warning_bar:
     protocol_mismatch:
@@ -2737,6 +2835,8 @@ ja:
       code_409: "競合する変更のためにリソースを更新できませんでした。"
       code_429: "リクエストが多すぎます。 後でもう一度やり直してください。"
       code_500: "内部エラーが発生しました。"
+      not_found:
+        work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:
         date: "YYYY-MM-DD (ISO 8601 日付のみ)"
         duration: "ISO 8601 期間"
@@ -2762,9 +2862,9 @@ ja:
         context_object_not_found: "コンテキストで指定されたリソースが見つかりません。"
       validation:
         done_ratio: "完了率はそのステータスにより推定または無効にされている場合、親ワークパッケージにセットすることはできません。"
-        due_date: "終了日は親ワークパッケージには設定できません。"
+        due_date: "終了日は親作業項目には設定できません。"
         estimated_hours: "推定時間は、親ワークパッケージに設定できません。"
-        invalid_user_assigned_to_work_package: "選択されたユーザーは、このワークパッケージの'%{property}' にすることはできません。"
+        invalid_user_assigned_to_work_package: "選択されたユーザーは、この作業項目の'%{property}' にすることはできません。"
         start_date: "開始日は、親ワークパッケージに設定できません。"
       eprops:
         invalid_gzip: "無効なgzipです: %{message}"
