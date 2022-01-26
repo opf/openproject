@@ -2307,6 +2307,9 @@ lol:
   setting_apiv3_cors_origins: "crwdns543419:0crwdne543419:0"
   setting_apiv3_cors_origins_text_html: >
     crwdns543421:0%{origin_link}crwdne543421:0
+  setting_apiv3_max_page_size: "crwdns655435:0crwdne655435:0"
+  setting_apiv3_max_page_instructions_html: >
+    crwdns655437:0crwdne655437:0
   setting_apiv3_docs: "crwdns543423:0crwdne543423:0"
   setting_apiv3_docs_enabled: "crwdns543425:0crwdne543425:0"
   setting_apiv3_docs_enabled_instructions_html: >

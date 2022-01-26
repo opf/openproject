@@ -2377,6 +2377,9 @@ sl:
   setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) dovoljen izvir"
   setting_apiv3_cors_origins_text_html: >
     To so izviri, ki jim je dovoljeno dostopati do OpenProject API, če je CORS omogočen. <br/> Preverite <a href="%{origin_link}" target="_blank">dokumentacijo o glavi izvira</a> kako navesti pričakovane vrednosti.
+  setting_apiv3_max_page_size: "Maximum API page size"
+  setting_apiv3_max_page_instructions_html: >
+    Set the maximum page size the API will respond with. It will not be possible to perform API requests that return more values on a single page. <br/> <strong>Warning:</strong> Please only change this value if you are sure why you need it. Setting to a high value will result in significant performance impacts, while a value lower than the per page options will cause errors in paginated views.
   setting_apiv3_docs: "Dokumentacija"
   setting_apiv3_docs_enabled: "Enable docs page"
   setting_apiv3_docs_enabled_instructions_html: >

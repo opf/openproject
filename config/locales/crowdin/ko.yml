@@ -2321,6 +2321,9 @@ ko:
   setting_apiv3_cors_origins: "API V3 CORS(크로스-원본 리소스 공유) 허용 원본"
   setting_apiv3_cors_origins_text_html: >
     CORS가 활성화된 경우, OpenProject API에 액세스하도록 허용된 원본이 있습니다. <br/> <a href="%{origin_link}" target="_blank">원본 헤더의 설명서</a>에서 예상 값 지정 방법을 확인하세요.
+  setting_apiv3_max_page_size: "Maximum API page size"
+  setting_apiv3_max_page_instructions_html: >
+    Set the maximum page size the API will respond with. It will not be possible to perform API requests that return more values on a single page. <br/> <strong>Warning:</strong> Please only change this value if you are sure why you need it. Setting to a high value will result in significant performance impacts, while a value lower than the per page options will cause errors in paginated views.
   setting_apiv3_docs: "설명서"
   setting_apiv3_docs_enabled: "문서 페이지 활성화"
   setting_apiv3_docs_enabled_instructions_html: >

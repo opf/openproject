@@ -213,7 +213,7 @@ zh-TW:
           resend_success: "Email has been resent. Please check your emails and click the confirmation link provided."
           resend_warning: "Could not resend email."
           session_timeout: "Your session timed out. Please try to reload the page or resend email."
-          status_label: "Status:"
+          status_label: "狀態："
           status_confirmed: "已確認"
           status_waiting: "email sent - waiting for confirmation"
           test_ee: "Test the Enterprise Edition 14 days for free"
