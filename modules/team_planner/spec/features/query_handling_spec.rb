@@ -82,6 +82,7 @@ describe 'Team planner query handling', type: :feature, js: true do
   current_user { user }
 
   before do
+    with_enterprise_token(:team_planner_view)
     login_as user
     team_planner.visit!
 

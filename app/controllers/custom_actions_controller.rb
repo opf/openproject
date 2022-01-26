@@ -94,7 +94,8 @@ class CustomActionsController < ApplicationController
              locals: {
                feature_title: I18n.t('custom_actions.upsale.title'),
                feature_description: I18n.t('custom_actions.upsale.description'),
-               feature_reference: 'custom_actions_admin'
+               feature_reference: 'custom_actions_admin',
+               feature_image: ''
              }
     else
       render_403

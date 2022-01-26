@@ -54,6 +54,7 @@ describe 'Team planner error handling', type: :feature, js: true do
 
   context 'with full permissions' do
     before do
+      with_enterprise_token(:team_planner_view)
       project.types << type
       project.save!
 
