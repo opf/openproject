@@ -90,7 +90,8 @@ describe 'API v3 file links resource', type: :request do
     let(:path) { api_v3_paths.file_link(work_package.id, 1337) }
 
     before do
-      post path
+      header 'Content-Type', 'application/json'
+      delete path
     end
 
     it 'returns not implemented' do

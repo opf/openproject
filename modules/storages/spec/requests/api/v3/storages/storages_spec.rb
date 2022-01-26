@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,6 +26,34 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-describe 'Create file links on a work package' do
+require 'spec_helper'
 
+describe 'API v3 storages resource', type: :request do
+  include API::V3::Utilities::PathHelper
+
+  let(:permissions) { %i(view_file_links) }
+  let(:role) { FactoryBot.create(:role, permissions: permissions) }
+  let(:project) { FactoryBot.create(:project) }
+
+  let(:current_user) do
+    FactoryBot.create(:user, member_in_project: project, member_through_role: role)
+  end
+
+  subject(:response) { last_response }
+
+  before do
+    login_as current_user
+  end
+
+  describe 'GET /api/v3/storages/:storage_id' do
+    let(:path) { api_v3_paths.storages(1337) }
+
+    before do
+      get path
+    end
+
+    it 'returns not implemented' do
+      expect(subject.status).to eql 501
+    end
+  end
 end
