@@ -1,5 +1,6 @@
 .spot-drop-modal
   position: relative
+  display: inline-flex
 
   &--body
     box-shadow: $spot-shadow-light-mid
@@ -8,6 +9,32 @@
     border-radius: 5px
     display: none
     flex-direction: column
+
+    &_bottom-center
+      top: 100%
+      left: 50%
+      transform: translateX(-50%)
+
+    &_bottom-left
+      top: 100%
+      left: 0%
+
+    &_bottom-right
+      top: 100%
+      right: 0%
+
+    &_top-center
+      bottom: 100%
+      left: 50%
+      transform: translateX(-50%)
+
+    &_top-left
+      bottom: 100%
+      left: 0%
+
+    &_top-right
+      bottom: 100%
+      right: 0%
 
   &_opened &--body
     display: flex

@@ -150,7 +150,20 @@
 
 <h1>Drop Modal</h1>
 
-<spot-drop-modal [open]="dropModalOpen">
+<select [(ngModel)]="alignment">
+  <option>bottom-center</option>
+  <option>bottom-left</option>
+  <option>bottom-right</option>
+  <option>top-center</option>
+  <option>top-left</option>
+  <option>top-right</option>
+</select>
+
+<spot-drop-modal
+  [open]="dropModalOpen"
+  [alignment]="alignment"
+  (closed)="dropModalOpen = false"
+>
   <button
     slot="trigger"
     type="button"

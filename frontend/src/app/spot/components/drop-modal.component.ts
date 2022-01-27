@@ -2,8 +2,19 @@ import {
   Component,
   HostBinding,
   Input,
+  Output,
+  EventEmitter,
   OnDestroy,
 } from '@angular/core';
+
+enum SpotDropModalAlignmentOption {
+  BottomCenter = 'bottom-center',
+  BottomLeft = 'bottom-left',
+  BottomRight = 'bottom-right',
+  TopCenter = 'top-center',
+  TopLeft = 'top-left',
+  TopRight = 'top-right',
+}
 
 @Component({
   selector: 'spot-drop-modal',
@@ -18,22 +29,31 @@ export class SpotDropModalComponent implements OnDestroy {
   public set open(value:boolean) {
     this._open = value;
 
-    /* We have to set these listeners next tick, because they're so far up the tree.
-     * If the open value was set because of a click listener in the trigger slot,
-     * that event would reach the event listener added here and close the modal right away.
-     */
-    setTimeout(() => {
-      if (this._open) {
+    if (this._open) {
+      /* We have to set these listeners next tick, because they're so far up the tree.
+       * If the open value was set because of a click listener in the trigger slot,
+       * that event would reach the event listener added here and close the modal right away.
+       */
+      setTimeout(() => {
         document.body.addEventListener('click', this.closeEventListener);
-      } else {
-        document.body.removeEventListener('click', this.closeEventListener);
-      }
-    });
+      })
+    } else {
+      document.body.removeEventListener('click', this.closeEventListener);
+      this.closed.emit();
+    }
   }
 
   public get open():boolean {
     return this._open;
   }
+
+  @Input('alignment') public alignment:SpotDropModalAlignmentOption = SpotDropModalAlignmentOption.BottomCenter;
+
+  get alignmentClass() {
+    return `spot-drop-modal--body_${this.alignment}`;
+  }
+
+  @Output() closed = new EventEmitter<void>();
 
   private closeEventListener = this.close.bind(this);
 

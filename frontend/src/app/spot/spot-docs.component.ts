@@ -9,6 +9,7 @@ export class SpotDocsComponent {
   checkboxValue = null;
   textFieldValue = 'ngModel value';
   dropModalOpen = false;
+  alignment = 'bottom-center';
 
   onRemoveChip() {
     alert('Remove chip');

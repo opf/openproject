@@ -1,4 +1,6 @@
 <ng-content select="[slot=trigger]"></ng-content>
-<div class="spot-drop-modal--body">
+<div
+  [ngClass]="['spot-drop-modal--body', alignmentClass]"
+>
   <ng-content select="[slot=body]"></ng-content>
 </div>
