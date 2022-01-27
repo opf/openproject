@@ -4,7 +4,7 @@ type: object
 required:
   - id
   - _type
-  - href
+  - name
   - storageType
 properties:
   id:
@@ -14,10 +14,9 @@ properties:
     type: string
     enum:
       - Storage
-  href:
+  name:
     type: string
-    format: uri
-    description: web uri of the storage instance
+    description: Storage name
   storageType:
     type: string
     enum:
@@ -36,24 +35,32 @@ properties:
     type: object
     required:
       - self
+      - href
     properties:
       self:
         allOf:
           - $ref: './link.yml'
           - description: |-
-              This storage resource
+              This storage resource. Contains the user defined storage name as title.
 
               **Resource**: Storage
+      origin:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              Web uri of the storage instance
+
+              **Resource**: N/A
 example:
   id: 1337
   _type: Storage
-  href: https://nextcloud.deathstar.rocks/
+  name: It's no moon
   storageType: nextcloud
   createdAt: '2021-12-20T13:37:00.211Z'
   updatedAt: '2021-12-20T13:37:00.211Z'
   _links:
     self:
       href: /api/v3/storages/1337
-      title: storage
-  
-  
+      title: It's no moon
+    origin:
+      href: https://nextcloud.deathstar.rocks/

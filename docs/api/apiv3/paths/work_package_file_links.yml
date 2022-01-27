@@ -69,7 +69,6 @@ post:
                 _links:
                   storageUrl:
                     href: https://nextcloud.deathstar.rocks/
-                    title: Link to storage
           
   responses:
     '201':

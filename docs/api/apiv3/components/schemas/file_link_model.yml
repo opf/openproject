@@ -29,6 +29,7 @@ properties:
     $ref: '#/components/schemas/File_Link_Origin_DataModel'
   _embedded:
     type: object
+    readOnly: true
     required:
       - storage
       - container
@@ -141,14 +142,16 @@ example:
     storage:
       id: 1337
       _type: Storage
-      href: https://nextcloud.deathstar.rocks/
+      name: It's no moon
       storageType: nextcloud
       createdAt: '2021-12-20T13:37:00.211Z'
       updatedAt: '2021-12-20T13:37:00.211Z'
       _links:
         self:
           href: /api/v3/storages/1337
-          title: storage
+          title: It's no moon
+        origin:
+          href: https://nextcloud.deathstar.rocks/
     container:
       _type: WorkPackage
       _links:

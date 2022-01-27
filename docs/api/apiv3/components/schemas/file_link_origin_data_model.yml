@@ -34,4 +34,3 @@ properties:
   lastModifiedByName:
     type: string
     description: Display name of the author that modified the file on the origin last
-        
