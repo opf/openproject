@@ -194,6 +194,7 @@ RSpec/NamedSubject:
 
 RSpec/ContextWording:
   Prefixes:
+    - as
     - when
     - with
     - without
