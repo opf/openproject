@@ -48,6 +48,7 @@ export class GitActionsService {
       .replace(/[-]+$/g, '') // Dashes at the end are removed
       .replace(/-+/g, '-') // Multiple dashes in a row are deduped
       .trim();
+  }
 
   private formattingInput(workPackage: WorkPackageResource) {
     const type = workPackage.type.name || '';

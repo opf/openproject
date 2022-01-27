@@ -102,7 +102,8 @@ module DevelopmentData
 
       cfs
     rescue StandardError => e
-      binding.pry
+      # binding.pry
+      warn e
     end
 
     def extend_group(type, group)
