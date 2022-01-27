@@ -32,14 +32,22 @@ class Mails::MemberJob < ApplicationJob
   def perform(current_user:,
               member:,
               message: nil)
-    if member.project.nil?
-      send_updated_global(current_user, member, message)
-    elsif member.principal.is_a?(Group)
+    if member.principal.is_a?(Group)
       every_group_user_member(member) do |user_member|
-        send_for_group_user(current_user, user_member, member, message)
+        next unless roles_changed?(user_member, member)
+
+        if member.project.nil?
+          send_updated_global(current_user, user_member, message)
+        else
+          send_for_group_user(current_user, user_member, member, message)
+        end
       end
     elsif member.principal.is_a?(User)
-      send_for_project_user(current_user, member, message)
+      if member.project.nil?
+        send_updated_global(current_user, member, message)
+      else
+        send_for_project_user(current_user, member, message)
+      end
     end
   end
 
@@ -94,5 +102,9 @@ class Mails::MemberJob < ApplicationJob
     NotificationSetting
       .where(project_id: nil, user_id: user_id)
       .exists?("membership_#{setting}" => false)
+  end
+
+  def roles_changed?(user_member, group_member)
+    Mails::MemberRolesDiff.new(user_member, group_member).roles_changed?
   end
 end

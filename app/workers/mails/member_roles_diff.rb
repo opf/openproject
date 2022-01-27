@@ -26,17 +26,48 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Mails::MemberCreatedJob < Mails::MemberJob
+class Mails::MemberRolesDiff
+  attr_reader :user_member, :group_member
+
+  def initialize(user_member, group_member)
+    raise ArgumentError unless user_member.project_id == group_member.project_id
+
+    @user_member = user_member
+    @group_member = group_member
+  end
+
+  def roles_created?
+    result == :roles_created
+  end
+
+  def roles_updated?
+    result == :roles_updated
+  end
+
+  def roles_changed?
+    result != :roles_unchanged
+  end
+
+  def result
+    @result ||=
+      if user_previous_member_roles_ids.empty?
+        :roles_created
+      elsif (group_roles_ids - user_previous_member_roles_ids).any?
+        :roles_updated
+      else
+        :roles_unchanged
+      end
+  end
+
   private
 
-  alias_method :send_for_project_user, :send_added_project
+  def user_previous_member_roles_ids
+    Set.new(user_member.member_roles
+      .reject { group_member.member_roles.map(&:id).include?(_1.inherited_from) }
+      .map(&:role_id).uniq)
+  end
 
-  def send_for_group_user(current_user, user_member, group_member, message)
-    difference = Mails::MemberRolesDiff.new(user_member, group_member)
-    if difference.roles_created?
-      send_added_project(current_user, user_member, message)
-    elsif difference.roles_updated?
-      send_updated_project(current_user, user_member, message)
-    end
+  def group_roles_ids
+    Set.new(group_member.member_roles.map(&:role_id))
   end
 end
