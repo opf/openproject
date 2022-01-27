@@ -27,7 +27,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
+import { HalResource } from "core-app/features/hal/resources/hal-resource";
 
 export class GitlabMergeRequestResource extends HalResource {
   public get state() {

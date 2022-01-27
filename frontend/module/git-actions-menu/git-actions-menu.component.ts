@@ -29,15 +29,15 @@
 
 import copy from 'copy-text-to-clipboard';
 import { Component, Inject, Input } from '@angular/core';
-import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
-import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
 import { GitActionsService } from '../git-actions/git-actions.service';
-import { OPContextMenuComponent } from 'core-app/components/op-context-menu/op-context-menu.component';
+import { ISnippet } from "core-app/features/plugins/linked/openproject-gitlab_integration/typings";
+import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
+import { OPContextMenuComponent } from "core-app/shared/components/op-context-menu/op-context-menu.component";
 import {
   OpContextMenuLocalsMap,
   OpContextMenuLocalsToken
-} from 'core-app/components/op-context-menu/op-context-menu.types';
-import { ISnippet} from "core-app/modules/plugins/linked/openproject-gitlab_integration/typings";
+} from "core-app/shared/components/op-context-menu/op-context-menu.types";
+import { I18nService } from "core-app/core/i18n/i18n.service";
 
 
 @Component({

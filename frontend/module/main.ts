@@ -28,7 +28,10 @@
 //++
 
 import { Injector, NgModule } from '@angular/core';
-import { OpenprojectCommonModule } from 'core-app/modules/common/openproject-common.module';
+import { OPSharedModule } from 'core-app/shared/shared.module';
+import { OpenprojectTabsModule } from 'core-app/shared/components/tabs/openproject-tabs.module';
+import { WorkPackageTabsService } from 'core-app/features/work-packages/components/wp-tabs/services/wp-tabs/wp-tabs.service';
+
 
 import { GitlabTabComponent } from './gitlab-tab/gitlab-tab.component';
 import { TabHeaderComponent } from './tab-header/tab-header.component';
@@ -37,8 +40,6 @@ import { GitActionsMenuDirective } from './git-actions-menu/git-actions-menu.dir
 import { GitActionsMenuComponent } from './git-actions-menu/git-actions-menu.component';
 import { WorkPackagesGitlabMrsService } from './tab-mrs/wp-gitlab-mrs.service';
 import { MergeRequestComponent } from './merge-request/merge-request.component';
-import { WorkPackageTabsService } from "core-components/wp-tabs/services/wp-tabs/wp-tabs.service";
-import { OpenprojectTabsModule } from "core-app/modules/common/tabs/openproject-tabs.module";
 
 export function initializeGitlabIntegrationPlugin(injector:Injector) {
   const wpTabService = injector.get(WorkPackageTabsService);
@@ -53,7 +54,7 @@ export function initializeGitlabIntegrationPlugin(injector:Injector) {
 
 @NgModule({
   imports: [
-    OpenprojectCommonModule,
+    OPSharedModule,
     OpenprojectTabsModule,
   ],
   providers: [

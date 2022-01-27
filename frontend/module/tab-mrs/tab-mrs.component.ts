@@ -27,14 +27,13 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, Input, OnInit} from '@angular/core';
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import { APIV3Service } from 'core-app/modules/apiv3/api-v3.service';
-import { HalResourceService } from 'core-app/modules/hal/services/hal-resource.service';
-import { CollectionResource } from 'core-app/modules/hal/resources/collection-resource';
-import { ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
+import { CollectionResource } from "core-app/features/hal/resources/collection-resource";
 import { IGitlabMergeRequestResource } from "../../../../../../../../modules/gitlab_integration/frontend/module/typings";
+import { I18nService } from "core-app/core/i18n/i18n.service";
 
 @Component({
   selector: 'tab-mrs',
