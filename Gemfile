@@ -299,7 +299,7 @@ gem 'disposable', '~> 0.6.2'
 
 platforms :mri, :mingw, :x64_mingw do
   group :postgres do
-    gem 'pg', '~> 1.2.2'
+    gem 'pg', '~> 1.3.0'
   end
 
   # Support application loading when no database exists yet.
