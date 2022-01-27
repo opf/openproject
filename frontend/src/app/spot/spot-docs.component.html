@@ -6,6 +6,7 @@
 <button class="spot-button" disabled>Disabled</button>
 
 <hr>
+
 <button class="spot-button spot-button_outlined">Default</button>
 <button class="spot-button spot-button_outlined spot-button_primary">Primary</button>
 <button class="spot-button spot-button_outlined spot-button_secondary">Secondary</button>
@@ -42,6 +43,37 @@
   ></spot-checkbox>
   Currently {{ checkboxValueString() }}
 </label>
+
+<h1>Lists</h1>
+
+<ul class="spot-list">
+  <li class="spot-list--item">
+    <label class="spot-list--item-action">
+      <spot-checkbox [(ngModel)]="checkboxValue"></spot-checkbox>
+      <div class="spot-list--item-title">Checkbox item</div>
+    </label>
+  </li>
+  <li class="spot-list--item">
+    <label class="spot-list--item-action">
+      <spot-checkbox [(ngModel)]="checkboxValue"></spot-checkbox>
+      <div class="spot-list--item-title">Checkbox item with children</div>
+    </label>
+    <ul class="spot-list">
+      <li class="spot-list--item">
+        <label class="spot-list--item-action">
+          <spot-checkbox [(ngModel)]="checkboxValue"></spot-checkbox>
+          <div class="spot-list--item-title">Child checkbox item</div>
+        </label>
+      </li>
+      <li class="spot-list--item">
+        <label class="spot-list--item-action">
+          <spot-checkbox [(ngModel)]="checkboxValue"></spot-checkbox>
+          <div class="spot-list--item-title">Second child checkbox item</div>
+        </label>
+      </li>
+    </ul>
+  </li>
+</ul>
 
 <h1>Filter Chip</h1>
 

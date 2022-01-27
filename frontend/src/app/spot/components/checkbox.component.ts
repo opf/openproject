@@ -36,7 +36,6 @@ export class SpotCheckboxComponent implements ControlValueAccessor {
 
   onStateChange() {
     const value = this.input.nativeElement.checked;
-    console.log('stateChange', value);
     this.checkedChange.emit(value);
     this.onChange(value);
     this.onTouched(value);
@@ -49,6 +48,8 @@ export class SpotCheckboxComponent implements ControlValueAccessor {
       const input = this.input.nativeElement;
       if (value === null) {
         input.indeterminate = true;
+      } else {
+        input.indeterminate = false;
       }
       
       this.checked = !!value;
