@@ -73,6 +73,11 @@ ru:
       start_trial: 'Бесплатная пробная версия'
       book_now: 'Заказать сейчас'
       get_quote: 'Рассчитать стоимость'
+      buttons:
+        upgrade: "Upgrade now"
+        contact: "Contact us for a demo"
+      enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
+      upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
   announcements:
     show_until: Показать до
     is_active: теперь отображается
@@ -160,7 +165,7 @@ ru:
     edit: 'Редактировать пользовательское действие %{name}'
     execute: 'Выполнить %{name}'
     upsale:
-      title: 'Пользовательские действия — особенность Корпоративной версии'
+      title: 'Custom actions'
       description: 'Пользовательские действия автоматизируют повседневную работу, объединяя отдельные шаги в одну кнопку.'
   custom_fields:
     text_add_new_custom_field: >
@@ -259,7 +264,7 @@ ru:
       irreversible: "Это действие необратимо"
       confirmation: "Введите имя пользователя %{name} для подтверждения удаления."
     upsale:
-      title: Назначить работу людям, которые не являются членами проекта.
+      title: Placeholder users
       description: >
         Есть несколько сценариев, где вы хотите назначить работу людям, которые не являются участниками вашего проекта. Это может быть просто то, что вам все равно нужно нанять правильного человека для работы. Или вы просто не хотите дать этому человеку доступ к информации о проекте, но хотите отслеживать задачи, назначенные этому человеку.
   prioritiies:
@@ -2377,6 +2382,9 @@ ru:
   setting_apiv3_cors_origins: "Разделение ресурсов (CORS) разрешено в API V3"
   setting_apiv3_cors_origins_text_html: >
     Если CORS включен, то это источники, которым разрешен доступ к OpenProject API. <br/> Пожалуйста, проверьте <a href="%{origin_link}" target="_blank">документацию по происхождению</a> о том, как указывать ожидаемые значения.
+  setting_apiv3_max_page_size: "Maximum API page size"
+  setting_apiv3_max_page_instructions_html: >
+    Set the maximum page size the API will respond with. It will not be possible to perform API requests that return more values on a single page. <br/> <strong>Warning:</strong> Please only change this value if you are sure why you need it. Setting to a high value will result in significant performance impacts, while a value lower than the per page options will cause errors in paginated views.
   setting_apiv3_docs: "Документация"
   setting_apiv3_docs_enabled: "Включить страницу с документами"
   setting_apiv3_docs_enabled_instructions_html: >
