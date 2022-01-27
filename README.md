@@ -54,7 +54,7 @@ For more information on how to disclose a security vulnerability, [please see th
 ## License
 
 OpenProject is licensed under the terms of the GNU General Public License version 3.
-See [COPYRIGHT and LICENSE files](COPYRIGHT and LICENSE files) for details.
+See [COPYRIGHT](COPYRIGHT) and [LICENSE](LICENSE) files for details.
 
 ## Credits
 
