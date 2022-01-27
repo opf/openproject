@@ -1,5 +1,5 @@
 # openproject-gitlab-integration
-## NEW VERSION 2.0.0 (pre-release)
+## NEW VERSION 2.0.1 (pre-release)
 Based on the current Github integration (OpenProject 11 & 12), this plugin offers the same functionalities as the current plugin for Github (and something else). This version includes changes to the DB and a new view similar to the current Github tab. Only the management of "pipelines" is pending an open issue in Gitlab (https://gitlab.com/gitlab-org/gitlab/-/issues/345028).
 
 ![OP-Gitlab](https://user-images.githubusercontent.com/14983519/143622798-13d1c50b-1186-46e0-a2da-9f50fb14a338.png)
@@ -132,6 +132,16 @@ PATH
       openproject-webhooks
 ```
 
+Or 
+
+```
+PATH
+  remote: modules/gitlab_integration
+  specs:
+    openproject-gitlab_integration (2.0.1)
+      openproject-webhooks
+```
+
 Add the following in **Gemfile.modules**:
 ```
 group :opf_plugins do
@@ -140,6 +150,21 @@ group :opf_plugins do
 ...
 end
 ```
+
+**Update (2022-01-27):** Right now, as the plugin for Github works, it is required to add a line of code in the core of the OpenProject code before the precompilation of the assets in the following file:
+
+```
+frontend/src/app/core/apiv3/endpoints/work_packages/api-v3-work-package-paths.ts
+```
+
+Add the following just after the line defining th github resource (after line 52):
+
+```
+   // /api/v3/(?:projectPath)/work_packages/(:workPackageId)/gitlab_merge_requests
+   public readonly gitlab_merge_requests = this.subResource('gitlab_merge_requests');
+```
+
+This line of code is necessary so that when precompiling the plugin assets they do not generate an error.
 
 ### OpenProject
 

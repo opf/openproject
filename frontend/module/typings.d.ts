@@ -27,13 +27,13 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { TabDefinition } from "core-app/modules/common/tabs/tab.interface";
-import { HalResourceClass } from "core-app/modules/hal/resources/hal-resource";
+import { HalResourceClass } from 'core-app/modules/hal/resources/hal-resource';
+
 
 export interface ISnippet {
-  id: string;
-  name: string;
-  textToCopy: ()=>string
+  id:string;
+  name:string;
+  textToCopy:()=>string
 }
 
 export interface IGitlabMergeRequestResource extends HalResourceClass {
