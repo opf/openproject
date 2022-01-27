@@ -17,6 +17,8 @@ en:
   storages:
     instructions:
       name: "Please use a short name. It will get used as a tab title in the work package view."
+      no_storage_set_up: "There are no file storages set up, yet."
+      setting_up_additional_storages: "For setting up additional file storages, please visit"
     label_creator: "Creator"
     label_file_link: "File link"
     label_file_links: "File links"

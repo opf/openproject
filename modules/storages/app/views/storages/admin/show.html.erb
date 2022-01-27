@@ -26,20 +26,20 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-<% html_title t(:label_administration), t('project_module_storages'), t(@storage.name) -%>
-<% local_assigns[:additional_breadcrumb] = @storage.name %>
+<% html_title t(:label_administration), t('project_module_storages'), t(@object.name) -%>
+<% local_assigns[:additional_breadcrumb] = @object.name %>
 
-<%= toolbar title: "#{t('project_module_storages')} - #{@storage.name}",
+<%= toolbar title: "#{t('project_module_storages')} - #{@object.name}",
             title_class: 'no-padding-bottom' do %>
   <li class="toolbar-item">
-    <%= link_to edit_storage_path(@storage),
+    <%= link_to edit_storage_path(@object),
                 class: 'button' do %>
       <%= op_icon('button--icon icon-edit') %>
       <span class="button--text"><%= t(:button_edit) %></span>
     <% end %>
   </li>
   <li class="toolbar-item">
-    <%= link_to storage_path(@storage),
+    <%= link_to storage_path(@object),
                 method: :delete,
                 data: { confirm: I18n.t(:text_are_you_sure) },
                 class: 'button -danger' do %>
@@ -49,11 +49,31 @@ See COPYRIGHT and LICENSE files for more details.
   </li>
 <% end %>
 
-<ul>
-<li><%= @storage.id %></li>
-<li><%= @storage.name %></li>
-<li><%= @storage.provider_type %></li>
-<li><%= @storage.creator.name %></li>
-<li><%= @storage.created_at %></li>
-<li><%= @storage.identifier %></li>
-</ul>
+<div class="attributes-group">
+  <div class="attributes-key-value">
+    <div class="attributes-key-value--key"><%= t(:'storages.label_name') %></div>
+    <div class="attributes-key-value--value-container">
+      <div class="attributes-key-value--value -text">
+        <span><%= @object.name %></span>
+      </div>
+    </div>
+    <div class="attributes-key-value--key"><%= t(:'storages.label_provider_type') %></div>
+    <div class="attributes-key-value--value-container">
+      <div class="attributes-key-value--value -text">
+        <span><%= t(:"storages.provider_types.#{@object.provider_type}") %></span>
+      </div>
+    </div>
+    <div class="attributes-key-value--key"><%= t(:'storages.label_creator') %></div>
+    <div class="attributes-key-value--value-container">
+      <div class="attributes-key-value--value -text">
+        <span><%= @object.creator.name %></span>
+      </div>
+    </div>
+    <div class="attributes-key-value--key"><%= t(:'storages.label_created_at') %></div>
+    <div class="attributes-key-value--value-container">
+      <div class="attributes-key-value--value -text">
+        <span><%= @object.created_at %></span>
+      </div>
+    </div>
+  </div>
+</div>

@@ -5,7 +5,7 @@ OpenProject::Application.routes.draw do
 
   scope 'projects/:project_id', as: 'project' do
     namespace 'settings' do
-      resources :projects_storages, controller: '/storages/admin/projects_storages', only: %i[index new create destroy]
+      resources :projects_storages, controller: '/storages/admin/projects_storages'
     end
   end
 end

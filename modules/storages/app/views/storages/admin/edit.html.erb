@@ -1,0 +1,9 @@
+<% html_title t(:label_administration), t("project_module_storages") %>
+<% local_assigns[:additional_breadcrumb] = @object.name %>
+<%= toolbar title: @object.name %>
+
+<%= labelled_tabular_form_for @object, url: storage_path(@object) do |f| -%>
+  <%= error_messages_for_contract @object, @errors %>
+  <%= render :partial => 'storages/admin/form', locals: { f: f } %>
+  <%= styled_button_tag t(:button_save), class: "-highlight -with-icon icon-checkmark" %>
+<% end %>

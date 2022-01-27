@@ -1,0 +1,11 @@
+<div class="op-toast -info">
+  <div class="op-toast--content">
+    <p>
+      <strong><%= t(:'storages.instruction.no_storage_set_up') %></strong>
+    </p>
+    <p>
+      <%= t(:"storages.instructions.setting_up_additional_storages") %>
+      <%= link_to "#{t(:label_administration)} / #{t(:project_module_storages)}", controller: '/storages/admin/storages', action: :index %>.
+    </p>
+  </div>
+</div>

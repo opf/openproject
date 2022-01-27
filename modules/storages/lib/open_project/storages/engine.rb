@@ -60,7 +60,7 @@ module OpenProject::Storages
       menu :project_menu,
            :settings_projects_storages,
            { controller: '/storages/admin/projects_storages', action: 'index' },
-           caption: :'storages.label_storage',
+           caption: :project_module_storages,
            parent: :settings
     end
 

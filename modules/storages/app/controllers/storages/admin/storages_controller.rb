@@ -30,21 +30,26 @@
 
 class Storages::Admin::StoragesController < ApplicationController
   layout 'admin'
+
+  model_object Storages::Storage
+
   before_action :require_admin
+  before_action :find_model_object, only: %i[show destroy edit update]
+
   menu_item :storages_admin_settings
 
   def index
     @storages = Storages::Storage.all
+
     render 'storages/admin/index'
   end
 
   def show
-    @storage = Storages::Storage.find_by id: params[:id]
     render 'storages/admin/show'
   end
 
   def new
-    @storage = Storages::Storage.new(provider_type: 'nextcloud', name: I18n.t('storages.provider_types.nextcloud'))
+    @object = Storages::Storage.new(provider_type: 'nextcloud', name: I18n.t('storages.provider_types.nextcloud'))
     render 'storages/admin/new'
   end
 
@@ -53,20 +58,32 @@ class Storages::Admin::StoragesController < ApplicationController
                         .to_h
                         .reverse_merge(creator_id: current_user.id)
 
-    @storage = Storages::Storage.create combined_params
-    redirect_to storage_path(@storage)
+    @object = Storages::Storage.create combined_params
+    redirect_to storage_path(@object)
+  end
+
+  def edit
+    render 'storages/admin/edit'
   end
 
   def update
-    # tbd
+    @object.update permitted_storage_params
+
+    redirect_to storage_path(@object)
   end
 
-  def delete
-    # tbd
+  def destroy
+    @object.destroy
+
+    redirect_to storages_path
   end
 
   def default_breadcrumb
-    t(:project_module_storages)
+    if action_name == :index
+      t(:project_module_storages)
+    else
+      ActionController::Base.helpers.link_to(t(:project_module_storages), storages_path)
+    end
   end
 
   def show_local_breadcrumb

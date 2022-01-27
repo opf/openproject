@@ -66,15 +66,7 @@ class Storages::Admin::ProjectsStoragesController < ApplicationController
     redirect_to project_settings_projects_storages_path
   end
 
-  def default_breadcrumb
-    # t(:project_module_storages)
-  end
-
-  def show_local_breadcrumb
-    true
-  end
-
-  current_menu_item :index do
+  current_menu_item %i[index new] do
     :settings_projects_storages
   end
 
