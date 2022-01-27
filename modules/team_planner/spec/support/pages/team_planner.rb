@@ -158,7 +158,7 @@ module Pages
 
       resizer = is_start_date ? wp_strip.find('.fc-event-resizer-start') : wp_strip.find('.fc-event-resizer-end')
 
-      drag_by_pixel(element: resizer, by_x: number_of_days * 200, by_y: 0) unless resizer.nil?
+      drag_by_pixel(element: resizer, by_x: number_of_days * 210, by_y: 0) unless resizer.nil?
     end
 
     def drag_wp_by_pixel(work_package, by_x, by_y)

@@ -168,7 +168,7 @@ describe 'Team planner drag&dop and resizing', type: :feature, js: true do
 
       # Change the dates by dragging the complete wp
       retry_block do
-        team_planner.drag_wp_by_pixel(second_wp, -100, 0)
+        team_planner.drag_wp_by_pixel(second_wp, -150, 0)
       end
       team_planner.expect_and_dismiss_toaster(message: I18n.t('js.notice_successful_update'))
 

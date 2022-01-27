@@ -72,7 +72,7 @@ describe 'Team planner error handling', type: :feature, js: true do
 
       # Try to move the wp
       retry_block do
-        team_planner.drag_wp_by_pixel(work_package, 150, 0)
+        team_planner.drag_wp_by_pixel(work_package, 200, 0)
       end
       team_planner.expect_toast(type: :error, message: "#{custom_field.name} can't be blank")
 
