@@ -78,8 +78,8 @@ class MemberMailer < ApplicationMailer
   end
 
   def send_mail(current_user, member, subject, message)
-    in_member_locale(member) do
-      User.execute_as(current_user) do
+    User.execute_as(current_user) do
+      in_member_locale(member) do
         message_id member, current_user
 
         @roles = member.roles

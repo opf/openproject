@@ -101,7 +101,12 @@ describe MemberMailer, type: :mailer do
 
   shared_examples_for 'has the expected body' do
     let(:body) { subject.body.parts.detect { |part| part['Content-Type'].value == 'text/html' }.body.to_s }
-
+    let(:i18n_params) do
+      {
+        project: project ? link_to_project(project, only_path: false) : nil,
+        user: link_to_user(current_user, only_path: false)
+      }.compact
+    end
 
     it 'highlights the roles received' do
       expected = <<~MSG
@@ -116,17 +121,24 @@ describe MemberMailer, type: :mailer do
         .at_path('body/table/tr/td/ul')
     end
 
+    context 'when current user and principal have different locales' do
+      let(:principal) { FactoryBot.build_stubbed(:user, language: 'fr') }
+      let(:current_user) { FactoryBot.build_stubbed(:user, language: 'de') }
+
+      it 'is in the locale of the recipient' do
+        OpenProject::LocaleHelper.with_locale_for(principal) do
+          i18n_params
+        end
+        expect(body).to include(I18n.t(:"#{expected_header}.without_message", locale: :fr, **i18n_params))
+      end
+    end
+
     context 'with a custom message' do
       let(:message) { "Some **styled** message" }
 
       it 'has the expected header' do
-        params = {
-          project: project ? link_to_project(project, only_path: false) : nil,
-          user: link_to_user(current_user, only_path: false)
-        }.compact
-
         expect(body)
-          .to include(I18n.t(:"#{expected_header}.with_message", **params))
+          .to include(I18n.t(:"#{expected_header}.with_message", **i18n_params))
       end
 
       it 'includes the custom message' do
@@ -138,13 +150,8 @@ describe MemberMailer, type: :mailer do
     context 'without a custom message' do
 
       it 'has the expected header' do
-        params = {
-          project: project ? link_to_project(project, only_path: false) : nil,
-          user: link_to_user(current_user, only_path: false)
-        }.compact
-
         expect(body)
-          .to include(I18n.t(:"#{expected_header}.without_message", **params))
+          .to include(I18n.t(:"#{expected_header}.without_message", **i18n_params))
       end
     end
   end
