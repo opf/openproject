@@ -29,6 +29,9 @@
 #++
 
 class Storages::Admin::ProjectsStoragesController < Projects::SettingsController
+  model_object Storages::ProjectStorage
+
+  before_action :find_model_object, only: %i[destroy]
   before_action :find_optional_project
   before_action :authorize
 
@@ -58,8 +61,8 @@ class Storages::Admin::ProjectsStoragesController < Projects::SettingsController
   end
 
   def destroy
-    @project_storage = Storages::ProjectStorage.find(params[:id])
-    @project_storage.destroy
+    Storages::FileLink.joins(:container).where("work_packages.project_id = ?", @project.id).delete_all
+    @object.destroy
 
     redirect_to project_settings_projects_storages_path
   end
