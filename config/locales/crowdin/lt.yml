@@ -2376,9 +2376,9 @@ lt:
   setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) leidžiami kilmės domenai"
   setting_apiv3_cors_origins_text_html: >
     Jei CORS yra įgalinta, tai yra kilmės domenai, kuriems leidžiama pasiekti OpenProject API. <br/> Kaip nurodyti reikšmes aprašoma <a href="%{origin_link}" target="_blank">Origin antraštės dokumentacijoje</a>.
-  setting_apiv3_max_page_size: "Maximum API page size"
+  setting_apiv3_max_page_size: "Maksimalus API puslapio dydis"
   setting_apiv3_max_page_instructions_html: >
-    Set the maximum page size the API will respond with. It will not be possible to perform API requests that return more values on a single page. <br/> <strong>Warning:</strong> Please only change this value if you are sure why you need it. Setting to a high value will result in significant performance impacts, while a value lower than the per page options will cause errors in paginated views.
+    Nustatykite maksimalų API atsakymo puslapio dydį. Bus neįmanoma vykdyti API užklausas, kurios grąžina daugiau reikšmių viename puslapyje. <br/> <strong>Įspėjimas</strong> Prašome keisti šią reikšmę jei jums to tikrai reikia. Nustatyta didelė reikšmė stipriai įtakos greitaveiką, o maža reikšmė mažesnė už puslapiavimo parinktis reikš klaida puslapiuojamuose vaizduose.
   setting_apiv3_docs: "Dokumentacija"
   setting_apiv3_docs_enabled: "Įjungti dokumentų puslapį"
   setting_apiv3_docs_enabled_instructions_html: >
