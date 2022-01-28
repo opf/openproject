@@ -542,7 +542,7 @@ GEM
       domain_name (~> 0.5)
     http_parser.rb (0.6.0)
     httpclient (2.8.3)
-    i18n (1.9.0)
+    i18n (1.9.1)
       concurrent-ruby (~> 1.0)
     i18n-js (3.9.0)
       i18n (>= 0.6.6)
