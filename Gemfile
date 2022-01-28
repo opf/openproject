@@ -206,7 +206,7 @@ group :test do
   gem 'rack_session_access'
   gem 'rspec', '~> 3.10.0'
   # also add to development group, so "spec" rake task gets loaded
-  gem 'rspec-rails', '~> 5.0.0', group: :development
+  gem 'rspec-rails', '~> 5.1.0', group: :development
 
   # Retry failures within the same environment
   gem 'retriable', '~> 3.1.1'
@@ -299,7 +299,7 @@ gem 'disposable', '~> 0.6.2'
 
 platforms :mri, :mingw, :x64_mingw do
   group :postgres do
-    gem 'pg', '~> 1.2.2'
+    gem 'pg', '~> 1.3.0'
   end
 
   # Support application loading when no database exists yet.
