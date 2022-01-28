@@ -45,10 +45,12 @@ properties:
       - self
       - storage
       - container
+      - creator
       - delete
       - downloadLocation
       - staticDownloadLocation
       - originOpen
+      - staticOriginOpen
     properties:
       self:
         allOf:
@@ -84,12 +86,20 @@ properties:
               
               - WorkPackage
             readOnly: true
+      creator:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The creator of the file link.
+
+              **Resource**: User
+            readOnly: true
       delete:
         allOf:
           - $ref: './link.yml'
           - description: |-
               The uri to delete the file link.
-              
+
               **Resource**: N/A
             readOnly: true
       downloadLocation:
@@ -184,6 +194,9 @@ example:
     container:
       href: /api/v3/work_package/17
       title: work package
+    creator:
+      href: /api/v3/users/33
+      title: Obi-Wan Kenobi
     delete:
       href: /api/v3/work_package/17/file_links/1337
       title: file link delete API
