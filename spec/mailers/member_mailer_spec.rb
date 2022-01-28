@@ -38,9 +38,9 @@ describe MemberMailer, type: :mailer do
   let(:current_user) { build_stubbed(:user) }
   let(:member) do
     build_stubbed(:member,
-                             principal: principal,
-                             project: project,
-                             roles: roles)
+                  principal: principal,
+                  project: project,
+                  roles: roles)
   end
   let(:principal) { build_stubbed(:user) }
   let(:project) { build_stubbed(:project) }
@@ -122,8 +122,8 @@ describe MemberMailer, type: :mailer do
     end
 
     context 'when current user and principal have different locales' do
-      let(:principal) { FactoryBot.build_stubbed(:user, language: 'fr') }
-      let(:current_user) { FactoryBot.build_stubbed(:user, language: 'de') }
+      let(:principal) { build_stubbed(:user, language: 'fr') }
+      let(:current_user) { build_stubbed(:user, language: 'de') }
 
       it 'is in the locale of the recipient' do
         OpenProject::LocaleHelper.with_locale_for(principal) do
@@ -148,7 +148,6 @@ describe MemberMailer, type: :mailer do
     end
 
     context 'without a custom message' do
-
       it 'has the expected header' do
         expect(body)
           .to include(I18n.t(:"#{expected_header}.without_message", **i18n_params))
@@ -157,7 +156,7 @@ describe MemberMailer, type: :mailer do
   end
 
   describe '#added_project' do
-    subject { MemberMailer.added_project(current_user, member, message) }
+    subject { described_class.added_project(current_user, member, message) }
 
     it_behaves_like "sends a mail to the member's principal"
     it_behaves_like 'has a subject', :'mail_member_added_project.subject'
@@ -172,7 +171,7 @@ describe MemberMailer, type: :mailer do
   end
 
   describe '#updated_project' do
-    subject { MemberMailer.updated_project(current_user, member, message) }
+    subject { described_class.updated_project(current_user, member, message) }
 
     it_behaves_like "sends a mail to the member's principal"
     it_behaves_like 'has a subject', :'mail_member_updated_project.subject'
@@ -189,7 +188,7 @@ describe MemberMailer, type: :mailer do
   describe '#updated_global' do
     let(:project) { nil }
 
-    subject { MemberMailer.updated_global(current_user, member, message) }
+    subject { described_class.updated_global(current_user, member, message) }
 
     it_behaves_like "sends a mail to the member's principal"
     it_behaves_like 'has a subject', :'mail_member_updated_global.subject'

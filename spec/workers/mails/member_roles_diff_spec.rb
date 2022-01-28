@@ -30,34 +30,34 @@ require 'spec_helper'
 
 # rubocop:disable RSpec/MultipleMemoizedHelpers
 describe Mails::MemberRolesDiff, type: :model do
-  let(:project) { FactoryBot.build_stubbed(:project) }
-  let(:group) { FactoryBot.build_stubbed(:group) }
-  let(:user) { FactoryBot.build_stubbed(:user) }
-  let(:role) { FactoryBot.build_stubbed(:role) }
-  let(:role_other) { FactoryBot.build_stubbed(:role) }
+  let(:project) { build_stubbed(:project) }
+  let(:group) { build_stubbed(:group) }
+  let(:user) { build_stubbed(:user) }
+  let(:role) { build_stubbed(:role) }
+  let(:role_other) { build_stubbed(:role) }
 
-  let(:group_member_role) { FactoryBot.build_stubbed(:member_role, role: role) }
-  let(:group_member_role_other) { FactoryBot.build_stubbed(:member_role, role: role_other) }
+  let(:group_member_role) { build_stubbed(:member_role, role: role) }
+  let(:group_member_role_other) { build_stubbed(:member_role, role: role_other) }
   let(:group_member_roles) { raise NotImplementedError('please set group_member_roles') }
   let(:group_member) do
-    FactoryBot.build_stubbed(:member, principal: group, project: project, member_roles: group_member_roles)
+    build_stubbed(:member, principal: group, project: project, member_roles: group_member_roles)
   end
 
   let(:user_member_role) do
-    FactoryBot.build_stubbed(:member_role, role: role)
+    build_stubbed(:member_role, role: role)
   end
   let(:user_member_role_inherited) do
-    FactoryBot.build_stubbed(:member_role, role: role, inherited_from: group_member_role.id)
+    build_stubbed(:member_role, role: role, inherited_from: group_member_role.id)
   end
   let(:user_member_role_other) do
-    FactoryBot.build_stubbed(:member_role, role: role_other)
+    build_stubbed(:member_role, role: role_other)
   end
   let(:user_member_role_other_inherited) do
-    FactoryBot.build_stubbed(:member_role, role: role_other, inherited_from: group_member_role_other.id)
+    build_stubbed(:member_role, role: role_other, inherited_from: group_member_role_other.id)
   end
   let(:user_member_roles) { raise NotImplementedError('please set user_member_roles') }
   let(:user_member) do
-    FactoryBot.build_stubbed(:member, principal: user, project: project, member_roles: user_member_roles)
+    build_stubbed(:member, principal: user, project: project, member_roles: user_member_roles)
   end
 
   subject(:difference) do
@@ -147,17 +147,17 @@ describe Mails::MemberRolesDiff, type: :model do
 
   context 'when the projects are different between members' do
     let(:group_member) do
-      FactoryBot.build_stubbed(
+      build_stubbed(
         :member,
         principal: group,
-        project: FactoryBot.create(:project)
+        project: create(:project)
       )
     end
     let(:user_member) do
-      FactoryBot.build_stubbed(
+      build_stubbed(
         :member,
         principal: user,
-        project: FactoryBot.create(:project)
+        project: create(:project)
       )
     end
 
@@ -167,13 +167,13 @@ describe Mails::MemberRolesDiff, type: :model do
   end
 
   context 'with another group defined' do
-    let(:other_group_member_role) { FactoryBot.build_stubbed(:member_role, role: role) }
-    let(:other_group_member_role_other) { FactoryBot.build_stubbed(:member_role, role: role_other) }
+    let(:other_group_member_role) { build_stubbed(:member_role, role: role) }
+    let(:other_group_member_role_other) { build_stubbed(:member_role, role: role_other) }
     let(:user_member_role_inherited_from_other_group) do
-      FactoryBot.build_stubbed(:member_role, role: role, inherited_from: other_group_member_role.id)
+      build_stubbed(:member_role, role: role, inherited_from: other_group_member_role.id)
     end
     let(:user_member_role_other_inherited_from_other_group) do
-      FactoryBot.build_stubbed(:member_role, role: role_other, inherited_from: other_group_member_role_other.id)
+      build_stubbed(:member_role, role: role_other, inherited_from: other_group_member_role_other.id)
     end
 
     context 'when group has added to a user a new role and a role that already existed from another group membership' do

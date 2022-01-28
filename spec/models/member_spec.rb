@@ -70,8 +70,8 @@ describe Member, type: :model do
 
     it 'returns false if role is inherited' do
       member
-      group = FactoryBot.create(:group, members: [user])
-      FactoryBot.create(:member, project: project, principal: group, roles: [role])
+      group = create(:group, members: [user])
+      create(:member, project: project, principal: group, roles: [role])
       ::Groups::AddUsersService
         .new(group, current_user: User.system, contract_class: EmptyContract)
         .call(ids: [user.id])

@@ -37,8 +37,8 @@ describe Groups::AddUsersService, 'integration', type: :model do
 
   let!(:group) do
     create :group,
-                      member_in_projects: projects,
-                      member_through_role: role
+           member_in_projects: projects,
+           member_through_role: role
   end
 
   let(:user1) { create :user }
@@ -109,9 +109,9 @@ describe Groups::AddUsersService, 'integration', type: :model do
       let(:previous_project) { projects.first }
       let!(:user_member) do
         create(:member,
-                          project: previous_project,
-                          roles: [role],
-                          principal: user1)
+               project: previous_project,
+               roles: [role],
+               principal: user1)
       end
 
       it_behaves_like 'adds the users to the group and project'
@@ -139,16 +139,16 @@ describe Groups::AddUsersService, 'integration', type: :model do
       let!(:group) do
         create :group do |g|
           create(:member,
-                            project: project,
-                            principal: g,
-                            roles: roles)
+                 project: project,
+                 principal: g,
+                 roles: roles)
         end
       end
       let!(:user_member) do
         create(:member,
-                          project: project,
-                          roles: [roles.first],
-                          principal: user1)
+               project: project,
+               roles: [roles.first],
+               principal: user1)
       end
 
       it 'adds the users to the group and project' do
@@ -179,9 +179,9 @@ describe Groups::AddUsersService, 'integration', type: :model do
       let(:previous_project) { projects.first }
       let!(:user_member) do
         create(:member,
-                          project: previous_project,
-                          roles: [other_role],
-                          principal: user1)
+               project: previous_project,
+               roles: [other_role],
+               principal: user1)
       end
 
       it 'adds the users to the group and project' do
@@ -210,11 +210,11 @@ describe Groups::AddUsersService, 'integration', type: :model do
     end
 
     context 'with global role' do
-      let(:role) { FactoryBot.create :global_role }
+      let(:role) { create :global_role }
       let!(:group) do
-        FactoryBot.create :group,
-                          global_role: role,
-                          global_permission: :add_project
+        create :group,
+               global_role: role,
+               global_permission: :add_project
       end
 
       it 'adds the users to the group and their membership to the global role' do
@@ -228,20 +228,20 @@ describe Groups::AddUsersService, 'integration', type: :model do
       end
 
       context 'when one user already has a global role that the group would add' do
-        let(:global_roles) { FactoryBot.create_list(:global_role, 2) }
+        let(:global_roles) { create_list(:global_role, 2) }
         let!(:group) do
-          FactoryBot.create :group do |g|
-            FactoryBot.create(:member,
-                              project: nil,
-                              principal: g,
-                              roles: global_roles)
+          create :group do |g|
+            create(:member,
+                   project: nil,
+                   principal: g,
+                   roles: global_roles)
           end
         end
         let!(:user_membership) do
-          FactoryBot.create(:member,
-                            project: nil,
-                            roles: [global_roles.first],
-                            principal: user1)
+          create(:member,
+                 project: nil,
+                 roles: [global_roles.first],
+                 principal: user1)
         end
 
         it 'adds their membership to the global role' do
