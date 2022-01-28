@@ -28,13 +28,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Storages::Admin::ProjectsStoragesController < ApplicationController
-  layout 'admin'
+class Storages::Admin::ProjectsStoragesController < Projects::SettingsController
   before_action :find_optional_project
   before_action :authorize
 
   menu_item :settings_projects_storages
-
 
   def index
     @projects_storages = Storages::ProjectStorage.where(project: @project).includes(:storage)
@@ -44,7 +42,7 @@ class Storages::Admin::ProjectsStoragesController < ApplicationController
 
   def new
     @project_storage = Storages::ProjectStorage.new(project: @project)
-    @available_storages = Storages::Storage.where.not(storage_id: @project.projects_storages.pluck(:storage_id))
+    @available_storages = Storages::Storage.where.not(id: @project.projects_storages.pluck(:storage_id))
 
     render '/storages/project_settings/new'
   end
@@ -64,10 +62,6 @@ class Storages::Admin::ProjectsStoragesController < ApplicationController
     @project_storage.destroy
 
     redirect_to project_settings_projects_storages_path
-  end
-
-  current_menu_item %i[index new] do
-    :settings_projects_storages
   end
 
   private

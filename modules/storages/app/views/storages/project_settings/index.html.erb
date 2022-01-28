@@ -1,7 +1,7 @@
 <% html_title t(:label_administration), t("project_module_storages") %>
 
 <% if ::Storages::Storage.any? %>
-  <%= toolbar title: t("project_module_storages") do %>
+  <%= toolbar title: t("storages.page_titles.project_settings.index") do %>
 
     <li class="toolbar-item">
       <%= link_to new_project_settings_projects_storage_path,
