@@ -17,12 +17,6 @@ properties:
   name:
     type: string
     description: Storage name
-  storageType:
-    type: string
-    enum:
-      - nextcloud
-    description: |-
-      The type of the storage resource. Currently only nextcloud storages are supported.
   createdAt:
     type: string
     format: date-time
@@ -44,6 +38,13 @@ properties:
               This storage resource. Contains the user defined storage name as title.
 
               **Resource**: Storage
+      type:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The urn of the storage type. Currently only nextcloud storages are supported.
+
+              **Resource**: N/A
       origin:
         allOf:
           - $ref: './link.yml'
@@ -55,12 +56,14 @@ example:
   id: 1337
   _type: Storage
   name: It's no moon
-  storageType: nextcloud
   createdAt: '2021-12-20T13:37:00.211Z'
   updatedAt: '2021-12-20T13:37:00.211Z'
   _links:
     self:
       href: /api/v3/storages/1337
       title: It's no moon
+    type:
+      href: urn:openproject-org:api:v3:storages:nextcloud
+      title: Nextcloud
     origin:
       href: https://nextcloud.deathstar.rocks/
