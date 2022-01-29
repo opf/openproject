@@ -677,7 +677,7 @@ ru:
       relates: "Связанно с"
       duplicates: "Дубликаты"
       duplicated: "Дублируется"
-      blocks: "Блоки"
+      blocks: "Блокирует"
       blocked: "Заблокировано"
       precedes: "Предшествует"
       follows: "Следует"
@@ -716,7 +716,7 @@ ru:
       abort: "Прервать"
     relations_autocomplete:
       placeholder: "Введите для поиска"
-      parent_placeholder: "Выберите нового родителя или нажмите escape, чтобы отменить."
+      parent_placeholder: "Выберите нового родителя или нажмите кнопку \"Отменить\"."
     autocompleter:
       placeholder: "Введите для поиска"
       notFoundText: "Элементов не найдено"
