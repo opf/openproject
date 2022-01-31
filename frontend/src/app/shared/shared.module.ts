@@ -41,6 +41,7 @@ import {
   StateService,
   UIRouterModule,
 } from '@uirouter/angular';
+import { OpSpotModule } from 'core-app/spot/spot.module';
 import { CurrentUserModule } from 'core-app/core/current-user/current-user.module';
 import { IconModule } from 'core-app/shared/components/icon/icon.module';
 import { AttributeHelpTextModule } from 'core-app/shared/components/attribute-help-texts/attribute-help-text.module';
@@ -85,6 +86,7 @@ import { OpFormFieldComponent } from './components/forms/form-field/form-field.c
 import { OpFormBindingDirective } from './components/forms/form-field/form-binding.directive';
 import { OpOptionListComponent } from './components/option-list/option-list.component';
 import { OpSidemenuComponent } from './components/sidemenu/sidemenu.component';
+import { OpProjectSelectComponent } from './components/project-select/project-select.component';
 import { ViewsResourceService } from 'core-app/core/state/views/views.service';
 
 export function bootstrapModule(injector:Injector) {
@@ -117,6 +119,7 @@ export function bootstrapModule(injector:Injector) {
     CommonModule,
     // Angular Forms
     FormsModule,
+    OpSpotModule,
     // Angular CDK
     PortalModule,
     DragDropModule,
@@ -147,6 +150,8 @@ export function bootstrapModule(injector:Injector) {
     NgOptionHighlightModule,
     DynamicBootstrapModule,
     OpenprojectPrincipalRenderingModule,
+
+    OpSpotModule,
 
     DatePickerModule,
     FocusModule,
@@ -188,6 +193,7 @@ export function bootstrapModule(injector:Injector) {
     OpFormBindingDirective,
     OpOptionListComponent,
     OpSidemenuComponent,
+    OpProjectSelectComponent,
   ],
   providers: [
     StaticQueriesService,
@@ -245,6 +251,7 @@ export function bootstrapModule(injector:Injector) {
     OpFormBindingDirective,
     OpOptionListComponent,
     OpSidemenuComponent,
+    OpProjectSelectComponent,
   ],
 })
 export class OPSharedModule {
