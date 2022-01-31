@@ -32,9 +32,10 @@ require 'spec_helper'
 
 describe Notifications::GroupMemberAlteredJob, type: :model do
   subject(:service_call) do
-    described_class.new.perform(members_ids, message, send_notification)
+    described_class.new.perform(current_user, members_ids, message, send_notification)
   end
 
+  let(:current_user) { build_stubbed(:user) }
   let(:time) { Time.now }
   let(:member1) do
     build_stubbed(:member, updated_at: time, created_at: time)
@@ -71,5 +72,17 @@ describe Notifications::GroupMemberAlteredJob, type: :model do
     expect(OpenProject::Notifications)
       .to have_received(:send)
       .with(OpenProject::Events::MEMBER_UPDATED, member: member2, message: message, send_notifications: send_notification)
+  end
+
+  it 'propagates the given current user when sending notifications' do
+    notifications_called = false
+    allow(OpenProject::Notifications)
+      .to receive(:send) do |_args|
+        expect(User.current).to be(current_user)
+        notifications_called = true
+      end
+
+    service_call
+    expect(notifications_called).to be(true)
   end
 end

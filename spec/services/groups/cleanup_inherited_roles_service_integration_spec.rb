@@ -145,7 +145,8 @@ describe Groups::CleanupInheritedRolesService, 'integration', type: :model do
 
       expect(Notifications::GroupMemberAlteredJob)
         .to have_received(:perform_later)
-        .with([first_user_member.id],
+        .with(current_user,
+              [first_user_member.id],
               message,
               true)
     end
@@ -187,7 +188,8 @@ describe Groups::CleanupInheritedRolesService, 'integration', type: :model do
 
       expect(Notifications::GroupMemberAlteredJob)
         .to have_received(:perform_later)
-        .with([first_user_member.id],
+        .with(current_user,
+              [first_user_member.id],
               message,
               true)
     end

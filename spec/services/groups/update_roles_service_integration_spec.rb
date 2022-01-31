@@ -82,7 +82,8 @@ describe Groups::UpdateRolesService, 'integration', type: :model do
 
       expect(Notifications::GroupMemberAlteredJob)
         .to have_received(:perform_later)
-        .with(a_collection_containing_exactly(*Member.where(principal: user).pluck(:id)),
+        .with(current_user,
+              a_collection_containing_exactly(*Member.where(principal: user).pluck(:id)),
               message,
               true)
     end
