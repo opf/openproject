@@ -324,6 +324,8 @@ paths:
     "$ref": "./paths/status.yml"
   "/api/v3/storages/{id}":
     "$ref": "./paths/storage.yml"
+  "/api/v3/storages/{id}/linkable_work_packages":
+    "$ref": "./paths/storage_linkable_work_packages.yml"
   "/api/v3/time_entries":
     "$ref": "./paths/time_entries.yml"
   "/api/v3/time_entries/{id}/form":
@@ -751,16 +753,8 @@ components:
       "$ref": "./components/schemas/wiki_page_model.yml"
     Work_PackageModel:
       "$ref": "./components/schemas/work_package_model.yml"
-    Work_Package_Create_Form:
-      "$ref": "./components/schemas/work_package_create_form.yml"
-    Work_Package_Create_Form_For_Project:
-      "$ref": "./components/schemas/work_package_create_form_for_project.yml"
-    Work_Package_Edit_Form:
-      "$ref": "./components/schemas/work_package_edit_form.yml"
     Work_Package_Relation_FormModel:
       "$ref": "./components/schemas/work_package_relation_form_model.yml"
-    Work_Package_Schema:
-      "$ref": "./components/schemas/work_package_schema.yml"
     Work_Package_SchemasModel:
       "$ref": "./components/schemas/work_package_schemas_model.yml"
     Work_Package_activitiesModel:

@@ -2,9 +2,8 @@
 ---
 type: object
 required:
-  - id
-  - _type
   - originData
+  - _links
 properties:
   id:
     type: integer
@@ -41,16 +40,6 @@ properties:
           - $ref: '#/components/schemas/Work_PackageModel'
   _links:
     type: object
-    required:
-      - self
-      - storage
-      - container
-      - creator
-      - delete
-      - downloadLocation
-      - staticDownloadLocation
-      - originOpen
-      - staticOriginOpen
     properties:
       self:
         allOf:

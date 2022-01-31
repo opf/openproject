@@ -47,13 +47,6 @@ post:
                   items:
                     allOf:
                       - $ref: '#/components/schemas/File_LinkModel'
-                      - type: object
-                        required:
-                          - storageUrl
-                        properties:
-                          storageUrl:
-                            type: string
-                            format: uri
         example:
           _type: Collection
           _embedded:
@@ -69,7 +62,6 @@ post:
                 _links:
                   storageUrl:
                     href: https://nextcloud.deathstar.rocks/
-          
   responses:
     '201':
       description: Created
@@ -148,8 +140,6 @@ get:
     - File links
   description: |-
     Gets all file links of a work package.
-
-    The request can be filtered for the storage types and ids.
   parameters:
     - name: id
       description: Work package id

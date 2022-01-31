@@ -1,0 +1,40 @@
+# /api/v3/storages/{id}/linkable_work_packages
+---
+get:
+  summary: Gets a list of linkable work packages for the storage.
+  operationId: Get_Linkable_WorkPackages_For_Storage
+  tags:
+    - File links
+  description: |-
+    Returns a list of work packages, that can be linked to the given storage resource.
+
+    The request can be filtered like the list endpoint for work packages. See documentation of
+    `GET /api/v3/work_packages`.
+  parameters:
+    - name: id
+      description: Storage id
+      in: path
+      required: true
+      schema:
+        type: integer
+      example: 1337
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: '#/components/schemas/Work_PackagesModel'
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+            message: The requested resource could not be found.
+      description: |-
+        Returned if the storage does not exist or the client does not have sufficient permissions to see it.
+
+        **Required permission:** view file links

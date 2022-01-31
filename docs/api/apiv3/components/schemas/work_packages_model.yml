@@ -1,6 +1,43 @@
 # Schema: Work_PackagesModel
 ---
 type: object
+required:
+  - _embedded
+  - _type
+properties:
+  _type:
+    type: string
+    enum:
+      - Collection
+  count:
+    type: integer
+    minimum: 0
+  total:
+    type: integer
+    minimum: 0
+  _links:
+    type: object
+    required:
+      - self
+    properties:
+      self:
+        allOf:
+          - "$ref": "./link.yml"
+          - description: |-
+              This collection
+  
+              **Resource**: N/A
+            readOnly: true
+  _embedded:
+    type: object
+    required:
+      - elements
+    properties:
+      elements:
+        type: array
+        items:
+          $ref: '#/components/schemas/Work_PackageModel'
+
 example:
   _links:
     self:
@@ -10,15 +47,17 @@ example:
   _type: Collection
   _embedded:
     elements:
-    - _type: WorkPackage
-      _links:
-        self:
-          href: "/api/v3/work_packages/1"
-      id: 1
-      subject: Skipped other properties for brevity
-    - _type: WorkPackage
-      _links:
-        self:
-          href: "/api/v3/work_packages/2"
-      id: 2
-      subject: Skipped other properties for brevity
+      - _hint: Work package resource shortened for brevity
+        _type: WorkPackage
+        _links:
+          self:
+            href: "/api/v3/work_packages/1"
+        id: 1
+        subject: Skipped other properties for brevity
+      - _hint: Work package resource shortened for brevity
+        _type: WorkPackage
+        _links:
+          self:
+            href: "/api/v3/work_packages/2"
+        id: 2
+        subject: Skipped other properties for brevity
