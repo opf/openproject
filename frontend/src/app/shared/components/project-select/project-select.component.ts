@@ -3,6 +3,11 @@ import {
   ChangeDetectionStrategy,
   Component,
 } from '@angular/core';
+import {
+  FormGroup,
+  FormArray,
+  FormControl,
+} from '@angular/forms';
 import { ProjectsResourceService } from 'core-app/core/state/projects/projects.service';
 
 @Component({
@@ -13,9 +18,16 @@ import { ProjectsResourceService } from 'core-app/core/state/projects/projects.s
 })
 export class OpProjectSelectComponent {
   public open = false;
-  public searchText = '';
-  public includeSubProjects = false;
-  public selectedProjects:string[] = [];
+  public form = new FormGroup({
+    query: new FormControl(''),
+    includeSubProjects: new FormControl(false),
+    selectedProjects: new FormArray([]),
+  });
+
+  public get queryControl() { return this.form.get('query'); }
+  public get query() { return this.queryControl?.value; }
+  public get includeSubProjectsControl() { return this.form.get('includeSubProjectsControl'); }
+  public get selectedProjectsControl() { return this.form.get('selectedProjectsControl'); }
 
   constructor(
     readonly I18n:I18nService,
@@ -23,7 +35,16 @@ export class OpProjectSelectComponent {
   ) { }
 
   public searchProjects() {
-    console.log(this.searchText);
+    console.log(this.query);
+    if (!this.query) {
+      return;
+    }
+
+    this.projectsResourceService
+      .search(this.query)
+      .subscribe((projects) => {
+        console.log(projects);
+      });
   }
   public clearSelection() {}
   public save() {}
