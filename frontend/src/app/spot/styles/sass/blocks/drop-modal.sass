@@ -3,6 +3,8 @@
   display: inline-flex
 
   &--body
+    @include spot-z-index("drop-modal")
+
     box-shadow: $spot-shadow-light-mid
     position: absolute
     background: $spot-color-basic-white
@@ -35,6 +37,16 @@
     &_top-right
       bottom: 100%
       right: 0%
+
+    > .spot-text-field,
+    > .spot-list
+      margin: $spot-spacing-0_5
+
+      &:first-child
+        margin-top: $spot-spacing-1
+
+      &:last-child
+        margin-bottom: $spot-spacing-1
 
   &_opened &--body
     display: flex
