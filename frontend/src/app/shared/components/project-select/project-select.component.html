@@ -12,13 +12,12 @@
 
   <ng-container slot="body">
     <form
-      (submit)="save"
+      [formGroup]="form"
+      (ngSubmit)="onSubmit($event)"
     >
       <spot-text-field
         placeholder="Search project..."
-        [(ngModel)]="searchText"
-        [ngModelOptions]="{ standalone: true }"
-        (input)="searchProjects()"
+        formControlName="query"
       >
         <span
           slot="before"
@@ -38,10 +37,7 @@
       <div class="spot-action-bar">
         <div class="spot-action-bar--left">
           <label>
-            <spot-checkbox
-              [(ngModel)]="includeSubProjects"
-              [ngModelOptions]="{ standalone: true }"
-            ></spot-checkbox>
+            <spot-checkbox formControlName="includeSubProjects"></spot-checkbox>
             <div class="spot-list--item-title">Include all sub-projects</div>
           </label>
         </div>

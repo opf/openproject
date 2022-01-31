@@ -85,4 +85,16 @@ export class ProjectsResourceService {
       }
     ));
   }
+
+  search(query:string) {
+    return this.fetchProjects({
+      filters: [
+        [
+          'name_and_identifier',
+          '~',
+          [query],
+        ],
+      ],
+    });
+  }
 }
