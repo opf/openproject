@@ -75,14 +75,13 @@ describe Notifications::GroupMemberAlteredJob, type: :model do
   end
 
   it 'propagates the given current user when sending notifications' do
-    notifications_called = false
+    captured_current_user = nil
     allow(OpenProject::Notifications)
       .to receive(:send) do |_args|
-        expect(User.current).to be(current_user)
-        notifications_called = true
+        captured_current_user = User.current
       end
 
     service_call
-    expect(notifications_called).to be(true)
+    expect(captured_current_user).to be(current_user)
   end
 end
