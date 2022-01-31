@@ -6,33 +6,33 @@ describe 'Create BCF',
          with_config: { edition: 'bim' },
          with_mail: false do
   let(:project) do
-    FactoryBot.create(:project,
+    create(:project,
                       types: [type, type_with_cf],
                       enabled_module_names: %i[bim work_package_tracking],
                       work_package_custom_fields: [integer_cf])
   end
   let(:index_page) { Pages::IfcModels::ShowDefault.new(project) }
   let(:permissions) { %i[view_ifc_models view_linked_issues manage_bcf add_work_packages edit_work_packages view_work_packages] }
-  let!(:status) { FactoryBot.create(:default_status) }
-  let!(:priority) { FactoryBot.create :priority, is_default: true }
+  let!(:status) { create(:default_status) }
+  let!(:priority) { create :priority, is_default: true }
 
   let(:user) do
-    FactoryBot.create :user,
+    create :user,
                       member_in_project: project,
                       member_with_permissions: permissions
   end
 
   let!(:model) do
-    FactoryBot.create(:ifc_model_minimal_converted,
+    create(:ifc_model_minimal_converted,
                       project: project,
                       uploader: user)
   end
-  let(:type) { FactoryBot.create(:type) }
+  let(:type) { create(:type) }
   let(:type_with_cf) do
-    FactoryBot.create(:type, custom_fields: [integer_cf])
+    create(:type, custom_fields: [integer_cf])
   end
   let(:integer_cf) do
-    FactoryBot.create(:int_wp_custom_field)
+    create(:int_wp_custom_field)
   end
 
   shared_examples 'bcf details creation' do |with_viewpoints|
@@ -142,7 +142,7 @@ describe 'Create BCF',
     end
 
     context 'when starting on the details page of an existing work package' do
-      let(:work_package) { FactoryBot.create :work_package, project: project }
+      let(:work_package) { create :work_package, project: project }
 
       before do
         visit bcf_project_frontend_path(project, "details/#{work_package.id}")

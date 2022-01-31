@@ -30,58 +30,58 @@ require 'spec_helper'
 
 describe SearchController, type: :controller do
   shared_let(:project) do
-    FactoryBot.create(:project,
+    create(:project,
                       name: 'eCookbook')
   end
 
   shared_let(:other_project) do
-    FactoryBot.create(:project,
+    create(:project,
                       name: 'Other project')
   end
 
   shared_let(:subproject) do
-    FactoryBot.create(:project,
+    create(:project,
                       name: 'Child project',
                       parent: project)
   end
 
   shared_let(:role) do
-    FactoryBot.create(:role, permissions: %i[view_wiki_pages view_work_packages])
+    create(:role, permissions: %i[view_wiki_pages view_work_packages])
   end
 
   shared_let(:user) do
-    FactoryBot.create(:user,
+    create(:user,
                       member_in_projects: [project, subproject],
                       member_through_role: role)
   end
 
   shared_let(:wiki_page) do
-    FactoryBot.create(:wiki_page,
+    create(:wiki_page,
                       title: "How to solve an issue",
                       wiki: project.wiki)
   end
 
   shared_let(:work_package_1) do
-    FactoryBot.create(:work_package,
+    create(:work_package,
                       subject: 'This is a test issue',
                       project: project)
   end
 
   shared_let(:work_package_2) do
-    FactoryBot.create(:work_package,
+    create(:work_package,
                       subject: 'Issue test 2',
                       project: project,
-                      status: FactoryBot.create(:closed_status))
+                      status: create(:closed_status))
   end
 
   shared_let(:work_package_3) do
-    FactoryBot.create(:work_package,
+    create(:work_package,
                       subject: 'Issue test 3',
                       project: subproject)
   end
 
   shared_let(:work_package_4) do
-    FactoryBot.create(:work_package,
+    create(:work_package,
                       subject: 'Issue test 4',
                       project: other_project)
   end
@@ -182,7 +182,7 @@ describe SearchController, type: :controller do
 
     context 'when searching for a note' do
       let!(:note_1) do
-        FactoryBot.create :work_package_journal,
+        create :work_package_journal,
                           journable_id: work_package_1.id,
                           notes: 'Test note 1',
                           version: 2
@@ -191,7 +191,7 @@ describe SearchController, type: :controller do
       before { allow_any_instance_of(Journal).to receive_messages(predecessor: note_1) }
 
       let!(:note_2) do
-        FactoryBot.create :work_package_journal,
+        create :work_package_journal,
                           journable_id: work_package_1.id,
                           notes: 'Special note 2',
                           version: 3

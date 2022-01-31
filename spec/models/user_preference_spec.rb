@@ -30,14 +30,14 @@ require 'spec_helper'
 
 describe UserPreference do
   subject(:preference) do
-    FactoryBot.build(:user_preference,
+    build(:user_preference,
                      user: user,
                      settings: settings)
   end
 
   let(:settings) { {} }
 
-  let(:user) { FactoryBot.build_stubbed(:user) }
+  let(:user) { build_stubbed(:user) }
 
   shared_examples 'accepts real and false booleans' do |setter, getter|
     it 'accepts true boolean' do
@@ -187,7 +187,7 @@ describe UserPreference do
   end
 
   describe '[]=' do
-    let(:user) { FactoryBot.create(:user) }
+    let(:user) { create(:user) }
 
     it 'will save the values on sending "save"' do
       subject.save

@@ -30,15 +30,15 @@ require 'spec_helper'
 
 describe WorkPackages::BaseContract do
   let(:work_package) do
-    FactoryBot.build_stubbed(:stubbed_work_package,
+    build_stubbed(:stubbed_work_package,
                              type: type,
                              done_ratio: 50,
                              estimated_hours: 6.0,
                              project: project)
   end
-  let(:type) { FactoryBot.build_stubbed(:type) }
+  let(:type) { build_stubbed(:type) }
   let(:member) do
-    u = FactoryBot.build_stubbed(:user)
+    u = build_stubbed(:user)
 
     allow(u)
       .to receive(:allowed_to?)
@@ -53,7 +53,7 @@ describe WorkPackages::BaseContract do
 
     u
   end
-  let(:project) { FactoryBot.build_stubbed(:project) }
+  let(:project) { build_stubbed(:project) }
   let(:current_user) { member }
   let!(:assignable_assignees_scope) do
     scope = double 'assignable assignees scope'
@@ -186,7 +186,7 @@ describe WorkPackages::BaseContract do
 
     context 'work_package has a closed version and status' do
       before do
-        version = FactoryBot.build_stubbed(:version, status: 'closed')
+        version = build_stubbed(:version, status: 'closed')
 
         work_package.version = version
         allow(work_package.status)
@@ -225,9 +225,9 @@ describe WorkPackages::BaseContract do
     end
 
     context 'transitions' do
-      let(:roles) { [FactoryBot.build_stubbed(:role)] }
+      let(:roles) { [build_stubbed(:role)] }
       let(:valid_transition_result) { true }
-      let(:new_status) { FactoryBot.build_stubbed(:status) }
+      let(:new_status) { build_stubbed(:status) }
       let(:from_id) { work_package.status_id }
       let(:to_id) { new_status.id }
       let(:status_change) { work_package.status = new_status }
@@ -291,7 +291,7 @@ describe WorkPackages::BaseContract do
         let(:valid_transition_result) { false }
         let(:status_change) do
           work_package.status = new_status
-          work_package.type = FactoryBot.build_stubbed(:type)
+          work_package.type = build_stubbed(:type)
         end
 
         it 'is valid' do
@@ -426,7 +426,7 @@ describe WorkPackages::BaseContract do
 
       before do
         work_package.schedule_manually = schedule_manually
-        work_package.parent = FactoryBot.build_stubbed(:work_package)
+        work_package.parent = build_stubbed(:work_package)
         allow(work_package)
           .to receive(:soonest_start)
           .and_return(Date.today + 4.days)
@@ -501,8 +501,8 @@ describe WorkPackages::BaseContract do
   describe 'version' do
     subject(:contract) { described_class.new(work_package, current_user) }
 
-    let(:assignable_version) { FactoryBot.build_stubbed(:version) }
-    let(:invalid_version) { FactoryBot.build_stubbed(:version) }
+    let(:assignable_version) { build_stubbed(:version) }
+    let(:invalid_version) { build_stubbed(:version) }
 
     before do
       allow(work_package)
@@ -533,7 +533,7 @@ describe WorkPackages::BaseContract do
     end
 
     context 'for a closed version' do
-      let(:assignable_version) { FactoryBot.build_stubbed(:version, status: 'closed') }
+      let(:assignable_version) { build_stubbed(:version, status: 'closed') }
 
       context 'when reopening a work package' do
         before do
@@ -564,8 +564,8 @@ describe WorkPackages::BaseContract do
   end
 
   describe 'parent' do
-    let(:child) { FactoryBot.build_stubbed(:stubbed_work_package) }
-    let(:parent) { FactoryBot.build_stubbed(:stubbed_work_package) }
+    let(:child) { build_stubbed(:stubbed_work_package) }
+    let(:parent) { build_stubbed(:stubbed_work_package) }
 
     before do
       work_package.parent = parent
@@ -639,7 +639,7 @@ describe WorkPackages::BaseContract do
       end
 
       describe 'changing the type' do
-        let(:other_type) { FactoryBot.build_stubbed(:type) }
+        let(:other_type) { build_stubbed(:type) }
 
         it 'is invalid' do
           work_package.type = other_type
@@ -652,7 +652,7 @@ describe WorkPackages::BaseContract do
       end
 
       describe 'changing the project (and that one not having the type)' do
-        let(:other_project) { FactoryBot.build_stubbed(:project) }
+        let(:other_project) { build_stubbed(:project) }
 
         it 'is invalid' do
           work_package.project = other_project
@@ -695,7 +695,7 @@ describe WorkPackages::BaseContract do
   end
 
   describe 'category' do
-    let(:category) { FactoryBot.build_stubbed(:category) }
+    let(:category) { build_stubbed(:category) }
 
     context "one of the project's categories" do
       before do
@@ -759,8 +759,8 @@ describe WorkPackages::BaseContract do
   end
 
   describe 'priority' do
-    let (:active_priority) { FactoryBot.build_stubbed(:priority) }
-    let (:inactive_priority) { FactoryBot.build_stubbed(:priority, active: false) }
+    let (:active_priority) { build_stubbed(:priority) }
+    let (:inactive_priority) { build_stubbed(:priority, active: false) }
 
     context 'active priority' do
       before do
@@ -817,14 +817,14 @@ describe WorkPackages::BaseContract do
   end
 
   describe '#assignable_statuses' do
-    let(:role) { FactoryBot.build_stubbed(:role) }
-    let(:type) { FactoryBot.build_stubbed(:type) }
-    let(:assignee_user) { FactoryBot.build_stubbed(:user) }
-    let(:author_user) { FactoryBot.build_stubbed(:user) }
-    let(:current_status) { FactoryBot.build_stubbed(:status) }
-    let(:version) { FactoryBot.build_stubbed(:version) }
+    let(:role) { build_stubbed(:role) }
+    let(:type) { build_stubbed(:type) }
+    let(:assignee_user) { build_stubbed(:user) }
+    let(:author_user) { build_stubbed(:user) }
+    let(:current_status) { build_stubbed(:status) }
+    let(:version) { build_stubbed(:version) }
     let(:work_package) do
-      FactoryBot.build_stubbed(:work_package,
+      build_stubbed(:work_package,
                                assigned_to: assignee_user,
                                author: author_user,
                                status: current_status,
@@ -832,7 +832,7 @@ describe WorkPackages::BaseContract do
                                type: type)
     end
     let!(:default_status) do
-      status = FactoryBot.build_stubbed(:status)
+      status = build_stubbed(:status)
 
       allow(Status)
         .to receive(:default)
@@ -877,8 +877,8 @@ describe WorkPackages::BaseContract do
       end
 
       context 'if the current status is closed and the version is closed as well' do
-        let(:version) { FactoryBot.build_stubbed(:version, status: 'closed') }
-        let(:current_status) { FactoryBot.build_stubbed(:status, is_closed: true) }
+        let(:version) { build_stubbed(:version, status: 'closed') }
+        let(:current_status) { build_stubbed(:status, is_closed: true) }
 
         it 'only allows the current status' do
           expect(contract.assignable_statuses.to_sql)
@@ -925,7 +925,7 @@ describe WorkPackages::BaseContract do
     end
 
     context 'with the status having changed' do
-      let(:new_status) { FactoryBot.build_stubbed(:status) }
+      let(:new_status) { build_stubbed(:status) }
 
       before do
         allow(work_package).to receive(:persisted?).and_return(true)
@@ -992,8 +992,8 @@ describe WorkPackages::BaseContract do
   end
 
   describe '#assignable_priorities' do
-    let(:active_priority) { FactoryBot.build(:priority, active: true) }
-    let(:inactive_priority) { FactoryBot.build(:priority, active: false) }
+    let(:active_priority) { build(:priority, active: true) }
+    let(:inactive_priority) { build(:priority, active: false) }
 
     before do
       active_priority.save!

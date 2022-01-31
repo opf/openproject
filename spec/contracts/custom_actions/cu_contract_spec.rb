@@ -34,9 +34,9 @@ require 'contracts/shared/model_contract_shared_context'
 describe CustomActions::CuContract do
   include_context 'ModelContract shared context'
   
-  let(:user) { FactoryBot.build_stubbed(:user) }
+  let(:user) { build_stubbed(:user) }
   let(:action) do
-    FactoryBot.build_stubbed(:custom_action, actions:
+    build_stubbed(:custom_action, actions:
                               [CustomActions::Actions::AssignedTo.new])
   end
   let(:contract) { described_class.new(action) }

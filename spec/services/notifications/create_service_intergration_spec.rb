@@ -29,19 +29,19 @@
 require 'spec_helper'
 
 describe Notifications::CreateService, 'integration', type: :model do
-  let(:work_package) { FactoryBot.create(:work_package) }
+  let(:work_package) { create(:work_package) }
   let(:project) { work_package.project }
   let(:journal) { work_package.journals.first }
   let(:instance) { described_class.new(user: actor) }
   let(:attributes) { {} }
   let(:actor) { current_user }
-  let(:recipient) { FactoryBot.create(:user) }
+  let(:recipient) { create(:user) }
   let(:service_result) do
     instance
       .call(**attributes)
   end
 
-  current_user { FactoryBot.create(:user) }
+  current_user { create(:user) }
 
   describe '#call' do
     let(:attributes) do

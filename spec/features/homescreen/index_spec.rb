@@ -29,8 +29,8 @@
 require 'spec_helper'
 
 describe 'Homescreen index', type: :feature do
-  let!(:user) { FactoryBot.build_stubbed(:user) }
-  let!(:project) { FactoryBot.create(:public_project, identifier: 'public-project') }
+  let!(:user) { build_stubbed(:user) }
+  let!(:project) { create(:public_project, identifier: 'public-project') }
 
   before do
     login_as user

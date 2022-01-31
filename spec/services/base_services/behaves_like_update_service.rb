@@ -39,7 +39,7 @@ shared_examples 'BaseServices update service' do
 
   let(:set_attributes_class) { "#{namespace}::SetAttributesService".constantize }
 
-  let(:user) { FactoryBot.build_stubbed(:user) }
+  let(:user) { build_stubbed(:user) }
   let(:contract_class) do
     double('contract_class', '<=': true)
   end
@@ -60,7 +60,7 @@ shared_examples 'BaseServices update service' do
                       success: set_attributes_success,
                       errors: set_attributes_errors
   end
-  let!(:model_instance) { FactoryBot.build_stubbed(factory) }
+  let!(:model_instance) { build_stubbed(factory) }
   let!(:set_attributes_service) do
     service = double('set_attributes_service_instance')
 

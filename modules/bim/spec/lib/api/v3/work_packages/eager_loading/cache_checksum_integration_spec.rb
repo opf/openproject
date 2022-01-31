@@ -33,11 +33,11 @@ require Rails.root + 'spec/lib/api/v3/work_packages/eager_loading/eager_loading_
 
 describe ::API::V3::WorkPackages::EagerLoading::Checksum do
   let!(:bcf_issue) do
-    FactoryBot.create(:bcf_issue,
+    create(:bcf_issue,
                       work_package: work_package)
   end
   let!(:work_package) do
-    FactoryBot.create(:work_package)
+    create(:work_package)
   end
 
   describe '.apply' do
@@ -57,7 +57,7 @@ describe ::API::V3::WorkPackages::EagerLoading::Checksum do
 
     it 'produces a different checksum on changes to the bcf issue id' do
       bcf_issue.delete
-      FactoryBot.create(:bcf_issue,
+      create(:bcf_issue,
                         work_package: work_package)
 
       expect(new_checksum)

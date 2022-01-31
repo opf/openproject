@@ -202,7 +202,7 @@ RSpec/ContextWording:
     - for
 
 RSpec/FactoryBot/SyntaxMethods:
-  Enabled: false
+  Enabled: true
 
 Style/Alias:
   Enabled: false

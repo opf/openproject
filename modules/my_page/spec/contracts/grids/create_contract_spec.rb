@@ -39,7 +39,7 @@ describe Grids::CreateContract do
 
   describe 'user_id' do
     context 'for a Grids::MyPage' do
-      let(:grid) { FactoryBot.build_stubbed(:my_page, default_values) }
+      let(:grid) { build_stubbed(:my_page, default_values) }
 
       it_behaves_like 'is writable' do
         let(:attribute) { :user_id }
@@ -50,7 +50,7 @@ describe Grids::CreateContract do
 
   describe 'project_id' do
     context 'for a Grids::MyPage' do
-      let(:grid) { FactoryBot.build_stubbed(:my_page, default_values) }
+      let(:grid) { build_stubbed(:my_page, default_values) }
 
       it_behaves_like 'is not writable' do
         let(:attribute) { :project_id }

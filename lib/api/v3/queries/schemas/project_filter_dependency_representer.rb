@@ -38,7 +38,7 @@ module API
             params = [active: { operator: '=', values: ['t'] }]
             escaped = CGI.escape(::JSON.dump(params))
 
-            "#{api_v3_paths.projects}?filters=#{escaped}"
+            "#{api_v3_paths.projects}?filters=#{escaped}&pageSize=-1"
           end
 
           def type

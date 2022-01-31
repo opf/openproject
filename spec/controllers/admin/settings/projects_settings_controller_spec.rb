@@ -34,7 +34,7 @@ describe Admin::Settings::ProjectsSettingsController, type: :controller do
     allow(@controller).to receive(:set_localization)
     @params = {}
 
-    @user = FactoryBot.create(:admin)
+    @user = create(:admin)
     allow(User).to receive(:current).and_return @user
   end
 

@@ -33,8 +33,8 @@ describe 'API v3 UserLock resource', type: :request, content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:current_user) { FactoryBot.build_stubbed(:user) }
-  let(:user) { FactoryBot.create(:user, status: User.statuses[:active]) }
+  let(:current_user) { build_stubbed(:user) }
+  let(:user) { create(:user, status: User.statuses[:active]) }
   let(:model) { ::API::V3::Users::UserModel.new(user) }
   let(:representer) { ::API::V3::Users::UserRepresenter.new(model) }
   let(:lock_path) { api_v3_paths.user_lock user.id }
@@ -50,7 +50,7 @@ describe 'API v3 UserLock resource', type: :request, content_type: :json do
 
     # Locking is only available for admins
     context 'when logged in as admin' do
-      let(:current_user) { FactoryBot.build_stubbed(:admin) }
+      let(:current_user) { build_stubbed(:admin) }
 
       context 'user account can be locked' do
         it 'should respond with 200' do
@@ -64,7 +64,7 @@ describe 'API v3 UserLock resource', type: :request, content_type: :json do
 
       context 'user account is incompatible' do
         let(:user) do
-          FactoryBot.create(:user, status: User.statuses[:registered])
+          create(:user, status: User.statuses[:registered])
         end
         it 'should fail for invalid transitions' do
           expect(subject.status).to eq(400)
@@ -94,7 +94,7 @@ describe 'API v3 UserLock resource', type: :request, content_type: :json do
 
     # Unlocking is only available for admins
     context 'when logged in as admin' do
-      let(:current_user) { FactoryBot.build_stubbed(:admin) }
+      let(:current_user) { build_stubbed(:admin) }
 
       context 'user account can be unlocked' do
         it 'should respond with 200' do
@@ -108,7 +108,7 @@ describe 'API v3 UserLock resource', type: :request, content_type: :json do
 
       context 'user account is incompatible' do
         let(:user) do
-          FactoryBot.create(:user, status: User.statuses[:registered])
+          create(:user, status: User.statuses[:registered])
         end
         it 'should fail for invalid transitions' do
           expect(subject.status).to eq(400)

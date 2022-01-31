@@ -29,8 +29,8 @@
 require 'spec_helper'
 
 describe 'Editing a new wiki page', type: :feature, js: true do
-  let(:project) { FactoryBot.create(:project, enabled_module_names: %w[wiki]) }
-  let(:user) { FactoryBot.create :admin }
+  let(:project) { create(:project, enabled_module_names: %w[wiki]) }
+  let(:user) { create :admin }
 
   before do
     login_as(user)

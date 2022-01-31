@@ -42,7 +42,7 @@ describe Bim::IfcModels::CreateContract do
       end
     end
     let(:permissions) { %i(manage_ifc_models) }
-    let(:other_user) { FactoryBot.build_stubbed(:user) }
+    let(:other_user) { build_stubbed(:user) }
 
     subject(:contract) do
       described_class.new(ifc_model, current_user, options: {})

@@ -38,20 +38,20 @@ describe Notifications::WorkflowJob, type: :model do
   let(:send_notification) { true }
 
   let(:notifications) do
-    [FactoryBot.build_stubbed(:notification, reason: :assigned),
+    [build_stubbed(:notification, reason: :assigned),
      mentioned_notification,
-     FactoryBot.build_stubbed(:notification, reason: :watched)]
+     build_stubbed(:notification, reason: :watched)]
   end
 
   let(:mentioned_notification) do
-    FactoryBot.build_stubbed(:notification, reason: :mentioned)
+    build_stubbed(:notification, reason: :mentioned)
   end
 
   describe '#perform' do
     context 'with the :create_notifications state' do
       let(:state) { :create_notifications }
       let(:arguments) { [resource, send_notification] }
-      let(:resource) { FactoryBot.build_stubbed(:comment) }
+      let(:resource) { build_stubbed(:comment) }
 
       let!(:create_service) do
         service_instance = instance_double(Notifications::CreateFromModelService)

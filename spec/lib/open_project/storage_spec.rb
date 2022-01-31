@@ -59,7 +59,7 @@ describe OpenProject::Storage do
       end
 
       it 'should contain one fs entry' do
-        expect(File.exists?(tmpdir)).to be true
+        expect(File.exist?(tmpdir)).to be true
         expect(subject.length).to be == 1
 
         entry = subject.values.first

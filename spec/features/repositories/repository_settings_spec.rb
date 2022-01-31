@@ -31,8 +31,8 @@ require 'features/repositories/repository_settings_page'
 require 'features/support/components/danger_zone'
 
 describe 'Repository Settings', type: :feature, js: true do
-  let(:current_user) { FactoryBot.create (:admin) }
-  let(:project) { FactoryBot.create(:project) }
+  let(:current_user) { create (:admin) }
+  let(:project) { create(:project) }
   let(:settings_page) { RepositorySettingsPage.new(project) }
   let(:dangerzone) { DangerZone.new(page) }
 
@@ -105,7 +105,7 @@ describe 'Repository Settings', type: :feature, js: true do
 
   shared_examples 'manages the repository with' do |name, type, _repository_type, _project_name|
     let(:repository) do
-      FactoryBot.create("repository_#{name}".to_sym,
+      create("repository_#{name}".to_sym,
                         scm_type: type,
                         project: project)
     end
@@ -179,7 +179,7 @@ describe 'Repository Settings', type: :feature, js: true do
 
   describe 'update repositories' do
     let(:repository) do
-      FactoryBot.create(:repository_subversion,
+      create(:repository_subversion,
                         scm_type: :existing,
                         project: project)
     end

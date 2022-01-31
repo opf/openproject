@@ -32,7 +32,7 @@ require_relative './../support/onboarding_steps'
 describe 'boards onboarding tour', js: true do
   let(:next_button) { find('.enjoyhint_next_btn') }
   let(:user) do
-    FactoryBot.create :admin,
+    create :admin,
                       member_in_project: demo_project,
                       member_through_role: role
   end
@@ -46,28 +46,28 @@ describe 'boards onboarding tour', js: true do
       manage_public_queries
     ]
   end
-  let(:role) { FactoryBot.create(:role, permissions: permissions) }
+  let(:role) { create(:role, permissions: permissions) }
 
   let(:demo_project) do
-    FactoryBot.create :project,
+    create :project,
                       name: 'Demo project',
                       identifier: 'demo-project',
                       public: true,
                       enabled_module_names: %w[work_package_tracking wiki board_view]
   end
   let(:scrum_project) do
-    FactoryBot.create :project,
+    create :project,
                       name: 'Scrum project',
                       identifier: 'your-scrum-project',
                       public: true,
                       enabled_module_names: %w[work_package_tracking wiki board_view]
   end
-  let!(:wp_1) { FactoryBot.create(:work_package, project: demo_project) }
-  let!(:wp_2) { FactoryBot.create(:work_package, project: scrum_project) }
+  let!(:wp_1) { create(:work_package, project: demo_project) }
+  let!(:wp_2) { create(:work_package, project: scrum_project) }
 
-  let!(:demo_board_view) { FactoryBot.create :board_grid_with_query, project: demo_project, name: 'Kanban', query: query }
-  let!(:scrum_board_view) { FactoryBot.create :board_grid_with_query, project: scrum_project, name: 'Kanban', query: query }
-  let(:query) { FactoryBot.create :query, user: user, project: demo_project }
+  let!(:demo_board_view) { create :board_grid_with_query, project: demo_project, name: 'Kanban', query: query }
+  let!(:scrum_board_view) { create :board_grid_with_query, project: scrum_project, name: 'Kanban', query: query }
+  let(:query) { create :query, user: user, project: demo_project }
 
   before do
     with_enterprise_token :board_view

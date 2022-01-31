@@ -30,8 +30,8 @@
 require 'spec_helper'
 
 describe WikiRedirect, type: :model do
-  let(:wiki) { FactoryBot.create(:wiki) }
-  let(:wiki_page) { FactoryBot.create(:wiki_page, wiki: wiki, title: 'Original title') }
+  let(:wiki) { create(:wiki) }
+  let(:wiki_page) { create(:wiki_page, wiki: wiki, title: 'Original title') }
 
   context 'when renaming the page' do
     before do

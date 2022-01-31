@@ -30,17 +30,17 @@ require 'spec_helper'
 
 describe WorkPackage, 'derived dates', type: :model do
   let(:work_package) do
-    FactoryBot.create(:work_package)
+    create(:work_package)
   end
   let(:child_work_package) do
-    FactoryBot.create(:work_package,
+    create(:work_package,
                       project: work_package.project,
                       start_date: child_start_date,
                       due_date: child_due_date,
                       parent: work_package)
   end
   let(:child_work_package_in_other_project) do
-    FactoryBot.create(:work_package,
+    create(:work_package,
                       start_date: other_child_start_date,
                       due_date: other_child_due_date,
                       parent: work_package)
@@ -53,11 +53,11 @@ describe WorkPackage, 'derived dates', type: :model do
   let(:work_packages) { [work_package, child_work_package, child_work_package_in_other_project] }
 
   let(:role) do
-    FactoryBot.build(:role,
+    build(:role,
                      permissions: %i[view_work_packages])
   end
   let(:user) do
-    FactoryBot.create(:user,
+    create(:user,
                      member_in_project: work_package.project,
                      member_through_role: role)
   end

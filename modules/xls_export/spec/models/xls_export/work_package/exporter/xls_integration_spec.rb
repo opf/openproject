@@ -2,13 +2,13 @@ require 'spec_helper'
 require 'spreadsheet'
 
 describe XlsExport::WorkPackage::Exporter::XLS do
-  let(:project) { FactoryBot.create :project }
+  let(:project) { create :project }
 
-  let(:current_user) { FactoryBot.create :admin }
+  let(:current_user) { create :admin }
 
   let(:column_names) { %w[type id subject status assigned_to priority] }
   let(:query) do
-    query = FactoryBot.build(:query, user: current_user, project: project)
+    query = build(:query, user: current_user, project: project)
 
     query.filters.clear
     query.column_names = column_names
@@ -39,19 +39,19 @@ describe XlsExport::WorkPackage::Exporter::XLS do
   context 'with relations' do
     let(:options) { { show_relations: true } }
 
-    let(:parent) { FactoryBot.create :work_package, project: project, subject: 'Parent' }
+    let(:parent) { create :work_package, project: project, subject: 'Parent' }
     let(:child_1) do
-      FactoryBot.create :work_package, parent: parent, project: project, subject: 'Child 1'
+      create :work_package, parent: parent, project: project, subject: 'Child 1'
     end
     let(:child_2) do
-      FactoryBot.create :work_package, parent: parent, project: project, subject: 'Child 2'
+      create :work_package, parent: parent, project: project, subject: 'Child 2'
     end
 
-    let(:single) { FactoryBot.create :work_package, project: project, subject: 'Single' }
-    let(:followed) { FactoryBot.create :work_package, project: project, subject: 'Followed' }
+    let(:single) { create :work_package, project: project, subject: 'Single' }
+    let(:followed) { create :work_package, project: project, subject: 'Followed' }
 
     let(:child_2_child) do
-      FactoryBot.create :work_package, parent: child_2, project: project, subject: "Child 2's child"
+      create :work_package, parent: child_2, project: project, subject: "Child 2's child"
     end
 
     let(:relation) do
@@ -157,7 +157,7 @@ describe XlsExport::WorkPackage::Exporter::XLS do
     end
 
     context 'with someone who may not see related work packages' do
-      let(:current_user) { FactoryBot.create :user }
+      let(:current_user) { create :user }
 
       it 'exports no information without visibility' do
         expect(sheet.rows.length).to eq(2)
@@ -171,11 +171,11 @@ describe XlsExport::WorkPackage::Exporter::XLS do
     # a custom field called 'costs' to emulate it.
 
     let(:custom_field) do
-      FactoryBot.create(:float_wp_custom_field,
+      create(:float_wp_custom_field,
                         name: 'unit costs')
     end
     let(:custom_value) do
-      FactoryBot.create(:custom_value,
+      create(:custom_value,
                         custom_field: custom_field)
     end
     let(:type) do
@@ -184,11 +184,11 @@ describe XlsExport::WorkPackage::Exporter::XLS do
       type
     end
     let(:project) do
-      FactoryBot.create(:project,
+      create(:project,
                         work_package_custom_fields: [custom_field])
     end
     let(:work_packages) do
-      wps = FactoryBot.create_list(:work_package, 4,
+      wps = create_list(:work_package, 4,
                                    project: project,
                                    type: type)
       wps[0].estimated_hours = 27.5
@@ -219,7 +219,7 @@ describe XlsExport::WorkPackage::Exporter::XLS do
     end
 
     context 'with german locale' do
-      let(:current_user) { FactoryBot.create(:admin, language: :de) }
+      let(:current_user) { create(:admin, language: :de) }
 
       it 'should successfully export the work packages with a cost column localized' do
         I18n.with_locale :de do
@@ -247,7 +247,7 @@ describe XlsExport::WorkPackage::Exporter::XLS do
     let(:options) { { show_descriptions: true } }
 
     let(:work_package) do
-      FactoryBot.create(:work_package,
+      create(:work_package,
                         description: 'some arbitrary description',
                         project: project,
                         type: project.types.first)
@@ -265,7 +265,7 @@ describe XlsExport::WorkPackage::Exporter::XLS do
 
   context 'with underscore in subject' do
     let(:work_package) do
-      FactoryBot.create(:work_package,
+      create(:work_package,
                         subject: 'underscore_is included',
                         project: project,
                         type: project.types.first)
@@ -292,7 +292,7 @@ describe XlsExport::WorkPackage::Exporter::XLS do
   describe 'with user time zone' do
     let(:zone) { +2 }
     let(:work_package) do
-      FactoryBot.create(:work_package,
+      create(:work_package,
                         project: project,
                         type: project.types.first)
     end
@@ -319,7 +319,7 @@ describe XlsExport::WorkPackage::Exporter::XLS do
 
   describe 'with derived estimated hours' do
     let(:work_package) do
-      FactoryBot.create(:work_package,
+      create(:work_package,
                         project: project,
                         derived_estimated_hours: 15.0,
                         type: project.types.first)
@@ -337,7 +337,7 @@ describe XlsExport::WorkPackage::Exporter::XLS do
 
   describe 'with derived estimated hours and estimated_hours set to zero' do
     let(:work_package) do
-      FactoryBot.create(:work_package,
+      create(:work_package,
                         project: project,
                         derived_estimated_hours: 15.0,
                         estimated_hours: 0.0,

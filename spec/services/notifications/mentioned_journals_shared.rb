@@ -30,10 +30,10 @@
 require 'spec_helper'
 
 shared_context 'with a mentioned work package being updated again' do
-  let(:project) { FactoryBot.create :project }
+  let(:project) { create :project }
 
   let(:work_package) do
-    FactoryBot.create(:work_package, project: project).tap do |wp|
+    create(:work_package, project: project).tap do |wp|
       # Clear the initial journal job
       wp.save!
       clear_enqueued_jobs
@@ -41,18 +41,18 @@ shared_context 'with a mentioned work package being updated again' do
   end
 
   let(:role) do
-    FactoryBot.create :role, permissions: %w[view_work_packages edit_work_packages]
+    create :role, permissions: %w[view_work_packages edit_work_packages]
   end
 
   let(:recipient) do
-    FactoryBot.create :user,
+    create :user,
                       preferences: {
                         immediate_reminders: {
                           mentioned: true
                         }
                       },
                       notification_settings: [
-                        FactoryBot.build(:notification_setting,
+                        build(:notification_setting,
                                          mentioned: true,
                                          involved: true)
                       ],
@@ -60,7 +60,7 @@ shared_context 'with a mentioned work package being updated again' do
                       member_through_role: role
   end
   let(:actor) do
-    FactoryBot.create :user,
+    create :user,
                       member_in_project: project,
                       member_through_role: role
   end

@@ -28,17 +28,17 @@
 require 'spec_helper'
 
 describe Attachment, type: :model do
-  let(:stubbed_author) { FactoryBot.build_stubbed(:user) }
-  let(:author) { FactoryBot.create :user }
+  let(:stubbed_author) { build_stubbed(:user) }
+  let(:author) { create :user }
   let(:long_description) { 'a' * 300 }
-  let(:work_package) { FactoryBot.create :work_package }
-  let(:stubbed_work_package) { FactoryBot.build_stubbed :stubbed_work_package }
-  let(:file) { FactoryBot.create :uploaded_jpg, name: 'test.jpg' }
-  let(:second_file) { FactoryBot.create :uploaded_jpg, name: 'test2.jpg' }
+  let(:work_package) { create :work_package }
+  let(:stubbed_work_package) { build_stubbed :stubbed_work_package }
+  let(:file) { create :uploaded_jpg, name: 'test.jpg' }
+  let(:second_file) { create :uploaded_jpg, name: 'test2.jpg' }
   let(:container) { stubbed_work_package }
 
   let(:attachment) do
-    FactoryBot.build(
+    build(
       :attachment,
       author: author,
       container: container,
@@ -47,7 +47,7 @@ describe Attachment, type: :model do
     )
   end
   let(:stubbed_attachment) do
-    FactoryBot.build_stubbed(
+    build_stubbed(
       :attachment,
       author: stubbed_author,
       container: container
@@ -150,7 +150,7 @@ describe Attachment, type: :model do
 
   describe 'create' do
     it('creates a jpg file called test') do
-      expect(File.exists?(attachment.diskfile.path)).to eq true
+      expect(File.exist?(attachment.diskfile.path)).to eq true
     end
 
     it('has the content type "image/jpeg"') do
@@ -169,7 +169,7 @@ describe Attachment, type: :model do
   end
 
   describe 'two attachments with same file name' do
-    let(:second_file) { FactoryBot.create :uploaded_jpg, name: file.original_filename }
+    let(:second_file) { create :uploaded_jpg, name: file.original_filename }
 
     it 'does not interfere' do
       a1 = Attachment.create!(container: work_package,
@@ -191,7 +191,7 @@ describe Attachment, type: :model do
     before do
       attachment.save!
 
-      expect(File.exists?(attachment.file.path)).to eq true
+      expect(File.exist?(attachment.file.path)).to eq true
 
       attachment.destroy
       attachment.run_callbacks(:commit)
@@ -200,7 +200,7 @@ describe Attachment, type: :model do
     end
 
     it "deletes the attachment's file" do
-      expect(File.exists?(attachment.file.path)).to eq false
+      expect(File.exist?(attachment.file.path)).to eq false
     end
   end
 
@@ -208,7 +208,7 @@ describe Attachment, type: :model do
   # FogAttachment class is defined and Fog is mocked.
   # rubocop:disable RSpec/MultipleMemoizedHelpers
   describe "#external_url", with_direct_uploads: true do
-    let(:author) { FactoryBot.create :user }
+    let(:author) { create :user }
 
     let(:image_path) { Rails.root.join("spec/fixtures/files/image.png") }
     let(:text_path) { Rails.root.join("spec/fixtures/files/testfile.txt") }
@@ -305,7 +305,7 @@ describe Attachment, type: :model do
 
   describe 'full text extraction job on commit' do
     let(:created_attachment) do
-      FactoryBot.create(:attachment,
+      create(:attachment,
                         author: author,
                         container: container)
     end
@@ -337,7 +337,7 @@ describe Attachment, type: :model do
     end
 
     context 'for a work package' do
-      let(:work_package) { FactoryBot.create(:work_package) }
+      let(:work_package) { create(:work_package) }
       let(:container) { work_package }
 
       context 'on create' do
@@ -350,7 +350,7 @@ describe Attachment, type: :model do
     end
 
     context 'for a wiki page' do
-      let(:wiki_page) { FactoryBot.create(:wiki_page) }
+      let(:wiki_page) { create(:wiki_page) }
       let(:container) { wiki_page }
 
       context 'on create' do

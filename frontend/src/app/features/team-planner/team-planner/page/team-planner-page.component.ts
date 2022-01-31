@@ -15,6 +15,7 @@ import { WorkPackageFilterContainerComponent } from 'core-app/features/work-pack
 import { QueryParamListenerService } from 'core-app/features/work-packages/components/wp-query/query-param-listener.service';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { WorkPackageSettingsButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/wp-settings-button/wp-settings-button.component';
+import { CalendarDragDropService } from 'core-app/features/team-planner/team-planner/calendar-drag-drop.service';
 
 @Component({
   templateUrl: '../../../work-packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.html',
@@ -24,6 +25,7 @@ import { WorkPackageSettingsButtonComponent } from 'core-app/features/work-packa
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     QueryParamListenerService,
+    CalendarDragDropService,
   ],
 })
 export class TeamPlannerPageComponent extends PartitionedQuerySpacePageComponent implements OnInit {

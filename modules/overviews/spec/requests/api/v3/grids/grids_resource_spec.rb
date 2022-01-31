@@ -34,19 +34,19 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
   include API::V3::Utilities::PathHelper
 
   let(:current_user) do
-    FactoryBot.create(:user,
+    create(:user,
                       member_in_project: project,
                       member_with_permissions: permissions)
   end
   let(:permissions) { %i[] }
-  let(:project) { FactoryBot.create(:project) }
+  let(:project) { create(:project) }
   let(:grid) do
-    FactoryBot.create(:overview,
+    create(:overview,
                       project: project,
                       widgets: widgets)
   end
   let(:widgets) do
-    [FactoryBot.create(:grid_widget,
+    [create(:grid_widget,
                        identifier: 'custom_text',
                        start_column: 1,
                        end_column: 3,

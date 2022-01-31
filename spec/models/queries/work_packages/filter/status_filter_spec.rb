@@ -29,8 +29,8 @@
 require 'spec_helper'
 
 describe Queries::WorkPackages::Filter::StatusFilter, type: :model do
-  let(:status) { FactoryBot.build_stubbed(:status) }
-  let(:status2) { FactoryBot.build_stubbed(:status) }
+  let(:status) { build_stubbed(:status) }
+  let(:status2) { build_stubbed(:status) }
 
   it_behaves_like 'basic query filter' do
     let(:type) { :list }

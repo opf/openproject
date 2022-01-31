@@ -31,11 +31,11 @@ require 'spec_helper'
 describe 'OAuth authorization code flow with PKCE',
          type: :feature,
          js: true do
-  let!(:user) { FactoryBot.create(:user) }
+  let!(:user) { create(:user) }
   let!(:redirect_uri) { 'urn:ietf:wg:oauth:2.0:oob' }
   let!(:allowed_redirect_uri) { redirect_uri }
   let!(:app) do
-    FactoryBot.create :oauth_application,
+    create :oauth_application,
                       name: 'Public mobile client',
                       confidential: false,
                       redirect_uri: allowed_redirect_uri

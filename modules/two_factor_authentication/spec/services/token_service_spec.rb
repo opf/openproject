@@ -2,7 +2,7 @@ require_relative '../spec_helper'
 
 describe ::TwoFactorAuthentication::TokenService, with_2fa_ee: true do
   describe 'sending messages' do
-    let(:user) { FactoryBot.create(:user) }
+    let(:user) { create(:user) }
     let(:dev_strategy) { ::OpenProject::TwoFactorAuthentication::TokenStrategy::Developer }
     let(:configuration) do
       {
@@ -72,7 +72,7 @@ describe ::TwoFactorAuthentication::TokenService, with_2fa_ee: true do
       end
 
       context 'and matching device exists' do
-        let!(:device) { FactoryBot.create :two_factor_authentication_device_sms, user: user, default: true }
+        let!(:device) { create :two_factor_authentication_device_sms, user: user, default: true }
 
         it 'submits the request' do
           expect(subject.requires_token?).to be_truthy
@@ -82,7 +82,7 @@ describe ::TwoFactorAuthentication::TokenService, with_2fa_ee: true do
       end
 
       context 'and non-matching device exists' do
-        let!(:device) { FactoryBot.create :two_factor_authentication_device_totp, user: user, default: true }
+        let!(:device) { create :two_factor_authentication_device_totp, user: user, default: true }
 
         it 'submits the request' do
           expect(subject.requires_token?).to be_truthy
@@ -94,8 +94,8 @@ describe ::TwoFactorAuthentication::TokenService, with_2fa_ee: true do
 
     context 'when developer and totp strategies are set' do
       let(:active_strategies) { %i[developer totp] }
-      let!(:totp_device) { FactoryBot.create :two_factor_authentication_device_totp, user: user, default: true }
-      let!(:sms_device) { FactoryBot.create :two_factor_authentication_device_sms, user: user, default: false }
+      let!(:totp_device) { create :two_factor_authentication_device_totp, user: user, default: true }
+      let!(:sms_device) { create :two_factor_authentication_device_sms, user: user, default: false }
 
       subject { described_class.new user: user, use_device: use_device }
 

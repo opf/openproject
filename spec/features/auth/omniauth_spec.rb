@@ -44,7 +44,7 @@ describe 'Omniauth authentication', type: :feature do
   end
 
   let(:user) do
-    FactoryBot.create(:user,
+    create(:user,
                       force_password_change: false,
                       identity_url: 'developer:omnibob@example.com',
                       login: 'omnibob',

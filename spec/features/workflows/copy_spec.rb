@@ -29,12 +29,12 @@
 require 'spec_helper'
 
 describe 'Workflow copy', type: :feature do
-  let(:role) { FactoryBot.create(:role) }
-  let(:type) { FactoryBot.create(:type) }
-  let(:admin)  { FactoryBot.create(:admin) }
-  let(:statuses) { (1..2).map { |_i| FactoryBot.create(:status) } }
+  let(:role) { create(:role) }
+  let(:type) { create(:type) }
+  let(:admin)  { create(:admin) }
+  let(:statuses) { (1..2).map { |_i| create(:status) } }
   let(:workflow) do
-    FactoryBot.create(:workflow, role_id: role.id,
+    create(:workflow, role_id: role.id,
                                  type_id: type.id,
                                  old_status_id: statuses[0].id,
                                  new_status_id: statuses[1].id,

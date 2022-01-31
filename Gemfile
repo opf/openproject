@@ -142,7 +142,7 @@ gem 'structured_warnings', '~> 0.4.0'
 
 # catch exceptions and send them to any airbrake compatible backend
 # don't require by default, instead load on-demand when actually configured
-gem 'airbrake', '~> 12.0.0', require: false
+gem 'airbrake', '~> 13.0.0', require: false
 
 gem 'prawn', '~> 2.2'
 gem 'prawn-markup', '~> 0.3.0'
@@ -188,9 +188,9 @@ gem 'mini_magick', '~> 4.11.0', require: false
 
 # Sentry error reporting, loaded on demand
 group :sentry do
-  gem "sentry-delayed_job", '~> 4.8.0', require: false
-  gem "sentry-rails", '~> 4.8.0', require: false
-  gem "sentry-ruby", '~> 4.8.0',  require: false
+  gem "sentry-delayed_job", '~> 5.0.1', require: false
+  gem "sentry-rails", '~> 5.0.1', require: false
+  gem "sentry-ruby", '~> 5.0.1',  require: false
 end
 
 group :test do
@@ -206,7 +206,7 @@ group :test do
   gem 'rack_session_access'
   gem 'rspec', '~> 3.10.0'
   # also add to development group, so "spec" rake task gets loaded
-  gem 'rspec-rails', '~> 5.0.0', group: :development
+  gem 'rspec-rails', '~> 5.1.0', group: :development
 
   # Retry failures within the same environment
   gem 'retriable', '~> 3.1.1'
@@ -284,7 +284,7 @@ group :development, :test do
   gem 'danger-brakeman'
 end
 
-gem 'bootsnap', '~> 1.9.1', require: false
+gem 'bootsnap', '~> 1.10.0', require: false
 
 # API gems
 gem 'grape', '~> 1.6.0'
@@ -299,7 +299,7 @@ gem 'disposable', '~> 0.6.2'
 
 platforms :mri, :mingw, :x64_mingw do
   group :postgres do
-    gem 'pg', '~> 1.2.2'
+    gem 'pg', '~> 1.3.0'
   end
 
   # Support application loading when no database exists yet.

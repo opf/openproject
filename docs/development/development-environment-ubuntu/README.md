@@ -267,7 +267,7 @@ To run OpenProject manually, you need to run the rails server and the webpack fr
 ### Rails web server
 
 ```bash
-RAILS_ENV=development ./bin/rails server
+RAILS_ENV=development bin/rails server
 ```
 
 This will start the development server on port `3000` by default.
@@ -284,6 +284,21 @@ This will watch for any changes within the `frontend/` and compile the applicati
 should you be working on the TypeScript / Angular frontend part.
 
 You can then access the application either through `localhost:3000` (Rails server) or through the frontend proxied `http://localhost:4200`, which will provide hot reloading for changed frontend code.
+
+### Delayed Job background worker
+
+```bash
+RAILS_ENV=development bin/rails jobs:work
+```
+
+This will start a Delayed::Job worker to perform asynchronous jobs like sending emails.
+
+**Note:** If you haven't run this command for a while, chances are that a lot of background jobs have queued up and might cause a significant amount of open tabs (due to the way we deliver mails with the letter_opener gem). To get rid of the jobs before starting the worker, use the following command. **This will remove all currently scheduled jobs, never use this in a production setting.**
+
+```bash
+RAILS_ENV=development bin/rails runner "Delayed::Job.delete_all"
+```
+
 
 ## Start Coding
 

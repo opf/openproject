@@ -3,18 +3,18 @@ require 'spec_helper'
 describe ApplicationRecord, type: :model do
   describe '#most_recently_changed' do
     let!(:work_package) do
-      FactoryBot.create(:work_package).tap do |wp|
+      create(:work_package).tap do |wp|
         wp.update_column(:updated_at, 5.days.from_now)
       end
     end
 
     let!(:type) do
-      FactoryBot.create(:type).tap do |type|
+      create(:type).tap do |type|
         type.update_column(:updated_at, 1.days.from_now)
       end
     end
 
-    let!(:status) { FactoryBot.create :status }
+    let!(:status) { create :status }
 
     def expect_matched_date(postgres_time, rails_time)
       # Rails uses timestamp without timezone for timestamp columns

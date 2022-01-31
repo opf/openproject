@@ -36,18 +36,18 @@ describe Burndown, type: :model do
     story.last_journal.update(created_at: day)
   end
 
-  let(:user) { @user ||= FactoryBot.create(:user) }
-  let(:role) { @role ||= FactoryBot.create(:role) }
-  let(:type_feature) { @type_feature ||= FactoryBot.create(:type_feature) }
-  let(:type_task) { @type_task ||= FactoryBot.create(:type_task) }
-  let(:issue_priority) { @issue_priority ||= FactoryBot.create(:priority, is_default: true) }
-  let(:version) { @version ||= FactoryBot.create(:version, project: project) }
+  let(:user) { @user ||= create(:user) }
+  let(:role) { @role ||= create(:role) }
+  let(:type_feature) { @type_feature ||= create(:type_feature) }
+  let(:type_task) { @type_task ||= create(:type_task) }
+  let(:issue_priority) { @issue_priority ||= create(:priority, is_default: true) }
+  let(:version) { @version ||= create(:version, project: project) }
   let(:sprint) { @sprint ||= Sprint.find(version.id) }
 
   let(:project) do
     unless @project
-      @project = FactoryBot.build(:project)
-      @project.members = [FactoryBot.build(:member, principal: user,
+      @project = build(:project)
+      @project.members = [build(:member, principal: user,
                                                     project: @project,
                                                     roles: [role])]
       @project.versions << version
@@ -55,9 +55,9 @@ describe Burndown, type: :model do
     @project
   end
 
-  let(:issue_open) { @status1 ||= FactoryBot.create(:status, name: 'status 1', is_default: true) }
-  let(:issue_closed) { @status2 ||= FactoryBot.create(:status, name: 'status 2', is_closed: true) }
-  let(:issue_resolved) { @status3 ||= FactoryBot.create(:status, name: 'status 3', is_closed: false) }
+  let(:issue_open) { @status1 ||= create(:status, name: 'status 1', is_default: true) }
+  let(:issue_closed) { @status2 ||= create(:status, name: 'status 2', is_closed: true) }
+  let(:issue_resolved) { @status3 ||= create(:status, name: 'status 3', is_closed: false) }
 
   before(:each) do
     Rails.cache.clear
@@ -73,7 +73,7 @@ describe Burndown, type: :model do
     project.save!
 
     [issue_open, issue_closed, issue_resolved].permutation(2).each do |transition|
-      FactoryBot.create(:workflow,
+      create(:workflow,
                         old_status: transition[0],
                         new_status: transition[1],
                         role: role,
@@ -109,7 +109,7 @@ describe Burndown, type: :model do
 
         describe 'WITH 1 story assigned to the sprint' do
           before(:each) do
-            @story = FactoryBot.build(:story, subject: 'Story 1',
+            @story = build(:story, subject: 'Story 1',
                                               project: project,
                                               version: version,
                                               type: type_feature,
@@ -161,7 +161,7 @@ describe Burndown, type: :model do
             @stories = []
 
             (0..9).each do |i|
-              @stories[i] = FactoryBot.create(:story, subject: "Story #{i}",
+              @stories[i] = create(:story, subject: "Story #{i}",
                                                       project: project,
                                                       version: version,
                                                       type: type_feature,

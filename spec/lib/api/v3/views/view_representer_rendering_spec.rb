@@ -33,9 +33,9 @@ describe ::API::V3::Views::ViewRepresenter, 'rendering' do
 
   subject(:generated) { representer.to_json }
 
-  let(:query) { FactoryBot.build_stubbed(:query, public: query_public, starred: query_starred) }
-  let(:view) { FactoryBot.build_stubbed(:view_work_packages_table, query: query) }
-  let(:current_user) { FactoryBot.build_stubbed(:user) }
+  let(:query) { build_stubbed(:query, public: query_public, starred: query_starred) }
+  let(:view) { build_stubbed(:view_work_packages_table, query: query) }
+  let(:current_user) { build_stubbed(:user) }
   let(:query_public) { true }
   let(:query_starred) { true }
 

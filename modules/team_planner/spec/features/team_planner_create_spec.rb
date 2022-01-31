@@ -34,11 +34,12 @@ require_relative './shared_context'
 describe 'Team planner create new work package', type: :feature, js: true do
   include_context 'with team planner full access'
 
-  let(:type_task) { FactoryBot.create :type_task }
-  let!(:status) { FactoryBot.create :default_status }
-  let!(:priority) { FactoryBot.create :default_priority }
+  let(:type_task) { create :type_task }
+  let!(:status) { create :default_status }
+  let!(:priority) { create :default_priority }
 
   before do
+    with_enterprise_token(:team_planner_view)
     project.types << type_task
   end
 

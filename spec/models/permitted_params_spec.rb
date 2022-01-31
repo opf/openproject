@@ -29,8 +29,8 @@
 require 'spec_helper'
 
 describe PermittedParams, type: :model do
-  let(:user) { FactoryBot.build_stubbed(:user) }
-  let(:admin) { FactoryBot.build_stubbed(:admin) }
+  let(:user) { build_stubbed(:user) }
+  let(:admin) { build_stubbed(:admin) }
 
   shared_context 'prepare params comparison' do
     let(:params_key) { defined?(hash_key) ? hash_key : attribute }
@@ -529,7 +529,7 @@ describe PermittedParams, type: :model do
       end
 
       context 'non-admin with global :manage_user permission' do
-        let(:user) { FactoryBot.create(:user, global_permission: :manage_user) }
+        let(:user) { create(:user, global_permission: :manage_user) }
         let(:hash) { Hash[all_permissions.zip(all_permissions)] }
 
         it 'permits default permissions and "login"' do

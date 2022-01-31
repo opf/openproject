@@ -31,10 +31,10 @@
 require 'spec_helper'
 
 describe Grids::CreateContract, 'for Boards::Grid' do
-  let(:project) { FactoryBot.build_stubbed(:project) }
-  let(:user) { FactoryBot.build_stubbed(:user) }
+  let(:project) { build_stubbed(:project) }
+  let(:user) { build_stubbed(:user) }
   let(:grid) do
-    FactoryBot.create(:board_grid, project: project)
+    create(:board_grid, project: project)
   end
   include_context 'model contract'
 

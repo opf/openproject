@@ -108,7 +108,7 @@ describe User, type: :model do
     end
 
     it 'should select the exact matching user first' do
-      case_sensitive_user = FactoryBot.create(:user, login: 'changed', password: 'adminADMIN!',
+      case_sensitive_user = create(:user, login: 'changed', password: 'adminADMIN!',
                                                      password_confirmation: 'adminADMIN!')
       # bypass validations to make it appear like existing data
       case_sensitive_user.update_attribute(:login, 'ADMIN')
@@ -239,8 +239,8 @@ describe User, type: :model do
     end
 
     it 'should return nil if the key is found for an inactive user' do
-      user = FactoryBot.create(:user, status: User.statuses[:locked])
-      token = FactoryBot.build(:api_token, user: user)
+      user = create(:user, status: User.statuses[:locked])
+      token = build(:api_token, user: user)
       user.api_token = token
       user.save
 
@@ -248,8 +248,8 @@ describe User, type: :model do
     end
 
     it 'should return the user if the key is found for an active user' do
-      user = FactoryBot.create(:user, status: User.statuses[:active])
-      token = FactoryBot.build(:api_token, user: user)
+      user = create(:user, status: User.statuses[:active])
+      token = build(:api_token, user: user)
       user.api_token = token
       user.save
 
@@ -276,7 +276,7 @@ describe User, type: :model do
   end
 
   it 'should projects by role for user with no role' do
-    user = FactoryBot.create(:user)
+    user = create(:user)
     assert_equal({}, user.projects_by_role)
   end
 

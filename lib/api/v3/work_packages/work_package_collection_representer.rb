@@ -133,7 +133,7 @@ module API
                      rep_class = element_decorator.custom_field_class(all_fields)
 
                      represented.map do |model|
-                       rep_class.new(model, current_user: current_user)
+                       rep_class.send(:new, model, current_user: current_user)
                      end
                    },
                    exec_context: :decorator,

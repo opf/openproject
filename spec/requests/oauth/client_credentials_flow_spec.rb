@@ -32,7 +32,7 @@ require 'rest-client'
 describe 'OAuth client credentials flow', type: :request do
   include Rack::Test::Methods
 
-  let!(:application) { FactoryBot.create(:oauth_application, client_credentials_user_id: user_id, name: 'Cool API app!') }
+  let!(:application) { create(:oauth_application, client_credentials_user_id: user_id, name: 'Cool API app!') }
   let(:client_secret) { application.plaintext_secret }
 
   let(:access_token) do
@@ -62,7 +62,7 @@ describe 'OAuth client credentials flow', type: :request do
   end
 
   describe 'when application provides client credentials impersonator' do
-    let(:user) { FactoryBot.create(:user) }
+    let(:user) { create(:user) }
     let(:user_id) { user.id }
 
     it 'allows client credential flow as the user' do

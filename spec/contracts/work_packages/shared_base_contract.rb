@@ -29,8 +29,8 @@
 #++
 
 shared_examples_for 'work package contract' do
-  let(:user) { FactoryBot.build_stubbed(:user) }
-  let(:other_user) { FactoryBot.build_stubbed(:user) }
+  let(:user) { build_stubbed(:user) }
+  let(:other_user) { build_stubbed(:user) }
   let(:policy) { double(WorkPackagePolicy, allowed?: true) }
 
   subject(:contract) { described_class.new(work_package, user) }

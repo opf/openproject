@@ -38,7 +38,7 @@ describe 'user deletion: ', type: :feature, js: true do
   context 'regular user' do
     let(:user_password) { 'bob!' * 4 }
     let(:current_user) do
-      FactoryBot.create(:user,
+      create(:user,
                         password: user_password,
                         password_confirmation: user_password)
     end
@@ -67,8 +67,8 @@ describe 'user deletion: ', type: :feature, js: true do
   end
 
   context 'user with global add role' do
-    let!(:user) { FactoryBot.create :user }
-    let(:current_user) { FactoryBot.create :user, global_permission: :manage_user }
+    let!(:user) { create :user }
+    let(:current_user) { create :user, global_permission: :manage_user }
 
     it 'can not delete even if settings allow it', js: true do
       Setting.users_deletable_by_admins = 1
@@ -83,10 +83,10 @@ describe 'user deletion: ', type: :feature, js: true do
   end
 
   context 'admin user' do
-    let!(:user) { FactoryBot.create :user }
+    let!(:user) { create :user }
     let(:user_password) { 'admin! * 4' }
     let(:current_user) do
-      FactoryBot.create(:admin,
+      create(:admin,
                         password: user_password,
                         password_confirmation: user_password)
     end

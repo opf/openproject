@@ -95,7 +95,7 @@ module API
                           value_representer
                         end
 
-          representer.new(value, current_user: current_user)
+          representer.create(value, current_user: current_user)
         end
       end
     end

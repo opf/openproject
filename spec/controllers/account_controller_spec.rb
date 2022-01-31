@@ -52,7 +52,7 @@ describe AccountController, type: :controller do
     hook.reset!
   end
 
-  let(:user) { FactoryBot.build_stubbed(:user) }
+  let(:user) { build_stubbed(:user) }
 
   context 'GET #login' do
     let(:setup) {}
@@ -99,7 +99,7 @@ describe AccountController, type: :controller do
   end
 
   context 'POST #login' do
-    shared_let(:admin) { FactoryBot.create :admin }
+    shared_let(:admin) { create :admin }
 
     describe 'wrong password' do
       it 'redirects back to login' do
@@ -189,7 +189,7 @@ describe AccountController, type: :controller do
       end
 
       context 'with an auth source' do
-        let(:auth_source) { FactoryBot.create :ldap_auth_source }
+        let(:auth_source) { create :ldap_auth_source }
 
         it 'creates the user on the fly' do
           allow(Setting).to receive(:self_registration).and_return('0')
@@ -282,7 +282,7 @@ describe AccountController, type: :controller do
     end
 
     context 'GET #logout' do
-      shared_let(:admin) { FactoryBot.create :admin }
+      shared_let(:admin) { create :admin }
 
       it 'calls reset_session' do
         expect(@controller).to receive(:reset_session).once
@@ -293,7 +293,7 @@ describe AccountController, type: :controller do
       end
 
       context 'with a user with an SSO provider attached' do
-        let(:user) { FactoryBot.build_stubbed :user, login: 'bob', identity_url: 'saml:foo' }
+        let(:user) { build_stubbed :user, login: 'bob', identity_url: 'saml:foo' }
         let(:slo_callback) { nil }
         let(:sso_provider) do
           { name: 'saml',  single_sign_out_callback: slo_callback }
@@ -405,7 +405,7 @@ describe AccountController, type: :controller do
     end
 
     context 'with an auth source' do
-      let(:auth_source) { FactoryBot.create :ldap_auth_source }
+      let(:auth_source) { create :ldap_auth_source }
 
       let(:user_attributes) do
         {
@@ -468,7 +468,7 @@ describe AccountController, type: :controller do
   end
 
   describe 'Login for user with forced password change' do
-    let(:admin) { FactoryBot.create(:admin, force_password_change: true) }
+    let(:admin) { create(:admin, force_password_change: true) }
 
     before do
       allow_any_instance_of(User).to receive(:change_password_allowed?).and_return(false)
@@ -588,7 +588,7 @@ describe AccountController, type: :controller do
     end
 
     context 'with self registration off but an ongoing invitation activation' do
-      let(:token) { FactoryBot.create :invitation_token }
+      let(:token) { create :invitation_token }
 
       before do
         allow(Setting).to receive(:self_registration).and_return('0')
@@ -663,7 +663,7 @@ describe AccountController, type: :controller do
         end
 
         context "with user limit reached" do
-          let!(:admin) { FactoryBot.create :admin }
+          let!(:admin) { create :admin }
 
           let(:params) do
             {
@@ -923,8 +923,8 @@ describe AccountController, type: :controller do
   end
 
   context 'POST activate' do
-    let!(:admin) { FactoryBot.create :admin }
-    let(:user) { FactoryBot.create :user, status: status }
+    let!(:admin) { create :admin }
+    let(:user) { create :user, status: status }
     let(:status) { -1 }
 
     let(:token) { Token::Invitation.create!(user_id: user.id) }
@@ -978,8 +978,8 @@ describe AccountController, type: :controller do
       }
     end
 
-    let(:auth_source) { FactoryBot.create :ldap_auth_source }
-    let(:user) { FactoryBot.create :user, status: 2, auth_source: auth_source }
+    let(:auth_source) { create :ldap_auth_source }
+    let(:user) { create :user, status: 2, auth_source: auth_source }
     let(:login) { user.login }
 
     before do
@@ -1000,7 +1000,7 @@ describe AccountController, type: :controller do
     end
 
     context "with an invalid user" do
-      let!(:duplicate) { FactoryBot.create :user, mail: "login@DerpLAP.net" }
+      let!(:duplicate) { create :user, mail: "login@DerpLAP.net" }
       let(:login) { 'foo' }
       let(:attrs) do
         { mail: duplicate.mail, login: login, firstname: 'bla', lastname: 'bar' }
@@ -1021,7 +1021,7 @@ describe AccountController, type: :controller do
     end
 
     context "with a missing email" do
-      let!(:duplicate) { FactoryBot.create :user, mail: "login@DerpLAP.net" }
+      let!(:duplicate) { create :user, mail: "login@DerpLAP.net" }
       let(:login) { 'foo' }
       let(:attrs) do
         { login: login, firstname: 'bla', lastname: 'bar' }
@@ -1087,13 +1087,13 @@ describe AccountController, type: :controller do
 
     context 'with an invited user' do
       it_behaves_like 'account activation' do
-        let(:user) { FactoryBot.create :user, status: 4 }
+        let(:user) { create :user, status: 4 }
       end
     end
 
     context 'with an registered user' do
       it_behaves_like 'account activation' do
-        let(:user) { FactoryBot.create :user, status: 2 }
+        let(:user) { create :user, status: 2 }
       end
     end
   end

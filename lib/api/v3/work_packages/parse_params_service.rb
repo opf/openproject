@@ -39,8 +39,7 @@ module API
 
         def parse_attributes(request_body)
           ::API::V3::WorkPackages::WorkPackagePayloadRepresenter
-            .create_class(struct, current_user)
-            .new(struct, current_user: current_user)
+            .create(struct, current_user: current_user)
             .from_hash(Hash(request_body))
             .to_h
             .reverse_merge(lock_version: nil)

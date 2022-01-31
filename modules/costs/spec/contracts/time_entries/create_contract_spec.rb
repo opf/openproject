@@ -50,7 +50,7 @@ describe TimeEntries::CreateContract do
       end
     end
     let(:permissions) { %i(log_time) }
-    let(:other_user) { FactoryBot.build_stubbed(:user) }
+    let(:other_user) { build_stubbed(:user) }
     let(:changed_by_system) do
       if time_entry_user
         { "user_id" => [nil, time_entry_user.id] }

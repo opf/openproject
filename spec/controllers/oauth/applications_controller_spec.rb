@@ -30,15 +30,15 @@ require 'spec_helper'
 require 'work_package'
 
 describe ::OAuth::ApplicationsController, type: :controller do
-  let(:user) { FactoryBot.build_stubbed :admin }
-  let(:application_stub) { FactoryBot.build_stubbed(:oauth_application, id: 1, secret: 'foo') }
+  let(:user) { build_stubbed :admin }
+  let(:application_stub) { build_stubbed(:oauth_application, id: 1, secret: 'foo') }
 
   before do
     login_as user
   end
 
   context 'not logged as admin' do
-    let(:user) { FactoryBot.build_stubbed :user }
+    let(:user) { build_stubbed :user }
 
     it 'does not grant access' do
       get :index

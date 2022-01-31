@@ -35,14 +35,14 @@ describe ::API::V3::Projects::Copy::CopyAPI, content_type: :json do
   include API::V3::Utilities::PathHelper
 
   shared_let(:text_custom_field) do
-    FactoryBot.create(:text_project_custom_field)
+    create(:text_project_custom_field)
   end
   shared_let(:list_custom_field) do
-    FactoryBot.create(:list_project_custom_field)
+    create(:list_project_custom_field)
   end
 
   shared_let(:source_project) do
-    FactoryBot.create :project,
+    create :project,
                       enabled_module_names: %w[work_package_tracking wiki],
                       custom_field_values: {
                         text_custom_field.id => 'source text',
@@ -50,11 +50,11 @@ describe ::API::V3::Projects::Copy::CopyAPI, content_type: :json do
                       }
   end
 
-  shared_let(:work_package) { FactoryBot.create :work_package, project: source_project }
-  shared_let(:wiki_page) { FactoryBot.create :wiki_page, wiki: source_project.wiki }
+  shared_let(:work_package) { create :work_package, project: source_project }
+  shared_let(:wiki_page) { create :wiki_page, wiki: source_project.wiki }
 
   shared_let(:current_user) do
-    FactoryBot.create :user,
+    create :user,
                       member_in_project: source_project,
                       member_with_permissions: %i[copy_projects view_project view_work_packages]
   end
@@ -196,7 +196,7 @@ describe ::API::V3::Projects::Copy::CopyAPI, content_type: :json do
 
     context 'without the necessary permission' do
       let(:current_user) do
-        FactoryBot.create :user,
+        create :user,
                           member_in_project: source_project,
                           member_with_permissions: %i[view_project view_work_packages]
       end

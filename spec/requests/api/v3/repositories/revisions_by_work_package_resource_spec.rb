@@ -35,15 +35,15 @@ describe 'API v3 Revisions by work package resource', type: :request do
   include FileHelpers
 
   let(:current_user) do
-    FactoryBot.create(:user,
+    create(:user,
                       member_in_project: project,
                       member_through_role: role)
   end
-  let(:project) { FactoryBot.create(:project, public: false) }
-  let(:role) { FactoryBot.create(:role, permissions: permissions) }
+  let(:project) { create(:project, public: false) }
+  let(:role) { create(:role, permissions: permissions) }
   let(:permissions) { %i[view_work_packages view_changesets] }
-  let(:repository) { FactoryBot.create(:repository_subversion, project: project) }
-  let(:work_package) { FactoryBot.create(:work_package, author: current_user, project: project) }
+  let(:repository) { create(:repository_subversion, project: project) }
+  let(:work_package) { create(:work_package, author: current_user, project: project) }
   let(:revisions) { [] }
 
   subject(:response) { last_response }
@@ -68,7 +68,7 @@ describe 'API v3 Revisions by work package resource', type: :request do
 
     context 'with existing revisions' do
       let(:revisions) do
-        FactoryBot.build_list(:changeset,
+        build_list(:changeset,
                               5,
                               comments: "This commit references ##{work_package.id}",
                               repository: repository)
@@ -84,7 +84,7 @@ describe 'API v3 Revisions by work package resource', type: :request do
     end
 
     context 'user unauthorized to view work package' do
-      let(:current_user) { FactoryBot.create(:user) }
+      let(:current_user) { create(:user) }
 
       it 'should respond with 404' do
         expect(subject.status).to eq(404)
@@ -92,10 +92,10 @@ describe 'API v3 Revisions by work package resource', type: :request do
     end
 
     describe 'revisions linked from another project' do
-      let(:subproject) { FactoryBot.create(:project, parent: project) }
-      let(:repository) { FactoryBot.create(:repository_subversion, project: subproject) }
+      let(:subproject) { create(:project, parent: project) }
+      let(:repository) { create(:repository_subversion, project: subproject) }
       let!(:revisions) do
-        FactoryBot.build_list(:changeset,
+        build_list(:changeset,
                               2,
                               comments: "This commit references ##{work_package.id}",
                               repository: repository)
@@ -103,7 +103,7 @@ describe 'API v3 Revisions by work package resource', type: :request do
 
       context 'with permissions in subproject' do
         let(:current_user) do
-          FactoryBot.create(:user,
+          create(:user,
                             member_in_projects: [project, subproject],
                             member_through_role: role)
         end

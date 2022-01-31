@@ -2,6 +2,6 @@
 pt:
   js:
     calendar:
-      title: 'Calendar'
-      too_many: 'There are %{count} work packages in total, but only %{max} can be shown.'
-      unsaved_title: 'Unnamed calendar'
+      title: 'Calendário'
+      too_many: 'Existem %{count} pacotes de trabalho, mas apenas %{max} podem ser mostrados.'
+      unsaved_title: 'Calendário sem nome'

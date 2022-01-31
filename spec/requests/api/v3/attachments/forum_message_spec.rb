@@ -37,9 +37,9 @@ describe "forum message attachments" do
     let(:read_permission) { nil }
     let(:update_permission) { :edit_messages }
 
-    let(:forum) { FactoryBot.create(:forum, project: project) }
-    let(:forum_message) { FactoryBot.create(:message, forum: forum) }
+    let(:forum) { create(:forum, project: project) }
+    let(:forum_message) { create(:message, forum: forum) }
 
-    let(:missing_permissions_user) { FactoryBot.create(:user) }
+    let(:missing_permissions_user) { create(:user) }
   end
 end

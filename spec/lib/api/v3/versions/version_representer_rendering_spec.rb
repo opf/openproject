@@ -29,8 +29,8 @@
 require 'spec_helper'
 
 describe ::API::V3::Versions::VersionRepresenter, 'rendering' do
-  let(:version) { FactoryBot.build_stubbed(:version) }
-  let(:user) { FactoryBot.build_stubbed(:user) }
+  let(:version) { build_stubbed(:version) }
+  let(:user) { build_stubbed(:user) }
   let(:representer) { described_class.create(version, current_user: user) }
 
   include API::V3::Utilities::PathHelper
@@ -132,9 +132,9 @@ describe ::API::V3::Versions::VersionRepresenter, 'rendering' do
     end
 
     context 'custom value' do
-      let(:custom_field) { FactoryBot.build_stubbed(:list_version_custom_field) }
+      let(:custom_field) { build_stubbed(:list_version_custom_field) }
       let(:custom_value) do
-        FactoryBot.build_stubbed(:custom_value, custom_field: custom_field, value: '1')
+        build_stubbed(:custom_value, custom_field: custom_field, value: '1')
       end
 
       before do
@@ -198,7 +198,7 @@ describe ::API::V3::Versions::VersionRepresenter, 'rendering' do
     end
 
     context 'custom value' do
-      let(:custom_field) { FactoryBot.build_stubbed(:version_custom_field) }
+      let(:custom_field) { build_stubbed(:version_custom_field) }
       let(:custom_value) do
         CustomValue.new(custom_field: custom_field,
                         value: '1234',
@@ -270,12 +270,12 @@ describe ::API::V3::Versions::VersionRepresenter, 'rendering' do
 
       context 'custom fields' do
         let(:version) do
-          FactoryBot.build_stubbed(:version).tap do |_v|
+          build_stubbed(:version).tap do |_v|
             # Use this to force the custom field to be defined before the former_cache_key is calculated
             custom_field
           end
         end
-        let(:custom_field) { FactoryBot.build_stubbed(:version_custom_field, created_at: Time.now, updated_at: Time.now) }
+        let(:custom_field) { build_stubbed(:version_custom_field, created_at: Time.now, updated_at: Time.now) }
 
         before do
           allow(version)

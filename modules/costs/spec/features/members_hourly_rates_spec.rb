@@ -29,9 +29,9 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper.rb')
 
 describe 'hourly rates on a member', type: :feature, js: true do
-  let(:project) { FactoryBot.build :project }
+  let(:project) { build :project }
   let(:user) do
-    FactoryBot.create :admin,
+    create :admin,
                       member_in_project: project
   end
   let(:member) { Member.find_by(project: project, principal: user) }

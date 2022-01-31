@@ -39,13 +39,13 @@ describe ::API::V3::Principals::PrincipalType do
   end
 
   describe 'with a user' do
-    let(:instance) { FactoryBot.build_stubbed :user }
+    let(:instance) { build_stubbed :user }
 
     it_behaves_like 'returns api type', :user
   end
 
   describe 'with a user' do
-    let(:instance) { FactoryBot.build_stubbed :user }
+    let(:instance) { build_stubbed :user }
 
     it_behaves_like 'returns api type', :user
   end
@@ -57,7 +57,7 @@ describe ::API::V3::Principals::PrincipalType do
   end
 
   describe 'with a system user' do
-    let(:instance) { FactoryBot.build_stubbed :deleted_user }
+    let(:instance) { build_stubbed :deleted_user }
 
     it_behaves_like 'returns api type', :user
   end
@@ -69,13 +69,13 @@ describe ::API::V3::Principals::PrincipalType do
   end
 
   describe 'with a group' do
-    let(:instance) { FactoryBot.build_stubbed :group }
+    let(:instance) { build_stubbed :group }
 
     it_behaves_like 'returns api type', :group
   end
 
   describe 'with a placeholder' do
-    let(:instance) { FactoryBot.build_stubbed :placeholder_user }
+    let(:instance) { build_stubbed :placeholder_user }
 
     it_behaves_like 'returns api type', :placeholder_user
   end

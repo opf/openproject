@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe ::Query::Results, 'Subproject filter integration', type: :model, with_mail: false do
   let(:query) do
-    FactoryBot.build(:query,
+    build(:query,
                      user: user,
                      project: parent_project).tap do |q|
       q.filters.clear
@@ -40,19 +40,19 @@ describe ::Query::Results, 'Subproject filter integration', type: :model, with_m
     ::Query::Results.new query
   end
 
-  shared_let(:parent_project) { FactoryBot.create :project }
-  shared_let(:child_project) { FactoryBot.create :project, parent: parent_project }
+  shared_let(:parent_project) { create :project }
+  shared_let(:child_project) { create :project, parent: parent_project }
 
   shared_let(:user) do
-    FactoryBot.create(:user,
+    create(:user,
                       firstname: 'user',
                       lastname: '1',
                       member_in_projects: [parent_project, child_project],
                       member_with_permissions: [:view_work_packages])
   end
 
-  shared_let(:parent_wp) { FactoryBot.create :work_package, project: parent_project }
-  shared_let(:child_wp) { FactoryBot.create :work_package, project: child_project }
+  shared_let(:parent_wp) { create :work_package, project: parent_project }
+  shared_let(:child_wp) { create :work_package, project: child_project }
 
   before do
     login_as user

@@ -31,12 +31,12 @@ require_relative 'support/pages/cost_report_page'
 require_relative 'support/components/cost_reports_base_table'
 
 describe 'Updating entries within the cost report', type: :feature, js: true do
-  let(:project) { FactoryBot.create :project }
-  let(:user) { FactoryBot.create :admin }
-  let(:work_package) { FactoryBot.create :work_package, project: project }
+  let(:project) { create :project }
+  let(:user) { create :admin }
+  let(:work_package) { create :work_package, project: project }
 
   let!(:time_entry_user) do
-    FactoryBot.create :time_entry,
+    create :time_entry,
                       user: user,
                       work_package: work_package,
                       project: project,
@@ -44,13 +44,13 @@ describe 'Updating entries within the cost report', type: :feature, js: true do
   end
 
   let(:cost_type) do
-    type = FactoryBot.create :cost_type, name: 'My cool type'
-    FactoryBot.create :cost_rate, cost_type: type, rate: 7.00
+    type = create :cost_type, name: 'My cool type'
+    create :cost_rate, cost_type: type, rate: 7.00
     type
   end
 
   let!(:cost_entry_user) do
-    FactoryBot.create :cost_entry,
+    create :cost_entry,
                       work_package: work_package,
                       project: project,
                       units: 3.00,
@@ -118,9 +118,9 @@ describe 'Updating entries within the cost report', type: :feature, js: true do
   end
 
   context 'as user without permissions' do
-    let(:role) { FactoryBot.create :role, permissions: %i(view_time_entries) }
+    let(:role) { create :role, permissions: %i(view_time_entries) }
     let!(:user) do
-      FactoryBot.create :user,
+      create :user,
                         member_in_project: project,
                         member_through_role: role
     end

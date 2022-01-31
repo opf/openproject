@@ -54,7 +54,7 @@ describe 'Login', type: :feature, clear_cache: true do
     let(:force_password_change) { false }
     let(:first_login) { false }
     let(:user) do
-      FactoryBot.create(:user,
+      create(:user,
                         force_password_change: force_password_change,
                         first_login: first_login,
                         login: 'bob',

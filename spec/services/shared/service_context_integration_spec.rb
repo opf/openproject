@@ -31,7 +31,7 @@
 require 'spec_helper'
 
 describe Shared::ServiceContext, 'integration', type: :model do
-  let(:user) { FactoryBot.build_stubbed(:user) }
+  let(:user) { build_stubbed(:user) }
 
   let(:instance) do
     Class.new do

@@ -29,12 +29,12 @@
 require 'spec_helper'
 
 describe 'Role creation', type: :feature, js: true do
-  let!(:admin) { FactoryBot.create(:admin) }
-  let!(:existing_role) { FactoryBot.create(:role) }
-  let!(:existing_workflow) { FactoryBot.create(:workflow_with_default_status, role: existing_role, type: type) }
-  let!(:type) { FactoryBot.create(:type) }
+  let!(:admin) { create(:admin) }
+  let!(:existing_role) { create(:role) }
+  let!(:existing_workflow) { create(:workflow_with_default_status, role: existing_role, type: type) }
+  let!(:type) { create(:type) }
   let!(:non_member) do
-    FactoryBot.create(:non_member, permissions: %i[view_work_packages view_wiki_pages])
+    create(:non_member, permissions: %i[view_work_packages view_wiki_pages])
   end
 
   before do

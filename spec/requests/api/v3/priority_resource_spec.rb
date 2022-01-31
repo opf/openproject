@@ -33,15 +33,15 @@ describe 'API v3 Priority resource' do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:role) { FactoryBot.create(:role, permissions: [:view_work_packages]) }
-  let(:project) { FactoryBot.create(:project, public: false) }
+  let(:role) { create(:role, permissions: [:view_work_packages]) }
+  let(:project) { create(:project, public: false) }
   let(:current_user) do
-    FactoryBot.create(:user,
+    create(:user,
                       member_in_project: project,
                       member_through_role: role)
   end
 
-  let!(:priorities) { FactoryBot.create_list(:priority, 2) }
+  let!(:priorities) { create_list(:priority, 2) }
 
   describe 'priorities' do
     subject(:response) { last_response }

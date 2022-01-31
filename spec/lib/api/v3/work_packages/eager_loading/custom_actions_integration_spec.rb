@@ -32,20 +32,20 @@ require 'spec_helper'
 require_relative './eager_loading_mock_wrapper'
 
 describe ::API::V3::WorkPackages::EagerLoading::CustomAction do
-  let!(:work_package1) { FactoryBot.create(:work_package) }
-  let!(:work_package2) { FactoryBot.create(:work_package) }
+  let!(:work_package1) { create(:work_package) }
+  let!(:work_package2) { create(:work_package) }
   let!(:user) do
-    FactoryBot.create(:user,
+    create(:user,
                       member_in_project: work_package2.project,
                       member_through_role: role)
   end
-  let!(:role) { FactoryBot.create(:role) }
+  let!(:role) { create(:role) }
   let!(:status_custom_action) do
-    FactoryBot.create(:custom_action,
+    create(:custom_action,
                       conditions: [CustomActions::Conditions::Status.new(work_package1.status_id.to_s)])
   end
   let!(:role_custom_action) do
-    FactoryBot.create(:custom_action,
+    create(:custom_action,
                       conditions: [CustomActions::Conditions::Role.new(role.id)])
   end
 

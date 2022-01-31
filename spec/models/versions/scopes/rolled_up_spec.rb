@@ -31,16 +31,16 @@
 require 'spec_helper'
 
 describe Versions::Scopes::RolledUp, type: :model do
-  shared_let(:parent_project) { FactoryBot.create(:project) }
-  shared_let(:project) { FactoryBot.create(:project, parent: parent_project) }
-  shared_let(:sibling_project) { FactoryBot.create(:project, parent: parent_project) }
-  shared_let(:child_project) { FactoryBot.create(:project, parent: project) }
-  shared_let(:grand_child_project) { FactoryBot.create(:project, parent: child_project) }
-  shared_let(:version) { FactoryBot.create(:version, project: project) }
-  shared_let(:child_version) { FactoryBot.create(:version, project: child_project) }
-  shared_let(:grand_child_version) { FactoryBot.create(:version, project: grand_child_project) }
-  shared_let(:parent_version) { FactoryBot.create(:version, project: parent_project) }
-  shared_let(:sibling_version) { FactoryBot.create(:version, project: sibling_project) }
+  shared_let(:parent_project) { create(:project) }
+  shared_let(:project) { create(:project, parent: parent_project) }
+  shared_let(:sibling_project) { create(:project, parent: parent_project) }
+  shared_let(:child_project) { create(:project, parent: project) }
+  shared_let(:grand_child_project) { create(:project, parent: child_project) }
+  shared_let(:version) { create(:version, project: project) }
+  shared_let(:child_version) { create(:version, project: child_project) }
+  shared_let(:grand_child_version) { create(:version, project: grand_child_project) }
+  shared_let(:parent_version) { create(:version, project: parent_project) }
+  shared_let(:sibling_version) { create(:version, project: sibling_project) }
 
   describe '.rolled_up' do
     it 'includes versions of self and all descendants' do

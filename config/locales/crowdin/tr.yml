@@ -73,6 +73,11 @@ tr:
       start_trial: 'Deneme sürümüne başla'
       book_now: 'Şimdi rezervasyon yaptırın'
       get_quote: 'Fiyat teklifi alın'
+      buttons:
+        upgrade: "Upgrade now"
+        contact: "Contact us for a demo"
+      enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
+      upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
   announcements:
     show_until: Son görüntülenme tarihi
     is_active: şu an görüntüleniyor
@@ -161,7 +166,7 @@ tr:
     edit: 'Özel eylem %{name} Düzenle'
     execute: '%{name} yürütmek'
     upsale:
-      title: 'Özel eylemler bir Enterprise Edition özelliğidir'
+      title: 'Custom actions'
       description: 'Özel eylemler bir düğme içine tek tek adımları bir dizi birleştirerek günlük iş düzene.'
   custom_fields:
     text_add_new_custom_field: >
@@ -260,7 +265,7 @@ tr:
       irreversible: "Bu işlem geri alınamaz"
       confirmation: "Silme işlemini onaylamak için yer tutucu %{name} ismini girin."
     upsale:
-      title: Projenin üyesi olmayan kişilere iş atayın.
+      title: Placeholder users
       description: >
         Projenizin üyesi olmayan kişilere iş atamak istediğiniz birden çok senaryo vardır. Basitçe, iş için hala doğru kişiyi işe almanız gerekebilir. Ya da sadece o kişiye projenin bilgilerine erişim vermek istemezsiniz, ancak yine de o kişiye atanan görevleri izlemek istersiniz.
   prioritiies:
@@ -2343,6 +2348,9 @@ tr:
   setting_apiv3_cors_origins: "API V3 Kaynaklar Arası Kaynak Paylaşımı (CORS) izin verilen kaynaklar"
   setting_apiv3_cors_origins_text_html: >
     CORS etkinleştirilirse, bunlar OpenProject API'ye erişmesine izin verilen kaynaklardır. <br/> Beklenen değerlerin nasıl belirtileceğini öğrenmek için lütfen  <a href="%{origin_link}" target="_blank">Kaynak başlığındaki Belgeleri </a> kontrol edin.
+  setting_apiv3_max_page_size: "Maximum API page size"
+  setting_apiv3_max_page_instructions_html: >
+    Set the maximum page size the API will respond with. It will not be possible to perform API requests that return more values on a single page. <br/> <strong>Warning:</strong> Please only change this value if you are sure why you need it. Setting to a high value will result in significant performance impacts, while a value lower than the per page options will cause errors in paginated views.
   setting_apiv3_docs: "Belgeleme"
   setting_apiv3_docs_enabled: "Enable docs page"
   setting_apiv3_docs_enabled_instructions_html: >

@@ -2,15 +2,15 @@ require "spec_helper"
 require "support/pages/work_packages/abstract_work_package"
 
 describe "multi select custom values", js: true do
-  shared_let(:admin) { FactoryBot.create :admin }
+  shared_let(:admin) { create :admin }
   let(:current_user) { admin }
 
-  shared_let(:type) { FactoryBot.create :type }
-  shared_let(:project) { FactoryBot.create :project, types: [type] }
-  shared_let(:role) { FactoryBot.create :role }
+  shared_let(:type) { create :type }
+  shared_let(:project) { create :project, types: [type] }
+  shared_let(:role) { create :role }
 
   shared_let(:custom_field) do
-    FactoryBot.create(
+    create(
       :user_wp_custom_field,
       name: "Reviewer",
       multi_value: true,
@@ -34,10 +34,10 @@ describe "multi select custom values", js: true do
   end
 
   describe 'with mixed users, group, and placeholdders' do
-    let(:work_package) { FactoryBot.create :work_package, project: project, type: type }
+    let(:work_package) { create :work_package, project: project, type: type }
 
     let!(:user) do
-      FactoryBot.create :user,
+      create :user,
                         firstname: 'Da Real',
                         lastname: 'User',
                         member_in_project: project,
@@ -45,14 +45,14 @@ describe "multi select custom values", js: true do
     end
 
     let!(:group) do
-      FactoryBot.create :group,
+      create :group,
                         name: 'groupfoo',
                         member_in_project: project,
                         member_through_role: role
     end
 
     let!(:placeholder) do
-      FactoryBot.create :placeholder_user,
+      create :placeholder_user,
                         name: 'PLACEHOLDER',
                         member_in_project: project,
                         member_through_role: role
@@ -103,7 +103,7 @@ describe "multi select custom values", js: true do
 
   describe 'with all users' do
     let!(:user1) do
-      FactoryBot.create :user,
+      create :user,
                         firstname: 'Billy',
                         lastname: 'Nobbler',
                         member_in_project: project,
@@ -111,7 +111,7 @@ describe "multi select custom values", js: true do
     end
 
     let!(:user2) do
-      FactoryBot.create :user,
+      create :user,
                         firstname: 'Cooper',
                         lastname: 'Quatermaine',
                         member_in_project: project,
@@ -119,7 +119,7 @@ describe "multi select custom values", js: true do
     end
 
     let!(:user3) do
-      FactoryBot.create :user,
+      create :user,
                         firstname: 'Anton',
                         lastname: 'Lupin',
                         status: User.statuses[:invited],
@@ -129,7 +129,7 @@ describe "multi select custom values", js: true do
 
     context "with existing custom values" do
       let(:work_package) do
-        wp = FactoryBot.build :work_package, project: project, type: type
+        wp = build :work_package, project: project, type: type
 
         wp.custom_field_values = {
           custom_field.id => [user1.id.to_s, user3.id.to_s]

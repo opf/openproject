@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'Enumerations', type: :feature do
-  shared_let(:admin) { FactoryBot.create :admin }
+  shared_let(:admin) { create :admin }
 
   before do
     login_as(admin)

@@ -28,10 +28,10 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe Document do
-  let(:documentation_category) { FactoryBot.create :document_category, name: 'User documentation' }
-  let(:project)                { FactoryBot.create :project }
-  let(:user)                   { FactoryBot.create(:user) }
-  let(:admin)                  { FactoryBot.create(:admin) }
+  let(:documentation_category) { create :document_category, name: 'User documentation' }
+  let(:project)                { create :project }
+  let(:user)                   { create(:user) }
+  let(:admin)                  { create(:admin) }
 
   let(:mail) do
     mock = Object.new
@@ -55,7 +55,7 @@ describe Document do
     end
 
     it "should set a default-category, if none is given" do
-      default_category = FactoryBot.create :document_category, name: 'Technical documentation', is_default: true
+      default_category = create :document_category, name: 'Technical documentation', is_default: true
       document = Document.new(project: project, title: "New Document")
       expect(document.category).to eql default_category
       expect do
@@ -69,7 +69,7 @@ describe Document do
       expect do
         Attachments::CreateService
           .new(user: admin)
-          .call(container: valid_document, file: FactoryBot.attributes_for(:attachment)[:file], filename: 'foo')
+          .call(container: valid_document, file: attributes_for(:attachment)[:file], filename: 'foo')
 
         expect(valid_document.attachments.size).to eql 1
       end.to(change do
@@ -79,7 +79,7 @@ describe Document do
     end
 
     it "without attachments, the updated-on-date is taken from the document's date" do
-      document = FactoryBot.create(:document, project: project)
+      document = create(:document, project: project)
       expect(document.attachments).to be_empty
       expect(document.created_at).to eql document.updated_at
     end
@@ -88,7 +88,7 @@ describe Document do
   describe "acts as event" do
     let(:now) { Time.zone.now }
     let(:document) do
-      FactoryBot.build(:document,
+      build(:document,
                        created_at: now)
     end
 

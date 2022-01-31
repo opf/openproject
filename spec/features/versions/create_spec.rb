@@ -30,11 +30,11 @@ require 'spec_helper'
 
 describe 'version create', type: :feature, js: false do
   let(:user) do
-    FactoryBot.create(:user,
+    create(:user,
                       member_in_project: project,
                       member_with_permissions: %i[manage_versions view_work_packages])
   end
-  let(:project) { FactoryBot.create(:project) }
+  let(:project) { create(:project) }
   let(:new_version_name) { 'A new version name' }
 
   before do

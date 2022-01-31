@@ -73,6 +73,11 @@ ja:
       start_trial: '無料トライアルを開始'
       book_now: '今すぐ予約'
       get_quote: '見積もりの入手'
+      buttons:
+        upgrade: "Upgrade now"
+        contact: "Contact us for a demo"
+      enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
+      upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
   announcements:
     show_until: までを表示
     is_active: 現在表示されています
@@ -159,7 +164,7 @@ ja:
     edit: 'カスタムアクション %{name} の編集'
     execute: '%{name} を実行'
     upsale:
-      title: 'カスタムアクションは、エンタープライズ版の機能です'
+      title: 'Custom actions'
       description: 'カスタムアクションは、1 つのボタンに個々のステップを組み合わせて日々の作業を合理化します。'
   custom_fields:
     text_add_new_custom_field: >
@@ -258,7 +263,7 @@ ja:
       irreversible: "この操作は元に戻せません"
       confirmation: "削除を確認するため、プレースホルダーユーザー名 %{name} を入力してください。"
     upsale:
-      title: プロジェクトのメンバーではないユーザーに作業を割り当てる
+      title: Placeholder users
       description: >
         プロジェクトのメンバーではない人に作業を割り当てたいと思うことは多々あります。それは単に、その仕事に適した人を雇う必要があるということかもしれません。あるいは、その人にプロジェクトの情報へのアクセスを許可したくないが、その人に割り当てられたタスクを追跡したいという場合もあります。
   prioritiies:
@@ -2320,6 +2325,9 @@ ja:
   setting_apiv3_cors_origins: "API V3のオリジン間リソース共有 (CORS) が許可されています"
   setting_apiv3_cors_origins_text_html: >
     CORS が有効になっている場合、これらは OpenProject API へのアクセスが許可されている起源です。 <br/> 期待される値を指定する方法については、 <a href="%{origin_link}" target="_blank">Origin ヘッダー</a> のドキュメントを確認してください。
+  setting_apiv3_max_page_size: "Maximum API page size"
+  setting_apiv3_max_page_instructions_html: >
+    Set the maximum page size the API will respond with. It will not be possible to perform API requests that return more values on a single page. <br/> <strong>Warning:</strong> Please only change this value if you are sure why you need it. Setting to a high value will result in significant performance impacts, while a value lower than the per page options will cause errors in paginated views.
   setting_apiv3_docs: "文章"
   setting_apiv3_docs_enabled: "Enable docs page"
   setting_apiv3_docs_enabled_instructions_html: >

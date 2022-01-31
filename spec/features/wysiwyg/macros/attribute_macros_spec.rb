@@ -29,10 +29,10 @@
 require 'spec_helper'
 
 describe 'Wysiwyg attribute macros', type: :feature, js: true do
-  shared_let(:admin) { FactoryBot.create :admin }
+  shared_let(:admin) { create :admin }
   let(:user) { admin }
-  let!(:project) { FactoryBot.create(:project, identifier: 'some-project', enabled_module_names: %w[wiki work_package_tracking]) }
-  let!(:work_package) { FactoryBot.create(:work_package, subject: "Foo Bar", project: project) }
+  let!(:project) { create(:project, identifier: 'some-project', enabled_module_names: %w[wiki work_package_tracking]) }
+  let!(:work_package) { create(:work_package, subject: "Foo Bar", project: project) }
   let(:editor) { ::Components::WysiwygEditor.new }
 
   let(:markdown) do

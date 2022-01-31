@@ -25,7 +25,7 @@ FactoryBot.define do
         end
       end
 
-      board.widgets << FactoryBot.create(:grid_widget,
+      board.widgets << create(:grid_widget,
                                          identifier: 'work_package_query',
                                          start_row: 1,
                                          end_row: 2,
@@ -54,7 +54,7 @@ FactoryBot.define do
           q.save!
         end
 
-        board.widgets << FactoryBot.create(:grid_widget,
+        board.widgets << create(:grid_widget,
                                            identifier: 'work_package_query',
                                            start_row: 1,
                                            end_row: 2,
@@ -73,7 +73,7 @@ FactoryBot.define do
     column_count { 4 }
 
     transient do
-      projects_columns { [FactoryBot.create(:project)] }
+      projects_columns { [create(:project)] }
     end
 
     callback(:after_build) do |board, evaluator| # this is also done after :create
@@ -88,7 +88,7 @@ FactoryBot.define do
         filters = [{ "onlySubproject" => { "operator" => "=", "values" => [project.id.to_s] } }]
 
         board.options = { 'type' => 'action', 'attribute' => 'subproject' }
-        board.widgets << FactoryBot.create(:grid_widget,
+        board.widgets << create(:grid_widget,
                                            identifier: 'work_package_query',
                                            start_row: 1,
                                            end_row: 2,

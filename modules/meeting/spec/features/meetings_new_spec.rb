@@ -31,10 +31,10 @@ require 'spec_helper'
 require_relative '../support/pages/meetings/index'
 
 describe 'Meetings new', type: :feature do
-  let(:project) { FactoryBot.create :project, enabled_module_names: %w[meetings] }
+  let(:project) { create :project, enabled_module_names: %w[meetings] }
   let(:time_zone) { 'utc' }
   let(:user) do
-    FactoryBot.create(:user,
+    create(:user,
                       lastname: 'First',
                       member_in_project: project,
                       member_with_permissions: permissions).tap do |u|
@@ -44,13 +44,13 @@ describe 'Meetings new', type: :feature do
     end
   end
   let(:other_user) do
-    FactoryBot.create(:user,
+    create(:user,
                       lastname: 'Second',
                       member_in_project: project,
                       member_with_permissions: permissions)
   end
   let(:admin) do
-    FactoryBot.create(:admin)
+    create(:admin)
   end
   let(:permissions) { %i[view_meetings create_meetings] }
   let(:current_user) { user }

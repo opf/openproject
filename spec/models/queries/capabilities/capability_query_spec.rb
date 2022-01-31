@@ -32,7 +32,7 @@ describe Queries::Capabilities::CapabilityQuery, type: :model do
   let(:instance) { described_class.new }
 
   current_user do
-    FactoryBot.build_stubbed(:user)
+    build_stubbed(:user)
   end
 
   describe '#valid?' do

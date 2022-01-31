@@ -37,12 +37,12 @@ describe "WorkPackages::Export attachments" do
     let(:read_permission) { :export_work_packages }
     let(:update_permission) { :export_work_packages }
 
-    let(:export) { FactoryBot.create(:work_packages_export) }
+    let(:export) { create(:work_packages_export) }
 
-    let(:missing_permissions_user) { FactoryBot.create(:user) }
-    let(:other_user) { FactoryBot.create(:user) }
+    let(:missing_permissions_user) { create(:user) }
+    let(:other_user) { create(:user) }
 
-    let(:other_user_attachment) { FactoryBot.create(:attachment, container: export, author: other_user) }
+    let(:other_user_attachment) { create(:attachment, container: export, author: other_user) }
 
     describe '#get' do
       subject(:response) { last_response }

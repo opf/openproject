@@ -34,13 +34,13 @@ describe API::V3::Activities::ActivitiesAPI, type: :request, content_type: :json
   include API::V3::Utilities::PathHelper
 
   let(:current_user) do
-    FactoryBot.create(:user,
+    create(:user,
                       member_in_project: project,
                       member_with_permissions: permissions)
   end
-  let(:project) { FactoryBot.create(:project, public: false) }
+  let(:project) { create(:project, public: false) }
   let(:work_package) do
-    FactoryBot.create(:work_package, author: current_user, project: project)
+    create(:work_package, author: current_user, project: project)
   end
   let(:permissions) { %i[view_work_packages edit_work_package_notes] }
   let(:activity) { work_package.journals.first }
@@ -181,7 +181,7 @@ describe API::V3::Activities::ActivitiesAPI, type: :request, content_type: :json
 
     context 'anonymous user' do
       it_behaves_like 'handling anonymous user' do
-        let(:project) { FactoryBot.create(:project, public: true) }
+        let(:project) { create(:project, public: true) }
         let(:path) { get_path }
       end
     end

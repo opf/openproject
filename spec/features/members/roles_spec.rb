@@ -29,9 +29,9 @@
 require 'spec_helper'
 
 describe 'members pagination', type: :feature, js: true do
-  shared_let(:admin) { FactoryBot.create :admin }
+  shared_let(:admin) { create :admin }
   let(:project) do
-    FactoryBot.create :project,
+    create :project,
                       name: 'Project 1',
                       identifier: 'project1',
                       members: {
@@ -40,11 +40,11 @@ describe 'members pagination', type: :feature, js: true do
                       }
   end
 
-  let(:bob)   { FactoryBot.create :user, firstname: 'Bob', lastname: 'Bobbit' }
-  let(:alice) { FactoryBot.create :user, firstname: 'Alice', lastname: 'Alison' }
+  let(:bob)   { create :user, firstname: 'Bob', lastname: 'Bobbit' }
+  let(:alice) { create :user, firstname: 'Alice', lastname: 'Alison' }
 
-  let(:alpha) { FactoryBot.create :role, name: 'alpha' }
-  let(:beta)  { FactoryBot.create :role, name: 'beta' }
+  let(:alpha) { create :role, name: 'alpha' }
+  let(:beta)  { create :role, name: 'beta' }
 
   let(:members_page) { Pages::Members.new project.identifier }
 

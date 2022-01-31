@@ -35,17 +35,17 @@ describe WorkPackagesController, type: :controller do
     login_as current_user
   end
 
-  let(:project) { FactoryBot.create(:project, identifier: 'test_project', public: false) }
-  let(:stub_project) { FactoryBot.build_stubbed(:project, identifier: 'test_project', public: false) }
-  let(:type) { FactoryBot.build_stubbed(:type) }
+  let(:project) { create(:project, identifier: 'test_project', public: false) }
+  let(:stub_project) { build_stubbed(:project, identifier: 'test_project', public: false) }
+  let(:type) { build_stubbed(:type) }
   let(:stub_work_package) do
-    FactoryBot.build_stubbed(:stubbed_work_package,
+    build_stubbed(:stubbed_work_package,
                              id: 1337,
                              type: type,
                              project: stub_project)
   end
 
-  let(:current_user) { FactoryBot.create(:user) }
+  let(:current_user) { create(:user) }
 
   def self.requires_permission_in_project(&block)
     describe 'w/o the permission to see the project/work_package' do
@@ -121,7 +121,7 @@ describe WorkPackagesController, type: :controller do
   end
 
   describe 'index' do
-    let(:query) { FactoryBot.build_stubbed(:query).tap(&:add_default_filter) }
+    let(:query) { build_stubbed(:query).tap(&:add_default_filter) }
     let(:work_packages) { double('work packages').as_null_object }
     let(:results) { double('results').as_null_object }
 
@@ -161,7 +161,7 @@ describe WorkPackagesController, type: :controller do
       end
 
       shared_examples_for 'export of mime_type' do
-        let(:export_storage) { FactoryBot.build_stubbed(:work_packages_export) }
+        let(:export_storage) { build_stubbed(:work_packages_export) }
         let(:call_action) { get('index', params: params.merge(format: mime_type)) }
 
         requires_export_permission do

@@ -29,23 +29,23 @@
 require 'spec_helper'
 
 describe WikiContent, type: :model do
-  let(:content) { FactoryBot.create(:wiki_content, page: page, author: author) }
+  let(:content) { create(:wiki_content, page: page, author: author) }
 
-  shared_let(:wiki) { FactoryBot.create(:wiki) }
-  shared_let(:page) { FactoryBot.create(:wiki_page, wiki: wiki) }
+  shared_let(:wiki) { create(:wiki) }
+  shared_let(:page) { create(:wiki_page, wiki: wiki) }
   shared_let(:author) do
-    FactoryBot.create(:user,
+    create(:user,
                       member_in_project: wiki.project,
                       member_with_permissions: [:view_wiki_pages])
   end
   shared_let(:project_watcher) do
-    FactoryBot.create(:user,
+    create(:user,
                       member_in_project: wiki.project,
                       member_with_permissions: [:view_wiki_pages])
   end
 
   shared_let(:wiki_watcher) do
-    watcher = FactoryBot.create(:user,
+    watcher = create(:user,
                                 member_in_project: wiki.project,
                                 member_with_permissions: [:view_wiki_pages])
     wiki.watcher_users << watcher
@@ -55,7 +55,7 @@ describe WikiContent, type: :model do
 
   describe 'mail sending' do
     context 'when creating' do
-      let(:content) { FactoryBot.build(:wiki_content, page: page) }
+      let(:content) { build(:wiki_content, page: page) }
 
       it 'sends mails to the wiki`s watchers and project all watchers' do
         expect do
@@ -73,7 +73,7 @@ describe WikiContent, type: :model do
     context 'when updating',
             with_settings: { journal_aggregation_time_minutes: 0 } do
       let(:page_watcher) do
-        watcher = FactoryBot.create(:user,
+        watcher = create(:user,
                                     member_in_project: wiki.project,
                                     member_with_permissions: [:view_wiki_pages])
         page.watcher_users << watcher

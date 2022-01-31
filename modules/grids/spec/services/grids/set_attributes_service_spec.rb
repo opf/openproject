@@ -31,7 +31,7 @@
 require 'spec_helper'
 
 describe Grids::SetAttributesService, type: :model do
-  let(:user) { FactoryBot.build_stubbed(:user) }
+  let(:user) { build_stubbed(:user) }
   let(:contract_class) do
     contract = double('contract_class')
 
@@ -58,7 +58,7 @@ describe Grids::SetAttributesService, type: :model do
   let(:call_attributes) { {} }
   let(:grid_class) { Grids::Grid }
   let(:grid) do
-    FactoryBot.build_stubbed(grid_class.name.demodulize.underscore.to_sym, widgets: [])
+    build_stubbed(grid_class.name.demodulize.underscore.to_sym, widgets: [])
   end
 
   describe 'call' do
@@ -97,7 +97,7 @@ describe Grids::SetAttributesService, type: :model do
     context 'with additional widgets' do
       let(:widgets) do
         [
-          FactoryBot.build_stubbed(:grid_widget,
+          build_stubbed(:grid_widget,
                                    identifier: 'work_packages_assigned',
                                    start_row: 3,
                                    end_row: 5,
@@ -142,7 +142,7 @@ describe Grids::SetAttributesService, type: :model do
         context 'with the grid being a new record' do
           let(:existing_widgets) do
             [
-              FactoryBot.build(:grid_widget,
+              build(:grid_widget,
                                identifier: 'work_packages_assigned',
                                start_row: 3,
                                end_row: 5,
@@ -152,7 +152,7 @@ describe Grids::SetAttributesService, type: :model do
           end
 
           let(:grid) do
-            FactoryBot.build(
+            build(
               :grid,
               widgets: existing_widgets
             )
@@ -176,7 +176,7 @@ describe Grids::SetAttributesService, type: :model do
     context 'with empty widget params' do
       let(:existing_widgets) do
         [
-          FactoryBot.build_stubbed(:grid_widget,
+          build_stubbed(:grid_widget,
                                    identifier: 'work_packages_assigned',
                                    start_row: 3,
                                    end_row: 5,
@@ -185,7 +185,7 @@ describe Grids::SetAttributesService, type: :model do
         ]
       end
       let(:grid) do
-        FactoryBot.build_stubbed(
+        build_stubbed(
           grid_class.name.demodulize.underscore.to_sym,
           widgets: existing_widgets
         )
@@ -222,7 +222,7 @@ describe Grids::SetAttributesService, type: :model do
         context 'with the grid being a new record' do
           let(:existing_widgets) do
             [
-              FactoryBot.build(:grid_widget,
+              build(:grid_widget,
                                identifier: 'work_packages_assigned',
                                start_row: 3,
                                end_row: 5,
@@ -232,7 +232,7 @@ describe Grids::SetAttributesService, type: :model do
           end
 
           let(:grid) do
-            FactoryBot.build(
+            build(
               :grid,
               widgets: existing_widgets
             )
@@ -256,7 +256,7 @@ describe Grids::SetAttributesService, type: :model do
     context 'without widget params' do
       let(:existing_widgets) do
         [
-          FactoryBot.build_stubbed(:grid_widget,
+          build_stubbed(:grid_widget,
                                    identifier: 'work_packages_assigned',
                                    start_row: 3,
                                    end_row: 5,
@@ -265,7 +265,7 @@ describe Grids::SetAttributesService, type: :model do
         ]
       end
       let(:grid) do
-        FactoryBot.build_stubbed(
+        build_stubbed(
           grid_class.name.demodulize.underscore.to_sym,
           widgets: existing_widgets
         )
@@ -298,7 +298,7 @@ describe Grids::SetAttributesService, type: :model do
         context 'with the grid being a new record' do
           let(:existing_widgets) do
             [
-              FactoryBot.build(:grid_widget,
+              build(:grid_widget,
                                identifier: 'work_packages_assigned',
                                start_row: 3,
                                end_row: 5,
@@ -308,7 +308,7 @@ describe Grids::SetAttributesService, type: :model do
           end
 
           let(:grid) do
-            FactoryBot.build(
+            build(
               :grid,
               widgets: existing_widgets
             )
@@ -332,7 +332,7 @@ describe Grids::SetAttributesService, type: :model do
     context 'with updates to an existing widget' do
       let(:widgets) do
         [
-          FactoryBot.build_stubbed(:grid_widget,
+          build_stubbed(:grid_widget,
                                    id: existing_widgets[0].id,
                                    identifier: 'work_packages_assigned',
                                    start_row: 3,
@@ -343,7 +343,7 @@ describe Grids::SetAttributesService, type: :model do
       end
       let(:existing_widgets) do
         [
-          FactoryBot.build_stubbed(:grid_widget,
+          build_stubbed(:grid_widget,
                                    identifier: 'work_packages_assigned',
                                    start_row: 2,
                                    end_row: 5,
@@ -352,7 +352,7 @@ describe Grids::SetAttributesService, type: :model do
         ]
       end
       let(:grid) do
-        FactoryBot.build_stubbed(
+        build_stubbed(
           grid_class.name.demodulize.underscore.to_sym,
           widgets: existing_widgets
         )
@@ -378,25 +378,25 @@ describe Grids::SetAttributesService, type: :model do
     context 'with additions and updates to existing widgets' do
       let(:widgets) do
         [
-          FactoryBot.build_stubbed(:grid_widget,
+          build_stubbed(:grid_widget,
                                    identifier: 'work_packages_assigned',
                                    start_row: 3,
                                    end_row: 5,
                                    start_column: 1,
                                    end_column: 3),
-          FactoryBot.build_stubbed(:grid_widget,
+          build_stubbed(:grid_widget,
                                    identifier: 'work_packages_watched',
                                    start_row: 1,
                                    end_row: 2,
                                    start_column: 1,
                                    end_column: 2),
-          FactoryBot.build_stubbed(:grid_widget,
+          build_stubbed(:grid_widget,
                                    identifier: 'work_packages_calendar',
                                    start_row: 2,
                                    end_row: 4,
                                    start_column: 1,
                                    end_column: 2),
-          FactoryBot.build_stubbed(:grid_widget,
+          build_stubbed(:grid_widget,
                                    identifier: 'work_packages_calendar',
                                    start_row: 1,
                                    end_row: 2,
@@ -406,19 +406,19 @@ describe Grids::SetAttributesService, type: :model do
       end
       let(:existing_widgets) do
         [
-          FactoryBot.build_stubbed(:grid_widget,
+          build_stubbed(:grid_widget,
                                    identifier: 'work_packages_assigned',
                                    start_row: 2,
                                    end_row: 5,
                                    start_column: 1,
                                    end_column: 3),
-          FactoryBot.build_stubbed(:grid_widget,
+          build_stubbed(:grid_widget,
                                    identifier: 'work_packages_assigned',
                                    start_row: 1,
                                    end_row: 2,
                                    start_column: 3,
                                    end_column: 4),
-          FactoryBot.build_stubbed(:grid_widget,
+          build_stubbed(:grid_widget,
                                    identifier: 'work_packages_calendar',
                                    start_row: 1,
                                    end_row: 2,
@@ -427,7 +427,7 @@ describe Grids::SetAttributesService, type: :model do
         ]
       end
       let(:grid) do
-        FactoryBot.build_stubbed(
+        build_stubbed(
           grid_class.name.demodulize.underscore.to_sym,
           widgets: existing_widgets
         )

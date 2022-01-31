@@ -31,15 +31,15 @@ require 'spec_helper'
 describe Groups::UpdateRolesService, 'integration', type: :model do
   subject(:service_call) { instance.call(member: member, message: message) }
 
-  let(:project) { FactoryBot.create :project }
-  let(:role) { FactoryBot.create :role }
-  let(:current_user) { FactoryBot.create :admin }
+  let(:project) { create :project }
+  let(:role) { create :role }
+  let(:current_user) { create :admin }
   let(:roles) { [role] }
 
   let!(:group) do
-    FactoryBot.create(:group,
+    create(:group,
                       members: users).tap do |group|
-      FactoryBot.create(:member,
+      create(:member,
                         project: project,
                         principal: group,
                         roles: roles)
@@ -49,7 +49,7 @@ describe Groups::UpdateRolesService, 'integration', type: :model do
         .call(ids: users.map(&:id))
     end
   end
-  let(:users) { FactoryBot.create_list :user, 2 }
+  let(:users) { create_list :user, 2 }
   let(:member) { Member.find_by(principal: group) }
   let(:message) { "Some message" }
 
@@ -89,7 +89,7 @@ describe Groups::UpdateRolesService, 'integration', type: :model do
   end
 
   context 'when adding a role' do
-    let(:added_role) { FactoryBot.create(:role) }
+    let(:added_role) { create(:role) }
 
     before do
       member.roles << added_role
@@ -115,7 +115,7 @@ describe Groups::UpdateRolesService, 'integration', type: :model do
   end
 
   context 'when adding a role but with one user having had the role before (no inherited from)' do
-    let(:added_role) { FactoryBot.create(:role) }
+    let(:added_role) { create(:role) }
 
     before do
       member.roles << added_role
@@ -156,7 +156,7 @@ describe Groups::UpdateRolesService, 'integration', type: :model do
   end
 
   context 'when removing a role' do
-    let(:roles) { [role, FactoryBot.create(:role)] }
+    let(:roles) { [role, create(:role)] }
 
     before do
       member.roles = [role]
@@ -182,7 +182,7 @@ describe Groups::UpdateRolesService, 'integration', type: :model do
   end
 
   context 'when removing a role but with a user having had the role before (no inherited_from)' do
-    let(:roles) { [role, FactoryBot.create(:role)] }
+    let(:roles) { [role, create(:role)] }
 
     before do
       member.roles = [role]
@@ -224,7 +224,7 @@ describe Groups::UpdateRolesService, 'integration', type: :model do
   end
 
   context 'when replacing roles' do
-    let(:replacement_role) { FactoryBot.create(:role) }
+    let(:replacement_role) { create(:role) }
 
     before do
       member.roles = [replacement_role]
@@ -250,7 +250,7 @@ describe Groups::UpdateRolesService, 'integration', type: :model do
   end
 
   context 'when replacing a role but with a user having had the replaced role before (no inherited_from)' do
-    let(:replacement_role) { FactoryBot.create(:role) }
+    let(:replacement_role) { create(:role) }
 
     before do
       member.roles = [replacement_role]

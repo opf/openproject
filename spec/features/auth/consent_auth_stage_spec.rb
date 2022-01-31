@@ -32,7 +32,7 @@ describe 'Authentication Stages', type: :feature do
   let(:language) { 'en' }
   let(:user_password) { 'bob' * 4 }
   let(:user) do
-    FactoryBot.create(
+    create(
       :user,
       admin: true,
       force_password_change: false,

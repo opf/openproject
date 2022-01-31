@@ -38,8 +38,8 @@ describe Queries::Projects::Filters::ProjectStatusFilter, type: :model do
     let(:attribute) { :project_status_code }
     let(:values) { ['On track'] }
     let(:human_name) { 'Project status' }
-    let(:admin) { FactoryBot.build_stubbed(:admin) }
-    let(:user) { FactoryBot.build_stubbed(:user) }
+    let(:admin) { build_stubbed(:admin) }
+    let(:user) { build_stubbed(:user) }
 
     describe '#allowed_values' do
       it 'is a list of the possible values' do

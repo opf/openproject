@@ -242,12 +242,12 @@ describe OpenProject::Hook do
       Class.new(ApplicationController)
     end
 
-    let(:user) { FactoryBot.build_stubbed(:user) }
-    let(:author) { FactoryBot.build_stubbed(:user) }
+    let(:user) { build_stubbed(:user) }
+    let(:author) { build_stubbed(:user) }
     let(:work_package) do
-      FactoryBot.build_stubbed(:work_package,
-                               type: FactoryBot.build_stubbed(:type),
-                               status: FactoryBot.build_stubbed(:status)).tap do |wp|
+      build_stubbed(:work_package,
+                               type: build_stubbed(:type),
+                               status: build_stubbed(:status)).tap do |wp|
 
         allow(wp)
           .to receive(:reload)

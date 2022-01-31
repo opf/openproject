@@ -34,7 +34,7 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
   include API::V3::Utilities::PathHelper
 
   shared_let(:current_user) do
-    FactoryBot.create(:user)
+    create(:user)
   end
 
   before do

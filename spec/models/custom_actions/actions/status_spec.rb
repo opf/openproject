@@ -32,8 +32,8 @@ describe CustomActions::Actions::Status, type: :model do
   let(:key) { :status }
   let(:type) { :associated_property }
   let(:allowed_values) do
-    statuses = [FactoryBot.build_stubbed(:status),
-                FactoryBot.build_stubbed(:status)]
+    statuses = [build_stubbed(:status),
+                build_stubbed(:status)]
     allow(Status)
       .to receive_message_chain(:select, :order)
             .and_return(statuses)

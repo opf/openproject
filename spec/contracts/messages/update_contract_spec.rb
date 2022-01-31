@@ -34,7 +34,7 @@ require_relative './shared_contract_examples'
 describe Messages::UpdateContract do
   it_behaves_like 'message contract' do
     let(:message) do
-      FactoryBot.build_stubbed(:message).tap do |message|
+      build_stubbed(:message).tap do |message|
         message.forum = message_forum
         message.parent = message_parent
         message.subject = message_subject

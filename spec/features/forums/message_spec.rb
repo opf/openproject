@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe 'messages', type: :feature, js: true do
   let(:forum) do
-    FactoryBot.create(:forum)
+    create(:forum)
   end
 
   let(:notification_settings_all_false) do
@@ -40,24 +40,24 @@ describe 'messages', type: :feature, js: true do
   end
 
   let(:user) do
-    FactoryBot.create :user,
+    create :user,
                       member_in_project: forum.project,
                       member_through_role: role,
                       notification_settings: [
-                        FactoryBot.build(:notification_setting, **notification_settings_all_false, watched: true)
+                        build(:notification_setting, **notification_settings_all_false, watched: true)
                       ]
   end
   let(:other_user) do
-    FactoryBot.create(:user,
+    create(:user,
                       member_in_project: forum.project,
                       member_through_role: role,
                       notification_settings: [
-                        FactoryBot.build(:notification_setting, **notification_settings_all_false, watched: true)
+                        build(:notification_setting, **notification_settings_all_false, watched: true)
                       ]).tap do |u|
       forum.watcher_users << u
     end
   end
-  let(:role) { FactoryBot.create(:role, permissions: [:add_messages]) }
+  let(:role) { create(:role, permissions: [:add_messages]) }
 
   let(:index_page) { Pages::Messages::Index.new(forum.project) }
 

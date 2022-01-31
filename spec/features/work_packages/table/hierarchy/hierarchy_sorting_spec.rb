@@ -1,15 +1,15 @@
 require 'spec_helper'
 
 describe 'Work Package table hierarchy and sorting', js: true do
-  let(:user) { FactoryBot.create :admin }
-  let(:project) { FactoryBot.create(:project) }
+  let(:user) { create :admin }
+  let(:project) { create(:project) }
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:hierarchy) { ::Components::WorkPackages::Hierarchies.new }
   let(:sort_by) { ::Components::WorkPackages::SortBy.new }
 
   let!(:wp_root) do
-    FactoryBot.create :work_package,
+    create :work_package,
                       project: project,
                       subject: 'Parent',
                       start_date: Date.today - 10.days,
@@ -17,7 +17,7 @@ describe 'Work Package table hierarchy and sorting', js: true do
   end
 
   let!(:wp_child1) do
-    FactoryBot.create :work_package,
+    create :work_package,
                       project: project,
                       parent: wp_root,
                       subject: 'Child at end',
@@ -26,7 +26,7 @@ describe 'Work Package table hierarchy and sorting', js: true do
   end
 
   let!(:wp_child2) do
-    FactoryBot.create :work_package,
+    create :work_package,
                       project: project,
                       parent: wp_root,
                       subject: 'Middle child',
@@ -35,7 +35,7 @@ describe 'Work Package table hierarchy and sorting', js: true do
   end
 
   let!(:wp_child3) do
-    FactoryBot.create :work_package,
+    create :work_package,
                       project: project,
                       parent: wp_root,
                       subject: 'Child at beginning',

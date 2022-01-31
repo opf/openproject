@@ -34,7 +34,7 @@ describe ::API::V3::Grids::GridPayloadRepresenter, 'parsing' do
   let(:object) do
     OpenStruct.new
   end
-  let(:user) { FactoryBot.build_stubbed(:user) }
+  let(:user) { build_stubbed(:user) }
   let(:representer) do
     described_class.create(object, current_user: user, embed_links: true)
   end

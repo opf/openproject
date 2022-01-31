@@ -31,27 +31,27 @@ require 'spec_helper'
 require_relative '../support/pages/dashboard'
 
 describe 'Documents widget on dashboard', type: :feature, js: true do
-  let!(:project) { FactoryBot.create :project }
-  let!(:other_project) { FactoryBot.create :project }
+  let!(:project) { create :project }
+  let!(:other_project) { create :project }
   let!(:visible_document) do
-    FactoryBot.create :document,
+    create :document,
                       project: project,
                       description: 'blubs'
   end
   let!(:invisible_document) do
-    FactoryBot.create :document,
+    create :document,
                       project: other_project
   end
   let(:role) do
-    FactoryBot.create(:role,
+    create(:role,
                       permissions: %i[view_documents
                                       view_dashboards
                                       manage_dashboards])
   end
   let(:user) do
-    FactoryBot.create(:user).tap do |u|
-      FactoryBot.create(:member, project: project, roles: [role], user: u)
-      FactoryBot.create(:member, project: other_project, roles: [role], user: u)
+    create(:user).tap do |u|
+      create(:member, project: project, roles: [role], user: u)
+      create(:member, project: other_project, roles: [role], user: u)
     end
   end
   let(:dashboard) do

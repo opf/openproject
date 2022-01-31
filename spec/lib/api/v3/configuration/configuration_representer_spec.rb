@@ -33,10 +33,10 @@ describe ::API::V3::Configuration::ConfigurationRepresenter do
 
   let(:represented) { Setting }
   let(:current_user) do
-    FactoryBot.build_stubbed(:user).tap do |user|
+    build_stubbed(:user).tap do |user|
       allow(user)
         .to receive(:preference)
-        .and_return(FactoryBot.build_stubbed(:user_preference))
+        .and_return(build_stubbed(:user_preference))
     end
   end
   let(:embed_links) { false }
@@ -62,7 +62,7 @@ describe ::API::V3::Configuration::ConfigurationRepresenter do
         end
 
         context 'if not logged in' do
-          let(:current_user) { FactoryBot.build_stubbed(:anonymous) }
+          let(:current_user) { build_stubbed(:anonymous) }
 
           it_behaves_like 'has an untitled link' do
             let(:link) { 'userPreferences' }

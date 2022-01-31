@@ -71,7 +71,7 @@ cs:
       text_2fa_enabled: 'Při každém přihlášení bude tento uživatel požádán, aby zadal jednorázové heslo z jeho výchozího 2FA zařízení.'
       text_2fa_disabled: "Uživatel si nenastavil 2FA zařízení prostřednictvím stránky 'Můj účet'"
     upsale:
-      title: 'Two-factor authentication is an enterprise feature'
+      title: 'Two-factor authentication'
       description: 'Strenghten your internal or external authentication mechanisms with a second factor.'
     backup_codes:
       none_found: Pro tento účet neexistují žádné záložní kódy.

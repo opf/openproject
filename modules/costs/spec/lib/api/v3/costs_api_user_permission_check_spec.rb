@@ -39,9 +39,9 @@ describe API::V3::CostsApiUserPermissionCheck do
     include API::V3::CostsApiUserPermissionCheck
   end
 
-  let(:user) { FactoryBot.build_stubbed(:user) }
-  let(:project) { FactoryBot.build_stubbed(:project) }
-  let(:work_package) { FactoryBot.build_stubbed(:work_package, project: project) }
+  let(:user) { build_stubbed(:user) }
+  let(:project) { build_stubbed(:project) }
+  let(:work_package) { build_stubbed(:work_package, project: project) }
 
   before do
     allow(subject)

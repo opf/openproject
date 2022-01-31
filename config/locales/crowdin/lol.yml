@@ -73,6 +73,11 @@ lol:
       start_trial: 'crwdns494783:0crwdne494783:0'
       book_now: 'crwdns494785:0crwdne494785:0'
       get_quote: 'crwdns494787:0crwdne494787:0'
+      buttons:
+        upgrade: "crwdns655649:0crwdne655649:0"
+        contact: "crwdns655651:0crwdne655651:0"
+      enterprise_info_html: "crwdns655653:0crwdne655653:0"
+      upgrade_info: "crwdns655655:0crwdne655655:0"
   announcements:
     show_until: crwdns494789:0crwdne494789:0
     is_active: crwdns494791:0crwdne494791:0
@@ -149,7 +154,7 @@ lol:
     edit: 'crwdns494885:0%{name}crwdne494885:0'
     execute: 'crwdns494887:0%{name}crwdne494887:0'
     upsale:
-      title: 'crwdns494889:0crwdne494889:0'
+      title: 'crwdns655657:0crwdne655657:0'
       description: 'crwdns494891:0crwdne494891:0'
   custom_fields:
     text_add_new_custom_field: >
@@ -247,7 +252,7 @@ lol:
       irreversible: "crwdns495005:0crwdne495005:0"
       confirmation: "crwdns495007:0%{name}crwdne495007:0"
     upsale:
-      title: crwdns495009:0crwdne495009:0
+      title: crwdns655659:0crwdne655659:0
       description: >
         crwdns495011:0crwdne495011:0
   prioritiies:
@@ -2307,6 +2312,9 @@ lol:
   setting_apiv3_cors_origins: "crwdns498899:0crwdne498899:0"
   setting_apiv3_cors_origins_text_html: >
     crwdns498901:0%{origin_link}crwdne498901:0
+  setting_apiv3_max_page_size: "crwdns655661:0crwdne655661:0"
+  setting_apiv3_max_page_instructions_html: >
+    crwdns655663:0crwdne655663:0
   setting_apiv3_docs: "crwdns498903:0crwdne498903:0"
   setting_apiv3_docs_enabled: "crwdns498905:0crwdne498905:0"
   setting_apiv3_docs_enabled_instructions_html: >

@@ -31,9 +31,9 @@ require 'spec_helper'
 describe Members::CleanupService, 'integration', type: :model do
   subject(:service_call) { instance.call }
 
-  let(:user) { FactoryBot.create(:user) }
+  let(:user) { create(:user) }
   let(:users) { [user] }
-  let(:project) { FactoryBot.create(:project) }
+  let(:project) { create(:project) }
   let(:projects) { [project]}
   let(:instance) do
     described_class.new(users, projects)
@@ -41,7 +41,7 @@ describe Members::CleanupService, 'integration', type: :model do
 
   describe 'category unassignment' do
     let!(:category) do
-      FactoryBot.build(:category, project: project, assigned_to: user).tap do |c|
+      build(:category, project: project, assigned_to: user).tap do |c|
         c.save(validate: false)
       end
     end
@@ -55,10 +55,10 @@ describe Members::CleanupService, 'integration', type: :model do
 
     context 'with the user having a membership with an assignable role' do
       before do
-        FactoryBot.create(:member,
+        create(:member,
                           principal: user,
                           project: project,
-                          roles: [FactoryBot.create(:role, assignable: true)])
+                          roles: [create(:role, assignable: true)])
       end
 
       it 'keeps assigned_to to the user' do
@@ -71,10 +71,10 @@ describe Members::CleanupService, 'integration', type: :model do
 
     context 'with the user having a membership with an unassignable role' do
       before do
-        FactoryBot.create(:member,
+        create(:member,
                           principal: user,
                           project: project,
-                          roles: [FactoryBot.create(:role, assignable: false)])
+                          roles: [create(:role, assignable: false)])
       end
 
       it 'sets assigned_to to nil' do
@@ -88,11 +88,11 @@ describe Members::CleanupService, 'integration', type: :model do
 
   describe 'watcher pruning' do
     let(:work_package) do
-      FactoryBot.create :work_package,
+      create :work_package,
                         project: project
     end
     let!(:watcher) do
-      FactoryBot.build(:watcher,
+      build(:watcher,
                        watchable: work_package,
                        user: user) do |w|
         w.save(validate: false)
@@ -108,10 +108,10 @@ describe Members::CleanupService, 'integration', type: :model do
 
     context 'with the user having a membership granting the right to view the watchable' do
       before do
-        FactoryBot.create(:member,
+        create(:member,
                           principal: user,
                           project: project,
-                          roles: [FactoryBot.create(:role, permissions: [:view_work_packages])])
+                          roles: [create(:role, permissions: [:view_work_packages])])
       end
 
       it 'keeps the watcher' do
@@ -124,10 +124,10 @@ describe Members::CleanupService, 'integration', type: :model do
 
     context 'with the user having a membership not granting the right to view the watchable' do
       before do
-        FactoryBot.create(:member,
+        create(:member,
                           principal: user,
                           project: project,
-                          roles: [FactoryBot.create(:role, permissions: [])])
+                          roles: [create(:role, permissions: [])])
       end
 
       it 'keeps the watcher' do

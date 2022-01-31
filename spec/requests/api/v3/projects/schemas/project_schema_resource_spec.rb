@@ -34,7 +34,7 @@ describe 'API v3 Projects schema resource', type: :request, content_type: :json 
   include API::V3::Utilities::PathHelper
 
   shared_let(:current_user) do
-    FactoryBot.create(:user)
+    create(:user)
   end
 
   let(:path) { api_v3_paths.project_schema }

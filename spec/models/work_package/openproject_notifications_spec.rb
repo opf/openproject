@@ -34,11 +34,11 @@ require 'spec_helper'
 # Tests that email notifications will be sent upon creating or changing a work package.
 describe WorkPackage, type: :model, with_settings: { journal_aggregation_time_minutes: 0 } do
   describe 'OpenProject notifications' do
-    shared_let(:admin) { FactoryBot.create :admin }
+    shared_let(:admin) { create :admin }
 
-    let(:project) { FactoryBot.create :project }
+    let(:project) { create :project }
     let(:work_package) do
-      FactoryBot.create :work_package,
+      create :work_package,
                         author: admin,
                         subject: 'I can see you',
                         project: project

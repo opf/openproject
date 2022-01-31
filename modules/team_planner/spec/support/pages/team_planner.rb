@@ -62,7 +62,6 @@ module Pages
       param = {
         'week' => :resourceTimelineWeek,
         '2 weeks' => :resourceTimelineTwoWeeks,
-        'month' => :resourceTimelineMonth
       }[text]
 
       expect(page).to have_current_path(/cview=#{param}/)
@@ -159,7 +158,7 @@ module Pages
 
       resizer = is_start_date ? wp_strip.find('.fc-event-resizer-start') : wp_strip.find('.fc-event-resizer-end')
 
-      drag_by_pixel(element: resizer, by_x: number_of_days * 170, by_y: 0) unless resizer.nil?
+      drag_by_pixel(element: resizer, by_x: number_of_days * 200, by_y: 0) unless resizer.nil?
     end
 
     def drag_wp_by_pixel(work_package, by_x, by_y)
@@ -175,6 +174,10 @@ module Pages
 
     def expect_wp_not_draggable(work_package)
       expect(page).to have_selector('.fc-event:not(.fc-event-draggable)', text: work_package.subject)
+    end
+
+    def expect_no_menu_item(name)
+      expect(page).not_to have_selector('.op-sidemenu--item-title', text: name)
     end
   end
 end

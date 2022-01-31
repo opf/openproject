@@ -30,14 +30,14 @@ require 'spec_helper'
 require 'work_package'
 
 describe Users::MembershipsController, type: :controller do
-  shared_let(:admin) { FactoryBot.create :admin }
+  shared_let(:admin) { create :admin }
 
-  let(:user) { FactoryBot.create(:user) }
-  let(:anonymous) { FactoryBot.create(:anonymous) }
+  let(:user) { create(:user) }
+  let(:anonymous) { create(:anonymous) }
 
   describe 'update memberships' do
-    let(:project) { FactoryBot.create(:project) }
-    let(:role) { FactoryBot.create(:role) }
+    let(:project) { create(:project) }
+    let(:role) { create(:role) }
 
     it 'works' do
       # i.e. it should successfully add a user to a project's members

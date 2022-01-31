@@ -34,7 +34,7 @@ describe Mails::ReminderJob, type: :model do
   subject(:job) { described_class.perform_now(recipient) }
 
   let(:recipient) do
-    FactoryBot.build_stubbed(:user)
+    build_stubbed(:user)
   end
 
   let(:notification_ids) { [1, 2, 3] }

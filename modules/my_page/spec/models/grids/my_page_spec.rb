@@ -32,7 +32,7 @@ require_relative './shared_model'
 
 describe Grids::MyPage, type: :model do
   let(:instance) { described_class.new(row_count: 5, column_count: 5) }
-  let(:user) { FactoryBot.build_stubbed(:user) }
+  let(:user) { build_stubbed(:user) }
 
   it_behaves_like 'grid attributes'
 
@@ -46,9 +46,9 @@ describe Grids::MyPage, type: :model do
 
   context 'altering widgets' do
     context 'when removing a work_packages_table widget' do
-      let(:user) { FactoryBot.create(:user) }
+      let(:user) { create(:user) }
       let(:query) do
-        FactoryBot.create(:query,
+        create(:query,
                           user: user)
       end
 

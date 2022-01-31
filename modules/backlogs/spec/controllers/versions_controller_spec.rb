@@ -30,21 +30,21 @@ require 'spec_helper'
 
 describe VersionsController, type: :controller do
   let(:version) do
-    FactoryBot.create(:version,
+    create(:version,
                       sharing: 'system')
   end
 
   let(:other_project) do
-    FactoryBot.create(:project).tap do |p|
-      FactoryBot.create(:member,
+    create(:project).tap do |p|
+      create(:member,
                         user: current_user,
-                        roles: [FactoryBot.create(:role, permissions: [:manage_versions])],
+                        roles: [create(:role, permissions: [:manage_versions])],
                         project: p)
     end
   end
 
   let(:current_user) do
-    FactoryBot.create(:user,
+    create(:user,
                       member_in_project: version.project,
                       member_with_permissions: [:manage_versions])
   end

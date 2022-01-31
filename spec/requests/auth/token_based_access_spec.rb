@@ -31,9 +31,9 @@
 require 'spec_helper'
 
 describe 'Token based access', type: :rails_request, with_settings: { login_required?: false } do
-  let(:work_package) { FactoryBot.create(:work_package) }
+  let(:work_package) { create(:work_package) }
   let(:user) do
-    FactoryBot.create(:user,
+    create(:user,
                       member_in_project: work_package.project,
                       member_with_permissions: %i[view_work_packages])
   end

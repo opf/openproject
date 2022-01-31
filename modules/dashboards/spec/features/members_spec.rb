@@ -31,41 +31,41 @@ require 'spec_helper'
 require_relative '../support/pages/dashboard'
 
 describe 'Members widget on dashboard', type: :feature, js: true do
-  let!(:project) { FactoryBot.create :project }
-  let!(:other_project) { FactoryBot.create :project }
+  let!(:project) { create :project }
+  let!(:other_project) { create :project }
 
   let!(:manager_user) do
-    FactoryBot.create :user, lastname: "Manager", member_in_project: project, member_through_role: role
+    create :user, lastname: "Manager", member_in_project: project, member_through_role: role
   end
   let!(:no_edit_member_user) do
-    FactoryBot.create :user, lastname: "No_Edit", member_in_project: project, member_through_role: no_edit_member_role
+    create :user, lastname: "No_Edit", member_in_project: project, member_through_role: no_edit_member_role
   end
   let!(:no_view_member_user) do
-    FactoryBot.create :user, lastname: "No_View", member_in_project: project, member_through_role: no_view_member_role
+    create :user, lastname: "No_View", member_in_project: project, member_through_role: no_view_member_role
   end
   let!(:placeholder_user) do
-    FactoryBot.create :placeholder_user,
+    create :placeholder_user,
                       lastname: "Placeholder user",
                       member_in_project: project,
                       member_through_role: no_view_member_role
   end
   let!(:invisible_user) do
-    FactoryBot.create :user, lastname: "Invisible", member_in_project: other_project, member_through_role: role
+    create :user, lastname: "Invisible", member_in_project: other_project, member_through_role: role
   end
 
   let(:no_view_member_role) do
-    FactoryBot.create(:role,
+    create(:role,
                       permissions: %i[manage_dashboards
                                       view_dashboards])
   end
   let(:no_edit_member_role) do
-    FactoryBot.create(:role,
+    create(:role,
                       permissions: %i[manage_dashboards
                                       view_dashboards
                                       view_members])
   end
   let(:role) do
-    FactoryBot.create(:role,
+    create(:role,
                       permissions: %i[manage_dashboards
                                       view_dashboards
                                       manage_members

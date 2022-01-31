@@ -30,12 +30,12 @@
 require 'spec_helper'
 
 describe SCM::CheckoutInstructionsService do
-  let(:user) { FactoryBot.build(:user) }
-  let(:project) { FactoryBot.build(:project) }
+  let(:user) { build(:user) }
+  let(:project) { build(:project) }
 
   let(:url) { 'file:///tmp/some/svn/repo' }
   let(:repository) do
-    FactoryBot.build(:repository_subversion,
+    build(:repository_subversion,
                      url: url,
                      project: project)
   end
@@ -133,7 +133,7 @@ describe SCM::CheckoutInstructionsService do
     end
 
     context 'disabled repository' do
-      let(:repository) { FactoryBot.build(:repository_git) }
+      let(:repository) { build(:repository_git) }
 
       it 'git is not available for checkout' do
         expect(service.available?).to be false

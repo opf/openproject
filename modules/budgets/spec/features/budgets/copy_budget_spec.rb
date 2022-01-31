@@ -29,35 +29,35 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper.rb')
 
 describe 'Copying a budget', type: :feature, js: true do
-  let(:project) { FactoryBot.create :project, enabled_module_names: %i[budgets costs] }
+  let(:project) { create :project, enabled_module_names: %i[budgets costs] }
   let(:current_user) do
-    FactoryBot.create :user,
+    create :user,
                       member_in_project: project,
                       member_with_permissions: %i(view_budgets edit_budgets view_hourly_rates view_cost_rates)
   end
-  let(:original_author) { FactoryBot.create :user }
+  let(:original_author) { create :user }
   let(:budget_subject) { "A budget subject" }
   let(:budget_description) { "A budget description" }
   let!(:budget) do
-    FactoryBot.create :budget,
+    create :budget,
                       subject: budget_subject,
                       description: budget_description,
                       author: original_author,
                       project: project
   end
   let!(:cost_type) do
-    FactoryBot.create :cost_type, name: 'Post-war', unit: 'cap', unit_plural: 'caps'
+    create :cost_type, name: 'Post-war', unit: 'cap', unit_plural: 'caps'
   end
-  let!(:cost_type_rate) { FactoryBot.create :cost_rate, cost_type: cost_type, rate: 50.0 }
-  let!(:default_hourly_rate) { FactoryBot.create :default_hourly_rate, user: original_author, rate: 25.0 }
+  let!(:cost_type_rate) { create :cost_rate, cost_type: cost_type, rate: 50.0 }
+  let!(:default_hourly_rate) { create :default_hourly_rate, user: original_author, rate: 25.0 }
   let!(:material_budget_item) do
-    FactoryBot.create :material_budget_item,
+    create :material_budget_item,
                       units: 3,
                       cost_type: cost_type,
                       budget: budget
   end
   let!(:overwritten_material_budget_item) do
-    FactoryBot.create :material_budget_item,
+    create :material_budget_item,
                       units: 10,
                       cost_type: cost_type,
                       budget: budget,
@@ -65,7 +65,7 @@ describe 'Copying a budget', type: :feature, js: true do
   end
 
   let!(:labor_budget_item) do
-    FactoryBot.create :labor_budget_item,
+    create :labor_budget_item,
                       hours: 5,
                       user: original_author,
                       budget: budget

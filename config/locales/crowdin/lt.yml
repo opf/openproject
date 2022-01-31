@@ -73,6 +73,11 @@ lt:
       start_trial: 'Pradėti bandomąjį laikotarpį'
       book_now: 'Užsakyti dabar'
       get_quote: 'Gauti pasiūlymą'
+      buttons:
+        upgrade: "Užsisakykite dabar"
+        contact: "Susisiekite su mumis dėl demonstracijos"
+      enterprise_info_html: "yra Enterprise <strong class='icon-medal'></strong> savybė."
+      upgrade_info: "Prašome atsinaujinti į mokamą planą, kad aktyvuotumėte ir pradėtumėte ji naudoti savo komandoje."
   announcements:
     show_until: Rodyti iki
     is_active: šiuo metu rodoma
@@ -158,7 +163,7 @@ lt:
     edit: 'Redaguoti pasirinktinį veiksmą %{name}'
     execute: 'Vykdyti %{name}'
     upsale:
-      title: 'Pasirinktiniai veiksmai yra „Enterprise Edition“ funkcija'
+      title: 'Pasirinktiniai veiksmai'
       description: 'Pasirinktiniai veiksmai supaprastina kasdienį darbą suderindami atskirus žingsnius į vieną mygtuką.'
   custom_fields:
     text_add_new_custom_field: >
@@ -257,7 +262,7 @@ lt:
       irreversible: "Šis veiksmas negrįžtamas"
       confirmation: "Naikinimo patvirtinimui įveskite statytinio naudotojo vardą %{name}."
     upsale:
-      title: Priskirkite darbus žmonėms, kurie nėra projekto nariai.
+      title: Statytiniai naudotojai
       description: >
         Gali būti keletas scenarijų kuriuose jūs norite priskirti darbus žmogui, kuris nėra projekto narys. Paprasčiausiai, žmogus gali dar nebūti priimtas į darbą. Arba jūs nenorite duoti žmogui prieigos prie projekto informacijos, tačiau norite sekti šiam žmogui priskirtas užduotis.
   prioritiies:
@@ -2376,6 +2381,9 @@ lt:
   setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) leidžiami kilmės domenai"
   setting_apiv3_cors_origins_text_html: >
     Jei CORS yra įgalinta, tai yra kilmės domenai, kuriems leidžiama pasiekti OpenProject API. <br/> Kaip nurodyti reikšmes aprašoma <a href="%{origin_link}" target="_blank">Origin antraštės dokumentacijoje</a>.
+  setting_apiv3_max_page_size: "Maksimalus API puslapio dydis"
+  setting_apiv3_max_page_instructions_html: >
+    Nustatykite maksimalų API atsakymo puslapio dydį. Bus neįmanoma vykdyti API užklausas, kurios grąžina daugiau reikšmių viename puslapyje. <br/> <strong>Įspėjimas</strong> Prašome keisti šią reikšmę jei jums to tikrai reikia. Nustatyta didelė reikšmė stipriai įtakos greitaveiką, o maža reikšmė mažesnė už puslapiavimo parinktis reikš klaida puslapiuojamuose vaizduose.
   setting_apiv3_docs: "Dokumentacija"
   setting_apiv3_docs_enabled: "Įjungti dokumentų puslapį"
   setting_apiv3_docs_enabled_instructions_html: >

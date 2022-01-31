@@ -29,9 +29,9 @@
 require 'spec_helper'
 
 describe ::Bim::Bcf::Issue, type: :model do
-  let(:type) { FactoryBot.create :type, name: "Issue [BCF]" }
-  let(:work_package) { FactoryBot.create :work_package, type: type }
-  let(:issue) { FactoryBot.create :bcf_issue, work_package: work_package }
+  let(:type) { create :type, name: "Issue [BCF]" }
+  let(:work_package) { create :work_package, type: type }
+  let(:issue) { create :bcf_issue, work_package: work_package }
 
   context '#markup_doc' do
     subject { issue }
@@ -54,8 +54,8 @@ describe ::Bim::Bcf::Issue, type: :model do
   end
 
   describe '.of_project' do
-    let!(:other_work_package) { FactoryBot.create :work_package, type: type }
-    let!(:other_issue) { FactoryBot.create :bcf_issue, work_package: other_work_package }
+    let!(:other_work_package) { create :work_package, type: type }
+    let!(:other_issue) { create :bcf_issue, work_package: other_work_package }
 
     it 'returns all issues of the provided project' do
       expect(described_class.of_project(issue.project))

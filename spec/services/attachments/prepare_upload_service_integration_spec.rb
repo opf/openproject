@@ -31,9 +31,9 @@ require 'spec_helper'
 
 describe Attachments::PrepareUploadService,
          'integration' do
-  shared_let(:container) { FactoryBot.create(:work_package) }
+  shared_let(:container) { create(:work_package) }
   shared_let(:user) do
-    FactoryBot.create :user,
+    create :user,
                       member_in_project: container.project,
                       member_with_permissions: %i[view_work_packages edit_work_packages]
   end

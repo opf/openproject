@@ -34,8 +34,7 @@ module API
       class FormRepresenter < ::API::Decorators::Form
         def payload_representer
           WorkPackagePayloadRepresenter
-            .create_class(represented, current_user)
-            .new(represented, current_user: current_user)
+            .create(represented, current_user: current_user)
         end
 
         def schema_representer

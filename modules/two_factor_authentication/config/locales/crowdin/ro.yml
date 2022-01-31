@@ -72,7 +72,7 @@ ro:
       text_2fa_enabled: 'La fiecare autentificare, acest utilizator va fi rugat să introducă un token OTP de pe dispozitivul său 2FA implicit.'
       text_2fa_disabled: "Utilizatorul nu a configurat un dispozitiv 2FA prin intermediul paginii \"Contul meu\""
     upsale:
-      title: 'Autentificarea cu doi factori este o caracteristică de întreprindere'
+      title: 'Two-factor authentication'
       description: 'Consolidați mecanismele de autentificare internă sau externă cu un al doilea factor.'
     backup_codes:
       none_found: Nu există coduri de rezervă pentru acest cont.

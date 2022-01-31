@@ -1,9 +1,9 @@
 require 'spec_helper'
 
 describe Dashboards::GridRegistration do
-  let(:user) { FactoryBot.build_stubbed(:user) }
-  let(:project) { FactoryBot.build_stubbed(:project) }
-  let(:grid) { FactoryBot.build_stubbed(:dashboard, project: project) }
+  let(:user) { build_stubbed(:user) }
+  let(:project) { build_stubbed(:project) }
+  let(:grid) { build_stubbed(:dashboard, project: project) }
 
   describe 'from_scope' do
     context 'with a relative URL root', with_config: { rails_relative_url_root: '/foobar' } do

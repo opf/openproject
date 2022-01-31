@@ -29,21 +29,21 @@
 require 'spec_helper'
 
 describe WorkPackages::DeleteService, 'integration', type: :model do
-  shared_let(:project) { FactoryBot.create(:project) }
+  shared_let(:project) { create(:project) }
   shared_let(:role) do
-    FactoryBot.create(:role,
+    create(:role,
                       permissions: %i[delete_work_packages view_work_packages add_work_packages manage_subtasks])
   end
   shared_let(:user) do
-    FactoryBot.create(:user,
+    create(:user,
                       member_in_project: project,
                       member_through_role: role)
   end
 
   describe 'deleting a child with estimated_hours set' do
-    let(:parent) { FactoryBot.create(:work_package, project: project) }
+    let(:parent) { create(:work_package, project: project) }
     let(:child) do
-      FactoryBot.create(:work_package,
+      create(:work_package,
                         project: project,
                         parent: parent,
                         estimated_hours: 123)
@@ -75,7 +75,7 @@ describe WorkPackages::DeleteService, 'integration', type: :model do
   end
 
   describe 'with a stale work package reference' do
-    let!(:work_package) { FactoryBot.create :work_package, project: project }
+    let!(:work_package) { create :work_package, project: project }
 
     let(:instance) do
       described_class.new(user: user,
@@ -94,9 +94,9 @@ describe WorkPackages::DeleteService, 'integration', type: :model do
   end
 
   describe 'with a notification' do
-    let!(:work_package) { FactoryBot.create :work_package, project: project }
+    let!(:work_package) { create :work_package, project: project }
     let!(:notification) do
-      FactoryBot.create :notification,
+      create :notification,
                         recipient: user,
                         actor: user,
                         resource: work_package,

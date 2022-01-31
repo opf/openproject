@@ -3,18 +3,18 @@ require 'features/page_objects/notification'
 
 describe 'Upload attachment to work package', js: true do
   let(:role) do
-    FactoryBot.create :role,
+    create :role,
                       permissions: %i[view_work_packages add_work_packages edit_work_packages]
   end
   let(:dev) do
-    FactoryBot.create :user,
+    create :user,
                       firstname: 'Dev',
                       lastname: 'Guy',
                       member_in_project: project,
                       member_through_role: role
   end
-  let(:project) { FactoryBot.create(:project) }
-  let(:work_package) { FactoryBot.create(:work_package, project: project, description: 'Initial description') }
+  let(:project) { create(:project) }
+  let(:work_package) { create(:work_package, project: project, description: 'Initial description') }
   let(:wp_page) { ::Pages::FullWorkPackage.new(work_package, project) }
   let(:attachments) { ::Components::Attachments.new }
   let(:field) { TextEditorField.new wp_page, 'description' }
@@ -50,7 +50,7 @@ describe 'Upload attachment to work package', js: true do
 
       context 'with a user that is not allowed to add images (Regression #28541)' do
         let(:role) do
-          FactoryBot.create :role,
+          create :role,
                             permissions: %i[view_work_packages add_work_packages add_work_package_notes]
         end
         let(:selector) { '.work-packages--activity--add-comment' }
@@ -79,11 +79,11 @@ describe 'Upload attachment to work package', js: true do
     context 'on a new page' do
       shared_examples 'it supports image uploads via drag & drop' do
         let!(:new_page) { Pages::FullWorkPackageCreate.new }
-        let!(:type) { FactoryBot.create(:type_task) }
-        let!(:status) { FactoryBot.create(:status, is_default: true) }
-        let!(:priority) { FactoryBot.create(:priority, is_default: true) }
+        let!(:type) { create(:type_task) }
+        let!(:status) { create(:status, is_default: true) }
+        let!(:priority) { create(:priority, is_default: true) }
         let!(:project) do
-          FactoryBot.create(:project, types: [type])
+          create(:project, types: [type])
         end
 
         let(:post_conditions) { nil }

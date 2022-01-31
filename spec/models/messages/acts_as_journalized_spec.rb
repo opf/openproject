@@ -29,13 +29,13 @@
 require 'spec_helper'
 
 describe Message, 'acts_as_journalized', type: :model do
-  let(:user) { FactoryBot.create(:user) }
-  let(:project) { FactoryBot.create(:project) }
+  let(:user) { create(:user) }
+  let(:project) { create(:project) }
   let!(:forum) do
-    FactoryBot.create(:forum,
+    create(:forum,
                       project: project)
   end
-  let(:attachment) { FactoryBot.create(:attachment, container: nil, author: user) }
+  let(:attachment) { create(:attachment, container: nil, author: user) }
 
   context 'on creation' do
     context 'attachments' do
