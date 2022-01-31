@@ -57,8 +57,14 @@ export class SpotDropModalComponent implements OnDestroy {
 
   private closeEventListener = this.close.bind(this);
 
-  private close():void {
+  public close():void {
     this.open = false;
+  }
+
+  public onBodyClick(e:MouseEvent) {
+    // We stop propagation here so that clicks inside the body do not
+    // close the modal when the event reaches the document body
+    e.stopPropagation();
   }
 
   public ngOnDestroy():void {
