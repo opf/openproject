@@ -41,7 +41,7 @@ See COPYRIGHT and LICENSE files for more details.
   <li class="toolbar-item">
     <%= link_to storage_path(@object),
                 method: :delete,
-                data: { confirm: I18n.t(:text_are_you_sure) },
+                data: { confirm: I18n.t('storages.delete_warning.storage') },
                 class: 'button -danger' do %>
       <%= op_icon('button--icon icon-delete') %>
       <span class="button--text"><%= t(:button_delete) %></span>
@@ -63,16 +63,22 @@ See COPYRIGHT and LICENSE files for more details.
         <span><%= t(:"storages.provider_types.#{@object.provider_type}") %></span>
       </div>
     </div>
+    <div class="attributes-key-value--key"><%= t(:'storages.label_host') %></div>
+    <div class="attributes-key-value--value-container">
+      <div class="attributes-key-value--value -text">
+        <span><%= link_to @object.host, @object.host %></span>
+      </div>
+    </div>
     <div class="attributes-key-value--key"><%= t(:'storages.label_creator') %></div>
     <div class="attributes-key-value--value-container">
       <div class="attributes-key-value--value -text">
         <span><%= @object.creator.name %></span>
       </div>
     </div>
-    <div class="attributes-key-value--key"><%= t(:'storages.label_created_at') %></div>
+    <div class="attributes-key-value--key"><%= Storages::ProjectStorage.human_attribute_name(:created_at) %></div>
     <div class="attributes-key-value--value-container">
       <div class="attributes-key-value--value -text">
-        <span><%= @object.created_at %></span>
+        <span><%= format_time(@object.created_at) %></span>
       </div>
     </div>
   </div>

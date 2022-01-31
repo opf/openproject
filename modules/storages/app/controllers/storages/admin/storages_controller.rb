@@ -95,6 +95,6 @@ class Storages::Admin::StoragesController < ApplicationController
   def permitted_storage_params
     params
       .require(:storages_storage)
-      .permit('name', 'provider_type')
+      .permit('name', 'provider_type', 'host')
   end
 end

@@ -8,7 +8,7 @@ module Storages
       end
     end
 
-    columns :name, :provider_type, :creator, :created_at
+    columns :name, :provider_type, :host, :creator, :created_at
 
     def initial_sort
       %i[created_at asc]
@@ -34,6 +34,7 @@ module Storages
       [
         ['name', { caption: Storages::Storage.human_attribute_name(:name) }],
         ['provider_type', { caption: I18n.t('storages.provider_types.label') }],
+        ['host', { caption: I18n.t('storages.label_host') }],
         ['creator', { caption: I18n.t('storages.label_creator') }],
         ['created_at', { caption: Storages::Storage.human_attribute_name(:created_at) }]
       ]

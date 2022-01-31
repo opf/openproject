@@ -5,7 +5,11 @@ module Storages
     include ::Redmine::I18n
 
     def name
-      model.name
+      link_to model.name, storage_path(model)
+    end
+
+    def host
+      model.host
     end
 
     def provider_type
@@ -25,7 +29,7 @@ module Storages
       link_to '',
               storage_path(model),
               class: 'icon icon-delete',
-              data: { confirm: I18n.t(:text_are_you_sure) },
+              data: { confirm: I18n.t('storages.delete_warning.storage') },
               title: I18n.t(:button_delete),
               method: :delete
     end

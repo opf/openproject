@@ -1,6 +1,6 @@
-<% html_title t(:label_administration), t("project_module_storages") %>
+<% html_title t(:label_administration), t("project_module_storages"), t('label_edit_x', x: @object.name) %>
 <% local_assigns[:additional_breadcrumb] = @object.name %>
-<%= toolbar title: @object.name %>
+<%= toolbar title: t('label_edit_x', x: @object.name) %>
 
 <%= labelled_tabular_form_for @object, url: storage_path(@object) do |f| -%>
   <%= error_messages_for_contract @object, @errors %>

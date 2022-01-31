@@ -30,13 +30,13 @@ require 'support/pages/page'
 
 module Pages
   class StorageTab < ::Pages::Page
-  #   attr_reader :project
-  #
-  #   def initialize(project)
-  #     super()
-  #
-  #     @project = project
-  #   end
+    attr_reader :project
+
+    def initialize(project)
+      super()
+
+      @project = project
+    end
   #
   #   def path
   #     project_team_planner_path(project)
@@ -122,5 +122,5 @@ module Pages
   #                         query: name,
   #                         results_selector: 'body'
   #   end
-  # end
+  end
 end

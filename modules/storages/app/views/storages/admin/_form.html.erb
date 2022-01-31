@@ -42,5 +42,12 @@ See COPYRIGHT and LICENSE files for more details.
       <%= t('storages.instructions.name') %>
     </span>
   </div>
+  <div class="form--field -required">
+    <%= f.text_field :host, type: :url, required: true, pattern: ".{1,255}", placeholder: "https://my-file-storage.com", container_class: '-wide' %>
+    <span class="form--field-instructions">
+      <%= t('storages.instructions.host') %>
+    </span>
+  </div>
+
 </section>
 
