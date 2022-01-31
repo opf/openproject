@@ -72,16 +72,17 @@ module API
                .from_hash(request_body)
 
       deep_to_h(struct)
+        .deep_symbolize_keys
     end
 
     def struct
-      OpenStruct.new
+      Hashie::Mash.new
     end
 
     def deep_to_h(value)
       # Does not yet factor in Arrays. There hasn't been the need to do that, yet.
       case value
-      when OpenStruct, Hash
+      when Hashie::Mash, Hash
         value.to_h.transform_values do |sub_value|
           deep_to_h(sub_value)
         end

@@ -33,47 +33,48 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
   let(:project) { create(:project) }
   let(:role) do
-    create(:role, permissions: %i[view_time_entries
-                                             view_cost_entries
-                                             view_cost_rates
-                                             view_work_packages])
+    create(:role,
+           permissions: %i[view_time_entries
+                           view_cost_entries
+                           view_cost_rates
+                           view_work_packages])
   end
   let(:user) do
     create(:user,
-                      member_in_project: project,
-                      member_through_role: role)
+           member_in_project: project,
+           member_through_role: role)
   end
 
   let(:cost_entry_1) do
     create(:cost_entry,
-                      work_package: work_package,
-                      project: project,
-                      units: 3,
-                      spent_on: Date.today,
-                      user: user,
-                      comments: 'Entry 1')
+           work_package: work_package,
+           project: project,
+           units: 3,
+           spent_on: Time.zone.today,
+           user: user,
+           comments: 'Entry 1')
   end
   let(:cost_entry_2) do
     create(:cost_entry,
-                      work_package: work_package,
-                      project: project,
-                      units: 3,
-                      spent_on: Date.today,
-                      user: user,
-                      comments: 'Entry 2')
+           work_package: work_package,
+           project: project,
+           units: 3,
+           spent_on: Time.zone.today,
+           user: user,
+           comments: 'Entry 2')
   end
 
   let(:work_package) do
     create(:work_package,
-                      project_id: project.id)
+           project_id: project.id)
   end
   let(:representer) do
-    described_class.new(work_package,
-                        current_user: user,
-                        embed_links: true)
+    described_class.create(work_package,
+                           current_user: user,
+                           embed_links: true)
   end
 
-  before(:each) do
+  before do
     allow(User).to receive(:current).and_return user
   end
 
@@ -106,9 +107,9 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         context 'time entry with single hour' do
           let(:time_entry) do
             create(:time_entry,
-                              project: work_package.project,
-                              work_package: work_package,
-                              hours: 1.0)
+                   project: work_package.project,
+                   work_package: work_package,
+                   hours: 1.0)
           end
 
           before { time_entry }
@@ -119,9 +120,9 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         context 'time entry with multiple hours' do
           let(:time_entry) do
             create(:time_entry,
-                              project: work_package.project,
-                              work_package: work_package,
-                              hours: 42.5)
+                   project: work_package.project,
+                   work_package: work_package,
+                   hours: 42.5)
           end
 
           before { time_entry }
@@ -145,24 +146,24 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
           let(:user2) do
             create(:user,
-                              member_in_project: project,
-                              member_through_role: own_time_entries_role)
+                   member_in_project: project,
+                   member_through_role: own_time_entries_role)
           end
 
           let!(:own_time_entry) do
             create(:time_entry,
-                              project: work_package.project,
-                              work_package: work_package,
-                              hours: 2,
-                              user: user2)
+                   project: work_package.project,
+                   work_package: work_package,
+                   hours: 2,
+                   user: user2)
           end
 
           let!(:other_time_entry) do
             create(:time_entry,
-                              project: work_package.project,
-                              work_package: work_package,
-                              hours: 1,
-                              user: user)
+                   project: work_package.project,
+                   work_package: work_package,
+                   hours: 1,
+                   user: user)
           end
 
           before do

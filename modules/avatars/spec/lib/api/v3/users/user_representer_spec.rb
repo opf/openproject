@@ -31,7 +31,7 @@ require 'spec_helper'
 describe ::API::V3::Users::UserRepresenter do
   let(:user) { build_stubbed(:user, status: 1) }
   let(:current_user) { build_stubbed(:user) }
-  let(:representer) { described_class.new(user, current_user: current_user) }
+  let(:representer) { described_class.create(user, current_user: current_user) }
 
   context 'generation' do
     subject(:generated) { representer.to_json }
