@@ -8,42 +8,56 @@
     type="button"
     class="button"
     (click)="open = !open"
-  >Open Modal</button>
+  >Include projects</button>
 
   <ng-container slot="body">
-    <spot-text-field
-      placeholder="Placeholder value"
-      [(ngModel)]="searchText"
+    <form
+      (submit)="save"
     >
-      <span
-        slot="before"
-        class="op-icon icon-search"
-      ></span>
-    </spot-text-field>
+      <spot-text-field
+        placeholder="Search project..."
+        [(ngModel)]="searchText"
+        [ngModelOptions]="{ standalone: true }"
+        (input)="searchProjects()"
+      >
+        <span
+          slot="before"
+          class="op-icon icon-search"
+        ></span>
+      </spot-text-field>
 
-    <ul class="spot-list">
-      <li class="spot-list--item">
-        <label class="spot-list--item-action">
-          <spot-checkbox></spot-checkbox>
-          <div class="spot-list--item-title">Checkbox item</div>
-        </label>
-      </li>
-    </ul>
+      <ul class="spot-list">
+        <li class="spot-list--item">
+          <label class="spot-list--item-action">
+            <spot-checkbox></spot-checkbox>
+            <div class="spot-list--item-title">Checkbox item</div>
+          </label>
+        </li>
+      </ul>
 
-    <div class="spot-action-bar">
-      <div class="spot-action-bar--left">
-        <button class="spot-button spot-button_outlined spot-button_primary">
-          Independent action
-        </button>
+      <div class="spot-action-bar">
+        <div class="spot-action-bar--left">
+          <label>
+            <spot-checkbox
+              [(ngModel)]="includeSubProjects"
+              [ngModelOptions]="{ standalone: true }"
+            ></spot-checkbox>
+            <div class="spot-list--item-title">Include all sub-projects</div>
+          </label>
+        </div>
+        <div class="spot-action-bar--right">
+          <button
+            class="spot-button spot-button_outlined spot-button_primary"
+            type="button"
+            (click)="clearSelection()"
+          >
+            Clear selection
+          </button>
+          <button class="spot-button spot-button_primary">
+            Apply
+          </button>
+        </div>
       </div>
-      <div class="spot-action-bar--right">
-        <button class="spot-button spot-button_outlined spot-button_primary">
-          Some Action
-        </button>
-        <button class="spot-button spot-button_primary">
-          Another Action
-        </button>
-      </div>
-    </div>
+    </form>
   </ng-container>
 </spot-drop-modal>
