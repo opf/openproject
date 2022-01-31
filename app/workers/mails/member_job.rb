@@ -46,9 +46,9 @@ class Mails::MemberJob < ApplicationJob
                         member:,
                         message: nil)
     every_group_user_member(member) do |user_member|
-      next unless roles_changed?(user_member, member)
-
       if member.project.nil?
+        next unless roles_changed?(user_member, member)
+
         send_updated_global(current_user, user_member, message)
       else
         send_for_group_user(current_user, user_member, member, message)
