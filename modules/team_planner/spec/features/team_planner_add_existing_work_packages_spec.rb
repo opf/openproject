@@ -101,7 +101,7 @@ describe 'Team planner add existing work packages', type: :feature, js: true do
       sleep 2
 
       # Drag it to the team planner...
-      add_existing_pane.drag_wp_by_pixel second_wp, 750, 50
+      add_existing_pane.drag_wp_by_pixel second_wp, 800, 50
 
       team_planner.expect_and_dismiss_toaster(message: "Successful update.")
 
@@ -118,7 +118,7 @@ describe 'Team planner add existing work packages', type: :feature, js: true do
       sleep 2
 
       # Drag it to the team planner...
-      add_existing_pane.drag_wp_by_pixel third_wp, 750, -50
+      add_existing_pane.drag_wp_by_pixel third_wp, 800, -50
 
       team_planner.expect_and_dismiss_toaster(message: "Successful update.")
 
