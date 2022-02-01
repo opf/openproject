@@ -26,35 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module API
-  module V3
-    module FileLinks
-      class FileLinksAPI < ::API::OpenProjectAPI
-        resources :file_links do
-          get do
-            raise ::API::Errors::NotImplemented
-          end
-
-          post do
-            raise ::API::Errors::NotImplemented
-          end
-
-          route_param :file_link_id, type: Integer, desc: 'File link id' do
-            after_validation do
-              @file_link = ::Storages::FileLink.find(params[:file_link_id])
-            end
-
-            get &::API::V3::Utilities::Endpoints::Show.new(model: ::Storages::FileLink).mount
-
-            delete do
-              raise ::API::Errors::NotImplemented
-            end
-
-            mount ::API::V3::FileLinks::FileLinksDownloadAPI
-            mount ::API::V3::FileLinks::FileLinksOpenAPI
-          end
-        end
-      end
-    end
+FactoryBot.define do
+  factory :file_link, class: '::Storages::FileLink' do
+    container_type { 'WorkPackage' }
   end
 end

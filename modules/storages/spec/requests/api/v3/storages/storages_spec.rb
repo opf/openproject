@@ -28,15 +28,18 @@
 
 require 'spec_helper'
 
-describe 'API v3 storages resource', type: :request do
+describe 'API v3 storages resource', type: :request, content_type: :json do
   include API::V3::Utilities::PathHelper
 
   let(:permissions) { %i(view_file_links) }
-  let(:role) { FactoryBot.create(:role, permissions: permissions) }
-  let(:project) { FactoryBot.create(:project) }
+  let(:project) { create(:project) }
 
   let(:current_user) do
-    FactoryBot.create(:user, member_in_project: project, member_through_role: role)
+    create(:user, member_in_project: project, member_with_permissions: permissions)
+  end
+
+  let(:storage) do
+    create(:storage, creator: current_user)
   end
 
   subject(:response) { last_response }
@@ -46,14 +49,26 @@ describe 'API v3 storages resource', type: :request do
   end
 
   describe 'GET /api/v3/storages/:storage_id' do
-    let(:path) { api_v3_paths.storages(1337) }
+    let(:path) { api_v3_paths.storage(storage.id) }
 
     before do
       get path
     end
 
-    it 'returns not implemented' do
-      expect(subject.status).to eql 501
+    it 'is successful' do
+      expect(subject.status).to be 200
+    end
+
+    context 'if user has no permissions' do
+      let(:permissions) { [] }
+
+      it_behaves_like 'not found'
+    end
+
+    context 'if no storage with that id exists' do
+      let(:path) { api_v3_paths.storage(1337) }
+
+      it_behaves_like 'not found'
     end
   end
 end

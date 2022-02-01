@@ -32,9 +32,13 @@ module API
       class StoragesAPI < ::API::OpenProjectAPI
         resources :storages do
           route_param :storage_id, type: Integer, desc: 'Storage id' do
-            get do
-              raise ::API::Errors::NotImplemented
+            after_validation do
+              @storage = ::Storages::Storage.find(params[:storage_id])
+
+              raise ::API::Errors::NotFound unless @storage.visible_to?(current_user)
             end
+
+            get &::API::V3::Utilities::Endpoints::Show.new(model: ::Storages::Storage).mount
           end
         end
       end

@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -41,4 +39,8 @@ class Storages::Storage < ApplicationRecord
   validates_length_of :host, minimum: 1, maximum: 255
   validates_uniqueness_of :name
   validates_length_of :name, minimum: 1, maximum: 255
+
+  def visible_to?(user)
+    user.allowed_to_globally?(:view_file_links)
+  end
 end

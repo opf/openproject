@@ -28,31 +28,41 @@
 
 module API
   module V3
-    module FileLinks
-      class FileLinksAPI < ::API::OpenProjectAPI
-        resources :file_links do
-          get do
-            raise ::API::Errors::NotImplemented
-          end
+    module Storages
+      class StorageRepresenter < ::API::Decorators::Single
+        include API::Decorators::LinkedResource
+        include API::Decorators::DateProperty
 
-          post do
-            raise ::API::Errors::NotImplemented
-          end
+        property :id
 
-          route_param :file_link_id, type: Integer, desc: 'File link id' do
-            after_validation do
-              @file_link = ::Storages::FileLink.find(params[:file_link_id])
-            end
+        property :name
 
-            get &::API::V3::Utilities::Endpoints::Show.new(model: ::Storages::FileLink).mount
+        date_time_property :created_at
 
-            delete do
-              raise ::API::Errors::NotImplemented
-            end
+        date_time_property :updated_at
 
-            mount ::API::V3::FileLinks::FileLinksDownloadAPI
-            mount ::API::V3::FileLinks::FileLinksOpenAPI
-          end
+        link :self do
+          {
+            href: api_v3_paths.storage(represented.id),
+            method: :get
+          }
+        end
+
+        link :type do
+          {
+            href: "#{::API::V3::URN_PREFIX}storages:nextcloud",
+            title: 'Nextcloud'
+          }
+        end
+
+        link :origin do
+          {
+            href: represented.host
+          }
+        end
+
+        def _type
+          'Storage'
         end
       end
     end

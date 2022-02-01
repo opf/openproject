@@ -64,7 +64,7 @@ module OpenProject::Storages
            parent: :settings
     end
 
-    add_api_path :storages do |storage_id|
+    add_api_path :storage do |storage_id|
       "#{root}/storages/#{storage_id}"
     end
 

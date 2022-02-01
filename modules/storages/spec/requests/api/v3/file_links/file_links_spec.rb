@@ -32,15 +32,22 @@ describe 'API v3 file links resource', type: :request do
   include API::V3::Utilities::PathHelper
 
   let(:permissions) { %i(view_work_packages) }
-  let(:role) { FactoryBot.create(:role, permissions: permissions) }
-  let(:project) { FactoryBot.create(:project) }
+  let(:project) { create(:project) }
 
   let(:current_user) do
-    FactoryBot.create(:user, member_in_project: project, member_through_role: role)
+    create(:user, member_in_project: project, member_with_permissions: permissions)
   end
 
   let(:work_package) do
-    FactoryBot.create :work_package, author: current_user, project: project
+    create(:work_package, author: current_user, project: project)
+  end
+
+  let(:storage) do
+    create(:storage, creator: current_user)
+  end
+
+  let(:file_link) do
+    create(:file_link, creator: current_user, container: work_package, storage: storage)
   end
 
   subject(:response) { last_response }
@@ -57,7 +64,7 @@ describe 'API v3 file links resource', type: :request do
     end
 
     it 'returns not implemented' do
-      expect(subject.status).to eql 501
+      expect(subject.status).to be 501
     end
   end
 
@@ -70,24 +77,24 @@ describe 'API v3 file links resource', type: :request do
     end
 
     it 'returns not implemented' do
-      expect(subject.status).to eql 501
+      expect(subject.status).to be 501
     end
   end
 
   describe 'GET /api/v3/work_packages/:work_package_id/file_links/:file_link_id' do
-    let(:path) { api_v3_paths.file_link(work_package.id, 1337) }
+    let(:path) { api_v3_paths.file_link(work_package.id, file_link.id) }
 
     before do
       get path
     end
 
-    it 'returns not implemented' do
-      expect(subject.status).to eql 501
+    it 'is successful' do
+      expect(subject.status).to be 200
     end
   end
 
   describe 'DELETE /api/v3/work_packages/:work_package_id/file_links/:file_link_id' do
-    let(:path) { api_v3_paths.file_link(work_package.id, 1337) }
+    let(:path) { api_v3_paths.file_link(work_package.id, file_link.id) }
 
     before do
       header 'Content-Type', 'application/json'
@@ -95,31 +102,31 @@ describe 'API v3 file links resource', type: :request do
     end
 
     it 'returns not implemented' do
-      expect(subject.status).to eql 501
+      expect(subject.status).to be 501
     end
   end
 
   describe 'GET /api/v3/work_packages/:work_package_id/file_links/:file_link_id/download' do
-    let(:path) { api_v3_paths.file_link_download(work_package.id, 1337) }
+    let(:path) { api_v3_paths.file_link_download(work_package.id, file_link.id) }
 
     before do
       get path
     end
 
     it 'returns not implemented' do
-      expect(subject.status).to eql 501
+      expect(subject.status).to be 501
     end
   end
 
   describe 'GET /api/v3/work_packages/:work_package_id/file_links/:file_link_id/open' do
-    let(:path) { api_v3_paths.file_link_open(work_package.id, 1337) }
+    let(:path) { api_v3_paths.file_link_open(work_package.id, file_link.id) }
 
     before do
       get path
     end
 
     it 'returns not implemented' do
-      expect(subject.status).to eql 501
+      expect(subject.status).to be 501
     end
   end
 end
