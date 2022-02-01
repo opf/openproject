@@ -16,13 +16,14 @@
       *ngIf="calendarOptions"
       [options]="calendarOptions"
       class="op-team-planner--calendar"
+      [ngClass]="{'op-team-planner--calendar_empty': (isEmpty$ | async)}"
     ></full-calendar>
 
     <div
       [textContent]="calendar.tooManyResultsText"
       class="op-wp-calendar--notification"></div>
     <div
-      *ngIf="!(principalIds$ | async)?.length && !(showAddAssignee$ | async)"
+      *ngIf="isEmpty$ | async"
       class="op-team-planner--no-data">
       <span [textContent]="text.noData"></span>
     </div>
