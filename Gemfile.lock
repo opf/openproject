@@ -881,10 +881,10 @@ GEM
     sentry-rails (5.0.1)
       railties (>= 5.0)
       sentry-ruby-core (~> 5.0.1)
-    sentry-ruby (5.0.1)
+    sentry-ruby (5.0.2)
       concurrent-ruby (~> 1.0, >= 1.0.2)
-      sentry-ruby-core (= 5.0.1)
-    sentry-ruby-core (5.0.1)
+      sentry-ruby-core (= 5.0.2)
+    sentry-ruby-core (5.0.2)
       concurrent-ruby
     shoulda-context (2.0.0)
     shoulda-matchers (5.1.0)
