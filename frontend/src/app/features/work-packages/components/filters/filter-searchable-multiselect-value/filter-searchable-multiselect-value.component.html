@@ -4,6 +4,7 @@
   <op-autocompleter
     appendTo="body"
     class="advanced-filters--ng-select -multi-select"
+    [id]="'values-' + filter.id"
     [getOptionsFn]="autocompleterFn"
     [classes]="{'-required-highlighting' : isEmpty}"
     [virtualScroll]
@@ -13,6 +14,7 @@
     [multiple]="true"
     [fetchDataDirectly]="true"
     [focusDirectly]="shouldFocus"
+    [model]="value"
     (change)="setValues($event)"
   ></op-autocompleter>
 </div>
