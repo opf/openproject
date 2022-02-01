@@ -83,7 +83,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
 
   showAddExistingPane = new BehaviorSubject<boolean>(false);
 
-  showAddAssignee$ = new Subject<boolean>();
+  showAddAssignee$ = new BehaviorSubject<boolean>(false);
 
   private principalIds$ = this.wpTableFilters
     .live$()
@@ -103,6 +103,13 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
         filters: [['id', '=', ids]],
       }) as ApiV3ListParameters),
     );
+
+  isEmpty$ = combineLatest([
+    this.principalIds$,
+    this.showAddAssignee$,
+  ]).pipe(
+    map(([principals, showAddAssignee]) => !principals.length && !showAddAssignee),
+  );
 
   assignees:HalResource[] = [];
 
