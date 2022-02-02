@@ -55,7 +55,9 @@ describe 'Wysiwyg &nbsp; behavior',
         expect(page).to have_selector('.flash.notice')
 
         within('#content') do
-          expect(page).to have_selector('p', text: 'some text with bold')
+          expect(page).to have_selector('p') do |node|
+            node.text.include?('some text') && node.text.include?('with bold')
+          end
           expect(page).to have_selector('strong', text: 'with bold')
         end
       end
