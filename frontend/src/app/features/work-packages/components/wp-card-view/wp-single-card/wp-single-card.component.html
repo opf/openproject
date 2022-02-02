@@ -52,23 +52,20 @@
     <span [textContent]="wpProjectName(workPackage)"
           class="op-wp-single-card--content-project-name">
     </span>
-    <span [textContent]="wpTypeAttribute(workPackage)"
-          class="op-wp-single-card--content-type"
-          data-qa-selector="op-wp-single-card--content-type"
-          [ngClass]="typeHighlightingClass(workPackage)">
+    <span class="op-wp-single-card--content-id">
+      #{{workPackage.id}} -
     </span>
+
     <span class="op-wp-single-card--content-subject"
           data-qa-selector="op-wp-single-card--content-subject">
-      <a class="op-wp-single-card--content-id"
-         [href]="fullWorkPackageLink(workPackage)"
-         [ngClass]="uiStateLinkClass"
-         (click)="emitStateLinkClicked($event, workPackage)"
-      >
-        #{{workPackage.id}}
-      </a>
-      <span [textContent]="wpSubject(workPackage)">
-      </span>
+      <span [textContent]="wpTypeAttribute(workPackage)"
+            class="op-wp-single-card--content-type"
+            data-qa-selector="op-wp-single-card--content-type"
+            [ngClass]="typeHighlightingClass(workPackage)">
+      </span>&nbsp;
+      <span [textContent]="wpSubject(workPackage)"></span>
     </span>
+
     <img *ngIf="this.cardCoverImageShown(workPackage)"
          [src]="this.bcfSnapshotPath(workPackage)"
          class="op-wp-single-card--content-cover-image">
@@ -80,7 +77,7 @@
     <op-principal
       *ngIf="workPackage.assignee"
       [principal]="workPackage.assignee"
-      [hideName]="true"
+      [hideName]="false"
       [link]="false"
       size="mini"
       class="op-wp-single-card--content-assignee"

@@ -39,11 +39,11 @@
 
     &:not(.-new)
       display: grid
-      grid-template-columns: max-content max-content max-content max-content 1fr
-      grid-template-rows: auto auto 1fr auto
+      grid-template-columns: max-content max-content auto auto 1fr
+      grid-template-rows: auto max-content max-content 1fr
       grid-row-gap: 5px
       grid-column-gap: 5px
-      grid-template-areas: "project type status status status" "subject subject subject subject subject" "image image image image image" "avatar avatar avatar dates dates"
+      grid-template-areas: "status id project project project" "subject subject subject subject subject" "image image image image image" "avatar avatar avatar dates dates"
       overflow: hidden
       flex-grow: 1
       font-size: 14px
@@ -53,8 +53,8 @@
       grid-area: project
       font-style: italic
       color: var(--gray-dark)
+      font-size: 12px
       @include text-shortener
-      max-width: 80px
     &-type
       grid-area: type
     &-subject
@@ -62,7 +62,11 @@
       @include text-shortener(false)
     &-assignee
       grid-area: avatar
-      place-self: center left
+      max-width: 140px
+      color: var(--gray-dark)
+      font-size: 12px
+    &-id
+      grid-area: id
       color: var(--gray-dark)
       font-size: 12px
     &-status
