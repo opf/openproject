@@ -37,14 +37,14 @@ describe 'BIM Revit Add-in navigation spec',
   let!(:work_package) { create(:work_package, project: project) }
   let(:role) do
     create(:role,
-           permissions: %i[view_ifc_models manage_ifc_models add_work_packages edit_work_packages view_work_packages])
+                      permissions: %i[view_ifc_models manage_ifc_models add_work_packages edit_work_packages view_work_packages])
   end
   let(:model_page) { ::Pages::IfcModels::ShowDefault.new(project) }
 
   let(:user) do
     create :user,
-           member_in_project: project,
-           member_through_role: role
+                      member_in_project: project,
+                      member_through_role: role
   end
 
   context "when logged in on model page" do

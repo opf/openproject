@@ -46,9 +46,9 @@ describe 'API v3 Cost Entry resource' do
 
   let(:cost_entry) do
     create(:cost_entry,
-           project: project,
-           work_package: work_package,
-           user: current_user)
+                      project: project,
+                      work_package: work_package,
+                      user: current_user)
   end
 
   before do

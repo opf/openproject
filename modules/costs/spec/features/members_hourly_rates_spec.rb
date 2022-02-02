@@ -32,7 +32,7 @@ describe 'hourly rates on a member', type: :feature, js: true do
   let(:project) { build :project }
   let(:user) do
     create :admin,
-           member_in_project: project
+                      member_in_project: project
   end
   let(:member) { Member.find_by(project: project, principal: user) }
 

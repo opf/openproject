@@ -89,7 +89,7 @@ describe Document do
     let(:now) { Time.zone.now }
     let(:document) do
       build(:document,
-            created_at: now)
+                       created_at: now)
     end
 
     it { expect(document.event_datetime.to_i).to eq(now.to_i) }

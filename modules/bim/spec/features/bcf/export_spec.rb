@@ -53,14 +53,14 @@ describe 'bcf export',
 
   let(:current_user) do
     create :user,
-           member_in_project: project,
-           member_with_permissions: permissions
+                      member_in_project: project,
+                      member_with_permissions: permissions
   end
 
   let!(:model) do
     create(:ifc_model_minimal_converted,
-           project: project,
-           uploader: current_user)
+                      project: project,
+                      uploader: current_user)
   end
 
   let(:model_page) { ::Pages::IfcModels::ShowDefault.new project }

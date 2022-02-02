@@ -33,7 +33,7 @@ describe 'rb_taskboards/show', type: :view do
   let(:user2) { create(:user) }
   let(:role_allowed) do
     create(:role,
-           permissions: %i[add_work_packages edit_work_packages manage_subtasks])
+                      permissions: %i[add_work_packages edit_work_packages manage_subtasks])
   end
   let(:role_forbidden) { create(:role) }
   # We need to create these as some view helpers access the database

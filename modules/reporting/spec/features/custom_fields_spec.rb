@@ -36,25 +36,25 @@ describe 'Custom fields reporting', type: :feature, js: true do
 
   let(:work_package) do
     create :work_package,
-           project: project,
-           type: type,
-           custom_values: initial_custom_values
+                      project: project,
+                      type: type,
+                      custom_values: initial_custom_values
   end
 
   let!(:time_entry1) do
     create :time_entry,
-           user: user,
-           work_package: work_package,
-           project: project,
-           hours: 10
+                      user: user,
+                      work_package: work_package,
+                      project: project,
+                      hours: 10
   end
 
   let!(:time_entry2) do
     create :time_entry,
-           user: user,
-           work_package: work_package,
-           project: project,
-           hours: 2.50
+                      user: user,
+                      work_package: work_package,
+                      project: project,
+                      hours: 2.50
   end
 
   def custom_value_for(cf, str)
@@ -64,11 +64,11 @@ describe 'Custom fields reporting', type: :feature, js: true do
   context 'with multi value cf' do
     let!(:custom_field) do
       create(:list_wp_custom_field,
-             name: "List CF",
-             multi_value: true,
-             types: [type],
-             projects: [project],
-             possible_values: ['First option', 'Second option'])
+                        name: "List CF",
+                        multi_value: true,
+                        types: [type],
+                        projects: [project],
+                        possible_values: ['First option', 'Second option'])
     end
 
     let(:initial_custom_values) { { custom_field.id => custom_value_for(custom_field, 'First option') } }
@@ -78,8 +78,8 @@ describe 'Custom fields reporting', type: :feature, js: true do
     # as this caused problems with casting the nil value of the custom value to 0.
     let!(:work_package2) do
       create :work_package,
-             project: project,
-             type: type
+                        project: project,
+                        type: type
     end
 
     before do
@@ -148,25 +148,25 @@ describe 'Custom fields reporting', type: :feature, js: true do
     context 'with additional WP with invalid value' do
       let!(:custom_field_2) do
         create(:list_wp_custom_field,
-               name: "Invalid List CF",
-               multi_value: true,
-               types: [type],
-               projects: [project],
-               possible_values: %w[A B])
+                          name: "Invalid List CF",
+                          multi_value: true,
+                          types: [type],
+                          projects: [project],
+                          possible_values: %w[A B])
       end
 
       let!(:work_package2) do
         create :work_package,
-               project: project,
-               custom_values: { custom_field_2.id => custom_value_for(custom_field_2, 'A') }
+                          project: project,
+                          custom_values: { custom_field_2.id => custom_value_for(custom_field_2, 'A') }
       end
 
       let!(:time_entry1) do
         create :time_entry,
-               user: user,
-               work_package: work_package2,
-               project: project,
-               hours: 10
+                          user: user,
+                          work_package: work_package2,
+                          project: project,
+                          hours: 10
       end
 
       before do
@@ -201,9 +201,9 @@ describe 'Custom fields reporting', type: :feature, js: true do
   context 'with text CF' do
     let(:custom_field) do
       create(:text_wp_custom_field,
-             name: 'Text CF',
-             types: [type],
-             projects: [project])
+                        name: 'Text CF',
+                        types: [type],
+                        projects: [project])
     end
     let(:initial_custom_values) { { custom_field.id => 'foo' } }
 

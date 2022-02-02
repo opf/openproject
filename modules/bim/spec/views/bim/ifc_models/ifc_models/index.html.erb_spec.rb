@@ -32,20 +32,20 @@ describe 'bim/ifc_models/ifc_models/index', type: :view do
   let(:project) { create(:project, enabled_module_names: %i[bim]) }
   let(:ifc_model) do
     create(:ifc_model,
-           uploader: uploader_user,
-           title: "office.ifc",
-           project: project).tap do |model|
+                      uploader: uploader_user,
+                      title: "office.ifc",
+                      project: project).tap do |model|
       model.uploader = uploader_user
     end
   end
   let(:role) do
     create(:role,
-           permissions: %i[view_ifc_models manage_ifc_models])
+                      permissions: %i[view_ifc_models manage_ifc_models])
   end
   let(:user) do
     create :user,
-           member_in_project: project,
-           member_through_role: role
+                      member_in_project: project,
+                      member_through_role: role
   end
   let(:uploader_user) { user }
 
@@ -90,8 +90,8 @@ describe 'bim/ifc_models/ifc_models/index', type: :view do
     context 'without ifc_attachment' do
       let(:ifc_model) do
         create(:ifc_model_without_ifc_attachment,
-               title: "office.ifc",
-               project: project)
+                          title: "office.ifc",
+                          project: project)
       end
 
       it 'lists the IFC model with all but the download button' do

@@ -21,16 +21,16 @@ describe LdapGroups::SynchronizeGroupsService, with_ee: %i[ldap_groups] do
   # two groups foo (aa729), bar(aa729, bb459, cc414)
   let(:auth_source) do
     create :ldap_auth_source,
-           port: ParallelHelper.port_for_ldap.to_s,
-           account: 'uid=admin,ou=system',
-           account_password: 'secret',
-           base_dn: 'ou=people,dc=example,dc=com',
-           onthefly_register: onthefly_register,
-           filter_string: ldap_filter,
-           attr_login: 'uid',
-           attr_firstname: 'givenName',
-           attr_lastname: 'sn',
-           attr_mail: 'mail'
+                      port: ParallelHelper.port_for_ldap.to_s,
+                      account: 'uid=admin,ou=system',
+                      account_password: 'secret',
+                      base_dn: 'ou=people,dc=example,dc=com',
+                      onthefly_register: onthefly_register,
+                      filter_string: ldap_filter,
+                      attr_login: 'uid',
+                      attr_firstname: 'givenName',
+                      attr_lastname: 'sn',
+                      attr_mail: 'mail'
   end
 
   let(:onthefly_register) { false }
@@ -46,17 +46,17 @@ describe LdapGroups::SynchronizeGroupsService, with_ee: %i[ldap_groups] do
 
   let(:synced_foo) do
     create :ldap_synchronized_group,
-           dn: 'cn=foo,ou=groups,dc=example,dc=com',
-           group: group_foo,
-           sync_users: sync_users,
-           auth_source: auth_source
+                      dn: 'cn=foo,ou=groups,dc=example,dc=com',
+                      group: group_foo,
+                      sync_users: sync_users,
+                      auth_source: auth_source
   end
   let(:synced_bar) do
     create :ldap_synchronized_group,
-           dn: 'cn=bar,ou=groups,dc=example,dc=com',
-           group: group_bar,
-           sync_users: sync_users,
-           auth_source: auth_source
+                      dn: 'cn=bar,ou=groups,dc=example,dc=com',
+                      group: group_bar,
+                      sync_users: sync_users,
+                      auth_source: auth_source
   end
 
   subject do

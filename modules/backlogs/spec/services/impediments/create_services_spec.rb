@@ -38,11 +38,11 @@ describe Impediments::CreateService do
   let(:priority) { create(:priority, is_default: true) }
   let(:feature) do
     build(:work_package,
-          type: type_feature,
-          project: project,
-          author: user,
-          priority: priority,
-          status: status1)
+                     type: type_feature,
+                     project: project,
+                     author: user,
+                     priority: priority,
+                     status: status1)
   end
   let(:version) { create(:version, project: project) }
 

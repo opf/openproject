@@ -32,7 +32,7 @@ describe 'rb_master_backlogs/index', type: :view do
   let(:user) { create(:user) }
   let(:role_allowed) do
     create(:role,
-           permissions: %i[view_master_backlog view_taskboards])
+                      permissions: %i[view_master_backlog view_taskboards])
   end
   let(:statuses) do
     [create(:status, is_default: true),

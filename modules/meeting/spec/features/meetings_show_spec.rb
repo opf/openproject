@@ -33,8 +33,8 @@ describe 'Meetings', type: :feature, js: true do
   let(:role) { create(:role, permissions: permissions) }
   let(:user) do
     create(:user,
-           member_in_project: project,
-           member_through_role: role)
+                      member_in_project: project,
+                      member_through_role: role)
   end
 
   let!(:meeting) { create :meeting, project: project, title: 'Awesome meeting!' }

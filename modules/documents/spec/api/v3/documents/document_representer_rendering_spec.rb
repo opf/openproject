@@ -33,7 +33,7 @@ describe ::API::V3::Documents::DocumentRepresenter, 'rendering' do
 
   let(:document) do
     build_stubbed(:document,
-                  description: 'Some description') do |document|
+                             description: 'Some description') do |document|
       allow(document)
         .to receive(:project)
         .and_return(project)

@@ -33,8 +33,8 @@ describe ::OpenProject::Bim::BcfXml::IssueReader do
   let(:type) { create :type, name: 'Issue', is_standard: true, is_default: true }
   let(:project) do
     create(:project,
-           identifier: 'bim_project',
-           types: [type])
+                      identifier: 'bim_project',
+                      types: [type])
   end
   let(:manage_bcf_role) do
     create(
@@ -45,15 +45,15 @@ describe ::OpenProject::Bim::BcfXml::IssueReader do
   let(:bcf_manager) { create(:user) }
   let(:workflow) do
     create(:workflow_with_default_status,
-           role: manage_bcf_role,
-           type: type)
+                      role: manage_bcf_role,
+                      type: type)
   end
   let(:priority) { create :default_priority }
   let(:bcf_manager_member) do
     create(:member,
-           project: project,
-           user: bcf_manager,
-           roles: [manage_bcf_role])
+                      project: project,
+                      user: bcf_manager,
+                      roles: [manage_bcf_role])
   end
   let(:markup) do
     <<-MARKUP

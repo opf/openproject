@@ -64,12 +64,12 @@ describe 'Team planner', type: :feature, js: true do
   context 'with an assigned work package' do
     let!(:other_user) do
       create :user,
-             firstname: 'Other',
-             lastname: 'User',
-             member_in_project: project,
-             member_with_permissions: %w[
-               view_work_packages edit_work_packages view_team_planner manage_team_planner
-             ]
+                        firstname: 'Other',
+                        lastname: 'User',
+                        member_in_project: project,
+                        member_with_permissions: %w[
+                          view_work_packages edit_work_packages view_team_planner manage_team_planner
+                        ]
     end
     let!(:user_outside_project) { create :user, firstname: 'Not', lastname: 'In Project' }
     let(:type_task) { create :type_task }
@@ -78,31 +78,31 @@ describe 'Team planner', type: :feature, js: true do
 
     let!(:other_task) do
       create :work_package,
-             project: project,
-             type: type_task,
-             assigned_to: other_user,
-             start_date: Time.zone.today - 1.day,
-             due_date: Time.zone.today + 1.day,
-             subject: 'A task for the other user'
+                        project: project,
+                        type: type_task,
+                        assigned_to: other_user,
+                        start_date: Time.zone.today - 1.day,
+                        due_date: Time.zone.today + 1.day,
+                        subject: 'A task for the other user'
     end
     let!(:other_bug) do
       create :work_package,
-             project: project,
-             type: type_bug,
-             assigned_to: other_user,
-             status: closed_status,
-             start_date: Time.zone.today - 1.day,
-             due_date: Time.zone.today + 1.day,
-             subject: 'Another task for the other user'
+                        project: project,
+                        type: type_bug,
+                        assigned_to: other_user,
+                        status: closed_status,
+                        start_date: Time.zone.today - 1.day,
+                        due_date: Time.zone.today + 1.day,
+                        subject: 'Another task for the other user'
     end
     let!(:user_bug) do
       create :work_package,
-             project: project,
-             type: type_bug,
-             assigned_to: user,
-             start_date: Time.zone.today - 10.days,
-             due_date: Time.zone.today + 20.days,
-             subject: 'A task for the logged in user'
+                        project: project,
+                        type: type_bug,
+                        assigned_to: user,
+                        start_date: Time.zone.today - 10.days,
+                        due_date: Time.zone.today + 20.days,
+                        subject: 'A task for the logged in user'
     end
 
     before do

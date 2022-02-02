@@ -7,9 +7,9 @@ describe 'Login with 2FA backup code', with_2fa_ee: true, type: :feature,
   let(:user_password) { 'bob!' * 4 }
   let(:user) do
     create(:user,
-           login: 'bob',
-           password: user_password,
-           password_confirmation: user_password)
+                      login: 'bob',
+                      password: user_password,
+                      password_confirmation: user_password)
   end
   let!(:device) { create :two_factor_authentication_device_sms, user: user, active: true, default: true }
 

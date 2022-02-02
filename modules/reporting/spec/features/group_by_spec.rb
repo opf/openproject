@@ -12,11 +12,11 @@ describe 'Cost report calculations', type: :feature, js: true do
 
   let!(:time_entry1) do
     create :time_entry,
-           spent_on: 6.months.ago,
-           user: user,
-           work_package: work_package,
-           project: project,
-           hours: 10
+                      spent_on: 6.months.ago,
+                      user: user,
+                      work_package: work_package,
+                      project: project,
+                      hours: 10
   end
   before do
     login_as(user)

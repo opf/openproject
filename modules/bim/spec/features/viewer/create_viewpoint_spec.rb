@@ -37,9 +37,9 @@ describe 'Create viewpoint from BCF details page',
 
   let!(:model) do
     create(:ifc_model_minimal_converted,
-           title: 'minimal',
-           project: project,
-           uploader: user)
+                      title: 'minimal',
+                      project: project,
+                      uploader: user)
   end
 
   let(:show_model_page) { Pages::IfcModels::ShowDefault.new(project) }

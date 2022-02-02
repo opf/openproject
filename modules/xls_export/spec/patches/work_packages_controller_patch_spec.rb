@@ -40,9 +40,9 @@ describe WorkPackagesController, type: :controller do
   let(:type) { build_stubbed(:type) }
   let(:stub_work_package) do
     build_stubbed(:stubbed_work_package,
-                  id: 1337,
-                  type: type,
-                  project: stub_project)
+                             id: 1337,
+                             type: type,
+                             project: stub_project)
   end
 
   let(:current_user) { create(:user) }

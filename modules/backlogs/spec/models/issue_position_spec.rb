@@ -32,10 +32,10 @@ describe WorkPackage, type: :model do
   describe 'Story positions' do
     def build_work_package(options)
       build(:work_package, options.reverse_merge(version_id: sprint_1.id,
-                                                 priority_id: priority.id,
-                                                 project_id: project.id,
-                                                 status_id: status.id,
-                                                 type_id: story_type.id))
+                                                            priority_id: priority.id,
+                                                            project_id: project.id,
+                                                            status_id: status.id,
+                                                            type_id: story_type.id))
     end
 
     def create_work_package(options)
@@ -254,15 +254,15 @@ describe WorkPackage, type: :model do
 
       let(:shared_sprint) do
         create(:version,
-               project_id: project.id,
-               name: 'Shared Sprint',
-               sharing: 'descendants')
+                          project_id: project.id,
+                          name: 'Shared Sprint',
+                          sharing: 'descendants')
       end
 
       let(:version_go_live) do
         create(:version,
-               project_id: project_wo_backlogs.id,
-               name: 'Go-Live')
+                          project_id: project_wo_backlogs.id,
+                          name: 'Go-Live')
       end
       shared_let(:admin) { create :admin }
 

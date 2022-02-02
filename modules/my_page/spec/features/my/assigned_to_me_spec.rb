@@ -37,27 +37,27 @@ describe 'Assigned to me embedded query on my page', type: :feature, js: true do
   let!(:open_status) { create :default_status }
   let!(:assigned_work_package) do
     create :work_package,
-           project: project,
-           subject: 'Assigned to me',
-           type: type,
-           author: user,
-           assigned_to: user
+                      project: project,
+                      subject: 'Assigned to me',
+                      type: type,
+                      author: user,
+                      assigned_to: user
   end
   let!(:assigned_work_package_2) do
     create :work_package,
-           project: project,
-           subject: 'My task 2',
-           type: type,
-           author: user,
-           assigned_to: user
+                      project: project,
+                      subject: 'My task 2',
+                      type: type,
+                      author: user,
+                      assigned_to: user
   end
   let!(:assigned_to_other_work_package) do
     create :work_package,
-           project: project,
-           subject: 'Not assigned to me',
-           type: type,
-           author: user,
-           assigned_to: other_user
+                      project: project,
+                      subject: 'Not assigned to me',
+                      type: type,
+                      author: user,
+                      assigned_to: other_user
   end
   let(:other_user) do
     create(:user)
@@ -67,8 +67,8 @@ describe 'Assigned to me embedded query on my page', type: :feature, js: true do
 
   let(:user) do
     create(:user,
-           member_in_project: project,
-           member_through_role: role)
+                      member_in_project: project,
+                      member_through_role: role)
   end
   let(:my_page) do
     Pages::My::Page.new
@@ -85,12 +85,12 @@ describe 'Assigned to me embedded query on my page', type: :feature, js: true do
   context 'with parent work package' do
     let!(:assigned_work_package_child) do
       create :work_package,
-             subject: 'Child',
-             parent: assigned_work_package,
-             project: project,
-             type: type,
-             author: user,
-             assigned_to: user
+                        subject: 'Child',
+                        parent: assigned_work_package,
+                        project: project,
+                        type: type,
+                        author: user,
+                        assigned_to: user
     end
 
     it 'can toggle hierarchy mode in embedded tables (Regression test #29578)' do

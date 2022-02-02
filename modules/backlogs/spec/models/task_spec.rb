@@ -34,9 +34,9 @@ describe Task, type: :model do
   let(:project) { create(:project) }
   let(:task) do
     build(:task,
-          project: project,
-          status: default_status,
-          type: task_type)
+                     project: project,
+                     status: default_status,
+                     type: task_type)
   end
 
   before(:each) do

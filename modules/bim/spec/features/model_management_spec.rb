@@ -40,21 +40,21 @@ describe 'model management',
 
   let(:user) do
     create :user,
-           member_in_project: project,
-           member_through_role: role
+                      member_in_project: project,
+                      member_through_role: role
   end
 
   let!(:model) do
     create(:ifc_model_minimal_converted,
-           project: project,
-           uploader: user,
-           is_default: true)
+                      project: project,
+                      uploader: user,
+                      is_default: true)
   end
 
   let!(:model2) do
     create(:ifc_model_minimal_converted,
-           project: project,
-           uploader: user)
+                      project: project,
+                      uploader: user)
   end
 
   context 'with all permissions' do
@@ -91,8 +91,8 @@ describe 'model management',
     let(:view_role) { create(:role, permissions: %i[view_ifc_models view_work_packages]) }
     let(:view_user) do
       create :user,
-             member_in_project: project,
-             member_through_role: view_role
+                        member_in_project: project,
+                        member_through_role: view_role
     end
 
     before do
@@ -124,8 +124,8 @@ describe 'model management',
     let(:no_permissions_role) { create(:role, permissions: %i[]) }
     let(:user_without_permissions) do
       create :user,
-             member_in_project: project,
-             member_through_role: no_permissions_role
+                        member_in_project: project,
+                        member_through_role: no_permissions_role
     end
 
     before do

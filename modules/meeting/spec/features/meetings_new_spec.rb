@@ -35,9 +35,9 @@ describe 'Meetings new', type: :feature do
   let(:time_zone) { 'utc' }
   let(:user) do
     create(:user,
-           lastname: 'First',
-           member_in_project: project,
-           member_with_permissions: permissions).tap do |u|
+                      lastname: 'First',
+                      member_in_project: project,
+                      member_with_permissions: permissions).tap do |u|
       u.pref[:time_zone] = time_zone
 
       u.save!
@@ -45,9 +45,9 @@ describe 'Meetings new', type: :feature do
   end
   let(:other_user) do
     create(:user,
-           lastname: 'Second',
-           member_in_project: project,
-           member_with_permissions: permissions)
+                      lastname: 'Second',
+                      member_in_project: project,
+                      member_with_permissions: permissions)
   end
   let(:admin) do
     create(:admin)

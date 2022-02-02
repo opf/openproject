@@ -33,8 +33,8 @@ require_relative './../support/board_page'
 describe 'Status action board', type: :feature, js: true do
   let(:user) do
     create(:user,
-           member_in_project: project,
-           member_through_role: role)
+                      member_in_project: project,
+                      member_through_role: role)
   end
   let(:permissions) do
     %i[show_board_views manage_board_views add_work_packages
@@ -56,47 +56,47 @@ describe 'Status action board', type: :feature, js: true do
 
   let(:task_wp) do
     create :work_package,
-           project: project,
-           type: type_task,
-           subject: 'Open task item',
-           status: open_status
+                      project: project,
+                      type: type_task,
+                      subject: 'Open task item',
+                      status: open_status
   end
   let(:bug_wp) do
     create :work_package,
-           project: project,
-           type: type_bug,
-           subject: 'Closed bug item',
-           status: closed_status
+                      project: project,
+                      type: type_bug,
+                      subject: 'Closed bug item',
+                      status: closed_status
   end
 
   let!(:workflow_task) do
     create(:workflow,
-           type: type_task,
-           role: role,
-           old_status_id: open_status.id,
-           new_status_id: closed_status.id)
+                      type: type_task,
+                      role: role,
+                      old_status_id: open_status.id,
+                      new_status_id: closed_status.id)
   end
   let!(:workflow_task_back) do
     create(:workflow,
-           type: type_task,
-           role: role,
-           old_status_id: closed_status.id,
-           new_status_id: open_status.id)
+                      type: type_task,
+                      role: role,
+                      old_status_id: closed_status.id,
+                      new_status_id: open_status.id)
   end
 
   let!(:workflow_bug) do
     create(:workflow,
-           type: type_bug,
-           role: role,
-           old_status_id: open_status.id,
-           new_status_id: closed_status.id)
+                      type: type_bug,
+                      role: role,
+                      old_status_id: open_status.id,
+                      new_status_id: closed_status.id)
   end
   let!(:workflow_bug_back) do
     create(:workflow,
-           type: type_bug,
-           role: role,
-           old_status_id: closed_status.id,
-           new_status_id: open_status.id)
+                      type: type_bug,
+                      role: role,
+                      old_status_id: closed_status.id,
+                      new_status_id: open_status.id)
   end
 
   let(:filters) { ::Components::WorkPackages::Filters.new }

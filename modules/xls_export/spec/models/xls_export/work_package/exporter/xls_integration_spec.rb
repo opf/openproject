@@ -172,11 +172,11 @@ describe XlsExport::WorkPackage::Exporter::XLS do
 
     let(:custom_field) do
       create(:float_wp_custom_field,
-             name: 'unit costs')
+                        name: 'unit costs')
     end
     let(:custom_value) do
       create(:custom_value,
-             custom_field: custom_field)
+                        custom_field: custom_field)
     end
     let(:type) do
       type = project.types.first
@@ -185,12 +185,12 @@ describe XlsExport::WorkPackage::Exporter::XLS do
     end
     let(:project) do
       create(:project,
-             work_package_custom_fields: [custom_field])
+                        work_package_custom_fields: [custom_field])
     end
     let(:work_packages) do
       wps = create_list(:work_package, 4,
-                        project: project,
-                        type: type)
+                                   project: project,
+                                   type: type)
       wps[0].estimated_hours = 27.5
       wps[0].save!
       wps[1].send(:"custom_field_#{custom_field.id}=", 1)
@@ -248,9 +248,9 @@ describe XlsExport::WorkPackage::Exporter::XLS do
 
     let(:work_package) do
       create(:work_package,
-             description: 'some arbitrary description',
-             project: project,
-             type: project.types.first)
+                        description: 'some arbitrary description',
+                        project: project,
+                        type: project.types.first)
     end
     let(:work_packages) { [work_package] }
     let(:column_names) { %w[id] }
@@ -266,9 +266,9 @@ describe XlsExport::WorkPackage::Exporter::XLS do
   context 'with underscore in subject' do
     let(:work_package) do
       create(:work_package,
-             subject: 'underscore_is included',
-             project: project,
-             type: project.types.first)
+                        subject: 'underscore_is included',
+                        project: project,
+                        type: project.types.first)
     end
     let(:work_packages) { [work_package] }
     let(:column_names) { %w[id subject] }
@@ -293,8 +293,8 @@ describe XlsExport::WorkPackage::Exporter::XLS do
     let(:zone) { +2 }
     let(:work_package) do
       create(:work_package,
-             project: project,
-             type: project.types.first)
+                        project: project,
+                        type: project.types.first)
     end
     let(:work_packages) { [work_package] }
 
@@ -320,9 +320,9 @@ describe XlsExport::WorkPackage::Exporter::XLS do
   describe 'with derived estimated hours' do
     let(:work_package) do
       create(:work_package,
-             project: project,
-             derived_estimated_hours: 15.0,
-             type: project.types.first)
+                        project: project,
+                        derived_estimated_hours: 15.0,
+                        type: project.types.first)
     end
     let(:work_packages) { [work_package] }
 
@@ -338,10 +338,10 @@ describe XlsExport::WorkPackage::Exporter::XLS do
   describe 'with derived estimated hours and estimated_hours set to zero' do
     let(:work_package) do
       create(:work_package,
-             project: project,
-             derived_estimated_hours: 15.0,
-             estimated_hours: 0.0,
-             type: project.types.first)
+                        project: project,
+                        derived_estimated_hours: 15.0,
+                        estimated_hours: 0.0,
+                        type: project.types.first)
     end
     let(:work_packages) { [work_package] }
 

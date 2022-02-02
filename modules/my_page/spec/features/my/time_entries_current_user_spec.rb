@@ -37,53 +37,53 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
   let!(:other_activity) { create :time_entry_activity }
   let!(:work_package) do
     create :work_package,
-           project: project,
-           type: type,
-           author: user
+                      project: project,
+                      type: type,
+                      author: user
   end
   let!(:other_work_package) do
     create :work_package,
-           project: project,
-           type: type,
-           author: user
+                      project: project,
+                      type: type,
+                      author: user
   end
   let!(:visible_time_entry) do
     create :time_entry,
-           work_package: work_package,
-           project: project,
-           activity: activity,
-           user: user,
-           spent_on: Date.today.beginning_of_week(:sunday) + 1.day,
-           hours: 3,
-           comments: 'My comment'
+                      work_package: work_package,
+                      project: project,
+                      activity: activity,
+                      user: user,
+                      spent_on: Date.today.beginning_of_week(:sunday) + 1.day,
+                      hours: 3,
+                      comments: 'My comment'
   end
   let!(:other_visible_time_entry) do
     create :time_entry,
-           work_package: work_package,
-           project: project,
-           activity: activity,
-           user: user,
-           spent_on: Date.today.beginning_of_week(:sunday) + 4.days,
-           hours: 2,
-           comments: 'My other comment'
+                      work_package: work_package,
+                      project: project,
+                      activity: activity,
+                      user: user,
+                      spent_on: Date.today.beginning_of_week(:sunday) + 4.days,
+                      hours: 2,
+                      comments: 'My other comment'
   end
   let!(:last_week_visible_time_entry) do
     create :time_entry,
-           work_package: work_package,
-           project: project,
-           activity: activity,
-           user: user,
-           spent_on: Date.today - (Date.today.wday + 3).days,
-           hours: 8,
-           comments: 'My last week comment'
+                      work_package: work_package,
+                      project: project,
+                      activity: activity,
+                      user: user,
+                      spent_on: Date.today - (Date.today.wday + 3).days,
+                      hours: 8,
+                      comments: 'My last week comment'
   end
   let!(:invisible_time_entry) do
     create :time_entry,
-           work_package: work_package,
-           project: project,
-           activity: activity,
-           user: other_user,
-           hours: 4
+                      work_package: work_package,
+                      project: project,
+                      activity: activity,
+                      user: other_user,
+                      hours: 4
   end
   let!(:custom_field) do
     create :time_entry_custom_field, field_format: 'text'
@@ -93,8 +93,8 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
   end
   let(:user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: %i[view_time_entries edit_time_entries view_work_packages log_time])
+                      member_in_project: project,
+                      member_with_permissions: %i[view_time_entries edit_time_entries view_work_packages log_time])
   end
   let(:my_page) do
     Pages::My::Page.new

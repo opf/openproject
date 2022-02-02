@@ -84,8 +84,8 @@ describe ::OpenProject::Bim::BcfXml::IssueWriter do
   end
   let(:bcf_issue) do
     create(:bcf_issue_with_comment,
-           work_package: work_package,
-           markup: markup)
+                      work_package: work_package,
+                      markup: markup)
   end
   let(:priority) { create :priority_low }
   let(:current_user) { create(:user) }
@@ -93,12 +93,12 @@ describe ::OpenProject::Bim::BcfXml::IssueWriter do
   let(:type) { create :type, name: 'Issue' }
   let(:work_package) do
     create(:work_package,
-           project_id: project.id,
-           priority: priority,
-           author: current_user,
-           assigned_to: current_user,
-           due_date: due_date,
-           type: type)
+                      project_id: project.id,
+                      priority: priority,
+                      author: current_user,
+                      assigned_to: current_user,
+                      due_date: due_date,
+                      type: type)
   end
 
   before do

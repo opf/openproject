@@ -42,7 +42,7 @@ shared_examples_for 'time entry contract' do
   let(:other_user) { build_stubbed(:user) }
   let(:time_entry_work_package) do
     build_stubbed(:work_package,
-                  project: time_entry_project)
+                             project: time_entry_project)
   end
   let(:time_entry_project) { build_stubbed(:project) }
   let(:time_entry_user) { current_user }

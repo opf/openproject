@@ -41,9 +41,9 @@ describe 'Delete viewpoint in model viewer',
 
   let!(:model) do
     create(:ifc_model_minimal_converted,
-           title: 'minimal',
-           project: project,
-           uploader: user)
+                      title: 'minimal',
+                      project: project,
+                      uploader: user)
   end
 
   let(:model_tree) { ::Components::XeokitModelTree.new }

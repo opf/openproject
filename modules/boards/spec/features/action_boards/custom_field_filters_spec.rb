@@ -33,8 +33,8 @@ require_relative './../support/board_page'
 describe 'Custom field filter in boards', type: :feature, js: true do
   let(:user) do
     create(:user,
-           member_in_project: project,
-           member_through_role: role)
+                      member_in_project: project,
+                      member_through_role: role)
   end
   let(:type) { create(:type_standard) }
   let(:project) { create(:project, types: [type], enabled_module_names: %i[work_package_tracking board_view]) }
@@ -53,10 +53,10 @@ describe 'Custom field filter in boards', type: :feature, js: true do
 
   let!(:work_package) do
     wp = build :work_package,
-               project: project,
-               type: type,
-               subject: 'Foo',
-               status: open_status
+                          project: project,
+                          type: type,
+                          subject: 'Foo',
+                          status: open_status
 
     wp.custom_field_values = {
       custom_field.id => %w[B].map { |s| custom_value_for(s) }

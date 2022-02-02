@@ -33,8 +33,8 @@ require_relative './support/board_page'
 describe 'Work Package boards spec', type: :feature, js: true do
   let(:user) do
     create(:user,
-           member_in_project: project,
-           member_through_role: role)
+                      member_in_project: project,
+                      member_through_role: role)
   end
   # The identifier is important to test https://community.openproject.com/wp/29754
   let(:project) { create(:project, identifier: 'boards', enabled_module_names: %i[work_package_tracking board_view]) }

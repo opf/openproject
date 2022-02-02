@@ -39,25 +39,25 @@ describe 'Arbitrary WorkPackage query table widget on my page', type: :feature, 
   let!(:open_status) { create :default_status }
   let!(:type_work_package) do
     create :work_package,
-           project: project,
-           type: type,
-           author: user,
-           responsible: user
+                      project: project,
+                      type: type,
+                      author: user,
+                      responsible: user
   end
   let!(:other_type_work_package) do
     create :work_package,
-           project: project,
-           type: other_type,
-           author: user,
-           responsible: user
+                      project: project,
+                      type: other_type,
+                      author: user,
+                      responsible: user
   end
 
   let(:permissions) { %i[view_work_packages add_work_packages save_queries] }
 
   let(:user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: permissions)
+                      member_in_project: project,
+                      member_with_permissions: permissions)
   end
   let(:my_page) do
     Pages::My::Page.new

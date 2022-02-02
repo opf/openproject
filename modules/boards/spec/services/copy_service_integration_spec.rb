@@ -33,8 +33,8 @@ require 'spec_helper'
 describe Projects::CopyService, 'integration', type: :model do
   let(:current_user) do
     create(:user,
-           member_in_project: source,
-           member_through_role: role)
+                      member_in_project: source,
+                      member_through_role: role)
   end
   let!(:source) { create :project, enabled_module_names: %w[boards work_package_tracking] }
   let(:query) { board_view.contained_queries.first }
@@ -57,15 +57,15 @@ describe Projects::CopyService, 'integration', type: :model do
   describe 'for a subproject board' do
     let(:current_user) do
       create(:user,
-             member_in_projects: [source, child_project],
-             member_through_role: role)
+                        member_in_projects: [source, child_project],
+                        member_through_role: role)
     end
     let!(:child_project) { create :project, parent: source }
     let!(:board_view) do
       create :board_grid_with_query,
-             project: source,
-             name: 'Subproject board',
-             options: { "type" => "action", "attribute" => "subproject" }
+                        project: source,
+                        name: 'Subproject board',
+                        options: { "type" => "action", "attribute" => "subproject" }
     end
 
     before do

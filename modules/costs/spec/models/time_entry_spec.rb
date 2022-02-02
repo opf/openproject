@@ -56,31 +56,31 @@ describe TimeEntry, type: :model do
   let(:hours) { 5.0 }
   let(:time_entry) do
     create(:time_entry,
-           project: project,
-           work_package: work_package,
-           spent_on: date,
-           hours: hours,
-           user: user,
-           rate: hourly_one,
-           comments: 'lorem')
+                      project: project,
+                      work_package: work_package,
+                      spent_on: date,
+                      hours: hours,
+                      user: user,
+                      rate: hourly_one,
+                      comments: 'lorem')
   end
 
   let(:time_entry2) do
     create(:time_entry,
-           project: project,
-           work_package: work_package,
-           spent_on: date,
-           hours: hours,
-           user: user,
-           rate: hourly_one,
-           comments: 'lorem')
+                      project: project,
+                      work_package: work_package,
+                      spent_on: date,
+                      hours: hours,
+                      user: user,
+                      rate: hourly_one,
+                      comments: 'lorem')
   end
 
   def is_member(project, user, permissions)
     create(:member,
-           project: project,
-           user: user,
-           roles: [create(:role, permissions: permissions)])
+                      project: project,
+                      user: user,
+                      roles: [create(:role, permissions: permissions)])
   end
 
   describe '#hours' do

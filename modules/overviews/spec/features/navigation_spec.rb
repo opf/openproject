@@ -33,8 +33,8 @@ describe 'Navigate to overview', type: :feature, js: true do
   let(:permissions) { [] }
   let(:user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: permissions)
+                      member_in_project: project,
+                      member_with_permissions: permissions)
   end
 
   before do

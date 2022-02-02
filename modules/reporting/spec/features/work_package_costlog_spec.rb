@@ -17,13 +17,13 @@ describe 'Cost report showing my own times', type: :feature, js: true do
 
   let(:cost_entry) do
     build(:cost_entry,
-          cost_type: cost_type,
-          project: project,
-          work_package: work_package,
-          spent_on: Date.today,
-          units: '10',
-          user: user,
-          comments: 'foobar')
+                     cost_type: cost_type,
+                     project: project,
+                     work_package: work_package,
+                     spent_on: Date.today,
+                     units: '10',
+                     user: user,
+                     comments: 'foobar')
   end
 
   before do

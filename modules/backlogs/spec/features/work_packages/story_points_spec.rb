@@ -41,7 +41,7 @@ describe 'Work packages having story points', type: :feature, js: true do
   let(:current_user) { create(:admin) }
   let(:project) do
     create(:project,
-           enabled_module_names: %w(work_package_tracking backlogs))
+                      enabled_module_names: %w(work_package_tracking backlogs))
   end
   let(:status) { create :default_status }
   let(:story_type) { create(:type_feature) }
@@ -51,11 +51,11 @@ describe 'Work packages having story points', type: :feature, js: true do
     let(:story_points) { 42 }
     let(:story_with_sp) do
       create(:story,
-             type: story_type,
-             author: current_user,
-             project: project,
-             status: status,
-             story_points: story_points)
+                        type: story_type,
+                        author: current_user,
+                        project: project,
+                        status: status,
+                        story_points: story_points)
     end
 
     it 'should be displayed' do

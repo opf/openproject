@@ -9,8 +9,8 @@ describe 'Cost report calculations', type: :feature, js: true do
   let!(:role) { create :role, permissions: permissions }
   let!(:user) do
     create :user,
-           member_in_project: project,
-           member_through_role: role
+                      member_in_project: project,
+                      member_through_role: role
   end
 
   let(:work_package) { create :work_package, project: project }
@@ -21,17 +21,17 @@ describe 'Cost report calculations', type: :feature, js: true do
 
   let!(:time_entry_user) do
     create :time_entry,
-           user: admin,
-           work_package: work_package,
-           project: project,
-           hours: 10
+                      user: admin,
+                      work_package: work_package,
+                      project: project,
+                      hours: 10
   end
   let!(:time_entry_admin) do
     create :time_entry,
-           user: user,
-           work_package: work_package,
-           project: project,
-           hours: 5
+                      user: user,
+                      work_package: work_package,
+                      project: project,
+                      hours: 5
   end
   let!(:cost_type) do
     type = create :cost_type, name: 'Translations'
@@ -40,11 +40,11 @@ describe 'Cost report calculations', type: :feature, js: true do
   end
   let!(:cost_entry_user) do
     create :cost_entry,
-           work_package: work_package,
-           project: project,
-           units: 3.00,
-           cost_type: cost_type,
-           user: user
+                      work_package: work_package,
+                      project: project,
+                      units: 3.00,
+                      cost_type: cost_type,
+                      user: user
   end
 
   before do

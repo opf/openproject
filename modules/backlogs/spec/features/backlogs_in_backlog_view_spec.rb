@@ -34,8 +34,8 @@ describe 'Backlogs in backlog view',
          js: true do
   let!(:project) do
     create(:project,
-           types: [story, task],
-           enabled_module_names: %w(work_package_tracking backlogs))
+                      types: [story, task],
+                      enabled_module_names: %w(work_package_tracking backlogs))
   end
   let!(:story) { create(:type_feature) }
   let!(:other_story) { create(:type) }
@@ -45,57 +45,57 @@ describe 'Backlogs in backlog view',
   let!(:other_status) { create(:status) }
   let!(:workflows) do
     create(:workflow,
-           old_status: default_status,
-           new_status: other_status,
-           role: role,
-           type_id: story.id)
+                      old_status: default_status,
+                      new_status: other_status,
+                      role: role,
+                      type_id: story.id)
   end
   let(:role) do
     create(:role,
-           permissions: %i(view_master_backlog
-                           add_work_packages
-                           view_work_packages
-                           edit_work_packages
-                           manage_subtasks
-                           manage_versions
-                           update_sprints
-                           assign_versions))
+                      permissions: %i(view_master_backlog
+                                      add_work_packages
+                                      view_work_packages
+                                      edit_work_packages
+                                      manage_subtasks
+                                      manage_versions
+                                      update_sprints
+                                      assign_versions))
   end
   let!(:current_user) do
     create(:user,
-           member_in_project: project,
-           member_through_role: role)
+                      member_in_project: project,
+                      member_through_role: role)
   end
   let!(:sprint) do
     create(:version,
-           project: project,
-           start_date: Date.today - 10.days,
-           effective_date: Date.today + 10.days,
-           version_settings_attributes: [{ project: project, display: VersionSetting::DISPLAY_LEFT }])
+                      project: project,
+                      start_date: Date.today - 10.days,
+                      effective_date: Date.today + 10.days,
+                      version_settings_attributes: [{ project: project, display: VersionSetting::DISPLAY_LEFT }])
   end
   let!(:backlog) do
     create(:version,
-           project: project,
-           version_settings_attributes: [{ project: project, display: VersionSetting::DISPLAY_RIGHT }])
+                      project: project,
+                      version_settings_attributes: [{ project: project, display: VersionSetting::DISPLAY_RIGHT }])
   end
   let!(:other_project) do
     create(:project)
   end
   let!(:other_project_sprint) do
     create(:version,
-           project: other_project,
-           sharing: 'system',
-           start_date: Date.today - 10.days,
-           effective_date: Date.today + 10.days)
+                      project: other_project,
+                      sharing: 'system',
+                      start_date: Date.today - 10.days,
+                      effective_date: Date.today + 10.days)
   end
   let!(:sprint_story1) do
     create(:work_package,
-           project: project,
-           type: story,
-           status: default_status,
-           version: sprint,
-           position: 1,
-           story_points: 10)
+                      project: project,
+                      type: story,
+                      status: default_status,
+                      version: sprint,
+                      position: 1,
+                      story_points: 10)
   end
   let(:backlogs_page) { Pages::Backlogs.new(project) }
 

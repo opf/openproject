@@ -124,15 +124,15 @@ describe OpenProject::GithubIntegration::Services::UpsertPullRequest do
   context 'when a partial github pull request with that html_url already exists' do
     let(:github_pull_request) do
       create(:github_pull_request,
-             github_id: nil,
-             changed_files_count: nil,
-             body: nil,
-             comments_count: nil,
-             review_comments_count: nil,
-             additions_count: nil,
-             deletions_count: nil,
-             github_html_url: 'https://github.com/test_user/repo',
-             state: 'closed')
+                        github_id: nil,
+                        changed_files_count: nil,
+                        body: nil,
+                        comments_count: nil,
+                        review_comments_count: nil,
+                        additions_count: nil,
+                        deletions_count: nil,
+                        github_html_url: 'https://github.com/test_user/repo',
+                        state: 'closed')
     end
 
     it 'updates the github pull request' do

@@ -32,18 +32,18 @@ describe 'Copying a budget', type: :feature, js: true do
   let(:project) { create :project, enabled_module_names: %i[budgets costs] }
   let(:current_user) do
     create :user,
-           member_in_project: project,
-           member_with_permissions: %i(view_budgets edit_budgets view_hourly_rates view_cost_rates)
+                      member_in_project: project,
+                      member_with_permissions: %i(view_budgets edit_budgets view_hourly_rates view_cost_rates)
   end
   let(:original_author) { create :user }
   let(:budget_subject) { "A budget subject" }
   let(:budget_description) { "A budget description" }
   let!(:budget) do
     create :budget,
-           subject: budget_subject,
-           description: budget_description,
-           author: original_author,
-           project: project
+                      subject: budget_subject,
+                      description: budget_description,
+                      author: original_author,
+                      project: project
   end
   let!(:cost_type) do
     create :cost_type, name: 'Post-war', unit: 'cap', unit_plural: 'caps'
@@ -52,23 +52,23 @@ describe 'Copying a budget', type: :feature, js: true do
   let!(:default_hourly_rate) { create :default_hourly_rate, user: original_author, rate: 25.0 }
   let!(:material_budget_item) do
     create :material_budget_item,
-           units: 3,
-           cost_type: cost_type,
-           budget: budget
+                      units: 3,
+                      cost_type: cost_type,
+                      budget: budget
   end
   let!(:overwritten_material_budget_item) do
     create :material_budget_item,
-           units: 10,
-           cost_type: cost_type,
-           budget: budget,
-           amount: 600000.00
+                      units: 10,
+                      cost_type: cost_type,
+                      budget: budget,
+                      amount: 600000.00
   end
 
   let!(:labor_budget_item) do
     create :labor_budget_item,
-           hours: 5,
-           user: original_author,
-           budget: budget
+                      hours: 5,
+                      user: original_author,
+                      budget: budget
   end
   let(:budget_page) { Pages::EditBudget.new budget.id }
 

@@ -214,9 +214,9 @@ describe 'API v3 time_entry resource', type: :request do
 
       before do
         create(:member,
-               roles: [role],
-               project: other_project,
-               user: current_user)
+                          roles: [role],
+                          project: other_project,
+                          user: current_user)
 
         time_entry
         other_time_entry
@@ -253,31 +253,31 @@ describe 'API v3 time_entry resource', type: :request do
       end
       let!(:time_entry) do
         create(:time_entry,
-               project: project,
-               work_package: work_package,
-               user: current_user,
-               activity: activity)
+                          project: project,
+                          work_package: work_package,
+                          user: current_user,
+                          activity: activity)
       end
       let!(:other_time_entry) do
         create(:time_entry,
-               project: other_project,
-               work_package: other_work_package,
-               user: current_user,
-               activity: activity)
+                          project: other_project,
+                          work_package: other_work_package,
+                          user: current_user,
+                          activity: activity)
       end
       let!(:another_time_entry) do
         create(:time_entry,
-               project: project,
-               work_package: work_package,
-               user: current_user,
-               activity: another_activity)
+                          project: project,
+                          work_package: work_package,
+                          user: current_user,
+                          activity: another_activity)
       end
 
       before do
         create(:member,
-               roles: [role],
-               project: other_project,
-               user: current_user)
+                          roles: [role],
+                          project: other_project,
+                          user: current_user)
         get path
       end
 

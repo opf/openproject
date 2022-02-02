@@ -8,8 +8,8 @@ describe 'Admin 2FA management', with_2fa_ee: true, type: :feature,
   let(:other_user) { create :user, login: 'bob' }
   let(:admin) do
     create(:admin,
-           password: user_password,
-           password_confirmation: user_password)
+                      password: user_password,
+                      password_confirmation: user_password)
   end
 
   before do

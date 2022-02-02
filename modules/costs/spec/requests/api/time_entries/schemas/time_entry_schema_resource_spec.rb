@@ -36,8 +36,8 @@ describe 'API v3 Time entry schema resource', type: :request, content_type: :jso
   let(:project) { create(:project) }
   let(:current_user) do
     create(:user,
-           member_in_project: project,
-           member_with_permissions: permissions)
+                      member_in_project: project,
+                      member_with_permissions: permissions)
   end
 
   let(:permissions) { [:view_time_entries] }

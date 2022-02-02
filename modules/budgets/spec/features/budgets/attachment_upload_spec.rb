@@ -34,9 +34,9 @@ require 'features/page_objects/notification'
 describe 'Upload attachment to budget', js: true do
   let(:user) do
     create :user,
-           member_in_project: project,
-           member_with_permissions: %i[view_budgets
-                                       edit_budgets]
+                      member_in_project: project,
+                      member_with_permissions: %i[view_budgets
+                                                  edit_budgets]
   end
   let(:project) { create(:project) }
   let(:attachments) { ::Components::Attachments.new }

@@ -34,14 +34,14 @@ require_relative './../support/board_page'
 describe 'Version action board', type: :feature, js: true do
   let(:user) do
     create(:user,
-           member_in_projects: [project, second_project],
-           member_through_role: role)
+                      member_in_projects: [project, second_project],
+                      member_through_role: role)
   end
 
   let(:second_user) do
     create(:user,
-           member_in_projects: [project, second_project],
-           member_through_role: role_board_manager)
+                      member_in_projects: [project, second_project],
+                      member_through_role: role_board_manager)
   end
   let(:type) { create(:type_standard) }
   let!(:priority) { create :default_priority }
@@ -308,8 +308,8 @@ describe 'Version action board', type: :feature, js: true do
   context 'a user with edit_work_packages, but missing assign_versions permissions' do
     let(:no_version_edit_user) do
       create(:user,
-             member_in_projects: [project],
-             member_through_role: no_version_edit_role)
+                        member_in_projects: [project],
+                        member_through_role: no_version_edit_role)
     end
     let(:no_version_edit_role) { create(:role, permissions: no_version_edit_permissions) }
     let(:no_version_edit_permissions) do

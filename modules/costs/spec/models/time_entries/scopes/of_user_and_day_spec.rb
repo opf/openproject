@@ -35,23 +35,23 @@ describe TimeEntries::Scopes::OfUserAndDay, type: :model do
   let(:spent_on) { Date.today }
   let!(:time_entry) do
     create(:time_entry,
-           user: user,
-           spent_on: spent_on)
+                      user: user,
+                      spent_on: spent_on)
   end
   let!(:other_time_entry) do
     create(:time_entry,
-           user: user,
-           spent_on: spent_on)
+                      user: user,
+                      spent_on: spent_on)
   end
   let!(:other_user_time_entry) do
     create(:time_entry,
-           user: create(:user),
-           spent_on: spent_on)
+                      user: create(:user),
+                      spent_on: spent_on)
   end
   let!(:other_date_time_entry) do
     create(:time_entry,
-           user: user,
-           spent_on: spent_on - 3.days)
+                      user: user,
+                      spent_on: spent_on - 3.days)
   end
 
   describe '.of_user_and_day' do

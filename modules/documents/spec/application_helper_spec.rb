@@ -48,8 +48,8 @@ describe ApplicationHelper do
     end
     let(:document) do
       create :document,
-             title: 'Test document',
-             project: project
+                        title: 'Test document',
+                        project: project
     end
 
     before do
