@@ -29,11 +29,11 @@
 require 'spec_helper'
 
 describe VersionsController, type: :controller do
-  let(:user) { FactoryBot.create(:admin) }
-  let(:project) { FactoryBot.create(:public_project) }
-  let(:version1) { FactoryBot.create(:version, project: project, effective_date: nil) }
-  let(:version2) { FactoryBot.create(:version, project: project) }
-  let(:version3) { FactoryBot.create(:version, project: project, effective_date: (Date.today - 14.days)) }
+  let(:user) { create(:admin) }
+  let(:project) { create(:public_project) }
+  let(:version1) { create(:version, project: project, effective_date: nil) }
+  let(:version2) { create(:version, project: project) }
+  let(:version3) { create(:version, project: project, effective_date: (Date.today - 14.days)) }
 
   describe '#index' do
     render_views
@@ -66,11 +66,11 @@ describe VersionsController, type: :controller do
     end
 
     context 'with showing selected types' do
-      let(:type_a) { FactoryBot.create :type }
-      let(:type_b) { FactoryBot.create :type }
+      let(:type_a) { create :type }
+      let(:type_b) { create :type }
 
-      let(:wp_a) { FactoryBot.create :work_package, type: type_a, project: project, version: version1 }
-      let(:wp_b) { FactoryBot.create :work_package, type: type_b, project: project, version: version1 }
+      let(:wp_a) { create :work_package, type: type_a, project: project, version: version1 }
+      let(:wp_b) { create :work_package, type: type_b, project: project, version: version1 }
 
       before do
         project.types = [type_a, type_b]
@@ -138,8 +138,8 @@ describe VersionsController, type: :controller do
     end
 
     context 'with showing subprojects versions' do
-      let(:sub_project) { FactoryBot.create(:public_project, parent_id: project.id) }
-      let(:version4) { FactoryBot.create(:version, project: sub_project) }
+      let(:sub_project) { create(:public_project, parent_id: project.id) }
+      let(:version4) { create(:version, project: sub_project) }
 
       before do
         login_as(user)

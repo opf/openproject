@@ -38,7 +38,7 @@ describe "document attachments" do
     let(:update_permission) { :manage_documents }
 
     let(:document) do
-      FactoryBot.create :document, project: project
+      create :document, project: project
     end
   end
 end

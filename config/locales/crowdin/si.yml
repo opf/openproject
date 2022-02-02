@@ -73,6 +73,11 @@ si:
       start_trial: 'Start free trial'
       book_now: 'Book now'
       get_quote: 'Get a quote'
+      buttons:
+        upgrade: "Upgrade now"
+        contact: "Contact us for a demo"
+      enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
+      upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
   announcements:
     show_until: තෙක් පෙන්වන්න
     is_active: දැනට ප්රදර්ශනය කර ඇත
@@ -161,7 +166,7 @@ si:
     edit: 'අභිරුචි පියවර සංස්කරණය කරන්න %{name}'
     execute: 'ක්රියාත්මක %{name}'
     upsale:
-      title: 'අභිරුචි ක්රියා යනු ව්යවසාය සංස්කරණය අංගයකි'
+      title: 'Custom actions'
       description: 'අභිරුචි ක්රියාවන් එක් බොත්තමක් බවට තනි පියවර මාලාවක් ඒකාබද්ධ කිරීම මගින් එදිනෙදා වැඩ කටයුතු විධිමත් කරයි.'
   custom_fields:
     text_add_new_custom_field: >
@@ -260,7 +265,7 @@ si:
       irreversible: "This action is irreversible"
       confirmation: "Enter the placeholder user name %{name} to confirm the deletion."
     upsale:
-      title: Assign work to people that are not members of the project.
+      title: Placeholder users
       description: >
         There are multiple scenarios where you want to assign work to people that are not member of your project. It could simply be that you still need to hire the correct person for the job. Or you just don't want to give that person access to the project's information but still want track tasks assigned to that person.
   prioritiies:
@@ -752,6 +757,8 @@ si:
               group_without_name: "නම් නොකළ කණ්ඩායම් වලට අවසර නැත."
         user:
           attributes:
+            base:
+              user_limit_reached: "User limit reached. No more accounts can be created on the current plan."
             password_confirmation:
               confirmation: "Password confirmation does not match password."
               format: "%{message}"
@@ -2179,7 +2186,6 @@ si:
   permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "ව්යාපෘති මොඩියුල තෝරන්න"
   permission_manage_types: "වර්ග තෝරන්න"
-  permission_view_calendar: "දින දර්ශනය"
   permission_view_changesets: "OpenProject හි නිධි සංශෝධන බලන්න"
   permission_view_commit_author_statistics: "කතෘ සංඛ්යා ලේඛන බලන්න"
   permission_view_work_package_watchers: "මුරකරුවන් ලැයිස්තුව බලන්න"
@@ -2215,7 +2221,6 @@ si:
       archived: "සංරක්ෂිත"
   project_module_activity: "ක්‍රියාකාරකම"
   project_module_forums: "සංසද"
-  project_module_calendar: "දින දර්ශනය"
   project_module_work_package_tracking: "වැඩ පැකේජය ලුහුබැඳීම"
   project_module_news: "පුවත්"
   project_module_repository: "ගබඩාව"
@@ -2343,6 +2348,9 @@ si:
   setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
   setting_apiv3_cors_origins_text_html: >
     If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
+  setting_apiv3_max_page_size: "Maximum API page size"
+  setting_apiv3_max_page_instructions_html: >
+    Set the maximum page size the API will respond with. It will not be possible to perform API requests that return more values on a single page. <br/> <strong>Warning:</strong> Please only change this value if you are sure why you need it. Setting to a high value will result in significant performance impacts, while a value lower than the per page options will cause errors in paginated views.
   setting_apiv3_docs: "Documentation"
   setting_apiv3_docs_enabled: "Enable docs page"
   setting_apiv3_docs_enabled_instructions_html: >
@@ -2899,6 +2907,7 @@ si:
       schema: 'යෝජනා ක්රමය'
     undisclosed:
       parent: Undisclosed - The selected parent is invisible because of lacking permissions.
+      ancestor: Undisclosed - The ancestor is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 'පූර්ව අවසරය'

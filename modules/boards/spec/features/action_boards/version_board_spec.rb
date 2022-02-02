@@ -30,26 +30,27 @@ require 'spec_helper'
 require_relative './../support//board_index_page'
 require_relative './../support/board_page'
 
+# rubocop:disable RSpec:MultipleMemoizedHelpers
 describe 'Version action board', type: :feature, js: true do
   let(:user) do
-    FactoryBot.create(:user,
+    create(:user,
                       member_in_projects: [project, second_project],
                       member_through_role: role)
   end
 
   let(:second_user) do
-    FactoryBot.create(:user,
+    create(:user,
                       member_in_projects: [project, second_project],
                       member_through_role: role_board_manager)
   end
-  let(:type) { FactoryBot.create(:type_standard) }
-  let!(:priority) { FactoryBot.create :default_priority }
-  let!(:status) { FactoryBot.create :default_status }
-  let(:role) { FactoryBot.create(:role, permissions: permissions) }
-  let(:role_board_manager) { FactoryBot.create(:role, permissions: permissions_board_manager) }
+  let(:type) { create(:type_standard) }
+  let!(:priority) { create :default_priority }
+  let!(:status) { create :default_status }
+  let(:role) { create(:role, permissions: permissions) }
+  let(:role_board_manager) { create(:role, permissions: permissions_board_manager) }
 
-  let(:project) { FactoryBot.create(:project, types: [type], enabled_module_names: %i[work_package_tracking board_view]) }
-  let(:second_project) { FactoryBot.create(:project) }
+  let(:project) { create(:project, types: [type], enabled_module_names: %i[work_package_tracking board_view]) }
+  let(:second_project) { create(:project) }
 
   let(:board_index) { Pages::BoardIndex.new(project) }
   let(:permissions) do
@@ -60,14 +61,14 @@ describe 'Version action board', type: :feature, js: true do
     %i[show_board_views manage_board_views view_work_packages manage_public_queries]
   end
 
-  let!(:open_version) { FactoryBot.create :version, project: project, name: 'Open version' }
-  let!(:other_version) { FactoryBot.create :version, project: project, name: 'A second version' }
-  let!(:different_project_version_) { FactoryBot.create :version, project: second_project, name: 'Version of another project' }
-  let!(:shared_version) { FactoryBot.create :version, project: second_project, name: 'Shared version', sharing: 'system' }
-  let!(:closed_version) { FactoryBot.create :version, project: project, status: 'closed', name: 'Closed version' }
+  let!(:open_version) { create :version, project: project, name: 'Open version' }
+  let!(:other_version) { create :version, project: project, name: 'A second version' }
+  let!(:different_project_version_) { create :version, project: second_project, name: 'Version of another project' }
+  let!(:shared_version) { create :version, project: second_project, name: 'Shared version', sharing: 'system' }
+  let!(:closed_version) { create :version, project: project, status: 'closed', name: 'Closed version' }
 
-  let!(:work_package) { FactoryBot.create :work_package, project: project, subject: 'Foo', version: open_version }
-  let!(:closed_version_wp) { FactoryBot.create :work_package, project: project, subject: 'Closed', version: closed_version }
+  let!(:work_package) { create :work_package, project: project, subject: 'Foo', version: open_version }
+  let!(:closed_version_wp) { create :work_package, project: project, subject: 'Closed', version: closed_version }
   let(:filters) { ::Components::WorkPackages::Filters.new }
 
   def create_new_version_board
@@ -181,7 +182,7 @@ describe 'Version action board', type: :feature, js: true do
 
       # Expect filter to be saved in board
       board_page.board(reload: true) do |board|
-        expect(board.options['filters']).to eq [{ 'search' => { 'operator' => '**', 'values' => ['Task'] } }]
+        expect(board.options[:filters]).to eq [{ search: { operator: '**', values: ['Task'] } }]
       end
 
       # Revisit board
@@ -306,11 +307,11 @@ describe 'Version action board', type: :feature, js: true do
 
   context 'a user with edit_work_packages, but missing assign_versions permissions' do
     let(:no_version_edit_user) do
-      FactoryBot.create(:user,
+      create(:user,
                         member_in_projects: [project],
                         member_through_role: no_version_edit_role)
     end
-    let(:no_version_edit_role) { FactoryBot.create(:role, permissions: no_version_edit_permissions) }
+    let(:no_version_edit_role) { create(:role, permissions: no_version_edit_permissions) }
     let(:no_version_edit_permissions) do
       %i[show_board_views manage_board_views add_work_packages manage_versions
          edit_work_packages view_work_packages manage_public_queries]
@@ -347,3 +348,4 @@ describe 'Version action board', type: :feature, js: true do
     end
   end
 end
+# rubocop:enable RSpec:MultipleMemoizedHelpers

@@ -38,7 +38,7 @@ describe ProjectsHelper, type: :helper do
     end
 
     def stub_descendant_of(*ancestors)
-      wp = FactoryBot.build_stubbed(:project)
+      wp = build_stubbed(:project)
 
       allow(wp)
         .to receive(:is_descendant_of?)
@@ -115,14 +115,14 @@ describe ProjectsHelper, type: :helper do
 
     describe 'with some projects available' do
       let(:projects) do
-        p1 = FactoryBot.build(:project, name: 'P1')
+        p1 = build(:project, name: 'P1')
 
         # a result from Project.project_level_list
         [{ project: p1,
            level: 0 },
-         { project: FactoryBot.build(:project, name: 'P2', parent: p1),
+         { project: build(:project, name: 'P2', parent: p1),
            level: 1 },
-         { project: FactoryBot.build(:project, name: 'P3'),
+         { project: build(:project, name: 'P3'),
            level: 0 }]
       end
 
@@ -145,7 +145,7 @@ describe ProjectsHelper, type: :helper do
   end
 
   context '#short_project_description' do
-    let(:project) { FactoryBot.build_stubbed(:project, description: ('Abcd ' * 5 + "\n") * 11) }
+    let(:project) { build_stubbed(:project, description: ('Abcd ' * 5 + "\n") * 11) }
 
     it 'returns shortened description' do
       expect(helper.short_project_description(project))

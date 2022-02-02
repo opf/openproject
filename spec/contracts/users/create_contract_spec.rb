@@ -50,7 +50,7 @@ describe Users::CreateContract do
     end
 
     context 'when admin' do
-      let(:current_user) { FactoryBot.build_stubbed(:admin) }
+      let(:current_user) { build_stubbed(:admin) }
 
       it_behaves_like 'contract is valid'
 
@@ -70,6 +70,14 @@ describe Users::CreateContract do
 
           it_behaves_like 'contract is valid'
         end
+      end
+
+      context 'when user limit reached' do
+        before do
+          allow(OpenProject::Enterprise).to receive(:user_limit_reached?).and_return(true)
+        end
+
+        it_behaves_like 'contract is invalid', base: :user_limit_reached
       end
     end
   end

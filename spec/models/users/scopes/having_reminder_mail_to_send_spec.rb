@@ -48,7 +48,7 @@ describe User, '.having_reminder_mail_to_send', type: :model do
   let(:scope_time) { "2021-09-30T08:00:00Z".to_datetime }
 
   let(:paris_user) do
-    FactoryBot.create(
+    create(
       :user,
       firstname: 'Europe/Paris',
       preferences: {
@@ -71,7 +71,7 @@ describe User, '.having_reminder_mail_to_send', type: :model do
       times: [hitting_reminder_slot_for("Europe/Paris", current_time)]
     }
   end
-  let(:notifications) { FactoryBot.create(:notification, recipient: paris_user, created_at: 5.minutes.ago) }
+  let(:notifications) { create(:notification, recipient: paris_user, created_at: 5.minutes.ago) }
   let(:users) { [paris_user] }
 
   before do
@@ -154,7 +154,7 @@ describe User, '.having_reminder_mail_to_send', type: :model do
   context 'for a user whose local time is on the previous workday' do
     # 8:00 thursday Etc/UTC = 22:00 wednesday Pacific/Honolulu
     let(:hawaii_user) do
-      FactoryBot.create(
+      create(
         :user,
         firstname: 'Pacific/Honolulu',
         preferences: {
@@ -174,7 +174,7 @@ describe User, '.having_reminder_mail_to_send', type: :model do
       }
     end
     let(:notifications) do
-      FactoryBot.create(:notification, recipient: hawaii_user, created_at: 5.minutes.ago)
+      create(:notification, recipient: hawaii_user, created_at: 5.minutes.ago)
     end
     let(:users) { [hawaii_user] }
     let(:hawaii_user_workdays) { paris_user_workdays }
@@ -230,7 +230,7 @@ describe User, '.having_reminder_mail_to_send', type: :model do
     let(:scope_time) { "2021-09-30T12:00:00Z".to_datetime }
 
     let(:samoa_user) do
-      FactoryBot.create(
+      create(
         :user,
         firstname: 'Pacific/Apia',
         preferences: {
@@ -244,7 +244,7 @@ describe User, '.having_reminder_mail_to_send', type: :model do
       )
     end
     let(:notifications) do
-      FactoryBot.create(:notification, recipient: samoa_user, created_at: 5.minutes.ago)
+      create(:notification, recipient: samoa_user, created_at: 5.minutes.ago)
     end
     let(:users) { [samoa_user] }
     let(:samoa_user_workdays) { paris_user_workdays }
@@ -266,7 +266,7 @@ describe User, '.having_reminder_mail_to_send', type: :model do
 
   context 'for a user whose local time is matching the configured time (in a non CET time zone)' do
     let(:moscow_user) do
-      FactoryBot.create(
+      create(
         :user,
         firstname: 'Europe/Moscow',
         preferences: {
@@ -279,7 +279,7 @@ describe User, '.having_reminder_mail_to_send', type: :model do
       )
     end
     let(:notifications) do
-      FactoryBot.create(:notification, recipient: moscow_user, created_at: 5.minutes.ago)
+      create(:notification, recipient: moscow_user, created_at: 5.minutes.ago)
     end
     let(:users) { [moscow_user] }
 
@@ -370,7 +370,7 @@ describe User, '.having_reminder_mail_to_send', type: :model do
 
   context 'for a user whose local time is matching the configured time but without a daily_reminders setting at 8:00' do
     let(:paris_user) do
-      FactoryBot.create(
+      create(
         :user,
         firstname: 'Europe/Paris',
         preferences: {
@@ -389,7 +389,7 @@ describe User, '.having_reminder_mail_to_send', type: :model do
 
   context 'for a user whose local time is matching the configured time but without a daily_reminders setting at 10:00' do
     let(:paris_user) do
-      FactoryBot.create(
+      create(
         :user,
         firstname: 'Europe/Paris',
         preferences: {
@@ -408,7 +408,7 @@ describe User, '.having_reminder_mail_to_send', type: :model do
 
   context 'for a user who is in a 45 min time zone and having reminder set to 8:00 and being executed at 8:10' do
     let(:kathmandu_user) do
-      FactoryBot.create(
+      create(
         :user,
         firstname: 'Asia/Kathmandu',
         preferences: {
@@ -423,7 +423,7 @@ describe User, '.having_reminder_mail_to_send', type: :model do
     let(:current_time) { ActiveSupport::TimeZone['Asia/Kathmandu'].parse("2021-09-30T08:10").utc }
     let(:scope_time) { ActiveSupport::TimeZone['Asia/Kathmandu'].parse("2021-09-30T08:00").utc }
     let(:notifications) do
-      FactoryBot.create(:notification, recipient: kathmandu_user, created_at: 5.minutes.ago)
+      create(:notification, recipient: kathmandu_user, created_at: 5.minutes.ago)
     end
 
     let(:users) { [kathmandu_user] }
@@ -436,7 +436,7 @@ describe User, '.having_reminder_mail_to_send', type: :model do
 
   context 'for a user who is in a 45 min time zone and having reminder set to 8:00 and being executed at 8:40' do
     let(:kathmandu_user) do
-      FactoryBot.create(
+      create(
         :user,
         firstname: 'Asia/Kathmandu',
         preferences: {
@@ -451,7 +451,7 @@ describe User, '.having_reminder_mail_to_send', type: :model do
     let(:current_time) { ActiveSupport::TimeZone['Asia/Kathmandu'].parse("2021-09-30T08:40").utc }
     let(:scope_time) { ActiveSupport::TimeZone['Asia/Kathmandu'].parse("2021-09-30T08:30").utc }
     let(:notifications) do
-      FactoryBot.create(:notification, recipient: kathmandu_user, created_at: 5.minutes.ago)
+      create(:notification, recipient: kathmandu_user, created_at: 5.minutes.ago)
     end
 
     let(:users) { [kathmandu_user] }
@@ -464,7 +464,7 @@ describe User, '.having_reminder_mail_to_send', type: :model do
 
   context 'for a user who is in a 45 min time zone and having reminder set to 8:00 and being executed at 7:55' do
     let(:kathmandu_user) do
-      FactoryBot.create(
+      create(
         :user,
         firstname: 'Asia/Kathmandu',
         preferences: {
@@ -479,7 +479,7 @@ describe User, '.having_reminder_mail_to_send', type: :model do
     let(:current_time) { ActiveSupport::TimeZone['Asia/Kathmandu'].parse("2021-09-30T07:55").utc }
     let(:scope_time) { ActiveSupport::TimeZone['Asia/Kathmandu'].parse("2021-09-30T07:45").utc }
     let(:notifications) do
-      FactoryBot.create(:notification, recipient: kathmandu_user, created_at: 5.minutes.ago)
+      create(:notification, recipient: kathmandu_user, created_at: 5.minutes.ago)
     end
 
     let(:users) { [kathmandu_user] }
@@ -492,7 +492,7 @@ describe User, '.having_reminder_mail_to_send', type: :model do
 
   context 'for a user whose local time is matching the configured time but with an already read notification (IAN)' do
     let(:notifications) do
-      FactoryBot.create(:notification, recipient: paris_user, created_at: 5.minutes.ago, read_ian: true)
+      create(:notification, recipient: paris_user, created_at: 5.minutes.ago, read_ian: true)
     end
 
     it 'is empty' do
@@ -503,7 +503,7 @@ describe User, '.having_reminder_mail_to_send', type: :model do
 
   context 'for a user whose local time is matching the configured time but with an already read notification (reminder)' do
     let(:notifications) do
-      FactoryBot.create(:notification, recipient: paris_user, created_at: 5.minutes.ago, mail_reminder_sent: true)
+      create(:notification, recipient: paris_user, created_at: 5.minutes.ago, mail_reminder_sent: true)
     end
 
     it 'is empty' do
@@ -514,7 +514,7 @@ describe User, '.having_reminder_mail_to_send', type: :model do
 
   context 'for a user whose local time is matching the configured time but with the user being inactive' do
     let(:notifications) do
-      FactoryBot.create(:notification, recipient: paris_user, created_at: 5.minutes.ago)
+      create(:notification, recipient: paris_user, created_at: 5.minutes.ago)
     end
 
     before do
@@ -557,7 +557,7 @@ describe User, '.having_reminder_mail_to_send', type: :model do
 
   context 'for a user without a time zone' do
     let(:paris_user) do
-      FactoryBot.create(
+      create(
         :user,
         firstname: 'Europe/Paris',
         preferences: {
@@ -575,9 +575,30 @@ describe User, '.having_reminder_mail_to_send', type: :model do
     end
   end
 
+  context 'for a user without a blank time zone' do
+    let(:paris_user) do
+      create(
+        :user,
+        firstname: 'Europe/Paris',
+        preferences: {
+          time_zone: '',
+          daily_reminders: {
+            enabled: true,
+            times: [hitting_reminder_slot_for("Etc/UTC", current_time)]
+          }
+        }
+      )
+    end
+
+    it 'is including the user as Etc/UTC is assumed' do
+      expect(scope)
+        .to match_array([paris_user])
+    end
+  end
+
   context 'for a user without a time zone and daily_reminders at 08:00' do
     let(:paris_user) do
-      FactoryBot.create(
+      create(
         :user,
         firstname: 'Europe/Paris',
         preferences: {}
@@ -593,7 +614,7 @@ describe User, '.having_reminder_mail_to_send', type: :model do
 
   context 'for a user without a time zone and daily_reminders at 10:00' do
     let(:paris_user) do
-      FactoryBot.create(
+      create(
         :user,
         firstname: 'Europe/Paris',
         preferences: {}
@@ -611,7 +632,7 @@ describe User, '.having_reminder_mail_to_send', type: :model do
   context 'for a user without a time zone and a default time zone configured',
           with_settings: { user_default_timezone: 'Europe/Moscow' } do
     let(:moscow_user) do
-      FactoryBot.create(
+      create(
         :user,
         firstname: 'Europe/Moscow',
         preferences: {
@@ -623,7 +644,7 @@ describe User, '.having_reminder_mail_to_send', type: :model do
       )
     end
     let(:notifications) do
-      FactoryBot.create(:notification, recipient: moscow_user, created_at: 5.minutes.ago)
+      create(:notification, recipient: moscow_user, created_at: 5.minutes.ago)
     end
     let(:users) { [moscow_user] }
 

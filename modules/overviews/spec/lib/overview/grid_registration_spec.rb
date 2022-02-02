@@ -1,9 +1,9 @@
 require 'spec_helper'
 
 describe Overviews::GridRegistration do
-  let(:user) { FactoryBot.build_stubbed(:user) }
-  let(:project) { FactoryBot.build_stubbed(:project) }
-  let(:grid) { FactoryBot.build_stubbed(:overview, project: project) }
+  let(:user) { build_stubbed(:user) }
+  let(:project) { build_stubbed(:project) }
+  let(:grid) { build_stubbed(:overview, project: project) }
 
   describe 'writable?' do
     let(:allowed) { true }
@@ -32,7 +32,7 @@ describe Overviews::GridRegistration do
 
     context 'if the user lacks the :manage_overview permission and it is a new record' do
       let(:allowed) { false }
-      let(:grid) { Grids::Overview.new **FactoryBot.attributes_for(:overview).merge(project: project) }
+      let(:grid) { Grids::Overview.new **attributes_for(:overview).merge(project: project) }
 
       it 'is truthy' do
         expect(described_class.writable?(grid, user))

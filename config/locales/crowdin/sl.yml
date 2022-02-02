@@ -73,6 +73,11 @@ sl:
       start_trial: 'Začnite z brezplačno preizkusno dobo'
       book_now: 'Rezerviraj'
       get_quote: 'Pridobite ponudbo'
+      buttons:
+        upgrade: "Upgrade now"
+        contact: "Contact us for a demo"
+      enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
+      upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
   announcements:
     show_until: Prikaži dokler
     is_active: trenutno prikazano
@@ -160,7 +165,7 @@ sl:
     edit: 'Urejanje dejanja po meri %{name}'
     execute: 'Izvedite %{name}'
     upsale:
-      title: 'Dejanja po meri so značilnost Enterprise Edition'
+      title: 'Custom actions'
       description: 'Dejanja po meri racionalizirajo vsakodnevno delo s kombiniranjem nabora posameznih korakov v en gumb.'
   custom_fields:
     text_add_new_custom_field: >
@@ -259,7 +264,7 @@ sl:
       irreversible: "To dejanje je nepreklicno"
       confirmation: "Vnesite nadomestno uporabniško ime %{name} za potrditev izbrisa."
     upsale:
-      title: Dodeli delo ljudem, ki niso člani projekta
+      title: Placeholder users
       description: >
         Obstaja več scenarijev, kjer želite dodeliti delo ljudem, ki niso člani vašega projekta. Mogoče morate samo zaposliti pravo osebo za to delo. Ali pa nočete tej osebi dati dostopa do informacij o projektu, a še vseeno želite slediti nalogam, ki so dodeljene tej osebi.
   prioritiies:
@@ -751,6 +756,8 @@ sl:
               group_without_name: "Ne poimenovane skupine niso dovoljene."
         user:
           attributes:
+            base:
+              user_limit_reached: "User limit reached. No more accounts can be created on the current plan."
             password_confirmation:
               confirmation: "Password confirmation does not match password."
               format: "%{message}"
@@ -2214,7 +2221,6 @@ sl:
   permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Izberi module projekta"
   permission_manage_types: "Izberi vrste"
-  permission_view_calendar: "Poglej koledar"
   permission_view_changesets: "Oglejte si revizije repozitorija v OpenProject"
   permission_view_commit_author_statistics: "Oglejte si statistiko avtorjev"
   permission_view_work_package_watchers: "Oglej si listo spremeljevalcev"
@@ -2250,7 +2256,6 @@ sl:
       archived: "Arhiviran"
   project_module_activity: "Aktivnost"
   project_module_forums: "Forumi"
-  project_module_calendar: "Koledar"
   project_module_work_package_tracking: "Sledenje delovnega paketa"
   project_module_news: "Novice"
   project_module_repository: "Repozitorij"
@@ -2377,6 +2382,9 @@ sl:
   setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) dovoljen izvir"
   setting_apiv3_cors_origins_text_html: >
     To so izviri, ki jim je dovoljeno dostopati do OpenProject API, če je CORS omogočen. <br/> Preverite <a href="%{origin_link}" target="_blank">dokumentacijo o glavi izvira</a> kako navesti pričakovane vrednosti.
+  setting_apiv3_max_page_size: "Maximum API page size"
+  setting_apiv3_max_page_instructions_html: >
+    Set the maximum page size the API will respond with. It will not be possible to perform API requests that return more values on a single page. <br/> <strong>Warning:</strong> Please only change this value if you are sure why you need it. Setting to a high value will result in significant performance impacts, while a value lower than the per page options will cause errors in paginated views.
   setting_apiv3_docs: "Dokumentacija"
   setting_apiv3_docs_enabled: "Enable docs page"
   setting_apiv3_docs_enabled_instructions_html: >
@@ -2937,6 +2945,7 @@ sl:
       schema: 'Shema'
     undisclosed:
       parent: Undisclosed - The selected parent is invisible because of lacking permissions.
+      ancestor: Undisclosed - The ancestor is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 'Pred odobritvijo'

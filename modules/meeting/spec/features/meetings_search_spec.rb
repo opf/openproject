@@ -30,11 +30,11 @@ require 'spec_helper'
 
 describe 'Meeting search', type: :feature, js: true do
   include ::Components::NgSelectAutocompleteHelpers
-  let(:project) { FactoryBot.create :project }
-  let(:user) { FactoryBot.create(:user, member_in_project: project, member_through_role: role) }
-  let(:role) { FactoryBot.create :role, permissions: %i(view_meetings view_work_packages) }
+  let(:project) { create :project }
+  let(:user) { create(:user, member_in_project: project, member_through_role: role) }
+  let(:role) { create :role, permissions: %i(view_meetings view_work_packages) }
 
-  let!(:meeting) { FactoryBot.create(:meeting, project: project) }
+  let!(:meeting) { create(:meeting, project: project) }
 
   before do
     login_as user

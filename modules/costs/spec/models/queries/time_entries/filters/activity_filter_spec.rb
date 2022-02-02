@@ -31,8 +31,8 @@
 require 'spec_helper'
 
 describe Queries::TimeEntries::Filters::ActivityFilter, type: :model do
-  let(:time_entry_activity1) { FactoryBot.build_stubbed(:time_entry_activity) }
-  let(:time_entry_activity2) { FactoryBot.build_stubbed(:time_entry_activity) }
+  let(:time_entry_activity1) { build_stubbed(:time_entry_activity) }
+  let(:time_entry_activity2) { build_stubbed(:time_entry_activity) }
   let(:activities) { [time_entry_activity1, time_entry_activity2] }
   let(:plucked_allowed_values) do
     activities.map { |x| [x.name, x.id] }

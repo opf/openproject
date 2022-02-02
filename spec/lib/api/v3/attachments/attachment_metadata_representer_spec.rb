@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe ::API::V3::Attachments::AttachmentParsingRepresenter do
-  let(:current_user) { FactoryBot.build_stubbed :user }
+  let(:current_user) { build_stubbed :user }
   include API::V3::Utilities::PathHelper
 
   let(:metadata) do

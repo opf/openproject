@@ -32,8 +32,8 @@ require 'spec_helper'
 require 'services/shared_type_service'
 
 describe UpdateTypeService do
-  let(:type) { FactoryBot.build_stubbed(:type) }
-  let(:user) { FactoryBot.build_stubbed(:admin) }
+  let(:type) { build_stubbed(:type) }
+  let(:user) { build_stubbed(:admin) }
 
   let(:instance) { described_class.new(type, user) }
   let(:service_call) { instance.call(params) }

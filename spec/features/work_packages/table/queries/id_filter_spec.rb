@@ -29,23 +29,23 @@
 require 'spec_helper'
 
 describe 'Work package filtering by id', js: true do
-  let(:project) { FactoryBot.create :project }
+  let(:project) { create :project }
   let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
   let(:filters) { ::Components::WorkPackages::Filters.new }
-  let(:role) { FactoryBot.create(:role, permissions: %i[view_work_packages save_queries]) }
+  let(:role) { create(:role, permissions: %i[view_work_packages save_queries]) }
 
   let!(:work_package) do
-    FactoryBot.create :work_package,
+    create :work_package,
                       project: project
   end
   let!(:other_work_package) do
-    FactoryBot.create :work_package,
+    create :work_package,
                       project: project
 
   end
 
   current_user do
-    FactoryBot.create :user,
+    create :user,
                       member_in_project: project,
                       member_through_role: role
   end

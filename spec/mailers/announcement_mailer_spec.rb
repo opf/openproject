@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe AnnouncementMailer, type: :mailer do
   let(:announcement_subject) { 'Some subject' }
-  let(:recipient) { FactoryBot.build_stubbed(:user) }
+  let(:recipient) { build_stubbed(:user) }
   let(:announcement_body) { 'Some body text' }
 
   describe '#announce' do

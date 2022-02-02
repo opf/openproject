@@ -31,15 +31,15 @@ require 'spec_helper'
 describe ::API::V3::Budgets::BudgetRepresenter do
   include ::API::V3::Utilities::PathHelper
 
-  let(:project) { FactoryBot.build(:project, id: 999) }
+  let(:project) { build(:project, id: 999) }
   let(:user) do
-    FactoryBot.create(:user,
+    create(:user,
                      member_in_project: project,
                      created_at: 1.day.ago,
                      updated_at: Date.today)
   end
   let(:budget) do
-    FactoryBot.create(:budget,
+    create(:budget,
                       author: user,
                       project: project,
                       created_at: 1.day.ago,

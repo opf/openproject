@@ -22,9 +22,9 @@ FactoryBot.define do
     column_count { 4 }
 
     callback(:after_build) do |dashboard|
-      query = FactoryBot.create(:query, project: dashboard.project, public: true)
+      query = create(:query, project: dashboard.project, public: true)
 
-      widget = FactoryBot.build(:grid_widget,
+      widget = build(:grid_widget,
                                 identifier: 'work_packages_table',
                                 start_row: 1,
                                 end_row: 7,
@@ -45,7 +45,7 @@ FactoryBot.define do
     column_count { 4 }
 
     callback(:after_build) do |dashboard|
-      widget = FactoryBot.build(:grid_widget,
+      widget = build(:grid_widget,
                                 identifier: 'custom_text',
                                 start_row: 1,
                                 end_row: 7,

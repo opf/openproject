@@ -33,9 +33,9 @@ describe 'API v3 Version schema resource', type: :request, content_type: :json d
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:project) { FactoryBot.create(:project) }
+  let(:project) { create(:project) }
   let(:current_user) do
-    FactoryBot.create(:user,
+    create(:user,
                       member_in_project: project,
                       member_with_permissions: permissions)
   end

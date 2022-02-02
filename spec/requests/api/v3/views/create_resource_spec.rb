@@ -33,14 +33,14 @@ describe ::API::V3::Views::ViewsAPI,
          type: :request do
   include API::V3::Utilities::PathHelper
 
-  shared_let(:permitted_user) { FactoryBot.create(:user) }
-  shared_let(:role) { FactoryBot.create(:role, permissions: %w[view_work_packages save_queries]) }
+  shared_let(:permitted_user) { create(:user) }
+  shared_let(:role) { create(:role, permissions: %w[view_work_packages save_queries]) }
   shared_let(:project) do
-    FactoryBot.create(:project,
+    create(:project,
                       members: { permitted_user => role })
   end
   shared_let(:private_user_query) do
-    FactoryBot.create(:query,
+    create(:query,
                       project: project,
                       public: false,
                       user: permitted_user)
@@ -104,6 +104,45 @@ describe ::API::V3::Views::ViewsAPI,
           .to be_json_eql("Query does not exist.".to_json)
                 .at_path('message')
       end
+    end
+  end
+
+  describe 'POST /api/v3/views/work_packages_calendar' do
+    let(:send_request) do
+      post api_v3_paths.views_type('work_packages_calendar'), body
+    end
+
+    context 'with a user allowed to save the query and see the calendar' do
+      let(:additional_setup) do
+        role.update_attribute(:permissions, role.permissions + [:view_calendar])
+      end
+
+      it 'returns 201 CREATED' do
+        expect(response.status)
+          .to eq(201)
+      end
+
+      it 'returns the view' do
+        expect(response.body)
+          .to be_json_eql('Views::WorkPackagesCalendar'.to_json)
+                .at_path('_type')
+
+        expect(response.body)
+          .to be_json_eql(View.last.id.to_json)
+                .at_path('id')
+      end
+    end
+
+    context 'with a user allowed to save the query but not to view calendars' do
+      it_behaves_like 'unauthorized access'
+    end
+
+    context 'with a user not allowed to see the query' do
+      let(:additional_setup) do
+        role.update_attribute(:permissions, [])
+      end
+
+      it_behaves_like 'unauthorized access'
     end
   end
 

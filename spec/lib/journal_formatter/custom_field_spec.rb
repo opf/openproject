@@ -39,7 +39,7 @@ describe OpenProject::JournalFormatter::CustomField do
     OpenStruct.new(id: id)
   end
   let(:custom_field) do
-    FactoryBot.build_stubbed(:work_package_custom_field).tap do |cf|
+    build_stubbed(:work_package_custom_field).tap do |cf|
       allow(CustomField)
         .to receive(:find_by)
               .with(id: cf.id)
@@ -52,11 +52,11 @@ describe OpenProject::JournalFormatter::CustomField do
   end
 
   describe 'a multi-select user field' do
-    let(:user1) { FactoryBot.build_stubbed :user, firstname: 'Foo', lastname: 'Bar' }
-    let(:user2) { FactoryBot.build_stubbed :user, firstname: 'Bla', lastname: 'Blub' }
+    let(:user1) { build_stubbed :user, firstname: 'Foo', lastname: 'Bar' }
+    let(:user2) { build_stubbed :user, firstname: 'Bla', lastname: 'Blub' }
 
     let(:custom_field) do
-      FactoryBot.build_stubbed(:user_wp_custom_field).tap do |cf|
+      build_stubbed(:user_wp_custom_field).tap do |cf|
         allow(CustomField)
           .to receive(:find_by)
                 .with(id: cf.id)
@@ -243,7 +243,7 @@ describe OpenProject::JournalFormatter::CustomField do
 
   context 'for a multi list cf' do
     let(:custom_field) do
-      FactoryBot.build_stubbed(:list_wp_custom_field, multi_value: true).tap do |cf|
+      build_stubbed(:list_wp_custom_field, multi_value: true).tap do |cf|
         allow(CustomField)
           .to receive(:find_by)
                 .with(id: cf.id)

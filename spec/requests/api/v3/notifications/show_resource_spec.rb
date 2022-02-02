@@ -37,16 +37,16 @@ describe ::API::V3::Notifications::NotificationsAPI,
   include API::V3::Utilities::PathHelper
 
   shared_let(:recipient) do
-    FactoryBot.create :user
+    create :user
   end
-  shared_let(:role) { FactoryBot.create(:role, permissions: %i(view_work_packages)) }
+  shared_let(:role) { create(:role, permissions: %i(view_work_packages)) }
   shared_let(:project) do
-    FactoryBot.create :project,
+    create :project,
                       members: { recipient => role }
   end
-  shared_let(:resource) { FactoryBot.create :work_package, project: project }
+  shared_let(:resource) { create :work_package, project: project }
   shared_let(:notification) do
-    FactoryBot.create :notification,
+    create :notification,
                       recipient: recipient,
                       project: project,
                       resource: resource,
@@ -69,7 +69,7 @@ describe ::API::V3::Notifications::NotificationsAPI,
   end
 
   describe 'admin user' do
-    let(:current_user) { FactoryBot.build(:admin) }
+    let(:current_user) { build(:admin) }
 
     it 'returns a 404 response' do
       expect(last_response.status).to eq(404)
@@ -77,7 +77,7 @@ describe ::API::V3::Notifications::NotificationsAPI,
   end
 
   describe 'unauthorized user' do
-    let(:current_user) { FactoryBot.build(:user) }
+    let(:current_user) { build(:user) }
 
     it 'returns a 404 response' do
       expect(last_response.status).to eq(404)

@@ -285,7 +285,7 @@ class Repository < ApplicationRecord
       elsif committer.strip =~ /\A([^<]+)(<(.*)>)?\z/
         username = $1.strip
         email = $3
-        u = User.find_by_login(username)
+        u = User.by_login(username).first
         u ||= User.find_by_mail(email) unless email.blank?
         user = u
       end

@@ -30,13 +30,13 @@ require 'spec_helper'
 
 describe SysController, type: :controller, with_settings: { sys_api_enabled: true } do
   let(:commit_role) do
-    FactoryBot.create(:role, permissions: %i[commit_access browse_repository])
+    create(:role, permissions: %i[commit_access browse_repository])
   end
-  let(:browse_role) { FactoryBot.create(:role, permissions: [:browse_repository]) }
-  let(:guest_role) { FactoryBot.create(:role, permissions: []) }
+  let(:browse_role) { create(:role, permissions: [:browse_repository]) }
+  let(:guest_role) { create(:role, permissions: []) }
   let(:valid_user_password) { 'Top Secret Password' }
   let(:valid_user) do
-    FactoryBot.create(:user,
+    create(:user,
                       login: 'johndoe',
                       password: valid_user_password,
                       password_confirmation: valid_user_password)
@@ -45,13 +45,13 @@ describe SysController, type: :controller, with_settings: { sys_api_enabled: tru
   let(:api_key) { '12345678' }
 
   let(:public) { false }
-  let(:project) { FactoryBot.create(:project, public: public) }
+  let(:project) { create(:project, public: public) }
   let!(:repository_project) do
-    FactoryBot.create(:project, public: false, members: { valid_user => [browse_role] })
+    create(:project, public: false, members: { valid_user => [browse_role] })
   end
 
   before(:each) do
-    FactoryBot.create(:non_member, permissions: [:browse_repository])
+    create(:non_member, permissions: [:browse_repository])
     DeletedUser.first # creating it first in order to avoid problems with should_receive
 
     allow(Setting).to receive(:sys_api_key).and_return(api_key)
@@ -62,7 +62,7 @@ describe SysController, type: :controller, with_settings: { sys_api_enabled: tru
   end
 
   describe 'svn' do
-    let!(:repository) { FactoryBot.create(:repository_subversion, project: project) }
+    let!(:repository) { create(:repository_subversion, project: project) }
 
     describe 'repo_auth' do
       context 'for valid login, but no access to repo_auth' do
@@ -86,7 +86,7 @@ describe SysController, type: :controller, with_settings: { sys_api_enabled: tru
 
       context 'for valid login and user has read permission (role reporter) for project' do
         before(:each) do
-          FactoryBot.create(:member,
+          create(:member,
                             user: valid_user,
                             roles: [browse_role],
                             project: project)
@@ -117,7 +117,7 @@ describe SysController, type: :controller, with_settings: { sys_api_enabled: tru
 
       context 'for valid login and user has rw permission (role developer) for project' do
         before(:each) do
-          FactoryBot.create(:member,
+          create(:member,
                             user: valid_user,
                             roles: [commit_role],
                             project: project)
@@ -148,7 +148,7 @@ describe SysController, type: :controller, with_settings: { sys_api_enabled: tru
 
       context 'for invalid login and user has role manager for project' do
         before(:each) do
-          FactoryBot.create(:member,
+          create(:member,
                             user: valid_user,
                             roles: [commit_role],
                             project: project)
@@ -190,8 +190,8 @@ describe SysController, type: :controller, with_settings: { sys_api_enabled: tru
         let(:public) { true }
 
         before(:each) do
-          random_project = FactoryBot.create(:project, public: false)
-          FactoryBot.create(:member,
+          random_project = create(:project, public: false)
+          create(:member,
                             user: valid_user,
                             roles: [browse_role],
                             project: random_project)
@@ -261,7 +261,7 @@ describe SysController, type: :controller, with_settings: { sys_api_enabled: tru
   end
 
   describe 'git' do
-    let!(:repository) { FactoryBot.create(:repository_git, project: project) }
+    let!(:repository) { create(:repository_git, project: project) }
     describe 'repo_auth' do
       context 'for valid login, but no access to repo_auth' do
         before(:each) do
@@ -287,7 +287,7 @@ describe SysController, type: :controller, with_settings: { sys_api_enabled: tru
 
       context 'for valid login and user has read permission (role reporter) for project' do
         before(:each) do
-          FactoryBot.create(:member,
+          create(:member,
                             user: valid_user,
                             roles: [browse_role],
                             project: project)
@@ -324,7 +324,7 @@ describe SysController, type: :controller, with_settings: { sys_api_enabled: tru
 
       context 'for valid login and user has rw permission (role developer) for project' do
         before(:each) do
-          FactoryBot.create(:member,
+          create(:member,
                             user: valid_user,
                             roles: [commit_role],
                             project: project)
@@ -362,7 +362,7 @@ describe SysController, type: :controller, with_settings: { sys_api_enabled: tru
 
       context 'for invalid login and user has role manager for project' do
         before(:each) do
-          FactoryBot.create(:member,
+          create(:member,
                             user: valid_user,
                             roles: [commit_role],
                             project: project)
@@ -388,7 +388,7 @@ describe SysController, type: :controller, with_settings: { sys_api_enabled: tru
 
       context 'for valid login and user is not member for project' do
         before(:each) do
-          project = FactoryBot.create(:project, public: false)
+          project = create(:project, public: false)
           request.env['HTTP_AUTHORIZATION'] =
             ActionController::HttpAuthentication::Basic.encode_credentials(
               valid_user.login,
@@ -411,8 +411,8 @@ describe SysController, type: :controller, with_settings: { sys_api_enabled: tru
       context 'for valid login and project is public' do
         let(:public) { true }
         before(:each) do
-          random_project = FactoryBot.create(:project, public: false)
-          FactoryBot.create(:member,
+          random_project = create(:project, public: false)
+          create(:member,
                             user: valid_user,
                             roles: [browse_role],
                             project: random_project)
@@ -559,7 +559,7 @@ describe SysController, type: :controller, with_settings: { sys_api_enabled: tru
       end
 
       context 'available project, but missing repository' do
-        let(:project) { FactoryBot.build_stubbed(:project) }
+        let(:project) { build_stubbed(:project) }
         let(:id) { project.id }
         before do
           allow(Project).to receive(:find).and_return(project)
@@ -573,10 +573,10 @@ describe SysController, type: :controller, with_settings: { sys_api_enabled: tru
       end
 
       context 'stubbed repository' do
-        let(:project) { FactoryBot.build_stubbed(:project) }
+        let(:project) { build_stubbed(:project) }
         let(:id) { project.id }
         let(:repository) do
-          FactoryBot.build_stubbed(:repository_subversion, url: url, root_url: url)
+          build_stubbed(:repository_subversion, url: url, root_url: url)
         end
 
         before do
@@ -614,10 +614,10 @@ describe SysController, type: :controller, with_settings: { sys_api_enabled: tru
           let(:root_url) { repo_dir }
           let(:url) { "file://#{root_url}" }
 
-          let(:project) { FactoryBot.create(:project) }
+          let(:project) { create(:project) }
           let(:id) { project.id }
           let(:repository) do
-            FactoryBot.create(:repository_subversion, project: project, url: url, root_url: url)
+            create(:repository_subversion, project: project, url: url, root_url: url)
           end
 
           before do

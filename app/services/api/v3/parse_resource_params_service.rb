@@ -46,10 +46,10 @@ module API
       end
 
       def struct
-        if model&.respond_to?(:available_custom_fields)
-          OpenStruct.new available_custom_fields: model.available_custom_fields(model.new)
-        else
-          super
+        super.tap do |instance|
+          if model.respond_to?(:available_custom_fields)
+            instance.available_custom_fields = model.available_custom_fields(model.new)
+          end
         end
       end
     end

@@ -38,7 +38,7 @@ describe ::API::V3::Projects::Statuses::StatusRepresenter, 'rendering' do
     described_class.create(status, current_user: current_user, embed_links: true)
   end
 
-  current_user { FactoryBot.build_stubbed(:user) }
+  current_user { build_stubbed(:user) }
 
   describe '_links' do
     describe 'self' do

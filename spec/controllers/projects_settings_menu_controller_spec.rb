@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe Projects::Settings::ModulesController, 'menu', type: :controller do
   let(:current_user) do
-    FactoryBot.build_stubbed(:user).tap do |u|
+    build_stubbed(:user).tap do |u|
       allow(u)
         .to receive(:allowed_to?)
         .and_return(true)
@@ -38,7 +38,7 @@ describe Projects::Settings::ModulesController, 'menu', type: :controller do
   end
   let(:project) do
     # project contains wiki by default
-    FactoryBot.create(:project, enabled_module_names: enabled_modules).tap(&:reload)
+    create(:project, enabled_module_names: enabled_modules).tap(&:reload)
   end
   let(:enabled_modules) { %w[wiki] }
   let(:params) { { project_id: project.id } }
@@ -94,11 +94,11 @@ describe Projects::Settings::ModulesController, 'menu', type: :controller do
 
       describe 'with custom wiki menu item' do
         before do
-          main_item = FactoryBot.create(:wiki_menu_item,
+          main_item = create(:wiki_menu_item,
                                         navigatable_id: project.wiki.id,
                                         name: 'example',
                                         title: 'Example Title')
-          FactoryBot.create(:wiki_menu_item,
+          create(:wiki_menu_item,
                             navigatable_id: project.wiki.id,
                             name: 'sub',
                             title: 'Sub Title',

@@ -31,38 +31,38 @@
 require 'spec_helper'
 
 describe Members::Scopes::NotLocked, type: :model do
-  let(:project) { FactoryBot.create(:project) }
-  let(:role) { FactoryBot.create(:role) }
+  let(:project) { create(:project) }
+  let(:role) { create(:role) }
 
   let!(:invited_user_member) do
-    FactoryBot.create(:member,
+    create(:member,
                       project: project,
                       roles: [role],
-                      principal: FactoryBot.create(:user, status: Principal.statuses[:invited]))
+                      principal: create(:user, status: Principal.statuses[:invited]))
   end
   let!(:registered_user_member) do
-    FactoryBot.create(:member,
+    create(:member,
                       project: project,
                       roles: [role],
-                      principal: FactoryBot.create(:user, status: Principal.statuses[:registered]))
+                      principal: create(:user, status: Principal.statuses[:registered]))
   end
   let!(:locked_user_member) do
-    FactoryBot.create(:member,
+    create(:member,
                       project: project,
                       roles: [role],
-                      principal: FactoryBot.create(:user, status: Principal.statuses[:locked]))
+                      principal: create(:user, status: Principal.statuses[:locked]))
   end
   let!(:active_user_member) do
-    FactoryBot.create(:member,
+    create(:member,
                       project: project,
                       roles: [role],
-                      principal: FactoryBot.create(:user, status: Principal.statuses[:active]))
+                      principal: create(:user, status: Principal.statuses[:active]))
   end
   let!(:group_member) do
-    FactoryBot.create(:member,
+    create(:member,
                       project: project,
                       roles: [role],
-                      principal: FactoryBot.create(:group))
+                      principal: create(:group))
   end
 
   describe '.fetch' do

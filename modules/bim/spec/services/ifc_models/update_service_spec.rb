@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Bim::IfcModels::UpdateService do
-  let(:user) { FactoryBot.build_stubbed(:user) }
+  let(:user) { build_stubbed(:user) }
   let(:contract_class) do
     double('contract_class', '<=': true)
   end
@@ -24,7 +24,7 @@ describe Bim::IfcModels::UpdateService do
                       errors: set_attributes_errors
   end
   let!(:model) do
-    FactoryBot.create(:ifc_model).tap do |m|
+    create(:ifc_model).tap do |m|
       allow(m)
         .to receive(:save)
         .and_return(model_valid)
@@ -59,9 +59,9 @@ describe Bim::IfcModels::UpdateService do
       stub_const('Bim::IfcModels::IfcConversionJob', job)
     end
   end
-  let(:ifc_attachment) { FactoryBot.build_stubbed(:attachment) }
+  let(:ifc_attachment) { build_stubbed(:attachment) }
   let(:other_attachment) do
-    FactoryBot.build_stubbed(:attachment).tap do |a|
+    build_stubbed(:attachment).tap do |a|
       allow(a)
         .to receive(:marked_for_destruction?)
         .and_return(attachment_marked_for_destruction)

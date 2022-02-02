@@ -29,13 +29,13 @@
 require 'spec_helper'
 
 describe Grids::Query, type: :model do
-  let(:user) { FactoryBot.create(:user) }
-  let(:other_user) { FactoryBot.create(:user) }
+  let(:user) { create(:user) }
+  let(:other_user) { create(:user) }
   let!(:my_page_grid) do
-    FactoryBot.create(:my_page, user: user)
+    create(:my_page, user: user)
   end
   let!(:other_my_page_grid) do
-    FactoryBot.create(:my_page, user: other_user)
+    create(:my_page, user: other_user)
   end
   let(:instance) { described_class.new }
 

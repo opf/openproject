@@ -33,10 +33,10 @@ describe 'API v3 Work package resource' do
   include Rack::Test::Methods
   include Capybara::RSpecMatchers
 
-  let(:current_user) { FactoryBot.create(:admin) }
-  let(:project) { FactoryBot.create(:project) }
+  let(:current_user) { create(:admin) }
+  let(:project) { create(:project) }
   let(:work_package) do
-    FactoryBot.create(:work_package,
+    create(:work_package,
                       project: project,
                       story_points: 8,
                       remaining_hours: 5)
@@ -67,7 +67,7 @@ describe 'API v3 Work package resource' do
 
     context 'backlogs deactivated' do
       let(:project) do
-        FactoryBot.create(:project, disable_modules: 'backlogs')
+        create(:project, disable_modules: 'backlogs')
       end
 
       include_context 'query work package'

@@ -88,9 +88,6 @@ et:
     button_export-pdf: "Download PDF"
     button_export-atom: "Download Atom"
     button_create: "Loo uus"
-    calendar:
-      title: 'Kalender'
-      too_many: 'There are %{count} work packages in total, but only %{max} can be shown.'
     card:
       add_new: 'Add new card'
       highlighting:

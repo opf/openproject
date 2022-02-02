@@ -1,10 +1,10 @@
 require 'spec_helper'
 
 describe 'Milestones full screen v iew', js: true do
-  let(:type) { FactoryBot.create :type, is_milestone: true }
-  let(:project) { FactoryBot.create(:project, types: [type]) }
+  let(:type) { create :type, is_milestone: true }
+  let(:project) { create(:project, types: [type]) }
   let!(:work_package) do
-    FactoryBot.create(:work_package,
+    create(:work_package,
                       project: project,
                       type: type,
                       subject: 'Foobar')
@@ -20,9 +20,9 @@ describe 'Milestones full screen v iew', js: true do
 
   context 'user has :add_work_packages permission' do
     let(:user) do
-      FactoryBot.create(:user, member_in_project: project, member_through_role: role)
+      create(:user, member_in_project: project, member_through_role: role)
     end
-    let(:role) { FactoryBot.create(:role, permissions: permissions) }
+    let(:role) { create(:role, permissions: permissions) }
     let(:permissions) do
       %i[view_work_packages add_work_packages]
     end
@@ -37,9 +37,9 @@ describe 'Milestones full screen v iew', js: true do
 
   context 'user has :view_work_packages permission only' do
     let(:user) do
-      FactoryBot.create(:user, member_in_project: project, member_through_role: role)
+      create(:user, member_in_project: project, member_through_role: role)
     end
-    let(:role) { FactoryBot.create(:role, permissions: permissions) }
+    let(:role) { create(:role, permissions: permissions) }
     let(:permissions) do
       %i[view_work_packages]
     end

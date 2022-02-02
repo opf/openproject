@@ -32,9 +32,9 @@ describe ::Query::Results, 'Grouping and sorting for version', type: :model, wit
   let(:query_results) do
     ::Query::Results.new query
   end
-  let(:project_1) { FactoryBot.create :project }
+  let(:project_1) { create :project }
   let(:user_1) do
-    FactoryBot.create(:user,
+    create(:user,
                       firstname: 'user',
                       lastname: '1',
                       member_in_project: project_1,
@@ -42,7 +42,7 @@ describe ::Query::Results, 'Grouping and sorting for version', type: :model, wit
   end
 
   let(:old_version) do
-    FactoryBot.create(:version,
+    create(:version,
                       name: '1. Old version',
                       project: project_1,
                       start_date: '2019-02-02',
@@ -50,7 +50,7 @@ describe ::Query::Results, 'Grouping and sorting for version', type: :model, wit
   end
 
   let(:new_version) do
-    FactoryBot.create(:version,
+    create(:version,
                       name: '1.2 New version',
                       project: project_1,
                       start_date: '2020-02-02',
@@ -58,7 +58,7 @@ describe ::Query::Results, 'Grouping and sorting for version', type: :model, wit
   end
 
   let(:no_date_version) do
-    FactoryBot.create(:version,
+    create(:version,
                       name: '1.1 No date version',
                       project: project_1,
                       start_date: nil,
@@ -66,24 +66,24 @@ describe ::Query::Results, 'Grouping and sorting for version', type: :model, wit
   end
 
   let!(:no_version_wp) do
-    FactoryBot.create(:work_package,
+    create(:work_package,
                       subject: 'No version wp',
                       project: project_1)
   end
   let!(:newest_version_wp) do
-    FactoryBot.create(:work_package,
+    create(:work_package,
                       subject: 'Newest version wp',
                       version: new_version,
                       project: project_1)
   end
   let!(:oldest_version_wp) do
-    FactoryBot.create(:work_package,
+    create(:work_package,
                       subject: 'Oldest version wp',
                       version: old_version,
                       project: project_1)
   end
   let!(:no_date_version_wp) do
-    FactoryBot.create(:work_package,
+    create(:work_package,
                       subject: 'No date version wp',
                       version: no_date_version,
                       project: project_1)
@@ -93,7 +93,7 @@ describe ::Query::Results, 'Grouping and sorting for version', type: :model, wit
   let(:sort_criteria) { [['version', 'asc']] }
 
   let(:query) do
-    FactoryBot.build(:query,
+    build(:query,
                      user: user_1,
                      group_by: group_by,
                      show_hierarchies: false,

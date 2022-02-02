@@ -33,28 +33,28 @@ require 'spec_helper'
 describe Principals::Scopes::Like, type: :model do
   describe '.like' do
     let!(:login) do
-      FactoryBot.create(:principal, login: 'login')
+      create(:principal, login: 'login')
     end
     let!(:login2) do
-      FactoryBot.create(:principal, login: 'login2')
+      create(:principal, login: 'login2')
     end
     let!(:firstname) do
-      FactoryBot.create(:principal, firstname: 'firstname')
+      create(:principal, firstname: 'firstname')
     end
     let!(:firstname2) do
-      FactoryBot.create(:principal, firstname: 'firstname2')
+      create(:principal, firstname: 'firstname2')
     end
     let!(:lastname) do
-      FactoryBot.create(:principal, lastname: 'lastname')
+      create(:principal, lastname: 'lastname')
     end
     let!(:lastname2) do
-      FactoryBot.create(:principal, lastname: 'lastname2')
+      create(:principal, lastname: 'lastname2')
     end
     let!(:mail) do
-      FactoryBot.create(:principal, mail: 'mail@example.com')
+      create(:principal, mail: 'mail@example.com')
     end
     let!(:mail2) do
-      FactoryBot.create(:principal, mail: 'mail2@example.com')
+      create(:principal, mail: 'mail2@example.com')
     end
 
     it 'finds by login' do

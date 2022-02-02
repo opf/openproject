@@ -30,18 +30,18 @@ require 'spec_helper'
 
 describe ::API::V3::Relations::RelationCollectionRepresenter do
   let(:work_package) do
-    FactoryBot.build_stubbed(:work_package)
+    build_stubbed(:work_package)
   end
 
   let(:relations) do
-    FactoryBot.build_stubbed_list(:relation,
+    build_stubbed_list(:relation,
                                   3,
                                   from: work_package,
-                                  to: FactoryBot.build_stubbed(:work_package))
+                                  to: build_stubbed(:work_package))
   end
 
   let(:user) do
-    FactoryBot.build_stubbed(:user)
+    build_stubbed(:user)
   end
 
   def self_link

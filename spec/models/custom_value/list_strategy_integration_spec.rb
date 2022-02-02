@@ -29,10 +29,10 @@
 require 'spec_helper'
 
 describe CustomValue::ListStrategy, 'integration tests' do
-  let(:type) { FactoryBot.create :type }
-  let(:project) { FactoryBot.create :project, types: [type] }
+  let(:type) { create :type }
+  let(:project) { create :project, types: [type] }
   let!(:custom_field) do
-    FactoryBot.create(
+    create(
       :list_wp_custom_field,
       name: "Invalid List CF",
       multi_value: true,
@@ -43,7 +43,7 @@ describe CustomValue::ListStrategy, 'integration tests' do
   end
 
   let!(:work_package) do
-    FactoryBot.create :work_package,
+    create :work_package,
                       project: project,
                       type: type,
                       custom_values: { custom_field.id => custom_field.custom_options.find_by(value: 'A') }

@@ -73,6 +73,11 @@ id:
       start_trial: 'Start free trial'
       book_now: 'Book now'
       get_quote: 'Get a quote'
+      buttons:
+        upgrade: "Upgrade now"
+        contact: "Contact us for a demo"
+      enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
+      upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
   announcements:
     show_until: Show until
     is_active: currently displayed
@@ -158,7 +163,7 @@ id:
     edit: 'Edit custom action %{name}'
     execute: 'Execute %{name}'
     upsale:
-      title: 'Tindakan khusus adalah fitur Edisi Perusahaan'
+      title: 'Custom actions'
       description: 'Tindakan khusus merampingkan pekerjaan sehari-hari dengan menggabungkan satu set langkah individual menjadi satu tombol.'
   custom_fields:
     text_add_new_custom_field: >
@@ -257,7 +262,7 @@ id:
       irreversible: "This action is irreversible"
       confirmation: "Enter the placeholder user name %{name} to confirm the deletion."
     upsale:
-      title: Tetapkan pekerjaan ke seseorang yang bukan anggota proyek.
+      title: Placeholder users
       description: >
         There are multiple scenarios where you want to assign work to people that are not member of your project. It could simply be that you still need to hire the correct person for the job. Or you just don't want to give that person access to the project's information but still want track tasks assigned to that person.
   prioritiies:
@@ -748,6 +753,8 @@ id:
               group_without_name: "Kelompok tak bernama tidak dibolehkan."
         user:
           attributes:
+            base:
+              user_limit_reached: "User limit reached. No more accounts can be created on the current plan."
             password_confirmation:
               confirmation: "Password confirmation does not match password."
               format: "%{message}"
@@ -2157,7 +2164,6 @@ id:
   permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Pilih modul Project"
   permission_manage_types: "Pilih Tipe"
-  permission_view_calendar: "Lihat kalender"
   permission_view_changesets: "View repository revisions in OpenProject"
   permission_view_commit_author_statistics: "Lihat commit statistik penulis"
   permission_view_work_package_watchers: "Lihat daftar pemantau"
@@ -2193,7 +2199,6 @@ id:
       archived: "Archived"
   project_module_activity: "Activity"
   project_module_forums: "Forum"
-  project_module_calendar: "Kalender"
   project_module_work_package_tracking: "Tracking Paket-Penugasan"
   project_module_news: "News"
   project_module_repository: "Repositori"
@@ -2319,6 +2324,9 @@ id:
   setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
   setting_apiv3_cors_origins_text_html: >
     If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
+  setting_apiv3_max_page_size: "Maximum API page size"
+  setting_apiv3_max_page_instructions_html: >
+    Set the maximum page size the API will respond with. It will not be possible to perform API requests that return more values on a single page. <br/> <strong>Warning:</strong> Please only change this value if you are sure why you need it. Setting to a high value will result in significant performance impacts, while a value lower than the per page options will cause errors in paginated views.
   setting_apiv3_docs: "Dokumentasi"
   setting_apiv3_docs_enabled: "Enable docs page"
   setting_apiv3_docs_enabled_instructions_html: >
@@ -2873,6 +2881,7 @@ id:
       schema: 'Schema'
     undisclosed:
       parent: Undisclosed - The selected parent is invisible because of lacking permissions.
+      ancestor: Undisclosed - The ancestor is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 'Pre-authorization'

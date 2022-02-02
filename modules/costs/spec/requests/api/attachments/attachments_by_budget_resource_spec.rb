@@ -38,7 +38,7 @@ describe "budget attachments" do
     let(:update_permission) { :edit_budgets }
 
     let(:budget) do
-      FactoryBot.create :budget, project: project
+      create :budget, project: project
     end
   end
 end

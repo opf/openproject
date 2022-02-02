@@ -29,8 +29,8 @@
 require 'spec_helper'
 
 feature 'group memberships through groups page', type: :feature do
-  shared_let(:admin) { FactoryBot.create :admin }
-  let!(:group) { FactoryBot.create :group, lastname: "Bob's Team" }
+  shared_let(:admin) { create :admin }
+  let!(:group) { create :group, lastname: "Bob's Team" }
 
   let(:groups_page) { Pages::Groups.new }
 

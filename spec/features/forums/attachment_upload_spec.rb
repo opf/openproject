@@ -32,9 +32,9 @@ require 'spec_helper'
 require 'features/page_objects/notification'
 
 describe 'Upload attachment to forum message', js: true do
-  let(:forum) { FactoryBot.create(:forum) }
+  let(:forum) { create(:forum) }
   let(:user) do
-    FactoryBot.create :user,
+    create :user,
                       member_in_project: project,
                       member_with_permissions: %i[view_messages
                                                   add_messages

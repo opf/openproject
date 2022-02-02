@@ -73,6 +73,11 @@ lol:
       start_trial: 'crwdns494783:0crwdne494783:0'
       book_now: 'crwdns494785:0crwdne494785:0'
       get_quote: 'crwdns494787:0crwdne494787:0'
+      buttons:
+        upgrade: "crwdns655649:0crwdne655649:0"
+        contact: "crwdns655651:0crwdne655651:0"
+      enterprise_info_html: "crwdns655653:0crwdne655653:0"
+      upgrade_info: "crwdns655655:0crwdne655655:0"
   announcements:
     show_until: crwdns494789:0crwdne494789:0
     is_active: crwdns494791:0crwdne494791:0
@@ -149,7 +154,7 @@ lol:
     edit: 'crwdns494885:0%{name}crwdne494885:0'
     execute: 'crwdns494887:0%{name}crwdne494887:0'
     upsale:
-      title: 'crwdns494889:0crwdne494889:0'
+      title: 'crwdns655657:0crwdne655657:0'
       description: 'crwdns494891:0crwdne494891:0'
   custom_fields:
     text_add_new_custom_field: >
@@ -247,7 +252,7 @@ lol:
       irreversible: "crwdns495005:0crwdne495005:0"
       confirmation: "crwdns495007:0%{name}crwdne495007:0"
     upsale:
-      title: crwdns495009:0crwdne495009:0
+      title: crwdns655659:0crwdne655659:0
       description: >
         crwdns495011:0crwdne495011:0
   prioritiies:
@@ -733,6 +738,8 @@ lol:
               group_without_name: "crwdns495659:0crwdne495659:0"
         user:
           attributes:
+            base:
+              user_limit_reached: "crwdns586679:0crwdne586679:0"
             password_confirmation:
               confirmation: "crwdns495661:0crwdne495661:0"
               format: "crwdns495663:0%{message}crwdne495663:0"
@@ -2145,7 +2152,6 @@ lol:
   permission_select_custom_fields: "crwdns498633:0crwdne498633:0"
   permission_select_project_modules: "crwdns498635:0crwdne498635:0"
   permission_manage_types: "crwdns498637:0crwdne498637:0"
-  permission_view_calendar: "crwdns498639:0crwdne498639:0"
   permission_view_changesets: "crwdns498641:0crwdne498641:0"
   permission_view_commit_author_statistics: "crwdns498643:0crwdne498643:0"
   permission_view_work_package_watchers: "crwdns498645:0crwdne498645:0"
@@ -2181,7 +2187,6 @@ lol:
       archived: "crwdns498691:0crwdne498691:0"
   project_module_activity: "crwdns498693:0crwdne498693:0"
   project_module_forums: "crwdns498695:0crwdne498695:0"
-  project_module_calendar: "crwdns498697:0crwdne498697:0"
   project_module_work_package_tracking: "crwdns498699:0crwdne498699:0"
   project_module_news: "crwdns498701:0crwdne498701:0"
   project_module_repository: "crwdns498703:0crwdne498703:0"
@@ -2307,6 +2312,9 @@ lol:
   setting_apiv3_cors_origins: "crwdns498899:0crwdne498899:0"
   setting_apiv3_cors_origins_text_html: >
     crwdns498901:0%{origin_link}crwdne498901:0
+  setting_apiv3_max_page_size: "crwdns655661:0crwdne655661:0"
+  setting_apiv3_max_page_instructions_html: >
+    crwdns655663:0crwdne655663:0
   setting_apiv3_docs: "crwdns498903:0crwdne498903:0"
   setting_apiv3_docs_enabled: "crwdns498905:0crwdne498905:0"
   setting_apiv3_docs_enabled_instructions_html: >
@@ -2862,6 +2870,7 @@ lol:
       schema: 'crwdns499849:0crwdne499849:0'
     undisclosed:
       parent: crwdns499851:0crwdne499851:0
+      ancestor: crwdns586681:0crwdne586681:0
   doorkeeper:
     pre_authorization:
       status: 'crwdns499853:0crwdne499853:0'

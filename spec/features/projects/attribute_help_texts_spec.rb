@@ -29,20 +29,20 @@
 require 'spec_helper'
 
 describe 'Project attribute help texts', type: :feature, js: true do
-  let(:project) { FactoryBot.create :project }
+  let(:project) { create :project }
 
   let(:instance) do
-    FactoryBot.create :project_help_text,
+    create :project_help_text,
                       attribute_name: :status,
                       help_text: 'Some **help text** for status.'
-    FactoryBot.create :project_help_text,
+    create :project_help_text,
                       attribute_name: :description,
                       help_text: 'Some **help text** for description.'
   end
 
   let(:grid) do
-    grid = FactoryBot.create :grid
-    grid.widgets << FactoryBot.create(:grid_widget,
+    grid = create :grid
+    grid.widgets << create(:grid_widget,
                                       identifier: 'project_status',
                                       options: { 'name' => 'Project status' },
                                       start_row: 1,
@@ -80,7 +80,7 @@ describe 'Project attribute help texts', type: :feature, js: true do
   end
 
   describe 'as admin' do
-    let(:user) { FactoryBot.create :admin }
+    let(:user) { create :admin }
     it_behaves_like 'allows to view help texts'
 
     it 'shows the help text on the project create form' do
@@ -101,10 +101,10 @@ describe 'Project attribute help texts', type: :feature, js: true do
 
   describe 'as regular user' do
     let(:view_role) do
-      FactoryBot.create :role, permissions: [:view_project]
+      create :role, permissions: [:view_project]
     end
     let(:user) do
-      FactoryBot.create :user,
+      create :user,
                         member_in_project: project,
                         member_through_role: view_role
     end

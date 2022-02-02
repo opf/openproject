@@ -291,7 +291,7 @@ module API
             # keep the appended filters between requests.
             filters = static_filters + instance_filters.call(represented)
 
-            api_v3_paths.path_for(:principals, filters: filters, page_size: 0)
+            api_v3_paths.path_for(:principals, filters: filters, page_size: -1)
           }
         end
 
@@ -366,6 +366,14 @@ module API
         end
 
         module RepresenterClass
+          def self.extended(base)
+            class << base
+              # In order to ensure the custom fields to be loaded correctly, consumers need to call the
+              # .create method.
+              protected :new
+            end
+          end
+
           def custom_field_injector(config)
             @custom_field_injector_config = config.reverse_merge custom_field_injector_config
           end

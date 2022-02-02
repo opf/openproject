@@ -73,7 +73,7 @@ fr:
     button_advanced_filter: "Filtre avancé"
     button_list_view: "Vue en liste"
     button_show_view: "Affichage plein écran"
-    button_log_time: "Consigner temps"
+    button_log_time: "Afficher l'horodatage"
     button_more: "Plus"
     button_open_details: "Ouvrir la vue détaillée"
     button_close_details: "Fermer la vue détaillée"
@@ -88,9 +88,6 @@ fr:
     button_export-pdf: "Télécharger le PDF"
     button_export-atom: "Télécharger Atom"
     button_create: "Créer"
-    calendar:
-      title: 'Calendrier'
-      too_many: 'Il y a %{count} de paquets de travail au total, mais seulement %{max} peut être affiché.'
     card:
       add_new: 'Ajouter une nouvelle carte'
       highlighting:
@@ -141,7 +138,7 @@ fr:
           button: 'Liens vers les pages enfants'
           include_parent: 'Inclure un parent'
           text: '[Placeholder] Liens vers les pages enfants de'
-          page: 'Page wiki'
+          page: 'Page du wiki'
           this_page: 'cette page'
           hint: |
             Laissez ce champ vide pour répertorier toutes les pages enfants de la page actuelle. Si vous souhaitez référencer une page différente, indiquez son titre ou slug.
@@ -158,7 +155,7 @@ fr:
         wiki_page_include:
           button: 'Inclure le contenu d’une autre page wiki'
           text: '[Placeholder] Page wiki inclue de'
-          page: 'Page wiki'
+          page: 'Page du wiki'
           not_set: '(page pas encore définie)'
           hint: |
             Incluez le contenu d’une autre page du wiki en indiquant son titre ou slug.
@@ -178,7 +175,7 @@ fr:
     admin:
       type_form:
         custom_field: 'Champ personnalisé'
-        inactive: 'Désactivé'
+        inactive: 'Inactif'
         drag_to_activate: "Faites glisser les champs ici pour les activer"
         add_group: "Ajouter un groupe d’attributs"
         add_table: "Ajouter un tableau des lots de travaux associés"
@@ -291,7 +288,7 @@ fr:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>With the new <b>in-app notifications</b> you receive all important updates directly in the application and don't get a flood of emails anymore.</li> <li>The new <b>notification center</b> shows all the changes, including intuitive filter options, e.g. by reason for notification or projects. It even allows editing directly in a split view.</li> <li>Improved <b>notification settings</b> allow to fine-tune for which actions and in which projects you want to receive a notification.</li> <li><b>Email reminders</b> can be configured to receive important updates via a daily email summary.</li> <li>The work package auto-completer for relations now also shows additional information (project name, status, ...) to easily identify the respective work package.</li> </ul>
+                Cette version contient une variété de nouvelle fonctionnalités et d'améliorations : <br> <ul class="%{list_styling_class}"> <li>Avec les nouvelles<b>Notifications intégrées</b> vous recevez toutes les mises à jour importantes directement dans l'application et vous ne recevez plus une multitude d'emails.</li><li>Le nouveau <b>centre de notifications</b> affiche tous les changements, incluant les options de filtres intuitifs, par exemple par raison pour les notifications ou les projets. Il autorise même l'édition directement dans une vue séparée.</li> <li>Amélioration des <b>paramètres de notifications</b> autorisant un réglage précis de pour quels actions et dans quels projets vous voulez recevoir des notifications.</li><li>Des <b>rappels emails</b> peuvent être configurés pour recevoir les mises à jour importantes avec un résumé journalier.</li> <li>L'autocomplétion  des lots de travaux pour les relations affiche maintenant les information supplémentaires (nom du projet, status, ...) pour facilement identifier les lots de travaux correspondants</li> </ul>
             bim:
               learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
               new_features_html: >
@@ -558,7 +555,7 @@ fr:
             description: 'Recevoir une notification chaque fois que quelqu''un me mentionne n''importe où'
           involved:
             title: 'Assigné à moi ou responsable'
-            description: 'Receive notifications for all activities on work packages for which I am assignee or accountable'
+            description: 'Recevez des notifications pour toutes les activités sur les lots de travaux qui vous ont été assignés'
           watched: 'Mises à jour sur les éléments surveillés'
           work_package_commented: 'Tous les nouveaux commentaires'
           work_package_created: 'Nouveaux lots de travaux'
@@ -577,7 +574,7 @@ fr:
           description: 'Ces paramètres spécifiques au projet remplacent les paramètres par défaut ci-dessus'
           add: 'Ajouter un paramètre pour le projet'
           already_selected: 'Ce projet est déjà sélectionné'
-          remove: 'Remove project settings'
+          remove: 'Suppression des paramètres de projet'
     password_confirmation:
       field_description: 'Vous devez saisir le mot de passe de votre compte pour confirmer ce changement.'
       title: 'Confirmez votre mot de passe pour continuer'

@@ -142,7 +142,7 @@ module Pages
       within_list(list_name) do
         found = all('[data-qa-selector="op-wp-single-card--content-subject"]')
           .map(&:text)
-        expected = card_titles.map { |title| title.is_a?(WorkPackage) ? title.subject : title.to_s }
+        expected = card_titles.map { |title| title.is_a?(WorkPackage) ? "##{title.id} #{title.subject}" : title.to_s }
 
         expect(found)
           .to match expected
@@ -160,23 +160,7 @@ module Pages
       source = page.all("#{list_selector(from)} [data-qa-selector='op-wp-single-card']")[index]
       target = page.find list_selector(to)
 
-      scroll_to_element(source)
-      page
-        .driver
-        .browser
-        .action
-        .move_to(source.native)
-        .click_and_hold(source.native)
-        .perform
-
-      scroll_to_element(target)
-      page
-        .driver
-        .browser
-        .action
-        .move_to(target.native)
-        .release
-        .perform
+      drag_n_drop_element(from: source, to: target)
     end
 
     def add_list(option: nil, query: option)

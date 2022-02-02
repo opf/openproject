@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe Queries::Filters::AvailableFilters, type: :model do
-  let(:context) { FactoryBot.build_stubbed(:project) }
+  let(:context) { build_stubbed(:project) }
   let(:register) { Queries::FilterRegister }
 
   class HelperClass

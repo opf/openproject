@@ -34,7 +34,7 @@ shared_examples_for 'placeholder user contract' do
   let(:placeholder_user_name) { 'UX Designer' }
 
   context 'when user with global permission' do
-    let(:current_user) { FactoryBot.create(:user, global_permission: %i[manage_placeholder_user]) }
+    let(:current_user) { create(:user, global_permission: %i[manage_placeholder_user]) }
 
     it_behaves_like 'contract is valid'
   end
@@ -42,7 +42,7 @@ shared_examples_for 'placeholder user contract' do
   it_behaves_like 'contract is valid for active admins and invalid for regular users'
 
   describe 'validations' do
-    let(:current_user) { FactoryBot.build_stubbed :admin }
+    let(:current_user) { build_stubbed :admin }
     context 'name' do
       context 'is valid' do
         it_behaves_like 'contract is valid'

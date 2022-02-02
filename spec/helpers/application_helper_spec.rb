@@ -97,16 +97,16 @@ describe ApplicationHelper, type: :helper do
   end
 
   describe '.link_to_if_authorized' do
-    let(:project) { FactoryBot.create :valid_project }
+    let(:project) { create :valid_project }
     let(:project_member) do
-      FactoryBot.create :user,
+      create :user,
                         member_in_project: project,
-                        member_through_role: FactoryBot.create(:role,
+                        member_through_role: create(:role,
                                                                permissions: %i[view_work_packages edit_work_packages
                                                                                browse_repository view_changesets view_wiki_pages])
     end
     let(:issue) do
-      FactoryBot.create :work_package,
+      create :work_package,
                         project: project,
                         author: project_member,
                         type: project.types.first
@@ -189,7 +189,7 @@ describe ApplicationHelper, type: :helper do
 
     context 'with project' do
       before do
-        @project = FactoryBot.build(:project)
+        @project = build(:project)
       end
 
       context 'right now' do

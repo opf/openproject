@@ -32,16 +32,16 @@ require_relative '../support/pages/overview'
 
 describe 'Overview page on the fly creation if user lacks :mange_overview permission',
          type: :feature, js: true, with_mail: false do
-  let!(:type) { FactoryBot.create :type }
-  let!(:project) { FactoryBot.create :project, types: [type] }
-  let!(:open_status) { FactoryBot.create :default_status }
+  let!(:type) { create :type }
+  let!(:project) { create :project, types: [type] }
+  let!(:open_status) { create :default_status }
 
   let(:permissions) do
     %i[view_work_packages]
   end
 
   let(:user) do
-    FactoryBot.create(:user,
+    create(:user,
                       member_in_project: project,
                       member_with_permissions: permissions)
   end

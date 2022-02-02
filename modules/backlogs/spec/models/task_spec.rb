@@ -29,11 +29,11 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe Task, type: :model do
-  let(:task_type) { FactoryBot.create(:type) }
-  let(:default_status) { FactoryBot.create(:default_status) }
-  let(:project) { FactoryBot.create(:project) }
+  let(:task_type) { create(:type) }
+  let(:default_status) { create(:default_status) }
+  let(:project) { create(:project) }
   let(:task) do
-    FactoryBot.build(:task,
+    build(:task,
                      project: project,
                      status: default_status,
                      type: task_type)

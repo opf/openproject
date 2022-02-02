@@ -30,13 +30,13 @@ require 'spec_helper'
 
 describe WikiPages::CopyService, 'integration', type: :model do
   let(:user) do
-    FactoryBot.create(:user) do |user|
-      FactoryBot.create(:member,
+    create(:user) do |user|
+      create(:member,
                         project: source_project,
                         principal: user,
                         roles: [role])
 
-      FactoryBot.create(:member,
+      create(:member,
                         project: sink_project,
                         principal: user,
                         roles: [role])
@@ -44,20 +44,20 @@ describe WikiPages::CopyService, 'integration', type: :model do
   end
 
   let(:role) do
-    FactoryBot.create(:role,
+    create(:role,
                       permissions: permissions)
   end
 
   let(:permissions) do
     %i(view_wiki edit_wiki_pages)
   end
-  let(:source_wiki) { FactoryBot.create(:wiki) }
+  let(:source_wiki) { create(:wiki) }
   let(:source_project) { source_wiki.project }
 
-  let(:sink_wiki) { FactoryBot.create(:wiki) }
+  let(:sink_wiki) { create(:wiki) }
   let(:sink_project) { sink_wiki.project }
 
-  let(:wiki_page) { FactoryBot.create(:wiki_page_with_content) }
+  let(:wiki_page) { create(:wiki_page_with_content) }
 
   let(:instance) { described_class.new(model: wiki_page, user: user) }
 

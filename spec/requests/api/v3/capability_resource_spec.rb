@@ -36,28 +36,28 @@ describe 'API v3 capabilities resource', type: :request, content_type: :json do
   subject(:response) { last_response }
 
   current_user do
-    FactoryBot.create(:user,
+    create(:user,
                       member_in_project: project,
                       member_with_permissions: current_user_permissions)
   end
   let(:current_user_permissions) { [] }
   let(:other_user_permissions) { %i[manage_members] }
   let(:other_user_global_permissions) { %i[manage_user] }
-  let(:project) { FactoryBot.create(:project) }
+  let(:project) { create(:project) }
   let(:role) do
-    FactoryBot.create(:role, permissions: other_user_permissions)
+    create(:role, permissions: other_user_permissions)
   end
   let(:global_role) do
-    FactoryBot.create(:global_role, permissions: other_user_global_permissions)
+    create(:global_role, permissions: other_user_global_permissions)
   end
-  let(:other_user) { FactoryBot.create(:user) }
+  let(:other_user) { create(:user) }
   let(:other_user_global_member) do
-    FactoryBot.create(:global_member,
+    create(:global_member,
                       principal: other_user,
                       roles: [global_role])
   end
   let(:other_user_member) do
-    FactoryBot.create(:member,
+    create(:member,
                       principal: other_user,
                       roles: [role],
                       project: project)
@@ -168,7 +168,7 @@ describe 'API v3 capabilities resource', type: :request, content_type: :json do
         } }]
       end
       let(:other_user) { group }
-      let(:group) { FactoryBot.create(:group) }
+      let(:group) { create(:group) }
 
       let(:setup) do
         other_user_member
@@ -198,7 +198,7 @@ describe 'API v3 capabilities resource', type: :request, content_type: :json do
       end
       let(:other_user) { placeholder_user }
       let(:placeholder_user) do
-        FactoryBot.create(:placeholder_user)
+        create(:placeholder_user)
       end
 
       let(:setup) do
@@ -269,9 +269,9 @@ describe 'API v3 capabilities resource', type: :request, content_type: :json do
     end
 
     context 'when filtering by project context' do
-      let(:other_project) { FactoryBot.create(:project) }
+      let(:other_project) { create(:project) }
       let(:other_user_other_member) do
-        FactoryBot.create(:member,
+        create(:member,
                           principal: other_user,
                           roles: [role],
                           project: other_project)
@@ -322,7 +322,7 @@ describe 'API v3 capabilities resource', type: :request, content_type: :json do
 
     context 'without permissions' do
       current_user do
-        FactoryBot.create(:user)
+        create(:user)
       end
 
       let(:filters) do
@@ -415,7 +415,7 @@ describe 'API v3 capabilities resource', type: :request, content_type: :json do
 
     context 'if querying for an invisible user' do
       current_user do
-        FactoryBot.create(:user)
+        create(:user)
       end
 
       it 'returns 404 NOT FOUND' do

@@ -4,9 +4,9 @@ require 'features/work_packages/shared_contexts'
 require 'features/work_packages/details/inplace_editor/shared_examples'
 
 describe 'activity comments', js: true, with_mail: false do
-  let(:project) { FactoryBot.create :project, public: true }
+  let(:project) { create :project, public: true }
   let!(:work_package) do
-    FactoryBot.create(:work_package,
+    create(:work_package,
                       project: project,
                       journal_notes: initial_comment)
   end
@@ -25,7 +25,7 @@ describe 'activity comments', js: true, with_mail: false do
   end
 
   context 'with permission' do
-    let(:current_user) { FactoryBot.create :admin }
+    let(:current_user) { create :admin }
 
     before do
       wp_page.visit!
@@ -120,7 +120,7 @@ describe 'activity comments', js: true, with_mail: false do
 
       describe 'autocomplete' do
         describe 'work packages' do
-          let!(:wp2) { FactoryBot.create(:work_package, project: project, subject: 'AutoFoo') }
+          let!(:wp2) { create(:work_package, project: project, subject: 'AutoFoo') }
 
           it 'can move to the work package by click (Regression #30928)' do
             comment_field.input_element.send_keys("##{wp2.id}")
@@ -220,8 +220,8 @@ describe 'activity comments', js: true, with_mail: false do
   end
 
   context 'with no permission' do
-    let(:current_user) { FactoryBot.create(:user, member_in_project: project, member_through_role: role) }
-    let(:role) { FactoryBot.create :role, permissions: %i(view_work_packages) }
+    let(:current_user) { create(:user, member_in_project: project, member_through_role: role) }
+    let(:role) { create :role, permissions: %i(view_work_packages) }
 
     before do
       wp_page.visit!

@@ -1,5 +1,8 @@
 import {
-  ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Injector,
 } from '@angular/core';
 import {
   DynamicComponentDefinition,
@@ -26,6 +29,7 @@ import { Ng2StateDeclaration } from '@uirouter/angular';
 import { BoardFiltersService } from 'core-app/features/boards/board/board-filter/board-filters.service';
 import { CardViewHandlerRegistry } from 'core-app/features/work-packages/components/wp-card-view/event-handler/card-view-handler-registry';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { OpTitleService } from 'core-app/core/html/op-title.service';
 
 export function boardCardViewHandlerFactory(injector:Injector) {
   return new CardViewHandlerRegistry(injector);
@@ -86,6 +90,7 @@ export class BoardPartitionedPageComponent extends UntilDestroyedMixin {
   showToolbarSaveButton:boolean;
 
   /** Listener callbacks */
+  // eslint-disable-next-line @typescript-eslint/ban-types
   removeTransitionSubscription:Function;
 
   /** Show a toolbar */
@@ -146,7 +151,8 @@ export class BoardPartitionedPageComponent extends UntilDestroyedMixin {
     readonly injector:Injector,
     readonly apiV3Service:ApiV3Service,
     readonly boardFilters:BoardFiltersService,
-    readonly Boards:BoardService) {
+    readonly Boards:BoardService,
+    readonly titleService:OpTitleService) {
     super();
   }
 
@@ -169,6 +175,14 @@ export class BoardPartitionedPageComponent extends UntilDestroyedMixin {
 
       this.showToolbarSaveButton = !!params.query_props;
       this.setPartition(toState);
+
+      this
+        .board$
+        .pipe(take(1))
+        .subscribe((board) => {
+          this.titleService.setFirstPart(board.name);
+        });
+
       this.cdRef.detectChanges();
     });
 
@@ -180,7 +194,9 @@ export class BoardPartitionedPageComponent extends UntilDestroyedMixin {
         const queryProps = this.state.params.query_props;
         this.editable = board.editable;
         this.selectedTitle = board.name;
+        this.titleService.setFirstPart(board.name);
         this.boardFilters.filters.putValue(queryProps ? JSON.parse(queryProps) : board.filters);
+
         this.cdRef.detectChanges();
       });
   }

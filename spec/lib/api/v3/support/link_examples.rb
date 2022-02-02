@@ -34,7 +34,7 @@ require 'spec_helper'
 shared_examples_for 'action link' do
   let(:permissions) { %i(view_work_packages edit_work_packages) }
   let(:user) do
-    FactoryBot.build_stubbed(:user)
+    build_stubbed(:user)
   end
 
   let(:href) { nil }
@@ -68,7 +68,7 @@ shared_context 'action link shared' do
   let(:all_permissions) { OpenProject::AccessControl.permissions.map(&:name) }
   let(:permissions) { all_permissions }
   let(:action_link_user) do
-    defined?(user) ? user : FactoryBot.build_stubbed(:user)
+    defined?(user) ? user : build_stubbed(:user)
   end
 
   before do

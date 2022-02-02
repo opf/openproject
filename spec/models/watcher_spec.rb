@@ -30,28 +30,28 @@ require 'spec_helper'
 
 describe Watcher, type: :model, with_mail: false do
   let(:project) { watchable.project }
-  let(:user) { FactoryBot.build :user, admin: true }
+  let(:user) { build :user, admin: true }
   let(:watcher) do
-    FactoryBot.build :watcher,
+    build :watcher,
                      watchable: watchable,
                      user: user
   end
-  let(:watchable) { FactoryBot.build :news }
+  let(:watchable) { build :news }
   let(:other_watcher) do
-    FactoryBot.build :watcher,
+    build :watcher,
                      watchable: watchable,
                      user: other_user
   end
-  let(:other_project) { FactoryBot.create(:project) }
-  let(:other_user) { FactoryBot.create(:user, admin: true) }
+  let(:other_project) { create(:project) }
+  let(:other_user) { create(:user, admin: true) }
   let(:notification_settings) { [] }
   let(:saved_user) do
-    FactoryBot.create :user,
+    create :user,
                       member_in_project: saved_watchable.project,
                       member_with_permissions: [],
                       notification_settings: notification_settings
   end
-  let(:saved_watchable) { FactoryBot.create :news }
+  let(:saved_watchable) { create :news }
 
   describe '#valid' do
     it 'is valid for an active user' do
@@ -107,7 +107,7 @@ describe Watcher, type: :model, with_mail: false do
       end
 
       context 'with a non matching user scope' do
-        let(:other_other_user) { FactoryBot.create(:user) }
+        let(:other_other_user) { create(:user) }
 
         it 'leaves the watcher' do
           Watcher.prune(user: other_other_user)
@@ -181,10 +181,10 @@ describe Watcher, type: :model, with_mail: false do
     end
 
     context 'for a message' do
-      let(:forum) { FactoryBot.build(:forum) }
+      let(:forum) { build(:forum) }
       let(:watchable) do
         forum.save!
-        FactoryBot.build(:message, forum: forum)
+        build(:message, forum: forum)
       end
       let(:project) { forum.project }
 

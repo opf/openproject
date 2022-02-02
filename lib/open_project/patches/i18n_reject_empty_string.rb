@@ -43,7 +43,7 @@ module OpenProject
     # https://community.openproject.com/wp/36304
     module I18nRejectEmptyString
       def load_yml(filename)
-        replace_empty_strings super
+        replace_empty_strings(super.first)
       end
 
       def replace_empty_strings(hash)
@@ -59,6 +59,6 @@ module OpenProject
   end
 end
 
-OpenProject::Patches.patch_gem_version 'i18n', '1.8.11' do
+OpenProject::Patches.patch_gem_version 'i18n', '1.9.1' do
   I18n.backend.singleton_class.prepend OpenProject::Patches::I18nRejectEmptyString
 end

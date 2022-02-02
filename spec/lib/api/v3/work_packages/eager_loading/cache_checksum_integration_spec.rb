@@ -32,12 +32,12 @@ require 'spec_helper'
 require_relative './eager_loading_mock_wrapper'
 
 describe ::API::V3::WorkPackages::EagerLoading::Checksum do
-  let(:responsible) { FactoryBot.create(:user) }
-  let(:assignee) { FactoryBot.create(:user) }
-  let(:category) { FactoryBot.create(:category) }
-  let(:version) { FactoryBot.create(:version) }
+  let(:responsible) { create(:user) }
+  let(:assignee) { create(:user) }
+  let(:category) { create(:category) }
+  let(:version) { create(:version) }
   let!(:work_package) do
-    FactoryBot.create(:work_package,
+    create(:work_package,
                       responsible: responsible,
                       assigned_to: assignee,
                       version: version,

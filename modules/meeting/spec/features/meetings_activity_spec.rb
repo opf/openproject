@@ -29,12 +29,12 @@
 require 'spec_helper'
 
 describe 'Meetings', type: :feature, js: true do
-  let(:project) { FactoryBot.create :project, enabled_module_names: %w[meetings activity] }
-  let(:user) { FactoryBot.create(:admin) }
+  let(:project) { create :project, enabled_module_names: %w[meetings activity] }
+  let(:user) { create(:admin) }
 
-  let!(:meeting) { FactoryBot.create :meeting, project: project, title: 'Awesome meeting!' }
-  let!(:agenda) { FactoryBot.create :meeting_agenda, meeting: meeting, text: 'foo' }
-  let!(:minutes) { FactoryBot.create :meeting_minutes, meeting: meeting, text: 'minutes' }
+  let!(:meeting) { create :meeting, project: project, title: 'Awesome meeting!' }
+  let!(:agenda) { create :meeting_agenda, meeting: meeting, text: 'foo' }
+  let!(:minutes) { create :meeting_minutes, meeting: meeting, text: 'minutes' }
 
   before do
     login_as(user)

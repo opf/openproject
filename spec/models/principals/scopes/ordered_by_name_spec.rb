@@ -32,11 +32,11 @@ require 'spec_helper'
 
 describe Principals::Scopes::OrderedByName, type: :model do
   describe '.ordered_by_name' do
-    shared_let(:alice) { FactoryBot.create(:user, login: 'alice', firstname: 'Alice', lastname: 'Zetop') }
-    shared_let(:eve) { FactoryBot.create(:user, login: 'eve', firstname: 'Eve', lastname: 'Baddie') }
+    shared_let(:alice) { create(:user, login: 'alice', firstname: 'Alice', lastname: 'Zetop') }
+    shared_let(:eve) { create(:user, login: 'eve', firstname: 'Eve', lastname: 'Baddie') }
 
-    shared_let(:group) { FactoryBot.create(:group, name: 'Core Team') }
-    shared_let(:placeholder_user) { FactoryBot.create(:placeholder_user, name: 'Developers') }
+    shared_let(:group) { create(:group, name: 'Core Team') }
+    shared_let(:placeholder_user) { create(:placeholder_user, name: 'Developers') }
 
     subject { Principal.ordered_by_name(desc: descending).pluck(:id) }
 

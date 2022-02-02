@@ -39,7 +39,7 @@ describe Bim::Bcf::Viewpoints::CreateContract do
   subject(:contract) { described_class.new(viewpoint, current_user) }
 
   let(:current_user) do
-    FactoryBot.build_stubbed(:user)
+    build_stubbed(:user)
   end
   let!(:allowed_to) do
     allow(current_user)
@@ -57,13 +57,13 @@ describe Bim::Bcf::Viewpoints::CreateContract do
     }
   end
   let(:viewpoint_issue) do
-    FactoryBot.build_stubbed(:bcf_issue).tap do |issue|
+    build_stubbed(:bcf_issue).tap do |issue|
       allow(issue)
         .to receive(:project)
         .and_return(project)
     end
   end
-  let(:project) { FactoryBot.build_stubbed(:project) }
+  let(:project) { build_stubbed(:project) }
 
   def expect_valid(valid, symbols = {})
     expect(contract.validate).to eq(valid)

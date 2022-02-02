@@ -30,8 +30,8 @@
 require 'spec_helper'
 
 describe IssuePriority, type: :model do
-  let(:stubbed_priority) { FactoryBot.build_stubbed(:priority) }
-  let(:priority) { FactoryBot.create(:priority) }
+  let(:stubbed_priority) { build_stubbed(:priority) }
+  let(:priority) { create(:priority) }
 
   describe '.ancestors' do
     it 'is an enumeration' do
@@ -41,8 +41,8 @@ describe IssuePriority, type: :model do
   end
 
   describe '#objects_count' do
-    let(:work_package1) { FactoryBot.create(:work_package, priority: priority) }
-    let(:work_package2) { FactoryBot.create(:work_package) }
+    let(:work_package1) { create(:work_package, priority: priority) }
+    let(:work_package2) { create(:work_package) }
 
     it 'counts the work packages having the priority' do
       expect(priority.objects_count)
@@ -76,10 +76,10 @@ describe IssuePriority, type: :model do
   end
 
   describe '#transer_to' do
-    let(:new_priority) { FactoryBot.create(:priority) }
-    let(:work_package1) { FactoryBot.create(:work_package, priority: priority) }
-    let(:work_package2) { FactoryBot.create(:work_package) }
-    let(:work_package3) { FactoryBot.create(:work_package, priority: new_priority) }
+    let(:new_priority) { create(:priority) }
+    let(:work_package1) { create(:work_package, priority: priority) }
+    let(:work_package2) { create(:work_package) }
+    let(:work_package3) { create(:work_package, priority: new_priority) }
 
     it 'moves all work_packages to the designated priority' do
       work_package1

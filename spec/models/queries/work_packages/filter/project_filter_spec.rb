@@ -32,48 +32,60 @@ describe Queries::WorkPackages::Filter::ProjectFilter, type: :model do
   it_behaves_like 'basic query filter' do
     let(:type) { :list }
     let(:class_key) { :project_id }
+    let(:visible_projects) { build_stubbed_list(:project, 2) }
+
+    before do
+      scope = class_double(Project)
+
+      allow(Project)
+        .to receive(:visible)
+              .and_return(scope)
+
+      allow(scope)
+        .to receive(:active)
+              .and_return(visible_projects)
+
+      allow(visible_projects)
+        .to receive(:exists?)
+              .and_return(visible_projects.any?)
+    end
 
     describe '#available?' do
-      context 'within a project' do
-        it 'is false' do
-          expect(instance).to_not be_available
+      shared_examples_for 'filter availability' do
+        context 'when able to see projects' do
+          it 'is true' do
+            expect(instance).to be_available
+          end
+        end
+
+        context 'when not able to see projects' do
+          let(:visible_projects) { [] }
+
+          it 'is true' do
+            expect(instance).not_to be_available
+          end
         end
       end
 
-      context 'outside of a project' do
+      context 'when inside a project' do
+        # Used to be always false hence still checking.
+        it_behaves_like 'filter availability'
+      end
+
+      context 'when outside of a project' do
         let(:project) { nil }
 
-        it 'is true if the user can see project' do
-          allow(Project)
-            .to receive_message_chain(:visible, :active, :exists?)
-            .and_return(true)
-
-          expect(instance).to be_available
-        end
-
-        it 'is true if the user can not see project' do
-          allow(Project)
-            .to receive_message_chain(:visible, :active, :exists?)
-            .and_return(false)
-
-          expect(instance).to_not be_available
-        end
+        it_behaves_like 'filter availability'
       end
     end
 
     describe '#allowed_values' do
       let(:project) { nil }
+      let(:parent) { build_stubbed(:project, id: 1) }
+      let(:child) { build_stubbed(:project, parent: parent, id: 2) }
+      let(:visible_projects) { [parent, child] }
 
       it 'is an array of group values' do
-        parent = FactoryBot.build_stubbed(:project, id: 1)
-        child = FactoryBot.build_stubbed(:project, parent: parent, id: 2)
-
-        visible_projects = [parent, child]
-
-        allow(Project)
-          .to receive_message_chain(:visible, :active)
-          .and_return(visible_projects)
-
         allow(Project)
           .to receive(:project_tree)
           .with(visible_projects)
@@ -94,20 +106,13 @@ describe Queries::WorkPackages::Filter::ProjectFilter, type: :model do
     end
 
     describe '#value_objects' do
-      let(:project) { FactoryBot.build_stubbed(:project) }
-      let(:project2) { FactoryBot.build_stubbed(:project) }
-
       before do
-        allow(Project)
-          .to receive_message_chain(:visible, :active)
-          .and_return([project, project2])
-
-        instance.values = [project.id.to_s]
+        instance.values = [visible_projects.first.id.to_s]
       end
 
       it 'returns an array of projects' do
         expect(instance.value_objects)
-          .to match_array([project])
+          .to match_array([visible_projects.first])
       end
     end
   end

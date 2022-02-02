@@ -77,6 +77,6 @@ shared_examples_for 'grid attributes' do
 
   it_behaves_like 'acts_as_attachable included' do
     let(:model_instance) { instance }
-    let(:project) { FactoryBot.create(:project) }
+    let(:project) { create(:project) }
   end
 end

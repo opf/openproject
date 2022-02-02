@@ -38,7 +38,7 @@ describe 'OpenProject include wiki page macro' do
   end
 
   let(:project) do
-    FactoryBot.build_stubbed :project
+    build_stubbed :project
   end
 
   let(:input) {}

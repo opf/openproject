@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'Statuses administration', type: :feature do
-  let(:admin) { FactoryBot.create :admin }
+  let(:admin) { create :admin }
 
   before do
     login_as(admin)

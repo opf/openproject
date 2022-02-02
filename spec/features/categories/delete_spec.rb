@@ -31,11 +31,11 @@ require 'features/categories/categories_page'
 
 describe 'Deletion', type: :feature do
   let(:current_user) do
-    FactoryBot.create :user,
+    create :user,
                       member_in_project: category.project,
                       member_with_permissions: %i[manage_categories]
   end
-  let(:category) { FactoryBot.create :category }
+  let(:category) { create :category }
   let(:categories_page) { CategoriesPage.new(category.project) }
   let(:delete_button) { 'a.icon-delete' }
   let(:confirm_deletion_button) { 'input[type="submit"]' }
@@ -66,7 +66,7 @@ describe 'Deletion', type: :feature do
 
   describe 'with work package' do
     let!(:work_package) do
-      FactoryBot.create :work_package,
+      create :work_package,
                         project: category.project,
                         category: category
     end

@@ -11,9 +11,11 @@ import {
 import {
   CalendarOptions,
   DateSelectArg,
+  EventDropArg,
   EventInput,
 } from '@fullcalendar/core';
 import {
+  BehaviorSubject,
   combineLatest,
   Subject,
 } from 'rxjs';
@@ -24,10 +26,12 @@ import {
   map,
   mergeMap,
 } from 'rxjs/operators';
-import { EventClickArg } from '@fullcalendar/common';
 import { StateService } from '@uirouter/angular';
 import resourceTimelinePlugin from '@fullcalendar/resource-timeline';
-import interactionPlugin from '@fullcalendar/interaction';
+import interactionPlugin, {
+  EventReceiveArg,
+  EventResizeDoneArg,
+} from '@fullcalendar/interaction';
 import { FullCalendarComponent } from '@fullcalendar/angular';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
@@ -43,8 +47,13 @@ import { WorkPackageResource } from 'core-app/features/hal/resources/work-packag
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { ResourceLabelContentArg } from '@fullcalendar/resource-common';
-import { OpCalendarService } from 'core-app/shared/components/calendar/op-calendar.service';
+import { OpCalendarService } from 'core-app/features/calendar/op-calendar.service';
 import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
+import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
+import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
+import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { CalendarDragDropService } from 'core-app/features/team-planner/team-planner/calendar-drag-drop.service';
 
 @Component({
   selector: 'op-team-planner',
@@ -68,13 +77,13 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
 
   @ViewChild('assigneeAutocompleter') assigneeAutocompleter:TemplateRef<unknown>;
 
-  private resizeSubject = new Subject<unknown>();
-
   calendarOptions$ = new Subject<CalendarOptions>();
 
   projectIdentifier:string|undefined = undefined;
 
-  showAddAssignee$ = new Subject<boolean>();
+  showAddExistingPane = new BehaviorSubject<boolean>(false);
+
+  showAddAssignee$ = new BehaviorSubject<boolean>(false);
 
   private principalIds$ = this.wpTableFilters
     .live$()
@@ -95,13 +104,22 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
       }) as ApiV3ListParameters),
     );
 
+  isEmpty$ = combineLatest([
+    this.principalIds$,
+    this.showAddAssignee$,
+  ]).pipe(
+    map(([principals, showAddAssignee]) => !principals.length && !showAddAssignee),
+  );
+
   assignees:HalResource[] = [];
 
   text = {
+    add_existing: this.I18n.t('js.team_planner.add_existing'),
     assignees: this.I18n.t('js.team_planner.label_assignee_plural'),
     add_assignee: this.I18n.t('js.team_planner.add_assignee'),
     remove_assignee: this.I18n.t('js.team_planner.remove_assignee'),
     noData: this.I18n.t('js.team_planner.no_data'),
+    two_weeks: this.I18n.t('js.team_planner.two_weeks'),
   };
 
   principals$ = this.principalIds$
@@ -122,13 +140,18 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     private viewLookup:EventViewLookupService,
     private I18n:I18nService,
     readonly calendar:OpCalendarService,
+    readonly halEditing:HalResourceEditingService,
+    readonly halNotification:HalResourceNotificationService,
+    readonly schemaCache:SchemaCacheService,
+    readonly apiV3Service:ApiV3Service,
+    readonly calendarDrag:CalendarDragDropService,
   ) {
     super();
   }
 
   ngOnInit():void {
     this.initializeCalendar();
-    this.projectIdentifier = this.currentProject.identifier ? this.currentProject.identifier : undefined;
+    this.projectIdentifier = this.currentProject.identifier || undefined;
 
     this
       .querySpace
@@ -139,8 +162,11 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
         this.ucCalendar.getApi().refetchEvents();
       });
 
-    this.resizeSubject
-      .pipe(this.untilDestroyed())
+    this.calendar.resize$
+      .pipe(
+        this.untilDestroyed(),
+        debounceTime(50),
+      )
       .subscribe(() => {
         this.ucCalendar.getApi().updateSize();
       });
@@ -198,7 +224,6 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
         this.calendarOptions$.next(
           this.calendar.calendarOptions({
             schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
-            editable: false,
             selectable: true,
             plugins: [
               resourceTimelinePlugin,
@@ -209,11 +234,41 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
               month: 'long',
               day: 'numeric',
             },
-            initialView: 'resourceTimelineWeekDaysOnly',
+            initialView: this.calendar.initialView || 'resourceTimelineWeek',
+            customButtons: {
+              addExisting: {
+                text: this.text.add_existing,
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+                click: this.toggleAddExistingPane.bind(this),
+              },
+            },
+            headerToolbar: {
+              left: 'addExisting',
+              center: 'title',
+              right: 'prev,next today resourceTimelineWeek,resourceTimelineTwoWeeks',
+            },
             views: {
-              resourceTimelineWeekDaysOnly: {
+              resourceTimelineWeek: {
                 type: 'resourceTimeline',
                 duration: { weeks: 1 },
+                slotDuration: { days: 1 },
+                slotLabelFormat: [
+                  {
+                    weekday: 'long',
+                    day: '2-digit',
+                  },
+                ],
+                resourceAreaColumns: [
+                  {
+                    field: 'title',
+                    headerContent: this.text.assignees,
+                  },
+                ],
+              },
+              resourceTimelineTwoWeeks: {
+                type: 'resourceTimeline',
+                buttonText: this.text.two_weeks,
+                duration: { weeks: 2 },
                 slotDuration: { days: 1 },
                 slotLabelFormat: [
                   {
@@ -231,10 +286,16 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
             },
             events: this.calendarEventsFunction.bind(this) as unknown,
             resources: [],
-            eventClick: this.openSplitView.bind(this) as unknown,
+            resourceAreaWidth: '180px',
             select: this.handleDateClicked.bind(this) as unknown,
             resourceLabelContent: (data:ResourceLabelContentArg) => this.renderTemplate(this.resourceContent, data.resource.id, data),
             resourceLabelWillUnmount: (data:ResourceLabelContentArg) => this.unrenderTemplate(data.resource.id),
+            // DnD configuration
+            editable: true,
+            droppable: true,
+            eventResize: (resizeInfo:EventResizeDoneArg) => this.updateEvent(resizeInfo),
+            eventDrop: (dropInfo:EventDropArg) => this.updateEvent(dropInfo),
+            eventReceive: (dropInfo:EventReceiveArg) => this.updateEvent(dropInfo),
           } as CalendarOptions),
         );
       });
@@ -304,20 +365,6 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     }
   }
 
-  private openSplitView(event:EventClickArg):void {
-    const workPackage = event.event.extendedProps.workPackage as WorkPackageResource;
-
-    if (event.el) {
-      // do not display the tooltip on the wp show page
-      this.calendar.removeTooltip(event.el);
-    }
-
-    void this.$state.go(
-      `${splitViewRoute(this.$state)}.tabs`,
-      { workPackageId: workPackage.id, tabIdentifier: 'overview' },
-    );
-  }
-
   private mapToCalendarEvents(workPackages:WorkPackageResource[]):EventInput[] {
     return workPackages
       .map((workPackage:WorkPackageResource):EventInput|undefined => {
@@ -325,18 +372,20 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
           return undefined;
         }
 
-        const startDate = this.calendar.eventDate(workPackage, 'start');
-        const endDate = this.calendar.eventDate(workPackage, 'due');
-
-        const exclusiveEnd = moment(endDate).add(1, 'days').format('YYYY-MM-DD');
-        const assignee = (workPackage.assignee as HalResource).href as string;
+        const assignee = this.wpAssignee(workPackage);
+        const durationEditable = this.calendar.eventDurationEditable(workPackage);
+        const resourceEditable = this.eventResourceEditable(workPackage);
 
         return {
           id: `${workPackage.href as string}-${assignee}`,
           resourceId: assignee,
+          editable: durationEditable || resourceEditable,
+          durationEditable,
+          resourceEditable,
+          constraint: this.eventConstaints(workPackage),
           title: workPackage.subject,
-          start: startDate,
-          end: exclusiveEnd,
+          start: this.wpStartDate(workPackage),
+          end: this.wpEndDate(workPackage),
           allDay: true,
           className: `__hl_background_type_${workPackage.type.id as string}`,
           workPackage,
@@ -349,7 +398,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     this.openNewSplitCreate(
       info.startStr,
       // end date is exclusive
-      moment(info.end).subtract(1, 'd').format('YYYY-MM-DD'),
+      this.calendar.getEndDateFromTimestamp(info.end),
       info.resource?.id || '',
     );
   }
@@ -378,5 +427,69 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
         tabIdentifier: 'overview',
       },
     );
+  }
+
+  private async updateEvent(info:EventResizeDoneArg|EventDropArg|EventReceiveArg):Promise<void> {
+    const changeset = this.calendar.updateDates(info);
+
+    const resource = info.event.getResources()[0];
+    if (resource) {
+      changeset.setValue('assignee', { href: resource.id });
+    }
+
+    this.calendarDrag.handleDrop(changeset.projectedResource);
+
+    try {
+      const result = await this.halEditing.save(changeset);
+      this.halNotification.showSave(result.resource, result.wasNew);
+    } catch (e) {
+      this.halNotification.showError(e.resource, changeset.projectedResource);
+      this.calendarDrag.handleDropError(changeset.projectedResource);
+      info.revert();
+    }
+  }
+
+  private eventResourceEditable(wp:WorkPackageResource):boolean {
+    const schema = this.schemaCache.of(wp);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    return !!schema.assignee?.writable && schema.isAttributeEditable('assignee');
+  }
+
+  // Todo: Evaluate whether we really want to use that from a UI perspective ¯\_(ツ)_/¯
+  // When users have the right to change the assignee but cannot change the date (due to hierarchy for example),
+  // they are forced to drag the wp to the exact same date in the others assignee row. This might be confusing.
+  // Without these constraints however, users can drag the WP everywhere, thinking that they changed the date as well.
+  // The WP then moves back to the original date when the calendar re-draws again. Also not optimal..
+  private eventConstaints(wp:WorkPackageResource):{ [key:string]:string|string[] } {
+    const constraints:{ [key:string]:string|string[] } = {};
+
+    if (!this.calendar.eventDurationEditable(wp)) {
+      constraints.start = this.wpStartDate(wp);
+      constraints.end = this.wpEndDate(wp);
+    }
+
+    if (!this.eventResourceEditable(wp)) {
+      constraints.resourceIds = [this.wpAssignee(wp)];
+    }
+
+    return constraints;
+  }
+
+  private wpStartDate(wp:WorkPackageResource):string {
+    return this.calendar.eventDate(wp, 'start');
+  }
+
+  private wpEndDate(wp:WorkPackageResource):string {
+    const endDate = this.calendar.eventDate(wp, 'due');
+    return moment(endDate).add(1, 'days').format('YYYY-MM-DD');
+  }
+
+  private wpAssignee(wp:WorkPackageResource):string {
+    return (wp.assignee as HalResource).href as string;
+  }
+
+  private toggleAddExistingPane():void {
+    document.getElementsByClassName('fc-addExisting-button')[0].classList.toggle('-active');
+    this.showAddExistingPane.next(!this.showAddExistingPane.getValue());
   }
 }

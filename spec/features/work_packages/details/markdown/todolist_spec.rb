@@ -29,14 +29,14 @@
 require 'spec_helper'
 
 describe 'Todolists in CKEditor', js: true do
-  let(:user) { FactoryBot.create :admin }
+  let(:user) { create :admin }
 
   before do
     login_as user
   end
 
   describe 'with an existing work package' do
-    let(:work_package) { FactoryBot.create :work_package }
+    let(:work_package) { create :work_package }
     let(:wp_page) { ::Pages::FullWorkPackage.new(work_package) }
     let(:field) { wp_page.edit_field :description }
     let(:ckeditor) { field.ckeditor }
@@ -137,10 +137,10 @@ describe 'Todolists in CKEditor', js: true do
   end
 
   describe 'creating a new work package' do
-    let!(:status) { FactoryBot.create :default_status }
-    let!(:priority) { FactoryBot.create :default_priority }
-    let!(:type) { FactoryBot.create :type_task }
-    let(:project) { FactoryBot.create :project, types: [type] }
+    let!(:status) { create :default_status }
+    let!(:priority) { create :default_priority }
+    let!(:type) { create :type_task }
+    let(:project) { create :project, types: [type] }
     let(:wp_page) { ::Pages::FullWorkPackageCreate.new project: project }
     let(:field) { wp_page.edit_field :description }
     let(:ckeditor) { field.ckeditor }

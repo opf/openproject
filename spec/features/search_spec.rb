@@ -31,9 +31,9 @@ require 'spec_helper'
 describe 'Search', type: :feature, js: true, with_settings: { per_page_options: '5' }, with_mail: false do
   include ::Components::NgSelectAutocompleteHelpers
 
-  shared_let(:admin) { FactoryBot.create :admin }
+  shared_let(:admin) { create :admin }
   let(:user) { admin }
-  let(:project) { FactoryBot.create :project }
+  let(:project) { create :project }
   let(:searchable) { true }
   let(:is_filter) { true }
 
@@ -41,7 +41,7 @@ describe 'Search', type: :feature, js: true, with_settings: { per_page_options: 
     (1..12).map do |n|
       Timecop.freeze("2016-11-21 #{n}:00".to_datetime) do
         subject = "Subject No. #{n} WP"
-        FactoryBot.create :work_package,
+        create :work_package,
                           subject: subject,
                           project: project
       end
@@ -49,13 +49,13 @@ describe 'Search', type: :feature, js: true, with_settings: { per_page_options: 
   end
   let(:custom_field_text_value) { 'cf text value' }
   let!(:custom_field_text) do
-    FactoryBot.create(:text_wp_custom_field,
+    create(:text_wp_custom_field,
                       is_filter: is_filter,
                       searchable: searchable).tap do |custom_field|
       project.work_package_custom_fields << custom_field
       work_packages.first.type.custom_fields << custom_field
 
-      FactoryBot.create(:work_package_custom_value,
+      create(:work_package_custom_value,
                         custom_field: custom_field,
                         customized: work_packages[0],
                         value: custom_field_text_value)
@@ -63,14 +63,14 @@ describe 'Search', type: :feature, js: true, with_settings: { per_page_options: 
   end
   let(:custom_field_string_value) { 'cf string value' }
   let!(:custom_field_string) do
-    FactoryBot.create(:string_wp_custom_field,
+    create(:string_wp_custom_field,
                       is_for_all: true,
                       is_filter: is_filter,
                       searchable: searchable).tap do |custom_field|
       custom_field.save
       work_packages.first.type.custom_fields << custom_field
 
-      FactoryBot.create(:work_package_custom_value,
+      create(:work_package_custom_value,
                         custom_field: custom_field,
                         customized: work_packages[1],
                         value: custom_field_string_value)
@@ -101,7 +101,7 @@ describe 'Search', type: :feature, js: true, with_settings: { per_page_options: 
   end
 
   describe 'autocomplete' do
-    let!(:other_work_package) { FactoryBot.create(:work_package, subject: 'Other work package', project: project) }
+    let!(:other_work_package) { create(:work_package, subject: 'Other work package', project: project) }
 
     it 'provides suggestions' do
       global_search.search(query, submit: false)
@@ -211,9 +211,9 @@ describe 'Search', type: :feature, js: true, with_settings: { per_page_options: 
 
     # rubocop:disable RSpec/MultipleMemoizedHelpers
     context 'project search' do
-      let(:subproject) { FactoryBot.create :project, parent: project }
+      let(:subproject) { create :project, parent: project }
       let!(:other_work_package) do
-        FactoryBot.create(:work_package, subject: 'Other work package', project: subproject)
+        create(:work_package, subject: 'Other work package', project: subproject)
       end
 
       let(:filters) { ::Components::WorkPackages::Filters.new }
@@ -341,7 +341,7 @@ describe 'Search', type: :feature, js: true, with_settings: { per_page_options: 
 
     context 'for a project search with attachments' do
       let!(:attachment) do
-        FactoryBot.create(:attachment,
+        create(:attachment,
                           container: work_packages[9]).tap do |a|
           Attachment
             .where(id: a.id)
@@ -378,8 +378,8 @@ describe 'Search', type: :feature, js: true, with_settings: { per_page_options: 
   # rubocop:enable RSpec/MultipleMemoizedHelpers
 
   describe 'search for projects' do
-    let!(:searched_for_project) { FactoryBot.create(:project, name: 'Searched for project') }
-    let!(:other_project) { FactoryBot.create(:project, name: 'Other project') }
+    let!(:searched_for_project) { create(:project, name: 'Searched for project') }
+    let!(:other_project) { create(:project, name: 'Other project') }
 
     context 'globally' do
       it 'finds the project' do
@@ -435,10 +435,10 @@ describe 'Search', type: :feature, js: true, with_settings: { per_page_options: 
   end
 
   describe 'params escaping' do
-    let(:wp_1) { FactoryBot.create :work_package, subject: "Foo && Bar", project: project }
-    let(:wp_2) { FactoryBot.create :work_package, subject: "Foo # Bar", project: project }
-    let(:wp_3) { FactoryBot.create :work_package, subject: "Foo &# Bar", project: project }
-    let(:wp_4) { FactoryBot.create :work_package, subject: %(Foo '' "" \(\) Bar), project: project }
+    let(:wp_1) { create :work_package, subject: "Foo && Bar", project: project }
+    let(:wp_2) { create :work_package, subject: "Foo # Bar", project: project }
+    let(:wp_3) { create :work_package, subject: "Foo &# Bar", project: project }
+    let(:wp_4) { create :work_package, subject: %(Foo '' "" \(\) Bar), project: project }
     let!(:work_packages) { [wp_1, wp_2, wp_3, wp_4] }
     let(:table) { Pages::EmbeddedWorkPackagesTable.new(find('.work-packages-embedded-view--container')) }
 

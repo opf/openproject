@@ -88,9 +88,6 @@ ru:
     button_export-pdf: "Скачать PDF"
     button_export-atom: "Скачать Atom"
     button_create: "Создать"
-    calendar:
-      title: 'Календарь'
-      too_many: 'Всего %{count} пакетов работ, но может быть отображено только %{max}.'
     card:
       add_new: 'Добавить новую карту'
       highlighting:
@@ -312,7 +309,7 @@ ru:
     label_and: "и"
     label_ascending: "По возрастанию"
     label_author: "Автор: %{user}"
-    label_avatar: "Глистовья какашка\n"
+    label_avatar: "Аватар\n"
     label_between: "между"
     label_board: "Доска"
     label_board_locked: "Заперто"
@@ -678,7 +675,7 @@ ru:
       relates: "Связанно с"
       duplicates: "Дубликаты"
       duplicated: "Дублируется"
-      blocks: "Блоки"
+      blocks: "Блокирует"
       blocked: "Заблокировано"
       precedes: "Предшествует"
       follows: "Следует"
@@ -717,7 +714,7 @@ ru:
       abort: "Прервать"
     relations_autocomplete:
       placeholder: "Введите для поиска"
-      parent_placeholder: "Выберите нового родителя или нажмите escape, чтобы отменить."
+      parent_placeholder: "Выберите нового родителя или нажмите кнопку \"Отменить\"."
     autocompleter:
       placeholder: "Введите для поиска"
       notFoundText: "Элементов не найдено"

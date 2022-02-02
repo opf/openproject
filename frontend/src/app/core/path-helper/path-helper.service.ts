@@ -133,7 +133,7 @@ export class PathHelperService {
   }
 
   public projectCalendarPath(projectId:string) {
-    return `${this.projectPath(projectId)}/work_packages/calendar`;
+    return `${this.projectPath(projectId)}/calendar`;
   }
 
   public projectMembershipsPath(projectId:string) {

@@ -30,11 +30,11 @@ require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
 describe CostQuery, type: :model, reporting_query_helper: true do
   before do
-    FactoryBot.create(:admin)
-    project = FactoryBot.create(:project_with_types)
-    work_package = FactoryBot.create(:work_package, project: project)
-    FactoryBot.create(:time_entry, work_package: work_package, project: project)
-    FactoryBot.create(:cost_entry, work_package: work_package, project: project)
+    create(:admin)
+    project = create(:project_with_types)
+    work_package = create(:work_package, project: project)
+    create(:time_entry, work_package: work_package, project: project)
+    create(:cost_entry, work_package: work_package, project: project)
   end
 
   minimal_query

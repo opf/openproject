@@ -31,17 +31,17 @@ require File.dirname(__FILE__) + '/../spec_helper'
 describe DocumentsController do
   render_views
 
-  let(:admin) { FactoryBot.create(:admin) }
-  let(:project) { FactoryBot.create(:project, name: "Test Project") }
-  let(:user) { FactoryBot.create(:user) }
-  let(:role) { FactoryBot.create(:role, permissions: [:view_documents]) }
+  let(:admin) { create(:admin) }
+  let(:project) { create(:project, name: "Test Project") }
+  let(:user) { create(:user) }
+  let(:role) { create(:role, permissions: [:view_documents]) }
 
   let(:default_category) do
-    FactoryBot.create(:document_category, project: project, name: "Default Category")
+    create(:document_category, project: project, name: "Default Category")
   end
 
   let(:document) do
-    FactoryBot.create(:document, title: "Sample Document", project: project, category: default_category)
+    create(:document, title: "Sample Document", project: project, category: default_category)
   end
 
   current_user { admin }
@@ -98,7 +98,7 @@ describe DocumentsController do
 
   describe "create" do
     let(:document_attributes) do
-      FactoryBot.attributes_for(:document,
+      attributes_for(:document,
                                 title: "New Document",
                                 project_id: project.id,
                                 category_id: default_category.id)
@@ -113,7 +113,7 @@ describe DocumentsController do
         post :create,
              params: {
                project_id: project.identifier,
-               document: FactoryBot.attributes_for(
+               document: attributes_for(
                  :document,
                  title: "New Document",
                  project_id: project.id,
@@ -130,16 +130,16 @@ describe DocumentsController do
     end
 
     describe "with attachments" do
-      let(:uncontainered) { FactoryBot.create :attachment, container: nil, author: admin }
+      let(:uncontainered) { create :attachment, container: nil, author: admin }
 
       before do
         notify_project = project
-        FactoryBot.create(:member, project: notify_project, user: user, roles: [role])
+        create(:member, project: notify_project, user: user, roles: [role])
 
         post :create,
              params: {
                project_id: notify_project.identifier,
-               document: FactoryBot.attributes_for(:document,
+               document: attributes_for(:document,
                                                    title: "New Document",
                                                    project_id: notify_project.id,
                                                    category_id: default_category.id),

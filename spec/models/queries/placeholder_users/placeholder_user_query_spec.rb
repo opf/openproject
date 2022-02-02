@@ -69,7 +69,7 @@ describe Queries::PlaceholderUsers::PlaceholderUserQuery, type: :model do
   end
 
   context 'with a group filter' do
-    let(:group_1) { FactoryBot.build_stubbed(:group) }
+    let(:group_1) { build_stubbed(:group) }
 
     before do
       allow(Group)

@@ -31,8 +31,8 @@ require 'spec_helper'
 describe ::API::V3::Queries::Schemas::VersionFilterDependencyRepresenter, clear_cache: true do
   include ::API::V3::Utilities::PathHelper
 
-  let(:project) { FactoryBot.build_stubbed(:project) }
-  let(:query) { FactoryBot.build_stubbed(:query, project: project) }
+  let(:project) { build_stubbed(:project) }
+  let(:query) { build_stubbed(:query, project: project) }
   let(:filter) { Queries::WorkPackages::Filter::VersionFilter.create!(context: query) }
   let(:form_embedded) { false }
 
@@ -49,7 +49,7 @@ describe ::API::V3::Queries::Schemas::VersionFilterDependencyRepresenter, clear_
       describe 'values' do
         let(:path) { 'values' }
         let(:type) { '[]Version' }
-        let(:order) { "sortBy=#{CGI.escape(JSON.dump([%i(semver_name asc)]))}" }
+        let(:order) { "sortBy=#{CGI.escape(JSON.dump([%i(semver_name asc)]))}&pageSize=-1" }
 
         context "for operator 'Queries::Operators::All'" do
           let(:operator) { Queries::Operators::All }
@@ -107,7 +107,7 @@ describe ::API::V3::Queries::Schemas::VersionFilterDependencyRepresenter, clear_
 
     describe 'caching' do
       let(:operator) { Queries::Operators::Equals }
-      let(:other_project) { FactoryBot.build_stubbed(:project) }
+      let(:other_project) { build_stubbed(:project) }
 
       before do
         # fill the cache

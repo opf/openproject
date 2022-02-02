@@ -31,9 +31,9 @@
 require 'spec_helper'
 
 describe Users::Scopes::FindByLogin, type: :model do
-  let!(:activity) { FactoryBot.create(:time_entry_activity) }
-  let!(:project) { FactoryBot.create(:project) }
-  let!(:user) { FactoryBot.create(:user, login: login) }
+  let!(:activity) { create(:time_entry_activity) }
+  let!(:project) { create(:project) }
+  let!(:user) { create(:user, login: login) }
   let(:login) { 'Some string' }
   let(:search_login) { login }
 

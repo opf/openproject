@@ -33,7 +33,7 @@ describe ::API::V3::UserPreferences::UserPreferenceRepresenter,
   include ::API::V3::Utilities::PathHelper
 
   let(:preference) do
-    FactoryBot.build_stubbed(:user_preference,
+    build_stubbed(:user_preference,
                              settings: {
                                "daily_reminders" => {
                                  "enabled" => true,
@@ -41,8 +41,8 @@ describe ::API::V3::UserPreferences::UserPreferenceRepresenter,
                                }
                              })
   end
-  let(:notification_setting) { FactoryBot.build(:notification_setting) }
-  let(:user) { FactoryBot.build_stubbed(:user, preference: preference) }
+  let(:notification_setting) { build(:notification_setting) }
+  let(:user) { build_stubbed(:user, preference: preference) }
   let(:representer) { described_class.new(preference, current_user: user) }
 
   before do
@@ -60,7 +60,7 @@ describe ::API::V3::UserPreferences::UserPreferenceRepresenter,
 
   describe 'timeZone' do
     context 'without a timezone set' do
-      let(:preference) { FactoryBot.build(:user_preference, time_zone: '') }
+      let(:preference) { build(:user_preference, time_zone: '') }
 
       it 'shows the timeZone as nil' do
         expect(subject).to be_json_eql(nil.to_json).at_path('timeZone')
@@ -68,7 +68,7 @@ describe ::API::V3::UserPreferences::UserPreferenceRepresenter,
     end
 
     context 'with a timezone set' do
-      let(:preference) { FactoryBot.build(:user_preference, time_zone: 'Europe/Paris') }
+      let(:preference) { build(:user_preference, time_zone: 'Europe/Paris') }
 
       it 'shows the canonical time zone' do
         expect(subject).to be_json_eql('Europe/Paris'.to_json).at_path('timeZone')

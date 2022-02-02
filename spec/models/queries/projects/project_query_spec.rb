@@ -31,7 +31,7 @@ require 'spec_helper'
 describe Queries::Projects::ProjectQuery, type: :model do
   let(:instance) { described_class.new }
   let(:base_scope) { Project.all.order(id: :desc) }
-  let(:current_user) { FactoryBot.build_stubbed(:admin) }
+  let(:current_user) { build_stubbed(:admin) }
 
   before do
     login_as(current_user)
@@ -45,7 +45,7 @@ describe Queries::Projects::ProjectQuery, type: :model do
     end
 
     context 'as a non admin' do
-      let(:current_user) { FactoryBot.build_stubbed(:user) }
+      let(:current_user) { build_stubbed(:user) }
 
       it 'is the same as getting all visible projects' do
         expect(instance.results.to_sql).to eql base_scope.where(id: Project.visible).to_sql

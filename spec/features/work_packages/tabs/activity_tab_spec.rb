@@ -11,9 +11,9 @@ describe 'Activity tab', js: true, selenium: true do
     note_journal.update(created_at: at, user: user)
   end
 
-  let(:project) { FactoryBot.create :project_with_types, public: true }
+  let(:project) { create :project_with_types, public: true }
   let!(:work_package) do
-    work_package = FactoryBot.create(:work_package,
+    work_package = create(:work_package,
                                      project: project,
                                      created_at: 5.days.ago.to_date.to_s(:db),
                                      subject: initial_subject,
@@ -51,7 +51,7 @@ describe 'Activity tab', js: true, selenium: true do
     alter_work_package_at(work_package,
                           attributes: attributes,
                           at: 1.days.ago.to_date.to_s(:db),
-                          user: FactoryBot.create(:admin))
+                          user: create(:admin))
 
     work_package.journals.last
   end
@@ -113,11 +113,11 @@ describe 'Activity tab', js: true, selenium: true do
 
     context 'with permission' do
       let(:role) do
-        FactoryBot.create(:role, permissions: %i[view_work_packages
+        create(:role, permissions: %i[view_work_packages
                                                  add_work_package_notes])
       end
       let(:user) do
-        FactoryBot.create(:user,
+        create(:user,
                           member_in_project: project,
                           member_through_role: role)
       end
@@ -181,10 +181,10 @@ describe 'Activity tab', js: true, selenium: true do
 
     context 'with no permission' do
       let(:role) do
-        FactoryBot.create(:role, permissions: [:view_work_packages])
+        create(:role, permissions: [:view_work_packages])
       end
       let(:user) do
-        FactoryBot.create(:user,
+        create(:user,
                           member_in_project: project,
                           member_through_role: role)
       end

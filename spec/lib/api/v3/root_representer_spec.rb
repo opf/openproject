@@ -31,7 +31,7 @@ require 'spec_helper'
 describe ::API::V3::RootRepresenter do
   include ::API::V3::Utilities::PathHelper
 
-  let(:user) { FactoryBot.build_stubbed(:user) }
+  let(:user) { build_stubbed(:user) }
   let(:representer) { described_class.new({}, current_user: user) }
   let(:app_title) { 'Foo Project' }
   let(:version) { 'The version is over 9000!' }
@@ -154,7 +154,7 @@ describe ::API::V3::RootRepresenter do
         end
 
         context 'for an admin user' do
-          let(:user) { FactoryBot.build_stubbed(:admin) }
+          let(:user) { build_stubbed(:admin) }
 
           it 'indicates the OpenProject version number' do
             is_expected

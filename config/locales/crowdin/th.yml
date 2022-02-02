@@ -73,6 +73,11 @@ th:
       start_trial: 'Start free trial'
       book_now: 'Book now'
       get_quote: 'Get a quote'
+      buttons:
+        upgrade: "Upgrade now"
+        contact: "Contact us for a demo"
+      enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
+      upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
   announcements:
     show_until: แสดงจนถึง
     is_active: ที่แสดงอยู่
@@ -161,7 +166,7 @@ th:
     edit: 'Edit custom action %{name}'
     execute: 'Execute %{name}'
     upsale:
-      title: 'Custom actions is an Enterprise Edition feature'
+      title: 'Custom actions'
       description: 'Custom actions streamline everyday work by combining a set of individual steps into one button.'
   custom_fields:
     text_add_new_custom_field: >
@@ -260,7 +265,7 @@ th:
       irreversible: "This action is irreversible"
       confirmation: "Enter the placeholder user name %{name} to confirm the deletion."
     upsale:
-      title: กำหนดงานบุคคลที่ไม่ได้เป็นสามชิกในโครงการ
+      title: Placeholder users
       description: >
         มีหลายสถานการณ์ที่คุณต้องการมอบหมายงานให้กับบุคคลที่ไม่ใช่สมาชิกของโครงการของคุณ อาจเป็นได้ว่าคุณยังต้องจ้างคนที่เหมาะสมสำหรับงานนี้ หรือคุณเพียงแค่ไม่ต้องการให้บุคคลนั้นเข้าถึงข้อมูลของโครงการ แต่ยังต้องการติดตามงานที่มอบหมายให้กับบุคคลนั้น 
   prioritiies:
@@ -751,6 +756,8 @@ th:
               group_without_name: "Unnamed groups are not allowed."
         user:
           attributes:
+            base:
+              user_limit_reached: "User limit reached. No more accounts can be created on the current plan."
             password_confirmation:
               confirmation: "Password confirmation does not match password."
               format: "%{message}"
@@ -2161,7 +2168,6 @@ th:
   permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "เลือกโมดูลของโครงการ"
   permission_manage_types: "เลือกชนิด"
-  permission_view_calendar: "ดูปฏิทิน"
   permission_view_changesets: "View repository revisions in OpenProject"
   permission_view_commit_author_statistics: "ดูการส่งมอบสถิติผู้เขียน"
   permission_view_work_package_watchers: "ดูรายชื่อผู้เฝ้าดู"
@@ -2197,7 +2203,6 @@ th:
       archived: "Archived"
   project_module_activity: "กิจกรรม"
   project_module_forums: "กระทู้"
-  project_module_calendar: "ปฏิทิน"
   project_module_work_package_tracking: "ติดตามผลชุดภารกิจ"
   project_module_news: "ข่าวสาร"
   project_module_repository: "ที่เก็บข้อมูล"
@@ -2325,6 +2330,9 @@ th:
   setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
   setting_apiv3_cors_origins_text_html: >
     If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
+  setting_apiv3_max_page_size: "Maximum API page size"
+  setting_apiv3_max_page_instructions_html: >
+    Set the maximum page size the API will respond with. It will not be possible to perform API requests that return more values on a single page. <br/> <strong>Warning:</strong> Please only change this value if you are sure why you need it. Setting to a high value will result in significant performance impacts, while a value lower than the per page options will cause errors in paginated views.
   setting_apiv3_docs: "Documentation"
   setting_apiv3_docs_enabled: "Enable docs page"
   setting_apiv3_docs_enabled_instructions_html: >
@@ -2879,6 +2887,7 @@ th:
       schema: 'Schema'
     undisclosed:
       parent: ไม่เปิดเผย - พาเรนต์ที่เลือกจะมองไม่เห็นเนื่องจากไม่มีสิทธิ์
+      ancestor: Undisclosed - The ancestor is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 'Pre-authorization'

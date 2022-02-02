@@ -30,14 +30,14 @@ require 'spec_helper'
 
 describe User, 'allowed scope' do
   let(:user) { member.principal }
-  let(:anonymous) { FactoryBot.build(:anonymous) }
-  let(:project) { FactoryBot.build(:project, public: false) }
-  let(:project2) { FactoryBot.build(:project, public: false) }
-  let(:role) { FactoryBot.build(:role) }
-  let(:role2) { FactoryBot.build(:role) }
-  let(:anonymous_role) { FactoryBot.build(:anonymous_role) }
+  let(:anonymous) { build(:anonymous) }
+  let(:project) { build(:project, public: false) }
+  let(:project2) { build(:project, public: false) }
+  let(:role) { build(:role) }
+  let(:role2) { build(:role) }
+  let(:anonymous_role) { build(:anonymous_role) }
   let(:member) do
-    FactoryBot.build(:member, project: project,
+    build(:member, project: project,
                               roles: [role])
   end
 

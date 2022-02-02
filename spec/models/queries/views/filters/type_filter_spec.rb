@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe Queries::Views::Filters::TypeFilter, type: :model do
-  let(:current_user) { FactoryBot.create(:user) }
+  let(:current_user) { create(:user) }
 
   before do
     login_as(current_user)

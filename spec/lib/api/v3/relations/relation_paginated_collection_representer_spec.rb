@@ -30,11 +30,11 @@ require 'spec_helper'
 
 describe ::API::V3::Relations::RelationPaginatedCollectionRepresenter do
   let(:work_package) do
-    FactoryBot.build_stubbed(:work_package)
+    build_stubbed(:work_package)
   end
 
   let(:relations) do
-    FactoryBot.build_stubbed_list(:relation, total).tap do |relations|
+    build_stubbed_list(:relation, total).tap do |relations|
       allow(relations)
         .to receive(:per_page)
               .with(page_size)
@@ -52,7 +52,7 @@ describe ::API::V3::Relations::RelationPaginatedCollectionRepresenter do
   end
 
   let(:user) do
-    FactoryBot.build_stubbed(:user)
+    build_stubbed(:user)
   end
 
   let(:representer) do

@@ -73,6 +73,11 @@ pt:
       start_trial: 'Iniciar avaliação gratuita'
       book_now: 'Reserve agora'
       get_quote: 'Fazer uma cotação'
+      buttons:
+        upgrade: "Upgrade now"
+        contact: "Contact us for a demo"
+      enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
+      upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
   announcements:
     show_until: Mostrar até
     is_active: atualmente exibido
@@ -160,7 +165,7 @@ pt:
     edit: 'Editar ação personalizada %{name}'
     execute: 'Executar %{name}'
     upsale:
-      title: 'Ações personalizadas são funcionalidades da versão Enterprise Edition'
+      title: 'Custom actions'
       description: 'As ações personalizadas simplificam o trabalho diário combinando um conjunto de etapas em um único botão.'
   custom_fields:
     text_add_new_custom_field: >
@@ -259,7 +264,7 @@ pt:
       irreversible: "Esta ação é irreversível"
       confirmation: "Digite o nome de usuário do espaço reservado %{name} para confirmar a exclusão."
     upsale:
-      title: Atribuir trabalho a pessoas que não são membros do projeto.
+      title: Placeholder users
       description: >
         Existem vários cenários em que você deseja atribuir trabalho a pessoas que não são membros do seu projeto. Pode ser simplesmente que você ainda precise contratar a pessoa certa para o trabalho. Ou você não quer dar acesso a essas informações do projeto, mas ainda quer acompanhar as tarefas atribuídas a essa pessoa.
   prioritiies:
@@ -751,6 +756,8 @@ pt:
               group_without_name: "Grupos sem nome não são permitidos."
         user:
           attributes:
+            base:
+              user_limit_reached: "User limit reached. No more accounts can be created on the current plan."
             password_confirmation:
               confirmation: "A confirmação da senha não corresponde à senha!"
               format: "%{message}"
@@ -2177,7 +2184,6 @@ pt:
   permission_select_custom_fields: "Selecionar campos personalizados"
   permission_select_project_modules: "Selecionar módulos do projeto"
   permission_manage_types: "Selecionar tipos"
-  permission_view_calendar: "Exibir calendário"
   permission_view_changesets: "Revisões do repositório vistas no OpenProject"
   permission_view_commit_author_statistics: "Ver estatísticas de commits do autor"
   permission_view_work_package_watchers: "Visualizar lista de observadores"
@@ -2213,7 +2219,6 @@ pt:
       archived: "Arquivado"
   project_module_activity: "Atividade"
   project_module_forums: "Fóruns"
-  project_module_calendar: "Calendário"
   project_module_work_package_tracking: "Controle de pacote de trabalho"
   project_module_news: "Notícias"
   project_module_repository: "Repositório"
@@ -2341,6 +2346,9 @@ pt:
   setting_apiv3_cors_origins: "Cross-Origin Resource Sharing (CORS) permitidos pela API V3"
   setting_apiv3_cors_origins_text_html: >
     Se o CORS estiver habilitado, essas são as origens que têm permissão para acessar a API OpenProject. <br/>Por favor, verifique a <a href="%{origin_link}" target="_blank">documentação na header da Origin </a> sobre como especificar os valores esperados.
+  setting_apiv3_max_page_size: "Maximum API page size"
+  setting_apiv3_max_page_instructions_html: >
+    Set the maximum page size the API will respond with. It will not be possible to perform API requests that return more values on a single page. <br/> <strong>Warning:</strong> Please only change this value if you are sure why you need it. Setting to a high value will result in significant performance impacts, while a value lower than the per page options will cause errors in paginated views.
   setting_apiv3_docs: "Documentação"
   setting_apiv3_docs_enabled: "Habilitar página de documentos"
   setting_apiv3_docs_enabled_instructions_html: >
@@ -2896,6 +2904,7 @@ pt:
       schema: 'Esquema'
     undisclosed:
       parent: Não revelado - O primário selecionado está invisível devido à falta de permissões.
+      ancestor: Undisclosed - The ancestor is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 'Pré-autorização'

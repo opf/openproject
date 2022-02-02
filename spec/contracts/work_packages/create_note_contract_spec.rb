@@ -32,7 +32,7 @@ require 'spec_helper'
 describe WorkPackages::CreateNoteContract do
   let(:work_package) do
     # As we only want to test the contract, we mock checking whether the work_package is valid
-    wp = FactoryBot.build_stubbed(:work_package)
+    wp = build_stubbed(:work_package)
     # we need to clear the changes information because otherwise the
     # contract will complain about all the changes to read_only attributes
     wp.send(:clear_changes_information)
@@ -40,7 +40,7 @@ describe WorkPackages::CreateNoteContract do
 
     wp
   end
-  let(:user) { FactoryBot.build_stubbed(:user) }
+  let(:user) { build_stubbed(:user) }
   let(:policy_instance) { double('WorkPackagePolicyInstance') }
 
   subject(:contract) do

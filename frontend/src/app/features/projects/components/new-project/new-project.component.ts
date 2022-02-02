@@ -33,7 +33,7 @@ export class NewProjectComponent extends UntilDestroyedMixin implements OnInit {
 
   fieldGroups:IDynamicFieldGroupConfig[];
 
-  initialPayload = {};
+  initialPayload:Record<string, unknown> = {};
 
   text = {
     use_template: this.I18n.t('js.project.use_template'),
@@ -43,7 +43,6 @@ export class NewProjectComponent extends UntilDestroyedMixin implements OnInit {
 
   hiddenFields:string[] = [
     'identifier',
-    'sendNotifications',
     'active',
   ];
 
@@ -86,7 +85,7 @@ export class NewProjectComponent extends UntilDestroyedMixin implements OnInit {
     this.resourcePath = this.apiV3Service.projects.path;
     this.fieldGroups = [{
       name: this.text.advancedSettingsLabel,
-      fieldsFilter: (field) => !['name', 'parent'].includes(field.templateOptions?.property!)
+      fieldsFilter: (field) => !['name', 'parent', 'sendNotifications'].includes(field.templateOptions?.property as string)
         && !(field.templateOptions?.required
         && !field.templateOptions.hasDefault
         && field.templateOptions.payloadValue == null),
@@ -109,11 +108,20 @@ export class NewProjectComponent extends UntilDestroyedMixin implements OnInit {
     this.initialPayload = {
       ...this.initialPayload,
       name: this.dynamicForm.model.name,
+      _meta: {
+        ...(this.initialPayload?._meta as Record<string, unknown>),
+        sendNotifications: false,
+      },
     };
     this.formUrl = selected?.href ? `${selected.href}/copy` : null;
   }
 
   private isHiddenField(key:string|undefined):boolean {
+    // We explictly want to show the sendNotifications param
+    if (key === '_meta.sendNotifications') {
+      return false;
+    }
+
     return !!key && (this.hiddenFields.includes(key) || this.isMeta(key));
   }
 

@@ -21,6 +21,7 @@ import { WorkPackageViewFocusService } from 'core-app/features/work-packages/rou
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { isClickedWithModifier } from 'core-app/shared/helpers/link-handling/link-handling';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
+import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 
 @Component({
   selector: 'wp-single-card',
@@ -58,13 +59,16 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
 
   isNewResource = isNewResource;
 
-  constructor(readonly pathHelper:PathHelperService,
+  constructor(
+    readonly pathHelper:PathHelperService,
     readonly I18n:I18nService,
     readonly $state:StateService,
     readonly wpTableSelection:WorkPackageViewSelectionService,
     readonly wpTableFocus:WorkPackageViewFocusService,
     readonly cardView:WorkPackageCardViewService,
-    readonly cdRef:ChangeDetectorRef) {
+    readonly cdRef:ChangeDetectorRef,
+    readonly timezoneService:TimezoneService,
+  ) {
     super();
   }
 
@@ -124,6 +128,37 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
   // eslint-disable-next-line class-methods-use-this
   public wpProjectName(wp:WorkPackageResource):string {
     return wp.project?.name;
+  }
+
+  public wpDates(wp:WorkPackageResource):string {
+    const { startDate } = wp;
+    const { dueDate } = wp;
+    const dateTimeFormat = new Intl.DateTimeFormat(this.I18n.locale, {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    });
+
+    if (startDate && dueDate) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore see https://github.com/microsoft/TypeScript/issues/46905
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+      return String(dateTimeFormat.formatRange(new Date(startDate), new Date(dueDate)));
+    }
+    if (!startDate && dueDate) {
+      return `- ${dateTimeFormat.format(new Date(dueDate))}`;
+    }
+
+    if (startDate && !dueDate) {
+      return `${dateTimeFormat.format(new Date(startDate))} -`;
+    }
+
+    return '';
+  }
+
+  wpOverDueHighlighting(wp:WorkPackageResource):string {
+    const diff = this.timezoneService.daysFromToday(wp.dueDate);
+    return Highlighting.overdueDate(diff);
   }
 
   public fullWorkPackageLink(wp:WorkPackageResource):string {

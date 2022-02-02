@@ -29,8 +29,8 @@
 require 'spec_helper'
 
 describe 'Invite user modal', type: :feature, js: true do
-  shared_let(:project) { FactoryBot.create :project }
-  shared_let(:work_package) { FactoryBot.create :work_package, project: project }
+  shared_let(:project) { create :project }
+  shared_let(:work_package) { create :work_package, project: project }
 
   let(:permissions) { %i[view_work_packages edit_work_packages manage_members] }
   let(:global_permissions) { %i[] }
@@ -41,7 +41,7 @@ describe 'Invite user modal', type: :feature, js: true do
                                              invite_message: invite_message
   end
   let!(:role) do
-    FactoryBot.create :role,
+    create :role,
                       name: 'Member',
                       permissions: permissions
   end
@@ -50,7 +50,7 @@ describe 'Invite user modal', type: :feature, js: true do
   let(:mail_invite_recipients) { [] }
 
   current_user do
-    FactoryBot.create :user,
+    create :user,
                       member_in_project: project,
                       member_through_role: role,
                       global_permissions: global_permissions
@@ -112,7 +112,7 @@ describe 'Invite user modal', type: :feature, js: true do
 
       context 'with an existing user' do
         let!(:principal) do
-          FactoryBot.create :user,
+          create :user,
                             firstname: 'Nonproject firstname',
                             lastname: 'nonproject lastname'
         end
@@ -124,7 +124,7 @@ describe 'Invite user modal', type: :feature, js: true do
       end
 
       context 'with a user to be invited' do
-        let(:principal) { FactoryBot.build :invited_user }
+        let(:principal) { build :invited_user }
 
         context 'when the current user has permissions to create a user' do
           let(:permissions) { %i[view_work_packages edit_work_packages manage_members] }
@@ -151,14 +151,14 @@ describe 'Invite user modal', type: :feature, js: true do
           let(:permissions) { %i[view_work_packages edit_work_packages manage_members] }
           let(:global_permissions) { %i[manage_user] }
 
-          let(:project_no_permissions) { FactoryBot.create :project }
+          let(:project_no_permissions) { create :project }
           let(:role_no_permissions) do
-            FactoryBot.create :role,
+            create :role,
                               permissions: %i[view_work_packages edit_work_packages]
           end
 
           let!(:membership_no_permission) do
-            FactoryBot.create :member,
+            create :member,
                               user: current_user,
                               project: project_no_permissions,
                               roles: [role_no_permissions]
@@ -171,9 +171,9 @@ describe 'Invite user modal', type: :feature, js: true do
         end
 
         context 'with a project that is archived' do
-          let!(:archived_project) { FactoryBot.create :project, active: false }
+          let!(:archived_project) { create :project, active: false }
           # Use admin to ensure all projects are visible
-          let(:current_user) { FactoryBot.create :admin }
+          let(:current_user) { create :admin }
 
           it 'disables projects for which you do not have rights' do
             ngselect = modal.open_select_in_step
@@ -183,7 +183,7 @@ describe 'Invite user modal', type: :feature, js: true do
       end
 
       describe 'inviting placeholders' do
-        let(:principal) { FactoryBot.build :placeholder_user, name: 'MY NEW PLACEHOLDER' }
+        let(:principal) { build :placeholder_user, name: 'MY NEW PLACEHOLDER' }
 
         context 'an enterprise system', with_ee: %i[placeholder_users] do
           describe 'create a new placeholder' do
@@ -212,7 +212,7 @@ describe 'Invite user modal', type: :feature, js: true do
           end
 
           context 'with an existing placeholder' do
-            let(:principal) { FactoryBot.create :placeholder_user, name: 'EXISTING PLACEHOLDER' }
+            let(:principal) { create :placeholder_user, name: 'EXISTING PLACEHOLDER' }
             let(:permissions) { %i[view_work_packages edit_work_packages manage_members] }
             let(:global_permissions) { %i[] }
 
@@ -234,8 +234,8 @@ describe 'Invite user modal', type: :feature, js: true do
       end
 
       describe 'inviting groups' do
-        let(:group_user) { FactoryBot.create(:user) }
-        let(:principal) { FactoryBot.create :group, name: 'MY NEW GROUP', members: [group_user] }
+        let(:group_user) { create(:user) }
+        let(:principal) { create :group, name: 'MY NEW GROUP', members: [group_user] }
 
         it_behaves_like 'invites the principal to the project' do
           let(:added_principal) { principal }

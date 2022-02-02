@@ -106,16 +106,16 @@ time to finish.
 [openproject@host] source ~/.profile
 [openproject@host] git clone https://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
 
-[openproject@host] rbenv install 2.7.5
+[openproject@host] rbenv install 3.0.3
 [openproject@host] rbenv rehash
-[openproject@host] rbenv global 2.7.5
+[openproject@host] rbenv global 3.0.3
 ```
 
 To check our Ruby installation we run `ruby --version`. It should output
 something very similar to:
 
 ```
-ruby 2.7.5p203 (2021-07-07 revision a21a3b7d23) [x86_64-linux]
+ruby 3.0.3p157 (2021-11-24 revision 3fb7d2cadc) [x86_64-darwin20]
 ```
 
 ## Installation of Node
@@ -381,7 +381,7 @@ Your OpenProject installation is ready to run. Please refer to the [Operation gu
 This step is optional.
 
 OpenProject can be extended by various plug-ins, which extend OpenProject's capabilities.
-For general information and a list of all plug-ins known to us, refer to to the [plug-in page](https://community.openproject.org/projects/openproject/wiki/OpenProject_Plug-Ins).
+For general information and a list of all plug-ins known to us, refer to to the [plug-in page](../../../system-admin-guide/integrations/).
 
 OpenProject plug-ins are separated in ruby gems. You can install them by listing them in a file called `Gemfile.plugins`. An example `Gemfile.plugins` file looks like this:
 

@@ -37,8 +37,11 @@ module API
     class Root < ::API::OpenProjectAPI
       helpers ::API::V3::Utilities::EpropsConversion
 
-      # All endpoint accept query props as gzipped and base64 encoded json objects
       before do
+        # Add Link header for openapi spec
+        header 'Link', '</api/v3/openapi.json>; rel="service-desc"'
+
+        # All endpoint accept query props as gzipped and base64 encoded json objects
         transform_eprops
       end
 
@@ -83,6 +86,10 @@ module API
       end
 
       get '/spec.json' do
+        API::OpenAPI.spec
+      end
+
+      get '/openapi.json' do
         API::OpenAPI.spec
       end
 

@@ -33,15 +33,15 @@ describe WorkPackage, 'acts_as_searchable', type: :model do
 
   let(:wp_subject) { 'the quick brown fox jumps over the lazy dog' }
   let(:project) do
-    FactoryBot.create(:project,
+    create(:project,
                       public: false)
   end
   let(:work_package) do
-    FactoryBot.create(:work_package,
+    create(:work_package,
                       subject: wp_subject,
                       project: project)
   end
-  let(:user) { FactoryBot.create(:user) }
+  let(:user) { create(:user) }
 
   describe '#search' do
     describe "w/ the user being logged in

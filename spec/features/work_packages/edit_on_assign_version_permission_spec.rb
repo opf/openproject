@@ -3,7 +3,7 @@ require 'features/page_objects/notification'
 
 describe 'edit work package', js: true do
   let(:current_user) do
-    FactoryBot.create :user,
+    create :user,
                       firstname: 'Dev',
                       lastname: 'Guy',
                       member_in_project: project,
@@ -12,13 +12,13 @@ describe 'edit work package', js: true do
   let(:permissions) { %i[view_work_packages assign_versions] }
 
   let(:cf_all) do
-    FactoryBot.create :work_package_custom_field, is_for_all: true, field_format: 'text'
+    create :work_package_custom_field, is_for_all: true, field_format: 'text'
   end
 
-  let(:type) { FactoryBot.create :type, custom_fields: [cf_all] }
-  let(:project) { FactoryBot.create(:project, types: [type]) }
+  let(:type) { create :type, custom_fields: [cf_all] }
+  let(:project) { create(:project, types: [type]) }
   let(:work_package) do
-    FactoryBot.create(:work_package,
+    create(:work_package,
                       author: current_user,
                       project: project,
                       type: type,
@@ -27,7 +27,7 @@ describe 'edit work package', js: true do
   let(:status) { work_package.status }
 
   let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
-  let(:version) { FactoryBot.create :version, project: project }
+  let(:version) { create :version, project: project }
 
   def visit!
     wp_page.visit!

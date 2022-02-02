@@ -34,7 +34,7 @@ describe "API v3 version's projects resource" do
   include API::V3::Utilities::PathHelper
 
   let(:current_user) do
-    user = FactoryBot.create(:user,
+    user = create(:user,
                              member_in_project: project,
                              member_through_role: role)
 
@@ -42,13 +42,13 @@ describe "API v3 version's projects resource" do
 
     user
   end
-  let(:role) { FactoryBot.create(:role, permissions: [:view_work_packages]) }
-  let(:role_without_permissions) { FactoryBot.create(:role, permissions: []) }
-  let(:project) { FactoryBot.create(:project, public: false) }
-  let(:project2) { FactoryBot.create(:project, public: false) }
-  let(:project3) { FactoryBot.create(:project, public: false) }
-  let(:project4) { FactoryBot.create(:project, public: false) }
-  let(:version) { FactoryBot.create(:version, project: project, sharing: 'system') }
+  let(:role) { create(:role, permissions: [:view_work_packages]) }
+  let(:role_without_permissions) { create(:role, permissions: []) }
+  let(:project) { create(:project, public: false) }
+  let(:project2) { create(:project, public: false) }
+  let(:project3) { create(:project, public: false) }
+  let(:project4) { create(:project, public: false) }
+  let(:version) { create(:version, project: project, sharing: 'system') }
 
   subject(:response) { last_response }
 
@@ -60,12 +60,12 @@ describe "API v3 version's projects resource" do
         current_user
 
         # this is to be included
-        FactoryBot.create(:member, user: current_user,
+        create(:member, user: current_user,
                                    project: project2,
                                    roles: [role])
         # this is to be included as the user is a member of the project, the
         # lack of permissions is irrelevant.
-        FactoryBot.create(:member, user: current_user,
+        create(:member, user: current_user,
                                    project: project3,
                                    roles: [role_without_permissions])
         # project4 should NOT be included

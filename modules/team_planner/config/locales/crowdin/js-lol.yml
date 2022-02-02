@@ -2,6 +2,7 @@
 lol:
   js:
     team_planner:
+      add_existing: 'crwdns653317:0crwdne653317:0'
       create_new: 'crwdns500083:0crwdne500083:0'
       title: 'crwdns500087:0crwdne500087:0'
       unsaved_title: 'crwdns500089:0crwdne500089:0'
@@ -9,3 +10,7 @@ lol:
       no_data: 'crwdns500093:0crwdne500093:0'
       add_assignee: 'crwdns500095:0crwdne500095:0'
       remove_assignee: 'crwdns500097:0crwdne500097:0'
+      two_weeks: 'crwdns629979:0crwdne629979:0'
+      quick_add:
+        empty_state: 'crwdns653319:0crwdne653319:0'
+        search_placeholder: 'crwdns653321:0crwdne653321:0'

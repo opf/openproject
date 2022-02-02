@@ -19,6 +19,9 @@
       border: none
       cursor: unset
 
+    .fc-day-today
+      background: rgb(255 255 120 / 20%)
+
     // ------------------------ END: Calendar cells ------------------------
     // -------
     // ------------------------ BEGIN: Calendar events ------------------------
@@ -35,6 +38,7 @@
       &:before,
       &:after
         padding-right: 4px
+        pointer-events: none
 
     .fc-event-title-container
       margin: 0 16px
@@ -52,7 +56,15 @@
     .fc-header-toolbar .fc-toolbar-chunk
       .fc-button
         background: transparent
+        margin-bottom: 0
 
+        &:focus
+          box-shadow: none
+
+      > .fc-button
+        border-radius: 2rem
+
+      .fc-button-group .fc-button
         &:first-of-type
           border-bottom-left-radius: 2rem
           border-top-left-radius: 2rem
@@ -60,9 +72,6 @@
         &:last-of-type
           border-bottom-right-radius: 2rem
           border-top-right-radius: 2rem
-
-        &:focus
-          box-shadow: none
 
       .fc-prev-button,
       .fc-next-button
@@ -80,6 +89,13 @@
       .fc-next-button .fc-icon
         @include icon-font-common
         @extend .icon-arrow-right3
+
+      .fc-addExisting-button
+        &:before
+          @include icon-font-common
+          @extend .icon-add
+          margin-right: 10px
+
 
     thead .fc-scroller
       @include no-visible-scroll-bar

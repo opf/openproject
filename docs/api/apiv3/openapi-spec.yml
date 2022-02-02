@@ -133,8 +133,14 @@ info:
     are supported. The client signals the desired compression by setting the [`Accept-Encoding` header](https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.3).
     If no `Accept-Encoding` header is send, `Accept-Encoding: identity` is assumed which will result in the API responding uncompressed.
   title: OpenProject API V3 (Stable)
-  version: ''
-servers: []
+  version: '3'
+servers:
+  - url: https://qa.openproject-edge.com
+    description: Edge QA instance
+  - url: https://qa.openproject-stage.com
+    description: Staging instance
+  - url: https://community.openproject.org
+    description: Community instance
 paths:
   "/api/v3":
     "$ref": "./paths/root.yml"
@@ -316,6 +322,8 @@ paths:
     "$ref": "./paths/statuses.yml"
   "/api/v3/statuses/{id}":
     "$ref": "./paths/status.yml"
+  "/api/v3/storages/{id}":
+    "$ref": "./paths/storage.yml"
   "/api/v3/time_entries":
     "$ref": "./paths/time_entries.yml"
   "/api/v3/time_entries/{id}/form":
@@ -362,8 +370,6 @@ paths:
     "$ref": "./paths/views.yml"
   "/api/v3/views/{id}":
     "$ref": "./paths/view.yml"
-  "/api/v3/views/{identifier}":
-    "$ref": "./paths/views_{identifier}.yml"
   "/api/v3/wiki_pages/{id}":
     "$ref": "./paths/wiki_page.yml"
   "/api/v3/wiki_pages/{id}/attachments":
@@ -372,7 +378,7 @@ paths:
     "$ref": "./paths/work_packages.yml"
   "/api/v3/work_packages/form":
     "$ref": "./paths/work_packages_form.yml"
-  "/api/v3/work_packages/schemas/":
+  "/api/v3/work_packages/schemas":
     "$ref": "./paths/work_packages_schemas.yml"
   "/api/v3/work_packages/schemas/{identifier}":
     "$ref": "./paths/work_packages_schemas_{identifier}.yml"
@@ -388,6 +394,14 @@ paths:
     "$ref": "./paths/work_package_available_relation_candidates.yml"
   "/api/v3/work_packages/{id}/available_watchers":
     "$ref": "./paths/work_package_available_watchers.yml"
+  "/api/v3/work_packages/{id}/file_links":
+    "$ref": "./paths/work_package_file_links.yml"
+  "/api/v3/work_packages/{id}/file_links/{file_link_id}":
+    "$ref": "./paths/work_package_file_link.yml"
+  "/api/v3/work_packages/{id}/file_links/{file_link_id}/download":
+    "$ref": "./paths/work_package_file_link_download.yml"
+  "/api/v3/work_packages/{id}/file_links/{file_link_id}/open":
+    "$ref": "./paths/work_package_file_link_open.yml"
   "/api/v3/work_packages/{id}/form":
     "$ref": "./paths/work_package_form.yml"
   "/api/v3/work_packages/{id}/revisions":
@@ -419,12 +433,8 @@ components:
   schemas:
     ActivityModel:
       "$ref": "./components/schemas/activity_model.yml"
-    Aggregations:
-      "$ref": "./components/schemas/aggregations.yml"
     AttachmentModel:
       "$ref": "./components/schemas/attachment_model.yml"
-    Attachments:
-      "$ref": "./components/schemas/attachments.yml"
     Attachments_by_post:
       "$ref": "./components/schemas/attachments_by_post.yml"
     Attachments_by_postModel:
@@ -505,12 +515,18 @@ components:
       "$ref": "./components/schemas/document_model.yml"
     DocumentsModel:
       "$ref": "./components/schemas/documents_model.yml"
+    ErrorResponse:
+      "$ref": "./components/schemas/error_response.yml"
     Example_FormModel:
       "$ref": "./components/schemas/example_form_model.yml"
     Example_SchemaModel:
       "$ref": "./components/schemas/example_schema_model.yml"
     Execute_custom_action:
       "$ref": "./components/schemas/execute_custom_action.yml"
+    File_LinkModel:
+      "$ref": "./components/schemas/file_link_model.yml"
+    File_Link_Origin_DataModel:
+      "$ref": "./components/schemas/file_link_origin_data_model.yml"
     FormModel:
       "$ref": "./components/schemas/form_model.yml"
     Formattable:
@@ -569,6 +585,8 @@ components:
       "$ref": "./components/schemas/news_model.yml"
     NotificationModel:
       "$ref": "./components/schemas/notification_model.yml"
+    NotificationSettingsModel:
+      "$ref": "./components/schemas/notification_settings_model.yml"
     Offset_based_pagination:
       "$ref": "./components/schemas/offset_based_pagination.yml"
     Plain_Text:
@@ -651,6 +669,8 @@ components:
       "$ref": "./components/schemas/status_model.yml"
     StatusesModel:
       "$ref": "./components/schemas/statuses_model.yml"
+    StorageModel:
+      "$ref": "./components/schemas/storage_model.yml"
     Time_EntryModel:
       "$ref": "./components/schemas/time_entry_model.yml"
     Time_Entry_ActivityModel:
@@ -754,50 +774,50 @@ components:
       type: http
       scheme: basic
 tags:
-- "$ref": "./tags/basic_objects.yml"
-- "$ref": "./tags/collections.yml"
-- "$ref": "./tags/filters.yml"
-- "$ref": "./tags/forms.yml"
-- "$ref": "./tags/actions_and_capabilities.yml"
-- "$ref": "./tags/activities.yml"
-- "$ref": "./tags/attachments.yml"
-- "$ref": "./tags/budgets.yml"
-- "$ref": "./tags/categories.yml"
-- "$ref": "./tags/configuration.yml"
-- "$ref": "./tags/custom_actions.yml"
-- "$ref": "./tags/custom_objects.yml"
-- "$ref": "./tags/documents.yml"
-- "$ref": "./tags/grids.yml"
-- "$ref": "./tags/groups.yml"
-- "$ref": "./tags/help_texts.yml"
-- "$ref": "./tags/memberships.yml"
-- "$ref": "./tags/news.yml"
-- "$ref": "./tags/notifications.yml"
-- "$ref": "./tags/posts.yml"
-- "$ref": "./tags/principals.yml"
-- "$ref": "./tags/priorities.yml"
-- "$ref": "./tags/projects.yml"
-- "$ref": "./tags/queries.yml"
-- "$ref": "./tags/query_columns.yml"
-- "$ref": "./tags/query_filters.yml"
-- "$ref": "./tags/query_operators.yml"
-- "$ref": "./tags/query_sort_bys.yml"
-- "$ref": "./tags/query_filter_instance_schema.yml"
-- "$ref": "./tags/relations.yml"
-- "$ref": "./tags/previewing.yml"
-- "$ref": "./tags/revisions.yml"
-- "$ref": "./tags/roles.yml"
-- "$ref": "./tags/root.yml"
-- "$ref": "./tags/schemas.yml"
-- "$ref": "./tags/statuses.yml"
-- "$ref": "./tags/time_entries.yml"
-- "$ref": "./tags/time_entry_activities.yml"
-- "$ref": "./tags/types.yml"
-- "$ref": "./tags/userpreferences.yml"
-- "$ref": "./tags/users.yml"
-- "$ref": "./tags/versions.yml"
-- "$ref": "./tags/views.yml"
-- "$ref": "./tags/wiki_pages.yml"
-- "$ref": "./tags/work_packages.yml"
+  - "$ref": "./tags/basic_objects.yml"
+  - "$ref": "./tags/collections.yml"
+  - "$ref": "./tags/filters.yml"
+  - "$ref": "./tags/forms.yml"
+  - "$ref": "./tags/actions_and_capabilities.yml"
+  - "$ref": "./tags/activities.yml"
+  - "$ref": "./tags/attachments.yml"
+  - "$ref": "./tags/budgets.yml"
+  - "$ref": "./tags/categories.yml"
+  - "$ref": "./tags/configuration.yml"
+  - "$ref": "./tags/custom_actions.yml"
+  - "$ref": "./tags/custom_objects.yml"
+  - "$ref": "./tags/documents.yml"
+  - "$ref": "./tags/grids.yml"
+  - "$ref": "./tags/groups.yml"
+  - "$ref": "./tags/help_texts.yml"
+  - "$ref": "./tags/memberships.yml"
+  - "$ref": "./tags/news.yml"
+  - "$ref": "./tags/notifications.yml"
+  - "$ref": "./tags/posts.yml"
+  - "$ref": "./tags/principals.yml"
+  - "$ref": "./tags/priorities.yml"
+  - "$ref": "./tags/projects.yml"
+  - "$ref": "./tags/queries.yml"
+  - "$ref": "./tags/query_columns.yml"
+  - "$ref": "./tags/query_filters.yml"
+  - "$ref": "./tags/query_operators.yml"
+  - "$ref": "./tags/query_sort_bys.yml"
+  - "$ref": "./tags/query_filter_instance_schema.yml"
+  - "$ref": "./tags/relations.yml"
+  - "$ref": "./tags/previewing.yml"
+  - "$ref": "./tags/revisions.yml"
+  - "$ref": "./tags/roles.yml"
+  - "$ref": "./tags/root.yml"
+  - "$ref": "./tags/schemas.yml"
+  - "$ref": "./tags/statuses.yml"
+  - "$ref": "./tags/time_entries.yml"
+  - "$ref": "./tags/time_entry_activities.yml"
+  - "$ref": "./tags/types.yml"
+  - "$ref": "./tags/userpreferences.yml"
+  - "$ref": "./tags/users.yml"
+  - "$ref": "./tags/versions.yml"
+  - "$ref": "./tags/views.yml"
+  - "$ref": "./tags/wiki_pages.yml"
+  - "$ref": "./tags/work_packages.yml"
 security:
-- BasicAuth: []
+  - BasicAuth: []

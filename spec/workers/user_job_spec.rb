@@ -55,7 +55,7 @@ describe UserJob do
   end
 
   describe 'with a regular user' do
-    let(:user) { FactoryBot.build_stubbed :user }
+    let(:user) { build_stubbed :user }
 
     it 'uses that user' do
       given_user, current_user, admin = subject

@@ -73,6 +73,11 @@ hu:
       start_trial: 'Ingyenes próbaverzió kipróbálása'
       book_now: 'Foglalás most'
       get_quote: 'Árajánlat kérése'
+      buttons:
+        upgrade: "Upgrade now"
+        contact: "Contact us for a demo"
+      enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
+      upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
   announcements:
     show_until: Mutassa eddig
     is_active: jelenleg látható
@@ -160,7 +165,7 @@ hu:
     edit: 'Egyéni művelet szerkesztése %{name}'
     execute: 'Végrehajt %{name}'
     upsale:
-      title: 'Az egyéni műveletek egy Enterprise Edition szolgáltatás'
+      title: 'Custom actions'
       description: 'Az egyéni műveletek egyszerűsítik a mindennapi munkát egyes lépések egyesítésével egyetlen gombhoz.'
   custom_fields:
     text_add_new_custom_field: >
@@ -261,7 +266,7 @@ hu:
       irreversible: "Ez a művelet visszavonhatatlan"
       confirmation: "Adja meg a teszt felhasználó nevét %{name} a törlés megerősítéséhez."
     upsale:
-      title: "Rendeljen munkát olyan személyekhez, akik nem tagjai a projektnek.\n"
+      title: Placeholder users
       description: >
         Számos olyan forgatókönyv létezik, amikor olyan embereket szeretne kiosztani, akik nem tagjai a projektnek. Egyszerűen előfordulhat, hogy még mindig a megfelelő személyt kell felvennie a munkára. Vagy egyszerűen nem akar hozzáférést biztosítani az adott személyhez a projekt információihoz, de mégis szeretné, ha nyomon követett feladatokat rendelne hozzá.
 
@@ -753,6 +758,8 @@ hu:
               group_without_name: "Névtelen csoport nem engedélyezett."
         user:
           attributes:
+            base:
+              user_limit_reached: "User limit reached. No more accounts can be created on the current plan."
             password_confirmation:
               confirmation: "Password confirmation does not match password."
               format: "%{message}\n"
@@ -2183,7 +2190,6 @@ hu:
   permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Projekt modulok kiválasztása"
   permission_manage_types: "Jelölje ki a típust"
-  permission_view_calendar: "A naptár megtekintése"
   permission_view_changesets: "Tároló verziók megtekintése az OpenProject-ben"
   permission_view_commit_author_statistics: "Szerző,statisztika megtekintése"
   permission_view_work_package_watchers: "A megfigyelők listájának megtekintése"
@@ -2219,7 +2225,6 @@ hu:
       archived: "Archiválva"
   project_module_activity: "Tevékenység"
   project_module_forums: "Fórumok"
-  project_module_calendar: "Naptár"
   project_module_work_package_tracking: "A munkacsomag nyomon követése"
   project_module_news: "Hírek"
   project_module_repository: "Csomagtároló"
@@ -2348,6 +2353,9 @@ hu:
   setting_apiv3_cors_origins_text_html: >
     Ha a CORS engedélyezve van, ezek azok az eredetiek, amelyek hozzáférhetnek az OpenProject API-hoz. <br/> Kérjük, olvassa el a <a href="%{origin_link}" target="_blank">Dokumentáció az Origin fejlécről</a> című dokumentumot az elvárt értékek megadásáról.
 
+  setting_apiv3_max_page_size: "Maximum API page size"
+  setting_apiv3_max_page_instructions_html: >
+    Set the maximum page size the API will respond with. It will not be possible to perform API requests that return more values on a single page. <br/> <strong>Warning:</strong> Please only change this value if you are sure why you need it. Setting to a high value will result in significant performance impacts, while a value lower than the per page options will cause errors in paginated views.
   setting_apiv3_docs: "Dokumentáció"
   setting_apiv3_docs_enabled: "Dokumentumok oldal engedélyezése\n"
   setting_apiv3_docs_enabled_instructions_html: >
@@ -2909,6 +2917,7 @@ hu:
       schema: 'Séma'
     undisclosed:
       parent: A kiválasztott szülő a jogosultságok hiánya miatt láthatatlan.
+      ancestor: Undisclosed - The ancestor is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: "Előzetes engedélyezés\n"

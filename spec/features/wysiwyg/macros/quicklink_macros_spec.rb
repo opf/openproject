@@ -29,11 +29,11 @@
 require 'spec_helper'
 
 describe 'Wysiwyg work package quicklink macros', type: :feature, js: true do
-  shared_let(:admin) { FactoryBot.create :admin }
+  shared_let(:admin) { create :admin }
   let(:user) { admin }
-  let!(:project) { FactoryBot.create(:project, identifier: 'some-project', enabled_module_names: %w[wiki work_package_tracking]) }
+  let!(:project) { create(:project, identifier: 'some-project', enabled_module_names: %w[wiki work_package_tracking]) }
   let!(:work_package) do
-    FactoryBot.create(:work_package, subject: "Foo Bar", project: project, start_date: '2020-01-01', due_date: '2020-02-01')
+    create(:work_package, subject: "Foo Bar", project: project, start_date: '2020-01-01', due_date: '2020-02-01')
   end
   let(:editor) { ::Components::WysiwygEditor.new }
 

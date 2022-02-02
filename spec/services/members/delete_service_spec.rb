@@ -68,7 +68,7 @@ describe ::Members::DeleteService, type: :model do
         end
 
         context 'when the model`s principal is a group' do
-          let(:principal) { FactoryBot.build_stubbed(:group) }
+          let(:principal) { build_stubbed(:group) }
           let!(:cleanup_inherited_roles_service_instance) do
             instance = instance_double(Groups::CleanupInheritedRolesService, call: nil)
 

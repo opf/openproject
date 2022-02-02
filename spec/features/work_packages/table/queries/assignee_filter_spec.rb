@@ -29,36 +29,36 @@
 require 'spec_helper'
 
 describe 'Work package filtering by assignee', js: true do
-  let(:project) { FactoryBot.create :project }
+  let(:project) { create :project }
   let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
   let(:filters) { ::Components::WorkPackages::Filters.new }
-  let(:role) { FactoryBot.create(:role, permissions: %i[view_work_packages save_queries]) }
+  let(:role) { create(:role, permissions: %i[view_work_packages save_queries]) }
   let(:other_user) do
-    FactoryBot.create :user,
+    create :user,
                       firstname: 'Other',
                       lastname: 'User',
                       member_in_project: project,
                       member_through_role: role
   end
   let(:placeholder_user) do
-    FactoryBot.create :placeholder_user,
+    create :placeholder_user,
                       member_in_project: project,
                       member_through_role: role
   end
 
   let!(:work_package_user_assignee) do
-    FactoryBot.create :work_package,
+    create :work_package,
                       project: project,
                       assigned_to: other_user
   end
   let!(:work_package_placeholder_user_assignee) do
-    FactoryBot.create :work_package,
+    create :work_package,
                       project: project,
                       assigned_to: placeholder_user
   end
 
   current_user do
-    FactoryBot.create :user,
+    create :user,
                       member_in_project: project,
                       member_through_role: role
   end

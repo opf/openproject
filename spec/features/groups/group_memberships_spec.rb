@@ -29,19 +29,19 @@
 require 'spec_helper'
 
 feature 'group memberships through groups page', type: :feature, js: true do
-  shared_let(:admin) { FactoryBot.create :admin }
+  shared_let(:admin) { create :admin }
   let!(:project) do
-    FactoryBot.create :project, name: 'Project 1', identifier: 'project1', members: project_members
+    create :project, name: 'Project 1', identifier: 'project1', members: project_members
   end
 
-  let!(:peter)    { FactoryBot.create :user, firstname: 'Peter', lastname: 'Pan' }
-  let!(:hannibal) { FactoryBot.create :user, firstname: 'Hannibal', lastname: 'Smith' }
+  let!(:peter)    { create :user, firstname: 'Peter', lastname: 'Pan' }
+  let!(:hannibal) { create :user, firstname: 'Hannibal', lastname: 'Smith' }
   let(:group) do
-    FactoryBot.create(:group, lastname: 'A-Team', members: group_members)
+    create(:group, lastname: 'A-Team', members: group_members)
   end
 
-  let!(:manager)   { FactoryBot.create :role, name: 'Manager' }
-  let!(:developer) { FactoryBot.create :role, name: 'Developer' }
+  let!(:manager)   { create :role, name: 'Manager' }
+  let!(:developer) { create :role, name: 'Developer' }
 
   let(:members_page) { Pages::Members.new project.identifier }
   let(:group_page)   { Pages::Groups.new.group(group.id) }
@@ -102,7 +102,7 @@ feature 'group memberships through groups page', type: :feature, js: true do
 
   describe 'with the group in two projects' do
     let!(:project2) do
-      FactoryBot.create :project,
+      create :project,
                         name: 'Project 2',
                         identifier: 'project2',
                         members: project_members

@@ -30,9 +30,9 @@ require 'spec_helper'
 
 describe 'Wysiwyg work package linking',
          type: :feature, js: true do
-  let(:user) { FactoryBot.create :admin }
-  let(:project) { FactoryBot.create(:project, enabled_module_names: %w[wiki work_package_tracking]) }
-  let(:work_package) { FactoryBot.create(:work_package, subject: 'Foobar', project: project) }
+  let(:user) { create :admin }
+  let(:project) { create(:project, enabled_module_names: %w[wiki work_package_tracking]) }
+  let(:work_package) { create(:work_package, subject: 'Foobar', project: project) }
   let(:editor) { ::Components::WysiwygEditor.new }
 
   before do

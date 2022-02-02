@@ -30,11 +30,11 @@ require 'spec_helper'
 require 'features/work_packages/work_packages_page'
 
 describe 'Work package table refreshing due to split view', js: true do
-  let(:project) { FactoryBot.create :project_with_types }
-  let!(:work_package) { FactoryBot.create :work_package, project: project }
+  let(:project) { create :project_with_types }
+  let!(:work_package) { create :work_package, project: project }
   let(:wp_split) { ::Pages::SplitWorkPackage.new work_package }
   let(:wp_table) { ::Pages::WorkPackagesTable.new project }
-  let(:user) { FactoryBot.create :admin }
+  let(:user) { create :admin }
 
   before do
     login_as(user)

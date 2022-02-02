@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe ::Query::SortCriteria, type: :model do
   let(:query) do
-    FactoryBot.build_stubbed :query,
+    build_stubbed :query,
                              show_hierarchies: false
   end
 

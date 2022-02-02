@@ -30,89 +30,89 @@ require 'spec_helper'
 
 describe Projects::Activity, type: :model do
   let(:project) do
-    FactoryBot.create(:project)
+    create(:project)
   end
 
   let(:initial_time) { Time.now }
 
   let(:work_package) do
-    FactoryBot.create(:work_package,
+    create(:work_package,
                       project: project)
   end
 
   let(:work_package2) do
-    FactoryBot.create(:work_package,
+    create(:work_package,
                       project: project)
   end
 
   let(:wiki_content) do
     project.reload
 
-    page = FactoryBot.create(:wiki_page,
+    page = create(:wiki_page,
                              wiki: project.wiki)
 
-    FactoryBot.create(:wiki_content,
+    create(:wiki_content,
                       page: page)
   end
 
   let(:wiki_content2) do
     project.reload
 
-    page = FactoryBot.create(:wiki_page,
+    page = create(:wiki_page,
                              wiki: project.wiki)
 
-    FactoryBot.create(:wiki_content,
+    create(:wiki_content,
                       page: page)
   end
 
   let(:news) do
-    FactoryBot.create(:news,
+    create(:news,
                       project: project)
   end
 
   let(:news2) do
-    FactoryBot.create(:news,
+    create(:news,
                       project: project)
   end
 
   let(:repository) do
-    FactoryBot.create(:repository_git,
+    create(:repository_git,
                       project: project)
   end
 
   let(:changeset) do
-    FactoryBot.create(:changeset,
+    create(:changeset,
                       repository: repository)
   end
 
   let(:changeset2) do
-    FactoryBot.create(:changeset,
+    create(:changeset,
                       repository: repository)
   end
 
   let(:forum) do
-    FactoryBot.create(:forum,
+    create(:forum,
                       project: project)
   end
 
   let(:message) do
-    FactoryBot.create(:message,
+    create(:message,
                       forum: forum)
   end
 
   let(:message2) do
-    FactoryBot.create(:message,
+    create(:message,
                       forum: forum)
   end
 
   let(:time_entry) do
-    FactoryBot.create(:time_entry,
+    create(:time_entry,
                       work_package: work_package,
                       project: project)
   end
 
   let(:time_entry2) do
-    FactoryBot.create(:time_entry,
+    create(:time_entry,
                       work_package: work_package,
                       project: project)
   end

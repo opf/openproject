@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe Version, type: :model do
-  subject(:version) { FactoryBot.build(:version, name: 'Test Version') }
+  subject(:version) { build(:version, name: 'Test Version') }
 
   it { is_expected.to be_valid }
 
@@ -42,7 +42,7 @@ describe Version, type: :model do
   end
 
   context '#to_s_for_project' do
-    let(:other_project) { FactoryBot.build(:project) }
+    let(:other_project) { build(:project) }
 
     it 'returns only the version for the same project' do
       expect(version.to_s_for_project(version.project)).to eq(version.name.to_s)
@@ -77,8 +77,8 @@ describe Version, type: :model do
   end
 
   context '#<=>' do
-    let(:version1) { FactoryBot.build_stubbed(:version) }
-    let(:version2) { FactoryBot.build_stubbed(:version) }
+    let(:version1) { build_stubbed(:version) }
+    let(:version2) { build_stubbed(:version) }
 
     it 'is 0 if name and project are equal' do
       version1.project = version2.project
@@ -169,38 +169,38 @@ describe Version, type: :model do
 
   context '#projects' do
     let(:grand_parent_project) do
-      FactoryBot.build(:project, name: 'grand_parent_project')
+      build(:project, name: 'grand_parent_project')
     end
     let(:parent_project) do
-      FactoryBot.build(:project, parent: grand_parent_project, name: 'parent_project')
+      build(:project, parent: grand_parent_project, name: 'parent_project')
     end
     let(:sibling_parent_project) do
-      FactoryBot.build(:project, parent: grand_parent_project, name: 'sibling_parent_project')
+      build(:project, parent: grand_parent_project, name: 'sibling_parent_project')
     end
     let(:child_project) do
-      FactoryBot.build(:project, parent: parent_project, name: 'child_project')
+      build(:project, parent: parent_project, name: 'child_project')
     end
     let(:sibling_project) do
-      FactoryBot.build(:project, parent: parent_project, name: 'sibling_project')
+      build(:project, parent: parent_project, name: 'sibling_project')
     end
     let(:unrelated_project) do
-      FactoryBot.build(:project, name: 'unrelated_project')
+      build(:project, name: 'unrelated_project')
     end
 
     let(:unshared_version) do
-      FactoryBot.build(:version, project: parent_project, sharing: 'none')
+      build(:version, project: parent_project, sharing: 'none')
     end
     let(:hierarchy_shared_version) do
-      FactoryBot.build(:version, project: parent_project, sharing: 'hierarchy')
+      build(:version, project: parent_project, sharing: 'hierarchy')
     end
     let(:descendants_shared_version) do
-      FactoryBot.build(:version, project: parent_project, sharing: 'descendants')
+      build(:version, project: parent_project, sharing: 'descendants')
     end
     let(:system_shared_version) do
-      FactoryBot.build(:version, project: parent_project, sharing: 'system')
+      build(:version, project: parent_project, sharing: 'system')
     end
     let(:tree_shared_version) do
-      FactoryBot.build(:version, project: parent_project, sharing: 'tree')
+      build(:version, project: parent_project, sharing: 'tree')
     end
 
     def save_all_projects

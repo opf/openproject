@@ -29,8 +29,8 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe BudgetsHelper, type: :helper do
-  let(:project) { FactoryBot.build(:project) }
-  let(:budget) { FactoryBot.build(:budget, project: project) }
+  let(:project) { build(:project) }
+  let(:budget) { build(:budget, project: project) }
 
   describe '#budgets_to_csv' do
     describe 'WITH a list of one cost object' do

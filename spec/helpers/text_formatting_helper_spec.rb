@@ -33,7 +33,7 @@ require 'spec_helper'
 describe TextFormattingHelper, type: :helper do
   describe '#preview_context' do
     context 'for a News' do
-      let(:news) { FactoryBot.build_stubbed(:news) }
+      let(:news) { build_stubbed(:news) }
 
       it 'returns the v3 path' do
         expect(helper.preview_context(news))
@@ -42,7 +42,7 @@ describe TextFormattingHelper, type: :helper do
     end
 
     context 'for a Message' do
-      let(:message) { FactoryBot.build_stubbed(:message) }
+      let(:message) { build_stubbed(:message) }
 
       it 'returns the v3 path' do
         expect(helper.preview_context(message))
@@ -51,7 +51,7 @@ describe TextFormattingHelper, type: :helper do
     end
 
     context 'for a WikiPage' do
-      let(:wiki_page) { FactoryBot.build_stubbed(:wiki_page) }
+      let(:wiki_page) { build_stubbed(:wiki_page) }
 
       it 'returns the v3 path' do
         expect(helper.preview_context(wiki_page))

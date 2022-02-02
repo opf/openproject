@@ -37,8 +37,8 @@ describe Queries::Projects::Filters::CreatedAtFilter, type: :model do
     let(:model) { Project }
     let(:attribute) { :created_at }
     let(:values) { ['3'] }
-    let(:admin) { FactoryBot.build_stubbed(:admin) }
-    let(:user) { FactoryBot.build_stubbed(:user) }
+    let(:admin) { build_stubbed(:admin) }
+    let(:user) { build_stubbed(:user) }
 
     describe '#available?' do
       context 'for an admin' do

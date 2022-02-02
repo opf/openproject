@@ -30,9 +30,9 @@
 require 'spec_helper'
 
 describe ::API::Decorators::Single do
-  let(:user) { FactoryBot.create(:user, member_in_project: project, member_through_role: role) }
-  let(:project) { FactoryBot.create(:project_with_types) }
-  let(:role) { FactoryBot.create(:role, permissions: permissions) }
+  let(:user) { create(:user, member_in_project: project, member_through_role: role) }
+  let(:project) { create(:project_with_types) }
+  let(:role) { create(:role, permissions: permissions) }
   let(:permissions) { [:view_work_packages] }
   let(:model) { Object.new }
 

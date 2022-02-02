@@ -73,6 +73,11 @@ it:
       start_trial: 'Inizia la prova gratuita'
       book_now: 'Prenota ora'
       get_quote: 'Richiedi un preventivo'
+      buttons:
+        upgrade: "Upgrade now"
+        contact: "Contact us for a demo"
+      enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
+      upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
   announcements:
     show_until: Mostra fino a
     is_active: attualmente visualizzato
@@ -158,7 +163,7 @@ it:
     edit: 'Modifica l''azione personalizzata %{name}'
     execute: 'Esegui %{name}'
     upsale:
-      title: 'Le azioni personalizzate sono una funzionalità dell'' Enterprise Edition'
+      title: 'Custom actions'
       description: 'La linea personalizzata delle azioni lavora quotidianamente combinando un set di passi individuali in un bottone.'
   custom_fields:
     text_add_new_custom_field: >
@@ -257,7 +262,7 @@ it:
       irreversible: "Questa azione è irreversibile"
       confirmation: "Inserisci il nome utente del segnaposto %{name} per confermare l'eliminazione."
     upsale:
-      title: Assegna lavoro alle persone che non sono membri del progetto.
+      title: Placeholder users
       description: >
         Ci sono diversi scenari in cui vuoi assegnare lavoro a persone che non sono membri del tuo progetto. Potrebbe semplicemente essere che devi ancora assumere le persone adatte al lavoro. O che non vuoi dare accesso a quella persona alle informazioni del progetto ma vuoi comunque monitorare le mansioni che gli hai assegnato.
   prioritiies:
@@ -314,7 +319,7 @@ it:
       other: '%{count} macro-attività discendenti'
     bulk:
       could_not_be_saved: "Le seguenti macro-attività non possono essere salvate:"
-      none_could_be_saved: "None of the %{total} work packages could be updated."
+      none_could_be_saved: "Nessuna delle %{total} macro-attività può essere aggiornata."
       x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
       selected_because_descendants: "While %{selected} work packages where selected, in total %{total} work packages are affected which includes descendants."
       descendant: "descendant of selected"
@@ -749,6 +754,8 @@ it:
               group_without_name: "Non sono ammessi gruppi senza nome."
         user:
           attributes:
+            base:
+              user_limit_reached: "User limit reached. No more accounts can be created on the current plan."
             password_confirmation:
               confirmation: "Le password non corrispondono."
               format: "%{message}"
@@ -2176,7 +2183,6 @@ it:
   permission_select_custom_fields: "Seleziona campi personalizzati"
   permission_select_project_modules: "Seleziona moduli del progetto"
   permission_manage_types: "Seleziona i tipi"
-  permission_view_calendar: "Vedi calendario"
   permission_view_changesets: "Visualizza l'archivio revisioni in OpenProject"
   permission_view_commit_author_statistics: "Visualizza le statistiche dell'autore delle modifiche confermate"
   permission_view_work_package_watchers: "Vedi la lista degli osservatori"
@@ -2212,7 +2218,6 @@ it:
       archived: "Archiviato"
   project_module_activity: "Attività"
   project_module_forums: "Forum"
-  project_module_calendar: "Calendario"
   project_module_work_package_tracking: "Monitoraggio macro-attività"
   project_module_news: "Notizie"
   project_module_repository: "Archivio"
@@ -2340,6 +2345,9 @@ it:
   setting_apiv3_cors_origins: "Origini di condivisione CORS (Cross-Origin Resource Sharing) API V3 consentite"
   setting_apiv3_cors_origins_text_html: >
     Se CORS è abilitato, queste sono le origini che possono accedere alle API di OpenProject. <br/> Controlla la <a href="%{origin_link}" target="_blank">Documentazione sull'intestazione dell'origine</a> per sapere come specificare i valori previsti.
+  setting_apiv3_max_page_size: "Dimensione massima della pagina API"
+  setting_apiv3_max_page_instructions_html: >
+    Imposta la dimensione massima della pagina con cui l'API risponderà. Non sarà possibile eseguire richieste API che restituiscono più valori su una singola pagina. <br/> <strong>Attenzione:</strong> Si prega di modificare questo valore solo se sei sicuro del motivo per cui ne hai bisogno. La definizione di un valore elevato comporterà un impatto significativo sulle prestazioni, mentre un valore inferiore alle opzioni per pagina causerà errori nelle viste paginate.
   setting_apiv3_docs: "Documentazione"
   setting_apiv3_docs_enabled: "Abilita pagina di documenti"
   setting_apiv3_docs_enabled_instructions_html: >
@@ -2896,6 +2904,7 @@ it:
       schema: 'Schema'
     undisclosed:
       parent: Non divulgato - Il genitore selezionato è invisibile a causa della mancanza dei permessi.
+      ancestor: Undisclosed - The ancestor is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 'Pre-autorizzazione'

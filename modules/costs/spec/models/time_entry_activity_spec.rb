@@ -41,7 +41,7 @@ describe TimeEntryActivity, type: :model do
 
   describe '#objects_count' do
     it 'represents the count of time entries of that activity' do
-      expect { FactoryBot.create(:time_entry, activity: saved_activity) }
+      expect { create(:time_entry, activity: saved_activity) }
         .to change(saved_activity, :objects_count)
               .from(0)
               .to(1)

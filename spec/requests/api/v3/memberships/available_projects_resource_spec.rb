@@ -34,41 +34,41 @@ describe 'API v3 memberships available projects resource', type: :request do
   include API::V3::Utilities::PathHelper
 
   let(:current_user) do
-    FactoryBot.create(:user)
+    create(:user)
   end
   let(:other_user) do
-    FactoryBot.create(:user)
+    create(:user)
   end
   let(:own_member) do
-    FactoryBot.create(:member,
-                      roles: [FactoryBot.create(:role, permissions: permissions)],
+    create(:member,
+                      roles: [create(:role, permissions: permissions)],
                       project: project,
                       user: current_user)
   end
   let(:permissions) { %i[view_members manage_members] }
   let(:manage_project) do
-    FactoryBot.create(:project).tap do |p|
-      FactoryBot.create(:member,
-                        roles: [FactoryBot.create(:role, permissions: permissions)],
+    create(:project).tap do |p|
+      create(:member,
+                        roles: [create(:role, permissions: permissions)],
                         project: p,
                         user: current_user)
     end
   end
   let(:membered_project) do
-    FactoryBot.create(:project).tap do |p|
-      FactoryBot.create(:member,
-                        roles: [FactoryBot.create(:role, permissions: permissions)],
+    create(:project).tap do |p|
+      create(:member,
+                        roles: [create(:role, permissions: permissions)],
                         project: p,
                         user: current_user)
 
-      FactoryBot.create(:member,
-                        roles: [FactoryBot.create(:role, permissions: permissions)],
+      create(:member,
+                        roles: [create(:role, permissions: permissions)],
                         project: p,
                         user: other_user)
     end
   end
   let(:unauthorized_project) do
-    FactoryBot.create(:public_project)
+    create(:public_project)
   end
 
   subject(:response) { last_response }

@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'OAuth applications management', type: :feature, js: true do
-  let(:admin) { FactoryBot.create(:admin) }
+  let(:admin) { create(:admin) }
 
   before do
     login_as(admin)

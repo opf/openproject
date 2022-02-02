@@ -46,7 +46,7 @@ saml:
   icon: "auth_provider-saml.png"
 
   # omniauth-saml config
-  assertion_consumer_service_url: "https:/<YOUR OPENPROJECT HOSTNAME>/auth/saml/callback"
+  assertion_consumer_service_url: "https://<YOUR OPENPROJECT HOSTNAME>/auth/saml/callback"
   issuer: "https://<YOUR OPENPROJECT HOSTNAME>"
 
   # IF your SSL certificate on your SSO is not trusted on this machine, you need to add it here

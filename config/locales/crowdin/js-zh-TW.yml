@@ -88,9 +88,6 @@ zh-TW:
     button_export-pdf: "下載 PDF"
     button_export-atom: "下載 Atom"
     button_create: "建立"
-    calendar:
-      title: '行事曆'
-      too_many: '總共有 %{count} 個工作項目，但只有 %{max} 個可以顯示。'
     card:
       add_new: '新增卡片'
       highlighting:
@@ -213,7 +210,7 @@ zh-TW:
           resend_success: "Email has been resent. Please check your emails and click the confirmation link provided."
           resend_warning: "Could not resend email."
           session_timeout: "Your session timed out. Please try to reload the page or resend email."
-          status_label: "Status:"
+          status_label: "狀態："
           status_confirmed: "已確認"
           status_waiting: "email sent - waiting for confirmation"
           test_ee: "Test the Enterprise Edition 14 days for free"

@@ -31,7 +31,7 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 describe WorkPackage, type: :model do
   describe 'validations' do
     let(:work_package) do
-      FactoryBot.build(:work_package)
+      build(:work_package)
     end
 
     describe 'story points' do
@@ -114,15 +114,15 @@ describe WorkPackage, type: :model do
 
   describe 'definition of done' do
     before(:each) do
-      @status_resolved = FactoryBot.build(:status, name: 'Resolved', is_default: false)
-      @status_open = FactoryBot.build(:status, name: 'Open', is_default: true)
-      @project = FactoryBot.build(:project)
+      @status_resolved = build(:status, name: 'Resolved', is_default: false)
+      @status_open = build(:status, name: 'Open', is_default: true)
+      @project = build(:project)
       @project.done_statuses = [@status_resolved]
-      @project.types = [FactoryBot.build(:type_feature)]
+      @project.types = [build(:type_feature)]
 
-      @work_package = FactoryBot.build(:work_package, project: @project,
+      @work_package = build(:work_package, project: @project,
                                                       status: @status_open,
-                                                      type: FactoryBot.build(:type_feature))
+                                                      type: build(:type_feature))
     end
 
     it 'should not be done when having the initial status "open"' do
@@ -142,8 +142,8 @@ describe WorkPackage, type: :model do
   end
 
   describe 'backlogs_enabled?' do
-    let(:project) { FactoryBot.build(:project) }
-    let(:work_package) { FactoryBot.build(:work_package) }
+    let(:project) { build(:project) }
+    let(:work_package) { build(:work_package) }
 
     it 'should be false without a project' do
       work_package.project = nil

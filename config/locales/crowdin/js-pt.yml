@@ -88,9 +88,6 @@ pt:
     button_export-pdf: "Baixar PDF"
     button_export-atom: "Baixar Atom"
     button_create: "Criar"
-    calendar:
-      title: 'Calendário'
-      too_many: 'Existem %{count} pacotes de trabalho, mas apenas %{max} podem ser mostrados.'
     card:
       add_new: 'Adicionar novo cartão'
       highlighting:
@@ -183,7 +180,7 @@ pt:
         add_table: "Adicionar tabela de pacotes de trabalho relacionados"
         edit_query: 'Editar consulta'
         new_group: 'Novo grupo'
-        reset_to_defaults: 'Redefinir para os padrões'
+        reset_to_defaults: 'Voltar à configuração original'
       enterprise:
         text_reprieve_days_left: "%{days} dias até o final do período de carência"
         text_expired: "expirado"
@@ -196,7 +193,7 @@ pt:
               Concordo com os <a target="_blank" href="%{link_terms}">termos do serviço</a> e com a <a target="_blank" href="%{link_privacy}">política de privacidade</a>.
             invalid_email: "Endereço de e-mail inválido"
             label_company: "Empresa"
-            label_first_name: "Nome"
+            label_first_name: "Primeiro nome"
             label_last_name: "Sobrenome"
             label_domain: "Domínio"
             label_subscriber: "Assinante"
@@ -234,7 +231,7 @@ pt:
           button_book_now: "Reserve agora"
           confidence: >
             Fornecemos toda a segurança de um software de gestão de projetos de classe empresarial, testado e com suporte - com Open Source e mente aberta.
-          link_quote: "Fazer uma cotação"
+          link_quote: "Solicitar uma cotação"
           text: >
             O OpenProject Enterprise Edition foi construído a partir do Community Edition. Ele conta com recursos premium e suporte profissional, com foco principal em organizações com mais de 10 usuários que gerenciam projetos de negócios críticos com o OpenProject.
           unlimited: "Ilimitado"
@@ -364,13 +361,13 @@ pt:
     label_in_less_than: "em menos de"
     label_in_more_than: "em mais de"
     label_incoming_emails: "E-mails recebidos"
-    label_information_plural: "Informações"
+    label_information_plural: "Informação"
     label_import: "Importar"
     label_latest_activity: "Última atividade"
     label_last_updated_on: "Última atualização em"
     label_learn_more_link: "Saiba mais"
     label_less_or_equal: "<="
-    label_less_than_ago: "menos dias atrás"
+    label_less_than_ago: "menos do que dias atrás"
     label_loading: "Carregando..."
     label_mail_notification: "Notificações por e-mail"
     label_me: "eu"
@@ -379,7 +376,7 @@ pt:
     label_menu_collapse: "recolher"
     label_menu_expand: "expandir"
     label_more_than_ago: "mais do que dias atrás"
-    label_next: "Próxima"
+    label_next: "Próximo"
     label_no_color: "Sem cor"
     label_no_data: "Sem dados para exibir"
     label_no_due_date: "sem data de conclusão"

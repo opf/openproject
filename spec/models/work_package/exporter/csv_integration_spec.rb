@@ -35,10 +35,10 @@ describe WorkPackage::Exports::CSV, 'integration', type: :model do
     login_as current_user
   end
 
-  let(:project) { FactoryBot.create(:project) }
+  let(:project) { create(:project) }
 
   let(:current_user) do
-    FactoryBot.create(:user,
+    create(:user,
                       member_in_project: project,
                       member_with_permissions: %i(view_work_packages))
   end
@@ -58,7 +58,7 @@ describe WorkPackage::Exports::CSV, 'integration', type: :model do
   # ISO-8859-1. Since this can happen, though, it is more sensible to encode everything
   # in UTF-8 which gets rid of this problem altogether.
   let!(:work_package) do
-    FactoryBot.create(
+    create(
       :work_package,
       subject: "Ruby encodes ß as '\\xDF' in ISO-8859-1.",
       description: "\u2022 requires unicode.",

@@ -33,9 +33,9 @@ describe 'API v3 Render resource', type: :request do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:project) { FactoryBot.create(:project, public: false) }
-  let(:work_package) { FactoryBot.create(:work_package, project: project) }
-  let(:user) { FactoryBot.create(:user, member_in_project: project) }
+  let(:project) { create(:project, public: false) }
+  let(:work_package) { create(:work_package, project: project) }
+  let(:user) { create(:user, member_in_project: project) }
   let(:content_type) { 'text/plain, charset=UTF-8' }
   let(:path) { api_v3_paths.render_markup plain: plain, link: context }
   let(:context) { nil }
@@ -124,7 +124,7 @@ describe 'API v3 Render resource', type: :request do
             end
 
             describe 'work package not visible' do
-              let(:invisible_work_package) { FactoryBot.create(:work_package) }
+              let(:invisible_work_package) { create(:work_package) }
               let(:context) { api_v3_paths.work_package invisible_work_package.id }
 
               it_behaves_like 'invalid render context',

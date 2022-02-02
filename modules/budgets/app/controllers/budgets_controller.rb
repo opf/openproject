@@ -239,8 +239,8 @@ class BudgetsController < ApplicationController
     }
 
     if current_user.allowed_to?(permission, project)
-      response["#{element_id}_costs_text"] = number_to_currency(costs)
-      response["#{element_id}_cost_value"] = unitless_currency_number(costs)
+      response["#{element_id}_costs"] = number_to_currency(costs)
+      response["#{element_id}_cost_value"] = response["#{element_id}_amount"] = unitless_currency_number(costs)
     end
 
     response

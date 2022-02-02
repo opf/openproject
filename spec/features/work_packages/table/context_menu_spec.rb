@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe 'Work package table context menu', js: true do
-  let(:user) { FactoryBot.create(:admin) }
-  let(:work_package) { FactoryBot.create(:work_package) }
+  let(:user) { create(:admin) }
+  let(:work_package) { create(:work_package) }
 
   let(:wp_table) { Pages::WorkPackagesTable.new }
   let(:wp_timeline) { Pages::WorkPackagesTimeline.new(work_package.project) }
@@ -88,7 +88,7 @@ describe 'Work package table context menu', js: true do
     end
 
     context 'for multiple selected WPs' do
-      let!(:work_package2) { FactoryBot.create(:work_package) }
+      let!(:work_package2) { create(:work_package) }
 
       it 'provides a context menu with a subset of the available menu items' do
         # Go to table
@@ -132,11 +132,11 @@ describe 'Work package table context menu', js: true do
     end
 
     describe 'creating work packages' do
-      let!(:priority) { FactoryBot.create :issue_priority, is_default: true }
-      let!(:status) { FactoryBot.create :default_status }
-      let!(:type) { FactoryBot.create :type_task }
-      let!(:project) { FactoryBot.create :project, types: [type] }
-      let!(:work_package) { FactoryBot.create :work_package, project: project, type: type, status: status, priority: priority }
+      let!(:priority) { create :issue_priority, is_default: true }
+      let!(:status) { create :default_status }
+      let!(:type) { create :type_task }
+      let!(:project) { create :project, types: [type] }
+      let!(:work_package) { create :work_package, project: project, type: type, status: status, priority: priority }
       let(:wp_table) { Pages::WorkPackagesTable.new project }
 
       it 'can create a new child from the context menu (Regression #33329)' do

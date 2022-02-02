@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe ::API::V3::Categories::CategoryCollectionRepresenter do
-  let(:categories) { FactoryBot.build_list(:category, 3) }
+  let(:categories) { build_list(:category, 3) }
   let(:representer) do
     described_class.new(categories,
                         self_link: '/api/v3/projects/1/categories',

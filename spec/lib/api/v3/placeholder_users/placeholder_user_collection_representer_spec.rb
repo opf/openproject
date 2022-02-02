@@ -35,10 +35,10 @@ describe ::API::V3::PlaceholderUsers::PlaceholderUserCollectionRepresenter do
   let(:page) { 1 }
   let(:page_size) { 2 }
   let(:actual_count) { 3 }
-  let(:current_user) { FactoryBot.build_stubbed :user }
+  let(:current_user) { build_stubbed :user }
 
   let(:placeholders) do
-    placeholders = FactoryBot.build_stubbed_list(:placeholder_user,
+    placeholders = build_stubbed_list(:placeholder_user,
                                           actual_count)
     allow(placeholders)
       .to receive(:per_page)

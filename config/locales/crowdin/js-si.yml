@@ -88,9 +88,6 @@ si:
     button_export-pdf: "PDF බාගන්න"
     button_export-atom: "බාගත කරන්න පරමාණුව"
     button_create: "සාදන්න"
-    calendar:
-      title: 'දින දර්ශනය'
-      too_many: 'සම්පූර්ණ වැඩ පැකේජ %{count} ක් ඇත, නමුත් පෙන්විය හැක්කේ %{max} පමණි.'
     card:
       add_new: 'නව කාඩ් එකතු කරන්න'
       highlighting:

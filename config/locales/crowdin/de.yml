@@ -73,6 +73,11 @@ de:
       start_trial: 'Kostenlose Testversion starten'
       book_now: 'Jetzt buchen'
       get_quote: 'Angebot anfordern'
+      buttons:
+        upgrade: "Upgrade now"
+        contact: "Contact us for a demo"
+      enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
+      upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
   announcements:
     show_until: Anzeigen bis
     is_active: derzeit angezeigt
@@ -158,7 +163,7 @@ de:
     edit: 'Benutzerdefinierte Aktion %{name} bearbeiten'
     execute: '%{name} ausführen'
     upsale:
-      title: 'Benutzerdefinierte Aktionen ist eine Enterprise Edition-Funktion'
+      title: 'Custom actions'
       description: 'Benutzerdefinierte Aktionen optimieren tägliche Arbeit durch die Abarbeitung einer Reihe von Einzelschritten in einen Knopf.'
   custom_fields:
     text_add_new_custom_field: >
@@ -257,7 +262,7 @@ de:
       irreversible: "Dieser Vorgang kann nicht rückgängig gemacht werden"
       confirmation: "Geben Sie den Namen des Platzhalter-Benutzers %{name} ein, um die Löschung zu bestätigen."
     upsale:
-      title: Weisen Sie Arbeit Personen zu, die nicht Mitglieder des Projekts sind
+      title: Placeholder users
       description: >
         Es gibt mehrere Szenarien, in denen Sie Personen Arbeit zuweisen möchten, die nicht Mitglied Ihres Projekts sind. Es könnte einfach sein, dass Sie immer noch die richtige Person für den Job einstellen müssen. Oder Sie wollen dieser Person keinen Zugriff auf die Projektinformationen gewähren, aber dennoch die dieser Person zugewiesenen Tracking-Aufgaben aufweisen.
   prioritiies:
@@ -747,6 +752,8 @@ de:
               group_without_name: "Unbenannte Gruppen sind nicht erlaubt."
         user:
           attributes:
+            base:
+              user_limit_reached: "User limit reached. No more accounts can be created on the current plan."
             password_confirmation:
               confirmation: "Passwort und Bestätigung stimmt nicht überein."
               format: "%{message}"
@@ -2174,7 +2181,6 @@ de:
   permission_select_custom_fields: "Benutzerdefinierte Felder verwalten"
   permission_select_project_modules: "Projektmodule auswählen"
   permission_manage_types: "Typen auswählen"
-  permission_view_calendar: "Kalender ansehen"
   permission_view_changesets: "Revisionen des Projektarchivs in OpenProject ansehen"
   permission_view_commit_author_statistics: "Commit Autor Statistiken ansehen"
   permission_view_work_package_watchers: "Liste der Beobachter ansehen"
@@ -2210,7 +2216,6 @@ de:
       archived: "Archiviert"
   project_module_activity: "Aktivität"
   project_module_forums: "Foren"
-  project_module_calendar: "Kalender"
   project_module_work_package_tracking: "Arbeitspakete-Verfolgung"
   project_module_news: "Nachrichten"
   project_module_repository: "Projektarchiv"
@@ -2338,6 +2343,9 @@ de:
   setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) erlaubte Origins"
   setting_apiv3_cors_origins_text_html: >
     Wenn CORS aktiviert ist, sind dies die Origins, die auf die OpenProject API zugreifen dürfen. <br/> Bitte überprüfen Sie die <a href="%{origin_link}" target="_blank">Dokumentation über den Origin Header</a>, wie die Werte anzugeben sind.
+  setting_apiv3_max_page_size: "Maximum API page size"
+  setting_apiv3_max_page_instructions_html: >
+    Set the maximum page size the API will respond with. It will not be possible to perform API requests that return more values on a single page. <br/> <strong>Warning:</strong> Please only change this value if you are sure why you need it. Setting to a high value will result in significant performance impacts, while a value lower than the per page options will cause errors in paginated views.
   setting_apiv3_docs: "Dokumentation"
   setting_apiv3_docs_enabled: "Dokumentationsseite aktivieren"
   setting_apiv3_docs_enabled_instructions_html: >
@@ -2894,6 +2902,7 @@ de:
       schema: 'Schema'
     undisclosed:
       parent: Unbekannt - Das ausgewählte Elternelement ist wegen fehlender Berechtigungen nicht sichtbar.
+      ancestor: Undisclosed - The ancestor is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 'Vorab-Autorisierung'

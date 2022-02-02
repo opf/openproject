@@ -30,17 +30,17 @@ require 'spec_helper'
 
 feature 'project settings index', type: :feature do
   let(:user) do
-    FactoryBot.create(:user,
+    create(:user,
                       member_in_project: project,
                       member_with_permissions: %i[manage_versions])
   end
-  let(:project) { FactoryBot.create(:project) }
-  let!(:version1) { FactoryBot.create(:version, name: "aaaaa 1.", project: project) }
-  let!(:version2) { FactoryBot.create(:version, name: "aaaaa", project: project) }
-  let!(:version3) { FactoryBot.create(:version, name: "1.10. aaa", project: project) }
-  let!(:version4) { FactoryBot.create(:version, name: "1.1. zzz", project: project) }
-  let!(:version5) { FactoryBot.create(:version, name: "1.2. mmm", project: project) }
-  let!(:version6) { FactoryBot.create(:version, name: "1. xxxx", project: project) }
+  let(:project) { create(:project) }
+  let!(:version1) { create(:version, name: "aaaaa 1.", project: project) }
+  let!(:version2) { create(:version, name: "aaaaa", project: project) }
+  let!(:version3) { create(:version, name: "1.10. aaa", project: project) }
+  let!(:version4) { create(:version, name: "1.1. zzz", project: project) }
+  let!(:version5) { create(:version, name: "1.2. mmm", project: project) }
+  let!(:version6) { create(:version, name: "1. xxxx", project: project) }
 
   before do
     login_as(user)

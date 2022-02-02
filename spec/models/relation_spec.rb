@@ -30,10 +30,10 @@
 require 'spec_helper'
 
 describe Relation, type: :model do
-  let(:from) { FactoryBot.create(:work_package) }
-  let(:to) { FactoryBot.create(:work_package) }
+  let(:from) { create(:work_package) }
+  let(:to) { create(:work_package) }
   let(:type) { 'relates' }
-  let(:relation) { FactoryBot.build(:relation, from: from, to: to, relation_type: type) }
+  let(:relation) { build(:relation, from: from, to: to, relation_type: type) }
 
   describe 'all relation types' do
     Relation::TYPES.each do |key, type_hash|
@@ -66,7 +66,7 @@ describe Relation, type: :model do
       let(:type) { key }
       let(:reversed) { type_hash[:reverse] }
       let(:relation) do
-        FactoryBot.build_stubbed(:relation,
+        build_stubbed(:relation,
                                  relation_type: nil,
                                  column_name => column_count)
       end
@@ -105,7 +105,7 @@ describe Relation, type: :model do
           end
         end
         let(:relation) do
-          FactoryBot.build_stubbed(:relation,
+          build_stubbed(:relation,
                                    relation_type: nil,
                                    column_name => 1,
                                    other_column => 1)
@@ -173,77 +173,21 @@ describe Relation, type: :model do
     end
   end
 
-  describe '.visible' do
-    let(:user) { FactoryBot.create(:user) }
-    let(:role) { FactoryBot.create(:role, permissions: [:view_work_packages]) }
-    let(:member_project_to) do
-      FactoryBot.create(:member,
-                        project: to.project,
-                        user: user,
-                        roles: [role])
-    end
-
-    let(:member_project_from) do
-      FactoryBot.create(:member,
-                        project: from.project,
-                        user: user,
-                        roles: [role])
-    end
-
-    before do
-      relation.save!
-    end
-
-    context 'user can see both work packages' do
-      before do
-        member_project_to
-        member_project_from
-      end
-
-      it 'returns the relation' do
-        expect(Relation.visible(user))
-          .to match_array([relation])
-      end
-    end
-
-    context 'user can see only the from work packages' do
-      before do
-        member_project_from
-      end
-
-      it 'does not return the relation' do
-        expect(Relation.visible(user))
-          .to be_empty
-      end
-    end
-
-    context 'user can see only the to work packages' do
-      before do
-        member_project_to
-      end
-
-      it 'does not return the relation' do
-        expect(Relation.visible(user))
-          .to be_empty
-      end
-    end
-  end
-
   describe 'it should validate circular dependency' do
-    let(:otherwp) { FactoryBot.create(:work_package) }
+    let(:otherwp) { create(:work_package) }
     let(:relation) do
-      FactoryBot.build(:relation, from: from, to: to, relation_type: Relation::TYPE_PRECEDES)
+      build(:relation, from: from, to: to, relation_type: Relation::TYPE_PRECEDES)
     end
     let(:relation2) do
-      FactoryBot.build(:relation, from: to, to: otherwp, relation_type: Relation::TYPE_PRECEDES)
+      build(:relation, from: to, to: otherwp, relation_type: Relation::TYPE_PRECEDES)
     end
 
     let(:invalid_precedes_relation) do
-      FactoryBot.build(:relation, from: otherwp, to: from, relation_type: Relation::TYPE_PRECEDES)
+      build(:relation, from: otherwp, to: from, relation_type: Relation::TYPE_PRECEDES)
     end
 
     let(:invalid_follows_relation) do
-      FactoryBot.build(:relation, from: from, to: otherwp, relation_type: Relation::TYPE_FOLLOWS)
+      build(:relation, from: from, to: otherwp, relation_type: Relation::TYPE_FOLLOWS)
     end
 
     it 'prevents invalid precedes relations' do

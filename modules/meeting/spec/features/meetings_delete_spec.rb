@@ -29,20 +29,20 @@
 require 'spec_helper'
 
 describe 'Meetings deletion', type: :feature do
-  let(:project) { FactoryBot.create :project, enabled_module_names: %w[meetings] }
+  let(:project) { create :project, enabled_module_names: %w[meetings] }
   let(:user) do
-    FactoryBot.create(:user,
+    create(:user,
                       member_in_project: project,
                       member_with_permissions: permissions)
   end
   let(:other_user) do
-    FactoryBot.create(:user,
+    create(:user,
                       member_in_project: project,
                       member_with_permissions: permissions)
   end
 
-  let!(:meeting) { FactoryBot.create :meeting, project: project, title: 'Own awesome meeting!', author: user }
-  let!(:other_meeting) { FactoryBot.create :meeting, project: project, title: 'Other awesome meeting!', author: other_user }
+  let!(:meeting) { create :meeting, project: project, title: 'Own awesome meeting!', author: user }
+  let!(:other_meeting) { create :meeting, project: project, title: 'Other awesome meeting!', author: other_user }
 
   before do
     login_as(user)

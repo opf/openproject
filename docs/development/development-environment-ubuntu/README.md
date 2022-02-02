@@ -26,7 +26,7 @@ sudo apt-get install git curl build-essential zlib1g-dev libyaml-dev libssl-dev 
 
 ## Install Ruby
 
-Use [rbenv](https://github.com/rbenv/rbenv) and [ruby-build](https://github.com/rbenv/ruby-build#readme) to install Ruby. We always require the latest ruby versions, and you can check which version is required by [checking the Gemfile](https://github.com/opf/openproject/blob/dev/Gemfile#L31) for the `ruby "~> X.Y"` statement. At the time of writing, this version is "2.7.5"
+Use [rbenv](https://github.com/rbenv/rbenv) and [ruby-build](https://github.com/rbenv/ruby-build#readme) to install Ruby. We always require the latest ruby versions, and you can check which version is required by [checking the Gemfile](https://github.com/opf/openproject/blob/dev/Gemfile#L31) for the `ruby "~> X.Y"` statement. At the time of writing, this version is "3.0.3"
 
 ### Install rbenv and ruby-build
 
@@ -57,23 +57,23 @@ ruby-build is an addon to rbenv that installs ruby versions
 git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build
 ```
 
-### Installing ruby-2.7
+### Installing ruby-3.0
 
-With both installed, we can now install the actual ruby version 2.7. You can check available ruby versions with `rbenv install --list`.
-At the time of this writing, the latest stable version is `2.7.5`, which we also require.
+With both installed, we can now install the actual ruby version 3.0. You can check available ruby versions with `rbenv install --list`.
+At the time of this writing, the latest stable version is `3.0.3` which we also require.
 
 We suggest you install the version we require in the [Gemfile](https://github.com/opf/openproject/blob/dev/Gemfile). Search for the `ruby '~> X.Y.Z'` line
 and install that version.
 
 ```bash
 # Install the required version as read from the Gemfile
-rbenv install 2.7.5
+rbenv install 3.0.3
 ```
 
 This might take a while depending on whether ruby is built from source. After it is complete, you need to tell rbenv to globally activate this version
 
 ```bash
-rbenv global 2.7.5
+rbenv global 3.0.3
 rbenv rehash
 ```
 
@@ -159,7 +159,7 @@ You should now have an active ruby and node installation. Verify that it works w
 
 ```bash
 ruby --version
-ruby 2.7.5p203 (2021-11-24 revision f69aeb8314) [x86_64-linux]
+ruby 3.0.3p157 (2021-11-24 revision 3fb7d2cadc) [x86_64-darwin20]
 
 bundler --version
 Bundler version 2.2.33
@@ -267,7 +267,7 @@ To run OpenProject manually, you need to run the rails server and the webpack fr
 ### Rails web server
 
 ```bash
-RAILS_ENV=development ./bin/rails server
+RAILS_ENV=development bin/rails server
 ```
 
 This will start the development server on port `3000` by default.
@@ -284,6 +284,21 @@ This will watch for any changes within the `frontend/` and compile the applicati
 should you be working on the TypeScript / Angular frontend part.
 
 You can then access the application either through `localhost:3000` (Rails server) or through the frontend proxied `http://localhost:4200`, which will provide hot reloading for changed frontend code.
+
+### Delayed Job background worker
+
+```bash
+RAILS_ENV=development bin/rails jobs:work
+```
+
+This will start a Delayed::Job worker to perform asynchronous jobs like sending emails.
+
+**Note:** If you haven't run this command for a while, chances are that a lot of background jobs have queued up and might cause a significant amount of open tabs (due to the way we deliver mails with the letter_opener gem). To get rid of the jobs before starting the worker, use the following command. **This will remove all currently scheduled jobs, never use this in a production setting.**
+
+```bash
+RAILS_ENV=development bin/rails runner "Delayed::Job.delete_all"
+```
+
 
 ## Start Coding
 

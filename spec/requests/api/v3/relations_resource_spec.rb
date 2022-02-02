@@ -33,36 +33,36 @@ describe 'API v3 Relation resource', type: :request do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:project) { FactoryBot.create(:project_with_types) }
+  let(:project) { create(:project_with_types) }
   let(:current_user) do
-    FactoryBot.create(:user,
+    create(:user,
                       member_in_project: project,
                       member_through_role: role)
   end
   let(:permissions) { [] }
-  let(:role) { FactoryBot.create(:role, permissions: permissions) }
+  let(:role) { create(:role, permissions: permissions) }
 
   let(:work_package) do
-    FactoryBot.create(:work_package,
+    create(:work_package,
                       project: project,
                       type: project.types.first)
   end
   let(:visible_work_package) do
-    FactoryBot.create(:work_package,
+    create(:work_package,
                       project: project,
                       type: project.types.first)
   end
   let(:invisible_work_package) do
     # will be inside another project
-    FactoryBot.create(:work_package)
+    create(:work_package)
   end
   let(:visible_relation) do
-    FactoryBot.create(:relation,
+    create(:relation,
                       from: work_package,
                       to: visible_work_package)
   end
   let(:invisible_relation) do
-    FactoryBot.create(:relation,
+    create(:relation,
                       from: work_package,
                       to: invisible_work_package)
   end

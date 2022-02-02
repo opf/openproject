@@ -49,7 +49,7 @@ FactoryBot.define do
       project.enabled_module_names = project.enabled_module_names - disabled_modules
 
       if !evaluator.no_types && project.types.empty?
-        project.types << (::Type.where(is_standard: true).first || FactoryBot.build(:type_standard))
+        project.types << (::Type.where(is_standard: true).first || build(:type_standard))
       end
     end
 
@@ -77,9 +77,9 @@ FactoryBot.define do
       # when we will be setting the type later on anyway
       initialize_with do
         types = if instance_variable_get(:@build_strategy).is_a?(FactoryBot::Strategy::Stub)
-                  [FactoryBot.build_stubbed(:type)]
+                  [build_stubbed(:type)]
                 else
-                  [FactoryBot.build(:type)]
+                  [build(:type)]
                 end
 
         new(types: types)
@@ -87,7 +87,7 @@ FactoryBot.define do
 
       factory :valid_project do
         callback(:after_build) do |project|
-          project.types << FactoryBot.build(:type_with_workflow)
+          project.types << build(:type_with_workflow)
         end
       end
     end

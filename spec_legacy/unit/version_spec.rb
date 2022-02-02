@@ -150,8 +150,8 @@ describe Version, type: :model do
   context '#behind_schedule?' do
     before do
       ProjectCustomField.destroy_all # Custom values are a mess to isolate in tests
-      @project = FactoryBot.create(:project, identifier: 'test0')
-      @project.types << FactoryBot.create(:type)
+      @project = create(:project, identifier: 'test0')
+      @project.types << create(:type)
 
       (@version = Version.new.tap do |v|
         v.attributes = { project: @project, effective_date: nil, name: 'test' }
@@ -170,8 +170,8 @@ describe Version, type: :model do
     it 'should be false if all of the issues are ahead of schedule' do
       @version.update_attribute(:effective_date, 7.days.from_now.to_date)
       @version.work_packages = [
-        FactoryBot.create(:work_package, project: @project, start_date: 7.days.ago, done_ratio: 60), # 14 day span, 60% done, 50% time left
-        FactoryBot.create(:work_package, project: @project, start_date: 7.days.ago, done_ratio: 60) # 14 day span, 60% done, 50% time left
+        create(:work_package, project: @project, start_date: 7.days.ago, done_ratio: 60), # 14 day span, 60% done, 50% time left
+        create(:work_package, project: @project, start_date: 7.days.ago, done_ratio: 60) # 14 day span, 60% done, 50% time left
       ]
       assert_equal 60, @version.completed_percent
       assert_equal false, @version.behind_schedule?
@@ -181,8 +181,8 @@ describe Version, type: :model do
       @version.update_attribute(:start_date, 7.days.ago.to_date)
       @version.update_attribute(:effective_date, 7.days.from_now.to_date)
       @version.work_packages = [
-        FactoryBot.create(:work_package, project: @project, start_date: 7.days.ago, done_ratio: 60), # 14 day span, 60% done, 50% time left
-        FactoryBot.create(:work_package, project: @project, start_date: 7.days.ago, done_ratio: 20) # 14 day span, 20% done, 50% time left
+        create(:work_package, project: @project, start_date: 7.days.ago, done_ratio: 60), # 14 day span, 60% done, 50% time left
+        create(:work_package, project: @project, start_date: 7.days.ago, done_ratio: 20) # 14 day span, 20% done, 50% time left
       ]
       assert_equal 40, @version.completed_percent
       assert_equal true, @version.behind_schedule?
@@ -191,8 +191,8 @@ describe Version, type: :model do
     it 'should be false if all of the issues are complete' do
       @version.update_attribute(:effective_date, 7.days.from_now.to_date)
       @version.work_packages = [
-        FactoryBot.create(:work_package, project: @project, start_date: 14.days.ago, done_ratio: 100, status: Status.find(5)), # 7 day span
-        FactoryBot.create(:work_package, project: @project, start_date: 14.days.ago, done_ratio: 100, status: Status.find(5)) # 7 day span
+        create(:work_package, project: @project, start_date: 14.days.ago, done_ratio: 100, status: Status.find(5)), # 7 day span
+        create(:work_package, project: @project, start_date: 14.days.ago, done_ratio: 100, status: Status.find(5)) # 7 day span
       ]
       assert_equal 100, @version.completed_percent
       assert_equal false, @version.behind_schedule?

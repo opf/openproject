@@ -51,7 +51,7 @@ module Components
       end
 
       def autocompleter_item_selector
-        '.op-sidemenu--item-action'
+        '.op-sidemenu--item-title'
       end
 
       def autocompleter_selector

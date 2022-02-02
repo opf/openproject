@@ -60,7 +60,7 @@ describe WikiPages::CreateContract do
 
     describe '#validation' do
       context 'if the author is different from the current user' do
-        let(:page_author) { FactoryBot.build_stubbed(:user) }
+        let(:page_author) { build_stubbed(:user) }
 
         it 'is invalid' do
           expect_valid(false, author: :not_current_user)
