@@ -31,7 +31,7 @@ require 'spec_helper'
 describe 'API v3 file links resource', type: :request do
   include API::V3::Utilities::PathHelper
 
-  let(:permissions) { %i(view_work_packages) }
+  let(:permissions) { %i(view_work_packages view_file_links) }
   let(:project) { create(:project) }
 
   let(:current_user) do
@@ -90,6 +90,18 @@ describe 'API v3 file links resource', type: :request do
 
     it 'is successful' do
       expect(subject.status).to be 200
+    end
+
+    context 'if user has not sufficient permissions' do
+      let(:permissions) { %i(view_work_packages) }
+
+      it_behaves_like 'not found'
+    end
+
+    context 'if no storage with that id exists' do
+      let(:path) { api_v3_paths.file_link(work_package.id, 1337) }
+
+      it_behaves_like 'not found'
     end
   end
 

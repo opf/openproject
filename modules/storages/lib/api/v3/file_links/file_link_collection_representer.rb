@@ -29,40 +29,7 @@
 module API
   module V3
     module FileLinks
-      class FileLinksAPI < ::API::OpenProjectAPI
-        helpers do
-          def visible_file_links_scope
-            ::Storages::FileLink.visible(current_user)
-          end
-        end
-
-        resources :file_links do
-          # get &::API::V3::Utilities::Endpoints::Index
-          #        .new(model: ::Storages::FileLink, scope: -> { visible_file_links_scope })
-          #        .mount
-          get do
-            raise ::API::Errors::NotImplemented
-          end
-
-          post do
-            raise ::API::Errors::NotImplemented
-          end
-
-          route_param :file_link_id, type: Integer, desc: 'File link id' do
-            after_validation do
-              @file_link = visible_file_links_scope.find(params[:file_link_id])
-            end
-
-            get &::API::V3::Utilities::Endpoints::Show.new(model: ::Storages::FileLink).mount
-
-            delete do
-              raise ::API::Errors::NotImplemented
-            end
-
-            mount ::API::V3::FileLinks::FileLinksDownloadAPI
-            mount ::API::V3::FileLinks::FileLinksOpenAPI
-          end
-        end
+      class FileLinkCollectionRepresenter < ::API::Decorators::OffsetPaginatedCollection
       end
     end
   end
