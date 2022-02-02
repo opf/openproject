@@ -1,23 +1,25 @@
 <spot-drop-modal
-  [open]="open"
+  [open]="opened"
   alignment="bottom-right"
-  (closed)="open = false"
+  (closed)="opened = false"
 >
   <button
     slot="trigger"
     type="button"
     class="button"
-    (click)="open = !open"
+    (click)="toggleOpen()"
   >Include projects</button>
 
   <ng-container slot="body">
     <form
-      [formGroup]="form"
-      (ngSubmit)="onSubmit($event)"
+      (submit)="onSubmit"
+      class="spot-body"
     >
       <spot-text-field
         placeholder="Search project..."
-        formControlName="query"
+        [(ngModel)]="query"
+        [ngModelOptions]="{ standalone: true }"
+        (input)="searchProjects()"
       >
         <span
           slot="before"
@@ -26,18 +28,38 @@
       </spot-text-field>
 
       <ul class="spot-list">
-        <li class="spot-list--item">
+        <li
+          class="spot-list--item"
+          *ngFor="let project of (projects$ | async)"
+        >
           <label class="spot-list--item-action">
             <spot-checkbox></spot-checkbox>
-            <div class="spot-list--item-title">Checkbox item</div>
+            <div class="spot-list--item-title">{{ project.name }}</div>
           </label>
+          <ul
+            *ngIf="project.children.length"
+            class="spot-list"
+          >
+            <li
+              class="spot-list--item"
+              *ngFor="let project of (project.children | async)"
+            >
+              <label class="spot-list--item-action">
+                <spot-checkbox></spot-checkbox>
+                <div class="spot-list--item-title">{{ project.name }}</div>
+              </label>
+            </li>
+          </ul>
         </li>
       </ul>
 
       <div class="spot-action-bar">
         <div class="spot-action-bar--left">
           <label>
-            <spot-checkbox formControlName="includeSubProjects"></spot-checkbox>
+            <spot-checkbox
+              [(ngModel)]="includeSubProjects"
+              [ngModelOptions]="{ standalone: true }"
+            ></spot-checkbox>
             <div class="spot-list--item-title">Include all sub-projects</div>
           </label>
         </div>
