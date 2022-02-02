@@ -9,8 +9,8 @@
     position: absolute
     background: $spot-color-basic-white
     border-radius: 5px
-    display: none
-    flex-direction: column
+    pointer-events: none
+    opacity: 0
 
     &_bottom-center
       top: 100%
@@ -39,4 +39,5 @@
       right: 0%
 
   &_opened &--body
-    display: flex
+    pointer-events: all
+    opacity: 1
