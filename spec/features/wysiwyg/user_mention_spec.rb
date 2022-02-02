@@ -37,9 +37,9 @@ describe 'Wysiwyg work package user mentions',
   let!(:group_role) { create(:role) }
   let!(:group_member) do
     create(:member,
-                      principal: group,
-                      project: project,
-                      roles: [group_role])
+           principal: group,
+           project: project,
+           roles: [group_role])
   end
   let(:project) { create(:project, enabled_module_names: %w[work_package_tracking]) }
   let!(:work_package) do

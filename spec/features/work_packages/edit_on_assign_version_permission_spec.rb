@@ -4,10 +4,10 @@ require 'features/page_objects/notification'
 describe 'edit work package', js: true do
   let(:current_user) do
     create :user,
-                      firstname: 'Dev',
-                      lastname: 'Guy',
-                      member_in_project: project,
-                      member_with_permissions: permissions
+           firstname: 'Dev',
+           lastname: 'Guy',
+           member_in_project: project,
+           member_with_permissions: permissions
   end
   let(:permissions) { %i[view_work_packages assign_versions] }
 
@@ -19,10 +19,10 @@ describe 'edit work package', js: true do
   let(:project) { create(:project, types: [type]) }
   let(:work_package) do
     create(:work_package,
-                      author: current_user,
-                      project: project,
-                      type: type,
-                      created_at: 5.days.ago.to_date.to_s(:db))
+           author: current_user,
+           project: project,
+           type: type,
+           created_at: 5.days.ago.to_date.to_s(:db))
   end
   let(:status) { work_package.status }
 

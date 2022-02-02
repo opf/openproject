@@ -16,8 +16,8 @@ describe 'new work package', js: true do
   let(:permissions) { %i[view_work_packages add_work_packages edit_work_packages] }
   let(:user) do
     create(:user,
-                      member_in_project: project,
-                      member_with_permissions: permissions)
+           member_in_project: project,
+           member_with_permissions: permissions)
   end
 
   let(:work_packages_page) { WorkPackagesPage.new(project) }
@@ -185,8 +185,8 @@ describe 'new work package', js: true do
         let(:type_task) { create(:type_task, custom_fields: custom_fields) }
         let(:project) do
           create(:project,
-                            types: types,
-                            work_package_custom_fields: custom_fields)
+                 types: types,
+                 work_package_custom_fields: custom_fields)
         end
 
         it do
@@ -428,10 +428,10 @@ describe 'new work package', js: true do
   context 'creating child work packages' do
     let!(:parent) do
       create(:work_package,
-                        project: project,
-                        author: user,
-                        start_date: Date.today - 5.days,
-                        due_date: Date.today + 5.days)
+             project: project,
+             author: user,
+             start_date: Date.today - 5.days,
+             due_date: Date.today + 5.days)
     end
     let(:context_menu) { Components::WorkPackages::ContextMenu.new }
     let(:split_create_page) { Pages::SplitWorkPackageCreate.new(project: project) }

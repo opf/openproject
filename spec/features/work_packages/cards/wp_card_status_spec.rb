@@ -34,10 +34,10 @@ describe 'Update status from WP card', type: :feature, js: true do
   end
   let(:manager) do
     create :user,
-                      firstname: 'Manager',
-                      lastname: 'Guy',
-                      member_in_project: project,
-                      member_through_role: manager_role
+           firstname: 'Manager',
+           lastname: 'Guy',
+           member_in_project: project,
+           member_through_role: manager_role
   end
   let(:status1) { create :status }
   let(:status2) { create :status }
@@ -46,18 +46,18 @@ describe 'Update status from WP card', type: :feature, js: true do
   let!(:project) { create(:project, types: [type]) }
   let!(:work_package) do
     create(:work_package,
-                      project: project,
-                      type: type,
-                      status: status1,
-                      subject: 'Foobar')
+           project: project,
+           type: type,
+           status: status1,
+           subject: 'Foobar')
   end
 
   let!(:workflow) do
     create :workflow,
-                      type_id: type.id,
-                      old_status: status1,
-                      new_status: status2,
-                      role: manager_role
+           type_id: type.id,
+           old_status: status1,
+           new_status: status2,
+           role: manager_role
   end
 
   let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }

@@ -36,13 +36,13 @@ describe ::API::V3::Projects::UpdateFormAPI, content_type: :json do
 
   let(:project) do
     create(:project,
-                      "custom_field_#{text_custom_field.id}": "CF text",
-                      "custom_field_#{list_custom_field.id}": list_custom_field.custom_options.first)
+           "custom_field_#{text_custom_field.id}": "CF text",
+           "custom_field_#{list_custom_field.id}": list_custom_field.custom_options.first)
   end
   let(:current_user) do
     create(:user,
-                      member_in_project: project,
-                      member_with_permissions: permissions)
+           member_in_project: project,
+           member_with_permissions: permissions)
   end
   let(:text_custom_field) do
     create(:text_project_custom_field)
@@ -53,9 +53,9 @@ describe ::API::V3::Projects::UpdateFormAPI, content_type: :json do
   let(:viable_parent_project) do
     create(:project).tap do |p|
       create(:member,
-                        project: p,
-                        principal: current_user,
-                        roles: [parent_project_role])
+             project: p,
+             principal: current_user,
+             roles: [parent_project_role])
     end
   end
   let(:parent_project_role) do

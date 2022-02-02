@@ -4,14 +4,14 @@ require 'features/page_objects/notification'
 describe 'Upload attachment to work package', js: true do
   let(:role) do
     create :role,
-                      permissions: %i[view_work_packages add_work_packages edit_work_packages]
+           permissions: %i[view_work_packages add_work_packages edit_work_packages]
   end
   let(:dev) do
     create :user,
-                      firstname: 'Dev',
-                      lastname: 'Guy',
-                      member_in_project: project,
-                      member_through_role: role
+           firstname: 'Dev',
+           lastname: 'Guy',
+           member_in_project: project,
+           member_through_role: role
   end
   let(:project) { create(:project) }
   let(:work_package) { create(:work_package, project: project, description: 'Initial description') }
@@ -51,7 +51,7 @@ describe 'Upload attachment to work package', js: true do
       context 'with a user that is not allowed to add images (Regression #28541)' do
         let(:role) do
           create :role,
-                            permissions: %i[view_work_packages add_work_packages add_work_package_notes]
+                 permissions: %i[view_work_packages add_work_packages add_work_package_notes]
         end
         let(:selector) { '.work-packages--activity--add-comment' }
         let(:comment_field) do

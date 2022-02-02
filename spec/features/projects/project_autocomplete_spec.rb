@@ -33,21 +33,21 @@ describe 'Projects autocomplete page', type: :feature, js: true do
 
   let!(:project) do
     create(:project,
-                      name: 'Plain project',
-                      identifier: 'plain-project')
+           name: 'Plain project',
+           identifier: 'plain-project')
   end
 
   let!(:project2) do
     create(:project,
-                      name: '<strong>foobar</strong>',
-                      identifier: 'foobar')
+           name: '<strong>foobar</strong>',
+           identifier: 'foobar')
   end
 
   let!(:project3) do
     create(:project,
-                      name: 'Plain other project',
-                      parent: project2,
-                      identifier: 'plain-project-2')
+           name: 'Plain other project',
+           parent: project2,
+           identifier: 'plain-project-2')
   end
 
   let!(:other_projects) do

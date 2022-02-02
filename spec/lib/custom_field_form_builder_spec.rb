@@ -191,7 +191,7 @@ describe CustomFieldFormBuilder do
     context 'for a list custom field' do
       let(:custom_field) do
         build_stubbed(:list_wp_custom_field,
-                                 custom_options: [custom_option])
+                      custom_options: [custom_option])
       end
       let(:custom_option) do
         build_stubbed(:custom_option, value: 'my_option')

@@ -118,7 +118,7 @@ shared_examples 'work package relations tab', js: true, selenium: true do
         type_field.set_value type2.name
 
         wp_page.expect_toast message: "#{custom_field.name} can't be blank.",
-                                    type: 'error'
+                             type: 'error'
 
         cf_field = wp_page.edit_field("customField#{custom_field.id}")
         cf_field.expect_active!
@@ -128,7 +128,7 @@ shared_examples 'work package relations tab', js: true, selenium: true do
         cf_field.save!
 
         wp_page.expect_toast message: "Successful update.",
-                                    type: 'success'
+                             type: 'success'
 
         wp.reload
         expect(wp.custom_value_for(custom_field).value).to eq 'my value'
@@ -167,15 +167,15 @@ shared_examples 'work package relations tab', js: true, selenium: true do
 
     let!(:relation_1) do
       create :relation,
-                        from: work_package,
-                        to: to_1,
-                        relation_type: Relation::TYPE_FOLLOWS
+             from: work_package,
+             to: to_1,
+             relation_type: Relation::TYPE_FOLLOWS
     end
     let!(:relation_2) do
       create :relation,
-                        from: work_package,
-                        to: to_2,
-                        relation_type: Relation::TYPE_RELATES
+             from: work_package,
+             to: to_2,
+             relation_type: Relation::TYPE_RELATES
     end
 
     let(:toggle_btn_selector) { '#wp-relation-group-by-toggle' }
@@ -197,8 +197,8 @@ shared_examples 'work package relations tab', js: true, selenium: true do
 
       let(:user) do
         create :user,
-                          member_in_project: project,
-                          member_through_role: user_role
+               member_in_project: project,
+               member_through_role: user_role
       end
 
       context 'as view-only user, with parent set' do

@@ -33,8 +33,8 @@ describe Roles::UpdateContract do
   it_behaves_like 'roles contract' do
     let(:role) do
       build_stubbed(:role,
-                               name: 'Some name',
-                               assignable: !role_assignable).tap do |r|
+                    name: 'Some name',
+                    assignable: !role_assignable).tap do |r|
         r.name = role_name
         r.assignable = role_assignable
         r.permissions = role_permissions
@@ -43,7 +43,7 @@ describe Roles::UpdateContract do
 
     let(:global_role) do
       build_stubbed(:global_role,
-                               name: 'Some name').tap do |r|
+                    name: 'Some name').tap do |r|
         r.name = role_name
         r.permissions = role_permissions
       end

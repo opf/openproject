@@ -35,10 +35,10 @@ describe 'Journalized Objects' do
       let!(:project) { create(:project_with_types) }
       let!(:work_package) do
         create(:work_package,
-                          type: project.types.first,
-                          author: user,
-                          project: project,
-                          description: '')
+               type: project.types.first,
+               author: user,
+               project: project,
+               description: '')
       end
 
       subject { work_package.journal_editable_by?(work_package.journals.first, user) }

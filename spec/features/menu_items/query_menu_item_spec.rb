@@ -53,15 +53,15 @@ RSpec.feature 'Query menu items', js: true do
   context 'with identical names' do
     let(:query_a) do
       create :query_with_view_work_packages_table,
-                        public: true,
-                        name: 'some query.',
-                        project: project
+             public: true,
+             name: 'some query.',
+             project: project
     end
     let(:query_b) do
       create :query_with_view_work_packages_table,
-                        public: true,
-                        name: query_a.name,
-                        project: project
+             public: true,
+             name: query_a.name,
+             project: project
     end
 
     it 'can be shown' do
@@ -75,9 +75,9 @@ RSpec.feature 'Query menu items', js: true do
   context 'with dots in their name' do
     let(:query) do
       create :query_with_view_work_packages_table,
-                        public: true,
-                        name: 'OP 3.0',
-                        project: project
+             public: true,
+             name: 'OP 3.0',
+             project: project
     end
 
     it 'can be added', js: true, selenium: true do
@@ -100,17 +100,17 @@ RSpec.feature 'Query menu items', js: true do
   describe 'renaming a menu item' do
     let(:query_a) do
       create :query_with_view_work_packages_table,
-                        public: true,
-                        name: 'bbbb',
-                        project: project,
-                        user: user
+             public: true,
+             name: 'bbbb',
+             project: project,
+             user: user
     end
     let(:query_b) do
       create :query_with_view_work_packages_table,
-                        public: true,
-                        name: 'zzzz',
-                        project: project,
-                        user: user
+             public: true,
+             name: 'zzzz',
+             project: project,
+             user: user
     end
 
     let(:new_name) { 'aaaaa' }

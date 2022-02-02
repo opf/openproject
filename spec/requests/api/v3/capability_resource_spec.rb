@@ -37,8 +37,8 @@ describe 'API v3 capabilities resource', type: :request, content_type: :json do
 
   current_user do
     create(:user,
-                      member_in_project: project,
-                      member_with_permissions: current_user_permissions)
+           member_in_project: project,
+           member_with_permissions: current_user_permissions)
   end
   let(:current_user_permissions) { [] }
   let(:other_user_permissions) { %i[manage_members] }
@@ -53,14 +53,14 @@ describe 'API v3 capabilities resource', type: :request, content_type: :json do
   let(:other_user) { create(:user) }
   let(:other_user_global_member) do
     create(:global_member,
-                      principal: other_user,
-                      roles: [global_role])
+           principal: other_user,
+           roles: [global_role])
   end
   let(:other_user_member) do
     create(:member,
-                      principal: other_user,
-                      roles: [role],
-                      project: project)
+           principal: other_user,
+           roles: [role],
+           project: project)
   end
 
   describe 'GET api/v3/capabilities' do
@@ -272,9 +272,9 @@ describe 'API v3 capabilities resource', type: :request, content_type: :json do
       let(:other_project) { create(:project) }
       let(:other_user_other_member) do
         create(:member,
-                          principal: other_user,
-                          roles: [role],
-                          project: other_project)
+               principal: other_user,
+               roles: [role],
+               project: other_project)
       end
 
       let(:filters) do

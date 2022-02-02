@@ -35,12 +35,12 @@ describe 'API v3 roles resource', type: :request do
 
   let(:current_user) do
     create(:user,
-                      member_in_project: project,
-                      member_through_role: role)
+           member_in_project: project,
+           member_through_role: role)
   end
   let(:role) do
     create(:role,
-                      permissions: permissions)
+           permissions: permissions)
   end
   let(:permissions) { %i[view_members manage_members] }
   let(:project) { create(:project) }

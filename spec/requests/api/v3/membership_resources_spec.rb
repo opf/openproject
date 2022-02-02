@@ -42,9 +42,9 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
   end
   let(:own_member) do
     create(:member,
-                      roles: [create(:role, permissions: permissions)],
-                      project: project,
-                      user: current_user)
+           roles: [create(:role, permissions: permissions)],
+           project: project,
+           user: current_user)
   end
   let(:permissions) { %i[view_members manage_members] }
   let(:project) { create(:project) }
@@ -53,17 +53,17 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
   let(:other_user) { create(:user) }
   let(:other_member) do
     create(:member,
-                      roles: [other_role],
-                      principal: other_user,
-                      project: project)
+           roles: [other_role],
+           principal: other_user,
+           project: project)
   end
   let(:invisible_member) do
     create(:member,
-                      roles: [create(:role)])
+           roles: [create(:role)])
   end
   let(:global_member) do
     create(:global_member,
-                      roles: [global_role])
+           roles: [global_role])
   end
 
   subject(:response) { last_response }
@@ -183,9 +183,9 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
       let(:group) { create(:group) }
       let(:group_member) do
         create(:member,
-                          roles: [create(:role)],
-                          project: project,
-                          principal: group)
+               roles: [create(:role)],
+               project: project,
+               principal: group)
       end
       let(:members) { [own_member, group_member] }
 
@@ -214,9 +214,9 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
       end
       let(:placeholder_member) do
         create(:member,
-                          roles: [create(:role)],
-                          project: project,
-                          principal: placeholder_user)
+               roles: [create(:role)],
+               project: project,
+               principal: placeholder_user)
       end
       let(:members) { [own_member, placeholder_member] }
 
@@ -263,9 +263,9 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
 
       let(:own_other_member) do
         create(:member,
-                          roles: [create(:role, permissions: permissions)],
-                          project: other_project,
-                          user: current_user)
+               roles: [create(:role, permissions: permissions)],
+               project: other_project,
+               user: current_user)
       end
 
       let(:other_project) { create(:project) }
@@ -292,9 +292,9 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
       let(:group) { create(:group) }
       let(:group_member) do
         create(:member,
-                          roles: [create(:role)],
-                          principal: group,
-                          project: project)
+               roles: [create(:role)],
+               principal: group,
+               project: project)
       end
       let(:members) { [own_member, other_member, group_member, invisible_member] }
 
@@ -1016,9 +1016,9 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
       let(:other_project) do
         create(:project).tap do |p|
           create(:member,
-                            project: p,
-                            roles: [create(:role, permissions: [:manage_members])],
-                            user: current_user)
+                 project: p,
+                 roles: [create(:role, permissions: [:manage_members])],
+                 user: current_user)
         end
       end
 

@@ -33,8 +33,8 @@ describe ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
   let(:type) { build_stubbed(:type) }
   let(:work_package) do
     build_stubbed(:work_package,
-                             project: project,
-                             type: type)
+                  project: project,
+                  type: type)
   end
   let(:current_user) do
     double('current user').tap do |u|

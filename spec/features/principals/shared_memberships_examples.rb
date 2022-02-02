@@ -1,8 +1,8 @@
 shared_context 'principal membership management context' do
   shared_let(:project) do
     create :project,
-                      name: 'Project 1',
-                      identifier: 'project1'
+           name: 'Project 1',
+           identifier: 'project1'
   end
   shared_let(:project2) { create :project, name: 'Project 2', identifier: 'project2' }
 
@@ -98,9 +98,9 @@ shared_examples 'global user principal membership management flows' do |permissi
   context 'as user with global and project permissions, but not manage_members' do
     current_user do
       create :user,
-                        global_permission: permission,
-                        member_in_project: project,
-                        member_with_permissions: %i[view_work_packages]
+             global_permission: permission,
+             member_in_project: project,
+             member_with_permissions: %i[view_work_packages]
     end
 
     it 'does not allow to select that project' do

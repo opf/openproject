@@ -72,8 +72,8 @@ describe AttributeHelpText::WorkPackage, type: :model do
     let(:role) { create(:role, permissions: permissions) }
     let(:user) do
       create(:user,
-                        member_in_project: project,
-                        member_through_role: role)
+             member_in_project: project,
+             member_through_role: role)
     end
     let(:permission) { [] }
     let(:static_instance) { create :work_package_help_text, attribute_name: 'project' }

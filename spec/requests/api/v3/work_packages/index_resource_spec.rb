@@ -36,8 +36,8 @@ describe 'API v3 Work package resource',
 
   let(:work_package) do
     create(:work_package,
-                      project_id: project.id,
-                      description: 'lorem ipsum')
+           project_id: project.id,
+           description: 'lorem ipsum')
   end
   let(:project) do
     create(:project, identifier: 'test_project', public: false)
@@ -134,11 +134,11 @@ describe 'API v3 Work package resource',
       let(:path) { "#{api_v3_paths.work_packages}?#{props}" }
       let(:other_visible_work_package) do
         create(:work_package,
-                          project: project)
+               project: project)
       end
       let(:another_visible_work_package) do
         create(:work_package,
-                          project: project)
+               project: project)
       end
 
       let(:work_packages) { [work_package, other_work_package, other_visible_work_package, another_visible_work_package] }

@@ -42,8 +42,8 @@ describe 'Invite user modal', type: :feature, js: true do
   end
   let!(:role) do
     create :role,
-                      name: 'Member',
-                      permissions: permissions
+           name: 'Member',
+           permissions: permissions
   end
   let(:invite_message) { "Welcome to the team. **You'll like it here**."}
   let(:mail_membership_recipients) { [] }
@@ -51,9 +51,9 @@ describe 'Invite user modal', type: :feature, js: true do
 
   current_user do
     create :user,
-                      member_in_project: project,
-                      member_through_role: role,
-                      global_permissions: global_permissions
+           member_in_project: project,
+           member_through_role: role,
+           global_permissions: global_permissions
   end
 
   shared_examples 'invites the principal to the project' do
@@ -113,8 +113,8 @@ describe 'Invite user modal', type: :feature, js: true do
       context 'with an existing user' do
         let!(:principal) do
           create :user,
-                            firstname: 'Nonproject firstname',
-                            lastname: 'nonproject lastname'
+                 firstname: 'Nonproject firstname',
+                 lastname: 'nonproject lastname'
         end
 
         it_behaves_like 'invites the principal to the project' do
@@ -154,14 +154,14 @@ describe 'Invite user modal', type: :feature, js: true do
           let(:project_no_permissions) { create :project }
           let(:role_no_permissions) do
             create :role,
-                              permissions: %i[view_work_packages edit_work_packages]
+                   permissions: %i[view_work_packages edit_work_packages]
           end
 
           let!(:membership_no_permission) do
             create :member,
-                              user: current_user,
-                              project: project_no_permissions,
-                              roles: [role_no_permissions]
+                   user: current_user,
+                   project: project_no_permissions,
+                   roles: [role_no_permissions]
           end
 
           it 'disables projects for which you do not have rights' do

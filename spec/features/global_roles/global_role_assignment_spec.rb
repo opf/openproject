@@ -44,8 +44,8 @@ describe 'Global role: Global role assignment', type: :feature, js: true do
     let!(:user) { create :user }
     let!(:global_member) do
       create(:global_member,
-                        principal: user,
-                        roles: [global_role1])
+             principal: user,
+             roles: [global_role1])
     end
 
     let(:current_user) { create :admin }

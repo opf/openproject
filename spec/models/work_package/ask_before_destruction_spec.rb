@@ -46,28 +46,28 @@ describe WorkPackage, type: :model do
   let(:role2) { create(:role) }
   let(:member) do
     create(:member,
-                      principal: user,
-                      roles: [role])
+           principal: user,
+           roles: [role])
   end
   let(:member2) do
     create(:member,
-                      principal: user,
-                      roles: [role2],
-                      project: work_package2.project)
+           principal: user,
+           roles: [role2],
+           project: work_package2.project)
   end
   let(:status) { create(:status) }
   let(:priority) { create(:priority) }
   let(:time_entry_hours) { 10 }
   let(:time_entry) do
     create(:time_entry,
-                      hours: time_entry_hours,
-                      work_package: work_package,
-                      project: work_package.project)
+           hours: time_entry_hours,
+           work_package: work_package,
+           project: work_package.project)
   end
   let(:time_entry2) do
     create(:time_entry,
-                      work_package: work_package2,
-                      project: work_package2.project)
+           work_package: work_package2,
+           project: work_package2.project)
   end
 
   describe '#cleanup_action_required_before_destructing?' do

@@ -78,9 +78,9 @@ describe 'delete placeholder user', type: :feature, js: true do
     let!(:project) { create :project }
     let!(:member) do
       create :member,
-                        principal: placeholder_user,
-                        project: project,
-                        roles: [create(:role)]
+             principal: placeholder_user,
+             project: project,
+             roles: [create(:role)]
     end
 
     it 'returns an error when trying to delete and disables the button' do

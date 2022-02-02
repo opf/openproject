@@ -5,25 +5,25 @@ require 'features/page_objects/notification'
 describe 'Bulk update work packages through Rails view', js: true do
   let(:dev_role) do
     create :role,
-                      permissions: %i[view_work_packages]
+           permissions: %i[view_work_packages]
   end
   let(:mover_role) do
     create :role,
-                      permissions: %i[view_work_packages copy_work_packages move_work_packages manage_subtasks add_work_packages]
+           permissions: %i[view_work_packages copy_work_packages move_work_packages manage_subtasks add_work_packages]
   end
   let(:dev) do
     create :user,
-                      firstname: 'Dev',
-                      lastname: 'Guy',
-                      member_in_project: project,
-                      member_through_role: dev_role
+           firstname: 'Dev',
+           lastname: 'Guy',
+           member_in_project: project,
+           member_through_role: dev_role
   end
   let(:mover) do
     create :admin,
-                      firstname: 'Manager',
-                      lastname: 'Guy',
-                      member_in_project: project,
-                      member_through_role: mover_role
+           firstname: 'Manager',
+           lastname: 'Guy',
+           member_in_project: project,
+           member_through_role: mover_role
   end
 
   let(:type) { create :type, name: 'Bug' }
@@ -35,26 +35,26 @@ describe 'Bulk update work packages through Rails view', js: true do
 
   let!(:work_package) do
     create(:work_package,
-                      author: dev,
-                      status: status,
-                      project: project,
-                      type: type)
+           author: dev,
+           status: status,
+           project: project,
+           type: type)
   end
   let!(:work_package2) do
     create(:work_package,
-                      author: dev,
-                      status: work_package2_status,
-                      project: project,
-                      type: type)
+           author: dev,
+           status: work_package2_status,
+           project: project,
+           type: type)
   end
 
   let!(:status2) { create :default_status }
   let!(:workflow) do
     create :workflow,
-                      type_id: type.id,
-                      old_status: work_package.status,
-                      new_status: status2,
-                      role: mover_role
+           type_id: type.id,
+           old_status: work_package.status,
+           new_status: status2,
+           role: mover_role
   end
 
   let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }

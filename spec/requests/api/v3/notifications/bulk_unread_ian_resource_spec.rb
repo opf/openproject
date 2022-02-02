@@ -51,10 +51,10 @@ describe ::API::V3::Notifications::NotificationsAPI,
   end
   shared_let(:other_user_notification) do
     create :notification,
-                      recipient: other_recipient,
-                      read_ian: true,
-                      project: project,
-                      resource: work_package
+           recipient: other_recipient,
+           read_ian: true,
+           project: project,
+           resource: work_package
   end
 
   let(:filters) { nil }

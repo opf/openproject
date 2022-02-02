@@ -35,10 +35,10 @@ describe 'my',
   let(:user_password) { 'bob' * 4 }
   let(:user) do
     create(:user,
-                      mail: 'old@mail.com',
-                      login: 'bob',
-                      password: user_password,
-                      password_confirmation: user_password)
+           mail: 'old@mail.com',
+           login: 'bob',
+           password: user_password,
+           password_confirmation: user_password)
   end
 
   ##

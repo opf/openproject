@@ -53,7 +53,7 @@ describe EnumerationsController, type: :controller do
         let!(:enum_to_reassign) { create(:priority_high) }
         let!(:work_package) do
           create(:work_package,
-                            priority: enum_to_delete)
+                 priority: enum_to_delete)
         end
 
         describe 'no reassign' do

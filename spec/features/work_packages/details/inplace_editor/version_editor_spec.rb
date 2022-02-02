@@ -11,43 +11,43 @@ describe 'subject inplace editor', js: true, selenium: true do
 
   let!(:version) do
     create(:version,
-                      name: '1. First version',
-                      status: 'open',
-                      sharing: 'tree',
-                      start_date: '2019-02-02',
-                      effective_date: '2019-02-03',
-                      project: project)
+           name: '1. First version',
+           status: 'open',
+           sharing: 'tree',
+           start_date: '2019-02-02',
+           effective_date: '2019-02-03',
+           project: project)
   end
   let!(:version2) do
     create(:version,
-                      status: 'open',
-                      sharing: 'tree',
-                      name: '2. Second version',
-                      start_date: '2020-02-02',
-                      effective_date: '2020-02-03',
-                      project: subproject1)
+           status: 'open',
+           sharing: 'tree',
+           name: '2. Second version',
+           start_date: '2020-02-02',
+           effective_date: '2020-02-03',
+           project: subproject1)
   end
   let!(:version3) do
     create(:version,
-                      status: 'open',
-                      sharing: 'tree',
-                      start_date: nil,
-                      effective_date: nil,
-                      name: '3. Third version',
-                      project: subproject2)
+           status: 'open',
+           sharing: 'tree',
+           start_date: nil,
+           effective_date: nil,
+           name: '3. Third version',
+           project: subproject2)
   end
 
   let(:property_name) { :version }
   let(:work_package) { create :work_package, project: project }
   let(:user) do
     create :user,
-                      member_in_project: project,
-                      member_with_permissions: %i[view_work_packages edit_work_packages manage_versions assign_versions]
+           member_in_project: project,
+           member_with_permissions: %i[view_work_packages edit_work_packages manage_versions assign_versions]
   end
   let(:second_user) do
     create :user,
-                      member_in_project: project,
-                      member_with_permissions: %i[view_work_packages edit_work_packages assign_versions]
+           member_in_project: project,
+           member_with_permissions: %i[view_work_packages edit_work_packages assign_versions]
   end
   let(:permissions) { %i[view_work_packages edit_work_packages assign_versions] }
   let(:work_package_page) { Pages::FullWorkPackage.new(work_package) }

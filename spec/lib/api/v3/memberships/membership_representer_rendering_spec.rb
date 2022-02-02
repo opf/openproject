@@ -33,9 +33,9 @@ describe ::API::V3::Memberships::MembershipRepresenter, 'rendering' do
 
   let(:member) do
     build_stubbed(:member,
-                             member_roles: [member_role1, member_role2, member_role2, marked_member_role],
-                             principal: principal,
-                             project: project)
+                  member_roles: [member_role1, member_role2, member_role2, marked_member_role],
+                  principal: principal,
+                  project: project)
   end
   let(:project) { build_stubbed(:project) }
   let(:roles) { [role1, role2] }

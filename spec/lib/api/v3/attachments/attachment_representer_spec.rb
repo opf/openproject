@@ -41,8 +41,8 @@ describe ::API::V3::Attachments::AttachmentRepresenter do
   let(:author) { current_user }
   let(:attachment) do
     build_stubbed(:attachment,
-                             container: container,
-                             author: author) do |attachment|
+                  container: container,
+                  author: author) do |attachment|
       allow(attachment)
         .to receive(:filename)
         .and_return('some_file_of_mine.txt')
