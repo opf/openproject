@@ -40,14 +40,14 @@ describe 'BIM navigation spec',
 
   let(:user) do
     create :user,
-                      member_in_project: project,
-                      member_through_role: role
+           member_in_project: project,
+           member_through_role: role
   end
 
   let(:model) do
     create(:ifc_model_minimal_converted,
-                      project: project,
-                      uploader: user)
+           project: project,
+           uploader: user)
   end
 
   let(:card_view) { ::Pages::WorkPackageCards.new(project) }

@@ -32,20 +32,20 @@ describe WikiPages::CopyService, 'integration', type: :model do
   let(:user) do
     create(:user) do |user|
       create(:member,
-                        project: source_project,
-                        principal: user,
-                        roles: [role])
+             project: source_project,
+             principal: user,
+             roles: [role])
 
       create(:member,
-                        project: sink_project,
-                        principal: user,
-                        roles: [role])
+             project: sink_project,
+             principal: user,
+             roles: [role])
     end
   end
 
   let(:role) do
     create(:role,
-                      permissions: permissions)
+           permissions: permissions)
   end
 
   let(:permissions) do

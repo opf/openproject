@@ -33,8 +33,8 @@ require_relative './support/board_page'
 describe 'Board reference work package spec', type: :feature, js: true do
   let(:user) do
     create(:user,
-                      member_in_project: project,
-                      member_through_role: role)
+           member_in_project: project,
+           member_through_role: role)
   end
   let(:project) { create(:project, enabled_module_names: %i[work_package_tracking board_view]) }
   let(:role) { create(:role, permissions: permissions) }
@@ -100,8 +100,8 @@ describe 'Board reference work package spec', type: :feature, js: true do
 
     let(:user) do
       create(:user,
-                        member_in_projects: [project, child_project],
-                        member_through_role: role)
+             member_in_projects: [project, child_project],
+             member_through_role: role)
     end
 
     it 'returns the work package when subproject filters is added' do

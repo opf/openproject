@@ -106,9 +106,9 @@ describe PlaceholderUsers::MembershipsController, type: :controller do
   context 'as user with global permission and manage_members' do
     current_user do
       create :user,
-                        member_in_project: project,
-                        member_with_permissions: %i[manage_members],
-                        global_permission: %i[manage_placeholder_user]
+             member_in_project: project,
+             member_with_permissions: %i[manage_members],
+             global_permission: %i[manage_placeholder_user]
     end
 
     it_behaves_like 'update memberships flow'

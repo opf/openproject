@@ -34,44 +34,44 @@ describe Queries::Scopes::Visible, type: :model do
 
     let(:user) do
       create(:user,
-                        member_in_project: project,
-                        member_with_permissions: permissions)
+             member_in_project: project,
+             member_with_permissions: permissions)
     end
     let(:permissions) { %i[view_work_packages] }
     let!(:private_user_query) do
       create(:query,
-                        project: project,
-                        user: user)
+             project: project,
+             user: user)
     end
     let!(:private_other_user_query) do
       create(:query,
-                        project: project)
+             project: project)
     end
     let!(:private_user_query_lacking_permissions) do
       create(:query,
-                        project: create(:project,
-                                                   members: { user => create(:role, permissions: []) }),
-                        user: user)
+             project: create(:project,
+                             members: { user => create(:role, permissions: []) }),
+             user: user)
     end
     let!(:public_query) do
       create(:query,
-                        project: project,
-                        public: true)
+             project: project,
+             public: true)
     end
     let!(:public_query_lacking_permissions) do
       create(:query,
-                        project: create(:project,
-                                                   members: { user => create(:role, permissions: []) }),
-                        public: true)
+             project: create(:project,
+                             members: { user => create(:role, permissions: []) }),
+             public: true)
     end
     let!(:global_user_query) do
       create(:query,
-                        project: nil,
-                        user: user)
+             project: nil,
+             user: user)
     end
     let!(:global_other_user_query) do
       create(:query,
-                        project: nil)
+             project: nil)
     end
     let(:project) { create(:project) }
     let(:public_project) { create(:public_project) }

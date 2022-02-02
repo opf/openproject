@@ -33,15 +33,15 @@ require 'spec_helper'
 describe WorkPackage, 'custom_actions', type: :model do
   let(:work_package) do
     build_stubbed(:stubbed_work_package,
-                             project: project)
+                  project: project)
   end
   let(:project) { create(:project) }
   let(:status) { create(:status) }
   let(:other_status) { create(:status) }
   let(:user) do
     create(:user,
-                      member_in_project: work_package.project,
-                      member_through_role: role)
+           member_in_project: work_package.project,
+           member_through_role: role)
   end
   let(:role) do
     create(:role)

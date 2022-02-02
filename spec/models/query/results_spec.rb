@@ -31,7 +31,7 @@ require 'spec_helper'
 describe ::Query::Results, type: :model, with_mail: false do
   let(:query) do
     build :query,
-                     show_hierarchies: false
+          show_hierarchies: false
   end
   let(:query_results) do
     ::Query::Results.new query
@@ -39,38 +39,38 @@ describe ::Query::Results, type: :model, with_mail: false do
   let(:project_1) { create :project }
   let(:role_pm) do
     create(:role,
-                      permissions: %i(
-                        view_work_packages
-                        edit_work_packages
-                        create_work_packages
-                        delete_work_packages
-                      ))
+           permissions: %i(
+             view_work_packages
+             edit_work_packages
+             create_work_packages
+             delete_work_packages
+           ))
   end
   let(:role_dev) do
     create(:role,
-                      permissions: [:view_work_packages])
+           permissions: [:view_work_packages])
   end
   let(:user_1) do
     create(:user,
-                      firstname: 'user',
-                      lastname: '1',
-                      member_in_project: project_1,
-                      member_through_role: [role_dev, role_pm])
+           firstname: 'user',
+           lastname: '1',
+           member_in_project: project_1,
+           member_through_role: [role_dev, role_pm])
   end
   let(:wp_p1) do
     (1..3).map do
       create(:work_package,
-                        project: project_1,
-                        assigned_to_id: user_1.id)
+             project: project_1,
+             assigned_to_id: user_1.id)
     end
   end
 
   describe '#work_package_count_by_group' do
     let(:query) do
       build :query,
-                       show_hierarchies: false,
-                       group_by: group_by,
-                       project: project_1
+            show_hierarchies: false,
+            group_by: group_by,
+            project: project_1
     end
     let(:type_1) do
       create(:type)
@@ -80,13 +80,13 @@ describe ::Query::Results, type: :model, with_mail: false do
     end
     let(:work_package1) do
       create(:work_package,
-                        type: type_1,
-                        project: project_1)
+             type: type_1,
+             project: project_1)
     end
     let(:work_package2) do
       create(:work_package,
-                        type: type_2,
-                        project: project_1)
+             type: type_2,
+             project: project_1)
     end
 
     context 'grouping by responsible' do
@@ -178,9 +178,9 @@ describe ::Query::Results, type: :model, with_mail: false do
     context 'grouping by list custom field and filtering for it at the same time' do
       let!(:custom_field) do
         create(:list_wp_custom_field,
-                          is_for_all: true,
-                          is_filter: true,
-                          multi_value: true).tap do |cf|
+               is_for_all: true,
+               is_filter: true,
+               multi_value: true).tap do |cf|
           work_package1.type.custom_fields << cf
           work_package2.type.custom_fields << cf
         end
@@ -313,27 +313,27 @@ describe ::Query::Results, type: :model, with_mail: false do
     let!(:project_2) { create :project }
     let!(:member) do
       create(:member,
-                        project: project_2,
-                        principal: user_1,
-                        roles: [role_pm])
+             project: project_2,
+             principal: user_1,
+             roles: [role_pm])
     end
     let!(:user_2) do
       create(:user,
-                        firstname: 'user',
-                        lastname: '2',
-                        member_in_project: project_2,
-                        member_through_role: role_dev)
+             firstname: 'user',
+             lastname: '2',
+             member_in_project: project_2,
+             member_through_role: role_dev)
     end
 
     let!(:wp_p2) do
       create(:work_package,
-                        project: project_2,
-                        assigned_to_id: user_2.id)
+             project: project_2,
+             assigned_to_id: user_2.id)
     end
     let!(:wp2_p2) do
       create(:work_package,
-                        project: project_2,
-                        assigned_to_id: user_1.id)
+             project: project_2,
+             assigned_to_id: user_1.id)
     end
 
     before do
@@ -371,9 +371,9 @@ describe ::Query::Results, type: :model, with_mail: false do
       let(:group_by) { nil }
       let(:query) do
         build_stubbed :query,
-                                 show_hierarchies: false,
-                                 group_by: group_by,
-                                 project: project_2
+                      show_hierarchies: false,
+                      group_by: group_by,
+                      project: project_2
       end
 
       let!(:custom_field) { create(:work_package_custom_field, is_for_all: true) }
@@ -425,9 +425,9 @@ describe ::Query::Results, type: :model, with_mail: false do
     context 'when grouping by responsible' do
       let(:query) do
         build :query,
-                         show_hierarchies: false,
-                         group_by: group_by,
-                         project: project_1
+              show_hierarchies: false,
+              group_by: group_by,
+              project: project_1
       end
       let(:group_by) { 'responsible' }
 
@@ -447,7 +447,7 @@ describe ::Query::Results, type: :model, with_mail: false do
     context 'when filtering by precedes and ordering by id' do
       let(:query) do
         build :query,
-                         project: project_1
+              project: project_1
       end
 
       before do
@@ -477,11 +477,11 @@ describe ::Query::Results, type: :model, with_mail: false do
 
     let(:query) do
       build_stubbed :query,
-                               show_hierarchies: false,
-                               group_by: group_by,
-                               sort_criteria: sort_by,
-                               project: project_1,
-                               column_names: columns
+                    show_hierarchies: false,
+                    group_by: group_by,
+                    sort_criteria: sort_by,
+                    project: project_1,
+                    column_names: columns
     end
 
     let(:query_results) do
@@ -691,9 +691,9 @@ describe ::Query::Results, type: :model, with_mail: false do
       let(:bool_cf) { create(:bool_wp_custom_field, is_filter: true) }
       let(:custom_value) do
         create(:custom_value,
-                          custom_field: bool_cf,
-                          customized: work_package1,
-                          value: value)
+               custom_field: bool_cf,
+               customized: work_package1,
+               value: value)
       end
       let(:value) { 't' }
       let(:filter_value) { 't' }
@@ -811,8 +811,8 @@ describe ::Query::Results, type: :model, with_mail: false do
         let(:filter_value) { 'f' }
         let(:bool_cf) do
           create(:bool_wp_custom_field,
-                            is_filter: true,
-                            is_for_all: true)
+                 is_filter: true,
+                 is_for_all: true)
         end
 
         let(:activate_cf) do

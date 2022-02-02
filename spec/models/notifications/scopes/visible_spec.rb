@@ -34,15 +34,15 @@ describe Notifications::Scopes::Visible, type: :model do
 
     let(:user) do
       create(:user,
-                        member_in_project: project,
-                        member_with_permissions: permissions)
+             member_in_project: project,
+             member_with_permissions: permissions)
     end
 
     let(:notification) do
       create(:notification,
-                        project: project,
-                        resource: work_package,
-                        recipient: notification_recipient)
+             project: project,
+             resource: work_package,
+             recipient: notification_recipient)
     end
     let(:notification_recipient) { user }
     let(:permissions) { %i[view_work_packages] }

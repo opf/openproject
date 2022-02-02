@@ -35,8 +35,8 @@ describe API::V3::Activities::ActivitiesAPI, type: :request, content_type: :json
 
   let(:current_user) do
     create(:user,
-                      member_in_project: project,
-                      member_with_permissions: permissions)
+           member_in_project: project,
+           member_with_permissions: permissions)
   end
   let(:project) { create(:project, public: false) }
   let(:work_package) do

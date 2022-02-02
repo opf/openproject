@@ -67,8 +67,8 @@ describe Relation, type: :model do
       let(:reversed) { type_hash[:reverse] }
       let(:relation) do
         build_stubbed(:relation,
-                                 relation_type: nil,
-                                 column_name => column_count)
+                      relation_type: nil,
+                      column_name => column_count)
       end
 
       context 'with the column set to 1' do
@@ -106,9 +106,9 @@ describe Relation, type: :model do
         end
         let(:relation) do
           build_stubbed(:relation,
-                                   relation_type: nil,
-                                   column_name => 1,
-                                   other_column => 1)
+                        relation_type: nil,
+                        column_name => 1,
+                        other_column => 1)
         end
 
         it 'is "mixed"' do

@@ -33,12 +33,12 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
 
   let(:work_package) do
     build_stubbed(:stubbed_work_package,
-                             start_date: Date.today.to_datetime,
-                             due_date: Date.today.to_datetime,
-                             created_at: DateTime.now,
-                             updated_at: DateTime.now,
-                             budget: budget,
-                             type: build_stubbed(:type)) do |wp|
+                  start_date: Date.today.to_datetime,
+                  due_date: Date.today.to_datetime,
+                  created_at: DateTime.now,
+                  updated_at: DateTime.now,
+                  budget: budget,
+                  type: build_stubbed(:type)) do |wp|
       allow(wp)
         .to receive(:available_custom_fields)
         .and_return(available_custom_fields)
@@ -247,8 +247,8 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
         context 'no finish date' do
           let(:work_package) do
             build_stubbed(:work_package,
-                                     type: build_stubbed(:type),
-                                     due_date: nil)
+                          type: build_stubbed(:type),
+                          due_date: nil)
           end
 
           it 'renders as null' do

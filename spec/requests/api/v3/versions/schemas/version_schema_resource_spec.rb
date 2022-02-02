@@ -36,8 +36,8 @@ describe 'API v3 Version schema resource', type: :request, content_type: :json d
   let(:project) { create(:project) }
   let(:current_user) do
     create(:user,
-                      member_in_project: project,
-                      member_with_permissions: permissions)
+           member_in_project: project,
+           member_with_permissions: permissions)
   end
 
   let(:permissions) { [:manage_versions] }

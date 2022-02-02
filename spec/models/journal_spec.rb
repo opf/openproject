@@ -43,9 +43,9 @@ describe Journal,
     let(:journal) { work_package.journals.first }
     let!(:notification) do
       create(:notification,
-                        journal: journal,
-                        resource: work_package,
-                        project: work_package.project)
+             journal: journal,
+             resource: work_package,
+             project: work_package.project)
     end
 
     it 'has a notifications association' do

@@ -58,9 +58,9 @@ describe QueryPolicy, type: :controller do
         context 'query belongs to a different user' do
           let(:query) do
             build_stubbed(:query,
-                                     project: project,
-                                     user: user,
-                                     public: false)
+                          project: project,
+                          user: user,
+                          public: false)
           end
 
           it 'is true if the query is private and the owner views it' do

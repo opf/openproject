@@ -39,7 +39,7 @@ describe ::API::V3::WorkPackages::CreateProjectFormRepresenter do
   let(:type) { build_stubbed(:type) }
   let(:work_package) do
     build_stubbed(:stubbed_work_package,
-                             type: type)
+                  type: type)
   end
   let(:representer) do
     described_class.new(work_package, current_user: user, errors: errors)

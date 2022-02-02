@@ -37,84 +37,84 @@ describe Projects::Activity, type: :model do
 
   let(:work_package) do
     create(:work_package,
-                      project: project)
+           project: project)
   end
 
   let(:work_package2) do
     create(:work_package,
-                      project: project)
+           project: project)
   end
 
   let(:wiki_content) do
     project.reload
 
     page = create(:wiki_page,
-                             wiki: project.wiki)
+                  wiki: project.wiki)
 
     create(:wiki_content,
-                      page: page)
+           page: page)
   end
 
   let(:wiki_content2) do
     project.reload
 
     page = create(:wiki_page,
-                             wiki: project.wiki)
+                  wiki: project.wiki)
 
     create(:wiki_content,
-                      page: page)
+           page: page)
   end
 
   let(:news) do
     create(:news,
-                      project: project)
+           project: project)
   end
 
   let(:news2) do
     create(:news,
-                      project: project)
+           project: project)
   end
 
   let(:repository) do
     create(:repository_git,
-                      project: project)
+           project: project)
   end
 
   let(:changeset) do
     create(:changeset,
-                      repository: repository)
+           repository: repository)
   end
 
   let(:changeset2) do
     create(:changeset,
-                      repository: repository)
+           repository: repository)
   end
 
   let(:forum) do
     create(:forum,
-                      project: project)
+           project: project)
   end
 
   let(:message) do
     create(:message,
-                      forum: forum)
+           forum: forum)
   end
 
   let(:message2) do
     create(:message,
-                      forum: forum)
+           forum: forum)
   end
 
   let(:time_entry) do
     create(:time_entry,
-                      work_package: work_package,
-                      project: project)
+           work_package: work_package,
+           project: project)
   end
 
   let(:time_entry2) do
     create(:time_entry,
-                      work_package: work_package,
-                      project: project)
+           work_package: work_package,
+           project: project)
   end
 
   def latest_activity

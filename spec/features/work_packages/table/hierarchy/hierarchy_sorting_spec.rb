@@ -10,37 +10,37 @@ describe 'Work Package table hierarchy and sorting', js: true do
 
   let!(:wp_root) do
     create :work_package,
-                      project: project,
-                      subject: 'Parent',
-                      start_date: Date.today - 10.days,
-                      due_date: Date.today
+           project: project,
+           subject: 'Parent',
+           start_date: Date.today - 10.days,
+           due_date: Date.today
   end
 
   let!(:wp_child1) do
     create :work_package,
-                      project: project,
-                      parent: wp_root,
-                      subject: 'Child at end',
-                      start_date: Date.today - 2.days,
-                      due_date: Date.today
+           project: project,
+           parent: wp_root,
+           subject: 'Child at end',
+           start_date: Date.today - 2.days,
+           due_date: Date.today
   end
 
   let!(:wp_child2) do
     create :work_package,
-                      project: project,
-                      parent: wp_root,
-                      subject: 'Middle child',
-                      start_date: Date.today - 5.days,
-                      due_date: Date.today - 3.days
+           project: project,
+           parent: wp_root,
+           subject: 'Middle child',
+           start_date: Date.today - 5.days,
+           due_date: Date.today - 3.days
   end
 
   let!(:wp_child3) do
     create :work_package,
-                      project: project,
-                      parent: wp_root,
-                      subject: 'Child at beginning',
-                      start_date: Date.today - 10.days,
-                      due_date: Date.today - 9.days
+           project: project,
+           parent: wp_root,
+           subject: 'Child at beginning',
+           start_date: Date.today - 10.days,
+           due_date: Date.today - 9.days
   end
 
   before do

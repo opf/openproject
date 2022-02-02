@@ -246,8 +246,8 @@ describe OpenProject::Hook do
     let(:author) { build_stubbed(:user) }
     let(:work_package) do
       build_stubbed(:work_package,
-                               type: build_stubbed(:type),
-                               status: build_stubbed(:status)).tap do |wp|
+                    type: build_stubbed(:type),
+                    status: build_stubbed(:status)).tap do |wp|
 
         allow(wp)
           .to receive(:reload)

@@ -70,8 +70,8 @@ RSpec.feature 'Work package create uses attributes from filters', js: true, sele
     let(:type_task) { create(:type_task, custom_fields: [custom_field]) }
     let!(:project) do
       create :project,
-                        types: [type_task],
-                        work_package_custom_fields: [custom_field]
+             types: [type_task],
+             work_package_custom_fields: [custom_field]
     end
 
     let!(:custom_field) do
@@ -112,10 +112,10 @@ RSpec.feature 'Work package create uses attributes from filters', js: true, sele
   context 'with assignee filter' do
     let!(:assignee) do
       create(:user,
-                        firstname: 'An',
-                        lastname: 'assignee',
-                        member_in_project: project,
-                        member_through_role: role)
+             firstname: 'An',
+             lastname: 'assignee',
+             member_in_project: project,
+             member_through_role: role)
     end
 
     let(:filters) do

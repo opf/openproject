@@ -77,15 +77,15 @@ describe 'Project details widget on dashboard', type: :feature, js: true do
   end
   let(:editing_user) do
     create(:user,
-                      member_in_project: project,
-                      member_with_permissions: editing_permissions,
-                      firstname: 'Cool',
-                      lastname: 'Guy')
+           member_in_project: project,
+           member_with_permissions: editing_permissions,
+           firstname: 'Cool',
+           lastname: 'Guy')
   end
   let(:other_user) do
     create(:user,
-                      firstname: 'Other',
-                      lastname: 'User')
+           firstname: 'Other',
+           lastname: 'User')
   end
   let(:dashboard_page) do
     Pages::Dashboard.new(project)

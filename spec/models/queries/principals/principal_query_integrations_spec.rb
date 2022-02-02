@@ -41,20 +41,20 @@ describe Queries::Principals::PrincipalQuery, 'integration', type: :model do
     let(:role) { create(:role) }
     let(:project_user) do
       create(:user,
-                        member_in_project: project,
-                        member_through_role: role) do |u|
+             member_in_project: project,
+             member_through_role: role) do |u|
         # Granting another membership in order to better test the "not" filter
         create(:member,
-                          principal: u,
-                          project: other_project,
-                          roles: [role])
+               principal: u,
+               project: other_project,
+               roles: [role])
       end
     end
     let(:other_project) { create(:project) }
     let(:other_project_user) do
       create(:user,
-                        member_in_project: other_project,
-                        member_through_role: role)
+             member_in_project: other_project,
+             member_through_role: role)
     end
 
     let(:users) { [current_user, project_user, other_project_user] }

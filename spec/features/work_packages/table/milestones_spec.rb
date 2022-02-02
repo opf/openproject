@@ -7,9 +7,9 @@ describe 'Inline editing milestones', js: true do
   let(:project) { create(:project, types: [type]) }
   let!(:work_package) do
     create(:work_package,
-                      project: project,
-                      type: type,
-                      subject: 'Foobar')
+           project: project,
+           type: type,
+           subject: 'Foobar')
   end
 
   let!(:wp_table) { Pages::WorkPackagesTable.new(project) }

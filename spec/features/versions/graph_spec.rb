@@ -35,8 +35,8 @@ describe 'version show graph', type: :feature, js: true do
 
   let!(:wp) do
     create :work_package,
-                      project: project,
-                      version: version
+           project: project,
+           version: version
   end
 
   before do

@@ -33,8 +33,8 @@ require_relative './support/board_page'
 describe 'Work Package boards spec', type: :feature, js: true do
   let(:user) do
     create(:user,
-                      member_in_project: project,
-                      member_through_role: role)
+           member_in_project: project,
+           member_through_role: role)
   end
   let(:project) { create(:project, enabled_module_names: %i[work_package_tracking board_view]) }
   let(:permissions) { %i[show_board_views manage_board_views add_work_packages view_work_packages manage_public_queries] }
@@ -42,17 +42,17 @@ describe 'Work Package boards spec', type: :feature, js: true do
 
   let!(:wp) do
     create(:work_package,
-                      project: project,
-                      type: type,
-                      priority: priority,
-                      status: open_status)
+           project: project,
+           type: type,
+           priority: priority,
+           status: open_status)
   end
   let!(:wp2) do
     create(:work_package,
-                      project: project,
-                      type: type2,
-                      priority: priority2,
-                      status: open_status)
+           project: project,
+           type: type2,
+           priority: priority2,
+           status: open_status)
   end
 
   let!(:priority) { create :priority, color: color }

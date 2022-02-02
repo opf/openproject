@@ -37,8 +37,8 @@ describe 'API v3 Query Schema resource', type: :request do
   let(:permissions) { [:view_work_packages] }
   let(:user) do
     create(:user,
-                      member_in_project: project,
-                      member_with_permissions: permissions)
+           member_in_project: project,
+           member_with_permissions: permissions)
   end
 
   before do

@@ -37,8 +37,8 @@ describe Groups::AddUsersService, 'integration', type: :model do
 
   let!(:group) do
     create :group,
-                      member_in_projects: projects,
-                      member_through_role: role
+           member_in_projects: projects,
+           member_through_role: role
   end
 
   let(:user1) { create :user }
@@ -109,9 +109,9 @@ describe Groups::AddUsersService, 'integration', type: :model do
       let(:previous_project) { projects.first }
       let!(:user_member) do
         create(:member,
-                          project: previous_project,
-                          roles: [role],
-                          principal: user1)
+               project: previous_project,
+               roles: [role],
+               principal: user1)
       end
 
       it_behaves_like 'adds the users to the group and project'
@@ -139,16 +139,16 @@ describe Groups::AddUsersService, 'integration', type: :model do
       let!(:group) do
         create :group do |g|
           create(:member,
-                            project: project,
-                            principal: g,
-                            roles: roles)
+                 project: project,
+                 principal: g,
+                 roles: roles)
         end
       end
       let!(:user_member) do
         create(:member,
-                          project: project,
-                          roles: [roles.first],
-                          principal: user1)
+               project: project,
+               roles: [roles.first],
+               principal: user1)
       end
 
       it 'adds the users to the group and project' do
@@ -181,9 +181,9 @@ describe Groups::AddUsersService, 'integration', type: :model do
       let(:previous_project) { projects.first }
       let!(:user_member) do
         create(:member,
-                          project: previous_project,
-                          roles: [other_role],
-                          principal: user1)
+               project: previous_project,
+               roles: [other_role],
+               principal: user1)
       end
 
       it 'adds the users to the group and project' do

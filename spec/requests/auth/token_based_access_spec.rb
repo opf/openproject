@@ -34,8 +34,8 @@ describe 'Token based access', type: :rails_request, with_settings: { login_requ
   let(:work_package) { create(:work_package) }
   let(:user) do
     create(:user,
-                      member_in_project: work_package.project,
-                      member_with_permissions: %i[view_work_packages])
+           member_in_project: work_package.project,
+           member_with_permissions: %i[view_work_packages])
   end
   let(:rss_key) { user.rss_key }
 

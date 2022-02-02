@@ -38,7 +38,7 @@ describe ::API::V3::Users::PaginatedUserCollectionRepresenter do
 
   let(:users) do
     users = build_stubbed_list(:user,
-                                          actual_count)
+                               actual_count)
     allow(users)
       .to receive(:per_page)
       .with(page_size)

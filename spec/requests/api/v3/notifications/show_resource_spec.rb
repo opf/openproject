@@ -42,15 +42,15 @@ describe ::API::V3::Notifications::NotificationsAPI,
   shared_let(:role) { create(:role, permissions: %i(view_work_packages)) }
   shared_let(:project) do
     create :project,
-                      members: { recipient => role }
+           members: { recipient => role }
   end
   shared_let(:resource) { create :work_package, project: project }
   shared_let(:notification) do
     create :notification,
-                      recipient: recipient,
-                      project: project,
-                      resource: resource,
-                      journal: resource.journals.last
+           recipient: recipient,
+           project: project,
+           resource: resource,
+           journal: resource.journals.last
   end
 
   let(:send_request) do

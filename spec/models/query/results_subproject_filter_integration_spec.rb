@@ -31,8 +31,8 @@ require 'spec_helper'
 describe ::Query::Results, 'Subproject filter integration', type: :model, with_mail: false do
   let(:query) do
     build(:query,
-                     user: user,
-                     project: parent_project).tap do |q|
+          user: user,
+          project: parent_project).tap do |q|
       q.filters.clear
     end
   end
@@ -45,10 +45,10 @@ describe ::Query::Results, 'Subproject filter integration', type: :model, with_m
 
   shared_let(:user) do
     create(:user,
-                      firstname: 'user',
-                      lastname: '1',
-                      member_in_projects: [parent_project, child_project],
-                      member_with_permissions: [:view_work_packages])
+           firstname: 'user',
+           lastname: '1',
+           member_in_projects: [parent_project, child_project],
+           member_with_permissions: [:view_work_packages])
   end
 
   shared_let(:parent_wp) { create :work_package, project: parent_project }

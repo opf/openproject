@@ -38,10 +38,10 @@ describe ::API::V3::WorkPackages::EagerLoading::Checksum do
   let(:version) { create(:version) }
   let!(:work_package) do
     create(:work_package,
-                      responsible: responsible,
-                      assigned_to: assignee,
-                      version: version,
-                      category: category)
+           responsible: responsible,
+           assigned_to: assignee,
+           version: version,
+           category: category)
   end
   let!(:type) { work_package.type }
   let!(:project) { work_package.project }

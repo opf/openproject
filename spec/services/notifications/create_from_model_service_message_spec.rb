@@ -45,14 +45,14 @@ describe Notifications::CreateFromModelService, 'message', with_settings: { jour
 
   let(:resource) do
     create(:message,
-                      forum: forum,
-                      parent: root_message)
+           forum: forum,
+           parent: root_message)
   end
   let(:journal) { resource.journals.last }
   let(:author) { other_user }
   let(:root_message) do
     create(:message,
-                      forum: forum)
+           forum: forum)
   end
 
   current_user { other_user }

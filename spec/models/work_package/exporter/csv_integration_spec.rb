@@ -39,8 +39,8 @@ describe WorkPackage::Exports::CSV, 'integration', type: :model do
 
   let(:current_user) do
     create(:user,
-                      member_in_project: project,
-                      member_with_permissions: %i(view_work_packages))
+           member_in_project: project,
+           member_with_permissions: %i(view_work_packages))
   end
   let(:query) do
     Query.new(name: '_').tap do |query|

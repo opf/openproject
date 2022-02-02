@@ -39,17 +39,17 @@ describe 'API v3 Category resource' do
   let(:anonymous_user) { create(:user) }
   let(:privileged_user) do
     create(:user,
-                      member_in_project: private_project,
-                      member_through_role: role)
+           member_in_project: private_project,
+           member_through_role: role)
   end
 
   let!(:categories) { create_list(:category, 3, project: private_project) }
   let!(:other_categories) { create_list(:category, 2, project: public_project) }
   let!(:user_categories) do
     create_list(:category,
-                           2,
-                           project: private_project,
-                           assigned_to: privileged_user)
+                2,
+                project: private_project,
+                assigned_to: privileged_user)
   end
 
   describe 'categories by project' do

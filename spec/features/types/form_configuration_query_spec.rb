@@ -38,10 +38,10 @@ describe 'form query configuration', type: :feature, js: true do
   let(:other_project) { create :project, types: [type_task] }
   let!(:work_package) do
     create :work_package,
-                      new_relation.merge(
-                        project: project,
-                        type: type_bug
-                      )
+           new_relation.merge(
+             project: project,
+             type: type_bug
+           )
   end
   let(:wp_relation_type) { :children }
   let(:frontend_relation_type) { wp_relation_type }

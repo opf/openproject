@@ -34,8 +34,8 @@ describe Attachments::DeleteService, 'integration', with_settings: { journal_agg
 
   let(:user) do
     create(:user,
-                      member_in_project: project,
-                      member_with_permissions: permissions)
+           member_in_project: project,
+           member_with_permissions: permissions)
   end
   let(:project) { create(:project) }
   let(:attachment) { create(:attachment, container: container, author: author) }

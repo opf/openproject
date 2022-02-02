@@ -36,8 +36,8 @@ describe 'API v3 Work package resource',
 
   let(:work_package) do
     create(:work_package,
-                      project_id: project.id,
-                      description: 'lorem ipsum')
+           project_id: project.id,
+           description: 'lorem ipsum')
   end
   let(:project) do
     create(:project, identifier: 'test_project', public: false)

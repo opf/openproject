@@ -36,8 +36,8 @@ describe Activities::Fetcher, 'integration', type: :model do
 
   let(:user) do
     create(:user,
-                      member_in_project: project,
-                      member_with_permissions: permissions)
+           member_in_project: project,
+           member_with_permissions: permissions)
   end
 
   let(:instance) { described_class.new(user, options) }
@@ -152,9 +152,9 @@ describe Activities::Fetcher, 'integration', type: :model do
       let(:subproject_news) { create(:news, project: subproject) }
       let(:subproject_member) do
         create(:member,
-                          user: user,
-                          project: subproject,
-                          roles: [create(:role, permissions: permissions)])
+               user: user,
+               project: subproject,
+               roles: [create(:role, permissions: permissions)])
       end
 
       let!(:activities) { [news, subproject_news] }

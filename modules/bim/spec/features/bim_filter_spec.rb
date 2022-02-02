@@ -46,8 +46,8 @@ describe 'BIM filter spec',
 
   let!(:model) do
     create(:ifc_model_minimal_converted,
-                      project: project,
-                      uploader: admin)
+           project: project,
+           uploader: admin)
   end
 
   let(:card_view) { ::Pages::WorkPackageCards.new(project) }

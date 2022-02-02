@@ -36,35 +36,35 @@ describe 'Custom actions', type: :feature, js: true do
   let!(:other_role) { create(:role, permissions: permissions) }
   let(:user) do
     user = create(:user,
-                             firstname: 'A',
-                             lastname: 'User')
+                  firstname: 'A',
+                  lastname: 'User')
 
     create(:member,
-                      project: project,
-                      roles: [role],
-                      user: user)
+           project: project,
+           roles: [role],
+           user: user)
 
     create(:member,
-                      project: other_project,
-                      roles: [role],
-                      user: user)
+           project: other_project,
+           roles: [role],
+           user: user)
     user
   end
   let!(:other_member_user) do
     create(:user,
-                      firstname: 'Other member',
-                      lastname: 'User',
-                      member_in_project: project,
-                      member_through_role: role)
+           firstname: 'Other member',
+           lastname: 'User',
+           member_in_project: project,
+           member_through_role: role)
   end
   let(:project) { create(:project, name: 'This project') }
   let(:other_project) { create(:project, name: 'Other project') }
   let!(:work_package) do
     create(:work_package,
-                      project: project,
-                      assigned_to: user,
-                      priority: default_priority,
-                      status: default_status)
+           project: project,
+           assigned_to: user,
+           priority: default_priority,
+           status: default_status)
   end
 
   let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
@@ -73,8 +73,8 @@ describe 'Custom actions', type: :feature, js: true do
   end
   let!(:immediate_priority) do
     create(:issue_priority,
-                      name: 'At once',
-                      position: IssuePriority.maximum(:position) + 1)
+           name: 'At once',
+           position: IssuePriority.maximum(:position) + 1)
   end
   let(:default_status) do
     create(:default_status, name: 'Default status')
@@ -94,26 +94,26 @@ describe 'Custom actions', type: :feature, js: true do
   end
   let!(:workflows) do
     create(:workflow,
-                      old_status: default_status,
-                      new_status: closed_status,
-                      role: role,
-                      type: work_package.type)
+           old_status: default_status,
+           new_status: closed_status,
+           role: role,
+           type: work_package.type)
 
     create(:workflow,
-                      new_status: default_status,
-                      old_status: closed_status,
-                      role: role,
-                      type: work_package.type)
+           new_status: default_status,
+           old_status: closed_status,
+           role: role,
+           type: work_package.type)
     create(:workflow,
-                      old_status: default_status,
-                      new_status: rejected_status,
-                      role: role,
-                      type: work_package.type)
+           old_status: default_status,
+           new_status: rejected_status,
+           role: role,
+           type: work_package.type)
     create(:workflow,
-                      old_status: rejected_status,
-                      new_status: default_status,
-                      role: role,
-                      type: other_type)
+           old_status: rejected_status,
+           new_status: default_status,
+           role: role,
+           type: other_type)
   end
   let!(:list_custom_field) do
     cf = create(:list_wp_custom_field, multi_value: true)

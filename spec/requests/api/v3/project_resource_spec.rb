@@ -71,9 +71,9 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
     end
     let!(:parent_memberships) do
       create(:member,
-                        user: current_user,
-                        project: parent_project,
-                        roles: [create(:role, permissions: [])])
+             user: current_user,
+             project: parent_project,
+             roles: [create(:role, permissions: [])])
     end
 
     subject(:response) do
@@ -209,11 +209,11 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
       let(:projects) { [project, project2, project3] }
       let(:project2) do
         create(:project,
-                          members: { current_user => [role] })
+               members: { current_user => [role] })
       end
       let(:project3) do
         create(:project,
-                          members: { current_user => [role] })
+               members: { current_user => [role] })
       end
 
       let(:get_path) do
@@ -382,8 +382,8 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
     let(:current_user) do
       create(:user).tap do |u|
         create(:global_member,
-                          principal: u,
-                          roles: [global_role])
+               principal: u,
+               roles: [global_role])
       end
     end
     let(:global_role) do
@@ -557,8 +557,8 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
   describe '#patch /projects/:id' do
     let(:current_user) do
       create(:user,
-                        member_in_project: project,
-                        member_with_permissions: permissions)
+             member_in_project: project,
+             member_with_permissions: permissions)
     end
     let(:permissions) { [:edit_project] }
     let(:path) { api_v3_paths.project(project.id) }
@@ -866,9 +866,9 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
       context 'for a project with members' do
         let(:member) do
           create(:member,
-                            project: project,
-                            principal: current_user,
-                            roles: [create(:role)])
+                 project: project,
+                 principal: current_user,
+                 roles: [create(:role)])
         end
         let(:member_role) { member.member_roles.first }
         let(:setup) do
@@ -888,7 +888,7 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
       context 'for a project with a forum' do
         let(:forum) do
           create(:forum,
-                            project: project)
+                 project: project)
         end
         let(:setup) do
           forum

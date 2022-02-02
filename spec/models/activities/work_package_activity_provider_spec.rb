@@ -116,17 +116,17 @@ describe Activities::WorkPackageActivityProvider, type: :model do
       let(:user) do
         create(:user).tap do |u|
           create(:member,
-                            user: u,
-                            project: project,
-                            roles: [create(:role, permissions: [:view_work_packages])])
+                 user: u,
+                 project: project,
+                 roles: [create(:role, permissions: [:view_work_packages])])
           create(:member,
-                            user: u,
-                            project: child_project1,
-                            roles: [create(:role, permissions: [:view_work_packages])])
+                 user: u,
+                 project: child_project1,
+                 roles: [create(:role, permissions: [:view_work_packages])])
           create(:member,
-                            user: u,
-                            project: child_project2,
-                            roles: [create(:role, permissions: [])])
+                 user: u,
+                 project: child_project2,
+                 roles: [create(:role, permissions: [])])
 
           create(:non_member, permissions: [:view_work_packages])
         end

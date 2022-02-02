@@ -36,9 +36,9 @@ describe 'OAuth authorization code flow with PKCE',
   let!(:allowed_redirect_uri) { redirect_uri }
   let!(:app) do
     create :oauth_application,
-                      name: 'Public mobile client',
-                      confidential: false,
-                      redirect_uri: allowed_redirect_uri
+           name: 'Public mobile client',
+           confidential: false,
+           redirect_uri: allowed_redirect_uri
   end
   let(:code_verifier) { SecureRandom.hex(64) }
   let(:code_challenge) { Doorkeeper::AccessGrant.generate_code_challenge code_verifier }

@@ -173,8 +173,8 @@ describe 'work package export', type: :feature do
     describe 'with a manually sorted query', js: true do
       let(:query) do
         create :query,
-                          user: current_user,
-                          project: project
+               user: current_user,
+               project: project
       end
 
       before do
@@ -213,8 +213,8 @@ describe 'work package export', type: :feature do
     let(:export_type) { 'PDF' }
     let(:query) do
       create :query,
-                        user: current_user,
-                        project: project
+             user: current_user,
+             project: project
     end
 
     context 'with many columns' do

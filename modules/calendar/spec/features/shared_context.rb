@@ -38,11 +38,11 @@ shared_context 'with calendar full access' do
 
   shared_let(:user) do
     create :user,
-                      member_in_project: project,
-                      member_with_permissions: %w[
-                        view_work_packages edit_work_packages add_work_packages
-                        view_calendar
-                      ]
+           member_in_project: project,
+           member_with_permissions: %w[
+             view_work_packages edit_work_packages add_work_packages
+             view_calendar
+           ]
   end
 
   let(:calendar) { ::Pages::Calendar.new project }

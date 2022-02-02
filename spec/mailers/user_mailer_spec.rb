@@ -45,7 +45,7 @@ describe UserMailer, type: :mailer do
   end
   let(:work_package) do
     build_stubbed(:work_package,
-                             type: type_standard)
+                  type: type_standard)
   end
 
   let(:recipient) { build_stubbed(:user) }

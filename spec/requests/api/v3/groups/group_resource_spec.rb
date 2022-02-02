@@ -38,8 +38,8 @@ describe 'API v3 Group resource', type: :request, content_type: :json do
   shared_let(:project) { create(:project) }
   let(:group) do
     create(:group,
-                      member_in_project: project,
-                      member_through_role: role).tap do |g|
+           member_in_project: project,
+           member_through_role: role).tap do |g|
       members.each do |members|
         GroupUser.create group_id: g.id, user_id: members.id
       end
@@ -54,8 +54,8 @@ describe 'API v3 Group resource', type: :request, content_type: :json do
 
   current_user do
     create(:user,
-                      member_in_project: project,
-                      member_through_role: role)
+           member_in_project: project,
+           member_through_role: role)
   end
 
   describe 'GET api/v3/groups/:id' do
@@ -180,8 +180,8 @@ describe 'API v3 Group resource', type: :request, content_type: :json do
     let(:another_role) { create(:role) }
     let(:another_user) do
       create(:user,
-                        member_in_project: project,
-                        member_through_role: another_role)
+             member_in_project: project,
+             member_through_role: another_role)
     end
     let(:body) do
       {
@@ -201,9 +201,9 @@ describe 'API v3 Group resource', type: :request, content_type: :json do
     let(:other_project) { create(:project) }
     let!(:membership) do
       create(:member,
-                        principal: group,
-                        project: other_project,
-                        roles: [create(:role)])
+             principal: group,
+             project: other_project,
+             roles: [create(:role)])
     end
 
     before do
@@ -330,9 +330,9 @@ describe 'API v3 Group resource', type: :request, content_type: :json do
     let(:other_project) { create(:project) }
     let!(:membership) do
       create(:member,
-                        principal: group,
-                        project: other_project,
-                        roles: [create(:role)])
+             principal: group,
+             project: other_project,
+             roles: [create(:role)])
     end
     let(:another_role) { create(:role) }
 

@@ -116,23 +116,23 @@ shared_examples 'a principal autocomplete field' do
   let(:role) { create(:role, permissions: %i[view_work_packages edit_work_packages]) }
   let!(:user) do
     create :user,
-                      member_in_project: project,
-                      member_through_role: role,
-                      firstname: 'John'
+           member_in_project: project,
+           member_through_role: role,
+           firstname: 'John'
   end
   let!(:mentioned_user) do
     create :user,
-                      member_in_project: project,
-                      member_through_role: role,
-                      firstname: 'Laura',
-                      lastname: 'Foobar'
+           member_in_project: project,
+           member_through_role: role,
+           firstname: 'Laura',
+           lastname: 'Foobar'
   end
   let!(:mentioned_group) do
     create(:group, lastname: 'Laudators').tap do |group|
       create :member,
-                        principal: group,
-                        project: project,
-                        roles: [role]
+             principal: group,
+             project: project,
+             roles: [role]
     end
   end
 

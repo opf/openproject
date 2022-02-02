@@ -39,8 +39,8 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter,
 
   let(:project) do
     create :project,
-                      types: [type],
-                      work_package_custom_fields: [custom_field]
+           types: [type],
+           work_package_custom_fields: [custom_field]
   end
   let(:custom_field) do
     create(:text_issue_custom_field, name: 'LongText')
@@ -49,29 +49,29 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter,
 
   let!(:wp_contains) do
     create :work_package,
-                      type: type,
-                      project: project,
-                      custom_values: { custom_field.id => 'foo' }
+           type: type,
+           project: project,
+           custom_values: { custom_field.id => 'foo' }
   end
   let!(:wp_not_contains) do
     create :work_package,
-                      type: type,
-                      project: project,
-                      custom_values: { custom_field.id => 'bar' }
+           type: type,
+           project: project,
+           custom_values: { custom_field.id => 'bar' }
   end
 
   let!(:wp_empty) do
     create :work_package,
-                      type: type,
-                      project: project,
-                      custom_values: { custom_field.id => '' }
+           type: type,
+           project: project,
+           custom_values: { custom_field.id => '' }
   end
 
   let!(:wp_nil) do
     create :work_package,
-                      type: type,
-                      project: project,
-                      custom_values: { custom_field.id => nil }
+           type: type,
+           project: project,
+           custom_values: { custom_field.id => nil }
   end
 
   subject { WorkPackage.where(instance.where) }

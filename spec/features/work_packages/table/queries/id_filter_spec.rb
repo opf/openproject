@@ -36,18 +36,18 @@ describe 'Work package filtering by id', js: true do
 
   let!(:work_package) do
     create :work_package,
-                      project: project
+           project: project
   end
   let!(:other_work_package) do
     create :work_package,
-                      project: project
+           project: project
 
   end
 
   current_user do
     create :user,
-                      member_in_project: project,
-                      member_through_role: role
+           member_in_project: project,
+           member_through_role: role
   end
 
   it 'shows the work package matching the id filter' do

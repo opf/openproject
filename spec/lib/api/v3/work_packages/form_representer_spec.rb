@@ -34,9 +34,9 @@ describe ::API::V3::WorkPackages::FormRepresenter do
   let(:errors) { [] }
   let(:work_package) do
     build(:work_package,
-                     id: 42,
-                     created_at: DateTime.now,
-                     updated_at: DateTime.now)
+          id: 42,
+          created_at: DateTime.now,
+          updated_at: DateTime.now)
   end
   let(:current_user) do
     create(:user, member_in_project: work_package.project)

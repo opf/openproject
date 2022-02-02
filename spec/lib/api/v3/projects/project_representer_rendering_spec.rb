@@ -35,9 +35,9 @@ describe ::API::V3::Projects::ProjectRepresenter, 'rendering' do
 
   let(:project) do
     build_stubbed(:project,
-                             parent: parent_project,
-                             description: 'some description',
-                             status: status).tap do |p|
+                  parent: parent_project,
+                  description: 'some description',
+                  status: status).tap do |p|
       allow(p)
         .to receive(:available_custom_fields)
         .and_return([int_custom_field, version_custom_field])

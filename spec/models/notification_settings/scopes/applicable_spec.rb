@@ -34,7 +34,7 @@ describe NotificationSettings::Scopes::Applicable, type: :model do
 
     let!(:user) do
       create(:user,
-                        notification_settings: notification_settings)
+             notification_settings: notification_settings)
     end
     let!(:project) do
       create(:project)

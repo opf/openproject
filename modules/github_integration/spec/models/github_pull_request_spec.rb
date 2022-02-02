@@ -85,8 +85,8 @@ describe GithubPullRequest do
     let(:github_url) { 'https://github.com/opf/openproject/pull/123' }
     let(:pull_request) do
       create(:github_pull_request,
-                        github_id: github_id,
-                        github_html_url: github_url)
+             github_id: github_id,
+             github_html_url: github_url)
     end
 
     context 'when the github_id attribute matches' do

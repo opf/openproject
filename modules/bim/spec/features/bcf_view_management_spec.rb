@@ -39,27 +39,27 @@ describe 'bcf view management',
   let(:bcf_page) { ::Pages::IfcModels::ShowDefault.new(project) }
   let(:role) do
     create :role,
-                      permissions: %w[
-                        view_work_packages
-                        save_queries
-                        save_public_queries
-                        view_ifc_models
-                        save_bcf_queries
-                        manage_public_bcf_queries
-                      ]
+           permissions: %w[
+             view_work_packages
+             save_queries
+             save_public_queries
+             view_ifc_models
+             save_bcf_queries
+             manage_public_bcf_queries
+           ]
   end
 
   let(:user) do
     create :user,
-                      member_in_project: project,
-                      member_through_role: role
+           member_in_project: project,
+           member_through_role: role
   end
 
   let!(:model) do
     create(:ifc_model_minimal_converted,
-                      project: project,
-                      uploader: user,
-                      is_default: true)
+           project: project,
+           uploader: user,
+           is_default: true)
   end
 
   before do

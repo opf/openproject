@@ -39,17 +39,17 @@ describe ::API::V3::Views::ViewsAPI,
   shared_let(:role) { create(:role, permissions: %w[view_work_packages]) }
   shared_let(:project) do
     create(:project,
-                      members: { permitted_user => role })
+           members: { permitted_user => role })
   end
   shared_let(:private_user_query) do
     create(:query,
-                      project: project,
-                      public: false,
-                      user: permitted_user)
+           project: project,
+           public: false,
+           user: permitted_user)
   end
   shared_let(:view) do
     create :view_work_packages_table,
-                      query: private_user_query
+           query: private_user_query
   end
 
   let(:send_request) do
@@ -84,8 +84,8 @@ describe ::API::V3::Views::ViewsAPI,
   context 'with a user not allowed to see the query' do
     current_user do
       create(:user,
-                        member_in_project: project,
-                        member_through_role: role)
+             member_in_project: project,
+             member_through_role: role)
     end
 
     it 'returns a 404 response' do

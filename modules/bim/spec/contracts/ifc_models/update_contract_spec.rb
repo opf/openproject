@@ -37,9 +37,9 @@ describe Bim::IfcModels::UpdateContract do
 
     let(:ifc_model) do
       build_stubbed(:ifc_model,
-                               uploader: model_user,
-                               title: model_title,
-                               project: model_project).tap do |model|
+                    uploader: model_user,
+                    title: model_title,
+                    project: model_project).tap do |model|
         model.extend(OpenProject::ChangedBySystem)
 
         if changed_by_system
