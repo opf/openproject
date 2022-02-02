@@ -94,3 +94,24 @@ To create a new synchronized filter, use the button on the top right of the inde
 Click on *Create* to finish the creation of the synchronized  filter. This filter is being executed hourly as part of the background job before the actual group synchronization runs.
 
 **Note:** If you manually create a synchronized group that is also found by a filter, its properties (such as the *Sync users* setting) is being overridden by the filter setting.
+
+
+
+## Troubleshooting
+
+
+
+### LDAP groups are not being synchronized
+
+Please double check the DN of the groups and the LDAP connection. The base DN of the LDAP connection and the DN must share a common hierarchy. Otherwise, the group DN will not be found by the connection, as the base DN is used for all subsequent queries for the lifetime of the connection.
+
+
+
+### Users are not being synchronized
+
+For users to be automatically synchronized, the following conditions need to be met:
+
+1. The connection, or the LDAP group need to have "Sync users" checked. This setting overrides the LDAP connection's "Sync users" attribute for fine-grained control over which groups will have users synchronized.
+2. The group needs to define their members using the `member` LDAP property, and users need to have the `memberOf` property or virtual property. OpenProject will look for users with the following filter: `(memberOf=<DN of the group>).` You can use `ldapsearch` to verify that this works as expected.
+3. The users defined in the groups need to have all required attributes present to be created. These are at *login, email, first and last name*. If any of these attributes are missing, the user cannot be saved to the database.
+4. If you enterprise license exceeds the user limit, new users can also not be synchronized through LDAP. A corresponding log entry will be logged.
