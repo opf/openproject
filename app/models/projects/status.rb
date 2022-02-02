@@ -37,5 +37,12 @@ class Projects::Status < ActiveRecord::Base
             presence: true,
             uniqueness: true
 
-  enum code: %i[on_track at_risk off_track]
+  enum code: {
+    on_track: 0,
+    at_risk: 1,
+    off_track: 2,
+    not_started: 3,
+    finished: 4,
+    discontinued: 5
+  }
 end

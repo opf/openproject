@@ -40,6 +40,15 @@
   &.-on-track
     border-color: var(--project-status-green)
     background-color: RGBA(var(--project-status-gray), 0.3)
+  &.-not-started
+    border-color: var(--project-status-light-blue)
+    background-color: RGBA(var(--project-status-gray), 0.3)
+  &.-finished
+    border-color: var(--project-status-deep-green)
+    background-color: RGBA(var(--project-status-gray), 0.3)
+  &.-discontinued
+    border-color: var(--project-status-deep-blue)
+    background-color: RGBA(var(--project-status-gray), 0.3)
 
   &.-inline
     height: 24px
@@ -68,6 +77,12 @@
     color: var(--project-status-orange)
   &.-on-track
     color: var(--project-status-green)
+  &.-not-started
+    color: var(--project-status-light-blue)
+  &.-finished
+    color: var(--project-status-deep-green)
+  &.-discontinued
+    color: var(--project-status-deep-blue)
 
 .project-status--pulldown-icon
   font-size: 10px
