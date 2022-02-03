@@ -49,7 +49,7 @@ describe OpenProject::JournalFormatter::Attachment do
   let(:user) { create(:user) }
   let(:attachment) do
     create(:attachment,
-                      author: user)
+           author: user)
   end
   let(:key) { "attachments_#{attachment.id}" }
 

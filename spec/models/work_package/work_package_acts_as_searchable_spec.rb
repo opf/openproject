@@ -34,12 +34,12 @@ describe WorkPackage, 'acts_as_searchable', type: :model do
   let(:wp_subject) { 'the quick brown fox jumps over the lazy dog' }
   let(:project) do
     create(:project,
-                      public: false)
+           public: false)
   end
   let(:work_package) do
     create(:work_package,
-                      subject: wp_subject,
-                      project: project)
+           subject: wp_subject,
+           project: project)
   end
   let(:user) { create(:user) }
 

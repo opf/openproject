@@ -36,9 +36,9 @@ describe UsersController, type: :controller do
   shared_let(:user_password) { 'bob!' * 4 }
   shared_let(:user) do
     create :user,
-                      login: 'bob',
-                      password: user_password,
-                      password_confirmation: user_password
+           login: 'bob',
+           password: user_password,
+           password_confirmation: user_password
   end
 
   describe 'GET new' do
@@ -644,10 +644,10 @@ describe UsersController, type: :controller do
 
       let(:user) do
         create(:user,
-                          firstname: 'Firstname',
-                          admin: true,
-                          login: 'testlogin',
-                          force_password_change: false)
+               firstname: 'Firstname',
+               admin: true,
+               login: 'testlogin',
+               force_password_change: false)
       end
       let(:params) do
         {
@@ -877,36 +877,36 @@ describe UsersController, type: :controller do
 
       let(:work_package) do
         create(:work_package,
-                          author: user)
+               author: user)
       end
       let!(:member) do
         create(:member,
-                          project: work_package.project,
-                          principal: user,
-                          roles: [create(:role,
-                                                    permissions: [:view_work_packages])])
+               project: work_package.project,
+               principal: user,
+               roles: [create(:role,
+                              permissions: [:view_work_packages])])
       end
       let!(:journal_1) do
         create(:work_package_journal,
-                          user: user,
-                          journable_id: work_package.id,
-                          version: Journal.maximum(:version) + 1,
-                          data: build(:journal_work_package_journal,
-                                                 subject: work_package.subject,
-                                                 status_id: work_package.status_id,
-                                                 type_id: work_package.type_id,
-                                                 project_id: work_package.project_id))
+               user: user,
+               journable_id: work_package.id,
+               version: Journal.maximum(:version) + 1,
+               data: build(:journal_work_package_journal,
+                           subject: work_package.subject,
+                           status_id: work_package.status_id,
+                           type_id: work_package.type_id,
+                           project_id: work_package.project_id))
       end
       let!(:journal_2) do
         create(:work_package_journal,
-                          user: user,
-                          journable_id: work_package.id,
-                          version: Journal.maximum(:version) + 1,
-                          data: build(:journal_work_package_journal,
-                                                 subject: work_package.subject,
-                                                 status_id: work_package.status_id,
-                                                 type_id: work_package.type_id,
-                                                 project_id: work_package.project_id))
+               user: user,
+               journable_id: work_package.id,
+               version: Journal.maximum(:version) + 1,
+               data: build(:journal_work_package_journal,
+                           subject: work_package.subject,
+                           status_id: work_package.status_id,
+                           type_id: work_package.type_id,
+                           project_id: work_package.project_id))
       end
 
       before do

@@ -41,30 +41,30 @@ describe 'API v3 memberships available projects resource', type: :request do
   end
   let(:own_member) do
     create(:member,
-                      roles: [create(:role, permissions: permissions)],
-                      project: project,
-                      user: current_user)
+           roles: [create(:role, permissions: permissions)],
+           project: project,
+           user: current_user)
   end
   let(:permissions) { %i[view_members manage_members] }
   let(:manage_project) do
     create(:project).tap do |p|
       create(:member,
-                        roles: [create(:role, permissions: permissions)],
-                        project: p,
-                        user: current_user)
+             roles: [create(:role, permissions: permissions)],
+             project: p,
+             user: current_user)
     end
   end
   let(:membered_project) do
     create(:project).tap do |p|
       create(:member,
-                        roles: [create(:role, permissions: permissions)],
-                        project: p,
-                        user: current_user)
+             roles: [create(:role, permissions: permissions)],
+             project: p,
+             user: current_user)
 
       create(:member,
-                        roles: [create(:role, permissions: permissions)],
-                        project: p,
-                        user: other_user)
+             roles: [create(:role, permissions: permissions)],
+             project: p,
+             user: other_user)
     end
   end
   let(:unauthorized_project) do

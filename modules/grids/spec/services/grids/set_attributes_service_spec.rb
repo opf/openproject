@@ -98,11 +98,11 @@ describe Grids::SetAttributesService, type: :model do
       let(:widgets) do
         [
           build_stubbed(:grid_widget,
-                                   identifier: 'work_packages_assigned',
-                                   start_row: 3,
-                                   end_row: 5,
-                                   start_column: 1,
-                                   end_column: 3)
+                        identifier: 'work_packages_assigned',
+                        start_row: 3,
+                        end_row: 5,
+                        start_column: 1,
+                        end_column: 3)
         ]
       end
 
@@ -143,11 +143,11 @@ describe Grids::SetAttributesService, type: :model do
           let(:existing_widgets) do
             [
               build(:grid_widget,
-                               identifier: 'work_packages_assigned',
-                               start_row: 3,
-                               end_row: 5,
-                               start_column: 1,
-                               end_column: 3)
+                    identifier: 'work_packages_assigned',
+                    start_row: 3,
+                    end_row: 5,
+                    start_column: 1,
+                    end_column: 3)
             ]
           end
 
@@ -177,11 +177,11 @@ describe Grids::SetAttributesService, type: :model do
       let(:existing_widgets) do
         [
           build_stubbed(:grid_widget,
-                                   identifier: 'work_packages_assigned',
-                                   start_row: 3,
-                                   end_row: 5,
-                                   start_column: 1,
-                                   end_column: 3)
+                        identifier: 'work_packages_assigned',
+                        start_row: 3,
+                        end_row: 5,
+                        start_column: 1,
+                        end_column: 3)
         ]
       end
       let(:grid) do
@@ -223,11 +223,11 @@ describe Grids::SetAttributesService, type: :model do
           let(:existing_widgets) do
             [
               build(:grid_widget,
-                               identifier: 'work_packages_assigned',
-                               start_row: 3,
-                               end_row: 5,
-                               start_column: 1,
-                               end_column: 3)
+                    identifier: 'work_packages_assigned',
+                    start_row: 3,
+                    end_row: 5,
+                    start_column: 1,
+                    end_column: 3)
             ]
           end
 
@@ -257,11 +257,11 @@ describe Grids::SetAttributesService, type: :model do
       let(:existing_widgets) do
         [
           build_stubbed(:grid_widget,
-                                   identifier: 'work_packages_assigned',
-                                   start_row: 3,
-                                   end_row: 5,
-                                   start_column: 1,
-                                   end_column: 3)
+                        identifier: 'work_packages_assigned',
+                        start_row: 3,
+                        end_row: 5,
+                        start_column: 1,
+                        end_column: 3)
         ]
       end
       let(:grid) do
@@ -299,11 +299,11 @@ describe Grids::SetAttributesService, type: :model do
           let(:existing_widgets) do
             [
               build(:grid_widget,
-                               identifier: 'work_packages_assigned',
-                               start_row: 3,
-                               end_row: 5,
-                               start_column: 1,
-                               end_column: 3)
+                    identifier: 'work_packages_assigned',
+                    start_row: 3,
+                    end_row: 5,
+                    start_column: 1,
+                    end_column: 3)
             ]
           end
 
@@ -333,22 +333,22 @@ describe Grids::SetAttributesService, type: :model do
       let(:widgets) do
         [
           build_stubbed(:grid_widget,
-                                   id: existing_widgets[0].id,
-                                   identifier: 'work_packages_assigned',
-                                   start_row: 3,
-                                   end_row: 5,
-                                   start_column: 1,
-                                   end_column: 3)
+                        id: existing_widgets[0].id,
+                        identifier: 'work_packages_assigned',
+                        start_row: 3,
+                        end_row: 5,
+                        start_column: 1,
+                        end_column: 3)
         ]
       end
       let(:existing_widgets) do
         [
           build_stubbed(:grid_widget,
-                                   identifier: 'work_packages_assigned',
-                                   start_row: 2,
-                                   end_row: 5,
-                                   start_column: 1,
-                                   end_column: 3)
+                        identifier: 'work_packages_assigned',
+                        start_row: 2,
+                        end_row: 5,
+                        start_column: 1,
+                        end_column: 3)
         ]
       end
       let(:grid) do
@@ -379,51 +379,51 @@ describe Grids::SetAttributesService, type: :model do
       let(:widgets) do
         [
           build_stubbed(:grid_widget,
-                                   identifier: 'work_packages_assigned',
-                                   start_row: 3,
-                                   end_row: 5,
-                                   start_column: 1,
-                                   end_column: 3),
+                        identifier: 'work_packages_assigned',
+                        start_row: 3,
+                        end_row: 5,
+                        start_column: 1,
+                        end_column: 3),
           build_stubbed(:grid_widget,
-                                   identifier: 'work_packages_watched',
-                                   start_row: 1,
-                                   end_row: 2,
-                                   start_column: 1,
-                                   end_column: 2),
+                        identifier: 'work_packages_watched',
+                        start_row: 1,
+                        end_row: 2,
+                        start_column: 1,
+                        end_column: 2),
           build_stubbed(:grid_widget,
-                                   identifier: 'work_packages_calendar',
-                                   start_row: 2,
-                                   end_row: 4,
-                                   start_column: 1,
-                                   end_column: 2),
+                        identifier: 'work_packages_calendar',
+                        start_row: 2,
+                        end_row: 4,
+                        start_column: 1,
+                        end_column: 2),
           build_stubbed(:grid_widget,
-                                   identifier: 'work_packages_calendar',
-                                   start_row: 1,
-                                   end_row: 2,
-                                   start_column: 4,
-                                   end_column: 4)
+                        identifier: 'work_packages_calendar',
+                        start_row: 1,
+                        end_row: 2,
+                        start_column: 4,
+                        end_column: 4)
         ]
       end
       let(:existing_widgets) do
         [
           build_stubbed(:grid_widget,
-                                   identifier: 'work_packages_assigned',
-                                   start_row: 2,
-                                   end_row: 5,
-                                   start_column: 1,
-                                   end_column: 3),
+                        identifier: 'work_packages_assigned',
+                        start_row: 2,
+                        end_row: 5,
+                        start_column: 1,
+                        end_column: 3),
           build_stubbed(:grid_widget,
-                                   identifier: 'work_packages_assigned',
-                                   start_row: 1,
-                                   end_row: 2,
-                                   start_column: 3,
-                                   end_column: 4),
+                        identifier: 'work_packages_assigned',
+                        start_row: 1,
+                        end_row: 2,
+                        start_column: 3,
+                        end_column: 4),
           build_stubbed(:grid_widget,
-                                   identifier: 'work_packages_calendar',
-                                   start_row: 1,
-                                   end_row: 2,
-                                   start_column: 1,
-                                   end_column: 2)
+                        identifier: 'work_packages_calendar',
+                        start_row: 1,
+                        end_row: 2,
+                        start_column: 1,
+                        end_column: 2)
         ]
       end
       let(:grid) do

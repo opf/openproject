@@ -36,8 +36,8 @@ describe 'API v3 Budget resource' do
   let(:project) { create(:project, public: false) }
   let(:current_user) do
     create(:user,
-                      member_in_project: project,
-                      member_with_permissions: [:view_budgets])
+           member_in_project: project,
+           member_with_permissions: [:view_budgets])
   end
   subject(:response) { last_response }
 

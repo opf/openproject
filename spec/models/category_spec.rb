@@ -44,8 +44,8 @@ describe Category, type: :model do
     context 'with a group assignment' do
       let(:group) do
         create(:group,
-                          member_in_project: project,
-                          member_with_permissions: [])
+               member_in_project: project,
+               member_with_permissions: [])
       end
       let(:assignee) { group }
 

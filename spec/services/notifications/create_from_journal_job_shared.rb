@@ -34,10 +34,10 @@ shared_context 'with CreateFromJournalJob context' do
   let(:permissions) { [] }
   let(:recipient) do
     create(:user,
-                      notification_settings: recipient_notification_settings,
-                      member_in_project: project,
-                      member_through_role: create(:role, permissions: permissions),
-                      login: recipient_login)
+           notification_settings: recipient_notification_settings,
+           member_in_project: project,
+           member_through_role: create(:role, permissions: permissions),
+           login: recipient_login)
   end
   let(:recipient_login) { "johndoe" }
   let(:other_user) do
@@ -46,7 +46,7 @@ shared_context 'with CreateFromJournalJob context' do
     ]
 
     create(:user,
-                      notification_settings: notification_settings)
+           notification_settings: notification_settings)
   end
   let(:notification_settings_all_false) do
     NotificationSetting

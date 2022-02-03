@@ -46,23 +46,23 @@ shared_context 'with a mentioned work package being updated again' do
 
   let(:recipient) do
     create :user,
-                      preferences: {
-                        immediate_reminders: {
-                          mentioned: true
-                        }
-                      },
-                      notification_settings: [
-                        build(:notification_setting,
-                                         mentioned: true,
-                                         involved: true)
-                      ],
-                      member_in_project: project,
-                      member_through_role: role
+           preferences: {
+             immediate_reminders: {
+               mentioned: true
+             }
+           },
+           notification_settings: [
+             build(:notification_setting,
+                   mentioned: true,
+                   involved: true)
+           ],
+           member_in_project: project,
+           member_through_role: role
   end
   let(:actor) do
     create :user,
-                      member_in_project: project,
-                      member_through_role: role
+           member_in_project: project,
+           member_through_role: role
   end
 
   let(:comment) do

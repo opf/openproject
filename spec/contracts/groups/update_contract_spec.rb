@@ -38,8 +38,8 @@ describe Groups::UpdateContract do
   it_behaves_like 'group contract' do
     let(:group) do
       build_stubbed(:group,
-                               name: group_name,
-                               group_users: group_users)
+                    name: group_name,
+                    group_users: group_users)
     end
 
     let(:contract) { described_class.new(group, current_user) }

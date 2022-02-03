@@ -41,19 +41,19 @@ describe 'messages', type: :feature, js: true do
 
   let(:user) do
     create :user,
-                      member_in_project: forum.project,
-                      member_through_role: role,
-                      notification_settings: [
-                        build(:notification_setting, **notification_settings_all_false, watched: true)
-                      ]
+           member_in_project: forum.project,
+           member_through_role: role,
+           notification_settings: [
+             build(:notification_setting, **notification_settings_all_false, watched: true)
+           ]
   end
   let(:other_user) do
     create(:user,
-                      member_in_project: forum.project,
-                      member_through_role: role,
-                      notification_settings: [
-                        build(:notification_setting, **notification_settings_all_false, watched: true)
-                      ]).tap do |u|
+           member_in_project: forum.project,
+           member_through_role: role,
+           notification_settings: [
+             build(:notification_setting, **notification_settings_all_false, watched: true)
+           ]).tap do |u|
       forum.watcher_users << u
     end
   end

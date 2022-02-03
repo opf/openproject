@@ -92,6 +92,8 @@ export class SaveQueryModalComponent extends OpModalComponent {
   }
 
   public saveQueryAs($event:JQuery.TriggeredEvent) {
+    $event.preventDefault();
+
     if (this.isBusy || !this.queryName) {
       return;
     }

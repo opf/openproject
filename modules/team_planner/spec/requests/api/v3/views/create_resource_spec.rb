@@ -36,19 +36,19 @@ describe ::API::V3::Views::ViewsAPI,
   shared_let(:permitted_user) { create(:user) }
   shared_let(:role) do
     create(:role,
-                      permissions: %w[view_work_packages
-                                      save_queries
-                                      manage_public_queries
-                                      manage_team_planner])
+           permissions: %w[view_work_packages
+                           save_queries
+                           manage_public_queries
+                           manage_team_planner])
   end
   shared_let(:project) do
     create(:project,
-                      members: { permitted_user => role })
+           members: { permitted_user => role })
   end
   shared_let(:public_query) do
     create(:query,
-                      project: project,
-                      public: true)
+           project: project,
+           public: true)
   end
 
   let(:additional_setup) do

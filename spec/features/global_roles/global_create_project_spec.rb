@@ -70,8 +70,8 @@ describe 'Global role: Global Create project', type: :feature, js: true do
     let(:user) { create :user }
     let!(:global_member) do
       create(:global_member,
-                        principal: user,
-                        roles: [global_role])
+             principal: user,
+             roles: [global_role])
     end
 
     let(:name_field) { ::FormFields::InputFormField.new :name }

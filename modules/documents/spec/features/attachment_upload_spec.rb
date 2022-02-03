@@ -36,14 +36,14 @@ describe 'Upload attachment to documents',
          } do
   let!(:user) do
     create :user,
-                      member_in_project: project,
-                      member_with_permissions: %i[view_documents
-                                                  manage_documents]
+           member_in_project: project,
+           member_with_permissions: %i[view_documents
+                                       manage_documents]
   end
   let!(:other_user) do
     create :user,
-                      member_in_project: project,
-                      member_with_permissions: %i[view_documents]
+           member_in_project: project,
+           member_with_permissions: %i[view_documents]
   end
   let!(:category) do
     create(:document_category)

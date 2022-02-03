@@ -35,58 +35,58 @@ describe ::Query::Results, 'Grouping and sorting for version', type: :model, wit
   let(:project_1) { create :project }
   let(:user_1) do
     create(:user,
-                      firstname: 'user',
-                      lastname: '1',
-                      member_in_project: project_1,
-                      member_with_permissions: [:view_work_packages])
+           firstname: 'user',
+           lastname: '1',
+           member_in_project: project_1,
+           member_with_permissions: [:view_work_packages])
   end
 
   let(:old_version) do
     create(:version,
-                      name: '1. Old version',
-                      project: project_1,
-                      start_date: '2019-02-02',
-                      effective_date: '2019-02-03')
+           name: '1. Old version',
+           project: project_1,
+           start_date: '2019-02-02',
+           effective_date: '2019-02-03')
   end
 
   let(:new_version) do
     create(:version,
-                      name: '1.2 New version',
-                      project: project_1,
-                      start_date: '2020-02-02',
-                      effective_date: '2020-02-03')
+           name: '1.2 New version',
+           project: project_1,
+           start_date: '2020-02-02',
+           effective_date: '2020-02-03')
   end
 
   let(:no_date_version) do
     create(:version,
-                      name: '1.1 No date version',
-                      project: project_1,
-                      start_date: nil,
-                      effective_date: nil)
+           name: '1.1 No date version',
+           project: project_1,
+           start_date: nil,
+           effective_date: nil)
   end
 
   let!(:no_version_wp) do
     create(:work_package,
-                      subject: 'No version wp',
-                      project: project_1)
+           subject: 'No version wp',
+           project: project_1)
   end
   let!(:newest_version_wp) do
     create(:work_package,
-                      subject: 'Newest version wp',
-                      version: new_version,
-                      project: project_1)
+           subject: 'Newest version wp',
+           version: new_version,
+           project: project_1)
   end
   let!(:oldest_version_wp) do
     create(:work_package,
-                      subject: 'Oldest version wp',
-                      version: old_version,
-                      project: project_1)
+           subject: 'Oldest version wp',
+           version: old_version,
+           project: project_1)
   end
   let!(:no_date_version_wp) do
     create(:work_package,
-                      subject: 'No date version wp',
-                      version: no_date_version,
-                      project: project_1)
+           subject: 'No date version wp',
+           version: no_date_version,
+           project: project_1)
   end
 
   let(:group_by) { nil }
@@ -94,10 +94,10 @@ describe ::Query::Results, 'Grouping and sorting for version', type: :model, wit
 
   let(:query) do
     build(:query,
-                     user: user_1,
-                     group_by: group_by,
-                     show_hierarchies: false,
-                     project: project_1).tap do |q|
+          user: user_1,
+          group_by: group_by,
+          show_hierarchies: false,
+          project: project_1).tap do |q|
       q.filters.clear
       q.sort_criteria = sort_criteria
     end

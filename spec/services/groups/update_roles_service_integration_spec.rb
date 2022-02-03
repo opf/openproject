@@ -38,11 +38,11 @@ describe Groups::UpdateRolesService, 'integration', type: :model do
 
   let!(:group) do
     create(:group,
-                      members: users).tap do |group|
+           members: users).tap do |group|
       create(:member,
-                        project: project,
-                        principal: group,
-                        roles: roles)
+             project: project,
+             principal: group,
+             roles: roles)
 
       ::Groups::AddUsersService
         .new(group, current_user: User.system, contract_class: EmptyContract)

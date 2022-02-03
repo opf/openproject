@@ -37,11 +37,11 @@ RSpec.feature 'Work package timeline date formatting',
 
   shared_let(:work_package) do
     create :work_package,
-                      project: project,
-                      type: type,
-                      start_date: '2020-12-31',
-                      due_date: '2021-01-01',
-                      subject: 'My subject'
+           project: project,
+           type: type,
+           start_date: '2020-12-31',
+           due_date: '2021-01-01',
+           subject: 'My subject'
   end
 
   let(:wp_timeline) { Pages::WorkPackagesTimeline.new(project) }

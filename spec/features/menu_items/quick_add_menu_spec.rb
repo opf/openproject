@@ -53,8 +53,8 @@ feature 'Quick-add menu', js: true, selenium: true do
 
       current_user do
         create :user,
-                          member_in_project: project,
-                          member_with_permissions: %i[add_subprojects]
+               member_in_project: project,
+               member_with_permissions: %i[add_subprojects]
       end
 
       it 'moves to a form with parent_id set' do
@@ -78,8 +78,8 @@ feature 'Quick-add menu', js: true, selenium: true do
 
     current_user do
       create :user,
-                        member_in_project: project,
-                        member_with_permissions: %i[manage_members]
+             member_in_project: project,
+             member_with_permissions: %i[manage_members]
     end
 
     it 'shows the user invite screen' do
@@ -104,19 +104,19 @@ feature 'Quick-add menu', js: true, selenium: true do
     let!(:read_role) { create(:role, permissions: %i[view_work_packages]) }
     let!(:project_with_permission) do
       create :project,
-                        types: [type_bug],
-                        members: { current_user => add_role }
+             types: [type_bug],
+             members: { current_user => add_role }
     end
     let!(:other_project_with_permission) do
       create :project,
-                        types: [other_project_type],
-                        members: { current_user => add_role }
+             types: [other_project_type],
+             members: { current_user => add_role }
 
     end
     let!(:project_without_permission) do
       create :project,
-                        types: [other_type],
-                        members: { current_user => read_role }
+             types: [other_type],
+             members: { current_user => read_role }
     end
 
     current_user { create :user }

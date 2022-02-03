@@ -36,18 +36,18 @@ describe 'Calendar drag&dop and resizing', type: :feature, js: true do
 
   let!(:other_user) do
     create :user,
-                      firstname: 'Bernd',
-                      member_in_project: project,
-                      member_with_permissions: %w[
-                        view_work_packages view_calendar
-                      ]
+           firstname: 'Bernd',
+           member_in_project: project,
+           member_with_permissions: %w[
+             view_work_packages view_calendar
+           ]
   end
 
   let!(:work_package) do
     create :work_package,
-                      project: project,
-                      start_date: Time.zone.today.beginning_of_week.next_occurring(:tuesday),
-                      due_date: Time.zone.today.beginning_of_week.next_occurring(:thursday)
+           project: project,
+           start_date: Time.zone.today.beginning_of_week.next_occurring(:tuesday),
+           due_date: Time.zone.today.beginning_of_week.next_occurring(:thursday)
   end
 
   before do

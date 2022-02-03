@@ -24,8 +24,8 @@ describe ::Bim::IfcModels::IfcModel, type: :model do
     subject { create :ifc_model_minimal_converted, project: project }
     current_user do
       create :user,
-                        member_in_project: project,
-                        member_with_permissions: %i[manage_ifc_models]
+             member_in_project: project,
+             member_with_permissions: %i[manage_ifc_models]
     end
 
     it 'replaces the previous attachment' do

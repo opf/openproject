@@ -180,9 +180,9 @@ describe Repository::Git, type: :model do
       let(:url) { repo_dir }
       let(:instance) do
         create(:repository_git,
-                          path_encoding: encoding,
-                          url: url,
-                          root_url: url)
+               path_encoding: encoding,
+               url: url,
+               root_url: url)
       end
 
       before do

@@ -7,8 +7,8 @@ describe 'activity comments', js: true, with_mail: false do
   let(:project) { create :project, public: true }
   let!(:work_package) do
     create(:work_package,
-                      project: project,
-                      journal_notes: initial_comment)
+           project: project,
+           journal_notes: initial_comment)
   end
   let(:wp_page) { Pages::SplitWorkPackage.new(work_package, project) }
   let(:selector) { '.work-packages--activity--add-comment' }

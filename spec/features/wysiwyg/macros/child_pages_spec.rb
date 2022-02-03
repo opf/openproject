@@ -34,7 +34,7 @@ describe 'Wysiwyg child pages spec',
          type: :feature, js: true do
   let(:project) do
     create :project,
-                      enabled_module_names: %w[wiki]
+           enabled_module_names: %w[wiki]
   end
   let(:role) { create(:role, permissions: %i[view_wiki_pages edit_wiki_pages]) }
   let(:user) do
@@ -43,20 +43,20 @@ describe 'Wysiwyg child pages spec',
 
   let(:wiki_page) do
     create :wiki_page,
-                      title: 'Test',
-                      content: build(:wiki_content, text: '# My page')
+           title: 'Test',
+           content: build(:wiki_content, text: '# My page')
   end
 
   let(:parent_page) do
     create :wiki_page,
-                      title: 'Parent page',
-                      content: build(:wiki_content, text: '# parent page')
+           title: 'Parent page',
+           content: build(:wiki_content, text: '# parent page')
   end
 
   let(:child_page) do
     create :wiki_page,
-                      title: 'Child page',
-                      content: build(:wiki_content, text: '# child page')
+           title: 'Child page',
+           content: build(:wiki_content, text: '# child page')
   end
 
   before do

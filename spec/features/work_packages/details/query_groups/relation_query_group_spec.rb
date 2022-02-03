@@ -42,19 +42,19 @@ describe 'Work package with relation query group', js: true, selenium: true do
   end
   let(:type) do
     create :type_with_relation_query_group,
-                      relation_filter: relation_type
+           relation_filter: relation_type
   end
   let!(:work_package) do
     create :work_package,
-                      project: project,
-                      type: type
+           project: project,
+           type: type
   end
   let!(:related_work_package) do
     create :work_package,
-                      new_relation.merge(
-                        project: project,
-                        type: type
-                      )
+           new_relation.merge(
+             project: project,
+             type: type
+           )
   end
 
   let(:work_packages_page) { ::Pages::SplitWorkPackage.new(work_package) }
@@ -115,9 +115,9 @@ describe 'Work package with relation query group', js: true, selenium: true do
     let(:relation_type) { :follows }
     let!(:related_work_package) do
       create :work_package,
-                        project: project2,
-                        type: type,
-                        follows: [work_package]
+             project: project2,
+             type: type,
+             follows: [work_package]
     end
 
     let(:type) do
@@ -138,8 +138,8 @@ describe 'Work package with relation query group', js: true, selenium: true do
       let(:permissions) { %i[view_work_packages add_work_packages edit_work_packages manage_work_package_relations] }
       let(:user) do
         create(:user,
-                          member_in_project: project,
-                          member_through_role: role)
+               member_in_project: project,
+               member_through_role: role)
       end
       let!(:project2_member) do
         member = build(:member, user: user, project: project2)
@@ -169,8 +169,8 @@ describe 'Work package with relation query group', js: true, selenium: true do
       let(:permissions) { [:view_work_packages] }
       let(:user) do
         create(:user,
-                          member_in_project: project,
-                          member_through_role: role)
+               member_in_project: project,
+               member_through_role: role)
       end
 
       it 'hides that group automatically without showing an error' do
@@ -189,7 +189,7 @@ describe 'Work package with relation query group', js: true, selenium: true do
     let(:relation_target) { [work_package] }
     let!(:independent_work_package) do
       create :work_package,
-                        project: project
+             project: project
     end
 
     before do

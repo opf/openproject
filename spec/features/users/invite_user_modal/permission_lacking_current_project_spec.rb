@@ -38,11 +38,11 @@ describe 'Inviting user in project the current user is lacking permission in', t
 
   let(:view_role) do
     create :role,
-                      permissions: []
+           permissions: []
   end
   let(:invite_role) do
     create :role,
-                      permissions: %i[manage_members]
+           permissions: %i[manage_members]
   end
 
   let!(:other_user) { create(:user) }

@@ -34,12 +34,12 @@ describe ::API::V3::UserPreferences::UserPreferenceRepresenter,
 
   let(:preference) do
     build_stubbed(:user_preference,
-                             settings: {
-                               "daily_reminders" => {
-                                 "enabled" => true,
-                                 "times" => %w[07:00:00+00:00 15:00:00+00:00]
-                               }
-                             })
+                  settings: {
+                    "daily_reminders" => {
+                      "enabled" => true,
+                      "times" => %w[07:00:00+00:00 15:00:00+00:00]
+                    }
+                  })
   end
   let(:notification_setting) { build(:notification_setting) }
   let(:user) { build_stubbed(:user, preference: preference) }

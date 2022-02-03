@@ -31,7 +31,7 @@ require 'spec_helper'
 describe ::Query::SortCriteria, type: :model do
   let(:query) do
     build_stubbed :query,
-                             show_hierarchies: false
+                  show_hierarchies: false
   end
 
   let(:available_criteria) { query.sortable_key_by_column_name }

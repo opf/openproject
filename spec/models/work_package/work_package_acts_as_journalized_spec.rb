@@ -33,17 +33,17 @@ describe WorkPackage, type: :model do
     let(:type) { create :type }
     let(:project) do
       create :project,
-                        types: [type]
+             types: [type]
     end
     let(:status) { create :default_status }
     let(:priority) { create :priority }
     let(:work_package) do
       create(:work_package,
-                        project_id: project.id,
-                        type: type,
-                        description: 'Description',
-                        priority: priority,
-                        status: status)
+             project_id: project.id,
+             type: type,
+             description: 'Description',
+             priority: priority,
+             status: status)
     end
     let(:current_user) { create(:user) }
 
@@ -102,10 +102,10 @@ describe WorkPackage, type: :model do
       let(:changed_description) { description.gsub("\n", "\r\n") }
       let!(:work_package_1) do
         create(:work_package,
-                          project_id: project.id,
-                          type: type,
-                          description: description,
-                          priority: priority)
+               project_id: project.id,
+               type: type,
+               description: description,
+               priority: priority)
       end
 
       before do
@@ -135,17 +135,17 @@ describe WorkPackage, type: :model do
       context 'when there is a legacy journal containing non-escaped newlines' do
         let!(:work_package_journal_1) do
           create(:work_package_journal,
-                            journable_id: work_package_1.id,
-                            version: 2,
-                            data: build(:journal_work_package_journal,
-                                                   description: description))
+                 journable_id: work_package_1.id,
+                 version: 2,
+                 data: build(:journal_work_package_journal,
+                             description: description))
         end
         let!(:work_package_journal_2) do
           create(:work_package_journal,
-                            journable_id: work_package_1.id,
-                            version: 3,
-                            data: build(:journal_work_package_journal,
-                                                   description: changed_description))
+                 journable_id: work_package_1.id,
+                 version: 3,
+                 data: build(:journal_work_package_journal,
+                             description: changed_description))
         end
 
         subject { work_package_1.journals.reload.last.details }
@@ -157,9 +157,9 @@ describe WorkPackage, type: :model do
     context 'on work package change', with_settings: { journal_aggregation_time_minutes: 0 } do
       let(:parent_work_package) do
         create(:work_package,
-                          project_id: project.id,
-                          type: type,
-                          priority: priority)
+               project_id: project.id,
+               type: type,
+               priority: priority)
       end
       let(:type_2) { create :type }
       let(:status_2) { create :status }
@@ -305,8 +305,8 @@ describe WorkPackage, type: :model do
       let(:custom_field) { create :work_package_custom_field }
       let(:custom_value) do
         build :custom_value,
-                         value: 'false',
-                         custom_field: custom_field
+              value: 'false',
+              custom_field: custom_field
       end
 
       let(:custom_field_id) { "custom_fields_#{custom_value.custom_field_id}" }
@@ -336,8 +336,8 @@ describe WorkPackage, type: :model do
 
         let(:modified_custom_value) do
           create :custom_value,
-                            value: 'true',
-                            custom_field: custom_field
+                 value: 'true',
+                 custom_field: custom_field
         end
         before do
           work_package.custom_values = [modified_custom_value]
@@ -356,8 +356,8 @@ describe WorkPackage, type: :model do
 
         let(:unmodified_custom_value) do
           create :custom_value,
-                            value: 'false',
-                            custom_field: custom_field
+                 value: 'false',
+                 custom_field: custom_field
         end
         before do
           @original_journal_count = work_package.journals.reload.count
@@ -390,15 +390,15 @@ describe WorkPackage, type: :model do
       context 'custom value did not exist before' do
         let(:custom_field) do
           create :work_package_custom_field,
-                            is_required: false,
-                            field_format: 'list',
-                            possible_values: ['', '1', '2', '3', '4', '5', '6', '7']
+                 is_required: false,
+                 field_format: 'list',
+                 possible_values: ['', '1', '2', '3', '4', '5', '6', '7']
         end
         let(:custom_value) do
           create :custom_value,
-                            value: '',
-                            customized: work_package,
-                            custom_field: custom_field
+                 value: '',
+                 customized: work_package,
+                 custom_field: custom_field
         end
 
         describe 'empty values are recognized as unchanged' do
@@ -599,10 +599,10 @@ describe WorkPackage, type: :model do
     end
     let(:work_package) do
       create(:work_package,
-                        project: project,
-                        type: type,
-                        custom_field_values: { custom_field.id => 5 },
-                        attachments: [attachment])
+             project: project,
+             type: type,
+             custom_field_values: { custom_field.id => 5 },
+             attachments: [attachment])
     end
     let(:attachment) { build(:attachment) }
     let!(:journal) { work_package.journals.first }

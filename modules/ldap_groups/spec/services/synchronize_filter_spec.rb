@@ -17,11 +17,11 @@ describe LdapGroups::SynchronizeFilterService, with_ee: %i[ldap_groups] do
   # two groups foo (aa729), bar(aa729, bb459, cc414)
   let(:auth_source) do
     create :ldap_auth_source,
-                      port: ParallelHelper.port_for_ldap.to_s,
-                      account: 'uid=admin,ou=system',
-                      account_password: 'secret',
-                      base_dn: 'dc=example,dc=com',
-                      attr_login: 'uid'
+           port: ParallelHelper.port_for_ldap.to_s,
+           account: 'uid=admin,ou=system',
+           account_password: 'secret',
+           base_dn: 'dc=example,dc=com',
+           attr_login: 'uid'
   end
 
   let(:group_foo) { create :group, lastname: 'foo' }
@@ -94,15 +94,15 @@ describe LdapGroups::SynchronizeFilterService, with_ee: %i[ldap_groups] do
   describe 'when one group already exists with different settings' do
     let(:synced_foo) do
       create :ldap_synchronized_group,
-                        dn: 'cn=foo,ou=groups,dc=example,dc=com',
-                        group: group_foo,
-                        sync_users: false,
-                        auth_source: auth_source
+             dn: 'cn=foo,ou=groups,dc=example,dc=com',
+             group: group_foo,
+             sync_users: false,
+             auth_source: auth_source
     end
     let(:filter_foo_bar) do
       create :ldap_synchronized_filter,
-                        sync_users: true,
-                        auth_source: auth_source
+             sync_users: true,
+             auth_source: auth_source
     end
 
     before do
@@ -122,10 +122,10 @@ describe LdapGroups::SynchronizeFilterService, with_ee: %i[ldap_groups] do
     let!(:group_doesnotexist) { create :group, lastname: 'doesnotexist' }
     let!(:synced_doesnotexist) do
       create :ldap_synchronized_group,
-                        dn: 'cn=doesnotexist,ou=groups,dc=example,dc=com',
-                        group: group_doesnotexist,
-                        filter: filter_foo_bar,
-                        auth_source: auth_source
+             dn: 'cn=doesnotexist,ou=groups,dc=example,dc=com',
+             group: group_doesnotexist,
+             filter: filter_foo_bar,
+             auth_source: auth_source
     end
 
     it 'removes that group' do
@@ -154,8 +154,8 @@ describe LdapGroups::SynchronizeFilterService, with_ee: %i[ldap_groups] do
   describe 'when filter has its own base dn' do
     let(:filter_foo_bar) do
       create :ldap_synchronized_filter,
-                        auth_source: auth_source,
-                        base_dn: 'ou=users,dc=example,dc=com'
+             auth_source: auth_source,
+             base_dn: 'ou=users,dc=example,dc=com'
     end
 
     it 'uses that base for searching and doesnt find any groups' do

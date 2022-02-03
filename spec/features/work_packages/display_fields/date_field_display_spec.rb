@@ -33,10 +33,10 @@ describe 'Show the date of a Work Package', type: :feature, js: true do
   let(:admin) { create :admin }
   let(:work_package) do
     create :work_package,
-                      project: project,
-                      due_date: Date.yesterday,
-                      type: type,
-                      status: open_status
+           project: project,
+           due_date: Date.yesterday,
+           type: type,
+           status: open_status
   end
 
   let(:open_status) { create :default_status }
@@ -47,9 +47,9 @@ describe 'Show the date of a Work Package', type: :feature, js: true do
   let(:type) { create :type }
   let!(:workflow) do
     create :workflow,
-                      type_id: type.id,
-                      old_status: open_status,
-                      new_status: closed_status
+           type_id: type.id,
+           old_status: open_status,
+           new_status: closed_status
   end
 
   context 'with an overdue date' do

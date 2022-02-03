@@ -33,8 +33,8 @@ require 'spec_helper'
 describe WorkPackages::SetScheduleService do
   let(:work_package) do
     build_stubbed(:stubbed_work_package,
-                             start_date: work_package_start_date,
-                             due_date: work_package_due_date)
+                  start_date: work_package_start_date,
+                  due_date: work_package_due_date)
   end
   let(:work_package_due_date) { Date.today }
   let(:work_package_start_date) { nil }
@@ -47,15 +47,15 @@ describe WorkPackages::SetScheduleService do
 
   def stub_follower(start_date, due_date, predecessors)
     work_package = build_stubbed(:stubbed_work_package,
-                                            type: type,
-                                            start_date: start_date,
-                                            due_date: due_date)
+                                 type: type,
+                                 start_date: start_date,
+                                 due_date: due_date)
 
     relations = predecessors.map do |predecessor, delay|
       build_stubbed(:follows_relation,
-                               delay: delay,
-                               from: work_package,
-                               to: predecessor)
+                    delay: delay,
+                    from: work_package,
+                    to: predecessor)
     end
 
     allow(work_package)
@@ -71,8 +71,8 @@ describe WorkPackages::SetScheduleService do
                           {})
 
     relation = build_stubbed(:hierarchy_relation,
-                                        from: parent,
-                                        to: child)
+                             from: parent,
+                             to: child)
 
     allow(child)
       .to receive(:parent_relation)
@@ -115,8 +115,8 @@ describe WorkPackages::SetScheduleService do
                                  {})
 
     relation = build_stubbed(:hierarchy_relation,
-                                        from: work_package,
-                                        to: following_work_package1)
+                             from: work_package,
+                             to: following_work_package1)
 
     allow(following_work_package1)
       .to receive(:parent_relation)
@@ -131,8 +131,8 @@ describe WorkPackages::SetScheduleService do
                             {})
 
     relation = build_stubbed(:hierarchy_relation,
-                                        from: parent_following_work_package1,
-                                        to: sibling)
+                             from: parent_following_work_package1,
+                             to: sibling)
 
     allow(sibling)
       .to receive(:parent_relation)
@@ -331,22 +331,22 @@ describe WorkPackages::SetScheduleService do
     context 'moving backwards with the follower having another relation limiting movement' do
       let(:other_work_package) do
         build_stubbed(:stubbed_work_package,
-                                 type: type,
-                                 start_date: follower1_start_date - 8.days,
-                                 due_date: follower1_start_date - 5.days)
+                      type: type,
+                      start_date: follower1_start_date - 8.days,
+                      due_date: follower1_start_date - 5.days)
       end
 
       let(:follow_relation) do
         build_stubbed(:follows_relation,
-                                 to: work_package,
-                                 from: following_work_package1)
+                      to: work_package,
+                      from: following_work_package1)
       end
 
       let(:other_follow_relation) do
         build_stubbed(:follows_relation,
-                                 delay: 3,
-                                 to: other_work_package,
-                                 from: following_work_package1)
+                      delay: 3,
+                      to: other_work_package,
+                      from: following_work_package1)
       end
 
       before do
@@ -466,8 +466,8 @@ describe WorkPackages::SetScheduleService do
       end
       let(:another_successor) do
         build_stubbed(:stubbed_work_package,
-                                 start_date: nil,
-                                 due_date: nil)
+                      start_date: nil,
+                      due_date: nil)
       end
 
       context 'moving forward' do
@@ -581,16 +581,16 @@ describe WorkPackages::SetScheduleService do
     context 'moving backwards with the parent having another relation limiting movement' do
       let(:other_work_package) do
         build_stubbed(:stubbed_work_package,
-                                 type: type,
-                                 start_date: Date.today - 8.days,
-                                 due_date: Date.today - 4.days)
+                      type: type,
+                      start_date: Date.today - 8.days,
+                      due_date: Date.today - 4.days)
       end
 
       let(:other_follow_relation) do
         build_stubbed(:follows_relation,
-                                 delay: 2,
-                                 to: other_work_package,
-                                 from: parent_following_work_package1)
+                      delay: 2,
+                      to: other_work_package,
+                      from: parent_following_work_package1)
       end
 
       before do
@@ -616,16 +616,16 @@ describe WorkPackages::SetScheduleService do
     context 'moving backwards with the parent having another relation not limiting movement' do
       let(:other_work_package) do
         build_stubbed(:stubbed_work_package,
-                                 type: type,
-                                 start_date: Date.today - 10.days,
-                                 due_date: Date.today - 9.days)
+                      type: type,
+                      start_date: Date.today - 10.days,
+                      due_date: Date.today - 9.days)
       end
 
       let(:other_follow_relation) do
         build_stubbed(:follows_relation,
-                                 delay: 2,
-                                 to: other_work_package,
-                                 from: parent_following_work_package1)
+                      delay: 2,
+                      to: other_work_package,
+                      from: parent_following_work_package1)
       end
 
       before do

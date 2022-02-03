@@ -44,8 +44,8 @@ shared_context 'with a project with an arrangement of custom fields' do
 
   shared_let(:other_user) do
     create(:user,
-                      firstname: 'Other',
-                      lastname: 'User')
+           firstname: 'Other',
+           lastname: 'User')
   end
 
   shared_let(:project) do
@@ -73,8 +73,8 @@ shared_context 'with an instance of the described exporter' do
 
   let(:current_user) do
     create(:user,
-                      member_in_project: project,
-                      member_with_permissions: %i(view_projects))
+           member_in_project: project,
+           member_with_permissions: %i(view_projects))
   end
   let(:query) { Queries::Projects::ProjectQuery.new }
   let(:instance) do

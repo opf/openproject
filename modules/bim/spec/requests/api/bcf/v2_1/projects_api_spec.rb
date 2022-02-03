@@ -36,12 +36,12 @@ describe 'BCF 2.1 projects resource', type: :request, content_type: :json do
 
   let(:view_only_user) do
     create(:user,
-                      member_in_project: project)
+           member_in_project: project)
   end
   let(:edit_user) do
     create(:user,
-                      member_in_project: project,
-                      member_with_permissions: [:edit_project])
+           member_in_project: project,
+           member_with_permissions: [:edit_project])
   end
   let(:non_member_user) do
     create(:user)
@@ -132,9 +132,9 @@ describe 'BCF 2.1 projects resource', type: :request, content_type: :json do
     let!(:non_bcf_project) do
       create(:project, enabled_module_names: [:work_packages]).tap do |p|
         create(:member,
-                          project: p,
-                          user: view_only_user,
-                          roles: view_only_user.members.first.roles)
+               project: p,
+               user: view_only_user,
+               roles: view_only_user.members.first.roles)
       end
     end
 

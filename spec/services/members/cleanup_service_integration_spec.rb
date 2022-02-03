@@ -56,9 +56,9 @@ describe Members::CleanupService, 'integration', type: :model do
     context 'with the user having a membership with an assignable role' do
       before do
         create(:member,
-                          principal: user,
-                          project: project,
-                          roles: [create(:role, assignable: true)])
+               principal: user,
+               project: project,
+               roles: [create(:role, assignable: true)])
       end
 
       it 'keeps assigned_to to the user' do
@@ -72,9 +72,9 @@ describe Members::CleanupService, 'integration', type: :model do
     context 'with the user having a membership with an unassignable role' do
       before do
         create(:member,
-                          principal: user,
-                          project: project,
-                          roles: [create(:role, assignable: false)])
+               principal: user,
+               project: project,
+               roles: [create(:role, assignable: false)])
       end
 
       it 'sets assigned_to to nil' do
@@ -89,12 +89,12 @@ describe Members::CleanupService, 'integration', type: :model do
   describe 'watcher pruning' do
     let(:work_package) do
       create :work_package,
-                        project: project
+             project: project
     end
     let!(:watcher) do
       build(:watcher,
-                       watchable: work_package,
-                       user: user) do |w|
+            watchable: work_package,
+            user: user) do |w|
         w.save(validate: false)
       end
     end
@@ -109,9 +109,9 @@ describe Members::CleanupService, 'integration', type: :model do
     context 'with the user having a membership granting the right to view the watchable' do
       before do
         create(:member,
-                          principal: user,
-                          project: project,
-                          roles: [create(:role, permissions: [:view_work_packages])])
+               principal: user,
+               project: project,
+               roles: [create(:role, permissions: [:view_work_packages])])
       end
 
       it 'keeps the watcher' do
@@ -125,9 +125,9 @@ describe Members::CleanupService, 'integration', type: :model do
     context 'with the user having a membership not granting the right to view the watchable' do
       before do
         create(:member,
-                          principal: user,
-                          project: project,
-                          roles: [create(:role, permissions: [])])
+               principal: user,
+               project: project,
+               roles: [create(:role, permissions: [])])
       end
 
       it 'keeps the watcher' do

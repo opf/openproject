@@ -50,7 +50,7 @@ shared_examples "watcher job" do |action|
   end
   let(:watching_user) do
     build_stubbed(:user,
-                             notification_settings: notification_settings).tap do |user|
+                  notification_settings: notification_settings).tap do |user|
       allow(user)
         .to receive(:notification_settings)
               .and_return(notification_settings)

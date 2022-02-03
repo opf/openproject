@@ -33,7 +33,7 @@ describe ::API::V3::Notifications::NotificationCollectionRepresenter do
   let(:user) { build_stubbed :user }
   let(:notifications) do
     build_stubbed_list(:notification,
-                                  3).tap do |items|
+                       3).tap do |items|
       allow(items)
         .to receive(:per_page)
               .with(page_size)

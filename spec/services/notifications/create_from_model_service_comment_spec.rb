@@ -45,9 +45,9 @@ describe Notifications::CreateFromModelService, 'comment', with_settings: { jour
 
   let(:resource) do
     create(:comment,
-                      commented: news,
-                      author: author,
-                      comments: 'Some text')
+           commented: news,
+           author: author,
+           comments: 'Some text')
   end
 
   let(:journal) { nil }

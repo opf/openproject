@@ -64,7 +64,7 @@ describe "Immediate reminder settings", type: :feature, js: true do
         },
         notification_settings: [
           build(:notification_setting,
-                           mentioned: true)
+                mentioned: true)
         ],
         member_in_project: project,
         member_with_permissions: %i[view_work_packages]

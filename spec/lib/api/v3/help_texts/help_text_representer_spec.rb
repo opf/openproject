@@ -35,8 +35,8 @@ describe ::API::V3::HelpTexts::HelpTextRepresenter do
 
   let(:help_text) do
     build_stubbed :work_package_help_text,
-                             attribute_name: 'status',
-                             help_text: 'This is a help text for **status** attribute.'
+                  attribute_name: 'status',
+                  help_text: 'This is a help text for **status** attribute.'
   end
 
   let(:representer) { described_class.new help_text, current_user: user }

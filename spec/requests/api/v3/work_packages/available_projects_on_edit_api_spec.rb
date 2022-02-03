@@ -44,13 +44,13 @@ describe 'API::V3::WorkPackages::AvailableProjectsOnEditAPI', type: :request do
   let(:work_package) { create(:work_package, project: project) }
   let(:user) do
     user = create(:user,
-                             member_in_project: project,
-                             member_through_role: edit_role)
+                  member_in_project: project,
+                  member_through_role: edit_role)
 
     create(:member,
-                      user: user,
-                      project: target_project,
-                      roles: [move_role])
+           user: user,
+           project: target_project,
+           roles: [move_role])
 
     user
   end
