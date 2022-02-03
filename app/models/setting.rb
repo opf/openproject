@@ -29,7 +29,7 @@
 #++
 
 class Setting < ApplicationRecord
-  extend Callbacks
+  extend CallbacksHelper
   extend Aliases
 
   DATE_FORMATS = [
