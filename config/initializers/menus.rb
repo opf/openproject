@@ -327,11 +327,10 @@ Redmine::MenuManager.map :admin_menu do |menu|
 
   menu.push :ldap_authentication,
             { controller: '/ldap_auth_sources', action: 'index' },
-            if: Proc.new { User.current.admin? },
+            if: Proc.new { User.current.admin? && !OpenProject::Configuration.disable_password_login? },
             parent: :authentication,
             html: { class: 'server_authentication' },
-            last: true,
-            if: proc { !OpenProject::Configuration.disable_password_login? }
+            last: true
 
   menu.push :oauth_applications,
             { controller: '/oauth/applications', action: 'index' },
