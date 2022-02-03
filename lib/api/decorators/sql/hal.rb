@@ -93,13 +93,9 @@ module API
           def links_selects(select, walker_result)
             selected_links(select)
               .map do |name, link|
-              path_name = link[:path] ? link[:path][:api] : name
               title = link[:title] ? link[:title].call : "#{name}.name"
-              column = link[:column] ? link[:column].call : name
 
-              href = link[:href] ? link[:href].call(walker_result) : "format('#{api_v3_paths.send(path_name, '%s')}', #{column})"
-
-              link_attributes = ["'href'", href]
+              link_attributes = ["'href'", link_href(link, name, walker_result)]
 
               if title
                 link_attributes += ["'title'", title]
@@ -110,7 +106,7 @@ module API
               end
 
               if link[:render_if]
-                <<-SQL
+                <<-SQL.squish
                  '#{name}',
                  CASE WHEN #{link[:render_if].call(walker_result)} THEN
                    json_build_object(#{link_attributes.join(', ')})
@@ -119,7 +115,7 @@ module API
                  END
                 SQL
               else
-                <<-SQL
+                <<-SQL.squish
                  '#{name}', json_build_object(#{link_attributes.join(', ')})
                 SQL
               end
@@ -143,7 +139,7 @@ module API
                                  link[:column]
                                end
 
-              <<-SQL
+              <<-SQL.squish
                '#{name}', #{representation}
               SQL
             end
@@ -155,7 +151,7 @@ module API
               json_strip_nulls(json_build_object(
                 #{[properties_sql(select, walker_result),
                    select_links(select, walker_result),
-                   select_embedded(select, walker_result)].compact.join(', ')}
+                   select_embedded(select, walker_result)].compact_blank.join(', ')}
               ))
             SELECT
           end
@@ -166,7 +162,7 @@ module API
 
           def to_sql(walker_result)
             ctes = walker_result.ctes.map do |key, sql|
-              <<~SQL
+              <<~SQL.squish
                 #{key} AS (
                   #{sql}
                 )
@@ -175,7 +171,7 @@ module API
 
             ctes_sql = ctes.any? ? "WITH #{ctes.join(', ')}" : ""
 
-            <<~SQL
+            <<~SQL.squish
               #{ctes_sql}
 
               SELECT
@@ -188,23 +184,15 @@ module API
           private
 
           def select_embedded(select, walker_result)
-            embedded = embedded_selects(select, walker_result)
-
-            if embedded.present?
-              <<~SQL
-                '_embedded', json_strip_nulls(json_build_object(
-                  #{embedded_selects(select, walker_result)}
-                ))
-              SQL
+            namespaced_json_object('_embedded') do
+              embedded_selects(select, walker_result)
             end
           end
 
           def select_links(select, walker_result)
-            <<~SELECT
-              '_links', json_strip_nulls(json_build_object(
-                #{links_selects(select, walker_result)}
-              ))
-            SELECT
+            namespaced_json_object('_links') do
+              links_selects(select, walker_result)
+            end
           end
 
           def select_from(walker_result)
@@ -243,6 +231,25 @@ module API
             invalid = requested - supported
 
             raise API::Errors::InvalidSignal.new(invalid, supported, :select) if invalid.any?
+          end
+
+          def namespaced_json_object(namespace)
+            json_object = yield
+
+            return if json_object.blank?
+
+            <<~SELECT
+              '#{namespace}', json_strip_nulls(json_build_object(
+                #{json_object}
+              ))
+            SELECT
+          end
+
+          def link_href(link, name, walker_result)
+            path_name = link[:path] ? link[:path][:api] : name
+            column = link[:column] ? link[:column].call : name
+
+            link[:href] ? link[:href].call(walker_result) : "format('#{api_v3_paths.send(path_name, '%s')}', #{column})"
           end
         end
       end

@@ -39,7 +39,7 @@ module API
             ::API::V3::Utilities::SqlRepresenterWalker
               .new(results,
                    embed: { 'elements' => {} },
-                   select: { '*' => {}, 'elements' => { '*' => {} } },
+                   select: resulting_params[:select],
                    current_user: User.current,
                    self_path: self_path,
                    url_query: resulting_params)
@@ -52,6 +52,27 @@ module API
 
           def deduce_render_representer
             "::API::V3::#{deduce_api_namespace}::#{api_name}SqlCollectionRepresenter".constantize
+          end
+
+          def calculate_resulting_params(query, provided_params)
+            super.tap do |params|
+              params[:select] = nested_from_params(provided_params, 'select') || { '*' => {}, 'elements' => { '*' => {} } }
+            end
+          end
+
+          def nested_from_params(params, key)
+            key_params = params[key]
+
+            return unless key_params
+
+            key_params
+              .split(',')
+              .map { |path| nested_hash(path.split('/')) }
+              .inject({}) { |hash, nested| hash.deep_merge(nested) }
+          end
+
+          def nested_hash(path)
+            { path[0] => path.length > 1 ? nested_hash(path[1..-1]) : {} }
           end
         end
       end

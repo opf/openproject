@@ -80,27 +80,27 @@ module API
 
       link :self,
            href: ->(walker_result) { "'#{full_self_path(walker_result)}'" },
-           title: -> { nil }
+           title: -> {}
 
       link :jumpTo,
            href: ->(walker_result) { "'#{full_self_path(walker_result, offset: '{offset}')}'" },
-           title: -> { nil },
+           title: -> {},
            templated: true
 
       link :changeSize,
            href: ->(walker_result) { "'#{full_self_path(walker_result, pageSize: '{size}')}'" },
-           title: -> { nil },
+           title: -> {},
            templated: true
 
       link :previousByOffset,
            href: ->(walker_result) { "'#{full_self_path(walker_result, offset: walker_result.offset - 1)}'" },
            render_if: ->(walker_result) { walker_result.offset > 1 },
-           title: -> { nil }
+           title: -> {}
 
       link :nextByOffset,
            href: ->(walker_result) { "'#{full_self_path(walker_result, offset: walker_result.offset + 1)}'" },
            render_if: ->(walker_result) { "#{walker_result.offset * walker_result.page_size} < (SELECT * FROM total)" },
-           title: -> { nil }
+           title: -> {}
 
       embedded :elements,
                representation: ->(walker_result) do
