@@ -90,7 +90,7 @@ describe 'Admin storages', type: :feature, js: true do
     page.find('.button--icon.icon-delete').click
 
     alert_text = page.driver.browser.switch_to.alert.text
-    expect(alert_text).to eq 'Are you sure'
+    expect(alert_text).to eq(I18n.t('storages.delete_warning.storage'))
 
     page.driver.browser.switch_to.alert.accept
 
