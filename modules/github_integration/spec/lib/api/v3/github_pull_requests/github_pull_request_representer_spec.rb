@@ -35,10 +35,10 @@ describe ::API::V3::GithubPullRequests::GithubPullRequestRepresenter do
 
   let(:github_pull_request) do
     build_stubbed(:github_pull_request,
-                             state: 'open',
-                             labels: labels,
-                             github_user: github_user,
-                             merged_by: merged_by).tap do |pr|
+                  state: 'open',
+                  labels: labels,
+                  github_user: github_user,
+                  merged_by: merged_by).tap do |pr|
       allow(pr)
         .to receive(:latest_check_runs)
         .and_return(latest_check_runs)

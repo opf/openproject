@@ -44,9 +44,9 @@ describe LaborBudgetItem, type: :model do
 
   def is_member(project, user, permissions)
     create(:member,
-                      project: project,
-                      user: user,
-                      roles: [create(:role, permissions: permissions)])
+           project: project,
+           user: user,
+           roles: [create(:role, permissions: permissions)])
   end
 
   describe '#calculated_costs' do

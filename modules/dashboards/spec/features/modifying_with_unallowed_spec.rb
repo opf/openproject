@@ -51,7 +51,7 @@ describe 'Modifying a dashboard which already has widgets for which permissions 
   end
   let!(:news) do
     create :news,
-                      project: project
+           project: project
   end
 
   before do

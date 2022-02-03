@@ -36,15 +36,15 @@ describe 'Overview page managing', type: :feature, js: true, with_mail: false do
   let!(:open_status) { create :default_status }
   let!(:created_work_package) do
     create :work_package,
-                      project: project,
-                      type: type,
-                      author: user
+           project: project,
+           type: type,
+           author: user
   end
   let!(:assigned_work_package) do
     create :work_package,
-                      project: project,
-                      type: type,
-                      assigned_to: user
+           project: project,
+           type: type,
+           assigned_to: user
   end
 
   let(:permissions) do
@@ -58,8 +58,8 @@ describe 'Overview page managing', type: :feature, js: true, with_mail: false do
 
   let(:user) do
     create(:user,
-                      member_in_project: project,
-                      member_with_permissions: permissions)
+           member_in_project: project,
+           member_with_permissions: permissions)
   end
   let(:overview_page) do
     Pages::Overview.new(project)

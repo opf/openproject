@@ -7,9 +7,9 @@ describe 'Password change with OTP', with_2fa_ee: true, type: :feature,
   let(:new_user_password) { '%obB' * 4 }
   let(:user) do
     create(:user,
-                      login: 'bob',
-                      password: user_password,
-                      password_confirmation: user_password)
+           login: 'bob',
+           password: user_password,
+           password_confirmation: user_password)
   end
   let(:expected_path_after_login) { my_page_path }
 
@@ -88,11 +88,11 @@ describe 'Password change with OTP', with_2fa_ee: true, type: :feature,
   context 'when force password change is set' do
     let(:user) do
       create(:user,
-                        force_password_change: true,
-                        first_login: true,
-                        login: 'bob',
-                        password: user_password,
-                        password_confirmation: user_password)
+             force_password_change: true,
+             first_login: true,
+             login: 'bob',
+             password: user_password,
+             password_confirmation: user_password)
     end
     let(:expected_path_after_login) { home_path }
 

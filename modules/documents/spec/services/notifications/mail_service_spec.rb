@@ -44,7 +44,7 @@ describe Notifications::MailService, type: :model do
   context 'with a document journal notification' do
     let(:journal) do
       build_stubbed(:journal,
-                               journable: build_stubbed(:document)).tap do |j|
+                    journable: build_stubbed(:document)).tap do |j|
         allow(j)
           .to receive(:initial?)
                 .and_return(initial_journal)
@@ -53,11 +53,11 @@ describe Notifications::MailService, type: :model do
     let(:read_ian) { false }
     let(:notification) do
       build_stubbed(:notification,
-                               journal: journal,
-                               resource: journal.journable,
-                               recipient: recipient,
-                               actor: actor,
-                               read_ian: read_ian)
+                    journal: journal,
+                    resource: journal.journable,
+                    recipient: recipient,
+                    actor: actor,
+                    read_ian: read_ian)
     end
     let(:notification_setting) { %w(document_added) }
     let(:mail) do

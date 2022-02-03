@@ -34,8 +34,8 @@ describe 'Stories in backlog',
          js: true do
   let!(:project) do
     create(:project,
-                      types: [story, task, other_story],
-                      enabled_module_names: %w(work_package_tracking backlogs))
+           types: [story, task, other_story],
+           enabled_module_names: %w(work_package_tracking backlogs))
   end
   let!(:story) { create(:type_feature) }
   let!(:other_story) { create(:type) }
@@ -45,91 +45,91 @@ describe 'Stories in backlog',
   let!(:other_status) { create(:status) }
   let!(:workflows) do
     create(:workflow,
-                      old_status: default_status,
-                      new_status: other_status,
-                      role: role,
-                      type_id: story.id)
+           old_status: default_status,
+           new_status: other_status,
+           role: role,
+           type_id: story.id)
   end
   let(:role) do
     create(:role,
-                      permissions: %i(view_master_backlog
-                                      add_work_packages
-                                      view_work_packages
-                                      edit_work_packages
-                                      manage_subtasks
-                                      assign_versions))
+           permissions: %i(view_master_backlog
+                           add_work_packages
+                           view_work_packages
+                           edit_work_packages
+                           manage_subtasks
+                           assign_versions))
   end
   let!(:current_user) do
     create(:user,
-                      member_in_project: project,
-                      member_through_role: role)
+           member_in_project: project,
+           member_through_role: role)
   end
   let!(:sprint_story1) do
     create(:work_package,
-                      project: project,
-                      type: story,
-                      status: default_status,
-                      version: sprint,
-                      position: 1,
-                      story_points: 10)
+           project: project,
+           type: story,
+           status: default_status,
+           version: sprint,
+           position: 1,
+           story_points: 10)
   end
   let!(:sprint_story1_task) do
     create(:work_package,
-                      project: project,
-                      type: task,
-                      status: default_status,
-                      version: sprint)
+           project: project,
+           type: task,
+           status: default_status,
+           version: sprint)
   end
   let!(:sprint_story2_parent) do
     create(:work_package,
-                      project: project,
-                      type: create(:type),
-                      status: default_status,
-                      version: sprint)
+           project: project,
+           type: create(:type),
+           status: default_status,
+           version: sprint)
   end
   let!(:sprint_story2) do
     create(:work_package,
-                      project: project,
-                      type: story,
-                      status: default_status,
-                      version: sprint,
-                      position: 2,
-                      story_points: 20)
+           project: project,
+           type: story,
+           status: default_status,
+           version: sprint,
+           position: 2,
+           story_points: 20)
   end
   let!(:backlog_story1) do
     create(:work_package,
-                      project: project,
-                      type: story,
-                      status: default_status,
-                      version: backlog)
+           project: project,
+           type: story,
+           status: default_status,
+           version: backlog)
   end
   let!(:sprint) do
     create(:version,
-                      project: project,
-                      start_date: Date.today - 10.days,
-                      effective_date: Date.today + 10.days,
-                      version_settings_attributes: [{ project: project, display: VersionSetting::DISPLAY_LEFT }])
+           project: project,
+           start_date: Date.today - 10.days,
+           effective_date: Date.today + 10.days,
+           version_settings_attributes: [{ project: project, display: VersionSetting::DISPLAY_LEFT }])
   end
   let!(:backlog) do
     create(:version,
-                      project: project,
-                      version_settings_attributes: [{ project: project, display: VersionSetting::DISPLAY_RIGHT }])
+           project: project,
+           version_settings_attributes: [{ project: project, display: VersionSetting::DISPLAY_RIGHT }])
   end
   let!(:other_project) do
     create(:project).tap do |p|
       create(:member,
-                        principal: current_user,
-                        project: p,
-                        roles: [role])
+             principal: current_user,
+             project: p,
+             roles: [role])
     end
   end
   let!(:sprint_story_in_other_project) do
     create(:work_package,
-                      project: other_project,
-                      type: story,
-                      status: default_status,
-                      version: sprint,
-                      story_points: 10)
+           project: other_project,
+           type: story,
+           status: default_status,
+           version: sprint,
+           story_points: 10)
   end
   let!(:export_card_configurations) do
     ExportCardConfiguration.create!(name: 'Default',

@@ -36,40 +36,40 @@ describe 'Time entries widget on dashboard', type: :feature, js: true, with_mail
   let!(:other_project) { create :project, types: [type] }
   let!(:work_package) do
     create :work_package,
-                      project: project,
-                      type: type,
-                      author: user
+           project: project,
+           type: type,
+           author: user
   end
   let!(:visible_time_entry) do
     create :time_entry,
-                      work_package: work_package,
-                      project: project,
-                      user: user,
-                      spent_on: Date.today,
-                      hours: 6,
-                      comments: 'My comment'
+           work_package: work_package,
+           project: project,
+           user: user,
+           spent_on: Date.today,
+           hours: 6,
+           comments: 'My comment'
   end
   let!(:other_visible_time_entry) do
     create :time_entry,
-                      work_package: work_package,
-                      project: project,
-                      user: other_user,
-                      spent_on: Date.today - 1.day,
-                      hours: 5,
-                      comments: 'Another`s comment'
+           work_package: work_package,
+           project: project,
+           user: other_user,
+           spent_on: Date.today - 1.day,
+           hours: 5,
+           comments: 'Another`s comment'
   end
   let!(:invisible_time_entry) do
     create :time_entry,
-                      work_package: work_package,
-                      project: other_project,
-                      user: user,
-                      hours: 4
+           work_package: work_package,
+           project: other_project,
+           user: user,
+           hours: 4
   end
   let(:role) do
     create(:role,
-                      permissions: %i[view_time_entries
-                                      view_dashboards
-                                      manage_dashboards])
+           permissions: %i[view_time_entries
+                           view_dashboards
+                           manage_dashboards])
   end
   let(:other_user) do
     create(:user)

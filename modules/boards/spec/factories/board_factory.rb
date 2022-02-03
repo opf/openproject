@@ -26,13 +26,13 @@ FactoryBot.define do
       end
 
       board.widgets << create(:grid_widget,
-                                         identifier: 'work_package_query',
-                                         start_row: 1,
-                                         end_row: 2,
-                                         start_column: 1,
-                                         end_column: 1,
-                                         options: { 'queryId' => query.id,
-                                                    "filters" => [{ "manualSort" => { "operator" => "ow", "values" => [] } }] })
+                              identifier: 'work_package_query',
+                              start_row: 1,
+                              end_row: 2,
+                              start_column: 1,
+                              end_column: 1,
+                              options: { 'queryId' => query.id,
+                                         "filters" => [{ "manualSort" => { "operator" => "ow", "values" => [] } }] })
     end
   end
 
@@ -55,13 +55,13 @@ FactoryBot.define do
         end
 
         board.widgets << create(:grid_widget,
-                                           identifier: 'work_package_query',
-                                           start_row: 1,
-                                           end_row: 2,
-                                           start_column: 1,
-                                           end_column: 1,
-                                           options: { 'queryId' => query.id,
-                                                      "filters" => [{ "manualSort" => { "operator" => "ow", "values" => [] } }] })
+                                identifier: 'work_package_query',
+                                start_row: 1,
+                                end_row: 2,
+                                start_column: 1,
+                                end_column: 1,
+                                options: { 'queryId' => query.id,
+                                           "filters" => [{ "manualSort" => { "operator" => "ow", "values" => [] } }] })
       end
     end
   end
@@ -89,13 +89,13 @@ FactoryBot.define do
 
         board.options = { 'type' => 'action', 'attribute' => 'subproject' }
         board.widgets << create(:grid_widget,
-                                           identifier: 'work_package_query',
-                                           start_row: 1,
-                                           end_row: 2,
-                                           start_column: 1,
-                                           end_column: 1,
-                                           options: { 'queryId' => query.id,
-                                                      'filters' => filters })
+                                identifier: 'work_package_query',
+                                start_row: 1,
+                                end_row: 2,
+                                start_column: 1,
+                                end_column: 1,
+                                options: { 'queryId' => query.id,
+                                           'filters' => filters })
       end
     end
   end

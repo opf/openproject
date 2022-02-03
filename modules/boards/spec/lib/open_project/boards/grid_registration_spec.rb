@@ -6,8 +6,8 @@ describe OpenProject::Boards::GridRegistration do
   let(:board) { create(:board_grid, project: project) }
   let(:user) do
     create(:user,
-                      member_in_project: project,
-                      member_with_permissions: permissions)
+           member_in_project: project,
+           member_with_permissions: permissions)
   end
 
   describe 'from_scope' do

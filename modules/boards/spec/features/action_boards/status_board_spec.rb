@@ -33,8 +33,8 @@ require_relative './../support/board_page'
 describe 'Status action board', type: :feature, js: true do
   let(:user) do
     create(:user,
-                      member_in_project: project,
-                      member_through_role: role)
+           member_in_project: project,
+           member_through_role: role)
   end
   let(:type) { create(:type_standard) }
   let(:project) { create(:project, types: [type], enabled_module_names: %i[work_package_tracking board_view]) }
@@ -57,24 +57,24 @@ describe 'Status action board', type: :feature, js: true do
 
   let!(:workflow_type) do
     create(:workflow,
-                      type: type,
-                      role: role,
-                      old_status_id: open_status.id,
-                      new_status_id: closed_status.id)
+           type: type,
+           role: role,
+           old_status_id: open_status.id,
+           new_status_id: closed_status.id)
   end
   let!(:workflow_type_back) do
     create(:workflow,
-                      type: type,
-                      role: role,
-                      old_status_id: other_status.id,
-                      new_status_id: open_status.id)
+           type: type,
+           role: role,
+           old_status_id: other_status.id,
+           new_status_id: open_status.id)
   end
   let!(:workflow_type_back_open) do
     create(:workflow,
-                      type: type,
-                      role: role,
-                      old_status_id: closed_status.id,
-                      new_status_id: open_status.id)
+           type: type,
+           role: role,
+           old_status_id: closed_status.id,
+           new_status_id: open_status.id)
   end
 
   before do
