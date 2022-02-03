@@ -149,11 +149,11 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
       return String(dateTimeFormat.formatRange(new Date(startDate), new Date(dueDate)));
     }
     if (!startDate && dueDate) {
-      return `- ${dateTimeFormat.format(new Date(dueDate))}`;
+      return `-${dateTimeFormat.format(new Date(dueDate))}`;
     }
 
     if (startDate && !dueDate) {
-      return `${dateTimeFormat.format(new Date(startDate))} -`;
+      return `${dateTimeFormat.format(new Date(startDate))}-`;
     }
 
     return '';

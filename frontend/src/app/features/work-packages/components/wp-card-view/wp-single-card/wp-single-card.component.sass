@@ -16,10 +16,16 @@
   &:hover
     box-shadow: 0px 0px 10px lightgrey
 
+    .op-wp-single-card--content-project-name_hideable
+      opacity: 0.25
+    .op-wp-single-card--inline-buttons
+      opacity: 1
+      z-index: 1
+
   &_new
     padding-right: 25px
 
-  &_checked
+  &_checked:not(&_inline)
     background-color: var(--table-row-highlighting-color)
 
   &_horizontal
@@ -30,6 +36,9 @@
     // Take care that the shadow of the last element is still visible
     &:last-of-type
       margin-bottom: 5px
+
+  &_inline
+    padding: 10px 16px
 
   &_inline &--content
     grid-template-columns: max-content max-content auto auto 1fr
@@ -82,11 +91,8 @@
     &-status
       grid-area: status
       margin-right: 5px
-      place-self: center start
+      max-width: 92px
       overflow: hidden
-      max-width: -webkit-fill-available
-      max-width: -moz-fill-available
-      max-width: fill-available
 
     &-cover-image
       grid-area: image
@@ -113,11 +119,11 @@
   &--inline-buttons
     position: absolute
     top: 9px
+    right: 0
     opacity: 0
     background: white
-    width: 80px
 
-    &.-show, .op-wp-single-card:hover &
+    &.-show
       opacity: 1
 
     .op-wp-single-card_checked &

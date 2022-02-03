@@ -50,7 +50,9 @@
   <div *ngIf="!isNewResource(workPackage)"
        class="op-wp-single-card--content">
     <span [textContent]="wpProjectName(workPackage)"
-          class="op-wp-single-card--content-project-name">
+          class="op-wp-single-card--content-project-name"
+          [ngClass]="{'op-wp-single-card--content-project-name_hideable': showInfoButton || showRemoveButton}"
+    >
     </span>
     <span class="op-wp-single-card--content-id">
       #{{workPackage.id}} -
@@ -77,7 +79,7 @@
     <op-principal
       *ngIf="workPackage.assignee"
       [principal]="workPackage.assignee"
-      [hideName]="false"
+      [hideName]="true"
       [link]="false"
       size="mini"
       class="op-wp-single-card--content-assignee"
