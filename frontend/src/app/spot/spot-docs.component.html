@@ -1,16 +1,24 @@
 <h1>Buttons</h1>
 <button class="spot-button">Default</button>
-<button class="spot-button spot-button_primary">Primary</button>
-<button class="spot-button spot-button_secondary">Secondary</button>
-<button class="spot-button spot-button_alert">Alert [Not implemented]</button>
+<button class="spot-button spot-button_main">Main</button>
+<button class="spot-button spot-button_accent">Accent</button>
+<button class="spot-button spot-button_danger">Danger</button>
 <button class="spot-button" disabled>Disabled</button>
 
 <hr>
 
 <button class="spot-button spot-button_outlined">Default</button>
-<button class="spot-button spot-button_outlined spot-button_primary">Primary</button>
-<button class="spot-button spot-button_outlined spot-button_secondary">Secondary</button>
-<button class="spot-button spot-button_outlined spot-button_alert">Alert [Not implemented]</button>
+<button class="spot-button spot-button_outlined spot-button_main">Main</button>
+<button class="spot-button spot-button_outlined spot-button_accent">Accent</button>
+<button class="spot-button spot-button_outlined spot-button_danger">Danger</button>
+<button class="spot-button spot-button_outlined" disabled>Disabled</button>
+
+<hr>
+
+<button class="spot-button spot-button_outlined">Default</button>
+<button class="spot-button spot-button_outlined spot-button_main">Main</button>
+<button class="spot-button spot-button_outlined spot-button_accent">Accent</button>
+<button class="spot-button spot-button_outlined spot-button_danger">Danger</button>
 <button class="spot-button spot-button_outlined" disabled>Disabled</button>
 
 <h1>Checkbox</h1>
@@ -167,7 +175,7 @@
   <button
     slot="trigger"
     type="button"
-    class="spot-button spot-button_primary"
+    class="spot-button spot-button_main"
     (click)="dropModalOpen = !dropModalOpen"
   >Open Modal</button>
   <ng-container slot="body">
@@ -179,15 +187,15 @@
 
 <div class="spot-action-bar">
   <div class="spot-action-bar--left">
-    <button class="spot-button spot-button_outlined spot-button_primary">
+    <button class="spot-button spot-button_outlined spot-button_main">
       Independent action
     </button>
   </div>
   <div class="spot-action-bar--right">
-    <button class="spot-button spot-button_outlined spot-button_primary">
+    <button class="spot-button spot-button_outlined spot-button_main">
       Some Action
     </button>
-    <button class="spot-button spot-button_primary">
+    <button class="spot-button spot-button_main">
       Another Action
     </button>
   </div>

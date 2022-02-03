@@ -23,18 +23,23 @@ props:
   - name: spot-color-main-light
     value: "#d1e5f5"
 
-  - name: spot-color-action
-    value: "#65c253"
-  - name: spot-color-action-dark
+  - name: spot-color-accent
     value: "#308720"
-  - name: spot-color-action-light
+  - name: spot-color-accent-dark
+    value: "#007528"
+  - name: spot-color-accent-light
     value: "#bfeeb6"
 
-  - name: spot-color-alert-error
+  - name: spot-color-danger
     value: "#d01100"
-  - name: spot-color-alert-notification
+  - name: spot-color-danger-dark
+    value: "#7D000D"
+  - name: spot-color-danger-light
+    value: "#F4ABA9"
+
+  - name: spot-color-indication-notification
     value: "#00A3FF"
-  - name: spot-color-alert-flagged
+  - name: spot-color-indication-flagged
     value: "#1CB6C0"
 
   - name: spot-color-feedback-error-dark

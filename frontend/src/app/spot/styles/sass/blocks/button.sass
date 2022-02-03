@@ -27,7 +27,7 @@
     border-color: $spot-color-basic-gray-6
     color: $spot-color-main
 
-  &_primary
+  &_main
     border-color: $spot-color-main
     background-color: $spot-color-main
     color: $spot-color-basic-white
@@ -42,20 +42,35 @@
       background-color: $spot-color-main-light
       color: $spot-color-main
 
-  &_secondary
-    border-color: $spot-color-action-dark
-    background-color: $spot-color-action-dark
+  &_accent
+    border-color: $spot-color-accent
+    background-color: $spot-color-accent
     color: $spot-color-basic-white
 
     &:hover
-      border-color: $spot-color-action-light
-      background-color: $spot-color-action-light
-      color: $spot-color-action-dark
+      border-color: $spot-color-accent-light
+      background-color: $spot-color-accent-light
+      color: $spot-color-accent-dark
 
     &:active
-      border-color: $spot-color-action-light
-      background-color: $spot-color-action-light
-      color: $spot-color-action
+      border-color: $spot-color-accent-light
+      background-color: $spot-color-accent-light
+      color: $spot-color-accent
+
+  &_danger
+    border-color: $spot-color-danger
+    background-color: $spot-color-danger
+    color: $spot-color-basic-white
+
+    &:hover
+      border-color: $spot-color-danger-light
+      background-color: $spot-color-danger-light
+      color: $spot-color-danger-dark
+
+    &:active
+      border-color: $spot-color-danger-light
+      background-color: $spot-color-danger-light
+      color: $spot-color-danger
 
   &[disabled],
   &_disabled
@@ -82,7 +97,7 @@
       border-color: $spot-color-basic-white
       color: $spot-color-main
 
-  &_outlined#{&}_primary
+  &_outlined#{&}_main
     background-color: transparent
     border-color: $spot-color-main
     color: $spot-color-main
@@ -97,18 +112,33 @@
       border-color: $spot-color-basic-white
       color: $spot-color-basic-white
 
-  &_outlined#{&}_secondary
+  &_outlined#{&}_accent
     background-color: transparent
-    border-color: $spot-color-action-dark
-    color: $spot-color-action-dark
+    border-color: $spot-color-accent
+    color: $spot-color-accent
 
     &:hover
-      background-color: $spot-color-action-light
-      border-color: $spot-color-action-dark
-      color: $spot-color-action-dark
+      background-color: $spot-color-accent-light
+      border-color: $spot-color-accent
+      color: $spot-color-accent
       
     &:active
-      background-color: $spot-color-action-dark
+      background-color: $spot-color-accent
+      border-color: $spot-color-basic-white
+      color: $spot-color-basic-white
+
+  &_outlined#{&}_danger
+    background-color: transparent
+    border-color: $spot-color-danger
+    color: $spot-color-danger
+
+    &:hover
+      background-color: $spot-color-danger-light
+      border-color: $spot-color-danger
+      color: $spot-color-danger
+      
+    &:active
+      background-color: $spot-color-danger
       border-color: $spot-color-basic-white
       color: $spot-color-basic-white
 
