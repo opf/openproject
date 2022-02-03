@@ -11,7 +11,7 @@ import { IProject } from 'core-app/core/state/projects/project.model';
 import { IHalResourceLink } from 'core-app/core/state/hal-resource';
 import { ID } from '@datorama/akita';
 
-interface IProjectData {
+export interface IProjectData {
   id: ID;
   href: string;
   name: string;
@@ -26,9 +26,8 @@ interface IProjectData {
 })
 export class OpProjectSelectComponent implements OnInit {
   public opened = false;
-  public includeSubProjects = false;
   public query = '';
-  public selectedProjects = [];
+  public selectedProjects:ID[] = [];
 
   public projects$ = this.projectsResourceService
     .query
@@ -39,7 +38,6 @@ export class OpProjectSelectComponent implements OnInit {
         .map(p => ({...p}))
         .reduce((list, project) => {
           const { ancestors } = project._links;
-          console.log(project, ancestors);
 
           const insertInList = (project: IProject, list: IProjectData[], ancestors:IHalResourceLink[]) => {
             if (!ancestors.length) {
@@ -54,8 +52,8 @@ export class OpProjectSelectComponent implements OnInit {
               ];
             }
 
-            const ancestor:IProjectData|undefined = list.find(projectInList => projectInList.href ===
-                                                              project._links.self.href);
+            const ancestorHref = ancestors[0].href;
+            const ancestor:IProjectData|undefined = list.find(projectInList => projectInList.href === ancestorHref);
             if (ancestor) {
               ancestor.children = insertInList(project, ancestor.children, ancestors.slice(1));
             }
@@ -99,6 +97,11 @@ export class OpProjectSelectComponent implements OnInit {
       .fetchProjects(this.params)
       .subscribe();
   }
-  public clearSelection() {}
-  public onSubmit() {}
+
+  public clearSelection() {
+    this.selectedProjects = [];
+  }
+
+  public onSubmit() {
+  }
 }

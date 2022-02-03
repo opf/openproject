@@ -27,42 +27,15 @@
         ></span>
       </spot-text-field>
 
-      <ul class="spot-list">
-        <li
-          class="spot-list--item"
-          *ngFor="let project of (projects$ | async)"
-        >
-          <label class="spot-list--item-action">
-            <spot-checkbox></spot-checkbox>
-            <div class="spot-list--item-title">{{ project.name }}</div>
-          </label>
-          <ul
-            *ngIf="project.children.length"
-            class="spot-list"
-          >
-            <li
-              class="spot-list--item"
-              *ngFor="let project of (project.children | async)"
-            >
-              <label class="spot-list--item-action">
-                <spot-checkbox></spot-checkbox>
-                <div class="spot-list--item-title">{{ project.name }}</div>
-              </label>
-            </li>
-          </ul>
-        </li>
-      </ul>
+      <ul
+        op-project-list
+        [projects]="projects$ | async"
+        [(ngModel)]="selectedProjects"
+        [ngModelOptions]="{ standalone: true }"
+      ></ul>
 
       <div class="spot-action-bar">
-        <div class="spot-action-bar--left">
-          <label>
-            <spot-checkbox
-              [(ngModel)]="includeSubProjects"
-              [ngModelOptions]="{ standalone: true }"
-            ></spot-checkbox>
-            <div class="spot-list--item-title">Include all sub-projects</div>
-          </label>
-        </div>
+        <div class="spot-action-bar--left"></div>
         <div class="spot-action-bar--right">
           <button
             class="spot-button spot-button_outlined spot-button_primary"

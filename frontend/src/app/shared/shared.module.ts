@@ -87,6 +87,7 @@ import { OpFormBindingDirective } from './components/forms/form-field/form-bindi
 import { OpOptionListComponent } from './components/option-list/option-list.component';
 import { OpSidemenuComponent } from './components/sidemenu/sidemenu.component';
 import { OpProjectSelectComponent } from './components/project-select/project-select.component';
+import { OpProjectListComponent } from './components/project-select/project-list.component';
 import { ViewsResourceService } from 'core-app/core/state/views/views.service';
 
 export function bootstrapModule(injector:Injector) {
@@ -194,6 +195,7 @@ export function bootstrapModule(injector:Injector) {
     OpOptionListComponent,
     OpSidemenuComponent,
     OpProjectSelectComponent,
+    OpProjectListComponent,
   ],
   providers: [
     StaticQueriesService,
@@ -252,6 +254,7 @@ export function bootstrapModule(injector:Injector) {
     OpOptionListComponent,
     OpSidemenuComponent,
     OpProjectSelectComponent,
+    OpProjectListComponent,
   ],
 })
 export class OPSharedModule {
