@@ -31,7 +31,7 @@
 
   <ng-template #resourceContent let-resource="resource">
     <div
-      *ngIf="resource.extendedProps.principal"
+      *ngIf="resource && resource.extendedProps.principal"
       class="tp-assignee"
     >
       <op-principal
@@ -50,10 +50,20 @@
     </div>
 
     <op-tp-add-assignee
-      *ngIf="!resource.extendedProps.principal"
+      *ngIf="resource && !resource.extendedProps.principal"
       (selectAssignee)="addAssignee($event)"
       [alreadySelected]="principalIds$ | async"
     ></op-tp-add-assignee>
+  </ng-template>
+
+  <ng-template #eventContent let-event="event">
+    <wp-single-card
+      *ngIf="event.extendedProps.workPackage"
+      [workPackage]="event.extendedProps.workPackage"
+      [orientation]="'horizontal'"
+      [additionalClasses]="'op-wp-single-card_inline'"
+    >
+    </wp-single-card>
   </ng-template>
 
   <div

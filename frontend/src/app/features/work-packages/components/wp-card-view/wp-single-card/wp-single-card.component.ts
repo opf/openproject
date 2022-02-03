@@ -46,6 +46,8 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
 
   @Input() public shrinkOnMobile = false;
 
+  @Input() public additionalClasses = '';
+
   @Output() onRemove = new EventEmitter<WorkPackageResource>();
 
   @Output() stateLinkClicked = new EventEmitter<{ workPackageId:string, requestedState:string }>();
@@ -112,6 +114,7 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
       // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
       [`${base}-${this.workPackage.id}`]: !!this.workPackage.id,
       [`${base}_${this.orientation}`]: true,
+      [`${this.additionalClasses}`]: true,
     };
   }
 

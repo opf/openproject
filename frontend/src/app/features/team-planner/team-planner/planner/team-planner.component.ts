@@ -11,6 +11,7 @@ import {
 import {
   CalendarOptions,
   DateSelectArg,
+  EventContentArg,
   EventDropArg,
   EventInput,
 } from '@fullcalendar/core';
@@ -72,6 +73,8 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
   set ucCalendarElement(v:ElementRef|undefined) {
     this.calendar.resizeObserver(v);
   }
+
+  @ViewChild('eventContent') eventContent:TemplateRef<unknown>;
 
   @ViewChild('resourceContent') resourceContent:TemplateRef<unknown>;
 
@@ -211,6 +214,25 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
 
     // This needs to be done after all the subscribers are set up
     this.showAddAssignee$.next(false);
+
+    /*
+    this
+      .calendar
+      .currentWorkPackages$
+      .pipe(
+        this.untilDestroyed(),
+        debounceTime(0),
+      )
+      .subscribe((workPackages:WorkPackageCollectionResource) => {
+        const api = this.ucCalendar.getApi();
+
+        api.getEvents().forEach((event) => event.remove());
+        const events = this.mapToCalendarEvents(workPackages.elements);
+        events.forEach((event) => {
+          api.addEvent(event);
+        });
+      });
+      */
   }
 
   ngOnDestroy():void {
@@ -296,6 +318,8 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
             eventResize: (resizeInfo:EventResizeDoneArg) => this.updateEvent(resizeInfo),
             eventDrop: (dropInfo:EventDropArg) => this.updateEvent(dropInfo),
             eventReceive: (dropInfo:EventReceiveArg) => this.updateEvent(dropInfo),
+            eventContent: (data:EventContentArg) => this.renderTemplate(this.eventContent, data.event.extendedProps.workPackage.href, data),
+            eventWillUnmount: (data:EventContentArg) => this.unrenderTemplate(data.event.extendedProps.workPackage.href),
           } as CalendarOptions),
         );
       });
@@ -319,7 +343,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     this.calendar.updateTimeframe(fetchInfo, this.projectIdentifier);
   }
 
-  renderTemplate(template:TemplateRef<unknown>, id:string, data:ResourceLabelContentArg):{ domNodes:unknown[] } {
+  renderTemplate(template:TemplateRef<unknown>, id:string, data:ResourceLabelContentArg|EventContentArg):{ domNodes:unknown[] } {
     const ref = this.viewLookup.getView(template, id, data);
     return { domNodes: ref.rootNodes };
   }
@@ -386,8 +410,9 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
           title: workPackage.subject,
           start: this.wpStartDate(workPackage),
           end: this.wpEndDate(workPackage),
+          backgroundColor: '#FFFFFF',
+          borderColor: '#FFFFFF',
           allDay: true,
-          className: `__hl_background_type_${workPackage.type.id as string}`,
           workPackage,
         };
       })

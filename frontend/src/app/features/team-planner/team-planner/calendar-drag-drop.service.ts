@@ -77,7 +77,6 @@ export class CalendarDragDropService {
       duration: {
         days: diff || 1,
       },
-      className: `__hl_background_type_${workPackage.type.id as string}`,
       extendedProps: {
         workPackage,
       },

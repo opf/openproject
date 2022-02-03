@@ -31,6 +31,16 @@
     &:last-of-type
       margin-bottom: 5px
 
+  &_inline &--content
+    grid-template-columns: max-content max-content auto auto 1fr
+    grid-template-rows: auto max-content
+    grid-template-areas: "status id project project project" "subject subject subject subject subject"
+
+    &-cover-image,
+    &-assignee
+      display: none
+
+
   // Style shadow element while dragging
   wp-single-card:host.gu-transit &
     @include modifying--placeholder
