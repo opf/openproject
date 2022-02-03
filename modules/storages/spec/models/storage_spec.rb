@@ -77,13 +77,21 @@ describe ::Storages::Storage, type: :model do
   end
 
   describe '#destroy' do
-    let(:project) { create(project) }
+    let(:project) { create(:project) }
     let(:storage) { described_class.create(test_default_attributes) }
-    let(:project_storage) { Storages::ProjectStorage.create(project: project, storage: storage) }
+    let(:project_storage) { Storages::ProjectStorage.create(project: project, storage: storage, creator: test_default_creator) }
     let(:work_package) { create(:work_package, project: project) }
-    let(:file_link) { FileLink.create(container: work_package, storage: storage) }
+    let(:file_link) do
+      Storages::FileLink.create(container: work_package,
+                                storage: storage,
+                                creator: test_default_creator,
+                                container_type: "WorkPackage")
+    end
 
     before do
+      project_storage
+      file_link
+
       storage.destroy
     end
 

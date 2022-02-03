@@ -67,6 +67,7 @@ describe 'Admin storages', type: :feature, js: true do
 
     expect(page).to have_title("Edit: NC 1")
     expect(page.find('.title-container')).to have_text('Edit: NC 1')
+
     page.find('#storages_storage_name').set("Other NC")
     page.find('#storages_storage_host').set("https://other.example.com")
     page.find('button[type=submit]').click
@@ -84,14 +85,11 @@ describe 'Admin storages', type: :feature, js: true do
     expect(page).to have_text(admin.name)
 
     page.find("a", text: 'Other NC').click
-
     expect(page).to have_current_path storage_path(created_storage)
-
     page.find('.button--icon.icon-delete').click
 
     alert_text = page.driver.browser.switch_to.alert.text
     expect(alert_text).to eq(I18n.t('storages.delete_warning.storage'))
-
     page.driver.browser.switch_to.alert.accept
 
     expect(page).to have_current_path(storages_path)

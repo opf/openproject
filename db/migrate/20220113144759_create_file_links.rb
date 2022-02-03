@@ -1,7 +1,7 @@
 class CreateFileLinks < ActiveRecord::Migration[6.1]
   def change
     create_table :file_links do |t|
-      t.references :storage, foreign_key: true, on_delete: :cascade
+      t.references :storage, foreign_key: { on_delete: :cascade }
       t.references :creator,
                    null: false,
                    index: true,
