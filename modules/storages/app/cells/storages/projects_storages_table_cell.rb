@@ -38,6 +38,5 @@ module Storages
         ['created_at', { caption: Storages::ProjectStorage.human_attribute_name(:created_at) }]
       ]
     end
-
   end
 end

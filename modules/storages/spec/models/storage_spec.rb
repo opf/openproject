@@ -43,34 +43,34 @@ describe ::Storages::Storage, type: :model do
       expect(storage).to be_valid
     end
 
-    it "should fail the validation if name is empty string" do
+    it "fails the validation if name is empty string" do
       expect(described_class.create(test_default_attributes.merge({ name: "" }))).to be_invalid
     end
 
-    it "should fail the validation if name is nil" do
+    it "fails the validation if name is nil" do
       expect(described_class.create(test_default_attributes.merge({ name: nil }))).to be_invalid
     end
 
-    it "should fail the validation if host is empty string" do
+    it "fails the validation if host is empty string" do
       expect(described_class.create(test_default_attributes.merge({ host: '' }))).to be_invalid
     end
 
-    it "should fail the validation if host is nil" do
+    it "fails the validation if host is nil" do
       expect(described_class.create(test_default_attributes.merge({ host: nil }))).to be_invalid
     end
 
-    context "having already one instance" do
+    context "when having already one instance" do
       let(:old_storage) { described_class.create test_default_attributes }
 
       before do
         old_storage
       end
 
-      it "should fail the validation if name is not unique" do
+      it "fails the validation if name is not unique" do
         expect(described_class.create(test_default_attributes.merge({ host: 'https://example2.com' }))).to be_invalid
       end
 
-      it "should fail the validation if host is not unique" do
+      it "fails the validation if host is not unique" do
         expect(described_class.create(test_default_attributes.merge({ name: 'NC 2' }))).to be_invalid
       end
     end
@@ -87,7 +87,7 @@ describe ::Storages::Storage, type: :model do
       storage.destroy
     end
 
-    it "should destroy all associated ProjectStorage and FileLink records" do
+    it "destroys all associated ProjectStorage and FileLink records" do
       expect(Storages::ProjectStorage.count).to be 0
       expect(Storages::FileLink.count).to be 0
     end

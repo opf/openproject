@@ -61,7 +61,7 @@ class Storages::Admin::ProjectsStoragesController < Projects::SettingsController
   end
 
   def destroy
-    Storages::FileLink.joins(:container).where("work_packages.project_id = ?", @project.id).delete_all
+    Storages::FileLink.joins(:container).where(work_packages: { project_id: @project.id }).delete_all
     @object.destroy
 
     redirect_to project_settings_projects_storages_path

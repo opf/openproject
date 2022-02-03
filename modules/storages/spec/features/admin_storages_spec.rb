@@ -95,6 +95,6 @@ describe 'Admin storages', type: :feature, js: true do
     page.driver.browser.switch_to.alert.accept
 
     expect(page).to have_current_path(storages_path)
-    expect(page).to_not have_text("Other NC")
+    expect(page).not_to have_text("Other NC")
   end
 end

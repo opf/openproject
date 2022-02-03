@@ -8,13 +8,8 @@ module Storages
       link_to model.name, storage_path(model)
     end
 
-    def host
-      model.host
-    end
-
-    def provider_type
-      model.provider_type
-    end
+    delegate :host, to: :model
+    delegate :provider_type, to: :model
 
     def creator
       icon = avatar model.creator, size: :mini
