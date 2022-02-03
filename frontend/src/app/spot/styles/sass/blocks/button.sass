@@ -142,9 +142,41 @@
       border-color: $spot-color-basic-white
       color: $spot-color-basic-white
 
-  &_transparent
-    &,
+  &_basic
+    background-color: transparent
+    border-color: transparent
+    color: $spot-color-basic-white
+
     &:hover,
     &:active
       background-color: transparent
+      border-color: transparent
+      color: $spot-color-main
+
+  &_basic#{&}_main
+    color: $spot-color-main
+
+    &:hover
+      color: $spot-color-main-dark
+      
+    &:active
+      color: $spot-color-main
+
+  &_basic#{&}_accent
+    color: $spot-color-accent
+
+    &:hover
+      color: $spot-color-accent-dark
+      
+    &:active
+      color: $spot-color-accent
+
+  &_basic#{&}_danger
+    color: $spot-color-danger
+
+    &:hover
+      color: $spot-color-danger-dark
+      
+    &:active
+      color: $spot-color-danger
 
