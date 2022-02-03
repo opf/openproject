@@ -42,7 +42,7 @@ describe TimeEntries::DeleteContract do
   let(:other_user) { build_stubbed(:user) }
   let(:time_entry_work_package) do
     build_stubbed(:work_package,
-                             project: time_entry_project)
+                  project: time_entry_project)
   end
   let(:time_entry_project) { build_stubbed(:project) }
   let(:time_entry_user) { current_user }
@@ -55,13 +55,13 @@ describe TimeEntries::DeleteContract do
 
   let(:time_entry) do
     build_stubbed(:time_entry,
-                             project: time_entry_project,
-                             work_package: time_entry_work_package,
-                             user: time_entry_user,
-                             activity: time_entry_activity,
-                             spent_on: time_entry_spent_on,
-                             hours: time_entry_hours,
-                             comments: time_entry_comments)
+                  project: time_entry_project,
+                  work_package: time_entry_work_package,
+                  user: time_entry_user,
+                  activity: time_entry_activity,
+                  spent_on: time_entry_spent_on,
+                  hours: time_entry_hours,
+                  comments: time_entry_comments)
   end
 
   before do

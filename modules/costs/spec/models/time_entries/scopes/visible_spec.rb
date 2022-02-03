@@ -34,37 +34,37 @@ describe TimeEntries::Scopes::Visible, type: :model do
   let(:project) { create(:project) }
   let(:user) do
     create(:user,
-                      member_in_project: project,
-                      member_with_permissions: permissions)
+           member_in_project: project,
+           member_with_permissions: permissions)
   end
   let(:permissions) { [:view_time_entries] }
 
   let(:work_package) do
     create(:work_package,
-                      project: project,
-                      author: user2)
+           project: project,
+           author: user2)
   end
   let(:user2) do
     create(:user)
   end
   let!(:own_project_time_entry) do
     create(:time_entry,
-                      project: project,
-                      work_package: work_package,
-                      hours: 2,
-                      user: user)
+           project: project,
+           work_package: work_package,
+           hours: 2,
+           user: user)
   end
   let!(:project_time_entry) do
     create(:time_entry,
-                      project: project,
-                      work_package: work_package,
-                      hours: 2,
-                      user: user2)
+           project: project,
+           work_package: work_package,
+           hours: 2,
+           user: user2)
   end
   let!(:own_other_project_time_entry) do
     create(:time_entry,
-                      project: create(:project),
-                      user: user)
+           project: create(:project),
+           user: user)
   end
 
   describe '.visible' do

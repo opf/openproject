@@ -74,10 +74,10 @@ describe Burndown, type: :model do
 
     [issue_open, issue_closed, issue_resolved].permutation(2).each do |transition|
       create(:workflow,
-                        old_status: transition[0],
-                        new_status: transition[1],
-                        role: role,
-                        type_id: type_feature.id)
+             old_status: transition[0],
+             new_status: transition[1],
+             role: role,
+             type_id: type_feature.id)
     end
   end
 

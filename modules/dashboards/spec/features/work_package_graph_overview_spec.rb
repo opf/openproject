@@ -41,21 +41,21 @@ describe 'Work package overview graph widget on dashboard',
   let!(:closed_status) { create :closed_status }
   let!(:open_work_package) do
     create :work_package,
-                      subject: 'Spanning work package',
-                      project: project,
-                      status: open_status,
-                      type: type,
-                      author: user,
-                      responsible: user
+           subject: 'Spanning work package',
+           project: project,
+           status: open_status,
+           type: type,
+           author: user,
+           responsible: user
   end
   let!(:closed) do
     create :work_package,
-                      subject: 'Starting work package',
-                      project: project,
-                      status: closed_status,
-                      type: type,
-                      author: user,
-                      responsible: user
+           subject: 'Starting work package',
+           project: project,
+           status: closed_status,
+           type: type,
+           author: user,
+           responsible: user
   end
 
   let(:permissions) do

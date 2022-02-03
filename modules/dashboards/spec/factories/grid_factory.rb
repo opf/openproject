@@ -25,15 +25,15 @@ FactoryBot.define do
       query = create(:query, project: dashboard.project, public: true)
 
       widget = build(:grid_widget,
-                                identifier: 'work_packages_table',
-                                start_row: 1,
-                                end_row: 7,
-                                start_column: 1,
-                                end_column: 3,
-                                options: {
-                                  name: 'Work package table',
-                                  queryId: query.id
-                                })
+                     identifier: 'work_packages_table',
+                     start_row: 1,
+                     end_row: 7,
+                     start_column: 1,
+                     end_column: 3,
+                     options: {
+                       name: 'Work package table',
+                       queryId: query.id
+                     })
 
       dashboard.widgets = [widget]
     end
@@ -46,15 +46,15 @@ FactoryBot.define do
 
     callback(:after_build) do |dashboard|
       widget = build(:grid_widget,
-                                identifier: 'custom_text',
-                                start_row: 1,
-                                end_row: 7,
-                                start_column: 1,
-                                end_column: 3,
-                                options: {
-                                  name: 'Custom text',
-                                  text: 'Lorem ipsum'
-                                })
+                     identifier: 'custom_text',
+                     start_row: 1,
+                     end_row: 7,
+                     start_column: 1,
+                     end_column: 3,
+                     options: {
+                       name: 'Custom text',
+                       text: 'Lorem ipsum'
+                     })
 
       dashboard.widgets = [widget]
     end

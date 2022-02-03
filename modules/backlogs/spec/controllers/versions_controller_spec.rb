@@ -31,22 +31,22 @@ require 'spec_helper'
 describe VersionsController, type: :controller do
   let(:version) do
     create(:version,
-                      sharing: 'system')
+           sharing: 'system')
   end
 
   let(:other_project) do
     create(:project).tap do |p|
       create(:member,
-                        user: current_user,
-                        roles: [create(:role, permissions: [:manage_versions])],
-                        project: p)
+             user: current_user,
+             roles: [create(:role, permissions: [:manage_versions])],
+             project: p)
     end
   end
 
   let(:current_user) do
     create(:user,
-                      member_in_project: version.project,
-                      member_with_permissions: [:manage_versions])
+           member_in_project: version.project,
+           member_with_permissions: [:manage_versions])
   end
 
   before do

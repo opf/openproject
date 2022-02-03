@@ -41,53 +41,53 @@ describe 'Work package calendar widget on dashboard',
   let!(:open_status) { create :default_status }
   let!(:spanning_work_package) do
     create :work_package,
-                      subject: 'Spanning work package',
-                      project: project,
-                      start_date: Date.today - 8.days,
-                      due_date: Date.today + 8.days,
-                      type: type,
-                      author: user,
-                      responsible: user
+           subject: 'Spanning work package',
+           project: project,
+           start_date: Date.today - 8.days,
+           due_date: Date.today + 8.days,
+           type: type,
+           author: user,
+           responsible: user
   end
   let!(:starting_work_package) do
     create :work_package,
-                      subject: 'Starting work package',
-                      project: project,
-                      start_date: Date.today,
-                      due_date: Date.today + 8.days,
-                      type: type,
-                      author: user,
-                      responsible: user
+           subject: 'Starting work package',
+           project: project,
+           start_date: Date.today,
+           due_date: Date.today + 8.days,
+           type: type,
+           author: user,
+           responsible: user
   end
   let!(:ending_work_package) do
     create :work_package,
-                      subject: 'Ending work package',
-                      project: project,
-                      start_date: Date.today - 8.days,
-                      due_date: Date.today,
-                      type: type,
-                      author: user,
-                      responsible: user
+           subject: 'Ending work package',
+           project: project,
+           start_date: Date.today - 8.days,
+           due_date: Date.today,
+           type: type,
+           author: user,
+           responsible: user
   end
   let!(:outdated_work_package) do
     create :work_package,
-                      subject: 'Outdated work package',
-                      project: project,
-                      start_date: Date.today - 9.days,
-                      due_date: Date.today - 7.days,
-                      type: type,
-                      author: user,
-                      responsible: user
+           subject: 'Outdated work package',
+           project: project,
+           start_date: Date.today - 9.days,
+           due_date: Date.today - 7.days,
+           type: type,
+           author: user,
+           responsible: user
   end
   let!(:other_project_work_package) do
     create :work_package,
-                      subject: 'Other project work package',
-                      project: other_project,
-                      start_date: Date.today - 9.days,
-                      due_date: Date.today + 7.days,
-                      type: type,
-                      author: user,
-                      responsible: user
+           subject: 'Other project work package',
+           project: other_project,
+           start_date: Date.today - 9.days,
+           due_date: Date.today + 7.days,
+           type: type,
+           author: user,
+           responsible: user
   end
 
   let(:permissions) do
