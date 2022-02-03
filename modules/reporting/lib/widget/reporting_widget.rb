@@ -26,8 +26,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_dependency 'reporting_helper'
-
 class Widget::ReportingWidget < ActionView::Base
   include ActionView::Helpers::TagHelper
   include ActionView::Helpers::AssetTagHelper

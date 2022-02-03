@@ -28,8 +28,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_dependency 'open_project/scm/adapters'
-
 module OpenProject
   module SCM
     module Adapters

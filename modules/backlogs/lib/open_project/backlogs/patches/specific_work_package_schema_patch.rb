@@ -26,8 +26,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_dependency 'api/v3/work_packages/schema/specific_work_package_schema'
-
 module OpenProject::Backlogs::Patches::SpecificWorkPackageSchemaPatch
   def self.included(base)
     base.class_eval do

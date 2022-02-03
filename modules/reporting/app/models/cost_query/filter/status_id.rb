@@ -26,8 +26,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# we have to require this here because the operators would not be defined otherwise
-require_dependency 'cost_query/operator'
 class CostQuery::Filter::StatusId < Report::Filter::Base
   available_operators 'c', 'o'
   join_table WorkPackage, Status => [WorkPackage, :status]

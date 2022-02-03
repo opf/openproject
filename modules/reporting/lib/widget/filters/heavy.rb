@@ -30,9 +30,6 @@
 #        The select-box. This way we allow our JS to pretend this is just another
 #        Filter. This is overhead...
 #        But well this is again one of those temporary solutions.
-# make sure to require Widget::Filters::Base first because otherwise
-# ruby might find Base within Widget and Rails will not load it
-require_dependency 'widget/filters/base'
 class Widget::Filters::Heavy < Widget::Filters::Base
   def render
     # TODO: sometimes filter.values is of the form [["3"]] and somtimes ["3"].

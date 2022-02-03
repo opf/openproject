@@ -29,7 +29,7 @@
 #++
 
 class Setting
-  module Callbacks
+  module CallbacksHelper
     # register a callback for a setting named #name
     def register_callback(name, &callback)
       # register the block with the underlying notifications system

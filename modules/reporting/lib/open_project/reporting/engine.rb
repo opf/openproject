@@ -95,14 +95,6 @@ module OpenProject::Reporting
       require_relative 'patches/to_date_patch'
     end
 
-    config.to_prepare do
-      require_dependency 'report/walker'
-      require_dependency 'report/transformer'
-      require_dependency 'widget/table/entry_table'
-      require_dependency 'widget/settings_patch'
-      require_dependency 'cost_query/group_by'
-    end
-
     patches %i[CustomFieldsController OpenProject::Configuration]
     patch_with_namespace :BasicData, :RoleSeeder
     patch_with_namespace :BasicData, :SettingSeeder

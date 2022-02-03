@@ -28,8 +28,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_dependency 'token/base'
-
 module Token
   class Recovery < Base
     include ExpirableToken
