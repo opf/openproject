@@ -57,6 +57,11 @@
   </ng-template>
 
   <ng-template #eventContent let-event="event">
+    <div
+      *ngIf="showResizeHandle(event.extendedProps.workPackage, 'start')"
+      class="fc-event-resizer fc-event-resizer-start">
+    </div>
+
     <wp-single-card
       *ngIf="event.extendedProps.workPackage"
       [workPackage]="event.extendedProps.workPackage"
@@ -64,6 +69,11 @@
       [additionalClasses]="'op-wp-single-card_inline'"
     >
     </wp-single-card>
+
+    <div
+      *ngIf="showResizeHandle(event.extendedProps.workPackage, 'end')"
+      class="fc-event-resizer fc-event-resizer-end">
+    </div>
   </ng-template>
 
   <div

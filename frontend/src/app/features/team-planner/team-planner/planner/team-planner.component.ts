@@ -214,25 +214,6 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
 
     // This needs to be done after all the subscribers are set up
     this.showAddAssignee$.next(false);
-
-    /*
-    this
-      .calendar
-      .currentWorkPackages$
-      .pipe(
-        this.untilDestroyed(),
-        debounceTime(0),
-      )
-      .subscribe((workPackages:WorkPackageCollectionResource) => {
-        const api = this.ucCalendar.getApi();
-
-        api.getEvents().forEach((event) => event.remove());
-        const events = this.mapToCalendarEvents(workPackages.elements);
-        events.forEach((event) => {
-          api.addEvent(event);
-        });
-      });
-      */
   }
 
   ngOnDestroy():void {
@@ -387,6 +368,26 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
           .filter((filterValue) => filterValue.href !== href);
       });
     }
+  }
+
+  showResizeHandle(workPackage:WorkPackageResource, date:'start'|'end'):boolean {
+    if (workPackage.startDate && workPackage.dueDate) {
+      let dateToCheck;
+
+      const currentStartDate = this.ucCalendar.getApi().view.currentStart;
+      const currentEndDate = this.ucCalendar.getApi().view.currentEnd;
+
+      if (date === 'start') {
+        dateToCheck = new Date(workPackage.startDate);
+      } else {
+        dateToCheck = new Date(workPackage.dueDate);
+      }
+
+      const dateCurrentlyVisible = dateToCheck >= currentStartDate && dateToCheck <= currentEndDate;
+      return dateCurrentlyVisible && this.calendar.eventDurationEditable(workPackage);
+    }
+
+    return false;
   }
 
   private mapToCalendarEvents(workPackages:WorkPackageResource[]):EventInput[] {
