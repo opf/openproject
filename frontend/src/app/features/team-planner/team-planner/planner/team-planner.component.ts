@@ -390,6 +390,10 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     return false;
   }
 
+  showDisabledText(workPackage:WorkPackageResource):string {
+    return this.calendarDrag.workPackageDisabledExplanation(workPackage);
+  }
+
   private mapToCalendarEvents(workPackages:WorkPackageResource[]):EventInput[] {
     return workPackages
       .map((workPackage:WorkPackageResource):EventInput|undefined => {

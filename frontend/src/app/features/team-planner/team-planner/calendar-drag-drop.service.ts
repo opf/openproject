@@ -7,12 +7,29 @@ import { DragMetaInput } from '@fullcalendar/common';
 import { Drake } from 'dragula';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { BehaviorSubject } from 'rxjs';
+import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
+import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 
 @Injectable()
 export class CalendarDragDropService {
   drake:Drake;
 
   draggableWorkPackages$ = new BehaviorSubject<WorkPackageResource[]>([]);
+
+  text = {
+    draggingDisabled: {
+      permissionDenied: this.I18n.t('js.team_planner.modify.errors.permission_denied'),
+      fallback: this.I18n.t('js.team_planner.modify.errors.fallback'),
+    },
+  };
+
+  constructor(
+    readonly authorisation:AuthorisationService,
+    readonly schemaCache:SchemaCacheService,
+    readonly I18n:I18nService,
+  ) {
+  }
 
   destroyDrake():void {
     if (this.drake) {
@@ -55,6 +72,31 @@ export class CalendarDragDropService {
       this.draggableWorkPackages$
         .next(oldDraggables.concat(workPackage));
     }
+  }
+
+  workPackageDisabledExplanation(workPackage:WorkPackageResource):string {
+    const isDisabled = this.workPackageDisabled(workPackage);
+
+    if (isDisabled.disabled && isDisabled.reason) {
+      return isDisabled.reason;
+    }
+
+    return '';
+  }
+
+  private workPackageDisabled(workPackage:WorkPackageResource):{ disabled:boolean, reason?:string } {
+    if (!this.authorisation.can('work_packages', 'editWorkPackage')) {
+      return { disabled: true, reason: this.text.draggingDisabled.permissionDenied };
+    }
+
+    const schema = this.schemaCache.of(workPackage);
+    const schemaEditable = schema.isAttributeEditable('startDate') && schema.isAttributeEditable('dueDate');
+
+    if (!schemaEditable) {
+      return { disabled: true, reason: this.text.draggingDisabled.fallback };
+    }
+
+    return { disabled: false };
   }
 
   private eventData(eventEl:HTMLElement):undefined|DragMetaInput {

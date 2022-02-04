@@ -48,6 +48,8 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
 
   @Input() public additionalClasses = '';
 
+  @Input() public disabledInfo = '';
+
   @Output() onRemove = new EventEmitter<WorkPackageResource>();
 
   @Output() stateLinkClicked = new EventEmitter<{ workPackageId:string, requestedState:string }>();
@@ -111,6 +113,7 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
       [`${base}_draggable`]: this.draggable,
       [`${base}_new`]: isNewResource(this.workPackage),
       [`${base}_shrink`]: this.shrinkOnMobile,
+      [`${base}_disabled`]: this.disabledInfo.length > 0,
       // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
       [`${base}-${this.workPackage.id}`]: !!this.workPackage.id,
       [`${base}_${this.orientation}`]: true,

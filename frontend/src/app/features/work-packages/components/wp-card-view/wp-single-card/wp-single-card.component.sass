@@ -28,6 +28,9 @@
   &_checked
     background-color: var(--table-row-highlighting-color)
 
+  &_disabled
+    opacity: 0.6
+
   &_horizontal
     height: 100%
 
@@ -113,10 +116,20 @@
     left: 0
     border-radius: 2px 2px 0 0
 
-  &--inline-buttons
+  &--card-actions
+    display: flex
     position: absolute
     top: 9px
     right: 0
+
+  &--card-action
+    background: white
+    z-index: 2
+
+    .op-wp-single-card_checked &
+      background-color: var(--table-row-highlighting-color)
+
+  &--inline-buttons
     opacity: 0
     background: white
 

@@ -10,27 +10,38 @@
        [ngClass]="cardHighlightingClass(workPackage)">
   </div>
 
-  <div class="op-wp-single-card--inline-buttons hidden-for-mobile"
-      data-qa-selector="op-wp-single-card--inline-buttons">
-    <button
-      type="button"
-      class="op-link op-wp-single-card--details-button"
-      data-qa-selector="op-wp-single-card--details-button"
-      *ngIf="!isNewResource(workPackage) && showInfoButton"
-      [title]="text.detailsView"
-      (click)="emitStateLinkClicked($event, workPackage, true)">
-      <op-icon icon-classes="icon3 icon-info2"></op-icon>
-    </button>
-    <button
-      class="op-link op-wp-single-card--inline-cancel-button"
-      data-qa-selector="op-wp-single-card--inline-cancel-button"
-      *ngIf="isNewResource(workPackage) || showRemoveButton"
-      [class.-show]="isNewResource(workPackage)"
-      [title]="text.removeCard"
-      (click)="onRemoved(workPackage)">
-      <op-icon icon-classes="icon-context icon-close"></op-icon>
-    </button>
+  <div class="op-wp-single-card--card-actions">
+    <div class="op-wp-single-card--inline-buttons hidden-for-mobile"
+         data-qa-selector="op-wp-single-card--inline-buttons">
+      <button
+        type="button"
+        class="op-link op-wp-single-card--details-button op-wp-single-card--card-action"
+        data-qa-selector="op-wp-single-card--details-button"
+        *ngIf="!isNewResource(workPackage) && showInfoButton"
+        [title]="text.detailsView"
+        (click)="emitStateLinkClicked($event, workPackage, true)">
+        <op-icon icon-classes="icon3 icon-info2"></op-icon>
+      </button>
+
+      <button
+        class="op-link op-wp-single-card--inline-cancel-button op-wp-single-card--card-action"
+        data-qa-selector="op-wp-single-card--inline-cancel-button"
+        *ngIf="isNewResource(workPackage) || showRemoveButton"
+        [class.-show]="isNewResource(workPackage)"
+        [title]="text.removeCard"
+        (click)="onRemoved(workPackage)">
+        <op-icon icon-classes="icon-context icon-close"></op-icon>
+      </button>
+    </div>
+
+    <op-icon
+      *ngIf="disabledInfo.length > 0"
+      [attr.data-tooltip]="disabledInfo"
+      class="tooltip--left -multiline op-wp-single-card--card-action"
+      icon-classes="icon-context icon-not-supported">
+    </op-icon>
   </div>
+
   <edit-form [resource]="workPackage"
              [inEditMode]="isNewResource(workPackage)"
              *ngIf="isNewResource(workPackage)">
