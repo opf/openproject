@@ -94,9 +94,9 @@ Create and manage project budgets, track and evaluate time and costs. Have custo
 
 | Features                | Documentation for                                            |
 | ----------------------- | ------------------------------------------------------------ |
-| Dashboard               | Visualize your progress within a project or project overarching. |
-| Budgets                 | Create and manage budgets in your project.                   |
-| Time tracking           | Track time for any work within your project.                 |
+| [Dashboard](../../user-guide/start-page/)               | Visualize your progress within a project or project overarching. |
+| [Budgets](../../user-guide/budgets/)                 | Create and manage budgets in your project.                   |
+| [Time tracking]           | Track time for any work within your project.                 |
 | Track unit costs        | Track unit costs for your project.                           |
 | Time and cost reporting | Have accurate detailed reports of current spent time and costs within your project. |
 
