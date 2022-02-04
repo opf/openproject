@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 # Improves handling of some edge cases when to_url is called. The method is provided by
@@ -33,8 +33,6 @@
 #
 # This includes
 #   * the strings '.' and '!' which would lead to an empty string otherwise
-#   * the ability to add a custom_rule lambda that is able to postprocess the identifier. It will run
-#     after the default transformation was executed.
 
 module OpenProject
   module ActsAsUrl
@@ -58,11 +56,9 @@ module OpenProject
         private
 
         def modify_base_url
-          super
-
-          if !base_url.empty? && settings.respond_to?(:custom_rule)
-            self.base_url = settings.custom_rule.call(base_url)
-          end
+          root = instance.send(settings.attribute_to_urlify).to_s
+          locale = configuration.settings.locale || :en
+          self.base_url = root.to_localized_slug(locale: locale, **configuration.string_extensions_settings)
 
           modify_base_url_custom_rules if base_url.empty?
         end

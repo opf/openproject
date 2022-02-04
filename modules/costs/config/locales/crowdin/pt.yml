@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 pt:
   activerecord:
@@ -56,7 +56,7 @@ pt:
     cost_type: "Tipo de custo"
     costs: "Custos"
     current_rate: "Taxa atual"
-    hours: "horas"
+    hours: "Horas"
     units: "Unidades"
     valid_from: "Válido a partir de"
     fixed_date: "Data fixa"
@@ -85,7 +85,7 @@ pt:
   label_currency: "Moeda"
   label_currency_format: "Formato de moeda"
   label_current_default_rate: "Atual taxa padrão"
-  label_date_on: "ligado"
+  label_date_on: "em"
   label_deleted_cost_types: "Tipos de custos excluídos"
   label_locked_cost_types: "Tipos de custos bloqueados"
   label_display_cost_entries: "Exibir os custos unitários"

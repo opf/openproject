@@ -23,12 +23,12 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
-describe WorkPackages::MovesController, type: :controller do
+describe WorkPackages::MovesController, type: :controller, with_settings: { journal_aggregation_time_minutes: 0 } do
   let(:user) { FactoryBot.create(:user) }
   let(:role) do
     FactoryBot.create :role,
@@ -292,7 +292,7 @@ describe WorkPackages::MovesController, type: :controller do
           end
 
           it 'redirects to the work package copy' do
-            copy = WorkPackage.order(Arel.sql('id desc')).first
+            copy = WorkPackage.order(id: :desc).first
             is_expected.to redirect_to(work_package_path(copy))
           end
         end
@@ -456,29 +456,6 @@ describe WorkPackages::MovesController, type: :controller do
               end
             end
           end
-
-          context 'on create' do
-            it 'only copies the parent work package' do
-              expect(::WorkPackages::MoveService)
-                .to receive(:new)
-                      .with(work_package, current_user)
-                      .and_call_original
-
-              expect(::WorkPackages::MoveService)
-                .not_to receive(:new)
-                          .with(child_wp, current_user)
-
-              expect do
-                post :create,
-                     params: {
-                       ids: [work_package.id, child_wp.id],
-                       copy: ''
-                     }
-              end.to change(WorkPackage, :count).by(2)
-
-              expect(flash[:notice]).to eq(I18n.t(:notice_successful_create))
-            end
-          end
         end
 
         context 'child work package from one project to other' do
@@ -519,6 +496,8 @@ describe WorkPackages::MovesController, type: :controller do
           end
 
           context 'when cross_project_work_package_relations is disabled' do
+            render_views
+
             before do
               allow(Setting).to receive(:cross_project_work_package_relations?).and_return(false)
 
@@ -527,10 +506,8 @@ describe WorkPackages::MovesController, type: :controller do
 
             it 'is unsuccessful' do
               expect(flash[:error])
-                .to eq(I18n.t(:notice_failed_to_save_work_packages,
-                              count: 1,
-                              total: 1,
-                              ids: "##{child_wp.id}"))
+                .to include(I18n.t(:'work_packages.bulk.none_could_be_saved',
+                                   total: 1))
             end
           end
 

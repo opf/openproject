@@ -1,0 +1,57 @@
+.op-fieldset
+  padding: 1rem 0 0
+  margin-bottom: 1rem
+  border: 0
+  min-width: 0
+  word-break: break-word
+
+  &_collapsible &
+    &--toggle::before
+      @include icon-mixin-arrow-up1
+      padding: .625rem .25rem 0
+
+  &_collapsed &
+    &--toggle::before
+      @include icon-mixin-arrow-down1
+
+    &--fields
+      height: 0
+      visibility: hidden
+      overflow: hidden
+
+  &--legend
+    width: 100%
+    color: #4d4d4d
+    font-size: 1rem
+    font-weight: 700
+    line-height: 1.8
+    text-transform: uppercase
+    border-bottom: 1px solid #dfdfdf
+
+  &--toggle
+    text-align: left
+    width: 100%
+    border: 0
+    cursor: pointer
+    color: inherit
+    text-decoration: none
+    text-transform: inherit
+    background: transparent
+
+    &::before
+      font-family: openproject-icon-font
+      font-style: normal
+      font-weight: 400
+      font-variant: normal
+      text-transform: none
+      text-decoration: none
+      speak: none
+      line-height: 1
+      -webkit-font-smoothing: antialiased
+      -moz-osx-font-smoothing: grayscale
+      font-size: .75rem
+
+  &--fields
+    height: auto
+    visibility: visible
+    overflow: visible

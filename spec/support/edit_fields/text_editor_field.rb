@@ -42,7 +42,7 @@ class TextEditorField < EditField
   end
 
   def submit_by_click
-    target = field_container.find(control_link)
+    target = field_container.find(control_link, wait: 10)
     scroll_to_element(target)
     target.click
   end
@@ -52,7 +52,7 @@ class TextEditorField < EditField
   end
 
   def cancel_by_click
-    target = field_container.find(control_link(:cancel))
+    target = field_container.find(control_link(:cancel), wait: 10)
     scroll_to_element(target)
     target.click
   end
@@ -64,6 +64,6 @@ class TextEditorField < EditField
   def control_link(action = :save)
     raise 'Invalid link' unless %i[save cancel].include?(action)
 
-    ".inplace-edit--control--#{action}"
+    ".inplace-edit--control--#{action}:not([disabled])"
   end
 end

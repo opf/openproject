@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'permitted_params/allowed_settings'
@@ -208,7 +208,7 @@ class PermittedParams
       additional_params << :force_password_change if change_password_allowed
       additional_params << :admin
     end
-    
+
     additional_params << :login if Users::BaseContract.new(User.new, current_user).writable?(:login)
 
     user additional_params
@@ -601,9 +601,9 @@ class PermittedParams
           redirect_existing_links
         ),
         wiki_content: %i(
-          comments
           text
           lock_version
+          journal_notes
         ),
         move_to: [:move_to]
       }

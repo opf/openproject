@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -212,7 +212,7 @@ describe 'Version action board', type: :feature, js: true do
       split_view = card.open_details_view
       split_view.expect_subject
       split_view.edit_field(:version).update('Open version')
-      split_view.expect_and_dismiss_notification message: 'Successful update.'
+      split_view.expect_and_dismiss_toaster message: 'Successful update.'
 
       work_package.reload
       expect(work_package.version).to eq(open_version)
@@ -228,7 +228,7 @@ describe 'Version action board', type: :feature, js: true do
       board_page.add_list_with_new_value 'Completely new version'
       board_page.expect_list 'Completely new version'
 
-      visit settings_versions_project_path(project)
+      visit project_settings_versions_path(project)
       expect(page).to have_content 'Completely new version'
       expect(page).to have_content 'Closed version'
 
@@ -248,18 +248,18 @@ describe 'Version action board', type: :feature, js: true do
       end
 
       board_page.expect_list 'Closed version'
-      expect(page).to have_selector('.version-board-header.-closed')
+      expect(page).to have_selector('[data-qa-selector="op-version-board-header"].-closed')
 
       # Can open that version
       board_page.click_list_dropdown 'Closed version', 'Open version'
-      expect(page).to have_no_selector('.version-board-header.-closed')
+      expect(page).to have_no_selector('[data-qa-selector="op-version-board-header"].-closed')
 
       closed_version.reload
       expect(closed_version.status).to eq 'open'
 
       # Can lock that version
       board_page.click_list_dropdown 'Closed version', 'Lock version'
-      expect(page).to have_selector('.version-board-header.-locked')
+      expect(page).to have_selector('[data-qa-selector="op-version-board-header"].-locked')
 
       closed_version.reload
       expect(closed_version.status).to eq 'locked'
@@ -328,7 +328,7 @@ describe 'Version action board', type: :feature, js: true do
       board_page.expect_editable_board(true)
       board_page.expect_editable_list(false)
 
-      expect(page).to have_no_selector('.wp-card.-draggable')
+      expect(page).to have_no_selector('[data-qa-selector="op-wp-single-card"].-draggable')
     end
   end
 

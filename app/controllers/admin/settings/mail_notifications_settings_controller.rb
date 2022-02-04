@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module Admin::Settings
@@ -36,13 +36,12 @@ module Admin::Settings
 
     def show
       @deliveries = ActionMailer::Base.perform_deliveries
-      @notifiables = OpenProject::Notifiable.all
 
       respond_to :html
     end
 
     def default_breadcrumb
-      t(:'activerecord.attributes.user.mail_notification')
+      t(:'menus.admin.mail_notification')
     end
 
     def show_local_breadcrumb

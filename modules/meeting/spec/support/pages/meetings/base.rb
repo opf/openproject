@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module Pages::Meetings
@@ -34,7 +34,7 @@ module Pages::Meetings
       self.project = project
     end
 
-    def notification_type
+    def toast_type
       :rails
     end
   end

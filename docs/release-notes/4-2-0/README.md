@@ -88,7 +88,7 @@ the project overview to the project settings
 ## **Additional functionalities for API v3**
 
 Several new features have been included in the future OpenProject API.
-The [API v3](https://www.openproject.org/development/api/) now enables
+The [API v3](../../api/) now enables
 work package creation
 ([\#19987](https://community.openproject.org/work_packages/19987)), CRUD
 operations for work package attachments

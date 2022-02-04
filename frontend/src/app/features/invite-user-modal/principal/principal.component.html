@@ -1,0 +1,71 @@
+<form
+  [formGroup]="principalForm"
+  (ngSubmit)="onSubmit($event)"
+>
+  <op-modal-header (close)="close.emit()">{{ text.title() }}</op-modal-header>
+
+  <div class="op-modal--body op-form">
+    <op-form-field
+      [label]="textLabel"
+      required
+    >
+      <op-ium-principal-search
+        *ngIf="!(hasPrincipalSelected && isNewPrincipal)"
+        [opFormBinding]="principalControl"
+        [type]="type"
+        [project]="project"
+        slot="input"
+        (createNew)="createNewFromInput($event)"
+      ></op-ium-principal-search>
+
+      <p
+        *ngIf="isNewPrincipal && type === PrincipalType.User"
+        slot="input"
+      >
+        <b>{{ text.inviteUser }}</b> {{ principal.name }}
+        <button
+          type="button"
+          class="op-link"
+          (click)="principalControl?.setValue(null)"
+          >{{ text.change }}</button>
+      </p>
+
+      <p
+        *ngIf="isNewPrincipal && type === PrincipalType.Placeholder"
+        slot="input"
+      >
+        <b>{{ text.createNewPlaceholder }}</b> {{ principal.name }}
+        <button
+          type="button"
+          class="op-link"
+          (click)="principalControl?.setValue(null)"
+        >{{ text.change }}</button>
+      </p>
+
+      <div
+        slot="errors"
+        class="op-form-field--error"
+        *ngIf="principalControl?.touched && principalControl?.invalid"
+      >
+        {{ text.required[type] }}
+      </div>
+    </op-form-field>
+
+    <op-dynamic-form
+      *ngIf="isNewPrincipal && type === PrincipalType.User && userDynamicFieldConfig.schema"
+      [dynamicFormGroup]="dynamicFieldsControl"
+      [settings]="userDynamicFieldConfig"
+      [formUrl]="apiV3Service.users.form.path"
+      [handleSubmit]="false"
+    ></op-dynamic-form>
+  </div>
+
+  <div class="op-modal--footer">
+    <button
+      type="button"
+      class="button"
+      (click)="back.emit()"
+      >{{ text.backButton }}</button>
+    <button class="button -highlight">{{ text.nextButton }}</button>
+  </div>
+</form>

@@ -3,14 +3,13 @@
 // https://github.com/ui-router/angular/issues/166
 /// <reference path="../node_modules/@uirouter/rx/lib/core.augment.d.ts" />
 /* SystemJS module definition */
-declare var module:NodeModule;
+declare let module:NodeModule;
 declare module 'dom-plane' {
   export function createPointCB(point:any):any;
-  export function getClientRect(el:Element|Window):any;
+  export function getClientRect(el:Element|Window):{ top:number, bottom:number, left:number, right:number };
   export function pointInside(point:any, el:Element|Window):any;
 }
 
 interface NodeModule {
   id:string;
 }
-

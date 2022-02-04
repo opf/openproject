@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 #English strings go here for Rails i18n
 sl:
@@ -63,6 +63,8 @@ sl:
   label_version: "Različica"
   label_time_zone: "Časovni pas"
   label_start_date: "Datum začetka"
+  meeting:
+    copied: "Copied from Meeting #%{id}"
   notice_successful_notification: "Obvestila uspešno poslana"
   notice_timezone_missing: Časovni pas ni določen, %{zone} je izbran avtomatsko. Za določitev časovnega pasu kliknite tukaj.
   permission_create_meetings: "Ustvarite sestanke"

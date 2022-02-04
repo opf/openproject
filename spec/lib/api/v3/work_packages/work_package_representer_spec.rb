@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -1042,8 +1042,8 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       describe 'customFields' do
         it_behaves_like 'action link' do
           let(:action) { 'customFields' }
-          let(:permission) { :edit_project }
-          let(:href) { settings_custom_fields_project_path(work_package.project.identifier) }
+          let(:permission) { :select_custom_fields }
+          let(:href) { project_settings_custom_fields_path(work_package.project.identifier) }
         end
       end
 

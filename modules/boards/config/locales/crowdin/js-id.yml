@@ -30,6 +30,7 @@ id:
       error_loading_the_list: "Gagal memuat daftar: %{error_message}"
       error_permission_missing: "Izin untuk membuat queri publik hilang"
       error_cannot_move_into_self: "You can not move a work package into its own column."
+      text_hidden_list_warning: "Not all lists are displayed because you lack the permission. Contact your admin for more information."
       click_to_remove_list: "Klik untuk menghapus daftar ini"
       board_type:
         text: 'Tipe papan'

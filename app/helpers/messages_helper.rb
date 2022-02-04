@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module MessagesHelper
@@ -33,5 +33,9 @@ module MessagesHelper
     ::API::V3::Posts::PostRepresenter.new(message,
                                           current_user: current_user,
                                           embed_links: true)
+  end
+
+  def message_url(message)
+    topic_url(message.root, r: message.id, anchor: "message-#{message.id}")
   end
 end

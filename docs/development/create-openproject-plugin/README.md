@@ -70,8 +70,8 @@ rake copyright:authors:show['../Path/to/repository/']
 
 2. Add a copyright notice to all the source files
 
- There is a rake task in the core to perform this job. Use `rake copyright:update['path_to_plugin']` (e.g. `rake copyright:update['../plugins/openproject-global_roles']`) to add the copyright header in `doc/COPYRIGHT_short.md` to all relevant plugin files.
- If no such file exists, `doc/COPYRIGHT_short.md` from the core is used.
+ There is a rake task in the core to perform this job. Use `rake copyright:update['path_to_plugin']` (e.g. `rake copyright:update['../plugins/openproject-global_roles']`) to add the copyright header in `COPYRIGHT_short` to all relevant plugin files.
+ If no such file exists, `COPYRIGHT_short` from the core is used.
 
 3. Check for existence of `doc/COPYRIGHT.md` and `doc/GPL.txt` if referenced by the copyright notice.
 
@@ -113,7 +113,7 @@ It is probably best to use READMEs of already released plugins as a template.
 8. Push the version of the plugin, mostly by just removing any .preX specials at the end.
 9. Don’t forget to add a changelog entry.
 10. Commit everything.
-11. Also create a release tag (named ‘release/<version>’ for example ‘release/1.0.2′) to name the new version.
+11. Also create a release tag (named ‘release/&lt;version&gt;’ for example ‘release/1.0.2′) to name the new version.
 12. Push the tag with `git push --tags`.
 
 ### Publish the gem at Rubygems

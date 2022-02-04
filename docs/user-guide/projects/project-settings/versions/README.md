@@ -18,7 +18,7 @@ Also, version will  be used to enable the Backlogs module, i.e. to create a prod
 
 Press the green **+ Version** button to create a new version for a project.
 
-![User-guide-project-settins-versions](User-guide-project-settins-versions.png)
+![User-guide-project-settings-versions](User-guide-project-settings-versions.png)
 
 You can configure the following information.
 

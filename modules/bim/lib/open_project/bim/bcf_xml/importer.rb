@@ -57,7 +57,7 @@ module OpenProject::Bim::BcfXml
         bcf_version = doc.xpath('/Version').first['VersionId']
         return Gem::Version.new(bcf_version) >= Gem::Version.new(MINIMUM_BCF_VERSION)
       end
-    rescue StandardError => e
+    rescue StandardError => _e
       # The uploaded file could be anything.
       false
     end

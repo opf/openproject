@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -77,20 +77,9 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
 
   describe '.valid?' do
     let(:custom_field) { string_wp_custom_field }
-    before do
-      instance.values = ['bogus']
-    end
 
     before do
-      if project
-        allow(project)
-          .to receive_message_chain(:all_work_package_custom_fields, :map, :include?)
-          .and_return(true)
-      else
-        allow(WorkPackageCustomField)
-          .to receive_message_chain(:filter, :for_all, :where, :not, :exists?)
-          .and_return(true)
-      end
+      instance.values = ['bogus']
     end
 
     shared_examples_for 'custom field type dependent validity' do
@@ -120,56 +109,11 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
     end
 
     context 'within a project' do
-      it 'is invalid with a custom field not active in the project' do
-        scope = double('AR::Scope')
-        allow(project)
-          .to receive(:all_work_package_custom_fields)
-          .and_return(scope)
-
-        allow(scope)
-          .to receive(:map)
-          .and_return(scope)
-
-        allow(scope)
-          .to receive(:include?)
-          .with(instance.custom_field.id)
-          .and_return(false)
-
-        expect(instance).to_not be_valid
-      end
-
       it_behaves_like 'custom field type dependent validity'
     end
 
     context 'without a project' do
       let(:project) { nil }
-
-      it 'is invalid with a custom field not valid as a global filter' do
-        scope = double('AR::Scope')
-        allow(WorkPackageCustomField)
-          .to receive(:filter)
-          .and_return(scope)
-
-        allow(scope)
-          .to receive(:for_all)
-          .and_return(scope)
-
-        allow(scope)
-          .to receive(:where)
-          .and_return(scope)
-
-        allow(scope)
-          .to receive(:not)
-          .with(field_format: ['user', 'version'])
-          .and_return(scope)
-
-        allow(scope)
-          .to receive(:exists?)
-          .with(instance.custom_field.id)
-          .and_return(false)
-
-        expect(instance).to_not be_valid
-      end
 
       it_behaves_like 'custom field type dependent validity'
     end
@@ -379,18 +323,31 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
   end
 
   describe '.all_for' do
-    context 'within a project' do
+    context 'with a project' do
       before do
+        filter_scope = instance_double('ActiveRecord::Relation')
+
+        allow(::WorkPackageCustomField)
+          .to receive(:filter)
+                .and_return(filter_scope)
+
+        project_cf_scope = instance_double('ActiveRecord::Relation')
+
         allow(project)
-          .to receive_message_chain(:all_work_package_custom_fields)
-          .and_return(all_custom_fields)
+          .to receive(:all_work_package_custom_fields)
+                .and_return(project_cf_scope)
+
+        allow(project_cf_scope)
+          .to receive(:merge)
+                .with(filter_scope)
+                .and_return(all_custom_fields)
       end
 
       it 'returns a list with a filter for every custom field' do
         filters = described_class.all_for(query)
 
         all_custom_fields.each do |cf|
-          expect(filters.detect { |filter| filter.name == :"cf_#{cf.id}" }).to_not be_nil
+          expect(filters.detect { |filter| filter.name == :"cf_#{cf.id}" }).not_to be_nil
         end
       end
 
@@ -398,7 +355,8 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
         filters = described_class.all_for(query)
 
         all_custom_fields.each do |cf|
-          expect(filters.detect { |filter| filter.name == :"cf_#{cf.id}" }.context)
+          expect(filters.detect { |filter| filter.name == :"cf_#{cf.id}" }.context.project)
+            .to eq project
         end
       end
     end

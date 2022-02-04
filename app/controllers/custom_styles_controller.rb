@@ -25,15 +25,15 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 class CustomStylesController < ApplicationController
   layout 'admin'
   menu_item :custom_style
 
-  before_action :require_admin, except: [:logo_download, :favicon_download, :touch_icon_download]
-  skip_before_action :check_if_login_required, only: [:logo_download, :favicon_download, :touch_icon_download]
+  before_action :require_admin, except: %i[logo_download favicon_download touch_icon_download]
+  skip_before_action :check_if_login_required, only: %i[logo_download favicon_download touch_icon_download]
 
   def show
     @custom_style = CustomStyle.current || CustomStyle.new

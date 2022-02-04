@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 namespace :copyright do
@@ -51,12 +51,12 @@ namespace :copyright do
   end
 
   def copyright_file(options = {})
-    path = 'docs/COPYRIGHT_short.rdoc'
+    path = 'COPYRIGHT_short'
     if options[:path]
-      path = File.join(options[:path], 'docs/COPYRIGHT_short.rdoc') if File.exists?(File.join(options[:path],
-                                                                                              'docs/COPYRIGHT_short.rdoc'))
-      path = File.join(options[:path], 'docs/COPYRIGHT_short.md')   if File.exists?(File.join(options[:path],
-                                                                                              'docs/COPYRIGHT_short.md'))
+      path = File.join(options[:path], 'COPYRIGHT_short') if File.exists?(File.join(options[:path],
+                                                                                              'COPYRIGHT_short'))
+      path = File.join(options[:path], 'COPYRIGHT_short.md') if File.exists?(File.join(options[:path],
+                                                                                              'COPYRIGHT_short.md'))
     end
     path
   end
@@ -224,9 +224,9 @@ namespace :copyright do
   desc 'Update the copyright on .rdoc source files'
   task :update_rdoc, :arg1 do |_task, args|
     excluded = ['README.rdoc',
-                'docs/COPYRIGHT.rdoc',
-                'docs/COPYING.rdoc',
-                'docs/COPYRIGHT_short.rdoc']
+                'LICENSE',
+                'COPYRIGHT',
+                'COPYRIGHT_short']
 
     rewrite_copyright('rdoc', excluded, :rdoc, args[:arg1], position: :bottom)
   end

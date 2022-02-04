@@ -23,7 +23,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-See docs/COPYRIGHT.rdoc for more details.
+See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 <% content_for :header_tags do %>
@@ -64,27 +64,43 @@ See docs/COPYRIGHT.rdoc for more details.
       <%= op_icon("button--icon icon-external-link") %>
     <% end %>
   </li>
-  <% if current_user.admin? %>
   <li class="toolbar-item drop-down">
-    <a href="#" aria-haspopup="true" title="<%= t(:label_more) %>" class="button">
+    <a
+      href="#"
+      aria-haspopup="true"
+      title="<%= t(:label_more) %>"
+      class="button"
+      data-qa-selector="project-more-dropdown-menu"
+    >
       <%= op_icon('button--icon icon-show-more') %>
     </a>
     <ul style="display:none;" class="menu-drop-down-container">
+      <% if current_user.admin? %>
       <li>
-        <%= link_to t('button_configure'), admin_settings_projects_path, target: '_blank', class: 'icon-context icon-settings'  %>
+        <%= link_to t('button_configure'), admin_settings_projects_path, target: '_blank', class: 'icon-context icon-settings' %>
       </li>
+      <% end %>
+      <section data-augmented-model-wrapper
+               data-modal-class-name="project-export---modal">
+        <li>
+          <%= link_to I18n.t('js.label_export'),
+                      '',
+                      title: I18n.t('js.label_export'),
+                      class: 'modal-delivery-element--activation-link icon-context icon-export' %>
+        </li>
+        <%= render partial: 'project_export_modal' %>
+      </section>
     </ul>
   </li>
-  <% end %>
 <% end %>
 
 <%= render partial: 'projects/filters/form', locals: { query: @query } %>
 
 <%= rails_cell Projects::TableCell,
-         @projects,
-         current_user: current_user,
-         orders: @orders,
-         params: params %>
+               @projects,
+               current_user: current_user,
+               orders: @orders,
+               params: params %>
 
 <% if User.current.admin? %>
   <p class="information-section">

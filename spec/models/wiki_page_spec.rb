@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -83,6 +83,25 @@ describe WikiPage, type: :model do
       it 'fails to create' do
         expect { wiki_page }
           .to raise_error(ActiveRecord::RecordInvalid)
+      end
+    end
+
+    context 'with another default language', with_settings: { default_language: 'de' } do
+      let(:wiki_page) { FactoryBot.build(:wiki_page, wiki: wiki, title: 'Übersicht') }
+
+      it 'will still use english slug methods' do
+        expect(wiki_page.save).to eq true
+        expect(wiki_page.slug).to eq 'ubersicht'
+      end
+    end
+
+    context 'with another I18n.locale set', with_settings: { default_language: 'de' } do
+      let(:wiki_page) { FactoryBot.build(:wiki_page, wiki: wiki, title: 'Übersicht') }
+
+      it 'will still use english slug methods' do
+        I18n.locale = :de
+        expect(wiki_page.save).to eq true
+        expect(wiki_page.slug).to eq 'ubersicht'
       end
     end
   end

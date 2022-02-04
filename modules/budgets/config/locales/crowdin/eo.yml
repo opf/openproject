@@ -1,0 +1,73 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2021 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+eo:
+  activerecord:
+    attributes:
+      budget:
+        author: "Aŭtoro"
+        available: "Available"
+        budget: "Planned"
+        budget_ratio: "Spent (ratio)"
+        description: "Priskribo"
+        spent: "Spent"
+        status: "Stato"
+        subject: "Temo"
+        type: "Cost type"
+        labor_budget: "Planned labor costs"
+        material_budget: "Planned unit costs"
+      work_package:
+        budget_subject: "Budget title"
+    models:
+      budget: "Budget"
+      material_budget_item: "Unit"
+  attributes:
+    budget: "Budget"
+  button_add_budget_item: "Add planned costs"
+  button_add_budget: "Add budget"
+  button_add_cost_type: "Add cost type"
+  button_cancel_edit_budget: "Cancel editing budget"
+  button_cancel_edit_costs: "Cancel editing costs"
+  caption_labor: "Labor"
+  caption_labor_costs: "Actual labor costs"
+  caption_material_costs: "Actual unit costs"
+  budgets_title: "Budgets"
+  events:
+    budget: "Budget edited"
+  help_click_to_edit: "Click here to edit."
+  help_currency_format: "Format of displayed currency values. %n is replaced with the currency value, %u ist replaced with the currency unit."
+  help_override_rate: "Enter a value here to override the default rate."
+  label_budget: "Budget"
+  label_budget_new: "New budget"
+  label_budget_plural: "Budgets"
+  label_budget_id: "Budget #%{id}"
+  label_deliverable: "Budget"
+  label_example_placeholder: 'ekz., %{decimal}'
+  label_view_all_budgets: "View all budgets"
+  label_yes: "Jes"
+  notice_budget_conflict: "WorkPackages must be of the same project."
+  notice_no_budgets_available: "No budgets available."
+  permission_edit_budgets: "Edit budgets"
+  permission_view_budgets: "View budgets"
+  project_module_budgets: "Budgets"
+  text_budget_reassign_to: "Reassign them to this budget:"
+  text_budget_delete: "Delete the budget from all work packages"
+  text_budget_destroy_assigned_wp: "There are %{count} work packages assigned to this budget. What do you want to do?"

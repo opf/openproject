@@ -14,7 +14,7 @@ SSL configuration can be applied on the first installation, or at any time by re
 sudo openproject reconfigure
 ```
 
-You will be prompted with the same dialogs than on the [initial configuration](../../installation/packaged/#step-2-apache2-web-server) guide. This assumes that you select the **install** option when the **server/autoinstall** dialog appears, and that you have certificate and key files available on your server at a path you know.
+You will be prompted with the same dialogs than on the [initial configuration](../../installation/packaged/#step-3-apache2-web-server) guide. This assumes that you select the **install** option when the **server/autoinstall** dialog appears, and that you have certificate and key files available on your server at a path you know.
 
 ## Docker-based installation
 
@@ -52,7 +52,7 @@ This requires your OpenProject server to be reachable using a domain name (e.g. 
 
   Hit ENTER, and after the wizard is finished your OpenProject installation should be accessible using `https://openproject.mydomain.com`.
 
-4. Let's Encryt certificates are only valid for 90 days. An entry in your OS crontab should have automatically been added when `certbot` was installed. You can optionnally confirm that the renewal will work by issuing the following command in dry-run mode:
+4. Let's Encrypt certificates are only valid for 90 days. An entry in your OS crontab should have automatically been added when `certbot` was installed. You can optionally confirm that the renewal will work by issuing the following command in dry-run mode:
 
         sudo certbot renew --dry-run
 

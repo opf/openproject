@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -33,13 +33,13 @@ describe Projects::UpdateContract do
   it_behaves_like 'project contract' do
     let(:project) do
       FactoryBot.build_stubbed(:project,
-                               identifier: project_identifier,
                                active: project_active,
                                public: project_public,
                                status: project_status).tap do |p|
         # in order to actually have something changed
         p.name = project_name
         p.parent = project_parent
+        p.identifier = project_identifier
       end
     end
     let(:permissions) { [:edit_project] }

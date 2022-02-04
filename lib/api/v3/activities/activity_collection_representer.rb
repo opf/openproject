@@ -25,13 +25,18 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module API
   module V3
     module Activities
       class ActivityCollectionRepresenter < ::API::Decorators::UnpaginatedCollection
+        def initialize(models, self_link:, current_user:)
+          super
+
+          @represented = ::API::V3::Activities::ActivityEagerLoadingWrapper.wrap(represented)
+        end
       end
     end
   end

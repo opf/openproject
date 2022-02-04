@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module API
@@ -37,7 +37,7 @@ module API
         relation.base_class.per_page
       end
 
-      def initialize(models, self_link:, current_user:, query: {}, page: nil, per_page: nil)
+      def initialize(models, self_link:, current_user:, query: {}, page: nil, per_page: nil, groups: nil)
         @self_link_base = self_link
         @query = query
         @page = page.to_i > 0 ? page.to_i : 1
@@ -46,7 +46,7 @@ module API
         full_self_link = make_page_link(page: @page, page_size: @per_page)
         paged = paged_models(models)
 
-        super(paged, models.count, self_link: full_self_link, current_user: current_user)
+        super(paged, total_count(models), self_link: full_self_link, current_user: current_user, groups: groups)
       end
 
       link :jumpTo do
@@ -87,14 +87,24 @@ module API
                exec_context: :decorator,
                getter: ->(*) { @page }
 
+      protected
+
+      def total_count(models)
+        models.count(:id)
+      end
+
       private
 
       def make_page_link(page:, page_size:)
         "#{@self_link_base}?#{href_query(page, page_size)}"
       end
 
-      def href_query(page, page_size)
-        @query.merge(offset: page, pageSize: page_size).to_query
+      def href_query(page = @page, page_size = @per_page)
+        query_params(page, page_size).to_query
+      end
+
+      def query_params(page = @page, page_size = @per_page)
+        @query.merge(offset: page, pageSize: page_size)
       end
 
       def paged_models(models)

@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 FactoryBot.define do
@@ -38,8 +38,6 @@ FactoryBot.define do
     transient do
       preferences { {} }
     end
-
-    mail_notification { OpenProject::VERSION::MAJOR > 0 ? 'all' : true }
 
     language { 'en' }
     status { User.statuses[:active] }
@@ -57,11 +55,24 @@ FactoryBot.define do
     end
 
     callback(:after_create) do |user, factory|
-      user.pref.save unless factory.preferences&.empty?
+      user.pref.save if factory.preferences.present?
+
+      if user.notification_settings.empty?
+        all_true = NotificationSetting.all_settings.index_with(true)
+        user.notification_settings = [
+          FactoryBot.create(:notification_setting, user: user, **all_true)
+        ]
+      end
 
       if factory.global_permissions.present?
         global_role = FactoryBot.create :global_role, permissions: factory.global_permissions
         FactoryBot.create :global_member, principal: user, roles: [global_role]
+      end
+    end
+
+    callback(:after_stub) do |user, evaluator|
+      if evaluator.preferences.present?
+        user.preference = FactoryBot.build_stubbed(:user_preference, user: user, settings: evaluator.preferences)
       end
     end
 

@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 #English strings go here for Rails i18n
 fi:
@@ -63,6 +63,8 @@ fi:
   label_version: "Versio"
   label_time_zone: "Aikavyöhyke"
   label_start_date: "Aloituspäivä"
+  meeting:
+    copied: "Copied from Meeting #%{id}"
   notice_successful_notification: "Ilmoituksen lähettäminen onnistui"
   notice_timezone_missing: Aikavyöhykettä ei ole määritetty, joten oletuksena on %{zone}. Valitaksesi aikavyöhykkeen, klikkaa tästä.
   permission_create_meetings: "Luo kokouksia"

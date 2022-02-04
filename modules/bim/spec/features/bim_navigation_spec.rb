@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require_relative '../spec_helper'
@@ -77,8 +77,8 @@ describe 'BIM navigation spec',
         model_page.model_viewer_shows_a_toolbar true
         model_page.page_shows_a_toolbar true
         model_tree.sidebar_shows_viewer_menu true
-        expect(page).to have_selector('.wp-cards-container')
-        card_view.expect_work_package_listed(work_package)
+        expect(page).to have_selector('[data-qa-selector="op-wp-card-view"]')
+        card_view.expect_work_package_listed work_package
       end
 
       it 'can switch between the different view modes' do
@@ -106,14 +106,14 @@ describe 'BIM navigation spec',
         model_page.switch_view 'Viewer'
 
         model_page.model_viewer_visible true
-        expect(page).to have_no_selector('.wp-cards-container')
+        expect(page).to have_no_selector('[data-qa-selector="op-wp-card-view"]')
 
         # Go to list only
         model_page.switch_view 'Cards'
 
         model_page.model_viewer_visible false
-        expect(page).to have_selector('.wp-cards-container')
-        card_view.expect_work_package_listed(work_package)
+        expect(page).to have_selector('[data-qa-selector="op-wp-card-view"]')
+        card_view.expect_work_package_listed work_package
 
         # Go to single view
         card_view.open_full_screen_by_details(work_package)
@@ -146,7 +146,7 @@ describe 'BIM navigation spec',
       end
 
       it 'after going to the full view with a selected tab,
-        the same tab shoud be opened in full screen view and after going back to details view(see #33747)' do
+        the same tab should be opened in full screen view and after going back to details view(see #33747)' do
         card_view.open_full_screen_by_details(work_package)
 
         details_view.ensure_page_loaded

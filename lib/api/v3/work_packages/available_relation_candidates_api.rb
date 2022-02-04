@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module API
@@ -41,7 +41,7 @@ module API
           end
 
           def string_filter
-            filter_param(:subject_or_id, '**', params[:query])
+            filter_param(:typeahead, '**', params[:query])
           end
 
           def type_filter
@@ -55,10 +55,11 @@ module API
 
         resources :available_relation_candidates do
           params do
-            requires :query, type: String # either WP ID or part of its subject
+            requires :query, type: String # part of the WP ID and/or part of its subject and/or part of the projects name
             optional :type, type: String, default: ::Relation::TYPE_RELATES # relation type
             optional :pageSize, type: Integer, default: 10
           end
+
           get do
             service = WorkPackageCollectionFromQueryParamsService
                       .new(current_user)

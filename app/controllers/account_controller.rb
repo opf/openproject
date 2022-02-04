@@ -25,15 +25,13 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 class AccountController < ApplicationController
   include CustomFieldsHelper
   include OmniauthHelper
   include Accounts::OmniauthLogin
-  include Accounts::RedirectAfterLogin
-  include Accounts::AuthenticationStages
   include Accounts::UserConsent
   include Accounts::UserLimits
   include Accounts::UserPasswordChange
@@ -83,7 +81,7 @@ class AccountController < ApplicationController
       @user = @token.user
       if request.post?
         call = ::Users::ChangePasswordService.new(current_user: @user, session: session).call(params)
-        call.apply_flash_message!(flash)
+        call.apply_flash_message!(flash) if call.errors.empty?
 
         if call.success?
           @token.destroy
@@ -271,7 +269,8 @@ class AccountController < ApplicationController
 
   def auth_source_sso_failed
     failure = session.delete :auth_source_sso_failure
-    user = failure[:user]
+    login = failure[:login]
+    user = find_or_create_sso_user(login, save: false)
 
     if user.try(:new_record?)
       return onthefly_creation_failed user, login: user.login, auth_source_id: user.auth_source_id
@@ -440,54 +439,6 @@ class AccountController < ApplicationController
     end
   end
 
-  def successful_authentication(user, reset_stages: true, just_registered: false)
-    stages = authentication_stages after_activation: just_registered, reset: reset_stages
-
-    if stages.empty?
-      # setting params back_url to be used by redirect_after_login
-      params[:back_url] = session.delete :back_url if session.include?(:back_url)
-
-      if just_registered || session[:just_registered]
-        finish_registration! user
-      else
-        login_user! user
-      end
-    else
-      stage = stages.first
-
-      session[:just_registered] = just_registered
-      session[:authenticated_user_id] = user.id
-
-      redirect_to stage.path
-    end
-  end
-
-  def login_user!(user)
-    # generate a key and set cookie if autologin
-    if Setting.autologin? && (params[:autologin] || session.delete(:autologin_requested))
-      set_autologin_cookie(user)
-    end
-
-    # Set the logged user, resetting their session
-    self.logged_user = user
-
-    call_hook(:controller_account_success_authentication_after, user: user)
-
-    redirect_after_login(user)
-  end
-
-  def set_autologin_cookie(user)
-    token = Token::AutoLogin.create(user: user)
-    cookie_options = {
-      value: token.plain_value,
-      expires: 1.year.from_now,
-      path: OpenProject::Configuration['autologin_cookie_path'],
-      secure: OpenProject::Configuration['autologin_cookie_secure'],
-      httponly: true
-    }
-    cookies[OpenProject::Configuration['autologin_cookie_name']] = cookie_options
-  end
-
   def login_user_if_active(user, just_registered:)
     if user.active?
       successful_authentication(user, just_registered: just_registered)
@@ -516,15 +467,6 @@ class AccountController < ApplicationController
     @user = user
     session[:auth_source_registration] = auth_source_options unless auth_source_options.empty?
     render action: 'register'
-  end
-
-  def finish_registration!(user)
-    session[:just_registered] = nil
-    self.logged_user = user
-    user.update last_login_on: Time.now
-
-    flash[:notice] = I18n.t(:notice_account_registered_and_logged_in)
-    redirect_after_login user
   end
 
   def self_registration_disabled

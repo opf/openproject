@@ -21,7 +21,7 @@ The following bugs have been fixed:
     even when the option “Authentication required” was activated. This
     has been fixed
     ([\#20935](https://community.openproject.org/work_packages/20935)).
-  - In some circumstances journal entires in work packages were
+  - In some circumstances journal entries in work packages were
     displayed twice. This has been fixed
     ([\#20914](https://community.openproject.org/work_packages/20914)).
   - The REST API option is now activated for new OpenProject instances

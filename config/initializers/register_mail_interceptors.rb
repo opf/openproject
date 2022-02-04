@@ -25,12 +25,12 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 # Register interceptors defined in app/mailers/user_mailer.rb
 # Do this here, so they aren't registered multiple times due to reloading in development mode.
 
-UserMailer.register_interceptor(DefaultHeadersInterceptor)
+ApplicationMailer.register_interceptor(DefaultHeadersInterceptor)
 # following needs to be the last interceptor
-UserMailer.register_interceptor(DoNotSendMailsWithoutReceiverInterceptor)
+ApplicationMailer.register_interceptor(DoNotSendMailsWithoutReceiverInterceptor)

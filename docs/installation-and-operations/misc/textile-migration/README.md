@@ -18,7 +18,7 @@ The migration will be performed automatically during your upgrade to 8.0. You wi
 
 ## Dependencies
 
-We depend on `pandoc` (http://pandoc.org/) for the conversion of all formattable fields in OpenProject. It provides automated means to migrate between many input and output formats, in our case from Textile to GitHub-flavored Markdown.
+We depend on `pandoc` (https://pandoc.org/) for the conversion of all formattable fields in OpenProject. It provides automated means to migrate between many input and output formats, in our case from Textile to GitHub-flavored Markdown.
 
 If you do not have an executable pandoc version of at least version 2.0 in your path, OpenProject will try download an AMD64 static linked binary for pandoc (Currently, this would be version 2.3.2). This version will be made available to OpenProject through `<OpenProject root>/vendor/pandoc` and is only used during that one-time migration step.
 
@@ -52,11 +52,11 @@ or in a packaged installation:
 
 ## Markdown and WYSIWYG features
 
-With the migration of Markdown, we have introduced a quasi-WYSIWYG powerd by CKEditor5  that will make editing in all formattable fields of OpenProject much easier. The output format of that editor is still Markdown.
+With the migration of Markdown, we have introduced a quasi-WYSIWYG powered by CKEditor5 that will make editing in all formattable fields of OpenProject much easier. The output format of that editor is still Markdown.
 
 
 
-For information regarding the features of Markdown and the capabilities of the CKEditor WYSIWYG editor built upon it, please see https://docs.openproject.org/user-guide/wiki/.
+For information regarding the features of Markdown and the capabilities of the CKEditor WYSIWYG editor built upon it, please see [here](../../../user-guide/wiki/).
 
 
 

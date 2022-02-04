@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 class CostlogController < ApplicationController
@@ -173,7 +173,7 @@ class CostlogController < ApplicationController
     attributes = permitted_params.cost_entry
     attributes[:units] = Rate.parse_number_string_to_number(attributes[:units])
 
-    if attributes.key?(:overridden_costs)
+    if attributes[:overridden_costs].present?
       attributes[:overridden_costs] = Rate.parse_number_string_to_number(attributes[:overridden_costs])
     end
 

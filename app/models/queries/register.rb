@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module Queries::Register
@@ -46,6 +46,14 @@ module Queries::Register
       @orders[query] << order
     end
 
+    def group_by(query, group_by)
+      @group_bys ||= Hash.new do |hash, group_key|
+        hash[group_key] = []
+      end
+
+      @group_bys[query] << group_by
+    end
+
     def column(query, column)
       @columns ||= Hash.new do |hash, column_key|
         hash[column_key] = []
@@ -60,6 +68,7 @@ module Queries::Register
 
     attr_accessor :filters,
                   :orders,
-                  :columns
+                  :columns,
+                  :group_bys
   end
 end

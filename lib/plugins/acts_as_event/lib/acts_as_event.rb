@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 # This now only seems to be used when rendering atom responses.
@@ -95,13 +95,6 @@ module Redmine
           else
             option
           end
-        end
-
-        # Returns users that should be notified
-        def recipients
-          notified = []
-          notified = project.notified_users if project
-          notified.select { |user| visible?(user) }
         end
 
         module ClassMethods

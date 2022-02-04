@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'support/pages/page'
@@ -114,7 +114,7 @@ module Pages
       attribute_expectations.each do |label_name, value|
         label = label_name.to_s
         if label == 'status'
-          expect(page).to have_selector(".wp-status-button .button", text: value, wait: 10)
+          expect(page).to have_selector("[data-qa-selector='op-wp-status-button'] .button", text: value, wait: 10)
         else
           expect(page).to have_selector(".inline-edit--container.#{label.camelize(:lower)}", text: value, wait: 10)
         end
@@ -141,7 +141,7 @@ module Pages
     def expect_no_parent
       visit_tab!('relations')
 
-      expect(page).not_to have_selector('.wp-breadcrumb-parent')
+      expect(page).not_to have_selector('[data-qa-selector="op-wp-breadcrumb-parent"]')
     end
 
     def expect_zen_mode
@@ -235,7 +235,7 @@ module Pages
       end
 
       if expect_success
-        expect_and_dismiss_notification message: 'Successful update'
+        expect_and_dismiss_toaster message: 'Successful update'
         sleep 1
       end
     end
@@ -245,7 +245,7 @@ module Pages
     end
 
     def trigger_edit_comment
-      add_comment_container.find('.inplace-editing--trigger-link').click
+      add_comment_container.find('.work-package-comment').click
     end
 
     def update_comment(comment)
@@ -255,7 +255,7 @@ module Pages
 
     def save_comment
       label = 'Comment: Save'
-      add_comment_container.find(:xpath, "//a[@title='#{label}']").click
+      add_comment_container.find(:xpath, "//button[@title='#{label}']").click
     end
 
     def save!
@@ -285,6 +285,10 @@ module Pages
       find('.work-packages-back-button').click
     end
 
+    def mark_notifications_as_read
+      find('[data-qa-selector="mark-notification-read-button"]').click
+    end
+
     private
 
     def create_page(_args)
@@ -292,9 +296,9 @@ module Pages
     end
 
     def ensure_no_conflicting_modifications
-      expect_notification(message: 'Successful update')
-      dismiss_notification!
-      expect_no_notification(message: 'Successful update')
+      expect_toast(message: 'Successful update')
+      dismiss_toaster!
+      expect_no_toaster(message: 'Successful update')
     end
   end
 end

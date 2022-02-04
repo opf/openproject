@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 class Repository < ApplicationRecord
@@ -285,7 +285,7 @@ class Repository < ApplicationRecord
       elsif committer.strip =~ /\A([^<]+)(<(.*)>)?\z/
         username = $1.strip
         email = $3
-        u = User.find_by_login(username)
+        u = User.by_login(username).first
         u ||= User.find_by_mail(email) unless email.blank?
         user = u
       end

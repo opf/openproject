@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -102,7 +102,7 @@ describe 'Projects index page',
       expect(page).to have_selector(%(input[value="cf_#{string_cf.id}"]:checked))
 
       # Edit the project gantt query
-      scroll_to_and_click(find('a', text: 'Edit query'))
+      scroll_to_and_click(find('button', text: 'Edit query'))
 
       columns.assume_opened
       columns.uncheck_all save_changes: false

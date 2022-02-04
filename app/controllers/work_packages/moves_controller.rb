@@ -25,10 +25,12 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 class WorkPackages::MovesController < ApplicationController
+  include WorkPackages::FlashBulkError
+
   default_search_scope :work_packages
   before_action :find_work_packages, :check_project_uniqueness
   before_action :authorize
@@ -40,42 +42,31 @@ class WorkPackages::MovesController < ApplicationController
   def create
     prepare_for_work_package_move
 
-    new_type = params[:new_type_id].blank? ? nil : @target_project.types.find_by(id: params[:new_type_id])
+    result = modify_call
 
-    unsaved_work_package_ids = []
-    moved_work_packages = []
+    set_flash_from_bulk_work_package_save(@work_packages, result)
 
-    @work_packages.each do |work_package|
-      work_package.reload
+    redirect_after_create(result)
+  end
 
-      call_hook(:controller_work_packages_move_before_save,
-                params: params,
-                work_package: work_package,
-                target_project: @target_project,
-                copy: !!@copy)
+  private
 
-      service_call = WorkPackages::MoveService
-                     .new(work_package, current_user)
-                     .call(@target_project,
-                           new_type,
-                           copy: @copy,
-                           attributes: permitted_create_params,
-                           journal_note: @notes)
+  def modify_call
+    klass = if @copy
+              WorkPackages::Bulk::CopyService
+            else
+              WorkPackages::Bulk::MoveService
+            end
 
-      if service_call.success?
-        moved_work_packages << service_call.result
-      elsif @copy
-        unsaved_work_package_ids.concat dependent_error_ids(work_package.id, service_call)
-      else
-        unsaved_work_package_ids << work_package.id
-      end
-    end
+    klass
+      .new(user: current_user, work_packages: @work_packages)
+      .call(permitted_create_params)
+  end
 
-    set_flash_from_bulk_work_package_save(@work_packages, unsaved_work_package_ids)
-
+  def redirect_after_create(result)
     if params[:follow]
-      if @work_packages.size == 1 && moved_work_packages.size == 1
-        redirect_to work_package_path(moved_work_packages.first)
+      if result.success? && @work_packages.size == 1
+        redirect_to work_package_path(result.dependent_results.first.result)
       else
         redirect_to project_work_packages_path(@target_project || @project)
       end
@@ -84,38 +75,18 @@ class WorkPackages::MovesController < ApplicationController
     end
   end
 
-  def set_flash_from_bulk_work_package_save(work_packages, unsaved_work_package_ids)
-    if unsaved_work_package_ids.empty? and not work_packages.empty?
+  def set_flash_from_bulk_work_package_save(work_packages, service_result)
+    if service_result.success? && work_packages.any?
       flash[:notice] = @copy ? I18n.t(:notice_successful_create) : I18n.t(:notice_successful_update)
     else
-      flash[:error] = I18n.t(:notice_failed_to_save_work_packages,
-                             count: unsaved_work_package_ids.size,
-                             total: work_packages.size,
-                             ids: '#' + unsaved_work_package_ids.join(', #'))
-    end
-  end
-
-  ##
-  # When copying, add work package ids that are failing
-  def dependent_error_ids(parent_id, service_call)
-    ids = service_call
-      .results_with_errors(include_self: false)
-      .map { |result| result.state.copied_from_work_package_id }
-      .compact
-
-    if ids.present?
-      joined = ids.map { |id| "##{id}" }.join(" ")
-      ["#{parent_id} (+ children errors: #{joined})"]
-    else
-      [parent_id]
+      error_flash(work_packages,
+                  service_result)
     end
   end
 
   def default_breadcrumb
     I18n.t(:label_move_work_package)
   end
-
-  private
 
   # Check if project is unique before bulk operations
   def check_project_uniqueness
@@ -133,26 +104,10 @@ class WorkPackages::MovesController < ApplicationController
     @target_project = @allowed_projects.detect { |p| p.id.to_s == params[:new_project_id].to_s } if params[:new_project_id]
     @target_project ||= @project
     @types = @target_project.types
-    @available_versions = @target_project.shared_versions.order_by_semver_name
+    @available_versions = @target_project.assignable_versions
     @available_statuses = Workflow.available_statuses(@project)
     @notes = params[:notes]
     @notes ||= ''
-
-    # When copying, avoid copying elements when any of their ancestors
-    # are in the set to be copied
-    if @copy
-      @work_packages = remove_hierarchy_duplicates
-    end
-  end
-
-  # Check if a parent work package is also selected for copying
-  def remove_hierarchy_duplicates
-    # Get all ancestors of the work_packages to copy
-    selected_ids = @work_packages.pluck(:id)
-
-    @work_packages.reject do |wp|
-      wp.ancestors.where(id: selected_ids).exists?
-    end
   end
 
   def permitted_create_params
@@ -165,6 +120,9 @@ class WorkPackages::MovesController < ApplicationController
               :version_id,
               :priority_id)
       .to_h
+      .merge(type_id: params[:new_type_id],
+             project_id: params[:new_project_id],
+             journal_notes: params[:notes])
       .reject { |_, v| v.blank? }
   end
 end

@@ -1,3 +1,5 @@
+@use "sass:math";
+
 @import "panel";
 
 /*
@@ -38,7 +40,7 @@ $block-grid-max-size: 6 !default;
 */
 @mixin grid-size($size: expand) {
   @if (type-of($size) == 'number') {
-    $pct: percentage($size / $total-columns);
+    $pct: percentage(math.div($size, $total-columns));
     flex: 0 0 $pct;
     // max-width prevents columns from wrapping early in IE10/11
     max-width: $pct;
@@ -188,7 +190,7 @@ $block-grid-max-size: 6 !default;
 */
 @mixin grid-offset($offset: false) {
   @if ($offset != false) {
-    margin-left: percentage($offset / $total-columns);
+    margin-left: percentage(math.div($offset, $total-columns));
   }
 }
 
@@ -276,7 +278,7 @@ $block-grid-max-size: 6 !default;
 
   > li, > div, > section {
     padding: 0 1rem 1rem;
-    flex: 0 0 percentage(1 / $up);
+    flex: 0 0 percentage(math.div(1, $up));
   }
 }
 

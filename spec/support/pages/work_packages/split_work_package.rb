@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'support/pages/work_packages/abstract_work_package'
@@ -45,6 +45,11 @@ module Pages
 
     def expect_closed
       expect(page).to have_no_selector(@selector)
+    end
+
+    def expect_open
+      expect(page).to have_selector(@selector)
+      expect_subject
     end
 
     def close

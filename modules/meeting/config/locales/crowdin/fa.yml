@@ -1,0 +1,90 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2021 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+#English strings go here for Rails i18n
+fa:
+  activerecord:
+    attributes:
+      meeting:
+        location: "موقعیت مکانی"
+        duration: "Duration"
+        participants: "شركت كنندگان"
+        participants_attended: "Attendees"
+        participants_invited: "دعوت کنندگان"
+        start_time: "زمان"
+        start_time_hour: "زمان شروع"
+    errors:
+      messages:
+        invalid_time_format: "is not a valid time. Required format: HH:MM"
+    models:
+      meeting_agenda: "Agenda"
+      meeting_minutes: "دقیقه ها"
+  description_attended: "attended"
+  description_invite: "invited"
+  events:
+    meeting: Meeting edited
+    meeting_agenda: Meeting agenda edited
+    meeting_agenda_closed: Meeting agenda closed
+    meeting_agenda_opened: Meeting agenda opened
+    meeting_minutes: Meeting minutes edited
+    meeting_minutes_created: Meeting minutes created
+  error_notification_with_errors: "Failed to send notification. The following recipients could not be notified: %{recipients}"
+  label_meeting: "جلسه"
+  label_meeting_plural: "جلسات"
+  label_meeting_new: "ایجاد جلسه"
+  label_meeting_edit: "ویرایش جلسه"
+  label_meeting_agenda: "Agenda"
+  label_meeting_minutes: "دقیقه ها"
+  label_meeting_close: "Close"
+  label_meeting_open: "باز"
+  label_meeting_agenda_close: "Close the agenda to begin the Minutes"
+  label_meeting_date_time: "تاریخ/زمان"
+  label_meeting_diff: "اختلاف"
+  label_notify: "ارسال برای بازبینی"
+  label_icalendar: "Send iCalendar"
+  label_version: "نسخه"
+  label_time_zone: "منطقه زمانی"
+  label_start_date: "Start date"
+  meeting:
+    copied: "Copied from Meeting #%{id}"
+  notice_successful_notification: "Notification sent successfully"
+  notice_timezone_missing: No time zone is set and %{zone} is assumed. To choose your time zone, please click here.
+  permission_create_meetings: "ایجاد جلسات"
+  permission_edit_meetings: "ویرایش جلسات"
+  permission_delete_meetings: "حذف جلسات"
+  permission_view_meetings: "مشاهده جلسات"
+  permission_create_meeting_agendas: "مدیریت برنامه ها"
+  permission_close_meeting_agendas: "بستن برنامه ها"
+  permission_send_meeting_agendas_notification: "Send review notification for agendas"
+  permission_create_meeting_minutes: "مدیریت دقیقه ها"
+  permission_send_meeting_minutes_notification: "Send review notification for minutes"
+  permission_meetings_send_invite: "Invite users to meetings"
+  permission_send_meeting_agendas_icalendar: "Send meeting agenda as calendar entry"
+  project_module_meetings: "جلسات"
+  text_duration_in_hours: "Duration in hours"
+  text_in_hours: "در ساعات"
+  text_meeting_agenda_for_meeting: 'agenda for the meeting "%{meeting}"'
+  text_meeting_closing_are_you_sure: "آیا مطمئن هستید که می خواهید جلسه را ببندید؟"
+  text_meeting_agenda_open_are_you_sure: "This will overwrite all changes in the minutes! Do you want to continue?"
+  text_meeting_minutes_for_meeting: 'minutes for the meeting "%{meeting}"'
+  text_review_meeting_agenda: "%{author} has put the %{link} up for review."
+  text_review_meeting_minutes: "%{author} has put the %{link} up for review."
+  text_notificiation_invited: "این ایمیل حاوی ورودی ics برای جلسه زیر است:"

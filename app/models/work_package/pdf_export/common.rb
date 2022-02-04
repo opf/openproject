@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module WorkPackage::PDFExport::Common
@@ -33,17 +33,21 @@ module WorkPackage::PDFExport::Common
   include ActionView::Helpers::TextHelper
   include ActionView::Helpers::NumberHelper
   include CustomFieldsHelper
-  include WorkPackage::PDFExport::ToPdfHelper
   include OpenProject::TextFormatting
 
   private
 
+  def get_pdf(_language)
+    ::WorkPackage::PDFExport::View.new(current_language)
+  end
+
   def field_value(work_package, attribute)
     value = work_package.send(attribute)
 
-    if value.is_a? Date
+    case value
+    when Date
       format_date value
-    elsif value.is_a? Time
+    when Time
       format_time value
     else
       value.to_s
@@ -51,7 +55,7 @@ module WorkPackage::PDFExport::Common
   end
 
   def success(content)
-    WorkPackage::Exporter::Result::Success
+    ::Exports::Result
       .new format: :csv,
            title: title,
            content: content,
@@ -59,7 +63,7 @@ module WorkPackage::PDFExport::Common
   end
 
   def error(message)
-    WorkPackage::Exporter::Result::Error.new message
+    raise ::Exports::ExportError.new message
   end
 
   def cell_padding

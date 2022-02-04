@@ -25,12 +25,12 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 
 require 'spec_helper'
 require 'rack/test'
 
-describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request do
+describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request, content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
@@ -294,6 +294,7 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request do
     let(:permissions) { %i[add_work_packages view_project] }
     let(:status) { FactoryBot.build(:status, is_default: true) }
     let(:priority) { FactoryBot.build(:priority, is_default: true) }
+    let(:other_user) { nil }
     let(:parameters) do
       {
         subject: 'new work packages',
@@ -308,32 +309,36 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request do
     before do
       status.save!
       priority.save!
+      other_user
 
-      FactoryBot.create(:user_preference, user: current_user, others: { no_self_notified: false })
-      post path, parameters.to_json, 'CONTENT_TYPE' => 'application/json'
-      perform_enqueued_jobs
+      perform_enqueued_jobs do
+        post path, parameters.to_json
+      end
     end
 
-    context 'notifications' do
-      let(:permissions) { %i[add_work_packages view_project view_work_packages] }
+    describe 'notifications' do
+      let(:other_user) { FactoryBot.create(:user, member_in_project: project, member_with_permissions: %i(view_work_packages)) }
 
-      it 'sends a mail by default' do
-        expect(Mails::WorkPackageJob).to have_been_enqueued
+      it 'creates a notification' do
+        expect(Notification.where(recipient: other_user, resource: WorkPackage.last))
+          .to exist
       end
 
       context 'without notifications' do
         let(:path) { "#{api_v3_paths.work_packages_by_project(project.id)}?notify=false" }
 
-        it 'should not send a mail' do
-          expect(Mails::WorkPackageJob).not_to have_been_enqueued
+        it 'creates no notification' do
+          expect(Notification)
+            .not_to exist
         end
       end
 
       context 'with notifications' do
         let(:path) { "#{api_v3_paths.work_packages_by_project(project.id)}?notify=true" }
 
-        it 'should send a mail' do
-          expect(Mails::WorkPackageJob).to have_been_enqueued
+        it 'creates a notification' do
+          expect(Notification.where(recipient: other_user, resource: WorkPackage.last))
+            .to exist
         end
       end
     end

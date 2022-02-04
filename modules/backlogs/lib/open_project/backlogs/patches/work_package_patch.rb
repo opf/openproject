@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require_dependency 'work_package'
@@ -113,15 +113,16 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
 
     def story
       if is_story?
-        return Story.find(id)
+        Story.find(id)
       elsif is_task?
-        # Make sure to get the closest ancestor that is a Story, i.e. the one with the highest lft
-        # otherwise, the highest parent that is a Story is returned
-        story_work_package = ancestors.find_by(type_id: Story.types).order(Arel.sql('lft DESC'))
-        return Story.find(story_work_package.id) if story_work_package
+        # Make sure to get the closest ancestor that is a Story
+        ancestors_relations
+          .includes(:from)
+          .where(from: { type_id: Story.types })
+          .order(hierarchy: :asc)
+          .first
+          .from
       end
-
-      nil
     end
 
     def blocks

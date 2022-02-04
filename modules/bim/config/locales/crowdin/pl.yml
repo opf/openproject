@@ -113,10 +113,12 @@ pl:
       check_1: 'Sprawdź, czy przesłany został przez Ciebie co najmniej jeden model IFC.'
       check_2: 'Sprawdź, czy co najmniej jeden model IFC jest ustawiony jako Domyślny.'
     no_results: "W tym projekcie nie zostały przesłane żadne modele IFC."
-    processing_state:
+    conversion_status:
       label: 'Przetwarzanie?'
-      in_progress: 'W Toku'
+      pending: 'Oczekujący'
+      processing: 'Przetwarzanie'
       completed: 'Ukończono'
+      error: 'Błąd'
     processing_notice:
       processing_default: 'Następujące domyślne modele IFC są nadal przetwarzane i w związku z tym nie są jeszcze dostępne:'
     flash_messages:

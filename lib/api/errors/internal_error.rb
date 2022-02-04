@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module API
@@ -34,7 +34,7 @@ module API
       identifier 'InternalServerError'
       code 500
 
-      def initialize(error_message = nil)
+      def initialize(error_message = nil, **)
         error = I18n.t('api_v3.errors.code_500')
 
         if error_message

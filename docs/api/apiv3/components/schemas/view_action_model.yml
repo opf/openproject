@@ -1,0 +1,16 @@
+# Schema: View_actionModel
+---
+type: object
+example:
+  _links:
+    self:
+      href: "/api/v3/actions/work_packages/create"
+      title: Add work package
+  _type: Action
+  id: work_packages/create
+  name: Add work package
+  description: Creating a work package within a project including the uploading of
+    attachments. Some attributes might not be selected, e.g version which requires
+    a second permission
+  modules:
+  - work_packages

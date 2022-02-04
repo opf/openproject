@@ -29,7 +29,7 @@ The phase for requirements collection and specification aims to get the best pos
 
 For new ideas and requirements which are not clearly understood yet and require specification, Product Managers (PM), User Experience Experts / designers (UX) should work together to validate the idea before moving to the build phase.
 
-Product Managers and UX should work together at least one version (~ 2 months) ahead, so that the development team in the build track has always well-defined and validated requirements ready to start. Especially requirements with a level of confidence lower 80% (see [RICE Score](# 3.4-RICE-Score)) should be clearly validated.
+Product Managers and UX should work together at least one version (~ 2 months) ahead, so that the development team in the build track has always well-defined and validated requirements ready to start. Especially requirements with a level of confidence lower 80% (see [RICE Score](#34-rice-score)) should be clearly validated.
 
 The specification phase may not be necessary for bug fixes, minor design changes, minor improvements of smaller code maintenance topics.
 
@@ -47,9 +47,9 @@ The specification phase may not be necessary for bug fixes, minor design changes
 The [OpenProject Wish List](https://community.openproject.com/projects/openproject/work_packages?query_id=180) is used to collect a backlog of potential validation opportunities. Requirements may come from customers, internal usage, support messages, community forums or through other communication channels.
 
 Requirements should be captured as a **Feature** or **Epic** (for larger features which we can be broken down into smaller features) and focus on describing the customer’s problem rather than jumping ahead to a solution.
-For a guideline on how to report feature requests, refer to the [Feature request guideline](https://docs.openproject.org/development/submit-feature-idea/). Technical maintenance issues and refactorings can be tracked as **Code Maintenance**.
+For a guideline on how to report feature requests, refer to the [Feature request guideline](../../development/submit-feature-idea/). Technical maintenance issues and refactorings can be tracked as **Code Maintenance**.
 
-**Bugs** should be reported separately and be assigned to the [Bug backlog](https://docs.openproject.org/development/report-a-bug/).
+**Bugs** should be reported separately and be assigned to the [Bug backlog](../../development/report-a-bug/).
 
 
 
@@ -64,7 +64,7 @@ For a guideline on how to report feature requests, refer to the [Feature request
 
 In regular intervals (e.g. once a week), PMs screen the requirements added to the Wish List and evaluate them:
 
-1. PM adjusts feature requests to a common format (see [Feature Request guideline](https://docs.openproject.org/development/submit-feature-idea/)). 
+1. PM adjusts feature requests to a common format (see [Feature Request guideline](../../development/submit-feature-idea/)). 
 2. PM rejects duplicated feature requests with a reference to the original feature requests.
 3. PM sets RICE values and a RICE score for feature requests.
 4. PM creates an Opportunity Canvas for requirements with a moderate to high level of uncertainty (> 80%) or for large requirements (effort > 1 week).
@@ -76,7 +76,7 @@ In regular intervals (e.g. once a week), PMs screen the requirements added to th
 
 
 
-For internal or customer requirements requirements may directly be created, evaluated based on the [RICE framework](# 3.4-RICE-Score) and assigned to the product backlog.
+For internal or customer requirements requirements may directly be created, evaluated based on the [RICE framework](#34-rice-score) and assigned to the product backlog.
 
 
 

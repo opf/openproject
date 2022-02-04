@@ -1,0 +1,21 @@
+<div class="inplace-edit--dashboard">
+  <div class="inplace-edit--controls">
+    <button
+        type="button"
+        class="inplace-edit--control inplace-edit--control--save"
+        [disabled]="(field.required && field.isEmpty()) || undefined"
+        [title]="saveTitle"
+        (click)="save()"
+    >
+      <op-icon icon-classes="icon-checkmark icon-no-color" [icon-title]="saveTitle"></op-icon>
+    </button>
+    <button
+        type="button"
+        class="inplace-edit--control inplace-edit--control--cancel"
+        [title]="cancelTitle"
+        (click)="cancel()"
+    >
+      <op-icon icon-classes="icon-close icon-no-color" [icon-title]="cancelTitle"></op-icon>
+    </button>
+</div>
+</div>

@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 zh-CN:
   no_results_title_text: 目前没有什么可显示。
@@ -168,7 +168,7 @@ zh-CN:
     contained_in_type: '已包含在类型中'
     confirm_destroy_option: "删除某个选项将会删除其所有实例 (例如, 在工作包中)。确定要删除？"
     reorder_alphabetical: "按字母顺序重新排序"
-    reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
+    reorder_confirmation: "警告：可用值的当前顺序将丢失。是否继续？"
     tab:
       no_results_title_text: 目前没有自定义字段。
       no_results_content_text: 创建新的自定义字段
@@ -295,7 +295,7 @@ zh-CN:
       query_group_placeholder: "为表命名"
       reset: "重置为默认值"
       type_color_text: |
-        单击可以分配或更改此类型的颜色。选定颜色可区分甘特图中的工作包。因此，建议使用深色。
+        所选颜色可用于在甘特图或工作包表中区分不同类型。因此，建议使用浓烈的颜色。
   versions:
     overview:
       no_results_title_text: 目前没有工作包分配给此版本。
@@ -454,7 +454,8 @@ zh-CN:
       repository:
         url: "URL"
       role:
-        assignable: "无法将工作包分配给在各自项目中具有此角色的用户和群组"
+        assignable: "工作包可以分配给在各自项目中拥有此角色的用户和组"
+        permissions: "权限"
       time_entry:
         activity: "活动"
         hours: "小时"
@@ -474,7 +475,6 @@ zh-CN:
         force_password_change: "强制在下次登录时更改密码"
         language: "语言"
         last_login_on: "上次登录"
-        mail_notification: "电子邮件通知"
         new_password: "新密码"
         password_confirmation: "确认"
         consented_at: "同意在"
@@ -514,7 +514,7 @@ zh-CN:
         subproject: "子项目"
         time_entries: "记录时间"
         type: "类型"
-        watcher: "关注者"
+        watcher: "关注人"
       'doorkeeper/application':
         uid: "客户端 ID"
         secret: "客户端密钥"
@@ -531,6 +531,7 @@ zh-CN:
         before: "必须在 %{date} 之前。"
         before_or_equal_to: "必须在早于或等于 %{date}"
         blank: "不能为空。"
+        blank_nested: "需要设置属性“%{property}”。"
         cant_link_a_work_package_with_a_descendant: "工作包无法链接到它的子任务之一。"
         circular_dependency: "这种关系将创建循环依赖项。"
         confirmation: "不匹配 %{attribute}。"
@@ -544,16 +545,19 @@ zh-CN:
         even: "必须是偶数。"
         exclusion: "是保留关键字。"
         file_too_large: "太大 (最大大小为 %{count} 字节)。"
+        format: "与预期的格式“%{expected}”不匹配。"
+        format_nested: "与路径“%{path}”中的预期格式“%{expected}”不匹配。"
         greater_than: "必须大于 %{count}。"
         greater_than_or_equal_to: "必须大于或等于 %{count}。"
         greater_than_or_equal_to_start_date: "必须晚于或等于开始日期。"
         greater_than_start_date: "必须晚于开始日期。"
         inclusion: "未设置为允许的值之一。"
+        inclusion_nested: "未设置为路径“%{path}”中允许的值之一。"
         invalid: "是无效的。"
         invalid_url: '不是有效的 URL。'
         invalid_url_scheme: '不是受支持的协议（允许：%{allowed_schemes}）。'
         less_than_or_equal_to: "必须小于或等于 %{count}。"
-        not_available: "is not available due to a system configuration."
+        not_available: "因系统配置而不可用。"
         not_deletable: "无法删除。"
         not_current_user: "不是当前用户。"
         not_a_date: "不是有效的日期。"
@@ -569,14 +573,20 @@ zh-CN:
         taken: "已经采取。"
         too_long: "太长 (最多 %{count} 个字符)。"
         too_short: "太短 (最低是 %{count} 个字符)。"
+        type_mismatch: "不是“%{type}”类型"
+        type_mismatch_nested: "不是路径“%{path}”中的“%{type}”类型"
         unchangeable: "不能更改。"
+        unknown_property: "不是已知属性。"
+        unknown_property_nested: "具有未知路径“%{path}”。"
         unremovable: "不能删除。"
         wrong_length: "长度不正确 (应该是 %{count} 个字符)。"
       models:
         attachment:
           attributes:
             content_type:
-              not_whitelisted: "is set to '%{value}', which is not whitelisted for uploading."
+              blank: "文件的内容类型不能为空。"
+              not_whitelisted: "文件被自动筛选器拒绝。“%{value}”未被列入上传白名单。"
+              format: "%{message}"
         capability:
           context:
             global: '全局'
@@ -610,6 +620,21 @@ zh-CN:
           overlaps: '重叠.'
           outside: '不在网格内。'
           end_before_start: '结束值需要大于起始值。'
+        notifications:
+          at_least_one_channel: '至少需要指定一个发送通知的通道。'
+          attributes:
+            read_ian:
+              read_on_creation: '在创建通知时不能设置为 true。'
+            mail_reminder_sent:
+              set_on_creation: '在创建通知时不能设置为 true。'
+            reason:
+              no_notification_reason: '不能为空，因为 IAN 被选为通道。'
+            reason_mail_digest:
+              no_notification_reason: '不能为空，因为邮件摘要被选为通道。'
+        notification_settings:
+          only_one_global_setting: '必须只有一项全局通知设置。'
+          email_alerts_global: '电子邮件通知设置只能全局设置。'
+          format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -644,7 +669,6 @@ zh-CN:
           filters:
             custom_fields:
               inexistent: "过滤器没有自定义字段"
-              invalid: "自定义字段无效"
         queries/filters/base:
           attributes:
             values:
@@ -674,6 +698,12 @@ zh-CN:
           attributes:
             hours:
               day_limit: "过高，因为每天最多可以记录 24 小时。"
+        user_preference:
+          attributes:
+            pause_reminders:
+              invalid_range: "只能是有效的日期范围。"
+            daily_reminders:
+              full_hour: "只能配置为满整小时交付。"
         wiki_page:
           attributes:
             slug:
@@ -685,6 +715,7 @@ zh-CN:
               not_start_date: "不是在开始日期开始，尽管这是必需的里程碑。"
             parent:
               cannot_be_milestone: "不能是一个里程碑。"
+              cannot_be_self_assigned: "不能分配给自己。"
               cannot_be_in_another_project: "不能在另一个项目中。"
               not_a_valid_parent: "是无效的。"
             start_date:
@@ -711,6 +742,9 @@ zh-CN:
               group_without_name: "不允许未命名的群组。"
         user:
           attributes:
+            password_confirmation:
+              confirmation: "确认密码与密码不一致。"
+              format: "%{message}"
             password:
               weak: "必须包含以下类字符 (至少 %{min_count} %{all_count}): %{rules}。"
               lowercase: "小写字母 （如 'a')"
@@ -754,6 +788,8 @@ zh-CN:
       status: "工作包状态"
       member: "成员"
       news: "新闻"
+      notification:
+        other: "通知"
       placeholder_user: "占位符用户"
       project: "项目"
       query: "自定义查询"
@@ -781,7 +817,7 @@ zh-CN:
     attachments: "附件"
     author: "作者"
     base: "一般错误："
-    blocks_ids: "被工作包屏蔽的IDs"
+    blocks_ids: "被工作包阻止的IDs"
     category: "类别"
     comment: "评论"
     comments: "评论"
@@ -803,7 +839,6 @@ zh-CN:
     firstname: "名字"
     group: "组"
     groups: "组"
-    name: "名称"
     id: "ID"
     is_default: "默认值"
     is_for_all: "为所有项目"
@@ -813,6 +848,7 @@ zh-CN:
     lastname: "姓氏"
     login: "用户名"
     mail: "电子邮件"
+    name: "名称"
     password: "密码"
     priority: "优先级"
     project: "项目"
@@ -862,7 +898,7 @@ zh-CN:
   button_add: "添加"
   button_add_comment: "添加评论"
   button_add_member: 添加成员
-  button_add_watcher: "添加关注者"
+  button_add_watcher: "添加关注人"
   button_annotate: "批注"
   button_apply: "应用"
   button_archive: "存档"
@@ -884,7 +920,7 @@ zh-CN:
   button_create_and_continue: "创建并继续"
   button_delete: "删除"
   button_decline: "拒绝"
-  button_delete_watcher: "删除关注者 %{name}"
+  button_delete_watcher: "删除关注人 %{name}"
   button_download: "下载"
   button_duplicate: "复制"
   button_edit: "编辑"
@@ -1141,7 +1177,9 @@ zh-CN:
   error_can_not_archive_project: "此项目无法存档：%{errors}"
   error_can_not_delete_entry: "无法删除条目"
   error_can_not_delete_custom_field: "无法删除自定义字段"
-  error_can_not_delete_type: "这种类型包含工作包，不能被删除。"
+  error_can_not_delete_type:
+    explanation: '此类型包含工作包，无法删除。您可以在<a target="_blank" href="%{url}">此视图</a>中查看所有受影响的工作包。'
+    archived_projects: '存档项目中也有工作包。您需要先重新激活以下项目，然后才能更改相应工作包的类型：%{archived_projects}'
   error_can_not_delete_standard_type: "标准类型不能被删除。"
   error_can_not_invite_user: "无法向用户发送邀请。"
   error_can_not_remove_role: "该角色正在使用，无法删除。"
@@ -1170,6 +1208,7 @@ zh-CN:
   error_no_type_in_project: "没有类型与此项目关联。请检查的项目设置。"
   error_omniauth_registration_timed_out: "通过外部身份验证提供程序注册超时。请再试一次。"
   error_omniauth_invalid_auth: "从身份提供程序返回的身份验证信息无效。请联系您的管理员获取更多帮助。"
+  error_password_change_failed: '试图更改密码时发生错误。'
   error_scm_command_failed: "当试图访问该代码库时出现错误: %{value}"
   error_scm_not_found: "在代码库中未找到的条目或修正版本。"
   error_unable_delete_status: "不能删除工作包的状态，因为它由至少一个工作包使用。"
@@ -1262,6 +1301,9 @@ zh-CN:
   instructions_after_logout: "你可以点击 %{signin} 重新登录。"
   instructions_after_error: "你可以尝试点击 %{signin} 重新登录。如果错误仍然存在，请向您的管理员寻求帮助。"
   menus:
+    admin:
+      mail_notification: "电子邮件通知"
+      incoming_outgoing: "接收与发送"
     quick_add:
       label: "打开快速添加菜单"
   my_account:
@@ -1274,6 +1316,33 @@ zh-CN:
         action: "操作"
         expiration: "过期"
       indefinite_expiration: "永不"
+  notifications:
+    send_notifications: "发送此操作的通知"
+    work_packages:
+      subject:
+        created: "工作包已创建。"
+        assigned: "您已被分配到 %{work_package}"
+        subscribed: "您订阅了 %{work_package}"
+        mentioned: "您在 %{work_package} 中被提及"
+        responsible: "您已对 %{work_package} 负责"
+        watched: "您正在关注 %{work_package}"
+    update_info_mail:
+      body: >
+        我们十分高兴地宣布 OpenProject 12.0 现已发布。这一主要版本有望显著改善您使用 OpenProject 的方式。
+
+        从此版本开始，我们将引入应用内通知。现在起，您将直接在 OpenProject 中接收有关工作包更新的通知。您可以将这些通知标记为已读、回复评论，甚至直接修改工作包属性，而无需离开通知中心。
+
+        这也意味着我们将不再使用电子邮件进行通知。我们认为新通知中心是查看这些更新并采取行动的最佳场所。不过，如果您想继续通过电子邮件接收更新，可以选择在您选取的特定时间接收每日电子邮件提醒。
+
+        请确保验证您的新默认通知设置，在帐户设置中对通知和电子邮件提醒进行偏好设置。您可以通过下方的“更改电子邮件设置”按钮执行此操作。
+
+        我们希望应用内通知能够满足您的使用需求，帮助您提高效率。
+
+        谨上，
+        OpenProject 团队
+      body_header: '包含通知中心的 12.0 版本'
+      body_subheader: '新闻'
+      subject: '12.0 版本中加入了针对通知的重要变更'
   label_accessibility: "辅助功能"
   label_account: "帐户"
   label_active: "激活"
@@ -1359,7 +1428,7 @@ zh-CN:
   label_check_uncheck_all_in_column: "选中/取消选中所有列"
   label_check_uncheck_all_in_row: "选中/取消选中所有行"
   label_child_element: "子元素"
-  label_chronological_order: "按时间顺序"
+  label_chronological_order: "最早的优先"
   label_close_versions: "关闭已完成版本"
   label_closed_work_packages: "关闭"
   label_collapse: "折叠"
@@ -1402,7 +1471,7 @@ zh-CN:
   label_deleted: "已删除"
   label_deleted_custom_field: "（删除自定义字段）"
   label_deleted_custom_option: "（删除的选项）"
-  label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
+  label_missing_or_hidden_custom_option: "（缺少值或缺少访问权限）"
   label_descending: "降序"
   label_details: "详细信息"
   label_development_roadmap: "发展蓝图"
@@ -1447,7 +1516,6 @@ zh-CN:
   label_feeds_access_key: "RSS 访问密钥"
   label_feeds_access_key_created_on: "RSS 访问密钥创建于 %{value} 前"
   label_feeds_access_key_type: "RSS 订阅"
-  label_file_added: "添加文件"
   label_file_plural: "文件"
   label_filter_add: "添加筛选器"
   label_filter_plural: "筛选器"
@@ -1576,7 +1644,6 @@ zh-CN:
   label_none_parentheses: "(无)"
   label_not_contains: "不包含"
   label_not_equals: "不是"
-  label_notify_member_plural: "电子邮件更新"
   label_on: "于"
   label_open_menu: "打开菜单"
   label_open_work_packages: "打开"
@@ -1664,7 +1731,7 @@ zh-CN:
   label_required: '必填'
   label_requires: '要求'
   label_result_plural: "结果"
-  label_reverse_chronological_order: "在相反的顺序"
+  label_reverse_chronological_order: "最新的优先"
   label_revision: "修订"
   label_revision_id: "修订版本 %{value}"
   label_revision_plural: "修订"
@@ -1696,7 +1763,6 @@ zh-CN:
   label_start_to_start: "开始开始"
   label_statistics: "统计数据"
   label_status: "状态"
-  label_status_updated: "工作包状态更新"
   label_stay_logged_in: "保持登录状态"
   label_storage_free_space: "剩余磁盘空间"
   label_storage_used_space: "已使用磁盘空间"
@@ -1780,21 +1846,17 @@ zh-CN:
   label_wiki_show_submenu_item: "显示为子菜单项"
   label_wiki_start: "起始页"
   label_work_package: "工作包"
-  label_work_package_added: "添加工作包"
   label_work_package_attachments: "工作包附件"
   label_work_package_category_new: "新的类别"
   label_work_package_category_plural: "工作包类别"
   label_work_package_hierarchy: "工作包的层次结构"
   label_work_package_new: "新工作包"
-  label_work_package_note_added: "添加工作包注释"
   label_work_package_edit: "编辑工作包 %{name}"
   label_work_package_plural: "工作包"
-  label_work_package_priority_updated: "更新工作包优先级"
   label_work_package_status: "工作包状态"
   label_work_package_status_new: "新状态"
   label_work_package_status_plural: "工作包状态"
   label_work_package_types: "工作包类型"
-  label_work_package_updated: "工作包更新"
   label_work_package_tracking: "工作包跟踪"
   label_work_package_view_all: "查看所有工作包"
   label_workflow: "工作流"
@@ -1847,6 +1909,36 @@ zh-CN:
       link_name_type: '新%{type_name}'
   mail:
     actions: '操作'
+    digests:
+      including_mention_singular: '包括一项提及'
+      including_mention_plural: '包括 %{number_mentioned} 项提及'
+      unread_notification_singular: '1 条未读通知'
+      unread_notification_plural: '%{number_unread} 条未读通知'
+      you_have: '您有'
+    logo_alt_text: '徽标'
+    mention:
+      subject: "%{user_name} 在 #%{id} - %{subject} 中提及了您"
+    notification:
+      center: '前往通知中心'
+      see_in_center: '在通知中心查看评论'
+      settings: '更改电子邮件设置'
+    salutation: '嘿，%{user}！'
+    work_packages:
+      created_at: '由 %{user} 于 %{timestamp} 创建'
+      login_to_see_all: '登录以查看所有通知。'
+      mentioned: '您已<b>在评论中被提及</b>'
+      mentioned_by: '%{user} 在评论中提及了您'
+      more_to_see:
+        other: '还有 %{count} 个包含通知的工作包。'
+      reason:
+        watched: '已关注'
+        assigned: '已分配'
+        responsible: '负责'
+        mentioned: '被提及'
+        subscribed: '所有'
+        prefix: '接收原因为以下通知设置：%{reason}'
+      see_all: '查看全部'
+      updated_at: '由 %{user} 于 %{timestamp} 更新'
   mail_body_account_activation_request: "一个新的用户 (%{value}) 注册。该帐户正在等待您的批准："
   mail_body_account_information: "您的帐户信息"
   mail_body_account_information_external: "你可以使用 %{value} 帐号登录。"
@@ -1863,7 +1955,7 @@ zh-CN:
   mail_body_register_links_html: |
     请随时浏览我们的 youtube 频道 (%{youtube_link})，在这里我们提供了网络研讨会 (%{webinar_link}) 和“入门”视频 (%{get_started_link})，让您在 OpenProject 中尽可能轻松地迈出第一步。
     <br />
-    如果您有任何其他问题，请参阅我们的文档 (%{documentation_link}) 或与我们联系 (%{contact_us_link})。
+    如果您有任何其他疑问，请参阅我们的文档 (%{documentation_link}) 或与您的管理员联系。
   mail_body_register_closing: "您的 OpenProject 团队"
   mail_body_register_ending: "保持联系！谨致问候，"
   mail_body_reminder: "%{count} 个分配给您的工作包将在 %{days} 天后到期："
@@ -2052,6 +2144,7 @@ zh-CN:
   permission_protect_wiki_pages: "保护维基页面"
   permission_rename_wiki_pages: "重命名 wiki 网页"
   permission_save_queries: "保存界面设置"
+  permission_select_custom_fields: "选择自定义字段"
   permission_select_project_modules: "选择项目模块"
   permission_manage_types: "选择类型"
   permission_view_calendar: "查看日历"
@@ -2103,7 +2196,7 @@ zh-CN:
     active_or_archived: "激活或已存档"
     assigned_to_role: "指定人角色"
     member_of_group: "指定人用户组"
-    assignee_or_group: "受让人或所属组"
+    assignee_or_group: "指定人或所属组"
     subproject_id: "包括子项目"
     only_subproject_id: "仅子项目"
     name_or_identifier: "名称或标识符"
@@ -2216,6 +2309,10 @@ zh-CN:
   setting_apiv3_cors_origins: "API V3 跨源资源共享 (CORS) 允许的源"
   setting_apiv3_cors_origins_text_html: >
     如果启用了 CORS ，这些是允许访问 OpenProject API 的源。<br/>请查看<a href="%{origin_link}" target="_blank">有关“源”标题的文档</a>，了解如何指定预期值。
+  setting_apiv3_docs: "文档"
+  setting_apiv3_docs_enabled: "启用文档页面"
+  setting_apiv3_docs_enabled_instructions_html: >
+    如果启用了文档页面，您可以在 <a href="%{link}" target="_blank">%{link}</a> 下获得 APIv3 文档的交互式视图。
   setting_attachment_whitelist: "附件上传白名单"
   setting_email_delivery_method: "电子邮件发送方法"
   setting_sendmail_location: "Sendmail 的执行位置"
@@ -2253,7 +2350,6 @@ zh-CN:
   setting_first_week_of_year: "全年首周包含"
   setting_date_format: "日期格式"
   setting_default_language: "默认语言"
-  setting_default_notification_option: "默认通知选项"
   setting_default_projects_modules: "新项目的默认启用模块"
   setting_default_projects_public: "新项目默认公开"
   setting_diff_max_lines_displayed: "最大差异显示行数"
@@ -2263,6 +2359,7 @@ zh-CN:
   setting_email_login: "使用电子邮件作为登录名"
   setting_enabled_scm: "启用 SCM"
   setting_enabled_projects_columns: "在项目列表中可见"
+  setting_notification_retention_period_days: "通知保留期限"
   setting_feeds_enabled: "启用Feeds"
   setting_feeds_limit: "Feed内容限制"
   setting_file_max_size_displayed: "内联显示的文本文件的最大文件大小"
@@ -2276,7 +2373,7 @@ zh-CN:
   setting_work_package_properties: "工作包属性"
   setting_work_package_startdate_is_adddate: "使用当前日期作为新工作包的开始日期"
   setting_work_packages_export_limit: "工作包导出限制"
-  setting_journal_aggregation_time_minutes: "将日志作为总数显示于"
+  setting_journal_aggregation_time_minutes: "内部聚合的用户操作"
   setting_log_requesting_user: "记录所有请求的用户帐户，名称和邮件地址"
   setting_login_required: "需要身份验证"
   setting_mail_from: "发出的电子邮件地址"
@@ -2333,11 +2430,12 @@ zh-CN:
     brute_force_prevention: "自动化的用户阻止"
     attachments:
       whitelist_text_html: >
-        Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
+        为上传的文件定义有效文件扩展名和/或 MIME 类型列表。<br/>输入文件扩展名（例如 <code>%{ext_example}</code>）或 MIME 类型（例如 <code>%{mime_example}</code>）。<br/>留空以允许上传任何文件类型。允许输入多个值（每个值一行）。
     notifications:
       retention_text: >
-        Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
-      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
+        设置用户的通知事件（应用程序内部通知的来源）在系统中保留的天数。任何早于此时间的事件都将被删除。
+      events_explanation: '管理针对哪些事件发送电子邮件。此列表中不含工作包，因为可以为每位用户专门配置针对工作包的通知。'
+      delay_minutes_explanation: "电子邮件发送可以延迟，以使应用通知中配置的用户能够在邮件发出之前确认应用程序中的通知。在应用程序中阅读过通知的用户不会接收到已阅读通知的电子邮件。"
     display:
       first_date_of_week_and_year_set: >
         如果设置了选项“%{day_of_week_setting_name}”或“%{first_week_setting_name}”，也必须设置另一选项以避免前端不一致。
@@ -2413,14 +2511,14 @@ zh-CN:
   text_work_package_category_destroy_question: "一些工作包 (%{count}) 被分配到这个类别。你想做什么？"
   text_work_package_category_reassign_to: "重新分配工作包到此类别"
   text_work_package_updated: "工作包 %{id} 已经被 %{author} 更新。"
-  text_work_package_watcher_added: "%{watcher_changer} 已将您添加为工作包 %{id} 的一个关注者。"
-  text_work_package_watcher_removed: "%{watcher_changer} 已将您从工作包 %{id} 的关注者中移除。"
+  text_work_package_watcher_added: "%{watcher_changer} 已将您添加为工作包 %{id} 的一个关注人。"
+  text_work_package_watcher_removed: "%{watcher_changer} 已将您从工作包 %{id} 的关注人中移除。"
   text_work_packages_destroy_confirmation: "确实要删除所选的工作包吗?"
   text_work_packages_ref_in_commit_messages: "引用和修复工作包中提交消息"
   text_journal_added: "%{label} %{value} 已添加"
-  text_journal_aggregation_time_explanation: "如果两篇日志的时间差小于指定的时间区间，将它们组合显示。这也将邮件通知延迟同样的时间。"
-  text_journal_changed: "%{label} 已从 %{old} <br/><strong>更改为</strong> %{new}"
-  text_journal_changed_plain: "%{label} 已从 %{old} 更改为 %{new}"
+  text_journal_aggregation_time_explanation: "如果用户的多项操作（例如，更新工作包两次）的间隔处于指定的时间区间内，则会将多项操作聚合为单项操作。它们将在应用程序中显示为单项操作。这也会将通知延迟同等时间，从而减少电子邮件的发送数量。"
+  text_journal_changed_html: "%{label} 已从 %{old} %{linebreak}<strong>更改为</strong> %{new}"
+  text_journal_changed_plain: "%{label} 已从 %{old} %{linebreak}更改为 %{new}"
   text_journal_changed_no_detail: "%{label} 已更新"
   text_journal_changed_with_diff: "%{label} 已变更 (%{link})"
   text_journal_deleted: "%{label} 已删除 (%{old})"
@@ -2448,7 +2546,6 @@ zh-CN:
   text_regexp_info: "例如 ^ [A-Z0-9]+$"
   text_regexp_multiline: '以多行模式应用正则表达式，如 ^---\s+'
   text_repository_usernames_mapping: "选择或更新每个在代码库日志中发现的用户名所映射到的 OpenProject 用户。\n使用相同 OpenProject 和代码库用户名或电子邮件的用户已被自动映射。"
-  text_select_mail_notifications: "选择邮件通知应该被发送的动作。"
   text_status_changed_by_changeset: "被实施在变更集 %{value} 中。"
   text_table_difference_description: "此表单展现了单个%{entries}。您可以先选择多选框，再点击表单下方的按钮来比较两项之间的差异。"
   text_time_logged_by_changeset: "被实施在变更集 %{value} 中。"
@@ -2669,10 +2766,6 @@ zh-CN:
     password_change_unsupported: 不支持更改密码。
     registered: "已注册"
     reset_failed_logins: "重置失败的帐户"
-    settings:
-      mail_notifications: "发送电子邮件通知"
-      mail_project_explanaition: "对于未选中的项目，您将只能收到自己跟踪或参与的项目的通知（例如，您是作者或者被指派的工作包）。"
-      mail_self_notified: "我想要自己的更改通知"
     status_user_and_brute_force: "%{user} 和 %{brute_force}"
     status_change: "状态更改"
     text_change_disabled_for_provider_login: "名称由您的登录提供商设置，因此无法更改。"
@@ -2693,7 +2786,7 @@ zh-CN:
     达到用户限制。 您无法再激活任何用户。 请<a href="%{upgrade_url}">升级您的计划</a>或阻止会员以允许其他用户。
   warning_user_limit_reached_instructions: >
     您达到了用户限制（%{current}/%{max}活跃用户）。 请联系sales@openproject.com以升级您的Enterprise Edition计划并添加其他用户。
-  0: >
+  warning_protocol_mismatch_html: >
 
   warning_bar:
     protocol_mismatch:
@@ -2732,6 +2825,8 @@ zh-CN:
       code_409: "无法更新资源，因为发生冲突的修改。"
       code_429: "请求次数过多，请稍后再试。"
       code_500: "发生了内部错误。"
+      not_found:
+        work_package: "找不到您要查找的工作包或者它已被删除。"
       expected:
         date: "YYYY-MM-DD（仅适用于 ISO 8601 日期）"
         duration: "ISO 8601 持续时间"

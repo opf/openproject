@@ -166,7 +166,7 @@ sub _handle_request {
 
   return {
     success => JSON::true,
-    message => "The action has completed sucessfully.",
+    message => "The action has completed successfully.",
     repository => $target,
     path => $target,
     # This is only useful in the packager context

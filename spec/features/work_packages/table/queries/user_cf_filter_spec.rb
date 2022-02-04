@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -104,7 +104,7 @@ describe 'Work package filtering by user custom field', js: true do
 
     wp_table.save_as('Saved query')
 
-    wp_table.expect_and_dismiss_notification(message: 'Successful creation.')
+    wp_table.expect_and_dismiss_toaster(message: 'Successful creation.')
 
     # Revisit query
     wp_table.visit_query Query.last

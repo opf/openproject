@@ -82,9 +82,9 @@ OpenProject has been updated to Rails 6.0.0.
 - Fixed: Editing versions terribly slow because `/api/v3/versions/available projects` is potentially loading a large number of projects [[#31312\]](https://community.openproject.com/wp/31489#_ga=2.168560865.1501258633.1571644139-552243109.1568622391)
 - Fixed: Error when loading work packages graph for categories [[#31377\]](https://community.openproject.com/wp/31489#_ga=2.168560865.1501258633.1571644139-552243109.1568622391)
 - Fixed: API documentation wrongfully describes the project status [[#31362\]](https://community.openproject.com/wp/31489#_ga=2.168560865.1501258633.1571644139-552243109.1568622391)
-- Fixed: Direct error message dirctly when trying to copy a project. [[#31313\]](https://community.openproject.com/wp/31489#_ga=2.168560865.1501258633.1571644139-552243109.1568622391)
+- Fixed: Direct error message directly when trying to copy a project. [[#31313\]](https://community.openproject.com/wp/31489#_ga=2.168560865.1501258633.1571644139-552243109.1568622391)
 - Fixed: Grid: Cannot escape edition with escape [[#31394\]](https://community.openproject.com/wp/31489#_ga=2.168560865.1501258633.1571644139-552243109.1568622391)
-- Fixed: Work package graph view for projects without work packges look broken [[#31449\]](https://community.openproject.com/wp/31489#_ga=2.168560865.1501258633.1571644139-552243109.1568622391)
+- Fixed: Work package graph view for projects without work packages look broken [[#31449\]](https://community.openproject.com/wp/31489#_ga=2.168560865.1501258633.1571644139-552243109.1568622391)
 
 ## Support
 

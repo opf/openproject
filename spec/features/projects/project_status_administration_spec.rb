@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -73,7 +73,7 @@ describe 'Projects status administration', type: :feature, js: true do
     expect(page).to have_current_path /projects\/new-project\/?/
 
     # Check that the status has been set correctly
-    visit settings_generic_project_path(id: 'new-project')
+    visit project_settings_general_path(project_id: 'new-project')
 
     status_field.expect_selected 'ON TRACK'
     status_description.expect_value 'Everything is fine at the start'

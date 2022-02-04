@@ -30,6 +30,7 @@ nl:
       error_loading_the_list: "Fout bij laden van de lijst: %{error_message}"
       error_permission_missing: "Geen toestemming om openbare zoekopdrachten te maken"
       error_cannot_move_into_self: "You can not move a work package into its own column."
+      text_hidden_list_warning: "Niet alle lijsten worden weergegeven omdat u niet bevoegd bent. Contacteer uw beheerder voor meer informatie."
       click_to_remove_list: "Klik om deze lijst te verwijderen"
       board_type:
         text: 'Type bord'

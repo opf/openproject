@@ -112,7 +112,7 @@ describe ::TwoFactorAuthentication::TokenService, with_2fa_ee: true do
         end
       end
 
-      context 'with overriden device' do
+      context 'with overridden device' do
         let(:use_device) { sms_device }
         it 'uses the overridden device' do
           expect(subject.requires_token?).to be_truthy

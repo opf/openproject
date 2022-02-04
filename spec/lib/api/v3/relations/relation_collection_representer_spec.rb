@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -34,11 +34,10 @@ describe ::API::V3::Relations::RelationCollectionRepresenter do
   end
 
   let(:relations) do
-    (1..3).map do
-      FactoryBot.build_stubbed(:relation,
-                               from: work_package,
-                               to: FactoryBot.build_stubbed(:work_package))
-    end
+    FactoryBot.build_stubbed_list(:relation,
+                                  3,
+                                  from: work_package,
+                                  to: FactoryBot.build_stubbed(:work_package))
   end
 
   let(:user) do

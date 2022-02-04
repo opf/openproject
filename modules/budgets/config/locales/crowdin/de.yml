@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 de:
   activerecord:
@@ -68,3 +68,6 @@ de:
   permission_edit_budgets: "Budgets bearbeiten"
   permission_view_budgets: "Budgets ansehen"
   project_module_budgets: "Budgets"
+  text_budget_reassign_to: "Auf dieses Budget umbuchen:"
+  text_budget_delete: "Budget aus allen Arbeitspaketen löschen"
+  text_budget_destroy_assigned_wp: "Es gibt %{count} Arbeitspakete, die diesem Budget zugewiesen sind. Wie möchten Sie fortfahren?"

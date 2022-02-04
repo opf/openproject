@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -174,7 +174,7 @@ RSpec.feature 'Work package timeline navigation', js: true, selenium: true do
 
     # Save
     wp_timeline.save
-    wp_timeline.expect_and_dismiss_notification message: 'Successful update'
+    wp_timeline.expect_and_dismiss_toaster message: 'Successful update'
 
     query.reload
     expect(query.timeline_zoom_level).to eq 'auto'
@@ -349,7 +349,7 @@ RSpec.feature 'Work package timeline navigation', js: true, selenium: true do
       expect(page).to have_no_selector('.-group-row .timeline-element')
 
       click_button('wp-fold-toggle-button')
-      click_link(I18n.t('js.button_collapse_all'))
+      click_button(I18n.t('js.button_collapse_all'))
 
       # Will again fold all rows so the milestone elements should again be present
       expect(page).to have_selector('.-group-row .timeline-element.milestone')

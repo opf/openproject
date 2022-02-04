@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'htmldiff'
@@ -151,8 +151,6 @@ class WikiController < ApplicationController
     end
 
     @content = @page.content_for_version(params[:version])
-    # don't keep previous comment
-    @content.comments = nil
 
     # To prevent StaleObjectError exception when reverting to a previous version
     @content.lock_version = @page.content.lock_version
@@ -263,7 +261,7 @@ class WikiController < ApplicationController
     # don't load text
     @versions = @page
                 .content
-                .versions
+                .journals
                 .select(:id, :user_id, :notes, :created_at, :version)
                 .order(Arel.sql('version DESC'))
                 .page(page_param)
@@ -343,13 +341,13 @@ class WikiController < ApplicationController
     page = page_for_menu_item(page)
 
     menu_item = page.try(:menu_item)
+    return menu_item.menu_identifier if menu_item.present?
+    return unless page
 
-    if menu_item.present?
-      menu_item.menu_identifier
-    elsif page.present?
-      menu_item = default_menu_item(page)
-      "no-menu-item-#{menu_item.menu_identifier}".to_sym
-    end
+    default_item = default_menu_item(page)
+    return unless default_item
+
+    "no-menu-item-#{default_item.menu_identifier}".to_sym
   end
 
   private
@@ -437,10 +435,6 @@ class WikiController < ApplicationController
 
   def show_local_breadcrumb
     @page&.ancestors&.any?
-  end
-
-  def show_local_breadcrumb_defaults
-    false
   end
 
   def redirect_to_show

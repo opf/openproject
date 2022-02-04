@@ -23,15 +23,15 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
 /*jshint expr: true*/
 
 import { GitActionsService } from './git-actions.service';
-import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
-import { PathHelperService } from 'core-app/modules/common/path-helper/path-helper.service';
+import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 import { TestBed, waitForAsync } from '@angular/core/testing';
+import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
 
 describe('GitActionsService', function() {
   let service:GitActionsService;
@@ -81,7 +81,7 @@ http://localhost:9876/work_packages/42
 
   it('shell-escapes output for the git-command', () => {
     const wp = createWorkPackage({ subject: "' && rm -rf / #" });
-    expect(service.gitCommand(wp)).toEqual(`git checkout -b 'user-story/42-and-and-rm-rf' && git commit --allow-empty -m '[#42] '\\'' && Rm -rf / #
+    expect(service.gitCommand(wp)).toEqual(`git checkout -b 'user-story/42-and-and-rm-rf' && git commit --allow-empty -m '[#42] \\' && rm -rf / #
 
 http://localhost:9876/work_packages/42
 '`);

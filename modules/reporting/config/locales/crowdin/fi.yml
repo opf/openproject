@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 fi:
   button_save_as: "Tallenna raportti nimellä..."
@@ -38,7 +38,7 @@ fi:
   label_entry: "Kustannuskirjaus"
   label_filter_text: "Suodata tekstiä"
   label_filter_value: "Arvo"
-  label_filters: "Suodata"
+  label_filters: "Suodatin"
   label_greater: ">"
   label_is_not_project_with_subprojects: "ei ole (sisältää aliprojekteja)"
   label_is_project_with_subprojects: "on (sisältää aliprojekteja)"

@@ -14,6 +14,11 @@ We released [OpenProject 11.4.0](https://community.openproject.com/versions/1485
 The release contains several bug fixes and we recommend updating to the newest version.
 
 <!--more-->
+
+#### Debian 11 support
+
+OpenProject 11.4.0 adds packaged installation support for Debian 11 "Bullseye".
+
 #### Bug fixes and changes
 
 - Fixed: Work package exports fail when column "BCF snapshot" active \[[#33448](https://community.openproject.com/wp/33448)\]
@@ -38,4 +43,4 @@ A big thanks to community members for reporting bugs and helping us identifying 
 
 Special thanks for reporting and finding bugs go to
 
-pat mac, Eric Schubert
+pat mac

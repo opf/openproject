@@ -1,0 +1,138 @@
+@import "src/assets/sass/helpers"
+
+$ian-bg-color: #FFFFFF
+$ian-bg-hover-color: var(--gray-light)
+$ian-bg-read-color: #F3F3F3
+$ian-bg-read-hover-color: darken($ian-bg-read-color, 2)
+$ian-bg-selected-color: #D1E5F5
+$ian-bg-selected-hover-color: darken($ian-bg-selected-color, 2)
+// This needs to be set in the itemSize of
+// the virtual scroller
+$ian-height: 100px
+$subject-font-size: 14px
+
+.op-ian-item
+  display: block
+  background: $ian-bg-color
+  margin: 0
+  padding: 15px 10px
+  font-size: 0.9rem
+  border-top: 1px solid var(--content-default-border-color)
+  border-radius: 2px
+  height: $ian-height
+
+  &:hover
+    background: $ian-bg-hover-color
+
+  &:last-of-type
+    border-bottom: 1px solid var(--content-default-border-color)
+
+  &_selected
+    background: $ian-bg-selected-color
+    &:hover
+      background: $ian-bg-selected-hover-color
+
+  &_read
+    background: $ian-bg-read-color
+    &:hover
+      background: $ian-bg-read-hover-color
+
+  &--row
+    @include unset-button-styles
+    width: 100%
+    height: 100%
+    display: grid
+    grid-template-rows: auto $subject-font-size auto
+    grid-template-areas: "header" "body" "footer"
+    grid-gap: 10px
+    align-items: center
+    cursor: pointer
+
+  &--top-line
+    grid-area: header
+    display: grid
+    grid-template-columns: max-content max-content minmax(0, max-content) max-content auto minmax(20px, max-content)
+    grid-template-areas: "status wpIdLink project reason count buttons"
+    grid-column-gap: 5px
+    font-size: 14px
+    align-items: center
+
+  &--middle-line
+    grid-area: body
+    display: grid
+    grid-template-columns: auto 1fr
+    grid-column-gap: 5px
+
+  &--bottom-line
+    grid-area: footer
+    display: grid
+    grid-template-columns: auto 1fr
+    grid-column-gap: 5px
+    align-items: center
+    color: var(--gray-dark)
+
+  &--work-package-subject
+    @include text-shortener
+    font-weight: bold
+    &.-read
+      font-weight: normal
+
+  &--work-package-id-link
+    grid-area: wpIdLink
+
+  &--project
+    grid-area: project
+    color: var(--gray-dark)
+    @include text-shortener
+
+  &--project-link,
+  &--work-package-id-link
+    color: var(--gray-dark)
+    font-weight: bold
+
+  &--reason-count
+    grid-area: count
+    @include indicator-bubble
+    justify-self: flex-end
+    margin-right: 5px
+
+  &--reason
+    grid-area: reason
+    @include text-shortener
+    color: var(--gray-dark)
+    max-width: 100%
+
+  &--date
+    @include text-shortener
+    max-width: 100%
+    line-height: 16px
+
+  &--status
+    grid-area: status
+    margin-right: 5px
+
+  &--buttons
+    grid-area: buttons
+    font-size: 16px
+
+  &--button
+    &:hover
+      color: var(--content-link-hover-active-color)
+
+    &_shown-on-focus
+      @include show-on-focus
+
+  &--loading-indicator
+    height: 100%
+    display: block
+    grid-area: loadingIndicator
+
+    svg
+      // Height - padding
+      height: calc(#{$ian-height} - 30px)
+
+  &--loading
+    display: grid
+    grid-template-columns: max-content auto minmax(20px, max-content)
+    grid-template-areas: "loadingIndicator count buttons"
+    grid-column-gap: 5px

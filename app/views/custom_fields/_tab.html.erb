@@ -23,7 +23,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-See docs/COPYRIGHT.rdoc for more details.
+See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
@@ -31,22 +31,22 @@ See docs/COPYRIGHT.rdoc for more details.
   <div class="generic-table--container">
     <div class="generic-table--results-container">
       <% if tab[:name] == 'WorkPackageCustomField' %>
-        <div class="notification-box -info">
-          <div class="notification-box--content">
+        <div class="op-toast -info">
+          <div class="op-toast--content">
             <p><%= t('text_custom_field_hint_activate_per_project_and_type') %></p>
           </div>
         </div>
       <% end %>
       <table class="generic-table">
         <colgroup>
-          <col highlight-col>
-          <col highlight-col>
+          <col opHighlightCol>
+          <col opHighlightCol>
           <% if tab[:name] == 'WorkPackageCustomField' %>
-            <col highlight-col>
-            <col highlight-col>
+            <col opHighlightCol>
+            <col opHighlightCol>
           <% end %>
-          <col highlight-col>
-          <col highlight-col>
+          <col opHighlightCol>
+          <col opHighlightCol>
           <col>
         </colgroup>
         <thead>
@@ -163,15 +163,6 @@ See docs/COPYRIGHT.rdoc for more details.
         </tbody>
       </table>
     </div>
-  </div>
-  <div class="generic-table--action-buttons">
-    <%= link_to new_custom_field_path(type: tab[:name]),
-          { class: 'button -alt-highlight',
-            aria: {label: t(:label_custom_field_new)},
-            title: t(:label_custom_field_new)} do %>
-      <%= op_icon('button--icon icon-add') %>
-      <span class="button--text"><%= t('activerecord.models.custom_field') %></span>
-    <% end %>
   </div>
 <% else %>
   <%= no_results_box(action_url: new_custom_field_path(type: tab[:name]), display_action: true) %>

@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 id:
   error_can_not_delete_export_card_configuration: "Konfigurasi ini tidak dapat dihapus."
@@ -27,10 +27,10 @@ id:
   label_export_card_configuration_new: "Konfigurasi kartu ekspor baru"
   label_export_card_configuration: "Konfigurasi kartu ekspor"
   label_export_card_configuration_plural: "Konfigurasi kartu ekspor"
-  label_export_card_activate: "Aktifkan"
+  label_export_card_activate: "Aktif"
   label_export_card_deactivate: "De-activate"
-  notice_export_card_configuration_activated: "Pengaturan berhasil diaktifkan"
-  notice_export_card_configuration_deactivated: "Pengaturan di non-aktif"
+  notice_export_card_configuration_activated: "Config successfully activated"
+  notice_export_card_configuration_deactivated: "Config successfully de-activated"
   error_can_not_activate_export_card_configuration: "Konfigurasi ini tidak dapat diaktifkan"
   error_can_not_deactivate_export_card_configuration: "Konfigurasi ini tidak dapat dimatikan"
   validation_error_required_keys_not_present: "Satu atau beberapa kunci yang diperlukan tidak ada:"

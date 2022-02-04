@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 #English strings go here for Rails i18n
 da:
@@ -63,6 +63,8 @@ da:
   label_version: "Version"
   label_time_zone: "Tidszone"
   label_start_date: "Start dato"
+  meeting:
+    copied: "Copied from Meeting #%{id}"
   notice_successful_notification: "Påmindelse er afsendt"
   notice_timezone_missing: Der er ikke sat en tidszone og systemet har valgt %{zone}. For at vælge din egen tidszone, klik venligst her.
   permission_create_meetings: "Opret møder"

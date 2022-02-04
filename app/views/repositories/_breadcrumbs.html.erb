@@ -23,7 +23,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-See docs/COPYRIGHT.rdoc for more details.
+See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
@@ -44,7 +44,7 @@ dirs.each_with_index do |dir, index|
         <strong><%= h(dir) %></strong>
       <% else %>
         <%= link_to h(dir), action: 'show', project_id: @project,
-                            path: to_path_param(link_path), rev: @rev %>
+                            repo_path: to_path_param(link_path), rev: @rev %>
       <% end %>
 <% end %>
 <%

@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module API
@@ -40,7 +40,6 @@ module API
                        per_page: nil,
                        embed_schemas: false)
           @project = project
-          @groups = groups
           @total_sums = total_sums
           @embed_schemas = embed_schemas
 
@@ -49,17 +48,18 @@ module API
                 query: query,
                 page: page,
                 per_page: per_page,
+                groups: groups,
                 current_user: current_user)
 
           # In order to optimize performance we
           #   * override paged_models so that only the id is fetched from the
           #     scope (typically a query with a couple of includes for e.g.
-          #     filtering), circumventing AR instantiation alltogether
+          #     filtering), circumventing AR instantiation altogether
           #   * use the ids to fetch the actual work packages with all the fields
           #     necessary for rendering the work packages in _elements
           #
           # This results in the weird flow where the scope is passed to super (models variable),
-          # which calls the overriden paged_models method fetching the ids. In order to have
+          # which calls the overridden paged_models method fetching the ids. In order to have
           # real AR objects again, we finally get the work packages we actually want to have
           # and set those to be the represented collection.
           # A potential ordering is reapplied to the work package collection in ruby.
@@ -113,9 +113,9 @@ module API
 
         link :customFields do
           if project.present? &&
-             (current_user.try(:admin?) || current_user_allowed_to(:edit_project, context: project))
+             current_user_allowed_to(:select_custom_fields, context: project)
             {
-              href: settings_custom_fields_project_path(project.identifier),
+              href: project_settings_custom_fields_path(project.identifier),
               type: 'text/html',
               title: I18n.t('label_custom_field_plural')
             }
@@ -143,10 +143,6 @@ module API
                  exec_context: :decorator,
                  if: ->(*) { embed_schemas && represented.any? },
                  embedded: true,
-                 render_nil: false
-
-        property :groups,
-                 exec_context: :decorator,
                  render_nil: false
 
         property :total_sums,
@@ -215,6 +211,9 @@ module API
             representation_format_pdf_attachments,
             representation_format_pdf_description,
             representation_format_pdf_description_attachments,
+            representation_format_xls,
+            representation_format_xls_descriptions,
+            representation_format_xls_relations,
             representation_format_csv
           ]
 
@@ -270,6 +269,27 @@ module API
                                 url_query_extras: 'show_descriptions=true&show_attachments=true'
         end
 
+        def representation_format_xls
+          representation_format 'xls',
+                                mime_type: 'application/vnd.ms-excel'
+        end
+
+        def representation_format_xls_descriptions
+          representation_format 'xls-with-descriptions',
+                                i18n_key: 'xls_with_descriptions',
+                                mime_type: 'application/vnd.ms-excel',
+                                format: 'xls',
+                                url_query_extras: 'show_descriptions=true'
+        end
+
+        def representation_format_xls_relations
+          representation_format 'xls-with-relations',
+                                i18n_key: 'xls_with_relations',
+                                mime_type: 'application/vnd.ms-excel',
+                                format: 'xls',
+                                url_query_extras: 'show_relations=true'
+        end
+
         def representation_format_csv
           representation_format 'csv',
                                 mime_type: 'text/csv'
@@ -281,7 +301,6 @@ module API
         end
 
         attr_reader :project,
-                    :groups,
                     :total_sums,
                     :embed_schemas
       end

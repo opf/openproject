@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper.rb')
@@ -89,7 +89,7 @@ describe 'Copying a budget', type: :feature, js: true do
 
     click_button 'Create'
 
-    budget_page.expect_notification message: 'Successful creation.'
+    budget_page.expect_toast message: 'Successful creation.'
 
     expect(page)
       .to have_selector('.author', text: current_user.name)

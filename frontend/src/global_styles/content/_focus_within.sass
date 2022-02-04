@@ -23,19 +23,18 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
-
-.focus-within--trigger
+.op-focus-within
   &:hover,
   &:focus,
   &.-focus
-    .focus-within--depending
+    .op-focus-within--depending
       visibility: visible
 
-.focus-within--depending
-  visibility: hidden
+  &--depending
+    visibility: hidden
 
   &.-visible
     visibility: visible

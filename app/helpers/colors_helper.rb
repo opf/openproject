@@ -25,15 +25,13 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module ColorsHelper
-  def options_for_colors(colored_thing, allow_bright_colors)
+  def options_for_colors(colored_thing)
     colors = []
     Color.find_each do |c|
-      next if !allow_bright_colors && c.super_bright?
-
       options = {}
       options[:name] = c.name
       options[:value] = c.id

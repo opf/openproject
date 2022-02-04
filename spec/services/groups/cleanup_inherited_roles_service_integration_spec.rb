@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -50,7 +50,7 @@ describe Groups::CleanupInheritedRolesService, 'integration', type: :model do
                         roles: roles)
 
       ::Groups::AddUsersService
-        .new(group, current_user: nil, contract_class: EmptyContract)
+        .new(group, current_user: User.system, contract_class: EmptyContract)
         .call(ids: users.map(&:id))
     end
   end
@@ -139,7 +139,8 @@ describe Groups::CleanupInheritedRolesService, 'integration', type: :model do
       expect(Notifications::GroupMemberAlteredJob)
         .to have_received(:perform_later)
         .with([first_user_member.id],
-              message)
+              message,
+              true)
     end
   end
 
@@ -179,7 +180,8 @@ describe Groups::CleanupInheritedRolesService, 'integration', type: :model do
       expect(Notifications::GroupMemberAlteredJob)
         .to have_received(:perform_later)
         .with([first_user_member.id],
-              message)
+              message,
+              true)
     end
   end
 

@@ -1,0 +1,50 @@
+---
+description: |-
+  A grid is a layout for a page or a part of the page of the OpenProject application. It defines the structure (number of rows and number of columns) as well as the contents of the page.
+
+  The contents is defined by `GridWidget`s. While a `GridWidget` is it's own type, it is not a resource in it's own right as it is an intrinsic part of a `Grid`.
+
+  Depending on what page a grid is defined for, different widgets may be eligible to be placed on the grid. The page might also define the permissions needed for accessing, creating or modifying the grid.
+
+  Currently, the following pages employ grids:
+
+  + /my/page: The my page every user has. Only a user can access or modify their "my page".
+
+  *The delete action is not yet supported*
+
+  ## Actions
+
+  | Link                | Description                                                          | Condition                                                                                           |
+  |:-------------------:| -------------------------------------------------------------------- | ----------------------------------------------------------------                                    |
+  | updateImmediately   | Directly perform edits on this grid                                  | **Permission**: depends on the page the grid is defined for                                         |
+  | update              | Validate edits on the grid via a form resource before committing     | **Permission**: depends on the page the grid is defined for                                         |
+
+  ## Linked Properties
+
+  | Link          | Description                                                       | Type                | Constraints           | Supported operations | Condition                                     |
+  | :-----------: | --------------------------------------------------------------    | -------------       | --------------------- | -------------------- | -----------------------------------------     |
+  | self          | This grid                                                         | Grid                | not null              | READ                 |                                               |
+  | page          | The url of the page the grid is defined for                       | url                 | not null              | READ / WRITE         | The page cannot be changed after the creation |
+
+  ## Local Properties
+
+  | Property     | Description                                               | Type          | Constraints                                          | Supported operations | Condition                   |
+  | :----------: | --------------------------------------------------------- | --------      | ---------------------------------------------------- | -------------------- | --------------              |
+  | id           | Grid's id                                                 | Integer       | x > 0                                                | READ                 |                             |
+  | rowCount     | The number of rows the grid has                           | Integer       | x > 0                                                | READ/WRITE           |                             |
+  | columnCount  | The number of columns the grid has                        | Integer       | x > 0                                                | READ/WRITE           |                             |
+  | widgets      | The set of `GridWidget`s selected for the grid            | []GridWidget  |                                                      | READ/WRITE           | The widgets cannot overlap  |
+  | createdAt    | The time the grid was created                             | DateTime      |                                                      | READ                 |                             |
+  | updatedAt    | The time the grid was last updated                        | DateTime      |                                                      | READ                 |                             |
+
+  ## GridWidget Properties
+
+  | Property     | Description                                                                        | Type     | Constraints                                          | Supported operations | Condition      |
+  | :----------: | ---------------------------------------------------------                          | -------- | ---------------------------------------------------- | -------------------- | -------------- |
+  | identifier   | The kind of widget                                                                 | String   | not null                                             | READ/WRITE           |                |
+  | startRow     | The row the widget starts at (1 based)                                             | Integer  | x > 0, x < rowCount of the grid, x < endRow          | READ/WRITE           |                |
+  | endRow       | The row the widget ends. The widget's area does not include the row itself.        | Integer  | x > 0, x <= rowCount of the grid, x > startRow       | READ/WRITE           |                |
+  | startColumn  | The column the widget starts at (1 based)                                          | Integer  | x > 0, x < columnCount of the grid, x < endColumn    | READ/WRITE           |                |
+  | endColumn    | The column the widget ends. The widget's area does not include the column itself.  | Integer  | x > 0, x <= columnCount of the grid, x > startColumn | READ/WRITE           |                |
+  | options      | An options hash of values customizable by the widget                               | JSON     |                                                      | READ/WRITE           |                |
+name: Grids

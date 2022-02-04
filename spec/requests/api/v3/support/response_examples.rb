@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -112,12 +112,11 @@ shared_examples_for 'unauthorized access' do
                   I18n.t('api_v3.errors.code_403')
 end
 
-shared_examples_for 'not found' do
+shared_examples_for 'not found' do |message = I18n.t('api_v3.errors.code_404')|
   it_behaves_like 'error response',
                   404,
-                  'NotFound' do
-    let(:message) { I18n.t('api_v3.errors.code_404') }
-  end
+                  'NotFound',
+                  message
 end
 
 shared_examples_for 'param validation error' do

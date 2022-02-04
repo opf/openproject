@@ -4,22 +4,23 @@ MAINTAINER operations@openproject.com
 ARG DEV_UID=1000
 ARG DEV_GID=1001
 
-ENV USER=dev
+ENV USER=node
+
+RUN apt-get update && apt-get install -y chromium
 
 RUN npm i -g npm
 
-RUN usermod -l $USER -d /home/$USER -m node
-RUN usermod -u $DEV_UID $USER
-RUN groupadd $USER
+RUN groupadd $USER || true
 RUN groupmod -g $DEV_GID $USER || true
+RUN usermod -u $DEV_UID -d /home/dev $USER || true
 
 EXPOSE 4200
 
-RUN mkdir -p /home/$USER/openproject/public/assets/frontend
-RUN chown $USER:$USER -R /home/$USER/openproject/public
+RUN mkdir -p /home/dev/openproject/public/assets/frontend
+RUN chown $USER:$USER -R /home/dev
 
-VOLUME ["/home/$USER/openproject", "/home/$USER/openproject/public/assets/frontend"]
+VOLUME ["/home/dev/openproject", "/home/dev/openproject/public/assets/frontend"]
 
-WORKDIR /home/$USER/openproject/frontend
+WORKDIR /home/dev/openproject/frontend
 
 USER $USER

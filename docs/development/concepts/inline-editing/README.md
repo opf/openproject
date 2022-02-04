@@ -46,7 +46,7 @@ In order to understand the different modes of the inline edition functionality, 
 
 The display fields handle showing read-only representation of a resource's attribute. For example, the work package table may contain very different kinds of attributes: A progress bar, bare text fields, formatted date fields and the like.
 
-Since OpenProject can also have dynamic custom fields with varying formats, the frontend cannot know all potential attribute names and their types. Instead, the available attributes of a resource are retrieved from its associated [schema resource](#TODO). For display fields, the important part of the schema definition for an attribute is its `type` attribute. Take a look at the JSON schema response for projects at the community: https://community.openproject.com/api/v3/projects/schema. For the sake of brevity, the following JSON will only show two of the returned attributes: The name and status attribute description:
+Since OpenProject can also have dynamic custom fields with varying formats, the frontend cannot know all potential attribute names and their types. Instead, the available attributes of a resource are retrieved from its associated [schema resource](../resource-schemas/). For display fields, the important part of the schema definition for an attribute is its `type` attribute. Take a look at the JSON schema response for projects at the community: https://community.openproject.com/api/v3/projects/schema. For the sake of brevity, the following JSON will only show two of the returned attributes: The name and status attribute description:
 
 ```json
 "name": {
@@ -114,7 +114,7 @@ export class ExampleComponent implements OnInit {
 
 
 
-The third parameter of the `render` method is to provide a changeset. This allows to render the value notfrom the  pristine work package, but from a temporary changeset of the work package:
+The third parameter of the `render` method is to provide a changeset. This allows to render the value not from the pristine work package, but from a temporary changeset of the work package:
 
 ```typescript
 // Assuming we changed the subject property
@@ -290,7 +290,7 @@ While this doesn't take care of any labels or styling, it will already provide e
 
 The work package single view is the boss fight of inline editing. It combines all the previous concepts with the flexibility of work package attributes and type configuration.
 
-The following screenshot is [bug report #34250](http://community.openproject.com/wp/34250), which is a work package of Type `Bug`. The Bug type has a [specific form configuration](https://docs.openproject.org/system-admin-guide/manage-work-packages/work-package-types/#work-package-form-configuration) defined. This configuration is as follows:
+The following screenshot is [bug report #34250](https://community.openproject.com/wp/34250), which is a work package of Type `Bug`. The Bug type has a [specific form configuration](../../../system-admin-guide/manage-work-packages/work-package-types/#work-package-form-configuration) defined. This configuration is as follows:
 
 
 
@@ -298,7 +298,7 @@ The following screenshot is [bug report #34250](http://community.openproject.com
 
 The Bug has three attribute groups defined with a set of attributes in it. These attributes correspond to the attribute groups in the `single view`.
 
-If we take a look at the XHR requests on the bug page, we see that a request is being made to the schema `https://community.openproject.com/api/v3/work_packages/schemas/14-1`, which is the work package schema for project ID=14 (openproject on community), and the type ID=1 (Bug type). It contains the attribute definitions of the [work package schema](#TODO:schemas) and the enabled attribute groups with their attribute definitions:
+If we take a look at the XHR requests on the bug page, we see that a request is being made to the schema `https://community.openproject.com/api/v3/work_packages/schemas/14-1`, which is the work package schema for project ID=14 (openproject on community), and the type ID=1 (Bug type). It contains the attribute definitions of the [work package schema](../resource-schemas/) and the enabled attribute groups with their attribute definitions:
 
 ![Attribute groups of type Bug in OpenProject project](schema-attribute-groups.png)
 

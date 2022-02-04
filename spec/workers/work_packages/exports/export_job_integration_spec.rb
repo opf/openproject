@@ -25,12 +25,12 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
-describe WorkPackages::Exports::ExportJob, 'Integration' do
+describe WorkPackages::ExportJob, 'Integration' do
   let(:project) { FactoryBot.create(:project) }
   let(:user) do
     FactoryBot.create(:user,

@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -52,7 +52,7 @@ describe 'Work package attribute help texts', type: :feature, js: true do
 
   shared_examples 'allows to view help texts' do
     it 'shows an indicator for whatever help text exists' do
-      expect(page).to have_selector('.work-package--single-view .help-text--for-status')
+      expect(page).to have_selector('.work-package--single-view [data-qa-help-text-for="status"]')
 
       # Open help text modal
       modal.open!

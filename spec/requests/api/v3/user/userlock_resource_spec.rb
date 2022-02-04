@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -74,10 +74,7 @@ describe 'API v3 UserLock resource', type: :request, content_type: :json do
 
     context 'requesting nonexistent user' do
       let(:lock_path) { api_v3_paths.user_lock 9999 }
-      it_behaves_like 'not found' do
-        let(:id) { 9999 }
-        let(:type) { 'User' }
-      end
+      it_behaves_like 'not found'
     end
 
     context 'non-admin user' do

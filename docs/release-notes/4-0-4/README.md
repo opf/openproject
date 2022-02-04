@@ -31,7 +31,7 @@ In addition, font errors in Chrome have been addressed.
   - It is now possible to remove grouping options from queries which was
     not possible before
     ([\#17570](https://community.openproject.org/work_packages/17570 "Removing grouping not saved on existing queries (closed)"))
-  - Errors occuring in subfolder installations of OpenProject have been
+  - Errors occurring in subfolder installations of OpenProject have been
     resolved
     ([\#17566](https://community.openproject.org/work_packages/17566 "Parent change via wp-detail view stuck at loading in subfolder installation (closed)"),
     [\#17564](https://community.openproject.org/work_packages/17564 "Export function throws \"object not found\" error when used in subfolder installation (closed)"))

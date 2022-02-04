@@ -17,13 +17,13 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 it:
   activerecord:
     attributes:
       cost_entry:
-        work_package: "Macro-attività"
+        work_package: "Macro-attività (work package)"
         overridden_costs: "Costi eccedenti"
         spent: "Trascorso"
         spent_on: "Data"
@@ -57,7 +57,7 @@ it:
     costs: "Costi"
     current_rate: "Tariffa attuale"
     hours: "Ore"
-    units: "Unità di misura"
+    units: "Unità"
     valid_from: "Valido dal"
     fixed_date: "Data fissa"
   button_add_rate: "Aggiungi tariffa"
@@ -139,4 +139,4 @@ it:
   text_warning_hidden_elements: "Alcune voci potrebbero essere state escluse dall'aggregazione."
   week: "settimana"
   js:
-    text_are_you_sure: "Sei sicuro?"
+    text_are_you_sure: "Sei sicuro/a?"

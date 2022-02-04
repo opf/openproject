@@ -203,7 +203,7 @@ and the layout has been improved in many other places as well.
 
 The future OpenProject API (API v3) has been extended by several
 functionalities. For instance, the [API
-v3](https://www.openproject.org/development/api/) now includes an
+v3](../../api/) now includes an
 endpoint for the work package index-action.
 
 Please note that the API v3 is still a draft.

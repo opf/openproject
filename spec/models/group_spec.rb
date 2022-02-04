@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -73,7 +73,7 @@ describe Group, type: :model do
 
   describe '#group_users' do
     context 'when adding a user' do
-      context 'which does not exist' do
+      context 'if it does not exist' do
         it 'does not create a group user' do
           count = group.group_users.count
           gu = group.group_users.create user_id: User.maximum(:id).to_i + 1

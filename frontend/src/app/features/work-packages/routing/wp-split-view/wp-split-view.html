@@ -1,0 +1,62 @@
+<div
+  class="work-packages--details loading-indicator--location"
+  data-indicator-name="wpDetails"
+  *ngIf="workPackage"
+>
+    <op-wp-tabs [workPackage]="workPackage" view="split"></op-wp-tabs>
+    <div class="work-packages--details-content work-packages-tab-view--overflow" *ngIf="workPackage">
+      <span
+        class="hidden-for-sighted"
+        tabindex="-1"
+        [opAutofocus]="shouldFocus"
+        [textContent]="focusAnchorLabel"
+      ></span>
+
+      <edit-form
+        [resource]="workPackage"
+        class="work-packages--details-form"
+      >
+        <div class="work-packages--details-header">
+          <div class="work-packages--details-header-left">
+            <wp-breadcrumb
+              [workPackage]="workPackage"
+              class="work-packages--breadcrumb"
+            ></wp-breadcrumb>
+
+            <div class="wp-show--header-container">
+              <op-back-button
+                *ngIf="showBackButton()"
+                linkClass="work-packages-back-button"
+                [customBackMethod]="backToList.bind(this)"
+              ></op-back-button>
+
+              <wp-subject class="subject-header"></wp-subject>
+            </div>
+          </div>
+
+          <op-work-package-mark-notification-button
+            *ngIf="(displayNotificationsButton$ | async) && keepTab.currentTabIdentifier === 'activity'"
+            class="work-packages--details-button"
+            [workPackage]="workPackage"
+            buttonClasses="-round"
+            data-qa-selector="mark-notification-read-button"
+          ></op-work-package-mark-notification-button>
+        </div>
+
+        <div
+          class="work-package-details-tab"
+          data-notification-selector='notification-scroll-container'
+          ui-view
+        ></div>
+      </edit-form>
+    </div>
+
+    <div class="work-packages--details-toolbar-container" *ngIf="workPackage">
+      <wp-details-toolbar [workPackage]="workPackage"></wp-details-toolbar>
+    </div>
+
+    <div class="work-packages--details--resizer hidden-for-mobile hide-when-print">
+      <wp-resizer [elementClass]="'work-packages-partitioned-page--content-right'"
+                  [localStorageKey]="'openProject-splitViewFlexBasis'"></wp-resizer>
+    </div>
+</div>

@@ -25,12 +25,11 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 class Activities::WorkPackageActivityProvider < Activities::BaseActivityProvider
   activity_provider_for type: 'work_packages',
-                        aggregated: true,
                         permission: :view_work_packages
 
   def extend_event_query(query)

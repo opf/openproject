@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -77,7 +77,7 @@ describe 'Enterprise token', type: :feature, js: true do
         submit_button.click
 
         expect(page).to have_selector('.flash.notice', text: I18n.t(:notice_successful_update))
-        expect(page).to have_selector('.enterprise--active-token')
+        expect(page).to have_selector('[data-qa-selector="op-enterprise--active-token"]')
 
         expect(page.all('.attributes-key-value--key').map(&:text))
           .to eq ['Subscriber', 'Email', 'Domain', 'Maximum active users', 'Starts at', 'Expires at']

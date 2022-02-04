@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -84,7 +84,7 @@ describe 'Repository Settings', type: :feature, js: true do
       else
         SeleniumHubWaiter.wait
         find('a.icon-remove', text: I18n.t(:button_remove)).click
-        expect(page).to have_selector('.notification-box.-warning')
+        expect(page).to have_selector('.op-toast.-warning')
         SeleniumHubWaiter.wait
         find('a', text: I18n.t(:button_remove)).click
       end

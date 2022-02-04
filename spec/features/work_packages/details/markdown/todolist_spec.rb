@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -80,7 +80,7 @@ describe 'Todolists in CKEditor', js: true do
 
       field.submit_by_click
 
-      wp_page.expect_and_dismiss_notification message: 'Successful update.'
+      wp_page.expect_and_dismiss_toaster message: 'Successful update.'
 
       within(field.display_element) do
         expect(page).to have_selector('.op-uc-list--task-checkbox', count: 5)
@@ -119,7 +119,7 @@ describe 'Todolists in CKEditor', js: true do
       end
 
       field.submit_by_click
-      wp_page.expect_and_dismiss_notification message: 'Successful update.'
+      wp_page.expect_and_dismiss_toaster message: 'Successful update.'
 
       within(field.display_element) do
         expect(page).to have_selector('.op-uc-list--task-checkbox', count: 5)
@@ -179,7 +179,7 @@ describe 'Todolists in CKEditor', js: true do
       end
 
       wp_page.save!
-      wp_page.expect_and_dismiss_notification message: 'Successful creation.'
+      wp_page.expect_and_dismiss_toaster message: 'Successful creation.'
 
       expect(page).to have_selector('.op-uc-list--task-checkbox', count: 3)
       expect(page).to have_selector('.op-uc-list--task-checkbox[checked]', count: 1)
@@ -213,7 +213,7 @@ describe 'Todolists in CKEditor', js: true do
       end
 
       wp_page.save!
-      wp_page.expect_and_dismiss_notification message: 'Successful creation.'
+      wp_page.expect_and_dismiss_toaster message: 'Successful creation.'
 
       within(field.display_element) do
         expect(page).to have_selector('.op-uc-list--task-checkbox', count: 2)
@@ -242,7 +242,7 @@ describe 'Todolists in CKEditor', js: true do
       end
 
       field.submit_by_click
-      wp_page.expect_and_dismiss_notification message: 'Successful update.'
+      wp_page.expect_and_dismiss_toaster message: 'Successful update.'
 
       within(field.display_element) do
         expect(page).to have_selector('.op-uc-list--task-checkbox', count: 2)

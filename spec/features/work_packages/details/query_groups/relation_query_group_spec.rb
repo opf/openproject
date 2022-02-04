@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -88,7 +88,7 @@ describe 'Work package with relation query group', js: true, selenium: true do
       relations.expect_child(related_work_package)
 
       # Create new work package within embedded table
-      embedded_table.table_container.find("a", text: I18n.t('js.relation_buttons.add_new_child')).click
+      embedded_table.table_container.find("button", text: I18n.t('js.relation_buttons.add_new_child')).click
       subject_field = embedded_table.edit_field(nil, :subject)
       subject_field.expect_active!
       subject_field.set_value("Fresh WP\n")
@@ -179,7 +179,7 @@ describe 'Work package with relation query group', js: true, selenium: true do
 
         # Will first try to load the query, and then hide it.
         expect(page).to have_no_selector('.attributes-group--header-text', text: query_text, wait: 20)
-        expect(page).to have_no_selector('.work-packages-embedded-view--container .notification-box.-error')
+        expect(page).to have_no_selector('.work-packages-embedded-view--container .op-toast.-error')
       end
     end
   end
@@ -199,7 +199,7 @@ describe 'Work package with relation query group', js: true, selenium: true do
     end
 
     it 'creates and removes across all tables' do
-      embedded_table.table_container.find('a', text: I18n.t('js.relation_buttons.create_new')).click
+      embedded_table.table_container.find('button', text: I18n.t('js.relation_buttons.create_new')).click
       subject_field = embedded_table.edit_field(nil, :subject)
 
       subject_field.expect_active!
@@ -210,9 +210,9 @@ describe 'Work package with relation query group', js: true, selenium: true do
     end
 
     it 'add existing, remove it, add it from relations tab, remove from relations tab' do
-      embedded_table.table_container.find('a', text: I18n.t('js.relation_buttons.add_existing')).click
+      embedded_table.table_container.find('button', text: I18n.t('js.relation_buttons.add_existing')).click
       container = embedded_table.table_container.find('.wp-relations-create--form', wait: 10)
-      autocomplete = page.find(".wp-relations--autocomplete")
+      autocomplete = page.find("[data-qa-selector='wp-relations-autocomplete']")
       select_autocomplete autocomplete,
                           results_selector: '.ng-dropdown-panel-items',
                           query: independent_work_package.subject,

@@ -23,12 +23,12 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-See docs/COPYRIGHT.rdoc for more details.
+See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
 <h1>
-  <%= @message.forum.project.name %> - <%= @message.forum.name %>: <%= link_to(@message.subject, @message_url) %>
+  <%= @message.forum.project.name %> - <%= @message.forum.name %>: <%= link_to(@message.subject, message_url(@message)) %>
 </h1>
 <em><%= @message.author %></em>
 

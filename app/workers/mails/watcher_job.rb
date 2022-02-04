@@ -25,22 +25,24 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 class Mails::WatcherJob < Mails::DeliverJob
+  include Mails::WithSender
+
   def perform(watcher, watcher_changer)
     self.watcher = watcher
 
     super(watcher.user, watcher_changer)
   end
 
-  def render_mail(recipient:, sender:)
-    UserMailer
-      .work_package_watcher_changed(watcher.watchable,
-                                    recipient,
-                                    sender,
-                                    action)
+  def render_mail
+    WorkPackageMailer
+      .watcher_changed(watcher.watchable,
+                       recipient,
+                       sender,
+                       action)
   end
 
   private
@@ -52,24 +54,20 @@ class Mails::WatcherJob < Mails::DeliverJob
   end
 
   def notify_about_watcher_changed?
-    return false if notify_about_self_watching?
+    return false if self_watching?
+    return false unless UserMailer.perform_deliveries
 
-    case watcher.user.mail_notification
-    when 'only_my_events'
-      true
-    when 'selected'
-      watching_selected_includes_project?
-    else
-      watcher.user.notify_about?(watcher.watchable)
-    end
+    settings = watcher
+               .user
+               .notification_settings
+               .applicable(watcher.watchable.project)
+               .first
+
+    settings.watched
   end
 
-  def notify_about_self_watching?
-    watcher.user == sender && !sender.pref.self_notified?
-  end
-
-  def watching_selected_includes_project?
-    watcher.user.notified_projects_ids.include?(watcher.watchable.project_id)
+  def self_watching?
+    watcher.user == sender
   end
 
   def action

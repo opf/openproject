@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 OpenProject::Application.routes.draw do
@@ -31,9 +31,5 @@ OpenProject::Application.routes.draw do
     resources :documents, only: %i[create new index]
   end
 
-  resources :documents, except: %i[create new index] do
-    member do
-      post 'add_attachment'
-    end
-  end
+  resources :documents, except: %i[create new index]
 end

@@ -8,11 +8,11 @@
   <div class="generic-table--results-container" style="max-height: 340px;">
     <table class="generic-table">
       <colgroup>
-        <col highlight-col>
-        <col highlight-col>
-        <col highlight-col>
-        <col highlight-col>
-        <col highlight-col>
+        <col opHighlightCol>
+        <col opHighlightCol>
+        <col opHighlightCol>
+        <col opHighlightCol>
+        <col opHighlightCol>
       </colgroup>
       <thead>
         <tr>
@@ -116,11 +116,11 @@ Use `-no-ellipse` class to a TD element to disable the text-overflow applied usu
   <div class="generic-table--results-container" style="max-height: 340px;">
     <table class="generic-table">
       <colgroup>
-        <col highlight-col>
-        <col highlight-col>
-        <col highlight-col>
-        <col highlight-col>
-        <col highlight-col>
+        <col opHighlightCol>
+        <col opHighlightCol>
+        <col opHighlightCol>
+        <col opHighlightCol>
+        <col opHighlightCol>
       </colgroup>
       <thead>
         <tr>
@@ -198,11 +198,11 @@ Use `-no-ellipse` class to a TD element to disable the text-overflow applied usu
   <div class="generic-table--results-container" style="max-height: 340px;">
     <table class="generic-table">
       <colgroup>
-        <col highlight-col>
-        <col highlight-col>
-        <col highlight-col>
-        <col highlight-col>
-        <col highlight-col>
+        <col opHighlightCol>
+        <col opHighlightCol>
+        <col opHighlightCol>
+        <col opHighlightCol>
+        <col opHighlightCol>
       </colgroup>
       <thead>
         <tr>
@@ -394,9 +394,9 @@ Use `-no-ellipse` class to a TD element to disable the text-overflow applied usu
 <div class="generic-table--container" style="height:150px">
   <div class="generic-table--no-results-container">
     <i class="icon-info1"></i>
-    <h2 class="generic-table--no-results-title">
+    <span class="generic-table--no-results-title">
       Nothing to display
-    </h2>
+    </span>
     <div class="generic-table--no-results-description">
       <p>Either nothing have been created or everything is filtered out.</p>
     </div>

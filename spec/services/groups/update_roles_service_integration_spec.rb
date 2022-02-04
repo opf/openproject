@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -45,7 +45,7 @@ describe Groups::UpdateRolesService, 'integration', type: :model do
                         roles: roles)
 
       ::Groups::AddUsersService
-        .new(group, current_user: nil, contract_class: EmptyContract)
+        .new(group, current_user: User.system, contract_class: EmptyContract)
         .call(ids: users.map(&:id))
     end
   end
@@ -83,7 +83,8 @@ describe Groups::UpdateRolesService, 'integration', type: :model do
       expect(Notifications::GroupMemberAlteredJob)
         .to have_received(:perform_later)
         .with(a_collection_containing_exactly(*Member.where(principal: user).pluck(:id)),
-              message)
+              message,
+              true)
     end
   end
 

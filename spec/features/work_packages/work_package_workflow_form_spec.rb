@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -95,13 +95,13 @@ describe 'Work package transitive status workflows', js: true do
     wp_page.update_attributes status: status_intermediate.name
     wp_page.expect_attributes status: status_intermediate.name
 
-    wp_page.expect_activity_message "Status changed from #{status_from.name}\n" \
+    wp_page.expect_activity_message "Status changed from #{status_from.name} " \
                                     "to #{status_intermediate.name}"
 
     wp_page.update_attributes status: status_to.name
     wp_page.expect_attributes status: status_to.name
 
-    wp_page.expect_activity_message "Status changed from #{status_from.name}\n" \
+    wp_page.expect_activity_message "Status changed from #{status_from.name} " \
                                     "to #{status_to.name}"
 
     work_package.reload

@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module AttachmentsHelper
@@ -41,7 +41,7 @@ module AttachmentsHelper
   # List attachments outside the edit form
   # allowing immediate removal or addition of attachments
   #
-  # Within ckeditor-form, this attachment list is added automatically
+  # Within ckeditor-augmented-textarea-form, this attachment list is added automatically
   # when a resource is added.
   def list_attachments(resource)
     content_tag 'attachments',

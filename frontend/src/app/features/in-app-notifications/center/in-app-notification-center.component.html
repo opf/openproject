@@ -1,0 +1,39 @@
+<div class="op-ian-center">
+  <div class="op-ian-center--content">
+    <ng-container *ngIf="(hasNotifications$ | async); else noResults">
+      <cdk-virtual-scroll-viewport
+          itemSize="100"
+          class="op-ian-center--viewport"
+      >
+        <op-in-app-notification-entry
+            *cdkVirtualFor="let records of notifications$ | async; trackBy: trackNotificationGroups; templateCacheSize: 0"
+            class="op-ian-item"
+            [class.op-ian-item_expanded]="records[0].expanded"
+            [class.op-ian-item_read]="records[0].readIAN === true"
+            [class.op-ian-item_selected]="(stateChanged$ | async) === records[0]._links.resource.href"
+            [notification]="records[0]"
+            [aggregatedNotifications]="records"
+            attr.data-qa-selector="op-ian-notification-item-{{records[0].id}}"
+            [attr.data-qa-ian-read]="records[0].readIAN === true || undefined"
+            [attr.data-qa-ian-selected]="(stateChanged$ | async) === records[0]._links.resource.href"
+        ></op-in-app-notification-entry>
+      </cdk-virtual-scroll-viewport>
+    </ng-container>
+    <ng-template #noResults>
+      <no-results *ngIf="(loading$ | async) === false"
+                  [title]="noResultText$ | async"
+                  [description]="text.change_notification_settings"
+                  [showIcon]="false"
+      >
+      </no-results>
+    </ng-template>
+  </div>
+  <div class="op-ian-center--footer">
+    <p
+      class="op-ian-center--max-warning"
+      *ngIf="hasMoreThanPageSize$ | async"
+      [textContent]="totalCountWarning$ | async"
+    >
+    </p>
+  </div>
+</div>

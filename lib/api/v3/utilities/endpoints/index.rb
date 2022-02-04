@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module API
@@ -88,6 +88,7 @@ module API
                    query: resulting_params,
                    page: resulting_params[:offset],
                    per_page: resulting_params[:pageSize],
+                   groups: calculate_groups(query),
                    current_user: User.current)
           end
 
@@ -101,7 +102,15 @@ module API
           def calculate_resulting_params(query, provided_params)
             calculate_default_params(query).merge(provided_params.slice('offset', 'pageSize').symbolize_keys).tap do |params|
               params[:offset] = to_i_or_nil(params[:offset])
-              params[:pageSize] = to_i_or_nil(params[:pageSize])
+              params[:pageSize] = resolve_page_size(params[:pageSize])
+            end
+          end
+
+          def calculate_groups(query)
+            return unless query.group_by
+
+            query.group_values.map do |group, count|
+              ::API::Decorators::AggregationGroup.new(group, count, query: query, current_user: User.current)
             end
           end
 

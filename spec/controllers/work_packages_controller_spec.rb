@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -205,8 +205,7 @@ describe WorkPackagesController, type: :controller do
         let(:params) { {} }
         let(:mime_type) { 'pdf' }
 
-        it_behaves_like 'export of mime_type' do
-        end
+        it_behaves_like 'export of mime_type'
       end
 
       describe 'atom' do
@@ -239,7 +238,7 @@ describe WorkPackagesController, type: :controller do
         let(:call_action) { get('index', params: params.merge(format: 'pdf')) }
         let(:params) { { query_id: 'hokusbogus' } }
 
-        context 'when a non-existant query has been previously selected' do
+        context 'when a non-existent query has been previously selected' do
           before do
             allow(User.current).to receive(:allowed_to?).and_return(true)
 
@@ -280,6 +279,12 @@ describe WorkPackagesController, type: :controller do
 
   describe 'show.pdf' do
     let(:call_action) { get('show', params: { format: 'pdf', id: '1337' }) }
+    let(:exporter) { WorkPackage::PDFExport::WorkPackageToPdf }
+    let(:exporter_instance) { instance_double(exporter) }
+
+    before do
+      allow(exporter).to receive(:new).and_return(exporter_instance)
+    end
 
     requires_permission_in_project do
       it 'respond with a pdf' do
@@ -292,7 +297,7 @@ describe WorkPackagesController, type: :controller do
                             title: expected_name,
                             mime_type: expected_type)
 
-        expect(WorkPackage::Exporter::PDF).to receive(:single).and_yield(pdf_result)
+        allow(exporter_instance).to receive(:export!).and_return(pdf_result)
         expect(controller).to receive(:send_data).with(pdf_data,
                                                        type: expected_type,
                                                        filename: expected_name) do |*_args|

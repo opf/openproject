@@ -6,10 +6,10 @@ def register_firefox(language, name: :"firefox_#{language}")
   require 'selenium/webdriver'
 
   Capybara.register_driver name do |app|
-    if ENV['CI']
-      client = Selenium::WebDriver::Remote::Http::Default.new
-      client.timeout = 180
-    end
+    client = if ENV['CI']
+               Selenium::WebDriver::Remote::Http::Default.new(open_timeout: 180,
+                                                              read_timeout: 180)
+             end
 
     profile = Selenium::WebDriver::Firefox::Profile.new
     profile['intl.accept_languages'] = language
@@ -24,15 +24,7 @@ def register_firefox(language, name: :"firefox_#{language}")
     # only one FF process
     profile['dom.ipc.processCount'] = 1
 
-    # use native instead of synthetic events
-    # https://github.com/SeleniumHQ/selenium/wiki/DesiredCapabilities
-    profile.native_events = true
-
     options = Selenium::WebDriver::Firefox::Options.new(profile: profile)
-
-    capabilities = Selenium::WebDriver::Remote::Capabilities.firefox(
-      loggingPrefs: { browser: 'ALL' }
-    )
 
     yield(profile, options, capabilities) if block_given?
 
@@ -45,9 +37,8 @@ def register_firefox(language, name: :"firefox_#{language}")
     driver_opts = {
       browser: is_grid ? :remote : :firefox,
       url: ENV['SELENIUM_GRID_URL'],
-      desired_capabilities: capabilities,
       http_client: client,
-      options: options,
+      capabilities: options
     }
 
     if is_grid

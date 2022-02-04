@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -84,7 +84,7 @@ describe 'Read-only statuses affect work package editing',
     status_field.expect_state_text 'Unlocked'
     status_field.update 'Locked'
 
-    wp_page.expect_and_dismiss_notification(message: 'Successful update.')
+    wp_page.expect_and_dismiss_toaster(message: 'Successful update.')
 
     status_field.expect_state_text 'Locked'
 

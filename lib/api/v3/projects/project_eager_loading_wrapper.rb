@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module API
@@ -36,7 +36,7 @@ module API
 
         class << self
           def wrap(projects)
-            custom_fields = if projects && !projects.empty?
+            custom_fields = if projects.present?
                               projects.first.available_custom_fields
                             end
 

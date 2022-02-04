@@ -76,7 +76,7 @@ describe 'Create BCF',
 
       sleep 5
 
-      index_page.expect_and_dismiss_notification(
+      index_page.expect_and_dismiss_toaster(
         message: 'Successful creation. Click here to open this work package in fullscreen view.'
       )
 

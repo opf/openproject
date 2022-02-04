@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -577,6 +577,15 @@ describe WorkPackages::BaseContract do
       # while we do validate the parent
       # the errors are still put on :base so that the messages can be reused
       contract.errors.symbols_for(:base)
+    end
+
+    context 'when self assigning' do
+      let(:parent) { work_package }
+
+      it 'returns an error for the aparent' do
+        expect(contract.validate).to eq false
+        expect(contract.errors.symbols_for(:parent)).to eq [:cannot_be_self_assigned]
+      end
     end
 
     context 'a relation exists between the parent and its ancestors and the work package and its descendants' do

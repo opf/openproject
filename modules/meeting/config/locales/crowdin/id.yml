@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 #English strings go here for Rails i18n
 id:
@@ -38,7 +38,7 @@ id:
       meeting_agenda: "Agenda"
       meeting_minutes: "Laporan"
   description_attended: "hadir"
-  description_invite: "invited"
+  description_invite: "diundang"
   events:
     meeting: Rapat diedit
     meeting_agenda: Agenda rapat diedit
@@ -61,8 +61,10 @@ id:
   label_notify: "Kirim untuk ulasan"
   label_icalendar: "Kirim iCalendar"
   label_version: "Versi"
-  label_time_zone: "Time Zone"
-  label_start_date: "Tanggal start"
+  label_time_zone: "Zona waktu"
+  label_start_date: "Tanggal mulai"
+  meeting:
+    copied: "Copied from Meeting #%{id}"
   notice_successful_notification: "Berhasil mengirim notifikasi"
   notice_timezone_missing: Tidak ada zona waktu yang ditetapkan sehingga diasumsikan %{zone}. Untuk memilih zona waktu, silakan mengeklik di sini.
   permission_create_meetings: "Membuat rapat"

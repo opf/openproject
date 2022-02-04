@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -449,7 +449,7 @@ describe 'Custom actions', type: :feature, js: true do
 
     wp_page.click_custom_action('Escalate', expect_success: false)
 
-    wp_page.expect_notification type: :error, message: I18n.t('api_v3.errors.code_409')
+    wp_page.expect_toast type: :error, message: I18n.t('api_v3.errors.code_409')
   end
 
   scenario 'editing a current date custom action (Regression #30949)' do

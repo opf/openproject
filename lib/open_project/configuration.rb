@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require_relative 'configuration/helpers'
@@ -189,6 +189,14 @@ module OpenProject
       # Allow sentry to collect tracing samples on frontend
       # set to n >= 1 to enable n times the default tracing
       'sentry_frontend_trace_factor' => 0,
+      # Which breadcrumb loggers to enable
+      'sentry_breadcrumb_loggers' => ['active_support_logger'],
+
+      # enable statsd metrics (currently puma only) by configuring host
+      'statsd' => {
+        'host' => nil,
+        'port' => 8125
+      },
 
       # Allow connections for trial creation and booking
       'enterprise_trial_creation_host' => '',
@@ -207,7 +215,15 @@ module OpenProject
       'sql_slow_query_threshold' => 2000,
 
       # Use lograge to format logs, off by default
-      'lograge_formatter' => nil
+      'lograge_formatter' => nil,
+
+      'web' => {
+        'workers' => 2,
+        'timeout' => 120,
+        'wait_timeout' => 10,
+        'min_threads' => 4,
+        'max_threads' => 16
+      }
     }
 
     @config = nil

@@ -2,10 +2,10 @@
 
 const fs = require('fs');
 const path = require('path');
-const linked_module_example_path = path.join(__dirname, '..', 'src', 'app', 'modules', 'plugins', 'linked-plugins.module.ts.example');
-const linked_style_example_path = path.join(__dirname, '..', 'src', 'app', 'modules', 'plugins', 'linked-plugins.styles.sass.example');
-const linked_module_path = path.join(__dirname, '..', 'src', 'app', 'modules', 'plugins', 'linked-plugins.module.ts');
-const linked_style_path = path.join(__dirname, '..', 'src', 'app', 'modules', 'plugins', 'linked-plugins.styles.sass');
+const linked_module_example_path = path.join(__dirname, '..', 'src', 'app', 'features', 'plugins', 'linked-plugins.module.ts.example');
+const linked_style_example_path = path.join(__dirname, '..', 'src', 'app', 'features', 'plugins', 'linked-plugins.styles.sass.example');
+const linked_module_path = path.join(__dirname, '..', 'src', 'app', 'features', 'plugins', 'linked-plugins.module.ts');
+const linked_style_path = path.join(__dirname, '..', 'src', 'app', 'features', 'plugins', 'linked-plugins.styles.sass');
 
 if (!fs.existsSync(linked_module_path)) {
   console.log(

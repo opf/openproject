@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'securerandom'
@@ -118,6 +118,12 @@ module SettingsHelper
     end
   end
 
+  def setting_time_field(setting, options = {})
+    setting_field_wrapper(setting, options) do
+      styled_time_field_tag("settings[#{setting}]", Setting.send(setting), options)
+    end
+  end
+
   def setting_field_wrapper(setting, options)
     unit = options.delete(:unit)
     unit_html = ''
@@ -178,17 +184,6 @@ module SettingsHelper
 
   def setting_block(setting, options = {}, &block)
     setting_label(setting, options) + wrap_field_outer(options, &block)
-  end
-
-  # Renders a notification field for an OpenProject::Notifiable option
-  def notification_field(notifiable, options = {})
-    content_tag(:label, class: 'form--label-with-check-box' + (notifiable.parent.present? ? ' parent' : '')) do
-      styled_check_box_tag('settings[notified_events][]',
-                           notifiable.name,
-                           Setting.notified_events.include?(notifiable.name),
-                           options.merge(id: nil)) +
-        l_or_humanize(notifiable.name, prefix: 'label_')
-    end
   end
 
   private

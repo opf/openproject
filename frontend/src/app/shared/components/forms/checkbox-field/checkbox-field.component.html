@@ -1,0 +1,45 @@
+<ng-container *ngIf="!hidden">
+  <label class="op-form-field--label-wrap op-checkbox-field--label-wrap">
+    <div
+      class="op-form-field--input op-checkbox-field--input"
+      [attr.aria-describedby]="describedByID"
+    >
+      <ng-content select="[slot=input]"></ng-content>
+    </div>
+
+    <div
+      *ngIf="label"
+      class="op-form-field--label op-checkbox-field--label"
+    >
+      <span
+        *ngIf="showErrorMessage"
+        class="Hidden for sighted"
+      >Invalid</span>
+      {{ label }}
+      <span *ngIf="required" class="op-form-field--label-indicator">*</span>
+      <attribute-help-text
+        [attribute]="helpTextAttribute"
+        [attributeScope]="helpTextAttributeScope"
+      ></attribute-help-text>
+    </div>
+
+    <div
+      class="op-form-field--description op-checkbox-field--description"
+      [id]="descriptionID"
+    >
+      <ng-content select="[slot=description]"></ng-content>
+    </div>
+  </label>
+
+  <div class="op-form-field--help-text">
+    <ng-content select="[slot=help-text]"></ng-content>
+  </div>
+
+  <div
+    class="op-form-field--errors"
+    *ngIf="showErrorMessage"
+    [id]="errorsID"
+  >
+    <ng-content select="[slot=errors]"></ng-content>
+  </div>
+</ng-container>

@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 class Enumeration < ApplicationRecord
@@ -34,7 +34,6 @@ class Enumeration < ApplicationRecord
   belongs_to :project
 
   acts_as_list scope: 'type = \'#{type}\''
-  acts_as_customizable
   acts_as_tree order: 'position ASC'
 
   before_destroy :check_integrity

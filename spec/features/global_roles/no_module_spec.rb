@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -49,7 +49,7 @@ describe 'Global role: No module', type: :feature, js: true do
     #   And I am already admin
     # When I go to the modules tab of the settings page for the project "test"
     #                                                     Then I should not see "Global"
-    visit settings_modules_project_path(project)
+    visit project_settings_modules_path(project)
 
     expect(page).to have_text 'Activity'
     expect(page).to have_no_text 'Foo'

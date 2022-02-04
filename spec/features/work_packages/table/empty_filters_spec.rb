@@ -24,7 +24,7 @@ describe 'Empty query filters', js: true do
 
     wp_table.expect_work_package_listed(work_package)
 
-    wp_table.expect_no_notification(type: :error)
+    wp_table.expect_no_toaster(type: :error)
     filters.expect_filter_count(0)
   end
 end

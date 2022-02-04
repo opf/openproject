@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 ro:
   js:
@@ -87,6 +87,7 @@ ro:
     button_update: "Actualizare"
     button_export-pdf: "Descărcare PDF"
     button_export-atom: "Descărcare Atom"
+    button_create: "Creare"
     calendar:
       title: 'Calendar'
       too_many: 'Există %{count} pachete de lucru în total, dar numai %{max} poate fi afișat.'
@@ -114,7 +115,7 @@ ro:
         polar_area: 'Zona polară'
       tabs:
         graph_settings: 'General'
-        dataset: 'nu este un număr.'
+        dataset: 'Dataset %{number}'
       errors:
         could_not_load: 'Datele pentru afișarea graficului nu au putut fi încărcate. Este posibil să nu aveți permisiunile necesare.'
     description_available_columns: "Coloane disponibile"
@@ -126,7 +127,7 @@ ro:
       preview: 'Activaţi/Dezactivați previzualizarea'
       source_code: 'Faceți click pentru a activa/dezactiva modul ierarhic.'
       error_saving_failed: 'Salvarea documentului a eșuat cu următoarea eroare: %{error}'
-      error_initialization_failed: 'Nu s-a reușit inițializarea CKEditor!'
+      ckeditor_error: 'A apărut o eroare în cadrul CKEditor'
       mode:
         manual: 'Sursă'
         wysiwyg: 'Treceți la editorul WYSIWYG'
@@ -283,14 +284,17 @@ ro:
         new_features:
           text_new_features: "Citiți despre noile caracteristici și actualizări de produse."
           learn_about: "Aflați mai multe despre noile caracteristici"
-          standard:
-            learn_about_link: https://www.openproject.org/openproject-11-3-release
-            current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>New button in header navigation to create projects, users and work packages.</li> <li>A new invite modal for users, groups and placeholder users allows to easily add or invite new users and assign them to work packages.</li> <li>GitHub integration into OpenProject.</li> <li>API v3 extensions for groups and more, i.e. create, read, update and delete groups and group members through the API.</li> <li>Multi-selection for project custom fields of type list.</li> <li>Creation of backup from the web interface.</li> </ul>
-          bim:
-            learn_about_link: https://www.openproject.org/blog/openproject-11-4-release
-            current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Take a look at our <a href="https://github.com/opf/openproject-revit-add-in">Revit Add-in</a> which lets you work on BCF work packages directly in Revit.</li> <li>IFC properties got a dedicated pane. Copying GUIDs has never been easier.</li> <li>Reverse clipping plane direction in BCF viewpoint and become compliant with future BCF 3.0 (Now same direction as Solibri). <li>Fixed viewing IFC models on mobile.</li> <li>Fixed export of work package views with BCF snapshot column.</li> </ul>
+          #Include the version to invalidate outdated translations in other locales.
+          #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
+          '12_0':
+            standard:
+              learn_about_link: https://www.openproject.org/openproject-11-0-release
+              new_features_html: >
+                Versiunea conține diverse caracteristici noi și îmbunătățiri: <br> <ul class="%{list_styling_class}"> <li>Cu noile <b>notificări din aplicație</b> primiți toate actualizările importante direct în aplicație și nu mai primiți un flux de e-mailuri.</li> <li>Noul centru de notificare <b></b> prezintă toate schimbările, inclusiv opțiunile intuitive de filtrare, e. . din motive de notificare sau proiecte. Aceasta permite chiar editarea directă într-o vedere divizată.</li> <li>Setări de notificare îmbunătățite <b></b> permit ajustarea pentru ce acțiuni și în ce proiecte doriți să primiți o notificare.</li> <li><b>Memento-uri de e-mail</b> poate fi configurat pentru a primi actualizări importante prin intermediul unui sumar zilnic de e-mail.</li> <li>Completatorul automat pentru relații afișează acum și informații suplimentare (numele proiectului, statusul, . .) pentru a identifica cu ușurință pachetul de lucru respectiv.</li> </ul>
+            bim:
+              learn_about_link: https://www.openproject.org/openproject-11-0-release
+              new_features_html: >
+                Versiunea conţine diverse caracteristici noi şi îmbunătăţiri: <br> <ul class="%{list_styling_class}"> <li>Centrul de notificare: Reduceţi numărul de e-mailuri pe care le primiţi. Găsește și acționează pe toate notificările relevante într-un singur loc central.</li> <li>Toate fișierele IFC încărcate acum pot fi descărcate.</li> <li>Încărcarea și procesarea IFC a obținut mai repede și a primit mesaje de eroare mai bune.</li> <li>Add-in <a href="https://github.com/opf/openproject-revit-add-in">OpenProject Revit</a> a primit mai multe remedieri ale erorilor.</li> </ul>
     label_activate: "Activare"
     label_add_column_after: "Adauga o coloana dupa"
     label_add_column_before: "Adauga o coloana inainte"
@@ -397,6 +401,7 @@ ro:
     label_quote_comment: "Citare comentariu"
     label_recent: "Recente"
     label_reset: "Resetare"
+    label_remove: "Eliminare"
     label_remove_column: "Elimina colana"
     label_remove_columns: "Eliminare coloane selectate"
     label_remove_row: "Elimina rand"
@@ -478,31 +483,100 @@ ro:
         next: 'Înainte'
         got_it: 'Am înțeles'
       steps:
-        help_menu: 'În meniul <b>Help (Ajutor</b> ) veți găsi un ghid de utilizare și resurse suplimentare de ajutor. <br> Bucurați-vă de munca dumneavoastră cu OpenProject!</br> '
+        help_menu: 'Meniul Ajutor (?) oferă <b>resurse suplimentare de ajutor</b>. Aici puteți găsi un ghid de utilizator și videoclipuri de utilitate și multe altele. <br> Bucurați-vă de munca dvs. cu OpenProject!'
         members: 'Invitați noi <b>membri</b> să se alăture proiectului dumneavoastră.'
-        project_selection: 'Vă rugăm să faceți clic pe unul dintre proiectele cu date demonstrative utile pentru a începe. <br> <b>Proiectul Demo</b> se potrivește cel mai bine pentru gestionarea clasică a proiectelor, în timp ce <b>proiectul Scrum</b></br> este mai potrivit pentru gestionarea agilă a proiectelor.'
-        quick_add_button: 'Creați un nou proiect sau invitați colegi de muncă.'
-        sidebar_arrow: "Cu ajutorul săgeții puteți naviga înapoi la <b>meniul principal</b> al proiectului."
+        project_selection: 'Vă rugăm să faceți clic pe unul dintre proiectele demo pe care le-am pregătit. Datele demo sunt disponibile în prezent doar în limba engleză. <br> Proiectul demonstrativ <b>general</b> se potrivește cel mai bine pentru gestionarea proiectelor clasice, în timp ce proiectul <b>Scrum</b> este mai bun pentru managementul agile al proiectului.'
+        quick_add_button: 'Dă click pe pictograma plus (+) din antetul navigării pentru a <b>crea un nou proiect</b> sau <b>invita colaboratori</b>.'
+        sidebar_arrow: "Folosește săgeata de întoarcere din colțul din stânga sus pentru a te întoarce în meniul <b>al proiectului</b>."
         welcome: 'Faceți un tur introductiv de trei minute pentru a afla cele mai <b>importante caracteristici</b>. <br> Vă recomandăm să parcurgeți pașii până la sfârșit. Puteți relua turul în orice moment.</br> '
         wiki: 'În cadrul <b>Wiki</b> puteți documenta și împărtăși cunoștințe împreună cu echipa dumneavoastră.'
         backlogs:
-          overview: "Gestionați-vă activitatea în vizualizarea <b>Backlogs</b>. <br> În dreapta aveți Product Backlog sau Bug Backlog, iar în stânga veți avea sprinturile respective. Aici puteți crea <b>povești epice, povești de utilizator și bug-uri</b></br>, le puteți prioritiza prin drag'n'drop și le puteți adăuga la un sprint."
+          overview: "Gestionează-ți munca în vizualizarea <b>backlogs</b>."
+          sprints: "În dreapta aveți lista de rezultate și erorile restante, în stânga aveți sprintele respective. Aici poți crea <b>epicuri, povestiri pentru utilizatori și erori</b>, prioritizează prin drag & drop și adaugă-le la un sprint."
           task_board_arrow: 'Pentru a vedea <b>panoul de sarcini</b>, deschideți meniul Sprint...'
           task_board_select: '... și selectați intrarea <b>Task board</b>.'
-          task_board: " <b>Tabloul de sarcini</b> vizualizează progresul pentru acest sprint. Adăugați noi sarcini sau impedimente cu ajutorul pictogramei + de lângă o poveste de utilizator. Prin intermediul funcției drag'n'drop puteți actualiza starea."
+          task_board: "Grupul de lucru vizualizează progresul <b>pentru această sprint</b>. Dă click pe pictograma plus (+) de lângă o povestire de utilizator pentru a adăuga sarcini noi sau impedimente. <br> Starea poate fi actualizată de drag și drop."
         boards:
-          overview: 'Gestionați-vă activitatea într-o vizualizare intuitivă a <b>planșelor</b>.'
-          lists: 'Puteți crea mai multe liste (coloane) în cadrul unei vizualizări a unui tablou, de exemplu, pentru a crea un tablou KANBAN.'
-          add: 'Faceți clic pe + pentru a adăuga <b>un nou card</b> la lista din cadrul unui consiliu.'
-          drag: 'Trageți și plasați cărțile într-o listă pentru a le rearanja sau pentru a le muta într-o altă listă. Un dublu clic va deschide vizualizarea detaliilor.'
+          overview: 'Selectează secțiunile <b></b> pentru a schimba vizualizarea și administrarea proiectului tău folosind vizualizarea secțiunilor agile.'
+          lists: 'Aici puteţi crea mai multe liste (coloane) în cadrul secţiunii. Această funcţie vă permite să creaţi o <b>tabelă Kanban</b>, de exemplu.'
+          add: 'Faceți clic pe pictograma plus (+) pentru a <b>crea un nou card</b> sau <b>adăugați un card existent</b> în lista de pe bord.'
+          drag: 'Trage și aruncă cartonașele dintr-o listă dată pentru a le reordona sau muta în altă listă. <br> Poți da click pe pictograma (i) din colțul din dreapta sus sau poți face dublu clic pe un card pentru a-i deschide detaliile.'
         wp:
           toggler: "Acum să ne uităm la secțiunea <b>Pachet de lucru</b>, care vă oferă o vizualizare mai detaliată a activității dumneavoastră."
-          list: 'Aceasta este lista <b>pachetelor de lucru</b> cu lucrările importante din cadrul proiectului, cum ar fi sarcini, caracteristici, etape, erori și altele. <br> Puteți crea sau edita un pachet de lucru direct din această listă. Pentru a vedea detaliile acestuia, puteți face dublu clic pe un rând.</br> '
-          full_view: 'În <b>detaliile pachetului de lucru</b> găsiți toate informațiile relevante, cum ar fi descrierea, starea și prioritatea, activitățile, dependențele sau comentariile.'
-          back_button: 'Cu ajutorul săgeții puteți naviga înapoi la lista pachetelor de lucru.'
+          list: 'Acest pachet <b>de lucru</b> oferă o listă a tuturor activităților din proiectul tău, cum ar fi sarcini, jaloane, faze și altele. <br> Pachetele de lucru pot fi create și editate direct din acest punct de vedere. Pentru a accesa detaliile unui anumit pachet de lucru, faceți dublu clic pe rând.'
+          full_view: 'Vizualizarea <b>pentru detaliile pachetului de lucru</b> furnizează toate informațiile relevante referitoare la un anumit pachet de lucru, cum ar fi descrierea, statutul, prioritatea, activităţile, dependenţele şi comentariile.'
+          back_button: 'Utilizați săgeata de întoarcere din colțul din stânga sus pentru a ieși și pentru a reveni la lista pachetelor de lucru.'
           create_button: 'Butonul <b>Create (Creare</b> ) va adăuga un nou pachet de lucru la proiectul dumneavoastră.'
           timeline_button: 'Puteți activa <b>diagrama Gantt</b> pentru a crea o cronologie pentru proiectul dvs.'
-          timeline: 'Aici vă puteți edita planul de proiect. Creați noi faze, repere și adăugați dependențe. Toți membrii echipei pot vedea și actualiza cel mai recent plan în orice moment.'
+          timeline: 'Aici puteţi <b>edita planul de proiect</b>, crea noi pachete de lucru, cum ar fi sarcini, repere de etapă, faze și multe altele, precum și <b>adaugă dependențe</b>. Toți membrii echipei pot vedea și actualiza cel mai recent plan în orice moment.'
+    notifications:
+      title: "Notificări"
+      no_unread: "Nu sunt notificari necitite"
+      reasons:
+        mentioned: 'Menţionate'
+        watched: 'vizionat'
+        assigned: 'atribuit'
+        responsible: 'Responsabil'
+      facets:
+        unread: 'necitită'
+        all: 'Toate'
+      center:
+        and_more_users:
+          one: 'și încă unul'
+          few: 'și %{count} alții'
+          other: 'și %{count} alții'
+        no_results:
+          at_all: 'Noi notificări vor apărea aici atunci când există o activitate care vă privește'
+          with_current_filter: 'Nu există notificări în această vizualizare în acest moment'
+        mark_all_read: 'Marchează Tot ca Citit'
+        mark_as_read: 'Marchează ca Citit'
+        text_update_date: "%{date} de"
+        total_count_warning: "Se afișează %{newest_count} cele mai recente notificări. %{more_count} în plus nu sunt afișate."
+        empty_state:
+          no_notification: "Se pare că toţi sunteţi prinşi."
+          no_notification_with_current_filter: "Schimbă implicarea sau mergi înapoi la Inbox pentru a vizualiza notificările"
+          no_selection: "Faceți clic pe o notificare pentru a vizualiza toate detaliile activității."
+        new_notifications:
+          message: 'Există notificări noi.'
+          link_text: 'Click aici pentru a le încărca'
+      menu:
+        accountable: 'Responsabil'
+        assigned: 'Assigned'
+        by_project: 'Necitit după proiect'
+        by_reason: 'Implicare'
+        inbox: 'Cutie poștală'
+        mentioned: 'Menţionate'
+        watching: 'Urmărește'
+      settings:
+        change_notification_settings: 'To view and change your notification settings, <a target="_blank" href="%{url}">click here</a>'
+        title: "Notification settings"
+        notify_me: "Notify me"
+        reasons:
+          mentioned:
+            title: 'I am @mentioned'
+            description: 'Receive a notification every time someone mentions me anywhere'
+          involved:
+            title: 'Assigned to me or accountable'
+            description: 'Receive notifications for all activities on work packages for which I am assignee or accountable'
+          watched: 'Updates on watched items'
+          work_package_commented: 'All new comments'
+          work_package_created: 'New work packages'
+          work_package_processed: 'All status changes'
+          work_package_prioritized: 'All priority changes'
+          work_package_scheduled: 'All date changes'
+        global:
+          immediately:
+            title: 'Notify me immediately'
+            description: 'These settings apply to all projects. You can create project-specific exceptions below.'
+          delayed:
+            title: 'Also notify me for'
+            description: 'Receive notifications for these activities on work packages in all projects:'
+        project_specific:
+          title: 'Project-specific notification settings'
+          description: 'These project-specific settings override default settings above'
+          add: 'Add setting for project'
+          already_selected: 'This project is already selected'
+          remove: 'Remove project settings'
     password_confirmation:
       field_description: 'Trebuie să introduceţi parola contului dumneavoastră pentru a confirma această schimbare.'
       title: 'Vă rugăm să confirmați parola dumneavoastră pentru a continua'
@@ -529,7 +603,39 @@ ro:
         copy_options: "Copy options"
       autocompleter:
         label: 'Completarea automată a proiectului'
+    reminders:
+      settings:
+        daily:
+          add_time: 'Add time'
+          enable: 'Enable daily email reminders'
+          explanation: 'You will receive these reminders only for unread notifications and only at hours you specify. %{no_time_zone}'
+          no_time_zone: 'Until you configure a time zone for your account, the times will be interpreted to be in UTC.'
+          time_label: 'Time %{counter}:'
+          title: 'Send me daily email reminders for unread notifications'
+        workdays:
+          title: 'Receive email reminders on these days'
+        immediate:
+          title: 'Send me an email reminder'
+          mentioned: 'Immediately when someone @mentions me'
+        alerts:
+          title: 'Email alerts for other items (that are not work packages)'
+          explanation: >
+            Notifications today are limited to work packages. You can choose to continue receiving email alerts for these events until they are included in notifications:
+          news_added: 'Noutăți adăugate'
+          news_commented: 'Comment on a news item'
+          document_added: 'Documents added'
+          forum_messages: 'New forum messages'
+          wiki_page_added: 'Pagină wiki adăugată'
+          wiki_page_updated: 'Pagină wiki actualizată'
+          membership_added: 'Membership added'
+          membership_updated: 'Membership updated'
+        title: 'Email reminders'
+        pause:
+          label: 'Temporarily pause daily email reminders'
+          first_day: 'First day'
+          last_day: 'Last day'
     text_are_you_sure: "Sunteți sigur?"
+    text_data_lost: "All entered data will be lost."
     types:
       attribute_groups:
         error_duplicate_group_name: "Numele %{group} este utilizat de mai multe ori. Fiecare grup trebuie să aibă un nume unic."
@@ -610,6 +716,10 @@ ro:
     relations_autocomplete:
       placeholder: "Introduceți textul de căutat"
       parent_placeholder: "Alegeți un nou părinte sau apăsați Escape pentru a anula."
+    autocompleter:
+      placeholder: "Introduceți textul de căutat"
+      notFoundText: "No items found"
+      typeToSearchText: "Introduceți textul de căutat"
     repositories:
       select_tag: 'Selectare etichetă'
       select_branch: 'Selectare ramură'
@@ -803,7 +913,8 @@ ro:
         label_content: "Click aici pentru a sări peste tabelul cu pachete de lucru și a ajunge la paginare"
       placeholders:
         default: "-"
-        formattable: "Dă clic pentru a edita acest meniu."
+        date: "Select date"
+        formattable: "%{name}: Click to edit..."
       query:
         column_names: "Coloane"
         group_by: "Grupare rezultate"
@@ -1053,5 +1164,3 @@ ro:
       load_error_message: 'A apărut o eroare la încărcarea formularului'
       validation_error_message: 'Vă rugăm să remediaţi erorile existente în formular'
       advanced_settings: 'Setări avansate'
-
-

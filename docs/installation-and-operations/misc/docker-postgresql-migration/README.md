@@ -68,7 +68,7 @@ Note down or copy the current MySQL `DATABASE_URL`
 # mysql2://user:password@localhost:3306/dbname
 
 # Pass into the container but replace mysql2 with mysql!
-MYSQL_DATABSAE_URL="mysql://user:password@localhost:3306/dbname"
+MYSQL_DATABASE_URL="mysql://user:password@localhost:3306/dbname"
 ```
 
 

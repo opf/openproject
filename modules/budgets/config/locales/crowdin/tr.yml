@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 tr:
   activerecord:
@@ -68,3 +68,6 @@ tr:
   permission_edit_budgets: "Bütçeleri düzenleme"
   permission_view_budgets: "Bütçeleri görüntüle"
   project_module_budgets: "Bütçeler"
+  text_budget_reassign_to: "Bu bütçeye yeniden ata:"
+  text_budget_delete: "Bütçeyi tüm çalışma paketlerinden sil"
+  text_budget_destroy_assigned_wp: "Bu bütçeye atanmış %{count} çalışma paketi bulunmakta. Ne yapmak istersiniz?"

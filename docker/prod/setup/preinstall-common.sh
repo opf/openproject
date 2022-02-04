@@ -19,9 +19,13 @@ apt-get install -y \
 	catdoc \
 	postgresql-9.6 \
 	postgresql-client-9.6 \
+	postgresql-13 \
+	postgresql-client-13 \
 	imagemagick
 
-rm -rf "$PGDATA_LEGACY"
+# remove any existing cluster
+service postgresql stop
+rm -rf /var/lib/postgresql/{9.6,13}
 
 # Specifics for BIM edition
 wget -qO- https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
@@ -41,8 +45,8 @@ unzip -q COLLADA2GLTF-v2.1.5-linux.zip
 mv COLLADA2GLTF-bin "/usr/local/bin/COLLADA2GLTF"
 
 # IFCconvert
-wget --quiet https://s3.amazonaws.com/ifcopenshell-builds/IfcConvert-v0.6.0-9bcd932-linux64.zip
-unzip -q IfcConvert-v0.6.0-9bcd932-linux64.zip
+wget --quiet https://s3.amazonaws.com/ifcopenshell-builds/IfcConvert-v0.6.0-517b819-linux64.zip
+unzip -q IfcConvert-v0.6.0-517b819-linux64.zip
 mv IfcConvert "/usr/local/bin/IfcConvert"
 
 wget --quiet https://github.com/bimspot/xeokit-metadata/releases/download/1.0.0/xeokit-metadata-linux-x64.tar.gz

@@ -55,7 +55,7 @@ describe 'edit work package', js: true do
                                      created_at: 5.days.ago.to_date.to_s(:db))
 
     note_journal = work_package.journals.last
-    note_journal.update(created_at: 5.days.ago.to_date.to_s)
+    note_journal.update_column(:created_at, 5.days.ago.to_date.to_s(:db))
 
     work_package
   end
@@ -110,7 +110,7 @@ describe 'edit work package', js: true do
       wp_page.update_attributes status: status2.name
       wp_page.expect_attributes status: status2.name
 
-      wp_page.expect_activity_message("Status changed from #{status.name}\nto #{status2.name}")
+      wp_page.expect_activity_message("Status changed from #{status.name} to #{status2.name}")
     end
   end
 
@@ -156,7 +156,7 @@ describe 'edit work package', js: true do
                               status: status2.name,
                               version: version.name,
                               category: category.name
-    wp_page.expect_activity_message("Status changed from #{status.name}\nto #{status2.name}")
+    wp_page.expect_activity_message("Status changed from #{status.name} to #{status2.name}")
   end
 
   it 'correctly assigns and un-assigns users' do
@@ -210,7 +210,7 @@ describe 'edit work package', js: true do
       type_field.activate!
       type_field.set_value type2.name
 
-      wp_page.expect_notification message: "#{custom_field.name} can't be blank.",
+      wp_page.expect_toast message: "#{custom_field.name} can't be blank.",
                                   type: 'error'
 
       cf_field = wp_page.edit_field("customField#{custom_field.id}")
@@ -227,7 +227,7 @@ describe 'edit work package', js: true do
 
     wp_page.save_comment
 
-    wp_page.expect_notification(message: 'The comment was successfully added.')
+    wp_page.expect_toast(message: 'The comment was successfully added.')
     wp_page.expect_comment text: 'hallo welt'
   end
 
@@ -253,7 +253,7 @@ describe 'edit work package', js: true do
     field = wp_page.work_package_field(:subject)
     field.update(too_long, expect_failure: true)
 
-    wp_page.expect_notification message: 'Subject is too long (maximum is 255 characters)',
+    wp_page.expect_toast message: 'Subject is too long (maximum is 255 characters)',
                                 type: 'error'
   end
 
@@ -267,7 +267,7 @@ describe 'edit work package', js: true do
     it 'submits the edit mode when pressing enter' do
       subject_field.input_element.send_keys(:return)
 
-      wp_page.expect_notification(message: 'Successful update')
+      wp_page.expect_toast(message: 'Successful update')
       subject_field.expect_inactive!
       subject_field.expect_state_text 'My new subject!'
     end
@@ -275,7 +275,7 @@ describe 'edit work package', js: true do
     it 'submits the edit mode when changing the focus' do
       page.find("body").click
 
-      wp_page.expect_notification(message: 'Successful update')
+      wp_page.expect_toast(message: 'Successful update')
       subject_field.expect_inactive!
       subject_field.expect_state_text 'My new subject!'
     end

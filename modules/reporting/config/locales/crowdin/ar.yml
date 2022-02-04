@@ -17,11 +17,11 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 ar:
   button_save_as: "حفظ التقرير بشكل..."
-  comments: "تعليق"
+  comments: "التعليق"
   cost_reports_title: "Time and costs"
   label_cost_report: "تقرير التكلفة"
   label_cost_report_plural: "تقارير التكلفة"
@@ -38,7 +38,7 @@ ar:
   label_entry: "قيد التكلفة"
   label_filter_text: "تصفية النص"
   label_filter_value: "القيمة"
-  label_filters: "فلترة"
+  label_filters: "عامل التصفية"
   label_greater: ">"
   label_is_not_project_with_subprojects: "لا (تشمل المشاريع الفرعية)"
   label_is_project_with_subprojects: "هو (يشمل المشاريع الفرعية)"
@@ -61,10 +61,10 @@ ar:
   label_week_reporting: "الأسبوع (قضى)"
   label_year_reporting: "السنة (قضت)"
   label_count: "العد"
-  label_filter: "فلترة"
+  label_filter: "عامل التصفية"
   label_filter_add: "إضافة عامل تصفية"
   label_filter_plural: "عوامل التصفية"
-  label_group_by: "مجموعة من"
+  label_group_by: "مجموعة بحسب"
   label_group_by_add: "أضِف مجموعة بحسب السّمة"
   label_inactive: "<<غير فعّال>>"
   label_no: "لا"

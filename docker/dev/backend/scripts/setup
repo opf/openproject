@@ -2,7 +2,9 @@
 
 set -e
 
-bundle install
+export MAKE="make --jobs $(nproc)"
+
+bundle install --jobs $(nproc)
 bundle exec rake db:create db:migrate
 bundle exec rake db:seed
 bundle exec rake openproject:plugins:register_frontend

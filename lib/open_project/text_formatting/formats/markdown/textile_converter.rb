@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 # This file is derived from the 'Redmine converter from Textile to Markown'
@@ -176,7 +176,7 @@ module OpenProject::TextFormatting::Formats
         end
 
         if markdowns_in_groups.length != orig_values.length
-          # Error handling: Some textile seems to be misformed e.g. <pre>something</pre (without closing >).
+          # Error handling: Some textile seems to be malformed e.g. <pre>something</pre (without closing >).
           # In such cases, handle texts individually to avoid the error affecting other texts
           progress = ProgressBar.create(title: "Converting items individually due to pandoc mismatch", total: orig_values.length)
           markdowns = old_values.each_with_index.map do |old_value, index|
@@ -344,7 +344,7 @@ module OpenProject::TextFormatting::Formats
       end
 
       def cleanup_after_pandoc(markdown)
-        # Remove the \ pandoc puts before * and > at begining of lines
+        # Remove the \ pandoc puts before * and > at beginning of lines
         markdown.gsub!(/^((\\[*>])+)/) { $1.gsub("\\", "") }
 
         # Add a blank line before lists

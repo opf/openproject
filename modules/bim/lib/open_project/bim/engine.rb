@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'open_project/plugins'
@@ -37,7 +37,7 @@ module OpenProject::Bim
     include OpenProject::Plugins::ActsAsOpEngine
 
     register 'openproject-bim',
-             author_url: 'https://www.openproject.com',
+             author_url: 'https://www.openproject.org',
              settings: {
                default: {
                }
@@ -82,14 +82,12 @@ module OpenProject::Bim
         menu.push(:ifc_models,
                   { controller: '/bim/ifc_models/ifc_models', action: 'defaults' },
                   caption: :'bcf.label_bcf',
-                  param: :project_id,
                   after: :work_packages,
                   icon: 'icon2 icon-bcf',
                   badge: :label_new)
 
         menu.push :ifc_viewer_panels,
                   { controller: '/bim/ifc_models/ifc_models', action: 'defaults' },
-                  param: :project_id,
                   parent: :ifc_models,
                   partial: '/bim/ifc_models/ifc_models/panels'
       end
@@ -99,12 +97,10 @@ module OpenProject::Bim
 
     assets %w(bim/logo_openproject_bim_big.png)
 
-    patches %i[WorkPackage Type Journal RootSeeder Project FogFileUploader]
+    patches %i[Attachment WorkPackage Type Journal RootSeeder Project FogFileUploader]
 
     patch_with_namespace :OpenProject, :CustomStyles, :ColorThemes
     patch_with_namespace :API, :V3, :Activities, :ActivityRepresenter
-    patch_with_namespace :Journal, :AggregatedJournal
-    patch_with_namespace :API, :V3, :Activities, :ActivitiesSharedHelpers
     patch_with_namespace :API, :V3, :WorkPackages, :EagerLoading, :Checksum
 
     patch_with_namespace :DemoData, :QueryBuilder
@@ -213,9 +209,10 @@ module OpenProject::Bim
     end
 
     config.to_prepare do
-      ::WorkPackage::Exporter
-        .register_for_list(:bcf, OpenProject::Bim::BcfXml::Exporter)
-      ::WorkPackage::Exporter::Formatters.register("OpenProject::Bim::WorkPackage::Exporter::Formatters::BcfThumbnail")
+      ::Exports::Register.register do
+        list ::WorkPackage, OpenProject::Bim::BcfXml::Exporter
+        formatter ::WorkPackage, OpenProject::Bim::WorkPackage::Exporter::Formatters::BcfThumbnail
+      end
 
       ::Queries::Register.filter ::Query, ::Bim::Queries::WorkPackages::Filter::BcfIssueAssociatedFilter
       ::Queries::Register.column ::Query, ::Bim::Queries::WorkPackages::Columns::BcfThumbnailColumn

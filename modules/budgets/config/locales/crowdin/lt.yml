@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 lt:
   activerecord:
@@ -68,3 +68,6 @@ lt:
   permission_edit_budgets: "Redaguoti biudžetus"
   permission_view_budgets: "Peržiūrėti biudžetus"
   project_module_budgets: "Biudžetai"
+  text_budget_reassign_to: "Pakeisti priskyrimą į tokį biudžetą:"
+  text_budget_delete: "Pašalinti biudžetą iš visų darbo paketų"
+  text_budget_destroy_assigned_wp: "Yra %{count} darbo paketai, priskirti šiam biudžetui. Ką norite su jais daryti?"

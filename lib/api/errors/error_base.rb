@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module API
@@ -103,9 +103,11 @@ module API
         end
       end
 
-      def initialize(message)
+      def initialize(message, **)
         @message = message
         @errors = []
+
+        super message: message
       end
     end
   end

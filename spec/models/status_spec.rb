@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -36,8 +36,8 @@ describe Status, type: :model do
       let!(:status) { FactoryBot.create(:default_status) }
 
       it 'returns that one' do
-        expect(Status.default).to eq(status)
-        expect(Status.where_default.pluck(:id)).to eq([status.id])
+        expect(described_class.default).to eq(status)
+        expect(described_class.where_default.pluck(:id)).to eq([status.id])
       end
 
       it 'can not be set read only (Regression #33750)', with_ee: %i[readonly_work_packages] do
@@ -45,22 +45,39 @@ describe Status, type: :model do
         expect(status.save).to eq false
         expect(status.errors[:is_readonly]).to include(I18n.t("activerecord.errors.models.status.readonly_default_exlusive"))
       end
+
+      it 'is removed from the existing default status upon creation of a new one' do
+        new_default = FactoryBot.create(:status)
+        new_default.is_default = true
+        new_default.save
+
+        expect(status.reload)
+          .not_to be_is_default
+      end
+    end
+
+    it 'is not true by default' do
+      status = described_class.new name: 'Status'
+
+      expect(status)
+        .not_to be_is_default
     end
   end
 
   describe '#is_readonly' do
     let!(:status) { FactoryBot.build(:status, is_readonly: true) }
+
     context 'when EE enabled', with_ee: %i[readonly_work_packages] do
       it 'is still marked read only' do
         expect(status.is_readonly).to be_truthy
-        expect(status.is_readonly?).to be_truthy
+        expect(status).to be_is_readonly
       end
     end
 
     context 'when EE no longer enabled', with_ee: %i[] do
       it 'is still marked read only' do
         expect(status.is_readonly).to be_falsey
-        expect(status.is_readonly?).to be_falsey
+        expect(status).not_to be_is_readonly
 
         # But DB attribute is still correct to keep the state
         # whenever user reactivates
@@ -80,14 +97,14 @@ describe Status, type: :model do
     end
   end
 
-  context '.update_done_ratios' do
+  describe '.update_done_ratios' do
     let(:status) { FactoryBot.create(:status, default_done_ratio: 50) }
     let(:work_package) { FactoryBot.create(:work_package, status: status) }
 
     context 'with Setting.work_package_done_ratio using the field', with_settings: { work_package_done_ratio: 'field' } do
       it 'changes nothing' do
         done_ratio_before = work_package.done_ratio
-        Status.update_work_package_done_ratios
+        described_class.update_work_package_done_ratios
 
         expect(work_package.reload.done_ratio)
           .to eql done_ratio_before
@@ -95,12 +112,30 @@ describe Status, type: :model do
     end
 
     context 'with Setting.work_package_done_ratio using the status', with_settings: { work_package_done_ratio: 'status' } do
-      it "should update all of the issue's done_ratios to match their Issue Status" do
-        Status.update_work_package_done_ratios
+      it "updates all of the work package's done_ratios to match their status" do
+        described_class.update_work_package_done_ratios
 
         expect(work_package.reload.done_ratio)
           .to eql status.default_done_ratio
       end
+    end
+  end
+
+  describe '#destroy' do
+    it 'cannot be destroyed if the status is in use' do
+      work_package = FactoryBot.create(:work_package)
+
+      expect { work_package.status.destroy }
+        .to raise_error(RuntimeError, "Can't delete status")
+    end
+
+    it 'cleans up the workflows' do
+      workflow = FactoryBot.create(:workflow)
+
+      expect { workflow.old_status.destroy }
+        .to change { Workflow.exists?(id: workflow.id) }
+              .from(true)
+              .to(false)
     end
   end
 end

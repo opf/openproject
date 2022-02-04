@@ -28,12 +28,20 @@ describe LdapGroups::SynchronizeFilterService, with_ee: %i[ldap_groups] do
   let(:group_bar) { FactoryBot.create :group, lastname: 'bar' }
 
   let(:synced_foo) do
-    FactoryBot.create :ldap_synchronized_group, dn: 'cn=foo,ou=groups,dc=example,dc=com', group: group_foo,
-                      auth_source: auth_source
+    FactoryBot.create(
+      :ldap_synchronized_group,
+      dn: 'cn=foo,ou=groups,dc=example,dc=com',
+      group: group_foo,
+      auth_source: auth_source
+    )
   end
   let(:synced_bar) do
-    FactoryBot.create :ldap_synchronized_group, dn: 'cn=bar,ou=groups,dc=example,dc=com', group: group_bar,
-                      auth_source: auth_source
+    FactoryBot.create(
+      :ldap_synchronized_group,
+      dn: 'cn=bar,ou=groups,dc=example,dc=com',
+      group: group_bar,
+      auth_source: auth_source
+    )
   end
 
   let(:filter_foo_bar) { FactoryBot.create :ldap_synchronized_filter, auth_source: auth_source }

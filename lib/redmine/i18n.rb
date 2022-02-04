@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module Redmine
@@ -117,19 +117,24 @@ module Redmine
       /(\[(.+?)\]\((.+?)\))/
     end
 
-    # format the time in the user time zone if one is set
-    # if none is set and the time is in utc time zone (meaning it came from active record), format the date in the system timezone
-    # otherwise just use the date in the time zone attached to the time
-    def format_time_as_date(time, format)
+    # Format the time to a date in the user time zone if one is set.
+    # If none is set and the time is in utc time zone (meaning it came from active record), format the date in the system timezone
+    # otherwise just use the date in the time zone attached to the time.
+    def format_time_as_date(time, format = nil)
       return nil unless time
 
       zone = User.current.time_zone
       local_date = (if zone
                       time.in_time_zone(zone)
                     else
-                      (time.utc? ? time.localtime : time)
+                      time.utc? ? time.localtime : time
                     end).to_date
-      local_date.strftime(format)
+
+      if format
+        local_date.strftime(format)
+      else
+        format_date(local_date)
+      end
     end
 
     def format_time(time, include_date = true)

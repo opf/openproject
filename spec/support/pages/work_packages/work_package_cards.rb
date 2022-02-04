@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 require 'support/pages/page'
 
@@ -75,7 +75,7 @@ module Pages
       element = card(work_package)
       scroll_to_element(element)
       element.hover
-      element.find('.wp-card--details-button').click
+      element.find('[data-qa-selector="op-wp-single-card--details-button"]').click
 
       ::Pages::SplitWorkPackage.new(work_package, project)
     end
@@ -87,7 +87,7 @@ module Pages
     def click_info_icon(work_package)
       card_element = card(work_package)
       card_element.hover
-      card_element.find('.wp-card--details-button').click
+      card_element.find('[data-qa-selector="op-wp-single-card--details-button"]').click
     end
 
     def deselect_work_package(work_package)
@@ -119,7 +119,7 @@ module Pages
     end
 
     def card(work_package)
-      page.find(".wp-card-#{work_package.id}")
+      page.find(".op-wp-single-card-#{work_package.id}")
     end
 
     def status_button(work_package)
@@ -128,7 +128,7 @@ module Pages
 
     def expect_work_package_selected(work_package, selected)
       selector = "wp-single-card[data-work-package-id='#{work_package.id}']"
-      checked_selector = "wp-single-card[data-work-package-id='#{work_package.id}'] .-checked"
+      checked_selector = "wp-single-card[data-work-package-id='#{work_package.id}'] [data-qa-checked='true']"
 
       expect(page).to have_selector(selector)
       expect(page).to (selected ? have_selector(checked_selector) : have_no_selector(checked_selector))

@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 #English strings go here for Rails i18n
 ro:
@@ -38,7 +38,7 @@ ro:
       meeting_agenda: "Agendă"
       meeting_minutes: "Concluzii"
   description_attended: "a participat"
-  description_invite: "invitat"
+  description_invite: "a fost invitat"
   events:
     meeting: Întâlnire editată
     meeting_agenda: Agenda întâlnirii a fost actualizată
@@ -63,6 +63,8 @@ ro:
   label_version: "Versiune"
   label_time_zone: "Fus orar"
   label_start_date: "Data de început"
+  meeting:
+    copied: "Copiat de la Întâlnire #%{id}"
   notice_successful_notification: "Notificare trimisă cu succes"
   notice_timezone_missing: Nu este setat niciun fus orar și se presupune %{zone}. Pentru a vă alege fusul orar, vă rugăm să faceți clic aici.
   permission_create_meetings: "Creați întâlniri"

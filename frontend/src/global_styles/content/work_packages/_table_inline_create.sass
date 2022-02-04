@@ -8,24 +8,16 @@
     padding: 0 !important
 
 .wp-inline-create-button
-  a
-    width: 100%
+  a,button
     padding: 0.5rem 0
     display: inline-block
     line-height: 1.6
 
-  a.wp-inline-create--split-link
-    width: auto
-
-    &:last-child
-      margin-left: 1rem
-
-    &:hover
-      background: #e4f7fb
-
-
 .wp-inline-create--add-link,
 .wp-inline-create--reference-link
+  @include unset-button-styles
+  cursor: pointer
+  color: var(--content-link-color)
   font-weight: bold
 
   .icon::before
@@ -34,6 +26,7 @@
     font-size: 11px
 
   &:hover
+    color: var(--content-link-hover-active-color)
     text-decoration: none
 
 .wp-inline-create-row

@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 class AttributeHelpText::WorkPackage < AttributeHelpText
@@ -41,7 +41,7 @@ class AttributeHelpText::WorkPackage < AttributeHelpText
     attributes
   end
 
-  validates_inclusion_of :attribute_name, in: ->(*) { available_attributes.keys }
+  validates :attribute_name, inclusion: { in: ->(*) { available_attributes.keys } }
 
   def type_caption
     I18n.t(:label_work_package)

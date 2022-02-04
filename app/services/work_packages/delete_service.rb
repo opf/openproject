@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 class WorkPackages::DeleteService < ::BaseServices::Delete
@@ -44,6 +44,7 @@ class WorkPackages::DeleteService < ::BaseServices::Delete
       end
 
       destroy_descendants(descendants, result)
+      delete_associated(model)
     end
 
     result
@@ -57,5 +58,15 @@ class WorkPackages::DeleteService < ::BaseServices::Delete
     descendants.each do |descendant|
       result.add_dependent!(ServiceResult.new(success: descendant.destroy, result: descendant))
     end
+  end
+
+  def delete_associated(model)
+    delete_notifications_resource(model.id)
+  end
+
+  def delete_notifications_resource(id)
+    Notification
+      .where(resource_type: :WorkPackage, resource_id: id)
+      .delete_all
   end
 end

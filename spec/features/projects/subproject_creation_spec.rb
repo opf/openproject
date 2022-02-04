@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -49,7 +49,7 @@ describe 'Subproject creation', type: :feature, js: true do
   end
 
   before do
-    visit settings_project_path(parent_project)
+    visit project_settings_general_path(parent_project)
   end
 
   it 'can create a subproject' do

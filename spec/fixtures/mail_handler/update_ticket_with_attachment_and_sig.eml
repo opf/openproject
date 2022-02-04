@@ -1,6 +1,7 @@
 Mime-Version: 1.0 (Apple Message framework v730)
 Content-Type: multipart/mixed; boundary=Apple-Mail-13-196941151
 Message-Id: <9169D984-4E0B-45EF-82D4-8F5E53AD7012@example.org>
+References: <op.work_package-123@example.org
 From: user@example.org
 Subject: OnlineStore - new Bug #123: Some new bug
 Date: Mon, 6 Jun 2005 22:21:22 +0200

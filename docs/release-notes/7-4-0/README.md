@@ -38,7 +38,7 @@ We removed the projects entry from the administration. Administrators
 can simply navigate to the project list and copy, archive or delete
 projects from the list view. For more information take a look at [this
 blog
-post](https://www.openproject.org/openproject-7-4-project-list-moves-administration-view-projects-page/).
+post](https://www.openproject.org/blog/openproject-7-4-project-list-moves-administration-view-projects-page/).
 
 
 
@@ -92,7 +92,7 @@ provided. This provides a much higher level of security.
 ## OpenProject webhooks
 
 OpenProject offers an [extensive
-API](https://docs.openproject.org/api/) to synchronize data between
+API](../../api/) to synchronize data between
 OpenProject and third party applications.  
 With OpenProject 7.4, OpenProject also offers a webhook plugin which can
 be used to actively send data from OpenProject to other applications.

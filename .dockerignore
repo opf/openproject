@@ -14,7 +14,13 @@ Dockerfile
 Guardfile
 docker-compose.*
 browserslist
+
 docs
+!docs/api/apiv3/openapi-spec.yml
+!docs/api/apiv3/paths
+!docs/api/apiv3/tags
+!docs/api/apiv3/components
+
 extra
 features
 help

@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 it:
   js:
@@ -87,6 +87,7 @@ it:
     button_update: "Aggiorna"
     button_export-pdf: "Scarica PDF"
     button_export-atom: "Scarica Atom"
+    button_create: "Crea"
     calendar:
       title: 'Calendario'
       too_many: 'Ci sono %{count} macro-attività in totale, ma solo %{max} può essere mostrata.'
@@ -126,7 +127,7 @@ it:
       preview: 'Attiva/disattiva modalità anteprima'
       source_code: 'Attiva/Disattiva modalità origine Marcatura'
       error_saving_failed: 'Il salvataggio del documento è fallito con il seguente errore: %{error}'
-      error_initialization_failed: 'Impossibile inizializzare CKEditor!'
+      ckeditor_error: 'Si è verificato un errore all''interno di CKEditor'
       mode:
         manual: 'Passa alla risorsa Markdown'
         wysiwyg: 'Passa all''editor WYSIWYG'
@@ -185,8 +186,8 @@ it:
         new_group: 'Nuovo gruppo'
         reset_to_defaults: 'Ripristino predefinite'
       enterprise:
-        text_reprieve_days_left: "%{days} days until end of grace period"
-        text_expired: "expired"
+        text_reprieve_days_left: "%{days} giorni alla fine del periodo di grazia"
+        text_expired: "scaduto"
         trial:
           confirmation: "Conferma l'indirizzo email"
           confirmation_info: >
@@ -284,14 +285,18 @@ it:
         new_features:
           text_new_features: "Informati sulle nuove funzionalità e sugli aggiornamenti dei prodotti."
           learn_about: "Scopri di più sulle nuove funzionalità"
-          standard:
-            learn_about_link: https://www.openproject.org/openproject-11-3-release
-            current_new_feature_html: >
-              Il rilascio contiene varie nuove funzionalità e miglioramenti: <br> <ul class="%{list_styling_class}"> <li>Nuovo pulsante nella navigazione dell'intestazione per creare progetti, utenti e macro attività.</li> <li>Un nuovo invito per utenti, gruppi e utenti segnaposto che permette di aggiungere o invitare facilmente nuovi utenti e assegnarli a macro attività.</li> <li>Integrazione di GitHub in OpenProject.</li> <li>Estensioni API v3 per gruppi e altro, come creare, leggere, aggiornare ed eliminare i gruppi e i membri del gruppo attraverso le API.</li> <li>Selezione multipla di campi personalizzati di progetto di per il tipo lista.</li> <li>Creazione di backup dall'interfaccia web.</li> </ul>
-          bim:
-            learn_about_link: https://www.openproject.org/blog/openproject-11-4-release
-            current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Take a look at our <a href="https://github.com/opf/openproject-revit-add-in">Revit Add-in</a> which lets you work on BCF work packages directly in Revit.</li> <li>IFC properties got a dedicated pane. Copying GUIDs has never been easier.</li> <li>Reverse clipping plane direction in BCF viewpoint and become compliant with future BCF 3.0 (Now same direction as Solibri). <li>Fixed viewing IFC models on mobile.</li> <li>Fixed export of work package views with BCF snapshot column.</li> </ul>
+          #Include the version to invalidate outdated translations in other locales.
+          #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
+          '12_0':
+            standard:
+              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
+              new_features_html: >
+                La nuova versione contiene varie nuove funzionalità e miglioramenti: <br> <ul class="%{list_styling_class}"> <li>Con le nuove <b>notifiche in-app</b> ricevi tutti gli aggiornamenti importanti direttamente nell'applicazione e non riceverai più una marea di email.</li> <li>Il nuovo <b>centro notifiche</b> mostra tutte le modifiche, comprese le opzioni di filtro intuitive, ad es. per motivo di notifica o progetti. Consente anche la modifica direttamente in una vista divisa.</li> <li>Le <b>impostazioni di notifica</b> migliorate consentono di mettere a punto per quali azioni e in quali progetti si desidera ricevere una notifica.</li> <li><b>I promemoria email</b> possono essere configurati per ricevere aggiornamenti importanti tramite un riepilogo email giornaliero</li> <li>Il completamento automatico delle macro-attività per le relazioni ora mostra anche informazioni aggiuntive (nome del progetto, stato, ...) per identificare facilmente la rispettiva macro-attività.</li> </ul>
+
+            bim:
+              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
+              new_features_html: >
+                La nuova versione contiene varie nuove funzionalità e miglioramenti: <br> <ul class="%{list_styling_class}"> <li>Centro notifiche: Riduci il numero di email che ricevi. Piuttosto controlla e agisci su tutte le notifiche importanti in un unico posto.</li> <li>Tutti i file IFC caricati ora possono anche essere scaricati.</li> <li>Il caricamento e l'elaborazione di IFC sono stati resi più veloci e mostrano messaggi di errore migliori.</li> <li>Il <a href="https://github.com/opf/openproject-revit-add-in">componente aggiuntivo OpenProject Revit</a> ha ricevuto molte correzioni di bug.</li > </ul>
     label_activate: "Attiva"
     label_add_column_after: "Aggiungi colonna dopo"
     label_add_column_before: "Aggiungi colonna prima"
@@ -398,6 +403,7 @@ it:
     label_quote_comment: "Annota questo commento"
     label_recent: "Recenti"
     label_reset: "Reimposta"
+    label_remove: "Rimuovi"
     label_remove_column: "Rimuovi colonna"
     label_remove_columns: "Rimuovi le colonne selezionate"
     label_remove_row: "Rimuovi riga"
@@ -479,31 +485,99 @@ it:
         next: 'Prossimo'
         got_it: 'Capito'
       steps:
-        help_menu: 'Nel menu <b>Aiuto</b> troverai una guids utente e risorse di aiuto aggiuntive. <br> Goditi il tuo lsvoto con OpenProject!'
-        members: 'Invita nuovi <b>Membri</b> per entrare al tuo progetto.'
-        project_selection: 'Clicca su uno dei progetti con dati demo per iniziare. <br> Il <b>Progetto Demo</b> si adatta meglio per la gestione dei progetti classici, mentre il <b>Progetto Scrum</b> è più adatto per la gestione dei progetti Agile.'
-        quick_add_button: 'Crea un nuovo progetto o invita collaboratori.'
-        sidebar_arrow: "Con la freccia puoi navigare indietro al <b>Menu Principale</b> del progetto."
+        help_menu: 'Il menu Aiuto (?) fornisce <b>ulteriori risorse di aiuto</b>. Qui puoi trovare una guida utente, video utili e altro ancora. <br> Goditi il tuo lavoro con OpenProject!'
+        members: 'Invita nuovi <b>membri</b> per entrare al tuo progetto.'
+        project_selection: 'Clicca su uno dei progetti demo che abbiamo preparato. I dati demo sono attualmente disponibili solo in inglese. <br> Il <b>progetto demo</b> generale si adatta meglio alla gestione dei progetti classica, mentre il <b>progetto Scrum</b> è migliore per la gestione agile dei progetti.'
+        quick_add_button: 'Clicca sull''icona più (+) nella navigazione dell''intestazione per <b>creare un nuovo progetto</b> o per <b>invitare colleghi</b>.'
+        sidebar_arrow: "Utilizza la freccia di ritorno nell'angolo in alto a sinistra per tornare al <b>menu principale</b> del progetto."
         welcome: 'Fai un tour introduttivo di tre minuti per apprendere le <b>funzioni importanti</b>. <br> Consigliamo di completare i passaggi fino alla fine. Puoi riavviare il tour in qualsiasi momento.'
-        wiki: 'Nella <b>Wiki</b> puoi documentare e condividere la conoscenza con il tuo team.'
+        wiki: 'Nella <b>wiki</b> puoi documentare e condividere la conoscenza con il tuo team.'
         backlogs:
-          overview: "Gestisci il tuo lavoro nella visualizzazione <b>Backlogs</b>. <br> A destra hai il Product Backlog o un Bug Backlog, a sinistra avrai i rispettivi sprint. Qui puoi creare <b>epiche, storie utente, e bug</b>, dare la priorità tramite drag'n'drop e aggiungerli a uno sprint."
-          task_board_arrow: 'Per vedere la tua <b>Scheda Mansioni</b>, apri il menu a cascata Sprint...'
-          task_board_select: '... e seleziona l''entrata <b>Tabella Mansioni</b>.'
-          task_board: "La <b>Tabella Mansioni</b> visualizza il progresso per questo sprint. Aggiungi nuove mansioni o impedimenti con l'icona + vicino ad una storia utente. Tramite trascinamento e rilascio puoi aggiornare lo stato."
+          overview: "Gestisci il tuo lavoro nella vista <b>backlog</b>."
+          sprints: "A destra hai il product backlog e il bug backlog, a sinistra i rispettivi sprint. Qui puoi creare <b>epics, storie utente e bug</b>, assegnare priorità tramite trascinamento e aggiungerli a uno sprint."
+          task_board_arrow: 'Per vedere il tuo <b>pannello delle attività</b>, apri il menu a cascata Sprint...'
+          task_board_select: '...e seleziona la voce <b>pannello delle attività</b>.'
+          task_board: "Il pannello delle attività visualizza l'<b>avanzamento dello sprint</b>. Fai clic sull'icona più (+) accanto a una storia utente per aggiungere nuove attività o impedimenti. <br> Lo stato può essere aggiornato trascinandolo."
         boards:
-          overview: 'Gestisci il tuo lavoro usando le viste <b>Tabellone</b> intuitive.'
-          lists: 'Puoi creare più elenchi (colonne) all''interno di una sola vista Tabellone, ad esempio per creare un tabellone KANBAN.'
-          add: 'Clicca su + <b>per aggiungere una nuova carta</b> alla lista all''interno di un Tabellone.'
-          drag: 'Trascina e rilascia le carte in un elenco per riordinare o spostarle in un''altra lista. Il doppio clic aprirà la vista sui dettagli.'
+          overview: 'Seleziona <b>board</b> per cambiare visualizzazione e gestire il tuo progetto utilizzando la visualizzazione agile delle schede.'
+          lists: 'Qui puoi creare più liste  (colonne) all''interno della tua board. Questa funzione ti consente di creare una <b>board Kanban</b>, ad esempio.'
+          add: 'Fai clic sull''icona più (+) per <b>creare una nuova scheda</b> o <b>aggiungere una scheda esistente</b> all''elenco sulla board.'
+          drag: 'Trascina e rilascia le tue schede all''interno di un determinato elenco per riordinarle o per spostarle in un altro elenco. <br> Puoi fare clic sull''icona delle informazioni (i) nell''angolo in alto a destra o fare doppio clic su una scheda per aprirne i dettagli.'
         wp:
-          toggler: "Ora dai un'occhiata alla sezione <b>Pacchetto Lavoro</b>, che ti da una più dettagliata vista del tuo lavoro."
-          list: 'Questo è l''elenco <b>Pacchetto Lavoro</b> con l''importante lavoro nel tuo progetto, come mansioni, pietre miliari, fasi ed altro. <br> Puoi creare o modificare un pacchetto lavoro direttamente in questo elenco. Per vedere i suoi dettagli fai doppio clic.'
-          full_view: 'All''interno dei <b>Dettagli del pacchetto di lavoro</b> trovi tutte le informazioni pertinenti, come descrizione, stato e priorità, attività, dipendenze o commenti.'
-          back_button: 'Con la freccia puoi navigare indietro nell''elenco pacchetto lavoro.'
-          create_button: 'Il pulsante <b>Crea</b> aggiungerà un nuovo pacchetto lavoro al tuo progetto.'
-          timeline_button: 'Puoi attivare la <b>Classifica Gantt</b> per creare una linea del tempo per il tuo progetto.'
-          timeline: 'Qui puoi modificare il tuo piano progetto. Crea nuove fasi, pietre miliari ed aggiungere dipendenze. Tutti i membri del team possono vedere ed aggiornare nsre l''ultimo piano ogni volta.'
+          toggler: "Ora dai un'occhiata alla sezione <b>macro-attività</b>, che ti dà una più dettagliata vista del tuo lavoro."
+          list: 'Questa panoramica della <b>macro-attività</b> fornisce un elenco di tutto il lavoro nel progetto, come attività, pietre miliari, fasi e altro. <br> Le macro-attività possono essere create e modificate direttamente da questa vista. Per accedere ai dettagli di una particolare macro-attività, è sufficiente fare doppio clic sulla sua riga.'
+          full_view: 'La visualizzazione dei <b>dettagli delle macro-attività</b> fornisce tutte le informazioni rilevanti relative a un determinato pacchetto di lavoro, come descrizione, stato, priorità, attività, dipendenze e commenti.'
+          back_button: 'Utilizza la freccia di ritorno nell''angolo in alto a sinistra per uscire e tornare all''elenco delle macro-attività.'
+          create_button: 'Il pulsante <b>+ Crea</b> aggiungerà una nuova macro-attività al tuo progetto.'
+          timeline_button: 'Puoi attivare la vista <b>Diagramma di Gantt</b> per creare una linea del tempo per il tuo progetto.'
+          timeline: 'Qui puoi <b>modificare il tuo piano di progetto</b>, creare nuove macro-attività, come attività, pietre miliari, fasi e altro, nonché <b>aggiungere dipendenze</b>. Tutti i membri del team possono visualizzare e aggiornare il piano più recente in qualsiasi momento.'
+    notifications:
+      title: "Notifiche"
+      no_unread: "Nessuna nuova notifica"
+      reasons:
+        mentioned: 'menzionato'
+        watched: 'guardato'
+        assigned: 'assegnato'
+        responsible: 'responsabile'
+      facets:
+        unread: 'Non Letta'
+        all: 'Tutti'
+      center:
+        and_more_users:
+          one: 'e 1 altro'
+          other: 'e altri %{count}'
+        no_results:
+          at_all: 'Nuove notifiche appariranno qui quando ci sono attività che ti riguardano'
+          with_current_filter: 'Non ci sono notifiche in questa vista al momento'
+        mark_all_read: 'Segna tutti come letti'
+        mark_as_read: 'Segna come letto'
+        text_update_date: "%{date} da"
+        total_count_warning: "Mostrando le %{newest_count} notifiche più recenti. %{more_count} altre non vengono visualizzate."
+        empty_state:
+          no_notification: "Sembra che siate tutti coinvolti."
+          no_notification_with_current_filter: "Cambia il coinvolgimento o torna alla Posta in arrivo per visualizzare le notifiche"
+          no_selection: "Clicca su una notifica per visualizzare tutti i dettagli dell'attività."
+        new_notifications:
+          message: 'Ci sono nuove notifiche.'
+          link_text: 'Clicca qui per caricarli'
+      menu:
+        accountable: 'Responsabile'
+        assigned: 'Assegnato'
+        by_project: 'Non letto dal progetto'
+        by_reason: 'Coinvolgimento'
+        inbox: 'Posta In Arrivo'
+        mentioned: '@menzione'
+        watching: 'Osservazione'
+      settings:
+        change_notification_settings: 'Per visualizzare e modificare le impostazioni di notifica, <a target="_blank" href="%{url}">fai clic qui</a>'
+        title: "Impostazioni notifiche"
+        notify_me: "Avvisami"
+        reasons:
+          mentioned:
+            title: 'Ricevo una @menzione'
+            description: 'Ricevi una notifica ogni volta che qualcuno ti menziona ovunque'
+          involved:
+            title: 'Assegnato a me o responsabile'
+            description: 'Ricevi notifiche per tutte le attività sui pacchetti di lavoro di cui sei assegnatario o responsabile.'
+          watched: 'Aggiornamenti sugli elementi osservati'
+          work_package_commented: 'Tutti i nuovi commenti'
+          work_package_created: 'Nuove macro-attività'
+          work_package_processed: 'Tutte le modifiche di stato'
+          work_package_prioritized: 'Tutte le modifiche prioritarie'
+          work_package_scheduled: 'Tutte le modifiche della data'
+        global:
+          immediately:
+            title: 'Avvisami immediatamente'
+            description: 'Queste impostazioni si applicano a tutti i progetti. Di seguito puoi creare eccezioni specifiche per il progetto.'
+          delayed:
+            title: 'Avvisami anche per'
+            description: 'Ricevi notifiche per queste attività sulle macro-attività in tutti i progetti:'
+        project_specific:
+          title: 'Impostazioni di notifica specifiche del progetto'
+          description: 'Queste impostazioni specifiche di progetto sostituiscono le impostazioni predefinite sopra'
+          add: 'Aggiungi impostazione per il progetto'
+          already_selected: 'Questo progetto è già selezionato'
+          remove: 'Rimuovi impostazioni progetto'
     password_confirmation:
       field_description: 'È necessario inserire la password dell''account per confermare la modifica.'
       title: 'Confermare la password per continuare'
@@ -530,7 +604,39 @@ it:
         copy_options: "Opzioni di copia"
       autocompleter:
         label: 'Autocompletamento del progetto'
-    text_are_you_sure: "Sei sicuro?"
+    reminders:
+      settings:
+        daily:
+          add_time: 'Aggiungi tempo'
+          enable: 'Abilita promemoria email giornalieri'
+          explanation: 'Riceverai questi promemoria solo per le notifiche non lette e solo nelle ore specificate. %{no_time_zone}'
+          no_time_zone: 'Fino a quando non configuri un fuso orario per il tuo account, gli orari verranno interpretati in UTC.'
+          time_label: 'Tempo %{counter}:'
+          title: 'Inviami promemoria email giornalieri per le notifiche non lette'
+        workdays:
+          title: 'Ricevi promemoria email in questi giorni'
+        immediate:
+          title: 'Inviami un promemoria email'
+          mentioned: 'Subito quando qualcuno mi @menziona'
+        alerts:
+          title: 'Avvisi email per altri elementi (che non sono macro-attività)'
+          explanation: >
+            Le notifiche oggi sono limitate ai pacchetti di lavoro. Puoi scegliere di continuare a ricevere avvisi email per questi eventi finché non vengono inclusi nelle notifiche:
+          news_added: 'Notizie aggiunte'
+          news_commented: 'Commento su un articolo di notizie'
+          document_added: 'Documenti aggiunti'
+          forum_messages: 'Nuovi messaggi del forum'
+          wiki_page_added: 'Pagina wiki aggiunta'
+          wiki_page_updated: 'Pagina wiki aggiornata'
+          membership_added: 'Iscrizione aggiunta'
+          membership_updated: 'Iscrizione aggiornata'
+        title: 'Promemoria email'
+        pause:
+          label: 'Sospendi temporaneamente i promemoria email giornalieri'
+          first_day: 'Primo giorno '
+          last_day: 'Ultimo giorno'
+    text_are_you_sure: "Sei sicuro/a?"
+    text_data_lost: "Tutti i dati inseriti andranno persi."
     types:
       attribute_groups:
         error_duplicate_group_name: "Il nome %{group} è usato più di una volta. I nomi dei gruppi devono essere univoci."
@@ -609,8 +715,12 @@ it:
       save: "Salva la relazione"
       abort: "Interrompi"
     relations_autocomplete:
-      placeholder: "Tipo di ricerca"
+      placeholder: "Digita per cercare"
       parent_placeholder: "Scegli un nuovo genitore o premi il tasto Esc per annullare."
+    autocompleter:
+      placeholder: "Digita per cercare"
+      notFoundText: "Nessun elemento trovato"
+      typeToSearchText: "Digita per cercare"
     repositories:
       select_tag: 'Selezionare tag'
       select_branch: 'Selezionare ramo'
@@ -761,7 +871,7 @@ it:
       no_results:
         title: Nessuna macro-attività da visualizzare.
         description: E' possibile che non ne sia stata creata alcuna o che tutte le macro-attività vengano filtrate.
-      limited_results: Only %{count} work packages can be shown in manual sorting mode. Please reduce the results by filtering, or switch to automatic sorting.
+      limited_results: Solo %{count} macro-attività possono essere visualizzate nella modalità di ordinamento manuale. Riduci i risultati filtrando o passa all'ordinamento automatico.
       property_groups:
         details: "Dettagli"
         people: "Persone"
@@ -804,6 +914,7 @@ it:
         label_content: "Clicca qui per saltare il menu ed andare al contenuto"
       placeholders:
         default: "-"
+        date: "Seleziona data"
         formattable: "%{name}: Clicca per modificare..."
       query:
         column_names: "Colonne"
@@ -1052,5 +1163,3 @@ it:
       load_error_message: 'Si è verificato un errore caricando il modulo'
       validation_error_message: 'Sei pregato di risolvere gli errori presenti nel modulo'
       advanced_settings: 'Impostazioni avanzate'
-
-

@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 # Rewrites references to a principal from one principal to the other.
@@ -49,6 +49,7 @@ module Principals
       rewrite_user(from, to)
       rewrite_assigned_to(from, to)
       rewrite_responsible(from, to)
+      rewrite_actor(from, to)
     end
 
     def rewrite_custom_value(from, to)
@@ -99,6 +100,12 @@ module Principals
        CostQuery,
        MeetingParticipant].each do |klass|
         klass.where(user_id: from.id).update_all(user_id: to.id)
+      end
+    end
+
+    def rewrite_actor(from, to)
+      [::Notification].each do |klass|
+        klass.where(actor_id: from.id).update_all(actor_id: to.id)
       end
     end
 

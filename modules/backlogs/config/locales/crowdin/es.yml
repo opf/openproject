@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 es:
   activerecord:
@@ -111,7 +111,7 @@ es:
   label_backlog: "Backlog"
   label_backlogs: "Backlogs"
   label_backlogs_unconfigured: "Todavía no ha configurado backlogs. Por favor, visite %{administration} > %{plugins}, luego haga clic en el enlace de %{configure} para este plugin. Cuando haya establecido los campos, vuelva a esta página para empezar a usar la herramienta."
-  label_blocks_ids: "Identificadores de paquetes bloqueados"
+  label_blocks_ids: "ID de los paquetes de trabajo bloqueados"
   label_burndown: "Burndown"
   label_column_in_backlog: "Columna en backlog"
   label_hours: "horas"
@@ -137,6 +137,7 @@ es:
   label_wiki: "Wiki"
   permission_view_master_backlog: "Ver backlog maestro"
   permission_view_taskboards: "Ver paneles de tareas"
+  permission_select_done_statuses: "Seleccionar estados de finalización"
   permission_update_sprints: "Actualizar sprints"
   points_accepted: "puntos aceptados"
   points_committed: "puntos comprometidos"

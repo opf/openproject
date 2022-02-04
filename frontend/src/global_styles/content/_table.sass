@@ -23,7 +23,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
 @keyframes fade-out
@@ -50,7 +50,7 @@ $toolbar-height--mobile: 100px
     display: contents
   .generic-table
     position: relative
-  
+
 .generic-table--container
   position:     relative
   height:       100%
@@ -125,6 +125,10 @@ table.generic-table
         color:    var(--primary-color-dark)
         padding:  0 0.2rem
 
+      &.-max
+        .generic-table--sort-header
+          max-width: none
+
     .sort
       &.asc:after
         @include icon-font-common
@@ -150,7 +154,7 @@ table.generic-table
     tr:not(.-no-highlighting)
       border-bottom: 1px solid var(--table-row-border-color)
 
-    @media screeen
+    @media screen
       td:not(.-no-ellipsis)
         @include text-shortener
 
@@ -160,7 +164,10 @@ table.generic-table
       line-height: 1.6
       padding-top: 0.5rem
       padding-bottom: 0.5rem
-      vertical-align: middle
+      vertical-align: top
+
+      &.form--td
+        vertical-align: middle
 
       // Center input fields and select boxes vertically in tables
       .form--field
@@ -209,9 +216,8 @@ table.generic-table
       &.-no-highlighting
         background-color: $body-background
 
-    p
-      padding: 0 8px
-      margin: 0
+    .op-uc-p
+      @include text-shortener
 
 
 // Enable sticky headers
@@ -239,6 +245,11 @@ thead.-sticky th
   &.hover
     background:   #f8f8f8
 
+  &_no-highlighting
+    &:hover,
+    &.hover
+      background: initial
+
 .generic-table--empty-header
   padding:       0 6px
   height:        var(--generic-table--header-height)
@@ -262,19 +273,21 @@ thead.-sticky th
 
 .generic-table--header,
 .generic-table--sort-header
-  white-space: nowrap
+  @include text-shortener
   width:   100%
   clear:   both
   min-width: 40px
+  max-width: 300px
   display: flex
 
   & > a
     flex: 1 1
     width: 100%
     font-weight: bold
-    &.-inactive
+    @include text-shortener
+    &.op-link_inactive
       color: var(--button--active-font-color)
-      
+
   & > op-icon
     flex: 0 0 0
     padding-left: 15px
@@ -303,7 +316,8 @@ thead.-sticky th
   > i,
   .generic-table--no-results-title
     display:        inline-block
-    font-size:      rem-calc(17)
+    font-size:      1rem
+    font-weight:    bold
     line-height:    1.4
     vertical-align: top
 
@@ -319,7 +333,8 @@ thead.-sticky th
   width:          99%
 
 .generic-table--no-results-description
-  font-size:      rem-calc(15)
+  font-size:      rem-calc(14)
+  font-weight:    normal
   line-height:    1.4
   margin-top:     4px
 

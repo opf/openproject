@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 de:
   activerecord:
@@ -57,7 +57,7 @@ de:
     costs: "Kosten"
     current_rate: "Aktueller Satz"
     hours: "Stunden"
-    units: "Einheiten"
+    units: "Stücke"
     valid_from: "Gültig ab"
     fixed_date: "Referenzdatum"
   button_add_rate: "Satz hinzufügen"
@@ -94,7 +94,7 @@ de:
   label_edit: "Bearbeiten"
   label_generic_user: "Generischer Benutzer"
   label_greater_or_equal: ">="
-  label_group_by: "Gruppiere Ergebnisse"
+  label_group_by: "Gruppieren nach"
   label_group_by_add: "Gruppierungsfeld hinzufügen"
   label_hourly_rate: "Stundensatz"
   label_include_deleted: "Gelöschte anzeigen"

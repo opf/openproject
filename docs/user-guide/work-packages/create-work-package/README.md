@@ -19,9 +19,9 @@ keywords: create Work packages
 There are two ways to create new Work packages:
 
 - Work packages can be [created in-line in the Work package list](#create-a-work-package-in-the-list-view) (just like Excel) to quickly create multiple Work packages.
-- Work packages can be [created in a split screen](#create-a work-package-in-the-split-screen-view) which allows you to specify detailed information from the start.
+- Work packages can be [created in a split screen](#create-a-work-package-in-the-split-screen-view) which allows you to specify detailed information from the start.
 
-Work packages always belong to a project. Therefore, you first need to [select a project](../../../getting-started/#open-an-existing-project).
+Work packages always belong to a project. Therefore, you first need to [select a project](../../../getting-started/projects/#open-an-existing-project).
 
 Then, navigate to the Work package module in the project navigation.
 
@@ -69,5 +69,5 @@ Also, at the bottom of the Work package form you can add files via drag and drop
 
 ![add-file](1566305040178.png)
 
-Find out how to [edit existing Work packages](#edit-work-packages).
+Find out how to [edit existing Work packages](../edit-work-package).
 

@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 
 require 'spec_helper'
 require 'rack/test'
@@ -570,8 +570,7 @@ describe "POST /api/v3/queries/form", type: :request do
   describe 'posting to a project-query form with a CF present only there (Regression #29873)' do
     let(:custom_field) do
       FactoryBot.create(
-        :work_package_custom_field,
-        field_format: 'string',
+        :string_wp_custom_field,
         default_value: nil,
         is_required: true,
         is_for_all: true

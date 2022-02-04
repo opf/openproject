@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -92,7 +92,7 @@ describe WorkPackages::CreateService, 'integration', type: :model do
         due_date: Date.today + 3.days }
     end
 
-    it 'creates the work_package with the provided attributes' do
+    it 'creates the work_package with the provided attributes and sets the user as a watcher' do
       # successful
       expect(service_result)
         .to be_success
@@ -127,6 +127,10 @@ describe WorkPackages::CreateService, 'integration', type: :model do
         .to eql attributes[:start_date]
       expect(parent.due_date)
         .to eql attributes[:due_date]
+
+      # adds the user (author) as watcher
+      expect(new_work_package.watcher_users)
+        .to match_array([user])
     end
 
     describe 'setting the attachments' do

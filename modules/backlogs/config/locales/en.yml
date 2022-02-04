@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 ---
@@ -156,6 +156,7 @@ en:
 
   permission_view_master_backlog: "View master backlog"
   permission_view_taskboards: "View taskboards"
+  permission_select_done_statuses: "Select done statuses"
   permission_update_sprints: "Update sprints"
 
   points_accepted: "points accepted"
