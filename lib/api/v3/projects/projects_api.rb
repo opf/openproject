@@ -41,12 +41,12 @@ module API
         end
 
         resources :projects do
-          get &::API::V3::Utilities::Endpoints::Index.new(model: Project,
-                                                          scope: -> {
-                                                            visible_project_scope
-                                                              .includes(ProjectRepresenter.to_eager_load)
-                                                          })
-                                                     .mount
+          get &::API::V3::Utilities::Endpoints::SqlFallbackedIndex.new(model: Project,
+                                                                       scope: -> {
+                                                                         visible_project_scope
+                                                                           .includes(ProjectRepresenter.to_eager_load)
+                                                                       })
+                                                                  .mount
 
           post &::API::V3::Utilities::Endpoints::Create.new(model: Project)
                                                        .mount

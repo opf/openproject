@@ -58,11 +58,6 @@ describe 'API v3 Project resource index', type: :request, content_type: :json do
     get get_path
   end
 
-  it 'succeeds' do
-    expect(response.status)
-      .to be(200)
-  end
-
   it_behaves_like 'API V3 collection response', 1, 1, 'Project'
 
   context 'with a pageSize and offset' do
@@ -229,6 +224,30 @@ describe 'API v3 Project resource index', type: :request, content_type: :json do
       it 'responds with 200' do
         expect(last_response.status).to eq(200)
       end
+    end
+  end
+
+  context 'when signaling the properties to include' do
+    let(:projects) { [project] }
+    let(:select) { 'elements/id,elements/name' }
+    let(:get_path) do
+      api_v3_paths.path_for :projects, select: select
+    end
+
+    it 'is the reduced set of properties of the embedded elements' do
+      expected = {
+        _embedded: {
+          elements: [
+            {
+              id: project.id,
+              name: project.name
+            }
+          ]
+        }
+      }
+
+      expect(last_response.body)
+        .to be_json_eql(expected.to_json)
     end
   end
 end
