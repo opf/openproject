@@ -54,9 +54,9 @@ module API
 
             get &::API::V3::Utilities::Endpoints::Show.new(model: ::Storages::FileLink).mount
 
-            delete do
-              raise ::API::Errors::NotImplemented
-            end
+            delete &::API::V3::Utilities::Endpoints::Delete.new(model: ::Storages::FileLink,
+                                                                process_service: ::Storages::FileLinks::DeleteService)
+                                                           .mount
 
             mount ::API::V3::FileLinks::FileLinksDownloadAPI
             mount ::API::V3::FileLinks::FileLinksOpenAPI

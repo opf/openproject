@@ -60,6 +60,7 @@ describe 'API v3 file links resource', type: :request do
     let(:path) { api_v3_paths.file_links(work_package.id) }
 
     before do
+      file_link
       get path
     end
 
@@ -115,14 +116,33 @@ describe 'API v3 file links resource', type: :request do
 
   describe 'DELETE /api/v3/work_packages/:work_package_id/file_links/:file_link_id' do
     let(:path) { api_v3_paths.file_link(work_package.id, file_link.id) }
+    let(:permissions) { %i(view_work_packages view_file_links manage_file_links) }
 
     before do
       header 'Content-Type', 'application/json'
       delete path
     end
 
-    it 'returns not implemented' do
-      expect(subject.status).to be 501
+    it 'is successful' do
+      expect(subject.status).to be 204
+    end
+
+    context 'if user has no view permissions' do
+      let(:permissions) { %i(view_work_packages) }
+
+      it_behaves_like 'not found'
+    end
+
+    context 'if user has no manage permissions' do
+      let(:permissions) { %i(view_work_packages view_file_links) }
+
+      it_behaves_like 'unauthorized access'
+    end
+
+    context 'if no storage with that id exists' do
+      let(:path) { api_v3_paths.file_link(work_package.id, 1337) }
+
+      it_behaves_like 'not found'
     end
   end
 
