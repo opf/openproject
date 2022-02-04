@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 id:
   no_results_title_text: Tidak ada yang ditampilkan saat ini.
@@ -295,7 +295,8 @@ id:
       query_group_placeholder: "Berikan nama untuk table"
       reset: "Disetel ulang ke kondisi bawaan"
       type_color_text: |
-        Klik untuk menetapkan atau mengubah warna tipe ini. warna yang dipilah akan membedakan paket kerja.
+        The selected color distinguishes different types
+        in Gantt charts or work packages tables. It is therefore recommended to use a strong color.
   versions:
     overview:
       no_results_title_text: There are currently no work packages assigned to this version.
@@ -312,6 +313,10 @@ id:
       other: '%{count} work package descendants'
     bulk:
       could_not_be_saved: "The following work packages could not be saved:"
+      none_could_be_saved: "None of the %{total} work packages could be updated."
+      x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
+      selected_because_descendants: "While %{selected} work packages where selected, in total %{total} work packages are affected which includes descendants."
+      descendant: "descendant of selected"
     move:
       no_common_statuses_exists: "There is no status available for all selected work packages. Their status cannot be changed."
       unsupported_for_multiple_projects: 'Bulk move/copy is not supported for work packages from multiple projects'
@@ -455,6 +460,7 @@ id:
         url: "URL"
       role:
         assignable: "Paket kerja dapat ditetapkan untuk pengguna-pengguna tunggal dan kelompok-kelompok yang memiliki peran dalam proyek masing-masing"
+        permissions: "Hak akses"
       time_entry:
         activity: "Activity"
         hours: "Jam"
@@ -474,7 +480,6 @@ id:
         force_password_change: "Ubah password saat pertama Login"
         language: "Bahasa"
         last_login_on: "Login terakhir"
-        mail_notification: "Notifikasi email"
         new_password: "Password baru"
         password_confirmation: "Konfirmasi"
         consented_at: "Setuju pada"
@@ -531,6 +536,7 @@ id:
         before: "harus sebelum %{date}."
         before_or_equal_to: "harus sebelum atau maksimal %{date}."
         blank: "harus di isi."
+        blank_nested: "needs to have the property '%{property}' set."
         cant_link_a_work_package_with_a_descendant: "Work package tidak dapat dihubungkan dengan subtask-nya."
         circular_dependency: "Relasi ini menyebabkan dependensi circular."
         confirmation: "tidak sesuai dengan %{attribute}."
@@ -544,11 +550,14 @@ id:
         even: "harus imbang."
         exclusion: "telah dipesan."
         file_too_large: "ukuran maksimum yang diperbolehkan %{count} Bytes."
+        format: "does not match the expected format '%{expected}'."
+        format_nested: "does not match the expected format '%{expected}' at path '%{path}'."
         greater_than: "harus lebih besar dari %{count}."
         greater_than_or_equal_to: "harus lebih besar atau sama dengan %{count}."
         greater_than_or_equal_to_start_date: "must be greater than or equal to the start date."
         greater_than_start_date: "must be greater than the start date."
         inclusion: "belum di set dengan nilai yang diperbolehkan."
+        inclusion_nested: "is not set to one of the allowed values at path '%{path}'."
         invalid: "tidak valid."
         invalid_url: 'bukanlah URL yang Valid.'
         invalid_url_scheme: 'bukanlah sebuah protokol yang didukung (diperbolehkan: %{allowed_schemes}).'
@@ -569,20 +578,26 @@ id:
         taken: "sudah dipakai."
         too_long: "panjang karakter maksimal %{count}."
         too_short: "minimal %{count} karakter."
+        type_mismatch: "is not of type '%{type}'"
+        type_mismatch_nested: "is not of type '%{type}' at path '%{path}'"
         unchangeable: "cannot be changed."
+        unknown_property: "is not a known property."
+        unknown_property_nested: "has the unknown path '%{path}'."
         unremovable: "tidak bisa dihapus."
         wrong_length: "panjang tidak sesuai (harus %{count} karakter)."
       models:
         attachment:
           attributes:
             content_type:
-              not_whitelisted: "is set to '%{value}', which is not whitelisted for uploading."
+              blank: "The content type of the file cannot be blank."
+              not_whitelisted: "The file was rejected by an automatic filter. '%{value}' is not whitelisted for upload."
+              format: "%{message}"
         capability:
           context:
             global: 'Global'
           query:
             filters:
-              minimum: "perlu menyertakan setidaknya satu yang utama, konteks atau id dengan operator '='."
+              minimum: "need to include at least one filter for principal, context or id with the '=' operator."
         custom_field:
           at_least_one_custom_option: "Paling tidak, satu pilihan dibutuhkan untuk tersedia."
         custom_actions:
@@ -610,6 +625,21 @@ id:
           overlaps: 'overlap.'
           outside: 'is outside of the grid.'
           end_before_start: 'end value needs to be larger than the start value.'
+        notifications:
+          at_least_one_channel: 'At least one channel for sending notifications needs to be specified.'
+          attributes:
+            read_ian:
+              read_on_creation: 'cannot be set to true on notification creation.'
+            mail_reminder_sent:
+              set_on_creation: 'cannot be set to true on notification creation.'
+            reason:
+              no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
+            reason_mail_digest:
+              no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
+        notification_settings:
+          only_one_global_setting: 'There must only be one global notification setting.'
+          email_alerts_global: 'The email notification settings can only be set globally.'
+          format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -644,7 +674,6 @@ id:
           filters:
             custom_fields:
               inexistent: "There is no custom field for the filter."
-              invalid: "The custom field is not valid in the given context."
         queries/filters/base:
           attributes:
             values:
@@ -674,6 +703,12 @@ id:
           attributes:
             hours:
               day_limit: "is too high as a maximum of 24 hours can be logged per date."
+        user_preference:
+          attributes:
+            pause_reminders:
+              invalid_range: "can only be a valid date range."
+            daily_reminders:
+              full_hour: "can only be configured to be delivered at a full hour."
         wiki_page:
           attributes:
             slug:
@@ -685,6 +720,7 @@ id:
               not_start_date: "tanggal mulai dan berakhir pada milestone harus sama."
             parent:
               cannot_be_milestone: "parent dari work package tidak bisa berupa milestone."
+              cannot_be_self_assigned: "cannot be assigned to itself."
               cannot_be_in_another_project: "tidak boleh dari proyek lain."
               not_a_valid_parent: "tidak valid."
             start_date:
@@ -701,6 +737,7 @@ id:
               does_not_exist: "Kategori yang dipilih tidak ada."
             estimated_hours:
               only_values_greater_or_equal_zeroes_allowed: "must be >= 0."
+          readonly_status: 'The work package is in a readonly status so its attributes cannot be changed.'
         type:
           attributes:
             attribute_groups:
@@ -711,6 +748,11 @@ id:
               group_without_name: "Kelompok tak bernama tidak dibolehkan."
         user:
           attributes:
+            base:
+              user_limit_reached: "User limit reached. No more accounts can be created on the current plan."
+            password_confirmation:
+              confirmation: "Password confirmation does not match password."
+              format: "%{message}"
             password:
               weak: "Must contain characters of the following classes (at least %{min_count} of %{all_count}): %{rules}."
               lowercase: "huruf kecil (spt. 'a')"
@@ -754,6 +796,8 @@ id:
       status: "Status Work Package"
       member: "Member"
       news: "News"
+      notification:
+        other: "Notifications"
       placeholder_user: "Placeholder user"
       project: "Project"
       query: "Query kustom"
@@ -803,7 +847,6 @@ id:
     firstname: "Nama depan"
     group: "Grup"
     groups: "Grup"
-    name: "Nama"
     id: "ID"
     is_default: "Nilai default"
     is_for_all: "Untuk semua Project"
@@ -813,6 +856,7 @@ id:
     lastname: "Nama belakang"
     login: "Nama pengguna"
     mail: "Email"
+    name: "Nama"
     password: "Password"
     priority: "Prioritas"
     project: "Project"
@@ -1141,7 +1185,9 @@ id:
   error_can_not_archive_project: "This project cannot be archived: %{errors}"
   error_can_not_delete_entry: "Tidak dapat menghapus isian"
   error_can_not_delete_custom_field: "Tidak dapat menghapus isian kustom"
-  error_can_not_delete_type: "Tipe ini berisi Work Package dan tidak dapat dihapus."
+  error_can_not_delete_type:
+    explanation: 'This type contains work packages and cannot be deleted. You can see all affected work packages in <a target="_blank" href="%{url}">this view</a>.'
+    archived_projects: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the type of the respective work packages: %{archived_projects}'
   error_can_not_delete_standard_type: "Tipe standar tidak dapat dihapus."
   error_can_not_invite_user: "Gagal untuk mengirimkan undangan kepada pengguna."
   error_can_not_remove_role: "Role ini sedang dipakai dan tidak dapat dihapus."
@@ -1170,6 +1216,7 @@ id:
   error_no_type_in_project: "Tidak ada Tipe terasosiasi dengan Project ini. Silakan cek Pengaturan Project."
   error_omniauth_registration_timed_out: "Timed out. Silakan coba lagi."
   error_omniauth_invalid_auth: "The authentication information returned from the identity provider was invalid. Please contact your administrator for further help."
+  error_password_change_failed: 'An error occurred when trying to change the password.'
   error_scm_command_failed: "Error ketika mengakses repositori: %{value}"
   error_scm_not_found: "Entri atau revisi tidak ditemukan dalam repositori."
   error_unable_delete_status: "Work package tidak dapat dihapus karena dipakai oleh work package lain."
@@ -1221,7 +1268,7 @@ id:
   general_csv_encoding: "UTF-8"
   general_csv_separator: ","
   general_first_day_of_week: "7"
-  general_lang_name: "Indonesion"
+  general_lang_name: "Bahasa Indonesia"
   general_pdf_encoding: "ISO-8859-1"
   general_text_no: "no"
   general_text_yes: "yes"
@@ -1262,6 +1309,9 @@ id:
   instructions_after_logout: "Anda dapat login kembali dengan mengklik %{signin}."
   instructions_after_error: "Anda dapat login lagi dengan mengklik %{signin}. Jika masih muncul error, tanyakan admin Anda untuk bantuan."
   menus:
+    admin:
+      mail_notification: "Notifikasi email"
+      incoming_outgoing: "Incoming & Outgoing"
     quick_add:
       label: "Buka cepat tambah menu"
   my_account:
@@ -1274,6 +1324,33 @@ id:
         action: "Action"
         expiration: "Expires"
       indefinite_expiration: "Never"
+  notifications:
+    send_notifications: "Send notifications for this action"
+    work_packages:
+      subject:
+        created: "The work package was created."
+        assigned: "You have been assigned to %{work_package}"
+        subscribed: "You subscribed to %{work_package}"
+        mentioned: "You have been mentioned in %{work_package}"
+        responsible: "You have become accountable for %{work_package}"
+        watched: "You are watching %{work_package}"
+    update_info_mail:
+      body: >
+        We are excited to announce the release of OpenProject 12.0. It's a major release that will hopefully significantly improve the way you use OpenProject.
+
+        Starting with this release, we are introducing in-app notifications. From now on, you will receive notifications for updates to work packages directly in OpenProject. You can mark these notifications as read, reply to a comment or even directly modify work package attributes without leaving the notification center.
+
+        This also means that we will no longer be using emails for notifications. We think the new notification center is a better place to view and act upon these updates. Nevertheless, if you would like continue receiving updates via email, you can choose to receive daily email reminders at particular times of your choosing.
+
+        Please make sure to verify your new default notification settings, and set your preferences for notifications and email reminders via your account settings. You can do this through the “Change email settings” button bellow.
+
+        We hope you find in-app notifications useful and that they makes you even more productive.
+
+        Sincerely,
+        The OpenProject team
+      body_header: 'Version 12.0 with Notification Center'
+      body_subheader: 'News'
+      subject: 'Important changes to notifications with the release of 12.0'
   label_accessibility: "Kemampuan akses"
   label_account: "Akun"
   label_active: "Aktif"
@@ -1359,7 +1436,7 @@ id:
   label_check_uncheck_all_in_column: "Check/Uncheck all in column"
   label_check_uncheck_all_in_row: "Check/Uncheck all in row"
   label_child_element: "Sub-elemen"
-  label_chronological_order: "Urutan kronologis"
+  label_chronological_order: "Oldest first"
   label_close_versions: "Tutup versi yang sudah komplit"
   label_closed_work_packages: "berakhir"
   label_collapse: "Tampilkan"
@@ -1447,7 +1524,6 @@ id:
   label_feeds_access_key: "RSS access key"
   label_feeds_access_key_created_on: "RSS access key dibuat %{value} yang lalu"
   label_feeds_access_key_type: "RSS"
-  label_file_added: "File ditambahkan"
   label_file_plural: "File"
   label_filter_add: "Tambah Filter"
   label_filter_plural: "Filter"
@@ -1576,7 +1652,6 @@ id:
   label_none_parentheses: "(kosong)"
   label_not_contains: "tidak berisi"
   label_not_equals: "tidak"
-  label_notify_member_plural: "Email update"
   label_on: "pada"
   label_open_menu: "Buka menu"
   label_open_work_packages: "buka"
@@ -1664,7 +1739,7 @@ id:
   label_required: 'dibutuhkan'
   label_requires: 'dibutuhkan'
   label_result_plural: "Hasil"
-  label_reverse_chronological_order: "Urutan kronologi terbalik"
+  label_reverse_chronological_order: "Newest first"
   label_revision: "Revisi"
   label_revision_id: "Revisi %{value}"
   label_revision_plural: "Revisi"
@@ -1696,7 +1771,6 @@ id:
   label_start_to_start: "start untuk memulai"
   label_statistics: "Statistik"
   label_status: "Status"
-  label_status_updated: "Status Paket-Penugasan telah diupdate"
   label_stay_logged_in: "Tetap login"
   label_storage_free_space: "Sisa space di disk"
   label_storage_used_space: "Space disk terpakai"
@@ -1710,7 +1784,7 @@ id:
   label_summary: "Ringkasan"
   label_system: "Sistem"
   label_system_storage: "Informasi storage"
-  label_table_of_contents: "Table of contents"
+  label_table_of_contents: "Daftar isi"
   label_tag: "Tag"
   label_text: "Teks panjang"
   label_this_month: "bulan ini"
@@ -1780,21 +1854,17 @@ id:
   label_wiki_show_submenu_item: "Tampilkan sebagai submenu item "
   label_wiki_start: "Homepage"
   label_work_package: "Paket-Penugasan"
-  label_work_package_added: "Paket-Penugasan telah ditambah"
   label_work_package_attachments: "Lampiran paket kerja"
   label_work_package_category_new: "Kategori Baru"
   label_work_package_category_plural: "Kategori Paket-Penugasan"
   label_work_package_hierarchy: "Work package hierarchy"
   label_work_package_new: "Paket-Penugasan baru"
-  label_work_package_note_added: "Catatan Paket-Penugasan telah ditambah"
   label_work_package_edit: "Edit Paket-Penugasan %{name}"
   label_work_package_plural: "Paket-Penugasan"
-  label_work_package_priority_updated: "Paket-Penugasan prioritas telah diupdate"
   label_work_package_status: "Status Work Package"
   label_work_package_status_new: "Status baru"
   label_work_package_status_plural: "Status Paket-Penugasan"
   label_work_package_types: "Work package types"
-  label_work_package_updated: "Paket-Penugasan telah diupdate"
   label_work_package_tracking: "Tracking Paket-Penugasan"
   label_work_package_view_all: "Lihat semua Paket-Penugasan"
   label_workflow: "Workflow"
@@ -1802,22 +1872,22 @@ id:
   label_workflow_summary: "Ringkasan"
   label_x_closed_work_packages_abbr:
     one: "1 closed"
-    other: "%{count} closed"
+    other: "%{count} tertutup"
     zero: "0 closed"
   label_x_comments:
     one: "1 comment"
-    other: "%{count} comments"
+    other: "%{count} komentar"
     zero: "tak ada komentar"
   label_x_open_work_packages_abbr:
     one: "1 open"
-    other: "%{count} open"
+    other: "%{count} terbuka"
     zero: "0 open"
   label_x_projects:
     one: "1 project"
-    other: "%{count} projects"
+    other: "%{count} proyek"
     zero: "no projects"
   label_yesterday: "kemarin"
-  label_role_type: "Tipe"
+  label_role_type: "Mengetik"
   label_member_role: "Peran proyek"
   label_global_role: "Peran global"
   label_not_changeable: "(tidak berubah)"
@@ -1847,6 +1917,36 @@ id:
       link_name_type: 'Sesuatu yang baru %{type_name}'
   mail:
     actions: 'Tindakan'
+    digests:
+      including_mention_singular: 'including a mention'
+      including_mention_plural: 'including %{number_mentioned} mentions'
+      unread_notification_singular: '1 unread notification'
+      unread_notification_plural: '%{number_unread} unread notifications'
+      you_have: 'You have'
+    logo_alt_text: 'Logo'
+    mention:
+      subject: "%{user_name} mentioned you in #%{id} - %{subject}"
+    notification:
+      center: 'To notification center'
+      see_in_center: 'See comment in notification center'
+      settings: 'Change email settings'
+    salutation: 'Hey %{user}!'
+    work_packages:
+      created_at: 'Created at %{timestamp} by %{user} '
+      login_to_see_all: 'Log in to see all notifications.'
+      mentioned: 'You have been <b>mentioned in a comment</b>'
+      mentioned_by: '%{user} mentioned you in a comment'
+      more_to_see:
+        other: 'There are %{count} more work packages with notifications.'
+      reason:
+        watched: 'Watched'
+        assigned: 'Assigned'
+        responsible: 'Accountable'
+        mentioned: 'Mentioned'
+        subscribed: 'semua'
+        prefix: 'Received because of the notification setting: %{reason}'
+      see_all: 'See all'
+      updated_at: 'Updated at %{timestamp} by %{user}'
   mail_body_account_activation_request: "User (%{value}) telah terdaftar. Akun Anda menunggu persetujuan Anda:"
   mail_body_account_information: "Info akun Anda"
   mail_body_account_information_external: "Anda dapat gunakan akun %{value} untuk login."
@@ -1864,7 +1964,7 @@ id:
     Please feel free to browse our youtube channel (%{youtube_link}) where we provide a webinar (%{webinar_link})
     and “Get started” videos (%{get_started_link}) to make your first steps in OpenProject as easy as possible.
     <br />
-    If you have any further questions, consult our documentation (%{documentation_link}) or contact us (%{contact_us_link}).
+    If you have any further questions, consult our documentation (%{documentation_link}) or contact your administrator.
   mail_body_register_closing: "Your OpenProject team"
   mail_body_register_ending: "Stay connected! Kind regards,"
   mail_body_reminder: "%{count} Paket-Penugasan yang dilimpahkan kepada Anda akan berakhir dalam %{days} hari :"
@@ -2054,6 +2154,7 @@ id:
   permission_protect_wiki_pages: "Proteksi halaman Wiki"
   permission_rename_wiki_pages: "Rename halaman Wiki"
   permission_save_queries: "Save views"
+  permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Pilih modul Project"
   permission_manage_types: "Pilih Tipe"
   permission_view_calendar: "Lihat kalender"
@@ -2218,6 +2319,13 @@ id:
   setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
   setting_apiv3_cors_origins_text_html: >
     If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
+  setting_apiv3_max_page_size: "Maximum API page size"
+  setting_apiv3_max_page_instructions_html: >
+    Set the maximum page size the API will respond with. It will not be possible to perform API requests that return more values on a single page. <br/> <strong>Warning:</strong> Please only change this value if you are sure why you need it. Setting to a high value will result in significant performance impacts, while a value lower than the per page options will cause errors in paginated views.
+  setting_apiv3_docs: "Dokumentasi"
+  setting_apiv3_docs_enabled: "Enable docs page"
+  setting_apiv3_docs_enabled_instructions_html: >
+    If the docs page is enabled you can get an interactive view of the APIv3 documentation under <a href="%{link}" target="_blank">%{link}</a>.
   setting_attachment_whitelist: "Attachment upload whitelist"
   setting_email_delivery_method: "Email delivery method"
   setting_sendmail_location: "Location of the sendmail executable"
@@ -2255,7 +2363,6 @@ id:
   setting_first_week_of_year: "First week in year contains"
   setting_date_format: "Format tanggal"
   setting_default_language: "Bahasa default"
-  setting_default_notification_option: "Opsi notifikasi default"
   setting_default_projects_modules: "Modul default aktif untuk Project baru"
   setting_default_projects_public: "Project baru default untuk publik"
   setting_diff_max_lines_displayed: "Maks. tampilan baris diff"
@@ -2265,6 +2372,7 @@ id:
   setting_email_login: "Use email as login"
   setting_enabled_scm: "Aktifkan SCM"
   setting_enabled_projects_columns: "Visible in project list"
+  setting_notification_retention_period_days: "Notification retention period"
   setting_feeds_enabled: "Aktifkan Feed"
   setting_feeds_limit: "Batasan konten feed"
   setting_file_max_size_displayed: "Ukuran maks. file teks yang ditampilkan inline"
@@ -2278,7 +2386,7 @@ id:
   setting_work_package_properties: "Properti Paket-Penugasan"
   setting_work_package_startdate_is_adddate: "Gunakan tanggal sekarang untuk start Paket-Penugasan"
   setting_work_packages_export_limit: "Limit export Paket-Penugasan"
-  setting_journal_aggregation_time_minutes: "Tampilkan jurnal sebagai gabungan dengan selisih waktu (menit)"
+  setting_journal_aggregation_time_minutes: "User actions aggregated within"
   setting_log_requesting_user: "Catat user login, nama dan email untuk semua permintaan"
   setting_login_required: "Diperlukan otentikasi"
   setting_mail_from: "Emisi alamat email"
@@ -2339,6 +2447,7 @@ id:
     notifications:
       retention_text: >
         Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
+      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
       delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
     display:
       first_date_of_week_and_year_set: >
@@ -2420,9 +2529,9 @@ id:
   text_work_packages_destroy_confirmation: "Yakin akan menghapus?"
   text_work_packages_ref_in_commit_messages: "Referencing & fixing Paket-Penugasan di pesan terkirim"
   text_journal_added: "%{label} %{value} ditambahkan"
-  text_journal_aggregation_time_explanation: "Bila selisih umur jurnal lebih kecil dari yang ditentukan, gabungkan jurnal tersebut. Notifikasi mail akan tertunda hingga pengabungan selesai."
-  text_journal_changed: "%{label} changed from %{old} <br/><strong>to</strong> %{new}"
-  text_journal_changed_plain: "%{label} changed from %{old} \nto %{new}"
+  text_journal_aggregation_time_explanation: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent."
+  text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
+  text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label} telah diupdate"
   text_journal_changed_with_diff: "%{label} dirubah menjadi (%{link})"
   text_journal_deleted: "%{label} telah dihapus (%{old})"
@@ -2450,7 +2559,6 @@ id:
   text_regexp_info: "spt. ^[A-Z0-9]+$"
   text_regexp_multiline: 'The regex is applied in a multi-line mode. e.g., ^---\s+'
   text_repository_usernames_mapping: "Pilih atau update user untuk dipetakan ke setiap username yang ditemukan di log repositori. User dengan username dan repositori atau email yang sama otomatis akan dipetakan."
-  text_select_mail_notifications: "Select actions for which email notifications should be sent."
   text_status_changed_by_changeset: "Applied in changeset %{value}."
   text_table_difference_description: "In this table the single %{entries} are shown. You can view the difference between any two entries by first selecting the according checkboxes in the table. When clicking on the button below the table the differences are shown."
   text_time_logged_by_changeset: "Applied in changeset %{value}."
@@ -2671,10 +2779,6 @@ id:
     password_change_unsupported: Perubahan password tidak didukung.
     registered: "telah terdaftar"
     reset_failed_logins: "Reset gagal login"
-    settings:
-      mail_notifications: "Send email notifications"
-      mail_project_explanaition: "For unselected projects, you will only receive notifications about things you watch or you're involved in (e.g. work packages you're the author or assignee of)."
-      mail_self_notified: "I want to be notified of changes that I make myself"
     status_user_and_brute_force: "%{user} dan %{brute_force}"
     status_change: "Perubahan status"
     text_change_disabled_for_provider_login: "The name is set by your login provider and can thus not be changed."
@@ -2696,7 +2800,7 @@ id:
     User limit reached. You cannot activate any more users. Please <a href="%{upgrade_url}">upgrade your plan</a> or block members to allow for additional users.
   warning_user_limit_reached_instructions: >
     You reached your user limit (%{current}/%{max} active users). Please contact sales@openproject.com to upgrade your Enterprise Edition plan and add additional users.
-  0: >
+  warning_protocol_mismatch_html: >
 
   warning_bar:
     protocol_mismatch:
@@ -2735,6 +2839,8 @@ id:
       code_409: "Could not update the resource because of conflicting modifications."
       code_429: "Too many requests. Please try again later."
       code_500: "An internal error has occurred."
+      not_found:
+        work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:
         date: "YYYY-MM-DD (ISO 8601 date only)"
         duration: "ISO 8601 duration"

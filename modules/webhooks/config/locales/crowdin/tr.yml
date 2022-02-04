@@ -38,7 +38,7 @@ tr:
         time: 'Teslimat süresi'
       form:
         introduction: >
-          Abone olduğunuz projedeki herhangi bir olay için aşağıdaki taşıma yükü URL'sine bir POST isteği gönderin. Yük, değiştirilen nesnenin APIv3 temsiline karşılık gelir.
+          Send a POST request to the payload URL below for any event in the project you're subscribed to. Payload will correspond to the APIv3 representation of the object being modified.
         apiv3_doc_url: Daha fazla bilgi için API belgelerini ziyaret edin
         description:
           placeholder: 'Web kancası için isteğe bağlı açıklama.'

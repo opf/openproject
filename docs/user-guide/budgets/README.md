@@ -22,7 +22,7 @@ Then, you will assign work packages to a budgets. If you log time or costs to th
 | [Add planned labor costs](#add-planned-labor-costs)          | How to add planned labor costs to a budget?                  |
 | [Assign a work package to a budget](#assign-a-work-package-to-a-budget) | How to assign a work package to book time and costs to a project budget? |
 | [View details and update budget](#view-details-and-update-budget) | How to display the details, update, copy or delete a project budget? |
-| [Frequently asked questions (FAQ)](#frequently-asked-questions-(faq)) | What are frequent questions regarding budgets?               |
+| [Frequently asked questions (FAQ)](#frequently-asked-questions-faq) | What are frequent questions regarding budgets?               |
 
 ## Create a project budget
 
@@ -37,7 +37,7 @@ In the detailed view you can enter the details for your project budget, add plan
 1. Enter a **subject** for your budget so you can identify it easily.
 2. Enter a detailed **description** to add further information to your budget, e.g. budget owner, status and more.
 3. Upload more **files** to your budgets with drag and drop or by clicking on the field and choosing a file from the explorer.
-4. Enter a **fixed date**: this date is the basis for the budget to calculate the planned costs based on the [configured hourly rate](../time-and-costs/cost-tracking#define-hourly-rate-for-labor-costs) in the user's profile or the [cost types](../../system-admin-guide). The rates can be configured for different date ranges, therefore, you need to set a fixed date for a budget for which the costs will be calculated.
+4. Enter a **fixed date**: this date is the basis for the budget to calculate the planned costs based on the [configured hourly rate](../time-and-costs/cost-tracking) in the user's profile or the [cost types](../../system-admin-guide). The rates can be configured for different date ranges, therefore, you need to set a fixed date for a budget for which the costs will be calculated.
 
 ![Budgets-details](Budgets-details.png)
 
@@ -110,7 +110,7 @@ You will get and overview of planned as well as spent costs and the available co
 
 
 <div class="alert alert-info" role="alert">
-**Note**: The costs are calculated based on the [configuration for cost types](../../system-admin-guide) and the [configured hourly rate](../time-and-costs/#define-hourly-rate-for-labor-costs) in the user profile.
+**Note**: The costs are calculated based on the [configuration for cost types](../../system-admin-guide) and the [configured hourly rate](../time-and-costs/time-tracking/#define-hourly-rate-for-labor-costs) in the user profile.
 </div>
 
 ## Frequently asked questions (FAQ)

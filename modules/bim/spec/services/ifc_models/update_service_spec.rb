@@ -24,7 +24,7 @@ describe Bim::IfcModels::UpdateService do
                       errors: set_attributes_errors
   end
   let!(:model) do
-    FactoryBot.build_stubbed(:ifc_model).tap do |m|
+    FactoryBot.create(:ifc_model).tap do |m|
       allow(m)
         .to receive(:save)
         .and_return(model_valid)
@@ -133,6 +133,11 @@ describe Bim::IfcModels::UpdateService do
           .to receive(:destroy)
 
         subject
+      end
+
+      it "sets the model's converstion_status to pending" do
+        expect(model).to be_pending
+        expect(model.conversion_error_message).to be_nil
       end
     end
 

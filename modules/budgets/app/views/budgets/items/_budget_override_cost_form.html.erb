@@ -1,0 +1,19 @@
+<section class="costs--edit-form" hidden>
+  <div class="form--field">
+    <div class="form--field-container">
+      <div class="costs--edit-planned-costs-cancel-btn form--field-affix -transparent icon icon-close"></div>
+      <div class="form--text-field-container">
+        <%= text_field_tag(
+              field_name,
+              unitless_currency_number(cost_value),
+              class: 'currency form--text-field',
+              disabled: true, # disable by default until it was overridden
+              placeholder: t(:label_example_placeholder, decimal: unitless_currency_number(1000.50)),
+              ) %>
+      </div>
+      <div class="form--field-affix">
+        <%= Setting.plugin_costs['costs_currency'] %>
+      </div>
+    </div>
+  </div>
+</section>

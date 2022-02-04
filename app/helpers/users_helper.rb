@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module UsersHelper
@@ -127,10 +127,6 @@ module UsersHelper
   def options_for_membership_project_select(user, projects)
     options = project_tree_options_for_select(projects, disabled: user.projects.ids.to_set)
     content_tag('option', "--- #{I18n.t(:actionview_instancetag_blank_option)} ---") + options
-  end
-
-  def user_mail_notification_options(user)
-    user.valid_notification_options.map { |o| [I18n.t(o.last), o.first] }
   end
 
   def user_name(user)

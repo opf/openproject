@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -149,7 +149,7 @@ describe 'Assignee action board',
       board_page.expect_card 'Bob Self', 'Some Task', present: false
 
       # Expect to have changed the avatar
-      expect(page).to have_selector('.wp-card--assignee .op-avatar_mini', text: 'FB', wait: 10)
+      expect(page).to have_selector('[data-qa-selector="op-wp-single-card--content-assignee"] .op-avatar_mini', text: 'FB', wait: 10)
 
       work_package.reload
       expect(work_package.assigned_to).to eq(foobar_user)
@@ -161,7 +161,7 @@ describe 'Assignee action board',
       board_page.expect_card 'Bob Self', 'Some Task', present: false
 
       # Expect to have changed the avatar
-      expect(page).to have_selector('.wp-card--assignee .op-avatar_mini', text: 'GG', wait: 10)
+      expect(page).to have_selector('[data-qa-selector="op-wp-single-card--content-assignee"] .op-avatar_mini', text: 'GG', wait: 10)
 
       work_package.reload
       expect(work_package.assigned_to).to eq(group)
@@ -171,7 +171,7 @@ describe 'Assignee action board',
       split_view = card.open_details_view
       split_view.expect_subject
       split_view.edit_field(:assignee).update('Foo Bar')
-      split_view.expect_and_dismiss_notification message: 'Successful update.'
+      split_view.expect_and_dismiss_toaster message: 'Successful update.'
 
       work_package.reload
       expect(work_package.assigned_to).to eq(foobar_user)

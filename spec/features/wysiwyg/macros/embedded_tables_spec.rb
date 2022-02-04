@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -94,7 +94,7 @@ describe 'Wysiwyg embedded work package tables',
           columns.expect_checked 'Type'
           modal.cancel
 
-          # Expect we can preview the table within ckeditor
+          # Expect we can preview the table within ckeditor-augmented-textarea
           editor.within_enabled_preview do |preview_container|
             embedded_table = ::Pages::EmbeddedWorkPackagesTable.new preview_container
             embedded_table.expect_work_package_listed wp_task

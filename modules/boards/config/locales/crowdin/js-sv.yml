@@ -30,6 +30,7 @@ sv:
       error_loading_the_list: "Fel vid inläsning av listan: %{error_message}"
       error_permission_missing: "Behörigheten att skapa offentliga frågor saknas"
       error_cannot_move_into_self: "You can not move a work package into its own column."
+      text_hidden_list_warning: "Not all lists are displayed because you lack the permission. Contact your admin for more information."
       click_to_remove_list: "Klicka för att ta bort denna lista"
       board_type:
         text: 'Typ av tavla'

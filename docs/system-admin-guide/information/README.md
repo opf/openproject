@@ -40,4 +40,4 @@ You will get information about the storage filesystem in your OpenProject applic
 
 You will see the remaining disk space as well as used disk space in your OpenProject installation.
 
-![storage filestystem information](image-20200124104803476.png)
+![storage filesystem information](image-20200124104803476.png)

@@ -1,0 +1,71 @@
+# Schema: List_capabilitiesModel
+---
+type: object
+example:
+  _links:
+    self:
+      href: "/api/v3/capabilities"
+    changeSize:
+      href: "/api/v3/capabilities?pageSize={size}"
+      templated: true
+    jumpTo:
+      href: "/api/v3/capabilities?offset={offset}"
+      templated: true
+  total: 4
+  count: 4
+  _type: Collection
+  _embedded:
+    elements:
+    - _links:
+        self:
+          href: "/api/v3/capabilities/work_packages/create/p123-567"
+        action:
+          href: "/api/v3/actions/work_packages/create"
+          title: Add work package
+        context:
+          href: "/api/v3/projects/123"
+          title: A project
+        principal:
+          href: "/api/v3/users/567"
+          title: Some user
+      _type: Capability
+      id: work_packages/create/p123-567
+    - _links:
+        self:
+          href: "/api/v3/capabilities/work_packages/assignee/p123-567"
+        action:
+          href: "/api/v3/actions/work_packages/assignee"
+        context:
+          href: "/api/v3/projects/123"
+          title: A project
+        principal:
+          href: "/api/v3/users/567"
+          title: Some user
+      _type: Capability
+      id: work_packages/assignee/p123-567
+    - _links:
+        self:
+          href: "/api/v3/capabilities/memberships/create/p345-821"
+          title: Create members
+        action:
+          href: "/api/v3/actions/memberships/create"
+        context:
+          href: "/api/v3/projects/345"
+          title: A project
+        principal:
+          href: "/api/v3/users/821"
+          title: Some user
+      _type: Capability
+      id: memberships/create/p345-821
+    - _links:
+        self:
+          href: "/api/v3/capabilities/users/delete/g-567"
+          title: Delete user
+        context:
+          href: "/api/v3/capabilities/context/global"
+          title: Global
+        principal:
+          href: "/api/v3/users/567"
+          title: Some user
+      _type: Capability
+      id: users/delete/g-567

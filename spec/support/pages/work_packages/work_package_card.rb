@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'support/pages/page'
@@ -42,28 +42,28 @@ module Pages
     end
 
     def card_selector
-      ".wp-card-#{work_package.id}"
+      ".op-wp-single-card-#{work_package.id}"
     end
 
     def expect_selected
-      expect(page).to have_selector("#{card_selector}.-checked")
+      expect(page).to have_selector("#{card_selector}[data-qa-checked='true']")
     end
 
     def expect_type(name)
       page.within(card_element) do
-        expect(page).to have_selector('.wp-card--type', text: name.upcase)
+        expect(page).to have_selector('[data-qa-selector="op-wp-single-card--content-type"]', text: name.upcase)
       end
     end
 
     def expect_subject(subject)
       page.within(card_element) do
-        expect(page).to have_selector('.wp-card--subject', text: subject)
+        expect(page).to have_selector('[data-qa-selector="op-wp-single-card--content-subject"]', text: subject)
       end
     end
 
     def open_details_view
       card_element.hover
-      card_element.find('.wp-card--details-button').click
+      card_element.find('[data-qa-selector="op-wp-single-card--details-button"]').click
 
       ::Pages::SplitWorkPackage.new work_package
     end

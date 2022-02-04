@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -65,7 +65,7 @@ describe 'model management',
       index_page.visit!
     end
 
-    it 'I can perfom all actions on the models' do
+    it 'I can perform all actions on the models' do
       index_page.model_listed true, model.title
       index_page.add_model_allowed true
       index_page.edit_model_allowed model.title, true
@@ -136,7 +136,7 @@ describe 'model management',
 
     it "I can't see any models and perform no actions" do
       expected = '[Error 403] You are not authorized to access this page.'
-      expect(page).to have_selector('.notification-box.-error', text: expected)
+      expect(page).to have_selector('.op-toast.-error', text: expected)
 
       index_page.add_model_allowed false
     end

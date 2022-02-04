@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -159,14 +159,9 @@ describe ::API::V3::WorkPackageCollectionFromQueryService,
   describe '#call' do
     subject { instance.call(params) }
 
-    it 'is successful' do
-      is_expected
-        .to be_success
-    end
-
     before do
       stub_const('::API::V3::WorkPackages::WorkPackageCollectionRepresenter', mock_wp_representer)
-      stub_const('::API::Decorators::AggregationGroup', mock_aggregation_representer)
+      stub_const('::API::V3::WorkPackages::WorkPackageAggregationGroup', mock_aggregation_representer)
 
       allow(::API::V3::UpdateQueryFromV3ParamsService)
         .to receive(:new)
@@ -174,16 +169,20 @@ describe ::API::V3::WorkPackageCollectionFromQueryService,
         .and_return(mock_update_query_service)
     end
 
+    it 'is successful' do
+      expect(subject).to be_success
+    end
+
     context 'result' do
       subject { instance.call(params).result }
 
       it 'is a WorkPackageCollectionRepresenter' do
-        is_expected
+        expect(subject)
           .to be_a(::API::V3::WorkPackages::WorkPackageCollectionRepresenter)
       end
 
       context 'work_packages' do
-        it "has the querie's work_package results set" do
+        it "has the query's work_package results set" do
           expect(subject.work_packages)
             .to match_array([work_package])
         end

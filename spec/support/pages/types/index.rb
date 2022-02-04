@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'support/pages/page'
@@ -44,11 +44,11 @@ module Pages
       end
 
       def expect_successful_create
-        expect_notification message: I18n.t(:notice_successful_create)
+        expect_toast message: I18n.t(:notice_successful_create)
       end
 
       def expect_successful_update
-        expect_notification message: I18n.t(:notice_successful_update)
+        expect_toast message: I18n.t(:notice_successful_update)
       end
 
       def click_new
@@ -85,7 +85,7 @@ module Pages
         type.respond_to?(:name) ? type.name : type
       end
 
-      def notification_type
+      def toast_type
         :rails
       end
     end

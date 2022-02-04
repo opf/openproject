@@ -23,14 +23,14 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 class Journal::BaseJournal < ApplicationRecord
   self.abstract_class = true
 
-  belongs_to :journal
-  belongs_to :author, class_name: 'User', foreign_key: :author_id
+  has_one :journal, as: :data, inverse_of: :data, dependent: :destroy
+  belongs_to :author, class_name: 'User'
 
   def journaled_attributes
     attributes.symbolize_keys.select { |k, _| self.class.journaled_attributes.include? k }
@@ -41,7 +41,7 @@ class Journal::BaseJournal < ApplicationRecord
   end
 
   def self.excluded_attributes
-    [primary_key.to_sym, inheritance_column.to_sym, :journal_id]
+    [primary_key.to_sym, inheritance_column.to_sym]
   end
   private_class_method :excluded_attributes
 end

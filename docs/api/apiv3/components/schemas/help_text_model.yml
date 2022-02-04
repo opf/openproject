@@ -1,0 +1,19 @@
+# Schema: Help_textModel
+---
+type: object
+example:
+  _type: HelpText
+  _links:
+    self:
+      href: "/api/v3/help_texts/1"
+    editText:
+      type: text/html
+      href: "/admin/attribute_help_texts/1/edit"
+  id: 1
+  attribute: id
+  attributeCaption: ID
+  scope: WorkPackage
+  helpText:
+    format: markdown
+    raw: Help text for id attribute.
+    html: "<p>Help text for id attribute.</p>"

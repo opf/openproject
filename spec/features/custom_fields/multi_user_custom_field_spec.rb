@@ -73,7 +73,7 @@ describe "multi select custom values", js: true do
       expect(page).to have_text "groupfoo"
       expect(page).to have_text "PLACEHOLDER"
 
-      wp_page.expect_and_dismiss_notification(message: "Successful update.")
+      wp_page.expect_and_dismiss_toaster(message: "Successful update.")
 
       work_package.reload
       cvs = work_package
@@ -86,7 +86,7 @@ describe "multi select custom values", js: true do
       cf_edit_field.unset_value "Da Real", true
       cf_edit_field.submit_by_dashboard
 
-      wp_page.expect_and_dismiss_notification(message: "Successful update.")
+      wp_page.expect_and_dismiss_toaster(message: "Successful update.")
 
       expect(page).to have_text "groupfoo"
       expect(page).to have_text "PLACEHOLDER"
@@ -150,7 +150,7 @@ describe "multi select custom values", js: true do
         cf_edit_field.set_value "Cooper Quatermaine"
 
         click_on "Reviewer: Save"
-        wp_page.expect_and_dismiss_notification(message: "Successful update.")
+        wp_page.expect_and_dismiss_toaster(message: "Successful update.")
         expect(page).to have_selector('.custom-option', count: 2)
 
         expect(page).to have_text custom_field.name

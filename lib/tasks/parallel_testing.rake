@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'optparse'
@@ -40,7 +40,7 @@ end
 
 require 'parallel_tests/tasks'
 # Remove task added by parallel_tests as it conflicts with our own.
-# Having both will lead to both being executred.
+# Having both will lead to both being executed.
 Rake::Task["parallel:features"].clear if Rake::Task.task_defined?("parallel:features")
 
 def check_for_pending_migrations

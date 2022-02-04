@@ -23,7 +23,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-See docs/COPYRIGHT.rdoc for more details.
+See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
@@ -39,11 +39,11 @@ See docs/COPYRIGHT.rdoc for more details.
           <div class="generic-table--results-container">
             <table class="generic-table" id="material_budget_items">
               <colgroup>
-                <col highlight-col>
-                <col highlight-col>
-                <col highlight-col>
+                <col opHighlightCol>
+                <col opHighlightCol>
+                <col opHighlightCol>
                 <% if User.current.allowed_to?(:view_cost_rates, @project)%>
-                  <col highlight-col>
+                  <col opHighlightCol>
                 <%end%>
                 <col>
               </colgroup>

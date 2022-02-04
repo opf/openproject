@@ -34,7 +34,7 @@ The editor window will open, allowing you to enter title and content of the new 
 
 (1) Enter your page title
 
-(2) Enter your wiki content. You can use the editor bar to format your texts.  [Learn here how to format texts in wiki](#wiki) with the editor toolbar.
+(2) Enter your wiki content. You can use the editor bar to format your texts.  [Learn here how to format texts in wiki](../#general-wiki-information) with the editor toolbar.
 
 (3) Files can be inserted directly via drag and drop or copy and paste into the text input field, or via the image button in the editor toolbar.
 
@@ -52,7 +52,7 @@ To edit a wiki page, click the **Edit** button on the wiki page details on the t
 
 ![edit-wiki-page](edit-wiki-page.png)
 
-The text editor will be opened to make changes to the wiki page, as described above, how to [create a new wiki page](#create-a-new-wiki).
+The text editor will be opened to make changes to the wiki page, as described above, how to [create a new wiki page](#create-a-new-wiki-page).
 
 Do not forget to **Save** your changes after you finished editing the page.
 
@@ -86,5 +86,5 @@ If you want to keep updated about any changes to a wiki page, you can make use o
 
 ![watch-wiki](watch-wiki.png)
 
-With this function being activated, you will receive an e-mail notification (according to [your email preferences](../../../getting-started/#email-notifications)) after every page update, including a link to the respective changes.
+With this function being activated, you will receive an e-mail notification (according to your email preferences) after every page update, including a link to the respective changes.
 

@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 class WorkPackageCustomField < CustomField
@@ -39,7 +39,7 @@ class WorkPackageCustomField < CustomField
            through: :work_package_custom_values
 
   scope :visible_by_user, ->(user) {
-    if user.allowed_to_globally?(:edit_projects)
+    if user.allowed_to_globally?(:select_custom_fields)
       all
     else
       where(projects: { id: Project.visible(user) })

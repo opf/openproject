@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -71,6 +71,8 @@ shared_examples 'BaseServices create service' do
     allow(service)
       .to(receive(:call))
       .and_return(set_attributes_result)
+
+    service
   end
 
   let(:model_save_result) { true }

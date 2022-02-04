@@ -3596,28 +3596,6 @@
     };
     version = "2.0.0";
   };
-  unicorn = {
-    dependencies = ["kgio" "raindrops"];
-    groups = ["default" "production"];
-    platforms = [];
-    source = {
-      remotes = ["https://rubygems.org"];
-      sha256 = "0ig48f4xhrssq5d11vkc41k7nj6pbv2jh1f8k5gfskfd469mcc2y";
-      type = "gem";
-    };
-    version = "5.8.0";
-  };
-  unicorn-worker-killer = {
-    dependencies = ["get_process_mem" "unicorn"];
-    groups = ["production"];
-    platforms = [];
-    source = {
-      remotes = ["https://rubygems.org"];
-      sha256 = "0rrdxpwdsapx47axjin8ymxb4f685qlpx8a26bql4ay1559c3gva";
-      type = "gem";
-    };
-    version = "0.4.4";
-  };
   validate_email = {
     dependencies = ["activemodel" "mail"];
     groups = ["default" "opf_plugins"];

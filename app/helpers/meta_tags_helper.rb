@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module MetaTagsHelper
@@ -36,6 +36,19 @@ module MetaTagsHelper
                       title: html_title_parts,
                       separator: ' | ', # Update the TitleService when changing this!
                       reverse: true
+  end
+
+  def initializer_meta_tag
+    tag :meta,
+        name: :openproject_initializer,
+        data: {
+          locale: I18n.locale,
+          defaultLocale: I18n.default_locale,
+          firstWeekOfYear: locale_first_week_of_year,
+          firstDayOfWeek: locale_first_day_of_week,
+          environment: Rails.env,
+          edition: OpenProject::Configuration.edition
+    }
   end
 
   ##

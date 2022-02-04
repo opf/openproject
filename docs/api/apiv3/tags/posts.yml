@@ -1,0 +1,27 @@
+---
+description: |-
+  Represents a post in a board. Posts are also referred to as messages in the application.
+
+  *This resource is currently a stub*
+
+  ## Actions
+
+  | Link                | Description                    | Condition                                                                                                                        |
+  |:-------------------:|--------------------------------| ---------------------------------------                                                                                          |
+  | addAttachment       | Attach a file to the post      | **Permission**: edit messages           |
+
+  ## Linked Properties
+
+  | Property         | Description                                            | Type        | Constraints    | Supported operations |
+  | :--------------: | ------------------------------------------------------ | ----------- | -------------- | -------------------- |
+  | self             | This post                                              | Post        | not null       | READ                 |
+  | attachments      | The files attached to this post                        | Collection  |                | READ                 |
+  | project          | The project the post belongs to                        | Project     | not null       | READ                 |
+
+  ## Local Properties
+
+  | Property         | Description                                 | Type                  | Constraints                          | Supported operations |
+  | :--------------: | ------------------------------------------- | -----------           | ------------------------------------ | -------------------- |
+  | id               | Identifier of this post                     | Integer               | x > 0                                | READ                 |
+  | subject          | The post's subject                          | String                | not null                             | READ                 |
+name: Posts

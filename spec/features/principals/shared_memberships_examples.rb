@@ -54,13 +54,13 @@ shared_examples 'global user principal membership management flows' do |permissi
       it_behaves_like 'principal membership management flows' do
       before do
         Members::CreateService
-          .new(user: nil, contract_class: EmptyContract)
+          .new(user: User.system, contract_class: EmptyContract)
           .call(principal: global_user,
                 project: project,
                 roles: [manager])
 
         Members::CreateService
-          .new(user: nil, contract_class: EmptyContract)
+          .new(user: User.system, contract_class: EmptyContract)
           .call(principal: global_user,
                 project: project2,
                 roles: [manager])
@@ -79,7 +79,7 @@ shared_examples 'global user principal membership management flows' do |permissi
 
       it 'does not show the membership' do
         Members::CreateService
-          .new(user: nil, contract_class: EmptyContract)
+          .new(user: User.system, contract_class: EmptyContract)
           .call(principal: principal,
                 project: project,
                 roles: [developer])

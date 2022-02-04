@@ -20,7 +20,7 @@ As the scheduling mode only affects individual work packages you can combine man
 | ------------------------------------------------------- | ------------------------------------------------------------ |
 | [Automatic scheduling mode](#automatic-scheduling-mode) | What happens to work packages, when you connect them in automatic scheduling mode? |
 | [Manual scheduling mode](#manual-scheduling-mode)       | What happens to work packages, when you connect them in manual scheduling mode? |
-| [Changing modes](#changing-modes)                       | How can I change between manual and automatic scheduling mode? |
+| [Changing mode](#changing-mode)                         | How can I change between manual and automatic scheduling mode? |
 
 
 ## Automatic scheduling mode
@@ -46,7 +46,7 @@ Changing to the **manual scheduling mode makes sense if**
 
 Moving a child work package in the manual scheduling mode will not move the dates of the parent work package. The scheduling differences will be indicated by a black or red bracket underneath (e.g. when a child is shorter or longer than the parent phase). See [this explanation](../#understanding-the-colors-and-lines-in-the-gantt-chart) to find out more about the lines and colors in the Gantt chart.
 
-<video src="https://www.openproject.org/wp-content/uploads/2020/09/OpenProject-Top-down-Scheduling.mp4" type="video/mp4" controls="" style="width:100%"></video>
+<video src="https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Top-down-Scheduling.mp4" type="video/mp4" controls="" style="width:100%"></video>
 
 
 ## Changing mode

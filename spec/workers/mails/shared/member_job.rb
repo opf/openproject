@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -69,21 +69,21 @@ shared_examples 'member job' do
 
       allow(Member)
         .to receive(:of)
-        .with(project)
-        .and_return(scope)
+              .with(project)
+              .and_return(scope)
 
       allow(scope)
         .to receive(:where)
-        .with(principal: group_users)
-        .and_return(scope)
+              .with(principal: group_users)
+              .and_return(scope)
 
       allow(scope)
         .to receive(:includes)
-        .and_return(scope)
+              .and_return(scope)
 
       allow(g)
         .to receive(:users)
-        .and_return(group_users)
+              .and_return(group_users)
     end
   end
   let(:group_user_members) { [] }
@@ -97,7 +97,7 @@ shared_examples 'member job' do
     %i[added_project updated_global updated_project].each do |mails|
       allow(MemberMailer)
         .to receive(mails)
-        .and_return(double('mail', deliver_now: nil))
+              .and_return(double('mail', deliver_now: nil))  # rubocop:disable Rspec/VerifiedDoubles
     end
   end
 
@@ -115,23 +115,7 @@ shared_examples 'member job' do
   context 'with a global membership' do
     let(:project) { nil }
 
-    context 'with sending enabled', with_settings: { notified_events: ['membership_updated'] } do
-      it 'sends mail' do
-        run_job
-
-        expect(MemberMailer)
-          .to have_received(:updated_global)
-          .with(current_user, member, message)
-      end
-    end
-
-    context 'with sending disabled and no message', with_settings: { notified_events: [] } do
-      let(:message) { '' }
-
-      it_behaves_like 'sends no mail'
-    end
-
-    context 'with sending disabled and a message', with_settings: { notified_events: [] } do
+    context 'with sending enabled' do
       it 'sends mail' do
         run_job
 
@@ -139,27 +123,42 @@ shared_examples 'member job' do
           .to have_received(:updated_global)
                 .with(current_user, member, message)
       end
+    end
+
+    context 'with sending disabled' do
+      let(:principal) do
+        FactoryBot.create :user,
+                          notification_settings: [
+                            FactoryBot.build(:notification_setting,
+                                             NotificationSetting::MEMBERSHIP_ADDED => false,
+                                             NotificationSetting::MEMBERSHIP_UPDATED => false)
+                          ]
+      end
+
+      it 'still sends mail due to the message present' do
+        run_job
+
+        expect(MemberMailer)
+          .to have_received(:updated_global)
+                .with(current_user, member, message)
+      end
+
+      context 'when the message is nil' do
+        let(:message) { '' }
+
+        it_behaves_like 'sends no mail'
+      end
+    end
+
+    context 'with the current user being the membership user' do
+      let(:user) { current_user }
+
+      it_behaves_like 'sends no mail'
     end
   end
 
   context 'with a user membership' do
-    context 'with sending enabled', with_settings: { notified_events: %w[membership_updated membership_added] } do
-      it 'sends mail' do
-        run_job
-
-        expect(MemberMailer)
-          .to have_received(user_project_mail_method)
-          .with(current_user, member, message)
-      end
-    end
-
-    context 'with sending disabled and no message', with_settings: { notified_events: [] } do
-      let(:message) { '' }
-
-      it_behaves_like 'sends no mail'
-    end
-
-    context 'with sending disabled and a message', with_settings: { notified_events: [] } do
+    context 'with sending enabled' do
       it 'sends mail' do
         run_job
 
@@ -167,6 +166,12 @@ shared_examples 'member job' do
           .to have_received(user_project_mail_method)
                 .with(current_user, member, message)
       end
+    end
+
+    context 'with the current user being the member user' do
+      let(:user) { current_user }
+
+      it_behaves_like 'sends no mail'
     end
   end
 end

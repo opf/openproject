@@ -23,7 +23,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
 @mixin details-pane--form-field
@@ -79,6 +79,21 @@
     textarea
       resize: vertical
 
+
+  // Implement two column layout for WP full screen view
+  &_with-columns
+    @media screen and (min-width: 92rem), print
+      .-columns-2
+        @include two-column-layout
+
+      @supports (column-span: all)
+        // Remove the outline on focus since that breaks the column in chrome
+        // Chrome bug https://bugs.chromium.org/p/chromium/issues/detail?id=565116
+        body
+          .attributes-key-value--value-container
+            *:focus
+              outline: 1px solid $gray
+
 .detail-panel-description
   margin: 0
   line-height: 18px
@@ -94,15 +109,6 @@ i
   &.icon-right
     vertical-align: -2px
     padding: 0 0 0 4px
-
-.work-packages--details-close-icon span,
-.work-packages--details-fullscreen-icon span
-  display: inline-block
-  padding-top: 2px
-  font-size: 0.9rem
-
-  &:before
-    color: var(--body-font-color)
 
 // -------------------- Attribute groups --------------------
 // Special styling for project context area
@@ -138,22 +144,6 @@ i
     flex: 1 0 55%
     max-width: 55%
 
-// Implement two column layout for WP full screen view
-@media screen and (min-width: 92rem), print
-  .router--work-packages-full-view .-can-have-columns,
-  .router--work-packages-full-create .-can-have-columns
-
-    .-columns-2
-      @include two-column-layout
-
-  @supports (column-span: all)
-    // Remove the outline on focus since that breaks the column in chrome
-    // Chrome bug https://bugs.chromium.org/p/chromium/issues/detail?id=565116
-    body
-      .attributes-key-value--value-container
-        *:focus
-          outline: 1px solid $gray
-
 // -------------------- Info row --------------------
 .work-packages--info-row
   font-size: 12px
@@ -179,7 +169,7 @@ i
   wp-status-button
     // Should not be longer than mobile screen width (margin of 15px left and right)
     max-width: calc(100vw - 30px)
-    
+
   attribute-help-text,
   wp-status-button,
   .work-packages--info-row

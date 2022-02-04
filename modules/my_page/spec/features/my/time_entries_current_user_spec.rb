@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -114,7 +114,7 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
 
     entries_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)')
 
-    my_page.expect_and_dismiss_notification message: I18n.t(:notice_successful_update)
+    my_page.expect_and_dismiss_toaster message: I18n.t(:notice_successful_update)
 
     entries_area.expect_to_span(1, 1, 2, 2)
 
@@ -190,7 +190,7 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
     time_logging_modal.perform_action 'Create'
     time_logging_modal.is_visible false
 
-    my_page.expect_and_dismiss_notification message: I18n.t(:notice_successful_create)
+    my_page.expect_and_dismiss_toaster message: I18n.t(:notice_successful_create)
 
     within entries_area.area do
       expect(page)
@@ -228,7 +228,7 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
     time_logging_modal.is_visible false
 
     sleep(0.1)
-    my_page.expect_and_dismiss_notification message: I18n.t(:notice_successful_update)
+    my_page.expect_and_dismiss_toaster message: I18n.t(:notice_successful_update)
 
     within entries_area.area do
       find("td.fc-timegrid-col:nth-of-type(3) .te-calendar--time-entry").hover

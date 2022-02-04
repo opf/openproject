@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -123,10 +123,7 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
           response
         end
 
-        it_behaves_like 'not found' do
-          let(:id) { 9999 }
-          let(:type) { 'Project' }
-        end
+        it_behaves_like 'not found'
       end
 
       context 'requesting project without sufficient permissions' do
@@ -136,10 +133,7 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
           response
         end
 
-        it_behaves_like 'not found' do
-          let(:id) { another_project.id.to_s }
-          let(:type) { 'Project' }
-        end
+        it_behaves_like 'not found'
       end
 
       context 'not being allowed to see the parent project' do
@@ -206,7 +200,27 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
 
     it_behaves_like 'API V3 collection response', 1, 1, 'Project'
 
-    context 'filtering for project by ancestor' do
+    context 'with a pageSize and offset' do
+      let(:projects) { [project, project2, project3] }
+      let(:project2) do
+        FactoryBot.create(:project,
+                          members: { current_user => [role] })
+      end
+      let(:project3) do
+        FactoryBot.create(:project,
+                          members: { current_user => [role] })
+      end
+
+      let(:get_path) do
+        api_v3_paths.path_for :projects, sort_by: { id: :asc }, page_size: 2, offset: 2
+      end
+
+      it_behaves_like 'API V3 collection response', 3, 1, 'Project' do
+        let(:elements) { [project3] }
+      end
+    end
+
+    context 'when filtering for project by ancestor' do
       let(:projects) { [project, other_project, parent_project] }
 
       let(:parent_project) do
@@ -291,6 +305,47 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
             .to be_json_eql(other_project.id.to_json)
             .at_path('_embedded/elements/0/id')
         end
+      end
+    end
+
+    context 'with filtering by visiblity' do
+      let(:public_project) do
+        # Otherwise, the public project is invisible
+        FactoryBot.create(:non_member)
+
+        FactoryBot.create(:public_project)
+      end
+      let(:member_project) do
+        FactoryBot.create(:project, members: { other_user => role })
+      end
+      let(:non_member_project) do
+        FactoryBot.create(:project)
+      end
+      let(:archived_member_project) do
+        FactoryBot.create(:project, members: { other_user => role }, active: false)
+      end
+      let(:projects) { [member_project, public_project, non_member_project, archived_member_project] }
+      let(:role) { FactoryBot.create(:role, permissions: []) }
+      let(:other_user) do
+        FactoryBot.create(:user)
+      end
+
+      let(:get_path) do
+        api_v3_paths.path_for :projects, filters: [{ "visible": { "operator": "=", "values": [other_user.id.to_s] } }]
+      end
+
+      current_user { admin }
+
+      it_behaves_like 'API V3 collection response', 2, 2, 'Project'
+
+      it 'contains the expected projects' do
+        expect(last_response.body)
+          .to be_json_eql(public_project.id.to_json)
+                .at_path('_embedded/elements/0/id')
+
+        expect(last_response.body)
+          .to be_json_eql(member_project.id.to_json)
+                .at_path('_embedded/elements/1/id')
       end
     end
 
@@ -842,10 +897,7 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
       context 'for a non-existent project' do
         let(:path) { api_v3_paths.project 0 }
 
-        it_behaves_like 'not found' do
-          let(:id) { 0 }
-          let(:type) { 'Project' }
-        end
+        it_behaves_like 'not found'
       end
 
       context 'for a project which has a version foreign work packages refer to' do

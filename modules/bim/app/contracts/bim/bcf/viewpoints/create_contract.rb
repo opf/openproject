@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -25,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module Bim::Bcf
@@ -78,7 +76,7 @@ module Bim::Bcf
                                        space_boundaries_visible
                                        openings_visible).freeze
 
-      COLOR_REGEXP = /#([0-9a-f]{2})?[0-9a-f]{6}/
+      COLOR_REGEXP = /#([0-9a-f]{2})?[0-9a-f]{6}/.freeze
 
       WHITELISTED_DIMENSIONS = %w(x y z).freeze
 
@@ -86,7 +84,7 @@ module Bim::Bcf
       attribute :issue
       attribute :snapshot
       attribute :json_viewpoint do
-        validate_json_viewpoint_present
+        validate_json_viewpoint_blank
         validate_json_viewpoint_hash
 
         next if errors.any?
@@ -103,8 +101,8 @@ module Bim::Bcf
         validate_guid
       end
 
-      def validate_json_viewpoint_present
-        errors.add(:json_viewpoint, :blank) unless viewpoint.present?
+      def validate_json_viewpoint_blank
+        errors.add(:json_viewpoint, :blank) if viewpoint.blank?
       end
 
       def validate_json_viewpoint_hash
@@ -119,7 +117,7 @@ module Bim::Bcf
         return unless (sjson = viewpoint['snapshot'])
 
         errors.add(:json_viewpoint, :snapshot_type_unsupported) unless %w(jpg png).include? sjson['snapshot_type']
-        errors.add(:json_viewpoint, :snapshot_data_blank) unless sjson['snapshot_data'].present?
+        errors.add(:json_viewpoint, :snapshot_data_blank) if sjson['snapshot_data'].blank?
       end
 
       def validate_index
@@ -216,13 +214,13 @@ module Bim::Bcf
       end
 
       def invalid_components?(components)
-        return false unless components.present?
+        return false if components.blank?
 
         !components.is_a?(Array) || components.any? { |component| invalid_component?(component) }
       end
 
       def invalid_colorings?(colorings)
-        return false unless colorings.present?
+        return false if colorings.blank?
 
         !colorings.is_a?(Array) || colorings.any? { |coloring| invalid_coloring?(coloring) }
       end

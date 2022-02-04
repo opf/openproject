@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module Bim::Bcf::API::V2_1
@@ -33,5 +33,9 @@ module Bim::Bcf::API::V2_1
     include Representable::JSON
 
     defaults render_nil: true
+
+    def datetime_formatter
+      ::API::V3::Utilities::DateTimeFormatter
+    end
   end
 end

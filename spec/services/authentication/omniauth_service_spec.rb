@@ -25,12 +25,12 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 
 require 'spec_helper'
 
 describe Authentication::OmniauthService do
-  let(:strategy) { double('Omniauth Strategy') }
+  let(:strategy) { double('Omniauth Strategy', name: 'saml') }
   let(:auth_hash) do
     OmniAuth::AuthHash.new(
       provider: 'google',
@@ -98,7 +98,7 @@ describe Authentication::OmniauthService do
 
       it 'does not call register user service and logs in the user' do
         # should update the user attributes
-        expect(user).to receive(:update).with(user_attributes)
+        allow(user).to receive(:save)
 
         expect(OpenProject::OmniAuth::Authorization)
           .to(receive(:after_login!))
@@ -106,6 +106,10 @@ describe Authentication::OmniauthService do
 
         expect(call).to be_success
         expect(call.result).to eq user
+        expect(call.result.firstname).to eq 'foo'
+        expect(call.result.lastname).to eq 'bar'
+        expect(call.result.mail).to eq 'foo@bar.com'
+        expect(user).to have_received(:save)
       end
     end
 
@@ -149,7 +153,7 @@ describe Authentication::OmniauthService do
 
       it 'does not call register user service and logs in the user' do
         # should update the user attributes
-        expect(user).to receive(:update).with(user_attributes)
+        allow(user).to receive(:save)
 
         expect(OpenProject::OmniAuth::Authorization)
           .to(receive(:after_login!))
@@ -157,6 +161,10 @@ describe Authentication::OmniauthService do
 
         expect(call).to be_success
         expect(call.result).to eq user
+        expect(call.result.firstname).to eq 'foo'
+        expect(call.result.lastname).to eq 'bar'
+        expect(call.result.mail).to eq 'foo@bar.com'
+        expect(user).to have_received(:save)
       end
     end
 
@@ -176,6 +184,9 @@ describe Authentication::OmniauthService do
           # The user might get activated in the register service
           expect(instance.user).not_to be_active
           expect(instance.user).to be_new_record
+
+          # Expect notifications to be present (Regression #38066)
+          expect(instance.user.notification_settings).not_to be_empty
         end
       end
     end

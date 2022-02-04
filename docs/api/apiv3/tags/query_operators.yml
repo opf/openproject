@@ -1,0 +1,21 @@
+---
+description: |-
+  A QueryOperator can be referenced by a QueryFilter to denote the operator to be applied to the filter relation.
+
+  ## Actions
+
+  As of now, no actions are defined.
+
+  ## Linked Properties
+
+  | Property         | Description                                            | Type          | Constraints                      | Supported operations |
+  | :--------------: | ------------------------------------------------------ | -----------   | -------------------------------- | -------------------- |
+  | self             | This query operator                                    | QueryOperator | not null                         | READ                 |
+
+  ## Local Properties
+
+  | Property         | Description                                            | Type        | Constraints                      | Supported operations |
+  | :--------------: | ------------------------------------------------------ | ----------- | -------------------------------- | -------------------- |
+  | id               | Query operator id                                      | String      | not null                         | READ                 |
+  | name             | Query operator name                                    | String      | not null                         | READ                 |
+name: Query Operators

@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #+
 require 'open3'
 
@@ -55,6 +55,8 @@ module Bim
       end
 
       def call
+        ifc_model.processing!
+
         validate!
 
         Dir.mktmpdir do |dir|
@@ -62,14 +64,24 @@ module Bim
 
           perform_conversion!
 
+          ifc_model.conversion_status = ::Bim::IfcModels::IfcModel.conversion_statuses[:completed]
+          ifc_model.conversion_error_message = nil
+
           ServiceResult.new(success: ifc_model.save, result: ifc_model)
         end
       rescue StandardError => e
         OpenProject.logger.error("Failed to convert IFC to XKT", exception: e)
+
+        ifc_model.conversion_status = ::Bim::IfcModels::IfcModel.conversion_statuses[:error]
+        ifc_model.conversion_error_message = e.message
+        ifc_model.save
+
         ServiceResult.new(success: false).tap { |r| r.errors.add(:base, e.message) }
       ensure
         self.working_directory = nil
       end
+
+      private
 
       def perform_conversion!
         # Step 0: avoid file name issues (e.g. umlauts) in the pipeline
@@ -125,6 +137,8 @@ module Bim
                           '--use-element-guids',
                           '--no-progress',
                           '--verbose',
+                          '--threads',
+                          '4',
                           ifc_filepath,
                           target_file,
                           '--exclude',
@@ -203,8 +217,6 @@ module Bim
 
         Pathname(from).parent.join(to.basename.to_s.sub(to.extname, ext))
       end
-
-      private
 
       def working_directory=(dir)
         @working_directory = dir

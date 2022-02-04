@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module Redmine
@@ -45,7 +45,7 @@ module Redmine
         if line.respond_to?(:force_encoding)
           line_encoding = line.encoding
           # TODO: UTF-16 and Japanese CP932 which is incompatible with ASCII
-          #       In Japan, diffrence between file path encoding
+          #       In Japan, difference between file path encoding
           #       and file contents encoding is popular.
           line.force_encoding('ASCII-8BIT')
         end

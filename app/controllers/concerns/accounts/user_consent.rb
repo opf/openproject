@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 ##
@@ -61,7 +61,7 @@ module Accounts::UserConsent
   def decline_consent
     message = I18n.t('consent.decline_warning_message') + "\n"
     message <<
-      if Setting.consent_decline_mail
+      if Setting.consent_decline_mail.present?
         I18n.t('consent.contact_this_mail_address', mail_address: Setting.consent_decline_mail)
       else
         I18n.t('consent.contact_your_administrator')

@@ -23,7 +23,8 @@ describe XlsExport::WorkPackage::Exporter::XLS do
     work_packages
     relations
     work_packages.each(&:reload) # to init .leaves and relations
-    load_sheet export
+    io = StringIO.new export.export!.content
+    Spreadsheet.open(io).worksheets.first
   end
 
   let(:options) { {} }
@@ -33,21 +34,6 @@ describe XlsExport::WorkPackage::Exporter::XLS do
       query,
       options
     )
-  end
-
-  def load_sheet(export)
-    f = Tempfile.new 'result.xls'
-    begin
-      f.binmode
-      f.write export.list(&:content)
-    ensure
-      f.close
-    end
-
-    sheet = Spreadsheet.open(f.path).worksheets.first
-    f.unlink
-
-    sheet
   end
 
   context 'with relations' do
@@ -100,7 +86,7 @@ describe XlsExport::WorkPackage::Exporter::XLS do
     it 'produces the correct result' do
       expect(query.columns.map(&:name)).to eq %i[type id subject status assigned_to priority]
 
-      # the first header row devides the sheet into work packages and relation columns
+      # the first header row divides the sheet into work packages and relation columns
       expect(sheet.rows.first.take(8)).to eq ['Work packages', nil, nil, nil, nil, nil, nil, 'Relations']
 
       # the second header row includes the column names for work packages and relations and the related work package

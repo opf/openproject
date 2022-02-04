@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -81,6 +81,9 @@ describe 'Subprojects widget on dashboard', type: :feature, js: true do
     sleep(0.1)
 
     subprojects_widget = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)')
+
+    expect(page)
+      .to have_link(child_project.name, wait: 10)
 
     within(subprojects_widget.area) do
       expect(page)

@@ -13,7 +13,7 @@
 /// @Foundation.settings
 // Title Bar
 $titlebar-center-width: 50% !default;
-$titlebar-side-width: (100% - $titlebar-center-width) / 2 !default;
+$titlebar-side-width: (100% - $titlebar-center-width) * 0.5 !default;
 $titlebar-background: #eee !default;
 $titlebar-color: #000 !default;
 $titlebar-border: 1px solid #ccc !default;

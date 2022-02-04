@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #+
 
 module Bim
@@ -31,7 +31,7 @@ module Bim
     class UpdateService < ::BaseServices::Update
       protected
 
-      def before_perform(params)
+      def before_perform(params, _service_result)
         @ifc_attachment_updated = params[:ifc_attachment].present?
 
         super
@@ -44,6 +44,9 @@ module Bim
           model.attachments.select(&:marked_for_destruction?).each(&:destroy)
 
           if @ifc_attachment_updated
+            model.update(conversion_status: ::Bim::IfcModels::IfcModel.conversion_statuses[:pending],
+                         conversion_error_message: nil)
+            
             IfcConversionJob.perform_later(service_result.result)
           end
         end

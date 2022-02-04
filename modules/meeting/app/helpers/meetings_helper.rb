@@ -23,13 +23,18 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module MeetingsHelper
   def format_participant_list(participants)
     if participants.any?
-      participants.sort.map { |p| link_to_user p.user }.join('; ').html_safe
+      user_links = participants
+        .sort
+        .reject { |p| p.user.nil? }
+        .map { |p| link_to_user p.user }
+
+      safe_join(user_links, '; ')
     else
       t('placeholders.default')
     end

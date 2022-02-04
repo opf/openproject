@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 el:
   activerecord:
@@ -137,6 +137,7 @@ el:
   label_wiki: "Wiki"
   permission_view_master_backlog: "Εμφάνιση του κύριου backlog"
   permission_view_taskboards: "Εμφάνιση πινάκων εργασίας"
+  permission_select_done_statuses: "Select done statuses"
   permission_update_sprints: "Ενημέρωση των sprints"
   points_accepted: "πόντοι που έγιναν αποδεκτοί"
   points_committed: "πόντοι που δεσμεύτηκαν"

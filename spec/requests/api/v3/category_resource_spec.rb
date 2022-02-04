@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -74,10 +74,7 @@ describe 'API v3 Category resource' do
         get get_path
       end
 
-      it_behaves_like 'not found' do
-        let(:id) { private_project.id.to_s }
-        let(:type) { 'Project' }
-      end
+      it_behaves_like 'not found'
     end
   end
 

@@ -1,0 +1,137 @@
+@import "helpers"
+
+// search bar has a min-width of 160px and should adapt to every screen size
+$search-input-width: calc(160px + 3vw)
+$search-input-width-expanded: calc(160px + 13vw)
+$search-input-height: 30px
+
+.top-menu-search
+  display: flex
+  align-items: center
+  position: relative
+  height: var(--header-height)
+  line-height: var(--header-height)
+  margin: 0 15px
+
+  @media screen and (max-width: 679px)
+    margin: 0
+
+  &--back-button
+    display: none
+
+  &--button
+    @include unset-button-styles
+    position: absolute
+    right: 2px
+    font-size: var(--header-item-font-size)
+    color: var(--header-item-font-color)
+
+    &:hover
+      text-decoration: none
+
+    // TODO: This should be using  @include breakpoint(680px down)
+    // Which is hard to do since we don't have access here and it'll
+    // probably require a larger sass import refactoring
+    @media screen and (max-width: 679px)
+      position: relative
+      padding: 0 8px
+
+      &:hover
+        background: var(--header-item-bg-hover-color)
+        color: var(--header-item-font-hover-color)
+        border-bottom: var(--header-border-bottom-width) solid var(--header-border-bottom-color)
+
+    &.-input-focused
+      color: var(--header-search-field-font-color)
+
+  &--loading
+    top: var(--header-height) - 11px  // display directly under ng-input field
+    height: 46px                // ng-option height + 1px border
+    z-index: 1051
+
+  &--input
+    width: $search-input-width
+    font-size: 0.9rem
+    -webkit-transition: width 0.2s ease-in-out
+    transition: width 0.2s ease-in-out
+    &::-ms-clear
+      margin-right: 5px
+      width: 20px
+
+    .ng-select-container
+      background: transparent
+      border-color: var(--header-item-font-color)
+
+    .ng-arrow-wrapper
+      display: none
+
+    .ng-clear-wrapper
+      color: var(--header-item-font-color)
+      top: 1px
+      width: 30px
+      right: 25px
+      text-align: center
+
+    .ng-input
+      @media screen and (max-width: 679px)
+        // TODO: We need to do this because the default ng-select theme uses a specificity of 5(!) classes
+        // We should probably remove the default theme altogether at some point
+        top: 0 !important
+
+      input
+        color: var(--header-item-font-color)
+        height: $search-input-height
+        cursor: text
+
+    .ng-placeholder
+      // The ng-select default theme is overly specific
+      // We might want to replace it with our own BEM theme definition
+      color: var(--header-item-font-color) !important
+
+    &.-expanded
+      width: $search-input-width-expanded
+      background: white
+      border-radius: 4px
+      color: var(--header-search-field-font-color)
+
+      .ng-placeholder,
+      .ng-clear-wrapper,
+      input
+        color: var(--header-search-field-font-color)
+
+    .ng-dropdown-panel-items.scroll-host
+      @include styled-scroll-bar
+      max-height: 80vh
+      height: auto
+
+    .ng-option
+      border-bottom: 1px solid #EAEAEA
+      white-space: normal
+      padding: 5px 10px
+      // We do not want the default highlighting of ng-select to take place as
+      // it will highlight the element last hovered over/navigated to even
+      // though the selection might have changed in the meantime.
+      // We either want to mark the first element or, in case of a direct hit (by the wp id)
+      // we want to highlight that hit.
+      background-color: unset
+      &:last-child
+        border-bottom: none
+      &.ng-option-marked
+        color: var(--header-drop-down-item-font-hover-color)
+      &.ng-option-disabled
+        display: none
+      &.ng-option-selected
+        color: var(--header-drop-down-item-font-hover-color)
+
+    &.-markable
+      .ng-option
+        &.ng-option-marked
+          background-color: var(--drop-down-hover-bg-color)
+        &.ng-option-selected
+          background-color: var(--drop-down-selected-bg-color)
+
+  &--input
+    // Fix position of the spinner
+    .ng-spinner-loader
+      position: relative
+      right: 14px

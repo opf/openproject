@@ -25,22 +25,30 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 OpenProject::Notifications.subscribe(OpenProject::Events::JOURNAL_CREATED) do |payload|
-  Notifications::JournalNotificationService.call(payload[:journal], payload[:send_notification])
+  # A job is scheduled that creates notifications (in app if supported) right away and schedules
+  # jobs to be run for mail and digest mails.
+  Notifications::WorkflowJob
+    .perform_later(:create_notifications,
+                   payload[:journal],
+                   payload[:send_notification])
+
+  # A job is scheduled for the end of the journal aggregation time. If the journal does still exist
+  # at the end (it might be replaced because another journal was created within that timeframe)
+  # that job generates a OpenProject::Events::AGGREGATED_..._JOURNAL_READY event.
+  Journals::CompletedJob.schedule(payload[:journal], payload[:send_notification])
 end
 
-OpenProject::Notifications.subscribe(OpenProject::Events::AGGREGATED_WORK_PACKAGE_JOURNAL_READY) do |payload|
-  Notifications::JournalWpMailService.call(payload[:journal], payload[:send_mail])
-end
-
-OpenProject::Notifications.subscribe(OpenProject::Events::AGGREGATED_WIKI_JOURNAL_READY) do |payload|
-  Notifications::JournalWikiMailService.call(payload[:journal], payload[:send_mail])
+OpenProject::Notifications.subscribe(OpenProject::Events::JOURNAL_AGGREGATE_BEFORE_DESTROY) do |payload|
+  Notifications::AggregatedJournalService.relocate_immediate(**payload.slice(:journal, :predecessor))
 end
 
 OpenProject::Notifications.subscribe(OpenProject::Events::WATCHER_ADDED) do |payload|
+  next unless payload[:send_notifications]
+
   Mails::WatcherAddedJob
     .perform_later(payload[:watcher],
                    payload[:watcher_setter])
@@ -53,6 +61,8 @@ OpenProject::Notifications.subscribe(OpenProject::Events::WATCHER_REMOVED) do |p
 end
 
 OpenProject::Notifications.subscribe(OpenProject::Events::MEMBER_CREATED) do |payload|
+  next unless payload[:send_notifications]
+
   Mails::MemberCreatedJob
     .perform_later(current_user: User.current,
                    member: payload[:member],
@@ -60,8 +70,17 @@ OpenProject::Notifications.subscribe(OpenProject::Events::MEMBER_CREATED) do |pa
 end
 
 OpenProject::Notifications.subscribe(OpenProject::Events::MEMBER_UPDATED) do |payload|
+  next unless payload[:send_notifications]
+
   Mails::MemberUpdatedJob
     .perform_later(current_user: User.current,
                    member: payload[:member],
                    message: payload[:message])
+end
+
+OpenProject::Notifications.subscribe(OpenProject::Events::NEWS_COMMENT_CREATED) do |payload|
+  Notifications::WorkflowJob
+    .perform_later(:create_notifications,
+                   payload[:comment],
+                   payload[:send_notification])
 end

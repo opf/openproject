@@ -117,7 +117,7 @@ Assume you start creating a new work package of type `Task`, and then switch to 
 
 ![Type switching resulting in new attributes](type-switching.gif)
 
-For this to work, the `WorkPackageSingleView` needs to have acecss to the work package *as if it was saved* after the type was changed. But the work package is a new resource and not yet actually saved. That's why `HalResourceEditingService#temporaryEditingResource` returns an observable state that returns either the pristine work package, or the proxied work package by the changeset to transparently access the modified-yet-unsaved work package resource.
+For this to work, the `WorkPackageSingleView` needs to have access to the work package *as if it was saved* after the type was changed. But the work package is a new resource and not yet actually saved. That's why `HalResourceEditingService#temporaryEditingResource` returns an observable state that returns either the pristine work package, or the proxied work package by the changeset to transparently access the modified-yet-unsaved work package resource.
 
 
 

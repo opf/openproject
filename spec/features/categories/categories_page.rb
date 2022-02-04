@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 class CategoriesPage
@@ -35,6 +35,6 @@ class CategoriesPage
   end
 
   def visit_settings
-    visit(settings_categories_project_path(@project))
+    visit(project_settings_categories_path(@project))
   end
 end

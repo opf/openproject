@@ -16,7 +16,7 @@ Relations indicate any functional or timely relation (e.g. follows or proceeds, 
 | Topic                                                        | Content                                                      |
 | ------------------------------------------------------------ | :----------------------------------------------------------- |
 | [Work packages relations](#work-package-relations)           | How can I set a relation between two work packages and which relations can I set? |
-| [Display relations in work package list](#display-relations-in-work-package-list-(premium-feature)) | How can I display the relations between two work packages in the work package list? |
+| [Display relations in work package list](#display-relations-in-work-package-list-premium-feature) | How can I display the relations between two work packages in the work package list? |
 | [Work package hierarchies](#work-package-hierarchies)        | What are work package hierarchies? Learn about parent and children work packages. |
 | [Adding a child work package](#adding-a-child-work-package)  | What are the possibilities to add children work packages?    |
 | [Change the parent work package](#change-the-parent-work-package) | How can I change a work package's parent?                    |
@@ -28,10 +28,10 @@ Work package relations indicate that work packages address a similar topic or cr
 
 1. Select a work package, click on **Relations** to open the relations tab and click the **+ Create new relations** link.
 2. Select the type of relationship from the dropdown menu.
-3. Enter the ID or name of the work package, to which the relation should be created and choose an entry from the dropdown menu.
-4. If necessary, press the Enter key
+3. Enter the ID or name of the work package, to which the relation should be created and choose an entry from the dropdown menu. The autocompleter suggests the work package to be added.
+4. Press the Enter key.
 
-![add-work-package-relations](image-20201217124334984.png)
+![autocompletion](autocompletion.png)
 
 You can select one of the following relations:
 

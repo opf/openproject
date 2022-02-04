@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 class GroupUser < ApplicationRecord
@@ -33,6 +33,6 @@ class GroupUser < ApplicationRecord
              touch: true
   belongs_to :user
 
-  validates_presence_of :group
-  validates_presence_of :user
+  validates :group, presence: true
+  validates :user, presence: true
 end

@@ -23,13 +23,13 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
 @include breakpoint (680px down)
   #content
     .toolbar-container
-      margin-top: 10px
+      margin-top: 5px
 
       .title-container:not(editable-toolbar-title)
         margin-right: 10px
@@ -44,7 +44,7 @@
           margin: 0 0 10px 10px
 
         // Hide toolbar button texts on mobile
-        .button--text,
+        .button--text:not(.button--text_without_icon),
         .icon-pulldown
           display: none
 

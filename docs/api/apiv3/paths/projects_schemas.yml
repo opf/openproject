@@ -1,0 +1,144 @@
+# /api/v3/projects/schemas
+---
+get:
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _dependencies: []
+                _links:
+                  self:
+                    href: "/api/v3/projects/schema"
+                _type: Schema
+                active:
+                  hasDefault: true
+                  name: Active
+                  required: true
+                  type: Boolean
+                  writable: true
+                createdAt:
+                  hasDefault: false
+                  name: Created on
+                  required: true
+                  type: DateTime
+                  writable: false
+                customField30:
+                  hasDefault: false
+                  name: Integer project custom field
+                  required: false
+                  type: Integer
+                  visibility: default
+                  writable: true
+                customField31:
+                  _links: {}
+                  hasDefault: false
+                  location: _links
+                  name: List project custom field
+                  required: false
+                  type: CustomOption
+                  visibility: default
+                  writable: true
+                customField32:
+                  _links: {}
+                  hasDefault: false
+                  location: _links
+                  name: Version project custom field
+                  required: false
+                  type: Version
+                  visibility: default
+                  writable: true
+                customField34:
+                  hasDefault: false
+                  name: Boolean project custom field
+                  required: false
+                  type: Boolean
+                  visibility: default
+                  writable: true
+                customField35:
+                  hasDefault: false
+                  name: Text project custom field
+                  required: true
+                  type: String
+                  visibility: default
+                  writable: true
+                description:
+                  hasDefault: false
+                  name: Description
+                  required: false
+                  type: Formattable
+                  writable: true
+                id:
+                  hasDefault: false
+                  name: ID
+                  required: true
+                  type: Integer
+                  writable: false
+                identifier:
+                  hasDefault: false
+                  maxLength: 100
+                  minLength: 1
+                  name: Identifier
+                  required: true
+                  type: String
+                  writable: true
+                name:
+                  hasDefault: false
+                  maxLength: 255
+                  minLength: 1
+                  name: Name
+                  required: true
+                  type: String
+                  writable: true
+                parent:
+                  _links: {}
+                  hasDefault: false
+                  location: _links
+                  name: Subproject of
+                  required: false
+                  type: Project
+                  visibility: default
+                  writable: true
+                public:
+                  hasDefault: false
+                  name: Public
+                  required: true
+                  type: Boolean
+                  writable: true
+                status:
+                  _links:
+                    allowedValues:
+                    - href: "/api/v3/project_statuses/on_track"
+                      title: On track
+                    - href: "/api/v3/project_statuses/at_risk"
+                      title: At risk
+                    - href: "/api/v3/project_statuses/off_track"
+                      title: Off track
+                  hasDefault: true
+                  name: Status
+                  required: false
+                  type: ProjectStatus
+                  writable: true
+                statusExplanation:
+                  hasDefault: false
+                  name: Status explanation
+                  required: false
+                  type: Formattable
+                  writable: true
+                updatedAt:
+                  hasDefault: false
+                  name: Updated on
+                  required: true
+                  type: DateTime
+                  writable: false
+          schema:
+            "$ref": "../components/schemas/projects_schema_model.yml"
+      description: OK
+      headers: {}
+  tags:
+  - Projects
+  description: ''
+  operationId: View_project_schema
+  summary: View project schema

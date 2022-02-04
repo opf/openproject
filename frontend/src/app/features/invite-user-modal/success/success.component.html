@@ -1,0 +1,16 @@
+<div class="op-ium-success">
+  <div class="op-modal--body op-modal--body_center">
+    <img [src]="type === PrincipalType.Placeholder ? placeholder_image : user_image" />
+
+    <h1 [textContent]="text.title()"></h1>
+
+    <p [textContent]="text.description[type]()"></p>
+    <p>
+      <button
+        (click)="close.emit()"
+        class="button -highlight"
+        type="button"
+      >{{ text.nextButton }}</button>
+    </p>
+  </div>
+</div>

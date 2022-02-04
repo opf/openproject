@@ -1,0 +1,23 @@
+@import "src/assets/sass/helpers"
+
+.op-user-activity
+  &--user-line
+    display: flex
+    align-items: center
+    margin-right: 50px
+    @include text-shortener(false)
+
+  &--user-name
+    display: block
+    font-weight: bold
+    line-height: 16px
+    margin-bottom: 3px
+
+  &--date
+    display: block
+    font-size: 0.8rem
+    color: var(--gray-dark)
+
+  &--avatar
+    flex-shrink: 0
+    margin-right: 0.5rem

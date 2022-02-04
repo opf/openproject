@@ -10,7 +10,7 @@ module ::Boards
     menu_item :board_view
 
     def index
-      render layout: 'angular'
+      render layout: 'angular/angular'
     end
 
     current_menu_item :index do

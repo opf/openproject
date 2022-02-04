@@ -1,0 +1,82 @@
+.op-app-header
+  display: grid
+  grid-template-columns: minmax(0, 1fr) auto 1fr
+  grid-template-rows: auto
+  grid-template-areas: "start center end"
+  background-color: var(--header-bg-color)
+  height: var(--header-height)
+  padding: 0
+  position: relative
+  z-index: 22
+  border-bottom-style: solid
+  border-bottom-width: var(--header-border-bottom-width)
+  border-bottom-color: var(--header-border-bottom-color)
+  width: 100vw
+
+  @media screen and (max-width: 679px)
+    position: fixed
+    top: 0
+    left: 0
+    right: 0
+
+  @at-root .zen-mode &
+    display: none
+
+  &--start,
+  &--center,
+  &--end
+    display: flex
+    height: var(--header-height)
+
+  &--start
+    grid-area: start
+    justify-content: flex-start
+
+  &--center
+    grid-area: center
+    justify-content: center
+
+  &--end
+    grid-area: end
+    justify-content: flex-end
+
+  &--avatar
+    border: 1px solid var(--header-item-font-color)
+
+
+  ._header-scrolled &
+    @media screen and (max-width: 679px)
+      // Slide header in and out on scroll (see also: _base_mobile.sass)
+      margin-top: calc(0px - #{var(--header-height)})
+      transition: margin-top .4s
+
+  &_search-open
+    @media screen and (max-width: 679px)
+      display: flex
+
+      .op-app-header--start,
+      .op-app-header--center
+        display: none
+
+      .op-app-header--end
+        flex-grow: 1
+
+      .op-app-search
+        flex-grow: 1
+
+      .global-search
+        display: block
+
+      .top-menu-search
+        margin: 0
+
+        &--button
+          display: none
+          color: var(--header-item-font-color)
+
+    @media screen and (max-width: 379px)
+      .op-app-menu
+        display: none
+
+      .top-menu-search
+        padding-right: 1rem

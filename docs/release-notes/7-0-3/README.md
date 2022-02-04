@@ -13,7 +13,7 @@ The release contains an important security fix regarding session expiry
 and several bug fixes.
 
 For details on the security fix, take a look at the [release
-news](https://www.openproject.org/openproject-7-0-3-released/).
+news](https://www.openproject.org/blog/openproject-7-0-3-released/).
 
 ## Bug fixes (7)
 

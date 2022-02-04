@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 #English strings go here for Rails i18n
 fil:
@@ -25,7 +25,7 @@ fil:
     attributes:
       meeting:
         location: "Lokasyon"
-        duration: "Durasyon"
+        duration: "Tagal"
         participants: "Mga Kalahok"
         participants_attended: "Mga Dadalo"
         participants_invited: "Mga Imbitado"
@@ -38,7 +38,7 @@ fil:
       meeting_agenda: "Agenda"
       meeting_minutes: "Minutes"
   description_attended: "dumalo"
-  description_invite: "imbitado"
+  description_invite: "maimbitahan"
   events:
     meeting: Inedit ang pagpupulong
     meeting_agenda: Inedit ang adyenda ng pagpupulong
@@ -53,7 +53,7 @@ fil:
   label_meeting_edit: "I-edit and Pagpupulong"
   label_meeting_agenda: "Agenda"
   label_meeting_minutes: "Minutes"
-  label_meeting_close: "Isara"
+  label_meeting_close: "Sarado"
   label_meeting_open: "Bukas"
   label_meeting_agenda_close: "Isarado ang adyenda para simulan ang Minutes"
   label_meeting_date_time: "Petsa/Oras"
@@ -61,8 +61,10 @@ fil:
   label_notify: "Ipadala para sa pagsusuri"
   label_icalendar: "Ipadala ang iCalendar"
   label_version: "Bersyon"
-  label_time_zone: "Time zone"
-  label_start_date: "Petsa ng pagsimula"
+  label_time_zone: "Time Zone"
+  label_start_date: "Petsa ng Pagsisimula"
+  meeting:
+    copied: "Copied from Meeting #%{id}"
   notice_successful_notification: "Ang abiso ay naipadala ng matagumpay"
   notice_timezone_missing: Walang nakatakdang time zone at ang %{zone} ay ipinagpalagay na siyang time zone. Para piliin ang iyong time zone, mangyaring magclick dito.
   permission_create_meetings: "Lumikha ng mga pulong"

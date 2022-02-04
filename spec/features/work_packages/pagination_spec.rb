@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -55,8 +55,8 @@ RSpec.feature 'Work package pagination', js: true do
         expect(page).to_not have_content(work_package_2.subject)
       end
 
-      within('.pagination--pages') do
-        find('.pagination--item a', text: '2').click
+      within('.op-pagination--pages') do
+        find('.op-pagination--item button', text: '2').click
       end
 
       within('.work-packages-partitioned-query-space--container') do
@@ -64,8 +64,8 @@ RSpec.feature 'Work package pagination', js: true do
         expect(page).to_not have_content(work_package_1.subject)
       end
 
-      within('.pagination--options') do
-        find('.pagination--item a', text: '50').click
+      within('.op-pagination--options') do
+        find('.op-pagination--item button', text: '50').click
       end
 
       within('.work-packages-partitioned-query-space--container') do

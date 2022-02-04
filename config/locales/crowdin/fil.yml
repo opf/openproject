@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 fil:
   no_results_title_text: Sa kasalukuyan ay walang maipakita.
@@ -298,8 +298,8 @@ fil:
       query_group_placeholder: "Give the table a name"
       reset: "I-reset sa mga default"
       type_color_text: |
-        Click to assign or change the color of this type. The selected color distinguishes work packages
-        in Gantt charts. It is therefore recommended to use a strong color.
+        The selected color distinguishes different types
+        in Gantt charts or work packages tables. It is therefore recommended to use a strong color.
   versions:
     overview:
       no_results_title_text: Sa kasalukuyan ay walang mga work packages na nakatala sa bersyong ito.
@@ -317,6 +317,10 @@ fil:
       other: '%{count} work package descendants'
     bulk:
       could_not_be_saved: "The following work packages could not be saved:"
+      none_could_be_saved: "None of the %{total} work packages could be updated."
+      x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
+      selected_because_descendants: "While %{selected} work packages where selected, in total %{total} work packages are affected which includes descendants."
+      descendant: "descendant of selected"
     move:
       no_common_statuses_exists: "There is no status available for all selected work packages. Their status cannot be changed."
       unsupported_for_multiple_projects: 'Ang bulk na paglipat/kopya ay hindi suportado sa mga work packages mula sa iba''t ibang mga proyekto'
@@ -460,6 +464,7 @@ fil:
         url: "Ang URL"
       role:
         assignable: "Ang mga work package ay maaring nakatalaga sa mga gumagamit at grupo sa possesyon ng tungkulin na ito sa nakatalagang proyekto"
+        permissions: "Mga pahintulot"
       time_entry:
         activity: "Aktibidad"
         hours: "Mga oras"
@@ -479,7 +484,6 @@ fil:
         force_password_change: "Ipatupad ang password na ibahin sa susunod na login"
         language: "Linggwahe"
         last_login_on: "Huling nag login"
-        mail_notification: "Mga abiso ng emailba"
         new_password: "Bagong password"
         password_confirmation: "Kompirmasyon"
         consented_at: "Consented at"
@@ -536,6 +540,7 @@ fil:
         before: "dapat ay bago ang %{date}."
         before_or_equal_to: "dapat ay bago o katumbas sa %{date}."
         blank: "hindi pwedeng blanko."
+        blank_nested: "needs to have the property '%{property}' set."
         cant_link_a_work_package_with_a_descendant: "Ang isang package ng pagawaan ay hindi maaring mai-ugnay sa isa sa mga substak."
         circular_dependency: "Itong pakikipag-ugnayan ay lilikha ng kabilugang dependecia."
         confirmation: "hindi tugma %{attribute}."
@@ -549,11 +554,14 @@ fil:
         even: "dapat ay kapareho."
         exclusion: "ay nakareserba."
         file_too_large: "ay masyadong malaki (pinakamataas na laki ay %{count} Bytes)."
+        format: "does not match the expected format '%{expected}'."
+        format_nested: "does not match the expected format '%{expected}' at path '%{path}'."
         greater_than: "dapat ay mas malaki kaysa %{count}."
         greater_than_or_equal_to: "dapat ay mas malaki o kapareho sa %{count}."
         greater_than_or_equal_to_start_date: "dapat ay mas malaki kaysa o katumbas sa petsa ng pagsisimula."
         greater_than_start_date: "dapat ay mas malaki kaysa sa petsa ng pagsisiimula."
         inclusion: "ay hindi nakatakda sa isa ng mga pinahintulutan halaga."
+        inclusion_nested: "is not set to one of the allowed values at path '%{path}'."
         invalid: "ay hindi balido."
         invalid_url: 'ay hindi balidong URL.'
         invalid_url_scheme: 'ay hindi suportado ng protocol (pinahintulutan: %{allowed_schemes}).'
@@ -574,20 +582,26 @@ fil:
         taken: "ay nakuha na."
         too_long: "ay masyadong mahaba (pinakamataas ay ang mga %{count} karakter)."
         too_short: "ay masyadong mababa (pinakamaliit ay ang mga %{count} karakter."
+        type_mismatch: "is not of type '%{type}'"
+        type_mismatch_nested: "is not of type '%{type}' at path '%{path}'"
         unchangeable: "cannot be changed."
+        unknown_property: "is not a known property."
+        unknown_property_nested: "has the unknown path '%{path}'."
         unremovable: "cannot be removed."
         wrong_length: "ay ang maling haba (dapat ay %{count} ang mga karakter)."
       models:
         attachment:
           attributes:
             content_type:
-              not_whitelisted: "is set to '%{value}', which is not whitelisted for uploading."
+              blank: "The content type of the file cannot be blank."
+              not_whitelisted: "The file was rejected by an automatic filter. '%{value}' is not whitelisted for upload."
+              format: "%{message}"
         capability:
           context:
             global: 'Global'
           query:
             filters:
-              minimum: "need to include at least a one filter for principal, context or id with the '=' operator."
+              minimum: "need to include at least one filter for principal, context or id with the '=' operator."
         custom_field:
           at_least_one_custom_option: "Kahit isang opsyon lang ang kinakailangan na magagamit."
         custom_actions:
@@ -615,6 +629,21 @@ fil:
           overlaps: 'overlap.'
           outside: 'is outside of the grid.'
           end_before_start: 'end value needs to be larger than the start value.'
+        notifications:
+          at_least_one_channel: 'At least one channel for sending notifications needs to be specified.'
+          attributes:
+            read_ian:
+              read_on_creation: 'cannot be set to true on notification creation.'
+            mail_reminder_sent:
+              set_on_creation: 'cannot be set to true on notification creation.'
+            reason:
+              no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
+            reason_mail_digest:
+              no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
+        notification_settings:
+          only_one_global_setting: 'There must only be one global notification setting.'
+          email_alerts_global: 'The email notification settings can only be set globally.'
+          format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -649,7 +678,6 @@ fil:
           filters:
             custom_fields:
               inexistent: "Walang pasadyang patlabg para sa pag-sala."
-              invalid: "Ang pasadyang patlang ay hindi balido sa ibinigay na konteksto."
         queries/filters/base:
           attributes:
             values:
@@ -679,6 +707,12 @@ fil:
           attributes:
             hours:
               day_limit: "is too high as a maximum of 24 hours can be logged per date."
+        user_preference:
+          attributes:
+            pause_reminders:
+              invalid_range: "can only be a valid date range."
+            daily_reminders:
+              full_hour: "can only be configured to be delivered at a full hour."
         wiki_page:
           attributes:
             slug:
@@ -690,6 +724,7 @@ fil:
               not_start_date: "hindi sa petsa ng pagsisimula, kahit naa ito ay kinakailangan para sa mga milestone."
             parent:
               cannot_be_milestone: "hindi maaring maging isang milestone."
+              cannot_be_self_assigned: "cannot be assigned to itself."
               cannot_be_in_another_project: "hindi maaring sa iba pang proyekto."
               not_a_valid_parent: "ay hindi balido."
             start_date:
@@ -706,6 +741,7 @@ fil:
               does_not_exist: "Ang tinukoy na kategorya ay hindi umiiral."
             estimated_hours:
               only_values_greater_or_equal_zeroes_allowed: "dapat >= 0."
+          readonly_status: 'The work package is in a readonly status so its attributes cannot be changed.'
         type:
           attributes:
             attribute_groups:
@@ -716,6 +752,11 @@ fil:
               group_without_name: "Wala pangalan ng grupo ay hindi pinapayagan."
         user:
           attributes:
+            base:
+              user_limit_reached: "User limit reached. No more accounts can be created on the current plan."
+            password_confirmation:
+              confirmation: "Password confirmation does not match password."
+              format: "%{message}"
             password:
               weak: "Dapat naglalaman ng mga karakter sa mga sumusunod na klase (kahit na %{min_count} sa %{all_count}): %{rules}."
               lowercase: "lowercase (e.g. 'a')"
@@ -761,6 +802,9 @@ fil:
       status: "Estado ng pakete ng gumagawa"
       member: "Miyembro"
       news: "Mga balita"
+      notification:
+        one: "Notification"
+        other: "Notifications"
       placeholder_user: "Placeholder user"
       project: "Proyekto"
       query: "Custom query"
@@ -811,7 +855,6 @@ fil:
     firstname: "Unang pangalan"
     group: "Grupo"
     groups: "Mga grupo"
-    name: "Pangalan"
     id: "ID"
     is_default: "Ang default na halaga"
     is_for_all: "Para sa lahat ng mga proyekto"
@@ -821,6 +864,7 @@ fil:
     lastname: "Huling pangalan"
     login: "Username"
     mail: "Email"
+    name: "Pangalan"
     password: "Password"
     priority: "Ang prayoridad"
     project: "Proyekto"
@@ -1161,7 +1205,9 @@ fil:
   error_can_not_archive_project: "This project cannot be archived: %{errors}"
   error_can_not_delete_entry: "Hindi mabura na entry"
   error_can_not_delete_custom_field: "Hindi mabura ang custom field"
-  error_can_not_delete_type: "Itong uri ay naglalaman ng mga work package at hindi pwedeng burahin."
+  error_can_not_delete_type:
+    explanation: 'This type contains work packages and cannot be deleted. You can see all affected work packages in <a target="_blank" href="%{url}">this view</a>.'
+    archived_projects: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the type of the respective work packages: %{archived_projects}'
   error_can_not_delete_standard_type: "Ang mga uri ng pamantayan na hindi maaring burahin."
   error_can_not_invite_user: "Nabigong ipadala ang imbiyltasyon sa gumagamit."
   error_can_not_remove_role: "Itong tungkulin ay ginamit pa at hindi pwedeng burahin."
@@ -1190,6 +1236,7 @@ fil:
   error_no_type_in_project: "Walang uri ay nauugnay sa proyektong ito. Mangyaring suriin ang mga setting ng proyekto."
   error_omniauth_registration_timed_out: "Ang pagparehistro sa pamamagitan ng external authentication provider ay nagtime-out. Mangyaring subukan ulit."
   error_omniauth_invalid_auth: "The authentication information returned from the identity provider was invalid. Please contact your administrator for further help."
+  error_password_change_failed: 'An error occurred when trying to change the password.'
   error_scm_command_failed: "Isang mali ang naganap nong subukam ang pag-access ng repositoryo: %{value}"
   error_scm_not_found: "Ang entry o rebisyon ay hindi natagpuan sa repositoryo."
   error_unable_delete_status: "Ang estado ng work package ay hindi pwedeng burahin dahil ginamit ito sa kahit isang work package."
@@ -1241,7 +1288,7 @@ fil:
   general_csv_encoding: "UTF-8"
   general_csv_separator: ","
   general_first_day_of_week: "7"
-  general_lang_name: "Ingles"
+  general_lang_name: "Filipino"
   general_pdf_encoding: "ISO-8859-1"
   general_text_no: "hindi"
   general_text_yes: "oo"
@@ -1282,6 +1329,9 @@ fil:
   instructions_after_logout: "Maari kang maka-sign in ulit sa pamamagitan ng pagpipindut %{signin}."
   instructions_after_error: "Maaring mong subukan muli sa pamamagitan ng pagpipindut %{signin}. kung ang mali ay nagpatuloy, magtanong sa namuno para sa tulong."
   menus:
+    admin:
+      mail_notification: "Mga abiso ng emailba"
+      incoming_outgoing: "Incoming & Outgoing"
     quick_add:
       label: "Open quick add menu"
   my_account:
@@ -1294,6 +1344,33 @@ fil:
         action: "Aksyon"
         expiration: "Natapos"
       indefinite_expiration: "Hindi kailanman"
+  notifications:
+    send_notifications: "Send notifications for this action"
+    work_packages:
+      subject:
+        created: "The work package was created."
+        assigned: "You have been assigned to %{work_package}"
+        subscribed: "You subscribed to %{work_package}"
+        mentioned: "You have been mentioned in %{work_package}"
+        responsible: "You have become accountable for %{work_package}"
+        watched: "You are watching %{work_package}"
+    update_info_mail:
+      body: >
+        We are excited to announce the release of OpenProject 12.0. It's a major release that will hopefully significantly improve the way you use OpenProject.
+
+        Starting with this release, we are introducing in-app notifications. From now on, you will receive notifications for updates to work packages directly in OpenProject. You can mark these notifications as read, reply to a comment or even directly modify work package attributes without leaving the notification center.
+
+        This also means that we will no longer be using emails for notifications. We think the new notification center is a better place to view and act upon these updates. Nevertheless, if you would like continue receiving updates via email, you can choose to receive daily email reminders at particular times of your choosing.
+
+        Please make sure to verify your new default notification settings, and set your preferences for notifications and email reminders via your account settings. You can do this through the “Change email settings” button bellow.
+
+        We hope you find in-app notifications useful and that they makes you even more productive.
+
+        Sincerely,
+        The OpenProject team
+      body_header: 'Version 12.0 with Notification Center'
+      body_subheader: 'Mga balita'
+      subject: 'Important changes to notifications with the release of 12.0'
   label_accessibility: "Aksibilidad"
   label_account: "Akawnt"
   label_active: "Aktibo"
@@ -1379,7 +1456,7 @@ fil:
   label_check_uncheck_all_in_column: "I-check/I-ncheck ang lahat sa hanay"
   label_check_uncheck_all_in_row: "I-check/I-uncheck ang lahat sa hilera"
   label_child_element: "Elementong bata"
-  label_chronological_order: "Sa chronological na pagkasunod-sunod"
+  label_chronological_order: "Oldest first"
   label_close_versions: "Isara ang nakompletong bersyon"
   label_closed_work_packages: "isinara"
   label_collapse: "Bumagsak"
@@ -1467,7 +1544,6 @@ fil:
   label_feeds_access_key: "RSS access key"
   label_feeds_access_key_created_on: "RSS access key na nillikha %{value} nakalipas"
   label_feeds_access_key_type: "RSS"
-  label_file_added: "Idinagdag na file"
   label_file_plural: "Mga file"
   label_filter_add: "Magdagdag ng filter"
   label_filter_plural: "Mga nasala"
@@ -1596,7 +1672,6 @@ fil:
   label_none_parentheses: "(wala)"
   label_not_contains: "hindi naglalaman"
   label_not_equals: "ay hindi"
-  label_notify_member_plural: "I-update ang mga email"
   label_on: "sa"
   label_open_menu: "Buksan ang pagpipilian"
   label_open_work_packages: "buksan"
@@ -1684,7 +1759,7 @@ fil:
   label_required: 'kailangan'
   label_requires: 'kinakailangan'
   label_result_plural: "Mga resulta"
-  label_reverse_chronological_order: "Sa kabaligtaran ng chronological order"
+  label_reverse_chronological_order: "Newest first"
   label_revision: "Rebisyon"
   label_revision_id: "Rebisyon %{value}"
   label_revision_plural: "Mga rebisyon"
@@ -1716,7 +1791,6 @@ fil:
   label_start_to_start: "simula hanggang simula"
   label_statistics: "Istatistika"
   label_status: "Estado"
-  label_status_updated: "Naka-update na work package"
   label_stay_logged_in: "Manatiling naka-log in"
   label_storage_free_space: "Natitirang espasyo ng disk"
   label_storage_used_space: "Nagamit na espasyo ng disk"
@@ -1800,41 +1874,37 @@ fil:
   label_wiki_show_submenu_item: "Ipakita bilang submenu. aytem ng "
   label_wiki_start: "Simulan ang pahina"
   label_work_package: "Work package"
-  label_work_package_added: "Idinagdag ng work package"
   label_work_package_attachments: "Nakakalakip na pahinag trabaho"
   label_work_package_category_new: "Bagong kategorya"
   label_work_package_category_plural: "Ang mga katergorya ng work package"
   label_work_package_hierarchy: "Hierarchy ng work package"
   label_work_package_new: "Bagong work package"
-  label_work_package_note_added: "Idinagdag ang talaan ng work package"
   label_work_package_edit: "I-edit ang work package %{name}"
   label_work_package_plural: "Ang mga work package"
-  label_work_package_priority_updated: "Ang work package ay prioridad naka-update"
   label_work_package_status: "Estado ng pakete ng gumagawa"
   label_work_package_status_new: "Bagong estado"
   label_work_package_status_plural: "Ang mga estado ng work package"
   label_work_package_types: "Ang mga uri ng work package"
-  label_work_package_updated: "Naka-update na work package"
   label_work_package_tracking: "Ang pagtra-track ng work package"
   label_work_package_view_all: "Tanawin lahat ang mga package"
   label_workflow: "Daloy ng trabaho"
   label_workflow_plural: "Daloy ng trabaho"
   label_workflow_summary: "Buod"
   label_x_closed_work_packages_abbr:
-    one: "1 closed"
-    other: "%{count} closed"
+    one: "Isa ang isinara"
+    other: "%{count} ang isinara"
     zero: "0 closed"
   label_x_comments:
-    one: "1 comment"
-    other: "%{count} comments"
+    one: "Isang komento"
+    other: "%{count} mga komento"
     zero: "no comments"
   label_x_open_work_packages_abbr:
-    one: "1 open"
-    other: "%{count} open"
+    one: "Isa ang bukas"
+    other: "%{count} ang bukas"
     zero: "0 open"
   label_x_projects:
-    one: "1 project"
-    other: "%{count} projects"
+    one: "Isang proyekto"
+    other: "%{count} mga proyekto"
     zero: "no projects"
   label_yesterday: "kahapon"
   label_role_type: "Uri"
@@ -1867,6 +1937,37 @@ fil:
       link_name_type: 'Bagong %{type_name}'
   mail:
     actions: 'Mga aksyon'
+    digests:
+      including_mention_singular: 'including a mention'
+      including_mention_plural: 'including %{number_mentioned} mentions'
+      unread_notification_singular: '1 unread notification'
+      unread_notification_plural: '%{number_unread} unread notifications'
+      you_have: 'You have'
+    logo_alt_text: 'Logo'
+    mention:
+      subject: "%{user_name} mentioned you in #%{id} - %{subject}"
+    notification:
+      center: 'To notification center'
+      see_in_center: 'See comment in notification center'
+      settings: 'Change email settings'
+    salutation: 'Hey %{user}!'
+    work_packages:
+      created_at: 'Created at %{timestamp} by %{user} '
+      login_to_see_all: 'Log in to see all notifications.'
+      mentioned: 'You have been <b>mentioned in a comment</b>'
+      mentioned_by: '%{user} mentioned you in a comment'
+      more_to_see:
+        one: 'There is 1 more work package with notifications.'
+        other: 'There are %{count} more work packages with notifications.'
+      reason:
+        watched: 'Watched'
+        assigned: 'Assigned'
+        responsible: 'Accountable'
+        mentioned: 'Mentioned'
+        subscribed: 'lahat'
+        prefix: 'Received because of the notification setting: %{reason}'
+      see_all: 'See all'
+      updated_at: 'Updated at %{timestamp} by %{user}'
   mail_body_account_activation_request: "Ang bagong gumagamit (%{value}) ay naka-rehistro na. Ang akwant ay naghihhintay para sa pag-apruba:"
   mail_body_account_information: "Ang akwant na impormasyon"
   mail_body_account_information_external: "Maari mong gamitin ang iyong %{value} akwant sa pag-log in."
@@ -1884,7 +1985,7 @@ fil:
     Please feel free to browse our youtube channel (%{youtube_link}) where we provide a webinar (%{webinar_link})
     and “Get started” videos (%{get_started_link}) to make your first steps in OpenProject as easy as possible.
     <br />
-    If you have any further questions, consult our documentation (%{documentation_link}) or contact us (%{contact_us_link}).
+    If you have any further questions, consult our documentation (%{documentation_link}) or contact your administrator.
   mail_body_register_closing: "Your OpenProject team"
   mail_body_register_ending: "Stay connected! Kind regards,"
   mail_body_reminder: "%{count} work package na nakatakaga sa iyo ay dapat isumite sa mga sumusunod na %{days} araw:"
@@ -2075,6 +2176,7 @@ fil:
   permission_protect_wiki_pages: "Protektahan ang mga wiki package"
   permission_rename_wiki_pages: "Baguhin ang pangalan ng mga wiki na pahina"
   permission_save_queries: "Save views"
+  permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Piliin ang mga proyektong modyul"
   permission_manage_types: "Pumili ng mga uri"
   permission_view_calendar: "Tanawin ang kalendaryo"
@@ -2239,6 +2341,13 @@ fil:
   setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
   setting_apiv3_cors_origins_text_html: >
     If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
+  setting_apiv3_max_page_size: "Maximum API page size"
+  setting_apiv3_max_page_instructions_html: >
+    Set the maximum page size the API will respond with. It will not be possible to perform API requests that return more values on a single page. <br/> <strong>Warning:</strong> Please only change this value if you are sure why you need it. Setting to a high value will result in significant performance impacts, while a value lower than the per page options will cause errors in paginated views.
+  setting_apiv3_docs: "Dokumentasyon"
+  setting_apiv3_docs_enabled: "Enable docs page"
+  setting_apiv3_docs_enabled_instructions_html: >
+    If the docs page is enabled you can get an interactive view of the APIv3 documentation under <a href="%{link}" target="_blank">%{link}</a>.
   setting_attachment_whitelist: "Attachment upload whitelist"
   setting_email_delivery_method: "Pamaraan ng paghahatid ng email"
   setting_sendmail_location: "Lokasyon ng sendmail na pagpapatupad"
@@ -2276,7 +2385,6 @@ fil:
   setting_first_week_of_year: "First week in year contains"
   setting_date_format: "Format ng petsa"
   setting_default_language: "Default na linggwahe"
-  setting_default_notification_option: "Opsyon ng default na abiso"
   setting_default_projects_modules: "I-default ang pinaganang mga modyul para sa bagong proyekto"
   setting_default_projects_public: "Bagong proyektong ay publiko sa pamamagitan ng default"
   setting_diff_max_lines_displayed: "Mataas na bilang ng naka-display na linya"
@@ -2286,6 +2394,7 @@ fil:
   setting_email_login: "Use email as login"
   setting_enabled_scm: "Paganahin ang SCM"
   setting_enabled_projects_columns: "Visible in project list"
+  setting_notification_retention_period_days: "Notification retention period"
   setting_feeds_enabled: "Paganahin ang mga feed"
   setting_feeds_limit: "Limitasyon ng nilalaman na feed"
   setting_file_max_size_displayed: "Max na laki ng mga tekstong file na ipinapakita inline"
@@ -2299,7 +2408,7 @@ fil:
   setting_work_package_properties: "Ang mga property ng work package"
   setting_work_package_startdate_is_adddate: "Gamitin ang kasulukuyang petsa bilang pagsisimula ng petsa para sa mga bagong work package"
   setting_work_packages_export_limit: "Limitasyon ng pag-export ng work package"
-  setting_journal_aggregation_time_minutes: "Ipakita ang mga talaarawan bilang pinagsamang-sama sa loob ng"
+  setting_journal_aggregation_time_minutes: "User actions aggregated within"
   setting_log_requesting_user: "Log user login, pangalan at mga mail address para sa lahat na hiling"
   setting_login_required: "Kailangan ng pagpapatunay"
   setting_mail_from: "Emission ng email address"
@@ -2360,6 +2469,7 @@ fil:
     notifications:
       retention_text: >
         Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
+      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
       delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
     display:
       first_date_of_week_and_year_set: >
@@ -2441,9 +2551,9 @@ fil:
   text_work_packages_destroy_confirmation: "Sigurado ka ba na gusto mong burahin ang napiling work package?"
   text_work_packages_ref_in_commit_messages: "Pagsangguni at pagsaayos ng work package sa mga isinagawang mensahe"
   text_journal_added: "%{label}%{value} idinagdag"
-  text_journal_aggregation_time_explanation: "Pagsamahhin ang mga journak para ipakita kung ang kanilang edad ay pagkakaiba ay mas mababa ng tinukoy na timespan. Ito rin ay ipagpaliban ang mga abiso ng email sa kaparehong halaga ng oras."
-  text_journal_changed: "%{label} changed from %{old} <br/><strong>to</strong> %{new}"
-  text_journal_changed_plain: "%{label} changed from %{old} \nto %{new}"
+  text_journal_aggregation_time_explanation: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent."
+  text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
+  text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label} ay naka-update"
   text_journal_changed_with_diff: "%{label} binagko (%{link})"
   text_journal_deleted: "%{label} binura (%{old})"
@@ -2471,7 +2581,6 @@ fil:
   text_regexp_info: "e. g ^[A-Z0-9]+$"
   text_regexp_multiline: 'Ang regex ay nakalagay sa multi-line mlde. hal., ^---\s+'
   text_repository_usernames_mapping: "Piliin o i-update ang OpenProject usrt naka-map sa bawat username nakita sa repositoryo log.\nAng mga gumagamit sa kaparehong OpenProject at repositoryong username o ang email ay automatikong naka-map."
-  text_select_mail_notifications: "Piliin ang mga aksyon para sa aling abiso na email ay dapat ipadala."
   text_status_changed_by_changeset: "Ilapaylt sa changeset %{value}."
   text_table_difference_description: "Sa talaan na ito ang solong %{entries} ay ipinapakita. Maari mong tingnan ang kaibahansa pagitan ng kahit anong dalawang entry sa pamamagitan ng unang pagpili ayon sa mga checkbox sa talaan. Kapag nag-pindut sa pindutan ng ibaba sa talaan ang mga pagkakaiba ay ipinapakita."
   text_time_logged_by_changeset: "Ilapaylt sa changeset %{value}."
@@ -2694,10 +2803,6 @@ fil:
     password_change_unsupported: Pagbabago ng password ay hindi suportado.
     registered: "narehistro"
     reset_failed_logins: "I-reset ang mga nabigong paglog-in"
-    settings:
-      mail_notifications: "Magpadala ng abiso sa email"
-      mail_project_explanaition: "Para sa hindi napiling proyekto, makakatanggap ka lamang ng abiso tungkol sa mga bagay na tiningnan mo o kasama ka sa (hal. work packagee ikaw ang may-akda o tagapangasiwa ng)."
-      mail_self_notified: "Gusto kong mapa-alam sa mga pagbabago na ginagawa ko sa aking sarili"
     status_user_and_brute_force: "%{user} at %{brute_force}"
     status_change: "Pagbabago ng estado"
     text_change_disabled_for_provider_login: "The name is set by your login provider and can thus not be changed."
@@ -2719,7 +2824,7 @@ fil:
     User limit reached. You cannot activate any more users. Please <a href="%{upgrade_url}">upgrade your plan</a> or block members to allow for additional users.
   warning_user_limit_reached_instructions: >
     You reached your user limit (%{current}/%{max} active users). Please contact sales@openproject.com to upgrade your Enterprise Edition plan and add additional users.
-  0: >
+  warning_protocol_mismatch_html: >
 
   warning_bar:
     protocol_mismatch:
@@ -2758,6 +2863,8 @@ fil:
       code_409: "Could not update the resource because of conflicting modifications."
       code_429: "Too many requests. Please try again later."
       code_500: "Isang internal error ang naganap."
+      not_found:
+        work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:
         date: "YYYY-MM-DD (ISO 8601 date only)"
         duration: "Agwat ng ISO 8601"

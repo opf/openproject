@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module CustomFieldsHelper
@@ -66,18 +66,6 @@ module CustomFieldsHelper
         partial: 'custom_fields/tab',
         path: custom_fields_path(tab: :GroupCustomField),
         label: :label_group_plural
-      },
-      {
-        name: 'TimeEntryActivityCustomField',
-        partial: 'custom_fields/tab',
-        path: custom_fields_path(tab: :TimeEntryActivityCustomField),
-        label: TimeEntryActivity::OptionName
-      },
-      {
-        name: 'IssuePriorityCustomField',
-        partial: 'custom_fields/tab',
-        path: custom_fields_path(tab: :IssuePriorityCustomField),
-        label: IssuePriority::OptionName
       }
     ]
   end

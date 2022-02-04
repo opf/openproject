@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 ca:
   button_save_as: "Save report as..."
@@ -71,7 +71,7 @@ ca:
   label_none: "(no hi ha dades)"
   label_no_reports: "There are no cost reports yet."
   label_report: "Informe"
-  label_yes: "Sí"
+  label_yes: "Si"
   load_query_question: "L'informe tindrà %{size} de cel·les i pot trigar algun temps per generar-se. Encara voleu intentar la generació?"
   permission_save_cost_reports: "Save public cost reports"
   permission_save_private_cost_reports: "Save private cost reports"

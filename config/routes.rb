@@ -25,18 +25,25 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 OpenProject::Application.routes.draw do
   root to: 'homescreen#index', as: 'home'
   rails_relative_url_root = OpenProject::Configuration['rails_relative_url_root'] || ''
 
+  # Route for error pages
+  get '/404', to: "errors#not_found"
+  get '/422', to: "errors#unacceptable"
+  get '/500', to: "errors#internal_error"
+
   # Route for health_checks
   get '/health_check' => 'ok_computer/ok_computer#show', check: 'web'
   # Override the default `all` checks route to return the full check
   get '/health_checks/all' => 'ok_computer/ok_computer#show', check: 'full'
   mount OkComputer::Engine, at: "/health_checks"
+
+  get "/api/docs" => 'api_docs#index'
 
   # Redirect deprecated issue links to new work packages uris
   get '/issues(/)'    => redirect("#{rails_relative_url_root}/work_packages")
@@ -164,29 +171,34 @@ OpenProject::Application.routes.draw do
   # Models declared as acts_as_watchable will be automatically added to
   # OpenProject::Acts::Watchable::Routes.watched
   scope ':object_type/:object_id', constraints: OpenProject::Acts::Watchable::Routes do
-    match '/watch' => 'watchers#watch', via: :post
-    match '/unwatch' => 'watchers#unwatch', via: :delete
+    post '/watch' => 'watchers#watch'
+    delete '/unwatch' => 'watchers#unwatch'
   end
 
-  resources :projects, except: %i[show edit create] do
-    member do
-      ProjectSettingsHelper.project_settings_tabs.each do |tab|
-        get "settings/#{tab[:name]}", controller: "project_settings/#{tab[:name]}", action: 'show', as: "settings_#{tab[:name]}"
+  resources :projects, except: %i[show edit create update] do
+    scope module: 'projects' do
+      namespace 'settings' do
+        resource :general, only: %i[show], controller: 'general'
+        resource :modules, only: %i[show update]
+        resource :types, only: %i[show update]
+        resource :custom_fields, only: %i[show update]
+        resource :repository, only: %i[show], controller: 'repository'
+        resource :versions, only: %i[show]
+        resource :categories, only: %i[show update]
+        resource :storage, only: %i[show], controller: 'storage'
       end
-      get "settings"
 
-      get 'identifier', action: 'identifier'
-      patch 'identifier', action: 'update_identifier'
+      resource :templated, only: %i[create destroy], controller: 'templated'
+      resource :archive, only: %i[create destroy], controller: 'archive'
+      resource :identifier, only: %i[show update], controller: 'identifier'
+    end
+
+    member do
+      get "settings", to: redirect('projects/%{id}/settings/general/') # rubocop:disable Style/FormatStringToken
 
       get :copy
 
-      put :modules
-      put :custom_fields
-      put :archive
-      put :unarchive
       patch :types
-
-      get 'column_sums', controller: 'work_packages'
 
       # Destroy uses a get request to prompt the user before the actual DELETE request
       get :destroy_info, as: 'confirm_destroy'
@@ -195,8 +207,6 @@ OpenProject::Application.routes.draw do
     collection do
       get :level_list
     end
-
-    resource :time_entry_activities, controller: 'projects/time_entry_activities', only: %i[update]
 
     resources :versions, only: %i[new create] do
       collection do
@@ -207,7 +217,7 @@ OpenProject::Application.routes.draw do
     # this is only another name for versions#index
     # For nice "road in the url for the index action
     # this could probably be rewritten with a resource as: 'roadmap'
-    match '/roadmap' => 'versions#index', via: :get
+    get '/roadmap' => 'versions#index'
 
     resources :news, only: %i[index new create]
 
@@ -395,6 +405,7 @@ OpenProject::Application.routes.draw do
 
       resource :authentication, controller: '/admin/settings/authentication_settings', only: %i[show update]
       resource :incoming_mails, controller: '/admin/settings/incoming_mails_settings', only: %i[show update]
+      resource :notifications, controller: '/admin/settings/notifications_settings', only: %i[show update]
       resource :mail_notifications, controller: '/admin/settings/mail_notifications_settings', only: %i[show update]
       resource :work_packages, controller: '/admin/settings/work_packages_settings', only: %i[show update]
       resource :users, controller: '/admin/settings/users_settings', only: %i[show update]
@@ -543,11 +554,11 @@ OpenProject::Application.routes.draw do
 
     get '/my/account', action: 'account'
     get '/my/settings', action: 'settings'
-    get '/my/mail_notifications', action: 'mail_notifications'
+    get '/my/notifications', action: 'notifications'
+    get '/my/reminders', action: 'reminders'
 
     patch '/my/account', action: 'update_account'
     patch '/my/settings', action: 'update_settings'
-    patch '/my/mail_notifications', action: 'update_mail_notifications'
 
     post '/my/generate_rss_key', action: 'generate_rss_key'
     post '/my/generate_api_key', action: 'generate_api_key'
@@ -569,6 +580,10 @@ OpenProject::Application.routes.draw do
   get '/robots' => 'homescreen#robots', defaults: { format: :txt }
 
   root to: 'account#login'
+
+  scope :notifications do
+    get '(/*state)', to: 'angular#notifications_layout', as: :notifications_center
+  end
 
   # Development route for styleguide
   if Rails.env.development?

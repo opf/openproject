@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 FactoryBot.define do
@@ -139,6 +139,7 @@ FactoryBot.define do
     factory :wp_custom_field, class: 'WorkPackageCustomField' do
       sequence(:name) { |n| "Work package custom field #{n}" }
       type { 'WorkPackageCustomField' }
+      is_filter { true }
 
       factory :list_wp_custom_field do
         sequence(:name) { |n| "List CF #{n}" }

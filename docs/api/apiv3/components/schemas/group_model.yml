@@ -1,0 +1,89 @@
+# Schema: GroupModel
+---
+type: object
+properties:
+  id:
+    type: integer
+    description: Group's id
+    readOnly: true
+    minimum: 0
+    exclusiveMinimum: true
+  name:
+    type: string
+    description: |-
+      Group's full name, formatting depends on instance settings
+
+      # Conditions
+
+      Admin to write
+  createdAt:
+    type: string
+    format: date-time
+    description: |-
+      Time of creation
+
+      # Conditions
+
+      Only visible by admins
+    readOnly: true
+  updatedAt:
+    type: string
+    format: date-time
+    description: Time of the most recent change to the user
+    readOnly: true
+  _links:
+    type: object
+    required:
+    - self
+    properties:
+      delete:
+        allOf:
+        - "$ref": "./link.yml"
+        - description: |-
+            Deletes the group.
+
+            # Conditions
+
+            **Permission**: Administrator
+          readOnly: true
+      updateImmediately:
+        allOf:
+        - "$ref": "./link.yml"
+        - description: |-
+            Updates the group's attributes.
+
+            # Conditions
+
+            **Permission**: Administrator
+          readOnly: true
+      self:
+        allOf:
+        - "$ref": "./link.yml"
+        - description: |-
+            This group
+
+            **Resource**: Group
+          readOnly: true
+      memberships:
+        allOf:
+        - "$ref": "./link.yml"
+        - description: |-
+            Link to collection of all the group's memberships. The list will only include the memberships in projects in which the requesting user has the necessary permissions.
+
+            **Resource**: MemberCollection
+
+            # Conditions
+
+            **Permission**: view members or manage members in any project
+          readOnly: true
+      members:
+        allOf:
+        - "$ref": "./link.yml"
+        - description: |-
+            The list all all the users that are members of the group
+
+            **Resource**: UserCollection
+
+            # Conditions
+
+            **Permission**: manage members in any project to read & admin to write

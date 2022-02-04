@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module Queries::Projects
@@ -48,6 +48,7 @@ module Queries::Projects
     filter query, filters::IdFilter
     filter query, filters::ProjectStatusFilter
     filter query, filters::UserActionFilter
+    filter query, filters::VisibleFilter
 
     order query, orders::DefaultOrder
     order query, orders::LatestActivityAtOrder

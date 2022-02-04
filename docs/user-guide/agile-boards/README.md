@@ -14,9 +14,8 @@ Boards support agile project management methodologies, such as Scrum or Kanban.
 Our Agile boards can be for anything you would like to keep track of within your projects: Tasks to be done, Bugs to be fixed, Things to be reviewed, Features to be developed, Risks to be monitored, Ideas to be spread, anything! The boards consist of lists (columns) and cards. You can choose between a Basic board and various Action boards.
 
 <div class="alert alert-info" role="alert">
-**Note**: OpenProject Agile boards is a Premium Feature and can only be used with [Enterprise cloud]( ../../cloud-edition-guide/) or [Enterprise on-premises](../../enterprise-edition-guide/). An upgrade from the free Community Edition is easily possible.
+**Note**: OpenProject Agile boards is a Premium Feature and can only be used with [Enterprise cloud](../../enterprise-guide/enterprise-cloud-guide/) or [Enterprise on-premises](../../enterprise-guide/enterprise-on-premises-guide/). An upgrade from the free Community Edition is easily possible.
 </div>
-
 
 | Topic                                                     | Content                                                      |
 | --------------------------------------------------------- | ------------------------------------------------------------ |
@@ -31,10 +30,10 @@ Our Agile boards can be for anything you would like to keep track of within your
 | [Manage boards](#manage-boards)                           | How to manage permissions for boards.                        |
 | [Examples for agile boards](#agile-boards-examples)       | Best practices for using the basic board and status, assignee and version board. |
 
-<video src="https://www.openproject.org/wp-content/uploads/2020/11/OpenProject-Agile-Boards.mp4" type="video/mp4" controls="" style="width:100%"></video> 
+<video src="https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Agile-Boards.mp4" type="video/mp4" controls="" style="width:100%"></video> 
 ## Agile boards in OpenProject
 
-The new Boards are tightly integrated with all other project management functionalities in OpenProject, i.e. [work packages](#work-pages) or [Gantt charts](#gantt-charts). This makes it so easy and practical to include the Boards in your daily project management routines and to gain a much quicker overview of important topics in your project.
+The new Boards are tightly integrated with all other project management functionalities in OpenProject, i.e. work packages or Gantt charts. This makes it so easy and practical to include the Boards in your daily project management routines and to gain a much quicker overview of important topics in your project.
 
 ![openproject-board-overview](openproject-board-overview-1364050.png)
 
@@ -63,21 +62,21 @@ After [adding lists to your board](#add-lists-to-your-board) they will automatic
 
 There are several **types of Action boards** available:
 
-### Status board:
+### Status board
 Each list represents a status. That means that e.g. all work packages with the status "New" will be automatically displayed in the column "New". 
 When creating a new Status board a list with all work packages in the default status (usually this is the status "New") will be added automatically, while additional lists need to be added manually.
 Please note: You can't move work packages from or to every status. Please find out more about the work-flow logics restricting this here: [Allowed transitions between status](../../system-admin-guide/manage-work-packages/work-package-workflows/)
 
-### Assignee board:
+### Assignee board
 Every list represents one assignee. You can choose regular users, [placeholder users](../../system-admin-guide/users-permissions/placeholder-users) and groups as assignees.
 
-### Version board:
+### Version board
 Every list represents a version. This board is ideal for product development or planning software releases. When creating a new Version board a list with all work packages in the version(s) belonging to the current project will be added automatically, while additional lists need to be added manually.
 
-### Subproject board:
+### Subproject board
 Every list represents a subproject. Within the list you will find the subproject's work packages. 
 
-### Parent-Child board:
+### Parent-Child board
 Every list represents a parent work package. Within the list you will find the work package's children. 
 Only work packages from the current project can be selected as a list, i.e. can be chosen as the name of the list.
 The Parent-Child board is ideal for depicting a **work breakdown structure (WBS)**.
@@ -117,7 +116,7 @@ To remove lists, click on the three dots next to a list's title, and select **De
 
 ## Add cards to a list
 
-You can add cards to a list. Cards represent a [work package](https://docs.openproject.org/user-guide/work-packages/) in OpenProject. They can be any kind of work within a project, e.g. a Task, a Bug, a Feature, a Risk, anything.
+You can add cards to a list. Cards represent a [work package](../../user-guide/work-packages/) in OpenProject. They can be any kind of work within a project, e.g. a Task, a Bug, a Feature, a Risk, anything.
 
 ![OpenProject-Boards_cards](OpenProject-Boards_cards-1568639967764.png) 
 

@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -242,11 +242,11 @@ describe 'Work package relations tab', js: true, selenium: true do
         textarea.set 'my description!'
 
         # Save description
-        created_row.find('.inplace-edit--control--save a').click
+        created_row.find('.inplace-edit--control--save').click
 
         loading_indicator_saveguard
 
-        # Wait for the relations table to be present
+        # Wait for the relations table to be presen
         sleep 2
         expect(page).to have_selector('.wp-relations--subject-field')
 
@@ -264,7 +264,7 @@ describe 'Work package relations tab', js: true, selenium: true do
                          text: 'my description!').click
 
         # Cancel edition
-        created_row.find('.inplace-edit--control--cancel a').click
+        created_row.find('.inplace-edit--control--cancel').click
         created_row.find('.wp-relation--description-read-value',
                          text: 'my description!').click
 

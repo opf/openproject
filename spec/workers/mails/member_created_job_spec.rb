@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -57,7 +57,7 @@ describe Mails::MemberCreatedJob, type: :model do
 
           expect(MemberMailer)
             .to have_received(:added_project)
-            .with(current_user, group_user_member, message)
+                  .with(current_user, group_user_member, message)
         end
       end
 
@@ -98,7 +98,7 @@ describe Mails::MemberCreatedJob, type: :model do
 
           expect(MemberMailer)
             .to have_received(:updated_project)
-            .with(current_user, group_user_member, message)
+                  .with(current_user, group_user_member, message)
         end
       end
     end

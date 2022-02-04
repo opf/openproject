@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'api/v3/attachments/attachment_representer'
@@ -66,7 +66,7 @@ module API
 
             namespace :uploaded do
               get do
-                attachment = Attachment.pending_direct_uploads.where(id: params[:id]).first!
+                attachment = Attachment.pending_direct_upload.find(params[:id])
 
                 raise API::Errors::NotFound unless attachment.file.readable?
 

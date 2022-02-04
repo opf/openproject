@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 require 'spec_helper'
 
@@ -73,11 +73,11 @@ describe "export card configurations Admin", type: :feature, js: true do
     # DEACTIVATE
     SeleniumHubWaiter.wait
     page.first('a', text: 'De-activate').click
-    expect(page).to have_text 'Config succesfully de-activated'
+    expect(page).to have_text 'Config successfully de-activated'
 
     # ACTIVATE
     SeleniumHubWaiter.wait
     page.first('a', text: 'Activate').click
-    expect(page).to have_text 'Config succesfully activated'
+    expect(page).to have_text 'Config successfully activated'
   end
 end

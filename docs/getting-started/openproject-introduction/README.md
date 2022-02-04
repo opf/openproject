@@ -2,7 +2,7 @@
 sidebar_navigation:
   title: Introduction to OpenProject
   priority: 999
-description: Get and introduction to OpenProject.
+description: Get an introduction to OpenProject.
 robots: index, follow
 keywords: OpenProject introduction
 ---
@@ -31,11 +31,11 @@ OpenProject exists since 2011 and is a fork of the deprecated ChiliProject which
 
 To get started with OpenProject, there are a few easy steps to follow:
 
-1. [Get an account and sign in](#sign-in-and-registration)
-2. [Create a new project](#projects)
-3. [Invite team members to collaborate](#invite-members)
-4. [Create work packages](#create-work-package)
-5. [Set up a project plan](#gantt-chart-introduction)
+1. Get an account and sign in
+2. Create a new project
+3. Invite team members to collaborate
+4. Create work packages
+5. Set up a project plan
 
 ## The entire Project Management Life-Cycle
 

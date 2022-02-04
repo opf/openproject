@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 #English strings go here for Rails i18n
 ar:
@@ -38,7 +38,7 @@ ar:
       meeting_agenda: "جدول الأعمال"
       meeting_minutes: "محضر الجلسة"
   description_attended: "حَضَر"
-  description_invite: "مدعوّ"
+  description_invite: "دعا"
   events:
     meeting: تحرير الاجتماع
     meeting_agenda: تحرير جدول أعمال الاجتماع
@@ -53,16 +53,18 @@ ar:
   label_meeting_edit: "تحرير الاجتماع"
   label_meeting_agenda: "جدول الأعمال"
   label_meeting_minutes: "محضر الجلسة"
-  label_meeting_close: "أغلِق"
+  label_meeting_close: "مُغلق"
   label_meeting_open: "مفتوح"
   label_meeting_agenda_close: "أغلِق جدول الأعمال للبدء في محضر الجلسة"
   label_meeting_date_time: "التاريخ/الوقت"
   label_meeting_diff: "الاختلاف"
   label_notify: "إرسال للمراجعة"
   label_icalendar: "إرسال iCalendar"
-  label_version: "الإصدار"
+  label_version: "النسخة"
   label_time_zone: "المنطقة الزمنية"
   label_start_date: "تاريخ البدء"
+  meeting:
+    copied: "Copied from Meeting #%{id}"
   notice_successful_notification: "تم إرسال الإشعار بنجاح"
   notice_timezone_missing: لم يتم تعيين المنطقة الزمنية و%{zone} مُفترض. لاختيار منطقتك الزمنية، من فضلك اضغط هنا.
   permission_create_meetings: "إنشاء الاجتماعات"

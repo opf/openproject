@@ -21,7 +21,7 @@ The migration scripts that ran as part of the OpenProject 10.4.0 upgrade include
 
 If you have updated to 10.4.0 and were using project-based time entry activities, please use the following guide to restore them:
 
-[Fixing time entries corrupted by upgrading to 10.4.0](https://docs.openproject.org/installation-and-operations/misc/time-entries-corrupted-by-10-4/).
+[Fixing time entries corrupted by upgrading to 10.4.0](../../installation-and-operations/misc/time-entries-corrupted-by-10-4/).
 
 
 

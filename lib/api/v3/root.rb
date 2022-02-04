@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 # Root class of the API v3
@@ -51,6 +51,7 @@ module API
       mount ::API::V3::Configuration::ConfigurationAPI
       mount ::API::V3::CustomActions::CustomActionsAPI
       mount ::API::V3::CustomOptions::CustomOptionsAPI
+      mount ::API::V3::Notifications::NotificationsAPI
       mount ::API::V3::HelpTexts::HelpTextsAPI
       mount ::API::V3::Memberships::MembershipsAPI
       mount ::API::V3::News::NewsAPI
@@ -78,6 +79,16 @@ module API
 
       get '/' do
         RootRepresenter.new({}, current_user: current_user)
+      end
+
+      get '/spec.json' do
+        API::OpenAPI.spec
+      end
+
+      get '/spec.yml' do
+        content_type 'text/vnd.yaml'
+
+        API::OpenAPI.spec.to_yaml
       end
     end
   end

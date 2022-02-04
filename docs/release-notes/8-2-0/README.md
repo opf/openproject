@@ -25,7 +25,7 @@ view with OpenProject 8.2. This affects all existing calendar views
 <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-57">My
 page</span>).
 
-![Calendar](https://1t1rycb9er64f1pgy2iuseow-wpengine.netdna-ssl.com/wp-content/uploads/2018/12/Calendar-1024x605.png)
+![Calendar](Calendar-1024x605.png)
 
 ## Usability improvements
 
@@ -49,7 +49,7 @@ allows you to avoid users to e.g. make changes to a work package once it
 has been approved.
 
 ![Read-only mode work
-packages](https://1t1rycb9er64f1pgy2iuseow-wpengine.netdna-ssl.com/wp-content/uploads/2018/12/Read-only-mode-work-packages-1024x432.png)
+packages](Read-only-mode-work-packages-1024x432.png)
 
 ## Embedded work packages with other relation types (Enterprise Edition / Cloud Edition)
 
@@ -58,7 +58,7 @@ OpenProject 8 is extended to be used with other relation types besides
 hierarchical relationships.
 
 ![Embedded work package
-table](https://1t1rycb9er64f1pgy2iuseow-wpengine.netdna-ssl.com/wp-content/uploads/2018/12/WorkPackage-Table-1024x457.png)
+table](WorkPackage-Table-1024x457.png)
 
 ## Technical improvements and bug fixes
 

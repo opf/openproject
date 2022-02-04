@@ -23,15 +23,15 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-See docs/COPYRIGHT.rdoc for more details.
+See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
 <div id="errorExplanation"
-     class="notification-box errorExplanation -error <%= local_assigns[:classes] || '' %>"
+     class="op-toast errorExplanation -error <%= local_assigns[:classes] || '' %>"
      tabindex="0"
      role="alert">
-  <div class="notification-box--content">
+  <div class="op-toast--content">
     <% if content_for?(:error_details) %>
       <p>
         <strong><%= error_message %></strong>

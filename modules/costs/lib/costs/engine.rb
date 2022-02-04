@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'open_project/plugins'
@@ -35,7 +35,7 @@ module Costs
     include OpenProject::Plugins::ActsAsOpEngine
 
     register 'costs',
-             author_url: 'https://www.openproject.com',
+             author_url: 'https://www.openproject.org',
              bundled: true,
              settings: {
                default: { 'costs_currency' => 'EUR', 'costs_currency_format' => '%n %u' },
@@ -60,7 +60,7 @@ module Costs
                    require: :loggedin
 
         permission :manage_project_activities,
-                   { 'projects/time_entry_activities': %i[update] },
+                   { 'projects/settings/time_entry_activities': %i[show update] },
                    require: :member
         permission :view_own_hourly_rate, {}
         permission :view_hourly_rates, {}

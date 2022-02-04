@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -76,7 +76,7 @@ describe RepositoriesController, type: :controller do
       end
 
       it 'redirects to settings' do
-        expect(response).to redirect_to(controller: '/project_settings/repository', id: project.identifier, action: 'show')
+        expect(response).to redirect_to project_settings_repository_path(project.identifier)
       end
     end
 
@@ -86,7 +86,7 @@ describe RepositoriesController, type: :controller do
       end
 
       it 'redirects to settings' do
-        expect(response).to redirect_to(controller: '/project_settings/repository', id: project.identifier, action: 'show')
+        expect(response).to redirect_to project_settings_repository_path(project.identifier)
       end
     end
 
@@ -102,13 +102,14 @@ describe RepositoriesController, type: :controller do
       end
 
       it 'redirects to settings' do
-        expect(response).to redirect_to(controller: '/project_settings/repository', id: project.identifier, action: 'show')
+        expect(response).to redirect_to project_settings_repository_path(project.identifier)
       end
     end
   end
 
   describe 'with empty repository' do
     let(:role) { FactoryBot.create(:role, permissions: [:browse_repository]) }
+
     before do
       allow(repository.scm)
         .to receive(:check_availability!)

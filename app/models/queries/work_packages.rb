@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module Queries::WorkPackages
@@ -78,6 +78,7 @@ module Queries::WorkPackages
   register.filter Query, filters_module::ManualSortFilter
   register.filter Query, filters_module::RelatableFilter
   register.filter Query, filters_module::MilestoneFilter
+  register.filter Query, filters_module::TypeaheadFilter
 
   columns_module = Queries::WorkPackages::Columns
 

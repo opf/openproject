@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 #English strings go here for Rails i18n
 pl:
@@ -38,7 +38,7 @@ pl:
       meeting_agenda: "Plan spotkania"
       meeting_minutes: "Protokół ze spotkania"
   description_attended: "Obecny"
-  description_invite: "zaproszony"
+  description_invite: "Zaproszony"
   events:
     meeting: Spotkanie zmienione
     meeting_agenda: Zmieniono plan spotkania
@@ -63,6 +63,8 @@ pl:
   label_version: "Wersja"
   label_time_zone: "Strefa czasowa"
   label_start_date: "Data rozpoczęcia"
+  meeting:
+    copied: "Skopiowano ze spotkania #%{id}"
   notice_successful_notification: "Powiadomienia wysłane pomyślnie"
   notice_timezone_missing: 'Została ustawiona domyślna strefa czasowa: %{zone}. Aby zmienić strefę czasową, kliknij tutaj.'
   permission_create_meetings: "Utwórz spotkanie"

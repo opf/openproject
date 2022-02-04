@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 namespace 'openproject:cron' do
@@ -34,6 +34,6 @@ namespace 'openproject:cron' do
 
   desc 'Ensure the cron-like background jobs are actively scheduled'
   task schedule: [:environment] do
-    ::Cron::CronJob.registered_jobs.each(&:ensure_scheduled!)
+    ::Cron::CronJob.schedule_registered_jobs!
   end
 end

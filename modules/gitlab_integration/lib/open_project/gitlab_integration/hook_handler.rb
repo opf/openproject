@@ -1,13 +1,14 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2021 Ben Tey
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -29,7 +30,13 @@
 module OpenProject::GitlabIntegration
   class HookHandler
     # List of the gitlab events we can handle.
-    KNOWN_EVENTS = %w[push_hook issue_hook note_hook merge_request_hook].freeze
+    KNOWN_EVENTS = %w[
+      push_hook 
+      issue_hook 
+      note_hook 
+      merge_request_hook
+      pipeline_hook
+    ].freeze
 
     # A gitlab webhook happened.
     # We need to check validity of the data and send a Notification
@@ -50,13 +57,9 @@ module OpenProject::GitlabIntegration
                 .merge('open_project_user_id' => user.id,
                        'gitlab_event' => event_type)
 
-      OpenProject::Notifications.send(event_name(event_type), payload)
+      OpenProject::Notifications.send("gitlab.#{event_type}", payload)
 
       return 200
-    end
-
-    private def event_name(gitlab_event_name)
-      "gitlab.#{gitlab_event_name}"
     end
   end
 end

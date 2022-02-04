@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -50,7 +50,7 @@ describe ::API::V3::Queries::Schemas::GroupFilterDependencyRepresenter, clear_ca
         let(:path) { 'values' }
         let(:type) { '[]User' }
         let(:href) do
-          "#{api_v3_paths.principals}?filters=#{CGI.escape(JSON.dump(filter_query))}&pageSize=0"
+          "#{api_v3_paths.principals}?filters=#{CGI.escape(JSON.dump(filter_query))}&pageSize=-1"
         end
 
         context "for operator 'Queries::Operators::All'" do

@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -70,7 +70,7 @@ describe VersionsController, type: :controller do
       patch 'update', params: @params
       version.reload
 
-      expect(response).to redirect_to controller: '/project_settings/versions', action: 'show', id: other_project
+      expect(response).to redirect_to project_settings_versions_path(other_project)
       expect(version.name).to eq(@oldVersionName)
     end
 
@@ -79,7 +79,7 @@ describe VersionsController, type: :controller do
       patch 'update', params: @params
       version.reload
 
-      expect(response).to redirect_to controller: '/project_settings/versions', action: 'show', id: version.project
+      expect(response).to redirect_to project_settings_versions_path(version.project)
       expect(version.name).to eq(@newVersionName)
     end
   end

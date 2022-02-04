@@ -1,0 +1,150 @@
+# /api/v3/activities/{id}
+---
+get:
+  parameters:
+  - description: Activity id
+    example: '1'
+    in: path
+    name: id
+    required: true
+    schema:
+      type: integer
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _links:
+                  self:
+                    href: "/api/v3/activity/1"
+                    title: Priority changed from High to Low
+                  user:
+                    href: "/api/v3/users/1"
+                    title: John Sheppard - admin
+                  workPackage:
+                    href: "/api/v3/work_packages/1"
+                    title: quis numquam qui voluptatum quia praesentium blanditiis
+                      nisi
+                _type: Activity::Comment
+                comment:
+                  format: markdown
+                  html: "<p>Lorem ipsum dolor sit amet.</p>"
+                  raw: Lorem ipsum dolor sit amet.
+                createdAt: '2014-05-21T08:51:20Z'
+                details:
+                - format: markdown
+                  html: "<p>Lorem ipsum dolor sit amet.</p>"
+                  raw: Lorem ipsum dolor sit amet.
+                id: 1
+                version: 31
+          schema:
+            "$ref": "../components/schemas/activity_model.yml"
+      description: OK
+      headers: {}
+  tags:
+  - Activities
+  description: ''
+  operationId: View_activity
+  summary: View activity
+patch:
+  parameters:
+  - description: Activity id
+    example: '1'
+    in: path
+    name: id
+    required: true
+    schema:
+      type: integer
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _links:
+                  self:
+                    href: "/api/v3/activity/1"
+                    title: Priority changed from High to Low
+                  user:
+                    href: "/api/v3/users/1"
+                    title: John Sheppard - admin
+                  workPackage:
+                    href: "/api/v3/work_packages/1"
+                    title: quis numquam qui voluptatum quia praesentium blanditiis
+                      nisi
+                _type: Activity::Comment
+                comment:
+                  format: markdown
+                  html: "<p>Lorem ipsum dolor sit amet.</p>"
+                  raw: Lorem ipsum dolor sit amet.
+                createdAt: '2014-05-21T08:51:20Z'
+                details:
+                - format: markdown
+                  html: "<p>Lorem ipsum dolor sit amet.</p>"
+                  raw: Lorem ipsum dolor sit amet.
+                id: 1
+                version: 31
+          schema:
+            "$ref": "../components/schemas/activity_model.yml"
+      description: OK
+      headers: {}
+    '400':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:InvalidRequestBody
+                message: The request body was not a single JSON object.
+      description: Occurs when the client did not send a valid JSON object in the
+        request body.
+      headers: {}
+    '403':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not allowed to edit the comment of this journal entry.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** edit journals
+      headers: {}
+    '422':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:PropertyIsReadOnly
+                message: The ID of an activity can't be changed.
+      description: Returned if the client tries to modify a read-only property.
+      headers: {}
+  tags:
+  - Activities
+  description: Updates an activity's comment and, on success, returns the updated
+    activity.
+  operationId: Update_activity
+  requestBody:
+    content:
+      application/json:
+        schema:
+          example:
+            comment:
+              raw: The updated comment
+          properties:
+            comment:
+              properties:
+                raw:
+                  type: string
+              type: object
+          type: object
+  summary: Update activity

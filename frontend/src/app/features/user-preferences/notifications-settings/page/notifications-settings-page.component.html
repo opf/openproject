@@ -1,0 +1,117 @@
+<op-notifications-settings-toolbar></op-notifications-settings-toolbar>
+<form
+  [formGroup]="form"
+  (ngSubmit)="saveChanges()"
+  class="op-form"
+>
+  <h5>{{ text.notifyImmediately.title }}</h5>
+  <p>{{ text.notifyImmediately.description }}</p>
+
+  <op-checkbox-field [label]="text.mentioned.title">
+      <input
+        disabled
+        checked
+        type="checkbox"
+        slot="input"
+      />
+      <p slot="description">{{ text.mentioned.description }}</p>
+  </op-checkbox-field>
+  
+  <op-checkbox-field
+    [label]="text.involved.title"
+    [control]="form.get('involved')"
+  >
+    <input
+      slot="input"
+      type="checkbox"
+      formControlName="involved"
+      data-qa-global-notification-type="involved" 
+    />
+    <p slot="description">{{ text.involved.description }}</p>
+  </op-checkbox-field>
+
+  <h5>{{ text.alsoNotifyFor.title }}</h5>
+  <p>{{ text.alsoNotifyFor.description }}</p>
+
+  <op-checkbox-field>
+      <input
+        disabled
+        checked
+        type="checkbox"
+        slot="input"
+      />
+      <p slot="description">{{ text.watched }}</p>
+  </op-checkbox-field>
+
+  <op-checkbox-field [control]="form.get('workPackageCreated')">
+    <input
+      slot="input"
+      type="checkbox"
+      formControlName="workPackageCreated"
+      data-qa-global-notification-type="work_package_created" 
+    />
+    <p slot="description">{{ text.work_package_created }}</p>
+  </op-checkbox-field>
+
+  <op-checkbox-field [control]="form.get('workPackageProcessed')">
+    <input
+      slot="input"
+      type="checkbox"
+      formControlName="workPackageProcessed"
+      data-qa-global-notification-type="work_package_processed" 
+    />
+    <p slot="description">{{ text.work_package_processed }}</p>
+  </op-checkbox-field>
+
+  <op-checkbox-field [control]="form.get('workPackageScheduled')">
+    <input
+      slot="input"
+      type="checkbox"
+      formControlName="workPackageScheduled"
+      data-qa-global-notification-type="work_package_scheduled" 
+    />
+    <p slot="description">{{ text.work_package_scheduled }}</p>
+  </op-checkbox-field>
+
+  <op-checkbox-field [control]="form.get('workPackagePrioritized')">
+    <input
+      slot="input"
+      type="checkbox"
+      formControlName="workPackagePrioritized"
+      data-qa-global-notification-type="work_package_prioritized" 
+    />
+    <p slot="description">{{ text.work_package_prioritized }}</p>
+  </op-checkbox-field>
+
+  <op-checkbox-field [control]="form.get('workPackageCommented')">
+    <input
+      slot="input"
+      type="checkbox"
+      formControlName="workPackageCommented"
+      data-qa-global-notification-type="work_package_commented" 
+    />
+    <p slot="description">{{ text.work_package_commented }}</p>
+  </op-checkbox-field>
+
+  <hr />
+
+  <h5>Project-specific notification settings</h5>
+  <p>These project-specific settings override default settings above</p>
+  
+  <op-notification-settings-table
+    *ngIf="userId"
+    [userId]="userId"
+    [settings]="form.controls.projectSettings"
+    formArrayName="projectSettings"
+    class="op-notification-settings-page--table"
+  ></op-notification-settings-table>
+
+  <div class="generic-table--action-buttons">
+    <button
+      class="button -highlight"
+      [textContent]="text.save"
+      type="submit"
+    ></button>
+  </div>
+</form>
+

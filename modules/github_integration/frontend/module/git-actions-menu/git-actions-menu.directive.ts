@@ -23,15 +23,15 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {OpContextMenuItem} from 'core-components/op-context-menu/op-context-menu.types';
-import {OPContextMenuService} from 'core-components/op-context-menu/op-context-menu.service';
-import {Directive, ElementRef, Input} from '@angular/core';
-import {OpContextMenuTrigger} from 'core-components/op-context-menu/handlers/op-context-menu-trigger.directive';
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {GitActionsMenuComponent} from './git-actions-menu.component';
+import { OpContextMenuItem } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
+import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
+import { Directive, ElementRef, Input } from '@angular/core';
+import { OpContextMenuTrigger } from 'core-app/shared/components/op-context-menu/handlers/op-context-menu-trigger.directive';
+import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
+import { GitActionsMenuComponent } from './git-actions-menu.component';
 
 @Directive({
   selector: '[gitActionsCopyDropdown]'

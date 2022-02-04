@@ -8,7 +8,8 @@ OpenProject::Application.configure do
         view: time[:view]
       }.merge(payload.except(:time))
 
-      Rails.logger.info OpenProject::Logging.formatter.call(attributes)
+      extended = OpenProject::Logging.extend_payload!(attributes, {})
+      Rails.logger.info OpenProject::Logging.formatter.call(extended)
     end
   end
 end

@@ -25,17 +25,25 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
-class WorkPackage::PDFExport::WorkPackageToPdf < WorkPackage::Exporter::Base
+class WorkPackage::PDFExport::WorkPackageToPdf < ::Exports::Exporter
   include WorkPackage::PDFExport::Common
   include WorkPackage::PDFExport::Formattable
   include WorkPackage::PDFExport::Attachments
 
   attr_accessor :pdf, :columns
 
-  def initialize(work_package)
+  self.model = WorkPackage
+
+  alias :work_package :object
+
+  def self.key
+    :pdf
+  end
+
+  def initialize(work_package, _options = {})
     super
 
     self.pdf = get_pdf(current_language)
@@ -44,7 +52,7 @@ class WorkPackage::PDFExport::WorkPackageToPdf < WorkPackage::Exporter::Base
     configure_markup
   end
 
-  def render!
+  def export!
     write_attributes!
     write_changesets!
     write_history!
@@ -85,8 +93,8 @@ class WorkPackage::PDFExport::WorkPackageToPdf < WorkPackage::Exporter::Base
     )
 
     column = columns.find { |col| col.name == attribute.to_sym }
-    formatter = ::WorkPackage::Exporter::Formatters.for_column(column)
-    value_content = formatter.format(work_package, column)
+    formatter = formatter_for(column.name)
+    value_content = formatter.format(work_package)
     value = pdf.make_cell(value_content.to_s, value_options)
 
     [label, value]

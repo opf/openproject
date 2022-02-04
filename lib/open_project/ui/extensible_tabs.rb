@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module OpenProject
@@ -83,6 +83,18 @@ module OpenProject
               path: ->(params) { edit_user_path(params[:user], tab: :global_roles) },
               label: :label_global_roles,
               only_if: ->(*) { User.current.admin? }
+            },
+            {
+              name: 'notifications',
+              partial: 'users/notifications',
+              path: ->(params) { edit_user_path(params[:user], tab: :notifications) },
+              label: :'notifications.settings.title'
+            },
+            {
+              name: 'reminders',
+              partial: 'users/reminders',
+              path: ->(params) { edit_user_path(params[:user], tab: :reminders) },
+              label: :'reminders.settings.title'
             }
           ]
         end

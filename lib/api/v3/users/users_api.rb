@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'api/v3/users/user_representer'
@@ -94,6 +94,7 @@ module API
             delete &::API::V3::Utilities::Endpoints::Delete.new(model: User, success_status: 202).mount
 
             mount ::API::V3::Users::UpdateFormAPI
+            mount ::API::V3::UserPreferences::PreferencesByUserAPI
 
             namespace :lock do
               # Authenticate lock transitions

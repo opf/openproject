@@ -25,13 +25,13 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 namespace :attachments do
   desc 'Clear all attachments created before yesterday'
   task clear: [:environment] do
-    CarrierWave.clean_cached_files!
+    Attachment.clean_cached_files!
   end
 
   desc 'Copies all attachments from the current to the given storage.'

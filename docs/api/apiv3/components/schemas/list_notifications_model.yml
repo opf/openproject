@@ -1,0 +1,43 @@
+# Schema: List_notificationsModel
+---
+type: object
+example:
+  _type: Collection
+  _embedded:
+    elements:
+      - _links:
+          readIAN:
+            href: "/api/v3/notifications/1/read_ian"
+            method: "post"
+          actor:
+            href: "/api/v3/users/2"
+            title: Peggie Feeney
+          activity:
+            href: "/api/v3/activities/1234"
+          project:
+            href: "/api/v3/projects/1"
+            title: Seeded Project
+          self:
+            href: "/api/v3/notifications/1"
+        _type: Notification
+        createdAt: "2021-07-20T08:32:18Z"
+        updatedAt: "2021-07-20T08:33:19Z"
+        id: 1
+        reason: mentioned
+        subject: "You have been mentioned in Task #1234 An important task"
+    _links:
+      changeSize:
+        href: "/api/v3/notifications?offset=1&pageSize=%7Bsize%7D"
+        templated: true
+      jumpTo:
+        href: "/api/v3/notifications?offset=%7Boffset%7D&pageSize=2"
+        templated: true
+      nextByOffset:
+        href: "/api/v3/notifications?offset=2&pageSize=2"
+      self:
+        href: "/api/v3/notifications?offset=1&pageSize=2"
+    _type: Collection
+    count: 1
+    offset: 1
+    pageSize: 50
+    total: 1

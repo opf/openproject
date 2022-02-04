@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module API
@@ -212,12 +212,29 @@ module API
           index :message
           show :message
 
-          index :my_preferences
-
           index :newses, :news
 
           def self.news(id)
             "#{newses}/#{id}"
+          end
+
+          index :notification
+          show :notification
+
+          def self.notification_bulk_read_ian
+            "#{notifications}/read_ian"
+          end
+
+          def self.notification_bulk_unread_ian
+            "#{notifications}/unread_ian"
+          end
+
+          def self.notification_read_ian(id)
+            "#{notification(id)}/read_ian"
+          end
+
+          def self.notification_unread_ian(id)
+            "#{notification(id)}/unread_ian"
           end
 
           index :placeholder_user
@@ -391,6 +408,10 @@ module API
             "#{user(id)}/lock"
           end
 
+          def self.user_preferences(id)
+            "#{user(id)}/preferences"
+          end
+
           index :group
           show :group
 
@@ -469,11 +490,13 @@ module API
             "#{project(project_id)}/work_packages"
           end
 
-          def self.path_for(path, filters: nil, sort_by: nil, page_size: nil)
+          def self.path_for(path, filters: nil, sort_by: nil, group_by: nil, page_size: nil, offset: nil)
             query_params = {
               filters: filters&.to_json,
               sortBy: sort_by&.to_json,
-              pageSize: page_size
+              groupBy: group_by,
+              pageSize: page_size,
+              offset: offset
             }.reject { |_, v| v.blank? }
 
             if query_params.any?

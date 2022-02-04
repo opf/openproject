@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
@@ -57,9 +57,9 @@ describe Version, type: :model do
     shared_let(:admin) { FactoryBot.create :admin }
 
     def move_to_project(work_package, project)
-      service = WorkPackages::MoveService.new(work_package, admin)
-
-      service.call(project)
+      WorkPackages::UpdateService
+        .new(model: work_package, user: admin)
+        .call(project: project)
     end
 
     before do
@@ -127,7 +127,7 @@ describe Version, type: :model do
       expect(work_package1.version_id).to eq(version.id)
     end
 
-    it 'rebuilds postions' do
+    it 'rebuilds positions' do
       e1 = create_work_package(type_id: epic_type.id)
       s2 = create_work_package(type_id: story_type.id)
       s3 = create_work_package(type_id: story_type.id)
@@ -145,7 +145,7 @@ describe Version, type: :model do
       t3.update_column(:position, 3)
       o9.update_column(:position, 9)
 
-      version.rebuild_positions(project)
+      version.rebuild_story_positions(project)
 
       work_packages = version
                       .work_packages

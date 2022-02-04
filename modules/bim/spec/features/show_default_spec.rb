@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require_relative '../spec_helper'
@@ -62,7 +62,7 @@ describe 'show default model',
 
     it 'shows an error loading the page' do
       show_default_page.visit!
-      show_default_page.expect_notification(type: :error, message: 'Your view is erroneous and could not be processed')
+      show_default_page.expect_toast(type: :error, message: 'Your view is erroneous and could not be processed')
     end
   end
 
@@ -85,7 +85,7 @@ describe 'show default model',
       model_tree.sidebar_shows_viewer_menu true
 
       # Check the order of work packages: Latest first
-      expect(show_default_page.find_all('.wp-card--id').map(&:text)).to(
+      expect(show_default_page.find_all('.op-wp-single-card--content-id').map(&:text)).to(
         eql(["##{new_work_package.id}", "##{old_work_package.id}"])
       )
     end
@@ -100,7 +100,7 @@ describe 'show default model',
 
     it 'renders a notification' do
       show_default_page
-        .expect_notification(type: :info,
+        .expect_toast(type: :info,
                              message: I18n.t(:'ifc_models.processing_notice.processing_default'))
     end
   end

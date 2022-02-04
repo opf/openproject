@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 class Attachments::CleanupUncontaineredJob < ::Cron::CronJob
@@ -41,7 +41,7 @@ class Attachments::CleanupUncontaineredJob < ::Cron::CronJob
       .destroy_all
 
     Attachment
-      .pending_direct_uploads
+      .pending_direct_upload
       .where(too_old)
       .destroy_all # prepared direct uploads that never finished
   end

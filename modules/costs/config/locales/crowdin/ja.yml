@@ -17,13 +17,13 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 ja:
   activerecord:
     attributes:
       cost_entry:
-        work_package: "ワーク パッケージ"
+        work_package: "作業項目"
         overridden_costs: "オーバーライドされたコスト"
         spent: "使用済"
         spent_on: "日付"
@@ -48,21 +48,21 @@ ja:
     errors:
       models:
         work_package:
-          is_not_a_valid_target_for_cost_entries: "コストを再割り当てるには、ワークパッケージ#%{id}は対象外である。"
+          is_not_a_valid_target_for_cost_entries: "コストを再割り当てるには、作業項目#%{id}は対象外である。"
           nullify_is_not_valid_for_cost_entries: "コストエントリをプロジェクトに割り当てることはできません。"
   attributes:
     comment: "コメント"
     cost_type: "コスト種類"
     costs: "コスト"
     current_rate: "現状原価率"
-    hours: " 時間"
+    hours: "時間"
     units: "単位"
     valid_from: "から有効"
     fixed_date: "固定日付"
   button_add_rate: "原価率を追加"
   button_log_costs: "単価を記録"
   caption_booked_on_project: "プロジェクトの予約"
-  caption_default: "既定の項目"
+  caption_default: "デフォルト"
   caption_default_rate_history_for: "%{user} のデフォルト率の履歴"
   caption_locked_on: "ロックオン"
   caption_materials: "単位"
@@ -97,8 +97,8 @@ ja:
   label_group_by_add: "グループ化フィールドを追加"
   label_hourly_rate: "時給"
   label_include_deleted: "削除済みを含める"
-  label_work_package_filter_add: "ワークパッケージフィルタを追加する"
-  label_kind: "タイプ"
+  label_work_package_filter_add: "作業項目フィルタを追加する"
+  label_kind: "種別"
   label_less_or_equal: "以下"
   label_log_costs: "単価を記録"
   label_no: "いいえ"
@@ -131,10 +131,10 @@ ja:
   permission_view_own_time_entries: "自分の使用済み時間の表示"
   project_module_costs: "時間とコスト"
   text_assign_time_and_cost_entries_to_project: "報告された時間とコストをプロジェクトに割り当てる"
-  text_destroy_cost_entries_question: "削除しようとしているワークパッケージが%{cost_entries} 件報告されました。どうしますか？"
+  text_destroy_cost_entries_question: "削除しようとしている作業項目が%{cost_entries} 件報告されました。どうしますか？"
   text_destroy_time_and_cost_entries: "報告された時間とコストを削除する"
   text_destroy_time_and_cost_entries_question: "%{hours} 時間分、削除しようとしているワークパッケージが %{cost_entries} 件報告されました。どうしますか？"
-  text_reassign_time_and_cost_entries: "報告された時間とコストをこのワークパッケージに再割り当てください。"
+  text_reassign_time_and_cost_entries: "報告された時間とコストをこの作業項目に再割り当てください。"
   text_warning_hidden_elements: "いくつかのエントリは、集計から除外されている可能性があります。"
   week: "週間"
   js:

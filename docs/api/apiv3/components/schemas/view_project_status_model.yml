@@ -1,0 +1,10 @@
+# Schema: View_project_statusModel
+---
+type: object
+example:
+  _type: ProjectStatus
+  id: on_track
+  name: On track
+  _links:
+    self:
+      href: "/api/v3/project_statuses/on_track"

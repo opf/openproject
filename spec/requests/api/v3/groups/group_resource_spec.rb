@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -88,10 +88,7 @@ describe 'API v3 Group resource', type: :request, content_type: :json do
     context 'requesting nonexistent group' do
       let(:get_path) { api_v3_paths.group 9999 }
 
-      it_behaves_like 'not found' do
-        let(:id) { 9999 }
-        let(:type) { 'Group' }
-      end
+      it_behaves_like 'not found'
     end
 
     context 'not having the necessary permission to see any group' do
@@ -189,7 +186,7 @@ describe 'API v3 Group resource', type: :request, content_type: :json do
     let(:body) do
       {
         _links: {
-          "members": [
+          members: [
             {
               href: api_v3_paths.user(members.last.id)
             },
@@ -261,16 +258,18 @@ describe 'API v3 Group resource', type: :request, content_type: :json do
           .to match_array [members.last, another_user]
       end
 
-      it 'sends a mail notifying of the added project memberships to the added user' do
+      it 'sends mails notifying of the added and updated project memberships to the added user' do
         expect(ActionMailer::Base.deliveries.size)
-          .to eql 2
+          .to eq 2
 
         expect(ActionMailer::Base.deliveries.map(&:to).flatten.uniq)
           .to match_array another_user.mail
 
         expect(ActionMailer::Base.deliveries.map(&:subject).flatten)
-          .to match_array [I18n.t(:'mail_member_added_project.subject', project: other_project.name),
-                           I18n.t(:'mail_member_updated_project.subject', project: project.name)]
+          .to match_array [
+            I18n.t(:'mail_member_updated_project.subject', project: project.name),
+            I18n.t(:'mail_member_added_project.subject', project: other_project.name)
+          ]
       end
     end
 
@@ -280,7 +279,7 @@ describe 'API v3 Group resource', type: :request, content_type: :json do
       let(:body) do
         {
           _links: {
-            "members": [
+            members: [
               {
                 href: api_v3_paths.user(members.last.id)
               },
@@ -380,10 +379,7 @@ describe 'API v3 Group resource', type: :request, content_type: :json do
       context 'for a non-existent group' do
         let(:path) { api_v3_paths.group 11111337 }
 
-        it_behaves_like 'not found' do
-          let(:id) { 11111337 }
-          let(:type) { 'Group' }
-        end
+        it_behaves_like 'not found'
       end
     end
 

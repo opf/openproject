@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -482,9 +482,10 @@ describe Projects::CopyService, 'integration', type: :model do
             source.work_packages << wp
           end
 
-          it 'does copy active watchers' do
+          it 'does copy active watchers but does not add the copying user as a watcher' do
             expect(subject).to be_success
-            expect(project_copy.work_packages[0].watchers.first.user).to eq(watcher)
+            expect(project_copy.work_packages[0].watcher_users)
+              .to match_array([watcher])
           end
         end
 
@@ -500,9 +501,9 @@ describe Projects::CopyService, 'integration', type: :model do
             source.work_packages << wp
           end
 
-          it 'does not copy locked watchers' do
+          it 'does not copy locked watchers and does not add the copying user as a watcher' do
             expect(subject).to be_success
-            expect(project_copy.work_packages[0].watchers).to eq([])
+            expect(project_copy.work_packages[0].watcher_users).to be_empty
           end
         end
 

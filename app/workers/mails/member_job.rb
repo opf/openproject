@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 class Mails::MemberJob < ApplicationJob
@@ -54,7 +54,7 @@ class Mails::MemberJob < ApplicationJob
   end
 
   def send_updated_global(current_user, member, member_message)
-    return if sending_disabled?(:updated, member_message)
+    return if sending_disabled?(:updated, current_user, member.user_id, member_message)
 
     MemberMailer
       .updated_global(current_user, member, member_message)
@@ -62,7 +62,7 @@ class Mails::MemberJob < ApplicationJob
   end
 
   def send_added_project(current_user, member, member_message)
-    return if sending_disabled?(:added, member_message)
+    return if sending_disabled?(:added, current_user, member.user_id, member_message)
 
     MemberMailer
       .added_project(current_user, member, member_message)
@@ -70,7 +70,7 @@ class Mails::MemberJob < ApplicationJob
   end
 
   def send_updated_project(current_user, member, member_message)
-    return if sending_disabled?(:updated, member_message)
+    return if sending_disabled?(:updated, current_user, member.user_id, member_message)
 
     MemberMailer
       .updated_project(current_user, member, member_message)
@@ -85,7 +85,14 @@ class Mails::MemberJob < ApplicationJob
       .each(&block)
   end
 
-  def sending_disabled?(setting, message)
-    message.blank? && !Setting.notified_events.include?("membership_#{setting}")
+  def sending_disabled?(setting, current_user, user_id, message)
+    # Never self notify
+    return true if current_user.id == user_id
+    # In case we have an invitation message, always send a mail
+    return false if message.present?
+
+    NotificationSetting
+      .where(project_id: nil, user_id: user_id)
+      .exists?("membership_#{setting}" => false)
   end
 end

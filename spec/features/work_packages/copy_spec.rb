@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -104,7 +104,7 @@ RSpec.feature 'Work package copy', js: true, selenium: true do
     to_copy_work_package_page.update_attributes Description: 'Copied WP Description'
     to_copy_work_package_page.save!
 
-    expect(page).to have_selector('.notification-box--content',
+    expect(page).to have_selector('.op-toast--content',
                                   text: I18n.t('js.notice_successful_create'))
 
     copied_work_package = WorkPackage.order(created_at: 'desc').first
@@ -144,7 +144,7 @@ RSpec.feature 'Work package copy', js: true, selenium: true do
       to_copy_work_package_page.update_attributes Description: 'Copied WP Description'
       to_copy_work_package_page.save!
 
-      to_copy_work_package_page.expect_and_dismiss_notification message: I18n.t('js.notice_successful_create')
+      to_copy_work_package_page.expect_and_dismiss_toaster message: I18n.t('js.notice_successful_create')
     end
   end
 
@@ -158,7 +158,7 @@ RSpec.feature 'Work package copy', js: true, selenium: true do
     to_copy_work_package_page.update_attributes Description: 'Copied WP Description'
     to_copy_work_package_page.save!
 
-    expect(page).to have_selector('.notification-box--content',
+    expect(page).to have_selector('.op-toast--content',
                                   text: I18n.t('js.notice_successful_create'))
 
     copied_work_package = WorkPackage.order(created_at: 'desc').first

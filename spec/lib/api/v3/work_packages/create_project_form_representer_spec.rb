@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++require 'rspec'
 
 require 'spec_helper'
@@ -41,155 +41,146 @@ describe ::API::V3::WorkPackages::CreateProjectFormRepresenter do
     FactoryBot.build_stubbed(:stubbed_work_package,
                              type: type)
   end
-  include_context 'user with stubbed permissions'
   let(:representer) do
     described_class.new(work_package, current_user: user, errors: errors)
   end
 
-  context 'generation' do
-    subject(:generated) { representer.to_json }
+  include_context 'user with stubbed permissions'
 
-    describe '_links' do
+  subject(:generated) { representer.to_json }
+
+  describe '_links' do
+    it do
+      expect(generated).to be_json_eql(
+        api_v3_paths.create_project_work_package_form(work_package.project_id).to_json
+      )
+        .at_path('_links/self/href')
+    end
+
+    it do
+      expect(generated).to be_json_eql(:post.to_json).at_path('_links/self/method')
+    end
+
+    describe 'validate' do
       it do
-        is_expected.to be_json_eql(
+        expect(generated).to be_json_eql(
           api_v3_paths.create_project_work_package_form(work_package.project_id).to_json
         )
-          .at_path('_links/self/href')
+          .at_path('_links/validate/href')
       end
 
       it do
-        is_expected.to be_json_eql(:post.to_json).at_path('_links/self/method')
+        expect(generated).to be_json_eql(:post.to_json).at_path('_links/validate/method')
+      end
+    end
+
+    describe 'preview markup' do
+      it do
+        expect(generated).to be_json_eql(
+          api_v3_paths.render_markup(
+            link: api_v3_paths.project(work_package.project_id)
+          ).to_json
+        )
+          .at_path('_links/previewMarkup/href')
       end
 
-      describe 'validate' do
+      it do
+        expect(generated).to be_json_eql(:post.to_json).at_path('_links/previewMarkup/method')
+      end
+
+      it 'contains link to work package' do
+        expected_preview_link =
+          api_v3_paths.render_markup(link: "/api/v3/projects/#{work_package.project_id}")
+        expect(subject).to be_json_eql(expected_preview_link.to_json)
+          .at_path('_links/previewMarkup/href')
+      end
+    end
+
+    describe 'commit' do
+      context 'with a valid work package' do
         it do
-          is_expected.to be_json_eql(
-            api_v3_paths.create_project_work_package_form(work_package.project_id).to_json
+          expect(generated).to be_json_eql(
+            api_v3_paths.work_packages_by_project(work_package.project_id).to_json
           )
-            .at_path('_links/validate/href')
+            .at_path('_links/commit/href')
         end
 
         it do
-          is_expected.to be_json_eql(:post.to_json).at_path('_links/validate/method')
+          expect(generated).to be_json_eql(:post.to_json).at_path('_links/commit/method')
         end
       end
 
-      describe 'preview markup' do
-        it do
-          is_expected.to be_json_eql(
-            api_v3_paths.render_markup(
-              link: api_v3_paths.project(work_package.project_id)
-            ).to_json
-          )
-            .at_path('_links/previewMarkup/href')
-        end
+      context 'with an invalid work package' do
+        let(:errors) { [::API::Errors::Validation.new(:subject, 'it is broken')] }
 
         it do
-          is_expected.to be_json_eql(:post.to_json).at_path('_links/previewMarkup/method')
-        end
-
-        it 'contains link to work package' do
-          expected_preview_link =
-            api_v3_paths.render_markup(link: "/api/v3/projects/#{work_package.project_id}")
-          expect(subject).to be_json_eql(expected_preview_link.to_json)
-            .at_path('_links/previewMarkup/href')
+          expect(generated).not_to have_json_path('_links/commit/href')
         end
       end
 
-      describe 'commit' do
-        context 'valid work package' do
-          it do
-            is_expected.to be_json_eql(
-              api_v3_paths.work_packages_by_project(work_package.project_id).to_json
-            )
-              .at_path('_links/commit/href')
-          end
+      context 'with the user having insufficient permissions' do
+        let(:permissions) { [] }
 
-          it do
-            is_expected.to be_json_eql(:post.to_json).at_path('_links/commit/method')
-          end
+        it do
+          expect(generated).not_to have_json_path('_links/commit/href')
         end
+      end
+    end
 
-        context 'invalid work package' do
-          let(:errors) { [::API::Errors::Validation.new(:subject, 'it is broken')] }
+    describe 'customFields' do
+      context 'with the permission to select custom fields' do
+        let(:permissions) { [:select_custom_fields] }
 
-          it do
-            is_expected.not_to have_json_path('_links/commit/href')
-          end
-        end
+        it 'has a link to set the custom fields for that project' do
+          expected = {
+            href: project_settings_custom_fields_path(work_package.project),
+            type: "text/html",
+            title: "Custom fields"
+          }
 
-        context 'user with insufficient permissions' do
-          let(:permissions) { [] }
-
-          it do
-            is_expected.not_to have_json_path('_links/commit/href')
-          end
+          expect(generated)
+            .to be_json_eql(expected.to_json)
+                  .at_path('_links/customFields')
         end
       end
 
-      describe 'customFields' do
-        shared_examples_for 'links to project custom field admin' do
-          it 'has a link to set the custom fields for that project' do
-            expected = {
-              href: "/projects/#{work_package.project.identifier}/settings/custom_fields",
-              type: "text/html",
-              title: "Custom fields"
-            }
-
-            is_expected.to be_json_eql(expected.to_json).at_path('_links/customFields')
-          end
+      context 'without the permission to select custom fields' do
+        it 'has no link to set the custom fields for that project' do
+          expect(generated).not_to have_json_path('_links/customFields')
         end
+      end
+    end
 
-        context 'with admin privileges' do
-          include_context 'user with stubbed permissions', admin: true
+    describe 'configureForm' do
+      context "for an admin and with a type" do
+        include_context 'user with stubbed permissions', admin: true
 
-          it_behaves_like 'links to project custom field admin'
-        end
+        it 'has a link to configure the form' do
+          expected = {
+            href: "/types/#{type.id}/edit?tab=form_configuration",
+            type: "text/html",
+            title: "Configure form"
+          }
 
-        context 'without project admin priviliges' do
-          it 'has no link to set the custom fields for that project' do
-            is_expected.to_not have_json_path('_links/customFields')
-          end
-        end
-
-        context 'with project admin privileges' do
-          let(:permissions) { [:edit_project] }
-
-          it_behaves_like 'links to project custom field admin'
+          expect(generated)
+            .to be_json_eql(expected.to_json)
+            .at_path('_links/configureForm')
         end
       end
 
-      describe 'configureForm' do
-        context "as admin" do
-          include_context 'user with stubbed permissions', admin: true
+      context 'for an admin and without type' do
+        let(:type) { nil }
 
-          context 'with type' do
-            it 'has a link to configure the form' do
-              expected = {
-                href: "/types/#{type.id}/edit?tab=form_configuration",
-                type: "text/html",
-                title: "Configure form"
-              }
+        include_context 'user with stubbed permissions', admin: true
 
-              is_expected
-                .to be_json_eql(expected.to_json)
-                .at_path('_links/configureForm')
-            end
-          end
-
-          context 'without type' do
-            let(:type) { nil }
-
-            it 'has no link to configure the form' do
-              is_expected.to_not have_json_path('_links/configureForm')
-            end
-          end
+        it 'has no link to configure the form' do
+          expect(generated).not_to have_json_path('_links/configureForm')
         end
+      end
 
-        context 'not being admin' do
-          it 'has no link to configure the form' do
-            is_expected.to_not have_json_path('_links/configureForm')
-          end
+      context 'for a non admin' do
+        it 'has no link to configure the form' do
+          expect(generated).not_to have_json_path('_links/configureForm')
         end
       end
     end

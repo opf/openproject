@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require_relative './new'
@@ -78,12 +78,12 @@ module Pages::Meetings
 
     def expect_to_be_on_page(number)
       expect(page)
-        .to have_selector('.pagination--item.-current',
+        .to have_selector('.op-pagination--item_current',
                           text: number)
     end
 
     def to_page(number)
-      within '.pagination--pages' do
+      within '.op-pagination--pages' do
         click_link number.to_s
       end
     end

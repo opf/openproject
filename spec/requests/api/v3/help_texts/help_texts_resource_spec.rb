@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -103,10 +103,7 @@ describe 'API v3 Help texts resource' do
           # cf not visible to the user
           let(:help_text) { help_texts.last }
 
-          it_behaves_like 'not found' do
-            let(:id) { help_text.id }
-            let(:type) { 'HelpText' }
-          end
+          it_behaves_like 'not found'
         end
       end
     end

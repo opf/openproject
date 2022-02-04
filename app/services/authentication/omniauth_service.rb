@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module Authentication
@@ -50,11 +50,14 @@ module Authentication
     end
 
     def call(additional_user_params = nil)
-      Rails.logger.debug { "Returning from omniauth with hash #{auth_hash&.to_hash.inspect} Valid? #{auth_hash&.valid?}" }
+      inspect_response(Logger::DEBUG)
 
       unless contract.validate
         result = ServiceResult.new(success: false, errors: contract.errors)
-        Rails.logger.warn { "Failed to process omniauth response for #{auth_uid}: #{result.message}" }
+        Rails.logger.error do
+          "[OmniAuth strategy #{strategy.name}] Failed to process omniauth response for #{auth_uid}: #{result.message}"
+        end
+        inspect_response(Logger::ERROR)
 
         return result
       end
@@ -72,6 +75,24 @@ module Authentication
     end
 
     private
+
+    ##
+    # Inspect the response object, trying to find out what got returned
+    def inspect_response(log_level)
+      case strategy
+      when ::OmniAuth::Strategies::SAML
+        ::OpenProject::AuthSaml::Inspector.inspect_response(auth_hash) do |message|
+          Rails.logger.add log_level, message
+        end
+      else
+        Rails.logger.add(log_level) do
+          "[OmniAuth strategy #{strategy.name}] Returning from omniauth with hash " \
+            "#{auth_hash&.to_hash.inspect} Valid? #{auth_hash&.valid?}"
+        end
+      end
+    rescue StandardError => e
+      OpenProject.logger.error "[OmniAuth strategy #{strategy.name}] Failed to inspect OmniAuth response: #{e.message}"
+    end
 
     ##
     # After login flow
@@ -155,11 +176,17 @@ module Authentication
     # Update or assign the user attributes
     def update_attributes
       if user.new_record? || user.invited?
-        user.assign_attributes user_attributes
         user.register unless user.invited?
+
+        ::Users::SetAttributesService
+          .new(user: User.system, model: user, contract_class: ::Users::UpdateContract)
+          .call(user_attributes)
+          .result
       else
         # Update the user, but never change the admin flag
-        user.update user_attributes.except(:admin)
+        ::Users::UpdateService
+          .new(user: User.system, model: user)
+          .call(user_attributes.except(:admin))
       end
     end
 

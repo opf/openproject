@@ -2,7 +2,7 @@ nl:
   js:
     grid:
       add_widget: 'Add widget'
-      remove: 'Remove widget'
+      remove: 'Widget verwijderen'
       configure: 'Configure widget'
       upsale:
         text: "Some widgets, like the work package graph widget, are only available in the "
@@ -16,7 +16,7 @@ nl:
         members:
           title: 'Leden'
           no_results: 'No visible members.'
-          view_all_members: 'Alle leden weergeven'
+          view_all_members: 'Alle leden bekijken'
           add: 'Deelnemer'
           too_many: 'Displaying %{count} of %{total} members.'
         news:

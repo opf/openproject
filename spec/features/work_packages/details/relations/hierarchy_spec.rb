@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -117,7 +117,7 @@ shared_examples 'work package relations tab', js: true, selenium: true do
         type_field.activate!
         type_field.set_value type2.name
 
-        wp_page.expect_notification message: "#{custom_field.name} can't be blank.",
+        wp_page.expect_toast message: "#{custom_field.name} can't be blank.",
                                     type: 'error'
 
         cf_field = wp_page.edit_field("customField#{custom_field.id}")
@@ -127,7 +127,7 @@ shared_examples 'work package relations tab', js: true, selenium: true do
         cf_field.set_value 'my value'
         cf_field.save!
 
-        wp_page.expect_notification message: "Successful update.",
+        wp_page.expect_toast message: "Successful update.",
                                     type: 'success'
 
         wp.reload
@@ -220,7 +220,7 @@ shared_examples 'work package relations tab', js: true, selenium: true do
           expect(page).to have_no_selector('#hierarchy--add-new-child')
 
           # But it should show the linked parent
-          expect(page).to have_selector('.wp-breadcrumb-parent', text: parent.subject)
+          expect(page).to have_selector('[data-qa-selector="op-wp-breadcrumb-parent"]', text: parent.subject)
 
           # And it should count the two relations
           tabs.expect_counter(relations_tab, 2)
@@ -235,7 +235,7 @@ shared_examples 'work package relations tab', js: true, selenium: true do
         it 'should be able to link parent and children' do
           # Add parent
           relations.add_parent(parent.id, parent)
-          wp_page.expect_and_dismiss_notification(message: 'Successful update.')
+          wp_page.expect_and_dismiss_toaster(message: 'Successful update.')
           relations.expect_parent(parent)
 
           ##
@@ -243,7 +243,7 @@ shared_examples 'work package relations tab', js: true, selenium: true do
           relations.openChildrenAutocompleter
 
           relations.add_existing_child(child)
-          wp_page.expect_and_dismiss_notification(message: 'Successful update.')
+          wp_page.expect_and_dismiss_toaster(message: 'Successful update.')
           relations.expect_child(child)
 
           # Expect counter to add up child to the existing relations
@@ -251,7 +251,7 @@ shared_examples 'work package relations tab', js: true, selenium: true do
 
           # Remove parent
           relations.remove_parent
-          wp_page.expect_and_dismiss_notification(message: 'Successful update.')
+          wp_page.expect_and_dismiss_toaster(message: 'Successful update.')
           relations.expect_no_parent
 
           # Remove child

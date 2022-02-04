@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 es:
   js:
@@ -87,6 +87,7 @@ es:
     button_update: "Actualizar"
     button_export-pdf: "Descargar PDF"
     button_export-atom: "Descargar Atom"
+    button_create: "Crear"
     calendar:
       title: 'Calendario'
       too_many: 'Hay %{count} paquetes de trabajo en total, pero solo pueden mostrarse %{max}.'
@@ -126,7 +127,7 @@ es:
       preview: 'Alternar modo de vista previa'
       source_code: 'Alternar modo de visualización de Markdown'
       error_saving_failed: 'No se pudo guardar el documento debido al siguiente error: %{error}'
-      error_initialization_failed: 'No se pudo inicializar CKEditor.'
+      ckeditor_error: 'Se ha producido un error dentro de CKEditor'
       mode:
         manual: 'Cambiar a visualización de Markdown'
         wysiwyg: 'Cambiar a editor WYSIWYG'
@@ -185,8 +186,8 @@ es:
         new_group: 'Nuevo grupo'
         reset_to_defaults: 'Restablecer valores predeterminados'
       enterprise:
-        text_reprieve_days_left: "%{days} days until end of grace period"
-        text_expired: "expired"
+        text_reprieve_days_left: "%{days} días hasta el fin del período de gracia"
+        text_expired: "caducado"
         trial:
           confirmation: "Confirmación de dirección de correo electrónico"
           confirmation_info: >
@@ -284,14 +285,17 @@ es:
         new_features:
           text_new_features: "Obtenga información sobre nuevas características y actualizaciones de productos."
           learn_about: "Más información sobre las nuevas características"
-          standard:
-            learn_about_link: https://www.openproject.org/openproject-11-3-release
-            current_new_feature_html: >
-              Esta versión contiene nuevas mejoras y características: <br> <ul class="%{list_styling_class}"> <li>Nuevo botón en el menú de navegación del encabezado para crear proyectos, usuarios y paquetes de trabajo.</li> <li>Un nuevo cuadro de diálogo modal para invitar a usuarios, grupos y usuarios de marcador de posición que permite añadir o invitar fácilmente a nuevos usuarios y asignarlos a paquetes de trabajo.</li> <li>Integración de GitHub con OpenProject.</li> <li>Extensiones de la API v3 para grupos y más (por ejemplo, para crear, leer, actualizar y eliminar grupos y miembros del grupo mediante la API).</li> <li>Selección múltiple para campos personalizados del proyecto de tipo lista.</li> <li>Creación de copias de seguridad desde la interfaz web.</li> </ul>
-          bim:
-            learn_about_link: https://www.openproject.org/blog/openproject-11-4-release
-            current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Take a look at our <a href="https://github.com/opf/openproject-revit-add-in">Revit Add-in</a> which lets you work on BCF work packages directly in Revit.</li> <li>IFC properties got a dedicated pane. Copying GUIDs has never been easier.</li> <li>Reverse clipping plane direction in BCF viewpoint and become compliant with future BCF 3.0 (Now same direction as Solibri). <li>Fixed viewing IFC models on mobile.</li> <li>Fixed export of work package views with BCF snapshot column.</li> </ul>
+          #Include the version to invalidate outdated translations in other locales.
+          #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
+          '12_0':
+            standard:
+              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
+              new_features_html: >
+                La versión contiene varias nuevas funcionalidades y mejoras: <br> <ul class="%{list_styling_class}"> <li>Con las nuevas <b>notificaciones dentro de la aplicación</b> recibe todas las actualizaciones importantes directamente en la aplicación y dejará de recibir un montón de correos electrónicos.</li> <li>El nuevo <b>centro de notificación</b> muestra todos los cambios, incluyendo opciones de filtro intuitivas, por ejemplo, por motivos de notificación o proyectos. Incluso permite editar directamente paquetes de trabajo en la vista partida.</li> <li>Mejorado la <b>configuración de notificaciones</b> le permite ajustar mejor qué acciones y en qué proyectos desea recibir una notificación.</li> <li>Los <b>recordatorios por correo electrónico</b> pueden ser configurados para recibir actualizaciones importantes a través de un resumen diario vía correo electrónico.</li> <li>El paquete de trabajo autocompletador para las relaciones ahora también muestra información adicional (nombre del proyecto, estado, . .) para identificar fácilmente el respectivo paquete de trabajo.</li> </ul>
+            bim:
+              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
+              new_features_html: >
+                Esta versión contiene nuevas mejoras y características: <br> <ul class="%{list_styling_class}"> <li>Centro de notificaciones: reduzca el número de correos que recibe. En su lugar, busque y responda a todas las notificaciones pertinentes desde una ubicación central.</li> <li>Ahora se pueden descargar todos los archivos IFC cargados.</li> <li>La carga y el procesamiento de IFC ahora es más rápida y se han mejorado los mensajes de error mostrados.</li> <li>Se han aplicado numerosas correcciones de errores en el <a href="https://github.com/opf/openproject-revit-add-in">complemento OpenProject Revit</a>.</li> </ul>
     label_activate: "Activar"
     label_add_column_after: "Añadir columna a la derecha"
     label_add_column_before: "Añadir columna a la izquierda"
@@ -398,6 +402,7 @@ es:
     label_quote_comment: "Citar este comentario"
     label_recent: "Recientes"
     label_reset: "Reiniciar"
+    label_remove: "Eliminar"
     label_remove_column: "Eliminar columna"
     label_remove_columns: "Eliminar columnas seleccionadas"
     label_remove_row: "Eliminar fila"
@@ -479,31 +484,99 @@ es:
         next: 'Siguiente'
         got_it: 'Entendido'
       steps:
-        help_menu: 'En el menú <b>Ayuda</b>, encontrará una guía del usuario y recursos de ayuda adicionales. <br> ¡Disfrute de su trabajo con OpenProject!'
-        members: 'Invite a nuevos <b>Miembros</b> a unirse al proyecto.'
-        project_selection: 'Por favor, haga clic en uno de los proyectos con datos de demostración útiles para empezar. <br> El <b>proyecto Demo </b> se adapta mejor a la gestión clásica del proyecto, mientras que el <b>} proyecto Scrum </b> es mejor para la gestión del proyecto Agile.'
-        quick_add_button: 'Cree un proyecto o invite a compañeros de trabajo.'
-        sidebar_arrow: "Con la flecha, puede volver al <b>Menú principal</b> del proyecto."
+        help_menu: 'El menú Ayuda (?) proporciona <b>recursos de ayuda adicionales</b>. Aquí puedes encontrar una guía de usuario y vídeos explicativos y más. <br> ¡Disfruta de tu trabajo con OpenProject!'
+        members: 'Invitar a nuevos <b>miembros</b> a unirse a tu proyecto.'
+        project_selection: 'Haga clic en uno de los proyectos de demostración que hemos preparado. Los datos de demostración solo están disponibles en inglés actualmente. <br> El <b>proyecto de demostración</b> general es la opción recomendada para la gestión de proyectos clásica, mientras que el <b>proyecto de Scrum</b> es más adecuado para la gestión de proyectos ágiles.'
+        quick_add_button: 'Haga clic en el icono del signo más (+) en el menú de navegación del encabezado para <b>crear un proyecto</b> o <b>invitar a compañeros</b>.'
+        sidebar_arrow: "Usa la flecha de retorno en la esquina superior izquierda para regresar al <b>menú principal</b> del proyecto."
         welcome: 'Realice un paseo de introducción de tres minutos para conocer las <b>características más importantes</b>. <br> Le recomendamos que complete todos los pasos. Puede volver a iniciar el paseo en cualquier momento.'
-        wiki: 'En la <b>Wiki</b>, puede elaborar documentos y compartir conocimientos con su equipo.'
+        wiki: 'En la <b>wiki</b>, puede elaborar documentos y compartir conocimientos con su equipo.'
         backlogs:
-          overview: "Administre su trabajo en la vista <b>Trabajos pendientes</b> (Backlogs). <br> En la parte derecha, se muestran los trabajos pendientes de productos o los trabajos pendientes de errores de código, mientras que en la parte izquierda se mostrarán los sprints correspondientes. Aquí puede crear <b>epopeyas, historias de usuario y errores de código</b>, asignar prioridades mediante funciones de arrastrar y colocar, y agregar elementos a un sprint."
+          overview: "Administre su trabajo en la vista de <b>trabajos pendientes</b>."
+          sprints: "A la derecha verá los trabajos pendientes de productos y errores de código, y a la izquierda se muestran los sprints correspondientes. Aquí puede crear <b>épicas, historias de usuario y errores de código</b>, asignar prioridades mediante funciones de arrastrar y colocar, y añadir elementos a un sprint."
           task_board_arrow: 'Para ver el <b>Panel de tareas</b>, abra el menú desplegable Sprint…'
-          task_board_select: '… y seleccione la entrada <b>Panel de tareas</b>.'
-          task_board: "En el <b>Panel de tareas</b>, se muestra el progreso de este sprint. Agregue nuevas tareas o impedimentos con el icono de + junto a una historia de usuario. Mediante funciones de arrastrar y colocar, puede actualizar el estado."
+          task_board_select: '… y seleccione la entrada del <b>panel de tareas</b>.'
+          task_board: "En el panel de tareas, se muestra el <b>progreso de este sprint</b>. Haga clic en el icono del signo más (+) junto a una historia de usuario para añadir nuevas tareas o impedimentos. <br> Puede actualizar el estado mediante las funciones de arrastrar y colocar."
         boards:
-          overview: 'Gestiona tu trabajo en una sección intuitiva de <b>Tableros</b>.'
-          lists: 'Puedes crear múltiples listas (columnas) contenidas en una única sección del Tablero, por ej. para crear un tablero KANBAN.'
-          add: 'Al hacer click en + <b>se añadirá una nueva tarjeta</b> a la lista dentro de un Tablero.'
-          drag: 'Arrastra y suelta tus cartas dentro de una lista para volver a ordenar, o para otra lista. Un doble clic abrirá la vista de detalles.'
+          overview: 'Seleccione los <b>paneles</b> para cambiar la vista y gestione su proyecto con la vista de paneles ágiles.'
+          lists: 'Aquí puede crear varias listas (columnas) en el panel. Por ejemplo, esta característica le permite crear un <b>panel kanban</b>.'
+          add: 'Haga clic en el icono del signo más (+) para <b>crear una tarjeta</b> o <b>añadir una tarjeta existente</b> a la lista en el panel.'
+          drag: 'Arrastre y coloque las tarjetas en una lista específica para cambiar el orden o moverlas a otra lista. <br> Para ver los detalles, haga clic en el icono de información (i) de la esquina superior derecha o haga doble clic en una tarjeta.'
         wp:
-          toggler: "Ahora, veamos la sección <b>Paquete de trabajo</b>, que ofrece una vista más detallada de su trabajo."
-          list: 'Esta es la lista del <b>Paquete de trabajo</b> con el trabajo importante del proyecto, como tareas, hitos, fases y más. <br> Puede crear o editar un paquete de trabajo directamente en esta lista. Para ver los datos, haga doble clic en una fila.'
-          full_view: 'En los <b>Detalles del paquete de trabajo</b>, se muestra toda la información relevante, como la descripción, el estado y la prioridad, actividades, dependencias o comentarios.'
-          back_button: 'Con la flecha, puede volver a la lista de paquetes de trabajo.'
-          create_button: 'Use el botón <b>Crear</b> para agregar un nuevo paquete de trabajo al proyecto.'
-          timeline_button: 'Puede activar el <b>diagrama de Gantt</b> para crear una línea de tiempo del proyecto.'
-          timeline: 'Aquí puede editar el plan del proyecto. Cree nuevas fases e hitos, y agregue dependencias. Todos los miembros del equipo pueden ver y actualizar el último plan en cualquier momento.'
+          toggler: "Ahora, veamos la sección <b>paquete de trabajo</b>, que ofrece una vista más detallada de su trabajo."
+          list: 'En el resumen del <b>paquete de trabajo</b>, se muestra una lista de todos los trabajos del proyecto, como tareas, hitos, fases y más. <br> Desde esta vista, se pueden crear y editar directamente paquetes de trabajo. Para acceder a los detalles de un paquete de trabajo específico, simplemente haga doble clic en la fila correspondiente.'
+          full_view: 'En la vista de <b>detalles del paquete de trabajo</b>, se muestra toda la información pertinente sobre un paquete de trabajo específico, como la descripción, el estado, la prioridad, las actividades, las dependencias y los comentarios.'
+          back_button: 'Use la flecha de retorno de la esquina superior izquierda para salir y volver a la lista de paquetes de trabajo.'
+          create_button: 'Use el botón <b>+ Crear</b> para añadir un nuevo paquete de trabajo a su proyecto.'
+          timeline_button: 'Puede activar la vista del <b>diagrama de Gantt</b> para crear una línea de tiempo del proyecto.'
+          timeline: 'Aquí puede <b>editar su plan de proyecto</b>, crear nuevos paquetes de trabajo (como tareas, hitos, fases y más) y <b>añadir dependencias</b>. Todos los miembros del equipo pueden ver y actualizar el plan más reciente en cualquier momento.'
+    notifications:
+      title: "Notificaciones"
+      no_unread: "No hay notificaciones sin leer"
+      reasons:
+        mentioned: 'mencionado'
+        watched: 'visto'
+        assigned: 'asignado'
+        responsible: 'responsable'
+      facets:
+        unread: 'Marcar como no leído'
+        all: 'Todos'
+      center:
+        and_more_users:
+          one: 'y 1 más'
+          other: 'y %{count} más'
+        no_results:
+          at_all: 'Aquí se mostrarán las nuevas notificaciones cuando haya actividad que le resulte pertinente'
+          with_current_filter: 'No hay notificaciones en esta vista actualmente'
+        mark_all_read: 'Marcar todos como leído'
+        mark_as_read: 'Marcar como leída'
+        text_update_date: "%{date} por"
+        total_count_warning: "Mostrando las %{newest_count} notificaciones más recientes. %{more_count} más no se muestran."
+        empty_state:
+          no_notification: "Parece que ya está al día."
+          no_notification_with_current_filter: "Cambie la implicación o vuelva a la bandeja de entrada para ver las notificaciones"
+          no_selection: "Haga clic en una notificación para ver todos los detalles de la actividad."
+        new_notifications:
+          message: 'Hay nuevas notificaciones.'
+          link_text: 'Haga clic aquí para cargarlas'
+      menu:
+        accountable: 'Responsable'
+        assigned: 'Asignado'
+        by_project: 'Sin leer por proyecto'
+        by_reason: 'Implicación'
+        inbox: 'Bandeja de entrada'
+        mentioned: '@mencionado'
+        watching: 'Supervisando'
+      settings:
+        change_notification_settings: 'Para ver y cambiar los ajustes de notificaciones, <a target="_blank" href="%{url}">haga clic aquí</a>'
+        title: "Ajustes de notificación"
+        notify_me: "Notificarme"
+        reasons:
+          mentioned:
+            title: 'Alguien me @menciona'
+            description: 'Recibir una notificación cada vez que un usuario me mencione'
+          involved:
+            title: 'Asignado a mi usuario o responsable'
+            description: 'Recibe notificaciones para todas las actividades relacionadas con paquetes de trabajo en los cuales mi rol es asignado/a o responsable'
+          watched: 'Actualizaciones en elementos supervisados'
+          work_package_commented: 'Todos los nuevos comentarios'
+          work_package_created: 'Nuevos paquetes de trabajo'
+          work_package_processed: 'Todos los cambios de estado'
+          work_package_prioritized: 'Todos los cambios de prioridad'
+          work_package_scheduled: 'Todos los cambios de fecha'
+        global:
+          immediately:
+            title: 'Notificarme de inmediato'
+            description: 'Estos ajustes se aplican en todos los proyectos. A continuación, puede crear excepciones específicas de proyectos.'
+          delayed:
+            title: 'También notificarme sobre'
+            description: 'Recibir notificaciones de estas actividades de paquetes de trabajo en todos los proyectos:'
+        project_specific:
+          title: 'Configuración de notificaciones específicas de proyectos'
+          description: 'Esta configuración específica de proyectos reemplaza los ajustes predeterminados anteriores'
+          add: 'Añadir configuración para el proyecto'
+          already_selected: 'Este proyecto ya está seleccionado'
+          remove: 'Eliminar configuración del proyecto'
     password_confirmation:
       field_description: 'Necesitas introducir la contraseña de tu cuenta para confirmar este cambio.'
       title: 'Confirma tu contraseña para continuar'
@@ -530,7 +603,39 @@ es:
         copy_options: "Opciones de copia"
       autocompleter:
         label: 'Contexto | Solicitar contexto'
+    reminders:
+      settings:
+        daily:
+          add_time: 'Añadir tiempo'
+          enable: 'Habilitar recordatorios por correo electrónico diarios'
+          explanation: 'Solo recibirá estos recordatorios de las notificaciones sin leer y en las horas que especifique. %{no_time_zone}'
+          no_time_zone: 'Hasta que configure una zona horaria para su cuenta, las horas se interpretarán en UTC.'
+          time_label: 'Tiempo %{counter}:'
+          title: 'Enviarme recordatorios por correo electrónico diarios de notificaciones sin leer'
+        workdays:
+          title: 'Recibir recordatorios por correo electrónico en estos días'
+        immediate:
+          title: 'Enviarme un recordatorio por correo electrónico'
+          mentioned: 'De inmediato cuando alguien me mencione'
+        alerts:
+          title: 'Alertas por correo electrónico de otros elementos (que no sean paquetes de trabajo)'
+          explanation: >
+            Las notificaciones para hoy están limitadas a los paquetes de trabajo. Puede elegir seguir recibiendo alertas por correo electrónico de estos eventos hasta que se incluyan en las notificaciones:
+          news_added: 'Noticias añadidas'
+          news_commented: 'Comentarios en un elemento de noticias'
+          document_added: 'Documentos añadidos'
+          forum_messages: 'Nuevos mensajes de foros'
+          wiki_page_added: 'Página wiki añadida'
+          wiki_page_updated: 'Página wiki actualizada'
+          membership_added: 'Pertenencia añadida'
+          membership_updated: 'Pertenencia actualizada'
+        title: 'Recordatorios por correo electrónico'
+        pause:
+          label: 'Pausar temporalmente los recordatorios por correo electrónico diarios'
+          first_day: 'Primer día'
+          last_day: 'Último día'
     text_are_you_sure: "¿Estás seguro?"
+    text_data_lost: "Todos los datos introducidos se perderán."
     types:
       attribute_groups:
         error_duplicate_group_name: "El nombre %{group} se ha usado más de una vez. Los nombres de grupos deben ser únicos."
@@ -611,6 +716,10 @@ es:
     relations_autocomplete:
       placeholder: "Escriba para buscar"
       parent_placeholder: "Elija un nuevo padre ó presione escape para cancelar."
+    autocompleter:
+      placeholder: "Escriba para buscar"
+      notFoundText: "No se encontraron elementos"
+      typeToSearchText: "Escriba para buscar"
     repositories:
       select_tag: 'Seleccionar etiqueta'
       select_branch: 'Seleccione Sucursal'
@@ -761,7 +870,7 @@ es:
       no_results:
         title: No hay paquetes de trabajo para mostrar.
         description: O bien no se han creado o se filtran todos los paquetes de trabajo.
-      limited_results: Only %{count} work packages can be shown in manual sorting mode. Please reduce the results by filtering, or switch to automatic sorting.
+      limited_results: En el modo de ordenación manual, solo puede mostrarse un máximo de %{count} paquetes de trabajo. Filtre para reducir el número de resultados, o bien cambie a la ordenación automática.
       property_groups:
         details: "Detalles"
         people: "Participantes"
@@ -804,6 +913,7 @@ es:
         label_content: "Haga clic aquí para saltar el menú e ir al contenido"
       placeholders:
         default: "-"
+        date: "Seleccionar fecha"
         formattable: "%{name}: haga clic para editar…"
       query:
         column_names: "Columnas"
@@ -1052,5 +1162,3 @@ es:
       load_error_message: 'Se produjo un error al cargar el formulario'
       validation_error_message: 'Corrija los errores del formulario'
       advanced_settings: 'Ajustes avanzados'
-
-

@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'open3'
@@ -31,8 +31,7 @@ require 'open3'
 namespace :openproject do
   namespace :dependencies do
     desc 'Updates everything that is updatable automatically especially dependencies'
-    task update: ['openproject:dependencies:update:gems',
-                  'openproject:dependencies:update:rubocop']
+    task update: %w[openproject:dependencies:update:gems]
 
     namespace :update do
       def parse_capture(capture, &block)
@@ -73,30 +72,6 @@ namespace :openproject do
             Open3.capture3('git', 'commit', '-m', "bump #{parsed.map(&:first).join(' & ')}")
           end
         end
-      end
-
-      desc 'Update rubocop used on codeclimate to the extend supported'
-      task :rubocop do
-        out, _process = Open3.capture3('git',
-                                       'ls-remote',
-                                       'https://github.com/codeclimate/codeclimate-rubocop',
-                                       'channel/rubocop*')
-
-        parsed = parse_capture(out) do |line|
-          matches = line.match(/rubocop-(\d+)-(\d+)(?:-(\d+))?/).to_a
-
-          # This version seems to have been a mistake
-          next if matches[0] == 'rubocop-1-70'
-
-          matches[1..3].map(&:to_i) + [matches[0]]
-        end
-
-        new_version = parsed.sort.pop.last
-
-        Open3.capture3('sed', '-i.bak', "s/channel: rubocop[-0-9]*/channel: #{new_version}/", '.codeclimate.yml')
-        Open3.capture3('rm', '.codeclimate.yml.bak')
-        Open3.capture3('git', 'add', '.codeclimate.yml')
-        Open3.capture3('git', 'commit', '-m', "use #{new_version} on codeclimate")
       end
     end
   end

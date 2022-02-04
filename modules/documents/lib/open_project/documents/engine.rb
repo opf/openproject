@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module OpenProject::Documents
@@ -33,12 +33,11 @@ module OpenProject::Documents
     include OpenProject::Plugins::ActsAsOpEngine
 
     register 'openproject-documents',
-             author_url: "http://www.openproject.com",
+             author_url: "http://www.openproject.org",
              bundled: true do
       menu :project_menu,
            :documents,
            { controller: '/documents', action: 'index' },
-           param: :project_id,
            caption: :label_document_plural,
            before: :members,
            icon: 'icon2 icon-notes'
@@ -46,18 +45,16 @@ module OpenProject::Documents
       project_module :documents do |_map|
         permission :view_documents, documents: %i[index show download]
         permission :manage_documents, {
-          documents: %i[new create edit update destroy add_attachment]
+          documents: %i[new create edit update destroy]
         }, require: :loggedin
       end
-
-      OpenProject::Notifiable.all << OpenProject::Notifiable.new('document_added')
 
       Redmine::Search.register :documents
     end
 
     activity_provider :documents, class_name: 'Activities::DocumentActivityProvider', default: false
 
-    patches %i[CustomFieldsHelper Project]
+    patches %i[Project]
 
     add_api_path :documents do
       "#{root}/documents"
@@ -81,7 +78,6 @@ module OpenProject::Documents
     config.to_prepare do
       require_dependency 'document'
       require_dependency 'document_category'
-      require_dependency 'document_category_custom_field'
 
       require_dependency 'open_project/documents/patches/textile_converter_patch'
     end

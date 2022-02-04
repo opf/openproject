@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module OpenProject
@@ -59,6 +59,6 @@ module OpenProject
   end
 end
 
-OpenProject::Patches.patch_gem_version 'i18n', '1.8.10' do
+OpenProject::Patches.patch_gem_version 'i18n', '1.8.11' do
   I18n.backend.singleton_class.prepend OpenProject::Patches::I18nRejectEmptyString
 end

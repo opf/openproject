@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module PageObjects
@@ -39,7 +39,7 @@ module PageObjects
     def expect_type(type, message)
       raise "Unimplemented type #{type}." unless types.include?(type)
 
-      expect(page).to have_selector(".notification-box.-#{type}", text: message, wait: 10)
+      expect(page).to have_selector(".op-toast.-#{type}", text: message, wait: 10)
     end
 
     def expect_success(message)

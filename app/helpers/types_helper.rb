@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module ::TypesHelper
@@ -104,10 +104,15 @@ module ::TypesHelper
   def query_to_query_props(group)
     return nil unless group.group_type == :query
 
+    query = group.attributes
+
+    # Reduce the query to its valid subset to avoid errors loading the form
+    query.valid_subset!
+
     # Modify the hash to match Rails array based +to_query+ transforms:
     # e.g., { columns: [1,2] }.to_query == "columns[]=1&columns[]=2" (unescaped)
     # The frontend will do that IFF the hash key is an array
-    ::API::V3::Queries::QueryParamsRepresenter.new(group.attributes).to_json
+    ::API::V3::Queries::QueryParamsRepresenter.new(query).to_json
   end
 
   private

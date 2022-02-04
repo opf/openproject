@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -92,7 +92,7 @@ describe 'Query name inline edit', js: true do
 
     # TODO: The notification should actually not be shown at all since no update
     # has taken place
-    wp_table.expect_and_dismiss_notification message: 'Successful update.'
+    wp_table.expect_and_dismiss_toaster message: 'Successful update.'
 
     assignee_query.reload
     expect(assignee_query.filters.count).to eq(1)
@@ -104,7 +104,7 @@ describe 'Query name inline edit', js: true do
 
     # Rename query
     query_title.rename 'Not my assignee query'
-    wp_table.expect_and_dismiss_notification message: 'Successful update.'
+    wp_table.expect_and_dismiss_toaster message: 'Successful update.'
 
     assignee_query.reload
     expect(assignee_query.name).to eq 'Not my assignee query'
@@ -116,7 +116,7 @@ describe 'Query name inline edit', js: true do
     page.driver.browser.switch_to.active_element.send_keys('Some other name')
     page.driver.browser.switch_to.active_element.send_keys(:return)
 
-    wp_table.expect_and_dismiss_notification message: 'Successful update.'
+    wp_table.expect_and_dismiss_toaster message: 'Successful update.'
 
     assignee_query.reload
     expect(assignee_query.name).to eq 'Some other name'

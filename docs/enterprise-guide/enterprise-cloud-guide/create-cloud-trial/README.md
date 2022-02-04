@@ -30,7 +30,7 @@ You will then be asked to [**create an OpenProject account**](../../../getting-s
 1. Enter your first and last **name**. 
 2. Enter your **e-mail address**.
 3. Choose a **password** and confirm the password. The password must at least be 10 characters long and needs to contain at least two of the following classes, uppercase letters, lowercase letters, special characters, numbers.
-4. Please confirm the OpenProject [privacy policy](https://www.openproject.org/data-privacy-and-security/) and the [terms of service](https://www.openproject.org/terms-of-service/).
+4. Please confirm the OpenProject [privacy policy](https://www.openproject.org/legal/privacy/) and the [terms of service](https://www.openproject.org/legal/terms-of-service/).
 5. You can subscribe to the OpenProject **newsletter** where you will receive important updates about product, features, or new releases.
 6. Click the **create new account button**.
 7. Alternatively, you can login with an existing Google account by clicking the **Sign up with Google button**.

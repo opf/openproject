@@ -23,10 +23,11 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
 .router--work-packages-partitioned-split-view,
+.router--work-packages-partitioned-split-view-details,
 .router--work-packages-full-view,
 .router--work-packages-full-create
   .in_modal &
@@ -34,7 +35,8 @@
       top: 12px
 
 
-.router--work-packages-partitioned-split-view:not(.router--work-packages-full-create)
+.router--work-packages-partitioned-split-view:not(.router--work-packages-full-create),
+.router--work-packages-partitioned-split-view-details:not(.router--work-packages-full-create)
   @include extended-content--bottom
   @include extended-content--right
 
@@ -86,15 +88,9 @@
 
 // Footer of the left side
 .work-packages-split-view--tabletimeline-footer
-  // Only add padding to lower/right corner
-  // to override default margins
-  .pagination
-    margin: 0
-    padding: 15px 10px 10px 0
-
-  .pagination--pages,
-  .pagination--options
-    margin: 0
+  // Only add margin to lower/right corner
+  // to avoid that the toolbar sticks directly at the screen border
+  margin-right: 5px
 
 // TABLE half of the tabletimeline flexbox
 .work-packages-tabletimeline--table-side

@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -100,7 +100,7 @@ describe 'description inplace editor', js: true, selenium: true do
       field.expect_save_button(enabled: true)
       field.submit_by_click
 
-      wp_page.expect_notification message: I18n.t('js.notice_successful_update')
+      wp_page.expect_toast message: I18n.t('js.notice_successful_update')
       field.expect_state_text 'A new hope ...'
     end
   end

@@ -133,7 +133,7 @@ describe 'Work Package highlighting fields',
 
     # Save query
     wp_table.save
-    wp_table.expect_and_dismiss_notification message: 'Successful update.'
+    wp_table.expect_and_dismiss_toaster message: 'Successful update.'
     query.reload
     expect(query.highlighting_mode).to eq(:status)
 
@@ -165,7 +165,7 @@ describe 'Work Package highlighting fields',
 
     # Save query
     wp_table.save
-    wp_table.expect_and_dismiss_notification message: 'Successful update.'
+    wp_table.expect_and_dismiss_toaster message: 'Successful update.'
     query.reload
     expect(query.highlighting_mode).to eq(:priority)
 
@@ -183,13 +183,13 @@ describe 'Work Package highlighting fields',
 
     # Save query
     wp_table.save
-    wp_table.expect_and_dismiss_notification message: 'Successful update.'
+    wp_table.expect_and_dismiss_toaster message: 'Successful update.'
     query.reload
     expect(query.highlighting_mode).to eq(:none)
 
     # Expect highlighted fields in single view even when table disabled
     wp_table.open_full_screen_by_doubleclick wp_1
-    expect(page).to have_selector(".wp-status-button .__hl_background_status_#{status1.id}")
+    expect(page).to have_selector("[data-qa-selector='op-wp-status-button'] .__hl_background_status_#{status1.id}")
     expect(page).to have_selector(".__hl_inline_priority_#{priority1.id}")
   end
 
@@ -211,7 +211,7 @@ describe 'Work Package highlighting fields',
     prio_wp1.update priority_no_color.name
     prio_wp1.expect_state_text priority_no_color.name
 
-    wp_table.expect_and_dismiss_notification message: 'Successful update.'
+    wp_table.expect_and_dismiss_toaster message: 'Successful update.'
     wp_1.reload
     expect(wp_1.priority).to eq priority_no_color
 

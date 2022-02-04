@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -38,17 +38,19 @@ describe ::Users::DeleteService, type: :model do
 
   shared_examples 'deletes the user' do
     it do
-      expect(input_user).to receive(:locked!)
+      allow(input_user).to receive(:update_column).with(:status, 3)
       expect(Principals::DeleteJob).to receive(:perform_later).with(input_user)
       expect(subject).to be_success
+      expect(input_user).to have_received(:update_column).with(:status, 3)
     end
   end
 
   shared_examples 'does not delete the user' do
     it do
-      expect(input_user).not_to receive(:locked!)
+      allow(input_user).to receive(:update_column).with(:status, 3)
       expect(Principals::DeleteJob).not_to receive(:perform_later)
       expect(subject).not_to be_success
+      expect(input_user).not_to have_received(:update_column).with(:status, 3)
     end
   end
 
@@ -72,13 +74,7 @@ describe ::Users::DeleteService, type: :model do
     context 'with privileged system user' do
       let(:actor) { User.system }
 
-      it 'performs deletion' do
-        actor.run_given do
-          expect(input_user).to receive(:locked!)
-          expect(Principals::DeleteJob).to receive(:perform_later).with(input_user)
-          expect(subject).to be_success
-        end
-      end
+      it_behaves_like 'deletes the user'
     end
   end
 

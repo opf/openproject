@@ -1,0 +1,52 @@
+.op-datepicker-modal
+  position: relative
+  z-index: 500
+  width: auto
+  // prevent additional content like notifications to
+  // drastically increase the width.
+  max-width: 700px
+  box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.25)
+  padding: 5px 0 0 0
+
+  .grid-block
+    align-items: center
+
+
+  &--dates-container
+    display: grid
+    grid-template-columns: 170px 1fr auto
+    margin: 0 1.5rem
+
+    .form--date-field
+      margin: 2px !important
+
+      &.-current,
+      &.-current:hover
+        outline: 2px solid var(--primary-color)
+
+    .op-datepicker-modal--scheduling-action-container
+      margin-top: 28px
+
+      .form--label-with-check-box
+        padding: 0
+
+    .form--field-inline-action
+      .icon-small:before
+        vertical-align: text-bottom
+      &:hover, &:focus
+        text-decoration: none
+
+
+  &--actions-container
+    display: flex
+    justify-content: flex-end
+    padding: 15px 1.5rem 0 1.5rem
+    border-top: 1px solid #DDDDDD
+    background: #F8F8F8
+
+    .op-datepicker-modal--action[disabled]
+      color: var(--gray-dark)
+      cursor: not-allowed
+
+      &:hover
+        text-decoration: none

@@ -17,13 +17,13 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 pl:
   activerecord:
     attributes:
       cost_entry:
-        work_package: "Zadanie"
+        work_package: "Zestaw zadań"
         overridden_costs: "Koszty zastąpione"
         spent: "Wydatki"
         spent_on: "Data"
@@ -54,7 +54,7 @@ pl:
           is_not_a_valid_target_for_cost_entries: "Zestaw zadań #%{id} nie jest poprawnym celem do ponownego rozpisania kosztów."
           nullify_is_not_valid_for_cost_entries: "Pozycje kosztów nie mogą być przypisane do projektu."
   attributes:
-    comment: "Komentarz"
+    comment: "Typ kosztu"
     cost_type: "Jednostki"
     costs: "Koszty"
     current_rate: "Aktualna stawka"
@@ -65,7 +65,7 @@ pl:
   button_add_rate: "Dodaj stawkę"
   button_log_costs: "Rejestruj koszty jednostkowe"
   caption_booked_on_project: "Zarezerwowano na projekt"
-  caption_default: "Domyślnie"
+  caption_default: "Domyślny"
   caption_default_rate_history_for: "Domyślna stawka historii dla %{user}"
   caption_locked_on: "Zablokowane dnia"
   caption_materials: "Jednostki"
@@ -87,13 +87,13 @@ pl:
   label_currency: "Waluta"
   label_currency_format: "Format waluty"
   label_current_default_rate: "Aktualne stawki domyślne"
-  label_date_on: "wł"
+  label_date_on: "na"
   label_deleted_cost_types: "Usunięte typy kosztów"
   label_locked_cost_types: "Zablokowane typy kosztów"
   label_display_cost_entries: "Pokaż koszty jednostkowe"
   label_display_time_entries: "Wyświetl zgłoszone godziny"
   label_display_types: "Wyświetl typy"
-  label_edit: "Edycja"
+  label_edit: "Edytuj"
   label_generic_user: "Ogólne informacje"
   label_greater_or_equal: "≥"
   label_group_by: "Grupuj według"
@@ -141,4 +141,4 @@ pl:
   text_warning_hidden_elements: "Niektóre wpisy mogą zostać wyłączone ze zbioru."
   week: "tydzień"
   js:
-    text_are_you_sure: "Jesteś pewien?"
+    text_are_you_sure: "Jesteś pewny?"
