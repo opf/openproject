@@ -1,1 +1,7 @@
-class Queries::Storages::FileLinks::FileLinkQuery < Queries::BaseQuery; end
+class Queries::Storages::FileLinks::FileLinkQuery < Queries::BaseQuery
+  class << self
+    def model
+      @model ||= '::Storages::FileLink'.constantize
+    end
+  end
+end

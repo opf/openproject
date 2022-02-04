@@ -37,12 +37,11 @@ module API
         end
 
         resources :file_links do
-          # get &::API::V3::Utilities::Endpoints::Index
-          #        .new(model: ::Storages::FileLink, scope: -> { visible_file_links_scope })
-          #        .mount
-          get do
-            raise ::API::Errors::NotImplemented
-          end
+          get &::API::V3::Utilities::Endpoints::Index
+                 .new(model: ::Storages::FileLink,
+                      scope: -> { visible_file_links_scope },
+                      self_path: -> { api_v3_paths.file_links(params[:id]) })
+                 .mount
 
           post do
             raise ::API::Errors::NotImplemented

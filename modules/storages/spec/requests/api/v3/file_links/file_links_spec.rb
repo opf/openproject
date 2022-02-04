@@ -63,8 +63,16 @@ describe 'API v3 file links resource', type: :request do
       get path
     end
 
-    it 'returns not implemented' do
-      expect(subject.status).to be 501
+    it 'is successful' do
+      expect(subject.status).to be 200
+    end
+
+    context 'if user has not sufficient permissions' do
+      let(:permissions) { %i(view_work_packages) }
+
+      it_behaves_like 'API V3 collection response', 0, 0, 'FileLink', 'Collection' do
+        let(:elements) { [] }
+      end
     end
   end
 
