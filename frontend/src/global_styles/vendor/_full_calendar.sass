@@ -10,6 +10,10 @@
     .fc-col-header-cell-cushion
       padding: 12px 16px
 
+    .fc-timeline-lane,
+    .fc-timeline-slot-lane
+      border-color: #c1c1c1
+
     .fc-timeline-lane-frame
       padding: 4px 0
 
@@ -22,6 +26,17 @@
     .fc-day-today
       background: rgb(255 255 120 / 20%)
 
+    td.fc-day-sat,
+    td.fc-day-sun
+      background: rgb(109 109 109 / 20%)
+
+    td.fc-day-mon,
+    td.fc-day-tue,
+    td.fc-day-wed,
+    td.fc-day-thu,
+    td.fc-day-fri
+      background: rgb(205 205 205 / 20%)
+
     // ------------------------ END: Calendar cells ------------------------
     // -------
     // ------------------------ BEGIN: Calendar events ------------------------
@@ -31,8 +46,8 @@
       padding-bottom: 5px
       border-radius: 5px
       margin-bottom: 4px
-      background-color: var(--timeline--type-fallback-color)
-      border-color: var(--timeline--type-fallback-color)
+      background: transparent !important
+      border: transparent
       color: #000000
 
       &:before,
@@ -51,6 +66,7 @@
     .fc-event-resizer:after
       background: rgba(0,0,0,0.1)
       margin: 0 -2px
+      max-height: 16px
 
     // ------------------------ END:  Calendar events ------------------------
     // -------
