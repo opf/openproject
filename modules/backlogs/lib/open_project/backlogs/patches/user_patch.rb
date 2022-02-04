@@ -26,8 +26,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_dependency 'user'
-
 module OpenProject::Backlogs::Patches::UserPatch
   def self.included(base)
     base.class_eval do

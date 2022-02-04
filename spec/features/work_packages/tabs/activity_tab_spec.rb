@@ -14,10 +14,10 @@ describe 'Activity tab', js: true, selenium: true do
   let(:project) { create :project_with_types, public: true }
   let!(:work_package) do
     work_package = create(:work_package,
-                                     project: project,
-                                     created_at: 5.days.ago.to_date.to_s(:db),
-                                     subject: initial_subject,
-                                     journal_notes: initial_comment)
+                          project: project,
+                          created_at: 5.days.ago.to_date.to_s(:db),
+                          subject: initial_subject,
+                          journal_notes: initial_comment)
 
     note_journal = work_package.journals.last
     note_journal.update(created_at: 5.days.ago.to_date.to_s)
@@ -118,8 +118,8 @@ describe 'Activity tab', js: true, selenium: true do
       end
       let(:user) do
         create(:user,
-                          member_in_project: project,
-                          member_through_role: role)
+               member_in_project: project,
+               member_through_role: role)
       end
 
       context 'with ascending comments' do
@@ -185,8 +185,8 @@ describe 'Activity tab', js: true, selenium: true do
       end
       let(:user) do
         create(:user,
-                          member_in_project: project,
-                          member_through_role: role)
+               member_in_project: project,
+               member_through_role: role)
       end
 
       it 'shows the activities, but does not allow commenting' do

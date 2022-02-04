@@ -34,8 +34,8 @@ describe 'Projects status administration', type: :feature, js: true do
   let(:current_user) do
     create(:user).tap do |u|
       create(:global_member,
-                        principal: u,
-                        roles: [create(:global_role, permissions: global_permissions)])
+             principal: u,
+             roles: [create(:global_role, permissions: global_permissions)])
     end
   end
   let(:global_permissions) { [:add_project] }

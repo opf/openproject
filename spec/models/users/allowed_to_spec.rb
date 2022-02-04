@@ -50,8 +50,8 @@ describe User, 'allowed_to?' do
   let(:global_role) { build(:global_role, permissions: [global_permission.name]) }
   let(:global_member) do
     build(:global_member,
-                     principal: user,
-                     roles: [global_role])
+          principal: user,
+          roles: [global_role])
   end
 
   before do

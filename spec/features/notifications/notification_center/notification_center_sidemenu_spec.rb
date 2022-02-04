@@ -7,8 +7,8 @@ describe "Notification center sidemenu", type: :feature, js: true do
 
   shared_let(:recipient) do
     create :user,
-                      member_in_projects: [project, project2, project3],
-                      member_with_permissions: %i[view_work_packages]
+           member_in_projects: [project, project2, project3],
+           member_with_permissions: %i[view_work_packages]
   end
   shared_let(:other_user) { create(:user) }
 
@@ -19,34 +19,34 @@ describe "Notification center sidemenu", type: :feature, js: true do
 
   let(:notification) do
     create :notification,
-                      recipient: recipient,
-                      project: project,
-                      resource: work_package,
-                      reason: :watched
+           recipient: recipient,
+           project: project,
+           resource: work_package,
+           reason: :watched
   end
 
   let(:notification2) do
     create :notification,
-                      recipient: recipient,
-                      project: project2,
-                      resource: work_package2,
-                      reason: :assigned
+           recipient: recipient,
+           project: project2,
+           resource: work_package2,
+           reason: :assigned
   end
 
   let(:notification3) do
     create :notification,
-                      recipient: recipient,
-                      project: project3,
-                      resource: work_package3,
-                      reason: :responsible
+           recipient: recipient,
+           project: project3,
+           resource: work_package3,
+           reason: :responsible
   end
 
   let(:notification4) do
     create :notification,
-                      recipient: recipient,
-                      project: project3,
-                      resource: work_package4,
-                      reason: :mentioned
+           recipient: recipient,
+           project: project3,
+           resource: work_package4,
+           reason: :mentioned
   end
 
   let(:notifications) do

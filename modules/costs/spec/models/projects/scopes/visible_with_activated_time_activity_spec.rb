@@ -39,14 +39,14 @@ describe Projects::Scopes::VisibleWithActivatedTimeActivity, type: :model do
   let(:current_user) do
     create(:user).tap do |u|
       create(:member,
-                        project: project,
-                        principal: u,
-                        roles: [create(:role, permissions: project_permissions)])
+             project: project,
+             principal: u,
+             roles: [create(:role, permissions: project_permissions)])
 
       create(:member,
-                        project: other_project,
-                        principal: u,
-                        roles: [create(:role, permissions: other_project_permissions)])
+             project: other_project,
+             principal: u,
+             roles: [create(:role, permissions: other_project_permissions)])
     end
   end
 

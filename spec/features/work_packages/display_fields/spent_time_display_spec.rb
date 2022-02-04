@@ -33,8 +33,8 @@ describe 'Logging time within the work package view', type: :feature, js: true d
   let(:admin) { create :admin }
   let(:user_without_permissions) do
     create(:user,
-                      member_in_project: project,
-                      member_with_permissions: %i[view_time_entries view_work_packages edit_work_packages])
+           member_in_project: project,
+           member_with_permissions: %i[view_time_entries view_work_packages edit_work_packages])
   end
 
   let!(:activity) { create :time_entry_activity, project: project }

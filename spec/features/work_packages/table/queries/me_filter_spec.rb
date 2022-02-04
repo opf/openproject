@@ -33,8 +33,8 @@ describe 'filter me value', js: true do
   let!(:priority) { create :default_priority }
   let(:project) do
     create :project,
-                      public: true,
-                      members: project_members
+           public: true,
+           members: project_members
   end
   let(:role) { create :existing_role, permissions: [:view_work_packages] }
   let(:admin) { create :admin }
@@ -58,9 +58,9 @@ describe 'filter me value', js: true do
 
       let(:assignee_query) do
         query = create(:query,
-                                  name: 'Assignee Query',
-                                  project: project,
-                                  user: user)
+                       name: 'Assignee Query',
+                       project: project,
+                       user: user)
 
         query.add_filter('assigned_to_id', '=', ['me'])
         query.save!(validate: false)
@@ -71,7 +71,7 @@ describe 'filter me value', js: true do
       it 'shows an error visiting a query with a me value' do
         wp_table.visit_query assignee_query
         wp_table.expect_toast(type: :error,
-                                     message: I18n.t('js.work_packages.faulty_query.description'))
+                              message: I18n.t('js.work_packages.faulty_query.description'))
       end
     end
 
@@ -137,34 +137,34 @@ describe 'filter me value', js: true do
     let(:type_task) { create(:type_task, custom_fields: [custom_field]) }
     let(:project) do
       create(:project,
-                        types: [type_task],
-                        public: true,
-                        work_package_custom_fields: [custom_field],
-                        members: project_members)
+             types: [type_task],
+             public: true,
+             work_package_custom_fields: [custom_field],
+             members: project_members)
     end
 
     let(:cf_accessor) { "cf_#{custom_field.id}" }
     let(:cf_accessor_frontend) { "customField#{custom_field.id}" }
     let(:wp_admin) do
       create :work_package,
-                        type: type_task,
-                        project: project,
-                        custom_field_values: { custom_field.id => admin.id }
+             type: type_task,
+             project: project,
+             custom_field_values: { custom_field.id => admin.id }
     end
 
     let(:wp_user) do
       create :work_package,
-                        type: type_task,
-                        project: project,
-                        custom_field_values: { custom_field.id => user.id }
+             type: type_task,
+             project: project,
+             custom_field_values: { custom_field.id => user.id }
     end
 
     context 'as anonymous', with_settings: { login_required?: false } do
       let(:assignee_query) do
         query = create(:query,
-                                  name: 'CF user Query',
-                                  project: project,
-                                  user: user)
+                       name: 'CF user Query',
+                       project: project,
+                       user: user)
 
         query.add_filter(cf_accessor, '=', ['me'])
         query.save!(validate: false)
@@ -176,7 +176,7 @@ describe 'filter me value', js: true do
       it 'shows an error visiting a query with a me value' do
         wp_table.visit_query assignee_query
         wp_table.expect_toast(type: :error,
-                                     message: I18n.t('js.work_packages.faulty_query.description'))
+                              message: I18n.t('js.work_packages.faulty_query.description'))
       end
     end
 

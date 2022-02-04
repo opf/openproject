@@ -28,8 +28,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_dependency 'grids/grid'
-
 module Boards
   class Grid < ::Grids::Grid
     belongs_to :project

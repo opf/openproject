@@ -38,8 +38,8 @@ describe UserPreferences::UpdateContract do
   let(:preference_user) { current_user }
   let(:user_preference) do
     build_stubbed(:user_preference,
-                             user: preference_user,
-                             settings: settings&.with_indifferent_access)
+                  user: preference_user,
+                  settings: settings&.with_indifferent_access)
   end
   let(:settings) do
     {

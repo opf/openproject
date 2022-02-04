@@ -34,10 +34,10 @@ describe Changeset, type: :model do
   with_virtual_subversion_repository do
     let(:changeset) do
       build(:changeset,
-                       repository: repository,
-                       revision: '1',
-                       committer: email,
-                       comments: 'Initial commit')
+            repository: repository,
+            revision: '1',
+            committer: email,
+            comments: 'Initial commit')
     end
   end
 
@@ -84,10 +84,10 @@ describe Changeset, type: :model do
     with_virtual_subversion_repository do
       let(:changeset) do
         build(:changeset,
-                         repository: repository,
-                         revision: '1',
-                         committer: email,
-                         comments: comment)
+              repository: repository,
+              revision: '1',
+              committer: email,
+              comments: comment)
       end
     end
 
@@ -159,15 +159,15 @@ describe Changeset, type: :model do
     with_virtual_subversion_repository do
       let!(:work_package) do
         create :work_package,
-                          project: repository.project,
-                          status: open_status
+               project: repository.project,
+               status: open_status
       end
       let(:changeset) do
         create(:changeset,
-                          repository: repository,
-                          revision: '123',
-                          committer: user.login,
-                          comments: comments)
+               repository: repository,
+               revision: '123',
+               committer: user.login,
+               comments: comments)
       end
     end
 

@@ -42,38 +42,38 @@ describe 'Search', type: :feature, js: true, with_settings: { per_page_options: 
       Timecop.freeze("2016-11-21 #{n}:00".to_datetime) do
         subject = "Subject No. #{n} WP"
         create :work_package,
-                          subject: subject,
-                          project: project
+               subject: subject,
+               project: project
       end
     end
   end
   let(:custom_field_text_value) { 'cf text value' }
   let!(:custom_field_text) do
     create(:text_wp_custom_field,
-                      is_filter: is_filter,
-                      searchable: searchable).tap do |custom_field|
+           is_filter: is_filter,
+           searchable: searchable).tap do |custom_field|
       project.work_package_custom_fields << custom_field
       work_packages.first.type.custom_fields << custom_field
 
       create(:work_package_custom_value,
-                        custom_field: custom_field,
-                        customized: work_packages[0],
-                        value: custom_field_text_value)
+             custom_field: custom_field,
+             customized: work_packages[0],
+             value: custom_field_text_value)
     end
   end
   let(:custom_field_string_value) { 'cf string value' }
   let!(:custom_field_string) do
     create(:string_wp_custom_field,
-                      is_for_all: true,
-                      is_filter: is_filter,
-                      searchable: searchable).tap do |custom_field|
+           is_for_all: true,
+           is_filter: is_filter,
+           searchable: searchable).tap do |custom_field|
       custom_field.save
       work_packages.first.type.custom_fields << custom_field
 
       create(:work_package_custom_value,
-                        custom_field: custom_field,
-                        customized: work_packages[1],
-                        value: custom_field_string_value)
+             custom_field: custom_field,
+             customized: work_packages[1],
+             value: custom_field_string_value)
     end
   end
 
@@ -342,7 +342,7 @@ describe 'Search', type: :feature, js: true, with_settings: { per_page_options: 
     context 'for a project search with attachments' do
       let!(:attachment) do
         create(:attachment,
-                          container: work_packages[9]).tap do |a|
+               container: work_packages[9]).tap do |a|
           Attachment
             .where(id: a.id)
             .update_all(['fulltext = ?, fulltext_tsv = to_tsvector(?, ?)',

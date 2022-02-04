@@ -33,14 +33,14 @@ describe ::API::V3::TimeEntries::TimeEntryRepresenter, 'rendering' do
 
   let(:time_entry) do
     build_stubbed(:time_entry,
-                             comments: 'blubs',
-                             spent_on: Date.today,
-                             created_at: DateTime.now - 6.hours,
-                             updated_at: DateTime.now - 3.hours,
-                             hours: hours,
-                             activity: activity,
-                             project: project,
-                             user: user)
+                  comments: 'blubs',
+                  spent_on: Date.today,
+                  created_at: DateTime.now - 6.hours,
+                  updated_at: DateTime.now - 3.hours,
+                  hours: hours,
+                  activity: activity,
+                  project: project,
+                  user: user)
   end
   let(:project) { build_stubbed(:project) }
   let(:work_package) { time_entry.work_package }

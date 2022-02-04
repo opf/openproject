@@ -45,8 +45,8 @@ describe JournalsController, type: :controller do
   end
   let(:journal) do
     create(:work_package_journal,
-                      journable: work_package,
-                      user: user)
+           journable: work_package,
+           user: user)
   end
   let(:permissions) { [:view_work_packages] }
 

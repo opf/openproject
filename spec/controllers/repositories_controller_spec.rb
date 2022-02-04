@@ -46,9 +46,9 @@ describe RepositoriesController, type: :controller do
   let(:repository) do
     allow(Setting).to receive(:enabled_scm).and_return(['subversion'])
     repo = build_stubbed(:repository_subversion,
-                                    scm_type: 'local',
-                                    url: url,
-                                    project: project)
+                         scm_type: 'local',
+                         url: url,
+                         project: project)
     allow(repo).to receive(:default_branch).and_return('master')
     allow(repo).to receive(:branches).and_return(['master'])
     allow(repo).to receive(:save).and_return(true)

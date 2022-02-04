@@ -31,7 +31,7 @@ module OpenProject::Plugins
     def self.register(target, *dependencies)
       ActiveSupport.on_load(target) do
         dependencies.each do |dependency|
-          require_dependency dependency
+          require dependency
         end
       end
     end

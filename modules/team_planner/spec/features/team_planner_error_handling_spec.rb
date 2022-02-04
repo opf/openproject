@@ -36,18 +36,18 @@ describe 'Team planner error handling', type: :feature, js: true do
 
   let!(:work_package) do
     create :work_package,
-                      project: project,
-                      type: type,
-                      assigned_to: user,
-                      start_date: Time.zone.today.beginning_of_week.next_occurring(:tuesday),
-                      due_date: Time.zone.today.beginning_of_week.next_occurring(:thursday)
+           project: project,
+           type: type,
+           assigned_to: user,
+           start_date: Time.zone.today.beginning_of_week.next_occurring(:tuesday),
+           due_date: Time.zone.today.beginning_of_week.next_occurring(:thursday)
   end
 
   let!(:custom_field) do
     create :work_package_custom_field,
-                      default_value: nil,
-                      is_for_all: true,
-                      is_required: false
+           default_value: nil,
+           is_for_all: true,
+           is_required: false
   end
 
   let(:type) { create(:type, custom_fields: [custom_field]) }
@@ -73,7 +73,7 @@ describe 'Team planner error handling', type: :feature, js: true do
 
       # Try to move the wp
       retry_block do
-        team_planner.drag_wp_by_pixel(work_package, 150, 0)
+        team_planner.drag_wp_by_pixel(work_package, 200, 0)
       end
       team_planner.expect_toast(type: :error, message: "#{custom_field.name} can't be blank")
 

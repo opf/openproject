@@ -40,22 +40,22 @@ describe ::API::V3::Notifications::NotificationsAPI,
   shared_let(:work_package) { create :work_package }
   shared_let(:recipient) do
     create :user,
-                      member_in_project: work_package.project,
-                      member_with_permissions: %i[view_work_packages]
+           member_in_project: work_package.project,
+           member_with_permissions: %i[view_work_packages]
   end
   shared_let(:notification1) do
     create :notification,
-                      recipient: recipient,
-                      resource: work_package,
-                      project: work_package.project,
-                      journal: work_package.journals.first
+           recipient: recipient,
+           resource: work_package,
+           project: work_package.project,
+           journal: work_package.journals.first
   end
   shared_let(:notification2) do
     create :notification,
-                      recipient: recipient,
-                      resource: work_package,
-                      project: work_package.project,
-                      journal: work_package.journals.first
+           recipient: recipient,
+           resource: work_package,
+           project: work_package.project,
+           journal: work_package.journals.first
   end
 
   let(:notifications) { [notification1, notification2] }
@@ -141,9 +141,9 @@ describe ::API::V3::Notifications::NotificationsAPI,
       let(:other_work_package) { create(:work_package) }
       let(:notification3) do
         create :notification,
-                          recipient: recipient,
-                          resource: other_work_package,
-                          project: other_work_package.project
+               recipient: recipient,
+               resource: other_work_package,
+               project: other_work_package.project
       end
       let(:notifications) { [notification1, notification2, notification3] }
 
@@ -166,19 +166,19 @@ describe ::API::V3::Notifications::NotificationsAPI,
     context 'with a reason filter' do
       let(:notification3) do
         create :notification,
-                          reason: :assigned,
-                          recipient: recipient,
-                          resource: work_package,
-                          project: work_package.project,
-                          journal: work_package.journals.first
+               reason: :assigned,
+               recipient: recipient,
+               resource: work_package,
+               project: work_package.project,
+               journal: work_package.journals.first
       end
       let(:notification4) do
         create :notification,
-                          reason: :responsible,
-                          recipient: recipient,
-                          resource: work_package,
-                          project: work_package.project,
-                          journal: work_package.journals.first
+               reason: :responsible,
+               recipient: recipient,
+               resource: work_package,
+               project: work_package.project,
+               journal: work_package.journals.first
       end
       let(:notifications) { [notification1, notification2, notification3, notification4] }
 
@@ -225,11 +225,11 @@ describe ::API::V3::Notifications::NotificationsAPI,
 
       let(:non_ian_notification) do
         create :notification,
-                          read_ian: nil,
-                          recipient: recipient,
-                          resource: wiki_page,
-                          project: wiki_page.wiki.project,
-                          journal: wiki_page.content.journals.first
+               read_ian: nil,
+               recipient: recipient,
+               resource: wiki_page,
+               project: wiki_page.wiki.project,
+               journal: wiki_page.content.journals.first
       end
 
       let(:notifications) { [notification2, notification1, non_ian_notification] }
@@ -242,11 +242,11 @@ describe ::API::V3::Notifications::NotificationsAPI,
     context 'with a reason groupBy' do
       let(:responsible_notification) do
         create :notification,
-                          recipient: recipient,
-                          reason: :responsible,
-                          resource: work_package,
-                          project: work_package.project,
-                          journal: work_package.journals.first
+               recipient: recipient,
+               reason: :responsible,
+               resource: work_package,
+               project: work_package.project,
+               journal: work_package.journals.first
       end
 
       let(:notifications) { [notification1, notification2, responsible_notification] }
@@ -273,16 +273,16 @@ describe ::API::V3::Notifications::NotificationsAPI,
     context 'with a project groupBy' do
       let(:other_project) do
         create(:project,
-                          members: { recipient => recipient.members.first.roles })
+               members: { recipient => recipient.members.first.roles })
       end
       let(:work_package2) { create :work_package, project: other_project }
       let(:other_project_notification) do
         create :notification,
-                          resource: work_package2,
-                          project: other_project,
-                          recipient: recipient,
-                          reason: :responsible,
-                          journal: work_package2.journals.first
+               resource: work_package2,
+               project: other_project,
+               recipient: recipient,
+               reason: :responsible,
+               journal: work_package2.journals.first
       end
 
       let(:notifications) { [notification1, notification2, other_project_notification] }

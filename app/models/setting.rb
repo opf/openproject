@@ -29,6 +29,9 @@
 #++
 
 class Setting < ApplicationRecord
+  extend CallbacksHelper
+  extend Aliases
+
   DATE_FORMATS = [
     '%Y-%m-%d',
     '%d/%m/%Y',
@@ -338,10 +341,4 @@ class Setting < ApplicationRecord
       value
     end
   end
-
-  require_dependency 'setting/callbacks'
-  extend Callbacks
-
-  require_dependency 'setting/aliases'
-  extend Aliases
 end

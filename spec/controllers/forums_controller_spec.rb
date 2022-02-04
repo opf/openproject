@@ -161,13 +161,13 @@ describe ForumsController, type: :controller do
     let(:project) { create(:project) }
     let!(:forum_1) do
       create(:forum,
-                        project: project,
-                        position: 1)
+             project: project,
+             position: 1)
     end
     let!(:forum_2) do
       create(:forum,
-                        project: project,
-                        position: 2)
+             project: project,
+             position: 2)
     end
 
     before do

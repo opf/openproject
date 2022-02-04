@@ -160,7 +160,7 @@ module OpenProject
     Rails.application.config.active_support.use_authenticated_message_encryption = true
 
     # Use SHA-1 instead of MD5 to generate non-sensitive digests, such as the ETag header.
-    Rails.application.config.active_support.use_sha1_digests = true
+    Rails.application.config.active_support.hash_digest_class = ::Digest::SHA1
 
     # This option is not backwards compatible with earlier Rails versions.
     # It's best enabled when your entire app is migrated and stable on 6.0.

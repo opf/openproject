@@ -41,10 +41,10 @@ describe Notifications::Scopes::UnsentRemindersBefore, type: :model do
 
     let(:notification) do
       create(:notification,
-                        recipient: notification_recipient,
-                        read_ian: notification_read_ian,
-                        mail_reminder_sent: notification_mail_reminder_sent,
-                        created_at: notification_created_at)
+             recipient: notification_recipient,
+             read_ian: notification_read_ian,
+             mail_reminder_sent: notification_mail_reminder_sent,
+             created_at: notification_created_at)
     end
     let(:notification_mail_reminder_sent) { false }
     let(:notification_read_ian) { false }

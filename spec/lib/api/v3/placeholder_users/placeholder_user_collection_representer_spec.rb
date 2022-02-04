@@ -39,7 +39,7 @@ describe ::API::V3::PlaceholderUsers::PlaceholderUserCollectionRepresenter do
 
   let(:placeholders) do
     placeholders = build_stubbed_list(:placeholder_user,
-                                          actual_count)
+                                      actual_count)
     allow(placeholders)
       .to receive(:per_page)
       .with(page_size)

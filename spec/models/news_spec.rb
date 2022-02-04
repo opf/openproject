@@ -112,8 +112,8 @@ describe News, type: :model do
   describe '#save' do
     it 'sends email notifications when created' do
       create(:user,
-                        member_in_project: project,
-                        member_through_role: role)
+             member_in_project: project,
+             member_through_role: role)
       project.members.reload
 
       perform_enqueued_jobs do

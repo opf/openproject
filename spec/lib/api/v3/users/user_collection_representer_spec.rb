@@ -31,7 +31,7 @@ require 'spec_helper'
 describe ::API::V3::Users::UserCollectionRepresenter do
   let(:users) do
     build_stubbed_list(:user,
-                                  3)
+                       3)
   end
   let(:representer) do
     described_class.new(users,

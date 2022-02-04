@@ -42,18 +42,18 @@ describe Principals::Scopes::PossibleMember, type: :model do
   let!(:group) { create(:group) }
   let!(:member_user) do
     create(:user,
-                      member_in_project: project,
-                      member_through_role: role)
+           member_in_project: project,
+           member_through_role: role)
   end
   let!(:member_placeholder_user) do
     create(:placeholder_user,
-                      member_in_project: project,
-                      member_through_role: role)
+           member_in_project: project,
+           member_through_role: role)
   end
   let!(:member_group) do
     create(:group,
-                      member_in_project: project,
-                      member_through_role: role)
+           member_in_project: project,
+           member_through_role: role)
   end
 
   describe '.possible_member' do

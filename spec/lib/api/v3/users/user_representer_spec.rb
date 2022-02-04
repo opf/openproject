@@ -32,7 +32,7 @@ describe ::API::V3::Users::UserRepresenter do
   let(:status) { Principal.statuses[:active] }
   let(:user) { build_stubbed(:user, status: status) }
   let(:current_user) { build_stubbed(:user) }
-  let(:representer) { described_class.new(user, current_user: current_user) }
+  let(:representer) { described_class.create(user, current_user: current_user) }
 
   include API::V3::Utilities::PathHelper
 

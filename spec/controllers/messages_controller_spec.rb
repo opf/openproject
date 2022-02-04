@@ -34,13 +34,13 @@ describe MessagesController, type: :controller, with_settings: { journal_aggrega
   let(:role) { create(:role) }
   let!(:member) do
     create(:member,
-                      project: project,
-                      principal: user,
-                      roles: [role])
+           project: project,
+           principal: user,
+           roles: [role])
   end
   let!(:forum) do
     create(:forum,
-                      project: project)
+           project: project)
   end
 
   let(:filename) { 'testfile.txt' }
@@ -120,15 +120,15 @@ describe MessagesController, type: :controller, with_settings: { journal_aggrega
     describe '#remove' do
       let!(:attachment) do
         create(:attachment,
-                          container: message,
-                          author: user,
-                          filename: filename)
+               container: message,
+               author: user,
+               filename: filename)
       end
       let!(:attachable_journal) do
         create(:journal_attachable_journal,
-                          journal: message.journals.last,
-                          attachment: attachment,
-                          filename: filename)
+               journal: message.journals.last,
+               attachment: attachment,
+               filename: filename)
       end
 
       before do

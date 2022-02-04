@@ -8,8 +8,8 @@ describe "Notification center", type: :feature, js: true, with_settings: { journ
   let!(:recipient) do
     # Needs to take place before the work package is created so that the notification listener is set up
     create :user,
-                      member_in_projects: [project1, project2],
-                      member_with_permissions: %i[view_work_packages]
+           member_in_projects: [project1, project2],
+           member_with_permissions: %i[view_work_packages]
   end
   let!(:other_user) do
     create(:user)
@@ -120,11 +120,11 @@ describe "Notification center", type: :feature, js: true, with_settings: { journ
     context "with a new notification" do
       let(:notification3) do
         create :notification,
-                          reason: :commented,
-                          recipient: recipient,
-                          project: project1,
-                          actor: other_user,
-                          read_ian: true
+               reason: :commented,
+               recipient: recipient,
+               project: project1,
+               actor: other_user,
+               read_ian: true
       end
 
       it "opens a toaster if the notification is part of the current filters" do

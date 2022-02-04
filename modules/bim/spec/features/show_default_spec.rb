@@ -39,15 +39,15 @@ describe 'show default model',
 
   let(:user) do
     create :user,
-                      member_in_project: project,
-                      member_through_role: role
+           member_in_project: project,
+           member_through_role: role
   end
 
   let(:model) do
     create(:ifc_model_minimal_converted,
-                      is_default: model_is_default,
-                      project: project,
-                      uploader: user)
+           is_default: model_is_default,
+           project: project,
+           uploader: user)
   end
   let(:model_is_default) { true }
   let(:model_tree) { ::Components::XeokitModelTree.new }
@@ -101,7 +101,7 @@ describe 'show default model',
     it 'renders a notification' do
       show_default_page
         .expect_toast(type: :info,
-                             message: I18n.t(:'ifc_models.processing_notice.processing_default'))
+                      message: I18n.t(:'ifc_models.processing_notice.processing_default'))
     end
   end
 end

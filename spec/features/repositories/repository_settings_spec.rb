@@ -106,8 +106,8 @@ describe 'Repository Settings', type: :feature, js: true do
   shared_examples 'manages the repository with' do |name, type, _repository_type, _project_name|
     let(:repository) do
       create("repository_#{name}".to_sym,
-                        scm_type: type,
-                        project: project)
+             scm_type: type,
+             project: project)
     end
     it_behaves_like 'manages the repository', type
   end
@@ -180,8 +180,8 @@ describe 'Repository Settings', type: :feature, js: true do
   describe 'update repositories' do
     let(:repository) do
       create(:repository_subversion,
-                        scm_type: :existing,
-                        project: project)
+             scm_type: :existing,
+             project: project)
     end
 
     it 'can set login and password' do

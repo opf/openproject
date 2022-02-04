@@ -37,9 +37,9 @@ describe 'API v3 Work package resource' do
   let(:project) { create(:project) }
   let(:work_package) do
     create(:work_package,
-                      project: project,
-                      story_points: 8,
-                      remaining_hours: 5)
+           project: project,
+           story_points: 8,
+           remaining_hours: 5)
   end
   let(:wp_path) { "/api/v3/work_packages/#{work_package.id}" }
 

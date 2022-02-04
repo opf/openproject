@@ -33,25 +33,25 @@ shared_examples_for 'available principals' do |principals|
 
   current_user do
     create(:user,
-                      member_in_project: project,
-                      member_through_role: role)
+           member_in_project: project,
+           member_through_role: role)
   end
   let(:other_user) do
     create(:user,
-                      member_in_project: project,
-                      member_through_role: role)
+           member_in_project: project,
+           member_through_role: role)
   end
   let(:role) { create(:role, permissions: permissions) }
   let(:project) { create(:project) }
   let(:group) do
     create(:group,
-                      member_in_project: project,
-                      member_through_role: role)
+           member_in_project: project,
+           member_through_role: role)
   end
   let(:placeholder_user) do
     create(:placeholder_user,
-                      member_in_project: project,
-                      member_through_role: role)
+           member_in_project: project,
+           member_through_role: role)
   end
   let(:permissions) { [:view_work_packages] }
 

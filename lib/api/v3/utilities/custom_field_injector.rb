@@ -366,6 +366,14 @@ module API
         end
 
         module RepresenterClass
+          def self.extended(base)
+            class << base
+              # In order to ensure the custom fields to be loaded correctly, consumers need to call the
+              # .create method.
+              protected :new
+            end
+          end
+
           def custom_field_injector(config)
             @custom_field_injector_config = config.reverse_merge custom_field_injector_config
           end

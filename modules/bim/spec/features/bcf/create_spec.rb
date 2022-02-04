@@ -7,9 +7,9 @@ describe 'Create BCF',
          with_mail: false do
   let(:project) do
     create(:project,
-                      types: [type, type_with_cf],
-                      enabled_module_names: %i[bim work_package_tracking],
-                      work_package_custom_fields: [integer_cf])
+           types: [type, type_with_cf],
+           enabled_module_names: %i[bim work_package_tracking],
+           work_package_custom_fields: [integer_cf])
   end
   let(:index_page) { Pages::IfcModels::ShowDefault.new(project) }
   let(:permissions) { %i[view_ifc_models view_linked_issues manage_bcf add_work_packages edit_work_packages view_work_packages] }
@@ -18,14 +18,14 @@ describe 'Create BCF',
 
   let(:user) do
     create :user,
-                      member_in_project: project,
-                      member_with_permissions: permissions
+           member_in_project: project,
+           member_with_permissions: permissions
   end
 
   let!(:model) do
     create(:ifc_model_minimal_converted,
-                      project: project,
-                      uploader: user)
+           project: project,
+           uploader: user)
   end
   let(:type) { create(:type) }
   let(:type_with_cf) do

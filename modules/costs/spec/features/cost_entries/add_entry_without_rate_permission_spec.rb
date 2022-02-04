@@ -42,8 +42,8 @@ describe 'Create cost entry without rate permissions', type: :feature, js: true 
   end
   shared_let(:user) do
     create :user,
-                      member_in_project: project,
-                      member_through_role: role
+           member_in_project: project,
+           member_through_role: role
   end
 
   shared_let(:cost_type) do

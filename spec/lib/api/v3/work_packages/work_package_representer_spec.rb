@@ -28,6 +28,7 @@
 
 require 'spec_helper'
 
+# rubocop:disable RSpec:MultipleMemoizedHelpers
 describe ::API::V3::WorkPackages::WorkPackageRepresenter do
   include ::API::V3::Utilities::PathHelper
 
@@ -53,20 +54,20 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
   let(:budget) { build_stubbed(:budget, project: project) }
   let(:work_package) do
     build_stubbed(:stubbed_work_package,
-                             schedule_manually: schedule_manually,
-                             start_date: start_date,
-                             due_date: due_date,
-                             done_ratio: 50,
-                             parent: parent,
-                             type: type,
-                             project: project,
-                             priority: priority,
-                             assigned_to: assignee,
-                             responsible: responsible,
-                             estimated_hours: estimated_hours,
-                             derived_estimated_hours: derived_estimated_hours,
-                             budget: budget,
-                             status: status) do |wp|
+                  schedule_manually: schedule_manually,
+                  start_date: start_date,
+                  due_date: due_date,
+                  done_ratio: 50,
+                  parent: parent,
+                  type: type,
+                  project: project,
+                  priority: priority,
+                  assigned_to: assignee,
+                  responsible: responsible,
+                  estimated_hours: estimated_hours,
+                  derived_estimated_hours: derived_estimated_hours,
+                  budget: budget,
+                  status: status) do |wp|
       allow(wp)
         .to receive(:available_custom_fields)
         .and_return(available_custom_fields)
@@ -117,6 +118,13 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
     allow(current_user)
       .to receive(:allowed_to?) do |permission, _context|
       permissions.include?(permission)
+    end
+  end
+
+  describe '.new' do
+    it 'is prevented as .create is to be used' do
+      expect { described_class.new(work_package, current_user: current_user, embed_links: embed_links) }
+        .to raise_error NoMethodError
     end
   end
 
@@ -947,8 +955,8 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           let(:work_package) { create(:work_package, project: project) }
           let!(:forbidden_work_package) do
             create(:work_package,
-                              project: forbidden_project,
-                              parent: work_package)
+                   project: forbidden_project,
+                   parent: work_package)
           end
 
           it { expect(subject).not_to have_json_path('_links/children') }
@@ -956,8 +964,8 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           describe 'visible and invisible children' do
             let!(:child) do
               create(:work_package,
-                                project: project,
-                                parent: work_package)
+                     project: project,
+                     parent: work_package)
             end
 
             it { expect(subject).to have_json_size(1).at_path('_links/children') }
@@ -1067,8 +1075,8 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       describe 'customActions' do
         it 'has a collection of customActions' do
           unassign_action = build_stubbed(:custom_action,
-                                                     actions: [CustomActions::Actions::AssignedTo.new(value: nil)],
-                                                     name: 'Unassign')
+                                          actions: [CustomActions::Actions::AssignedTo.new(value: nil)],
+                                          name: 'Unassign')
           allow(work_package)
             .to receive(:custom_actions)
             .and_return([unassign_action])
@@ -1111,7 +1119,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       describe 'relations' do
         let(:relation) do
           build_stubbed(:relation,
-                                   from: work_package)
+                        from: work_package)
         end
 
         before do
@@ -1146,8 +1154,8 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       describe 'customActions' do
         it 'has an array of customActions' do
           unassign_action = build_stubbed(:custom_action,
-                                                     actions: [CustomActions::Actions::AssignedTo.new(value: nil)],
-                                                     name: 'Unassign')
+                                          actions: [CustomActions::Actions::AssignedTo.new(value: nil)],
+                                          name: 'Unassign')
           allow(work_package)
             .to receive(:custom_actions)
             .and_return([unassign_action])
@@ -1232,3 +1240,4 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
     end
   end
 end
+# rubocop:enable RSpec:MultipleMemoizedHelpers

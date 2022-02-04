@@ -51,12 +51,12 @@ describe Authorization::UserGlobalRolesQuery do
   let(:global_permission) { OpenProject::AccessControl.permissions.find { |p| p.global? } }
   let(:global_role) do
     build(:global_role,
-                     permissions: [global_permission.name])
+          permissions: [global_permission.name])
   end
   let(:global_member) do
     build(:global_member,
-                     principal: user,
-                     roles: [global_role])
+          principal: user,
+          roles: [global_role])
   end
 
   describe '.query' do

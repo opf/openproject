@@ -7,7 +7,7 @@ require 'yaml'
 
 load 'lib/api/open_api.rb'
 
-assembled_path = Tempfile.new.path
+assembled_path = "./tmp/oas-generated.yml"
 spec_path = Pathname(__dir__).join("../../docs/api/apiv3/openapi-spec.yml")
 full_spec = API::OpenAPI.send(:assemble_spec, spec_path).to_yaml
 status = 1

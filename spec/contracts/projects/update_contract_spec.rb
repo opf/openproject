@@ -33,9 +33,9 @@ describe Projects::UpdateContract do
   it_behaves_like 'project contract' do
     let(:project) do
       build_stubbed(:project,
-                               active: project_active,
-                               public: project_public,
-                               status: project_status).tap do |p|
+                    active: project_active,
+                    public: project_public,
+                    status: project_status).tap do |p|
         # in order to actually have something changed
         p.name = project_name
         p.parent = project_parent

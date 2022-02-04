@@ -1,9 +1,9 @@
 cs:
   js:
     grid:
-      add_widget: 'Add widget'
+      add_widget: 'Přidat widget'
       remove: 'Odstranit widget'
-      configure: 'Configure widget'
+      configure: 'Konfigurovat widget'
       upsale:
         text: "Some widgets, like the work package graph widget, are only available in the "
         link: 'enterprise edition.'

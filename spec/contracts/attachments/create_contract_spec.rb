@@ -37,11 +37,11 @@ describe Attachments::CreateContract do
   let(:current_user) { build_stubbed :user }
   let(:model) do
     build :attachment,
-                     container: container,
-                     content_type: content_type,
-                     file: file,
-                     filename: filename,
-                     author: current_user
+          container: container,
+          content_type: content_type,
+          file: file,
+          filename: filename,
+          author: current_user
   end
   let(:contract) { described_class.new model, user, options: contract_options }
   let(:contract_options) { {} }

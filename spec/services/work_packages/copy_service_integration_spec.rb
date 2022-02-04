@@ -31,12 +31,12 @@ require 'spec_helper'
 describe WorkPackages::CopyService, 'integration', type: :model do
   let(:user) do
     create(:user,
-                      member_in_project: project,
-                      member_through_role: role)
+           member_in_project: project,
+           member_through_role: role)
   end
   let(:role) do
     create(:role,
-                      permissions: permissions)
+           permissions: permissions)
   end
 
   let(:permissions) do
@@ -45,21 +45,21 @@ describe WorkPackages::CopyService, 'integration', type: :model do
 
   let(:type) do
     create(:type_standard,
-                      custom_fields: [custom_field])
+           custom_fields: [custom_field])
   end
   let(:project) { create(:project, types: [type]) }
   let(:work_package) do
     create(:work_package,
-                      project: project,
-                      type: type)
+           project: project,
+           type: type)
   end
   let(:instance) { described_class.new(work_package: work_package, user: user) }
   let(:custom_field) { create(:work_package_custom_field) }
   let(:custom_value) do
     create(:work_package_custom_value,
-                      custom_field: custom_field,
-                      customized: work_package,
-                      value: false)
+           custom_field: custom_field,
+           customized: work_package,
+           value: false)
   end
   let(:source_project) { project }
   let(:source_type) { type }
@@ -96,8 +96,8 @@ describe WorkPackages::CopyService, 'integration', type: :model do
       describe 'copied watchers' do
         let(:watcher_user) do
           create(:user,
-                            member_in_project: source_project,
-                            member_with_permissions: %i(view_work_packages))
+                 member_in_project: source_project,
+                 member_with_permissions: %i(view_work_packages))
         end
 
         before do
@@ -115,13 +115,13 @@ describe WorkPackages::CopyService, 'integration', type: :model do
       let(:target_type) { create(:type, custom_fields: target_custom_fields) }
       let(:target_project) do
         p = create(:project,
-                              types: [target_type],
-                              work_package_custom_fields: target_custom_fields)
+                   types: [target_type],
+                   work_package_custom_fields: target_custom_fields)
 
         create(:member,
-                          project: p,
-                          roles: [target_role],
-                          user: user)
+               project: p,
+               roles: [target_role],
+               user: user)
 
         p
       end
@@ -175,9 +175,9 @@ describe WorkPackages::CopyService, 'integration', type: :model do
           let(:target_user) { create(:user) }
           let(:target_project_member) do
             create(:member,
-                              project: target_project,
-                              principal: target_user,
-                              roles: [create(:role)])
+                   project: target_project,
+                   principal: target_user,
+                   roles: [create(:role)])
           end
           let(:attributes) { { assigned_to_id: target_user.id } }
 

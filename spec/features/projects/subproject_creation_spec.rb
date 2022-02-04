@@ -35,13 +35,13 @@ describe 'Subproject creation', type: :feature, js: true do
   let(:view_project_role) { create(:role, permissions: %i[edit_project]) }
   let!(:parent_project) do
     create(:project,
-                      name: 'Foo project',
-                      members: { current_user => add_subproject_role })
+           name: 'Foo project',
+           members: { current_user => add_subproject_role })
   end
   let!(:other_project) do
     create(:project,
-                      name: 'Other project',
-                      members: { current_user => view_project_role })
+           name: 'Other project',
+           members: { current_user => view_project_role })
   end
 
   current_user do

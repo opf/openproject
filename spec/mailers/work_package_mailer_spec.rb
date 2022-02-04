@@ -38,9 +38,9 @@ describe WorkPackageMailer, type: :mailer do
 
   let(:work_package) do
     build_stubbed(:work_package,
-                             type: build_stubbed(:type_standard),
-                             project: project,
-                             assigned_to: assignee)
+                  type: build_stubbed(:type_standard),
+                  project: project,
+                  assigned_to: assignee)
   end
   let(:project) { build_stubbed(:project) }
   let(:author) { build_stubbed(:user) }
@@ -48,8 +48,8 @@ describe WorkPackageMailer, type: :mailer do
   let(:assignee) { build_stubbed(:user) }
   let(:journal) do
     build_stubbed(:work_package_journal,
-                             journable: work_package,
-                             user: author)
+                  journable: work_package,
+                  user: author)
   end
 
   describe '#mentioned' do

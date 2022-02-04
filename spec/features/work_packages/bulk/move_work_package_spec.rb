@@ -5,25 +5,25 @@ require 'features/page_objects/notification'
 describe 'Moving a work package through Rails view', js: true do
   let(:dev_role) do
     create :role,
-                      permissions: %i[view_work_packages add_work_packages]
+           permissions: %i[view_work_packages add_work_packages]
   end
   let(:mover_role) do
     create :role,
-                      permissions: %i[view_work_packages move_work_packages manage_subtasks add_work_packages]
+           permissions: %i[view_work_packages move_work_packages manage_subtasks add_work_packages]
   end
   let(:dev) do
     create :user,
-                      firstname: 'Dev',
-                      lastname: 'Guy',
-                      member_in_project: project,
-                      member_through_role: dev_role
+           firstname: 'Dev',
+           lastname: 'Guy',
+           member_in_project: project,
+           member_through_role: dev_role
   end
   let(:mover) do
     create :admin,
-                      firstname: 'Manager',
-                      lastname: 'Guy',
-                      member_in_project: project,
-                      member_through_role: mover_role
+           firstname: 'Manager',
+           lastname: 'Guy',
+           member_in_project: project,
+           member_through_role: mover_role
   end
 
   let(:type) { create :type, name: 'Bug' }
@@ -34,17 +34,17 @@ describe 'Moving a work package through Rails view', js: true do
 
   let(:work_package) do
     create(:work_package,
-                      author: dev,
-                      project: project,
-                      type: type,
-                      status: status)
+           author: dev,
+           project: project,
+           type: type,
+           status: status)
   end
   let(:work_package2) do
     create(:work_package,
-                      author: dev,
-                      project: project,
-                      type: type,
-                      status: work_package2_status)
+           author: dev,
+           project: project,
+           type: type,
+           status: work_package2_status)
   end
   let(:status) { create(:status) }
   let(:work_package2_status) { status }
@@ -66,11 +66,11 @@ describe 'Moving a work package through Rails view', js: true do
     let(:work_packages) { [work_package, child_wp] }
     let(:child_wp) do
       create(:work_package,
-                        author: dev,
-                        parent: work_package,
-                        project: project,
-                        type: type,
-                        status: status)
+             author: dev,
+             parent: work_package,
+             project: project,
+             type: type,
+             status: status)
     end
 
     context 'with permission' do

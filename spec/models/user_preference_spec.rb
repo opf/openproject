@@ -31,8 +31,8 @@ require 'spec_helper'
 describe UserPreference do
   subject(:preference) do
     build(:user_preference,
-                     user: user,
-                     settings: settings)
+          user: user,
+          settings: settings)
   end
 
   let(:settings) { {} }

@@ -38,8 +38,8 @@ describe '/api/v3/projects/:id/types' do
   let(:requested_project) { project }
   let(:current_user) do
     create(:user,
-                      member_in_project: project,
-                      member_through_role: role)
+           member_in_project: project,
+           member_through_role: role)
   end
 
   let!(:irrelevant_types) { create_list(:type, 4) }

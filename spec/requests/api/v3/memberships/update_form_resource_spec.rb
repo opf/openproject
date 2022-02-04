@@ -38,8 +38,8 @@ describe ::API::V3::Memberships::UpdateFormAPI, content_type: :json do
   let(:project) { create(:project) }
   let(:user) do
     create(:user,
-                      member_in_project: project,
-                      member_through_role: role)
+           member_in_project: project,
+           member_through_role: role)
   end
   let(:role) { create(:role, permissions: permissions) }
   let(:other_role) { create(:role) }
@@ -152,7 +152,7 @@ describe ::API::V3::Memberships::UpdateFormAPI, content_type: :json do
         role = create(:role, permissions: permissions)
 
         create(:project,
-                          members: { user => role } )
+               members: { user => role } )
       end
       let(:parameters) do
         {

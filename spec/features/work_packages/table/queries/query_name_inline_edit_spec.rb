@@ -31,29 +31,29 @@ require 'spec_helper'
 describe 'Query name inline edit', js: true do
   let(:user) do
     create(:user,
-                      member_in_project: project,
-                      member_through_role: role)
+           member_in_project: project,
+           member_through_role: role)
   end
   let(:project) { create(:project) }
   let(:type) { project.types.first }
   let(:role) do
     create(:role,
-                      permissions: %i[view_work_packages
-                                      save_queries])
+           permissions: %i[view_work_packages
+                           save_queries])
   end
 
   let(:work_package) do
     create(:work_package,
-                      project: project,
-                      assigned_to: user,
-                      type: type)
+           project: project,
+           assigned_to: user,
+           type: type)
   end
 
   let(:assignee_query) do
     query = create(:query,
-                              name: 'Assignee Query',
-                              project: project,
-                              user: user)
+                   name: 'Assignee Query',
+                   project: project,
+                   user: user)
 
     query.add_filter('assigned_to_id', '=', [user.id])
     query.save!

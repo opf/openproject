@@ -58,7 +58,7 @@ module API
       protected
 
       def meta_representer
-        meta_representer_class.create(meta || OpenStruct.new, current_user: current_user)
+        meta_representer_class.create(meta || Hashie::Mash.new, current_user: current_user)
       end
 
       def meta_representer_class

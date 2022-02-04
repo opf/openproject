@@ -91,7 +91,7 @@ describe StatusesController, type: :controller do
     context 'default' do
       let!(:status_default) do
         create(:status,
-                          is_default: true)
+               is_default: true)
       end
 
       before do
@@ -176,7 +176,7 @@ describe StatusesController, type: :controller do
     context 'used' do
       let(:work_package) do
         create(:work_package,
-                          status: status)
+               status: status)
       end
 
       before do
@@ -193,7 +193,7 @@ describe StatusesController, type: :controller do
     context 'default' do
       let!(:status_default) do
         create(:status,
-                          is_default: true)
+               is_default: true)
       end
 
       before do

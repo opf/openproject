@@ -47,9 +47,9 @@ describe 'Login with auth source SSO', type: :feature, clear_cache: true do
   let(:user_password) { 'bob' * 4 }
   let(:user) do
     create(:user,
-                      login: 'bob',
-                      password: user_password,
-                      password_confirmation: user_password)
+           login: 'bob',
+           password: user_password,
+           password_confirmation: user_password)
   end
 
   it 'can still login' do

@@ -104,9 +104,9 @@ describe 'API v3 Query resource', type: :request, content_type: :json do
         other_query
 
         create(:member,
-                          roles: [role],
-                          project: other_query.project,
-                          user: current_user)
+               roles: [role],
+               project: other_query.project,
+               user: current_user)
       end
 
       it 'includes only queries from the specified project' do
@@ -135,9 +135,9 @@ describe 'API v3 Query resource', type: :request, content_type: :json do
         other_query
 
         create(:member,
-                          roles: [role],
-                          project: other_query.project,
-                          user: current_user)
+               roles: [role],
+               project: other_query.project,
+               user: current_user)
       end
 
       it 'includes only queries not belonging to a project' do

@@ -58,11 +58,11 @@ module API
             struct.status = struct.status_attributes
 
             # Remove temporary attributes workaround
-            struct.delete_field(:status_attributes)
+            struct.delete(:status_attributes)
 
             # Remove nil status_explanation when passed as nil
             if struct.respond_to?(:status_explanation)
-              struct.delete_field(:status_explanation)
+              struct.delete(:status_explanation)
             end
           end
         end
@@ -216,7 +216,7 @@ module API
                    end
                  },
                  setter: ->(fragment:, represented:, **) {
-                   represented.status_attributes ||= OpenStruct.new
+                   represented.status_attributes ||= Hashie::Mash.new
 
                    link = ::API::Decorators::LinkObject.new(represented.status_attributes,
                                                             path: :project_status,
@@ -235,7 +235,7 @@ module API
                                                       plain: false)
                  },
                  setter: ->(fragment:, represented:, **) {
-                   represented.status_attributes ||= OpenStruct.new
+                   represented.status_attributes ||= Hashie::Mash.new
                    represented.status_attributes[:explanation] = fragment["raw"]
                  }
 

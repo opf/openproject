@@ -1,6 +1,6 @@
 cs:
   logout_warning: >
-    You have been logged out. The contents of any form you submit may be lost. Please [log in].
+    Byli jste odhlášeni. Obsah formuláře může být ztracen. Prosím, [přihlaste se].
   activemodel:
     attributes:
       openid_connect/provider:
@@ -8,7 +8,7 @@ cs:
         display_name: Display name
         identifier: Identifikátor
         secret: Secret
-        scope: Scope
+        scope: Rozsah
   openid_connect:
     menu_title: OpenID providers
     providers:

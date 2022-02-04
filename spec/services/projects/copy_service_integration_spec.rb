@@ -48,8 +48,8 @@ describe Projects::CopyService, 'integration', type: :model do
 
   let(:current_user) do
     create(:user,
-                      member_in_project: source,
-                      member_through_role: role)
+           member_in_project: source,
+           member_through_role: role)
   end
   let(:role) { create :role, permissions: %i[copy_projects view_work_packages] }
   shared_let(:new_project_role) { create :role, permissions: %i[] }
@@ -646,8 +646,8 @@ describe Projects::CopyService, 'integration', type: :model do
         let(:user_custom_field) { create(:user_project_custom_field) }
         let(:user_value) do
           create(:user,
-                            member_in_project: source,
-                            member_through_role: role)
+                 member_in_project: source,
+                 member_through_role: role)
         end
 
         before do

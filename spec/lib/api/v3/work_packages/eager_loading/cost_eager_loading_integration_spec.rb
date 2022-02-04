@@ -34,18 +34,18 @@ describe ::API::V3::WorkPackages::WorkPackageEagerLoadingWrapper, 'cost eager lo
   end
   let(:role) do
     create(:role,
-                      permissions: %i[view_work_packages
-                                      view_cost_entries
-                                      view_cost_rates
-                                      view_time_entries
-                                      log_time
-                                      log_costs
-                                      view_hourly_rates])
+           permissions: %i[view_work_packages
+                           view_cost_entries
+                           view_cost_rates
+                           view_time_entries
+                           log_time
+                           log_costs
+                           view_hourly_rates])
   end
   let(:user) do
     create(:user,
-                      member_in_project: project,
-                      member_through_role: role)
+           member_in_project: project,
+           member_through_role: role)
   end
 
   let(:cost_type) do
@@ -56,38 +56,38 @@ describe ::API::V3::WorkPackages::WorkPackageEagerLoadingWrapper, 'cost eager lo
   end
   let(:cost_entry1) do
     create(:cost_entry,
-                      cost_type: cost_type,
-                      user: user,
-                      work_package: work_package,
-                      project: project)
+           cost_type: cost_type,
+           user: user,
+           work_package: work_package,
+           project: project)
   end
   let(:cost_entry2) do
     create(:cost_entry,
-                      cost_type: cost_type,
-                      user: user,
-                      work_package: work_package,
-                      project: project)
+           cost_type: cost_type,
+           user: user,
+           work_package: work_package,
+           project: project)
   end
   let(:time_entry1) do
     create(:time_entry,
-                      user: user,
-                      project: project,
-                      work_package: work_package)
+           user: user,
+           project: project,
+           work_package: work_package)
   end
   let(:time_entry2) do
     create(:time_entry,
-                      user: user,
-                      project: project,
-                      work_package: work_package)
+           user: user,
+           project: project,
+           work_package: work_package)
   end
   let(:user_rates) do
     create(:hourly_rate,
-                      user: user,
-                      project: project)
+           user: user,
+           project: project)
   end
   let(:cost_rate) do
     create(:cost_rate,
-                      cost_type: cost_type)
+           cost_type: cost_type)
   end
 
   context "combining core's and cost's eager loading" do

@@ -36,10 +36,10 @@ describe 'Wysiwyg work package button spec',
   let!(:type) { create :type, name: 'MyTaskName' }
   let(:project) do
     create :valid_project,
-                      identifier: 'my-project',
-                      enabled_module_names: %w[wiki work_package_tracking],
-                      name: 'My project name',
-                      types: [type]
+           identifier: 'my-project',
+           enabled_module_names: %w[wiki work_package_tracking],
+           name: 'My project name',
+           types: [type]
   end
 
   let(:editor) { ::Components::WysiwygEditor.new }
