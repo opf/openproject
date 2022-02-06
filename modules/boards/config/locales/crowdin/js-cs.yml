@@ -9,7 +9,7 @@ cs:
         teaser_text: 'Zlepšete své agilní řízení projektů s tímto flexibilním zobrazením Boardů. Vytvořte tolik desek, kolik chcete pro cokoliv, co chcete sledovat.'
         upgrade_to_ee_text: 'Board je funkce Enterprise. Proveďte upgrade na placený plán.'
         upgrade: 'Upgradovat nyní'
-        personal_demo: 'Contact us for a demo'
+        personal_demo: 'Kontaktujte nás pro demo'
       lists:
         delete: 'Odstranit seznam'
       version:
@@ -24,7 +24,7 @@ cs:
         locked: 'Uzamčeno'
         closed: 'Uzavřený'
       new_board: 'Nová tabule'
-      add_list: 'Add list to board'
+      add_list: 'Přidat list na tabuli'
       add_card: 'Přidat kartu'
       error_attribute_not_writable: "Pracovní balíček nelze přesunout, do %{attribute} nelze zapisovat."
       error_loading_the_list: "Chyba při načítání seznamu: %{error_message}"
@@ -35,9 +35,9 @@ cs:
       board_type:
         text: 'Typ tabule'
         free: 'basic'
-        select_board_type: 'Please choose the type of board you need.'
+        select_board_type: 'Vyberte prosím typ tabule, kterou potřebujete.'
         free_text: >
-          Start from scratch with a blank board. Manually add cards and columns to this board.
+          Začněte od začátku prázdnou tabulí ručním přidáváním karet a sloupců do této tabule.
         action: 'Akční tabule'
         action_by_attribute: 'Akční tabule (%{attribute})'
         action_text: >
@@ -56,7 +56,7 @@ cs:
           assignee: Řešitel
           status: Stav
           version: verze
-          subproject: subproject
+          subproject: podprojekt
           subtasks: parent-child
         board_type_title:
           assignee: Řešitel
@@ -64,7 +64,7 @@ cs:
           version: Verze
           subproject: Dílčí projekt
           subtasks: Parent-Child
-          basic: Basic
+          basic: Základní
         select_attribute: "Atribut akce"
       add_list_modal:
         labels:
@@ -78,7 +78,7 @@ cs:
             There is currently no status available. <br>
             Either there are none or they have all already been added to the board.
           assignee: There isn't any member matched with your filter value.  <br>
-          no_member: This project currently does not have any members that can be added.  <br>
+          no_member: Tento projekt v současné době nemá žádné členy, kteří by mohli být přidáni.  <br>
           add_members: <a href="%{link}">Add a new member to this project</a> to select users again.
       configuration_modal:
         title: 'Konfigurovat tuto tabuli'
