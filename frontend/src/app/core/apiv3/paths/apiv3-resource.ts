@@ -116,7 +116,7 @@ export class ApiV3ResourceCollection<V, T extends ApiV3GettableResource<V>> exte
         url.searchParams.set(key, params[key]);
       });
 
-    const cls = resourceClass || APIv3GettableResource;
+    const cls = resourceClass || ApiV3GettableResource;
     // eslint-disable-next-line new-cap
     return new cls(this.apiRoot, url.pathname, url.search, this) as R;
   }

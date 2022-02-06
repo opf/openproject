@@ -6,7 +6,7 @@
     class="advanced-filters--ng-select -multi-select"
     [id]="'values-' + filter.id"
     [getOptionsFn]="autocompleterFn"
-    [classes]="{'-required-highlighting' : isEmpty}"
+    [classes]="{'-required-highlighting' : value.length === 0}"
     [virtualScroll]
     [closeOnSelect]="false"
     [placeholder]="text.placeholder"

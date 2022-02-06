@@ -114,6 +114,10 @@ describe 'filter me value', js: true do
 
         # Expect new work packages receive assignee
         split_screen = wp_table.create_wp_by_button wp_user.type
+
+        # Wait a bit for the page to load
+        sleep 2
+
         subject = split_screen.edit_field :subject
         subject.set_value 'foobar'
         subject.submit_by_enter
