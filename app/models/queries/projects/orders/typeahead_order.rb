@@ -28,34 +28,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Queries::Projects
-  filters = ::Queries::Projects::Filters
-  orders = ::Queries::Projects::Orders
-  query = ::Queries::Projects::ProjectQuery
+class Queries::Projects::Orders::TypeaheadOrder < Queries::Projects::Orders::DefaultOrder
+  self.model = Project
 
-  ::Queries::Register.register do
-    filter query, filters::AncestorFilter
-    filter query, filters::TypeFilter
-    filter query, filters::ActiveFilter
-    filter query, filters::TemplatedFilter
-    filter query, filters::PublicFilter
-    filter query, filters::NameAndIdentifierFilter
-    filter query, filters::CustomFieldFilter
-    filter query, filters::CreatedAtFilter
-    filter query, filters::LatestActivityAtFilter
-    filter query, filters::PrincipalFilter
-    filter query, filters::ParentFilter
-    filter query, filters::IdFilter
-    filter query, filters::ProjectStatusFilter
-    filter query, filters::UserActionFilter
-    filter query, filters::VisibleFilter
+  def self.key
+    :typeahead
+  end
 
-    order query, orders::DefaultOrder
-    order query, orders::LatestActivityAtOrder
-    order query, orders::RequiredDiskSpaceOrder
-    order query, orders::CustomFieldOrder
-    order query, orders::ProjectStatusOrder
-    order query, orders::NameOrder
-    order query, orders::TypeaheadOrder
+  def order
+    model.order(lft: :asc, name: :asc)
   end
 end
