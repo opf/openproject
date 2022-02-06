@@ -25,7 +25,7 @@ import {
 } from 'rxjs';
 import {
   debounceTime,
-  distinctUntilChanged,
+  distinctUntilChanged, filter,
   switchMap,
   tap,
 } from 'rxjs/operators';
@@ -171,7 +171,7 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
 
   @Input() public keyDownFn ? = (_:KeyboardEvent) => true;
 
-  @Input() public typeahead:Subject<string> = new Subject();
+  @Input() public typeahead:BehaviorSubject<string|null> = new BehaviorSubject(null);
 
   // a function for setting the options of ng-select
   @Input() public getOptionsFn:(searchTerm:string) => any;
@@ -249,13 +249,14 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
         this.results$ = merge(
           this.items$,
           this.typeahead.pipe(
+            filter((val) => val !== null),
             distinctUntilChanged(),
             debounceTime(250),
             tap(() => this.loading$.next(true)),
             (this.defaultData
-              ? switchMap((queryString) => this.opAutocompleterService.loadData(queryString, this.resource, this.filters, this.searchKey))
+              ? switchMap((queryString:string) => this.opAutocompleterService.loadData(queryString, this.resource, this.filters, this.searchKey))
               : this.getOptionsFn
-                ? switchMap((queryString) => this.getOptionsFn(queryString))
+                ? switchMap((queryString:string) => this.getOptionsFn(queryString))
                 : switchMap(() => NEVER)
             ),
             tap(() => this.loading$.next(false)),
@@ -263,10 +264,9 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
         );
 
         if (this.fetchDataDirectly) {
-          this.results$ = this.defaultData
-            ? (this.opAutocompleterService.loadData('', this.resource, this.filters, this.searchKey))
-            : (this.getOptionsFn(''));
+          this.typeahead.next('');
         }
+
         if (this.openDirectly) {
           this.ngSelectInstance.open();
           this.ngSelectInstance.focus();
