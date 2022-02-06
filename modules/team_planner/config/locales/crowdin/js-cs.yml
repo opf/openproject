@@ -2,15 +2,15 @@
 cs:
   js:
     team_planner:
-      add_existing: 'Add existing'
-      create_new: 'Create new planner'
-      title: 'Team planner'
-      unsaved_title: 'Unnamed team planner'
-      label_assignee_plural: 'Assignees'
+      add_existing: 'Přidat existující'
+      create_new: 'Vytvořit nový plánovače'
+      title: 'Týmový plánovač'
+      unsaved_title: 'Nepojmenovaný plánovač týmu'
+      label_assignee_plural: 'Řešitelé'
       no_data: 'Add assignees to set up your team planner.'
-      add_assignee: 'Add assignee'
-      remove_assignee: 'Remove assignee'
-      two_weeks: '2 weeks'
+      add_assignee: 'Přidat řešitele'
+      remove_assignee: 'Odstranit řešitele'
+      two_weeks: '2 týdny'
       quick_add:
-        empty_state: 'Use the search field to find work packages and drag them to the planner to assign it to someone and define start and end dates.'
-        search_placeholder: 'Search...'
+        empty_state: 'Použijte vyhledávací pole pro nalezení pracovních balíčků a přetáhněte je do plánovače, aby někomu přiřadil a definoval datum začátku a konce.'
+        search_placeholder: 'Hledat...'
