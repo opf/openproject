@@ -1,3 +1,5 @@
+/* eslint-disable max-classes-per-file */
+
 import { Constructor } from '@angular/cdk/table';
 import { SimpleResource, SimpleResourceCollection } from 'core-app/core/apiv3/paths/path-resources';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';

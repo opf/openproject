@@ -1,31 +1,37 @@
+/* We just forward the ng-select outputs without renaming */
+/* eslint-disable @angular-eslint/no-output-native */
 import {
   AfterViewInit,
-  OnChanges,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ContentChild,
   EventEmitter,
+  HostBinding,
   Input,
   NgZone,
+  OnChanges,
   Output,
+  SimpleChanges,
   TemplateRef,
   ViewChild,
-  SimpleChanges,
-  HostBinding,
 } from '@angular/core';
-import { DropdownPosition, NgSelectComponent } from '@ng-select/ng-select';
 import {
-  Observable,
+  DropdownPosition,
+  NgSelectComponent,
+} from '@ng-select/ng-select';
+import {
+  BehaviorSubject,
+  merge,
   NEVER,
+  Observable,
   of,
   Subject,
-  merge,
-  BehaviorSubject,
 } from 'rxjs';
 import {
   debounceTime,
-  distinctUntilChanged, filter,
+  distinctUntilChanged,
+  filter,
   switchMap,
   tap,
 } from 'rxjs/operators';
@@ -137,7 +143,7 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
 
   @Input() public maxSelectedItems?:number;
 
-  @Input() public groupBy?:string | Function;
+  @Input() public groupBy?:string|(() => string);
 
   @Input() public groupValue?:GroupValueFn;
 
@@ -169,28 +175,28 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
 
   @Input() public editableSearchTerm?:boolean = false;
 
-  @Input() public keyDownFn ? = (_:KeyboardEvent) => true;
+  @Input() public keyDownFn ? = ():boolean => true;
 
   @Input() public typeahead:BehaviorSubject<string|null> = new BehaviorSubject(null);
 
   // a function for setting the options of ng-select
-  @Input() public getOptionsFn:(searchTerm:string) => any;
+  @Input() public getOptionsFn:(searchTerm:string) => Observable<unknown>;
 
-  @Output() public open = new EventEmitter<any>();
+  @Output() public open = new EventEmitter<unknown>();
 
-  @Output() public close = new EventEmitter<any>();
+  @Output() public close = new EventEmitter<unknown>();
 
-  @Output() public change = new EventEmitter<any>();
+  @Output() public change = new EventEmitter<unknown>();
 
-  @Output() public focus = new EventEmitter<any>();
+  @Output() public focus = new EventEmitter<unknown>();
 
-  @Output() public blur = new EventEmitter<any>();
+  @Output() public blur = new EventEmitter<unknown>();
 
-  @Output() public search = new EventEmitter<{ term:string, items:any[] }>();
+  @Output() public search = new EventEmitter<{ term:string, items:unknown[] }>();
 
-  @Output() public keydown = new EventEmitter<any>();
+  @Output() public keydown = new EventEmitter<unknown>();
 
-  @Output() public clear = new EventEmitter<any>();
+  @Output() public clear = new EventEmitter<unknown>();
 
   @Output() public add = new EventEmitter();
 
@@ -231,7 +237,7 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
     super();
   }
 
-  ngOnChanges(changes:SimpleChanges) {
+  ngOnChanges(changes:SimpleChanges):void {
     if (changes.items) {
       this.items$.next(changes.items.currentValue);
     }
@@ -242,8 +248,6 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
       return;
     }
 
-    this.loading$.subscribe(console.log);
-
     this.ngZone.runOutsideAngular(() => {
       setTimeout(() => {
         this.results$ = merge(
@@ -253,12 +257,17 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
             distinctUntilChanged(),
             debounceTime(250),
             tap(() => this.loading$.next(true)),
-            (this.defaultData
-              ? switchMap((queryString:string) => this.opAutocompleterService.loadData(queryString, this.resource, this.filters, this.searchKey))
-              : this.getOptionsFn
-                ? switchMap((queryString:string) => this.getOptionsFn(queryString))
-                : switchMap(() => NEVER)
-            ),
+            switchMap((queryString:string) => {
+              if (this.defaultData) {
+                return this.opAutocompleterService.loadData(queryString, this.resource, this.filters, this.searchKey);
+              }
+
+              if (this.getOptionsFn) {
+                return this.getOptionsFn(queryString);
+              }
+
+              return NEVER;
+            }),
             tap(() => this.loading$.next(false)),
           ),
         );

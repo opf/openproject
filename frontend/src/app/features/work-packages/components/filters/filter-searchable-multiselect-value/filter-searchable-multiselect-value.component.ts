@@ -80,6 +80,7 @@ export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMix
 
   public loadAvailable(matching:string):Observable<HalResource[]> {
     const filters:ApiV3FilterBuilder = this.createFilters(matching);
+    /* eslint-disable-next-line @typescript-eslint/no-non-null-assertion */
     const { href } = this.filter.currentSchema!.values!.allowedValues as { href:string };
 
     const filteredData = (this.apiV3Service.collectionFromString(href) as
@@ -93,7 +94,7 @@ export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMix
     return filteredData;
   }
 
-  protected createFilters(matching:string) {
+  protected createFilters(matching:string):ApiV3FilterBuilder {
     const filters = new ApiV3FilterBuilder();
 
     if (matching) {
