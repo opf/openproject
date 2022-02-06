@@ -48,7 +48,7 @@ import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/que
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 
 @Component({
-  selector: 'filter-toggled-multiselect-value',
+  selector: 'op-filter-toggled-multiselect-value',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './filter-toggled-multiselect-value.component.html',
 })

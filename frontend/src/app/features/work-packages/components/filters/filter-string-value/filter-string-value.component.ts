@@ -35,7 +35,7 @@ import { componentDestroyed } from '@w11k/ngx-componentdestroyed';
 import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
 
 @Component({
-  selector: 'filter-string-value',
+  selector: 'op-filter-string-value',
   templateUrl: './filter-string-value.component.html',
 })
 export class FilterStringValueComponent extends UntilDestroyedMixin {

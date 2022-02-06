@@ -39,7 +39,7 @@ import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/que
 import { AbstractDateTimeValueController } from '../abstract-filter-date-time-value/abstract-filter-date-time-value.controller';
 
 @Component({
-  selector: 'filter-date-times-value',
+  selector: 'op-filter-date-times-value',
   templateUrl: './filter-date-times-value.component.html',
 })
 export class FilterDateTimesValueComponent extends AbstractDateTimeValueController implements OnInit {

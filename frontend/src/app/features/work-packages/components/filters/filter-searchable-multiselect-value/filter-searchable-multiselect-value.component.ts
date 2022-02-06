@@ -16,7 +16,6 @@ import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destr
 import { ApiV3Resource } from 'core-app/core/apiv3/cache/cachable-apiv3-resource';
 import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
-import { HalResourceSortingService } from 'core-app/features/hal/services/hal-resource-sorting.service';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import {
   ChangeDetectionStrategy,
@@ -34,7 +33,7 @@ import { CurrentUserService } from 'core-app/core/current-user/current-user.serv
 import { take } from 'rxjs/internal/operators/take';
 
 @Component({
-  selector: 'filter-searchable-multiselect-value',
+  selector: 'op-filter-searchable-multiselect-value',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './filter-searchable-multiselect-value.component.html',
 })
@@ -69,7 +68,6 @@ export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMix
   @ViewChild('ngSelectInstance', { static: true }) ngSelectInstance:NgSelectComponent;
 
   constructor(readonly halResourceService:HalResourceService,
-    readonly halSorting:HalResourceSortingService,
     readonly apiV3Service:ApiV3Service,
     readonly cdRef:ChangeDetectorRef,
     readonly I18n:I18nService,
