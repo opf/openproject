@@ -521,7 +521,7 @@ cs:
         all: 'Vše'
       center:
         and_more_users:
-          one: 'and 1 other'
+          one: 'a 1 další'
           few: 'and %{count} others'
           many: 'and %{count} others'
           other: 'and %{count} others'
