@@ -1,10 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-<<<<<<< HEAD
-# Copyright (C) 2012-2022 the OpenProject GmbH
-=======
 # Copyright (C) 2012-2021 the OpenProject GmbH
->>>>>>> Added ProjectStorage and FileLink model tests, plus a partial feature test
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,11 +26,40 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-FactoryBot.define do
-  factory :storage, class: '::Storages::Storage' do
-    provider_type { "nextcloud" }
-    sequence(:name) { |n| "Test Storage #{n}" }
-    sequence(:host) { |n| "https://host#{n}.example.com" }
-    creator factory: :user
+require_relative '../spec_helper'
+
+describe ::Storages::ProjectStorage, type: :model do
+  let(:creator) { create(:user) }
+  let(:project) { create(:project, :enabled_module_names => %i[storages work_packages]) }
+  let(:storage) { create(:storage) }
+  let(:attributes) do
+    {
+      storage: storage,
+      creator: creator,
+      project: project}
+  end
+
+  describe '#create' do
+    it "creates an instance" do
+      project_storage = described_class.create attributes
+      expect(project_storage).to be_valid
+    end
+
+    it "create instance should fail with wrong creator object" do
+      file_link = described_class.create(attributes.merge({ creator_id: project.id }))
+      expect(file_link).to be_invalid
+    end
+  end
+
+  describe '#destroy' do
+    let(:project_storage_to_destroy) { described_class.create(attributes) }
+
+    before do
+      project_storage_to_destroy.destroy
+    end
+
+    it "destroy instance should leave no file_link" do
+      expect(Storages::ProjectStorage.count).to be 0
+    end
   end
 end
