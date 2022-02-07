@@ -71,7 +71,10 @@ class Member < ApplicationRecord
   end
 
   def deletable_role?(role)
-    member_roles.filter { _1.role_id == role.id }.none?(&:inherited_from)
+    member_roles
+      .only_inherited
+      .where(role: role)
+      .none?
   end
 
   def include?(principal)
