@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 # rubocop:disable RSpec/MultipleMemoizedHelpers
-describe Mails::MemberRolesDiff, type: :model do
+describe Members::RolesDiff, type: :model do
   let(:project) { build_stubbed(:project) }
   let(:group) { build_stubbed(:group) }
   let(:user) { build_stubbed(:user) }

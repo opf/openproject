@@ -32,7 +32,7 @@ class Mails::MemberCreatedJob < Mails::MemberJob
   alias_method :send_for_project_user, :send_added_project
 
   def send_for_group_user(current_user, user_member, group_member, message)
-    difference = Mails::MemberRolesDiff.new(user_member, group_member)
+    difference = Members::RolesDiff.new(user_member, group_member)
     if difference.roles_created?
       send_added_project(current_user, user_member, message)
     elsif difference.roles_updated?

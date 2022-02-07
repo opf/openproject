@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Mails::MemberRolesDiff
+class Members::RolesDiff
   attr_reader :user_member, :group_member
 
   def initialize(user_member, group_member)

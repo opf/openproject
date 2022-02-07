@@ -118,6 +118,6 @@ class Mails::MemberJob < ApplicationJob
   end
 
   def roles_changed?(user_member, group_member)
-    Mails::MemberRolesDiff.new(user_member, group_member).roles_changed?
+    Members::RolesDiff.new(user_member, group_member).roles_changed?
   end
 end
