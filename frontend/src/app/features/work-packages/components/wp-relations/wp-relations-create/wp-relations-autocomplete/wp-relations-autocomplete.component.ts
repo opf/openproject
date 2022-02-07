@@ -84,13 +84,9 @@ export class WorkPackageRelationsAutocompleteComponent {
 
   @Output() onEmptySelected = new EventEmitter<undefined>();
 
-  // Whether we're currently loading
-  public isLoading = false;
-
   getAutocompleterData = (query:string|null):Observable<HalResource[]> => {
     // Return when the search string is empty
     if (query === null || query.length === 0) {
-      this.isLoading = false;
       return of([]);
     }
 
@@ -107,7 +103,6 @@ export class WorkPackageRelationsAutocompleteComponent {
           this.notificationService.handleRawError(error);
           return of([]);
         }),
-        tap(() => this.isLoading = false),
       );
   };
 

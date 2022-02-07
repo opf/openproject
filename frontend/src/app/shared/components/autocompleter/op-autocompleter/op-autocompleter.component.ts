@@ -131,8 +131,6 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
 
   @Input() public appendTo?:string;
 
-  @Input() public loading?:boolean = false;
-
   @Input() public closeOnSelect?:boolean = true;
 
   @Input() public hideSelected?:boolean = false;
@@ -253,6 +251,7 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
         this.results$ = merge(
           this.items$,
           this.typeahead.pipe(
+            filter(() => !!(this.defaultData || this.getOptionsFn)),
             filter((val) => val !== null),
             distinctUntilChanged(),
             debounceTime(250),
@@ -268,7 +267,10 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
 
               return NEVER;
             }),
-            tap(() => this.loading$.next(false)),
+            tap(
+              () => this.loading$.next(false),
+              () => this.loading$.next(false),
+            ),
           ),
         );
 
