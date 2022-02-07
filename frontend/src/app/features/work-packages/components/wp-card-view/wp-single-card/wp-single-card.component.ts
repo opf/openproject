@@ -46,9 +46,13 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
 
   @Input() public shrinkOnMobile = false;
 
-  @Input() public additionalClasses = '';
-
   @Input() public disabledInfo = '';
+
+  @Input() public showAsInlineCard = false;
+
+  @Input() public showStartDate = true;
+
+  @Input() public showEndDate = true;
 
   @Output() onRemove = new EventEmitter<WorkPackageResource>();
 
@@ -114,11 +118,15 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
       [`${base}_new`]: isNewResource(this.workPackage),
       [`${base}_shrink`]: this.shrinkOnMobile,
       [`${base}_disabled`]: this.disabledInfo.length > 0,
+      [`${base}_inline`]: this.showAsInlineCard,
       // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
       [`${base}-${this.workPackage.id}`]: !!this.workPackage.id,
       [`${base}_${this.orientation}`]: true,
-      [`${this.additionalClasses}`]: true,
     };
+  }
+
+  cardTitle():string {
+    return `${this.workPackage.subject} (${this.workPackage.status.name})`;
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -160,6 +168,10 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
     }
 
     return '';
+  }
+
+  splittedDate(wp:WorkPackageResource):string[] {
+    return this.wpDates(wp).split('–');
   }
 
   wpOverDueHighlighting(wp:WorkPackageResource):string {

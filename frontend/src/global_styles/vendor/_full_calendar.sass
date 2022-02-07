@@ -46,14 +46,30 @@
       padding-bottom: 5px
       border-radius: 5px
       margin-bottom: 4px
-      background: transparent !important
-      border: transparent
+      background-color: var(--timeline--type-fallback-color)
+      border-color: var(--timeline--type-fallback-color)
       color: #000000
 
       &:before,
       &:after
         padding-right: 4px
         pointer-events: none
+
+    .fc-timeline-event
+      background: transparent !important
+      border: transparent
+
+      &:before
+        position: absolute
+        top: 40px
+        z-index: 8
+        left: 8px
+
+      &:after
+        position: absolute
+        top: 40px
+        z-index: 8
+        right: 8px
 
     .fc-event-title-container
       margin: 0 16px

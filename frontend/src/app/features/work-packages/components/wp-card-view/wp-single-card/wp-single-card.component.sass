@@ -45,10 +45,12 @@
     grid-template-rows: auto max-content
     grid-template-areas: "status id project project project" "subject subject subject subject subject"
 
-    &-cover-image,
     &-assignee
       display: none
-
+    &-subject-line
+      display: flex
+    &-subject
+      flex-grow: 1
 
   // Style shadow element while dragging
   wp-single-card:host.gu-transit &
@@ -76,7 +78,8 @@
       @include text-shortener
     &-type
       grid-area: type
-    &-subject
+      margin-right: 4px
+    &-subject-line
       grid-area: subject
       @include text-shortener(false)
     &-assignee
@@ -107,6 +110,12 @@
       white-space: nowrap
       color: var(--gray-dark)
       font-size: 12px
+
+    &-inline-date
+      font-size: 12px
+      color: var(--gray-dark)
+      margin: 0 12px
+      white-space: nowrap
 
   &--highlighting
     width: 100%

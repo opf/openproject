@@ -4,6 +4,7 @@
   [attr.data-qa-draggable]="draggable || undefined"
   [attr.data-qa-checked]="isSelected(workPackage) || undefined"
   [ngClass]="cardClasses()"
+  [title]="cardTitle()"
 >
 
   <div class="op-wp-single-card--highlighting"
@@ -69,17 +70,34 @@
       #{{workPackage.id}} -
     </span>
 
-    <span class="op-wp-single-card--content-subject"
-          data-qa-selector="op-wp-single-card--content-subject">
-      <span [textContent]="wpTypeAttribute(workPackage)"
-            class="op-wp-single-card--content-type"
-            data-qa-selector="op-wp-single-card--content-type"
-            [ngClass]="typeHighlightingClass(workPackage)">
-      </span>&nbsp;
-      <span [textContent]="wpSubject(workPackage)"></span>
+    <span class="op-wp-single-card--content-subject-line">
+      <span
+        *ngIf="showAsInlineCard && showStartDate"
+        class="op-wp-single-card--content-inline-date">
+        {{splittedDate(workPackage)[0]}}-
+      </span>
+
+      <span
+        *ngIf="!showAsInlineCard && highlightingMode !== 'type'"
+        [textContent]="wpTypeAttribute(workPackage)"
+        class="op-wp-single-card--content-type"
+        data-qa-selector="op-wp-single-card--content-type"
+        [ngClass]="typeHighlightingClass(workPackage)">
+      </span>
+      <span
+        class="op-wp-single-card--content-subject"
+        data-qa-selector="op-wp-single-card--content-subject"
+        [textContent]="wpSubject(workPackage)">
+      </span>
+
+      <span
+        *ngIf="showAsInlineCard && showEndDate"
+        class="op-wp-single-card--content-inline-date">
+        -{{splittedDate(workPackage)[1]}}
+      </span>
     </span>
 
-    <img *ngIf="this.cardCoverImageShown(workPackage)"
+    <img *ngIf="this.cardCoverImageShown(workPackage) && !showAsInlineCard"
          [src]="this.bcfSnapshotPath(workPackage)"
          class="op-wp-single-card--content-cover-image">
     <wp-status-button *ngIf="showStatusButton"
@@ -96,9 +114,11 @@
       class="op-wp-single-card--content-assignee"
       data-qa-selector="op-wp-single-card--content-assignee"
     ></op-principal>
-    <span [textContent]="wpDates(workPackage)"
-          class="op-wp-single-card--content-dates"
-          [ngClass]="wpOverDueHighlighting(workPackage)"
+    <span
+      *ngIf="!showAsInlineCard"
+      [textContent]="wpDates(workPackage)"
+      class="op-wp-single-card--content-dates"
+      [ngClass]="wpOverDueHighlighting(workPackage)"
     >
     </span>
   </div>

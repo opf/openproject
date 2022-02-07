@@ -66,9 +66,11 @@
       *ngIf="event.extendedProps.workPackage"
       [workPackage]="event.extendedProps.workPackage"
       [orientation]="'horizontal'"
-      [additionalClasses]="'op-wp-single-card_inline'"
       [highlightingMode]="'type'"
       [disabledInfo]="showDisabledText(event.extendedProps.workPackage)"
+      [showAsInlineCard]="true"
+      [showStartDate]="!this.showResizeHandle(event.extendedProps.workPackage, 'start')"
+      [showEndDate]="!this.showResizeHandle(event.extendedProps.workPackage, 'end')"
     >
     </wp-single-card>
 
