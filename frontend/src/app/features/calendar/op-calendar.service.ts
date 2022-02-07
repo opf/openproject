@@ -44,6 +44,7 @@ import {
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/resource-changeset';
 import * as moment from 'moment';
+import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
 
 export interface CalendarViewEvent {
   el:HTMLElement;
@@ -85,6 +86,7 @@ export class OpCalendarService extends UntilDestroyedMixin {
     readonly uiRouterGlobals:UIRouterGlobals,
     readonly timezoneService:TimezoneService,
     readonly halEditing:HalResourceEditingService,
+    readonly wpTableSelection:WorkPackageViewSelectionService,
   ) {
     super();
   }
@@ -272,6 +274,8 @@ export class OpCalendarService extends UntilDestroyedMixin {
 
   private openSplitView(event:EventClickArg) {
     const workPackage = event.event.extendedProps.workPackage as WorkPackageResource;
+    this.wpTableSelection.setSelection(workPackage.id!, -1);
+
     void this.$state.go(
       `${splitViewRoute(this.$state)}.tabs`,
       { workPackageId: workPackage.id, tabIdentifier: 'overview' },

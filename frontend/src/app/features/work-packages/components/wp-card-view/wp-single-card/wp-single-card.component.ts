@@ -182,10 +182,6 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
     return Highlighting.overdueDate(diff);
   }
 
-  public fullWorkPackageLink(wp:WorkPackageResource):string {
-    return this.$state.href('work-packages.show', { workPackageId: wp.id });
-  }
-
   public cardHighlightingClass(wp:WorkPackageResource):string {
     return this.cardHighlighting(wp);
   }
