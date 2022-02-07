@@ -35,6 +35,9 @@ class Setting
       # register the block with the underlying notifications system
       notifier.subscribe(notification_event_for(name), &callback)
     end
+    # register_callback is not used anymore in our code
+    # it can be removed along with fire_callbacks in next major version
+    OpenProject::Deprecation.deprecate_method(self, :register_callback)
 
     # instructs the underlying notifications system to publish all setting events for setting #name
     # based on the new and old setting objects different events can be triggered
