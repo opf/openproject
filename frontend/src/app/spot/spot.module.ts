@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { UIRouterModule } from '@uirouter/angular';
 import { SPOT_DOCS_ROUTES } from './spot.routes';
 import { SpotCheckboxComponent } from './components/checkbox.component';
+import { SpotToggleComponent } from './components/toggle.component';
 import { SpotTextFieldComponent } from './components/text-field.component';
 import { SpotFilterChipComponent } from './components/filter-chip.component';
 import { SpotChipFieldComponent } from './components/chip-field.component';
@@ -21,6 +22,7 @@ import { SpotDocsComponent } from './spot-docs.component';
     SpotDocsComponent,
 
     SpotCheckboxComponent,
+    SpotToggleComponent,
     SpotTextFieldComponent,
     SpotFilterChipComponent,
     SpotChipFieldComponent,
@@ -28,6 +30,7 @@ import { SpotDocsComponent } from './spot-docs.component';
   ],
   exports: [
     SpotCheckboxComponent,
+    SpotToggleComponent,
     SpotTextFieldComponent,
     SpotFilterChipComponent,
     SpotChipFieldComponent,

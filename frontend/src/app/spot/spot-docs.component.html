@@ -21,6 +21,14 @@
 <button class="spot-button spot-button_basic spot-button_danger">Danger</button>
 <button class="spot-button spot-button_basic" disabled>Disabled</button>
 
+<h1>Toggles</h1>
+
+<spot-toggle
+  [options]="toggleOptions"
+  [(ngModel)]="toggleValue"
+></spot-toggle>
+Currently selected value is {{ toggleValue }}
+
 <h1>Checkbox</h1>
 
 <label>

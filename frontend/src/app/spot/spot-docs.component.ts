@@ -11,6 +11,12 @@ export class SpotDocsComponent {
   dropModalOpen = false;
   alignment = 'bottom-center';
 
+  toggleValue = null;
+  toggleOptions = [
+    {value: 1, title: '1'},
+    {value: 2, title: '2'}
+  ];
+
   onRemoveChip() {
     alert('Remove chip');
   }
