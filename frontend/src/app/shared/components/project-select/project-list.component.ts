@@ -71,21 +71,21 @@ export class OpProjectListComponent implements ControlValueAccessor {
     }
   }
 
-  writeValue(selected:ID[]) {
+  public writeValue(selected:ID[]) {
     if (!Array.isArray(selected)) {
       return;
     }
     this.selected = selected;
   }
 
-  onChange = (_:ID[]) => {};
-  onTouched = (_:ID[]) => {};
+  public onChange = (_:ID[]) => {};
+  public onTouched = (_:ID[]) => {};
 
-  registerOnChange(fn:any) {
+  public registerOnChange(fn:any) {
     this.onChange = fn;
   }
 
-  registerOnTouched(fn:any) {
+  public registerOnTouched(fn:any) {
     this.onTouched = fn;
   }
 }

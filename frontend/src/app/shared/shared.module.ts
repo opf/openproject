@@ -25,7 +25,7 @@
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
-import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import {
   Injector,
   NgModule,
@@ -120,6 +120,7 @@ export function bootstrapModule(injector:Injector) {
     CommonModule,
     // Angular Forms
     FormsModule,
+    ReactiveFormsModule,
     OpSpotModule,
     // Angular CDK
     PortalModule,
@@ -143,6 +144,7 @@ export function bootstrapModule(injector:Injector) {
     UIRouterModule,
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     PortalModule,
     DragDropModule,
     IconModule,

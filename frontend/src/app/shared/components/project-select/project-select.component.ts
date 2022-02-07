@@ -4,9 +4,14 @@ import {
   Component,
   OnInit,
 } from '@angular/core';
+import {
+  FormGroup,
+  FormControl,
+} from '@angular/forms';
 import { ProjectsResourceService } from 'core-app/core/state/projects/projects.service';
 import { ApiV3ListFilter, ApiV3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
-import { map } from 'rxjs/operators';
+import { combineLatest } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { IProject } from 'core-app/core/state/projects/project.model';
 import { IHalResourceLink } from 'core-app/core/state/hal-resource';
 import { ID } from '@datorama/akita';
@@ -15,6 +20,7 @@ export interface IProjectData {
   id: ID;
   href: string;
   name: string;
+  found: boolean;
   children: IProjectData[];
 };
 
@@ -26,20 +32,40 @@ export interface IProjectData {
 })
 export class OpProjectSelectComponent implements OnInit {
   public opened = false;
-  public query = '';
-  public selectedProjects:ID[] = [];
 
-  public projects$ = this.projectsResourceService
-    .query
-    .selectAll()
+  public form = new FormGroup({
+    selectedProjects: new FormControl([]),
+    query: new FormControl(''),
+  });
+
+  public get query():string {
+    return this.form.get('query')?.value || '';
+  }
+
+  public projects$ = combineLatest([
+      this.form.valueChanges.pipe(
+        map(value => value.query),
+        distinctUntilChanged(),
+        debounceTime(50),
+      ),
+      this.projectsResourceService                
+        .query
+        .selectAll(),
+    ])
     .pipe(
-      map(projects => projects
+      map(([query, projects]) => projects
+        .filter((project) => {
+          if (query.length) {
+            return project.name.toLowerCase().includes(query.toLowerCase()) || project.identifier.toLowerCase().includes(query.toLowerCase());
+          }
+          
+          return true;
+        })
         .sort((a, b) => a._links.ancestors.length - b._links.ancestors.length)
-        .map(p => ({...p}))
         .reduce((list, project) => {
           const { ancestors } = project._links;
 
-          const insertInList = (project: IProject, list: IProjectData[], ancestors:IHalResourceLink[]) => {
+          const insertInList = (project: IProject, list: IProjectData[], ancestors:IHalResourceLink[]):IProjectData[] => {
             if (!ancestors.length) {
               return [
                 ...list,
@@ -47,6 +73,7 @@ export class OpProjectSelectComponent implements OnInit {
                   id: project.id,
                   name: project.name,
                   href: project._links.self.href,
+                  found: true,
                   children: [],
                 },
               ];
@@ -54,10 +81,27 @@ export class OpProjectSelectComponent implements OnInit {
 
             const ancestorHref = ancestors[0].href;
             const ancestor:IProjectData|undefined = list.find(projectInList => projectInList.href === ancestorHref);
+
             if (ancestor) {
               ancestor.children = insertInList(project, ancestor.children, ancestors.slice(1));
+              return [...list];
             }
-            return list;
+
+            const ancestorProject = projects.find(projectInList => projectInList._links.self.href === ancestorHref);
+            if (!ancestorProject) {
+              return [...list];
+            }
+
+            return [
+              ...list,
+              {
+                id: ancestorProject.id,
+                name: ancestorProject.name,
+                href: ancestorProject._links.self.href,
+                found: false,
+                children: insertInList(project, [], ancestors.slice(1)),
+              },
+            ]
           }
 
           return insertInList(project, list, ancestors);
@@ -89,6 +133,7 @@ export class OpProjectSelectComponent implements OnInit {
 
   public toggleOpen() {
     this.opened = !this.opened;
+    this.form.get('query')?.setValue('');
     this.searchProjects();
   }
 
@@ -99,7 +144,7 @@ export class OpProjectSelectComponent implements OnInit {
   }
 
   public clearSelection() {
-    this.selectedProjects = [];
+    this.form.get('selectedProjects')?.setValue([]);
   }
 
   public onSubmit() {

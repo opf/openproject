@@ -11,15 +11,17 @@
   >Include projects</button>
 
   <ng-container slot="body">
+    <div class="spot-drop-modal--header">
+      <h1>Projects</h1>
+    </div>
     <form
-      (submit)="onSubmit"
+      [formGroup]="form"
+      (ngSubmit)="onSubmit"
       class="spot-body"
     >
       <spot-text-field
         placeholder="Search project..."
-        [(ngModel)]="query"
-        [ngModelOptions]="{ standalone: true }"
-        (input)="searchProjects()"
+        formControlName="query"
       >
         <span
           slot="before"
@@ -30,8 +32,7 @@
       <ul
         op-project-list
         [projects]="projects$ | async"
-        [(ngModel)]="selectedProjects"
-        [ngModelOptions]="{ standalone: true }"
+        formControlName="selectedProjects"
       ></ul>
 
       <div class="spot-action-bar">
