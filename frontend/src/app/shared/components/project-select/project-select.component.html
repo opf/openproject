@@ -13,6 +13,11 @@
   <ng-container slot="body">
     <div class="spot-drop-modal--header">
       <h1>Projects</h1>
+      <spot-toggle
+        [options]="displayModeOptions"
+        [(ngModel)]="displayMode"
+        (change)="displayMode$.next(displayMode)"
+      ></spot-toggle>
     </div>
     <form
       [formGroup]="form"
