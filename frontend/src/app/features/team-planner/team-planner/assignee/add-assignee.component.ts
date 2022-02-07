@@ -75,7 +75,7 @@ export class AddAssigneeComponent {
     filters.add('member', '=', [this.currentProjectService.id || '']);
 
     if (term) {
-      filters.add('name_and_identifier', '~', [term]);
+      filters.add('typeahead', '**', [term]);
     }
 
     return this
