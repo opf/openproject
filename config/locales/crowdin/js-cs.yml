@@ -328,7 +328,7 @@ cs:
     label_details: "Podrobnosti"
     label_display: "Zobrazit"
     label_cancel_comment: "Stornovat komentář"
-    label_closed_work_packages: "closed"
+    label_closed_work_packages: "uzavřeno"
     label_collapse: "Sbalit"
     label_collapsed: "sbalené"
     label_collapse_all: "Sbalit vše"

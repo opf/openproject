@@ -1691,7 +1691,7 @@ cs:
   label_my_queries: "Moje vlastní dotazy"
   label_name: "Jméno"
   label_never: "Nikdy"
-  label_new: "Nové"
+  label_new: "Nový"
   label_new_features: "Nové funkce"
   label_new_statuses_allowed: "Nové povolené stavy"
   label_news_singular: "Novinky"
@@ -1932,8 +1932,8 @@ cs:
   label_workflow_plural: "Pracovní vrstvy"
   label_workflow_summary: "Souhrn"
   label_x_closed_work_packages_abbr:
-    one: "1 uzavřena"
-    other: "%{count} uzavřeny"
+    one: "1 uzavřeno"
+    other: "%{count} uzavřených"
     zero: "0 uzavřeno"
   label_x_comments:
     one: "1 komentář"

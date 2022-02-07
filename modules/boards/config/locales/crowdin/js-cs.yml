@@ -22,7 +22,7 @@ cs:
         edit_version: 'Upravit verzi'
         show_version: 'Zobrazit verzi'
         locked: 'Uzamčeno'
-        closed: 'Uzavřený'
+        closed: 'Uzavřeno'
       new_board: 'Nová tabule'
       add_list: 'Přidat list na tabuli'
       add_card: 'Přidat kartu'
