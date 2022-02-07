@@ -31,6 +31,8 @@ import {
 import { StateService } from '@uirouter/angular';
 import resourceTimelinePlugin from '@fullcalendar/resource-timeline';
 import interactionPlugin, {
+  EventDragStartArg,
+  EventDragStopArg,
   EventReceiveArg,
   EventResizeDoneArg,
 } from '@fullcalendar/interaction';
@@ -57,6 +59,7 @@ import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { CalendarDragDropService } from 'core-app/features/team-planner/team-planner/calendar-drag-drop.service';
 import { StatusResource } from 'core-app/features/hal/resources/status-resource';
+import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/resource-changeset';
 
 @Component({
   selector: 'op-team-planner',
@@ -82,7 +85,30 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
 
   @ViewChild('assigneeAutocompleter') assigneeAutocompleter:TemplateRef<unknown>;
 
+  @ViewChild('removeDropzone', { read: ElementRef }) removeDropzone:ElementRef;
+
   calendarOptions$ = new Subject<CalendarOptions>();
+
+  draggingItem$ = new Subject<EventDragStartArg|undefined>();
+
+  dropzoneHovered$ = new BehaviorSubject<boolean>(false);
+
+  dropzoneAllowed$ = this
+    .draggingItem$
+    .pipe(
+      filter((dragging) => !!dragging),
+      map((dragging) => {
+        const workPackage = (dragging as EventDragStartArg).event.extendedProps.workPackage as WorkPackageResource;
+        const durationEditable = this.calendar.eventDurationEditable(workPackage);
+        const resourceEditable = this.eventResourceEditable(workPackage);
+        return durationEditable && resourceEditable;
+      }),
+    );
+
+  dropzone$ = combineLatest([this.draggingItem$, this.dropzoneHovered$, this.dropzoneAllowed$])
+    .pipe(
+      map(([dragging, isHovering, canDrop]) => ({ dragging, isHovering, canDrop })),
+    );
 
   projectIdentifier:string|undefined = undefined;
 
@@ -127,6 +153,8 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     remove_assignee: this.I18n.t('js.team_planner.remove_assignee'),
     noData: this.I18n.t('js.team_planner.no_data'),
     two_weeks: this.I18n.t('js.team_planner.two_weeks'),
+    drag_here_to_remove: this.I18n.t('js.team_planner.drag_here_to_remove'),
+    cannot_drag_here: this.I18n.t('js.team_planner.cannot_drag_here'),
   };
 
   principals$ = this.principalIds$
@@ -305,6 +333,16 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
             editable: true,
             droppable: true,
             eventResize: (resizeInfo:EventResizeDoneArg) => this.updateEvent(resizeInfo),
+            eventDragStart: (dragInfo:EventDragStartArg) => {
+              const { el } = dragInfo;
+              el.style.pointerEvents = 'none';
+              this.draggingItem$.next(dragInfo);
+            },
+            eventDragStop: (dragInfo:EventDragStopArg) => {
+              const { el } = dragInfo;
+              el.style.removeProperty('pointer-events');
+              this.draggingItem$.next(undefined);
+            },
             eventDrop: (dropInfo:EventDropArg) => this.updateEvent(dropInfo),
             eventReceive: (dropInfo:EventReceiveArg) => this.updateEvent(dropInfo),
             // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
@@ -410,6 +448,20 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     return status ? status.isClosed : false;
   }
 
+  public async removeEvent(item:EventDragStartArg):Promise<void> {
+    // Remove item from view
+    item.el.remove();
+    item.event.remove();
+
+    const workPackage = item.event.extendedProps.workPackage as WorkPackageResource;
+    const changeset = this.halEditing.edit(workPackage);
+    changeset.setValue('assignee', { href: null });
+    changeset.setValue('startDate', null);
+    changeset.setValue('dueDate', null);
+
+    await this.saveChangeset(changeset);
+  }
+
   private mapToCalendarEvents(workPackages:WorkPackageResource[]):EventInput[] {
     return workPackages
       .map((workPackage:WorkPackageResource):EventInput|undefined => {
@@ -484,14 +536,17 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     }
 
     this.calendarDrag.handleDrop(changeset.projectedResource);
+    await this.saveChangeset(changeset, info);
+  }
 
+  private async saveChangeset(changeset:ResourceChangeset<WorkPackageResource>, info?:EventResizeDoneArg|EventDropArg|EventReceiveArg) {
     try {
       const result = await this.halEditing.save(changeset);
       this.halNotification.showSave(result.resource, result.wasNew);
     } catch (e) {
       this.halNotification.showError(e.resource, changeset.projectedResource);
       this.calendarDrag.handleDropError(changeset.projectedResource);
-      info.revert();
+      info?.revert();
     }
   }
 
