@@ -57,6 +57,14 @@ describe Principals::Scopes::Visible, type: :model do
       end
     end
 
+    context 'when user has no manage_members permission, but has manage_user global permission' do
+      current_user { create :user, global_permissions: %i[manage_user] }
+
+      it 'sees all users' do
+        expect(subject).to match_array [current_user, other_project_user, global_user]
+      end
+    end
+
     context 'when user has no permission' do
       current_user { create :user }
 

@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -28,40 +26,48 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module GroupsHelper
-  def group_settings_tabs(group)
-    [
-      {
-        name: 'general',
-        partial: 'groups/general',
-        path: edit_group_path(group),
-        label: :label_general
-      },
-      {
-        name: 'users',
-        partial: 'groups/users',
-        path: edit_group_path(group, tab: :users),
-        label: :label_user_plural
-      },
-      {
-        name: 'memberships',
-        partial: 'groups/memberships',
-        path: edit_group_path(group, tab: :memberships),
-        label: :label_project_plural
-      },
-      {
-        name: 'global_roles',
-        partial: 'principals/global_roles',
-        path: edit_group_path(group, tab: :global_roles),
-        label: :label_global_roles
-      }
-    ]
+class Members::RolesDiff
+  attr_reader :user_member, :group_member
+
+  def initialize(user_member, group_member)
+    raise ArgumentError unless user_member.project_id == group_member.project_id
+
+    @user_member = user_member
+    @group_member = group_member
   end
 
-  def autocompleter_filters(group)
-    [
-      { selector: 'status', operator: '=', values: ['active', 'invited'] },
-      { selector: 'group', operator: '!', values: [group.id] }
-    ]
+  def roles_created?
+    result == :roles_created
+  end
+
+  def roles_updated?
+    result == :roles_updated
+  end
+
+  def roles_changed?
+    result != :roles_unchanged
+  end
+
+  def result
+    @result ||=
+      if user_previous_member_roles_ids.empty?
+        :roles_created
+      elsif (group_roles_ids - user_previous_member_roles_ids).any?
+        :roles_updated
+      else
+        :roles_unchanged
+      end
+  end
+
+  private
+
+  def user_previous_member_roles_ids
+    Set.new(user_member.member_roles
+      .reject { group_member.member_roles.map(&:id).include?(_1.inherited_from) }
+      .map(&:role_id).uniq)
+  end
+
+  def group_roles_ids
+    Set.new(group_member.member_roles.map(&:role_id))
   end
 end

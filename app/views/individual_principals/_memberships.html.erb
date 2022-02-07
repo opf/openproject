@@ -83,10 +83,12 @@ See COPYRIGHT and LICENSE files for more details.
                     </span>
                     <%= labelled_tabular_form_for(:membership,
                                                   url: polymorphic_path([@individual_principal, :membership], id: membership),
-                                                  html: { id: "member-#{membership.id}-roles-form",
-                                                          class: "member-#{membership.id}--edit-toggle-item",
-                                                          style: 'display:none;'},
-                                                  method: :patch) do |f| %>
+                                                  method: :patch,
+                                                  html: {
+                                                    id: "member-#{membership.id}-roles-form",
+                                                    class: "member-#{membership.id}--edit-toggle-item",
+                                                    style: 'display:none;'
+                                                  }) do |f| %>
                       <div>
                         <% roles.each do |role| %>
                             <label class="form--label-with-check-box">

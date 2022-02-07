@@ -78,7 +78,12 @@ module Groups::Concerns
     end
 
     def send_notifications(member_ids, message, send_notifications)
-      Notifications::GroupMemberAlteredJob.perform_later(member_ids, message, send_notifications)
+      Notifications::GroupMemberAlteredJob.perform_later(
+        User.current,
+        member_ids,
+        message,
+        send_notifications
+      )
     end
   end
 end

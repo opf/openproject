@@ -68,7 +68,7 @@ module Groups
           SELECT id
           FROM #{Member.table_name}
           WHERE user_id IN (SELECT user_id FROM group_users)
-          AND project_id = :project_id
+          AND project_id IS NOT DISTINCT FROM :project_id
         ),
         -- select all member roles the group has for the member
         group_member_roles AS (
