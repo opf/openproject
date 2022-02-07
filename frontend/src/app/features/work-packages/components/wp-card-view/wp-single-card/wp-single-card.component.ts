@@ -54,6 +54,8 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
 
   @Input() public showEndDate = true;
 
+  @Input() public isClosed = false;
+
   @Output() onRemove = new EventEmitter<WorkPackageResource>();
 
   @Output() stateLinkClicked = new EventEmitter<{ workPackageId:string, requestedState:string }>();
@@ -119,6 +121,7 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
       [`${base}_shrink`]: this.shrinkOnMobile,
       [`${base}_disabled`]: this.disabledInfo.length > 0,
       [`${base}_inline`]: this.showAsInlineCard,
+      [`${base}_closed`]: this.isClosed,
       // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
       [`${base}-${this.workPackage.id}`]: !!this.workPackage.id,
       [`${base}_${this.orientation}`]: true,

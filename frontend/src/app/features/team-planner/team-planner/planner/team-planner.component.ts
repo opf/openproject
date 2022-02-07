@@ -26,6 +26,7 @@ import {
   filter,
   map,
   mergeMap,
+  take,
 } from 'rxjs/operators';
 import { StateService } from '@uirouter/angular';
 import resourceTimelinePlugin from '@fullcalendar/resource-timeline';
@@ -55,6 +56,7 @@ import { HalResourceNotificationService } from 'core-app/features/hal/services/h
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { CalendarDragDropService } from 'core-app/features/team-planner/team-planner/calendar-drag-drop.service';
+import { StatusResource } from 'core-app/features/hal/resources/status-resource';
 
 @Component({
   selector: 'op-team-planner',
@@ -115,6 +117,8 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
   );
 
   assignees:HalResource[] = [];
+
+  statuses:StatusResource[] = [];
 
   text = {
     add_existing: this.I18n.t('js.team_planner.add_existing'),
@@ -214,6 +218,17 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
 
     // This needs to be done after all the subscribers are set up
     this.showAddAssignee$.next(false);
+
+    this
+      .apiV3Service
+      .statuses
+      .get()
+      .pipe(
+        take(1),
+      )
+      .subscribe((collection) => {
+        this.statuses = collection.elements;
+      });
   }
 
   ngOnDestroy():void {
@@ -392,6 +407,12 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
 
   showDisabledText(workPackage:WorkPackageResource):string {
     return this.calendarDrag.workPackageDisabledExplanation(workPackage);
+  }
+
+  isStatusClosed(workPackage:WorkPackageResource):boolean {
+    const status = this.statuses.find((el) => el.id === workPackage.status.id);
+
+    return status ? status.isClosed : false;
   }
 
   private mapToCalendarEvents(workPackages:WorkPackageResource[]):EventInput[] {
