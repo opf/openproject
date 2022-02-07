@@ -229,8 +229,8 @@ describe User, type: :model do
   describe '#blocked' do
     let!(:blocked_user) do
       create(:user,
-                        failed_login_count: 3,
-                        last_failed_login_on: Time.now)
+             failed_login_count: 3,
+             last_failed_login_on: Time.now)
     end
 
     before do

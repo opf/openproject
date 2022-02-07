@@ -17,20 +17,20 @@ describe 'Work Package highlighting fields',
 
   let!(:wp_1) do
     create :work_package,
-                      project: project,
-                      status: status1,
-                      subject: 'B',
-                      due_date: (Date.today - 1.days),
-                      priority: priority1
+           project: project,
+           status: status1,
+           subject: 'B',
+           due_date: (Date.today - 1.days),
+           priority: priority1
   end
 
   let!(:wp_2) do
     create :work_package,
-                      project: project,
-                      status: status2,
-                      subject: 'A',
-                      due_date: Date.today,
-                      priority: priority_no_color
+           project: project,
+           status: status2,
+           subject: 'A',
+           due_date: Date.today,
+           priority: priority_no_color
   end
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }

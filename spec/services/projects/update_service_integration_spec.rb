@@ -31,12 +31,12 @@ require 'spec_helper'
 describe Projects::UpdateService, 'integration', type: :model do
   let(:user) do
     create(:user,
-                      member_in_project: project,
-                      member_through_role: role)
+           member_in_project: project,
+           member_through_role: role)
   end
   let(:role) do
     create(:role,
-                      permissions: permissions)
+           permissions: permissions)
   end
   let(:permissions) do
     %i(edit_project)
@@ -44,8 +44,8 @@ describe Projects::UpdateService, 'integration', type: :model do
 
   let!(:project) do
     create(:project,
-                      "custom_field_#{custom_field.id}" => 1,
-                      status: project_status)
+           "custom_field_#{custom_field.id}" => 1,
+           status: project_status)
   end
   let(:instance) { described_class.new(user: user, model: project) }
   let(:custom_field) { create(:int_project_custom_field) }

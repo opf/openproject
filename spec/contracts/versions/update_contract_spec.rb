@@ -33,13 +33,13 @@ describe Versions::UpdateContract do
   it_behaves_like 'version contract' do
     let(:version) do
       build_stubbed(:version,
-                               project: version_project,
-                               description: version_description,
-                               start_date: version_start_date,
-                               effective_date: version_due_date,
-                               status: version_status,
-                               sharing: version_sharing,
-                               wiki_page_title: version_wiki_page_title).tap do |v|
+                    project: version_project,
+                    description: version_description,
+                    start_date: version_start_date,
+                    effective_date: version_due_date,
+                    status: version_status,
+                    sharing: version_sharing,
+                    wiki_page_title: version_wiki_page_title).tap do |v|
         # in order to actually have something changed
         v.name = version_name
       end

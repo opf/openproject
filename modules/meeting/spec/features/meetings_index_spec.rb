@@ -39,9 +39,9 @@ describe 'Meetings', type: :feature do
     create(:user) do |user|
       [project, other_project].each do |p|
         create(:member,
-                          project: p,
-                          principal: user,
-                          roles: [role])
+               project: p,
+               principal: user,
+               roles: [role])
       end
     end
   end

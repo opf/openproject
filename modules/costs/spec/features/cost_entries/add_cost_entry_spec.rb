@@ -45,8 +45,8 @@ describe 'Work Package cost fields', type: :feature, js: true do
   end
   shared_let(:user) do
     create :user,
-                      member_in_project: project,
-                      member_through_role: role
+           member_in_project: project,
+           member_through_role: role
   end
   shared_let(:cost_type1) do
     type = create :cost_type, name: 'A', unit: 'A single', unit_plural: 'A plural'
@@ -166,8 +166,8 @@ describe 'Work Package cost fields', type: :feature, js: true do
   context 'with an additional placeholder user in the project' do
     let!(:placeholder_user) do
       create :placeholder_user,
-                        member_in_project: project,
-                        member_through_role: role
+             member_in_project: project,
+             member_through_role: role
     end
 
     it 'does not allow to select them (Regression #36353)' do

@@ -38,8 +38,8 @@ describe API::V3::WorkPackages::AvailableProjectsOnCreateAPI, type: :request do
   let(:project) { create(:project) }
   let(:user) do
     create(:user,
-                      member_in_project: project,
-                      member_through_role: add_role)
+           member_in_project: project,
+           member_through_role: add_role)
   end
   let(:type_id) { nil }
 

@@ -40,49 +40,49 @@ describe WorkPackage, 'spent_time', type: :model do
   end
   let(:child_work_package) do
     create(:work_package,
-                      project: project,
-                      parent: work_package)
+           project: project,
+           parent: work_package)
   end
   let(:child_work_package_in_other_project) do
     create(:work_package,
-                      parent: work_package)
+           parent: work_package)
   end
   let!(:time_entry) do
     create(:time_entry,
-                      work_package: work_package,
-                      project: project)
+           work_package: work_package,
+           project: project)
   end
   let(:time_entry2) do
     create(:time_entry,
-                      work_package: work_package,
-                      project: project)
+           work_package: work_package,
+           project: project)
   end
   let(:child_time_entry) do
     create(:time_entry,
-                      work_package: child_work_package,
-                      project: project)
+           work_package: child_work_package,
+           project: project)
   end
   let(:child_time_entry_in_other_project) do
     create(:time_entry,
-                      work_package: child_work_package_in_other_project,
-                      project: other_project)
+           work_package: child_work_package_in_other_project,
+           project: other_project)
   end
   let(:role) do
     build(:role,
-                     permissions: %i[view_time_entries view_work_packages])
+          permissions: %i[view_time_entries view_work_packages])
   end
   let(:role_without_view_time_entries) do
     build(:role,
-                     permissions: [:view_work_packages])
+          permissions: [:view_work_packages])
   end
   let(:role_without_view_work_packages) do
     build(:role,
-                     permissions: [:view_time_entries])
+          permissions: [:view_time_entries])
   end
   let(:user) do
     create(:user,
-                     member_in_project: project,
-                     member_through_role: role)
+           member_in_project: project,
+           member_through_role: role)
   end
 
   before do
@@ -112,9 +112,9 @@ describe WorkPackage, 'spent_time', type: :model do
       it 'counts the child if that child is in a project in which the user ' +
          'has the necessary permissions' do
         create(:member,
-                          user: user,
-                          project: other_project,
-                          roles: [role])
+               user: user,
+               project: other_project,
+               roles: [role])
 
         sum = time_entry.hours + child_time_entry_in_other_project.hours
 
@@ -124,9 +124,9 @@ describe WorkPackage, 'spent_time', type: :model do
       it 'does not count the child if that child is in a project in which the user ' +
          'lacks the view_time_entries permission' do
         create(:member,
-                          user: user,
-                          project: other_project,
-                          roles: [role_without_view_time_entries])
+               user: user,
+               project: other_project,
+               roles: [role_without_view_time_entries])
         child_time_entry_in_other_project.save!
 
         sum = time_entry.hours
@@ -137,9 +137,9 @@ describe WorkPackage, 'spent_time', type: :model do
       it 'does not count the child if that child is in a project in which the user ' +
          'lacks the view_work_packages permission' do
         create(:member,
-                          user: user,
-                          project: other_project,
-                          roles: [role_without_view_work_packages])
+               user: user,
+               project: other_project,
+               roles: [role_without_view_work_packages])
         child_time_entry_in_other_project.save!
 
         sum = time_entry.hours

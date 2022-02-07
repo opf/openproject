@@ -8,16 +8,16 @@ describe 'inline create work package', js: true do
   let(:role) { create :role, permissions: permissions }
   let(:user) do
     create :user,
-                      member_in_project: project,
-                      member_through_role: role
+           member_in_project: project,
+           member_through_role: role
   end
   let(:status) { create(:default_status) }
   let(:workflow) do
     create :workflow,
-                      type_id: type.id,
-                      old_status: status,
-                      new_status: create(:status),
-                      role: role
+           type_id: type.id,
+           old_status: status,
+           new_status: create(:status),
+           role: role
   end
 
   let!(:project) { create(:project, public: true, types: types) }
@@ -189,14 +189,14 @@ describe 'inline create work package', js: true do
       let(:project2) { create :project }
       let(:role2) do
         create :role,
-                          permissions: %i[view_work_packages
-                                          add_work_packages]
+               permissions: %i[view_work_packages
+                               add_work_packages]
       end
       let!(:membership) do
         create :member,
-                          user: user,
-                          project: project2,
-                          roles: [role2]
+               user: user,
+               project: project2,
+               roles: [role2]
       end
 
       it 'renders the work packages, but no create' do

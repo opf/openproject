@@ -32,9 +32,9 @@ feature 'members pagination', type: :feature, js: true do
   shared_let(:admin) { create :admin }
   let(:project) do
     create :project,
-                      name: 'Project 1',
-                      identifier: 'project1',
-                      members: project_members
+           name: 'Project 1',
+           identifier: 'project1',
+           members: project_members
   end
   let(:project_members) {
     {

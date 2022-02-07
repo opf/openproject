@@ -41,14 +41,14 @@ describe 'BCF 2.1 comments resource', type: :request, content_type: :json, with_
 
   let(:view_only_user) do
     create(:user,
-                      member_in_project: project,
-                      member_with_permissions: %i[view_linked_issues view_work_packages])
+           member_in_project: project,
+           member_with_permissions: %i[view_linked_issues view_work_packages])
   end
 
   let(:edit_user) do
     create(:user,
-                      member_in_project: project,
-                      member_with_permissions: %i[view_linked_issues view_work_packages manage_bcf])
+           member_in_project: project,
+           member_with_permissions: %i[view_linked_issues view_work_packages manage_bcf])
   end
 
   let(:user_without_permission) { create(:user, member_in_project: project) }
@@ -563,10 +563,10 @@ describe 'BCF 2.1 comments resource', type: :request, content_type: :json, with_
     context 'if the updated comment contains viewpoint reference and is a reply, but update does not set those attributes' do
       let(:updated_comment) do
         create(:bcf_comment,
-                          issue: bcf_issue,
-                          viewpoint: viewpoint,
-                          reply_to: bcf_comment,
-                          author: edit_user)
+               issue: bcf_issue,
+               viewpoint: viewpoint,
+               reply_to: bcf_comment,
+               author: edit_user)
       end
 
       let(:params) { { comment: "Only change the comment text and leave the reply and viewpoint guid empty." } }

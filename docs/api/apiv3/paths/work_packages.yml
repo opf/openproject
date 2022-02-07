@@ -2,57 +2,112 @@
 ---
 get:
   parameters:
-  - description: Page number inside the requested collection.
-    example: '25'
-    in: query
-    name: offset
-    required: false
-    schema:
-      default: 1
-      type: integer
-  - description: Number of elements to display per page.
-    example: '25'
-    in: query
-    name: pageSize
-    required: false
-    schema:
-      type: integer
-  - description: |-
-      JSON specifying filter conditions.
-      Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/) endpoint. If no filter is to be applied, the client should send an empty array (`[]`).
-    example: '[{ "type_id": { "operator": "=", "values": [''1'', ''2''] }}]'
-    in: query
-    name: filters
-    required: false
-    schema:
-      default: '[{ "status_id": { "operator": "o", "values": null }}]'
-      type: string
-  - description: |-
-      JSON specifying sort criteria.
-      Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/) endpoint.
-    example: '[["status", "asc"]]'
-    in: query
-    name: sortBy
-    required: false
-    schema:
-      default: '[["id", "asc"]]'
-      type: string
-  - description: The column to group by.
-    example: status
-    in: query
-    name: groupBy
-    required: false
-    schema:
-      type: string
-  - description: Indicates whether properties should be summed up if they support
-      it.
-    example: 'true'
-    in: query
-    name: showSums
-    required: false
-    schema:
-      default: 'false'
-      type: boolean
+    - description: Page number inside the requested collection.
+      example: '25'
+      in: query
+      name: offset
+      required: false
+      schema:
+        default: 1
+        type: integer
+    - description: Number of elements to display per page.
+      example: '25'
+      in: query
+      name: pageSize
+      required: false
+      schema:
+        type: integer
+    - description: |-
+        JSON specifying filter conditions.
+        Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/)
+        endpoint. If no filter is to be applied, the client should send an empty array (`[]`), otherwise a default
+        filter is applied. A Currently supported filters are (there are additional filters added by modules):
+        
+        - assigned_to
+        - assignee_or_group
+        - attachment_base
+        - attachment_content
+        - attachment_file_name
+        - author
+        - blocked
+        - blocks
+        - category
+        - comment
+        - created_at
+        - custom_field
+        - dates_interval
+        - description
+        - done_ratio
+        - due_date
+        - duplicated
+        - duplicates
+        - estimated_hours
+        - file_link_origin_id
+        - follows
+        - group
+        - id
+        - includes
+        - manual_sort
+        - milestone
+        - only_subproject
+        - parent
+        - partof
+        - precedes
+        - principal_base
+        - priority
+        - project
+        - relatable
+        - relates
+        - required
+        - requires
+        - responsible
+        - role
+        - search
+        - start_date
+        - status
+        - storage_url
+        - subject
+        - subject_or_id
+        - subproject
+        - type
+        - typeahead
+        - updated_at
+        - version
+        - watcher
+        - work_package
+      example: '[{ "type_id": { "operator": "=", "values": ["1", "2"] }}]'
+      in: query
+      name: filters
+      required: false
+      schema:
+        default: '[{ "status_id": { "operator": "o", "values": null }}]'
+        type: string
+    - description: |-
+        JSON specifying sort criteria.
+        Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/) endpoint.
+      example: '[["status", "asc"]]'
+      in: query
+      name: sortBy
+      required: false
+      schema:
+        default: '[["id", "asc"]]'
+        type: string
+    - description: The column to group by.
+      example: status
+      in: query
+      name: groupBy
+      required: false
+      schema:
+        type: string
+    - description: Indicates whether properties should be summed up if they support
+        it.
+      example: 'true'
+      in: query
+      name: showSums
+      required: false
+      schema:
+        default: 'false'
+        type: boolean
   responses:
     '200':
       content:
@@ -62,18 +117,18 @@ get:
               value:
                 _embedded:
                   elements:
-                  - _links:
-                      self:
-                        href: "/api/v3/work_packages/1"
-                    _type: WorkPackage
-                    id: 1
-                    subject: Skipped other properties for brevity
-                  - _links:
-                      self:
-                        href: "/api/v3/work_packages/2"
-                    _type: WorkPackage
-                    id: 2
-                    subject: Skipped other properties for brevity
+                    - _links:
+                        self:
+                          href: "/api/v3/work_packages/1"
+                      _type: WorkPackage
+                      id: 1
+                      subject: Skipped other properties for brevity
+                    - _links:
+                        self:
+                          href: "/api/v3/work_packages/2"
+                      _type: WorkPackage
+                      id: 2
+                      subject: Skipped other properties for brevity
                 _links:
                   self:
                     href: "/api/v3/work_packages"
@@ -83,7 +138,7 @@ get:
           schema:
             "$ref": "../components/schemas/work_packages_model.yml"
       description: OK
-      headers: {}
+      headers: { }
     '400':
       content:
         application/hal+json:
@@ -98,7 +153,7 @@ get:
       description: |-
         Returned if the client sends a query parameter, that the server knows, but does not understand.
         E.g. by providing a syntactically incorrect `filters` parameter.
-      headers: {}
+      headers: { }
     '403':
       content:
         application/hal+json:
@@ -114,25 +169,25 @@ get:
         Returned if the client does not have sufficient permissions.
 
         **Required permission:** view work packages (globally or in any project)
-      headers: {}
+      headers: { }
   tags:
-  - Work Packages
+    - Work Packages
   description: ''
   operationId: List_work_packages
   summary: List work packages
 post:
   parameters:
-  - description: |-
-      Indicates whether change notifications (e.g. via E-Mail) should be sent.
-      Note that this controls notifications for all users interested in changes to the work package (e.g. watchers, author and assignee),
-      not just the current user.
-    example: 'false'
-    in: query
-    name: notify
-    required: false
-    schema:
-      default: 'true'
-      type: boolean
+    - description: |-
+        Indicates whether change notifications (e.g. via E-Mail) should be sent.
+        Note that this controls notifications for all users interested in changes to the work package (e.g. watchers, author and assignee),
+        not just the current user.
+      example: 'false'
+      in: query
+      name: notify
+      required: false
+      schema:
+        default: 'true'
+        type: boolean
   responses:
     '200':
       content:
@@ -160,12 +215,12 @@ post:
                         href: "/api/v3/users/{user_id}"
                     templated: true
                   ancestors:
-                  - href: "/api/v3/work_packages/1290"
-                    title: Root node of hierarchy
-                  - href: "/api/v3/work_packages/1291"
-                    title: Intermediate node of hierarchy
-                  - href: "/api/v3/work_packages/1298"
-                    title: nisi eligendi officiis eos delectus quis voluptas dolores
+                    - href: "/api/v3/work_packages/1290"
+                      title: Root node of hierarchy
+                    - href: "/api/v3/work_packages/1291"
+                      title: Intermediate node of hierarchy
+                    - href: "/api/v3/work_packages/1298"
+                      title: nisi eligendi officiis eos delectus quis voluptas dolores
                   assignee:
                     href: "/api/v3/users/11"
                     title: Emmie Okuneva - Adele5450
@@ -184,15 +239,15 @@ post:
                     method: patch
                     title: Change parent of Bug in OpenProject
                   children:
-                  - href: "/api/v3/work_packages/1529"
-                    title: Write API documentation
+                    - href: "/api/v3/work_packages/1529"
+                      title: Write API documentation
                   customActions:
-                  - href: "/api/v3/work_packages/1528/custom_actions/153/execute"
-                    method: post
-                    title: Reset
-                  - href: "/api/v3/work_packages/1528/custom_actions/94/execute"
-                    method: post
-                    title: Forward to accounting
+                    - href: "/api/v3/work_packages/1528/custom_actions/153/execute"
+                      method: post
+                      title: Reset
+                    - href: "/api/v3/work_packages/1528/custom_actions/94/execute"
+                      method: post
+                      title: Forward to accounting
                   customField3:
                     href: api/v3/users/14
                   delete:
@@ -262,25 +317,25 @@ post:
                 createdAt: '2014-08-29T12:40:53Z'
                 customField1: Foo
                 customField2: 42
-                derivedDueDate: 
+                derivedDueDate:
                 derivedEstimatedTime: PT10H
-                derivedStartDate: 
+                derivedStartDate:
                 description:
                   format: markdown
                   html: "<p>Develop super cool OpenProject API.</p>"
                   raw: Develop super cool OpenProject API.
-                dueDate: 
+                dueDate:
                 estimatedTime: PT2H
                 id: 1528
                 percentageDone: 0
                 scheduleManually: false
-                startDate: 
+                startDate:
                 subject: Develop API
                 updatedAt: '2014-08-29T12:44:41Z'
           schema:
             "$ref": "../components/schemas/work_package_model.yml"
       description: OK
-      headers: {}
+      headers: { }
     '400':
       content:
         application/hal+json:
@@ -294,7 +349,7 @@ post:
                 message: The request body was not a single JSON object.
       description: Occurs when the client did not send a valid JSON object in the
         request body.
-      headers: {}
+      headers: { }
     '403':
       content:
         application/hal+json:
@@ -312,7 +367,7 @@ post:
         **Required permission:** add work packages
 
         *Note that you will only receive this error, if you are at least allowed to see the corresponding project.*
-      headers: {}
+      headers: { }
     '404':
       content:
         application/hal+json:
@@ -332,7 +387,7 @@ post:
 
         *Note: A client without sufficient permissions shall not be able to test for the existence of a project.
         That's why a 404 is returned here, even if a 403 might be more appropriate.*
-      headers: {}
+      headers: { }
     '422':
       content:
         application/hal+json:
@@ -355,9 +410,9 @@ post:
         * a constraint for a property was violated
 
         * a property was provided in an unreadable format
-      headers: {}
+      headers: { }
   tags:
-  - Work Packages
+    - Work Packages
   description: |-
     When calling this endpoint the client provides a single object, containing at least the properties and links that are required, in the body.
     The required fields of a WorkPackage can be found in its schema, which is embedded in the respective form.

@@ -39,35 +39,35 @@ describe 'Team planner add existing work packages', type: :feature, js: true do
 
   let!(:other_user) do
     create :user,
-                      firstname: 'Bernd',
-                      member_in_project: project,
-                      member_with_permissions: %w[
-                        view_work_packages view_team_planner
-                      ]
+           firstname: 'Bernd',
+           member_in_project: project,
+           member_with_permissions: %w[
+             view_work_packages view_team_planner
+           ]
   end
 
   let!(:first_wp) do
     create :work_package,
-                      project: project,
-                      subject: 'Task 1',
-                      assigned_to: user,
-                      start_date: Time.zone.today.beginning_of_week.next_occurring(:tuesday),
-                      due_date: Time.zone.today.beginning_of_week.next_occurring(:thursday)
+           project: project,
+           subject: 'Task 1',
+           assigned_to: user,
+           start_date: Time.zone.today.beginning_of_week.next_occurring(:tuesday),
+           due_date: Time.zone.today.beginning_of_week.next_occurring(:thursday)
   end
   let!(:second_wp) do
     create :work_package,
-                      project: project,
-                      subject: 'Task 2',
-                      parent: first_wp,
-                      assigned_to: other_user,
-                      start_date: 10.days.from_now,
-                      due_date: 12.days.from_now
+           project: project,
+           subject: 'Task 2',
+           parent: first_wp,
+           assigned_to: other_user,
+           start_date: 10.days.from_now,
+           due_date: 12.days.from_now
   end
   let!(:third_wp) do
     create :work_package,
-                      project: project,
-                      subject: 'TA Aufgabe 3',
-                      status: closed_status
+           project: project,
+           subject: 'TA Aufgabe 3',
+           status: closed_status
   end
 
   let(:add_existing_pane) { ::Components::AddExistingPane.new }
@@ -101,7 +101,7 @@ describe 'Team planner add existing work packages', type: :feature, js: true do
       sleep 2
 
       # Drag it to the team planner...
-      add_existing_pane.drag_wp_by_pixel second_wp, 750, 50
+      add_existing_pane.drag_wp_by_pixel second_wp, 800, 50
 
       team_planner.expect_and_dismiss_toaster(message: "Successful update.")
 
@@ -118,7 +118,7 @@ describe 'Team planner add existing work packages', type: :feature, js: true do
       sleep 2
 
       # Drag it to the team planner...
-      add_existing_pane.drag_wp_by_pixel third_wp, 750, -50
+      add_existing_pane.drag_wp_by_pixel third_wp, 800, -50
 
       team_planner.expect_and_dismiss_toaster(message: "Successful update.")
 

@@ -35,10 +35,10 @@ describe 'Upload attachment to forum message', js: true do
   let(:forum) { create(:forum) }
   let(:user) do
     create :user,
-                      member_in_project: project,
-                      member_with_permissions: %i[view_messages
-                                                  add_messages
-                                                  edit_messages]
+           member_in_project: project,
+           member_with_permissions: %i[view_messages
+                                       add_messages
+                                       edit_messages]
   end
   let(:project) { forum.project }
   let(:attachments) { ::Components::Attachments.new }

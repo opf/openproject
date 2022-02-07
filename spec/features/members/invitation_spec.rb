@@ -37,9 +37,9 @@ feature 'invite user via email', type: :feature, js: true do
 
   current_user do
     create(:user,
-                      global_permissions: [:manage_user],
-                      member_in_project: project,
-                      member_with_permissions: %i[view_members manage_members])
+           global_permissions: [:manage_user],
+           member_in_project: project,
+           member_with_permissions: %i[view_members manage_members])
   end
 
   context 'with a new user' do

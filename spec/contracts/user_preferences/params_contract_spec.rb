@@ -38,7 +38,7 @@ describe UserPreferences::ParamsContract do
   let(:preference_user) { current_user }
   let(:user_preference) do
     build_stubbed(:user_preference,
-                             user: preference_user)
+                  user: preference_user)
   end
   let(:params) do
     {

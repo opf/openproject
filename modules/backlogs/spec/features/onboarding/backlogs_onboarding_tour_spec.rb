@@ -33,17 +33,17 @@ describe 'backlogs onboarding tour', js: true do
   let(:user) { create :admin }
   let(:demo_project) do
     create :project,
-                      name: 'Demo project',
-                      identifier: 'demo-project',
-                      public: true,
-                      enabled_module_names: %w[work_package_tracking wiki]
+           name: 'Demo project',
+           identifier: 'demo-project',
+           public: true,
+           enabled_module_names: %w[work_package_tracking wiki]
   end
   let(:project) do
     create :project,
-                      name: 'Scrum project',
-                      identifier: 'your-scrum-project',
-                      public: true,
-                      enabled_module_names: %w[work_package_tracking wiki backlogs]
+           name: 'Scrum project',
+           identifier: 'your-scrum-project',
+           public: true,
+           enabled_module_names: %w[work_package_tracking wiki backlogs]
   end
   let(:sprint) { create(:version, project: project, name: 'Sprint 1') }
   let(:status) { create(:default_status) }
@@ -68,13 +68,13 @@ describe 'backlogs onboarding tour', js: true do
 
   let!(:existing_story) do
     create(:work_package,
-                      type: story_type,
-                      project: project,
-                      status: status,
-                      priority: priority,
-                      position: 1,
-                      story_points: 3,
-                      version: sprint)
+           type: story_type,
+           project: project,
+           status: status,
+           priority: priority,
+           position: 1,
+           story_points: 3,
+           version: sprint)
   end
 
   before do

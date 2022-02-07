@@ -2,7 +2,7 @@
 ru:
   js:
     team_planner:
-      add_existing: 'Add existing'
+      add_existing: 'Добавить существующий'
       create_new: 'Создать нового планировщика'
       title: 'Командный планировщик'
       unsaved_title: 'Безымянный планировщик команды'
@@ -12,5 +12,5 @@ ru:
       remove_assignee: 'Удалить ответственного'
       two_weeks: '2 недели'
       quick_add:
-        empty_state: 'Use the search field to find work packages and drag them to the planner to assign it to someone and define start and end dates.'
-        search_placeholder: 'Search...'
+        empty_state: 'Используйте поле поиска для поиска пакетов работ и перетаскивания их в планировщик для назначения их кому-либо и определения даты начала и окончания.'
+        search_placeholder: 'Поиск...'

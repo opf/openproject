@@ -32,8 +32,8 @@ describe 'Logout', type: :feature, js: true do
   let(:user_password) { 'b0B' * 4 }
   let(:user) do
     create(:user,
-                      password: user_password,
-                      password_confirmation: user_password)
+           password: user_password,
+           password_confirmation: user_password)
   end
 
   before do

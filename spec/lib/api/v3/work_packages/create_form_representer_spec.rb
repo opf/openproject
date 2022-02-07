@@ -193,10 +193,10 @@ describe ::API::V3::WorkPackages::CreateFormRepresenter do
         let(:current_user) { build_stubbed(:admin) }
         let(:work_package) do
           build(:work_package,
-                           id: 42,
-                           created_at: DateTime.now,
-                           updated_at: DateTime.now,
-                           type: type)
+                id: 42,
+                created_at: DateTime.now,
+                updated_at: DateTime.now,
+                type: type)
         end
 
         before do

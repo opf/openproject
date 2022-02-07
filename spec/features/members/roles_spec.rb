@@ -32,12 +32,12 @@ describe 'members pagination', type: :feature, js: true do
   shared_let(:admin) { create :admin }
   let(:project) do
     create :project,
-                      name: 'Project 1',
-                      identifier: 'project1',
-                      members: {
-                        alice => beta,
-                        bob => alpha
-                      }
+           name: 'Project 1',
+           identifier: 'project1',
+           members: {
+             alice => beta,
+             bob => alpha
+           }
   end
 
   let(:bob)   { create :user, firstname: 'Bob', lastname: 'Bobbit' }

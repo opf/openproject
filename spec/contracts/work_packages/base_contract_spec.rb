@@ -31,10 +31,10 @@ require 'spec_helper'
 describe WorkPackages::BaseContract do
   let(:work_package) do
     build_stubbed(:stubbed_work_package,
-                             type: type,
-                             done_ratio: 50,
-                             estimated_hours: 6.0,
-                             project: project)
+                  type: type,
+                  done_ratio: 50,
+                  estimated_hours: 6.0,
+                  project: project)
   end
   let(:type) { build_stubbed(:type) }
   let(:member) do
@@ -825,11 +825,11 @@ describe WorkPackages::BaseContract do
     let(:version) { build_stubbed(:version) }
     let(:work_package) do
       build_stubbed(:work_package,
-                               assigned_to: assignee_user,
-                               author: author_user,
-                               status: current_status,
-                               version: version,
-                               type: type)
+                    assigned_to: assignee_user,
+                    author: author_user,
+                    status: current_status,
+                    version: version,
+                    type: type)
     end
     let!(:default_status) do
       status = build_stubbed(:status)

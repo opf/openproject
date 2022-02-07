@@ -10,9 +10,9 @@ describe 'Invalid query spec', js: true do
 
   let(:member) do
     create(:member,
-                      user: user,
-                      project: project,
-                      roles: [create(:role)])
+           user: user,
+           project: project,
+           roles: [create(:role)])
   end
   let(:status) do
     create(:status)
@@ -23,8 +23,8 @@ describe 'Invalid query spec', js: true do
 
   let(:invalid_query) do
     query = create(:query,
-                              project: project,
-                              user: user)
+                   project: project,
+                   user: user)
 
     query.add_filter('assigned_to_id', '=', [99999])
     query.columns << 'cf_0815'
@@ -38,15 +38,15 @@ describe 'Invalid query spec', js: true do
 
   let(:valid_query) do
     create(:query,
-                      project: project,
-                      user: user)
+           project: project,
+           user: user)
   end
 
   let(:work_package_assigned) do
     create(:work_package,
-                      project: project,
-                      status: status2,
-                      assigned_to: user)
+           project: project,
+           status: status2,
+           assigned_to: user)
   end
 
   before do
@@ -67,7 +67,7 @@ describe 'Invalid query spec', js: true do
     filters.expect_filter_by('Status', 'open', nil)
 
     wp_table.expect_no_toaster(type: :error,
-                                    message: I18n.t('js.work_packages.faulty_query.description'))
+                               message: I18n.t('js.work_packages.faulty_query.description'))
 
     wp_table.expect_work_package_listed work_package_assigned
 
@@ -88,7 +88,7 @@ describe 'Invalid query spec', js: true do
     wp_table.visit_with_params("query_id=#{valid_query.id}&query_props=#{invalid_props}")
 
     wp_table.expect_toast(type: :error,
-                                 message: I18n.t('js.work_packages.faulty_query.description'))
+                          message: I18n.t('js.work_packages.faulty_query.description'))
     wp_table.dismiss_toaster!
 
     wp_table.expect_no_work_package_listed

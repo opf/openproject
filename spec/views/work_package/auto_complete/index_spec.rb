@@ -31,7 +31,7 @@ require 'spec_helper'
 describe 'work_packages/auto_completes/index.html.erb', type: :view do
   let(:work_package) do
     build(:work_package,
-                     subject: '<script>alert("do not alert this");</script>')
+          subject: '<script>alert("do not alert this");</script>')
   end
 
   it 'escapes work package subject in auto-completion' do

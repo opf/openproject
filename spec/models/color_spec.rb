@@ -34,7 +34,7 @@ describe Color, type: :model do
       it 'can read planning_element_types w/ the help of the has_many association' do
         color                 = create(:color)
         planning_element_type = create(:type,
-                                                  color_id: color.id)
+                                       color_id: color.id)
 
         color.reload
 
@@ -45,7 +45,7 @@ describe Color, type: :model do
       it 'nullifies dependent planning_element_types' do
         color                 = create(:color)
         planning_element_type = create(:type,
-                                                  color_id: color.id)
+                                       color_id: color.id)
 
         color.reload
         color.destroy

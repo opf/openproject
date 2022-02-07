@@ -36,11 +36,11 @@ describe TabularFormBuilder do
   let(:helper) { ActionView::Base.new(ActionView::LookupContext.new(''), {}, nil) }
   let(:resource) do
     build(:user,
-                     firstname: 'JJ',
-                     lastname: 'Abrams',
-                     login: 'lost',
-                     mail: 'jj@lost-mail.com',
-                     failed_login_count: 45)
+          firstname: 'JJ',
+          lastname: 'Abrams',
+          login: 'lost',
+          mail: 'jj@lost-mail.com',
+          failed_login_count: 45)
   end
   let(:builder) { TabularFormBuilder.new(:user, resource, helper, {}) }
 
@@ -637,11 +637,11 @@ JJ Abrams</textarea>
       context 'with ActiveModel and without specified label' do
         let(:resource) do
           build_stubbed(:user,
-                                   firstname: 'JJ',
-                                   lastname: 'Abrams',
-                                   login: 'lost',
-                                   mail: 'jj@lost-mail.com',
-                                   failed_login_count: 45)
+                        firstname: 'JJ',
+                        lastname: 'Abrams',
+                        login: 'lost',
+                        mail: 'jj@lost-mail.com',
+                        failed_login_count: 45)
         end
 
         it 'uses the human attribute name' do

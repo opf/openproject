@@ -7,9 +7,9 @@ describe 'Login with 2FA device', with_2fa_ee: true, type: :feature,
   let(:user_password) { 'bob!' * 4 }
   let(:user) do
     create(:user,
-                      login: 'bob',
-                      password: user_password,
-                      password_confirmation: user_password)
+           login: 'bob',
+           password: user_password,
+           password_confirmation: user_password)
   end
 
   context 'with a default device' do

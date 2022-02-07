@@ -46,7 +46,7 @@ RSpec.feature 'Work package navigation', js: true, selenium: true do
 
     query.save!
     create(:view_work_packages_table,
-                      query: query)
+           query: query)
 
     query
   end

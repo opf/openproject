@@ -33,7 +33,7 @@ describe Message, 'acts_as_journalized', type: :model do
   let(:project) { create(:project) }
   let!(:forum) do
     create(:forum,
-                      project: project)
+           project: project)
   end
   let(:attachment) { create(:attachment, container: nil, author: user) }
 

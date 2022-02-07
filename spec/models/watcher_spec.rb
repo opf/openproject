@@ -33,23 +33,23 @@ describe Watcher, type: :model, with_mail: false do
   let(:user) { build :user, admin: true }
   let(:watcher) do
     build :watcher,
-                     watchable: watchable,
-                     user: user
+          watchable: watchable,
+          user: user
   end
   let(:watchable) { build :news }
   let(:other_watcher) do
     build :watcher,
-                     watchable: watchable,
-                     user: other_user
+          watchable: watchable,
+          user: other_user
   end
   let(:other_project) { create(:project) }
   let(:other_user) { create(:user, admin: true) }
   let(:notification_settings) { [] }
   let(:saved_user) do
     create :user,
-                      member_in_project: saved_watchable.project,
-                      member_with_permissions: [],
-                      notification_settings: notification_settings
+           member_in_project: saved_watchable.project,
+           member_with_permissions: [],
+           notification_settings: notification_settings
   end
   let(:saved_watchable) { create :news }
 

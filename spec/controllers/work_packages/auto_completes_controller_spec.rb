@@ -33,30 +33,30 @@ describe WorkPackages::AutoCompletesController, type: :controller do
   let(:project) { create(:project) }
   let(:role) do
     create(:role,
-                      permissions: [:view_work_packages])
+           permissions: [:view_work_packages])
   end
   let(:member) do
     create(:member,
-                      project: project,
-                      principal: user,
-                      roles: [role])
+           project: project,
+           principal: user,
+           roles: [role])
   end
   let(:work_package_1) do
     create(:work_package,
-                      subject: "Can't print recipes",
-                      project: project)
+           subject: "Can't print recipes",
+           project: project)
   end
 
   let(:work_package_2) do
     create(:work_package,
-                      subject: 'Error when updating a recipe',
-                      project: project)
+           subject: 'Error when updating a recipe',
+           project: project)
   end
 
   let(:work_package_3) do
     create(:work_package,
-                      subject: 'Lorem ipsum',
-                      project: project)
+           subject: 'Lorem ipsum',
+           project: project)
   end
 
   before do
@@ -173,8 +173,8 @@ describe WorkPackages::AutoCompletesController, type: :controller do
       render_views
       let(:work_package_4) do
         create(:work_package,
-                          subject: "<script>alert('danger!');</script>",
-                          project: project)
+               subject: "<script>alert('danger!');</script>",
+               project: project)
       end
       let(:expected_values) { work_package_4 }
 
@@ -198,18 +198,18 @@ describe WorkPackages::AutoCompletesController, type: :controller do
     describe 'in different projects' do
       let(:project_2) do
         create(:project,
-                          parent: project)
+               parent: project)
       end
       let(:member_2) do
         create(:member,
-                          project: project_2,
-                          principal: user,
-                          roles: [role])
+               project: project_2,
+               principal: user,
+               roles: [role])
       end
       let(:work_package_4) do
         create(:work_package,
-                          subject: 'Foo Bar Baz',
-                          project: project_2)
+               subject: 'Foo Bar Baz',
+               project: project_2)
       end
 
       before do

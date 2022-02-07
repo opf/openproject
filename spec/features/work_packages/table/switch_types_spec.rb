@@ -34,9 +34,9 @@ describe 'Switching types in work package table', js: true do
     end
     let(:work_package) do
       create(:work_package,
-                        subject: 'Foobar',
-                        type: type_task,
-                        project: project)
+             subject: 'Foobar',
+             type: type_task,
+             project: project)
     end
     let(:wp_table) { Pages::WorkPackagesTable.new(project) }
 
@@ -231,9 +231,9 @@ describe 'Switching types in work package table', js: true do
     end
     let(:work_package) do
       create(:work_package,
-                        subject: 'Foobar',
-                        type: type_task,
-                        project: project)
+             subject: 'Foobar',
+             type: type_task,
+             project: project)
     end
     let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
     let(:type_field) { wp_page.edit_field :type }
@@ -269,8 +269,8 @@ describe 'Switching types in work package table', js: true do
     let(:role) { create :role, permissions: permissions }
     let(:user) do
       create :user,
-                        member_in_project: project,
-                        member_through_role: role
+             member_in_project: project,
+             member_through_role: role
     end
 
     let(:custom_field) do
@@ -292,10 +292,10 @@ describe 'Switching types in work package table', js: true do
     let!(:status) { create(:default_status) }
     let!(:workflow) do
       create :workflow,
-                        type_id: type.id,
-                        old_status: status,
-                        new_status: create(:status),
-                        role: role
+             type_id: type.id,
+             old_status: status,
+             new_status: create(:status),
+             role: role
     end
 
     let!(:priority) { create :priority, is_default: true }

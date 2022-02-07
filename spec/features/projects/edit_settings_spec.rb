@@ -35,8 +35,8 @@ describe 'Projects', 'editing settings', type: :feature, js: true do
 
   current_user do
     create(:user,
-                      member_in_project: project,
-                      member_with_permissions: permissions)
+           member_in_project: project,
+           member_with_permissions: permissions)
   end
 
   shared_let(:project) do
@@ -109,11 +109,11 @@ describe 'Projects', 'editing settings', type: :feature, js: true do
   context 'with a length restricted custom field' do
     let!(:required_custom_field) do
       create(:string_project_custom_field,
-                        name: 'Foo',
-                        type: ProjectCustomField,
-                        min_length: 1,
-                        max_length: 2,
-                        is_for_all: true)
+             name: 'Foo',
+             type: ProjectCustomField,
+             min_length: 1,
+             max_length: 2,
+             is_for_all: true)
     end
     let(:foo_field) { ::FormFields::InputFormField.new required_custom_field }
 

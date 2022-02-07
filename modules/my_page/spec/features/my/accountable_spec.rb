@@ -38,24 +38,24 @@ describe 'Accountable widget on my page', type: :feature, js: true do
   let!(:open_status) { create :default_status }
   let!(:accountable_work_package) do
     create :work_package,
-                      project: project,
-                      type: type,
-                      author: user,
-                      responsible: user
+           project: project,
+           type: type,
+           author: user,
+           responsible: user
   end
   let!(:accountable_by_other_work_package) do
     create :work_package,
-                      project: project,
-                      type: type,
-                      author: user,
-                      responsible: other_user
+           project: project,
+           type: type,
+           author: user,
+           responsible: other_user
   end
   let!(:accountable_but_invisible_work_package) do
     create :work_package,
-                      project: other_project,
-                      type: type,
-                      author: user,
-                      responsible: user
+           project: other_project,
+           type: type,
+           author: user,
+           responsible: user
   end
   let(:other_user) do
     create(:user)
@@ -65,8 +65,8 @@ describe 'Accountable widget on my page', type: :feature, js: true do
 
   let(:user) do
     create(:user,
-                      member_in_project: project,
-                      member_through_role: role)
+           member_in_project: project,
+           member_through_role: role)
   end
   let(:my_page) do
     Pages::My::Page.new

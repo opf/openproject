@@ -43,16 +43,16 @@ describe Relations::Scopes::Visible, type: :model do
   let(:role) { create(:role, permissions: [:view_work_packages]) }
   let(:member_project1) do
     create(:member,
-                      project: project1,
-                      user: user,
-                      roles: [role])
+           project: project1,
+           user: user,
+           roles: [role])
   end
 
   let(:member_project2) do
     create(:member,
-                      project: project2,
-                      user: user,
-                      roles: [role])
+           project: project2,
+           user: user,
+           roles: [role])
   end
 
   describe '.visible' do

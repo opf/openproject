@@ -31,8 +31,8 @@ require 'spec_helper'
 feature 'project settings index', type: :feature do
   let(:user) do
     create(:user,
-                      member_in_project: project,
-                      member_with_permissions: %i[manage_versions])
+           member_in_project: project,
+           member_with_permissions: %i[manage_versions])
   end
   let(:project) { create(:project) }
   let!(:version1) { create(:version, name: "aaaaa 1.", project: project) }

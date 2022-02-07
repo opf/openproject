@@ -83,7 +83,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
 
   showAddExistingPane = new BehaviorSubject<boolean>(false);
 
-  showAddAssignee$ = new Subject<boolean>();
+  showAddAssignee$ = new BehaviorSubject<boolean>(false);
 
   private principalIds$ = this.wpTableFilters
     .live$()
@@ -103,6 +103,13 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
         filters: [['id', '=', ids]],
       }) as ApiV3ListParameters),
     );
+
+  isEmpty$ = combineLatest([
+    this.principalIds$,
+    this.showAddAssignee$,
+  ]).pipe(
+    map(([principals, showAddAssignee]) => !principals.length && !showAddAssignee),
+  );
 
   assignees:HalResource[] = [];
 
@@ -279,7 +286,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
             },
             events: this.calendarEventsFunction.bind(this) as unknown,
             resources: [],
-            resourceAreaWidth: '20%',
+            resourceAreaWidth: '180px',
             select: this.handleDateClicked.bind(this) as unknown,
             resourceLabelContent: (data:ResourceLabelContentArg) => this.renderTemplate(this.resourceContent, data.resource.id, data),
             resourceLabelWillUnmount: (data:ResourceLabelContentArg) => this.unrenderTemplate(data.resource.id),

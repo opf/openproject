@@ -41,12 +41,12 @@ describe ::API::V3::Notifications::NotificationRepresenter, 'rendering' do
   let(:actor) { nil }
   let(:notification) do
     build_stubbed :notification,
-                             recipient: recipient,
-                             project: project,
-                             resource: resource,
-                             journal: journal,
-                             actor: actor,
-                             read_ian: read_ian
+                  recipient: recipient,
+                  project: project,
+                  resource: resource,
+                  journal: journal,
+                  actor: actor,
+                  read_ian: read_ian
   end
   let(:representer) do
     described_class.create notification,

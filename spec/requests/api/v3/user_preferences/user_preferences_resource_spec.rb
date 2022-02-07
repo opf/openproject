@@ -38,12 +38,12 @@ describe 'API v3 UserPreferences resource', type: :request, content_type: :json 
   let(:user) { create(:user, preference: preference) }
   let(:preference) do
     create(:user_preference,
-                      settings: {
-                        daily_reminders: {
-                          enabled: false,
-                          times: %w[07:00:00+00:00 15:00:00+00:00]
-                        }
-                      })
+           settings: {
+             daily_reminders: {
+               enabled: false,
+               times: %w[07:00:00+00:00 15:00:00+00:00]
+             }
+           })
   end
   let(:preference_path) { api_v3_paths.user_preferences(user.id) }
 

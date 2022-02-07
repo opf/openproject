@@ -50,25 +50,25 @@ describe Capabilities::Scopes::Default, type: :model do
   let!(:user) { create(:user, admin: user_admin, status: user_status) }
   let(:global_member) do
     create(:global_member,
-                      principal: user,
-                      roles: [global_role])
+           principal: user,
+           roles: [global_role])
   end
   let(:member) do
     create(:member,
-                      principal: user,
-                      roles: [role],
-                      project: project)
+           principal: user,
+           roles: [role],
+           project: project)
   end
   let(:non_member_role) do
     create(:non_member,
-                      permissions: non_member_permissions)
+           permissions: non_member_permissions)
   end
   let(:own_role) { create(:role, permissions: [] )}
   let(:own_member) do
     create(:member,
-                      principal: current_user,
-                      roles: [own_role],
-                      project: project)
+           principal: current_user,
+           roles: [own_role],
+           project: project)
   end
   let(:members) { [] }
 

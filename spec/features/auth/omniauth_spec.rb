@@ -45,12 +45,12 @@ describe 'Omniauth authentication', type: :feature do
 
   let(:user) do
     create(:user,
-                      force_password_change: false,
-                      identity_url: 'developer:omnibob@example.com',
-                      login: 'omnibob',
-                      mail: 'omnibob@example.com',
-                      firstname: 'omni',
-                      lastname: 'bob')
+           force_password_change: false,
+           identity_url: 'developer:omnibob@example.com',
+           login: 'omnibob',
+           mail: 'omnibob@example.com',
+           firstname: 'omni',
+           lastname: 'bob')
   end
 
   before do

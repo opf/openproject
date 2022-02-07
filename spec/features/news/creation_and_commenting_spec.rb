@@ -34,14 +34,14 @@ describe 'News creation and commenting', type: :feature, js: true do
   let(:project) { create(:project) }
   let!(:other_user) do
     create(:user,
-                      member_in_project: project,
-                      member_with_permissions: %i[])
+           member_in_project: project,
+           member_with_permissions: %i[])
   end
 
   current_user do
     create(:user,
-                      member_in_project: project,
-                      member_with_permissions: %i[manage_news comment_news])
+           member_in_project: project,
+           member_with_permissions: %i[manage_news comment_news])
   end
 
   it 'allows creating new and commenting it all of which will result in notifications and mails' do

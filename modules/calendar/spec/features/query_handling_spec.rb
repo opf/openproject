@@ -37,45 +37,45 @@ describe 'Calendar query handling', type: :feature, js: true do
   shared_let(:type_bug) { create(:type_bug) }
   shared_let(:project) do
     create(:project,
-                      enabled_module_names: %w[work_package_tracking calendar_view],
-                      types: [type_task, type_bug])
+           enabled_module_names: %w[work_package_tracking calendar_view],
+           types: [type_task, type_bug])
   end
 
   shared_let(:user) do
     create :user,
-                      member_in_project: project,
-                      member_with_permissions: %w[
-                        view_work_packages
-                        edit_work_packages
-                        save_queries
-                        save_public_queries
-                        view_calendar
-                      ]
+           member_in_project: project,
+           member_with_permissions: %w[
+             view_work_packages
+             edit_work_packages
+             save_queries
+             save_public_queries
+             view_calendar
+           ]
   end
 
   shared_let(:task) do
     create :work_package,
-                      project: project,
-                      type: type_task,
-                      assigned_to: user,
-                      start_date: Time.zone.today - 1.day,
-                      due_date: Time.zone.today + 1.day,
-                      subject: 'A task for the user'
+           project: project,
+           type: type_task,
+           assigned_to: user,
+           start_date: Time.zone.today - 1.day,
+           due_date: Time.zone.today + 1.day,
+           subject: 'A task for the user'
   end
   shared_let(:bug) do
     create :work_package,
-                      project: project,
-                      type: type_bug,
-                      assigned_to: user,
-                      start_date: Time.zone.today - 1.day,
-                      due_date: Time.zone.today + 1.day,
-                      subject: 'A bug for the user'
+           project: project,
+           type: type_bug,
+           assigned_to: user,
+           start_date: Time.zone.today - 1.day,
+           due_date: Time.zone.today + 1.day,
+           subject: 'A bug for the user'
   end
 
   shared_let(:saved_query) do
     create(:query_with_view_work_packages_calendar,
-                      project: project,
-                      public: true)
+           project: project,
+           public: true)
   end
 
   let(:calendar_page) { ::Pages::Calendar.new project }
