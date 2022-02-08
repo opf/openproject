@@ -7,8 +7,8 @@ import {
   forwardRef,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { ID } from '@datorama/akita';
-import { IProjectData } from './project-select.component';
+import { IProjectData } from './project-data';
+import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 
 @Component({
   selector: '[op-project-list]',
@@ -26,44 +26,49 @@ export class OpProjectListComponent implements ControlValueAccessor {
   @HostBinding('class.op-project-list') className = true;
 
   @Input() projects:IProjectData[] = [];
-  @Input('selected') public _selected:ID[] = [];
+  @Input('selected') public _selected:string[] = [];
 
-  public get selected():ID[] {
+  public get selected():string[] {
     return this._selected;
   }
 
-  public set selected(selected:ID[]) {
+  public set selected(selected:string[]) {
     this._selected = selected;
     this.onChange(selected);
     this.onTouched(selected);
   }
 
-  constructor(
-    readonly I18n:I18nService,
-  ) { }
-
-  public isChecked(id:ID) {
-    return this.selected.includes(id);
+  public get currentProjectID() {
+    return this.currentProjectService.id;
   }
 
-  public changeSelected(id:ID) {
-    const checked = this.isChecked(id);
+  constructor(
+    readonly I18n:I18nService,
+    readonly currentProjectService:CurrentProjectService,
+  ) { }
+
+  public isChecked(href:string) {
+    return this.selected.includes(href);
+  }
+
+  public changeSelected(href:string) {
+    const checked = this.isChecked(href);
     if (checked) {
-      this.selected = this.selected.filter(selectedID => selectedID !== id);
+      this.selected = this.selected.filter(selectedHref => selectedHref !== href);
     } else {
       this.selected = [
         ...this.selected,
-        id,
+        href,
       ];
     }
   }
 
   public selectRecursively(children:IProjectData[]) {
     for (const child of children) {
-      if (!this.isChecked(child.id)) {
+      if (!this.isChecked(child.href)) {
         this.selected = [
           ...this.selected,
-          child.id,
+          child.href,
         ];
       }
 
@@ -71,15 +76,19 @@ export class OpProjectListComponent implements ControlValueAccessor {
     }
   }
 
-  public writeValue(selected:ID[]) {
+  public trackByProject(_:number, project:IProjectData) {
+    return project.href;
+  }
+
+  public writeValue(selected:string[]) {
     if (!Array.isArray(selected)) {
       return;
     }
     this.selected = selected;
   }
 
-  public onChange = (_:ID[]) => {};
-  public onTouched = (_:ID[]) => {};
+  public onChange = (_:string[]) => {};
+  public onTouched = (_:string[]) => {};
 
   public registerOnChange(fn:any) {
     this.onChange = fn;

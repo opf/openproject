@@ -10,73 +10,17 @@ import {
 } from '@angular/forms';
 import { ProjectsResourceService } from 'core-app/core/state/projects/projects.service';
 import { ApiV3ListFilter, ApiV3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { WorkPackageViewFiltersService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service';
+import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { combineLatest, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
-import { IProject } from 'core-app/core/state/projects/project.model';
-import { IHalResourceLink } from 'core-app/core/state/hal-resource';
-import { ID } from '@datorama/akita';
-
-export interface IProjectData {
-  id: ID;
-  href: string;
-  name: string;
-  found: boolean;
-  children: IProjectData[];
-};
-
-// Helper function that recursively inserts a project into the hierarchy at the right place
-const insertInList = (
-  projects: IProject[],
-  project: IProject,
-  list: IProjectData[],
-  ancestors:IHalResourceLink[],
-):IProjectData[] => {
-  if (!ancestors.length) {
-    return [
-      ...list,
-      {
-        id: project.id,
-        name: project.name,
-        href: project._links.self.href,
-        found: true,
-        children: [],
-      },
-    ];
-  }
-
-  const ancestorHref = ancestors[0].href;
-  const ancestor:IProjectData|undefined = list.find(projectInList => projectInList.href === ancestorHref);
-
-  if (ancestor) {
-    ancestor.children = insertInList(projects, project, ancestor.children, ancestors.slice(1));
-    return [...list];
-  }
-
-  const ancestorProject = projects.find(projectInList => projectInList._links.self.href === ancestorHref);
-  if (!ancestorProject) {
-    return [...list];
-  }
-
-  return [
-    ...list,
-    {
-      id: ancestorProject.id,
-      name: ancestorProject.name,
-      href: ancestorProject._links.self.href,
-      found: false,
-      children: insertInList(projects, project, [], ancestors.slice(1)),
-    },
-  ]
-}
-
-const recursiveSort = (projects: IProjectData[]) => {
-  projects
-  .map(project => ({
-    ...project,
-    children: recursiveSort(project.children),
-  }))
-  .sort((a, b) => a.name.localeCompare(b.name)) 
-}
+import { IProjectData } from './project-data';
+import { insertInList } from './insert-in-list';
+import { recursiveSort } from './recursive-sort';
+import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
+import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 
 @Component({
   selector: 'op-project-select',
@@ -84,7 +28,7 @@ const recursiveSort = (projects: IProjectData[]) => {
   templateUrl: './project-select.component.html',
   styleUrls: ['./project-select.component.sass'],
 })
-export class OpProjectSelectComponent implements OnInit {
+export class OpProjectSelectComponent extends UntilDestroyedMixin implements OnInit {
   public opened = false;
   public displayMode = 'all';
   public displayMode$ = new Subject();
@@ -104,6 +48,9 @@ export class OpProjectSelectComponent implements OnInit {
 
   public projects$ = combineLatest([
       this.form.valueChanges.pipe(
+        map(value => value.selectedProjects),
+      ),
+      this.form.valueChanges.pipe(
         map(value => value.query),
         distinctUntilChanged(),
         debounceTime(50),
@@ -116,9 +63,10 @@ export class OpProjectSelectComponent implements OnInit {
         .selectAll(),
     ])
     .pipe(
-      map(([query, displayMode, projects]) => projects
+      debounceTime(10),
+      map(([selected, query, displayMode, projects]) => projects
         .filter((project) => {
-          if (displayMode === 'selected' && !this.isChecked(project.id)) {
+          if (displayMode === 'selected' && !selected.includes(project._links.self.href)) {
             return false;
           }
 
@@ -134,9 +82,9 @@ export class OpProjectSelectComponent implements OnInit {
 
 
           return insertInList(projects, project, list, ancestors);
-        }, [] as IProjectData[])
-        .map(p => recursiveSort(p)),
+        }, [] as IProjectData[]),
       ),
+      map((projects) => recursiveSort(projects)),
     );
 
   public get params():ApiV3ListParameters {
@@ -157,18 +105,42 @@ export class OpProjectSelectComponent implements OnInit {
   constructor(
     readonly I18n:I18nService,
     readonly projectsResourceService:ProjectsResourceService,
-  ) { }
+    readonly wpTableFilters:WorkPackageViewFiltersService,
+    readonly halResourceService:HalResourceService,
+    readonly currentProjectService:CurrentProjectService,
+  ) {
+    super();
+  }
 
-  public ngOnInit() {}
+  public ngOnInit() {
+    this.wpTableFilters
+      .live$()
+      .pipe(
+        this.untilDestroyed(),
+        map((queryFilters) => {
+          const projectFilter = queryFilters.find((queryFilter) => queryFilter._type === 'ProjectQueryFilter');
+          return ((projectFilter?.values || []) as HalResource[]).map((p) => p.href);
+        }),
+      )
+      .subscribe((selectedProjectsHrefs) => {
+        const currentProjectHref = this.currentProjectService.apiv3Path;
+        console.log(currentProjectHref);
+        if (!selectedProjectsHrefs.includes(currentProjectHref)) {
+          selectedProjectsHrefs.push(currentProjectHref);
+        }
 
-  public isChecked(id:ID) {
-    return this.form.get('selectedProjects')?.value.includes(id);
+        this.form.get('selectedProjects')?.patchValue(selectedProjectsHrefs);
+        console.log(selectedProjectsHrefs);
+      });
   }
 
   public toggleOpen() {
     this.opened = !this.opened;
-    this.form.get('query')?.setValue('');
-    this.searchProjects();
+    setTimeout(() => {
+      this.displayMode$.next(this.displayMode);
+      this.form.get('query')?.patchValue('');
+      this.searchProjects();
+    });
   }
 
   public searchProjects() {
@@ -178,9 +150,21 @@ export class OpProjectSelectComponent implements OnInit {
   }
 
   public clearSelection() {
-    this.form.get('selectedProjects')?.setValue([]);
+    this.form.get('selectedProjects')?.patchValue([]);
   }
 
   public onSubmit() {
+    // Replace actually also instantiates if it does not exist, which is handy here
+    this.wpTableFilters.replace('project', (projectFilter:QueryFilterInstanceResource) => {
+      const projectHrefs = this.form.get('selectedProjects')?.value;
+      // eslint-disable-next-line no-param-reassign
+      projectFilter.values = projectHrefs.map((href:string) => this.halResourceService.createHalResource({ href }, true));
+    });
+
+    this.close();
+  }
+
+  public close() {
+    this.opened = false;
   }
 }

@@ -1,11 +1,12 @@
 <li
   class="spot-list--item"
-  *ngFor="let project of projects"
+  *ngFor="let project of projects; trackBy:trackByProject"
 >
   <label class="spot-list--item-action op-project-list--item-action">
     <spot-checkbox
-      [checked]="isChecked(project.id)"
-      (change)="changeSelected(project.id)"
+      [checked]="isChecked(project.href)"
+      (change)="changeSelected(project.href)"
+      [disabled]="project.id === currentProjectID"
     ></spot-checkbox>
     <div class="spot-list--item-title">{{ project.name }}</div>
     <button
@@ -13,7 +14,7 @@
       class="op-project-list--child-toggle"
       type="button"
       (click)="selectRecursively(project.children)"
-    >Select all sub-projects</button>
+    >All</button>
   </label>
 
   <ul
