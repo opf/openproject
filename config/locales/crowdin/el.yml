@@ -451,9 +451,12 @@ el:
         code: 'Κατάσταση'
         explanation: 'Περιγραφή κατάστασης'
         codes:
+          not_started: 'Not started'
           on_track: 'Eντός πορείας'
           at_risk: 'Σε κίνδυνο'
           off_track: 'Eκτός πορείας'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
       query:
         column_names: "Στήλες"
         relations_to_type_column: "Συσχετίσεις με %{type}"

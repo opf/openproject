@@ -452,9 +452,12 @@ it:
         code: 'Stato'
         explanation: 'Descrizione stato'
         codes:
+          not_started: 'Not started'
           on_track: 'Nei limiti'
           at_risk: 'A rischio'
           off_track: 'Fuori limite'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
       query:
         column_names: "Colonne"
         relations_to_type_column: "Relazioni con %{type}"

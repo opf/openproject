@@ -31,10 +31,13 @@ lt:
           no_results: 'Projektui nenurodyti savi laukai.'
         project_status:
           title: 'Projekto būsena'
+          not_started: 'Not started'
           on_track: 'Teisingame kelyje'
           off_track: 'Pasiklydęs'
           at_risk: 'Rizikingas'
           not_set: 'Nenustatyta'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
         subprojects:
           title: 'Sub-projektai'
           no_results: 'Nėra subprojektų.'

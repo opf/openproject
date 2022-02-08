@@ -416,7 +416,7 @@ cs:
     label_sort_lower: "Přesunout níž"
     label_sorting: "Řazení"
     label_spent_time: "Strávený čas"
-    label_star_query: "Zabráněno"
+    label_star_query: "Oblíbená"
     label_press_enter_to_save: "Stiskněte Enter pro uložení."
     label_public_query: "Veřejné"
     label_sum: "Suma"
@@ -521,7 +521,7 @@ cs:
         all: 'Vše'
       center:
         and_more_users:
-          one: 'a 1 další'
+          one: 'and 1 other'
           few: 'and %{count} others'
           many: 'and %{count} others'
           other: 'and %{count} others'
@@ -678,7 +678,7 @@ cs:
       duplicated: "Duplikováno"
       blocks: "Bloky"
       blocked: "Zablokován"
-      precedes: "Předchází"
+      precedes: "Je předchúdcem"
       follows: "Následuje"
       includes: "Zahrnuje"
       partof: "Část"

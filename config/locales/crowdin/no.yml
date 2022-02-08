@@ -455,9 +455,12 @@
         code: 'Status'
         explanation: 'Statusbeskrivelse'
         codes:
+          not_started: 'Not started'
           on_track: 'På rett spor'
           at_risk: 'I fare'
           off_track: 'Sporet av'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
       query:
         column_names: "Kolonner"
         relations_to_type_column: "Forbindelser til %{type}"

@@ -31,10 +31,13 @@ cs:
           no_results: 'Pro projekty nebyla definována žádná vlastní pole.'
         project_status:
           title: 'Stav projektu'
+          not_started: 'Not started'
           on_track: 'On track'
           off_track: 'Off track'
           at_risk: 'At risk'
           not_set: 'Nenastaveno'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
         subprojects:
           title: 'Podprojekty'
           no_results: 'Žádné podprojekty.'

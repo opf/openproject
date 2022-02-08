@@ -31,10 +31,13 @@ es:
           no_results: 'No se han definido campos personalizados para los proyectos.'
         project_status:
           title: 'Estado del proyecto'
+          not_started: 'Not started'
           on_track: 'Según lo previsto'
           off_track: 'Fuera de lo previsto'
           at_risk: 'En riesgo'
           not_set: 'No establecido'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
         subprojects:
           title: 'Subproyectos'
           no_results: 'No hay subproyectos.'

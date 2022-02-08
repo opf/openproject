@@ -456,9 +456,12 @@ ro:
         code: 'Stare'
         explanation: 'Descrierea stării'
         codes:
+          not_started: 'Not started'
           on_track: 'Urmărește'
           at_risk: 'În pericol'
           off_track: 'În afara pistei'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
       query:
         column_names: "Coloane"
         relations_to_type_column: "Relații cu %{type}"

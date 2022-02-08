@@ -31,10 +31,13 @@ uk:
           no_results: 'У проектів немає жодних власних полів.'
         project_status:
           title: 'Статус Проекту'
+          not_started: 'Not started'
           on_track: 'On track'
           off_track: 'Off track'
           at_risk: 'At risk'
           not_set: 'Не встановлено'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
         subprojects:
           title: 'Підпроекти'
           no_results: 'Немає підпроектів.'

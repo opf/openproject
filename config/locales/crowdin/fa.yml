@@ -455,9 +455,12 @@ fa:
         code: 'Status'
         explanation: 'Status description'
         codes:
+          not_started: 'Not started'
           on_track: 'On track'
           at_risk: 'At risk'
           off_track: 'Off track'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
       query:
         column_names: "ستون‌ها"
         relations_to_type_column: "Relations to %{type}"

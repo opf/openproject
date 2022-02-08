@@ -457,9 +457,12 @@ cs:
         code: 'Stav'
         explanation: 'Popis stavu'
         codes:
+          not_started: 'Not started'
           on_track: 'On track'
           at_risk: 'At risk'
           off_track: 'Off track'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
       query:
         column_names: "Sloupce"
         relations_to_type_column: "Vztahy s %{type}"
@@ -1169,7 +1172,7 @@ cs:
   default_status_in_progress: "Probíhá"
   default_status_in_specification: "Ve specifikaci"
   default_status_in_testing: "V testování"
-  default_status_new: "Nové"
+  default_status_new: "Nový"
   default_status_on_hold: "Pozastaven"
   default_status_rejected: "Odmítnutý"
   default_status_scheduled: "Naplánováno"

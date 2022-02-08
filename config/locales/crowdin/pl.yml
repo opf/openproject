@@ -454,9 +454,12 @@ pl:
         code: 'Status'
         explanation: 'Opis statusu'
         codes:
+          not_started: 'Not started'
           on_track: 'Na ścieżce'
           at_risk: 'Zagrożony'
           off_track: 'Poza ścieżką'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
       query:
         column_names: "Kolumny"
         relations_to_type_column: "Relacje %{type}"
