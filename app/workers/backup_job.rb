@@ -32,7 +32,7 @@ require 'tempfile'
 require 'zip'
 
 class BackupJob < ::ApplicationJob
-  queue_with_priority :low
+  queue_with_priority :above_normal
 
   attr_reader :backup, :user
 
