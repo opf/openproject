@@ -43,7 +43,8 @@ describe ::Storages::FileLink, type: :model do
       origin_name: "Origin Name",
       origin_created_by_name: "Peter Pan",
       origin_last_modified_by_name: "Lucy Lectric",
-      origin_mime_type: "text/html" }
+      origin_mime_type: "text/html"
+    }
   end
 
   describe '#create' do

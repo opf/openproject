@@ -36,7 +36,8 @@ describe ::Storages::ProjectStorage, type: :model do
     {
       storage: storage,
       creator: creator,
-      project: project}
+      project: project
+    }
   end
 
   describe '#create' do
@@ -45,21 +46,39 @@ describe ::Storages::ProjectStorage, type: :model do
       expect(project_storage).to be_valid
     end
 
-    it "create instance should fail with wrong creator object" do
-      file_link = described_class.create(attributes.merge({ creator_id: project.id }))
-      expect(file_link).to be_invalid
+    context "having already one instance" do
+      let(:old_project_storage) { described_class.create attributes }
+
+      before do
+        old_project_storage
+      end
+
+      it "should fail if it is not unique per storage and project" do
+        expect(described_class.create(attributes.merge)).to be_invalid
+      end
     end
   end
 
   describe '#destroy' do
     let(:project_storage_to_destroy) { described_class.create(attributes) }
+    let(:work_package) { create(:work_package, project: project) }
+    let(:file_link) do
+      Storages::FileLink.create(container: work_package,
+                                storage: storage,
+                                creator: creator,
+                                container_type: "WorkPackage")
+    end
 
     before do
+      project_storage_to_destroy
+      file_link
+
       project_storage_to_destroy.destroy
     end
 
-    it "destroy instance should leave no file_link" do
-      expect(Storages::ProjectStorage.count).to be 0
+    it "should destroy all associated FileLink records" do
+      expect(Storages::FileLink.count).to be 0
     end
   end
 end
+

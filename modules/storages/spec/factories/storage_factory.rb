@@ -33,7 +33,7 @@
 FactoryBot.define do
   factory :storage, class: '::Storages::Storage' do
     provider_type { "nextcloud" }
-    sequence(:name) { |n| "Test Storage #{n}" }
+    sequence(:name) { |n| "Storage #{n}" }
     sequence(:host) { |n| "https://host#{n}.example.com" }
     creator factory: :user
   end

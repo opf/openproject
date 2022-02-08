@@ -33,8 +33,6 @@ require_relative '../spec_helper'
 # Setup a project storage within a project.
 # This tests assumes that a Storage has already been setup
 # in the Admin section, tested by admin_storage_spec.rb.
-
-
 describe 'Setup project storage', type: :feature, js: true do
   let(:admin) { create(:admin) }
   let(:storage) { create(:storage, name: "Storage 1") }
@@ -44,13 +42,11 @@ describe 'Setup project storage', type: :feature, js: true do
 
   before do
     storage
-    # project_storage # Now created via testing GUI
     login_as admin
   end
 
-  it 'setup project storage' do
+  it 'activates up a ProjectStorage for a specific project' do
     # Go to Projects -> Settings -> File Storages
-    # project_settings_work_packages doesn't seem to exist, so I work around
     visit project_settings_general_path(project)
     settings_link = page.find('.settings-projects-storages-menu-item')
     settings_link.click
