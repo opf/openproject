@@ -274,7 +274,9 @@ export class OpCalendarService extends UntilDestroyedMixin {
 
   private openSplitView(event:EventClickArg) {
     const workPackage = event.event.extendedProps.workPackage as WorkPackageResource;
-    this.wpTableSelection.setSelection(workPackage.id!, -1);
+    if (workPackage.id) {
+      this.wpTableSelection.setSelection(workPackage.id, -1);
+    }
 
     void this.$state.go(
       `${splitViewRoute(this.$state)}.tabs`,

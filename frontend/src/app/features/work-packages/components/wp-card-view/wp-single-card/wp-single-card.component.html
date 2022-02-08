@@ -61,14 +61,19 @@
 
   <div *ngIf="!isNewResource(workPackage)"
        class="op-wp-single-card--content">
-    <span [textContent]="wpProjectName(workPackage)"
-          class="op-wp-single-card--content-project-name"
-          [ngClass]="{'op-wp-single-card--content-project-name_hideable': showInfoButton || showRemoveButton}"
+    <span
+      class="op-wp-single-card--content-project-name"
+      [ngClass]="{'op-wp-single-card--content-project-name_hideable': showInfoButton || showRemoveButton}"
     >
+      - {{wpProjectName(workPackage)}}
     </span>
-    <span class="op-wp-single-card--content-id">
-      #{{workPackage.id}} -
-    </span>
+    <a class="op-wp-single-card--content-id"
+       [href]="fullWorkPackageLink(workPackage)"
+       [ngClass]="uiStateLinkClass"
+       (click)="emitStateLinkClicked($event, workPackage)"
+    >
+      #{{workPackage.id}}
+    </a>
 
     <span class="op-wp-single-card--content-subject-line">
       <span

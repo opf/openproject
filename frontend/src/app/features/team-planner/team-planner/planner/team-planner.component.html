@@ -57,11 +57,6 @@
   </ng-template>
 
   <ng-template #eventContent let-event="event">
-    <div
-      *ngIf="showResizeHandle(event.extendedProps.workPackage, 'start')"
-      class="fc-event-resizer fc-event-resizer-start">
-    </div>
-
     <wp-single-card
       *ngIf="event.extendedProps.workPackage"
       [workPackage]="event.extendedProps.workPackage"
@@ -71,15 +66,10 @@
       [disabledInfo]="showDisabledText(event.extendedProps.workPackage)"
       [isClosed]="isStatusClosed(event.extendedProps.workPackage)"
       [showAsInlineCard]="true"
-      [showStartDate]="!this.showResizeHandle(event.extendedProps.workPackage, 'start')"
-      [showEndDate]="!this.showResizeHandle(event.extendedProps.workPackage, 'end')"
+      [showStartDate]="!this.isWpDateInCurrentView(event.extendedProps.workPackage, 'start')"
+      [showEndDate]="!this.isWpDateInCurrentView(event.extendedProps.workPackage, 'end')"
     >
     </wp-single-card>
-
-    <div
-      *ngIf="showResizeHandle(event.extendedProps.workPackage, 'end')"
-      class="fc-event-resizer fc-event-resizer-end">
-    </div>
   </ng-template>
 
   <div

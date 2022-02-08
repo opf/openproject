@@ -314,7 +314,9 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
             eventResize: (resizeInfo:EventResizeDoneArg) => this.updateEvent(resizeInfo),
             eventDrop: (dropInfo:EventDropArg) => this.updateEvent(dropInfo),
             eventReceive: (dropInfo:EventReceiveArg) => this.updateEvent(dropInfo),
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
             eventContent: (data:EventContentArg) => this.renderTemplate(this.eventContent, data.event.extendedProps.workPackage.href, data),
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
             eventWillUnmount: (data:EventContentArg) => this.unrenderTemplate(data.event.extendedProps.workPackage.href),
           } as CalendarOptions),
         );
@@ -385,7 +387,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     }
   }
 
-  showResizeHandle(workPackage:WorkPackageResource, date:'start'|'end'):boolean {
+  isWpDateInCurrentView(workPackage:WorkPackageResource, date:'start'|'end'):boolean {
     if (workPackage.startDate && workPackage.dueDate) {
       let dateToCheck;
 
@@ -410,7 +412,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
   }
 
   isStatusClosed(workPackage:WorkPackageResource):boolean {
-    const status = this.statuses.find((el) => el.id === workPackage.status.id);
+    const status = this.statuses.find((el) => el.id === (workPackage.status as StatusResource).id);
 
     return status ? status.isClosed : false;
   }

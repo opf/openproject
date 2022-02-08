@@ -22,6 +22,7 @@ import { WorkPackageResource } from 'core-app/features/hal/resources/work-packag
 import { isClickedWithModifier } from 'core-app/shared/helpers/link-handling/link-handling';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
+import { StatusResource } from 'core-app/features/hal/resources/status-resource';
 
 @Component({
   selector: 'wp-single-card',
@@ -129,7 +130,7 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
   }
 
   cardTitle():string {
-    return `${this.workPackage.subject} (${this.workPackage.status.name})`;
+    return `${this.workPackage.subject} (${(this.workPackage.status as StatusResource).name})`;
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -180,6 +181,10 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
   wpOverDueHighlighting(wp:WorkPackageResource):string {
     const diff = this.timezoneService.daysFromToday(wp.dueDate);
     return Highlighting.overdueDate(diff);
+  }
+
+  public fullWorkPackageLink(wp:WorkPackageResource):string {
+    return this.$state.href('work-packages.show', { workPackageId: wp.id });
   }
 
   public cardHighlightingClass(wp:WorkPackageResource):string {
