@@ -2,7 +2,6 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import {
   ChangeDetectionStrategy,
   Component,
-  OnInit,
 } from '@angular/core';
 import {
   FormGroup,
@@ -15,12 +14,13 @@ import { WorkPackageViewFiltersService } from 'core-app/features/work-packages/r
 import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { combineLatest, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, map, mergeMap, shareReplay, take } from 'rxjs/operators';
 import { IProjectData } from './project-data';
 import { insertInList } from './insert-in-list';
 import { recursiveSort } from './recursive-sort';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
+import { IProject } from 'core-app/core/state/projects/project.model';
 
 @Component({
   selector: 'op-project-select',
@@ -28,9 +28,17 @@ import { CurrentProjectService } from 'core-app/core/current-project/current-pro
   templateUrl: './project-select.component.html',
   styleUrls: ['./project-select.component.sass'],
 })
-export class OpProjectSelectComponent extends UntilDestroyedMixin implements OnInit {
+export class OpProjectSelectComponent extends UntilDestroyedMixin {
   public opened = false;
-  public displayMode = 'all';
+
+  private _displayMode = 'all';
+  public get displayMode() {
+    return this._displayMode;
+  }
+  public set displayMode(val:string) {
+    this._displayMode = val;
+    this.displayMode$.next(val);
+  }
   public displayMode$ = new Subject();
   public displayModeOptions = [
     { value: 'all', title: 'All projects' },
@@ -46,25 +54,45 @@ export class OpProjectSelectComponent extends UntilDestroyedMixin implements OnI
     return this.form.get('query')?.value || '';
   }
 
+  private projectsInFilter$ = this.wpTableFilters
+    .live$()
+    .pipe(
+      this.untilDestroyed(),
+      map((queryFilters) => {
+        const projectFilter = queryFilters.find((queryFilter) => queryFilter._type === 'ProjectQueryFilter');
+        const selectedProjectHrefs = ((projectFilter?.values || []) as HalResource[]).map((p) => p.href);
+        const currentProjectHref = this.currentProjectService.apiv3Path;
+        if (selectedProjectHrefs.includes(currentProjectHref)) {
+          return selectedProjectHrefs;
+        }
+
+        return [
+          ...selectedProjectHrefs,
+          currentProjectHref,
+        ];
+      }),
+      shareReplay(1),
+    );
+
+  public allProjects$ = this.projectsResourceService.query.selectAll();
+  public query$ = this.form.valueChanges.pipe(map(value => value.query));
+  public selectedProjects$ = this.form.valueChanges.pipe(
+    map(value => value.selectedProjects),
+    shareReplay(1),
+  );
+
   public projects$ = combineLatest([
-      this.form.valueChanges.pipe(
-        map(value => value.selectedProjects),
-      ),
-      this.form.valueChanges.pipe(
-        map(value => value.query),
-        distinctUntilChanged(),
-        debounceTime(50),
-      ),
-      this.displayMode$.pipe(
-        distinctUntilChanged(),
-      ),
-      this.projectsResourceService                
-        .query
-        .selectAll(),
+      this.allProjects$,
+      this.query$.pipe(distinctUntilChanged()),
+      this.displayMode$.pipe(distinctUntilChanged()),
     ])
     .pipe(
-      debounceTime(10),
-      map(([selected, query, displayMode, projects]) => projects
+      debounceTime(20),
+      mergeMap(([projects, query, displayMode]) => this.selectedProjects$.pipe(
+        take(1),
+        map(selected => [projects, query, displayMode, selected])
+      )),
+      map(([projects, query, displayMode, selected]:[IProject[], string, string, string[]]) => projects
         .filter((project) => {
           if (displayMode === 'selected' && !selected.includes(project._links.self.href)) {
             return false;
@@ -97,9 +125,7 @@ export class OpProjectSelectComponent extends UntilDestroyedMixin implements OnI
       ]);
     }
 
-    return {
-      filters,
-    };
+    return { filters };
   }
 
   constructor(
@@ -112,33 +138,18 @@ export class OpProjectSelectComponent extends UntilDestroyedMixin implements OnI
     super();
   }
 
-  public ngOnInit() {
-    this.wpTableFilters
-      .live$()
-      .pipe(
-        this.untilDestroyed(),
-        map((queryFilters) => {
-          const projectFilter = queryFilters.find((queryFilter) => queryFilter._type === 'ProjectQueryFilter');
-          return ((projectFilter?.values || []) as HalResource[]).map((p) => p.href);
-        }),
-      )
-      .subscribe((selectedProjectsHrefs) => {
-        const currentProjectHref = this.currentProjectService.apiv3Path;
-        if (!selectedProjectsHrefs.includes(currentProjectHref)) {
-          selectedProjectsHrefs.push(currentProjectHref);
-        }
-
-        this.form.get('selectedProjects')?.patchValue(selectedProjectsHrefs);
-      });
-  }
-
   public toggleOpen() {
     this.opened = !this.opened;
-    setTimeout(() => {
-      this.displayMode$.next(this.displayMode);
-      this.form.get('query')?.patchValue('');
-      this.searchProjects();
-    });
+    this.searchProjects();
+    this.projectsInFilter$
+      .pipe(take(1))
+      .subscribe((selectedProjects) => {
+        this.displayMode = 'all';
+        this.form.setValue({
+          query: '',
+          selectedProjects,
+        });
+      });
   }
 
   public searchProjects() {
@@ -148,7 +159,7 @@ export class OpProjectSelectComponent extends UntilDestroyedMixin implements OnI
   }
 
   public clearSelection() {
-    this.form.get('selectedProjects')?.patchValue([]);
+    this.form.get('selectedProjects')?.setValue([]);
   }
 
   public onSubmit() {

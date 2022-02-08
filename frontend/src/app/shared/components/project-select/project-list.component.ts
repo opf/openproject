@@ -76,10 +76,6 @@ export class OpProjectListComponent implements ControlValueAccessor {
     }
   }
 
-  public trackByProject(_:number, project:IProjectData) {
-    return project.href;
-  }
-
   public writeValue(selected:string[]) {
     if (!Array.isArray(selected)) {
       return;
