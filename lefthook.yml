@@ -1,6 +1,6 @@
 # Lefthook configuration
 #
-# Add commit hooks with `lefthook install`
+# Add commit hooks with `bundle exec lefthook install`
 #
 # Refer for explanation to following link:
 # https://github.com/evilmartians/lefthook/blob/master/docs/full_guide.md
