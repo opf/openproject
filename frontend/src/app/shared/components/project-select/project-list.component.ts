@@ -38,8 +38,8 @@ export class OpProjectListComponent implements ControlValueAccessor {
     this.onTouched(selected);
   }
 
-  public get currentProjectID() {
-    return this.currentProjectService.id;
+  public get currentProjectHref() {
+    return this.currentProjectService.apiv3Path;
   }
 
   constructor(

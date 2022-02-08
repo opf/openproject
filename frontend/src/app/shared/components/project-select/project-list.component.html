@@ -6,7 +6,7 @@
     <spot-checkbox
       [checked]="isChecked(project.href)"
       (change)="changeSelected(project.href)"
-      [disabled]="project.id === currentProjectID"
+      [disabled]="project.href === currentProjectHref"
     ></spot-checkbox>
     <div class="spot-list--item-title">{{ project.name }}</div>
     <button

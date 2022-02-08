@@ -124,13 +124,11 @@ export class OpProjectSelectComponent extends UntilDestroyedMixin implements OnI
       )
       .subscribe((selectedProjectsHrefs) => {
         const currentProjectHref = this.currentProjectService.apiv3Path;
-        console.log(currentProjectHref);
         if (!selectedProjectsHrefs.includes(currentProjectHref)) {
           selectedProjectsHrefs.push(currentProjectHref);
         }
 
         this.form.get('selectedProjects')?.patchValue(selectedProjectsHrefs);
-        console.log(selectedProjectsHrefs);
       });
   }
 
