@@ -29,7 +29,7 @@
 #++
 
 class Principals::DeleteJob < ApplicationJob
-  queue_with_priority :low
+  queue_with_priority :below_normal
 
   def perform(principal)
     Principal.transaction do
