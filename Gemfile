@@ -279,6 +279,9 @@ group :development, :test do
   gem 'pry-rescue', '~> 1.5.2'
   gem 'pry-stack_explorer', '~> 0.6.0'
 
+  # git hooks manager
+  gem 'lefthook'
+
   # Brakeman scanner
   gem 'brakeman', '~> 5.2.0'
   gem 'danger-brakeman'
