@@ -95,7 +95,7 @@ describe 'Team planner drag&dop and resizing', type: :feature, js: true do
     it 'allows to drag&drop between the lanes to change the assignee' do
       # Move first wp to the user
       retry_block do
-        team_planner.drag_wp_by_pixel(first_wp, 0, -50)
+        team_planner.drag_wp_by_pixel(first_wp, 0, -100)
       end
       team_planner.expect_and_dismiss_toaster(message: I18n.t('js.notice_successful_update'))
 
@@ -113,7 +113,7 @@ describe 'Team planner drag&dop and resizing', type: :feature, js: true do
 
       # Move second wp to the user, resulting in the other user having no WPs any more
       retry_block do
-        team_planner.drag_wp_by_pixel(second_wp, 0, -50)
+        team_planner.drag_wp_by_pixel(second_wp, 0, -100)
       end
       team_planner.expect_and_dismiss_toaster(message: I18n.t('js.notice_successful_update'))
 
@@ -131,7 +131,7 @@ describe 'Team planner drag&dop and resizing', type: :feature, js: true do
 
       # Move the third WP to the empty row of the other user
       retry_block do
-        team_planner.drag_wp_by_pixel(third_wp, 0, 100)
+        team_planner.drag_wp_by_pixel(third_wp, 0, 200)
       end
       team_planner.expect_and_dismiss_toaster(message: I18n.t('js.notice_successful_update'))
 
