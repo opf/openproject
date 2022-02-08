@@ -574,6 +574,7 @@ GEM
       open4 (~> 1.0)
     launchy (2.5.0)
       addressable (~> 2.7)
+    lefthook (0.7.7)
     letter_opener (1.7.0)
       launchy (~> 2.2)
     listen (3.7.1)
@@ -1029,6 +1030,7 @@ DEPENDENCIES
   json_spec (~> 1.1.4)
   ladle
   launchy (~> 2.5.0)
+  lefthook
   letter_opener
   listen (~> 3.7.0)
   livingstyleguide (~> 2.1.0)
