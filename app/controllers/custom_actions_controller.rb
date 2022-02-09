@@ -38,8 +38,6 @@ class CustomActionsController < ApplicationController
 
   layout 'admin'
 
-  helper_method :gon
-
   def index
     @custom_actions = CustomAction.order_by_position
   end

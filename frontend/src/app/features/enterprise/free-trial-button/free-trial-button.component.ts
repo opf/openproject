@@ -26,7 +26,12 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Component, Injector } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Injector,
+  OnInit,
+} from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { EnterpriseTrialModalComponent } from 'core-app/features/enterprise/enterprise-modal/enterprise-trial.modal';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
@@ -38,8 +43,9 @@ export const freeTrialButtonSelector = 'free-trial-button';
   selector: freeTrialButtonSelector,
   templateUrl: './free-trial-button.component.html',
   styleUrls: ['./free-trial-button.component.sass'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FreeTrialButtonComponent {
+export class FreeTrialButtonComponent implements OnInit {
   public text = {
     button_trial: this.I18n.t('js.admin.enterprise.upsale.button_start_trial'),
   };
@@ -48,6 +54,10 @@ export class FreeTrialButtonComponent {
     protected opModalService:OpModalService,
     readonly injector:Injector,
     public eeTrialService:EnterpriseTrialService) {
+  }
+
+  ngOnInit() {
+    console.warn('HELLO');
   }
 
   public openTrialModal() {

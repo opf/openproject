@@ -31,8 +31,6 @@ class EnterprisesController < ApplicationController
   layout 'admin'
   menu_item :enterprise
 
-  helper_method :gon
-
   before_action :augur_content_security_policy
   before_action :chargebee_content_security_policy
   before_action :youtube_content_security_policy
@@ -44,7 +42,7 @@ class EnterprisesController < ApplicationController
     @current_token = EnterpriseToken.current
     @token = @current_token || EnterpriseToken.new
 
-    write_augur_to_gon
+    helpers.write_augur_to_gon
 
     if !@current_token.present?
       write_trial_key_to_gon
@@ -106,11 +104,6 @@ class EnterprisesController < ApplicationController
         created: @trial_key.created_at
       }
     end
-  end
-
-  def write_augur_to_gon
-    gon.augur_url = OpenProject::Configuration.enterprise_trial_creation_host
-    gon.token_version = OpenProject::Token::VERSION
   end
 
   def default_breadcrumb
