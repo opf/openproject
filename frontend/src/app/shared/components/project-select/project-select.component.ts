@@ -2,6 +2,7 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import {
   ChangeDetectionStrategy,
   Component,
+  HostBinding,
 } from '@angular/core';
 import { ProjectsResourceService } from 'core-app/core/state/projects/projects.service';
 import { ApiV3ListFilter, ApiV3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
@@ -25,6 +26,8 @@ import { IProject } from 'core-app/core/state/projects/project.model';
   styleUrls: ['./project-select.component.sass'],
 })
 export class OpProjectSelectComponent extends UntilDestroyedMixin {
+  @HostBinding('class.op-project-select') className = true;
+
   public opened = false;
 
   public displayModeOptions = [
