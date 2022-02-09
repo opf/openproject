@@ -4,7 +4,7 @@ sidebar_navigation:
   priority: 890
 description: Using the team planner in OpenProject.
 robots: index, follow
-keywords: team planner,planning calendar
+keywords: team planner,planning calendar, resource management
 ---
 
 # Team planner
@@ -58,7 +58,7 @@ Repeat this step until you have all team members relevant for this planner added
 
 Next, add specific work packages to your planner. Do this by pressing the "+ add existing" button" we introduced in step 2 of the main view overview. Once you press the "+ add existing" button, start typing the name of the work package you are looking to add. Once found, drag & drop the work package strip. Should the work package have a duration exceeding the current 1 or 2 week view, a horizontal scroll bar will display, with which it is possible to scroll to the end date of the longest running work package.
 
-**Note: You can only add existing work packages here. If you need to create some first, create them in teh work package module as new work packages cannot be created from the team planner module.**
+**Note: You can only add existing work packages here. If you need to create some first, create them in the work package module as new work packages cannot be created from the team planner module.**
 
 
 
