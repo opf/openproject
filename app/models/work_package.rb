@@ -65,6 +65,7 @@ class WorkPackage < ApplicationRecord
   }
 
   has_and_belongs_to_many :github_pull_requests
+  has_and_belongs_to_many :gitlab_merge_requests
 
   scope :recently_updated, -> {
     order(updated_at: :desc)
