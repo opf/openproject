@@ -37,6 +37,8 @@ module OpenProject::GitlabIntegration
       def process(payload_params)
         update_status_on_new_mr = false # true if you only reference one merge by work_package, else false.
         update_status_on_merged = false # true if you only reference one merge by work_package, else false.
+        wp_status_id_on_new_mr = 7 # the id of the status.
+        wp_status_id_on_merged = 8 # the id of the status.
 
         accepted_actions = %w[open update reopen]
         accepted_actions_for_comments = %w[open reopen]
@@ -53,9 +55,9 @@ module OpenProject::GitlabIntegration
         if (accepted_actions_for_comments.include? payload.object_attributes.action) || (accepted_states.include? payload.object_attributes.state)
           comment_on_referenced_work_packages(work_packages, user, notes)
           if payload.object_attributes.state == 'opened' && update_status_on_new_mr
-            status_on_referenced_work_packages(work_packages, user, 7)
+            status_on_referenced_work_packages(work_packages, user, wp_status_id_on_new_mr)
           elsif payload.object_attributes.state == 'merged' && update_status_on_merged
-            status_on_referenced_work_packages(work_packages, user, 8)
+            status_on_referenced_work_packages(work_packages, user, wp_status_id_on_merged)
           end
         end
         upsert_merge_request(work_packages)

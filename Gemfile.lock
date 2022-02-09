@@ -103,7 +103,7 @@ PATH
 PATH
   remote: modules/gitlab_integration
   specs:
-    openproject-gitlab_integration (2.0.0)
+    openproject-gitlab_integration (2.0.1)
       openproject-webhooks
 
 PATH
