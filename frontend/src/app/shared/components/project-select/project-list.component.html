@@ -21,6 +21,7 @@
     *ngIf="project.children.length"
     op-project-list
     [projects]="project.children"
-    [(ngModel)]="selected"
+    [selected]="selected"
+    (update)="updateSelected($event)"
   ></ul>
 </li>

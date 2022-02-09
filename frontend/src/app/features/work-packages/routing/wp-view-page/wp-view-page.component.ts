@@ -44,6 +44,7 @@ import { ZenModeButtonComponent } from 'core-app/features/work-packages/componen
 import { WorkPackageSettingsButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/wp-settings-button/wp-settings-button.component';
 import { of } from 'rxjs';
 import { WorkPackageFoldToggleButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/wp-fold-toggle-button/wp-fold-toggle-button.component';
+import { OpProjectSelectComponent } from 'core-app/shared/components/project-select/project-select.component';
 
 @Component({
   selector: 'wp-view-page',
@@ -61,6 +62,9 @@ import { WorkPackageFoldToggleButtonComponent } from 'core-app/features/work-pac
 })
 export class WorkPackageViewPageComponent extends PartitionedQuerySpacePageComponent implements OnInit {
   toolbarButtonComponents:ToolbarButtonComponentDefinition[] = [
+    {
+      component: OpProjectSelectComponent,
+    },
     {
       component: WorkPackageCreateButtonComponent,
       inputs: {

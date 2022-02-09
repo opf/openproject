@@ -19,13 +19,13 @@
       ></spot-toggle>
     </div>
     <form
-      [formGroup]="form"
-      (ngSubmit)="onSubmit()"
+      (submit)="onSubmit($event)"
       class="spot-body"
     >
       <spot-text-field
         placeholder="Search project..."
-        formControlName="query"
+        [(ngModel)]="query"
+        [ngModelOptions]="{standalone: true}"
       >
         <span
           slot="before"
@@ -36,7 +36,8 @@
       <ul
         op-project-list
         [projects]="projects$ | async"
-        formControlName="selectedProjects"
+        [selected]="selectedProjects"
+        (update)="selectedProjects = $event"
       ></ul>
 
       <div class="spot-action-bar">

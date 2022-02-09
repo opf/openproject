@@ -4,9 +4,9 @@ import {
   HostBinding,
   Component,
   Input,
-  forwardRef,
+  EventEmitter,
+  Output,
 } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { IProjectData } from './project-data';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 
@@ -15,28 +15,15 @@ import { CurrentProjectService } from 'core-app/core/current-project/current-pro
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './project-list.component.html',
   styleUrls: ['./project-list.component.sass'],
-  providers: [{
-    provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(() => OpProjectListComponent),
-    multi: true,
-  }],
 })
-export class OpProjectListComponent implements ControlValueAccessor {
+export class OpProjectListComponent {
   @HostBinding('class.spot-list') classNameList = true;
   @HostBinding('class.op-project-list') className = true;
 
+  @Output('update') onUpdateSelected = new EventEmitter<string[]>();
+
   @Input() projects:IProjectData[] = [];
-  @Input('selected') public _selected:string[] = [];
-
-  public get selected():string[] {
-    return this._selected;
-  }
-
-  public set selected(selected:string[]) {
-    this._selected = selected;
-    this.onChange(selected);
-    this.onTouched(selected);
-  }
+  @Input() selected:string[] = [];
 
   public get currentProjectHref() {
     return this.currentProjectService.apiv3Path;
@@ -47,6 +34,10 @@ export class OpProjectListComponent implements ControlValueAccessor {
     readonly currentProjectService:CurrentProjectService,
   ) { }
 
+  public updateSelected(selected:string[]) {
+    this.onUpdateSelected.emit(selected);
+  }
+
   public isChecked(href:string) {
     return this.selected.includes(href);
   }
@@ -54,43 +45,25 @@ export class OpProjectListComponent implements ControlValueAccessor {
   public changeSelected(href:string) {
     const checked = this.isChecked(href);
     if (checked) {
-      this.selected = this.selected.filter(selectedHref => selectedHref !== href);
+      this.updateSelected(this.selected.filter(selectedHref => selectedHref !== href));
     } else {
-      this.selected = [
+      this.updateSelected([
         ...this.selected,
         href,
-      ];
+      ]);
     }
   }
 
   public selectRecursively(children:IProjectData[]) {
+    const selected = [...this.selected];
     for (const child of children) {
       if (!this.isChecked(child.href)) {
-        this.selected = [
-          ...this.selected,
-          child.href,
-        ];
+        selected.push(child.href);
       }
 
       this.selectRecursively(child.children);
     }
-  }
 
-  public writeValue(selected:string[]) {
-    if (!Array.isArray(selected)) {
-      return;
-    }
-    this.selected = selected;
-  }
-
-  public onChange = (_:string[]) => {};
-  public onTouched = (_:string[]) => {};
-
-  public registerOnChange(fn:any) {
-    this.onChange = fn;
-  }
-
-  public registerOnTouched(fn:any) {
-    this.onTouched = fn;
+    this.updateSelected(selected);
   }
 }

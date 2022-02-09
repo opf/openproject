@@ -3,18 +3,14 @@ import {
   ChangeDetectionStrategy,
   Component,
 } from '@angular/core';
-import {
-  FormGroup,
-  FormControl,
-} from '@angular/forms';
 import { ProjectsResourceService } from 'core-app/core/state/projects/projects.service';
 import { ApiV3ListFilter, ApiV3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { WorkPackageViewFiltersService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service';
 import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
-import { combineLatest, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map, mergeMap, shareReplay, take } from 'rxjs/operators';
+import { combineLatest, BehaviorSubject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map, mergeMap, take } from 'rxjs/operators';
 import { IProjectData } from './project-data';
 import { insertInList } from './insert-in-list';
 import { recursiveSort } from './recursive-sort';
@@ -31,6 +27,11 @@ import { IProject } from 'core-app/core/state/projects/project.model';
 export class OpProjectSelectComponent extends UntilDestroyedMixin {
   public opened = false;
 
+  public displayModeOptions = [
+    { value: 'all', title: 'All projects' },
+    { value: 'selected', title: 'Only selected' },
+  ];
+
   private _displayMode = 'all';
   public get displayMode() {
     return this._displayMode;
@@ -39,20 +40,27 @@ export class OpProjectSelectComponent extends UntilDestroyedMixin {
     this._displayMode = val;
     this.displayMode$.next(val);
   }
-  public displayMode$ = new Subject();
-  public displayModeOptions = [
-    { value: 'all', title: 'All projects' },
-    { value: 'selected', title: 'Only selected' },
-  ];
+  public displayMode$ = new BehaviorSubject('all');
 
-  public form = new FormGroup({
-    selectedProjects: new FormControl([]),
-    query: new FormControl(''),
-  });
-
+  private _query = '';
   public get query():string {
-    return this.form.get('query')?.value || '';
+    return this._query;
   }
+  public set query(val:string) {
+    this._query = val;
+    this.query$.next(val);
+  }
+  public query$ = new BehaviorSubject('');
+
+  private _selectedProjects:string[] = [];
+  public get selectedProjects():string[] {
+    return this._selectedProjects;
+  }
+  public set selectedProjects(val:string[]) {
+    this._selectedProjects = val;
+    this.selectedProjects$.next(val);
+  }
+  public selectedProjects$ = new BehaviorSubject<string[]>([]);
 
   private projectsInFilter$ = this.wpTableFilters
     .live$()
@@ -71,15 +79,8 @@ export class OpProjectSelectComponent extends UntilDestroyedMixin {
           currentProjectHref,
         ];
       }),
-      shareReplay(1),
     );
-
   public allProjects$ = this.projectsResourceService.query.selectAll();
-  public query$ = this.form.valueChanges.pipe(map(value => value.query));
-  public selectedProjects$ = this.form.valueChanges.pipe(
-    map(value => value.selectedProjects),
-    shareReplay(1),
-  );
 
   public projects$ = combineLatest([
       this.allProjects$,
@@ -145,10 +146,8 @@ export class OpProjectSelectComponent extends UntilDestroyedMixin {
       .pipe(take(1))
       .subscribe((selectedProjects) => {
         this.displayMode = 'all';
-        this.form.setValue({
-          query: '',
-          selectedProjects,
-        });
+        this.query = '';
+        this.selectedProjects = selectedProjects as string[];
       });
   }
 
@@ -159,13 +158,15 @@ export class OpProjectSelectComponent extends UntilDestroyedMixin {
   }
 
   public clearSelection() {
-    this.form.get('selectedProjects')?.setValue([]);
+    this.selectedProjects = [];
   }
 
-  public onSubmit() {
+  public onSubmit(e:Event) {
+    e.preventDefault();
+
     // Replace actually also instantiates if it does not exist, which is handy here
     this.wpTableFilters.replace('project', (projectFilter:QueryFilterInstanceResource) => {
-      const projectHrefs = this.form.get('selectedProjects')?.value;
+      const projectHrefs = this.selectedProjects;
       // eslint-disable-next-line no-param-reassign
       projectFilter.values = projectHrefs.map((href:string) => this.halResourceService.createHalResource({ href }, true));
     });

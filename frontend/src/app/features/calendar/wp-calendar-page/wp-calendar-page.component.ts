@@ -44,6 +44,7 @@ import { ZenModeButtonComponent } from 'core-app/features/work-packages/componen
 import { WorkPackageSettingsButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/wp-settings-button/wp-settings-button.component';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { QueryParamListenerService } from 'core-app/features/work-packages/components/wp-query/query-param-listener.service';
+import { OpProjectSelectComponent } from 'core-app/shared/components/project-select/project-select.component';
 
 @Component({
   templateUrl: '../../work-packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.html',
@@ -90,6 +91,9 @@ export class WorkPackagesCalendarPageComponent extends PartitionedQuerySpacePage
 
   /** Define the buttons shown in the toolbar */
   toolbarButtonComponents:ToolbarButtonComponentDefinition[] = [
+    {
+      component: OpProjectSelectComponent,
+    },
     {
       component: WorkPackageFilterButtonComponent,
     },
