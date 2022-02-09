@@ -138,7 +138,7 @@ RSpec.feature 'Work package copy', js: true, selenium: true do
 
       # Go to add cost entry page
       find('#action-show-more-dropdown-menu .button').click
-      find('.menu-item', text: 'Copy').click
+      find('.menu-item', text: 'Copy', exact_text: true).click
 
       to_copy_work_package_page = Pages::FullWorkPackageCreate.new original_work_package: original_work_package
       to_copy_work_package_page.update_attributes Description: 'Copied WP Description'
