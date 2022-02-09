@@ -14,3 +14,7 @@ es:
       quick_add:
         empty_state: 'Use the search field to find work packages and drag them to the planner to assign it to someone and define start and end dates.'
         search_placeholder: 'Search...'
+      modify:
+        errors:
+          permission_denied: 'You do not have the necessary permissions to modify this.'
+          fallback: 'This work package cannot be edited.'

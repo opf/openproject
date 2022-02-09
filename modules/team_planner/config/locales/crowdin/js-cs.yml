@@ -14,3 +14,7 @@ cs:
       quick_add:
         empty_state: 'Použijte vyhledávací pole pro nalezení pracovních balíčků a přetáhněte je do plánovače, aby někomu přiřadil a definoval datum začátku a konce.'
         search_placeholder: 'Hledat...'
+      modify:
+        errors:
+          permission_denied: 'You do not have the necessary permissions to modify this.'
+          fallback: 'This work package cannot be edited.'
