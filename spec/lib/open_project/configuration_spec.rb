@@ -52,6 +52,21 @@ describe OpenProject::Configuration do
       expect(described_class[:somesetting]).to eq('foo')
       expect(described_class.somesetting).to eq('foo')
     end
+
+    context 'with deep nesting' do
+      let(:file_contents) do
+        <<-CONTENT
+        default:
+          web:
+           timeout: 42
+        CONTENT
+      end
+
+      it 'deepmerges the config from the file into the given config hash' do
+        expect(described_class['web']['workers']).not_to be_nil
+        expect(described_class['web']['timeout']).to eq(42)
+      end
+    end
   end
 
   describe '.load_env_from_config' do
@@ -92,6 +107,27 @@ describe OpenProject::Configuration do
 
       it 'loads the overriding value' do
         expect(config['somesetting']).to eq('bar')
+      end
+
+      context 'with deep nesting' do
+        let(:config) do
+          described_class.send(:load_env_from_config, {
+                                 'default' => { 'web' => {
+                                   'overridensetting' => 'unseen!',
+                                   'somesetting' => 'foo'
+                                 } },
+                                 'test' => { 'web' => {
+                                   'overridensetting' => 'env wins',
+                                   'someothersetting' => 'bar'
+                                 } }
+                               }, 'test')
+        end
+
+        it 'deepmerges configs together' do
+          expect(config['web']['overridensetting']).to eq('env wins')
+          expect(config['web']['somesetting']).to eq('foo')
+          expect(config['web']['someothersetting']).to eq('bar')
+        end
       end
     end
   end
