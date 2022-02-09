@@ -147,6 +147,10 @@ import {
   enterpriseBaseSelector,
 } from 'core-app/features/enterprise/enterprise-base.component';
 import {
+  FreeTrialButtonComponent,
+  freeTrialButtonSelector,
+} from 'core-app/features/enterprise/free-trial-button/free-trial-button.component';
+import {
   EEActiveSavedTrialComponent,
   enterpriseActiveSavedTrialSelector,
 } from 'core-app/features/enterprise/enterprise-active-trial/ee-active-saved-trial.component';
@@ -219,6 +223,7 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: collapsibleSectionAugmentSelector, cls: CollapsibleSectionComponent },
   { selector: enterpriseBannerSelector, cls: EnterpriseBannerBootstrapComponent },
   { selector: enterpriseBaseSelector, cls: EnterpriseBaseComponent },
+  { selector: freeTrialButtonSelector, cls: FreeTrialButtonComponent },
   { selector: enterpriseActiveSavedTrialSelector, cls: EEActiveSavedTrialComponent },
   { selector: projectMenuAutocompleteSelector, cls: ProjectMenuAutocompleteComponent },
   { selector: remoteFieldUpdaterSelector, cls: RemoteFieldUpdaterComponent },
