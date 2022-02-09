@@ -42,10 +42,9 @@ export const freeTrialButtonSelector = 'free-trial-button';
 @Component({
   selector: freeTrialButtonSelector,
   templateUrl: './free-trial-button.component.html',
-  styleUrls: ['./free-trial-button.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FreeTrialButtonComponent implements OnInit {
+export class FreeTrialButtonComponent {
   public text = {
     button_trial: this.I18n.t('js.admin.enterprise.upsale.button_start_trial'),
   };
@@ -55,16 +54,13 @@ export class FreeTrialButtonComponent implements OnInit {
     readonly injector:Injector,
     public eeTrialService:EnterpriseTrialService) {
   }
-
-  ngOnInit() {
-    console.warn('HELLO');
-  }
-
-  public openTrialModal() {
+  public openTrialModal():void {
     // cancel request and open first modal window
     this.eeTrialService.cancelled = true;
     this.eeTrialService.modalOpen = true;
     this.opModalService.show(EnterpriseTrialModalComponent, this.injector);
   }
-
+  public get noTrialRequested() {
+    return this.eeTrialService.status === undefined;
+  }
 }

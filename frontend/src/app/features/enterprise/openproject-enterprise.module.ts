@@ -49,7 +49,7 @@ import { FreeTrialButtonComponent } from 'core-app/features/enterprise/free-tria
   providers: [
     EnterpriseTrialService,
   ],
-  exports:[
+  exports: [
     FreeTrialButtonComponent,
   ],
   declarations: [
