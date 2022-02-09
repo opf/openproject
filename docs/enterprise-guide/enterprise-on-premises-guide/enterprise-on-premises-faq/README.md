@@ -10,6 +10,11 @@ keywords: Enterprise on-premises FAQ, enterprise edition, self-hosted
 
 # Frequently asked questions (FAQ) for Enterprise on-premises
 
+## How can I test the OpenProject Enterprise on-premises?
+
+You can test the on-premises version 14 days for free by generating a free trial token on our [pricing site](https://www.openproject.org/pricing/). If you already have a Community edition installed, you can simply upgrade the existing installation with this token. It will automatically switch back to the Community version afterwards without any need for cancellation.
+
+If you do not yet have an own Community installation, the easiest way to test OpenProject is to create a 14 days free trial on our [Enterprise cloud](https://start.openproject.com/). If you want to proceed, you can then switch to a self-hosted version by choosing one of our [paid plans](https://www.openproject.org/pricing/).
 
 ## How can I upgrade to the OpenProject Enterprise on-premises edition?
 
