@@ -16,6 +16,12 @@ export const PERMITTED_CONTEXT_MENU_ACTIONS = [
     resource: 'workPackage',
   },
   {
+    key: 'copy_to_other_project',
+    link: 'copy',
+    icon: 'icon-project-types',
+    resource: 'workPackage',
+  },
+  {
     key: 'delete',
     link: 'delete',
     resource: 'workPackage',
