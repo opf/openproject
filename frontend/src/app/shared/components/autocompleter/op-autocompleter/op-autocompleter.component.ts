@@ -334,7 +334,6 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
   }
 
   public keydowned(val:any) {
-    this.repositionDropdown();
     this.keydown.emit(val);
   }
 
