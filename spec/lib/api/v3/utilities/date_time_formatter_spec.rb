@@ -79,14 +79,20 @@ describe :DateTimeFormatter do
       bad_format = date.strftime('%d.%m.%Y')
       expect do
         subject.parse_date(bad_format, 'prop')
-      end.to raise_error(API::Errors::PropertyFormatError)
+      end.to raise_error(API::Errors::PropertyFormatError) do |error| # rubocop:disable Style/MultilineBlockChain
+        expect(error.message).to include("Invalid format for property 'prop'")
+        expect(error.message).to include("Expected format like 'YYYY-MM-DD (ISO 8601 date only)'")
+      end
     end
 
     it 'rejects parsing ISO 8601 date + time formats' do
       bad_format = datetime.iso8601
       expect do
         subject.parse_date(bad_format, 'prop')
-      end.to raise_error(API::Errors::PropertyFormatError)
+      end.to raise_error(API::Errors::PropertyFormatError) do |error| # rubocop:disable Style/MultilineBlockChain
+        expect(error.message).to include("Invalid format for property 'prop'")
+        expect(error.message).to include("Expected format like 'YYYY-MM-DD (ISO 8601 date only)'")
+      end
     end
 
     it_behaves_like 'can parse nil' do

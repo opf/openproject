@@ -41,7 +41,10 @@ module API
 
         property :originData,
                  exec_context: :decorator,
-                 getter: ->(*) { make_origin_data(represented) }
+                 getter: ->(*) { make_origin_data(represented) },
+                 setter: ->(fragment:, **) do
+                   represented.assign_attributes(parse_origin_data(fragment))
+                 end
 
         link :self do
           {
@@ -101,6 +104,17 @@ module API
             lastModifiedAt: datetime_formatter.format_datetime(model.origin_updated_at, allow_nil: true),
             createdByName: model.origin_created_by_name,
             lastModifiedByName: model.origin_last_modified_by_name
+          }
+        end
+
+        def parse_origin_data(origin_data)
+          {
+            origin_id: origin_data["id"].to_s,
+            origin_name: origin_data["name"],
+            origin_mime_type: origin_data["mimeType"],
+            origin_created_by_name: origin_data["createdByName"],
+            origin_last_modified_by_name: origin_data["lastModifiedByName"]
+            # createdAt and lastModifiedAt to be done
           }
         end
       end
