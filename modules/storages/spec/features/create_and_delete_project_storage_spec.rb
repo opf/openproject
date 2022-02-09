@@ -38,7 +38,6 @@ describe 'Setup project storage', type: :feature, js: true do
   let(:storage) { create(:storage, name: "Storage 1") }
   let(:project) { create(:project, name: 'Project 1', identifier: 'demo-project', enabled_module_names: [:storages, :work_package_tracking]) }
   let(:work_package) { create(:work_package, project: project) }
-  let(:project_storage) { create(:project_storage, { storage: storage, project: project }) }
 
   before do
     storage
@@ -48,15 +47,15 @@ describe 'Setup project storage', type: :feature, js: true do
   it 'activates up a ProjectStorage for a specific project' do
     # Go to Projects -> Settings -> File Storages
     visit project_settings_general_path(project)
-    settings_link = page.find('.settings-projects-storages-menu-item')
-    settings_link.click
+    page.find('.settings-projects-storages-menu-item').click
 
     # Check for an empty Project -> Settings -> File storages page
     expect(page).to have_title('File storages')
+    expect(page).to have_current_path project_settings_projects_storages_path(project)
     expect(page).to have_text('No storage setup, yet.')
     page.find('.toolbar .button--icon.icon-add').click
 
-    # Enable the one and oly file storage
+    # Enable the one and only file storage
     expect(page).to have_title('File storages')
     expect(page).to have_text('Enable a file storage')
     page.find('button[type=submit]').click
@@ -66,11 +65,14 @@ describe 'Setup project storage', type: :feature, js: true do
     expect(page).to have_text('File storages available in this project')
     expect(page).to have_text('Storage 1')
 
-    # Go to the Work Package in order to add a file link
-    visit work_package_path(work_package)
-    # Here we'd expect functionality wrt adding a file_link,
-    # which doesn't seem to exist yet.
-    # binding.pry
+    # Press Delete icon to disable the ProjectStorage again
+    page.find('.icon.icon-delete').click
+    alert_text = page.driver.browser.switch_to.alert.text
+    expect(alert_text).to have_text 'Are you sure'
+    page.driver.browser.switch_to.alert.accept
 
+    # List of ProjectStorages empty again
+    expect(page).to have_current_path project_settings_projects_storages_path(project)
+    expect(page).to have_text('No storage setup, yet.')
   end
 end

@@ -26,8 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Requires project and storage as parameters
-
+# Required parameters: project and storage
 FactoryBot.define do
   factory :project_storage, class: '::Storages::ProjectStorage' do |m|
     creator factory: :user

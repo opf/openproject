@@ -30,7 +30,7 @@ require_relative '../spec_helper'
 
 describe ::Storages::FileLink, type: :model do
   let(:creator) { create(:user) }
-  let(:project) { create(:project) } # , enabled_module_names: %i[storages work_packages]
+  let(:project) { create(:project) }
   let(:work_package) { create(:work_package, project: project) }
   let(:storage) { create(:storage) }
   let(:attributes) do
@@ -53,14 +53,8 @@ describe ::Storages::FileLink, type: :model do
       expect(file_link).to be_valid
     end
 
-    it "create instance should fail with unsupported container type" do
+    it "should fail when creating an instance with an unsupported container type" do
       file_link = described_class.create(attributes.merge({ container_id: creator.id, container_type: "User" }))
-      # Fails with Failure/Error. Catch the error?
-      expect(file_link).to be_invalid
-    end
-
-    it "create instance should fail with wrong creator object" do
-      file_link = described_class.create(attributes.merge({ creator_id: project.id }))
       expect(file_link).to be_invalid
     end
 
@@ -69,7 +63,6 @@ describe ::Storages::FileLink, type: :model do
       expect(file_link).to be_invalid
     end
   end
-
 
   describe '#destroy' do
     let(:file_link_to_destroy) { described_class.create(attributes) }
@@ -82,6 +75,4 @@ describe ::Storages::FileLink, type: :model do
       expect(Storages::FileLink.count).to be 0
     end
   end
-
-
 end

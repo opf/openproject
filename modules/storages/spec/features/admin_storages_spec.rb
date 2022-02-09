@@ -31,9 +31,7 @@
 require_relative '../spec_helper'
 
 describe 'Admin storages', type: :feature, js: true do
-  let(:admin) do
-    create(:admin)
-  end
+  let(:admin) { create(:admin) }
 
   before do
     login_as admin

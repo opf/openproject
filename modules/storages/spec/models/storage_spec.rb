@@ -29,62 +29,63 @@
 require_relative '../spec_helper'
 
 describe ::Storages::Storage, type: :model do
-  let(:test_default_creator) { create(:user) }
-  let(:test_default_attributes) do
+  let(:creator) { create(:user) }
+  let(:default_attributes) do
     { name: "NC 1",
       provider_type: 'nextcloud',
       host: 'https://example.com',
-      creator: test_default_creator }
+      creator: creator }
   end
 
   describe '#create' do
     it "creates an instance" do
-      storage = described_class.create test_default_attributes
+      storage = described_class.create default_attributes
       expect(storage).to be_valid
     end
-
+    
     it "fails the validation if name is empty string" do
-      expect(described_class.create(test_default_attributes.merge({ name: "" }))).to be_invalid
+      expect(described_class.create(default_attributes.merge({ name: "" }))).to be_invalid
     end
 
     it "fails the validation if name is nil" do
-      expect(described_class.create(test_default_attributes.merge({ name: nil }))).to be_invalid
+      expect(described_class.create(default_attributes.merge({ name: nil }))).to be_invalid
     end
 
     it "fails the validation if host is empty string" do
-      expect(described_class.create(test_default_attributes.merge({ host: '' }))).to be_invalid
+      expect(described_class.create(default_attributes.merge({ host: '' }))).to be_invalid
     end
 
     it "fails the validation if host is nil" do
-      expect(described_class.create(test_default_attributes.merge({ host: nil }))).to be_invalid
+      expect(described_class.create(default_attributes.merge({ host: nil }))).to be_invalid
     end
-
-    context "when having already one instance" do
-      let(:old_storage) { described_class.create test_default_attributes }
-
+    
+    context "having already one instance" do
+      let(:old_storage) { described_class.create default_attributes }
+      
       before do
         old_storage
       end
-
+      
       it "fails the validation if name is not unique" do
-        expect(described_class.create(test_default_attributes.merge({ host: 'https://example2.com' }))).to be_invalid
+        expect(described_class.create(default_attributes.merge({ host: 'https://example2.com' }))).to be_invalid
       end
 
       it "fails the validation if host is not unique" do
-        expect(described_class.create(test_default_attributes.merge({ name: 'NC 2' }))).to be_invalid
+        expect(described_class.create(default_attributes.merge({ name: 'NC 2' }))).to be_invalid
       end
     end
   end
 
   describe '#destroy' do
     let(:project) { create(:project) }
-    let(:storage) { described_class.create(test_default_attributes) }
-    let(:project_storage) { Storages::ProjectStorage.create(project: project, storage: storage, creator: test_default_creator) }
+    let(:storage) { described_class.create(default_attributes) }
+    # let(:project_storage) { Storages::ProjectStorage.create(project: project, storage: storage, creator: creator) }
+    let(:project_storage) { create(:project_storage, project: project, storage: storage, creator: creator) }
     let(:work_package) { create(:work_package, project: project) }
     let(:file_link) do
       Storages::FileLink.create(container: work_package,
                                 storage: storage,
-                                creator: test_default_creator,
+                                creator: creator,
                                 container_type: "WorkPackage")
     end
 
