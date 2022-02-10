@@ -31,11 +31,11 @@ FactoryBot.define do
   factory :file_link, class: '::Storages::FileLink' do
     creator factory: :user
     container_type { 'WorkPackage' }
-    sequence(:origin_id) { |n| "#10000#{n}" } # ID within Nextcloud
-    sequence(:origin_name) { |n| "filename #{n}" } # File name within Nextcloud
+    sequence(:origin_id) { |n| "#10000#{n}" } # ID within external storage (i.e. Nextcloud)
+    sequence(:origin_name) { |n| "file_name_#{n}.txt" } # File name within external storage (i.e. Nextcloud)
     origin_created_by_name { "Peter Pan" }
     origin_last_modified_by_name { "Petra Panadera" }
-    origin_mime_type { "application/octet-stream" }
+    origin_mime_type { "text/plain" }
     origin_created_at { Time.zone.now }
     origin_updated_at { Time.zone.now }
   end
