@@ -454,9 +454,12 @@ zh-TW:
         code: '狀態'
         explanation: '狀態描述'
         codes:
+          not_started: 'Not started'
           on_track: '進度良好'
           at_risk: '存在風險'
           off_track: '進度脫軌'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
       query:
         column_names: "欄"
         relations_to_type_column: "與 %{type} 的關連"

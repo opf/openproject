@@ -37,12 +37,12 @@ describe ::API::V3::Repositories::RevisionRepresenter do
   let(:repository) { build :repository_subversion, project: project }
   let(:revision) do
     build(:changeset,
-                     id: 42,
-                     revision: '1234',
-                     repository: repository,
-                     comments: commit_message,
-                     committer: 'foo bar <foo@example.org>',
-                     committed_on: DateTime.now)
+          id: 42,
+          revision: '1234',
+          repository: repository,
+          comments: commit_message,
+          committer: 'foo bar <foo@example.org>',
+          committed_on: DateTime.now)
   end
 
   let(:commit_message) { 'Some commit message' }

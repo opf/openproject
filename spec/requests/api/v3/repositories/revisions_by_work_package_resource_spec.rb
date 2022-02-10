@@ -36,8 +36,8 @@ describe 'API v3 Revisions by work package resource', type: :request do
 
   let(:current_user) do
     create(:user,
-                      member_in_project: project,
-                      member_through_role: role)
+           member_in_project: project,
+           member_through_role: role)
   end
   let(:project) { create(:project, public: false) }
   let(:role) { create(:role, permissions: permissions) }
@@ -69,9 +69,9 @@ describe 'API v3 Revisions by work package resource', type: :request do
     context 'with existing revisions' do
       let(:revisions) do
         build_list(:changeset,
-                              5,
-                              comments: "This commit references ##{work_package.id}",
-                              repository: repository)
+                   5,
+                   comments: "This commit references ##{work_package.id}",
+                   repository: repository)
       end
 
       it_behaves_like 'API V3 collection response', 5, 5, 'Revision'
@@ -96,16 +96,16 @@ describe 'API v3 Revisions by work package resource', type: :request do
       let(:repository) { create(:repository_subversion, project: subproject) }
       let!(:revisions) do
         build_list(:changeset,
-                              2,
-                              comments: "This commit references ##{work_package.id}",
-                              repository: repository)
+                   2,
+                   comments: "This commit references ##{work_package.id}",
+                   repository: repository)
       end
 
       context 'with permissions in subproject' do
         let(:current_user) do
           create(:user,
-                            member_in_projects: [project, subproject],
-                            member_through_role: role)
+                 member_in_projects: [project, subproject],
+                 member_through_role: role)
         end
 
         it_behaves_like 'API V3 collection response', 2, 2, 'Revision'

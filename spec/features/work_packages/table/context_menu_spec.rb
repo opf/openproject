@@ -84,6 +84,12 @@ describe 'Work package table context menu', js: true do
 
         goto_context_menu list_view
         menu.expect_no_options 'Add predecessor', 'Add follower'
+
+        # Copy to other project
+        goto_context_menu list_view
+        menu.choose('Copy to other project')
+        expect(page).to have_selector('h2', text: I18n.t(:button_copy))
+        expect(page).to have_selector('a.work_package', text: "##{work_package.id}")
       end
     end
 

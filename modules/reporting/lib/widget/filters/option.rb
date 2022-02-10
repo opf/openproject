@@ -30,9 +30,6 @@
 # Accepts option :content, which expects an enumerable of [name, id, *args]
 # as it would appear in a filters available values. If given, it renders the
 # option-tags from the content array instead of the filters available values.
-# make sure to require Widget::Filters::Base first because otherwise
-# ruby might find Base within Widget and Rails will not load it
-require_dependency 'widget/filters/base'
 class Widget::Filters::Option < Widget::Filters::Base
   def render
     first = true

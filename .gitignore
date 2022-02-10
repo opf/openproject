@@ -118,3 +118,6 @@ structure.sql
 # Local development direnv files
 /.envrc
 /.direnv
+
+# lefthook.yml user override
+lefthook-local.yml

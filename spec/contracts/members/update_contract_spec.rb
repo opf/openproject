@@ -37,9 +37,9 @@ describe Members::UpdateContract do
   it_behaves_like 'member contract' do
     let(:member) do
       build_stubbed(:member,
-                               project: member_project,
-                               roles: member_roles,
-                               principal: member_principal)
+                    project: member_project,
+                    roles: member_roles,
+                    principal: member_principal)
     end
 
     let(:contract) { described_class.new(member, current_user) }

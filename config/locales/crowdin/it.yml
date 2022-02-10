@@ -319,7 +319,7 @@ it:
       other: '%{count} macro-attività discendenti'
     bulk:
       could_not_be_saved: "Le seguenti macro-attività non possono essere salvate:"
-      none_could_be_saved: "None of the %{total} work packages could be updated."
+      none_could_be_saved: "Nessuna delle %{total} macro-attività può essere aggiornata."
       x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
       selected_because_descendants: "While %{selected} work packages where selected, in total %{total} work packages are affected which includes descendants."
       descendant: "descendant of selected"
@@ -452,9 +452,12 @@ it:
         code: 'Stato'
         explanation: 'Descrizione stato'
         codes:
+          not_started: 'Not started'
           on_track: 'Nei limiti'
           at_risk: 'A rischio'
           off_track: 'Fuori limite'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
       query:
         column_names: "Colonne"
         relations_to_type_column: "Relazioni con %{type}"
@@ -2345,9 +2348,9 @@ it:
   setting_apiv3_cors_origins: "Origini di condivisione CORS (Cross-Origin Resource Sharing) API V3 consentite"
   setting_apiv3_cors_origins_text_html: >
     Se CORS è abilitato, queste sono le origini che possono accedere alle API di OpenProject. <br/> Controlla la <a href="%{origin_link}" target="_blank">Documentazione sull'intestazione dell'origine</a> per sapere come specificare i valori previsti.
-  setting_apiv3_max_page_size: "Maximum API page size"
+  setting_apiv3_max_page_size: "Dimensione massima della pagina API"
   setting_apiv3_max_page_instructions_html: >
-    Set the maximum page size the API will respond with. It will not be possible to perform API requests that return more values on a single page. <br/> <strong>Warning:</strong> Please only change this value if you are sure why you need it. Setting to a high value will result in significant performance impacts, while a value lower than the per page options will cause errors in paginated views.
+    Imposta la dimensione massima della pagina con cui l'API risponderà. Non sarà possibile eseguire richieste API che restituiscono più valori su una singola pagina. <br/> <strong>Attenzione:</strong> Si prega di modificare questo valore solo se sei sicuro del motivo per cui ne hai bisogno. La definizione di un valore elevato comporterà un impatto significativo sulle prestazioni, mentre un valore inferiore alle opzioni per pagina causerà errori nelle viste paginate.
   setting_apiv3_docs: "Documentazione"
   setting_apiv3_docs_enabled: "Abilita pagina di documenti"
   setting_apiv3_docs_enabled_instructions_html: >

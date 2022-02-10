@@ -31,14 +31,14 @@ require 'spec_helper'
 RSpec.feature 'Work package index sums', js: true do
   let(:user) do
     create :user,
-                      member_in_project: project,
-                      member_with_permissions: %i[view_own_hourly_rate
-                                                  view_work_packages
-                                                  edit_work_packages
-                                                  view_time_entries
-                                                  view_cost_entries
-                                                  view_cost_rates
-                                                  log_costs]
+           member_in_project: project,
+           member_with_permissions: %i[view_own_hourly_rate
+                                       view_work_packages
+                                       edit_work_packages
+                                       view_time_entries
+                                       view_cost_entries
+                                       view_cost_rates
+                                       log_costs]
   end
   let(:project) do
     create(:project, name: 'project1', identifier: 'project1')
@@ -70,30 +70,30 @@ RSpec.feature 'Work package index sums', js: true do
   end
   let!(:hourly_rate) do
     create :default_hourly_rate,
-                      user: user,
-                      rate: 10.00
+           user: user,
+           rate: 10.00
   end
   let!(:time_entry) do
     create :time_entry,
-                      user: user,
-                      work_package: work_package_1,
-                      project: project,
-                      hours: 1.50
+           user: user,
+           work_package: work_package_1,
+           project: project,
+           hours: 1.50
   end
   let(:cost_type) do
     type = create :cost_type, name: 'Translations'
     create :cost_rate,
-                      cost_type: type,
-                      rate: 3.00
+           cost_type: type,
+           rate: 3.00
     type
   end
   let!(:cost_entry) do
     create :cost_entry,
-                      work_package: work_package_1,
-                      project: project,
-                      units: 2.50,
-                      cost_type: cost_type,
-                      user: user
+           work_package: work_package_1,
+           project: project,
+           units: 2.50,
+           cost_type: cost_type,
+           user: user
   end
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }

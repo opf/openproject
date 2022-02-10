@@ -7,8 +7,8 @@ describe 'Activity tab notifications', js: true, selenium: true do
   shared_let(:project) { create :project_with_types, public: true }
   shared_let(:work_package) do
     work_package = create(:work_package,
-                                     project: project,
-                                     created_at: 5.days.ago.to_date.to_s(:db))
+                          project: project,
+                          created_at: 5.days.ago.to_date.to_s(:db))
 
     work_package.update({ journal_notes: 'First comment on this wp.',
                           updated_at: 5.days.ago.to_date.to_s })
@@ -24,10 +24,10 @@ describe 'Activity tab notifications', js: true, selenium: true do
   shared_examples_for 'when there are notifications for the work package' do
     shared_let(:notification) do
       create :notification,
-                        recipient: admin,
-                        project: project,
-                        resource: work_package,
-                        journal: work_package.journals.last
+             recipient: admin,
+             project: project,
+             resource: work_package,
+             journal: work_package.journals.last
     end
     it 'shows a notification bubble with the right number' do
       expect(page).to have_selector('[data-qa-selector="tab-counter-Activity"]', text: '1')

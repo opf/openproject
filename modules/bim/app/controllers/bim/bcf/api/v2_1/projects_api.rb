@@ -49,8 +49,7 @@ module Bim::Bcf::API::V2_1
 
         get &::Bim::Bcf::API::V2_1::Endpoints::Show.new(model: Project).mount
         put &::Bim::Bcf::API::V2_1::Endpoints::Update
-               .new(model: Project,
-                    process_service: ::Projects::UpdateService)
+               .new(model: Project)
                .mount
 
         mount ::Bim::Bcf::API::V2_1::TopicsAPI

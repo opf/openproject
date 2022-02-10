@@ -32,8 +32,8 @@ require 'features/work_packages/work_packages_page'
 describe 'Filter updates pagination', type: :feature, js: true do
   let(:user) do
     create(:user,
-                      member_in_project: project,
-                      member_with_permissions: %i[view_work_packages])
+           member_in_project: project,
+           member_with_permissions: %i[view_work_packages])
   end
 
   let(:work_packages_page) { WorkPackagesPage.new(project) }

@@ -37,9 +37,9 @@ describe SysController, type: :controller, with_settings: { sys_api_enabled: tru
   let(:valid_user_password) { 'Top Secret Password' }
   let(:valid_user) do
     create(:user,
-                      login: 'johndoe',
-                      password: valid_user_password,
-                      password_confirmation: valid_user_password)
+           login: 'johndoe',
+           password: valid_user_password,
+           password_confirmation: valid_user_password)
   end
 
   let(:api_key) { '12345678' }
@@ -87,9 +87,9 @@ describe SysController, type: :controller, with_settings: { sys_api_enabled: tru
       context 'for valid login and user has read permission (role reporter) for project' do
         before(:each) do
           create(:member,
-                            user: valid_user,
-                            roles: [browse_role],
-                            project: project)
+                 user: valid_user,
+                 roles: [browse_role],
+                 project: project)
 
           request.env['HTTP_AUTHORIZATION'] =
             ActionController::HttpAuthentication::Basic.encode_credentials(
@@ -118,9 +118,9 @@ describe SysController, type: :controller, with_settings: { sys_api_enabled: tru
       context 'for valid login and user has rw permission (role developer) for project' do
         before(:each) do
           create(:member,
-                            user: valid_user,
-                            roles: [commit_role],
-                            project: project)
+                 user: valid_user,
+                 roles: [commit_role],
+                 project: project)
           valid_user.save
           request.env['HTTP_AUTHORIZATION'] =
             ActionController::HttpAuthentication::Basic.encode_credentials(
@@ -149,9 +149,9 @@ describe SysController, type: :controller, with_settings: { sys_api_enabled: tru
       context 'for invalid login and user has role manager for project' do
         before(:each) do
           create(:member,
-                            user: valid_user,
-                            roles: [commit_role],
-                            project: project)
+                 user: valid_user,
+                 roles: [commit_role],
+                 project: project)
           request.env['HTTP_AUTHORIZATION'] =
             ActionController::HttpAuthentication::Basic.encode_credentials(
               valid_user.login,
@@ -192,9 +192,9 @@ describe SysController, type: :controller, with_settings: { sys_api_enabled: tru
         before(:each) do
           random_project = create(:project, public: false)
           create(:member,
-                            user: valid_user,
-                            roles: [browse_role],
-                            project: random_project)
+                 user: valid_user,
+                 roles: [browse_role],
+                 project: random_project)
 
           request.env['HTTP_AUTHORIZATION'] =
             ActionController::HttpAuthentication::Basic.encode_credentials(
@@ -288,9 +288,9 @@ describe SysController, type: :controller, with_settings: { sys_api_enabled: tru
       context 'for valid login and user has read permission (role reporter) for project' do
         before(:each) do
           create(:member,
-                            user: valid_user,
-                            roles: [browse_role],
-                            project: project)
+                 user: valid_user,
+                 roles: [browse_role],
+                 project: project)
 
           request.env['HTTP_AUTHORIZATION'] =
             ActionController::HttpAuthentication::Basic.encode_credentials(
@@ -325,9 +325,9 @@ describe SysController, type: :controller, with_settings: { sys_api_enabled: tru
       context 'for valid login and user has rw permission (role developer) for project' do
         before(:each) do
           create(:member,
-                            user: valid_user,
-                            roles: [commit_role],
-                            project: project)
+                 user: valid_user,
+                 roles: [commit_role],
+                 project: project)
           valid_user.save
 
           request.env['HTTP_AUTHORIZATION'] =
@@ -363,9 +363,9 @@ describe SysController, type: :controller, with_settings: { sys_api_enabled: tru
       context 'for invalid login and user has role manager for project' do
         before(:each) do
           create(:member,
-                            user: valid_user,
-                            roles: [commit_role],
-                            project: project)
+                 user: valid_user,
+                 roles: [commit_role],
+                 project: project)
 
           request.env['HTTP_AUTHORIZATION'] =
             ActionController::HttpAuthentication::Basic.encode_credentials(
@@ -413,9 +413,9 @@ describe SysController, type: :controller, with_settings: { sys_api_enabled: tru
         before(:each) do
           random_project = create(:project, public: false)
           create(:member,
-                            user: valid_user,
-                            roles: [browse_role],
-                            project: random_project)
+                 user: valid_user,
+                 roles: [browse_role],
+                 project: random_project)
 
           request.env['HTTP_AUTHORIZATION'] =
             ActionController::HttpAuthentication::Basic.encode_credentials(

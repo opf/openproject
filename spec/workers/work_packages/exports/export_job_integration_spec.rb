@@ -34,8 +34,8 @@ describe WorkPackages::ExportJob, 'Integration' do
   let(:project) { create(:project) }
   let(:user) do
     create(:user,
-                      member_in_project: project,
-                      member_with_permissions: %w[view_work_packages export_work_packages])
+           member_in_project: project,
+           member_with_permissions: %w[view_work_packages export_work_packages])
   end
   let(:export) do
     create(:work_packages_export)

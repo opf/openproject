@@ -31,12 +31,12 @@ require 'spec_helper'
 describe TypesController, type: :controller do
   let(:project) do
     create(:project,
-                      work_package_custom_fields: [custom_field_2])
+           work_package_custom_fields: [custom_field_2])
   end
   let(:custom_field_1) do
     create(:work_package_custom_field,
-                      field_format: 'string',
-                      is_for_all: true)
+           field_format: 'string',
+           is_for_all: true)
   end
   let(:custom_field_2) { create(:work_package_custom_field) }
   let(:status_0) { create(:status) }
@@ -168,9 +168,9 @@ describe TypesController, type: :controller do
         let!(:existing_type) { create(:type, name: 'Existing type') }
         let!(:workflow) do
           create(:workflow,
-                            old_status: status_0,
-                            new_status: status_1,
-                            type_id: existing_type.id)
+                 old_status: status_0,
+                 new_status: status_1,
+                 type_id: existing_type.id)
         end
 
         let(:params) do
@@ -329,15 +329,15 @@ describe TypesController, type: :controller do
       describe 'destroy type in use should fail' do
         let(:project2) do
           create(:project,
-                            active: false,
-                            work_package_custom_fields: [custom_field_2],
-                            types: [type2])
+                 active: false,
+                 work_package_custom_fields: [custom_field_2],
+                 types: [type2])
         end
         let!(:work_package) do
           create(:work_package,
-                            author: current_user,
-                            type: type2,
-                            project: project2)
+                 author: current_user,
+                 type: type2,
+                 project: project2)
         end
         let(:params) { { 'id' => type2.id } }
 

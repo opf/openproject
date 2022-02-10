@@ -224,10 +224,10 @@ describe 'Projects custom fields', type: :feature, js: true do
     let!(:visible_user) { create :user, firstname: 'Visible', lastname: 'User', member_in_project: existing_project }
     current_user do
       create :user,
-                        firstname: 'Itsa me',
-                        lastname: 'Mario',
-                        member_in_project: existing_project,
-                        global_permissions: %i[add_project]
+             firstname: 'Itsa me',
+             lastname: 'Mario',
+             member_in_project: existing_project,
+             global_permissions: %i[add_project]
     end
 
     let(:cf_field) { ::FormFields::SelectFormField.new custom_field }

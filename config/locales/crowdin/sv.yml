@@ -454,9 +454,12 @@ sv:
         code: 'Status'
         explanation: 'Statusbeskrivning'
         codes:
+          not_started: 'Not started'
           on_track: 'På banan'
           at_risk: 'I riskzonen'
           off_track: 'Utanför banan'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
       query:
         column_names: "Kolumner"
         relations_to_type_column: "Relationer till %{type}"

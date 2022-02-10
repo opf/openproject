@@ -26,8 +26,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_dependency 'type'
-
 module OpenProject::Backlogs::Patches::TypePatch
   def self.included(base)
     base.class_eval do

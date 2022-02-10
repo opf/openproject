@@ -69,16 +69,16 @@ describe LdapAuthSource, type: :model do
     # Ldap has three users aa729, bb459, cc414
     let(:ldap) do
       create :ldap_auth_source,
-                        port: ParallelHelper.port_for_ldap.to_s,
-                        account: 'uid=admin,ou=system',
-                        account_password: 'secret',
-                        base_dn: 'ou=people,dc=example,dc=com',
-                        filter_string: filter_string,
-                        onthefly_register: true,
-                        attr_login: 'uid',
-                        attr_firstname: 'givenName',
-                        attr_lastname: 'sn',
-                        attr_mail: 'mail'
+             port: ParallelHelper.port_for_ldap.to_s,
+             account: 'uid=admin,ou=system',
+             account_password: 'secret',
+             base_dn: 'ou=people,dc=example,dc=com',
+             filter_string: filter_string,
+             onthefly_register: true,
+             attr_login: 'uid',
+             attr_firstname: 'givenName',
+             attr_lastname: 'sn',
+             attr_mail: 'mail'
     end
 
     let(:filter_string) { nil }

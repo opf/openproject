@@ -3,15 +3,15 @@ require 'spec_helper'
 describe 'Inline editing work packages', js: true do
   let(:manager_role) do
     create :role,
-                      permissions: %i[view_work_packages
-                                      edit_work_packages]
+           permissions: %i[view_work_packages
+                           edit_work_packages]
   end
   let(:manager) do
     create :user,
-                      firstname: 'Manager',
-                      lastname: 'Guy',
-                      member_in_project: project,
-                      member_through_role: manager_role
+           firstname: 'Manager',
+           lastname: 'Guy',
+           member_in_project: project,
+           member_through_role: manager_role
   end
   let(:type) { create :type }
   let(:status1) { create :status }
@@ -20,20 +20,20 @@ describe 'Inline editing work packages', js: true do
   let(:project) { create(:project, types: [type]) }
   let(:work_package) do
     create(:work_package,
-                      project: project,
-                      type: type,
-                      status: status1,
-                      subject: 'Foobar')
+           project: project,
+           type: type,
+           status: status1,
+           subject: 'Foobar')
   end
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
 
   let(:workflow) do
     create :workflow,
-                      type_id: type.id,
-                      old_status: status1,
-                      new_status: status2,
-                      role: manager_role
+           type_id: type.id,
+           old_status: status1,
+           new_status: status2,
+           role: manager_role
   end
   let(:version) { create :version, project: project }
   let(:category) { create :category, project: project }
@@ -139,10 +139,10 @@ describe 'Inline editing work packages', js: true do
     let(:project) { create(:project, types: [type]) }
     let(:work_package) do
       create(:work_package,
-                        subject: 'Foobar',
-                        status: status1,
-                        type: type,
-                        project: project)
+             subject: 'Foobar',
+             status: status1,
+             type: type,
+             project: project)
     end
 
     before do

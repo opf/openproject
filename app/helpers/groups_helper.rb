@@ -29,32 +29,39 @@
 #++
 
 module GroupsHelper
-  def group_settings_tabs
+  def group_settings_tabs(group)
     [
       {
         name: 'general',
         partial: 'groups/general',
-        path: edit_group_path(@group),
+        path: edit_group_path(group),
         label: :label_general
       },
       {
         name: 'users',
         partial: 'groups/users',
-        path: edit_group_path(@group, tab: :users),
+        path: edit_group_path(group, tab: :users),
         label: :label_user_plural
       },
       {
         name: 'memberships',
         partial: 'groups/memberships',
-        path: edit_group_path(@group, tab: :memberships),
+        path: edit_group_path(group, tab: :memberships),
         label: :label_project_plural
+      },
+      {
+        name: 'global_roles',
+        partial: 'principals/global_roles',
+        path: edit_group_path(group, tab: :global_roles),
+        label: :label_global_roles
       }
     ]
   end
 
-  def set_filters_for_user_autocompleter
-    @autocompleter_filters = []
-    @autocompleter_filters.push({ selector: 'status', operator: '=', values: ['active', 'invited'] })
-    @autocompleter_filters.push({ selector: 'group', operator: '!', values: [@group.id] })
+  def autocompleter_filters(group)
+    [
+      { selector: 'status', operator: '=', values: ['active', 'invited'] },
+      { selector: 'group', operator: '!', values: [group.id] }
+    ]
   end
 end

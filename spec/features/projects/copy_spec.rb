@@ -35,10 +35,10 @@ describe 'Projects copy',
   describe 'with a full copy example' do
     let!(:project) do
       create(:project,
-                        parent: parent_project,
-                        types: active_types,
-                        members: { user => role },
-                        custom_field_values: { project_custom_field.id => 'some text cf' }).tap do |p|
+             parent: parent_project,
+             types: active_types,
+             members: { user => role },
+             custom_field_values: { project_custom_field.id => 'some text cf' }).tap do |p|
         p.work_package_custom_fields << wp_custom_field
         p.types.first.custom_fields << wp_custom_field
 
@@ -51,9 +51,9 @@ describe 'Projects copy',
       project = create(:project)
 
       create(:member,
-                        project: project,
-                        user: user,
-                        roles: [role])
+             project: project,
+             user: user,
+             roles: [role])
       project
     end
     let!(:project_custom_field) do
@@ -74,16 +74,16 @@ describe 'Projects copy',
     let(:user) { create(:user) }
     let(:role) do
       create(:role,
-                        permissions: permissions)
+             permissions: permissions)
     end
     let(:permissions) { %i(copy_projects edit_project add_subprojects manage_types view_work_packages select_custom_fields) }
     let(:wp_user) do
       user = create(:user)
 
       create(:member,
-                        project: project,
-                        user: user,
-                        roles: [role])
+             project: project,
+             user: user,
+             roles: [role])
       user
     end
     let(:category) do
@@ -94,24 +94,24 @@ describe 'Projects copy',
     end
     let!(:work_package) do
       create(:work_package,
-                        project: project,
-                        type: project.types.first,
-                        author: wp_user,
-                        assigned_to: wp_user,
-                        responsible: wp_user,
-                        done_ratio: 20,
-                        category: category,
-                        version: version,
-                        description: 'Some description',
-                        custom_field_values: { wp_custom_field.id => 'Some wp cf text' })
+             project: project,
+             type: project.types.first,
+             author: wp_user,
+             assigned_to: wp_user,
+             responsible: wp_user,
+             done_ratio: 20,
+             category: category,
+             version: version,
+             description: 'Some description',
+             custom_field_values: { wp_custom_field.id => 'Some wp cf text' })
     end
 
     let!(:wiki) { project.wiki }
     let!(:wiki_page) do
       create :wiki_page_with_content,
-                        title: 'Attached',
-                        wiki: wiki,
-                        attachments: [build(:attachment, container: nil, filename: 'attachment.pdf')]
+             title: 'Attached',
+             wiki: wiki,
+             attachments: [build(:attachment, container: nil, filename: 'attachment.pdf')]
     end
 
     let(:parent_field) { ::FormFields::SelectFormField.new :parent }

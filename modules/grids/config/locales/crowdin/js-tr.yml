@@ -31,10 +31,13 @@ tr:
           no_results: 'Projeler için özel alan tanımlanmadı.'
         project_status:
           title: 'Proje Durumu'
+          not_started: 'Not started'
           on_track: 'Takipte'
           off_track: 'Kapalı parça'
           at_risk: 'Riskli'
           not_set: 'Ayarlanmadı'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
         subprojects:
           title: 'Alt Projeler'
           no_results: 'Alt proje yok.'

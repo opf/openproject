@@ -306,8 +306,8 @@ describe Attachment, type: :model do
   describe 'full text extraction job on commit' do
     let(:created_attachment) do
       create(:attachment,
-                        author: author,
-                        container: container)
+             author: author,
+             container: container)
     end
 
     shared_examples_for 'runs extraction' do

@@ -135,12 +135,12 @@ describe Impediments::UpdateService, type: :model do
   describe 'WHEN changing the blocking relationship to another story' do
     let(:story) do
       build(:work_package,
-                       subject: 'another story',
-                       type: type_feature,
-                       project: project,
-                       author: user,
-                       priority: priority,
-                       status: status1)
+            subject: 'another story',
+            type: type_feature,
+            project: project,
+            author: user,
+            priority: priority,
+            status: status1)
     end
     let(:blocks) { story.id.to_s }
     let(:story_version) { version }

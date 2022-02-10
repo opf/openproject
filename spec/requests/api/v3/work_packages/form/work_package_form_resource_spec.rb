@@ -330,10 +330,10 @@ describe 'API v3 Work package form resource', type: :request, with_mail: false d
               context 'valid status' do
                 let!(:workflow) do
                   create(:workflow,
-                                    type_id: work_package.type.id,
-                                    old_status: work_package.status,
-                                    new_status: target_status,
-                                    role: current_user.memberships[0].roles[0])
+                         type_id: work_package.type.id,
+                         old_status: work_package.status,
+                         new_status: target_status,
+                         role: current_user.memberships[0].roles[0])
                 end
 
                 include_context 'post request'
@@ -404,7 +404,7 @@ describe 'API v3 Work package form resource', type: :request, with_mail: false d
                 let(:path) { "_embedded/payload/_links/#{property}/href" }
                 let(:visible_user) do
                   create(:user,
-                                    member_in_project: project)
+                         member_in_project: project)
                 end
                 let(:user_parameter) { { _links: { property => { href: user_link } } } }
                 let(:params) { valid_params.merge(user_parameter) }
@@ -444,9 +444,9 @@ describe 'API v3 Work package form resource', type: :request, with_mail: false d
                     let(:role) { create(:role) }
                     let(:group_member) do
                       create(:member,
-                                        principal: group,
-                                        project: project,
-                                        roles: [role])
+                             principal: group,
+                             project: project,
+                             roles: [role])
                     end
 
                     before do
@@ -461,8 +461,8 @@ describe 'API v3 Work package form resource', type: :request, with_mail: false d
                     let(:role) { create(:role) }
                     let(:placeholder_user) do
                       create(:placeholder_user,
-                                        member_in_project: project,
-                                        member_through_role: role)
+                             member_in_project: project,
+                             member_through_role: role)
                     end
 
                     it_behaves_like 'valid user assignment'

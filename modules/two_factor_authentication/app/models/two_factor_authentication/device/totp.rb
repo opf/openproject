@@ -1,5 +1,4 @@
 require 'rotp'
-require_dependency 'two_factor_authentication/device'
 
 module TwoFactorAuthentication
   class Device::Totp < Device

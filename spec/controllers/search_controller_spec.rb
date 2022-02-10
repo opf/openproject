@@ -31,18 +31,18 @@ require 'spec_helper'
 describe SearchController, type: :controller do
   shared_let(:project) do
     create(:project,
-                      name: 'eCookbook')
+           name: 'eCookbook')
   end
 
   shared_let(:other_project) do
     create(:project,
-                      name: 'Other project')
+           name: 'Other project')
   end
 
   shared_let(:subproject) do
     create(:project,
-                      name: 'Child project',
-                      parent: project)
+           name: 'Child project',
+           parent: project)
   end
 
   shared_let(:role) do
@@ -51,39 +51,39 @@ describe SearchController, type: :controller do
 
   shared_let(:user) do
     create(:user,
-                      member_in_projects: [project, subproject],
-                      member_through_role: role)
+           member_in_projects: [project, subproject],
+           member_through_role: role)
   end
 
   shared_let(:wiki_page) do
     create(:wiki_page,
-                      title: "How to solve an issue",
-                      wiki: project.wiki)
+           title: "How to solve an issue",
+           wiki: project.wiki)
   end
 
   shared_let(:work_package_1) do
     create(:work_package,
-                      subject: 'This is a test issue',
-                      project: project)
+           subject: 'This is a test issue',
+           project: project)
   end
 
   shared_let(:work_package_2) do
     create(:work_package,
-                      subject: 'Issue test 2',
-                      project: project,
-                      status: create(:closed_status))
+           subject: 'Issue test 2',
+           project: project,
+           status: create(:closed_status))
   end
 
   shared_let(:work_package_3) do
     create(:work_package,
-                      subject: 'Issue test 3',
-                      project: subproject)
+           subject: 'Issue test 3',
+           project: subproject)
   end
 
   shared_let(:work_package_4) do
     create(:work_package,
-                      subject: 'Issue test 4',
-                      project: other_project)
+           subject: 'Issue test 4',
+           project: other_project)
   end
 
   shared_examples_for 'successful search' do
@@ -183,18 +183,18 @@ describe SearchController, type: :controller do
     context 'when searching for a note' do
       let!(:note_1) do
         create :work_package_journal,
-                          journable_id: work_package_1.id,
-                          notes: 'Test note 1',
-                          version: 2
+               journable_id: work_package_1.id,
+               notes: 'Test note 1',
+               version: 2
       end
 
       before { allow_any_instance_of(Journal).to receive_messages(predecessor: note_1) }
 
       let!(:note_2) do
         create :work_package_journal,
-                          journable_id: work_package_1.id,
-                          notes: 'Special note 2',
-                          version: 3
+               journable_id: work_package_1.id,
+               notes: 'Special note 2',
+               version: 3
       end
 
       describe 'second note predecessor' do

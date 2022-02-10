@@ -39,31 +39,31 @@ describe 'Read-only statuses affect work package editing',
   let(:project) { create :project, types: [type] }
   let!(:work_package) do
     create :work_package,
-                      project: project,
-                      type: type,
-                      status: unlocked_status
+           project: project,
+           type: type,
+           status: unlocked_status
   end
 
   let(:role) { create :role, permissions: %i[edit_work_packages view_work_packages] }
   let(:user) do
     create :user,
-                      member_in_project: project,
-                      member_through_role: role
+           member_in_project: project,
+           member_through_role: role
   end
 
   let!(:workflow1) do
     create :workflow,
-                      type_id: type.id,
-                      old_status: unlocked_status,
-                      new_status: locked_status,
-                      role: role
+           type_id: type.id,
+           old_status: unlocked_status,
+           new_status: locked_status,
+           role: role
   end
   let!(:workflow2) do
     create :workflow,
-                      type_id: type.id,
-                      old_status: locked_status,
-                      new_status: unlocked_status,
-                      role: role
+           type_id: type.id,
+           old_status: locked_status,
+           new_status: unlocked_status,
+           role: role
   end
 
   let(:wp_page) { Pages::FullWorkPackage.new(work_package) }

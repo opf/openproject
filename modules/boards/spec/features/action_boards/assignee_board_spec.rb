@@ -35,10 +35,10 @@ describe 'Assignee action board',
          js: true do
   let(:bobself_user) do
     create(:user,
-                      firstname: 'Bob',
-                      lastname: 'Self',
-                      member_in_project: project,
-                      member_through_role: role)
+           firstname: 'Bob',
+           lastname: 'Self',
+           member_in_project: project,
+           member_through_role: role)
   end
   let(:admin) { create(:admin) }
   let(:type) { create(:type_standard) }
@@ -60,26 +60,26 @@ describe 'Assignee action board',
 
   let!(:foobar_user) do
     create(:user,
-                      firstname: 'Foo',
-                      lastname: 'Bar',
-                      member_in_project: project,
-                      member_through_role: role)
+           firstname: 'Foo',
+           lastname: 'Bar',
+           member_in_project: project,
+           member_through_role: role)
   end
 
   let!(:group) do
     create(:group, name: 'Grouped').tap do |group|
       create(:member,
-                        principal: group,
-                        project: project,
-                        roles: [role])
+             principal: group,
+             project: project,
+             roles: [role])
     end
   end
 
   let!(:work_package) do
     create :work_package,
-                      project: project,
-                      assigned_to: bobself_user,
-                      subject: 'Some Task'
+           project: project,
+           assigned_to: bobself_user,
+           subject: 'Some Task'
   end
 
   context 'in a project with members' do

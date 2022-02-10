@@ -41,39 +41,39 @@ describe GroupsController, type: :controller do
     shared_let(:admin) { create :admin }
     let(:current_user) { admin }
 
-    it 'should index' do
+    it 'indexes' do
       get :index
       expect(response).to be_successful
       expect(response).to render_template 'index'
     end
 
-    it 'should show' do
+    it 'shows' do
       get :show, params: { id: group.id }
       expect(response).to be_successful
       expect(response).to render_template 'show'
     end
 
-    it 'should new' do
+    it 'shows new' do
       get :new
       expect(response).to be_successful
       expect(response).to render_template 'new'
     end
 
-    it 'should create' do
+    it 'creates' do
       expect do
         post :create, params: { group: { lastname: 'New group' } }
-      end.to change { Group.count }.by(1)
+      end.to change(Group, :count).by(1)
       expect(response).to redirect_to groups_path
     end
 
-    it 'should edit' do
+    it 'edits' do
       get :edit, params: { id: group.id }
 
       expect(response).to be_successful
       expect(response).to render_template 'edit'
     end
 
-    it 'should update' do
+    it 'updates' do
       expect do
         put :update, params: { id: group.id, group: { lastname: 'new name' } }
       end.to change { group.reload.name }.to('new name')
@@ -81,7 +81,7 @@ describe GroupsController, type: :controller do
       expect(response).to redirect_to groups_path
     end
 
-    it 'should destroy' do
+    it 'destroys' do
       perform_enqueued_jobs do
         delete :destroy, params: { id: group.id }
       end
@@ -95,7 +95,7 @@ describe GroupsController, type: :controller do
       let(:user1) { create :user }
       let(:user2) { create :user }
 
-      it 'should add users' do
+      it 'adds users' do
         post :add_users, params: { id: group.id, user_ids: [user1.id, user2.id] }
         expect(group.reload.users.count).to eq 2
       end
@@ -106,9 +106,26 @@ describe GroupsController, type: :controller do
       let(:user2) { create :user }
       let(:group_members) { [user1] }
 
-      it 'should add users' do
+      it 'adds users' do
         post :add_users, params: { id: group.id, user_ids: [user2.id] }
         expect(group.reload.users.count).to eq 2
+      end
+    end
+
+    context 'with a global role membership' do
+      render_views
+
+      let!(:member_group) do
+        create(:global_member,
+               principal: group,
+               roles: [create(:global_role)])
+      end
+
+      it 'displays edit memberships' do
+        get :edit, params: { id: group.id, tab: 'memberships' }
+
+        expect(response).to be_successful
+        expect(response).to render_template 'edit'
       end
     end
 
@@ -117,9 +134,9 @@ describe GroupsController, type: :controller do
       let(:role1) { create :role }
       let(:role2) { create :role }
 
-      it 'should create membership' do
+      it 'creates membership' do
         post :create_memberships,
-             params: { id: group.id, new_membership: { project_id: project.id, role_ids: [role1.id, role2.id] } }
+             params: { id: group.id, membership: { project_id: project.id, role_ids: [role1.id, role2.id] } }
 
         expect(group.reload.members.count).to eq 1
         expect(group.members.first.roles.count).to eq 2
@@ -128,12 +145,12 @@ describe GroupsController, type: :controller do
       context 'with an existing membership' do
         let!(:member_group) do
           create(:member,
-                            project: project,
-                            principal: group,
-                            roles: [role1])
+                 project: project,
+                 principal: group,
+                 roles: [role1])
         end
 
-        it 'should edit a membership' do
+        it 'edits a membership' do
           expect(group.members.count).to eq 1
           expect(group.members.first.roles.count).to eq 1
 
@@ -161,34 +178,34 @@ describe GroupsController, type: :controller do
     let(:user) { create :user }
     let(:current_user) { user }
 
-    it 'should forbid index' do
+    it 'forbids index' do
       get :index
       expect(response).not_to be_successful
       expect(response.status).to eq 403
     end
 
-    it 'should show' do
+    it 'shows' do
       get :show, params: { id: group.id }
       expect(response).to be_successful
       expect(response).to render_template 'show'
     end
 
-    it 'should forbid new' do
+    it 'forbids new' do
       get :new
       expect(response).not_to be_successful
       expect(response.status).to eq 403
     end
 
-    it 'should forbid create' do
+    it 'forbids create' do
       expect do
         post :create, params: { group: { lastname: 'New group' } }
-      end.not_to change { Group.count }
+      end.not_to(change(Group, :count))
 
       expect(response).not_to be_successful
       expect(response.status).to eq 403
     end
 
-    it 'should forbid edit' do
+    it 'forbids edit' do
       get :edit, params: { id: group.id }
 
       expect(response).not_to be_successful

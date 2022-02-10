@@ -61,6 +61,7 @@ ca:
     button_confirm: "Confirmar"
     button_continue: "Continue"
     button_copy: "Copiar"
+    button_copy_to_other_project: "Copy to other project"
     button_custom-fields: "Camps personalitzats"
     button_delete: "Esborrar"
     button_delete_watcher: "Suprimir l'observador"

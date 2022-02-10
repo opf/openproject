@@ -455,9 +455,12 @@ eo:
         code: 'Stato'
         explanation: 'Statpriskribo'
         codes:
+          not_started: 'Not started'
           on_track: 'Laŭ la plano'
           at_risk: 'Riske'
           off_track: 'Off track'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
       query:
         column_names: "Kolumnoj"
         relations_to_type_column: "Rilatoj kun %{type}"

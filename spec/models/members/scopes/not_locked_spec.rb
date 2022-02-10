@@ -36,33 +36,33 @@ describe Members::Scopes::NotLocked, type: :model do
 
   let!(:invited_user_member) do
     create(:member,
-                      project: project,
-                      roles: [role],
-                      principal: create(:user, status: Principal.statuses[:invited]))
+           project: project,
+           roles: [role],
+           principal: create(:user, status: Principal.statuses[:invited]))
   end
   let!(:registered_user_member) do
     create(:member,
-                      project: project,
-                      roles: [role],
-                      principal: create(:user, status: Principal.statuses[:registered]))
+           project: project,
+           roles: [role],
+           principal: create(:user, status: Principal.statuses[:registered]))
   end
   let!(:locked_user_member) do
     create(:member,
-                      project: project,
-                      roles: [role],
-                      principal: create(:user, status: Principal.statuses[:locked]))
+           project: project,
+           roles: [role],
+           principal: create(:user, status: Principal.statuses[:locked]))
   end
   let!(:active_user_member) do
     create(:member,
-                      project: project,
-                      roles: [role],
-                      principal: create(:user, status: Principal.statuses[:active]))
+           project: project,
+           roles: [role],
+           principal: create(:user, status: Principal.statuses[:active]))
   end
   let!(:group_member) do
     create(:member,
-                      project: project,
-                      roles: [role],
-                      principal: create(:group))
+           project: project,
+           roles: [role],
+           principal: create(:group))
   end
 
   describe '.fetch' do

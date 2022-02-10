@@ -35,8 +35,8 @@ describe 'API v3 Version resource', content_type: :json do
 
   let(:current_user) do
     create(:user,
-                      member_in_project: project,
-                      member_with_permissions: permissions)
+           member_in_project: project,
+           member_with_permissions: permissions)
   end
   let(:permissions) { %i[view_work_packages manage_versions] }
   let(:project) { create(:project, public: false) }
@@ -45,9 +45,9 @@ describe 'API v3 Version resource', content_type: :json do
   let(:version_in_project) { build(:version, project: project, custom_field_values: { int_cf.id => 123 }) }
   let(:version_in_other_project) do
     build(:version,
-                     project: other_project,
-                     sharing: 'system',
-                     custom_field_values: { int_cf.id => 123 })
+          project: other_project,
+          sharing: 'system',
+          custom_field_values: { int_cf.id => 123 })
   end
 
   subject(:response) { last_response }
@@ -121,15 +121,15 @@ describe 'API v3 Version resource', content_type: :json do
     let(:path) { api_v3_paths.version(version.id) }
     let(:version) do
       create(:version,
-                        name: 'Old name',
-                        description: 'Old description',
-                        start_date: '2017-06-01',
-                        effective_date: '2017-07-01',
-                        status: 'open',
-                        sharing: 'none',
-                        project: project,
-                        custom_field_values: { int_cf.id => 123,
-                                               list_cf.id => list_cf.custom_options.first.id })
+             name: 'Old name',
+             description: 'Old description',
+             start_date: '2017-06-01',
+             effective_date: '2017-07-01',
+             status: 'open',
+             sharing: 'none',
+             project: project,
+             custom_field_values: { int_cf.id => 123,
+                                    list_cf.id => list_cf.custom_options.first.id })
     end
     let!(:int_cf) { create(:int_version_custom_field) }
     let!(:list_cf) { create(:list_version_custom_field) }
@@ -214,9 +214,9 @@ describe 'API v3 Version resource', content_type: :json do
       let(:other_project) do
         create(:project).tap do |p|
           create(:member,
-                            project: p,
-                            roles: [create(:role, permissions: [:manage_versions])],
-                            user: current_user)
+                 project: p,
+                 roles: [create(:role, permissions: [:manage_versions])],
+                 user: current_user)
         end
       end
 
@@ -251,8 +251,8 @@ describe 'API v3 Version resource', content_type: :json do
     context 'if having the manage permission in a different project' do
       let(:other_membership) do
         create(:member,
-                          project: create(:project),
-                          roles: [create(:role, permissions: [:manage_versions])])
+               project: create(:project),
+               roles: [create(:role, permissions: [:manage_versions])])
       end
 
       let(:permissions) do
@@ -358,8 +358,8 @@ describe 'API v3 Version resource', content_type: :json do
     context 'if having the manage permission in a different project' do
       let(:other_membership) do
         create(:member,
-                          project: create(:project),
-                          roles: [create(:role, permissions: [:manage_versions])])
+               project: create(:project),
+               roles: [create(:role, permissions: [:manage_versions])])
       end
 
       let(:permissions) do
@@ -426,7 +426,7 @@ describe 'API v3 Version resource', content_type: :json do
     let(:path) { api_v3_paths.version(version.id) }
     let(:version) do
       create(:version,
-                        project: project)
+             project: project)
     end
 
     before do
@@ -456,10 +456,10 @@ describe 'API v3 Version resource', content_type: :json do
     context 'with work packages attached to it' do
       let(:version) do
         create(:version,
-                          project: project).tap do |v|
+               project: project).tap do |v|
           create(:work_package,
-                            project: project,
-                            version: v)
+                 project: project,
+                 version: v)
         end
       end
 

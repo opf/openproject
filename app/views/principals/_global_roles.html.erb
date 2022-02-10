@@ -27,9 +27,12 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= render partial: 'global_roles_header' %>
+<%= render partial: 'principals/global_roles_header' %>
 
-<% global_member = Member.global.where(principal: @user).includes(:roles).first %>
+<%
+  principal = @group || @user
+  global_member = Member.global.where(principal: principal).includes(:roles).first
+%>
 
 <div class="grid-block" id="principal_global_roles_content">
   <div id="assigned_principal_roles" class="grid-content">
@@ -59,8 +62,8 @@ See COPYRIGHT and LICENSE files for more details.
           </thead>
           <tbody id="table_principal_roles_body">
           <% global_member.roles.each do |role| %>
-            <%= render :partial => 'assigned_global_role', :locals => { :role => role, member: global_member } %>
-          <%end%>
+            <%= render partial: 'principals/assigned_global_role', locals: { role: role, member: global_member } %>
+          <% end %>
           </tbody>
         </table>
 
@@ -69,5 +72,5 @@ See COPYRIGHT and LICENSE files for more details.
   <% end %>
   </div>
 
-  <%= render partial: 'users/available_global_roles', locals: { user: @user, global_member: global_member }%>
+  <%= render partial: 'principals/available_global_roles', locals: { principal: principal, global_member: global_member } %>
 </div>

@@ -47,7 +47,23 @@ module Pages
     end
 
     def expect_title(title = 'Unnamed team planner')
-      expect(page).to have_selector '.editable-toolbar-title--fixed', text: title
+      expect(page).to have_selector('.editable-toolbar-title--input') { |node| node.value == title }
+    end
+
+    def save_as(name)
+      click_setting_item 'Save as'
+
+      fill_in 'save-query-name', with: name
+
+      click_button 'Save'
+
+      expect_toast message: 'Successful creation.'
+      expect_title name
+    end
+
+    def click_setting_item(label)
+      ::Components::WorkPackages::SettingsMenu
+        .new.open_and_choose(label)
     end
 
     def expect_empty_state(present: true)
@@ -158,7 +174,7 @@ module Pages
 
       resizer = is_start_date ? wp_strip.find('.fc-event-resizer-start') : wp_strip.find('.fc-event-resizer-end')
 
-      drag_by_pixel(element: resizer, by_x: number_of_days * 200, by_y: 0) unless resizer.nil?
+      drag_by_pixel(element: resizer, by_x: number_of_days * 180, by_y: 0) unless resizer.nil?
     end
 
     def drag_wp_by_pixel(work_package, by_x, by_y)

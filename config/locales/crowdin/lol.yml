@@ -436,9 +436,12 @@ lol:
         code: 'crwdns495237:0crwdne495237:0'
         explanation: 'crwdns495239:0crwdne495239:0'
         codes:
+          not_started: 'crwdns710622:0crwdne710622:0'
           on_track: 'crwdns495241:0crwdne495241:0'
           at_risk: 'crwdns495243:0crwdne495243:0'
           off_track: 'crwdns495245:0crwdne495245:0'
+          finished: 'crwdns710624:0crwdne710624:0'
+          discontinued: 'crwdns710626:0crwdne710626:0'
       query:
         column_names: "crwdns495247:0crwdne495247:0"
         relations_to_type_column: "crwdns495249:0%{type}crwdne495249:0"

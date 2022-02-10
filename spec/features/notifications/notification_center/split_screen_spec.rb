@@ -8,23 +8,23 @@ describe "Split screen in the notification center", type: :feature, js: true do
 
   shared_let(:recipient) do
     create :user,
-                      member_in_project: project,
-                      member_with_permissions: %i[view_work_packages]
+           member_in_project: project,
+           member_with_permissions: %i[view_work_packages]
   end
   shared_let(:notification) do
     create :notification,
-                      recipient: recipient,
-                      project: project,
-                      resource: work_package,
-                      journal: work_package.journals.last
+           recipient: recipient,
+           project: project,
+           resource: work_package,
+           journal: work_package.journals.last
   end
 
   shared_let(:second_notification) do
     create :notification,
-                      recipient: recipient,
-                      project: project,
-                      resource: second_work_package,
-                      journal: second_work_package.journals.last
+           recipient: recipient,
+           project: project,
+           resource: second_work_package,
+           journal: second_work_package.journals.last
   end
 
   let(:center) { ::Pages::Notifications::Center.new }

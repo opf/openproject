@@ -34,9 +34,9 @@ describe Stories::CreateService, type: :model do
     project = create(:project, types: [type_feature])
 
     create(:member,
-                      principal: user,
-                      project: project,
-                      roles: [role])
+           principal: user,
+           project: project,
+           roles: [role])
     project
   end
   let(:role) { create(:role, permissions: permissions) }
@@ -71,11 +71,11 @@ describe Stories::CreateService, type: :model do
     project.enabled_module_names += ['backlogs']
 
     create(:story,
-                      version: version,
-                      project: project,
-                      status: status,
-                      type: type_feature,
-                      priority: priority)
+           version: version,
+           project: project,
+           status: status,
+           type: type_feature,
+           priority: priority)
   end
 
   before do

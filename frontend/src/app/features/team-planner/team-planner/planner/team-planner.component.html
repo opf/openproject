@@ -16,13 +16,14 @@
       *ngIf="calendarOptions"
       [options]="calendarOptions"
       class="op-team-planner--calendar"
+      [ngClass]="{'op-team-planner--calendar_empty': (isEmpty$ | async)}"
     ></full-calendar>
 
     <div
       [textContent]="calendar.tooManyResultsText"
       class="op-wp-calendar--notification"></div>
     <div
-      *ngIf="!(principalIds$ | async)?.length && !(showAddAssignee$ | async)"
+      *ngIf="isEmpty$ | async"
       class="op-team-planner--no-data">
       <span [textContent]="text.noData"></span>
     </div>
@@ -30,12 +31,12 @@
 
   <ng-template #resourceContent let-resource="resource">
     <div
-      *ngIf="resource.extendedProps.principal"
+      *ngIf="resource && resource.extendedProps.principal"
       class="tp-assignee"
     >
       <op-principal
         [principal]="resource.extendedProps.principal"
-        class="tp-assignee--principal"
+        class="tp-assignee--principal op-principal_wrapped"
       ></op-principal>
       <button
         type="button"
@@ -49,10 +50,26 @@
     </div>
 
     <op-tp-add-assignee
-      *ngIf="!resource.extendedProps.principal"
+      *ngIf="resource && !resource.extendedProps.principal"
       (selectAssignee)="addAssignee($event)"
       [alreadySelected]="principalIds$ | async"
     ></op-tp-add-assignee>
+  </ng-template>
+
+  <ng-template #eventContent let-event="event">
+    <wp-single-card
+      *ngIf="event.extendedProps.workPackage"
+      [workPackage]="event.extendedProps.workPackage"
+      [orientation]="'horizontal'"
+      [highlightingMode]="'type'"
+      [showInfoButton]="true"
+      [disabledInfo]="showDisabledText(event.extendedProps.workPackage)"
+      [isClosed]="isStatusClosed(event.extendedProps.workPackage)"
+      [showAsInlineCard]="true"
+      [showStartDate]="!this.isWpDateInCurrentView(event.extendedProps.workPackage, 'start')"
+      [showEndDate]="!this.isWpDateInCurrentView(event.extendedProps.workPackage, 'end')"
+    >
+    </wp-single-card>
   </ng-template>
 
   <div

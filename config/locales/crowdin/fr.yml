@@ -455,9 +455,12 @@ fr:
         code: 'Statut'
         explanation: 'Description du statut'
         codes:
+          not_started: 'Not started'
           on_track: 'Sur la bonne voie'
           at_risk: 'À risque'
           off_track: 'Sur la mauvaise voie'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
       query:
         column_names: "Colonnes"
         relations_to_type_column: "Relations avec %{type}"

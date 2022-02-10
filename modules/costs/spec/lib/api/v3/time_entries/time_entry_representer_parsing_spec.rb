@@ -33,13 +33,13 @@ describe ::API::V3::TimeEntries::TimeEntryRepresenter, 'parsing' do
 
   let(:time_entry) do
     build_stubbed(:time_entry,
-                             comments: 'blubs',
-                             spent_on: Date.today - 3.days,
-                             created_at: DateTime.now - 6.hours,
-                             updated_at: DateTime.now - 3.hours,
-                             activity: activity,
-                             project: project,
-                             user: user)
+                  comments: 'blubs',
+                  spent_on: Date.today - 3.days,
+                  created_at: DateTime.now - 6.hours,
+                  updated_at: DateTime.now - 3.hours,
+                  activity: activity,
+                  project: project,
+                  user: user)
   end
   let(:project) { build_stubbed(:project) }
   let(:project2) { build_stubbed(:project) }

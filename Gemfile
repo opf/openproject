@@ -121,7 +121,7 @@ gem 'rack-protection', '~> 2.1.0'
 # It allows whitelisting, blacklisting, throttling, and tracking based
 # on arbitrary properties of the request.
 # https://github.com/kickstarter/rack-attack
-gem 'rack-attack', '~> 6.5.0'
+gem 'rack-attack', '~> 6.6.0'
 
 # CSP headers
 gem 'secure_headers', '~> 6.3.0'
@@ -278,6 +278,9 @@ group :development, :test do
   gem 'pry-rails', '~> 0.3.6'
   gem 'pry-rescue', '~> 1.5.2'
   gem 'pry-stack_explorer', '~> 0.6.0'
+
+  # git hooks manager
+  gem 'lefthook'
 
   # Brakeman scanner
   gem 'brakeman', '~> 5.2.0'

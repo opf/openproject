@@ -307,10 +307,10 @@ export class WorkPackagesListService {
     return promise;
   }
 
-  public save(query?:QueryResource) {
-    query = query || this.currentQuery;
+  public async save(givenQuery?:QueryResource):Promise<unknown> {
+    const query = givenQuery || this.currentQuery;
 
-    const form = this.querySpace.queryForm.value!;
+    const form = await this.querySpace.queryForm.valuesPromise();
 
     const promise = this
       .apiV3Service

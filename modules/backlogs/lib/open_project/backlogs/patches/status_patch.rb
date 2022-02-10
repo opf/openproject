@@ -26,8 +26,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_dependency 'status'
-
 module OpenProject::Backlogs::Patches::StatusPatch
   def self.included(base)
     base.class_eval do

@@ -37,8 +37,8 @@ describe 'API v3 Status resource' do
   let(:project) { create(:project, public: false) }
   let(:current_user) do
     create(:user,
-                      member_in_project: project,
-                      member_through_role: role)
+           member_in_project: project,
+           member_through_role: role)
   end
 
   let!(:statuses) { create_list(:status, 4) }

@@ -61,6 +61,7 @@ fr:
     button_confirm: "Confirmer"
     button_continue: "Continuer"
     button_copy: "Copier"
+    button_copy_to_other_project: "Copy to other project"
     button_custom-fields: "Champs personnalisés"
     button_delete: "Supprimer"
     button_delete_watcher: "Supprimer observateur"

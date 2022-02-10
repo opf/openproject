@@ -455,9 +455,12 @@ si:
         code: 'තත්වය'
         explanation: 'තත්ව විස්තරය'
         codes:
+          not_started: 'Not started'
           on_track: 'ධාවන පථයේ'
           at_risk: 'අවදානමට'
           off_track: 'ධාවන පථය'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
       query:
         column_names: "තීරු"
         relations_to_type_column: "සබඳතා %{type}"

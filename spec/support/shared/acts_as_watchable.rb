@@ -49,14 +49,14 @@ MESSAGE
   let(:non_member_user) { create(:user) }
   let(:user_with_permission) do
     create(:user,
-                      member_in_project: project,
-                      member_through_role: watcher_role)
+           member_in_project: project,
+           member_through_role: watcher_role)
   end
   let(:locked_user_with_permission) do
     create(:user,
-                      status: Principal.statuses[:locked],
-                      member_in_project: project,
-                      member_through_role: watcher_role)
+           status: Principal.statuses[:locked],
+           member_in_project: project,
+           member_through_role: watcher_role)
   end
 
   let(:user_wo_permission) do
@@ -64,16 +64,16 @@ MESSAGE
       create(:user)
     else
       create(:user,
-                        member_in_project: project,
-                        member_through_role: non_watcher_role)
+             member_in_project: project,
+             member_through_role: non_watcher_role)
     end
   end
   let(:admin) { build(:admin) }
   let(:anonymous_user) { build(:anonymous) }
   let(:watching_user) do
     create(:user,
-                      member_in_project: project,
-                      member_through_role: watcher_role).tap do |user|
+           member_in_project: project,
+           member_through_role: watcher_role).tap do |user|
       Watcher.create(watchable: model_instance, user: user)
     end
   end

@@ -62,22 +62,22 @@ RSpec.feature 'Work package timeline labels',
 
   let(:work_package) do
     create :work_package,
-                      project: project,
-                      type: type,
-                      assigned_to: user,
-                      start_date: today,
-                      due_date: tomorrow,
-                      subject: 'My subject',
-                      custom_field_values: { custom_field.id => custom_value_for('onions') }
+           project: project,
+           type: type,
+           assigned_to: user,
+           start_date: today,
+           due_date: tomorrow,
+           subject: 'My subject',
+           custom_field_values: { custom_field.id => custom_value_for('onions') }
   end
 
   let(:milestone_work_package) do
     create :work_package,
-                      project: project,
-                      type: milestone_type,
-                      start_date: future,
-                      due_date: future,
-                      subject: 'My milestone'
+           project: project,
+           type: milestone_type,
+           start_date: future,
+           due_date: future,
+           subject: 'My milestone'
   end
 
   before do

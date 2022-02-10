@@ -35,9 +35,9 @@ describe ::API::V3::Relations::RelationCollectionRepresenter do
 
   let(:relations) do
     build_stubbed_list(:relation,
-                                  3,
-                                  from: work_package,
-                                  to: build_stubbed(:work_package))
+                       3,
+                       from: work_package,
+                       to: build_stubbed(:work_package))
   end
 
   let(:user) do

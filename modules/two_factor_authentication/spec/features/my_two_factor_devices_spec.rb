@@ -8,9 +8,9 @@ describe 'My Account 2FA configuration', with_2fa_ee: true,
   let(:user_password) { 'boB!4' * 4 }
   let(:user) do
     create(:user,
-                      login: 'bob',
-                      password: user_password,
-                      password_confirmation: user_password)
+           login: 'bob',
+           password: user_password,
+           password_confirmation: user_password)
   end
 
   before do

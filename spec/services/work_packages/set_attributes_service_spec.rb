@@ -298,8 +298,8 @@ describe WorkPackages::SetAttributesService, type: :model do
     context 'start_date & due_date' do
       let(:parent) do
         build_stubbed(:stubbed_work_package,
-                                 start_date: parent_start_date,
-                                 due_date: parent_due_date)
+                      start_date: parent_start_date,
+                      due_date: parent_due_date)
       end
       let(:parent_start_date) { Date.today - 5.days }
       let(:parent_due_date) { Date.today + 10.days }
@@ -871,10 +871,10 @@ describe WorkPackages::SetAttributesService, type: :model do
     context 'when switching back to automatic scheduling' do
       let(:work_package) do
         wp = build_stubbed(:work_package,
-                                      project: project,
-                                      schedule_manually: true,
-                                      start_date: Date.today,
-                                      due_date: Date.today + 5.days)
+                           project: project,
+                           schedule_manually: true,
+                           start_date: Date.today,
+                           due_date: Date.today + 5.days)
         wp.type = build_stubbed(:type)
         wp.send(:clear_changes_information)
 
@@ -930,8 +930,8 @@ describe WorkPackages::SetAttributesService, type: :model do
       context 'when the work package also has a child' do
         let(:child) do
           build_stubbed(:stubbed_work_package,
-                                   start_date: child_start_date,
-                                   due_date: child_due_date)
+                        start_date: child_start_date,
+                        due_date: child_due_date)
         end
         let(:child_start_date) { Date.today + 2.days }
         let(:child_due_date) { Date.today + 10.days }

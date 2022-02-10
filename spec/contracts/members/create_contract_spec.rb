@@ -76,8 +76,8 @@ describe Members::CreateContract do
         let!(:project2) { create :project }
         let(:current_user) do
           create :user,
-                            member_in_project: project1,
-                            member_with_permissions: %i[manage_members]
+                 member_in_project: project1,
+                 member_with_permissions: %i[manage_members]
         end
 
         it 'returns the one project' do

@@ -75,11 +75,6 @@ module OpenProject::Documents
     # Add documents to allowed search params
     additional_permitted_attributes search: %i(documents)
 
-    config.to_prepare do
-      require_dependency 'document'
-      require_dependency 'document_category'
-
-      require_dependency 'open_project/documents/patches/textile_converter_patch'
-    end
+    patch_with_namespace :OpenProject, :TextFormatting, :Formats, :Markdown, :TextileConverter
   end
 end

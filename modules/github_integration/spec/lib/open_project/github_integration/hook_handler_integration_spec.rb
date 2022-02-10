@@ -50,7 +50,7 @@ describe OpenProject::GithubIntegration::HookHandler do
   let(:user) { create(:user) }
   let(:role) do
     create(:role,
-                      permissions: %i[view_work_packages add_work_package_notes])
+           permissions: %i[view_work_packages add_work_package_notes])
   end
   let(:project) do
     create(:project, members: { user => role })

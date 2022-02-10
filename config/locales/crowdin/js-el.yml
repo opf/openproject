@@ -61,6 +61,7 @@ el:
     button_confirm: "Επιβεβαίωση"
     button_continue: "Συνέχεια"
     button_copy: "Αντιγραφή"
+    button_copy_to_other_project: "Copy to other project"
     button_custom-fields: "Προσαρμοσμένα πεδία"
     button_delete: "Διαγραφή"
     button_delete_watcher: "Διαγραφή παρατηρητή"

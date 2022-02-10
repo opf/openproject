@@ -32,6 +32,8 @@ import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/q
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { CalendarDragDropService } from 'core-app/features/team-planner/team-planner/calendar-drag-drop.service';
 import { input } from 'reactivestates';
+import { splitViewRoute } from 'core-app/features/work-packages/routing/split-view-routes.helper';
+import { StateService } from '@uirouter/core';
 
 @Component({
   selector: 'op-add-existing-pane',
@@ -83,6 +85,7 @@ export class AddExistingPaneComponent extends UntilDestroyedMixin implements OnI
     private readonly currentProject:CurrentProjectService,
     private readonly urlParamsHelper:UrlParamsHelperService,
     private readonly calendarDrag:CalendarDragDropService,
+    private readonly $state:StateService,
   ) {
     super();
   }
@@ -154,6 +157,17 @@ export class AddExistingPaneComponent extends UntilDestroyedMixin implements OnI
 
   get isSearching():boolean {
     return this.searchString.value !== '';
+  }
+
+  showDisabledText(wp:WorkPackageResource):string {
+    return this.calendarDrag.workPackageDisabledExplanation(wp);
+  }
+
+  openStateLink(event:{ workPackageId:string; requestedState:string }):void {
+    void this.$state.go(
+      `${splitViewRoute(this.$state)}.tabs`,
+      { workPackageId: event.workPackageId, tabIdentifier: 'overview' },
+    );
   }
 
   private addExistingFilters(filters:ApiV3FilterBuilder) {

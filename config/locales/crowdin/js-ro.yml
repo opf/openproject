@@ -61,6 +61,7 @@ ro:
     button_confirm: "Confirmă"
     button_continue: "Continuaţi"
     button_copy: "Copiere"
+    button_copy_to_other_project: "Copy to other project"
     button_custom-fields: "Câmpuri personalizate"
     button_delete: "Ștergere"
     button_delete_watcher: "Ştergere observator"

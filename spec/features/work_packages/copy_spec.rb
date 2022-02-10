@@ -31,61 +31,61 @@ require 'spec_helper'
 RSpec.feature 'Work package copy', js: true, selenium: true do
   let(:user) do
     create(:user,
-                      member_in_project: project,
-                      member_through_role: create_role)
+           member_in_project: project,
+           member_through_role: create_role)
   end
   let(:work_flow) do
     create(:workflow,
-                      role: create_role,
-                      type_id: original_work_package.type_id,
-                      old_status: original_work_package.status,
-                      new_status: create(:status))
+           role: create_role,
+           type_id: original_work_package.type_id,
+           old_status: original_work_package.status,
+           new_status: create(:status))
   end
 
   let(:create_role) do
     create(:role,
-                      permissions: %i[view_work_packages
-                                      add_work_packages
-                                      manage_work_package_relations
-                                      edit_work_packages
-                                      assign_versions])
+           permissions: %i[view_work_packages
+                           add_work_packages
+                           manage_work_package_relations
+                           edit_work_packages
+                           assign_versions])
   end
   let(:type) { create(:type) }
   let(:project) { create(:project, types: [type]) }
   let(:original_work_package) do
     build(:work_package,
-                     project: project,
-                     assigned_to: assignee,
-                     responsible: responsible,
-                     version: version,
-                     type: type,
-                     author: author)
+          project: project,
+          assigned_to: assignee,
+          responsible: responsible,
+          version: version,
+          type: type,
+          author: author)
   end
   let(:role) { build(:role, permissions: [:view_work_packages]) }
   let(:assignee) do
     create(:user,
-                     firstname: 'An',
-                     lastname: 'assignee',
-                     member_in_project: project,
-                     member_through_role: role)
+           firstname: 'An',
+           lastname: 'assignee',
+           member_in_project: project,
+           member_through_role: role)
   end
   let(:responsible) do
     create(:user,
-                     firstname: 'The',
-                     lastname: 'responsible',
-                     member_in_project: project,
-                     member_through_role: role)
+           firstname: 'The',
+           lastname: 'responsible',
+           member_in_project: project,
+           member_through_role: role)
   end
   let(:author) do
     create(:user,
-                     firstname: 'The',
-                     lastname: 'author',
-                     member_in_project: project,
-                     member_through_role: role)
+           firstname: 'The',
+           lastname: 'author',
+           member_in_project: project,
+           member_through_role: role)
   end
   let(:version) do
     build(:version,
-                     project: project)
+          project: project)
   end
 
   before do
@@ -138,7 +138,7 @@ RSpec.feature 'Work package copy', js: true, selenium: true do
 
       # Go to add cost entry page
       find('#action-show-more-dropdown-menu .button').click
-      find('.menu-item', text: 'Copy').click
+      find('.menu-item', text: 'Copy', exact_text: true).click
 
       to_copy_work_package_page = Pages::FullWorkPackageCreate.new original_work_package: original_work_package
       to_copy_work_package_page.update_attributes Description: 'Copied WP Description'

@@ -81,24 +81,24 @@ describe CostQuery, type: :model, reporting_query_helper: true do
         let!(:author) { create(:user, member_in_project: project) }
         let!(:work_package) do
           create(:work_package,
-                            project: project,
-                            author: author)
+                 project: project,
+                 author: author)
         end
         let!(:cost_type) { create(:cost_type) }
         let!(:cost_entry) do
           create(:cost_entry,
-                            work_package: work_package,
-                            user: user,
-                            project: project,
-                            cost_type: cost_type)
+                 work_package: work_package,
+                 user: user,
+                 project: project,
+                 cost_type: cost_type)
         end
         let!(:activity) { create(:time_entry_activity) }
         let!(:time_entry) do
           create(:time_entry,
-                            work_package: work_package,
-                            user: user,
-                            project: project,
-                            activity: activity)
+                 work_package: work_package,
+                 user: user,
+                 project: project,
+                 activity: activity)
         end
 
         it "should only return entries from the given #{filter}" do
@@ -136,24 +136,24 @@ describe CostQuery, type: :model, reporting_query_helper: true do
       let!(:author) { create(:user, member_in_project: project) }
       let!(:work_package) do
         create(:work_package,
-                          project: project,
-                          author: author)
+               project: project,
+               author: author)
       end
       let!(:cost_type) { create(:cost_type) }
       let!(:cost_entry) do
         create(:cost_entry,
-                          work_package: work_package,
-                          user: user,
-                          project: project,
-                          cost_type: cost_type)
+               work_package: work_package,
+               user: user,
+               project: project,
+               cost_type: cost_type)
       end
       let!(:activity) { create(:time_entry_activity) }
       let!(:time_entry) do
         create(:time_entry,
-                          work_package: work_package,
-                          user: user,
-                          project: project,
-                          activity: activity)
+               work_package: work_package,
+               user: user,
+               project: project,
+               activity: activity)
       end
 
       it "should only return entries from the given CostQuery::Filter::AuthorId" do
@@ -353,7 +353,7 @@ describe CostQuery, type: :model, reporting_query_helper: true do
     describe CostQuery::Filter::CustomFieldEntries do
       let!(:custom_field) do
         cf = create(:work_package_custom_field,
-                               name: 'My custom field')
+                    name: 'My custom field')
         clear_cache
         cf
       end
@@ -438,19 +438,19 @@ describe CostQuery, type: :model, reporting_query_helper: true do
 
       def create_searchable_fields_and_values
         searchable_field = create(:work_package_custom_field,
-                                             field_format: "text",
-                                             name: "Searchable Field")
+                                  field_format: "text",
+                                  name: "Searchable Field")
         2.times do
           work_package = create_work_package_with_entry(:cost_entry)
           create(:work_package_custom_value,
-                            custom_field: searchable_field,
-                            customized: work_package,
-                            value: "125")
+                 custom_field: searchable_field,
+                 customized: work_package,
+                 value: "125")
         end
         work_package = create_work_package_with_entry(:cost_entry)
         create(:custom_value,
-                          custom_field: searchable_field,
-                          value: "non-matching value")
+               custom_field: searchable_field,
+               value: "non-matching value")
         clear_cache
       end
 

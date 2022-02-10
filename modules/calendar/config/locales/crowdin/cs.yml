@@ -1,4 +1,4 @@
 #English strings go here
 cs:
-  permission_view_calendar: "View calendar"
-  project_module_calendar_view: "Calendar"
+  permission_view_calendar: "Zobrazit kalendář"
+  project_module_calendar_view: "Kalendář"

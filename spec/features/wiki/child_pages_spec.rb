@@ -34,16 +34,16 @@ describe 'wiki child pages', type: :feature, js: true do
   end
   let(:user) do
     create :user,
-                      member_in_project: project,
-                      member_through_role: role
+           member_in_project: project,
+           member_through_role: role
   end
   let(:role) do
     create(:role,
-                      permissions: %i[view_wiki_pages edit_wiki_pages])
+           permissions: %i[view_wiki_pages edit_wiki_pages])
   end
   let(:parent_page) do
     create(:wiki_page_with_content,
-                      wiki: project.wiki)
+           wiki: project.wiki)
   end
   let(:child_page_name) { 'The child page !@#{$%^&*()_},./<>?;\':' }
 

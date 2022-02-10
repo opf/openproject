@@ -35,10 +35,10 @@ describe Attachments::FinishDirectUploadJob, 'integration', type: :job do
 
   let!(:pending_attachment) do
     create(:attachment,
-                      author: user,
-                      downloads: -1,
-                      digest: '',
-                      container: container)
+           author: user,
+           downloads: -1,
+           digest: '',
+           container: container)
   end
 
   let(:job) { described_class.new }

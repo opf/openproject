@@ -61,6 +61,7 @@ da:
     button_confirm: "Bekræft"
     button_continue: "Fortsæt"
     button_copy: "Kopier"
+    button_copy_to_other_project: "Copy to other project"
     button_custom-fields: "Selvvalgte felter"
     button_delete: "Slet"
     button_delete_watcher: "Slet tilsynsførende"

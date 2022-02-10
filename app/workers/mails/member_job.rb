@@ -32,18 +32,39 @@ class Mails::MemberJob < ApplicationJob
   def perform(current_user:,
               member:,
               message: nil)
-    if member.project.nil?
-      send_updated_global(current_user, member, message)
-    elsif member.principal.is_a?(Group)
-      every_group_user_member(member) do |user_member|
-        send_for_group_user(current_user, user_member, member, message)
-      end
-    elsif member.principal.is_a?(User)
-      send_for_project_user(current_user, member, message)
+    case member.principal
+    when Group
+      perform_for_group(current_user: current_user, member: member, message: message)
+    when User
+      perform_for_user(current_user: current_user, member: member, message: message)
     end
   end
 
   private
+
+  def perform_for_group(current_user:,
+                        member:,
+                        message: nil)
+    every_group_user_member(member) do |user_member|
+      if member.project.nil?
+        next unless roles_changed?(user_member, member)
+
+        send_updated_global(current_user, user_member, message)
+      else
+        send_for_group_user(current_user, user_member, member, message)
+      end
+    end
+  end
+
+  def perform_for_user(current_user:,
+                       member:,
+                       message: nil)
+    if member.project.nil?
+      send_updated_global(current_user, member, message)
+    else
+      send_for_project_user(current_user, member, message)
+    end
+  end
 
   def send_for_group_user(_current_user, _member, _group, _message)
     raise NotImplementedError, "subclass responsibility"
@@ -94,5 +115,9 @@ class Mails::MemberJob < ApplicationJob
     NotificationSetting
       .where(project_id: nil, user_id: user_id)
       .exists?("membership_#{setting}" => false)
+  end
+
+  def roles_changed?(user_member, group_member)
+    Members::RolesDiff.new(user_member, group_member).roles_changed?
   end
 end

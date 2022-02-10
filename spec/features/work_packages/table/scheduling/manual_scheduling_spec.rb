@@ -8,17 +8,17 @@ describe 'Manual scheduling', js: true do
 
   let!(:parent) do
     create(:work_package,
-                      project: project,
-                      type: type,
-                      subject: 'Parent')
+           project: project,
+           type: type,
+           subject: 'Parent')
   end
 
   let!(:child) do
     create(:work_package,
-                      project: project,
-                      parent: parent,
-                      type: type,
-                      subject: 'Child')
+           project: project,
+           parent: parent,
+           type: type,
+           subject: 'Child')
   end
 
   let!(:wp_table) { Pages::WorkPackagesTable.new(project) }

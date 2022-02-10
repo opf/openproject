@@ -49,8 +49,8 @@ describe 'sticky messages', type: :feature do
 
   let(:user) do
     create :user,
-                      member_in_project: forum.project,
-                      member_through_role: role
+           member_in_project: forum.project,
+           member_through_role: role
   end
   let(:role) { create(:role, permissions: [:edit_messages]) }
 

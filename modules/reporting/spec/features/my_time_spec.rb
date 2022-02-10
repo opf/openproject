@@ -10,10 +10,10 @@ describe 'Cost report showing my own times', type: :feature, js: true do
 
   let!(:time_entry1) do
     create :time_entry,
-                      user: user,
-                      work_package: work_package,
-                      project: project,
-                      hours: 10
+           user: user,
+           work_package: work_package,
+           project: project,
+           hours: 10
   end
 
   before do

@@ -59,10 +59,10 @@ describe Workflow, type: :model do
     describe 'workflow w/o author or assignee' do
       let!(:workflow_src) do
         create(:workflow,
-                          old_status: status_0,
-                          new_status: status_1,
-                          type_id: type.id,
-                          role: role)
+               old_status: status_0,
+               new_status: status_1,
+               type_id: type.id,
+               role: role)
       end
       it_behaves_like 'copied workflow'
     end
@@ -70,11 +70,11 @@ describe Workflow, type: :model do
     describe 'workflow with author' do
       let!(:workflow_src) do
         create(:workflow,
-                          old_status: status_0,
-                          new_status: status_1,
-                          type_id: type.id,
-                          role: role,
-                          author: true)
+               old_status: status_0,
+               new_status: status_1,
+               type_id: type.id,
+               role: role,
+               author: true)
       end
       it_behaves_like 'copied workflow'
     end
@@ -82,11 +82,11 @@ describe Workflow, type: :model do
     describe 'workflow with assignee' do
       let!(:workflow_src) do
         create(:workflow,
-                          old_status: status_0,
-                          new_status: status_1,
-                          type_id: type.id,
-                          role: role,
-                          assignee: true)
+               old_status: status_0,
+               new_status: status_1,
+               type_id: type.id,
+               role: role,
+               assignee: true)
       end
       it_behaves_like 'copied workflow'
     end

@@ -61,6 +61,7 @@ hi:
     button_confirm: "Confirm"
     button_continue: "Continue"
     button_copy: "प्रतिलिपि बनाएँ"
+    button_copy_to_other_project: "Copy to other project"
     button_custom-fields: "Custom fields"
     button_delete: "मिटाएँ"
     button_delete_watcher: "द्रष्टा हटाएँ"

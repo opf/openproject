@@ -40,8 +40,8 @@ describe ::API::V3::Capabilities::CapabilitySqlRepresenter, 'rendering' do
   end
   let(:principal) do
     create(:user,
-                      member_in_project: project,
-                      member_with_permissions: %i[view_members])
+           member_in_project: project,
+           member_with_permissions: %i[view_members])
   end
   let(:project) do
     create(:project)
@@ -52,8 +52,8 @@ describe ::API::V3::Capabilities::CapabilitySqlRepresenter, 'rendering' do
 
   current_user do
     create(:user,
-                      member_in_project: project,
-                      member_with_permissions: [])
+           member_in_project: project,
+           member_with_permissions: [])
   end
 
   subject(:json) do
@@ -95,8 +95,8 @@ describe ::API::V3::Capabilities::CapabilitySqlRepresenter, 'rendering' do
   context 'with a project and group' do
     let(:principal) do
       create(:group,
-                        member_in_project: project,
-                        member_with_permissions: %i[view_members])
+             member_in_project: project,
+             member_with_permissions: %i[view_members])
     end
 
     it 'renders as expected' do
@@ -127,9 +127,9 @@ describe ::API::V3::Capabilities::CapabilitySqlRepresenter, 'rendering' do
   context 'with a global permission' do
     let(:principal) do
       create(:user,
-                        global_permission: %i[manage_user],
-                        member_in_project: project,
-                        member_with_permissions: [])
+             global_permission: %i[manage_user],
+             member_in_project: project,
+             member_with_permissions: [])
     end
     let(:context) { nil }
 

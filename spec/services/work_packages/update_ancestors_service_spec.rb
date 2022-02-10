@@ -67,10 +67,10 @@ describe WorkPackages::UpdateAncestorsService, type: :model, with_mail: false do
     let(:children) do
       (statuses.size - 1).downto(0).map do |i|
         create :work_package,
-                          parent: parent,
-                          status: statuses[i] == :open ? open_status : closed_status,
-                          estimated_hours: estimated_hours[i],
-                          done_ratio: done_ratios[i]
+               parent: parent,
+               status: statuses[i] == :open ? open_status : closed_status,
+               estimated_hours: estimated_hours[i],
+               done_ratio: done_ratios[i]
       end
     end
     let(:parent) { create :work_package, status: open_status }
@@ -195,19 +195,19 @@ describe WorkPackages::UpdateAncestorsService, type: :model, with_mail: false do
     end
     let!(:parent) do
       create :work_package,
-                        parent: grandparent
+             parent: grandparent
     end
     let!(:sibling) do
       create :work_package,
-                        parent: parent,
-                        status: sibling_status,
-                        estimated_hours: sibling_estimated_hours,
-                        done_ratio: sibling_done_ratio
+             parent: parent,
+             status: sibling_status,
+             estimated_hours: sibling_estimated_hours,
+             done_ratio: sibling_done_ratio
     end
 
     let!(:work_package) do
       create :work_package,
-                        parent: parent
+             parent: parent
     end
 
     subject do
@@ -265,13 +265,13 @@ describe WorkPackages::UpdateAncestorsService, type: :model, with_mail: false do
     end
     let!(:parent) do
       create :work_package,
-                        parent: grandparent
+             parent: grandparent
     end
     let!(:work_package) do
       create :work_package,
-                        status: status,
-                        estimated_hours: estimated_hours,
-                        done_ratio: done_ratio
+             status: status,
+             estimated_hours: estimated_hours,
+             done_ratio: done_ratio
     end
 
     shared_examples_for 'updates the attributes within the new hierarchy' do

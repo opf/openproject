@@ -35,18 +35,18 @@ describe 'News widget on dashboard', type: :feature, js: true do
   let!(:other_project) { create :project }
   let!(:visible_news) do
     create :news,
-                      project: project,
-                      description: 'blubs'
+           project: project,
+           description: 'blubs'
   end
   let!(:invisible_news) do
     create :news,
-                      project: other_project
+           project: other_project
   end
   let(:role) do
     create(:role,
-                      permissions: %i[view_news
-                                      view_dashboards
-                                      manage_dashboards])
+           permissions: %i[view_news
+                           view_dashboards
+                           manage_dashboards])
   end
   let(:user) do
     create(:user).tap do |u|

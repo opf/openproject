@@ -43,22 +43,22 @@ describe 'Projects index page',
 
   shared_let(:project) do
     create(:project,
-                      name: 'Plain project',
-                      identifier: 'plain-project')
+           name: 'Plain project',
+           identifier: 'plain-project')
   end
   shared_let(:public_project) do
     project = create(:project,
-                                name: 'Public project',
-                                identifier: 'public-project',
-                                public: true)
+                     name: 'Public project',
+                     identifier: 'public-project',
+                     public: true)
     project.custom_field_values = { invisible_custom_field.id => 'Secret CF' }
     project.save
     project
   end
   shared_let(:development_project) do
     create(:project,
-                      name: 'Development project',
-                      identifier: 'development-project')
+           name: 'Development project',
+           identifier: 'development-project')
   end
   let(:news) { create(:news, project: project) }
   let(:projects_page) { Pages::Projects::Index.new }
@@ -106,11 +106,11 @@ describe 'Projects index page',
     feature 'for project members' do
       shared_let(:user) do
         create(:user,
-                          member_in_project: development_project,
-                          member_through_role: developer,
-                          login: 'nerd',
-                          firstname: 'Alan',
-                          lastname: 'Turing')
+               member_in_project: development_project,
+               member_through_role: developer,
+               login: 'nerd',
+               firstname: 'Alan',
+               lastname: 'Turing')
       end
 
       before do
@@ -342,14 +342,14 @@ describe 'Projects index page',
     feature 'Active or archived' do
       shared_let(:parent_project) do
         create(:project,
-                          name: 'Parent project',
-                          identifier: 'parent-project')
+               name: 'Parent project',
+               identifier: 'parent-project')
       end
       shared_let(:child_project) do
         create(:project,
-                          name: 'Child project',
-                          identifier: 'child-project',
-                          parent: parent_project)
+               name: 'Child project',
+               identifier: 'child-project',
+               parent: parent_project)
       end
 
       scenario 'filter on "status", archive and unarchive' do
@@ -427,20 +427,20 @@ describe 'Projects index page',
       shared_let(:no_status_project) do
         # A project that never had project status associated.
         create(:project,
-                          name: 'No status project')
+               name: 'No status project')
       end
 
       shared_let(:green_project) do
         # A project that has a project status associated.
         create(:project,
-                          name: 'Green project',
-                          status: create(:project_status))
+               name: 'Green project',
+               status: create(:project_status))
       end
       shared_let(:gray_project) do
         # A project that once had a project status associated, that was later unset.
         create(:project,
-                          name: 'Gray project',
-                          status: create(:project_status, code: nil))
+               name: 'Gray project',
+               status: create(:project_status, code: nil))
       end
 
       scenario 'sort and filter on project status' do
@@ -523,8 +523,8 @@ describe 'Projects index page',
 
       shared_let(:project_created_on_today) do
         project = create(:project,
-                                    name: 'Created today project',
-                                    created_at: DateTime.now)
+                         name: 'Created today project',
+                         created_at: DateTime.now)
         project.custom_field_values = { list_custom_field.id => list_custom_field.possible_values[2],
                                         date_custom_field.id => '2011-11-11' }
         project.save!
@@ -532,24 +532,24 @@ describe 'Projects index page',
       end
       shared_let(:project_created_on_this_week) do
         create(:project,
-                          name: 'Created on this week project',
-                          created_at: datetime_of_this_week)
+               name: 'Created on this week project',
+               created_at: datetime_of_this_week)
       end
       shared_let(:project_created_on_six_days_ago) do
         create(:project,
-                          name: 'Created on six days ago project',
-                          created_at: DateTime.now - 6.days)
+               name: 'Created on six days ago project',
+               created_at: DateTime.now - 6.days)
       end
       shared_let(:project_created_on_fixed_date) do
         create(:project,
-                          name: 'Created on fixed date project',
-                          created_at: fixed_datetime)
+               name: 'Created on fixed date project',
+               created_at: fixed_datetime)
       end
       shared_let(:todays_wp) do
         # This WP should trigger a change to the project's 'latest activity at' DateTime
         create(:work_package,
-                          updated_at: DateTime.now,
-                          project: project_created_on_today)
+               updated_at: DateTime.now,
+               project: project_created_on_today)
       end
 
       before do
@@ -767,24 +767,24 @@ describe 'Projects index page',
 
     shared_let(:parent_project) do
       create(:project,
-                        name: 'Parent project',
-                        identifier: 'parent-project')
+             name: 'Parent project',
+             identifier: 'parent-project')
     end
 
     shared_let(:can_copy_projects_manager) do
       create(:user,
-                        member_in_project: parent_project,
-                        member_through_role: can_copy_projects_role)
+             member_in_project: parent_project,
+             member_through_role: can_copy_projects_role)
     end
     shared_let(:can_add_subprojects_manager) do
       create(:user,
-                        member_in_project: parent_project,
-                        member_through_role: can_add_subprojects_role)
+             member_in_project: parent_project,
+             member_through_role: can_add_subprojects_role)
     end
     let(:simple_member) do
       create(:user,
-                        member_in_project: parent_project,
-                        member_through_role: developer)
+             member_in_project: parent_project,
+             member_through_role: developer)
     end
 
     before do
@@ -870,18 +870,18 @@ describe 'Projects index page',
     # first but then reorders in ruby
     shared_let(:child_project_z) do
       create(:project,
-                        parent: project,
-                        name: "Z Child")
+             parent: project,
+             name: "Z Child")
     end
     shared_let(:child_project_m) do
       create(:project,
-                        parent: project,
-                        name: "m Child") # intentionally written lowercase to test for case insensitive sorting
+             parent: project,
+             name: "m Child") # intentionally written lowercase to test for case insensitive sorting
     end
     shared_let(:child_project_a) do
       create(:project,
-                        parent: project,
-                        name: "A Child")
+             parent: project,
+             name: "A Child")
     end
 
     before do

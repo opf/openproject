@@ -122,7 +122,7 @@ describe Project, type: :model do
     let(:status) { build_stubbed(:project_status) }
     let(:stubbed_project) do
       build_stubbed(:project,
-                               status: status)
+                    status: status)
     end
 
     it 'has a status' do

@@ -62,6 +62,7 @@ ja:
     button_confirm: "確認"
     button_continue: "続行"
     button_copy: "コピー"
+    button_copy_to_other_project: "Copy to other project"
     button_custom-fields: "カスタムフィールド"
     button_delete: "削除"
     button_delete_watcher: "ウォッチャーを削除"

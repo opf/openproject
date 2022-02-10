@@ -39,9 +39,9 @@ RSpec.feature 'Work package timeline navigation', js: true, selenium: true do
 
   let(:work_package) do
     create :work_package,
-                      project: project,
-                      start_date: Date.today,
-                      due_date: (Date.today + 5.days)
+           project: project,
+           start_date: Date.today,
+           due_date: (Date.today + 5.days)
   end
 
   before do
@@ -56,14 +56,14 @@ RSpec.feature 'Work package timeline navigation', js: true, selenium: true do
 
     let!(:work_package) do
       create :work_package,
-                        project: project,
-                        type: type
+             project: project,
+             type: type
     end
 
     let!(:work_package2) do
       create :work_package,
-                        project: project,
-                        type: type2
+             project: project,
+             type: type2
     end
 
     let!(:query) do
@@ -76,7 +76,7 @@ RSpec.feature 'Work package timeline navigation', js: true, selenium: true do
 
       query.save!
       create(:view_work_packages_table,
-                        query: query)
+             query: query)
 
       query
     end
@@ -91,7 +91,7 @@ RSpec.feature 'Work package timeline navigation', js: true, selenium: true do
 
       query.save!
       create(:view_work_packages_table,
-                        query: query)
+             query: query)
 
       query
     end
@@ -189,10 +189,10 @@ RSpec.feature 'Work package timeline navigation', js: true, selenium: true do
   describe 'with a hierarchy being shown' do
     let!(:child_work_package) do
       create :work_package,
-                        project: project,
-                        parent: work_package,
-                        start_date: Date.today,
-                        due_date: (Date.today + 5.days)
+             project: project,
+             parent: work_package,
+             start_date: Date.today,
+             due_date: (Date.today + 5.days)
     end
     let(:hierarchy) { ::Components::WorkPackages::Hierarchies.new }
 
@@ -231,38 +231,38 @@ RSpec.feature 'Work package timeline navigation', js: true, selenium: true do
 
     let!(:wp_cat1) do
       create :work_package,
-                        project: project,
-                        category: category,
-                        start_date: Date.today,
-                        due_date: (Date.today + 5.days)
+             project: project,
+             category: category,
+             start_date: Date.today,
+             due_date: (Date.today + 5.days)
     end
     let!(:wp_cat2) do
       create :work_package,
-                        project: project,
-                        category: category2,
-                        start_date: Date.today + 5.days,
-                        due_date: (Date.today + 10.days)
+             project: project,
+             category: category2,
+             start_date: Date.today + 5.days,
+             due_date: (Date.today + 10.days)
     end
 
     let!(:milestone_work_package) do
       create :work_package,
-                        project: project,
-                        type: milestone_type,
-                        start_date: Date.today - 10.days,
-                        due_date: Date.today - 10.days,
-                        subject: 'My milestone'
+             project: project,
+             type: milestone_type,
+             start_date: Date.today - 10.days,
+             due_date: Date.today - 10.days,
+             subject: 'My milestone'
     end
 
     let!(:wp_none) do
       create :work_package,
-                        project: project
+             project: project
     end
 
     let!(:relation) do
       create(:relation,
-                        from: wp_cat1,
-                        to: wp_cat2,
-                        relation_type: Relation::TYPE_FOLLOWS)
+             from: wp_cat1,
+             to: wp_cat2,
+             relation_type: Relation::TYPE_FOLLOWS)
     end
 
     let!(:query) do

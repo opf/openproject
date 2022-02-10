@@ -61,6 +61,7 @@ nl:
     button_confirm: "Accepteren"
     button_continue: "Ga verder"
     button_copy: "Kopieer"
+    button_copy_to_other_project: "Copy to other project"
     button_custom-fields: "Aangepaste velden"
     button_delete: "Verwijderen"
     button_delete_watcher: "Kijkers verwijderen"

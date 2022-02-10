@@ -38,11 +38,11 @@ describe Groups::UpdateRolesService, 'integration', type: :model do
 
   let!(:group) do
     create(:group,
-                      members: users).tap do |group|
+           members: users).tap do |group|
       create(:member,
-                        project: project,
-                        principal: group,
-                        roles: roles)
+             project: project,
+             principal: group,
+             roles: roles)
 
       ::Groups::AddUsersService
         .new(group, current_user: User.system, contract_class: EmptyContract)
@@ -65,14 +65,14 @@ describe Groups::UpdateRolesService, 'integration', type: :model do
   shared_examples_for 'keeps timestamp' do
     it 'updated_at on member is unchanged' do
       expect { service_call }
-        .not_to change { Member.find_by(principal: user).updated_at }
+        .not_to(change { Member.find_by(principal: user).updated_at })
     end
   end
 
   shared_examples_for 'updates timestamp' do
     it 'updated_at on member is changed' do
       expect { service_call }
-        .to change { Member.find_by(principal: user).updated_at }
+        .to(change { Member.find_by(principal: user).updated_at })
     end
   end
 
@@ -82,7 +82,8 @@ describe Groups::UpdateRolesService, 'integration', type: :model do
 
       expect(Notifications::GroupMemberAlteredJob)
         .to have_received(:perform_later)
-        .with(a_collection_containing_exactly(*Member.where(principal: user).pluck(:id)),
+        .with(current_user,
+              a_collection_containing_exactly(*Member.where(principal: user).pluck(:id)),
               message,
               true)
     end
@@ -111,6 +112,74 @@ describe Groups::UpdateRolesService, 'integration', type: :model do
 
     it_behaves_like 'sends notification' do
       let(:user) { users }
+    end
+  end
+
+  context 'with global membership' do
+    let(:role) { create :global_role }
+    let!(:group) do
+      create(:group,
+             members: users).tap do |group|
+        create(:global_member,
+               principal: group,
+               roles: roles)
+
+        ::Groups::AddUsersService
+          .new(group, current_user: User.system, contract_class: EmptyContract)
+          .call(ids: users.map(&:id))
+      end
+    end
+
+    context 'when adding a global role' do
+      let(:added_role) { create(:global_role) }
+
+      before do
+        member.roles << added_role
+      end
+
+      it 'is successful' do
+        expect(service_call)
+          .to be_success
+      end
+
+      it 'adds the roles to all inherited memberships' do
+        service_call
+
+        Member.where(principal: users).each do |member|
+          expect(member.roles)
+            .to match_array([role, added_role])
+        end
+      end
+
+      it_behaves_like 'sends notification' do
+        let(:user) { users }
+      end
+    end
+
+    context 'when removing a global role' do
+      let(:roles) { [role, create(:global_role)] }
+
+      before do
+        member.roles = [role]
+      end
+
+      it 'is successful' do
+        expect(service_call)
+          .to be_success
+      end
+
+      it 'removes the roles from all inherited memberships' do
+        service_call
+
+        Member.where(principal: users).each do |member|
+          expect(member.roles)
+            .to match_array([role])
+        end
+      end
+
+      it_behaves_like 'sends notification' do
+        let(:user) { users }
+      end
     end
   end
 
