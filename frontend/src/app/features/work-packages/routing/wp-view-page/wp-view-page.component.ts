@@ -63,14 +63,14 @@ import { OpProjectSelectComponent } from 'core-app/shared/components/project-sel
 export class WorkPackageViewPageComponent extends PartitionedQuerySpacePageComponent implements OnInit {
   toolbarButtonComponents:ToolbarButtonComponentDefinition[] = [
     {
-      component: OpProjectSelectComponent,
-    },
-    {
       component: WorkPackageCreateButtonComponent,
       inputs: {
         stateName$: of('work-packages.partitioned.list.new'),
         allowed: ['work_packages.createWorkPackage'],
       },
+    },
+    {
+      component: OpProjectSelectComponent,
     },
     {
       component: WorkPackageFilterButtonComponent,
