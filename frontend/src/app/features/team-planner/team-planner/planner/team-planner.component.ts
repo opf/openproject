@@ -253,15 +253,8 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
               day: 'numeric',
             },
             initialView: this.calendar.initialView || 'resourceTimelineWeek',
-            customButtons: {
-              addExisting: {
-                text: this.text.add_existing,
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                click: this.toggleAddExistingPane.bind(this),
-              },
-            },
             headerToolbar: {
-              left: 'addExisting',
+              left: '',
               center: 'title',
               right: 'prev,next today resourceTimelineWeek,resourceTimelineTwoWeeks',
             },
@@ -542,7 +535,6 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
   }
 
   private toggleAddExistingPane():void {
-    document.getElementsByClassName('fc-addExisting-button')[0].classList.toggle('-active');
     this.showAddExistingPane.next(!this.showAddExistingPane.getValue());
   }
 }

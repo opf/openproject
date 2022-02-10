@@ -4,29 +4,33 @@
   display: block
   height: 100%
   overflow: auto
-  // Avoid empty space on the right since the styled scrollbar would only be visible on hover.
-  @include no-visible-scroll-bar
+
 
 .op-team-planner
   display: grid
   grid-template-columns: auto 1fr
-  grid-template-rows: auto 1fr auto
-  grid-column-gap: 10px
-  grid-template-areas: "addExisting calendar" "addExisting noData" "addExisting addAssignee"
-  max-height: 100%
+  grid-template-rows: 55px 1fr
+  grid-template-areas: ". calendar" "addExisting calendar"
+  height: 100%
+  overflow: hidden
+
+  &--calendar-pane
+    grid-area: calendar
+    overflow: auto  // Avoid empty space on the right since the styled scrollbar would only be visible on hover.
+    @include no-visible-scroll-bar
 
   &--add-existing-pane
     grid-area: addExisting
     width: 264px
+    min-width: 264px
+    overflow: auto
+    margin-right: 10px
+    z-index: 2
 
-  &--calendar
-    grid-area: calendar
-
-  &--add-assignee
-    grid-area: addAssignee
+  &--add-existing-toggle
+    position: absolute
 
   &--no-data
-    grid-area: noData
     min-height: 250px
     background-color: #F3F3F3
     display: flex
