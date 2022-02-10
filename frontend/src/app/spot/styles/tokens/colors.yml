@@ -41,6 +41,8 @@ props:
     value: "#00A3FF"
   - name: spot-color-indication-flagged
     value: "#1CB6C0"
+  - name: spot-color-indication-current-date
+    value: "#ffffE1"
 
   - name: spot-color-feedback-error-dark
     value: "#CA3F3F"
