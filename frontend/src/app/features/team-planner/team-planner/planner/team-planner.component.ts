@@ -127,6 +127,8 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     remove_assignee: this.I18n.t('js.team_planner.remove_assignee'),
     noData: this.I18n.t('js.team_planner.no_data'),
     two_weeks: this.I18n.t('js.team_planner.two_weeks'),
+    one_week: this.I18n.t('js.team_planner.one_week'),
+    today: this.I18n.t('js.team_planner.today'),
   };
 
   principals$ = this.principalIds$
@@ -252,6 +254,9 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
               month: 'long',
               day: 'numeric',
             },
+            buttonText: {
+              today: this.text.today
+            },
             initialView: this.calendar.initialView || 'resourceTimelineWeek',
             customButtons: {
               addExisting: {
@@ -268,6 +273,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
             views: {
               resourceTimelineWeek: {
                 type: 'resourceTimeline',
+                buttonText: this.text.one_week,
                 duration: { weeks: 1 },
                 slotDuration: { days: 1 },
                 slotLabelFormat: [
@@ -286,11 +292,25 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
               resourceTimelineTwoWeeks: {
                 type: 'resourceTimeline',
                 buttonText: this.text.two_weeks,
-                duration: { weeks: 2 },
                 slotDuration: { days: 1 },
+                visibleRange: function() {
+                  const thisWeek = new Date;
+                  const thisWeekEndDateNumber = thisWeek.getDate() - thisWeek.getDay() + 7;
+                  const endDate = new Date(thisWeek.setDate(thisWeekEndDateNumber));
+
+                  const lastWeek = new Date;
+                  const lastWeekStartDate = new Date(lastWeek.getFullYear(), lastWeek.getMonth(), lastWeek.getDate() - 6);
+                  const lastWeekStartDateNumber = lastWeekStartDate.getDate() - lastWeekStartDate.getDay();
+                  const startDate = new Date(lastWeek.setDate(lastWeekStartDateNumber));
+
+                  return {
+                    start: startDate.getFullYear()  + "-" +  String((startDate.getMonth() + 1)).padStart(2, '0') + "-" +  String(startDate.getDate()).padStart(2, '0'),
+                    end: endDate.getFullYear() + "-" + String((endDate.getMonth() + 1)).padStart(2, '0') + "-" + String(endDate.getDate()).padStart(2, '0')
+                  };
+                },
                 slotLabelFormat: [
                   {
-                    weekday: 'long',
+                    weekday: 'short',
                     day: '2-digit',
                   },
                 ],
