@@ -83,6 +83,7 @@ export class OpProjectSelectComponent extends UntilDestroyedMixin {
         ];
       }),
     );
+  public numberOfProjectsInFilter$ = this.projectsInFilter$.pipe(map((selected) => selected.length));
   public allProjects$ = this.projectsResourceService.query.selectAll();
 
   public projects$ = combineLatest([

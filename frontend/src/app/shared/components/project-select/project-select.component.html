@@ -8,7 +8,10 @@
     type="button"
     class="button"
     (click)="toggleOpen()"
-  >Include projects</button>
+  >
+    Include projects
+    <span class="badge -secondary">{{ numberOfProjectsInFilter$ | async }}</span>
+  </button>
 
   <ng-container slot="body">
     <div class="op-project-select--header">
