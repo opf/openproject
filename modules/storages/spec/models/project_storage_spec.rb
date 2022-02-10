@@ -62,12 +62,7 @@ describe ::Storages::ProjectStorage, type: :model do
   describe '#destroy' do
     let(:project_storage_to_destroy) { described_class.create(attributes) }
     let(:work_package) { create(:work_package, project: project) }
-    let(:file_link) do
-      Storages::FileLink.create(container: work_package,
-                                storage: storage,
-                                creator: creator,
-                                container_type: "WorkPackage")
-    end
+    let(:file_link) { create(:file_link, storage: storage, container_id: work_package.id) }
 
     before do
       project_storage_to_destroy

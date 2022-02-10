@@ -79,15 +79,9 @@ describe ::Storages::Storage, type: :model do
   describe '#destroy' do
     let(:project) { create(:project) }
     let(:storage) { described_class.create(default_attributes) }
-    # let(:project_storage) { Storages::ProjectStorage.create(project: project, storage: storage, creator: creator) }
     let(:project_storage) { create(:project_storage, project: project, storage: storage, creator: creator) }
     let(:work_package) { create(:work_package, project: project) }
-    let(:file_link) do
-      Storages::FileLink.create(container: work_package,
-                                storage: storage,
-                                creator: creator,
-                                container_type: "WorkPackage")
-    end
+    let(:file_link) { create(:file_link, storage: storage, container_id: work_package.id) }
 
     before do
       project_storage
