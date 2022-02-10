@@ -87,7 +87,7 @@ describe 'Team planner add existing work packages', type: :feature, js: true do
       end
 
       # Open the left hand pane
-      team_planner.find('.fc-addExisting-button').click
+      page.find('[data-qa-selector="op-team-planner--add-existing-toggle"]').click
 
       add_existing_pane.expect_open
       add_existing_pane.expect_empty
@@ -101,7 +101,7 @@ describe 'Team planner add existing work packages', type: :feature, js: true do
       sleep 2
 
       # Drag it to the team planner...
-      add_existing_pane.drag_wp_by_pixel second_wp, 800, 50
+      add_existing_pane.drag_wp_by_pixel second_wp, 800, 0
 
       team_planner.expect_and_dismiss_toaster(message: "Successful update.")
 
@@ -164,7 +164,7 @@ describe 'Team planner add existing work packages', type: :feature, js: true do
     end
 
     it 'does not show the button to add existing work packages' do
-      expect(page).not_to have_selector('.fc-addExisting-button')
+      expect(page).not_to have_selector('[data-qa-selector="op-team-planner--add-existing-toggle"]')
       add_existing_pane.expect_closed
     end
   end
