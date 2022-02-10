@@ -61,6 +61,7 @@ ar:
     button_confirm: "تأكيد"
     button_continue: "Continue"
     button_copy: "انسخ"
+    button_copy_to_other_project: "Copy to other project"
     button_custom-fields: "الحقول المخصصة"
     button_delete: "احذف"
     button_delete_watcher: "احذف المراقب"

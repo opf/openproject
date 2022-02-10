@@ -454,9 +454,12 @@ pt:
         code: 'Status'
         explanation: 'Descrição do estado'
         codes:
+          not_started: 'Not started'
           on_track: 'Sob controle'
           at_risk: 'Em risco'
           off_track: 'Fora de controle'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
       query:
         column_names: "Colunas"
         relations_to_type_column: "Relações com %{type}"

@@ -456,9 +456,12 @@ vi:
         code: 'Trạng thái'
         explanation: 'Mô tả trạng thái'
         codes:
+          not_started: 'Not started'
           on_track: 'Theo dõi'
           at_risk: 'Có rủi ro'
           off_track: 'Không theo dõi'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
       query:
         column_names: "Cột"
         relations_to_type_column: "Quan hệ với %{type}"

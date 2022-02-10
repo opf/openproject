@@ -61,6 +61,7 @@ af:
     button_confirm: "Confirm"
     button_continue: "Continue"
     button_copy: "Kopieer"
+    button_copy_to_other_project: "Copy to other project"
     button_custom-fields: "Pasgemaakte velde"
     button_delete: "Skrap"
     button_delete_watcher: "Delete watcher"

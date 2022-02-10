@@ -452,9 +452,12 @@ nl:
         code: 'Status'
         explanation: 'Status beschrijving'
         codes:
+          not_started: 'Not started'
           on_track: 'Op schema'
           at_risk: 'In gevaar'
           off_track: 'Buiten schema'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
       query:
         column_names: "Kolommen"
         relations_to_type_column: "Betrekkingen %{type}"

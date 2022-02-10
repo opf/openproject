@@ -61,6 +61,7 @@ it:
     button_confirm: "Conferma"
     button_continue: "Continua"
     button_copy: "Copia"
+    button_copy_to_other_project: "Copy to other project"
     button_custom-fields: "Campo personalizzato"
     button_delete: "Cancella"
     button_delete_watcher: "Elimina osservatore"

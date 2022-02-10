@@ -495,7 +495,7 @@ module OpenProject
         if File.file?(filename)
           file_config = YAML::load(ERB.new(File.read(filename)).result)
           if file_config.is_a? Hash
-            config.merge!(load_env_from_config(file_config, env))
+            config.deep_merge!(load_env_from_config(file_config, env))
           else
             warn "#{filename} is not a valid OpenProject configuration file, ignoring."
           end
@@ -506,10 +506,10 @@ module OpenProject
         merged_config = {}
 
         if config['default']
-          merged_config.merge!(config['default'])
+          merged_config.deep_merge!(config['default'])
         end
         if config[env]
-          merged_config.merge!(config[env])
+          merged_config.deep_merge!(config[env])
         end
         merged_config
       end

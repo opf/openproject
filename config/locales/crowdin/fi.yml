@@ -455,9 +455,12 @@ fi:
         code: 'Tila'
         explanation: 'Tilan kuvaus'
         codes:
+          not_started: 'Not started'
           on_track: 'Hyvä'
           at_risk: 'Rajalla'
           off_track: 'Huono'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
       query:
         column_names: "Sarakkeet"
         relations_to_type_column: "Riippuvuus %{type}"

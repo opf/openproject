@@ -26,8 +26,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_dependency 'work_package'
-
 module OpenProject::Backlogs::Patches::WorkPackagePatch
   extend ActiveSupport::Concern
 

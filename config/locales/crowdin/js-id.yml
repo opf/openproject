@@ -61,6 +61,7 @@ id:
     button_confirm: "Konfirmasi"
     button_continue: "Lanjut"
     button_copy: "Salin"
+    button_copy_to_other_project: "Copy to other project"
     button_custom-fields: "Isian kustom"
     button_delete: "Hapus"
     button_delete_watcher: "Hapus pemantau"

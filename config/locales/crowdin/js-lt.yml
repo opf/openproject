@@ -61,6 +61,7 @@ lt:
     button_confirm: "Patvirtinti"
     button_continue: "Tęsti"
     button_copy: "Kopijuoti"
+    button_copy_to_other_project: "Copy to other project"
     button_custom-fields: "Savi laukai"
     button_delete: "Trinti"
     button_delete_watcher: "Trinti stebėtoją"

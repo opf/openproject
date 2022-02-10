@@ -61,6 +61,7 @@ sk:
     button_confirm: "Potvrdiť"
     button_continue: "Pokračovať"
     button_copy: "Kopírovať"
+    button_copy_to_other_project: "Copy to other project"
     button_custom-fields: "Vlastné polia"
     button_delete: "Odstrániť"
     button_delete_watcher: "Odstrániť pozorovateľa"

@@ -55,7 +55,7 @@ See COPYRIGHT and LICENSE files for more details.
           <div class="form--field -vertical">
             <%= hidden_field_tag :user_ids, nil  %>
             <user-autocompleter data-update-input="user_ids"
-                                data-additional-filter="<%= @autocompleter_filters&.to_json %>"
+                                data-additional-filter="<%= autocompleter_filters(@group).to_json %>"
                                 class="new-group-members--autocomplete">
             </user-autocompleter>
           </div>

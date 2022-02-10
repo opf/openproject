@@ -26,7 +26,13 @@ get:
       + created_at: filters memberships based on the time the membership was created.
 
       + updated_at: filters memberships based on the time the membership was updated last.
-    example: '[{ "name": { "operator": "=", "values": ["A User"] }" }]'
+    examples:
+      name-filter:
+        summary: Filtering on the name of the principal
+        value: '[{ "name": { "operator": "=", "values": ["A User"] }" }]'
+      global-memberships:
+        summary: Get memberships for global roles
+        value: '[{ "project": { "operator": "!*", "values": null }" }]'
     in: query
     name: filters
     required: false

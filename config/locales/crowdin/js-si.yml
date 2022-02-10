@@ -61,6 +61,7 @@ si:
     button_confirm: "තහවුරු කරන්න"
     button_continue: "ඉදිරියට යන්න"
     button_copy: "පිටපත් කරන්න"
+    button_copy_to_other_project: "Copy to other project"
     button_custom-fields: "අභිරුචි ක්ෂේත්ර"
     button_delete: "මකන්න"
     button_delete_watcher: "මුරකරු මකන්න"

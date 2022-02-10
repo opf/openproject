@@ -78,7 +78,7 @@ module API
         end
 
         def deduce_process_service
-          "::#{deduce_backend_namespace}::#{update_or_create}Service".constantize
+          lookup_namespaced_class("#{update_or_create}Service")
         end
 
         def deduce_process_contract

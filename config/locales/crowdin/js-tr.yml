@@ -61,6 +61,7 @@ tr:
     button_confirm: "Onaylamak"
     button_continue: "Devam et"
     button_copy: "Kopyalamak"
+    button_copy_to_other_project: "Copy to other project"
     button_custom-fields: "Özel Alanlar"
     button_delete: "silmek"
     button_delete_watcher: "Takipçi sil"

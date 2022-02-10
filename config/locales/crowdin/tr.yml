@@ -455,9 +455,12 @@ tr:
         code: 'Durum'
         explanation: 'Durum tanımlaması'
         codes:
+          not_started: 'Not started'
           on_track: 'Takipte'
           at_risk: 'Riskli'
           off_track: 'Kapalı parça'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
       query:
         column_names: "Sütunlar"
         relations_to_type_column: "%{type} ile ilişkileri"

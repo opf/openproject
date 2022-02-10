@@ -63,6 +63,7 @@ hu:
     button_confirm: "Jóváhagy"
     button_continue: "Folytatás"
     button_copy: "Másol"
+    button_copy_to_other_project: "Copy to other project"
     button_custom-fields: "Választható mezők"
     button_delete: "Törlés"
     button_delete_watcher: "Megfigyelő törlése"

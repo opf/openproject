@@ -30,6 +30,8 @@ module API
   module Utilities
     module Endpoints
       class Bodied
+        include NamespacedLookup
+
         def default_instance_generator(_model)
           raise NotImplementedError
         end
@@ -53,11 +55,11 @@ module API
         end
 
         def initialize(model:,
-                       api_name: model.name.demodulize,
-                       instance_generator: default_instance_generator(model),
-                       params_modifier: default_params_modifier,
-                       params_source: default_params_source,
-                       process_state: default_process_state,
+                       api_name: nil,
+                       instance_generator: nil,
+                       params_modifier: nil,
+                       params_source: nil,
+                       process_state: nil,
                        before_hook: nil,
                        parse_representer: nil,
                        render_representer: nil,
@@ -65,11 +67,11 @@ module API
                        process_contract: nil,
                        parse_service: nil)
           self.model = model
-          self.api_name = api_name
-          self.instance_generator = instance_generator
-          self.params_modifier = params_modifier
-          self.params_source = params_source
-          self.process_state = process_state
+          self.api_name = api_name || model.name.demodulize
+          self.instance_generator = instance_generator || default_instance_generator(model)
+          self.params_modifier = params_modifier || default_params_modifier
+          self.params_source = params_source || default_params_source
+          self.process_state = process_state || default_process_state
           self.parse_representer = parse_representer || deduce_parse_representer
           self.render_representer = render_representer || deduce_render_representer
           self.process_contract = process_contract || deduce_process_contract
@@ -155,11 +157,11 @@ module API
         end
 
         def deduce_process_service
-          "::#{deduce_backend_namespace}::SetAttributesService".constantize
+          lookup_namespaced_class("SetAttributesService")
         end
 
         def deduce_process_contract
-          "::#{deduce_backend_namespace}::#{update_or_create}Contract".constantize
+          lookup_namespaced_class("#{update_or_create}Contract")
         end
 
         def deduce_parse_representer
@@ -176,14 +178,6 @@ module API
 
         def deduce_api_namespace
           api_name.pluralize
-        end
-
-        def backend_name
-          model.name.demodulize
-        end
-
-        def deduce_backend_namespace
-          backend_name.pluralize
         end
 
         def update_or_create

@@ -454,9 +454,12 @@ sl:
         code: 'Stanje'
         explanation: 'Opis stanja'
         codes:
+          not_started: 'Not started'
           on_track: 'Na poti'
           at_risk: 'Ogroženo'
           off_track: 'Izven poti'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
       query:
         column_names: "Stolpci"
         relations_to_type_column: "Povezave z %{type}"

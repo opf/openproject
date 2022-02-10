@@ -61,6 +61,7 @@ fa:
     button_confirm: "تایید"
     button_continue: "Continue"
     button_copy: "کپی"
+    button_copy_to_other_project: "Copy to other project"
     button_custom-fields: "Custom fields"
     button_delete: "حذف"
     button_delete_watcher: "حذف ناظر"

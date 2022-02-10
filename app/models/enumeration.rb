@@ -182,5 +182,5 @@ end
 
 # Force load the subclasses in development mode
 %w(time_entry_activity issue_priority).each do |enum_subclass|
-  require_dependency enum_subclass
+  require enum_subclass
 end

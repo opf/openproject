@@ -16,11 +16,23 @@
   &:hover
     box-shadow: 0px 0px 10px lightgrey
 
+    .op-wp-single-card--content-project-name_hideable
+      opacity: 0.25
+    .op-wp-single-card--inline-buttons
+      opacity: 1
+      z-index: 1
+
   &_new
     padding-right: 25px
 
   &_checked
     background-color: var(--table-row-highlighting-color)
+
+  &_disabled
+    opacity: 0.6
+
+  &_closed:not(&_checked)
+    background-color: #F3F3F3
 
   &_horizontal
     height: 100%
@@ -31,6 +43,19 @@
     &:last-of-type
       margin-bottom: 5px
 
+  &_inline &--content
+    grid-template-columns: max-content max-content auto auto 1fr
+    grid-template-rows: auto max-content
+    grid-template-areas: "status id project project project" "subject subject subject subject subject"
+
+    &-assignee
+      display: none
+    &-subject-line
+      display: flex
+    &-subject
+      flex-grow: 1
+      @include text-shortener
+
   // Style shadow element while dragging
   wp-single-card:host.gu-transit &
     @include modifying--placeholder
@@ -39,11 +64,11 @@
 
     &:not(.-new)
       display: grid
-      grid-template-columns: max-content max-content max-content max-content 1fr
-      grid-template-rows: auto auto 1fr auto
+      grid-template-columns: max-content max-content auto auto 1fr
+      grid-template-rows: auto max-content max-content 1fr
       grid-row-gap: 5px
       grid-column-gap: 5px
-      grid-template-areas: "project type status status status" "subject subject subject subject subject" "image image image image image" "avatar avatar avatar dates dates"
+      grid-template-areas: "status id project project project" "subject subject subject subject subject" "image image image image image" "avatar avatar avatar dates dates"
       overflow: hidden
       flex-grow: 1
       font-size: 14px
@@ -53,26 +78,28 @@
       grid-area: project
       font-style: italic
       color: var(--gray-dark)
+      font-size: 12px
       @include text-shortener
-      max-width: 80px
     &-type
       grid-area: type
-    &-subject
+      margin-right: 4px
+    &-subject-line
       grid-area: subject
       @include text-shortener(false)
     &-assignee
       grid-area: avatar
-      place-self: center left
+      max-width: 140px
+      color: var(--gray-dark)
+      font-size: 12px
+    &-id
+      grid-area: id
       color: var(--gray-dark)
       font-size: 12px
     &-status
       grid-area: status
       margin-right: 5px
-      place-self: center start
+      max-width: 92px
       overflow: hidden
-      max-width: -webkit-fill-available
-      max-width: -moz-fill-available
-      max-width: fill-available
 
     &-cover-image
       grid-area: image
@@ -88,22 +115,38 @@
       color: var(--gray-dark)
       font-size: 12px
 
+    &-inline-date
+      font-size: 12px
+      color: var(--gray-dark)
+      margin: 0 8px
+      white-space: nowrap
+
   &--highlighting
-    width: 5px
-    height: 100%
+    width: 100%
+    height: 2px
     position: absolute
     top: 0
     left: 0
-    border-radius: 2px 0 0 2px
+    border-radius: 2px 2px 0 0
 
-  &--inline-buttons
+  &--card-actions
+    display: flex
     position: absolute
     top: 9px
+    right: 0
+
+  &--card-action
+    background: white
+    z-index: 2
+
+    .op-wp-single-card_checked &
+      background-color: var(--table-row-highlighting-color)
+
+  &--inline-buttons
     opacity: 0
     background: white
-    width: 80px
 
-    &.-show, .op-wp-single-card:hover &
+    &.-show
       opacity: 1
 
     .op-wp-single-card_checked &
