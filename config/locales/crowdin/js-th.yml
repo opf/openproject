@@ -61,6 +61,7 @@ th:
     button_confirm: "ยืนยัน"
     button_continue: "Continue"
     button_copy: "คัดลอก"
+    button_copy_to_other_project: "Copy to other project"
     button_custom-fields: "ฟิลด์ที่กำหนดเอง"
     button_delete: "ลบ"
     button_delete_watcher: "ลบผู้ดูข้อมูล"

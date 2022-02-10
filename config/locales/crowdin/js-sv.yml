@@ -61,6 +61,7 @@ sv:
     button_confirm: "Bekräfta"
     button_continue: "Fortsätt"
     button_copy: "Kopiera"
+    button_copy_to_other_project: "Copy to other project"
     button_custom-fields: "Anpassade fält"
     button_delete: "Ta bort"
     button_delete_watcher: "Ta bort bevakare"

@@ -16,5 +16,5 @@ ru:
         search_placeholder: 'Поиск...'
       modify:
         errors:
-          permission_denied: 'You do not have the necessary permissions to modify this.'
-          fallback: 'This work package cannot be edited.'
+          permission_denied: 'У вас нет необходимых прав для изменения этого.'
+          fallback: 'Этот пакет работ не может быть отредактирован.'

@@ -61,6 +61,7 @@
     button_confirm: "Bekreft"
     button_continue: "Fortsett"
     button_copy: "Kopier"
+    button_copy_to_other_project: "Copy to other project"
     button_custom-fields: "Egendefinerte felter"
     button_delete: "Slett"
     button_delete_watcher: "Slett overvåker"

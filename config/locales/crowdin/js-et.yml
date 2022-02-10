@@ -61,6 +61,7 @@ et:
     button_confirm: "Confirm"
     button_continue: "Jätka"
     button_copy: "Kopeeri"
+    button_copy_to_other_project: "Copy to other project"
     button_custom-fields: "Lisaväljad"
     button_delete: "Kustuta"
     button_delete_watcher: "Kustuta jäligja"

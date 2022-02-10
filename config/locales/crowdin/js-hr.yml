@@ -61,6 +61,7 @@ hr:
     button_confirm: "Potvrdi"
     button_continue: "Nastavi"
     button_copy: "Kopiraj"
+    button_copy_to_other_project: "Copy to other project"
     button_custom-fields: "Prilagođena polja"
     button_delete: "Obriši"
     button_delete_watcher: "Izbrišite nadglednika"

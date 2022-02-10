@@ -61,6 +61,7 @@ fil:
     button_confirm: "Kumpirmahin"
     button_continue: "Magpatuloy"
     button_copy: "Kopyahin"
+    button_copy_to_other_project: "Copy to other project"
     button_custom-fields: "Mga pasadyang patlang"
     button_delete: "Burahin"
     button_delete_watcher: "Burahin ang manunuod"

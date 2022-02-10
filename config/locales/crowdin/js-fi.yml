@@ -61,6 +61,7 @@ fi:
     button_confirm: "Vahvista"
     button_continue: "Jatka"
     button_copy: "Kopioi"
+    button_copy_to_other_project: "Copy to other project"
     button_custom-fields: "Mukautetut kentät"
     button_delete: "Poista"
     button_delete_watcher: "Poista seuraaja"

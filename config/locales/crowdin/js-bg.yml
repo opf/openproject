@@ -61,6 +61,7 @@ bg:
     button_confirm: "Confirm"
     button_continue: "Продължаване"
     button_copy: "Копиране"
+    button_copy_to_other_project: "Copy to other project"
     button_custom-fields: "допълнителни полета"
     button_delete: "Изтрий"
     button_delete_watcher: "Премахни наблюдаващ"
