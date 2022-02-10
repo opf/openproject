@@ -1,8 +1,8 @@
 class CreateProjectsStorages < ActiveRecord::Migration[6.1]
   def change
     create_table :projects_storages do |t|
-      t.references :project, null: false, foreign_key: true, on_delete: :cascade
-      t.references :storage, null: false, foreign_key: true, on_delete: :cascade
+      t.references :project, null: false, foreign_key: { on_delete: :cascade }
+      t.references :storage, null: false, foreign_key: { on_delete: :cascade }
       t.references :creator,
                    null: false,
                    index: true,

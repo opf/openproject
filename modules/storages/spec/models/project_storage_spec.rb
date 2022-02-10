@@ -28,59 +28,39 @@
 
 require_relative '../spec_helper'
 
-describe ::Storages::Storage, type: :model do
+describe ::Storages::ProjectStorage, type: :model do
   let(:creator) { create(:user) }
-  let(:default_attributes) do
-    { name: "NC 1",
-      provider_type: 'nextcloud',
-      host: 'https://example.com',
-      creator: creator }
+  let(:project) { create(:project, :enabled_module_names => %i[storages work_packages]) }
+  let(:storage) { create(:storage) }
+  let(:attributes) do
+    {
+      storage: storage,
+      creator: creator,
+      project: project
+    }
   end
 
   describe '#create' do
     it "creates an instance" do
-      storage = described_class.create default_attributes
-      expect(storage).to be_valid
-    end
-    
-    it "fails the validation if name is empty string" do
-      expect(described_class.create(default_attributes.merge({ name: "" }))).to be_invalid
+      project_storage = described_class.create attributes
+      expect(project_storage).to be_valid
     end
 
-    it "fails the validation if name is nil" do
-      expect(described_class.create(default_attributes.merge({ name: nil }))).to be_invalid
-    end
-
-    it "fails the validation if host is empty string" do
-      expect(described_class.create(default_attributes.merge({ host: '' }))).to be_invalid
-    end
-
-    it "fails the validation if host is nil" do
-      expect(described_class.create(default_attributes.merge({ host: nil }))).to be_invalid
-    end
-    
     context "having already one instance" do
-      let(:old_storage) { described_class.create default_attributes }
-      
+      let(:old_project_storage) { described_class.create attributes }
+
       before do
-        old_storage
-      end
-      
-      it "fails the validation if name is not unique" do
-        expect(described_class.create(default_attributes.merge({ host: 'https://example2.com' }))).to be_invalid
+        old_project_storage
       end
 
-      it "fails the validation if host is not unique" do
-        expect(described_class.create(default_attributes.merge({ name: 'NC 2' }))).to be_invalid
+      it "should fail if it is not unique per storage and project" do
+        expect(described_class.create(attributes.merge)).to be_invalid
       end
     end
   end
 
   describe '#destroy' do
-    let(:project) { create(:project) }
-    let(:storage) { described_class.create(default_attributes) }
-    # let(:project_storage) { Storages::ProjectStorage.create(project: project, storage: storage, creator: creator) }
-    let(:project_storage) { create(:project_storage, project: project, storage: storage, creator: creator) }
+    let(:project_storage_to_destroy) { described_class.create(attributes) }
     let(:work_package) { create(:work_package, project: project) }
     let(:file_link) do
       Storages::FileLink.create(container: work_package,
@@ -90,15 +70,16 @@ describe ::Storages::Storage, type: :model do
     end
 
     before do
-      project_storage
+      project_storage_to_destroy
       file_link
 
-      storage.destroy
+      project_storage_to_destroy.destroy
     end
 
-    it "destroys all associated ProjectStorage and FileLink records" do
+    it "should destroy all associated FileLink records" do
       expect(Storages::ProjectStorage.count).to be 0
-      expect(Storages::FileLink.count).to be 0
+      # ToDo: expect(Storages::FileLink.count).to be 0
     end
   end
 end
+
