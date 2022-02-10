@@ -36,7 +36,12 @@ require_relative '../spec_helper'
 describe 'Setup project storage', type: :feature, js: true do
   let(:admin) { create(:admin) }
   let(:storage) { create(:storage, name: "Storage 1") }
-  let(:project) { create(:project, name: 'Project 1', identifier: 'demo-project', enabled_module_names: [:storages, :work_package_tracking]) }
+  let(:project) do
+    create(:project,
+           name: 'Project 1',
+           identifier: 'demo-project',
+           enabled_module_names: %i[storages work_package_tracking])
+  end
   let(:work_package) { create(:work_package, project: project) }
 
   before do

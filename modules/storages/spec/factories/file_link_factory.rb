@@ -36,7 +36,7 @@ FactoryBot.define do
     origin_created_by_name { "Peter Pan" }
     origin_last_modified_by_name { "Petra Panadera" }
     origin_mime_type { "application/octet-stream" }
-    origin_created_at { Time.now }
-    origin_updated_at { Time.now }
+    origin_created_at { Time.zone.now }
+    origin_updated_at { Time.zone.now }
   end
 end
