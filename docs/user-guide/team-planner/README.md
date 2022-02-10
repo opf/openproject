@@ -29,7 +29,7 @@ A few notes:
 
 ![image-20220208130807843](image-20220208130807843.png)
 
-What do the various buttons do? - The numbers below correspond with the above image:
+How to navigate the team planner? - The numbers below correspond with the above image:
 
 1. The top header: Click on the top header (where it says "My new team planner" in the picture above) to edit the name of     your new team planning calendar. The top header is in edit mode by default, so you can just click right on the text. This is where you can give the new team planning calendar its new name. Your new name gets saved automatically by exiting the top header (by clicking somewhere else, for example).
 2. Use the "+ add existing" button to add an existing work package to your view. Note: You cannot create new work packages from the team planner module. Create new work packages in the work package module, then select them in the team planner.
