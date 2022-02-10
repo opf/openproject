@@ -61,6 +61,7 @@ eo:
     button_confirm: "Konfirmi"
     button_continue: "Daŭrigi"
     button_copy: "Kopii"
+    button_copy_to_other_project: "Copy to other project"
     button_custom-fields: "Propraj kampoj"
     button_delete: "Forigi"
     button_delete_watcher: "Forigi observantojn"

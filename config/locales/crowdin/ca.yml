@@ -452,9 +452,12 @@ ca:
         code: 'Estat'
         explanation: 'Descripció de l''estat'
         codes:
+          not_started: 'Not started'
           on_track: 'Pel bon camí'
           at_risk: 'En risc'
           off_track: 'En mal camí'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
       query:
         column_names: "Columnes"
         relations_to_type_column: "Relacions a %{type}"

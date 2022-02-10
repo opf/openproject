@@ -55,7 +55,7 @@ module Components
       end
 
       def choose(target)
-        find("#{selector} .menu-item", text: target).click
+        find("#{selector} .menu-item", text: target, exact_text: true).click
       end
 
       def expect_no_options(*options)

@@ -32,6 +32,6 @@ See COPYRIGHT and LICENSE files for more details.
     <%=h role %>
   </td>
   <td class="buttons">
-    <%= global_member_role_deletion_link(member, role) %>
+    <%= global_member_role_deletion_link(member, role) if member.deletable_role?(role) %>
   </td>
 </tr>

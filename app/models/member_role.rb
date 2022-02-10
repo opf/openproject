@@ -32,6 +32,9 @@ class MemberRole < ApplicationRecord
   belongs_to :member, touch: true
   belongs_to :role
 
+  # `inherited` is reserved ActiveRecord method
+  scope :only_inherited, -> { where.not(inherited_from: nil) }
+
   validates_presence_of :role
   validate :validate_project_member_role
 

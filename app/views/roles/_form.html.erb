@@ -27,7 +27,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= render :partial => 'users/global_roles_header' %>
+<%= render partial: 'principals/global_roles_header' %>
 
 <% roles ||= nil %>
 
@@ -66,4 +66,3 @@ See COPYRIGHT and LICENSE files for more details.
     <%= render partial: "permissions", locals: {permissions: grouped_setable_permissions(role), role: role, showGlobalRole: false }%>
   </div>
 <% end %>
-

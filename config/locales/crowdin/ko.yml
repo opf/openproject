@@ -453,9 +453,12 @@ ko:
         code: '상태'
         explanation: '상태 설명'
         codes:
+          not_started: 'Not started'
           on_track: '정상 상태'
           at_risk: '위험 상태'
           off_track: '비정상 상태'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
       query:
         column_names: "컬럼"
         relations_to_type_column: "%{type}에 대한 관계"

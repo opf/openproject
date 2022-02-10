@@ -61,6 +61,7 @@ ne:
     button_confirm: "निश्चित गर्नुहोस्"
     button_continue: "Continue"
     button_copy: "Copy"
+    button_copy_to_other_project: "Copy to other project"
     button_custom-fields: "Custom fields"
     button_delete: "Delete"
     button_delete_watcher: "वाचक हटाउनुहोस्  "

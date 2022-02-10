@@ -26,8 +26,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_dependency 'costlog_controller'
-
 module OpenProject::Reporting::Patches
   module CustomFieldsControllerPatch
     def self.included(base) # :nodoc:

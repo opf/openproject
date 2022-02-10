@@ -26,9 +26,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# explicitly require what will be patched to be loaded from the ReportingEngine
-require_dependency 'widget/settings'
-
 module Widget::SettingsPatch
   extend ActiveSupport::Concern
 

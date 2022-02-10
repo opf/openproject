@@ -10,6 +10,10 @@
     .fc-col-header-cell-cushion
       padding: 12px 16px
 
+    .fc-timeline-lane,
+    .fc-timeline-slot-lane
+      border-color: #c1c1c1
+
     .fc-timeline-lane-frame
       padding: 4px 0
 
@@ -21,6 +25,17 @@
 
     .fc-day-today
       background: rgb(255 255 120 / 20%)
+
+    td.fc-day-sat,
+    td.fc-day-sun
+      background: rgb(109 109 109 / 20%)
+
+    td.fc-day-mon,
+    td.fc-day-tue,
+    td.fc-day-wed,
+    td.fc-day-thu,
+    td.fc-day-fri
+      background: rgb(205 205 205 / 20%)
 
     // ------------------------ END: Calendar cells ------------------------
     // -------
@@ -40,12 +55,34 @@
         padding-right: 4px
         pointer-events: none
 
+    .fc-timeline-event
+      background: transparent !important
+      border: transparent
+
+      &:before
+        position: absolute
+        top: 40px
+        z-index: 8
+        left: 2px
+
+      &:after
+        position: absolute
+        top: 40px
+        z-index: 8
+        right: 2px
+
     .fc-event-title-container
       margin: 0 16px
       line-height: 12px
 
     .fc-event-main
       color: unset
+
+    .fc-event-resizer:before,
+    .fc-event-resizer:after
+      background: rgba(0,0,0,0.2)
+      margin: 0 -2px
+      max-height: 16px
 
     // ------------------------ END:  Calendar events ------------------------
     // -------
@@ -61,23 +98,9 @@
         &:focus
           box-shadow: none
 
-      > .fc-button
-        border-radius: 2rem
-
-      .fc-button-group .fc-button
-        &:first-of-type
-          border-bottom-left-radius: 2rem
-          border-top-left-radius: 2rem
-
-        &:last-of-type
-          border-bottom-right-radius: 2rem
-          border-top-right-radius: 2rem
-
       .fc-prev-button,
       .fc-next-button
-        border-radius: 2rem
         padding: 4px
-        margin: 0 8px 0 0
         font-size: 8px
         height: 32px
         width: 32px

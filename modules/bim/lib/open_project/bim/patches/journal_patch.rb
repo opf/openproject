@@ -26,8 +26,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_dependency 'journal'
-
 module OpenProject::Bim::Patches::JournalPatch
   def self.included(base)
     base.class_eval do

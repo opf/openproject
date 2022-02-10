@@ -61,6 +61,7 @@ sl:
     button_confirm: "Potrdi"
     button_continue: "Nadaljuj"
     button_copy: "Kopiraj"
+    button_copy_to_other_project: "Copy to other project"
     button_custom-fields: "Polja po meri"
     button_delete: "Izbriši"
     button_delete_watcher: "Izbriši opazovalca"

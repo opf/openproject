@@ -61,6 +61,7 @@ uk:
     button_confirm: "Підтвердити"
     button_continue: "Продовжити"
     button_copy: "Копіювати"
+    button_copy_to_other_project: "Copy to other project"
     button_custom-fields: "Індивідуальні поля"
     button_delete: "Видалити"
     button_delete_watcher: "Видалити спостерігача"

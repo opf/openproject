@@ -31,10 +31,13 @@ pl:
           no_results: 'Nie zdefiniowano żadnych pól niestandardowych dla projektów.'
         project_status:
           title: 'Stan projektu'
+          not_started: 'Not started'
           on_track: 'Na ścieżce'
           off_track: 'Poza ścieżką'
           at_risk: 'Zagrożony'
           not_set: 'Nie ustawione'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
         subprojects:
           title: 'Podprojekty'
           no_results: 'Brak podprojektów.'

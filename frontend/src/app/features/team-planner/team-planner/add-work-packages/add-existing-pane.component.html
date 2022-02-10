@@ -36,11 +36,15 @@
       <ng-container *ngFor="let wp of currentWorkPackages$ | async">
         <wp-single-card
           [workPackage]="wp"
+          [showInfoButton]="true"
+          [disabledInfo]="showDisabledText(wp)"
           [attr.data-drag-helper-id]="wp.id"
           class="op-add-existing-pane--wp"
           [attr.data-qa-selector]="'op-add-existing-pane--wp-' + wp.id"
+          (stateLinkClicked)="openStateLink($event)"
         ></wp-single-card>
-    </ng-container></div>
+      </ng-container>
+    </div>
   </ng-container>
 
   <ng-template #emptyTemplate>

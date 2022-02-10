@@ -457,9 +457,12 @@ sk:
         code: 'Stav'
         explanation: 'Status description'
         codes:
+          not_started: 'Not started'
           on_track: 'Na dobrej ceste'
           at_risk: 'V riziku'
           off_track: 'Na zlej ceste'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
       query:
         column_names: "Stĺpce"
         relations_to_type_column: "Vzťahy k %{type}"

@@ -11,6 +11,7 @@ import {
 import {
   CalendarOptions,
   DateSelectArg,
+  EventContentArg,
   EventDropArg,
   EventInput,
 } from '@fullcalendar/core';
@@ -25,6 +26,7 @@ import {
   filter,
   map,
   mergeMap,
+  take,
 } from 'rxjs/operators';
 import { StateService } from '@uirouter/angular';
 import resourceTimelinePlugin from '@fullcalendar/resource-timeline';
@@ -54,6 +56,7 @@ import { HalResourceNotificationService } from 'core-app/features/hal/services/h
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { CalendarDragDropService } from 'core-app/features/team-planner/team-planner/calendar-drag-drop.service';
+import { StatusResource } from 'core-app/features/hal/resources/status-resource';
 
 @Component({
   selector: 'op-team-planner',
@@ -72,6 +75,8 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
   set ucCalendarElement(v:ElementRef|undefined) {
     this.calendar.resizeObserver(v);
   }
+
+  @ViewChild('eventContent') eventContent:TemplateRef<unknown>;
 
   @ViewChild('resourceContent') resourceContent:TemplateRef<unknown>;
 
@@ -112,6 +117,8 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
   );
 
   assignees:HalResource[] = [];
+
+  statuses:StatusResource[] = [];
 
   text = {
     add_existing: this.I18n.t('js.team_planner.add_existing'),
@@ -211,6 +218,17 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
 
     // This needs to be done after all the subscribers are set up
     this.showAddAssignee$.next(false);
+
+    this
+      .apiV3Service
+      .statuses
+      .get()
+      .pipe(
+        take(1),
+      )
+      .subscribe((collection) => {
+        this.statuses = collection.elements;
+      });
   }
 
   ngOnDestroy():void {
@@ -296,6 +314,10 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
             eventResize: (resizeInfo:EventResizeDoneArg) => this.updateEvent(resizeInfo),
             eventDrop: (dropInfo:EventDropArg) => this.updateEvent(dropInfo),
             eventReceive: (dropInfo:EventReceiveArg) => this.updateEvent(dropInfo),
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+            eventContent: (data:EventContentArg) => this.renderTemplate(this.eventContent, data.event.extendedProps.workPackage.href, data),
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+            eventWillUnmount: (data:EventContentArg) => this.unrenderTemplate(data.event.extendedProps.workPackage.href),
           } as CalendarOptions),
         );
       });
@@ -319,7 +341,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     this.calendar.updateTimeframe(fetchInfo, this.projectIdentifier);
   }
 
-  renderTemplate(template:TemplateRef<unknown>, id:string, data:ResourceLabelContentArg):{ domNodes:unknown[] } {
+  renderTemplate(template:TemplateRef<unknown>, id:string, data:ResourceLabelContentArg|EventContentArg):{ domNodes:unknown[] } {
     const ref = this.viewLookup.getView(template, id, data);
     return { domNodes: ref.rootNodes };
   }
@@ -365,6 +387,36 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     }
   }
 
+  isWpDateInCurrentView(workPackage:WorkPackageResource, date:'start'|'end'):boolean {
+    if (workPackage.startDate && workPackage.dueDate) {
+      let dateToCheck;
+
+      const currentStartDate = this.ucCalendar.getApi().view.currentStart;
+      const currentEndDate = this.ucCalendar.getApi().view.currentEnd;
+
+      if (date === 'start') {
+        dateToCheck = new Date(workPackage.startDate);
+      } else {
+        dateToCheck = new Date(workPackage.dueDate);
+      }
+
+      const dateCurrentlyVisible = dateToCheck >= currentStartDate && dateToCheck <= currentEndDate;
+      return dateCurrentlyVisible && this.calendar.eventDurationEditable(workPackage);
+    }
+
+    return false;
+  }
+
+  showDisabledText(workPackage:WorkPackageResource):string {
+    return this.calendarDrag.workPackageDisabledExplanation(workPackage);
+  }
+
+  isStatusClosed(workPackage:WorkPackageResource):boolean {
+    const status = this.statuses.find((el) => el.id === (workPackage.status as StatusResource).id);
+
+    return status ? status.isClosed : false;
+  }
+
   private mapToCalendarEvents(workPackages:WorkPackageResource[]):EventInput[] {
     return workPackages
       .map((workPackage:WorkPackageResource):EventInput|undefined => {
@@ -386,8 +438,9 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
           title: workPackage.subject,
           start: this.wpStartDate(workPackage),
           end: this.wpEndDate(workPackage),
+          backgroundColor: '#FFFFFF',
+          borderColor: '#FFFFFF',
           allDay: true,
-          className: `__hl_background_type_${workPackage.type.id as string}`,
           workPackage,
         };
       })

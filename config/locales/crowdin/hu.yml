@@ -456,9 +456,12 @@ hu:
         code: 'Állapot'
         explanation: 'Állapot leírása'
         codes:
+          not_started: 'Not started'
           on_track: 'Terv szerint'
           at_risk: 'Veszélyben'
           off_track: 'Kisiklott'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
       query:
         column_names: "Oszlopok"
         relations_to_type_column: "Kapcsolatok %{type}-hoz"

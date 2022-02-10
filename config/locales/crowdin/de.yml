@@ -450,9 +450,12 @@ de:
         code: 'Status'
         explanation: 'Statusbeschreibung'
         codes:
+          not_started: 'Not started'
           on_track: 'Planmäßig'
           at_risk: 'Gefährdet'
           off_track: 'Unplanmäßig'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
       query:
         column_names: "Spalten"
         relations_to_type_column: "Beziehungen zu %{type}"

@@ -456,9 +456,12 @@ ru:
         code: 'Состояние'
         explanation: 'Описание статуса'
         codes:
+          not_started: 'Not started'
           on_track: 'В работе'
           at_risk: 'Есть риск'
           off_track: 'Приостановлен'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
       query:
         column_names: "Столбцы"
         relations_to_type_column: "Отношения к %{type}"

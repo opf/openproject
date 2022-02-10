@@ -61,6 +61,7 @@ ru:
     button_confirm: "Подтвердить"
     button_continue: "Продолжить"
     button_copy: "Копировать"
+    button_copy_to_other_project: "Copy to other project"
     button_custom-fields: "Настраиваемые поля"
     button_delete: "Удалить"
     button_delete_watcher: "Удалить наблюдателя"

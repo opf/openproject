@@ -22,6 +22,7 @@ import { WorkPackageResource } from 'core-app/features/hal/resources/work-packag
 import { isClickedWithModifier } from 'core-app/shared/helpers/link-handling/link-handling';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
+import { StatusResource } from 'core-app/features/hal/resources/status-resource';
 
 @Component({
   selector: 'wp-single-card',
@@ -45,6 +46,16 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
   @Input() public orientation:CardViewOrientation = 'vertical';
 
   @Input() public shrinkOnMobile = false;
+
+  @Input() public disabledInfo = '';
+
+  @Input() public showAsInlineCard = false;
+
+  @Input() public showStartDate = true;
+
+  @Input() public showEndDate = true;
+
+  @Input() public isClosed = false;
 
   @Output() onRemove = new EventEmitter<WorkPackageResource>();
 
@@ -109,10 +120,17 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
       [`${base}_draggable`]: this.draggable,
       [`${base}_new`]: isNewResource(this.workPackage),
       [`${base}_shrink`]: this.shrinkOnMobile,
+      [`${base}_disabled`]: this.disabledInfo.length > 0,
+      [`${base}_inline`]: this.showAsInlineCard,
+      [`${base}_closed`]: this.isClosed,
       // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
       [`${base}-${this.workPackage.id}`]: !!this.workPackage.id,
       [`${base}_${this.orientation}`]: true,
     };
+  }
+
+  cardTitle():string {
+    return `${this.workPackage.subject} (${(this.workPackage.status as StatusResource).name})`;
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -146,14 +164,18 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
       return String(dateTimeFormat.formatRange(new Date(startDate), new Date(dueDate)));
     }
     if (!startDate && dueDate) {
-      return `- ${dateTimeFormat.format(new Date(dueDate))}`;
+      return `-${dateTimeFormat.format(new Date(dueDate))}`;
     }
 
     if (startDate && !dueDate) {
-      return `${dateTimeFormat.format(new Date(startDate))} -`;
+      return `${dateTimeFormat.format(new Date(startDate))}-`;
     }
 
     return '';
+  }
+
+  splittedDate(wp:WorkPackageResource):string[] {
+    return this.wpDates(wp).split('–');
   }
 
   wpOverDueHighlighting(wp:WorkPackageResource):string {

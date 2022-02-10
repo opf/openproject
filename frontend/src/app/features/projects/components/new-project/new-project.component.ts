@@ -54,7 +54,10 @@ export class NewProjectComponent extends UntilDestroyedMixin implements OnInit {
   this
     .apiV3Service
     .projects
-    .filtered(this.copyableTemplateFilter)
+    .filtered(
+      this.copyableTemplateFilter,
+      { pageSize: '-1' },
+    )
     .get()
     .pipe(
       map((response) => response.elements.map((el:HalResource) => ({ href: el.href, name: el.name }))),

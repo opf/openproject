@@ -79,7 +79,7 @@ module OpenProject
             },
             {
               name: 'global_roles',
-              partial: 'users/global_roles',
+              partial: 'principals/global_roles',
               path: ->(params) { edit_user_path(params[:user], tab: :global_roles) },
               label: :label_global_roles,
               only_if: ->(*) { User.current.admin? }

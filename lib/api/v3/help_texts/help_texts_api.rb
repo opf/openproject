@@ -26,9 +26,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_dependency 'api/v3/help_texts/help_text_representer'
-require_dependency 'api/v3/help_texts/help_text_collection_representer'
-
 module API
   module V3
     module HelpTexts

@@ -26,8 +26,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_dependency 'project'
-
 module OpenProject::Backlogs::Patches::ProjectPatch
   def self.included(base)
     base.class_eval do

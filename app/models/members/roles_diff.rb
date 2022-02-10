@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -28,31 +26,48 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Setting
-  module Callbacks
-    # register a callback for a setting named #name
-    def register_callback(name, &callback)
-      # register the block with the underlying notifications system
-      notifier.subscribe(notification_event_for(name), &callback)
-    end
+class Members::RolesDiff
+  attr_reader :user_member, :group_member
 
-    # instructs the underlying notifications system to publish all setting events for setting #name
-    # based on the new and old setting objects different events can be triggered
-    # currently, that's whenever a setting is set regardless whether the value changed
-    def fire_callbacks(name, new_value, old_value)
-      notifier.send(notification_event_for(name), value: new_value, old_value: old_value)
-    end
+  def initialize(user_member, group_member)
+    raise ArgumentError unless user_member.project_id == group_member.project_id
 
-    private
+    @user_member = user_member
+    @group_member = group_member
+  end
 
-    # encapsulates the event name broadcast to all subscribers
-    def notification_event_for(name)
-      "setting.#{name}.changed"
-    end
+  def roles_created?
+    result == :roles_created
+  end
 
-    # the notifier to delegate to
-    def notifier
-      OpenProject::Notifications
-    end
+  def roles_updated?
+    result == :roles_updated
+  end
+
+  def roles_changed?
+    result != :roles_unchanged
+  end
+
+  def result
+    @result ||=
+      if user_previous_member_roles_ids.empty?
+        :roles_created
+      elsif (group_roles_ids - user_previous_member_roles_ids).any?
+        :roles_updated
+      else
+        :roles_unchanged
+      end
+  end
+
+  private
+
+  def user_previous_member_roles_ids
+    Set.new(user_member.member_roles
+      .reject { group_member.member_roles.map(&:id).include?(_1.inherited_from) }
+      .map(&:role_id).uniq)
+  end
+
+  def group_roles_ids
+    Set.new(group_member.member_roles.map(&:role_id))
   end
 end

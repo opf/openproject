@@ -31,7 +31,6 @@
 require 'SVG/Graph/Bar'
 require 'SVG/Graph/BarHorizontal'
 require 'digest/sha1'
-require_dependency 'open_project/scm/adapters'
 
 class ChangesetNotFound < StandardError
 end
