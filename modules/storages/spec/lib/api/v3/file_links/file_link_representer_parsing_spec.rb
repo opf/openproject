@@ -42,34 +42,44 @@ describe ::API::V3::FileLinks::FileLinkRepresenter, 'parsing' do
       described_class.create(file_link, current_user: current_user)
     end
 
-    context 'with originData given' do
-      let(:parsed_hash) do
-        {
-          "_type" => "FileLink",
-          "createdAt" => "2022-02-09T10:03:37Z",
-          "updatedAt" => "2022-02-09T10:03:37Z",
-          "originData" => {
-            "id" => 5503,
-            "name" => "logo.png",
-            "mimeType" => "image/png",
-            "createdAt" => "2021-12-19T09:42:10.170Z",
-            "lastModifiedAt" => "2021-12-20T14:00:13.987Z",
-            "createdByName" => "Luke Skywalker",
-            "lastModifiedByName" => "Anakin Skywalker"
-          }
+    let(:parsed_hash) do
+      {
+        "_type" => "FileLink",
+        "createdAt" => "2022-02-09T10:03:37Z",
+        "updatedAt" => "2022-02-09T10:03:37Z",
+        "originData" => {
+          "id" => 5503,
+          "name" => "logo.png",
+          "mimeType" => "image/png",
+          "createdAt" => "2021-12-19T09:42:10.170Z",
+          "lastModifiedAt" => "2021-12-20T14:00:13.987Z",
+          "createdByName" => "Luke Skywalker",
+          "lastModifiedByName" => "Anakin Skywalker"
         }
-      end
+      }
+    end
 
-      it 'parses correctly', pending: "work in progress" do
+    describe 'createdAt and updatedAt' do
+      it 'are not set by the parsing' do
+        expect(parsed).not_to have_attributes(
+          created_at: DateTime.parse(parsed_hash["createdAt"]).in_time_zone,
+          updated_at: DateTime.parse(parsed_hash["updatedAt"]).in_time_zone
+        )
+      end
+    end
+
+    describe 'originData' do
+      it 'is parsed correctly' do
         expect(parsed).to have_attributes(
           origin_id: "5503",
           origin_name: "logo.png",
           origin_mime_type: "image/png",
           origin_created_by_name: "Luke Skywalker",
           origin_last_modified_by_name: "Anakin Skywalker",
-          origin_created_at: "to be done",
-          orig_updated_at: "to be done"
+          origin_created_at: DateTime.new(2021, 12, 19, 9, 42, 10.17, '+00:00').in_time_zone,
+          origin_updated_at: DateTime.new(2021, 12, 20, 14, 0, 13.987, '+00:00').in_time_zone
         )
+        pp parsed
       end
     end
   end

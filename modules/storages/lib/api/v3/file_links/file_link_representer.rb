@@ -35,9 +35,9 @@ module API
 
         property :id
 
-        date_time_property :created_at
+        date_time_property :created_at, writeable: false
 
-        date_time_property :updated_at
+        date_time_property :updated_at, writeable: false
 
         property :originData,
                  exec_context: :decorator,
@@ -113,8 +113,11 @@ module API
             origin_name: origin_data["name"],
             origin_mime_type: origin_data["mimeType"],
             origin_created_by_name: origin_data["createdByName"],
-            origin_last_modified_by_name: origin_data["lastModifiedByName"]
-            # createdAt and lastModifiedAt to be done
+            origin_last_modified_by_name: origin_data["lastModifiedByName"],
+            origin_created_at: ::API::V3::Utilities::DateTimeFormatter.parse_datetime(origin_data["createdAt"],
+                                                                                      'originData.createdAt'),
+            origin_updated_at: ::API::V3::Utilities::DateTimeFormatter.parse_datetime(origin_data["lastModifiedAt"],
+                                                                                      'originData.lastModifiedAt')
           }
         end
       end
