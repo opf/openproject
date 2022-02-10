@@ -9,7 +9,7 @@ keywords: team planner,planning calendar, resource management
 
 # Team planner
 
-The team planner is a module that can assist getting a better overview of which team member is working on what work package at what time. It is also a useful tool to schedule those team members for different tasks on different times.
+The team planner is a module that can assist getting a better overview of which team member is working on what work package at what time. It is also a useful tool to schedule those team members for different tasks on various times.
 
 A few notes: 
 
@@ -18,7 +18,7 @@ A few notes:
 
 | Topic                 | Content                                     |
 | ------------------------------------- | :------------------------------------------ |
-| [Main view - planning calendar basics](team-planner) | What do the various buttons do? |
+| [Main view - planning calendar basics](team-planner) | How to navigate the team planner? |
 | **Getting started** |  |
 | [Step 1: Adding team members](team-planner) | How to add team members? |
 | [Step 2: Adding/working with work package strips](team-planner) | How to work with work package strips? |
@@ -31,24 +31,23 @@ A few notes:
 
 What do the various buttons do? - The numbers below correspond with the above image:
 
-1. Edit the name of your new team planning calendar in the top header. The top header is in edit mode by default. This is where you can type a new name. Your new name gets saved automatically by exiting the top header by clicking somewhere else, for example.
-
+1. The top header: Click on the top header (where it says "My new team planner" in the picture above) to edit the name of     your new team planning calendar. The top header is in edit mode by default, so you can just click right on the text. This is where you can give the new team planning calendar its new name. Your new name gets saved automatically by exiting the top header (by clicking somewhere else, for example).
 2. Use the "+ add existing" button to add an existing work package to your view. Note: You cannot create new work packages from the team planner module. Create new work packages in the work package module, then select them in the team planner.
 3. Add a new team member to you planning calendar using the "+ add assignee"
-4. There is a filter button by which you can focus what's displayed on your calendar (i.e. only certain team members or work packages).
+4. There is a filter button by which you can focus what is displayed on your calendar (for example, only certain team members or work packages).
 5. This switches you team planning calendar to full screen mode.
-6. Saving, renaming and saving a copy (saving as), or deleting can also be accomplished using the button with the three vertical dots. This is also where you can modify the visibility options. Use "public" to allow others in your organization to see your planning calendar. If "public" is not selected, the calendar is "private" and can only be seen by you.
+6. Saving, renaming and saving a copy (saving as), or deleting can also be accomplished using the button with the three vertical     dots. This is also where you can modify the visibility options. Select "public" to allow others in your organization that are members of your respective project to see your planning calendar. If "public" is not selected, the calendar is "private" and can only be seen by you, not other members.
 7. By default the planning calendar only shows the current week. Use these buttons to toggle between the 1-week and 2-week view.
 
 ## Getting started
 
 - ##### Step 1: Adding team members
 
-The first step in setting up your team planning calendar is to add team member. This is done via the "+ add assignee" button 		in #3 above. Press the "+ add assignee" button, and then simply select the team member from the drop-down list. Clicking 		on a given assignee's name will open up a new window with a quick overview of which projects that member is assigned to.
+The first step in setting up your team planning calendar is to add team members. This is done via the "+ add assignee" button in #3 above. Press the "+ add assignee" button, and then simply select the team member(s) from the drop-down list. Clicking on a given assignee's name will open a new window with a quick overview of which projects that member is assigned to.
 
-Repeat this step until you have all team members relevant for this planner added, and then save it. 
+Repeat this step until all team members relevant for this planner are added, and then save it using the floppy disk icon (adjacent to the top header in #1 above). 
 
-**Note: Once you are done adding members to the planner, click the floppy disk icon in the top header to save.**
+**Note: Once you are finished adding members to the planner, click the floppy disk icon in the top header to save.**
 
 ![image-20220208132317151](image-20220208132317151.png)
 
@@ -76,8 +75,8 @@ Click on any given work package strip to open up a split screen showing the work
 
 - **Removing a work package strip**
 
-  Work package strips are never really removable, since the planning calendar is simply a view of the information pertaining to a given work package. There are, however, a few options to make the strip disappear from your view:
+  Work package strips are never fully removable, since the planning calendar is simply a view of the information pertaining to a given work package. There are, however, a few options to make the strip disappear from your view:
 
   1. Adding a filter that would exclude that work package.
-  2. Removing the assignee, or changing the assignee to one that has not been added to the planner (and is thus not visible).
+  2. Removing the assignee or changing the assignee to one that has not been added to the planner (and is thus not visible).
   3. Changing the start/end dates so the currently visible date range does not fall in between them.
