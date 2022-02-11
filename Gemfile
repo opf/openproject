@@ -162,7 +162,7 @@ gem 'i18n-js', '~> 3.9.0'
 gem 'rails-i18n', '~> 7.0.0'
 gem 'sprockets', '~> 3.7.0'
 
-gem 'puma', '~> 5.5'
+gem 'puma', '~> 5.6'
 gem 'rack-timeout', '~> 0.6.0', require: "rack/timeout/base"
 gem 'puma-plugin-statsd', '~> 2.0'
 
