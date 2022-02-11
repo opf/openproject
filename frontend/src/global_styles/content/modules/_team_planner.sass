@@ -4,6 +4,14 @@
   #content
     height: 100%
 
+  &.router--work-packages-partitioned-split-view-details,
+  &.router--work-packages-partitioned-split-view-new
+    full-calendar.op-team-planner--calendar .fc-header-toolbar
+      .fc-resourceTimelineWeek-button,
+      .fc-resourceTimelineTwoWeeks-button,
+      .fc-today-button
+        display: none
+
 .op-team-planner
   &--calendar_empty
     .fc-scrollgrid-section-body,
