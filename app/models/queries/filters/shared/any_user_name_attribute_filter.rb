@@ -41,6 +41,7 @@ module Queries::Filters::Shared::AnyUserNameAttributeFilter
 
     def available_operators
       [Queries::Operators::Contains,
+       Queries::Operators::Everywhere,
        Queries::Operators::NotContains]
     end
 

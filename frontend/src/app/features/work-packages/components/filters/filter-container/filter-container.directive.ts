@@ -47,7 +47,7 @@ import { WorkPackageFiltersService } from 'core-app/features/work-packages/compo
 @Component({
   templateUrl: './filter-container.directive.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'filter-container',
+  selector: 'op-filter-container',
 })
 export class WorkPackageFilterContainerComponent extends UntilDestroyedMixin implements OnInit, OnDestroy {
   @Input('showFilterButton') showFilterButton = false;

@@ -163,7 +163,7 @@ class Queries::BaseQuery
   end
 
   def context
-    nil
+    self
   end
 
   def apply_filters(scope)

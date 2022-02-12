@@ -102,7 +102,7 @@ describe 'Arbitrary WorkPackage query table widget dashboard', type: :feature, j
 
       # At the beginning, the default query is displayed
       expect(filter_area.area)
-        .to have_selector('.subject', text: type_work_package.subject)
+        .to have_selector('.subject', text: type_work_package.subject, wait: 10)
 
       expect(filter_area.area)
         .to have_selector('.subject', text: other_type_work_package.subject)
