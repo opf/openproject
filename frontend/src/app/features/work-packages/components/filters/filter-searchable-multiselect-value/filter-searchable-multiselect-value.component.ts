@@ -88,7 +88,7 @@ export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMix
       .filtered(filters, { pageSize: '-1' })
       .get()
       .pipe(
-        switchMap((collection) => this.withMeValue(collection.elements)),
+        switchMap((collection) => this.withMeValue(matching, collection.elements)),
       );
 
     return filteredData;
@@ -110,8 +110,8 @@ export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMix
     this.cdRef.detectChanges();
   }
 
-  private withMeValue(elements:HalResource[]):Observable<HalResource[]> {
-    if (!this.isUserResource) {
+  private withMeValue(matching:string, elements:HalResource[]):Observable<HalResource[]> {
+    if (!this.isUserResource || (!!matching && matching !== 'me')) {
       return of(elements);
     }
 
