@@ -251,6 +251,7 @@ ar:
     enumeration_doc_categories: "فئات الوثائق"
     enumeration_work_package_priorities: "أولويات مجموعة العمل"
     filter:
+      more_values_not_shown: "There are %{total} more results, search to filter results."
       description:
         text_open_filter: "فتح هذا المرشح باستخدام 'ALT' و مفاتيح الأسهم."
         text_close_filter: "لتحديد قيد مغادرة التركيز على سبيل المثال عن طريق الضغط على زر الدخول. للمغادرة بدون عامل التصفية حدد القيد الأول (فارغ)."

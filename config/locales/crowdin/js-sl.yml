@@ -250,6 +250,7 @@ sl:
     enumeration_doc_categories: "Kategorije dokumentov"
     enumeration_work_package_priorities: "Prednostne naloge delovnega paketa"
     filter:
+      more_values_not_shown: "There are %{total} more results, search to filter results."
       description:
         text_open_filter: "Odpri ta filter z 'ALT' in s puščicami za premikanje."
         text_close_filter: "Za izbiro vnosa zapustite fokus, na primer s pritiskom na enter. Če želite zapustiti brez filtra, izberite prvi (prazen) vnos."

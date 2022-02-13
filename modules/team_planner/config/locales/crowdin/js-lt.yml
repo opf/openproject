@@ -16,5 +16,5 @@ lt:
         search_placeholder: 'Ieškoti...'
       modify:
         errors:
-          permission_denied: 'You do not have the necessary permissions to modify this.'
-          fallback: 'This work package cannot be edited.'
+          permission_denied: 'Jūs neturite teisių tai keisti.'
+          fallback: 'Šio darbų paketo keisti negalima.'

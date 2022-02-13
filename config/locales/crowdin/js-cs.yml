@@ -251,6 +251,7 @@ cs:
     enumeration_doc_categories: "Kategorie dokumentů"
     enumeration_work_package_priorities: "Priority pracovního balíčku"
     filter:
+      more_values_not_shown: "There are %{total} more results, search to filter results."
       description:
         text_open_filter: "Otevřete tento filtr \"ALT\" a šipkami."
         text_close_filter: "Chcete-li vybrat položku, ponechte zaostření například stisknutím klávesy Enter. Chcete-li ponechat bez filtru, vyberte první položku (prázdnou)."
