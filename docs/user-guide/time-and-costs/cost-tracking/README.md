@@ -61,11 +61,11 @@ To display and edit the logged costs to a work package, navigate to the work pac
 
 ![Bildschirmfoto 2022-02-12 um 18.59.41](/Users/jankeppler/Desktop/Bildschirmfoto 2022-02-12 um 18.59.41.png)
 
-The detailed logs are displayed in a cost report. To edit a cost entry, click on the Edit icon with the little pen next to a cost entry.
+The detailed logs are there displayed in a cost report. It will open the details view of the cost entry and you will be able to make your changes just as for [Logging costs to a work package](#logging-costs-to-a-work-package).
 
 ![Edit-logged-costs-details](Edit-logged-costs-details.png)
 
-It will open the details view of the cost entry and you will be able to make your changes just as for [Logging costs to a work package](#logging-costs-to-a-work-package).
+To edit a cost entry, click on the Edit icon with the little pen next to a cost entry.
 
 In some cases, you might want to change the costs manually so that it differs from the automatically calculated product from spent units and costs per unit.
 
