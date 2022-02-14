@@ -44,6 +44,7 @@ module OpenProject::GitlabIntegration
              :author_url => 'https://github.com/btey/openproject',
              bundled: true
 
+    patches %w[WorkPackage]
 
     initializer 'gitlab.register_hook' do
       ::OpenProject::Webhooks.register_hook 'gitlab' do |hook, environment, params, user|
