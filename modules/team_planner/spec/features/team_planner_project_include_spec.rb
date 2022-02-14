@@ -38,62 +38,40 @@ describe 'Team planner project include', type: :feature, js: true do
 
   include_context 'with team planner full access'
 
+  let(:dropdown) do
+    ::Components::ProjectIncludeComponent.new 
+  end
+
+  let!(:role) { create(:role) }
+
   let!(:other_project) do
     create(:project, enabled_module_names: %w[work_package_tracking])
   end
+  let!(:other_membership) { create :member, principal: user, project: other_project, roles: [role] }
 
   let!(:sub_project) do
     create(:project, parent: project, enabled_module_names: %w[work_package_tracking])
   end
+  let!(:sub_membership) { create :member, principal: user, project: sub_project, roles: [role] }
 
   let!(:sub_sub_project) do
     create(:project, parent: sub_project, enabled_module_names: %w[work_package_tracking])
   end
+  let!(:sub_sub_membership) { create :member, principal: user, project: sub_sub_project, roles: [role] }
 
   let!(:other_user) do
     create :user,
            firstname: 'Other',
            lastname: 'User',
-           member_in_projects: [project, other_project],
+           member_in_projects: [project, other_project, sub_project, sub_sub_project],
            member_with_permissions: %w[
              view_work_packages edit_work_packages view_team_planner manage_team_planner
            ]
   end
 
-  it 'hides the internally used filters' do
-    visit project_path(project)
-
-    within '#main-menu' do
-      click_link 'Team planner'
-    end
-
-    team_planner.expect_title
-
-    filters.expect_filter_count("1")
-    filters.open
-
-    filters.open_available_filter_list
-    filters.expect_available_filter 'Author', present: true
-    filters.expect_available_filter 'Subject', present: true
-    filters.expect_available_filter 'Finish date', present: false
-    filters.expect_available_filter 'Start date', present: false
-    filters.expect_available_filter 'Assignee', present: false
-    filters.expect_available_filter 'Assignee or belonging group', present: false
-    filters.expect_available_filter "Assignee's group", present: false
-    filters.expect_available_filter "Assignee's role", present: false
-  end
+  let!(:user_outside_project) { create :user, firstname: 'Not', lastname: 'In Project' }
 
   context 'with an assigned work package' do
-    let!(:other_user) do
-      create :user,
-             firstname: 'Other',
-             lastname: 'User',
-             member_in_project: project,
-             member_with_permissions: %w[
-               view_work_packages edit_work_packages view_team_planner manage_team_planner
-             ]
-    end
-    let!(:user_outside_project) { create :user, firstname: 'Not', lastname: 'In Project' }
     let(:type_task) { create :type_task }
     let(:type_bug) { create :type_bug }
     let(:closed_status) { create :status, is_closed: true }
@@ -132,140 +110,153 @@ describe 'Team planner project include', type: :feature, js: true do
       project.types << type_task
     end
 
-    it 'renders a basic board' do
+    it 'can add and remove projects' do
       team_planner.visit!
 
-      team_planner.title
+      dropdown.expect_count 1
+      
+      dropdown.toggle!
+      dropdown.expect_open
 
-      team_planner.expect_empty_state
-      team_planner.expect_assignee(user, present: false)
-      team_planner.expect_assignee(other_user, present: false)
+      dropdown.expect_checkbox(project.id, true)
+      dropdown.expect_checkbox(other_project.id)
+      dropdown.expect_checkbox(sub_project.id)
+      dropdown.expect_checkbox(sub_sub_project.id)
 
-      retry_block do
-        team_planner.click_add_user
-        page.find('[data-qa-selector="tp-add-assignee"] input')
-        team_planner.select_user_to_add user.name
-      end
+      dropdown.toggle_checkbox(project.id)
+      dropdown.toggle_checkbox(other_project.id)
+      dropdown.toggle_checkbox(sub_sub_project.id)
 
-      team_planner.expect_empty_state(present: false)
+      dropdown.expect_checkbox(project.id, true)
+      dropdown.expect_checkbox(other_project.id, true)
+      dropdown.expect_checkbox(sub_project.id)
+      dropdown.expect_checkbox(sub_sub_project.id, true)
 
-      retry_block do
-        team_planner.click_add_user
-        page.find('[data-qa-selector="tp-add-assignee"] input')
-        team_planner.select_user_to_add other_user.name
-      end
+      dropdown.toggle_checkbox(sub_sub_project.id)
 
-      team_planner.expect_assignee user
-      team_planner.expect_assignee other_user
+      dropdown.expect_checkbox(project.id, true)
+      dropdown.expect_checkbox(other_project.id, true)
+      dropdown.expect_checkbox(sub_project.id)
+      dropdown.expect_checkbox(sub_sub_project.id)
 
-      team_planner.within_lane(user) do
-        team_planner.expect_event user_bug
-      end
+      dropdown.click_button 'Apply'
+      dropdown.expect_closed
+      dropdown.expect_count 2
 
-      team_planner.within_lane(other_user) do
-        team_planner.expect_event other_task
-        team_planner.expect_event other_bug
-      end
+      dropdown.toggle!
 
-      # Add filter for type task
-      filters.expect_filter_count("1")
-      filters.open
+      dropdown.toggle_checkbox(sub_sub_project.id)
+      dropdown.click_button 'Apply'
+      dropdown.expect_closed
+      dropdown.expect_count 3
 
-      filters.add_filter_by('Type', 'is', [type_task.name])
-      filters.expect_filter_by('Type', 'is', [type_task.name])
-      filters.expect_filter_count("2")
+      page.refresh
 
-      team_planner.expect_assignee(user, present: true)
-      team_planner.expect_assignee(other_user, present: true)
+      dropdown.expect_count 3
 
-      team_planner.within_lane(other_user) do
-        team_planner.expect_event other_task
-        team_planner.expect_event other_bug, present: false
-      end
+      dropdown.toggle!
 
-      # Open the split view for that task and change to bug
-      split_view = team_planner.open_split_view(other_task)
-      split_view.edit_field(:type).update(type_bug)
-      split_view.expect_and_dismiss_toaster(message: "Successful update.")
+      dropdown.expect_checkbox(project.id, true)
+      dropdown.expect_checkbox(other_project.id, true)
+      dropdown.expect_checkbox(sub_project.id)
+      dropdown.expect_checkbox(sub_sub_project.id, true)
 
-      team_planner.expect_assignee(user, present: true)
-      team_planner.expect_assignee(other_user, present: true)
-
-      team_planner.expect_empty_state(present: false)
+      dropdown.toggle_checkbox(sub_sub_project.id)
+      dropdown.click_button 'Apply'
+      dropdown.expect_closed
+      dropdown.expect_count 2
     end
 
-    it 'can add and remove assignees' do
-      team_planner.visit!
+    it 'can clear the selection' do
+      dropdown.toggle!
 
-      team_planner.expect_empty_state
-      team_planner.expect_assignee(user, present: false)
-      team_planner.expect_assignee(other_user, present: false)
-      
-      retry_block do
-        team_planner.click_add_user
-        page.find('[data-qa-selector="tp-add-assignee"] input')
-        team_planner.select_user_to_add user.name
-      end
+      dropdown.toggle_checkbox(project.id)
+      dropdown.toggle_checkbox(other_project.id)
+      dropdown.toggle_checkbox(sub_sub_project.id)
 
-      team_planner.expect_empty_state(present: false)
-      team_planner.expect_assignee(user)
-      team_planner.expect_assignee(other_user, present: false)
-      
-      retry_block do
-        team_planner.click_add_user
-        page.find('[data-qa-selector="tp-add-assignee"] input')
-        team_planner.select_user_to_add other_user.name
-      end
+      dropdown.expect_checkbox(project.id, true)
+      dropdown.expect_checkbox(other_project.id, true)
+      dropdown.expect_checkbox(sub_project.id)
+      dropdown.expect_checkbox(sub_sub_project.id, true)
 
-      team_planner.expect_assignee(user)
-      team_planner.expect_assignee(other_user)
+      dropdown.click_button 'Apply'
+      dropdown.expect_closed
+      dropdown.expect_count 3
 
-      team_planner.remove_assignee(user)
+      dropdown.toggle!
 
-      team_planner.expect_assignee(user, present: false)
-      team_planner.expect_assignee(other_user)
+      dropdown.click_button 'Clear selection'
 
-      team_planner.remove_assignee(other_user)
+      dropdown.expect_checkbox(project.id, true)
+      dropdown.expect_checkbox(other_project.id)
+      dropdown.expect_checkbox(sub_project.id)
+      dropdown.expect_checkbox(sub_sub_project.id)
 
-      team_planner.expect_assignee(user, present: false)
-      team_planner.expect_assignee(other_user, present: false)
-      team_planner.expect_empty_state
-
-      # Try one more time to make sure deleting the full filter didn't kill the functionality
-      retry_block do
-        team_planner.click_add_user
-        page.find('[data-qa-selector="tp-add-assignee"] input')
-        team_planner.select_user_to_add user.name
-      end
-
-      team_planner.expect_assignee(user)
-      team_planner.expect_assignee(other_user, present: false)
+      dropdown.click_button 'Apply'
+      dropdown.expect_closed
+      dropdown.expect_count 1
     end
 
-    it 'filters possible assignees correctly' do
+    it 'filter projects in the list' do
       team_planner.visit!
 
-      retry_block do
-        team_planner.click_add_user
-        page.find('[data-qa-selector="tp-add-assignee"] input')
-        team_planner.search_user_to_add user_outside_project.name
-      end
+      dropdown.expect_count 1
 
-      expect(page).to have_selector('.ng-option-disabled', text: "No items found")
-      
-      retry_block do
-        team_planner.select_user_to_add user.name
-      end
-      
-      team_planner.expect_assignee(user)
+      dropdown.toggle!
 
-      retry_block do
-        team_planner.click_add_user
-        page.find('[data-qa-selector="tp-add-assignee"] input')
-        team_planner.search_user_to_add user.name
-      end
+      dropdown.toggle_checkbox(other_project.id)
+      dropdown.toggle_checkbox(sub_sub_project.id)
 
-      expect(page).to have_selector('.ng-option-disabled', text: "No items found")
+      dropdown.search '4'
+
+      dropdown.expect_checkbox(project.id, true)
+      dropdown.expect_no_checkbox(other_project.id)
+      dropdown.expect_checkbox(sub_project.id)
+      dropdown.expect_checkbox(sub_sub_project.id, true)
+
+      dropdown.search '2'
+
+      dropdown.expect_no_checkbox(project.id)
+      dropdown.expect_checkbox(other_project.id)
+      dropdown.expect_no_checkbox(sub_project.id)
+      dropdown.expect_no_checkbox(sub_sub_project.id)
+
+      dropdown.search ''
+
+      dropdown.expect_checkbox(project.id, true)
+      dropdown.expect_checkbox(other_project.id)
+      dropdown.expect_checkbox(sub_project.id)
+      dropdown.expect_checkbox(sub_sub_project.id, true)
+
+      dropdown.set_filter_selected true
+
+      dropdown.expect_checkbox(project.id, true)
+      dropdown.expect_no_checkbox(other_project.id)
+      dropdown.expect_checkbox(sub_project.id)
+      dropdown.expect_checkbox(sub_sub_project.id, true)
+
+      dropdown.search '2'
+
+      dropdown.expect_no_checkbox(project.id)
+      dropdown.expect_no_checkbox(other_project.id)
+      dropdown.expect_no_checkbox(sub_project.id)
+      dropdown.expect_no_checkbox(sub_sub_project.id)
+
+      dropdown.search ''
+
+      dropdown.expect_checkbox(project.id, true)
+      dropdown.expect_no_checkbox(other_project.id)
+      dropdown.expect_checkbox(sub_project.id)
+      dropdown.expect_checkbox(sub_sub_project.id, true)
+
+      dropdown.set_filter_selected false
+
+      dropdown.expect_checkbox(project.id, true)
+      dropdown.expect_checkbox(other_project.id)
+      dropdown.expect_checkbox(sub_project.id)
+      dropdown.expect_checkbox(sub_sub_project.id, true)
+
+      byebug
     end
   end
 end

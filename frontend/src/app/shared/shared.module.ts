@@ -86,8 +86,8 @@ import { OpFormFieldComponent } from './components/forms/form-field/form-field.c
 import { OpFormBindingDirective } from './components/forms/form-field/form-binding.directive';
 import { OpOptionListComponent } from './components/option-list/option-list.component';
 import { OpSidemenuComponent } from './components/sidemenu/sidemenu.component';
-import { OpProjectSelectComponent } from './components/project-select/project-select.component';
-import { OpProjectListComponent } from './components/project-select/project-list.component';
+import { OpProjectIncludeComponent } from './components/project-include/project-include.component';
+import { OpProjectListComponent } from './components/project-include/project-list.component';
 import { ViewsResourceService } from 'core-app/core/state/views/views.service';
 
 export function bootstrapModule(injector:Injector) {
@@ -194,7 +194,7 @@ export function bootstrapModule(injector:Injector) {
     OpFormBindingDirective,
     OpOptionListComponent,
     OpSidemenuComponent,
-    OpProjectSelectComponent,
+    OpProjectIncludeComponent,
     OpProjectListComponent,
   ],
   providers: [
@@ -253,7 +253,7 @@ export function bootstrapModule(injector:Injector) {
     OpFormBindingDirective,
     OpOptionListComponent,
     OpSidemenuComponent,
-    OpProjectSelectComponent,
+    OpProjectIncludeComponent,
     OpProjectListComponent,
   ],
 })

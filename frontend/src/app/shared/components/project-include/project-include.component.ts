@@ -20,13 +20,13 @@ import { CurrentProjectService } from 'core-app/core/current-project/current-pro
 import { IProject } from 'core-app/core/state/projects/project.model';
 
 @Component({
-  selector: 'op-project-select',
+  selector: 'op-project-include',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './project-select.component.html',
-  styleUrls: ['./project-select.component.sass'],
+  templateUrl: './project-include.component.html',
+  styleUrls: ['./project-include.component.sass'],
 })
-export class OpProjectSelectComponent extends UntilDestroyedMixin {
-  @HostBinding('class.op-project-select') className = true;
+export class OpProjectIncludeComponent extends UntilDestroyedMixin {
+  @HostBinding('class.op-project-include') className = true;
 
   public opened = false;
 
@@ -162,7 +162,7 @@ export class OpProjectSelectComponent extends UntilDestroyedMixin {
   }
 
   public clearSelection() {
-    this.selectedProjects = [];
+    this.selectedProjects = [ this.currentProjectService.apiv3Path || '' ];
   }
 
   public onSubmit(e:Event) {

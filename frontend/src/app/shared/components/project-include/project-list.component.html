@@ -4,9 +4,12 @@
 >
   <label class="spot-list--item-action op-project-list--item-action">
     <spot-checkbox
-      [checked]="isChecked(project.href)"
+      *ngFor="let checked of [isChecked(project.href)]"
+      [checked]="checked"
       (change)="changeSelected(project.href)"
       [disabled]="project.href === currentProjectHref"
+      [attr.data-qa-project-include-id]="project.id"
+      [attr.data-qa-project-include-checked]="checked ? 1 : 0"
     ></spot-checkbox>
     <div class="spot-list--item-title">{{ project.name }}</div>
     <button

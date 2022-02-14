@@ -8,14 +8,15 @@
     type="button"
     class="button"
     (click)="toggleOpen()"
+    data-qa-selector="project-include-button"
   >
     Include projects
     <span class="badge -secondary">{{ numberOfProjectsInFilter$ | async }}</span>
   </button>
 
   <ng-container slot="body">
-    <div class="op-project-select--header">
-      <h1 class="op-project-select--title">Projects</h1>
+    <div class="op-project-include--header">
+      <h1 class="op-project-include--title">Projects</h1>
       <spot-toggle
         [options]="displayModeOptions"
         [(ngModel)]="displayMode"
@@ -27,8 +28,10 @@
     >
       <spot-text-field
         placeholder="Search project..."
+        name="project-include-search"
         [(ngModel)]="query"
         [ngModelOptions]="{standalone: true}"
+        data-qa-selector="project-include-search"
       >
         <span
           slot="before"
@@ -41,6 +44,7 @@
         [projects]="projects$ | async"
         [selected]="selectedProjects"
         (update)="selectedProjects = $event"
+        data-qa-selector="project-include-list"
       ></ul>
 
       <div class="spot-action-bar">
