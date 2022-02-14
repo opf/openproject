@@ -14,11 +14,11 @@ The project status serves as an information for yourself and the team if the pro
 
 You can set your project status in the **project settings**. For this, click on **project settings** in the menu on the left and then select the relevant status. To add more information to your project status, you can use the status description directly underneath to manually describe changes, project KPIs etc.
 
-![project-settings-project-status](project-settings-project-status.png)
+![image-20220214095510158](image-20220214095510158.png)
 
 Alternatively, you can also set the project status in the **project overview**. If you haven't configured anything yet, the project status widget will be displayed by default and you can set the project status by using the drop down.
 
-![Set-project-status-project-overview](Set-project-status-project-overview.png)
+![image-20220214100526694](image-20220214100526694.png)
 
 If the widget is not yet displayed on the project overview, you can add the project status to your **project overview** widget by clicking on **+** at the top right corner. Then you can choose where you would like to position your additional widget by clicking on the respective **+** at the top, bottom, left or right of existing widgets. Then set your project status from the drop down as shown above.
 
@@ -34,7 +34,7 @@ Select **View all projects** from the header menu, it will then open your [proje
 
 ![View-all-projects](View-all-projects-4478986.png)
 
-![project-list-project-status](project-list-project-status.png)
+![image-20220214101311648](image-20220214101311648.png)
 
 ### Project overview
 
