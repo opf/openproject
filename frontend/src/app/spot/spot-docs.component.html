@@ -59,6 +59,7 @@ Currently selected value is {{ toggleValue }}
   <spot-checkbox
     [(ngModel)]="checkboxValue"
     [disabled]="true"
+    name="checkbox-name"
   ></spot-checkbox>
   Currently {{ checkboxValueString() }}
 </label>
@@ -120,6 +121,7 @@ Currently selected value is {{ toggleValue }}
 <spot-text-field
   placeholder="Placeholder value"
   value="Test value"
+  name="textfield-name"
 ></spot-text-field>
 
 <spot-text-field
