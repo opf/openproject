@@ -81,15 +81,16 @@ module API
         end
 
         def mount
-          update = self
+          endpoint = self
 
           -> do
-            update.before_hook&.(request: self)
-            params = update.parse(self)
-            call = update.process(self, params)
+            request = self # proc is executed in the context of the request
+            endpoint.before_hook&.(request: request)
+            params = endpoint.parse(request)
+            call = endpoint.process(request, params)
 
-            update.render(self, call) do
-              status update.success_status
+            endpoint.render(request, call) do
+              status endpoint.success_status
             end
           end
         end
@@ -112,7 +113,7 @@ module API
 
           process_service
             .new(**args.compact)
-            .with_state(request.instance_exec(**{ model: instance, params: params }, &process_state))
+            .with_state(request.instance_exec(model: instance, params: params, &process_state))
             .call(**request.instance_exec(params, &params_modifier))
         end
 

@@ -36,10 +36,10 @@ module API
       self.current_user = user
       self.model = model
 
-      self.representer = if !representer && model
-                           deduce_representer(model)
-                         elsif representer
+      self.representer = if representer
                            representer
+                         elsif model
+                           deduce_representer(model)
                          else
                            raise 'Representer not defined'
                          end
