@@ -89,7 +89,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
 
   calendarOptions$ = new Subject<CalendarOptions>();
 
-  draggingItem$ = new Subject<EventDragStartArg|undefined>();
+  draggingItem$ = new BehaviorSubject<EventDragStartArg|undefined>(undefined);
 
   dropzoneHovered$ = new BehaviorSubject<boolean>(false);
 
@@ -346,9 +346,9 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
             eventDrop: (dropInfo:EventDropArg) => this.updateEvent(dropInfo),
             eventReceive: (dropInfo:EventReceiveArg) => this.updateEvent(dropInfo),
             // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-            eventContent: (data:EventContentArg) => this.renderTemplate(this.eventContent, data.event.extendedProps.workPackage.href, data),
+            eventContent: (data:EventContentArg) => this.renderTemplate(this.eventContent, this.eventId(data), data),
             // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-            eventWillUnmount: (data:EventContentArg) => this.unrenderTemplate(data.event.extendedProps.workPackage.href),
+            eventWillUnmount: (data:EventContentArg) => this.unrenderTemplate(this.eventId(data)),
           } as CalendarOptions),
         );
       });
@@ -365,6 +365,9 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
       .toPromise()
       .then((workPackages:WorkPackageCollectionResource) => {
         const events = this.mapToCalendarEvents(workPackages.elements);
+
+        this.viewLookup.destroyDetached();
+
         successCallback(events);
       })
       .catch(failureCallback);
@@ -373,12 +376,25 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
   }
 
   renderTemplate(template:TemplateRef<unknown>, id:string, data:ResourceLabelContentArg|EventContentArg):{ domNodes:unknown[] } {
+    if (this.isDragggedEvent(id)) {
+      this.viewLookup.markForDestruction(id);
+    }
+
     const ref = this.viewLookup.getView(template, id, data);
     return { domNodes: ref.rootNodes };
   }
 
   unrenderTemplate(id:string):void {
-    this.viewLookup.destroyView(id);
+    this.viewLookup.markForDestruction(id);
+  }
+
+  isDragggedEvent(id:string):boolean {
+    const dragging = this.draggingItem$.getValue();
+    return !!dragging && (dragging.event.extendedProps.workPackage as WorkPackageResource).href === id;
+  }
+
+  eventId(data:EventContentArg):string {
+    return `${data.event.id},dragging=${data.isDragging.toString()}`;
   }
 
   public showAssigneeAddRow():void {
