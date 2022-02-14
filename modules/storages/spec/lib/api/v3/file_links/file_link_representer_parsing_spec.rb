@@ -29,8 +29,6 @@
 require 'spec_helper'
 
 describe ::API::V3::FileLinks::FileLinkRepresenter, 'parsing' do
-  # include ::API::V3::Utilities::PathHelper
-
   let(:file_link) { build_stubbed(:file_link) }
 
   current_user { build_stubbed(:user) }
@@ -45,8 +43,6 @@ describe ::API::V3::FileLinks::FileLinkRepresenter, 'parsing' do
     let(:parsed_hash) do
       {
         "_type" => "FileLink",
-        "createdAt" => "2022-02-09T10:03:37Z",
-        "updatedAt" => "2022-02-09T10:03:37Z",
         "originData" => {
           "id" => 5503,
           "name" => "logo.png",
@@ -59,8 +55,15 @@ describe ::API::V3::FileLinks::FileLinkRepresenter, 'parsing' do
       }
     end
 
-    describe 'createdAt and updatedAt' do
-      it 'are not set by the parsing' do
+    describe 'given createdAt and updatedAt' do
+      let(:parsed_hash) do
+        {
+          "createdAt" => "2022-02-09T10:03:37Z",
+          "updatedAt" => "2022-02-09T10:03:37Z"
+        }
+      end
+
+      it 'are not used by the parsing' do
         expect(parsed).not_to have_attributes(
           created_at: DateTime.parse(parsed_hash["createdAt"]).in_time_zone,
           updated_at: DateTime.parse(parsed_hash["updatedAt"]).in_time_zone
@@ -79,7 +82,6 @@ describe ::API::V3::FileLinks::FileLinkRepresenter, 'parsing' do
           origin_created_at: DateTime.new(2021, 12, 19, 9, 42, 10.17, '+00:00').in_time_zone,
           origin_updated_at: DateTime.new(2021, 12, 20, 14, 0, 13.987, '+00:00').in_time_zone
         )
-        pp parsed
       end
     end
   end
