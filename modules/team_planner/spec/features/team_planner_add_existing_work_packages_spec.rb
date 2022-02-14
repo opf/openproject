@@ -36,6 +36,7 @@ describe 'Team planner add existing work packages', type: :feature, js: true do
   include_context 'with team planner full access'
 
   let(:closed_status) { create :status, is_closed: true }
+  let(:start_of_week) { Time.zone.today.beginning_of_week(:sunday) }
 
   let!(:other_user) do
     create :user,
@@ -51,8 +52,8 @@ describe 'Team planner add existing work packages', type: :feature, js: true do
            project: project,
            subject: 'Task 1',
            assigned_to: user,
-           start_date: Time.zone.today.beginning_of_week.next_occurring(:tuesday),
-           due_date: Time.zone.today.beginning_of_week.next_occurring(:thursday)
+           start_date: start_of_week.next_occurring(:tuesday),
+           due_date: start_of_week.next_occurring(:thursday)
   end
   let!(:second_wp) do
     create :work_package,
@@ -107,8 +108,8 @@ describe 'Team planner add existing work packages', type: :feature, js: true do
 
       # ... and thus update its attributes. Thereby the duration is maintained
       second_wp.reload
-      expect(second_wp.start_date).to eq(Time.zone.today.beginning_of_week.next_occurring(:tuesday))
-      expect(second_wp.due_date).to eq(Time.zone.today.beginning_of_week.next_occurring(:thursday))
+      expect(second_wp.start_date).to eq(start_of_week.next_occurring(:tuesday))
+      expect(second_wp.due_date).to eq(start_of_week.next_occurring(:thursday))
       expect(second_wp.assigned_to_id).to eq(user.id)
 
       # Search for another work package
@@ -124,8 +125,8 @@ describe 'Team planner add existing work packages', type: :feature, js: true do
 
       # ... and thus update its attributes. Since no dates were set before, start and end date are set to the same day
       third_wp.reload
-      expect(third_wp.start_date).to eq(Time.zone.today.beginning_of_week.next_occurring(:tuesday))
-      expect(third_wp.due_date).to eq(Time.zone.today.beginning_of_week.next_occurring(:tuesday))
+      expect(third_wp.start_date).to eq(start_of_week.next_occurring(:tuesday))
+      expect(third_wp.due_date).to eq(start_of_week.next_occurring(:tuesday))
       expect(third_wp.assigned_to_id).to eq(user.id)
 
       # New events are directly clickable
