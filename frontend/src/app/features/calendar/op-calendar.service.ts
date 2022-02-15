@@ -13,7 +13,6 @@ import { ConfigurationService } from 'core-app/core/config/configuration.service
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { DomSanitizer } from '@angular/platform-browser';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
-import { EventClickArg } from '@fullcalendar/common';
 import { splitViewRoute } from 'core-app/features/work-packages/routing/split-view-routes.helper';
 import { StateService } from '@uirouter/angular';
 import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
@@ -251,6 +250,20 @@ export class OpCalendarService extends UntilDestroyedMixin {
     return moment(end).subtract(1, 'd').format('YYYY-MM-DD');
   }
 
+  public openSplitView(id:string, onlyWhenOpen = false):void {
+    this.wpTableSelection.setSelection(id, -1);
+
+    // Only open the split view if already open, otherwise only clicking the details opens
+    if (onlyWhenOpen && !this.$state.includes('**.details.*')) {
+      return;
+    }
+
+    void this.$state.go(
+      `${splitViewRoute(this.$state)}.tabs`,
+      { workPackageId: id, tabIdentifier: 'overview' },
+    );
+  }
+
   private defaultOptions():CalendarOptions {
     return {
       editable: false,
@@ -267,21 +280,11 @@ export class OpCalendarService extends UntilDestroyedMixin {
       initialDate: this.initialDate,
       initialView: this.initialView,
       datesSet: (dates) => this.updateDateParam(dates),
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      eventClick: this.openSplitView.bind(this),
+      eventClick: (evt) => {
+        const workPackage = evt.event.extendedProps.workPackage as WorkPackageResource;
+        this.openSplitView(workPackage.id as string);
+      },
     };
-  }
-
-  private openSplitView(event:EventClickArg) {
-    const workPackage = event.event.extendedProps.workPackage as WorkPackageResource;
-    if (workPackage.id) {
-      this.wpTableSelection.setSelection(workPackage.id, -1);
-    }
-
-    void this.$state.go(
-      `${splitViewRoute(this.$state)}.tabs`,
-      { workPackageId: workPackage.id, tabIdentifier: 'overview' },
-    );
   }
 
   private static defaultQueryProps(startDate:string, endDate:string) {

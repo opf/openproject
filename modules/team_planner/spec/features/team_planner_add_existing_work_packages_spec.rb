@@ -130,7 +130,7 @@ describe 'Team planner add existing work packages', type: :feature, js: true do
       expect(third_wp.assigned_to_id).to eq(user.id)
 
       # New events are directly clickable
-      split_view = team_planner.open_split_view(third_wp)
+      split_view = team_planner.open_split_view_by_info_icon(third_wp)
       split_view.expect_open
     end
 
