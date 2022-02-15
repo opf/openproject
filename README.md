@@ -1,6 +1,6 @@
 # openproject-gitlab-integration
 
-## NEW VERSION 2.0.2 (pre-release)
+## NEW VERSION 2.0.3 (pre-release)
 
 Based on the current Github integration (OpenProject 12), this plugin offers the same functionalities as the current plugin for Github (and something else). This version includes changes to the DB and a new view similar to the current Github tab. Only the management of "pipelines" is pending an open issue in Gitlab (https://gitlab.com/gitlab-org/gitlab/-/issues/345028).
 
@@ -159,11 +159,11 @@ PATH
 PATH
   remote: modules/gitlab_integration
   specs:
-    openproject-gitlab_integration (2.0.2)
+    openproject-gitlab_integration (2.0.3)
       openproject-webhooks
 ```
 
-> **Note:** Use version 2.0.2 if you want to capture the events as comments and see the new UI Tab with the linked Merge Requests.
+> **Note:** Use version 2.0.3 if you want to capture the events as comments and see the new UI Tab with the linked Merge Requests.
 
 Add the following in **Gemfile.modules**:
 
