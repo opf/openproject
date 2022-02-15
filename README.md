@@ -175,49 +175,6 @@ group :opf_plugins do
 end
 ```
 
-## Changes required in the OpenProject code
-
-Right now, as the plugin for Github works, it is required to add some lines of code in the core of the OpenProject code before the precompilation of the assets.
-
-Please modify the following files:
-
-#### 1) api-v3-work-package-paths.ts
-
-Path of the file that needs to be modified:
-
-```
-frontend/src/app/core/apiv3/endpoints/work_packages/api-v3-work-package-paths.ts
-```
-
-Add the following just after the line defining the Github resource (after line 52):
-
-```
-   // /api/v3/(?:projectPath)/work_packages/(:workPackageId)/gitlab_merge_requests
-   public readonly gitlab_merge_requests = this.subResource('gitlab_merge_requests');
-```
-
-This line of code is necessary so that when precompiling the plugin assets they do not generate an error.
-
-#### 2) work-package.rd
-
-Path of the file that needs to be modified:
-
-```
-app/models/work_package.rb
-```
-
-Add the following just after the line defining the Github table relation (after line 67):
-
-```
-has_and_belongs_to_many :gitlab_merge_requests
-```
-
-This line of code is necessary to display the content of the new Gitlab tab and not generate the error:
-
-```
-undefined method `gitlab_merge_requests' for #<WorkPackage:0x000056127ee75b30>
-```
-
 ### The Gitlab Bot user in OpenProject
 
 First you will need to create a user in OpenProject that will make the comments. The user will have to be added to each project with a role that allows them to comment on work packages and change status.
