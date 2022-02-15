@@ -30,7 +30,7 @@
 
 module Projects
   class DeleteProjectJob < UserJob
-    queue_with_priority :low
+    queue_with_priority :below_normal
     include OpenProject::LocaleHelper
 
     attr_reader :project

@@ -6,10 +6,9 @@ description: In-app notification settings in OpenProject
 robots: index, follow
 keywords: notifications settings
 ---
-## Notification settings
+# Notification settings
 
-
-To access the in-app notification settings. Please left-click the **Notification settings** button in the upper right side of the [notification center](../notifications) or navigate via **My account > Notification settings**.
+To access the in-app notification settings. Please left-click the **Notification settings** button in the upper right side of the [notification center](..) or navigate via **My account > Notification settings**.
 
 ![notification-settings](notification-settings.png)
 
@@ -25,7 +24,7 @@ In the **Notification settings** you can fine-tune what you are notified about:
   - All priority changes
   - All new comments
 
-When someone [mentions](../../user-guide/work-packages/edit-work-package/#-notification-mention) you (@xxx) in e.g. a work package description or comment you will receive an in-app notification.
+When someone [mentions](../../work-packages/edit-work-package/#-notification-mention) you (@xxx) in e.g. a work package description or comment you will receive an in-app notification.
 
 Additionally, you can also add **project specific notification settings** by clicking on the link **Add settings for project**.
 
