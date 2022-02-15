@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Bim::Bcf
-  module Viewpoints
+module Storages
+  module Storages
     class DeleteContract < ::DeleteContract
       include ::Storages::Storages::Concerns::ManageStoragesGuarded
     end
