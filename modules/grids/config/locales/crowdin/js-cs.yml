@@ -5,7 +5,7 @@ cs:
       remove: 'Odstranit widget'
       configure: 'Konfigurovat widget'
       upsale:
-        text: "Some widgets, like the work package graph widget, are only available in the "
+        text: "Některé widgety, například widget s grafem pracovního balíčku, jsou dostupné pouze v "
         link: 'Enterprise Edition.'
       widgets:
         custom_text:
@@ -55,7 +55,7 @@ cs:
         work_packages_table:
           title: 'Tabulka pracovních balíčků'
         work_packages_graph:
-          title: 'Work packages graph'
+          title: 'Graf pracovních balíčků'
         work_packages_calendar:
           title: 'Kalendář'
         work_packages_overview:
