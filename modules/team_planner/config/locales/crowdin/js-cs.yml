@@ -7,7 +7,7 @@ cs:
       title: 'Týmový plánovač'
       unsaved_title: 'Nepojmenovaný plánovač týmu'
       label_assignee_plural: 'Řešitelé'
-      no_data: 'Add assignees to set up your team planner.'
+      no_data: 'Přidejte řešitele k nastavení svého týmového plánovače.'
       add_assignee: 'Přidat řešitele'
       remove_assignee: 'Odstranit řešitele'
       two_weeks: '2 týdny'
@@ -16,5 +16,5 @@ cs:
         search_placeholder: 'Hledat...'
       modify:
         errors:
-          permission_denied: 'You do not have the necessary permissions to modify this.'
-          fallback: 'This work package cannot be edited.'
+          permission_denied: 'Nemáte potřebná oprávnění k úpravě tohoto stavu.'
+          fallback: 'Tento pracovní balíček nelze upravit.'
