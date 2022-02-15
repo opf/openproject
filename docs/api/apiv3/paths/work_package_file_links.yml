@@ -46,7 +46,7 @@ post:
                   type: array
                   items:
                     allOf:
-                      - $ref: '#/components/schemas/File_LinkModel'
+                      - $ref: '../components/schemas/file_link_model.yml'
                       - type: object
                         required:
                           - storageUrl
@@ -101,12 +101,12 @@ post:
                   elements:
                     type: array
                     items:
-                      $ref: '#/components/schemas/File_LinkModel'
+                      $ref: '../components/schemas/file_link_model.yml'
     '400':
       content:
         application/hal+json:
           schema:
-            $ref: "#/components/schemas/ErrorResponse"
+            $ref: "../components/schemas/error_response.yml"
           example:
             _type: Error
             errorIdentifier: urn:openproject-org:api:v3:errors:InvalidRequestBody
@@ -116,7 +116,7 @@ post:
       content:
         application/hal+json:
           schema:
-            $ref: "#/components/schemas/ErrorResponse"
+            $ref: "../components/schemas/error_response.yml"
           example:
             _type: Error
             errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
@@ -131,7 +131,7 @@ post:
       content:
         application/hal+json:
           schema:
-            $ref: "#/components/schemas/ErrorResponse"
+            $ref: "../components/schemas/error_response.yml"
           example:
             _type: Error
             errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
@@ -189,12 +189,12 @@ get:
                   elements:
                     type: array
                     items:
-                      $ref: '#/components/schemas/File_LinkModel'
+                      $ref: '../components/schemas/file_link_model.yml'
     '403':
       content:
         application/hal+json:
           schema:
-            $ref: "#/components/schemas/ErrorResponse"
+            $ref: "../components/schemas/error_response.yml"
           example:
             _type: Error
             errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
@@ -209,7 +209,7 @@ get:
       content:
         application/hal+json:
           schema:
-            $ref: "#/components/schemas/ErrorResponse"
+            $ref: "../components/schemas/error_response.yml"
           example:
             _type: Error
             errorIdentifier: urn:openproject-org:api:v3:errors:NotFound

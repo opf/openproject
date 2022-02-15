@@ -250,6 +250,7 @@ ru:
     enumeration_doc_categories: "Категории документов"
     enumeration_work_package_priorities: "Приоритеты пакета работ"
     filter:
+      more_values_not_shown: "There are %{total} more results, search to filter results."
       description:
         text_open_filter: "Откройте этот фильтр клавишей 'ALT' и клавишами со стрелками."
         text_close_filter: "Для выбора элемента установите на нем фокус и нажмите Enter. Для очистки фильтра выберите первую (пустого) запись."

@@ -251,6 +251,7 @@ id:
     enumeration_doc_categories: "Kategori dokumen"
     enumeration_work_package_priorities: "Paket-Penugasan prioritas"
     filter:
+      more_values_not_shown: "There are %{total} more results, search to filter results."
       description:
         text_open_filter: "Buka filter ini dengan 'ALT' dan tombol panah."
         text_close_filter: "To select an entry leave the focus for example by pressing enter. To leave without filter select the first (empty) entry."

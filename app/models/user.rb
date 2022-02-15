@@ -35,6 +35,7 @@ class User < Principal
     firstname_lastname: %i[firstname lastname],
     firstname: [:firstname],
     lastname_firstname: %i[lastname firstname],
+    lastname_n_firstname: %i[lastname firstname],
     lastname_coma_firstname: %i[lastname firstname],
     username: [:login]
   }.freeze
@@ -268,6 +269,7 @@ class User < Principal
 
     when :firstname_lastname      then "#{firstname} #{lastname}"
     when :lastname_firstname      then "#{lastname} #{firstname}"
+    when :lastname_n_firstname    then "#{lastname}#{firstname}"
     when :lastname_coma_firstname then "#{lastname}, #{firstname}"
     when :firstname               then firstname
     when :username                then login

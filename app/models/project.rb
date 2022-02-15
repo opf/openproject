@@ -34,6 +34,7 @@ class Project < ApplicationRecord
 
   include Projects::Storage
   include Projects::Activity
+  include Projects::Hierarchy
   include Projects::AncestorsFromRoot
   include ::Scopes::Scoped
 
@@ -91,8 +92,6 @@ class Project < ApplicationRecord
   has_many :projects_storages, dependent: :destroy, class_name: 'Storages::ProjectStorage'
   has_many :storages, through: :projects_storages
 
-
-  acts_as_nested_set order_column: :name, dependent: :destroy
 
   acts_as_customizable
   acts_as_searchable columns: %W(#{table_name}.name #{table_name}.identifier #{table_name}.description),

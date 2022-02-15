@@ -1,10 +1,15 @@
+/* eslint-disable max-classes-per-file */
+
 import { Constructor } from '@angular/cdk/table';
 import { SimpleResource, SimpleResourceCollection } from 'core-app/core/apiv3/paths/path-resources';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { Observable } from 'rxjs';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
+import {
+  ApiV3Filter,
+  ApiV3FilterBuilder,
+} from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
 
@@ -98,7 +103,24 @@ export class ApiV3ResourceCollection<V, T extends ApiV3GettableResource<V>> exte
    * @param params additional URL params to append
    */
   public filtered<R = ApiV3GettableResource<CollectionResource<V>>>(filters:ApiV3FilterBuilder, params:{ [key:string]:string } = {}, resourceClass?:Constructor<R>):R {
-    return this.subResource<R>(`?${filters.toParams(params)}`, resourceClass);
+    const url = new URL(this.path, window.location.origin);
+
+    if (url.searchParams.has('filters')) {
+      const existingFilters = JSON.parse(url.searchParams.get('filters') as string) as ApiV3Filter[];
+      url.searchParams.set('filters', JSON.stringify(existingFilters.concat(filters.filters)));
+    } else {
+      url.searchParams.set('filters', filters.toJson());
+    }
+
+    Object
+      .keys(params)
+      .forEach((key) => {
+        url.searchParams.set(key, params[key]);
+      });
+
+    const cls = resourceClass || ApiV3GettableResource;
+    // eslint-disable-next-line new-cap
+    return new cls(this.apiRoot, url.pathname, url.search, this) as R;
   }
 
   /**
@@ -107,6 +129,7 @@ export class ApiV3ResourceCollection<V, T extends ApiV3GettableResource<V>> exte
    * @param segment Additional segment to add to the current path
    */
   protected subResource<R = ApiV3GettableResource<HalResource>>(segment:string, cls:Constructor<R> = ApiV3GettableResource as any):R {
+    // eslint-disable-next-line new-cap
     return new cls(this.apiRoot, this.path, segment, this);
   }
 }

@@ -251,6 +251,7 @@ tr:
     enumeration_doc_categories: "Belge kategorileri"
     enumeration_work_package_priorities: "İş paketi öncelikleri"
     filter:
+      more_values_not_shown: "There are %{total} more results, search to filter results."
       description:
         text_open_filter: "Bu filtreyi 'ALT' ve ok tuşları ile açın."
         text_close_filter: "Bir giridi seçmek için, örneğin odaktan uzaklaşmak için entera basın. Filitrelemeden çıkmak için ilk girdiyi (boş olanı) seçin."

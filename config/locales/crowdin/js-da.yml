@@ -250,6 +250,7 @@ da:
     enumeration_doc_categories: "Dokumentkategorier"
     enumeration_work_package_priorities: "Prioritering af arbejdspakker"
     filter:
+      more_values_not_shown: "There are %{total} more results, search to filter results."
       description:
         text_open_filter: "Åbn dette filter med 'ALT' og pile tasterne."
         text_close_filter: "For at vælge en post forlade fokuset ved at trykke på Enter. For at undlade filterbrug vælg den første (tomme) post."

@@ -93,8 +93,6 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
 
   public markable = false;
 
-  public isLoading = false;
-
   getAutocompleterData = (query:string):Observable<any[]> => this.autocompleteWorkPackages(query);
 
   public autocompleterOptions = {
@@ -278,14 +276,12 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
 
     const hashFreeQuery = this.queryWithoutHash(query);
 
-    this.isLoading = true;
     return this
       .fetchSearchResults(hashFreeQuery, hashFreeQuery !== query)
       .get()
       .pipe(
         map((collection) => this.searchResultsToOptions(collection.elements, hashFreeQuery)),
         tap(() => {
-          this.isLoading = false;
           this.setMarkedOption();
         }),
       );

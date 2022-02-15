@@ -251,6 +251,7 @@ lv:
     enumeration_doc_categories: "Dokumentu kategorijas"
     enumeration_work_package_priorities: "Pieteikumu prioritātes"
     filter:
+      more_values_not_shown: "There are %{total} more results, search to filter results."
       description:
         text_open_filter: "Atver šo filtru ar 'ALT' un bultiņu taustiņiem."
         text_close_filter: "Lai atlasītu ierakstu atstājiet atzīmi, piemēram, nospiežot ievadīt. Lai neizmantotu filtru atlasiet pirmo (tukšo) ieraksts."

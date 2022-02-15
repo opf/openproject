@@ -37,6 +37,16 @@
     td.fc-day-fri
       background: rgb(205 205 205 / 20%)
 
+    // The days in full calendar are anchor elements which we do not
+    // want to like like actual links
+    .fc-col-header-cell a,
+    a.fc-daygrid-day-number
+      color: #000000
+      cursor: default
+
+      &:hover
+        text-decoration: none
+
     // ------------------------ END: Calendar cells ------------------------
     // -------
     // ------------------------ BEGIN: Calendar events ------------------------
@@ -75,14 +85,39 @@
       margin: 0 16px
       line-height: 12px
 
+      .fc-timegrid-event-condensed &
+        white-space: nowrap
+        overflow: hidden
+
+    .fc-event-title
+      max-width: 100%
+      @include text-shortener(false)
+
     .fc-event-main
       color: unset
 
-    .fc-event-resizer:before,
-    .fc-event-resizer:after
-      background: rgba(0,0,0,0.2)
-      margin: 0 -2px
-      max-height: 16px
+    .fc-event:hover
+      .fc-event-resizer
+        display: flex
+        align-items: center
+        flex-direction: row
+
+        &:before,
+        &:after
+          display: block
+          content: ''
+          width: 1px
+          background: rgba(0,0,0,0.2)
+          margin: 0 -2px
+          height: 70%
+          max-height: 16px
+
+        &-start
+          justify-content: flex-end
+
+        &-end
+          justify-content: flex-start
+          margin-right: 2px
 
     // ------------------------ END:  Calendar events ------------------------
     // -------
@@ -90,13 +125,31 @@
     .fc-toolbar-title
       font-size: 16px
 
-    .fc-header-toolbar .fc-toolbar-chunk
+    .fc-header-toolbar.fc-toolbar .fc-toolbar-chunk
       .fc-button
+        height: 34px
         background: transparent
+        color: var(--button--font-color)
+        border-color: var(--button--border-color)
         margin-bottom: 0
 
         &:focus
           box-shadow: none
+
+        // ensure to have higher specificity than above extend
+        .fc-button-group
+          .fc-button
+            margin-right: 0
+            margin-bottom: 0
+            padding: 0.4em 0.65em
+
+            &.fc-button-active
+              @extend .button, .-active
+              margin-right: 0 !important
+
+      .fc-today-button
+        margin: 0
+        margin-left: 0.5rem
 
       .fc-prev-button,
       .fc-next-button
@@ -112,13 +165,6 @@
       .fc-next-button .fc-icon
         @include icon-font-common
         @extend .icon-arrow-right3
-
-      .fc-addExisting-button
-        &:before
-          @include icon-font-common
-          @extend .icon-add
-          margin-right: 10px
-
 
     thead .fc-scroller
       @include no-visible-scroll-bar

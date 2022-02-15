@@ -31,6 +31,8 @@ import {
 import { StateService } from '@uirouter/angular';
 import resourceTimelinePlugin from '@fullcalendar/resource-timeline';
 import interactionPlugin, {
+  EventDragStartArg,
+  EventDragStopArg,
   EventReceiveArg,
   EventResizeDoneArg,
 } from '@fullcalendar/interaction';
@@ -57,6 +59,7 @@ import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { CalendarDragDropService } from 'core-app/features/team-planner/team-planner/calendar-drag-drop.service';
 import { StatusResource } from 'core-app/features/hal/resources/status-resource';
+import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/resource-changeset';
 
 @Component({
   selector: 'op-team-planner',
@@ -82,7 +85,30 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
 
   @ViewChild('assigneeAutocompleter') assigneeAutocompleter:TemplateRef<unknown>;
 
+  @ViewChild('removeDropzone', { read: ElementRef }) removeDropzone:ElementRef;
+
   calendarOptions$ = new Subject<CalendarOptions>();
+
+  draggingItem$ = new BehaviorSubject<EventDragStartArg|undefined>(undefined);
+
+  dropzoneHovered$ = new BehaviorSubject<boolean>(false);
+
+  dropzoneAllowed$ = this
+    .draggingItem$
+    .pipe(
+      filter((dragging) => !!dragging),
+      map((dragging) => {
+        const workPackage = (dragging as EventDragStartArg).event.extendedProps.workPackage as WorkPackageResource;
+        const durationEditable = this.calendar.eventDurationEditable(workPackage);
+        const resourceEditable = this.eventResourceEditable(workPackage);
+        return durationEditable && resourceEditable;
+      }),
+    );
+
+  dropzone$ = combineLatest([this.draggingItem$, this.dropzoneHovered$, this.dropzoneAllowed$])
+    .pipe(
+      map(([dragging, isHovering, canDrop]) => ({ dragging, isHovering, canDrop })),
+    );
 
   projectIdentifier:string|undefined = undefined;
 
@@ -127,6 +153,8 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     remove_assignee: this.I18n.t('js.team_planner.remove_assignee'),
     noData: this.I18n.t('js.team_planner.no_data'),
     two_weeks: this.I18n.t('js.team_planner.two_weeks'),
+    drag_here_to_remove: this.I18n.t('js.team_planner.drag_here_to_remove'),
+    cannot_drag_here: this.I18n.t('js.team_planner.cannot_drag_here'),
   };
 
   principals$ = this.principalIds$
@@ -253,15 +281,8 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
               day: 'numeric',
             },
             initialView: this.calendar.initialView || 'resourceTimelineWeek',
-            customButtons: {
-              addExisting: {
-                text: this.text.add_existing,
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                click: this.toggleAddExistingPane.bind(this),
-              },
-            },
             headerToolbar: {
-              left: 'addExisting',
+              left: '',
               center: 'title',
               right: 'prev,next today resourceTimelineWeek,resourceTimelineTwoWeeks',
             },
@@ -312,12 +333,22 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
             editable: true,
             droppable: true,
             eventResize: (resizeInfo:EventResizeDoneArg) => this.updateEvent(resizeInfo),
+            eventDragStart: (dragInfo:EventDragStartArg) => {
+              const { el } = dragInfo;
+              el.style.pointerEvents = 'none';
+              this.draggingItem$.next(dragInfo);
+            },
+            eventDragStop: (dragInfo:EventDragStopArg) => {
+              const { el } = dragInfo;
+              el.style.removeProperty('pointer-events');
+              this.draggingItem$.next(undefined);
+            },
             eventDrop: (dropInfo:EventDropArg) => this.updateEvent(dropInfo),
             eventReceive: (dropInfo:EventReceiveArg) => this.updateEvent(dropInfo),
             // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-            eventContent: (data:EventContentArg) => this.renderTemplate(this.eventContent, data.event.extendedProps.workPackage.href, data),
+            eventContent: (data:EventContentArg) => this.renderTemplate(this.eventContent, this.eventId(data), data),
             // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-            eventWillUnmount: (data:EventContentArg) => this.unrenderTemplate(data.event.extendedProps.workPackage.href),
+            eventWillUnmount: (data:EventContentArg) => this.unrenderTemplate(this.eventId(data)),
           } as CalendarOptions),
         );
       });
@@ -334,6 +365,9 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
       .toPromise()
       .then((workPackages:WorkPackageCollectionResource) => {
         const events = this.mapToCalendarEvents(workPackages.elements);
+
+        this.viewLookup.destroyDetached();
+
         successCallback(events);
       })
       .catch(failureCallback);
@@ -342,12 +376,25 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
   }
 
   renderTemplate(template:TemplateRef<unknown>, id:string, data:ResourceLabelContentArg|EventContentArg):{ domNodes:unknown[] } {
+    if (this.isDragggedEvent(id)) {
+      this.viewLookup.markForDestruction(id);
+    }
+
     const ref = this.viewLookup.getView(template, id, data);
     return { domNodes: ref.rootNodes };
   }
 
   unrenderTemplate(id:string):void {
-    this.viewLookup.destroyView(id);
+    this.viewLookup.markForDestruction(id);
+  }
+
+  isDragggedEvent(id:string):boolean {
+    const dragging = this.draggingItem$.getValue();
+    return !!dragging && (dragging.event.extendedProps.workPackage as WorkPackageResource).href === id;
+  }
+
+  eventId(data:EventContentArg):string {
+    return `${data.event.id},dragging=${data.isDragging.toString()}`;
   }
 
   public showAssigneeAddRow():void {
@@ -415,6 +462,20 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     const status = this.statuses.find((el) => el.id === (workPackage.status as StatusResource).id);
 
     return status ? status.isClosed : false;
+  }
+
+  public async removeEvent(item:EventDragStartArg):Promise<void> {
+    // Remove item from view
+    item.el.remove();
+    item.event.remove();
+
+    const workPackage = item.event.extendedProps.workPackage as WorkPackageResource;
+    const changeset = this.halEditing.edit(workPackage);
+    changeset.setValue('assignee', { href: null });
+    changeset.setValue('startDate', null);
+    changeset.setValue('dueDate', null);
+
+    await this.saveChangeset(changeset);
   }
 
   private mapToCalendarEvents(workPackages:WorkPackageResource[]):EventInput[] {
@@ -491,14 +552,17 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     }
 
     this.calendarDrag.handleDrop(changeset.projectedResource);
+    await this.saveChangeset(changeset, info);
+  }
 
+  private async saveChangeset(changeset:ResourceChangeset<WorkPackageResource>, info?:EventResizeDoneArg|EventDropArg|EventReceiveArg) {
     try {
       const result = await this.halEditing.save(changeset);
       this.halNotification.showSave(result.resource, result.wasNew);
     } catch (e) {
       this.halNotification.showError(e.resource, changeset.projectedResource);
       this.calendarDrag.handleDropError(changeset.projectedResource);
-      info.revert();
+      info?.revert();
     }
   }
 
@@ -542,7 +606,6 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
   }
 
   private toggleAddExistingPane():void {
-    document.getElementsByClassName('fc-addExisting-button')[0].classList.toggle('-active');
     this.showAddExistingPane.next(!this.showAddExistingPane.getValue());
   }
 }

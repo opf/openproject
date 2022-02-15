@@ -250,6 +250,7 @@ de:
     enumeration_doc_categories: "Dokumentenkategorien"
     enumeration_work_package_priorities: "Arbeitspaket-Prioritäten"
     filter:
+      more_values_not_shown: "There are %{total} more results, search to filter results."
       description:
         text_open_filter: "Öffnen Sie diesen Filter mittels \"Alt\" und den Pfeiltasten."
         text_close_filter: "Zur Auswahl eines Eintrags fokussieren sie diesen und drücken Sie Enter. Zum Verlassen ohne Filterauswahl, wählen Sie den ersten (leeren) Eintrag aus."

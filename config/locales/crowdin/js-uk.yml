@@ -251,6 +251,7 @@ uk:
     enumeration_doc_categories: "Категорії документів"
     enumeration_work_package_priorities: "Пріоритети робочого пакету"
     filter:
+      more_values_not_shown: "There are %{total} more results, search to filter results."
       description:
         text_open_filter: "Відкрийте цей фільтр за допомогою «ALT» і клавіш зі стрілками."
         text_close_filter: "Щоб вибрати запис - встановіть на ньому фокус, наприклад, натиснувши Enter. Щоб залишити без фільтру - виберіть перший (порожній) елемент."
