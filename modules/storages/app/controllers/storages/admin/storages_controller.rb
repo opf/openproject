@@ -49,17 +49,36 @@ class Storages::Admin::StoragesController < ApplicationController
   end
 
   def new
-    @object = Storages::Storage.new(provider_type: 'nextcloud', name: I18n.t('storages.provider_types.nextcloud'))
+    @object = ::Storages::Storages::SetAttributesService
+                .new(user: current_user,
+                     model: Storages::Storage.new,
+                     contract_class: EmptyContract)
+                .call({ provider_type: 'nextcloud', name: I18n.t('storages.provider_types.nextcloud') })
+                .result
+
     render 'storages/admin/new'
   end
 
   def create
-    combined_params = permitted_storage_params
-                        .to_h
-                        .reverse_merge(creator_id: current_user.id)
+    combined_params = permitted_storage_params.to_h.reverse_merge(creator_id: current_user.id)
+    service_result = Storages::Storages::CreateService.new(user: current_user).call(combined_params)
+    @object = service_result.result
 
-    @object = Storages::Storage.create combined_params
-    redirect_to storage_path(@object)
+    if service_result.success?
+      respond_to do |format|
+        format.html do
+          flash[:notice] = I18n.t(:notice_successful_create)
+          redirect_to storage_path(@object)
+        end
+      end
+    else
+      @errors = service_result.errors
+      respond_to do |format|
+        format.html do
+          render 'storages/admin/new'
+        end
+      end
+    end
   end
 
   def edit
@@ -67,15 +86,39 @@ class Storages::Admin::StoragesController < ApplicationController
   end
 
   def update
-    @object.update permitted_storage_params
+    service_result = ::Storages::Storages::UpdateService
+                       .new(user: current_user,
+                            model: @object)
+                       .call(permitted_storage_params)
 
-    redirect_to storage_path(@object)
+    if service_result.success?
+      respond_to do |format|
+        format.html do
+          flash[:notice] = I18n.t(:notice_successful_update)
+          redirect_to storage_path(@object)
+        end
+      end
+    else
+      respond_to do |format|
+        format.html do
+          render action: :edit
+        end
+      end
+    end
   end
 
   def destroy
-    @object.destroy
+    Storages::Storages::DeleteService
+      .new(user: User.current, model: @object)
+      .call
 
-    redirect_to storages_path
+    flash[:info] = I18n.t(:notice_successful_delete)
+
+    respond_to do |format|
+      format.html do
+        redirect_to storages_path
+      end
+    end
   end
 
   def default_breadcrumb

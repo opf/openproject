@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -26,20 +28,22 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Storages::Storage < ApplicationRecord
-  has_many :file_links, class_name: 'Storages::FileLink'
-  belongs_to :creator, class_name: 'User'
-  has_many :projects_storages, dependent: :destroy, class_name: 'Storages::ProjectStorage'
-  has_many :projects, through: :projects_storages
+module Storages::Storages
+  module Concerns
+    module ManageStoragesGuarded
+      extend ActiveSupport::Concern
 
-  PROVIDER_TYPES = %w[nextcloud].freeze
+      included do
+        validate :validate_user_allowed_to_manage
 
-  validates_uniqueness_of :host
-  validates :name, length: { minimum: 1, maximum: 255 }, allow_nil: false
-  validates_uniqueness_of :name
-  validates :provider_type, inclusion: { in: ->(*) { PROVIDER_TYPES } }, allow_nil: false
+        private
 
-  def visible_to?(user)
-    user.allowed_to_globally?(:view_file_links)
+        def validate_user_allowed_to_manage
+          unless user.admin? && user.active?
+            errors.add :base, :error_unauthorized
+          end
+        end
+      end
+    end
   end
 end

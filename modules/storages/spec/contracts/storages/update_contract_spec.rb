@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -26,20 +27,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Storages::Storage < ApplicationRecord
-  has_many :file_links, class_name: 'Storages::FileLink'
-  belongs_to :creator, class_name: 'User'
-  has_many :projects_storages, dependent: :destroy, class_name: 'Storages::ProjectStorage'
-  has_many :projects, through: :projects_storages
+require 'spec_helper'
+require 'contracts/shared/model_contract_shared_context'
+require_relative 'shared_contract_examples'
 
-  PROVIDER_TYPES = %w[nextcloud].freeze
+describe PlaceholderUsers::UpdateContract do
+  include_context 'ModelContract shared context'
 
-  validates_uniqueness_of :host
-  validates :name, length: { minimum: 1, maximum: 255 }, allow_nil: false
-  validates_uniqueness_of :name
-  validates :provider_type, inclusion: { in: ->(*) { PROVIDER_TYPES } }, allow_nil: false
-
-  def visible_to?(user)
-    user.allowed_to_globally?(:view_file_links)
+  it_behaves_like 'placeholder user contract' do
+    let(:placeholder_user) { build_stubbed(:placeholder_user, name: placeholder_user_name) }
+    let(:contract) { described_class.new(placeholder_user, current_user) }
   end
 end

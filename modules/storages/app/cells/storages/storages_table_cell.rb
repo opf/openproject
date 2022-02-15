@@ -32,11 +32,11 @@ module Storages
 
     def headers
       [
-        ['name', { caption: Storages::Storage.human_attribute_name(:name) }],
+        ['name', { caption: ::Storages::Storage.human_attribute_name(:name) }],
         ['provider_type', { caption: I18n.t('storages.provider_types.label') }],
         ['host', { caption: I18n.t('storages.label_host') }],
         ['creator', { caption: I18n.t('storages.label_creator') }],
-        ['created_at', { caption: Storages::Storage.human_attribute_name(:created_at) }]
+        ['created_at', { caption: ::Storages::Storage.human_attribute_name(:created_at) }]
       ]
     end
   end
