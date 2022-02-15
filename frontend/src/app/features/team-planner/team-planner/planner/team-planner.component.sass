@@ -1,5 +1,8 @@
 @import "helpers"
 
+// This needs to match the resourceAreaWidth in the team planner configuration
+$op-team-planner-resource-width: 180px
+
 \:host
   display: block
   height: 100%
@@ -7,6 +10,8 @@
 
 
 .op-team-planner
+  $block: &
+
   display: grid
   grid-template-columns: auto 1fr
   grid-template-rows: 55px 1fr
@@ -30,12 +35,40 @@
   &--add-existing-toggle
     position: absolute
 
+  &--footer
+    grid-area: footer
+    display: flex
+    margin-top: 1rem
+
+  &--add-assignee
+    width: $op-team-planner-resource-width
+    border-right: 1px solid transparent
+
+  &--remove-dropzone
+    flex: 1
+    border: 1px dashed #1A67A3
+    box-sizing: border-box
+
+    display: flex
+    align-items: center
+    justify-content: center
+
+    &_active
+      background: #D1E5F5
+
+    &_forbidden
+      border-color: var(--content-form-danger-zone-bg-color)
+
+      #{$block}--dropzone-label
+        color: var(--content-form-danger-zone-bg-color)
+
+
+  &--dropzone-label
+    color: #1A67A3
+
   &--no-data
     min-height: 250px
     background-color: #F3F3F3
     display: flex
     justify-content: center
     align-items: center
-
-.tp-assignee-add-button
-  margin-top: 1rem
