@@ -29,14 +29,13 @@
 #++
 
 require 'spec_helper'
-require_relative '../support/pages/calendar'
 
 describe 'Calendar project include', type: :feature, js: true do
-  let(:calendar) { ::Pages::Calendar.new project }
   let(:dropdown) { ::Components::ProjectIncludeComponent.new }
+  let(:wp_table) { Pages::WorkPackagesTable.new(project) }
 
   let!(:project) do
-    create(:project, enabled_module_names: %w[work_package_tracking calendar_view])
+    create(:project, enabled_module_names: %w[work_package_tracking])
   end
   let!(:sub_project) do
     create(:project, parent: project, enabled_module_names: %w[work_package_tracking])
@@ -53,7 +52,6 @@ describe 'Calendar project include', type: :feature, js: true do
            member_in_projects: [project, sub_project, sub_sub_project, other_project],
            member_with_permissions: %w[
              view_work_packages edit_work_packages add_work_packages
-             view_calendar
              save_queries manage_public_queries
            ]
   end
@@ -131,7 +129,7 @@ describe 'Calendar project include', type: :feature, js: true do
     other_project.types << type_task
 
     login_as current_user
-    calendar.visit!
+    wp_table.visit!
   end
 
   it 'can add and remove projects' do
@@ -296,34 +294,28 @@ describe 'Calendar project include', type: :feature, js: true do
     dropdown.click_button 'Apply'
     dropdown.expect_closed
 
-    calendar.expect_event task
-    calendar.expect_event sub_bug, present: false
-    calendar.expect_event sub_sub_bug, present: false
-    calendar.expect_event other_task
-    calendar.expect_event other_other_task, present: false
+    wp_table.expect_work_package_listed(task, other_task)
+    wp_table.ensure_work_package_not_listed!(sub_bug, sub_sub_bug, other_other_task)
 
     dropdown.toggle!
     dropdown.toggle_checkbox(sub_sub_project.id)
     dropdown.click_button 'Apply'
     dropdown.expect_count 2
 
-    calendar.expect_event sub_bug, present: false
-    calendar.expect_event sub_sub_bug
+    wp_table.expect_work_package_listed(task, other_task, sub_sub_bug)
+    wp_table.ensure_work_package_not_listed!(sub_bug, other_other_task)
 
     dropdown.toggle!
     dropdown.toggle_checkbox(other_project.id)
     dropdown.click_button 'Apply'
     dropdown.expect_count 3
 
-    calendar.expect_event other_task
-    calendar.expect_event other_other_task
+    wp_table.expect_work_package_listed(task, other_task, sub_sub_bug, other_other_task)
+    wp_table.ensure_work_package_not_listed!(sub_bug)
 
     page.refresh
 
-    calendar.expect_event task
-    calendar.expect_event sub_bug, present: false
-    calendar.expect_event sub_sub_bug
-    calendar.expect_event other_task
-    calendar.expect_event other_other_task
+    wp_table.expect_work_package_listed(task, other_task, sub_sub_bug, other_other_task)
+    wp_table.ensure_work_package_not_listed!(sub_bug)
   end
 end
