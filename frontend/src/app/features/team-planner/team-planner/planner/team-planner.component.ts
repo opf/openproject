@@ -62,6 +62,8 @@ import { StatusResource } from 'core-app/features/hal/resources/status-resource'
 import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/resource-changeset';
 import { KeepTabService } from 'core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service';
 import { HalError } from 'core-app/features/hal/services/hal-error';
+import { ActionsService } from 'core-app/core/state/actions/actions.service';
+import { teamPlannerEventRemoved } from 'core-app/features/team-planner/team-planner/planner/team-planner.actions';
 
 @Component({
   selector: 'op-team-planner',
@@ -187,6 +189,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     readonly apiV3Service:ApiV3Service,
     readonly calendarDrag:CalendarDragDropService,
     readonly keepTab:KeepTabService,
+    readonly actions$:ActionsService,
   ) {
     super();
   }
@@ -491,6 +494,8 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     changeset.setValue('dueDate', null);
 
     await this.saveChangeset(changeset);
+
+    this.actions$.dispatch(teamPlannerEventRemoved({ workPackage: workPackage.id as string }));
   }
 
   private mapToCalendarEvents(workPackages:WorkPackageResource[]):EventInput[] {
