@@ -23,7 +23,9 @@
       border: none
       cursor: unset
 
-    .fc-day-today
+    // Note the greater specificity than the standard background colours
+    tbody td.fc-day-today,
+    thead th.fc-day-today
       background: rgb(255 255 120 / 20%)
 
     td.fc-day-sat,
