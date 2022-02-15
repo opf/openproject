@@ -31,12 +31,8 @@
 require 'spec_helper'
 require_relative './shared_context'
 
-describe 'Team planner project include', type: :feature, js: true do
-  before do
-    with_enterprise_token(:team_planner_view)
-  end
-
-  include_context 'with team planner full access'
+describe 'Calendar project include', type: :feature, js: true do
+  include_context 'with calendar full access'
 
   let(:dropdown) do
     ::Components::ProjectIncludeComponent.new 
@@ -70,6 +66,11 @@ describe 'Team planner project include', type: :feature, js: true do
   end
 
   let!(:user_outside_project) { create :user, firstname: 'Not', lastname: 'In Project' }
+
+  before do
+    login_as current_user
+    calendar.visit!
+  end
 
   context 'with an assigned work package' do
     let(:type_task) { create :type_task }
@@ -127,8 +128,6 @@ describe 'Team planner project include', type: :feature, js: true do
       project.types << type_task
       other_project.types << type_bug
       other_project.types << type_task
-
-      team_planner.visit!
     end
 
     it 'can add and remove projects' do
@@ -287,69 +286,39 @@ describe 'Team planner project include', type: :feature, js: true do
     it 'correctly filters work packages by project' do
       dropdown.expect_count 1
 
-      team_planner.expect_empty_state
-      team_planner.expect_assignee(user, present: false)
-      team_planner.expect_assignee(other_user, present: false)
+      # Do this once so the project filter is actually set
+      dropdown.toggle!
+      dropdown.click_button 'Apply'
 
-      retry_block do
-        team_planner.click_add_user
-        page.find('[data-qa-selector="tp-add-assignee"] input')
-        team_planner.select_user_to_add user.name
-      end
-
-      retry_block do
-        team_planner.click_add_user
-        page.find('[data-qa-selector="tp-add-assignee"] input')
-        team_planner.select_user_to_add other_user.name
-      end
-
-      team_planner.expect_assignee user
-      team_planner.expect_assignee other_user
-
-      team_planner.within_lane(user) do
-        team_planner.expect_event task
-        team_planner.expect_event sub_bug, present: false
-        team_planner.expect_event sub_sub_bug, present: false
-      end
-
-      team_planner.within_lane(other_user) do
-        team_planner.expect_event other_task
-        team_planner.expect_event other_other_task, present: false
-      end
+      calendar.expect_event task
+      calendar.expect_event sub_bug, present: false
+      calendar.expect_event sub_sub_bug, present: false
+      calendar.expect_event other_task
+      calendar.expect_event other_other_task, present: false
 
       dropdown.toggle!
       dropdown.toggle_checkbox(sub_sub_project.id)
       dropdown.click_button 'Apply'
       dropdown.expect_count 2
 
-      team_planner.within_lane(user) do
-        team_planner.expect_event task
-        team_planner.expect_event sub_bug, present: false
-        team_planner.expect_event sub_sub_bug
-      end
+      calendar.expect_event sub_bug, present: false
+      calendar.expect_event sub_sub_bug
 
       dropdown.toggle!
       dropdown.toggle_checkbox(other_project.id)
       dropdown.click_button 'Apply'
       dropdown.expect_count 3
 
-      team_planner.within_lane(other_user) do
-        team_planner.expect_event other_task
-        team_planner.expect_event other_other_task
-      end
+      calendar.expect_event other_task
+      calendar.expect_event other_other_task
 
       page.refresh
 
-      team_planner.within_lane(other_user) do
-        team_planner.expect_event other_task
-        team_planner.expect_event other_other_task, present: false
-      end
-
-      team_planner.within_lane(user) do
-        team_planner.expect_event task
-        team_planner.expect_event sub_bug, present: false
-        team_planner.expect_event sub_sub_bug
-      end
+      calendar.expect_event task
+      calendar.expect_event sub_bug, present: false
+      calendar.expect_event sub_sub_bug
+      calendar.expect_event other_task
+      calendar.expect_event other_other_task
     end
   end
 end
