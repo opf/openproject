@@ -43,9 +43,13 @@ module API
                       self_path: -> { api_v3_paths.file_links(params[:id]) })
                  .mount
 
-          post do
-            raise ::API::Errors::NotImplemented
-          end
+          post &CreateEndpoint
+            .new(
+              model: ::Storages::FileLink,
+              parse_service: ParseCreateParamsService,
+              render_representer: FileLinkCollectionRepresenter
+            )
+            .mount
 
           route_param :file_link_id, type: Integer, desc: 'File link id' do
             after_validation do

@@ -43,7 +43,9 @@ module API
                  exec_context: :decorator,
                  getter: ->(*) { make_origin_data(represented) },
                  setter: ->(fragment:, **) do
-                   represented.assign_attributes(parse_origin_data(fragment))
+                   parse_origin_data(fragment).each do |attribute, value|
+                     represented[attribute] = value
+                   end
                  end
 
         link :self do

@@ -198,6 +198,10 @@ module API
             "#{root}/custom_options/#{id}"
           end
 
+          def self.file_links_by_work_package(id)
+            "#{work_package(id)}/file_links"
+          end
+
           index :help_text
           show :help_text
 
@@ -504,7 +508,7 @@ module API
               groupBy: group_by,
               pageSize: page_size,
               offset: offset
-            }.reject { |_, v| v.blank? }
+            }.compact_blank
 
             if query_params.any?
               "#{send(path)}?#{query_params.to_query}"

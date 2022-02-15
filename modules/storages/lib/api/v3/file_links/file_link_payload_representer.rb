@@ -29,7 +29,8 @@
 module API
   module V3
     module FileLinks
-      class FileLinkCollectionRepresenter < ::API::Decorators::UnpaginatedCollection
+      class FileLinkPayloadRepresenter < FileLinkRepresenter
+        include ::API::Utilities::PayloadRepresenter
       end
     end
   end
