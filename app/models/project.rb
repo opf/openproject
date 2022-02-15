@@ -34,6 +34,7 @@ class Project < ApplicationRecord
 
   include Projects::Storage
   include Projects::Activity
+  include Projects::Hierarchy
   include Projects::AncestorsFromRoot
   include ::Scopes::Scoped
 
@@ -88,8 +89,6 @@ class Project < ApplicationRecord
   has_one :status, class_name: 'Projects::Status', dependent: :destroy
   has_many :budgets, dependent: :destroy
   has_many :notification_settings, dependent: :destroy
-
-  acts_as_nested_set order_column: :name, dependent: :destroy
 
   acts_as_customizable
   acts_as_searchable columns: %W(#{table_name}.name #{table_name}.identifier #{table_name}.description),

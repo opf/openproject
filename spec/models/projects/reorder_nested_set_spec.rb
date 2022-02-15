@@ -28,35 +28,29 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Queries::Projects
-  filters = ::Queries::Projects::Filters
-  orders = ::Queries::Projects::Orders
-  query = ::Queries::Projects::ProjectQuery
+require 'spec_helper'
 
-  ::Queries::Register.register do
-    filter query, filters::AncestorFilter
-    filter query, filters::TypeFilter
-    filter query, filters::ActiveFilter
-    filter query, filters::TemplatedFilter
-    filter query, filters::PublicFilter
-    filter query, filters::NameAndIdentifierFilter
-    filter query, filters::TypeaheadFilter
-    filter query, filters::CustomFieldFilter
-    filter query, filters::CreatedAtFilter
-    filter query, filters::LatestActivityAtFilter
-    filter query, filters::PrincipalFilter
-    filter query, filters::ParentFilter
-    filter query, filters::IdFilter
-    filter query, filters::ProjectStatusFilter
-    filter query, filters::UserActionFilter
-    filter query, filters::VisibleFilter
+describe Project, 'reordering of nested set', type: :model do
+  shared_let(:parent_project) { create :project, name: 'Parent' }
 
-    order query, orders::DefaultOrder
-    order query, orders::LatestActivityAtOrder
-    order query, orders::RequiredDiskSpaceOrder
-    order query, orders::CustomFieldOrder
-    order query, orders::ProjectStatusOrder
-    order query, orders::NameOrder
-    order query, orders::TypeaheadOrder
+  # Create some children in non-alphabetical order
+  shared_let(:child_a) { create :project, name: 'A', parent: parent_project }
+  shared_let(:child_f) { create :project, name: 'F', parent: parent_project }
+  shared_let(:child_b) { create :project, name: 'B', parent: parent_project }
+
+  subject { parent_project.children.reorder(:lft) }
+
+  it 'has the correct sort' do
+    expect(subject.reload.pluck(:name)).to eq %w[A B F]
+  end
+
+  context 'when renaming a child' do
+    before do
+      child_a.update! name: 'Z'
+    end
+
+    it 'updates that order' do
+      expect(subject.reload.pluck(:name)).to eq %w[B F Z]
+    end
   end
 end

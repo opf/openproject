@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -28,35 +26,31 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Queries::Projects
-  filters = ::Queries::Projects::Filters
-  orders = ::Queries::Projects::Orders
-  query = ::Queries::Projects::ProjectQuery
+require 'spec_helper'
 
-  ::Queries::Register.register do
-    filter query, filters::AncestorFilter
-    filter query, filters::TypeFilter
-    filter query, filters::ActiveFilter
-    filter query, filters::TemplatedFilter
-    filter query, filters::PublicFilter
-    filter query, filters::NameAndIdentifierFilter
-    filter query, filters::TypeaheadFilter
-    filter query, filters::CustomFieldFilter
-    filter query, filters::CreatedAtFilter
-    filter query, filters::LatestActivityAtFilter
-    filter query, filters::PrincipalFilter
-    filter query, filters::ParentFilter
-    filter query, filters::IdFilter
-    filter query, filters::ProjectStatusFilter
-    filter query, filters::UserActionFilter
-    filter query, filters::VisibleFilter
+describe Projects::ReorderChildrenJob, type: :model do
+  subject(:job) { described_class.perform_now }
 
-    order query, orders::DefaultOrder
-    order query, orders::LatestActivityAtOrder
-    order query, orders::RequiredDiskSpaceOrder
-    order query, orders::CustomFieldOrder
-    order query, orders::ProjectStatusOrder
-    order query, orders::NameOrder
-    order query, orders::TypeaheadOrder
+  shared_let(:parent_project) { create(:project, name: 'Parent') }
+
+  shared_let(:child_a) { create :project, name: 'A', parent: parent_project }
+  shared_let(:child_b) { create :project, name: 'B', parent: parent_project }
+  shared_let(:child_c) { create :project, name: 'C', parent: parent_project }
+
+  let(:ordered) { parent_project.children.reorder(:lft) }
+
+  before do
+    # Update the names
+    child_a.update_column(:name, 'Second')
+    child_b.update_column(:name, 'Third')
+    child_c.update_column(:name, 'First')
+  end
+
+  it 'corrects the order' do
+    expect(ordered.pluck(:name)).to eq %w[Second Third First]
+
+    subject
+
+    expect(ordered.reload.pluck(:name)).to eq %w[First Second Third]
   end
 end

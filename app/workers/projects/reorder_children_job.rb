@@ -28,35 +28,44 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Queries::Projects
-  filters = ::Queries::Projects::Filters
-  orders = ::Queries::Projects::Orders
-  query = ::Queries::Projects::ProjectQuery
+module Projects
+  class ReorderChildrenJob < ApplicationJob
+    def perform
+      Rails.logger.info { "Resorting siblings by name in the project's nested set." }
+      Project.transaction { reorder! }
+    end
 
-  ::Queries::Register.register do
-    filter query, filters::AncestorFilter
-    filter query, filters::TypeFilter
-    filter query, filters::ActiveFilter
-    filter query, filters::TemplatedFilter
-    filter query, filters::PublicFilter
-    filter query, filters::NameAndIdentifierFilter
-    filter query, filters::TypeaheadFilter
-    filter query, filters::CustomFieldFilter
-    filter query, filters::CreatedAtFilter
-    filter query, filters::LatestActivityAtFilter
-    filter query, filters::PrincipalFilter
-    filter query, filters::ParentFilter
-    filter query, filters::IdFilter
-    filter query, filters::ProjectStatusFilter
-    filter query, filters::UserActionFilter
-    filter query, filters::VisibleFilter
+    private
 
-    order query, orders::DefaultOrder
-    order query, orders::LatestActivityAtOrder
-    order query, orders::RequiredDiskSpaceOrder
-    order query, orders::CustomFieldOrder
-    order query, orders::ProjectStatusOrder
-    order query, orders::NameOrder
-    order query, orders::TypeaheadOrder
+    def reorder!
+      Project
+        .where(id: unique_parent_ids)
+        .find_each(&method(:reorder_children))
+    end
+
+    def unique_parent_ids
+      Project
+        .where.not(parent_id: nil)
+        .select(:parent_id)
+        .distinct
+    end
+
+    def reorder_children(parent)
+      return unless parent.children.many?
+
+      # Resort children manually
+      sorted = parent.children.sort_by(&:name)
+
+      # Get the current first child
+      first = parent.children.first
+
+      sorted.each_with_index do |child, i|
+        if i == 0
+          child.move_to_left_of(first) unless child == first
+        else
+          child.move_to_right_of(sorted[i - 1])
+        end
+      end
+    end
   end
 end
