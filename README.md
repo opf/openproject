@@ -165,6 +165,17 @@ PATH
 
 > **Note:** Use version 2.0.3 if you want to capture the events as comments and see the new UI Tab with the linked Merge Requests.
 
+And add this other line in DEPENDENCIES section:
+
+```
+DEPENDENCIES
+...
+  openproject-github_integration!
+  openproject-gitlab_integration!
+  openproject-job_status!
+...
+```
+
 Add the following in **Gemfile.modules**:
 
 ```
