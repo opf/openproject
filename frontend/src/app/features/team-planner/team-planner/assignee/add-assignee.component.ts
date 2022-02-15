@@ -78,11 +78,19 @@ export class AddAssigneeComponent {
         take(1),
         map((queryFilters) => {
           const projectFilter = queryFilters.find((queryFilter) => queryFilter._type === 'ProjectQueryFilter');
-          const selectedProjectIds = ((projectFilter?.values || []) as HalResource[]).map((p) => p.id);
-          const currentProjectId = this.currentProjectService.apiv3Path;
-          if (!selectedProjectIds.includes(currentProjectId)) {
-            selectedProjectIds.push(currentProjectId);
-          }
+
+          const selectedProjectIds = (() => {
+            const baseList = ((projectFilter?.values || []) as HalResource[]).map((p) => p.id);
+            const currentProjectId = this.currentProjectService.id;
+            if (baseList.includes(currentProjectId)) {
+              return [...baseList];
+            }
+
+            return [
+              ...baseList,
+              currentProjectId,
+            ];
+          })();
 
           const filters = new ApiV3FilterBuilder();
 
