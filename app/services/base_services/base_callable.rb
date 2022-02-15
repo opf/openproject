@@ -39,7 +39,7 @@ module BaseServices
       self.params = params.first.to_h.deep_symbolize_keys
 
       run_callbacks(:call) do
-        perform(**(params.first || {}).to_h.deep_symbolize_keys)
+        perform(**self.params)
       end
     end
 
