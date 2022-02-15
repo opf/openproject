@@ -35,10 +35,12 @@ import { Injectable } from '@angular/core';
 import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
 import {
   ApiV3Filter,
+  ApiV3FilterBuilder,
   FilterOperator,
 } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import { PaginationService } from 'core-app/shared/components/table-pagination/pagination-service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { QueryFilterResource } from 'core-app/features/hal/resources/query-filter-resource';
 
 export interface QueryPropsFilter {
   n:string;
@@ -381,6 +383,20 @@ export class UrlParamsHelperService {
     return newFilters;
   }
 
+  public filterBuilderFrom(filters:QueryFilterInstanceResource[]) {
+    const builder:ApiV3FilterBuilder = new ApiV3FilterBuilder();
+
+    filters.forEach((filter:QueryFilterInstanceResource) => {
+      const id = this.buildV3GetFilterIdFromFilter(filter);
+      const operator = this.buildV3GetOperatorIdFromFilter(filter) as FilterOperator;
+      const values = this.buildV3GetValuesFromFilter(filter)
+
+      builder.add(id, operator, values);
+    });
+
+    return builder;
+  }
+
   public buildV3GetFiltersAsJson(filter:QueryFilterInstanceResource[], contextual = {}) {
     return JSON.stringify(this.buildV3GetFilters(filter, contextual));
   }
@@ -391,6 +407,13 @@ export class UrlParamsHelperService {
     return this.idFromHref(href);
   }
 
+  public buildV3GetValuesFromFilter(filter:QueryFilterInstanceResource|QueryFilterResource) {
+    if (filter.values) {
+      return _.map(filter.values, (v:any) => this.queryFilterValueToParam(v));
+    }
+    return _.map(filter._links.values, (v:any) => this.idFromHref(v.href));
+  }
+
   private buildV3GetOperatorIdFromFilter(filter:QueryFilterInstanceResource) {
     if (filter.operator) {
       return filter.operator.id || idFromLink(filter.operator.href);
@@ -398,13 +421,6 @@ export class UrlParamsHelperService {
     const { href } = filter._links.operator;
 
     return this.idFromHref(href);
-  }
-
-  private buildV3GetValuesFromFilter(filter:QueryFilterInstanceResource) {
-    if (filter.values) {
-      return _.map(filter.values, (v:any) => this.queryFilterValueToParam(v));
-    }
-    return _.map(filter._links.values, (v:any) => this.idFromHref(v.href));
   }
 
   private buildV3GetSortByFromQuery(query:QueryResource) {

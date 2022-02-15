@@ -30,6 +30,7 @@
 
 require 'spec_helper'
 require_relative './shared_context'
+require_relative '../support/components/add_existing_pane'
 
 describe 'Team planner remove event', type: :feature, js: true do
   include_context 'with team planner full access'
@@ -90,5 +91,25 @@ describe 'Team planner remove event', type: :feature, js: true do
   it 'can remove one of the work packages' do
     team_planner.drag_to_remove_dropzone non_removable_wp, expect_removable: false
     team_planner.drag_to_remove_dropzone removable_wp, expect_removable: true
+  end
+
+  context 'with the add existing open searching for the task' do
+    let(:add_existing_pane) { ::Components::AddExistingPane.new }
+
+    it 'the removed task shows up again' do
+      # Open the left hand pane
+      add_existing_pane.open
+      add_existing_pane.expect_empty
+
+      # Search for the task, expect empty
+      add_existing_pane.search 'task'
+      add_existing_pane.expect_empty
+
+      # Remove the task
+      team_planner.drag_to_remove_dropzone removable_wp, expect_removable: true
+
+      # Should show up in add existing
+      add_existing_pane.expect_result removable_wp
+    end
   end
 end

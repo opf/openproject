@@ -37,6 +37,11 @@ module Components
       "[data-qa-selector='add-existing-pane']"
     end
 
+    def open
+      page.find('[data-qa-selector="op-team-planner--add-existing-toggle"]').click
+      expect_open
+    end
+
     def expect_open
       expect(page).to have_selector(selector)
     end
@@ -54,8 +59,13 @@ module Components
     end
 
     def expect_result(work_package, visible: true)
-      expect(page)
-        .to have_conditional_selector(visible, "[data-qa-selector='op-add-existing-pane--wp-#{work_package.id}']")
+      if visible
+        expect(page)
+          .to have_selector("[data-qa-selector='op-add-existing-pane--wp-#{work_package.id}']", wait: 10)
+      else
+        expect(page)
+          .to have_no_selector("[data-qa-selector='op-add-existing-pane--wp-#{work_package.id}']")
+      end
     end
 
     def drag_wp_by_pixel(work_package, by_x, by_y)
