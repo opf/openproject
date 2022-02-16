@@ -87,6 +87,8 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
 
   @ViewChild('removeDropzone', { read: ElementRef }) removeDropzone:ElementRef;
 
+  @ViewChild('addExistingToggle', { read: ElementRef }) addExistingToggle:ElementRef;
+
   calendarOptions$ = new Subject<CalendarOptions>();
 
   draggingItem$ = new BehaviorSubject<EventDragStartArg|undefined>(undefined);
@@ -607,5 +609,6 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
 
   private toggleAddExistingPane():void {
     this.showAddExistingPane.next(!this.showAddExistingPane.getValue());
+    (this.addExistingToggle.nativeElement as HTMLElement).blur();
   }
 }

@@ -5,7 +5,9 @@
     *ngIf="(calendarOptions$ | async) as calendarOptions"
   >
     <button
+      #addExistingToggle
       class="button op-team-planner--add-existing-toggle"
+      [ngClass]="{'-active': (showAddExistingPane | async)}"
       data-qa-selector="op-team-planner--add-existing-toggle"
       (click)="toggleAddExistingPane()">
       <op-icon icon-classes="icon-add button--icon"></op-icon>
