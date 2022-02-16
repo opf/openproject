@@ -11,6 +11,8 @@ cs:
       add_assignee: 'Přidat řešitele'
       remove_assignee: 'Odstranit řešitele'
       two_weeks: '2 týdny'
+      drag_here_to_remove: 'Drag here to remove assignee and start and end dates.'
+      cannot_drag_here: 'Cannot remove the work package due to permissions or editing restrictions.'
       quick_add:
         empty_state: 'Použijte vyhledávací pole pro nalezení pracovních balíčků a přetáhněte je do plánovače, aby někomu přiřadil a definoval datum začátku a konce.'
         search_placeholder: 'Hledat...'

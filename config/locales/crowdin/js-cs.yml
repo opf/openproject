@@ -697,7 +697,7 @@ cs:
       change_parent: "Změnit nadřazený"
       remove_parent: "Odstranit nadřazený"
       hierarchy_indent: "Přisadit hierarchii"
-      hierarchy_outdent: "Přisadit hierarchii"
+      hierarchy_outdent: "Odsadit hierarchii"
       group_by_wp_type: "Seskupit podle typu pracovního balíčku"
       group_by_relation_type: "Seskupit podle typu vztahu"
       add_parent: "Přidat existujícího rodiče"
