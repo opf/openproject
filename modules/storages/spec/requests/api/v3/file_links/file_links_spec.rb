@@ -171,6 +171,7 @@ describe 'API v3 file links resource', type: :request do
 
     it 'is successful' do
       expect(subject.status).to be 204
+      expect(::Storages::FileLink.exists?(id: file_link.id)).to be false
     end
 
     context 'if user has no view permissions' do
