@@ -91,7 +91,7 @@ You can see a list of possible options [here](https://github.com/m0n9oose/omniau
 
 There are a number of known providers where the endpoints are configured automatically based on the provider name in the configuration. All that is required are the client ID (identifier) and secret in that case.
 
-If you want to configure multiple connections using the same provider you can prefix an arbitary name with the
+If you want to configure multiple connections using the same provider you can prefix an arbitrary name with the
 provider name followed by a period. For instance, if you want to configure 2 AzureAD connections and 1 Google connection it would look like this:
 
 ```

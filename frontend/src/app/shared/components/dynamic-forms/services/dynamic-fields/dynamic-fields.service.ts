@@ -211,7 +211,7 @@ export class DynamicFieldsService {
 
     if (!inputType) {
       console.warn(
-        `Could not find a input definition for a field with the folowing type: ${fieldType}. The full field configuration is`, field,
+        `Could not find a input definition for a field with the following type: ${fieldType}. The full field configuration is`, field,
       );
       return null;
     }

@@ -222,7 +222,7 @@ export class TopMenu {
   }
 
   // If there is ANY input, it will have precedence over links,
-  // i.e. links will only get focussed, if there is NO input whatsoever
+  // i.e. links will only get focused, if there is NO input whatsoever
   focusFirstInputOrLink(dropdown:JQuery) {
     let toFocus = dropdown.find('ul :input:visible:first');
     if (toFocus.length === 0) {

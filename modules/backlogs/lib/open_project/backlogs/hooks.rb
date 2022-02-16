@@ -44,7 +44,7 @@ module OpenProject::Backlogs::Hooks
                            { controller: '/rb_wikis', action: 'edit', project_id: project.id, sprint_id: version.id }, class: 'icon icon-edit'
         snippet += '</span>'
 
-        # This wouldn't be necesary if the schedules plugin didn't disable the
+        # This wouldn't be necessary if the schedules plugin didn't disable the
         # contextual hook
         snippet += context[:hook_caller].nonced_javascript_tag(<<-JS)
           (function ($) {
