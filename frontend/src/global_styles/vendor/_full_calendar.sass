@@ -123,6 +123,7 @@
     // ------------------------ BEGIN: Calendar toolbar ------------------------
     .fc-toolbar-title
       font-size: 16px
+      padding-bottom: 0
 
     .fc-header-toolbar.fc-toolbar .fc-toolbar-chunk
       .fc-button
@@ -135,16 +136,18 @@
         &:focus
           box-shadow: none
 
-        // ensure to have higher specificity than above extend
-        .fc-button-group
-          .fc-button
-            margin-right: 0
-            margin-bottom: 0
-            padding: 0.4em 0.65em
+      // ensure to have higher specificity than above extend
+      .fc-button-group
+        margin-left: 8px
+        .fc-button
+          margin-right: 0
+          margin-bottom: 0
+          padding: 0.4em 0.65em
 
-            &.fc-button-active
-              @extend .button, .-active
-              margin-right: 0 !important
+          &.fc-button-active
+            @extend .button, .-active
+            margin-right: 0 !important
+            margin-bottom: 0 !important
 
       .fc-today-button
         margin: 0

@@ -1,5 +1,6 @@
 <div
   class="op-team-planner"
+  [ngClass]="{'op-team-planner_with_left_side_pane' : (showAddExistingPane | async)}"
 >
   <ng-container
     *ngIf="(calendarOptions$ | async) as calendarOptions"
