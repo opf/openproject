@@ -37,7 +37,7 @@ You can configure the following options.
 1. Navigate to your GCP console.  (https://console.cloud.google.com/)
 2. Go to **APIs & Services** > OAuth consent screen.
 
-![image-20220215095201951](/home/ant0n/.config/Typora/typora-user-images/image-20220215095201951.png)
+![g1-apis-and-services-oauth-consent-screen](g1-apis-and-services-oauth-consent-screen.png)
 
 
 
@@ -49,7 +49,7 @@ You can configure the following options.
    5. **Developer Contact information** (e.g.  developer@example.com)
    6. Click **SAVE AND CONTINUE** to proceed.
 
-![image-20220215095953811](/home/ant0n/.config/Typora/typora-user-images/image-20220215095953811.png)
+![g2-edit-app-registration](g2-edit-app-registration.png)
 
 4. **Scopes** - Press **SAVE AND CONTINUE**
 5. **Summary** - Press **SAVE AND CONTINUE**
@@ -60,7 +60,7 @@ You can configure the following options.
 
 1. Under **APIs & Services**, go to **Credentials**.
 
-![image-20220215102049207](/home/ant0n/.config/Typora/typora-user-images/image-20220215102049207.png)
+![g3-apis-and-services-credentials](g3-apis-and-services-credentials.png)
 
 2. Click **Create Credentials** and select **OAuth Client ID**.
 
@@ -72,14 +72,14 @@ You can configure the following options.
 
    4. Click **CREATE** or **SAVE** .
 
-![image-20220215102234492](/home/ant0n/.config/Typora/typora-user-images/image-20220215102234492.png)
+![g4-create-credentials-oauth-client-id](g4-create-credentials-oauth-client-id.png)
 
 After pressing **CREATE** you will get a pop-up window like the following
 
 - Note **Client ID**
 - Note **Client Secret**
 
-![image-20220215102658395](/home/ant0n/.config/Typora/typora-user-images/image-20220215102658395.png)
+![g5-oauth-client-created](g5-oauth-client-created.png)
 
 
 
@@ -93,15 +93,11 @@ After pressing **CREATE** you will get a pop-up window like the following
    4. **Secret** (**Client Secret** from step 2)
 3. Press **Create**
 
-![image-20220215103036615](/home/ant0n/.config/Typora/typora-user-images/image-20220215103036615.png)
+![g6-add-new-openid-provider-google](g6-add-new-openid-provider-google.png)
 
 4. The following green notification **Successful creation** should appear
 
-![image-20220215103344744](/home/ant0n/.config/Typora/typora-user-images/image-20220215103344744.png)
-
-
-
-
+![g7-successful-creation-google](g7-successful-creation-google.png)
 
 
 
