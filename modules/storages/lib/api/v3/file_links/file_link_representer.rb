@@ -76,6 +76,13 @@ module API
           }
         end
 
+        link :openLocation do
+          {
+            href: ::Storages::StorageUrlService.new(represented).call('open').result,
+            method: :get
+          }
+        end
+
         link :staticOpenLocation do
           {
             href: api_v3_paths.file_link_open(represented.container_id, represented.id),
@@ -83,9 +90,16 @@ module API
           }
         end
 
-        # TODO: add download and open location
-
         associated_resource :storage
+
+        associated_resource :storageUrl,
+                            skip_render: ->(*) { true },
+                            getter: ->(*) {},
+                            setter: ->(fragment:, **) {
+                              # TODO: canonize url correctly
+                              canonical_url = fragment['href']
+                              represented.storage = ::Storages::Storage.find_by(host: canonical_url)
+                            }
 
         associated_resource :container,
                             v3_path: :work_package,

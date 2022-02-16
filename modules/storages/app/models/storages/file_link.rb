@@ -37,4 +37,8 @@ class Storages::FileLink < ApplicationRecord
       .references(:projects)
       .merge(Project.allowed_to(user, :view_file_links))
   }
+
+  def name
+    origin_name
+  end
 end

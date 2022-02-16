@@ -96,7 +96,7 @@ describe 'API v3 file links resource', type: :request do
               },
               _links: {
                 storageUrl: {
-                  href: "https://nextcloud.deathstar.rocks/"
+                  href: storage.host
                 }
               }
             },
@@ -112,7 +112,7 @@ describe 'API v3 file links resource', type: :request do
               },
               _links: {
                 storageUrl: {
-                  href: "https://nextcloud.deathstar.rocks/"
+                  href: storage.host
                 }
               }
             }
@@ -126,13 +126,55 @@ describe 'API v3 file links resource', type: :request do
       post path, params.to_json
     end
 
-    it 'returns ok created' do
-      expect(response.status).to eq(201)
-    end
-
     it_behaves_like 'API V3 collection response', 2, 2, 'FileLink' do
       let(:elements) { Storages::FileLink.all.order(id: :asc) }
       let(:expected_status_code) { 201 }
+    end
+
+    context 'if the request body contains an invalid storage host' do
+      let(:params) do
+        {
+          _type: "Collection",
+          _embedded: {
+            elements: [
+              {
+                originData: {
+                  id: 5503,
+                  name: "logo.png",
+                  mimeType: "image/png",
+                  createdAt: "2021-12-19T09:42:10.170Z",
+                  lastModifiedAt: "2021-12-20T14:00:13.987Z",
+                  createdByName: "Luke Skywalker",
+                  lastModifiedByName: "Anakin Skywalker"
+                },
+                _links: {
+                  storageUrl: {
+                    href: 'https://invalid.host.org/'
+                  }
+                }
+              },
+              {
+                originData: {
+                  id: 5503,
+                  name: "logo2.png",
+                  mimeType: "image/png",
+                  createdAt: "2021-12-19T09:42:10.170Z",
+                  lastModifiedAt: "2021-12-20T14:00:13.987Z",
+                  createdByName: "Luke Skywalker",
+                  lastModifiedByName: "Anakin Skywalker"
+                },
+                _links: {
+                  storageUrl: {
+                    href: storage.host
+                  }
+                }
+              }
+            ]
+          }
+        }
+      end
+
+      it_behaves_like 'invalid request body'
     end
   end
 
@@ -212,8 +254,20 @@ describe 'API v3 file links resource', type: :request do
       get path
     end
 
-    it 'returns not implemented' do
-      expect(subject.status).to be 501
+    it 'is successful' do
+      expect(subject.status).to be 303
+    end
+
+    context 'if user has no view permissions' do
+      let(:permissions) { %i(view_work_packages) }
+
+      it_behaves_like 'not found'
+    end
+
+    context 'if no storage with that id exists' do
+      let(:path) { api_v3_paths.file_link(work_package.id, 1337) }
+
+      it_behaves_like 'not found'
     end
   end
 end

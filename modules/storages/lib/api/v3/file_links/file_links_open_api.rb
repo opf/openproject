@@ -32,7 +32,14 @@ module API
       class FileLinksOpenAPI < ::API::OpenProjectAPI
         resources :open do
           get do
-            raise ::API::Errors::NotImplemented
+            call = ::Storages::StorageUrlService.new(@file_link).call('open')
+            raise StandardError.new 'Cannot create opening url for linked file.' if call.failure?
+
+            url = call.result
+            status 303
+            header 'Location', url
+            content_type 'text/plain'
+            body "The requested resource can be viewed at #{url}"
           end
         end
       end

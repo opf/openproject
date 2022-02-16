@@ -72,6 +72,7 @@ module API
             :error_in_dependent,
             dependent_class: result.model_name.human,
             related_id: result.id,
+            # TODO: Make it more robust, as not every model has a 'name' attribute (e.g. fall back to collection index?)
             related_subject: result.name,
             error: full_message
           )

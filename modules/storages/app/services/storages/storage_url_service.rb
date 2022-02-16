@@ -26,5 +26,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Storages::FileLinks::CreateService < ::BaseServices::Create
+module Storages
+  class StorageUrlService
+    attr_reader :file_link
+
+    ACTION_TYPES = %w[open].freeze
+
+    def initialize(file_link)
+      @file_link = file_link
+    end
+
+    def call(action)
+      return ServiceResult.new(success: false, message: 'invalid action type') unless ACTION_TYPES.include?(action)
+
+      ServiceResult.new(success: true, result: "#{@file_link.storage.host}f/#{@file_link.origin_id}")
+    end
+  end
 end
