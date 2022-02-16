@@ -78,58 +78,59 @@
     <ng-template #eventContent let-event="event">
       <wp-single-card
         [workPackage]="event.extendedProps.workPackage"
-      [orientation]="'horizontal'"
-      [highlightingMode]="'type'"
-      [showInfoButton]="true"
-      [disabledInfo]="showDisabledText(event.extendedProps.workPackage)"
-      [isClosed]="isStatusClosed(event.extendedProps.workPackage)"
-      [showAsInlineCard]="true"
-      [showStartDate]="!this.isWpDateInCurrentView(event.extendedProps.workPackage, 'start')"
-      [showEndDate]="!this.isWpDateInCurrentView(event.extendedProps.workPackage, 'end')"
-    >
-    </wp-single-card>
-  </ng-template>
+        [orientation]="'horizontal'"
+        [highlightingMode]="'type'"
+        [showInfoButton]="true"
+        [disabledInfo]="showDisabledText(event.extendedProps.workPackage)"
+        [isClosed]="isStatusClosed(event.extendedProps.workPackage)"
+        [showAsInlineCard]="true"
+        [showStartDate]="!this.isWpDateInCurrentView(event.extendedProps.workPackage, 'start')"
+        [showEndDate]="!this.isWpDateInCurrentView(event.extendedProps.workPackage, 'end')"
+        (stateLinkClicked)="openStateLink($event)"
+      >
+      </wp-single-card>
+    </ng-template>
 
-  <div class="op-team-planner--footer" data-qa-selector="op-team-planner-footer">
-    <div class="op-team-planner--add-assignee">
-      <div
-        class="wp-inline-create-button"
-        *ngIf="!(showAddAssignee$ | async)"
-      >
-        <button
-          type="button"
-          class="wp-inline-create--add-link tp-assignee-add-button"
-          (click)="showAssigneeAddRow()"
-          data-qa-selector="tp-assignee-add-button"
+    <div class="op-team-planner--footer" data-qa-selector="op-team-planner-footer">
+      <div class="op-team-planner--add-assignee">
+        <div
+          class="wp-inline-create-button"
+          *ngIf="!(showAddAssignee$ | async)"
         >
-          <op-icon icon-classes="icon-context icon-add"></op-icon>
-          <span [textContent]="text.add_assignee"></span>
-        </button>
+          <button
+            type="button"
+            class="wp-inline-create--add-link tp-assignee-add-button"
+            (click)="showAssigneeAddRow()"
+            data-qa-selector="tp-assignee-add-button"
+          >
+            <op-icon icon-classes="icon-context icon-add"></op-icon>
+            <span [textContent]="text.add_assignee"></span>
+          </button>
+        </div>
       </div>
-    </div>
-    <ng-container *ngIf="(dropzone$ | async) as dropzone">
-      <div
-        *ngIf="dropzone.dragging"
-        #removeDropzone
-        (mouseenter)="dropzoneHovered$.next(true)"
-        (mouseleave)="dropzoneHovered$.next(false)"
-        (mouseup)="dropzone.canDrop && removeEvent(dropzone.dragging)"
-        class="op-team-planner--remove-dropzone"
-        data-qa-selector="op-team-planner-dropzone"
-        [class.op-team-planner--remove-dropzone_active]="dropzone.isHovering && dropzone.canDrop"
-        [class.op-team-planner--remove-dropzone_forbidden]="!dropzone.canDrop"
-      >
+      <ng-container *ngIf="(dropzone$ | async) as dropzone">
+        <div
+          *ngIf="dropzone.dragging"
+          #removeDropzone
+          (mouseenter)="dropzoneHovered$.next(true)"
+          (mouseleave)="dropzoneHovered$.next(false)"
+          (mouseup)="dropzone.canDrop && removeEvent(dropzone.dragging)"
+          class="op-team-planner--remove-dropzone"
+          data-qa-selector="op-team-planner-dropzone"
+          [class.op-team-planner--remove-dropzone_active]="dropzone.isHovering && dropzone.canDrop"
+          [class.op-team-planner--remove-dropzone_forbidden]="!dropzone.canDrop"
+        >
       <span
         *ngIf="dropzone.canDrop"
         class="op-team-planner--dropzone-label"
         [textContent]="text.drag_here_to_remove"
       ></span>
-        <span
-          *ngIf="!dropzone.canDrop"
-          class="op-team-planner--dropzone-label"
-          [textContent]="text.cannot_drag_here"
-        ></span>
-      </div>
-    </ng-container>
+          <span
+            *ngIf="!dropzone.canDrop"
+            class="op-team-planner--dropzone-label"
+            [textContent]="text.cannot_drag_here"
+          ></span>
+        </div>
+      </ng-container>
+    </div>
   </div>
-</div>

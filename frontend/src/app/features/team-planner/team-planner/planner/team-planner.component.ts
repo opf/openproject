@@ -60,6 +60,8 @@ import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { CalendarDragDropService } from 'core-app/features/team-planner/team-planner/calendar-drag-drop.service';
 import { StatusResource } from 'core-app/features/hal/resources/status-resource';
 import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/resource-changeset';
+import { KeepTabService } from 'core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service';
+import { HalError } from 'core-app/features/hal/services/hal-error';
 
 @Component({
   selector: 'op-team-planner',
@@ -182,6 +184,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     readonly schemaCache:SchemaCacheService,
     readonly apiV3Service:ApiV3Service,
     readonly calendarDrag:CalendarDragDropService,
+    readonly keepTab:KeepTabService,
   ) {
     super();
   }
@@ -228,8 +231,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
         api.getResources().forEach((resource) => resource.remove());
 
         principals.forEach((principal) => {
-          const { self } = principal._links;
-          const id = Array.isArray(self) ? self[0].href : self.href;
+          const id = principal._links.self.href;
           api.addResource({
             principal,
             id,
@@ -334,6 +336,10 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
             // DnD configuration
             editable: true,
             droppable: true,
+            eventClick: (evt) => {
+              const workPackage = evt.event.extendedProps.workPackage as WorkPackageResource;
+              this.calendar.openSplitView(workPackage.id as string, true);
+            },
             eventResize: (resizeInfo:EventResizeDoneArg) => this.updateEvent(resizeInfo),
             eventDragStart: (dragInfo:EventDragStartArg) => {
               const { el } = dragInfo;
@@ -374,7 +380,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
       })
       .catch(failureCallback);
 
-    this.calendar.updateTimeframe(fetchInfo, this.projectIdentifier);
+    void this.calendar.updateTimeframe(fetchInfo, this.projectIdentifier);
   }
 
   renderTemplate(template:TemplateRef<unknown>, id:string, data:ResourceLabelContentArg|EventContentArg):{ domNodes:unknown[] } {
@@ -545,6 +551,16 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     );
   }
 
+  openStateLink(event:{ workPackageId:string; requestedState:string }):void {
+    const params = { workPackageId: event.workPackageId };
+
+    if (event.requestedState === 'split') {
+      this.keepTab.goCurrentDetailsState(params);
+    } else {
+      this.keepTab.goCurrentShowState(params);
+    }
+  }
+
   private async updateEvent(info:EventResizeDoneArg|EventDropArg|EventReceiveArg):Promise<void> {
     const changeset = this.calendar.updateDates(info);
 
@@ -561,8 +577,8 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     try {
       const result = await this.halEditing.save(changeset);
       this.halNotification.showSave(result.resource, result.wasNew);
-    } catch (e) {
-      this.halNotification.showError(e.resource, changeset.projectedResource);
+    } catch (e:unknown) {
+      this.halNotification.showError((e as HalError).resource, changeset.projectedResource);
       this.calendarDrag.handleDropError(changeset.projectedResource);
       info?.revert();
     }

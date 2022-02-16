@@ -27,18 +27,17 @@
 #++
 
 require 'support/pages/page'
+require 'support/pages/work_packages/work_package_cards'
 
 module Pages
-  class TeamPlanner < ::Pages::Page
+  class TeamPlanner < ::Pages::WorkPackageCards
     include ::Components::NgSelectAutocompleteHelpers
 
-    attr_reader :project,
-                :filters
+    attr_reader :filters
 
     def initialize(project)
-      super()
+      super(project)
 
-      @project = project
       @filters = ::Components::WorkPackages::Filters.new
     end
 
@@ -127,12 +126,6 @@ module Pages
 
     def expect_event(work_package, present: true)
       expect(page).to have_conditional_selector(present, '.fc-event', text: work_package.subject)
-    end
-
-    def open_split_view(work_package)
-      event(work_package).click
-
-      ::Pages::SplitWorkPackage.new(work_package, project)
     end
 
     def add_assignee(name)
