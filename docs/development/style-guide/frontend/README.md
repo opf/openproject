@@ -124,7 +124,7 @@ means that the respective collections and entities have to be refreshed from the
 For this usecase, we have implemented a global actions service. You can dispatch actions here, and other parts of the
 application can listen to these actions. Think of it like a global event bus. These actions are typed.
 
-To reduce server requests, side effects **should be** be calculated in the frontend. If this is impossible, the updating store **must** send out a global event to notify other parts that the specific event occured.
+To reduce server requests, side effects **should be** be calculated in the frontend. If this is impossible, the updating store **must** send out a global event to notify other parts that the specific event occurred.
 
 **Note:** The proper solution to this problem would be a backend that can push updates for collections and entities that we are requiring. However, implementing and relying on websockets comes with its own challenges.
 

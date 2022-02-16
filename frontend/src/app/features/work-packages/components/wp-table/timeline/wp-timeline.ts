@@ -46,7 +46,7 @@ export class TimelineViewParametersSettings {
   zoomLevel:TimelineZoomLevel = 'days';
 }
 
-// Can't properly map the enum to a string aray
+// Can't properly map the enum to a string array
 export const zoomLevelOrder:TimelineZoomLevel[] = [
   'days', 'weeks', 'months', 'quarters', 'years',
 ];

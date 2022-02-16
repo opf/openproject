@@ -69,7 +69,7 @@ describe Queries::Roles::Filters::UnitFilter, type: :model do
         end
       end
 
-      context 'for the projet value' do
+      context 'for the project value' do
         let(:values) { ['project'] }
 
         context 'for "="' do
