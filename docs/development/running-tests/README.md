@@ -344,12 +344,17 @@ First migrate and dump your current development schema with `RAILS_ENV=developme
 
 Then you can just use `RAILS_ENV=test ./bin/rails parallel:prepare` to prepare test databases.
 
-
-
 #### RSpec specs
 
 Run all unit and system tests in parallel with `RAILS_ENV=test ./bin/rails parallel:spec`
 
+#### Running specific tests
+
+If you want to run specific tests (e.g., only those from the team planner module), you can use this command:
+
+```bash
+RAILS_ENV=test bundle exec parallel_rspec -- modules/team_planner/spec
+```
 
 ## Automatically run tests when files are modified
 
