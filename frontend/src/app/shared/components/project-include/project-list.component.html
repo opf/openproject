@@ -12,12 +12,6 @@
       [attr.data-qa-project-include-checked]="checked ? 1 : 0"
     ></spot-checkbox>
     <div class="spot-list--item-title">{{ project.name }}</div>
-    <button
-      *ngIf="project.children.length"
-      class="op-project-list--child-toggle"
-      type="button"
-      (click)="selectRecursively(project.children)"
-    >All</button>
   </label>
 
   <ul

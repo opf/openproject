@@ -28,11 +28,21 @@ import { IProject } from 'core-app/core/state/projects/project.model';
 export class OpProjectIncludeComponent extends UntilDestroyedMixin {
   @HostBinding('class.op-project-include') className = true;
 
+  public text = {
+    toggle_title: this.I18n.t('js.include_projects.toggle_title'),
+    title: this.I18n.t('js.include_projects.title'),
+    filter_all: this.I18n.t('js.include_projects.selected_filter.all'),
+    filter_selected: this.I18n.t('js.include_projects.selected_filter.selected'),
+    search_placeholder: this.I18n.t('js.include_projects.search_placeholder'),
+    clear_selection: this.I18n.t('js.include_projects.clear_selection'),
+    apply: this.I18n.t('js.include_projects.apply'),
+  };
+
   public opened = false;
 
   public displayModeOptions = [
-    { value: 'all', title: 'All projects' },
-    { value: 'selected', title: 'Only selected' },
+    { value: 'all', title: this.text.filter_all },
+    { value: 'selected', title: this.text.filter_selected },
   ];
 
   private _displayMode = 'all';

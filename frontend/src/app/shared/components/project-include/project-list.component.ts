@@ -53,17 +53,4 @@ export class OpProjectListComponent {
       ]);
     }
   }
-
-  public selectRecursively(children:IProjectData[]) {
-    const selected = [...this.selected];
-    for (const child of children) {
-      if (!this.isChecked(child.href)) {
-        selected.push(child.href);
-      }
-
-      this.selectRecursively(child.children);
-    }
-
-    this.updateSelected(selected);
-  }
 }
