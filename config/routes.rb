@@ -583,6 +583,7 @@ OpenProject::Application.routes.draw do
 
   # Development route for styleguide
   if Rails.env.development?
+    get '/spot-docs', to: 'angular#empty_layout'
     get '/styleguide' => redirect('/assets/styleguide.html')
   end
 end
