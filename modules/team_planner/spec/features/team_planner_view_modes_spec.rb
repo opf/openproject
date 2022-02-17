@@ -49,11 +49,11 @@ describe 'Team planner', type: :feature, js: true do
     end
 
     # weekly: Expect 7 slots
-    team_planner.expect_view_mode 'week'
+    team_planner.expect_view_mode 'Week'
     expect(page).to have_selector('.fc-timeline-slot-frame', count: 7)
 
     # 2 weeks: expect 14 slots
-    team_planner.switch_view_mode '2 weeks'
+    team_planner.switch_view_mode 'Two-week'
     expect(page).to have_selector('.fc-timeline-slot-frame', count: 14)
   end
 end
