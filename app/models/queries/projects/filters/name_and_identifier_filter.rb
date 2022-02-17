@@ -39,7 +39,7 @@ class Queries::Projects::Filters::NameAndIdentifierFilter < Queries::Projects::F
       where_equal
     when '!'
       where_not_equal
-    when '~'
+    when '~', '**'
       where_contains
     when '!~'
       where_not_contains

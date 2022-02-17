@@ -254,6 +254,7 @@ hu:
     enumeration_doc_categories: "Dokumentum kategóriák"
     enumeration_work_package_priorities: "Feladatcsoport fontosság"
     filter:
+      more_values_not_shown: "There are %{total} more results, search to filter results."
       description:
         text_open_filter: "A szűrő megnyitásához nyomja meg az \"ALT\" és a nyíl gombokat."
         text_close_filter: "A bejegyzés kiválasztáshoz pl. nyomjon Entert. Kiválasztás elmulasztásához válassza az első bejegyzést."

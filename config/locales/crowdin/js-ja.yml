@@ -252,6 +252,7 @@ ja:
     enumeration_doc_categories: "ドキュメントのカテゴリ"
     enumeration_work_package_priorities: "ワークパッケージの優先度"
     filter:
+      more_values_not_shown: "There are %{total} more results, search to filter results."
       description:
         text_open_filter: "'ALT' と矢印キーでこのフィルタを開きます。"
         text_close_filter: "エントリを選択するには、例えばエンターキーを押して、フォーカスを外します。フィルターを選択しないで離れるには、最初の (空の) のエントリを選択します。"

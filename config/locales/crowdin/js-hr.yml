@@ -251,6 +251,7 @@ hr:
     enumeration_doc_categories: "Kategorije dokumenata"
     enumeration_work_package_priorities: "Prioriteti radnog paketa"
     filter:
+      more_values_not_shown: "There are %{total} more results, search to filter results."
       description:
         text_open_filter: "Otvorite ovaj filtar s 'ALT' i tipke sa strelicama."
         text_close_filter: "Za odabir unosa napustite fokus na primjer pritiskom na tipku enter. Za izlazak bez odabira filtera odaberite prvu (praznu) stavku."

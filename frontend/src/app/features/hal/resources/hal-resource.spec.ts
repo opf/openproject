@@ -469,7 +469,7 @@ describe('HalResource', () => {
         deep = resource.$embedded.resource.$embedded.first.$embedded.second;
       });
 
-      it('should crate all nested resources recursively', () => {
+      it('should create all nested resources recursively', () => {
         expect(deep.$isHal).toBeTruthy();
       });
 

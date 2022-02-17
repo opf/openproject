@@ -251,6 +251,7 @@ si:
     enumeration_doc_categories: "Document categories"
     enumeration_work_package_priorities: "වැඩ පැකේජ ප්රමුඛතා"
     filter:
+      more_values_not_shown: "There are %{total} more results, search to filter results."
       description:
         text_open_filter: "මෙම පෙරණය 'ALT' සහ ඊතල යතුරු සමඟ විවෘත කරන්න."
         text_close_filter: "ඇතුලත් කිරීමක් තෝරා ගැනීමට ඇතුලත් කරන්න එබීමෙන් උදාහරණයක් ලෙස අවධානය යොමු තබන්න. පෙරහන නොමැතිව පිටව යාමට පළමු (හිස්) ප්රවේශය තෝරන්න."

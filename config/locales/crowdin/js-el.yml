@@ -250,6 +250,7 @@ el:
     enumeration_doc_categories: "Κατηγορίες εγγράφων"
     enumeration_work_package_priorities: "Προτεραιότητες πακέτου εργασίας"
     filter:
+      more_values_not_shown: "There are %{total} more results, search to filter results."
       description:
         text_open_filter: "Ανοίξτε αυτό το φίλτρο με το 'ALT' και τα πλήκτρα βέλους."
         text_close_filter: "Για να επιλέξετε μια καταχώρηση, φύγετε από την εστίαση, για παράδειγμα πατώντας το πλήκτρο enter. Για να φύγετε χωρίς το φίλτρο, επιλέξτε την πρώτη (άδεια) καταχώρηση."

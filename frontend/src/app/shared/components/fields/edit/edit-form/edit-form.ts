@@ -169,7 +169,7 @@ export abstract class EditForm<T extends HalResource = HalResource> {
     // Mark changeset as in flight
     this.change.inFlight = true;
 
-    // Reset old error notifcations
+    // Reset old error notifications
     this.errorsPerAttribute = {};
 
     // Notify all fields of upcoming save
@@ -233,7 +233,7 @@ export abstract class EditForm<T extends HalResource = HalResource> {
   }
 
   protected handleErroneousAttributes(error:ErrorResource):void {
-    // Get attributes withe errors
+    // Get attributes with errors
     const erroneousAttributes = error.getInvolvedAttributes();
 
     // Save erroneous fields for when new fields appear

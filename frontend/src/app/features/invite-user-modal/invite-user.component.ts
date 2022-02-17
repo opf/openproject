@@ -45,7 +45,7 @@ export class InviteUserModalComponent extends OpModalComponent implements OnInit
   /* Close on outside click */
   public closeOnOutsideClick = true;
 
-  /* Data that is retured from the modal on close */
+  /* Data that is returned from the modal on close */
   public data:any = null;
 
   public type:PrincipalType|null = null;

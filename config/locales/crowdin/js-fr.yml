@@ -251,6 +251,7 @@ fr:
     enumeration_doc_categories: "Catégories de documents"
     enumeration_work_package_priorities: "Priorités du Lot de Travaux"
     filter:
+      more_values_not_shown: "There are %{total} more results, search to filter results."
       description:
         text_open_filter: "Ouvrir ce filtre avec les touches « ALT » et fléchées."
         text_close_filter: "Pour sélectionner une entrée, laissez le focus par exemple en appuyant sur enter. Pour quitter sans filtre, sélectionnez la première entrée (vide)."

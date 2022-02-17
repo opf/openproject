@@ -68,6 +68,12 @@ describe Principals::Scopes::OrderedByName, type: :model do
       end
     end
 
+    context 'with lastname_n_firstname user sort', with_settings: { user_format: :lastname_n_firstname } do
+      it_behaves_like 'sorted results' do
+        let(:order) { [eve.id, group.id, placeholder_user.id, alice.id] }
+      end
+    end
+
     context 'with lastname_coma_firstname user sort', with_settings: { user_format: :lastname_coma_firstname } do
       it_behaves_like 'sorted results' do
         let(:order) { [eve.id, group.id, placeholder_user.id, alice.id] }

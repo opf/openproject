@@ -21,7 +21,7 @@ properties:
       to determine the resulting work packages
     readOnly: false
     items:
-      $ref: "#/components/schemas/Query_Filter_Instance_SchemaModel"
+      $ref: './query_filter_instance_schema_model.yml'
   sums:
     type: boolean
     description: Should sums (of supported properties) be shown?

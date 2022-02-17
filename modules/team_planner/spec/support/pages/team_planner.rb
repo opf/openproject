@@ -27,18 +27,17 @@
 #++
 
 require 'support/pages/page'
+require 'support/pages/work_packages/work_package_cards'
 
 module Pages
-  class TeamPlanner < ::Pages::Page
+  class TeamPlanner < ::Pages::WorkPackageCards
     include ::Components::NgSelectAutocompleteHelpers
 
-    attr_reader :project,
-                :filters
+    attr_reader :filters
 
     def initialize(project)
-      super()
+      super(project)
 
-      @project = project
       @filters = ::Components::WorkPackages::Filters.new
     end
 
@@ -129,14 +128,6 @@ module Pages
       expect(page).to have_conditional_selector(present, '.fc-event', text: work_package.subject)
     end
 
-    def open_split_view(work_package)
-      page
-        .find('.fc-event', text: work_package.subject)
-        .click
-
-      ::Pages::SplitWorkPackage.new(work_package, project)
-    end
-
     def add_assignee(name)
       click_add_user
       page.find('[data-qa-selector="tp-add-assignee"] input')
@@ -163,7 +154,7 @@ module Pages
     end
 
     def change_wp_date_by_resizing(work_package, number_of_days:, is_start_date:)
-      wp_strip = page.find('.fc-event', text: work_package.subject)
+      wp_strip = event(work_package)
 
       page
         .driver
@@ -178,10 +169,45 @@ module Pages
     end
 
     def drag_wp_by_pixel(work_package, by_x, by_y)
-      source = page
-                 .find('.fc-event', text: work_package.subject)
+      source = event(work_package)
 
       drag_by_pixel(element: source, by_x: by_x, by_y: by_y)
+    end
+
+    def drag_to_remove_dropzone(work_package, expect_removable: true)
+      source = event(work_package)
+
+      start_dragging(source)
+
+      # Move the footer first to signal we're dragging something
+      footer = find('[data-qa-selector="op-team-planner-footer"]')
+      drag_element_to(footer)
+
+      sleep 1
+
+      dropzone = find('[data-qa-selector="op-team-planner-dropzone"]')
+      drag_element_to(dropzone)
+
+      if expect_removable
+        expect(page).to have_selector('span', text: I18n.t('js.team_planner.drag_here_to_remove'))
+      else
+        expect(page).to have_selector('span', text: I18n.t('js.team_planner.cannot_drag_here'))
+      end
+
+      drag_release
+
+      if expect_removable
+        expect_and_dismiss_toaster(message: "Successful update.")
+      else
+        expect_no_toaster
+      end
+
+      sleep 1
+      expect_event(work_package, present: !expect_removable)
+    end
+
+    def event(work_package)
+      page.find('.fc-event', text: work_package.subject)
     end
 
     def expect_wp_not_resizable(work_package)

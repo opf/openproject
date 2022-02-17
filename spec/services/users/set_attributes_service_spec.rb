@@ -86,7 +86,7 @@ describe Users::SetAttributesService, type: :model do
         .to eql model_instance
     end
 
-    it 'initalizes the notification settings' do
+    it 'initializes the notification settings' do
       expect(call.result.notification_settings.length)
         .to be 1
 

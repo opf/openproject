@@ -250,6 +250,7 @@ sv:
     enumeration_doc_categories: "Dokumentkategorier"
     enumeration_work_package_priorities: "Arbetspaketsprioritering"
     filter:
+      more_values_not_shown: "There are %{total} more results, search to filter results."
       description:
         text_open_filter: "Öppna det här filtret med 'ALT' och piltangenterna."
         text_close_filter: "Välj en post genom att ändra fokus (ex. med 'ENTER'). Välj den första (tomma) posten för att lämna utan filter."

@@ -64,7 +64,7 @@ describe OpenProject::GithubIntegration::NotificationHandler::Helper do
       expect(handler.extract_work_package_ids(source)).to eq([434, 234])
     end
 
-    it 'finds multiple occurences of a work package only once' do
+    it 'finds multiple occurrences of a work package only once' do
       source = "I reference https://example.net/work_packages/434\n and Blabla\n[WP 234](https://example.net/work_packages/434)\n"
       expect(handler.extract_work_package_ids(source)).to eq([434])
     end

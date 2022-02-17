@@ -97,7 +97,7 @@ export class AddAssigneeComponent {
           filters.add('member', '=', selectedProjectIds as string[]);
 
           if (term) {
-            filters.add('name_and_identifier', '~', [term]);
+            filters.add('typeahead', '**', [term]);
           }
 
           return filters;

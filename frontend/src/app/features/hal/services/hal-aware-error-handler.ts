@@ -26,7 +26,7 @@ export class HalAwareErrorHandler extends ErrorHandler {
     let message:string = this.text.internal_error;
 
     // Angular wraps our errors into uncaught promises if
-    // no one catches the error explictly. Unwrap the error in that case
+    // no one catches the error explicitly. Unwrap the error in that case
     if ((error as RejectedPromise)?.rejection instanceof HalError) {
       this.handleError((error as RejectedPromise).rejection);
       return;

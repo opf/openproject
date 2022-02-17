@@ -140,4 +140,17 @@ describe Queries::Projects::ProjectQuery, type: :model do
       end
     end
   end
+
+  context 'with an order by typeahead asc' do
+    before do
+      instance.order(typeahead: :asc)
+    end
+
+    describe '#results' do
+      it 'returns all visible projects ordered by lft asc' do
+        expect(instance.results.to_sql)
+          .to eql base_scope.except(:order).order(lft: :asc, name: :asc, id: :desc).to_sql
+      end
+    end
+  end
 end

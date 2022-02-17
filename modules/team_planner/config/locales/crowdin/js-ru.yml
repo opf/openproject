@@ -11,6 +11,8 @@ ru:
       add_assignee: 'Добавить отвественного'
       remove_assignee: 'Удалить ответственного'
       two_weeks: '2 недели'
+      drag_here_to_remove: 'Drag here to remove assignee and start and end dates.'
+      cannot_drag_here: 'Cannot remove the work package due to permissions or editing restrictions.'
       quick_add:
         empty_state: 'Используйте поле поиска для поиска пакетов работ и перетаскивания их в планировщик для назначения их кому-либо и определения даты начала и окончания.'
         search_placeholder: 'Поиск...'

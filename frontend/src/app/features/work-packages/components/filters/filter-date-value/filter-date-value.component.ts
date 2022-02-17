@@ -36,7 +36,7 @@ import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
 
 @Component({
-  selector: 'filter-date-value',
+  selector: 'op-filter-date-value',
   templateUrl: './filter-date-value.component.html',
 })
 export class FilterDateValueComponent extends UntilDestroyedMixin {

@@ -115,6 +115,7 @@ export class CalendarDragDropService {
     const diff = dueDate.diff(startDate, 'days') + 1;
 
     return {
+      id: `${workPackage.href as string}-external`,
       title: workPackage.subject,
       duration: {
         days: diff || 1,
