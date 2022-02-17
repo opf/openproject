@@ -287,7 +287,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
               day: 'numeric',
             },
             buttonText: {
-              today: this.text.today
+              today: this.text.today,
             },
             initialView: this.calendar.initialView || 'resourceTimelineWeek',
             headerToolbar: {
@@ -318,19 +318,19 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
                 type: 'resourceTimeline',
                 buttonText: this.text.two_weeks,
                 slotDuration: { days: 1 },
-                visibleRange: function() {
-                  const thisWeek = new Date;
-                  const thisWeekEndDateNumber = thisWeek.getDate() - thisWeek.getDay() + 7;
+                visibleRange() {
+                  const thisWeek = new Date();
+                  const thisWeekEndDateNumber = thisWeek.getDate() - thisWeek.getDay() + 8;
                   const endDate = new Date(thisWeek.setDate(thisWeekEndDateNumber));
 
-                  const lastWeek = new Date;
+                  const lastWeek = new Date();
                   const lastWeekStartDate = new Date(lastWeek.getFullYear(), lastWeek.getMonth(), lastWeek.getDate() - 6);
                   const lastWeekStartDateNumber = lastWeekStartDate.getDate() - lastWeekStartDate.getDay();
-                  const startDate = new Date(lastWeek.setDate(lastWeekStartDateNumber));
+                  const startDate = new Date(lastWeek.setDate(lastWeekStartDateNumber + 1));
 
                   return {
-                    start: startDate.getFullYear()  + "-" +  String((startDate.getMonth() + 1)).padStart(2, '0') + "-" +  String(startDate.getDate()).padStart(2, '0'),
-                    end: endDate.getFullYear() + "-" + String((endDate.getMonth() + 1)).padStart(2, '0') + "-" + String(endDate.getDate()).padStart(2, '0')
+                    start: `${startDate.getFullYear()}-${String((startDate.getMonth() + 1)).padStart(2, '0')}-${String(startDate.getDate()).padStart(2, '0')}`,
+                    end: `${endDate.getFullYear()}-${String((endDate.getMonth() + 1)).padStart(2, '0')}-${String(endDate.getDate()).padStart(2, '0')}`,
                   };
                 },
                 slotLabelFormat: [
