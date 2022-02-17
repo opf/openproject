@@ -250,6 +250,7 @@ ro:
     enumeration_doc_categories: "Document nou"
     enumeration_work_package_priorities: "Priorități pentru pachetele de lucru"
     filter:
+      more_values_not_shown: "There are %{total} more results, search to filter results."
       description:
         text_open_filter: "Deschideți acest filtru cu 'ALT' și tastele săgeată."
         text_close_filter: "Pentru a selecta o poziție schimbați prim-planul (de exemplu apasand Enter). Pentru a ieși fără filtrare selectați prima poziție (goală)."

@@ -56,7 +56,7 @@ describe 'Create viewpoint from BCF details page',
       show_model_page.visit!
       show_model_page.finished_loading
       card_view.expect_work_package_listed(work_package)
-      card_view.open_full_screen_by_details(work_package)
+      card_view.open_split_view_by_info_icon(work_package)
 
       # Expect no viewpoint
       bcf_details.ensure_page_loaded

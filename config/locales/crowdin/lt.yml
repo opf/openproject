@@ -454,12 +454,12 @@ lt:
         code: 'Būsena'
         explanation: 'Būsenos aprašymas'
         codes:
-          not_started: 'Not started'
+          not_started: 'Nepradėta'
           on_track: 'Teisingame kelyje'
           at_risk: 'Rizikingas'
           off_track: 'Pasiklydęs'
-          finished: 'Finished'
-          discontinued: 'Discontinued'
+          finished: 'Baigta'
+          discontinued: 'Nutrauktas'
       query:
         column_names: "Stulpeliai"
         relations_to_type_column: "Ryšiai su %{type}"

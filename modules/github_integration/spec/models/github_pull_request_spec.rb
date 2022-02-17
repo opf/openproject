@@ -158,7 +158,7 @@ describe GithubPullRequest do
           .to be_new_record
       end
 
-      it 'has the privided attributes initialized' do
+      it 'has the provided attributes initialized' do
         expect(finder.attributes.compact)
           .to eql("github_id" => pull_request.github_id + 1,
                   "github_html_url" => "#{pull_request.github_html_url}zzzz")

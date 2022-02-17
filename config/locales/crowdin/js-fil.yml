@@ -251,6 +251,7 @@ fil:
     enumeration_doc_categories: "Mga kategorya ng dokumento"
     enumeration_work_package_priorities: "Ang mga prioridad ng work package"
     filter:
+      more_values_not_shown: "There are %{total} more results, search to filter results."
       description:
         text_open_filter: "Buksan ang filter na ito sa 'ALT' at ang mga arrow key."
         text_close_filter: "Upang pumili ng isang iniwang entry ng."

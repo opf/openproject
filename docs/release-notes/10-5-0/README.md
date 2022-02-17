@@ -65,7 +65,7 @@ OpenProject supports BIM project management with central planning, collaboration
 
 ### BCF Management for the construction industry
 
-The core scenario enabled by the new release of the BIM Edition is BIM Issue Management with BCF. This enables issues in a construction project (e.g. clashes, requests, questions) to be crated and communicated directly on a 3D model or between several submodels.
+The core scenario enabled by the new release of the BIM Edition is BIM Issue Management with BCF. This enables issues in a construction project (e.g. clashes, requests, questions) to be created and communicated directly on a 3D model or between several submodels.
 Both, model-associated issues (BCFs) directly on the BIM model as well as non-model-associated tasks can be created and tracked.
 
 ![BCF-management-details](BCF-management-details.png)

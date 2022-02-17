@@ -22,5 +22,5 @@ keywords: Attachments Settings
    
 2. Do not forget to **save** your changes.
 
-   ![attchment settings](image-20220125124252869.png)
+   ![attachment settings](image-20220125124252869.png)
 

@@ -251,6 +251,7 @@ bg:
     enumeration_doc_categories: "Категории документи"
     enumeration_work_package_priorities: "Приоритети на работни пакети"
     filter:
+      more_values_not_shown: "There are %{total} more results, search to filter results."
       description:
         text_open_filter: "Отворете този филтър с клавишите \"ALT\" и клавишите за стрелки."
         text_close_filter: "За да изберете запис махнете фокуса например чрез натискане на Enter. За да оставите без филтър изберете първия (празен) запис."

@@ -10,7 +10,7 @@
     [hideSelected]="hideSelected"
     [appendTo]="appendTo"
     [multiple]="multiple"
-    [loading]="isLoading"
+    [loading]="loading$ | async"
     [addTag]="addTag"
     [virtualScroll]="virtualScroll"
     [required]="required"
@@ -81,11 +81,12 @@
       let-item="item"
       let-index="index"
       let-search="searchTerm"
+      let-clear="clear"
       *ngIf="labelRequired"
     >
       <ng-container
-        [ngTemplateOutlet]="labelTemplate ? labelTemplate : defaultLabel"
-        [ngTemplateOutletContext]="{$implicit:item, search:search, index:index }"
+        [ngTemplateOutlet]="labelTemplate || defaultLabel"
+        [ngTemplateOutletContext]="{$implicit:item, search:search, index:index, clear:clear }"
       ></ng-container>
     </ng-template>
 
@@ -170,23 +171,26 @@
         class="op-autocompleter--option-principal-avatar"
         size="mini"
       ></op-principal>
-      <span [ngOptionHighlight]="search">{{ item.name }}</span>
+      <span [ngOptionHighlight]="search" class="ellipsis">{{ item.name }}</span>
     </div>
   </ng-container>
 
-  <ng-container *ngSwitchCase="resource ==='subproject' || resource ==='version' || resource ==='status' || resource ==='default'">
+  <ng-container *ngSwitchCase="resource ==='subproject' || resource ==='version' || resource ==='status' || resource ==='default' || !resource">
     <span [ngOptionHighlight]="search">{{ item.name }}</span>
   </ng-container>
 </ng-template>
 
-<ng-template let-item let-search="search" #defaultLabel [ngSwitch]="resource">
-  <ng-container *ngSwitchCase="'work_packages'">
+<ng-template let-item let-search="search" let-clear="clear" #defaultLabel>
+  <ng-container *ngIf="resource === 'work_packages'">
     <span [ngOptionHighlight]="search">
       {{item.type?.name }} #{{ item.id }} {{ item.subject }}
     </span>
   </ng-container>
 
-  <ng-container *ngSwitchDefault>
-    <span [ngOptionHighlight]="search">{{ item.name }}</span>
+  <ng-container *ngIf="resource !== 'work_packages'">
+    <span class="ng-value-icon left" (click)="clear(item)">×</span>
+    <span
+      [ngOptionHighlight]="search"
+      class="ng-value-label">{{item.name}}</span>
   </ng-container>
 </ng-template>

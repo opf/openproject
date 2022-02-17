@@ -41,7 +41,8 @@ module API
         @self_link_base = self_link
         @query = query
         @page = page.to_i > 0 ? page.to_i : 1
-        @per_page = resulting_page_size(per_page, models)
+        resolved_page_size = resolve_page_size(per_page)
+        @per_page = resulting_page_size(resolved_page_size, models)
 
         full_self_link = make_page_link(page: @page, page_size: @per_page)
         paged = paged_models(models)

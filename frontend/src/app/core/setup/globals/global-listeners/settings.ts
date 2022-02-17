@@ -106,7 +106,7 @@ export function listenToSettingChanges() {
     jQuery('.settings--highlighted-attributes').toggle(highlightingMode === 'inline');
   });
 
-  /** Initialize hightlighted attributes checkboxes. If none is selected, it means we want them all. So let's
+  /** Initialize highlighted attributes checkboxes. If none is selected, it means we want them all. So let's
    * show them all as selected.
    * On submitting the form, we remove all checkboxes before sending to communicate, we actually want all and not
    * only the selected. */

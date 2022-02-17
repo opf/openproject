@@ -209,7 +209,7 @@ export namespace LazyLoadedAutocompleter {
       },
 
       /**
-       * Return the number of (lazy) pages for the curent set of results
+       * Return the number of (lazy) pages for the current set of results
        * @param {IAutocompleteItem[]} items
        * @returns {number}
        */

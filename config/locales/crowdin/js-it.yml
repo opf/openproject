@@ -251,6 +251,7 @@ it:
     enumeration_doc_categories: "Categorie di documenti"
     enumeration_work_package_priorities: "Priorità della macro-attività"
     filter:
+      more_values_not_shown: "There are %{total} more results, search to filter results."
       description:
         text_open_filter: "Apri questo filtro con i tasti 'ALT' e le frecce."
         text_close_filter: "Per selezionare una voce, lascia vuoto lo stato attivo per esempio premendo 'Invio'. Per uscire senza un filtro seleziona la prima voce (vuota)."

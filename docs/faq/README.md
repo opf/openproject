@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
-title: FAQ
-priority: 950
+  title: FAQ
+  priority: 950
 description: Frequently asked questions for OpenProject (FAQ)
 robots: index, follow
 keywords: FAQ, introduction, tutorial, project management software, frequently asked questions, help
@@ -37,7 +37,7 @@ You can also send us encrypted emails to privacy@openproject.com. You can find t
 The OpenProject cloud environment is hosted on a logically isolated virtual cloud at Amazon Web Services with all services being located in Ireland.
 AWS is a GDPR compliant cloud infrastructure provider with extensive security and compliance programs as well as unparalleled access control mechanisms to ensure data privacy.
 Employed facilities are compliant with the ISO 27001 and 27018 standards. The OpenProject cloud environment is continuously backing up user data with data at rest being fully encrypted with AES-256.
-Each individual instance is logically separated and data is persisted in a unique database schema, reducing the risk of intersection or data leaks between instances. Find out more about GDPR compliance on our [website](https://www.openproject.org/gdpr-compliance).
+Each individual instance is logically separated and data is persisted in a unique database schema, reducing the risk of intersection or data leaks between instances. Find out more about GDPR compliance on our [website](https://www.openproject.org/security-and-privacy/).
 
 ### How do I get access to the OpenProject premium features?
 We offer the premium functions of OpenProject (incl. boards) for two different OpenProject variants:

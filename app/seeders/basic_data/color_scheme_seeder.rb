@@ -46,7 +46,7 @@ module BasicData
     end
 
     ##
-    # Pallette by open-color
+    # Palette by open-color
     # https://yeun.github.io/open-color/
     def data
       [

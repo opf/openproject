@@ -97,7 +97,7 @@ describe HookHelper do
       end
 
       it 'adds to the context' do
-        # mimicks having two different classes registered for the hook
+        # mimics having two different classes registered for the hook
         allow(OpenProject::Hook)
           .to receive(:call_hook)
           .and_return(%w[response1 response2])

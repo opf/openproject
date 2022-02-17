@@ -36,7 +36,7 @@ import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/que
 import { QueryFilterResource } from 'core-app/features/hal/resources/query-filter-resource';
 
 @Component({
-  selector: 'filter-integer-value',
+  selector: 'op-filter-integer-value',
   templateUrl: './filter-integer-value.component.html',
 })
 export class FilterIntegerValueComponent extends UntilDestroyedMixin {

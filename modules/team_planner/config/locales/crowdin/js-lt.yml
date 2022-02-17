@@ -11,10 +11,12 @@ lt:
       add_assignee: 'Pridėti paskirtąjį'
       remove_assignee: 'Išimti paskirtąjį'
       two_weeks: '2 savaitės'
+      drag_here_to_remove: 'Drag here to remove assignee and start and end dates.'
+      cannot_drag_here: 'Cannot remove the work package due to permissions or editing restrictions.'
       quick_add:
         empty_state: 'Naudokite paieškos lauką darbo paketų paieškai, nutempkite juos į planą, kad priskirtumėte kažkam ir nustatytumėte pradžios bei pabaigos datas.'
         search_placeholder: 'Ieškoti...'
       modify:
         errors:
-          permission_denied: 'You do not have the necessary permissions to modify this.'
-          fallback: 'This work package cannot be edited.'
+          permission_denied: 'Jūs neturite teisių tai keisti.'
+          fallback: 'Šio darbų paketo keisti negalima.'

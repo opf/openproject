@@ -74,7 +74,7 @@ export class AddExistingPaneComponent extends UntilDestroyedMixin implements OnI
   };
 
   image = {
-    empty_state: imagePath('team-planner/add-existing-pane--empty-state.svg'),
+    empty_state: imagePath('team-planner/add-existing-pane--empty-state.gif'),
   };
 
   constructor(

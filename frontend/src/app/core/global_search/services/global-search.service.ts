@@ -44,7 +44,7 @@ export class GlobalSearchService {
 
   public currentTab$ = this._currentTab.asObservable();
 
-  // Default project scope is "this project and all subprojets"
+  // Default project scope is "this project and all subprojects"
   private _projectScope = new BehaviorSubject<any>('');
 
   public projectScope$ = this._projectScope.asObservable();

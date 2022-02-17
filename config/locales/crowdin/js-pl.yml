@@ -251,6 +251,7 @@ pl:
     enumeration_doc_categories: "Kategoria dokumentu"
     enumeration_work_package_priorities: "Priorytety pakietów roboczych"
     filter:
+      more_values_not_shown: "There are %{total} more results, search to filter results."
       description:
         text_open_filter: "Otwórz filtr klawiszami strzałek przytrzymując klawisz 'ALT'."
         text_close_filter: "Aby wybrać wpis wybierz opcję i kliknij np. enter. Aby usunąć filtr zaznacz (pusty) wpis."
