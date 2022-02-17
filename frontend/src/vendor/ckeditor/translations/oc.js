@@ -1,0 +1,1 @@
+(function(d){	const l = d['oc'] = d['oc'] || {};	l.dictionary=Object.assign(		l.dictionary||{},		{"%0 of %1":"",Bold:"Gras",Cancel:"Anullar",Code:"",Italic:"Italica","Remove color":"","Restore default":"",Save:"Enregistrar","Show more items":"",Strikethrough:""}	);l.getPluralForm=function(n){return (n > 1);;};})(window.CKEDITOR_TRANSLATIONS||(window.CKEDITOR_TRANSLATIONS={}));
