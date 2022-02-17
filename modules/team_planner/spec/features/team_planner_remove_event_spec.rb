@@ -1,0 +1,94 @@
+#-- encoding: UTF-8
+
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2021 the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
+require 'spec_helper'
+require_relative './shared_context'
+
+describe 'Team planner remove event', type: :feature, js: true do
+  include_context 'with team planner full access'
+
+  let!(:viewer_role) { create :existing_role, permissions: [:view_work_packages] }
+
+  let!(:other_user) do
+    create :user,
+           firstname: 'Bernd',
+           member_in_project: project,
+           member_with_permissions: %w[
+             view_work_packages view_team_planner
+           ]
+  end
+
+  let!(:removable_wp) do
+    create :work_package,
+           project: project,
+           subject: 'Some task',
+           assigned_to: other_user,
+           start_date: Time.zone.today.beginning_of_week.next_occurring(:tuesday),
+           due_date: Time.zone.today.beginning_of_week.next_occurring(:thursday)
+  end
+
+  let!(:non_removable_wp) do
+    create :work_package,
+           project: project,
+           subject: 'Parent work package',
+           assigned_to: other_user,
+           start_date: Time.zone.today.beginning_of_week.next_occurring(:wednesday),
+           due_date: Time.zone.today.beginning_of_week.next_occurring(:thursday),
+           derived_start_date: Time.zone.today.beginning_of_week.next_occurring(:wednesday),
+           derived_due_date: Time.zone.today.beginning_of_week.next_occurring(:thursday)
+  end
+
+  let!(:child_wp) do
+    create :work_package,
+           parent: non_removable_wp,
+           project: project,
+           assigned_to: user,
+           start_date: Time.zone.today.beginning_of_week.next_occurring(:wednesday),
+           due_date: Time.zone.today.beginning_of_week.next_occurring(:thursday)
+  end
+
+  before do
+    with_enterprise_token(:team_planner_view)
+    team_planner.visit!
+    team_planner.add_assignee other_user
+
+    team_planner.within_lane(other_user) do
+      team_planner.expect_event removable_wp
+      team_planner.expect_event non_removable_wp
+    end
+
+    sleep 2
+  end
+
+  it 'can remove one of the work packages' do
+    team_planner.drag_to_remove_dropzone non_removable_wp, expect_removable: false
+    team_planner.drag_to_remove_dropzone removable_wp, expect_removable: true
+  end
+end

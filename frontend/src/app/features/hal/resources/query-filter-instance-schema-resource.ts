@@ -102,6 +102,10 @@ export class QueryFilterInstanceSchemaResource extends SchemaResource {
     return !!(this.values && this.values.allowedValues);
   }
 
+  public loadedAllowedValues():boolean {
+    return Array.isArray(this.values?.allowedValues);
+  }
+
   public resultingSchema(operator:QueryOperatorResource):QueryFilterInstanceSchemaResource {
     const staticSchema = this.$source;
     const dependentSchema = this.dependency.forValue(operator.href!.toString());

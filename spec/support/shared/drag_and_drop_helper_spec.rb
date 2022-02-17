@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-def drag_n_drop_element(from:, to:, offset_x: nil, offset_y: nil)
+def start_dragging(from)
   scroll_to_element(from)
   page
     .driver
@@ -35,15 +35,31 @@ def drag_n_drop_element(from:, to:, offset_x: nil, offset_y: nil)
     .move_to(from.native)
     .click_and_hold(from.native)
     .perform
+end
 
+def drag_element_to(to, offset_x: nil, offset_y: nil)
   scroll_to_element(to)
   page
     .driver
     .browser
     .action
     .move_to(to.native, offset_x, offset_y)
+    .perform
+end
+
+def drag_release
+  page
+    .driver
+    .browser
+    .action
     .release
     .perform
+end
+
+def drag_n_drop_element(from:, to:, offset_x: nil, offset_y: nil)
+  start_dragging(from)
+  drag_element_to(to, offset_x: offset_x, offset_y: offset_y)
+  drag_release
 end
 
 def drag_by_pixel(element:, by_x:, by_y:)

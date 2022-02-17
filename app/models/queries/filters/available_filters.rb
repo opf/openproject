@@ -76,7 +76,12 @@ module Queries
       private
 
       def non_existing_filter(key)
-        ::Queries::Filters::NotExistingFilter.create!(name: key)
+        case key.to_sym
+        when :typeahead
+          ::Queries::Filters::EmptyFilter.create!(name: key)
+        else
+          ::Queries::Filters::NotExistingFilter.create!(name: key)
+        end
       end
 
       def get_initialized_filter(key, no_memoization)

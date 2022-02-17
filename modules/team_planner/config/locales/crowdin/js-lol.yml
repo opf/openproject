@@ -11,6 +11,8 @@ lol:
       add_assignee: 'crwdns500095:0crwdne500095:0'
       remove_assignee: 'crwdns500097:0crwdne500097:0'
       two_weeks: 'crwdns629979:0crwdne629979:0'
+      drag_here_to_remove: 'crwdns729816:0crwdne729816:0'
+      cannot_drag_here: 'crwdns729818:0crwdne729818:0'
       quick_add:
         empty_state: 'crwdns653319:0crwdne653319:0'
         search_placeholder: 'crwdns653321:0crwdne653321:0'

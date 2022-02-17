@@ -34,6 +34,18 @@ The options are mutually exclusive. I.e. if settings are already provided via EN
 
 #### 1.1 config/plugins/auth_saml/settings.yml file
 
+You need to create the folder `plugins` and `auth_saml` first. You can do that with the following command
+
+```
+mkdir -p /opt/openproject/config/plugins/auth_saml
+```
+
+and then edit the file in your favorite editor
+
+```
+vim /opt/openproject/config/plugins/auth_saml/settings.yml
+```
+
 In your OpenProject packaged installation, you can modify the `/opt/openproject/config/plugins/auth_saml/settings.yml` file. This will contains the complete OpenProject configuration and can be extended to also contain metadata settings and connection details for your SSO identity provider.
 
 The following is an exemplary file with a set of common settings:

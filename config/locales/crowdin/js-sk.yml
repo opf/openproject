@@ -251,6 +251,7 @@ sk:
     enumeration_doc_categories: "Kategórie dokumentu"
     enumeration_work_package_priorities: "Priority Pracovného balíka"
     filter:
+      more_values_not_shown: "There are %{total} more results, search to filter results."
       description:
         text_open_filter: "Otvorte tento filter pomocou „Alt“ a šípok."
         text_close_filter: "Na výber záznamu opustite režim zamerania napríklad stlačením Enter. Na opustenie bez filtra vyberte prvý (prázdny) záznam."

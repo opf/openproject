@@ -36,6 +36,7 @@ describe 'Team planner add existing work packages', type: :feature, js: true do
   include_context 'with team planner full access'
 
   let(:closed_status) { create :status, is_closed: true }
+  let(:start_of_week) { Time.zone.today.beginning_of_week(:sunday) }
 
   let!(:other_user) do
     create :user,
@@ -51,8 +52,8 @@ describe 'Team planner add existing work packages', type: :feature, js: true do
            project: project,
            subject: 'Task 1',
            assigned_to: user,
-           start_date: Time.zone.today.beginning_of_week.next_occurring(:tuesday),
-           due_date: Time.zone.today.beginning_of_week.next_occurring(:thursday)
+           start_date: start_of_week.next_occurring(:tuesday),
+           due_date: start_of_week.next_occurring(:thursday)
   end
   let!(:second_wp) do
     create :work_package,
@@ -87,7 +88,7 @@ describe 'Team planner add existing work packages', type: :feature, js: true do
       end
 
       # Open the left hand pane
-      team_planner.find('.fc-addExisting-button').click
+      page.find('[data-qa-selector="op-team-planner--add-existing-toggle"]').click
 
       add_existing_pane.expect_open
       add_existing_pane.expect_empty
@@ -101,14 +102,14 @@ describe 'Team planner add existing work packages', type: :feature, js: true do
       sleep 2
 
       # Drag it to the team planner...
-      add_existing_pane.drag_wp_by_pixel second_wp, 800, 50
+      add_existing_pane.drag_wp_by_pixel second_wp, 800, 0
 
       team_planner.expect_and_dismiss_toaster(message: "Successful update.")
 
       # ... and thus update its attributes. Thereby the duration is maintained
       second_wp.reload
-      expect(second_wp.start_date).to eq(Time.zone.today.beginning_of_week.next_occurring(:tuesday))
-      expect(second_wp.due_date).to eq(Time.zone.today.beginning_of_week.next_occurring(:thursday))
+      expect(second_wp.start_date).to eq(start_of_week.next_occurring(:tuesday))
+      expect(second_wp.due_date).to eq(start_of_week.next_occurring(:thursday))
       expect(second_wp.assigned_to_id).to eq(user.id)
 
       # Search for another work package
@@ -124,12 +125,12 @@ describe 'Team planner add existing work packages', type: :feature, js: true do
 
       # ... and thus update its attributes. Since no dates were set before, start and end date are set to the same day
       third_wp.reload
-      expect(third_wp.start_date).to eq(Time.zone.today.beginning_of_week.next_occurring(:tuesday))
-      expect(third_wp.due_date).to eq(Time.zone.today.beginning_of_week.next_occurring(:tuesday))
+      expect(third_wp.start_date).to eq(start_of_week.next_occurring(:tuesday))
+      expect(third_wp.due_date).to eq(start_of_week.next_occurring(:tuesday))
       expect(third_wp.assigned_to_id).to eq(user.id)
 
       # New events are directly clickable
-      split_view = team_planner.open_split_view(third_wp)
+      split_view = team_planner.open_split_view_by_info_icon(third_wp)
       split_view.expect_open
     end
 
@@ -164,7 +165,7 @@ describe 'Team planner add existing work packages', type: :feature, js: true do
     end
 
     it 'does not show the button to add existing work packages' do
-      expect(page).not_to have_selector('.fc-addExisting-button')
+      expect(page).not_to have_selector('[data-qa-selector="op-team-planner--add-existing-toggle"]')
       add_existing_pane.expect_closed
     end
   end

@@ -170,7 +170,7 @@ module Components
             Array(value).each do |val|
               select_autocomplete page.find("#filter_#{id}"),
                                   query: val,
-                                  results_selector: '.advanced-filters--ng-select .ng-dropdown-panel-items'
+                                  results_selector: '.ng-dropdown-panel-items'
             end
           else
             within_values(id) do

@@ -251,6 +251,7 @@ ca:
     enumeration_doc_categories: "Categories de documents"
     enumeration_work_package_priorities: "Prioritats dels paquets de treball"
     filter:
+      more_values_not_shown: "There are %{total} more results, search to filter results."
       description:
         text_open_filter: "Obrir aquest filtre amb les tecles 'ALT' i cursors."
         text_close_filter: "Per seleccionar una entrada tregui el focus prement per exemple entrar. Per deixar sense filtrar seleccioneu la primera entrada (buida)."

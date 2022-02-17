@@ -23,7 +23,7 @@ cs:
       no_results_table: Zatím nebyly definovány žádné webhooky
       label_add_new: Přidat nový webhook
       label_edit: Upravit webhook
-      label_event_resources: Event resources
+      label_event_resources: Zdroje událostí
       events:
         created: "Vytvořeno"
         updated: "Aktualizováno"
@@ -44,12 +44,12 @@ cs:
           placeholder: 'Volitelný popis webhooku.'
         enabled:
           description: >
-            When checked, the webhook will trigger on the selected events. Uncheck to disable the webhook.
+            Je-li zaškrtnuto, webhook se spustí na vybraných událostech. Zrušte zaškrtnutí políčka pro vypnutí webhooku.
         events:
           title: 'Povolené události'
         project_ids:
           title: 'Povolit projekty'
-          description: 'Select for which projects this webhook should be executed for.'
+          description: 'Vyberte, pro které projekty by měl být tento webhook spuštěn.'
           all: 'Všechny projekty'
           selected: 'Pouze vybrané projekty'
         selected_project_ids:

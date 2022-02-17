@@ -72,7 +72,7 @@ describe 'delete placeholder user', type: :feature, js: true do
     it_behaves_like 'placeholders delete flow'
   end
 
-  context 'as user with global permission, but placeholder in an invisble project' do
+  context 'as user with global permission, but placeholder in an invisible project' do
     current_user { create :user, global_permission: %i[manage_placeholder_user] }
 
     let!(:project) { create :project }

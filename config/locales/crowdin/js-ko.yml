@@ -251,6 +251,7 @@ ko:
     enumeration_doc_categories: "문서 범주"
     enumeration_work_package_priorities: "작업 패키지 우선 순위"
     filter:
+      more_values_not_shown: "There are %{total} more results, search to filter results."
       description:
         text_open_filter: "'ALT'와 화살표 키로 이 필터를 여세요."
         text_close_filter: "항목을 선택하려면 예를 들어 Enter를 눌러 초점을 유지합니다. 필터 없이 두려면 첫 번째(빈) 항목을 선택합니다."

@@ -59,7 +59,7 @@ module Principals::Scopes
           "concat_ws(' ', users.firstname, users.lastname)"
         when :firstname
           'users.firstname'
-        when :lastname_firstname, :lastname_coma_firstname
+        when :lastname_firstname, :lastname_coma_firstname, :lastname_n_firstname
           "concat_ws(' ', users.lastname, users.firstname)"
         when :username
           "users.login"

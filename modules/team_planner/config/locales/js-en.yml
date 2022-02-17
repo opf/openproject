@@ -11,6 +11,8 @@ en:
       add_assignee: 'Add assignee'
       remove_assignee: 'Remove assignee'
       two_weeks: '2 weeks'
+      drag_here_to_remove: 'Drag here to remove assignee and start and end dates.'
+      cannot_drag_here: 'Cannot remove the work package due to permissions or editing restrictions.'
 
       quick_add:
         empty_state: 'Use the search field to find work packages and drag them to the planner to assign it to someone and define start and end dates.'

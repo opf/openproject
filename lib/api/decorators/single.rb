@@ -48,8 +48,10 @@ module API
 
       # Use this to create our own representers, giving them a chance to override the instantiation
       # if desired.
-      def self.create(model, current_user:, embed_links: false)
-        new(model, current_user: current_user, embed_links: embed_links)
+      # Explicitly forwards all arguments to new, to avoid having to override #create on subclasses
+      # such as collection
+      def self.create(...)
+        new(...)
       end
 
       def initialize(model, current_user:, embed_links: false)

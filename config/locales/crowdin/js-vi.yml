@@ -250,6 +250,7 @@ vi:
     enumeration_doc_categories: "Document categories"
     enumeration_work_package_priorities: "Độ ưu tiên của work package"
     filter:
+      more_values_not_shown: "There are %{total} more results, search to filter results."
       description:
         text_open_filter: "Mở bộ lọc này với 'ALT' và phím mũi tên."
         text_close_filter: "Để nhập thôi ô đang kích hoạt nội dung Vd ấn enter. Nếu không muốn lọc lựa chọn mục rỗng đầu tiên."
