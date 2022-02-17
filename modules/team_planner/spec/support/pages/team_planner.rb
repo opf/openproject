@@ -76,7 +76,7 @@ module Pages
 
       param = {
         'Week' => :resourceTimelineWeek,
-        'Two-week' => :resourceTimelineTwoWeeks,
+        'Two-week' => :resourceTimelineTwoWeeks
       }[text]
 
       expect(page).to have_current_path(/cview=#{param}/)
