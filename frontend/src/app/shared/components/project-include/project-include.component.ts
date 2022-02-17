@@ -5,13 +5,25 @@ import {
   HostBinding,
 } from '@angular/core';
 import { ProjectsResourceService } from 'core-app/core/state/projects/projects.service';
-import { ApiV3ListFilter, ApiV3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
+import {
+  ApiV3ListFilter,
+  ApiV3ListParameters,
+} from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { WorkPackageViewFiltersService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service';
 import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
-import { combineLatest, BehaviorSubject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map, mergeMap, take } from 'rxjs/operators';
+import {
+  combineLatest,
+  BehaviorSubject,
+} from 'rxjs';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  map,
+  mergeMap,
+  take,
+} from 'rxjs/operators';
 import { IProjectData } from './project-data';
 import { insertInList } from './insert-in-list';
 import { recursiveSort } from './recursive-sort';
@@ -49,30 +61,36 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin {
   public get displayMode() {
     return this._displayMode;
   }
+
   public set displayMode(val:string) {
     this._displayMode = val;
     this.displayMode$.next(val);
   }
+
   public displayMode$ = new BehaviorSubject('all');
 
   private _query = '';
   public get query():string {
     return this._query;
   }
+
   public set query(val:string) {
     this._query = val;
     this.query$.next(val);
   }
+
   public query$ = new BehaviorSubject('');
 
   private _selectedProjects:string[] = [];
   public get selectedProjects():string[] {
     return this._selectedProjects;
   }
+
   public set selectedProjects(val:string[]) {
     this._selectedProjects = val;
     this.selectedProjects$.next(val);
   }
+
   public selectedProjects$ = new BehaviorSubject<string[]>([]);
 
   private projectsInFilter$ = this.wpTableFilters
@@ -97,15 +115,15 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin {
   public allProjects$ = this.projectsResourceService.query.selectAll();
 
   public projects$ = combineLatest([
-      this.allProjects$,
-      this.query$.pipe(distinctUntilChanged()),
-      this.displayMode$.pipe(distinctUntilChanged()),
-    ])
+    this.allProjects$,
+    this.query$.pipe(distinctUntilChanged()),
+    this.displayMode$.pipe(distinctUntilChanged()),
+  ])
     .pipe(
       debounceTime(20),
       mergeMap(([projects, query, displayMode]) => this.selectedProjects$.pipe(
         take(1),
-        map(selected => [projects, query, displayMode, selected])
+        map(selected => [projects, query, displayMode, selected]),
       )),
       map(([projects, query, displayMode, selected]:[IProject[], string, string, string[]]) => projects
         .filter((project) => {
@@ -116,7 +134,7 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin {
           if (query.length) {
             return project.name.toLowerCase().includes(query.toLowerCase()) || project.identifier.toLowerCase().includes(query.toLowerCase());
           }
-          
+
           return true;
         })
         .sort((a, b) => a._links.ancestors.length - b._links.ancestors.length)
@@ -131,7 +149,10 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin {
     );
 
   public get params():ApiV3ListParameters {
-    const filters: ApiV3ListFilter[] = [];
+    const filters:ApiV3ListFilter[] = [
+      ['active', '=', ['t']],
+    ];
+
     if (this.query) {
       filters.push([
         'name_and_identifier',
@@ -140,7 +161,7 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin {
       ]);
     }
 
-    return { filters };
+    return { filters, pageSize: -1 };
   }
 
   constructor(
@@ -172,7 +193,7 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin {
   }
 
   public clearSelection() {
-    this.selectedProjects = [ this.currentProjectService.apiv3Path || '' ];
+    this.selectedProjects = [this.currentProjectService.apiv3Path || ''];
   }
 
   public onSubmit(e:Event) {
