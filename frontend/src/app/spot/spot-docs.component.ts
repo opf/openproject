@@ -7,6 +7,7 @@ import { Component } from '@angular/core';
 export class SpotDocsComponent {
   indeterminateState = null;
   checkboxValue = null;
+  listCheckboxValue = null;
   textFieldValue = 'ngModel value';
   dropModalOpen = false;
   alignment = 'bottom-center';

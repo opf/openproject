@@ -25,8 +25,12 @@ export class SpotDropModalComponent implements OnDestroy {
 
   @HostBinding('class.spot-drop-modal_opened') public _open = false;
 
+  @Output() closed = new EventEmitter<void>();
+
+  @Input('alignment') public alignment:SpotDropModalAlignmentOption = SpotDropModalAlignmentOption.BottomLeft;
+
   @Input('open')
-  public set open(value:boolean) {
+  set open(value:boolean) {
     this._open = value;
 
     if (this._open) {
@@ -43,32 +47,27 @@ export class SpotDropModalComponent implements OnDestroy {
     }
   }
 
-  public get open():boolean {
+  get open():boolean {
     return this._open;
   }
 
-  @Input('alignment') public alignment:SpotDropModalAlignmentOption = SpotDropModalAlignmentOption.BottomCenter;
-
-  get alignmentClass() {
+  get alignmentClass():string {
     return `spot-drop-modal--body_${this.alignment}`;
   }
 
-  @Output() closed = new EventEmitter<void>();
-
-  private closeEventListener = this.close.bind(this);
-
-  public close():void {
+  close():void {
     this.open = false;
   }
 
-  public onBodyClick(e:MouseEvent) {
+  onBodyClick(e:MouseEvent):void {
     // We stop propagation here so that clicks inside the body do not
     // close the modal when the event reaches the document body
     e.stopPropagation();
   }
 
-  public ngOnDestroy():void {
+  ngOnDestroy():void {
     document.body.removeEventListener('click', this.closeEventListener);
   }
-}
 
+  private closeEventListener = this.close.bind(this);
+}

@@ -28,7 +28,9 @@ export class SpotToggleComponent<T> implements ControlValueAccessor {
   @Output() checkedChange = new EventEmitter<boolean>();
 
   @Input() options:SpotToggleOption<T>[] = [];
+
   @Input() name = `spot-toggle-${+(new Date())}`;
+
   @Input('value') public _value:T;
 
   public get value():T {
@@ -41,19 +43,19 @@ export class SpotToggleComponent<T> implements ControlValueAccessor {
     this.onTouched(value);
   }
 
-  writeValue(value:T) {
+  writeValue(value:T):void {
     this.value = value;
   }
 
-  onChange = (_:T) => {};
-  onTouched = (_:T) => {};
+  onChange = (_:T):void => {};
 
-  registerOnChange(fn:any) {
+  onTouched = (_:T):void => {};
+
+  registerOnChange(fn:any):void {
     this.onChange = fn;
   }
 
-  registerOnTouched(fn:any) {
+  registerOnTouched(fn:any):void {
     this.onTouched = fn;
   }
 }
-

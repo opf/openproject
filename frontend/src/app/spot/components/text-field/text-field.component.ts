@@ -28,15 +28,18 @@ export class SpotTextFieldComponent implements ControlValueAccessor {
   @ViewChild('input') public input:ElementRef;
 
   @Input() name = `spot-text-field-${+(new Date())}`;
+
   @Input() disabled = false;
+
   @Input() public placeholder = '';
+
   @Input('value') public _value = '';
 
-  public get value():string {
+  get value():string {
     return this._value;
   }
 
-  public set value(value:string) {
+  set value(value:string) {
     this._value = value;
     this.onChange(value);
     this.onTouched(value);
@@ -46,15 +49,15 @@ export class SpotTextFieldComponent implements ControlValueAccessor {
     this.value = value;
   }
 
-  onChange = (_:string) => {};
-  onTouched = (_:string) => {};
+  onChange = (_:string):void => {};
 
-  registerOnChange(fn:any) {
+  onTouched = (_:string):void => {};
+
+  registerOnChange(fn:any):void {
     this.onChange = fn;
   }
 
-  registerOnTouched(fn:any) {
+  registerOnTouched(fn:any):void {
     this.onTouched = fn;
   }
 }
-

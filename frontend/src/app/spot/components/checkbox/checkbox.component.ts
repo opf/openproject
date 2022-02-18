@@ -2,13 +2,16 @@ import {
   Component,
   ElementRef,
   EventEmitter,
-  ViewChild,
   forwardRef,
   HostBinding,
   Input,
   Output,
+  ViewChild,
 } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import {
+  ControlValueAccessor,
+  NG_VALUE_ACCESSOR,
+} from '@angular/forms';
 
 export type SpotCheckboxState = true|false|null;
 
@@ -34,36 +37,37 @@ export class SpotCheckboxComponent implements ControlValueAccessor {
 
   @Input() public checked = false;
 
-  onStateChange() {
-    const value = this.input.nativeElement.checked;
+  onStateChange():void {
+    const value = (this.input.nativeElement as HTMLInputElement).checked;
     this.checkedChange.emit(value);
     this.onChange(value);
     this.onTouched(value);
   }
 
-  writeValue(value:SpotCheckboxState) {
+  writeValue(value:SpotCheckboxState):void {
     // This is set in a timeout because the initial value is set before the template is ready,
     // which causes the input nativeElement to not be available yet.
     setTimeout(() => {
-      const input = this.input.nativeElement;
+      const input = this.input.nativeElement as HTMLInputElement;
       if (value === null) {
         input.indeterminate = true;
       } else {
         input.indeterminate = false;
       }
-      
+
       this.checked = !!value;
     });
   }
 
-  onChange = (_:SpotCheckboxState) => {};
-  onTouched = (_:SpotCheckboxState) => {};
+  onChange = (_:SpotCheckboxState):void => {};
 
-  registerOnChange(fn:any) {
+  onTouched = (_:SpotCheckboxState):void => {};
+
+  registerOnChange(fn:any):void {
     this.onChange = fn;
   }
 
-  registerOnTouched(fn:any) {
+  registerOnTouched(fn:any):void {
     this.onTouched = fn;
   }
 }

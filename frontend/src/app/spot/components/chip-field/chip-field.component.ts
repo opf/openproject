@@ -20,6 +20,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 })
 export class SpotChipFieldComponent implements ControlValueAccessor {
   @HostBinding('class.spot-chip-field') public classNameChipField = true;
+
   @HostBinding('class.spot-text-field') public classNameTextField = true;
 
   @HostListener('click') public onParentClick() {
@@ -29,27 +30,30 @@ export class SpotChipFieldComponent implements ControlValueAccessor {
   @ViewChild('input') public input:ElementRef;
 
   @Input() name = `spot-chip-field-${+(new Date())}`;
+
   @Input() disabled = false;
+
   @Input() public placeholder = '';
+
   @Input('value') public _value:string[] = [];
 
-  public textValue = '';
+  textValue = '';
 
-  public get value():string[] {
+  get value():string[] {
     return this._value;
   }
 
-  public set value(value:string[]) {
+  set value(value:string[]) {
     this._value = value;
     this.onChange(value);
     this.onTouched(value);
   }
 
-  public remove(i:number) {
+  remove(i:number):void {
     this.value = this.value.slice(0, i).concat(this.value.slice(i + 1));
   }
 
-  public onBackspace(e:KeyboardEvent) {
+  onBackspace(e:KeyboardEvent):void {
     if (this.textValue !== '') {
       return;
     }
@@ -59,7 +63,7 @@ export class SpotChipFieldComponent implements ControlValueAccessor {
     this.value = this.value.slice(0, this.value.length - 1);
   }
 
-  public onEnter(e:KeyboardEvent) {
+  onEnter(e:KeyboardEvent):void {
     e.stopPropagation();
 
     if (this.textValue === '') {
@@ -76,19 +80,19 @@ export class SpotChipFieldComponent implements ControlValueAccessor {
     this.textValue = '';
   }
 
-  writeValue(value:string[]) {
+  writeValue(value:string[]):void {
     this.value = value;
   }
 
-  onChange = (_:string[]) => {};
-  onTouched = (_:string[]) => {};
+  onChange = (_:string[]):void => {};
 
-  registerOnChange(fn:any) {
+  onTouched = (_:string[]):void => {};
+
+  registerOnChange(fn:any):void {
     this.onChange = fn;
   }
 
-  registerOnTouched(fn:any) {
+  registerOnTouched(fn:any):void {
     this.onTouched = fn;
   }
 }
-

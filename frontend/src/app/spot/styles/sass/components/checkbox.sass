@@ -36,6 +36,9 @@
     height: 2px
     background-color: $spot-color-main
 
+  &--input:checked + &--fake
+    background-color: $spot-color-main-light
+
   &--input:checked + &--fake::before,
   &--input:checked + &--fake::after
     border-radius: 1px
@@ -56,6 +59,9 @@
   &--input:disabled + &--fake
     border-color: $spot-color-basic-gray-3
     cursor: default
+
+  &--input:disabled:checked + &--fake
+    background-color: $spot-color-basic-gray-5
 
   &--input:disabled + &--fake::before,
   &--input:disabled + &--fake::after
