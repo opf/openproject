@@ -32,7 +32,7 @@ describe ::Storages::Storages::SetAttributesService, type: :model do
   let(:current_user) { build_stubbed(:admin) }
 
   let(:contract_instance) do
-    contract = double('contract_instance')
+    contract = instance_double(::Storages::Storages::BaseContract, 'contract_instance')
     allow(contract)
       .to receive(:validate)
       .and_return(contract_valid)
@@ -42,7 +42,7 @@ describe ::Storages::Storages::SetAttributesService, type: :model do
     contract
   end
 
-  let(:contract_errors) { double('contract_errors') }
+  let(:contract_errors) { instance_double(ActiveModel::Errors, 'contract_errors') }
   let(:contract_valid) { true }
   let(:model_valid) { true }
 
@@ -52,7 +52,7 @@ describe ::Storages::Storages::SetAttributesService, type: :model do
                         contract_class: contract_class,
                         contract_options: {})
   end
-  let(:model_instance) { ::Storages::Storages.new }
+  let(:model_instance) { ::Storages::Storage.new }
   let(:contract_class) do
     allow(::Storages::Storages::CreateContract)
       .to receive(:new)
@@ -77,7 +77,7 @@ describe ::Storages::Storages::SetAttributesService, type: :model do
   end
 
   it 'is a success' do
-    is_expected
+    expect(subject)
       .to be_success
   end
 
@@ -97,13 +97,9 @@ describe ::Storages::Storages::SetAttributesService, type: :model do
 
   context 'with an invalid contract' do
     let(:contract_valid) { false }
-    let(:expect_time_instance_save) do
-      expect(model_instance)
-        .not_to receive(:save)
-    end
 
     it 'returns failure' do
-      is_expected.not_to be_success
+      expect(subject).not_to be_success
     end
 
     it "returns the contract's errors" do

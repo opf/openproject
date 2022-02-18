@@ -33,11 +33,13 @@ require 'spec_helper'
 shared_examples_for 'storage contract', webmock: true do
   let(:storage_name) { 'Storage 1' }
   let(:storage_provider_type) { 'nextcloud' }
-  let(:storage_host) { 'http://host1.example.com' }
-  let(:storage_creator) { create(:admin) }
+  let(:storage_host) { 'https://host1.example.com' }
+  let(:storage_creator) { current_user }
+
+  let(:current_user) { create(:admin) }
 
   let(:host_response_body) { '{"data": "that you want to return"}' }
-  let(:host_response_code) { '404' }
+  let(:host_response_code) { '200' }
   let(:host_response_message) { 'OK' }
   let(:host_response_major_version) { 23 }
   let(:host_response_body) do
@@ -61,22 +63,19 @@ shared_examples_for 'storage contract', webmock: true do
 
   before do
     unless storage_host.nil?
-      stub_request(:get,
-                   File.join(storage_host.sub("https://", ""),
-                             '/ocs/v2.php/cloud/capabilities'))
+      stub_request(
+        :get,
+        File.join(storage_host, '/ocs/v2.php/cloud/capabilities')
+      ).to_return(
+        status: host_response_code,
+        body: host_response_body
+      )
     end
-      # to_return(
-      #   status: host_response_code,
-      #   body: host_response_body
-      # )
   end
 
   it_behaves_like 'contract is valid for active admins and invalid for regular users'
 
   describe 'validations' do
-    let(:current_user) { build_stubbed :admin }
-
-
     context 'when all attributes are valid' do
       it_behaves_like 'contract is valid'
     end
@@ -89,7 +88,7 @@ shared_examples_for 'storage contract', webmock: true do
       end
 
       context 'as it is empty' do
-        let(:storage_name) { ''}
+        let(:storage_name) { '' }
 
         it_behaves_like 'contract is invalid'
       end
@@ -138,12 +137,26 @@ shared_examples_for 'storage contract', webmock: true do
 
         it_behaves_like 'contract is invalid'
       end
-      #
-      # context 'when provider_type is nextcloud' do
-      #   context 'with host not reachable' do
-      #
-      #   end
-      # end
+
+      context 'when provider_type is nextcloud' do
+        context 'when response code is a 404 NOT FOUND' do
+          let(:host_response_code) { '404' }
+
+          it_behaves_like 'contract is invalid'
+        end
+
+        context 'when response code is a 500 PERMISSION DENIED' do
+          let(:host_response_code) { '500' }
+
+          it_behaves_like 'contract is invalid'
+        end
+
+        context 'when Nextcloud version is below the required minimal version which is 23' do
+          let(:host_response_major_version) { '22' }
+
+          it_behaves_like 'contract is invalid'
+        end
+      end
     end
   end
 end

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -31,11 +32,27 @@ require 'spec_helper'
 require 'contracts/shared/model_contract_shared_context'
 require_relative 'shared_contract_examples'
 
-describe PlaceholderUsers::UpdateContract do
+describe ::Storages::Storages::UpdateContract do
   include_context 'ModelContract shared context'
 
-  it_behaves_like 'placeholder user contract' do
-    let(:placeholder_user) { build_stubbed(:placeholder_user, name: placeholder_user_name) }
-    let(:contract) { described_class.new(placeholder_user, current_user) }
+  it_behaves_like 'storage contract' do
+    let(:storage) do
+      build_stubbed(:storage,
+                    creator: current_user,
+                    host: 'https://host1.example.com',
+                    name: 'Storage 1',
+                    provider_type: 'nextcloud').tap do |storage|
+        if storage_name == storage.name
+          # trigger at least one change per default
+          storage.name += " (DEFAULT UPDATED)"
+        else
+          storage.name = storage_name
+        end
+        storage.host = storage_host
+        storage.provider_type = storage_provider_type
+        storage.creator = storage_creator
+      end
+    end
+    let(:contract) { described_class.new(storage, current_user) }
   end
 end

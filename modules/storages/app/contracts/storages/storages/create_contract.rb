@@ -26,10 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'net/http'
-require 'uri'
-
 module Storages::Storages
+  # We create the empty class here, so that other pieces of code that looks for the contract in its default place will
+  # find it. So, the CreateService for Storages will expect its contract to be here.
+  #
+  # We inherit from a BaseContract as the BaseContract here is sharing a lot in common with the UpdateContract.
   class CreateContract < ::Storages::Storages::BaseContract
   end
 end

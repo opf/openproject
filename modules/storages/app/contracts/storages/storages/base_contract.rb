@@ -31,6 +31,7 @@ require 'uri'
 
 module Storages::Storages
   class BaseContract < ::ModelContract
+    MINIMAL_NEXTCLOUD_VERSION = 23
     include ::Storages::Storages::Concerns::ManageStoragesGuarded
     include ActiveModel::Validations
 
@@ -43,9 +44,10 @@ module Storages::Storages
     attribute :host
     validates :host, length: { minimum: 1, maximum: 255 }, allow_nil: false
     validates_url :host
-    # Check that a host actually is a storage server
-    validate :validate_host_reachable, if: -> { errors[:host].empty? }
 
+    # Check that a host actually is a storage server.
+    # But only do so if the validations above for URL were successful.
+    validate :validate_host_reachable, if: -> { errors[:host].empty? }
 
     def validate_creator_is_user
       unless creator == user
@@ -54,6 +56,31 @@ module Storages::Storages
     end
 
     def validate_host_reachable
+      response = request_capabilities
+
+      unless response.is_a? Net::HTTPSuccess
+        errors.add(:host, :invalid)
+        return
+      end
+
+      unless major_version_sufficient?(response)
+        errors.add(:host, :invalid)
+      end
+    end
+
+    def major_version_sufficient?(response)
+      return false unless response.body
+
+      version = JSON.parse(response.body).dig('ocs', 'data', 'version', 'major')
+      return false if version.nil?
+      return false if version < MINIMAL_NEXTCLOUD_VERSION
+
+      true
+    end
+
+    private
+
+    def request_capabilities
       uri = URI.parse(File.join(host, '/ocs/v2.php/cloud/capabilities'))
       request = Net::HTTP::Get.new(uri)
       request["Ocs-Apirequest"] = "true"
@@ -63,16 +90,8 @@ module Storages::Storages
         use_ssl: uri.scheme == "https"
       }
 
-      response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
+      Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
         http.request(request)
-      end
-
-      errors.add(:host, :invalid) unless response.is_a? Net::HTTPSuccess
-    end
-
-    def validate_uri
-      unless host =~ /\A#{URI::regexp}\z/
-        errors.add(:host, :invalid)
       end
     end
   end
