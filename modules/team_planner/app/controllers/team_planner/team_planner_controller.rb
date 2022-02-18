@@ -1,9 +1,11 @@
 module ::TeamPlanner
   class TeamPlannerController < BaseController
+    include EnterpriseTrialHelper
     before_action :find_optional_project
     before_action :authorize, only: %i[index]
     before_action :require_ee_token, only: %i[index]
     before_action :redirect_to_first_plan, only: :index
+    before_action :augur_content_security_policy, only: :upsale
 
     menu_item :team_planner_view
 
