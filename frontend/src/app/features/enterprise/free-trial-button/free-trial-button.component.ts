@@ -36,6 +36,8 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { EnterpriseTrialModalComponent } from 'core-app/features/enterprise/enterprise-modal/enterprise-trial.modal';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { EnterpriseTrialService } from 'core-app/features/enterprise/enterprise-trial.service';
+import { TimezoneService } from 'core-app/core/datetime/timezone.service';
+import { distinctUntilChanged } from 'rxjs/operators';
 
 export const freeTrialButtonSelector = 'free-trial-button';
 
@@ -45,14 +47,38 @@ export const freeTrialButtonSelector = 'free-trial-button';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FreeTrialButtonComponent {
+  created = this.timezoneService.formattedDate(new Date().toString());
+
+  email = '';
+
   public text = {
     button_trial: this.I18n.t('js.admin.enterprise.upsale.button_start_trial'),
+    confirmation_info: (date:string, email:string) => this.trialRequested ? this.I18n.t('js.admin.enterprise.trial.confirmation_info', {
+      date,
+      email,
+    }): '',
   };
 
   constructor(protected I18n:I18nService,
     protected opModalService:OpModalService,
     readonly injector:Injector,
-    public eeTrialService:EnterpriseTrialService) {
+    public eeTrialService:EnterpriseTrialService,
+    readonly timezoneService:TimezoneService) {
+  }
+  ngOnInit() {
+    const eeTrialKey = (window as any).gon.ee_trial_key;
+    if (eeTrialKey) {
+      const savedDateStr = eeTrialKey.created.split(' ')[0];
+      this.created = this.timezoneService.formattedDate(savedDateStr);
+    }
+    this.eeTrialService.userData$
+      .values$()
+      .pipe(
+        distinctUntilChanged(),
+      )
+      .subscribe((userForm) => {
+        this.email = userForm.email;
+      });
   }
   public openTrialModal():void {
     // cancel request and open first modal window
@@ -60,7 +86,7 @@ export class FreeTrialButtonComponent {
     this.eeTrialService.modalOpen = true;
     this.opModalService.show(EnterpriseTrialModalComponent, this.injector);
   }
-  public get noTrialRequested() {
-    return this.eeTrialService.status === undefined;
+  public get trialRequested() {
+    return window.gon.ee_trial_key !== undefined;
   }
 }

@@ -45,7 +45,7 @@ class EnterprisesController < ApplicationController
     helpers.write_augur_to_gon
 
     if !@current_token.present?
-      write_trial_key_to_gon
+      helpers.write_trial_key_to_gon
     end
   end
 
@@ -95,16 +95,6 @@ class EnterprisesController < ApplicationController
   end
 
   private
-
-  def write_trial_key_to_gon
-    @trial_key = Token::EnterpriseTrialKey.find_by(user_id: User.system.id)
-    if @trial_key
-      gon.ee_trial_key = {
-        value: @trial_key.value,
-        created: @trial_key.created_at
-      }
-    end
-  end
 
   def default_breadcrumb
     t(:label_enterprise_edition)

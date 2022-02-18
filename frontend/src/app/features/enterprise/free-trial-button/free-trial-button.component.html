@@ -1,3 +1,5 @@
-<button class="button -alt-highlight -round" (click)="openTrialModal()">
-  {{ text.button_trial }}
-</button>
+<div [attr.data-tooltip]="text.confirmation_info(created, email)" [ngClass]="{'tooltip--top': trialRequested}">
+  <button [disabled]="trialRequested" class="button -alt-highlight -round" (click)="openTrialModal()">
+    {{ text.button_trial }}
+  </button>
+</div>

@@ -66,6 +66,7 @@ export class EnterpriseBaseComponent {
   }
 
   public get noTrialRequested() {
-    return this.eeTrialService.status === undefined;
+    
+    return window.gon.ee_trial_key === undefined;
   }
 }
