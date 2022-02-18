@@ -42,30 +42,14 @@ describe ::Storages::Storage, type: :model do
       storage = described_class.create default_attributes
       expect(storage).to be_valid
     end
-    
-    it "fails the validation if name is empty string" do
-      expect(described_class.create(default_attributes.merge({ name: "" }))).to be_invalid
-    end
 
-    it "fails the validation if name is nil" do
-      expect(described_class.create(default_attributes.merge({ name: nil }))).to be_invalid
-    end
-
-    it "fails the validation if host is empty string" do
-      expect(described_class.create(default_attributes.merge({ host: '' }))).to be_invalid
-    end
-
-    it "fails the validation if host is nil" do
-      expect(described_class.create(default_attributes.merge({ host: nil }))).to be_invalid
-    end
-    
-    context "having already one instance" do
+    context "with one instance already present" do
       let(:old_storage) { described_class.create default_attributes }
-      
+
       before do
         old_storage
       end
-      
+
       it "fails the validation if name is not unique" do
         expect(described_class.create(default_attributes.merge({ host: 'https://example2.com' }))).to be_invalid
       end

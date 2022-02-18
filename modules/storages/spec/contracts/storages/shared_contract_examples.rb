@@ -93,13 +93,8 @@ shared_examples_for 'storage contract', webmock: true do
         it_behaves_like 'contract is invalid'
       end
 
-      context 'as it is not unique' do
-        before do
-          ::Storages::Storage.create(name: storage_name,
-                                     provider_type: storage_provider_type,
-                                     host: storage_host,
-                                     creator: storage_creator)
-        end
+      context 'as it is nil' do
+        let(:storage_name) { nil }
 
         it_behaves_like 'contract is invalid'
       end
@@ -128,6 +123,12 @@ shared_examples_for 'storage contract', webmock: true do
     context 'when host is invalid' do
       context 'as host is not a URL' do
         let(:storage_host) { '---invalid-url---' }
+
+        it_behaves_like 'contract is invalid'
+      end
+
+      context 'as host is an empty string' do
+        let(:storage_host) { '' }
 
         it_behaves_like 'contract is invalid'
       end

@@ -32,14 +32,6 @@ class Storages::Storage < ApplicationRecord
   has_many :projects_storages, dependent: :destroy, class_name: 'Storages::ProjectStorage'
   has_many :projects, through: :projects_storages
 
-  PROVIDER_TYPES = %w[nextcloud].freeze
-
   validates_uniqueness_of :host
-  validates :name, length: { minimum: 1, maximum: 255 }, allow_nil: false
   validates_uniqueness_of :name
-  validates :provider_type, inclusion: { in: ->(*) { PROVIDER_TYPES } }, allow_nil: false
-
-  def visible_to?(user)
-    user.allowed_to_globally?(:view_file_links)
-  end
 end

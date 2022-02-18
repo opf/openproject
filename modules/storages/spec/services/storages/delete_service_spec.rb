@@ -30,5 +30,7 @@ require 'spec_helper'
 require 'services/base_services/behaves_like_delete_service'
 
 describe ::Storages::Storages::DeleteService, type: :model do
-  it_behaves_like 'BaseServices delete service'
+  it_behaves_like 'BaseServices delete service' do
+    let(:factory) { :storage }
+  end
 end
