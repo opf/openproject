@@ -6,6 +6,7 @@ import {
   EventEmitter,
   OnDestroy,
 } from '@angular/core';
+import { KeyCodes } from 'core-app/shared/helpers/keyCodes.enum';
 
 enum SpotDropModalAlignmentOption {
   BottomCenter = 'bottom-center',
@@ -40,9 +41,11 @@ export class SpotDropModalComponent implements OnDestroy {
        */
       setTimeout(() => {
         document.body.addEventListener('click', this.closeEventListener);
-      })
+        document.body.addEventListener('keydown', this.escapeListener);
+      });
     } else {
       document.body.removeEventListener('click', this.closeEventListener);
+      document.body.removeEventListener('click', this.escapeListener);
       this.closed.emit();
     }
   }
@@ -67,7 +70,14 @@ export class SpotDropModalComponent implements OnDestroy {
 
   ngOnDestroy():void {
     document.body.removeEventListener('click', this.closeEventListener);
+    document.body.removeEventListener('click', this.escapeListener);
   }
 
   private closeEventListener = this.close.bind(this);
+
+  private escapeListener = (evt:KeyboardEvent) => {
+    if (evt.keyCode === KeyCodes.ESCAPE) {
+      this.close();
+    }
+  };
 }
