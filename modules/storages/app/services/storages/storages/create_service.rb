@@ -26,6 +26,13 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+# The comments here are also referenced from the other *_service.rb files in the module
+# ToDo: add purpose
+# ToDo: Where is the model called? I believe this one isn't called at all, right?
+# ToDo: Why Storages::Storage_s_ module?
+# File Links uses two modules lines in:
+# modules/storages/app/services/storages/file_links/delete_service.rb
+# Reference: ToDo: Link to documentation on services
 module Storages::Storages
   class CreateService < ::BaseServices::Create
   end

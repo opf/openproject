@@ -26,10 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+# See also: ../storages_api.rb for comments
+# ToDo: I've checked the other files and didn't understand anything...
 module API
   module V3
     module FileLinks
       class FileLinksAPI < ::API::OpenProjectAPI
+        # Helpers are defined here: https://github.com/ruby-grape/grape#helpers
+        # ToDo: However, I didn't really understand what this thing does and where it's called
         helpers do
           def visible_file_links_scope
             ::Storages::FileLink.visible(current_user)

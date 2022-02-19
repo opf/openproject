@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,6 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+require 'net/http'
+require 'uri'
+
+# See also: base_contract.rb for comments
+# ToDo: Why do we always have to define all of these contracts?
 module Storages::Storages
   # We create the empty class here, so that other pieces of code that looks for the contract in its default place will
   # find it. So, the CreateService for Storages will expect its contract to be here.

@@ -28,6 +28,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+# Purpose: Controls the page that enables/disables Storages per project.
+# See also: storages_controller.rb for a controller with very similar structure.
+# ToDo: Some differences to StoragesController?
 class Storages::Admin::ProjectsStoragesController < Projects::SettingsController
   model_object Storages::ProjectStorage
 

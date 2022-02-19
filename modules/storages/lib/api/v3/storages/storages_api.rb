@@ -26,9 +26,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+# In understand this file sets up routing for the Storages API based on
+# the Grape REST API Framework.
+# ToDo: I understand the naming of this file follows the API::V::Storages::StoragesAPI module
+# names, just that this starts in storages/lib/?
+# Is it Grape that somehow knows how to load this file? What is the Grape load order?
 module API
   module V3
     module Storages
+      # OpenProjectAPI is a simple subclass of Grape::API that handles patches.
       class StoragesAPI < ::API::OpenProjectAPI
         helpers do
           def visible_storages_scope
@@ -36,12 +42,22 @@ module API
           end
         end
 
+        # ToDo: The "resources" keyword is from config/routes.rb.
+        # What does "resources" mean in the context of Grape? Just like in routes.rb?
         resources :storages do
+          # Didn't understand route_param in Grape...
           route_param :storage_id, type: Integer, desc: 'Storage id' do
+            # Execute the do...end lines after parameter validation but before the actual
+            # call to the API method.
+            # Please see: The after_validation call-back in Grape:
+            # https://github.com/ruby-grape/grape#before-after-and-finally
             after_validation do
               @storage = visible_storages_scope.find(params[:storage_id])
             end
 
+            # I understand that the line below defined a reaction to a GET request...
+            # ToDo: What is this ampersand "&" before the ::API?
+            # ToDo: Any documentation on API endpoints?
             get &::API::V3::Utilities::Endpoints::Show.new(model: ::Storages::Storage).mount
           end
         end

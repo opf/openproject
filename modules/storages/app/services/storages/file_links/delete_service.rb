@@ -26,6 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+# See also: ../storages/create_service.rb for comments
+# ToDo: There are two module statements here instead of one in storages/create_service.rb
 module Storages
   module FileLinks
     class DeleteService < ::BaseServices::Delete
