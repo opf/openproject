@@ -33,11 +33,11 @@ class CustomActionsController < ApplicationController
   before_action :augur_content_security_policy
   before_action :require_admin
   before_action :require_enterprise_token
- 
+
   self._model_object = CustomAction
   before_action :find_model_object, only: %i(edit update destroy)
   before_action :pad_params, only: %i(create update)
-  
+
   layout 'admin'
 
   def index

@@ -46,17 +46,17 @@ export const freeTrialButtonSelector = 'free-trial-button';
   templateUrl: './free-trial-button.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FreeTrialButtonComponent {
+export class FreeTrialButtonComponent implements OnInit {
   created = this.timezoneService.formattedDate(new Date().toString());
 
   email = '';
 
   public text = {
     button_trial: this.I18n.t('js.admin.enterprise.upsale.button_start_trial'),
-    confirmation_info: (date:string, email:string) => this.trialRequested ? this.I18n.t('js.admin.enterprise.trial.confirmation_info', {
+    confirmation_info: (date:string, email:string) => { return this.trialRequested ? this.I18n.t('js.admin.enterprise.trial.confirmation_info', {
       date,
       email,
-    }): '',
+    }) : ''},
   };
 
   constructor(protected I18n:I18nService,
@@ -65,9 +65,10 @@ export class FreeTrialButtonComponent {
     public eeTrialService:EnterpriseTrialService,
     readonly timezoneService:TimezoneService) {
   }
+
   ngOnInit() {
     const eeTrialKey = (window as any).gon.ee_trial_key;
-    if (eeTrialKey) {
+    if (window.gon.ee_trial_key) {
       const savedDateStr = eeTrialKey.created.split(' ')[0];
       this.created = this.timezoneService.formattedDate(savedDateStr);
     }
@@ -80,12 +81,14 @@ export class FreeTrialButtonComponent {
         this.email = userForm.email;
       });
   }
+
   public openTrialModal():void {
     // cancel request and open first modal window
     this.eeTrialService.cancelled = true;
     this.eeTrialService.modalOpen = true;
     this.opModalService.show(EnterpriseTrialModalComponent, this.injector);
   }
+
   public get trialRequested() {
     return window.gon.ee_trial_key !== undefined;
   }
