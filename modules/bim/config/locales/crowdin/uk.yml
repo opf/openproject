@@ -16,44 +16,44 @@ uk:
     x_bcf_issues:
       zero: 'Немає проблем BCF'
       one: 'Одна проблема BCF'
-      other: '%{count} BCF issues'
+      other: '%{count} питання BCF'
     bcf_xml:
       xml_file: 'BCF файл XML'
       import_title: 'Імпортувати'
       export: 'Експорт'
       import_update_comment: '(Оновлено в BCF імпорті)'
       import_failed: 'Не вдалося імпортувати файл BCF: %{error}'
-      import_failed_unsupported_bcf_version: 'Failed to read the BCF file: The BCF version is not supported. Please ensure the version is at least %{minimal_version} or higher.'
-      import_successful: 'Imported %{count} BCF issues'
-      import_canceled: 'BCF-XML import canceled.'
-      type_not_active: "The issue type is not activated for this project."
+      import_failed_unsupported_bcf_version: 'Не вдалося прочитати файл BCF: не підтримується версія BCF. Будь ласка, зробіть так, щоб версія була принаймні%{minimal_version} або вище.'
+      import_successful: 'Імпортовано %{count} питань BCF'
+      import_canceled: 'Імпорт BCF-XML було скасовано'
+      type_not_active: "Даний тип питання не активований для цього проєкту."
       import:
-        num_issues_found: '%{x_bcf_issues} are contained in the BCF-XML file, their details are listed below.'
+        num_issues_found: '%{x_bcf_issues} містяться у файлі BCF-XML, деталі перераховані нижче.'
         button_prepare: 'Підготувати імпорт'
         button_perform_import: 'Підтвердити імпортування'
-        button_proceed: 'Proceed with import'
+        button_proceed: 'Продовжувати імпорт'
         button_back_to_list: 'Повернутися до списку'
         no_permission_to_add_members: 'У вас недостатньо прав, щоб додати їх до проекту учасниками.'
         contact_project_admin: 'Зверніться до адміністратора проекту, щоб додати їх в якості членів і почати імпорт знову.'
         continue_anyways: 'Ви все ще хочете завершити імпорт?'
-        description: "Provide a BCF-XML v2.1 file to import into this project. You can examine its contents before performing the import."
-        invalid_types_found: 'Invalid topic type names found'
-        invalid_statuses_found: 'Invalid status names found'
-        invalid_priorities_found: 'Invalid priority names found'
-        invalid_emails_found: 'Invalid email addresses found'
+        description: "Надайте файл BCF-XML v2.1 для того, щоб імпортувати у цей проєкт. Ви можете перевірити його складові перед тим, як виконати імпорт."
+        invalid_types_found: 'Знайдено недійсні назви типу теми'
+        invalid_statuses_found: 'Знайдено недійсні назви статусу'
+        invalid_priorities_found: 'Знайдено недійсні назви пріоритету'
+        invalid_emails_found: 'Знайдено недійсні електронні адреси'
         unknown_emails_found: 'Знайдено невідомі адреси електронної пошти'
         unknown_property: 'Невідома властивість'
-        non_members_found: 'Non project members found'
-        import_types_as: 'Set all these types to'
-        import_statuses_as: 'Set all these statuses to'
-        import_priorities_as: 'Set all these priorities to'
-        invite_as_members_with_role: 'Invite them as members to the project "%{project}" with role'
-        add_as_members_with_role: 'Add them as members to the project "%{project}" with role'
+        non_members_found: 'Знайдено недійсних учасників проєкту'
+        import_types_as: 'Встановити усі ці типи у'
+        import_statuses_as: 'Встановити усі ці статуси у'
+        import_priorities_as: 'Встановити усі ці пріоритети у '
+        invite_as_members_with_role: 'Запросіть їх у якості учасників до проєкту"%{project}" у ролі'
+        add_as_members_with_role: 'Додати їх у якості учасників до проєкту "%{project}" у ролі'
         no_type_provided: 'Тип не вказано'
         no_status_provided: 'Cтатус не вказано'
         no_priority_provided: 'Пріоритет не вказано'
-        perform_description: "Do you want to import or update the issues listed above?"
-        replace_with_system_user: 'Replace them with "System" user'
+        perform_description: "Чи хочете ви імпортувати або обновити задачі, що перераховані вище?"
+        replace_with_system_user: 'Замінить їх користувачем системи'
         import_as_system_user: 'Імпортуйте їх як користувача "Система".'
         what_to_do: "Що ти хочеш зробити?"
         work_package_has_newer_changes: "Outdated! This topic was not updated as the latest changes on the server were newer than the \"ModifiedDate\" of the imported topic. However, comments to the topic were imported."
@@ -130,5 +130,5 @@ uk:
   permission_manage_ifc_models: "Import and manage IFC models"
   extraction:
     available:
-      ifc_convert: "IFC conversion pipeline available"
+      ifc_convert: "Доступна перебудова конвеєрної системи IFC"
 
