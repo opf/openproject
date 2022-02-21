@@ -29,301 +29,57 @@
 #++
 
 require 'spec_helper'
+require 'features/work_packages/project_include/project_include_shared_examples'
 require_relative '../support/pages/calendar'
 
 describe 'Calendar project include', type: :feature, js: true do
-  let(:calendar) { ::Pages::Calendar.new project }
-  let(:dropdown) { ::Components::ProjectIncludeComponent.new }
-
-  let!(:project) do
-    create(:project, enabled_module_names: %w[work_package_tracking calendar_view])
-  end
-  let!(:sub_project) do
-    create(:project, parent: project, enabled_module_names: %w[work_package_tracking])
-  end
-  let!(:sub_sub_project) do
-    create(:project, parent: sub_project, enabled_module_names: %w[work_package_tracking])
-  end
-  let!(:other_project) do
-    create(:project, enabled_module_names: %w[work_package_tracking])
+  shared_let(:enabled_modules) { %w[work_package_tracking calendar_view] }
+  shared_let(:permissions) do
+    %i[view_work_packages view_calendar edit_work_packages add_work_packages save_queries manage_public_queries]
   end
 
-  let(:user) do
-    create :user,
-           member_in_projects: [project, sub_project, sub_sub_project, other_project],
-           member_with_permissions: %w[
-             view_work_packages edit_work_packages add_work_packages
-             view_calendar
-             save_queries manage_public_queries
-           ]
-  end
+  it_behaves_like 'has a project include dropdown' do
+    let(:work_package_view) { ::Pages::Calendar.new project }
+    let(:dropdown) { ::Components::ProjectIncludeComponent.new }
 
-  let!(:other_user) do
-    create :user,
-           firstname: 'Other',
-           lastname: 'User',
-           member_in_projects: [project, other_project, sub_project, sub_sub_project],
-           member_with_permissions: %w[
-             view_work_packages edit_work_packages view_team_planner manage_team_planner
-           ]
-  end
+    it 'correctly filters work packages by project' do
+      dropdown.expect_count 1
 
-  current_user { user }
+      # Make sure the filter gets set once
+      dropdown.toggle!
+      dropdown.expect_open
+      dropdown.click_button 'Apply'
+      dropdown.expect_closed
 
-  let(:type_task) { create :type_task }
-  let(:type_bug) { create :type_bug }
-  let(:closed_status) { create :status, is_closed: true }
+      work_package_view.expect_event task
+      work_package_view.expect_event sub_bug, present: false
+      work_package_view.expect_event sub_sub_bug, present: false
+      work_package_view.expect_event other_task
+      work_package_view.expect_event other_other_task, present: false
 
-  let!(:task) do
-    create :work_package,
-           project: project,
-           type: type_task,
-           assigned_to: user,
-           start_date: Time.zone.today - 2.day,
-           due_date: Time.zone.today + 1.day,
-           subject: 'A task for ' + user.name
-  end
-  let!(:sub_bug) do
-    create :work_package,
-           project: sub_project,
-           type: type_bug,
-           assigned_to: user,
-           start_date: Time.zone.today - 10.days,
-           due_date: Time.zone.today + 20.days,
-           subject: 'A bug in sub-project for ' + user.name
-  end
-  let!(:sub_sub_bug) do
-    create :work_package,
-           project: sub_sub_project,
-           type: type_bug,
-           assigned_to: user,
-           start_date: Time.zone.today - 1.day,
-           due_date: Time.zone.today + 2.day,
-           subject: 'A bug in sub-sub-project for ' + user.name
-  end
-  let!(:other_task) do
-    create :work_package,
-           project: project,
-           type: type_task,
-           assigned_to: other_user,
-           start_date: Time.zone.today,
-           due_date: Time.zone.today + 2.day,
-           subject: 'A task for the other user'
-  end
-  let!(:other_other_task) do
-    create :work_package,
-           project: other_project,
-           type: type_task,
-           assigned_to: other_user,
-           start_date: Time.zone.today - 2.day,
-           due_date: Time.zone.today + 4.day,
-           subject: 'A task for the other user in other-project'
-  end
+      dropdown.toggle!
+      dropdown.toggle_checkbox(sub_sub_project.id)
+      dropdown.click_button 'Apply'
+      dropdown.expect_count 2
 
-  before do
-    project.types << type_bug
-    project.types << type_task
-    sub_project.types << type_bug
-    sub_project.types << type_task
-    sub_sub_project.types << type_bug
-    sub_sub_project.types << type_task
-    other_project.types << type_bug
-    other_project.types << type_task
+      work_package_view.expect_event sub_bug, present: false
+      work_package_view.expect_event sub_sub_bug
 
-    login_as current_user
-    calendar.visit!
-  end
+      dropdown.toggle!
+      dropdown.toggle_checkbox(other_project.id)
+      dropdown.click_button 'Apply'
+      dropdown.expect_count 3
 
-  it 'can add and remove projects' do
-    dropdown.expect_count 1
-    dropdown.toggle!
-    dropdown.expect_open
+      work_package_view.expect_event other_task
+      work_package_view.expect_event other_other_task
 
-    dropdown.expect_checkbox(project.id, true)
-    dropdown.expect_checkbox(other_project.id)
-    dropdown.expect_checkbox(sub_project.id)
-    dropdown.expect_checkbox(sub_sub_project.id)
+      page.refresh
 
-    dropdown.toggle_checkbox(project.id)
-    dropdown.toggle_checkbox(other_project.id)
-    dropdown.toggle_checkbox(sub_sub_project.id)
-
-    dropdown.expect_checkbox(project.id, true)
-    dropdown.expect_checkbox(other_project.id, true)
-    dropdown.expect_checkbox(sub_project.id)
-    dropdown.expect_checkbox(sub_sub_project.id, true)
-
-    dropdown.toggle_checkbox(sub_sub_project.id)
-
-    dropdown.expect_checkbox(project.id, true)
-    dropdown.expect_checkbox(other_project.id, true)
-    dropdown.expect_checkbox(sub_project.id)
-    dropdown.expect_checkbox(sub_sub_project.id)
-
-    dropdown.click_button 'Apply'
-    dropdown.expect_closed
-    dropdown.expect_count 2
-
-    dropdown.toggle!
-
-    dropdown.toggle_checkbox(sub_sub_project.id)
-    dropdown.click_button 'Apply'
-    dropdown.expect_closed
-    dropdown.expect_count 3
-
-    page.refresh
-
-    dropdown.expect_count 3
-
-    dropdown.toggle!
-
-    dropdown.expect_checkbox(project.id, true)
-    dropdown.expect_checkbox(other_project.id, true)
-    dropdown.expect_checkbox(sub_project.id)
-    dropdown.expect_checkbox(sub_sub_project.id, true)
-
-    dropdown.toggle_checkbox(sub_sub_project.id)
-    dropdown.click_button 'Apply'
-    dropdown.expect_closed
-    dropdown.expect_count 2
-  end
-
-  it 'can clear the selection' do
-    dropdown.expect_count 1
-    dropdown.toggle!
-    dropdown.expect_open
-
-    dropdown.toggle_checkbox(project.id)
-    dropdown.toggle_checkbox(other_project.id)
-    dropdown.toggle_checkbox(sub_sub_project.id)
-
-    dropdown.expect_checkbox(project.id, true)
-    dropdown.expect_checkbox(other_project.id, true)
-    dropdown.expect_checkbox(sub_project.id)
-    dropdown.expect_checkbox(sub_sub_project.id, true)
-
-    dropdown.click_button 'Apply'
-    dropdown.expect_closed
-    dropdown.expect_count 3
-
-    dropdown.toggle!
-
-    dropdown.click_button 'Clear selection'
-
-    dropdown.expect_checkbox(project.id, true)
-    dropdown.expect_checkbox(other_project.id)
-    dropdown.expect_checkbox(sub_project.id)
-    dropdown.expect_checkbox(sub_sub_project.id)
-
-    dropdown.click_button 'Apply'
-    dropdown.expect_closed
-    dropdown.expect_count 1
-  end
-
-  it 'filter projects in the list' do
-    dropdown.expect_count 1
-    dropdown.toggle!
-    dropdown.expect_open
-
-    dropdown.toggle_checkbox(other_project.id)
-    dropdown.toggle_checkbox(sub_sub_project.id)
-
-    dropdown.search sub_sub_project.id
-
-    dropdown.expect_checkbox(project.id, true)
-    dropdown.expect_no_checkbox(other_project.id)
-    dropdown.expect_checkbox(sub_project.id)
-    dropdown.expect_checkbox(sub_sub_project.id, true)
-
-    dropdown.search other_project.id
-
-    dropdown.expect_no_checkbox(project.id)
-    dropdown.expect_checkbox(other_project.id, true)
-    dropdown.expect_no_checkbox(sub_project.id)
-    dropdown.expect_no_checkbox(sub_sub_project.id)
-
-    dropdown.search ''
-
-    dropdown.expect_checkbox(project.id, true)
-    dropdown.expect_checkbox(other_project.id, true)
-    dropdown.expect_checkbox(sub_project.id)
-    dropdown.expect_checkbox(sub_sub_project.id, true)
-
-    dropdown.set_filter_selected true
-
-    dropdown.expect_checkbox(project.id, true)
-    dropdown.expect_checkbox(other_project.id, true)
-    dropdown.expect_checkbox(sub_project.id)
-    dropdown.expect_checkbox(sub_sub_project.id, true)
-
-    dropdown.set_filter_selected false
-    dropdown.toggle_checkbox(other_project.id)
-    dropdown.set_filter_selected true
-
-    dropdown.expect_checkbox(project.id, true)
-    dropdown.expect_no_checkbox(other_project.id)
-    dropdown.expect_checkbox(sub_project.id)
-    dropdown.expect_checkbox(sub_sub_project.id, true)
-
-    dropdown.search other_project.id
-
-    dropdown.expect_no_checkbox(project.id)
-    dropdown.expect_no_checkbox(other_project.id)
-    dropdown.expect_no_checkbox(sub_project.id)
-    dropdown.expect_no_checkbox(sub_sub_project.id)
-
-    dropdown.search ''
-
-    dropdown.expect_checkbox(project.id, true)
-    dropdown.expect_no_checkbox(other_project.id)
-    dropdown.expect_checkbox(sub_project.id)
-    dropdown.expect_checkbox(sub_sub_project.id, true)
-
-    dropdown.set_filter_selected false
-
-    dropdown.expect_checkbox(project.id, true)
-    dropdown.expect_checkbox(other_project.id)
-    dropdown.expect_checkbox(sub_project.id)
-    dropdown.expect_checkbox(sub_sub_project.id, true)
-  end
-
-  it 'correctly filters work packages by project' do
-    dropdown.expect_count 1
-
-    # Make sure the filter gets set once
-    dropdown.toggle!
-    dropdown.expect_open
-    dropdown.click_button 'Apply'
-    dropdown.expect_closed
-
-    calendar.expect_event task
-    calendar.expect_event sub_bug, present: false
-    calendar.expect_event sub_sub_bug, present: false
-    calendar.expect_event other_task
-    calendar.expect_event other_other_task, present: false
-
-    dropdown.toggle!
-    dropdown.toggle_checkbox(sub_sub_project.id)
-    dropdown.click_button 'Apply'
-    dropdown.expect_count 2
-
-    calendar.expect_event sub_bug, present: false
-    calendar.expect_event sub_sub_bug
-
-    dropdown.toggle!
-    dropdown.toggle_checkbox(other_project.id)
-    dropdown.click_button 'Apply'
-    dropdown.expect_count 3
-
-    calendar.expect_event other_task
-    calendar.expect_event other_other_task
-
-    page.refresh
-
-    calendar.expect_event task
-    calendar.expect_event sub_bug, present: false
-    calendar.expect_event sub_sub_bug
-    calendar.expect_event other_task
-    calendar.expect_event other_other_task
+      work_package_view.expect_event task
+      work_package_view.expect_event sub_bug, present: false
+      work_package_view.expect_event sub_sub_bug
+      work_package_view.expect_event other_task
+      work_package_view.expect_event other_other_task
+    end
   end
 end

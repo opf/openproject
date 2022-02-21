@@ -57,7 +57,8 @@ module Components
 
     def expect_checkbox(project_id, checked = false)
       expect(page).to have_selector(
-        "[data-qa-project-include-id='#{project_id}'][data-qa-project-include-checked='#{checked ? '1' : '0'}']"
+        "[data-qa-project-include-id='#{project_id}'][data-qa-project-include-checked='#{checked ? '1' : '0'}']",
+        wait: 10
       )
     end
 
