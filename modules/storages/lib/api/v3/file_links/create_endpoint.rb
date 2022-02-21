@@ -24,6 +24,12 @@ module API::V3::FileLinks
       )
     end
 
+    protected
+
+    def build_error_from_result(result)
+      ActiveModel::Errors.new result.first
+    end
+
     private
 
     def params_modifier

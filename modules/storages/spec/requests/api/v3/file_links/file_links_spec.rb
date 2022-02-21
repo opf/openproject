@@ -174,7 +174,9 @@ describe 'API v3 file links resource', type: :request do
         }
       end
 
-      it_behaves_like 'invalid request body'
+      it_behaves_like 'constraint violation' do
+        let(:message) { 'Storage is invalid' }
+      end
     end
   end
 

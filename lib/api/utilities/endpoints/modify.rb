@@ -36,6 +36,12 @@ module API
           end
         end
 
+        protected
+
+        def build_error_from_result(result)
+          ActiveModel::Errors.new result
+        end
+
         private
 
         def present_success(_request, _call)
@@ -56,7 +62,7 @@ module API
         end
 
         def merge_dependent_errors(call)
-          errors = ActiveModel::Errors.new call.result
+          errors = build_error_from_result(call.result)
 
           call.dependent_results.each do |dr|
             dr.errors.full_messages.each do |full_message|
@@ -68,8 +74,15 @@ module API
         end
 
         def dependent_error_message(result, full_message)
+          key =
+            if result.id.blank?
+              :error_in_new_dependent
+            else
+              :error_in_dependent
+            end
+
           I18n.t(
-            :error_in_dependent,
+            key,
             dependent_class: result.model_name.human,
             related_id: result.id,
             # TODO: Make it more robust, as not every model has a 'name' attribute (e.g. fall back to collection index?)
