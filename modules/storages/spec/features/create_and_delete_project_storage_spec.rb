@@ -30,10 +30,10 @@
 
 require_relative '../spec_helper'
 
-# Setup a project storage within a project.
+# Setup storages within a project.
 # This tests assumes that a Storage has already been setup
 # in the Admin section, tested by admin_storage_spec.rb.
-describe 'Setup project storage', type: :feature, js: true do
+describe 'Activation of storages in projects', type: :feature, js: true do
   let(:admin) { create(:admin) }
   let(:storage) { create(:storage, name: "Storage 1") }
   let(:project) do
@@ -49,28 +49,27 @@ describe 'Setup project storage', type: :feature, js: true do
     login_as admin
   end
 
-  it 'activates up a ProjectStorage for a specific project' do
+  it 'adds and removes storages to projects' do
     # Go to Projects -> Settings -> File Storages
     visit project_settings_general_path(project)
     page.find('.settings-projects-storages-menu-item').click
 
-    # Check for an empty Project -> Settings -> File storages page
+    # Check for an empty table in Project -> Settings -> File storages
     expect(page).to have_title('File storages')
     expect(page).to have_current_path project_settings_projects_storages_path(project)
     expect(page).to have_text('No storage setup, yet.')
     page.find('.toolbar .button--icon.icon-add').click
 
-    # Enable the one and only file storage
-    expect(page).to have_title('File storages')
+    # Enable one file storage
+    expect(page).to have_current_path new_project_settings_projects_storage_path(project_id: project)
     expect(page).to have_text('Enable a file storage')
     page.find('button[type=submit]').click
 
     # The list of enabled file storages should now contain Storage 1
-    expect(page).to have_title('File storages')
     expect(page).to have_text('File storages available in this project')
     expect(page).to have_text('Storage 1')
 
-    # Press Delete icon to disable the ProjectStorage again
+    # Press Delete icon to remove the storage from the project
     page.find('.icon.icon-delete').click
     alert_text = page.driver.browser.switch_to.alert.text
     expect(alert_text).to have_text 'Are you sure'
