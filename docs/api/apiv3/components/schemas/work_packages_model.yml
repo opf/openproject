@@ -30,7 +30,6 @@ allOf:
             items:
               $ref: './work_package_model.yml'
 
-type: object
 example:
   _links:
     self:
