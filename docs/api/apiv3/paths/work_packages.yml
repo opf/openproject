@@ -47,6 +47,8 @@ get:
         - group
         - id
         - includes
+        - linkable_to_storage_id
+        - linkable_to_storage_url
         - manual_sort
         - milestone
         - only_subproject

@@ -1,4 +1,4 @@
-# /api/v3/work_packages/{id}/file_links/
+# /api/v3/work_packages/{id}/file_links
 ---
 post:
   summary: Creates file links.
@@ -69,7 +69,7 @@ post:
                 _links:
                   storageUrl:
                     href: https://nextcloud.deathstar.rocks/
-          
+  
   responses:
     '201':
       description: Created
@@ -140,6 +140,18 @@ post:
         Returned if the work package does not exist or the client does not have sufficient permissions to see it.
 
         **Required permission:** view work package, view file links
+    '422':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:PropertyConstraintViolation
+            message: The request was invalid. File Link logo.png - Storage was invalid.
+      description: |-
+        Occurs if the request body was correctly formatted, but some properties lead to errors in the validation
+        process. This happens e.g. if the provided storage url is not available on the server.
 get:
   summary: Gets all file links of a work package
   operationId: Work_Package_Get_File_Links

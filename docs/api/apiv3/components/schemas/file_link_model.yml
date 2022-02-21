@@ -2,9 +2,8 @@
 ---
 type: object
 required:
-  - id
-  - _type
   - originData
+  - _links
 properties:
   id:
     type: integer
@@ -41,16 +40,6 @@ properties:
           - $ref: './work_package_model.yml'
   _links:
     type: object
-    required:
-      - self
-      - storage
-      - container
-      - creator
-      - delete
-      - downloadLocation
-      - staticDownloadLocation
-      - originOpen
-      - staticOriginOpen
     properties:
       self:
         allOf:
@@ -67,7 +56,6 @@ properties:
               The storage resource of the linked file.
               
               **Resource**: Storage
-            readOnly: true
       storageUrl:
         allOf:
           - $ref: './link.yml'
@@ -100,22 +88,6 @@ properties:
           - description: |-
               The uri to delete the file link.
 
-              **Resource**: N/A
-            readOnly: true
-      downloadLocation:
-        allOf:
-          - $ref: './link.yml'
-          - description: |-
-              The uri to download the origin file from.
-              
-              **Resource**: N/A
-            readOnly: true
-      staticDownloadLocation:
-        allOf:
-          - $ref: './link.yml'
-          - description: |-
-              A static uri to download the origin filefrom the storage. Responds with a redirect.
-              
               **Resource**: N/A
             readOnly: true
       originOpen:
@@ -200,12 +172,6 @@ example:
     delete:
       href: /api/v3/work_package/17/file_links/1337
       title: file link delete API
-    downloadLocation:
-      href: https://nextcloud.deathstar.rocks/index.php/dl?fileid=5503
-      title: file download
-    staticDownloadLocation:
-      href: /api/v3/work_package/17/file_links/1337/download
-      title: file link static download API
     originOpen:
       href: https://nextcloud.deathstar.rocks/index.php/f?fileid=5503
       title: file open

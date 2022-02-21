@@ -182,6 +182,10 @@ paths:
     "$ref": "./paths/example_schema.yml"
   "/api/v3/examples":
     "$ref": "./paths/examples.yml"
+  "/api/v3/file_links/{id}":
+    "$ref": "./paths/file_link.yml"
+  "/api/v3/file_links/{id}/open":
+    "$ref": "./paths/file_link_open.yml"
   "/api/v3/grids":
     "$ref": "./paths/grids.yml"
   "/api/v3/grids/form":
@@ -396,12 +400,6 @@ paths:
     "$ref": "./paths/work_package_available_watchers.yml"
   "/api/v3/work_packages/{id}/file_links":
     "$ref": "./paths/work_package_file_links.yml"
-  "/api/v3/work_packages/{id}/file_links/{file_link_id}":
-    "$ref": "./paths/work_package_file_link.yml"
-  "/api/v3/work_packages/{id}/file_links/{file_link_id}/download":
-    "$ref": "./paths/work_package_file_link_download.yml"
-  "/api/v3/work_packages/{id}/file_links/{file_link_id}/open":
-    "$ref": "./paths/work_package_file_link_open.yml"
   "/api/v3/work_packages/{id}/form":
     "$ref": "./paths/work_package_form.yml"
   "/api/v3/work_packages/{id}/revisions":
@@ -751,16 +749,8 @@ components:
       "$ref": "./components/schemas/wiki_page_model.yml"
     Work_PackageModel:
       "$ref": "./components/schemas/work_package_model.yml"
-    Work_Package_Create_Form:
-      "$ref": "./components/schemas/work_package_create_form.yml"
-    Work_Package_Create_Form_For_Project:
-      "$ref": "./components/schemas/work_package_create_form_for_project.yml"
-    Work_Package_Edit_Form:
-      "$ref": "./components/schemas/work_package_edit_form.yml"
     Work_Package_Relation_FormModel:
       "$ref": "./components/schemas/work_package_relation_form_model.yml"
-    Work_Package_Schema:
-      "$ref": "./components/schemas/work_package_schema.yml"
     Work_Package_SchemasModel:
       "$ref": "./components/schemas/work_package_schemas_model.yml"
     Work_Package_activitiesModel:
