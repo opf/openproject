@@ -39,7 +39,11 @@ import { HalResourceService } from 'core-app/features/hal/services/hal-resource.
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { Observable } from 'rxjs';
-import { map, mergeMap, take } from 'rxjs/operators';
+import {
+  map,
+  mergeMap,
+  take,
+} from 'rxjs/operators';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
@@ -102,19 +106,19 @@ export class AddAssigneeComponent {
 
           return filters;
         }),
-        mergeMap((filters) => this
-          .apiV3Service
-          .principals
-          .filtered(filters)
-          .get()
-          .pipe(
-            map((collection) => collection.elements.filter(
-              (user) => !this.alreadySelected.find((selected) => selected === user.id),
-            )),
-          ),
+        mergeMap(
+          (filters) => this
+            .apiV3Service
+            .principals
+            .filtered(filters)
+            .get()
+            .pipe(
+              map((collection) => collection.elements.filter(
+                (user) => !this.alreadySelected.find((selected) => selected === user.id),
+              )),
+            ),
         ),
       );
-
   }
 
   public selectUser(user:HalResource):void {

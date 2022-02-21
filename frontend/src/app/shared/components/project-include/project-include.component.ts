@@ -14,8 +14,8 @@ import { WorkPackageViewFiltersService } from 'core-app/features/work-packages/r
 import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import {
-  combineLatest,
   BehaviorSubject,
+  combineLatest,
 } from 'rxjs';
 import {
   debounceTime,
@@ -58,7 +58,8 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin {
   ];
 
   private _displayMode = 'all';
-  public get displayMode() {
+
+  public get displayMode():string {
     return this._displayMode;
   }
 
@@ -70,6 +71,7 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin {
   public displayMode$ = new BehaviorSubject('all');
 
   private _query = '';
+
   public get query():string {
     return this._query;
   }
@@ -82,6 +84,7 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin {
   public query$ = new BehaviorSubject('');
 
   private _selectedProjects:string[] = [];
+
   public get selectedProjects():string[] {
     return this._selectedProjects;
   }
@@ -111,7 +114,9 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin {
         ];
       }),
     );
+
   public numberOfProjectsInFilter$ = this.projectsInFilter$.pipe(map((selected) => selected.length));
+
   public allProjects$ = this.projectsResourceService.query.selectAll();
 
   public projects$ = combineLatest([
@@ -123,27 +128,32 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin {
       debounceTime(20),
       mergeMap(([projects, query, displayMode]) => this.selectedProjects$.pipe(
         take(1),
-        map(selected => [projects, query, displayMode, selected]),
+        map((selected) => [projects, query, displayMode, selected]),
       )),
-      map(([projects, query, displayMode, selected]:[IProject[], string, string, string[]]) => projects
-        .filter((project) => {
-          if (displayMode === 'selected' && !selected.includes(project._links.self.href)) {
-            return false;
-          }
+      map(
+        ([projects, query, displayMode, selected]:[IProject[], string, string, string[]]) => projects
+          .filter(
+            (project) => {
+              if (displayMode === 'selected' && !selected.includes(project._links.self.href)) {
+                return false;
+              }
 
-          if (query.length) {
-            return project.name.toLowerCase().includes(query.toLowerCase()) || project.identifier.toLowerCase().includes(query.toLowerCase());
-          }
+              if (query.length) {
+                return project.name.toLowerCase().includes(query.toLowerCase()) || project.identifier.toLowerCase().includes(query.toLowerCase());
+              }
 
-          return true;
-        })
-        .sort((a, b) => a._links.ancestors.length - b._links.ancestors.length)
-        .reduce((list, project) => {
-          const { ancestors } = project._links;
+              return true;
+            },
+          )
+          .sort((a, b) => a._links.ancestors.length - b._links.ancestors.length)
+          .reduce(
+            (list, project) => {
+              const { ancestors } = project._links;
 
-
-          return insertInList(projects, project, list, ancestors);
-        }, [] as IProjectData[]),
+              return insertInList(projects, project, list, ancestors);
+            },
+            [] as IProjectData[],
+          ),
       ),
       map((projects) => recursiveSort(projects)),
     );
@@ -174,7 +184,7 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin {
     super();
   }
 
-  public toggleOpen() {
+  public toggleOpen():void {
     this.opened = !this.opened;
     this.searchProjects();
     this.projectsInFilter$
@@ -186,17 +196,17 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin {
       });
   }
 
-  public searchProjects() {
+  public searchProjects():void {
     this.projectsResourceService
       .fetchProjects(this.params)
       .subscribe();
   }
 
-  public clearSelection() {
+  public clearSelection():void {
     this.selectedProjects = [this.currentProjectService.apiv3Path || ''];
   }
 
-  public onSubmit(e:Event) {
+  public onSubmit(e:Event):void {
     e.preventDefault();
 
     // Replace actually also instantiates if it does not exist, which is handy here
@@ -209,7 +219,7 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin {
     this.close();
   }
 
-  public close() {
+  public close():void {
     this.opened = false;
   }
 }
