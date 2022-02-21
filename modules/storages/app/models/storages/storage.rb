@@ -34,4 +34,14 @@ class Storages::Storage < ApplicationRecord
 
   validates_uniqueness_of :host
   validates_uniqueness_of :name
+
+  # Creates a scope of all storages, which belong to a project the user is a member
+  # and has the permission ':view_file_links'
+  scope :visible, ->(user = User.current) {
+    where(
+      projects_storages: ::Storages::ProjectStorage.where(
+        project: Project.allowed_to(user, :view_file_links)
+      )
+    )
+  }
 end

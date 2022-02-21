@@ -42,9 +42,12 @@ describe 'API v3 storages resource', type: :request, content_type: :json do
     create(:storage, creator: current_user)
   end
 
+  let(:project_storage) { create(:project_storage, project: project, storage: storage) }
+
   subject(:response) { last_response }
 
   before do
+    project_storage
     login_as current_user
   end
 

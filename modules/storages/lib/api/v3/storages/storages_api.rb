@@ -30,12 +30,16 @@ module API
   module V3
     module Storages
       class StoragesAPI < ::API::OpenProjectAPI
+        helpers do
+          def visible_storages_scope
+            ::Storages::Storage.visible(current_user)
+          end
+        end
+
         resources :storages do
           route_param :storage_id, type: Integer, desc: 'Storage id' do
             after_validation do
-              @storage = ::Storages::Storage.find(params[:storage_id])
-
-              raise ::API::Errors::NotFound unless @storage.visible_to?(current_user)
+              @storage = visible_storages_scope.find(params[:storage_id])
             end
 
             get &::API::V3::Utilities::Endpoints::Show.new(model: ::Storages::Storage).mount
