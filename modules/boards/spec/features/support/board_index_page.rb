@@ -57,7 +57,7 @@ module Pages
     end
 
     def create_board(action: nil, expect_empty: false)
-      page.find('.toolbar-item a', text: 'Board').click
+      page.find('.toolbar-item a', text: I18n.t('js.button_create')).click
 
       if action == nil
         find('.tile-block-title', text: 'Basic').click

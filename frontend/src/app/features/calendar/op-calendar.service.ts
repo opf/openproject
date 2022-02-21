@@ -159,7 +159,7 @@ export class OpCalendarService extends UntilDestroyedMixin {
     const endDate = moment(fetchInfo.end).format('YYYY-MM-DD');
 
     let queryId:string|null = null;
-    if (this.urlParams.query_id) {
+    if (this.urlParams.query_id && this.urlParams.query_id !== 'new') {
       queryId = this.urlParams.query_id as string;
     }
 
