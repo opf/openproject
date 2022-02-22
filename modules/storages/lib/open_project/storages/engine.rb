@@ -47,7 +47,6 @@ module OpenProject::Storages
              bundled: true,
              settings: {},
              name: 'OpenProject Storages' do
-
       # ToDo: Redmine plugin API?
       # Apparently only defined the name, dependencies and global(?) permissions?
       project_module :storages, dependencies: :work_package_tracking do

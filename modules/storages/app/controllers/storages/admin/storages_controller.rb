@@ -99,6 +99,7 @@ class Storages::Admin::StoragesController < ApplicationController
   # Just render a response to (un-)successful creation.
   # respond_to takes a URL parameter about the format. Only HTML is supported here.
   # Called by: Global app/config/routes.rb to serve Web page
+  # rubocop:disable Metrics/AbcSize
   def create
     combined_params = permitted_storage_params.to_h.reverse_merge(creator_id: current_user.id)
     service_result = Storages::Storages::CreateService.new(user: current_user).call(combined_params)
@@ -120,6 +121,7 @@ class Storages::Admin::StoragesController < ApplicationController
       end
     end
   end
+  # rubocop:enable Metrics/AbcSize
 
   # Edit page is very similar to new page, except that we don't need to set
   # default attribute values because the object already exists

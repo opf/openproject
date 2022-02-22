@@ -26,11 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'net/http'
-require 'uri'
-
 # See also: base_contract.rb for comments
-# ToDo: Why do we always have to define all of these contracts?
 module Storages::Storages
   # We create the empty class here, so that other pieces of code that looks for the contract in its default place will
   # find it. So, the CreateService for Storages will expect its contract to be here.

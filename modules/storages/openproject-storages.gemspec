@@ -35,6 +35,7 @@
 # Used by: OpenProject package manager(?)
 # Purpose: Defines the metadata for the module
 # References: https://guides.rubygems.org/specification-reference/
+# rubocop:disable Gemspec/RequireMFA
 Gem::Specification.new do |s|
   s.name        = 'openproject-storages'
   s.version     = '1.0.0'
@@ -43,6 +44,6 @@ Gem::Specification.new do |s|
   s.summary     = 'OpenProject Storages'
   s.description = 'Allows linking work packages to files in external storages, such as Nextcloud.'
   s.license     = 'GPLv3'
-
   s.files = Dir['{app,config,db,lib}/**/*']
 end
+# rubocop:enable Gemspec/RequireMFA

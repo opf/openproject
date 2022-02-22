@@ -28,6 +28,8 @@
 
 require 'spec_helper'
 
+# ToDo:
+# rubocop:disable RSpec/EmptyExampleGroup
 describe 'Storages routing', type: :routing do
   # it 'routes to team_planner#index' do
   #   expect(subject)
@@ -35,3 +37,4 @@ describe 'Storages routing', type: :routing do
   #     .to(controller: 'team_planner/team_planner', action: 'index', project_id: 'foobar', state: 'state')
   # end
 end
+# rubocop:enable RSpec/EmptyExampleGroup

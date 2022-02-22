@@ -30,6 +30,8 @@ require 'spec_helper'
 require 'contracts/shared/model_contract_shared_context'
 require 'contracts/views/shared_contract_examples'
 
+# ToDo: Re-enable rubocop
+# rubocop:disable RSpec/EmptyExampleGroup
 describe Views::CreateContract do
   # it_behaves_like 'view contract', true do
   #   let(:view) do
@@ -66,3 +68,4 @@ describe Views::CreateContract do
   #   end
   # end
 end
+# rubocop:enable RSpec/EmptyExampleGroup

@@ -28,7 +28,7 @@
 
 # Required parameters: project and storage
 FactoryBot.define do
-  factory :project_storage, class: '::Storages::ProjectStorage' do |m|
+  factory :project_storage, class: '::Storages::ProjectStorage' do
     creator factory: :user
   end
 end
