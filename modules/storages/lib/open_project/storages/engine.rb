@@ -44,7 +44,7 @@ module OpenProject::Storages
         permission :manage_file_links,
                    {},
                    dependencies: %i[view_file_links]
-        permission :manage_storage_in_project,
+        permission :manage_storages_in_project,
                    { 'storages/admin/projects_storages': %i[index new create destroy] },
                    dependencies: %i[]
       end

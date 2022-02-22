@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -26,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Storages::Storages
-  class UpdateContract < ::Storages::Storages::BaseContract
+module Storages::ProjectsStorages
+  class DeleteService < ::BaseServices::Delete
   end
 end

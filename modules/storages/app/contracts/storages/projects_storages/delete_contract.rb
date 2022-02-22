@@ -26,7 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Storages::Storages
-  class UpdateContract < ::Storages::Storages::BaseContract
+module Storages::ProjectsStorages
+  class DeleteContract < ::DeleteContract
+    delete_permission(:manage_storages_in_project)
   end
 end

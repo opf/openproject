@@ -30,5 +30,7 @@
 FactoryBot.define do
   factory :project_storage, class: '::Storages::ProjectStorage' do |m|
     creator factory: :user
+    storage factory: :storage
+    project factory: :project
   end
 end

@@ -26,7 +26,31 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Storages::Storages
-  class UpdateContract < ::Storages::Storages::BaseContract
+require 'spec_helper'
+require 'services/base_services/behaves_like_delete_service'
+
+describe ::Storages::ProjectsStorages::DeleteService, type: :model do
+  # Includes many specs that are common for every DeleteService that inherits from ::BaseServices::Delete.
+  # Collected tests on DeleteContracts from last 15 years.
+  it_behaves_like 'BaseServices delete service' do
+    let(:factory) { :project_storage }
+
+    context 'with model saved to DB' do
+      let!(:model_instance) { create(factory) }
+
+      it 'destroys the record' do
+        expect(::Storages::ProjectStorage.where(id: model_instance.id))
+          .to exist
+
+        expect(::Storages::ProjectStorage).to receive(:destroy)
+
+        subject
+
+        expect(::Storages::ProjectStorage.where(id: model_instance.id))
+          .not_to exist
+      end
+    end
   end
+
+  pending 'deletes all FileLinks that belong to containers of the related project'
 end
