@@ -21,8 +21,15 @@ import {
   of,
   Subject,
   merge,
+  BehaviorSubject,
 } from 'rxjs';
-import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  filter,
+  switchMap,
+  tap,
+} from 'rxjs/operators';
 import { GroupValueFn } from '@ng-select/ng-select/lib/ng-select.component';
 
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
@@ -85,7 +92,7 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
 
   @Input() public items?:IOPAutocompleterOption[]|HalResource[];
 
-  private items$ = new Subject();
+  private items$ = new BehaviorSubject(null);
 
   @Input() public clearSearchOnAdd?:boolean = true;
 
@@ -165,7 +172,7 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
 
   @Input() public keyDownFn ? = (_:KeyboardEvent) => true;
 
-  @Input() public typeahead:Subject<string> = new Subject();
+  @Input() public typeahead:BehaviorSubject<string|null> = new BehaviorSubject(null);
 
   // a function for setting the options of ng-select
   @Input() public getOptionsFn:(searchTerm:string) => any;
@@ -199,6 +206,8 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
   public active:Set<string>;
 
   public results$:any;
+
+  public loading$ = new Subject<boolean>();
 
   public isLoading = false;
 
@@ -239,24 +248,35 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
     this.ngZone.runOutsideAngular(() => {
       setTimeout(() => {
         this.results$ = merge(
-          (this.items$ || new Subject()),
+          this.items$,
           this.typeahead.pipe(
+            filter(() => !!(this.defaultData || this.getOptionsFn)),
+            filter((val) => val !== null),
             distinctUntilChanged(),
             debounceTime(250),
-            (this.defaultData
-              ? switchMap((queryString) => this.opAutocompleterService.loadData(queryString, this.resource, this.filters, this.searchKey))
-              : this.getOptionsFn
-                ? switchMap((queryString) => this.getOptionsFn(queryString))
-                : switchMap(() => NEVER)
+            tap(() => this.loading$.next(true)),
+            switchMap((queryString:string) => {
+              if (this.defaultData) {
+                return this.opAutocompleterService.loadData(queryString, this.resource, this.filters, this.searchKey);
+              }
+
+              if (this.getOptionsFn) {
+                return this.getOptionsFn(queryString);
+              }
+
+              return NEVER;
+            }),
+            tap(
+              () => this.loading$.next(false),
+              () => this.loading$.next(false),
             ),
           ),
         );
 
         if (this.fetchDataDirectly) {
-          this.results$ = this.defaultData
-            ? (this.opAutocompleterService.loadData('', this.resource, this.filters, this.searchKey))
-            : (this.getOptionsFn(''));
+          this.typeahead.next('');
         }
+
         if (this.openDirectly) {
           this.ngSelectInstance.open();
           this.ngSelectInstance.focus();
@@ -281,10 +301,9 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
 
   public opened(_:unknown) { // eslint-disable-line no-unused-vars
     if (this.openDirectly) {
-      this.results$ = this.defaultData
-        ? (this.opAutocompleterService.loadData('', this.resource, this.filters, this.searchKey))
-        : (this.getOptionsFn(''));
+      this.typeahead.next('');
     }
+    
     this.repositionDropdown();
     this.open.emit();
   }
