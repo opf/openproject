@@ -204,7 +204,7 @@ group :test do
 
   gem 'database_cleaner', '~> 2.0'
   gem 'rack_session_access'
-  gem 'rspec', '~> 3.10.0'
+  gem 'rspec', '~> 3.11.0'
   # also add to development group, so "spec" rake task gets loaded
   gem 'rspec-rails', '~> 5.1.0', group: :development
 
