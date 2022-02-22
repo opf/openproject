@@ -56,19 +56,23 @@ module Components
     end
 
     def expect_checkbox(project_id, checked = false)
-      expect(page).to have_selector(
+      page.find(
         "[data-qa-project-include-id='#{project_id}'][data-qa-project-include-checked='#{checked ? '1' : '0'}']",
         wait: 10
       )
     end
 
     def expect_no_checkbox(project_id)
-      expect(page).to have_no_selector("[data-qa-project-include-id='#{project_id}']")
+      unless page.has_no_selector?("[data-qa-project-include-id='#{project_id}']")
+        raise "Expected not to find #{project_id}"
+      end
     end
 
     def search(text)
       within_body do
-        fill_in "project-include-search", with: text
+        fill_in "project-include-search",
+                with: text,
+                fill_options: { clear: :backspace }
       end
     end
 

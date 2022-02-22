@@ -34,17 +34,17 @@ shared_examples 'has a project include dropdown', type: :feature, js: true do
   let(:dropdown) { ::Components::ProjectIncludeComponent.new }
 
   shared_let(:project) do
-    create(:project, enabled_module_names: enabled_modules)
+    create(:project, name: 'Parent', enabled_module_names: enabled_modules)
   end
 
   shared_let(:sub_project) do
-    create(:project, parent: project, enabled_module_names: enabled_modules)
+    create(:project, name: 'Child', parent: project, enabled_module_names: enabled_modules)
   end
   shared_let(:sub_sub_project) do
-    create(:project, parent: sub_project, enabled_module_names: enabled_modules)
+    create(:project, name: 'Grandchild', parent: sub_project, enabled_module_names: enabled_modules)
   end
   shared_let(:other_project) do
-    create(:project, enabled_module_names: enabled_modules)
+    create(:project, name: 'Other project', enabled_module_names: enabled_modules)
   end
 
   shared_let(:user) do
@@ -225,62 +225,73 @@ shared_examples 'has a project include dropdown', type: :feature, js: true do
     dropdown.toggle_checkbox(other_project.id)
     dropdown.toggle_checkbox(sub_sub_project.id)
 
-    dropdown.search sub_sub_project.id
+    retry_block do
+      dropdown.search sub_sub_project.name
+      dropdown.expect_checkbox(project.id, true)
+      dropdown.expect_no_checkbox(other_project.id)
+      dropdown.expect_checkbox(sub_project.id)
+      dropdown.expect_checkbox(sub_sub_project.id, true)
+    end
 
-    dropdown.expect_checkbox(project.id, true)
-    dropdown.expect_no_checkbox(other_project.id)
-    dropdown.expect_checkbox(sub_project.id)
-    dropdown.expect_checkbox(sub_sub_project.id, true)
+    retry_block do
+      dropdown.search other_project.name
+      dropdown.expect_checkbox(other_project.id, true)
+      dropdown.expect_no_checkbox(project.id)
+      dropdown.expect_no_checkbox(sub_project.id)
+      dropdown.expect_no_checkbox(sub_sub_project.id)
+    end
 
-    dropdown.search other_project.id
+    retry_block do
+      dropdown.search ''
+      dropdown.expect_checkbox(project.id, true)
+      dropdown.expect_checkbox(other_project.id, true)
+      dropdown.expect_checkbox(sub_project.id)
+      dropdown.expect_checkbox(sub_sub_project.id, true)
+    end
 
-    dropdown.expect_no_checkbox(project.id)
-    dropdown.expect_checkbox(other_project.id, true)
-    dropdown.expect_no_checkbox(sub_project.id)
-    dropdown.expect_no_checkbox(sub_sub_project.id)
+    retry_block do
+      dropdown.set_filter_selected true
+      dropdown.expect_checkbox(project.id, true)
+      dropdown.expect_checkbox(other_project.id, true)
+      dropdown.expect_checkbox(sub_project.id)
+      dropdown.expect_checkbox(sub_sub_project.id, true)
+    end
 
-    dropdown.search ''
+    retry_block do
+      dropdown.set_filter_selected false
+      dropdown.toggle_checkbox(other_project.id)
+      dropdown.set_filter_selected true
 
-    dropdown.expect_checkbox(project.id, true)
-    dropdown.expect_checkbox(other_project.id, true)
-    dropdown.expect_checkbox(sub_project.id)
-    dropdown.expect_checkbox(sub_sub_project.id, true)
+      dropdown.expect_checkbox(project.id, true)
+      dropdown.expect_checkbox(sub_project.id)
+      dropdown.expect_checkbox(sub_sub_project.id, true)
 
-    dropdown.set_filter_selected true
+      dropdown.expect_no_checkbox(other_project.id)
+    end
 
-    dropdown.expect_checkbox(project.id, true)
-    dropdown.expect_checkbox(other_project.id, true)
-    dropdown.expect_checkbox(sub_project.id)
-    dropdown.expect_checkbox(sub_sub_project.id, true)
+    retry_block do
+      dropdown.search other_project.name
+      dropdown.expect_no_checkbox(project.id)
+      dropdown.expect_no_checkbox(other_project.id)
+      dropdown.expect_no_checkbox(sub_project.id)
+      dropdown.expect_no_checkbox(sub_sub_project.id)
+    end
 
-    dropdown.set_filter_selected false
-    dropdown.toggle_checkbox(other_project.id)
-    dropdown.set_filter_selected true
+    retry_block do
+      dropdown.search ''
+      dropdown.expect_checkbox(project.id, true)
+      dropdown.expect_checkbox(sub_project.id)
+      dropdown.expect_checkbox(sub_sub_project.id, true)
 
-    dropdown.expect_checkbox(project.id, true)
-    dropdown.expect_no_checkbox(other_project.id)
-    dropdown.expect_checkbox(sub_project.id)
-    dropdown.expect_checkbox(sub_sub_project.id, true)
+      dropdown.expect_no_checkbox(other_project.id)
+    end
 
-    dropdown.search other_project.id
-
-    dropdown.expect_no_checkbox(project.id)
-    dropdown.expect_no_checkbox(other_project.id)
-    dropdown.expect_no_checkbox(sub_project.id)
-    dropdown.expect_no_checkbox(sub_sub_project.id)
-
-    dropdown.search ''
-
-    dropdown.expect_checkbox(project.id, true)
-    dropdown.expect_no_checkbox(other_project.id)
-    dropdown.expect_checkbox(sub_project.id)
-    dropdown.expect_checkbox(sub_sub_project.id, true)
-
-    dropdown.set_filter_selected false
-
-    dropdown.expect_checkbox(project.id, true)
-    dropdown.expect_checkbox(other_project.id)
-    dropdown.expect_checkbox(sub_project.id)
-    dropdown.expect_checkbox(sub_sub_project.id, true)
+    retry_block do
+      dropdown.set_filter_selected false
+      dropdown.expect_checkbox(project.id, true)
+      dropdown.expect_checkbox(other_project.id)
+      dropdown.expect_checkbox(sub_project.id)
+      dropdown.expect_checkbox(sub_sub_project.id, true)
+    end
   end
 end
