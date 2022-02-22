@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Required parameters: project and storage
-FactoryBot.define do
-  factory :project_storage, class: '::Storages::ProjectStorage' do
-    creator factory: :user
-    storage factory: :storage
-    project factory: :project
+module Storages::ProjectStorages
+  # We create the empty class here, so that other pieces of code that looks for the contract in its default place will
+  # find it. So, the CreateService for Storages will expect its contract to be here.
+  #
+  # We inherit from a BaseContract as the BaseContract here is sharing a lot in common with the UpdateContract.
+  class CreateContract < ::Storages::ProjectStorages::BaseContract
   end
 end

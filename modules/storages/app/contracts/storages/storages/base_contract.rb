@@ -29,6 +29,10 @@
 require 'net/http'
 require 'uri'
 
+# Called by: Somewhere from within a service (ToDo:)
+# UpdateServer by default checks if UpdateContract exists
+# and uses the contract to validate the model under consideration
+# (normally it's a model).
 module Storages::Storages
   class BaseContract < ::ModelContract
     MINIMAL_NEXTCLOUD_VERSION = 23

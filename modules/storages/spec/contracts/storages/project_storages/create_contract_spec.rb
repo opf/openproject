@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -26,11 +28,23 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Required parameters: project and storage
-FactoryBot.define do
-  factory :project_storage, class: '::Storages::ProjectStorage' do
-    creator factory: :user
-    storage factory: :storage
-    project factory: :project
+require 'spec_helper'
+require 'contracts/shared/model_contract_shared_context'
+require_relative 'shared_contract_examples'
+
+describe Storages::ProjectStorages::CreateContract do
+  include_context 'ModelContract shared context'
+
+  it_behaves_like 'ProjectStorages contract' do
+    # current_user, project, storage and other objects defined in the shared_contract_examples
+    # that includes all the stuff shared between create and update.
+    let(:project_storage) do
+      ::Storages::ProjectStorage.new(
+        creator: current_user,
+        project: project,
+        storage: storage
+      )
+    end
+    let(:contract) { described_class.new(project_storage, current_user) }
   end
 end

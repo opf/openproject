@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -30,40 +28,37 @@
 
 require_relative '../spec_helper'
 
-# Setup storages in Project -> Settings -> File Storages
-# This tests assumes that a Storage has already been setup
-# in the Admin section, tested by admin_storage_spec.rb.
-describe 'Activation of storages in projects', type: :feature, js: true do
+# Test if the deletion of a ProjectStorage actually deletes related FileLink
+# objects.
+describe 'Delete ProjectStorage with FileLinks', type: :feature, js: true do
   let(:user) { create(:user) }
   let(:role) { create(:existing_role, permissions: [:manage_storages_in_project]) }
-  let(:storage) { create(:storage, name: "Storage 1") }
   let(:project) do
     create(:project,
+           name: 'Project 1',
+           identifier: 'demo-project',
            members: { user => role },
            enabled_module_names: %i[storages work_package_tracking])
   end
+  let(:storage) { create(:storage, name: "Storage 1") }
+  let(:work_package) { create(:work_package, project: project) }
+  let(:project_storage) { create(:project_storage, storage: storage, project: project) }
+  let(:file_link) { create(:file_link, storage: storage, container: work_package) }
+  let(:second_file_link) { create(:file_link, container: work_package, storage: storage) }
 
   before do
-    storage
-    project
+    # The objects defined by let(...) above are lazy instantiated, so we need
+    # to "use" (just write their name) below to really create them.
+    project_storage
+    file_link
+    second_file_link
+    # Make sure our user has access to the GUI
     login_as user
   end
 
-  it 'adds and removes storages to projects' do
+  it 'deletes ProjectStorage with dependent FileLinks' do
     # Go to Projects -> Settings -> File Storages
-    visit project_settings_general_path(project)
-    page.find('.settings-projects-storages-menu-item').click
-
-    # Check for an empty table in Project -> Settings -> File storages
-    expect(page).to have_title('File storages')
-    expect(page).to have_current_path project_settings_projects_storages_path(project)
-    expect(page).to have_text('No storage setup, yet.')
-    page.find('.toolbar .button--icon.icon-add').click
-
-    # Enable one file storage
-    expect(page).to have_current_path new_project_settings_projects_storage_path(project_id: project)
-    expect(page).to have_text('Enable a file storage')
-    page.find('button[type=submit]').click
+    visit project_settings_projects_storages_path(project)
 
     # The list of enabled file storages should now contain Storage 1
     expect(page).to have_text('File storages available in this project')
@@ -78,5 +73,9 @@ describe 'Activation of storages in projects', type: :feature, js: true do
     # List of ProjectStorages empty again
     expect(page).to have_current_path project_settings_projects_storages_path(project)
     expect(page).to have_text('No storage setup, yet.')
+
+    # Also check in the database that ProjectStorage and dependent FileLinks are gone
+    expect(Storages::ProjectStorage.count).to be 0
+    expect(Storages::FileLink.count).to be 0
   end
 end

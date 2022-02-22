@@ -26,11 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Required parameters: project and storage
-FactoryBot.define do
-  factory :project_storage, class: '::Storages::ProjectStorage' do
-    creator factory: :user
-    storage factory: :storage
-    project factory: :project
+module Storages::ProjectStorages
+  class DeleteContract < ::DeleteContract
+    delete_permission(:manage_storages_in_project)
   end
 end

@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -26,11 +28,26 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Required parameters: project and storage
-FactoryBot.define do
-  factory :project_storage, class: '::Storages::ProjectStorage' do
-    creator factory: :user
-    storage factory: :storage
-    project factory: :project
+require 'spec_helper'
+require 'contracts/shared/model_contract_shared_context'
+
+describe ::Storages::ProjectStorages::DeleteContract do
+  include_context 'ModelContract shared context'
+
+  let(:role) { create(:existing_role, permissions: [:manage_storages_in_project]) }
+  let(:project) { create(:project, members: { current_user => role }) }
+  let(:current_user) { create(:user) }
+  let(:project_storage) { create(:project_storage, project: project) }
+  let(:contract) { described_class.new(project_storage, current_user) }
+
+  # Default test setup should be valid ("happy test setup").
+  # The example (in other words tests) below was included above from "ModelContract shared context".
+  # It assumes a current_user and and a contract to be defined.
+  it_behaves_like 'contract is valid'
+
+  context 'without manage_storages_in_project permission for project' do
+    let(:role) { create(:existing_role) }
+
+    it_behaves_like 'contract is invalid'
   end
 end
