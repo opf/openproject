@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,9 +29,18 @@
 require 'spec_helper'
 
 describe ::API::V3::FileLinks::FileLinkRepresenter, 'parsing' do
-  let(:file_link) { build_stubbed(:file_link) }
+  include ::API::V3::Utilities::PathHelper
 
-  current_user { build_stubbed(:user) }
+  let(:file_link) { build_stubbed(:file_link) }
+  let(:storage) { build_stubbed(:storage) }
+
+  let(:current_user) { build_stubbed(:user) }
+
+  before do
+    allow(::Storages::Storage).to receive(:find_by)
+                                    .with(host: storage.host)
+                                    .and_return storage
+  end
 
   describe 'parsing' do
     subject(:parsed) { representer.from_hash parsed_hash }
@@ -42,7 +51,11 @@ describe ::API::V3::FileLinks::FileLinkRepresenter, 'parsing' do
 
     let(:parsed_hash) do
       {
-        "_type" => "FileLink",
+        "_links" => {
+          "storageUrl" => {
+            "href" => storage.host
+          }
+        },
         "originData" => {
           "id" => 5503,
           "name" => "logo.png",
@@ -64,24 +77,55 @@ describe ::API::V3::FileLinks::FileLinkRepresenter, 'parsing' do
       end
 
       it 'are not used by the parsing' do
-        expect(parsed).not_to have_attributes(
-          created_at: DateTime.parse(parsed_hash["createdAt"]).in_time_zone,
-          updated_at: DateTime.parse(parsed_hash["updatedAt"]).in_time_zone
-        )
+        expect(parsed).not_to have_attributes(created_at: DateTime.parse(parsed_hash["createdAt"]).in_time_zone,
+                                              updated_at: DateTime.parse(parsed_hash["updatedAt"]).in_time_zone)
+      end
+    end
+
+    describe 'storage' do
+      context 'if storage url is given with trailing slashes' do
+        let(:parsed_hash) do
+          {
+            "_links" => {
+              "storageUrl" => {
+                "href" => "#{storage.host}/////"
+              }
+            }
+          }
+        end
+
+        it 'is parsed correctly' do
+          expect(parsed).to have_attributes(storage_id: storage.id)
+        end
+      end
+
+      context 'if storage is given as resource' do
+        let(:parsed_hash) do
+          {
+            "_links" => {
+              "storage" => {
+                "href" => api_v3_paths.storage(storage.id)
+              }
+            }
+          }
+        end
+
+        it 'is parsed correctly' do
+          expect(parsed).to have_attributes(storage_id: storage.id)
+        end
       end
     end
 
     describe 'originData' do
       it 'is parsed correctly' do
-        expect(parsed).to have_attributes(
-          origin_id: "5503",
-          origin_name: "logo.png",
-          origin_mime_type: "image/png",
-          origin_created_by_name: "Luke Skywalker",
-          origin_last_modified_by_name: "Anakin Skywalker",
-          origin_created_at: DateTime.new(2021, 12, 19, 9, 42, 10.17, '+00:00').in_time_zone,
-          origin_updated_at: DateTime.new(2021, 12, 20, 14, 0, 13.987, '+00:00').in_time_zone
-        )
+        expect(parsed).to have_attributes(storage_id: storage.id,
+                                          origin_id: "5503",
+                                          origin_name: "logo.png",
+                                          origin_mime_type: "image/png",
+                                          origin_created_by_name: "Luke Skywalker",
+                                          origin_last_modified_by_name: "Anakin Skywalker",
+                                          origin_created_at: DateTime.new(2021, 12, 19, 9, 42, 10.17, '+00:00').in_time_zone,
+                                          origin_updated_at: DateTime.new(2021, 12, 20, 14, 0, 13.987, '+00:00').in_time_zone)
       end
     end
   end

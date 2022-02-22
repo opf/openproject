@@ -32,6 +32,7 @@ module API
       class FileLinkRepresenter < ::API::Decorators::Single
         include API::Decorators::LinkedResource
         include API::Decorators::DateProperty
+        include ::API::Caching::CachedRepresenter
 
         property :id
 
@@ -50,12 +51,11 @@ module API
 
         link :self do
           {
-            href: api_v3_paths.file_link(represented.container_id, represented.id),
-            method: :get
+            href: api_v3_paths.file_link(represented.container_id, represented.id)
           }
         end
 
-        link :delete do
+        link :delete, cache_if: -> { user_allowed_to_manage?(represented) } do
           {
             href: api_v3_paths.file_link(represented.container_id, represented.id),
             method: :delete
@@ -65,28 +65,19 @@ module API
         link :creator do
           {
             href: api_v3_paths.user(represented.creator_id),
-            method: :get
+            title: represented.creator.name
           }
         end
 
-        link :staticDownloadLocation do
+        link :originOpen do
           {
-            href: api_v3_paths.file_link_download(represented.container_id, represented.id),
-            method: :get
+            href: ::Storages::StorageUrlService.new(represented).call('open').result
           }
         end
 
-        link :openLocation do
+        link :staticOriginOpen do
           {
-            href: ::Storages::StorageUrlService.new(represented).call('open').result,
-            method: :get
-          }
-        end
-
-        link :staticOpenLocation do
-          {
-            href: api_v3_paths.file_link_open(represented.container_id, represented.id),
-            method: :get
+            href: api_v3_paths.file_link_open(represented.container_id, represented.id)
           }
         end
 
@@ -96,8 +87,7 @@ module API
                             skip_render: ->(*) { true },
                             getter: ->(*) {},
                             setter: ->(fragment:, **) {
-                              # TODO: canonize url correctly
-                              canonical_url = fragment['href']
+                              canonical_url = fragment['href'].gsub(/\/+$/, '')
                               represented.storage = ::Storages::Storage.find_by(host: canonical_url)
                             }
 
@@ -110,6 +100,10 @@ module API
         end
 
         private
+
+        def user_allowed_to_manage?(model)
+          current_user.allowed_to?(:manage_file_links, model.container.project)
+        end
 
         def make_origin_data(model)
           {

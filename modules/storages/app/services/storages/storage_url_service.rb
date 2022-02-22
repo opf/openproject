@@ -39,7 +39,7 @@ module Storages
     def call(action)
       return ServiceResult.new(success: false, message: 'invalid action type') unless ACTION_TYPES.include?(action)
 
-      ServiceResult.new(success: true, result: "#{@file_link.storage.host}f/#{@file_link.origin_id}")
+      ServiceResult.new(success: true, result: "#{@file_link.storage.host}/f/#{@file_link.origin_id}")
     end
   end
 end
