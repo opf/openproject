@@ -161,12 +161,12 @@ You can copy an existing project by navigating to the [project settings](project
 
 ![copy-project](image-20210204170859459.png)
 
-
-
 Give the new project a name. Select which modules and settings you want to copy and whether or not you want to notify users via email during copying. 
 You can copy existing [boards](../agile-boards) (apart from the Subproject board) and the [Project overview](../project-overview/#project-overview) dashboards along with your project, too.
 
 ![copy-project-screen-11.0](image-20201007172029375.png)
+
+**!!Attention!!** - **Budgets** cannot be copied, so they must be removed from the work package table beforehand. Alternatively, you can delete them in the Budget module and thus delete them from the work packages as well.
 
 For further configuration open the **Advanced settings**. Here you can specify (among other things) the project's URL (identifier), its visibility and status. Furthermore you can set values for custom fields (not shown in the screenshot).
 
