@@ -766,7 +766,7 @@ GEM
       thor (~> 1.0)
     rainbow (3.1.1)
     rake (13.0.6)
-    rb-fsevent (0.11.0)
+    rb-fsevent (0.11.1)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
     rbtree3 (0.7.0)
