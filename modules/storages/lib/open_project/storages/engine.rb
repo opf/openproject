@@ -48,8 +48,8 @@ module OpenProject::Storages
              bundled: true,
              settings: {},
              name: 'OpenProject Storages' do
+
       # Defines permission constraints used in the module (controller, etc.)
-      # Apparently only defined the name, dependencies and global(?) permissions?
       # Permissions documentation: https://www.openproject.org/docs/development/concepts/permissions/#definition-of-permissions
       project_module :storages, dependencies: :work_package_tracking do
         permission :view_file_links,
