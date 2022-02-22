@@ -356,7 +356,7 @@ GEM
       rexml
     crass (1.0.6)
     daemons (1.4.1)
-    dalli (3.2.0)
+    dalli (3.2.1)
     danger (8.4.2)
       claide (~> 1.0)
       claide-plugins (>= 0.9.2)
@@ -448,7 +448,7 @@ GEM
       tzinfo
     eventmachine (1.2.7)
     eventmachine_httpserver (0.2.1)
-    excon (0.90.0)
+    excon (0.91.0)
     factory_bot (6.2.0)
       activesupport (>= 5.0.0)
     factory_bot_rails (6.2.0)
@@ -484,11 +484,10 @@ GEM
     fastimage (2.2.6)
     ffi (1.15.5)
     flamegraph (0.9.5)
-    fog-aws (3.12.0)
+    fog-aws (3.13.0)
       fog-core (~> 2.1)
       fog-json (~> 1.1)
       fog-xml (~> 0.1)
-      ipaddress (~> 0.8)
     fog-core (2.2.4)
       builder
       excon (~> 0.71)
@@ -550,7 +549,6 @@ GEM
       ice_cube (~> 0.16)
     ice_cube (0.16.4)
     interception (0.5)
-    ipaddress (0.8.3)
     iso8601 (0.13.0)
     jmespath (1.6.0)
     json (2.6.1)
