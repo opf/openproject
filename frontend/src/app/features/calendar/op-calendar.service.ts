@@ -159,7 +159,7 @@ export class OpCalendarService extends UntilDestroyedMixin {
     const endDate = moment(fetchInfo.end).format('YYYY-MM-DD');
 
     let queryId:string|null = null;
-    if (this.urlParams.query_id && this.urlParams.query_id !== 'new') {
+    if (this.urlParams.query_id) {
       queryId = this.urlParams.query_id as string;
     }
 
@@ -314,14 +314,16 @@ export class OpCalendarService extends UntilDestroyedMixin {
   }
 
   private get initializingWithQuery():boolean {
-    return (this.areFiltersEmpty && this.urlParams.query_id && !this.urlParams.query_props) as boolean;
+    return this.areFiltersEmpty
+      && !!this.urlParams.query_id
+      && !this.urlParams.query_props;
   }
 
   private get urlParams() {
     return this.uiRouterGlobals.params;
   }
 
-  private get areFiltersEmpty() {
+  private get areFiltersEmpty():boolean {
     return this.wpTableFilters.isEmpty;
   }
 

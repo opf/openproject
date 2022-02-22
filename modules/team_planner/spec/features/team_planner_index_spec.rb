@@ -51,6 +51,18 @@ describe 'Team planner index', type: :feature, js: true, with_ee: %i[team_planne
       expect(page).to have_text 'There is currently nothing to display.'
       expect(page).to have_selector '.button', text: 'Create'
     end
+
+    it 'can create an action through the sidebar' do
+      click_on 'Create new planner'
+
+      team_planner.expect_title
+
+      # Also works from the frontend
+      click_on 'Create new planner'
+
+      team_planner.expect_no_toaster
+      team_planner.expect_title
+    end
   end
 
   context 'with an existing view' do
