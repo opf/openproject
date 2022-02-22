@@ -49,7 +49,10 @@ module API
       # * the minimum of the per page options specified in the settings
       # * the maximum page size
       def resulting_page_size(value, relation = nil)
-        [value || relation&.base_class&.per_page || Setting.per_page_options_array.min, maximum_page_size]
+        [
+          resolve_page_size(value) || relation&.base_class&.per_page || Setting.per_page_options_array.min,
+          maximum_page_size
+        ]
            .map(&:to_i)
            .min
       end

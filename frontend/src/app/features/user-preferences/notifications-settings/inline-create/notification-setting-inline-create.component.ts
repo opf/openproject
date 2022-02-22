@@ -70,7 +70,7 @@ export class NotificationSettingInlineCreateComponent {
     return this
       .apiV3Service
       .projects
-      .filtered(filters)
+      .filtered(filters, { pageSize: '-1' })
       .get()
       .pipe(
         map((collection) => collection.elements.map((project) => ({
