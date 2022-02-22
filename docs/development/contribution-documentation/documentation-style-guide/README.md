@@ -415,7 +415,7 @@ When you take screenshots:
 
 ### Add the image link to content
 
-The Markdown code for including an image in a document is: `![Image description which will be the alt tag](document_image_title_vX_Y.png)`
+The Markdown code for including an image in a document is: `![Image description which will be the alt tag](document_image_title_v_x_y.png)`
 
 The image description is the alt text for the rendered image on the documentation page. For accessibility and SEO, use descriptions that are short and precise.
 
