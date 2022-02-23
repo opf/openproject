@@ -2947,8 +2947,11 @@ lt:
     errors:
       messages:
         #Common error messages
-        invalid_request: 'Užklausoje trūksta privalomo parametro, yra nepalaikoma parametro reikšmė arba jis kažkaip kitaip netinkamas.'
-        invalid_redirect_uri: "Paprašytas peradresavimo URI yra netinkamas arba neatitinka kliento peradresavimo URI."
+        invalid_request:
+          unknown: 'Užklausoje trūksta privalomo parametro, yra nepalaikoma parametro reikšmė arba jis kažkaip kitaip netinkamas.'
+          missing_param: 'Missing required parameter: %{value}.'
+          request_not_authorized: 'Request need to be authorized. Required parameter for authorizing request is missing or invalid.'
+        invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
         unauthorized_client: 'Klientui neleidžiama vykdyti šios užklausos naudojant šį metodą.'
         access_denied: 'Resurso savininkas arba autorizacijos serveris neleido užklausos.'
         invalid_scope: 'Užklausos apimtis yra netinkama, nežinoma arba blogai suformuota.'
@@ -2961,6 +2964,7 @@ lt:
         admin_authenticator_not_configured: "Prieiga prie administravimo skydelio uždrausta, nes\nDoorkeeper.configure.admin_authenticator nėra sukonfigūruotas."
         #Access grant errors
         unsupported_response_type: 'Autorizacijos serveris nepalaiko šito atsako tipo.'
+        unsupported_response_mode: 'The authorization server does not support this response mode.'
         #Access token errors
         invalid_client: 'Kliento autentikacija nepavyko, nes klientas nežinomas, neįtraukta kliento autentikacija arba nepalaikomas autentikacijos metodas.'
         invalid_grant: 'Pateikta autorizavimo teisė yra netinkama, pasibaigusi, atšaukta, neatitinka peradresavimo URI, naudojamo autorizacijos užklausoje, arba buvo išduota kitam klientui.'
@@ -2969,6 +2973,10 @@ lt:
           revoked: "Prieigos žetonas buvo atšauktas"
           expired: "Baigėsi prieigos žetono galiojimas"
           unknown: "Netinkamas prieigos žetonas"
+        revoke:
+          unauthorized: "You are not authorized to revoke this token."
+        forbidden_token:
+          missing_scope: 'Access to this resource requires scope "%{oauth_scopes}".'
   unsupported_browser:
     title: "Jūsų naršyklė pasenusi ir nepalaikoma."
     message: "Šiame puslapyje jums gali kilti problemų ar jis gali prastai veikti."

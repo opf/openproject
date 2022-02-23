@@ -2910,8 +2910,11 @@ fr:
     errors:
       messages:
         #Common error messages
-        invalid_request: 'Il manque à la requête un paramètre requis, inclut une valeur de paramètre non supportée ou est malformée d''une autre manière.'
-        invalid_redirect_uri: "L'URI de redirection demandée est mal formée ou ne correspond pas à l'URI de redirection client."
+        invalid_request:
+          unknown: 'Il manque à la requête un paramètre requis, inclut une valeur de paramètre non supportée ou est malformée d''une autre manière.'
+          missing_param: 'Missing required parameter: %{value}.'
+          request_not_authorized: 'Request need to be authorized. Required parameter for authorizing request is missing or invalid.'
+        invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
         unauthorized_client: 'Le client n''est pas autorisé à effectuer cette demande en utilisant cette méthode.'
         access_denied: 'Le propriétaire de la ressource ou le serveur d''autorisation a refusé la demande.'
         invalid_scope: 'La portée demandée est invalide, inconnue ou incorrecte.'
@@ -2924,6 +2927,7 @@ fr:
         admin_authenticator_not_configured: 'L''accès au panneau d''administration est interdit en raison de l''absence de configuration de Doorkeeper.configure.admin_authenticator.'
         #Access grant errors
         unsupported_response_type: 'Le serveur d''autorisation ne supporte pas ce type de réponse.'
+        unsupported_response_mode: 'The authorization server does not support this response mode.'
         #Access token errors
         invalid_client: 'L''authentification du client a échoué en raison d''un client inconnu, d''une authentification du client non supportée ou d''une méthode d''authentification non supportée.'
         invalid_grant: 'Le droit d’autorisation fourni n’est pas valide, a expiré, est révoqué, ne correspond pas à l’URI de redirection utilisée dans la requête d’autorisation, ou a été remis à un autre client.'
@@ -2932,6 +2936,10 @@ fr:
           revoked: "Le jeton d'accès a été révoqué"
           expired: "Le jeton d'accès a expiré"
           unknown: "Le jeton d'accès est invalide"
+        revoke:
+          unauthorized: "You are not authorized to revoke this token."
+        forbidden_token:
+          missing_scope: 'Access to this resource requires scope "%{oauth_scopes}".'
   unsupported_browser:
     title: "Votre navigateur est obsolète et non pris en charge."
     message: "Vous pouvez rencontrer des erreurs et une expérience dégradée sur cette page."

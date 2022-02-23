@@ -2953,8 +2953,11 @@ uk:
     errors:
       messages:
         #Common error messages
-        invalid_request: 'У запиті відсутній необхідний параметр, він містить непідтримуваний параметр або інший варіант.'
-        invalid_redirect_uri: "The requested redirect URI is malformed or doesn't match client redirect URI."
+        invalid_request:
+          unknown: 'У запиті відсутній необхідний параметр, він містить непідтримуваний параметр або інший варіант.'
+          missing_param: 'Missing required parameter: %{value}.'
+          request_not_authorized: 'Request need to be authorized. Required parameter for authorizing request is missing or invalid.'
+        invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
         unauthorized_client: 'Клієнт не має права виконувати цей запит за допомогою цього методу.'
         access_denied: 'Власник ресурсів або сервер авторизації відхилив запит.'
         invalid_scope: 'Запитувана область дії є недійсною, невідомою або неправильною.'
@@ -2967,6 +2970,7 @@ uk:
         admin_authenticator_not_configured: 'Доступ до адміністративної панелі заборонений через Doorkeeper.configure.admin_authenticator being unconfigured.'
         #Access grant errors
         unsupported_response_type: 'Сервер авторизації не підтримує цей тип відповіді.'
+        unsupported_response_mode: 'The authorization server does not support this response mode.'
         #Access token errors
         invalid_client: 'Аутентифікація клієнта не вдалася за відстуності клієнта, не було включено автентифікацію клієнта або непідтримувався метод автентифікації.'
         invalid_grant: 'Наданий дозвіл на авторизацію недійсний, минув, анульований, не відповідає URI перенаправлення, що використовується в запиті на авторизацію, або був виданий іншому клієнту.'
@@ -2975,6 +2979,10 @@ uk:
           revoked: "Маркер доступу скасовано"
           expired: "Термін дії доступу закінчився"
           unknown: "Маркер доступу недійсний"
+        revoke:
+          unauthorized: "You are not authorized to revoke this token."
+        forbidden_token:
+          missing_scope: 'Access to this resource requires scope "%{oauth_scopes}".'
   unsupported_browser:
     title: "Ваш веб-переглядач застарілий і не підтримується."
     message: "Ви можете зіткнутися з помилками та погіршити досвід роботи на цій сторінці."
