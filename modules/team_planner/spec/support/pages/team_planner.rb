@@ -75,8 +75,8 @@ module Pages
       expect(page).to have_selector('.fc-button-active', text: text)
 
       param = {
-        'Week' => :resourceTimelineWeek,
-        'Two-week' => :resourceTimelineTwoWeeks
+        '1-week' => :resourceTimelineWeek,
+        '2-week' => :resourceTimelineTwoWeeks
       }[text]
 
       expect(page).to have_current_path(/cview=#{param}/)

@@ -318,21 +318,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
                 type: 'resourceTimeline',
                 buttonText: this.text.two_weeks,
                 slotDuration: { days: 1 },
-                visibleRange() {
-                  const thisWeek = new Date();
-                  const thisWeekEndDateNumber = thisWeek.getDate() - thisWeek.getDay() + 8;
-                  const endDate = new Date(thisWeek.setDate(thisWeekEndDateNumber));
-
-                  const lastWeek = new Date();
-                  const lastWeekStartDate = new Date(lastWeek.getFullYear(), lastWeek.getMonth(), lastWeek.getDate() - 6);
-                  const lastWeekStartDateNumber = lastWeekStartDate.getDate() - lastWeekStartDate.getDay();
-                  const startDate = new Date(lastWeek.setDate(lastWeekStartDateNumber + 1));
-
-                  return {
-                    start: `${startDate.getFullYear()}-${String((startDate.getMonth() + 1)).padStart(2, '0')}-${String(startDate.getDate()).padStart(2, '0')}`,
-                    end: `${endDate.getFullYear()}-${String((endDate.getMonth() + 1)).padStart(2, '0')}-${String(endDate.getDate()).padStart(2, '0')}`,
-                  };
-                },
+                duration: { weeks: 2 },
                 slotLabelFormat: [
                   {
                     weekday: 'short',
