@@ -5,11 +5,11 @@ module EnterpriseHelper
   end
 
   def write_trial_key_to_gon
-    @trial_key = Token::EnterpriseTrialKey.find_by(user_id: User.system.id)
-    if @trial_key
+    trial_key = Token::EnterpriseTrialKey.find_by(user_id: User.system.id)
+    if trial_key
       gon.ee_trial_key = {
-        value: @trial_key.value,
-        created: @trial_key.created_at
+        value: trial_key.value,
+        created: trial_key.created_at
       }
     end
   end

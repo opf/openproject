@@ -39,7 +39,7 @@ import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { EnterpriseTrialService } from 'core-app/features/enterprise/enterprise-trial.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { distinctUntilChanged } from 'rxjs/operators';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { GonService } from 'core-app/core/gon/gon.service';
 
 export const freeTrialButtonSelector = 'free-trial-button';
@@ -56,11 +56,10 @@ export class FreeTrialButtonComponent implements OnInit {
 
   public text = {
     button_trial: this.I18n.t('js.admin.enterprise.upsale.button_start_trial'),
-    confirmation_info: (date:string, email:string) =>
-      this.trialRequested ? this.I18n.t('js.admin.enterprise.trial.confirmation_info', {
+    confirmation_info: (date:string, email:string) => this.I18n.t('js.admin.enterprise.trial.confirmation_info', {
       date,
       email,
-    }) : '',
+    }),
   };
 
   constructor(protected I18n:I18nService,
@@ -122,7 +121,7 @@ export class FreeTrialButtonComponent implements OnInit {
     this.opModalService.show(EnterpriseTrialModalComponent, this.injector);
   }
 
-  public get trialRequested() {
+  public get trialRequested(): boolean {
     const eeTrialKey = this.Gon.get('ee_trial_key') as any;
     return (eeTrialKey && eeTrialKey !== undefined);
   }
