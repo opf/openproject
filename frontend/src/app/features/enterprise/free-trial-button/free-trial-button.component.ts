@@ -40,6 +40,7 @@ import { EnterpriseTrialService } from 'core-app/features/enterprise/enterprise-
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { GonService } from 'core-app/core/gon/gon.service';
 
 export const freeTrialButtonSelector = 'free-trial-button';
 
@@ -55,12 +56,11 @@ export class FreeTrialButtonComponent implements OnInit {
 
   public text = {
     button_trial: this.I18n.t('js.admin.enterprise.upsale.button_start_trial'),
-    confirmation_info: (date:string, email:string) => {
-      return this.trialRequested ? this.I18n.t('js.admin.enterprise.trial.confirmation_info', {
-        date,
-        email,
-      }) : ''
-    },
+    confirmation_info: (date:string, email:string) =>
+      this.trialRequested ? this.I18n.t('js.admin.enterprise.trial.confirmation_info', {
+      date,
+      email,
+    }) : '',
   };
 
   constructor(protected I18n:I18nService,
@@ -68,34 +68,36 @@ export class FreeTrialButtonComponent implements OnInit {
     readonly injector:Injector,
     readonly http:HttpClient,
     readonly cdRef:ChangeDetectorRef,
+    readonly Gon:GonService,
     public eeTrialService:EnterpriseTrialService,
     readonly timezoneService:TimezoneService) {
   }
 
   ngOnInit():void {
     this.eeTrialService.userData$
-    .values$()
-    .pipe(
-      distinctUntilChanged(),
-    )
-    .subscribe((userForm) => {
-      this.email = userForm.email;
-      this.cdRef.detectChanges();
-    });
+      .values$()
+      .pipe(
+        distinctUntilChanged(),
+      )
+      .subscribe((userForm) => {
+        this.email = userForm.email;
+        this.cdRef.detectChanges();
+      });
 
-  this.initialize();
+    this.initialize();
   }
 
   private initialize():void {
-    const eeTrialKey = (window as any).gon.ee_trial_key;
-    if (window.gon.ee_trial_key) {
+    const eeTrialKey = this.Gon.get('ee_trial_key') as any;
+    if (eeTrialKey) {
       const savedDateStr = eeTrialKey.created.split(' ')[0];
       this.created = this.timezoneService.formattedDate(savedDateStr);
-    }
-    if (eeTrialKey && !this.eeTrialService.userData$.hasValue()) {
-      // after reload: get data from Augur using the trial key saved in gon
-      this.eeTrialService.trialLink = `${this.eeTrialService.baseUrlAugur}/public/v1/trials/${eeTrialKey.value}`;
-      this.getUserDataFromAugur();
+
+      if (!this.eeTrialService.userData$.hasValue()) {
+        // after reload: get data from Augur using the trial key saved in gon
+        this.eeTrialService.trialLink = `${this.eeTrialService.baseUrlAugur}/public/v1/trials/${eeTrialKey.value}`;
+        this.getUserDataFromAugur();
+      }
     }
   }
 
@@ -107,11 +109,12 @@ export class FreeTrialButtonComponent implements OnInit {
         this.eeTrialService.userData$.putValue(userForm);
         this.eeTrialService.retryConfirmation();
       })
-      .catch((error:HttpErrorResponse) => {
+      .catch(() => {
         // Check whether the mail has been confirmed by now
         this.eeTrialService.getToken();
       });
   }
+
   public openTrialModal():void {
     // cancel request and open first modal window
     this.eeTrialService.cancelled = true;
@@ -120,6 +123,7 @@ export class FreeTrialButtonComponent implements OnInit {
   }
 
   public get trialRequested() {
-    return window.gon.ee_trial_key !== undefined;
+    const eeTrialKey = this.Gon.get('ee_trial_key') as any;
+    return (eeTrialKey && eeTrialKey !== undefined);
   }
 }
