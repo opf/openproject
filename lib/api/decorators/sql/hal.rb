@@ -80,44 +80,59 @@ module API
             scope
           end
 
-          def link(name, column: nil, path: nil, title: nil, href: nil, join: nil, render_if: nil, **additional_properties)
+          def link(name,
+                   column: nil,
+                   path: nil,
+                   title: nil,
+                   href: nil,
+                   join: nil,
+                   render_if: nil,
+                   sql: nil,
+                   **additional_properties)
             links[name] = { column: column,
                             path: path,
                             title: title,
                             join: join,
                             href: href,
                             render_if: render_if,
+                            sql: sql,
                             additional_properties: additional_properties }
           end
 
           def links_selects(select, walker_result)
             selected_links(select)
               .map do |name, link|
-              title = link[:title] ? link[:title].call : "#{name}.name"
-
-              link_attributes = ["'href'", link_href(link, name, walker_result)]
-
-              if title
-                link_attributes += ["'title'", title]
-              end
-
-              (link[:additional_properties] || {}).each do |key, value|
-                link_attributes += ["'#{key}'", value]
-              end
-
-              if link[:render_if]
+              if link[:sql]
                 <<-SQL.squish
-                 '#{name}',
-                 CASE WHEN #{link[:render_if].call(walker_result)} THEN
-                   json_build_object(#{link_attributes.join(', ')})
-                 ELSE
-                   NULL
-                 END
+                  '#{name}', #{link[:sql].call}
                 SQL
               else
-                <<-SQL.squish
-                 '#{name}', json_build_object(#{link_attributes.join(', ')})
-                SQL
+                title = link[:title] ? link[:title].call : "#{name}.name"
+
+                link_attributes = ["'href'", link_href(link, name, walker_result)]
+
+                if title
+                  link_attributes += ["'title'", title]
+                end
+
+                (link[:additional_properties] || {}).each do |key, value|
+                  link_attributes += ["'#{key}'", value]
+                end
+
+                if link[:render_if]
+                  <<-SQL.squish
+                   '#{name}',
+                   CASE WHEN #{link[:render_if].call(walker_result)} THEN
+                     json_build_object(#{link_attributes.join(', ')})
+                   ELSE
+                     NULL
+                   END
+                  SQL
+                else
+                  <<-SQL.squish
+                   '#{name}', json_build_object(#{link_attributes.join(', ')})
+                  SQL
+                end
               end
             end
               .join(', ')
@@ -196,7 +211,7 @@ module API
           end
 
           def select_from(walker_result)
-            "(#{walker_result.scope.to_sql}) element"
+            "(#{walker_result.projection_scope.to_sql}) element"
           end
 
           def selected_links(select)

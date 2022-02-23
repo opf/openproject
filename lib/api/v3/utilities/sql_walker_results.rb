@@ -33,14 +33,16 @@ module API
     module Utilities
       class SqlWalkerResults
         def initialize(scope, url_query:, self_path: nil, replace_map: {})
-          self.scope = scope
+          self.filter_scope = scope.dup
+          self.projection_scope = scope.dup.reselect("#{scope.model.table_name}.*")
           self.ctes = {}
           self.self_path = self_path
           self.url_query = url_query
           self.replace_map = replace_map
         end
 
-        attr_accessor :scope,
+        attr_accessor :filter_scope,
+                      :projection_scope,
                       :sql,
                       :selects,
                       :ctes,

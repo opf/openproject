@@ -32,6 +32,47 @@ module API
       class ProjectSqlRepresenter
         include API::Decorators::Sql::Hal
 
+        class << self
+          def ctes(walker_result)
+            {
+              ancestors: ancestors_sql(walker_result)
+            }
+          end
+
+          protected
+
+          def ancestors_sql(walker_result)
+            <<-SQL.squish
+              SELECT id, json_agg(link) ancestors
+              FROM
+                (
+                  SELECT
+                    origin.id,
+                    json_build_object('href', format('/api/v3/projects/%s', ancestors.id), 'title', ancestors.name) link
+                  FROM projects origin
+                  JOIN projects ancestors
+                  ON ancestors.lft < origin.lft AND ancestors.rgt > origin.rgt
+                  WHERE origin.id IN (#{walker_result.filter_scope.limit(walker_result.page_size).offset((walker_result.offset - 1) * walker_result.page_size).select(:id).to_sql})
+                  ORDER by origin.id, ancestors.lft
+                ) ancestors
+              GROUP BY id
+            SQL
+          end
+        end
+
+        link :self,
+             path: { api: :project, params: %w(id) },
+             column: -> { :id },
+             title: -> { :name }
+
+        link :ancestors,
+             sql: -> { 'ancestors' },
+             join: {
+               table: :ancestors,
+               condition: 'ancestors.id = projects.id',
+               select: 'ancestors'
+             }
+
         property :_type,
                  representation: ->(*) { "'Project'" }
 

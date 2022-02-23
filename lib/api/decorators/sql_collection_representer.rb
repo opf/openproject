@@ -34,16 +34,15 @@ module API
       class << self
         def ctes(walker_result)
           {
-            all_elements: walker_result.scope.to_sql,
-            page_elements: "SELECT * FROM all_elements LIMIT #{sql_limit(walker_result)} OFFSET #{sql_offset(walker_result)}",
-            total: "SELECT COUNT(*) from all_elements"
+            projection: walker_result.projection_scope.limit(sql_limit(walker_result)).offset(sql_offset(walker_result)).to_sql,
+            total: walker_result.filter_scope.reselect('COUNT(*)').except(:order).to_sql
           }
         end
 
         private
 
         def select_from(walker_result)
-          "page_elements"
+          "projection"
         end
 
         def full_self_path(walker_results, overrides = {})

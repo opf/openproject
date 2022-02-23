@@ -60,7 +60,7 @@ module API
           end
 
           embedded_depth_first([], start) do |_, stack, current_representer|
-            result.scope = current_representer.joins(select_for(stack), result.scope)
+            result.projection_scope = current_representer.joins(select_for(stack), result.projection_scope)
           end
 
           embedded_depth_first([], start) do |_, _, current_representer|
