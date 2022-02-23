@@ -31,7 +31,6 @@ class EnterprisesController < ApplicationController
   layout 'admin'
   menu_item :enterprise
 
-  before_action :augur_content_security_policy
   before_action :chargebee_content_security_policy
   before_action :youtube_content_security_policy
   before_action :require_admin

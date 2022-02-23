@@ -31,7 +31,6 @@
 class PlaceholderUsersController < ApplicationController
   include EnterpriseTrialHelper
   layout 'admin'
-  before_action :augur_content_security_policy
   before_action :authorize_global, except: %i[show]
 
   before_action :find_placeholder_user, only: %i[show
