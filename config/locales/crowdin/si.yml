@@ -2911,8 +2911,11 @@ si:
     errors:
       messages:
         #Common error messages
-        invalid_request: 'ඉල්ලීම අවශ්ය පරාමිතියක් අතුරුදහන්, සහාය නොදක්වන පරාමිති අගය ඇතුළත්, හෝ වෙනත් ආකාරයකින් විකෘති කර ඇත.'
-        invalid_redirect_uri: "ඉල්ලූ නැවත හරවා යැවීමේ URI අක්රිය වී හෝ සේවාදායකයා නැවත හරවා URI සමඟ ගැලපෙන්නේ නැත."
+        invalid_request:
+          unknown: 'ඉල්ලීම අවශ්ය පරාමිතියක් අතුරුදහන්, සහාය නොදක්වන පරාමිති අගය ඇතුළත්, හෝ වෙනත් ආකාරයකින් විකෘති කර ඇත.'
+          missing_param: 'Missing required parameter: %{value}.'
+          request_not_authorized: 'Request need to be authorized. Required parameter for authorizing request is missing or invalid.'
+        invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
         unauthorized_client: 'මෙම ක්රමය භාවිතා කරමින් මෙම ඉල්ලීම ඉටු කිරීමට සේවාදායකයාට බලය නැත.'
         access_denied: 'සම්පත් හිමිකරු හෝ බලය පැවරීමේ සේවාදායකය ඉල්ලීම ප්රතික්ෂේප කළේය.'
         invalid_scope: 'ඉල්ලූ විෂය පථය වලංගු නොවන, නොදන්නා හෝ අකර්මණ්ය වේ.'
@@ -2925,6 +2928,7 @@ si:
         admin_authenticator_not_configured: 'doorkeeper.configure.admin_authenticator වින්යාසගත නොකිරීම හේතුවෙන් පරිපාලක පැනලය වෙත ප්රවේශ වීම තහනම් කර ඇත.'
         #Access grant errors
         unsupported_response_type: 'බලය පැවරීමේ සේවාදායකය මෙම ප්රතිචාර වර්ගයට සහය නොදක්වයි.'
+        unsupported_response_mode: 'The authorization server does not support this response mode.'
         #Access token errors
         invalid_client: 'නොදන්නා සේවාදායකයා, සේවාදායක සත්යාපන ඇතුළත් කර නොමැති හෝ සහාය නොදක්වන සත්යාපන ක්රමයක් නිසා සේවාදායක සත්යාපන සත්යාපන අසාර්ථක විය.'
         invalid_grant: 'සපයන ලද අවසර ප්රදාන අවලංගු, කල් ඉකුත් වූ, අවලංගු කරන ලද, බලය පැවරීමේ ඉල්ලීමෙහි භාවිතා කරන ලද ප්රතිවර්තනය URI සමඟ නොගැලපේ, නැතහොත් වෙනත් සේවාදායකයෙකුට නිකුත් කරන ලදී.'
@@ -2933,6 +2937,10 @@ si:
           revoked: "ප්රවේශ ටෝකනය අවලංගු කරන ලදී"
           expired: "ප්රවේශ ටෝකනය කල් ඉකුත් විය"
           unknown: "ප්රවේශ ටෝකනය වලංගු නොවේ"
+        revoke:
+          unauthorized: "You are not authorized to revoke this token."
+        forbidden_token:
+          missing_scope: 'Access to this resource requires scope "%{oauth_scopes}".'
   unsupported_browser:
     title: "ඔබගේ බ්රව්සරය යල් පැන ගිය සහ සහාය නොදක්වයි."
     message: "ඔබ මෙම පිටුවේ වැරදි හා පිරිහුණු අත්දැකීම් බවට පත් විය හැක."

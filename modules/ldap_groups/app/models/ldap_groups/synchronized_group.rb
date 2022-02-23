@@ -32,7 +32,7 @@ module LdapGroups
 
       self.class.transaction do
         # create synchronized group memberships
-        memberships = new_users.map { |user| { group_id: id, user_id: user_id(user) } }
+        memberships = new_users.to_a.map { |user| { group_id: id, user_id: user_id(user) } }
         # Bulk insert the memberships to improve performance
         ::LdapGroups::Membership.insert_all memberships
 

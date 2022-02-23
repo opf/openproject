@@ -42,12 +42,12 @@ es:
           title: 'Tiempo que he invertido'
           displayed_days: 'Días mostrados en el widget:'
         time_entries_list:
-          title: 'Tiempo de gastos (últimos 7 días)'
+          title: 'Tiempo gastado (últimos 7 días)'
           no_results: 'Sin entradas temporales en los últimos 7 días.'
         work_packages_accountable:
           title: "Paquetes de trabajo de los que soy responsable"
         work_packages_assigned:
-          title: 'Paquetes de trabajo asignados a mí'
+          title: 'Paquetes de trabajo asignados para mí'
         work_packages_created:
           title: 'Paquetes de trabajo creados por mí'
         work_packages_watched:

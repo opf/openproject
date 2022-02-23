@@ -2907,8 +2907,11 @@ es:
     errors:
       messages:
         #Common error messages
-        invalid_request: 'Falta un parámetro necesario en la petición, un valor de parámetro no compatible ha sido añadido, o se encuentra deformado.'
-        invalid_redirect_uri: "El URI de redireccionamiento solicitado tiene un formato incorrecto o no coincide con el URI de redireccionamiento del cliente."
+        invalid_request:
+          unknown: 'Falta un parámetro necesario en la petición, un valor de parámetro no compatible ha sido añadido, o se encuentra deformado.'
+          missing_param: 'Missing required parameter: %{value}.'
+          request_not_authorized: 'Request need to be authorized. Required parameter for authorizing request is missing or invalid.'
+        invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
         unauthorized_client: 'El cliente no está autorizado a realizar esta petición usando este método.'
         access_denied: 'El propietario de este recurso o servidor de autorización ha denegado la petición.'
         invalid_scope: 'El ámbito solicitado es inválido, desconocido, o está malformado.'
@@ -2921,6 +2924,7 @@ es:
         admin_authenticator_not_configured: 'El acceso al panel de administrador está prohibido debido a la desconfiguración de Doorkeeper.configure.admin_authenticator.'
         #Access grant errors
         unsupported_response_type: 'El servidor de autorización no es compatible con este tipo de respuesta.'
+        unsupported_response_mode: 'The authorization server does not support this response mode.'
         #Access token errors
         invalid_client: 'La certificación del cliente ha fallado debido a un cliente desconocido, omisión del cliente, o un método de certificación no compatible.'
         invalid_grant: 'El permiso de autorización proporcionado es inválido, ha sido revocado, no concuerda con la redirección URI usada en la petición de autorización, o ha sido otorgada a otro cliente.'
@@ -2929,6 +2933,10 @@ es:
           revoked: "El token de acceso ha sido revocado"
           expired: "El token de acceso ha expirado"
           unknown: "El token de acceso es inválido"
+        revoke:
+          unauthorized: "You are not authorized to revoke this token."
+        forbidden_token:
+          missing_scope: 'Access to this resource requires scope "%{oauth_scopes}".'
   unsupported_browser:
     title: "Tu explorador esta desactualizado y no es compatible."
     message: "Podrás experimentar errores y una experiencia de mala calidad en esta página."

@@ -314,7 +314,7 @@ it:
       other: '%{count} macro-attività discendenti'
     bulk:
       could_not_be_saved: "Le seguenti macro-attività non possono essere salvate:"
-      none_could_be_saved: "None of the %{total} work packages could be updated."
+      none_could_be_saved: "Nessuna delle %{total} macro-attività può essere aggiornata."
       x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
       selected_because_descendants: "While %{selected} work packages where selected, in total %{total} work packages are affected which includes descendants."
       descendant: "descendant of selected"
@@ -2340,9 +2340,9 @@ it:
   setting_apiv3_cors_origins: "Origini di condivisione CORS (Cross-Origin Resource Sharing) API V3 consentite"
   setting_apiv3_cors_origins_text_html: >
     Se CORS è abilitato, queste sono le origini che possono accedere alle API di OpenProject. <br/> Controlla la <a href="%{origin_link}" target="_blank">Documentazione sull'intestazione dell'origine</a> per sapere come specificare i valori previsti.
-  setting_apiv3_max_page_size: "Maximum API page size"
+  setting_apiv3_max_page_size: "Dimensione massima della pagina API"
   setting_apiv3_max_page_instructions_html: >
-    Set the maximum page size the API will respond with. It will not be possible to perform API requests that return more values on a single page. <br/> <strong>Warning:</strong> Please only change this value if you are sure why you need it. Setting to a high value will result in significant performance impacts, while a value lower than the per page options will cause errors in paginated views.
+    Imposta la dimensione massima della pagina con cui l'API risponderà. Non sarà possibile eseguire richieste API che restituiscono più valori su una singola pagina. <br/> <strong>Attenzione:</strong> Si prega di modificare questo valore solo se sei sicuro del motivo per cui ne hai bisogno. La definizione di un valore elevato comporterà un impatto significativo sulle prestazioni, mentre un valore inferiore alle opzioni per pagina causerà errori nelle viste paginate.
   setting_apiv3_docs: "Documentazione"
   setting_apiv3_docs_enabled: "Abilita pagina di documenti"
   setting_apiv3_docs_enabled_instructions_html: >
@@ -2908,8 +2908,11 @@ it:
     errors:
       messages:
         #Common error messages
-        invalid_request: 'La richiesta manca un parametro obbligatorio, include un valore non supportato in un parametro, o non è scritto correttamente.'
-        invalid_redirect_uri: "Il reindirizzamento dell'URI richiesto non è valido o non corrisponde all'URI di reindirizzamento del client."
+        invalid_request:
+          unknown: 'La richiesta manca un parametro obbligatorio, include un valore non supportato in un parametro, o non è scritto correttamente.'
+          missing_param: 'Missing required parameter: %{value}.'
+          request_not_authorized: 'Request need to be authorized. Required parameter for authorizing request is missing or invalid.'
+        invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
         unauthorized_client: 'Il client non è autorizzato ad eseguire questa richiesta usando questo metodo.'
         access_denied: 'Il proprietario della risorsa o il server di autorizzazione hanno rifiutato la richiesta.'
         invalid_scope: 'L''ambito richiesto non è valido, è sconosciuto o non è scritto bene.'
@@ -2922,6 +2925,7 @@ it:
         admin_authenticator_not_configured: 'Impossibile accedere al pannello di amministrazione a causa della mancata configurazione di Doorkeeper.configure.admin_authenticator.'
         #Access grant errors
         unsupported_response_type: 'Il server di autorizzazione non supporta questo tipo di risposta.'
+        unsupported_response_mode: 'The authorization server does not support this response mode.'
         #Access token errors
         invalid_client: 'L''autenticazione del client non è riuscita a causa di client sconosciuti, della mancata inclusione dell''autenticazione nel client, o del mancato supporto del metodo di autenticazione.'
         invalid_grant: 'Il permesso di autorizzazione fornito non è valido, è scaduto, è revocato, non corrisponde all''URI di reindirizzamento utilizzato nella richiesta di autorizzazione oppure è stato rilasciato per un altro client.'
@@ -2930,6 +2934,10 @@ it:
           revoked: "Il token di accesso è stato revocato"
           expired: "Il token di accesso è scaduto"
           unknown: "Il token di accesso non è valido"
+        revoke:
+          unauthorized: "You are not authorized to revoke this token."
+        forbidden_token:
+          missing_scope: 'Access to this resource requires scope "%{oauth_scopes}".'
   unsupported_browser:
     title: "Il tuo browser è obsoleto e non supportato."
     message: "Puoi incorrere in errori ed esperienza non ottimizzata su questa pagina."
