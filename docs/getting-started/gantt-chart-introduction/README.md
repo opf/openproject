@@ -34,7 +34,7 @@ The dynamic Gantt chart in OpenProject displays the phases and milestones in you
 
 ## Activate the Gantt chart view
 
-To open the Gantt chart view in OpenProject, the [work packages module needs to be activated](../projects/#advanced-project-settings) in the project settings.
+To open the Gantt chart view in OpenProject, the [work packages module needs to be activated](../../user-guide/activity) in the project settings.
 
 Within your project menu, navigate to the work packages module. Select the **Gantt chart view** in the work package list with the button on the top right.
 
@@ -48,11 +48,11 @@ It shows dependencies between different work packages as well as additional info
 
 ## Create a project plan
 
-To create a project plan in OpenProject, activate the work package module and select the [Gantt chart view](#activate-the-gantt-chart-view).
+To create a project plan in OpenProject, switch to the work package table and select the [Gantt chart view](#activate-the-gantt-chart-view).
 
-You can create new work packages directly in the list by clicking on the **create new work package** link at the bottom of the list. You can change the work package type or other attributes directly in the list view.
+You can create new work package directly in the list by clicking on the **create new work package** link at the bottom of the list. You can change the work package type or other attributes directly in the list view.
 
-Click in the Gantt chart to add an element in the project plan.
+Click in the at the level of the line of the work package you want to map in the Gantt chart to add an element in the project plan. 
 
 You can change the duration or move the element in the project plan via drag and drop.
 
