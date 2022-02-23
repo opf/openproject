@@ -28,6 +28,5 @@
 
 module Storages::ProjectsStorages
   class BaseContract < ::ModelContract
-
   end
 end

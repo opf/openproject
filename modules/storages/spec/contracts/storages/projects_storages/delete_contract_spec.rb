@@ -37,7 +37,7 @@ describe ::Storages::ProjectsStorages::DeleteContract do
   let(:role) { create(:existing_role, permissions: [:manage_storages_in_project]) }
   let(:project) { create(:project, members: { current_user => role }) }
   let(:current_user) { create(:user) }
-  let(:project_storage) { create(:project_storage, project: project ) }
+  let(:project_storage) { create(:project_storage, project: project) }
   let(:contract) { described_class.new(project_storage, current_user) }
 
   # Default test setup should be valid ("happy test setup").

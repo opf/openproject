@@ -30,27 +30,42 @@ require 'spec_helper'
 require 'services/base_services/behaves_like_delete_service'
 
 describe ::Storages::ProjectsStorages::DeleteService, type: :model do
+  context 'with records written to DB' do
+    let(:user) { create(:user) }
+    let(:role) { create(:existing_role, permissions: [:manage_storages_in_project]) }
+    let(:project) { create(:project, members: { user => role }) }
+    let(:other_project) { create(:project) }
+    let(:project_storage) { create(:project_storage, project: project) }
+    let(:work_package) { create(:work_package, project: project) }
+    let(:other_work_package) { create(:work_package, project: other_project) }
+    let(:file_link) { create(:file_link, container: work_package, storage: project_storage.storage) }
+    let(:other_file_link) { create(:file_link, container: other_work_package, storage: project_storage.storage) }
+
+    it 'destroys the record' do
+      project_storage
+      described_class.new(model: project_storage, user: user).call
+
+      expect(::Storages::ProjectStorage.where(id: project_storage.id))
+        .not_to exist
+    end
+
+    it 'deletes all FileLinks that belong to containers of the related project' do
+      file_link
+      other_file_link
+
+      described_class.new(model: project_storage, user: user).call
+
+      expect(::Storages::FileLink.where(id: file_link.id))
+        .not_to exist
+      expect(::Storages::FileLink.where(id: other_file_link.id))
+        .to exist
+    end
+  end
+
   # Includes many specs that are common for every DeleteService that inherits from ::BaseServices::Delete.
   # Collected tests on DeleteContracts from last 15 years.
   it_behaves_like 'BaseServices delete service' do
     let(:factory) { :project_storage }
-
-    context 'with model saved to DB' do
-      let!(:model_instance) { create(factory) }
-
-      it 'destroys the record' do
-        expect(::Storages::ProjectStorage.where(id: model_instance.id))
-          .to exist
-
-        expect(::Storages::ProjectStorage).to receive(:destroy)
-
-        subject
-
-        expect(::Storages::ProjectStorage.where(id: model_instance.id))
-          .not_to exist
-      end
-    end
   end
 
-  pending 'deletes all FileLinks that belong to containers of the related project'
 end
