@@ -26,6 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+# ToDo: Why is the require wrapped in two modules and not at the beginning?
+# Does it work like an include?
+# ToDo: I understand this is part of the Engine definition, which has to reside
+# here in the storages/lib folder?
 module OpenProject
   module Storages
     require 'open_project/storages/engine'

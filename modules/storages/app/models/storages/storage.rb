@@ -26,12 +26,27 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+# A "Storage" refers to some external source where files are stored.
+# The first supported storage is Nextcloud (www.nextcloud.com).
+# a Storage is mainly defined by a name, a "provider_type" (i.e.
+# Nextcloud or something similar) and a "host" URL.
+#
+# Purpose: The code below is a standard Ruby model:
+# https://guides.rubyonrails.org/active_model_basics.html
+# It defines defines checks and permissions on the Ruby level.
+# Additional attributes and constraints are defined in
+# db/migrate/20220113144323_create_storage.rb "migration".
 class Storages::Storage < ApplicationRecord
+  # One Storage can have multiple FileLinks, representing external files
   has_many :file_links, class_name: 'Storages::FileLink'
+  # Basically every OpenProject object has a creator
   belongs_to :creator, class_name: 'User'
+  # A project manager can enable/disable Storages per project.
   has_many :projects_storages, dependent: :destroy, class_name: 'Storages::ProjectStorage'
+  # We can get the list of projects with this Storage enabled.
   has_many :projects, through: :projects_storages
 
+  # Uniqueness - no two storages should  have the same host.
   validates_uniqueness_of :host
   validates_uniqueness_of :name
 

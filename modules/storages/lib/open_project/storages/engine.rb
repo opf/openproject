@@ -26,17 +26,29 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+# See also: Getting started with Engines: https://guides.rubyonrails.org/engines.html
+# ToDo: What is the name convention for where to store the engine.rb file? Why is
+# there an open_project in the path?
 module OpenProject::Storages
   class Engine < ::Rails::Engine
+    # ToDo: Where is this used/referenced?
     engine_name :openproject_storages
 
+    # ToDo: I understand these are OP specific helpers, but which ones are used?
+    # The next line "register" is defined here as well as "add_api_path" etc.
+    # ToDo: But why is this included and not referenced?
     include OpenProject::Plugins::ActsAsOpEngine
 
+    # For documentation see the definition of register in "ActsAsOpEngine"
+    # This corresponds to the openproject-storage.gemspec
+    # Pass a block to the plugin (for defining permissions, menu items and the like)
     register 'openproject-storages',
              author_url: 'https://www.openproject.org',
              bundled: true,
              settings: {},
              name: 'OpenProject Storages' do
+      # ToDo: Redmine plugin API?
+      # Apparently only defined the name, dependencies and global(?) permissions?
       project_module :storages, dependencies: :work_package_tracking do
         permission :view_file_links,
                    {},
@@ -50,6 +62,8 @@ module OpenProject::Storages
       end
 
       # Menu extensions
+      # Add a "storages_admin_settings" to the admin_menu with the specified link,
+      # condition ("if:"), caption and icon.
       menu :admin_menu,
            :storages_admin_settings,
            { controller: '/storages/admin/storages', action: :index },
@@ -64,6 +78,7 @@ module OpenProject::Storages
            parent: :settings
     end
 
+    # ToDo: Why is there |storage_id|? Is this a kind of manual routes.rb?
     add_api_path :storage do |storage_id|
       "#{root}/storages/#{storage_id}"
     end

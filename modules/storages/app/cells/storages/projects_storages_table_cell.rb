@@ -26,6 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+# Purpose: Defines a table based on RubyCell for listing the
+# Storages::ProjectStorage per project in the projects' settings
+# page.
+# See for comments: storage_table_cell.rb
+# See also: project_storages_row_cell.rb, which contains a method
+# for every "column" defined below.
 module Storages
   class ProjectsStoragesTableCell < ::TableCell
     include ::IconsHelper
@@ -60,10 +66,10 @@ module Storages
 
     def headers
       [
-        ['name', { caption: ::Storages::Storage.human_attribute_name(:name) }],
+        ['name', { caption: Storages::Storage.human_attribute_name(:name) }],
         ['provider_type', { caption: I18n.t('storages.provider_types.label') }],
         ['creator', { caption: I18n.t('storages.label_creator') }],
-        ['created_at', { caption: ::Storages::ProjectStorage.human_attribute_name(:created_at) }]
+        ['created_at', { caption: Storages::ProjectStorage.human_attribute_name(:created_at) }]
       ]
     end
   end

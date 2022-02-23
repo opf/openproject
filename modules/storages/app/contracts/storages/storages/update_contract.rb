@@ -29,6 +29,7 @@
 require 'net/http'
 require 'uri'
 
+# See also: base_contract.rb for comments
 module Storages::Storages
   class UpdateContract < ::Storages::Storages::BaseContract
   end

@@ -27,6 +27,7 @@
 
 require 'spec_helper'
 
+# rubocop:disable RSpec/EmptyExampleGroup
 describe ::API::V3::Views::ViewsAPI,
          'create',
          content_type: :json,
@@ -102,3 +103,4 @@ describe ::API::V3::Views::ViewsAPI,
   #   end
   # end
 end
+# rubocop:enable RSpec/EmptyExampleGroup

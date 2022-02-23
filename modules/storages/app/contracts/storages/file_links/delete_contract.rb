@@ -26,17 +26,24 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+# ToDo: Why is there only one contract for FileLinks?
+# Used by: ???
+# Why here two module blocks instead of Storages::FileLinks?
 module Storages
   module FileLinks
     class DeleteContract < ::ModelContract
+      # ToDo: What is this? Where is this used?
       def self.model
         Storages::FileLink
       end
 
+      # Check permissions to delete(?) this FileLink
       validate :validate_manage_allowed
 
+      # The permission check below doesn't need to be visible in other parts.
       private
 
+      # Just check the global permissions system
       def validate_manage_allowed
         unless user.allowed_to?(:manage_file_links, model.container.project)
           errors.add :base, :error_unauthorized

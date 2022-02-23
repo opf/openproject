@@ -26,6 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+# See also: base_contract.rb for comments
 module Storages
   module Storages
     class DeleteContract < ::DeleteContract

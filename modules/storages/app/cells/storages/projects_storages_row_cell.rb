@@ -1,3 +1,8 @@
+# Purpose: Defines how to format the cells within a table of ProjectStorages
+# associated with a project
+# Used by: projects_storages_table_cell.rb - the methods defined here
+# correspond to the columns value in the table model.
+# See for more comments: storage_row_cell.rb
 module Storages
   class ProjectsStoragesRowCell < ::RowCell
     include ::IconsHelper

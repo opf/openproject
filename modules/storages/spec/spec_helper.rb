@@ -26,6 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+# This is the RSpec main include file that is included in basically every test case below.
+# See also: https://rspec.info/
+# ToDo: It loads factories and ??? what else?
+
 # -- load spec_helper from OpenProject core
 require 'spec_helper'
 

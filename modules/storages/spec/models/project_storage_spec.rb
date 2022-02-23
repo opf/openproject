@@ -30,7 +30,7 @@ require_relative '../spec_helper'
 
 describe ::Storages::ProjectStorage, type: :model do
   let(:creator) { create(:user) }
-  let(:project) { create(:project, :enabled_module_names => %i[storages work_packages]) }
+  let(:project) { create(:project, enabled_module_names: %i[storages work_packages]) }
   let(:storage) { create(:storage) }
   let(:attributes) do
     {
@@ -46,14 +46,14 @@ describe ::Storages::ProjectStorage, type: :model do
       expect(project_storage).to be_valid
     end
 
-    context "having already one instance" do
+    context "when having already one instance" do
       let(:old_project_storage) { described_class.create attributes }
 
       before do
         old_project_storage
       end
 
-      it "should fail if it is not unique per storage and project" do
+      it "fails if it is not unique per storage and project" do
         expect(described_class.create(attributes.merge)).to be_invalid
       end
     end
@@ -71,10 +71,9 @@ describe ::Storages::ProjectStorage, type: :model do
       project_storage_to_destroy.destroy
     end
 
-    it "should destroy all associated FileLink records" do
+    it "destroys all associated FileLink records" do
       expect(Storages::ProjectStorage.count).to be 0
       # ToDo: expect(Storages::FileLink.count).to be 0
     end
   end
 end
-

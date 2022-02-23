@@ -26,6 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+# See also: create_service.rb for comments
 module Storages::Storages
   class SetAttributesService < ::BaseServices::SetAttributes
   end

@@ -53,7 +53,9 @@ describe ::Storages::FileLink, type: :model do
       expect(file_link).to be_valid
     end
 
-    it "should fail when creating an instance with an unsupported container type" do
+    # ToDo: Finish test
+    # rubocop:disable Lint/UselessAssignment
+    it "fails when creating an instance with an unsupported container type" do
       file_link = described_class.create(attributes.merge({ container_id: creator.id, container_type: "User" }))
       # ToDo: expect(file_link).to be_invalid
     end
@@ -63,6 +65,7 @@ describe ::Storages::FileLink, type: :model do
       # ToDo: expect(file_link).to be_invalid
     end
   end
+  # rubocop:enable Lint/UselessAssignment
 
   describe '#destroy' do
     let(:file_link_to_destroy) { described_class.create(attributes) }

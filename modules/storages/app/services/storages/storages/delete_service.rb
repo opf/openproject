@@ -28,6 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+# See also: create_service.rb for comments
 module Storages::Storages
   class DeleteService < ::BaseServices::Delete
   end
