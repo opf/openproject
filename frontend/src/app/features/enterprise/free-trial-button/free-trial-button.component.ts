@@ -47,7 +47,7 @@ export const freeTrialButtonSelector = 'free-trial-button';
 export interface EETrialKey {
   created:string;
   value:string;
-};
+}
 
 export interface TrialDetails {
   first_name:string;
@@ -55,7 +55,7 @@ export interface TrialDetails {
   email:string;
   company:string;
   domain:string;
-};
+}
 
 @Component({
   selector: freeTrialButtonSelector,
