@@ -42,17 +42,27 @@ module API
           protected
 
           def ancestors_sql(walker_result)
+            origin_subselect = if walker_result.page_size
+                                 walker_result.filter_scope.limit(walker_result.page_size).offset((walker_result.offset - 1) * walker_result.page_size)
+                               else
+                                 walker_result.filter_scope
+                               end
+
             <<-SQL.squish
-              SELECT id, json_agg(link) ancestors
+              SELECT id, CASE WHEN count(link) = 0 THEN '[]' ELSE json_agg(link) END ancestors
               FROM
                 (
                   SELECT
                     origin.id,
-                    json_build_object('href', format('/api/v3/projects/%s', ancestors.id), 'title', ancestors.name) link
+                    CASE
+                      WHEN ancestors.id IS NOT NULL
+                        THEN json_build_object('href', format('/api/v3/projects/%s', ancestors.id), 'title', ancestors.name)
+                      ELSE NULL
+                    END link
                   FROM projects origin
-                  JOIN projects ancestors
+                  LEFT OUTER JOIN projects ancestors
                   ON ancestors.lft < origin.lft AND ancestors.rgt > origin.rgt
-                  WHERE origin.id IN (#{walker_result.filter_scope.limit(walker_result.page_size).offset((walker_result.offset - 1) * walker_result.page_size).select(:id).to_sql})
+                  WHERE origin.id IN (#{origin_subselect.select(:id).to_sql})
                   ORDER by origin.id, ancestors.lft
                 ) ancestors
               GROUP BY id

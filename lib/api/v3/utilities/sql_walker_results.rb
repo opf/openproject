@@ -34,7 +34,7 @@ module API
       class SqlWalkerResults
         def initialize(scope, url_query:, self_path: nil, replace_map: {})
           self.filter_scope = scope.dup
-          self.projection_scope = scope.dup.reselect("#{scope.model.table_name}.*")
+          self.projection_scope = scope.dup.distinct(false).reselect("#{scope.model.table_name}.*")
           self.ctes = {}
           self.self_path = self_path
           self.url_query = url_query

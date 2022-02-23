@@ -62,7 +62,7 @@ describe ::API::V3::Capabilities::CapabilitySqlRepresenter, 'rendering' do
            embed: {},
            select: { 'id' => {}, '_type' => {}, 'self' => {}, 'action' => {}, 'context' => {}, 'principal' => {} },
            current_user: current_user)
-      .walk(API::V3::Capabilities::CapabilitySqlRepresenter)
+      .walk(described_class)
       .to_json
   end
 
