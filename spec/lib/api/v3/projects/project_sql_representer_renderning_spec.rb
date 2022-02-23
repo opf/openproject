@@ -33,21 +33,26 @@ describe ::API::V3::Projects::ProjectSqlRepresenter, 'rendering' do
     Project
       .where(id: project.id)
   end
+
   let(:project) do
     create(:project)
   end
 
+  let(:role) { create(:role) }
+
   current_user do
     create(:user,
            member_in_project: project,
-           member_with_permissions: [])
+           member_through_role: role)
   end
 
-  subject(:json) do
+  let(:select) { { 'id' => {}, '_type' => {}, 'self' => {}, 'name' => {}, 'ancestors' => {} } }
+
+    subject(:json) do
     ::API::V3::Utilities::SqlRepresenterWalker
       .new(scope,
            embed: {},
-           select: { 'id' => {}, '_type' => {}, 'self' => {}, 'name' => {}, 'ancestors' => {} },
+           select: select,
            current_user: current_user)
       .walk(described_class)
       .to_json
@@ -68,20 +73,21 @@ describe ::API::V3::Projects::ProjectSqlRepresenter, 'rendering' do
                 title: project.name
               }
             }
-          }.to_json)
+          }.to_json
+        )
     end
   end
 
   context 'with an ancestor' do
     let!(:parent) do
-      create(:project).tap do |parent|
+      create(:project, members: { current_user => role }).tap do |parent|
         project.parent = parent
         project.save
       end
     end
 
     let!(:grandparent) do
-      create(:project).tap do |grandparent|
+      create(:project, members: { current_user => role }).tap do |grandparent|
         parent.parent = grandparent
         parent.save
       end
@@ -110,7 +116,46 @@ describe ::API::V3::Projects::ProjectSqlRepresenter, 'rendering' do
                 title: project.name
               }
             }
-          }.to_json)
+          }.to_json
+        )
+    end
+  end
+
+  context 'with an ancestor the user does not have permission to see' do
+    let!(:parent) do
+      create(:project).tap do |parent|
+        project.parent = parent
+        project.save
+      end
+    end
+
+    let!(:grandparent) do
+      create(:project, members: { current_user => role }).tap do |grandparent|
+        parent.parent = grandparent
+        parent.save
+      end
+    end
+
+    let(:select) { { 'ancestors' => {} } }
+
+    it 'renders as expected' do
+      expect(json)
+        .to be_json_eql(
+          {
+            _links: {
+              ancestors: [
+                {
+                  href: api_v3_paths.project(grandparent.id),
+                  title: grandparent.name
+                },
+                {
+                  href: API::V3::URN_UNDISCLOSED,
+                  title: I18n.t(:'api_v3.undisclosed.ancestor')
+                }
+              ]
+            }
+          }.to_json
+        )
     end
   end
 end

@@ -42,12 +42,6 @@ module API
           protected
 
           def ancestors_sql(walker_result)
-            origin_subselect = if walker_result.page_size
-                                 walker_result.filter_scope.limit(walker_result.page_size).offset((walker_result.offset - 1) * walker_result.page_size)
-                               else
-                                 walker_result.filter_scope
-                               end
-
             <<-SQL.squish
               SELECT id, CASE WHEN count(link) = 0 THEN '[]' ELSE json_agg(link) END ancestors
               FROM
@@ -55,18 +49,30 @@ module API
                   SELECT
                     origin.id,
                     CASE
-                      WHEN ancestors.id IS NOT NULL
+                      WHEN ancestors.id IS NOT NULL AND visible_ancestors.id IS NOT NULL
                         THEN json_build_object('href', format('/api/v3/projects/%s', ancestors.id), 'title', ancestors.name)
+                      WHEN ancestors.id IS NOT NULL AND visible_ancestors.id IS NULL
+                        THEN json_build_object('href', '#{API::V3::URN_UNDISCLOSED}', 'title', '#{I18n.t(:'api_v3.undisclosed.ancestor')}')
                       ELSE NULL
                     END link
                   FROM projects origin
                   LEFT OUTER JOIN projects ancestors
                   ON ancestors.lft < origin.lft AND ancestors.rgt > origin.rgt
-                  WHERE origin.id IN (#{origin_subselect.select(:id).to_sql})
+                  LEFT OUTER JOIN (#{Project.visible.to_sql}) visible_ancestors
+                  ON visible_ancestors.id = ancestors.id
+                  WHERE origin.id IN (#{origin_subselect(walker_result).select(:id).to_sql})
                   ORDER by origin.id, ancestors.lft
                 ) ancestors
               GROUP BY id
             SQL
+          end
+
+          def origin_subselect(walker_result)
+            if walker_result.page_size
+              walker_result.filter_scope.limit(walker_result.page_size).offset((walker_result.offset - 1) * walker_result.page_size)
+            else
+              walker_result.filter_scope
+            end
           end
         end
 
