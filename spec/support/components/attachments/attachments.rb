@@ -8,7 +8,7 @@ module Components
 
     ##
     # Drag and Drop the file loaded from path on to the (native) target element
-    def drag_and_drop_file(target, path)
+    def drag_and_drop_file(target, path, position = :center)
       # Remove any previous input, if any
       page.execute_script <<-JS
         jQuery('#temporary_attachment_files').remove()
@@ -16,7 +16,12 @@ module Components
 
       # Use the HTML5 file dropper to create a fake drop event
       scroll_to_element(target)
-      page.execute_script(js_drop_files, target.native, 'temporary_attachment_files')
+      page.execute_script(
+        js_drop_files,
+        target.native,
+        'temporary_attachment_files',
+        position.to_s
+        )
 
       attach_file_on_input(path, 'temporary_attachment_files')
     end

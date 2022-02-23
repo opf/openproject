@@ -73,15 +73,24 @@ module Components
     def drag_attachment(image_fixture, caption = 'Some caption')
       in_editor do |_container, editable|
         sleep 0.5
+
+        # Click the "move below figure" button if selected
+        selected = page.all('.ck-widget_selected .ck-widget__type-around__button_after')
+        if selected.count > 0
+          selected.first.click
+        end
+
         editable.base.send_keys(:enter, 'some text', :enter, :enter)
 
+        sleep 1
+
         images = editable.all('figure.image')
-        attachments.drag_and_drop_file(editable, image_fixture)
+        attachments.drag_and_drop_file(editable, image_fixture, :bottom)
 
         expect(page)
             .to have_selector('figure img[src^="/api/v3/attachments/"]', count: images.length + 1, wait: 10)
 
-        sleep 3
+        sleep 1
         expect(page).not_to have_selector('op-toasters-upload-progress', wait: 5)
 
         # Get the image uploaded last. As there is no way to distinguish between
@@ -97,6 +106,10 @@ module Components
           # Click the figure
           figure.click
           sleep(0.2)
+
+          # Toggle caption with button since newer version of ckeditor
+          click_toolbar_button 'Toggle caption on'
+
           # Locate figcaption to create comment
           figcaption = figure.find('figcaption')
           figcaption.click
@@ -123,7 +136,7 @@ module Components
 
     def click_toolbar_button(label)
       # strangely, we need visible: :all here
-      container.find('.ck-button', visible: :all, text: label).click
+      page.find('.ck-button', visible: :all, text: label).click
     end
 
     def type_slowly(*text)
