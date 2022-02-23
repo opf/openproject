@@ -12,7 +12,7 @@ keywords: Gantt charts introduction
 In this document you will get a first introduction to the Gantt charts in OpenProject, i.e. to create and manage a project plan.
 
 <div class="glossary">
-**Gantt charts** in OpenProject are defined as a type of bar chart that shows all the tasks constituting a project. Tasks are listed vertically, with the horizontal axis marking time. The lengths of task bars are to scale with task durations.
+**Gantt charts** in OpenProject are defined as a type of bar chart that shows all the tasks constituting a project. The tasks are listed vertically, with the horizontal axis indicating the time. The length of the task bars is adjusted to the duration of the task.
 </div>
 
 To find out more about the functionalities for Gantt charts, please visit our [user guide for Gantt charts](../../user-guide/gantt-chart).
@@ -30,7 +30,7 @@ To find out more about the functionalities for Gantt charts, please visit our [u
 
 With Gantt charts in OpenProject you can create and manage a project plan and share the information with your team. You can schedule your tasks and visualize the required steps to complete your project. As a project manager you are directly informed about delays in your project and can act accordingly.
 
-The dynamic Gantt chart in OpenProject displays the phases and milestones in your project as well as relationships between them. Each element in the timeline has both a start as well as a finish date so you are always informed about the current status.
+The dynamic Gantt chart in OpenProject displays the phases, tasks and milestones in your project as well as relationships between them. The elements for phases and tasks each have a start and end date, so you are always informed about the current status. The milestone only appears as a fixed point in time.
 
 ## Activate the Gantt chart view
 
@@ -38,7 +38,7 @@ To open the Gantt chart view in OpenProject, the [work packages module needs to 
 
 Within your project menu, navigate to the work packages module. Select the **Gantt chart view** in the work package list with the button on the top right.
 
-![Activate-Gantt-chart](Activate-Gantt-chart.png)
+![Bildschirmfoto 2022-02-23 um 17.45.10](/Users/jankeppler/Desktop/Bildschirmfoto 2022-02-23 um 17.45.10.png)
 
 You can activate a Gantt chart view from any work package list (or saved query) by selecting the Gantt view from the top.
 
