@@ -28,6 +28,7 @@
 
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   Injector,
   OnInit,
@@ -38,6 +39,7 @@ import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { EnterpriseTrialService } from 'core-app/features/enterprise/enterprise-trial.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { distinctUntilChanged } from 'rxjs/operators';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
 export const freeTrialButtonSelector = 'free-trial-button';
 
@@ -53,35 +55,63 @@ export class FreeTrialButtonComponent implements OnInit {
 
   public text = {
     button_trial: this.I18n.t('js.admin.enterprise.upsale.button_start_trial'),
-    confirmation_info: (date:string, email:string) => { return this.trialRequested ? this.I18n.t('js.admin.enterprise.trial.confirmation_info', {
-      date,
-      email,
-    }) : ''},
+    confirmation_info: (date:string, email:string) => {
+      return this.trialRequested ? this.I18n.t('js.admin.enterprise.trial.confirmation_info', {
+        date,
+        email,
+      }) : ''
+    },
   };
 
   constructor(protected I18n:I18nService,
     protected opModalService:OpModalService,
     readonly injector:Injector,
+    readonly http:HttpClient,
+    readonly cdRef:ChangeDetectorRef,
     public eeTrialService:EnterpriseTrialService,
     readonly timezoneService:TimezoneService) {
   }
 
-  ngOnInit() {
+  ngOnInit():void {
+    this.eeTrialService.userData$
+    .values$()
+    .pipe(
+      distinctUntilChanged(),
+    )
+    .subscribe((userForm) => {
+      this.email = userForm.email;
+      this.cdRef.detectChanges();
+    });
+
+  this.initialize();
+  }
+
+  private initialize():void {
     const eeTrialKey = (window as any).gon.ee_trial_key;
     if (window.gon.ee_trial_key) {
       const savedDateStr = eeTrialKey.created.split(' ')[0];
       this.created = this.timezoneService.formattedDate(savedDateStr);
     }
-    this.eeTrialService.userData$
-      .values$()
-      .pipe(
-        distinctUntilChanged(),
-      )
-      .subscribe((userForm) => {
-        this.email = userForm.email;
-      });
+    if (eeTrialKey && !this.eeTrialService.userData$.hasValue()) {
+      // after reload: get data from Augur using the trial key saved in gon
+      this.eeTrialService.trialLink = `${this.eeTrialService.baseUrlAugur}/public/v1/trials/${eeTrialKey.value}`;
+      this.getUserDataFromAugur();
+    }
   }
 
+  private getUserDataFromAugur():void {
+    this.http
+      .get<any>(`${this.eeTrialService.trialLink}/details`)
+      .toPromise()
+      .then((userForm:any) => {
+        this.eeTrialService.userData$.putValue(userForm);
+        this.eeTrialService.retryConfirmation();
+      })
+      .catch((error:HttpErrorResponse) => {
+        // Check whether the mail has been confirmed by now
+        this.eeTrialService.getToken();
+      });
+  }
   public openTrialModal():void {
     // cancel request and open first modal window
     this.eeTrialService.cancelled = true;
