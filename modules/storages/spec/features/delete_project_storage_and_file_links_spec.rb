@@ -49,8 +49,8 @@ describe 'Delete ProjectStorage with FileLinks', type: :feature, js: true do
   let(:second_file_link) { create(:file_link, container: work_package, storage: storage) }
 
   before do
-    # The objects defined by let(...) above are lazy instantiated, so we need
-    # to "use" (just write their name) below to really create them.
+    # The objects defined by let(...) above are created with lazy instantiation,
+    # so we need to "use" them (just write their name) below to actually create them.
     project_storage
     file_link
     second_file_link
