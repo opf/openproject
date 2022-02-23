@@ -1,7 +1,6 @@
 module ::TwoFactorAuthentication
   class TwoFactorSettingsController < ApplicationController
     include EnterpriseTrialHelper
-    before_action :augur_content_security_policy
     before_action :require_admin
     before_action :check_enabled
     before_action :check_ee
