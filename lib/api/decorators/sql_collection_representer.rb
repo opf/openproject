@@ -52,14 +52,6 @@ module API
         def href_query(walker_results, overrides)
           walker_results.url_query.merge(overrides).to_query
         end
-
-        def sql_offset(walker_result)
-          (walker_result.offset - 1) * walker_result.page_size
-        end
-
-        def sql_limit(walker_result)
-          walker_result.page_size
-        end
       end
 
       property :_type,

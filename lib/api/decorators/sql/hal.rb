@@ -266,6 +266,14 @@ module API
 
             link[:href] ? link[:href].call(walker_result) : "format('#{api_v3_paths.send(path_name, '%s')}', #{column})"
           end
+
+          def sql_offset(walker_result)
+            (walker_result.offset - 1) * walker_result.page_size
+          end
+
+          def sql_limit(walker_result)
+            walker_result.page_size
+          end
         end
       end
     end

@@ -72,7 +72,7 @@ module API
           end
 
           def nested_hash(path)
-            { path[0] => path.length > 1 ? nested_hash(path[1..-1]) : {} }
+            { path[0] => path.length > 1 ? nested_hash(path[1..]) : {} }
           end
         end
       end

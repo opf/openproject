@@ -48,18 +48,11 @@ module API
                 (
                   SELECT
                     origin.id,
-                    CASE
-                      WHEN ancestors.id IS NOT NULL AND visible_ancestors.id IS NOT NULL
-                        THEN json_build_object('href', format('/api/v3/projects/%s', ancestors.id), 'title', ancestors.name)
-                      WHEN ancestors.id IS NOT NULL AND visible_ancestors.id IS NULL
-                        THEN json_build_object('href', '#{API::V3::URN_UNDISCLOSED}', 'title', '#{I18n.t(:'api_v3.undisclosed.ancestor')}')
-                      ELSE NULL
-                    END link
+                    #{ancestor_projection} link
                   FROM projects origin
                   LEFT OUTER JOIN projects ancestors
                   ON ancestors.lft < origin.lft AND ancestors.rgt > origin.rgt
-                  LEFT OUTER JOIN (#{Project.visible.to_sql}) visible_ancestors
-                  ON visible_ancestors.id = ancestors.id
+                  #{visibility_join}
                   WHERE origin.id IN (#{origin_subselect(walker_result).select(:id).to_sql})
                   ORDER by origin.id, ancestors.lft
                 ) ancestors
@@ -69,9 +62,42 @@ module API
 
           def origin_subselect(walker_result)
             if walker_result.page_size
-              walker_result.filter_scope.limit(walker_result.page_size).offset((walker_result.offset - 1) * walker_result.page_size)
+              walker_result.filter_scope.limit(sql_limit(walker_result)).offset(sql_offset(walker_result))
             else
               walker_result.filter_scope
+            end
+          end
+
+          def ancestor_projection
+            if User.current.admin?
+              <<-SQL.squish
+                CASE
+                  WHEN ancestors.id IS NOT NULL
+                    THEN json_build_object('href', format('/api/v3/projects/%s', ancestors.id), 'title', ancestors.name)
+                  ELSE NULL
+                END
+              SQL
+            else
+              <<-SQL.squish
+                CASE
+                  WHEN ancestors.id IS NOT NULL AND visible_ancestors.id IS NOT NULL
+                    THEN json_build_object('href', format('/api/v3/projects/%s', ancestors.id), 'title', ancestors.name)
+                  WHEN ancestors.id IS NOT NULL AND visible_ancestors.id IS NULL
+                    THEN json_build_object('href', '#{API::V3::URN_UNDISCLOSED}', 'title', '#{I18n.t(:'api_v3.undisclosed.ancestor')}')
+                  ELSE NULL
+                END
+              SQL
+            end
+          end
+
+          def visibility_join
+            if User.current.admin?
+              ''
+            else
+              <<-SQL.squish
+                LEFT OUTER JOIN (#{Project.visible.to_sql}) visible_ancestors
+                ON visible_ancestors.id = ancestors.id
+              SQL
             end
           end
         end

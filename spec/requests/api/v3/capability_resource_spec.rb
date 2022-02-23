@@ -344,7 +344,7 @@ describe 'API v3 capabilities resource', type: :request, content_type: :json do
               {
                 id: "memberships/update/p#{project.id}-#{current_user.id}"
               }
-          ]
+            ]
           }
         }
 
