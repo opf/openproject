@@ -2957,8 +2957,11 @@ ru:
     errors:
       messages:
         #Common error messages
-        invalid_request: 'В запросе нет обязательного параметра, значение параметра не поддерживается или не соответствует требованиям.'
-        invalid_redirect_uri: "Запрашиваемый редирект URI является неверным или не соответствует URI перенаправления клиента."
+        invalid_request:
+          unknown: 'В запросе нет обязательного параметра, значение параметра не поддерживается или не соответствует требованиям.'
+          missing_param: 'Missing required parameter: %{value}.'
+          request_not_authorized: 'Request need to be authorized. Required parameter for authorizing request is missing or invalid.'
+        invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
         unauthorized_client: 'Клиент не уполномочен выполнить этот запрос с помощью этого метода.'
         access_denied: 'Владелец ресурса или сервер авторизации отклонил запрос.'
         invalid_scope: 'Запрашиваемая область является недопустимой, неизвестной или неправильной.'
@@ -2971,6 +2974,7 @@ ru:
         admin_authenticator_not_configured: 'Доступ к панели администратора запрещен, так как Doorkeeper.configure.admin_authenticator не настроен.'
         #Access grant errors
         unsupported_response_type: 'Сервер авторизации не поддерживает этот тип ответа.'
+        unsupported_response_mode: 'The authorization server does not support this response mode.'
         #Access token errors
         invalid_client: 'Аутентификация клиента не удалась из-за неизвестности клиента, отсутствия у клиента аутентификации или не поддерживаемого метода аутентификации.'
         invalid_grant: 'Предоставленное разрешение недействительно, истекло, аннулировано, не соответствует URI перенаправления, используемому в запросе авторизации, или было выдано другому клиенту.'
@@ -2979,6 +2983,10 @@ ru:
           revoked: "Маркер доступа был отозван"
           expired: "Истек срок действия маркера доступа"
           unknown: "Недопустимый маркер доступа"
+        revoke:
+          unauthorized: "You are not authorized to revoke this token."
+        forbidden_token:
+          missing_scope: 'Access to this resource requires scope "%{oauth_scopes}".'
   unsupported_browser:
     title: "Ваш браузер устарел и не поддерживается."
     message: "На этой странице вы рискуете столкнуться с ошибками и обедненным опытом."

@@ -2899,8 +2899,11 @@ vi:
     errors:
       messages:
         #Common error messages
-        invalid_request: 'Yêu cầu thiếu tham số bắt buộc, bao gồm giá trị tham số không được hỗ trợ hoặc không đúng định dạng.'
-        invalid_redirect_uri: "Uri chuyển hướng được yêu cầu không đúng định dạng hoặc không khớp với URI chuyển hướng máy khách."
+        invalid_request:
+          unknown: 'Yêu cầu thiếu tham số bắt buộc, bao gồm giá trị tham số không được hỗ trợ hoặc không đúng định dạng.'
+          missing_param: 'Missing required parameter: %{value}.'
+          request_not_authorized: 'Request need to be authorized. Required parameter for authorizing request is missing or invalid.'
+        invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
         unauthorized_client: 'Máy khách không được phép thực hiện yêu cầu bằng phương pháp này.'
         access_denied: 'Chủ sở hữu tài nguyên hoặc máy chủ ủy quyền đã từ chối yêu cầu.'
         invalid_scope: 'Phạm vi yêu cầu không hợp lệ, không xác định hoặc không đúng định dạng.'
@@ -2913,6 +2916,7 @@ vi:
         admin_authenticator_not_configured: 'Quyền truy cập vào bảng quản trị bị cấm do Doorkeeper.configure.admin_authenticator không được định cấu hình.'
         #Access grant errors
         unsupported_response_type: 'Máy chủ ủy quyền không hỗ trợ loại phản hồi này.'
+        unsupported_response_mode: 'The authorization server does not support this response mode.'
         #Access token errors
         invalid_client: 'Xác thực ứng dụng khách không thành công do máy khách không xác định, không bao gồm xác thực ứng dụng khách hoặc phương thức xác thực không được hỗ trợ.'
         invalid_grant: 'Quyền được cung cấp không hợp lệ, hết hạn, bị thu hồi, không khớp với URI chuyển hướng được sử dụng trong yêu cầu ủy quyền hoặc được cấp cho một khách hàng khác.'
@@ -2921,6 +2925,10 @@ vi:
           revoked: "Mã truy cập đã bị thu hồi"
           expired: "Mã truy cập đã hết hạn"
           unknown: "Mã truy cập không hợp lệ"
+        revoke:
+          unauthorized: "You are not authorized to revoke this token."
+        forbidden_token:
+          missing_scope: 'Access to this resource requires scope "%{oauth_scopes}".'
   unsupported_browser:
     title: "Trình duyệt của bạn đã lỗi thời hoặc không được hỗ trợ."
     message: "Bạn có thể gặp phải lỗi và trải nghiệm không mong muốn trên trang này."

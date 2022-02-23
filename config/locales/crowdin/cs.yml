@@ -2959,8 +2959,11 @@ cs:
     errors:
       messages:
         #Common error messages
-        invalid_request: 'Požadavek chybí požadovaný parametr, obsahuje nepodporovanou hodnotu parametru nebo je jinak poškozený.'
-        invalid_redirect_uri: "The requested redirect URI is malformed or doesn't match client redirect URI."
+        invalid_request:
+          unknown: 'Požadavek chybí požadovaný parametr, obsahuje nepodporovanou hodnotu parametru nebo je jinak poškozený.'
+          missing_param: 'Missing required parameter: %{value}.'
+          request_not_authorized: 'Request need to be authorized. Required parameter for authorizing request is missing or invalid.'
+        invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
         unauthorized_client: 'Klient nemá oprávnění k provedení tohoto požadavku pomocí této metody.'
         access_denied: 'Vlastník zdroje nebo autorizační server požadavek zamítl.'
         invalid_scope: 'Požadovaný rozsah je neplatný, neznámý nebo nesprávný.'
@@ -2973,6 +2976,7 @@ cs:
         admin_authenticator_not_configured: 'Přístup do admin panelu je zakázán, protože Doorkeeper.configure.admin_authenticator není nakonfigurován.'
         #Access grant errors
         unsupported_response_type: 'Autorizační server tento typ odpovědi nepodporuje.'
+        unsupported_response_mode: 'The authorization server does not support this response mode.'
         #Access token errors
         invalid_client: 'Ověření klienta se nezdařilo z důvodu neznámého klienta, bez autentizace klienta nebo z důvodu nepodporované autentizační metody.'
         invalid_grant: 'Poskytnutá autorizace je neplatná, vypršela, zrušena, neodpovídá URI přesměrování použité v žádosti o autorizaci, nebo byla vydána jinému zákazníkovi.'
@@ -2981,6 +2985,10 @@ cs:
           revoked: "Přístupový token byl odvolán"
           expired: "Přístupový token vypršel"
           unknown: "Přístupový token je neplatný"
+        revoke:
+          unauthorized: "You are not authorized to revoke this token."
+        forbidden_token:
+          missing_scope: 'Access to this resource requires scope "%{oauth_scopes}".'
   unsupported_browser:
     title: "Váš prohlížeč je zastaralý a nepodporován."
     message: "Na této stránce se mohou objevit chyby a zhoršené zkušenosti."

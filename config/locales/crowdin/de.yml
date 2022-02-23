@@ -2914,8 +2914,11 @@ de:
     errors:
       messages:
         #Common error messages
-        invalid_request: 'Der Anfrage fehlt ein benötigten Parameter, enthält einen nicht unterstützten Parameter oder ist anderweitig fehlerhaft.'
-        invalid_redirect_uri: "Der angeforderte Weiterleitungs-URI ist fehlerhaft oder passt nicht zur Client-Weiterleitungs-URI."
+        invalid_request:
+          unknown: 'Der Anfrage fehlt ein benötigten Parameter, enthält einen nicht unterstützten Parameter oder ist anderweitig fehlerhaft.'
+          missing_param: 'Missing required parameter: %{value}.'
+          request_not_authorized: 'Request need to be authorized. Required parameter for authorizing request is missing or invalid.'
+        invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
         unauthorized_client: 'Der Client ist nicht berechtigt, einen Request mit dieser Methode durchzuführen.'
         access_denied: 'Der Autorisierungsserver verweigerte die Anfrage.'
         invalid_scope: 'Der angeforderte Geltungsbereich ist ungültig, unbekannt oder fehlerhaft.'
@@ -2928,6 +2931,7 @@ de:
         admin_authenticator_not_configured: 'Der Zugriff auf das Admin-Panel ist verboten, da Doorkeeper.configure.admin_authenticator nicht konfiguriert ist.'
         #Access grant errors
         unsupported_response_type: 'Der Autorisierungsserver unterstützt diesen Antworttyp nicht.'
+        unsupported_response_mode: 'The authorization server does not support this response mode.'
         #Access token errors
         invalid_client: 'Die Client-Authentifizierung ist aufgrund eines unbekannten Clients oder einer nicht unterstützten Anfrage fehlgeschlagen.'
         invalid_grant: 'Die bereitgestellte Genehmigung ist ungültig, abgelaufen, widerrufen, entspricht nicht der Redirect-URI, die in der Autorisierungsanfrage verwendet wird oder wurde an einen anderen Client ausgegeben.'
@@ -2936,6 +2940,10 @@ de:
           revoked: "Das Zugangstoken wurde widerrufen"
           expired: "Der Zugangstoken ist abgelaufen"
           unknown: "Das Zugangstoken ist ungültig"
+        revoke:
+          unauthorized: "You are not authorized to revoke this token."
+        forbidden_token:
+          missing_scope: 'Access to this resource requires scope "%{oauth_scopes}".'
   unsupported_browser:
     title: "Ihr Browser ist veraltet und nicht unterstützt."
     message: "Sie werden deshalb auf dieser Seite eventuell Fehler feststellen oder Ihr Benutzererlebnis wird eingeschränkt sein."

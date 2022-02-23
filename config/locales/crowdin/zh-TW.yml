@@ -2897,8 +2897,11 @@ zh-TW:
     errors:
       messages:
         #Common error messages
-        invalid_request: '請求缺少必需的參數, 包含不受支援的參數值, 或者格式不正確。'
-        invalid_redirect_uri: "請求的轉址 URI 格式不正確或與客戶端轉址 URI 不匹配。"
+        invalid_request:
+          unknown: '請求缺少必需的參數, 包含不受支援的參數值, 或者格式不正確。'
+          missing_param: 'Missing required parameter: %{value}.'
+          request_not_authorized: 'Request need to be authorized. Required parameter for authorizing request is missing or invalid.'
+        invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
         unauthorized_client: '用戶端沒有被授權使用此方法執行此請求。'
         access_denied: '資源擁有者或授權伺服器拒絕了該請求。'
         invalid_scope: '請求的範圍無效、未知或格式錯誤。'
@@ -2911,6 +2914,7 @@ zh-TW:
         admin_authenticator_not_configured: '訪問管理面板被禁止，因為 Doorkeeper.configure.admin_authenticator 未配置。'
         #Access grant errors
         unsupported_response_type: '授權伺服器不支援此回應類型。'
+        unsupported_response_mode: 'The authorization server does not support this response mode.'
         #Access token errors
         invalid_client: '由於用戶端未知、沒有包含用戶端身份驗證或不支援的身份驗證方法, 用戶端身份驗證失敗。'
         invalid_grant: '提供的授權授予無效、過期、已撤銷、與授權請求中使用的轉址 uri 不符合, 或已發給其他用戶端。'
@@ -2919,6 +2923,10 @@ zh-TW:
           revoked: "訪問權杖已被撤銷"
           expired: "訪問權杖已過期"
           unknown: "訪問權杖無效"
+        revoke:
+          unauthorized: "You are not authorized to revoke this token."
+        forbidden_token:
+          missing_scope: 'Access to this resource requires scope "%{oauth_scopes}".'
   unsupported_browser:
     title: "您的瀏覽器已過時且不受支援。"
     message: "您可能會在此頁面上遇到錯誤和降級的體驗。"
