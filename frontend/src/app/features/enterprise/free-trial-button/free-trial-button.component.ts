@@ -44,6 +44,19 @@ import { GonService } from 'core-app/core/gon/gon.service';
 
 export const freeTrialButtonSelector = 'free-trial-button';
 
+export interface EETrialKey {
+  created:string;
+  value:string;
+};
+
+export interface TrialDetails {
+  first_name:string;
+  last_name:string;
+  email:string;
+  company:string;
+  domain:string;
+};
+
 @Component({
   selector: freeTrialButtonSelector,
   templateUrl: './free-trial-button.component.html',
@@ -56,7 +69,7 @@ export class FreeTrialButtonComponent implements OnInit {
 
   public text = {
     button_trial: this.I18n.t('js.admin.enterprise.upsale.button_start_trial'),
-    confirmation_info: (date:string, email:string) => this.I18n.t('js.admin.enterprise.trial.confirmation_info', {
+    confirmation_info: (date:string, email:string):string => this.I18n.t('js.admin.enterprise.trial.confirmation_info', {
       date,
       email,
     }),
@@ -87,7 +100,7 @@ export class FreeTrialButtonComponent implements OnInit {
   }
 
   private initialize():void {
-    const eeTrialKey = this.Gon.get('ee_trial_key') as any;
+    const eeTrialKey = this.Gon.get('ee_trial_key') as EETrialKey;
     if (eeTrialKey) {
       const savedDateStr = eeTrialKey.created.split(' ')[0];
       this.created = this.timezoneService.formattedDate(savedDateStr);
@@ -102,9 +115,9 @@ export class FreeTrialButtonComponent implements OnInit {
 
   private getUserDataFromAugur():void {
     this.http
-      .get<any>(`${this.eeTrialService.trialLink}/details`)
+      .get<TrialDetails>(`${this.eeTrialService.trialLink}/details`)
       .toPromise()
-      .then((userForm:any) => {
+      .then((userForm:TrialDetails) => {
         this.eeTrialService.userData$.putValue(userForm);
         this.eeTrialService.retryConfirmation();
       })
@@ -121,8 +134,8 @@ export class FreeTrialButtonComponent implements OnInit {
     this.opModalService.show(EnterpriseTrialModalComponent, this.injector);
   }
 
-  public get trialRequested(): boolean {
-    const eeTrialKey = this.Gon.get('ee_trial_key') as any;
+  public get trialRequested():boolean {
+    const eeTrialKey = this.Gon.get('ee_trial_key') as EETrialKey;
     return (eeTrialKey && eeTrialKey !== undefined);
   }
 }
