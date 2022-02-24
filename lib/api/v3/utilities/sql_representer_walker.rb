@@ -37,15 +37,12 @@ module API
         def initialize(scope,
                        current_user:,
                        url_query: {},
-                       embed: {},
-                       select: {},
                        self_path: nil)
           self.scope = scope
           self.current_user = current_user
-          self.embed = embed
-          self.select = select
           self.self_path = self_path
-          self.url_query = url_query
+          # Hard wiring the properties ot embed is a work around until signaling the properties to embed is implemented
+          self.url_query = url_query.merge(embed: { 'elements' => {} })
         end
 
         def walk(start)
@@ -63,7 +60,7 @@ module API
             result.projection_scope = current_representer.joins(select_for(stack), result.projection_scope)
           end
 
-          embedded_depth_first([], start) do |_, stack, current_representer|
+          embedded_depth_first([], start) do |_, _, current_representer|
             result.ctes.merge!(current_representer.ctes(result))
           end
 
@@ -80,11 +77,17 @@ module API
 
         attr_accessor :scope,
                       :current_user,
-                      :embed,
-                      :select,
                       :sql,
                       :url_query,
                       :self_path
+
+        def embed
+          url_query[:embed]
+        end
+
+        def select
+          url_query[:select]
+        end
 
         def embedded_depth_first(stack, current_representer, &block)
           up_map = {}

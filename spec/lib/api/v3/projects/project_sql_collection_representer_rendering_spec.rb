@@ -32,11 +32,9 @@ describe ::API::V3::Projects::ProjectSqlCollectionRepresenter, 'rendering' do
   subject(:json) do
     ::API::V3::Utilities::SqlRepresenterWalker
       .new(scope,
-           embed: { 'elements' => {} },
-           select: select,
            current_user: current_user,
            self_path: 'some_path',
-           url_query: { offset: 1, pageSize: 5 })
+           url_query: { offset: 1, pageSize: 5, select: select })
       .walk(described_class)
       .to_json
   end
@@ -88,15 +86,14 @@ describe ::API::V3::Projects::ProjectSqlCollectionRepresenter, 'rendering' do
         },
         _links: {
           self: {
-            # TODO: reflect selections
-            href: "some_path?offset=1&pageSize=5"
+            href: "some_path?offset=1&pageSize=5&select=%2A%2Celements%2F%2A"
           },
           changeSize: {
-            href: "some_path?offset=1&pageSize=%7Bsize%7D",
+            href: "some_path?offset=1&pageSize=%7Bsize%7D&select=%2A%2Celements%2F%2A",
             templated: true
           },
           jumpTo: {
-            href: "some_path?offset=%7Boffset%7D&pageSize=5",
+            href: "some_path?offset=%7Boffset%7D&pageSize=5&select=%2A%2Celements%2F%2A",
             templated: true
           }
         }
@@ -125,15 +122,14 @@ describe ::API::V3::Projects::ProjectSqlCollectionRepresenter, 'rendering' do
         _embedded: {},
         _links: {
           self: {
-            # TODO: reflect selections
-            href: "some_path?offset=1&pageSize=5"
+            href: "some_path?offset=1&pageSize=5&select=%2A"
           },
           changeSize: {
-            href: "some_path?offset=1&pageSize=%7Bsize%7D",
+            href: "some_path?offset=1&pageSize=%7Bsize%7D&select=%2A",
             templated: true
           },
           jumpTo: {
-            href: "some_path?offset=%7Boffset%7D&pageSize=5",
+            href: "some_path?offset=%7Boffset%7D&pageSize=5&select=%2A",
             templated: true
           }
         }

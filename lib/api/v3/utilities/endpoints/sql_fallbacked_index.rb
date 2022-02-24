@@ -37,8 +37,6 @@ module API
             if resulting_params[:select]
               ::API::V3::Utilities::SqlRepresenterWalker
                 .new(results,
-                     embed: { 'elements' => {} },
-                     select: resulting_params[:select],
                      current_user: User.current,
                      self_path: self_path,
                      url_query: resulting_params)

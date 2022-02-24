@@ -58,10 +58,11 @@ describe ::API::V3::Capabilities::CapabilitySqlRepresenter, 'rendering' do
 
   subject(:json) do
     ::API::V3::Utilities::SqlRepresenterWalker
-      .new(scope,
-           embed: {},
-           select: { 'id' => {}, '_type' => {}, 'self' => {}, 'action' => {}, 'context' => {}, 'principal' => {} },
-           current_user: current_user)
+      .new(
+        scope,
+        current_user: current_user,
+        url_query: { select: { 'id' => {}, '_type' => {}, 'self' => {}, 'action' => {}, 'context' => {}, 'principal' => {} } }
+      )
       .walk(described_class)
       .to_json
   end

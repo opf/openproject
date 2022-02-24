@@ -32,9 +32,8 @@ describe ::API::V3::Projects::ProjectSqlRepresenter, 'rendering' do
   subject(:json) do
     ::API::V3::Utilities::SqlRepresenterWalker
       .new(scope,
-           embed: {},
-           select: select,
-           current_user: current_user)
+           current_user: current_user,
+           url_query: { select: select })
       .walk(described_class)
       .to_json
   end
@@ -50,7 +49,7 @@ describe ::API::V3::Projects::ProjectSqlRepresenter, 'rendering' do
 
   let(:role) { create(:role) }
 
-  let(:select) { { 'id' => {}, '_type' => {}, 'self' => {}, 'name' => {}, 'ancestors' => {} } }
+  let(:select) { { '*' => {} } }
 
   current_user do
     create(:user,
@@ -58,7 +57,7 @@ describe ::API::V3::Projects::ProjectSqlRepresenter, 'rendering' do
            member_through_role: role)
   end
 
-  context 'without an ancestor' do
+  context 'when rendering all supported properties' do
     it 'renders as expected' do
       expect(json)
         .to be_json_eql(

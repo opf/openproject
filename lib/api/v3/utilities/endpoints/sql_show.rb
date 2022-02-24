@@ -60,9 +60,8 @@ module API
           def render(scope)
             ::API::V3::Utilities::SqlRepresenterWalker
               .new(scope.limit(1),
-                   embed: {},
-                   select: { '*' => {} },
-                   current_user: User.current)
+                   current_user: User.current,
+                   url_query: { select: { '*' => {} } })
               .walk(render_representer)
           end
 

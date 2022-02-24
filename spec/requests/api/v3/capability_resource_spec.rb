@@ -131,7 +131,14 @@ describe 'API v3 capabilities resource', type: :request, content_type: :json do
           'values' => [other_user.id.to_s]
         } }]
       end
-      let(:path) { "#{api_v3_paths.path_for(:capabilities, filters: filters, sort_by: [%i(id asc)])}&pageSize=2&offset=2" }
+      let(:path) do
+        api_v3_paths.path_for(:capabilities,
+                              filters: filters,
+                              sort_by: [%i(id asc)],
+                              select: '*,elements/*',
+                              page_size: 2,
+                              offset: 2)
+      end
 
       it 'returns a slice of the visible memberships' do
         expect(subject.body)

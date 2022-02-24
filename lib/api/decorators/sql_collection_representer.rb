@@ -50,7 +50,33 @@ module API
         end
 
         def href_query(walker_results, overrides)
-          walker_results.url_query.merge(overrides).to_query
+          query_params = walker_results.url_query.merge(overrides)
+
+          if (select_params = query_params.delete(:select))
+            query_params[:select] = select_href_params(select_params).flatten.join(',')
+          end
+
+          # Embedding is not supported yet but parts of the functionality is already in place.
+          query_params.delete(:embed)
+
+          query_params.to_query
+        end
+
+        # Turns the nested values for select and embed into the external representation
+        # of a comma separated string. E.g.
+        # { '*' => {}, 'elements' => { '*' => {} } }
+        # is turned into
+        # '*,elements/*'
+        def select_href_params(params)
+          params.map do |key, value|
+            if value.empty?
+              key
+            else
+              select_href_params(value).map do |sub_value|
+                "#{key}/#{sub_value}"
+              end
+            end
+          end
         end
       end
 
