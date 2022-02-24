@@ -58,7 +58,7 @@ describe 'API v3 User resource',
     end
 
     shared_examples 'flow with permitted user' do
-      it 'should respond with 200' do
+      it 'responds with 200' do
         expect(subject.status).to eq(200)
       end
 
@@ -78,12 +78,13 @@ describe 'API v3 User resource',
 
       it 'has the users index path for link self href' do
         expect(subject.body)
-          .to be_json_eql((api_v3_paths.users + '?offset=1&pageSize=30').to_json)
+          .to be_json_eql("#{api_v3_paths.users}?filters=%5B%5D" \
+                          "\u0026offset=1\u0026pageSize=20\u0026sortBy=%5B%5B%22id%22%2C%22asc%22%5D%5D".to_json)
           .at_path('_links/self/href')
       end
 
       context 'if pageSize = 1 and offset = 2' do
-        let(:get_path) { api_v3_paths.users + '?pageSize=1&offset=2' }
+        let(:get_path) { api_v3_paths.path_for(:users, page_size: 1, offset: 2) }
 
         it 'contains the current user in the response' do
           expect(subject.body)
