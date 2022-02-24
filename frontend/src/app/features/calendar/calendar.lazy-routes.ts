@@ -32,7 +32,7 @@ export const CALENDAR_LAZY_ROUTES:Ng2StateDeclaration[] = [
   {
     name: 'calendar.**',
     parent: 'optional_project',
-    url: '/calendar',
+    url: '/calendars',
     loadChildren: () => import('./openproject-calendar.module').then((m) => m.OpenprojectCalendarModule),
   },
 ];

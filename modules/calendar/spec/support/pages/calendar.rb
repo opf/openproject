@@ -31,17 +31,19 @@ require 'support/pages/page'
 module Pages
   class Calendar < ::Pages::Page
     attr_reader :project,
-                :filters
+                :filters,
+                :query
 
-    def initialize(project)
+    def initialize(project, query = nil)
       super()
 
       @project = project
       @filters = ::Components::WorkPackages::Filters.new
+      @query = query
     end
 
     def path
-      project_calendar_path(project)
+      project_calendar_path(project, id: query&.id || 'new')
     end
 
     def add_item(start_date, end_date)
