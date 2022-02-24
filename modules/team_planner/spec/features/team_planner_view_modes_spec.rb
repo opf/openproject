@@ -55,5 +55,22 @@ describe 'Team planner', type: :feature, js: true do
     # 2 weeks: expect 14 slots
     team_planner.switch_view_mode '2-week'
     expect(page).to have_selector('.fc-timeline-slot-frame', count: 14)
+
+    start_of_week = Time.zone.today.beginning_of_week(:sunday)
+    start_date = start_of_week.strftime('%d %a')
+    end_date = (start_of_week + 13.days).strftime('%d %a')
+
+    expect(page).to have_selector('.fc-timeline-slot', text: start_date)
+    expect(page).to have_selector('.fc-timeline-slot', text: end_date)
+
+    # Click next button, advance one week
+    find('.fc-next-button').click
+
+    start_of_week = (Time.zone.today + 1.week).beginning_of_week(:sunday)
+    start_date = start_of_week.strftime('%d %a')
+    end_date = (start_of_week + 13.days).strftime('%d %a')
+
+    expect(page).to have_selector('.fc-timeline-slot', text: start_date)
+    expect(page).to have_selector('.fc-timeline-slot', text: end_date)
   end
 end

@@ -319,6 +319,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
                 buttonText: this.text.two_weeks,
                 slotDuration: { days: 1 },
                 duration: { weeks: 2 },
+                dateIncrement: { weeks: 1 },
                 slotLabelFormat: [
                   {
                     weekday: 'short',
