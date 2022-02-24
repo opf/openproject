@@ -32,7 +32,7 @@ For more information please visit the [information regarding security measures](
 
 The OpenProject Enterprise cloud environment is hosted on a logically isolated virtual cloud at Amazon Web Services with all services being located in Ireland. AWS is a GDPR compliant cloud infrastructure provider with extensive security and compliance programs as well as unparalleled access control mechanisms to ensure data privacy. Employed facilities are compliant with the ISO 27001 and 27018 standards. OpenProject Enterprise cloud environment is continuously backing up user data with data at rest being fully encrypted with AES-256. Each individual's instance is logically separated and data is persisted in a unique database schema, reducing the risk of intersection or data leaks between instances. You can find more information [here](https://www.openproject.org/security-and-privacy/).
 
-We also offer hosting in a German data center on request. Please [contact us](../../../../contact-us/) if you are interested.
+We also offer hosting in a German data center on request. Please [contact us](https://www.openproject.org/contact-us/) if you are interested.
 
 
 ## Can I get a custom domain name instead of example.openproject.com?
