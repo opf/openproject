@@ -63,7 +63,7 @@ module API
             result.projection_scope = current_representer.joins(select_for(stack), result.projection_scope)
           end
 
-          embedded_depth_first([], start) do |_, _, current_representer|
+          embedded_depth_first([], start) do |_, stack, current_representer|
             result.ctes.merge!(current_representer.ctes(result))
           end
 
@@ -96,15 +96,15 @@ module API
             up_map[key] = embedded_depth_first(stack.dup << key, representer, &block)
           end
 
-          yield up_map, stack, current_representer
+          yield up_map, stack, current_representer if select_for(stack)
         end
 
         def select_for(stack)
           stack.any? ? select.dig(*stack) : select
         end
 
-        def embed_for(stack)
-          stack.any? ? embed.dig(*stack) : embed
+        def embed_for(stacker)
+          stacker.any? ? embed.dig(*stacker) : embed
         end
       end
     end

@@ -95,7 +95,9 @@ module API
 
       embedded :elements,
                representation: ->(walker_result) do
-                 "json_agg(#{walker_result.replace_map['elements']})"
+                 replacement = walker_result.replace_map['elements']
+
+                 replacement ? "json_agg(#{replacement})" : 'null'
                end
     end
   end
