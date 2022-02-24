@@ -26,21 +26,28 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Purpose: When returning a collection of file links, our standard index endpoint needs a query class to have a
-# reference to the embedded model.
-# Used by: ???
-# Reference: ToDo: Link to documentation about queries
+module Queries::Storages::WorkPackages::Filter
+  class FileLinkOriginIdFilter < ::Queries::WorkPackages::Filter::WorkPackageFilter
+    def type
+      :list
+    end
 
-# The namespace is programmatically derived from the model name. See app/services/params_to_query_service.rb:130
-class Queries::Storages::FileLinks::FileLinkQuery < Queries::BaseQuery
-  # What is class << self?
-  class << self
-    # We need to overwrite the model method, as the standard implementation cannot derive the name from nested
-    # namespaces. See app/models/queries/base_query.rb:31
-    def model
-      # '.constantize' finds a declared constant with the specified name.
-      # A NameError is raised, if it is not initialized.
-      @model ||= '::Storages::FileLink'.constantize
+    def available_operators
+      [::Queries::Operators::Equals]
+    end
+
+    def allowed_values
+      # Allow all input values that are given to the filter.
+      # If no result is found, an empty collection is returned.
+      values.map { |value| [nil, value] }
+    end
+
+    def where
+      ::Queries::Operators::Equals.sql_for_field(values, ::Storages::FileLink.table_name, 'origin_id')
+    end
+
+    def joins
+      :file_links
     end
   end
 end

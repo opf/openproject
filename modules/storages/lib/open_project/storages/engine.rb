@@ -78,6 +78,10 @@ module OpenProject::Storages
            parent: :settings
     end
 
+    config.to_prepare do
+      ::Queries::Register.filter ::Query, ::Queries::Storages::WorkPackages::Filter::FileLinkOriginIdFilter
+    end
+
     # ToDo: Why is there |storage_id|? Is this a kind of manual routes.rb?
     add_api_path :storage do |storage_id|
       "#{root}/storages/#{storage_id}"

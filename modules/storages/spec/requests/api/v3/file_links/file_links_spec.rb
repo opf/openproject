@@ -237,18 +237,6 @@ describe 'API v3 file links resource', type: :request do
     end
   end
 
-  describe 'GET /api/v3/work_packages/:work_package_id/file_links/:file_link_id/download' do
-    let(:path) { api_v3_paths.file_link_download(work_package.id, file_link.id) }
-
-    before do
-      get path
-    end
-
-    it 'returns not implemented' do
-      expect(subject.status).to be 501
-    end
-  end
-
   describe 'GET /api/v3/work_packages/:work_package_id/file_links/:file_link_id/open' do
     let(:path) { api_v3_paths.file_link_open(work_package.id, file_link.id) }
 
