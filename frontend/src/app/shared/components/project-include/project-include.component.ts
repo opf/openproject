@@ -159,12 +159,12 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin {
     );
 
   hasProjects$ = this
-  .projects$
-  .pipe(
-    distinctUntilChanged(),
-    map((items) => items.length > 0),
-    distinctUntilChanged(),
-  );
+    .projects$
+    .pipe(
+      distinctUntilChanged(),
+      map((items) => items.length > 0),
+      distinctUntilChanged(),
+    );
 
   public get params():ApiV3ListParameters {
     const filters:ApiV3ListFilter[] = [
