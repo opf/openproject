@@ -65,6 +65,9 @@ describe ::API::V3::Projects::ProjectSqlRepresenter, 'rendering' do
             id: project.id,
             _type: "Project",
             name: project.name,
+            identifier: project.identifier,
+            active: true,
+            public: false,
             _links: {
               ancestors: [],
               self: {
@@ -92,13 +95,12 @@ describe ::API::V3::Projects::ProjectSqlRepresenter, 'rendering' do
       end
     end
 
+    let(:select) { { 'ancestors' => {} } }
+
     it 'renders as expected' do
       expect(json)
         .to be_json_eql(
           {
-            id: project.id,
-            _type: "Project",
-            name: project.name,
             _links: {
               ancestors: [
                 {
@@ -109,11 +111,7 @@ describe ::API::V3::Projects::ProjectSqlRepresenter, 'rendering' do
                   href: api_v3_paths.project(parent.id),
                   title: parent.name
                 }
-              ],
-              self: {
-                href: api_v3_paths.project(project.id),
-                title: project.name
-              }
+              ]
             }
           }.to_json
         )

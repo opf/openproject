@@ -74,6 +74,9 @@ describe ::API::V3::Projects::ProjectSqlCollectionRepresenter, 'rendering' do
               id: project.id,
               _type: "Project",
               name: project.name,
+              identifier: project.identifier,
+              active: true,
+              public: false,
               _links: {
                 ancestors: [],
                 self: {

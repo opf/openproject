@@ -121,6 +121,12 @@ module API
         property :id
 
         property :name
+
+        property :identifier
+
+        property :active
+
+        property :public
       end
     end
   end
