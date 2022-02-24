@@ -114,6 +114,10 @@ export class EnterpriseTrialModalComponent extends OpModalComponent implements A
     if (this.eeTrialService.trialStarted || this.eeTrialService.confirmed) {
       window.location.reload();
     }
+    else if (this.eeTrialService.mailSubmitted) {
+      window.location.reload();
+      return;
+    }
     this.eeTrialService.modalOpen = false;
   }
 

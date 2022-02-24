@@ -31,8 +31,6 @@
 module Bim
   module IfcModels
     class IfcModelsController < BaseController
-      helper_method :gon
-
       before_action :find_project_by_project_id,
                     only: %i[index new create show defaults edit update destroy direct_upload_finished]
       before_action :find_ifc_model_object, only: %i[edit update destroy]
