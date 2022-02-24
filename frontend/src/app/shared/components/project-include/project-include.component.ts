@@ -158,6 +158,14 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin {
       map((projects) => recursiveSort(projects)),
     );
 
+    hasProjects$ = this
+    .projects$
+    .pipe(
+      distinctUntilChanged(),
+      map((items) => items.length > 0),
+      distinctUntilChanged(),
+    );
+
   public get params():ApiV3ListParameters {
     const filters:ApiV3ListFilter[] = [
       ['active', '=', ['t']],

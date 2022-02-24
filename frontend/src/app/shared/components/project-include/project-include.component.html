@@ -32,6 +32,7 @@
       class="spot-body"
     >
       <spot-text-field
+        [disabled]="!(hasProjects$ | async)"
         [placeholder]="text.search_placeholder"
         name="project-include-search"
         [(ngModel)]="query"
@@ -44,13 +45,15 @@
         ></span>
       </spot-text-field>
 
-      <ul
-        op-project-list
-        [projects]="projects$ | async"
-        [selected]="selectedProjects"
-        (update)="selectedProjects = $event"
-        data-qa-selector="project-include-list"
-      ></ul>
+      <ng-container *ngIf="(hasProjects$ | async); else loadingTemplate">
+        <ul
+          op-project-list
+          [projects]="projects$ | async"
+          [selected]="selectedProjects"
+          (update)="selectedProjects = $event"
+          data-qa-selector="project-include-list"
+        ></ul>
+    </ng-container> 
 
       <div class="spot-action-bar">
         <div class="spot-action-bar--left"></div>
@@ -67,6 +70,22 @@
           </button>
         </div>
       </div>
+      <ng-template #loadingTemplate>
+        <op-content-loader
+        class="op-project-include--loading"
+        viewBox="0 0 200 140"
+      >
+        <svg:rect x="0" y="0" width="100%" height="12" rx="1" />
+        <svg:rect x="20" y="16" width="100%" height="12" rx="1" />
+        <svg:rect x="20" y="32" width="100%" height="12" rx="1" />
+        <svg:rect x="40" y="48" width="100%" height="12" rx="1" />
+        <svg:rect x="40" y="64" width="100%" height="12" rx="1" />
+        <svg:rect x="0" y="80" width="100%" height="12" rx="1" />
+        <svg:rect x="20" y="96" width="100%" height="12" rx="1" />
+        <svg:rect x="20" y="112" width="100%" height="12" rx="1" />
+        <svg:rect x="0" y="128" width="100%" height="12" rx="1" />
+        </op-content-loader>
+      </ng-template>
     </form>
   </ng-container>
 </spot-drop-modal>
