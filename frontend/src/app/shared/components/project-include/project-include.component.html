@@ -59,13 +59,17 @@
         <div class="spot-action-bar--left"></div>
         <div class="spot-action-bar--right">
           <button
+            [disabled]="!(hasProjects$ | async)"
             class="spot-button spot-button_outlined spot-button_main"
             type="button"
             (click)="clearSelection()"
           >
             {{ text.clear_selection }}
           </button>
-          <button class="spot-button spot-button_main">
+          <button 
+            [disabled]="!(hasProjects$ | async)"
+            class="spot-button spot-button_main"
+          >
             {{ text.apply }}
           </button>
         </div>
