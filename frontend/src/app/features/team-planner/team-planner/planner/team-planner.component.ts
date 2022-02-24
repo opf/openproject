@@ -157,6 +157,8 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     remove_assignee: this.I18n.t('js.team_planner.remove_assignee'),
     noData: this.I18n.t('js.team_planner.no_data'),
     two_weeks: this.I18n.t('js.team_planner.two_weeks'),
+    one_week: this.I18n.t('js.team_planner.one_week'),
+    today: this.I18n.t('js.team_planner.today'),
     drag_here_to_remove: this.I18n.t('js.team_planner.drag_here_to_remove'),
     cannot_drag_here: this.I18n.t('js.team_planner.cannot_drag_here'),
   };
@@ -284,6 +286,9 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
               month: 'long',
               day: 'numeric',
             },
+            buttonText: {
+              today: this.text.today,
+            },
             initialView: this.calendar.initialView || 'resourceTimelineWeek',
             headerToolbar: {
               left: '',
@@ -293,6 +298,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
             views: {
               resourceTimelineWeek: {
                 type: 'resourceTimeline',
+                buttonText: this.text.one_week,
                 duration: { weeks: 1 },
                 slotDuration: { days: 1 },
                 slotLabelFormat: [
@@ -311,11 +317,12 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
               resourceTimelineTwoWeeks: {
                 type: 'resourceTimeline',
                 buttonText: this.text.two_weeks,
-                duration: { weeks: 2 },
                 slotDuration: { days: 1 },
+                duration: { weeks: 2 },
+                dateIncrement: { weeks: 1 },
                 slotLabelFormat: [
                   {
-                    weekday: 'long',
+                    weekday: 'short',
                     day: '2-digit',
                   },
                 ],
