@@ -31,7 +31,7 @@
 module API
   module V3
     module Users
-      class UserCollectionRepresenter < ::API::Decorators::UnpaginatedCollection
+      class UserCollectionRepresenter < ::API::Decorators::OffsetPaginatedCollection
         include API::V3::Principals::NotBuiltinElements
       end
     end

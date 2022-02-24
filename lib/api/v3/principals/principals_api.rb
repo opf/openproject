@@ -34,7 +34,7 @@ module API
           get &::API::V3::Utilities::Endpoints::Index
                  .new(model: Principal,
                       scope: -> { Principal.visible(current_user).includes(:preference) },
-                      render_representer: ::API::V3::Users::PaginatedUserCollectionRepresenter)
+                      render_representer: ::API::V3::Users::UserCollectionRepresenter)
                  .mount
         end
       end

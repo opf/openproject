@@ -105,10 +105,10 @@ class User < Principal
   attr_accessor :password, :password_confirmation, :last_before_login_on
 
   validates :login,
-                        :firstname,
-                        :lastname,
-                        :mail,
-                        presence: { unless: Proc.new { |user| user.builtin? } }
+            :firstname,
+            :lastname,
+            :mail,
+            presence: { unless: Proc.new { |user| user.builtin? } }
 
   validates :login, uniqueness: { if: Proc.new { |user| !user.login.blank? }, case_sensitive: false }
   validates :mail, uniqueness: { allow_blank: true, case_sensitive: false }

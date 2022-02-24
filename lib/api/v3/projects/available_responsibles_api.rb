@@ -41,7 +41,7 @@ module API
                                                           scope: -> {
                                                             Principal.possible_assignee(@project).includes(:preference)
                                                           },
-                                                          render_representer: Users::UserCollectionRepresenter)
+                                                          render_representer: Users::UnpaginatedUserCollectionRepresenter)
                                                      .mount
         end
       end

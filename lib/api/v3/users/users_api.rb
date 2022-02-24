@@ -26,9 +26,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'api/v3/users/user_representer'
-require 'api/v3/users/paginated_user_collection_representer'
-
 module API
   module V3
     module Users
@@ -56,10 +53,10 @@ module API
               authorize_by_with_raise(current_user.allowed_to_globally?(:manage_user))
             end
 
-            get &::API::V3::Utilities::Endpoints::Index.new(model: User,
-                                                            scope: -> { User.user.includes(:preference) },
-                                                            render_representer: PaginatedUserCollectionRepresenter)
-                                                       .mount
+            get &::API::V3::Utilities::Endpoints::SqlFallbackedIndex
+                   .new(model: User,
+                        scope: -> { User.user.includes(:preference) })
+                   .mount
           end
 
           mount ::API::V3::Users::Schemas::UserSchemaAPI

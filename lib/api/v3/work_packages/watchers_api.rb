@@ -42,7 +42,7 @@ module API
 
           if query.valid?
             users = query.results.merge(@work_package.addable_watcher_users).includes(:preference)
-            ::API::V3::Users::PaginatedUserCollectionRepresenter.new(
+            ::API::V3::Users::UserCollectionRepresenter.new(
               users,
               self_link: api_v3_paths.users,
               page: to_i_or_nil(params[:offset]),
@@ -59,9 +59,9 @@ module API
             def watchers_collection
               watchers = @work_package.watcher_users.merge(Principal.not_locked)
               self_link = api_v3_paths.work_package_watchers(@work_package.id)
-              Users::UserCollectionRepresenter.new(watchers,
-                                                   self_link: self_link,
-                                                   current_user: current_user)
+              Users::UnpaginatedUserCollectionRepresenter.new(watchers,
+                                                              self_link: self_link,
+                                                              current_user: current_user)
             end
           end
 

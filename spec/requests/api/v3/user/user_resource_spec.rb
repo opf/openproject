@@ -93,7 +93,7 @@ describe 'API v3 User resource',
         end
       end
 
-      context 'on filtering for name' do
+      context 'when filtering by name' do
         let(:get_path) do
           filter = [{ 'name' => {
             'operator' => '~',
@@ -116,13 +116,13 @@ describe 'API v3 User resource',
         end
       end
 
-      context 'on sorting' do
+      context 'when sorting' do
         let(:users_by_name_order) do
           User.human.ordered_by_name(desc: true)
         end
 
         let(:get_path) do
-          sort = [['name', 'desc']]
+          sort = [%w[name desc]]
 
           "#{api_v3_paths.users}?#{{ sortBy: sort.to_json }.to_query}"
         end
@@ -140,7 +140,7 @@ describe 'API v3 User resource',
         end
       end
 
-      context 'on an invalid filter' do
+      context 'with an invalid filter' do
         let(:get_path) do
           filter = [{ 'name' => {
             'operator' => 'a',
@@ -151,30 +151,57 @@ describe 'API v3 User resource',
         end
 
         it 'returns an error' do
-          expect(subject.status).to eql(400)
+          expect(subject.status).to be(400)
+        end
+      end
+
+      context 'when signaling desired properties' do
+        let(:get_path) do
+          api_v3_paths.path_for :users,
+                                sort_by: [%w[name desc]],
+                                page_size: 1,
+                                select: 'total,elements/name'
+        end
+
+        let(:expected) do
+          {
+            total: 2,
+            _embedded: {
+              elements: [
+                {
+                  name: current_user.name
+                }
+              ]
+            }
+          }
+        end
+
+        it 'returns an error' do
+          expect(subject.body)
+            .to be_json_eql(expected.to_json)
         end
       end
     end
 
-    context 'admin' do
+    context 'for an admin' do
       let(:current_user) { admin }
 
       it_behaves_like 'flow with permitted user'
     end
 
-    context 'user with global manage_user permission' do
+    context 'for a user with global manage_user permission' do
       let(:current_user) { user_with_global_manage_user }
 
       it_behaves_like 'flow with permitted user'
     end
 
-    context 'locked admin' do
+    context 'for a locked admin' do
       let(:current_user) { locked_admin }
 
       it_behaves_like 'unauthorized access'
     end
 
-    context 'other user' do
+    context 'for another user' do
       it_behaves_like 'unauthorized access'
     end
   end

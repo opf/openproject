@@ -57,7 +57,20 @@ module API
                                  options[:column]
                                end
 
-              "'#{name}', #{representation}"
+              if options[:render_if]
+                <<-SQL.squish
+                   '#{name}',
+                   CASE WHEN #{options[:render_if].call(walker_results)} THEN
+                     #{representation}
+                   ELSE
+                     NULL
+                   END
+                SQL
+              else
+                <<-SQL.squish
+                 '#{name}', #{representation}
+                SQL
+              end
             end.join(', ')
           end
 
