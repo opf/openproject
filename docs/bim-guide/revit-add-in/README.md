@@ -1,30 +1,40 @@
+---
+sidebar_navigation:
+  title: Revit Add-in
+  priority: 100
+description: How to use the OpenProject BIM - Revit AddIn.
+robots: index, follow
+keywords: BIM, BCF, IFC, Viewer
+---
+
 
 
 # Revit Add-In (BIM feature)
 
-The *OpenProject Revit Add-In* allows you to use the open source project management software *OpenProject BIM* directly within your Autodesk Revit environment. It lets you create, inspect and manage issues right in the moment when you can also solve them - when you have your Revit application fired up and the relevant BIM models open. Issues get stored as BCFs centrally and are available to every team member in real time - thanks to our browser based IFC viewer even to those team members without expensive Revit licenses. No BCF XML import/export is needed. However, you still can import and export BCF XML as you like and stay interoparable with any other BCF software.
+The *OpenProject Revit Add-In* allows you to use the open source project management software *OpenProject BIM* directly within your Autodesk Revit environment. It lets you create, inspect and manage issues right in the moment when you can also solve them - when you have your Revit application fired up and the relevant BIM models open. Issues get stored as BIM Issues centrally and are available to every team member in real time - thanks to our browser based IFC viewer even to those team members without expensive Revit licenses. No BCF XML import/export is needed. However, you still can import and export BCF XML as you like and stay interoparable with any other software for BIM Issue Management.
 
 To download the latest version (v2.2.3) of our OpenProject Revit AddIn click here: [DOWNLOAD](https://github.com/opf/openproject-revit-add-in/releases/download/v2.3.3/OpenProject.Revit.exe)
 
 
 
 <div class="alert alert-info" role="alert">
-**Note**: OpenProject BIM & BCF Management is a Premium Feature and can only be used with [Enterprise cloud](../../enterprise-guide/enterprise-cloud-guide/) or [Enterprise on-premises](../../enterprise-guide/enterprise-on-premises-guide/). An upgrade from the free Community Edition is easily possible.
+**Note**: OpenProject BIM Issue Management is a Premium Feature and can only be used with [Enterprise cloud](../../enterprise-guide/enterprise-cloud-guide/) or [Enterprise on-premises](../../enterprise-guide/enterprise-on-premises-guide/). An upgrade from the free Community Edition is easily possible.
 </div>
 
 
-| Topic                                                        | Content                                   |
-| ------------------------------------------------------------ | ----------------------------------------- |
-| [Before Usage](#before-usage)                                | First steps before usage                  |
-| [How to login?](#how-to-login)                               | How to link Revit and OpenProject BIM?    |
-| [How to select a Project?](#how-to-select-a-project?)        | How to select an existing project?        |
-| [Working with BIM Issues](#working-with-bim-issues)          | How to Create, Open or Edit a BIM Issue?  |
-| [Synchronize Tasks between Revit and OpenProject](#synchronize-tasks-between-revit-and-openproject) | How to synchronize tasks?                 |
-| [How to install?](#how-to-install)                           | How to install the Revit Add-In?          |
-| [How to update?](#how-to-update)                             | How to get the latest Version?            |
-| [How to uninstall?](#how-to-uninstall?)                      | How to uninstall the Revit Add-In?        |
-| [Troubleshooting](#troubleshooting)                          | Troubleshooting of Windows' Error Message |
-| [Reporting Bugs](#reporting-bugs)                            | How to report a bug.                      |
+
+| Topic                                           | Content                  |
+| ----------------------------------------------- | ------------------------ |
+| [Before Usage](#before-usage)                   | First steps before usage |
+| How to install?                                 |                          |
+| How to update from an Earlier Version?          |                          |
+| How to login?                                   |                          |
+| How to select a Project                         |                          |
+| Working with BIM Issues                         |                          |
+| Synchronize Tasks between Revit and OpenProject |                          |
+| How to uninstall the OpenProject Revit AddIn?   |                          |
+| Troubleshooting                                 |                          |
+| Reporting bugs                                  |                          |
 
 
 
@@ -159,17 +169,19 @@ And the most important thing: **don't forget to save** the work package.
 
 
 
-To open a BIM Issue (BCF) and restore the viewpoint you have to navigate to the BCF Module and just click on the BIM Issue you want to open. The behavior of working with the issues is almost the same like in OpenProject.
+To open a BIM Issue and restore the viewpoint you have to navigate to the BCF Module and just click on the BIM Issue you want to open. The behavior of working with the issues is almost the same like in OpenProject.
 
 ![OpenProject BIM - Issues](OpenProject_BIM_Issues.png)
 
 
 
-@Valentin: Hier noch n bisschen drauf eingehen, dass die Bedienung genauso ist wie beim BCF Management (mit Link), die wenigen Unterschiede:
+The handling of BIM Issues within Revit is similar to OpenProject BIM. There are only a few changes to the browser based version:
 
-* dass dem IFC Veiwer wird Revit verwendet wird
-* weniger Platz ==> reduzierte Ansicht 
-* dass ein paar wenige Bedienelemente des Browsers fehlen, die man evtl. gewohnt ist (zurück button)
+- **Model Viewer**: To show a BIM Issue OpenProject BIM will use your Revit Model instead of the OpenProject BIM Model Viewer.
+- **Reduced View**: OpenProject BIM is now used in a smaller window. That's why you are currently using a reduced view.
+- **Missing Browser Toolbar**: The Browser Toolbar is missing, so you might miss some common user actions (e.g. jump to previous page) 
+
+
 
 
 

@@ -16,31 +16,19 @@ This guide only covers the specific BIM features and functionalities of OpenProj
 
 
 
-@Valentin: Alle Abbildungen bitte auf Englisch. :)
-
-
-
-@Valentin: Du sprichst manchmal von BCF Management, manchmal von BIM Issue Management (ich bevorzuge BIM Issue Management und würde den Begriff BCF wirklich nur für den Im- und Export nutzen)
-
-
-
-@Valentin: eine neue subseite wäre noch gut (in der ein konkretes beispiel durchexerziert wird)
-
-
-
 ## Overview of all topics regarding the OpenProject BIM Edition
 
 OpenProject BIM Edition provides powerful features particular designed for the needs of construction industry. Please choose the topic you want to learn more about.
 
-| Topic                                                        | Content                                              |
-| ------------------------------------------------------------ | :--------------------------------------------------- |
-| [IFC-Viewer](./ifc-viewer)                                               | How to use the IFC Viewer?                           |
-| [BCF-Management](./bcf-management)                           | How to use OpenProject BCF Management?               |
-| [Revit Add-in](./revit-add-in)                               | How to install and use the Revit Add-In?             |
-| [Free trial](#how-to-get-a-new-trial?)                       | How to get a free trial?                             |
-| [How to enable the BCF module?](#how-to-enable-the-bcf-module?) | How to enable the BCF module?                        |
-| [Reporting Bugs](#reporting-bugs)                            | How to report a bug.                                 |
-| [FAQs](#faqs)                                                | Frequently asked questions (FAQ) for the BIM Edition |
+| Topic                                               | Content                                              |
+| --------------------------------------------------- | :--------------------------------------------------- |
+| [IFC-Viewer](./ifc-viewer)                          | How to use the IFC Viewer?                           |
+| [BIM Issue Management](./bim-issue-management)      | How to use OpenProject BIM Issue Management?         |
+| [Revit Add-in](./revit-add-in)                      | How to install and use the Revit Add-In?             |
+| [Free trial](#how-to-get-a-new-trial?)              | How to get a free trial?                             |
+| [Enable BCF Module](#how-to-enable-the-bcf-module?) | How to enable the BCF module?                        |
+| [Reporting Bugs](#reporting-bugs)                   | How to report a bug.                                 |
+| [FAQs](#faqs)                                       | Frequently asked questions (FAQ) for the BIM Edition |
 
 
 
@@ -52,11 +40,11 @@ Details: [IFC-Viewer](./ifc-viewer)
 
 
 
-## BCF Management
+## BIM Issue Management
 
 Create tasks directly connected to your building model, import tasks or export tasks from any other BIM application.
 
-Deails: [BCF-Management](./bcf-management)
+Deails: [BIM Issue Management](./bim-issue-management)
 
 
 
@@ -112,7 +100,7 @@ Yes of course. We are of the opinion that the full potential of the BIM method o
 
 ### Why do I need a Revit Add-In?
 
-The *OpenProject Revit Add-In* allows you to use the open source project management software *OpenProject BIM* directly within your Autodesk Revit environment. It lets you create, inspect and manage issues right in the moment when you can also solve them - when you have your Revit application fired up and the relevant BIM models open. Issues get stored as BCFs centrally and are available to every team member in real time - thanks to our browser based IFC viewer even to those team members without expensive Revit licenses. No BCF XML import/export is needed. However, you still can import and export BCF XML as you like and stay interoparable with any other BCF software.
+You don't need it, but it makes your BIM Issue Management much easier. The *OpenProject Revit Add-In* allows you to use the open source project management software *OpenProject BIM* directly within your Autodesk Revit environment. It lets you create, inspect and manage issues right in the moment when you can also solve them - when you have your Revit application fired up and the relevant BIM models open. Issues get stored as BIM Issues centrally and are available to every team member in real time - thanks to our browser based IFC viewer even to those team members without expensive Revit licenses. No BCF XML import/export is needed. However, you still can import and export BCF XML as you like and stay interoparable with any other BCF software.
 
 
 
@@ -134,13 +122,13 @@ The OpenProject BIM Addin for Revit supports the following versions:
 
 ### Is it possible to use OpenProject BIM without REVIT?
 
-Yes! The Revit Add-In is just additional to the OpenProject BIM core functionality. It's still possible to import and export BCF XML as you like and stay interoparable with any other BCF software.
+Yes! The Revit Add-In is just additional to the OpenProject BIM core functionality. It's still possible to import and export BCF XML as you like and stay interoparable with any other Software for BIM Issue Management.
 
 
 
 ### Are integrations with other BIM software planned?
 
-Yes, we want to develop some other integrations to stay interoparable with other BIM software and make BCF Management with OpenProject BIM much easier.
+Yes, we want to develop some other integrations to stay interoparable with other BIM software and make BIM Issue Management with OpenProject BIM much easier.
 
 
 

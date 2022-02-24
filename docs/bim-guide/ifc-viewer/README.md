@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: Revit Add-in
-  priority: 900
+  priority: 300
 description: How to use the OpenProject IFC-Viewer.
 robots: index, follow
 keywords: BIM, BCF, IFC, Viewer
@@ -15,15 +15,19 @@ IFC-Files can be uploaded and shown directly within your Web-Browser without ins
 
 
 
-| Topic                                                        | Content                                           |
-| ------------------------------------------------------------ | ------------------------------------------------- |
-| [Basics](#basics)                                            | Overview of the BIM module                        |
-| [Show / Hide](#show-or-hide-elements-or-models)              | Show or Hide elements or models                   |
-| [IFC Import / Export](#import-and-export-ifc-models)         | Import and Export IFC Models                      |
-| [How to rotate?](#how-to-rotate-the-building-model?)         | How to rotate the building model?                 |
-| [How to select elements?](#how-to-select-elements?)          | How to select Elements within the building model? |
-| [How to slice the building model?](#how-to-slice-the-building-model?) | How to slice the model?                           |
-| [How to clear slices?](#how-to-clear-slices?)                | How to clear slices?                              |
+| Topic                                          | Content                         |
+| ---------------------------------------------- | ------------------------------- |
+| [Basics](#basics)                              | Overview of the BIM module      |
+| Import and Export IFC Models                   | Show or Hide elements or models |
+| How to rotate the building model               |                                 |
+| IFC-Viewer toolbar                             |                                 |
+| How to slice the building model                |                                 |
+| How to clear slices?                           |                                 |
+| How to select elements?                        |                                 |
+| Show Properties                                |                                 |
+| Show or Hide elements via viewer               |                                 |
+| Show Elements in Model Tree                    |                                 |
+| Show or Hide models or elements via model tree |                                 |
 
 
 
@@ -31,7 +35,7 @@ IFC-Files can be uploaded and shown directly within your Web-Browser without ins
 
 The BCF Module has included a very powerful IFC viewer. Here is a short overview of available user actions:
 
-![basics](basics.png)
+![IFC Viewer Overview](ifc-viewer-overview.png)
 
 
 
@@ -47,18 +51,43 @@ The BCF Module has included a very powerful IFC viewer. Here is a short overview
 
 Within the BCF module you are able to manage your IFC files. You are able to upload new building models and download already existing files. Just Click on the ***"IFC-Models"-Button*** within the OpenProject Toolbar. 
 
-@Valentin: Alternativer (manchmal einfacherer) Weg:
-
-![image-20220124102735802](C:\Users\bpetraus\AppData\Roaming\Typora\typora-user-images\image-20220124102735802.png) 
 
 
-
-@Valentin: Hier bitte starten mit einem Screen, wie es aussieht, wenn keine Modelle da sind. Dann unbedingt noch Screenshots der "Modellverwaltung" machen (mit Hinweisen zum Hochladen, Überschreiben, Umbenennen), und insbesondere kurz auf das Thema Standardmodelle eingehen.
-
-![Upload IFC Model](Upload_IFC_Model.png)
+![Import and Export IFC Models](import-and-export-ifc-models.png)
 
 
-@Valentin: auch wenn dadurch hier eine kleine Dopplung entsteht, würde ich hier kurz anhand eines Screenshots zeigen, wie man Modelle im Viewer ein und ausblendet
+
+To upload your first IFC model click on the green "+ IFC Model" - Button. A new explorer Window will be opened. Just navigate to the folder where your latest building model is saved.
+
+![Import IFC Model](import-ifc-model.png)
+
+
+
+Select the file you want and confirm your upload. You also the choice to set the new model as "Default model". All default models (multiple models can be set as default) are initially shown if you relaod the BCF module. You are able to change this setting later as well.
+
+![Set Model as Default](set-model-as-default.png)
+
+
+
+After uploading a building model you get an overview of all models within the "model management". There you are able to see their current upload status, rename the model, delete or download the existing models.
+
+![BIM Model Management](bim-model-management.png)
+
+
+
+If there already exist a model in project, you don't have to open the "model manager" to upload other models. You are able to add more models by clicking the "Add-Button" in the IFC Model Tree.  
+
+![Add a new IFC Model](add-a-new-ifc-model.png)
+
+
+
+**Remember:** If there are multiple models you are able to hide the whole model or single elements by using the checkbox within model tree.  
+
+![Hide_Model](Hide_Model.gif)
+
+
+
+
 
 
 ## How to rotate the building model?
@@ -70,15 +99,64 @@ To rotate the IFC model you either left-click on the building viewer and ***rota
 
 
 
-## Homebutton, 2D/3D, Orthografic, Fit View and First Person Mode
 
-@Valentin: gleich zu beginn würde ich diese Dinge einarbeiten ==> bspw. Homebutton ist hilfreich, wenn man die Ansicht zurücksetzen will (weil man irgendwas verstellt hat oder so)
+## IFC-Viewer toolbar
+
+The IFC-Viewer toolbar has many functions which are described below. The user actions all relate to the viewer and can be startet by clicking on the button.
+
+### Reset-View
+
+![Reset View](reset-view.png)
+
+If your building model (or objects within the model) is rotated, zoomed or cut and you want to reset your current view this function will help you. All you have to do is press the button once and your your view will be reset to the default.     
+
+![Reset_view_button](Reset_view_button.gif)
+
+
+
+### 2D / 3D View
+
+![2D View](2-d-view.png)
+
+If your building model can easily be shown in 2D or 3D. This function is very popular to have a deeper look into the building (e.g. to see the floorplan). To use this function in the best way, you are able to combine the 2D view with hiding elements (like it is shown below).
+
+![2D_3D](2D_3D.gif)
+
+
+
+### Orthographic View
+
+![Orthographic Button](orthographic-button.png)
+
+The default behavior of the OpenProject BIM Model Viewer is a perspective view. The perspective camera gives you more information about depth. Distant objects are smaller than nerby ones. This function changes from perspective view to orthographic view.  The orthographic view is widely used in engineering. All objects appear at the same scale and parallel lines remain parallel. Also a unit length appears the same length anywhere on the sceen. This makes it easier to assess the relative sizes. 
+
+![Orthographic View](orthographic-view.png)
+
+### Fit View
+
+![Fit View Button](fit-view-button.png)
+
+This function allows you to reset the current zoom level and the position of the building model. The button resets the zoom and position of the building model so that the entire model is visible and centered.
+
+![Fit View](Fit View.gif)
+
+
+
+### First Person Perspective
+
+![First Person Button](first-person-button.png)
+
+The first person perspective changes the way you ineract with the building model. The user no longer rotates the entire building model around an axis. Now he has the option of changing their own perspective. After activating the first person perspective, the viewer behaves similar to the real world and the camera moves in a manner comparable to a head movement.
+
+![First_Person_Perspective](First_Person_Perspective.gif)
 
 
 
 
 
 ## How to slice the building model?
+
+![Slice Building Model](slice-building-model.png)
 
 To have a deeper look within the building model you are able to slice the whole building. To start slicing click on the "***scissors symbol***" within the ***IFC-Viewer toolbar*** and left-click on an element which has the same angle you want to slice (you can edit this angle later as well). Now there are shown some arrows. Grab one and slice the model by dragging the arrow to the location you want. 
 
@@ -90,6 +168,10 @@ To have a deeper look within the building model you are able to slice the whole 
 
 You are able to clear all slices by using the ***dropdown*** menu next to the "***scissors symbol***" within the ***IFC-Viewer-Toolbar***.
 
+![slice-building-model](slice-building-model.png)
+
+
+
 ![Clear slices](clear_slices.png)
 
 
@@ -100,54 +182,97 @@ You are able to clear all slices by using the ***dropdown*** menu next to the "*
 
 To select elements within the building model, you have to activate the selection mode by clicking on the highlighted toogle button placed in the ***IFC-Viewer toolbar***. After activating the selection mode you are able to select a single or multiple elements within the viewer by left click. Your individual selection won't be reset after leaving the selection mode. You are able to reset your current selection with the context menu (right click).
 
-![Select elements](Select_elements.png)
+![Select Elements Button](select-elements-button.png)
 
 
 
-## Show properties
+![Select Elements](Select_elements.png)
 
 
 
+## Show Properties
 
-@Valentin: Wichtig fände ich noch die Anzeige von Eigenschaften. (rechte maustaste "inspect properties")
+You are able to see the basic properties of each element (e.g. the UUID) within OpenProject BIM. After using the "information" buttion a new tab named "Properties" will appear. 
+
+![Show Properties Button](show-properties-button.png)
+
+![Show Properties](show-properties.png)
+
+
+
+In order to inspect the information for individual objects, you have to use the context menu and simply select the "Inspect Properties" Menu item. All properties of the object will appear in the new tab.
+
+![Inspect Properties](inspect-properties.png)
+
+
+
+**But be careful!** The properties of the element you just clicked on are displayed. So make sure that there are no unwanted objects (e.g. window panes) in front of your desired object.   
+
+
+
+![Element Properties](element-properties.png)
+
+
 
 
 
 ## Show or Hide elements via viewer
 
-@Valentin: rechte Maustaste oder über den radierer in der navigation
+There are two options to hide elements via viewer. The **first possibility** is to use the ***IFC-viewer toolbar***. Within the toolbar you will find the **"hide-button"** 
 
-@Valentin: Hier bitte auch auf den xray mode eingehen
+![Hide Elements Button](hide-elements-button.png)
 
-@Valentin: auch an die entsprechende Stelle im modelltree zu springen "Show in Explorer" ist eine wertvolle Funktion
+After the "Hide-Mode" has been activated, each element you click (left click) on will be hidden.
 
-@Valentin: Fit view evtl. auch
-
-
-
-## Show or Hide modells or elements via modell tree
-
-If you have uploaded several IFC models of one building (e.g. one for each discipline - Architecture, Structural & MEP) and want to have a look at a single model or just want to hide specific elements, you are able to hide them by changeing the status of the ***checkbox within the model tree.***
-
-@Valentin: ich würde hier folgendes zeigen
-
-1. Modelle ein- und ausblenden
-2. Storey (bei gleichzeitger Anzeige von ARC und TGA Modell ==> dazu an einer Seite aufschneiden)
-3. Classes (bspw. Fenster, Türen o.ä.)
-
-![Show or hide Elements](Show_Hide_Elements.gif)
+![Hide_elements_Viewer_rubber](Hide_elements_Viewer_rubber.gif)
 
 
 
-## Show or Hide modells or elements via modell tree
 
-If you have uploaded several IFC models of one building (e.g. one for each discipline - Architecture, Structural & MEP) and want to have a look at a single model or just want to hide specific elements, you are able to hide them by changeing the status of the ***checkbox within the model tree.***
 
-@Valentin: ich würde hier folgendes zeigen
+The **second possibility** to hide single elements via viewer is to use the context menu. Here you can find the function to hide single elements.
 
-1. Modelle ein- und ausblenden
-2. Storey (bei gleichzeitger Anzeige von ARC und TGA Modell ==> dazu an einer Seite aufschneiden)
-3. Classes (bspw. Fenster, Türen o.ä.)
+![Hide Elements Context Menu](hide-elements-context-menu.png)
 
-![Show or hide Elements](Show_Hide_Elements.gif)
+
+
+You are always able to show hidden elements by using the **"Reset-View" Button** in the Viewer toolbar or use the **"Show All"** **Button** in the IFC Model tree. 
+
+Sometimes it is helpful to see elements in context to other elements but a good view can be disturbed by individual elements. For this case our viewer is able to show your building model in an "X-Ray"-Mode. The mode can be activated via the context menu and enables disturbing elements to be displayed in the context of other elements without covering them. 
+
+![XRay](XRay.gif)
+
+
+
+## Show Elements in Model Tree
+
+To be sure if you hide or select the element you want you are able to jump to this element in the IFC Model tree.
+
+All you have to do is open the context menu on the desired element and select the "Show in Explorer" function. Now the Model tree folds out to the desired element.
+
+
+
+![Show in Explorer](show-in-explorer.png)
+
+ 
+
+## Show or Hide models or elements via model tree
+
+If you have uploaded several IFC models of one building (e.g. one for each discipline - Architecture, Structural & MEP) and want to have a look at a single model or just want to hide specific elements, you are able to hide them by changing the status of the ***checkbox within the model tree.***
+
+The model tree can represent the structure of the building model in different ways. This means that entire models, storeys or even similar components can be hidden with a single click. 
+
+
+
+![Hide_Model](Hide_Model.gif)
+
+
+
+![Hide_building_storey](Hide_building_storey.gif)
+
+
+
+After switching to the "Classes" tab in the model tree, you can see the grouping of all elements by IFC classification. Whole groups can be hidden as well. In the example, all elements of the type "IFCWall" will be hidden.  
+
+![Hide_IFC_classes](Hide_IFC_classes.gif)
 
