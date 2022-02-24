@@ -27,7 +27,7 @@
 #++
 
 module Queries::Storages::WorkPackages::Filter
-  class FileLinkOriginIdFilter < ::Queries::WorkPackages::Filter::WorkPackageFilter
+  class LinkableToStorageUrlFilter < ::Queries::WorkPackages::Filter::WorkPackageFilter
     def type
       :list
     end
@@ -39,11 +39,12 @@ module Queries::Storages::WorkPackages::Filter
     end
 
     def where
-      ::Queries::Operators::Equals.sql_for_field(values, ::Storages::FileLink.table_name, 'origin_id')
+      canonical_url_values = values.map { |value| CGI.unescape(value).gsub(/\/+$/, '') }
+      ::Queries::Operators::Equals.sql_for_field(canonical_url_values, ::Storages::Storage.table_name, 'host')
     end
 
     def joins
-      :file_links
+      :storages
     end
   end
 end

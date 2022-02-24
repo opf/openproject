@@ -80,9 +80,12 @@ module OpenProject::Storages
 
     config.to_prepare do
       ::Queries::Register.filter ::Query, ::Queries::Storages::WorkPackages::Filter::FileLinkOriginIdFilter
+      ::Queries::Register.filter ::Query, ::Queries::Storages::WorkPackages::Filter::LinkableToStorageIdFilter
+      ::Queries::Register.filter ::Query, ::Queries::Storages::WorkPackages::Filter::LinkableToStorageUrlFilter
     end
 
-    # ToDo: Why is there |storage_id|? Is this a kind of manual routes.rb?
+    # This helper methods adds a method on the `api_v3_paths` helper. It is created with one parameter (storage_id)
+    # and the return value is a string.
     add_api_path :storage do |storage_id|
       "#{root}/storages/#{storage_id}"
     end

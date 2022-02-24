@@ -27,7 +27,7 @@
 #++
 
 module Queries::Storages::WorkPackages::Filter
-  class FileLinkOriginIdFilter < ::Queries::WorkPackages::Filter::WorkPackageFilter
+  class LinkableToStorageIdFilter < ::Queries::WorkPackages::Filter::WorkPackageFilter
     def type
       :list
     end
@@ -39,11 +39,11 @@ module Queries::Storages::WorkPackages::Filter
     end
 
     def where
-      ::Queries::Operators::Equals.sql_for_field(values, ::Storages::FileLink.table_name, 'origin_id')
+      ::Queries::Operators::Equals.sql_for_field(values, ::Storages::Storage.table_name, 'id')
     end
 
     def joins
-      :file_links
+      :storages
     end
   end
 end
