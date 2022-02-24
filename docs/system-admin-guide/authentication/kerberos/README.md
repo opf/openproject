@@ -72,7 +72,7 @@ We are going to create a new file `/etc/openproject/addons/apache2/includes/vhos
 
     # The realm used for Kerberos, you will want to
     # change this to your actual domain
-    KrbAuthRealm EXAMPLE.COM
+    KrbAuthRealms EXAMPLE.COM
 
     # Path to the Keytab generated in the previous step
     Krb5Keytab /etc/openproject/openproject.keytab
