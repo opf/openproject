@@ -123,7 +123,7 @@ module API
                representation: ->(walker_result) do
                  replacement = walker_result.replace_map['elements']
 
-                 replacement ? "json_agg(#{replacement})" : 'null'
+                 replacement ? "json_agg(#{replacement})" : nil
                end
     end
   end

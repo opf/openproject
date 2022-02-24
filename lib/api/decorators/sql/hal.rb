@@ -154,10 +154,13 @@ module API
                                  link[:column]
                                end
 
+              next unless representation
+
               <<-SQL.squish
                '#{name}', #{representation}
               SQL
             end
+              .flatten
               .join(', ')
           end
 

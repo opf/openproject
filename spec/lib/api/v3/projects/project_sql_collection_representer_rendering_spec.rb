@@ -118,8 +118,6 @@ describe ::API::V3::Projects::ProjectSqlCollectionRepresenter, 'rendering' do
         total: 1,
         count: 1,
         offset: 1,
-        # TODO: remove empty embedded
-        _embedded: {},
         _links: {
           self: {
             href: "some_path?offset=1&pageSize=5&select=%2A"
