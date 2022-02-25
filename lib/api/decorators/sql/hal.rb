@@ -180,9 +180,7 @@ module API
           def select_sql(select, walker_result)
             <<~SELECT
               json_strip_nulls(json_build_object(
-                #{[properties_sql(select, walker_result),
-                   select_links(select, walker_result),
-                   select_embedded(select, walker_result)].compact_blank.join(', ')}
+                #{json_object_string(select, walker_result)}
               ))
             SELECT
           end
@@ -210,6 +208,21 @@ module API
               FROM
                 #{select_from(walker_result)}
             SQL
+          end
+
+          protected
+
+          def json_object_string(select, walker_result)
+            [properties_sql(select, walker_result),
+             select_links(select, walker_result),
+             select_embedded(select, walker_result)]
+              .compact_blank
+              .join(', ')
+          end
+
+          # All properties and links that the client can correctly signal to have selected.
+          def valid_selects
+            links.keys + properties.keys + [:*]
           end
 
           private
@@ -258,10 +271,9 @@ module API
           end
 
           def ensure_valid_selects(requested)
-            supported = links.keys + properties.keys + [:*]
-            invalid = requested - supported
+            invalid = requested - valid_selects
 
-            raise API::Errors::InvalidSignal.new(invalid, supported, :select) if invalid.any?
+            raise API::Errors::InvalidSignal.new(invalid, valid_selects, :select) if invalid.any?
           end
 
           def namespaced_json_object(namespace)

@@ -37,10 +37,11 @@ describe 'API v3 Principals resource', type: :request do
     subject(:response) { last_response }
 
     let(:path) do
-      api_v3_paths.path_for :principals, filters: filter, sort_by: order
+      api_v3_paths.path_for :principals, filters: filter, sort_by: order, select: select
     end
     let(:order) { { name: :desc } }
     let(:filter) { nil }
+    let(:select) { nil }
     let(:project) { create(:project) }
     let(:other_project) { create(:project) }
     let(:non_member_project) { create(:project) }
@@ -164,6 +165,72 @@ describe 'API v3 Principals resource', type: :request do
 
       it_behaves_like 'API V3 collection response', 1, 1, 'User' do
         let(:elements) { [current_user] }
+      end
+    end
+
+    context 'when signaling' do
+      let(:select) { 'total,count,elements/*' }
+
+      let(:expected) do
+        {
+          total: 4,
+          count: 4,
+          _embedded: {
+            elements: [
+              {
+                _type: 'PlaceholderUser',
+                id: placeholder_user.id,
+                name: placeholder_user.name,
+                _links: {
+                  self: {
+                    href: api_v3_paths.placeholder_user(placeholder_user.id),
+                    title: placeholder_user.name
+                  }
+                }
+              },
+              {
+                _type: 'Group',
+                id: group.id,
+                name: group.name,
+                _links: {
+                  self: {
+                    href: api_v3_paths.group(group.id),
+                    title: group.name
+                  }
+                }
+              },
+              {
+                _type: "User",
+                id: other_user.id,
+                name: other_user.name,
+                _links: {
+                  self: {
+                    href: api_v3_paths.user(other_user.id),
+                    title: other_user.name
+                  }
+                }
+              },
+              {
+                _type: "User",
+                id: user.id,
+                name: user.name,
+                firstname: user.firstname,
+                lastname: user.lastname,
+                _links: {
+                  self: {
+                    href: api_v3_paths.user(user.id),
+                    title: user.name
+                  }
+                }
+              }
+            ]
+          }
+        }
+      end
+
+      it 'is the reduced set of properties of the embedded elements' do
+        expect(last_response.body)
+          .to be_json_eql(expected.to_json)
       end
     end
   end

@@ -31,10 +31,9 @@ module API
     module Principals
       class PrincipalsAPI < ::API::OpenProjectAPI
         resource :principals do
-          get &::API::V3::Utilities::Endpoints::Index
+          get &::API::V3::Utilities::Endpoints::SqlFallbackedIndex
                  .new(model: Principal,
-                      scope: -> { Principal.visible(current_user).includes(:preference) },
-                      render_representer: ::API::V3::Users::UserCollectionRepresenter)
+                      scope: -> { Principal.visible(current_user).includes(:preference) })
                  .mount
         end
       end
