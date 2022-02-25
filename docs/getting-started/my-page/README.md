@@ -23,11 +23,11 @@ My Page is your personal dashboard where you can display important information o
 
 You can open your **My page** by clicking on your user avatar in the upper right corner and then selecting **My page** from the dropdown menu.
 
-![my page](1572883536495.png)
+![Bildschirmfoto 2022-02-25 um 13.24.56](/Users/jankeppler/Library/Application Support/typora-user-images/Bildschirmfoto 2022-02-25 um 13.24.56.png)
 
 As a default, you will see two lists of all **work packages assigned to you** and **work packages created by you** from all your projects.
 
-![my page default](1572883652812.png)
+![Bildschirmfoto 2022-02-25 um 13.22.02](/Users/jankeppler/Library/Application Support/typora-user-images/Bildschirmfoto 2022-02-25 um 13.22.02.png)
 
 
 
@@ -56,24 +56,28 @@ You can change the position of a widget on the dashboard with drag and drop.
 
 Click the dots next to the title and drag it to the new place.
 
-![add-widget-my-page](add-widget-my-page2.gif)
+<video src="/Users/jankeppler/Desktop/Bildschirmaufnahme 2022-02-25 um 13.13.10.mov"></video>
+
+
 
 ### Change the size of a widget
 
 If you click the dots on the lower right hand corner in a widget you can change the size of a widget by pulling the widget left and right, up and down with the mouse.
 
-![change-size-widget](change-size-widget-1572946246580.gif)
+<video src="/Users/jankeppler/Desktop/Bildschirmaufnahme 2022-02-25 um 13.05.34.mov"></video>
+
+
 
 ### Configure the view of a widget (for work package tables)
 
 You can configure the view of a work package widget to have the information included that you need.
 
 <div class="glossary">
-**Work package** is a subset of a project that can be assigned to users for execution, such as Tasks, Bugs, User Stories, Milestones, and more. Work packages have a type, an ID and a subject and may have additional attributes, such as assignee, responsible, story points or target version. Work packages are displayed in a projects timeline (unless they are filtered out in the timeline configuration) - either as milestone or as phase. In order to use the work packages, the work package module has to be activated in the project settings.
+**Work package** is a subset of a project that can be assigned to users for execution, such as Tasks, Bugs, User Stories, Milestones, and more. Work packages have a type, an ID and a subject and may have additional attributes, such as assignee, responsible, story points or target version. Work packages are displayed in a project timeline (unless they are filtered out in the timeline configuration) - either as a milestone or as a phase. In order to use the work packages, the work package module has to be activated in the project settings.
 </div>
 ​          
 
-On a work package widget, click the three dots and select **Configure view...**
+On a work package widget, click on the button with the three dots and select **Configure view...**
 
 You can configure the work package table (e.g. filter, group, highlight, sort) according to the [filter, sorting and grouping criteria for work packages](../../user-guide/work-packages/work-package-table-configuration/). 
 
