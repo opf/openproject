@@ -39,7 +39,10 @@ module Queries::Storages::WorkPackages::Filter
     end
 
     def where
-      ::Queries::Operators::Equals.sql_for_field(values, ::Storages::FileLink.table_name, 'origin_id')
+      <<-SQL.squish
+        #{::Queries::Operators::Equals.sql_for_field(values, ::Storages::FileLink.table_name, 'origin_id')}
+        AND project_id IN (#{Project.allowed_to(User.current, :view_file_links).select(:id).to_sql})
+      SQL
     end
 
     def joins

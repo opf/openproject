@@ -68,6 +68,10 @@ describe 'API v3 file links resource', type: :request do
       expect(subject.status).to be 200
     end
 
+    it_behaves_like 'API V3 collection response', 1, 1, 'FileLink', 'Collection' do
+      let(:elements) { [file_link] }
+    end
+
     context 'if user has not sufficient permissions' do
       let(:permissions) { %i(view_work_packages) }
 
