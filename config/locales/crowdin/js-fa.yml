@@ -14,7 +14,7 @@ fa:
       label_subscribe: 'Subscribe'
       label_subscription: 'Subscription'
       label_subscription_updated: 'Your subscription was successfully updated.'
-      label_cancel: 'لغو'
+      label_cancel: 'Cancel'
       members: 'Members'
       text_no_active_subscription: Your subscription is not activated yet. Please choose a <a href="%{upgrade_url}">plan</a> first.
       text_subscription_status_active: Your <strong>%{support_level}</strong> plan subscription is <b>active</b>.
@@ -61,8 +61,8 @@ fa:
         payment_info_annually: '(yearly plans only)'
       billing_info:
         billing_info: 'Billing information'
-        first_name: 'نام'
-        last_name: 'نام خانوادگی'
+        first_name: 'First name'
+        last_name: 'Last name'
         organization: 'Organization'
         billing_address: 'Address'
         zip_code: 'Zip code'
@@ -74,50 +74,50 @@ fa:
         business: Business
         consumer: Consumer
         title:
-          title: 'عنوان'
-          mr: 'Mr.'
-          ms: 'Ms.'
+          title: 'Title'
+          mr: ''
+          ms: ''
         agree: >
-          I agree with the <a href="https://www.openproject.org/legal/terms-of-service" target="_blank">terms of service</a> and the <a href="https://www.openproject.org/legal/privacy" target="_blank">privacy policy</a>.
-        acceptedTerms: You already confirmed the terms of service when you created your OpenProject trial.
+
+        acceptedTerms:
       quote_info:
-        quote_info: Quote information
-        request: Request an Enterprise Edition quote
-        success: Thank you for requesting a quote for the OpenProject Enterprise Edition. We will send you the quote shortly.
-        error: 'We are very sorry, something went wrong: %{error}'
+        quote_info:
+        request:
+        success:
+        error: ''
       gdpr:
         contact:
-          label: 'Contact'
-          contact_hint: 'If you notice a security or data privacy issue in OpenProject, please contact us:'
-          gpg_key: 'GPG Key ID'
+          label: ''
+          contact_hint: ''
+          gpg_key: ''
         contract_form:
-          label: 'Contract Information'
-          email: 'Email'
+          label: ''
+          email: ''
         dpa_introduction_text: >-
-          The General Data Protection Regulation (GDPR) strengthens and unifies data protection for all individuals within the European Union (EU). The DPA governs the obligations of the contracting parties with regard to data protection.
-        dpa_signed: 'DPA signed'
+
+        dpa_signed: ''
         dpa_download_text: >
-          Thank you for signing the Data Processing Agreement (DPA).<br> You can download the signed DPA for your safekeeping.
-        dpa_download_btn: 'Download signed DPA'
-        label_gdpr: 'GDPR'
-        label_dpa: 'Data Processing Agreement'
-        invalid_email: "Invalid email address"
+
+        dpa_download_btn: ''
+        label_gdpr: ''
+        label_dpa: ''
+        invalid_email: ""
         related:
-          label: 'Related Documents'
-          service_agreement: 'Terms of Service'
-          service_description: 'Description of Services'
-          privacy_statement: 'Privacy Statement'
-          dpa: 'Data Processing Agreement (DPA)'
-          subcontractors: 'Sub-Processors'
-          data_security: 'Technical and Organizational Data Security Measures'
-          security_measures: 'Data Security Measures'
+          label: ''
+          service_agreement: ''
+          service_description: ''
+          privacy_statement: ''
+          dpa: ''
+          subcontractors: ''
+          data_security: ''
+          security_measures: ''
         links:
-          service_agreement: 'https://www.openproject.org/legal/terms-of-service'
-          service_description: 'https://www.openproject.org/legal/description-of-services'
-          privacy_statement: 'https://www.openproject.org/legal/privacy'
-          dpa: 'https://www.openproject.org/legal/data-processing-agreement'
-          subcontractors: 'https://www.openproject.org/legal/data-processing-agreement/sub-processors'
-          data_security: 'https://www.openproject.org/legal/data-processing-agreement/technical-and-organizational-data-security-measures'
-        review_dpa: 'Review DPA'
-        sign_eligible: 'I am eligible to sign this contract for my organization.'
-        sign_dpa: 'Sign DPA'
+          service_agreement: ''
+          service_description: ''
+          privacy_statement: ''
+          dpa: ''
+          subcontractors: ''
+          data_security: ''
+        review_dpa: ''
+        sign_eligible: ''
+        sign_dpa: ''

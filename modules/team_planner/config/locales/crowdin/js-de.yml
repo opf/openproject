@@ -2,7 +2,7 @@
 de:
   js:
     team_planner:
-      add_existing: 'Add existing'
+      add_existing: 'Add Existing'
       create_new: 'Neuen Plan erstellen'
       title: 'Teamplaner'
       unsaved_title: 'Unbenannter Teamplaner'
@@ -10,7 +10,9 @@ de:
       no_data: 'Fügen Sie zugewiesene Benutzer hinzu, um Ihren Teamplaner einzurichten.'
       add_assignee: 'Zugewiesenen Benutzer hinzufügen'
       remove_assignee: 'Zugewiesenen Benutzer entfernen'
-      two_weeks: '2 weeks'
+      two_weeks: '2-week'
+      one_week: '1-week'
+      today: 'Today'
       drag_here_to_remove: 'Drag here to remove assignee and start and end dates.'
       cannot_drag_here: 'Cannot remove the work package due to permissions or editing restrictions.'
       quick_add:
