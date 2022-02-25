@@ -10,7 +10,7 @@ The events captured in the WP activity log are the same as in version 1.0, only 
 
 If you use **manual** installation, keep in mind that it requires precompiling the assets and updating the DB with new tables.
 
-In case of a **docker** installation, you will need to build your custom docker image (see issue [#3](https://github.com/btey/openproject-gitlab-integration/issues/3)).
+In case of a **docker** installation, you can follow the steps described in the [OpenProject](https://www.openproject.org/docs/installation-and-operations/installation/docker/#openproject-plugins) documentation.
 
 ## Introduction
 
@@ -135,13 +135,17 @@ A typical workflow on Gitlab side would be:
 
 ## Configuration
 
-For now, this plugin should be installed in the same place as the Github plugin that comes bundled with OpenProject.
+You will have to configure both **OpenProject** and **Gitlab** for the integration to work.
+
+In case of **Docker** installation, follow the official OpenProject documentation [here](https://www.openproject.org/docs/installation-and-operations/installation/docker/#openproject-plugins).
+
+In case of [**manual**](https://www.openproject.org/docs/installation-and-operations/installation/manual/) installation, this plugin should be installed in the same place as the Github plugin that comes bundled with OpenProject.
 
 - **Github plugin path:** `modules/github_integration`
 
 - **Path to put Gitlab plugin:** `modules/gitlab_integration`
 
-You will have to configure both **OpenProject** and **Gitlab** for the integration to work. But first you must modify **Gemfile.lock** and **Gemfile.modules** so that OpenProject detects the new module.
+But first you must modify **Gemfile.lock** and **Gemfile.modules** so that OpenProject detects the new module.
 
 Add the following in **Gemfile.lock**:
 
@@ -184,6 +188,14 @@ group :opf_plugins do
   gem 'openproject-gitlab_integration',        path: 'modules/gitlab_integration'
 ...
 end
+```
+
+**Note:** It's possible that you need to use these commands before and after the "bundle install" if you get an error in this step warning about a change in the Gemfile:
+
+```
+bundle config unset deployment 
+bundle install --deployment --without mysql2 sqlite development test therubyracer docker
+bundle config set deployment
 ```
 
 ### The Gitlab Bot user in OpenProject
