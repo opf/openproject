@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -26,24 +28,23 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Storages::Storage < ApplicationRecord
-  has_many :file_links, class_name: 'Storages::FileLink'
-  belongs_to :creator, class_name: 'User'
-  has_many :projects_storages, dependent: :destroy, class_name: 'Storages::ProjectStorage'
-  has_many :projects, through: :projects_storages
+require 'spec_helper'
+require 'contracts/shared/model_contract_shared_context'
+require_relative 'shared_contract_examples'
 
-  PROVIDER_TYPES = %w[nextcloud].freeze
+describe Storages::ProjectStorages::CreateContract do
+  include_context 'ModelContract shared context'
 
-  validates_uniqueness_of :host
-  validates_uniqueness_of :name
-
-  # Creates a scope of all storages, which belong to a project the user is a member
-  # and has the permission ':view_file_links'
-  scope :visible, ->(user = User.current) {
-    where(
-      projects_storages: ::Storages::ProjectStorage.where(
-        project: Project.allowed_to(user, :view_file_links)
+  it_behaves_like 'ProjectStorages contract' do
+    # current_user, project, storage and other objects defined in the shared_contract_examples
+    # that includes all the stuff shared between create and update.
+    let(:project_storage) do
+      ::Storages::ProjectStorage.new(
+        creator: current_user,
+        project: project,
+        storage: storage
       )
-    )
-  }
+    end
+    let(:contract) { described_class.new(project_storage, current_user) }
+  end
 end

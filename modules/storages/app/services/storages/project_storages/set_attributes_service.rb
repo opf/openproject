@@ -26,11 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Storages::ProjectsStorages
-  # We create the empty class here, so that other pieces of code that looks for the contract in its default place will
-  # find it. So, the CreateService for Storages will expect its contract to be here.
-  #
-  # We inherit from a BaseContract as the BaseContract here is sharing a lot in common with the UpdateContract.
-  class CreateContract < ::Storages::ProjectsStorages::BaseContract
+# ToDo: Where is this used?
+# It's called by CreateService when setting attributes
+module Storages::ProjectStorages
+  class SetAttributesService < ::BaseServices::SetAttributes
   end
 end

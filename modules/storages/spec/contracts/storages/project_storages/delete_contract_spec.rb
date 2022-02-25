@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -26,24 +28,26 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Storages::Storage < ApplicationRecord
-  has_many :file_links, class_name: 'Storages::FileLink'
-  belongs_to :creator, class_name: 'User'
-  has_many :projects_storages, dependent: :destroy, class_name: 'Storages::ProjectStorage'
-  has_many :projects, through: :projects_storages
+require 'spec_helper'
+require 'contracts/shared/model_contract_shared_context'
 
-  PROVIDER_TYPES = %w[nextcloud].freeze
+describe ::Storages::ProjectStorages::DeleteContract do
+  include_context 'ModelContract shared context'
 
-  validates_uniqueness_of :host
-  validates_uniqueness_of :name
+  let(:role) { create(:existing_role, permissions: [:manage_storages_in_project]) }
+  let(:project) { create(:project, members: { current_user => role }) }
+  let(:current_user) { create(:user) }
+  let(:project_storage) { create(:project_storage, project: project) }
+  let(:contract) { described_class.new(project_storage, current_user) }
 
-  # Creates a scope of all storages, which belong to a project the user is a member
-  # and has the permission ':view_file_links'
-  scope :visible, ->(user = User.current) {
-    where(
-      projects_storages: ::Storages::ProjectStorage.where(
-        project: Project.allowed_to(user, :view_file_links)
-      )
-    )
-  }
+  # Default test setup should be valid ("happy test setup").
+  # The example (in other words tests) below was included above from "ModelContract shared context".
+  # It assumes a current_user and and a contract to be defined.
+  it_behaves_like 'contract is valid'
+
+  context 'without manage_storages_in_project permission for project' do
+    let(:role) { create(:existing_role) }
+
+    it_behaves_like 'contract is invalid'
+  end
 end

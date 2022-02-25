@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,7 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Storages::ProjectsStorages
-  class BaseContract < ::ModelContract
+module Storages::ProjectStorages
+  # We create the empty class here, so that other pieces of code that looks for the contract in its default place will
+  # find it. So, the CreateService for Storages will expect its contract to be here.
+  #
+  # We inherit from a BaseContract as the BaseContract here is sharing a lot in common with the UpdateContract.
+  class CreateContract < ::Storages::ProjectStorages::BaseContract
   end
 end

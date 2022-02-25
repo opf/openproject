@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Storages::ProjectsStorages
-  class UpdateContract < ::Storages::ProjectsStorages::BaseContract
+module Storages::ProjectStorages
+  class UpdateContract < ::Storages::ProjectStorage::BaseContract
   end
 end

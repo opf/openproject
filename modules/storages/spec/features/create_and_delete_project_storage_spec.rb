@@ -30,23 +30,23 @@
 
 require_relative '../spec_helper'
 
-# Setup storages within a project.
+# Setup storages in Project -> Settings -> File Storages
 # This tests assumes that a Storage has already been setup
 # in the Admin section, tested by admin_storage_spec.rb.
 describe 'Activation of storages in projects', type: :feature, js: true do
-  let(:admin) { create(:admin) }
+  let(:user) { create(:user) }
+  let(:role) { create(:existing_role, permissions: [:manage_storages_in_project]) }
   let(:storage) { create(:storage, name: "Storage 1") }
   let(:project) do
     create(:project,
-           name: 'Project 1',
-           identifier: 'demo-project',
+           members: { user => role },
            enabled_module_names: %i[storages work_package_tracking])
   end
-  let(:work_package) { create(:work_package, project: project) }
 
   before do
     storage
-    login_as admin
+    project
+    login_as user
   end
 
   it 'adds and removes storages to projects' do
