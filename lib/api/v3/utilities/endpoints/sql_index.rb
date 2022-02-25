@@ -64,8 +64,10 @@ module API
             return unless key_params
 
             key_params
+              .delete_prefix('[')
+              .delete_suffix(']')
               .split(',')
-              .map { |path| nested_hash(path.split('/')) }
+              .map { |path| nested_hash(path.strip.tr("\"'", '').split('/')) }
               .inject({}) { |hash, nested| hash.deep_merge(nested) }
           end
 
