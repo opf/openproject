@@ -137,7 +137,7 @@
     "ts-action": "^11.0.0",
     "ts-action-operators": "^9.1.2",
     "typedjson": "^1.5.1",
-    "urijs": "^1.19.7",
+    "urijs": "^1.19.8",
     "zone.js": "~0.11.4"
   },
   "scripts": {
