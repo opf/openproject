@@ -32,7 +32,7 @@ module API
   module V3
     module Utilities
       class SqlRepresenterWalker
-        include API::Utilities::PageSizeHelper
+        include API::Utilities::UrlPropsParsingHelper
 
         def initialize(scope,
                        current_user:,

@@ -54,25 +54,8 @@ module API
 
           def calculate_resulting_params(query, provided_params)
             super.tap do |params|
-              params[:select] = nested_from_params(provided_params, 'select') || { '*' => {}, 'elements' => { '*' => {} } }
+              params[:select] = nested_from_csv(provided_params['select']) || { '*' => {}, 'elements' => { '*' => {} } }
             end
-          end
-
-          def nested_from_params(params, key)
-            key_params = params[key]
-
-            return unless key_params
-
-            key_params
-              .delete_prefix('[')
-              .delete_suffix(']')
-              .split(',')
-              .map { |path| nested_hash(path.strip.tr("\"'", '').split('/')) }
-              .inject({}) { |hash, nested| hash.deep_merge(nested) }
-          end
-
-          def nested_hash(path)
-            { path[0] => path.length > 1 ? nested_hash(path[1..]) : {} }
           end
         end
       end

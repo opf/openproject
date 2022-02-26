@@ -30,7 +30,7 @@ module API
   module Utilities
     module Endpoints
       class Index
-        include ::API::Utilities::PageSizeHelper
+        include ::API::Utilities::UrlPropsParsingHelper
 
         def initialize(model:,
                        api_name: model.name.demodulize,
