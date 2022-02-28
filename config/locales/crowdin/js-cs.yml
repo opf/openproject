@@ -697,7 +697,7 @@ cs:
       change_parent: "Změnit nadřazený"
       remove_parent: "Odstranit nadřazený"
       hierarchy_indent: "Přisadit hierarchii"
-      hierarchy_outdent: "Přisadit hierarchii"
+      hierarchy_outdent: "Odsadit hierarchii"
       group_by_wp_type: "Seskupit podle typu pracovního balíčku"
       group_by_relation_type: "Seskupit podle typu vztahu"
       add_parent: "Přidat existujícího rodiče"
@@ -1164,6 +1164,15 @@ cs:
           placeholder: 'Zástupného uživatele lze nyní použít v %{project}. Mezitím již můžete plánovat s tímto uživatelem a přiřadit mu například pracovní balíčky.'
           group: 'Skupina je nyní součástí %{project}. Mezitím již můžete s touto skupinou plánovat a přiřadit například pracovní balíčky.'
         next_button: 'Pokračovat'
+    include_projects:
+      toggle_title: 'Include Projects'
+      title: 'Projekty'
+      clear_selection: 'Clear selection'
+      apply: 'Použít'
+      selected_filter:
+        all: 'All projects'
+        selected: 'Only selected'
+      search_placeholder: 'Search project...'
     forms:
       submit_success_message: 'Formulář byl úspěšně odeslán'
       load_error_message: 'Při načítání formuláře došlo k chybě'

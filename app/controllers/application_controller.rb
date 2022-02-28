@@ -39,6 +39,7 @@ class ApplicationController < ActionController::Base
   class_attribute :accept_key_auth_actions
 
   helper_method :render_to_string
+  helper_method :gon
 
   protected
 

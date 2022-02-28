@@ -1162,6 +1162,15 @@ hu:
           placeholder: 'A tesztfelhasználó mostantól használható a %{project}-ben. Eközben már tervezhetünk ezzel a felhasználóval, és például munkacsomagokat rendelhetünk hozzá.'
           group: "A csoport mostantól a %{project} része. Eközben már tervezhet ezzel a csoporttal, és például munkacsomagokat rendelhet hozzá.\n"
         next_button: 'Folytatás'
+    include_projects:
+      toggle_title: 'Include Projects'
+      title: 'Projektek'
+      clear_selection: 'Clear selection'
+      apply: 'Alkalmaz'
+      selected_filter:
+        all: 'All projects'
+        selected: 'Only selected'
+      search_placeholder: 'Search project...'
     forms:
       submit_success_message: 'Jelentés sikeresen elküldve'
       load_error_message: 'Hiba történt az eredmény betöltésekor.'

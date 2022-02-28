@@ -1157,6 +1157,15 @@ fr:
           placeholder: 'Le utilisateur fictif peut maintenant être utilisé dans %{project}. En attendant, vous pouvez déjà planifier des taches avec cet utilisateur et l''assigner à des lots de travaux par exemple.'
           group: 'Le groupe fait maintenant partie du %{project}. Entre-temps, vous pouvez déjà planifier avec ce groupe et l''assigner des lots de travaux par exemple.'
         next_button: 'Continuer'
+    include_projects:
+      toggle_title: 'Include Projects'
+      title: 'Projets'
+      clear_selection: 'Clear selection'
+      apply: 'Appliquer'
+      selected_filter:
+        all: 'All projects'
+        selected: 'Only selected'
+      search_placeholder: 'Search project...'
     forms:
       submit_success_message: 'Le formulaire a bien été envoyé'
       load_error_message: 'Une erreur s''est produite lors du chargement du formulaire'

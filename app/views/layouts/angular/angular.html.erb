@@ -29,9 +29,6 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= content_for :header_tags do %>
   <% html_title(*local_assigns[:page_title]) if local_assigns[:page_title].present? %>
-  <%= nonced_javascript_tag do %>
-    <%= include_gon(need_tag: false) -%>
-  <% end %>
   <!-- plug-in specific tags -->
   <%= call_hook :view_work_package_overview_attributes %>
 <% end -%>

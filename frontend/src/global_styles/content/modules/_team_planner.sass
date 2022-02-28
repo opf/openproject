@@ -13,7 +13,20 @@
         display: none
 
 .op-team-planner
+  --fc-border-color: #cccccc
+
   &--calendar_empty
     .fc-scrollgrid-section-body,
     .fc-scrollgrid-section-footer
       display: none
+
+  .fc-header-toolbar
+    margin-left: 138px
+
+  &_with_left_side_pane
+    .fc-header-toolbar
+      margin-left: -136px
+
+  .fc-event-dragging
+    .op-wp-single-card--content-inline-date
+      visibility: hidden

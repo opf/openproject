@@ -32,7 +32,7 @@ get:
             type: string
             format: uri
       description: |-
-        Returned if the request was succesful. In the `Location` header is the uri where the client can download the
+        Returned if the request was successful. In the `Location` header is the uri where the client can download the
         origin file from the storage.
     '404':
       content:

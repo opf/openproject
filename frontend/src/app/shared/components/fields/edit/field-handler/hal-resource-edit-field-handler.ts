@@ -136,7 +136,7 @@ export class HalResourceEditFieldHandler extends EditFieldHandler {
   /**
    * Handle users pressing enter inside an edit mode.
    * Outside an edit mode, the regular save event is captured by handleUserSubmit (submit event).
-   * In an edit mode, we can't derive from a submit event wheteher the user pressed enter
+   * In an edit mode, we can't derive from a submit event whether the user pressed enter
    * (and on what field he did that).
    */
   public handleUserKeydown(event:JQuery.TriggeredEvent, onlyCancel = false) {

@@ -3097,8 +3097,11 @@ en:
     errors:
       messages:
         # Common error messages
-        invalid_request: 'The request is missing a required parameter, includes an unsupported parameter value, or is otherwise malformed.'
-        invalid_redirect_uri: "The requested redirect URI is malformed or doesn't match client redirect URI."
+        invalid_request:
+          unknown: 'The request is missing a required parameter, includes an unsupported parameter value, or is otherwise malformed.'
+          missing_param: 'Missing required parameter: %{value}.'
+          request_not_authorized: 'Request need to be authorized. Required parameter for authorizing request is missing or invalid.'
+        invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
         unauthorized_client: 'The client is not authorized to perform this request using this method.'
         access_denied: 'The resource owner or authorization server denied the request.'
         invalid_scope: 'The requested scope is invalid, unknown, or malformed.'
@@ -3113,6 +3116,7 @@ en:
 
         # Access grant errors
         unsupported_response_type: 'The authorization server does not support this response type.'
+        unsupported_response_mode: 'The authorization server does not support this response mode.'
 
         # Access token errors
         invalid_client: 'Client authentication failed due to unknown client, no client authentication included, or unsupported authentication method.'
@@ -3123,6 +3127,11 @@ en:
           revoked: "The access token was revoked"
           expired: "The access token expired"
           unknown: "The access token is invalid"
+        revoke:
+          unauthorized: "You are not authorized to revoke this token."
+
+        forbidden_token:
+          missing_scope: 'Access to this resource requires scope "%{oauth_scopes}".'
 
   unsupported_browser:
     title: "Your browser is outdated and unsupported."

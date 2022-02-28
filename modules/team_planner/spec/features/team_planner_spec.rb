@@ -42,8 +42,11 @@ describe 'Team planner', type: :feature, js: true do
     visit project_path(project)
 
     within '#main-menu' do
-      click_link 'Team planner'
+      click_link 'Team planners'
     end
+
+    expect(page).to have_content 'There is currently nothing to display.'
+    click_on 'Create'
 
     team_planner.expect_title
 
@@ -162,7 +165,7 @@ describe 'Team planner', type: :feature, js: true do
       end
 
       # Open the split view for that task and change to bug
-      split_view = team_planner.open_split_view(other_task)
+      split_view = team_planner.open_split_view_by_info_icon(other_task)
       split_view.edit_field(:type).update(type_bug)
       split_view.expect_and_dismiss_toaster(message: "Successful update.")
 

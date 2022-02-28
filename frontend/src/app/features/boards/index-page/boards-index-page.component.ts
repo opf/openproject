@@ -26,6 +26,7 @@ import { map } from 'rxjs/operators';
 export class BoardsIndexPageComponent extends UntilDestroyedMixin implements OnInit, AfterViewInit {
   public text = {
     name: this.I18n.t('js.modals.label_name'),
+    create: this.I18n.t('js.button_create'),
     board: this.I18n.t('js.label_board'),
     boards: this.I18n.t('js.label_board_plural'),
     type: this.I18n.t('js.boards.label_board_type'),

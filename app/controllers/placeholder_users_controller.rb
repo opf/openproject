@@ -29,10 +29,8 @@
 #++
 
 class PlaceholderUsersController < ApplicationController
+  include EnterpriseTrialHelper
   layout 'admin'
-
-  helper_method :gon
-
   before_action :authorize_global, except: %i[show]
 
   before_action :find_placeholder_user, only: %i[show

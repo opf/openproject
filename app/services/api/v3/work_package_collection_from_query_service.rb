@@ -81,7 +81,7 @@ module API
           if query.manually_sorted?
             params[:query_id] = query.id
             params[:offset] = 1
-            # Force the setting value in all cases except when 0 is requested explictly. Fetching with pageSize = 0
+            # Force the setting value in all cases except when 0 is requested explicitly. Fetching with pageSize = 0
             # is done for performance reasons to simply get the query without the results.
             params[:pageSize] = pageSizeParam(params) == 0 ? pageSizeParam(params) : Setting.forced_single_page_size
           else

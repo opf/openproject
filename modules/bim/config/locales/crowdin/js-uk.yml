@@ -4,26 +4,26 @@ uk:
     bcf:
       label_bcf: 'BCF'
       import: 'Імпортувати'
-      import_bcf_xml_file: 'Import BCF XML file (BCF version 2.1)'
+      import_bcf_xml_file: 'Імпорт файлу BCF XML (версія BCF 2.1)'
       export: 'Експорт'
-      export_bcf_xml_file: 'Export BCF XML file (BCF version 2.1)'
-      viewpoint: 'Viewpoint'
-      add_viewpoint: 'Add viewpoint'
-      show_viewpoint: 'Show viewpoint'
-      delete_viewpoint: 'Delete viewpoint'
-      management: 'BCF management'
+      export_bcf_xml_file: 'Експорт файлу BCF XML  (версія BCF 2.1)'
+      viewpoint: 'Точка огляду'
+      add_viewpoint: 'Додати точку огляду'
+      show_viewpoint: 'Показати точку огляду'
+      delete_viewpoint: 'Видалити точку огляду'
+      management: 'Управління BCF'
       refresh: 'Оновити'
       refresh_work_package: 'Оновити робочий пакет'
     ifc_models:
-      empty_warning: "This project does not yet have any IFC models."
-      use_this_link_to_manage: "Use this link to upload and manage your IFC models"
-      keyboard_input_disabled: "Viewer does not have keyboard controls. Click on the viewer to give keyboard control to the viewer."
+      empty_warning: "Даний проєкт ще немає жодних моделей IFC."
+      use_this_link_to_manage: "Використати це посилання задля завантаження та управління вашими моделями IFC"
+      keyboard_input_disabled: "У глядача немає доступу до управління клавіатурою. Натисніть на глядача для того, щоб надати йому доступ до управління клавіатурою."
       models:
-        ifc_models: 'IFC models'
+        ifc_models: 'Моделі IFC'
       views:
-        viewer: 'Viewer'
-        split: 'Viewer and table'
-        split_cards: 'Viewer and cards'
+        viewer: 'Глядач'
+        split: 'Глядач та таблиця'
+        split_cards: 'Глядач та картки'
     revit:
-      revit_add_in: "Revit Add-In"
-      revit_add_in_settings: "Revit Add-In settings"
+      revit_add_in: "Додатки Revit"
+      revit_add_in_settings: "Налаштування додатків Revit"

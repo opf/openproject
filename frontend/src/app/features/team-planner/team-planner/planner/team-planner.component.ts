@@ -60,6 +60,8 @@ import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { CalendarDragDropService } from 'core-app/features/team-planner/team-planner/calendar-drag-drop.service';
 import { StatusResource } from 'core-app/features/hal/resources/status-resource';
 import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/resource-changeset';
+import { KeepTabService } from 'core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service';
+import { HalError } from 'core-app/features/hal/services/hal-error';
 
 @Component({
   selector: 'op-team-planner',
@@ -86,6 +88,8 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
   @ViewChild('assigneeAutocompleter') assigneeAutocompleter:TemplateRef<unknown>;
 
   @ViewChild('removeDropzone', { read: ElementRef }) removeDropzone:ElementRef;
+
+  @ViewChild('addExistingToggle', { read: ElementRef }) addExistingToggle:ElementRef;
 
   calendarOptions$ = new Subject<CalendarOptions>();
 
@@ -153,6 +157,8 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     remove_assignee: this.I18n.t('js.team_planner.remove_assignee'),
     noData: this.I18n.t('js.team_planner.no_data'),
     two_weeks: this.I18n.t('js.team_planner.two_weeks'),
+    one_week: this.I18n.t('js.team_planner.one_week'),
+    today: this.I18n.t('js.team_planner.today'),
     drag_here_to_remove: this.I18n.t('js.team_planner.drag_here_to_remove'),
     cannot_drag_here: this.I18n.t('js.team_planner.cannot_drag_here'),
   };
@@ -180,6 +186,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     readonly schemaCache:SchemaCacheService,
     readonly apiV3Service:ApiV3Service,
     readonly calendarDrag:CalendarDragDropService,
+    readonly keepTab:KeepTabService,
   ) {
     super();
   }
@@ -226,8 +233,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
         api.getResources().forEach((resource) => resource.remove());
 
         principals.forEach((principal) => {
-          const { self } = principal._links;
-          const id = Array.isArray(self) ? self[0].href : self.href;
+          const id = principal._links.self.href;
           api.addResource({
             principal,
             id,
@@ -280,6 +286,9 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
               month: 'long',
               day: 'numeric',
             },
+            buttonText: {
+              today: this.text.today,
+            },
             initialView: this.calendar.initialView || 'resourceTimelineWeek',
             headerToolbar: {
               left: '',
@@ -289,6 +298,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
             views: {
               resourceTimelineWeek: {
                 type: 'resourceTimeline',
+                buttonText: this.text.one_week,
                 duration: { weeks: 1 },
                 slotDuration: { days: 1 },
                 slotLabelFormat: [
@@ -307,11 +317,12 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
               resourceTimelineTwoWeeks: {
                 type: 'resourceTimeline',
                 buttonText: this.text.two_weeks,
-                duration: { weeks: 2 },
                 slotDuration: { days: 1 },
+                duration: { weeks: 2 },
+                dateIncrement: { weeks: 1 },
                 slotLabelFormat: [
                   {
-                    weekday: 'long',
+                    weekday: 'short',
                     day: '2-digit',
                   },
                 ],
@@ -332,6 +343,10 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
             // DnD configuration
             editable: true,
             droppable: true,
+            eventClick: (evt) => {
+              const workPackage = evt.event.extendedProps.workPackage as WorkPackageResource;
+              this.calendar.openSplitView(workPackage.id as string, true);
+            },
             eventResize: (resizeInfo:EventResizeDoneArg) => this.updateEvent(resizeInfo),
             eventDragStart: (dragInfo:EventDragStartArg) => {
               const { el } = dragInfo;
@@ -372,7 +387,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
       })
       .catch(failureCallback);
 
-    this.calendar.updateTimeframe(fetchInfo, this.projectIdentifier);
+    void this.calendar.updateTimeframe(fetchInfo, this.projectIdentifier);
   }
 
   renderTemplate(template:TemplateRef<unknown>, id:string, data:ResourceLabelContentArg|EventContentArg):{ domNodes:unknown[] } {
@@ -448,7 +463,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
       }
 
       const dateCurrentlyVisible = dateToCheck >= currentStartDate && dateToCheck <= currentEndDate;
-      return dateCurrentlyVisible && this.calendar.eventDurationEditable(workPackage);
+      return dateCurrentlyVisible;
     }
 
     return false;
@@ -543,6 +558,16 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     );
   }
 
+  openStateLink(event:{ workPackageId:string; requestedState:string }):void {
+    const params = { workPackageId: event.workPackageId };
+
+    if (event.requestedState === 'split') {
+      this.keepTab.goCurrentDetailsState(params);
+    } else {
+      this.keepTab.goCurrentShowState(params);
+    }
+  }
+
   private async updateEvent(info:EventResizeDoneArg|EventDropArg|EventReceiveArg):Promise<void> {
     const changeset = this.calendar.updateDates(info);
 
@@ -559,8 +584,8 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     try {
       const result = await this.halEditing.save(changeset);
       this.halNotification.showSave(result.resource, result.wasNew);
-    } catch (e) {
-      this.halNotification.showError(e.resource, changeset.projectedResource);
+    } catch (e:unknown) {
+      this.halNotification.showError((e as HalError).resource, changeset.projectedResource);
       this.calendarDrag.handleDropError(changeset.projectedResource);
       info?.revert();
     }
@@ -607,5 +632,6 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
 
   private toggleAddExistingPane():void {
     this.showAddExistingPane.next(!this.showAddExistingPane.getValue());
+    (this.addExistingToggle.nativeElement as HTMLElement).blur();
   }
 }

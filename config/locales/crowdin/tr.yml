@@ -2918,8 +2918,11 @@ tr:
     errors:
       messages:
         #Common error messages
-        invalid_request: 'İstekte gerekli bir parametre eksik, desteklenmeyen bir parametre değeri içeriyor veya başka türlü hatalı biçimlendirilmiş.'
-        invalid_redirect_uri: "İstenen yönlendirme URI'si hatalı biçimlendirilmiş veya müşteri yönlendirme URI'siyle eşleşmiyor."
+        invalid_request:
+          unknown: 'İstekte gerekli bir parametre eksik, desteklenmeyen bir parametre değeri içeriyor veya başka türlü hatalı biçimlendirilmiş.'
+          missing_param: 'Missing required parameter: %{value}.'
+          request_not_authorized: 'Request need to be authorized. Required parameter for authorizing request is missing or invalid.'
+        invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
         unauthorized_client: 'Müşterinin bu yöntemi kullanarak bu talebi gerçekleştirme yetkisi yok.'
         access_denied: 'Kaynak sahibi veya yetkilendirme sunucusu isteği reddetti.'
         invalid_scope: 'İstenen kapsam geçersiz, bilinmeyen veya hatalı biçimlendirilmiş.'
@@ -2932,6 +2935,7 @@ tr:
         admin_authenticator_not_configured: 'Doorkeeper.configure.admin_authenticator''ın yapılandırılmamış olması nedeniyle yönetici paneline erişim yasaktır.'
         #Access grant errors
         unsupported_response_type: 'Yetkilendirme sunucusu bu yanıt türünü desteklemiyor.'
+        unsupported_response_mode: 'The authorization server does not support this response mode.'
         #Access token errors
         invalid_client: 'Müşteri kimlik doğrulaması, bilinmeyen müşteri, müşteri kimlik doğrulaması eklenmemiş veya desteklenmeyen kimlik doğrulama yöntemi nedeniyle başarısız oldu.'
         invalid_grant: 'Sağlanan yetkilendirme izni geçersiz, süresi dolmuş, iptal edilmiş, yetkilendirme isteğinde kullanılan yönlendirme URI''siyle eşleşmiyor veya başka bir müşteriye verilmiş.'
@@ -2940,6 +2944,10 @@ tr:
           revoked: "Erişim belirteci iptal edildi"
           expired: "Erişim kartının süresi doldu"
           unknown: "Erişim belirteci geçersiz"
+        revoke:
+          unauthorized: "You are not authorized to revoke this token."
+        forbidden_token:
+          missing_scope: 'Access to this resource requires scope "%{oauth_scopes}".'
   unsupported_browser:
     title: "Tarayıcınız güncel değil ya da desteklenmiyor."
     message: "Bu sayfada hatalara ve bozulmuş deneyime maruz kalabilirsiniz."

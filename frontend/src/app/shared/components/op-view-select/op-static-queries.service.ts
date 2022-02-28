@@ -194,7 +194,7 @@ export class StaticQueriesService {
       title: this.text.create_new_team_planner,
       uiSref: 'team_planner.page.show',
       uiParams: {
-        query_id: '',
+        query_id: null,
         query_props: '',
       },
       view: 'TeamPlanner',

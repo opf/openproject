@@ -53,7 +53,7 @@ describe 'Team planner sidemenu', type: :feature, js: true do
       visit project_path(project)
 
       within '#main-menu' do
-        click_link 'Team planner'
+        click_link 'Team planners'
       end
 
       query_menu.expect_menu_entry_not_visible('Create new planner')
@@ -76,7 +76,7 @@ describe 'Team planner sidemenu', type: :feature, js: true do
       visit project_path(project)
 
       within '#main-menu' do
-        click_link 'Team planner'
+        click_link 'Team planners'
       end
 
       query_menu.expect_menu_entry('Create new planner')

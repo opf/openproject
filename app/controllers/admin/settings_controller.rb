@@ -34,8 +34,6 @@ module Admin
     before_action :require_admin
     before_action :find_plugin, only: %i[show_plugin update_plugin]
 
-    helper_method :gon
-
     current_menu_item [:show] do
       :settings
     end
