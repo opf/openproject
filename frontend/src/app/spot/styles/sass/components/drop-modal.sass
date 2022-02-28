@@ -3,40 +3,86 @@
   display: inline-flex
 
   &--body
-    @include spot-z-index("drop-modal")
-
-    box-shadow: $spot-shadow-light-mid
-    position: absolute
-    background: $spot-color-basic-white
-    border-radius: 5px
+    @include spot-z-index("drop-modal", 1)
     pointer-events: none
     opacity: 0
 
-    &_bottom-center
-      top: calc(100% + #{$spot-spacing-0_25})
-      left: 50%
-      transform: translateX(-50%)
+    position: fixed
+    top: auto
+    height: auto
+    bottom: $spot-spacing-3_5 
+    left: $spot-spacing-1
+    right: $spot-spacing-1
+    width: calc(100vw - (2 * #{$spot-spacing-1}))
+    max-height: calc(100vh - (#{$spot-spacing-3_5} - #{$spot-spacing-1}))
 
-    &_bottom-left
-      top: calc(100% + #{$spot-spacing-0_25})
-      left: 0%
+    box-shadow: $spot-shadow-light-mid
+    background: $spot-color-basic-white
+    border-radius: 5px
 
-    &_bottom-right
-      top: calc(100% + #{$spot-spacing-0_25})
-      right: 0%
+    @media #{$spot-mq-drop-modal-in-context}
+      position: absolute
+      top: unset
+      bottom: unset
+      left: unset
+      right: unset
 
-    &_top-center
-      bottom: calc(100% + #{$spot-spacing-0_25})
-      left: 50%
-      transform: translateX(-50%)
+      &_bottom-center
+        top: calc(100% + #{$spot-spacing-0_25})
+        left: 50%
+        transform: translateX(-50%)
 
-    &_top-left
-      bottom: calc(100% + #{$spot-spacing-0_25})
-      left: 0%
+      &_bottom-left
+        top: calc(100% + #{$spot-spacing-0_25})
+        left: 0%
 
-    &_top-right
-      bottom: calc(100% + #{$spot-spacing-0_25})
-      right: 0%
+      &_bottom-right
+        top: calc(100% + #{$spot-spacing-0_25})
+        right: 0%
+
+      &_top-center
+        bottom: calc(100% + #{$spot-spacing-0_25})
+        left: 50%
+        transform: translateX(-50%)
+
+      &_top-left
+        bottom: calc(100% + #{$spot-spacing-0_25})
+        left: 0%
+
+      &_top-right
+        bottom: calc(100% + #{$spot-spacing-0_25})
+        right: 0%
+  
+  &_opened::before
+    @include spot-z-index("drop-modal", 0)
+    display: block
+    content: ''
+    position: fixed
+    top: 0
+    bottom: 0
+    left: 0
+    right: 0
+    background: rgba($spot-color-basic-black, 0.5)
+
+    @media #{$spot-mq-drop-modal-in-context}
+      display: none
+
+  &--close-button
+    @include spot-z-index("drop-modal", 1)
+    display: none
+    position: fixed
+    top: auto
+    height: auto
+    bottom: $spot-spacing-0_75
+    width: calc(100% - 2 * $spot-spacing-1)
+    left: 50%
+    transform: translateX(-50%)
+
+  &_opened &--close-button
+    display: block
+
+    @media #{$spot-mq-drop-modal-in-context}
+      display: none
 
   &_opened &--body
     pointer-events: all
