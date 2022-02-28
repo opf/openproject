@@ -2,6 +2,8 @@
 ---
 type: object
 required:
+  - id
+  - _type
   - originData
   - _links
 properties:
@@ -40,6 +42,12 @@ properties:
           - $ref: './work_package_model.yml'
   _links:
     type: object
+    required:
+      - self
+      - container
+      - creator
+      - originOpen
+      - staticOriginOpen
     properties:
       self:
         allOf:
