@@ -3,7 +3,7 @@ module ::TeamPlanner
     include EnterpriseTrialHelper
     before_action :find_optional_project
     before_action :authorize
-    before_action :require_ee_token, only: %i[index]
+    before_action :require_ee_token, except: %i[upsale]
     before_action :find_plan_view, only: %i[destroy]
 
     menu_item :team_planner_view
