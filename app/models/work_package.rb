@@ -60,7 +60,8 @@ class WorkPackage < ApplicationRecord
 
   has_many :time_entries, dependent: :delete_all
 
-  has_many :file_links, dependent: :delete_all, class_name: 'Storages::FileLink', foreign_key: 'container_id'
+  has_many :file_links,
+           dependent: :delete_all, class_name: 'Storages::FileLink', foreign_key: 'container_id', inverse_of: :container
   has_many :storages, through: :project
 
   has_and_belongs_to_many :changesets, -> {
