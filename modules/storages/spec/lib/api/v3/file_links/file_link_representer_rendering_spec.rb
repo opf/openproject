@@ -45,14 +45,14 @@ describe ::API::V3::FileLinks::FileLinkRepresenter, 'rendering' do
   end
 
   describe '_links' do
-    context 'self' do
+    describe 'self' do
       it_behaves_like 'has an untitled link' do
         let(:link) { 'self' }
         let(:href) { "/api/v3/work_packages/#{container.id}/file_links/#{file_link.id}" }
       end
     end
 
-    context 'storage' do
+    describe 'storage' do
       it_behaves_like 'has a titled link' do
         let(:link) { 'storage' }
         let(:href) { "/api/v3/storages/#{storage.id}" }
@@ -60,7 +60,7 @@ describe ::API::V3::FileLinks::FileLinkRepresenter, 'rendering' do
       end
     end
 
-    context 'container' do
+    describe 'container' do
       it_behaves_like 'has a titled link' do
         let(:link) { 'container' }
         let(:href) { "/api/v3/work_packages/#{container.id}" }
@@ -68,7 +68,7 @@ describe ::API::V3::FileLinks::FileLinkRepresenter, 'rendering' do
       end
     end
 
-    context 'creator' do
+    describe 'creator' do
       it_behaves_like 'has a titled link' do
         let(:link) { 'creator' }
         let(:href) { "/api/v3/users/#{creator.id}" }
@@ -76,7 +76,7 @@ describe ::API::V3::FileLinks::FileLinkRepresenter, 'rendering' do
       end
     end
 
-    context 'delete' do
+    describe 'delete' do
       let(:permission) { :manage_file_links }
 
       it_behaves_like 'has an untitled action link' do
@@ -86,14 +86,14 @@ describe ::API::V3::FileLinks::FileLinkRepresenter, 'rendering' do
       end
     end
 
-    context 'originOpen' do
+    describe 'originOpen' do
       it_behaves_like 'has an untitled link' do
         let(:link) { 'originOpen' }
         let(:href) { "#{storage.host}/f/#{file_link.origin_id}" }
       end
     end
 
-    context 'staticOriginOpen' do
+    describe 'staticOriginOpen' do
       it_behaves_like 'has an untitled link' do
         let(:link) { 'staticOriginOpen' }
         let(:href) { "/api/v3/work_packages/#{container.id}/file_links/#{file_link.id}/open" }
@@ -118,7 +118,7 @@ describe ::API::V3::FileLinks::FileLinkRepresenter, 'rendering' do
       let(:value) { file_link.updated_at }
     end
 
-    context 'originData' do
+    describe 'originData' do
       it_behaves_like 'property', 'originData/id' do
         let(:value) { file_link.origin_id }
       end
