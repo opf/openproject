@@ -27,7 +27,7 @@
 #++
 
 module Queries::Storages::WorkPackages::Filter
-  class LinkableToStorageUrlFilter < ::Queries::WorkPackages::Filter::WorkPackageFilter
+  class StorageUrlFilter < ::Queries::WorkPackages::Filter::WorkPackageFilter
     def type
       :list
     end
@@ -43,12 +43,12 @@ module Queries::Storages::WorkPackages::Filter
 
       <<-SQL.squish
         #{::Queries::Operators::Equals.sql_for_field(canonical_url_values, ::Storages::Storage.table_name, 'host')}
-        AND work_packages.project_id IN (#{Project.allowed_to(User.current, :manage_file_links).select(:id).to_sql})
+        AND project_id IN (#{Project.allowed_to(User.current, :view_file_links).select(:id).to_sql})
       SQL
     end
 
     def joins
-      :storages
+      { file_links: :storage }
     end
   end
 end

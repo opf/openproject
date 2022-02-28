@@ -80,6 +80,8 @@ module OpenProject::Storages
 
     config.to_prepare do
       ::Queries::Register.filter ::Query, ::Queries::Storages::WorkPackages::Filter::FileLinkOriginIdFilter
+      ::Queries::Register.filter ::Query, ::Queries::Storages::WorkPackages::Filter::StorageIdFilter
+      ::Queries::Register.filter ::Query, ::Queries::Storages::WorkPackages::Filter::StorageUrlFilter
       ::Queries::Register.filter ::Query, ::Queries::Storages::WorkPackages::Filter::LinkableToStorageIdFilter
       ::Queries::Register.filter ::Query, ::Queries::Storages::WorkPackages::Filter::LinkableToStorageUrlFilter
     end
