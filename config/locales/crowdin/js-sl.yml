@@ -5,16 +5,16 @@ sl:
     warning_different_edition_bim: This environment runs the OpenProject BIM edition while you were shown a price for the classic edition before.
     or: 'or'
     subscription:
-      button_close: 'Close'
+      button_close: 'Zapri'
       label_billing: 'Billing'
       label_buy_now: 'Buy now'
       label_chose_plan: 'Plans available for every organization size. Choose the one for you!'
       label_request_quote: 'Request a quote'
-      label_status: 'Status'
+      label_status: 'Stanje'
       label_subscribe: 'Subscribe'
       label_subscription: 'Subscription'
       label_subscription_updated: 'Your subscription was successfully updated.'
-      label_cancel: 'Cancel'
+      label_cancel: 'Prekliči'
       members: 'Members'
       text_no_active_subscription: Your subscription is not activated yet. Please choose a <a href="%{upgrade_url}">plan</a> first.
       text_subscription_status_active: Your <strong>%{support_level}</strong> plan subscription is <b>active</b>.
@@ -22,8 +22,8 @@ sl:
       text_subscription_status_in_trial: Your subscription is <b>in trial</b>.
       text_subscription_status_non_renewing: Your <strong>%{support_level}</strong>  plan subscription will expire at the end of its term.
       text_subscription_status_updated: Your <strong>%{support_level}</strong>  plan subscription will be updated with the beginning of the next payment period.
-      unlimited: 'Unlimited'
-      users: 'Users'
+      unlimited: 'Neomejeno'
+      users: 'Uporabniki'
       label_period: 'Subscription period'
       label_support: 'Support plan'
       label_bim_edition: 'BIM edition'
@@ -61,8 +61,8 @@ sl:
         payment_info_annually: '(yearly plans only)'
       billing_info:
         billing_info: 'Billing information'
-        first_name: 'First name'
-        last_name: 'Last name'
+        first_name: 'Ime'
+        last_name: 'Priimek'
         organization: 'Organization'
         billing_address: 'Address'
         zip_code: 'Zip code'
@@ -74,7 +74,7 @@ sl:
         business: Business
         consumer: Consumer
         title:
-          title: 'Title'
+          title: 'Naslov'
           mr: 'Mr.'
           ms: 'Ms.'
         agree: >
@@ -92,7 +92,7 @@ sl:
           gpg_key: 'GPG Key ID'
         contract_form:
           label: 'Contract Information'
-          email: 'Email'
+          email: 'E-pošta'
         dpa_introduction_text: >-
           The General Data Protection Regulation (GDPR) strengthens and unifies data protection for all individuals within the European Union (EU). The DPA governs the obligations of the contracting parties with regard to data protection.
         dpa_signed: 'DPA signed'
@@ -101,7 +101,7 @@ sl:
         dpa_download_btn: 'Download signed DPA'
         label_gdpr: 'GDPR'
         label_dpa: 'Data Processing Agreement'
-        invalid_email: "Invalid email address"
+        invalid_email: "Neveljaven e-poštni naslov"
         related:
           label: 'Related Documents'
           service_agreement: 'Terms of Service'
