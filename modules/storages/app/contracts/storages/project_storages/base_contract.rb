@@ -26,7 +26,26 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+# A "contract" is an OpenProject patter used to validate parameters
+# before actually creating a model.
+# Used by: projects_storages_controller.rb and in the API
 module Storages::ProjectStorages
   class BaseContract < ::ModelContract
+    include ActiveModel::Validations # Include validation library
+
+    # Attributes project and storage can be written
+    attribute :project
+    attribute :storage
+
+    # Attribute creator can be written by the creator of the object
+    attribute :creator, writable: false do
+      validate_creator_is_user
+    end
+
+    def validate_creator_is_user
+      unless creator == user
+        errors.add(:creator, :invalid)
+      end
+    end
   end
 end
