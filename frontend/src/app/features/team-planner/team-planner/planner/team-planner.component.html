@@ -79,6 +79,7 @@
     <ng-template #eventContent let-event="event">
       <wp-single-card
         [workPackage]="event.extendedProps.workPackage"
+        [selectedWhenOpen]="true"
         [orientation]="'horizontal'"
         [highlightingMode]="'type'"
         [showInfoButton]="true"

@@ -36,6 +36,7 @@
       <ng-container *ngFor="let wp of currentWorkPackages$ | async">
         <wp-single-card
           [workPackage]="wp"
+          [selectedWhenOpen]="true"
           [showInfoButton]="true"
           [disabledInfo]="showDisabledText(wp)"
           [attr.data-drag-helper-id]="wp.id"

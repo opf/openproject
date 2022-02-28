@@ -45,8 +45,8 @@ module Pages
       ".op-wp-single-card-#{work_package.id}"
     end
 
-    def expect_selected
-      expect(page).to have_selector("#{card_selector}[data-qa-checked='true']")
+    def expect_selected(selected: true)
+      expect(page).to have_conditional_selector(selected, "#{card_selector}[data-qa-selected='true']")
     end
 
     def expect_type(name)
