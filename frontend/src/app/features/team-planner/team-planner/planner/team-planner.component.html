@@ -45,7 +45,15 @@
       <div
         *ngIf="isEmpty$ | async"
         class="op-team-planner--no-data">
+        <img [src]="image.empty_state" class="op-team-planner--empty-state-image" />
         <span [textContent]="text.noData"></span>
+        <button
+          type="button"
+          class="op-team-planner--empty-state-button button -highlight"
+          data-qa-selector="op-team-planner--empty-state-button"
+          (click)="showAssigneeAddRow()"
+          [textContent]="text.add_assignee"
+        ></button>
       </div>
     </ng-container>
 
