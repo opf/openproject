@@ -75,9 +75,11 @@ export class SpotDropModalComponent implements OnDestroy {
 
   private closeEventListener = this.close.bind(this);
 
-  private escapeListener = (evt:KeyboardEvent) => {
+  private onEscape = (evt:KeyboardEvent) => {
     if (evt.keyCode === KeyCodes.ESCAPE) {
       this.close();
     }
   };
+
+  private escapeListener = this.onEscape.bind(this);
 }
