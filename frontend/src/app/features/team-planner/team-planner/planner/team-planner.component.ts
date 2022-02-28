@@ -463,7 +463,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
       }
 
       const dateCurrentlyVisible = dateToCheck >= currentStartDate && dateToCheck <= currentEndDate;
-      return dateCurrentlyVisible && this.calendar.eventDurationEditable(workPackage);
+      return dateCurrentlyVisible;
     }
 
     return false;
