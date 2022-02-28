@@ -67,6 +67,7 @@ get:
         - search
         - start_date
         - status
+        - storage_id
         - storage_url
         - subject
         - subject_or_id
