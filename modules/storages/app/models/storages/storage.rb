@@ -46,6 +46,8 @@ class Storages::Storage < ApplicationRecord
   # We can get the list of projects with this Storage enabled.
   has_many :projects, through: :projects_storages
 
+  PROVIDER_TYPES = %w[nextcloud].freeze
+
   # Uniqueness - no two storages should  have the same host.
   validates_uniqueness_of :host
   validates_uniqueness_of :name

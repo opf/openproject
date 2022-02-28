@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,13 +26,36 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# See also: base_contract.rb for comments
-module Storages
-  module Storages
-    class DeleteContract < ::DeleteContract
-      include ::Storages::Storages::Concerns::ManageStoragesGuarded
+module StorageServerHelpers
+  def mock_server_capabilities_response(nextcloud_host, response_code: '200', response_nextcloud_major_version: 23)
+    response_body =
+      %{
+        {
+          "ocs": {
+            "data": {
+              "version": {
+                "major": #{response_nextcloud_major_version},
+                "minor": 0,
+                "micro": 0,
+                "string": "#{response_nextcloud_major_version}.0.0",
+                "edition": "",
+                "extendedSupport": false
+              }
+            }
+          }
+        }
+      }
 
-      delete_permission :admin
-    end
+    stub_request(
+      :get,
+      File.join(nextcloud_host, '/ocs/v2.php/cloud/capabilities')
+    ).to_return(
+      status: response_code,
+      body: response_body
+    )
   end
+end
+
+RSpec.configure do |c|
+  c.include StorageServerHelpers, :storage_server_helpers
 end

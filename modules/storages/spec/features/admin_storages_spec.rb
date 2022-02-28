@@ -30,14 +30,14 @@
 
 require_relative '../spec_helper'
 
-describe 'Admin storages', type: :feature, js: true do
+describe 'Admin storages', :storage_server_helpers, type: :feature, js: true do
   let(:admin) { create(:admin) }
 
   before do
     login_as admin
   end
 
-  it 'creates, edits and deletes storages' do
+  it 'creates, edits and deletes storages', webmock: true do
     visit storages_path
     expect(page).to have_title('File storages')
     expect(page.find('.title-container')).to have_text('File storages')
@@ -50,6 +50,7 @@ describe 'Admin storages', type: :feature, js: true do
     expect(page).to have_select 'storages_storage[provider_type]', selected: 'Nextcloud'
     expect(page).to have_field('storages_storage[name]', with: 'Nextcloud')
 
+    mock_server_capabilities_response("https://example.com")
     page.find('#storages_storage_name').set("NC 1")
     page.find('#storages_storage_host').set("https://example.com")
     page.find('button[type=submit]').click
@@ -66,6 +67,7 @@ describe 'Admin storages', type: :feature, js: true do
     expect(page).to have_title("Edit: NC 1")
     expect(page.find('.title-container')).to have_text('Edit: NC 1')
 
+    mock_server_capabilities_response("https://other.example.com")
     page.find('#storages_storage_name').set("Other NC")
     page.find('#storages_storage_host').set("https://other.example.com")
     page.find('button[type=submit]').click

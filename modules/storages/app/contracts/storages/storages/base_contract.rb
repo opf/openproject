@@ -31,7 +31,6 @@ require 'uri'
 
 module Storages::Storages
   class BaseContract < ::ModelContract
-    PROVIDER_TYPES = %w[nextcloud].freeze
     MINIMAL_NEXTCLOUD_VERSION = 23
 
     include ::Storages::Storages::Concerns::ManageStoragesGuarded
@@ -41,7 +40,7 @@ module Storages::Storages
     validates :name, length: { minimum: 1, maximum: 255 }, allow_nil: false
 
     attribute :provider_type
-    validates :provider_type, inclusion: { in: ->(*) { PROVIDER_TYPES } }, allow_nil: false
+    validates :provider_type, inclusion: { in: ->(*) { Storages::Storage::PROVIDER_TYPES } }, allow_nil: false
 
     attribute :creator, writable: false do
       validate_creator_is_user

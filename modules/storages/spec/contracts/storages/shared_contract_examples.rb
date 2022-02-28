@@ -28,9 +28,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require_relative '../../spec_helper'
 
-shared_examples_for 'storage contract', webmock: true do
+shared_examples_for 'storage contract', :storage_server_helpers, webmock: true do
   let(:storage_name) { 'Storage 1' }
   let(:storage_provider_type) { 'nextcloud' }
   let(:storage_host) { 'https://host1.example.com' }
@@ -38,38 +38,15 @@ shared_examples_for 'storage contract', webmock: true do
 
   let(:current_user) { create(:admin) }
 
-  let(:host_response_body) { '{"data": "that you want to return"}' }
   let(:host_response_code) { '200' }
   let(:host_response_message) { 'OK' }
   let(:host_response_major_version) { 23 }
-  let(:host_response_body) do
-    %{
-      {
-        "ocs": {
-          "data": {
-            "version": {
-              "major": #{host_response_major_version},
-              "minor": 0,
-              "micro": 0,
-              "string": "23.0.0",
-              "edition": "",
-              "extendedSupport": false
-            }
-          }
-        }
-      }
-    }
-  end
 
   before do
-    unless storage_host.nil?
-      stub_request(
-        :get,
-        File.join(storage_host, '/ocs/v2.php/cloud/capabilities')
-      ).to_return(
-        status: host_response_code,
-        body: host_response_body
-      )
+    if storage_host.present?
+      mock_server_capabilities_response(storage_host,
+                                        response_code: host_response_code,
+                                        response_nextcloud_major_version: host_response_major_version)
     end
   end
 
