@@ -5,6 +5,7 @@
   [attr.data-qa-checked]="isSelected(workPackage) || undefined"
   [ngClass]="cardClasses()"
   [title]="cardTitle()"
+  (click)="cardClicked.emit({ workPackageId: workPackage.id, event: $event })"
 >
 
   <div class="op-wp-single-card--highlighting"

@@ -346,10 +346,6 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
             // DnD configuration
             editable: true,
             droppable: true,
-            eventClick: (evt) => {
-              const workPackage = evt.event.extendedProps.workPackage as WorkPackageResource;
-              this.calendar.openSplitView(workPackage.id as string, true);
-            },
             eventResize: (resizeInfo:EventResizeDoneArg) => this.updateEvent(resizeInfo),
             eventDragStart: (dragInfo:EventDragStartArg) => {
               const { el } = dragInfo;
