@@ -61,7 +61,7 @@ module API
             if query.valid?
               render_success(query,
                              request.params,
-                             resolved_self_path,
+                             resolved_self_path(request),
                              scope ? request.instance_exec(&scope) : model)
             else
               render_error(query)
@@ -106,7 +106,7 @@ module API
                    current_user: User.current)
           end
 
-          def resolved_self_path
+          def resolved_self_path(request)
             self_path.respond_to?(:call) ? request.instance_exec(&self_path) : request.api_v3_paths.send(self_path)
           end
 
