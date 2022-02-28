@@ -344,8 +344,12 @@ describe LdapGroups::SynchronizeGroupsService, with_ee: %i[ldap_groups] do
     end
 
     it 'does not raise, but print to stderr' do
-      expect(Rails.logger).to receive(:error).with(/Failed to perform LDAP group synchronization/)
+      allow(Rails.logger).to receive(:error)
+
       subject
+
+      expect(Rails.logger).to have_received(:error).once.with(/Failed to synchronize group:/)
+      expect(Rails.logger).to have_received(:error).once.with(/Failed to perform LDAP group synchronization/)
     end
   end
 
