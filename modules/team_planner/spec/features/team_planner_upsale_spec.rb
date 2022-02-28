@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -27,36 +29,28 @@
 #++
 
 require 'spec_helper'
+require_relative './shared_context'
 
-describe 'Team planner routing', type: :routing do
-  it 'routes to team_planner#index' do
-    expect(subject)
-      .to route(:get, '/projects/foobar/team_planners')
-            .to(controller: 'team_planner/team_planner', action: :index, project_id: 'foobar')
+describe 'Team planner index', type: :feature, js: true do
+  include_context 'with team planner full access'
+
+  let(:current_user) { user }
+
+  before do
+    login_as current_user
   end
 
-  it 'routes to team_planner#show' do
-    expect(subject)
-      .to route(:get, '/projects/foobar/team_planners/1234')
-            .to(controller: 'team_planner/team_planner', action: :show, project_id: 'foobar', id: '1234')
-  end
+  it 'redirects routes to upsale' do
+    visit project_team_planners_path(project)
 
-  it 'routes to team_planner#new' do
-    expect(subject)
-      .to route(:get, '/projects/foobar/team_planners/new')
-            .to(controller: 'team_planner/team_planner', action: :show, project_id: 'foobar')
-  end
+    expect(page).to have_text 'Upgrade now'
 
-  it 'routes to team_planner#show with state' do
-    expect(subject)
-      .to route(:get, '/projects/foobar/team_planners/1234/details/555')
-            .to(controller: 'team_planner/team_planner', action: :show, project_id: 'foobar', id: '1234',
-                state: 'details/555')
-  end
+    click_on 'Create new planner'
 
-  it 'routes to team_planner#destroy' do
-    expect(subject)
-      .to route(:delete, '/projects/foobar/team_planners/1234')
-            .to(controller: 'team_planner/team_planner', action: :destroy, project_id: 'foobar', id: '1234')
+    expect(page).to have_text 'Upgrade now'
+
+    visit project_team_planner_path(project, id: 'new')
+
+    expect(page).to have_text 'Upgrade now'
   end
 end

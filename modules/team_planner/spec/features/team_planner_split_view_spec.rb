@@ -68,14 +68,14 @@ describe 'Team planner split view navigation', type: :feature, js: true, with_ee
 
     # Expect clicking on a work package does not open the details
     page.find('[data-qa-selector="op-wp-single-card--content-subject"]', text: work_package1.subject).click
-    expect(page).to have_no_current_path /team_planner\/details\/#{work_package1.id}/
+    expect(page).to have_no_current_path /team_planners\/new\/details\/#{work_package1.id}/
 
     # Open split view through info icon
     team_planner.open_split_view_by_info_icon work_package1
-    expect(page).to have_current_path /team_planner\/details\/#{work_package1.id}/
+    expect(page).to have_current_path /team_planners\/new\/details\/#{work_package1.id}/
 
     # now clicking on another card switches
     page.find('[data-qa-selector="op-wp-single-card--content-subject"]', text: work_package2.subject).click
-    expect(page).to have_current_path /team_planner\/details\/#{work_package2.id}/
+    expect(page).to have_current_path /team_planners\/new\/details\/#{work_package2.id}/
   end
 end

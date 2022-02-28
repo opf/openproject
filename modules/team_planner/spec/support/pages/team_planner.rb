@@ -42,7 +42,7 @@ module Pages
     end
 
     def path
-      project_team_planner_path(project)
+      new_project_team_planners_path(project)
     end
 
     def expect_title(title = 'Unnamed team planner')

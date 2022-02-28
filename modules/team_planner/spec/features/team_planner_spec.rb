@@ -42,8 +42,11 @@ describe 'Team planner', type: :feature, js: true do
     visit project_path(project)
 
     within '#main-menu' do
-      click_link 'Team planner'
+      click_link 'Team planners'
     end
+
+    expect(page).to have_content 'There is currently nothing to display.'
+    click_on 'Create'
 
     team_planner.expect_title
 

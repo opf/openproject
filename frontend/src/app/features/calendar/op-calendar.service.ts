@@ -314,14 +314,16 @@ export class OpCalendarService extends UntilDestroyedMixin {
   }
 
   private get initializingWithQuery():boolean {
-    return (this.areFiltersEmpty && this.urlParams.query_id && !this.urlParams.query_props) as boolean;
+    return this.areFiltersEmpty
+      && !!this.urlParams.query_id
+      && !this.urlParams.query_props;
   }
 
   private get urlParams() {
     return this.uiRouterGlobals.params;
   }
 
-  private get areFiltersEmpty() {
+  private get areFiltersEmpty():boolean {
     return this.wpTableFilters.isEmpty;
   }
 
