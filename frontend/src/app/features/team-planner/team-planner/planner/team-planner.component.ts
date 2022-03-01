@@ -64,6 +64,7 @@ import { KeepTabService } from 'core-app/features/work-packages/components/wp-si
 import { HalError } from 'core-app/features/hal/services/hal-error';
 import { ActionsService } from 'core-app/core/state/actions/actions.service';
 import { teamPlannerEventRemoved } from 'core-app/features/team-planner/team-planner/planner/team-planner.actions';
+import { imagePath } from 'core-app/shared/helpers/images/path-helper';
 
 @Component({
   selector: 'op-team-planner',
@@ -151,6 +152,10 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
   assignees:HalResource[] = [];
 
   statuses:StatusResource[] = [];
+
+  image = {
+    empty_state: imagePath('team-planner/empty-state.svg'),
+  };
 
   text = {
     add_existing: this.I18n.t('js.team_planner.add_existing'),
