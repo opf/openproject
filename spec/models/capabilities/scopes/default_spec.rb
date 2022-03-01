@@ -236,7 +236,8 @@ describe Capabilities::Scopes::Default, type: :model do
 
           OpenProject::AccessControl
             .contract_actions_map
-            .map { |_, v| v[:actions].map { |vk, vv| vv.map { |vvv| item.call(vk, vvv, v[:global], v[:module]) } } }
+            .select { |_, v| v[:grant_to_admin] }
+            .map { |_, v| v[:actions].map { |vk, vv| vv.map { |vvv| item.call(vk, vvv, v[:global], v[:module_name]) } } }
             .flatten(2)
             .compact
         end
@@ -263,7 +264,8 @@ describe Capabilities::Scopes::Default, type: :model do
 
           OpenProject::AccessControl
             .contract_actions_map
-            .map { |_, v| v[:actions].map { |vk, vv| vv.map { |vvv| item.call(vk, vvv, v[:global], v[:module]) } } }
+            .select { |_, v| v[:grant_to_admin] }
+            .map { |_, v| v[:actions].map { |vk, vv| vv.map { |vvv| item.call(vk, vvv, v[:global], v[:module_name]) } } }
             .flatten(2)
             .compact
         end
@@ -301,6 +303,19 @@ describe Capabilities::Scopes::Default, type: :model do
             ['users/create', user.id, nil],
             ['users/read', user.id, nil],
             ['users/update', user.id, nil]
+          ]
+        end
+      end
+    end
+
+    context 'with a member with an action permission that is not granted to admin' do
+      let(:permissions) { %i[work_package_assigned] }
+      let(:members) { [member] }
+
+      it_behaves_like 'consists of contract actions' do
+        let(:expected) do
+          [
+            ['work_packages/assigned', user.id, project.id]
           ]
         end
       end

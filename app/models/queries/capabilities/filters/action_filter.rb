@@ -33,7 +33,7 @@ class Queries::Capabilities::Filters::ActionFilter < Queries::Capabilities::Filt
 
   def split_values
     values.map do |value|
-      if (matches = value.match(/\A([a-z]+\/[a-z]+)\z/))
+      if (matches = value.match(/\A([a-z_]+\/[a-z_]+)\z/))
         {
           action: matches[1]
         }

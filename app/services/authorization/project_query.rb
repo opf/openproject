@@ -147,9 +147,13 @@ class Authorization::ProjectQuery < Authorization::AbstractQuery
     permissions(action).all?(&:public?)
   end
 
+  def self.granted_to_admin?(user, action)
+    user.admin? && OpenProject::AccessControl.grant_to_admin?(action)
+  end
+
   transformations.register :all,
-                           :members_join do |statement, user|
-    if user.admin?
+                           :members_join do |statement, user, action|
+    if granted_to_admin?(user, action)
       statement
     else
       statement
@@ -172,7 +176,7 @@ class Authorization::ProjectQuery < Authorization::AbstractQuery
   transformations.register :all,
                            :role_permissions_join,
                            after: [:enabled_modules_join] do |statement, user, action|
-    if action_public?(action) || user.admin?
+    if action_public?(action) || granted_to_admin?(user, action)
       statement
     else
       statement.join(role_permissions_table)
@@ -182,8 +186,8 @@ class Authorization::ProjectQuery < Authorization::AbstractQuery
 
   transformations.register :all,
                            :members_member_roles_join,
-                           after: [:members_join] do |statement, user|
-    if user.admin?
+                           after: [:members_join] do |statement, user, action|
+    if granted_to_admin?(user, action)
       statement
     else
       statement.outer_join(member_roles_table)
@@ -194,7 +198,7 @@ class Authorization::ProjectQuery < Authorization::AbstractQuery
   transformations.register :all,
                            :permission_roles_join,
                            after: [:role_permissions_join] do |statement, user, action|
-    if action_public?(action) || user.admin?
+    if action_public?(action) || granted_to_admin?(user, action)
       statement
     else
       statement.join(permission_roles_table)
@@ -206,7 +210,7 @@ class Authorization::ProjectQuery < Authorization::AbstractQuery
                            :assigned_roles_join,
                            after: %i[permission_roles_join
                                      members_member_roles_join] do |statement, user, action|
-    if user.admin?
+    if granted_to_admin?(user, action)
       statement
     else
       statement.outer_join(assigned_roles_table)
@@ -215,8 +219,8 @@ class Authorization::ProjectQuery < Authorization::AbstractQuery
   end
 
   transformations.register :all,
-                           :assigned_role_exists_condition do |statement, user|
-    if user.admin?
+                           :assigned_role_exists_condition do |statement, user, action|
+    if granted_to_admin?(user, action)
       statement.where(project_active_condition)
     else
       statement.where(assigned_roles_table[:id].not_eq(nil))

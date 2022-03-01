@@ -230,6 +230,15 @@ OpenProject::AccessControl.map do |map|
     wpt.permission :assign_versions,
                    {},
                    dependencies: :view_work_packages
+
+    # A user having the following permission can become assignee and/or responsible of a work package.
+    # This is a passive permission in the sense that a user having the permission isn't eligible to perform
+    # actions but rather to have actions taken together with him/her.
+    wpt.permission :work_package_assigned,
+                   {},
+                   require: :member,
+                   contract_actions: { work_packages: %i[assigned] },
+                   grant_to_admin: false
   end
 
   map.project_module :news do |news|
@@ -245,12 +254,12 @@ OpenProject::AccessControl.map do |map|
                     require: :member
 
     news.permission :comment_news,
-                    'news/comments': :create
+                    { 'news/comments': :create }
   end
 
   map.project_module :wiki do |wiki|
     wiki.permission :view_wiki_pages,
-                    wiki: %i[index show special date_index]
+                    { wiki: %i[index show special date_index] }
 
     wiki.permission :list_attachments,
                     { wiki: :list_attachments },
@@ -277,13 +286,13 @@ OpenProject::AccessControl.map do |map|
                     require: :member
 
     wiki.permission :export_wiki_pages,
-                    wiki: [:export]
+                    { wiki: [:export] }
 
     wiki.permission :view_wiki_edits,
-                    wiki: %i[history diff annotate]
+                    { wiki: %i[history diff annotate] }
 
     wiki.permission :edit_wiki_pages,
-                    wiki: %i[edit update preview add_attachment new new_child create]
+                    { wiki: %i[edit update preview add_attachment new new_child create] }
 
     wiki.permission :delete_wiki_pages_attachments,
                     {}
@@ -295,7 +304,7 @@ OpenProject::AccessControl.map do |map|
 
   map.project_module :repository do |repo|
     repo.permission :browse_repository,
-                    repositories: %i[show browse entry annotate changes diff stats graph]
+                    { repositories: %i[show browse entry annotate changes diff stats graph] }
 
     repo.permission :commit_access,
                     {}
@@ -308,7 +317,7 @@ OpenProject::AccessControl.map do |map|
                     require: :member
 
     repo.permission :view_changesets,
-                    repositories: %i[show revisions revision]
+                    { repositories: %i[show revisions revision] }
 
     repo.permission :view_commit_author_statistics,
                     {}
@@ -325,7 +334,7 @@ OpenProject::AccessControl.map do |map|
                      public: true
 
     forum.permission :add_messages,
-                     messages: %i[new create reply quote preview]
+                     { messages: %i[new create reply quote preview] }
 
     forum.permission :edit_messages,
                      { messages: %i[edit update preview] },

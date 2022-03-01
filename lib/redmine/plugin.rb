@@ -315,11 +315,11 @@ module Redmine #:nodoc:
         mod, mod_options = @project_scope
         OpenProject::AccessControl.map do |map|
           map.project_module(mod, mod_options) do |map|
-            map.permission(name, actions, options)
+            map.permission(name, actions, **options)
           end
         end
       else
-        OpenProject::AccessControl.map { |map| map.permission(name, actions, options) }
+        OpenProject::AccessControl.map { |map| map.permission(name, actions, **options) }
       end
     end
 
