@@ -28,6 +28,7 @@
 
 require 'spec_helper'
 
+# rubocop:disable RSpec/MultipleMemoizedHelpers
 describe Capabilities::Scopes::Default, type: :model do
   # we focus on the non current user capabilities to make the tests easier to understand
   subject(:scope) { Capability.default.where(principal_id: user.id) }
@@ -143,9 +144,9 @@ describe Capabilities::Scopes::Default, type: :model do
       end
     end
 
-    context 'with a lgobal member with an action permission and the user being locked' do
-      let(:permissions) { %i[manage_members] }
-      let(:members) { [member] }
+    context 'with a global member with an action permission and the user being locked' do
+      let(:permissions) { %i[manage_user] }
+      let(:members) { [global_member] }
       let(:user_status) { Principal.statuses[:locked] }
 
       it_behaves_like 'is empty'
@@ -314,3 +315,4 @@ describe Capabilities::Scopes::Default, type: :model do
     end
   end
 end
+# rubocop:enable RSpec/MultipleMemoizedHelpers
