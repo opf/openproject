@@ -26,11 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# In understand this file sets up routing for the Storages API based on
-# the Grape REST API Framework.
-# ToDo: I understand the naming of this file follows the API::V::Storages::StoragesAPI module
-# names, just that this starts in storages/lib/?
-# Is it Grape that somehow knows how to load this file? What is the Grape load order?
+# This class provides definitions for API routes and endpoints for the storages namespace. It inherits the
+# functionality from the Grape REST API framework. It is mounted in lib/api/v3/root.rb.
+# `modules/storages/lib/` is a defined root directory for grape, providing a root level look up for the namespaces.
+# Hence, the modules of the class have to be represented in the directory structure.
 module API
   module V3
     module Storages
@@ -42,10 +41,10 @@ module API
           end
         end
 
-        # ToDo: The "resources" keyword is from config/routes.rb.
-        # What does "resources" mean in the context of Grape? Just like in routes.rb?
+        # The `:resources` keyword defines the API namespace -> /api/v3/storages/...
         resources :storages do
-          # Didn't understand route_param in Grape...
+          # `route_param` extends the route by a route parameter of the endpoint.
+          # The input parameter value is parsed into the `:storage_id` symbol.
           route_param :storage_id, type: Integer, desc: 'Storage id' do
             # Execute the do...end lines after parameter validation but before the actual
             # call to the API method.
@@ -55,9 +54,10 @@ module API
               @storage = visible_storages_scope.find(params[:storage_id])
             end
 
-            # I understand that the line below defined a reaction to a GET request...
-            # ToDo: What is this ampersand "&" before the ::API?
-            # ToDo: Any documentation on API endpoints?
+            # A helper is used to define the behaviour at GET /api/v3/storages/:storage_id
+            # The endpoint helper standardizes a lot of the parsing, validation and rendering logic.
+            # The safe navigation operator (&) is used to not break the whole API when an error occurs
+            # mounting this endpoint
             get &::API::V3::Utilities::Endpoints::Show.new(model: ::Storages::Storage).mount
           end
         end
