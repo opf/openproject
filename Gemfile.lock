@@ -357,7 +357,7 @@ GEM
     crass (1.0.6)
     daemons (1.4.1)
     dalli (3.2.1)
-    danger (8.4.2)
+    danger (8.4.3)
       claide (~> 1.0)
       claide-plugins (>= 0.9.2)
       colored2 (~> 3.1)
