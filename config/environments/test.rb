@@ -89,4 +89,7 @@ OpenProject::Application.configure do
     assets_cache_path = Rails.root.join("tmp/cache/assets/paralleltests#{ENV['TEST_ENV_NUMBER']}")
     config.assets.cache = Sprockets::Cache::FileStore.new(assets_cache_path)
   end
+
+  # Speed up tests by lowering BCrypt's cost function
+  BCrypt::Engine.cost = BCrypt::Engine::MIN_COST
 end

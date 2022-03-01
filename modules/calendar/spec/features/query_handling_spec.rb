@@ -91,7 +91,9 @@ describe 'Calendar query handling', type: :feature, js: true do
 
     expect(page).to have_text saved_query.name
 
-    find('td.name a', text: saved_query.name).click
+    within '#content' do
+      click_link saved_query.name
+    end
 
     loading_indicator_saveguard
 
