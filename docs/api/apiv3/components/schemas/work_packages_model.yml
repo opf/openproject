@@ -16,9 +16,9 @@ allOf:
             allOf:
               - "$ref": "./link.yml"
               - description: |-
-                  The watcher list
+                  The work package collection
                   
-                  **Resource**: WatchersModel
+                  **Resource**: WorkPackageCollection
                 readOnly: true
       _embedded:
         type: object
