@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -46,14 +44,14 @@ module API
           def self.filters_schema
             ->(*) do
               {
-                'type': '[]QueryFilterInstance',
-                'name': Query.human_attribute_name('filters'),
-                'required': false,
-                'writable': true,
-                'hasDefault': true,
-                '_links': {
-                  'allowedValuesSchemas': {
-                    'href': filter_instance_schemas_href
+                type: '[]QueryFilterInstance',
+                name: Query.human_attribute_name('filters'),
+                required: false,
+                writable: true,
+                hasDefault: true,
+                _links: {
+                  allowedValuesSchemas: {
+                    href: filter_instance_schemas_href
                   }
                 }
               }
@@ -265,10 +263,7 @@ module API
           end
 
           def filters_schemas
-            filters = represented
-                        .available_filters
-                        .select { |f| excluded_filters.none? { |excluded| f.is_a?(excluded) } }
-
+            filters = represented.available_filters
             QueryFilterInstanceSchemaCollectionRepresenter.new(filters,
                                                                self_link: filter_instance_schemas_href,
                                                                form_embedded: form_embedded,
@@ -281,15 +276,6 @@ module API
             else
               api_v3_paths.query_filter_instance_schemas
             end
-          end
-
-          private
-
-          def excluded_filters
-            # TODO: The RelatableFilter is not supported by the schema dependencies yet
-            [
-              ::Queries::WorkPackages::Filter::RelatableFilter
-            ]
           end
         end
       end
