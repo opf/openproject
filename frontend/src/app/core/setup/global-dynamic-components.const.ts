@@ -191,6 +191,10 @@ import {
   opTeamPlannerSidemenuSelector,
   TeamPlannerSidemenuComponent,
 } from 'core-app/features/team-planner/team-planner/sidemenu/team-planner-sidemenu.component';
+import {
+  CalendarSidemenuComponent,
+  opCalendarSidemenuSelector,
+} from 'core-app/features/calendar/sidemenu/calendar-sidemenu.component';
 
 export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: appBaseSelector, cls: ApplicationBaseComponent },
@@ -234,6 +238,7 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: wpOverviewGraphSelector, cls: WorkPackageOverviewGraphComponent },
   { selector: opViewSelectSelector, cls: ViewSelectComponent },
   { selector: opTeamPlannerSidemenuSelector, cls: TeamPlannerSidemenuComponent },
+  { selector: opCalendarSidemenuSelector, cls: CalendarSidemenuComponent },
   { selector: triggerActionsEntryComponentSelector, cls: TriggerActionsEntryComponent, embeddable: true },
   { selector: backlogsPageComponentSelector, cls: BacklogsPageComponent },
   { selector: attributeValueMacro, cls: AttributeValueMacroComponent, embeddable: true },

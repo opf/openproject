@@ -1,0 +1,16 @@
+<op-view-select
+  [projectId]="projectId"
+  [menuItems]="menuItems"
+  baseRoute="calendar.page.show"
+  viewType="WorkPackagesCalendar"
+>
+</op-view-select>
+
+<button
+  *ngIf="(canCreateCalendar$ | async)"
+  class="spot-button spot-button_outlined"
+  [uiSref]="createButton.uiSref"
+  [uiParams]="createButton.uiParams"
+>
+  {{createButton.title}}
+</button>
