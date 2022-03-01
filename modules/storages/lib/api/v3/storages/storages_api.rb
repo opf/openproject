@@ -56,8 +56,10 @@ module API
 
             # A helper is used to define the behaviour at GET /api/v3/storages/:storage_id
             # The endpoint helper standardizes a lot of the parsing, validation and rendering logic.
-            # The safe navigation operator (&) is used to not break the whole API when an error occurs
-            # mounting this endpoint
+            # the `mount` method from the endpoint returns a proc. This proc is
+            # passed as a block to the `get` helper thanks to the `&` operator.
+            # The block will get called everytime a GET request is sent to this
+            # route.
             get &::API::V3::Utilities::Endpoints::Show.new(model: ::Storages::Storage).mount
           end
         end
