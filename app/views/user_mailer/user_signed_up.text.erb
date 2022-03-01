@@ -28,7 +28,7 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 <%= t(:mail_body_register_user, name: @user.name) %>
 
-<%= t(:mail_body_register) %>
+<%= t(:mail_body_register, app_title: Setting.app_title) %>
 <%= @activation_url %>
 
 <%= strip_tags t(:mail_body_register_links_html,
