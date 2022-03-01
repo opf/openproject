@@ -119,6 +119,23 @@ describe 'Team planner add existing work packages', type: :feature, js: true do
       end
     end
 
+    it 'allows to click cards to open split view when open' do
+      # Search for a work package
+      add_existing_pane.search 'Task'
+      add_existing_pane.expect_result second_wp
+
+      # Open first wp
+      split_screen = team_planner.open_split_view_by_info_icon first_wp
+      split_screen.expect_subject
+      expect(page).to have_current_path /\/details\/#{first_wp.id}/
+
+      # Select work package in add existing
+      add_existing_pane.card(second_wp).click
+      split_screen = ::Pages::SplitWorkPackage.new second_wp
+      split_screen.expect_subject
+      expect(page).to have_current_path /\/details\/#{second_wp.id}/
+    end
+
     it 'allows to add work packages via drag&drop from the left hand shortlist' do
       # Search for a work package
       add_existing_pane.search 'Task'

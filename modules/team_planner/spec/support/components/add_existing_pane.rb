@@ -74,5 +74,9 @@ module Components
 
       drag_by_pixel(element: source, by_x: by_x, by_y: by_y)
     end
+
+    def card(work_package)
+      page.find(".op-wp-single-card-#{work_package.id}")
+    end
   end
 end
