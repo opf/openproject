@@ -265,10 +265,9 @@ module API
           end
 
           def filters_schemas
-            # TODO: The RelatableFilter is not supported by the schema dependencies yet
             filters = represented
-                      .available_filters
-                      .reject { |f| f.is_a?(::Queries::WorkPackages::Filter::RelatableFilter) }
+                        .available_filters
+                        .select { |f| excluded_filters.none? { |excluded| f.is_a?(excluded) } }
 
             QueryFilterInstanceSchemaCollectionRepresenter.new(filters,
                                                                self_link: filter_instance_schemas_href,
@@ -282,6 +281,15 @@ module API
             else
               api_v3_paths.query_filter_instance_schemas
             end
+          end
+
+          private
+
+          def excluded_filters
+            # TODO: The RelatableFilter is not supported by the schema dependencies yet
+            [
+              ::Queries::WorkPackages::Filter::RelatableFilter
+            ]
           end
         end
       end
