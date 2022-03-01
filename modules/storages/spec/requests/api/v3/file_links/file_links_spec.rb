@@ -38,9 +38,8 @@ describe 'API v3 file links resource', type: :request do
     create(:user, member_in_project: project, member_with_permissions: permissions)
   end
 
-  let(:work_package) do
-    create(:work_package, author: current_user, project: project)
-  end
+  let(:work_package) { create(:work_package, author: current_user, project: project) }
+  let(:another_work_package) { create(:work_package, author: current_user, project: project) }
 
   let(:storage) do
     create(:storage, creator: current_user)
@@ -48,6 +47,9 @@ describe 'API v3 file links resource', type: :request do
 
   let(:file_link) do
     create(:file_link, creator: current_user, container: work_package, storage: storage)
+  end
+  let(:another_file_link) do
+    create(:file_link, creator: current_user, container: another_work_package, storage: storage)
   end
 
   subject(:response) { last_response }
@@ -61,11 +63,8 @@ describe 'API v3 file links resource', type: :request do
 
     before do
       file_link
+      another_file_link
       get path
-    end
-
-    it 'is successful' do
-      expect(subject.status).to be 200
     end
 
     it_behaves_like 'API V3 collection response', 1, 1, 'FileLink', 'Collection' do

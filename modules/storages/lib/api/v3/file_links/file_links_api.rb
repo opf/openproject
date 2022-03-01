@@ -47,7 +47,7 @@ module API
           # A helper is used to define the behaviour at GET /api/v3/work_packages/:id/file_links
           get &::API::V3::Utilities::Endpoints::Index
                  .new(model: ::Storages::FileLink,
-                      scope: -> { visible_file_links_scope },
+                      scope: -> { visible_file_links_scope.where(container_id: @work_package.id) },
                       self_path: -> { api_v3_paths.file_links(params[:id]) })
                  .mount
 
