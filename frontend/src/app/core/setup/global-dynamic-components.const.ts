@@ -187,6 +187,10 @@ import {
   IanMenuComponent,
   ianMenuSelector,
 } from 'core-app/features/in-app-notifications/center/menu/menu.component';
+import {
+  opTeamPlannerSidemenuSelector,
+  TeamPlannerSidemenuComponent,
+} from 'core-app/features/team-planner/team-planner/sidemenu/team-planner-sidemenu.component';
 
 export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: appBaseSelector, cls: ApplicationBaseComponent },
@@ -229,6 +233,7 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: remoteFieldUpdaterSelector, cls: RemoteFieldUpdaterComponent },
   { selector: wpOverviewGraphSelector, cls: WorkPackageOverviewGraphComponent },
   { selector: opViewSelectSelector, cls: ViewSelectComponent },
+  { selector: opTeamPlannerSidemenuSelector, cls: TeamPlannerSidemenuComponent },
   { selector: triggerActionsEntryComponentSelector, cls: TriggerActionsEntryComponent, embeddable: true },
   { selector: backlogsPageComponentSelector, cls: BacklogsPageComponent },
   { selector: attributeValueMacro, cls: AttributeValueMacroComponent, embeddable: true },

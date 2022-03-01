@@ -1,0 +1,16 @@
+<op-view-select
+  [projectId]="projectId"
+  [menuItems]="menuItems"
+  baseRoute="team_planner.page.show"
+  viewType="TeamPlanner"
+>
+</op-view-select>
+
+<button
+  *ngIf="(canAddTeamPlanner$ | async)"
+  class="spot-button spot-button_outlined"
+  [uiSref]="createButton.uiSref"
+  [uiParams]="createButton.uiParams"
+>
+  {{createButton.title}}
+</button>
