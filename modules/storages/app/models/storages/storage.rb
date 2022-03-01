@@ -48,10 +48,7 @@ class Storages::Storage < ApplicationRecord
 
   PROVIDER_TYPES = %w[nextcloud].freeze
 
-<<<<<<< HEAD
   # Uniqueness - no two storages should  have the same host.
-=======
->>>>>>> d6a99da5d1 (Simplified create and fixed I18n issue)
   validates_uniqueness_of :host
   validates_uniqueness_of :name
 
