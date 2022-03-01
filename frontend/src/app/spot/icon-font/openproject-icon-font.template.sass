@@ -1,0 +1,9 @@
+{{#each codepoints}}
+
+@mixin icon-mixin-{{@key}} 
+  content: "\\{{this}}"
+
+.{{../classPrefix}}{{@key}}:before
+  content: "\\{{this}}"
+
+{{/each}}
