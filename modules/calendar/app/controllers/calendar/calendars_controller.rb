@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -26,46 +28,49 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+module ::Calendar
+  class CalendarsController < ApplicationController
+    before_action :find_optional_project
+    before_action :authorize
 
-describe ::Calendar::CalendarsController, type: :controller do
-  let(:project) do
-    build_stubbed(:project).tap do |p|
-      allow(Project)
-        .to receive(:find)
-        .with(p.id.to_s)
-        .and_return(p)
-    end
-  end
-  let(:permissions) { [:view_calendar] }
-  let(:user) do
-    build_stubbed(:user).tap do |user|
-      allow(user)
-        .to receive(:allowed_to?) do |permission, p, global:|
-        permission[:controller] == 'calendar/calendars' &&
-          permission[:action] == 'index' &&
-          (p.nil? || p == project)
-      end
-    end
-  end
+    before_action :find_calendar, only: %i[destroy]
+    menu_item :calendar_view
 
-  before { login_as(user) }
-
-  describe '#index' do
-    shared_examples_for 'calendar#index' do
-      subject { response }
-
-      it { is_expected.to be_successful }
-
-      it { is_expected.to render_template('calendar/calendars/index') }
+    def index
+      @views = visible_views
     end
 
-    context 'project' do
-      before do
-        get :index, params: { project_id: project.id }
+    def show
+      render layout: 'angular/angular'
+    end
+
+    def destroy
+      if @view.destroy
+        flash[:notice] = t(:notice_successful_delete)
+      else
+        flash[:error] = t(:error_can_not_delete_entry)
       end
 
-      it_behaves_like 'calendar#index'
+      redirect_to action: :index
+    end
+
+    private
+
+    def visible_views
+      Query
+        .visible(current_user)
+        .joins(:views)
+        .where('views.type' => 'work_packages_calendar')
+        .where('queries.project_id' => @project.id)
+        .order('queries.name ASC')
+    end
+
+    def find_calendar
+      @view = Query
+                .visible(current_user)
+                .find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      render_404
     end
   end
 end

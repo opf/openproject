@@ -79,8 +79,8 @@ describe 'project menu', type: :feature do
         it_behaves_like 'it leads to the project costs reports'
       end
 
-      context "when on the project's calendar" do
-        let(:current_path) { '/projects/ponyo/calendar' }
+      context "when on the project's calendars" do
+        let(:current_path) { '/projects/ponyo/calendars' }
 
         it_behaves_like 'it leads to the project costs reports'
       end
@@ -111,7 +111,7 @@ describe 'project menu', type: :feature do
       end
 
       context "when on the project's calendar" do
-        let(:current_path) { '/projects/ponyo/calendar' }
+        let(:current_path) { '/projects/ponyo/calendars' }
 
         it_behaves_like 'it leads to the cost reports'
       end

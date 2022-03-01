@@ -1,12 +1,14 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2006-2017 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -26,46 +28,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+module Calendar
+  class TableCell < ::TableCell
+    options :current_user
+    columns :name, :created_at
 
-describe ::Calendar::CalendarsController, type: :controller do
-  let(:project) do
-    build_stubbed(:project).tap do |p|
-      allow(Project)
-        .to receive(:find)
-        .with(p.id.to_s)
-        .and_return(p)
-    end
-  end
-  let(:permissions) { [:view_calendar] }
-  let(:user) do
-    build_stubbed(:user).tap do |user|
-      allow(user)
-        .to receive(:allowed_to?) do |permission, p, global:|
-        permission[:controller] == 'calendar/calendars' &&
-          permission[:action] == 'index' &&
-          (p.nil? || p == project)
-      end
-    end
-  end
-
-  before { login_as(user) }
-
-  describe '#index' do
-    shared_examples_for 'calendar#index' do
-      subject { response }
-
-      it { is_expected.to be_successful }
-
-      it { is_expected.to render_template('calendar/calendars/index') }
+    def sortable?
+      false
     end
 
-    context 'project' do
-      before do
-        get :index, params: { project_id: project.id }
-      end
-
-      it_behaves_like 'calendar#index'
+    def headers
+      [
+        ['name', { caption: I18n.t(:label_name) }],
+        ['created_at', { caption: I18n.t('attributes.created_at') }]
+      ]
     end
   end
 end
