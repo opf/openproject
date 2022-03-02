@@ -41,7 +41,7 @@ Enter your new password and confirm it a second time.
 
 Press the blue **Save** button in order to confirm the password changes.
 
-![change password](1572880507527.png)
+![Bildschirmfoto 2022-03-02 um 16.10.17](Bildschirmfoto 2022-03-02 um 16.10.17.png)
 
 <div class="alert alert-info" role="alert">
 Note: You cannot reset your Google password in OpenProject. If you authenticate with a Google/Gmail account, please go to your Google account administration in order to change your password.
@@ -109,6 +109,8 @@ In order to register a new device for two-factor authentication, lick the green 
 
 To receive the second factor, you can use an authentication app on your mobile phone, such as Google Authenticator or Authy. You have to enter the code that is displaed in the authentication app to your login.
 
+![Bildschirmfoto 2022-03-02 um 15.43.40](Bildschirmfoto 2022-03-02 um 15.43.40.png)
+
 ### Backup codes
 
 If you are unable to access your two-factor devices, you can use a backup code to regain access to your account. Use the grey button **Generate backup codes** to generate a new set of backup codes.
@@ -145,19 +147,19 @@ You can choose between several email reminders.
 
 Default: Enable daily email reminders: 2am, Monday - Friday.
 
-You can choose to receive emails immediately, or only on certain days and times, temporarily pause reminder emails, or opt for no reminders at all. 
+You can choose to receive emails immediately, or only on certain days and times, temporarily pause reminder emails, or opt for no reminders at all.
 
-![Email reminders](EmailNotificationsv12.png)
+ ![Bildschirmfoto 2022-03-02 um 16.02.09](Bildschirmfoto 2022-03-02 um 16.02.09.png)
 
 You can also opt-in to receive **email alerts for other items (that are not work packages)** whenever one of your project members:
 
 - **News added** - ...adds or updates news in the [News Page](../../user-guide/news)
 - **Comment on a news item** - ...adds a comment on a news item
 - **Documents added** - ...adds a document somewhere in the project (i.e. a work package)
-- **New forum message** - ...sends a new message into the [forum](../../user-guide/forums/)
+- **New forum message** - ...sends a new message into the [Forum](../../user-guide/forums/)
 - **Wiki page added** - ...adds a new [Wiki page](../../user-guide/wiki)
 - **Wiki page updated** - ...updates a [Wiki page](../../user-guide/wiki)
-- **Membership added** - ...adds you to a new work package
+- **Membership added** - ...adds you to a new [Work package](../work-package-introduction)
 - **Membership updates** - ...updates your membership associations
 
 ## Set an avatar
@@ -172,7 +174,7 @@ Also, you can upload a **Custom Avatar** by choosing a Avatar to be uploaded fro
 Note: The optimum size to upload a new profile picture is 128 by 128 pixel. Larger files will be cropped.
 </div>
 
-![Avatar](1571844887353.png)
+![Bildschirmfoto 2022-03-02 um 16.11.12](Bildschirmfoto 2022-03-02 um 16.11.12.png)
 
 
 
@@ -184,7 +186,7 @@ If you cannot see the entry **Delete account** in the **My account** side menu, 
 
 To delete your account, select **Delete account** from the side menu and enter your login to confirm the deletion.
 
-![delete account](1572881984371.png)
+![Bildschirmfoto 2022-03-02 um 16.15.19](Bildschirmfoto 2022-03-02 um 16.15.19.png)
 
 <div class="alert alert-info" role="alert">
 Important: Deleting a user account is permanent and cannot be reversed.
