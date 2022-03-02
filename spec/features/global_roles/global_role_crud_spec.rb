@@ -52,7 +52,7 @@ describe 'Global role: Global role CRUD', type: :feature, js: true do
     # And I should see "Global group"
     expect(page).to have_text 'GLOBAL GROUP'
     # And I should see "Glob test"
-    expect(page).to have_text 'Glob test'
+    expect(page).to have_text 'Permission Glob Test'
     # And I should not see "Issues can be assigned to this role"
     expect(page).to have_no_text 'Issues can be assigned to this role'
     # When I fill in "Name" with "Manager"

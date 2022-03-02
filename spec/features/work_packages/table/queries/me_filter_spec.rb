@@ -36,7 +36,7 @@ describe 'filter me value', js: true do
            public: true,
            members: project_members
   end
-  let(:role) { create :existing_role, permissions: [:view_work_packages] }
+  let(:role) { create :existing_role, permissions: %i[view_work_packages work_package_assigned] }
   let(:admin) { create :admin }
   let(:user) { create :user }
   let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }

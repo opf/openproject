@@ -27,9 +27,6 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<div class="form--field">
-  <%= f.check_box :assignable %>
-</div>
 <% if role.new_record? && roles.any? %>
   <div class="form--field">
     <%= styled_label_tag :copy_workflow_from, t(:label_copy_workflow_from) %>

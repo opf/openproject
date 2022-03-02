@@ -58,7 +58,8 @@ describe WorkPackages::BulkController, type: :controller, with_settings: { journ
            permissions: %i[edit_work_packages
                            view_work_packages
                            manage_subtasks
-                           assign_versions])
+                           assign_versions
+                           work_package_assigned])
   end
   let(:member1_p1) do
     create(:member,

@@ -75,13 +75,13 @@ describe 'BCF 2.1 project extensions resource', type: :request, content_type: :j
     let(:current_user) do
       create(:user,
              member_in_project: project,
-             member_with_permissions: %i[view_project edit_project manage_bcf view_members])
+             member_with_permissions: %i[view_project edit_project manage_bcf view_members work_package_assigned])
     end
 
     let(:other_user) do
       create(:user,
              member_in_project: project,
-             member_with_permissions: [:view_project])
+             member_with_permissions: %i[view_project work_package_assigned])
     end
 
     before do

@@ -31,15 +31,13 @@ require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper.rb')
 describe 'updating a budget', type: :feature, js: true do
   let(:project) do
     create :project_with_types,
-           enabled_module_names: %i[budgets costs],
-           members: { user => create(:role) }
+           enabled_module_names: %i[budgets costs work_package_tracking],
+           members: { user => create(:role, permissions: %i[work_package_assigned]) }
   end
   let(:user) { create :admin }
   let(:budget) { create :budget, author: user, project: project }
 
-  before do
-    login_as(user)
-  end
+  current_user { user }
 
   describe 'with new cost items' do
     let(:cost_type) do

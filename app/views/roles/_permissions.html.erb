@@ -51,8 +51,11 @@ See COPYRIGHT and LICENSE files for more details.
               <%= styled_check_box_tag 'role[permissions][]',
                                        permission.name,
                                        (role.permissions && role.permissions.include?(permission.name)) %>
-              <%= l_or_humanize(permission.name, prefix: 'permission_') %>
+              <%= t(:"permission_#{permission.name}") %>
             </label>
+          </div>
+          <div class="form--field-instructions -labeled-checkbox">
+            <%= t(:"permission_#{permission.name}_explanation", default: nil) %>
           </div>
         </div>
       <% end %>

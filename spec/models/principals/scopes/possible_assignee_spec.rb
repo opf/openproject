@@ -34,7 +34,7 @@ describe Principals::Scopes::PossibleAssignee, type: :model do
   let(:project) { create(:project) }
   let(:other_project) { create(:project) }
   let(:role_assignable) { true }
-  let(:role) { create(:role, assignable: role_assignable) }
+  let(:role) { create(:role, permissions: (role_assignable ? [:work_package_assigned] : [])) }
   let(:user_status) { :active }
   let!(:member_user) do
     create(:user,

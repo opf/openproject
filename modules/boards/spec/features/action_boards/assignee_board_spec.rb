@@ -51,7 +51,7 @@ describe 'Assignee action board',
 
   let(:permissions) do
     %i[show_board_views manage_board_views add_work_packages
-       edit_work_packages view_work_packages manage_public_queries]
+       edit_work_packages view_work_packages manage_public_queries work_package_assigned]
   end
 
   let!(:priority) { create :default_priority }

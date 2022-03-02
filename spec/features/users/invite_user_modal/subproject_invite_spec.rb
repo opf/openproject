@@ -34,7 +34,7 @@ describe 'Invite user modal subprojects', type: :feature, js: true do
   shared_let(:work_package) { create :work_package, project: subproject }
   shared_let(:invitable_user) { create :user, firstname: 'Invitable', lastname: 'User' }
 
-  let(:permissions) { %i[view_work_packages edit_work_packages manage_members] }
+  let(:permissions) { %i[view_work_packages edit_work_packages manage_members work_package_assigned] }
   let(:global_permissions) { %i[] }
   let(:modal) do
     ::Components::Users::InviteUserModal.new project: subproject,
