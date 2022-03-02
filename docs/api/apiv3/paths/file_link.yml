@@ -1,4 +1,4 @@
-# /api/v3/work_packages/{id}/file_links/{file_link_id}
+# /api/v3/file_links/{id}
 ---
 get:
   summary: Gets a file link.
@@ -10,13 +10,6 @@ get:
     Gets a single file link resource of a work package.
   parameters:
     - name: id
-      description: Work package id
-      in: path
-      required: true
-      schema:
-        type: integer
-      example: 1337
-    - name: file_link_id
       description: File link id
       in: path
       required: true
@@ -56,13 +49,6 @@ delete:
     The request contains only the file link identifier as a path parameter. No request body is needed.
   parameters:
     - name: id
-      description: Work package id
-      in: path
-      required: true
-      schema:
-        type: integer
-      example: 1337
-    - name: file_link_id
       description: File link id
       in: path
       required: true
