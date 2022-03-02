@@ -29,7 +29,7 @@ To open your personal settings in OpenProject, click on your user icon in the to
 
 Choose **My account**.
 
-![my-account](my-account.png)
+![Bildschirmfoto 2022-03-02 um 14.40.32](Bildschirmfoto 2022-03-02 um 14.40.32.png)
 
 ## Change password
 
@@ -69,7 +69,7 @@ To change the language in OpenProject, navigate to the **My account** settings a
 
 Here you can choose between multiple languages.
 
-![select a language](1572882728878.png)
+![Bildschirmfoto 2022-03-02 um 14.44.45](Bildschirmfoto 2022-03-02 um 14.44.45.png)
 
 OpenProject is translated to more than 30 languages, like German, Chinese, French, Italian, Korean, Latvian, Lithuanian, Polish, Portuguese, Russian, Spanish, Turkish and many more. If you do not see your preferred language in the My account settings, the language needs to be activated by your system administrator in the [system's settings](../../system-admin-guide/system-settings/display-settings).
 
@@ -81,7 +81,7 @@ If you want to help us to add further languages or to add the translations in yo
 
 You can choose a time zone in which you work and how the comments and changes will be saved.
 
-![time zone](1572882881007.png)
+![Bildschirmfoto 2022-03-02 um 14.47.20](Bildschirmfoto 2022-03-02 um 14.47.20.png)
 
 Pressing the blue **Save** button will save your changes.
 
@@ -96,31 +96,18 @@ If you choose newest first the latest comment will appear on top in the Activity
 ### Backlogs settings
 
 There are two personal settings available for the [Backlogs module](../../user-guide/backlogs-scrum):
-**Task color**: Here you can enter the color in which your tasks on the task board (on the Backlogs page) are displayed. Tasks on the task board are color-coded based on who they are assigned to. Every user has a default color assigned but if you prefer a different color, you can change it here.
+**Task color**: Here you can enter the color in which your tasks on the task board (on the Backlogs page) are displayed. Tasks on the task board are color-coded based on who they are assigned to. Every user has a default color assigned but if you prefer a different color, you can change it.
 **Show versions folded**: When you navigate to the "Backlogs" module in a project, the available versions (e.g. Product backlog, Sprints) are displayed. By default they are expanded, i.e. all work packages included in those versions are shown right away. If you have a large number of versions that are shown on the "Backlogs" page, you may opt to collapse them by default. This way you see all the versions on a page and can then choose to expand those versions for which you want to see details.
 
 ## Two-factor authentication (Premium feature)
 
 In order to activate the two-factor authentication for your OpenProject installation, navigate to your **My account** and choose the **Two-factor authentication** in the menu.
 
-![Two-factor authentication](1571992032476.png)
+![Bildschirmfoto 2022-03-02 um 14.50.58](Bildschirmfoto 2022-03-02 um 14.50.58.png)
 
 In order to register a new device for two-factor authentication, lick the green button to add a **new 2FA device**.
 
-You can either use your mobile phone number to receive the second factor via SMS. Or you can register to use an app-based authenticator, such as Google Authenticator or Authy.
-
-![add new 2fa device](1572876883531.png)
-
-### Register your mobile phone number for delivery of OpenProject one-time passwords.
-
-To register your phone number to receive a one time password via SMS, click on the **Register device** button under the **Use your mobile phone** section.
-
-- Choose an identifier how you want your phone to be named.
-- Enter your phone number in the following format.
-
-![two-factor authentication](1572878991958.png)
-
-Press the blue **Continue** button to confirm your device.
+To receive the second factor, you can use an authentication app on your mobile phone, such as Google Authenticator or Authy. You have to enter the code that is displaed in the authentication app to your login.
 
 ### Backup codes
 
