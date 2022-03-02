@@ -48,7 +48,7 @@ describe ::API::V3::FileLinks::FileLinkRepresenter, 'rendering' do
     describe 'self' do
       it_behaves_like 'has an untitled link' do
         let(:link) { 'self' }
-        let(:href) { "/api/v3/work_packages/#{container.id}/file_links/#{file_link.id}" }
+        let(:href) { "/api/v3/file_links/#{file_link.id}" }
       end
     end
 
@@ -81,7 +81,7 @@ describe ::API::V3::FileLinks::FileLinkRepresenter, 'rendering' do
 
       it_behaves_like 'has an untitled action link' do
         let(:link) { 'delete' }
-        let(:href) { "/api/v3/work_packages/#{container.id}/file_links/#{file_link.id}" }
+        let(:href) { "/api/v3/file_links/#{file_link.id}" }
         let(:method) { :delete }
       end
     end
@@ -96,7 +96,7 @@ describe ::API::V3::FileLinks::FileLinkRepresenter, 'rendering' do
     describe 'staticOriginOpen' do
       it_behaves_like 'has an untitled link' do
         let(:link) { 'staticOriginOpen' }
-        let(:href) { "/api/v3/work_packages/#{container.id}/file_links/#{file_link.id}/open" }
+        let(:href) { "/api/v3/file_links/#{file_link.id}/open" }
       end
     end
   end
