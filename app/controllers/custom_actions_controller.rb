@@ -29,6 +29,7 @@
 #++
 
 class CustomActionsController < ApplicationController
+  include EnterpriseTrialHelper
   before_action :require_admin
   before_action :require_enterprise_token
 
@@ -37,8 +38,6 @@ class CustomActionsController < ApplicationController
   before_action :pad_params, only: %i(create update)
 
   layout 'admin'
-
-  helper_method :gon
 
   def index
     @custom_actions = CustomAction.order_by_position

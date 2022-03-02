@@ -2929,8 +2929,11 @@ hu:
     errors:
       messages:
         #Common error messages
-        invalid_request: 'A kérésből hiányzik egy szükséges paraméter, nem támogatott paramétert tartalmaz, vagy máshogy sérült.'
-        invalid_redirect_uri: "A kért átirányítási URI hibás formátumú vagy nem egyezik a kliens átirányítási URI-vel."
+        invalid_request:
+          unknown: 'A kérésből hiányzik egy szükséges paraméter, nem támogatott paramétert tartalmaz, vagy máshogy sérült.'
+          missing_param: 'Missing required parameter: %{value}.'
+          request_not_authorized: 'Request need to be authorized. Required parameter for authorizing request is missing or invalid.'
+        invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
         unauthorized_client: 'A kliens nincs feljogosítva erre a kérésre.'
         access_denied: 'Az erőforrás tulajdonosa vagy hitelesítő kiszolgálója megtagadta a kérést.'
         invalid_scope: "A kért hatókör érvénytelen, ismeretlen vagy rosszul formázott.\n"
@@ -2943,6 +2946,7 @@ hu:
         admin_authenticator_not_configured: "Az admin panelhez való hozzáférés tiltott, mivel a Doorkeeper.configure.admin_authenticator nincs konfigurálva.\n"
         #Access grant errors
         unsupported_response_type: 'A hitelesítő kiszolgáló nem támogatja ezt a választ.'
+        unsupported_response_mode: 'The authorization server does not support this response mode.'
         #Access token errors
         invalid_client: 'A kliens hitelesítése megszakadt, mert ismeretlen a kliens, a kliens nem küldött hitelesítést, vagy a hitelesítés módja nem támogatott.'
         invalid_grant: 'A biztosított hitelesítés érvénytelen, lejárt, visszavont, vagy nem egyezik a hitelesítési kérésben használt URI-val, vagy más kliensnek címezték.'
@@ -2951,6 +2955,10 @@ hu:
           revoked: "Hozzáférési kulcsot visszavonták"
           expired: "Hozzáférési kulcs lejárt"
           unknown: "Hozzáférési kulcs érvénytelen"
+        revoke:
+          unauthorized: "You are not authorized to revoke this token."
+        forbidden_token:
+          missing_scope: 'Access to this resource requires scope "%{oauth_scopes}".'
   unsupported_browser:
     title: "A böngésződ elavult és nem támogatott"
     message: "Előfordulhat, hogy hibákba ütközik és romlik az élmény ezen az oldalon."

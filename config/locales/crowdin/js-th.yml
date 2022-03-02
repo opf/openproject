@@ -1154,6 +1154,15 @@ th:
           placeholder: 'ขณะนี้ Placeholder สามารถใช้งานใน %{project} ได้แล้ว, คุณสามารถวางแผนกับผู้ใช้รายนั้นและกำหนดแพ็คเกจงานได้'
           group: 'ตอนนี้กลุ่มนี้เป็นส่วนหนึ่งของ %{project}, คุณสามารถวางแผนกับกลุ่มนั้นและกำหนดแพ็คเกจงานได้'
         next_button: 'Continue'
+    include_projects:
+      toggle_title: 'Include Projects'
+      title: 'โครงการ'
+      clear_selection: 'Clear selection'
+      apply: 'นำไปใช้'
+      selected_filter:
+        all: 'All projects'
+        selected: 'Only selected'
+      search_placeholder: 'Search project...'
     forms:
       submit_success_message: 'ส่งแบบฟอร์มเรียบร้อยแล้ว'
       load_error_message: 'เกิดข้อผิดพลาดในการโหลดแบบฟอร์ม'

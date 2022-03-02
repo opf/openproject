@@ -1156,6 +1156,15 @@ sv:
           placeholder: 'The placeholder can now be used in %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
           group: 'The group is now a part of %{project}. Meanwhile you can already plan with that group and assign work packages for instance.'
         next_button: 'Fortsätt'
+    include_projects:
+      toggle_title: 'Include Projects'
+      title: 'Projekt'
+      clear_selection: 'Clear selection'
+      apply: 'Tilldela'
+      selected_filter:
+        all: 'All projects'
+        selected: 'Only selected'
+      search_placeholder: 'Search project...'
     forms:
       submit_success_message: 'The form was successfully submitted'
       load_error_message: 'There was an error loading the form'

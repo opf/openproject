@@ -1162,6 +1162,15 @@ ru:
           placeholder: 'Теперь плейсхолдер может быть использован в %{project}. Тем временем вы уже можете планировать с этим пользователем и назначать рабочие пакеты.'
           group: 'Теперь группа является частью %{project}. Тем временем вы уже можете спланировать работу с этой группой и назначить пакеты работ.'
         next_button: 'Продолжить'
+    include_projects:
+      toggle_title: 'Include Projects'
+      title: 'Проекты'
+      clear_selection: 'Clear selection'
+      apply: 'Применить'
+      selected_filter:
+        all: 'All projects'
+        selected: 'Only selected'
+      search_placeholder: 'Search project...'
     forms:
       submit_success_message: 'Форма успешно отправлена'
       load_error_message: 'Произошла ошибка при загрузке формы'

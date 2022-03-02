@@ -44,6 +44,7 @@ import { HalResourceEditingService } from 'core-app/shared/components/fields/edi
 import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/resource-changeset';
 import * as moment from 'moment';
 import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
+import { isClickedWithModifier } from 'core-app/shared/helpers/link-handling/link-handling';
 
 export interface CalendarViewEvent {
   el:HTMLElement;
@@ -264,6 +265,14 @@ export class OpCalendarService extends UntilDestroyedMixin {
     );
   }
 
+  public onCardClicked({ workPackageId, event }:{ workPackageId:string, event:MouseEvent }):void {
+    if (isClickedWithModifier(event)) {
+      return;
+    }
+
+    this.openSplitView(workPackageId, true);
+  }
+
   private defaultOptions():CalendarOptions {
     return {
       editable: false,
@@ -280,10 +289,6 @@ export class OpCalendarService extends UntilDestroyedMixin {
       initialDate: this.initialDate,
       initialView: this.initialView,
       datesSet: (dates) => this.updateDateParam(dates),
-      eventClick: (evt) => {
-        const workPackage = evt.event.extendedProps.workPackage as WorkPackageResource;
-        this.openSplitView(workPackage.id as string);
-      },
     };
   }
 
@@ -314,14 +319,16 @@ export class OpCalendarService extends UntilDestroyedMixin {
   }
 
   private get initializingWithQuery():boolean {
-    return (this.areFiltersEmpty && this.urlParams.query_id && !this.urlParams.query_props) as boolean;
+    return this.areFiltersEmpty
+      && !!this.urlParams.query_id
+      && !this.urlParams.query_props;
   }
 
   private get urlParams() {
     return this.uiRouterGlobals.params;
   }
 
-  private get areFiltersEmpty() {
+  private get areFiltersEmpty():boolean {
     return this.wpTableFilters.isEmpty;
   }
 

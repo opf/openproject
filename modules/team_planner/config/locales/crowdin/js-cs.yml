@@ -2,7 +2,7 @@
 cs:
   js:
     team_planner:
-      add_existing: 'Přidat existující'
+      add_existing: 'Add Existing'
       create_new: 'Vytvořit nový plánovače'
       title: 'Týmový plánovač'
       unsaved_title: 'Nepojmenovaný plánovač týmu'
@@ -10,7 +10,9 @@ cs:
       no_data: 'Přidejte řešitele k nastavení svého týmového plánovače.'
       add_assignee: 'Přidat řešitele'
       remove_assignee: 'Odstranit řešitele'
-      two_weeks: '2 týdny'
+      two_weeks: '2-week'
+      one_week: '1-week'
+      today: 'Today'
       drag_here_to_remove: 'Drag here to remove assignee and start and end dates.'
       cannot_drag_here: 'Cannot remove the work package due to permissions or editing restrictions.'
       quick_add:

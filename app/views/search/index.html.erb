@@ -29,7 +29,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% content_for :header_tags do %>
   <%= call_hook :search_index_head %>
-  <%= include_gon(nonce: content_security_policy_script_nonce) %>
+
 <% end %>
 
 <global-search-title></global-search-title>

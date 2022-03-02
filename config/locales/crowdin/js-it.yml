@@ -1158,6 +1158,15 @@ it:
           placeholder: 'Il segnaposto è ora utilizzabile in %{project}. Nel mentre puoi ad esempio già pianificare con quell''utente e assegnare pacchetti di lavoro.'
           group: 'Il gruppo è ora parte di %{project}. Nel mentre puoi ad esempio già pianificare con quel gruppo e assegnare pacchetti di lavoro.'
         next_button: 'Continua'
+    include_projects:
+      toggle_title: 'Include Projects'
+      title: 'Progetti'
+      clear_selection: 'Clear selection'
+      apply: 'Applica'
+      selected_filter:
+        all: 'All projects'
+        selected: 'Only selected'
+      search_placeholder: 'Search project...'
     forms:
       submit_success_message: 'Il modulo è stato inviato correttamente'
       load_error_message: 'Si è verificato un errore caricando il modulo'

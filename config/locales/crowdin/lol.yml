@@ -2882,8 +2882,11 @@ lol:
     errors:
       messages:
         #Common error messages
-        invalid_request: 'crwdns499859:0crwdne499859:0'
-        invalid_redirect_uri: "crwdns499861:0crwdne499861:0"
+        invalid_request:
+          unknown: 'crwdns744050:0crwdne744050:0'
+          missing_param: 'crwdns744052:0%{value}crwdne744052:0'
+          request_not_authorized: 'crwdns744054:0crwdne744054:0'
+        invalid_redirect_uri: "crwdns744056:0crwdne744056:0"
         unauthorized_client: 'crwdns499863:0crwdne499863:0'
         access_denied: 'crwdns499865:0crwdne499865:0'
         invalid_scope: 'crwdns499867:0crwdne499867:0'
@@ -2896,6 +2899,7 @@ lol:
         admin_authenticator_not_configured: 'crwdns499879:0crwdne499879:0'
         #Access grant errors
         unsupported_response_type: 'crwdns499881:0crwdne499881:0'
+        unsupported_response_mode: 'crwdns744058:0crwdne744058:0'
         #Access token errors
         invalid_client: 'crwdns499883:0crwdne499883:0'
         invalid_grant: 'crwdns499885:0crwdne499885:0'
@@ -2904,6 +2908,10 @@ lol:
           revoked: "crwdns499889:0crwdne499889:0"
           expired: "crwdns499891:0crwdne499891:0"
           unknown: "crwdns499893:0crwdne499893:0"
+        revoke:
+          unauthorized: "crwdns744060:0crwdne744060:0"
+        forbidden_token:
+          missing_scope: 'crwdns744062:0%{oauth_scopes}crwdne744062:0'
   unsupported_browser:
     title: "crwdns499895:0crwdne499895:0"
     message: "crwdns499897:0crwdne499897:0"

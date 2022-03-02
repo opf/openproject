@@ -31,8 +31,6 @@
 class UsersController < ApplicationController
   layout 'admin'
 
-  helper_method :gon
-
   before_action :authorize_global, except: %i[show deletion_info destroy]
 
   before_action :find_user, only: %i[show

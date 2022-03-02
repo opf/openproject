@@ -1163,6 +1163,15 @@ pl:
           placeholder: 'Symbolu zastępczego można teraz użyć w %{project}. Tymczasem możesz już planować z tym użytkownikiem i na przykład przypisać pakiety robocze.'
           group: 'Grupa jest teraz częścią %{project}. Tymczasem możesz już planować z tą grupą i na przykład przypisać pakiety robocze.'
         next_button: 'Kontynuuj'
+    include_projects:
+      toggle_title: 'Include Projects'
+      title: 'Projekty'
+      clear_selection: 'Clear selection'
+      apply: 'Zastosuj'
+      selected_filter:
+        all: 'All projects'
+        selected: 'Only selected'
+      search_placeholder: 'Search project...'
     forms:
       submit_success_message: 'Formularz został przesłany'
       load_error_message: 'Podczas ładowania formularza wystąpił błąd'

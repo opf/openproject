@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Calendar::CalendarController, type: :controller do
+describe ::Calendar::CalendarsController, type: :controller do
   let(:project) do
     build_stubbed(:project).tap do |p|
       allow(Project)
@@ -42,7 +42,7 @@ describe Calendar::CalendarController, type: :controller do
     build_stubbed(:user).tap do |user|
       allow(user)
         .to receive(:allowed_to?) do |permission, p, global:|
-        permission[:controller] == 'calendar/calendar' &&
+        permission[:controller] == 'calendar/calendars' &&
           permission[:action] == 'index' &&
           (p.nil? || p == project)
       end
@@ -57,15 +57,7 @@ describe Calendar::CalendarController, type: :controller do
 
       it { is_expected.to be_successful }
 
-      it { is_expected.to render_template('calendar/calendar/index') }
-    end
-
-    context 'cross-project' do
-      before do
-        get :index
-      end
-
-      it_behaves_like 'calendar#index'
+      it { is_expected.to render_template('calendar/calendars/index') }
     end
 
     context 'project' do

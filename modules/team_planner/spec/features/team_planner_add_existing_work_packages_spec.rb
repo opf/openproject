@@ -88,10 +88,52 @@ describe 'Team planner add existing work packages', type: :feature, js: true do
       end
 
       # Open the left hand pane
-      page.find('[data-qa-selector="op-team-planner--add-existing-toggle"]').click
-
-      add_existing_pane.expect_open
+      add_existing_pane.open
       add_existing_pane.expect_empty
+    end
+
+    context 'with a removable item' do
+      let!(:second_wp) do
+        create :work_package,
+               project: project,
+               subject: 'Task 2',
+               assigned_to: other_user,
+               start_date: 10.days.from_now,
+               due_date: 12.days.from_now
+      end
+
+      it 'shows work packages removed from the team planner' do
+        team_planner.within_lane(user) do
+          team_planner.expect_event first_wp
+        end
+
+        add_existing_pane.search first_wp.subject
+        add_existing_pane.expect_empty
+
+        # Remove task 1 from the team planner
+        team_planner.drag_to_remove_dropzone first_wp, expect_removable: true
+
+        sleep 2
+
+        add_existing_pane.expect_result first_wp
+      end
+    end
+
+    it 'allows to click cards to open split view when open' do
+      # Search for a work package
+      add_existing_pane.search 'Task'
+      add_existing_pane.expect_result second_wp
+
+      # Open first wp
+      split_screen = team_planner.open_split_view_by_info_icon first_wp
+      split_screen.expect_subject
+      expect(page).to have_current_path /\/details\/#{first_wp.id}/
+
+      # Select work package in add existing
+      add_existing_pane.card(second_wp).click
+      split_screen = ::Pages::SplitWorkPackage.new second_wp
+      split_screen.expect_subject
+      expect(page).to have_current_path /\/details\/#{second_wp.id}/
     end
 
     it 'allows to add work packages via drag&drop from the left hand shortlist' do
@@ -150,10 +192,57 @@ describe 'Team planner add existing work packages', type: :feature, js: true do
       # Change the filter for the whole page
       filters.set_filter 'Status', 'open', nil
 
-      # Search again, and the filter criteria are applied
-      add_existing_pane.search 'Ta'
+      # Expect the filter to auto update
       add_existing_pane.expect_result second_wp
       add_existing_pane.expect_result third_wp, visible: false
+    end
+
+    context 'with a subproject' do
+      let!(:sub_project) do
+        create(:project, name: 'Child', parent: project, enabled_module_names: %w[work_package_tracking])
+      end
+
+      let!(:sub_work_package) do
+        create(:work_package, subject: 'Subtask', project: sub_project)
+      end
+
+      let!(:user) do
+        create :user,
+               member_in_projects: [project, sub_project],
+               member_with_permissions: %w[
+               view_work_packages edit_work_packages add_work_packages
+               view_team_planner manage_team_planner
+               save_queries manage_public_queries
+           ]
+      end
+
+      let(:dropdown) { ::Components::ProjectIncludeComponent.new }
+
+      it 'applies the project include filter' do
+        # Search for the work package in the child project
+        add_existing_pane.search 'Subtask'
+        add_existing_pane.expect_empty
+        add_existing_pane.expect_result sub_work_package, visible: false
+
+        dropdown.expect_count 1
+        dropdown.toggle!
+        dropdown.expect_open
+
+        dropdown.expect_checkbox(project.id, true)
+        dropdown.expect_checkbox(sub_project.id, false)
+
+        dropdown.toggle_checkbox(sub_project.id)
+
+        dropdown.expect_checkbox(project.id, true)
+        dropdown.expect_checkbox(sub_project.id, true)
+
+        dropdown.click_button 'Apply'
+        dropdown.expect_closed
+        dropdown.expect_count 2
+
+        # Expect the filter to auto update
+        add_existing_pane.expect_result sub_work_package
+      end
     end
   end
 

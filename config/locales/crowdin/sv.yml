@@ -2915,8 +2915,11 @@ sv:
     errors:
       messages:
         #Common error messages
-        invalid_request: 'Begäran saknar en obligatorisk parameter, innehåller ett parametervärde som inte stöds, eller är på annat sätt felformulerad.'
-        invalid_redirect_uri: "Den begärda omdirigerings-URI är felaktigt eller matchar inte klientens omdirigerings-URI."
+        invalid_request:
+          unknown: 'Begäran saknar en obligatorisk parameter, innehåller ett parametervärde som inte stöds, eller är på annat sätt felformulerad.'
+          missing_param: 'Missing required parameter: %{value}.'
+          request_not_authorized: 'Request need to be authorized. Required parameter for authorizing request is missing or invalid.'
+        invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
         unauthorized_client: 'Klienten har inte behörighet att utföra denna begäran med denna metod.'
         access_denied: 'Resursägaren eller auktoriseringsservern nekade begäran.'
         invalid_scope: 'Den begärda omfattningen är ogiltig, okänd eller felformulerad.'
@@ -2929,6 +2932,7 @@ sv:
         admin_authenticator_not_configured: 'Åtkomst till administratörspanelen är förbjuden på grund av att Doorkeeper.configure.admin_authenticator är okonfigurerad.'
         #Access grant errors
         unsupported_response_type: 'Auktoriseringsservern stöder inte denna typ av svar.'
+        unsupported_response_mode: 'The authorization server does not support this response mode.'
         #Access token errors
         invalid_client: 'Klientautentisering misslyckades på grund av okänd klient, ingen klientautentisering inkluderad eller autentiseringsmetod som ej stöds.'
         invalid_grant: 'Det angivna godkännandebidraget är ogiltigt, utgånget, återkallat, matchar inte den omdirigerings-URI som används i begäran om godkännande, eller utfärdades till en annan klient.'
@@ -2937,6 +2941,10 @@ sv:
           revoked: "Åtkomsttoken har återkallats"
           expired: "Åtkomsttoken har gått ut"
           unknown: "Åtkomsttoken är ogiltig"
+        revoke:
+          unauthorized: "You are not authorized to revoke this token."
+        forbidden_token:
+          missing_scope: 'Access to this resource requires scope "%{oauth_scopes}".'
   unsupported_browser:
     title: "Din webbläsare är föråldrad och stöds inte."
     message: "Du kan stöta på fel och få försämrad upplevelse på denna sida."

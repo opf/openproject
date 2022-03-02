@@ -35,8 +35,6 @@ class MyController < ApplicationController
 
   layout 'my'
 
-  helper_method :gon
-
   before_action :require_login
   before_action :set_current_user
   before_action :check_password_confirmation, only: %i[update_account]

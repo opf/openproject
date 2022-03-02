@@ -437,7 +437,14 @@ describe OpenProject::Configuration do
   end
 
   describe '.configure_legacy_action_mailer' do
-    let(:action_mailer) { double('ActionMailer::Base', deliveries: []) }
+    let(:action_mailer) do
+      class_double('ActionMailer::Base',
+                   deliveries: []).tap do |mailer|
+        allow(mailer).to receive(:perform_deliveries=)
+        allow(mailer).to receive(:delivery_method=)
+        allow(mailer).to receive(:smtp_settings=)
+      end
+    end
     let(:config) do
       { 'email_delivery_method' => 'smtp',
         'smtp_address' => 'smtp.example.net',
@@ -449,11 +456,18 @@ describe OpenProject::Configuration do
     end
 
     it 'enables deliveries and configure ActionMailer smtp delivery' do
-      expect(action_mailer).to receive(:perform_deliveries=).with(true)
-      expect(action_mailer).to receive(:delivery_method=).with(:smtp)
-      expect(action_mailer).to receive(:smtp_settings=).with(address: 'smtp.example.net',
-                                                             port: '25')
       described_class.send(:configure_legacy_action_mailer, config)
+
+      expect(action_mailer)
+        .to have_received(:perform_deliveries=)
+              .with(true)
+      expect(action_mailer)
+        .to have_received(:delivery_method=)
+              .with(:smtp)
+      expect(action_mailer)
+        .to have_received(:smtp_settings=)
+              .with(address: 'smtp.example.net',
+                    port: '25')
     end
   end
 

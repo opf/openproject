@@ -44,6 +44,7 @@ import { ZenModeButtonComponent } from 'core-app/features/work-packages/componen
 import { WorkPackageSettingsButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/wp-settings-button/wp-settings-button.component';
 import { of } from 'rxjs';
 import { WorkPackageFoldToggleButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/wp-fold-toggle-button/wp-fold-toggle-button.component';
+import { OpProjectIncludeComponent } from 'core-app/shared/components/project-include/project-include.component';
 
 @Component({
   selector: 'wp-view-page',
@@ -67,6 +68,9 @@ export class WorkPackageViewPageComponent extends PartitionedQuerySpacePageCompo
         stateName$: of('work-packages.partitioned.list.new'),
         allowed: ['work_packages.createWorkPackage'],
       },
+    },
+    {
+      component: OpProjectIncludeComponent,
     },
     {
       component: WorkPackageFilterButtonComponent,

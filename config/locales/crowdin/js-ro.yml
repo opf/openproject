@@ -1159,6 +1159,15 @@ ro:
           placeholder: 'Marca de poziție poate fi utilizată acum în %{project}. Între timp, puteți deja să planificați cu acel utilizator și să atribuiți pachete de lucru, de exemplu.'
           group: 'Grupul este acum o parte din %{project}. Între timp, puteți deja să planificați cu acest grup și să atribuiți pachete de lucru, de exemplu.'
         next_button: 'Continuaţi'
+    include_projects:
+      toggle_title: 'Include Projects'
+      title: 'Proiecte'
+      clear_selection: 'Clear selection'
+      apply: 'Salvare'
+      selected_filter:
+        all: 'All projects'
+        selected: 'Only selected'
+      search_placeholder: 'Search project...'
     forms:
       submit_success_message: 'Formularul a fost trimis cu succes'
       load_error_message: 'A apărut o eroare la încărcarea formularului'

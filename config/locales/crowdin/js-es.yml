@@ -1157,6 +1157,15 @@ es:
           placeholder: 'El marcador de posición ya puede usarse en %{project}. Mientras tanto, puede crear planes con ese usuario y asignarle paquetes de trabajo.'
           group: 'El grupo ya forma parte de %{project}. Mientras tanto, puede crear planes con ese grupo y asignar paquetes de trabajo a este.'
         next_button: 'Continuar'
+    include_projects:
+      toggle_title: 'Include Projects'
+      title: 'Proyectos'
+      clear_selection: 'Clear selection'
+      apply: 'Aplicar'
+      selected_filter:
+        all: 'All projects'
+        selected: 'Only selected'
+      search_placeholder: 'Search project...'
     forms:
       submit_success_message: 'El formulario se envió correctamente'
       load_error_message: 'Se produjo un error al cargar el formulario'

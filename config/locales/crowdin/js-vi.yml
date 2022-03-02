@@ -1153,6 +1153,15 @@ vi:
           placeholder: 'The placeholder can now be used in %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
           group: 'Nhóm này hiện là một phần của %{project}. Trong khi đó, bạn có thể lên kế hoạch cho nhóm đó và chỉ định các gói làm việc cho từng trường hợp.'
         next_button: 'Tiếp tục'
+    include_projects:
+      toggle_title: 'Include Projects'
+      title: 'Các dự án'
+      clear_selection: 'Clear selection'
+      apply: 'Áp dụng'
+      selected_filter:
+        all: 'All projects'
+        selected: 'Only selected'
+      search_placeholder: 'Search project...'
     forms:
       submit_success_message: 'Form đã được gửi thành công'
       load_error_message: 'Đã có lỗi trong khi tải form'

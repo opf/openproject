@@ -116,12 +116,13 @@ module.exports = {
               "_links",
               "_embedded",
               "_meta",
+              "_type",
             ],
-            allowAfterThis: false,
+            allowAfterThis: true,
             allowAfterSuper: false,
             allowAfterThisConstructor: false,
             enforceInMethodNames: true,
-            allowFunctionParams: false,
+            allowFunctionParams: true,
           }
         ],
 

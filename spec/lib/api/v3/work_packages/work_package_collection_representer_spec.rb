@@ -350,6 +350,18 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
     end
   end
 
+
+  context 'with a magic page size' do
+    let(:page_size_parameter) { -1 }
+
+    it_behaves_like 'offset-paginated APIv3 collection' do
+      let(:page) { 1 }
+      let(:page_size) {  Setting.apiv3_max_page_size }
+      let(:actual_count) { 5 }
+      let(:collection_type) { 'WorkPackageCollection' }
+    end
+  end
+
   context 'with a limited page size' do
     let(:page_size_parameter) { 2 }
 

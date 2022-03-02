@@ -28,15 +28,24 @@
 
 require 'spec_helper'
 
-describe Calendar::CalendarController, type: :routing do
-  it 'connects GET /calendar to calendar#index' do
-    expect(get('/calendar')).to route_to(controller: 'calendar/calendar',
-                                         action: 'index')
+describe Calendar::CalendarsController, type: :routing do
+  it do
+    expect(get('/projects/1/calendars')).to route_to(controller: 'calendar/calendars',
+                                                     action: 'index',
+                                                     project_id: '1')
   end
 
-  it 'connects GET /project/1/calendar to calendar#index' do
-    expect(get('/projects/1/calendar')).to route_to(controller: 'calendar/calendar',
-                                                    action: 'index',
-                                                    project_id: '1')
+  it do
+    expect(get('/projects/1/calendars/2')).to route_to(controller: 'calendar/calendars',
+                                                       action: 'show',
+                                                       id: '2',
+                                                       project_id: '1')
+  end
+
+  it do
+    expect(delete('/projects/1/calendars/2')).to route_to(controller: 'calendar/calendars',
+                                                          action: 'destroy',
+                                                          id: '2',
+                                                          project_id: '1')
   end
 end

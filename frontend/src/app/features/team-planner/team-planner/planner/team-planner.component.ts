@@ -62,6 +62,9 @@ import { StatusResource } from 'core-app/features/hal/resources/status-resource'
 import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/resource-changeset';
 import { KeepTabService } from 'core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service';
 import { HalError } from 'core-app/features/hal/services/hal-error';
+import { ActionsService } from 'core-app/core/state/actions/actions.service';
+import { teamPlannerEventRemoved } from 'core-app/features/team-planner/team-planner/planner/team-planner.actions';
+import { imagePath } from 'core-app/shared/helpers/images/path-helper';
 
 @Component({
   selector: 'op-team-planner',
@@ -150,6 +153,10 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
 
   statuses:StatusResource[] = [];
 
+  image = {
+    empty_state: imagePath('team-planner/empty-state.svg'),
+  };
+
   text = {
     add_existing: this.I18n.t('js.team_planner.add_existing'),
     assignees: this.I18n.t('js.team_planner.label_assignee_plural'),
@@ -157,6 +164,8 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     remove_assignee: this.I18n.t('js.team_planner.remove_assignee'),
     noData: this.I18n.t('js.team_planner.no_data'),
     two_weeks: this.I18n.t('js.team_planner.two_weeks'),
+    one_week: this.I18n.t('js.team_planner.one_week'),
+    today: this.I18n.t('js.team_planner.today'),
     drag_here_to_remove: this.I18n.t('js.team_planner.drag_here_to_remove'),
     cannot_drag_here: this.I18n.t('js.team_planner.cannot_drag_here'),
   };
@@ -185,6 +194,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     readonly apiV3Service:ApiV3Service,
     readonly calendarDrag:CalendarDragDropService,
     readonly keepTab:KeepTabService,
+    readonly actions$:ActionsService,
   ) {
     super();
   }
@@ -284,6 +294,9 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
               month: 'long',
               day: 'numeric',
             },
+            buttonText: {
+              today: this.text.today,
+            },
             initialView: this.calendar.initialView || 'resourceTimelineWeek',
             headerToolbar: {
               left: '',
@@ -293,6 +306,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
             views: {
               resourceTimelineWeek: {
                 type: 'resourceTimeline',
+                buttonText: this.text.one_week,
                 duration: { weeks: 1 },
                 slotDuration: { days: 1 },
                 slotLabelFormat: [
@@ -311,11 +325,12 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
               resourceTimelineTwoWeeks: {
                 type: 'resourceTimeline',
                 buttonText: this.text.two_weeks,
-                duration: { weeks: 2 },
                 slotDuration: { days: 1 },
+                duration: { weeks: 2 },
+                dateIncrement: { weeks: 1 },
                 slotLabelFormat: [
                   {
-                    weekday: 'long',
+                    weekday: 'short',
                     day: '2-digit',
                   },
                 ],
@@ -336,10 +351,6 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
             // DnD configuration
             editable: true,
             droppable: true,
-            eventClick: (evt) => {
-              const workPackage = evt.event.extendedProps.workPackage as WorkPackageResource;
-              this.calendar.openSplitView(workPackage.id as string, true);
-            },
             eventResize: (resizeInfo:EventResizeDoneArg) => this.updateEvent(resizeInfo),
             eventDragStart: (dragInfo:EventDragStartArg) => {
               const { el } = dragInfo;
@@ -456,7 +467,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
       }
 
       const dateCurrentlyVisible = dateToCheck >= currentStartDate && dateToCheck <= currentEndDate;
-      return dateCurrentlyVisible && this.calendar.eventDurationEditable(workPackage);
+      return dateCurrentlyVisible;
     }
 
     return false;
@@ -484,6 +495,8 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     changeset.setValue('dueDate', null);
 
     await this.saveChangeset(changeset);
+
+    this.actions$.dispatch(teamPlannerEventRemoved({ workPackage: workPackage.id as string }));
   }
 
   private mapToCalendarEvents(workPackages:WorkPackageResource[]):EventInput[] {

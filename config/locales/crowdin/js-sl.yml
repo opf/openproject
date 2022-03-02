@@ -1162,6 +1162,15 @@ sl:
           placeholder: 'Rezervirano mesto se zdaj lahko uporabi v %{project}. Medtem lahko planirate s tem uporabnikom in mu dodelite delovne naloge.'
           group: 'Skupina je zdaj del %{project}. Medtem lahko planirate s to skupino in ji dodelite delovne naloge.'
         next_button: 'Nadaljuj'
+    include_projects:
+      toggle_title: 'Include Projects'
+      title: 'Projekti'
+      clear_selection: 'Clear selection'
+      apply: 'Potrdi'
+      selected_filter:
+        all: 'All projects'
+        selected: 'Only selected'
+      search_placeholder: 'Search project...'
     forms:
       submit_success_message: 'Obrazev je bil uspešno oddan'
       load_error_message: 'Pri nalaganju obrazca je prišlo do napake'

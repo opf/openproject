@@ -2,7 +2,7 @@
 fr:
   js:
     team_planner:
-      add_existing: 'Add existing'
+      add_existing: 'Add Existing'
       create_new: 'Créer un nouveau planificateur'
       title: 'Planificateur d''équipe'
       unsaved_title: 'Planificateur d''équipe sans nom'
@@ -10,7 +10,9 @@ fr:
       no_data: 'Ajouter des personnes pour configurer votre planificateur d''équipe.'
       add_assignee: 'Assigner à quelqu''un'
       remove_assignee: 'Supprimer l''assignation'
-      two_weeks: '2 semaines'
+      two_weeks: '2-week'
+      one_week: '1-week'
+      today: 'Today'
       drag_here_to_remove: 'Drag here to remove assignee and start and end dates.'
       cannot_drag_here: 'Cannot remove the work package due to permissions or editing restrictions.'
       quick_add:

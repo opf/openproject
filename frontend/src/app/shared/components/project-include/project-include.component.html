@@ -1,0 +1,72 @@
+<spot-drop-modal
+  [open]="opened"
+  alignment="bottom-right"
+  (closed)="opened = false"
+>
+  <button
+    slot="trigger"
+    type="button"
+    class="button"
+    (click)="toggleOpen()"
+    data-qa-selector="project-include-button"
+  >
+    {{ text.toggle_title }}
+    <span
+      *ngIf="(numberOfProjectsInFilter$ | async) as count"
+      class="badge -secondary"
+      [textContent]="count"
+    >
+    </span>
+  </button>
+
+  <ng-container slot="body">
+    <div class="op-project-include--header">
+      <h1 class="op-project-include--title">{{ text.title }}</h1>
+      <spot-toggle
+        [options]="displayModeOptions"
+        [(ngModel)]="displayMode"
+      ></spot-toggle>
+    </div>
+    <form
+      (submit)="onSubmit($event)"
+      class="spot-body"
+    >
+      <spot-text-field
+        [placeholder]="text.search_placeholder"
+        name="project-include-search"
+        [(ngModel)]="query"
+        [ngModelOptions]="{standalone: true}"
+        data-qa-selector="project-include-search"
+      >
+        <span
+          slot="before"
+          class="op-icon icon-search"
+        ></span>
+      </spot-text-field>
+
+      <ul
+        op-project-list
+        [projects]="projects$ | async"
+        [selected]="selectedProjects"
+        (update)="selectedProjects = $event"
+        data-qa-selector="project-include-list"
+      ></ul>
+
+      <div class="spot-action-bar">
+        <div class="spot-action-bar--left"></div>
+        <div class="spot-action-bar--right">
+          <button
+            class="spot-button spot-button_outlined spot-button_main"
+            type="button"
+            (click)="clearSelection()"
+          >
+            {{ text.clear_selection }}
+          </button>
+          <button class="spot-button spot-button_main">
+            {{ text.apply }}
+          </button>
+        </div>
+      </div>
+    </form>
+  </ng-container>
+</spot-drop-modal>

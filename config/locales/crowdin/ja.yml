@@ -2894,8 +2894,11 @@ ja:
     errors:
       messages:
         #Common error messages
-        invalid_request: 'リクエストに必要なパラメーターがありません、サポートされていないパラメーター値が含まれているか、その他の形式に誤りがあります。'
-        invalid_redirect_uri: "要求されたリダイレクトURIが不正な形式であるか、クライアントのリダイレクトURIと一致しません。"
+        invalid_request:
+          unknown: 'リクエストに必要なパラメーターがありません、サポートされていないパラメーター値が含まれているか、その他の形式に誤りがあります。'
+          missing_param: 'Missing required parameter: %{value}.'
+          request_not_authorized: 'Request need to be authorized. Required parameter for authorizing request is missing or invalid.'
+        invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
         unauthorized_client: 'クライアントはこのメソッドを使用してリクエストを実行することが許可されていません。'
         access_denied: 'リソース所有者または認証サーバーが要求を拒否しました。'
         invalid_scope: '要求された範囲は無効、不明、または不正な形式です。'
@@ -2908,6 +2911,7 @@ ja:
         admin_authenticator_not_configured: 'Doorkeeper.configure.admin_authenticatorの設定が解除されているため、管理パネルへのアクセスは禁止されています。'
         #Access grant errors
         unsupported_response_type: '認証サーバーはこのレスポンスタイプをサポートしません。'
+        unsupported_response_mode: 'The authorization server does not support this response mode.'
         #Access token errors
         invalid_client: '不明なクライアント、クライアント認証が含まれていない、またはサポートされていない認証方法のため、クライアント認証が失敗しました。'
         invalid_grant: '提供された許可付与が無効、期限切れ、取り消された、許可要求で使用されたリダイレクトURIと一致しない、または別のクライアントに発行されました。'
@@ -2916,6 +2920,10 @@ ja:
           revoked: "アクセストークンが取り消されました"
           expired: "アクセストークンの有効期限が切れました"
           unknown: "アクセストークンが無効です"
+        revoke:
+          unauthorized: "You are not authorized to revoke this token."
+        forbidden_token:
+          missing_scope: 'Access to this resource requires scope "%{oauth_scopes}".'
   unsupported_browser:
     title: "お使いのブラウザは古く、サポートされていません。"
     message: "このページでエラーと崩れを体験するかもしれません。"

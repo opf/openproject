@@ -37,8 +37,6 @@ class AttributeHelpTextsController < ApplicationController
   before_action :find_type_scope
   before_action :require_enterprise_token_grant
 
-  helper_method :gon
-
   def new
     @attribute_help_text = AttributeHelpText.new type: @attribute_scope
   end

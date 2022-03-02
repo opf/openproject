@@ -54,7 +54,7 @@ gem 'friendly_id', '~> 5.4.0'
 
 gem 'acts_as_list', '~> 1.0.1'
 gem 'acts_as_tree', '~> 2.9.0'
-gem 'awesome_nested_set', '~> 3.4.0'
+gem 'awesome_nested_set', '~> 3.5.0'
 gem 'rubytree', '~> 1.0.0'
 gem 'typed_dag', '~> 2.0.2'
 
@@ -83,7 +83,7 @@ gem 'deckar01-task_list', '~> 2.3.1'
 # Requires escape-utils for faster escaping
 gem 'escape_utils', '~> 1.0'
 # Syntax highlighting used in html-pipeline with rouge
-gem 'rouge', '~> 3.27.0'
+gem 'rouge', '~> 3.28.0'
 # HTML sanitization used for html-pipeline
 gem 'sanitize', '~> 6.0.0'
 # HTML autolinking for mails and urls (replaces autolink)
@@ -115,7 +115,7 @@ gem 'daemons'
 gem 'delayed_cron_job', '~> 0.9.0'
 gem 'delayed_job_active_record', '~> 4.1.5'
 
-gem 'rack-protection', '~> 2.1.0'
+gem 'rack-protection', '~> 2.2.0'
 
 # Rack::Attack is a rack middleware to protect your web app from bad clients.
 # It allows whitelisting, blacklisting, throttling, and tracking based
@@ -188,9 +188,9 @@ gem 'mini_magick', '~> 4.11.0', require: false
 
 # Sentry error reporting, loaded on demand
 group :sentry do
-  gem "sentry-delayed_job", '~> 5.0.1', require: false
-  gem "sentry-rails", '~> 5.0.1', require: false
-  gem "sentry-ruby", '~> 5.0.1',  require: false
+  gem "sentry-delayed_job", '~> 5.1.0', require: false
+  gem "sentry-rails", '~> 5.1.0', require: false
+  gem "sentry-ruby", '~> 5.1.0',  require: false
 end
 
 group :test do
@@ -204,7 +204,7 @@ group :test do
 
   gem 'database_cleaner', '~> 2.0'
   gem 'rack_session_access'
-  gem 'rspec', '~> 3.10.0'
+  gem 'rspec', '~> 3.11.0'
   # also add to development group, so "spec" rake task gets loaded
   gem 'rspec-rails', '~> 5.1.0', group: :development
 
@@ -230,7 +230,7 @@ group :test do
   gem 'webmock', '~> 3.12', require: false
 
   # Mock selenium requests through proxy (for feature tests)
-  gem 'puffing-billy', '~> 2.4.0'
+  gem 'puffing-billy', '~> 3.0.0'
   gem 'table_print', '~> 1.5.6'
 
   gem 'equivalent-xml', '~> 0.6'

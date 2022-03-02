@@ -86,9 +86,14 @@ describe 'Calendar query handling', type: :feature, js: true do
 
   current_user { user }
 
-  before do
-    login_as user
-    calendar_page.visit!
+  it 'shows that query on the index page' do
+    visit project_calendars_path(project)
+
+    expect(page).to have_text saved_query.name
+
+    within '#content' do
+      click_link saved_query.name
+    end
 
     loading_indicator_saveguard
 
@@ -96,48 +101,60 @@ describe 'Calendar query handling', type: :feature, js: true do
     calendar_page.expect_event bug
   end
 
-  it 'allows saving the calendar' do
-    filters.expect_filter_count("1")
-    filters.open
+  context 'when on the show page of the calendar' do
+    before do
+      login_as user
+      calendar_page.visit!
 
-    filters.add_filter_by('Type', 'is', [type_bug.name])
+      loading_indicator_saveguard
 
-    filters.expect_filter_count("2")
+      calendar_page.expect_event task
+      calendar_page.expect_event bug
+    end
 
-    calendar_page.expect_event bug
-    calendar_page.expect_event task, present: false
+    it 'allows saving the calendar' do
+      filters.expect_filter_count("1")
+      filters.open
 
-    query_title.expect_changed
-    query_title.press_save_button
+      filters.add_filter_by('Type', 'is', [type_bug.name])
 
-    calendar_page.expect_and_dismiss_toaster(message: I18n.t('js.notice_successful_create'))
-  end
+      filters.expect_filter_count("2")
 
-  it 'shows only calendar queries' do
-    # Go to calendar where a query is already shown
-    query_menu.expect_menu_entry saved_query.name
+      calendar_page.expect_event bug
+      calendar_page.expect_event task, present: false
 
-    # Change filter
-    filters.open
-    filters.add_filter_by('Type', 'is', [type_bug.name])
-    filters.expect_filter_count("2")
+      query_title.expect_changed
+      query_title.press_save_button
 
-    # Save current filters
-    query_title.expect_changed
-    query_title.rename 'I am your Query'
-    calendar_page.expect_and_dismiss_toaster(message: I18n.t('js.notice_successful_create'))
+      calendar_page.expect_and_dismiss_toaster(message: I18n.t('js.notice_successful_create'))
+    end
 
-    # The saved query appears in the side menu...
-    query_menu.expect_menu_entry 'I am your Query'
-    query_menu.expect_menu_entry saved_query.name
+    it 'shows only calendar queries' do
+      # Go to calendar where a query is already shown
+      query_menu.expect_menu_entry saved_query.name
 
-    # .. but not in the work packages module
-    work_package_page.visit!
-    query_menu.expect_menu_entry_not_visible 'I am your Query'
-  end
+      # Change filter
+      filters.open
+      filters.add_filter_by('Type', 'is', [type_bug.name])
+      filters.expect_filter_count("2")
 
-  it_behaves_like 'module specific query view management' do
-    let(:module_page) { calendar_page }
-    let(:default_name) { 'Unnamed calendar' }
+      # Save current filters
+      query_title.expect_changed
+      query_title.rename 'I am your Query'
+      calendar_page.expect_and_dismiss_toaster(message: I18n.t('js.notice_successful_create'))
+
+      # The saved query appears in the side menu...
+      query_menu.expect_menu_entry 'I am your Query'
+      query_menu.expect_menu_entry saved_query.name
+
+      # .. but not in the work packages module
+      work_package_page.visit!
+      query_menu.expect_menu_entry_not_visible 'I am your Query'
+    end
+
+    it_behaves_like 'module specific query view management' do
+      let(:module_page) { calendar_page }
+      let(:default_name) { 'Unnamed calendar' }
+    end
   end
 end

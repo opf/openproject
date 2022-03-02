@@ -55,7 +55,7 @@ import { ApiV3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resour
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 
-export type ViewType = 'WorkPackagesTable'|'Bim'|'TeamPlanner';
+export type ViewType = 'WorkPackagesTable'|'Bim'|'TeamPlanner'|'WorkPackagesCalendar';
 
 export const opViewSelectSelector = 'op-view-select';
 

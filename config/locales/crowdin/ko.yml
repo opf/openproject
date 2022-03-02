@@ -2895,8 +2895,11 @@ ko:
     errors:
       messages:
         #Common error messages
-        invalid_request: '이 요청에는 필요한 매개 변수가 없거나, 지원되지 않는 매개 변수 값이 포함되어 있거나, 형식이 잘못되었습니다.'
-        invalid_redirect_uri: "요청한 리디렉션 URI가 잘못된 형식이거나 클라이언트 리디렉션 URI와 일치하지 않습니다."
+        invalid_request:
+          unknown: '이 요청에는 필요한 매개 변수가 없거나, 지원되지 않는 매개 변수 값이 포함되어 있거나, 형식이 잘못되었습니다.'
+          missing_param: 'Missing required parameter: %{value}.'
+          request_not_authorized: 'Request need to be authorized. Required parameter for authorizing request is missing or invalid.'
+        invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
         unauthorized_client: '클라이언트가 이 방법을 사용하여 해당 요청을 실행하도록 허용되지 않았습니다.'
         access_denied: '리소스 소유자 또는 권한 부여 서버가 요청을 거부했습니다.'
         invalid_scope: '요청한 범위가 유효하지 않거나, 알 수 없거나, 잘못된 형식입니다.'
@@ -2909,6 +2912,7 @@ ko:
         admin_authenticator_not_configured: 'Doorkeeper.configure.admin_authenticator 구성이 되지 않아 관리자 패널에 대한 액세스가 금지되었습니다.'
         #Access grant errors
         unsupported_response_type: '권한 부여 서버가 이 응답 유형을 지원하지 않습니다.'
+        unsupported_response_mode: 'The authorization server does not support this response mode.'
         #Access token errors
         invalid_client: '알 수 없는 클라이언트, 포함되지 않은 클라이언트 인증 또는 지원되지 않는 인증 방법으로 인해 클라이언트 인증이 실패했습니다.'
         invalid_grant: '제공된 권한 부여가 잘못되거나, 만료되거나, 취소되었거나, 권한 부여 요청에 사용된 리디렉션 URI와 일치하지 않거나, 다른 클라이언트에 지정되었습니다.'
@@ -2917,6 +2921,10 @@ ko:
           revoked: "액세스 토큰이 취소되었습니다."
           expired: "액세스 토큰이 만료되었습니다."
           unknown: "액세스 토큰이 잘못되었습니다."
+        revoke:
+          unauthorized: "You are not authorized to revoke this token."
+        forbidden_token:
+          missing_scope: 'Access to this resource requires scope "%{oauth_scopes}".'
   unsupported_browser:
     title: "해당 브라우저는 오래되어 지원되지 않습니다."
     message: "이 페이지에서 오류가 발생하고 기능이 저하될 수 있습니다."

@@ -1157,6 +1157,15 @@ ja:
           placeholder: 'プレースホルダーを %{project} で使用できるようになりました。一方で、そのユーザを使って計画を立てたり、ワークパッケージを割り当てたりすることができます。'
           group: 'グループは %{project} の一部になりました。一方で、そのグループを使って計画を立てたり、ワークパッケージを割り当てたりすることができます。'
         next_button: '続行'
+    include_projects:
+      toggle_title: 'Include Projects'
+      title: 'プロジェクト'
+      clear_selection: 'Clear selection'
+      apply: '適用'
+      selected_filter:
+        all: 'All projects'
+        selected: 'Only selected'
+      search_placeholder: 'Search project...'
     forms:
       submit_success_message: 'フォームは正常に送信されました'
       load_error_message: 'フォームの読み込み中にエラーが発生しました'

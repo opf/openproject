@@ -2,7 +2,7 @@
 es:
   js:
     team_planner:
-      add_existing: 'Add existing'
+      add_existing: 'Add Existing'
       create_new: 'Create new planner'
       title: 'Team planner'
       unsaved_title: 'Unnamed team planner'
@@ -10,7 +10,9 @@ es:
       no_data: 'Add assignees to set up your team planner.'
       add_assignee: 'Add assignee'
       remove_assignee: 'Remove assignee'
-      two_weeks: '2 weeks'
+      two_weeks: '2-week'
+      one_week: '1-week'
+      today: 'Today'
       drag_here_to_remove: 'Drag here to remove assignee and start and end dates.'
       cannot_drag_here: 'Cannot remove the work package due to permissions or editing restrictions.'
       quick_add:

@@ -66,14 +66,18 @@ class WithDirectUploads
     example.metadata[:driver] = :chrome_billy
 
     csp_config = SecureHeaders::Configuration.instance_variable_get("@default_config").csp
-    csp_config.connect_src = ["'self'", "test-bucket.s3.amazonaws.com"]
-    csp_config.form_action = ["'self'", "test-bucket.s3.amazonaws.com"]
+
+    connect_src = csp_config.connect_src.dup
+    form_action = csp_config.form_action.dup
 
     begin
+      csp_config.connect_src = ["'self'", "test-bucket.s3.amazonaws.com"]
+      csp_config.form_action = ["'self'", "test-bucket.s3.amazonaws.com"]
+
       example.run
     ensure
-      csp_config.connect_src = %w('self')
-      csp_config.form_action = %w('self')
+      csp_config.connect_src = connect_src
+      csp_config.form_action = form_action
     end
   end
 

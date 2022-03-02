@@ -35,7 +35,6 @@ class MeetingsController < ApplicationController
 
   helper :watchers
   helper :meeting_contents
-  helper_method :gon
   include WatchersHelper
   include PaginationHelper
 

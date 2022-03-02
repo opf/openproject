@@ -31,8 +31,6 @@
 module Bim
   module IfcModels
     class IfcViewerController < BaseController
-      helper_method :gon
-
       before_action :find_project_by_project_id
       before_action :authorize
       before_action :find_all_ifc_models

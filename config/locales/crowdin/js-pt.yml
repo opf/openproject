@@ -1156,6 +1156,15 @@ pt:
           placeholder: 'O espaço reservado agora pode ser usado em %{project}. Enquanto isso, você já pode planejar com este usuário e atribuir pacotes de trabalho por exemplo.'
           group: 'O grupo agora faz parte de %{project}. Enquanto isso, você já pode planejar com este grupo e atribuir pacotes de trabalho por exemplo.'
         next_button: 'Continuar'
+    include_projects:
+      toggle_title: 'Include Projects'
+      title: 'Projetos'
+      clear_selection: 'Clear selection'
+      apply: 'Aplicar'
+      selected_filter:
+        all: 'All projects'
+        selected: 'Only selected'
+      search_placeholder: 'Search project...'
     forms:
       submit_success_message: 'O formulário foi enviado com sucesso'
       load_error_message: 'Ocorreu um erro ao carregar o formulário'

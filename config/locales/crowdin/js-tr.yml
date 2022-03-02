@@ -1157,6 +1157,15 @@ tr:
           placeholder: 'Kullanıcı artık %{project} ''e erişmek için oturum açabilir. Bu arada, o kullanıcıyla zaten plan yapabilir ve örneğin iş paketleri atayabilirsiniz.'
           group: 'Grup artık %{project} ''nin bir parçası. Bu arada, bu grupla zaten plan yapabilir ve örneğin iş paketleri atayabilirsiniz.'
         next_button: 'Devam et'
+    include_projects:
+      toggle_title: 'Include Projects'
+      title: 'Projeler'
+      clear_selection: 'Clear selection'
+      apply: 'Uygula'
+      selected_filter:
+        all: 'All projects'
+        selected: 'Only selected'
+      search_placeholder: 'Search project...'
     forms:
       submit_success_message: 'Form başarıyla gönderildi'
       load_error_message: 'Form yüklenirken bir hata oluştu'

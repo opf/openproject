@@ -42,7 +42,7 @@ module Pages
     end
 
     def path
-      project_team_planner_path(project)
+      new_project_team_planners_path(project)
     end
 
     def expect_title(title = 'Unnamed team planner')
@@ -75,8 +75,8 @@ module Pages
       expect(page).to have_selector('.fc-button-active', text: text)
 
       param = {
-        'week' => :resourceTimelineWeek,
-        '2 weeks' => :resourceTimelineTwoWeeks,
+        '1-week' => :resourceTimelineWeek,
+        '2-week' => :resourceTimelineTwoWeeks
       }[text]
 
       expect(page).to have_current_path(/cview=#{param}/)

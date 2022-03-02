@@ -24,7 +24,7 @@ SecureHeaders::Configuration.default do |config|
   default_src = %w('self') + OpenProject::Configuration.remote_storage_hosts
 
   # Allow requests to CLI in dev mode
-  connect_src = default_src
+  connect_src = default_src + [OpenProject::Configuration.enterprise_trial_creation_host]
 
   if OpenProject::Configuration.sentry_frontend_dsn.present?
     connect_src += [OpenProject::Configuration.sentry_host]
