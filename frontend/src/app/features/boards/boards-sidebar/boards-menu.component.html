@@ -13,3 +13,11 @@
     </li>
   </ul>
 </div>
+
+<button
+  *ngIf="(canCreateBoards$ | async)"
+  class="spot-button spot-button_outlined"
+  (click)="showNewBoardModal()"
+>
+  {{text.create_new_board}}
+</button>
