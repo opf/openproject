@@ -34,15 +34,18 @@
 # Called by: Calls to the controller methods are initiated by user Web GUI
 # actions and mapped to this controller by storages/config/routes.rb.
 class Storages::Admin::ProjectsStoragesController < Projects::SettingsController
-  # This is the default object to be treated in this controller.
-  # ToDo: Where is this used?
+  # This is the resource handled in this controller.
+  # So the controller knows that the ID in params (URl) refer to instances of this model.
+  # This defines @object as the model instance.
   model_object Storages::ProjectStorage
 
   before_action :find_model_object, only: %i[destroy] # Fill @object with ProjectStorage
-  before_action :find_optional_project # Fill @project with Project
-  before_action :authorize # Make sure the current_user is logged in
+  # No need to before_action :find_project_by_project_id as SettingsController already checks
+  # No need to check for before_action :authorize, as the SettingsController already checks this.
 
-  # ToDo: Where is this menu being used?
+  # This MenuController method defines the default menu item to be used (highlighted)
+  # when rendering the main menu in the left (part of the base layout).
+  # The menu item itself is registered in modules/storages/lib/open_project/storages/engine.rb
   menu_item :settings_projects_storages
 
   # Show a HTML page with the list of ProjectStorages
@@ -98,7 +101,7 @@ class Storages::Admin::ProjectsStoragesController < Projects::SettingsController
     # The complex logic for deleting associated objects was moved into a service:
     # https://dev.to/joker666/ruby-on-rails-pattern-service-objects-b19
     service_result = Storages::ProjectStorages::DeleteService
-      .new(user: User.current, model: @object)
+      .new(user: current_user, model: @object)
       .call
 
     # Handle errors.
