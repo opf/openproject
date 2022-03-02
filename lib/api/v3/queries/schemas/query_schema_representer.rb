@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -46,14 +44,14 @@ module API
           def self.filters_schema
             ->(*) do
               {
-                'type': '[]QueryFilterInstance',
-                'name': Query.human_attribute_name('filters'),
-                'required': false,
-                'writable': true,
-                'hasDefault': true,
-                '_links': {
-                  'allowedValuesSchemas': {
-                    'href': filter_instance_schemas_href
+                type: '[]QueryFilterInstance',
+                name: Query.human_attribute_name('filters'),
+                required: false,
+                writable: true,
+                hasDefault: true,
+                _links: {
+                  allowedValuesSchemas: {
+                    href: filter_instance_schemas_href
                   }
                 }
               }
@@ -265,11 +263,7 @@ module API
           end
 
           def filters_schemas
-            # TODO: The RelatableFilter is not supported by the schema dependencies yet
-            filters = represented
-                      .available_filters
-                      .reject { |f| f.is_a?(::Queries::WorkPackages::Filter::RelatableFilter) }
-
+            filters = represented.available_filters
             QueryFilterInstanceSchemaCollectionRepresenter.new(filters,
                                                                self_link: filter_instance_schemas_href,
                                                                form_embedded: form_embedded,
