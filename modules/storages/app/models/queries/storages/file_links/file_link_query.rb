@@ -28,12 +28,9 @@
 
 # Purpose: When returning a collection of file links, our standard index endpoint needs a query class to have a
 # reference to the embedded model.
-# Used by: ???
-# Reference: ToDo: Link to documentation about queries
 
 # The namespace is programmatically derived from the model name. See app/services/params_to_query_service.rb:130
 class Queries::Storages::FileLinks::FileLinkQuery < Queries::BaseQuery
-  # What is class << self?
   class << self
     # We need to overwrite the model method, as the standard implementation cannot derive the name from nested
     # namespaces. See app/models/queries/base_query.rb:31

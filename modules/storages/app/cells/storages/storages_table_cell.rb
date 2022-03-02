@@ -2,13 +2,12 @@
 # objects in the global admin section of OpenProject
 # Used by: the admin list of all storages in the system
 # (storages/app/views/storages/admin/index.html.erb)
-# Reference: RailsCells???, ToDo: no documentation found
+# Reference: https://trailblazer.to/2.0/gems/cells.html
 # See also: storage_row_cell.rb with the row model of the table
 module Storages
   class StoragesTableCell < ::TableCell
     include ::IconsHelper # Global helper for icons, defines op_icon(...)
 
-    # ???
     class << self
       def row_class
         ::Storages::StoragesRowCell
@@ -30,8 +29,8 @@ module Storages
       false
     end
 
-    # Used by: ???
-    # Purpose: ???
+    # Used by: app/cells/views/table/show.erb and
+    # Purpose: return the link to be used to create the storage
     def inline_create_link
       link_to(new_storage_path,
               class: 'wp-inline-create--add-link',

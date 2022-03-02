@@ -26,15 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# ToDo: Why is there only one contract for FileLinks?
-# Used by: ???
-# Why here two module blocks instead of Storages::FileLinks?
+# Purpose: validate the model before deletion
+# Used by: Storages::FileLinks::DeleteService (looked up in BaseServices::Delete#default_contract_class)
 module Storages
   module FileLinks
     class DeleteContract < ::ModelContract
       # ToDo: What is this? Where is this used?
       def self.model
-        Storages::FileLink
+        ::Storages::FileLink
       end
 
       # Check permissions to delete(?) this FileLink

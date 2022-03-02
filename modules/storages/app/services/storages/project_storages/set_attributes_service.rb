@@ -26,8 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# ToDo: Where is this used?
-# It's called by CreateService when setting attributes
+# Used by: CreateService when setting attributes
 module Storages::ProjectStorages
   class SetAttributesService < ::BaseServices::SetAttributes
   end

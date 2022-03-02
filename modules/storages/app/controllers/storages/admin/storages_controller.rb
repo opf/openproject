@@ -29,23 +29,21 @@
 #++
 
 # Purpose: CRUD the global admin page of Storages (=Nextcloud servers)
-# ToDo: Why not use double "module"
-# ToDo: What Wieland already explained ::Module vs. Module (without ::)
 class Storages::Admin::StoragesController < ApplicationController
-  # ToDo: Where is this used?
-  # I assume this will create a page layout for a global OpenProject admin page
+  # See https://guides.rubyonrails.org/layouts_and_rendering.html for reference on layout
   layout 'admin'
 
-  # I assume this is necessary because of the non-standard path of this controller?
+  # specify which model #find_model_object should look up
   model_object Storages::Storage
 
   # Before executing any action below: Make sure the current user is an admin
-  # and set the @<controller_name> variable to the object refernced in the URL.???
+  # and set the @<controller_name> variable to the object referenced in the URL.
   before_action :require_admin
   before_action :find_model_object, only: %i[show destroy edit update]
 
-  # ToDo: Where is this used?
-  # I understand this will create(???) a menu item in Admin to Storages
+  # menu_item is defined in the Redmine::MenuManager::MenuController
+  # module, included from ApplicationController.
+  # The menu item is defined in the engine.rb
   menu_item :storages_admin_settings
 
   # Index page with a list of Storages objects
@@ -65,39 +63,33 @@ class Storages::Admin::StoragesController < ApplicationController
   end
 
   # Show the admin page to create a new Storage object.
-  # Sets the attributes provider_type and name for the service(???)
-  # as default values and then renders the new page (allowing the user
-  # to overwrite these values and to fill in other attributes).
+  # Sets the attributes provider_type and name as default values and then
+  # renders the new page (allowing the user to overwrite these values and to
+  # fill in other attributes).
   # Used by: The index page above, when the user presses the (+) button.
   # Called by: Global app/config/routes.rb to serve Web page
   def new
     # Set default parameters using a "service".
     # See also: storages/services/storages/storages/set_attributes_services.rb
-    # See also: ToDo: Service documentation from Wieland
+    # See also: https://www.openproject.org/docs/development/concepts/contracted-services/
     # That service inherits from ::BaseServices::SetAttributes
-    # ToDo: I don't understand where call(...) is defined, and what this
-    # service actually does.
     @object = ::Storages::Storages::SetAttributesService
                 .new(user: current_user,
                      model: Storages::Storage.new,
                      contract_class: EmptyContract)
-                .call({ provider_type: 'nextcloud', name: I18n.t('storages.provider_types.nextcloud') })
+                .call(provider_type: 'nextcloud', name: I18n.t('storages.provider_types.nextcloud'))
                 .result
-    # What about error processing in case the service returns nil???
 
     # Render the new page in a slightly off-standard location
+    # Error handling is done in the view page
     render 'storages/admin/new'
   end
 
-  # ToDo: RuboCop: Metrics/AbcSize: Assignment Branch Condition size for create is too high. [<7, 21, 2> 22.23/17]
-  # ToDo: Move the comments back into the method
   # Actually create a Storage object.
   # Overwrite the creator_id with the current_user. Is this this pattern always used?
   # Use service pattern to create a new Storage
   # See also: storages/services/storages/storages/create_service.rb
-  # storage_path is automagically created by Ruby controller for the Storage object.
-  # Just render a response to (un-)successful creation.
-  # respond_to takes a URL parameter about the format. Only HTML is supported here.
+  # See also: https://www.openproject.org/docs/development/concepts/contracted-services/
   # Called by: Global app/config/routes.rb to serve Web page
   # rubocop:disable Metrics/AbcSize
   def create
@@ -106,19 +98,12 @@ class Storages::Admin::StoragesController < ApplicationController
     @object = service_result.result
 
     if service_result.success?
-      respond_to do |format|
-        format.html do
-          flash[:notice] = I18n.t(:notice_successful_create)
-          redirect_to storage_path(@object)
-        end
-      end
+      flash[:notice] = I18n.t(:notice_successful_create)
+      # storage_path is automagically created by Ruby routes.
+      redirect_to storage_path(@object)
     else
       @errors = service_result.errors
-      respond_to do |format|
-        format.html do
-          render 'storages/admin/new'
-        end
-      end
+      render 'storages/admin/new'
     end
   end
   # rubocop:enable Metrics/AbcSize
@@ -131,28 +116,20 @@ class Storages::Admin::StoragesController < ApplicationController
   end
 
   # Update is similar to create above
-  # Also see: create above
+  # See also: create above
+  # See also: https://www.openproject.org/docs/development/concepts/contracted-services/
   # Called by: Global app/config/routes.rb to serve Web page
   def update
-    # ToDo: Multi-line call to service instead of one-line above
     service_result = ::Storages::Storages::UpdateService
                        .new(user: current_user,
                             model: @object)
                        .call(permitted_storage_params)
 
     if service_result.success?
-      respond_to do |format|
-        format.html do
-          flash[:notice] = I18n.t(:notice_successful_update)
-          redirect_to storage_path(@object)
-        end
-      end
+      flash[:notice] = I18n.t(:notice_successful_update)
+      redirect_to storage_path(@object)
     else
-      respond_to do |format|
-        format.html do
-          render action: :edit
-        end
-      end
+      render action: :edit
     end
   end
 
@@ -163,19 +140,14 @@ class Storages::Admin::StoragesController < ApplicationController
       .new(user: User.current, model: @object)
       .call
 
-    # ToDo: Where is "flash" defined
     # Displays a message box on the next page
     flash[:info] = I18n.t(:notice_successful_delete)
 
     # Redirect to the index page
-    respond_to do |format|
-      format.html do
-        redirect_to storages_path
-      end
-    end
+    redirect_to storages_path
   end
 
-  # Used by: ToDo:
+  # Used by: admin layout
   # Breadcrumbs is something like OpenProject > Admin > Storages.
   # This returns the name of the last part (Storages admin page)
   def default_breadcrumb
@@ -197,7 +169,6 @@ class Storages::Admin::StoragesController < ApplicationController
   # Called by create and update above in order to check if the
   # update parameters are correctly set.
   def permitted_storage_params
-    # ToDo: How does :storages_storage work? Isn't this "id"? Who transforms?
     params
       .require(:storages_storage)
       .permit('name', 'provider_type', 'host')

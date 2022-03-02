@@ -29,8 +29,8 @@
 require 'net/http'
 require 'uri'
 
-# Called by: Somewhere from within a service (ToDo:)
-# UpdateServer by default checks if UpdateContract exists
+# Purpose: common functionalities shared by CreateContract and UpdateContract
+# UpdateService by default checks if UpdateContract exists
 # and uses the contract to validate the model under consideration
 # (normally it's a model).
 module Storages::Storages

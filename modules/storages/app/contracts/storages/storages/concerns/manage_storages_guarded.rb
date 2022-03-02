@@ -35,9 +35,7 @@
 # Reference: Here is a tutorial about concerns. They basically inject
 # the content of the "included do ... end" block into their target.
 # http://vaidehijoshi.github.io/blog/2015/10/13/stop-worrying-and-start-being-concerned-activesupport-concerns/
-# Used by: ToDo: Check usage.
-# ToDo: Why is this in a different from before_xxx authenticate?
-# ToDo: Is this really used multiple times?
+# Used by: Storages::Storages::BaseContract and Storages::Storages::DeleteContract
 # Returns: An array of errors with section and code
 module Storages::Storages
   module Concerns
@@ -54,7 +52,7 @@ module Storages::Storages
 
         private
 
-        # Small procedure to check that the current user is (global?)admin and active
+        # Small procedure to check that the current user is admin and active
         def validate_user_allowed_to_manage
           unless user.admin? && user.active?
             errors.add :base, :error_unauthorized

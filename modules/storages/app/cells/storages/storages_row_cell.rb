@@ -1,6 +1,6 @@
 # Purpose: Defines the row model for the table of Storage objects
 # Used by: Storage table in storages_table_cell.rb
-# Reference: RubyCells???
+# Reference: https://trailblazer.to/2.0/gems/cells.html
 module Storages
   class StoragesRowCell < ::RowCell
     include ::IconsHelper # Global helper for icons, defines op_icon and icon_wrapper?
@@ -12,7 +12,7 @@ module Storages
     end
 
     # Delegate delegates the execution of certain methods to :model.
-    # ToDo: I'm not sure why this makes sense here.
+    # https://www.rubydoc.info/gems/activesupport/Module:delegate
     delegate :host, to: :model
     delegate :provider_type, to: :model
 
