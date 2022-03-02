@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative '../../spec_helper'
+require_relative '../../../spec_helper'
 
 shared_examples_for 'storage contract', :storage_server_helpers, webmock: true do
   let(:storage_name) { 'Storage 1' }
