@@ -22,10 +22,8 @@
 
     @media #{$spot-mq-landscape}
       bottom: $spot-spacing-1 
-      top: $spot-spacing-1
       right: $spot-spacing-3_5
-      max-height: unset
-      height: calc(100vh - (2 * #{$spot-spacing-1}))
+      max-height: calc(100vh - (2 * #{$spot-spacing-1}))
       width: calc(100vw - (#{$spot-spacing-3_5} + #{$spot-spacing-1}))
 
     @media #{$spot-mq-drop-modal-in-context}
@@ -92,12 +90,9 @@
     background-color: $spot-color-basic-white
 
     @media #{$spot-mq-landscape}
-      bottom: unset
       left: unset
       right: $spot-spacing-0_75
-      width: calc(100% - 2 * $spot-spacing-1)
-      top: 50%
-      transform: translateY(-50%)
+      transform: none
 
 
   &_opened &--close-button
