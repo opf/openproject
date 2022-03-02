@@ -62,10 +62,18 @@ class Storages::Admin::ProjectsStoragesController < Projects::SettingsController
   # Called by: When a user clicks on the "+New" button in Project -> Settings -> File Storages
   def new
     # Create an empty ProjectStorage object, but don't save it to the database yet.
-    # @project was calculated by before_action :find_optional_project.
-    @project_storage = Storages::ProjectStorage.new(project: @project)
+    # @project was calculated in before_action (see comments above).
+    # @project_storage is used in the view in order to render the form for a new object
+    @project_storage = ::Storages::ProjectStorages::SetAttributesService
+                         .new(user: current_user,
+                              model: Storages::ProjectStorage.new,
+                              contract_class: EmptyContract)
+                         .call({ project: @project })
+                         .result
+
     # Calculate the list of available Storage objects, subtracting already enabled storages.
     @available_storages = Storages::Storage.where.not(id: @project.projects_storages.pluck(:storage_id))
+
     # Show the HTML form to create the object.
     render '/storages/project_settings/new'
   end
