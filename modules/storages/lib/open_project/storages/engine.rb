@@ -78,12 +78,23 @@ module OpenProject::Storages
            parent: :settings
     end
 
+    # This hook is executed when the module is loaded.
     config.to_prepare do
-      ::Queries::Register.filter ::Query, ::Queries::Storages::WorkPackages::Filter::FileLinkOriginIdFilter
-      ::Queries::Register.filter ::Query, ::Queries::Storages::WorkPackages::Filter::StorageIdFilter
-      ::Queries::Register.filter ::Query, ::Queries::Storages::WorkPackages::Filter::StorageUrlFilter
-      ::Queries::Register.filter ::Query, ::Queries::Storages::WorkPackages::Filter::LinkableToStorageIdFilter
-      ::Queries::Register.filter ::Query, ::Queries::Storages::WorkPackages::Filter::LinkableToStorageUrlFilter
+
+      # We have a bunch of filters defined within the module. Here we register the filters.
+      [
+        ::Queries::Storages::WorkPackages::Filter::FileLinkOriginIdFilter,
+        ::Queries::Storages::WorkPackages::Filter::StorageIdFilter,
+        ::Queries::Storages::WorkPackages::Filter::StorageUrlFilter,
+        ::Queries::Storages::WorkPackages::Filter::LinkableToStorageIdFilter,
+        ::Queries::Storages::WorkPackages::Filter::LinkableToStorageUrlFilter
+      ].each do |filter|
+        ::Queries::Register.filter ::Query, filter
+
+        # Some filters should not show up in the filter schema dependency rendered response. Those filters are excluded
+        # from rendering with this register method.
+        ::API::V3::Queries::Schemas::FilterDependencyRepresenterFactory.add_excluded_filter filter
+      end
     end
 
     # This helper methods adds a method on the `api_v3_paths` helper. It is created with one parameter (storage_id)

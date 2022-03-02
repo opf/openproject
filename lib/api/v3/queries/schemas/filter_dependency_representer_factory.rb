@@ -49,6 +49,10 @@ module API
             instance
           end
 
+          def add_excluded_filter(*filter_class)
+            @excluded_filters.push *filter_class
+          end
+
           private
 
           @specific_conversion = {
@@ -61,11 +65,6 @@ module API
           }
 
           @excluded_filters = [
-            ::Queries::Storages::WorkPackages::Filter::FileLinkOriginIdFilter,
-            ::Queries::Storages::WorkPackages::Filter::LinkableToStorageIdFilter,
-            ::Queries::Storages::WorkPackages::Filter::LinkableToStorageUrlFilter,
-            ::Queries::Storages::WorkPackages::Filter::StorageIdFilter,
-            ::Queries::Storages::WorkPackages::Filter::StorageUrlFilter,
             ::Queries::WorkPackages::Filter::RelatableFilter
           ]
 
@@ -75,7 +74,7 @@ module API
               type_specific_representer_class(filter) ||
               custom_representer_class(filter)
 
-            name.nil? ? nil : name.constantize
+            name&.constantize
           end
 
           def filter_specific_representer_class(filter)
@@ -125,6 +124,7 @@ module API
           end
 
           module_function :create,
+                          :add_excluded_filter,
                           :representer_class,
                           :filter_specific_representer_class,
                           :type_specific_representer_class,
