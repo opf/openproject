@@ -222,7 +222,19 @@ Currently selected value is {{ toggleValue }}
     (click)="dropModalOpen = !dropModalOpen"
   >Open Modal</button>
   <ng-container slot="body">
-    <h1>Test</h1>
+    <div class="spot-body">
+      <h1>Test</h1>
+
+      <spot-text-field
+        placeholder="Placeholder value"
+        [(ngModel)]="textFieldValue"
+      >
+        <span
+          slot="before"
+          class="spot-icon spot-icon_bell"
+        ></span>
+      </spot-text-field>
+    </div>
   </ng-container>
 </spot-drop-modal>
 

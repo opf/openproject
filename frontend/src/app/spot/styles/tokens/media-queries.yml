@@ -1,11 +1,9 @@
 props:
-  spot-mq-portrait:
-    value: "'screen and (orientation: portrait)'"
   spot-mq-landscape:
-    value: "'screen and (orientation: landscape)'"
+    value: "'(orientation: landscape)'"
 
   spot-mq-drop-modal-in-context:
-    value: "'screen and (min-width: 680px)'"
+    value: "'(min-width: 680px) and (min-height: 500px)'"
 
 global:
   type: media-query

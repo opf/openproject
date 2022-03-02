@@ -20,12 +20,21 @@
     background: $spot-color-basic-white
     border-radius: 5px
 
+    @media #{$spot-mq-landscape}
+      bottom: $spot-spacing-1 
+      top: $spot-spacing-1
+      right: $spot-spacing-3_5
+      height: calc(100vw - (2 * #{$spot-spacing-1}))
+      width: calc(100vh - (#{$spot-spacing-3_5} - #{$spot-spacing-1}))
+
     @media #{$spot-mq-drop-modal-in-context}
       position: absolute
       top: unset
       bottom: unset
       left: unset
       right: unset
+      width: auto
+      max-width: calc(100vw - (2 * #{$spot-spacing-1}))
 
       &_bottom-center
         top: calc(100% + #{$spot-spacing-0_25})
@@ -78,6 +87,15 @@
     left: 50%
     transform: translateX(-50%)
     background-color: $spot-color-basic-white
+
+    @media #{$spot-mq-landscape}
+      bottom: unset
+      left: unset
+      right: $spot-spacing-0_75
+      width: calc(100% - 2 * $spot-spacing-1)
+      top: 50%
+      transform: translateY(-50%)
+
 
   &_opened &--close-button
     display: block
