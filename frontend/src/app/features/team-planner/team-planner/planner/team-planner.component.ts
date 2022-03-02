@@ -413,7 +413,13 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
   }
 
   eventId(data:EventContentArg):string {
-    return `${data.event.id},dragging=${data.isDragging.toString()}`;
+    return [
+      data.event.id,
+      data.event.start?.toISOString(),
+      data.event.end?.toISOString(),
+      data.timeText,
+      `dragging=${data.isDragging.toString()}`,
+    ].join('-');
   }
 
   public showAssigneeAddRow():void {
