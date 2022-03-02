@@ -56,6 +56,7 @@ module Components
     end
 
     def expect_checkbox(project_id, checked = false)
+      no_loading_indicator
       page.find(
         "[data-qa-project-include-id='#{project_id}'][data-qa-project-include-checked='#{checked ? '1' : '0'}']",
         wait: 10
@@ -63,12 +64,14 @@ module Components
     end
 
     def expect_no_checkbox(project_id)
+      no_loading_indicator
       unless page.has_no_selector?("[data-qa-project-include-id='#{project_id}']")
         raise "Expected not to find #{project_id}"
       end
     end
 
     def search(text)
+      no_loading_indicator
       within_body do
         fill_in "project-include-search",
                 with: text,
@@ -100,6 +103,10 @@ module Components
 
     def selector
       '.op-project-include'
+    end
+
+    def no_loading_indicator
+      expect(page).to have_no_selector("[data-qa-selector='op-project-include--loading']")
     end
   end
 end
