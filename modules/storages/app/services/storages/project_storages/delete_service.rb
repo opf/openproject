@@ -38,7 +38,7 @@ module Storages::ProjectStorages
     def persist(service_result)
       # Perform the @object.destroy etc. in the super-class
       service_result = super(service_result)
-      
+
       delete_associated_file_links
 
       # Just return the result from the superclass.

@@ -36,7 +36,7 @@ describe ::API::V3::Utilities::DateTimeFormatter do
 
   shared_examples_for 'can format nil' do
     it 'accepts nil if asked to' do
-      expect(subject.send(method, nil, allow_nil: true)).to be(nil)
+      expect(subject.send(method, nil, allow_nil: true)).to be_nil
     end
 
     it 'returns usual result for non-nils' do
@@ -47,7 +47,7 @@ describe ::API::V3::Utilities::DateTimeFormatter do
 
   shared_examples_for 'can parse nil' do
     it 'accepts nil if asked to' do
-      expect(subject.send(method, nil, 'prop', allow_nil: true)).to be(nil)
+      expect(subject.send(method, nil, 'prop', allow_nil: true)).to be_nil
     end
 
     it 'returns usual result for non-nils' do
