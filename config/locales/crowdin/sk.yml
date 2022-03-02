@@ -2953,8 +2953,11 @@ sk:
     errors:
       messages:
         #Common error messages
-        invalid_request: 'V žiadosti chýba požadovaný parameter, obsahuje nepodporovanú hodnotu parametra alebo inak je chybný.'
-        invalid_redirect_uri: "The requested redirect URI is malformed or doesn't match client redirect URI."
+        invalid_request:
+          unknown: 'V žiadosti chýba požadovaný parameter, obsahuje nepodporovanú hodnotu parametra alebo inak je chybný.'
+          missing_param: 'Missing required parameter: %{value}.'
+          request_not_authorized: 'Request need to be authorized. Required parameter for authorizing request is missing or invalid.'
+        invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
         unauthorized_client: 'Klient nie je oprávnený vykonať túto požiadavku pomocou tejto metódy.'
         access_denied: 'Vlastník zdroja alebo autorizačný server žiadosť zamietol.'
         invalid_scope: 'Požadovaný rozsah je neplatný, neznámy alebo chybný.'
@@ -2967,6 +2970,7 @@ sk:
         admin_authenticator_not_configured: 'Prístup k administrátorskému panelu je zakázaný, pretože Doorkeeper.configure.admin_authenticator nie je nakonfigurovaný.'
         #Access grant errors
         unsupported_response_type: 'Autorizačný server tento typ odpovede nepodporuje.'
+        unsupported_response_mode: 'The authorization server does not support this response mode.'
         #Access token errors
         invalid_client: 'Overenie klienta zlyhalo z dôvodu neznámeho klienta, nebolo zahrnuté overenie klienta, alebo nie je podporovaná metóda overovania.'
         invalid_grant: 'Poskytnutý grant na autorizáciu je neplatný, vypršal, zrušil, nezodpovedal URI presmerovania použitému v žiadosti o autorizáciu alebo bol vydaný inému klientovi.'
@@ -2975,6 +2979,10 @@ sk:
           revoked: "Prístupový token bol zrušený"
           expired: "Platnosť prístupového tokenu vypršala"
           unknown: "Prístupový token je nesprávny"
+        revoke:
+          unauthorized: "You are not authorized to revoke this token."
+        forbidden_token:
+          missing_scope: 'Access to this resource requires scope "%{oauth_scopes}".'
   unsupported_browser:
     title: "Váš prehliadač je zastaraný a nepodporovaný."
     message: "Na tejto stránke môžete naraziť na chyby a neúplné/znehodnotené skúseností."

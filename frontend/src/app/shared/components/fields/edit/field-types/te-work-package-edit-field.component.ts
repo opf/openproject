@@ -93,6 +93,7 @@ export class TimeEntryWorkPackageEditFieldComponent extends WorkPackageEditField
         .then((collection) => {
           this.recentWorkPackageIds = collection
             .elements
+            .filter((timeEntry) => timeEntry.workPackage?.href)
             .map((timeEntry) => idFromLink(timeEntry.workPackage.href))
             .filter((v, i, a) => a.indexOf(v) === i);
 
@@ -105,7 +106,8 @@ export class TimeEntryWorkPackageEditFieldComponent extends WorkPackageEditField
   protected allowedValuesFilter(query?:string):{} {
     const filters:ApiV3FilterBuilder = new ApiV3FilterBuilder();
 
-    if ((this._autocompleterComponent as TimeEntryWorkPackageAutocompleterComponent).mode === 'recent') {
+    const isRecent = (this._autocompleterComponent as TimeEntryWorkPackageAutocompleterComponent).mode === 'recent';
+    if (isRecent && this.recentWorkPackageIds.length > 0) {
       filters.add('id', '=', this.recentWorkPackageIds);
     }
 

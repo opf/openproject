@@ -57,6 +57,16 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
                       hours: 3,
                       comments: 'My comment'
   end
+  let!(:visible_time_entry_on_project) do
+    FactoryBot.create :time_entry,
+                      work_package: nil,
+                      project: project,
+                      activity: activity,
+                      user: user,
+                      spent_on: Date.today.beginning_of_week(:sunday) + 1.day,
+                      hours: 1,
+                      comments: 'My comment'
+  end
   let!(:other_visible_time_entry) do
     FactoryBot.create :time_entry,
                       work_package: work_package,
@@ -119,7 +129,7 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
     entries_area.expect_to_span(1, 1, 2, 2)
 
     expect(page)
-      .to have_content "Total: 5.00"
+      .to have_content "Total: 6.00"
 
     expect(page)
       .to have_content visible_time_entry.spent_on.strftime('%-m/%-d')
@@ -150,7 +160,7 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
     end
 
     expect(page)
-      .to have_content "Total: 5.00"
+      .to have_content "Total: 6.00"
 
     within entries_area.area do
       find(".te-calendar--time-entry", match: :first).hover
@@ -199,15 +209,15 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
     end
 
     expect(page)
-      .to have_content "Total: 9.00"
+      .to have_content "Total: 10.00"
 
     expect(TimeEntry.count)
-      .to eql 5
+      .to eql 6
 
     ## Editing an entry
 
     within entries_area.area do
-      find("td.fc-timegrid-col:nth-of-type(3) .te-calendar--time-entry").click
+      all("td.fc-timegrid-col:nth-of-type(3) .te-calendar--time-entry").first.click
     end
 
     time_logging_modal.is_visible true
@@ -231,7 +241,7 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
     my_page.expect_and_dismiss_toaster message: I18n.t(:notice_successful_update)
 
     within entries_area.area do
-      find("td.fc-timegrid-col:nth-of-type(3) .te-calendar--time-entry").hover
+      all("td.fc-timegrid-col:nth-of-type(3) .te-calendar--time-entry").first.hover
     end
 
     expect(page)
@@ -247,7 +257,7 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
       .to have_selector('.ui-tooltip', text: "Comment: Some comment")
 
     expect(page)
-      .to have_content "Total: 12.00"
+      .to have_content "Total: 13.00"
 
     ## Hiding weekdays
     entries_area.click_menu_item I18n.t('js.grid.configure')
@@ -279,7 +289,7 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
 
     within entries_area.area do
       expect(page)
-       .not_to have_selector("td.fc-timegrid-col:nth-of-type(5) .te-calendar--time-entry")
+        .not_to have_selector("td.fc-timegrid-col:nth-of-type(5) .te-calendar--time-entry")
     end
 
     expect(TimeEntry.where(id: other_visible_time_entry.id))

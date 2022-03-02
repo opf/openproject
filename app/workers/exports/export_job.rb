@@ -2,6 +2,8 @@ require 'active_storage/filename'
 
 module Exports
   class ExportJob < ::ApplicationJob
+    queue_with_priority :above_normal
+
     def perform(export:, user:, mime_type:, query:, **options)
       self.export = export
       self.current_user = user
