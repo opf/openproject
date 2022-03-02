@@ -29,7 +29,7 @@
 #++
 
 class CopyProjectJob < ApplicationJob
-  queue_with_priority :low
+  queue_with_priority :above_normal
   include OpenProject::LocaleHelper
 
   attr_reader :user_id,

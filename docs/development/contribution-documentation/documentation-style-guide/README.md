@@ -59,16 +59,28 @@ Find an overview of content per folder here:
 
 Please respect the following when working with directories and files:
 
-1. When you create a new topic, i.e. a new documentation page, always create a new folder and a new README.md file in that folder.
-2. Do not use special characters and spaces, or capital letters in file names, directory names, branch names and anything that generates a path.
+1. When you create a new topic, i.e. a new documentation page, always create a new folder with a **lowercase name** and a new **README.md** file in that folder.
 
-3. When creating a file or directory and it has more than one word in its name, use underscores (`_`) instead of spaces or dashes. For example use open_details-view_work_packages.png. This applies to both image files and Markdown files.
+   Example: `new-feature/README.md`
 
-4. For image files, do not exceed 200KB.
+2. Use **lowercase latin characters and numbers**.
+
+   Do not use special characters, umlauts and spaces, or capital letters in file names, directory names, branch names and anything that generates a path.
+
+3. Use **no spaces**
+
+   When creating a directory and it has more than one word in its name, use dashes (`-`) instead of spaces.
+
+   Example: `new-feature`
+
+   When creating a file and it has more than one word in its name, use dashes (`-`) or underscores (`_`) instead of spaces.
+
+   Example: `open_details-view_work_packages.png`
+
+   Only exception is the markdown file which always needs to be named **README.md**
 
 If you are unsure where to place a document or a content addition, this should not stop you from authoring and contributing. Use your best judgment, and then add a comment to your pull request.
 
- 
 
 ## No duplication of information
 
@@ -391,7 +403,7 @@ When you take screenshots:
 
 ### Save images
 
-- Save the image with a file name that describes the image. Use lower cases. 
+- Save the image with a file name that describes the image. Use lower cases and no spaces (see [file names requirements](#directory-and-file-names)).
 
 - Make sure to not exceed the maximum image size of 200KB.
 
@@ -403,7 +415,7 @@ When you take screenshots:
 
 ### Add the image link to content
 
-The Markdown code for including an image in a document is: `![Image description which will be the alt tag](img/document_image_title_vX_Y.png)`
+The Markdown code for including an image in a document is: `![Image description which will be the alt tag](document_image_title_v_x_y.png)`
 
 The image description is the alt text for the rendered image on the documentation page. For accessibility and SEO, use descriptions that are short and precise.
 

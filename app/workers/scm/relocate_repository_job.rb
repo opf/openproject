@@ -31,7 +31,7 @@
 ##
 # Provides an asynchronous job to relocate a managed repository on the local or remote system
 class SCM::RelocateRepositoryJob < SCM::RemoteRepositoryJob
-  queue_with_priority :low
+  queue_with_priority :below_normal
 
   def perform(repository)
     super(repository)

@@ -71,7 +71,6 @@ end
 Rails.autoloaders.main.ignore(Rails.root.join('lib/plugins'))
 Rails.autoloaders.main.ignore(Rails.root.join('lib/open_project/patches'))
 Rails.autoloaders.main.ignore(Rails.root.join('lib/generators'))
-Rails.autoloaders.main.ignore(Bundler.bundle_path.join('**/*.rb'))
 
 # Comment in to enable zeitwerk logging.
 # Rails.autoloaders.main.log!

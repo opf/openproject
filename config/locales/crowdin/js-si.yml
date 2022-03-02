@@ -1086,10 +1086,10 @@ si:
       current_project_and_all_descendants: "මෙම ව්යාපෘතිය+උප ව්යාපෘති"
       title:
         all_projects: "සියලු ව්යාපෘති"
-        project_and_subprojects: "සහ සියලු උප ව්යාපෘති"
-        search_for: "සොයන්න"
+        project_and_subprojects: "සහ සියළු උප ව්යාපෘති"
+        search_for: "සඳහා සොයන්න"
     views:
-      card: 'කාඩ්'
+      card: 'පත්'
       list: 'මේසය'
       timeline: 'ගැන්ට්'
     invite_user_modal:

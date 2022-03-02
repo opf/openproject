@@ -46,6 +46,10 @@ class ApplicationJob < ::ActiveJob::Base
       0
     when :notification
       5
+    when :above_normal
+      7
+    when :below_normal
+      13
     when :low
       20
     else

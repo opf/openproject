@@ -452,6 +452,50 @@ OPENPROJECT_WEB_MIN__THREADS=4 # overriden by: RAILS_MIN_THREADS
 OPENPROJECT_WEB_MAX__THREADS=16 # overriden by: RAILS_MAX_THREADS
 ```
 
+### Two-factor authentication
+
+**Note::** These configuration variables are only applied in an Enterprise Edition
+
+You can set the available 2FA strategies and/or enforce or disable 2FA system-wide.
+
+**Enforcing 2FA authentication system-wide**
+
+To enforce every user requires 2FA, you can use the checkbox under System settings > Authentication > Two-factor authentication.
+However, if you also want to ensure administrators cannot uncheck this, use the following variable
+
+```
+OPENPROJECT_2FA_ENFORCED="true"
+```
+
+**Setting available strategies**
+
+By default, the TOTP strategy for phone authenticator apps is active.
+
+
+If you have a [MessageBird account](https://www.messagebird.com/),
+you can setup a SMS 2FA by activating that strategy like so:
+
+```
+OPENPROJECT_2FA_ACTIVE__STRATEGIES="[totp,message_bird]"
+OPENPROJECT_2FA_MESSAGE__BIRD_APIKEY="your api key here"
+```
+
+You can also use Amazon SNS to send SMS for authentication:
+
+```
+OPENPROJECT_2FA_ACTIVE__STRATEGIES="[totp,sns]"
+OPENPROJECT_2FA_SNS_ACCESS__KEY__ID="YOUR KEY ID"
+OPENPROJECT_2FA_SNS_SECRET__ACCESS__KEY="YOUR SECRET KEY"
+OPENPROJECT_2FA_SNS_REGION="AWS REGION"
+```
+
+To disable 2FA altogether and remove all menus from the system, so that users cannot register their 2FA devices:
+
+```
+OPENPROJECT_2FA_DISABLED="true"
+OPENPROJECT_2FA_ACTIVE__STRATEGIES="[]
+```
+
 ### statsd
 
 *default: { host: nil, port: 8125 }*

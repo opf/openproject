@@ -10,7 +10,7 @@
     [hideSelected]="hideSelected"
     [appendTo]="appendTo"
     [multiple]="multiple"
-    [loading]="isLoading"
+    [loading]="loading$ | async"
     [addTag]="addTag"
     [virtualScroll]="virtualScroll"
     [required]="required"

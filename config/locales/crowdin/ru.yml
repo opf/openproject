@@ -448,7 +448,7 @@ ru:
         work_packages: "Задачи"
         templated: 'Проект шаблона'
       projects/status:
-        code: 'Состояние'
+        code: 'Статус'
         explanation: 'Описание статуса'
         codes:
           on_track: 'В работе'
@@ -742,7 +742,7 @@ ru:
               does_not_exist: "Указанная категория не существует."
             estimated_hours:
               only_values_greater_or_equal_zeroes_allowed: "должно быть > = 0."
-          readonly_status: 'Пакет работ находится в состоянии только для чтения, поэтому его атрибуты не могут быть изменены.'
+          readonly_status: 'Пакет работ находится в статусе только для чтения, поэтому его атрибуты не могут быть изменены.'
         type:
           attributes:
             attribute_groups:
@@ -773,7 +773,7 @@ ru:
                 confirm: "Подтвердите новый пароль."
                 description: "«Подтвержденный пароль» должен совпадать с введенным «новым паролем»."
             status:
-              invalid_on_create: "для нового пользователя это неподходящий статус."
+              invalid_on_create: "не является допустимым статусом для новых пользователей."
             auth_source:
               error_not_found: "не найдено"
         member:
@@ -804,7 +804,7 @@ ru:
       custom_field: "Настраиваемое поле"
       group: "Группа"
       category: "Категория"
-      status: "Состояние группы работ"
+      status: "Статусы пакета работ"
       member: "Участник"
       news: "Новости"
       notification:
@@ -882,7 +882,7 @@ ru:
     role: "Роль"
     roles: "Роль"
     start_date: "Дата начала"
-    status: "Состояние"
+    status: "Статус"
     subject: "Тема"
     summary: "Сводка"
     title: "Заголовок"
@@ -1272,7 +1272,7 @@ ru:
   error_password_change_failed: 'Произошла ошибка при попытке изменить пароль.'
   error_scm_command_failed: "Произошла ошибка при попытке доступа к хранилищу: %{value}"
   error_scm_not_found: "Ни статья, ни ее исправленная версия в репозитории не найдены."
-  error_unable_delete_status: "Состояние работы пакета удалить нельзя, так как оно используется по крайней мере одним рабочим пакетом."
+  error_unable_delete_status: "Статус пакета работ удалить нельзя, так как он используется по крайней мере одним рабочим пакетом."
   error_unable_delete_default_status: "Не удается удалить статус работы пакета по умолчанию. Пожалуйста, выберите другой статус работы пакета по умолчанию перед удалением текущего."
   error_unable_to_connect: "Не удается подключиться (%{value})"
   error_unable_delete_wiki: "Не удается удалить вики-страницу."
@@ -1542,7 +1542,7 @@ ru:
   label_disabled: "отключено"
   label_display: "Отображение"
   label_display_per_page: "На странице: %{value}"
-  label_display_used_statuses_only: "Отображать только используемые этим типом  состояния"
+  label_display_used_statuses_only: "Отображать только используемые этим типом  статусы"
   label_download: "%{count} скачать"
   label_download_plural: "%{count} скачиваний"
   label_downloads_abbr: "D/L"
@@ -1823,7 +1823,7 @@ ru:
   label_start_to_end: "от начала до конца"
   label_start_to_start: "Пуск, чтобы начать"
   label_statistics: "Статистика"
-  label_status: "Состояние"
+  label_status: "Статус"
   label_stay_logged_in: "Запомнить"
   label_storage_free_space: "Свободное дисковое пространство"
   label_storage_used_space: "Используемое дисковое пространство"
@@ -1914,7 +1914,7 @@ ru:
   label_work_package_new: "Новый пакет работ"
   label_work_package_edit: "Редактирование пакета работ %{name}"
   label_work_package_plural: "Комплекс работ"
-  label_work_package_status: "Состояние группы работ"
+  label_work_package_status: "Статус пакета работ"
   label_work_package_status_new: "Новый статус"
   label_work_package_status_plural: "Статусы пакета работ"
   label_work_package_types: "Типы рабочих пакетов"
@@ -2377,9 +2377,10 @@ ru:
   setting_apiv3_cors_origins: "Разделение ресурсов (CORS) разрешено в API V3"
   setting_apiv3_cors_origins_text_html: >
     Если CORS включен, то это источники, которым разрешен доступ к OpenProject API. <br/> Пожалуйста, проверьте <a href="%{origin_link}" target="_blank">документацию по происхождению</a> о том, как указывать ожидаемые значения.
-  setting_apiv3_max_page_size: "Maximum API page size"
+  setting_apiv3_max_page_size: "Максимальный размер страницы API"
   setting_apiv3_max_page_instructions_html: >
-    Set the maximum page size the API will respond with. It will not be possible to perform API requests that return more values on a single page. <br/> <strong>Warning:</strong> Please only change this value if you are sure why you need it. Setting to a high value will result in significant performance impacts, while a value lower than the per page options will cause errors in paginated views.
+    Установите максимальный размер страницы, который будет отвечать API. Невозможно выполнить API-запросы, возвращающие много значений на одной странице. <br/> <strong>Предупреждение:</strong> Пожалуйста, измените это значение, только если вы уверены, зачем вам это нужно. Установка большого значения приведет к значительному снижению производительности, в то время как значение ниже, чем для параметров страницы, вызовет ошибки в представлениях с разбивкой на страницы. 
+
   setting_apiv3_docs: "Документация"
   setting_apiv3_docs_enabled: "Включить страницу с документами"
   setting_apiv3_docs_enabled_instructions_html: >
@@ -2704,7 +2705,7 @@ ru:
         type: "Тип"
         due_date: "Дате окончания"
         name: "Имя"
-        status: "Состояние"
+        status: "Статус"
         start_date: "Дата начала"
       columns: "Столбцы"
       comparisons: "Сравнения"
@@ -2736,7 +2737,7 @@ ru:
       work_package_responsible: "Показать пакеты работ с подотчетными"
       work_package_assignee: "Показать пакеты работ с назначениями"
       types: "Показать типы"
-      status: "Показать состояние"
+      status: "Показать статус"
       project_time_filter: "Проекты пакета работ определенного типа в определенные сроки"
       project_time_filter_timeframe: "Срок"
       project_time_filter_historical_from: "от"
@@ -2915,7 +2916,7 @@ ru:
       invalid_signal:
         embed: "Запрошенное встраивание %{invalid} не поддерживается. Поддерживаемые встраивания: %{supported}."
         select: "Запрошенный выбор %{invalid} не поддерживается. Поддерживаются варианты %{supported}."
-      invalid_user_status_transition: "Состояние учетной записи текущего пользователя не поддерживает эту операцию."
+      invalid_user_status_transition: "Статус учетной записи текущего пользователя не поддерживает эту операцию."
       missing_content_type: "Не определено"
       missing_request_body: "Нет тела запроса."
       missing_or_malformed_parameter: "Параметр запроса «%{parameter}» отсутствует или имеет неправильный формат."
@@ -2948,8 +2949,11 @@ ru:
     errors:
       messages:
         #Common error messages
-        invalid_request: 'В запросе нет обязательного параметра, значение параметра не поддерживается или не соответствует требованиям.'
-        invalid_redirect_uri: "Запрашиваемый редирект URI является неверным или не соответствует URI перенаправления клиента."
+        invalid_request:
+          unknown: 'В запросе нет обязательного параметра, значение параметра не поддерживается или не соответствует требованиям.'
+          missing_param: 'Missing required parameter: %{value}.'
+          request_not_authorized: 'Request need to be authorized. Required parameter for authorizing request is missing or invalid.'
+        invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
         unauthorized_client: 'Клиент не уполномочен выполнить этот запрос с помощью этого метода.'
         access_denied: 'Владелец ресурса или сервер авторизации отклонил запрос.'
         invalid_scope: 'Запрашиваемая область является недопустимой, неизвестной или неправильной.'
@@ -2962,6 +2966,7 @@ ru:
         admin_authenticator_not_configured: 'Доступ к панели администратора запрещен, так как Doorkeeper.configure.admin_authenticator не настроен.'
         #Access grant errors
         unsupported_response_type: 'Сервер авторизации не поддерживает этот тип ответа.'
+        unsupported_response_mode: 'The authorization server does not support this response mode.'
         #Access token errors
         invalid_client: 'Аутентификация клиента не удалась из-за неизвестности клиента, отсутствия у клиента аутентификации или не поддерживаемого метода аутентификации.'
         invalid_grant: 'Предоставленное разрешение недействительно, истекло, аннулировано, не соответствует URI перенаправления, используемому в запросе авторизации, или было выдано другому клиенту.'
@@ -2970,6 +2975,10 @@ ru:
           revoked: "Маркер доступа был отозван"
           expired: "Истек срок действия маркера доступа"
           unknown: "Недопустимый маркер доступа"
+        revoke:
+          unauthorized: "You are not authorized to revoke this token."
+        forbidden_token:
+          missing_scope: 'Access to this resource requires scope "%{oauth_scopes}".'
   unsupported_browser:
     title: "Ваш браузер устарел и не поддерживается."
     message: "На этой странице вы рискуете столкнуться с ошибками и обедненным опытом."

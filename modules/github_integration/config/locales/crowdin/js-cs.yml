@@ -30,12 +30,12 @@ cs:
           label: Git snippets
           description: Copy git snippets to clipboard
         git_actions:
-          branch_name: Branch name
+          branch_name: Název pobočky
           commit_message: Commit message
           cmd: Create branch with empty commit
           title: Quick snippets for Git
-          copy_success: '✅ Copied!'
-          copy_error: '❌ Copy failed!'
+          copy_success: '✅ Zkopírováno!'
+          copy_error: '❌ Kopírování selhalo!'
       tab_prs:
         empty: 'There are no pull requests linked yet. Link an existing PR by using the code <code>OP#%{wp_id}</code> in the PR description or create a new PR.'
       github_actions: Akce
