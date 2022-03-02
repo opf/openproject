@@ -14,7 +14,7 @@
     left: $spot-spacing-1
     right: $spot-spacing-1
     width: calc(100vw - (2 * #{$spot-spacing-1}))
-    max-height: calc(100vh - (#{$spot-spacing-3_5} - #{$spot-spacing-1}))
+    max-height: calc(100vh - (#{$spot-spacing-3_5} + #{$spot-spacing-1}))
 
     box-shadow: $spot-shadow-light-mid
     background: $spot-color-basic-white
@@ -24,8 +24,9 @@
       bottom: $spot-spacing-1 
       top: $spot-spacing-1
       right: $spot-spacing-3_5
-      height: calc(100vw - (2 * #{$spot-spacing-1}))
-      width: calc(100vh - (#{$spot-spacing-3_5} - #{$spot-spacing-1}))
+      max-height: unset
+      height: calc(100vh - (2 * #{$spot-spacing-1}))
+      width: calc(100vw - (#{$spot-spacing-3_5} + #{$spot-spacing-1}))
 
     @media #{$spot-mq-drop-modal-in-context}
       position: absolute
