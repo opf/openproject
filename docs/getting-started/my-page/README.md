@@ -23,11 +23,11 @@ My Page is your personal dashboard where you can display important information o
 
 You can open your **My page** by clicking on your user avatar in the upper right corner and then selecting **My page** from the dropdown menu.
 
-![Bildschirmfoto 2022-02-25 um 13.24.56](/Users/jankeppler/Library/Application Support/typora-user-images/Bildschirmfoto 2022-02-25 um 13.24.56.png)
+![navigate-to-my-page](navigate-to-my-page.png)
 
 As a default, you will see two lists of all **work packages assigned to you** and **work packages created by you** from all your projects.
 
-![Bildschirmfoto 2022-02-25 um 13.22.02](/Users/jankeppler/Library/Application Support/typora-user-images/Bildschirmfoto 2022-02-25 um 13.22.02.png)
+![My-page-default-view](My-page-default-view.png)
 
 
 
@@ -58,7 +58,7 @@ Click the dots next to the title and drag it to the new place.
 
 <video src="/Users/jankeppler/Desktop/Bildschirmaufnahme 2022-02-25 um 13.13.10.mov"></video>
 
-
+![Move-widget](Move-widget.png)
 
 ### Change the size of a widget
 
@@ -66,7 +66,9 @@ If you click the dots on the lower right hand corner in a widget you can change 
 
 <video src="/Users/jankeppler/Desktop/Bildschirmaufnahme 2022-02-25 um 13.05.34.mov"></video>
 
+![chage-size-of-a-widget](chage-size-of-a-widget.png)
 
+![change-size-of-a-widget-addition](change-size-of-a-widget-addition.png)
 
 ### Configure the view of a widget (for work package tables)
 
