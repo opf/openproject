@@ -61,6 +61,11 @@ module API
           }
 
           @excluded_filters = [
+            ::Queries::Storages::WorkPackages::Filter::FileLinkOriginIdFilter,
+            ::Queries::Storages::WorkPackages::Filter::LinkableToStorageIdFilter,
+            ::Queries::Storages::WorkPackages::Filter::LinkableToStorageUrlFilter,
+            ::Queries::Storages::WorkPackages::Filter::StorageIdFilter,
+            ::Queries::Storages::WorkPackages::Filter::StorageUrlFilter,
             ::Queries::WorkPackages::Filter::RelatableFilter
           ]
 
