@@ -183,8 +183,8 @@ describe 'API v3 file links resource', type: :request do
     end
   end
 
-  describe 'GET /api/v3/work_packages/:work_package_id/file_links/:file_link_id' do
-    let(:path) { api_v3_paths.file_link(work_package.id, file_link.id) }
+  describe 'GET /api/v3/file_links/:file_link_id' do
+    let(:path) { api_v3_paths.file_link(file_link.id) }
 
     before do
       get path
@@ -195,21 +195,21 @@ describe 'API v3 file links resource', type: :request do
     end
 
     context 'if user has not sufficient permissions' do
-      let(:permissions) { %i(view_work_packages) }
+      let(:permissions) { [] }
 
       it_behaves_like 'not found'
     end
 
     context 'if no storage with that id exists' do
-      let(:path) { api_v3_paths.file_link(work_package.id, 1337) }
+      let(:path) { api_v3_paths.file_link(1337) }
 
       it_behaves_like 'not found'
     end
   end
 
-  describe 'DELETE /api/v3/work_packages/:work_package_id/file_links/:file_link_id' do
-    let(:path) { api_v3_paths.file_link(work_package.id, file_link.id) }
-    let(:permissions) { %i(view_work_packages view_file_links manage_file_links) }
+  describe 'DELETE /api/v3/file_links/:file_link_id' do
+    let(:path) { api_v3_paths.file_link(file_link.id) }
+    let(:permissions) { %i(view_file_links manage_file_links) }
 
     before do
       header 'Content-Type', 'application/json'
@@ -222,26 +222,26 @@ describe 'API v3 file links resource', type: :request do
     end
 
     context 'if user has no view permissions' do
-      let(:permissions) { %i(view_work_packages) }
+      let(:permissions) { [] }
 
       it_behaves_like 'not found'
     end
 
     context 'if user has no manage permissions' do
-      let(:permissions) { %i(view_work_packages view_file_links) }
+      let(:permissions) { %i(view_file_links) }
 
       it_behaves_like 'unauthorized access'
     end
 
     context 'if no storage with that id exists' do
-      let(:path) { api_v3_paths.file_link(work_package.id, 1337) }
+      let(:path) { api_v3_paths.file_link(1337) }
 
       it_behaves_like 'not found'
     end
   end
 
-  describe 'GET /api/v3/work_packages/:work_package_id/file_links/:file_link_id/open' do
-    let(:path) { api_v3_paths.file_link_open(work_package.id, file_link.id) }
+  describe 'GET /api/v3/file_links/:file_link_id/open' do
+    let(:path) { api_v3_paths.file_link_open(file_link.id) }
 
     before do
       get path
@@ -252,13 +252,13 @@ describe 'API v3 file links resource', type: :request do
     end
 
     context 'if user has no view permissions' do
-      let(:permissions) { %i(view_work_packages) }
+      let(:permissions) { [] }
 
       it_behaves_like 'not found'
     end
 
     context 'if no storage with that id exists' do
-      let(:path) { api_v3_paths.file_link(work_package.id, 1337) }
+      let(:path) { api_v3_paths.file_link(1337) }
 
       it_behaves_like 'not found'
     end

@@ -102,7 +102,7 @@ module API
             mount ::API::V3::WorkPackages::AvailableProjectsOnEditAPI
             mount ::API::V3::WorkPackages::AvailableRelationCandidatesAPI
             mount ::API::V3::WorkPackages::WorkPackageRelationsAPI
-            mount ::API::V3::FileLinks::FileLinksAPI
+            mount ::API::V3::FileLinks::WorkPackagesFileLinksAPI
           end
 
           mount ::API::V3::WorkPackages::CreateFormAPI

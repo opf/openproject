@@ -51,13 +51,13 @@ module API
 
         link :self do
           {
-            href: api_v3_paths.file_link(represented.container_id, represented.id)
+            href: api_v3_paths.file_link(represented.id)
           }
         end
 
         link :delete, cache_if: -> { user_allowed_to_manage?(represented) } do
           {
-            href: api_v3_paths.file_link(represented.container_id, represented.id),
+            href: api_v3_paths.file_link(represented.id),
             method: :delete
           }
         end
@@ -77,7 +77,7 @@ module API
 
         link :staticOriginOpen do
           {
-            href: api_v3_paths.file_link_open(represented.container_id, represented.id)
+            href: api_v3_paths.file_link_open(represented.id)
           }
         end
 
