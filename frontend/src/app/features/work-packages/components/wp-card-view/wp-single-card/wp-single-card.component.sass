@@ -16,26 +16,27 @@
   &:hover
     .op-wp-single-card--inline-buttons
       opacity: 1
-
-  :not(&_closed):not(&_selected)
-    &:hover
-      .op-wp-single-card--card-actions
-        background-image: linear-gradient(to left, rgba(white,1), rgba(white,0))
+      z-index: 2
+      background-image: linear-gradient(to left, rgba(white,1), rgba(white,0))
 
   &_new
     padding-right: 25px
 
   &_selected
     background-color: var(--table-row-highlighting-color)
+    op-icon
+      background: var(--table-row-highlighting-color)
     &:hover
       .op-wp-single-card--inline-buttons
-        background-image: linear-gradient(to left, rgba(var(--table-row-highlighting-color),1), rgba(var(--table-row-highlighting-color),0))
+        background-image: linear-gradient(to left, rgba(#CCE6F7,1), rgba(#CCE6F7,0))
 
   &_disabled
     opacity: 0.6
 
   &_closed:not(&_selected)
     background-color: #F3F3F3
+    op-icon
+      background: #F3F3F3
     &:hover
       .op-wp-single-card--inline-buttons
         background-image: linear-gradient(to left, rgba(#F3F3F3,1), rgba(#F3F3F3,0))
@@ -146,10 +147,12 @@
 
     .op-wp-single-card_checked &
       background-color: var(--table-row-highlighting-color)
-
+  
   &--inline-buttons
     opacity: 0
     padding-left: 40px
+    op-icon:not(&_selected)
+      background: white
 
     &.-show
       opacity: 1
