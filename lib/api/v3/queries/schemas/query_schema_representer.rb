@@ -263,7 +263,9 @@ module API
           end
 
           def filters_schemas
-            filters = represented.available_filters
+            filters = represented
+              .available_filters
+              .reject { excluded_filter?(_1) }
             QueryFilterInstanceSchemaCollectionRepresenter.new(filters,
                                                                self_link: filter_instance_schemas_href,
                                                                form_embedded: form_embedded,
@@ -276,6 +278,20 @@ module API
             else
               api_v3_paths.query_filter_instance_schemas
             end
+          end
+
+          private
+
+          # ToDo: fix duplication with @excluded_filters in lib/api/v3/queries/schemas/filter_dependency_representer_factory.rb
+          def excluded_filter?(filter)
+            [
+              ::Queries::Storages::WorkPackages::Filter::FileLinkOriginIdFilter,
+              ::Queries::Storages::WorkPackages::Filter::LinkableToStorageIdFilter,
+              ::Queries::Storages::WorkPackages::Filter::LinkableToStorageUrlFilter,
+              ::Queries::Storages::WorkPackages::Filter::StorageIdFilter,
+              ::Queries::Storages::WorkPackages::Filter::StorageUrlFilter,
+              ::Queries::WorkPackages::Filter::RelatableFilter
+            ].any? { filter.is_a?(_1) }
           end
         end
       end
