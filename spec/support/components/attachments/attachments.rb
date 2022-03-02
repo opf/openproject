@@ -21,7 +21,7 @@ module Components
         target.native,
         'temporary_attachment_files',
         position.to_s
-        )
+      )
 
       attach_file_on_input(path, 'temporary_attachment_files')
     end
