@@ -32,7 +32,7 @@
       class="spot-body"
     >
       <spot-text-field
-        [disabled]="!(hasProjects$ | async)"
+        [disabled]="!(areProjectsLoaded$ | async)"
         [placeholder]="text.search_placeholder"
         name="project-include-search"
         [(ngModel)]="query"
@@ -45,7 +45,7 @@
         ></span>
       </spot-text-field>
 
-      <ng-container *ngIf="(hasProjects$ | async); else loadingTemplate">
+      <ng-container *ngIf="(areProjectsLoaded$ | async); else loadingTemplate">
         <ul
           op-project-list
           [projects]="projects$ | async"
@@ -59,7 +59,7 @@
         <div class="spot-action-bar--left"></div>
         <div class="spot-action-bar--right">
           <button
-            [disabled]="!(hasProjects$ | async)"
+            [disabled]="!(areProjectsLoaded$ | async)"
             class="spot-button spot-button_outlined spot-button_main"
             type="button"
             (click)="clearSelection()"
@@ -67,7 +67,7 @@
             {{ text.clear_selection }}
           </button>
           <button 
-            [disabled]="!(hasProjects$ | async)"
+            [disabled]="!(areProjectsLoaded$ | async)"
             class="spot-button spot-button_main"
           >
             {{ text.apply }}
@@ -77,17 +77,35 @@
       <ng-template #loadingTemplate>
         <op-content-loader
         class="op-project-include--loading"
+        data-qa-selector="op-project-include--loading"
         viewBox="0 0 200 140"
       >
-        <svg:rect x="0" y="0" width="100%" height="12" rx="1" />
-        <svg:rect x="20" y="16" width="100%" height="12" rx="1" />
-        <svg:rect x="20" y="32" width="100%" height="12" rx="1" />
-        <svg:rect x="40" y="48" width="100%" height="12" rx="1" />
-        <svg:rect x="40" y="64" width="100%" height="12" rx="1" />
-        <svg:rect x="0" y="80" width="100%" height="12" rx="1" />
-        <svg:rect x="20" y="96" width="100%" height="12" rx="1" />
-        <svg:rect x="20" y="112" width="100%" height="12" rx="1" />
-        <svg:rect x="0" y="128" width="100%" height="12" rx="1" />
+        <svg:rect x="0" width="12" height="12" rx="1" />
+        <svg:rect x="15" width="100%" height="12" rx="1" />
+
+        <svg:rect x="10" y="16" width="12" height="12" rx="1" />
+        <svg:rect x="25" y="16" width="100%" height="12" rx="1" />
+
+        <svg:rect x="10" y="32" width="12" height="12" rx="1" />
+        <svg:rect x="25" y="32" width="100%" height="12" rx="1" />
+
+        <svg:rect x="20" y="48" width="12" height="12" rx="1" />
+        <svg:rect x="35" y="48" width="100%" height="12" rx="1" />
+
+        <svg:rect x="20" y="64" width="12" height="12" rx="1" />
+        <svg:rect x="35" y="64" width="100%" height="12" rx="1" />
+
+        <svg:rect x="0" y="80" width="12" height="12" rx="1" />
+        <svg:rect x="15" y="80" width="100%" height="12" rx="1" />
+
+        <svg:rect x="10" y="96" width="12" height="12" rx="1" />
+        <svg:rect x="25" y="96" width="100%" height="12" rx="1" />
+
+        <svg:rect x="10" y="112" width="12" height="12" rx="1" />
+        <svg:rect x="25" y="112" width="100%" height="12" rx="1" />
+
+        <svg:rect x="0" y="128" width="12" height="12" rx="1" />
+        <svg:rect x="15" y="128" width="100%" height="12" rx="1" />
         </op-content-loader>
       </ng-template>
     </form>
