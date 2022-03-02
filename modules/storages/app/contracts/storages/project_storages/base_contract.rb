@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,11 +26,26 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Required parameters: project and storage
-FactoryBot.define do
-  factory :project_storage, class: '::Storages::ProjectStorage' do
-    creator factory: :user
-    storage factory: :storage
-    project factory: :project
+# A "contract" is an OpenProject patter used to validate parameters
+# before actually creating a model.
+# Used by: projects_storages_controller.rb and in the API
+module Storages::ProjectStorages
+  class BaseContract < ::ModelContract
+    include ActiveModel::Validations # Include validation library
+
+    # Attributes project and storage can be written
+    attribute :project
+    attribute :storage
+
+    # Attribute creator can be written by the creator of the object
+    attribute :creator, writable: false do
+      validate_creator_is_user
+    end
+
+    def validate_creator_is_user
+      unless creator == user
+        errors.add(:creator, :invalid)
+      end
+    end
   end
 end

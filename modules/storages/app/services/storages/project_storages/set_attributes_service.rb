@@ -26,11 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Required parameters: project and storage
-FactoryBot.define do
-  factory :project_storage, class: '::Storages::ProjectStorage' do
-    creator factory: :user
-    storage factory: :storage
-    project factory: :project
+# ToDo: Where is this used?
+# It's called by CreateService when setting attributes
+module Storages::ProjectStorages
+  class SetAttributesService < ::BaseServices::SetAttributes
   end
 end

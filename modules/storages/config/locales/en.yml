@@ -2,7 +2,7 @@
 en:
   permission_view_file_links: "View file links"
   permission_manage_file_links: "Manage file links"
-  permission_manage_storage_in_project: "Manage file storage in project"
+  permission_manage_storages_in_project: "Manage file storages in project"
   project_module_storages: "File storages"
 
   activerecord:
