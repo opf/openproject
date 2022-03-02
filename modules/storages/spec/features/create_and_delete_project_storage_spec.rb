@@ -35,7 +35,14 @@ require_relative '../spec_helper'
 # in the Admin section, tested by admin_storage_spec.rb.
 describe 'Activation of storages in projects', type: :feature, js: true do
   let(:user) { create(:user) }
-  let(:role) { create(:existing_role, permissions: [:manage_storages_in_project]) }
+  # The first page is the Project -> Settings -> General page, so we need
+  # to provide the user with the edit_project permission in the role.
+  let(:role) do
+    create(:role,
+           permissions: %i[manage_storages_in_project
+                           select_project_modules
+                           edit_project])
+  end
   let(:storage) { create(:storage, name: "Storage 1") }
   let(:project) do
     create(:project,
@@ -64,6 +71,12 @@ describe 'Activation of storages in projects', type: :feature, js: true do
     expect(page).to have_current_path new_project_settings_projects_storage_path(project_id: project)
     expect(page).to have_text('Enable a file storage')
     page.find('button[type=submit]').click
+
+    # ToDo: Error message here (in the browser):
+    # Project was attempted to be written but is not writable.
+    # Storage was attempted to be written but is not writable.
+    # Creator was attempted to be written but is not writable.
+    # Also appears when executing as :admin
 
     # The list of enabled file storages should now contain Storage 1
     expect(page).to have_text('File storages available in this project')
