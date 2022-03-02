@@ -45,7 +45,15 @@
       <div
         *ngIf="isEmpty$ | async"
         class="op-team-planner--no-data">
+        <img [src]="image.empty_state" class="op-team-planner--empty-state-image" />
         <span [textContent]="text.noData"></span>
+        <button
+          type="button"
+          class="op-team-planner--empty-state-button button -highlight"
+          data-qa-selector="op-team-planner--empty-state-button"
+          (click)="showAssigneeAddRow()"
+          [textContent]="text.add_assignee"
+        ></button>
       </div>
     </ng-container>
 
@@ -79,6 +87,7 @@
     <ng-template #eventContent let-event="event">
       <wp-single-card
         [workPackage]="event.extendedProps.workPackage"
+        [selectedWhenOpen]="true"
         [orientation]="'horizontal'"
         [highlightingMode]="'type'"
         [showInfoButton]="true"
@@ -88,6 +97,7 @@
         [showStartDate]="!this.isWpDateInCurrentView(event.extendedProps.workPackage, 'start')"
         [showEndDate]="!this.isWpDateInCurrentView(event.extendedProps.workPackage, 'end')"
         (stateLinkClicked)="openStateLink($event)"
+        (cardClicked)="calendar.onCardClicked($event)"
       >
       </wp-single-card>
     </ng-template>

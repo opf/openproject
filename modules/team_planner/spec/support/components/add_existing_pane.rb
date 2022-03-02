@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,6 +37,11 @@ module Components
       "[data-qa-selector='add-existing-pane']"
     end
 
+    def open
+      page.find('[data-qa-selector="op-team-planner--add-existing-toggle"]').click
+      expect_open
+    end
+
     def expect_open
       expect(page).to have_selector(selector)
     end
@@ -54,8 +59,13 @@ module Components
     end
 
     def expect_result(work_package, visible: true)
-      expect(page)
-        .to have_conditional_selector(visible, "[data-qa-selector='op-add-existing-pane--wp-#{work_package.id}']")
+      if visible
+        expect(page)
+          .to have_selector("[data-qa-selector='op-add-existing-pane--wp-#{work_package.id}']", wait: 10)
+      else
+        expect(page)
+          .to have_no_selector("[data-qa-selector='op-add-existing-pane--wp-#{work_package.id}']")
+      end
     end
 
     def drag_wp_by_pixel(work_package, by_x, by_y)
@@ -63,6 +73,10 @@ module Components
                  .find("[data-qa-selector='op-add-existing-pane--wp-#{work_package.id}']")
 
       drag_by_pixel(element: source, by_x: by_x, by_y: by_y)
+    end
+
+    def card(work_package)
+      page.find(".op-wp-single-card-#{work_package.id}")
     end
   end
 end

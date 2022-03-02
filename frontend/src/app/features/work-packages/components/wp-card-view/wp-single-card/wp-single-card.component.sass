@@ -17,7 +17,7 @@
     .op-wp-single-card--inline-buttons
       opacity: 1
 
-  :not(&_closed):not(&_checked)
+  :not(&_closed):not(&_selected)
     &:hover
       .op-wp-single-card--card-actions
         background-image: linear-gradient(to left, rgba(white,1), rgba(white,0))
@@ -25,7 +25,7 @@
   &_new
     padding-right: 25px
 
-  &_checked
+  &_selected
     background-color: var(--table-row-highlighting-color)
     &:hover
       .op-wp-single-card--inline-buttons
@@ -34,7 +34,7 @@
   &_disabled
     opacity: 0.6
 
-  &_closed:not(&_checked)
+  &_closed:not(&_selected)
     background-color: #F3F3F3
     &:hover
       .op-wp-single-card--inline-buttons

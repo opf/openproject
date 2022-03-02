@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -71,11 +71,26 @@ describe 'Team planner split view navigation', type: :feature, js: true, with_ee
     expect(page).to have_no_current_path /team_planners\/new\/details\/#{work_package1.id}/
 
     # Open split view through info icon
-    team_planner.open_split_view_by_info_icon work_package1
+    split_view = team_planner.open_split_view_by_info_icon work_package1
     expect(page).to have_current_path /team_planners\/new\/details\/#{work_package1.id}/
+
+    card1 = ::Pages::WorkPackageCard.new work_package1
+    card1.expect_selected
 
     # now clicking on another card switches
     page.find('[data-qa-selector="op-wp-single-card--content-subject"]', text: work_package2.subject).click
     expect(page).to have_current_path /team_planners\/new\/details\/#{work_package2.id}/
+
+    card2 = ::Pages::WorkPackageCard.new work_package2
+    card2.expect_selected
+    card1.expect_selected selected: false
+
+    # Close the split view again
+    split_view.close
+    split_view.expect_closed
+
+    # Expect no card selected
+    card2.expect_selected selected: false
+    card1.expect_selected selected: false
   end
 end

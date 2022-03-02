@@ -62,6 +62,9 @@ import { StatusResource } from 'core-app/features/hal/resources/status-resource'
 import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/resource-changeset';
 import { KeepTabService } from 'core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service';
 import { HalError } from 'core-app/features/hal/services/hal-error';
+import { ActionsService } from 'core-app/core/state/actions/actions.service';
+import { teamPlannerEventRemoved } from 'core-app/features/team-planner/team-planner/planner/team-planner.actions';
+import { imagePath } from 'core-app/shared/helpers/images/path-helper';
 
 @Component({
   selector: 'op-team-planner',
@@ -150,6 +153,10 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
 
   statuses:StatusResource[] = [];
 
+  image = {
+    empty_state: imagePath('team-planner/empty-state.svg'),
+  };
+
   text = {
     add_existing: this.I18n.t('js.team_planner.add_existing'),
     assignees: this.I18n.t('js.team_planner.label_assignee_plural'),
@@ -187,6 +194,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     readonly apiV3Service:ApiV3Service,
     readonly calendarDrag:CalendarDragDropService,
     readonly keepTab:KeepTabService,
+    readonly actions$:ActionsService,
   ) {
     super();
   }
@@ -343,10 +351,6 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
             // DnD configuration
             editable: true,
             droppable: true,
-            eventClick: (evt) => {
-              const workPackage = evt.event.extendedProps.workPackage as WorkPackageResource;
-              this.calendar.openSplitView(workPackage.id as string, true);
-            },
             eventResize: (resizeInfo:EventResizeDoneArg) => this.updateEvent(resizeInfo),
             eventDragStart: (dragInfo:EventDragStartArg) => {
               const { el } = dragInfo;
@@ -491,6 +495,8 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     changeset.setValue('dueDate', null);
 
     await this.saveChangeset(changeset);
+
+    this.actions$.dispatch(teamPlannerEventRemoved({ workPackage: workPackage.id as string }));
   }
 
   private mapToCalendarEvents(workPackages:WorkPackageResource[]):EventInput[] {

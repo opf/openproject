@@ -47,6 +47,8 @@ get:
         - group
         - id
         - includes
+        - linkable_to_storage_id
+        - linkable_to_storage_url
         - manual_sort
         - milestone
         - only_subproject
@@ -65,6 +67,7 @@ get:
         - search
         - start_date
         - status
+        - storage_id
         - storage_url
         - subject
         - subject_or_id
