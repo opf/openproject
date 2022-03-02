@@ -27,6 +27,8 @@ export class OpProjectListComponent {
 
   @Input() selected:string[] = [];
 
+  @Input() query:string = '';
+
   public get currentProjectHref():string|null {
     return this.currentProjectService.apiv3Path;
   }

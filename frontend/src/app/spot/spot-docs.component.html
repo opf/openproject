@@ -121,6 +121,12 @@ Currently selected value is {{ toggleValue }}
           <div class="spot-list--item-title">Second child checkbox item</div>
         </label>
       </li>
+      <li class="spot-list--item">
+        <label class="spot-list--item-action spot-list--item-action_disabled">
+          <spot-checkbox [(ngModel)]="listCheckboxValue" disabled></spot-checkbox>
+          <div class="spot-list--item-title">Disabled item</div>
+        </label>
+      </li>
     </ul>
   </li>
 </ul>

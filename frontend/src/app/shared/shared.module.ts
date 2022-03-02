@@ -64,6 +64,7 @@ import {
   highlightColSelector,
   OpHighlightColDirective,
 } from './directives/highlight-col/highlight-col.directive';
+import { OpSearchHighlightDirective } from './directives/search-highlight.directive';
 
 import { CopyToClipboardDirective } from './components/copy-to-clipboard/copy-to-clipboard.directive';
 import { OpDateTimeComponent } from './components/date/op-date-time.component';
@@ -166,6 +167,8 @@ export function bootstrapModule(injector:Injector) {
     // Table highlight
     OpHighlightColDirective,
 
+    OpSearchHighlightDirective,
+
     ResizerComponent,
 
     TablePaginationComponent,
@@ -225,6 +228,8 @@ export function bootstrapModule(injector:Injector) {
 
     TablePaginationComponent,
     SortHeaderDirective,
+
+    OpSearchHighlightDirective,
 
     // Zen mode button
     ZenModeButtonComponent,

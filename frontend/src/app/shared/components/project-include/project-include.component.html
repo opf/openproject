@@ -48,6 +48,7 @@
         op-project-list
         [projects]="projects$ | async"
         [selected]="selectedProjects"
+        [query]="query"
         (update)="selectedProjects = $event"
         data-qa-selector="project-include-list"
       ></ul>
