@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { A11yModule } from '@angular/cdk/a11y';
 import { UIRouterModule } from '@uirouter/angular';
 import { SPOT_DOCS_ROUTES } from './spot.routes';
 import { SpotCheckboxComponent } from './components/checkbox/checkbox.component';
@@ -17,6 +18,7 @@ import { SpotDocsComponent } from './spot-docs.component';
     UIRouterModule.forChild({ states: SPOT_DOCS_ROUTES }),
     FormsModule,
     CommonModule,
+    A11yModule,
   ],
   declarations: [
     SpotDocsComponent,
