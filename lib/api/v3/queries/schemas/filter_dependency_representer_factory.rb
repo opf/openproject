@@ -49,6 +49,10 @@ module API
             instance
           end
 
+          def get_excluded_filters
+            @excluded_filters
+          end
+
           private
 
           @specific_conversion = {
@@ -120,6 +124,7 @@ module API
           end
 
           module_function :create,
+                          :get_excluded_filters,
                           :representer_class,
                           :filter_specific_representer_class,
                           :type_specific_representer_class,

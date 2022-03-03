@@ -35,6 +35,18 @@ module API
         class QueryFilterInstanceSchemaCollectionRepresenter <
           ::API::V3::Schemas::SchemaCollectionRepresenter
 
+          def initialize(represented, self_link:, current_user:, form_embedded: false)
+            without_excluded_filters = represented.select do |filter|
+              ::API::V3::Queries::Schemas::FilterDependencyRepresenterFactory
+                .get_excluded_filters.none? { |clazz| filter.is_a?(clazz) }
+            end
+
+            super(without_excluded_filters,
+                  self_link: self_link,
+                  current_user: current_user,
+                  form_embedded: form_embedded)
+          end
+
           def model_self_link(model)
             converted_name = API::Utilities::PropertyNameConverter.from_ar_name(model.name)
 
