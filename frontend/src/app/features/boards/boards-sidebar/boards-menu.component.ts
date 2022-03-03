@@ -6,8 +6,10 @@ import {
 import { Observable } from 'rxjs';
 import { BoardService } from 'core-app/features/boards/board/board.service';
 import { Board } from 'core-app/features/boards/board/board';
-import { compareByAttribute } from 'core-app/shared/helpers/angular/tracking-functions';
-import { map } from 'rxjs/operators';
+import {
+  map,
+  skip,
+} from 'rxjs/operators';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
@@ -16,6 +18,7 @@ import { CurrentUserService } from 'core-app/core/current-user/current-user.serv
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { NewBoardModalComponent } from 'core-app/features/boards/new-board-modal/new-board-modal.component';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
+import { IOpSidemenuItem } from 'core-app/shared/components/sidemenu/sidemenu.component';
 
 export const boardsMenuSelector = 'boards-menu';
 
@@ -25,18 +28,29 @@ export const boardsMenuSelector = 'boards-menu';
 })
 
 export class BoardsMenuComponent extends UntilDestroyedMixin implements OnInit {
-  trackById = compareByAttribute('id');
-
-  currentProjectIdentifier = this.currentProject.identifier;
-
   selectedBoardId:string;
 
-  boards$:Observable<Board[]> = this
+  boardOptions$:Observable<IOpSidemenuItem[]> = this
     .apiV3Service
     .boards
     .observeAll()
     .pipe(
-      map((boards:Board[]) => boards.sort((a, b) => a.name.localeCompare(b.name))),
+      skip(1),
+      map((boards:Board[]) => {
+        const menuItems:IOpSidemenuItem[] = boards.map((board) => ({
+          title: board.name,
+          uiSref: 'boards.partitioned.show',
+          uiParams: {
+            board_id: board.id,
+            query_props: '',
+            projects: 'projects',
+            projectPath: this.currentProject.identifier,
+          },
+          uiOptions: { reload: true },
+        }));
+
+        return menuItems.sort((a, b) => a.title.localeCompare(b.title));
+      }),
     );
 
   canCreateBoards$ = this
@@ -44,7 +58,7 @@ export class BoardsMenuComponent extends UntilDestroyedMixin implements OnInit {
     .hasCapabilities$(
       'boards/create',
       this.currentProject.id || undefined,
-      )
+    )
     .pipe(this.untilDestroyed());
 
   text = {
@@ -72,16 +86,6 @@ export class BoardsMenuComponent extends UntilDestroyedMixin implements OnInit {
       .subscribe(() => {
         this.focusBackArrow();
         this.boardService.loadAllBoards();
-      });
-
-    this
-      .boardService
-      .currentBoard$
-      .pipe(
-        this.untilDestroyed(),
-      )
-      .subscribe((id:string|null) => {
-        this.selectedBoardId = id || '';
       });
   }
 
