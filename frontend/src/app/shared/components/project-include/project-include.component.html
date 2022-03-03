@@ -29,7 +29,7 @@
     </div>
     <form
       (submit)="onSubmit($event)"
-      class="spot-body"
+      class="spot-body op-project-include--body"
     >
       <spot-text-field
         [placeholder]="text.search_placeholder"
@@ -45,6 +45,7 @@
       </spot-text-field>
 
       <ul
+        class="op-project-include--list"
         op-project-list
         [projects]="projects$ | async"
         [selected]="selectedProjects"

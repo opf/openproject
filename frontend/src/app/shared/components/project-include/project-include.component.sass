@@ -1,8 +1,9 @@
 @import '../../../spot/styles/sass/variables'
 
 \::ng-deep .spot-drop-modal--body
-  width: 460px
-  max-width: 100vw
+
+  @media screen and #{$spot-mq-drop-modal-in-context}
+    width: 460px
 
 .op-project-include
   &--header
@@ -15,3 +16,14 @@
     margin: 0
     padding: 0
     @include spot-subheader-big 
+
+  &--body
+    flex-shrink: 1
+    flex-basis: 100%
+    overflow: hidden
+
+  &--list
+    overflow-y: auto
+    flex-shrink: 1
+    flex-basis: 100%
+
