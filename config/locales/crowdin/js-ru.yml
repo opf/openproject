@@ -61,7 +61,7 @@ ru:
     button_confirm: "Подтвердить"
     button_continue: "Продолжить"
     button_copy: "Копировать"
-    button_copy_to_other_project: "Copy to other project"
+    button_copy_to_other_project: "Копировать в другой проект"
     button_custom-fields: "Настраиваемые поля"
     button_delete: "Удалить"
     button_delete_watcher: "Удалить наблюдателя"
@@ -250,7 +250,7 @@ ru:
     enumeration_doc_categories: "Категории документов"
     enumeration_work_package_priorities: "Приоритеты пакета работ"
     filter:
-      more_values_not_shown: "There are %{total} more results, search to filter results."
+      more_values_not_shown: "Есть еще %{total} результатов для фильтрации."
       description:
         text_open_filter: "Откройте этот фильтр клавишей 'ALT' и клавишами со стрелками."
         text_close_filter: "Для выбора элемента установите на нем фокус и нажмите Enter. Для очистки фильтра выберите первую (пустого) запись."
@@ -1163,14 +1163,14 @@ ru:
           group: 'Теперь группа является частью %{project}. Тем временем вы уже можете спланировать работу с этой группой и назначить пакеты работ.'
         next_button: 'Продолжить'
     include_projects:
-      toggle_title: 'Include Projects'
+      toggle_title: 'Включить проекты'
       title: 'Проекты'
-      clear_selection: 'Clear selection'
+      clear_selection: 'Отменить выделение'
       apply: 'Применить'
       selected_filter:
-        all: 'All projects'
-        selected: 'Only selected'
-      search_placeholder: 'Search project...'
+        all: 'Все проекты'
+        selected: 'Только выбранные'
+      search_placeholder: 'Поиск проекта...'
     forms:
       submit_success_message: 'Форма успешно отправлена'
       load_error_message: 'Произошла ошибка при загрузке формы'
