@@ -7,6 +7,7 @@ import {
   OnDestroy,
 } from '@angular/core';
 import { KeyCodes } from 'core-app/shared/helpers/keyCodes.enum';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 
 enum SpotDropModalAlignmentOption {
   BottomCenter = 'bottom-center',
@@ -57,6 +58,12 @@ export class SpotDropModalComponent implements OnDestroy {
   get alignmentClass():string {
     return `spot-drop-modal--body_${this.alignment}`;
   }
+
+  public text = {
+    close: this.i18n.t('js.spot.drop_modal.close'),
+  };
+
+  constructor(readonly i18n:I18nService) {}
 
   close():void {
     this.open = false;

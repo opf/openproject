@@ -138,8 +138,18 @@ Currently selected value is {{ toggleValue }}
   (remove)="onRemoveChip()"
 ></spot-filter-chip>
 <spot-filter-chip
-  [removable]="false"
   title="Unremovable chip"
+  [removable]="false"
+></spot-filter-chip>
+<spot-filter-chip
+  title="Default chip with icon"
+  icon="bell"
+  (remove)="onRemoveChip()"
+></spot-filter-chip>
+<spot-filter-chip
+  icon="bell"
+  title="Unremovable chip with icon"
+  [removable]="false"
 ></spot-filter-chip>
 
 <h1>Text Field</h1>
