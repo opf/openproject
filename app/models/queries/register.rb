@@ -68,8 +68,8 @@ module Queries::Register
       @columns[query] << column
     end
 
-    def register(&block)
-      instance_exec(&block)
+    def register(query, &block)
+      Registration.new(query).instance_exec(&block)
     end
 
     attr_accessor :filters,
@@ -77,5 +77,29 @@ module Queries::Register
                   :orders,
                   :columns,
                   :group_bys
+  end
+
+  class Registration
+    attr_reader :query
+
+    def initialize(query)
+      @query = query
+    end
+
+    def filter(filter)
+      Queries::Register.filter(query, filter)
+    end
+
+    def order(order)
+      Queries::Register.order(query, order)
+    end
+
+    def group_by(group_by)
+      Queries::Register.group_by(query, group_by)
+    end
+
+    def column(column)
+      Queries::Register.column(query, column)
+    end
   end
 end
