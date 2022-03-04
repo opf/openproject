@@ -77,7 +77,7 @@ module DemoData
 
     def create_view(query)
       View.create!(
-        type: 'work_packages_table',
+        type: config.fetch(:module, 'work_packages_table'),
         query: query
       )
     end
@@ -123,14 +123,13 @@ module DemoData
       set_version_filter! filters
       set_type_filter! filters
       set_parent_filter! filters
+      set_assignee_filter! filters
 
       filters
     end
 
     def set_status_filter!(filters)
-      status = String(config[:status])
-
-      filters[:status_id] = { operator: "o" } if status == "open"
+      filters[:status_id] = { operator: "o" } if String(config[:status]) == "open"
     end
 
     def set_version_filter!(filters)
@@ -143,14 +142,14 @@ module DemoData
     end
 
     def set_type_filter!(filters)
-      types = Array(config[:type]).map do |name|
-        Type.find_by(name: translate_with_base_url(name))
-      end
+      types = Type
+                .where(name: Array(config[:type]).map { |name| translate_with_base_url(name) })
+                .pluck(:id)
 
-      if !types.empty?
+      if types.any?
         filters[:type_id] = {
           operator: "=",
-          values: types.map(&:id).map(&:to_s)
+          values: types.map(&:to_s)
         }
       end
     end
@@ -160,6 +159,22 @@ module DemoData
         filters[:parent] = {
           operator: "=",
           values: [parent_filter_value]
+        }
+      end
+    end
+
+    def set_assignee_filter!(filters)
+      users = Array(config[:assignee])
+                .map(&:split)
+                .inject(User.user.none) do |scope, (firstname, lastname)|
+                  scope.or(User.user.where(firstname: firstname, lastname: lastname))
+                end
+                .pluck(:id)
+
+      if users.any?
+        filters[:assigned_to_id] = {
+          operator: "=",
+          values: users.map(&:to_s)
         }
       end
     end

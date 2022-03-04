@@ -57,6 +57,7 @@ en:
               - news
               - wiki
               - board_view
+              - team_planner_view
             news:
               - title: Welcome to your demo project
                 summary: >
@@ -106,6 +107,9 @@ en:
                   - priority
                   - status
                   - assigned_to
+              - name: Team planner
+                module: team_planner
+                assignee: OpenProject Admin
             boards:
               kanban:
                 name: 'Kanban board'
@@ -119,7 +123,7 @@ en:
             # So
             # * start: 0 references Monday
             # * start: 4 references Friday
-
+            # * start: -1 references the last Sunday
             work_packages:
               - start: -1
                 subject: Start of project
