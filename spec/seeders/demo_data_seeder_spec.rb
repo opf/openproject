@@ -39,7 +39,7 @@ describe RootSeeder,
 
     expect(User.where(admin: true).count).to eq 1
     expect(Project.count).to eq 2
-    expect(WorkPackage.count).to eq 33
+    expect(WorkPackage.count).to eq 36
     expect(Wiki.count).to eq 2
     expect(Query.having_views.count).to eq 7
     expect(View.where(type: 'work_packages_table').count).to eq 7
