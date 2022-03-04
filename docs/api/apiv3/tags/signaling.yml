@@ -4,7 +4,7 @@ description: |-
   can convey to the server the properties to include in a response.
 
   Currently only `select` is supported which allows to specify the subset of properties a client is interested in. The benefit of using `select`
-  is increased response time. Other signaling, especially expanding the embedded resources to include as well over multiple layers of embedding
+  is reduced response time. Other signaling, especially expanding the embedded resources to include as well over multiple layers of embedding
   are in consideration to be implemented (probably named `embed`) but as of now, they are not supported. Please also see
   [the specification for OData that inspired this feature](https://www.odata.org/documentation/odata-version-2-0/uri-conventions/).
 
