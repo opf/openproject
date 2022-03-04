@@ -35,7 +35,7 @@
         #ucCalendar
         *ngIf="calendarOptions"
         [options]="calendarOptions"
-        class="op-team-planner--calendar"
+        class="op-team-planner--calendar fc-scroller"
         [ngClass]="{'op-team-planner--calendar_empty': (isEmpty$ | async)}"
       ></full-calendar>
 
