@@ -50,11 +50,11 @@ module DemoData
     def base_attributes
       {
         name: config[:name],
-        user: User.admin.first,
-        public: config[:public] != false,
+        user: User.admin.user.first,
+        public: config.fetch(:public, true),
         starred: config.fetch(:starred, false),
-        show_hierarchies: config[:hierarchy] == true,
-        timeline_visible: config[:timeline] == true
+        show_hierarchies: config.fetch(:hierarchy, false),
+        timeline_visible: config.fetch(:timeline, false)
       }
     end
 
