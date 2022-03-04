@@ -38,6 +38,12 @@ module Queries::Register
       @filters[query] << filter
     end
 
+    # Exclude filter from filters collection representer.
+    def exclude(filter)
+      @excluded_filters ||= []
+      @excluded_filters << filter
+    end
+
     def order(query, order)
       @orders ||= Hash.new do |hash, order_key|
         hash[order_key] = []
@@ -67,6 +73,7 @@ module Queries::Register
     end
 
     attr_accessor :filters,
+                  :excluded_filters,
                   :orders,
                   :columns,
                   :group_bys
