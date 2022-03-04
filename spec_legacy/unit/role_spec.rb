@@ -43,25 +43,6 @@ describe Role, type: :model do
     assert_equal 90, target.workflows.size
   end
 
-  it 'should add permission' do
-    role = Role.find(1)
-    size = role.permissions.size
-    role.add_permission!('apermission', 'anotherpermission')
-    role.reload
-    assert role.permissions.include?(:anotherpermission)
-    assert_equal size + 2, role.permissions.size
-  end
-
-  it 'should remove permission' do
-    role = Role.find(1)
-    size = role.permissions.size
-    perm = role.permissions[0..1]
-    role.remove_permission!(*perm)
-    role.reload
-    assert !role.permissions.include?(perm[0])
-    assert_equal size - 2, role.permissions.size
-  end
-
   context '#anonymous' do
     it 'should return the anonymous role' do
       role = Role.anonymous
