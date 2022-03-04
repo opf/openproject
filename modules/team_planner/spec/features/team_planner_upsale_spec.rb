@@ -45,7 +45,7 @@ describe 'Team planner index', type: :feature, js: true do
 
     expect(page).to have_text 'Upgrade now'
 
-    click_on 'Create new planner'
+    click_on 'New team planner'
 
     expect(page).to have_text 'Upgrade now'
 

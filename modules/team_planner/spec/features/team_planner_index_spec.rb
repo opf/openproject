@@ -53,12 +53,12 @@ describe 'Team planner index', type: :feature, js: true, with_ee: %i[team_planne
     end
 
     it 'can create an action through the sidebar' do
-      click_on 'Create new planner'
+      click_on 'New team planner'
 
       team_planner.expect_title
 
       # Also works from the frontend
-      click_on 'Create new planner'
+      click_on 'New team planner'
 
       team_planner.expect_no_toaster
       team_planner.expect_title
