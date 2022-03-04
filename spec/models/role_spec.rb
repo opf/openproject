@@ -195,4 +195,67 @@ describe Role, type: :model do
       end
     end
   end
+
+  describe '.anonymous' do
+    subject { described_class.anonymous }
+
+    it 'has the constant\'s builtin value' do
+      expect(subject.builtin)
+        .to eql(Role::BUILTIN_ANONYMOUS)
+    end
+
+    it 'is builtin' do
+      expect(subject)
+        .to be_builtin
+    end
+
+    context 'with a missing anonymous role' do
+      before do
+        described_class.where(builtin: Role::BUILTIN_ANONYMOUS).delete_all
+      end
+
+      it 'creates a new anonymous role' do
+        expect { subject }.to change(described_class, :count)
+      end
+    end
+  end
+
+  describe '#non_member' do
+    subject { described_class.non_member }
+
+    it 'has the constant\'s builtin value' do
+      expect(subject.builtin)
+        .to eql(Role::BUILTIN_NON_MEMBER)
+    end
+
+    it 'is builtin' do
+      expect(subject)
+        .to be_builtin
+    end
+
+    context 'with a missing anonymous role' do
+      before do
+        described_class.where(builtin: Role::BUILTIN_NON_MEMBER).delete_all
+      end
+
+      it 'creates a new anonymous role' do
+        expect { subject }.to change(described_class, :count)
+      end
+    end
+  end
+
+  describe '.workflows.copy_from_role' do
+    before do
+      allow(Workflow)
+        .to receive(:copy)
+    end
+
+    it 'calls Workflow.copy' do
+      build_role.workflows.copy_from_role(created_role)
+
+      expect(Workflow)
+        .to have_received(:copy)
+              .with(nil, created_role, nil, build_role)
+    end
+  end
 end
