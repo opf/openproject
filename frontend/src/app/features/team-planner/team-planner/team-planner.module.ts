@@ -22,7 +22,7 @@ import { TeamPlannerSidemenuComponent } from 'core-app/features/team-planner/tea
     TeamPlannerPageComponent,
     AddAssigneeComponent,
     AddExistingPaneComponent,
-    TeamPlannerSidemenuComponent
+    TeamPlannerSidemenuComponent,
   ],
   imports: [
     OPSharedModule,

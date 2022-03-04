@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   Input,
   ElementRef,
+  HostBinding,
 } from '@angular/core';
 import { DatasetInputs } from 'core-app/shared/components/dataset-inputs.decorator';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
@@ -19,6 +20,8 @@ export const opTeamPlannerSidemenuSelector = 'op-team-planner-sidemenu';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TeamPlannerSidemenuComponent extends UntilDestroyedMixin {
+  @HostBinding('class.op-sidebar') className = true;
+
   @Input() menuItems:string[] = [];
 
   @Input() projectId:string|undefined;

@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   Input,
   ElementRef,
+  HostBinding,
 } from '@angular/core';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
@@ -19,6 +20,8 @@ export const opCalendarSidemenuSelector = 'op-calendar-sidemenu';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CalendarSidemenuComponent extends UntilDestroyedMixin {
+  @HostBinding('class.op-sidebar') className = true;
+
   @Input() menuItems:string[] = [];
 
   @Input() projectId:string|undefined;

@@ -1,5 +1,6 @@
 import {
   Component,
+  HostBinding,
   Injector,
   OnInit,
 } from '@angular/core';
@@ -28,6 +29,8 @@ export const boardsMenuSelector = 'boards-menu';
 })
 
 export class BoardsMenuComponent extends UntilDestroyedMixin implements OnInit {
+  @HostBinding('class.op-sidebar') className = true;
+
   selectedBoardId:string;
 
   boardOptions$:Observable<IOpSidemenuItem[]> = this
