@@ -20,10 +20,14 @@
       </p>
     <% end %>
 
-    <% if feature_image.empty? %>
-      <%= image_tag "enterprise_edition.png", class: "widget-box--teaser-image" %>
+    <% if feature_video.empty? %>
+      <% if feature_image.empty? %>
+        <%= image_tag "enterprise_edition.png", class: "widget-box--teaser-image" %>
+      <% else %>
+        <%= image_tag feature_image, class: "widget-box--teaser-image" %>
+      <% end %>
     <% else %>
-      <%= image_tag feature_image, class: "widget-box--teaser-image" %>
+      <%= video_tag feature_video, :controls => false, class: "widget-box--teaser-video", autoplay: true, loop: true, muted: true %>
     <% end %>
 
     <p> <%= feature_title %> <%= t('admin.enterprise.enterprise_info_html') %> 
