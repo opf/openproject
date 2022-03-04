@@ -49,10 +49,6 @@ module API
             instance
           end
 
-          def get_excluded_filters
-            @excluded_filters
-          end
-
           private
 
           @specific_conversion = {
@@ -63,10 +59,6 @@ module API
             AssignedToFilter: 'AllPrincipalsFilter',
             WatcherFilter: 'UserFilter'
           }
-
-          @excluded_filters = [
-            ::Queries::WorkPackages::Filter::RelatableFilter
-          ]
 
           def representer_class(filter)
             name = filter_specific_representer_class(filter) ||
@@ -118,13 +110,10 @@ module API
             name = @specific_conversion[filter.class.to_s.demodulize.to_sym]
             return "API::V3::Queries::Schemas::#{name}DependencyRepresenter" if name.present?
 
-            return nil if @excluded_filters.any? { |ef| filter.is_a?(ef) }
-
             raise ArgumentError, "Filter #{filter.class} does not map to a dependency representer."
           end
 
           module_function :create,
-                          :get_excluded_filters,
                           :representer_class,
                           :filter_specific_representer_class,
                           :type_specific_representer_class,

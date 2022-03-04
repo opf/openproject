@@ -32,19 +32,11 @@ module API
   module V3
     module Queries
       module Schemas
-        class QueryFilterInstanceSchemaCollectionRepresenter <
-          ::API::V3::Schemas::SchemaCollectionRepresenter
+        class QueryFilterInstanceSchemaCollectionRepresenter < ::API::V3::Schemas::SchemaCollectionRepresenter
+          def initialize(filters, ...)
+            filters = filters.reject { ::Queries::Register.excluded_filters.include?(_1.class) }
 
-          def initialize(represented, self_link:, current_user:, form_embedded: false)
-            without_excluded_filters = represented.select do |filter|
-              ::API::V3::Queries::Schemas::FilterDependencyRepresenterFactory
-                .get_excluded_filters.none? { |clazz| filter.is_a?(clazz) }
-            end
-
-            super(without_excluded_filters,
-                  self_link: self_link,
-                  current_user: current_user,
-                  form_embedded: form_embedded)
+            super(filters, ...)
           end
 
           def model_self_link(model)
