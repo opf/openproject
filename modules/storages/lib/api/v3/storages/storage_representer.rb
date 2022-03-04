@@ -26,22 +26,18 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# I understand this is a Roar "representer":
-# Also see: For Roar documentation https://github.com/trailblazer/roar
-# and the Roar-Rails integration: https://github.com/apotonick/roar-rails
-# Roar is a "thin layer on top of": https://github.com/trailblazer/representable
-# "Representable maps Ruby objects to documents and back"
-# ToDo: What exactly is a representer? I understand it's atrributes plus
-# a number of links? These are the ones defined below?
+# Reference: Representable https://trailblazer.to/2.1/docs/representable.html
+#   "Representable maps Ruby objects to documents and back"
+# Reference: Roar is a thin layer on top of Representable https://github.com/trailblazer/roar
+# Reference: Roar-Rails integration: https://github.com/apotonick/roar-rails
 module API
   module V3
     module Storages
       class StorageRepresenter < ::API::Decorators::Single
-        # ToDo: LinkedResource is about linking to other objects related to Storages?
+        # LinkedResource module defines helper methods to describe attributes
         include API::Decorators::LinkedResource
         include API::Decorators::DateProperty
 
-        # ToDo: repeating again the attributes of a Storage?
         property :id
 
         property :name
@@ -50,8 +46,7 @@ module API
 
         date_time_property :updated_at
 
-        # A link back to the specific object ("represented"):
-        # ToDo: what is "storage(...)" here?
+        # A link back to the specific object ("represented")
         link :self do
           {
             href: api_v3_paths.storage(represented.id),
@@ -59,8 +54,6 @@ module API
           }
         end
 
-        # There is apparently just a single type supported at the moment...
-        # ToDo: So this URL is fake?
         link :type do
           {
             href: "#{::API::V3::URN_PREFIX}storages:nextcloud",

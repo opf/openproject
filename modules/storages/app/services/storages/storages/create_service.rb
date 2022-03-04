@@ -26,13 +26,13 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# The comments here are also referenced from the other *_service.rb files in the module
-# ToDo: add purpose
-# ToDo: Where is the model called? I believe this one isn't called at all, right?
-# ToDo: Why Storages::Storage_s_ module?
-# File Links uses two modules lines in:
-# modules/storages/app/services/storages/file_links/delete_service.rb
-# Reference: ToDo: Link to documentation on services
+# The comments here are also valid for the other *_service.rb files
+# The logic for creating storage was extracted from the controller and put into
+# a service: https://dev.to/joker666/ruby-on-rails-pattern-service-objects-b19
+# Purpose: create and persist a Storages::Storage record
+# Used by: Storages::Admin::StoragesController#create, could also be used by the
+# API in the future
+# Reference: https://www.openproject.org/docs/development/concepts/contracted-services/
 module Storages::Storages
   class CreateService < ::BaseServices::Create
   end
