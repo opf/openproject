@@ -52,6 +52,7 @@ module DemoData
         name: config[:name],
         user: User.admin.first,
         public: config[:public] != false,
+        starred: config.fetch(:starred, false),
         show_hierarchies: config[:hierarchy] == true,
         timeline_visible: config[:timeline] == true
       }

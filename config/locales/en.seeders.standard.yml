@@ -75,6 +75,7 @@ en:
                 timeline: true
                 sort_by: id
                 hierarchy: true
+                starred: true
                 columns:
                   - id
                   - type
