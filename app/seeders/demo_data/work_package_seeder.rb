@@ -36,7 +36,7 @@ module DemoData
     def initialize(project, key)
       self.project = project
       self.key = key
-      self.user = User.admin.first
+      self.user = User.user.admin.first
       self.statuses = Status.all
       self.repository = Repository.first
       self.types = project.types.all.reject(&:is_milestone?)
