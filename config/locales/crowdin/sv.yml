@@ -1987,7 +1987,7 @@ sv:
   mail_body_backup_waiting_period: The new token will be enabled in %{hours} hours.
   mail_body_backup_token_warning: If this wasn't you, login to OpenProject immediately and reset it again.
   mail_body_lost_password: "För att ändra ditt lösenord, klicka på följande länk:"
-  mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
+  mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "Project member invitation email"
   mail_body_register_user: "Dear %{name}, "
   mail_body_register_links_html: |
@@ -2130,7 +2130,7 @@ sv:
     heading_getting_started: "Få en översikt"
     text_getting_started_description: "Få en snabb överblick över projektledning och samarbete med OpenProject."
     text_show_again: "Du kan starta om denna video från hjälpmenyn"
-    welcome: "Välkommen till OpenProject"
+    welcome: "Welcome to %{app_title}"
     select_language: "Välj ditt språk"
   permission_add_work_package_notes: "Lägg till anteckningar"
   permission_add_work_packages: "Lägg till arbetspaket"

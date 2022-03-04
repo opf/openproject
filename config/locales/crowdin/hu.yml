@@ -1993,7 +1993,7 @@ hu:
   mail_body_backup_waiting_period: A visszaállítási kulcs még %{hours} óráig érvényes.
   mail_body_backup_token_warning: "Ha nem te voltál, azonnal jelentkezz be az OpenProject szolgáltatásba, és állítsd újra.\n"
   mail_body_lost_password: "A jelszó módosításához kattintson az alábbi linkre:"
-  mail_body_register: "Üdvözli az OpenProject. Kérjük, aktiválja fiókját a következő linkre kattintva:\n"
+  mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "Projekttag meghívó e -mail\n"
   mail_body_register_user: "Kedves %{name},"
   mail_body_register_links_html: |
@@ -2135,7 +2135,7 @@ hu:
     heading_getting_started: "Áttekintés"
     text_getting_started_description: "Gyors áttekintés a projekt menedzsmentről és csapatmunkáról az OpenProjecttel."
     text_show_again: "Újra tudod indítani ezt a videót a segítség menüből"
-    welcome: "Üdvözöl az OpenProject"
+    welcome: "Welcome to %{app_title}"
     select_language: "Kéjük válasszon nyelvet"
   permission_add_work_package_notes: "Megjegyzések hozzáadása"
   permission_add_work_packages: "feladatcsoport hozzáadása"

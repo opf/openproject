@@ -2023,7 +2023,7 @@ ru:
   mail_body_backup_waiting_period: Новый маркер будет действителен через %{hours} часов.
   mail_body_backup_token_warning: Если это не так, войдите в OpenProject и сбросьте его снова немедленно.
   mail_body_lost_password: "Чтобы изменить пароль, щёлкните по следующей ссылке:"
-  mail_body_register: "Добро пожаловать в OpenProject. Пожалуйста, активируйте свой аккаунт, нажав на эту ссылку:"
+  mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "Приглашение участника проекта по электронной почте"
   mail_body_register_user: "Уважаемый, %{name},"
   mail_body_register_links_html: |
@@ -2167,7 +2167,7 @@ ru:
     heading_getting_started: "Обзор"
     text_getting_started_description: "Быстрый просмотр управления проектом и и команды сопровождения с OpenProject."
     text_show_again: "Вы можете перезапустить это видео из меню «Справка»"
-    welcome: "Добро пожаловать в OpenProject"
+    welcome: "Welcome to %{app_title}"
     select_language: "Пожалуйста, выберите язык"
   permission_add_work_package_notes: "Добавить заметки"
   permission_add_work_packages: "Добавление пакетов работ"

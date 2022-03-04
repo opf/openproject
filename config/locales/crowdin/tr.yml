@@ -1988,7 +1988,7 @@ tr:
   mail_body_backup_waiting_period: Yeni jeton %{hours} saat içinde etkinleştirilecek.
   mail_body_backup_token_warning: Bu siz değildiyseniz, hemen OpenProject'te oturum açın ve yeniden sıfırlayın.
   mail_body_lost_password: "Parolanızı değiştirmek için aşağıdaki bağlantıyı tıklayın:"
-  mail_body_register: "OpenProject'e hoş geldiniz. Lütfen bu bağlantıyı tıklayarak hesabınızı etkinleştirin:"
+  mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "Proje üyesi davet e-postası"
   mail_body_register_user: "Sevgili %{name},"
   mail_body_register_links_html: |
@@ -2131,7 +2131,7 @@ tr:
     heading_getting_started: "Genel görünümü al"
     text_getting_started_description: "OpenProject ile takım çalışması ve proje yönetimi konusuna genel bir bakış."
     text_show_again: "Bu videoyu Yardım menüsünden yeniden başlatabilirsiniz"
-    welcome: "OpenProject'e hoş geldiniz"
+    welcome: "Welcome to %{app_title}"
     select_language: "Lütfen dilinizi seçin"
   permission_add_work_package_notes: "Not eklemek"
   permission_add_work_packages: "İş paketi eklemek"

@@ -2006,7 +2006,7 @@ ro:
   mail_body_backup_waiting_period: Noul token va fi activat în %{hours} ore.
   mail_body_backup_token_warning: Dacă nu ați fost dvs., conectați-vă la OpenProject imediat și resetați-l din nou.
   mail_body_lost_password: "Pentru a vă modifica parola, dați click pe următorul link:"
-  mail_body_register: "Bine ați venit la OpenProject. Vă rugăm să vă activați contul făcând clic pe acest link:"
+  mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "E-mail de invitație pentru membrii proiectului"
   mail_body_register_user: "Dragă %{name},"
   mail_body_register_links_html: |
@@ -2149,7 +2149,7 @@ ro:
     heading_getting_started: "Obțineți o prezentare generală"
     text_getting_started_description: "Obțineți o viziune de ansamblu asupra administrării unui proiect și a activității echipelor folosind OpenProject."
     text_show_again: "Poate reporni acest videoclip din meniul de ajutor"
-    welcome: "Bine ați venit la OpenProject"
+    welcome: "Welcome to %{app_title}"
     select_language: "Vă rugăm să selectați limba dvs"
   permission_add_work_package_notes: "Adăugare note"
   permission_add_work_packages: "Adăugare pachete de lucru"

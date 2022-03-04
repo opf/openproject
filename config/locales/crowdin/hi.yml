@@ -1986,7 +1986,7 @@ hi:
   mail_body_backup_waiting_period: The new token will be enabled in %{hours} hours.
   mail_body_backup_token_warning: If this wasn't you, login to OpenProject immediately and reset it again.
   mail_body_lost_password: "To change your password, click on the following link:"
-  mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
+  mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "Project member invitation email"
   mail_body_register_user: "Dear %{name}, "
   mail_body_register_links_html: |
@@ -2129,7 +2129,7 @@ hi:
     heading_getting_started: "अवलोकन प्राप्त करें"
     text_getting_started_description: "OpenProject के साथ परियोजना प्रबंधन और टीम सहयोग का एक त्वरित अवलोकन प्राप्त करें ।"
     text_show_again: "You can restart this video from the help menu"
-    welcome: "Welcome to OpenProject"
+    welcome: "Welcome to %{app_title}"
     select_language: "कृपया अपनी भाषा चुनें:"
   permission_add_work_package_notes: "Add notes"
   permission_add_work_packages: "Add work packages"

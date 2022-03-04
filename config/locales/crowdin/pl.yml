@@ -2021,7 +2021,7 @@ pl:
   mail_body_backup_waiting_period: Nowy token zostanie włączony za %{hours} godz.
   mail_body_backup_token_warning: Jeśli to nie Ty, zaloguj się natychmiast do OpenProject i zresetuj go ponownie.
   mail_body_lost_password: "Aby zmienić hasło, kliknij na poniższy link:"
-  mail_body_register: "Witamy w OpenProject. Aktywuj swoje konto, klikając ten link:"
+  mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "Wiadomość e-mail z zaproszeniem członka projektu"
   mail_body_register_user: "Witaj %{name}, "
   mail_body_register_links_html: |
@@ -2165,7 +2165,7 @@ pl:
     heading_getting_started: "Zobacz szybki przegląd"
     text_getting_started_description: "Spójrz na szybki przegląd zarządzania projektem i pracą zespołową w OpenProject."
     text_show_again: "Możesz zresetować to wideo w menu pomocy"
-    welcome: "Witamy w OpenProject"
+    welcome: "Welcome to %{app_title}"
     select_language: "Wybierz język"
   permission_add_work_package_notes: "Dodawanie notatek"
   permission_add_work_packages: "Dodawanie pakietów roboczych"

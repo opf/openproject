@@ -1958,7 +1958,7 @@ lol:
   mail_body_backup_waiting_period: crwdns498121:0%{hours}crwdne498121:0
   mail_body_backup_token_warning: crwdns498125:0crwdne498125:0
   mail_body_lost_password: "crwdns498129:0crwdne498129:0"
-  mail_body_register: "crwdns498135:0crwdne498135:0"
+  mail_body_register: "crwdns762262:0%{app_title}crwdne762262:0"
   mail_body_register_header_title: "crwdns498141:0crwdne498141:0"
   mail_body_register_user: "crwdns498143:0%{name}crwdne498143:0"
   mail_body_register_links_html: |
@@ -2097,7 +2097,7 @@ lol:
     heading_getting_started: "crwdns498517:0crwdne498517:0"
     text_getting_started_description: "crwdns498519:0crwdne498519:0"
     text_show_again: "crwdns498521:0crwdne498521:0"
-    welcome: "crwdns498523:0crwdne498523:0"
+    welcome: "crwdns762264:0%{app_title}crwdne762264:0"
     select_language: "crwdns498525:0crwdne498525:0"
   permission_add_work_package_notes: "crwdns498527:0crwdne498527:0"
   permission_add_work_packages: "crwdns498529:0crwdne498529:0"

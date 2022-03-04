@@ -1985,7 +1985,7 @@ nl:
   mail_body_backup_waiting_period: The new token will be enabled in %{hours} hours.
   mail_body_backup_token_warning: If this wasn't you, login to OpenProject immediately and reset it again.
   mail_body_lost_password: "Om uw wachtwoord te wijzigen, klikt u op op de volgende link:"
-  mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
+  mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "Project member invitation email"
   mail_body_register_user: "Dear %{name}, "
   mail_body_register_links_html: |
@@ -2127,7 +2127,7 @@ nl:
     heading_getting_started: "Krijg een overzicht"
     text_getting_started_description: "Krijg een overzicht van project management en team samenwerking met OpenProject."
     text_show_again: "U kunt deze video van het helpmenu opnieuw starten"
-    welcome: "Welkom bij OpenProject"
+    welcome: "Welcome to %{app_title}"
     select_language: "Gelieve uw taal te kiezen"
   permission_add_work_package_notes: "Notities toevoegen"
   permission_add_work_packages: "Werkpakketten toevoegen"

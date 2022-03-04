@@ -1969,7 +1969,7 @@ ko:
   mail_body_backup_waiting_period: '%{hours}시간 후 새 토큰이 활성화됩니다.'
   mail_body_backup_token_warning: 만약 본인이 한 것이 아니라면, OpenProject에 즉시 로그인하고 다시 초기화하십시오.
   mail_body_lost_password: "암호를 변경하려면 다음 링크를 클릭하세요."
-  mail_body_register: "OpenProject입니다. 다음 링크를 클릭하여 계정을 활성화하세요:"
+  mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "프로젝트 멤버 초대 이메일"
   mail_body_register_user: "%{name}님께, "
   mail_body_register_links_html: |
@@ -2111,7 +2111,7 @@ ko:
     heading_getting_started: "개요 가져오기"
     text_getting_started_description: "OpenProject로 프로젝트 관리 및 팀 공동 작업에 대한 간략한 개요를 가져올 수 있습니다."
     text_show_again: "도움말 메뉴에서 이 비디오를 다시 시작할 수 있습니다."
-    welcome: "OpenProject에 오신 것을 환영합니다."
+    welcome: "Welcome to %{app_title}"
     select_language: "언어를 선택하세요."
   permission_add_work_package_notes: "메모 추가"
   permission_add_work_packages: "작업 패키지 추가"

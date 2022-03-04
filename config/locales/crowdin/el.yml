@@ -1984,7 +1984,7 @@ el:
   mail_body_backup_waiting_period: The new token will be enabled in %{hours} hours.
   mail_body_backup_token_warning: If this wasn't you, login to OpenProject immediately and reset it again.
   mail_body_lost_password: "Για να αλλάξετε τον κωδικό πρόσβασης, πατήστε τον ακόλουθο σύνδεσμο:"
-  mail_body_register: "Καλώς ήρθατε στο OpenProject. Παρακαλώ ενεργοποιήστε το λογαριασμό σας κάνοντας κλικ σε αυτόν τον σύνδεσμο:"
+  mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "Email πρόσκλησης μέλους του έργου"
   mail_body_register_user: "Αγαπητέ/ή %{name},"
   mail_body_register_links_html: |
@@ -2126,7 +2126,7 @@ el:
     heading_getting_started: "Λάβετε μια επισκόπηση"
     text_getting_started_description: "Λάβετε μια γρήγορη επισκόπηση της διαχείρισης έργων και της ομαδικής συνεργασίας με το OpenProject."
     text_show_again: "Μπορείτε να επανεκκινήσετε αυτό το βίντεο από το μενού βοήθειας"
-    welcome: "Καλώς ορίσατε στο OpenProject"
+    welcome: "Welcome to %{app_title}"
     select_language: "Παρακαλούμε επιλέξτε την γλώσσα σας"
   permission_add_work_package_notes: "Προσθήκη σημειώσεων"
   permission_add_work_packages: "Προσθήκη πακέτων εργασίας"
