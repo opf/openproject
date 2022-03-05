@@ -1,123 +1,1172 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2022 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
 lol:
   js:
-    notice_warning_disabled: crwdns764184:0crwdne764184:0
-    warning_different_edition_classic: crwdns764186:0crwdne764186:0
-    warning_different_edition_bim: crwdns764188:0crwdne764188:0
-    or: 'crwdns764190:0crwdne764190:0'
-    subscription:
-      button_close: 'crwdns764192:0crwdne764192:0'
-      label_billing: 'crwdns764194:0crwdne764194:0'
-      label_buy_now: 'crwdns764196:0crwdne764196:0'
-      label_chose_plan: 'crwdns764198:0crwdne764198:0'
-      label_request_quote: 'crwdns764200:0crwdne764200:0'
-      label_status: 'crwdns764202:0crwdne764202:0'
-      label_subscribe: 'crwdns764204:0crwdne764204:0'
-      label_subscription: 'crwdns764206:0crwdne764206:0'
-      label_subscription_updated: 'crwdns764208:0crwdne764208:0'
-      label_cancel: 'crwdns764210:0crwdne764210:0'
-      members: 'crwdns764212:0crwdne764212:0'
-      text_no_active_subscription: crwdns764214:0%{upgrade_url}crwdne764214:0
-      text_subscription_status_active: crwdns764216:0%{support_level}crwdne764216:0
-      text_subscription_status_cancelled: crwdns764218:0%{support_level}crwdne764218:0
-      text_subscription_status_in_trial: crwdns764220:0crwdne764220:0
-      text_subscription_status_non_renewing: crwdns764222:0%{support_level}crwdne764222:0
-      text_subscription_status_updated: crwdns764224:0%{support_level}crwdne764224:0
-      unlimited: 'crwdns764226:0crwdne764226:0'
-      users: 'crwdns764228:0crwdne764228:0'
-      label_period: 'crwdns764230:0crwdne764230:0'
-      label_support: 'crwdns764232:0crwdne764232:0'
-      label_bim_edition: 'crwdns764234:0crwdne764234:0'
-      periods:
-        1_month: 'crwdns764236:0crwdne764236:0'
-        1_year: 'crwdns764238:0crwdne764238:0'
-        2_years: 'crwdns764240:0crwdne764240:0'
-        3_years: 'crwdns764242:0crwdne764242:0'
-        4_years: 'crwdns764244:0crwdne764244:0'
-        5_years: 'crwdns764246:0crwdne764246:0'
-      support:
-        basic: 'crwdns764248:0crwdne764248:0'
-        professional: 'crwdns764250:0crwdne764250:0'
-        premium: 'crwdns764252:0crwdne764252:0'
-      plan:
-        country: 'crwdns764254:0crwdne764254:0'
-        payment_options: 'crwdns764256:0crwdne764256:0'
-        days_left: 'crwdns764258:0crwdne764258:0'
-      payment:
-        price_per_user_month: 'crwdns764260:0%{price}crwdne764260:0'
-        american_express: 'crwdns764262:0crwdne764262:0'
-        bank_transfer: 'crwdns764264:0crwdne764264:0'
-        maestro: 'crwdns764266:0crwdne764266:0'
-        master_card: 'crwdns764268:0crwdne764268:0'
-        sepa: 'crwdns764270:0crwdne764270:0'
-        visa: 'crwdns764272:0crwdne764272:0'
-        invoice: 'crwdns764274:0crwdne764274:0'
-        vat: 'crwdns764276:0crwdne764276:0'
-        amount: 'crwdns764278:0crwdne764278:0'
-        total: 'crwdns764280:0crwdne764280:0'
-        vat_info: 'crwdns764282:0crwdne764282:0'
-        pay_per_invoice: 'crwdns764284:0crwdne764284:0'
-        saving_info_month: 'crwdns764286:0%{n}crwdne764286:0'
-        saving_info_money: 'crwdns764288:0%{amount}crwdne764288:0'
-        payment_info_annually: 'crwdns764290:0crwdne764290:0'
-      billing_info:
-        billing_info: 'crwdns764292:0crwdne764292:0'
-        first_name: 'crwdns764294:0crwdne764294:0'
-        last_name: 'crwdns764296:0crwdne764296:0'
-        organization: 'crwdns764298:0crwdne764298:0'
-        billing_address: 'crwdns764300:0crwdne764300:0'
-        zip_code: 'crwdns764302:0crwdne764302:0'
-        city: 'crwdns764304:0crwdne764304:0'
-        company_country: 'crwdns764306:0crwdne764306:0'
-        email: 'crwdns764308:0crwdne764308:0'
-        company_internal_id: 'crwdns764310:0crwdne764310:0'
-        vat_id_number: 'crwdns764312:0crwdne764312:0'
-        business: crwdns764314:0crwdne764314:0
-        consumer: crwdns764316:0crwdne764316:0
-        title:
-          title: 'crwdns764318:0crwdne764318:0'
-          mr: 'crwdns764320:0crwdne764320:0'
-          ms: 'crwdns764322:0crwdne764322:0'
-        agree: >
-          crwdns764324:0crwdne764324:0
-        acceptedTerms: crwdns764326:0crwdne764326:0
-      quote_info:
-        quote_info: crwdns764328:0crwdne764328:0
-        request: crwdns764330:0crwdne764330:0
-        success: crwdns764332:0crwdne764332:0
-        error: 'crwdns764334:0%{error}crwdne764334:0'
-      gdpr:
-        contact:
-          label: 'crwdns764336:0crwdne764336:0'
-          contact_hint: 'crwdns764338:0crwdne764338:0'
-          gpg_key: 'crwdns764340:0crwdne764340:0'
-        contract_form:
-          label: 'crwdns764342:0crwdne764342:0'
-          email: 'crwdns764344:0crwdne764344:0'
-        dpa_introduction_text: >-
-          crwdns764346:0crwdne764346:0
-        dpa_signed: 'crwdns764348:0crwdne764348:0'
-        dpa_download_text: >
-          crwdns764350:0crwdne764350:0
-        dpa_download_btn: 'crwdns764352:0crwdne764352:0'
-        label_gdpr: 'crwdns764354:0crwdne764354:0'
-        label_dpa: 'crwdns764356:0crwdne764356:0'
-        invalid_email: "crwdns764358:0crwdne764358:0"
-        related:
-          label: 'crwdns764360:0crwdne764360:0'
-          service_agreement: 'crwdns764362:0crwdne764362:0'
-          service_description: 'crwdns764364:0crwdne764364:0'
-          privacy_statement: 'crwdns764366:0crwdne764366:0'
-          dpa: 'crwdns764368:0crwdne764368:0'
-          subcontractors: 'crwdns764370:0crwdne764370:0'
-          data_security: 'crwdns764372:0crwdne764372:0'
-          security_measures: 'crwdns764374:0crwdne764374:0'
-        links:
-          service_agreement: 'crwdns764376:0crwdne764376:0'
-          service_description: 'crwdns764378:0crwdne764378:0'
-          privacy_statement: 'crwdns764380:0crwdne764380:0'
-          dpa: 'crwdns764382:0crwdne764382:0'
-          subcontractors: 'crwdns764384:0crwdne764384:0'
-          data_security: 'crwdns764386:0crwdne764386:0'
-        review_dpa: 'crwdns764388:0crwdne764388:0'
-        sign_eligible: 'crwdns764390:0crwdne764390:0'
-        sign_dpa: 'crwdns764392:0crwdne764392:0'
+    ajax:
+      hide: "crwdns764394:0crwdne764394:0"
+      loading: "crwdns764396:0crwdne764396:0"
+    attachments:
+      draggable_hint: |
+        crwdns764398:0crwdne764398:0
+    autocomplete_select:
+      placeholder:
+        multi: "crwdns764400:0%{name}crwdne764400:0"
+        single: "crwdns764402:0%{name}crwdne764402:0"
+      remove: "crwdns764404:0%{name}crwdne764404:0"
+      active: "crwdns764406:0%{label}crwdnd764406:0%{name}crwdne764406:0"
+    backup:
+      attachments_disabled: crwdns764408:0crwdne764408:0
+      info: >
+        crwdns764410:0crwdne764410:0
+      note: >
+        crwdns764412:0crwdne764412:0
+      last_backup: crwdns764414:0crwdne764414:0
+      last_backup_from: crwdns764416:0crwdne764416:0
+      title: crwdns764418:0crwdne764418:0
+      options: crwdns764420:0crwdne764420:0
+      include_attachments: crwdns764422:0crwdne764422:0
+      download_backup: crwdns764424:0crwdne764424:0
+      request_backup: crwdns764426:0crwdne764426:0
+    close_popup_title: "crwdns764428:0crwdne764428:0"
+    close_filter_title: "crwdns764430:0crwdne764430:0"
+    close_form_title: "crwdns764432:0crwdne764432:0"
+    button_add_watcher: "crwdns764434:0crwdne764434:0"
+    button_add: "crwdns764436:0crwdne764436:0"
+    button_back: "crwdns764438:0crwdne764438:0"
+    button_back_to_list_view: "crwdns764440:0crwdne764440:0"
+    button_cancel: "crwdns764442:0crwdne764442:0"
+    button_close: "crwdns764444:0crwdne764444:0"
+    button_change_project: "crwdns764446:0crwdne764446:0"
+    button_check_all: "crwdns764448:0crwdne764448:0"
+    button_configure-form: "crwdns764450:0crwdne764450:0"
+    button_confirm: "crwdns764452:0crwdne764452:0"
+    button_continue: "crwdns764454:0crwdne764454:0"
+    button_copy: "crwdns764456:0crwdne764456:0"
+    button_copy_to_other_project: "crwdns764458:0crwdne764458:0"
+    button_custom-fields: "crwdns764460:0crwdne764460:0"
+    button_delete: "crwdns764462:0crwdne764462:0"
+    button_delete_watcher: "crwdns764464:0crwdne764464:0"
+    button_details_view: "crwdns764466:0crwdne764466:0"
+    button_duplicate: "crwdns764468:0crwdne764468:0"
+    button_edit: "crwdns764470:0crwdne764470:0"
+    button_filter: "crwdns764472:0crwdne764472:0"
+    button_collapse_all: "crwdns764474:0crwdne764474:0"
+    button_expand_all: "crwdns764476:0crwdne764476:0"
+    button_advanced_filter: "crwdns764478:0crwdne764478:0"
+    button_list_view: "crwdns764480:0crwdne764480:0"
+    button_show_view: "crwdns764482:0crwdne764482:0"
+    button_log_time: "crwdns764484:0crwdne764484:0"
+    button_more: "crwdns764486:0crwdne764486:0"
+    button_open_details: "crwdns764488:0crwdne764488:0"
+    button_close_details: "crwdns764490:0crwdne764490:0"
+    button_open_fullscreen: "crwdns764492:0crwdne764492:0"
+    button_show_cards: "crwdns764494:0crwdne764494:0"
+    button_show_list: "crwdns764496:0crwdne764496:0"
+    button_quote: "crwdns764498:0crwdne764498:0"
+    button_save: "crwdns764500:0crwdne764500:0"
+    button_settings: "crwdns764502:0crwdne764502:0"
+    button_uncheck_all: "crwdns764504:0crwdne764504:0"
+    button_update: "crwdns764506:0crwdne764506:0"
+    button_export-pdf: "crwdns764508:0crwdne764508:0"
+    button_export-atom: "crwdns764510:0crwdne764510:0"
+    button_create: "crwdns764512:0crwdne764512:0"
+    card:
+      add_new: 'crwdns764514:0crwdne764514:0'
+      highlighting:
+        inline: 'crwdns764516:0crwdne764516:0'
+        entire_card_by: 'crwdns764518:0crwdne764518:0'
+      remove_from_list: 'crwdns764520:0crwdne764520:0'
+    caption_rate_history: "crwdns764522:0crwdne764522:0"
+    clipboard:
+      browser_error: "crwdns764524:0crwdne764524:0"
+      copied_successful: "crwdns764526:0crwdne764526:0"
+    chart:
+      type: 'crwdns764528:0crwdne764528:0'
+      axis_criteria: 'crwdns764530:0crwdne764530:0'
+      modal_title: 'crwdns764532:0crwdne764532:0'
+      types:
+        line: 'crwdns764534:0crwdne764534:0'
+        horizontal_bar: 'crwdns764536:0crwdne764536:0'
+        bar: 'crwdns764538:0crwdne764538:0'
+        pie: 'crwdns764540:0crwdne764540:0'
+        doughnut: 'crwdns764542:0crwdne764542:0'
+        radar: 'crwdns764544:0crwdne764544:0'
+        polar_area: 'crwdns764546:0crwdne764546:0'
+      tabs:
+        graph_settings: 'crwdns764548:0crwdne764548:0'
+        dataset: 'crwdns764550:0%{number}crwdne764550:0'
+      errors:
+        could_not_load: 'crwdns764552:0crwdne764552:0'
+    description_available_columns: "crwdns764554:0crwdne764554:0"
+    description_current_position: "crwdns764556:0crwdne764556:0"
+    description_select_work_package: "crwdns764558:0%{id}crwdne764558:0"
+    description_selected_columns: "crwdns764560:0crwdne764560:0"
+    description_subwork_package: "crwdns764562:0%{id}crwdne764562:0"
+    editor:
+      preview: 'crwdns764564:0crwdne764564:0'
+      source_code: 'crwdns764566:0crwdne764566:0'
+      error_saving_failed: 'crwdns764568:0%{error}crwdne764568:0'
+      ckeditor_error: 'crwdns764570:0crwdne764570:0'
+      mode:
+        manual: 'crwdns764572:0crwdne764572:0'
+        wysiwyg: 'crwdns764574:0crwdne764574:0'
+      macro:
+        error: 'crwdns764576:0%{message}crwdne764576:0'
+        attribute_reference:
+          macro_help_tooltip: 'crwdns764578:0crwdne764578:0'
+          not_found: 'crwdns764580:0crwdne764580:0'
+          invalid_attribute: "crwdns764582:0%{name}crwdne764582:0"
+        child_pages:
+          button: 'crwdns764584:0crwdne764584:0'
+          include_parent: 'crwdns764586:0crwdne764586:0'
+          text: 'crwdns764588:0[Placeholder]crwdne764588:0'
+          page: 'crwdns764590:0crwdne764590:0'
+          this_page: 'crwdns764592:0crwdne764592:0'
+          hint: |
+            crwdns764594:0crwdne764594:0
+        code_block:
+          button: 'crwdns764596:0crwdne764596:0'
+          title: 'crwdns764598:0crwdne764598:0'
+          language: 'crwdns764600:0crwdne764600:0'
+          language_hint: 'crwdns764602:0crwdne764602:0'
+        dropdown:
+          macros: 'crwdns764604:0crwdne764604:0'
+          chose_macro: 'crwdns764606:0crwdne764606:0'
+        toc: 'crwdns764608:0crwdne764608:0'
+        toolbar_help: 'crwdns764610:0crwdne764610:0'
+        wiki_page_include:
+          button: 'crwdns764612:0crwdne764612:0'
+          text: 'crwdns764614:0[Placeholder]crwdne764614:0'
+          page: 'crwdns764616:0crwdne764616:0'
+          not_set: 'crwdns764618:0crwdne764618:0'
+          hint: |
+            crwdns764620:0crwdne764620:0
+        work_package_button:
+          button: 'crwdns764622:0crwdne764622:0'
+          type: 'crwdns764624:0crwdne764624:0'
+          button_style: 'crwdns764626:0crwdne764626:0'
+          button_style_hint: 'crwdns764628:0crwdne764628:0'
+          without_type: 'crwdns764630:0crwdne764630:0'
+          with_type: 'crwdns764632:0%{typename}crwdne764632:0'
+        embedded_table:
+          button: 'crwdns764634:0crwdne764634:0'
+          text: 'crwdns764636:0[Placeholder]crwdne764636:0'
+        embedded_calendar:
+          text: 'crwdns764638:0[Placeholder]crwdne764638:0'
+    admin:
+      type_form:
+        custom_field: 'crwdns764640:0crwdne764640:0'
+        inactive: 'crwdns764642:0crwdne764642:0'
+        drag_to_activate: "crwdns764644:0crwdne764644:0"
+        add_group: "crwdns764646:0crwdne764646:0"
+        add_table: "crwdns764648:0crwdne764648:0"
+        edit_query: 'crwdns764650:0crwdne764650:0'
+        new_group: 'crwdns764652:0crwdne764652:0'
+        reset_to_defaults: 'crwdns764654:0crwdne764654:0'
+      enterprise:
+        text_reprieve_days_left: "crwdns764656:0%{days}crwdne764656:0"
+        text_expired: "crwdns764658:0crwdne764658:0"
+        trial:
+          confirmation: "crwdns764660:0crwdne764660:0"
+          confirmation_info: >
+            crwdns764662:0%{date}crwdnd764662:0%{email}crwdne764662:0
+          form:
+            general_consent: >
+              crwdns764664:0%{link_terms}crwdnd764664:0%{link_privacy}crwdne764664:0
+            invalid_email: "crwdns764666:0crwdne764666:0"
+            label_company: "crwdns764668:0crwdne764668:0"
+            label_first_name: "crwdns764670:0crwdne764670:0"
+            label_last_name: "crwdns764672:0crwdne764672:0"
+            label_domain: "crwdns764674:0crwdne764674:0"
+            label_subscriber: "crwdns764676:0crwdne764676:0"
+            label_maximum_users: "crwdns764678:0crwdne764678:0"
+            label_starts_at: "crwdns764680:0crwdne764680:0"
+            label_expires_at: "crwdns764682:0crwdne764682:0"
+            receive_newsletter: crwdns764684:0%{link}crwdne764684:0
+            taken_domain: crwdns764686:0crwdne764686:0
+            taken_email: crwdns764688:0crwdne764688:0
+          email_not_received: "crwdns764690:0crwdne764690:0"
+          try_another_email: "crwdns764692:0crwdne764692:0"
+          next_steps: "crwdns764694:0crwdne764694:0"
+          resend_link: "crwdns764696:0crwdne764696:0"
+          resend_success: "crwdns764698:0crwdne764698:0"
+          resend_warning: "crwdns764700:0crwdne764700:0"
+          session_timeout: "crwdns764702:0crwdne764702:0"
+          status_label: "crwdns764704:0crwdne764704:0"
+          status_confirmed: "crwdns764706:0crwdne764706:0"
+          status_waiting: "crwdns764708:0crwdne764708:0"
+          test_ee: "crwdns764710:0crwdne764710:0"
+          quick_overview: "crwdns764712:0crwdne764712:0"
+        upsale:
+          become_hero: "crwdns764714:0crwdne764714:0"
+          benefits:
+            description: "crwdns764716:0crwdne764716:0"
+            high_security: "crwdns764718:0crwdne764718:0"
+            high_security_text: "crwdns764720:0crwdne764720:0"
+            installation: "crwdns764722:0crwdne764722:0"
+            installation_text: "crwdns764724:0crwdne764724:0"
+            premium_features: "crwdns764726:0crwdne764726:0"
+            premium_features_text: "crwdns764728:0crwdne764728:0"
+            professional_support: "crwdns764730:0crwdne764730:0"
+            professional_support_text: "crwdns764732:0crwdne764732:0"
+          button_start_trial: "crwdns764734:0crwdne764734:0"
+          button_book_now: "crwdns764736:0crwdne764736:0"
+          confidence: >
+            crwdns764738:0crwdne764738:0
+          link_quote: "crwdns764740:0crwdne764740:0"
+          text: >
+            crwdns764742:0crwdne764742:0
+          unlimited: "crwdns764744:0crwdne764744:0"
+          you_contribute: "crwdns764746:0crwdne764746:0"
+    custom_actions:
+      date:
+        specific: 'crwdns764748:0crwdne764748:0'
+        current_date: 'crwdns764750:0crwdne764750:0'
+    error:
+      internal: "crwdns764752:0crwdne764752:0"
+      cannot_save_changes_with_message: "crwdns764754:0%{error}crwdne764754:0"
+      query_saving: "crwdns764756:0crwdne764756:0"
+      embedded_table_loading: "crwdns764758:0%{message}crwdne764758:0"
+    enumeration_activities: "crwdns764760:0crwdne764760:0"
+    enumeration_doc_categories: "crwdns764762:0crwdne764762:0"
+    enumeration_work_package_priorities: "crwdns764764:0crwdne764764:0"
+    filter:
+      more_values_not_shown: "crwdns764766:0%{total}crwdne764766:0"
+      description:
+        text_open_filter: "crwdns764768:0crwdne764768:0"
+        text_close_filter: "crwdns764770:0crwdne764770:0"
+      noneElement: "crwdns764772:0crwdne764772:0"
+      time_zone_converted:
+        two_values: "crwdns764774:0%{from}crwdnd764774:0%{to}crwdne764774:0"
+        only_start: "crwdns764776:0%{from}crwdne764776:0"
+        only_end: "crwdns764778:0%{to}crwdne764778:0"
+      value_spacer: "crwdns764780:0crwdne764780:0"
+      sorting:
+        criteria:
+          one: "crwdns764782:0crwdne764782:0"
+          two: "crwdns764784:0crwdne764784:0"
+          three: "crwdns764786:0crwdne764786:0"
+      upsale_for_more: "crwdns764788:0crwdne764788:0"
+      upsale_link: 'crwdns764790:0crwdne764790:0'
+    general_text_no: "crwdns764792:0crwdne764792:0"
+    general_text_yes: "crwdns764794:0crwdne764794:0"
+    general_text_No: "crwdns764796:0crwdne764796:0"
+    general_text_Yes: "crwdns764798:0crwdne764798:0"
+    hal:
+      error:
+        update_conflict_refresh: "crwdns764800:0crwdne764800:0"
+        edit_prohibited: "crwdns764802:0%{attribute}crwdne764802:0"
+        format:
+          date: "crwdns764804:0%{attribute}crwdne764804:0"
+        general: "crwdns764806:0crwdne764806:0"
+    homescreen:
+      blocks:
+        new_features:
+          text_new_features: "crwdns764808:0crwdne764808:0"
+          learn_about: "crwdns764810:0crwdne764810:0"
+          #Include the version to invalidate outdated translations in other locales.
+          #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
+          '12_0':
+            standard:
+              learn_about_link: crwdns764812:0crwdne764812:0
+              new_features_html: >
+                crwdns764814:0%{list_styling_class}crwdne764814:0
+            bim:
+              learn_about_link: crwdns764816:0crwdne764816:0
+              new_features_html: >
+                crwdns764818:0%{list_styling_class}crwdne764818:0
+    label_activate: "crwdns764820:0crwdne764820:0"
+    label_add_column_after: "crwdns764822:0crwdne764822:0"
+    label_add_column_before: "crwdns764824:0crwdne764824:0"
+    label_add_columns: "crwdns764826:0crwdne764826:0"
+    label_add_comment: "crwdns764828:0crwdne764828:0"
+    label_add_comment_title: "crwdns764830:0crwdne764830:0"
+    label_add_row_after: "crwdns764832:0crwdne764832:0"
+    label_add_row_before: "crwdns764834:0crwdne764834:0"
+    label_add_selected_columns: "crwdns764836:0crwdne764836:0"
+    label_added_by: "crwdns764838:0crwdne764838:0"
+    label_added_time_by: "crwdns764840:0%{authorLink}crwdnd764840:0%{author}crwdnd764840:0%{age}crwdne764840:0"
+    label_ago: "crwdns764842:0crwdne764842:0"
+    label_all: "crwdns764844:0crwdne764844:0"
+    label_all_work_packages: "crwdns764846:0crwdne764846:0"
+    label_and: "crwdns764848:0crwdne764848:0"
+    label_ascending: "crwdns764850:0crwdne764850:0"
+    label_author: "crwdns764852:0%{user}crwdne764852:0"
+    label_avatar: "crwdns764854:0crwdne764854:0"
+    label_between: "crwdns764856:0crwdne764856:0"
+    label_board: "crwdns764858:0crwdne764858:0"
+    label_board_locked: "crwdns764860:0crwdne764860:0"
+    label_board_plural: "crwdns764862:0crwdne764862:0"
+    label_board_sticky: "crwdns764864:0crwdne764864:0"
+    label_change: "crwdns764866:0crwdne764866:0"
+    label_create: "crwdns764868:0crwdne764868:0"
+    label_create_work_package: "crwdns764870:0crwdne764870:0"
+    label_created_by: "crwdns764872:0crwdne764872:0"
+    label_date: "crwdns764874:0crwdne764874:0"
+    label_date_with_format: "crwdns764876:0%{date_attribute}crwdnd764876:0%{format}crwdne764876:0"
+    label_deactivate: "crwdns764878:0crwdne764878:0"
+    label_descending: "crwdns764880:0crwdne764880:0"
+    label_description: "crwdns764882:0crwdne764882:0"
+    label_details: "crwdns764884:0crwdne764884:0"
+    label_display: "crwdns764886:0crwdne764886:0"
+    label_cancel_comment: "crwdns764888:0crwdne764888:0"
+    label_closed_work_packages: "crwdns764890:0crwdne764890:0"
+    label_collapse: "crwdns764892:0crwdne764892:0"
+    label_collapsed: "crwdns764894:0crwdne764894:0"
+    label_collapse_all: "crwdns764896:0crwdne764896:0"
+    label_comment: "crwdns764898:0crwdne764898:0"
+    label_committed_at: "crwdns764900:0%{committed_revision_link}crwdnd764900:0%{date}crwdne764900:0"
+    label_committed_link: "crwdns764902:0%{revision_identifier}crwdne764902:0"
+    label_contains: "crwdns764904:0crwdne764904:0"
+    label_created_on: "crwdns764906:0crwdne764906:0"
+    label_edit_comment: "crwdns764908:0crwdne764908:0"
+    label_edit_status: "crwdns764910:0crwdne764910:0"
+    label_email: "crwdns764912:0crwdne764912:0"
+    label_equals: "crwdns764914:0crwdne764914:0"
+    label_expand: "crwdns764916:0crwdne764916:0"
+    label_expanded: "crwdns764918:0crwdne764918:0"
+    label_expand_all: "crwdns764920:0crwdne764920:0"
+    label_expand_project_menu: "crwdns764922:0crwdne764922:0"
+    label_export: "crwdns764924:0crwdne764924:0"
+    label_export_preparing: "crwdns764926:0crwdne764926:0"
+    label_filename: "crwdns764928:0crwdne764928:0"
+    label_filesize: "crwdns764930:0crwdne764930:0"
+    label_general: "crwdns764932:0crwdne764932:0"
+    label_global_roles: "crwdns764934:0crwdne764934:0"
+    label_greater_or_equal: "crwdns764936:0crwdne764936:0"
+    label_group: 'crwdns764938:0crwdne764938:0'
+    label_group_by: "crwdns764940:0crwdne764940:0"
+    label_group_plural: "crwdns764942:0crwdne764942:0"
+    label_hide_attributes: "crwdns764944:0crwdne764944:0"
+    label_hide_column: "crwdns764946:0crwdne764946:0"
+    label_hide_project_menu: "crwdns764948:0crwdne764948:0"
+    label_in: "crwdns764950:0crwdne764950:0"
+    label_in_less_than: "crwdns764952:0crwdne764952:0"
+    label_in_more_than: "crwdns764954:0crwdne764954:0"
+    label_incoming_emails: "crwdns764956:0crwdne764956:0"
+    label_information_plural: "crwdns764958:0crwdne764958:0"
+    label_import: "crwdns764960:0crwdne764960:0"
+    label_latest_activity: "crwdns764962:0crwdne764962:0"
+    label_last_updated_on: "crwdns764964:0crwdne764964:0"
+    label_learn_more_link: "crwdns764966:0crwdne764966:0"
+    label_less_or_equal: "crwdns764968:0crwdne764968:0"
+    label_less_than_ago: "crwdns764970:0crwdne764970:0"
+    label_loading: "crwdns764972:0crwdne764972:0"
+    label_mail_notification: "crwdns764974:0crwdne764974:0"
+    label_me: "crwdns764976:0crwdne764976:0"
+    label_meeting_agenda: "crwdns764978:0crwdne764978:0"
+    label_meeting_minutes: "crwdns764980:0crwdne764980:0"
+    label_menu_collapse: "crwdns764982:0crwdne764982:0"
+    label_menu_expand: "crwdns764984:0crwdne764984:0"
+    label_more_than_ago: "crwdns764986:0crwdne764986:0"
+    label_next: "crwdns764988:0crwdne764988:0"
+    label_no_color: "crwdns764990:0crwdne764990:0"
+    label_no_data: "crwdns764992:0crwdne764992:0"
+    label_no_due_date: "crwdns764994:0crwdne764994:0"
+    label_no_start_date: "crwdns764996:0crwdne764996:0"
+    label_no_value: "crwdns764998:0crwdne764998:0"
+    label_none: "crwdns765000:0crwdne765000:0"
+    label_not_contains: "crwdns765002:0crwdne765002:0"
+    label_not_equals: "crwdns765004:0crwdne765004:0"
+    label_on: "crwdns765006:0crwdne765006:0"
+    label_open_menu: "crwdns765008:0crwdne765008:0"
+    label_open_context_menu: "crwdns765010:0crwdne765010:0"
+    label_open_work_packages: "crwdns765012:0crwdne765012:0"
+    label_password: "crwdns765014:0crwdne765014:0"
+    label_previous: "crwdns765016:0crwdne765016:0"
+    label_per_page: "crwdns765018:0crwdne765018:0"
+    label_please_wait: "crwdns765020:0crwdne765020:0"
+    label_project_plural: "crwdns765022:0crwdne765022:0"
+    label_visibility_settings: "crwdns765024:0crwdne765024:0"
+    label_quote_comment: "crwdns765026:0crwdne765026:0"
+    label_recent: "crwdns765028:0crwdne765028:0"
+    label_reset: "crwdns765030:0crwdne765030:0"
+    label_remove: "crwdns765032:0crwdne765032:0"
+    label_remove_column: "crwdns765034:0crwdne765034:0"
+    label_remove_columns: "crwdns765036:0crwdne765036:0"
+    label_remove_row: "crwdns765038:0crwdne765038:0"
+    label_report: "crwdns765040:0crwdne765040:0"
+    label_repository_plural: "crwdns765042:0crwdne765042:0"
+    label_save_as: "crwdns765044:0crwdne765044:0"
+    label_select_watcher: "crwdns765046:0crwdne765046:0"
+    label_selected_filter_list: "crwdns765048:0crwdne765048:0"
+    label_show_attributes: "crwdns765050:0crwdne765050:0"
+    label_show_in_menu: "crwdns765052:0crwdne765052:0"
+    label_sort_by: "crwdns765054:0crwdne765054:0"
+    label_sorted_by: "crwdns765056:0crwdne765056:0"
+    label_sort_higher: "crwdns765058:0crwdne765058:0"
+    label_sort_lower: "crwdns765060:0crwdne765060:0"
+    label_sorting: "crwdns765062:0crwdne765062:0"
+    label_spent_time: "crwdns765064:0crwdne765064:0"
+    label_star_query: "crwdns765066:0crwdne765066:0"
+    label_press_enter_to_save: "crwdns765068:0crwdne765068:0"
+    label_public_query: "crwdns765070:0crwdne765070:0"
+    label_sum: "crwdns765072:0crwdne765072:0"
+    label_sum_for: "crwdns765074:0crwdne765074:0"
+    label_total_sum: "crwdns765076:0crwdne765076:0"
+    label_subject: "crwdns765078:0crwdne765078:0"
+    label_this_week: "crwdns765080:0crwdne765080:0"
+    label_today: "crwdns765082:0crwdne765082:0"
+    label_time_entry_plural: "crwdns765084:0crwdne765084:0"
+    label_up: "crwdns765086:0crwdne765086:0"
+    label_user_plural: "crwdns765088:0crwdne765088:0"
+    label_activity_show_only_comments: "crwdns765090:0crwdne765090:0"
+    label_activity_show_all: "crwdns765092:0crwdne765092:0"
+    label_total_progress: "crwdns765094:0%{percent}crwdne765094:0"
+    label_total_amount: "crwdns765096:0%{amount}crwdne765096:0"
+    label_updated_on: "crwdns765098:0crwdne765098:0"
+    label_value_derived_from_children: "crwdns765100:0crwdne765100:0"
+    label_children_derived_duration: "crwdns765102:0crwdne765102:0"
+    label_warning: "crwdns765104:0crwdne765104:0"
+    label_work_package: "crwdns765106:0crwdne765106:0"
+    label_work_package_parent: "crwdns765108:0crwdne765108:0"
+    label_work_package_plural: "crwdns765110:0crwdne765110:0"
+    label_watch: "crwdns765112:0crwdne765112:0"
+    label_watch_work_package: "crwdns765114:0crwdne765114:0"
+    label_watcher_added_successfully: "crwdns765116:0crwdne765116:0"
+    label_watcher_deleted_successfully: "crwdns765118:0crwdne765118:0"
+    label_work_package_details_you_are_here: "crwdns765120:0%{tab}crwdnd765120:0%{type}crwdnd765120:0%{subject}crwdne765120:0"
+    label_unwatch: "crwdns765122:0crwdne765122:0"
+    label_unwatch_work_package: "crwdns765124:0crwdne765124:0"
+    label_uploaded_by: "crwdns765126:0crwdne765126:0"
+    label_default_queries: "crwdns765128:0crwdne765128:0"
+    label_starred_queries: "crwdns765130:0crwdne765130:0"
+    label_global_queries: "crwdns765132:0crwdne765132:0"
+    label_custom_queries: "crwdns765134:0crwdne765134:0"
+    label_create_new_query: "crwdns765136:0crwdne765136:0"
+    label_columns: "crwdns765138:0crwdne765138:0"
+    label_attachments: crwdns765140:0crwdne765140:0
+    label_drop_files: crwdns765142:0crwdne765142:0
+    label_drop_files_hint: crwdns765144:0crwdne765144:0
+    label_drop_folders_hint: crwdns765146:0crwdne765146:0
+    label_add_attachments: "crwdns765148:0crwdne765148:0"
+    label_formattable_attachment_hint: "crwdns765150:0crwdne765150:0"
+    label_remove_file: "crwdns765152:0%{fileName}crwdne765152:0"
+    label_remove_watcher: "crwdns765154:0%{name}crwdne765154:0"
+    label_remove_all_files: crwdns765156:0crwdne765156:0
+    label_add_description: "crwdns765158:0%{file}crwdne765158:0"
+    label_upload_notification: "crwdns765160:0crwdne765160:0"
+    label_work_package_upload_notification: "crwdns765162:0%{id}crwdnd765162:0%{subject}crwdne765162:0"
+    label_wp_id_added_by: "crwdns765164:0%{id}crwdnd765164:0%{author}crwdne765164:0"
+    label_files_to_upload: "crwdns765166:0crwdne765166:0"
+    label_rejected_files: "crwdns765168:0crwdne765168:0"
+    label_rejected_files_reason: "crwdns765170:0%{maximumFilesize}crwdne765170:0"
+    label_wait: "crwdns765172:0crwdne765172:0"
+    label_upload_counter: "crwdns765174:0%{done}crwdnd765174:0%{count}crwdne765174:0"
+    label_validation_error: "crwdns765176:0crwdne765176:0"
+    label_version_plural: "crwdns765178:0crwdne765178:0"
+    label_view_has_changed: "crwdns765180:0crwdne765180:0"
+    help_texts:
+      show_modal: 'crwdns765182:0crwdne765182:0'
+    onboarding:
+      buttons:
+        skip: 'crwdns765184:0crwdne765184:0'
+        next: 'crwdns765186:0crwdne765186:0'
+        got_it: 'crwdns765188:0crwdne765188:0'
+      steps:
+        help_menu: 'crwdns765190:0crwdne765190:0'
+        members: 'crwdns765192:0crwdne765192:0'
+        project_selection: 'crwdns765194:0crwdne765194:0'
+        quick_add_button: 'crwdns765196:0crwdne765196:0'
+        sidebar_arrow: "crwdns765198:0crwdne765198:0"
+        welcome: 'crwdns765200:0crwdne765200:0'
+        wiki: 'crwdns765202:0crwdne765202:0'
+        backlogs:
+          overview: "crwdns765204:0crwdne765204:0"
+          sprints: "crwdns765206:0crwdne765206:0"
+          task_board_arrow: 'crwdns765208:0crwdne765208:0'
+          task_board_select: 'crwdns765210:0crwdne765210:0'
+          task_board: "crwdns765212:0crwdne765212:0"
+        boards:
+          overview: 'crwdns765214:0crwdne765214:0'
+          lists: 'crwdns765216:0crwdne765216:0'
+          add: 'crwdns765218:0crwdne765218:0'
+          drag: 'crwdns765220:0crwdne765220:0'
+        wp:
+          toggler: "crwdns765222:0crwdne765222:0"
+          list: 'crwdns765224:0crwdne765224:0'
+          full_view: 'crwdns765226:0crwdne765226:0'
+          back_button: 'crwdns765228:0crwdne765228:0'
+          create_button: 'crwdns765230:0crwdne765230:0'
+          timeline_button: 'crwdns765232:0crwdne765232:0'
+          timeline: 'crwdns765234:0crwdne765234:0'
+    notifications:
+      title: "crwdns765236:0crwdne765236:0"
+      no_unread: "crwdns765238:0crwdne765238:0"
+      reasons:
+        mentioned: 'crwdns765240:0crwdne765240:0'
+        watched: 'crwdns765242:0crwdne765242:0'
+        assigned: 'crwdns765244:0crwdne765244:0'
+        responsible: 'crwdns765246:0crwdne765246:0'
+      facets:
+        unread: 'crwdns765248:0crwdne765248:0'
+        all: 'crwdns765250:0crwdne765250:0'
+      center:
+        and_more_users:
+          one: 'crwdns765252:1crwdne765252:1'
+          other: 'crwdns765252:5%{count}crwdne765252:5'
+        no_results:
+          at_all: 'crwdns765254:0crwdne765254:0'
+          with_current_filter: 'crwdns765256:0crwdne765256:0'
+        mark_all_read: 'crwdns765258:0crwdne765258:0'
+        mark_as_read: 'crwdns765260:0crwdne765260:0'
+        text_update_date: "crwdns765262:0%{date}crwdne765262:0"
+        total_count_warning: "crwdns765264:0%{newest_count}crwdnd765264:0%{more_count}crwdne765264:0"
+        empty_state:
+          no_notification: "crwdns765266:0crwdne765266:0"
+          no_notification_with_current_filter: "crwdns765268:0crwdne765268:0"
+          no_selection: "crwdns765270:0crwdne765270:0"
+        new_notifications:
+          message: 'crwdns765272:0crwdne765272:0'
+          link_text: 'crwdns765274:0crwdne765274:0'
+      menu:
+        accountable: 'crwdns765276:0crwdne765276:0'
+        assigned: 'crwdns765278:0crwdne765278:0'
+        by_project: 'crwdns765280:0crwdne765280:0'
+        by_reason: 'crwdns765282:0crwdne765282:0'
+        inbox: 'crwdns765284:0crwdne765284:0'
+        mentioned: 'crwdns765286:0crwdne765286:0'
+        watching: 'crwdns765288:0crwdne765288:0'
+      settings:
+        change_notification_settings: 'crwdns765290:0%{url}crwdne765290:0'
+        title: "crwdns765292:0crwdne765292:0"
+        notify_me: "crwdns765294:0crwdne765294:0"
+        reasons:
+          mentioned:
+            title: 'crwdns765296:0crwdne765296:0'
+            description: 'crwdns765298:0crwdne765298:0'
+          involved:
+            title: 'crwdns765300:0crwdne765300:0'
+            description: 'crwdns765302:0crwdne765302:0'
+          watched: 'crwdns765304:0crwdne765304:0'
+          work_package_commented: 'crwdns765306:0crwdne765306:0'
+          work_package_created: 'crwdns765308:0crwdne765308:0'
+          work_package_processed: 'crwdns765310:0crwdne765310:0'
+          work_package_prioritized: 'crwdns765312:0crwdne765312:0'
+          work_package_scheduled: 'crwdns765314:0crwdne765314:0'
+        global:
+          immediately:
+            title: 'crwdns765316:0crwdne765316:0'
+            description: 'crwdns765318:0crwdne765318:0'
+          delayed:
+            title: 'crwdns765320:0crwdne765320:0'
+            description: 'crwdns765322:0crwdne765322:0'
+        project_specific:
+          title: 'crwdns765324:0crwdne765324:0'
+          description: 'crwdns765326:0crwdne765326:0'
+          add: 'crwdns765328:0crwdne765328:0'
+          already_selected: 'crwdns765330:0crwdne765330:0'
+          remove: 'crwdns765332:0crwdne765332:0'
+    password_confirmation:
+      field_description: 'crwdns765334:0crwdne765334:0'
+      title: 'crwdns765336:0crwdne765336:0'
+    pagination:
+      no_other_page: "crwdns765338:0crwdne765338:0"
+      pages:
+        next: "crwdns765340:0crwdne765340:0"
+        previous: "crwdns765342:0crwdne765342:0"
+    placeholders:
+      default: 'crwdns765344:0crwdne765344:0'
+      subject: 'crwdns765346:0crwdne765346:0'
+      selection: 'crwdns765348:0crwdne765348:0'
+      relation_description: 'crwdns765350:0crwdne765350:0'
+    project:
+      required_outside_context: >
+        crwdns765352:0crwdne765352:0
+      context: 'crwdns765354:0crwdne765354:0'
+      work_package_belongs_to: 'crwdns765356:0%{projectname}crwdne765356:0'
+      click_to_switch_context: 'crwdns765358:0crwdne765358:0'
+      confirm_template_load: 'crwdns765360:0crwdne765360:0'
+      use_template: "crwdns765362:0crwdne765362:0"
+      no_template_selected: "crwdns765364:0crwdne765364:0"
+      copy:
+        copy_options: "crwdns765366:0crwdne765366:0"
+      autocompleter:
+        label: 'crwdns765368:0crwdne765368:0'
+    reminders:
+      settings:
+        daily:
+          add_time: 'crwdns765370:0crwdne765370:0'
+          enable: 'crwdns765372:0crwdne765372:0'
+          explanation: 'crwdns765374:0%{no_time_zone}crwdne765374:0'
+          no_time_zone: 'crwdns765376:0crwdne765376:0'
+          time_label: 'crwdns765378:0%{counter}crwdne765378:0'
+          title: 'crwdns765380:0crwdne765380:0'
+        workdays:
+          title: 'crwdns765382:0crwdne765382:0'
+        immediate:
+          title: 'crwdns765384:0crwdne765384:0'
+          mentioned: 'crwdns765386:0crwdne765386:0'
+        alerts:
+          title: 'crwdns765388:0crwdne765388:0'
+          explanation: >
+            crwdns765390:0crwdne765390:0
+          news_added: 'crwdns765392:0crwdne765392:0'
+          news_commented: 'crwdns765394:0crwdne765394:0'
+          document_added: 'crwdns765396:0crwdne765396:0'
+          forum_messages: 'crwdns765398:0crwdne765398:0'
+          wiki_page_added: 'crwdns765400:0crwdne765400:0'
+          wiki_page_updated: 'crwdns765402:0crwdne765402:0'
+          membership_added: 'crwdns765404:0crwdne765404:0'
+          membership_updated: 'crwdns765406:0crwdne765406:0'
+        title: 'crwdns765408:0crwdne765408:0'
+        pause:
+          label: 'crwdns765410:0crwdne765410:0'
+          first_day: 'crwdns765412:0crwdne765412:0'
+          last_day: 'crwdns765414:0crwdne765414:0'
+    text_are_you_sure: "crwdns765416:0crwdne765416:0"
+    text_data_lost: "crwdns765418:0crwdne765418:0"
+    types:
+      attribute_groups:
+        error_duplicate_group_name: "crwdns765420:0%{group}crwdne765420:0"
+        error_no_table_configured: "crwdns765422:0%{group}crwdne765422:0"
+        reset_title: "crwdns765424:0crwdne765424:0"
+        confirm_reset: >
+          crwdns765426:0crwdne765426:0
+        upgrade_to_ee: "crwdns765428:0crwdne765428:0"
+        upgrade_to_ee_text: "crwdns765430:0crwdne765430:0"
+        more_information: "crwdns765432:0crwdne765432:0"
+        nevermind: "crwdns765434:0crwdne765434:0"
+      edit:
+        form_configuration: "crwdns765436:0crwdne765436:0"
+        projects: "crwdns765438:0crwdne765438:0"
+        settings: "crwdns765440:0crwdne765440:0"
+    time_entry:
+      project: 'crwdns765442:0crwdne765442:0'
+      work_package: 'crwdns765444:0crwdne765444:0'
+      work_package_required: 'crwdns765446:0crwdne765446:0'
+      activity: 'crwdns765448:0crwdne765448:0'
+      comment: 'crwdns765450:0crwdne765450:0'
+      duration: 'crwdns765452:0crwdne765452:0'
+      spent_on: 'crwdns765454:0crwdne765454:0'
+      hours: 'crwdns765456:0crwdne765456:0'
+      title: 'crwdns765458:0crwdne765458:0'
+    two_factor_authentication:
+      label_two_factor_authentication: 'crwdns765460:0crwdne765460:0'
+    watchers:
+      label_loading: crwdns765462:0crwdne765462:0
+      label_error_loading: crwdns765464:0crwdne765464:0
+      label_search_watchers: crwdns765466:0crwdne765466:0
+      label_add: crwdns765468:0crwdne765468:0
+      label_discard: crwdns765470:0crwdne765470:0
+      typeahead_placeholder: crwdns765472:0crwdne765472:0
+    relation_labels:
+      parent: "crwdns765474:0crwdne765474:0"
+      children: "crwdns765476:0crwdne765476:0"
+      relates: "crwdns765478:0crwdne765478:0"
+      duplicates: "crwdns765480:0crwdne765480:0"
+      duplicated: "crwdns765482:0crwdne765482:0"
+      blocks: "crwdns765484:0crwdne765484:0"
+      blocked: "crwdns765486:0crwdne765486:0"
+      precedes: "crwdns765488:0crwdne765488:0"
+      follows: "crwdns765490:0crwdne765490:0"
+      includes: "crwdns765492:0crwdne765492:0"
+      partof: "crwdns765494:0crwdne765494:0"
+      requires: "crwdns765496:0crwdne765496:0"
+      required: "crwdns765498:0crwdne765498:0"
+      relation_type: "crwdns765500:0crwdne765500:0"
+    relations_hierarchy:
+      parent_headline: "crwdns765502:0crwdne765502:0"
+      hierarchy_headline: "crwdns765504:0crwdne765504:0"
+      children_headline: "crwdns765506:0crwdne765506:0"
+    relation_buttons:
+      set_parent: "crwdns765508:0crwdne765508:0"
+      change_parent: "crwdns765510:0crwdne765510:0"
+      remove_parent: "crwdns765512:0crwdne765512:0"
+      hierarchy_indent: "crwdns765514:0crwdne765514:0"
+      hierarchy_outdent: "crwdns765516:0crwdne765516:0"
+      group_by_wp_type: "crwdns765518:0crwdne765518:0"
+      group_by_relation_type: "crwdns765520:0crwdne765520:0"
+      add_parent: "crwdns765522:0crwdne765522:0"
+      add_new_child: "crwdns765524:0crwdne765524:0"
+      create_new: "crwdns765526:0crwdne765526:0"
+      add_existing: "crwdns765528:0crwdne765528:0"
+      add_existing_child: "crwdns765530:0crwdne765530:0"
+      remove_child: "crwdns765532:0crwdne765532:0"
+      add_new_relation: "crwdns765534:0crwdne765534:0"
+      add_existing_relation: "crwdns765536:0crwdne765536:0"
+      update_description: "crwdns765538:0crwdne765538:0"
+      toggle_description: "crwdns765540:0crwdne765540:0"
+      update_relation: "crwdns765542:0crwdne765542:0"
+      add_follower: "crwdns765544:0crwdne765544:0"
+      add_predecessor: "crwdns765546:0crwdne765546:0"
+      remove: "crwdns765548:0crwdne765548:0"
+      save: "crwdns765550:0crwdne765550:0"
+      abort: "crwdns765552:0crwdne765552:0"
+    relations_autocomplete:
+      placeholder: "crwdns765554:0crwdne765554:0"
+      parent_placeholder: "crwdns765556:0crwdne765556:0"
+    autocompleter:
+      placeholder: "crwdns765558:0crwdne765558:0"
+      notFoundText: "crwdns765560:0crwdne765560:0"
+      typeToSearchText: "crwdns765562:0crwdne765562:0"
+    repositories:
+      select_tag: 'crwdns765564:0crwdne765564:0'
+      select_branch: 'crwdns765566:0crwdne765566:0'
+    field_value_enter_prompt: "crwdns765568:0%{field}crwdne765568:0"
+    project_menu_details: "crwdns765570:0crwdne765570:0"
+    scheduling:
+      manual: 'crwdns765572:0crwdne765572:0'
+      automatic: 'crwdns765574:0crwdne765574:0'
+    sort:
+      sorted_asc: 'crwdns765576:0crwdne765576:0'
+      sorted_dsc: 'crwdns765578:0crwdne765578:0'
+      sorted_no: 'crwdns765580:0crwdne765580:0'
+      sorting_disabled: 'crwdns765582:0crwdne765582:0'
+      activate_asc: 'crwdns765584:0crwdne765584:0'
+      activate_dsc: 'crwdns765586:0crwdne765586:0'
+      activate_no: 'crwdns765588:0crwdne765588:0'
+    text_work_packages_destroy_confirmation: "crwdns765590:0crwdne765590:0"
+    text_query_destroy_confirmation: "crwdns765592:0crwdne765592:0"
+    text_attachment_destroy_confirmation: "crwdns765594:0crwdne765594:0"
+    timelines:
+      quarter_label: 'crwdns765596:0%{quarter_number}crwdne765596:0'
+      gantt_chart: 'crwdns765598:0crwdne765598:0'
+      labels:
+        title: 'crwdns765600:0crwdne765600:0'
+        bar: 'crwdns765602:0crwdne765602:0'
+        left: 'crwdns765604:0crwdne765604:0'
+        right: 'crwdns765606:0crwdne765606:0'
+        farRight: 'crwdns765608:0crwdne765608:0'
+        showNone: 'crwdns765610:0crwdne765610:0'
+        description: >
+          crwdns765612:0crwdne765612:0
+      button_activate: 'crwdns765614:0crwdne765614:0'
+      button_deactivate: 'crwdns765616:0crwdne765616:0'
+      cancel: crwdns765618:0crwdne765618:0
+      change: "crwdns765620:0crwdne765620:0"
+      due_date: "crwdns765622:0crwdne765622:0"
+      empty: "crwdns765624:0crwdne765624:0"
+      error: "crwdns765626:0crwdne765626:0"
+      errors:
+        not_implemented: "crwdns765628:0crwdne765628:0"
+        report_comparison: "crwdns765630:0crwdne765630:0"
+        report_epicfail: "crwdns765632:0crwdne765632:0"
+        report_timeout: "crwdns765634:0crwdne765634:0"
+      filter:
+        grouping_other: "crwdns765636:0crwdne765636:0"
+        noneSelection: "crwdns765638:0crwdne765638:0"
+      name: "crwdns765640:0crwdne765640:0"
+      outline: "crwdns765642:0crwdne765642:0"
+      outlines:
+        aggregation: "crwdns765644:0crwdne765644:0"
+        level1: "crwdns765646:0crwdne765646:0"
+        level2: "crwdns765648:0crwdne765648:0"
+        level3: "crwdns765650:0crwdne765650:0"
+        level4: "crwdns765652:0crwdne765652:0"
+        level5: "crwdns765654:0crwdne765654:0"
+        all: "crwdns765656:0crwdne765656:0"
+      project_status: "crwdns765658:0crwdne765658:0"
+      really_close_dialog: "crwdns765660:0crwdne765660:0"
+      responsible: "crwdns765662:0crwdne765662:0"
+      save: crwdns765664:0crwdne765664:0
+      start_date: "crwdns765666:0crwdne765666:0"
+      tooManyProjects: "crwdns765668:0%{count}crwdne765668:0"
+      selection_mode:
+        notification: 'crwdns765670:0crwdne765670:0'
+      zoom:
+        in: "crwdns765672:0crwdne765672:0"
+        out: "crwdns765674:0crwdne765674:0"
+        auto: "crwdns765676:0crwdne765676:0"
+        days: "crwdns765678:0crwdne765678:0"
+        weeks: "crwdns765680:0crwdne765680:0"
+        months: "crwdns765682:0crwdne765682:0"
+        quarters: "crwdns765684:0crwdne765684:0"
+        years: "crwdns765686:0crwdne765686:0"
+        slider: "crwdns765688:0crwdne765688:0"
+        description: >
+          crwdns765690:0crwdne765690:0
+    tl_toolbar:
+      zooms: "crwdns765692:0crwdne765692:0"
+      outlines: "crwdns765694:0crwdne765694:0"
+    upsale:
+      ee_only: 'crwdns765696:0crwdne765696:0'
+    wiki_formatting:
+      strong: "crwdns765698:0crwdne765698:0"
+      italic: "crwdns765700:0crwdne765700:0"
+      underline: "crwdns765702:0crwdne765702:0"
+      deleted: "crwdns765704:0crwdne765704:0"
+      code: "crwdns765706:0crwdne765706:0"
+      heading1: "crwdns765708:0crwdne765708:0"
+      heading2: "crwdns765710:0crwdne765710:0"
+      heading3: "crwdns765712:0crwdne765712:0"
+      unordered_list: "crwdns765714:0crwdne765714:0"
+      ordered_list: "crwdns765716:0crwdne765716:0"
+      quote: "crwdns765718:0crwdne765718:0"
+      unquote: "crwdns765720:0crwdne765720:0"
+      preformatted_text: "crwdns765722:0crwdne765722:0"
+      wiki_link: "crwdns765724:0crwdne765724:0"
+      image: "crwdns765726:0crwdne765726:0"
+    work_packages:
+      bulk_actions:
+        move: 'crwdns765728:0crwdne765728:0'
+        edit: 'crwdns765730:0crwdne765730:0'
+        copy: 'crwdns765732:0crwdne765732:0'
+        delete: 'crwdns765734:0crwdne765734:0'
+      button_clear: "crwdns765736:0crwdne765736:0"
+      comment_added: "crwdns765738:0crwdne765738:0"
+      comment_send_failed: "crwdns765740:0crwdne765740:0"
+      comment_updated: "crwdns765742:0crwdne765742:0"
+      confirm_edit_cancel: "crwdns765744:0crwdne765744:0"
+      description_filter: "crwdns765746:0crwdne765746:0"
+      description_enter_text: "crwdns765748:0crwdne765748:0"
+      description_options_hide: "crwdns765750:0crwdne765750:0"
+      description_options_show: "crwdns765752:0crwdne765752:0"
+      edit_attribute: "crwdns765754:0%{attribute}crwdne765754:0"
+      key_value: "crwdns765756:0%{key}crwdnd765756:0%{value}crwdne765756:0"
+      label_enable_multi_select: "crwdns765758:0crwdne765758:0"
+      label_disable_multi_select: "crwdns765760:0crwdne765760:0"
+      label_filter_add: "crwdns765762:0crwdne765762:0"
+      label_filter_by_text: "crwdns765764:0crwdne765764:0"
+      label_options: "crwdns765766:0crwdne765766:0"
+      label_column_multiselect: "crwdns765768:0crwdne765768:0"
+      message_error_during_bulk_delete: crwdns765770:0crwdne765770:0
+      message_successful_bulk_delete: crwdns765772:0crwdne765772:0
+      message_successful_show_in_fullscreen: "crwdns765774:0crwdne765774:0"
+      message_view_spent_time: "crwdns765776:0crwdne765776:0"
+      message_work_package_read_only: "crwdns765778:0crwdne765778:0"
+      message_work_package_status_blocked: "crwdns765780:0crwdne765780:0"
+      placeholder_filter_by_text: "crwdns765782:0crwdne765782:0"
+      inline_create:
+        title: 'crwdns765784:0crwdne765784:0'
+      create:
+        title: 'crwdns765786:0crwdne765786:0'
+        header: 'crwdns765788:0%{type}crwdne765788:0'
+        header_no_type: 'crwdns765790:0crwdne765790:0'
+        header_with_parent: 'crwdns765792:0%{type}crwdnd765792:0%{parent_type}crwdnd765792:0%{id}crwdne765792:0'
+        button: 'crwdns765794:0crwdne765794:0'
+      copy:
+        title: 'crwdns765796:0crwdne765796:0'
+      hierarchy:
+        show: "crwdns765798:0crwdne765798:0"
+        hide: "crwdns765800:0crwdne765800:0"
+        toggle_button: 'crwdns765802:0crwdne765802:0'
+        leaf: 'crwdns765804:0%{level}crwdne765804:0'
+        children_collapsed: 'crwdns765806:0%{level}crwdne765806:0'
+        children_expanded: 'crwdns765808:0%{level}crwdne765808:0'
+      faulty_query:
+        title: crwdns765810:0crwdne765810:0
+        description: crwdns765812:0crwdne765812:0
+      no_results:
+        title: crwdns765814:0crwdne765814:0
+        description: crwdns765816:0crwdne765816:0
+      limited_results: crwdns765818:0%{count}crwdne765818:0
+      property_groups:
+        details: "crwdns765820:0crwdne765820:0"
+        people: "crwdns765822:0crwdne765822:0"
+        estimatesAndTime: "crwdns765824:0crwdne765824:0"
+        other: "crwdns765826:0crwdne765826:0"
+      properties:
+        assignee: "crwdns765828:0crwdne765828:0"
+        author: "crwdns765830:0crwdne765830:0"
+        createdAt: "crwdns765832:0crwdne765832:0"
+        description: "crwdns765834:0crwdne765834:0"
+        date: "crwdns765836:0crwdne765836:0"
+        dueDate: "crwdns765838:0crwdne765838:0"
+        estimatedTime: "crwdns765840:0crwdne765840:0"
+        spentTime: "crwdns765842:0crwdne765842:0"
+        category: "crwdns765844:0crwdne765844:0"
+        percentageDone: "crwdns765846:0crwdne765846:0"
+        priority: "crwdns765848:0crwdne765848:0"
+        projectName: "crwdns765850:0crwdne765850:0"
+        responsible: "crwdns765852:0crwdne765852:0"
+        startDate: "crwdns765854:0crwdne765854:0"
+        status: "crwdns765856:0crwdne765856:0"
+        subject: "crwdns765858:0crwdne765858:0"
+        subproject: "crwdns765860:0crwdne765860:0"
+        title: "crwdns765862:0crwdne765862:0"
+        type: "crwdns765864:0crwdne765864:0"
+        updatedAt: "crwdns765866:0crwdne765866:0"
+        versionName: "crwdns765868:0crwdne765868:0"
+        version: "crwdns765870:0crwdne765870:0"
+      default_queries:
+        latest_activity: "crwdns765872:0crwdne765872:0"
+        created_by_me: "crwdns765874:0crwdne765874:0"
+        assigned_to_me: "crwdns765876:0crwdne765876:0"
+        recently_created: "crwdns765878:0crwdne765878:0"
+        all_open: "crwdns765880:0crwdne765880:0"
+        summary: "crwdns765882:0crwdne765882:0"
+      jump_marks:
+        pagination: "crwdns765884:0crwdne765884:0"
+        label_pagination: "crwdns765886:0crwdne765886:0"
+        content: "crwdns765888:0crwdne765888:0"
+        label_content: "crwdns765890:0crwdne765890:0"
+      placeholders:
+        default: "crwdns765892:0crwdne765892:0"
+        date: "crwdns765894:0crwdne765894:0"
+        formattable: "crwdns765896:0%{name}crwdne765896:0"
+      query:
+        column_names: "crwdns765898:0crwdne765898:0"
+        group_by: "crwdns765900:0crwdne765900:0"
+        group: "crwdns765902:0crwdne765902:0"
+        group_by_disabled_by_hierarchy: "crwdns765904:0crwdne765904:0"
+        hierarchy_disabled_by_group_by: "crwdns765906:0%{column}crwdne765906:0"
+        sort_ascending: "crwdns765908:0crwdne765908:0"
+        sort_descending: "crwdns765910:0crwdne765910:0"
+        move_column_left: "crwdns765912:0crwdne765912:0"
+        move_column_right: "crwdns765914:0crwdne765914:0"
+        hide_column: "crwdns765916:0crwdne765916:0"
+        insert_columns: "crwdns765918:0crwdne765918:0"
+        filters: "crwdns765920:0crwdne765920:0"
+        display_sums: "crwdns765922:0crwdne765922:0"
+        confirm_edit_cancel: "crwdns765924:0crwdne765924:0"
+        click_to_edit_query_name: "crwdns765926:0crwdne765926:0"
+        rename_query_placeholder: "crwdns765928:0crwdne765928:0"
+        star_text: "crwdns765930:0crwdne765930:0"
+        public_text: >
+          crwdns765932:0crwdne765932:0
+        errors:
+          unretrievable_query: "crwdns765934:0crwdne765934:0"
+          not_found: "crwdns765936:0crwdne765936:0"
+          duplicate_query_title: "crwdns765938:0crwdne765938:0"
+        text_no_results: "crwdns765940:0crwdne765940:0"
+      scheduling:
+        is_parent: "crwdns765942:0crwdne765942:0"
+        is_switched_from_manual_to_automatic: "crwdns765944:0crwdne765944:0"
+      table:
+        configure_button: 'crwdns765946:0crwdne765946:0'
+        summary: "crwdns765948:0crwdne765948:0"
+        text_inline_edit: "crwdns765950:0crwdne765950:0"
+        text_sort_hint: "crwdns765952:0crwdne765952:0"
+        text_select_hint: "crwdns765954:0crwdne765954:0"
+      table_configuration:
+        button: 'crwdns765956:0crwdne765956:0'
+        choose_display_mode: 'crwdns765958:0crwdne765958:0'
+        modal_title: 'crwdns765960:0crwdne765960:0'
+        embedded_tab_disabled: "crwdns765962:0crwdne765962:0"
+        default: "crwdns765964:0crwdne765964:0"
+        display_settings: 'crwdns765966:0crwdne765966:0'
+        default_mode: "crwdns765968:0crwdne765968:0"
+        hierarchy_mode: "crwdns765970:0crwdne765970:0"
+        hierarchy_hint: "crwdns765972:0crwdne765972:0"
+        display_sums_hint: "crwdns765974:0crwdne765974:0"
+        show_timeline_hint: "crwdns765976:0crwdne765976:0"
+        highlighting: 'crwdns765978:0crwdne765978:0'
+        highlighting_mode:
+          description: "crwdns765980:0crwdne765980:0"
+          none: "crwdns765982:0crwdne765982:0"
+          inline: 'crwdns765984:0crwdne765984:0'
+          inline_all: 'crwdns765986:0crwdne765986:0'
+          entire_row_by: 'crwdns765988:0crwdne765988:0'
+          status: 'crwdns765990:0crwdne765990:0'
+          priority: 'crwdns765992:0crwdne765992:0'
+          type: 'crwdns765994:0crwdne765994:0'
+        sorting_mode:
+          description: 'crwdns765996:0crwdne765996:0'
+          automatic: 'crwdns765998:0crwdne765998:0'
+          manually: 'crwdns766000:0crwdne766000:0'
+          warning: 'crwdns766002:0crwdne766002:0'
+        columns_help_text: "crwdns766004:0crwdne766004:0"
+        upsale:
+          attribute_highlighting: 'crwdns766006:0crwdne766006:0'
+          relation_columns: 'crwdns766008:0crwdne766008:0'
+          check_out_link: 'crwdns766010:0crwdne766010:0'
+        relation_filters:
+          filter_work_packages_by_relation_type: 'crwdns766012:0crwdne766012:0'
+      tabs:
+        overview: crwdns766014:0crwdne766014:0
+        activity: crwdns766016:0crwdne766016:0
+        relations: crwdns766018:0crwdne766018:0
+        watchers: crwdns766020:0crwdne766020:0
+        attachments: crwdns766022:0crwdne766022:0
+      time_relative:
+        days: "crwdns766024:0crwdne766024:0"
+        weeks: "crwdns766026:0crwdne766026:0"
+        months: "crwdns766028:0crwdne766028:0"
+    toolbar:
+      settings:
+        configure_view: "crwdns766030:0crwdne766030:0"
+        columns: "crwdns766032:0crwdne766032:0"
+        sort_by: "crwdns766034:0crwdne766034:0"
+        group_by: "crwdns766036:0crwdne766036:0"
+        display_sums: "crwdns766038:0crwdne766038:0"
+        display_hierarchy: "crwdns766040:0crwdne766040:0"
+        hide_hierarchy: "crwdns766042:0crwdne766042:0"
+        hide_sums: "crwdns766044:0crwdne766044:0"
+        save: "crwdns766046:0crwdne766046:0"
+        save_as: "crwdns766048:0crwdne766048:0"
+        export: "crwdns766050:0crwdne766050:0"
+        visibility_settings: "crwdns766052:0crwdne766052:0"
+        page_settings: "crwdns766054:0crwdne766054:0"
+        delete: "crwdns766056:0crwdne766056:0"
+      filter: "crwdns766058:0crwdne766058:0"
+      unselected_title: "crwdns766060:0crwdne766060:0"
+      search_query_label: "crwdns766062:0crwdne766062:0"
+      search_query_title: "crwdns766064:0crwdne766064:0"
+      placeholder_query_title: "crwdns766066:0crwdne766066:0"
+    modals:
+      label_settings: "crwdns766068:0crwdne766068:0"
+      label_name: "crwdns766070:0crwdne766070:0"
+      label_delete_page: "crwdns766072:0crwdne766072:0"
+      button_apply: "crwdns766074:0crwdne766074:0"
+      button_save: "crwdns766076:0crwdne766076:0"
+      button_submit: "crwdns766078:0crwdne766078:0"
+      button_cancel: "crwdns766080:0crwdne766080:0"
+      form_submit:
+        title: 'crwdns766082:0crwdne766082:0'
+        text: 'crwdns766084:0crwdne766084:0'
+      destroy_work_package:
+        title: "crwdns766086:0%{label}crwdne766086:0"
+        text: "crwdns766088:0%{label}crwdne766088:0"
+        has_children: "crwdns766090:0%{childUnits}crwdne766090:0"
+        confirm_deletion_children: "crwdns766092:0crwdne766092:0"
+        deletes_children: "crwdns766094:0crwdne766094:0"
+      destroy_time_entry:
+        title: "crwdns766096:0crwdne766096:0"
+        text: "crwdns766098:0crwdne766098:0"
+    notice_no_results_to_display: "crwdns766100:0crwdne766100:0"
+    notice_successful_create: "crwdns766102:0crwdne766102:0"
+    notice_successful_delete: "crwdns766104:0crwdne766104:0"
+    notice_successful_update: "crwdns766106:0crwdne766106:0"
+    notice_job_started: "crwdns766108:0crwdne766108:0"
+    notice_bad_request: "crwdns766110:0crwdne766110:0"
+    relations:
+      empty: crwdns766112:0crwdne766112:0
+      remove: crwdns766114:0crwdne766114:0
+    inplace:
+      button_edit: "crwdns766116:0%{attribute}crwdne766116:0"
+      button_save: "crwdns766118:0%{attribute}crwdne766118:0"
+      button_cancel: "crwdns766120:0%{attribute}crwdne766120:0"
+      button_save_all: "crwdns766122:0crwdne766122:0"
+      button_cancel_all: "crwdns766124:0crwdne766124:0"
+      link_formatting_help: "crwdns766126:0crwdne766126:0"
+      btn_preview_enable: "crwdns766128:0crwdne766128:0"
+      btn_preview_disable: "crwdns766130:0crwdne766130:0"
+      null_value_label: "crwdns766132:0crwdne766132:0"
+      clear_value_label: "crwdns766134:0crwdne766134:0"
+      errors:
+        required: 'crwdns766136:0%{field}crwdne766136:0'
+        number: 'crwdns766138:0%{field}crwdne766138:0'
+        maxlength: 'crwdns766140:0%{field}crwdnd766140:0%{maxLength}crwdne766140:0'
+        minlength: 'crwdns766142:0%{field}crwdnd766142:0%{minLength}crwdne766142:0'
+        messages_on_field: 'crwdns766144:0%{messages}crwdne766144:0'
+    error_could_not_resolve_version_name: "crwdns766146:0crwdne766146:0"
+    error_could_not_resolve_user_name: "crwdns766148:0crwdne766148:0"
+    error_attachment_upload: "crwdns766150:0%{error}crwdne766150:0"
+    error_attachment_upload_permission: "crwdns766152:0crwdne766152:0"
+    units:
+      workPackage:
+        one: "crwdns766154:1crwdne766154:1"
+        other: "crwdns766154:5crwdne766154:5"
+      child_work_packages:
+        one: "crwdns766156:1crwdne766156:1"
+        other: "crwdns766156:5%{count}crwdne766156:5"
+      hour:
+        one: "crwdns766158:0crwdne766158:0"
+        other: "crwdns766160:0%{count}crwdne766160:0"
+        zero: "crwdns766162:0crwdne766162:0"
+    zen_mode:
+      button_activate: 'crwdns766164:0crwdne766164:0'
+      button_deactivate: 'crwdns766166:0crwdne766166:0'
+    global_search:
+      all_projects: "crwdns766168:0crwdne766168:0"
+      search: "crwdns766170:0crwdne766170:0"
+      close_search: "crwdns766172:0crwdne766172:0"
+      current_project: "crwdns766174:0crwdne766174:0"
+      current_project_and_all_descendants: "crwdns766176:0crwdne766176:0"
+      title:
+        all_projects: "crwdns766178:0crwdne766178:0"
+        project_and_subprojects: "crwdns766180:0crwdne766180:0"
+        search_for: "crwdns766182:0crwdne766182:0"
+    views:
+      card: 'crwdns766184:0crwdne766184:0'
+      list: 'crwdns766186:0crwdne766186:0'
+      timeline: 'crwdns766188:0crwdne766188:0'
+    invite_user_modal:
+      back: 'crwdns766190:0crwdne766190:0'
+      invite: 'crwdns766192:0crwdne766192:0'
+      title:
+        invite: 'crwdns766194:0crwdne766194:0'
+        invite_to_project: 'crwdns766196:0%{type}crwdnd766196:0%{project}crwdne766196:0'
+        User: 'crwdns766198:0crwdne766198:0'
+        Group: 'crwdns766200:0crwdne766200:0'
+        PlaceholderUser: 'crwdns766202:0crwdne766202:0'
+        invite_principal_to_project: 'crwdns766204:0%{principal}crwdnd766204:0%{project}crwdne766204:0'
+      project:
+        label: 'crwdns766206:0crwdne766206:0'
+        required: 'crwdns766208:0crwdne766208:0'
+        lacking_permission: 'crwdns766210:0crwdne766210:0'
+        lacking_permission_info: 'crwdns766212:0crwdne766212:0'
+        next_button: 'crwdns766214:0crwdne766214:0'
+        no_results: 'crwdns766216:0crwdne766216:0'
+        no_invite_rights: 'crwdns766218:0crwdne766218:0'
+      type:
+        required: 'crwdns766220:0crwdne766220:0'
+        user:
+          title: 'crwdns766222:0crwdne766222:0'
+          description: 'crwdns766224:0crwdne766224:0'
+        group:
+          title: 'crwdns766226:0crwdne766226:0'
+          description: 'crwdns766228:0crwdne766228:0'
+        placeholder:
+          title: 'crwdns766230:0crwdne766230:0'
+          title_no_ee: 'crwdns766232:0crwdne766232:0'
+          description: 'crwdns766234:0crwdne766234:0'
+          description_no_ee: 'crwdns766236:0%{eeHref}crwdne766236:0'
+      principal:
+        label:
+          name_or_email: 'crwdns766238:0crwdne766238:0'
+          name: 'crwdns766240:0crwdne766240:0'
+        already_member_message: 'crwdns766242:0%{project}crwdne766242:0'
+        no_results_user: 'crwdns766244:0crwdne766244:0'
+        invite_user: 'crwdns766246:0crwdne766246:0'
+        no_results_placeholder: 'crwdns766248:0crwdne766248:0'
+        create_new_placeholder: 'crwdns766250:0crwdne766250:0'
+        no_results_group: 'crwdns766252:0crwdne766252:0'
+        next_button: 'crwdns766254:0crwdne766254:0'
+        required:
+          user: 'crwdns766256:0crwdne766256:0'
+          placeholder: 'crwdns766258:0crwdne766258:0'
+          group: 'crwdns766260:0crwdne766260:0'
+      role:
+        label: 'crwdns766262:0%{project}crwdne766262:0'
+        no_roles_found: 'crwdns766264:0crwdne766264:0'
+        description: 'crwdns766266:0%{principal}crwdne766266:0'
+        required: 'crwdns766268:0crwdne766268:0'
+        next_button: 'crwdns766270:0crwdne766270:0'
+      message:
+        label: 'crwdns766272:0crwdne766272:0'
+        description: 'crwdns766274:0%{principal}crwdne766274:0'
+        next_button: 'crwdns766276:0crwdne766276:0'
+      summary:
+        next_button: 'crwdns766278:0crwdne766278:0'
+      success:
+        title: 'crwdns766280:0%{principal}crwdne766280:0'
+        description:
+          user: 'crwdns766282:0%{project}crwdne766282:0'
+          placeholder: 'crwdns766284:0%{project}crwdne766284:0'
+          group: 'crwdns766286:0%{project}crwdne766286:0'
+        next_button: 'crwdns766288:0crwdne766288:0'
+    include_projects:
+      toggle_title: 'crwdns766290:0crwdne766290:0'
+      title: 'crwdns766292:0crwdne766292:0'
+      clear_selection: 'crwdns766294:0crwdne766294:0'
+      apply: 'crwdns766296:0crwdne766296:0'
+      selected_filter:
+        all: 'crwdns766298:0crwdne766298:0'
+        selected: 'crwdns766300:0crwdne766300:0'
+      search_placeholder: 'crwdns766302:0crwdne766302:0'
+    forms:
+      submit_success_message: 'crwdns766304:0crwdne766304:0'
+      load_error_message: 'crwdns766306:0crwdne766306:0'
+      validation_error_message: 'crwdns766308:0crwdne766308:0'
+      advanced_settings: 'crwdns766310:0crwdne766310:0'
