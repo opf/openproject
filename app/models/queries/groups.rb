@@ -29,9 +29,7 @@
 #++
 
 module Queries::Groups
-  # Already registered in app/models/queries/members.rb
-  # Is it intentional?
-  ::Queries::Register.register(Members::MemberQuery) do
-    order Members::Orders::DefaultOrder
+  ::Queries::Register.register(GroupQuery) do
+    order Orders::DefaultOrder
   end
 end
