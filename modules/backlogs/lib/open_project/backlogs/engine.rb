@@ -206,8 +206,11 @@ module OpenProject::Backlogs
       ::Type.add_default_mapping(:estimates_and_time, :story_points, :remaining_time)
       ::Type.add_default_mapping(:other, :position)
 
-      Queries::Register.filter Query, OpenProject::Backlogs::WorkPackageFilter
-      Queries::Register.column Query, OpenProject::Backlogs::QueryBacklogsColumn
+      ::Queries::Register.register(::Query) do
+        filter OpenProject::Backlogs::WorkPackageFilter
+
+        column OpenProject::Backlogs::QueryBacklogsColumn
+      end
     end
   end
 end

@@ -29,8 +29,9 @@
 #++
 
 module Queries::Groups
-  order_ns = Queries::Members::Orders
-  query = Queries::Members::MemberQuery
-
-  Queries::Register.order query, order_ns::DefaultOrder
+  # Already registered in app/models/queries/members.rb
+  # Is it intentional?
+  ::Queries::Register.register(Members::MemberQuery) do
+    order Members::Orders::DefaultOrder
+  end
 end

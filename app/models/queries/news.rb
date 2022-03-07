@@ -29,9 +29,9 @@
 #++
 
 module Queries::News
-  query = Queries::News::NewsQuery
+  ::Queries::Register.register(NewsQuery) do
+    filter Filters::ProjectFilter
 
-  Queries::Register.filter query, Queries::News::Filters::ProjectFilter
-
-  Queries::Register.order query, Queries::News::Orders::DefaultOrder
+    order Orders::DefaultOrder
+  end
 end

@@ -29,9 +29,9 @@
 #++
 
 module Queries::Documents
-  query = Queries::Documents::DocumentQuery
+  ::Queries::Register.register(DocumentQuery) do
+    filter Filters::ProjectFilter
 
-  Queries::Register.filter query, Queries::Documents::Filters::ProjectFilter
-
-  Queries::Register.order query, Queries::Documents::Orders::DefaultOrder
+    order Orders::DefaultOrder
+  end
 end

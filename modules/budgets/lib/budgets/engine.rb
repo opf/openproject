@@ -60,7 +60,9 @@ module Budgets
         project.nil? || project.module_enabled?(:budgets)
       }
 
-      Queries::Register.filter Query, Queries::WorkPackages::Filter::BudgetFilter
+      ::Queries::Register.register(::Query) do
+        filter Queries::WorkPackages::Filter::BudgetFilter
+      end
     end
   end
 end

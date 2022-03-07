@@ -90,6 +90,11 @@ module Queries::Register
       Queries::Register.filter(query, filter)
     end
 
+    # Exclude filter from filters collection representer.
+    def exclude(filter)
+      Queries::Register.exclude(filter)
+    end
+
     def order(order)
       Queries::Register.order(query, order)
     end

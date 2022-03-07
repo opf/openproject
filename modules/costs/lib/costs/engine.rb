@@ -270,7 +270,9 @@ module Costs
         ::Type.add_constraint attribute, constraint
       end
 
-      Queries::Register.column Query, Costs::QueryCurrencyColumn
+      ::Queries::Register.register(::Query) do
+        column Costs::QueryCurrencyColumn
+      end
     end
   end
 end
