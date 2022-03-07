@@ -35,8 +35,9 @@
 # - Mixins and Modules:
 #   https://blog.appsignal.com/2021/01/13/using-mixins-and-modules-in-your-ruby-on-rails-application.html
 
-# Used by: OpenProject package manager(?) Purpose: Defines the metadata for the
-# module References: https://guides.rubygems.org/specification-reference/
+# Used by: OpenProject plugin architecture
+# Purpose: Defines the metadata for the module
+# References: https://guides.rubygems.org/specification-reference/
 # rubocop:disable Gemspec/RequireMFA
 Gem::Specification.new do |s|
   s.name        = 'openproject-storages'
