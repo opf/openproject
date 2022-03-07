@@ -31,7 +31,7 @@
 module API
   module Decorators
     class OffsetPaginatedCollection < ::API::Decorators::Collection
-      include ::API::Utilities::PageSizeHelper
+      include ::API::Utilities::UrlPropsParsingHelper
 
       def self.per_page_default(relation)
         relation.base_class.per_page

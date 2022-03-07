@@ -58,7 +58,7 @@ describe 'API v3 User resource',
     end
 
     shared_examples 'flow with permitted user' do
-      it 'should respond with 200' do
+      it 'responds with 200' do
         expect(subject.status).to eq(200)
       end
 
@@ -78,12 +78,13 @@ describe 'API v3 User resource',
 
       it 'has the users index path for link self href' do
         expect(subject.body)
-          .to be_json_eql((api_v3_paths.users + '?offset=1&pageSize=30').to_json)
+          .to be_json_eql("#{api_v3_paths.users}?filters=%5B%5D" \
+                          "\u0026offset=1\u0026pageSize=20\u0026sortBy=%5B%5B%22id%22%2C%22asc%22%5D%5D".to_json)
           .at_path('_links/self/href')
       end
 
       context 'if pageSize = 1 and offset = 2' do
-        let(:get_path) { api_v3_paths.users + '?pageSize=1&offset=2' }
+        let(:get_path) { api_v3_paths.path_for(:users, page_size: 1, offset: 2) }
 
         it 'contains the current user in the response' do
           expect(subject.body)
@@ -92,7 +93,7 @@ describe 'API v3 User resource',
         end
       end
 
-      context 'on filtering for name' do
+      context 'when filtering by name' do
         let(:get_path) do
           filter = [{ 'name' => {
             'operator' => '~',
@@ -115,13 +116,13 @@ describe 'API v3 User resource',
         end
       end
 
-      context 'on sorting' do
+      context 'when sorting' do
         let(:users_by_name_order) do
           User.human.ordered_by_name(desc: true)
         end
 
         let(:get_path) do
-          sort = [['name', 'desc']]
+          sort = [%w[name desc]]
 
           "#{api_v3_paths.users}?#{{ sortBy: sort.to_json }.to_query}"
         end
@@ -139,7 +140,7 @@ describe 'API v3 User resource',
         end
       end
 
-      context 'on an invalid filter' do
+      context 'with an invalid filter' do
         let(:get_path) do
           filter = [{ 'name' => {
             'operator' => 'a',
@@ -150,30 +151,57 @@ describe 'API v3 User resource',
         end
 
         it 'returns an error' do
-          expect(subject.status).to eql(400)
+          expect(subject.status).to be(400)
+        end
+      end
+
+      context 'when signaling desired properties' do
+        let(:get_path) do
+          api_v3_paths.path_for :users,
+                                sort_by: [%w[name desc]],
+                                page_size: 1,
+                                select: 'total,elements/name'
+        end
+
+        let(:expected) do
+          {
+            total: 2,
+            _embedded: {
+              elements: [
+                {
+                  name: current_user.name
+                }
+              ]
+            }
+          }
+        end
+
+        it 'returns an error' do
+          expect(subject.body)
+            .to be_json_eql(expected.to_json)
         end
       end
     end
 
-    context 'admin' do
+    context 'for an admin' do
       let(:current_user) { admin }
 
       it_behaves_like 'flow with permitted user'
     end
 
-    context 'user with global manage_user permission' do
+    context 'for a user with global manage_user permission' do
       let(:current_user) { user_with_global_manage_user }
 
       it_behaves_like 'flow with permitted user'
     end
 
-    context 'locked admin' do
+    context 'for a locked admin' do
       let(:current_user) { locked_admin }
 
       it_behaves_like 'unauthorized access'
     end
 
-    context 'other user' do
+    context 'for another user' do
       it_behaves_like 'unauthorized access'
     end
   end

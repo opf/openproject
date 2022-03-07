@@ -32,7 +32,7 @@ module API
       class GridsAPI < ::API::OpenProjectAPI
         resources :grids do
           helpers do
-            include API::Utilities::PageSizeHelper
+            include API::Utilities::UrlPropsParsingHelper
           end
 
           get do

@@ -35,7 +35,7 @@ module API
             authorize_any %i[view_members manage_members], global: true
           end
 
-          get &::API::V3::Utilities::Endpoints::Index
+          get &::API::V3::Utilities::Endpoints::SqlFallbackedIndex
                  .new(model: Group)
                  .mount
           post &::API::V3::Utilities::Endpoints::Create

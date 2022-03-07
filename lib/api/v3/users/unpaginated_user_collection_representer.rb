@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -26,28 +28,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-
-describe ::API::Utilities::PageSizeHelper do
-  let(:clazz) do
-    Class.new do
-      include ::API::Utilities::PageSizeHelper
-    end
-  end
-  let(:subject) { clazz.new }
-
-  describe '#maximum_page_size' do
-    context 'when small values in per_page_options',
-            with_settings: { per_page_options: '20,100', apiv3_max_page_size: 57 } do
-      it 'uses the value from settings' do
-        expect(subject.maximum_page_size).to eq(57)
-      end
-    end
-
-    context 'when larger values in per_page_options',
-            with_settings: { per_page_options: '20,100,1000', apiv3_max_page_size: 57 } do
-      it 'uses that value' do
-        expect(subject.maximum_page_size).to eq(57)
+module API
+  module V3
+    module Users
+      class UnpaginatedUserCollectionRepresenter < ::API::Decorators::UnpaginatedCollection
+        include API::V3::Principals::NotBuiltinElements
       end
     end
   end

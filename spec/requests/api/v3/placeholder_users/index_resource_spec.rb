@@ -32,6 +32,7 @@ require 'rack/test'
 
 describe ::API::V3::PlaceholderUsers::PlaceholderUsersAPI,
          'index',
+         content_type: :json,
          type: :request do
 
   include API::V3::Utilities::PathHelper
@@ -40,7 +41,6 @@ describe ::API::V3::PlaceholderUsers::PlaceholderUsersAPI,
   shared_let(:placeholder2) { create :placeholder_user, name: 'bar' }
 
   let(:send_request) do
-    header "Content-Type", "application/json"
     get api_v3_paths.placeholder_users
   end
 
@@ -52,26 +52,71 @@ describe ::API::V3::PlaceholderUsers::PlaceholderUsersAPI,
     send_request
   end
 
-  describe 'admin user' do
+  context 'for an admin user' do
     let(:user) { build(:admin) }
 
     it_behaves_like 'API V3 collection response', 2, 2, 'PlaceholderUser'
   end
 
-  describe 'user with manage_placeholder_user permission' do
+  context 'when signaling for the desired properties' do
+    let(:user) { build(:admin) }
+    let(:send_request) do
+      get api_v3_paths.path_for :placeholder_users, select: 'total,count,elements/*'
+    end
+
+    let(:expected) do
+      {
+        total: 2,
+        count: 2,
+        _embedded: {
+          elements: [
+            {
+              _type: 'PlaceholderUser',
+              id: placeholder2.id,
+              name: placeholder2.name,
+              _links: {
+                self: {
+                  href: api_v3_paths.placeholder_user(placeholder2.id),
+                  title: placeholder2.name
+                }
+              }
+            },
+            {
+              _type: 'PlaceholderUser',
+              id: placeholder1.id,
+              name: placeholder1.name,
+              _links: {
+                self: {
+                  href: api_v3_paths.placeholder_user(placeholder1.id),
+                  title: placeholder1.name
+                }
+              }
+            }
+          ]
+        }
+      }
+    end
+
+    it 'is the reduced set of properties of the embedded elements' do
+      expect(last_response.body)
+        .to be_json_eql(expected.to_json)
+    end
+  end
+
+  context 'for a user with manage_placeholder_user permission' do
     let(:user) { create(:user, global_permission: %i[manage_placeholder_user]) }
 
     it_behaves_like 'API V3 collection response', 2, 2, 'PlaceholderUser'
   end
 
-  describe 'user with manage_members permission' do
+  context 'for a user with manage_members permission' do
     let(:project) { create(:project) }
     let(:user) { create(:user, member_in_project: project, member_with_permissions: %i[manage_members]) }
 
     it_behaves_like 'API V3 collection response', 2, 2, 'PlaceholderUser'
   end
 
-  describe 'unauthorized user' do
+  context 'for an unauthorized user' do
     let(:user) { build(:user) }
 
     it_behaves_like 'API V3 collection response', 0, 0, 'PlaceholderUser'

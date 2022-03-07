@@ -30,7 +30,7 @@ module API
   module V3
     module TimeEntries
       class TimeEntriesAPI < ::API::OpenProjectAPI
-        helpers ::API::Utilities::PageSizeHelper
+        helpers ::API::Utilities::UrlPropsParsingHelper
 
         resources :time_entries do
           get &::API::V3::Utilities::Endpoints::Index.new(model: TimeEntry).mount

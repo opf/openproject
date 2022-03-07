@@ -31,7 +31,7 @@ module API
     module PlaceholderUsers
       class PlaceholderUsersAPI < ::API::OpenProjectAPI
         resources :placeholder_users do
-          get &::API::V3::Utilities::Endpoints::Index
+          get &::API::V3::Utilities::Endpoints::SqlFallbackedIndex
             .new(model: PlaceholderUser, scope: -> { PlaceholderUser.visible(current_user) })
             .mount
 

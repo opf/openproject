@@ -39,7 +39,7 @@ module API
 
         property :id,
                  representation: ->(*) {
-                   <<~SQL
+                   <<~SQL.squish
                      CASE
                      WHEN context_id IS NULL THEN action || '/g-' || principal_id
                      ELSE action || '/p' || context_id || '-' || principal_id
@@ -50,22 +50,22 @@ module API
         link :self,
              path: { api: :capability, params: %w(action) },
              column: -> {
-               <<~SQL
+               <<~SQL.squish
                  CASE
                  WHEN context_id IS NULL THEN action || '/g-' || principal_id
                  ELSE action || '/p' || context_id || '-' || principal_id
                  END
                SQL
              },
-             title: -> { nil }
+             title: -> {}
 
         link :action,
              path: { api: :action, params: %w(action) },
-             title: -> { nil }
+             title: -> {}
 
         link :context,
              href: ->(*) {
-               <<~SQL
+               <<~SQL.squish
                  CASE
                  WHEN context_id IS NULL THEN '#{api_v3_paths.capabilities_contexts_global}'
                  ELSE format('#{api_v3_paths.project('%s')}', context_id)
@@ -73,7 +73,7 @@ module API
                SQL
              },
              title: ->(*) {
-               <<~SQL
+               <<~SQL.squish
                  CASE
                  WHEN context_id IS NULL THEN '#{I18n.t('activerecord.errors.models.capability.context.global')}'
                  ELSE context_name
@@ -86,7 +86,7 @@ module API
 
         link :principal,
              href: ->(*) {
-               <<~SQL
+               <<~SQL.squish
                  CASE principal_type
                  WHEN 'Group' THEN format('#{api_v3_paths.group('%s')}', principal_id)
                  WHEN 'PlaceholderUser' THEN format('#{api_v3_paths.placeholder_user('%s')}', principal_id)
@@ -101,7 +101,7 @@ module API
                                " || ' ' || "
                              end
 
-               <<~SQL
+               <<~SQL.squish
                  CASE principal_type
                  WHEN 'Group' THEN lastname
                  WHEN 'PlaceholderUser' THEN lastname
