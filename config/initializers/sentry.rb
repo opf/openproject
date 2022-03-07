@@ -41,6 +41,9 @@ if OpenProject::Logging::SentryLogger.enabled?
       event
     end
 
+    # Add plugins with openproject/open_project in backtraces to internal
+    config.app_dirs_pattern = /(bin|exe|app|config|lib|open_?project)/
+
     # Don't send loaded modules
     config.send_modules = false
 
