@@ -72,12 +72,6 @@ describe 'Activation of storages in projects', type: :feature, js: true do
     expect(page).to have_text('Enable a file storage')
     page.find('button[type=submit]').click
 
-    # ToDo: Error message here (in the browser):
-    # Project was attempted to be written but is not writable.
-    # Storage was attempted to be written but is not writable.
-    # Creator was attempted to be written but is not writable.
-    # Also appears when executing as :admin
-
     # The list of enabled file storages should now contain Storage 1
     expect(page).to have_text('File storages available in this project')
     expect(page).to have_text('Storage 1')

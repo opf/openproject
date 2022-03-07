@@ -28,9 +28,10 @@
 
 # This is the RSpec main include file that is included in basically every test case below.
 # See also: https://rspec.info/
-# ToDo: It loads factories and ??? what else?
 
-# -- load spec_helper from OpenProject core
+# Loads spec_helper from OpenProject core
+# This will include any support file from OpenProject core
 require 'spec_helper'
 
+# Loads files from relative support/ directory
 Dir[File.join(File.dirname(__FILE__), 'support/**/*.rb')].each { |f| require f }

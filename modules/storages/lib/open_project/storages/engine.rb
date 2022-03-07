@@ -31,7 +31,9 @@
 # Todo: Which is the part of the system that automatically loads the engines?
 module OpenProject::Storages
   class Engine < ::Rails::Engine
-    # Todo: where is it used and why is it needed? (we could use the default value)
+    # engine name is used as a default prefix for module tables when generating
+    # tables with the rails command.
+    # It may also be used in other places, please investigate.
     engine_name :openproject_storages
 
     # please see comments inside ActsAsOpEngine class

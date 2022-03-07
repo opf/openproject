@@ -33,7 +33,8 @@
 # WorkPackages in the project.
 # See also: file_link.rb and storage.rb
 class Storages::ProjectStorage < ApplicationRecord
-  # ToDo: Why is this necessary? Because otherwise it would be project_storages?
+  # set table name explicitly (would be guessed from model class name and be
+  # project_storages otherwise)
   self.table_name = 'projects_storages'
 
   # ProjectStorage sits between Project and Storage.
