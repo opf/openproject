@@ -90,10 +90,7 @@ module OpenProject::Storages
         ::Queries::Storages::WorkPackages::Filter::LinkableToStorageUrlFilter
       ].each do |filter|
         ::Queries::Register.filter ::Query, filter
-
-        # Some filters should not show up in the filter schema dependency rendered response. Those filters are excluded
-        # from rendering with this register method.
-        ::API::V3::Queries::Schemas::FilterDependencyRepresenterFactory.add_excluded_filter filter
+        ::Queries::Register.exclude filter
       end
     end
 
