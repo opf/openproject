@@ -1,10 +1,11 @@
-# Schema: File_Link_Origin_DataModel
+# Schema: FileLinkOriginDataModel
 ---
 type: object
 required:
   - id
   - name
   - mimeType
+  - size
   - createdAt
   - lastModifiedAt
   - createdByName
@@ -20,12 +21,16 @@ properties:
     type: string
     minLength: 0
     description: MIME type of the linked file
+  size:
+    type: integer
+    minimum: 0
+    description: file size on origin in bytes
   createdAt:
     type: string
     format: date-time
     description: Timestamp of the creation datetime of the file on the origin
   lastModifiedAt:
-    type: string
+    type: stringa
     format: date-time
     description: Timestamp of the datetime of the last modification of the file on the origin
   createdByName:
