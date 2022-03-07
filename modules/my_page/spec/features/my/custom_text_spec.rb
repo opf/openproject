@@ -72,6 +72,9 @@ describe 'Custom text widget on my page', type: :feature, js: true do
     within custom_text_widget.area do
       find('.inplace-editing--container').click
 
+      sleep 1
+      expect(page).to have_selector('.op-uc-container_editing')
+
       field.set_value('My own little text')
       field.save!
 
