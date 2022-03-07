@@ -29,7 +29,7 @@
 #++
 
 # Purpose: This is a "concern" to check if a user is authorized to
-# Manage Storages. ToDo: Why "Guarded"?
+# Manage Storages and guard against unauthorized users.
 # It acts as a factored-out add-on to a model, that's why there is
 # model specific functions in the "included" callback.
 # Reference: Here is a tutorial about concerns. They basically inject
