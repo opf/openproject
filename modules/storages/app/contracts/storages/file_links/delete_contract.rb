@@ -31,11 +31,6 @@
 module Storages
   module FileLinks
     class DeleteContract < ::ModelContract
-      # ToDo: What is this? Where is this used?
-      def self.model
-        ::Storages::FileLink
-      end
-
       # Check permissions to delete(?) this FileLink
       validate :validate_manage_allowed
 

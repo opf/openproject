@@ -26,12 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# ToDo: Why is the require wrapped in two modules and not at the beginning?
-# Does it work like an include?
-# ToDo: I understand this is part of the Engine definition, which has to reside
-# here in the storages/lib folder?
+# This file is required by `modules/storages/lib/openproject-storages.rb` and
+# loads the Rails engine associated with the plugin.
+
+require 'open_project/storages/engine'
+
 module OpenProject
   module Storages
-    require 'open_project/storages/engine'
   end
 end
