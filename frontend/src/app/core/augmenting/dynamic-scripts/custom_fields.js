@@ -101,9 +101,9 @@
           unsearchable();
           break;
         case 'user':
+        case 'version':
           show(multiSelect);
           activate(multiSelect);
-        case 'version':
           deactivate(defaultValueFields);
           deactivate(possibleValues);
           hide(lengthField, regexpField, defaultValueFields);

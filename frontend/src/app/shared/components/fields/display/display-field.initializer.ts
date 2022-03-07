@@ -68,8 +68,12 @@ export function initializeCoreDisplayFields(displayFieldService:DisplayFieldServ
         'TimeEntriesActivity',
         'Version',
         'Category',
-        'CustomOption'])
-      .addFieldType(ResourcesDisplayField, 'resources', ['[]CustomOption'])
+        'CustomOption'
+      ])
+      .addFieldType(ResourcesDisplayField, 'resources', [
+        '[]CustomOption',
+        '[]Version'
+      ])
       .addFieldType(MultipleUserFieldModule, 'users', ['[]User'])
       .addFieldType(FormattableDisplayField, 'formattable', ['Formattable'])
       .addFieldType(DurationDisplayField, 'duration', ['Duration'])

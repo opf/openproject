@@ -65,6 +65,7 @@ export function initializeCoreEditFields(editFieldService:EditFieldService, sele
       .addFieldType(MultiSelectEditFieldComponent, 'multi-select', [
         '[]CustomOption',
         '[]User',
+        '[]Version'
       ])
       .addFieldType(FloatEditFieldComponent, 'float', ['Float'])
       .addFieldType(WorkPackageEditFieldComponent, 'workPackage', ['WorkPackage'])
