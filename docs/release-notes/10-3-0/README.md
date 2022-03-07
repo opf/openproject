@@ -55,7 +55,7 @@ You can use those custom fields to properly display text with a right-to-left or
 
 ## Support
 
-You can find useful information in the [OpenProject help section](../../../) or you can post your questions in the [OpenProject Forum](https://community.openproject.org/projects/openproject/boards).
+You can find useful information in the [OpenProject help section](https://www.openproject.org/docs/) or you can post your questions in the [OpenProject Forum](https://community.openproject.org/projects/openproject/boards).
 
 ### Upgrading your installation to OpenProject 10.3.
 

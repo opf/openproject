@@ -181,7 +181,7 @@ export class OpCalendarService extends UntilDestroyedMixin {
       const initialQuery = await this
         .apiV3Service
         .queries
-        .find({ perPage: 0 }, queryId)
+        .find({ pageSize: 0 }, queryId)
         .toPromise();
 
       queryProps = this.urlParamsHelper.encodeQueryJsonParams(

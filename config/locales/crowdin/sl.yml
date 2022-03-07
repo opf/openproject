@@ -2021,7 +2021,7 @@ sl:
   mail_body_backup_waiting_period: Novi žeton bo omogočen v %{hours} urah.
   mail_body_backup_token_warning: Če to niste bili vi, se takoj prijavite v OpenProject in ponovno ponastavite.
   mail_body_lost_password: "Za spremembo glesla kliknite na naslednjo povezavo:"
-  mail_body_register: "Dobrodošli v OpenProject. Aktivirajte svoj uporabniški račun s klikom na povezavo:"
+  mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "E-pošta člana projekta za vabilo"
   mail_body_register_user: "Dragi %{name},"
   mail_body_register_links_html: |
@@ -2166,7 +2166,7 @@ sl:
     heading_getting_started: "Pridobite pregled"
     text_getting_started_description: "Pridobite hiter pregled nad projektnim managementom ter skupinskim delovanjem z OpenProject"
     text_show_again: "Ta video lahko ponovno zaženete preko menija za pomoč"
-    welcome: "Dobrodošli v OpenProject"
+    welcome: "Welcome to %{app_title}"
     select_language: "Prosimo izberite jezik"
   permission_add_work_package_notes: "Dodaj zapiske"
   permission_add_work_packages: "Dodaj delovne pakete"

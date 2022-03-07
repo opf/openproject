@@ -1988,7 +1988,7 @@ fi:
   mail_body_backup_waiting_period: The new token will be enabled in %{hours} hours.
   mail_body_backup_token_warning: If this wasn't you, login to OpenProject immediately and reset it again.
   mail_body_lost_password: "Vaihtaaksesi salasanasi, napsauta seuraavaa linkkiä:"
-  mail_body_register: "Ole hyvä ja aktivoi tilisi alla olevalla linkillä:"
+  mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "Kutsu projektin jäseneksi"
   mail_body_register_user: "Hyvä %{name},"
   mail_body_register_links_html: |
@@ -2131,7 +2131,7 @@ fi:
     heading_getting_started: "Yleiskatsaus"
     text_getting_started_description: "Get a quick overview of project management and team collaboration with OpenProject."
     text_show_again: "Voit käynnistää tämä videon uudelleen ohjeet-valikosta"
-    welcome: "Tervetuloa OpenProjectiin"
+    welcome: "Welcome to %{app_title}"
     select_language: "Valitse kieli"
   permission_add_work_package_notes: "Lisää kommentteja"
   permission_add_work_packages: "Lisää tehtävä"

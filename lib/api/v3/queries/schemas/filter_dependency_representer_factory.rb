@@ -64,10 +64,6 @@ module API
             WatcherFilter: 'UserFilter'
           }
 
-          @excluded_filters = [
-            ::Queries::WorkPackages::Filter::RelatableFilter
-          ]
-
           def representer_class(filter)
             name = filter_specific_representer_class(filter) ||
               cf_representer_class(filter) ||
@@ -117,8 +113,6 @@ module API
 
             name = @specific_conversion[filter.class.to_s.demodulize.to_sym]
             return "API::V3::Queries::Schemas::#{name}DependencyRepresenter" if name.present?
-
-            return nil if @excluded_filters.any? { |ef| filter.is_a?(ef) }
 
             raise ArgumentError, "Filter #{filter.class} does not map to a dependency representer."
           end

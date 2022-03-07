@@ -61,9 +61,6 @@ $arrow-left-width: 40px
     .main-menu--children > li.partial:only-child
       height: 100%
 
-    .main-menu--children > li.partial
-      height: initial
-
     .main-menu--children
       height: calc(100% - (var(--main-menu-item-height) + 10px)) // 10px spacing
       overflow: auto
@@ -164,9 +161,6 @@ $arrow-left-width: 40px
   &.unattached
     border-top: 1px solid #ddd
   li
-    &.partial
-      padding-bottom: 10px
-
     &:hover
       // simultaneously hover all menu item anchor tags
       > a

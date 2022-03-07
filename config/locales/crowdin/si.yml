@@ -1988,7 +1988,7 @@ si:
   mail_body_backup_waiting_period: The new token will be enabled in %{hours} hours.
   mail_body_backup_token_warning: If this wasn't you, login to OpenProject immediately and reset it again.
   mail_body_lost_password: "ඔබගේ මුරපදය වෙනස් කිරීම සඳහා, පහත සබැඳිය ක්ලික් කරන්න:"
-  mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
+  mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "Project member invitation email"
   mail_body_register_user: "Dear %{name}, "
   mail_body_register_links_html: |
@@ -2131,7 +2131,7 @@ si:
     heading_getting_started: "දළ විශ්ලේෂණයක් ලබා ගන්න"
     text_getting_started_description: "OpenProject සමඟ ව්යාපෘති කළමනාකරණය සහ කණ්ඩායම් සහයෝගීතාව පිළිබඳ ඉක්මන් දළ විශ්ලේෂණයක් ලබා ගන්න."
     text_show_again: "ඔබට උදව් මෙනුවෙන් මෙම වීඩියෝව නැවත ආරම්භ කළ හැකිය"
-    welcome: "විවෘත ව්යාපෘති වෙත සාදරයෙන් පිළිගනිමු"
+    welcome: "Welcome to %{app_title}"
     select_language: "කරුණාකර ඔබේ භාෂාව තෝරන්න"
   permission_add_work_package_notes: "සටහන් එකතු කරන්න"
   permission_add_work_packages: "වැඩ පැකේජ එකතු කරන්න"

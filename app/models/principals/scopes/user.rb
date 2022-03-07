@@ -37,7 +37,7 @@ module Principals::Scopes
       def user
         # Have to use the User model here so that the scopes defined on User
         # are also available after the scope is used.
-        where(type: [::User.name])
+        rewhere(type: [::User.name])
       end
     end
   end

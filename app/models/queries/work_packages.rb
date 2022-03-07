@@ -80,6 +80,8 @@ module Queries::WorkPackages
   register.filter Query, filters_module::MilestoneFilter
   register.filter Query, filters_module::TypeaheadFilter
 
+  register.exclude filters_module::RelatableFilter
+
   columns_module = Queries::WorkPackages::Columns
 
   register.column Query, columns_module::PropertyColumn

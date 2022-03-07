@@ -32,8 +32,12 @@ module API
   module V3
     module Queries
       module Schemas
-        class QueryFilterInstanceSchemaCollectionRepresenter <
-          ::API::V3::Schemas::SchemaCollectionRepresenter
+        class QueryFilterInstanceSchemaCollectionRepresenter < ::API::V3::Schemas::SchemaCollectionRepresenter
+          def initialize(filters, ...)
+            filters = filters.reject { ::Queries::Register.excluded_filters.include?(_1.class) }
+
+            super(filters, ...)
+          end
 
           def model_self_link(model)
             converted_name = API::Utilities::PropertyNameConverter.from_ar_name(model.name)

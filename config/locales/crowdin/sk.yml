@@ -2024,7 +2024,7 @@ sk:
   mail_body_backup_waiting_period: The new token will be enabled in %{hours} hours.
   mail_body_backup_token_warning: If this wasn't you, login to OpenProject immediately and reset it again.
   mail_body_lost_password: "Na zmenu hesla kliknite na nasledujúci odkaz:"
-  mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
+  mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "Project member invitation email"
   mail_body_register_user: "Dear %{name}, "
   mail_body_register_links_html: |
@@ -2168,7 +2168,7 @@ sk:
     heading_getting_started: "Získajte prehľad"
     text_getting_started_description: "Získajte rýchly prehľad o riadení projektov a tímovej spolupráci s OpenProject."
     text_show_again: "Môžete spustiť toto video z ponuky Pomocník"
-    welcome: "Vitajte v programe OpenProject"
+    welcome: "Welcome to %{app_title}"
     select_language: "Prosím vyberte Váš jazyk"
   permission_add_work_package_notes: "Pridať poznámky"
   permission_add_work_packages: "Pridať pracovné balíky"

@@ -22,6 +22,7 @@ import {
   distinctUntilChanged,
   map,
   mergeMap,
+  skip,
   take,
 } from 'rxjs/operators';
 import { IProjectData } from './project-data';
@@ -156,6 +157,14 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin {
           ),
       ),
       map((projects) => recursiveSort(projects)),
+    );
+
+  areProjectsLoaded$ = this
+    .projects$
+    .pipe(
+      distinctUntilChanged(),
+      skip(1),
+      map((items) => items.length >= 0),
     );
 
   public get params():ApiV3ListParameters {

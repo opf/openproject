@@ -1966,7 +1966,7 @@ ja:
   mail_body_backup_waiting_period: 新しいトークンは %{hours} 時間後に有効になります。
   mail_body_backup_token_warning: これがあなたでなかった場合、すぐに OpenProject にログインして、再度リセットしてください。
   mail_body_lost_password: "パスワードを変更するには、以下のリンクをクリックしてください:"
-  mail_body_register: "OpenProjectへようこそ。このリンクをクリックしてアカウントを有効化してください："
+  mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "プロジェクトへの招待メール"
   mail_body_register_user: "%{name}さん"
   mail_body_register_links_html: |
@@ -2108,7 +2108,7 @@ ja:
     heading_getting_started: "概要を取得"
     text_getting_started_description: "OpenProject のプロジェクト管理とチームコラボレーションの簡単な概要を取得します。"
     text_show_again: "ヘルプメニューからこのビデオを再度開始することができます。"
-    welcome: "OpenProjectへようこそ"
+    welcome: "Welcome to %{app_title}"
     select_language: "言語を選択してください"
   permission_add_work_package_notes: "注記の追加"
   permission_add_work_packages: "ワークパッケージの追加"

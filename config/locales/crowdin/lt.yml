@@ -2021,7 +2021,7 @@ lt:
   mail_body_backup_waiting_period: Naujas atsarginės kopijos žetonas bus tinkamas po %{hours} valandų.
   mail_body_backup_token_warning: Jei tai buvote ne jūs, nedelsiant prisijunkite prie OpenProject ir atšaukite jį dar kartą.
   mail_body_lost_password: "Norėdami pakeisti slaptažodį, spauskite nuorodą:"
-  mail_body_register: "Sveikinimai nuo OpenProject. Prašome aktyvuoti savo paskyrą. Tam paspauskite šią nuorodą:"
+  mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "Projekto nario kvietimo el. laiškas"
   mail_body_register_user: "Brangus %{name}, "
   mail_body_register_links_html: |
@@ -2166,7 +2166,7 @@ lt:
     heading_getting_started: "Gauti aprašymą"
     text_getting_started_description: "Gauti greitą apžvalgą apie projektų valdymą ir komandos bendradarbiavimą naudojant OpenProject."
     text_show_again: "Jūs galite paleisti šį video iš naujo iš pagalbos meniu"
-    welcome: "Sveiki atvykę į OpenProject"
+    welcome: "Welcome to %{app_title}"
     select_language: "Pasirinkite kalbą"
   permission_add_work_package_notes: "Pridėti pastabų"
   permission_add_work_packages: "Pridėti darbų paketų"

@@ -27,9 +27,6 @@
 #++
 
 require 'spec_helper'
-# prevents test failures where the system user
-# is mentioned in the User.user scope
-require 'system_user'
 
 describe Queries::Users::UserQuery, type: :model do
   let(:instance) { described_class.new }

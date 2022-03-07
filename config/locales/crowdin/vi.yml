@@ -1972,7 +1972,7 @@ vi:
   mail_body_backup_waiting_period: Mã token sao lưu sẽ được kích hoạt trong %{hours} giờ.
   mail_body_backup_token_warning: Nếu đây không phải là bạn, hãy đăng nhập vào OpenProject ngay lập tức và thiết lập lại lại.
   mail_body_lost_password: "To change your password, click on the following link:"
-  mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
+  mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "Project member invitation email"
   mail_body_register_user: "Dear %{name}, "
   mail_body_register_links_html: |
@@ -2114,7 +2114,7 @@ vi:
     heading_getting_started: "Get an overview"
     text_getting_started_description: "Get a quick overview of project management and team collaboration with OpenProject."
     text_show_again: "Bạn có thể khởi động lại video này từ trình đơn trợ giúp"
-    welcome: "Welcome to OpenProject"
+    welcome: "Welcome to %{app_title}"
     select_language: "Please select your language"
   permission_add_work_package_notes: "Add notes"
   permission_add_work_packages: "Thêm mới Gói công việc"

@@ -21,8 +21,12 @@ $op-team-planner-resource-width: 180px
 
   &--calendar-pane
     grid-area: calendar
-    overflow: auto  // Avoid empty space on the right since the styled scrollbar would only be visible on hover.
-    @include no-visible-scroll-bar
+    display: flex
+    flex-direction: column
+    overflow: hidden
+
+  &--calendar
+    overflow: auto
 
   &--add-existing-pane
     grid-area: addExisting
