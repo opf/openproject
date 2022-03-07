@@ -198,6 +198,8 @@ export function bootstrapModule(injector:Injector) {
     OpSidemenuComponent,
     OpProjectIncludeComponent,
     OpProjectListComponent,
+
+    ViewSelectComponent,
   ],
   providers: [
     StaticQueriesService,

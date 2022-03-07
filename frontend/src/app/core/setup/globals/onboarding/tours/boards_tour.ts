@@ -9,8 +9,8 @@ export function boardTourSteps():OnboardingStep[] {
       nextButton: { text: I18n.t('js.onboarding.buttons.next') },
       onNext() {
         jQuery('.board-view-menu-item ~ .toggler')[0].click();
-        waitForElement('.boards--menu-items', '#main-menu', () => {
-          jQuery(".main-menu--children-sub-item:contains('Kanban')")[0].click();
+        waitForElement('.op-sidemenu--items', '#main-menu', () => {
+          jQuery(".op-sidemenu--item-action:contains('Kanban')")[0].click();
         });
       },
     },

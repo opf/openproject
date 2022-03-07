@@ -37,6 +37,7 @@ import { OpenprojectFieldsModule } from 'core-app/shared/components/fields/openp
 import { OpenprojectTimeEntriesModule } from 'core-app/shared/components/time_entries/openproject-time-entries.module';
 import { WorkPackagesCalendarPageComponent } from 'core-app/features/calendar/wp-calendar-page/wp-calendar-page.component';
 import { CALENDAR_ROUTES } from 'core-app/features/calendar/calendar.routes';
+import { CalendarSidemenuComponent } from './sidemenu/calendar-sidemenu.component';
 
 @NgModule({
   imports: [
@@ -63,6 +64,7 @@ import { CALENDAR_ROUTES } from 'core-app/features/calendar/calendar.routes';
     WorkPackagesCalendarPageComponent,
     WorkPackagesCalendarComponent,
     TimeEntryCalendarComponent,
+    CalendarSidemenuComponent,
   ],
   exports: [
     WorkPackagesCalendarComponent,

@@ -117,7 +117,8 @@ describe 'Team planner query handling', type: :feature, js: true do
 
   it 'shows only team planner queries' do
     # Go to team planner where no query is shown, only the create option
-    query_menu.expect_menu_entry 'Create new planner'
+    query_menu.expect_no_menu_entry
+    expect(page).to have_selector('[data-qa-selector="team-planner--create-button"]')
 
     # Change filter
     filters.open

@@ -66,7 +66,6 @@ export class StaticQueriesService {
     recently_created: this.I18n.t('js.work_packages.default_queries.recently_created'),
     all_open: this.I18n.t('js.work_packages.default_queries.all_open'),
     summary: this.I18n.t('js.work_packages.default_queries.summary'),
-    create_new_team_planner: this.I18n.t('js.team_planner.create_new'),
   };
 
   public getStaticName(query:QueryResource):string {
@@ -182,23 +181,6 @@ export class StaticQueriesService {
   public getStaticQueriesForView(view:ViewType):IOpSidemenuItem[] {
     return this.staticQueries
       .filter((query) => query.view === view);
-  }
-
-  public getCreateNewQueryForView(view:ViewType):IOpSidemenuItem[] {
-    return this.buildCreateNewQuery()
-      .filter((query) => query.view === view);
-  }
-
-  private buildCreateNewQuery():IStaticQuery[] {
-    return [{
-      title: this.text.create_new_team_planner,
-      uiSref: 'team_planner.page.show',
-      uiParams: {
-        query_id: null,
-        query_props: '',
-      },
-      view: 'TeamPlanner',
-    }];
   }
 
   private projectDependentQueries(projectIdentifier:string):IStaticQuery[] {

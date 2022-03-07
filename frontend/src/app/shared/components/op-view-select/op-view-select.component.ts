@@ -52,8 +52,6 @@ import { ViewsResourceService } from 'core-app/core/state/views/views.service';
 import { IView } from 'core-app/core/state/views/view.model';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { ApiV3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
-import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
-import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 
 export type ViewType = 'WorkPackagesTable'|'Bim'|'TeamPlanner'|'WorkPackagesCalendar';
 
@@ -104,8 +102,6 @@ export class ViewSelectComponent extends UntilDestroyedMixin implements OnInit {
     readonly mainMenuService:MainMenuNavigationService,
     readonly cdRef:ChangeDetectorRef,
     readonly viewsService:ViewsResourceService,
-    readonly currentUserService:CurrentUserService,
-    readonly currentProjectService:CurrentProjectService,
   ) {
     super();
   }
@@ -187,15 +183,9 @@ export class ViewSelectComponent extends UntilDestroyedMixin implements OnInit {
       );
     }
 
-    combineLatest(
-      this.viewsService.fetchViews(params),
-      this.currentUserService.hasCapabilities$(
-        'team_planners/create',
-        this.currentProjectService.id || undefined,
-      ),
-    )
+    this.viewsService.fetchViews(params)
       .pipe(this.untilDestroyed())
-      .subscribe(([queryCollection, canAddTeamPlanners]) => {
+      .subscribe((queryCollection) => {
         queryCollection
           ._embedded
           .elements
@@ -213,7 +203,6 @@ export class ViewSelectComponent extends UntilDestroyedMixin implements OnInit {
           });
 
         const staticQueries = this.opStaticQueries.getStaticQueriesForView(this.viewType);
-        const newQueryLink = this.opStaticQueries.getCreateNewQueryForView(this.viewType);
         const viewCategories = [
           { title: this.text.scope_starred, children: categories.starred, collapsible: true },
           { title: this.text.scope_default, children: staticQueries, collapsible: true },
@@ -221,9 +210,6 @@ export class ViewSelectComponent extends UntilDestroyedMixin implements OnInit {
           { title: this.text.scope_private, children: categories.private, collapsible: true },
         ];
 
-        if (canAddTeamPlanners) {
-          viewCategories.push({ title: this.text.scope_new, children: newQueryLink, collapsible: true });
-        }
         this.viewCategories$.next(viewCategories);
       });
   }
