@@ -93,7 +93,8 @@ class Authorization::UserAllowedService
     # Inactive users are never authorized
     return false unless authorizable_user?
     # Admin users are authorized for anything else
-    return true if user.admin?
+    # unless the permission is explicitly flagged not to be granted to admins.
+    return true if granted_to_admin?(action)
 
     has_authorized_role?(action, project)
   end
@@ -104,7 +105,7 @@ class Authorization::UserAllowedService
     # Inactive users are never authorized
     return false unless authorizable_user?
     # Admin users are always authorized
-    return true if user.admin?
+    return true if granted_to_admin?(action)
 
     has_authorized_role?(action)
   end
@@ -114,6 +115,12 @@ class Authorization::UserAllowedService
   # with the exception of a temporary-granted system user
   def authorizable_user?
     !user.locked? || user.is_a?(SystemUser)
+  end
+
+  # Admin users are granted every permission unless the
+  # permission explicitly disables it.
+  def granted_to_admin?(action)
+    user.admin? && OpenProject::AccessControl.grant_to_admin?(action)
   end
 
   def has_authorized_role?(action, project = nil)

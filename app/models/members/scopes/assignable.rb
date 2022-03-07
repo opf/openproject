@@ -39,7 +39,15 @@ module Members::Scopes
         not_locked
           .includes(:roles)
           .references(:roles)
-          .where(roles: { assignable: true })
+          .where(assignable_permission_exists)
+      end
+
+      def assignable_permission_exists
+        RolePermission
+          .where('role_permissions.role_id = roles.id')
+          .where(permission: 'work_package_assigned')
+          .arel
+          .exists
       end
     end
   end

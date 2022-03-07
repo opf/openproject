@@ -34,7 +34,6 @@ describe Roles::CreateContract do
     let(:role) do
       Role.new.tap do |r|
         r.name = role_name
-        r.assignable = role_assignable
         r.permissions = role_permissions
       end
     end

@@ -51,7 +51,7 @@ describe Projects::CopyService, 'integration', type: :model do
            member_in_project: source,
            member_through_role: role)
   end
-  let(:role) { create :role, permissions: %i[copy_projects view_work_packages] }
+  let(:role) { create :role, permissions: %i[copy_projects view_work_packages work_package_assigned] }
   shared_let(:new_project_role) { create :role, permissions: %i[] }
   let(:instance) do
     described_class.new(source: source, user: current_user)

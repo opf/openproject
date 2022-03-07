@@ -47,7 +47,7 @@ describe MailHandler, type: :model do
   end
 
   shared_context 'wp_on_given_project' do
-    let(:permissions) { %i[add_work_packages assign_versions] }
+    let(:permissions) { %i[add_work_packages assign_versions work_package_assigned] }
     let!(:user) do
       create(:user,
              mail: 'JSmith@somenet.foo',
@@ -151,7 +151,7 @@ describe MailHandler, type: :model do
   end
 
   shared_context 'with a reply to a wp mention with attributes' do
-    let(:permissions) { %i[add_work_package_notes view_work_packages edit_work_packages] }
+    let(:permissions) { %i[add_work_package_notes view_work_packages edit_work_packages work_package_assigned] }
     let(:role) do
       create(:role, permissions: permissions)
     end

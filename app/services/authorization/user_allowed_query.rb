@@ -53,7 +53,11 @@ class Authorization::UserAllowedQuery < Authorization::AbstractUserQuery
                                   has_role.and(has_permission)
                                 end
 
-      is_admin = users_table[:admin].eq(true)
+      is_admin = if OpenProject::AccessControl.grant_to_admin?(action)
+                   users_table[:admin].eq(true)
+                 else
+                   Arel::Nodes::Equality.new(1, 0)
+                 end
 
       statement.where(has_role_and_permission.or(is_admin))
     else

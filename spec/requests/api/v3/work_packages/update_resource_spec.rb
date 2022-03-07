@@ -45,7 +45,7 @@ describe 'API v3 Work package resource',
     create(:project, identifier: 'test_project', public: false)
   end
   let(:role) { create(:role, permissions: permissions) }
-  let(:permissions) { %i[view_work_packages edit_work_packages assign_versions] }
+  let(:permissions) { %i[view_work_packages edit_work_packages assign_versions work_package_assigned] }
   let(:type) { create(:type) }
 
   current_user do
@@ -442,7 +442,7 @@ describe 'API v3 Work package resource',
       end
 
       context 'assignee and responsible' do
-        let(:user) { create(:user, member_in_project: project) }
+        let(:user) { create(:user, member_in_project: project, member_with_permissions: %i[work_package_assigned]) }
         let(:params) { valid_params.merge(user_parameter) }
         let(:work_package) do
           create(:work_package,
@@ -455,7 +455,7 @@ describe 'API v3 Work package resource',
 
         shared_context 'setup group membership' do
           let(:group) { create(:group) }
-          let(:group_role) { create(:role) }
+          let(:group_role) { create(:role, permissions: %i[work_package_assigned]) }
           let!(:group_member) do
             create(:member,
                    principal: group,

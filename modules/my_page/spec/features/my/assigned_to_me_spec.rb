@@ -63,7 +63,10 @@ describe 'Assigned to me embedded query on my page', type: :feature, js: true do
     create(:user)
   end
 
-  let(:role) { create(:role, permissions: %i[view_work_packages add_work_packages edit_work_packages save_queries]) }
+  let(:role) do
+    create(:role,
+           permissions: %i[view_work_packages add_work_packages edit_work_packages save_queries work_package_assigned])
+  end
 
   let(:user) do
     create(:user,
@@ -78,9 +81,7 @@ describe 'Assigned to me embedded query on my page', type: :feature, js: true do
   let(:embedded_table) { Pages::EmbeddedWorkPackagesTable.new(assigned_area.area) }
   let(:hierarchies) { ::Components::WorkPackages::Hierarchies.new }
 
-  before do
-    login_as user
-  end
+  current_user { user }
 
   context 'with parent work package' do
     let!(:assigned_work_package_child) do

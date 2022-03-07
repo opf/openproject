@@ -340,6 +340,10 @@ role_permission132:
   id: 132
   role_id: 2
   permission: 'assign_versions'
+role_permission133:
+  id: 133
+  role_id: 2
+  permission: 'work_package_assigned'
 
 role_permission200:
   id: 200
