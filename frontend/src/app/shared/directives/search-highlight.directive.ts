@@ -20,13 +20,13 @@ export class OpSearchHighlightDirective implements AfterViewChecked {
 
 
     const textNode = Array.from(this.elementRef.nativeElement.childNodes).find((n:Node) => n.nodeType === n.TEXT_NODE) as Node|undefined;
-    const content = textNode?.textContent?.toLowerCase() || '';
+    const content = textNode?.textContent || '';
     if (!content) {
       return;
     }
 
     const query = this.query.toLowerCase();
-    const startIndex = content.indexOf(query);
+    const startIndex = content.toLowerCase().indexOf(query);
     if (startIndex < 0) {
       return;
     }
