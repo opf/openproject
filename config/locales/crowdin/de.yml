@@ -466,7 +466,6 @@ de:
       repository:
         url: "URL"
       role:
-        assignable: "Arbeitspakete können Benutzern und Gruppen im Besitz dieser Rolle in dem jeweiligen Projekt zugeordnet werden"
         permissions: "Berechtigungen"
       time_entry:
         activity: "Aktivität"
@@ -887,6 +886,7 @@ de:
     version: "Version"
     work_package: "Arbeitspaket"
   backup:
+    failed: "Backup failed"
     label_backup_token: "Backup-Token"
     label_create_token: "Backup-Token erstellen"
     label_delete_token: "Backup-Token löschen"
@@ -2195,6 +2195,8 @@ de:
   permission_view_timelines: "Zeitplan-Reporte anzeigen"
   permission_view_wiki_edits: "Wiki-Versionsgeschichte ansehen"
   permission_view_wiki_pages: "Wiki ansehen"
+  permission_work_package_assigned: "Become assignee/responsible"
+  permission_work_package_assigned_explanation: "Arbeitspakete können Benutzern und Gruppen im Besitz dieser Rolle in dem jeweiligen Projekt zugeordnet werden"
   placeholders:
     default: "-"
   project:

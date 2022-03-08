@@ -26,33 +26,22 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Widget::SettingsPatch
-  extend ActiveSupport::Concern
+require 'spec_helper'
 
-  included do
-    prepend InstanceMethods
+describe ::API::V3::Users::UnpaginatedUserCollectionRepresenter do
+  let(:users) do
+    build_stubbed_list(:user,
+                       3)
+  end
+  let(:representer) do
+    described_class.new(users,
+                        self_link: '/api/v3/work_package/1/watchers',
+                        current_user: users.first)
   end
 
-  module InstanceMethods
-    def settings_to_render
-      super.insert(-2, :cost_types)
-    end
+  context 'generation' do
+    subject(:collection) { representer.to_json }
 
-    def render_cost_types_settings
-      render_widget Widget::Settings::Fieldset, @subject, type: "units" do
-        render_widget Widget::CostTypes,
-                      @cost_types,
-                      selected_type_id: @selected_type_id
-      end
-    end
-
-    def render_with_options(options, &block)
-      @cost_types = options.delete(:cost_types)
-      @selected_type_id = options.delete(:selected_type_id)
-
-      super(options, &block)
-    end
+    it_behaves_like 'unpaginated APIv3 collection', 3, 'work_package/1/watchers', 'User'
   end
 end
-
-Widget::Settings.include Widget::SettingsPatch

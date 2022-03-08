@@ -2,6 +2,7 @@
 vi:
   js:
     boards:
+      create_new: 'New board'
       label_unnamed_board: 'Bảng không tên'
       label_unnamed_list: 'Danh sách không tên'
       label_board_type: 'Kiểu bảng'

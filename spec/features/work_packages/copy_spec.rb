@@ -61,7 +61,7 @@ RSpec.feature 'Work package copy', js: true, selenium: true do
           type: type,
           author: author)
   end
-  let(:role) { build(:role, permissions: [:view_work_packages]) }
+  let(:role) { build(:role, permissions: %i[view_work_packages work_package_assigned]) }
   let(:assignee) do
     create(:user,
            firstname: 'An',

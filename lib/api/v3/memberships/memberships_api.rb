@@ -30,7 +30,7 @@ module API
   module V3
     module Memberships
       class MembershipsAPI < ::API::OpenProjectAPI
-        helpers ::API::Utilities::PageSizeHelper
+        helpers ::API::Utilities::UrlPropsParsingHelper
 
         resources :memberships do
           get &::API::V3::Utilities::Endpoints::Index

@@ -43,6 +43,14 @@ class Widget::Settings < Widget::Base
     end
   end
 
+  def render_cost_types_settings
+    render_widget Widget::Settings::Fieldset, @subject, type: "units" do
+      render_widget Widget::CostTypes,
+                    @cost_types,
+                    selected_type_id: @selected_type_id
+    end
+  end
+
   def render_controls_settings
     content_tag :div, class: 'form--buttons -with-button-form hide-when-print' do
       widgets = ''.html_safe
@@ -75,7 +83,14 @@ class Widget::Settings < Widget::Base
     end)
   end
 
+  def render_with_options(options, &block)
+    @cost_types = options.delete(:cost_types)
+    @selected_type_id = options.delete(:selected_type_id)
+
+    super(options, &block)
+  end
+
   def settings_to_render
-    @settings_to_render ||= %i[filter group_by controls]
+    @settings_to_render ||= %i[filter group_by cost_types controls]
   end
 end

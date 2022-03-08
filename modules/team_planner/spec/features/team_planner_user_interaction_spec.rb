@@ -43,7 +43,7 @@ describe 'Team planner drag&dop and resizing', type: :feature, js: true do
            firstname: 'Bernd',
            member_in_project: project,
            member_with_permissions: %w[
-             view_work_packages view_team_planner
+             view_work_packages view_team_planner work_package_assigned
            ]
   end
 

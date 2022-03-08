@@ -468,7 +468,6 @@ it:
       repository:
         url: "URL"
       role:
-        assignable: "È possibile assegnare macro-attività ad utenti e gruppi che hanno questo ruolo nel rispettivo progetto"
         permissions: "Permessi"
       time_entry:
         activity: "Attività"
@@ -889,6 +888,7 @@ it:
     version: "Versione"
     work_package: "Macro-attività"
   backup:
+    failed: "Backup failed"
     label_backup_token: "Token di backup"
     label_create_token: "Crea token di backup"
     label_delete_token: "Elimina token di backup"
@@ -2197,6 +2197,8 @@ it:
   permission_view_timelines: "Visualizza le cronologie"
   permission_view_wiki_edits: "Visualizza il registro della wiki"
   permission_view_wiki_pages: "Visualizza la wiki"
+  permission_work_package_assigned: "Become assignee/responsible"
+  permission_work_package_assigned_explanation: "È possibile assegnare macro-attività ad utenti e gruppi che hanno questo ruolo nel rispettivo progetto"
   placeholders:
     default: "-"
   project:

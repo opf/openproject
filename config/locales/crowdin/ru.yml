@@ -472,7 +472,6 @@ ru:
       repository:
         url: "URL"
       role:
-        assignable: "Пакеты работ могут быть привязаны к пользователям и группам в зависимости от этой роли в рамках соответствующего проекта"
         permissions: "Разрешения"
       time_entry:
         activity: "Деятельность"
@@ -901,6 +900,7 @@ ru:
     version: "Этапы"
     work_package: "Пакет работ"
   backup:
+    failed: "Backup failed"
     label_backup_token: "Маркер резервного копирования"
     label_create_token: "Создать маркер резервного копирования"
     label_delete_token: "Удалить маркер резервного копирования"
@@ -2236,6 +2236,8 @@ ru:
   permission_view_timelines: "Просмотр графиков"
   permission_view_wiki_edits: "Просмотр истории wiki"
   permission_view_wiki_pages: "Просмотр wiki"
+  permission_work_package_assigned: "Become assignee/responsible"
+  permission_work_package_assigned_explanation: "Пакеты работ могут быть привязаны к пользователям и группам в зависимости от этой роли в рамках соответствующего проекта"
   placeholders:
     default: "-"
   project:

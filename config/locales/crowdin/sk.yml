@@ -473,7 +473,6 @@ sk:
       repository:
         url: "URL adresa"
       role:
-        assignable: "Pracovné balíčky môžu byť pridelené užívateľom a skupinám, ktoré majú v príslušnom projekte túto úlohu"
         permissions: "Oprávnenia"
       time_entry:
         activity: "Činnosť"
@@ -902,6 +901,7 @@ sk:
     version: "Verzia"
     work_package: "Pracovný balíček"
   backup:
+    failed: "Backup failed"
     label_backup_token: "Backup token"
     label_create_token: "Create backup token"
     label_delete_token: "Delete backup token"
@@ -2237,6 +2237,8 @@ sk:
   permission_view_timelines: "Zobrazenie časovej osi"
   permission_view_wiki_edits: "Zobrazenie histórie wiki"
   permission_view_wiki_pages: "Zobraziť wiki"
+  permission_work_package_assigned: "Become assignee/responsible"
+  permission_work_package_assigned_explanation: "Pracovné balíčky môžu byť pridelené užívateľom a skupinám, ktoré majú v príslušnom projekte túto úlohu"
   placeholders:
     default: "-"
   project:

@@ -501,13 +501,14 @@ module API
             "#{project(project_id)}/work_packages"
           end
 
-          def self.path_for(path, filters: nil, sort_by: nil, group_by: nil, page_size: nil, offset: nil)
+          def self.path_for(path, filters: nil, sort_by: nil, group_by: nil, page_size: nil, offset: nil, select: nil)
             query_params = {
               filters: filters&.to_json,
               sortBy: sort_by&.to_json,
               groupBy: group_by,
               pageSize: page_size,
-              offset: offset
+              offset: offset,
+              select: select
             }.compact_blank
 
             if query_params.any?

@@ -2,6 +2,7 @@
 uk:
   js:
     boards:
+      create_new: 'New board'
       label_unnamed_board: 'Дошка без назви'
       label_unnamed_list: 'Список без назви'
       label_board_type: 'Тип дошки'

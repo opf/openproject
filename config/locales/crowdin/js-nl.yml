@@ -453,7 +453,6 @@ nl:
     label_starred_queries: "Favoriete weergaven"
     label_global_queries: "Openbare weergaven"
     label_custom_queries: "Privé weergaven"
-    label_create_new_query: "Nieuwe aanmaken"
     label_columns: "Kolommen"
     label_attachments: Bestanden
     label_drop_files: Bestanden hier neerzetten

@@ -114,7 +114,7 @@ describe MailHandler, type: :model do
 
   it 'should add work package should match assignee on display name' do # added from redmine  - not sure if it is ok here
     user = create(:user, firstname: 'Foo', lastname: 'Bar')
-    role = create(:role, name: 'Superhero')
+    role = create(:role, name: 'Superhero', permissions: ['work_package_assigned'])
     create(:member, user: user, project: Project.find(2), role_ids: [role.id])
     issue = submit_email('ticket_on_given_project.eml') do |email|
       email.sub!(/^Assigned to.*$/, 'Assigned to: Foo Bar')

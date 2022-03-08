@@ -452,7 +452,6 @@ lol:
       repository:
         url: "crwdns495259:0crwdne495259:0"
       role:
-        assignable: "crwdns495261:0crwdne495261:0"
         permissions: "crwdns495263:0crwdne495263:0"
       time_entry:
         activity: "crwdns495265:0crwdne495265:0"
@@ -873,6 +872,7 @@ lol:
     version: "crwdns495863:0crwdne495863:0"
     work_package: "crwdns495865:0crwdne495865:0"
   backup:
+    failed: "crwdns771128:0crwdne771128:0"
     label_backup_token: "crwdns495867:0crwdne495867:0"
     label_create_token: "crwdns495869:0crwdne495869:0"
     label_delete_token: "crwdns495871:0crwdne495871:0"
@@ -2166,6 +2166,8 @@ lol:
   permission_view_timelines: "crwdns498657:0crwdne498657:0"
   permission_view_wiki_edits: "crwdns498659:0crwdne498659:0"
   permission_view_wiki_pages: "crwdns498661:0crwdne498661:0"
+  permission_work_package_assigned: "crwdns771130:0crwdne771130:0"
+  permission_work_package_assigned_explanation: "crwdns771132:0crwdne771132:0"
   placeholders:
     default: "crwdns498663:0crwdne498663:0"
   project:

@@ -30,7 +30,7 @@
 
 module API
   module Utilities
-    module PageSizeHelper
+    module UrlPropsParsingHelper
       ##
       # Determine set page_size from string
       def resolve_page_size(string)
@@ -67,6 +67,29 @@ module API
 
       def to_i_or_nil(string)
         string ? string.to_i : nil
+      end
+
+      # Parses a comma separated list of values and turns it into
+      # a nested hash. e.g.:
+      #  = "a,b/c/d,e,b/f"
+      # is turned into:
+      #  = { "a" => {}, "e" => {}, "b" => { "c" => { "d" => {} }, "f" => {} } }
+      # The order of the values does not matter.
+      # It also accepts an array of individual strings, e.g.:
+      #  = ["a","b/c/d","e","b/f"]
+      def nested_from_csv(value)
+        return unless value
+
+        value
+          .delete_prefix('[')
+          .delete_suffix(']')
+          .split(',')
+          .map { |path| nested_hash(path.strip.tr("\"'", '').split('/')) }
+          .inject({}) { |hash, nested| hash.deep_merge(nested) }
+      end
+
+      def nested_hash(path)
+        { path[0] => path.length > 1 ? nested_hash(path[1..]) : {} }
       end
     end
   end

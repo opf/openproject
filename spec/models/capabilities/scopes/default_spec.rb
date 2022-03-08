@@ -28,6 +28,7 @@
 
 require 'spec_helper'
 
+# rubocop:disable RSpec/MultipleMemoizedHelpers
 describe Capabilities::Scopes::Default, type: :model do
   # we focus on the non current user capabilities to make the tests easier to understand
   subject(:scope) { Capability.default.where(principal_id: user.id) }
@@ -143,9 +144,9 @@ describe Capabilities::Scopes::Default, type: :model do
       end
     end
 
-    context 'with a lgobal member with an action permission and the user being locked' do
-      let(:permissions) { %i[manage_members] }
-      let(:members) { [member] }
+    context 'with a global member with an action permission and the user being locked' do
+      let(:permissions) { %i[manage_user] }
+      let(:members) { [global_member] }
       let(:user_status) { Principal.statuses[:locked] }
 
       it_behaves_like 'is empty'
@@ -235,7 +236,8 @@ describe Capabilities::Scopes::Default, type: :model do
 
           OpenProject::AccessControl
             .contract_actions_map
-            .map { |_, v| v[:actions].map { |vk, vv| vv.map { |vvv| item.call(vk, vvv, v[:global], v[:module]) } } }
+            .select { |_, v| v[:grant_to_admin] }
+            .map { |_, v| v[:actions].map { |vk, vv| vv.map { |vvv| item.call(vk, vvv, v[:global], v[:module_name]) } } }
             .flatten(2)
             .compact
         end
@@ -262,7 +264,8 @@ describe Capabilities::Scopes::Default, type: :model do
 
           OpenProject::AccessControl
             .contract_actions_map
-            .map { |_, v| v[:actions].map { |vk, vv| vv.map { |vvv| item.call(vk, vvv, v[:global], v[:module]) } } }
+            .select { |_, v| v[:grant_to_admin] }
+            .map { |_, v| v[:actions].map { |vk, vv| vv.map { |vvv| item.call(vk, vvv, v[:global], v[:module_name]) } } }
             .flatten(2)
             .compact
         end
@@ -305,6 +308,19 @@ describe Capabilities::Scopes::Default, type: :model do
       end
     end
 
+    context 'with a member with an action permission that is not granted to admin' do
+      let(:permissions) { %i[work_package_assigned] }
+      let(:members) { [member] }
+
+      it_behaves_like 'consists of contract actions' do
+        let(:expected) do
+          [
+            ['work_packages/assigned', user.id, project.id]
+          ]
+        end
+      end
+    end
+
     context 'with a member with an action permission and the project being archived' do
       let(:permissions) { %i[manage_members] }
       let(:members) { [member] }
@@ -314,3 +330,4 @@ describe Capabilities::Scopes::Default, type: :model do
     end
   end
 end
+# rubocop:enable RSpec/MultipleMemoizedHelpers

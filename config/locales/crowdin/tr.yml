@@ -471,7 +471,6 @@ tr:
       repository:
         url: "URL"
       role:
-        assignable: "İşpaketleri bağlı projedeki rollere göre kullanıcı ve gruplara atanabilir"
         permissions: "İzinler"
       time_entry:
         activity: "Etkinlik"
@@ -892,6 +891,7 @@ tr:
     version: "Sürüm"
     work_package: "İş paketi"
   backup:
+    failed: "Backup failed"
     label_backup_token: "Yedek jeton"
     label_create_token: "Yedek jeton oluşturun"
     label_delete_token: "Yedek jetonu silin"
@@ -2200,6 +2200,8 @@ tr:
   permission_view_timelines: "Zaman çizelgelerini görüntüle"
   permission_view_wiki_edits: "Wiki geçmişini görüntüle"
   permission_view_wiki_pages: "Wiki'yi görüntüle"
+  permission_work_package_assigned: "Become assignee/responsible"
+  permission_work_package_assigned_explanation: "İşpaketleri bağlı projedeki rollere göre kullanıcı ve gruplara atanabilir"
   placeholders:
     default: "-"
   project:

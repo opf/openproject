@@ -57,6 +57,14 @@ get:
     required: false
     schema:
       type: string
+  - description: |-
+      Comma separated list of properties to include.
+    example: 'total,elements/identifier,elements/name'
+    in: query
+    name: select
+    required: false
+    schema:
+      type: string
   responses:
     '200':
       content:

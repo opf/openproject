@@ -470,7 +470,6 @@ sl:
       repository:
         url: "URL"
       role:
-        assignable: "Delovni paketi se lahko dodelijo uporabnikom in skupinam, ki imajo to vlogo v posameznem projektu"
         permissions: "Dovoljenja"
       time_entry:
         activity: "Aktivnost"
@@ -899,6 +898,7 @@ sl:
     version: "Različica"
     work_package: "Zahtevek"
   backup:
+    failed: "Backup failed"
     label_backup_token: "Žeton za varnostno kopiranje"
     label_create_token: "Ustvari žeton za varnostno kopiranje"
     label_delete_token: "Izbriši žeton za varnostno kopiranje"
@@ -2235,6 +2235,8 @@ sl:
   permission_view_timelines: "Oglejte si časovnice"
   permission_view_wiki_edits: "Poglej wiki zgodovino"
   permission_view_wiki_pages: "Poglej wiki"
+  permission_work_package_assigned: "Become assignee/responsible"
+  permission_work_package_assigned_explanation: "Delovni paketi se lahko dodelijo uporabnikom in skupinam, ki imajo to vlogo v posameznem projektu"
   placeholders:
     default: "-"
   project:

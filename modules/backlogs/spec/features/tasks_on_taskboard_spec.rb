@@ -57,7 +57,8 @@ describe 'Tasks on taskboard',
                            view_work_packages
                            edit_work_packages
                            manage_subtasks
-                           assign_versions))
+                           assign_versions
+                           work_package_assigned))
   end
   let!(:current_user) do
     create(:user,

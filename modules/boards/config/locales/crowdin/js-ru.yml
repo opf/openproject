@@ -2,6 +2,7 @@
 ru:
   js:
     boards:
+      create_new: 'New board'
       label_unnamed_board: 'Безымянная доска'
       label_unnamed_list: 'Список досок без имени'
       label_board_type: 'Тип доски'

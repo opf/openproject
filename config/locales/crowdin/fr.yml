@@ -471,7 +471,6 @@ fr:
       repository:
         url: "URL"
       role:
-        assignable: "Des lots de travaux peuvent être assignés à des utilisateurs et des groupes possédant ce rôle dans le projet respectif"
         permissions: "Autorisations"
       time_entry:
         activity: "Activité"
@@ -892,6 +891,7 @@ fr:
     version: "Version"
     work_package: "Lot de travaux"
   backup:
+    failed: "Backup failed"
     label_backup_token: "Jeton de sauvegarde"
     label_create_token: "Créer un jeton de sauvegarde"
     label_delete_token: "Supprimer le jeton de sauvegarde"
@@ -2200,6 +2200,8 @@ fr:
   permission_view_timelines: "Voir les lignes du temps"
   permission_view_wiki_edits: "Voir l'historique du wiki"
   permission_view_wiki_pages: "Voir le wiki"
+  permission_work_package_assigned: "Become assignee/responsible"
+  permission_work_package_assigned_explanation: "Des lots de travaux peuvent être assignés à des utilisateurs et des groupes possédant ce rôle dans le projet respectif"
   placeholders:
     default: "-"
   project:

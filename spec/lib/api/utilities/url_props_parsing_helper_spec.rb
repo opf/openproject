@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -28,17 +26,28 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# TODO: this is to be removed or rather the UserCollectionRepresenter is
-# to be turned into an OffsetPaginatedCollection representer.
-# It is not possible to do that right now as we do not have a
-# solution for an accessible autocompleter drop down widget. We therefore
-# have to fetch all users when we want to present them inside of a drop down.
+require 'spec_helper'
 
-module API
-  module V3
-    module Users
-      class PaginatedUserCollectionRepresenter < ::API::Decorators::OffsetPaginatedCollection
-        include API::V3::Principals::NotBuiltinElements
+describe ::API::Utilities::UrlPropsParsingHelper do
+  let(:clazz) do
+    Class.new do
+      include ::API::Utilities::UrlPropsParsingHelper
+    end
+  end
+  let(:subject) { clazz.new }
+
+  describe '#maximum_page_size' do
+    context 'when small values in per_page_options',
+            with_settings: { per_page_options: '20,100', apiv3_max_page_size: 57 } do
+      it 'uses the value from settings' do
+        expect(subject.maximum_page_size).to eq(57)
+      end
+    end
+
+    context 'when larger values in per_page_options',
+            with_settings: { per_page_options: '20,100,1000', apiv3_max_page_size: 57 } do
+      it 'uses that value' do
+        expect(subject.maximum_page_size).to eq(57)
       end
     end
   end
