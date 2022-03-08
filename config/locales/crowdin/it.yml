@@ -882,6 +882,7 @@ it:
     version: "Versione"
     work_package: "Macro-attività"
   backup:
+    failed: "Backup failed"
     label_backup_token: "Token di backup"
     label_create_token: "Crea token di backup"
     label_delete_token: "Elimina token di backup"

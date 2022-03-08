@@ -892,6 +892,7 @@ lt:
     version: "Versija"
     work_package: "Darbų paketas"
   backup:
+    failed: "Backup failed"
     label_backup_token: "Atsarginės kopijos žetonas"
     label_create_token: "Sukurti atsarginės kopijos žetoną"
     label_delete_token: "Pašalinti atsarginės kopijos žetoną"

@@ -885,6 +885,7 @@ tr:
     version: "Sürüm"
     work_package: "İş paketi"
   backup:
+    failed: "Backup failed"
     label_backup_token: "Yedek jeton"
     label_create_token: "Yedek jeton oluşturun"
     label_delete_token: "Yedek jetonu silin"

@@ -876,6 +876,7 @@ ja:
     version: "バージョン"
     work_package: "ワーク パッケージ"
   backup:
+    failed: "Backup failed"
     label_backup_token: "バックアップトークン"
     label_create_token: "バックアップトークンを作成する"
     label_delete_token: "バックアップトークンを削除する"

@@ -881,6 +881,7 @@ el:
     version: "Έκδοση"
     work_package: "Εργασία"
   backup:
+    failed: "Backup failed"
     label_backup_token: "Token αντιγράφου ασφαλείας"
     label_create_token: "Δημιουργία token αντιγράφου ασφαλείας"
     label_delete_token: "Διαγραφή token αντιγράφου ασφαλείας"

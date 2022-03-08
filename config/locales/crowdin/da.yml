@@ -883,6 +883,7 @@ da:
     version: "Version"
     work_package: "Arbejdspakke"
   backup:
+    failed: "Backup failed"
     label_backup_token: "Sikkerhedskopiér token"
     label_create_token: "Opret sikkerhedskopi token"
     label_delete_token: "Slet sikkerhedskopi token"

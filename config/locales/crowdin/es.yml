@@ -882,6 +882,7 @@ es:
     version: "Versión"
     work_package: "Paquete de trabajo"
   backup:
+    failed: "Backup failed"
     label_backup_token: "Token de copias de seguridad"
     label_create_token: "Crear token de copias de seguridad"
     label_delete_token: "Eliminar token de copias de seguridad"

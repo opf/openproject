@@ -1106,7 +1106,7 @@ uk:
         invite_to_project: 'Invite %{type} to %{project}'
         User: 'user'
         Group: 'group'
-        PlaceholderUser: 'placeholder user'
+        PlaceholderUser: 'прототип користувача'
         invite_principal_to_project: 'Invite %{principal} to %{project}'
       project:
         label: 'Проект'
@@ -1125,10 +1125,10 @@ uk:
           title: 'Група'
           description: 'Permissions based on the assigned role in the selected project'
         placeholder:
-          title: 'Placeholder user'
-          title_no_ee: 'Placeholder user (Enterprise Edition only feature)'
-          description: 'Has no access to the project and no emails are sent out.'
-          description_no_ee: 'Has no access to the project and no emails are sent out. <br>Check out the <a href="%{eeHref}" target="_blank">Enterprise Edition</a>'
+          title: 'Прототип користувача'
+          title_no_ee: 'Прототип користувача (лише у версії Enterprise Edition)'
+          description: 'Немає доступу до проєкту; електронні листи не відправляються.'
+          description_no_ee: 'Немає доступу до проєкту; електронні листи не відправляються. <br>Ознайомтеся з перевагами <a href="%{eeHref}" target="_blank">Enterprise Edition</a>.'
       principal:
         label:
           name_or_email: 'Name or email address'
@@ -1136,13 +1136,13 @@ uk:
         already_member_message: 'Already a member of %{project}'
         no_results_user: 'No users were found'
         invite_user: 'Invite:'
-        no_results_placeholder: 'No placeholders were found'
-        create_new_placeholder: 'Create new placeholder:'
+        no_results_placeholder: 'Заповнювачів не знайдено'
+        create_new_placeholder: 'Створити заповнювач:'
         no_results_group: 'No groups were found'
         next_button: 'Далі'
         required:
           user: 'Please select a user'
-          placeholder: 'Please select a placeholder'
+          placeholder: 'Виберіть заповнювач'
           group: 'Please select a group'
       role:
         label: 'Role in %{project}'

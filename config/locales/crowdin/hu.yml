@@ -886,6 +886,7 @@ hu:
     version: "Verzió"
     work_package: "Feladatcsoport"
   backup:
+    failed: "Backup failed"
     label_backup_token: "Visszaállítási kulcs"
     label_create_token: "Visszaállítási kulcs létrehozása"
     label_delete_token: "Visszaállítási kulcs törlése"

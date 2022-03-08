@@ -882,6 +882,7 @@ vi:
     version: "Phiên bản"
     work_package: "Work Package"
   backup:
+    failed: "Backup failed"
     label_backup_token: "Sao lưu token"
     label_create_token: "Tạo bản sao lưu token"
     label_delete_token: "Xóa bản sao lưu token"

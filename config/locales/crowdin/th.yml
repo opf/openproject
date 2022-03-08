@@ -880,6 +880,7 @@ th:
     version: "เวอร์ชัน"
     work_package: "ชุดภารกิจ"
   backup:
+    failed: "Backup failed"
     label_backup_token: "โทเค็น (token) สำรอง"
     label_create_token: "สร้าง โทเค็น (token) สำรอง"
     label_delete_token: "ลบ โทเค็น (token) สำรอง"

@@ -880,6 +880,7 @@ zh-TW:
     version: "版本"
     work_package: "工作項目"
   backup:
+    failed: "Backup failed"
     label_backup_token: "Backup token"
     label_create_token: "Create backup token"
     label_delete_token: "Delete backup token"

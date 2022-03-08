@@ -28,31 +28,31 @@ uk:
     plugins:
       no_results_title_text: Наразі немає доступних плагінів.
     custom_styles:
-      color_theme: "Color theme"
-      color_theme_custom: "(Custom)"
+      color_theme: "Колір теми"
+      color_theme_custom: "(Власний)"
       colors:
-        alternative-color: "Alternative"
-        content-link-color: "Link font"
-        primary-color: "Primary"
-        primary-color-dark: "Primary (dark)"
-        header-bg-color: "Header background"
-        header-item-bg-hover-color: "Header background on hover"
-        header-item-font-color: "Header font"
-        header-item-font-hover-color: "Header font on hover"
-        header-border-bottom-color: "Header border"
-        main-menu-bg-color: "Main menu background"
-        main-menu-bg-selected-background: "Main menu when selected"
-        main-menu-bg-hover-background: "Main menu on hover"
-        main-menu-font-color: "Main menu font"
-        main-menu-selected-font-color: "Main menu font when selected"
-        main-menu-hover-font-color: "Main menu font on hover"
-        main-menu-border-color: "Main menu border"
+        alternative-color: "Альтернативний"
+        content-link-color: "Шрифт посилання"
+        primary-color: "Основний"
+        primary-color-dark: "Основний (темний)"
+        header-bg-color: "Фон заголовка"
+        header-item-bg-hover-color: "Фон заголовка в разі наведення курсора"
+        header-item-font-color: "Шрифт заголовка"
+        header-item-font-hover-color: "Шрифт заголовка в разі наведення курсора"
+        header-border-bottom-color: "Контур заголовка"
+        main-menu-bg-color: "Фон головного меню"
+        main-menu-bg-selected-background: "Головне меню в разі вибору"
+        main-menu-bg-hover-background: "Головне меню в разі наведення"
+        main-menu-font-color: "Шрифт головного меню"
+        main-menu-selected-font-color: "Шрифт головного меню в разі вибору"
+        main-menu-hover-font-color: "Шрифт головного меню в разі наведення"
+        main-menu-border-color: "Контур головного меню"
       custom_colors: "Кольори за власними вподобаннями"
       customize: "Налаштуйте установку OpenProject за допомогою власного логотипу. Примітка: Цей логотип буде загальнодоступним."
       enterprise_notice: "Як особливий «Спасибі!» для їхнього фінансового внеску в розвиток OpenProject, ця маленька функція доступна лише для абонентів підтримки Enterprise Edition."
       manage_colors: "Редагувати параметри вибору кольору"
       instructions:
-        alternative-color: "Strong accent color, typically used for the most important button on a screen."
+        alternative-color: "Насичений акцентний колір зазвичай використовується для більшості важливих кнопок на екрані."
         content-link-color: "Колір шрифту більшості посилань."
         primary-color: "Основний колір."
         primary-color-dark: "Зазвичай темний варіант основного кольору, який використовується для ефектів наведення."
@@ -61,18 +61,18 @@ uk:
         header-item-font-hover-color: "Колір шрифту в заголовках інтерактивних елементів під курсором миші."
         header-border-bottom-color: "Тонка лінія під заголовком. Залиште це поле порожнім, якщо ви не хочете будь-якої лінії."
         main-menu-bg-color: "Колір фону меню зліва."
-      theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
+      theme_warning: Змінення теми перезапише ваш власний стиль. У такому разі дизайн буде втрачено. Справді продовжити?
     enterprise:
-      upgrade_to_ee: "Upgrade to the Enterprise Edition"
+      upgrade_to_ee: "Перейти на Enterprise Edition"
       add_token: "Завантажте маркер підтримки для Enterprise Edition"
       replace_token: "Замініть поточний маркер підтримки"
-      order: "Order Enterprise on-premises Edition"
+      order: "Замовити локальний корпоративний випуск"
       paste: "Вставте маркер підтримки для Enterprise Edition"
       required_for_feature: "Ця функція доступна лише з активним маркером підтримки Enterprise Edition."
       enterprise_link: "Для отримання додаткової інформації натисніть тут."
       start_trial: 'Розпочати безкоштовну пробну версію'
       book_now: 'Забронювати зараз'
-      get_quote: 'Get a quote'
+      get_quote: 'Дізнатися ціну'
   announcements:
     show_until: Показувати до
     is_active: наразі відображається
@@ -244,21 +244,21 @@ uk:
       no_results_content_text: Додати новину
   users:
     groups:
-      member_in_these_groups: 'This user is currently a member of the following groups:'
-      no_results_title_text: This user is currently not a member in any group.
+      member_in_these_groups: 'Зараз цей користувач — учасник таких груп:'
+      no_results_title_text: Цей користувач зараз не належить до жодної групи.
     memberships:
       no_results_title_text: Цей користувач наразі не є учасником проекту.
   placeholder_users:
     right_to_manage_members_missing: >
-      You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
-    delete_tooltip: "Delete placeholder user"
+      Ви не можете видалити користувача-заповнювача. У вас немає права керувати учасниками для всіх проєктів, до яких належить користувач-заповнювач.
+    delete_tooltip: "Видалити користувача-заповнювача"
     deletion_info:
-      heading: "Delete placeholder user %{name}"
+      heading: "Видалити користувача-заповнювача %{name}"
       data_consequences: >
-        All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user".
-        As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
-      irreversible: "This action is irreversible"
-      confirmation: "Enter the placeholder user name %{name} to confirm the deletion."
+        Усі екземпляри користувача-заповнювача (наприклад, виконавець, відповідальний або інші ролі користувачів) буде перепризначено обліковому запису з назвою «Видалений користувач».
+        Оскільки дані кожного видаленого облікового запису перепризначаються цьому обліковому запису, розрізняти дані, створені користувачем, від даних іншого видаленого облікового запису, може бути важко.
+      irreversible: "Цю дію не можна скасувати"
+      confirmation: "Введіть ім’я користувача-заповнювача %{name}, щоб підтвердити видалення."
     upsale:
       title: Надає роботу людям, які не є учасниками проєкту.
       description: >
@@ -813,7 +813,7 @@ uk:
         few: "Notifications"
         many: "Notifications"
         other: "Notifications"
-      placeholder_user: "Placeholder user"
+      placeholder_user: "Прототип користувача"
       project: "Проект"
       query: "Частковий запит"
       role:
@@ -895,6 +895,7 @@ uk:
     version: "Версія"
     work_package: "Пакет робіт"
   backup:
+    failed: "Backup failed"
     label_backup_token: "Backup token"
     label_create_token: "Create backup token"
     label_delete_token: "Delete backup token"
@@ -1730,9 +1731,9 @@ uk:
   label_permissions: "Дозволи"
   label_permissions_report: "Звіт про права доступу"
   label_personalize_page: "Персоналізуйте цю сторінку"
-  label_placeholder_user: "Placeholder user"
-  label_placeholder_user_new: "New placeholder user"
-  label_placeholder_user_plural: "Placeholder users"
+  label_placeholder_user: "Прототип користувача"
+  label_placeholder_user_new: "Створити прототип користувача"
+  label_placeholder_user_plural: "Протототипи користувачів"
   label_planning: "Планування"
   label_please_login: "Увійдіть у систему"
   label_plugins: "Плагіни"
@@ -2166,7 +2167,7 @@ uk:
   permission_add_messages: "Відправка повідомлень"
   permission_add_project: "Створити проект"
   permission_manage_user: "Create and edit users"
-  permission_manage_placeholder_user: "Create, edit, and delete placeholder users"
+  permission_manage_placeholder_user: "Створення, редагування та видалення прототипів користувачів"
   permission_add_subprojects: "Створення підпроектів"
   permission_add_work_package_watchers: "Додати спостерігачів"
   permission_assign_versions: "Призначити версії"

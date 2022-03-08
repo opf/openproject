@@ -879,6 +879,7 @@ ko:
     version: "버전"
     work_package: "작업 패키지"
   backup:
+    failed: "Backup failed"
     label_backup_token: "백업 토큰"
     label_create_token: "백업 토큰 생성"
     label_delete_token: "백업 토큰 제거"

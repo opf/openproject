@@ -890,6 +890,7 @@ ro:
     version: "Versiune"
     work_package: "Pachet de lucru"
   backup:
+    failed: "Backup failed"
     label_backup_token: "Token backup"
     label_create_token: "Creează token backup"
     label_delete_token: "Șterge token backup"

@@ -890,6 +890,7 @@ hr:
     version: "Verzija"
     work_package: "Radni paket"
   backup:
+    failed: "Backup failed"
     label_backup_token: "Backup token"
     label_create_token: "Create backup token"
     label_delete_token: "Delete backup token"

@@ -885,6 +885,7 @@ fa:
     version: "نسخه"
     work_package: "Work package"
   backup:
+    failed: "Backup failed"
     label_backup_token: "پشتیبان گیری توکن"
     label_create_token: "ایجاد پشتیبان گیری توکن"
     label_delete_token: "حذف پشتیبان گیری توکن"

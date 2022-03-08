@@ -885,6 +885,7 @@ fr:
     version: "Version"
     work_package: "Lot de travaux"
   backup:
+    failed: "Backup failed"
     label_backup_token: "Jeton de sauvegarde"
     label_create_token: "Créer un jeton de sauvegarde"
     label_delete_token: "Supprimer le jeton de sauvegarde"

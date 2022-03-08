@@ -895,6 +895,7 @@ cs:
     version: "Verze"
     work_package: "Pracovní balíček"
   backup:
+    failed: "Backup failed"
     label_backup_token: "Záložní token"
     label_create_token: "Vytvořit záložní token"
     label_delete_token: "Odstranit záložní token"

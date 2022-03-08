@@ -892,6 +892,7 @@ pl:
     version: "Wersja"
     work_package: "Zadanie"
   backup:
+    failed: "Backup failed"
     label_backup_token: "Token kopii zapasowej"
     label_create_token: "Utwórz token kopii zapasowej"
     label_delete_token: "Usuń token kopii zapasowej"
