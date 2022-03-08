@@ -470,7 +470,6 @@ th:
       repository:
         url: "URL"
       role:
-        assignable: "Work packages can be assigned to users and groups in possession of this role in the respective project"
         permissions: "สิทธิ์"
       time_entry:
         activity: "กิจกรรม"
@@ -887,6 +886,7 @@ th:
     version: "เวอร์ชัน"
     work_package: "ชุดภารกิจ"
   backup:
+    failed: "Backup failed"
     label_backup_token: "โทเค็น (token) สำรอง"
     label_create_token: "สร้าง โทเค็น (token) สำรอง"
     label_delete_token: "ลบ โทเค็น (token) สำรอง"
@@ -2182,6 +2182,8 @@ th:
   permission_view_timelines: "ดูแผนภูมิเวลา"
   permission_view_wiki_edits: "ดูประวัติวิกิ"
   permission_view_wiki_pages: "ดูวิกิ"
+  permission_work_package_assigned: "Become assignee/responsible"
+  permission_work_package_assigned_explanation: "Work packages can be assigned to users and groups in possession of this role in the respective project"
   placeholders:
     default: "-"
   project:

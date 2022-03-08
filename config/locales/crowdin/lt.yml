@@ -470,7 +470,6 @@ lt:
       repository:
         url: "URL"
       role:
-        assignable: "Darbų paketai gali būti priskirti naudotojams ir grupėms pagal vaidmenį atitinkamame projekte"
         permissions: "Leidimai"
       time_entry:
         activity: "Veikla"
@@ -899,6 +898,7 @@ lt:
     version: "Versija"
     work_package: "Darbų paketas"
   backup:
+    failed: "Backup failed"
     label_backup_token: "Atsarginės kopijos žetonas"
     label_create_token: "Sukurti atsarginės kopijos žetoną"
     label_delete_token: "Pašalinti atsarginės kopijos žetoną"
@@ -2235,6 +2235,8 @@ lt:
   permission_view_timelines: "Peržiūrėti laiko juostas"
   permission_view_wiki_edits: "Peržiūrėti wiki istoriją"
   permission_view_wiki_pages: "Peržiūrėti wiki"
+  permission_work_package_assigned: "Become assignee/responsible"
+  permission_work_package_assigned_explanation: "Darbų paketai gali būti priskirti naudotojams ir grupėms pagal vaidmenį atitinkamame projekte"
   placeholders:
     default: "-"
   project:

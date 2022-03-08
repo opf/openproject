@@ -469,7 +469,6 @@ hi:
       repository:
         url: "यू आर एल"
       role:
-        assignable: "Work packages can be assigned to users and groups in possession of this role in the respective project"
         permissions: "अनुमतियाँ"
       time_entry:
         activity: "गतिविधी"
@@ -890,6 +889,7 @@ hi:
     version: "संस्करण"
     work_package: "कार्य पैकेज"
   backup:
+    failed: "Backup failed"
     label_backup_token: "Backup token"
     label_create_token: "Create backup token"
     label_delete_token: "Delete backup token"
@@ -2198,6 +2198,8 @@ hi:
   permission_view_timelines: "View timelines"
   permission_view_wiki_edits: "View wiki history"
   permission_view_wiki_pages: "View wiki"
+  permission_work_package_assigned: "Become assignee/responsible"
+  permission_work_package_assigned_explanation: "Work packages can be assigned to users and groups in possession of this role in the respective project"
   placeholders:
     default: "-"
   project:

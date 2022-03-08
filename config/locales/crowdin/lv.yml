@@ -472,7 +472,6 @@ lv:
       repository:
         url: "URL"
       role:
-        assignable: "Work packages can be assigned to users and groups in possession of this role in the respective project"
         permissions: "Permissions"
       time_entry:
         activity: "Aktivitāte"
@@ -897,6 +896,7 @@ lv:
     version: "Versija"
     work_package: "Work package"
   backup:
+    failed: "Backup failed"
     label_backup_token: "Backup token"
     label_create_token: "Create backup token"
     label_delete_token: "Delete backup token"
@@ -2219,6 +2219,8 @@ lv:
   permission_view_timelines: "View timelines"
   permission_view_wiki_edits: "View wiki history"
   permission_view_wiki_pages: "View wiki"
+  permission_work_package_assigned: "Become assignee/responsible"
+  permission_work_package_assigned_explanation: "Work packages can be assigned to users and groups in possession of this role in the respective project"
   placeholders:
     default: "-"
   project:

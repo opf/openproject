@@ -470,7 +470,6 @@ sv:
       repository:
         url: "URL"
       role:
-        assignable: "Arbetspaket kan tilldelas användare och grupper som har denna roll i respektive projektet"
         permissions: "Behörigheter"
       time_entry:
         activity: "Aktivitet"
@@ -891,6 +890,7 @@ sv:
     version: "Version"
     work_package: "Arbetspaket"
   backup:
+    failed: "Backup failed"
     label_backup_token: "Backup token"
     label_create_token: "Create backup token"
     label_delete_token: "Delete backup token"
@@ -2199,6 +2199,8 @@ sv:
   permission_view_timelines: "Visa tidslinjer"
   permission_view_wiki_edits: "Visa historik över wiki"
   permission_view_wiki_pages: "Visa wiki"
+  permission_work_package_assigned: "Become assignee/responsible"
+  permission_work_package_assigned_explanation: "Arbetspaket kan tilldelas användare och grupper som har denna roll i respektive projektet"
   placeholders:
     default: "-"
   project:

@@ -471,7 +471,6 @@ fil:
       repository:
         url: "Ang URL"
       role:
-        assignable: "Ang mga work package ay maaring nakatalaga sa mga gumagamit at grupo sa possesyon ng tungkulin na ito sa nakatalagang proyekto"
         permissions: "Mga pahintulot"
       time_entry:
         activity: "Aktibidad"
@@ -892,6 +891,7 @@ fil:
     version: "Bersyon"
     work_package: "Work package"
   backup:
+    failed: "Backup failed"
     label_backup_token: "Backup token"
     label_create_token: "Create backup token"
     label_delete_token: "Delete backup token"
@@ -2200,6 +2200,8 @@ fil:
   permission_view_timelines: "Tingnan ang mga timeline"
   permission_view_wiki_edits: "Tingnan ang mga kasaysayan ng wiki"
   permission_view_wiki_pages: "Tanawin ang wiki"
+  permission_work_package_assigned: "Become assignee/responsible"
+  permission_work_package_assigned_explanation: "Ang mga work package ay maaring nakatalaga sa mga gumagamit at grupo sa possesyon ng tungkulin na ito sa nakatalagang proyekto"
   placeholders:
     default: "-"
   project:

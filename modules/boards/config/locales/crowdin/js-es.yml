@@ -2,6 +2,7 @@
 es:
   js:
     boards:
+      create_new: 'New board'
       label_unnamed_board: 'Panel sin nombre'
       label_unnamed_list: 'Lista sin nombre'
       label_board_type: 'Tipo de panel'

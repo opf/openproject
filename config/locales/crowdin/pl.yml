@@ -470,7 +470,6 @@ pl:
       repository:
         url: "ADRES URL"
       role:
-        assignable: "Pakiety robocze mogą być przypisane do użytkowników i grup znajdujących się w posiadaniu tej roli w odpowiednim projekcie"
         permissions: "Uprawnienia"
       time_entry:
         activity: "Działanie"
@@ -899,6 +898,7 @@ pl:
     version: "Wersja"
     work_package: "Zadanie"
   backup:
+    failed: "Backup failed"
     label_backup_token: "Token kopii zapasowej"
     label_create_token: "Utwórz token kopii zapasowej"
     label_delete_token: "Usuń token kopii zapasowej"
@@ -2234,6 +2234,8 @@ pl:
   permission_view_timelines: "Widok osi czasu"
   permission_view_wiki_edits: "WIdok historii wiki"
   permission_view_wiki_pages: "Widok wiki"
+  permission_work_package_assigned: "Become assignee/responsible"
+  permission_work_package_assigned_explanation: "Pakiety robocze mogą być przypisane do użytkowników i grup znajdujących się w posiadaniu tej roli w odpowiednim projekcie"
   placeholders:
     default: "-"
   project:

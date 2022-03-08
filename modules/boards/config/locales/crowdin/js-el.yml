@@ -2,6 +2,7 @@
 el:
   js:
     boards:
+      create_new: 'New board'
       label_unnamed_board: 'Ανώνυμος πίνακας'
       label_unnamed_list: 'Ανώνυμη λίστα'
       label_board_type: 'Τύπος πίνακα'

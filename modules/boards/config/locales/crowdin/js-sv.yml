@@ -2,6 +2,7 @@
 sv:
   js:
     boards:
+      create_new: 'New board'
       label_unnamed_board: 'Namnlös tavla'
       label_unnamed_list: 'Namnlös lista'
       label_board_type: 'Typ av tavla'

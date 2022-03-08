@@ -453,7 +453,6 @@ ca:
     label_starred_queries: "Vistes preferides"
     label_global_queries: "Vistes públiques"
     label_custom_queries: "Vistes privades"
-    label_create_new_query: "Crear nou"
     label_columns: "Columnes"
     label_attachments: Arxius
     label_drop_files: Arrossegueu els fitxers aquí

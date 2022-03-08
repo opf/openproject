@@ -468,7 +468,6 @@ es:
       repository:
         url: "URL"
       role:
-        assignable: "Los paquetes de trabajo se pueden asignar a usuarios y grupos con este papel en los proyectos correspondientes"
         permissions: "Permisos"
       time_entry:
         activity: "Actividad"
@@ -889,6 +888,7 @@ es:
     version: "Versión"
     work_package: "Paquete de trabajo"
   backup:
+    failed: "Backup failed"
     label_backup_token: "Token de copias de seguridad"
     label_create_token: "Crear token de copias de seguridad"
     label_delete_token: "Eliminar token de copias de seguridad"
@@ -2197,6 +2197,8 @@ es:
   permission_view_timelines: "Ver líneas de tiempo"
   permission_view_wiki_edits: "Ver historial wiki"
   permission_view_wiki_pages: "Ver wiki"
+  permission_work_package_assigned: "Become assignee/responsible"
+  permission_work_package_assigned_explanation: "Los paquetes de trabajo se pueden asignar a usuarios y grupos con este papel en los proyectos correspondientes"
   placeholders:
     default: "-"
   project:
