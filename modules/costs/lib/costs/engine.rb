@@ -248,12 +248,10 @@ module Costs
              writable: false
     end
 
-    initializer 'costs.register_latest_project_activity' do
+    config.to_prepare do
       Project.register_latest_project_activity on: 'TimeEntry',
                                                attribute: :updated_at
-    end
 
-    config.to_prepare do
       Costs::Patches::MembersPatch.mixin!
 
       ##
