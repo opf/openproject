@@ -18,7 +18,6 @@ import {
 import {
   BehaviorSubject,
   combineLatest,
-  from,
   Subject,
 } from 'rxjs';
 import {
@@ -362,9 +361,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
             // DnD configuration
             editable: true,
             droppable: true,
-            eventResize: (resizeInfo:EventResizeDoneArg) => {
-              const updater = from(this.updateEvent(resizeInfo));
-            },
+            eventResize: (resizeInfo:EventResizeDoneArg) => this.updateEvent(resizeInfo),
             eventDragStart: (dragInfo:EventDragStartArg) => {
               const { el } = dragInfo;
               el.style.pointerEvents = 'none';
@@ -407,6 +404,8 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
           const events = this.mapToCalendarEvents(workPackages.elements);
 
           this.viewLookup.destroyDetached();
+
+          this.removeExternalEvents();
 
           successCallback(events);
         },
@@ -686,5 +685,17 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
   private toggleAddExistingPane():void {
     this.showAddExistingPane.next(!this.showAddExistingPane.getValue());
     (this.addExistingToggle.nativeElement as HTMLElement).blur();
+  }
+
+  private removeExternalEvents():void {
+    this
+      .ucCalendar
+      .getApi()
+      .getEvents()
+      .forEach((evt) => {
+        if (evt.id.includes('external')) {
+          evt.remove();
+        }
+      });
   }
 }
