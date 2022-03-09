@@ -84,7 +84,7 @@ export class OpCkeditorComponent implements OnInit, OnDestroy {
 
   public manualMode = false;
 
-  private _content:string = '';
+  private _content = '';
 
   public text = {
     errorTitle: this.I18n.t('js.editor.ckeditor_error'),
