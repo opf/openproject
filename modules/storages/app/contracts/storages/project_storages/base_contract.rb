@@ -24,7 +24,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++c
+#++
 
 # A "contract" is an OpenProject patter used to validate parameters
 # before actually creating a model.
@@ -43,9 +43,7 @@ module Storages::ProjectStorages
     attribute :storage
     validates_presence_of :storage
 
-    # Attribute creator can be written by the creator of the object
-    # user is the actual user executing, creator is an attribute.
-    # So this check that the attribute is correct.
+    # Attribute "creator" can only have the value of current user.
     # "writable: false" means that the attribute can't be overwritten with an update.
     attribute :creator, writable: false do
       validate_creator_is_user
