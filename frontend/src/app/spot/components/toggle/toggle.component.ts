@@ -51,11 +51,11 @@ export class SpotToggleComponent<T> implements ControlValueAccessor {
 
   onTouched = (_:T):void => {};
 
-  registerOnChange(fn:any):void {
+  registerOnChange(fn:(_:T) => void):void {
     this.onChange = fn;
   }
 
-  registerOnTouched(fn:any):void {
+  registerOnTouched(fn:(_:T) => void):void {
     this.onTouched = fn;
   }
 }

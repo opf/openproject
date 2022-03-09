@@ -29,7 +29,7 @@ export class SpotDropModalComponent implements OnDestroy {
 
   @Output() closed = new EventEmitter<void>();
 
-  @Input('alignment') public alignment:SpotDropModalAlignmentOption = SpotDropModalAlignmentOption.BottomLeft;
+  @Input() public alignment:SpotDropModalAlignmentOption = SpotDropModalAlignmentOption.BottomLeft;
 
   @Input('open')
   set open(value:boolean) {
@@ -80,7 +80,7 @@ export class SpotDropModalComponent implements OnDestroy {
     document.body.removeEventListener('click', this.escapeListener);
   }
 
-  private closeEventListener = this.close.bind(this);
+  private closeEventListener = this.close.bind(this) as () => void;
 
   private onEscape = (evt:KeyboardEvent) => {
     if (evt.keyCode === KeyCodes.ESCAPE) {
@@ -88,5 +88,5 @@ export class SpotDropModalComponent implements OnDestroy {
     }
   };
 
-  private escapeListener = this.onEscape.bind(this);
+  private escapeListener = this.onEscape.bind(this) as () => void;
 }

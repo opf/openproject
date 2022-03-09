@@ -62,6 +62,9 @@ module.exports = {
           },
         ],
 
+        // Sometimes we need to shush the TypeScript compiler
+        "no-unused-vars": ["error", { "varsIgnorePattern": "^_" }],
+
         // Who cares about line length
         "max-len": "off",
 

@@ -17,6 +17,7 @@ export class SpotFilterChipComponent {
   @Input() removable = true;
 
   @Input() title = '';
+
   @Input() icon = '';
 
   @Output() remove = new EventEmitter<void>();
@@ -25,11 +26,11 @@ export class SpotFilterChipComponent {
     remove: this.i18n.t('js.spot.filter_chip.remove'),
   };
 
-  public get iconClasses() {
+  public get iconClasses():string[] {
     return [
       'spot-icon',
       `spot-icon_${this.icon}`,
-    ]; 
+    ];
   }
 
   constructor(readonly i18n:I18nService) {}

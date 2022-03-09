@@ -63,11 +63,11 @@ export class SpotCheckboxComponent implements ControlValueAccessor {
 
   onTouched = (_:SpotCheckboxState):void => {};
 
-  registerOnChange(fn:any):void {
+  registerOnChange(fn:(_:SpotCheckboxState) => void):void {
     this.onChange = fn;
   }
 
-  registerOnTouched(fn:any):void {
+  registerOnTouched(fn:(_:SpotCheckboxState) => void):void {
     this.onTouched = fn;
   }
 }

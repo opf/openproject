@@ -2,7 +2,6 @@
 
 const webfontsGenerator = require('webfonts-generator');
 const path = require('path');
-const fs = require('fs');
 const glob = require("glob")
 
 const TEMPLATE_DIR = path.resolve(process.argv[2]);

@@ -53,11 +53,11 @@ export class SpotTextFieldComponent implements ControlValueAccessor {
 
   onTouched = (_:string):void => {};
 
-  registerOnChange(fn:any):void {
+  registerOnChange(fn:(_:string) => void):void {
     this.onChange = fn;
   }
 
-  registerOnTouched(fn:any):void {
+  registerOnTouched(fn:(_:string) => void):void {
     this.onTouched = fn;
   }
 }
