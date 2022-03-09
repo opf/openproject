@@ -34,20 +34,25 @@ require 'contracts/shared/model_contract_shared_context'
 describe ::Storages::ProjectStorages::DeleteContract do
   include_context 'ModelContract shared context'
 
+  let(:current_user) { create(:user) }
   let(:role) { create(:existing_role, permissions: [:manage_storages_in_project]) }
   let(:project) { create(:project, members: { current_user => role }) }
-  let(:current_user) { create(:user) }
   let(:project_storage) { create(:project_storage, project: project) }
   let(:contract) { described_class.new(project_storage, current_user) }
 
   # Default test setup should be valid ("happy test setup").
-  # The example (in other words tests) below was included above from "ModelContract shared context".
-  # It assumes a current_user and and a contract to be defined.
+  # The example below was included above from "ModelContract shared context".
+  # This tests works with manage_storages_in_project permissions for current_user.
   it_behaves_like 'contract is valid'
 
+  # Now we remove the permissions from the user by creating a role without special perms.
   context 'without manage_storages_in_project permission for project' do
+    # existing_role is a role _without_ the :manage_storages_in_project permission
     let(:role) { create(:existing_role) }
 
     it_behaves_like 'contract is invalid'
   end
+
+  # Generic checks that the contract is valid for valid admin, but invalid otherwise
+  it_behaves_like 'contract is valid for active admins and invalid for regular users'
 end

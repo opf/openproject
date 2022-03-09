@@ -31,13 +31,20 @@
 # Used by: projects_storages_controller.rb and in the API
 module Storages::ProjectStorages
   class BaseContract < ::ModelContract
-    include ActiveModel::Validations # Include validation library
+    # "Concern" just injects a permission checking routine.
+    # Not sure where this concern is reused.
+    include ::Storages::ProjectStorages::Concerns::ManageStoragesGuarded
+    # Include validation library
+    include ActiveModel::Validations
 
     # Attributes project and storage can be written
     attribute :project
+    validates_presence_of :project
     attribute :storage
+    validates_presence_of :storage
 
-    # Attribute creator can be written by the creator of the object
+    # Attribute "creator" can only have the value of current user.
+    # "writable: false" means that the attribute can't be overwritten with an update.
     attribute :creator, writable: false do
       validate_creator_is_user
     end

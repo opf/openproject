@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,21 +26,31 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Storages::FileLinks::CreateContract < BaseContract
-  validate :validate_storage_url
-  validate :validate_user_allowed_to_manage
+require 'spec_helper'
+require_relative '../../../support/storage_server_helpers'
 
-  private
+shared_examples_for 'file_link contract' do
+  let(:current_user) { create(:user) }
+  let(:role) { create(:existing_role, permissions: [:manage_file_links]) }
+  let(:project) { create(:project, members: { current_user => role }) }
+  let(:work_package) { create(:work_package, project: project) }
+  let(:storage) { create(:storage) }
+  let(:file_link) { create(:file_link, container: work_package, storage: storage) }
 
-  # Check that the current has the permission on the project.
-  # model variable is available because the concern is executed inside a contract.
-  def validate_user_allowed_to_manage
-    unless user.allowed_to?(:manage_file_links, model.container.project)
-      errors.add :base, :error_unauthorized
+  it_behaves_like 'contract is valid for active admins and invalid for regular users'
+
+  describe 'validations' do
+    context 'when all attributes are valid' do
+      it_behaves_like 'contract is valid'
     end
-  end
 
-  def validate_storage_url
-    errors.add(:storage_id, :invalid) if model.storage_id.blank?
+    context 'when storage_id is invalid' do
+      context 'as it is empty' do
+        let(:storage_id) { "" }
+        let(:file_link) { create(:file_link, container: work_package, storage_id: storage_id) }
+
+        it_behaves_like 'contract is invalid'
+      end
+    end
   end
 end

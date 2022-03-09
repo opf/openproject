@@ -26,14 +26,22 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# The comments here are also valid for the other *_service.rb files
 # The logic for creating storage was extracted from the controller and put into
 # a service: https://dev.to/joker666/ruby-on-rails-pattern-service-objects-b19
 # Purpose: create and persist a Storages::Storage record
 # Used by: Storages::Admin::StoragesController#create, could also be used by the
-# API in the future
+# API in the future.
 # Reference: https://www.openproject.org/docs/development/concepts/contracted-services/
+# The comments here are also valid for the other *_service.rb files
 module Storages::Storages
   class CreateService < ::BaseServices::Create
+    protected
+
+    # Override the "creator_id" parameter with the actual user.
+    # before_perform is called in the service before attributes are set.
+    def before_perform(params, _service_result)
+      params[:creator_id] = user.id
+      super(params, _service_result)
+    end
   end
 end
