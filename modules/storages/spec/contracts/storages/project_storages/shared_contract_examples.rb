@@ -28,20 +28,52 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+# Include OpenProject support/*.rb files
 require 'spec_helper'
 
-# Purpose: Common testing logic between create and update specs.
-# These two contracts share a lot, they are also both children of a BaseContract.
+# Purpose: Common testing logic shared between create and update specs.
 shared_examples_for 'ProjectStorages contract' do
   let(:current_user) { create(:user) }
-  let(:role) { create(:existing_role, permissions: [:manage_storages_in_project]) }
-  let(:project) { create(:project, members: { current_user => role }) }
-  let(:storage) { create(:storage) }
+  # The user needs "edit_project" to see the project's settings page
+  let(:role) { create(:role, permissions: %i[manage_storages_in_project edit_project]) }
+  # Create a project managed by current user and with Storages enabled.
+  let(:project) do
+    create(:project,
+           members: { current_user => role },
+           enabled_module_names: %i[storages])
+  end
+  let(:storage) { create(:storage, name: "Storage 1") }
   let(:storage_creator) { current_user }
 
+  # This is not 100% precise, as the required permission is not :admin
+  # but :manage_storages_in_project, but let's still include this.
+  it_behaves_like 'contract is valid for active admins and invalid for regular users'
+
   describe 'validations' do
-    context 'when all attributes are valid' do
+    context 'when authorized, with permissions and all attributes are valid' do
       it_behaves_like 'contract is valid'
+    end
+
+    context 'when project is invalid' do
+      context 'as it is nil' do
+        let(:project) { nil }
+
+        it_behaves_like 'contract is invalid'
+      end
+    end
+
+    context 'when storage is invalid' do
+      context 'as it is nil' do
+        let(:storage) { nil }
+
+        it_behaves_like 'contract is invalid'
+      end
+    end
+
+    context 'when not the necessary permissions' do
+      let(:current_user) { build_stubbed(:user) }
+
+      it_behaves_like 'contract user is unauthorized'
     end
   end
 end

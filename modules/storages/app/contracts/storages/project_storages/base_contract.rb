@@ -24,20 +24,29 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+#++c
 
 # A "contract" is an OpenProject patter used to validate parameters
 # before actually creating a model.
 # Used by: projects_storages_controller.rb and in the API
 module Storages::ProjectStorages
   class BaseContract < ::ModelContract
-    include ActiveModel::Validations # Include validation library
+    # "Concern" just injects a permission checking routine.
+    # Not sure where this concern is reused.
+    include ::Storages::ProjectStorages::Concerns::ManageStoragesGuarded
+    # Include validation library
+    include ActiveModel::Validations
 
     # Attributes project and storage can be written
     attribute :project
+    validates_presence_of :project
     attribute :storage
+    validates_presence_of :storage
 
     # Attribute creator can be written by the creator of the object
+    # user is the actual user executing, creator is an attribute.
+    # So this check that the attribute is correct.
+    # "writable: false" means that the attribute can't be overwritten with an update.
     attribute :creator, writable: false do
       validate_creator_is_user
     end

@@ -26,21 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Storages::FileLinks::CreateContract < BaseContract
-  validate :validate_storage_url
-  validate :validate_user_allowed_to_manage
+require 'spec_helper'
+require 'contracts/shared/model_contract_shared_context'
+require_relative 'shared_contract_examples'
 
-  private
+describe Storages::FileLinks::CreateContract do
+  include_context 'ModelContract shared context'
 
-  # Check that the current has the permission on the project.
-  # model variable is available because the concern is executed inside a contract.
-  def validate_user_allowed_to_manage
-    unless user.allowed_to?(:manage_file_links, model.container.project)
-      errors.add :base, :error_unauthorized
-    end
-  end
-
-  def validate_storage_url
-    errors.add(:storage_id, :invalid) if model.storage_id.blank?
+  it_behaves_like 'file_link contract' do
+    let(:contract) { described_class.new(file_link, current_user) }
   end
 end
