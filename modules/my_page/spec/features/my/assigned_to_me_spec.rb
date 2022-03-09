@@ -148,11 +148,21 @@ describe 'Assigned to me embedded query on my page', type: :feature, js: true do
     subject_field.set_value 'Assigned to me'
     subject_field.save!
 
+    embedded_table.expect_toast(
+      message: 'Project can\'t be blank.',
+      type: :error
+    )
+
     # Set project
     project_field = embedded_table.edit_field(nil, :project)
     project_field.expect_active!
     project_field.openSelectField
     project_field.set_value project.name
+
+    embedded_table.expect_toast(
+      message: 'Type is not set to one of the allowed values.',
+      type: :error
+    )
 
     # Set type
     type_field = embedded_table.edit_field(nil, :type)
