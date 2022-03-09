@@ -82,6 +82,7 @@ describe 'API v3 file links resource', type: :request do
 
   describe 'POST /api/v3/work_packages/:work_package_id/file_links' do
     let(:path) { api_v3_paths.file_links(work_package.id) }
+    let(:permissions) { %i(view_work_packages manage_file_links) }
     let(:params) do
       {
         _type: "Collection",
