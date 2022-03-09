@@ -25,7 +25,7 @@
 
   &_selected
     background-color: $spot-color-main-light
-    op-icon
+    .op-icon--wrapper
       background: $spot-color-main-light
     &:hover
       .op-wp-single-card--inline-buttons
@@ -36,7 +36,7 @@
 
   &_closed:not(&_selected)
     background-color: $spot-color-basic-gray-6
-    op-icon
+    .op-icon--wrapper
       background: $spot-color-basic-gray-6
     &:hover
       .op-wp-single-card--inline-buttons
@@ -152,7 +152,7 @@
   &--inline-buttons
     opacity: 0
     padding-left: 40px
-    op-icon:not(&_selected)
+    .op-icon--wrapper:not(&_selected)
       background: $spot-color-basic-white
 
     &.-show
