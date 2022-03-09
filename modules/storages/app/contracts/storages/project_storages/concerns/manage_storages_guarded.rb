@@ -27,31 +27,14 @@
 #++
 
 # Purpose: This is a "concern" to check if a user is authorized to
-# Manage Storages. ToDo: Why "Guarded"?
-# It acts as a factored-out add-on to a model, that's why there is
-# model specific functions in the "included" callback.
-# Reference: Here is a tutorial about concerns. They basically inject
-# the content of the "included do ... end" block into their target.
-# http://vaidehijoshi.github.io/blog/2015/10/13/stop-worrying-and-start-being-concerned-activesupport-concerns/
-# Used by: base_contract.rb and therefore also in CreateContract.
-# This concern could also have been written using a validation in the contract.
-# However, as a concern it may be reused in other parts of the module (not yet).
-# Returns: An array of errors with section and code
-
-# ToDo: I tried to change the path to manage_project_storages_guarded.rb,
-# but got an error running the spec then.
-
+# Manage Storages and guard against unauthorized users.
+# See also: Storages::Storages::Concerns::ManageStoragesGuarded for more details
 module Storages::ProjectStorages
   module Concerns
     module ManageStoragesGuarded
-      # extend is like include, but imports methods as class (not instance) methods.
-      # Using extend ActiveSupport::Concern is part of the Concern pattern.
       extend ActiveSupport::Concern
 
-      # "included" is a callback that is invoked whenever this Concern is
-      # included in another module or class, injecting the contents of the do-end block
       included do
-        # Generic validation to call a custom procedure in a Rails
         validate :validate_user_allowed_to_manage
 
         private
