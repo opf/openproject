@@ -3,22 +3,22 @@
      [ngClass]="{'work-package--single-view_with-columns': showTwoColumnLayout()}"
      data-selector="wp-single-view">
   <div class="wp-new--subject-wrapper"
-       *ngIf="isNewResource(workPackage)">
+       *ngIf="isNewResource">
     <editable-attribute-field [resource]="workPackage"
                    [wrapperClasses]="'-no-label'"
                    [fieldName]="'subject'"></editable-attribute-field>
   </div>
 
   <div class="wp-info-wrapper">
-    <wp-status-button *ngIf="!isNewResource(workPackage)"
+    <wp-status-button *ngIf="!isNewResource"
                       [workPackage]="workPackage">
     </wp-status-button>
     <attribute-help-text [attribute]="'status'"
                          [attributeScope]="'WorkPackage'"
-                         *ngIf="!isNewResource(workPackage)"></attribute-help-text>
+                         *ngIf="!isNewResource"></attribute-help-text>
 
     <div class="work-packages--info-row"
-         *ngIf="!isNewResource(workPackage)">
+         *ngIf="!isNewResource">
       <span [textContent]="idLabel"></span>:
       <span [textContent]="text.infoRow.createdBy"></span>
       <!-- The space has to be in an extra span
@@ -61,7 +61,7 @@
 
   <div
     class="attributes-group -project-context hide-when-print"
-    *ngIf="!isNewResource(workPackage) && projectContext && !projectContext.matches"
+    *ngIf="!isNewResource && projectContext && !projectContext.matches"
   >
     <div>
       <p>
@@ -122,7 +122,7 @@
   </div>
 </div>
 
-<div class="work-packages--attachments attributes-group">
+<div class="work-packages--attachments attributes-group" *ngIf="isNewResource">
   <div class="work-packages--attachments-container">
     <div class="attributes-group--header">
       <div class="attributes-group--header-container">

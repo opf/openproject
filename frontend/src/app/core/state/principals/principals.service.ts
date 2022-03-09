@@ -24,6 +24,7 @@ import {
 import { ActionsService } from 'core-app/core/state/actions/actions.service';
 import { PrincipalsStore } from './principals.store';
 import { IPrincipal } from './principal.model';
+import { IUser } from 'core-app/core/state/principals/user.model';
 
 @EffectHandler
 @Injectable()
@@ -44,7 +45,22 @@ export class PrincipalsResourceService {
     private http:HttpClient,
     private apiV3Service:ApiV3Service,
     private toastService:ToastService,
-  ) {
+  ) { }
+
+  fetchUser(id:string|number):Observable<IUser> {
+    return this.http
+      .get<IUser>(this.apiV3Service.users.id(id).path)
+      .pipe(
+        tap((data) => {
+          applyTransaction(() => {
+            this.store.upsertMany([data]);
+          });
+        }),
+        catchError((error) => {
+          this.toastService.addError(error);
+          throw error;
+        }),
+      );
   }
 
   fetchPrincipals(params:ApiV3ListParameters):Observable<IHALCollection<IPrincipal>> {

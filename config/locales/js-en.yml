@@ -499,7 +499,7 @@ en:
     label_global_queries: "Public views"
     label_custom_queries: "Private views"
     label_columns: "Columns"
-    label_attachments: Files
+    label_attachments: Attachments
     label_drop_files: Drop files here
     label_drop_files_hint: or click to add files
     label_drop_folders_hint: You cannot upload folders as an attachment. Please select single files.
@@ -1071,7 +1071,7 @@ en:
         activity: Activity
         relations: Relations
         watchers: Watchers
-        attachments: Attachments
+        files: Files
       time_relative:
         days: "days"
         weeks: "weeks"
