@@ -38,8 +38,7 @@ class WorkPackages::UpdateAncestorsService
   end
 
   def call(attributes)
-    modified = update_ancestors(attributes)
-    modified += update_former_ancestors(attributes)
+    modified = update_current_and_former_ancestors(attributes)
 
     set_journal_note(modified)
 
@@ -59,22 +58,31 @@ class WorkPackages::UpdateAncestorsService
 
   private
 
-  def update_ancestors(attributes)
-    work_package.ancestors.includes(:status).select do |ancestor|
+  def update_current_and_former_ancestors(attributes)
+    to_update = get_current_ancestors
+
+    if (%i(parent_id parent) & attributes).any?
+      to_update += get_former_ancestors
+      to_update.uniq!
+    end
+
+    to_update.select do |ancestor|
       inherit_attributes(ancestor, attributes)
 
       ancestor.changed?
     end
   end
 
-  def update_former_ancestors(attributes)
-    return [] unless (%i(parent_id parent) & attributes).any? && previous_parent_id
+  def get_current_ancestors
+    work_package.ancestors.includes(:status)
+  end
+
+  def get_former_ancestors
+    return [] unless previous_parent_id
 
     parent = WorkPackage.find(previous_parent_id)
 
-    ([parent] + parent.ancestors).each do |ancestor|
-      inherit_attributes!(ancestor)
-    end.select(&:changed?)
+    [parent] + parent.ancestors
   end
 
   def inherit_attributes!(ancestor)
@@ -105,11 +113,9 @@ class WorkPackages::UpdateAncestorsService
     return if WorkPackage.use_status_for_done_ratio? && ancestor.status && ancestor.status.default_done_ratio
 
     # done ratio = weighted average ratio of leaves
-    ratio = aggregate_done_ratio(ancestor)
+    ratio = (aggregate_done_ratio(ancestor) || 0)
 
-    if ratio
-      ancestor.done_ratio = ratio.round
-    end
+    ancestor.done_ratio = ratio.round
   end
 
   ##
