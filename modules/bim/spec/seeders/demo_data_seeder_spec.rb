@@ -41,7 +41,7 @@ describe RootSeeder,
     expect(Project.count).to eq 4
     expect(WorkPackage.count).to eq 76
     expect(Wiki.count).to eq 3
-    expect(Query.count).to eq 25
+    expect(Query.count).to eq 29
     expect(Group.count).to eq 8
     expect(Type.count).to eq 7
     expect(Status.count).to eq 4
