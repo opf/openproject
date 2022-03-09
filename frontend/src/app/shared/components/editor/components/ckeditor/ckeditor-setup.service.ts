@@ -41,8 +41,8 @@ export class CKEditorSetupService {
     wrapper:HTMLElement, context:ICKEditorContext,
     initialData:string|null = null,
   ):Promise<ICKEditorWatchdog> {
-    // Load the bundle
-    this.loadedLocale = await CKEditorSetupService.load();
+    // Load the bundle and the matching locale, if found.
+    await this.load();
 
     const { type } = context;
     const editorClass = type === 'constrained' ? window.OPConstrainedEditor : window.OPClassicEditor;
@@ -104,25 +104,19 @@ export class CKEditorSetupService {
   /**
    * Load the ckeditor asset
    */
-  private static async load():Promise<string> {
+  private async load():Promise<void> {
     // untyped module cannot be dynamically imported
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     await import(/* webpackChunkName: "ckeditor" */ 'core-vendor/ckeditor/ckeditor.js');
 
-    /** If we're on the english locale, there is no file to load */
-    if (I18n.locale === 'en') {
-      return 'en';
-    }
-
     try {
       await import(
         /* webpackChunkName: "ckeditor-translation" */ `../../../../../../vendor/ckeditor/translations/${I18n.locale}.js`
       ) as unknown;
-      return I18n.locale;
+      this.loadedLocale = I18n.locale;
     } catch (e:unknown) {
       console.warn(`Failed to load translation for CKEditor: ${e as string}`);
-      return 'en';
     }
   }
 
