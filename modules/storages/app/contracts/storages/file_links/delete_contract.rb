@@ -26,11 +26,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Purpose: validate the model before deletion
-# Used by: Storages::FileLinks::DeleteService (looked up in BaseServices::Delete#default_contract_class)
+# ToDo: Why is there only one contract for FileLinks?
+# Used by: ???
+# Why here two module blocks instead of Storages::FileLinks?
 module Storages
   module FileLinks
     class DeleteContract < ::ModelContract
+      # ToDo: What is this? Where is this used?
+      # Such a class method does not exist in the other contracts
+      # in this module. It does exist in other parts of OpenProject, though.
+      def self.model
+        Storages::FileLink
+      end
+
       # Check permissions to delete(?) this FileLink
       validate :validate_manage_allowed
 

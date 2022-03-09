@@ -31,6 +31,8 @@
 require 'spec_helper'
 require 'services/base_services/behaves_like_update_service'
 
-describe PlaceholderUsers::UpdateService, type: :model do
-  it_behaves_like 'BaseServices update service'
+describe ::Storages::Storages::UpdateService, type: :model do
+  it_behaves_like 'BaseServices update service' do
+    let(:factory) { :storage }
+  end
 end
