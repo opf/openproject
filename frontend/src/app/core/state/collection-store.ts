@@ -11,10 +11,7 @@ import {
   listParamsString,
 } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import { Observable } from 'rxjs';
-import {
-  filter,
-} from 'rxjs/operators';
-import { HasId } from 'core-app/core/apiv3/cache/state-cache.service';
+import { filter } from 'rxjs/operators';
 
 export interface CollectionResponse {
   ids:ID[];
