@@ -64,6 +64,8 @@ module Storages::Storages
     end
 
     def validate_host_reachable
+      return unless model.host_changed?
+
       response = request_capabilities
 
       unless response.is_a? Net::HTTPSuccess
@@ -95,6 +97,9 @@ module Storages::Storages
       request["Accept"] = "application/json"
 
       req_options = {
+        max_retries: 0,
+        open_timeout: 5, # seconds
+        read_timeout: 3, # seconds
         use_ssl: uri.scheme == "https"
       }
 

@@ -117,6 +117,11 @@ shared_examples_for 'storage contract', :storage_server_helpers, webmock: true d
       end
 
       context 'when provider_type is nextcloud' do
+        before do
+          # simulate host value changed to have GET request sent to check host URL validity
+          storage.host_will_change!
+        end
+
         context 'when response code is a 404 NOT FOUND' do
           let(:host_response_code) { '404' }
 
