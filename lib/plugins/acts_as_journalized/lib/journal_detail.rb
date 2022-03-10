@@ -26,8 +26,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-#-- encoding: UTF-8
-
 class JournalDetail
   attr_reader :prop_key, :value, :old_value
 

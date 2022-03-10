@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 Gem::Specification.new do |s|
   s.name        = "openproject-two_factor_authentication"
   s.version     = '1.0.0'
