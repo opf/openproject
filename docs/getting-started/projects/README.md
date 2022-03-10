@@ -46,7 +46,7 @@ Projects and subprojects are displayed according to their hierarchy in the drop-
 
 Also, you will see your newest projects on the application landing page in the **Projects** section. Here you can simply click on one of the newest visible projects to open it.
 
-![Bildschirmfoto 2022-02-17 um 12.40.04](/Users/jankeppler/Library/Application Support/typora-user-images/Bildschirmfoto 2022-02-17 um 12.40.04.png)
+![openproject-landing-page](/Users/jankeppler/Library/Application Support/typora-user-images/Bildschirmfoto 2022-02-17 um 12.40.04.png)
 
 ## Create a new project
 

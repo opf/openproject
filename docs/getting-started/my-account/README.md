@@ -29,7 +29,7 @@ To open your personal settings in OpenProject, click on your user icon in the to
 
 Choose **My account**.
 
-![Bildschirmfoto 2022-03-02 um 14.40.32](Bildschirmfoto 2022-03-02 um 14.40.32.png)
+![my-account-profil](Bildschirmfoto 2022-03-02 um 14.40.32.png)
 
 ## Change password
 
@@ -41,7 +41,7 @@ Enter your new password and confirm it a second time.
 
 Press the blue **Save** button in order to confirm the password changes.
 
-![Bildschirmfoto 2022-03-02 um 16.10.17](Bildschirmfoto 2022-03-02 um 16.10.17.png)
+![my-account-change-password](Bildschirmfoto 2022-03-02 um 16.10.17.png)
 
 <div class="alert alert-info" role="alert">
 Note: You cannot reset your Google password in OpenProject. If you authenticate with a Google/Gmail account, please go to your Google account administration in order to change your password.
@@ -61,7 +61,7 @@ Also, you can activate a **warning if you are leaving a work package with unsave
 
 Additionally, you can activate to **auto-hide success notifications** from the system. This (only) means that the green pop-up success notifications will be removed automatically after five seconds.
 
-![profile-settings](profile-settings.png)
+![my-account-settings](profile-settings.png)
 
 ### Change your language
 
@@ -69,7 +69,7 @@ To change the language in OpenProject, navigate to the **My account** settings a
 
 Here you can choose between multiple languages.
 
-![Bildschirmfoto 2022-03-02 um 14.44.45](Bildschirmfoto 2022-03-02 um 14.44.45.png)
+![my-account-change-language](Bildschirmfoto 2022-03-02 um 14.44.45.png)
 
 OpenProject is translated to more than 30 languages, like German, Chinese, French, Italian, Korean, Latvian, Lithuanian, Polish, Portuguese, Russian, Spanish, Turkish and many more. If you do not see your preferred language in the My account settings, the language needs to be activated by your system administrator in the [system's settings](../../system-admin-guide/system-settings/display-settings).
 
@@ -81,7 +81,7 @@ If you want to help us to add further languages or to add the translations in yo
 
 You can choose a time zone in which you work and how the comments and changes will be saved.
 
-![Bildschirmfoto 2022-03-02 um 14.47.20](Bildschirmfoto 2022-03-02 um 14.47.20.png)
+![my-account-change-time-zone](Bildschirmfoto 2022-03-02 um 14.47.20.png)
 
 Pressing the blue **Save** button will save your changes.
 
@@ -91,7 +91,7 @@ You can select the order of the comments (for example of the comments for a work
 
 If you choose newest first the latest comment will appear on top in the Activity list.
 
-![order-to-display-comments](order-to-display-comments.png)
+![my-account-settings-comments](order-to-display-comments.png)
 
 ### Backlogs settings
 
@@ -103,13 +103,13 @@ There are two personal settings available for the [Backlogs module](../../user-g
 
 In order to activate the two-factor authentication for your OpenProject installation, navigate to your **My account** and choose the **Two-factor authentication** in the menu.
 
-![Bildschirmfoto 2022-03-02 um 14.50.58](Bildschirmfoto 2022-03-02 um 14.50.58.png)
+![two-factor-authentication](Bildschirmfoto 2022-03-02 um 14.50.58.png)
 
 In order to register a new device for two-factor authentication, lick the green button to add a **new 2FA device**.
 
 To receive the second factor, you can use an authentication app on your mobile phone, such as Google Authenticator or Authy. You have to enter the code that is displaed in the authentication app to your login.
 
-![Bildschirmfoto 2022-03-02 um 15.43.40](Bildschirmfoto 2022-03-02 um 15.43.40.png)
+![app-based-autentication](Bildschirmfoto 2022-03-02 um 15.43.40.png)
 
 ### Backup codes
 
@@ -149,7 +149,7 @@ Default: Enable daily email reminders: 2am, Monday - Friday.
 
 You can choose to receive emails immediately, or only on certain days and times, temporarily pause reminder emails, or opt for no reminders at all.
 
- ![Bildschirmfoto 2022-03-02 um 16.02.09](Bildschirmfoto 2022-03-02 um 16.02.09.png)
+ ![email-reminders](Bildschirmfoto 2022-03-02 um 16.02.09.png)
 
 You can also opt-in to receive **email alerts for other items (that are not work packages)** whenever one of your project members:
 
@@ -174,7 +174,7 @@ Also, you can upload a **Custom Avatar** by choosing a Avatar to be uploaded fro
 Note: The optimum size to upload a new profile picture is 128 by 128 pixel. Larger files will be cropped.
 </div>
 
-![Bildschirmfoto 2022-03-02 um 16.11.12](Bildschirmfoto 2022-03-02 um 16.11.12.png)
+![change-avatar](Bildschirmfoto 2022-03-02 um 16.11.12.png)
 
 
 
@@ -186,7 +186,7 @@ If you cannot see the entry **Delete account** in the **My account** side menu, 
 
 To delete your account, select **Delete account** from the side menu and enter your login to confirm the deletion.
 
-![Bildschirmfoto 2022-03-02 um 16.15.19](Bildschirmfoto 2022-03-02 um 16.15.19.png)
+![delete-account](Bildschirmfoto 2022-03-02 um 16.15.19.png)
 
 <div class="alert alert-info" role="alert">
 Important: Deleting a user account is permanent and cannot be reversed.
