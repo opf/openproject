@@ -186,6 +186,8 @@ gem 'ruby-progressbar', '~> 1.11.0', require: false
 
 gem 'mini_magick', '~> 4.11.0', require: false
 
+gem 'validate_url'
+
 # Sentry error reporting, loaded on demand
 group :sentry do
   gem "sentry-delayed_job", '~> 5.1.0', require: false

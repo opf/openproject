@@ -1137,6 +1137,7 @@ DEPENDENCIES
   timecop (~> 0.9.0)
   typed_dag (~> 2.0.2)
   tzinfo-data (~> 1.2021.1)
+  validate_url
   warden (~> 1.2)
   warden-basic_auth (~> 0.2.1)
   webdrivers (~> 5.0.0)

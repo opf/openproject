@@ -51,12 +51,11 @@ module Storages::Storages
     end
 
     attribute :host
-    validates :host, length: { minimum: 1, maximum: 255 }, allow_nil: false
-    validates_url :host
+    validates :host, url: true
 
     # Check that a host actually is a storage server.
     # But only do so if the validations above for URL were successful.
-    validate :validate_host_reachable, if: -> { errors[:host].empty? }
+    validate :validate_host_reachable, unless: -> { errors.include?(:host) }
 
     def validate_creator_is_user
       unless creator == user
