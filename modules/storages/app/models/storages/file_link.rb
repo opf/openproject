@@ -60,6 +60,8 @@ class Storages::FileLink < ApplicationRecord
       .merge(Project.allowed_to(user, :view_file_links))
   }
 
+  delegate :project, to: :container
+
   def name
     origin_name
   end

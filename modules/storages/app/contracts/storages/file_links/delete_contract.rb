@@ -30,19 +30,9 @@
 # Used by: Storages::FileLinks::DeleteService (looked up in BaseServices::Delete#default_contract_class)
 module Storages
   module FileLinks
-    class DeleteContract < ::ModelContract
-      # Check permissions to delete(?) this FileLink
-      validate :validate_manage_allowed
-
-      # The permission check below doesn't need to be visible in other parts.
-      private
-
-      # Just check the global permissions system
-      def validate_manage_allowed
-        unless user.allowed_to?(:manage_file_links, model.container.project)
-          errors.add :base, :error_unauthorized
-        end
-      end
+    class DeleteContract < ::DeleteContract
+      # Check permissions to delete this FileLink
+      delete_permission :manage_file_links
     end
   end
 end
