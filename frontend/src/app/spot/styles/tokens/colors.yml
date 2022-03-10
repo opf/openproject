@@ -37,7 +37,7 @@ props:
   - name: spot-color-danger-light
     value: "#F4ABA9"
 
-  - name: spot-color-indication-notification
+  - name: spot-color-indication-attention
     value: "#00A3FF"
   - name: spot-color-indication-flagged
     value: "#1CB6C0"
