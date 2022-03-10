@@ -773,7 +773,7 @@ GEM
     rchardet (1.8.0)
     rdoc (6.4.0)
       psych (>= 4.0.0)
-    recaptcha (5.8.1)
+    recaptcha (5.9.0)
       json
     redcarpet (3.5.1)
     regexp_parser (2.2.1)
