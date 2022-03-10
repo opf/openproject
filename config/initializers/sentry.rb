@@ -1,20 +1,7 @@
 if OpenProject::Logging::SentryLogger.enabled?
-  ##
-  # Define the SentryJob here, as sentry gets dynamically loaded
-  class SentryJob < Sentry::SendEventJob
-    queue_with_priority :low
-  end
-
   Sentry.init do |config|
     config.dsn = OpenProject::Logging::SentryLogger.sentry_dsn
     config.breadcrumbs_logger = OpenProject::Configuration.sentry_breadcrumb_loggers.map(&:to_sym)
-
-    # Submit events as delayed job only when requested to do that
-    if ENV['OPENPROJECT_SENTRY_DELAYED_JOB'] == 'true'
-      config.async = lambda do |event, hint|
-        ::SentryJob.perform_later(event, hint)
-      end
-    end
 
     # Output debug info for sentry
     config.before_send = lambda do |event, hint|
