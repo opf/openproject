@@ -115,5 +115,15 @@ module OpenProject::Storages
     add_api_path :file_link_open do |file_link_id|
       "#{root}/file_links/#{file_link_id}/open"
     end
+
+    # Add api endpoints specific to this module
+    add_api_endpoint 'API::V3::Root' do
+      mount ::API::V3::Storages::StoragesAPI
+      mount ::API::V3::FileLinks::FileLinksAPI
+    end
+
+    add_api_endpoint 'API::V3::WorkPackages::WorkPackagesAPI' do
+      mount ::API::V3::FileLinks::WorkPackagesFileLinksAPI
+    end
   end
 end

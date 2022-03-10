@@ -19,7 +19,7 @@ module API::V3::FileLinks
     def present_success(request, call)
       render_representer.create(
         call.result,
-        self_link: request.api_v3_paths.file_links_by_work_package(request.work_package.id),
+        self_link: request.api_v3_paths.file_links(request.work_package.id),
         current_user: request.current_user
       )
     end

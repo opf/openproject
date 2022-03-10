@@ -198,10 +198,6 @@ module API
             "#{root}/custom_options/#{id}"
           end
 
-          def self.file_links_by_work_package(id)
-            "#{work_package(id)}/file_links"
-          end
-
           index :help_text
           show :help_text
 
