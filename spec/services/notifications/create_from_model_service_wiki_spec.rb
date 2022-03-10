@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 require 'spec_helper'
 require_relative './create_from_journal_job_shared'
@@ -37,17 +35,17 @@ describe Notifications::CreateFromModelService, 'wiki', with_settings: { journal
 
   include_context 'with CreateFromJournalJob context'
 
-  shared_let(:project) { FactoryBot.create(:project) }
-  shared_let(:wiki) { FactoryBot.create(:wiki, project: project) }
+  shared_let(:project) { create(:project) }
+  shared_let(:wiki) { create(:wiki, project: project) }
 
   let(:permissions) { [:view_wiki_pages] }
   let(:send_notifications) { true }
 
   let(:wiki_page) do
-    FactoryBot.create(:wiki_page,
-                      wiki: wiki,
-                      content: FactoryBot.build(:wiki_content,
-                                                author: other_user))
+    create(:wiki_page,
+           wiki: wiki,
+           content: build(:wiki_content,
+                          author: other_user))
   end
   let(:resource) { wiki_page.content }
   let(:journal) { resource.journals.last }
@@ -66,11 +64,9 @@ describe Notifications::CreateFromModelService, 'wiki', with_settings: { journal
           let(:notification_channel_reasons) do
             {
               read_ian: nil,
-              reason_ian: false,
-              read_mail: false,
-              reason_mail: :subscribed,
-              read_mail_digest: nil,
-              reason_mail_digest: false
+              reason: :subscribed,
+              mail_alert_sent: false,
+              mail_reminder_sent: nil
             }
           end
         end
@@ -79,9 +75,7 @@ describe Notifications::CreateFromModelService, 'wiki', with_settings: { journal
       context 'with the user having registered for involved notifications' do
         let(:recipient_notification_settings) do
           [
-            FactoryBot.build(:mail_notification_setting, **notification_settings_all_false.merge(involved: true)),
-            FactoryBot.build(:in_app_notification_setting, **notification_settings_all_false.merge(involved: true)),
-            FactoryBot.build(:mail_digest_notification_setting, **notification_settings_all_false.merge(involved: true))
+            build(:notification_setting, **notification_settings_all_false.merge(involved: true))
           ]
         end
 
@@ -91,9 +85,7 @@ describe Notifications::CreateFromModelService, 'wiki', with_settings: { journal
       context 'with the user having registered for no notifications' do
         let(:recipient_notification_settings) do
           [
-            FactoryBot.build(:mail_notification_setting, **notification_settings_all_false),
-            FactoryBot.build(:in_app_notification_setting, **notification_settings_all_false),
-            FactoryBot.build(:mail_digest_notification_setting, **notification_settings_all_false)
+            build(:notification_setting, **notification_settings_all_false)
           ]
         end
 
@@ -103,9 +95,7 @@ describe Notifications::CreateFromModelService, 'wiki', with_settings: { journal
       context 'with the user having registered for watcher notifications and watching the wiki' do
         let(:recipient_notification_settings) do
           [
-            FactoryBot.build(:mail_notification_setting, **notification_settings_all_false.merge(watched: true)),
-            FactoryBot.build(:in_app_notification_setting, **notification_settings_all_false.merge(watched: true)),
-            FactoryBot.build(:mail_digest_notification_setting, **notification_settings_all_false.merge(watched: true))
+            build(:notification_setting, **notification_settings_all_false.merge(watched: true))
           ]
         end
 
@@ -117,11 +107,9 @@ describe Notifications::CreateFromModelService, 'wiki', with_settings: { journal
           let(:notification_channel_reasons) do
             {
               read_ian: nil,
-              reason_ian: false,
-              read_mail: false,
-              reason_mail: :watched,
-              read_mail_digest: nil,
-              reason_mail_digest: false
+              reason: :watched,
+              mail_alert_sent: false,
+              mail_reminder_sent: nil
             }
           end
         end
@@ -130,9 +118,7 @@ describe Notifications::CreateFromModelService, 'wiki', with_settings: { journal
       context 'with the user not having registered for watcher notifications and watching the wiki' do
         let(:recipient_notification_settings) do
           [
-            FactoryBot.build(:mail_notification_setting, **notification_settings_all_false),
-            FactoryBot.build(:in_app_notification_setting, **notification_settings_all_false),
-            FactoryBot.build(:mail_digest_notification_setting, **notification_settings_all_false)
+            build(:notification_setting, **notification_settings_all_false)
           ]
         end
 
@@ -146,9 +132,7 @@ describe Notifications::CreateFromModelService, 'wiki', with_settings: { journal
       context 'with the user having registered for watcher notifications and not watching the wiki' do
         let(:recipient_notification_settings) do
           [
-            FactoryBot.build(:mail_notification_setting, **notification_settings_all_false.merge(watched: true)),
-            FactoryBot.build(:in_app_notification_setting, **notification_settings_all_false.merge(watched: true)),
-            FactoryBot.build(:mail_digest_notification_setting, **notification_settings_all_false.merge(watched: true))
+            build(:notification_setting, **notification_settings_all_false.merge(watched: true))
           ]
         end
 
@@ -173,11 +157,9 @@ describe Notifications::CreateFromModelService, 'wiki', with_settings: { journal
           let(:notification_channel_reasons) do
             {
               read_ian: nil,
-              reason_ian: false,
-              read_mail: false,
-              reason_mail: :subscribed,
-              read_mail_digest: nil,
-              reason_mail_digest: false
+              reason: :subscribed,
+              mail_alert_sent: false,
+              mail_reminder_sent: nil
             }
           end
         end
@@ -186,9 +168,7 @@ describe Notifications::CreateFromModelService, 'wiki', with_settings: { journal
       context 'with the user having registered for involved notifications' do
         let(:recipient_notification_settings) do
           [
-            FactoryBot.build(:mail_notification_setting, **notification_settings_all_false.merge(involved: true)),
-            FactoryBot.build(:in_app_notification_setting, **notification_settings_all_false.merge(involved: true)),
-            FactoryBot.build(:mail_digest_notification_setting, **notification_settings_all_false.merge(involved: true))
+            build(:notification_setting, **notification_settings_all_false.merge(involved: true))
           ]
         end
 
@@ -198,9 +178,7 @@ describe Notifications::CreateFromModelService, 'wiki', with_settings: { journal
       context 'with the user having registered for no notifications' do
         let(:recipient_notification_settings) do
           [
-            FactoryBot.build(:mail_notification_setting, **notification_settings_all_false),
-            FactoryBot.build(:in_app_notification_setting, **notification_settings_all_false),
-            FactoryBot.build(:mail_digest_notification_setting, **notification_settings_all_false)
+            build(:notification_setting, **notification_settings_all_false)
           ]
         end
 
@@ -210,9 +188,7 @@ describe Notifications::CreateFromModelService, 'wiki', with_settings: { journal
       context 'with the user having registered for watcher notifications and watching the wiki' do
         let(:recipient_notification_settings) do
           [
-            FactoryBot.build(:mail_notification_setting, **notification_settings_all_false.merge(watched: true)),
-            FactoryBot.build(:in_app_notification_setting, **notification_settings_all_false.merge(watched: true)),
-            FactoryBot.build(:mail_digest_notification_setting, **notification_settings_all_false.merge(watched: true))
+            build(:notification_setting, **notification_settings_all_false.merge(watched: true))
           ]
         end
 
@@ -224,11 +200,9 @@ describe Notifications::CreateFromModelService, 'wiki', with_settings: { journal
           let(:notification_channel_reasons) do
             {
               read_ian: nil,
-              reason_ian: false,
-              read_mail: false,
-              reason_mail: :watched,
-              read_mail_digest: nil,
-              reason_mail_digest: false
+              reason: :watched,
+              mail_reminder_sent: nil,
+              mail_alert_sent: false
             }
           end
         end
@@ -237,9 +211,7 @@ describe Notifications::CreateFromModelService, 'wiki', with_settings: { journal
       context 'with the user not having registered for watcher notifications and watching the wiki' do
         let(:recipient_notification_settings) do
           [
-            FactoryBot.build(:mail_notification_setting, **notification_settings_all_false),
-            FactoryBot.build(:in_app_notification_setting, **notification_settings_all_false),
-            FactoryBot.build(:mail_digest_notification_setting, **notification_settings_all_false)
+            build(:notification_setting, **notification_settings_all_false)
           ]
         end
 
@@ -253,9 +225,7 @@ describe Notifications::CreateFromModelService, 'wiki', with_settings: { journal
       context 'with the user having registered for watcher notifications and not watching the wiki nor the page' do
         let(:recipient_notification_settings) do
           [
-            FactoryBot.build(:mail_notification_setting, **notification_settings_all_false.merge(watched: true)),
-            FactoryBot.build(:in_app_notification_setting, **notification_settings_all_false.merge(watched: true)),
-            FactoryBot.build(:mail_digest_notification_setting, **notification_settings_all_false.merge(watched: true))
+            build(:notification_setting, **notification_settings_all_false.merge(watched: true))
           ]
         end
 
@@ -265,9 +235,7 @@ describe Notifications::CreateFromModelService, 'wiki', with_settings: { journal
       context 'with the user having registered for watcher notifications and watching the page' do
         let(:recipient_notification_settings) do
           [
-            FactoryBot.build(:mail_notification_setting, **notification_settings_all_false.merge(watched: true)),
-            FactoryBot.build(:in_app_notification_setting, **notification_settings_all_false.merge(watched: true)),
-            FactoryBot.build(:mail_digest_notification_setting, **notification_settings_all_false.merge(watched: true))
+            build(:notification_setting, **notification_settings_all_false.merge(watched: true))
           ]
         end
 
@@ -279,11 +247,9 @@ describe Notifications::CreateFromModelService, 'wiki', with_settings: { journal
           let(:notification_channel_reasons) do
             {
               read_ian: nil,
-              reason_ian: false,
-              read_mail: false,
-              reason_mail: :watched,
-              read_mail_digest: nil,
-              reason_mail_digest: false
+              reason: :watched,
+              mail_alert_sent: false,
+              mail_reminder_sent: nil
             }
           end
         end
@@ -292,9 +258,7 @@ describe Notifications::CreateFromModelService, 'wiki', with_settings: { journal
       context 'with the user not having registered for watcher notifications and watching the page' do
         let(:recipient_notification_settings) do
           [
-            FactoryBot.build(:mail_notification_setting, **notification_settings_all_false),
-            FactoryBot.build(:in_app_notification_setting, **notification_settings_all_false),
-            FactoryBot.build(:mail_digest_notification_setting, **notification_settings_all_false)
+            build(:notification_setting, **notification_settings_all_false)
           ]
         end
 

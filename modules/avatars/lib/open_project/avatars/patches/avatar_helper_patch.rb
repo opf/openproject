@@ -21,6 +21,7 @@ require 'avatar_helper'
 
 AvatarHelper.class_eval do
   include ::GravatarImageTag
+  include ::AngularHelper
 
   GravatarImageTag.configure do |c|
     c.include_size_attributes = false
@@ -83,16 +84,20 @@ AvatarHelper.class_eval do
     def build_principal_avatar_tag(user, options = {})
       tag_options = merge_default_avatar_options(user, options)
 
-      content_tag 'op-principal',
-                  '',
-                  class: tag_options[:class],
-                  data: {
-                    'principal-id': user.id,
-                    'principal-name': user.name,
-                    'principal-type': API::V3::Principals::PrincipalType.for(user),
-                    'size': tag_options[:size],
-                    'hide-name': tag_options[:hide_name]
-                  }
+      principal_type = API::V3::Principals::PrincipalType.for(user)
+      principal = {
+        href: API::V3::Utilities::PathHelper::ApiV3Path.send(principal_type, user.id),
+        name: user.name,
+        id: user.id
+      }
+
+      angular_component_tag 'op-principal',
+                            class: tag_options[:class],
+                            inputs: {
+                              principal: principal,
+                              size: tag_options[:size],
+                              hideName: tag_options[:hide_name]
+                            }
     end
 
     def merge_default_avatar_options(user, options)

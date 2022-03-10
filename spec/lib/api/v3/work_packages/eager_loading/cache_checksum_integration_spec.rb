@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,23 +23,23 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++require 'rspec'
 
 require 'spec_helper'
 require_relative './eager_loading_mock_wrapper'
 
 describe ::API::V3::WorkPackages::EagerLoading::Checksum do
-  let(:responsible) { FactoryBot.create(:user) }
-  let(:assignee) { FactoryBot.create(:user) }
-  let(:category) { FactoryBot.create(:category) }
-  let(:version) { FactoryBot.create(:version) }
+  let(:responsible) { create(:user) }
+  let(:assignee) { create(:user) }
+  let(:category) { create(:category) }
+  let(:version) { create(:version) }
   let!(:work_package) do
-    FactoryBot.create(:work_package,
-                      responsible: responsible,
-                      assigned_to: assignee,
-                      version: version,
-                      category: category)
+    create(:work_package,
+           responsible: responsible,
+           assigned_to: assignee,
+           version: version,
+           category: category)
   end
   let!(:type) { work_package.type }
   let!(:project) { work_package.project }

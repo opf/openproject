@@ -15,6 +15,8 @@ import { ProjectResource } from 'core-app/features/hal/resources/project-resourc
 export class BoardAssigneeActionService extends CachedBoardActionService {
   filterName = 'assignee';
 
+  resourceName = 'assignee';
+
   text = this.I18n.t('js.boards.board_type.board_type_title.assignee');
 
   description = this.I18n.t('js.boards.board_type.action_text_assignee');
@@ -63,7 +65,7 @@ export class BoardAssigneeActionService extends CachedBoardActionService {
   /**
    * Returns the current filter value if any
    * @param query
-   * @returns The loaded action reosurce
+   * @returns The loaded action resource
    */
   getLoadedActionValue(query:QueryResource):Promise<HalResource|undefined> {
     const filter = this.getActionFilter(query);

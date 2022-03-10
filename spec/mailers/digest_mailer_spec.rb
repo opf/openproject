@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -37,32 +35,33 @@ describe DigestMailer, type: :mailer do
   include Redmine::I18n
 
   let(:recipient) do
-    FactoryBot.build_stubbed(:user).tap do |u|
+    build_stubbed(:user).tap do |u|
       allow(User)
         .to receive(:find)
               .with(u.id)
               .and_return(u)
     end
   end
-  let(:project1) { FactoryBot.build_stubbed(:project) }
+  let(:project1) { build_stubbed(:project) }
 
   let(:work_package) do
-    FactoryBot.build_stubbed(:work_package,
-                             type: FactoryBot.build_stubbed(:type))
+    build_stubbed(:work_package,
+                  type: build_stubbed(:type))
   end
   let(:journal) do
-    FactoryBot.build_stubbed(:work_package_journal,
-                             notes: 'Some notes').tap do |j|
+    build_stubbed(:work_package_journal,
+                  notes: 'Some notes').tap do |j|
       allow(j)
         .to receive(:details)
               .and_return({ "subject" => ["old subject", "new subject"] })
     end
   end
   let(:notifications) do
-    [FactoryBot.build_stubbed(:notification,
-                              resource: work_package,
-                              journal: journal,
-                              project: project1)].tap do |notifications|
+    [build_stubbed(:notification,
+                   resource: work_package,
+                   reason: :commented,
+                   journal: journal,
+                   project: project1)].tap do |notifications|
       allow(Notification)
         .to receive(:where)
               .and_return(notifications)
@@ -80,9 +79,7 @@ describe DigestMailer, type: :mailer do
 
     it 'notes the day and the number of notifications in the subject' do
       expect(mail.subject)
-        .to eql I18n.t('mail.digests.work_packages.subject',
-                       date: format_time_as_date(Time.current),
-                       number: 1)
+        .to eql "OpenProject - 1 unread notification"
     end
 
     it 'sends to the recipient' do
@@ -95,8 +92,8 @@ describe DigestMailer, type: :mailer do
         .to receive(:current)
               .and_return(Time.current)
 
-      expect(mail['Message-ID']&.value)
-        .to eql "<openproject.digest-#{recipient.id}-#{Time.current.strftime('%Y%m%d%H%M%S')}@example.net>"
+      expect(mail.message_id)
+        .to eql "op.digest.#{Time.current.strftime('%Y%m%d%H%M%S')}.#{recipient.id}@example.net"
     end
 
     it 'sets the expected openproject headers' do
@@ -104,20 +101,22 @@ describe DigestMailer, type: :mailer do
         .to eql recipient.name
     end
 
-    it 'includes the notifications grouped by project and work package' do
+    it 'includes the notifications grouped by work package' do
+      time_stamp = journal.created_at.strftime('%m/%d/%Y, %I:%M %p')
       expect(mail_body)
-        .to have_selector('body section h1', text: project1.name)
+        .to have_text("Hey #{recipient.firstname}!")
 
-      expected = "#{work_package.type.name} ##{work_package.id} #{work_package.status.name}: #{work_package.subject}"
+      expected_notification_subject = "#{work_package.type.name.upcase} #{work_package.subject}"
       expect(mail_body)
-        .to have_selector('body section section h2', text: expected)
+        .to have_text(expected_notification_subject, normalize_ws: true)
 
+      expected_notification_header = "#{work_package.status.name} ##{work_package.id} - #{work_package.project}"
       expect(mail_body)
-        .to have_selector('body section section p.op-uc-p', text: journal.notes)
+        .to have_text(expected_notification_header, normalize_ws: true)
 
+      expected_text = "#{journal.initial? ? 'Created' : 'Updated'} at #{time_stamp} by #{recipient.name}"
       expect(mail_body)
-        .to have_selector('body section section li',
-                          text: "Subject changed from old subject to new subject")
+        .to have_text(expected_text, normalize_ws: true)
     end
 
     context 'with only a deleted work package for the digest' do

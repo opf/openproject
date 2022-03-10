@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -32,10 +32,10 @@ require_relative './shared_contract_examples'
 describe Projects::UpdateContract do
   it_behaves_like 'project contract' do
     let(:project) do
-      FactoryBot.build_stubbed(:project,
-                               active: project_active,
-                               public: project_public,
-                               status: project_status).tap do |p|
+      build_stubbed(:project,
+                    active: project_active,
+                    public: project_public,
+                    status: project_status).tap do |p|
         # in order to actually have something changed
         p.name = project_name
         p.parent = project_parent

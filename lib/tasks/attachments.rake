@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,13 +23,13 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 namespace :attachments do
   desc 'Clear all attachments created before yesterday'
   task clear: [:environment] do
-    CarrierWave.clean_cached_files!
+    Attachment.clean_cached_files!
   end
 
   desc 'Copies all attachments from the current to the given storage.'
@@ -83,7 +81,7 @@ namespace :attachments do
       # file in the target location.
       def self.store!(attachment)
         return nil unless attachment.attributes['file'].present? &&
-                          File.exists?(attachment.file.path)
+                          File.exist?(attachment.file.path)
 
         new.tap do |target|
           target.id = attachment.id

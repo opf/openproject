@@ -1,8 +1,6 @@
-# encoding: utf-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 FactoryBot.define do
@@ -49,7 +47,7 @@ FactoryBot.define do
       project.enabled_module_names = project.enabled_module_names - disabled_modules
 
       if !evaluator.no_types && project.types.empty?
-        project.types << (::Type.where(is_standard: true).first || FactoryBot.build(:type_standard))
+        project.types << (::Type.where(is_standard: true).first || build(:type_standard))
       end
     end
 
@@ -77,9 +75,9 @@ FactoryBot.define do
       # when we will be setting the type later on anyway
       initialize_with do
         types = if instance_variable_get(:@build_strategy).is_a?(FactoryBot::Strategy::Stub)
-                  [FactoryBot.build_stubbed(:type)]
+                  [build_stubbed(:type)]
                 else
-                  [FactoryBot.build(:type)]
+                  [build(:type)]
                 end
 
         new(types: types)
@@ -87,7 +85,7 @@ FactoryBot.define do
 
       factory :valid_project do
         callback(:after_build) do |project|
-          project.types << FactoryBot.build(:type_with_workflow)
+          project.types << build(:type_with_workflow)
         end
       end
     end

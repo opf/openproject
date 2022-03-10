@@ -9,7 +9,7 @@ import { Observable, Subject, combineLatest } from 'rxjs';
 import {
   debounceTime, distinctUntilChanged, filter, map,
 } from 'rxjs/operators';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
@@ -34,7 +34,7 @@ export class RoleSearchComponent extends UntilDestroyedMixin implements OnInit {
   constructor(
     readonly I18n:I18nService,
     readonly elementRef:ElementRef,
-    readonly apiV3Service:APIV3Service,
+    readonly apiV3Service:ApiV3Service,
   ) {
     super();
 

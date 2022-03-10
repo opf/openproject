@@ -1,3 +1,31 @@
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2022 the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
 # Will create journals for a journable (e.g. WorkPackage and Meeting)
 # As a journal is basically a copy of the current state of the database, consisting of the journable as well as its
 # custom values and attachments, those entries are copied in the database.
@@ -42,12 +70,11 @@ module Journals
       predecessor = journal.previous
 
       if aggregatable?(predecessor, journal)
+        notify_aggregation_destruction(predecessor, journal)
+
         predecessor.destroy
-        if predecessor.notes.present?
-          journal.update_columns(notes: predecessor.notes, version: predecessor.version)
-        else
-          journal.update_columns(version: predecessor.version)
-        end
+
+        take_over_journal_details(predecessor, journal)
       end
     end
 
@@ -464,6 +491,20 @@ module Journals
         predecessor.created_at >= journal.created_at - Setting.journal_aggregation_time_minutes.to_i.minutes &&
         predecessor.user_id == journal.user_id &&
         (predecessor.notes.empty? || journal.notes.empty?)
+    end
+
+    def notify_aggregation_destruction(predecessor, journal)
+      OpenProject::Notifications.send(OpenProject::Events::JOURNAL_AGGREGATE_BEFORE_DESTROY,
+                                      journal: journal,
+                                      predecessor: predecessor)
+    end
+
+    def take_over_journal_details(predecessor, journal)
+      if predecessor.notes.present?
+        journal.update_columns(notes: predecessor.notes, version: predecessor.version)
+      else
+        journal.update_columns(version: predecessor.version)
+      end
     end
   end
 end

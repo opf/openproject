@@ -4,23 +4,23 @@ describe 'Parallel work package creation spec', js: true do
   let(:type) { project.types.first }
 
   let(:permissions) { %i(view_work_packages add_work_packages edit_work_packages) }
-  let(:role) { FactoryBot.create :role, permissions: permissions }
+  let(:role) { create :role, permissions: permissions }
   let(:user) do
-    FactoryBot.create :user,
-                      member_in_project: project,
-                      member_through_role: role
+    create :user,
+           member_in_project: project,
+           member_through_role: role
   end
-  let(:status) { FactoryBot.create(:default_status) }
+  let(:status) { create(:default_status) }
   let(:workflow) do
-    FactoryBot.create :workflow,
-                      type_id: type.id,
-                      old_status: status,
-                      new_status: FactoryBot.create(:status),
-                      role: role
+    create :workflow,
+           type_id: type.id,
+           old_status: status,
+           new_status: create(:status),
+           role: role
   end
 
-  let!(:project) { FactoryBot.create(:project, public: true) }
-  let!(:priority) { FactoryBot.create :priority, is_default: true }
+  let!(:project) { create(:project, public: true) }
+  let!(:priority) { create :priority, is_default: true }
   let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
 
   before do
@@ -61,10 +61,10 @@ describe 'Parallel work package creation spec', js: true do
     expect(page).to have_selector('.wp--row', count: 1)
     expect(page).to have_no_selector('.wp-inline-create-row')
 
-    wp_table.expect_notification(
+    wp_table.expect_toast(
       message: 'Successful creation. Click here to open this work package in fullscreen view.'
     )
-    wp_table.dismiss_notification!
+    wp_table.dismiss_toaster!
 
     # Get the last work package
     wp1 = WorkPackage.last
@@ -92,10 +92,10 @@ describe 'Parallel work package creation spec', js: true do
     subject_field.expect_value 'New subject'
     subject_field.save!
 
-    wp_table.expect_notification(
+    wp_table.expect_toast(
       message: 'Successful creation.'
     )
-    wp_table.dismiss_notification!
+    wp_table.dismiss_toaster!
     expect(page).to have_selector('.wp--row', count: 2)
     expect(page).to have_no_selector('.wp-inline-create-row')
 

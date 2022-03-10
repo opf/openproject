@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module ProjectsHelper
@@ -85,9 +83,9 @@ module ProjectsHelper
   end
 
   def project_more_menu_settings_item(project)
-    if User.current.allowed_to?({ controller: '/project_settings/generic', action: 'show' }, project)
+    if User.current.allowed_to?({ controller: '/projects/settings/general', action: 'show', project_id: project.id }, project)
       [t(:label_project_settings),
-       { controller: '/project_settings/generic', action: 'show', id: project },
+       project_settings_general_path(project),
        { class: 'icon-context icon-settings',
          title: t(:label_project_settings) }]
     end
@@ -96,9 +94,9 @@ module ProjectsHelper
   def project_more_menu_archive_item(project)
     if User.current.admin? && project.active?
       [t(:button_archive),
-       archive_project_path(project, status: params[:status]),
+       project_archive_path(project, status: params[:status]),
        { data: { confirm: t('project.archive.are_you_sure', name: project.name) },
-         method: :put,
+         method: :post,
          class: 'icon-context icon-locked',
          title: t(:button_archive) }]
     end
@@ -107,8 +105,8 @@ module ProjectsHelper
   def project_more_menu_unarchive_item(project)
     if User.current.admin? && !project.active? && (project.parent.nil? || project.parent.active?)
       [t(:button_unarchive),
-       unarchive_project_path(project, status: params[:status]),
-       { method: :put,
+       project_archive_path(project, status: params[:status]),
+       { method: :delete,
          class: 'icon-context icon-unlocked',
          title: t(:button_unarchive) }]
     end

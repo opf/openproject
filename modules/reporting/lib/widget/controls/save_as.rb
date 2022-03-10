@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 class Widget::Controls::SaveAs < Widget::Controls
@@ -63,7 +63,7 @@ class Widget::Controls::SaveAs < Widget::Controls
     if @options[:can_save_as_public]
       box = content_tag :p, class: 'form--field -wide-label' do
         label_tag(:query_is_public,
-                  Query.human_attribute_name(:is_public),
+                  Query.human_attribute_name(:public),
                   class: 'form--label -transparent') +
           content_tag(:span,
                       class: 'form--field-container') do

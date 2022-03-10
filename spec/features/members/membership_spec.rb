@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,51 +23,51 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 feature 'Administrating memberships via the project settings', type: :feature, js: true do
-  shared_let(:admin) { FactoryBot.create :admin }
+  shared_let(:admin) { create :admin }
   let(:current_user) do
-    FactoryBot.create(:user,
-                      member_in_project: project,
-                      member_through_role: manager)
+    create(:user,
+           member_in_project: project,
+           member_through_role: manager)
   end
-  let!(:project) { FactoryBot.create :project }
+  let!(:project) { create :project }
 
   let!(:peter) do
-    FactoryBot.create :user,
-                      status: User.statuses[:active],
-                      firstname: 'Peter',
-                      lastname: 'Pan',
-                      mail: 'foo@example.org',
-                      preferences: { hide_mail: false }
+    create :user,
+           status: User.statuses[:active],
+           firstname: 'Peter',
+           lastname: 'Pan',
+           mail: 'foo@example.org',
+           preferences: { hide_mail: false }
   end
   let!(:hannibal) do
-    FactoryBot.create :user,
-                      status: User.statuses[:invited],
-                      firstname: 'Hannibal',
-                      lastname: 'Smith',
-                      mail: 'boo@bar.org',
-                      preferences: { hide_mail: true }
+    create :user,
+           status: User.statuses[:invited],
+           firstname: 'Hannibal',
+           lastname: 'Smith',
+           mail: 'boo@bar.org',
+           preferences: { hide_mail: true }
   end
-  let!(:developer_placeholder) { FactoryBot.create :placeholder_user, name: 'Developer 1' }
+  let!(:developer_placeholder) { create :placeholder_user, name: 'Developer 1' }
   let!(:crash) do
-    FactoryBot.create :user,
-                      firstname: "<script>alert('h4x');</script>",
-                      lastname: "<script>alert('h4x');</script>"
+    create :user,
+           firstname: "<script>alert('h4x');</script>",
+           lastname: "<script>alert('h4x');</script>"
   end
   let!(:group) do
-    FactoryBot.create(:group, lastname: 'A-Team', members: [peter, hannibal])
+    create(:group, lastname: 'A-Team', members: [peter, hannibal])
   end
 
-  let!(:manager)   { FactoryBot.create :role, name: 'Manager', permissions: [:manage_members] }
-  let!(:developer) { FactoryBot.create :role, name: 'Developer' }
-  let(:member1) { FactoryBot.create(:member, principal: peter, project: project, roles: [manager]) }
-  let(:member2) { FactoryBot.create(:member, principal: hannibal, project: project, roles: [developer]) }
-  let(:member3) { FactoryBot.create(:member, principal: group, project: project, roles: [manager]) }
+  let!(:manager)   { create :role, name: 'Manager', permissions: [:manage_members] }
+  let!(:developer) { create :role, name: 'Developer' }
+  let(:member1) { create(:member, principal: peter, project: project, roles: [manager]) }
+  let(:member2) { create(:member, principal: hannibal, project: project, roles: [developer]) }
+  let(:member3) { create(:member, principal: group, project: project, roles: [manager]) }
 
   let!(:existing_members) { [] }
 

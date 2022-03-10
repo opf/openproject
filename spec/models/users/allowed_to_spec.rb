@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,35 +23,35 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 describe User, 'allowed_to?' do
-  let(:user) { FactoryBot.build(:user) }
-  let(:anonymous) { FactoryBot.build(:anonymous) }
-  let(:project) { FactoryBot.build(:project, public: false) }
-  let(:project2) { FactoryBot.build(:project, public: false) }
-  let(:role) { FactoryBot.build(:role) }
-  let(:role2) { FactoryBot.build(:role) }
-  let(:anonymous_role) { FactoryBot.build(:anonymous_role) }
+  let(:user) { build(:user) }
+  let(:anonymous) { build(:anonymous) }
+  let(:project) { build(:project, public: false) }
+  let(:project2) { build(:project, public: false) }
+  let(:role) { build(:role) }
+  let(:role2) { build(:role) }
+  let(:anonymous_role) { build(:anonymous_role) }
   let(:member) do
-    FactoryBot.build(:member, project: project,
+    build(:member, project: project,
                               roles: [role],
                               principal: user)
   end
   let(:member2) do
-    FactoryBot.build(:member, project: project2,
+    build(:member, project: project2,
                               roles: [role2],
                               principal: user)
   end
   let(:global_permission) { OpenProject::AccessControl.permissions.find { |p| p.global? } }
-  let(:global_role) { FactoryBot.build(:global_role, permissions: [global_permission.name]) }
+  let(:global_role) { build(:global_role, permissions: [global_permission.name]) }
   let(:global_member) do
-    FactoryBot.build(:global_member,
-                     principal: user,
-                     roles: [global_role])
+    build(:global_member,
+          principal: user,
+          roles: [global_role])
   end
 
   before do
@@ -73,8 +73,8 @@ describe User, 'allowed_to?' do
         final_setup_step
       end
 
-      it 'should be true' do
-        expect(user.allowed_to?(permission, project)).to be_truthy
+      it 'is true' do
+        expect(user).to be_allowed_to(permission, project)
       end
     end
 
@@ -87,8 +87,8 @@ describe User, 'allowed_to?' do
         final_setup_step
       end
 
-      it 'should be false' do
-        expect(user.allowed_to?(permission, project)).to be_falsey
+      it 'is false' do
+        expect(user).not_to be_allowed_to(permission, project)
       end
     end
 
@@ -101,8 +101,25 @@ describe User, 'allowed_to?' do
         final_setup_step
       end
 
-      it 'should be false' do
-        expect(user.allowed_to?(permission, project)).to be_falsey
+      it 'is false' do
+        expect(user).not_to be_allowed_to(permission, project)
+      end
+    end
+
+    context 'w/ the user being admin
+             w/ the permission not automatically granted to admins' do
+      let(:permission) { :work_package_assigned }
+
+      before do
+        user.update(admin: true)
+
+        project.save
+
+        final_setup_step
+      end
+
+      it 'is false' do
+        expect(user).not_to be_allowed_to(permission, project)
       end
     end
 
@@ -114,8 +131,8 @@ describe User, 'allowed_to?' do
         final_setup_step
       end
 
-      it 'should be false' do
-        expect(user.allowed_to?(permission, project)).to be_falsey
+      it 'is false' do
+        expect(user).not_to be_allowed_to(permission, project)
       end
     end
 
@@ -129,8 +146,8 @@ describe User, 'allowed_to?' do
         final_setup_step
       end
 
-      it 'should be true' do
-        expect(user.allowed_to?(permission, project)).to be_truthy
+      it 'is true' do
+        expect(user).to be_allowed_to(permission, project)
       end
     end
 
@@ -148,8 +165,8 @@ describe User, 'allowed_to?' do
         final_setup_step
       end
 
-      it 'should be false' do
-        expect(user.allowed_to?(permission, project)).to be_falsey
+      it 'is false' do
+        expect(user).not_to be_allowed_to(permission, project)
       end
     end
 
@@ -168,8 +185,8 @@ describe User, 'allowed_to?' do
         final_setup_step
       end
 
-      it 'should be false' do
-        expect(user.allowed_to?(permission, project)).to be_falsey
+      it 'is false' do
+        expect(user).not_to be_allowed_to(permission, project)
       end
     end
 
@@ -187,8 +204,8 @@ describe User, 'allowed_to?' do
         final_setup_step
       end
 
-      it 'should be false' do
-        expect(user.allowed_to?(permission, project)).to be_falsey
+      it 'is false' do
+        expect(user).not_to be_allowed_to(permission, project)
       end
     end
 
@@ -205,8 +222,8 @@ describe User, 'allowed_to?' do
         final_setup_step
       end
 
-      it 'should be true' do
-        expect(user.allowed_to?(permission, project)).to be_truthy
+      it 'is true' do
+        expect(user).to be_allowed_to(permission, project)
       end
     end
 
@@ -224,8 +241,8 @@ describe User, 'allowed_to?' do
         final_setup_step
       end
 
-      it 'should be false' do
-        expect(user.allowed_to?(permission, project)).to be_falsey
+      it 'is false' do
+        expect(user).not_to be_allowed_to(permission, project)
       end
     end
 
@@ -243,8 +260,8 @@ describe User, 'allowed_to?' do
         final_setup_step
       end
 
-      it 'should be true' do
-        expect(user.allowed_to?(permission, project)).to be_truthy
+      it 'is true' do
+        expect(user).to be_allowed_to(permission, project)
       end
     end
 
@@ -264,8 +281,8 @@ describe User, 'allowed_to?' do
         final_setup_step
       end
 
-      it 'should be false' do
-        expect(user.allowed_to?(permission, project)).to be_falsey
+      it 'is false' do
+        expect(user).not_to be_allowed_to(permission, project)
       end
     end
 
@@ -281,8 +298,8 @@ describe User, 'allowed_to?' do
         final_setup_step
       end
 
-      it 'should be true' do
-        expect(anonymous.allowed_to?(permission, project)).to be_truthy
+      it 'is true' do
+        expect(anonymous).to be_allowed_to(permission, project)
       end
     end
 
@@ -300,8 +317,8 @@ describe User, 'allowed_to?' do
         final_setup_step
       end
 
-      it 'should be true' do
-        expect(anonymous.allowed_to?(permission, project)).to be_truthy
+      it 'is true' do
+        expect(anonymous).to be_allowed_to(permission, project)
       end
     end
 
@@ -309,7 +326,7 @@ describe User, 'allowed_to?' do
              w/ requesting a controller and action allowed by multiple permissions
              w/ the project being public
              w/ anonymous being allowed the action' do
-      let(:permission) { { controller: '/project_settings/categories', action: 'show' } }
+      let(:permission) { { controller: '/projects/settings/categories', action: 'show' } }
 
       before do
         project.public = true
@@ -320,9 +337,9 @@ describe User, 'allowed_to?' do
         final_setup_step
       end
 
-      it 'should be true' do
-        expect(anonymous.allowed_to?(permission, project))
-          .to be_truthy
+      it 'is true' do
+        expect(anonymous)
+          .to be_allowed_to(permission, project)
       end
     end
 
@@ -336,8 +353,8 @@ describe User, 'allowed_to?' do
         final_setup_step
       end
 
-      it 'should be false' do
-        expect(anonymous.allowed_to?(permission, project)).to be_falsey
+      it 'is false' do
+        expect(anonymous).not_to be_allowed_to(permission, project)
       end
     end
 
@@ -353,8 +370,8 @@ describe User, 'allowed_to?' do
         final_setup_step
       end
 
-      it 'should be true' do
-        expect(user.allowed_to?(permission, [project, project2])).to be_truthy
+      it 'is true' do
+        expect(user).to be_allowed_to(permission, [project, project2])
       end
     end
 
@@ -369,8 +386,8 @@ describe User, 'allowed_to?' do
         final_setup_step
       end
 
-      it 'should be false' do
-        expect(user.allowed_to?(permission, [project, project2])).to be_falsey
+      it 'is false' do
+        expect(user).not_to be_allowed_to(permission, [project, project2])
       end
     end
 
@@ -387,8 +404,8 @@ describe User, 'allowed_to?' do
         final_setup_step
       end
 
-      it 'should be true' do
-        expect(user.allowed_to?(permission, [project, project2])).to be_truthy
+      it 'is true' do
+        expect(user).to be_allowed_to(permission, [project, project2])
       end
     end
 
@@ -405,8 +422,8 @@ describe User, 'allowed_to?' do
         final_setup_step
       end
 
-      it 'should be false' do
-        expect(user.allowed_to?(permission, [project, project2])).to be_falsey
+      it 'is false' do
+        expect(user).not_to be_allowed_to(permission, [project, project2])
       end
     end
 
@@ -422,7 +439,7 @@ describe User, 'allowed_to?' do
       end
 
       it 'is false' do
-        expect(user.allowed_to?(global_permission.name, project)).to be_falsey
+        expect(user).not_to be_allowed_to(global_permission.name, project)
       end
     end
 
@@ -438,9 +455,9 @@ describe User, 'allowed_to?' do
         final_setup_step
       end
 
-      it 'should be true' do
-        expect(user.allowed_to?({ controller: 'wiki', action: 'show' }, project))
-          .to be_truthy
+      it 'is true' do
+        expect(user)
+          .to be_allowed_to({ controller: 'wiki', action: 'show' }, project)
       end
     end
 
@@ -456,9 +473,9 @@ describe User, 'allowed_to?' do
         final_setup_step
       end
 
-      it 'should be true' do
-        expect(user.allowed_to?({ controller: 'projects', action: 'show' }, project))
-          .to be_truthy
+      it 'is true' do
+        expect(user)
+          .to be_allowed_to({ controller: 'projects', action: 'show' }, project)
       end
     end
   end
@@ -475,8 +492,8 @@ describe User, 'allowed_to?' do
         final_setup_step
       end
 
-      it 'should be true' do
-        expect(user.allowed_to?(permission, nil, global: true)).to be_truthy
+      it 'is true' do
+        expect(user).to be_allowed_to(permission, nil, global: true)
       end
     end
 
@@ -488,8 +505,8 @@ describe User, 'allowed_to?' do
         final_setup_step
       end
 
-      it 'should be false' do
-        expect(user.allowed_to?(permission, nil, global: true)).to be_falsey
+      it 'is false' do
+        expect(user).not_to be_allowed_to(permission, nil, global: true)
       end
     end
 
@@ -503,8 +520,8 @@ describe User, 'allowed_to?' do
         final_setup_step
       end
 
-      it 'should be true' do
-        expect(user.allowed_to?(permission, nil, global: true)).to be_truthy
+      it 'is true' do
+        expect(user).to be_allowed_to(permission, nil, global: true)
       end
     end
 
@@ -521,9 +538,9 @@ describe User, 'allowed_to?' do
         final_setup_step
       end
 
-      it 'should be true' do
-        expect(user.allowed_to?({ controller: 'wiki', action: 'show' }, nil, global: true))
-          .to be_truthy
+      it 'is true' do
+        expect(user)
+          .to be_allowed_to({ controller: 'wiki', action: 'show' }, nil, global: true)
       end
     end
 
@@ -539,8 +556,8 @@ describe User, 'allowed_to?' do
         final_setup_step
       end
 
-      it 'should be true' do
-        expect(user.allowed_to?(permission, nil, global: true)).to be_truthy
+      it 'is true' do
+        expect(user).to be_allowed_to(permission, nil, global: true)
       end
     end
 
@@ -553,8 +570,8 @@ describe User, 'allowed_to?' do
         final_setup_step
       end
 
-      it 'should be true' do
-        expect(user.allowed_to?(permission, nil, global: true)).to be_truthy
+      it 'is true' do
+        expect(user).to be_allowed_to(permission, nil, global: true)
       end
     end
 
@@ -568,7 +585,7 @@ describe User, 'allowed_to?' do
       end
 
       it 'is true' do
-        expect(user.allowed_to?(global_permission.name, nil, global: true)).to be_truthy
+        expect(user).to be_allowed_to(global_permission.name, nil, global: true)
       end
     end
 
@@ -583,7 +600,7 @@ describe User, 'allowed_to?' do
       end
 
       it 'is false' do
-        expect(user.allowed_to?(global_permission.name, nil, global: true)).to be_falsey
+        expect(user).not_to be_allowed_to(global_permission.name, nil, global: true)
       end
     end
 
@@ -595,7 +612,7 @@ describe User, 'allowed_to?' do
       end
 
       it 'is false' do
-        expect(user.allowed_to?(global_permission.name, nil, global: true)).to be_falsey
+        expect(user).not_to be_allowed_to(global_permission.name, nil, global: true)
       end
     end
 
@@ -607,8 +624,8 @@ describe User, 'allowed_to?' do
         final_setup_step
       end
 
-      it 'should be true' do
-        expect(anonymous.allowed_to?(permission, nil, global: true)).to be_truthy
+      it 'is true' do
+        expect(anonymous).to be_allowed_to(permission, nil, global: true)
       end
     end
 
@@ -627,9 +644,9 @@ describe User, 'allowed_to?' do
         final_setup_step
       end
 
-      it 'should be true' do
-        expect(user.allowed_to?({ controller: '/project_settings/categories', action: 'show' }, nil, global: true))
-          .to be_truthy
+      it 'is true' do
+        expect(user)
+          .to be_allowed_to({ controller: '/projects/settings/categories', action: 'show' }, nil, global: true)
       end
     end
 
@@ -639,8 +656,8 @@ describe User, 'allowed_to?' do
         final_setup_step
       end
 
-      it 'should be false' do
-        expect(anonymous.allowed_to?(permission, nil, global: true)).to be_falsey
+      it 'is false' do
+        expect(anonymous).not_to be_allowed_to(permission, nil, global: true)
       end
     end
   end

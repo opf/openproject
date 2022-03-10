@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,20 +23,20 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 describe 'Todolists in CKEditor', js: true do
-  let(:user) { FactoryBot.create :admin }
+  let(:user) { create :admin }
 
   before do
     login_as user
   end
 
   describe 'with an existing work package' do
-    let(:work_package) { FactoryBot.create :work_package }
+    let(:work_package) { create :work_package }
     let(:wp_page) { ::Pages::FullWorkPackage.new(work_package) }
     let(:field) { wp_page.edit_field :description }
     let(:ckeditor) { field.ckeditor }
@@ -80,7 +80,7 @@ describe 'Todolists in CKEditor', js: true do
 
       field.submit_by_click
 
-      wp_page.expect_and_dismiss_notification message: 'Successful update.'
+      wp_page.expect_and_dismiss_toaster message: 'Successful update.'
 
       within(field.display_element) do
         expect(page).to have_selector('.op-uc-list--task-checkbox', count: 5)
@@ -119,7 +119,7 @@ describe 'Todolists in CKEditor', js: true do
       end
 
       field.submit_by_click
-      wp_page.expect_and_dismiss_notification message: 'Successful update.'
+      wp_page.expect_and_dismiss_toaster message: 'Successful update.'
 
       within(field.display_element) do
         expect(page).to have_selector('.op-uc-list--task-checkbox', count: 5)
@@ -137,10 +137,10 @@ describe 'Todolists in CKEditor', js: true do
   end
 
   describe 'creating a new work package' do
-    let!(:status) { FactoryBot.create :default_status }
-    let!(:priority) { FactoryBot.create :default_priority }
-    let!(:type) { FactoryBot.create :type_task }
-    let(:project) { FactoryBot.create :project, types: [type] }
+    let!(:status) { create :default_status }
+    let!(:priority) { create :default_priority }
+    let!(:type) { create :type_task }
+    let(:project) { create :project, types: [type] }
     let(:wp_page) { ::Pages::FullWorkPackageCreate.new project: project }
     let(:field) { wp_page.edit_field :description }
     let(:ckeditor) { field.ckeditor }
@@ -179,7 +179,7 @@ describe 'Todolists in CKEditor', js: true do
       end
 
       wp_page.save!
-      wp_page.expect_and_dismiss_notification message: 'Successful creation.'
+      wp_page.expect_and_dismiss_toaster message: 'Successful creation.'
 
       expect(page).to have_selector('.op-uc-list--task-checkbox', count: 3)
       expect(page).to have_selector('.op-uc-list--task-checkbox[checked]', count: 1)
@@ -213,7 +213,7 @@ describe 'Todolists in CKEditor', js: true do
       end
 
       wp_page.save!
-      wp_page.expect_and_dismiss_notification message: 'Successful creation.'
+      wp_page.expect_and_dismiss_toaster message: 'Successful creation.'
 
       within(field.display_element) do
         expect(page).to have_selector('.op-uc-list--task-checkbox', count: 2)
@@ -242,7 +242,7 @@ describe 'Todolists in CKEditor', js: true do
       end
 
       field.submit_by_click
-      wp_page.expect_and_dismiss_notification message: 'Successful update.'
+      wp_page.expect_and_dismiss_toaster message: 'Successful update.'
 
       within(field.display_element) do
         expect(page).to have_selector('.op-uc-list--task-checkbox', count: 2)

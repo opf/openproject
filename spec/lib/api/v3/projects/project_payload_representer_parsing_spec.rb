@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -32,9 +32,9 @@ describe ::API::V3::Projects::ProjectPayloadRepresenter, 'parsing' do
   include ::API::V3::Utilities::PathHelper
 
   let(:object) do
-    OpenStruct.new available_custom_fields: []
+    Hashie::Mash.new available_custom_fields: []
   end
-  let(:user) { FactoryBot.build_stubbed(:user) }
+  let(:user) { build_stubbed(:user) }
   let(:representer) do
     described_class.create(object, current_user: user)
   end
@@ -117,16 +117,16 @@ describe ::API::V3::Projects::ProjectPayloadRepresenter, 'parsing' do
         end
 
         it 'does set status to nil' do
-          project = representer.from_hash(hash).to_h
+          project = representer.from_hash(hash)
 
           expect(project)
             .to have_key(:status)
 
           status = project[:status]
-          expect(status.to_h)
+          expect(status)
             .to have_key(:code)
 
-          expect(status.to_h)
+          expect(status)
             .not_to have_key(:explanation)
 
           expect(status[:code])
@@ -150,7 +150,7 @@ describe ::API::V3::Projects::ProjectPayloadRepresenter, 'parsing' do
         end
 
         it 'sets the parent_id to the value' do
-          project = representer.from_hash(hash).to_h
+          project = representer.from_hash(hash)
 
           expect(project[:parent_id])
             .to eq "5"
@@ -169,7 +169,7 @@ describe ::API::V3::Projects::ProjectPayloadRepresenter, 'parsing' do
         end
 
         it 'sets the parent_id to nil' do
-          project = representer.from_hash(hash).to_h
+          project = representer.from_hash(hash)
 
           expect(project)
             .to have_key(:parent_id)
@@ -191,7 +191,7 @@ describe ::API::V3::Projects::ProjectPayloadRepresenter, 'parsing' do
         end
 
         it 'omits the parent information' do
-          project = representer.from_hash(hash).to_h
+          project = representer.from_hash(hash)
 
           expect(project)
             .not_to have_key(:parent_id)

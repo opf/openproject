@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,67 +23,67 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 describe SearchController, type: :controller do
   shared_let(:project) do
-    FactoryBot.create(:project,
-                      name: 'eCookbook')
+    create(:project,
+           name: 'eCookbook')
   end
 
   shared_let(:other_project) do
-    FactoryBot.create(:project,
-                      name: 'Other project')
+    create(:project,
+           name: 'Other project')
   end
 
   shared_let(:subproject) do
-    FactoryBot.create(:project,
-                      name: 'Child project',
-                      parent: project)
+    create(:project,
+           name: 'Child project',
+           parent: project)
   end
 
   shared_let(:role) do
-    FactoryBot.create(:role, permissions: %i[view_wiki_pages view_work_packages])
+    create(:role, permissions: %i[view_wiki_pages view_work_packages])
   end
 
   shared_let(:user) do
-    FactoryBot.create(:user,
-                      member_in_projects: [project, subproject],
-                      member_through_role: role)
+    create(:user,
+           member_in_projects: [project, subproject],
+           member_through_role: role)
   end
 
   shared_let(:wiki_page) do
-    FactoryBot.create(:wiki_page,
-                      title: "How to solve an issue",
-                      wiki: project.wiki)
+    create(:wiki_page,
+           title: "How to solve an issue",
+           wiki: project.wiki)
   end
 
   shared_let(:work_package_1) do
-    FactoryBot.create(:work_package,
-                      subject: 'This is a test issue',
-                      project: project)
+    create(:work_package,
+           subject: 'This is a test issue',
+           project: project)
   end
 
   shared_let(:work_package_2) do
-    FactoryBot.create(:work_package,
-                      subject: 'Issue test 2',
-                      project: project,
-                      status: FactoryBot.create(:closed_status))
+    create(:work_package,
+           subject: 'Issue test 2',
+           project: project,
+           status: create(:closed_status))
   end
 
   shared_let(:work_package_3) do
-    FactoryBot.create(:work_package,
-                      subject: 'Issue test 3',
-                      project: subproject)
+    create(:work_package,
+           subject: 'Issue test 3',
+           project: subproject)
   end
 
   shared_let(:work_package_4) do
-    FactoryBot.create(:work_package,
-                      subject: 'Issue test 4',
-                      project: other_project)
+    create(:work_package,
+           subject: 'Issue test 4',
+           project: other_project)
   end
 
   shared_examples_for 'successful search' do
@@ -182,19 +182,19 @@ describe SearchController, type: :controller do
 
     context 'when searching for a note' do
       let!(:note_1) do
-        FactoryBot.create :work_package_journal,
-                          journable_id: work_package_1.id,
-                          notes: 'Test note 1',
-                          version: 2
+        create :work_package_journal,
+               journable_id: work_package_1.id,
+               notes: 'Test note 1',
+               version: 2
       end
 
       before { allow_any_instance_of(Journal).to receive_messages(predecessor: note_1) }
 
       let!(:note_2) do
-        FactoryBot.create :work_package_journal,
-                          journable_id: work_package_1.id,
-                          notes: 'Special note 2',
-                          version: 3
+        create :work_package_journal,
+               journable_id: work_package_1.id,
+               notes: 'Special note 2',
+               version: 3
       end
 
       describe 'second note predecessor' do

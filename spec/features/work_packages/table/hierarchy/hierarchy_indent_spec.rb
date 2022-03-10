@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe 'Work Package table hierarchy and sorting', js: true do
-  let(:user) { FactoryBot.create :admin }
-  let(:project) { FactoryBot.create(:project) }
+  let(:user) { create :admin }
+  let(:project) { create(:project) }
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:hierarchy) { ::Components::WorkPackages::Hierarchies.new }
@@ -10,30 +10,30 @@ describe 'Work Package table hierarchy and sorting', js: true do
   let(:sort_by) { ::Components::WorkPackages::SortBy.new }
 
   let!(:wp_root) do
-    FactoryBot.create :work_package,
-                      project: project,
-                      subject: 'Parent'
+    create :work_package,
+           project: project,
+           subject: 'Parent'
   end
 
   let!(:wp_child1) do
-    FactoryBot.create :work_package,
-                      project: project,
-                      parent: wp_root,
-                      subject: 'WP child 1'
+    create :work_package,
+           project: project,
+           parent: wp_root,
+           subject: 'WP child 1'
   end
 
   let!(:wp_child2) do
-    FactoryBot.create :work_package,
-                      project: project,
-                      parent: wp_root,
-                      subject: 'WP child 2'
+    create :work_package,
+           project: project,
+           parent: wp_root,
+           subject: 'WP child 2'
   end
 
   let!(:wp_child3) do
-    FactoryBot.create :work_package,
-                      project: project,
-                      parent: wp_root,
-                      subject: 'WP child 3'
+    create :work_package,
+           project: project,
+           parent: wp_root,
+           subject: 'WP child 3'
   end
 
   before do
@@ -55,7 +55,7 @@ describe 'Work Package table hierarchy and sorting', js: true do
     # Indent last child
     hierarchy.indent! wp_child3
 
-    wp_table.expect_and_dismiss_notification message: 'Successful update.'
+    wp_table.expect_and_dismiss_toaster message: 'Successful update.'
 
     hierarchy.expect_hierarchy_at(wp_root, wp_child2)
     hierarchy.expect_leaf_at(wp_child1, wp_child3)
@@ -96,14 +96,14 @@ describe 'Work Package table hierarchy and sorting', js: true do
 
     subject = wp_table.edit_field(wp_child3, :subject)
     subject.update 'First edit'
-    wp_table.expect_and_dismiss_notification message: 'Successful update.'
+    wp_table.expect_and_dismiss_toaster message: 'Successful update.'
 
     # Wait a bit before moving
     sleep 2
 
     # Indent last child
     hierarchy.indent! wp_child3
-    wp_table.expect_and_dismiss_notification message: 'Successful update.'
+    wp_table.expect_and_dismiss_toaster message: 'Successful update.'
 
     # Expect changed
     hierarchy.expect_hierarchy_at(wp_root, wp_child2)
@@ -114,7 +114,7 @@ describe 'Work Package table hierarchy and sorting', js: true do
 
     subject = wp_table.edit_field(wp_child3, :subject)
     subject.update 'Second edit'
-    wp_table.expect_and_dismiss_notification message: 'Successful update.'
+    wp_table.expect_and_dismiss_toaster message: 'Successful update.'
 
     sleep 2
     wp_child3.reload

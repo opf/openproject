@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -32,13 +32,13 @@ require 'features/work_packages/shared_contexts'
 require 'features/work_packages/work_packages_page'
 
 RSpec.feature 'Query menu items', js: true do
-  let(:user) { FactoryBot.create :admin }
-  let(:project) { FactoryBot.create :project }
+  let(:user) { create :admin }
+  let(:project) { create :project }
   let(:work_packages_page) { WorkPackagesPage.new(project) }
   let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
   let(:notification) { PageObjects::Notifications.new(page) }
   let(:query_title) { ::Components::WorkPackages::QueryTitle.new }
-  let(:status) { FactoryBot.create :status }
+  let(:status) { create :status }
 
   def visit_index_page(query)
     work_packages_page.select_query(query)
@@ -51,11 +51,18 @@ RSpec.feature 'Query menu items', js: true do
   end
 
   context 'with identical names' do
-    let(:query_a) { FactoryBot.create :public_query, name: 'some query.', project: project }
-    let(:query_b) { FactoryBot.create :public_query, name: query_a.name, project: project }
-
-    let!(:menu_item_a) { FactoryBot.create :query_menu_item, query: query_a }
-    let!(:menu_item_b) { FactoryBot.create :query_menu_item, query: query_b }
+    let(:query_a) do
+      create :query_with_view_work_packages_table,
+             public: true,
+             name: 'some query.',
+             project: project
+    end
+    let(:query_b) do
+      create :query_with_view_work_packages_table,
+             public: true,
+             name: query_a.name,
+             project: project
+    end
 
     it 'can be shown' do
       visit_index_page(query_a)
@@ -66,7 +73,12 @@ RSpec.feature 'Query menu items', js: true do
   end
 
   context 'with dots in their name' do
-    let(:query) { FactoryBot.create :public_query, name: 'OP 3.0', project: project }
+    let(:query) do
+      create :query_with_view_work_packages_table,
+             public: true,
+             name: 'OP 3.0',
+             project: project
+    end
 
     it 'can be added', js: true, selenium: true do
       visit_index_page(query)
@@ -77,7 +89,7 @@ RSpec.feature 'Query menu items', js: true do
       click_on 'Save'
 
       notification.expect_success('Successful update')
-      expect(page).to have_selector('.collapsible-menu--item[data-category=starred]', text: query.name)
+      expect(page).to have_selector('.op-sidemenu--item', text: query.name)
     end
 
     after do
@@ -86,11 +98,21 @@ RSpec.feature 'Query menu items', js: true do
   end
 
   describe 'renaming a menu item' do
-    let(:query_a) { FactoryBot.create :query, name: 'bbbb', project: project, user: user }
-    let(:query_b) { FactoryBot.create :query, name: 'zzzz', project: project, user: user }
+    let(:query_a) do
+      create :query_with_view_work_packages_table,
+             public: true,
+             name: 'bbbb',
+             project: project,
+             user: user
+    end
+    let(:query_b) do
+      create :query_with_view_work_packages_table,
+             public: true,
+             name: 'zzzz',
+             project: project,
+             user: user
+    end
 
-    let!(:menu_item_a) { FactoryBot.create :query_menu_item, query: query_a }
-    let!(:menu_item_b) { FactoryBot.create :query_menu_item, query: query_b }
     let(:new_name) { 'aaaaa' }
 
     before do

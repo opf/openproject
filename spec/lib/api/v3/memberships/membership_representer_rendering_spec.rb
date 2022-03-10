@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -32,29 +32,29 @@ describe ::API::V3::Memberships::MembershipRepresenter, 'rendering' do
   include ::API::V3::Utilities::PathHelper
 
   let(:member) do
-    FactoryBot.build_stubbed(:member,
-                             member_roles: [member_role1, member_role2, member_role2, marked_member_role],
-                             principal: principal,
-                             project: project)
+    build_stubbed(:member,
+                  member_roles: [member_role1, member_role2, member_role2, marked_member_role],
+                  principal: principal,
+                  project: project)
   end
-  let(:project) { FactoryBot.build_stubbed(:project) }
+  let(:project) { build_stubbed(:project) }
   let(:roles) { [role1, role2] }
-  let(:role1) { FactoryBot.build_stubbed(:role) }
-  let(:member_role1) { FactoryBot.build_stubbed(:member_role, role: role1) }
-  let(:role2) { FactoryBot.build_stubbed(:role) }
-  let(:member_role2) { FactoryBot.build_stubbed(:member_role, role: role2) }
-  let(:marked_role) { FactoryBot.build_stubbed(:role) }
+  let(:role1) { build_stubbed(:role) }
+  let(:member_role1) { build_stubbed(:member_role, role: role1) }
+  let(:role2) { build_stubbed(:role) }
+  let(:member_role2) { build_stubbed(:member_role, role: role2) }
+  let(:marked_role) { build_stubbed(:role) }
   let(:marked_member_role) do
-    FactoryBot.build_stubbed(:member_role, role: marked_role).tap do |mr|
+    build_stubbed(:member_role, role: marked_role).tap do |mr|
       allow(mr)
         .to receive(:marked_for_destruction?)
         .and_return(true)
     end
   end
   let(:principal) { user }
-  let(:user) { FactoryBot.build_stubbed(:user) }
-  let(:group) { FactoryBot.build_stubbed(:group) }
-  let(:current_user) { FactoryBot.build_stubbed(:user) }
+  let(:user) { build_stubbed(:user) }
+  let(:group) { build_stubbed(:group) }
+  let(:current_user) { build_stubbed(:user) }
   let(:permissions) do
     [:manage_members]
   end

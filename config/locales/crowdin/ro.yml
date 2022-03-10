@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 ro:
   no_results_title_text: În acest moment nu este nimic de afișat.
@@ -73,6 +73,11 @@ ro:
       start_trial: 'Începeți o încercare gratuită'
       book_now: 'Rezervă acum'
       get_quote: 'Obțineți o ofertă'
+      buttons:
+        upgrade: "Upgrade now"
+        contact: "Contact us for a demo"
+      enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
+      upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
   announcements:
     show_until: Afişare până la
     is_active: afișat acum
@@ -161,7 +166,7 @@ ro:
     edit: 'Editează acţiune personalizată %{name}'
     execute: 'Execută %{name}'
     upsale:
-      title: 'Acţiunile particularizate sunt o caracteristică a Ediţiei Enterprise'
+      title: 'Custom actions'
       description: 'Comenzile personalizate îmbunătățesc munca zilnică prin combinarea mai multor pași într-un macro accesibil printr-un singur buton.'
   custom_fields:
     text_add_new_custom_field: >
@@ -260,7 +265,7 @@ ro:
       irreversible: "Această acțiune este ireversibilă"
       confirmation: "Introduceți numele de utilizator de tip placeholder %{name} pentru a confirma ștergerea."
     upsale:
-      title: Atribuiți munca unor persoane care nu sunt membri ai proiectului.
+      title: Placeholder users
       description: >
         Există mai multe scenarii în care doriți să atribuiți sarcini unor persoane care nu sunt membre ale proiectului dumneavoastră. Ar putea fi pur și simplu pentru că trebuie să angajați persoana potrivită pentru această sarcină. Sau pur și simplu nu doriți să acordați accesul la informațiile proiectului, dar doriți totuși să urmăriți sarcinile atribuite acelei persoane.
   prioritiies:
@@ -298,8 +303,8 @@ ro:
       query_group_placeholder: "Dați un nume tabelului"
       reset: "Resetare AVATAR implicit"
       type_color_text: |
-        Faceți clic pentru a atribui sau a modifica culoarea acestui tip. Culoarea selectată distinge pachetele de lucru
-        în diagramele Gantt. Prin urmare, se recomandă utilizarea unei culori puternice.
+        Culoarea selectată distinge diferite tipuri
+        în graficele Gantt sau tabelele pachetelor de lucru. Prin urmare, este recomandat să folosiți o culoare puternică.
   versions:
     overview:
       no_results_title_text: În acest moment nu există pachete de lucru alocate acestei versiuni.
@@ -315,9 +320,13 @@ ro:
     x_descendants:
       one: 'Un pachet de lucru descendent'
       few: '%{count} descendenți ai pachetului de lucru'
-      other: '%{count} descendenți ai pachetului de lucru'
+      other: '%{count} pachete de lucru descendente'
     bulk:
       could_not_be_saved: "Următoarele pachete de lucru nu au putut fi salvate:"
+      none_could_be_saved: "None of the %{total} work packages could be updated."
+      x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
+      selected_because_descendants: "While %{selected} work packages where selected, in total %{total} work packages are affected which includes descendants."
+      descendant: "descendant of selected"
     move:
       no_common_statuses_exists: "Nu există o stare disponibilă pentru toate pachetele de lucru selectate. Starea acestora nu poate fi modificată."
       unsupported_for_multiple_projects: 'Mutarea/copierea în masă nu este suportată pentru pachete de lucru din proiecte multiple'
@@ -447,9 +456,12 @@ ro:
         code: 'Stare'
         explanation: 'Descrierea stării'
         codes:
+          not_started: 'Not started'
           on_track: 'Urmărește'
           at_risk: 'În pericol'
           off_track: 'În afara pistei'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
       query:
         column_names: "Coloane"
         relations_to_type_column: "Relații cu %{type}"
@@ -460,7 +472,7 @@ ro:
       repository:
         url: "URL"
       role:
-        assignable: "Pachetele de lucru pot fi atribuite utilizatorilor și grupurilor care dețin acest rol în proiectul respectiv"
+        permissions: "Drepturi"
       time_entry:
         activity: "Activitate"
         hours: "Ore"
@@ -536,6 +548,7 @@ ro:
         before: "trebuie să fie înainte de %{date}."
         before_or_equal_to: "trebuie să fie înainte sau în %{date}."
         blank: "nu poate fi gol."
+        blank_nested: "trebuie să aibă setul '%{property}' al proprietății."
         cant_link_a_work_package_with_a_descendant: "Un pachet de lucru nu poate fi legat de una din sub-activitățile sale."
         circular_dependency: "Această relație ar crea o dependință circulară."
         confirmation: "nu se potrivește cu %{attribute}."
@@ -549,16 +562,19 @@ ro:
         even: "trebuie să fie par."
         exclusion: "este rezervat."
         file_too_large: "este prea mare (dimensiunea maximă este %{count} Octeți)."
+        format: "nu se potrivește cu formatul așteptat '%{expected}'."
+        format_nested: "nu se potrivește cu formatul preconizat '%{expected}' la calea '%{path}'."
         greater_than: "trebuie să fie mai mare de %{count}."
         greater_than_or_equal_to: "trebuie să fie mai mare sau egal cu %{count}."
         greater_than_or_equal_to_start_date: "trebuie să fie după sau la fel cu data de începere."
         greater_than_start_date: "trebuie să fie după data de începere."
         inclusion: "nu este setată la una din valorile permise."
+        inclusion_nested: "nu este setată la una dintre valorile permise la calea '%{path}'."
         invalid: "este invalid."
         invalid_url: 'nu este o adresa URL validă.'
         invalid_url_scheme: 'nu este un protocol permis (allowed: %{allowed_schemes}).'
         less_than_or_equal_to: "trebuie să fie mai mic sau egal cu %{count}."
-        not_available: "is not available due to a system configuration."
+        not_available: "nu este disponibil din cauza unei configurații a sistemului."
         not_deletable: "%s nu poate fi șters."
         not_current_user: "nu este utilizatorul curent."
         not_a_date: "Acest câmp trebuie să conțină o dată validă."
@@ -574,20 +590,26 @@ ro:
         taken: "a fost luat deja."
         too_long: "este prea lung (maximul admis este de %{count} caractere)."
         too_short: "este prea scurt (minimum admis este de %{count} caractere)."
+        type_mismatch: "nu este de tipul '%{type}'"
+        type_mismatch_nested: "nu este de tip '%{type}' la calea '%{path}'"
         unchangeable: "nu poate fi modificat."
+        unknown_property: "nu este o proprietate cunoscută."
+        unknown_property_nested: "are calea necunoscută '%{path}'."
         unremovable: "nu poate fi îndepărtată."
         wrong_length: "nu are lungimea corectă (ar trebui să fie de %{count} characters)."
       models:
         attachment:
           attributes:
             content_type:
-              not_whitelisted: "is set to '%{value}', which is not whitelisted for uploading."
+              blank: "Tipul de conținut al fișierului nu poate fi necompletat."
+              not_whitelisted: "Fişierul a fost respins de un filtru automat. '%{value}' nu este whitelisted pentru încărcare."
+              format: "%{message}"
         capability:
           context:
             global: 'Global'
           query:
             filters:
-              minimum: "need to include at least one filter for principal, context or id with the '=' operator."
+              minimum: "trebuie să includeți cel puțin un filtru pentru principal, context sau id cu operatorul \"=\"."
         custom_field:
           at_least_one_custom_option: "Cel puțin o opțiune trebuie să fie disponibilă."
         custom_actions:
@@ -598,7 +620,7 @@ ro:
           not_an_integer: "(%{name}) nu este un număr întreg."
           smaller_than_or_equal_to: "(%{name}) trebuie să fie mai mică sau egală cu %{count}."
           greater_than_or_equal_to: "(%{name}) trebuie să fie mai mare sau egală cu %{count}."
-          format: "Mesaj"
+          format: "%{message}"
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -616,20 +638,20 @@ ro:
           outside: 'se află în afara rețelei.'
           end_before_start: 'valoarea finală trebuie să fie mai mare decât valoarea inițială.'
         notifications:
-          at_least_one_channel: 'At least one channel for sending notifications needs to be specified.'
+          at_least_one_channel: 'Trebuie specificat cel puţin un canal pentru trimiterea notificărilor.'
           attributes:
             read_ian:
-              read_on_creation: 'cannot be set to true on notification creation.'
-            read_mail:
-              read_on_creation: 'cannot be set to true on notification creation.'
-            read_mail_digest:
-              read_on_creation: 'cannot be set to true on notification creation.'
-            reason_ian:
-              no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
-            reason_mail:
-              no_notification_reason: 'cannot be blank as mail is chosen as a channel.'
+              read_on_creation: 'nu poate fi setat la adevărat la crearea notificărilor.'
+            mail_reminder_sent:
+              set_on_creation: 'nu poate fi setat la adevărat la crearea notificărilor.'
+            reason:
+              no_notification_reason: 'nu poate fi gol deoarece IAN este ales ca un canal.'
             reason_mail_digest:
-              no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
+              no_notification_reason: 'nu poate fi gol ca digest e-mail este ales ca un canal.'
+        notification_settings:
+          only_one_global_setting: 'Trebuie să existe o singură setare globală de notificare.'
+          email_alerts_global: 'Setările de notificare prin e-mail pot fi setate doar la nivel global.'
+          format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -644,7 +666,7 @@ ro:
               in_use_by_work_packages: "încă în uz în pachetele de lucru: %{types}"
             enabled_modules:
               dependency_missing: "The module '%{dependency}' needs to be enabled as well since the module '%{module}' depends on it."
-              format: "Mesaj"
+              format: "%{message}"
         query:
           attributes:
             project:
@@ -653,23 +675,22 @@ ro:
               error_unauthorized: "- Utilizatorul nu are permisiunea de a crea vizualizări publice."
             group_by:
               invalid: "Nu se poate grupa prin: %{value}"
-              format: "Mesaj"
+              format: "%{message}"
             column_names:
               invalid: "Coloană de interogare invalidă: %{value}"
-              format: "Mesaj"
+              format: "%{message}"
             sort_criteria:
               invalid: "Nu se poate sorta după coloană: %{value}"
-              format: "Mesaj"
+              format: "%{message}"
           group_by_hierarchies_exclusive: "se exclude reciproc cu grupul de \"%{group_by}\". Nu le puteți activa pe amândouă."
           filters:
             custom_fields:
               inexistent: "Nu există un câmp personalizat pentru filtru."
-              invalid: "Câmpul personalizat nu este valabil în contextul dat."
         queries/filters/base:
           attributes:
             values:
               inclusion: "are valori invalide."
-              format: "Mesaj"
+              format: "%{message}"
         relation:
           typed_dag:
             circular_dependency: "Relația creează un cerc închis."
@@ -694,6 +715,12 @@ ro:
           attributes:
             hours:
               day_limit: "este prea mare, deoarece pot fi înregistrate maximum 24 de ore pe dată."
+        user_preference:
+          attributes:
+            pause_reminders:
+              invalid_range: "poate fi doar un interval de date valid."
+            daily_reminders:
+              full_hour: "poate fi configurat să fie livrat la o oră întreagă."
         wiki_page:
           attributes:
             slug:
@@ -705,7 +732,7 @@ ro:
               not_start_date: "nu este în data de început, deși acest lucru este necesar pentru repere de etapă."
             parent:
               cannot_be_milestone: "nu poate fi un reper de etapă."
-              cannot_be_self_assigned: "cannot be assigned to itself."
+              cannot_be_self_assigned: "nu poate fi atribuit singur."
               cannot_be_in_another_project: "nu poate fi într-un alt proiect."
               not_a_valid_parent: "este invalid."
             start_date:
@@ -722,6 +749,7 @@ ro:
               does_not_exist: "Categoria specificată nu există."
             estimated_hours:
               only_values_greater_or_equal_zeroes_allowed: "trebuie să fie > = 0."
+          readonly_status: 'The work package is in a readonly status so its attributes cannot be changed.'
         type:
           attributes:
             attribute_groups:
@@ -732,6 +760,11 @@ ro:
               group_without_name: "Grupurile fără nume nu sunt permise."
         user:
           attributes:
+            base:
+              user_limit_reached: "User limit reached. No more accounts can be created on the current plan."
+            password_confirmation:
+              confirmation: "Password confirmation does not match password."
+              format: "%{message}"
             password:
               weak: "Trebuie să conțină caractere din următoarele clase (cel puțin %{min_count} din %{all_count}): %{rules}."
               lowercase: "litere mici (ex. 'a')"
@@ -780,9 +813,9 @@ ro:
       member: "Membru"
       news: "Noutăţi"
       notification:
-        one: "Notification"
-        few: "Notifications"
-        other: "Notifications"
+        one: "Notificari"
+        few: "Notificări"
+        other: "Notificări"
       placeholder_user: "Utilizator Placeholder"
       project: "Proiect"
       query: "Interogare personalizată"
@@ -834,20 +867,19 @@ ro:
     firstname: "Prenume"
     group: "Grup"
     groups: "Grupuri"
-    name: "Nume"
     id: "ID"
     is_default: "Valoare implicită"
     is_for_all: "Pentru toate proiectele"
-    is_public: "Public"
+    public: "Public"
     #kept for backwards compatibility
     issue: "Pachet de lucru"
     lastname: "Nume"
     login: "Utilizator"
     mail: "E-mail"
+    name: "Nume"
     password: "Parolă"
     priority: "Prioritate"
     project: "Proiect"
-    public: "Public"
     responsible: "Responsabil"
     role: "Rol"
     roles: "Roluri"
@@ -864,6 +896,7 @@ ro:
     version: "Versiune"
     work_package: "Pachet de lucru"
   backup:
+    failed: "Backup failed"
     label_backup_token: "Token backup"
     label_create_token: "Creează token backup"
     label_delete_token: "Șterge token backup"
@@ -1196,7 +1229,9 @@ ro:
   error_can_not_archive_project: "Acest proiect nu poate fi arhivat: %{errors}"
   error_can_not_delete_entry: "Nu se poate șterge intrarea"
   error_can_not_delete_custom_field: "Câmpul personalizat nu poate fi șters"
-  error_can_not_delete_type: "Acest tip conține pachete de lucru și nu poate fi șters."
+  error_can_not_delete_type:
+    explanation: 'Acest tip conține pachete de lucru și nu poate fi șters. Puteți vedea toate pachetele de lucru afectate în <a target="_blank" href="%{url}">această vizualizare</a>.'
+    archived_projects: 'Există, de asemenea, pachete de lucru în proiecte arhivate. Trebuie să reactivați mai întâi următoarele proiecte, înainte de a putea schimba tipul pachetelor de lucru respective: %{archived_projects}'
   error_can_not_delete_standard_type: "Tipurile standard nu pot fi șterse."
   error_can_not_invite_user: "Nu s-a reușit trimiterea invitației către utilizator."
   error_can_not_remove_role: "Acest rol este utilizat și nu poate fi șters."
@@ -1225,6 +1260,7 @@ ro:
   error_no_type_in_project: "Nu există un tip asociat cu proiectul. Verificați setările proiectului."
   error_omniauth_registration_timed_out: "Înregistrarea prin intermediul unui furnizor de autentificare extern a expirat. Vă rugăm să încercaţi din nou."
   error_omniauth_invalid_auth: "Informațiile de autentificare returnate de la furnizorul de identitate nu erau valide. Vă rugăm să contactați administratorul dumneavoastră pentru ajutor suplimentar."
+  error_password_change_failed: 'Eroare la încercarea de a schimba parola.'
   error_scm_command_failed: "A intervenit o eroare la accesarea repo-ului: %{value}"
   error_scm_not_found: "Nu am găsit articolul sau revizia în repo."
   error_unable_delete_status: "Starea pachetului de lucru nu poate fi ștearsă deoarece este folosită de cel puțin un pachet de lucru."
@@ -1254,7 +1290,7 @@ ro:
   export:
     your_work_packages_export: "Exportul pachetelor de lucru"
     succeeded: "Exportul a fost finalizat cu succes."
-    failed: "The export has failed: %{message}"
+    failed: "Exportul a eșuat: %{message}"
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1319,7 +1355,7 @@ ro:
   menus:
     admin:
       mail_notification: "Notificări prin e-mail"
-      incoming_outgoing: "Incoming & Outgoing"
+      incoming_outgoing: "De intrare vs Efectuate"
     quick_add:
       label: "Deschideți meniul de adăugare rapidă"
   my_account:
@@ -1333,15 +1369,32 @@ ro:
         expiration: "Expirare"
       indefinite_expiration: "Niciodată"
   notifications:
-    send_notifications: "Send notifications for this action"
+    send_notifications: "Trimite notificări pentru această acțiune"
     work_packages:
       subject:
-        created: "The work package was created."
-        assigned: "You have been assigned to %{work_package}"
-        subscribed: "You subscribed to %{work_package}"
-        mentioned: "You have been mentioned in %{work_package}"
-        involved: "You either are assigned to or are responsible for %{work_package}"
-        watched: "You are watching %{work_package}"
+        created: "Pachetul de lucru a fost creat."
+        assigned: "Ai fost atribuit %{work_package}"
+        subscribed: "Te-ai abonat la %{work_package}"
+        mentioned: "Ai fost menționat în %{work_package}"
+        responsible: "Ați devenit responsabil pentru %{work_package}"
+        watched: "Urmăriți %{work_package}"
+    update_info_mail:
+      body: >
+        We are excited to announce the release of OpenProject 12.0. It's a major release that will hopefully significantly improve the way you use OpenProject.
+
+        Starting with this release, we are introducing in-app notifications. From now on, you will receive notifications for updates to work packages directly in OpenProject. You can mark these notifications as read, reply to a comment or even directly modify work package attributes without leaving the notification center.
+
+        This also means that we will no longer be using emails for notifications. We think the new notification center is a better place to view and act upon these updates. Nevertheless, if you would like continue receiving updates via email, you can choose to receive daily email reminders at particular times of your choosing.
+
+        Please make sure to verify your new default notification settings, and set your preferences for notifications and email reminders via your account settings. You can do this through the “Change email settings” button bellow.
+
+        We hope you find in-app notifications useful and that they makes you even more productive.
+
+        Sincerely,
+        The OpenProject team
+      body_header: 'Version 12.0 with Notification Center'
+      body_subheader: 'Noutăţi'
+      subject: 'Important changes to notifications with the release of 12.0'
   label_accessibility: "Accesibilitate"
   label_account: "Cont"
   label_active: "Activ"
@@ -1427,7 +1480,7 @@ ro:
   label_check_uncheck_all_in_column: "Bifare/debifare toate în coloană"
   label_check_uncheck_all_in_row: "Bifare/debifare toate pe rând"
   label_child_element: "Element copil"
-  label_chronological_order: "Oldest first"
+  label_chronological_order: "Întâi cele mai vechi"
   label_close_versions: "Închidere versiuni complete"
   label_closed_work_packages: "închis"
   label_collapse: "Restrângere"
@@ -1515,7 +1568,6 @@ ro:
   label_feeds_access_key: "Cheie de acces RSS"
   label_feeds_access_key_created_on: "Cheia de acces RSS a fost creată acum %{value}"
   label_feeds_access_key_type: "RSS"
-  label_file_added: "Fişier adăugat"
   label_file_plural: "Fişiere"
   label_filter_add: "Adăugare filtru"
   label_filter_plural: "Filtre"
@@ -1534,7 +1586,7 @@ ro:
   label_group_by: "Grupare după"
   label_group_new: "Grupare nouă"
   label_group: "Grup"
-  label_group_named: "Nume Grup"
+  label_group_named: "Group %{name}"
   label_group_plural: "Grupuri"
   label_help: "Asistenţă"
   label_here: aici
@@ -1597,6 +1649,10 @@ ro:
   label_member_plural: "Membri"
   lable_membership_added: 'Membru adăugat'
   lable_membership_updated: 'Membru actualizat'
+  label_menu_badge:
+    pre_alpha: 'pre-alpha'
+    alpha: 'alfa'
+    beta: 'beta'
   label_menu_item_name: "Numele meniului"
   label_message: "Mesaj"
   label_message_last: "Ultimul mesaj"
@@ -1702,7 +1758,6 @@ ro:
   label_public_projects: "Proiecte publice"
   label_query_new: "Interogare nouă"
   label_query_plural: "Interogări personalizate"
-  label_query_menu_item: "Meniu interogare"
   label_read: "Citeşte..."
   label_register: "Creare cont nou"
   label_register_with_developer: "Înregistrare ca programator"
@@ -1731,7 +1786,7 @@ ro:
   label_required: 'obligatoriu'
   label_requires: 'Această caracteristică necesită un cont la'
   label_result_plural: "Rezultate"
-  label_reverse_chronological_order: "Newest first"
+  label_reverse_chronological_order: "Întâi cele mai noi"
   label_revision: "Revizie"
   label_revision_id: "Revizia %{value}"
   label_revision_plural: "Revizii"
@@ -1801,7 +1856,7 @@ ro:
   label_used_in_projects: "Folosit/ă/e în proiectele"
   label_user: "Utilizator"
   label_user_and_permission: "Utilizatori și permisiuni"
-  label_user_named: "Nume utilizator"
+  label_user_named: "User %{name}"
   label_user_activity: "Activitatea lui %{value}"
   label_user_anonymous: "Anonim"
   label_user_mail_option_all: "Pentru orice eveniment în toate proiectele mele"
@@ -1910,17 +1965,37 @@ ro:
   mail:
     actions: 'Acțiuni'
     digests:
-      time_frame: 'Summary of all events you subscribed to in the period between %{start} and %{end}'
-      work_packages:
-        created_at: '%{user} created at %{timestamp}'
-        reason:
-          watched: 'watched'
-          involved: 'assignee or responsible'
-          mentioned: 'mentioned'
-          subscribed: 'toate'
-          prefix: 'Received because of the notification setting: %{reason}'
-        subject: 'Daily project summary for %{date} - %{number} updates'
-        updated_at: '%{user} updated at %{timestamp}'
+      including_mention_singular: 'inclusiv o mențiune'
+      including_mention_plural: 'inclusiv %{number_mentioned} menționări'
+      unread_notification_singular: '1 notificare necitită'
+      unread_notification_plural: '%{number_unread} notificări necitite'
+      you_have: 'Aveți'
+    logo_alt_text: 'Logo-ul'
+    mention:
+      subject: "%{user_name} te-a menționat în #%{id} - %{subject}"
+    notification:
+      center: 'Centrul de notificare'
+      see_in_center: 'Vezi comentariul în centrul de notificări'
+      settings: 'Modificare setări e-mail'
+    salutation: 'Salut %{user}!'
+    work_packages:
+      created_at: 'Creat la %{timestamp} de %{user} '
+      login_to_see_all: 'Autentifică-te pentru a vedea toate notificările.'
+      mentioned: 'You have been <b>mentioned in a comment</b>'
+      mentioned_by: '%{user} mentioned you in a comment'
+      more_to_see:
+        one: 'There is 1 more work package with notifications.'
+        few: 'There are %{count} more work packages with notifications.'
+        other: 'There are %{count} more work packages with notifications.'
+      reason:
+        watched: 'Watched'
+        assigned: 'Assigned'
+        responsible: 'Responsabil'
+        mentioned: 'Mentioned'
+        subscribed: 'toate'
+        prefix: 'Received because of the notification setting: %{reason}'
+      see_all: 'See all'
+      updated_at: 'Updated at %{timestamp} by %{user}'
   mail_body_account_activation_request: "A fost înregistrat un nou user (%{value}). Activarea este în așteptarea aprobării:"
   mail_body_account_information: "Informații despre contul dumneavoastră"
   mail_body_account_information_external: "Puteți utiliza contul %{value} pentru autentificare."
@@ -1931,14 +2006,14 @@ ro:
   mail_body_backup_waiting_period: Noul token va fi activat în %{hours} ore.
   mail_body_backup_token_warning: Dacă nu ați fost dvs., conectați-vă la OpenProject imediat și resetați-l din nou.
   mail_body_lost_password: "Pentru a vă modifica parola, dați click pe următorul link:"
-  mail_body_register: "Bine ați venit la OpenProject. Vă rugăm să vă activați contul făcând clic pe acest link:"
+  mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "E-mail de invitație pentru membrii proiectului"
   mail_body_register_user: "Dragă %{name},"
   mail_body_register_links_html: |
-    Vă rugăm să nu ezitați să navigați pe canalul nostru de youtube (%{youtube_link}) unde oferim un webinar (%{webinar_link})
-    și clipuri video "Începeți" (%{get_started_link}) pentru a vă face primii pași în OpenProject cât mai ușor posibil.
+    Please feel free to browse our youtube channel (%{youtube_link}) where we provide a webinar (%{webinar_link})
+    and “Get started” videos (%{get_started_link}) to make your first steps in OpenProject as easy as possible.
     <br />
-    Dacă aveți întrebări suplimentare, consultați documentația noastră (%{documentation_link}) sau contactați-ne (%{contact_us_link}).
+    If you have any further questions, consult our documentation (%{documentation_link}) or contact your administrator.
   mail_body_register_closing: "Echipa dumneavoastră OpenProject"
   mail_body_register_ending: "Rămâneți conectați! Vă salutăm cu drag,"
   mail_body_reminder: "%{count} pachete de lucru care vă sunt atribuite au scadență în următoarele %{days} zile:"
@@ -2074,7 +2149,7 @@ ro:
     heading_getting_started: "Obțineți o prezentare generală"
     text_getting_started_description: "Obțineți o viziune de ansamblu asupra administrării unui proiect și a activității echipelor folosind OpenProject."
     text_show_again: "Poate reporni acest videoclip din meniul de ajutor"
-    welcome: "Bine ați venit la OpenProject"
+    welcome: "Welcome to %{app_title}"
     select_language: "Vă rugăm să selectați limba dvs"
   permission_add_work_package_notes: "Adăugare note"
   permission_add_work_packages: "Adăugare pachete de lucru"
@@ -2129,9 +2204,9 @@ ro:
   permission_protect_wiki_pages: "Protejare pagini wiki"
   permission_rename_wiki_pages: "Redenumire pagini wiki"
   permission_save_queries: "Salvați vizualizările"
+  permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Selectare module proiect"
   permission_manage_types: "Selectare tipuri"
-  permission_view_calendar: "Vizualizare calendar"
   permission_view_changesets: "Vizualizare revizii repo în OpenProject"
   permission_view_commit_author_statistics: "Vizualizare statistici autor înregistrări"
   permission_view_work_package_watchers: "Vizualizare listă observatori"
@@ -2143,6 +2218,8 @@ ro:
   permission_view_timelines: "Vizualizare linii de timp"
   permission_view_wiki_edits: "Vizualizare istoric wiki"
   permission_view_wiki_pages: "Vizualizare wiki"
+  permission_work_package_assigned: "Become assignee/responsible"
+  permission_work_package_assigned_explanation: "Pachetele de lucru pot fi atribuite utilizatorilor și grupurilor care dețin acest rol în proiectul respectiv"
   placeholders:
     default: "-"
   project:
@@ -2167,7 +2244,6 @@ ro:
       archived: "Arhivat"
   project_module_activity: "Activitate"
   project_module_forums: "Forumuri"
-  project_module_calendar: "Calendar"
   project_module_work_package_tracking: "Urmărire pachete de lucru"
   project_module_news: "Noutăţi"
   project_module_repository: "Repo"
@@ -2295,6 +2371,9 @@ ro:
   setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) origini permise"
   setting_apiv3_cors_origins_text_html: >
     Dacă CORS este activat, acestea sunt originile cărora li se permite accesul la OpenProject API. <br/> Vă rugăm să consultați <a href="%{origin_link}" target="_blank">documentația privind antetul Origin</a> pentru a specifica valorile așteptate.
+  setting_apiv3_max_page_size: "Maximum API page size"
+  setting_apiv3_max_page_instructions_html: >
+    Set the maximum page size the API will respond with. It will not be possible to perform API requests that return more values on a single page. <br/> <strong>Warning:</strong> Please only change this value if you are sure why you need it. Setting to a high value will result in significant performance impacts, while a value lower than the per page options will cause errors in paginated views.
   setting_apiv3_docs: "Documentație"
   setting_apiv3_docs_enabled: "Enable docs page"
   setting_apiv3_docs_enabled_instructions_html: >
@@ -2346,8 +2425,6 @@ ro:
   setting_enabled_scm: "SCM activat"
   setting_enabled_projects_columns: "Vizibil în lista de proiecte"
   setting_notification_retention_period_days: "Notification retention period"
-  setting_notification_email_delay_minutes: "Email sending delay"
-  setting_notification_email_digest_time: "Email digest time"
   setting_feeds_enabled: "Activare fluxuri"
   setting_feeds_limit: "Limită conținut flux"
   setting_file_max_size_displayed: "Numărul maxim de linii afișat în text"
@@ -2422,9 +2499,8 @@ ro:
     notifications:
       retention_text: >
         Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
-      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
-      email_digest_explanation: "Once a day, an email digest can be sent out containing a collection of all the notification users subscribed to. The setting is relative to each users configured time zone, so e.g. 8:00 will be executed at 7:00 UTC for users in UTC+1 and 9:00 UTC for those in UTC-1."
       events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
+      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
     display:
       first_date_of_week_and_year_set: >
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
@@ -2535,7 +2611,6 @@ ro:
   text_regexp_info: "ex. ^[A-Z0-9]+$"
   text_regexp_multiline: 'Formula regex este aplicată într-un mod multilinie - de exemplu: ^---\s+'
   text_repository_usernames_mapping: "Selectați sau modificați contul OpenProject mapat la fiecare cont din istoricul repo-ului.\nUtilizatorii cu cont sau e-mail identic în OpenProject și repo sunt echivalați automat."
-  text_select_notifications: "Select actions for which notifications should be sent."
   text_status_changed_by_changeset: "Aplicat prin editarea %{value}."
   text_table_difference_description: "În acest tabel este prezentat un singur %{entries}. Puteți vizualiza diferența dintre oricare două intrări selectând mai întâi casetele de selectare corespunzătoare din tabel. Când faceți clic pe butonul de sub tabel, se afișează diferențele."
   text_time_logged_by_changeset: "Aplicat prin editarea %{value}."
@@ -2799,7 +2874,6 @@ ro:
   wiki_menu_item_new_main_item_explanation: >
     Ștergeți doar meniul principal wiki. Va trebui să alegeți o altă pagină wiki pentru care se va genera meniul principal. Dacă doriți să ștergeți wiki-ul, modulul corespunzător poate fi dezactivat de către administratorii de proiect.
   wiki_menu_item_delete_not_permitted: Meniul wiki pentru ultima pagină wiki nu poate fi șters.
-  query_menu_item_for: "Meniul pentru interogarea \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
@@ -2820,6 +2894,8 @@ ro:
       code_409: "Nu s-a putut actualiza resursa din cauza unor modificări conflictuale."
       code_429: "Prea multe solicitări. Vă rugăm încercați mai târziu."
       code_500: "A apărut o eroare internă."
+      not_found:
+        work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:
         date: "AAAA-MM-ZZ (doar formate ISO 8601)"
         duration: "Durată ISO 8601"
@@ -2856,6 +2932,7 @@ ro:
       schema: 'Schemă'
     undisclosed:
       parent: Undisclosed - The selected parent is invisible because of lacking permissions.
+      ancestor: Undisclosed - The ancestor is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 'Autorizare prealabilă'
@@ -2864,8 +2941,11 @@ ro:
     errors:
       messages:
         #Common error messages
-        invalid_request: 'În cerere lipsește un parametru obligatoriu, include o valoare de parametru neacceptată sau este deformată în alt mod.'
-        invalid_redirect_uri: "URI-ul de redirecționare solicitat este deformat sau nu se potrivește cu URI-ul de redirecționare al clientului."
+        invalid_request:
+          unknown: 'În cerere lipsește un parametru obligatoriu, include o valoare de parametru neacceptată sau este deformată în alt mod.'
+          missing_param: 'Missing required parameter: %{value}.'
+          request_not_authorized: 'Request need to be authorized. Required parameter for authorizing request is missing or invalid.'
+        invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
         unauthorized_client: 'Clientul nu este autorizat să efectueze această cerere folosind această metodă.'
         access_denied: 'Proprietarul resursei sau serverul de autorizare a refuzat cererea.'
         invalid_scope: 'Domeniul de aplicare solicitat este invalid, necunoscut sau deformat.'
@@ -2878,6 +2958,7 @@ ro:
         admin_authenticator_not_configured: 'Accesul la panoul de administrare este interzis din cauza faptului că Doorkeeper.configure.admin_authenticator este neconfigurat.'
         #Access grant errors
         unsupported_response_type: 'Serverul de autorizare nu acceptă acest tip de răspuns.'
+        unsupported_response_mode: 'The authorization server does not support this response mode.'
         #Access token errors
         invalid_client: 'Autentificarea clientului nu a reușit din cauza nerecunoașterii clientului, nu a fost inclusă nicio autentificare client sau metoda de autentificare nu este acceptată.'
         invalid_grant: 'Autorizația de autorizare furnizată nu este valabilă, a expirat, a fost revocată, nu se potrivește cu URI-ul de redirecționare utilizat în cererea de autorizare sau a fost emisă pentru un alt client.'
@@ -2886,6 +2967,10 @@ ro:
           revoked: "Token-ul de acces a fost revocat"
           expired: "Token-ul de acces a expirat"
           unknown: "Token-ul de acces nu este valid"
+        revoke:
+          unauthorized: "You are not authorized to revoke this token."
+        forbidden_token:
+          missing_scope: 'Access to this resource requires scope "%{oauth_scopes}".'
   unsupported_browser:
     title: "Browserul dvs. este învechit și nu este acceptat."
     message: "Este posibil să întâmpinați erori și o experiență degradată pe această pagină."
@@ -2895,7 +2980,7 @@ ro:
     application:
       singular: "Aplicație OAuth"
       plural: "Aplicație OAuth"
-      named: "Aplicație OAuth"
+      named: "OAuth application '%{name}'"
       new: "Aplicație OAuth"
       default_scopes: "Scopuri"
       instructions:

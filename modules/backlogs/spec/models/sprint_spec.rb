@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,20 +23,20 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe Sprint, type: :model do
-  let(:sprint) { FactoryBot.build(:sprint) }
-  let(:project) { FactoryBot.build(:project) }
+  let(:sprint) { build(:sprint) }
+  let(:project) { build(:project) }
 
   describe 'Class Methods' do
     describe '#displayed_left' do
       describe 'WITH display set to left' do
         before(:each) do
-          sprint.version_settings = [FactoryBot.build(:version_setting, project: project,
+          sprint.version_settings = [build(:version_setting, project: project,
                                                                         display: VersionSetting::DISPLAY_LEFT)]
           sprint.project = project
           sprint.save!
@@ -49,10 +49,10 @@ describe Sprint, type: :model do
 
       describe 'WITH a version setting defined for another project' do
         before(:each) do
-          another_project = FactoryBot.build(:project, name: 'another project',
+          another_project = build(:project, name: 'another project',
                                                        identifier: 'another project')
 
-          sprint.version_settings = [FactoryBot.build(:version_setting, project: another_project,
+          sprint.version_settings = [build(:version_setting, project: another_project,
                                                                         display: VersionSetting::DISPLAY_RIGHT)]
           sprint.project = project
           sprint.save
@@ -71,23 +71,23 @@ describe Sprint, type: :model do
       end
 
       context 'WITH a shared version from another project' do
-        let!(:parent_project) { FactoryBot.create :project, identifier: "parent", name: "Parent" }
+        let!(:parent_project) { create :project, identifier: "parent", name: "Parent" }
 
         let!(:home_project) do
-          FactoryBot.create(:project, identifier: "home", name: "Home").tap do |p|
+          create(:project, identifier: "home", name: "Home").tap do |p|
             p.parent = parent_project
             p.save!
           end
         end
 
         let!(:sister_project) do
-          FactoryBot.create(:project, identifier: "sister", name: "Sister").tap do |p|
+          create(:project, identifier: "sister", name: "Sister").tap do |p|
             p.parent = parent_project
             p.save!
           end
         end
 
-        let!(:version) { FactoryBot.create :version, name: "Shared Version", sharing: "tree", project: home_project }
+        let!(:version) { create :version, name: "Shared Version", sharing: "tree", project: home_project }
 
         let(:displayed) { Sprint.apply_to(sister_project).displayed_left(sister_project) }
 
@@ -185,7 +185,7 @@ describe Sprint, type: :model do
 
     describe '#displayed_right' do
       before(:each) do
-        sprint.version_settings = [FactoryBot.build(:version_setting, project: project, display: VersionSetting::DISPLAY_RIGHT)]
+        sprint.version_settings = [build(:version_setting, project: project, display: VersionSetting::DISPLAY_RIGHT)]
         sprint.project = project
         sprint.save!
       end
@@ -195,10 +195,10 @@ describe Sprint, type: :model do
 
     describe '#order_by_date' do
       before(:each) do
-        @sprint1 = FactoryBot.create(:sprint, name: 'sprint1', project: project, start_date: Date.today + 2.days)
-        @sprint2 = FactoryBot.create(:sprint, name: 'sprint2', project: project, start_date: Date.today + 1.day,
+        @sprint1 = create(:sprint, name: 'sprint1', project: project, start_date: Date.today + 2.days)
+        @sprint2 = create(:sprint, name: 'sprint2', project: project, start_date: Date.today + 1.day,
                                               effective_date: Date.today + 3.days)
-        @sprint3 = FactoryBot.create(:sprint, name: 'sprint3', project: project, start_date: Date.today + 1.day,
+        @sprint3 = create(:sprint, name: 'sprint3', project: project, start_date: Date.today + 1.day,
                                               effective_date: Date.today + 2.days)
       end
 
@@ -212,12 +212,12 @@ describe Sprint, type: :model do
     describe '#apply_to' do
       before(:each) do
         project.save
-        @other_project = FactoryBot.create(:project)
+        @other_project = create(:project)
       end
 
       describe 'WITH the version being shared system wide' do
         before(:each) do
-          @version = FactoryBot.create(:sprint, name: 'systemwide', project: @other_project, sharing: 'system')
+          @version = create(:sprint, name: 'systemwide', project: @other_project, sharing: 'system')
         end
 
         it { expect(Sprint.apply_to(project).size).to eq(1) }
@@ -228,7 +228,7 @@ describe Sprint, type: :model do
         before(:each) do
           project.update(parent: @other_project)
           project.reload
-          @version = FactoryBot.create(:sprint, name: 'descended', project: @other_project, sharing: 'descendants')
+          @version = create(:sprint, name: 'descended', project: @other_project, sharing: 'descendants')
         end
 
         it { expect(Sprint.apply_to(project).size).to eq(1) }
@@ -237,11 +237,11 @@ describe Sprint, type: :model do
 
       describe 'WITH the version being shared within the tree' do
         before(:each) do
-          @parent_project = FactoryBot.create(:project)
+          @parent_project = create(:project)
           @other_project.update(parent: @parent_project)
           project.update(parent: @parent_project)
           project.reload
-          @version = FactoryBot.create(:sprint, name: 'treed', project: @other_project, sharing: 'tree')
+          @version = create(:sprint, name: 'treed', project: @other_project, sharing: 'tree')
         end
 
         it { expect(Sprint.apply_to(project).size).to eq(1) }
@@ -250,9 +250,9 @@ describe Sprint, type: :model do
 
       describe 'WITH the version being shared within the tree' do
         before(:each) do
-          @descendant_project = FactoryBot.create(:project, parent: project)
+          @descendant_project = create(:project, parent: project)
           project.reload
-          @version = FactoryBot.create(:sprint, name: 'hierar', project: @descendant_project, sharing: 'hierarchy')
+          @version = create(:sprint, name: 'hierar', project: @descendant_project, sharing: 'hierarchy')
         end
 
         it { expect(Sprint.apply_to(project).size).to eq(1) }

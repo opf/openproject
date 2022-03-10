@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 require_relative '../legacy_spec_helper'
 
@@ -33,8 +31,6 @@ describe Project, type: :model do
   fixtures :all
 
   before do
-    @ecookbook = Project.find(1)
-    @ecookbook_sub1 = Project.find(3)
     User.current = nil
   end
 
@@ -61,19 +57,6 @@ describe Project, type: :model do
 
     it { is_expected.to have_and_belong_to_many :types                           }
     it { is_expected.to have_and_belong_to_many :work_package_custom_fields      }
-  end
-
-  it 'should truth' do
-    assert_kind_of Project, @ecookbook
-    assert_equal 'eCookbook', @ecookbook.name
-  end
-
-  it 'should update' do
-    assert_equal 'eCookbook', @ecookbook.name
-    @ecookbook.name = 'eCook'
-    assert @ecookbook.save, @ecookbook.errors.full_messages.join('; ')
-    @ecookbook.reload
-    assert_equal 'eCook', @ecookbook.name
   end
 
   it 'should members should be active users' do
@@ -156,103 +139,6 @@ describe Project, type: :model do
     assert_equal [1, 2], parent.rolled_up_types.map(&:id)
   end
 
-  it 'should shared versions none sharing' do
-    p = Project.find(5)
-    v = Version.create!(name: 'none_sharing', project: p, sharing: 'none')
-    assert p.shared_versions.include?(v)
-    assert !p.children.first.shared_versions.include?(v)
-    assert !p.root.shared_versions.include?(v)
-    assert !p.siblings.first.shared_versions.include?(v)
-    assert !p.root.siblings.first.shared_versions.include?(v)
-  end
-
-  it 'should shared versions descendants sharing' do
-    p = Project.find(5)
-    v = Version.create!(name: 'descendants_sharing', project: p, sharing: 'descendants')
-    assert p.shared_versions.include?(v)
-    assert p.children.first.shared_versions.include?(v)
-    assert !p.root.shared_versions.include?(v)
-    assert !p.siblings.first.shared_versions.include?(v)
-    assert !p.root.siblings.first.shared_versions.include?(v)
-  end
-
-  it 'should shared versions hierarchy sharing' do
-    p = Project.find(5)
-    v = Version.create!(name: 'hierarchy_sharing', project: p, sharing: 'hierarchy')
-    assert p.shared_versions.include?(v)
-    assert p.children.first.shared_versions.include?(v)
-    assert p.root.shared_versions.include?(v)
-    assert !p.siblings.first.shared_versions.include?(v)
-    assert !p.root.siblings.first.shared_versions.include?(v)
-  end
-
-  it 'should shared versions tree sharing' do
-    p = Project.find(5)
-    v = Version.create!(name: 'tree_sharing', project: p, sharing: 'tree')
-    assert p.shared_versions.include?(v)
-    assert p.children.first.shared_versions.include?(v)
-    assert p.root.shared_versions.include?(v)
-    assert p.siblings.first.shared_versions.include?(v)
-    assert !p.root.siblings.first.shared_versions.include?(v)
-  end
-
-  it 'should shared versions system sharing' do
-    p = Project.find(5)
-    v = Version.create!(name: 'system_sharing', project: p, sharing: 'system')
-    assert p.shared_versions.include?(v)
-    assert p.children.first.shared_versions.include?(v)
-    assert p.root.shared_versions.include?(v)
-    assert p.siblings.first.shared_versions.include?(v)
-    assert p.root.siblings.first.shared_versions.include?(v)
-  end
-
-  it 'should shared versions' do
-    parent = Project.find(1)
-    child = parent.children.find(3)
-    private_child = parent.children.find(5)
-
-    assert_equal [1, 2, 3], parent.version_ids.sort
-    assert_equal [4], child.version_ids
-    assert_equal [6], private_child.version_ids
-    assert_equal [7], Version.where(sharing: 'system').map(&:id)
-
-    assert_equal 6, parent.shared_versions.size
-    parent.shared_versions.each do |version|
-      assert_kind_of Version, version
-    end
-
-    assert_equal [1, 2, 3, 4, 6, 7], parent.shared_versions.map(&:id).sort
-  end
-
-  it 'should shared versions should ignore archived subprojects' do
-    parent = Project.find(1)
-    child = parent.children.find(3)
-    child.update(active: false)
-    parent.reload
-
-    assert_equal [1, 2, 3], parent.version_ids.sort
-    assert_equal [4], child.version_ids
-    assert !parent.shared_versions.map(&:id).include?(4)
-  end
-
-  it 'should shared versions visible to user' do
-    user = User.find(3)
-    parent = Project.find(1)
-    child = parent.children.find(5)
-
-    assert_equal [1, 2, 3], parent.version_ids.sort
-    assert_equal [6], child.version_ids
-
-    versions = parent.shared_versions.visible(user)
-
-    assert_equal 4, versions.size
-    versions.each do |version|
-      assert_kind_of Version, version
-    end
-
-    assert !versions.map(&:id).include?(6)
-  end
-
   context 'with modules',
           with_settings: { default_projects_modules: ['work_package_tracking', 'repository'] } do
     it 'should enabled module names' do
@@ -285,10 +171,5 @@ describe Project, type: :model do
     project.reload
     assert_nil project.versions.detect { |v| v.completed? && v.status != 'closed' }
     refute_nil project.versions.detect { |v| !v.completed? && v.status == 'open' }
-  end
-
-  it 'should export work packages is allowed' do
-    project = Project.find(1)
-    assert project.allows_to?(:export_work_packages)
   end
 end

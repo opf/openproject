@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,14 +23,14 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 describe EnabledModule, type: :model do
   # Force reload, as association is not always(?) showing
-  let(:project) { FactoryBot.create(:project, enabled_module_names: modules).reload }
+  let(:project) { create(:project, enabled_module_names: modules).reload }
 
   describe '#wiki' do
     let(:modules) { %w[wiki] }
@@ -82,7 +80,7 @@ describe EnabledModule, type: :model do
     end
 
     shared_examples 'does not create a repository when one exists' do
-      let!(:repository) { FactoryBot.create(:repository_git, project: project) }
+      let!(:repository) { create(:repository_git, project: project) }
 
       it 'should not create a separate repository when one exists already' do
         project.reload

@@ -76,4 +76,4 @@ Example:
 
 ## Example of bug reporting
 
-![Report a bug: Bug example](Forum-bug1.png "Report a bug: Bug example")
+![bug_report_example](bug_report_example-1706822.png)

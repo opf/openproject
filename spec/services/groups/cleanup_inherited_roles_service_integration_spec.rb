@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,39 +23,44 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 describe Groups::CleanupInheritedRolesService, 'integration', type: :model do
   subject(:service_call) do
-    member.destroy
+    members.destroy_all
     instance.call(params)
   end
 
-  let(:project) { FactoryBot.create :project }
-  let(:role) { FactoryBot.create :role }
-  let(:current_user) { FactoryBot.create :admin }
+  let(:project) { create :project }
+  let(:role) { create :role }
+  let(:global_role) { create :global_role }
+  let(:current_user) { create :admin }
   let(:roles) { [role] }
+  let(:global_roles) { [global_role] }
   let(:params) { { message: message } }
   let(:message) { "Some message" }
 
   let!(:group) do
-    FactoryBot.create(:group,
-                      members: users).tap do |group|
-      FactoryBot.create(:member,
-                        project: project,
-                        principal: group,
-                        roles: roles)
+    create(:group,
+           members: users).tap do |group|
+      create(:member,
+             project: project,
+             principal: group,
+             roles: roles)
+      create(:global_member,
+             principal: group,
+             roles: global_roles)
 
       ::Groups::AddUsersService
         .new(group, current_user: User.system, contract_class: EmptyContract)
         .call(ids: users.map(&:id))
     end
   end
-  let(:users) { FactoryBot.create_list :user, 2 }
-  let(:member) { Member.find_by(principal: group) }
+  let(:users) { create_list :user, 2 }
+  let(:members) { Member.where(principal: group) }
 
   let(:instance) do
     described_class.new(group, current_user: current_user)
@@ -103,11 +108,13 @@ describe Groups::CleanupInheritedRolesService, 'integration', type: :model do
   end
 
   context 'when also having own roles' do
-    let(:another_role) { FactoryBot.create(:role) }
+    let(:another_role) { create(:role) }
+    let(:another_global_role) { create(:global_role) }
     let!(:first_user_member) do
       group
       Member.find_by(principal: users.first).tap do |m|
         m.roles << another_role
+        m.roles << another_global_role
       end
     end
 
@@ -130,7 +137,7 @@ describe Groups::CleanupInheritedRolesService, 'integration', type: :model do
         .not_to eql(Member.find_by(id: first_user_member.id).updated_at)
 
       expect(first_user_member.reload.roles)
-        .to match_array([another_role])
+        .to match_array([another_role, another_global_role])
     end
 
     it 'sends a notification on the kept membership' do
@@ -138,16 +145,19 @@ describe Groups::CleanupInheritedRolesService, 'integration', type: :model do
 
       expect(Notifications::GroupMemberAlteredJob)
         .to have_received(:perform_later)
-        .with([first_user_member.id],
-              message)
+        .with(current_user,
+              [first_user_member.id],
+              message,
+              true)
     end
   end
 
-  context 'when the user has had the role added by the group before' do
-    let(:another_role) { FactoryBot.create(:role) }
+  context 'when the user has had the roles added by the group before' do
+    let(:another_role) { create(:role) }
     let!(:first_user_member) do
       Member.find_by(principal: users.first).tap do |m|
         m.member_roles.create(role: role)
+        m.member_roles.create(role: global_role)
       end
     end
 
@@ -170,7 +180,7 @@ describe Groups::CleanupInheritedRolesService, 'integration', type: :model do
         .not_to eql(Member.find_by(id: first_user_member.id).updated_at)
 
       expect(first_user_member.reload.roles)
-        .to match_array([role])
+        .to match_array([role, global_role])
     end
 
     it 'sends a notification on the kept membership' do
@@ -178,8 +188,10 @@ describe Groups::CleanupInheritedRolesService, 'integration', type: :model do
 
       expect(Notifications::GroupMemberAlteredJob)
         .to have_received(:perform_later)
-        .with([first_user_member.id],
-              message)
+        .with(current_user,
+              [first_user_member.id],
+              message,
+              true)
     end
   end
 
@@ -189,7 +201,7 @@ describe Groups::CleanupInheritedRolesService, 'integration', type: :model do
         .where(member_id: Member.where(principal: users.first))
         .pluck(:id)
     end
-    let(:params) { { member_role_ids: member_role_ids} }
+    let(:params) { { member_role_ids: member_role_ids } }
 
     it 'is successful' do
       expect(service_call)

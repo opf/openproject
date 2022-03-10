@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,27 +23,27 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
 describe WorkPackages::BaseContract, type: :model do
   let(:instance) { described_class.new(work_package, user) }
-  let(:type_feature) { FactoryBot.build(:type_feature) }
-  let(:type_task) { FactoryBot.build(:type_task) }
-  let(:type_bug) { FactoryBot.build(:type_bug) }
-  let(:version1) { FactoryBot.build_stubbed(:version, name: 'Version1', project: p) }
-  let(:version2) { FactoryBot.build_stubbed(:version, name: 'Version2', project: p) }
-  let(:role) { FactoryBot.build(:role) }
-  let(:user) { FactoryBot.build(:admin) }
-  let(:issue_priority) { FactoryBot.build(:priority) }
-  let(:status) { FactoryBot.build_stubbed(:status, name: 'status 1', is_default: true) }
+  let(:type_feature) { build(:type_feature) }
+  let(:type_task) { build(:type_task) }
+  let(:type_bug) { build(:type_bug) }
+  let(:version1) { build_stubbed(:version, name: 'Version1', project: p) }
+  let(:version2) { build_stubbed(:version, name: 'Version2', project: p) }
+  let(:role) { build(:role) }
+  let(:user) { build(:admin) }
+  let(:issue_priority) { build(:priority) }
+  let(:status) { build_stubbed(:status, name: 'status 1', is_default: true) }
 
   let(:project) do
-    p = FactoryBot.build(:project, members: [FactoryBot.build(:member,
-                                                              principal: user,
-                                                              roles: [role])],
+    p = build(:project, members: [build(:member,
+                                        principal: user,
+                                        roles: [role])],
                                    types: [type_feature, type_task, type_bug])
 
     allow(p)
@@ -57,9 +57,9 @@ describe WorkPackages::BaseContract, type: :model do
   end
 
   let(:other_project) do
-    p = FactoryBot.build(:project, members: [FactoryBot.build(:member,
-                                                              principal: user,
-                                                              roles: [role])],
+    p = build(:project, members: [build(:member,
+                                        principal: user,
+                                        roles: [role])],
                                    types: [type_feature, type_task, type_bug])
 
     allow(p)
@@ -72,69 +72,69 @@ describe WorkPackages::BaseContract, type: :model do
   end
 
   let(:story) do
-    FactoryBot.build_stubbed(:stubbed_work_package,
-                             subject: 'Story',
-                             project: project,
-                             type: type_feature,
-                             version: version1,
-                             status: status,
-                             author: user,
-                             priority: issue_priority)
+    build_stubbed(:stubbed_work_package,
+                  subject: 'Story',
+                  project: project,
+                  type: type_feature,
+                  version: version1,
+                  status: status,
+                  author: user,
+                  priority: issue_priority)
   end
 
   let(:story2) do
-    FactoryBot.build_stubbed(:stubbed_work_package,
-                             subject: 'Story2',
-                             project: project,
-                             type: type_feature,
-                             version: version1,
-                             status: status,
-                             author: user,
-                             priority: issue_priority)
+    build_stubbed(:stubbed_work_package,
+                  subject: 'Story2',
+                  project: project,
+                  type: type_feature,
+                  version: version1,
+                  status: status,
+                  author: user,
+                  priority: issue_priority)
   end
 
   let(:task) do
-    FactoryBot.build_stubbed(:stubbed_work_package,
-                             subject: 'Task',
-                             type: type_task,
-                             version: version1,
-                             project: project,
-                             status: status,
-                             author: user,
-                             priority: issue_priority)
+    build_stubbed(:stubbed_work_package,
+                  subject: 'Task',
+                  type: type_task,
+                  version: version1,
+                  project: project,
+                  status: status,
+                  author: user,
+                  priority: issue_priority)
   end
 
   let(:task2) do
-    FactoryBot.build_stubbed(:stubbed_work_package,
-                             subject: 'Task2',
-                             type: type_task,
-                             version: version1,
-                             project: project,
-                             status: status,
-                             author: user,
-                             priority: issue_priority)
+    build_stubbed(:stubbed_work_package,
+                  subject: 'Task2',
+                  type: type_task,
+                  version: version1,
+                  project: project,
+                  status: status,
+                  author: user,
+                  priority: issue_priority)
   end
 
   let(:bug) do
-    FactoryBot.build_stubbed(:stubbed_work_package,
-                             subject: 'Bug',
-                             type: type_bug,
-                             version: version1,
-                             project: project,
-                             status: status,
-                             author: user,
-                             priority: issue_priority)
+    build_stubbed(:stubbed_work_package,
+                  subject: 'Bug',
+                  type: type_bug,
+                  version: version1,
+                  project: project,
+                  status: status,
+                  author: user,
+                  priority: issue_priority)
   end
 
   let(:bug2) do
-    FactoryBot.build_stubbed(:stubbed_work_package,
-                             subject: 'Bug2',
-                             type: type_bug,
-                             version: version1,
-                             project: project,
-                             status: status,
-                             author: user,
-                             priority: issue_priority)
+    build_stubbed(:stubbed_work_package,
+                  subject: 'Bug2',
+                  type: type_bug,
+                  version: version1,
+                  project: project,
+                  status: status,
+                  author: user,
+                  priority: issue_priority)
   end
 
   subject(:valid) { instance.validate }

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,25 +23,25 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper.rb')
 
 describe CostlogController, type: :controller do
   include Cost::PluginSpecHelper
-  let (:project) { FactoryBot.create(:project_with_types) }
+  let (:project) { create(:project_with_types) }
   let (:work_package) do
-    FactoryBot.create(:work_package, project: project,
+    create(:work_package, project: project,
                                      author: user,
                                      type: project.types.first)
   end
-  let (:user) { FactoryBot.create(:user) }
-  let (:user2) { FactoryBot.create(:user) }
-  let (:controller) { FactoryBot.build(:role, permissions: %i[log_costs edit_cost_entries]) }
-  let (:cost_type) { FactoryBot.build(:cost_type) }
+  let (:user) { create(:user) }
+  let (:user2) { create(:user) }
+  let (:controller) { build(:role, permissions: %i[log_costs edit_cost_entries]) }
+  let (:cost_type) { build(:cost_type) }
   let (:cost_entry) do
-    FactoryBot.build(:cost_entry, work_package: work_package,
+    build(:cost_entry, work_package: work_package,
                                   project: project,
                                   spent_on: Date.today,
                                   overridden_costs: 400,
@@ -49,12 +49,12 @@ describe CostlogController, type: :controller do
                                   user: user,
                                   comments: '')
   end
-  let(:work_package_status) { FactoryBot.create(:work_package_status, is_default: true) }
+  let(:work_package_status) { create(:work_package_status, is_default: true) }
 
   def grant_current_user_permissions(user, permissions)
-    member = FactoryBot.build(:member, project: project,
+    member = build(:member, project: project,
                                        principal: user)
-    member.roles << FactoryBot.build(:role, permissions: permissions)
+    member.roles << build(:role, permissions: permissions)
     member.principal = user
     member.save!
     user.reload # in order to refresh the member/membership associations
@@ -193,7 +193,7 @@ describe CostlogController, type: :controller do
       before do
         grant_current_user_permissions user, [:edit_cost_entries]
 
-        cost_entry.user = FactoryBot.create(:user)
+        cost_entry.user = create(:user)
         cost_entry.save(validate: false)
       end
 
@@ -213,7 +213,7 @@ describe CostlogController, type: :controller do
       before do
         grant_current_user_permissions user, [:edit_own_cost_entries]
 
-        cost_entry.user = FactoryBot.create(:user)
+        cost_entry.user = create(:user)
         cost_entry.save(validate: false)
       end
 
@@ -233,8 +233,8 @@ describe CostlogController, type: :controller do
       before do
         grant_current_user_permissions user, [:edit_cost_entries]
 
-        cost_entry.project = FactoryBot.create(:project_with_types)
-        cost_entry.work_package = FactoryBot.create(:work_package, project: cost_entry.project,
+        cost_entry.project = create(:project_with_types)
+        cost_entry.work_package = create(:work_package, project: cost_entry.project,
                                                                    type: cost_entry.project.types.first,
                                                                    author: user)
         cost_entry.save!
@@ -276,7 +276,7 @@ describe CostlogController, type: :controller do
     let(:expected_cost_type) { cost_type }
     let(:expected_units) { units }
 
-    let(:user2) { FactoryBot.create(:user) }
+    let(:user2) { create(:user) }
     let(:date) { '2012-04-03'.to_date }
     let(:overridden_costs) { 500.00 }
     let(:units) { 5.0 }
@@ -362,7 +362,7 @@ describe CostlogController, type: :controller do
       let(:expected_cost_type) { nil }
 
       before do
-        FactoryBot.create(:cost_type, default: true)
+        create(:cost_type, default: true)
 
         grant_current_user_permissions user, [:log_costs]
         params['cost_entry']['cost_type_id'] = 1
@@ -377,7 +377,7 @@ describe CostlogController, type: :controller do
       let(:expected_cost_type) { nil }
 
       before do
-        FactoryBot.create(:cost_type, default: true)
+        create(:cost_type, default: true)
 
         grant_current_user_permissions user, [:log_costs]
         params['cost_entry'].delete('cost_type_id')
@@ -437,9 +437,9 @@ describe CostlogController, type: :controller do
 
     describe "WHEN the user is allowed to create cost_entries
               WHEN the id of an work_package not included in the provided project is provided" do
-      let(:project2) { FactoryBot.create(:project_with_types) }
+      let(:project2) { create(:project_with_types) }
       let(:work_package2) do
-        FactoryBot.create(:work_package, project: project2,
+        create(:work_package, project: project2,
                                          type: project2.types.first,
                                          author: user)
       end
@@ -549,14 +549,14 @@ describe CostlogController, type: :controller do
                 overridden_costs
                 spent_on" do
       let(:expected_work_package) do
-        FactoryBot.create(:work_package, project: project,
+        create(:work_package, project: project,
                                          type: project.types.first,
                                          author: user)
       end
-      let(:expected_user) { FactoryBot.create(:user) }
+      let(:expected_user) { create(:user) }
       let(:expected_spent_on) { cost_entry.spent_on + 4.days }
       let(:expected_units) { cost_entry.units + 20 }
-      let(:expected_cost_type) { FactoryBot.create(:cost_type) }
+      let(:expected_cost_type) { create(:cost_type) }
       let(:expected_overridden_costs) { cost_entry.overridden_costs + 300 }
 
       before do
@@ -599,7 +599,7 @@ describe CostlogController, type: :controller do
     describe "WHEN the user is allowed to update cost_entries
               WHEN updating the user
               WHEN the new user isn't a member of the project" do
-      let(:user2) { FactoryBot.create(:user) }
+      let(:user2) { create(:user) }
       let(:expected_user) { user2 }
 
       before do
@@ -614,9 +614,9 @@ describe CostlogController, type: :controller do
     describe "WHEN the user is allowed to update cost_entries
               WHEN updating the work_package
               WHEN the new work_package isn't an work_package of the current project" do
-      let(:project2) { FactoryBot.create(:project_with_types) }
+      let(:project2) { create(:project_with_types) }
       let(:work_package2) do
-        FactoryBot.create(:work_package, project: project2,
+        create(:work_package, project: project2,
                                          type: project2.types.first)
       end
       let(:expected_work_package) { work_package2 }
@@ -647,7 +647,7 @@ describe CostlogController, type: :controller do
     describe "WHEN the user is allowed to update cost_entries
               WHEN updating the cost_type
               WHEN the new cost_type is deleted" do
-      let(:expected_cost_type) { FactoryBot.create(:cost_type, deleted_at: Date.today) }
+      let(:expected_cost_type) { create(:cost_type, deleted_at: Date.today) }
 
       before do
         grant_current_user_permissions user, [:edit_cost_entries]
@@ -675,7 +675,7 @@ describe CostlogController, type: :controller do
     describe "WHEN the user is allowed to update own cost_entries and not all
               WHEN updating own cost entry
               WHEN updating the user" do
-      let(:user3) { FactoryBot.create(:user) }
+      let(:user3) { create(:user) }
 
       before do
         grant_current_user_permissions user, [:edit_own_cost_entries]
@@ -689,7 +689,7 @@ describe CostlogController, type: :controller do
     describe "WHEN the user is allowed to update own cost_entries and not all
               WHEN updating foreign cost_entry
               WHEN updating something" do
-      let(:user3) { FactoryBot.create(:user) }
+      let(:user3) { create(:user) }
 
       before do
         grant_current_user_permissions user3, [:edit_own_cost_entries]

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'support/pages/page'
@@ -45,8 +45,8 @@ module Pages
       ".op-wp-single-card-#{work_package.id}"
     end
 
-    def expect_selected
-      expect(page).to have_selector("#{card_selector}.-checked")
+    def expect_selected(selected: true)
+      expect(page).to have_conditional_selector(selected, "#{card_selector}[data-qa-selected='true']")
     end
 
     def expect_type(name)

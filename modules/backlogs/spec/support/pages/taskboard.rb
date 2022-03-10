@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'support/pages/page'
@@ -88,21 +88,10 @@ module Pages
       moved_element = find("#work_package_#{dragged_task.id}")
       target_element = find("#work_package_#{target.id}")
 
-      page
-        .driver
-        .browser
-        .action
-        .move_to(moved_element.native)
-        .click_and_hold(moved_element.native)
-        .perform
-
-      page
-        .driver
-        .browser
-        .action
-        .move_to(target_element.native, before_or_after == :before ? 0 : +50, +40)
-        .release
-        .perform
+      drag_n_drop_element from: moved_element,
+                          to: target_element,
+                          offset_x: before_or_after == :before ? 0 : +50,
+                          offset_y: +40
     end
 
     def drag_to_column(dragged_task, story, col_number)

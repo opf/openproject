@@ -33,7 +33,7 @@ def register_chrome(language, name: :"chrome_#{language}")
     options.add_preference(:browser, set_download_behavior: { behavior: 'allow' })
 
     capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
-      loggingPrefs: { browser: 'ALL' }
+      'goog:loggingPrefs': { browser: 'ALL' }
     )
 
     yield(options, capabilities) if block_given?
@@ -46,15 +46,20 @@ def register_chrome(language, name: :"chrome_#{language}")
 
     driver_opts = {
       browser: is_grid ? :remote : :chrome,
-      desired_capabilities: capabilities,
-      http_client: client,
-      options: options,
+      capabilities: [capabilities, options],
+      http_client: client
     }
 
     if is_grid
       driver_opts[:url] = ENV['SELENIUM_GRID_URL']
     else
+      if Webdrivers::ChromeFinder.location == '/snap/bin/chromium'
+        # make chromium snap install work out-of-the-box
+        # See https://stackoverflow.com/a/65121582/177665
+        chromedriver_path = '/snap/bin/chromium.chromedriver'
+      end
       driver_opts[:service] = ::Selenium::WebDriver::Service.chrome(
+        path: chromedriver_path,
         args: { verbose: true, log_path: '/tmp/chromedriver.log' }
       )
     end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -31,7 +31,7 @@ require 'spec_helper'
 describe 'Enterprise trial management',
          type: :feature,
          driver: :chrome_billy do
-  let(:admin) { FactoryBot.create(:admin) }
+  let(:admin) { create(:admin) }
 
   let(:trial_id) { '1b6486b4-5a30-4042-8714-99d7c8e6b637' }
   let(:created_body) do
@@ -258,7 +258,7 @@ describe 'Enterprise trial management',
 
     it 'can confirm that trial regularly' do
       find('.op-modal--body [data-qa-selector="op-ee-trial-waiting-resend-link"]', text: 'Resend').click
-      expect(page).to have_selector('.notification-box.-success', text: 'Email has been resent.', wait: 20)
+      expect(page).to have_selector('.op-toast.-success', text: 'Email has been resent.', wait: 20)
 
       expect(page).to have_text 'foo@foocorp.example'
       expect(page).to have_text 'email sent - waiting for confirmation'

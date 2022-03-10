@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,13 +23,13 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 describe WikiPages::SetAttributesService, type: :model do
-  let(:user) { FactoryBot.build_stubbed(:user) }
+  let(:user) { build_stubbed(:user) }
   let(:contract_class) do
     contract = double('contract_class')
 
@@ -57,7 +55,7 @@ describe WikiPages::SetAttributesService, type: :model do
   end
   let(:call_attributes) { {} }
   let(:wiki_page) do
-    FactoryBot.build_stubbed(:wiki_page_with_content)
+    build_stubbed(:wiki_page_with_content)
   end
 
   describe 'call' do
@@ -65,7 +63,8 @@ describe WikiPages::SetAttributesService, type: :model do
       {
         text: 'some new text',
         title: 'a new title',
-        slug: 'a new slug'
+        slug: 'a new slug',
+        journal_notes: 'the journal notes'
       }
     end
 
@@ -82,7 +81,7 @@ describe WikiPages::SetAttributesService, type: :model do
     subject { instance.call(call_attributes) }
 
     it 'is successful' do
-      expect(subject.success?).to be_truthy
+      expect(subject).to be_success
     end
 
     context 'for an existing wiki page' do
@@ -94,6 +93,9 @@ describe WikiPages::SetAttributesService, type: :model do
 
         expect(wiki_page.content.attributes.slice(*wiki_page.content.changed).symbolize_keys)
           .to eql call_attributes.slice(:text)
+
+        expect(wiki_page.content.journal_notes)
+          .to eql call_attributes[:journal_notes]
       end
 
       it 'does not persist the wiki_page' do
@@ -117,6 +119,19 @@ describe WikiPages::SetAttributesService, type: :model do
 
         expect(wiki_page.content.author)
           .to eql user
+      end
+
+      it 'sets the attributes' do
+        subject
+
+        expect(wiki_page.attributes.slice(*wiki_page.changed).symbolize_keys)
+          .to eql call_attributes.slice(:title, :slug)
+
+        expect(wiki_page.content.attributes.slice(*(wiki_page.content.changed - ['author_id'])).symbolize_keys)
+          .to eql call_attributes.slice(:text)
+
+        expect(wiki_page.content.journal_notes)
+          .to eql call_attributes[:journal_notes]
       end
 
       it 'marks the content author to be system changed' do

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -32,14 +32,14 @@ require_relative './shared_contract_examples'
 describe Versions::UpdateContract do
   it_behaves_like 'version contract' do
     let(:version) do
-      FactoryBot.build_stubbed(:version,
-                               project: version_project,
-                               description: version_description,
-                               start_date: version_start_date,
-                               effective_date: version_due_date,
-                               status: version_status,
-                               sharing: version_sharing,
-                               wiki_page_title: version_wiki_page_title).tap do |v|
+      build_stubbed(:version,
+                    project: version_project,
+                    description: version_description,
+                    start_date: version_start_date,
+                    effective_date: version_due_date,
+                    status: version_status,
+                    sharing: version_sharing,
+                    wiki_page_title: version_wiki_page_title).tap do |v|
         # in order to actually have something changed
         v.name = version_name
       end
@@ -69,7 +69,7 @@ describe Versions::UpdateContract do
         end
 
         context 'if the user is admin' do
-          let(:current_user) { FactoryBot.build_stubbed(:admin) }
+          let(:current_user) { build_stubbed(:admin) }
 
           it 'is a list of values' do
             expect(subject.assignable_values(:sharing, current_user))

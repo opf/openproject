@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
 import {
@@ -47,7 +47,7 @@ import { WorkPackageFiltersService } from 'core-app/features/work-packages/compo
 @Component({
   templateUrl: './filter-container.directive.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'filter-container',
+  selector: 'op-filter-container',
 })
 export class WorkPackageFilterContainerComponent extends UntilDestroyedMixin implements OnInit, OnDestroy {
   @Input('showFilterButton') showFilterButton = false;
@@ -62,9 +62,11 @@ export class WorkPackageFilterContainerComponent extends UntilDestroyedMixin imp
 
   public loaded = false;
 
-  constructor(readonly wpTableFilters:WorkPackageViewFiltersService,
+  constructor(
+    readonly wpTableFilters:WorkPackageViewFiltersService,
     readonly cdRef:ChangeDetectorRef,
-    readonly wpFiltersService:WorkPackageFiltersService) {
+    readonly wpFiltersService:WorkPackageFiltersService,
+  ) {
     super();
     this.visible$ = this.wpFiltersService.observeUntil(componentDestroyed(this));
   }

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require_relative '../../shared/selenium_workarounds'
@@ -70,8 +70,18 @@ module Components
         input.set text
       end
 
+      def open_available_filter_list
+        input = page.find('.advanced-filters--add-filter-value input')
+        input.hover
+        input.click
+      end
+
       def expect_available_filter(name, present: true)
-        expect(page).to have_conditional_selector(present, '.advanced-filters--add-filter-value option', text: name)
+        # The selector here is rather unspecific. Sometimes, we need ng-select to render the options outside of the
+        # current element tree. However this means that the selector loses all feature specificity, as it's rendered
+        # somewhere in the html body. This test assumes that only one ng-select can be opened at one time.
+        # If you find errors with your specs related to the filter options, it might be coming from here.
+        expect(page).to have_conditional_selector(present, '.ng-dropdown-panel .ng-option-label', text: name)
       end
 
       def expect_loaded
@@ -160,7 +170,7 @@ module Components
             Array(value).each do |val|
               select_autocomplete page.find("#filter_#{id}"),
                                   query: val,
-                                  results_selector: '.advanced-filters--ng-select .ng-dropdown-panel-items'
+                                  results_selector: '.ng-dropdown-panel-items'
             end
           else
             within_values(id) do

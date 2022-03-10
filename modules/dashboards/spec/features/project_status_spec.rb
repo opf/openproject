@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -31,9 +31,9 @@ require 'spec_helper'
 require_relative '../support/pages/dashboard'
 
 describe 'Project status widget on dashboard', type: :feature, js: true do
-  let!(:project) { FactoryBot.create :project, status: project_status }
+  let!(:project) { create :project, status: project_status }
   let!(:project_status) do
-    FactoryBot.create :project_status
+    create :project_status
   end
 
   let(:read_only_permissions) do
@@ -47,15 +47,15 @@ describe 'Project status widget on dashboard', type: :feature, js: true do
   end
 
   let(:read_only_user) do
-    FactoryBot.create(:user,
-                      member_in_project: project,
-                      member_with_permissions: read_only_permissions)
+    create(:user,
+           member_in_project: project,
+           member_with_permissions: read_only_permissions)
   end
 
   let(:editing_user) do
-    FactoryBot.create(:user,
-                      member_in_project: project,
-                      member_with_permissions: editing_permissions)
+    create(:user,
+           member_in_project: project,
+           member_with_permissions: editing_permissions)
   end
 
   let(:dashboard_page) do
@@ -66,7 +66,7 @@ describe 'Project status widget on dashboard', type: :feature, js: true do
     dashboard_page.visit!
     dashboard_page.add_widget(1, 1, :within, "Project status")
 
-    dashboard_page.expect_and_dismiss_notification message: I18n.t('js.notice_successful_update')
+    dashboard_page.expect_and_dismiss_toaster message: I18n.t('js.notice_successful_update')
   end
 
   before do

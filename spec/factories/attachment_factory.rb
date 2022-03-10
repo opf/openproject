@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require Rails.root + 'spec/support/file_helpers'
@@ -55,6 +55,12 @@ FactoryBot.define do
 
     factory :attached_picture do
       content_type { 'image/jpeg' }
+    end
+
+    factory :pending_direct_upload do
+      digest { "" }
+      downloads { -1 }
+      created_at { DateTime.now - 2.weeks }
     end
   end
 end

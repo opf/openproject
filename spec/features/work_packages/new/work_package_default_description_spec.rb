@@ -4,16 +4,16 @@ require 'features/work_packages/work_packages_page'
 require 'features/page_objects/notification'
 
 describe 'new work package', js: true, with_mail: false do
-  let(:type_task) { FactoryBot.create(:type_task, description: "# New Task template\n\nHello there") }
-  let(:type_feature) { FactoryBot.create(:type_feature, description: "", is_default: true) }
-  let(:type_bug) { FactoryBot.create(:type_bug, description: "# New Bug template\n\nGeneral Kenobi") }
-  let!(:status) { FactoryBot.create(:status, is_default: true) }
-  let!(:priority) { FactoryBot.create(:priority, is_default: true) }
+  let(:type_task) { create(:type_task, description: "# New Task template\n\nHello there") }
+  let(:type_feature) { create(:type_feature, description: "", is_default: true) }
+  let(:type_bug) { create(:type_bug, description: "# New Bug template\n\nGeneral Kenobi") }
+  let!(:status) { create(:status, is_default: true) }
+  let!(:priority) { create(:priority, is_default: true) }
   let!(:project) do
-    FactoryBot.create(:project, types: [type_feature, type_task, type_bug], no_types: true)
+    create(:project, types: [type_feature, type_task, type_bug], no_types: true)
   end
 
-  let(:user) { FactoryBot.create :admin }
+  let(:user) { create :admin }
 
   let(:subject_field) { wp_page.edit_field :subject }
   let(:description_field) { wp_page.edit_field :description }
@@ -57,7 +57,7 @@ describe 'new work package', js: true, with_mail: false do
     end
 
     scroll_to_and_click find('#work-packages--edit-actions-save')
-    wp_page.expect_notification message: 'Successful creation.'
+    wp_page.expect_toast message: 'Successful creation.'
 
     expect(page).to have_selector('.inline-edit--display-field.description h1', text: 'New Bug template')
   end

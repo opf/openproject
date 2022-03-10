@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require File.expand_path('../../../../spec_helper', __dir__)
@@ -63,8 +63,8 @@ describe OpenProject::GithubIntegration::NotificationHandler::IssueComment do
   let(:pr_html_url) { 'https://github.com/test_user/repo/pull/123' }
   let(:pr_number) { 123 }
   let(:repo_full_name) { 'test_user/repo' }
-  let(:github_system_user) { FactoryBot.create :admin }
-  let(:work_package) { FactoryBot.create :work_package }
+  let(:github_system_user) { create :admin }
+  let(:work_package) { create :work_package }
 
   before do
     allow(handler_instance)
@@ -134,7 +134,7 @@ describe OpenProject::GithubIntegration::NotificationHandler::IssueComment do
     end
 
     context 'when we already have a GithubPullRequest for the commented PR' do
-      let(:github_pull_request) { FactoryBot.create(:github_pull_request, github_html_url: pr_html_url) }
+      let(:github_pull_request) { create(:github_pull_request, github_html_url: pr_html_url) }
       let(:comment) do
         "**Referenced in PR:** [test_user](https://github.com/test_user) referenced this work package" \
         " in Pull request 123 [PR or issue title](https://comment.url) on [test_user/repo](https://github.com/test_user/repo).\n"
@@ -150,7 +150,7 @@ describe OpenProject::GithubIntegration::NotificationHandler::IssueComment do
 
     context 'when we already have a GithubPullRequest with that work_package' do
       let(:github_pull_request) do
-        FactoryBot.create(:github_pull_request, github_html_url: pr_html_url, work_packages: [work_package])
+        create(:github_pull_request, github_html_url: pr_html_url, work_packages: [work_package])
       end
 
       before do
@@ -193,7 +193,7 @@ describe OpenProject::GithubIntegration::NotificationHandler::IssueComment do
     end
 
     context 'when we already have a GithubPullRequest for the commented PR' do
-      let(:github_pull_request) { FactoryBot.create(:github_pull_request, github_html_url: pr_html_url) }
+      let(:github_pull_request) { create(:github_pull_request, github_html_url: pr_html_url) }
       let(:comment) do
         "**Referenced in PR:** [test_user](https://github.com/test_user) referenced this work package" \
         " in Pull request 123 [PR or issue title](https://comment.url) on [test_user/repo](https://github.com/test_user/repo).\n"
@@ -209,7 +209,7 @@ describe OpenProject::GithubIntegration::NotificationHandler::IssueComment do
 
     context 'when we already have a GithubPullRequest with that work_package' do
       let(:github_pull_request) do
-        FactoryBot.create(:github_pull_request, github_html_url: pr_html_url, work_packages: [work_package])
+        create(:github_pull_request, github_html_url: pr_html_url, work_packages: [work_package])
       end
 
       before do

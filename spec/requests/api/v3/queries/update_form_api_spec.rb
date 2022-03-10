@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -25,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 
 require 'spec_helper'
 require 'rack/test'
@@ -34,17 +32,17 @@ describe "POST /api/v3/queries/form", type: :request do
   include API::V3::Utilities::PathHelper
 
   let(:path) { api_v3_paths.query_form(query.id) }
-  let(:user) { FactoryBot.create(:admin) }
-  let(:role) { FactoryBot.create :existing_role, permissions: permissions }
+  let(:user) { create(:admin) }
+  let(:role) { create :existing_role, permissions: permissions }
   let(:permissions) { %i(view_work_packages manage_public_queries) }
 
-  let!(:project) { FactoryBot.create(:project_with_types, members: { user => role }) }
+  let!(:project) { create(:project_with_types, members: { user => role }) }
 
   let(:query) do
-    FactoryBot.create(
+    create(
       :query,
       name: "Existing Query",
-      is_public: false,
+      public: false,
       project: project,
       user: user
     )
@@ -126,7 +124,7 @@ describe "POST /api/v3/queries/form", type: :request do
       end
 
       let(:custom_field) do
-        cf = FactoryBot.create(:list_wp_custom_field)
+        cf = create(:list_wp_custom_field)
         project.work_package_custom_fields << cf
         cf.types << project.types.first
 
@@ -134,7 +132,7 @@ describe "POST /api/v3/queries/form", type: :request do
       end
 
       let(:non_project_type) do
-        FactoryBot.create(:type)
+        create(:type)
       end
 
       let(:static_columns_json) do
@@ -305,7 +303,7 @@ describe "POST /api/v3/queries/form", type: :request do
   end
 
   describe 'with all parameters given' do
-    let(:status) { FactoryBot.create :status }
+    let(:status) { create :status }
 
     let(:additional_setup) do
       status
@@ -519,7 +517,7 @@ describe "POST /api/v3/queries/form", type: :request do
     end
 
     context "with an unauthorized user trying to set the query public" do
-      let(:user) { FactoryBot.create(:user) }
+      let(:user) { create(:user) }
       let(:permissions) { [:view_work_packages] }
 
       it "should reject the request" do

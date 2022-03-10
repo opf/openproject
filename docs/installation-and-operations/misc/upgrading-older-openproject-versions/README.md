@@ -6,7 +6,7 @@ If you also need to migrate from MySQL to PostgreSQL during that process, the st
 
 To make this easier there is a script which automates database migration and conversion in one simple step. The only dependency is [a docker installation](https://www.docker.com/get-started). It's included in the docker image itself but you will want to run it directly on the docker host. To do that you can either copy it onto your system from `/app/script/migration/migrate-from-pre-8.sh` or simply download it [here](https://github.com/opf/openproject/tree/dev/script/migration/migrate-from-pre-8.sh).
 
-All the script needs is docker to be installed. It will start containers as required for the migration and clean them up afterwards. The result of the migration will be a SQL dump of OpenProject in the current stable version. This can then be used with a fresh packaged installation, or an upgraded package. See [how to restore a backup](/installation-and-operations/operation/restoring/).
+All the script needs is docker to be installed. It will start containers as required for the migration and clean them up afterwards. The result of the migration will be a SQL dump of OpenProject in the current stable version. This can then be used with a fresh packaged installation, or an upgraded package. See [how to restore a backup](../../../installation-and-operations/operation/restoring/).
 
 ## Usage
 
@@ -64,8 +64,10 @@ You can simply upgrade your package first and then switch to a PostgreSQL databa
 3. After this is completed, stop the servers to restore the database separately
 
    `service openproject stop`
+   
+The following command will restore the database. **WARNING:** This will remove the database returned by `openproject config:get DATABASE_URL`, so please double check this is what you want to do:
 
-   `pg_restore --dbname $(openproject config:get DATABASE_URL) /path/to/migrated/postgresql.dump`  
+   `pg_restore --clean --if-exists --dbname $(openproject config:get DATABASE_URL) /path/to/migrated/postgresql.dump`  
 
 4. Execute configure script to ensure the migrations are complete and to restart the server
 

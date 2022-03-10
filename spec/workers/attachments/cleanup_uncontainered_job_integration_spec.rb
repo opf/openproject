@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -33,22 +31,22 @@ require 'spec_helper'
 describe Attachments::CleanupUncontaineredJob, type: :job do
   let(:grace_period) { 120 }
 
-  let!(:containered_attachment) { FactoryBot.create(:attachment) }
+  let!(:containered_attachment) { create(:attachment) }
   let!(:old_uncontainered_attachment) do
-    FactoryBot.create(:attachment, container: nil, created_at: Time.now - grace_period.minutes)
+    create(:attachment, container: nil, created_at: Time.now - grace_period.minutes)
   end
   let!(:new_uncontainered_attachment) do
-    FactoryBot.create(:attachment, container: nil, created_at: Time.now - (grace_period - 1).minutes)
+    create(:attachment, container: nil, created_at: Time.now - (grace_period - 1).minutes)
   end
 
   let!(:finished_upload) do
-    FactoryBot.create(:attachment, created_at: Time.now - grace_period.minutes, digest: "0x42")
+    create(:attachment, created_at: Time.now - grace_period.minutes, digest: "0x42")
   end
   let!(:old_pending_upload) do
-    FactoryBot.create(:attachment, created_at: Time.now - grace_period.minutes, digest: "", downloads: -1)
+    create(:attachment, created_at: Time.now - grace_period.minutes, digest: "", downloads: -1)
   end
   let!(:new_pending_upload) do
-    FactoryBot.create(:attachment, created_at: Time.now - (grace_period - 1).minutes, digest: "", downloads: -1)
+    create(:attachment, created_at: Time.now - (grace_period - 1).minutes, digest: "", downloads: -1)
   end
 
   let(:job) { described_class.new }

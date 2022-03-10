@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,12 +23,12 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module Queries::WorkPackages::FilterSerializer
-  extend Queries::AvailableFilters
-  extend Queries::AvailableFilters::ClassMethods
+  extend Queries::Filters::AvailableFilters
+  extend Queries::Filters::AvailableFilters::ClassMethods
 
   def self.load(serialized_filter_hash)
     return [] if serialized_filter_hash.nil?
@@ -41,7 +39,7 @@ module Queries::WorkPackages::FilterSerializer
 
     (YAML.load(yaml) || {}).each_with_object([]) do |(field, options), array|
       options = options.with_indifferent_access
-      filter = filter_for(field, true)
+      filter = filter_for(field, no_memoization: true)
       filter.operator = options['operator']
       filter.values = options['values']
       array << filter

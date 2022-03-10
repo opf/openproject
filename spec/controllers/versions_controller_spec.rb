@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,17 +23,17 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 describe VersionsController, type: :controller do
-  let(:user) { FactoryBot.create(:admin) }
-  let(:project) { FactoryBot.create(:public_project) }
-  let(:version1) { FactoryBot.create(:version, project: project, effective_date: nil) }
-  let(:version2) { FactoryBot.create(:version, project: project) }
-  let(:version3) { FactoryBot.create(:version, project: project, effective_date: (Date.today - 14.days)) }
+  let(:user) { create(:admin) }
+  let(:project) { create(:public_project) }
+  let(:version1) { create(:version, project: project, effective_date: nil) }
+  let(:version2) { create(:version, project: project) }
+  let(:version3) { create(:version, project: project, effective_date: (Date.today - 14.days)) }
 
   describe '#index' do
     render_views
@@ -66,11 +66,11 @@ describe VersionsController, type: :controller do
     end
 
     context 'with showing selected types' do
-      let(:type_a) { FactoryBot.create :type }
-      let(:type_b) { FactoryBot.create :type }
+      let(:type_a) { create :type }
+      let(:type_b) { create :type }
 
-      let(:wp_a) { FactoryBot.create :work_package, type: type_a, project: project, version: version1 }
-      let(:wp_b) { FactoryBot.create :work_package, type: type_b, project: project, version: version1 }
+      let(:wp_a) { create :work_package, type: type_a, project: project, version: version1 }
+      let(:wp_b) { create :work_package, type: type_b, project: project, version: version1 }
 
       before do
         project.types = [type_a, type_b]
@@ -138,8 +138,8 @@ describe VersionsController, type: :controller do
     end
 
     context 'with showing subprojects versions' do
-      let(:sub_project) { FactoryBot.create(:public_project, parent_id: project.id) }
-      let(:version4) { FactoryBot.create(:version, project: sub_project) }
+      let(:sub_project) { create(:public_project, parent_id: project.id) }
+      let(:version4) { create(:version, project: sub_project) }
 
       before do
         login_as(user)
@@ -197,7 +197,8 @@ describe VersionsController, type: :controller do
         post :create, params: { project_id: project.id, version: { name: 'test_add_version' } }
       end
 
-      it { expect(response).to redirect_to(settings_versions_project_path(project)) }
+      it { expect(response).to redirect_to(project_settings_versions_path(project)) }
+
       it 'generates the new version' do
         version = Version.find_by(name: 'test_add_version')
         expect(version).not_to be_nil
@@ -230,7 +231,7 @@ describe VersionsController, type: :controller do
       put :close_completed, params: { project_id: project.id }
     end
 
-    it { expect(response).to redirect_to(settings_versions_project_path(project)) }
+    it { expect(response).to redirect_to(project_settings_versions_path(project)) }
     it { expect(Version.find_by(status: 'closed')).to eq(version3) }
   end
 
@@ -250,7 +251,7 @@ describe VersionsController, type: :controller do
         patch :update, params: params
       end
 
-      it { expect(response).to redirect_to(settings_versions_project_path(project)) }
+      it { expect(response).to redirect_to(project_settings_versions_path(project)) }
       it { expect(Version.find_by(name: 'New version name')).to eq(version1) }
       it { expect(version1.reload.effective_date).to eq(Date.today) }
     end
@@ -296,7 +297,7 @@ describe VersionsController, type: :controller do
     end
 
     it 'redirects to projects versions and the version is deleted' do
-      expect(response).to redirect_to(settings_versions_project_path(project))
+      expect(response).to redirect_to(project_settings_versions_path(project))
       expect { Version.find(@deleted) }.to raise_error ActiveRecord::RecordNotFound
     end
   end

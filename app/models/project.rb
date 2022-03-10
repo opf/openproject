@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 class Project < ApplicationRecord
@@ -34,6 +32,8 @@ class Project < ApplicationRecord
 
   include Projects::Storage
   include Projects::Activity
+  include Projects::Hierarchy
+  include Projects::AncestorsFromRoot
   include ::Scopes::Scoped
 
   # Maximum length for project identifiers
@@ -44,7 +44,7 @@ class Project < ApplicationRecord
 
   has_many :members, -> {
     # TODO: check whether this should
-    # remaint to be limited to User only
+    # remain to be limited to User only
     includes(:principal, :roles)
       .merge(Principal.not_locked.user)
       .references(:principal, :roles)
@@ -87,8 +87,6 @@ class Project < ApplicationRecord
   has_one :status, class_name: 'Projects::Status', dependent: :destroy
   has_many :budgets, dependent: :destroy
   has_many :notification_settings, dependent: :destroy
-
-  acts_as_nested_set order_column: :name, dependent: :destroy
 
   acts_as_customizable
   acts_as_searchable columns: %W(#{table_name}.name #{table_name}.identifier #{table_name}.description),
@@ -233,18 +231,12 @@ class Project < ApplicationRecord
 
   # Returns a scope of the Versions on subprojects
   def rolled_up_versions
-    shared_versions_base_scope
-      .merge(Project.active)
-      .where(projects: { id: self_and_descendants.select(:id) })
+    Version.rolled_up(self)
   end
 
   # Returns a scope of the Versions used by the project
   def shared_versions
-    if persisted?
-      shared_versions_on_persisted
-    else
-      shared_versions_by_system
-    end
+    Version.shared_with(self)
   end
 
   # Returns all versions a work package can be assigned to.  Opposed to
@@ -257,7 +249,7 @@ class Project < ApplicationRecord
   # reduce the number of db queries when performing operations including the
   # project's versions.
   def assignable_versions
-    @all_shared_versions ||= shared_versions.with_status_open.order_by_semver_name.to_a
+    @assignable_versions ||= shared_versions.references(:project).with_status_open.order_by_semver_name.to_a
   end
 
   # Returns a hash of project users grouped by role
@@ -271,34 +263,12 @@ class Project < ApplicationRecord
     end
   end
 
-  # Returns users that should be always notified on project events
-  def recipients
-    notified_users
-  end
-
-  # Return all users who want to be notified on every event within a project.
-  # If there is only the global notification setting in place, that one is authoritative.
-  # If there is a project specific setting in place, it is the project specific setting instead.
-  def notified_users
-    User.notified_on_all(self)
-  end
-
-  # Returns an array of all custom fields enabled for project issues
+  # Returns an AR scope of all custom fields enabled for project's work packages
   # (explicitly associated custom fields and custom fields enabled for all projects)
-  #
-  # Supports the :include option.
-  def all_work_package_custom_fields(options = {})
-    @all_work_package_custom_fields ||= (
-      WorkPackageCustomField.for_all(options) + (
-        if options.include? :include
-          WorkPackageCustomField.joins(:projects)
-            .where(projects: { id: id })
-            .includes(options[:include]) # use #preload instead of #includes if join gets too big
-        else
-          work_package_custom_fields
-        end
-      )
-    ).uniq.sort
+  def all_work_package_custom_fields
+    WorkPackageCustomField
+      .for_all
+      .or(WorkPackageCustomField.where(id: work_package_custom_fields))
   end
 
   def project
@@ -453,50 +423,6 @@ class Project < ApplicationRecord
     @actions_allowed ||= allowed_permissions
                          .map { |permission| OpenProject::AccessControl.allowed_actions(permission) }
                          .flatten
-  end
-
-  protected
-
-  def shared_versions_on_persisted
-    shared_versions_base_scope
-      .where(projects: { id: id })
-      .or(shared_versions_by_system)
-      .or(shared_versions_by_tree)
-      .or(shared_versions_by_hierarchy_or_descendants)
-      .or(shared_versions_by_hierarchy)
-  end
-
-  def shared_versions_by_tree
-    r = root? ? self : root
-
-    shared_versions_base_scope
-      .merge(Project.active)
-      .where(projects: { id: r.self_and_descendants.select(:id) })
-      .where(sharing: 'tree')
-  end
-
-  def shared_versions_by_hierarchy_or_descendants
-    shared_versions_base_scope
-      .merge(Project.active)
-      .where(projects: { id: ancestors.select(:id) })
-      .where(sharing: %w(hierarchy descendants))
-  end
-
-  def shared_versions_by_hierarchy
-    rolled_up_versions
-      .where(sharing: 'hierarchy')
-  end
-
-  def shared_versions_by_system
-    shared_versions_base_scope
-      .merge(Project.active)
-      .where(sharing: 'system')
-  end
-
-  def shared_versions_base_scope
-    Version
-      .includes(:project)
-      .references(:projects)
   end
 
   def remove_white_spaces_from_project_name

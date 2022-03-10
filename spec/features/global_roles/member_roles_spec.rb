@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,16 +23,16 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 describe 'Global role: Unchanged Member Roles', type: :feature, js: true do
-  let(:admin) { FactoryBot.create(:admin) }
-  let(:project) { FactoryBot.create :project }
-  let!(:role) { FactoryBot.create(:role, name: 'MemberRole1') }
-  let!(:global_role) { FactoryBot.create(:global_role, name: 'GlobalRole1') }
+  let(:admin) { create(:admin) }
+  let(:project) { create :project }
+  let!(:role) { create(:role, name: 'MemberRole1') }
+  let!(:global_role) { create(:global_role, name: 'GlobalRole1') }
 
   let(:members) { ::Pages::Members.new project.identifier }
 

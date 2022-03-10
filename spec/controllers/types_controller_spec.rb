@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,27 +23,27 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 describe TypesController, type: :controller do
   let(:project) do
-    FactoryBot.create(:project,
-                      work_package_custom_fields: [custom_field_2])
+    create(:project,
+           work_package_custom_fields: [custom_field_2])
   end
   let(:custom_field_1) do
-    FactoryBot.create(:work_package_custom_field,
-                      field_format: 'string',
-                      is_for_all: true)
+    create(:work_package_custom_field,
+           field_format: 'string',
+           is_for_all: true)
   end
-  let(:custom_field_2) { FactoryBot.create(:work_package_custom_field) }
-  let(:status_0) { FactoryBot.create(:status) }
-  let(:status_1) { FactoryBot.create(:status) }
+  let(:custom_field_2) { create(:work_package_custom_field) }
+  let(:status_0) { create(:status) }
+  let(:status_1) { create(:status) }
 
   context 'with an unauthorized account' do
-    let(:current_user) { FactoryBot.create(:user) }
+    let(:current_user) { create(:user) }
 
     before do
       allow(User).to receive(:current).and_return(current_user)
@@ -107,7 +107,7 @@ describe TypesController, type: :controller do
   end
 
   context 'with an authorized account' do
-    let(:current_user) { FactoryBot.create(:admin) }
+    let(:current_user) { create(:admin) }
 
     before do
       allow(User).to receive(:current).and_return(current_user)
@@ -165,12 +165,12 @@ describe TypesController, type: :controller do
       end
 
       describe 'WITH workflow copy' do
-        let!(:existing_type) { FactoryBot.create(:type, name: 'Existing type') }
+        let!(:existing_type) { create(:type, name: 'Existing type') }
         let!(:workflow) do
-          FactoryBot.create(:workflow,
-                            old_status: status_0,
-                            new_status: status_1,
-                            type_id: existing_type.id)
+          create(:workflow,
+                 old_status: status_0,
+                 new_status: status_1,
+                 type_id: existing_type.id)
         end
 
         let(:params) do
@@ -199,7 +199,7 @@ describe TypesController, type: :controller do
     describe 'GET edit settings' do
       render_views
       let(:type) do
-        FactoryBot.create(:type, name: 'My type',
+        create(:type, name: 'My type',
                                  is_milestone: true,
                                  projects: [project])
       end
@@ -218,7 +218,7 @@ describe TypesController, type: :controller do
     describe 'GET edit projects' do
       render_views
       let(:type) do
-        FactoryBot.create(:type, name: 'My type',
+        create(:type, name: 'My type',
                                  is_milestone: true,
                                  projects: [project])
       end
@@ -236,9 +236,9 @@ describe TypesController, type: :controller do
     end
 
     describe 'POST update' do
-      let(:project2) { FactoryBot.create(:project) }
+      let(:project2) { create(:project) }
       let(:type) do
-        FactoryBot.create(:type, name: 'My type',
+        create(:type, name: 'My type',
                                  is_milestone: true,
                                  projects: [project, project2])
       end
@@ -289,8 +289,8 @@ describe TypesController, type: :controller do
     end
 
     describe 'POST move' do
-      let!(:type) { FactoryBot.create(:type, name: 'My type', position: '1') }
-      let!(:type2) { FactoryBot.create(:type, name: 'My type 2', position: '2') }
+      let!(:type) { create(:type, name: 'My type', position: '1') }
+      let!(:type2) { create(:type, name: 'My type 2', position: '2') }
       let(:params) { { 'id' => type.id, 'type' => { move_to: 'lower' } } }
 
       before do
@@ -305,11 +305,11 @@ describe TypesController, type: :controller do
     end
 
     describe 'DELETE destroy' do
-      let(:type) { FactoryBot.create(:type, name: 'My type') }
-      let(:type2) { FactoryBot.create(:type, name: 'My type 2', projects: [project]) }
-      let(:type3) { FactoryBot.create(:type, name: 'My type 3', is_standard: true) }
+      let(:type) { create(:type, name: 'My type') }
+      let(:type2) { create(:type, name: 'My type 2', projects: [project]) }
+      let(:type3) { create(:type, name: 'My type 3', is_standard: true) }
 
-      describe 'successful detroy' do
+      describe 'successful destroy' do
         let(:params) { { 'id' => type.id } }
 
         before do
@@ -326,17 +326,18 @@ describe TypesController, type: :controller do
         end
       end
 
-      describe 'detroy type in use should fail' do
+      describe 'destroy type in use should fail' do
         let(:project2) do
-          FactoryBot.create(:project,
-                            work_package_custom_fields: [custom_field_2],
-                            types: [type2])
+          create(:project,
+                 active: false,
+                 work_package_custom_fields: [custom_field_2],
+                 types: [type2])
         end
         let!(:work_package) do
-          FactoryBot.create(:work_package,
-                            author: current_user,
-                            type: type2,
-                            project: project2)
+          create(:work_package,
+                 author: current_user,
+                 type: type2,
+                 project: project2)
         end
         let(:params) { { 'id' => type2.id } }
 
@@ -347,8 +348,13 @@ describe TypesController, type: :controller do
         it { expect(response).to be_redirect }
         it { expect(response).to redirect_to(types_path) }
         it 'should show an error message' do
-          expect(flash[:error]).to eq(I18n.t(:error_can_not_delete_type))
+          error_message = [I18n.t(:'error_can_not_delete_type.explanation')]
+          error_message.push(I18n.t(:'error_can_not_delete_type.archived_projects',
+                                    archived_projects: project2.name))
+
+          expect(sanitize_string(flash[:error])).to eq(sanitize_string(error_message))
         end
+
         it 'should be present in the database' do
           expect(::Type.find_by(name: 'My type 2').id).to eq(type2.id)
         end

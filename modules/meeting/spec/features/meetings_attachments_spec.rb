@@ -3,21 +3,21 @@ require 'features/page_objects/notification'
 
 describe 'Add an attachment to a meeting (agenda)', js: true do
   let(:role) do
-    FactoryBot.create :role, permissions: %i[view_meetings edit_meetings create_meeting_agendas]
+    create :role, permissions: %i[view_meetings edit_meetings create_meeting_agendas]
   end
 
   let(:dev) do
-    FactoryBot.create :user, member_in_project: project, member_through_role: role
+    create :user, member_in_project: project, member_through_role: role
   end
 
-  let(:project) { FactoryBot.create(:project) }
+  let(:project) { create(:project) }
 
   let(:meeting) do
-    FactoryBot.create(
+    create(
       :meeting,
       project: project,
       title: "Versammlung",
-      agenda: FactoryBot.create(:meeting_agenda, text: "Versammlung")
+      agenda: create(:meeting_agenda, text: "Versammlung")
     )
   end
 
@@ -65,13 +65,13 @@ describe 'Add an attachment to a meeting (agenda)', js: true do
       # Attach file manually
       expect(page).to have_no_selector('.work-package--attachments--filename')
       attachments.attach_file_on_input(image_fixture.path)
-      expect(page).not_to have_selector('notification-upload-progress')
+      expect(page).not_to have_selector('op-toasters-upload-progress')
       expect(page).to have_selector('.work-package--attachments--filename', text: 'image.png', wait: 5)
 
       ##
       # and via drag & drop
       attachments.drag_and_drop_file(container, image_fixture.path)
-      expect(page).not_to have_selector('notification-upload-progress')
+      expect(page).not_to have_selector('op-toasters-upload-progress')
       expect(page).to have_selector('.work-package--attachments--filename', text: 'image.png', count: 2, wait: 5)
     end
   end

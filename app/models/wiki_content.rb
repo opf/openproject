@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 class WikiContent < ApplicationRecord
@@ -33,11 +31,6 @@ class WikiContent < ApplicationRecord
 
   belongs_to :page, class_name: 'WikiPage'
   belongs_to :author, class_name: 'User'
-  validates_length_of :comments, maximum: 255, allow_nil: true
-
-  attr_accessor :comments
-
-  before_save :comments_to_journal_notes
 
   acts_as_journalized
 
@@ -63,9 +56,7 @@ class WikiContent < ApplicationRecord
     page.visible?(user)
   end
 
-  def project
-    page.project
-  end
+  delegate :project, to: :page
 
   def attachments
     page.nil? ? [] : page.attachments
@@ -77,14 +68,7 @@ class WikiContent < ApplicationRecord
 
   deprecated_alias :versions, :journals
 
-  # REVIEW
   def version
     last_journal.nil? ? 0 : last_journal.version
-  end
-
-  private
-
-  def comments_to_journal_notes
-    add_journal author, comments
   end
 end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,14 +23,14 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 describe ::Users::DeleteService, type: :model do
-  let(:input_user) { FactoryBot.build_stubbed(:user) }
-  let(:project) { FactoryBot.build_stubbed(:project) }
+  let(:input_user) { build_stubbed(:user) }
+  let(:project) { build_stubbed(:project) }
 
   let(:instance) { described_class.new(model: input_user, user: actor) }
 
@@ -38,23 +38,25 @@ describe ::Users::DeleteService, type: :model do
 
   shared_examples 'deletes the user' do
     it do
-      expect(input_user).to receive(:locked!)
+      allow(input_user).to receive(:update_column).with(:status, 3)
       expect(Principals::DeleteJob).to receive(:perform_later).with(input_user)
       expect(subject).to be_success
+      expect(input_user).to have_received(:update_column).with(:status, 3)
     end
   end
 
   shared_examples 'does not delete the user' do
     it do
-      expect(input_user).not_to receive(:locked!)
+      allow(input_user).to receive(:update_column).with(:status, 3)
       expect(Principals::DeleteJob).not_to receive(:perform_later)
       expect(subject).not_to be_success
+      expect(input_user).not_to have_received(:update_column).with(:status, 3)
     end
   end
 
   context 'if deletion by admins allowed', with_settings: { users_deletable_by_admins: true } do
     context 'with admin user' do
-      let(:actor) { FactoryBot.build_stubbed(:admin) }
+      let(:actor) { build_stubbed(:admin) }
 
       it_behaves_like 'deletes the user'
     end
@@ -72,19 +74,13 @@ describe ::Users::DeleteService, type: :model do
     context 'with privileged system user' do
       let(:actor) { User.system }
 
-      it 'performs deletion' do
-        actor.run_given do
-          expect(input_user).to receive(:locked!)
-          expect(Principals::DeleteJob).to receive(:perform_later).with(input_user)
-          expect(subject).to be_success
-        end
-      end
+      it_behaves_like 'deletes the user'
     end
   end
 
   context 'if deletion by admins NOT allowed', with_settings: { users_deletable_by_admins: false } do
     context 'with admin user' do
-      let(:actor) { FactoryBot.build_stubbed(:admin) }
+      let(:actor) { build_stubbed(:admin) }
 
       it_behaves_like 'does not delete the user'
     end

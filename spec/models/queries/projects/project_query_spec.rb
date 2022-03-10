@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -31,7 +31,7 @@ require 'spec_helper'
 describe Queries::Projects::ProjectQuery, type: :model do
   let(:instance) { described_class.new }
   let(:base_scope) { Project.all.order(id: :desc) }
-  let(:current_user) { FactoryBot.build_stubbed(:admin) }
+  let(:current_user) { build_stubbed(:admin) }
 
   before do
     login_as(current_user)
@@ -45,7 +45,7 @@ describe Queries::Projects::ProjectQuery, type: :model do
     end
 
     context 'as a non admin' do
-      let(:current_user) { FactoryBot.build_stubbed(:user) }
+      let(:current_user) { build_stubbed(:user) }
 
       it 'is the same as getting all visible projects' do
         expect(instance.results.to_sql).to eql base_scope.where(id: Project.visible).to_sql
@@ -137,6 +137,19 @@ describe Queries::Projects::ProjectQuery, type: :model do
       it 'returns all visible projects ordered by id asc' do
         expect(instance.order(id: :asc).results.to_sql)
           .to eql base_scope.except(:order).order(id: :asc).to_sql
+      end
+    end
+  end
+
+  context 'with an order by typeahead asc' do
+    before do
+      instance.order(typeahead: :asc)
+    end
+
+    describe '#results' do
+      it 'returns all visible projects ordered by lft asc' do
+        expect(instance.results.to_sql)
+          .to eql base_scope.except(:order).order(lft: :asc, name: :asc, id: :desc).to_sql
       end
     end
   end

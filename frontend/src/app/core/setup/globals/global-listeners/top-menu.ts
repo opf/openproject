@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 export const ANIMATION_RATE_MS = 100;
 
@@ -127,15 +127,13 @@ export class TopMenu {
 
   withHeadingFoldOutAtBorder() {
     let menuStartPosition;
-    if (this.menuContainer.next().get(0) !== undefined && (this.menuContainer.next().get(0).tagName === 'H2')) {
+    const next = this.menuContainer.next();
+    const wikiHeading = this.menuContainer.next().children().next().first();
+    if (next.get(0)?.tagName === 'H2') {
       menuStartPosition = this.menuContainer.next().innerHeight()! + this.menuContainer.next().position().top;
       this.menuContainer.find('.op-app-menu--body').css({ top: menuStartPosition });
     } else if (this.menuContainer.next().hasClass('wiki-content')
-      && this.menuContainer.next().children().next().first()
-        .get(0) !== undefined
-      && this.menuContainer.next().children().next().first()
-        .get(0).tagName === 'H1') {
-      const wikiHeading = this.menuContainer.next().children().next().first();
+      && wikiHeading.get(0)?.tagName === 'H1') {
       menuStartPosition = wikiHeading.innerHeight()! + wikiHeading.position().top;
       this.menuContainer.find('.op-app-menu--body').css({ top: menuStartPosition });
     }
@@ -224,7 +222,7 @@ export class TopMenu {
   }
 
   // If there is ANY input, it will have precedence over links,
-  // i.e. links will only get focussed, if there is NO input whatsoever
+  // i.e. links will only get focused, if there is NO input whatsoever
   focusFirstInputOrLink(dropdown:JQuery) {
     let toFocus = dropdown.find('ul :input:visible:first');
     if (toFocus.length === 0) {

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,18 +23,18 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 describe WorkPackagesHelper, type: :helper do
-  let(:stub_work_package) { FactoryBot.build_stubbed(:work_package) }
-  let(:stub_project) { FactoryBot.build_stubbed(:project) }
-  let(:stub_type) { FactoryBot.build_stubbed(:type) }
-  let(:stub_user) { FactoryBot.build_stubbed(:user) }
-  let(:open_status) { FactoryBot.build_stubbed(:status, is_closed: false) }
-  let(:closed_status) { FactoryBot.build_stubbed(:status, is_closed: true) }
+  let(:stub_work_package) { build_stubbed(:work_package) }
+  let(:stub_project) { build_stubbed(:project) }
+  let(:stub_type) { build_stubbed(:type) }
+  let(:stub_user) { build_stubbed(:user) }
+  let(:open_status) { build_stubbed(:status, is_closed: false) }
+  let(:closed_status) { build_stubbed(:status, is_closed: true) }
 
   describe '#link_to_work_package' do
     before do
@@ -176,13 +176,13 @@ describe WorkPackagesHelper, type: :helper do
   end
 
   describe '#work_package_css_classes' do
-    let(:statuses) { (1..5).map { |_i| FactoryBot.build_stubbed(:status) } }
-    let(:priority) { FactoryBot.build_stubbed :priority, is_default: true }
+    let(:statuses) { (1..5).map { |_i| build_stubbed(:status) } }
+    let(:priority) { build_stubbed :priority, is_default: true }
     let(:status) { statuses[0] }
     let(:stub_work_package) do
-      FactoryBot.build_stubbed(:work_package,
-                               status: status,
-                               priority: priority)
+      build_stubbed(:work_package,
+                    status: status,
+                    priority: priority)
     end
 
     it 'always has the work_package class' do

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -39,30 +39,31 @@ describe ::API::V3::Capabilities::CapabilitySqlRepresenter, 'rendering' do
       .limit(1)
   end
   let(:principal) do
-    FactoryBot.create(:user,
-                      member_in_project: project,
-                      member_with_permissions: %i[view_members])
+    create(:user,
+           member_in_project: project,
+           member_with_permissions: %i[view_members])
   end
   let(:project) do
-    FactoryBot.create(:project)
+    create(:project)
   end
   let(:context) do
     project
   end
 
   current_user do
-    FactoryBot.create(:user,
-                      member_in_project: project,
-                      member_with_permissions: [])
+    create(:user,
+           member_in_project: project,
+           member_with_permissions: [])
   end
 
   subject(:json) do
     ::API::V3::Utilities::SqlRepresenterWalker
-      .new(scope,
-           embed: {},
-           select: { 'id' => {}, '_type' => {}, 'self' => {}, 'action' => {}, 'context' => {}, 'principal' => {} },
-           current_user: current_user)
-      .walk(API::V3::Capabilities::CapabilitySqlRepresenter)
+      .new(
+        scope,
+        current_user: current_user,
+        url_query: { select: { 'id' => {}, '_type' => {}, 'self' => {}, 'action' => {}, 'context' => {}, 'principal' => {} } }
+      )
+      .walk(described_class)
       .to_json
   end
 
@@ -94,9 +95,9 @@ describe ::API::V3::Capabilities::CapabilitySqlRepresenter, 'rendering' do
 
   context 'with a project and group' do
     let(:principal) do
-      FactoryBot.create(:group,
-                        member_in_project: project,
-                        member_with_permissions: %i[view_members])
+      create(:group,
+             member_in_project: project,
+             member_with_permissions: %i[view_members])
     end
 
     it 'renders as expected' do
@@ -126,10 +127,10 @@ describe ::API::V3::Capabilities::CapabilitySqlRepresenter, 'rendering' do
 
   context 'with a global permission' do
     let(:principal) do
-      FactoryBot.create(:user,
-                        global_permission: %i[manage_user],
-                        member_in_project: project,
-                        member_with_permissions: [])
+      create(:user,
+             global_permission: %i[manage_user],
+             member_in_project: project,
+             member_with_permissions: [])
     end
     let(:context) { nil }
 

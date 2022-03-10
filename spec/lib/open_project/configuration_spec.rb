@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -49,13 +49,13 @@ describe OpenProject::Configuration do
 
     it 'does nothing if no legacy configuration given' do
       described_class['email_delivery_method'] = nil
-      expect(Setting).not_to have_received(:email_delivery_method=)
+      expect(Setting).not_to receive(:email_delivery_method=)
       expect(described_class.migrate_mailer_configuration!).to eq(true)
     end
 
     it 'does nothing if email_delivery_configuration forced to legacy' do
       described_class['email_delivery_configuration'] = 'legacy'
-      expect(Setting).not_to have_received(:email_delivery_method=)
+      expect(Setting).not_to receive(:email_delivery_method=)
       expect(described_class.migrate_mailer_configuration!).to eq(true)
     end
 
@@ -97,7 +97,7 @@ describe OpenProject::Configuration do
 
     it 'uses the legacy method to configure email settings' do
       described_class['email_delivery_configuration'] = 'legacy'
-      expect(OpenProject::Configuration).to receive(:configure_legacy_action_mailer)
+      expect(described_class).to receive(:configure_legacy_action_mailer)
       described_class.reload_mailer_configuration!
     end
 
@@ -189,12 +189,19 @@ describe OpenProject::Configuration do
   end
 
   describe '.configure_legacy_action_mailer' do
-    let(:action_mailer) { double('ActionMailer::Base', deliveries: []) }
+    let(:action_mailer) do
+      class_double('ActionMailer::Base',
+                   deliveries: []).tap do |mailer|
+        allow(mailer).to receive(:perform_deliveries=)
+        allow(mailer).to receive(:delivery_method=)
+        allow(mailer).to receive(:smtp_settings=)
+      end
+    end
     let(:settings) do
       { 'email_delivery_method' => 'smtp',
         'smtp_address' => 'smtp.example.net',
         'smtp_port' => '25' }.map do |name, value|
-        OpenStruct.new name: name, value: value
+        Hashie::Mash.new name: name, value: value
       end
     end
 
@@ -213,11 +220,18 @@ describe OpenProject::Configuration do
     end
 
     it 'enables deliveries and configure ActionMailer smtp delivery' do
-      expect(action_mailer).to receive(:perform_deliveries=).with(true)
-      expect(action_mailer).to receive(:delivery_method=).with(:smtp)
-      expect(action_mailer).to receive(:smtp_settings=).with(address: 'smtp.example.net',
-                                                             port: '25')
       described_class.send(:configure_legacy_action_mailer)
+
+      expect(action_mailer)
+        .to have_received(:perform_deliveries=)
+              .with(true)
+      expect(action_mailer)
+        .to have_received(:delivery_method=)
+              .with(:smtp)
+      expect(action_mailer)
+        .to have_received(:smtp_settings=)
+              .with(address: 'smtp.example.net',
+                    port: '25')
     end
   end
 
@@ -262,12 +276,18 @@ describe OpenProject::Configuration do
 
       context 'with additional cache store configuration', with_config: { 'rails_cache_store' => 'bar' } do
         it 'changes the cache store' do
+          described_class.send(:configure_cache, application_config)
           expect(application_config.cache_store).to eq([:bar])
         end
       end
 
       context 'without additional cache store configuration', with_config: { 'rails_cache_store' => nil } do
+        before do
+          described_class['rails_cache_store'] = nil
+        end
+
         it 'defaults the cache store to :file_store' do
+          described_class.send(:configure_cache, application_config)
           expect(application_config.cache_store.first).to eq(:file_store)
         end
       end

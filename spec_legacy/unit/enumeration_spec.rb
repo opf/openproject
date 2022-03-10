@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,21 +23,21 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 require_relative './../legacy_spec_helper'
 
 describe Enumeration, type: :model do
   before do
     WorkPackage.delete_all
-    @low_priority = FactoryBot.create :priority_low
-    @issues = FactoryBot.create_list :work_package, 6, priority: @low_priority
-    @default_enumeration = FactoryBot.create :default_enumeration
+    @low_priority = create :priority_low
+    @issues = create_list :work_package, 6, priority: @low_priority
+    @default_enumeration = create :default_enumeration
   end
 
   it 'should in use' do
     assert @low_priority.in_use?
-    assert !FactoryBot.create(:priority).in_use?
+    assert !create(:priority).in_use?
   end
 
   it 'should default' do
@@ -80,14 +78,10 @@ describe Enumeration, type: :model do
   end
 
   it 'should destroy with reassign' do
-    new_priority = FactoryBot.create :priority
+    new_priority = create :priority
     Enumeration.find(@low_priority.id).destroy(new_priority)
     assert_nil WorkPackage.find_by(priority_id: @low_priority.id)
     assert_equal @issues.size, new_priority.objects_count
-  end
-
-  it 'should be customizable' do
-    assert Enumeration.included_modules.include?(Redmine::Acts::Customizable::InstanceMethods)
   end
 
   it 'should belong to a project' do

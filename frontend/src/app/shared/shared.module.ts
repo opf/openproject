@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,10 +23,13 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 import { FormsModule } from '@angular/forms';
-import { Injector, NgModule } from '@angular/core';
+import {
+  Injector,
+  NgModule,
+} from '@angular/core';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { PortalModule } from '@angular/cdk/portal';
@@ -34,7 +37,11 @@ import { CommonModule } from '@angular/common';
 import { NgOptionHighlightModule } from '@ng-select/ng-option-highlight';
 import { DragulaModule } from 'ng2-dragula';
 import { DynamicModule } from 'ng-dynamic-component';
-import { StateService, UIRouterModule } from '@uirouter/angular';
+import {
+  StateService,
+  UIRouterModule,
+} from '@uirouter/angular';
+import { OpSpotModule } from 'core-app/spot/spot.module';
 import { CurrentUserModule } from 'core-app/core/current-user/current-user.module';
 import { IconModule } from 'core-app/shared/components/icon/icon.module';
 import { AttributeHelpTextModule } from 'core-app/shared/components/attribute-help-texts/attribute-help-text.module';
@@ -51,13 +58,19 @@ import { EnterpriseBannerBootstrapComponent } from 'core-app/shared/components/e
 import { HomescreenNewFeaturesBlockComponent } from 'core-app/features/homescreen/blocks/new-features.component';
 import { TablePaginationComponent } from 'core-app/shared/components/table-pagination/table-pagination.component';
 import { HookService } from 'core-app/features/plugins/hook-service';
-import { highlightColSelector, OpHighlightColDirective } from './directives/highlight-col/highlight-col.directive';
+import { ViewSelectComponent } from 'core-app/shared/components/op-view-select/op-view-select.component';
+import { StaticQueriesService } from 'core-app/shared/components/op-view-select/op-static-queries.service';
+import {
+  highlightColSelector,
+  OpHighlightColDirective,
+} from './directives/highlight-col/highlight-col.directive';
+import { OpSearchHighlightDirective } from './directives/search-highlight.directive';
 
 import { CopyToClipboardDirective } from './components/copy-to-clipboard/copy-to-clipboard.directive';
 import { OpDateTimeComponent } from './components/date/op-date-time.component';
-import { NotificationComponent } from './components/notifications/notification.component';
-import { NotificationsContainerComponent } from './components/notifications/notifications-container.component';
-import { UploadProgressComponent } from './components/notifications/upload-progress.component';
+import { ToastComponent } from './components/toaster/toast.component';
+import { ToastsContainerComponent } from './components/toaster/toasts-container.component';
+import { UploadProgressComponent } from './components/toaster/upload-progress.component';
 import { ResizerComponent } from './components/resizer/resizer.component';
 import { CollapsibleSectionComponent } from './components/collapsible-section/collapsible-section.component';
 import { NoResultsComponent } from './components/no-results/no-results.component';
@@ -69,9 +82,15 @@ import { RemoteFieldUpdaterComponent } from './components/remote-field-updater/r
 import { ShowSectionDropdownComponent } from './components/hide-section/show-section-dropdown.component';
 import { SlideToggleComponent } from './components/slide-toggle/slide-toggle.component';
 import { DynamicBootstrapModule } from './components/dynamic-bootstrap/dynamic-bootstrap.module';
+import { OpCheckboxFieldComponent } from './components/forms/checkbox-field/checkbox-field.component';
 import { OpFormFieldComponent } from './components/forms/form-field/form-field.component';
 import { OpFormBindingDirective } from './components/forms/form-field/form-binding.directive';
 import { OpOptionListComponent } from './components/option-list/option-list.component';
+import { OpSidemenuComponent } from './components/sidemenu/sidemenu.component';
+import { OpProjectIncludeComponent } from './components/project-include/project-include.component';
+import { OpProjectListComponent } from './components/project-include/project-list.component';
+import { ViewsResourceService } from 'core-app/core/state/views/views.service';
+import { OpenprojectContentLoaderModule } from 'core-app/shared/components/op-content-loader/openproject-content-loader.module';
 
 export function bootstrapModule(injector:Injector) {
   // Ensure error reporter is run
@@ -103,6 +122,7 @@ export function bootstrapModule(injector:Injector) {
     CommonModule,
     // Angular Forms
     FormsModule,
+    OpSpotModule,
     // Angular CDK
     PortalModule,
     DragDropModule,
@@ -113,6 +133,7 @@ export function bootstrapModule(injector:Injector) {
 
     DynamicBootstrapModule,
     OpenprojectPrincipalRenderingModule,
+    OpenprojectContentLoaderModule,
 
     DatePickerModule,
     FocusModule,
@@ -134,18 +155,21 @@ export function bootstrapModule(injector:Injector) {
     DynamicBootstrapModule,
     OpenprojectPrincipalRenderingModule,
 
+    OpSpotModule,
+
     DatePickerModule,
     FocusModule,
     OpDateTimeComponent,
 
-    // Notifications
-    NotificationsContainerComponent,
-    NotificationComponent,
+    ToastsContainerComponent,
+    ToastComponent,
     UploadProgressComponent,
     OpDateTimeComponent,
 
     // Table highlight
     OpHighlightColDirective,
+
+    OpSearchHighlightDirective,
 
     ResizerComponent,
 
@@ -170,17 +194,26 @@ export function bootstrapModule(injector:Injector) {
 
     SlideToggleComponent,
 
-    // Autocompleter
+    OpCheckboxFieldComponent,
     OpFormFieldComponent,
     OpFormBindingDirective,
     OpOptionListComponent,
+    OpSidemenuComponent,
+    OpProjectIncludeComponent,
+    OpProjectListComponent,
+
+    ViewSelectComponent,
+  ],
+  providers: [
+    StaticQueriesService,
+    ViewsResourceService,
   ],
   declarations: [
     OpDateTimeComponent,
+    ViewSelectComponent,
 
-    // Notifications
-    NotificationsContainerComponent,
-    NotificationComponent,
+    ToastsContainerComponent,
+    ToastComponent,
     UploadProgressComponent,
     OpDateTimeComponent,
 
@@ -199,6 +232,8 @@ export function bootstrapModule(injector:Injector) {
 
     TablePaginationComponent,
     SortHeaderDirective,
+
+    OpSearchHighlightDirective,
 
     // Zen mode button
     ZenModeButtonComponent,
@@ -222,9 +257,13 @@ export function bootstrapModule(injector:Injector) {
     // filter
     SlideToggleComponent,
 
+    OpCheckboxFieldComponent,
     OpFormFieldComponent,
     OpFormBindingDirective,
     OpOptionListComponent,
+    OpSidemenuComponent,
+    OpProjectIncludeComponent,
+    OpProjectListComponent,
   ],
 })
 export class OPSharedModule {

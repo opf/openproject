@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require File.expand_path('../../../../spec_helper', __dir__)
@@ -38,6 +38,10 @@ describe OpenProject::GithubIntegration::NotificationHandler::Helper do
   describe '#extract_work_package_ids' do
     it 'returns an empty array for an empty source' do
       expect(handler.extract_work_package_ids('')).to eq([])
+    end
+
+    it 'returns an empty array for a null source' do
+      expect(handler.extract_work_package_ids(nil)).to eq([])
     end
 
     it 'finds a work package by code' do
@@ -60,7 +64,7 @@ describe OpenProject::GithubIntegration::NotificationHandler::Helper do
       expect(handler.extract_work_package_ids(source)).to eq([434, 234])
     end
 
-    it 'finds multiple occurences of a work package only once' do
+    it 'finds multiple occurrences of a work package only once' do
       source = "I reference https://example.net/work_packages/434\n and Blabla\n[WP 234](https://example.net/work_packages/434)\n"
       expect(handler.extract_work_package_ids(source)).to eq([434])
     end
@@ -122,9 +126,9 @@ describe OpenProject::GithubIntegration::NotificationHandler::Helper do
   end
 
   describe '#without_already_referenced' do
-    let(:work_packages) { FactoryBot.create_list(:work_package, 2) }
+    let(:work_packages) { create_list(:work_package, 2) }
     let(:referenced_work_packages) { [work_packages[0]] }
-    let(:github_pull_request) { FactoryBot.create(:github_pull_request, work_packages: referenced_work_packages) }
+    let(:github_pull_request) { create(:github_pull_request, work_packages: referenced_work_packages) }
 
     it 'returns only the not already referenced work packages' do
       expect(handler.without_already_referenced(work_packages, github_pull_request)).to match_array([work_packages[1]])

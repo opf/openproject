@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,16 +23,16 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 shared_examples_for 'ifc model contract' do
-  let(:current_user) { FactoryBot.build_stubbed(:user) }
-  let(:other_user) { FactoryBot.build_stubbed(:user) }
-  let(:model_project) { FactoryBot.build_stubbed(:project) }
-  let(:ifc_attachment) { FactoryBot.build_stubbed(:attachment, author: model_user) }
+  let(:current_user) { build_stubbed(:user) }
+  let(:other_user) { build_stubbed(:user) }
+  let(:model_project) { build_stubbed(:project) }
+  let(:ifc_attachment) { build_stubbed(:attachment, author: model_user) }
   let(:model_user) { current_user }
   let(:model_title) { 'some title' }
 
@@ -106,7 +104,7 @@ shared_examples_for 'ifc model contract' do
     let(:ifc_file) { FileHelpers.mock_uploaded_file name: "model.ifc", content_type: 'application/binary', binary: true }
     let(:ifc_attachment) do
       ::Attachments::BuildService
-        .new(user: current_user)
+        .bypass_whitelist(user: current_user)
         .call(file: ifc_file, filename: 'model.ifc')
         .result
     end
@@ -122,7 +120,7 @@ shared_examples_for 'ifc model contract' do
     end
     let(:ifc_attachment) do
       ::Attachments::BuildService
-        .new(user: current_user)
+        .bypass_whitelist(user: current_user)
         .call(file: ifc_file, filename: 'model.ifc')
         .result
     end
@@ -139,7 +137,7 @@ shared_examples_for 'ifc model contract' do
   end
 
   context 'if user of attachment and uploader are different' do
-    let(:ifc_attachment) { FactoryBot.build_stubbed(:attachment, author: other_user) }
+    let(:ifc_attachment) { build_stubbed(:attachment, author: other_user) }
 
     it 'is invalid' do
       expect_valid(false, uploader_id: %i(invalid))

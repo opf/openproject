@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,13 +23,14 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
+# rubocop:disable RSpec/MultipleMemoizedHelpers
 describe Notifications::SetAttributesService, type: :model do
-  let(:user) { FactoryBot.build_stubbed(:user) }
+  let(:user) { build_stubbed(:user) }
   let(:contract_class) do
     contract = double('contract_class')
 
@@ -56,11 +55,9 @@ describe Notifications::SetAttributesService, type: :model do
                         contract_class: contract_class)
   end
   let(:call_attributes) { {} }
-  let(:project) { FactoryBot.build_stubbed(:project) }
-  let(:reason_ian) { :mentioned }
-  let(:reason_mail) { :involved }
-  let(:reason_mail_digest) { :watched }
-  let(:journal) { FactoryBot.build_stubbed(:journal, journable: journable, data: journal_data) }
+  let(:project) { build_stubbed(:project) }
+  let(:reason) { :mentioned }
+  let(:journal) { build_stubbed(:journal, journable: journable, data: journal_data) }
   let(:journable) { nil }
   let(:journal_data) { nil }
   let(:event_subject) { 'I find it important' }
@@ -70,9 +67,7 @@ describe Notifications::SetAttributesService, type: :model do
     let(:call_attributes) do
       {
         recipient_id: recipient_id,
-        reason_ian: reason_ian,
-        reason_mail: reason_mail,
-        reason_mail_digest: reason_mail_digest,
+        reason: reason,
         resource: journable,
         journal: journal,
         subject: event_subject,
@@ -98,35 +93,30 @@ describe Notifications::SetAttributesService, type: :model do
         expect(event.attributes.compact.symbolize_keys)
           .to eql({
                     project_id: project.id,
-                    reason_ian: 'mentioned',
-                    reason_mail: 'involved',
-                    reason_mail_digest: 'watched',
+                    reason: 'mentioned',
                     journal_id: journal.id,
                     recipient_id: 1,
                     subject: event_subject,
                     read_ian: false,
-                    read_mail: false,
-                    read_mail_digest: false
+                    mail_reminder_sent: false
                   })
       end
 
       context 'with only the minimal set of attributes for a notification' do
         let(:journable) do
-          FactoryBot.build_stubbed(:work_package, project: project).tap do |wp|
+          build_stubbed(:work_package, project: project).tap do |wp|
             allow(wp)
               .to receive(:to_s)
               .and_return("wp to s")
           end
         end
         let(:journal_data) {
-          FactoryBot.build_stubbed(:journal_work_package_journal, project: project)
+          build_stubbed(:journal_work_package_journal, project: project)
         }
         let(:call_attributes) do
           {
             recipient_id: recipient_id,
-            reason_ian: reason_ian,
-            reason_mail: reason_mail,
-            reason_mail_digest: reason_mail_digest,
+            reason: reason,
             journal: journal,
             resource: journable,
           }
@@ -138,16 +128,13 @@ describe Notifications::SetAttributesService, type: :model do
           expect(event.attributes.compact.symbolize_keys)
             .to eql({
                       project_id: project.id,
-                      reason_ian: 'mentioned',
-                      reason_mail: 'involved',
-                      reason_mail_digest: 'watched',
+                      reason: 'mentioned',
                       resource_id: journable.id,
                       resource_type: 'WorkPackage',
                       journal_id: journal.id,
                       recipient_id: 1,
                       read_ian: false,
-                      read_mail: false,
-                      read_mail_digest: false
+                      mail_reminder_sent: false
                     })
         end
       end
@@ -161,3 +148,4 @@ describe Notifications::SetAttributesService, type: :model do
     end
   end
 end
+# rubocop:enable RSpec/MultipleMemoizedHelpers

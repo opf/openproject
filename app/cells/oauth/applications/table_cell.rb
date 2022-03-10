@@ -1,5 +1,3 @@
-require_dependency 'oauth/applications/row_cell'
-
 module OAuth
   module Applications
     class TableCell < ::TableCell

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -33,7 +33,7 @@ describe ::API::V3::WorkPackageCollectionFromQueryService,
   include API::V3::Utilities::PathHelper
 
   let(:query) do
-    FactoryBot.build_stubbed(:query).tap do |query|
+    build_stubbed(:query).tap do |query|
       allow(query)
         .to receive(:results)
         .and_return(results)
@@ -72,8 +72,8 @@ describe ::API::V3::WorkPackageCollectionFromQueryService,
     results
   end
 
-  let(:user) { FactoryBot.build_stubbed(:user) }
-  let(:project) { FactoryBot.build_stubbed(:project) }
+  let(:user) { build_stubbed(:user) }
+  let(:project) { build_stubbed(:project) }
   let(:mock_wp_representer) do
     Struct.new(:work_packages,
                :self_link,
@@ -152,21 +152,16 @@ describe ::API::V3::WorkPackageCollectionFromQueryService,
   let(:update_query_service_errors) { nil }
   let(:update_query_service_result) { query }
 
-  let(:work_package) { FactoryBot.build_stubbed(:work_package) }
+  let(:work_package) { build_stubbed(:work_package) }
 
   let(:instance) { described_class.new(query, user) }
 
   describe '#call' do
     subject { instance.call(params) }
 
-    it 'is successful' do
-      is_expected
-        .to be_success
-    end
-
     before do
       stub_const('::API::V3::WorkPackages::WorkPackageCollectionRepresenter', mock_wp_representer)
-      stub_const('::API::Decorators::AggregationGroup', mock_aggregation_representer)
+      stub_const('::API::V3::WorkPackages::WorkPackageAggregationGroup', mock_aggregation_representer)
 
       allow(::API::V3::UpdateQueryFromV3ParamsService)
         .to receive(:new)
@@ -174,11 +169,15 @@ describe ::API::V3::WorkPackageCollectionFromQueryService,
         .and_return(mock_update_query_service)
     end
 
+    it 'is successful' do
+      expect(subject).to be_success
+    end
+
     context 'result' do
       subject { instance.call(params).result }
 
       it 'is a WorkPackageCollectionRepresenter' do
-        is_expected
+        expect(subject)
           .to be_a(::API::V3::WorkPackages::WorkPackageCollectionRepresenter)
       end
 
@@ -205,7 +204,7 @@ describe ::API::V3::WorkPackageCollectionFromQueryService,
 
       context 'self_link' do
         context 'if the project is nil' do
-          let(:query) { FactoryBot.build_stubbed(:query, project: nil) }
+          let(:query) { build_stubbed(:query, project: nil) }
 
           it 'is the global work_package link' do
             expect(subject.self_link)
@@ -214,7 +213,7 @@ describe ::API::V3::WorkPackageCollectionFromQueryService,
         end
 
         context 'if the project is set' do
-          let(:query) { FactoryBot.build_stubbed(:query, project: project) }
+          let(:query) { build_stubbed(:query, project: project) }
 
           it 'is the global work_package link' do
             expect(subject.self_link)
@@ -244,14 +243,14 @@ describe ::API::V3::WorkPackageCollectionFromQueryService,
           it 'has a struct containing the sums and the available custom fields' do
             query.display_sums = true
 
-            custom_fields = [FactoryBot.build_stubbed(:text_wp_custom_field),
-                             FactoryBot.build_stubbed(:int_wp_custom_field)]
+            custom_fields = [build_stubbed(:text_wp_custom_field),
+                             build_stubbed(:int_wp_custom_field)]
 
             allow(WorkPackageCustomField)
               .to receive(:summable)
               .and_return(custom_fields)
 
-            expected = OpenStruct.new(estimated_hours: 0.0, available_custom_fields: custom_fields)
+            expected = Hashie::Mash.new(estimated_hours: 0.0, available_custom_fields: custom_fields)
 
             expect(subject.total_sums)
               .to eq(expected)

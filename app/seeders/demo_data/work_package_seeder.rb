@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -25,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 module DemoData
   class WorkPackageSeeder < Seeder
     attr_accessor :project, :user, :statuses, :repository,
@@ -36,7 +34,7 @@ module DemoData
     def initialize(project, key)
       self.project = project
       self.key = key
-      self.user = User.admin.first
+      self.user = User.user.admin.first
       self.statuses = Status.all
       self.repository = Repository.first
       self.types = project.types.all.reject(&:is_milestone?)
@@ -148,7 +146,7 @@ module DemoData
     end
 
     def set_time_tracking_attributes!(wp_attr, attributes)
-      start_date = attributes[:start] && calculate_start_date(attributes[:start])
+      start_date = calculate_start_date(attributes[:start])
 
       wp_attr[:start_date] = start_date
       wp_attr[:due_date] = calculate_due_date(start_date, attributes[:duration]) if start_date && attributes[:duration]
@@ -207,12 +205,13 @@ module DemoData
     end
 
     def calculate_start_date(days_ahead)
-      monday = Date.today.monday
-      days_ahead > 0 ? monday + days_ahead : monday
+      Time.zone.today.monday + (days_ahead || 0).days
     end
 
+    # Returns the due date based on the starting date and the duration
+    # but ensures that the due date cannot be before the start date.
     def calculate_due_date(date, duration)
-      duration && duration > 1 ? date + duration : date
+      [date + ((duration || 0) - 1).days, date].max
     end
   end
 end

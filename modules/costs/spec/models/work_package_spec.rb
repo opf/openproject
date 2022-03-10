@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,34 +23,34 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe WorkPackage, type: :model do
-  let(:user) { FactoryBot.create(:admin) }
-  let(:role) { FactoryBot.create(:role) }
+  let(:user) { create(:admin) }
+  let(:role) { create(:role) }
   let(:project) do
-    FactoryBot.create(:project_with_types, members: { user => role })
+    create(:project_with_types, members: { user => role })
   end
 
-  let(:project2) { FactoryBot.create(:project_with_types, types: project.types) }
+  let(:project2) { create(:project_with_types, types: project.types) }
   let(:work_package) do
-    FactoryBot.create(:work_package, project: project,
+    create(:work_package, project: project,
                                      type: project.types.first,
                                      author: user)
   end
   let!(:cost_entry) do
-    FactoryBot.create(:cost_entry, work_package: work_package, project: project, units: 3, spent_on: Date.today, user: user,
+    create(:cost_entry, work_package: work_package, project: project, units: 3, spent_on: Date.today, user: user,
                                    comments: 'test entry')
   end
-  let!(:budget) { FactoryBot.create(:budget, project: project) }
+  let!(:budget) { create(:budget, project: project) }
 
   def move_to_project(work_package, project)
-    service = WorkPackages::MoveService.new(work_package, user)
-
-    service.call(project)
+    WorkPackages::UpdateService
+      .new(model: work_package, user: user)
+      .call(project: project)
   end
 
   it 'should update cost entries on move' do

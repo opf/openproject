@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -33,30 +31,30 @@ require 'spec_helper'
 describe 'Wysiwyg child pages spec',
          type: :feature, js: true do
   let(:project) do
-    FactoryBot.create :project,
-                      enabled_module_names: %w[wiki]
+    create :project,
+           enabled_module_names: %w[wiki]
   end
-  let(:role) { FactoryBot.create(:role, permissions: %i[view_wiki_pages edit_wiki_pages]) }
+  let(:role) { create(:role, permissions: %i[view_wiki_pages edit_wiki_pages]) }
   let(:user) do
-    FactoryBot.create(:user, member_in_project: project, member_through_role: role)
+    create(:user, member_in_project: project, member_through_role: role)
   end
 
   let(:wiki_page) do
-    FactoryBot.create :wiki_page,
-                      title: 'Test',
-                      content: FactoryBot.build(:wiki_content, text: '# My page')
+    create :wiki_page,
+           title: 'Test',
+           content: build(:wiki_content, text: '# My page')
   end
 
   let(:parent_page) do
-    FactoryBot.create :wiki_page,
-                      title: 'Parent page',
-                      content: FactoryBot.build(:wiki_content, text: '# parent page')
+    create :wiki_page,
+           title: 'Parent page',
+           content: build(:wiki_content, text: '# parent page')
   end
 
   let(:child_page) do
-    FactoryBot.create :wiki_page,
-                      title: 'Child page',
-                      content: FactoryBot.build(:wiki_content, text: '# child page')
+    create :wiki_page,
+           title: 'Child page',
+           content: build(:wiki_content, text: '# child page')
   end
 
   before do

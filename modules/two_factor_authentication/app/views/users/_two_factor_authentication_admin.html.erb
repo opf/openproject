@@ -3,11 +3,13 @@
 
 <section class="admin--edit-section">
     <%= rails_cell ::Components::OnOffStatusCell,
-             is_on: default_device.present?,
-             on_text: t('two_factor_authentication.label_2fa_enabled'),
-             on_description: t('two_factor_authentication.admin.text_2fa_enabled'),
-             off_text: t('two_factor_authentication.label_2fa_disabled'),
-             off_description: t('two_factor_authentication.admin.text_2fa_disabled') %>
+                   {
+                     is_on: default_device.present?,
+                     on_text: t('two_factor_authentication.label_2fa_enabled'),
+                     on_description: t('two_factor_authentication.admin.text_2fa_enabled'),
+                     off_text: t('two_factor_authentication.label_2fa_disabled'),
+                     off_description: t('two_factor_authentication.admin.text_2fa_disabled')
+                   }%>
 </section>
 
 <section class="admin--edit-section">

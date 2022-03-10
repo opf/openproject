@@ -1,29 +1,29 @@
 require 'spec_helper'
 
 describe 'Manual scheduling', js: true do
-  let(:project) { FactoryBot.create(:project, types: [type]) }
-  let(:type) { FactoryBot.create :type }
+  let(:project) { create(:project, types: [type]) }
+  let(:type) { create :type }
 
-  let(:user) { FactoryBot.create :user, member_in_project: project, member_through_role: role }
+  let(:user) { create :user, member_in_project: project, member_through_role: role }
 
   let!(:parent) do
-    FactoryBot.create(:work_package,
-                      project: project,
-                      type: type,
-                      subject: 'Parent')
+    create(:work_package,
+           project: project,
+           type: type,
+           subject: 'Parent')
   end
 
   let!(:child) do
-    FactoryBot.create(:work_package,
-                      project: project,
-                      parent: parent,
-                      type: type,
-                      subject: 'Child')
+    create(:work_package,
+           project: project,
+           parent: parent,
+           type: type,
+           subject: 'Child')
   end
 
   let!(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let!(:query) do
-    query = FactoryBot.build(:query, user: user, project: project)
+    query = build(:query, user: user, project: project)
     query.column_names = %w(subject start_date due_date)
     query.filters.clear
     query.show_hierarchies = false
@@ -40,7 +40,7 @@ describe 'Manual scheduling', js: true do
   end
 
   context 'with a user allowed to edit dates' do
-    let(:role) { FactoryBot.create :role, permissions: %i[view_work_packages edit_work_packages] }
+    let(:role) { create :role, permissions: %i[view_work_packages edit_work_packages] }
 
     it 'allows to edit start and due date multiple times switching between scheduling modes' do
       start_date = wp_table.edit_field(parent, :startDate)
@@ -117,6 +117,6 @@ describe 'Manual scheduling', js: true do
   end
 
   context 'with a user allowed to view only' do
-    let(:role) { FactoryBot.create :role, permissions: %i[view_work_packages] }
+    let(:role) { create :role, permissions: %i[view_work_packages] }
   end
 end

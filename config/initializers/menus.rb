@@ -1,7 +1,6 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'redmine/menu_manager'
@@ -68,7 +67,7 @@ end
 Redmine::MenuManager.map :quick_add_menu do |menu|
   menu.push :new_project,
             Proc.new { |project|
-              { controller: '/projects', action: :new, id: nil, parent_id: project&.id }
+              { controller: '/projects', action: :new, project_id: nil, parent_id: project&.id }
             },
             caption: ->(*) { Project.model_name.human },
             icon: "icon-add icon3",
@@ -115,12 +114,17 @@ Redmine::MenuManager.map :application_menu do |menu|
             last: true
 end
 
+Redmine::MenuManager.map :notifications_menu do |menu|
+  menu.push :notification_grouping_select,
+            { controller: '/my', action: 'notifications' },
+            partial: 'notifications/menu_notification_center'
+end
+
 Redmine::MenuManager.map :my_menu do |menu|
-  menu_push = menu.push :account,
-                        { controller: '/my', action: 'account' },
-                        caption: :label_profile,
-                        icon: 'icon2 icon-user'
-  menu_push
+  menu.push :account,
+            { controller: '/my', action: 'account' },
+            caption: :label_profile,
+            icon: 'icon2 icon-user'
   menu.push :settings,
             { controller: '/my', action: 'settings' },
             caption: :label_setting_plural,
@@ -138,6 +142,10 @@ Redmine::MenuManager.map :my_menu do |menu|
             { controller: '/my', action: 'notifications' },
             caption: I18n.t('js.notifications.settings.title'),
             icon: 'icon2 icon-bell'
+  menu.push :reminders,
+            { controller: '/my', action: 'reminders' },
+            caption: I18n.t('js.reminders.settings.title'),
+            icon: 'icon2 icon-email-alert'
 
   menu.push :delete_account, :delete_my_account_info_path,
             caption: I18n.t('account.delete'),
@@ -318,11 +326,10 @@ Redmine::MenuManager.map :admin_menu do |menu|
 
   menu.push :ldap_authentication,
             { controller: '/ldap_auth_sources', action: 'index' },
-            if: Proc.new { User.current.admin? },
+            if: Proc.new { User.current.admin? && !OpenProject::Configuration.disable_password_login? },
             parent: :authentication,
             html: { class: 'server_authentication' },
-            last: true,
-            if: proc { !OpenProject::Configuration.disable_password_login? }
+            last: true
 
   menu.push :oauth_applications,
             { controller: '/oauth/applications', action: 'index' },
@@ -403,19 +410,16 @@ end
 Redmine::MenuManager.map :project_menu do |menu|
   menu.push :activity,
             { controller: '/activities', action: 'index' },
-            param: :project_id,
             if: Proc.new { |p| p.module_enabled?('activity') },
             icon: 'icon2 icon-checkmark'
 
   menu.push :roadmap,
             { controller: '/versions', action: 'index' },
-            param: :project_id,
             if: Proc.new { |p| p.shared_versions.any? },
             icon: 'icon2 icon-roadmap'
 
   menu.push :work_packages,
             { controller: '/work_packages', action: 'index' },
-            param: :project_id,
             caption: :label_work_package_plural,
             icon: 'icon2 icon-view-timeline',
             html: {
@@ -425,33 +429,23 @@ Redmine::MenuManager.map :project_menu do |menu|
 
   menu.push :work_packages_query_select,
             { controller: '/work_packages', action: 'index' },
-            param: :project_id,
             parent: :work_packages,
             partial: 'work_packages/menu_query_select',
             last: true,
             caption: :label_all_open_wps
 
-  menu.push :calendar,
-            { controller: '/work_packages/calendars', action: 'index' },
-            param: :project_id,
-            caption: :label_calendar,
-            icon: 'icon2 icon-calendar'
-
   menu.push :news,
             { controller: '/news', action: 'index' },
-            param: :project_id,
             caption: :label_news_plural,
             icon: 'icon2 icon-news'
 
   menu.push :forums,
             { controller: '/forums', action: 'index', id: nil },
-            param: :project_id,
             caption: :label_forum_plural,
             icon: 'icon2 icon-ticket-note'
 
   menu.push :repository,
             { controller: '/repositories', action: :show },
-            param: :project_id,
             if: Proc.new { |p| p.repository && !p.repository.new_record? },
             icon: 'icon2 icon-folder-open'
 
@@ -459,24 +453,31 @@ Redmine::MenuManager.map :project_menu do |menu|
 
   menu.push :members,
             { controller: '/members', action: 'index' },
-            param: :project_id,
             caption: :label_member_plural,
             before: :settings,
             icon: 'icon2 icon-group'
 
   menu.push :settings,
-            { controller: '/project_settings/generic', action: :show },
+            { controller: '/projects/settings/general', action: :show },
             caption: :label_project_settings,
             last: true,
             icon: 'icon2 icon-settings2',
             allow_deeplink: true
 
-  ProjectSettingsHelper.project_settings_tabs.each do |node|
-    menu.push :"settings_#{node[:name]}",
-              node[:action],
-              caption: node[:label],
-              parent: :settings,
-              last: node[:last],
-              if: node[:if]
+  {
+    general: :label_information_plural,
+    modules: :label_module_plural,
+    types: :label_work_package_types,
+    custom_fields: :label_custom_field_plural,
+    versions: :label_version_plural,
+    categories: :label_work_package_category_plural,
+    repository: :label_repository,
+    time_entry_activities: :enumeration_activities,
+    storage: :label_required_disk_storage
+  }.each do |key, caption|
+    menu.push :"settings_#{key}",
+              { controller: "/projects/settings/#{key}", action: 'show' },
+              caption: caption,
+              parent: :settings
   end
 end

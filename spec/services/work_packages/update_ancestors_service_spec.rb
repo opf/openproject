@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,18 +23,18 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 describe WorkPackages::UpdateAncestorsService, type: :model, with_mail: false do
-  let(:user) { FactoryBot.create :user }
+  let(:user) { create :user }
   let(:estimated_hours) { [nil, nil, nil] }
   let(:done_ratios) { [0, 0, 0] }
   let(:statuses) { %i(open open open) }
-  let(:open_status) { FactoryBot.create :status }
-  let(:closed_status) { FactoryBot.create :closed_status }
+  let(:open_status) { create :status }
+  let(:closed_status) { create :closed_status }
   let(:aggregate_done_ratio) { 0.0 }
 
   context 'for the new ancestor chain' do
@@ -66,14 +66,14 @@ describe WorkPackages::UpdateAncestorsService, type: :model, with_mail: false do
 
     let(:children) do
       (statuses.size - 1).downto(0).map do |i|
-        FactoryBot.create :work_package,
-                          parent: parent,
-                          status: statuses[i] == :open ? open_status : closed_status,
-                          estimated_hours: estimated_hours[i],
-                          done_ratio: done_ratios[i]
+        create :work_package,
+               parent: parent,
+               status: statuses[i] == :open ? open_status : closed_status,
+               estimated_hours: estimated_hours[i],
+               done_ratio: done_ratios[i]
       end
     end
-    let(:parent) { FactoryBot.create :work_package, status: open_status }
+    let(:parent) { create :work_package, status: open_status }
 
     subject do
       described_class
@@ -191,23 +191,23 @@ describe WorkPackages::UpdateAncestorsService, type: :model, with_mail: false do
     let(:sibling_estimated_hours) { 7.0 }
 
     let!(:grandparent) do
-      FactoryBot.create :work_package
+      create :work_package
     end
     let!(:parent) do
-      FactoryBot.create :work_package,
-                        parent: grandparent
+      create :work_package,
+             parent: grandparent
     end
     let!(:sibling) do
-      FactoryBot.create :work_package,
-                        parent: parent,
-                        status: sibling_status,
-                        estimated_hours: sibling_estimated_hours,
-                        done_ratio: sibling_done_ratio
+      create :work_package,
+             parent: parent,
+             status: sibling_status,
+             estimated_hours: sibling_estimated_hours,
+             done_ratio: sibling_done_ratio
     end
 
     let!(:work_package) do
-      FactoryBot.create :work_package,
-                        parent: parent
+      create :work_package,
+             parent: parent
     end
 
     subject do
@@ -261,17 +261,17 @@ describe WorkPackages::UpdateAncestorsService, type: :model, with_mail: false do
     let(:estimated_hours) { 7.0 }
 
     let!(:grandparent) do
-      FactoryBot.create :work_package
+      create :work_package
     end
     let!(:parent) do
-      FactoryBot.create :work_package,
-                        parent: grandparent
+      create :work_package,
+             parent: grandparent
     end
     let!(:work_package) do
-      FactoryBot.create :work_package,
-                        status: status,
-                        estimated_hours: estimated_hours,
-                        done_ratio: done_ratio
+      create :work_package,
+             status: status,
+             estimated_hours: estimated_hours,
+             done_ratio: done_ratio
     end
 
     shared_examples_for 'updates the attributes within the new hierarchy' do

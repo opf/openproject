@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,10 +23,11 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   ElementRef,
@@ -40,17 +41,19 @@ import { IfcModelsDataService } from 'core-app/features/bim/ifc_models/pages/vie
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
+import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
+import { take } from 'rxjs/operators';
 
 @Component({
-  selector: 'ifc-viewer',
+  selector: 'op-ifc-viewer',
   templateUrl: './ifc-viewer.component.html',
   styleUrls: ['./ifc-viewer.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class IFCViewerComponent implements OnInit, OnDestroy {
-  private viewerUI:any;
+export class IFCViewerComponent implements OnInit, OnDestroy, AfterViewInit {
+  private viewInitialized$ = new Subject();
 
-  modelCount:number;
+  modelCount:number = this.ifcData.models.length;
 
   canManage = this.ifcData.allowed('manage_ifc_models');
 
@@ -62,43 +65,58 @@ export class IFCViewerComponent implements OnInit, OnDestroy {
 
   keyboardEnabled = false;
 
+  inspectorVisible$:BehaviorSubject<boolean> = this.ifcViewerService.inspectorVisible$;
+
   @ViewChild('outerContainer') outerContainer:ElementRef;
 
+  @ViewChild('viewerContainer') viewerContainer:ElementRef;
+
   @ViewChild('modelCanvas') modelCanvas:ElementRef;
+
+  @ViewChild('navCubeCanvas') navCubeCanvas:ElementRef;
+
+  @ViewChild('toolbar') toolbarElement:ElementRef;
+
+  @ViewChild('inspectorPane') inspectorElement:ElementRef;
 
   constructor(private I18n:I18nService,
     private elementRef:ElementRef,
     public ifcData:IfcModelsDataService,
-    private ifcViewer:IFCViewerService,
+    private ifcViewerService:IFCViewerService,
     private currentUserService:CurrentUserService,
     private currentProjectService:CurrentProjectService) {
   }
 
   ngOnInit():void {
-    this.modelCount = this.ifcData.models.length;
-
     if (this.modelCount === 0) {
       return;
     }
 
-    const element = jQuery(this.elementRef.nativeElement as HTMLElement);
-
-    this.currentUserService
-      .hasCapabilities$(
-        [
-          'ifc_models/create',
-          'ifc_models/update',
-          'ifc_models/destroy',
-        ],
-        this.currentProjectService.id as string,
-      ).subscribe((manageIfcModelsAllowed) => {
-        this.ifcViewer.newViewer(
+    // we have to wait until view is initialized before constructing the ifc viewer,
+    // as it needs all view children ready and rendered
+    combineLatest(
+      this.currentUserService
+        .hasCapabilities$(
+          [
+            'ifc_models/create',
+            'ifc_models/update',
+            'ifc_models/destroy',
+          ],
+          this.currentProjectService.id as string,
+        ),
+      this.viewInitialized$,
+    )
+      .pipe(take(1))
+      .subscribe(([manageIfcModelsAllowed]) => {
+        this.ifcViewerService.newViewer(
           {
-            canvasElement: element.find('[data-qa-selector="op-ifc-viewer--model-canvas"]')[0], // WebGL canvas
-            explorerElement: jQuery('[data-qa-selector="op-ifc-viewer--tree-panel"]')[0], // Left panel
-            toolbarElement: element.find('[data-qa-selector="op-ifc-viewer--toolbar-container"]')[0], // Toolbar
-            navCubeCanvasElement: element.find('[data-qa-selector="op-ifc-viewer--nav-cube-canvas"]')[0],
-            busyModelBackdropElement: element.find('.xeokit-busy-modal-backdrop')[0],
+            canvasElement: this.modelCanvas.nativeElement as HTMLElement,
+            explorerElement: document.getElementsByClassName('op-ifc-viewer--tree-panel')[0] as HTMLElement, // Left panel
+            toolbarElement: this.toolbarElement.nativeElement as HTMLElement,
+            inspectorElement: this.inspectorElement.nativeElement as HTMLElement,
+            navCubeCanvasElement: this.navCubeCanvas.nativeElement as HTMLElement,
+            busyModelBackdropElement: this.viewerContainer.nativeElement as HTMLElement,
+            keyboardEventsElement: this.modelCanvas.nativeElement as HTMLElement,
             enableEditModels: manageIfcModelsAllowed,
           },
           this.ifcData.projects,
@@ -106,31 +124,49 @@ export class IFCViewerComponent implements OnInit, OnDestroy {
       });
   }
 
+  ngAfterViewInit():void {
+    this.viewInitialized$.next();
+  }
+
   ngOnDestroy():void {
-    this.ifcViewer.destroy();
+    this.ifcViewerService.destroy();
+  }
+
+  toggleInspector():void {
+    this.ifcViewerService.inspectorVisible$.next(!this.inspectorVisible$.getValue());
+  }
+
+  // Key events for navigating the viewer shall not propagate further up in the DOM, i.e.
+  // pressing the S-key shall not trigger the global search which listens on `document`.
+  @HostListener('keydown', ['$event'])
+  @HostListener('keyup', ['$event'])
+  @HostListener('keypress', ['$event'])
+  // eslint-disable-next-line class-methods-use-this
+  cancelAllKeyEvents($event:KeyboardEvent):void {
+    $event.stopPropagation();
   }
 
   @HostListener('mousedown')
-  enableKeyBoard() {
+  enableKeyBoard():void {
     if (this.modelCount) {
       this.keyboardEnabled = true;
-      this.ifcViewer.setKeyboardEnabled(true);
+      this.ifcViewerService.setKeyboardEnabled(true);
     }
   }
 
   @HostListener('window:mousedown', ['$event.target'])
-  disableKeyboard(target:Element) {
-    if (this.modelCount && !this.outerContainer.nativeElement.contains(target)) {
+  disableKeyboard(target:Element):void {
+    if (this.modelCount && !(this.outerContainer.nativeElement as HTMLElement).contains(target)) {
       this.keyboardEnabled = false;
-      this.ifcViewer.setKeyboardEnabled(false);
+      this.ifcViewerService.setKeyboardEnabled(false);
     }
   }
 
-  enableFromIcon(event:MouseEvent) {
+  enableFromIcon(event:MouseEvent):boolean {
     this.enableKeyBoard();
 
     // Focus on the canvas
-    this.modelCanvas.nativeElement.focus();
+    (this.modelCanvas.nativeElement as HTMLElement).focus();
 
     // Ensure we don't bubble this event to the window:mousedown handler
     // as the target will already be removed from the DOM by angular

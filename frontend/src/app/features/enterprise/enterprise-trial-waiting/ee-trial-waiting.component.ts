@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,14 +23,14 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { EnterpriseTrialService } from 'core-app/features/enterprise/enterprise-trial.service';
 import { HttpClient } from '@angular/common/http';
-import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 
@@ -61,7 +61,7 @@ export class EETrialWaitingComponent implements OnInit {
   constructor(readonly elementRef:ElementRef,
     readonly I18n:I18nService,
     protected http:HttpClient,
-    protected notificationsService:NotificationsService,
+    protected toastService:ToastService,
     public eeTrialService:EnterpriseTrialService,
     readonly timezoneService:TimezoneService) {
   }
@@ -89,7 +89,7 @@ export class EETrialWaitingComponent implements OnInit {
     this.http.post(this.eeTrialService.resendLink, {})
       .toPromise()
       .then(() => {
-        this.notificationsService.addSuccess(this.text.resend_success);
+        this.toastService.addSuccess(this.text.resend_success);
         this.eeTrialService.retryConfirmation();
       })
       .catch(() => {
@@ -97,7 +97,7 @@ export class EETrialWaitingComponent implements OnInit {
           // Check whether the mail has been confirmed by now
           this.eeTrialService.getToken();
         } else {
-          this.notificationsService.addError(this.text.resend_warning);
+          this.toastService.addError(this.text.resend_warning);
         }
       });
   }

@@ -1,37 +1,37 @@
 require 'spec_helper'
-require 'support/components/notifications/center'
 
 describe "Notification center navigation", type: :feature, js: true do
-  shared_let(:project) { FactoryBot.create :project }
-  shared_let(:work_package) { FactoryBot.create :work_package, project: project }
-  shared_let(:second_work_package) { FactoryBot.create :work_package, project: project }
+  shared_let(:project) { create :project }
+  shared_let(:work_package) { create :work_package, project: project }
+  shared_let(:second_work_package) { create :work_package, project: project }
   shared_let(:recipient) do
-    FactoryBot.create :user,
-                      member_in_project: project,
-                      member_with_permissions: %i[view_work_packages]
+    create :user,
+           member_in_project: project,
+           member_with_permissions: %i[view_work_packages]
   end
   shared_let(:notification) do
-    FactoryBot.create :notification,
-                      recipient: recipient,
-                      project: project,
-                      resource: work_package,
-                      journal: work_package.journals.last
+    create :notification,
+           recipient: recipient,
+           project: project,
+           resource: work_package,
+           journal: work_package.journals.last
   end
 
   shared_let(:second_notification) do
-    FactoryBot.create :notification,
-                      recipient: recipient,
-                      project: project,
-                      resource: second_work_package,
-                      journal: work_package.journals.last
+    create :notification,
+           recipient: recipient,
+           project: project,
+           resource: second_work_package,
+           journal: second_work_package.journals.last
   end
 
-  let(:center) { ::Components::Notifications::Center.new }
+  let(:center) { ::Pages::Notifications::Center.new }
   let(:activity_tab) { ::Components::WorkPackages::Activities.new(work_package) }
-  let(:split_screen) { ::Pages::SplitWorkPackage.new work_package }
+  let(:split_screen) { ::Pages::Notifications::SplitScreen.new work_package }
+
+  current_user { recipient }
 
   describe 'the back button brings me back to where I came from' do
-    current_user { recipient }
     let(:navigation_helper) { ::Notifications::NavigationHelper.new(center, notification, work_package) }
 
     it 'when coming from a rails based page' do
@@ -62,8 +62,6 @@ describe "Notification center navigation", type: :feature, js: true do
   end
 
   describe 'the path updates accordingly' do
-    current_user { recipient }
-
     it 'when navigating between the tabs' do
       visit home_path
       center.open
@@ -90,5 +88,23 @@ describe "Notification center navigation", type: :feature, js: true do
       split_screen.close
       expect(page).to have_current_path "/notifications"
     end
+  end
+
+  it 'opening a notification that does not exist returns to the center' do
+    visit '/notifications/details/0'
+
+    expect(page).to have_current_path "/notifications"
+
+    split_screen.expect_empty_state
+  end
+
+  it 'deep linking to a notification details highlights it' do
+    visit "/notifications/details/#{work_package.id}"
+
+    expect(page).to have_current_path "/notifications/details/#{work_package.id}/overview"
+
+    split_screen.expect_open
+
+    center.expect_item_selected notification
   end
 end

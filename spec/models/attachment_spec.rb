@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,22 +23,22 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 require 'spec_helper'
 
 describe Attachment, type: :model do
-  let(:stubbed_author) { FactoryBot.build_stubbed(:user) }
-  let(:author) { FactoryBot.create :user }
+  let(:stubbed_author) { build_stubbed(:user) }
+  let(:author) { create :user }
   let(:long_description) { 'a' * 300 }
-  let(:work_package) { FactoryBot.create :work_package }
-  let(:stubbed_work_package) { FactoryBot.build_stubbed :stubbed_work_package }
-  let(:file) { FactoryBot.create :uploaded_jpg, name: 'test.jpg' }
-  let(:second_file) { FactoryBot.create :uploaded_jpg, name: 'test2.jpg' }
+  let(:work_package) { create :work_package }
+  let(:stubbed_work_package) { build_stubbed :stubbed_work_package }
+  let(:file) { create :uploaded_jpg, name: 'test.jpg' }
+  let(:second_file) { create :uploaded_jpg, name: 'test2.jpg' }
   let(:container) { stubbed_work_package }
 
   let(:attachment) do
-    FactoryBot.build(
+    build(
       :attachment,
       author: author,
       container: container,
@@ -47,7 +47,7 @@ describe Attachment, type: :model do
     )
   end
   let(:stubbed_attachment) do
-    FactoryBot.build_stubbed(
+    build_stubbed(
       :attachment,
       author: stubbed_author,
       container: container
@@ -150,7 +150,7 @@ describe Attachment, type: :model do
 
   describe 'create' do
     it('creates a jpg file called test') do
-      expect(File.exists?(attachment.diskfile.path)).to eq true
+      expect(File.exist?(attachment.diskfile.path)).to eq true
     end
 
     it('has the content type "image/jpeg"') do
@@ -169,7 +169,8 @@ describe Attachment, type: :model do
   end
 
   describe 'two attachments with same file name' do
-    let(:second_file) { FactoryBot.create :uploaded_jpg, name: file.original_filename }
+    let(:second_file) { create :uploaded_jpg, name: file.original_filename }
+
     it 'does not interfere' do
       a1 = Attachment.create!(container: work_package,
                               file: file,
@@ -190,7 +191,7 @@ describe Attachment, type: :model do
     before do
       attachment.save!
 
-      expect(File.exists?(attachment.file.path)).to eq true
+      expect(File.exist?(attachment.file.path)).to eq true
 
       attachment.destroy
       attachment.run_callbacks(:commit)
@@ -199,14 +200,15 @@ describe Attachment, type: :model do
     end
 
     it "deletes the attachment's file" do
-      expect(File.exists?(attachment.file.path)).to eq false
+      expect(File.exist?(attachment.file.path)).to eq false
     end
   end
 
   # We just use with_direct_uploads here to make sure the
   # FogAttachment class is defined and Fog is mocked.
+  # rubocop:disable RSpec/MultipleMemoizedHelpers
   describe "#external_url", with_direct_uploads: true do
-    let(:author) { FactoryBot.create :user }
+    let(:author) { create :user }
 
     let(:image_path) { Rails.root.join("spec/fixtures/files/image.png") }
     let(:text_path) { Rails.root.join("spec/fixtures/files/testfile.txt") }
@@ -242,12 +244,27 @@ describe Attachment, type: :model do
       end
     end
 
+    shared_examples "it uses content disposition inline" do
+      let(:attachment) { raise "define me!" }
+
+      describe 'the external url (for remote attachments)' do
+        it 'contains inline content disposition without the filename' do
+          expect(attachment.external_url.to_s).to include "response-content-disposition=inline&"
+        end
+      end
+
+      describe 'content disposition (for local attachments)' do
+        it 'is inline, including the filename' do
+          expect(attachment.content_disposition).to eq "inline; filename=#{attachment.filename}"
+        end
+      end
+    end
+
     describe "for an image file" do
       before { image_attachment.save! }
 
-      it "should make S3 use content_disposition inline" do
-        expect(image_attachment.content_disposition).to eq "inline"
-        expect(image_attachment.external_url.to_s).to include "response-content-disposition=inline"
+      it_behaves_like "it uses content disposition inline" do
+        let(:attachment) { image_attachment }
       end
 
       # this is independent from the type of file uploaded so we just test this for the first one
@@ -259,9 +276,19 @@ describe Attachment, type: :model do
     describe "for a text file" do
       before { text_attachment.save! }
 
-      it "should make S3 use content_disposition inline" do
-        expect(text_attachment.content_disposition).to eq "inline"
-        expect(text_attachment.external_url.to_s).to include "response-content-disposition=inline"
+      it_behaves_like "it uses content disposition inline" do
+        let(:attachment) { text_attachment }
+      end
+    end
+
+    describe 'for a video file' do
+      let(:attachment) { described_class.new }
+
+      it 'assumes it to be inlineable' do
+        %w[video/webm video/mp4 video/quicktime].each do |content_type|
+          attachment.content_type = content_type
+          expect(attachment).to be_inlineable, "#{content_type} should be inlineable"
+        end
       end
     end
 
@@ -269,17 +296,18 @@ describe Attachment, type: :model do
       before { binary_attachment.save! }
 
       it "should make S3 use content_disposition 'attachment; filename=...'" do
-        expect(binary_attachment.content_disposition).to eq "attachment"
+        expect(binary_attachment.content_disposition).to eq "attachment; filename=textfile.txt.gz"
         expect(binary_attachment.external_url.to_s).to include "response-content-disposition=attachment"
       end
     end
   end
+  # rubocop:enable RSpec/MultipleMemoizedHelpers
 
   describe 'full text extraction job on commit' do
     let(:created_attachment) do
-      FactoryBot.create(:attachment,
-                        author: author,
-                        container: container)
+      create(:attachment,
+             author: author,
+             container: container)
     end
 
     shared_examples_for 'runs extraction' do
@@ -309,7 +337,7 @@ describe Attachment, type: :model do
     end
 
     context 'for a work package' do
-      let(:work_package) { FactoryBot.create(:work_package) }
+      let(:work_package) { create(:work_package) }
       let(:container) { work_package }
 
       context 'on create' do
@@ -322,7 +350,7 @@ describe Attachment, type: :model do
     end
 
     context 'for a wiki page' do
-      let(:wiki_page) { FactoryBot.create(:wiki_page) }
+      let(:wiki_page) { create(:wiki_page) }
       let(:container) { wiki_page }
 
       context 'on create' do

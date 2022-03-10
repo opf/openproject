@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,27 +23,32 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 describe 'wiki pages', type: :feature, js: true, with_settings: { journal_aggregation_time_minutes: 0 } do
   let(:project) do
-    FactoryBot.create(:project, enabled_module_names: [:news])
+    create(:project, enabled_module_names: [:news])
   end
   let(:user) do
-    FactoryBot.create :user,
-                      member_in_project: project,
-                      member_through_role: role
+    create :user,
+           member_in_project: project,
+           member_through_role: role
+  end
+  let(:other_user) do
+    create :user,
+           member_in_project: project,
+           member_through_role: role
   end
   let(:role) do
-    FactoryBot.create(:role,
-                      permissions: %i[view_wiki_pages
-                                      edit_wiki_pages
-                                      view_wiki_edits
-                                      select_project_modules
-                                      edit_project])
+    create(:role,
+           permissions: %i[view_wiki_pages
+                           edit_wiki_pages
+                           view_wiki_edits
+                           select_project_modules
+                           edit_project])
   end
   let(:content_first_version) do
     'The new content, first version'
@@ -51,13 +56,19 @@ describe 'wiki pages', type: :feature, js: true, with_settings: { journal_aggreg
   let(:content_second_version) do
     'The new content, second version'
   end
+  let(:content_third_version) do
+    'The new content, third version'
+  end
+  let(:other_user_comment) do
+    'Other users`s comment'
+  end
 
   before do
     login_as user
   end
 
   scenario 'adding, editing and history' do
-    visit settings_modules_project_path(project)
+    visit project_settings_modules_path(project)
 
     expect(page).to have_no_selector('.menu-sidebar .main-item-wrapper', text: 'Wiki')
 
@@ -120,5 +131,30 @@ describe 'wiki pages', type: :feature, js: true, with_settings: { journal_aggreg
 
     expect(page).to have_selector('.wiki-version--details', text: 'Version 2/2')
     expect(page).to have_selector('.wiki-content', text: content_second_version)
+
+    login_as other_user
+
+    visit project_wiki_path(project, 'new page')
+
+    within '.toolbar-items' do
+      SeleniumHubWaiter.wait
+      click_on "Edit"
+    end
+
+    find('.ck-content').set(content_third_version)
+
+    fill_in 'Journal notes', with: other_user_comment
+
+    SeleniumHubWaiter.wait
+    click_button 'Save'
+
+    within '.toolbar-items' do
+      SeleniumHubWaiter.wait
+      click_on 'More'
+      click_on 'History'
+    end
+
+    expect(page).to have_selector('tr.wiki-page-version:last-of-type .author', text: other_user.name)
+    expect(page).to have_selector('tr.wiki-page-version:last-of-type .comments', text: other_user_comment)
   end
 end

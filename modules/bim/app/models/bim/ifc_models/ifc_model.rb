@@ -1,6 +1,13 @@
 module Bim
   module IfcModels
     class IfcModel < ActiveRecord::Base
+      enum conversion_status: {
+        pending: 0,
+        processing: 1,
+        completed: 2,
+        error: 3
+      }.freeze
+
       acts_as_attachable delete_permission: :manage_ifc_models,
                          add_permission: :manage_ifc_models,
                          view_permission: :view_ifc_models
@@ -13,7 +20,7 @@ module Bim
 
       scope :defaults, -> { where(is_default: true) }
 
-      %i(ifc xkt metadata).each do |name|
+      %i(ifc xkt).each do |name|
         define_method "#{name}_attachment" do
           get_attached_type(name)
         end
@@ -25,9 +32,10 @@ module Bim
           end
 
           delete_attachment name
+          filename = file.respond_to?(:original_filename) ? file.original_filename : File.basename(file.path)
           call = ::Attachments::CreateService
             .bypass_whitelist(user: User.current)
-            .call(file: file, container: self, filename: Pathname(file.path).basename, description: name)
+            .call(file: file, container: self, filename: filename, description: name)
 
           call.on_failure { Rails.logger.error "Failed to add #{name} attachment: #{call.message}" }
         end

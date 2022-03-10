@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module Cron
@@ -46,10 +44,16 @@ module Cron
         end
       end
 
+      def schedule_registered_jobs!
+        registered_jobs.each do |job_class|
+          job_class.ensure_scheduled!
+        end
+      end
+
       ##
       # Ensure the job is scheduled unless it is already
       def ensure_scheduled!
-        # Ensure scheduled only onced
+        # Ensure scheduled only once
         return if scheduled?
 
         Rails.logger.info { "Scheduling #{name} recurrent background job." }
@@ -65,13 +69,15 @@ module Cron
       ##
       # Is there a job scheduled?
       def scheduled?
-        delayed_job.present?
+        delayed_job_query.exists?
       end
 
       def delayed_job
-        Delayed::Job
-          .where('handler LIKE ?', "%job_class: #{name}%")
-          .first
+        delayed_job_query.first
+      end
+
+      def delayed_job_query
+        Delayed::Job.where('handler LIKE ?', "%job_class: #{name}%")
       end
     end
   end

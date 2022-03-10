@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module Redmine::MenuManager::MenuHelper
@@ -231,7 +229,10 @@ module Redmine::MenuManager::MenuHelper
 
   def render_single_node_or_partial(node, project)
     if node.partial
-      content_tag('li', render(partial: node.partial), class: "partial", data: { name: node.name })
+      content_tag('li',
+                  render(partial: node.partial, locals: { name: node.name, parent_name: node.parent.name }),
+                  class: "partial",
+                  data: { name: node.name })
     else
       content_tag('li', render_single_menu_node(node, project), data: { name: node.name })
     end

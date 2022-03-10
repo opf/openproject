@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -31,25 +31,25 @@ require 'spec_helper'
 describe 'Subproject creation', type: :feature, js: true do
   let(:name_field) { ::FormFields::InputFormField.new :name }
   let(:parent_field) { ::FormFields::SelectFormField.new :parent }
-  let(:add_subproject_role) { FactoryBot.create(:role, permissions: %i[edit_project add_subprojects]) }
-  let(:view_project_role) { FactoryBot.create(:role, permissions: %i[edit_project]) }
+  let(:add_subproject_role) { create(:role, permissions: %i[edit_project add_subprojects]) }
+  let(:view_project_role) { create(:role, permissions: %i[edit_project]) }
   let!(:parent_project) do
-    FactoryBot.create(:project,
-                      name: 'Foo project',
-                      members: { current_user => add_subproject_role })
+    create(:project,
+           name: 'Foo project',
+           members: { current_user => add_subproject_role })
   end
   let!(:other_project) do
-    FactoryBot.create(:project,
-                      name: 'Other project',
-                      members: { current_user => view_project_role })
+    create(:project,
+           name: 'Other project',
+           members: { current_user => view_project_role })
   end
 
   current_user do
-    FactoryBot.create(:user)
+    create(:user)
   end
 
   before do
-    visit settings_project_path(parent_project)
+    visit project_settings_general_path(parent_project)
   end
 
   it 'can create a subproject' do

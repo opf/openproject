@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -31,45 +31,45 @@ require 'spec_helper'
 require_relative '../support/pages/dashboard'
 
 describe 'Members widget on dashboard', type: :feature, js: true do
-  let!(:project) { FactoryBot.create :project }
-  let!(:other_project) { FactoryBot.create :project }
+  let!(:project) { create :project }
+  let!(:other_project) { create :project }
 
   let!(:manager_user) do
-    FactoryBot.create :user, lastname: "Manager", member_in_project: project, member_through_role: role
+    create :user, lastname: "Manager", member_in_project: project, member_through_role: role
   end
   let!(:no_edit_member_user) do
-    FactoryBot.create :user, lastname: "No_Edit", member_in_project: project, member_through_role: no_edit_member_role
+    create :user, lastname: "No_Edit", member_in_project: project, member_through_role: no_edit_member_role
   end
   let!(:no_view_member_user) do
-    FactoryBot.create :user, lastname: "No_View", member_in_project: project, member_through_role: no_view_member_role
+    create :user, lastname: "No_View", member_in_project: project, member_through_role: no_view_member_role
   end
   let!(:placeholder_user) do
-    FactoryBot.create :placeholder_user,
-                      lastname: "Placeholder user",
-                      member_in_project: project,
-                      member_through_role: no_view_member_role
+    create :placeholder_user,
+           lastname: "Placeholder user",
+           member_in_project: project,
+           member_through_role: no_view_member_role
   end
   let!(:invisible_user) do
-    FactoryBot.create :user, lastname: "Invisible", member_in_project: other_project, member_through_role: role
+    create :user, lastname: "Invisible", member_in_project: other_project, member_through_role: role
   end
 
   let(:no_view_member_role) do
-    FactoryBot.create(:role,
-                      permissions: %i[manage_dashboards
-                                      view_dashboards])
+    create(:role,
+           permissions: %i[manage_dashboards
+                           view_dashboards])
   end
   let(:no_edit_member_role) do
-    FactoryBot.create(:role,
-                      permissions: %i[manage_dashboards
-                                      view_dashboards
-                                      view_members])
+    create(:role,
+           permissions: %i[manage_dashboards
+                           view_dashboards
+                           view_members])
   end
   let(:role) do
-    FactoryBot.create(:role,
-                      permissions: %i[manage_dashboards
-                                      view_dashboards
-                                      manage_members
-                                      view_members])
+    create(:role,
+           permissions: %i[manage_dashboards
+                           view_dashboards
+                           manage_members
+                           view_members])
   end
   let(:dashboard) do
     Pages::Dashboard.new(project)

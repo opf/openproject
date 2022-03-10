@@ -4,7 +4,7 @@ import { OpIconComponent } from "core-app/shared/components/icon/icon.component"
 import { GitActionsMenuDirective } from "core-app/features/plugins/linked/openproject-github_integration/git-actions-menu/git-actions-menu.directive";
 import { TabPrsComponent } from "core-app/features/plugins/linked/openproject-github_integration/tab-prs/tab-prs.component";
 import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
+import { ApiV3Service } from "core-app/core/apiv3/api-v3.service";
 import { of } from "rxjs";
 import { PullRequestComponent } from "core-app/features/plugins/linked/openproject-github_integration/pull-request/pull-request.component";
 import { By } from "@angular/platform-browser";
@@ -30,7 +30,7 @@ describe('TabPrsComponent', () => {
       return 'test translation';
     }
   }
-  const APIV3Stub = {
+  const ApiV3Stub = {
     work_packages: {
       id: () => ({github_pull_requests: 'prpath'})
     }
@@ -98,7 +98,7 @@ describe('TabPrsComponent', () => {
         providers: [
           { provide: I18nService, useValue: I18nServiceStub },
           { provide: HalResourceService, useValue: halResourceServiceSpy },
-          { provide: APIV3Service, useValue: APIV3Stub },
+          { provide: ApiV3Service, useValue: ApiV3Stub },
           { provide: ChangeDetectorRef, useValue: changeDetectorSpy },
         ],
       })

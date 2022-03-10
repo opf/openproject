@@ -4,7 +4,7 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
 import { IDynamicFieldGroupConfig, IOPFormlyFieldSettings } from 'core-app/shared/components/dynamic-forms/typings';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { FormControl, FormGroup } from '@angular/forms';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { JobStatusModalComponent } from 'core-app/features/job-status/job-status-modal/job-status.modal';
@@ -33,7 +33,7 @@ export class NewProjectComponent extends UntilDestroyedMixin implements OnInit {
 
   fieldGroups:IDynamicFieldGroupConfig[];
 
-  initialPayload = {};
+  initialPayload:Record<string, unknown> = {};
 
   text = {
     use_template: this.I18n.t('js.project.use_template'),
@@ -43,7 +43,6 @@ export class NewProjectComponent extends UntilDestroyedMixin implements OnInit {
 
   hiddenFields:string[] = [
     'identifier',
-    'sendNotifications',
     'active',
   ];
 
@@ -55,7 +54,10 @@ export class NewProjectComponent extends UntilDestroyedMixin implements OnInit {
   this
     .apiV3Service
     .projects
-    .filtered(this.copyableTemplateFilter)
+    .filtered(
+      this.copyableTemplateFilter,
+      { pageSize: '-1' },
+    )
     .get()
     .pipe(
       map((response) => response.elements.map((el:HalResource) => ({ href: el.href, name: el.name }))),
@@ -72,7 +74,7 @@ export class NewProjectComponent extends UntilDestroyedMixin implements OnInit {
   @ViewChild(DynamicFormComponent) dynamicForm:DynamicFormComponent;
 
   constructor(
-    private apiV3Service:APIV3Service,
+    private apiV3Service:ApiV3Service,
     private uIRouterGlobals:UIRouterGlobals,
     private pathHelperService:PathHelperService,
     private modalService:OpModalService,
@@ -86,7 +88,7 @@ export class NewProjectComponent extends UntilDestroyedMixin implements OnInit {
     this.resourcePath = this.apiV3Service.projects.path;
     this.fieldGroups = [{
       name: this.text.advancedSettingsLabel,
-      fieldsFilter: (field) => !['name', 'parent'].includes(field.templateOptions?.property!)
+      fieldsFilter: (field) => !['name', 'parent', 'sendNotifications'].includes(field.templateOptions?.property as string)
         && !(field.templateOptions?.required
         && !field.templateOptions.hasDefault
         && field.templateOptions.payloadValue == null),
@@ -109,11 +111,20 @@ export class NewProjectComponent extends UntilDestroyedMixin implements OnInit {
     this.initialPayload = {
       ...this.initialPayload,
       name: this.dynamicForm.model.name,
+      _meta: {
+        ...(this.initialPayload?._meta as Record<string, unknown>),
+        sendNotifications: false,
+      },
     };
     this.formUrl = selected?.href ? `${selected.href}/copy` : null;
   }
 
   private isHiddenField(key:string|undefined):boolean {
+    // We explicitly want to show the sendNotifications param
+    if (key === '_meta.sendNotifications') {
+      return false;
+    }
+
     return !!key && (this.hiddenFields.includes(key) || this.isMeta(key));
   }
 

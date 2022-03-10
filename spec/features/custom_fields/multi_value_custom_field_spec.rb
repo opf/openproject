@@ -2,12 +2,12 @@ require "spec_helper"
 require "support/pages/work_packages/abstract_work_package"
 
 describe "multi select custom values", clear_cache: true, js: true do
-  let(:type) { FactoryBot.create :type }
-  let(:project) { FactoryBot.create :project, types: [type] }
+  let(:type) { create :type }
+  let(:project) { create :project, types: [type] }
   let(:multi_value) { true }
 
   let(:custom_field) do
-    FactoryBot.create(
+    create(
       :list_wp_custom_field,
       name: "Ingredients",
       multi_value: multi_value,
@@ -34,13 +34,13 @@ describe "multi select custom values", clear_cache: true, js: true do
   let(:group_by) { ::Components::WorkPackages::GroupBy.new }
   let(:sort_by) { ::Components::WorkPackages::SortBy.new }
 
-  let(:user) { FactoryBot.create :admin }
+  let(:user) { create :admin }
   let(:cf_frontend) { "customField#{custom_field.id}" }
 
   context "with existing custom values" do
     let(:work_package_options) { %w[ham pineapple onions] }
     let(:work_package) do
-      wp = FactoryBot.build :work_package, project: project, type: type, subject: 'First'
+      wp = build :work_package, project: project, type: type, subject: 'First'
 
       wp.custom_field_values = {
         custom_field.id => work_package_options.map { |s| custom_value_for(s) }
@@ -52,7 +52,7 @@ describe "multi select custom values", clear_cache: true, js: true do
 
     let(:work_package2_options) { %w[ham] }
     let(:work_package2) do
-      wp = FactoryBot.build :work_package, project: project, type: type, subject: 'Second'
+      wp = build :work_package, project: project, type: type, subject: 'Second'
 
       wp.custom_field_values = {
         custom_field.id => work_package2_options.map { |s| custom_value_for(s) }
@@ -141,7 +141,7 @@ describe "multi select custom values", clear_cache: true, js: true do
 
         wp1_field.submit_by_dashboard
 
-        wp_page.expect_and_dismiss_notification message: 'Successful update'
+        wp_page.expect_and_dismiss_toaster message: 'Successful update'
 
         # Expect changed groups
         expect(page).to have_selector('.group--value .count', count: 1)
@@ -155,7 +155,7 @@ describe "multi select custom values", clear_cache: true, js: true do
         field.unset_value "ham", true
         field.submit_by_dashboard
 
-        wp_page.expect_and_dismiss_notification message: 'Successful update'
+        wp_page.expect_and_dismiss_toaster message: 'Successful update'
 
         # Expect none selected in split and table
         field.expect_state_text '-'
@@ -191,7 +191,7 @@ describe "multi select custom values", clear_cache: true, js: true do
       let(:wp1_field) { table_edit_field(work_package) }
       let(:wp2_field) { table_edit_field(work_package2) }
       let!(:query) do
-        query = FactoryBot.build(:query, user: user, project: project)
+        query = build(:query, user: user, project: project)
         query.column_names = ['id', 'type', 'subject', "cf_#{custom_field.id}"]
         query.filters.clear
         query.timeline_visible = false

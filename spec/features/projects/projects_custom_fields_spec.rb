@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,14 +23,14 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 describe 'Projects custom fields', type: :feature, js: true do
-  shared_let(:current_user) { FactoryBot.create(:admin) }
-  shared_let(:project) { FactoryBot.create(:project, name: 'Foo project', identifier: 'foo-project') }
+  shared_let(:current_user) { create(:admin) }
+  shared_let(:project) { create(:project, name: 'Foo project', identifier: 'foo-project') }
   let(:name_field) { ::FormFields::InputFormField.new :name }
   let(:identifier) { "[data-qa-field-name='customField#{custom_field.id}'] input[type=checkbox]" }
 
@@ -40,7 +40,7 @@ describe 'Projects custom fields', type: :feature, js: true do
 
   describe 'with version CF' do
     let!(:custom_field) do
-      FactoryBot.create(:version_project_custom_field)
+      create(:version_project_custom_field)
     end
     let(:cf_field) { ::FormFields::SelectFormField.new custom_field }
 
@@ -61,13 +61,13 @@ describe 'Projects custom fields', type: :feature, js: true do
 
   describe 'with default values' do
     let!(:default_int_custom_field) do
-      FactoryBot.create(:int_project_custom_field, default_value: 123)
+      create(:int_project_custom_field, default_value: 123)
     end
     let!(:default_string_custom_field) do
-      FactoryBot.create(:string_project_custom_field, default_value: 'lorem')
+      create(:string_project_custom_field, default_value: 'lorem')
     end
     let!(:no_default_string_custom_field) do
-      FactoryBot.create(:string_project_custom_field)
+      create(:string_project_custom_field)
     end
 
     let(:name_field) { ::FormFields::InputFormField.new :name }
@@ -92,7 +92,7 @@ describe 'Projects custom fields', type: :feature, js: true do
       expect(page).to have_current_path /\/projects\/my-project-name\/?/
       created_project = Project.last
 
-      visit settings_project_path(created_project)
+      visit project_settings_general_path(created_project)
 
       default_int_field.expect_value default_int_custom_field.default_value.to_s
       default_string_field.expect_value 'Overwritten'
@@ -102,12 +102,12 @@ describe 'Projects custom fields', type: :feature, js: true do
 
   describe 'with long text CF' do
     let!(:custom_field) do
-      FactoryBot.create(:text_project_custom_field)
+      create(:text_project_custom_field)
     end
     let(:editor) { ::Components::WysiwygEditor.new "[data-qa-field-name='customField#{custom_field.id}']" }
 
     scenario 'allows settings the project boolean CF (regression #26313)' do
-      visit settings_generic_project_path(project.id)
+      visit project_settings_general_path(project.id)
 
       # expect CF, description and status description ckeditor-augmented-textarea
       expect(page).to have_selector('.op-ckeditor--wrapper', count: 3)
@@ -132,13 +132,13 @@ describe 'Projects custom fields', type: :feature, js: true do
 
   describe 'with float CF' do
     let!(:float_cf) do
-      FactoryBot.create(:float_project_custom_field, name: 'MyFloat')
+      create(:float_project_custom_field, name: 'MyFloat')
     end
     let(:float_field) { ::FormFields::InputFormField.new float_cf }
 
 
     context 'with english locale' do
-      let(:current_user) { FactoryBot.create :admin, language: 'en' }
+      let(:current_user) { create :admin, language: 'en' }
 
       it 'displays the float with english locale' do
         visit new_project_path
@@ -156,32 +156,34 @@ describe 'Projects custom fields', type: :feature, js: true do
         cv = project.custom_values.find_by(custom_field_id: float_cf.id).typed_value
         expect(cv).to eq 10000.55
 
-        visit settings_generic_project_path(project)
+        visit project_settings_general_path(project)
         float_field.expect_value '10000.55'
       end
     end
 
     context 'with german locale',
             driver: :firefox_de do
-      let(:current_user) { FactoryBot.create :admin, language: 'de' }
+      let(:current_user) { create :admin, language: 'de' }
 
       it 'displays the float with german locale' do
+        I18n.locale = :de
+
         visit new_project_path
 
         name_field.set_value 'My project name'
-        find('.op-fieldset--toggle', text: 'ERWEITERTE EINSTELLUNGEN').click
+        find('.op-fieldset--toggle', text: I18n.t('js.forms.advanced_settings').upcase).click
 
         float_field.set_value '10000,55'
 
         # Save project settings
-        click_on 'Speichern'
+        click_on I18n.t('js.button_save')
 
         expect(page).to have_current_path /\/projects\/my-project-name\/?/
         project = Project.find_by(name: 'My project name')
         cv = project.custom_values.find_by(custom_field_id: float_cf.id).typed_value
         expect(cv).to eq 10000.55
 
-        visit settings_generic_project_path(project)
+        visit project_settings_general_path(project)
         # The field renders in german locale, but there's no way to test that
         # as the internal value is always english locale
         float_field.expect_value '10000.55'
@@ -191,11 +193,11 @@ describe 'Projects custom fields', type: :feature, js: true do
 
   describe 'with boolean CF' do
     let!(:custom_field) do
-      FactoryBot.create(:bool_project_custom_field)
+      create(:bool_project_custom_field)
     end
 
     scenario 'allows settings the project boolean CF (regression #26313)' do
-      visit settings_generic_project_path(project.id)
+      visit project_settings_general_path(project.id)
       field = page.find(identifier)
       expect(field).not_to be_checked
 
@@ -211,21 +213,21 @@ describe 'Projects custom fields', type: :feature, js: true do
 
   describe 'with user CF' do
     let!(:custom_field) do
-      FactoryBot.create(:user_project_custom_field)
+      create(:user_project_custom_field)
     end
 
     # Create a second project for visible options
-    let!(:existing_project) { FactoryBot.create :project }
+    let!(:existing_project) { create :project }
 
     # Assume one user is visible
-    let!(:invisible_user) { FactoryBot.create :user, firstname: 'Invisible', lastname: 'User'  }
-    let!(:visible_user) { FactoryBot.create :user, firstname: 'Visible', lastname: 'User', member_in_project: existing_project }
+    let!(:invisible_user) { create :user, firstname: 'Invisible', lastname: 'User'  }
+    let!(:visible_user) { create :user, firstname: 'Visible', lastname: 'User', member_in_project: existing_project }
     current_user do
-      FactoryBot.create :user,
-                        firstname: 'Itsa me',
-                        lastname: 'Mario',
-                        member_in_project: existing_project,
-                        global_permissions: %i[add_project]
+      create :user,
+             firstname: 'Itsa me',
+             lastname: 'Mario',
+             member_in_project: existing_project,
+             global_permissions: %i[add_project]
     end
 
     let(:cf_field) { ::FormFields::SelectFormField.new custom_field }

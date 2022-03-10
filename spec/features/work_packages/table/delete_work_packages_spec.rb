@@ -23,13 +23,13 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 # ++
 
 require 'spec_helper'
 
 describe 'Delete work package', js: true do
-  let(:user) { FactoryBot.create(:admin) }
+  let(:user) { create(:admin) }
   let(:context_menu) { Components::WorkPackages::ContextMenu.new }
   let(:destroy_modal) { Components::WorkPackages::DestroyModal.new }
 
@@ -62,9 +62,9 @@ describe 'Delete work package', js: true do
   end
 
   describe 'deleting multiple work packages in the table' do
-    let!(:wp1) { FactoryBot.create(:work_package) }
-    let!(:wp2) { FactoryBot.create(:work_package) }
-    let!(:wp_child) { FactoryBot.create(:work_package, parent: wp1) }
+    let!(:wp1) { create(:work_package) }
+    let!(:wp2) { create(:work_package) }
+    let!(:wp_child) { create(:work_package, parent: wp1) }
 
     let(:wp_table) { Pages::WorkPackagesTable.new }
 
@@ -92,7 +92,7 @@ describe 'Delete work package', js: true do
   end
 
   describe 'when deleting it outside a project context' do
-    let(:work_package) { FactoryBot.create(:work_package) }
+    let(:work_package) { create(:work_package) }
     let(:split_view) { Pages::SplitWorkPackage.new(work_package) }
     let(:wp_table) { Pages::WorkPackagesTable.new }
 
@@ -100,8 +100,8 @@ describe 'Delete work package', js: true do
   end
 
   describe 'when deleting it within a project context' do
-    let(:project) { FactoryBot.create(:project) }
-    let(:work_package) { FactoryBot.create(:work_package, project: project) }
+    let(:project) { create(:project) }
+    let(:work_package) { create(:work_package, project: project) }
     let(:split_view) { Pages::SplitWorkPackage.new(work_package, project.identifier) }
     let(:wp_table) { Pages::WorkPackagesTable.new(project.identifier) }
 

@@ -12,7 +12,7 @@ import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/q
 import { WorkPackagesViewBase } from 'core-app/features/work-packages/routing/wp-view-base/work-packages-view.base';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { WorkPackageStatesInitializationService } from '../../wp-list/wp-states-initialization.service';
 
@@ -34,7 +34,7 @@ export abstract class WorkPackageEmbeddedBaseComponent extends WorkPackagesViewB
 
   protected initialized = false;
 
-  @InjectField() apiV3Service:APIV3Service;
+  @InjectField() apiV3Service:ApiV3Service;
 
   @InjectField() querySpace:IsolatedQuerySpace;
 

@@ -56,7 +56,18 @@
         <div class="work-packages--panel-inner">
           <span class="hidden-for-sighted" tabindex="-1" opAutofocus [textContent]="focusAnchorLabel"></span>
           <op-wp-tabs [workPackage]="workPackage" view="full"></op-wp-tabs>
-          <div class="tabcontent" ui-view>
+          <div class="work-packages-full-view--tab-breadcrumb">
+            <op-work-package-mark-notification-button
+                    *ngIf="(displayNotificationsButton$ | async) && keepTab.currentTabIdentifier === 'activity'"
+                    class="work-package--details-button"
+                    [workPackage]="workPackage"
+                    buttonClasses="-round button_no-margin"
+                    data-qa-selector="mark-notification-read-button"
+            ></op-work-package-mark-notification-button>
+          </div>
+          <div class="tabcontent"
+               data-notification-selector='notification-scroll-container'
+               ui-view>
           </div>
         </div>
 

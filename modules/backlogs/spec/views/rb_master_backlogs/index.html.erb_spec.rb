@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,53 +23,53 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require File.dirname(__FILE__) + '/../../spec_helper'
 
 describe 'rb_master_backlogs/index', type: :view do
-  let(:user) { FactoryBot.create(:user) }
+  let(:user) { create(:user) }
   let(:role_allowed) do
-    FactoryBot.create(:role,
-                      permissions: %i[view_master_backlog view_taskboards])
+    create(:role,
+           permissions: %i[view_master_backlog view_taskboards])
   end
   let(:statuses) do
-    [FactoryBot.create(:status, is_default: true),
-     FactoryBot.create(:status),
-     FactoryBot.create(:status)]
+    [create(:status, is_default: true),
+     create(:status),
+     create(:status)]
   end
-  let(:type_task) { FactoryBot.create(:type_task) }
-  let(:type_feature) { FactoryBot.create(:type_feature) }
-  let(:issue_priority) { FactoryBot.create(:priority) }
+  let(:type_task) { create(:type_task) }
+  let(:type_feature) { create(:type_feature) }
+  let(:issue_priority) { create(:priority) }
   let(:project) do
-    project = FactoryBot.create(:project, types: [type_feature, type_task])
-    project.members = [FactoryBot.create(:member, principal: user, project: project, roles: [role_allowed])]
+    project = create(:project, types: [type_feature, type_task])
+    project.members = [create(:member, principal: user, project: project, roles: [role_allowed])]
     project
   end
   let(:story_a) do
-    FactoryBot.create(:story, status: statuses[0],
+    create(:story, status: statuses[0],
                               project: project,
                               type: type_feature,
                               version: sprint,
                               priority: issue_priority)
   end
   let(:story_b) do
-    FactoryBot.create(:story, status: statuses[1],
+    create(:story, status: statuses[1],
                               project: project,
                               type: type_feature,
                               version: sprint,
                               priority: issue_priority)
   end
   let(:story_c) do
-    FactoryBot.create(:story, status: statuses[2],
+    create(:story, status: statuses[2],
                               project: project,
                               type: type_feature,
                               version: sprint,
                               priority: issue_priority)
   end
   let(:stories) { [story_a, story_b, story_c] }
-  let(:sprint) { FactoryBot.create(:sprint, project: project) }
+  let(:sprint) { create(:sprint, project: project) }
 
   before :each do
     allow(Setting).to receive(:plugin_openproject_backlogs).and_return({ 'story_types' => [type_feature.id],
@@ -90,7 +90,7 @@ describe 'rb_master_backlogs/index', type: :view do
   end
 
   it 'shows link to export with the default export card configuration' do
-    default_export_card_config = FactoryBot.create(:export_card_configuration)
+    default_export_card_config = create(:export_card_configuration)
     assign(:export_card_config_meta, {
              default: default_export_card_config,
              count: 1

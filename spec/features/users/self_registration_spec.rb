@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,14 +23,14 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 describe 'user self registration', type: :feature, js: true do
   let(:admin_password) { 'Test123Test123' }
-  let(:admin) { FactoryBot.create :admin, password: admin_password, password_confirmation: admin_password }
+  let(:admin) { create :admin, password: admin_password, password_confirmation: admin_password }
   let(:home_page) { Pages::Home.new }
 
   context 'with "manual account activation"',
@@ -80,7 +80,7 @@ describe 'user self registration', type: :feature, js: true do
       end
 
       expect(page)
-        .to have_content('Confirmation doesn\'t match Password')
+        .to have_content('Password confirmation does not match password.')
 
       # correcting password
       within '.registration-modal' do

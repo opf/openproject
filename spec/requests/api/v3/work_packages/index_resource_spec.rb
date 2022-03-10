@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -35,29 +35,25 @@ describe 'API v3 Work package resource',
   include API::V3::Utilities::PathHelper
 
   let(:work_package) do
-    FactoryBot.create(:work_package,
-                      project_id: project.id,
-                      description: 'lorem ipsum')
+    create(:work_package,
+           project_id: project.id,
+           description: 'lorem ipsum')
   end
   let(:project) do
-    FactoryBot.create(:project, identifier: 'test_project', public: false)
+    create(:project, identifier: 'test_project', public: false)
   end
-  let(:role) { FactoryBot.create(:role, permissions: permissions) }
+  let(:role) { create(:role, permissions: permissions) }
   let(:permissions) { %i[view_work_packages edit_work_packages assign_versions] }
 
   current_user do
-    user = FactoryBot.create(:user, member_in_project: project, member_through_role: role)
-
-    FactoryBot.create(:user_preference, user: user, others: { no_self_notified: false })
-
-    user
+    create(:user, member_in_project: project, member_through_role: role)
   end
 
   describe 'GET /api/v3/work_packages' do
     subject { last_response }
 
     let(:path) { api_v3_paths.work_packages }
-    let(:other_work_package) { FactoryBot.create(:work_package) }
+    let(:other_work_package) { create(:work_package) }
     let(:work_packages) { [work_package, other_work_package] }
 
     before do
@@ -73,7 +69,7 @@ describe 'API v3 Work package resource',
       expect(subject.body).to be_json_eql(1.to_json).at_path('total')
     end
 
-    it 'embedds the work package schemas' do
+    it 'embeds the work package schemas' do
       expect(subject.body)
         .to be_json_eql(api_v3_paths.work_package_schema(project.id, work_package.type.id).to_json)
               .at_path('_embedded/schemas/_embedded/elements/0/_links/self/href')
@@ -92,10 +88,10 @@ describe 'API v3 Work package resource',
         ]
       end
 
-      let(:lorem_ipsum_work_package) { FactoryBot.create(:work_package, project: project, subject: "lorem ipsum") }
-      let(:lorem_project) { FactoryBot.create(:project, members: { current_user => role }, name: "lorem other") }
-      let(:ipsum_work_package) { FactoryBot.create(:work_package, subject: "other ipsum", project: lorem_project) }
-      let(:other_lorem_work_package) { FactoryBot.create(:work_package, subject: "lorem", project: lorem_project) }
+      let(:lorem_ipsum_work_package) { create(:work_package, project: project, subject: "lorem ipsum") }
+      let(:lorem_project) { create(:project, members: { current_user => role }, name: "lorem other") }
+      let(:ipsum_work_package) { create(:work_package, subject: "other ipsum", project: lorem_project) }
+      let(:other_lorem_work_package) { create(:work_package, subject: "lorem", project: lorem_project) }
       let(:work_packages) { [work_package, lorem_ipsum_work_package, ipsum_work_package, other_lorem_work_package] }
 
       it_behaves_like 'API V3 collection response', 2, 2, 'WorkPackage', 'WorkPackageCollection' do
@@ -105,7 +101,7 @@ describe 'API v3 Work package resource',
 
     context 'with a user not seeing any work packages' do
       include_context 'with non-member permissions from non_member_permissions'
-      let(:current_user) { FactoryBot.create(:user) }
+      let(:current_user) { create(:user) }
       let(:non_member_permissions) { [:view_work_packages] }
 
       it 'succeeds' do
@@ -137,12 +133,12 @@ describe 'API v3 Work package resource',
       end
       let(:path) { "#{api_v3_paths.work_packages}?#{props}" }
       let(:other_visible_work_package) do
-        FactoryBot.create(:work_package,
-                          project: project)
+        create(:work_package,
+               project: project)
       end
       let(:another_visible_work_package) do
-        FactoryBot.create(:work_package,
-                          project: project)
+        create(:work_package,
+               project: project)
       end
 
       let(:work_packages) { [work_package, other_work_package, other_visible_work_package, another_visible_work_package] }

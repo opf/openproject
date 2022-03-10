@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { Component, Input, OnInit } from '@angular/core';
@@ -40,7 +40,7 @@ import { WpChildrenInlineCreateService } from 'core-app/features/work-packages/c
 import { filter } from 'rxjs/operators';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { GroupDescriptor } from 'core-app/features/work-packages/components/wp-single-view/wp-single-view.component';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 
@@ -68,7 +68,9 @@ export class WorkPackageChildrenQueryComponent extends WorkPackageRelationQueryB
       'remove-child-action',
       this.I18n.t('js.relation_buttons.remove_child'),
       (child:WorkPackageResource) => {
-        this.embeddedTable.loadingIndicator = this.wpRelationsHierarchyService.removeChild(child);
+        if (this.embeddedTable) {
+          this.embeddedTable.loadingIndicator = this.wpRelationsHierarchyService.removeChild(child);
+        }
       },
       (child:WorkPackageResource) => !!child.changeParent,
     ),
@@ -78,7 +80,7 @@ export class WorkPackageChildrenQueryComponent extends WorkPackageRelationQueryB
     protected PathHelper:PathHelperService,
     protected wpInlineCreate:WorkPackageInlineCreateService,
     protected halEvents:HalEventsService,
-    protected apiV3Service:APIV3Service,
+    protected apiV3Service:ApiV3Service,
     protected queryUrlParamsHelper:UrlParamsHelperService,
     readonly I18n:I18nService) {
     super(queryUrlParamsHelper);
@@ -111,7 +113,7 @@ export class WorkPackageChildrenQueryComponent extends WorkPackageRelationQueryB
       .id(this.workPackage)
       .observe()
       .pipe(
-        filter(() => this.embeddedTable && this.embeddedTable.isInitialized),
+        filter(() => !!this.embeddedTable?.isInitialized),
         this.untilDestroyed(),
       )
       .subscribe(() => this.refreshTable());

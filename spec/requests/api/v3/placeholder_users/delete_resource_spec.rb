@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -25,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 
 require 'spec_helper'
 require_relative './delete_resource_examples'
@@ -35,7 +33,7 @@ describe ::API::V3::PlaceholderUsers::PlaceholderUsersAPI,
          type: :request do
   include API::V3::Utilities::PathHelper
 
-  shared_let(:placeholder) { FactoryBot.create :placeholder_user, name: 'foo' }
+  shared_let(:placeholder) { create :placeholder_user, name: 'foo' }
 
   let(:send_request) do
     header "Content-Type", "application/json"
@@ -52,31 +50,31 @@ describe ::API::V3::PlaceholderUsers::PlaceholderUsersAPI,
   end
 
   context 'when admin' do
-    let(:user) { FactoryBot.build_stubbed :admin }
+    let(:user) { build_stubbed :admin }
 
     it_behaves_like 'deletion allowed'
   end
 
   context 'when locked admin' do
-    let(:user) { FactoryBot.build_stubbed :admin, status: Principal.statuses[:locked] }
+    let(:user) { build_stubbed :admin, status: Principal.statuses[:locked] }
 
     it_behaves_like 'deletion is not allowed'
   end
 
   context 'when non-admin' do
-    let(:user) { FactoryBot.build_stubbed :user, admin: false }
+    let(:user) { build_stubbed :user, admin: false }
 
     it_behaves_like 'deletion is not allowed'
   end
 
   context 'when user with manage_user permission' do
-    let(:user) { FactoryBot.create :user, global_permission: %[manage_placeholder_user] }
+    let(:user) { create :user, global_permission: %[manage_placeholder_user] }
 
     it_behaves_like 'deletion allowed'
   end
 
   context 'when anonymous user' do
-    let(:user) { FactoryBot.create :anonymous }
+    let(:user) { create :anonymous }
 
     it_behaves_like 'deletion is not allowed'
   end

@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,17 +23,17 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 describe Bim::IfcModels::SetAttributesService, type: :model do
-  shared_let(:project) { FactoryBot.create(:project, enabled_module_names: %i[bim]) }
-  shared_let(:other_project) { FactoryBot.create(:project, enabled_module_names: %i[bim]) }
-  shared_let(:user) { FactoryBot.create(:user, member_in_project: project, member_with_permissions: %i[manage_ifc_models]) }
+  shared_let(:project) { create(:project, enabled_module_names: %i[bim]) }
+  shared_let(:other_project) { create(:project, enabled_module_names: %i[bim]) }
+  shared_let(:user) { create(:user, member_in_project: project, member_with_permissions: %i[manage_ifc_models]) }
 
-  let(:other_user) { FactoryBot.build_stubbed(:user) }
+  let(:other_user) { build_stubbed(:user) }
   let(:contract_class) do
     contract = double('contract_class')
 
@@ -62,7 +60,7 @@ describe Bim::IfcModels::SetAttributesService, type: :model do
   let(:call_attributes) { {} }
   let(:ifc_file) { FileHelpers.mock_uploaded_file(name: "model_2.ifc", content_type: 'application/binary', binary: true) }
   let(:model) do
-    FactoryBot.create(:ifc_model, project: project, uploader: other_user)
+    create(:ifc_model, project: project, uploader: other_user)
   end
 
   before do

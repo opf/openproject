@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 ar:
   activerecord:
@@ -56,7 +56,7 @@ ar:
           is_not_a_valid_target_for_cost_entries: "مجموعة العمل #%{id} ليست هدفًا صالحًا لإعادة تعيين إدخالات التكلفة."
           nullify_is_not_valid_for_cost_entries: "لا يمكن تعيين إدخالات التكلفة للمشروع."
   attributes:
-    comment: "تعليق"
+    comment: "التعليق"
     cost_type: "أنواع التكلفة"
     costs: "التكاليف"
     current_rate: "المعدل الحالي"
@@ -89,7 +89,7 @@ ar:
   label_currency: "العملة"
   label_currency_format: "شكل العملة"
   label_current_default_rate: "المعدل الافتراضي الحالي"
-  label_date_on: "في"
+  label_date_on: "على"
   label_deleted_cost_types: "أنواع التكلفة المحذوفة"
   label_locked_cost_types: "أنواع التكلفة المغلقة"
   label_display_cost_entries: "عرض تكاليف الوحدة"
@@ -98,7 +98,7 @@ ar:
   label_edit: "تعديل"
   label_generic_user: "المستخدم العام"
   label_greater_or_equal: "=<"
-  label_group_by: "مجموعة من"
+  label_group_by: "مجموعة بحسب"
   label_group_by_add: "أضِف حقل التجميع"
   label_hourly_rate: "الأجر بالساعة"
   label_include_deleted: "يتضمن المحذوف"
@@ -107,7 +107,7 @@ ar:
   label_less_or_equal: "=>"
   label_log_costs: "سجل تكاليف الوحدة"
   label_no: "لا"
-  label_option_plural: "خيارات"
+  label_option_plural: "الخيارات"
   label_overall_costs: "التكاليف الإجمالية"
   label_rate: "المعدل"
   label_rate_plural: "الأسعار"

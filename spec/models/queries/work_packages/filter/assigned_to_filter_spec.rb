@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -40,9 +40,9 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
   let(:values) { [] }
 
   describe 'where filter results' do
-    let(:work_package) { FactoryBot.create(:work_package, assigned_to: assignee) }
-    let(:assignee) { FactoryBot.create(:user) }
-    let(:group) { FactoryBot.create(:group) }
+    let(:work_package) { create(:work_package, assigned_to: assignee) }
+    let(:assignee) { create(:user) }
+    let(:group) { create(:group) }
 
     subject { WorkPackage.where(instance.where) }
 
@@ -84,7 +84,7 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
       before do
         allow(User)
           .to receive(:current)
-          .and_return(FactoryBot.create(:user))
+          .and_return(create(:user))
       end
 
       it 'does not return the work package' do
@@ -94,8 +94,8 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
     end
 
     context 'for me and user values' do
-      let(:user) { FactoryBot.create :user }
-      let(:assignee2) { FactoryBot.create :user }
+      let(:user) { create :user }
+      let(:assignee2) { create :user }
       let(:values) { [assignee.id, user.id, 'me', assignee2.id] }
 
       before do
@@ -130,7 +130,7 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
 
     context 'for a group value with a group member being assignee' do
       let(:values) { [group.id.to_s] }
-      let(:group) { FactoryBot.create(:group, members: assignee) }
+      let(:group) { create(:group, members: assignee) }
 
       it 'does not return the work package' do
         is_expected
@@ -150,8 +150,8 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
     context "for a user value with the user's group being assignee" do
       let(:values) { [user.id.to_s] }
       let(:assignee) { group }
-      let(:user) { FactoryBot.create(:user) }
-      let(:group) { FactoryBot.create(:group, members: user) }
+      let(:user) { create(:user) }
+      let(:group) { create(:group, members: user) }
 
       it 'does not return the work package' do
         is_expected
@@ -162,7 +162,7 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
     context "for a user value with the user not being member of the assigned group" do
       let(:values) { [user.id.to_s] }
       let(:assignee) { group }
-      let(:user) { FactoryBot.create(:user) }
+      let(:user) { create(:user) }
 
       it 'does not return the work package' do
         is_expected
@@ -184,9 +184,9 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
     let(:type) { :list_optional }
     let(:class_key) { :assigned_to_id }
 
-    let(:user) { FactoryBot.build_stubbed(:user) }
-    let(:group) { FactoryBot.build_stubbed(:group) }
-    let(:placeholder_user) { FactoryBot.build_stubbed(:group) }
+    let(:user) { build_stubbed(:user) }
+    let(:group) { build_stubbed(:group) }
+    let(:placeholder_user) { build_stubbed(:group) }
 
     let(:principal_loader) do
       double('principal_loader', principal_values: principal_values)

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,28 +23,28 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 RSpec.feature 'Work package create uses attributes from filters', js: true, selenium: true do
-  let(:user) { FactoryBot.create(:admin) }
-  let(:type_bug) { FactoryBot.create(:type_bug) }
-  let(:type_task) { FactoryBot.create(:type_task) }
-  let(:project) { FactoryBot.create(:project, types: [type_task, type_bug]) }
-  let(:status) { FactoryBot.create(:default_status) }
+  let(:user) { create(:admin) }
+  let(:type_bug) { create(:type_bug) }
+  let(:type_task) { create(:type_task) }
+  let(:project) { create(:project, types: [type_task, type_bug]) }
+  let(:status) { create(:default_status) }
 
-  let!(:status) { FactoryBot.create(:default_status) }
-  let!(:priority) { FactoryBot.create :priority, is_default: true }
+  let!(:status) { create(:default_status) }
+  let!(:priority) { create :priority, is_default: true }
 
   let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
   let(:split_view_create) { ::Pages::SplitWorkPackageCreate.new(project: project) }
 
-  let(:role) { FactoryBot.create :existing_role, permissions: [:view_work_packages] }
+  let(:role) { create :existing_role, permissions: %i[view_work_packages work_package_assigned] }
 
   let!(:query) do
-    FactoryBot.build(:query, project: project, user: user).tap do |query|
+    build(:query, project: project, user: user).tap do |query|
       query.filters.clear
 
       filters.each do |filter|
@@ -67,15 +67,15 @@ RSpec.feature 'Work package create uses attributes from filters', js: true, sele
   end
 
   context 'with a multi-value custom field' do
-    let(:type_task) { FactoryBot.create(:type_task, custom_fields: [custom_field]) }
+    let(:type_task) { create(:type_task, custom_fields: [custom_field]) }
     let!(:project) do
-      FactoryBot.create :project,
-                        types: [type_task],
-                        work_package_custom_fields: [custom_field]
+      create :project,
+             types: [type_task],
+             work_package_custom_fields: [custom_field]
     end
 
     let!(:custom_field) do
-      FactoryBot.create(
+      create(
         :list_wp_custom_field,
         multi_value: true,
         is_filter: true,
@@ -99,7 +99,7 @@ RSpec.feature 'Work package create uses attributes from filters', js: true, sele
       subject.set_value 'Foobar!'
       split_page.save!
 
-      wp_table.expect_and_dismiss_notification(
+      wp_table.expect_and_dismiss_toaster(
         message: 'Successful creation. Click here to open this work package in fullscreen view.'
       )
       wp = WorkPackage.last
@@ -111,11 +111,11 @@ RSpec.feature 'Work package create uses attributes from filters', js: true, sele
 
   context 'with assignee filter' do
     let!(:assignee) do
-      FactoryBot.create(:user,
-                        firstname: 'An',
-                        lastname: 'assignee',
-                        member_in_project: project,
-                        member_through_role: role)
+      create(:user,
+             firstname: 'An',
+             lastname: 'assignee',
+             member_in_project: project,
+             member_through_role: role)
     end
 
     let(:filters) do
@@ -141,10 +141,10 @@ RSpec.feature 'Work package create uses attributes from filters', js: true, sele
       subject_field.set_value 'Foobar!'
       subject_field.submit_by_enter
 
-      wp_table.expect_notification(
+      wp_table.expect_toast(
         message: 'Successful creation. Click here to open this work package in fullscreen view.'
       )
-      wp_table.dismiss_notification!
+      wp_table.dismiss_toaster!
 
       wp = WorkPackage.last
       expect(wp.subject).to eq 'Foobar!'
@@ -171,7 +171,7 @@ RSpec.feature 'Work package create uses attributes from filters', js: true, sele
         click_button 'Save'
       end
 
-      wp_table.expect_notification(message: 'Successful creation.')
+      wp_table.expect_toast(message: 'Successful creation.')
 
       wp = WorkPackage.last
       expect(wp.subject).to eq 'Split Foobar!'

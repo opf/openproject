@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -25,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module API
@@ -57,7 +55,20 @@ module API
                                  options[:column]
                                end
 
-              "'#{name}', #{representation}"
+              if options[:render_if]
+                <<-SQL.squish
+                   '#{name}',
+                   CASE WHEN #{options[:render_if].call(walker_results)} THEN
+                     #{representation}
+                   ELSE
+                     NULL
+                   END
+                SQL
+              else
+                <<-SQL.squish
+                 '#{name}', #{representation}
+                SQL
+              end
             end.join(', ')
           end
 
@@ -80,48 +91,59 @@ module API
             scope
           end
 
-          def link(name, column: nil, path: nil, title: nil, href: nil, join: nil, render_if: nil, **additional_properties)
+          def link(name,
+                   column: nil,
+                   path: nil,
+                   title: nil,
+                   href: nil,
+                   join: nil,
+                   render_if: nil,
+                   sql: nil,
+                   **additional_properties)
             links[name] = { column: column,
                             path: path,
                             title: title,
                             join: join,
                             href: href,
                             render_if: render_if,
+                            sql: sql,
                             additional_properties: additional_properties }
           end
 
           def links_selects(select, walker_result)
             selected_links(select)
               .map do |name, link|
-              path_name = link[:path] ? link[:path][:api] : name
-              title = link[:title] ? link[:title].call : "#{name}.name"
-              column = link[:column] ? link[:column].call : name
-
-              href = link[:href] ? link[:href].call(walker_result) : "format('#{api_v3_paths.send(path_name, '%s')}', #{column})"
-
-              link_attributes = ["'href'", href]
-
-              if title
-                link_attributes += ["'title'", title]
-              end
-
-              (link[:additional_properties] || {}).each do |key, value|
-                link_attributes += ["'#{key}'", value]
-              end
-
-              if link[:render_if]
-                <<-SQL
-                 '#{name}',
-                 CASE WHEN #{link[:render_if].call(walker_result)} THEN
-                   json_build_object(#{link_attributes.join(', ')})
-                 ELSE
-                   NULL
-                 END
+              if link[:sql]
+                <<-SQL.squish
+                  '#{name}', #{link[:sql].call}
                 SQL
               else
-                <<-SQL
-                 '#{name}', json_build_object(#{link_attributes.join(', ')})
-                SQL
+                title = link[:title] ? link[:title].call : "#{name}.name"
+
+                link_attributes = ["'href'", link_href(link, name, walker_result)]
+
+                if title
+                  link_attributes += ["'title'", title]
+                end
+
+                (link[:additional_properties] || {}).each do |key, value|
+                  link_attributes += ["'#{key}'", value]
+                end
+
+                if link[:render_if]
+                  <<-SQL.squish
+                   '#{name}',
+                   CASE WHEN #{link[:render_if].call(walker_result)} THEN
+                     json_build_object(#{link_attributes.join(', ')})
+                   ELSE
+                     NULL
+                   END
+                  SQL
+                else
+                  <<-SQL.squish
+                   '#{name}', json_build_object(#{link_attributes.join(', ')})
+                  SQL
+                end
               end
             end
               .join(', ')
@@ -143,19 +165,20 @@ module API
                                  link[:column]
                                end
 
-              <<-SQL
+              next unless representation
+
+              <<-SQL.squish
                '#{name}', #{representation}
               SQL
             end
+              .flatten
               .join(', ')
           end
 
           def select_sql(select, walker_result)
             <<~SELECT
               json_strip_nulls(json_build_object(
-                #{[properties_sql(select, walker_result),
-                   select_links(select, walker_result),
-                   select_embedded(select, walker_result)].compact.join(', ')}
+                #{json_object_string(select, walker_result)}
               ))
             SELECT
           end
@@ -166,7 +189,7 @@ module API
 
           def to_sql(walker_result)
             ctes = walker_result.ctes.map do |key, sql|
-              <<~SQL
+              <<~SQL.squish
                 #{key} AS (
                   #{sql}
                 )
@@ -175,7 +198,7 @@ module API
 
             ctes_sql = ctes.any? ? "WITH #{ctes.join(', ')}" : ""
 
-            <<~SQL
+            <<~SQL.squish
               #{ctes_sql}
 
               SELECT
@@ -185,30 +208,37 @@ module API
             SQL
           end
 
+          protected
+
+          def json_object_string(select, walker_result)
+            [properties_sql(select, walker_result),
+             select_links(select, walker_result),
+             select_embedded(select, walker_result)]
+              .compact_blank
+              .join(', ')
+          end
+
+          # All properties and links that the client can correctly signal to have selected.
+          def valid_selects
+            links.keys + properties.keys + [:*]
+          end
+
           private
 
           def select_embedded(select, walker_result)
-            embedded = embedded_selects(select, walker_result)
-
-            if embedded.present?
-              <<~SQL
-                '_embedded', json_strip_nulls(json_build_object(
-                  #{embedded_selects(select, walker_result)}
-                ))
-              SQL
+            namespaced_json_object('_embedded') do
+              embedded_selects(select, walker_result)
             end
           end
 
           def select_links(select, walker_result)
-            <<~SELECT
-              '_links', json_strip_nulls(json_build_object(
-                #{links_selects(select, walker_result)}
-              ))
-            SELECT
+            namespaced_json_object('_links') do
+              links_selects(select, walker_result)
+            end
           end
 
           def select_from(walker_result)
-            "(#{walker_result.scope.to_sql}) element"
+            "(#{walker_result.projection_scope.to_sql}) element"
           end
 
           def selected_links(select)
@@ -239,10 +269,36 @@ module API
           end
 
           def ensure_valid_selects(requested)
-            supported = links.keys + properties.keys + [:*]
-            invalid = requested - supported
+            invalid = requested - valid_selects
 
-            raise API::Errors::InvalidSignal.new(invalid, supported, :select) if invalid.any?
+            raise API::Errors::InvalidSignal.new(invalid, valid_selects, :select) if invalid.any?
+          end
+
+          def namespaced_json_object(namespace)
+            json_object = yield
+
+            return if json_object.blank?
+
+            <<~SELECT
+              '#{namespace}', json_strip_nulls(json_build_object(
+                #{json_object}
+              ))
+            SELECT
+          end
+
+          def link_href(link, name, walker_result)
+            path_name = link[:path] ? link[:path][:api] : name
+            column = link[:column] ? link[:column].call : name
+
+            link[:href] ? link[:href].call(walker_result) : "format('#{api_v3_paths.send(path_name, '%s')}', #{column})"
+          end
+
+          def sql_offset(walker_result)
+            (walker_result.offset - 1) * walker_result.page_size
+          end
+
+          def sql_limit(walker_result)
+            walker_result.page_size
           end
         end
       end

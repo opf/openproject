@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { Ng2StateDeclaration } from '@uirouter/angular';
@@ -32,16 +32,25 @@ import { WorkPackageSplitViewComponent } from 'core-app/features/work-packages/r
 import { InAppNotificationCenterComponent } from 'core-app/features/in-app-notifications/center/in-app-notification-center.component';
 import { InAppNotificationCenterPageComponent } from 'core-app/features/in-app-notifications/center/in-app-notification-center-page.component';
 import { WorkPackagesBaseComponent } from 'core-app/features/work-packages/routing/wp-base/wp--base.component';
+import { EmptyStateComponent } from './center/empty-state/empty-state.component';
+
+export interface INotificationPageQueryParameters {
+  filter?:string;
+  name?:string;
+}
 
 export const IAN_ROUTES:Ng2StateDeclaration[] = [
   {
     name: 'notifications',
-    url: '/notifications',
+    parent: 'root',
+    url: '/notifications?{filter:string}&{name:string}',
     data: {
       bodyClasses: 'router--work-packages-base',
     },
-    component: WorkPackagesBaseComponent,
     redirectTo: 'notifications.center.show',
+    views: {
+      '!$default': { component: WorkPackagesBaseComponent },
+    },
   },
   {
     name: 'notifications.center',
@@ -55,6 +64,7 @@ export const IAN_ROUTES:Ng2StateDeclaration[] = [
     },
     views: {
       'content-left': { component: InAppNotificationCenterComponent },
+      'content-right': { component: EmptyStateComponent },
     },
   },
   ...makeSplitViewRoutes(

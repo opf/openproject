@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -34,10 +34,10 @@ describe API::V3::Attachments::AttachmentsAPI, type: :request do
   include API::V3::Utilities::PathHelper
   include FileHelpers
 
-  let(:current_user) { FactoryBot.create(:user, member_in_project: project, member_through_role: role) }
+  let(:current_user) { create(:user, member_in_project: project, member_through_role: role) }
 
-  let(:project) { FactoryBot.create(:project, public: false) }
-  let(:role) { FactoryBot.create(:role, permissions: permissions) }
+  let(:project) { create(:project, public: false) }
+  let(:role) { create(:role, permissions: permissions) }
   let(:permissions) { [:add_work_packages] }
 
   context(
@@ -70,7 +70,7 @@ describe API::V3::Attachments::AttachmentsAPI, type: :request do
     describe 'GET /uploaded' do
       let(:digest) { "" }
       let(:attachment) do
-        FactoryBot.create :attachment, digest: digest, author: current_user, container: nil, container_type: nil, downloads: -1
+        create :attachment, digest: digest, author: current_user, container: nil, container_type: nil, downloads: -1
       end
 
       before do

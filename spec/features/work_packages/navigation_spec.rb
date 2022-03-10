@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,15 +23,15 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 RSpec.feature 'Work package navigation', js: true, selenium: true do
-  let(:user) { FactoryBot.create(:admin) }
-  let(:project) { FactoryBot.create(:project, name: 'Some project', enabled_module_names: [:work_package_tracking]) }
-  let(:work_package) { FactoryBot.build(:work_package, project: project) }
+  let(:user) { create(:admin) }
+  let(:project) { create(:project, name: 'Some project', enabled_module_names: [:work_package_tracking]) }
+  let(:work_package) { build(:work_package, project: project) }
   let(:global_html_title) { ::Components::HtmlTitle.new }
   let(:project_html_title) { ::Components::HtmlTitle.new project }
   let(:wp_display) { ::Components::WorkPackages::DisplayRepresentation.new }
@@ -40,11 +40,14 @@ RSpec.feature 'Work package navigation', js: true, selenium: true do
   end
 
   let!(:query) do
-    query = FactoryBot.build(:query, user: user, project: project)
+    query = build(:query, user: user, project: project)
     query.column_names = %w(id subject)
     query.name = "My fancy query"
 
     query.save!
+    create(:view_work_packages_table,
+           query: query)
+
     query
   end
 
@@ -147,10 +150,10 @@ RSpec.feature 'Work package navigation', js: true, selenium: true do
     visit '/work_packages/999999999'
 
     page404 = ::Pages::Page.new
-    page404.expect_notification type: :error, message: I18n.t(:notice_file_not_found)
+    page404.expect_toast type: :error, message: I18n.t(:notice_file_not_found)
 
     visit "/projects/#{project.identifier}/work_packages/999999999"
-    page404.expect_and_dismiss_notification type: :error, message: I18n.t('api_v3.errors.code_404')
+    page404.expect_and_dismiss_toaster type: :error, message: I18n.t('api_v3.errors.not_found.work_package')
   end
 
   # Regression #29994
@@ -158,8 +161,8 @@ RSpec.feature 'Work package navigation', js: true, selenium: true do
     visit project_path(project)
 
     find('#main-menu-work-packages ~ .toggler').click
-    expect(page).to have_selector('.collapsible-menu--search-ul')
-    find('.collapsible-menu--item-link', text: query.name).click
+    expect(page).to have_selector('.op-view-select--search-results')
+    find('.op-sidemenu--item-action', text: query.name).click
 
     expect(page).not_to have_selector('.title-container', text: 'Overview')
     expect(page).to have_field('editable-toolbar-title', with: query.name)
@@ -200,7 +203,7 @@ RSpec.feature 'Work package navigation', js: true, selenium: true do
     wp_display.expect_state 'Gantt'
 
     # Click on All open
-    find('.collapsible-menu--item-link', text: 'All open').click
+    find('.op-sidemenu--item-action', text: 'All open').click
 
     if OpenProject::Configuration.bim?
       wp_display.expect_state 'Cards'
@@ -210,9 +213,9 @@ RSpec.feature 'Work package navigation', js: true, selenium: true do
   end
 
   describe 'moving back to filtered list after change' do
-    let!(:work_package) { FactoryBot.create(:work_package, project: project, subject: 'foo') }
+    let!(:work_package) { create(:work_package, project: project, subject: 'foo') }
     let!(:query) do
-      query = FactoryBot.build(:query, user: user, project: project)
+      query = build(:query, user: user, project: project)
       query.column_names = %w(id subject)
       query.name = "My fancy query"
       query.add_filter('subject', '~', ['foo'])
@@ -232,7 +235,7 @@ RSpec.feature 'Work package navigation', js: true, selenium: true do
       subject = full_view.edit_field :subject
       subject.update 'bar'
 
-      full_view.expect_and_dismiss_notification message: 'Successful update.'
+      full_view.expect_and_dismiss_toaster message: 'Successful update.'
 
       # Go back to list
       full_view.go_back
@@ -242,9 +245,9 @@ RSpec.feature 'Work package navigation', js: true, selenium: true do
   end
 
   context 'work package with an attachment' do
-    let!(:attachment) { FactoryBot.build(:attachment, filename: 'attachment-first.pdf') }
+    let!(:attachment) { build(:attachment, filename: 'attachment-first.pdf') }
     let!(:wp_with_attachment) do
-      FactoryBot.create :work_package, subject: 'WP attachment A', project: project, attachments: [attachment]
+      create :work_package, subject: 'WP attachment A', project: project, attachments: [attachment]
     end
 
     it 'will show it when navigating from table to single view' do
@@ -260,8 +263,8 @@ RSpec.feature 'Work package navigation', js: true, selenium: true do
   end
 
   context 'two work packages with card view' do
-    let!(:work_package) { FactoryBot.create :work_package, project: project }
-    let!(:work_package2) { FactoryBot.create :work_package, project: project }
+    let!(:work_package) { create :work_package, project: project }
+    let!(:work_package2) { create :work_package, project: project }
     let(:display_representation) { ::Components::WorkPackages::DisplayRepresentation.new }
     let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
     let(:cards) { ::Pages::WorkPackageCards.new(project) }
@@ -273,12 +276,31 @@ RSpec.feature 'Work package navigation', js: true, selenium: true do
       cards.expect_work_package_listed work_package, work_package2
 
       # move to first details
-      split = cards.open_full_screen_by_details work_package
+      split = cards.open_split_view_by_info_icon work_package
       split.expect_subject
 
       # move to second details
-      split2 = cards.open_full_screen_by_details work_package2
+      split2 = cards.open_split_view_by_info_icon work_package2
       split2.expect_subject
+    end
+  end
+
+  context 'when visiting a query that will lead to a query validation error' do
+    let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
+
+    it 'will output a correct error message (Regression #39880)' do
+      url_query =
+        "query_id=%7B%22%7B%22&query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject" \
+        "%22%2C%22type%22%2C%22status%22%2C%22assignee%22%2C%22updatedAt%22%5D%2C" \
+        "%22tv%22%3Afalse%2C%22hla%22%3A%5B%22status%22%2C%22priority%22%2C%22dueDate" \
+        "%22%5D%2C%22hi%22%3Afalse%2C%22g%22%3A%22%22%2C%22t%22%3A%22updatedAt%3Adesc" \
+        "%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A" \
+        "%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A20%7D"
+
+      visit "/projects/#{project.identifier}/work_packages?#{url_query}"
+
+      wp_table.expect_toast message: 'Your view is erroneous and could not be processed.', type: :error
+      expect(page).to have_selector 'li', text: 'Bad request: id is invalid'
     end
   end
 end

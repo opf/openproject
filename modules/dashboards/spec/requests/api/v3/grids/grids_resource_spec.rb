@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -34,27 +34,27 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
   include API::V3::Utilities::PathHelper
 
   let(:current_user) do
-    FactoryBot.create(:user,
-                      member_in_project: project,
-                      member_with_permissions: permissions)
+    create(:user,
+           member_in_project: project,
+           member_with_permissions: permissions)
   end
   let(:permissions) { %i[view_dashboards manage_dashboards] }
-  let(:project) { FactoryBot.create(:project) }
+  let(:project) { create(:project) }
   let(:grid) do
-    FactoryBot.create(:dashboard,
-                      project: project,
-                      widgets: widgets)
+    create(:dashboard,
+           project: project,
+           widgets: widgets)
   end
   let(:widgets) do
-    [FactoryBot.create(:grid_widget,
-                       identifier: 'custom_text',
-                       start_column: 1,
-                       end_column: 3,
-                       start_row: 1,
-                       end_row: 3,
-                       options: {
-                         text: custom_text
-                       })]
+    [create(:grid_widget,
+            identifier: 'custom_text',
+            start_column: 1,
+            end_column: 3,
+            start_row: 1,
+            end_row: 3,
+            options: {
+              text: custom_text
+            })]
   end
   let(:custom_text) { "Some text a user wrote" }
 

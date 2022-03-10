@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -31,26 +31,26 @@ require 'spec_helper'
 require_relative '../support/pages/meetings/index'
 
 describe 'Meetings new', type: :feature do
-  let(:project) { FactoryBot.create :project, enabled_module_names: %w[meetings] }
+  let(:project) { create :project, enabled_module_names: %w[meetings] }
   let(:time_zone) { 'utc' }
   let(:user) do
-    FactoryBot.create(:user,
-                      lastname: 'First',
-                      member_in_project: project,
-                      member_with_permissions: permissions).tap do |u|
+    create(:user,
+           lastname: 'First',
+           member_in_project: project,
+           member_with_permissions: permissions).tap do |u|
       u.pref[:time_zone] = time_zone
 
       u.save!
     end
   end
   let(:other_user) do
-    FactoryBot.create(:user,
-                      lastname: 'Second',
-                      member_in_project: project,
-                      member_with_permissions: permissions)
+    create(:user,
+           lastname: 'Second',
+           member_in_project: project,
+           member_with_permissions: permissions)
   end
   let(:admin) do
-    FactoryBot.create(:admin)
+    create(:admin)
   end
   let(:permissions) { %i[view_meetings create_meetings] }
   let(:current_user) { user }
@@ -77,7 +77,7 @@ describe 'Meetings new', type: :feature do
         # Error when no title is provided. Only works without js as otherwise html5 would already catch this
         new_page.click_create
 
-        new_page.expect_notification(type: :error, message: "Title can't be blank")
+        new_page.expect_toast(type: :error, message: "Title can't be blank")
 
         new_page.set_title 'Some title'
         new_page.set_start_date '2013-03-28'
@@ -87,7 +87,7 @@ describe 'Meetings new', type: :feature do
 
         show_page = new_page.click_create
 
-        show_page.expect_notification(message: 'Successful creation')
+        show_page.expect_toast(message: 'Successful creation')
 
         show_page.expect_invited(user, other_user)
 
@@ -118,7 +118,7 @@ describe 'Meetings new', type: :feature do
 
       show_page = new_page.click_create
 
-      show_page.expect_notification(message: 'Successful creation')
+      show_page.expect_toast(message: 'Successful creation')
 
       # Not sure if that is then intended behaviour but that is what is currently programmed
       show_page.expect_invited(admin)

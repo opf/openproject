@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,18 +23,18 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 describe 'Refreshing query menu item', js: true do
-  let(:user) { FactoryBot.create :admin }
-  let(:project) { FactoryBot.create :project }
+  let(:user) { create :admin }
+  let(:project) { create :project }
   let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
 
-  let(:work_package) { FactoryBot.create :work_package, project: project }
-  let(:other_work_package) { FactoryBot.create :work_package, project: project }
+  let(:work_package) { create :work_package, project: project }
+  let(:other_work_package) { create :work_package, project: project }
 
   before do
     login_as(user)
@@ -60,7 +60,7 @@ describe 'Refreshing query menu item', js: true do
     expect(url).not_to match(/query_props=.+/)
 
     # Locate query and refresh
-    query_item = page.find(".collapsible-menu--item", text: last_query.name)
+    query_item = page.find(".op-sidemenu--item-action", text: last_query.name)
     query_item.click
 
     wp_table.expect_work_package_listed work_package, other_work_package

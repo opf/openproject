@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
 import {
@@ -69,7 +69,7 @@ export class WpResizerDirective extends UntilDestroyedMixin implements OnInit, A
   private resizer:HTMLElement;
 
   // Min-width this element is allowed to have
-  private elementMinWidth = 645;
+  private elementMinWidth = 530;
 
   public moving = false;
 
@@ -109,9 +109,10 @@ export class WpResizerDirective extends UntilDestroyedMixin implements OnInit, A
       .pipe(
         distinctUntilChanged(),
         this.untilDestroyed(),
+        debounceTime(100),
       )
-      .subscribe((changeData) => {
-        this.toggleFullscreenColumns();
+      .subscribe(() => {
+        this.applyColumnLayout();
       });
 
     // Listen to event
@@ -120,14 +121,14 @@ export class WpResizerDirective extends UntilDestroyedMixin implements OnInit, A
         this.untilDestroyed(),
         debounceTime(250),
       )
-      .subscribe(() => this.toggleFullscreenColumns());
+      .subscribe(() => this.applyColumnLayout());
   }
 
   ngAfterViewInit():void {
     // Get the reziser
     this.resizer = <HTMLElement> this.elementRef.nativeElement.getElementsByClassName(this.resizerClass)[0];
 
-    this.applyColumnLayout(this.resizingElement, this.elementWidth);
+    this.applyColumnLayout();
   }
 
   ngOnDestroy() {
@@ -180,7 +181,7 @@ export class WpResizerDirective extends UntilDestroyedMixin implements OnInit, A
     window.OpenProject.guardedLocalStorage(this.localStorageKey, `${newValue}`);
 
     // Apply two column layout
-    this.applyColumnLayout(this.resizingElement, newValue);
+    this.applyColumnLayout();
 
     // Set new width
     this.resizingElement.style[this.resizeStyle] = `${newValue}px`;
@@ -196,28 +197,11 @@ export class WpResizerDirective extends UntilDestroyedMixin implements OnInit, A
 
     return undefined;
   }
-
-  private applyColumnLayout(element:HTMLElement, newWidth:number) {
-    // Apply two column layout in fullscreen view of a workpackage
-    if (element === jQuery('.work-packages-full-view--split-right')[0]) {
-      this.toggleFullscreenColumns();
+  private applyColumnLayout(checkWidth = 750) {
+    const singleView = document.querySelectorAll("[data-selector='wp-single-view']")[0] as HTMLElement;
+    if (singleView) {
+      jQuery(singleView).toggleClass('work-package--single-view_with-columns', singleView.offsetWidth > checkWidth);
     }
-    // Apply two column layout when details view of wp is open
-    else {
-      this.toggleColumns(element, 700);
-    }
-  }
-
-  private toggleColumns(element:HTMLElement, checkWidth = 750) {
-    // Disable two column layout for MS Edge (#29941)
-    if (element && !this.browserDetector.isEdge) {
-      jQuery(element).toggleClass('-can-have-columns', element.offsetWidth > checkWidth);
-    }
-  }
-
-  private toggleFullscreenColumns() {
-    const fullScreenLeftView = jQuery('.work-packages-full-view--split-left')[0];
-    this.toggleColumns(fullScreenLeftView);
   }
 
   private manageErrorClass(shouldBePresent:boolean) {

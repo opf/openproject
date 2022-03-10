@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require_relative '../spec_helper'
@@ -32,22 +32,22 @@ describe 'BIM navigation spec',
          type: :feature,
          with_config: { edition: 'bim' },
          js: true do
-  let(:project) { FactoryBot.create :project, enabled_module_names: %i[bim work_package_tracking] }
-  let!(:work_package) { FactoryBot.create(:work_package, project: project) }
+  let(:project) { create :project, enabled_module_names: %i[bim work_package_tracking] }
+  let!(:work_package) { create(:work_package, project: project) }
   let(:role) do
-    FactoryBot.create(:role, permissions: %i[view_ifc_models manage_ifc_models view_work_packages delete_work_packages])
+    create(:role, permissions: %i[view_ifc_models manage_ifc_models view_work_packages delete_work_packages])
   end
 
   let(:user) do
-    FactoryBot.create :user,
-                      member_in_project: project,
-                      member_through_role: role
+    create :user,
+           member_in_project: project,
+           member_through_role: role
   end
 
   let(:model) do
-    FactoryBot.create(:ifc_model_minimal_converted,
-                      project: project,
-                      uploader: user)
+    create(:ifc_model_minimal_converted,
+           project: project,
+           uploader: user)
   end
 
   let(:card_view) { ::Pages::WorkPackageCards.new(project) }
@@ -82,8 +82,8 @@ describe 'BIM navigation spec',
       end
 
       it 'can switch between the different view modes' do
-        # Go to single view
-        card_view.open_full_screen_by_details(work_package)
+        # Opening details view with info icon
+        card_view.click_info_icon(work_package)
 
         details_view.ensure_page_loaded
         details_view.expect_subject
@@ -100,7 +100,7 @@ describe 'BIM navigation spec',
         details_view.go_back
 
         details_view.expect_closed
-        card_view.expect_work_package_listed work_package
+        card_view.expect_work_package_listed(work_package)
 
         # Go to viewer only
         model_page.switch_view 'Viewer'
@@ -115,8 +115,8 @@ describe 'BIM navigation spec',
         expect(page).to have_selector('[data-qa-selector="op-wp-card-view"]')
         card_view.expect_work_package_listed work_package
 
-        # Go to single view
-        card_view.open_full_screen_by_details(work_package)
+        # Go to details view
+        card_view.click_id_link(work_package)
 
         details_view.ensure_page_loaded
         details_view.expect_subject
@@ -128,7 +128,7 @@ describe 'BIM navigation spec',
 
       it 'after deleting an WP in full view it returns to the model and list view (see #33317)' do
         # Go to full single view
-        card_view.open_full_screen_by_details(work_package)
+        card_view.open_split_view_by_info_icon(work_package)
         details_view.switch_to_fullscreen
         full_view.expect_tab 'Activity'
 
@@ -147,7 +147,7 @@ describe 'BIM navigation spec',
 
       it 'after going to the full view with a selected tab,
         the same tab should be opened in full screen view and after going back to details view(see #33747)' do
-        card_view.open_full_screen_by_details(work_package)
+        card_view.open_split_view_by_info_icon(work_package)
 
         details_view.ensure_page_loaded
         details_view.expect_subject

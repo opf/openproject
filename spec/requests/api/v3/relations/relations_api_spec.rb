@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -31,11 +31,11 @@ require 'spec_helper'
 describe  'API v3 Relation resource', type: :request, content_type: :json do
   include API::V3::Utilities::PathHelper
 
-  let(:user) { FactoryBot.create :admin }
+  let(:user) { create :admin }
   let(:current_user) { user }
 
-  let!(:from) { FactoryBot.create :work_package }
-  let!(:to) { FactoryBot.create :work_package }
+  let!(:from) { create :work_package }
+  let!(:to) { create :work_package }
 
   let(:type) { "follows" }
   let(:description) { "This first" }
@@ -57,12 +57,12 @@ describe  'API v3 Relation resource', type: :request, content_type: :json do
     }
   end
   let(:relation) do
-    FactoryBot.create :relation,
-                      from: from,
-                      to: to,
-                      relation_type: type,
-                      description: description,
-                      delay: delay
+    create :relation,
+           from: from,
+           to: to,
+           relation_type: type,
+           description: description,
+           delay: delay
   end
 
   before do
@@ -103,16 +103,16 @@ describe  'API v3 Relation resource', type: :request, content_type: :json do
 
     context 'relation that would create a circular scheduling dependency' do
       let(:from_child) do
-        FactoryBot.create(:work_package, parent: from)
+        create(:work_package, parent: from)
       end
       let(:to_child) do
-        FactoryBot.create(:work_package, parent: to)
+        create(:work_package, parent: to)
       end
       let(:children_follows_relation) do
-        FactoryBot.create :relation,
-                          from: to_child,
-                          to: from_child,
-                          relation_type: Relation::TYPE_FOLLOWS
+        create :relation,
+               from: to_child,
+               to: from_child,
+               relation_type: Relation::TYPE_FOLLOWS
       end
       let(:relation_type) { Relation::TYPE_FOLLOWS }
       let(:setup) do
@@ -131,20 +131,20 @@ describe  'API v3 Relation resource', type: :request, content_type: :json do
     end
 
     context "'relates to' relation that would create a circular dependency" do
-      let(:work_package_a) { FactoryBot.create(:work_package) }
-      let(:work_package_b) { FactoryBot.create(:work_package, project: work_package_a.project) }
-      let(:work_package_c) { FactoryBot.create(:work_package, project: work_package_b.project) }
+      let(:work_package_a) { create(:work_package) }
+      let(:work_package_b) { create(:work_package, project: work_package_a.project) }
+      let(:work_package_c) { create(:work_package, project: work_package_b.project) }
       let(:relation_a_b) do
-        FactoryBot.create(:relation,
-                          from: work_package_a,
-                          to: work_package_b,
-                          relation_type: Relation::TYPE_RELATES)
+        create(:relation,
+               from: work_package_a,
+               to: work_package_b,
+               relation_type: Relation::TYPE_RELATES)
       end
       let(:relation_b_c) do
-        FactoryBot.create(:relation,
-                          from: work_package_b,
-                          to: work_package_c,
-                          relation_type: Relation::TYPE_RELATES)
+        create(:relation,
+               from: work_package_b,
+               to: work_package_c,
+               relation_type: Relation::TYPE_RELATES)
       end
 
       let!(:from) { work_package_c }
@@ -175,19 +175,19 @@ describe  'API v3 Relation resource', type: :request, content_type: :json do
 
     context 'follows relation within siblings' do
       let(:sibling) do
-        FactoryBot.create(:work_package)
+        create(:work_package)
       end
       let(:other_sibling) do
-        FactoryBot.create(:work_package)
+        create(:work_package)
       end
       let(:parent) do
-        wp = FactoryBot.create(:work_package)
+        wp = create(:work_package)
 
         wp.children = [sibling, from, to, other_sibling]
       end
       let(:existing_follows) do
-        FactoryBot.create(:relation, relation_type: 'follows', from: to, to: sibling)
-        FactoryBot.create(:relation, relation_type: 'follows', from: other_sibling, to: from)
+        create(:relation, relation_type: 'follows', from: to, to: sibling)
+        create(:relation, relation_type: 'follows', from: other_sibling, to: from)
       end
 
       let(:setup) do
@@ -200,18 +200,18 @@ describe  'API v3 Relation resource', type: :request, content_type: :json do
 
     context 'follows relation to sibling\'s child' do
       let(:sibling) do
-        FactoryBot.create(:work_package)
+        create(:work_package)
       end
       let(:sibling_child) do
-        FactoryBot.create(:work_package, parent: sibling)
+        create(:work_package, parent: sibling)
       end
       let(:parent) do
-        wp = FactoryBot.create(:work_package)
+        wp = create(:work_package)
 
         wp.children = [sibling, from, to]
       end
       let(:existing_follows) do
-        FactoryBot.create(:relation, relation_type: 'follows', from: to, to: sibling_child)
+        create(:relation, relation_type: 'follows', from: to, to: sibling_child)
       end
 
       let(:setup) do
@@ -278,7 +278,7 @@ describe  'API v3 Relation resource', type: :request, content_type: :json do
     end
 
     context "with trying to change an immutable attribute" do
-      let(:other_wp) { FactoryBot.create :work_package }
+      let(:other_wp) { create :work_package }
 
       let(:update) do
         {
@@ -309,18 +309,18 @@ describe  'API v3 Relation resource', type: :request, content_type: :json do
   end
 
   describe "permissions" do
-    let(:user) { FactoryBot.create :user }
+    let(:user) { create :user }
 
     let(:permissions) { %i(view_work_packages manage_work_package_relations) }
 
     let(:role) do
-      FactoryBot.create :existing_role, permissions: permissions
+      create :existing_role, permissions: permissions
     end
 
-    let(:project) { FactoryBot.create :project, members: { user => role } }
+    let(:project) { create :project, members: { user => role } }
 
-    let!(:from) { FactoryBot.create :work_package, project: project }
-    let!(:to) { FactoryBot.create :work_package, project: project }
+    let!(:from) { create :work_package, project: project }
+    let!(:to) { create :work_package, project: project }
 
     before do
       header "Content-Type", "application/json"
@@ -346,7 +346,7 @@ describe  'API v3 Relation resource', type: :request, content_type: :json do
     # is in another project for which the user does not have permission to
     # view work packages.
     context "without manage_work_package_relations" do
-      let!(:to) { FactoryBot.create :work_package }
+      let!(:to) { create :work_package }
 
       it "should return 422" do
         expect(last_response.status).to eq 422
@@ -372,18 +372,18 @@ describe  'API v3 Relation resource', type: :request, content_type: :json do
     end
 
     let(:permissions) { %i[view_work_packages manage_work_package_relations] }
-    let(:role) { FactoryBot.create(:role, permissions: permissions) }
+    let(:role) { create(:role, permissions: permissions) }
 
     let(:current_user) do
-      FactoryBot.create(:user).tap do |user|
-        FactoryBot.create(:member,
-                          project: to.project,
-                          user: user,
-                          roles: [role])
-        FactoryBot.create(:member,
-                          project: from.project,
-                          user: user,
-                          roles: [role])
+      create(:user).tap do |user|
+        create(:member,
+               project: to.project,
+               user: user,
+               roles: [role])
+        create(:member,
+               project: from.project,
+               user: user,
+               roles: [role])
       end
     end
 
@@ -410,37 +410,37 @@ describe  'API v3 Relation resource', type: :request, content_type: :json do
   end
 
   describe 'GET /api/v3/relations?[filter]' do
-    let(:user) { FactoryBot.create(:user) }
-    let(:role) { FactoryBot.create(:role, permissions: [:view_work_packages]) }
+    let(:user) { create(:user) }
+    let(:role) { create(:role, permissions: [:view_work_packages]) }
     let(:member_project_to) do
-      FactoryBot.build(:member,
-                       project: to.project,
-                       user: user,
-                       roles: [role])
+      build(:member,
+            project: to.project,
+            user: user,
+            roles: [role])
     end
 
     let(:member_project_from) do
-      FactoryBot.build(:member,
-                       project: from.project,
-                       user: user,
-                       roles: [role])
+      build(:member,
+            project: from.project,
+            user: user,
+            roles: [role])
     end
     let(:invisible_relation) do
-      invisible_wp = FactoryBot.create(:work_package)
+      invisible_wp = create(:work_package)
 
-      FactoryBot.create :relation,
-                        from: from,
-                        to: invisible_wp
+      create :relation,
+             from: from,
+             to: invisible_wp
     end
     let(:other_visible_work_package) do
-      FactoryBot.create(:work_package,
-                        project: to.project,
-                        type: to.type)
+      create(:work_package,
+             project: to.project,
+             type: to.type)
     end
     let(:other_visible_relation) do
-      FactoryBot.create :relation,
-                        from: to,
-                        to: other_visible_work_package
+      create :relation,
+             from: to,
+             to: other_visible_work_package
     end
 
     let(:members) { [member_project_to, member_project_from] }
@@ -481,18 +481,18 @@ describe  'API v3 Relation resource', type: :request, content_type: :json do
       api_v3_paths.relation(relation.id)
     end
 
-    let(:role) { FactoryBot.create(:role, permissions: [:view_work_packages]) }
+    let(:role) { create(:role, permissions: [:view_work_packages]) }
 
     let(:current_user) do
-      FactoryBot.create(:user).tap do |user|
-        FactoryBot.create(:member,
-                          project: to.project,
-                          user: user,
-                          roles: [role])
-        FactoryBot.create(:member,
-                          project: from.project,
-                          user: user,
-                          roles: [role])
+      create(:user).tap do |user|
+        create(:member,
+               project: to.project,
+               user: user,
+               roles: [role])
+        create(:member,
+               project: from.project,
+               user: user,
+               roles: [role])
       end
     end
 
@@ -522,11 +522,11 @@ describe  'API v3 Relation resource', type: :request, content_type: :json do
 
     context 'for a relation with an invisible work package' do
       let(:invisible_relation) do
-        invisible_wp = FactoryBot.create(:work_package)
+        invisible_wp = create(:work_package)
 
-        FactoryBot.create :relation,
-                          from: from,
-                          to: invisible_wp
+        create :relation,
+               from: from,
+               to: invisible_wp
       end
 
       let(:path) do

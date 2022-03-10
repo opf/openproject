@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -25,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 
 require 'spec_helper'
 require 'rack/test'
@@ -34,10 +32,10 @@ describe ::API::V3::WorkPackages::CreateProjectFormAPI do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  shared_let(:status) { FactoryBot.create(:default_status) }
-  shared_let(:priority) { FactoryBot.create(:default_priority) }
-  shared_let(:user) { FactoryBot.create(:admin) }
-  shared_let(:project) { FactoryBot.create(:project_with_types) }
+  shared_let(:status) { create(:default_status) }
+  shared_let(:priority) { create(:default_priority) }
+  shared_let(:user) { create(:admin) }
+  shared_let(:project) { create(:project_with_types) }
 
   let(:path) { api_v3_paths.create_work_package_form }
   let(:parameters) { {} }

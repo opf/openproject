@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -32,38 +32,38 @@ describe 'Read-only statuses affect work package editing',
          with_ee: %i[readonly_work_packages],
          type: :feature,
          js: true do
-  let(:locked_status) { FactoryBot.create :status, name: 'Locked', is_readonly: true }
-  let(:unlocked_status) { FactoryBot.create :status, name: 'Unlocked', is_readonly: false }
+  let(:locked_status) { create :status, name: 'Locked', is_readonly: true }
+  let(:unlocked_status) { create :status, name: 'Unlocked', is_readonly: false }
 
-  let(:type) { FactoryBot.create :type_bug }
-  let(:project) { FactoryBot.create :project, types: [type] }
+  let(:type) { create :type_bug }
+  let(:project) { create :project, types: [type] }
   let!(:work_package) do
-    FactoryBot.create :work_package,
-                      project: project,
-                      type: type,
-                      status: unlocked_status
+    create :work_package,
+           project: project,
+           type: type,
+           status: unlocked_status
   end
 
-  let(:role) { FactoryBot.create :role, permissions: %i[edit_work_packages view_work_packages] }
+  let(:role) { create :role, permissions: %i[edit_work_packages view_work_packages] }
   let(:user) do
-    FactoryBot.create :user,
-                      member_in_project: project,
-                      member_through_role: role
+    create :user,
+           member_in_project: project,
+           member_through_role: role
   end
 
   let!(:workflow1) do
-    FactoryBot.create :workflow,
-                      type_id: type.id,
-                      old_status: unlocked_status,
-                      new_status: locked_status,
-                      role: role
+    create :workflow,
+           type_id: type.id,
+           old_status: unlocked_status,
+           new_status: locked_status,
+           role: role
   end
   let!(:workflow2) do
-    FactoryBot.create :workflow,
-                      type_id: type.id,
-                      old_status: locked_status,
-                      new_status: unlocked_status,
-                      role: role
+    create :workflow,
+           type_id: type.id,
+           old_status: locked_status,
+           new_status: unlocked_status,
+           role: role
   end
 
   let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
@@ -84,7 +84,7 @@ describe 'Read-only statuses affect work package editing',
     status_field.expect_state_text 'Unlocked'
     status_field.update 'Locked'
 
-    wp_page.expect_and_dismiss_notification(message: 'Successful update.')
+    wp_page.expect_and_dismiss_toaster(message: 'Successful update.')
 
     status_field.expect_state_text 'Locked'
 

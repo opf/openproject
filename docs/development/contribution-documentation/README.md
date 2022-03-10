@@ -23,7 +23,7 @@ This documentation evolves continuously with new features and improvements to ac
 
 ## Where to find the OpenProject documentation?
 
-The documentation for OpenProject is published on https://www.openproject.org/docs/. You can also access the documentation from your OpenProject application under user guides and API documentation below the question mark at the top right in the header menu. 
+The documentation for OpenProject is published [here](https://www.openproject.org/docs/). You can also access the documentation from your OpenProject application under user guides and API documentation below the question mark at the top right in the header menu. 
 
 
 

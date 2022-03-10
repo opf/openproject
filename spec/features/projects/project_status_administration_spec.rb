@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -32,16 +32,16 @@ describe 'Projects status administration', type: :feature, js: true do
   include_context 'ng-select-autocomplete helpers'
 
   let(:current_user) do
-    FactoryBot.create(:user).tap do |u|
-      FactoryBot.create(:global_member,
-                        principal: u,
-                        roles: [FactoryBot.create(:global_role, permissions: global_permissions)])
+    create(:user).tap do |u|
+      create(:global_member,
+             principal: u,
+             roles: [create(:global_role, permissions: global_permissions)])
     end
   end
   let(:global_permissions) { [:add_project] }
   let(:project_permissions) { [:edit_project] }
   let!(:project_role) do
-    FactoryBot.create(:role, permissions: project_permissions).tap do |r|
+    create(:role, permissions: project_permissions).tap do |r|
       allow(Setting)
         .to receive(:new_project_user_role_id)
         .and_return(r.id.to_s)
@@ -73,7 +73,7 @@ describe 'Projects status administration', type: :feature, js: true do
     expect(page).to have_current_path /projects\/new-project\/?/
 
     # Check that the status has been set correctly
-    visit settings_generic_project_path(id: 'new-project')
+    visit project_settings_general_path(project_id: 'new-project')
 
     status_field.expect_selected 'ON TRACK'
     status_description.expect_value 'Everything is fine at the start'

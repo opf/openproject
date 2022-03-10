@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 class BudgetsController < ApplicationController
@@ -240,7 +240,7 @@ class BudgetsController < ApplicationController
 
     if current_user.allowed_to?(permission, project)
       response["#{element_id}_costs"] = number_to_currency(costs)
-      response["#{element_id}_cost_value"] = unitless_currency_number(costs)
+      response["#{element_id}_cost_value"] = response["#{element_id}_amount"] = unitless_currency_number(costs)
     end
 
     response
@@ -279,7 +279,7 @@ class BudgetsController < ApplicationController
     reassign_to_id = params[:reassign_to_id]
     budget_id = params[:id]
 
-    budget_exists = Budget.visible(current_user).exists?(reassign_to_id) if params[:todo] == 'reassign'
+    budget_exists = Budget.visible(current_user).exists?(id: reassign_to_id) if params[:todo] == 'reassign'
     reassign_to = budget_exists ? reassign_to_id : nil
 
     WorkPackage

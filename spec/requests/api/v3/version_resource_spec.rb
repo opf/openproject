@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -34,20 +34,20 @@ describe 'API v3 Version resource', content_type: :json do
   include API::V3::Utilities::PathHelper
 
   let(:current_user) do
-    FactoryBot.create(:user,
-                      member_in_project: project,
-                      member_with_permissions: permissions)
+    create(:user,
+           member_in_project: project,
+           member_with_permissions: permissions)
   end
   let(:permissions) { %i[view_work_packages manage_versions] }
-  let(:project) { FactoryBot.create(:project, public: false) }
-  let(:other_project) { FactoryBot.create(:project, public: false) }
-  let!(:int_cf) { FactoryBot.create(:int_version_custom_field) }
-  let(:version_in_project) { FactoryBot.build(:version, project: project, custom_field_values: { int_cf.id => 123 }) }
+  let(:project) { create(:project, public: false) }
+  let(:other_project) { create(:project, public: false) }
+  let!(:int_cf) { create(:int_version_custom_field) }
+  let(:version_in_project) { build(:version, project: project, custom_field_values: { int_cf.id => 123 }) }
   let(:version_in_other_project) do
-    FactoryBot.build(:version,
-                     project: other_project,
-                     sharing: 'system',
-                     custom_field_values: { int_cf.id => 123 })
+    build(:version,
+          project: other_project,
+          sharing: 'system',
+          custom_field_values: { int_cf.id => 123 })
   end
 
   subject(:response) { last_response }
@@ -113,29 +113,26 @@ describe 'API v3 Version resource', content_type: :json do
         get get_path
       end
 
-      it_behaves_like 'not found' do
-        let(:id) { version_in_project.id }
-        let(:type) { 'Version' }
-      end
+      it_behaves_like 'not found'
     end
   end
 
   describe 'PATCH api/v3/versions' do
     let(:path) { api_v3_paths.version(version.id) }
     let(:version) do
-      FactoryBot.create(:version,
-                        name: 'Old name',
-                        description: 'Old description',
-                        start_date: '2017-06-01',
-                        effective_date: '2017-07-01',
-                        status: 'open',
-                        sharing: 'none',
-                        project: project,
-                        custom_field_values: { int_cf.id => 123,
-                                               list_cf.id => list_cf.custom_options.first.id })
+      create(:version,
+             name: 'Old name',
+             description: 'Old description',
+             start_date: '2017-06-01',
+             effective_date: '2017-07-01',
+             status: 'open',
+             sharing: 'none',
+             project: project,
+             custom_field_values: { int_cf.id => 123,
+                                    list_cf.id => list_cf.custom_options.first.id })
     end
-    let!(:int_cf) { FactoryBot.create(:int_version_custom_field) }
-    let!(:list_cf) { FactoryBot.create(:list_version_custom_field) }
+    let!(:int_cf) { create(:int_version_custom_field) }
+    let!(:list_cf) { create(:list_version_custom_field) }
     let(:body) do
       {
         name: 'New name',
@@ -215,11 +212,11 @@ describe 'API v3 Version resource', content_type: :json do
 
     context 'if attempting to switch the project' do
       let(:other_project) do
-        FactoryBot.create(:project).tap do |p|
-          FactoryBot.create(:member,
-                            project: p,
-                            roles: [FactoryBot.create(:role, permissions: [:manage_versions])],
-                            user: current_user)
+        create(:project).tap do |p|
+          create(:member,
+                 project: p,
+                 roles: [create(:role, permissions: [:manage_versions])],
+                 user: current_user)
         end
       end
 
@@ -248,17 +245,14 @@ describe 'API v3 Version resource', content_type: :json do
     context 'if lacking the manage permissions' do
       let(:permissions) { [] }
 
-      it_behaves_like 'not found' do
-        let(:id) { version.id }
-        let(:type) { 'Version' }
-      end
+      it_behaves_like 'not found'
     end
 
     context 'if having the manage permission in a different project' do
       let(:other_membership) do
-        FactoryBot.create(:member,
-                          project: FactoryBot.create(:project),
-                          roles: [FactoryBot.create(:role, permissions: [:manage_versions])])
+        create(:member,
+               project: create(:project),
+               roles: [create(:role, permissions: [:manage_versions])])
       end
 
       let(:permissions) do
@@ -274,8 +268,8 @@ describe 'API v3 Version resource', content_type: :json do
 
   describe 'POST api/v3/versions' do
     let(:path) { api_v3_paths.versions }
-    let!(:int_cf) { FactoryBot.create(:int_version_custom_field) }
-    let!(:list_cf) { FactoryBot.create(:list_version_custom_field) }
+    let!(:int_cf) { create(:int_version_custom_field) }
+    let!(:list_cf) { create(:list_version_custom_field) }
     let(:body) do
       {
         name: 'New version',
@@ -363,9 +357,9 @@ describe 'API v3 Version resource', content_type: :json do
 
     context 'if having the manage permission in a different project' do
       let(:other_membership) do
-        FactoryBot.create(:member,
-                          project: FactoryBot.create(:project),
-                          roles: [FactoryBot.create(:role, permissions: [:manage_versions])])
+        create(:member,
+               project: create(:project),
+               roles: [create(:role, permissions: [:manage_versions])])
       end
 
       let(:permissions) do
@@ -406,7 +400,7 @@ describe 'API v3 Version resource', content_type: :json do
 
     context 'filtering for project by sharing' do
       let(:shared_version_in_project) do
-        FactoryBot.build(:version, project: project, sharing: 'system')
+        build(:version, project: project, sharing: 'system')
       end
       let(:versions) { [version_in_project, shared_version_in_project] }
 
@@ -431,8 +425,8 @@ describe 'API v3 Version resource', content_type: :json do
   describe 'DELETE /api/v3/versions/:id' do
     let(:path) { api_v3_paths.version(version.id) }
     let(:version) do
-      FactoryBot.create(:version,
-                        project: project)
+      create(:version,
+             project: project)
     end
 
     before do
@@ -455,20 +449,17 @@ describe 'API v3 Version resource', content_type: :json do
       context 'for a non-existent version' do
         let(:path) { api_v3_paths.version 1337 }
 
-        it_behaves_like 'not found' do
-          let(:id) { 1337 }
-          let(:type) { 'Version' }
-        end
+        it_behaves_like 'not found'
       end
     end
 
     context 'with work packages attached to it' do
       let(:version) do
-        FactoryBot.create(:version,
-                          project: project).tap do |v|
-          FactoryBot.create(:work_package,
-                            project: project,
-                            version: v)
+        create(:version,
+               project: project).tap do |v|
+          create(:work_package,
+                 project: project,
+                 version: v)
         end
       end
 

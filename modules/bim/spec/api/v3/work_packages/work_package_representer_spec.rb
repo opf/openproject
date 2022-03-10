@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -33,23 +33,23 @@ require_relative '../../../support/bcf_topic_with_stubbed_comment'
 describe ::API::V3::WorkPackages::WorkPackageRepresenter do
   include API::V3::Utilities::PathHelper
   include API::Bim::Utilities::PathHelper
+  include_context 'user with stubbed permissions'
+  include_context 'bcf_topic with stubbed comment'
 
   let(:project) do
     work_package.project
   end
-  include_context 'user with stubbed permissions'
-  include_context 'bcf_topic with stubbed comment'
   let(:permissions) { %i[view_linked_issues view_work_packages manage_bcf] }
   let(:work_package) do
-    FactoryBot.build_stubbed(:stubbed_work_package, bcf_issue: bcf_topic)
+    build_stubbed(:stubbed_work_package, bcf_issue: bcf_topic)
   end
   let(:representer) do
-    described_class.new(work_package,
-                        current_user: user,
-                        embed_links: true)
+    described_class.create(work_package,
+                           current_user: user,
+                           embed_links: true)
   end
 
-  before(:each) do
+  before do
     login_as user
   end
 

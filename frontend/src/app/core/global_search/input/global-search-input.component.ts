@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
 import {
@@ -53,7 +53,7 @@ import { OpAutocompleterComponent } from 'core-app/shared/components/autocomplet
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-import { APIV3Service } from '../../apiv3/api-v3.service';
+import { ApiV3Service } from '../../apiv3/api-v3.service';
 
 export const globalSearchSelector = 'global-search-input';
 
@@ -93,8 +93,6 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
 
   public markable = false;
 
-  public isLoading = false;
-
   getAutocompleterData = (query:string):Observable<any[]> => this.autocompleteWorkPackages(query);
 
   public autocompleterOptions = {
@@ -127,7 +125,7 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
 
   constructor(readonly elementRef:ElementRef,
     readonly I18n:I18nService,
-    readonly apiV3Service:APIV3Service,
+    readonly apiV3Service:ApiV3Service,
     readonly pathHelperService:PathHelperService,
     readonly halResourceService:HalResourceService,
     readonly globalSearchService:GlobalSearchService,
@@ -161,7 +159,7 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
         this.toggleMobileSearch();
         // open ng-select menu on default
         jQuery('.ng-input input').focus();
-      } else if (this.ngSelectComponent.ngSelectInstance.searchTerm.length === 0) {
+      } else if (this.ngSelectComponent.ngSelectInstance.searchTerm?.length === 0) {
         this.ngSelectComponent.ngSelectInstance.focus();
       } else {
         this.submitNonEmptySearch();
@@ -244,6 +242,7 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
   }
 
   public followItem(item:WorkPackageResource|SearchOptionItem) {
+    this.selectedItem = item;
     if (item instanceof HalResource) {
       window.location.href = this.wpPath(item.id!);
     } else {
@@ -277,14 +276,12 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
 
     const hashFreeQuery = this.queryWithoutHash(query);
 
-    this.isLoading = true;
     return this
       .fetchSearchResults(hashFreeQuery, hashFreeQuery !== query)
       .get()
       .pipe(
         map((collection) => this.searchResultsToOptions(collection.elements, hashFreeQuery)),
         tap(() => {
-          this.isLoading = false;
           this.setMarkedOption();
         }),
       );

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'support/pages/page'
@@ -174,7 +174,7 @@ module Pages
       end
     end
 
-    def update_attributes(key_value_map, save: true)
+    def update_attributes(save: true, **key_value_map)
       set_attributes(key_value_map, save: save)
     end
 
@@ -235,7 +235,7 @@ module Pages
       end
 
       if expect_success
-        expect_and_dismiss_notification message: 'Successful update'
+        expect_and_dismiss_toaster message: 'Successful update'
         sleep 1
       end
     end
@@ -285,6 +285,10 @@ module Pages
       find('.work-packages-back-button').click
     end
 
+    def mark_notifications_as_read
+      find('[data-qa-selector="mark-notification-read-button"]').click
+    end
+
     private
 
     def create_page(_args)
@@ -292,9 +296,9 @@ module Pages
     end
 
     def ensure_no_conflicting_modifications
-      expect_notification(message: 'Successful update')
-      dismiss_notification!
-      expect_no_notification(message: 'Successful update')
+      expect_toast(message: 'Successful update')
+      dismiss_toaster!
+      expect_no_toaster(message: 'Successful update')
     end
   end
 end

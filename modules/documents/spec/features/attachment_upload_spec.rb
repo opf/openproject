@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -33,23 +33,22 @@ describe 'Upload attachment to documents',
          js: true,
          with_settings: {
            journal_aggregation_time_minutes: 0,
-           notified_events: %w(document_added)
          } do
   let!(:user) do
-    FactoryBot.create :user,
-                      member_in_project: project,
-                      member_with_permissions: %i[view_documents
-                                                  manage_documents]
+    create :user,
+           member_in_project: project,
+           member_with_permissions: %i[view_documents
+                                       manage_documents]
   end
   let!(:other_user) do
-    FactoryBot.create :user,
-                      member_in_project: project,
-                      member_with_permissions: %i[view_documents]
+    create :user,
+           member_in_project: project,
+           member_with_permissions: %i[view_documents]
   end
   let!(:category) do
-    FactoryBot.create(:document_category)
+    create(:document_category)
   end
-  let(:project) { FactoryBot.create(:project) }
+  let(:project) { create(:project) }
   let(:attachments) { ::Components::Attachments.new }
   let(:image_fixture) { ::UploadedFile.load_from('spec/fixtures/files/image.png') }
   let(:editor) { ::Components::WysiwygEditor.new }

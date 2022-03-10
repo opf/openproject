@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -38,17 +38,17 @@ describe 'Global role: Global role assignment', type: :feature, js: true do
     before do
       mock_global_permissions [['global1', { project_module: :global }], ['global2', { project_module: :global }]]
     end
-    let!(:global_role1) { FactoryBot.create :global_role, name: 'global_role1', permissions: %i[global1] }
-    let!(:global_role2) { FactoryBot.create :global_role, name: 'global_role2', permissions: %i[global2] }
+    let!(:global_role1) { create :global_role, name: 'global_role1', permissions: %i[global1] }
+    let!(:global_role2) { create :global_role, name: 'global_role2', permissions: %i[global2] }
 
-    let!(:user) { FactoryBot.create :user }
+    let!(:user) { create :user }
     let!(:global_member) do
-      FactoryBot.create(:global_member,
-                        principal: user,
-                        roles: [global_role1])
+      create(:global_member,
+             principal: user,
+             roles: [global_role1])
     end
 
-    let(:current_user) { FactoryBot.create :admin }
+    let(:current_user) { create :admin }
 
     it 'allows global roles management' do
       visit edit_user_path user

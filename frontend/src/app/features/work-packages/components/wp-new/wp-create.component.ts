@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,13 +23,20 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
 import {
-  ChangeDetectorRef, Directive, Injector, OnInit, ViewChild,
+  ChangeDetectorRef,
+  Directive,
+  Injector,
+  OnInit,
+  ViewChild,
 } from '@angular/core';
-import { StateService, Transition } from '@uirouter/core';
+import {
+  StateService,
+  Transition,
+} from '@uirouter/core';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { States } from 'core-app/core/states/states.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
@@ -44,10 +51,11 @@ import { WorkPackageNotificationService } from 'core-app/features/work-packages/
 import * as URI from 'urijs';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { splitViewRoute } from 'core-app/features/work-packages/routing/split-view-routes.helper';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { HalSource } from 'core-app/features/hal/resources/hal-resource';
 import { OpTitleService } from 'core-app/core/html/op-title.service';
 import { WorkPackageCreateService } from './wp-create.service';
+import { HalError } from 'core-app/features/hal/services/hal-error';
 
 @Directive()
 export class WorkPackageCreateComponent extends UntilDestroyedMixin implements OnInit {
@@ -86,7 +94,7 @@ export class WorkPackageCreateComponent extends UntilDestroyedMixin implements O
     protected readonly wpViewFocus:WorkPackageViewFocusService,
     protected readonly wpTableFilters:WorkPackageViewFiltersService,
     protected readonly pathHelper:PathHelperService,
-    protected readonly apiV3Service:APIV3Service,
+    protected readonly apiV3Service:ApiV3Service,
     protected readonly cdRef:ChangeDetectorRef) {
     super();
   }
@@ -152,8 +160,8 @@ export class WorkPackageCreateComponent extends UntilDestroyedMixin implements O
             });
         }
       })
-      .catch((error:any) => {
-        if (error.errorIdentifier === 'urn:openproject-org:api:v3:errors:MissingPermission') {
+      .catch((error:unknown) => {
+        if (error instanceof HalError && error.errorIdentifier === 'urn:openproject-org:api:v3:errors:MissingPermission') {
           this.apiV3Service.root.get().subscribe((root:RootResource) => {
             if (!root.user) {
               // Not logged in
@@ -177,9 +185,8 @@ export class WorkPackageCreateComponent extends UntilDestroyedMixin implements O
   }
 
   protected createdWorkPackage() {
-    const defaults:HalSource = {
-      _links: {},
-    };
+    const defaults:HalSource = (this.stateParams.defaults as HalSource) || {};
+    defaults._links = defaults._links || {};
 
     const type = this.stateParams.type ? parseInt(this.stateParams.type) : undefined;
     const parent = this.stateParams.parent_id ? parseInt(this.stateParams.parent_id) : undefined;

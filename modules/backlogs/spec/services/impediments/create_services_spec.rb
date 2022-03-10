@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
@@ -31,32 +31,32 @@ require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 describe Impediments::CreateService do
   let(:instance) { described_class.new(user: user) }
 
-  let(:user) { FactoryBot.create(:user) }
-  let(:role) { FactoryBot.create(:role, permissions: %i(add_work_packages assign_versions)) }
-  let(:type_feature) { FactoryBot.create(:type_feature) }
-  let(:type_task) { FactoryBot.create(:type_task) }
-  let(:priority) { FactoryBot.create(:priority, is_default: true) }
+  let(:user) { create(:user) }
+  let(:role) { create(:role, permissions: %i(add_work_packages assign_versions work_package_assigned)) }
+  let(:type_feature) { create(:type_feature) }
+  let(:type_task) { create(:type_task) }
+  let(:priority) { create(:priority, is_default: true) }
   let(:feature) do
-    FactoryBot.build(:work_package,
-                     type: type_feature,
-                     project: project,
-                     author: user,
-                     priority: priority,
-                     status: status1)
+    build(:work_package,
+          type: type_feature,
+          project: project,
+          author: user,
+          priority: priority,
+          status: status1)
   end
-  let(:version) { FactoryBot.create(:version, project: project) }
+  let(:version) { create(:version, project: project) }
 
   let(:project) do
-    project = FactoryBot.create(:project, types: [type_feature, type_task])
+    project = create(:project, types: [type_feature, type_task])
 
-    FactoryBot.create(:member, principal: user,
+    create(:member, principal: user,
                                project: project,
                                roles: [role])
 
     project
   end
 
-  let(:status1) { FactoryBot.create(:status, name: 'status 1', is_default: true) }
+  let(:status1) { create(:status, name: 'status 1', is_default: true) }
 
   before(:each) do
     allow(Setting).to receive(:plugin_openproject_backlogs).and_return('points_burn_direction' => 'down',
@@ -129,7 +129,7 @@ describe Impediments::CreateService do
       end
 
       before(:each) do
-        feature.version = FactoryBot.create(:version, project: project, name: 'another version')
+        feature.version = create(:version, project: project, name: 'another version')
         feature.save
       end
 

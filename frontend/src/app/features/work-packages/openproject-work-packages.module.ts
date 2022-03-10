@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { Injector, NgModule } from '@angular/core';
@@ -42,7 +42,6 @@ import { OpSettingsMenuDirective } from 'core-app/shared/components/op-context-m
 import { WorkPackageStatusDropdownDirective } from 'core-app/shared/components/op-context-menu/handlers/wp-status-dropdown-menu.directive';
 import { WorkPackageCreateSettingsMenuDirective } from 'core-app/shared/components/op-context-menu/handlers/wp-create-settings-menu.directive';
 import { WorkPackageSingleContextMenuDirective } from 'core-app/shared/components/op-context-menu/wp-context-menu/wp-single-context-menu';
-import { WorkPackageQuerySelectDropdownComponent } from 'core-app/features/work-packages/components/wp-query-select/wp-query-select-dropdown.component';
 import { WorkPackageTimelineHeaderController } from 'core-app/features/work-packages/components/wp-table/timeline/header/wp-timeline-header.directive';
 import { WorkPackageTableTimelineRelations } from 'core-app/features/work-packages/components/wp-table/timeline/global-elements/wp-timeline-relations.directive';
 import { WorkPackageTableTimelineStaticElements } from 'core-app/features/work-packages/components/wp-table/timeline/global-elements/wp-timeline-static-elements.directive';
@@ -85,7 +84,6 @@ import { ExternalQueryConfigurationComponent } from 'core-app/features/work-pack
 import { ExternalQueryConfigurationService } from 'core-app/features/work-packages/components/wp-table/external-configuration/external-query-configuration.service';
 import { ExternalRelationQueryConfigurationComponent } from 'core-app/features/work-packages/components/wp-table/external-configuration/external-relation-query-configuration.component';
 import { ExternalRelationQueryConfigurationService } from 'core-app/features/work-packages/components/wp-table/external-configuration/external-relation-query-configuration.service';
-import { WorkPackageStaticQueriesService } from 'core-app/features/work-packages/components/wp-query-select/wp-static-queries.service';
 import { WorkPackagesListInvalidQueryService } from 'core-app/features/work-packages/components/wp-list/wp-list-invalid-query.service';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { WorkPackageWatchersService } from 'core-app/features/work-packages/components/wp-single-view-tabs/watchers-tab/wp-watchers.service';
@@ -171,7 +169,9 @@ import { WorkPackageFilterByTextInputComponent } from 'core-app/features/work-pa
 import { FilterIntegerValueComponent } from 'core-app/features/work-packages/components/filters/filter-integer-value/filter-integer-value.component';
 import { WorkPackageFilterContainerComponent } from 'core-app/features/work-packages/components/filters/filter-container/filter-container.directive';
 import { FilterBooleanValueComponent } from 'core-app/features/work-packages/components/filters/filter-boolean-value/filter-boolean-value.component';
+import { WorkPackageMarkNotificationButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/wp-mark-notification-button/work-package-mark-notification-button.component';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
+import { WorkPackagesQueryViewService } from 'core-app/features/work-packages/components/wp-list/wp-query-view.service';
 
 @NgModule({
   imports: [
@@ -212,7 +212,6 @@ import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
     // For any service that depends on the isolated query space,
     // they should be provided in wp-isolated-query-space.directive instead
     QueryFiltersService,
-    WorkPackageStaticQueriesService,
     WorkPackagesListInvalidQueryService,
 
     // Provide a separate service for creation events of WP Inline create
@@ -222,6 +221,8 @@ import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
     WorkPackagesActivityService,
     WorkPackageRelationsService,
     WorkPackageWatchersService,
+
+    WorkPackagesQueryViewService,
 
     HalEventsService,
   ],
@@ -297,7 +298,6 @@ import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
     WorkPackageStatusDropdownDirective,
     WorkPackageCreateSettingsMenuDirective,
     WorkPackageSingleContextMenuDirective,
-    WorkPackageQuerySelectDropdownComponent,
     WorkPackageViewDropdownMenuDirective,
     WorkPackageGroupToggleDropdownMenuDirective,
 
@@ -389,6 +389,8 @@ import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
     WorkPackageSingleCardComponent,
     WorkPackageViewToggleButtonComponent,
 
+    // Notifications
+    WorkPackageMarkNotificationButtonComponent,
   ],
   exports: [
     WorkPackagesTableComponent,

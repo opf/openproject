@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,13 +23,13 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 describe EnumerationsController, type: :controller do
-  shared_let(:admin) { FactoryBot.create(:admin) }
+  shared_let(:admin) { create(:admin) }
 
   current_user do
     admin
@@ -54,7 +52,7 @@ describe EnumerationsController, type: :controller do
   end
 
   describe '#destroy' do
-    let(:enum) { FactoryBot.create(:priority) }
+    let(:enum) { create(:priority) }
     let(:params) { { id: enum.id } }
     let(:work_packages) { [] }
 
@@ -75,7 +73,7 @@ describe EnumerationsController, type: :controller do
     end
 
     context 'when in use' do
-      let(:work_packages) { [FactoryBot.create(:work_package, priority: enum)] }
+      let(:work_packages) { [create(:work_package, priority: enum)] }
 
       it 'keeps the enum (as it needs to be reassigned)' do
         expect(Enumeration.where(id: enum.id))
@@ -94,8 +92,8 @@ describe EnumerationsController, type: :controller do
     end
 
     context 'when in use and reassigning' do
-      let(:work_packages) { [FactoryBot.create(:work_package, priority: enum)] }
-      let!(:other_enum) { FactoryBot.create(:priority) }
+      let(:work_packages) { [create(:work_package, priority: enum)] }
+      let!(:other_enum) { create(:priority) }
       let(:params) { { id: enum.id, reassign_to_id: other_enum.id } }
 
       it 'destroys the enum' do

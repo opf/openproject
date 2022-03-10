@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
@@ -33,7 +33,7 @@ import {
 } from '@angular/core';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
-import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { UploadFile } from 'core-app/core/file-upload/op-file-upload.service';
 
 @Component({
@@ -55,7 +55,7 @@ export class AttachmentsUploadComponent implements OnInit {
 
   constructor(readonly I18n:I18nService,
     readonly ConfigurationService:ConfigurationService,
-    readonly notificationsService:NotificationsService,
+    readonly toastService:ToastService,
     protected elementRef:ElementRef,
     protected halResourceService:HalResourceService) {
     this.text = {
@@ -133,7 +133,7 @@ export class AttachmentsUploadComponent implements OnInit {
     if (files.length === 0) {
       // If we filtered all files as directories, show a notice
       if (countBefore > 0) {
-        this.notificationsService.addNotice(this.text.foldersWarning);
+        this.toastService.addNotice(this.text.foldersWarning);
       }
 
       return;

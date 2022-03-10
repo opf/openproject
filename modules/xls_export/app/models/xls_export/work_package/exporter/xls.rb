@@ -1,9 +1,14 @@
 module XlsExport::WorkPackage::Exporter
-  class XLS < WorkPackage::Exporter::Base
-    include Redmine::I18n
+  class XLS < WorkPackage::Exports::QueryExporter
+    include ::XlsExport::Concerns::SpreadsheetBuilder
 
-    def current_user
-      User.current
+    def records
+      work_packages
+        .includes(:assigned_to, :type, :priority, :category, :version)
+    end
+
+    def spreadsheet_title
+      I18n.t(:label_work_package_plural)
     end
 
     def with_descriptions
@@ -14,106 +19,16 @@ module XlsExport::WorkPackage::Exporter
       options[:show_relations]
     end
 
-    def work_packages
-      super
-        .includes(:assigned_to, :type, :priority, :category, :version)
-    end
-
     def enable!(singleton_module)
       singleton_class.prepend singleton_module
     end
 
-    def list
+    def export!
       enable! WithTimeZone
       enable! WithDescription if with_descriptions
       enable! WithRelations if with_relations
 
-      yield success(spreadsheet.xls)
-    end
-
-    def success(content)
-      WorkPackage::Exporter::Result::Success
-        .new format: :xls,
-             content: content,
-             title: xls_export_filename,
-             mime_type: 'application/vnd.ms-excel'
-    end
-
-    def spreadsheet
-      sb = spreadsheet_builder
-
-      add_headers! sb
-      add_rows! sb
-      set_column_format_options! sb
-
-      sb
-    end
-
-    def add_headers!(spreadsheet)
-      spreadsheet.add_headers headers, 0
-    end
-
-    def add_rows!(spreadsheet)
-      rows.each do |row|
-        spreadsheet.add_row row
-      end
-    end
-
-    def rows
-      work_packages.map do |work_package|
-        row work_package
-      end
-    end
-
-    def row(work_package)
-      column_values(work_package)
-    end
-
-    def column_values(work_package)
-      columns.collect do |column|
-        column_value column, work_package
-      end
-    end
-
-    def column_value(column, work_package)
-      value = format_column_value column, work_package
-
-      value.respond_to?(:name) ? value.name : value
-    end
-
-    def format_column_value(column, work_package)
-      ::WorkPackage::Exporter::Formatters
-        .for_column(column)
-        .format(work_package, column)
-    end
-
-    def set_column_format_options!(spreadsheet)
-      columns.each_with_index do |column, i|
-        options = ::WorkPackage::Exporter::Formatters
-          .for_column(column)
-          .format_options column
-
-        spreadsheet.add_format_option_to_column i, options
-      end
-    end
-
-    def columns
-      @columns ||= valid_export_columns
-    end
-
-    def spreadsheet_builder
-      OpenProject::XlsExport::SpreadsheetBuilder.new I18n.t(:label_work_package_plural)
-    end
-
-    def headers
-      columns.map(&:caption)
-    end
-
-    def xls_export_filename
-      sane_filename(
-        "#{Setting.app_title} #{I18n.t(:label_work_package_plural)} \
-        #{format_time_as_date(Time.now, '%Y-%m-%d')}.xls"
-      )
+      success(spreadsheet.xls)
     end
   end
 

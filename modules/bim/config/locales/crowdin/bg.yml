@@ -12,7 +12,7 @@ bg:
     no_viewpoints: 'No viewpoints'
     new_badge: "Нов"
     exceptions:
-      file_invalid: "BCF file invalid"
+      file_invalid: "Невалиден BCF файл"
     x_bcf_issues:
       zero: 'Няма проблеми с BCF'
       one: 'Един брой на BCF'
@@ -103,27 +103,29 @@ bg:
         bim/bcf/issue:
           uuid_already_taken: "Can't import this BCF issue as there already is another with the same GUID. Could it be that this BCF issue had already been imported into a different project?"
   ifc_models:
-    label_ifc_models: 'IFC models'
-    label_new_ifc_model: 'New IFC model'
-    label_show_defaults: 'Show defaults'
-    label_default_ifc_models: 'Default IFC models'
-    label_edit_defaults: 'Edit defaults'
+    label_ifc_models: 'IFC модели'
+    label_new_ifc_model: 'Нов IFC модел'
+    label_show_defaults: 'Покажи стойностите по подразбиране'
+    label_default_ifc_models: 'Стандартни IFC модели'
+    label_edit_defaults: 'Коригирай настройките по подразбиране'
     no_defaults_warning:
-      title: 'No IFC model was set as default for this project.'
-      check_1: 'Check that you have uploaded at least one IFC model.'
+      title: 'Няма зададен IFC модел по подразбиране за този проект.'
+      check_1: 'Провери дали си качил поне един IFC модел.'
       check_2: 'Check that at least one IFC model is set to "Default".'
     no_results: "No IFC models have been uploaded in this project."
-    processing_state:
+    conversion_status:
       label: 'Processing?'
-      in_progress: 'В изпълнение'
+      pending: 'Pending'
+      processing: 'Processing'
       completed: 'Completed'
+      error: 'Грешка'
     processing_notice:
       processing_default: 'The following default IFC models are still being processed and are thus not available, yet:'
     flash_messages:
       upload_successful: 'Upload succeeded. It will now get processed and will be ready to use in a couple of minutes.'
     conversion:
       missing_commands: "The following IFC converter commands are missing on this system: %{names}"
-  project_module_ifc_models: "IFC models"
+  project_module_ifc_models: "IFC модели"
   permission_view_ifc_models: "View IFC models"
   permission_manage_ifc_models: "Import and manage IFC models"
   extraction:

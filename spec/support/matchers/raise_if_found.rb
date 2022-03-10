@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,27 +23,27 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 # Extending Capybara to check or raise for an element
 
 module Capybara
   class Session
-    def raise_if_found(condition, *args)
-      raise_if_has_selector?(:has_selector?, condition, *args)
+    def raise_if_found(condition, *args, **kw_args)
+      raise_if_has_selector?(:has_selector?, condition, *args, **kw_args)
     end
 
-    def raise_if_found_field(condition, *args)
-      raise_if_has_selector?(:has_field?, condition, *args)
+    def raise_if_found_field(condition, *args, **kw_args)
+      raise_if_has_selector?(:has_field?, condition, *args, **kw_args)
     end
 
-    def raise_if_found_select(condition, *args)
-      raise_if_has_selector?(:has_select?, condition, *args)
+    def raise_if_found_select(condition, *args, **kw_args)
+      raise_if_has_selector?(:has_select?, condition, *args, **kw_args)
     end
 
-    def raise_if_has_selector?(method, condition, *args)
-      found = public_send(method, condition, *args)
+    def raise_if_has_selector?(method, condition, *args, **kw_args)
+      found = public_send(method, condition, *args, **kw_args)
       raise "Expected not to find field #{condition}" if found
     end
   end

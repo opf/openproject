@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,11 +23,12 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
+# rubocop:disable RSpec:MultipleMemoizedHelpers
 describe Relations::CreateService do
   let(:work_package1_start_date) { nil }
   let(:work_package1_due_date) { Date.today }
@@ -40,14 +39,14 @@ describe Relations::CreateService do
   let(:delay) { 3 }
 
   let(:work_package1) do
-    FactoryBot.build_stubbed(:work_package,
-                             due_date: work_package1_due_date,
-                             start_date: work_package1_start_date)
+    build_stubbed(:work_package,
+                  due_date: work_package1_due_date,
+                  start_date: work_package1_start_date)
   end
   let(:work_package2) do
-    FactoryBot.build_stubbed(:work_package,
-                             due_date: work_package2_due_date,
-                             start_date: work_package2_start_date)
+    build_stubbed(:work_package,
+                  due_date: work_package2_due_date,
+                  start_date: work_package2_start_date)
   end
   let(:instance) do
     described_class.new(user: user)
@@ -69,17 +68,21 @@ describe Relations::CreateService do
     }
   end
 
-  let(:user) { FactoryBot.build_stubbed(:user) }
+  let(:user) { build_stubbed(:user) }
   let(:model_valid) { true }
   let(:contract_valid) { true }
   let(:contract) { double('contract') }
   let(:symbols_for_base) { [] }
 
   subject do
-    instance.call(relation)
+    instance.call(attributes)
   end
 
   before do
+    allow(Relation)
+      .to receive(:new)
+            .and_return(relation)
+
     allow(relation)
       .to receive(:save)
       .and_return(model_valid)
@@ -238,7 +241,7 @@ describe Relations::CreateService do
         end
       end
 
-      context 'fro a different relationship' do
+      context 'for a different relationship' do
         let(:attributes) do
           {
             to: work_package1,
@@ -264,3 +267,4 @@ describe Relations::CreateService do
     end
   end
 end
+# rubocop:enable RSpec:MultipleMemoizedHelpers

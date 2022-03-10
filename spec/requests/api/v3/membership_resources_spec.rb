@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,46 +23,47 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 require 'rack/test'
 
+# rubocop:disable RSpec/MultipleMemoizedHelpers
 describe 'API v3 memberships resource', type: :request, content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
   let(:current_user) do
-    FactoryBot.create(:user)
+    create(:user)
   end
   let(:admin) do
-    FactoryBot.create(:admin)
+    create(:admin)
   end
   let(:own_member) do
-    FactoryBot.create(:member,
-                      roles: [FactoryBot.create(:role, permissions: permissions)],
-                      project: project,
-                      user: current_user)
+    create(:member,
+           roles: [create(:role, permissions: permissions)],
+           project: project,
+           user: current_user)
   end
   let(:permissions) { %i[view_members manage_members] }
-  let(:project) { FactoryBot.create(:project) }
-  let(:other_role) { FactoryBot.create(:role) }
-  let(:global_role) { FactoryBot.create(:global_role) }
-  let(:other_user) { FactoryBot.create(:user) }
+  let(:project) { create(:project) }
+  let(:other_role) { create(:role) }
+  let(:global_role) { create(:global_role) }
+  let(:other_user) { create(:user) }
   let(:other_member) do
-    FactoryBot.create(:member,
-                      roles: [other_role],
-                      principal: other_user,
-                      project: project)
+    create(:member,
+           roles: [other_role],
+           principal: other_user,
+           project: project)
   end
   let(:invisible_member) do
-    FactoryBot.create(:member,
-                      roles: [FactoryBot.create(:role)])
+    create(:member,
+           roles: [create(:role)])
   end
   let(:global_member) do
-    FactoryBot.create(:global_member,
-                      roles: [global_role])
+    create(:global_member,
+           roles: [global_role])
   end
 
   subject(:response) { last_response }
@@ -86,6 +87,8 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
 
   describe 'GET api/v3/memberships' do
     let(:members) { [own_member, other_member, invisible_member, global_member] }
+    let(:filters) { nil }
+    let(:path) { api_v3_paths.path_for(:memberships, filters: filters, sort_by: [%i(id asc)]) }
 
     before do
       members
@@ -94,9 +97,6 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
 
       get path
     end
-
-    let(:filters) { nil }
-    let(:path) { api_v3_paths.path_for(:memberships, filters: filters, sort_by: [%i(id asc)]) }
 
     context 'without params' do
       it 'responds 200 OK' do
@@ -179,12 +179,12 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
     end
 
     context 'with a group' do
-      let(:group) { FactoryBot.create(:group) }
+      let(:group) { create(:group) }
       let(:group_member) do
-        FactoryBot.create(:member,
-                          roles: [FactoryBot.create(:role)],
-                          project: project,
-                          principal: group)
+        create(:member,
+               roles: [create(:role)],
+               project: project,
+               principal: group)
       end
       let(:members) { [own_member, group_member] }
 
@@ -209,13 +209,13 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
 
     context 'with a placeholder_user' do
       let(:placeholder_user) do
-        FactoryBot.create(:placeholder_user)
+        create(:placeholder_user)
       end
       let(:placeholder_member) do
-        FactoryBot.create(:member,
-                          roles: [FactoryBot.create(:role)],
-                          project: project,
-                          principal: placeholder_user)
+        create(:member,
+               roles: [create(:role)],
+               project: project,
+               principal: placeholder_user)
       end
       let(:members) { [own_member, placeholder_member] }
 
@@ -238,7 +238,7 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
       end
     end
 
-    context 'filtering by user name' do
+    context 'when filtering by user name' do
       let(:filters) do
         [{ 'any_name_attribute' => {
           'operator' => '~',
@@ -257,17 +257,17 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
       end
     end
 
-    context 'filtering by project' do
+    context 'when filtering by project' do
       let(:members) { [own_member, other_member, invisible_member, own_other_member] }
 
       let(:own_other_member) do
-        FactoryBot.create(:member,
-                          roles: [FactoryBot.create(:role, permissions: permissions)],
-                          project: other_project,
-                          user: current_user)
+        create(:member,
+               roles: [create(:role, permissions: permissions)],
+               project: other_project,
+               user: current_user)
       end
 
-      let(:other_project) { FactoryBot.create(:project) }
+      let(:other_project) { create(:project) }
 
       let(:filters) do
         [{ 'project' => {
@@ -287,13 +287,13 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
       end
     end
 
-    context 'filtering by principal' do
-      let(:group) { FactoryBot.create(:group) }
+    context 'when filtering by principal' do
+      let(:group) { create(:group) }
       let(:group_member) do
-        FactoryBot.create(:member,
-                          roles: [FactoryBot.create(:role)],
-                          principal: group,
-                          project: project)
+        create(:member,
+               roles: [create(:role)],
+               principal: group,
+               project: project)
       end
       let(:members) { [own_member, other_member, group_member, invisible_member] }
 
@@ -316,6 +316,24 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
         expect(subject.body)
           .to be_json_eql(group_member.id.to_json)
           .at_path('_embedded/elements/1/id')
+      end
+
+      context 'when principal is a group without any memberships' do
+        let(:members) { [own_member, other_member, invisible_member] }
+        let(:filters) do
+          [{ 'principal' => {
+            'operator' => '=',
+            'values' => [group.id.to_s]
+          } }]
+        end
+
+        it 'returns empty members' do
+          expect(subject.status).to eq(200)
+
+          expect(subject.body)
+          .to be_json_eql([])
+          .at_path('_embedded/elements')
+        end
       end
     end
 
@@ -362,6 +380,7 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
 
     context 'without permissions' do
       let(:permissions) { [] }
+
       it 'is empty' do
         expect(subject.body)
           .to be_json_eql('0')
@@ -415,7 +434,7 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
       end
 
       it 'creates the member' do
-        expect(Member.find_by(user_id: principal.id, project: project))
+        expect(Member.find_by(principal: principal, project: project))
           .to be_present
       end
 
@@ -447,14 +466,44 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
     context 'for a user' do
       it_behaves_like 'successful member creation'
       it_behaves_like 'sends mails'
+
+      context 'when deactivating notification sending' do
+        let(:body) do
+          {
+            _links: {
+              project: {
+                href: api_v3_paths.project(project.id)
+              },
+              principal: {
+                href: principal_path
+              },
+              roles: [
+                {
+                  href: api_v3_paths.role(other_role.id)
+                }
+              ]
+            },
+            _meta: {
+              sendNotifications: false
+            }
+          }.to_json
+        end
+
+        it_behaves_like 'successful member creation'
+
+        it 'sends no mail to the principal of the member' do
+          expect(ActionMailer::Base.deliveries)
+            .to be_empty
+        end
+      end
     end
 
     context 'for a group' do
       let(:group) do
-        FactoryBot.create(:group, members: users)
+        create(:group, members: users)
       end
       let(:principal) { group }
-      let(:users) { [FactoryBot.create(:user), FactoryBot.create(:user)] }
+      let(:users) { [create(:user), create(:user)] }
       let(:principal_path) { api_v3_paths.group(group.id) }
       let(:body) do
         {
@@ -490,10 +539,67 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
             .to be_present
         end
       end
+
+      context 'when deactivating notification sending' do
+        let(:body) do
+          {
+            _links: {
+              project: {
+                href: api_v3_paths.project(project.id)
+              },
+              principal: {
+                href: principal_path
+              },
+              roles: [
+                {
+                  href: api_v3_paths.role(other_role.id)
+                }
+              ]
+            },
+            _meta: {
+              sendNotifications: false
+            }
+          }.to_json
+        end
+
+        it_behaves_like 'successful member creation'
+
+        it 'sends no mail to the principal of the member' do
+          expect(ActionMailer::Base.deliveries)
+            .to be_empty
+        end
+      end
+
+      context 'when creating global role permission as admin' do
+        let(:current_user) { admin }
+        let(:project) { nil }
+        let(:expected_role) { global_role }
+        let(:body) do
+          {
+            _links: {
+              principal: {
+                href: principal_path
+              },
+              roles: [
+                {
+                  href: api_v3_paths.role(global_role.id)
+                }
+              ]
+            },
+            _meta: {
+              notificationMessage: {
+                raw: custom_message
+              }
+            }
+          }.to_json
+        end
+
+        it_behaves_like 'successful member creation'
+      end
     end
 
     context 'for a placeholder user' do
-      let(:placeholder_user) { FactoryBot.create(:placeholder_user) }
+      let(:placeholder_user) { create(:placeholder_user) }
       let(:principal) { placeholder_user }
       let(:principal_path) { api_v3_paths.placeholder_user(placeholder_user.id) }
       let(:body) do
@@ -677,7 +783,7 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
 
     it 'returns 200 OK' do
       expect(subject.status)
-        .to eql(200)
+        .to be(200)
     end
 
     it 'returns the member' do
@@ -697,7 +803,7 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
 
       it 'returns 404 NOT FOUND' do
         expect(subject.status)
-          .to eql(404)
+          .to be(404)
       end
     end
 
@@ -706,19 +812,19 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
 
       it 'returns 404 NOT FOUND' do
         expect(subject.status)
-          .to eql(404)
+          .to be(404)
       end
     end
   end
 
   describe 'PATCH api/v3/memberships/:id' do
     let(:path) { api_v3_paths.membership(other_member.id) }
-    let(:another_role) { FactoryBot.create(:role) }
+    let(:another_role) { create(:role) }
     let(:custom_message) { 'Wish you where **here**.' }
     let(:body) do
       {
         _links: {
-          "roles": [
+          roles: [
             {
               href: api_v3_paths.role(another_role.id)
             }
@@ -783,16 +889,44 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
       it_behaves_like 'sends mails' do
         let(:receivers) { [other_member.principal] }
       end
+
+      context 'when deactivating notification sending' do
+        let(:body) do
+          {
+            _links: {
+              roles: [
+                {
+                  href: api_v3_paths.role(another_role.id)
+                }
+              ]
+            },
+            _meta: {
+              sendNotifications: false
+            }
+          }.to_json
+        end
+
+        it 'sends no mail to the principal of the member' do
+          expect(ActionMailer::Base.deliveries)
+            .to be_empty
+        end
+      end
     end
 
     context 'with a group' do
+      # first user has no direct roles
+      # second user has direct role `another_role`
+      # both users belong to a group which has `other_role`, so this role is inherited by users
+      # when updating `group` role from `other_role` to `another_role`
+      # expecting to have first user role changed from `other_role` to `another_role`
+      # and second user role extended from `[other_role]` to `[other_role, another_role]` because has direct role
       let(:group) do
-        FactoryBot.create(:group, member_in_project: project, member_through_role: other_role, members: users)
+        create(:group, member_in_project: project, member_through_role: other_role, members: users)
       end
       let(:principal) { group }
-      let(:users) { [FactoryBot.create(:user), FactoryBot.create(:user)] }
+      let(:users) { [create(:user), create(:user)] }
       let(:other_member) do
-        Member.find_by(principal: group).tap do |m|
+        Member.find_by(principal: group).tap do
           # Behaves as if the user had that role before the role's membership was created.
           # Because the user had the role independent of the group, it is not to be removed.
           user_member = Member.find_by(principal: users.first)
@@ -862,20 +996,81 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
         # Only sends to the second user since the first user's membership is unchanged
         let(:receivers) { [users.last] }
       end
+
+      context 'when deactivating notification sending' do
+        let(:body) do
+          {
+            _links: {
+              roles: [
+                {
+                  href: api_v3_paths.role(another_role.id)
+                }
+              ]
+            },
+            _meta: {
+              sendNotifications: false
+            }
+          }.to_json
+        end
+
+        it 'sends no mail to the principal of the member' do
+          expect(ActionMailer::Base.deliveries)
+            .to be_empty
+        end
+      end
+
+      context 'when updating global role permission as admin' do
+        let(:group) do
+          create(:group, global_role: other_role, members: users)
+        end
+        let(:current_user) { admin }
+        let(:project) { nil }
+        let(:other_role) { create(:global_role) }
+        let(:another_role) { create(:global_role) }
+
+        it 'responds with 200' do
+          expect(last_response.status).to eq(200)
+        end
+
+        it 'updates the member and all inherited members but does not update memberships users have already had' do
+          # other member is the group member
+          expect(other_member.reload.roles)
+            .to match_array [another_role]
+
+          expect(other_member.updated_at > other_member_updated_at)
+            .to be_truthy
+
+          last_user_member = Member.find_by(principal: users.last)
+
+          expect(last_user_member.roles)
+            .to match_array [another_role]
+
+          expect(last_user_member.updated_at > last_user_member_updated_at)
+            .to be_truthy
+
+          first_user_member = Member.find_by(principal: users.first)
+
+          expect(first_user_member.roles.uniq)
+            .to match_array [other_role, another_role]
+
+          expect(first_user_member.updated_at)
+            .to eql first_user_member_updated_at
+        end
+      end
     end
 
     context 'if attempting to empty the roles' do
       let(:body) do
         {
           _links: {
-            "roles": []
+            roles: []
           }
         }.to_json
       end
 
       it 'returns 422' do
         expect(last_response.status)
-          .to eql(422)
+          .to be(422)
 
         expect(last_response.body)
           .to be_json_eql("Roles need to be assigned.".to_json)
@@ -884,11 +1079,11 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
     end
 
     context 'if attempting to assign unassignable roles' do
-      let(:anonymous_role) { FactoryBot.create(:anonymous_role) }
+      let(:anonymous_role) { create(:anonymous_role) }
       let(:body) do
         {
           _links: {
-            "roles": [
+            roles: [
               {
                 href: api_v3_paths.role(anonymous_role.id)
               }
@@ -899,7 +1094,7 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
 
       it 'returns 422' do
         expect(last_response.status)
-          .to eql(422)
+          .to be(422)
 
         expect(last_response.body)
           .to be_json_eql("Roles has an unassignable role.".to_json)
@@ -909,19 +1104,19 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
 
     context 'when attempting to switch the project' do
       let(:other_project) do
-        FactoryBot.create(:project).tap do |p|
-          FactoryBot.create(:member,
-                            project: p,
-                            roles: [FactoryBot.create(:role, permissions: [:manage_members])],
-                            user: current_user)
+        create(:project).tap do |p|
+          create(:member,
+                 project: p,
+                 roles: [create(:role, permissions: [:manage_members])],
+                 user: current_user)
         end
       end
 
       let(:body) do
         {
           _links: {
-            "project": {
-              "href": api_v3_paths.project(other_project.id)
+            project: {
+              href: api_v3_paths.project(other_project.id)
 
             }
           }
@@ -933,14 +1128,14 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
 
     context 'if attempting to switch the principal' do
       let(:another_user) do
-        FactoryBot.create(:user)
+        create(:user)
       end
 
       let(:body) do
         {
           _links: {
-            "principal": {
-              "href": api_v3_paths.user(another_user.id)
+            principal: {
+              href: api_v3_paths.user(another_user.id)
 
             }
           }
@@ -959,10 +1154,7 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
     context 'if lacking the view permissions' do
       let(:permissions) { [] }
 
-      it_behaves_like 'not found' do
-        let(:id) { member.id }
-        let(:type) { 'Membership' }
-      end
+      it_behaves_like 'not found'
     end
   end
 
@@ -993,20 +1185,17 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
       context 'for a non-existent version' do
         let(:path) { api_v3_paths.membership 1337 }
 
-        it_behaves_like 'not found' do
-          let(:id) { 1337 }
-          let(:type) { 'Membership' }
-        end
+        it_behaves_like 'not found'
       end
     end
 
     context 'with a group' do
       let(:group) do
-        FactoryBot.create(:group, member_in_project: project, member_through_role: other_role, members: users)
+        create(:group, member_in_project: project, member_through_role: other_role, members: users)
       end
       let(:principal) { group }
-      let(:users) { [FactoryBot.create(:user), FactoryBot.create(:user)] }
-      let(:another_role) { FactoryBot.create(:role) }
+      let(:users) { [create(:user), create(:user)] }
+      let(:another_role) { create(:role) }
       let(:other_member) do
         Member.find_by(principal: group).tap do
           # Behaves as if the user had a role before the role's membership was created.
@@ -1055,3 +1244,4 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
     end
   end
 end
+# rubocop:enable RSpec/MultipleMemoizedHelpers

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,14 +23,14 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 shared_examples_for 'member contract' do
   let(:current_user) do
-    FactoryBot.build_stubbed(:user, admin: current_user_admin) do |user|
+    build_stubbed(:user, admin: current_user_admin) do |user|
       allow(user)
         .to receive(:allowed_to?) do |permission, permission_project|
         permissions.include?(permission) && member_project == permission_project
@@ -38,16 +38,16 @@ shared_examples_for 'member contract' do
     end
   end
   let(:member_project) do
-    FactoryBot.build_stubbed(:project)
+    build_stubbed(:project)
   end
   let(:member_roles) do
     [role]
   end
   let(:member_principal) do
-    FactoryBot.build_stubbed(:user)
+    build_stubbed(:user)
   end
   let(:role) do
-    FactoryBot.build_stubbed(:role)
+    build_stubbed(:role)
   end
   let(:permissions) { [:manage_members] }
   let(:current_user_admin) { false }
@@ -79,7 +79,7 @@ shared_examples_for 'member contract' do
 
     context 'if any role is not assignable (e.g. builtin)' do
       let(:member_roles) do
-        [FactoryBot.build_stubbed(:role), FactoryBot.build_stubbed(:anonymous_role)]
+        [build_stubbed(:role), build_stubbed(:anonymous_role)]
       end
 
       it 'is invalid' do
@@ -98,7 +98,7 @@ shared_examples_for 'member contract' do
     context 'if the project is nil (global membership)' do
       let(:member_project) { nil }
       let(:role) do
-        FactoryBot.build_stubbed(:global_role)
+        build_stubbed(:global_role)
       end
 
       context 'if the user is no admin' do
@@ -116,7 +116,7 @@ shared_examples_for 'member contract' do
       context 'if the role is not a global role' do
         let(:current_user_admin) { true }
         let(:role) do
-          FactoryBot.build_stubbed(:role)
+          build_stubbed(:role)
         end
 
         it 'is invalid' do

@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe 'Work package table context menu', js: true do
-  let(:user) { FactoryBot.create(:admin) }
-  let(:work_package) { FactoryBot.create(:work_package) }
+  let(:user) { create(:admin) }
+  let(:work_package) { create(:work_package) }
 
   let(:wp_table) { Pages::WorkPackagesTable.new }
   let(:wp_timeline) { Pages::WorkPackagesTimeline.new(work_package.project) }
@@ -84,11 +84,17 @@ describe 'Work package table context menu', js: true do
 
         goto_context_menu list_view
         menu.expect_no_options 'Add predecessor', 'Add follower'
+
+        # Copy to other project
+        goto_context_menu list_view
+        menu.choose('Copy to other project')
+        expect(page).to have_selector('h2', text: I18n.t(:button_copy))
+        expect(page).to have_selector('a.work_package', text: "##{work_package.id}")
       end
     end
 
     context 'for multiple selected WPs' do
-      let!(:work_package2) { FactoryBot.create(:work_package) }
+      let!(:work_package2) { create(:work_package) }
 
       it 'provides a context menu with a subset of the available menu items' do
         # Go to table
@@ -132,11 +138,11 @@ describe 'Work package table context menu', js: true do
     end
 
     describe 'creating work packages' do
-      let!(:priority) { FactoryBot.create :issue_priority, is_default: true }
-      let!(:status) { FactoryBot.create :default_status }
-      let!(:type) { FactoryBot.create :type_task }
-      let!(:project) { FactoryBot.create :project, types: [type] }
-      let!(:work_package) { FactoryBot.create :work_package, project: project, type: type, status: status, priority: priority }
+      let!(:priority) { create :issue_priority, is_default: true }
+      let!(:status) { create :default_status }
+      let!(:type) { create :type_task }
+      let!(:project) { create :project, types: [type] }
+      let!(:work_package) { create :work_package, project: project, type: type, status: status, priority: priority }
       let(:wp_table) { Pages::WorkPackagesTable.new project }
 
       it 'can create a new child from the context menu (Regression #33329)' do
@@ -150,7 +156,7 @@ describe 'Work package table context menu', js: true do
         subject.set_value 'Child task'
         subject.submit_by_enter
 
-        split_view.expect_and_dismiss_notification message: 'Successful creation.'
+        split_view.expect_and_dismiss_toaster message: 'Successful creation.'
         expect(page).to have_selector('[data-qa-selector="op-wp-breadcrumb"]', text: "Parent:\n#{work_package.subject}")
         wp = WorkPackage.last
         expect(wp.parent).to eq work_package

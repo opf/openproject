@@ -16,7 +16,7 @@ tr:
         members:
           title: 'Üyeler'
           no_results: 'Görünür üye yok.'
-          view_all_members: 'Tüm üyeleri görüntüle'
+          view_all_members: 'Tüm üyeleri göster'
           add: 'Üye'
           too_many: '%{total} üyelerin %{count} sayısını gösteriliyor.'
         news:
@@ -31,10 +31,13 @@ tr:
           no_results: 'Projeler için özel alan tanımlanmadı.'
         project_status:
           title: 'Proje Durumu'
+          not_started: 'Not started'
           on_track: 'Takipte'
           off_track: 'Kapalı parça'
           at_risk: 'Riskli'
           not_set: 'Ayarlanmadı'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
         subprojects:
           title: 'Alt Projeler'
           no_results: 'Alt proje yok.'
@@ -43,9 +46,9 @@ tr:
           displayed_days: 'Widget''te görüntülenen günler:'
         time_entries_list:
           title: 'Harcanan zaman (son 7 gün)'
-          no_results: 'Son 7 güne zaman girişi yok.'
+          no_results: 'Son 7 günde zaman girişi yok.'
         work_packages_accountable:
-          title: "Sorumlu olduğum iş paketleri"
+          title: "Sorumlusu olduğum iş paketleri"
         work_packages_assigned:
           title: 'Bana atanan iş paketleri'
         work_packages_created:

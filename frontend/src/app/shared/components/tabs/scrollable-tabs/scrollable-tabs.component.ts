@@ -6,6 +6,7 @@ import {
   ElementRef,
   EventEmitter,
   Input,
+  Injector,
   OnChanges,
   Output,
   SimpleChanges,
@@ -47,8 +48,10 @@ export class ScrollableTabsComponent implements AfterViewInit, OnChanges {
 
   private pane:Element;
 
-  constructor(private cdRef:ChangeDetectorRef) {
-  }
+  constructor(
+    private cdRef:ChangeDetectorRef,
+    public injector:Injector,
+  ) { }
 
   ngAfterViewInit():void {
     this.container = this.scrollContainer.nativeElement;

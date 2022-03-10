@@ -3,15 +3,15 @@ hu:
     job_status:
       download_starts: 'A letöltésnek automatikusan el kellene indulnia'
       click_to_download: 'Vagy kattintson ide a letöltéshez'
-      title: 'Background job status'
+      title: 'Háttér művelet állapota'
       redirect: 'Átirányítjuk...'
       redirect_link: 'Kattints ide a folytatáshoz'
       redirect_errors: 'A hibák miatt nem lehet automatikusan visszairányítani'
       errors: 'Problémák adódtak'
       generic_messages:
-        not_found: 'This job could not be found.'
-        in_queue: 'The job has been queued and will be processed shortly.'
-        in_process: 'The job is currently being processed.'
-        error: 'The job has failed to complete.'
-        cancelled: 'The job has been cancelled due to an error.'
-        success: 'The job completed successfully.'
+        not_found: "Ez a művelet nem található.\n"
+        in_queue: "A művelet sorba került, és rövidesen feldolgozásra kerül.\n"
+        in_process: "A művelet jelenleg feldolgozás alatt áll.\n"
+        error: "A műveletet nem sikerült befejezni.\n"
+        cancelled: "A műveletet hiba miatt törölték.\n"
+        success: "A művelet sikeresen befejeződött.\n"

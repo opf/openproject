@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require_relative '../spec_helper'
@@ -32,22 +32,22 @@ describe 'show default model',
          with_config: { edition: 'bim' },
          type: :feature,
          js: true do
-  let(:project) { FactoryBot.create :project, enabled_module_names: %i[bim work_package_tracking] }
+  let(:project) { create :project, enabled_module_names: %i[bim work_package_tracking] }
   let(:index_page) { Pages::IfcModels::Index.new(project) }
   let(:show_default_page) { Pages::IfcModels::ShowDefault.new(project) }
-  let(:role) { FactoryBot.create(:role, permissions: %i[view_ifc_models view_work_packages manage_ifc_models]) }
+  let(:role) { create(:role, permissions: %i[view_ifc_models view_work_packages manage_ifc_models]) }
 
   let(:user) do
-    FactoryBot.create :user,
-                      member_in_project: project,
-                      member_through_role: role
+    create :user,
+           member_in_project: project,
+           member_through_role: role
   end
 
   let(:model) do
-    FactoryBot.create(:ifc_model_minimal_converted,
-                      is_default: model_is_default,
-                      project: project,
-                      uploader: user)
+    create(:ifc_model_minimal_converted,
+           is_default: model_is_default,
+           project: project,
+           uploader: user)
   end
   let(:model_is_default) { true }
   let(:model_tree) { ::Components::XeokitModelTree.new }
@@ -58,17 +58,17 @@ describe 'show default model',
   end
 
   context 'when the work package module not loaded' do
-    let(:project) { FactoryBot.create :project, enabled_module_names: [:bim] }
+    let(:project) { create :project, enabled_module_names: [:bim] }
 
     it 'shows an error loading the page' do
       show_default_page.visit!
-      show_default_page.expect_notification(type: :error, message: 'Your view is erroneous and could not be processed')
+      show_default_page.expect_toast(type: :error, message: 'Your view is erroneous and could not be processed')
     end
   end
 
   context 'with everything ready' do
-    let(:old_work_package) { FactoryBot.create(:work_package, project: project) }
-    let(:new_work_package) { FactoryBot.create(:work_package, project: project) }
+    let(:old_work_package) { create(:work_package, project: project) }
+    let(:new_work_package) { create(:work_package, project: project) }
 
     before do
       old_work_package
@@ -100,8 +100,8 @@ describe 'show default model',
 
     it 'renders a notification' do
       show_default_page
-        .expect_notification(type: :info,
-                             message: I18n.t(:'ifc_models.processing_notice.processing_default'))
+        .expect_toast(type: :info,
+                      message: I18n.t(:'ifc_models.processing_notice.processing_default'))
     end
   end
 end

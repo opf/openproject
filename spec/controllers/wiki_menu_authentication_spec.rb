@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -33,22 +33,22 @@ describe WikiMenuItemsController, type: :controller do
     User.delete_all
     Role.delete_all
 
-    @project = FactoryBot.create(:project)
+    @project = create(:project)
     @project.reload # project contains wiki by default
 
     @params = {}
     @params[:project_id] = @project.id
-    page = FactoryBot.create(:wiki_page, wiki: @project.wiki)
+    page = create(:wiki_page, wiki: @project.wiki)
     @params[:id] = page.title
   end
 
   describe 'w/ valid auth' do
     it 'renders the edit action' do
-      admin_user = FactoryBot.create(:admin)
+      admin_user = create(:admin)
 
       allow(User).to receive(:current).and_return admin_user
-      permission_role = FactoryBot.create(:role, name: 'accessgranted', permissions: [:manage_wiki_menu])
-      member = FactoryBot.create(:member, principal: admin_user, user: admin_user, project: @project, roles: [permission_role])
+      permission_role = create(:role, name: 'accessgranted', permissions: [:manage_wiki_menu])
+      member = create(:member, principal: admin_user, user: admin_user, project: @project, roles: [permission_role])
 
       get 'edit', params: @params
 
@@ -58,7 +58,7 @@ describe WikiMenuItemsController, type: :controller do
 
   describe 'w/o valid auth' do
     it 'be forbidden' do
-      allow(User).to receive(:current).and_return FactoryBot.create(:user)
+      allow(User).to receive(:current).and_return create(:user)
 
       get 'edit', params: @params
 

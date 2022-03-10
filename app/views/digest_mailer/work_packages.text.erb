@@ -1,36 +1,23 @@
-<%= digest_timespan_text %>
+<%= I18n.t(:'mail.salutation', user: @user.firstname) %>
+<%= "#{I18n.t(:'mail.digests.you_have')} #{digest_summary_text(@notification_ids.length, @mentioned_count)}" %>
+<%= "-" * 100 %>
 
-<% @notifications_by_project.each do |project, notifications_by_work_package| %>
+<% @aggregated_notifications.first(DigestMailer::MAX_SHOWN_WORK_PACKAGES).each do | work_package, notifications_by_work_package| %>
 
-<%= "=" * (project.name.length + 4) %>
-= <%= project.name %> =
-<%= "=" * (project.name.length + 4) %>
-
-<% notifications_by_work_package.each do |work_package, notifications| %>
-
-<%= "*" * (work_package.to_s.length + 4) %>
-* <%= work_package.to_s %> *
-<%= "*" * (work_package.to_s.length + 4) %>
-
-<% notifications.sort_by(&:created_at).each do |notification| %>
-
-<%= "-" * 20 %>
-
-<%= digest_notification_timestamp_text(notification, html: false) %> (<%= I18n.t('mail.digests.work_packages.reason.prefix',
-           reason: I18n.t(:"mail.digests.work_packages.reason.#{notification.reason_mail_digest}")) %>)
-
-<% journal = notification.journal %>
-<% if journal.notes.present? %>
-<%= journal.notes %>
+  <%= "=" * (('# ' + work_package.id.to_s + work_package.subject).length + 4) %>
+  = #<%= work_package.id %> <%= work_package.subject %> =
+  <%= "=" * (('# ' + work_package.id.to_s + work_package.subject).length + 4) %>
+  
+  <% unique_reasons = unique_reasons_of_notifications(notifications_by_work_package) %>
+  <% unique_reasons.each_with_index do |reason, index| %><%= I18n.t(:"mail.work_packages.reason.#{reason || :unknown}", default: '-') %><%= ', ' unless unique_reasons.size-1 == index  %><% end %>: <%= digest_notification_timestamp_text(notifications_by_work_package.first, html: false) %>
+  <%= digest_additional_author_text(notifications_by_work_package) %>
 
 <% end %>
-<% journal.details.each do |detail| %>
-  * <%= journal.render_detail(detail, only_path: false, no_html: true) %>
-<% end %>
-<% end %>
 
-<%= "-" * 20 %>
+<%= "-" * 100 %>
 
-
-<% end %>
+<% if @aggregated_notifications.length > DigestMailer::MAX_SHOWN_WORK_PACKAGES %>
+<% number_of_overflowing_work_packages = @aggregated_notifications.length - DigestMailer::MAX_SHOWN_WORK_PACKAGES %>
+<% count = number_of_overflowing_work_packages === 1 ? 'one' : 'other' %>
+<%= I18n.t(:"mail.work_packages.more_to_see.#{count}", count: number_of_overflowing_work_packages) %>
 <% end %>

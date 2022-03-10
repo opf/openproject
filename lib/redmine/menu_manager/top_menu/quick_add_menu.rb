@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module Redmine::MenuManager::TopMenu::QuickAddMenu
@@ -59,13 +59,14 @@ module Redmine::MenuManager::TopMenu::QuickAddMenu
   end
 
   def work_package_quick_add_items
-    return unless visible_types.any?
+    return unless any_types?
 
     concat content_tag(:hr, '', class: 'op-menu--separator')
     concat work_package_type_heading
 
     visible_types
       .pluck(:id, :name)
+      .uniq
       .each do |id, name|
       concat work_package_create_link(id, name)
     end
@@ -80,11 +81,13 @@ module Redmine::MenuManager::TopMenu::QuickAddMenu
   end
 
   def visible_types
-    @visible_types ||= if user_can_create_work_package?
-                         in_project_context? ? @project.types : Type.all
-                       else
-                         Type.none
-                       end
+    @visible_types ||= begin
+      if user_can_create_work_package?
+        in_project_context? ? @project.types : Type.enabled_in(Project.allowed_to(User.current, :add_work_packages))
+      else
+        Type.none
+      end
+    end.to_a
   end
 
   def work_package_create_link(type_id, type_name)
@@ -107,7 +110,7 @@ module Redmine::MenuManager::TopMenu::QuickAddMenu
 
   def show_quick_add_menu?
     !anonymous_and_login_required? &&
-      (global_add_permissions? || add_subproject_permission?)
+      (global_add_permissions? || add_subproject_permission? || any_types?)
   end
 
   def in_project_context?
@@ -119,7 +122,7 @@ module Redmine::MenuManager::TopMenu::QuickAddMenu
   end
 
   def global_add_permissions?
-    %i[add_work_packages add_project manage_members].any? do |permission|
+    %i[add_project manage_members].any? do |permission|
       User.current.allowed_to_globally?(permission)
     end
   end
@@ -127,5 +130,9 @@ module Redmine::MenuManager::TopMenu::QuickAddMenu
   def add_subproject_permission?
     in_project_context? &&
       User.current.allowed_to?(:add_subprojects, @project)
+  end
+
+  def any_types?
+    visible_types.any?
   end
 end

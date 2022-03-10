@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2021 the OpenProject GmbH
+Copyright (C) 2012-2022 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-See docs/COPYRIGHT.rdoc for more details.
+See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
@@ -37,23 +37,6 @@ See docs/COPYRIGHT.rdoc for more details.
       <div class="form--field"><%= setting_text_field :mail_from, size: 60, container_class: '-middle' %></div>
       <div class="form--field"><%= setting_check_box :bcc_recipients %></div>
       <div class="form--field"><%= setting_check_box :plain_text_mail %></div>
-      <div class="form--field">
-        <%= setting_number_field :notification_email_delay_minutes,
-                                 container_class: '-xslim',
-                                 min: 0,
-                                 unit: t(:label_minute_plural) %>
-        <div class="form--field-instructions">
-          <%= t(:'settings.notifications.delay_minutes_explanation') %>
-        </div>
-      </div>
-      <div class="form--field">
-        <%= setting_time_field :notification_email_digest_time,
-                               container_class: '-xslim',
-                               unit: 'UTC' %>
-        <div class="form--field-instructions">
-          <%= t(:'settings.notifications.email_digest_explanation') %>
-        </div>
-      </div>
     </section>
 
     <fieldset id="emails_decorators" class="form--fieldset"><legend class="form--fieldset-legend"><%= t(:setting_emails_header) %> & <%= t(:setting_emails_footer) %></legend>

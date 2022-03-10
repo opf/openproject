@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
 import {
@@ -84,13 +84,9 @@ export class WorkPackageRelationsAutocompleteComponent {
 
   @Output() onEmptySelected = new EventEmitter<undefined>();
 
-  // Whether we're currently loading
-  public isLoading = false;
-
   getAutocompleterData = (query:string|null):Observable<HalResource[]> => {
     // Return when the search string is empty
     if (query === null || query.length === 0) {
-      this.isLoading = false;
       return of([]);
     }
 
@@ -107,7 +103,6 @@ export class WorkPackageRelationsAutocompleteComponent {
           this.notificationService.handleRawError(error);
           return of([]);
         }),
-        tap(() => this.isLoading = false),
       );
   };
 

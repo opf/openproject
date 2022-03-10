@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,30 +23,30 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 describe VersionsController, type: :controller do
   let(:version) do
-    FactoryBot.create(:version,
-                      sharing: 'system')
+    create(:version,
+           sharing: 'system')
   end
 
   let(:other_project) do
-    FactoryBot.create(:project).tap do |p|
-      FactoryBot.create(:member,
-                        user: current_user,
-                        roles: [FactoryBot.create(:role, permissions: [:manage_versions])],
-                        project: p)
+    create(:project).tap do |p|
+      create(:member,
+             user: current_user,
+             roles: [create(:role, permissions: [:manage_versions])],
+             project: p)
     end
   end
 
   let(:current_user) do
-    FactoryBot.create(:user,
-                      member_in_project: version.project,
-                      member_with_permissions: [:manage_versions])
+    create(:user,
+           member_in_project: version.project,
+           member_with_permissions: [:manage_versions])
   end
 
   before do
@@ -70,7 +70,7 @@ describe VersionsController, type: :controller do
       patch 'update', params: @params
       version.reload
 
-      expect(response).to redirect_to controller: '/project_settings/versions', action: 'show', id: other_project
+      expect(response).to redirect_to project_settings_versions_path(other_project)
       expect(version.name).to eq(@oldVersionName)
     end
 
@@ -79,7 +79,7 @@ describe VersionsController, type: :controller do
       patch 'update', params: @params
       version.reload
 
-      expect(response).to redirect_to controller: '/project_settings/versions', action: 'show', id: version.project
+      expect(response).to redirect_to project_settings_versions_path(version.project)
       expect(version.name).to eq(@newVersionName)
     end
   end

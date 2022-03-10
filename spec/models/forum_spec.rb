@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -32,13 +32,13 @@ require 'support/shared/acts_as_watchable'
 
 describe Forum, type: :model do
   it_behaves_like 'acts_as_watchable included' do
-    let(:model_instance) { FactoryBot.create(:forum) }
+    let(:model_instance) { create(:forum) }
     let(:watch_permission) { :view_messages } # view_messages is a public permission
     let(:project) { model_instance.project }
   end
 
   describe 'with forum present' do
-    let(:forum) { FactoryBot.build :forum, name: 'Test forum', description: 'Whatever' }
+    let(:forum) { build :forum, name: 'Test forum', description: 'Whatever' }
 
     it 'should create' do
       expect(forum.save).to be_truthy

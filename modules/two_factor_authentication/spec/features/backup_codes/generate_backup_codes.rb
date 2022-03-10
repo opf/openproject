@@ -6,10 +6,10 @@ describe 'Generate 2FA backup codes', with_2fa_ee: true, type: :feature,
                                       js: true do
   let(:user_password) { 'bob!' * 4 }
   let(:user) do
-    FactoryBot.create(:user,
-                      login: 'bob',
-                      password: user_password,
-                      password_confirmation: user_password)
+    create(:user,
+           login: 'bob',
+           password: user_password,
+           password_confirmation: user_password)
   end
   let(:dialog) { ::Components::PasswordConfirmationDialog.new }
 
@@ -38,7 +38,7 @@ describe 'Generate 2FA backup codes', with_2fa_ee: true, type: :feature,
     click_on I18n.t('two_factor_authentication.backup_codes.generate.title')
     dialog.confirm_flow_with user_password, should_fail: false
 
-    expect(page).to have_selector('.notification-box.-warning')
+    expect(page).to have_selector('.op-toast.-warning')
     backup_codes.each do |code|
       expect(page).to have_selector('.two-factor-authentication--backup-codes li', text: code)
     end

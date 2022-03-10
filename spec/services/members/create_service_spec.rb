@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -34,7 +32,13 @@ require 'services/base_services/behaves_like_create_service'
 describe Members::CreateService, type: :model do
   it_behaves_like 'BaseServices create service' do
     let(:call_attributes) do
-      { project_id: "1", user_id: "2", role_ids: ["2"], notification_message: "Wish you where **here**." }
+      {
+        project_id: "1",
+        user_id: "2",
+        role_ids: ["2"],
+        notification_message: "Wish you where **here**.",
+        send_notifications: true
+      }
     end
 
     let!(:allow_notification_call) do
@@ -48,7 +52,8 @@ describe Members::CreateService, type: :model do
           .to receive(:send)
           .with(OpenProject::Events::MEMBER_CREATED,
                 member: model_instance,
-                message: call_attributes[:notification_message])
+                message: call_attributes[:notification_message],
+                send_notifications: true)
 
         subject
       end

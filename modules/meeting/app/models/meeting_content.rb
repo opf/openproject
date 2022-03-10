@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 #
 
@@ -31,13 +31,7 @@ class MeetingContent < ApplicationRecord
   include OpenProject::Journal::AttachmentHelper
 
   belongs_to :meeting
-  belongs_to :author, class_name: 'User', foreign_key: 'author_id'
-
-  attr_accessor :comment
-
-  validates_length_of :comment, maximum: 255, allow_nil: true
-
-  before_save :comment_to_journal_notes
+  belongs_to :author, class_name: 'User'
 
   acts_as_attachable(
     after_remove: :attachments_changed,
@@ -77,13 +71,5 @@ class MeetingContent < ApplicationRecord
   end
 
   # Show the project on activity and search views
-  def project
-    meeting.project
-  end
-
-  private
-
-  def comment_to_journal_notes
-    add_journal(author, comment) unless changes.empty?
-  end
+  delegate :project, to: :meeting
 end

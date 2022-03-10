@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 de:
   activerecord:
@@ -36,7 +36,7 @@ de:
               can_only_contain_work_packages_of_current_sprint: "kann nur die IDs von Arbeitspaketen des aktuellen Sprints enthalten."
               must_block_at_least_one_work_package: "muss die ID von mindestens einem Arbeitspaket enthalten."
             parent_id:
-              parent_child_relationship_across_projects: "ist ungültig, da '%{work_package_name}' ein Backlog-Task ist und daher kein Eltern-Arbeitspaket außerhalb  des jetzigen Projekts haben kann."
+              parent_child_relationship_across_projects: "ist ungültig da '%{work_package_name}' ein backlog Task ist und daher kein Eltern-Arbeitspaket außerhalb  des jetzigen Projekts haben kann."
               type_must_be_one_of_the_following: "muss einer der folgenden Typen sein: %{type_names}."
             version_id:
               task_version_must_be_the_same_as_story_version: "muss der Version der übergeordneten Story entsprechen."
@@ -70,7 +70,7 @@ de:
     remaining_hours_ideal: "Verbleibende Stunden (ideal)"
     show_burndown_chart: "Burndown-Chart"
     story: "Story"
-    story_points: "Story-Punkte"
+    story_points: "Story Punkte"
     story_points_ideal: "Story Punkte (ideal)"
     task: "Aufgabe"
     task_color: "Farbe für Aufgaben"
@@ -120,7 +120,7 @@ de:
   label_not_prioritized: "nicht priorisiert"
   label_points: "Punkte"
   label_points_burn_down: "Runter"
-  label_points_burn_up: "Nach oben"
+  label_points_burn_up: "Hoch"
   label_product_backlog: "Produkt Backlog"
   label_select_all: "Alle auswählen"
   label_sprint_backlog: "Sprint Backlog"
@@ -137,6 +137,7 @@ de:
   label_wiki: "Wiki"
   permission_view_master_backlog: "Master Backlog ansehen"
   permission_view_taskboards: "Taskboard ansehen"
+  permission_select_done_statuses: "Abgeschlossene Status auswählen"
   permission_update_sprints: "Sprints bearbeiten"
   points_accepted: "Akzeptierte Punkte"
   points_committed: "Punkte abgeschlossen"
@@ -146,7 +147,7 @@ de:
   project_module_backlogs: "Backlogs"
   rb_label_copy_tasks: "Arbeitspakete kopieren"
   rb_label_copy_tasks_all: "Alle"
-  rb_label_copy_tasks_none: "Kein Planungsvergleich"
+  rb_label_copy_tasks_none: "Keine"
   rb_label_copy_tasks_open: "Öffnen"
   rb_label_link_to_original: "Link zur Original-Story einfügen"
   remaining_hours: "Verbleibende Stunden"

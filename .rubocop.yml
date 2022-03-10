@@ -3,7 +3,7 @@ require:
   - rubocop-rspec
 
 AllCops:
-  TargetRubyVersion: 2.7
+  TargetRubyVersion: 3.0
   # Enable any new cops in new versions by default
   NewCops: enable
   Exclude:
@@ -26,6 +26,10 @@ Layout/LineLength:
 Layout/MultilineMethodCallIndentation:
   Enabled: false
 
+# Rubymine doesn't support the same indentation style
+# and will auto-format against it with our editorconfig
+Layout/MultilineOperationIndentation:
+  Enabled: false
 
 Lint/AmbiguousOperator:
   Enabled: false
@@ -100,6 +104,10 @@ Naming/AccessorMethodName:
 Naming/AsciiIdentifiers:
   Enabled: false
 
+Naming/ClassAndModuleCamelCase:
+  AllowedNames:
+    - V2_1
+
 Naming/FileName:
   Enabled: false
 
@@ -125,6 +133,15 @@ Rails/I18nLocaleAssignment:
   Enabled: true
   Exclude:
     - 'spec/**/*.rb'
+
+# The http verbs in Rack::Test do not accept named parameters (params: params)
+Rails/HttpPositionalArguments:
+  Exclude:
+    - 'spec/requests/api/v3/**/*.rb'
+
+# require_dependency is an obsolete method for Rails applications running in Zeitwerk mode.
+Rails/RequireDependency:
+  Enabled: true
 
 # For feature specs, we tend to have longer specs that cover a larger part of the functionality.
 # This is done for multiple reasons:
@@ -179,9 +196,18 @@ RSpec/LeadingSubject:
 RSpec/NamedSubject:
   Enabled: false
 
-RSpec/FilePath:
-  Enabled: false
+RSpec/ContextWording:
+  Prefixes:
+    - as
+    - when
+    - with
+    - without
+    - if
+    - unless
+    - for
 
+RSpec/FactoryBot/SyntaxMethods:
+  Enabled: true
 
 Style/Alias:
   Enabled: false

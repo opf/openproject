@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -25,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 
 require 'spec_helper'
 require 'services/base_services/behaves_like_create_service'
@@ -33,10 +31,10 @@ require 'services/base_services/behaves_like_create_service'
 describe Users::CreateService do
   it_behaves_like 'BaseServices create service' do
     context 'when the user being invited' do
-      let(:model_instance) { FactoryBot.build :invited_user }
+      let(:model_instance) { build :invited_user }
 
       context 'and the mail is present' do
-        let(:model_instance) { FactoryBot.build :invited_user, mail: 'foo@example.com' }
+        let(:model_instance) { build :invited_user, mail: 'foo@example.com' }
         it 'will call UserInvitation' do
           expect(::UserInvitation).to receive(:invite_user!).with(model_instance).and_return(model_instance)
           expect(subject).to be_success
@@ -44,7 +42,7 @@ describe Users::CreateService do
       end
 
       context 'and the user has no names set' do
-        let(:model_instance) { FactoryBot.build :invited_user, firstname: nil, lastname: nil, mail: 'foo@example.com' }
+        let(:model_instance) { build :invited_user, firstname: nil, lastname: nil, mail: 'foo@example.com' }
         it 'will call UserInvitation' do
           expect(::UserInvitation).to receive(:invite_user!).with(model_instance).and_return(model_instance)
           expect(subject).to be_success
@@ -52,7 +50,7 @@ describe Users::CreateService do
       end
 
       context 'and the mail is empty' do
-        let(:model_instance) { FactoryBot.build :invited_user, mail: nil }
+        let(:model_instance) { build :invited_user, mail: nil }
         it 'will call not call UserInvitation' do
           expect(::UserInvitation).not_to receive(:invite_user!)
           expect(subject).not_to be_success

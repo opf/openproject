@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 tr:
   button_save_as: "Raporu... şeklinde kaydet"
@@ -25,12 +25,12 @@ tr:
   cost_reports_title: "Zaman ve maliyetler"
   label_cost_report: "Maliyet raporu"
   label_cost_report_plural: "Maliyet raporları"
-  description_drill_down: "Ayrıntıları görüntüle"
+  description_drill_down: "Detayları göster"
   description_filter_selection: "Seçim"
   description_multi_select: "Çoklu görüntüle"
   description_remove_filter: "Süzgeci kaldır"
   information_restricted_depending_on_permission: "İzinlerinize bağlı olarak bu sayfa kısıtlı bilgileri içerebilir."
-  label_click_to_edit: "Düzenlemek için tıklayınız."
+  label_click_to_edit: "Düzenlemek için tıkla."
   label_closed: "kapalı"
   label_columns: "Sütunlar"
   label_cost_entry_attributes: "Maliyet girişi nitelikleri"
@@ -47,32 +47,32 @@ tr:
   label_money: "Nakit değer"
   label_month_reporting: "Ay (harcanan)"
   label_new_report: "Yeni maliyet raporu"
-  label_open: "açık"
+  label_open: "aç"
   label_operator: "Operatör"
   label_private_report_plural: "Özel maliyet raporları"
-  label_progress_bar_explanation: "Rapor oluşturuluyor..."
+  label_progress_bar_explanation: "Rapor oluşturuluyor ..."
   label_public_report_plural: "Genele açık maliyet raporları"
-  label_really_delete_question: "Bu raporu silmek istediğinizden emin misiniz?"
+  label_really_delete_question: "Bu raporu silmek istediğinize emin misiniz?"
   label_rows: "Satırlar"
-  label_saving: "Kaydediliyor ..."
+  label_saving: "Kaydediliyor..."
   label_spent_on_reporting: "Tarih (harcanan)"
-  label_sum: "Toplam"
+  label_sum: "toplam\n"
   label_units: "Birimler"
   label_week_reporting: "Hafta (Harcanan)"
   label_year_reporting: "Yıl (Harcanan)"
-  label_count: "Sayı"
-  label_filter: "Filtre"
-  label_filter_add: "Süzgeç ekle"
+  label_count: "saymak"
+  label_filter: "filtre"
+  label_filter_add: "Filtre ekle"
   label_filter_plural: "Filtreler"
   label_group_by: "Grupla"
-  label_group_by_add: "Grubu Özelliklere Ekleyin"
-  label_inactive: "«etkin olmayan»"
+  label_group_by_add: "Grup-Özniteliği Ekle"
+  label_inactive: "«İnaktif»"
   label_no: "Hayır"
   label_none: "(veri yok)"
   label_no_reports: "Henüz maliyet raporu yok."
-  label_report: "Rapor"
+  label_report: "Rapor (bildiri)"
   label_yes: "Evet"
-  load_query_question: "Rapor %{size} tablo hücreleri içeriyor ve işlenmesi biraz zaman alabilir. Raporu yine de çalıştırmayı denemek ister misin?"
+  load_query_question: "Rapor %{size} tablo hücresine sahip olacak ve işlenmesi biraz zaman alabilir. Hala yapmayı denemek istiyor musun?"
   permission_save_cost_reports: "Genele açık maliyet raporlarını kaydet"
   permission_save_private_cost_reports: "Özel maliyet raporlarını kaydet"
   project_module_reporting_module: "Maliyet raporları"
@@ -83,5 +83,5 @@ tr:
   validation_failure_integer: "geçerli bir tamsayı değil"
   reporting:
     group_by:
-      selected_columns: "Seçili sütunlar"
-      selected_rows: "Seçili satırlar"
+      selected_columns: "Seçilen sütunlar"
+      selected_rows: "Seçilmiş satırlar"

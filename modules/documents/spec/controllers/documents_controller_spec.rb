@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require File.dirname(__FILE__) + '/../spec_helper'
@@ -31,17 +31,17 @@ require File.dirname(__FILE__) + '/../spec_helper'
 describe DocumentsController do
   render_views
 
-  let(:admin)           { FactoryBot.create(:admin) }
-  let(:project)         { FactoryBot.create(:project, name: "Test Project") }
-  let(:user)            { FactoryBot.create(:user) }
-  let(:role)            { FactoryBot.create(:role, permissions: [:view_documents]) }
+  let(:admin) { create(:admin) }
+  let(:project) { create(:project, name: "Test Project") }
+  let(:user) { create(:user) }
+  let(:role) { create(:role, permissions: [:view_documents]) }
 
-  let(:default_category)  do
-    FactoryBot.create(:document_category, project: project, name: "Default Category")
+  let(:default_category) do
+    create(:document_category, project: project, name: "Default Category")
   end
 
   let(:document) do
-    FactoryBot.create(:document, title: "Sample Document", project: project, category: default_category)
+    create(:document, title: "Sample Document", project: project, category: default_category)
   end
 
   current_user { admin }
@@ -69,17 +69,17 @@ describe DocumentsController do
       get :index, params: { project_id: project.identifier }
     end
 
-    it "should render the index-template successfully" do
+    it "renders the index-template successfully" do
       expect(response).to be_successful
       expect(response).to render_template("index")
     end
 
-    it "should group documents by category, if no other sorting is given " do
+    it "group documents by category, if no other sorting is given" do
       expect(assigns(:grouped)).not_to be_nil
       expect(assigns(:grouped).keys.map(&:name)).to eql [default_category.name]
     end
 
-    it "should render documents with long descriptions properly" do
+    it "renders documents with long descriptions properly" do
       expect(response.body).to have_selector('.wiki p', visible: :all)
       expect(response.body).to have_selector('.wiki p', visible: :all, text: (document.description.split("\n").first + '...'))
       expect(response.body).to have_selector('.wiki p', visible: :all, text: /EndOfLineHere.../)
@@ -98,52 +98,56 @@ describe DocumentsController do
 
   describe "create" do
     let(:document_attributes) do
-      FactoryBot.attributes_for(:document, title: "New Document",
-                                           project_id: project.id,
-                                           category_id: default_category.id)
+      attributes_for(:document,
+                     title: "New Document",
+                     project_id: project.id,
+                     category_id: default_category.id)
     end
 
     before do
       ActionMailer::Base.deliveries.clear
-      allow(Setting).to receive(:notified_events).and_return(Setting.notified_events.dup << 'document_added')
     end
 
-    it "should create a new document with valid arguments" do
-      expect do
-        post :create, params: { project_id: project.identifier,
-                                document: FactoryBot.attributes_for(:document, title: "New Document",
-                                                                               project_id: project.id,
-                                                                               category_id: default_category.id) }
-      end.to change { Document.count }.by 1
-    end
-
-    it "should create a new document with valid arguments" do
+    it "creates a new document with valid arguments" do
       expect do
         post :create,
              params: {
                project_id: project.identifier,
-               document: document_attributes
+               document: attributes_for(
+                 :document,
+                 title: "New Document",
+                 project_id: project.id,
+                 category_id: default_category.id
+               )
              }
-      end.to change { Document.count }.by 1
+      end.to change(Document, :count).by 1
+    end
+
+    it 'does trigger a workflow job for the document' do
+      expect(Notifications::WorkflowJob)
+        .to have_been_enqueued
+              .with(:create_notifications, document.journals.last, true)
     end
 
     describe "with attachments" do
-      let(:uncontainered) { FactoryBot.create :attachment, container: nil, author: admin }
+      let(:uncontainered) { create :attachment, container: nil, author: admin }
+
       before do
         notify_project = project
-        FactoryBot.create(:member, project: notify_project, user: user, roles: [role])
+        create(:member, project: notify_project, user: user, roles: [role])
 
         post :create,
              params: {
                project_id: notify_project.identifier,
-               document: FactoryBot.attributes_for(:document, title: "New Document",
-                                                              project_id: notify_project.id,
-                                                              category_id: default_category.id),
+               document: attributes_for(:document,
+                                        title: "New Document",
+                                        project_id: notify_project.id,
+                                        category_id: default_category.id),
                attachments: { '1' => { id: uncontainered.id } }
              }
       end
 
-      it "should add an attachment" do
+      it "adds an attachment" do
         document = Document.last
 
         expect(document.attachments.count).to eql 1
@@ -151,7 +155,7 @@ describe DocumentsController do
         expect(uncontainered.reload).to eql attachment
       end
 
-      it "should redirect to the documents-page" do
+      it "redirects to the documents-page" do
         expect(response).to redirect_to project_documents_path(project.identifier)
       end
     end
@@ -163,29 +167,9 @@ describe DocumentsController do
       get :show, params: { id: document.id }
     end
 
-    it "should delete the document and redirect back to documents-page of the project" do
+    it "shows the attachment" do
       expect(response).to be_successful
       expect(response).to render_template('show')
-    end
-  end
-
-  describe '#add_attachment' do
-    let(:uncontainered) { FactoryBot.create :attachment, container: nil, author: admin }
-
-    before do
-      document
-      post :add_attachment,
-           params: {
-             id: document.id,
-             attachments: { '1' => { id: uncontainered.id } }
-           }
-    end
-
-    it "should delete the document and redirect back to documents-page of the project" do
-      expect(response).to be_redirect
-      document.reload
-      expect(document.attachments.length).to eq(1)
-      expect(uncontainered.reload).to eq document.attachments.first
     end
   end
 
@@ -194,10 +178,10 @@ describe DocumentsController do
       document
     end
 
-    it "should delete the document and redirect back to documents-page of the project" do
+    it "deletes the document and redirect back to documents-page of the project" do
       expect do
         delete :destroy, params: { id: document.id }
-      end.to change { Document.count }.by -1
+      end.to change(Document, :count).by -1
 
       expect(response).to redirect_to "/projects/#{project.identifier}/documents"
       expect { Document.find(document.id) }.to raise_error ActiveRecord::RecordNotFound

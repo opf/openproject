@@ -23,19 +23,19 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 describe WorkPackage, 'acts_as_customizable', type: :model do
-  let(:type) { FactoryBot.create(:type_standard) }
-  let(:project) { FactoryBot.create(:project, types: [type]) }
-  let(:user) { FactoryBot.create(:user) }
-  let(:status) { FactoryBot.create(:status) }
-  let(:priority) { FactoryBot.create(:priority) }
+  let(:type) { create(:type_standard) }
+  let(:project) { create(:project, types: [type]) }
+  let(:user) { create(:user) }
+  let(:status) { create(:status) }
+  let(:priority) { create(:priority) }
 
-  let(:work_package) { FactoryBot.create(:work_package, project: project, type: type) }
+  let(:work_package) { create(:work_package, project: project, type: type) }
   let(:new_work_package) do
     WorkPackage.new type: type,
                     project: project,
@@ -58,8 +58,8 @@ describe WorkPackage, 'acts_as_customizable', type: :model do
         new_work_package
       end
 
-      let(:version) { FactoryBot.create(:version, project: project) }
-      let(:version_cf) { FactoryBot.create(:version_wp_custom_field, is_required: true) }
+      let(:version) { create(:version, project: project) }
+      let(:version_cf) { create(:version_wp_custom_field, is_required: true) }
 
       it 'results in a valid work package' do
         expect(wp_with_assignee_cf)
@@ -74,8 +74,8 @@ describe WorkPackage, 'acts_as_customizable', type: :model do
   end
 
   describe '#custom_field_:id' do
-    let(:included_cf) { FactoryBot.build(:work_package_custom_field) }
-    let(:other_cf) { FactoryBot.build(:work_package_custom_field) }
+    let(:included_cf) { build(:work_package_custom_field) }
+    let(:other_cf) { build(:work_package_custom_field) }
 
     before do
       included_cf.save
@@ -102,8 +102,8 @@ describe WorkPackage, 'acts_as_customizable', type: :model do
   end
 
   describe '#valid?' do
-    let(:cf1) { FactoryBot.create(:work_package_custom_field, is_required: true) }
-    let(:cf2) { FactoryBot.create(:work_package_custom_field, is_required: true) }
+    let(:cf1) { create(:work_package_custom_field, is_required: true) }
+    let(:cf2) { create(:work_package_custom_field, is_required: true) }
 
     it 'does not duplicate error messages when invalid' do
       # create work_package with one required custom field

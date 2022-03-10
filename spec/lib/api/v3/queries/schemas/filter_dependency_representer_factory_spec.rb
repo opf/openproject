@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -90,7 +90,7 @@ describe ::API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
       end
 
       context 'type int' do
-        let(:custom_field) { FactoryBot.build_stubbed(:int_wp_custom_field) }
+        let(:custom_field) { build_stubbed(:int_wp_custom_field) }
 
         it 'is the integer dependency' do
           is_expected.to be_a(::API::V3::Queries::Schemas::IntegerFilterDependencyRepresenter)
@@ -100,7 +100,7 @@ describe ::API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
       end
 
       context 'type float' do
-        let(:custom_field) { FactoryBot.build_stubbed(:float_wp_custom_field) }
+        let(:custom_field) { build_stubbed(:float_wp_custom_field) }
 
         it 'is the float dependency' do
           is_expected.to be_a(::API::V3::Queries::Schemas::FloatFilterDependencyRepresenter)
@@ -110,7 +110,7 @@ describe ::API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
       end
 
       context 'type text' do
-        let(:custom_field) { FactoryBot.build_stubbed(:text_wp_custom_field) }
+        let(:custom_field) { build_stubbed(:text_wp_custom_field) }
 
         it 'is the text dependency' do
           is_expected.to be_a(::API::V3::Queries::Schemas::TextFilterDependencyRepresenter)
@@ -120,7 +120,7 @@ describe ::API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
       end
 
       context 'type list' do
-        let(:custom_field) { FactoryBot.build_stubbed(:list_wp_custom_field) }
+        let(:custom_field) { build_stubbed(:list_wp_custom_field) }
 
         it 'is the custom option dependency' do
           is_expected.to be_a(::API::V3::Queries::Schemas::CustomOptionFilterDependencyRepresenter)
@@ -130,7 +130,7 @@ describe ::API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
       end
 
       context 'type user' do
-        let(:custom_field) { FactoryBot.build_stubbed(:user_wp_custom_field) }
+        let(:custom_field) { build_stubbed(:user_wp_custom_field) }
 
         it 'is the user dependency' do
           is_expected.to be_a(::API::V3::Queries::Schemas::UserFilterDependencyRepresenter)
@@ -140,7 +140,7 @@ describe ::API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
       end
 
       context 'type version' do
-        let(:custom_field) { FactoryBot.build_stubbed(:version_wp_custom_field) }
+        let(:custom_field) { build_stubbed(:version_wp_custom_field) }
 
         it 'is the version dependency' do
           is_expected.to be_a(::API::V3::Queries::Schemas::VersionFilterDependencyRepresenter)
@@ -150,7 +150,7 @@ describe ::API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
       end
 
       context 'type date' do
-        let(:custom_field) { FactoryBot.build_stubbed(:date_wp_custom_field) }
+        let(:custom_field) { build_stubbed(:date_wp_custom_field) }
 
         it 'is the date dependency' do
           is_expected.to be_a(::API::V3::Queries::Schemas::DateFilterDependencyRepresenter)
@@ -160,7 +160,7 @@ describe ::API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
       end
 
       context 'type bool' do
-        let(:custom_field) { FactoryBot.build_stubbed(:bool_wp_custom_field) }
+        let(:custom_field) { build_stubbed(:bool_wp_custom_field) }
 
         it 'is the boolean filter dependency' do
           is_expected.to be_a(::API::V3::Queries::Schemas::BooleanFilterDependencyRepresenter)
@@ -170,7 +170,7 @@ describe ::API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
       end
 
       context 'type string' do
-        let(:custom_field) { FactoryBot.build_stubbed(:string_wp_custom_field) }
+        let(:custom_field) { build_stubbed(:string_wp_custom_field) }
 
         it 'is the text dependency' do
           is_expected.to be_a(::API::V3::Queries::Schemas::TextFilterDependencyRepresenter)

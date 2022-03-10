@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -34,60 +34,60 @@ describe 'Work package calendar widget on dashboard',
          type: :feature,
          with_mail: false,
          js: true do
-  let!(:type) { FactoryBot.create :type }
-  let!(:priority) { FactoryBot.create :default_priority }
-  let!(:project) { FactoryBot.create :project, types: [type] }
-  let!(:other_project) { FactoryBot.create :project, types: [type] }
-  let!(:open_status) { FactoryBot.create :default_status }
+  let!(:type) { create :type }
+  let!(:priority) { create :default_priority }
+  let!(:project) { create :project, types: [type] }
+  let!(:other_project) { create :project, types: [type] }
+  let!(:open_status) { create :default_status }
   let!(:spanning_work_package) do
-    FactoryBot.create :work_package,
-                      subject: 'Spanning work package',
-                      project: project,
-                      start_date: Date.today - 8.days,
-                      due_date: Date.today + 8.days,
-                      type: type,
-                      author: user,
-                      responsible: user
+    create :work_package,
+           subject: 'Spanning work package',
+           project: project,
+           start_date: Date.today - 8.days,
+           due_date: Date.today + 8.days,
+           type: type,
+           author: user,
+           responsible: user
   end
   let!(:starting_work_package) do
-    FactoryBot.create :work_package,
-                      subject: 'Starting work package',
-                      project: project,
-                      start_date: Date.today,
-                      due_date: Date.today + 8.days,
-                      type: type,
-                      author: user,
-                      responsible: user
+    create :work_package,
+           subject: 'Starting work package',
+           project: project,
+           start_date: Date.today,
+           due_date: Date.today + 8.days,
+           type: type,
+           author: user,
+           responsible: user
   end
   let!(:ending_work_package) do
-    FactoryBot.create :work_package,
-                      subject: 'Ending work package',
-                      project: project,
-                      start_date: Date.today - 8.days,
-                      due_date: Date.today,
-                      type: type,
-                      author: user,
-                      responsible: user
+    create :work_package,
+           subject: 'Ending work package',
+           project: project,
+           start_date: Date.today - 8.days,
+           due_date: Date.today,
+           type: type,
+           author: user,
+           responsible: user
   end
   let!(:outdated_work_package) do
-    FactoryBot.create :work_package,
-                      subject: 'Outdated work package',
-                      project: project,
-                      start_date: Date.today - 9.days,
-                      due_date: Date.today - 7.days,
-                      type: type,
-                      author: user,
-                      responsible: user
+    create :work_package,
+           subject: 'Outdated work package',
+           project: project,
+           start_date: Date.today - 9.days,
+           due_date: Date.today - 7.days,
+           type: type,
+           author: user,
+           responsible: user
   end
   let!(:other_project_work_package) do
-    FactoryBot.create :work_package,
-                      subject: 'Other project work package',
-                      project: other_project,
-                      start_date: Date.today - 9.days,
-                      due_date: Date.today + 7.days,
-                      type: type,
-                      author: user,
-                      responsible: user
+    create :work_package,
+           subject: 'Other project work package',
+           project: other_project,
+           start_date: Date.today - 9.days,
+           due_date: Date.today + 7.days,
+           type: type,
+           author: user,
+           responsible: user
   end
 
   let(:permissions) do
@@ -97,13 +97,13 @@ describe 'Work package calendar widget on dashboard',
   end
 
   let(:role) do
-    FactoryBot.create(:role, permissions: permissions)
+    create(:role, permissions: permissions)
   end
 
   let(:user) do
-    FactoryBot.create(:user).tap do |u|
-      FactoryBot.create(:member, project: project, user: u, roles: [role])
-      FactoryBot.create(:member, project: other_project, user: u, roles: [role])
+    create(:user).tap do |u|
+      create(:member, project: project, user: u, roles: [role])
+      create(:member, project: other_project, user: u, roles: [role])
     end
   end
 

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,40 +23,40 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 describe Authorization::UserGlobalRolesQuery do
-  let(:user) { FactoryBot.build(:user) }
-  let(:anonymous) { FactoryBot.build(:anonymous) }
-  let(:project) { FactoryBot.build(:project, public: false) }
-  let(:project2) { FactoryBot.build(:project, public: false) }
-  let(:public_project) { FactoryBot.build(:project, public: true) }
-  let(:role) { FactoryBot.build(:role) }
-  let(:role2) { FactoryBot.build(:role) }
-  let(:anonymous_role) { FactoryBot.build(:anonymous_role) }
-  let(:non_member) { FactoryBot.build(:non_member) }
+  let(:user) { build(:user) }
+  let(:anonymous) { build(:anonymous) }
+  let(:project) { build(:project, public: false) }
+  let(:project2) { build(:project, public: false) }
+  let(:public_project) { build(:project, public: true) }
+  let(:role) { build(:role) }
+  let(:role2) { build(:role) }
+  let(:anonymous_role) { build(:anonymous_role) }
+  let(:non_member) { build(:non_member) }
   let(:member) do
-    FactoryBot.build(:member, project: project,
+    build(:member, project: project,
                               roles: [role],
                               principal: user)
   end
   let(:member2) do
-    FactoryBot.build(:member, project: project2,
+    build(:member, project: project2,
                               roles: [role2],
                               principal: user)
   end
   let(:global_permission) { OpenProject::AccessControl.permissions.find { |p| p.global? } }
   let(:global_role) do
-    FactoryBot.build(:global_role,
-                     permissions: [global_permission.name])
+    build(:global_role,
+          permissions: [global_permission.name])
   end
   let(:global_member) do
-    FactoryBot.build(:global_member,
-                     principal: user,
-                     roles: [global_role])
+    build(:global_member,
+          principal: user,
+          roles: [global_role])
   end
 
   describe '.query' do

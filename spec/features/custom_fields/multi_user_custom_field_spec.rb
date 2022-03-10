@@ -2,15 +2,15 @@ require "spec_helper"
 require "support/pages/work_packages/abstract_work_package"
 
 describe "multi select custom values", js: true do
-  shared_let(:admin) { FactoryBot.create :admin }
+  shared_let(:admin) { create :admin }
   let(:current_user) { admin }
 
-  shared_let(:type) { FactoryBot.create :type }
-  shared_let(:project) { FactoryBot.create :project, types: [type] }
-  shared_let(:role) { FactoryBot.create :role }
+  shared_let(:type) { create :type }
+  shared_let(:project) { create :project, types: [type] }
+  shared_let(:role) { create :role }
 
   shared_let(:custom_field) do
-    FactoryBot.create(
+    create(
       :user_wp_custom_field,
       name: "Reviewer",
       multi_value: true,
@@ -34,28 +34,28 @@ describe "multi select custom values", js: true do
   end
 
   describe 'with mixed users, group, and placeholdders' do
-    let(:work_package) { FactoryBot.create :work_package, project: project, type: type }
+    let(:work_package) { create :work_package, project: project, type: type }
 
     let!(:user) do
-      FactoryBot.create :user,
-                        firstname: 'Da Real',
-                        lastname: 'User',
-                        member_in_project: project,
-                        member_through_role: role
+      create :user,
+             firstname: 'Da Real',
+             lastname: 'User',
+             member_in_project: project,
+             member_through_role: role
     end
 
     let!(:group) do
-      FactoryBot.create :group,
-                        name: 'groupfoo',
-                        member_in_project: project,
-                        member_through_role: role
+      create :group,
+             name: 'groupfoo',
+             member_in_project: project,
+             member_through_role: role
     end
 
     let!(:placeholder) do
-      FactoryBot.create :placeholder_user,
-                        name: 'PLACEHOLDER',
-                        member_in_project: project,
-                        member_through_role: role
+      create :placeholder_user,
+             name: 'PLACEHOLDER',
+             member_in_project: project,
+             member_through_role: role
     end
 
     it "should be shown and allowed to be updated" do
@@ -73,7 +73,7 @@ describe "multi select custom values", js: true do
       expect(page).to have_text "groupfoo"
       expect(page).to have_text "PLACEHOLDER"
 
-      wp_page.expect_and_dismiss_notification(message: "Successful update.")
+      wp_page.expect_and_dismiss_toaster(message: "Successful update.")
 
       work_package.reload
       cvs = work_package
@@ -86,7 +86,7 @@ describe "multi select custom values", js: true do
       cf_edit_field.unset_value "Da Real", true
       cf_edit_field.submit_by_dashboard
 
-      wp_page.expect_and_dismiss_notification(message: "Successful update.")
+      wp_page.expect_and_dismiss_toaster(message: "Successful update.")
 
       expect(page).to have_text "groupfoo"
       expect(page).to have_text "PLACEHOLDER"
@@ -103,33 +103,33 @@ describe "multi select custom values", js: true do
 
   describe 'with all users' do
     let!(:user1) do
-      FactoryBot.create :user,
-                        firstname: 'Billy',
-                        lastname: 'Nobbler',
-                        member_in_project: project,
-                        member_through_role: role
+      create :user,
+             firstname: 'Billy',
+             lastname: 'Nobbler',
+             member_in_project: project,
+             member_through_role: role
     end
 
     let!(:user2) do
-      FactoryBot.create :user,
-                        firstname: 'Cooper',
-                        lastname: 'Quatermaine',
-                        member_in_project: project,
-                        member_through_role: role
+      create :user,
+             firstname: 'Cooper',
+             lastname: 'Quatermaine',
+             member_in_project: project,
+             member_through_role: role
     end
 
     let!(:user3) do
-      FactoryBot.create :user,
-                        firstname: 'Anton',
-                        lastname: 'Lupin',
-                        status: User.statuses[:invited],
-                        member_in_project: project,
-                        member_through_role: role
+      create :user,
+             firstname: 'Anton',
+             lastname: 'Lupin',
+             status: User.statuses[:invited],
+             member_in_project: project,
+             member_through_role: role
     end
 
     context "with existing custom values" do
       let(:work_package) do
-        wp = FactoryBot.build :work_package, project: project, type: type
+        wp = build :work_package, project: project, type: type
 
         wp.custom_field_values = {
           custom_field.id => [user1.id.to_s, user3.id.to_s]
@@ -150,7 +150,7 @@ describe "multi select custom values", js: true do
         cf_edit_field.set_value "Cooper Quatermaine"
 
         click_on "Reviewer: Save"
-        wp_page.expect_and_dismiss_notification(message: "Successful update.")
+        wp_page.expect_and_dismiss_toaster(message: "Successful update.")
         expect(page).to have_selector('.custom-option', count: 2)
 
         expect(page).to have_text custom_field.name

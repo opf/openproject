@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,33 +23,33 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 describe WorkPackage, 'custom_actions', type: :model do
   let(:work_package) do
-    FactoryBot.build_stubbed(:stubbed_work_package,
-                             project: project)
+    build_stubbed(:stubbed_work_package,
+                  project: project)
   end
-  let(:project) { FactoryBot.create(:project) }
-  let(:status) { FactoryBot.create(:status) }
-  let(:other_status) { FactoryBot.create(:status) }
+  let(:project) { create(:project) }
+  let(:status) { create(:status) }
+  let(:other_status) { create(:status) }
   let(:user) do
-    FactoryBot.create(:user,
-                      member_in_project: work_package.project,
-                      member_through_role: role)
+    create(:user,
+           member_in_project: work_package.project,
+           member_through_role: role)
   end
   let(:role) do
-    FactoryBot.create(:role)
+    create(:role)
   end
   let(:conditions) do
     [CustomActions::Conditions::Status.new([status.id])]
   end
 
   let!(:custom_action) do
-    action = FactoryBot.build(:custom_action)
+    action = build(:custom_action)
     action.conditions = conditions
 
     action.save!
@@ -111,7 +109,7 @@ describe WorkPackage, 'custom_actions', type: :model do
       end
 
       context 'with the condition requiring a different role' do
-        let(:other_role) { FactoryBot.create(:role) }
+        let(:other_role) { create(:role) }
 
         let(:conditions) do
           [CustomActions::Conditions::Role.new(other_role.id)]

@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -17,13 +17,13 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 fi:
   activerecord:
     attributes:
       cost_entry:
-        work_package: "Tehtävä"
+        work_package: "Työpaketti"
         overridden_costs: "Ohitetut kustannukset"
         spent: "Käytetty"
         spent_on: "Päivämäärä"
@@ -61,7 +61,7 @@ fi:
     valid_from: "Voimassa"
     fixed_date: "Kiinteä päivämäärä"
   button_add_rate: "Lisää tuntihinta"
-  button_log_costs: "Kirjaa työkustannuksia"
+  button_log_costs: "Kirjaa kustannuksia"
   caption_booked_on_project: "Kirjattu projektille"
   caption_default: "Oletus"
   caption_default_rate_history_for: "Oletushinnan historia käyttäjälle %{user}"
@@ -75,7 +75,7 @@ fi:
   caption_show_locked: "Näytä lukitut tyypit"
   description_date_for_new_rate: "Uuden tuntinnan päivämäärä"
   group_by_others: "ei missä missään ryhmässä"
-  label_between: "between"
+  label_between: "välillä"
   label_cost_filter_add: "Lisää suodatin kustannuskirjauksille"
   label_costlog: "Kirjatut kustannukset"
   label_cost_plural: "Kustannukset"
@@ -101,7 +101,7 @@ fi:
   label_work_package_filter_add: "Lisää tehtävien suodatin"
   label_kind: "Tyyppi"
   label_less_or_equal: "<="
-  label_log_costs: "Kirjaa työkustannuksia"
+  label_log_costs: "Kirjaa kustannuksia"
   label_no: "Ei"
   label_option_plural: "Valinnat"
   label_overall_costs: "Kokonaiskustannukset"

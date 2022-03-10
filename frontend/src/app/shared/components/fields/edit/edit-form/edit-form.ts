@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { Injector } from '@angular/core';
@@ -41,6 +41,7 @@ import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decora
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { ErrorResource } from 'core-app/features/hal/resources/error-resource';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
+import { HalError } from 'core-app/features/hal/services/hal-error';
 
 export const activeFieldContainerClassName = 'inline-edit--active-field';
 export const activeFieldClassName = 'inline-edit--field';
@@ -168,7 +169,7 @@ export abstract class EditForm<T extends HalResource = HalResource> {
     // Mark changeset as in flight
     this.change.inFlight = true;
 
-    // Reset old error notifcations
+    // Reset old error notifications
     this.errorsPerAttribute = {};
 
     // Notify all fields of upcoming save
@@ -193,8 +194,8 @@ export abstract class EditForm<T extends HalResource = HalResource> {
         .catch((error:ErrorResource|unknown) => {
           this.halNotification.handleRawError(error, this.resource);
 
-          if (error instanceof ErrorResource) {
-            this.handleSubmissionErrors(error);
+          if (error instanceof HalError && error.resource) {
+            this.handleSubmissionErrors(error.resource);
             reject();
           }
 
@@ -226,13 +227,13 @@ export abstract class EditForm<T extends HalResource = HalResource> {
     });
   }
 
-  protected handleSubmissionErrors(error:any) {
+  protected handleSubmissionErrors(error:ErrorResource):void {
     // Process single API errors
     this.handleErroneousAttributes(error);
   }
 
-  protected handleErroneousAttributes(error:any) {
-    // Get attributes withe errors
+  protected handleErroneousAttributes(error:ErrorResource):void {
+    // Get attributes with errors
     const erroneousAttributes = error.getInvolvedAttributes();
 
     // Save erroneous fields for when new fields appear
@@ -241,7 +242,7 @@ export abstract class EditForm<T extends HalResource = HalResource> {
       return;
     }
 
-    return this.setErrorsForFields(erroneousAttributes);
+    this.setErrorsForFields(erroneousAttributes);
   }
 
   private setErrorsForFields(erroneousFields:string[]) {

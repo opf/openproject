@@ -7,10 +7,10 @@ describe 'My Account 2FA configuration', with_2fa_ee: true,
   let(:dialog) { ::Components::PasswordConfirmationDialog.new }
   let(:user_password) { 'boB!4' * 4 }
   let(:user) do
-    FactoryBot.create(:user,
-                      login: 'bob',
-                      password: user_password,
-                      password_confirmation: user_password)
+    create(:user,
+           login: 'bob',
+           password: user_password,
+           password_confirmation: user_password)
   end
 
   before do

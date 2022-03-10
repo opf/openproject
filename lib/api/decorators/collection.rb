@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module API
@@ -33,8 +31,9 @@ module API
     class Collection < ::API::Decorators::Single
       include API::Utilities::UrlHelper
 
-      def initialize(models, total, self_link:, current_user:)
+      def initialize(models, total, self_link:, current_user:, groups: nil)
         @total = total
+        @groups = groups
         @self_link = self_link
 
         super(models, current_user: current_user)
@@ -69,6 +68,10 @@ module API
       property :total, getter: ->(*) { @total }, exec_context: :decorator
       property :count, getter: ->(*) { count }
 
+      property :groups,
+               exec_context: :decorator,
+               render_nil: false
+
       collection :elements,
                  getter: ->(*) {
                    represented.map do |model|
@@ -81,6 +84,8 @@ module API
       def _type
         'Collection'
       end
+
+      attr_reader :groups
     end
   end
 end

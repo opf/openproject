@@ -31,7 +31,7 @@ pl:
     notice_pwd_confirmation: "Po wprowadzeniu zmian w tych ustawieniach musisz potwierdzić swoje hasło."
     label_device_type: "Rodzaj urządzenia"
     label_default_device: "Domyślne urządzenie 2FA"
-    label_device: "Urządzenie 2FA (2 Factory Authenticator)"
+    label_device: "Urządzenie 2FA"
     label_devices: "Urządzenie 2FA"
     label_one_time_password: 'Jednorazowe hasło'
     label_2fa_enabled: 'Uwierzytelnianie dwuskładnikowe jest aktywne'
@@ -72,7 +72,7 @@ pl:
       text_2fa_enabled: 'Po każdym logowaniu ten użytkownik zostanie poproszony o wprowadzenie tokena OTP z jego domyślnego urządzenia 2FA.'
       text_2fa_disabled: "Użytkownik nie ustawił urządzenia 2FA na swojej stronie \"Moje konto\""
     upsale:
-      title: 'Uwierzytelnianie dwuskładnikowe to funkcja wersji Enterprise'
+      title: 'Two-factor authentication'
       description: 'Wzmocnij swoje mechanizmy uwierzytelniania wewnętrznego lub zewnętrznego za pomocą drugiego składnika.'
     backup_codes:
       none_found: Na tym koncie nie ma kodów zapasowych.
@@ -139,7 +139,7 @@ pl:
     restdt:
       delivery_failed_with_code: 'Błąd dostarczania tokenu. (Kod błędu %{code})'
     strategies:
-      totp: 'Aplikacja Authenticator'
+      totp: 'Aplikacja do uwierzytelniania'
       sns: 'Amazon SNS'
       resdt: 'Interfejs API SMS Rest'
     mobile_transmit_notification: "Hasło jednorazowe zostało wysłane na Twój telefon komórkowy."
@@ -162,8 +162,8 @@ pl:
   notice_account_otp_send_failed: "Twoje jednorazowe hasło nie mogło zostać wysłane."
   notice_account_has_no_phone: "Żaden numer telefonu komórkowego nie jest powiązany z Twoim kontem."
   label_expiration_hint: "%{date} lub wylogowania"
-  label_actions: 'Akcje'
-  label_confirmed: 'Potwierdzone'
+  label_actions: 'Działania'
+  label_confirmed: 'Zatwardziały'
   button_continue: 'Dalej'
   button_make_default: 'Oznacz jako domyślny'
   label_unverified_phone: "Telefon komórkowy jeszcze niezweryfikowany"

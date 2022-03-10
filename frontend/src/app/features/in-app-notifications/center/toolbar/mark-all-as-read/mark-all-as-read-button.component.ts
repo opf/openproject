@@ -1,6 +1,9 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+} from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { InAppNotificationsService } from 'core-app/features/in-app-notifications/store/in-app-notifications.service';
+import { IanCenterService } from 'core-app/features/in-app-notifications/center/state/ian-center.service';
 
 @Component({
   selector: 'op-mark-all-as-read-button',
@@ -10,16 +13,15 @@ import { InAppNotificationsService } from 'core-app/features/in-app-notification
 export class MarkAllAsReadButtonComponent {
   text = {
     mark_all_read: this.I18n.t('js.notifications.center.mark_all_read'),
-
   };
 
   constructor(
     private I18n:I18nService,
-    private ianService:InAppNotificationsService,
+    private storeService:IanCenterService,
   ) {
   }
 
   markAllRead():void {
-    this.ianService.markAllRead();
+    this.storeService.markAllAsRead();
   }
 }

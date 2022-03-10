@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { WpTabWrapperComponent } from 'core-app/features/work-packages/components/wp-tabs/components/wp-tab-wrapper/wp-tab-wrapper.component';
@@ -42,10 +42,12 @@ export const menuItemClass = 'work-packages-menu-item';
 export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
   {
     name: 'work-packages',
-    parent: 'root',
-    component: WorkPackagesBaseComponent,
+    parent: 'optional_project',
     url: '/work_packages?query_id&query_props&start_onboarding_tour',
     redirectTo: 'work-packages.partitioned.list',
+    views: {
+      '!$default': { component: WorkPackagesBaseComponent },
+    },
     data: {
       bodyClasses: 'router--work-packages-base',
       menuItem: menuItemClass,
@@ -63,11 +65,17 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
     url: '/new?type&parent_id',
     component: WorkPackageNewFullViewComponent,
     reloadOnSearch: false,
+    params: {
+      defaults: {
+        value: null,
+      },
+    },
     data: {
       baseRoute: 'work-packages',
       allowMovingInEditMode: true,
       bodyClasses: 'router--work-packages-full-create',
       menuItem: menuItemClass,
+      successState: 'work-packages.show',
     },
   },
   {

@@ -113,10 +113,12 @@ es:
       check_1: 'Asegúrese de que ha cargado como mínimo un modelo IFC.'
       check_2: 'Asegúrese de que se haya definido como mínimo un modelo IFC como «Predeterminado».'
     no_results: "No se ha cargado ningún modelo IFC en este proyecto."
-    processing_state:
+    conversion_status:
       label: '¿Procesándose?'
-      in_progress: 'En progreso'
+      pending: 'Pendiente'
+      processing: 'En proceso'
       completed: 'Completado'
+      error: 'Error'
     processing_notice:
       processing_default: 'Los modelos IFC predeterminados aún se están procesando y, por lo tanto, no están disponibles:'
     flash_messages:

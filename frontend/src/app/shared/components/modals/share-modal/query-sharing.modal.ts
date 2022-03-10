@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,14 +23,14 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { WorkPackagesListService } from 'core-app/features/work-packages/components/wp-list/wp-list.service';
 import { States } from 'core-app/core/states/states.service';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
-import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
 import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
 import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
@@ -72,7 +72,7 @@ export class QuerySharingModalComponent extends OpModalComponent implements OnIn
     readonly cdRef:ChangeDetectorRef,
     readonly wpListService:WorkPackagesListService,
     readonly halNotification:HalResourceNotificationService,
-    readonly notificationsService:NotificationsService) {
+    readonly toastService:ToastService) {
     super(locals, cdRef, elementRef);
   }
 
@@ -119,7 +119,7 @@ export class QuerySharingModalComponent extends OpModalComponent implements OnIn
         this.isBusy = false;
       })
       .catch(() => {
-        this.notificationsService.addError(this.I18n.t('js.errors.query_saving'));
+        this.toastService.addError(this.I18n.t('js.errors.query_saving'));
         this.isBusy = false;
       });
   }

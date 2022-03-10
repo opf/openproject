@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'support/pages/page'
@@ -34,10 +34,14 @@ module Pages
     class ShowDefault < ::Pages::WorkPackageCards
       include ::Pages::WorkPackages::Concerns::WorkPackageByButtonCreator
 
-      attr_accessor :project
+      attr_accessor :project,
+                    :filters
 
       def initialize(project)
+        super()
+
         self.project = project
+        self.filters = ::Components::WorkPackages::Filters.new
       end
 
       def path
@@ -49,21 +53,29 @@ module Pages
         finished_loading
       end
 
+      def expect_details_path
+        expect(page).to have_current_path /\/bcf\/details/, ignore_query: true
+      end
+
       def finished_loading
-        expect(page).to have_selector('.xeokit-busy-modal', visible: false, wait: 30)
+        expect(page).to have_selector('.xeokit-busy-modal', visible: :all, wait: 30)
       end
 
       def model_viewer_visible(visible)
-        selector = '[data-qa-selector="op-ifc-viewer--model-canvas"]'
-        expect(page).to (visible ? have_selector(selector, wait: 10) : have_no_selector(selector, wait: 10))
+        # Ensure the canvas is present
+        canvas_selector = '.op-ifc-viewer--model-canvas'
+        expect(page).to(visible ? have_selector(canvas_selector, wait: 10) : have_no_selector(canvas_selector, wait: 10))
+        # Ensure Xeokit is initialized. Only then the toolbar is generated.
+        toolbar_selector = '.xeokit-toolbar'
+        expect(page).to(visible ? have_selector(toolbar_selector, wait: 10) : have_no_selector(toolbar_selector, wait: 10))
       end
 
       def model_viewer_shows_a_toolbar(visible)
         selector = '.xeokit-btn'
 
         if visible
-          within ('[data-qa-selector="op-ifc-viewer--toolbar-container"]') do
-            expect(page).to have_selector(selector, count: 9)
+          within('[data-qa-selector="op-ifc-viewer--toolbar-container"]') do
+            expect(page).to have_selector(selector, count: 8)
           end
         else
           expect(page).to have_no_selector(selector)
@@ -85,15 +97,25 @@ module Pages
         expect(page).to have_conditional_selector(visible, '.toolbar-item', text: 'Filter')
       end
 
+      def page_shows_a_refresh_button(visible)
+        expect(page).to have_conditional_selector(visible, '.toolbar-item a.refresh-button')
+      end
+
+      def click_refresh_button
+        page.find('.toolbar-item a.refresh-button').click
+      end
+
       def switch_view(value)
-        page.find('#bim-view-toggle-button').click
-        within('#bim-view-context-menu') do
-          page.find('.menu-item', text: value, exact_text: true).click
+        retry_block do
+          page.find('#bcf-view-toggle-button').click
+          within('#bcf-view-context-menu') do
+            page.find('.menu-item', text: value, exact_text: true).click
+          end
         end
       end
 
       def expect_view_toggle_at(value)
-        expect(page).to have_selector('#bim-view-toggle-button', text: value)
+        expect(page).to have_selector('#bcf-view-toggle-button', text: value)
       end
 
       def has_no_menu_item_with_text?(value)

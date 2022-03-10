@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 
 # OpenProject is an open source project management software.
@@ -26,7 +24,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 module DemoData
   class WorkPackageBoardSeeder < Seeder
     attr_accessor :project, :key
@@ -110,11 +108,8 @@ module DemoData
 
       statuses.to_a.map do |status|
         Query.new_default(project: project, user: admin).tap do |query|
-          # Hide the query in the main menu
-          query.hidden = true
-
           # Make it public so that new members can see it too
-          query.is_public = true
+          query.public = true
 
           query.name = status.name
           # Set filter by this status
@@ -163,11 +158,8 @@ module DemoData
 
       lists.map do |list|
         Query.new(project: project, user: admin).tap do |query|
-          # Hide the query in the main menu
-          query.hidden = true
-
           # Make it public so that new members can see it too
-          query.is_public = true
+          query.public = true
 
           query.name = list[:name]
 
@@ -235,11 +227,8 @@ module DemoData
 
       parents.map do |parent|
         Query.new_default(project: project, user: admin).tap do |query|
-          # Hide the query in the main menu
-          query.hidden = true
-
           # Make it public so that new members can see it too
-          query.is_public = true
+          query.public = true
 
           query.name = parent.subject
           # Set filter by this status

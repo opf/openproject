@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 class QueryPolicy < BasePolicy
@@ -58,7 +58,7 @@ class QueryPolicy < BasePolicy
 
   def viewable?(query)
     view_work_packages_allowed?(query) &&
-      (query.is_public? || query.user == user)
+      (query.public? || query.user == user)
   end
 
   def create_allowed?(query)
@@ -70,7 +70,7 @@ class QueryPolicy < BasePolicy
   end
 
   def publicize_allowed?(query)
-    !query.is_public &&
+    !query.public &&
       query.user_id == user.id &&
       manage_public_queries_allowed?(query)
   end
@@ -80,7 +80,7 @@ class QueryPolicy < BasePolicy
   end
 
   def public_manageable_query?(query)
-    query.is_public &&
+    query.public &&
       manage_public_queries_allowed?(query)
   end
 

@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,12 +23,10 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
-# rubocop:disable Naming/ClassAndModuleCamelCase
 module Bim::Bcf::API::V2_1
-  # rubocop:enable Naming/ClassAndModuleCamelCase
   module Viewpoints
     class API < ::API::OpenProjectAPI
       # Avoid oj parsing numbers into BigDecimal
@@ -40,7 +36,8 @@ module Bim::Bcf::API::V2_1
         get do
           @issue
             .viewpoints
-            .pluck(:json_viewpoint)
+            .select(::Bim::Bcf::API::V2_1::Viewpoints::FullRepresenter.selector)
+            .map(&:json_viewpoint)
         end
 
         post &::Bim::Bcf::API::V2_1::Endpoints::Create
@@ -58,18 +55,16 @@ module Bim::Bcf::API::V2_1
             namespace = key == :/ ? :Full : key.to_s.camelize
 
             get key, &::Bim::Bcf::API::V2_1::Endpoints::Show
-              .new(model: Bim::Bcf::Viewpoint,
-                   api_name: 'Viewpoints',
-                   render_representer: "::Bim::Bcf::API::V2_1::Viewpoints::#{namespace}Representer".constantize,
-                   instance_generator: ->(*) { @issue.viewpoints.where(uuid: params[:viewpoint_uuid]) })
-              .mount
+                        .new(model: Bim::Bcf::Viewpoint,
+                             render_representer: "::Bim::Bcf::API::V2_1::Viewpoints::#{namespace}Representer".constantize,
+                             instance_generator: ->(*) { @issue.viewpoints.where(uuid: params[:viewpoint_uuid]) })
+                        .mount
           end
 
           delete &::Bim::Bcf::API::V2_1::Endpoints::Delete
-                   .new(model: Bim::Bcf::Viewpoint,
-                        api_name: 'Viewpoints',
-                        instance_generator: ->(*) { @issue.viewpoints.find_by!(uuid: params[:viewpoint_uuid]) })
-                   .mount
+                    .new(model: Bim::Bcf::Viewpoint,
+                         instance_generator: ->(*) { @issue.viewpoints.find_by!(uuid: params[:viewpoint_uuid]) })
+                    .mount
 
           get :bitmaps do
             raise NotImplementedError, 'Bitmaps are not yet implemented.'

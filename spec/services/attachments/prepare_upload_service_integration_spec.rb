@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -25,17 +23,17 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 
 require 'spec_helper'
 
 describe Attachments::PrepareUploadService,
          'integration' do
-  shared_let(:container) { FactoryBot.create(:work_package) }
+  shared_let(:container) { create(:work_package) }
   shared_let(:user) do
-    FactoryBot.create :user,
-                      member_in_project: container.project,
-                      member_with_permissions: %i[view_work_packages edit_work_packages]
+    create :user,
+           member_in_project: container.project,
+           member_with_permissions: %i[view_work_packages edit_work_packages]
   end
   let(:instance) { described_class.new(user: user) }
 

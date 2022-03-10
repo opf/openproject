@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -36,21 +36,21 @@ describe 'API v3 Work package form resource', type: :request, with_mail: false d
 
   shared_let(:all_allowed_permissions) { %i[view_work_packages edit_work_packages assign_versions view_budgets] }
   shared_let(:assign_permissions) { %i[view_work_packages assign_versions] }
-  shared_let(:project) { FactoryBot.create(:project, public: false) }
+  shared_let(:project) { create(:project, public: false) }
   shared_let(:authorized_user) do
-    FactoryBot.create(:user, member_in_project: project, member_with_permissions: all_allowed_permissions)
+    create(:user, member_in_project: project, member_with_permissions: all_allowed_permissions)
   end
   shared_let(:work_package) do
     # Prevent executing as potentially unsaved AnyonymousUser which would
     # lead to the creation failing as the journal cannot be written with user_id = nil.
     User.execute_as authorized_user do
-      FactoryBot.create(:work_package, project: project)
+      create(:work_package, project: project)
     end
   end
   shared_let(:authorized_assign_user) do
-    FactoryBot.create(:user, member_in_project: project, member_with_permissions: assign_permissions)
+    create(:user, member_in_project: project, member_with_permissions: assign_permissions)
   end
-  shared_let(:unauthorized_user) { FactoryBot.create(:user) }
+  shared_let(:unauthorized_user) { create(:user) }
 
   describe '#post' do
     let(:post_path) { api_v3_paths.work_package_form work_package.id }
@@ -77,7 +77,8 @@ describe 'API v3 Work package form resource', type: :request, with_mail: false d
         let(:current_user) { unauthorized_user }
       end
 
-      it_behaves_like 'not found'
+      it_behaves_like 'not found',
+                      I18n.t('api_v3.errors.not_found.work_package')
     end
 
     context 'user with all edit permissions' do
@@ -321,18 +322,18 @@ describe 'API v3 Work package form resource', type: :request, with_mail: false d
 
             describe 'status' do
               let(:path) { '_embedded/payload/_links/status/href' }
-              let(:target_status) { FactoryBot.create(:status) }
+              let(:target_status) { create(:status) }
               let(:status_link) { api_v3_paths.status target_status.id }
               let(:status_parameter) { { _links: { status: { href: status_link } } } }
               let(:params) { valid_params.merge(status_parameter) }
 
               context 'valid status' do
                 let!(:workflow) do
-                  FactoryBot.create(:workflow,
-                                    type_id: work_package.type.id,
-                                    old_status: work_package.status,
-                                    new_status: target_status,
-                                    role: current_user.memberships[0].roles[0])
+                  create(:workflow,
+                         type_id: work_package.type.id,
+                         old_status: work_package.status,
+                         new_status: target_status,
+                         role: current_user.memberships[0].roles[0])
                 end
 
                 include_context 'post request'
@@ -402,8 +403,9 @@ describe 'API v3 Work package form resource', type: :request, with_mail: false d
               shared_examples_for 'handling people' do |property|
                 let(:path) { "_embedded/payload/_links/#{property}/href" }
                 let(:visible_user) do
-                  FactoryBot.create(:user,
-                                    member_in_project: project)
+                  create(:user,
+                         member_in_project: project,
+                         member_with_permissions: [:work_package_assigned])
                 end
                 let(:user_parameter) { { _links: { property => { href: user_link } } } }
                 let(:params) { valid_params.merge(user_parameter) }
@@ -439,13 +441,13 @@ describe 'API v3 Work package form resource', type: :request, with_mail: false d
 
                   context 'existing group' do
                     let(:user_link) { api_v3_paths.group group.id }
-                    let(:group) { FactoryBot.create(:group) }
-                    let(:role) { FactoryBot.create(:role) }
+                    let(:group) { create(:group) }
+                    let(:role) { create(:role, permissions: %i[work_package_assigned]) }
                     let(:group_member) do
-                      FactoryBot.create(:member,
-                                        principal: group,
-                                        project: project,
-                                        roles: [role])
+                      create(:member,
+                             principal: group,
+                             project: project,
+                             roles: [role])
                     end
 
                     before do
@@ -457,11 +459,10 @@ describe 'API v3 Work package form resource', type: :request, with_mail: false d
 
                   context 'existing placeholder_user' do
                     let(:user_link) { api_v3_paths.placeholder_user placeholder_user.id }
-                    let(:role) { FactoryBot.create(:role) }
                     let(:placeholder_user) do
-                      FactoryBot.create(:placeholder_user,
-                                        member_in_project: project,
-                                        member_through_role: role)
+                      create(:placeholder_user,
+                             member_in_project: project,
+                             member_with_permissions: %i[work_package_assigned])
                     end
 
                     it_behaves_like 'valid user assignment'
@@ -505,8 +506,8 @@ describe 'API v3 Work package form resource', type: :request, with_mail: false d
 
             describe 'version' do
               let(:path) { '_embedded/payload/_links/version/href' }
-              let(:target_version) { FactoryBot.create(:version, project: project, start_date: Date.today - 2.days) }
-              let(:other_version) { FactoryBot.create(:version, project: project, start_date: Date.today - 1.day) }
+              let(:target_version) { create(:version, project: project, start_date: Date.today - 2.days) }
+              let(:other_version) { create(:version, project: project, start_date: Date.today - 1.day) }
               let(:version_link) { api_v3_paths.version target_version.id }
               let(:version_parameter) { { _links: { version: { href: version_link } } } }
               let(:params) { valid_params.merge(version_parameter) }
@@ -542,8 +543,8 @@ describe 'API v3 Work package form resource', type: :request, with_mail: false d
             describe 'category' do
               let(:path) { '_embedded/payload/_links/category/href' }
               let(:links_path) { '_embedded/schema/category/_links' }
-              let(:target_category) { FactoryBot.create(:category, project: project) }
-              let(:other_category) { FactoryBot.create(:category, project: project) }
+              let(:target_category) { create(:category, project: project) }
+              let(:other_category) { create(:category, project: project) }
               let(:category_link) { api_v3_paths.category target_category.id }
               let(:category_parameter) { { _links: { category: { href: category_link } } } }
               let(:params) { valid_params.merge(category_parameter) }
@@ -579,7 +580,7 @@ describe 'API v3 Work package form resource', type: :request, with_mail: false d
             describe 'priority' do
               let(:path) { '_embedded/payload/_links/priority/href' }
               let(:links_path) { '_embedded/schema/priority/_links' }
-              let(:target_priority) { FactoryBot.create(:priority) }
+              let(:target_priority) { create(:priority) }
               let(:other_priority) { work_package.priority }
               let(:priority_link) { api_v3_paths.priority target_priority.id }
               let(:other_priority_link) { api_v3_paths.priority other_priority.id }
@@ -617,7 +618,7 @@ describe 'API v3 Work package form resource', type: :request, with_mail: false d
             describe 'type' do
               let(:path) { '_embedded/payload/_links/type/href' }
               let(:links_path) { '_embedded/schema/type/_links' }
-              let(:target_type) { FactoryBot.create(:type) }
+              let(:target_type) { create(:type) }
               let(:other_type) { work_package.type }
               let(:type_link) { api_v3_paths.type target_type.id }
               let(:other_type_link) { api_v3_paths.type other_type.id }
@@ -659,8 +660,8 @@ describe 'API v3 Work package form resource', type: :request, with_mail: false d
             describe 'budget' do
               let(:path) { '_embedded/payload/_links/budget/href' }
               let(:links_path) { '_embedded/schema/budget/_links' }
-              let(:target_budget) { FactoryBot.create(:budget, project: project) }
-              let(:other_budget) { FactoryBot.create(:budget, project: project) }
+              let(:target_budget) { create(:budget, project: project) }
+              let(:other_budget) { create(:budget, project: project) }
               let(:budget_link) { api_v3_paths.budget target_budget.id }
               let(:budget_parameter) { { _links: { budget: { href: budget_link } } } }
               let(:params) { valid_params.merge(budget_parameter) }
@@ -693,7 +694,7 @@ describe 'API v3 Work package form resource', type: :request, with_mail: false d
               end
 
               context 'invalid budget' do
-                let(:target_budget) { FactoryBot.create(:budget) }
+                let(:target_budget) { create(:budget) }
 
                 include_context 'post request'
 
@@ -740,7 +741,7 @@ describe 'API v3 Work package form resource', type: :request, with_mail: false d
 
             describe 'formattable custom field set to nil' do
               let(:custom_field) do
-                FactoryBot.create :work_package_custom_field, field_format: 'text'
+                create :work_package_custom_field, field_format: 'text'
               end
 
               let(:cf_param) { { "customField#{custom_field.id}" => nil } }

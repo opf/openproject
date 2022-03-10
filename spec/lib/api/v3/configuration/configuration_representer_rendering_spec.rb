@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -35,10 +35,10 @@ describe ::API::V3::Configuration::ConfigurationRepresenter, 'rendering' do
 
   let(:represented) { Setting }
   let(:current_user) do
-    FactoryBot.build_stubbed(:user).tap do |user|
+    build_stubbed(:user).tap do |user|
       allow(user)
         .to receive(:preference)
-        .and_return(FactoryBot.build_stubbed(:user_preference))
+        .and_return(build_stubbed(:user_preference))
     end
   end
   let(:embed_links) { false }
@@ -69,7 +69,7 @@ describe ::API::V3::Configuration::ConfigurationRepresenter, 'rendering' do
       end
 
       context 'when not logged in' do
-        let(:current_user) { FactoryBot.build_stubbed(:anonymous) }
+        let(:current_user) { build_stubbed(:anonymous) }
 
         it_behaves_like 'has an untitled link' do
           let(:link) { 'userPreferences' }
@@ -228,7 +228,7 @@ describe ::API::V3::Configuration::ConfigurationRepresenter, 'rendering' do
 
       describe definition.name, with_settings: { definition.name => true } do
         current_user do
-          FactoryBot.build_stubbed(:admin)
+          build_stubbed(:admin)
         end
 
         it_behaves_like 'property', definition.api_name.to_sym do

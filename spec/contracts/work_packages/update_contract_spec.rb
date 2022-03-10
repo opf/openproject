@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -25,14 +23,14 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 
 require 'spec_helper'
 require 'contracts/work_packages/shared_base_contract'
 
 describe WorkPackages::UpdateContract do
   let(:work_package_project) do
-    FactoryBot.build_stubbed(:project, public: false).tap do |p|
+    build_stubbed(:project, public: false).tap do |p|
       allow(Project)
         .to receive(:find)
         .with(p.id)
@@ -40,9 +38,10 @@ describe WorkPackages::UpdateContract do
     end
   end
   let(:work_package) do
-    FactoryBot.build_stubbed(:work_package,
-                             project: work_package_project,
-                             type: type).tap do |wp|
+    build_stubbed(:work_package,
+                  project: work_package_project,
+                  type: type,
+                  status: status).tap do |wp|
       wp_scope = double('wp scope')
 
       allow(WorkPackage)
@@ -56,8 +55,9 @@ describe WorkPackages::UpdateContract do
       end
     end
   end
-  let(:user) { FactoryBot.build_stubbed(:user) }
-  let(:type) { FactoryBot.build_stubbed(:type) }
+  let(:user) { build_stubbed(:user) }
+  let(:type) { build_stubbed(:type) }
+  let(:status) { build_stubbed(:status) }
   let(:permissions) { %i[view_work_packages edit_work_packages assign_versions] }
 
   before do
@@ -71,8 +71,8 @@ describe WorkPackages::UpdateContract do
 
   it_behaves_like 'work package contract' do
     let(:work_package) do
-      FactoryBot.build_stubbed(:work_package,
-                               project: work_package_project)
+      build_stubbed(:work_package,
+                    project: work_package_project)
     end
   end
 
@@ -159,7 +159,7 @@ describe WorkPackages::UpdateContract do
   end
 
   describe 'project_id' do
-    let(:target_project) { FactoryBot.create(:project, types: [type]) }
+    let(:target_project) { create(:project, types: [type]) }
     let(:target_permissions) { [:move_work_packages] }
 
     before do
@@ -196,7 +196,7 @@ describe WorkPackages::UpdateContract do
   end
 
   describe 'version' do
-    let(:version) { FactoryBot.build_stubbed(:version) }
+    let(:version) { build_stubbed(:version) }
 
     before do
       allow(work_package)
@@ -243,7 +243,7 @@ describe WorkPackages::UpdateContract do
 
   describe 'with children' do
     context 'changing to milestone' do
-      let(:milestone) { FactoryBot.build_stubbed :type, is_milestone: true }
+      let(:milestone) { build_stubbed :type, is_milestone: true }
 
       before do
         work_package.type = milestone
@@ -258,7 +258,7 @@ describe WorkPackages::UpdateContract do
   end
 
   describe 'parent_id' do
-    let(:parent) { FactoryBot.create(:work_package) }
+    let(:parent) { create(:work_package) }
 
     before do
       work_package.parent_id = parent.id
@@ -334,6 +334,34 @@ describe WorkPackages::UpdateContract do
 
         expect(subject)
           .not_to include('subject', 'start_date', 'description')
+      end
+    end
+  end
+
+  describe 'readonly status' do
+    context 'with the status being readonly', with_ee: %i[readonly_work_packages] do
+      let(:status) { build_stubbed(:status, is_readonly: true) }
+      let(:new_priority) { build_stubbed(:priority) }
+
+      before do
+        work_package.priority = new_priority
+
+        contract.validate
+      end
+
+      it 'is invalid' do
+        expect(contract)
+          .not_to be_valid
+      end
+
+      it 'adds an error to the written to attribute' do
+        expect(contract.errors.symbols_for(:priority_id))
+          .to include(:error_readonly)
+      end
+
+      it 'adds an error to base to better explain' do
+        expect(contract.errors.symbols_for(:base))
+          .to include(:readonly_status)
       end
     end
   end

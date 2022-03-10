@@ -62,6 +62,9 @@ module.exports = {
           },
         ],
 
+        // Sometimes we need to shush the TypeScript compiler
+        "no-unused-vars": ["error", { "varsIgnorePattern": "^_" }],
+
         // Who cares about line length
         "max-len": "off",
 
@@ -116,12 +119,13 @@ module.exports = {
               "_links",
               "_embedded",
               "_meta",
+              "_type",
             ],
-            allowAfterThis: false,
+            allowAfterThis: true,
             allowAfterSuper: false,
             allowAfterThisConstructor: false,
             enforceInMethodNames: true,
-            allowFunctionParams: false,
+            allowFunctionParams: true,
           }
         ],
 
@@ -133,8 +137,7 @@ module.exports = {
         //////////////////////////////////////////////////////////////////////
 
         // It's common in Angular to wrap even pure functions in classes for injection purposes
-        // TODO: Should probably be turned off and pure unit tests should be used at some point
-        "class-methods-use-this": "warn",
+        "class-methods-use-this": "off",
       }
     },
     {
@@ -145,6 +148,7 @@ module.exports = {
          * Any template/HTML related rules you wish to use/reconfigure over and above the
          * recommended set provided by the @angular-eslint project would go here.
          */
+        "@angular-eslint/template/no-call-expression": 2,
       }
     },
     {
@@ -155,6 +159,13 @@ module.exports = {
          * Any template/HTML related rules you wish to use/reconfigure over and above the
          * recommended set provided by the @angular-eslint project would go here.
          */
+
+        // jasmine is unusable with unsafe member access, as expect(...) is always any
+        "@typescript-eslint/no-unsafe-member-access": "off",
+        "@typescript-eslint/no-unsafe-call": "off",
+
+        // Allow more than one class definitions per file (test components)
+        "max-classes-per-file": "off",
       }
     }
   ],

@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,34 +23,34 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { APIv3ResourceCollection } from 'core-app/core/apiv3/paths/apiv3-resource';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3ResourceCollection } from 'core-app/core/apiv3/paths/apiv3-resource';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { Observable } from 'rxjs';
 import {
-  Apiv3ListParameters,
+  ApiV3ListParameters,
   ApiV3ListFilter,
   listParamsString,
 } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
-import { InAppNotification } from 'core-app/features/in-app-notifications/store/in-app-notification.model';
-import { Apiv3NotificationPaths } from 'core-app/core/apiv3/endpoints/notifications/apiv3-notification-paths';
+import { ApiV3NotificationPaths } from 'core-app/core/apiv3/endpoints/notifications/apiv3-notification-paths';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { HttpClient } from '@angular/common/http';
 import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
 import { ID } from '@datorama/akita';
+import { InAppNotification } from 'core-app/core/state/in-app-notifications/in-app-notification.model';
 
-export class Apiv3NotificationsPaths
-  extends APIv3ResourceCollection<InAppNotification, Apiv3NotificationPaths> {
+export class ApiV3NotificationsPaths
+  extends ApiV3ResourceCollection<InAppNotification, ApiV3NotificationPaths> {
   @InjectField() http:HttpClient;
 
-  constructor(protected apiRoot:APIV3Service,
+  constructor(protected apiRoot:ApiV3Service,
     protected basePath:string) {
-    super(apiRoot, basePath, 'notifications', Apiv3NotificationPaths);
+    super(apiRoot, basePath, 'notifications', ApiV3NotificationPaths);
   }
 
-  public facet(facet:string, params?:Apiv3ListParameters):Observable<IHALCollection<InAppNotification>> {
+  public facet(facet:string, params?:ApiV3ListParameters):Observable<IHALCollection<InAppNotification>> {
     if (facet === 'unread') {
       return this.unread(params);
     }
@@ -61,22 +61,26 @@ export class Apiv3NotificationsPaths
    * Load a list of events with a given list parameter filter
    * @param params
    */
-  public list(params?:Apiv3ListParameters):Observable<IHALCollection<InAppNotification>> {
+  public list(params?:ApiV3ListParameters):Observable<IHALCollection<InAppNotification>> {
     return this
       .http
       .get<IHALCollection<InAppNotification>>(this.path + listParamsString(params));
   }
 
+  public listPath(params?:ApiV3ListParameters):string {
+    return this.path + listParamsString(params);
+  }
+
   /**
    * Load unread events
    */
-  public unread(additional?:Apiv3ListParameters):Observable<IHALCollection<InAppNotification>> {
+  public unread(additional?:ApiV3ListParameters):Observable<IHALCollection<InAppNotification>> {
     const unreadFilter:ApiV3ListFilter = ['readIAN', '=', false];
     const filters = [
       ...(additional?.filters ? additional.filters : []),
       unreadFilter,
     ];
-    const params:Apiv3ListParameters = {
+    const params:ApiV3ListParameters = {
       ...additional,
       filters,
     };

@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'roar/decorator'
@@ -36,14 +34,40 @@ require 'roar/json/hal'
 module API
   module V3
     module Projects
-      class ProjectCollectionRepresenter < ::API::Decorators::UnpaginatedCollection
+      class ProjectCollectionRepresenter < ::API::Decorators::OffsetPaginatedCollection
         self.to_eager_load = ::API::V3::Projects::ProjectRepresenter.to_eager_load
         self.checked_permissions = ::API::V3::Projects::ProjectRepresenter.checked_permissions
 
-        def initialize(models, self_link:, current_user:)
-          super
+        links :representations do
+          [
+            representation_format_csv,
+            representation_format_xls
+          ]
+        end
 
-          @represented = ::API::V3::Projects::ProjectEagerLoadingWrapper.wrap(represented)
+        protected
+
+        def representation_format(format, mime_type:)
+          {
+            href: url_for(controller: :projects, action: :index, format: format, **query_params),
+            identifier: format,
+            type: mime_type,
+            title: I18n.t("export.format.#{format}")
+          }
+        end
+
+        def representation_format_xls
+          representation_format 'xls',
+                                mime_type: 'application/vnd.ms-excel'
+        end
+
+        def representation_format_csv
+          representation_format 'csv',
+                                mime_type: 'text/csv'
+        end
+
+        def paged_models(models)
+          ::API::V3::Projects::ProjectEagerLoadingWrapper.wrap(super)
         end
       end
     end

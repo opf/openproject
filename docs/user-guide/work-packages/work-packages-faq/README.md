@@ -75,7 +75,9 @@ As an inherited change is always commented ("Updated automatically by...") they 
 The "Position" attribute is provided by the Backlogs plugin and shows the position of a work package in the backlog.
 If you create e.g. a Feature and assign it to a sprint, the position of the feature in the sprint is shown in the "Position" attribute on the work package list.
 
+### Can I restore a deleted workpackage?
 
+There is no easy way to restore a deleted workpackage. Generally, you have the option to create and restore your own backups. 
 
 ## Filters and queries
 
@@ -107,8 +109,6 @@ There are two reasons for this: 1. Potentially, a lot of values are displayed in
 
 Please increase the number of displayed work packages per page [in the administration](../../../system-admin-guide/system-settings/general-settings/#general-system-settings). Then the probability of this phenomenon happening is lower. 
 This is a known behavior of OpenProject, but not trivial to solve. There's already a feature request for this [here](https://community.openproject.com/projects/openproject/work_packages/34925/activity).
-
-
 
 
 
@@ -177,6 +177,9 @@ In the work package list: Right-click on the work package and choose **Change pr
 
 In the details view of the work package: Click on **More** (button with three dots in the upper right hand corner) and the on **Change project**.
 
+### Can I group tasks into folders?
+
+There are no folders for work packages. I suggest either setting all work packages belonging together as children of the same parent work package (e.g. a Phase) or to create multiple projects for different topics. Alternatively you could use the [work package categories](../../projects/project-settings/work-package-categories) or a custom field to group work packages.   You can also indent hierarchy for for tasks to associate it with another work package like a phase, then they are relatete to the Pahase in the gantt chart.
 
 
 ## Custom fields
@@ -191,7 +194,7 @@ As custom fields of the type "long text" cannot be added as a column, they canno
 
 ### Can I sum up custom fields?
 
-Yes, you can display the sum of custom fields in the work packages list by checking the "Sum" option in [the work package display settings](../work-package-table-configuration/#how-to-switch-from-flat-list-to-hierarchy-mode).
+Yes, you can display the sum of custom fields in the work packages list by checking the "Sum" option in [the work package display settings](../work-package-table-configuration/#display-sums-in-work-package-list).
 
 Calculating a sum across different attributes (e.g. Estimated time + added hours) is however not possible.
 

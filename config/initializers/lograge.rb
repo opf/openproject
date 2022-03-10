@@ -1,9 +1,12 @@
 Rails.application.configure do
-  config.lograge.enabled = Rails.env.production? || ENV['OPENPROJECT_LOGRAGE_ENABLED']
+  next unless OpenProject::Logging.lograge_enabled?
+
+  config.lograge.enabled = true
+  config.lograge.formatter = OpenProject::Logging.formatter
   config.lograge.base_controller_class = %w[ActionController::Base]
 
   # Add custom data to event payload
   config.lograge.custom_payload do |controller|
-    ::OpenProject::Logging::LogDelegator.controller_payload_hash controller
+    ::OpenProject::Logging.extend_payload!({}, { controller: controller })
   end
 end

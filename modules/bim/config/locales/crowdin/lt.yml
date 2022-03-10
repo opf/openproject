@@ -15,8 +15,8 @@ lt:
       file_invalid: "Neteisingas BCF failas"
     x_bcf_issues:
       zero: 'Nėra BCF trūkumų'
-      one: 'Vienas BCF trūkumas'
-      other: '%{count} BCF trūkumai'
+      one: 'Viena BCF problema'
+      other: '%{count} BCF problemos'
     bcf_xml:
       xml_file: 'BCF XML failas'
       import_title: 'Importuoti'
@@ -24,7 +24,7 @@ lt:
       import_update_comment: '(Atnaujinta BCF importo metu)'
       import_failed: 'Negaliu importuoti BCF failo: %{error}'
       import_failed_unsupported_bcf_version: 'Nepavyko perskaityti BCF failo: Nepalaikoma BCF versija. Įsitikinkite, kad versija yra bent %{minimal_version} ar aukštesnė.'
-      import_successful: 'Importuota %{count} BCF trūkumų'
+      import_successful: 'Importuota %{count} BCF problemų'
       import_canceled: 'BCF-XML importas nutrauktas.'
       type_not_active: "Trūkumo tipas nėra įjungtas šiam projektui."
       import:
@@ -42,7 +42,7 @@ lt:
         invalid_priorities_found: 'Rastas neteisingas prioriteto pavadinimas'
         invalid_emails_found: 'Rastas neteisingas el. pašto adresas'
         unknown_emails_found: 'Rasti nežinomi el. pašto adresai'
-        unknown_property: 'Nežinoma sąvybė'
+        unknown_property: 'Nežinoma savybė'
         non_members_found: 'Rasti ne projekto nariai'
         import_types_as: 'Nustatyti visus šiuos tipus į'
         import_statuses_as: 'Nustatyti visas būsenas į'
@@ -92,16 +92,16 @@ lt:
           index_not_integer: "index nėra sveikas skaičius."
           invalid_clipping_planes: "neteisingi clipping_planes."
           invalid_components: "neteisingas komponentas."
-          invalid_lines: "neteisingos linijos."
-          invalid_orthogonal_camera: "neteisinga orthogonal_camera."
-          invalid_perspective_camera: "neteisinga perspective_camera."
+          invalid_lines: "netinkamos linijos."
+          invalid_orthogonal_camera: "netinkama orthogonal_camera."
+          invalid_perspective_camera: "netinkama perspective_camera."
           mismatching_guid: "json_viewpoint GUID nesutampa su modelio GUID."
-          no_json: "json struktūra neteisinga."
-          snapshot_type_unsupported: "snapshot_type turi būti 'png' arba 'jpg'."
+          no_json: "Netinkama json struktūra."
+          snapshot_type_unsupported: "snapshot_type turi būti „png“ arba „jpg“."
           snapshot_data_blank: "būtina pateikti snapshot_data."
           unsupported_key: "Įtraukta nepalaikoma json savybė."
         bim/bcf/issue:
-          uuid_already_taken: "Negaliu suimportuoti BCF trūkumo, nes sistemoje jau yra viena su tokiu pačiu GUID. Ar negalėjo taip būti, kad BCF trūkumas jau buvo importuota į kitą projektą?"
+          uuid_already_taken: "Negaliu suimportuoti BCF problemos, nes sistemoje jau yra viena su tokiu pačiu GUID. Ar negalėjo taip būti, kad BCF problema jau buvo importuota į kitą projektą?"
   ifc_models:
     label_ifc_models: 'IFC modeliai'
     label_new_ifc_model: 'Naujas IFC modelis'
@@ -113,10 +113,12 @@ lt:
       check_1: 'Patikrinkite, ar įkėlėte bent vieną IFC modelį.'
       check_2: 'Patikrinkite, ar bent vienas IFC modelis buvo nustatytas kaip „Numatytasis“.'
     no_results: "Į projektą nebuvo įkelti jokie IFC modeliai."
-    processing_state:
+    conversion_status:
       label: 'Apdorojamas?'
-      in_progress: 'Vykdoma'
+      pending: 'Laukiama'
+      processing: 'Apdorojama'
       completed: 'Atliktas'
+      error: 'Klaida'
     processing_notice:
       processing_default: 'Tokie numatytieji IFC modeliai dar yra apdorojami ir todėl dar nėra pasiekiami:'
     flash_messages:

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,27 +23,27 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 require File.join(File.dirname(__FILE__), '..', '..', 'support', 'custom_field_filter')
 
 describe CostQuery, type: :model, reporting_query_helper: true do
-  let!(:type) { FactoryBot.create(:type) }
-  let!(:project1) { FactoryBot.create(:project_with_types, types: [type]) }
-  let!(:work_package1) { FactoryBot.create(:work_package, project: project1, type: type) }
+  let!(:type) { create(:type) }
+  let!(:project1) { create(:project_with_types, types: [type]) }
+  let!(:work_package1) { create(:work_package, project: project1, type: type) }
   let!(:time_entry1) do
-    FactoryBot.create(:time_entry, work_package: work_package1, project: project1, spent_on: Date.new(2012, 1, 1))
+    create(:time_entry, work_package: work_package1, project: project1, spent_on: Date.new(2012, 1, 1))
   end
   let!(:time_entry2) do
     time_entry2 = time_entry1.dup
     time_entry2.save!
     time_entry2
   end
-  let!(:budget1) { FactoryBot.create(:budget, project: project1) }
+  let!(:budget1) { create(:budget, project: project1) }
   let!(:cost_entry1) do
-    FactoryBot.create(:cost_entry, work_package: work_package1, project: project1, spent_on: Date.new(2013, 2, 3))
+    create(:cost_entry, work_package: work_package1, project: project1, spent_on: Date.new(2013, 2, 3))
   end
   let!(:cost_entry2) do
     cost_entry2 = cost_entry1.dup
@@ -51,19 +51,19 @@ describe CostQuery, type: :model, reporting_query_helper: true do
     cost_entry2
   end
 
-  let!(:project2) { FactoryBot.create(:project_with_types, types: [type]) }
-  let!(:work_package2) { FactoryBot.create(:work_package, project: project2, type: type) }
+  let!(:project2) { create(:project_with_types, types: [type]) }
+  let!(:work_package2) { create(:work_package, project: project2, type: type) }
   let!(:time_entry3) do
-    FactoryBot.create(:time_entry, work_package: work_package2, project: project2, spent_on: Date.new(2013, 2, 3))
+    create(:time_entry, work_package: work_package2, project: project2, spent_on: Date.new(2013, 2, 3))
   end
   let!(:time_entry4) do
     time_entry4 = time_entry3.dup
     time_entry4.save!
     time_entry4
   end
-  let!(:budget2) { FactoryBot.create(:budget, project: project2) }
+  let!(:budget2) { create(:budget, project: project2) }
   let!(:cost_entry3) do
-    FactoryBot.create(:cost_entry, work_package: work_package2, project: project2, spent_on: Date.new(2012, 1, 1))
+    create(:cost_entry, work_package: work_package2, project: project2, spent_on: Date.new(2012, 1, 1))
   end
   let!(:cost_entry4) do
     cost_entry4 = cost_entry3.dup
@@ -232,13 +232,13 @@ describe CostQuery, type: :model, reporting_query_helper: true do
     end
 
     describe CostQuery::GroupBy::CustomFieldEntries do
-      let!(:project) { FactoryBot.create(:project_with_types) }
+      let!(:project) { create(:project_with_types) }
       let!(:custom_field) do
-        FactoryBot.create(:work_package_custom_field)
+        create(:work_package_custom_field)
       end
 
       let(:custom_field2) do
-        FactoryBot.build(:work_package_custom_field)
+        build(:work_package_custom_field)
       end
 
       before do

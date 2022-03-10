@@ -10,12 +10,6 @@ module OpenProject::XlsExport
 
     patches %i[CostReportsController]
 
-    extend_api_response(:v3, :work_packages, :work_package_collection) do
-      require_relative 'patches/api/v3/export_formats'
-
-      prepend Patches::API::V3::ExportFormats
-    end
-
     initializer 'xls_export.register_hooks' do
       # don't use require_dependency to not reload hooks in development mode
 
@@ -35,8 +29,10 @@ module OpenProject::XlsExport
     class_inflection_override('xls' => 'XLS')
 
     config.to_prepare do
-      WorkPackage::Exporter
-        .register_for_list(:xls, XlsExport::WorkPackage::Exporter::XLS)
+      ::Exports::Register.register do
+        list(::WorkPackage, XlsExport::WorkPackage::Exporter::XLS)
+        list(::Project, XlsExport::Project::Exporter::XLS)
+      end
     end
   end
 end

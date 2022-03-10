@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,11 +23,14 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { Injectable } from '@angular/core';
-import { Store, StoreConfig } from '@datorama/akita';
+import {
+  Store,
+  StoreConfig,
+} from '@datorama/akita';
 import { UserPreferencesModel } from 'core-app/features/user-preferences/state/user-preferences.model';
 
 function createInitialState():UserPreferencesModel {
@@ -37,12 +40,21 @@ function createInitialState():UserPreferencesModel {
     hideMail: true,
     timeZone: null,
     warnOnLeavingUnsaved: true,
-    selfNotified: false,
     notifications: [],
+    dailyReminders: {
+      enabled: true,
+      times: ['08:00'],
+    },
+    workdays: [1, 2, 3, 4, 5],
+    immediateReminders: {
+      mentioned: false,
+    },
+    pauseReminders: {
+      enabled: false,
+    },
   };
 }
 
-@Injectable()
 @StoreConfig({ name: 'notification-settings' })
 export class UserPreferencesStore extends Store<UserPreferencesModel> {
   constructor() {

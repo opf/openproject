@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -31,8 +31,8 @@ require 'features/repositories/repository_settings_page'
 require 'features/support/components/danger_zone'
 
 describe 'Repository Settings', type: :feature, js: true do
-  let(:current_user) { FactoryBot.create (:admin) }
-  let(:project) { FactoryBot.create(:project) }
+  let(:current_user) { create (:admin) }
+  let(:project) { create(:project) }
   let(:settings_page) { RepositorySettingsPage.new(project) }
   let(:dangerzone) { DangerZone.new(page) }
 
@@ -84,7 +84,7 @@ describe 'Repository Settings', type: :feature, js: true do
       else
         SeleniumHubWaiter.wait
         find('a.icon-remove', text: I18n.t(:button_remove)).click
-        expect(page).to have_selector('.notification-box.-warning')
+        expect(page).to have_selector('.op-toast.-warning')
         SeleniumHubWaiter.wait
         find('a', text: I18n.t(:button_remove)).click
       end
@@ -105,9 +105,9 @@ describe 'Repository Settings', type: :feature, js: true do
 
   shared_examples 'manages the repository with' do |name, type, _repository_type, _project_name|
     let(:repository) do
-      FactoryBot.create("repository_#{name}".to_sym,
-                        scm_type: type,
-                        project: project)
+      create("repository_#{name}".to_sym,
+             scm_type: type,
+             project: project)
     end
     it_behaves_like 'manages the repository', type
   end
@@ -179,9 +179,9 @@ describe 'Repository Settings', type: :feature, js: true do
 
   describe 'update repositories' do
     let(:repository) do
-      FactoryBot.create(:repository_subversion,
-                        scm_type: :existing,
-                        project: project)
+      create(:repository_subversion,
+             scm_type: :existing,
+             project: project)
     end
 
     it 'can set login and password' do

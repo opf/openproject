@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -35,7 +35,7 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
   include API::V3::Utilities::PathHelper
 
   let(:work_package) do
-    FactoryBot.create(
+    create(
       :work_package,
       project_id: project.id,
       parent: parent,
@@ -44,7 +44,7 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
   end
 
   let!(:parent) do
-    FactoryBot.create(:work_package, project_id: project.id, type: type, subject: "Invalid Dependent WorkPackage").tap do |parent|
+    create(:work_package, project_id: project.id, type: type, subject: "Invalid Dependent WorkPackage").tap do |parent|
       parent.custom_values.create custom_field: custom_field, value: custom_field.possible_values.first.id
 
       cv = parent.custom_values.last
@@ -53,21 +53,21 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
   end
 
   let(:project) do
-    FactoryBot.create(:project, identifier: 'deperr', public: false).tap do |project|
+    create(:project, identifier: 'deperr', public: false).tap do |project|
       project.types << type
     end
   end
 
   let(:type) do
-    FactoryBot.create(:type).tap do |type|
+    create(:type).tap do |type|
       type.custom_fields << custom_field
     end
   end
 
-  let(:status) { FactoryBot.create :status }
+  let(:status) { create :status }
 
   let(:custom_field) do
-    FactoryBot.create(
+    create(
       :list_wp_custom_field,
       name: "Gate",
       possible_values: %w(A B C),
@@ -75,15 +75,11 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
     )
   end
 
-  let(:role) { FactoryBot.create(:role, permissions: permissions) }
+  let(:role) { create(:role, permissions: permissions) }
   let(:permissions) { %i[view_work_packages edit_work_packages create_work_packages] }
 
   let(:current_user) do
-    user = FactoryBot.create(:user, member_in_project: project, member_through_role: role)
-
-    FactoryBot.create(:user_preference, user: user, others: { no_self_notified: false })
-
-    user
+    create(:user, member_in_project: project, member_through_role: role)
   end
 
   let(:dependent_error_result) do
@@ -148,7 +144,7 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
   end
 
   describe '#post' do
-    let(:current_user) { FactoryBot.create :admin }
+    let(:current_user) { create :admin }
 
     let(:path) { api_v3_paths.work_packages }
     let(:valid_params) do

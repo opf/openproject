@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,13 +23,13 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { APIv3FormResource } from 'core-app/core/apiv3/forms/apiv3-form-resource';
+import { ApiV3FormResource } from 'core-app/core/apiv3/forms/apiv3-form-resource';
 import { MembershipResourceEmbedded } from 'core-app/features/hal/resources/membership-resource';
 
-export class Apiv3MembershipsForm extends APIv3FormResource {
+export class ApiV3MembershipsForm extends ApiV3FormResource {
   /**
    * We need to override the grid widget extraction
    * to pass the correct payload to the API.
@@ -59,6 +59,6 @@ export class Apiv3MembershipsForm extends APIv3FormResource {
    * @param schema
    */
   public extractPayload(request:MembershipResourceEmbedded) {
-    return Apiv3MembershipsForm.extractPayload(request);
+    return ApiV3MembershipsForm.extractPayload(request);
   }
 }

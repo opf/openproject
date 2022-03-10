@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 require_relative '../legacy_spec_helper'
 
@@ -33,10 +31,6 @@ describe MailHandler, type: :model do
   fixtures :all
 
   FIXTURES_PATH = File.dirname(__FILE__) + '/../fixtures/mail_handler'
-
-  before do
-    allow(Setting).to receive(:notified_events).and_return(OpenProject::Notifiable.all.map(&:name))
-  end
 
   it 'should add work package with attributes override' do
     issue = submit_email('ticket_with_attributes.eml', allow_override: 'type,category,priority')
@@ -117,9 +111,9 @@ describe MailHandler, type: :model do
   end
 
   it 'should add work package should match assignee on display name' do # added from redmine  - not sure if it is ok here
-    user = FactoryBot.create(:user, firstname: 'Foo', lastname: 'Bar')
-    role = FactoryBot.create(:role, name: 'Superhero')
-    FactoryBot.create(:member, user: user, project: Project.find(2), role_ids: [role.id])
+    user = create(:user, firstname: 'Foo', lastname: 'Bar')
+    role = create(:role, name: 'Superhero', permissions: ['work_package_assigned'])
+    create(:member, user: user, project: Project.find(2), role_ids: [role.id])
     issue = submit_email('ticket_on_given_project.eml') do |email|
       email.sub!(/^Assigned to.*$/, 'Assigned to: Foo Bar')
     end
@@ -246,7 +240,7 @@ describe MailHandler, type: :model do
   end
 
   it 'should ignore emails from locked users' do
-    User.find(2).lock!
+    User.find(2).locked!
 
     expect_any_instance_of(MailHandler).to receive(:dispatch).never
     assert_no_difference 'WorkPackage.count' do
@@ -269,91 +263,6 @@ describe MailHandler, type: :model do
         assert_equal false, MailHandler.receive(raw), "email with #{header} header was not ignored"
       end
     end
-  end
-
-  it 'should add work package should send email notification' do
-    User.find(2).notification_settings.create(channel: :mail, all: true)
-
-    # This email contains: 'Project: onlinestore'
-    issue = submit_email('ticket_on_given_project.eml')
-    assert issue.is_a?(WorkPackage)
-    # One for the wp creation.
-    assert_equal 1, ActionMailer::Base.deliveries.size
-  end
-
-  it 'should add work package note' do
-    journal = submit_email('ticket_reply.eml')
-    assert journal.is_a?(Journal)
-    assert_equal User.find_by_login('jsmith'), journal.user
-    assert_equal WorkPackage.find(2), journal.journable
-    assert_match /This is reply/, journal.notes
-    assert_equal 'Feature request', journal.journable.type.name
-  end
-
-  specify 'reply to issue update (Journal) by message_id' do
-    Journal.delete_all
-    FactoryBot.create :work_package_journal, id: 3, version: 1, journable_id: 2
-    journal = submit_email('ticket_reply_by_message_id.eml')
-    assert journal.data.is_a?(Journal::WorkPackageJournal), "Email was a #{journal.data.class}"
-    assert_equal User.find_by_login('jsmith'), journal.user
-    assert_equal WorkPackage.find(2), journal.journable
-    assert_match /This is reply/, journal.notes
-    assert_equal 'Feature request', journal.journable.type.name
-  end
-
-  it 'should add work package note with attribute changes' do
-    # This email contains: 'Status: Resolved'
-    journal = submit_email('ticket_reply_with_status.eml')
-    assert journal.data.is_a?(Journal::WorkPackageJournal)
-    issue = WorkPackage.find(journal.journable.id)
-    assert_equal User.find_by_login('jsmith'), journal.user
-    assert_equal WorkPackage.find(2), journal.journable
-    assert_match /This is reply/, journal.notes
-    assert_equal 'Feature request', journal.journable.type.name
-    assert_equal Status.find_by(name: 'Resolved'), issue.status
-    assert_equal '2010-01-01', issue.start_date.to_s
-    assert_equal '2010-12-31', issue.due_date.to_s
-    assert_equal User.find_by_login('jsmith'), issue.assigned_to
-    assert_equal '52.6', issue.custom_value_for(CustomField.find_by(name: 'Float field')).value
-    # keywords should be removed from the email body
-    assert !journal.notes.match(/^Status:/i)
-    assert !journal.notes.match(/^Start Date:/i)
-  end
-
-  it 'should add work package note should send email notification' do
-    User.find(2).notification_settings.create(channel: :mail, all: true)
-    User.find(3).notification_settings.create(channel: :mail, involved: true)
-
-    journal = submit_email('ticket_reply.eml')
-    assert journal.is_a?(Journal)
-    assert_equal 2, ActionMailer::Base.deliveries.size
-  end
-
-  it 'should add work package note should not set defaults' do
-    journal = submit_email('ticket_reply.eml', issue: { type: 'Support request', priority: 'High' })
-    assert journal.is_a?(Journal)
-    assert_match /This is reply/, journal.notes
-    assert_equal 'Feature request', journal.journable.type.name
-    assert_equal 'Normal', journal.journable.priority.name
-  end
-
-  it 'should reply to a message' do
-    m = submit_email('message_reply.eml')
-    assert m.is_a?(Message)
-    assert !m.new_record?
-    m.reload
-    assert_equal 'Reply via email', m.subject
-    # The email replies to message #2 which is part of the thread of message #1
-    assert_equal Message.find(1), m.parent
-  end
-
-  it 'should reply to a message by subject' do
-    m = submit_email('message_reply_by_subject.eml')
-    assert m.is_a?(Message)
-    assert !m.new_record?
-    m.reload
-    assert_equal 'Reply to the first post', m.subject
-    assert_equal Message.find(1), m.parent
   end
 
   it 'should strip tags of html only emails' do

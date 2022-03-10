@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'roar/decorator'
@@ -38,7 +36,7 @@ module API
 
       def initialize(
         type:, name:, location: nil, required: true, has_default: false, writable: true,
-        attribute_group: nil, description: nil, current_user: nil
+        attribute_group: nil, description: nil, current_user: nil, deprecated: nil
       )
         @type = type
         @name = name
@@ -48,6 +46,7 @@ module API
         @attribute_group = attribute_group
         @location = derive_location(location)
         @description = description
+        @deprecated = deprecated
 
         super(nil, current_user: current_user)
       end
@@ -63,7 +62,8 @@ module API
                     :regular_expression,
                     :options,
                     :location,
-                    :description
+                    :description,
+                    :deprecated
 
       property :type, exec_context: :decorator
       property :name, exec_context: :decorator
@@ -74,6 +74,7 @@ module API
       property :min_length, exec_context: :decorator
       property :max_length, exec_context: :decorator
       property :regular_expression, exec_context: :decorator
+      property :deprecated, exec_context: :decorator, render_nil: false
       property :options, exec_context: :decorator
 
       property :location, exec_context: :decorator, render_nil: false

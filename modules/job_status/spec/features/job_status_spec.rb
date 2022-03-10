@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,13 +23,13 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 describe 'Job status', type: :feature, js: true do
-  shared_let(:admin) { FactoryBot.create :admin }
+  shared_let(:admin) { create :admin }
 
   before do
     login_as admin
@@ -43,7 +43,7 @@ describe 'Job status', type: :feature, js: true do
   end
 
   describe 'with a status that has an additional errors payload' do
-    let!(:status) { FactoryBot.create(:delayed_job_status, user: admin) }
+    let!(:status) { create(:delayed_job_status, user: admin) }
 
     before do
       status.update! payload: { errors: ['Some error', 'Another error'] }
@@ -59,7 +59,7 @@ describe 'Job status', type: :feature, js: true do
   end
 
   describe 'with a status with error and redirect' do
-    let!(:status) { FactoryBot.create(:delayed_job_status, user: admin) }
+    let!(:status) { create(:delayed_job_status, user: admin) }
 
     before do
       status.update! payload: { redirect: home_url, errors: ['Some error'] }

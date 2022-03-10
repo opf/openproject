@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 ko:
   activerecord:
@@ -72,7 +72,7 @@ ko:
     story: "스토리"
     story_points: "스토리 포인트"
     story_points_ideal: "스토리 포인트(적합함)"
-    task: "일감"
+    task: "작업"
     task_color: "작업 색상"
     unassigned: "할당되지 않음"
     x_more: "%{count}개 이상..."
@@ -111,7 +111,7 @@ ko:
   label_backlog: "백로그"
   label_backlogs: "백로그"
   label_backlogs_unconfigured: "백로그를 아직 구성하지 않았습니다. %{administration} > %{plugins}(으)로 이동한 다음 이 플러그인의 %{configure} 링크를 클릭하세요. 필드를 설정한 후 이 페이지로 돌아가서 해당 도구 사용을 시작하세요."
-  label_blocks_ids: "차단 된 작업 패키지의 ID"
+  label_blocks_ids: "차단된 작업 패키지의 ID"
   label_burndown: "번다운"
   label_column_in_backlog: "백로그의 열"
   label_hours: "시간"
@@ -137,6 +137,7 @@ ko:
   label_wiki: "위키"
   permission_view_master_backlog: "마스터 백로그 보기"
   permission_view_taskboards: "작업 보드 보기"
+  permission_select_done_statuses: "완료 상태 선택"
   permission_update_sprints: "스프린트 업데이트"
   points_accepted: "포인트 수락됨"
   points_committed: "포인트 커밋됨"

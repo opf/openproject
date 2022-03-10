@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 FactoryBot.define do
@@ -67,5 +67,12 @@ FactoryBot.define do
         end
       end
     end
+  end
+
+  factory :ifc_model_without_ifc_attachment, class: '::Bim::IfcModels::IfcModel' do
+    sequence(:title) { |n| "Model without ifc_attachment #{n}" }
+    project factory: :project
+    uploader factory: :user
+    is_default { true }
   end
 end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -34,23 +34,23 @@ describe 'API v3 news resource', type: :request do
   include API::V3::Utilities::PathHelper
 
   let(:current_user) do
-    FactoryBot.create(:user, member_in_project: project, member_through_role: role)
+    create(:user, member_in_project: project, member_through_role: role)
   end
   let(:news) do
-    FactoryBot.create(:news, project: project, author: current_user)
+    create(:news, project: project, author: current_user)
   end
   let(:other_news) do
-    FactoryBot.create(:news, project: project, author: other_user)
+    create(:news, project: project, author: other_user)
   end
   let(:other_user) do
-    FactoryBot.create(:user, member_in_project: project, member_through_role: role)
+    create(:user, member_in_project: project, member_through_role: role)
   end
   let(:invisible_news) do
-    FactoryBot.create(:news, project: other_project, author: other_user)
+    create(:news, project: other_project, author: other_user)
   end
-  let(:project) { FactoryBot.create(:project) }
-  let(:other_project) { FactoryBot.create(:project) }
-  let(:role) { FactoryBot.create(:role, permissions: permissions) }
+  let(:project) { create(:project) }
+  let(:other_project) { create(:project) }
+  let(:role) { create(:role, permissions: permissions) }
   let(:permissions) { %i(view_news) }
 
   subject(:response) { last_response }

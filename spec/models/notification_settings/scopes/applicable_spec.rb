@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -33,18 +33,17 @@ describe NotificationSettings::Scopes::Applicable, type: :model do
     subject(:scope) { ::NotificationSetting.applicable(project) }
 
     let!(:user) do
-      FactoryBot.create(:user,
-                        notification_settings: notification_settings)
+      create(:user,
+             notification_settings: notification_settings)
     end
     let!(:project) do
-      FactoryBot.create(:project)
+      create(:project)
     end
 
     context 'when only global settings exist' do
       let(:notification_settings) do
         [
-          FactoryBot.build(:mail_notification_setting, project: nil),
-          FactoryBot.build(:in_app_notification_setting, project: nil)
+          build(:notification_setting, project: nil)
         ]
       end
 
@@ -57,14 +56,12 @@ describe NotificationSettings::Scopes::Applicable, type: :model do
     context 'when global and project settings exist' do
       let(:project_notification_settings) do
         [
-          FactoryBot.build(:mail_notification_setting, project: project),
-          FactoryBot.build(:in_app_notification_setting, project: project)
+          build(:notification_setting, project: project)
         ]
       end
       let(:global_notification_settings) do
         [
-          FactoryBot.build(:mail_notification_setting),
-          FactoryBot.build(:in_app_notification_setting)
+          build(:notification_setting)
         ]
       end
       let(:notification_settings) { project_notification_settings + global_notification_settings }
@@ -76,17 +73,15 @@ describe NotificationSettings::Scopes::Applicable, type: :model do
     end
 
     context 'when global and project settings exist but for a different project' do
-      let(:other_project) { FactoryBot.create(:project) }
+      let(:other_project) { create(:project) }
       let(:project_notification_settings) do
         [
-          FactoryBot.build(:mail_notification_setting, project: other_project),
-          FactoryBot.build(:in_app_notification_setting, project: other_project)
+          build(:notification_setting, project: other_project)
         ]
       end
       let(:global_notification_settings) do
         [
-          FactoryBot.build(:mail_notification_setting),
-          FactoryBot.build(:in_app_notification_setting)
+          build(:notification_setting)
         ]
       end
       let(:notification_settings) { project_notification_settings + global_notification_settings }

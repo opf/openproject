@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 class Journal < ApplicationRecord
@@ -110,10 +108,14 @@ class Journal < ApplicationRecord
   private
 
   def predecessor
-    @predecessor ||= self.class
-                     .where(journable_type: journable_type, journable_id: journable_id)
-                     .where("#{self.class.table_name}.version < ?", version)
-                     .order("#{self.class.table_name}.version DESC")
-                     .first
+    @predecessor ||= if initial?
+                       nil
+                     else
+                       self.class
+                         .where(journable_type: journable_type, journable_id: journable_id)
+                         .where("#{self.class.table_name}.version < ?", version)
+                         .order(version: :desc)
+                         .first
+                     end
   end
 end

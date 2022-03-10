@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -68,17 +68,17 @@ describe LdapAuthSource, type: :model do
 
     # Ldap has three users aa729, bb459, cc414
     let(:ldap) do
-      FactoryBot.create :ldap_auth_source,
-                        port: ParallelHelper.port_for_ldap.to_s,
-                        account: 'uid=admin,ou=system',
-                        account_password: 'secret',
-                        base_dn: 'ou=people,dc=example,dc=com',
-                        filter_string: filter_string,
-                        onthefly_register: true,
-                        attr_login: 'uid',
-                        attr_firstname: 'givenName',
-                        attr_lastname: 'sn',
-                        attr_mail: 'mail'
+      create :ldap_auth_source,
+             port: ParallelHelper.port_for_ldap.to_s,
+             account: 'uid=admin,ou=system',
+             account_password: 'secret',
+             base_dn: 'ou=people,dc=example,dc=com',
+             filter_string: filter_string,
+             onthefly_register: true,
+             attr_login: 'uid',
+             attr_firstname: 'givenName',
+             attr_lastname: 'sn',
+             attr_mail: 'mail'
     end
 
     let(:filter_string) { nil }

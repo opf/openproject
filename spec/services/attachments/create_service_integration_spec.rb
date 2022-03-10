@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -25,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 
 require 'spec_helper'
 
@@ -43,11 +41,11 @@ describe Attachments::CreateService, 'integration', with_settings: { journal_agg
     end
 
     context 'when journalized' do
-      shared_let(:container) { FactoryBot.create(:work_package) }
+      shared_let(:container) { create(:work_package) }
       shared_let(:user) do
-        FactoryBot.create :user,
-                          member_in_project: container.project,
-                          member_with_permissions: %i[view_work_packages edit_work_packages]
+        create :user,
+               member_in_project: container.project,
+               member_with_permissions: %i[view_work_packages edit_work_packages]
       end
 
       shared_examples 'successful creation' do
@@ -106,11 +104,11 @@ describe Attachments::CreateService, 'integration', with_settings: { journal_agg
     end
 
     context 'when not journalized' do
-      shared_let(:container) { FactoryBot.create(:message) }
+      shared_let(:container) { create(:message) }
       shared_let(:user) do
-        FactoryBot.create :user,
-                          member_in_project: container.forum.project,
-                          member_with_permissions: %i[add_messages edit_messages]
+        create :user,
+               member_in_project: container.forum.project,
+               member_with_permissions: %i[add_messages edit_messages]
       end
 
       shared_examples 'successful creation' do
@@ -160,7 +158,7 @@ describe Attachments::CreateService, 'integration', with_settings: { journal_agg
 
     context "when uncontainered" do
       let(:container) { nil }
-      let(:user) { FactoryBot.create :admin }
+      let(:user) { create :admin }
 
       before do
         call_tested_method
@@ -175,7 +173,7 @@ describe Attachments::CreateService, 'integration', with_settings: { journal_agg
 
     context "when user with no permissions" do
       let(:container) { nil }
-      let(:user) { FactoryBot.build_stubbed :user }
+      let(:user) { build_stubbed :user }
 
       it 'does not save an attachment' do
         expect do

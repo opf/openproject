@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,13 +23,13 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-describe WorkPackage::Exporter::PDF, type: :model do
-  let(:project) { FactoryBot.create :project }
+describe WorkPackage::PDFExport::WorkPackageToPdf, type: :model do
+  let(:project) { create :project }
   let(:query) { Query.new_default(name: '_', project: project) }
   subject { described_class.new query }
 
@@ -39,7 +39,7 @@ describe WorkPackage::Exporter::PDF, type: :model do
 
   describe 'backlogs column' do
     it 'should contain the story_points column in valid export column names' do
-      backlog_column = subject.valid_export_columns.detect { |c| c.name == :story_points }
+      backlog_column = subject.columns.detect { |c| c.name == :story_points }
       expect(backlog_column).to be_present
     end
   end

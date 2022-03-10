@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -48,9 +48,9 @@ describe Queries::WorkPackages::Filter::EstimatedHoursFilter, type: :model do
     it_behaves_like 'non ar filter'
 
     describe '#where' do
-      let!(:work_package_zero_hour) { FactoryBot.create(:work_package, estimated_hours: 0) }
-      let!(:work_package_no_hours) { FactoryBot.create(:work_package, estimated_hours: nil) }
-      let!(:work_package_with_hours) { FactoryBot.create(:work_package, estimated_hours: 1) }
+      let!(:work_package_zero_hour) { create(:work_package, estimated_hours: 0) }
+      let!(:work_package_no_hours) { create(:work_package, estimated_hours: nil) }
+      let!(:work_package_with_hours) { create(:work_package, estimated_hours: 1) }
 
       context 'with the operator being "none"' do
         before do

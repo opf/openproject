@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -34,14 +32,14 @@ require 'contracts/shared/model_contract_shared_context'
 describe Backups::CreateContract do
   let(:backup) { Backup.new }
   let(:contract) { described_class.new backup, current_user, options: { backup_token: backup_token.plain_value } }
-  let(:backup_token) { FactoryBot.create :backup_token, user: current_user }
+  let(:backup_token) { create :backup_token, user: current_user }
 
   include_context 'ModelContract shared context'
 
   it_behaves_like 'contract is valid for active admins and invalid for regular users'
 
   context 'with regular user who has the :create_backup permission' do
-    let(:current_user) { FactoryBot.create :user, global_permissions: [:create_backup] }
+    let(:current_user) { create :user, global_permissions: [:create_backup] }
 
     it_behaves_like 'contract is valid'
   end

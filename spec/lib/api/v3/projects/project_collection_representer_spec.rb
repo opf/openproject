@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,23 +23,55 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 describe ::API::V3::Projects::ProjectCollectionRepresenter do
-  let(:self_link) { '/api/v3/versions/1/projects' }
-  let(:projects) { FactoryBot.build_list(:project, 3) }
-  let(:current_user) { FactoryBot.build(:user) }
+  shared_let(:projects) { create_list(:project, 3) }
+
+  let(:self_base_link) { '/api/v3/projects' }
+  let(:current_user) { build(:user) }
   let(:representer) do
-    described_class.new(projects, self_link: self_link, current_user: current_user)
+    described_class.new Project.all,
+                        self_link: self_base_link,
+                        current_user: current_user
   end
+  let(:total) { 3 }
+  let(:page) { 1 }
+  let(:page_size) { 30 }
+  let(:actual_count) { 3 }
+  let(:collection_inner_type) { 'Project' }
+
+  subject { representer.to_json }
 
   context 'generation' do
     subject(:collection) { representer.to_json }
 
-    it_behaves_like 'unpaginated APIv3 collection', 3, 'versions/1/projects', 'Project'
+    it_behaves_like 'offset-paginated APIv3 collection', 3, 'projects', 'Project'
+  end
+
+  describe 'representation formats' do
+    it_behaves_like 'has a link collection' do
+      let(:link) { 'representations' }
+      let(:hrefs) do
+        [
+          {
+            'href' => '/projects.csv?offset=1&pageSize=30',
+            'identifier' => 'csv',
+            'type' => 'text/csv',
+            'title' => 'CSV'
+          },
+          {
+            'href' => '/projects.xls?offset=1&pageSize=30',
+            'identifier' => 'xls',
+            'type' => 'application/vnd.ms-excel',
+            'title' => 'XLS'
+          }
+        ]
+      end
+    end
   end
 
   describe '.checked_permissions' do

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -31,21 +31,21 @@ require 'spec_helper'
 describe Grids::Query, type: :model do
   include OpenProject::StaticRouting::UrlHelpers
 
-  shared_let(:project) { FactoryBot.create(:project) }
-  shared_let(:other_project) { FactoryBot.create(:project) }
-  shared_let(:show_board_views_role) { FactoryBot.create(:role, permissions: [:show_board_views]) }
-  shared_let(:other_role) { FactoryBot.create(:role, permissions: []) }
+  shared_let(:project) { create(:project) }
+  shared_let(:other_project) { create(:project) }
+  shared_let(:show_board_views_role) { create(:role, permissions: [:show_board_views]) }
+  shared_let(:other_role) { create(:role, permissions: []) }
   shared_let(:current_user) do
-    FactoryBot.create(:user).tap do |user|
-      FactoryBot.create(:member, user: user, project: project, roles: [show_board_views_role])
-      FactoryBot.create(:member, user: user, project: other_project, roles: [other_role])
+    create(:user).tap do |user|
+      create(:member, user: user, project: project, roles: [show_board_views_role])
+      create(:member, user: user, project: other_project, roles: [other_role])
     end
   end
   let!(:board_grid) do
-    FactoryBot.create(:board_grid, project: project)
+    create(:board_grid, project: project)
   end
   let!(:other_board_grid) do
-    FactoryBot.create(:board_grid, project: other_project)
+    create(:board_grid, project: other_project)
   end
   let(:instance) { described_class.new }
 

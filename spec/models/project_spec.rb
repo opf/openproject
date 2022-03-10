@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -31,12 +31,12 @@ require File.expand_path('../support/shared/become_member', __dir__)
 
 describe Project, type: :model do
   include BecomeMember
-  shared_let(:admin) { FactoryBot.create :admin }
+  shared_let(:admin) { create :admin }
 
   let(:active) { true }
-  let(:project) { FactoryBot.create(:project, active: active) }
-  let(:build_project) { FactoryBot.build_stubbed(:project, active: active) }
-  let(:user) { FactoryBot.create(:user) }
+  let(:project) { create(:project, active: active) }
+  let(:build_project) { build_stubbed(:project, active: active) }
+  let(:user) { create(:user) }
 
   describe '#active?' do
     context 'if active' do
@@ -71,7 +71,7 @@ describe Project, type: :model do
   end
 
   context 'when the wiki module is enabled' do
-    let(:project) { FactoryBot.create(:project, disable_modules: 'wiki') }
+    let(:project) { create(:project, disable_modules: 'wiki') }
 
     before :each do
       project.enabled_module_names = project.enabled_module_names | ['wiki']
@@ -90,8 +90,8 @@ describe Project, type: :model do
   end
 
   describe '#copy_allowed?' do
-    let(:user) { FactoryBot.build_stubbed(:user) }
-    let(:project) { FactoryBot.build_stubbed(:project) }
+    let(:user) { build_stubbed(:user) }
+    let(:project) { build_stubbed(:project) }
     let(:permission_granted) { true }
 
     before do
@@ -119,10 +119,10 @@ describe Project, type: :model do
   end
 
   describe 'status' do
-    let(:status) { FactoryBot.build_stubbed(:project_status) }
+    let(:status) { build_stubbed(:project_status) }
     let(:stubbed_project) do
-      FactoryBot.build_stubbed(:project,
-                               status: status)
+      build_stubbed(:project,
+                    status: status)
     end
 
     it 'has a status' do
@@ -141,75 +141,41 @@ describe Project, type: :model do
   end
 
   describe 'name' do
-    let(:project) { FactoryBot.build_stubbed :project, name: '     Hello    World   ' }
+    let(:name) { '     Hello    World   ' }
+    let(:project) { described_class.new attributes_for(:project, name: name) }
 
-    before do
-      project.valid?
+    context 'with white spaces in the name' do
+      it 'trims the name' do
+        project.save
+        expect(project.name).to eql('Hello World')
+      end
     end
 
-    it 'trims the name' do
-      expect(project.name).to eql('Hello World')
+    context 'when updating the name' do
+      it 'persists the update' do
+        project.save
+        project.name = 'A new name'
+        project.save
+        project.reload
+
+        expect(project.name).to eql('A new name')
+      end
     end
   end
 
   describe '#types_used_by_work_packages' do
-    let(:project) { FactoryBot.create(:project_with_types) }
+    let(:project) { create(:project_with_types) }
     let(:type) { project.types.first }
-    let(:other_type) { FactoryBot.create(:type) }
-    let(:project_work_package) { FactoryBot.create(:work_package, type: type, project: project) }
-    let(:other_project) { FactoryBot.create(:project, types: [other_type, type]) }
-    let(:other_project_work_package) { FactoryBot.create(:work_package, type: other_type, project: other_project) }
+    let(:other_type) { create(:type) }
+    let(:project_work_package) { create(:work_package, type: type, project: project) }
+    let(:other_project) { create(:project, types: [other_type, type]) }
+    let(:other_project_work_package) { create(:work_package, type: other_type, project: other_project) }
 
     it 'returns the type used by a work package of the project' do
       project_work_package
       other_project_work_package
 
       expect(project.types_used_by_work_packages).to match_array [project_work_package.type]
-    end
-  end
-
-  context '#rolled_up_versions' do
-    let!(:project) { FactoryBot.create(:project) }
-    let!(:parent_version1) { FactoryBot.create(:version, project: project) }
-    let!(:parent_version2) { FactoryBot.create(:version, project: project) }
-
-    it 'should include the versions for the current project' do
-      expect(project.rolled_up_versions)
-        .to match_array [parent_version1, parent_version2]
-    end
-
-    it 'should include versions for a subproject' do
-      subproject = FactoryBot.create(:project, parent: project)
-      subproject_version = FactoryBot.create(:version, project: subproject)
-
-      project.reload
-
-      expect(project.rolled_up_versions)
-        .to match_array [parent_version1, parent_version2, subproject_version]
-    end
-
-    it 'should include versions for a sub-subproject' do
-      subproject = FactoryBot.create(:project, parent: project)
-      sub_subproject = FactoryBot.create(:project, parent: subproject)
-      sub_subproject_version = FactoryBot.create(:version, project: sub_subproject)
-
-      project.reload
-
-      expect(project.rolled_up_versions)
-        .to match_array [parent_version1, parent_version2, sub_subproject_version]
-    end
-
-    it 'should only check active projects' do
-      subproject = FactoryBot.create(:project, parent: project)
-      FactoryBot.create(:version, project: subproject)
-      subproject.update(active: false)
-
-      project.reload
-
-      expect(subproject)
-        .not_to be_active
-      expect(project.rolled_up_versions)
-        .to match_array [parent_version1, parent_version2]
     end
   end
 end

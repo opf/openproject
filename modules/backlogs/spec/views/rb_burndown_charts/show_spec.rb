@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,52 +23,52 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require File.dirname(__FILE__) + '/../../spec_helper'
 
 describe 'rb_burndown_charts/show', type: :view do
-  let(:user1) { FactoryBot.create(:user) }
-  let(:user2) { FactoryBot.create(:user) }
+  let(:user1) { create(:user) }
+  let(:user2) { create(:user) }
   let(:role_allowed) do
-    FactoryBot.create(:role,
-                      permissions: %i[add_work_packages manage_subtasks])
+    create(:role,
+           permissions: %i[add_work_packages manage_subtasks])
   end
-  let(:role_forbidden) { FactoryBot.create(:role) }
+  let(:role_forbidden) { create(:role) }
   # We need to create these as some view helpers access the database
   let(:statuses) do
-    [FactoryBot.create(:status),
-     FactoryBot.create(:status),
-     FactoryBot.create(:status)]
+    [create(:status),
+     create(:status),
+     create(:status)]
   end
 
-  let(:type_task) { FactoryBot.create(:type_task) }
-  let(:type_feature) { FactoryBot.create(:type_feature) }
-  let(:issue_priority) { FactoryBot.create(:priority) }
+  let(:type_task) { create(:type_task) }
+  let(:type_feature) { create(:type_feature) }
+  let(:issue_priority) { create(:priority) }
   let(:project) do
-    project = FactoryBot.create(:project, types: [type_feature, type_task])
-    project.members = [FactoryBot.create(:member, principal: user1, project: project, roles: [role_allowed]),
-                       FactoryBot.create(:member, principal: user2, project: project, roles: [role_forbidden])]
+    project = create(:project, types: [type_feature, type_task])
+    project.members = [create(:member, principal: user1, project: project, roles: [role_allowed]),
+                       create(:member, principal: user2, project: project, roles: [role_forbidden])]
     project
   end
 
   let(:story_a) do
-    FactoryBot.create(:story, status: statuses[0],
+    create(:story, status: statuses[0],
                               project: project,
                               type: type_feature,
                               version: sprint,
                               priority: issue_priority)
   end
   let(:story_b) do
-    FactoryBot.create(:story, status: statuses[1],
+    create(:story, status: statuses[1],
                               project: project,
                               type: type_feature,
                               version: sprint,
                               priority: issue_priority)
   end
   let(:story_c) do
-    FactoryBot.create(:story, status: statuses[2],
+    create(:story, status: statuses[2],
                               project: project,
                               type: type_feature,
                               version: sprint,
@@ -76,10 +76,10 @@ describe 'rb_burndown_charts/show', type: :view do
   end
   let(:stories) { [story_a, story_b, story_c] }
   let(:sprint) do
-    FactoryBot.create(:sprint, project: project, start_date: Date.today - 1.week, effective_date: Date.today + 1.week)
+    create(:sprint, project: project, start_date: Date.today - 1.week, effective_date: Date.today + 1.week)
   end
   let(:task) do
-    task = FactoryBot.create(:task, project: project, status: statuses[0], version: sprint, type: type_task)
+    task = create(:task, project: project, status: statuses[0], version: sprint, type: type_task)
     # This is necessary as for some unknown reason passing the parent directly
     # leads to the task searching for the parent with 'root_id' is NULL, which
     # is not the case as the story has its own id as root_id

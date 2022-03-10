@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,13 +23,13 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { OpenProjectFileUploadService, UploadFile } from "core-app/core/file-upload/op-file-upload.service";
 import { resizeFile } from "core-app/shared/helpers/images/resizer";
 import { I18nService } from "core-app/core/i18n/i18n.service";
-import { NotificationsService } from "core-app/shared/components/notifications/notifications.service";
+import { ToastService } from "core-app/shared/components/toaster/toast.service";
 
 @Component({
   selector: 'avatar-upload-form',
@@ -62,7 +62,7 @@ export class AvatarUploadFormComponent implements OnInit {
 
   public constructor(protected I18n:I18nService,
                      protected elementRef:ElementRef,
-                     protected notificationsService:NotificationsService,
+                     protected toastService:ToastService,
                      protected opFileUpload:OpenProjectFileUploadService) {
   }
 
@@ -96,7 +96,7 @@ export class AvatarUploadFormComponent implements OnInit {
     evt.preventDefault();
     this.busy = true;
     const upload = this.opFileUpload.uploadSingle(this.target, this.avatarFile, this.method, 'text');
-    this.notificationsService.addAttachmentUpload(this.text.uploading, [upload]);
+    this.toastService.addAttachmentUpload(this.text.uploading, [upload]);
 
     upload[1].subscribe(
       (evt:any) => {
@@ -116,7 +116,7 @@ export class AvatarUploadFormComponent implements OnInit {
         }
       },
       (error:any) => {
-        this.notificationsService.addError(error.error);
+        this.toastService.addError(error.error);
         this.busy = false;
       }
     );

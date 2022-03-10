@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
@@ -32,7 +32,7 @@ import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decora
 import * as URI from 'urijs';
 import { TimeEntryCreateService } from 'core-app/shared/components/time_entries/create/create.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { DurationDisplayField } from './duration-display-field.module';
 
 export class WorkPackageSpentTimeDisplayField extends DurationDisplayField {
@@ -45,7 +45,7 @@ export class WorkPackageSpentTimeDisplayField extends DurationDisplayField {
 
   @InjectField(TimeEntryCreateService, null) timeEntryCreateService:TimeEntryCreateService;
 
-  @InjectField() apiV3Service:APIV3Service;
+  @InjectField() apiV3Service:ApiV3Service;
 
   public render(element:HTMLElement, displayText:string):void {
     if (!this.value) {

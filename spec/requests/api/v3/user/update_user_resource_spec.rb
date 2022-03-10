@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -25,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 
 require 'spec_helper'
 require 'rack/test'
@@ -35,7 +33,7 @@ describe ::API::V3::Users::UsersAPI, type: :request do
 
   let(:path) { api_v3_paths.user(user.id) }
 
-  let(:user) { FactoryBot.create(:user) }
+  let(:user) { create(:user) }
   let(:parameters) { {} }
 
   before do
@@ -76,7 +74,7 @@ describe ::API::V3::Users::UsersAPI, type: :request do
 
     describe 'attribute collision' do
       let(:parameters) { { email: 'foo@example.org' } }
-      let(:collision) { FactoryBot.create(:user, mail: 'foo@example.org') }
+      let(:collision) { create(:user, mail: 'foo@example.org') }
       before do
         collision
       end
@@ -98,7 +96,7 @@ describe ::API::V3::Users::UsersAPI, type: :request do
   end
 
   describe 'admin user' do
-    let(:current_user) { FactoryBot.build(:admin) }
+    let(:current_user) { build(:admin) }
 
     it_behaves_like 'update flow'
 
@@ -128,7 +126,7 @@ describe ::API::V3::Users::UsersAPI, type: :request do
   end
 
   describe 'user with global manage_user permission' do
-    shared_let(:global_manage_user) { FactoryBot.create :user, global_permission: :manage_user }
+    shared_let(:global_manage_user) { create :user, global_permission: :manage_user }
     let(:current_user) { global_manage_user }
 
     it_behaves_like 'update flow'
@@ -153,7 +151,7 @@ describe ::API::V3::Users::UsersAPI, type: :request do
   end
 
   describe 'unauthorized user' do
-    let(:current_user) { FactoryBot.build(:user) }
+    let(:current_user) { build(:user) }
     let(:parameters) { { email: 'new@example.org' } }
 
     it 'returns an erroneous response' do

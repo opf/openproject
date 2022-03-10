@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,15 +23,15 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 describe CustomAction, type: :model do
-  let(:stubbed_instance) { FactoryBot.build_stubbed :custom_action }
-  let(:instance) { FactoryBot.create :custom_action, name: 'zzzzzzzzz' }
-  let(:other_instance) { FactoryBot.create :custom_action, name: 'aaaaa' }
+  let(:stubbed_instance) { build_stubbed :custom_action }
+  let(:instance) { create :custom_action, name: 'zzzzzzzzz' }
+  let(:other_instance) { create :custom_action, name: 'aaaaa' }
 
   describe '#name' do
     it 'can be set and read' do
@@ -124,9 +124,9 @@ describe CustomAction, type: :model do
   end
 
   describe '.conditions' do
-    let(:status) { FactoryBot.create(:status) }
-    let(:role) { FactoryBot.create(:role) }
-    let(:project) { FactoryBot.create(:project) }
+    let(:status) { create(:status) }
+    let(:role) { create(:role) }
+    let(:project) { create(:project) }
 
     it 'is empty initially' do
       expect(stubbed_instance.conditions)

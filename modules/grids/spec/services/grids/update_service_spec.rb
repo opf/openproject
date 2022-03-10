@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,13 +23,13 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 describe Grids::UpdateService, type: :model do
-  let(:user) { FactoryBot.build_stubbed(:user) }
+  let(:user) { build_stubbed(:user) }
   let(:contract_class) do
     double('contract_class', "<=": true)
   end
@@ -55,7 +53,7 @@ describe Grids::UpdateService, type: :model do
                       errors: set_attributes_errors
   end
   let!(:grid) do
-    grid = FactoryBot.build_stubbed(grid_class.name.demodulize.underscore.to_sym)
+    grid = build_stubbed(grid_class.name.demodulize.underscore.to_sym)
 
     allow(grid)
       .to receive(:save)
@@ -150,7 +148,7 @@ describe Grids::UpdateService, type: :model do
     end
 
     context 'with parameters only for widgets' do
-      let(:call_attributes) { { widgets: [FactoryBot.build_stubbed(:grid_widget)] } }
+      let(:call_attributes) { { widgets: [build_stubbed(:grid_widget)] } }
 
       before do
         allow(set_attributes_service)

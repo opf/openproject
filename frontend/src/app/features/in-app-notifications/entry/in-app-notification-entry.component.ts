@@ -1,24 +1,19 @@
 import {
-  EventEmitter,
   ChangeDetectionStrategy,
   Component,
+  HostBinding,
   Input,
   OnInit,
-  Output,
+  ViewEncapsulation,
 } from '@angular/core';
-import {
-  InAppNotification,
-  InAppNotificationDetail,
-} from 'core-app/features/in-app-notifications/store/in-app-notification.model';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import {
   Observable,
   timer,
 } from 'rxjs';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { InAppNotificationsService } from 'core-app/features/in-app-notifications/store/in-app-notifications.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import {
   distinctUntilChanged,
@@ -28,35 +23,30 @@ import { PrincipalLike } from 'core-app/shared/components/principal/principal-ty
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { take } from 'rxjs/internal/operators/take';
 import { StateService } from '@uirouter/angular';
-import { InAppNotificationsQuery } from 'core-app/features/in-app-notifications/store/in-app-notifications.query';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-import { BackRouteOptions } from 'core-app/features/work-packages/components/back-routing/back-routing.service';
+import { InAppNotification } from 'core-app/core/state/in-app-notifications/in-app-notification.model';
+import { IanCenterService } from 'core-app/features/in-app-notifications/center/state/ian-center.service';
+import { DeviceService } from 'core-app/core/browser/device.service';
 
 @Component({
   selector: 'op-in-app-notification-entry',
   templateUrl: './in-app-notification-entry.component.html',
   styleUrls: ['./in-app-notification-entry.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
 })
 export class InAppNotificationEntryComponent implements OnInit {
+  @HostBinding('class.op-ian-item') className = true;
+
   @Input() notification:InAppNotification;
 
   @Input() aggregatedNotifications:InAppNotification[];
 
-  @Output() resourceLinkClicked = new EventEmitter<unknown>();
-
   workPackage$:Observable<WorkPackageResource>|null = null;
 
-  loading$ = this.ianQuery.selectLoading();
+  loading$ = this.storeService.query.selectLoading();
 
-  // Formattable body, if any
-  body:InAppNotificationDetail[];
-
-  // custom rendered details, if any
-  details:InAppNotificationDetail[];
-
-  // Whether body and details are empty
-  unexpandable = false;
+  stateChanged$ = this.storeService.stateChanged$;
 
   // The actor, if any
   actors:PrincipalLike[] = [];
@@ -73,6 +63,9 @@ export class InAppNotificationEntryComponent implements OnInit {
   project?:{ href:string, title:string, showUrl:string };
 
   text = {
+    and_other_singular: this.I18n.t('js.notifications.center.and_more_users.one'),
+    and_other_plural: (count:number):string => this.I18n.t('js.notifications.center.and_more_users.other',
+      { count }),
     loading: this.I18n.t('js.ajax.loading'),
     placeholder: this.I18n.t('js.placeholders.default'),
     updated_by_at: (age:string):string => this.I18n.t('js.notifications.center.text_update_date',
@@ -80,20 +73,19 @@ export class InAppNotificationEntryComponent implements OnInit {
   };
 
   constructor(
-    readonly apiV3Service:APIV3Service,
+    readonly apiV3Service:ApiV3Service,
     readonly I18n:I18nService,
-    readonly ianService:InAppNotificationsService,
-    readonly ianQuery:InAppNotificationsQuery,
+    readonly storeService:IanCenterService,
     readonly timezoneService:TimezoneService,
     readonly pathHelper:PathHelperService,
     readonly state:StateService,
+    readonly deviceService:DeviceService,
   ) {
   }
 
   ngOnInit():void {
     this.buildTranslatedReason();
     this.buildActors();
-    this.buildDetails();
     this.buildTime();
     this.buildProject();
     this.loadWorkPackage();
@@ -112,13 +104,6 @@ export class InAppNotificationEntryComponent implements OnInit {
     }
   }
 
-  private buildDetails() {
-    const details = this.notification.details || [];
-    this.body = details.filter((el) => el.format === 'markdown');
-    this.details = details.filter((el) => el.format === 'custom');
-    this.unexpandable = this.body.length === 0 && this.details.length === 0;
-  }
-
   private buildTime() {
     this.fixedTime = this.timezoneService.formattedDatetime(this.notification.createdAt);
     this.relativeTime$ = timer(0, 10000)
@@ -131,7 +116,7 @@ export class InAppNotificationEntryComponent implements OnInit {
   }
 
   showDetails():void {
-    if (this.unexpandable || !this.workPackage$) {
+    if (!this.workPackage$) {
       return;
     }
 
@@ -141,10 +126,7 @@ export class InAppNotificationEntryComponent implements OnInit {
         take(1),
       )
       .subscribe((wp) => {
-        void this.state.go(
-          `${(this.state.current.data as BackRouteOptions).baseRoute}.details.tabs`,
-          { workPackageId: wp.id, tabIdentifier: 'activity' },
-        );
+        this.storeService.openSplitScreen(wp.id);
       });
   }
 
@@ -154,10 +136,21 @@ export class InAppNotificationEntryComponent implements OnInit {
 
   markAsRead(event:MouseEvent, notifications:InAppNotification[]):void {
     event.stopPropagation();
+    this.storeService.markAsRead(notifications.map((el) => el.id));
+  }
 
-    this
-      .ianService
-      .markAsRead(notifications);
+  text_for_additional_authors(number:number):string {
+    let hint:string;
+    if (number === 1) {
+      hint = this.text.and_other_singular;
+    } else {
+      hint = this.text.and_other_plural(number);
+    }
+    return hint;
+  }
+
+  isMobile():boolean {
+    return this.deviceService.isMobile;
   }
 
   private buildActors() {

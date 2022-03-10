@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,17 +23,20 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 class Notifications::GroupMemberAlteredJob < ApplicationJob
   queue_with_priority :notification
 
-  def perform(members_ids, message)
-    each_member(members_ids) do |member|
-      OpenProject::Notifications.send(event_type(member),
-                                      member: member,
-                                      message: message)
+  def perform(current_user, members_ids, message, send_notifications)
+    User.execute_as(current_user) do
+      each_member(members_ids) do |member|
+        OpenProject::Notifications.send(event_type(member),
+                                        member: member,
+                                        message: message,
+                                        send_notifications: send_notifications)
+      end
     end
   end
 

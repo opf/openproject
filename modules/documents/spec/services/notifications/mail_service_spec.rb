@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -34,17 +32,17 @@ describe Notifications::MailService, type: :model do
   subject(:call) { instance.call }
 
   let(:recipient) do
-    FactoryBot.build_stubbed(:user)
+    build_stubbed(:user)
   end
   let(:actor) do
-    FactoryBot.build_stubbed(:user)
+    build_stubbed(:user)
   end
   let(:instance) { described_class.new(notification) }
 
   context 'with a document journal notification' do
     let(:journal) do
-      FactoryBot.build_stubbed(:journal,
-                               journable: FactoryBot.build_stubbed(:document)).tap do |j|
+      build_stubbed(:journal,
+                    journable: build_stubbed(:document)).tap do |j|
         allow(j)
           .to receive(:initial?)
                 .and_return(initial_journal)
@@ -52,12 +50,12 @@ describe Notifications::MailService, type: :model do
     end
     let(:read_ian) { false }
     let(:notification) do
-      FactoryBot.build_stubbed(:notification,
-                               journal: journal,
-                               resource: journal.journable,
-                               recipient: recipient,
-                               actor: actor,
-                               read_ian: read_ian)
+      build_stubbed(:notification,
+                    journal: journal,
+                    resource: journal.journable,
+                    recipient: recipient,
+                    actor: actor,
+                    read_ian: read_ian)
     end
     let(:notification_setting) { %w(document_added) }
     let(:mail) do
@@ -76,8 +74,6 @@ describe Notifications::MailService, type: :model do
 
     before do
       mail
-
-      allow(Setting).to receive(:notified_events).and_return(notification_setting)
     end
 
     it 'sends a mail' do
@@ -90,17 +86,6 @@ describe Notifications::MailService, type: :model do
 
       expect(mail)
         .to have_received(:deliver_later)
-    end
-
-    context 'with the event being disabled' do
-      let(:notification_setting) { %w(wiki_content_updated) }
-
-      it 'sends no mail' do
-        call
-
-        expect(DocumentsMailer)
-          .not_to have_received(:document_added)
-      end
     end
 
     context 'with the notification read in app already' do

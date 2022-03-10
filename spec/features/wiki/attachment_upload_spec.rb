@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -33,11 +31,11 @@ require 'features/page_objects/notification'
 
 describe 'Upload attachment to wiki page', js: true do
   let(:user) do
-    FactoryBot.create :user,
-                      member_in_project: project,
-                      member_with_permissions: %i[view_wiki_pages edit_wiki_pages]
+    create :user,
+           member_in_project: project,
+           member_with_permissions: %i[view_wiki_pages edit_wiki_pages]
   end
-  let(:project) { FactoryBot.create(:project) }
+  let(:project) { create(:project) }
   let(:attachments) { ::Components::Attachments.new }
   let(:image_fixture) { UploadedFile.load_from('spec/fixtures/files/image.png') }
   let(:editor) { ::Components::WysiwygEditor.new }
@@ -54,7 +52,7 @@ describe 'Upload attachment to wiki page', js: true do
     editor.drag_attachment image_fixture.path, 'Image uploaded the first time'
 
     expect(page).to have_selector('attachment-list-item', text: 'image.png')
-    expect(page).not_to have_selector('notification-upload-progress')
+    expect(page).not_to have_selector('op-toasters-upload-progress')
 
     click_on 'Save'
 
@@ -76,7 +74,7 @@ describe 'Upload attachment to wiki page', js: true do
 
     editor.drag_attachment image_fixture.path, 'Image uploaded the second time'
 
-    expect(page).not_to have_selector('notification-upload-progress')
+    expect(page).not_to have_selector('op-toasters-upload-progress')
     expect(page).to have_selector('attachment-list-item', text: 'image.png', count: 2)
 
     editor.in_editor do |container, _|
@@ -89,7 +87,7 @@ describe 'Upload attachment to wiki page', js: true do
     end
 
     editor.click_hover_toolbar_button 'Resize image to 50%'
-    expect(page).to have_selector('.op-uc-figure[style="width:50%;"')
+    expect(page).to have_selector('.op-uc-figure[style="width:50%;"]')
 
     click_on 'Save'
 
@@ -115,7 +113,7 @@ describe 'Upload attachment to wiki page', js: true do
     # Upload image to dropzone
     expect(page).to have_no_selector('.work-package--attachments--filename')
     attachments.attach_file_on_input(image_fixture.path)
-    expect(page).not_to have_selector('notification-upload-progress')
+    expect(page).not_to have_selector('op-toasters-upload-progress')
     expect(page).to have_selector('.work-package--attachments--filename', text: 'image.png')
 
     # Assume we could still save the page with an empty title

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,16 +23,16 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 describe Queries::WorkPackages::Filter::PrincipalLoader, type: :model do
-  let(:user) { FactoryBot.build_stubbed(:user) }
-  let(:group) { FactoryBot.build_stubbed(:group) }
-  let(:placeholder_user) { FactoryBot.build_stubbed(:placeholder_user) }
-  let(:project) { FactoryBot.build_stubbed(:project) }
+  let(:user) { build_stubbed(:user) }
+  let(:group) { build_stubbed(:group) }
+  let(:placeholder_user) { build_stubbed(:placeholder_user) }
+  let(:project) { build_stubbed(:project) }
   let(:instance) { described_class.new(project) }
 
   context 'with a project' do
@@ -90,7 +90,7 @@ describe Queries::WorkPackages::Filter::PrincipalLoader, type: :model do
 
   context 'without a project' do
     let(:project) { nil }
-    let(:visible_projects) { [FactoryBot.build_stubbed(:project)] }
+    let(:visible_projects) { [build_stubbed(:project)] }
     let(:matching_principals) { [user, group, placeholder_user] }
 
     before do

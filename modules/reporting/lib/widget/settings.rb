@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 class Widget::Settings < Widget::Base
@@ -40,6 +40,14 @@ class Widget::Settings < Widget::Base
     render_widget Widget::Settings::Fieldset, @subject,
                   type: 'group_by' do
       render_widget Widget::GroupBys, @subject
+    end
+  end
+
+  def render_cost_types_settings
+    render_widget Widget::Settings::Fieldset, @subject, type: "units" do
+      render_widget Widget::CostTypes,
+                    @cost_types,
+                    selected_type_id: @selected_type_id
     end
   end
 
@@ -75,7 +83,14 @@ class Widget::Settings < Widget::Base
     end)
   end
 
+  def render_with_options(options, &block)
+    @cost_types = options.delete(:cost_types)
+    @selected_type_id = options.delete(:selected_type_id)
+
+    super(options, &block)
+  end
+
   def settings_to_render
-    @settings_to_render ||= %i[filter group_by controls]
+    @settings_to_render ||= %i[filter group_by cost_types controls]
   end
 end

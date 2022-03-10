@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,14 +23,14 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 describe ::API::V3::Versions::VersionRepresenter, 'rendering' do
-  let(:version) { FactoryBot.build_stubbed(:version) }
-  let(:user) { FactoryBot.build_stubbed(:user) }
+  let(:version) { build_stubbed(:version) }
+  let(:user) { build_stubbed(:user) }
   let(:representer) { described_class.create(version, current_user: user) }
 
   include API::V3::Utilities::PathHelper
@@ -132,9 +132,9 @@ describe ::API::V3::Versions::VersionRepresenter, 'rendering' do
     end
 
     context 'custom value' do
-      let(:custom_field) { FactoryBot.build_stubbed(:list_version_custom_field) }
+      let(:custom_field) { build_stubbed(:list_version_custom_field) }
       let(:custom_value) do
-        FactoryBot.build_stubbed(:custom_value, custom_field: custom_field, value: '1')
+        build_stubbed(:custom_value, custom_field: custom_field, value: '1')
       end
 
       before do
@@ -198,7 +198,7 @@ describe ::API::V3::Versions::VersionRepresenter, 'rendering' do
     end
 
     context 'custom value' do
-      let(:custom_field) { FactoryBot.build_stubbed(:version_custom_field) }
+      let(:custom_field) { build_stubbed(:version_custom_field) }
       let(:custom_value) do
         CustomValue.new(custom_field: custom_field,
                         value: '1234',
@@ -270,12 +270,12 @@ describe ::API::V3::Versions::VersionRepresenter, 'rendering' do
 
       context 'custom fields' do
         let(:version) do
-          FactoryBot.build_stubbed(:version).tap do |_v|
+          build_stubbed(:version).tap do |_v|
             # Use this to force the custom field to be defined before the former_cache_key is calculated
             custom_field
           end
         end
-        let(:custom_field) { FactoryBot.build_stubbed(:version_custom_field, created_at: Time.now, updated_at: Time.now) }
+        let(:custom_field) { build_stubbed(:version_custom_field, created_at: Time.now, updated_at: Time.now) }
 
         before do
           allow(version)

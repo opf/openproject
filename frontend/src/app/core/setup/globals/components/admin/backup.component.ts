@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,20 +23,26 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { HttpErrorResponse } from '@angular/common/http';
 import {
-  AfterViewInit, Component, ElementRef, Injector, ViewChild,
+  AfterViewInit,
+  Component,
+  ElementRef,
+  Injector,
+  ViewChild,
 } from '@angular/core';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { JobStatusModalComponent } from 'core-app/features/job-status/job-status-modal/job-status.modal';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { OpenProjectBackupService } from 'core-app/core/backup/op-backup.service';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { HalError } from 'core-app/features/hal/services/hal-error';
 
 export const backupSelector = 'backup';
 
@@ -80,7 +86,7 @@ export class BackupComponent implements AfterViewInit {
     readonly elementRef:ElementRef,
     public injector:Injector,
     protected i18n:I18nService,
-    protected notificationsService:NotificationsService,
+    protected toastService:ToastService,
     protected opModalService:OpModalService,
     protected pathHelper:PathHelperService,
   ) {
@@ -120,13 +126,14 @@ export class BackupComponent implements AfterViewInit {
 
     this.opBackup
       .triggerBackup(backupToken, this.includeAttachments)
-      .toPromise()
-      .then((resp:any) => {
-        this.jobStatusId = resp.jobStatusId;
-        this.opModalService.show(JobStatusModalComponent, 'global', { jobId: resp.jobStatusId });
-      })
-      .catch((error:HttpErrorResponse) => {
-        this.notificationsService.addError(error.error);
-      });
+      .subscribe(
+        (resp:HalResource) => {
+          this.jobStatusId = resp.jobStatusId;
+          this.opModalService.show(JobStatusModalComponent, 'global', { jobId: resp.jobStatusId });
+        },
+        (error:HalError) => {
+          this.toastService.addError(error.message);
+        },
+      );
   }
 }

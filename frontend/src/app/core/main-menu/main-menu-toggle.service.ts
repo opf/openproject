@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { Injectable, Injector } from '@angular/core';
@@ -128,7 +128,7 @@ export class MainMenuToggleService {
   public closeMenu():void {
     this.setWidth(0);
     window.OpenProject.guardedLocalStorage(this.localStorageStateKey, 'true');
-    jQuery('.collapsible-menu--search-input').blur();
+    jQuery('.searchable-menu--search-input').blur();
   }
 
   public closeWhenOnMobile():void {
@@ -163,11 +163,8 @@ export class MainMenuToggleService {
     this.htmlNode.style.setProperty('--main-menu-width', `${this.elementWidth}px`);
 
     // Send change event when size of menu is changing (menu toggled or resized)
-    // Event should only be fired, when transition is finished
     const changeEvent = jQuery.Event('change');
-    jQuery('#content-wrapper').on('transitionend webkitTransitionEnd oTransitionEnd otransitionend MSTransitionEnd', () => {
-      this.changeData.next(changeEvent);
-    });
+    this.changeData.next(changeEvent);
   }
 
   public get showNavigation():boolean {

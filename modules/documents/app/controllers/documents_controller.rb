@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 class DocumentsController < ApplicationController
@@ -102,36 +100,9 @@ class DocumentsController < ApplicationController
     redirect_to controller: '/documents', action: 'index', project_id: @project
   end
 
-  def add_attachment
-    current_attachments = @document.attachments.pluck(:id)
-    call = attachable_update_call ::Documents::UpdateService,
-                                  model: @document,
-                                  args: document_params
-
-    if call.success? && Setting.notified_events.include?('document_added')
-      added = call.result
-                  .attachments
-                  .reject { |a| current_attachments.include?(a.id) }
-
-      notify_attachments added
-    end
-
-    redirect_to action: 'show', id: @document
-  end
-
   private
 
   def document_params
     params.fetch(:document, {}).permit('category_id', 'title', 'description')
   end
-
-  def notify_attachments(added)
-    return if added.empty?
-
-    users = added.first.container.recipients
-    users.each do |user|
-      UserMailer.attachments_added(user, added).deliver_later
-    end
-  end
-
 end

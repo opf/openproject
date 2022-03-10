@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -34,12 +34,12 @@ describe API::V3::Activities::ActivitiesByWorkPackageAPI, type: :request do
 
   describe 'activities' do
     let(:project) { work_package.project }
-    let(:work_package) { FactoryBot.create(:work_package) }
+    let(:work_package) { create(:work_package) }
     let(:comment) { 'This is a test comment!' }
     let(:current_user) do
-      FactoryBot.create(:user, member_in_project: project, member_through_role: role)
+      create(:user, member_in_project: project, member_through_role: role)
     end
-    let(:role) { FactoryBot.create(:role, permissions: permissions) }
+    let(:role) { create(:role, permissions: permissions) }
     let(:permissions) { %i(view_work_packages add_work_package_notes) }
 
     before do
@@ -56,7 +56,7 @@ describe API::V3::Activities::ActivitiesByWorkPackageAPI, type: :request do
       end
 
       context 'not allowed to see work package' do
-        let(:current_user) { FactoryBot.create(:user) }
+        let(:current_user) { create(:user) }
 
         it 'fails with HTTP Not Found' do
           expect(last_response.status).to eql 404
@@ -65,7 +65,7 @@ describe API::V3::Activities::ActivitiesByWorkPackageAPI, type: :request do
     end
 
     describe 'POST /api/v3/work_packages/:id/activities' do
-      let(:work_package) { FactoryBot.create(:work_package) }
+      let(:work_package) { create(:work_package) }
 
       shared_context 'create activity' do
         before do

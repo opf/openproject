@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,38 +23,38 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 describe ::Bim::Bcf::IssuesController, type: :controller do
   let(:manage_bcf_role) do
-    FactoryBot.create(:role,
-                      permissions: %i[manage_bcf view_linked_issues view_work_packages add_work_packages edit_work_packages])
+    create(:role,
+           permissions: %i[manage_bcf view_linked_issues view_work_packages add_work_packages edit_work_packages])
   end
   let(:collaborator_role) do
-    FactoryBot.create(:role,
-                      permissions: %i[view_linked_issues view_work_packages add_work_packages edit_work_packages])
+    create(:role,
+           permissions: %i[view_linked_issues view_work_packages add_work_packages edit_work_packages])
   end
-  let(:bcf_manager) { FactoryBot.create(:user, firstname: "BCF Manager") }
-  let(:collaborator) { FactoryBot.create(:user) }
+  let(:bcf_manager) { create(:user, firstname: "BCF Manager") }
+  let(:collaborator) { create(:user) }
 
-  let(:non_member) { FactoryBot.create(:user) }
+  let(:non_member) { create(:user) }
   let(:project) do
-    FactoryBot.create(:project, enabled_module_names: %w[bim], identifier: 'bim_project')
+    create(:project, enabled_module_names: %w[bim], identifier: 'bim_project')
   end
   let(:member) do
-    FactoryBot.create(:member,
-                      project: project,
-                      user: collaborator,
-                      roles: [collaborator_role])
+    create(:member,
+           project: project,
+           user: collaborator,
+           roles: [collaborator_role])
   end
   let(:bcf_manager_member) do
-    FactoryBot.create(:member,
-                      project: project,
-                      user: bcf_manager,
-                      roles: [manage_bcf_role])
+    create(:member,
+           project: project,
+           user: bcf_manager,
+           roles: [manage_bcf_role])
   end
   before do
     bcf_manager_member
@@ -75,10 +75,10 @@ describe ::Bim::Bcf::IssuesController, type: :controller do
 
       context 'no manage_bcf permission' do
         let(:bcf_manager_member) do
-          FactoryBot.create(:member,
-                            project: project,
-                            user: bcf_manager,
-                            roles: [collaborator_role])
+          create(:member,
+                 project: project,
+                 user: bcf_manager,
+                 roles: [collaborator_role])
         end
         it 'will return "not authorized"' do
           expect(response).to_not be_successful

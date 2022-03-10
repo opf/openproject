@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module Projects::Copy
@@ -57,7 +55,11 @@ module Projects::Copy
 
       attributes = member
                      .attributes.dup.except('id', 'project_id', 'created_at', 'updated_at')
-                     .merge(role_ids: role_ids, project: target)
+                     .merge(role_ids: role_ids,
+                            project: target,
+                            # This is magic for now. The settings has been set before in the Projects::CopyService
+                            # It would be better if this was not sneaked in but rather passed in as a parameter.
+                            send_notifications: ActionMailer::Base.perform_deliveries)
 
       Members::CreateService
         .new(user: User.current, contract_class: EmptyContract)

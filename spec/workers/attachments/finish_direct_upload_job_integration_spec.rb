@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -25,17 +23,20 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 describe Attachments::FinishDirectUploadJob, 'integration', type: :job do
+  shared_let(:user) { create :admin }
+
   let!(:pending_attachment) do
-    FactoryBot.create(:attachment,
-                      downloads: -1,
-                      digest: '',
-                      container: container)
+    create(:attachment,
+           author: user,
+           downloads: -1,
+           digest: '',
+           container: container)
   end
 
   let(:job) { described_class.new }
@@ -71,7 +72,7 @@ describe Attachments::FinishDirectUploadJob, 'integration', type: :job do
   end
 
   context 'for a journalized container' do
-    let!(:container) { FactoryBot.create(:work_package) }
+    let!(:container) { create(:work_package) }
     let!(:container_timestamp) { container.updated_at }
 
     it_behaves_like 'turning pending attachment into a standard attachment'
@@ -119,7 +120,7 @@ describe Attachments::FinishDirectUploadJob, 'integration', type: :job do
   end
 
   context 'for a non journalized container' do
-    let!(:container) { FactoryBot.create(:wiki_page) }
+    let!(:container) { create(:wiki_page) }
 
     it_behaves_like 'turning pending attachment into a standard attachment'
     it_behaves_like "adding a journal to the attachment in the name of the attachment's author"
@@ -130,5 +131,55 @@ describe Attachments::FinishDirectUploadJob, 'integration', type: :job do
 
     it_behaves_like 'turning pending attachment into a standard attachment'
     it_behaves_like "adding a journal to the attachment in the name of the attachment's author"
+  end
+
+  context 'with an incompatible attachment whitelist',
+          with_settings: { attachment_whitelist: %w[image/png] } do
+    let!(:container) { create(:work_package) }
+    let!(:container_timestamp) { container.updated_at }
+
+    it "Does not save the attachment" do
+      allow(pending_attachment).to receive(:save!)
+      allow(OpenProject.logger).to receive(:error)
+
+      job.perform(pending_attachment.id)
+
+      expect(pending_attachment).not_to have_received(:save!)
+      expect(OpenProject.logger).to have_received(:error)
+
+      container.reload
+
+      expect(container.attachments).to be_empty
+      expect { pending_attachment.reload }.to raise_error(ActiveRecord::RecordNotFound)
+    end
+
+    context 'when the job is getting a whitelist override' do
+      it "Does save the attachment" do
+        job.perform(pending_attachment.id, whitelist: false)
+
+        container.reload
+
+        expect(container.attachments.count).to eq 1
+        expect { pending_attachment.reload }.not_to raise_error(ActiveRecord::RecordNotFound)
+
+        expect(pending_attachment.downloads).to eq 0
+      end
+    end
+  end
+
+  context 'with the user not being allowed',
+          with_settings: { attachment_whitelist: %w[image/png] } do
+    shared_let(:user) { create :user }
+    let!(:container) { create(:work_package) }
+
+    it "Does not save the attachment" do
+      allow(pending_attachment).to receive(:save!)
+
+      job.perform(pending_attachment.id)
+
+      expect(pending_attachment).not_to have_received(:save!)
+
+      expect { pending_attachment.reload }.to raise_error(ActiveRecord::RecordNotFound)
+    end
   end
 end

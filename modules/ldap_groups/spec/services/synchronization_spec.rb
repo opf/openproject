@@ -20,43 +20,43 @@ describe LdapGroups::SynchronizeGroupsService, with_ee: %i[ldap_groups] do
   # three users aa729, bb459, cc414
   # two groups foo (aa729), bar(aa729, bb459, cc414)
   let(:auth_source) do
-    FactoryBot.create :ldap_auth_source,
-                      port: ParallelHelper.port_for_ldap.to_s,
-                      account: 'uid=admin,ou=system',
-                      account_password: 'secret',
-                      base_dn: 'ou=people,dc=example,dc=com',
-                      onthefly_register: onthefly_register,
-                      filter_string: ldap_filter,
-                      attr_login: 'uid',
-                      attr_firstname: 'givenName',
-                      attr_lastname: 'sn',
-                      attr_mail: 'mail'
+    create :ldap_auth_source,
+           port: ParallelHelper.port_for_ldap.to_s,
+           account: 'uid=admin,ou=system',
+           account_password: 'secret',
+           base_dn: 'ou=people,dc=example,dc=com',
+           onthefly_register: onthefly_register,
+           filter_string: ldap_filter,
+           attr_login: 'uid',
+           attr_firstname: 'givenName',
+           attr_lastname: 'sn',
+           attr_mail: 'mail'
   end
 
   let(:onthefly_register) { false }
   let(:sync_users) { false }
   let(:ldap_filter) { nil }
 
-  let(:user_aa729) { FactoryBot.create :user, login: 'aa729', auth_source: auth_source }
-  let(:user_bb459) { FactoryBot.create :user, login: 'bb459', auth_source: auth_source }
-  let(:user_cc414) { FactoryBot.create :user, login: 'cc414', auth_source: auth_source }
+  let(:user_aa729) { create :user, login: 'aa729', auth_source: auth_source }
+  let(:user_bb459) { create :user, login: 'bb459', auth_source: auth_source }
+  let(:user_cc414) { create :user, login: 'cc414', auth_source: auth_source }
 
-  let(:group_foo) { FactoryBot.create :group, lastname: 'foo_internal' }
-  let(:group_bar) { FactoryBot.create :group, lastname: 'bar' }
+  let(:group_foo) { create :group, lastname: 'foo_internal' }
+  let(:group_bar) { create :group, lastname: 'bar' }
 
   let(:synced_foo) do
-    FactoryBot.create :ldap_synchronized_group,
-                      dn: 'cn=foo,ou=groups,dc=example,dc=com',
-                      group: group_foo,
-                      sync_users: sync_users,
-                      auth_source: auth_source
+    create :ldap_synchronized_group,
+           dn: 'cn=foo,ou=groups,dc=example,dc=com',
+           group: group_foo,
+           sync_users: sync_users,
+           auth_source: auth_source
   end
   let(:synced_bar) do
-    FactoryBot.create :ldap_synchronized_group,
-                      dn: 'cn=bar,ou=groups,dc=example,dc=com',
-                      group: group_bar,
-                      sync_users: sync_users,
-                      auth_source: auth_source
+    create :ldap_synchronized_group,
+           dn: 'cn=bar,ou=groups,dc=example,dc=com',
+           group: group_bar,
+           sync_users: sync_users,
+           auth_source: auth_source
   end
 
   subject do
@@ -189,7 +189,6 @@ describe LdapGroups::SynchronizeGroupsService, with_ee: %i[ldap_groups] do
           let(:user_aa729) { User.find_by login: 'aa729' }
           let(:user_bb459) { User.find_by login: 'bb459' }
 
-
           context 'and users sync in the groups enabled' do
             let(:sync_users) { true }
 
@@ -221,7 +220,6 @@ describe LdapGroups::SynchronizeGroupsService, with_ee: %i[ldap_groups] do
           let(:onthefly_register) { true }
           let(:user_aa729) { User.find_by login: 'aa729' }
           let(:user_bb459) { User.find_by login: 'bb459' }
-
 
           context 'and users sync in the groups enabled' do
             let(:sync_users) { true }
@@ -287,7 +285,7 @@ describe LdapGroups::SynchronizeGroupsService, with_ee: %i[ldap_groups] do
     end
 
     context 'foo group exists' do
-      let(:group_foo) { FactoryBot.create :group, lastname: 'foo_internal', members: user_aa729 }
+      let(:group_foo) { create :group, lastname: 'foo_internal', members: user_aa729 }
 
       before do
         group_foo
@@ -309,45 +307,59 @@ describe LdapGroups::SynchronizeGroupsService, with_ee: %i[ldap_groups] do
 
   describe 'removing memberships' do
     context 'with a user in a group thats not in ldap' do
-      let(:group_foo) { FactoryBot.create :group, lastname: 'foo_internal', members: [user_cc414, user_aa729] }
+      let(:group_foo) { create :group, lastname: 'foo_internal', members: [user_cc414, user_aa729] }
+      let(:manager) { create :role, name: 'Manager' }
+      let(:project) { create :project, name: 'Project 1', identifier: 'project1', members: { group_foo => [manager] } }
 
       before do
+        project
         synced_foo.users.create(user: user_aa729)
         synced_foo.users.create(user: user_cc414)
-
-        subject
       end
 
       it 'removes the membership' do
+        expect(project.members.count).to eq 2
+        expect(project.users).to contain_exactly user_aa729, user_cc414
+
+        subject
+
         group_foo.reload
         synced_foo.reload
+        project.reload
 
         expect(group_foo.users).to eq([user_aa729])
         expect(synced_foo.users.pluck(:user_id)).to eq([user_aa729.id])
+
+        expect(project.members.count).to eq 1
+        expect(project.users).to contain_exactly user_aa729
       end
     end
   end
 
   context 'with invalid connection' do
-    let(:auth_source) { FactoryBot.create :ldap_auth_source }
+    let(:auth_source) { create :ldap_auth_source }
 
     before do
       synced_foo
     end
 
     it 'does not raise, but print to stderr' do
-      expect(Rails.logger).to receive(:error).with(/Failed to perform LDAP group synchronization/)
+      allow(Rails.logger).to receive(:error)
+
       subject
+
+      expect(Rails.logger).to have_received(:error).once.with(/Failed to synchronize group:/)
+      expect(Rails.logger).to have_received(:error).once.with(/Failed to perform LDAP group synchronization/)
     end
   end
 
   context 'with invalid base' do
     let(:synced_foo) do
-      FactoryBot.create :ldap_synchronized_group, dn: 'cn=foo,ou=invalid,dc=example,dc=com', group: group_foo,
+      create :ldap_synchronized_group, dn: 'cn=foo,ou=invalid,dc=example,dc=com', group: group_foo,
                         auth_source: auth_source
     end
     let(:synced_bar) do
-      FactoryBot.create :ldap_synchronized_group, dn: 'cn=bar,ou=invalid,dc=example,dc=com', group: group_bar,
+      create :ldap_synchronized_group, dn: 'cn=bar,ou=invalid,dc=example,dc=com', group: group_bar,
                         auth_source: auth_source
     end
 
@@ -363,6 +375,20 @@ describe LdapGroups::SynchronizeGroupsService, with_ee: %i[ldap_groups] do
         expect(synced_foo.users).to be_empty
         expect(group_foo.users).to eq([])
       end
+    end
+  end
+
+  context 'when one user does not match case' do
+    before do
+      group_foo
+      synced_foo
+      user_aa729.update_attribute(:login, 'Aa729')
+    end
+
+    it 'synchronized the membership of aa729 to foo' do
+      subject
+      expect(synced_foo.users.count).to eq(1)
+      expect(group_foo.users).to eq([user_aa729])
     end
   end
 end

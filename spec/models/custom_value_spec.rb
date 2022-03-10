@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,15 +23,15 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 describe CustomValue do
   let(:format) { 'bool' }
-  let(:custom_field) { FactoryBot.create(:custom_field, field_format: format) }
-  let(:custom_value) { FactoryBot.create(:custom_value, custom_field: custom_field, value: value) }
+  let(:custom_field) { create(:custom_field, field_format: format) }
+  let(:custom_value) { create(:custom_value, custom_field: custom_field, value: value) }
 
   describe '#typed_value' do
     subject { custom_value }
@@ -97,7 +97,7 @@ describe CustomValue do
   end
 
   describe 'trying to use a custom field that does not exist' do
-    subject { FactoryBot.build(:custom_value, custom_field_id: 123412341, value: 'my value') }
+    subject { build(:custom_value, custom_field_id: 123412341, value: 'my value') }
 
     it 'returns an empty placeholder' do
       expect(subject.custom_field).to be_nil
@@ -108,7 +108,7 @@ describe CustomValue do
   end
 
   describe 'value/value=' do
-    let(:custom_value) { FactoryBot.build_stubbed(:custom_value) }
+    let(:custom_value) { build_stubbed(:custom_value) }
     let(:strategy_double) { double('strategy_double') }
 
     it 'calls the strategy for parsing and uses that value' do

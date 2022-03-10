@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -35,21 +35,21 @@ describe ApplicationHelper do
   include Rails.application.routes.url_helpers
 
   describe ".format_text" do
-    let(:project) { FactoryBot.create :valid_project }
+    let(:project) { create :valid_project }
     let(:identifier) { project.identifier }
     let(:role) do
-      FactoryBot.create(:role, permissions: %i[
+      create(:role, permissions: %i[
                           view_work_packages edit_work_packages view_documents browse_repository view_changesets view_wiki_pages
                         ])
     end
     let(:project_member) do
-      FactoryBot.create :user, member_in_project: project,
+      create :user, member_in_project: project,
                                member_through_role: role
     end
     let(:document) do
-      FactoryBot.create :document,
-                        title: 'Test document',
-                        project: project
+      create :document,
+             title: 'Test document',
+             project: project
     end
 
     before do
@@ -94,7 +94,7 @@ describe ApplicationHelper do
     end
 
     context 'Cross-Project Document Links' do
-      let(:the_other_project) { FactoryBot.create :valid_project }
+      let(:the_other_project) { create :valid_project }
 
       context "By name without project" do
         subject { format_text("document:\"#{document.title}\"", project: the_other_project) }

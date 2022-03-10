@@ -288,7 +288,7 @@ fi
 docker run \
   --rm \
   -e PGPASSWORD=postgres \
-  -v $PWD:/data \
+  -v /tmp:/data \
   -it openproject/community:11 pg_dump \
     -h $DOCKER_HOST_IP \
     -p $POSTGRES_PORT \

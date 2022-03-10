@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2021 the OpenProject GmbH
+Copyright (C) 2012-2022 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -23,20 +23,19 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-See docs/COPYRIGHT.rdoc for more details.
+See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 <%= t(:mail_body_register_user, name: @user.name) %>
 
-<%= t(:mail_body_register) %>
+<%= t(:mail_body_register, app_title: Setting.app_title) %>
 <%= @activation_url %>
 
 <%= strip_tags t(:mail_body_register_links_html,
       webinar_link: OpenProject::Static::Links.links[:webinar_videos][:href],
       youtube_link: OpenProject::Configuration.youtube_channel,
       get_started_link: OpenProject::Static::Links.links[:get_started_videos][:href],
-      documentation_link: OpenProject::Static::Links.links[:openproject_docs][:href],
-      contact_us_link: OpenProject::Static::Links.links[:contact_us][:href]
+      documentation_link: OpenProject::Static::Links.links[:openproject_docs][:href]
     )
 %>
 

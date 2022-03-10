@@ -8,7 +8,7 @@ You will likely start working with the OpenProject test suite through our contin
 
 # Continuous testing with Github Actions
 
-As part of the [development flow at OpenProject](../../development/#development-flow), proposed changes to the core application will be made through a GitHub pull request and the entire test suite is automatically evaluated on Github Actions. You will see the results as a status on your pull request. Successful test suite runs are one requirement to see your changes merged.
+As part of the [development flow at OpenProject](../../development/#branching-model-and-development-flow), proposed changes to the core application will be made through a GitHub pull request and the entire test suite is automatically evaluated on Github Actions. You will see the results as a status on your pull request. Successful test suite runs are one requirement to see your changes merged.
 
 A failing status will look like the following on your pull request. You may need to click *Show all checks* to expand all checks to see the details link.
 
@@ -298,7 +298,7 @@ You can run the specs with the following commands:
 
 * `SPEC_OPTS="--seed 12935" bundle exec rake spec` Run the core specs with the seed 12935. Use this to control in what order the tests are run to identify order-dependent failures. You will find the seed that Github Actions CI used in their log output.
 
-  
+
 
 ## Legacy specs
 
@@ -344,12 +344,38 @@ First migrate and dump your current development schema with `RAILS_ENV=developme
 
 Then you can just use `RAILS_ENV=test ./bin/rails parallel:prepare` to prepare test databases.
 
-
-
 #### RSpec specs
 
 Run all unit and system tests in parallel with `RAILS_ENV=test ./bin/rails parallel:spec`
 
+#### Running specific tests
+
+If you want to run specific tests (e.g., only those from the team planner module), you can use this command:
+
+```bash
+RAILS_ENV=test bundle exec parallel_rspec -- modules/team_planner/spec
+```
+
+## Automatically run tests when files are modified
+
+To run tests automatically when a file is modified, you can use [watchexec](watchexec https://github.com/watchexec/watchexec) like this:
+
+```
+watchexec --exts rb,erb -- bin/rspec spec/some/path/to/a_particular_spec.rb
+```
+
+This command instructs `watchexec` to watch `.rb` and `.erb` files for modifications in the current folder and its subfolders. Whenever a file modification is reported, the command `bin/rspec spec/some/path/to/a_particular_spec.rb` will be executed.
+
+Stop `watchexec` by pressing `Ctrl+C`.
+
+Set an alias to make it easier to call:
+```
+alias wrspec='watchexec --exts rb,erb -- bin/rspec'
+
+wrspec spec/some/path/to/a_particular_spec.rb
+```
+
+To easily change the RSpec examples being run without relaunching `watchexec` every time, you can focus a particular example or example group with `focus: true`, `fit`, `fdescribe`, and `fcontext`. More details available on [RSpec documentation](https://relishapp.com/rspec/rspec-core/docs/filtering/filter-run-when-matching).
 
 
 ## Manual acceptance tests
@@ -372,7 +398,7 @@ One way is to disable the Angular CLI that serves some of the assets when develo
 # Precompile the application
 ./bin/rails assets:precompile
 
-# Start the application server while disabling the CLI asset host 
+# Start the application server while disabling the CLI asset host
 OPENPROJECT_CLI_PROXY='' ./bin/rails s -b 0.0.0.0 -p 3000
 ```
 

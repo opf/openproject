@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module API
@@ -37,9 +35,9 @@ module API
           def href_callback
             query = CGI.escape(::JSON.dump(filter_query))
 
-            # pageSize of 0 is the magic number for maximum size and not
+            # pageSize of -1 is the magic number for maximum size and not
             # the default pageSize value.
-            "#{api_v3_paths.principals}?filters=#{query}&pageSize=0"
+            "#{api_v3_paths.principals}?filters=#{query}&pageSize=-1"
           end
 
           def type

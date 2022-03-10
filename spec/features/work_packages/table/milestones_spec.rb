@@ -1,20 +1,20 @@
 require 'spec_helper'
 
 describe 'Inline editing milestones', js: true do
-  let(:user) { FactoryBot.create :admin }
+  let(:user) { create :admin }
 
-  let(:type) { FactoryBot.create :type, is_milestone: true }
-  let(:project) { FactoryBot.create(:project, types: [type]) }
+  let(:type) { create :type, is_milestone: true }
+  let(:project) { create(:project, types: [type]) }
   let!(:work_package) do
-    FactoryBot.create(:work_package,
-                      project: project,
-                      type: type,
-                      subject: 'Foobar')
+    create(:work_package,
+           project: project,
+           type: type,
+           subject: 'Foobar')
   end
 
   let!(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let!(:query) do
-    query              = FactoryBot.build(:query, user: user, project: project)
+    query              = build(:query, user: user, project: project)
     query.column_names = %w(subject start_date due_date)
     query.filters.clear
     query.show_hierarchies = false

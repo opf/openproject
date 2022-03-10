@@ -42,6 +42,7 @@
       <div *ngIf="expiresAt" class="attributes-key-value--value-container">
         <div class="attributes-key-value--value -text">
           <span [textContent]="expiresAt"></span>
+          <span *ngIf="isExpired" [textContent]="expiredWarningText" class="expired-warning"></span>
         </div>
       </div>
     </div>

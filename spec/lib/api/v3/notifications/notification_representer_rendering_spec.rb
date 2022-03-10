@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -33,20 +33,20 @@ describe ::API::V3::Notifications::NotificationRepresenter, 'rendering' do
 
   subject(:generated) { representer.to_json }
 
-  shared_let(:project) { FactoryBot.create :project }
-  shared_let(:resource) { FactoryBot.create :work_package, project: project }
+  shared_let(:project) { create :project }
+  shared_let(:resource) { create :work_package, project: project }
 
-  let(:recipient) { FactoryBot.build_stubbed(:user) }
+  let(:recipient) { build_stubbed(:user) }
   let(:journal) { nil }
   let(:actor) { nil }
   let(:notification) do
-    FactoryBot.build_stubbed :notification,
-                             recipient: recipient,
-                             project: project,
-                             resource: resource,
-                             journal: journal,
-                             actor: actor,
-                             read_ian: read_ian
+    build_stubbed :notification,
+                  recipient: recipient,
+                  project: project,
+                  resource: resource,
+                  journal: journal,
+                  actor: actor,
+                  read_ian: read_ian
   end
   let(:representer) do
     described_class.create notification,
@@ -107,7 +107,7 @@ describe ::API::V3::Notifications::NotificationRepresenter, 'rendering' do
     end
 
     it_behaves_like 'property', :reason do
-      let(:value) { notification.reason_ian }
+      let(:value) { notification.reason }
     end
 
     it_behaves_like 'datetime property', :createdAt do
@@ -167,7 +167,7 @@ describe ::API::V3::Notifications::NotificationRepresenter, 'rendering' do
     end
 
     context 'when set' do
-      let(:actor) { FactoryBot.create :user }
+      let(:actor) { create :user }
 
       it_behaves_like 'has a titled link' do
         let(:link) { 'actor' }
@@ -200,26 +200,6 @@ describe ::API::V3::Notifications::NotificationRepresenter, 'rendering' do
             .to be_json_eql('Activity'.to_json)
                   .at_path("_embedded/activity/_type")
         end
-      end
-
-      it 'renders details of journal' do
-        allow(journal).to receive(:initial?).and_return false
-
-        expect(generated)
-          .to have_json_size(10)
-                .at_path('details')
-      end
-
-      it 'renders a placeholder if journal is initial' do
-        allow(journal).to receive(:initial?).and_return true
-
-        details = [
-          { format: 'markdown', raw: '', html: '' },
-          { format: 'custom', raw: "The work package was created.", html: "<em>The work package was created.</em>" }
-        ]
-        expect(generated)
-          .to be_json_eql(details.to_json)
-                .at_path('details')
       end
     end
   end

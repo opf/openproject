@@ -71,7 +71,7 @@ zh-TW:
       text_2fa_enabled: '每次登錄時, 都會要求該使用者從預設的2FA 設備中取得 OTP 密碼。'
       text_2fa_disabled: "使用者沒有透過【我的帳戶】頁面進行建立一個2FA設備的動作。"
     upsale:
-      title: '雙重認證是一個企業級功能'
+      title: 'Two-factor authentication'
       description: '請使用第二種的認證方式加強您內部或外部的認證機制'
     backup_codes:
       none_found: 這個帳戶沒有存在備份代碼

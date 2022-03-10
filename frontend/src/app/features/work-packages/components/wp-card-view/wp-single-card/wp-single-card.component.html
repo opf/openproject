@@ -2,34 +2,48 @@
   class="op-wp-single-card"
   data-qa-selector="op-wp-single-card"
   [attr.data-qa-draggable]="draggable || undefined"
+  [attr.data-qa-selected]="selected || undefined"
   [ngClass]="cardClasses()"
+  [title]="cardTitle()"
+  (click)="cardClicked.emit({ workPackageId: workPackage.id, event: $event })"
 >
 
   <div class="op-wp-single-card--highlighting"
        [ngClass]="cardHighlightingClass(workPackage)">
   </div>
 
-  <div class="op-wp-single-card--inline-buttons hidden-for-mobile"
-      data-qa-selector="op-wp-single-card--inline-buttons">
-    <button
-      type="button"
-      class="op-link op-wp-single-card--details-button"
-      data-qa-selector="op-wp-single-card--details-button"
-      *ngIf="!isNewResource(workPackage) && showInfoButton"
-      [title]="text.detailsView"
-      (click)="emitStateLinkClicked($event, workPackage, true)">
-      <op-icon icon-classes="icon icon-info2"></op-icon>
-    </button>
-    <button
-      class="op-link op-wp-single-card--inline-cancel-button"
-      data-qa-selector="op-wp-single-card--inline-cancel-button"
-      *ngIf="isNewResource(workPackage) || showRemoveButton"
-      [class.-show]="isNewResource(workPackage)"
-      [title]="text.removeCard"
-      (click)="onRemoved(workPackage)">
-      <op-icon icon-classes="icon icon-close"></op-icon>
-    </button>
+  <div class="op-wp-single-card--card-actions">
+    <div class="op-wp-single-card--inline-buttons hidden-for-mobile"
+         data-qa-selector="op-wp-single-card--inline-buttons">
+      <button
+        type="button"
+        class="op-link op-wp-single-card--details-button op-wp-single-card--card-action"
+        data-qa-selector="op-wp-single-card--details-button"
+        *ngIf="!isNewResource(workPackage) && showInfoButton"
+        [title]="text.detailsView"
+        (click)="emitStateLinkClicked($event, workPackage, true)">
+        <op-icon icon-classes="icon3 icon-info2"></op-icon>
+      </button>
+
+      <button
+        class="op-link op-wp-single-card--inline-cancel-button op-wp-single-card--card-action"
+        data-qa-selector="op-wp-single-card--inline-cancel-button"
+        *ngIf="isNewResource(workPackage) || showRemoveButton"
+        [class.-show]="isNewResource(workPackage)"
+        [title]="text.removeCard"
+        (click)="onRemoved(workPackage)">
+        <op-icon icon-classes="icon-context icon-close"></op-icon>
+      </button>
+    </div>
+
+    <op-icon
+      *ngIf="disabledInfo.length > 0"
+      [attr.data-tooltip]="disabledInfo"
+      class="tooltip--left -multiline op-wp-single-card--card-action"
+      icon-classes="icon-context icon-not-supported">
+    </op-icon>
   </div>
+
   <edit-form [resource]="workPackage"
              [inEditMode]="isNewResource(workPackage)"
              *ngIf="isNewResource(workPackage)">
@@ -48,39 +62,70 @@
 
   <div *ngIf="!isNewResource(workPackage)"
        class="op-wp-single-card--content">
-    <span [textContent]="wpProjectName(workPackage)"
-          class="op-wp-single-card--content-project-name">
-    </span>
-    <span [textContent]="wpTypeAttribute(workPackage)"
-          class="op-wp-single-card--content-type"
-          data-qa-selector="op-wp-single-card--content-type"
-          [ngClass]="typeHighlightingClass(workPackage)">
+    <span
+      class="op-wp-single-card--content-project-name"
+      [ngClass]="{'op-wp-single-card--content-project-name_hideable': showInfoButton || showRemoveButton}"
+    >
+      - {{wpProjectName(workPackage)}}
     </span>
     <a class="op-wp-single-card--content-id"
        [href]="fullWorkPackageLink(workPackage)"
        [ngClass]="uiStateLinkClass"
        (click)="emitStateLinkClicked($event, workPackage)"
-     >
+    >
       #{{workPackage.id}}
     </a>
-    <span [textContent]="wpSubject(workPackage)"
-          class="op-wp-single-card--content-subject"
-          data-qa-selector="op-wp-single-card--content-subject">
+
+    <span class="op-wp-single-card--content-subject-line">
+      <span
+        *ngIf="showAsInlineCard && showStartDate"
+        class="op-wp-single-card--content-inline-date">
+        {{splittedDate(workPackage)[0]}}-
+      </span>
+
+      <span
+        *ngIf="!showAsInlineCard && highlightingMode !== 'type'"
+        [textContent]="wpTypeAttribute(workPackage)"
+        class="op-wp-single-card--content-type"
+        data-qa-selector="op-wp-single-card--content-type"
+        [ngClass]="typeHighlightingClass(workPackage)">
+      </span>
+      <span
+        class="op-wp-single-card--content-subject"
+        data-qa-selector="op-wp-single-card--content-subject"
+        [textContent]="wpSubject(workPackage)">
+      </span>
+
+      <span
+        *ngIf="showAsInlineCard && showEndDate"
+        class="op-wp-single-card--content-inline-date">
+        -{{splittedDate(workPackage)[1]}}
+      </span>
     </span>
-    <img *ngIf="this.cardCoverImageShown(workPackage)"
+
+    <img *ngIf="this.cardCoverImageShown(workPackage) && !showAsInlineCard"
          [src]="this.bcfSnapshotPath(workPackage)"
          class="op-wp-single-card--content-cover-image">
     <wp-status-button *ngIf="showStatusButton"
                       [workPackage]="workPackage"
+                      [small]="true"
                       class="op-wp-single-card--content-status">
     </wp-status-button>
     <op-principal
       *ngIf="workPackage.assignee"
       [principal]="workPackage.assignee"
-      [hide-name]="true"
+      [hideName]="true"
+      [link]="false"
       size="mini"
       class="op-wp-single-card--content-assignee"
       data-qa-selector="op-wp-single-card--content-assignee"
     ></op-principal>
+    <span
+      *ngIf="!showAsInlineCard"
+      [textContent]="wpDates(workPackage)"
+      class="op-wp-single-card--content-dates"
+      [ngClass]="wpOverDueHighlighting(workPackage)"
+    >
+    </span>
   </div>
 </div>

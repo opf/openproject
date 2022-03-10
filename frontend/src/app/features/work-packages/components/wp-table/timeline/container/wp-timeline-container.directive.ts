@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,14 +23,14 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
 import {
   AfterViewInit, Component, ElementRef, Injector,
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { INotification, NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import { IToast, ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import * as moment from 'moment';
 import { Moment } from 'moment';
@@ -90,7 +90,7 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
 
   public timelineBody:JQuery;
 
-  private selectionParams:{ notification:INotification|null } = {
+  private selectionParams:{ notification:IToast|null } = {
     notification: null,
   };
 
@@ -124,7 +124,7 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
     private elementRef:ElementRef,
     private states:States,
     public wpTableComponent:WorkPackagesTableComponent,
-    private NotificationsService:NotificationsService,
+    private toastService:ToastService,
     private wpTableTimeline:WorkPackageViewTimelineService,
     private notificationService:WorkPackageNotificationService,
     private wpRelations:WorkPackageRelationsService,
@@ -315,7 +315,7 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
     this._viewParameters.selectionModeStart = null;
 
     if (this.selectionParams.notification) {
-      this.NotificationsService.remove(this.selectionParams.notification);
+      this.toastService.remove(this.selectionParams.notification);
     }
 
     Mousetrap.unbind('esc');
@@ -335,7 +335,7 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
 
     this._viewParameters.selectionModeStart = start;
     Mousetrap.bind('esc', () => this.resetSelectionMode());
-    this.selectionParams.notification = this.NotificationsService.addNotice(this.text.selectionMode);
+    this.selectionParams.notification = this.toastService.addNotice(this.text.selectionMode);
 
     this.$element.addClass('active-selection-mode');
 

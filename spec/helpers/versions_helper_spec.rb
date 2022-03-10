@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -31,8 +31,8 @@ require 'spec_helper'
 describe VersionsHelper, type: :helper do
   include ApplicationHelper
 
-  let(:test_project) { FactoryBot.build_stubbed :valid_project }
-  let(:version) { FactoryBot.build_stubbed :version, project: test_project }
+  let(:test_project) { build_stubbed :valid_project }
+  let(:version) { build_stubbed :version, project: test_project }
 
   describe '#format_version_name' do
     context 'a version' do
@@ -47,7 +47,7 @@ describe VersionsHelper, type: :helper do
     end
 
     context 'a system version' do
-      let(:version) { FactoryBot.build_stubbed :version, project: test_project, sharing: 'system' }
+      let(:version) { build_stubbed :version, project: test_project, sharing: 'system' }
 
       it 'can be formatted' do
         expect(format_version_name(version)).to eq("#{test_project.name} - #{version.name}")

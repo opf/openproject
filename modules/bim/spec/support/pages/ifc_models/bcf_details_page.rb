@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'support/pages/work_packages/split_work_package'
@@ -36,7 +36,7 @@ module Pages
     protected
 
     def path(tab = 'overview')
-      bcf_project_frontend_path project, "split/details/#{work_package.id}/#{tab}"
+      bcf_project_frontend_path project, "details/#{work_package.id}/#{tab}"
     end
   end
 end

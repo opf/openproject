@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,15 +23,13 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 describe OpenProject::TextFormatting,
-         'Meeting links',
-         # Speeds up the spec by avoiding event mailers to be procssed
-         with_settings: { notified_events: [] } do
+         'Meeting links' do
   include ActionView::Helpers::UrlHelper # soft-dependency
   include ActionView::Context
   include OpenProject::StaticRouting::UrlHelpers
@@ -41,11 +39,11 @@ describe OpenProject::TextFormatting,
   end
 
   shared_let(:project) do
-    FactoryBot.create :project, enabled_module_names: %w[meetings]
+    create :project, enabled_module_names: %w[meetings]
   end
 
   shared_let(:meeting) do
-    FactoryBot.create :meeting, project: project, title: 'Monthly coordination'
+    create :meeting, project: project, title: 'Monthly coordination'
   end
 
   subject do
@@ -67,8 +65,8 @@ describe OpenProject::TextFormatting,
   end
 
   context 'when visible' do
-    let(:role) { FactoryBot.create :role, permissions: %i[view_meetings view_project] }
-    let(:user) { FactoryBot.create :user, member_in_project: project, member_through_role: role }
+    let(:role) { create :role, permissions: %i[view_meetings view_project] }
+    let(:user) { create :user, member_in_project: project, member_through_role: role }
 
     let(:expected) do
       <<~HTML
@@ -94,7 +92,7 @@ describe OpenProject::TextFormatting,
   end
 
   context 'when not visible' do
-    let(:user) { FactoryBot.create :user }
+    let(:user) { create :user }
 
     let(:expected) do
       <<~HTML

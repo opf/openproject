@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -25,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 
 require 'spec_helper'
 require 'services/base_services/behaves_like_update_service'
@@ -40,8 +38,8 @@ describe Users::UpdateService do
 
   describe 'updating attributes' do
     let(:instance) { described_class.new(model: update_user, user: current_user) }
-    let(:current_user) { FactoryBot.build_stubbed(:admin) }
-    let(:update_user) { FactoryBot.create(:user, mail: 'correct@example.org') }
+    let(:current_user) { build_stubbed(:admin) }
+    let(:update_user) { create(:user, mail: 'correct@example.org') }
     subject { instance.call(attributes: attributes) }
 
     context 'when invalid' do
@@ -68,7 +66,7 @@ describe Users::UpdateService do
       end
 
       context 'if current_user is no admin' do
-        let(:current_user) { FactoryBot.build_stubbed(:user) }
+        let(:current_user) { build_stubbed(:user) }
         it 'is unsuccessful' do
           expect(subject).to_not be_success
         end

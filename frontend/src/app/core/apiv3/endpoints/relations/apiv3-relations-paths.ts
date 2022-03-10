@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,19 +23,19 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { APIv3GettableResource, APIv3ResourceCollection } from 'core-app/core/apiv3/paths/apiv3-resource';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3GettableResource, ApiV3ResourceCollection } from 'core-app/core/apiv3/paths/apiv3-resource';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { from, Observable } from 'rxjs';
 import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
 import { RelationResource } from 'core-app/features/hal/resources/relation-resource';
 import { map } from 'rxjs/operators';
-import { buildApiV3Filter } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
+import { ApiV3Filter } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 
-export class Apiv3RelationsPaths extends APIv3ResourceCollection<RelationResource, APIv3GettableResource<RelationResource>> {
-  constructor(protected apiRoot:APIV3Service,
+export class ApiV3RelationsPaths extends ApiV3ResourceCollection<RelationResource, ApiV3GettableResource<RelationResource>> {
+  constructor(protected apiRoot:ApiV3Service,
     protected basePath:string) {
     super(apiRoot, basePath, 'relations');
   }
@@ -57,7 +57,7 @@ export class Apiv3RelationsPaths extends APIv3ResourceCollection<RelationResourc
     }
 
     return this
-      .filtered(buildApiV3Filter('involved', '=', validIds))
+      .filtered(ApiV3Filter('involved', '=', validIds))
       .get()
       .pipe(
         map((collection) => collection.elements),

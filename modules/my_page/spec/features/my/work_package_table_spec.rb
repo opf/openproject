@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -31,33 +31,33 @@ require 'spec_helper'
 require_relative '../../support/pages/my/page'
 
 describe 'Arbitrary WorkPackage query table widget on my page', type: :feature, js: true, with_mail: false do
-  let!(:type) { FactoryBot.create :type }
-  let!(:other_type) { FactoryBot.create :type }
-  let!(:priority) { FactoryBot.create :default_priority }
-  let!(:project) { FactoryBot.create :project, types: [type] }
-  let!(:other_project) { FactoryBot.create :project, types: [type] }
-  let!(:open_status) { FactoryBot.create :default_status }
+  let!(:type) { create :type }
+  let!(:other_type) { create :type }
+  let!(:priority) { create :default_priority }
+  let!(:project) { create :project, types: [type] }
+  let!(:other_project) { create :project, types: [type] }
+  let!(:open_status) { create :default_status }
   let!(:type_work_package) do
-    FactoryBot.create :work_package,
-                      project: project,
-                      type: type,
-                      author: user,
-                      responsible: user
+    create :work_package,
+           project: project,
+           type: type,
+           author: user,
+           responsible: user
   end
   let!(:other_type_work_package) do
-    FactoryBot.create :work_package,
-                      project: project,
-                      type: other_type,
-                      author: user,
-                      responsible: user
+    create :work_package,
+           project: project,
+           type: other_type,
+           author: user,
+           responsible: user
   end
 
   let(:permissions) { %i[view_work_packages add_work_packages save_queries] }
 
   let(:user) do
-    FactoryBot.create(:user,
-                      member_in_project: project,
-                      member_with_permissions: permissions)
+    create(:user,
+           member_in_project: project,
+           member_with_permissions: permissions)
   end
   let(:my_page) do
     Pages::My::Page.new
@@ -84,7 +84,7 @@ describe 'Arbitrary WorkPackage query table widget on my page', type: :feature, 
       # browser can get confused. Therefore we wait.
       sleep(1)
 
-      my_page.expect_and_dismiss_notification message: I18n.t('js.notice_successful_update')
+      my_page.expect_and_dismiss_toaster message: I18n.t('js.notice_successful_update')
 
       filter_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(3)')
       filter_area.expect_to_span(1, 2, 2, 3)
@@ -127,7 +127,7 @@ describe 'Arbitrary WorkPackage query table widget on my page', type: :feature, 
         input.native.send_keys(:return)
       end
 
-      my_page.expect_and_dismiss_notification message: I18n.t('js.notice_successful_update')
+      my_page.expect_and_dismiss_toaster message: I18n.t('js.notice_successful_update')
 
       sleep(1)
 

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -32,17 +32,17 @@ RSpec.feature 'Work package timeline labels',
               with_settings: { date_format: '%Y-%m-%d' },
               js: true,
               selenium: true do
-  let(:user) { FactoryBot.create(:admin) }
-  let(:type) { FactoryBot.create(:type_bug) }
-  let(:milestone_type) { FactoryBot.create(:type, is_milestone: true) }
+  let(:user) { create(:admin) }
+  let(:type) { create(:type_bug) }
+  let(:milestone_type) { create(:type, is_milestone: true) }
 
-  let(:project) { FactoryBot.create(:project, types: [type, milestone_type]) }
+  let(:project) { create(:project, types: [type, milestone_type]) }
   let(:settings_menu) { Components::WorkPackages::SettingsMenu.new }
   let(:config_modal) { Components::Timelines::ConfigurationModal.new }
   let(:wp_timeline) { Pages::WorkPackagesTimeline.new(project) }
 
   let(:custom_field) do
-    FactoryBot.create(
+    create(
       :list_wp_custom_field,
       name: "Ingredients",
       multi_value: true,
@@ -61,23 +61,23 @@ RSpec.feature 'Work package timeline labels',
   let(:future) { (Date.today + 5).iso8601 }
 
   let(:work_package) do
-    FactoryBot.create :work_package,
-                      project: project,
-                      type: type,
-                      assigned_to: user,
-                      start_date: today,
-                      due_date: tomorrow,
-                      subject: 'My subject',
-                      custom_field_values: { custom_field.id => custom_value_for('onions') }
+    create :work_package,
+           project: project,
+           type: type,
+           assigned_to: user,
+           start_date: today,
+           due_date: tomorrow,
+           subject: 'My subject',
+           custom_field_values: { custom_field.id => custom_value_for('onions') }
   end
 
   let(:milestone_work_package) do
-    FactoryBot.create :work_package,
-                      project: project,
-                      type: milestone_type,
-                      start_date: future,
-                      due_date: future,
-                      subject: 'My milestone'
+    create :work_package,
+           project: project,
+           type: milestone_type,
+           start_date: future,
+           due_date: future,
+           subject: 'My milestone'
   end
 
   before do

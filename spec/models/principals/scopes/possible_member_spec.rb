@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,35 +23,35 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 describe Principals::Scopes::PossibleMember, type: :model do
-  let(:project) { FactoryBot.create(:project) }
-  let(:role) { FactoryBot.create(:role) }
-  let!(:active_user) { FactoryBot.create(:user) }
-  let!(:locked_user) { FactoryBot.create(:user, status: :locked) }
-  let!(:registered_user) { FactoryBot.create(:user, status: :registered) }
-  let!(:invited_user) { FactoryBot.create(:user, status: :invited) }
-  let!(:anonymous_user) { FactoryBot.create(:anonymous) }
-  let!(:placeholder_user) { FactoryBot.create(:placeholder_user) }
-  let!(:group) { FactoryBot.create(:group) }
+  let(:project) { create(:project) }
+  let(:role) { create(:role) }
+  let!(:active_user) { create(:user) }
+  let!(:locked_user) { create(:user, status: :locked) }
+  let!(:registered_user) { create(:user, status: :registered) }
+  let!(:invited_user) { create(:user, status: :invited) }
+  let!(:anonymous_user) { create(:anonymous) }
+  let!(:placeholder_user) { create(:placeholder_user) }
+  let!(:group) { create(:group) }
   let!(:member_user) do
-    FactoryBot.create(:user,
-                      member_in_project: project,
-                      member_through_role: role)
+    create(:user,
+           member_in_project: project,
+           member_through_role: role)
   end
   let!(:member_placeholder_user) do
-    FactoryBot.create(:placeholder_user,
-                      member_in_project: project,
-                      member_through_role: role)
+    create(:placeholder_user,
+           member_in_project: project,
+           member_through_role: role)
   end
   let!(:member_group) do
-    FactoryBot.create(:group,
-                      member_in_project: project,
-                      member_through_role: role)
+    create(:group,
+           member_in_project: project,
+           member_through_role: role)
   end
 
   describe '.possible_member' do

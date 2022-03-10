@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -35,24 +35,20 @@ describe 'API v3 Work package resource',
   include API::V3::Utilities::PathHelper
 
   let(:project) do
-    FactoryBot.create(:project, identifier: 'test_project', public: false)
+    create(:project, identifier: 'test_project', public: false)
   end
-  let(:role) { FactoryBot.create(:role, permissions: permissions) }
-  let(:permissions) { %i[view_work_packages edit_work_packages assign_versions] }
+  let(:role) { create(:role, permissions: permissions) }
+  let(:permissions) { %i[add_work_packages view_project view_work_packages] }
 
   current_user do
-    user = FactoryBot.create(:user, member_in_project: project, member_through_role: role)
-
-    FactoryBot.create(:user_preference, user: user, others: { no_self_notified: false })
-
-    user
+    create(:user, member_in_project: project, member_through_role: role)
   end
 
   describe 'POST /api/v3/work_packages' do
     let(:path) { api_v3_paths.work_packages }
-    let(:permissions) { %i[add_work_packages view_project] }
-    let(:status) { FactoryBot.build(:status, is_default: true) }
-    let(:priority) { FactoryBot.build(:priority, is_default: true) }
+    let(:other_user) { nil }
+    let(:status) { build(:status, is_default: true) }
+    let(:priority) { build(:priority, is_default: true) }
     let(:type) { project.types.first }
     let(:parameters) do
       {
@@ -71,36 +67,36 @@ describe 'API v3 Work package resource',
     before do
       status.save!
       priority.save!
+      other_user
 
-      FactoryBot.create(:user_preference, user: current_user, others: { no_self_notified: false })
       perform_enqueued_jobs do
-        post path, parameters.to_json, 'CONTENT_TYPE' => 'application/json'
+        post path, parameters.to_json
       end
     end
 
-    context 'notifications' do
-      let(:permissions) { %i[add_work_packages view_project view_work_packages] }
+    describe 'notifications' do
+      let(:other_user) { create(:user, member_in_project: project, member_with_permissions: permissions) }
 
-      it 'sends a mail by default' do
-        expect(ActionMailer::Base.deliveries.size)
-          .to eql 1
+      it 'creates a notification' do
+        expect(Notification.where(recipient: other_user, resource: WorkPackage.last))
+          .to exist
       end
 
       context 'without notifications' do
         let(:path) { "#{api_v3_paths.work_packages}?notify=false" }
 
-        it 'should not send a mail' do
-          expect(ActionMailer::Base.deliveries.size)
-            .to eql 0
+        it 'creates no notification' do
+          expect(Notification)
+            .not_to exist
         end
       end
 
       context 'with notifications' do
         let(:path) { "#{api_v3_paths.work_packages}?notify=true" }
 
-        it 'should send a mail' do
-          expect(ActionMailer::Base.deliveries.size)
-            .to eql 1
+        it 'creates a notification' do
+          expect(Notification.where(recipient: other_user, resource: WorkPackage.last))
+            .to exist
         end
       end
     end
@@ -126,7 +122,7 @@ describe 'API v3 Work package resource',
     end
 
     context 'no permissions' do
-      let(:current_user) { FactoryBot.create(:user) }
+      let(:current_user) { create(:user) }
 
       it 'should hide the endpoint' do
         expect(last_response.status).to eq(403)
@@ -229,7 +225,7 @@ describe 'API v3 Work package resource',
     end
 
     context 'claiming attachments' do
-      let(:attachment) { FactoryBot.create(:attachment, container: nil, author: current_user) }
+      let(:attachment) { create(:attachment, container: nil, author: current_user) }
       let(:parameters) do
         {
           subject: 'subject',

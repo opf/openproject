@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module Queries::Filters::Shared
@@ -34,8 +32,6 @@ module Queries::Filters::Shared
       include Queries::Filters::Serializable
 
       attr_reader :custom_field, :custom_field_context
-
-      validate :custom_field_valid
 
       def initialize(custom_field:, custom_field_context:, **options)
         name = :"cf_#{custom_field.id}"
@@ -122,28 +118,6 @@ module Queries::Filters::Shared
 
       def type_strategy_class
         strategies[type] || strategies[:inexistent]
-      end
-
-      def custom_field_valid
-        if invalid_custom_field_for_context?
-          errors.add(:base, I18n.t('activerecord.errors.models.query.filters.custom_fields.invalid'))
-        end
-      end
-
-      def invalid_custom_field_for_context?
-        if project
-          invalid_custom_field_for_project?
-        else
-          invalid_custom_field_globally?
-        end
-      end
-
-      def invalid_custom_field_globally?
-        !custom_field_context.custom_fields(project).exists?(custom_field.id)
-      end
-
-      def invalid_custom_field_for_project?
-        !custom_field_context.custom_fields(project).map(&:id).include? custom_field.id
       end
     end
   end

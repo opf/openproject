@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,12 +23,18 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 
 export class ActivityEntryInfo {
+  public date = this.activityDate(this.activity);
+
+  public dateOfPrevious = this.index > 0 ? this.activityDate(this.activities[this.index - 1]) : undefined;
+
+  public isNextDate = this.date !== this.dateOfPrevious;
+
   constructor(public timezoneService:TimezoneService,
     public isReversed:boolean,
     public activities:any[],
@@ -38,16 +44,6 @@ export class ActivityEntryInfo {
 
   public number(forceReverse = false) {
     return this.orderedIndex(this.index, forceReverse);
-  }
-
-  public get date() {
-    return this.activityDate(this.activity);
-  }
-
-  public get dateOfPrevious():any {
-    if (this.index > 0) {
-      return this.activityDate(this.activities[this.index - 1]);
-    }
   }
 
   public get href() {
@@ -60,10 +56,6 @@ export class ActivityEntryInfo {
 
   public get version() {
     return this.activity.version;
-  }
-
-  public get isNextDate() {
-    return this.date !== this.dateOfPrevious;
   }
 
   public isInitial(forceReverse = false) {

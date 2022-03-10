@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,12 +23,12 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module Notifications::CreateFromModelService::WorkPackageStrategy
   def self.reasons
-    %i(mentioned involved watched subscribed commented created processed prioritized scheduled)
+    %i(mentioned assigned responsible watched commented created processed prioritized scheduled)
   end
 
   def self.permission
@@ -47,10 +45,6 @@ module Notifications::CreateFromModelService::WorkPackageStrategy
 
   def self.supports_mail?
     true
-  end
-
-  def self.subscribed_users(journal)
-    User.notified_on_all(journal.data.project)
   end
 
   def self.watcher_users(journal)

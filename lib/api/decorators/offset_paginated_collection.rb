@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,28 +23,29 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module API
   module Decorators
     class OffsetPaginatedCollection < ::API::Decorators::Collection
-      include ::API::Utilities::PageSizeHelper
+      include ::API::Utilities::UrlPropsParsingHelper
 
       def self.per_page_default(relation)
         relation.base_class.per_page
       end
 
-      def initialize(models, self_link:, current_user:, query: {}, page: nil, per_page: nil)
+      def initialize(models, self_link:, current_user:, query: {}, page: nil, per_page: nil, groups: nil)
         @self_link_base = self_link
         @query = query
         @page = page.to_i > 0 ? page.to_i : 1
-        @per_page = resulting_page_size(per_page, models)
+        resolved_page_size = resolve_page_size(per_page)
+        @per_page = resulting_page_size(resolved_page_size, models)
 
         full_self_link = make_page_link(page: @page, page_size: @per_page)
         paged = paged_models(models)
 
-        super(paged, models.count, self_link: full_self_link, current_user: current_user)
+        super(paged, total_count(models), self_link: full_self_link, current_user: current_user, groups: groups)
       end
 
       link :jumpTo do
@@ -87,14 +86,24 @@ module API
                exec_context: :decorator,
                getter: ->(*) { @page }
 
+      protected
+
+      def total_count(models)
+        models.count(:id)
+      end
+
       private
 
       def make_page_link(page:, page_size:)
         "#{@self_link_base}?#{href_query(page, page_size)}"
       end
 
-      def href_query(page, page_size)
-        @query.merge(offset: page, pageSize: page_size).to_query
+      def href_query(page = @page, page_size = @per_page)
+        query_params(page, page_size).to_query
+      end
+
+      def query_params(page = @page, page_size = @per_page)
+        @query.merge(offset: page, pageSize: page_size)
       end
 
       def paged_models(models)

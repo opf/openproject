@@ -38,7 +38,7 @@ nl:
         time: 'Delivery time'
       form:
         introduction: >
-          Send a POST request to the payload URL below for any event in the project you're subscribed to. Payload will correspond to the APIv3 representation of the object being modified.
+          Stuur een POST-aanvraag naar de onderstaande payload-URL voor elk evenement in het project waarop u bent geabonneerd. Payload komt overeen met de APIv3-representatie van het object dat wordt gewijzigd.
         apiv3_doc_url: For more information, visit the API documentation
         description:
           placeholder: 'Optional description for the webhook.'

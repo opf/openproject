@@ -4,17 +4,20 @@ import {
 import { Subject } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
-import { QueryResource } from 'core-app/features/hal/resources/query-resource';
-import { QueryFormResource } from 'core-app/features/hal/resources/query-form-resource';
 import { QueryColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
-import { GroupObject, WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
+import {
+  GroupObject,
+  WorkPackageCollectionResource,
+} from 'core-app/features/hal/resources/wp-collection-resource';
+import { QueryResource } from 'core-app/features/hal/resources/query-resource';
+import { WorkPackageDisplayRepresentationValue } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-display-representation.service';
+import { QueryFilterInstanceSchemaResource } from 'core-app/features/hal/resources/query-filter-instance-schema-resource';
+import { QueryFormResource } from 'core-app/features/hal/resources/query-form-resource';
+import { QuerySortByResource } from 'core-app/features/hal/resources/query-sort-by-resource';
+import { QueryGroupByResource } from 'core-app/features/hal/resources/query-group-by-resource';
 
 @Injectable()
 export class IsolatedQuerySpace extends StatesGroup {
-  constructor() {
-    super();
-  }
-
   name = 'IsolatedQuerySpace';
 
   // The query that results in this table state
@@ -57,4 +60,22 @@ export class IsolatedQuerySpace extends StatesGroup {
 
   // Input state that emits whenever table services have initialized
   initialized = input<unknown>();
+
+  // Available states
+  available = {
+    // Available columns
+    columns: input<QueryColumn[]>(),
+
+    // Available SortBy Columns
+    sortBy: input<QuerySortByResource[]>(),
+
+    // Available GroupBy columns
+    groupBy: input<QueryGroupByResource[]>(),
+
+    // Available filter schemas (derived from their schema)
+    filters: input<QueryFilterInstanceSchemaResource[]>(),
+
+    // Display of the WP results
+    displayRepresentation: input<WorkPackageDisplayRepresentationValue|null>(),
+  };
 }

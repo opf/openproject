@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'roar/decorator'
@@ -44,10 +42,13 @@ module API
                             setter: ->(fragment:, **) {
                               id = id_from_href "projects", fragment['href']
 
-                              id = if id.to_i.nonzero?
+                              # In case an identifier is provided, which might
+                              # start with numbers, the id needs to be looked up
+                              # in the DB.
+                              id = if id.to_i.to_s == id
                                      id # return numerical ID
                                    else
-                                     Project.where(identifier: id).pluck(:id).first # lookup Project by identifier
+                                     Project.where(identifier: id).pick(:id) # lookup Project by identifier
                                    end
 
                               represented.project_id = id if id
@@ -288,8 +289,12 @@ module API
                  exec_context: :decorator
 
         property :display_sums, as: :sums
-        property :is_public, as: :public
-        property :hidden
+        property :public
+
+        # The property is deprecated and should be removed
+        # in the next major version.
+        property :hidden,
+                 setter: ->(*) {} # ignored
 
         # Timeline properties
         property :timeline_visible
@@ -322,8 +327,8 @@ module API
           super(model, current_user: current_user, embed_links: embed_links)
         end
 
-        self.to_eager_load = [:query_menu_item,
-                              :user,
+        self.to_eager_load = [:user,
+                              :views,
                               { project: :work_package_custom_fields }]
 
         def _type
@@ -343,8 +348,10 @@ module API
           filters_hash.each do |filter_attributes|
             name = get_filter_name filter_attributes
 
-            if name && (filter = represented.filter_for name)
-              filter_representer = ::API::V3::Queries::Filters::QueryFilterInstanceRepresenter.new(filter)
+            if name
+              filter_class = Query.find_registered_filter(name) || ::Queries::Filters::NotExistingFilter
+              filter_representer = ::API::V3::Queries::Filters::QueryFilterInstanceRepresenter
+                                     .new(filter_class.create!(name: name))
 
               filter = filter_representer.from_hash filter_attributes
               represented.filters << filter

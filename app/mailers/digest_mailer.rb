@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 # Sends digest mails. Digest mails contain the combined information of multiple updates to
@@ -36,8 +34,12 @@ class DigestMailer < ApplicationMailer
   include OpenProject::StaticRouting::UrlHelpers
   include OpenProject::TextFormatting
   include Redmine::I18n
+  include MailDigestHelper
 
-  helper :mail_digest
+  helper :mail_digest,
+         :mail_notification
+
+  MAX_SHOWN_WORK_PACKAGES = 15
 
   class << self
     def generate_message_id(_, user)
@@ -52,19 +54,29 @@ class DigestMailer < ApplicationMailer
     recipient = User.find(recipient_id)
 
     open_project_headers User: recipient.name
-    message_id nil, recipient
+    message_id 'digest', recipient
 
-    @notifications_by_project = load_notifications(notification_ids)
-                                  .group_by(&:project)
-                                  .transform_values { |of_project| of_project.group_by(&:resource) }
+    @user = recipient
+    @notification_ids = notification_ids
+    @aggregated_notifications = load_notifications(notification_ids)
+                                  .sort_by(&:created_at)
+                                  .reverse
+                                  .group_by(&:resource)
 
-    return if @notifications_by_project.empty?
+    @mentioned_count = @aggregated_notifications
+                         .values
+                         .flatten
+                         .map(&:reason)
+                         .compact
+                         .count("mentioned")
+
+    return if @aggregated_notifications.empty?
 
     with_locale_for(recipient) do
+      subject = "#{Setting.app_title} - #{digest_summary_text(notification_ids.size, @mentioned_count)}"
+
       mail to: recipient.mail,
-           subject: I18n.t('mail.digests.work_packages.subject',
-                           date: format_time_as_date(Time.current),
-                           number: notification_ids.count)
+           subject: subject
     end
   end
 

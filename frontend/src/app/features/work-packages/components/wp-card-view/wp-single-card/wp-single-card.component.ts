@@ -7,10 +7,13 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { checkedClassName, uiStateLinkClass } from 'core-app/features/work-packages/components/wp-fast-table/builders/ui-state-link-builder';
+import { uiStateLinkClass } from 'core-app/features/work-packages/components/wp-fast-table/builders/ui-state-link-builder';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { Highlighting } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions';
-import { StateService } from '@uirouter/core';
+import {
+  StateService,
+  UIRouterGlobals,
+} from '@uirouter/core';
 import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
 import { WorkPackageCardViewService } from 'core-app/features/work-packages/components/wp-card-view/services/wp-card-view.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -21,6 +24,10 @@ import { WorkPackageViewFocusService } from 'core-app/features/work-packages/rou
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { isClickedWithModifier } from 'core-app/shared/helpers/link-handling/link-handling';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
+import { TimezoneService } from 'core-app/core/datetime/timezone.service';
+import { StatusResource } from 'core-app/features/hal/resources/status-resource';
+import { combineLatest } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'wp-single-card',
@@ -30,6 +37,8 @@ import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 })
 export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implements OnInit {
   @Input() public workPackage:WorkPackageResource;
+
+  @Input() public selectedWhenOpen = false;
 
   @Input() public showInfoButton = false;
 
@@ -45,11 +54,25 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
 
   @Input() public shrinkOnMobile = false;
 
+  @Input() public disabledInfo = '';
+
+  @Input() public showAsInlineCard = false;
+
+  @Input() public showStartDate = true;
+
+  @Input() public showEndDate = true;
+
+  @Input() public isClosed = false;
+
   @Output() onRemove = new EventEmitter<WorkPackageResource>();
 
   @Output() stateLinkClicked = new EventEmitter<{ workPackageId:string, requestedState:string }>();
 
+  @Output() cardClicked = new EventEmitter<{ workPackageId:string, event:MouseEvent }>();
+
   public uiStateLinkClass:string = uiStateLinkClass;
+
+  public selected = false;
 
   public text = {
     removeCard: this.I18n.t('js.card.remove_from_list'),
@@ -58,28 +81,43 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
 
   isNewResource = isNewResource;
 
-  constructor(readonly pathHelper:PathHelperService,
+  constructor(
+    readonly pathHelper:PathHelperService,
     readonly I18n:I18nService,
     readonly $state:StateService,
+    readonly uiRouterGlobals:UIRouterGlobals,
     readonly wpTableSelection:WorkPackageViewSelectionService,
     readonly wpTableFocus:WorkPackageViewFocusService,
     readonly cardView:WorkPackageCardViewService,
-    readonly cdRef:ChangeDetectorRef) {
+    readonly cdRef:ChangeDetectorRef,
+    readonly timezoneService:TimezoneService,
+  ) {
     super();
   }
 
   ngOnInit():void {
     // Update selection state
-    this.wpTableSelection.live$()
+    combineLatest([
+      this.wpTableSelection.live$(),
+      this.uiRouterGlobals.params$,
+    ])
       .pipe(
         this.untilDestroyed(),
+        map(() => {
+          if (this.selectedWhenOpen) {
+            return this.uiRouterGlobals.params.workPackageId === this.workPackage.id;
+          }
+
+          return this.wpTableSelection.isSelected(this.workPackage.id as string);
+        }),
       )
-      .subscribe(() => {
+      .subscribe((selected) => {
+        this.selected = selected;
         this.cdRef.detectChanges();
       });
   }
 
-  public classIdentifier(wp:WorkPackageResource) {
+  public classIdentifier(wp:WorkPackageResource):string {
     return this.cardView.classIdentifier(wp);
   }
 
@@ -94,44 +132,92 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
     this.wpTableSelection.setSelection(wp.id!, this.cardView.findRenderedCard(classIdentifier));
     this.wpTableFocus.updateFocus(wp.id!);
     this.stateLinkClicked.emit({ workPackageId: wp.id!, requestedState: stateToEmit });
+    event.preventDefault();
   }
 
-  public cardClasses() {
-    const base = 'op-wp-single-card'
-    let classes = this.isSelected(this.workPackage) ? checkedClassName : '';
-    classes += this.draggable ? ` ${base}_draggable` : '';
-    classes += isNewResource(this.workPackage) ? ` ${base}_new` : '';
-    classes += ` ${base}-${this.workPackage.id}`;
-    classes += ` ${base}_${this.orientation}`;
-    classes += this.shrinkOnMobile ? ` ${base}_shrink` : '';
-    return classes;
+  public cardClasses():{ [className:string]:boolean } {
+    const base = 'op-wp-single-card';
+
+    return {
+      [`${base}_selected`]: this.selected,
+      [`${base}_draggable`]: this.draggable,
+      [`${base}_new`]: isNewResource(this.workPackage),
+      [`${base}_shrink`]: this.shrinkOnMobile,
+      [`${base}_disabled`]: this.disabledInfo.length > 0,
+      [`${base}_inline`]: this.showAsInlineCard,
+      [`${base}_closed`]: this.isClosed,
+      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+      [`${base}-${this.workPackage.id}`]: !!this.workPackage.id,
+      [`${base}_${this.orientation}`]: true,
+    };
   }
 
-  public wpTypeAttribute(wp:WorkPackageResource) {
+  cardTitle():string {
+    return `${this.workPackage.subject} (${(this.workPackage.status as StatusResource).name})`;
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  public wpTypeAttribute(wp:WorkPackageResource):string {
     return wp.type.name;
   }
 
-  public wpSubject(wp:WorkPackageResource) {
+  // eslint-disable-next-line class-methods-use-this
+  public wpSubject(wp:WorkPackageResource):string {
     return wp.subject;
   }
 
-  public wpProjectName(wp:WorkPackageResource) {
+  // eslint-disable-next-line class-methods-use-this
+  public wpProjectName(wp:WorkPackageResource):string {
     return wp.project?.name;
   }
 
-  public fullWorkPackageLink(wp:WorkPackageResource) {
+  public wpDates(wp:WorkPackageResource):string {
+    const { startDate, dueDate } = wp;
+    const dateTimeFormat = new Intl.DateTimeFormat(this.I18n.locale, {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    });
+
+    if (startDate && dueDate) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore see https://github.com/microsoft/TypeScript/issues/46905
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+      return String(dateTimeFormat.formatRange(new Date(startDate), new Date(dueDate)));
+    }
+    if (!startDate && dueDate) {
+      return `– ${dateTimeFormat.format(new Date(dueDate))}`;
+    }
+
+    if (startDate && !dueDate) {
+      return `${dateTimeFormat.format(new Date(startDate))} –`;
+    }
+
+    return '';
+  }
+
+  splittedDate(wp:WorkPackageResource):string[] {
+    return this.wpDates(wp).split('–');
+  }
+
+  wpOverDueHighlighting(wp:WorkPackageResource):string {
+    const diff = this.timezoneService.daysFromToday(wp.dueDate);
+    return Highlighting.overdueDate(diff);
+  }
+
+  public fullWorkPackageLink(wp:WorkPackageResource):string {
     return this.$state.href('work-packages.show', { workPackageId: wp.id });
   }
 
-  public cardHighlightingClass(wp:WorkPackageResource) {
+  public cardHighlightingClass(wp:WorkPackageResource):string {
     return this.cardHighlighting(wp);
   }
 
-  public typeHighlightingClass(wp:WorkPackageResource) {
+  public typeHighlightingClass(wp:WorkPackageResource):string {
     return this.attributeHighlighting('type', wp);
   }
 
-  public onRemoved(wp:WorkPackageResource) {
+  public onRemoved(wp:WorkPackageResource):void {
     this.onRemove.emit(wp);
   }
 
@@ -139,22 +225,20 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
     return this.bcfSnapshotPath(wp) !== null;
   }
 
-  public bcfSnapshotPath(wp:WorkPackageResource) {
+  // eslint-disable-next-line class-methods-use-this
+  public bcfSnapshotPath(wp:WorkPackageResource):string|null {
     return wp.bcfViewpoints && wp.bcfViewpoints.length > 0 ? `${wp.bcfViewpoints[0].href}/snapshot` : null;
   }
 
-  private isSelected(wp:WorkPackageResource):boolean {
-    return this.wpTableSelection.isSelected(wp.id!);
-  }
-
-  private cardHighlighting(wp:WorkPackageResource) {
+  private cardHighlighting(wp:WorkPackageResource):string {
     if (['status', 'priority', 'type'].includes(this.highlightingMode)) {
       return Highlighting.backgroundClass(this.highlightingMode, wp[this.highlightingMode].id);
     }
     return '';
   }
 
-  private attributeHighlighting(type:string, wp:WorkPackageResource) {
+  // eslint-disable-next-line class-methods-use-this
+  private attributeHighlighting(type:string, wp:WorkPackageResource):string {
     return Highlighting.inlineClass(type, wp.type.id!);
   }
 }

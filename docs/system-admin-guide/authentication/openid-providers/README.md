@@ -24,7 +24,84 @@ You can configure the following options.
 4. Enter the **Secret**.
 5. Press the blue **create** button.
 
-![Sys-admin-authentication-add-openid-provider](Sys-admin-authentication-add-openid-provider.png)
+
+
+
+
+## Google Workspace
+
+
+
+### Step 1: Create the OAuth consent screen
+
+1. Navigate to your GCP console.  (https://console.cloud.google.com/)
+2. Go to **APIs & Services** > OAuth consent screen.
+
+![g1-apis-and-services-oauth-consent-screen](g1-apis-and-services-oauth-consent-screen.png)
+
+
+
+3. Create a new project and a new app or edit an existing project and an existing app, setting the following fields (shall be Internal):
+   1. **App name** (e.g. EXAMPLE.COM SSO)
+   2. **User support email** (e.g. user-support@example.com)
+   3. **App domains** (at minimum, you must provide the Application home page - e.g. https://example.openproject.com)
+   4. **Authorized domains** (e.g. openproject.com)
+   5. **Developer Contact information** (e.g.  developer@example.com)
+   6. Click **SAVE AND CONTINUE** to proceed.
+
+![g2-edit-app-registration](g2-edit-app-registration.png)
+
+4. **Scopes** - Press **SAVE AND CONTINUE**
+5. **Summary** - Press **SAVE AND CONTINUE**
+
+
+
+### Step 2: Create the OAuth Client
+
+1. Under **APIs & Services**, go to **Credentials**.
+
+![g3-apis-and-services-credentials](g3-apis-and-services-credentials.png)
+
+2. Click **Create Credentials** and select **OAuth Client ID**.
+
+   1. When prompted for your **Application type**, choose **Web Application**.
+
+   2. Provide a **Name** for your application. (e.g. example-openproject-com)
+
+   3. Under Authorized redirect URIs, click **Add URI**, and provide your URI (e.g. [example.openproject.com]/auth/google/callback).
+
+   4. Click **CREATE** or **SAVE** .
+
+![g4-create-credentials-oauth-client-id](g4-create-credentials-oauth-client-id.png)
+
+After pressing **CREATE** you will get a pop-up window like the following
+
+- Note **Client ID**
+- Note **Client Secret**
+
+![g5-oauth-client-created](g5-oauth-client-created.png)
+
+
+
+### Step 3: Add Google as an OpenID Provider to OpenProject
+
+1. Login as Open Project Administrator
+2. navigate to -> *Administration* -> *Authentication* and choose -> *OpenID providers*.
+   1. **Name** Choose Google
+   2. **Display Name** (e.g. **EXAMPLE.COM SSO**)
+   3. **Identifier** (**Client ID** from step 2)
+   4. **Secret** (**Client Secret** from step 2)
+3. Press **Create**
+
+![g6-add-new-openid-provider-google](g6-add-new-openid-provider-google.png)
+
+4. The following green notification **Successful creation** should appear
+
+![g7-successful-creation-google](g7-successful-creation-google.png)
+
+
+
+
 
 ## Azure Active Directory
 
@@ -36,23 +113,23 @@ The steps are as follows:
 
 Log into your Microsoft account, and go to the Azure Active Directory administration page.
 
-![](images/azure/01-menu.png)
+![](01-menu.png)
 
 
 
 In the sidebar, click on "All services".
 
-![](images/README/02-admin-dashboard.png)
+![](02-admin-dashboard.png)
 
 Click on the link named "App registrations".
 
-![](images/azure/03-app-registrations.png)
+![](03-app-registrations.png)
 
 
 
 Click on "New registration".
 
-![](images/README/04-register-app.png)
+![](04-register-app.png)
 
 You are now asked for a few settings:
 
@@ -62,21 +139,21 @@ You are now asked for a few settings:
 
 When you are done, click on the "Register" button at the end of the page. You are redirected to your new App registration, be sure to save the "Application (client) ID" that is now displayed. You will need it later.
 
-![](images/README/02-admin-dashboard-1580821056307.png)
+![](02-admin-dashboard-1580821056307.png)
 
 
 
 You can now click on "Certificates & secret".
 
-![](images/README/06-certificates.png)
+![](06-certificates.png)
 
 Then click on "New client secret", set the description to "client_secret", and the expiration to "never". Then click on "Add".
 
-![](images/README/07-client-secret.png)
+![](07-client-secret.png)
 
 A secret should have been generated and is now displayed on the page. Be sure to save it somewhere because it will only be displayed once.
 
-![](images/README/08-add-secret.png)
+![](08-add-secret.png)
 
 At the end of this step, you should have a copy of the Application client ID as well as the client Secret you just generated.
 
@@ -93,7 +170,7 @@ Congratulations, your users can now authenticate using your Azure Active Directo
 Sometimes you may need to configure the `tenant` option for the AzureAD connection.
 Currently this is not possible through the user interface.
 
-But you can do it via the console as described [here](/installation-and-operations/misc/custom-openid-connect-providers/#custom-openid-connect-providers) where you can add `tenant` next to the other options like `host`, `identifier` and `secret`.
+But you can do it via the console as described [here](../../../installation-and-operations/misc/custom-openid-connect-providers/#custom-openid-connect-providers) where you can add `tenant` next to the other options like `host`, `identifier` and `secret`.
 
 ## Troubleshooting
 

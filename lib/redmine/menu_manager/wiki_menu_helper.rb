@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module Redmine::MenuManager::WikiMenuHelper
@@ -48,8 +46,8 @@ module Redmine::MenuManager::WikiMenuHelper
   def push_wiki_main_menu(menu, main_item, project)
     menu.push main_item.menu_identifier,
               { controller: '/wiki', action: 'show', id: main_item.slug },
-              param: :project_id,
               caption: main_item.title,
+              before: :members,
               icon: 'icon2 icon-wiki',
               html: { class: 'wiki-menu--main-item' }
 
@@ -64,7 +62,6 @@ module Redmine::MenuManager::WikiMenuHelper
   def push_wiki_menu_subitem(menu, main_item, child)
     menu.push child.menu_identifier,
               { controller: '/wiki', action: 'show', id: child.slug },
-              param: :project_id,
               caption: child.title,
               html: { class: 'wiki-menu--sub-item' },
               parent: main_item.menu_identifier
@@ -86,7 +83,6 @@ module Redmine::MenuManager::WikiMenuHelper
   def push_wiki_menu_partial(main_item, menu)
     menu.push :wiki_menu_partial,
               { controller: '/wiki', action: 'show' },
-              param: :project_id,
               parent: main_item.menu_identifier,
               partial: 'wiki/menu_pages_tree',
               last: true

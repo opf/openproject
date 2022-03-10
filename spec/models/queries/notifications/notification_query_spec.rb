@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,16 +23,23 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 describe Queries::Notifications::NotificationQuery, type: :model do
-  shared_let(:recipient) { FactoryBot.create :user }
+  shared_let(:project) { create :project }
+
+  shared_let(:recipient) { create :user, member_in_project: project, member_with_permissions: %i[view_work_packages] }
+
+  shared_let(:work_package) { create :work_package, project: project }
+  shared_let(:notification) { create :notification, recipient: recipient, project: project, resource: work_package }
 
   let(:instance) { described_class.new(user: recipient) }
-  let(:base_scope) { Notification.recipient(recipient) }
+  let(:base_scope) { Notification.visible(recipient).recipient(recipient) }
+
+  current_user { recipient }
 
   context 'without a filter' do
     describe '#results' do
@@ -49,9 +56,9 @@ describe Queries::Notifications::NotificationQuery, type: :model do
 
     describe '#results' do
       it 'is the same as handwriting the query' do
-        expected = base_scope.where("notifications.read_ian IN ('t')").order(id: :desc)
+        expected = base_scope.merge(Notification.where("notifications.read_ian IN ('t')").order(id: :desc)).to_sql
 
-        expect(instance.results.to_sql).to eql expected.to_sql
+        expect(instance.results.to_sql).to eql expected
       end
     end
 
@@ -114,7 +121,7 @@ describe Queries::Notifications::NotificationQuery, type: :model do
 
     describe '#results' do
       it 'is the same as handwriting the query' do
-        expected = "SELECT \"notifications\".* FROM \"notifications\" WHERE \"notifications\".\"recipient_id\" = #{recipient.id} ORDER BY \"notifications\".\"read_ian\" DESC, \"notifications\".\"id\" DESC"
+        expected = base_scope.merge(Notification.order(read_ian: :desc, id: :desc)).to_sql
 
         expect(instance.results.to_sql).to eql expected
       end
@@ -128,7 +135,7 @@ describe Queries::Notifications::NotificationQuery, type: :model do
 
     describe '#results' do
       it 'is the same as handwriting the query' do
-        expected = "SELECT \"notifications\".* FROM \"notifications\" WHERE \"notifications\".\"recipient_id\" = #{recipient.id} ORDER BY \"reason\" DESC, \"notifications\".\"id\" DESC"
+        expected = base_scope.merge(Notification.order(reason: :desc, id: :desc)).to_sql
 
         expect(instance.results.to_sql).to eql expected
       end
@@ -138,6 +145,62 @@ describe Queries::Notifications::NotificationQuery, type: :model do
   context 'with a non existing sortation' do
     before do
       instance.order(non_existing: :desc)
+    end
+
+    describe '#results' do
+      it 'returns a query not returning anything' do
+        expected = Notification.where(Arel::Nodes::Equality.new(1, 0))
+
+        expect(instance.results.to_sql).to eql expected.to_sql
+      end
+    end
+
+    describe 'valid?' do
+      it 'is false' do
+        expect(instance).to be_invalid
+      end
+    end
+  end
+
+  context 'with a reason group_by' do
+    before do
+      instance.group(:reason)
+    end
+
+    describe '#results' do
+      it 'is the same as handwriting the query' do
+        scope = Notification
+          .group(:reason)
+          .order(reason: :asc)
+          .select(:reason, Arel.sql('COUNT(*)'))
+        expected = base_scope.merge(scope).to_sql
+
+        expect(instance.groups.to_sql).to eql expected
+      end
+    end
+  end
+
+  context 'with a project group_by' do
+    before do
+      instance.group(:project)
+    end
+
+    describe '#results' do
+      it 'is the same as handwriting the query' do
+        scope = Notification
+          .group(:project_id)
+          .order(project_id: :asc)
+          .select(:project_id, Arel.sql('COUNT(*)'))
+        expected = base_scope.merge(scope).to_sql
+
+        expect(instance.groups.to_sql).to eql expected
+      end
+    end
+  end
+
+  context 'with a non existing group_by' do
+    before do
+      instance.group(:does_not_exist)
     end
 
     describe '#results' do

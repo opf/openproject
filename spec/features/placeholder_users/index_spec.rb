@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,31 +23,35 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 describe 'index placeholder users', type: :feature, js: true do
-  let!(:current_user) { FactoryBot.create :admin }
-  let!(:anonymous) { FactoryBot.create :anonymous }
+  before do
+    with_enterprise_token(:placeholder_users)
+  end
+
+  let!(:current_user) { create :admin }
+  let!(:anonymous) { create :anonymous }
   let!(:placeholder_user_1) do
-    FactoryBot.create(:placeholder_user,
-                      name: 'B',
-                      created_at: 3.minutes.ago)
+    create(:placeholder_user,
+           name: 'B',
+           created_at: 3.minutes.ago)
   end
   let!(:placeholder_user_2) do
-    FactoryBot.create(:placeholder_user,
-                      name: 'A',
-                      created_at: 2.minutes.ago)
+    create(:placeholder_user,
+           name: 'A',
+           created_at: 2.minutes.ago)
   end
   let!(:placeholder_user_3) do
-    FactoryBot.create(:placeholder_user,
-                      name: 'C',
-                      created_at: 1.minute.ago)
+    create(:placeholder_user,
+           name: 'C',
+           created_at: 1.minute.ago)
   end
-  let(:manager_role) { FactoryBot.create :existing_role, permissions: [:manage_members] }
-  let(:member_role) { FactoryBot.create :existing_role, permissions: [:view_work_packages] }
+  let(:manager_role) { create :existing_role, permissions: [:manage_members] }
+  let(:member_role) { create :existing_role, permissions: [:view_work_packages] }
   let(:index_page) { Pages::Admin::PlaceholderUsers::Index.new }
 
   shared_examples 'placeholders index flow' do
@@ -79,13 +83,13 @@ describe 'index placeholder users', type: :feature, js: true do
   end
 
   context 'as admin' do
-    current_user { FactoryBot.create :admin }
+    current_user { create :admin }
 
     it_behaves_like 'placeholders index flow'
   end
 
   context 'as user with global permission' do
-    current_user { FactoryBot.create :user, global_permission: %i[manage_placeholder_user] }
+    current_user { create :user, global_permission: %i[manage_placeholder_user] }
 
     it_behaves_like 'placeholders index flow'
 
@@ -104,7 +108,7 @@ describe 'index placeholder users', type: :feature, js: true do
     
     context 'when user is allowed to manage members only in some projects of the placeholder users' do
       let(:shared_project) do
-        FactoryBot.create(:project, members: {
+        create(:project, members: {
                             placeholder_user_1 => member_role,
                             placeholder_user_2 => member_role,
                             current_user => manager_role
@@ -112,7 +116,7 @@ describe 'index placeholder users', type: :feature, js: true do
       end
 
       let(:not_shared_project) do
-        FactoryBot.create(:project, members: {
+        create(:project, members: {
                            placeholder_user_2 => member_role,
                            placeholder_user_3 => member_role
                          })
@@ -136,7 +140,7 @@ describe 'index placeholder users', type: :feature, js: true do
   end
 
   context 'as user without global permission' do
-    current_user { FactoryBot.create :user }
+    current_user { create :user }
 
     it 'returns an error' do
       index_page.visit!

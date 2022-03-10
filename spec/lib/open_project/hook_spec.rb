@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 require 'spec_helper'
 
@@ -242,21 +240,20 @@ describe OpenProject::Hook do
       Class.new(ApplicationController)
     end
 
-    let(:user) { FactoryBot.build_stubbed(:user) }
-    let(:author) { FactoryBot.build_stubbed(:user) }
+    let(:user) { build_stubbed(:user) }
+    let(:author) { build_stubbed(:user) }
     let(:work_package) do
-      FactoryBot.build_stubbed(:work_package,
-                               type: FactoryBot.build_stubbed(:type),
-                               status: FactoryBot.build_stubbed(:status)).tap do |wp|
+      build_stubbed(:work_package,
+                    type: build_stubbed(:type),
+                    status: build_stubbed(:status)).tap do |wp|
 
         allow(wp)
           .to receive(:reload)
                 .and_return(wp)
       end
     end
-    let(:journal) { FactoryBot.build_stubbed(:work_package_journal, journable: work_package) }
     let!(:comparison_mail) do
-      UserMailer.work_package_added(user, journal, author).deliver_now
+      WorkPackageMailer.watcher_changed(work_package, user, author, :added).deliver_now
       ActionMailer::Base.deliveries.last
     end
 
@@ -264,7 +261,7 @@ describe OpenProject::Hook do
       test_hook_controller_class.new.call_hook(:view_layouts_base_html_head)
 
       ActionMailer::Base.deliveries.clear
-      UserMailer.work_package_added(user, journal, author).deliver_now
+      WorkPackageMailer.watcher_changed(work_package, user, author, :added).deliver_now
       mail2 = ActionMailer::Base.deliveries.last
 
       assert_equal comparison_mail.text_part.body.encoded, mail2.text_part.body.encoded

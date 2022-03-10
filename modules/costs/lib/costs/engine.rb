@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'open_project/plugins'
@@ -60,7 +60,7 @@ module Costs
                    require: :loggedin
 
         permission :manage_project_activities,
-                   { 'projects/time_entry_activities': %i[update] },
+                   { 'projects/settings/time_entry_activities': %i[show update] },
                    require: :member
         permission :view_own_hourly_rate, {}
         permission :view_hourly_rates, {}
@@ -248,12 +248,10 @@ module Costs
              writable: false
     end
 
-    initializer 'costs.register_latest_project_activity' do
+    config.to_prepare do
       Project.register_latest_project_activity on: 'TimeEntry',
                                                attribute: :updated_at
-    end
 
-    config.to_prepare do
       Costs::Patches::MembersPatch.mixin!
 
       ##

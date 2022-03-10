@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 ar:
   activerecord:
@@ -111,7 +111,7 @@ ar:
   label_backlog: "العمل المتراكم غير المنجز"
   label_backlogs: "الأعمال المتراكمة غير المنجزة"
   label_backlogs_unconfigured: "لم تقم بإنشاء الأعمال المتراكمة غير المنجزة بعد. من فضلك اذهب إلى %{administration} > %{plugins}، ثم اضغط على رابط %{configure} لهذا البرنامج المساعد. عندما تنتهي من تعيين الحقول، ارجع إلى هذه الصفحة لتبدأ باستخدام الأداة."
-  label_blocks_ids: "مُعرِّفات مجموعات العمل المحظورة"
+  label_blocks_ids: "الهويات المعرِّفة لمجموعات العمل المحظورة"
   label_burndown: "العمل المتبقي"
   label_column_in_backlog: "عمود في العمل المتراكم غير المنجز"
   label_hours: "الساعات"
@@ -132,11 +132,12 @@ ar:
   label_stories_tasks: "القصص/ المهمات"
   label_task_board: "لوحة المهمة"
   label_version_setting: "الإصدارات"
-  label_version: 'الإصدار'
+  label_version: 'النسخة'
   label_webcal: "تغذية Webcal"
   label_wiki: "Wiki"
   permission_view_master_backlog: "عرض العمل الرئيسي المتراكم غير المنجز"
   permission_view_taskboards: "شاهد لوحات المهمات"
+  permission_select_done_statuses: "Select done statuses"
   permission_update_sprints: "قم بتحديث السباقات"
   points_accepted: "النقاط التي تم قبولها"
   points_committed: "النقاط التي تم إحرازها"

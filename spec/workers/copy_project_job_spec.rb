@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,15 +23,15 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 describe CopyProjectJob, type: :model do
-  let(:project) { FactoryBot.create(:project, public: false) }
-  let(:user) { FactoryBot.create(:user) }
-  let(:role) { FactoryBot.create(:role, permissions: [:copy_projects]) }
+  let(:project) { create(:project, public: false) }
+  let(:user) { create(:user) }
+  let(:role) { create(:role, permissions: [:copy_projects]) }
   let(:params) { { name: 'Copy', identifier: 'copy' } }
   let(:maildouble) { double('Mail::Message', deliver: true) }
 
@@ -40,9 +40,9 @@ describe CopyProjectJob, type: :model do
   end
 
   describe 'copy localizes error message' do
-    let(:user_de) { FactoryBot.create(:admin, language: :de) }
-    let(:source_project) { FactoryBot.create(:project) }
-    let(:target_project) { FactoryBot.create(:project) }
+    let(:user_de) { create(:admin, language: :de) }
+    let(:source_project) { create(:project) }
+    let(:target_project) { create(:project) }
 
     let(:copy_job) do
       CopyProjectJob.new
@@ -64,16 +64,16 @@ describe CopyProjectJob, type: :model do
   end
 
   describe 'copy project succeeds with errors' do
-    let(:admin) { FactoryBot.create(:admin) }
-    let(:source_project) { FactoryBot.create(:project, types: [type]) }
-    let!(:work_package) { FactoryBot.create(:work_package, project: source_project, type: type) }
-    let(:type) { FactoryBot.create(:type_bug) }
+    let(:admin) { create(:admin) }
+    let(:source_project) { create(:project, types: [type]) }
+    let!(:work_package) { create(:work_package, project: source_project, type: type) }
+    let(:type) { create(:type_bug) }
     let(:custom_field) do
-      FactoryBot.create(:work_package_custom_field,
-                        name: 'required_field',
-                        field_format: 'text',
-                        is_required: true,
-                        is_for_all: true)
+      create(:work_package_custom_field,
+             name: 'required_field',
+             field_format: 'text',
+             is_required: true,
+             is_for_all: true)
     end
     let(:job_args) do
       {
@@ -84,7 +84,7 @@ describe CopyProjectJob, type: :model do
       }
     end
     let(:copy_job) do
-      CopyProjectJob.new(job_args).tap(&:perform_now)
+      described_class.new(**job_args).tap(&:perform_now)
     end
 
     let(:params) { { name: 'Copy', identifier: 'copy', type_ids: [type.id], work_package_custom_field_ids: [custom_field.id] } }
@@ -114,9 +114,9 @@ describe CopyProjectJob, type: :model do
   end
 
   describe 'project has an invalid repository' do
-    let(:admin) { FactoryBot.create(:admin) }
+    let(:admin) { create(:admin) }
     let(:source_project) do
-      project = FactoryBot.create(:project)
+      project = create(:project)
 
       # add invalid repo
       repository = Repository::Git.new scm_type: :existing, project: project
@@ -152,8 +152,8 @@ describe CopyProjectJob, type: :model do
   end
 
   describe 'copy project fails with internal error' do
-    let(:admin) { FactoryBot.create(:admin) }
-    let(:source_project) { FactoryBot.create(:project) }
+    let(:admin) { create(:admin) }
+    let(:source_project) { create(:project) }
     let(:copy_job) do
       CopyProjectJob.new.tap do |job|
         job.perform user_id: admin.id,
@@ -206,11 +206,11 @@ describe CopyProjectJob, type: :model do
     describe 'subproject' do
       let(:params) { { name: 'Copy', identifier: 'copy', parent_id: project.id } }
       let(:subproject) do
-        FactoryBot.create(:project, parent: project).tap do |p|
-          FactoryBot.create(:member,
-                            principal: user,
-                            roles: [role],
-                            project: p)
+        create(:project, parent: project).tap do |p|
+          create(:member,
+                 principal: user,
+                 roles: [role],
+                 project: p)
         end
       end
 
@@ -230,20 +230,21 @@ describe CopyProjectJob, type: :model do
 
         it "notifies the user of the success" do
           mail = ActionMailer::Base.deliveries
-                   .find { |m| m.message_id.start_with? "openproject.project-#{user.id}-#{subject.id}" }
+                   .find { |m| m.message_id.start_with? "op.project-#{subject.id}" }
 
           expect(mail).to be_present
           expect(mail.subject).to eq "Created project #{subject.name}"
+          expect(mail.to).to eq [user.mail]
         end
       end
 
       describe 'user with add_subprojects permission in parent' do
-        let(:role_add_subproject) { FactoryBot.create(:role, permissions: [:add_subprojects]) }
+        let(:role_add_subproject) { create(:role, permissions: [:add_subprojects]) }
         let(:member_add_subproject) do
-          FactoryBot.create(:member,
-                            user: user,
-                            project: project,
-                            roles: [role_add_subproject])
+          create(:member,
+                 user: user,
+                 project: project,
+                 roles: [role_add_subproject])
         end
 
         before do
@@ -263,10 +264,11 @@ describe CopyProjectJob, type: :model do
 
         it "notifies the user of the success" do
           mail = ActionMailer::Base.deliveries
-            .find { |m| m.message_id.start_with? "openproject.project-#{user.id}-#{subject.id}" }
+                                   .find { |m| m.message_id.start_with? "op.project-#{subject.id}" }
 
           expect(mail).to be_present
           expect(mail.subject).to eq "Created project #{subject.name}"
+          expect(mail.to).to eq [user.mail]
         end
       end
     end

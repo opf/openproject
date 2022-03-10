@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,15 +23,15 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 describe ::API::V3::Memberships::MembershipPayloadRepresenter do
-  let(:membership) { FactoryBot.build_stubbed(:member) }
+  let(:membership) { build_stubbed(:member) }
 
-  current_user { FactoryBot.build_stubbed(:user) }
+  current_user { build_stubbed(:user) }
 
   describe 'generation' do
     subject(:json) { representer.to_json }
@@ -47,6 +47,19 @@ describe ::API::V3::Memberships::MembershipPayloadRepresenter do
 
         it_behaves_like 'formattable property', :'_meta/notificationMessage' do
           let(:value) { meta.notification_message }
+        end
+      end
+
+      describe 'sendNotifications' do
+        let(:meta) { OpenStruct.new send_notifications: true }
+        let(:representer) do
+          described_class.create(membership,
+                                 meta: meta,
+                                 current_user: current_user)
+        end
+
+        it_behaves_like 'property', :'_meta/sendNotifications' do
+          let(:value) { true }
         end
       end
     end
@@ -68,7 +81,8 @@ describe ::API::V3::Memberships::MembershipPayloadRepresenter do
             '_meta' => {
               'notificationMessage' => {
                 "raw" => 'Come to the dark side'
-              }
+              },
+              'sendNotifications' => true
             }
           }
         end
@@ -76,6 +90,11 @@ describe ::API::V3::Memberships::MembershipPayloadRepresenter do
         it 'sets the parsed message' do
           expect(parsed.meta.notification_message)
             .to eql 'Come to the dark side'
+        end
+
+        it 'sets the notification sending configuration' do
+          expect(parsed.meta.send_notifications)
+            .to be_truthy
         end
       end
     end

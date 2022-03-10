@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,34 +23,32 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper.rb')
 
 describe 'updating a budget', type: :feature, js: true do
   let(:project) do
-    FactoryBot.create :project_with_types,
-                      enabled_module_names: %i[budgets costs],
-                      members: { user => FactoryBot.create(:role) }
+    create :project_with_types,
+           enabled_module_names: %i[budgets costs work_package_tracking],
+           members: { user => create(:role, permissions: %i[work_package_assigned]) }
   end
-  let(:user) { FactoryBot.create :admin }
-  let(:budget) { FactoryBot.create :budget, author: user, project: project }
+  let(:user) { create :admin }
+  let(:budget) { create :budget, author: user, project: project }
 
-  before do
-    login_as(user)
-  end
+  current_user { user }
 
   describe 'with new cost items' do
     let(:cost_type) do
-      FactoryBot.create :cost_type, name: 'Post-war', unit: 'cap', unit_plural: 'caps'
+      create :cost_type, name: 'Post-war', unit: 'cap', unit_plural: 'caps'
     end
 
     let(:budget_page) { Pages::EditBudget.new budget.id }
 
     before do
-      FactoryBot.create :cost_rate, cost_type: cost_type, rate: 50.0
-      FactoryBot.create :default_hourly_rate, user: user, rate: 25.0
+      create :cost_rate, cost_type: cost_type, rate: 50.0
+      create :default_hourly_rate, user: user, rate: 25.0
     end
 
     it 'creates the cost items' do
@@ -76,28 +74,28 @@ describe 'updating a budget', type: :feature, js: true do
 
   describe 'with existing cost items' do
     let(:cost_type) do
-      FactoryBot.create :cost_type, name: 'Post-war', unit: 'cap', unit_plural: 'caps'
+      create :cost_type, name: 'Post-war', unit: 'cap', unit_plural: 'caps'
     end
 
     let(:material_budget_item) do
-      FactoryBot.create :material_budget_item,
-                        units: 3,
-                        cost_type: cost_type,
-                        budget: budget
+      create :material_budget_item,
+             units: 3,
+             cost_type: cost_type,
+             budget: budget
     end
 
     let(:labor_budget_item) do
-      FactoryBot.create :labor_budget_item,
-                        hours: 5,
-                        user: user,
-                        budget: budget
+      create :labor_budget_item,
+             hours: 5,
+             user: user,
+             budget: budget
     end
 
     let(:budget_page) { Pages::EditBudget.new budget.id }
 
     before do
-      FactoryBot.create :cost_rate, cost_type: cost_type, rate: 50.0
-      FactoryBot.create :default_hourly_rate, user: user, rate: 25.0
+      create :cost_rate, cost_type: cost_type, rate: 50.0
+      create :default_hourly_rate, user: user, rate: 25.0
 
       # trigger creation
       material_budget_item
@@ -138,17 +136,17 @@ describe 'updating a budget', type: :feature, js: true do
     end
 
     context 'with german locale' do
-      let(:user) { FactoryBot.create :admin, language: :de }
+      let(:user) { create :admin, language: :de }
       let(:cost_type2) do
-        FactoryBot.create :cost_type, name: 'ABC', unit: 'abc', unit_plural: 'abcs'
+        create :cost_type, name: 'ABC', unit: 'abc', unit_plural: 'abcs'
       end
 
       let(:material_budget_item2) do
-        FactoryBot.create :material_budget_item,
-                          units: 3,
-                          cost_type: cost_type2,
-                          budget: budget,
-                          amount: 1000.0
+        create :material_budget_item,
+               units: 3,
+               cost_type: cost_type2,
+               budget: budget,
+               amount: 1000.0
       end
 
       it 'retains the overridden budget when opening, but not editing (Regression #32822)' do
@@ -162,7 +160,7 @@ describe 'updating a budget', type: :feature, js: true do
 
         # Open first item
         budget_page.open_edit_planned_costs! material_budget_item.id, type: :material
-        expect(page).to have_field("budget_existing_material_budget_item_attributes_#{material_budget_item.id}_costs_edit")
+        expect(page).to have_field("budget_existing_material_budget_item_attributes_#{material_budget_item.id}_amount")
 
         click_on 'OK'
         expect(budget_page).to have_content(I18n.t(:notice_successful_update, locale: :de))
@@ -175,10 +173,10 @@ describe 'updating a budget', type: :feature, js: true do
 
     context 'with two material budget items' do
       let!(:material_budget_item_2) do
-        FactoryBot.create :material_budget_item,
-                          units: 5,
-                          cost_type: cost_type,
-                          budget: budget
+        create :material_budget_item,
+               units: 5,
+               cost_type: cost_type,
+               budget: budget
       end
 
       it 'keeps previous planned material costs (Regression test #27692)' do
@@ -252,10 +250,10 @@ describe 'updating a budget', type: :feature, js: true do
 
     context 'with two labor budget items' do
       let!(:labor_budget_item_2) do
-        FactoryBot.create :labor_budget_item,
-                          hours: 5,
-                          user: user,
-                          budget: budget
+        create :labor_budget_item,
+               hours: 5,
+               user: user,
+               budget: budget
       end
 
       it 'keeps previous planned labor costs (Regression test #27692)' do

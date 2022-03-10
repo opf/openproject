@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require File.expand_path('../../../../spec_helper', __dir__)
@@ -73,8 +73,8 @@ describe OpenProject::GithubIntegration::Services::UpsertPullRequest do
       'avatar_url' => 'https://github.com/test_user/avatar.jpg'
     }
   end
-  let(:work_packages) { FactoryBot.create_list(:work_package, 1) }
-  let(:github_user) { FactoryBot.create(:github_user) }
+  let(:work_packages) { create_list(:work_package, 1) }
+  let(:github_user) { create(:github_user) }
   let(:upsert_github_user_service) { instance_double(OpenProject::GithubIntegration::Services::UpsertGithubUser) }
 
   before do
@@ -113,7 +113,7 @@ describe OpenProject::GithubIntegration::Services::UpsertPullRequest do
 
   context 'when a github pull request with that id already exists' do
     let(:github_pull_request) do
-      FactoryBot.create(:github_pull_request, github_id: 123, title: 'old title')
+      create(:github_pull_request, github_id: 123, title: 'old title')
     end
 
     it 'updates the github pull request' do
@@ -123,16 +123,16 @@ describe OpenProject::GithubIntegration::Services::UpsertPullRequest do
 
   context 'when a partial github pull request with that html_url already exists' do
     let(:github_pull_request) do
-      FactoryBot.create(:github_pull_request,
-                        github_id: nil,
-                        changed_files_count: nil,
-                        body: nil,
-                        comments_count: nil,
-                        review_comments_count: nil,
-                        additions_count: nil,
-                        deletions_count: nil,
-                        github_html_url: 'https://github.com/test_user/repo',
-                        state: 'closed')
+      create(:github_pull_request,
+             github_id: nil,
+             changed_files_count: nil,
+             body: nil,
+             comments_count: nil,
+             review_comments_count: nil,
+             additions_count: nil,
+             deletions_count: nil,
+             github_html_url: 'https://github.com/test_user/repo',
+             state: 'closed')
     end
 
     it 'updates the github pull request' do
@@ -153,7 +153,7 @@ describe OpenProject::GithubIntegration::Services::UpsertPullRequest do
 
   context 'when a github pull request with that id and work_package exists' do
     let(:github_pull_request) do
-      FactoryBot.create(:github_pull_request, github_id: 123, work_packages: work_packages)
+      create(:github_pull_request, github_id: 123, work_packages: work_packages)
     end
 
     it 'does not change the associated work packages' do
@@ -163,10 +163,10 @@ describe OpenProject::GithubIntegration::Services::UpsertPullRequest do
 
   context 'when a github pull request with that id and work_package exists and a new work_package is referenced' do
     let(:github_pull_request) do
-      FactoryBot.create(:github_pull_request, github_id: 123,
+      create(:github_pull_request, github_id: 123,
                                               work_packages: already_known_work_packages)
     end
-    let(:work_packages) { FactoryBot.create_list(:work_package, 2) }
+    let(:work_packages) { create_list(:work_package, 2) }
     let(:already_known_work_packages) { [work_packages[0]] }
 
     it 'adds the new work package' do

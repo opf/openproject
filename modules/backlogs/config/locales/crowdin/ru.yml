@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 ru:
   activerecord:
@@ -26,7 +26,7 @@ ru:
         position: "Позиция"
         remaining_hours: "Оставшиеся часы"
         remaining_time: "Оставшиеся часы"
-        story_points: "Баллы описаний"
+        story_points: "Исторические точки"
         backlogs_work_package_type: "Тип невыполненной работы"
     errors:
       models:
@@ -39,7 +39,7 @@ ru:
               parent_child_relationship_across_projects: "недействителен, поскольку пакет работ '%{work_package_name}' - это невыполненное задание и, следовательно, не может иметь родителя за пределами текущего проекта."
               type_must_be_one_of_the_following: "Тип должен быть одним из следующих: %{type_names}."
             version_id:
-              task_version_must_be_the_same_as_story_version: "должен быть таким же, как этап родительской истории."
+              task_version_must_be_the_same_as_story_version: "должен совпадать с версией родительской истории."
         sprint:
           cannot_end_before_it_starts: "Спринт не может заканчиваться до того, как начнется."
   backlogs:
@@ -70,9 +70,9 @@ ru:
     remaining_hours_ideal: "Оставшиеся часы (идеал)"
     show_burndown_chart: "Диаграмма выгорания задач"
     story: "История"
-    story_points: "Баллы описаний"
+    story_points: "Исторические точки"
     story_points_ideal: "Точки истории (идеал)"
-    task: "Задание"
+    task: "Задача"
     task_color: "Цвет задачи"
     unassigned: "Нераспределенные"
     x_more: "Еще %{count}..."
@@ -91,7 +91,7 @@ ru:
   backlogs_sprints: "Спринты"
   backlogs_story: "История"
   backlogs_story_type: "Типы историй"
-  backlogs_task: "Задание"
+  backlogs_task: "Задача"
   backlogs_task_type: "Тип задачи"
   backlogs_velocity_missing: "Нельзя рассчитать скорость для этого проекта"
   backlogs_velocity_varies: "Скорость спринтов значительно различается"
@@ -109,11 +109,11 @@ ru:
   inclusion: "не входит в список"
   label_back_to_project: "Назад к странице проекта"
   label_backlog: "Невыполненная работа"
-  label_backlogs: "Невыполненные работы"
+  label_backlogs: "Бэклоги"
   label_backlogs_unconfigured: "Вы еще не настроили Невыполненные работы. Перейдите на страницу %{administration} > %{plugins}, а затем нажмите на ссылку %{configure} для получения этого дополнения. После того как вы настроите поля, возвратитесь на эту страницу, чтобы начать пользоваться инструментом."
   label_blocks_ids: "Идентификаторы заблокированных рабочих пакетов"
   label_burndown: "Выгорание"
-  label_column_in_backlog: "Колонка в невыполненной работе"
+  label_column_in_backlog: "Колонка в бэклоге"
   label_hours: "часы"
   label_work_package_hierarchy: "Иерархия пакета работ"
   label_master_backlog: "Главная невыполненная работа"
@@ -121,7 +121,7 @@ ru:
   label_points: "точки"
   label_points_burn_down: "Вниз"
   label_points_burn_up: "Вверх"
-  label_product_backlog: "требования к продукту, с приоритетами"
+  label_product_backlog: "бэклог продукта"
   label_select_all: "Выбрать все"
   label_sprint_backlog: "список невыполненных работ спринта"
   label_sprint_cards: "Экспортировать карточки"
@@ -131,19 +131,20 @@ ru:
   label_stories: "Истории"
   label_stories_tasks: "Истории/задачи"
   label_task_board: "Панель задач"
-  label_version_setting: "Этапы"
-  label_version: 'Стадия'
+  label_version_setting: "Версии"
+  label_version: 'Версия'
   label_webcal: "Лента Webcal"
   label_wiki: "Wiki"
   permission_view_master_backlog: "Просмотреть главную невыполненную работу"
   permission_view_taskboards: "Просмотреть панели задач"
+  permission_select_done_statuses: "Выберите завершенные статусы"
   permission_update_sprints: "Обновить спринты"
   points_accepted: "принятые пункты"
   points_committed: "порученные точки"
   points_resolved: "решенные пункты"
   points_to_accept: "непринятые пункты"
   points_to_resolve: "нерешенные пункты"
-  project_module_backlogs: "Невыполненные работы"
+  project_module_backlogs: "Бэклоги"
   rb_label_copy_tasks: "Копировать пакеты работ"
   rb_label_copy_tasks_all: "Bсе"
   rb_label_copy_tasks_none: "Нет"
@@ -154,7 +155,7 @@ ru:
   required_burn_rate_points: "требуемая скорость сгорания (точки)"
   todo_work_package_description: "%{summary}: %{url}\n%{description}"
   todo_work_package_summary: "%{type}: %{summary}"
-  version_settings_display_label: "Колонка в невыполненной работе"
+  version_settings_display_label: "Колонка в бэклоге"
   version_settings_display_option_left: "влево"
-  version_settings_display_option_none: "Ничего"
+  version_settings_display_option_none: "нет"
   version_settings_display_option_right: "вправо"

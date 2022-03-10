@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 ja:
   button_save_as: "名前を付けてレポートの保存"
@@ -38,11 +38,11 @@ ja:
   label_entry: "コストエントリ"
   label_filter_text: "テキストの絞り込み"
   label_filter_value: "値"
-  label_filters: "フィルタ"
+  label_filters: "絞り込み"
   label_greater: ">"
   label_is_not_project_with_subprojects: "ではない (子プロジェクトを含む)"
   label_is_project_with_subprojects: "は(サブプロジェクトを含む)"
-  label_work_package_attributes: "ワークパッケージの属性"
+  label_work_package_attributes: "作業項目の属性"
   label_less: "<"
   label_money: "金額"
   label_month_reporting: "月 (経過)"

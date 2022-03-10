@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -36,33 +36,33 @@ describe 'BCF 2.1 viewpoints resource', type: :request, content_type: :json, wit
   include API::V3::Utilities::PathHelper
 
   shared_let(:project) do
-    FactoryBot.create(:project,
-                      enabled_module_names: [:bim])
+    create(:project,
+           enabled_module_names: [:bim])
   end
 
   shared_let(:view_only_user) do
-    FactoryBot.create(:user,
-                      member_in_project: project,
-                      member_with_permissions: [:view_linked_issues])
+    create(:user,
+           member_in_project: project,
+           member_with_permissions: [:view_linked_issues])
   end
 
   shared_let(:create_user) do
-    FactoryBot.create(:user,
-                      member_in_project: project,
-                      member_with_permissions: %i[view_linked_issues manage_bcf])
+    create(:user,
+           member_in_project: project,
+           member_with_permissions: %i[view_linked_issues manage_bcf])
   end
 
   shared_let(:non_member_user) do
-    FactoryBot.create(:user)
+    create(:user)
   end
 
   shared_let(:work_package) do
     User.execute_as create_user do
-      FactoryBot.create(:work_package, project: project)
+      create(:work_package, project: project)
     end
   end
 
-  let(:bcf_issue) { FactoryBot.create(:bcf_issue_with_viewpoint, work_package: work_package) }
+  let(:bcf_issue) { create(:bcf_issue_with_viewpoint, work_package: work_package) }
 
   let(:viewpoint) { bcf_issue.viewpoints.first }
   let(:viewpoint_json) { viewpoint.json_viewpoint }
@@ -78,7 +78,7 @@ describe 'BCF 2.1 viewpoints resource', type: :request, content_type: :json, wit
     end
 
     it_behaves_like 'bcf api successful response' do
-      let(:expected_body) { [viewpoint_json] }
+      let(:expected_body) { [viewpoint_json.except('components')] }
     end
 
     context 'lacking permission to see project' do
@@ -99,7 +99,7 @@ describe 'BCF 2.1 viewpoints resource', type: :request, content_type: :json, wit
     end
 
     it_behaves_like 'bcf api successful response' do
-      let(:expected_body) { viewpoint_json }
+      let(:expected_body) { viewpoint_json.except('components') }
     end
 
     context 'lacking permission to see project' do
@@ -142,7 +142,7 @@ describe 'BCF 2.1 viewpoints resource', type: :request, content_type: :json, wit
     end
 
     context "one BCF comment holds a reference to that viewpoint" do
-      let(:bcf_issue) { FactoryBot.create(:bcf_issue_with_comment, work_package: work_package) }
+      let(:bcf_issue) { create(:bcf_issue_with_comment, work_package: work_package) }
       let(:comment) { bcf_issue.comments.first }
 
       it "nullifies the comment's reference to the viewpoint" do
@@ -267,6 +267,7 @@ describe 'BCF 2.1 viewpoints resource', type: :request, content_type: :json, wit
 
         params
           .merge(guid: new_viewpoint.uuid)
+          .merge("snapshot" => { "snapshot_type" => "png" })
       end
 
       let(:expected_status) { 201 }
@@ -274,10 +275,10 @@ describe 'BCF 2.1 viewpoints resource', type: :request, content_type: :json, wit
 
     it 'creates the viewpoint with an attachment for the snapshot' do
       expect(Bim::Bcf::Viewpoint.count)
-        .to eql 2
+        .to be 2
 
       expect(Bim::Bcf::Viewpoint.last.attachments.count)
-        .to eql 1
+        .to be 1
     end
 
     context 'lacking permission to see project' do
@@ -331,7 +332,7 @@ describe 'BCF 2.1 viewpoints resource', type: :request, content_type: :json, wit
 
       it 'creates the viewpoint with an attachment for the snapshot' do
         expect(Bim::Bcf::Viewpoint.count)
-          .to eql 2
+          .to be 2
       end
     end
 

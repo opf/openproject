@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 lt:
   activerecord:
@@ -90,7 +90,7 @@ lt:
   backlogs_sprint_unsized: "Projekto aktyvūs ir neseniai uždaryti sprintai turi istorijų, kurių dydis nėra įvertintas"
   backlogs_sprints: "Sprintai"
   backlogs_story: "Istorija"
-  backlogs_story_type: "Istorijos tipas"
+  backlogs_story_type: "Istorijų tipai"
   backlogs_task: "Užduotis"
   backlogs_task_type: "Užduoties tipas"
   backlogs_velocity_missing: "Šiam projektui negalima paskaičiuoti greičio"
@@ -137,6 +137,7 @@ lt:
   label_wiki: "Wiki"
   permission_view_master_backlog: "Peržiūrėti pagrindinį darbų sąrašą"
   permission_view_taskboards: "Peržiūrėti užduočių lentas"
+  permission_select_done_statuses: "Parinkite atliktas būsenas"
   permission_update_sprints: "Atnaujinti sprintus"
   points_accepted: "taškai priimti"
   points_committed: "taškai patvirtinti"
@@ -149,7 +150,7 @@ lt:
   rb_label_copy_tasks_none: "Joks"
   rb_label_copy_tasks_open: "Atidaryti"
   rb_label_link_to_original: "Įtraukti nuorodą į originalią istoriją"
-  remaining_hours: "likę valandos"
+  remaining_hours: "likusios valandos"
   required_burn_rate_hours: "reikalingas degimo tempas (valandos)"
   required_burn_rate_points: "reikalingas degimo tempas (taškai)"
   todo_work_package_description: "%{summary}: %{url}\n%{description}"

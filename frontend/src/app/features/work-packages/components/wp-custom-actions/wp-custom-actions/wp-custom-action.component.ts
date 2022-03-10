@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { Component, HostListener, Input } from '@angular/core';
@@ -34,7 +34,7 @@ import { HalResourceEditingService } from 'core-app/shared/components/fields/edi
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { CustomActionResource } from 'core-app/features/hal/resources/custom-action-resource';
 
 @Component({
@@ -47,7 +47,7 @@ export class WpCustomActionComponent {
   @Input() action:CustomActionResource;
 
   constructor(private halResourceService:HalResourceService,
-    private apiV3Service:APIV3Service,
+    private apiV3Service:ApiV3Service,
     private wpSchemaCacheService:SchemaCacheService,
     private wpActivity:WorkPackagesActivityService,
     private notificationService:WorkPackageNotificationService,

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,21 +23,21 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 describe 'Wiki page', type: :feature, js: true do
-  let(:project) { FactoryBot.create(:project, enabled_module_names: %w[wiki]) }
+  let(:project) { create(:project, enabled_module_names: %w[wiki]) }
   let(:user) do
-    FactoryBot.create :user,
-                      member_in_project: project,
-                      member_with_permissions: %i[view_wiki_pages
-                                                  rename_wiki_pages]
+    create :user,
+           member_in_project: project,
+           member_with_permissions: %i[view_wiki_pages
+                                       rename_wiki_pages]
   end
   let!(:wiki_page) do
-    FactoryBot.create(:wiki_page_with_content, wiki: project.wiki, title: initial_name)
+    create(:wiki_page_with_content, wiki: project.wiki, title: initial_name)
   end
   let(:initial_name) { 'Initial name' }
   let(:rename_name) { 'Rename name' }

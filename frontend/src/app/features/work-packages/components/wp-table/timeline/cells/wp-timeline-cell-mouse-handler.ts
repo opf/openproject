@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { Injector } from '@angular/core';
@@ -38,7 +38,7 @@ import { HalEventsService } from 'core-app/features/hal/services/hal-events.serv
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { take } from 'rxjs/operators';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { WorkPackageCellLabels } from './wp-timeline-cell';
 import { TimelineCellRenderer } from './timeline-cell-renderer';
 import { RenderInfo } from '../wp-timeline';
@@ -249,7 +249,7 @@ export function registerWorkPackageMouseHandler(this:void,
   }
 
   function saveWorkPackage(change:WorkPackageChangeset) {
-    const apiv3Service:APIV3Service = injector.get(APIV3Service);
+    const apiv3Service:ApiV3Service = injector.get(ApiV3Service);
     const querySpace:IsolatedQuerySpace = injector.get(IsolatedQuerySpace);
 
     // Remember the time before saving the work package to know which work packages to update

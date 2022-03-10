@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,12 +23,12 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 shared_examples_for 'acts_as_attachable included' do
-  let(:attachment1) { FactoryBot.create(:attachment, container: nil, author: current_user) }
-  let(:attachment2) { FactoryBot.create(:attachment, container: nil, author: current_user) }
+  let(:attachment1) { create(:attachment, container: nil, author: current_user) }
+  let(:attachment2) { create(:attachment, container: nil, author: current_user) }
   let(:instance_project) { respond_to?(:project) ? project : model_instance.project }
   let(:add_permission_user) do
     permission = if model_instance.persisted?
@@ -36,17 +36,17 @@ shared_examples_for 'acts_as_attachable included' do
                  else
                    Array(described_class.attachable_options[:add_on_new_permission])
                  end
-    FactoryBot.create(:user,
-                      member_in_project: instance_project,
-                      member_with_permissions: permission)
+    create(:user,
+           member_in_project: instance_project,
+           member_with_permissions: permission)
   end
   let(:no_permission_user) do
-    FactoryBot.create(:user,
-                      member_in_project: instance_project,
-                      member_with_permissions: [])
+    create(:user,
+           member_in_project: instance_project,
+           member_with_permissions: [])
   end
   let(:other_user) do
-    FactoryBot.create(:user)
+    create(:user)
   end
   let(:current_user) { add_permission_user }
 
@@ -89,8 +89,8 @@ shared_examples_for 'acts_as_attachable included' do
 
     context 'for attachments that are attached, created by the current_user, ' +
             'added to attachments_claimed and the user having the permission' do
-      let(:attachment1) { FactoryBot.create(:attachment, author: current_user) }
-      let(:attachment2) { FactoryBot.create(:attachment, author: current_user) }
+      let(:attachment1) { create(:attachment, author: current_user) }
+      let(:attachment2) { create(:attachment, author: current_user) }
 
       it 'is invalid' do
         model_instance.attachments_claimed = [attachment1, attachment2]
@@ -105,8 +105,8 @@ shared_examples_for 'acts_as_attachable included' do
 
     context 'for attachments that are unattached, not created by the current_user, ' +
             'added to attachments_claimed and the user having the permission' do
-      let(:attachment1) { FactoryBot.create(:attachment, container: nil, author: other_user) }
-      let(:attachment2) { FactoryBot.create(:attachment, container: nil, author: other_user) }
+      let(:attachment1) { create(:attachment, container: nil, author: other_user) }
+      let(:attachment2) { create(:attachment, container: nil, author: other_user) }
 
       it 'is invalid' do
         model_instance.attachments_claimed = [attachment1, attachment2]
@@ -141,7 +141,7 @@ shared_examples_for 'acts_as_attachable included' do
   end
 
   describe '#attachments_visible' do
-    let!(:attachment1) { FactoryBot.create(:attachment, container: model_instance, author: current_user) }
+    let!(:attachment1) { create(:attachment, container: model_instance, author: current_user) }
 
     it 'allows access to a logged user when viewable_by_all_users is set' do
       if model_instance.class.attachable_options[:viewable_by_all_users]

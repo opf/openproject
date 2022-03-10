@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module API
@@ -66,7 +64,8 @@ module API
                    regular_expression: nil,
                    options: {},
                    show_if: true,
-                   description: nil)
+                   description: nil,
+                   deprecated: nil)
           getter = ->(*) do
             schema_property_getter(type,
                                    name_source,
@@ -79,7 +78,8 @@ module API
                                    regular_expression,
                                    options,
                                    location,
-                                   description)
+                                   description,
+                                   deprecated)
           end
 
           schema_property(property,
@@ -293,7 +293,8 @@ module API
                                  regular_expression,
                                  options,
                                  location,
-                                 description)
+                                 description,
+                                 deprecated)
         name = call_or_translate(name_source)
         schema = ::API::Decorators::PropertySchemaRepresenter
                  .new(type: call_or_use(type),
@@ -303,7 +304,8 @@ module API
                       required: call_or_use(required),
                       has_default: call_or_use(has_default),
                       writable: call_or_use(writable),
-                      attribute_group: call_or_use(attribute_group))
+                      attribute_group: call_or_use(attribute_group),
+                      deprecated: deprecated)
         schema.min_length = min_length
         schema.max_length = max_length
         schema.regular_expression = regular_expression

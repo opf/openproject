@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -32,13 +32,13 @@ require_relative './../support/board_page'
 
 describe 'Custom field filter in boards', type: :feature, js: true do
   let(:user) do
-    FactoryBot.create(:user,
-                      member_in_project: project,
-                      member_through_role: role)
+    create(:user,
+           member_in_project: project,
+           member_through_role: role)
   end
-  let(:type) { FactoryBot.create(:type_standard) }
-  let(:project) { FactoryBot.create(:project, types: [type], enabled_module_names: %i[work_package_tracking board_view]) }
-  let(:role) { FactoryBot.create(:role, permissions: permissions) }
+  let(:type) { create(:type_standard) }
+  let(:project) { create(:project, types: [type], enabled_module_names: %i[work_package_tracking board_view]) }
+  let(:role) { create(:role, permissions: permissions) }
 
   let(:board_index) { Pages::BoardIndex.new(project) }
 
@@ -47,16 +47,16 @@ describe 'Custom field filter in boards', type: :feature, js: true do
        edit_work_packages view_work_packages manage_public_queries]
   end
 
-  let!(:priority) { FactoryBot.create :default_priority }
-  let!(:open_status) { FactoryBot.create :default_status, name: 'Open' }
-  let!(:closed_status) { FactoryBot.create :status, is_closed: true, name: 'Closed' }
+  let!(:priority) { create :default_priority }
+  let!(:open_status) { create :default_status, name: 'Open' }
+  let!(:closed_status) { create :status, is_closed: true, name: 'Closed' }
 
   let!(:work_package) do
-    wp = FactoryBot.build :work_package,
-                          project: project,
-                          type: type,
-                          subject: 'Foo',
-                          status: open_status
+    wp = build :work_package,
+               project: project,
+               type: type,
+               subject: 'Foo',
+               status: open_status
 
     wp.custom_field_values = {
       custom_field.id => %w[B].map { |s| custom_value_for(s) }
@@ -69,7 +69,7 @@ describe 'Custom field filter in boards', type: :feature, js: true do
   let(:filters) { ::Components::WorkPackages::Filters.new }
 
   let(:custom_field) do
-    FactoryBot.create(
+    create(
       :list_wp_custom_field,
       name: "Ingredients",
       multi_value: true,

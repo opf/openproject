@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 fi:
   no_results_title_text: Ei näytettävää.
@@ -73,6 +73,11 @@ fi:
       start_trial: 'Aloita ilmainen kokeilu'
       book_now: 'Book now'
       get_quote: 'Get a quote'
+      buttons:
+        upgrade: "Upgrade now"
+        contact: "Contact us for a demo"
+      enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
+      upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
   announcements:
     show_until: Näytä tähän päivään asti
     is_active: näkyvissä tällä hetkellä
@@ -161,7 +166,7 @@ fi:
     edit: 'Edit custom action %{name}'
     execute: 'Suorita %{name}'
     upsale:
-      title: 'Custom actions is an Enterprise Edition feature'
+      title: 'Custom actions'
       description: 'Mukautettuja toimintoja tehostaa jokapäiväistä työtä yhdistämällä joukko yksittäisiä vaiheita yhdeksi painiketta.'
   custom_fields:
     text_add_new_custom_field: >
@@ -260,7 +265,7 @@ fi:
       irreversible: "This action is irreversible"
       confirmation: "Enter the placeholder user name %{name} to confirm the deletion."
     upsale:
-      title: Assign work to people that are not members of the project.
+      title: Placeholder users
       description: >
         There are multiple scenarios where you want to assign work to people that are not member of your project. It could simply be that you still need to hire the correct person for the job. Or you just don't want to give that person access to the project's information but still want track tasks assigned to that person.
   prioritiies:
@@ -298,8 +303,8 @@ fi:
       query_group_placeholder: "Anna taulukolle nimi"
       reset: "Reset to defaults"
       type_color_text: |
-        Click to assign or change the color of this type. The selected color distinguishes work packages
-        in Gantt charts. It is therefore recommended to use a strong color.
+        The selected color distinguishes different types
+        in Gantt charts or work packages tables. It is therefore recommended to use a strong color.
   versions:
     overview:
       no_results_title_text: Tähän versioon ei ole liitetty yhtään tehtävää.
@@ -317,6 +322,10 @@ fi:
       other: '%{count} work package descendants'
     bulk:
       could_not_be_saved: "The following work packages could not be saved:"
+      none_could_be_saved: "None of the %{total} work packages could be updated."
+      x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
+      selected_because_descendants: "While %{selected} work packages where selected, in total %{total} work packages are affected which includes descendants."
+      descendant: "descendant of selected"
     move:
       no_common_statuses_exists: "Kaikkien valittujen tehtävien tilaa ei ole saatavilla. Niiden tilaa ei voi muuttaa."
       unsupported_for_multiple_projects: 'Massasiirto tai -kopiointi ei ole sallittu eri projektien tehtäville'
@@ -371,8 +380,8 @@ fi:
       announcements:
         show_until: "Näytä tähän päivään asti"
       attachment:
-        attachment_content: "Attachment content"
-        attachment_file_name: "Attachment file name"
+        attachment_content: "Liitteen sisältö"
+        attachment_file_name: "Liitteen tiedoston nimi"
         downloads: "Lataukset"
         file: "Tiedosto"
         filename: "Tiedosto"
@@ -441,14 +450,17 @@ fi:
         types: "Tehtävätyypit"
         versions: "Versiot"
         work_packages: "Tehtävät"
-        templated: 'Template project'
+        templated: 'Malliprojekti'
       projects/status:
         code: 'Tila'
         explanation: 'Tilan kuvaus'
         codes:
-          on_track: 'On track'
-          at_risk: 'At risk'
-          off_track: 'Off track'
+          not_started: 'Not started'
+          on_track: 'Hyvä'
+          at_risk: 'Rajalla'
+          off_track: 'Huono'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
       query:
         column_names: "Sarakkeet"
         relations_to_type_column: "Riippuvuus %{type}"
@@ -459,7 +471,7 @@ fi:
       repository:
         url: "URL"
       role:
-        assignable: "Toimia paketti voidaan määrittää käyttäjät ja ryhmät hallussaan tämä rooli kunkin projekti"
+        permissions: "Oikeudet"
       time_entry:
         activity: "Tapahtumat"
         hours: "Tunnit"
@@ -535,6 +547,7 @@ fi:
         before: "on oltava ennen %{date}."
         before_or_equal_to: "on oltava %{date} tai sitä ennen."
         blank: "ei voi olla sisällötön."
+        blank_nested: "needs to have the property '%{property}' set."
         cant_link_a_work_package_with_a_descendant: "Tehtävää ei voida yhdistää alitehtäviin."
         circular_dependency: "Tämä riippuvuus loisi kehän."
         confirmation: "ei vastaa %{attribute}."
@@ -548,11 +561,14 @@ fi:
         even: "täytyy olla parillinen."
         exclusion: "on jo varattu."
         file_too_large: "on liian suuri (suurin sallittu koko on %{count} tavua)."
+        format: "does not match the expected format '%{expected}'."
+        format_nested: "does not match the expected format '%{expected}' at path '%{path}'."
         greater_than: "täytyy olla suurempi kuin %{count}."
         greater_than_or_equal_to: "täytyy olla suurempi tai yhtä suuri kuin%{count}."
         greater_than_or_equal_to_start_date: "on oltava suurempi tai yhtä suuri kuin alkamispäivä."
         greater_than_start_date: "tulee olla aloituspäivän jälkeinen."
         inclusion: "ei löydy listauksesta."
+        inclusion_nested: "is not set to one of the allowed values at path '%{path}'."
         invalid: "ei kelpaa."
         invalid_url: 'ei ole kelvollinen URL.'
         invalid_url_scheme: 'is not a supported protocol (allowed: %{allowed_schemes}).'
@@ -573,14 +589,20 @@ fi:
         taken: "on jo käytössä."
         too_long: "on liian pitkä (maksimi on %{count} merkkiä)."
         too_short: "on liian lyhyt (minimi on %{count} merkkiä)."
+        type_mismatch: "is not of type '%{type}'"
+        type_mismatch_nested: "is not of type '%{type}' at path '%{path}'"
         unchangeable: "ei voi muuttaa."
+        unknown_property: "is not a known property."
+        unknown_property_nested: "has the unknown path '%{path}'."
         unremovable: "ei voida poistaa."
         wrong_length: "on väärän pituinen (täytyy olla täsmälleen %{count} merkkiä)."
       models:
         attachment:
           attributes:
             content_type:
-              not_whitelisted: "is set to '%{value}', which is not whitelisted for uploading."
+              blank: "The content type of the file cannot be blank."
+              not_whitelisted: "The file was rejected by an automatic filter. '%{value}' is not whitelisted for upload."
+              format: "%{message}"
         capability:
           context:
             global: 'Yleinen'
@@ -619,16 +641,16 @@ fi:
           attributes:
             read_ian:
               read_on_creation: 'cannot be set to true on notification creation.'
-            read_mail:
-              read_on_creation: 'cannot be set to true on notification creation.'
-            read_mail_digest:
-              read_on_creation: 'cannot be set to true on notification creation.'
-            reason_ian:
+            mail_reminder_sent:
+              set_on_creation: 'cannot be set to true on notification creation.'
+            reason:
               no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
-            reason_mail:
-              no_notification_reason: 'cannot be blank as mail is chosen as a channel.'
             reason_mail_digest:
               no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
+        notification_settings:
+          only_one_global_setting: 'There must only be one global notification setting.'
+          email_alerts_global: 'The email notification settings can only be set globally.'
+          format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -663,7 +685,6 @@ fi:
           filters:
             custom_fields:
               inexistent: "Ei ole mukautettua kenttää suodattimelle."
-              invalid: "Mukautettu kenttä ei ole kelvollinen tässä yhteydessä."
         queries/filters/base:
           attributes:
             values:
@@ -693,6 +714,12 @@ fi:
           attributes:
             hours:
               day_limit: "is too high as a maximum of 24 hours can be logged per date."
+        user_preference:
+          attributes:
+            pause_reminders:
+              invalid_range: "can only be a valid date range."
+            daily_reminders:
+              full_hour: "can only be configured to be delivered at a full hour."
         wiki_page:
           attributes:
             slug:
@@ -721,6 +748,7 @@ fi:
               does_not_exist: "Määritettyä luokkaa ei ole."
             estimated_hours:
               only_values_greater_or_equal_zeroes_allowed: "on oltava > = 0."
+          readonly_status: 'The work package is in a readonly status so its attributes cannot be changed.'
         type:
           attributes:
             attribute_groups:
@@ -731,6 +759,11 @@ fi:
               group_without_name: "Nimeämätön ryhmät eivät ole sallittuja."
         user:
           attributes:
+            base:
+              user_limit_reached: "User limit reached. No more accounts can be created on the current plan."
+            password_confirmation:
+              confirmation: "Password confirmation does not match password."
+              format: "%{message}"
             password:
               weak: "On sisällettävä merkkejä seuraavista luokista (ainakin %{min_count} %{all_count}): %{rules}."
               lowercase: "pieniä kirjaimia (esim. \"a\")"
@@ -791,7 +824,7 @@ fi:
       wiki: "Wiki"
       wiki_page: "Wiki-sivu"
       workflow: "Työnkulku"
-      work_package: "Tehtävä"
+      work_package: "Työpaketti"
       'doorkeeper/application': "OAuth application"
   errors:
     header_invalid_fields: "Seuraavissa kentissä oli ongelmia:"
@@ -829,20 +862,19 @@ fi:
     firstname: "Etunimi"
     group: "Ryhmä"
     groups: "Ryhmät"
-    name: "Nimi"
     id: "ID"
     is_default: "Oletusarvo"
     is_for_all: "Kaikille projekteille"
-    is_public: "Julkinen"
+    public: "Julkinen"
     #kept for backwards compatibility
-    issue: "Tehtävä"
+    issue: "Työpaketti"
     lastname: "Sukunimi"
     login: "Käyttäjätunnus"
     mail: "Sähköposti"
+    name: "Nimi"
     password: "Salasana"
     priority: "Prioriteetti"
     project: "Projekti"
-    public: "Julkinen"
     responsible: "Vastuuhenkilö"
     role: "Rooli"
     roles: "Roolit"
@@ -857,8 +889,9 @@ fi:
     uploader: "Uploader"
     user: "Käyttäjä"
     version: "Versio"
-    work_package: "Tehtävä"
+    work_package: "Työpaketti"
   backup:
+    failed: "Backup failed"
     label_backup_token: "Backup token"
     label_create_token: "Create backup token"
     label_delete_token: "Delete backup token"
@@ -1179,7 +1212,9 @@ fi:
   error_can_not_archive_project: "This project cannot be archived: %{errors}"
   error_can_not_delete_entry: "Unable to delete entry"
   error_can_not_delete_custom_field: "Mukautettua kenttää ei voi poistaa"
-  error_can_not_delete_type: "Tämä tyyppinen työ sisältää pakettia ja ei voi poistaa."
+  error_can_not_delete_type:
+    explanation: 'This type contains work packages and cannot be deleted. You can see all affected work packages in <a target="_blank" href="%{url}">this view</a>.'
+    archived_projects: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the type of the respective work packages: %{archived_projects}'
   error_can_not_delete_standard_type: "Standardin tyyppiä ei voi poistaa."
   error_can_not_invite_user: "Kutsun lähettäminen käyttäjälle epäonnistui."
   error_can_not_remove_role: "Tämä rooli on käytössä joten sitä ei voida poistaa."
@@ -1208,6 +1243,7 @@ fi:
   error_no_type_in_project: "Ei tyyppi liittyy tähän projekti. Ole hyvä ja tarkista Projekti asetuksista."
   error_omniauth_registration_timed_out: "Rekisteröinnin kautta ulkoinen todennus perheenhuoltaja aikakatkaistiin. Ole hyvä ja yritä uudelleen."
   error_omniauth_invalid_auth: "The authentication information returned from the identity provider was invalid. Please contact your administrator for further help."
+  error_password_change_failed: 'An error occurred when trying to change the password.'
   error_scm_command_failed: "Tietovarastoon pääsyssä tapahtui virhe: %{value}"
   error_scm_not_found: "Syötettä ja/tai versiota ei löydy tietovarastosta."
   error_unable_delete_status: "Toimia paketti tila ei voi poistaa koska se on käytössä vähintään yksi toimia paketti."
@@ -1323,8 +1359,25 @@ fi:
         assigned: "You have been assigned to %{work_package}"
         subscribed: "You subscribed to %{work_package}"
         mentioned: "You have been mentioned in %{work_package}"
-        involved: "You either are assigned to or are responsible for %{work_package}"
+        responsible: "You have become accountable for %{work_package}"
         watched: "You are watching %{work_package}"
+    update_info_mail:
+      body: >
+        We are excited to announce the release of OpenProject 12.0. It's a major release that will hopefully significantly improve the way you use OpenProject.
+
+        Starting with this release, we are introducing in-app notifications. From now on, you will receive notifications for updates to work packages directly in OpenProject. You can mark these notifications as read, reply to a comment or even directly modify work package attributes without leaving the notification center.
+
+        This also means that we will no longer be using emails for notifications. We think the new notification center is a better place to view and act upon these updates. Nevertheless, if you would like continue receiving updates via email, you can choose to receive daily email reminders at particular times of your choosing.
+
+        Please make sure to verify your new default notification settings, and set your preferences for notifications and email reminders via your account settings. You can do this through the “Change email settings” button bellow.
+
+        We hope you find in-app notifications useful and that they makes you even more productive.
+
+        Sincerely,
+        The OpenProject team
+      body_header: 'Version 12.0 with Notification Center'
+      body_subheader: 'Uutiset'
+      subject: 'Important changes to notifications with the release of 12.0'
   label_accessibility: "Helppokäyttötoiminnot"
   label_account: "Käyttäjätili"
   label_active: "Aktiivinen"
@@ -1375,7 +1428,7 @@ fi:
   label_available_project_repositories: 'Available repositories'
   label_api_documentation: "API-dokumentaatio"
   label_backup: "Backup"
-  label_between: "between"
+  label_between: "välillä"
   label_blocked_by: "estänyt"
   label_blocks: "estää"
   label_blog: "Blogi"
@@ -1498,7 +1551,6 @@ fi:
   label_feeds_access_key: "RSS avain"
   label_feeds_access_key_created_on: "RSS avain luotiin %{value} sitten"
   label_feeds_access_key_type: "RSS"
-  label_file_added: "Tiedosto lisätty"
   label_file_plural: "Tiedostot"
   label_filter_add: "Lisää suodatin"
   label_filter_plural: "Suodattimet"
@@ -1525,7 +1577,7 @@ fi:
   label_history: "Historia"
   label_hierarchy_leaf: "Hierarchy leaf"
   label_home: "Koti"
-  label_subject_or_id: "Subject or ID"
+  label_subject_or_id: "Aihe tai ID"
   label_impressum: "Legal notice"
   label_in: "tässä"
   label_in_less_than: "pienempi kuin"
@@ -1536,7 +1588,7 @@ fi:
   label_index_by_date: "Hakemisto päivittäin"
   label_index_by_title: "Hakemisto otsikoittain"
   label_information: "Tietoja"
-  label_information_plural: "Tietoja"
+  label_information_plural: "Tieto"
   label_integer: "Kokonaisluku"
   label_internal: "Sisäinen"
   label_introduction_video: "Introduction video"
@@ -1580,6 +1632,10 @@ fi:
   label_member_plural: "Jäsenet"
   lable_membership_added: 'Member added'
   lable_membership_updated: 'Member updated'
+  label_menu_badge:
+    pre_alpha: 'pre-alpha'
+    alpha: 'alpha'
+    beta: 'beta'
   label_menu_item_name: "Valinnan nimi"
   label_message: "Vesti"
   label_message_last: "Viimeisin viesti"
@@ -1668,7 +1724,7 @@ fi:
   label_privacy_policy: "Data privacy and security policy"
   label_product_version: "Tuotteen versio"
   label_professional_support: "Ammatillinen apu"
-  label_profile: "Käyttäjäprofiili"
+  label_profile: "Profile"
   label_project_all: "Kaikki projektit"
   label_project_count: "Total number of projects"
   label_project_copy_notifications: "Lähetä sähköposti-ilmoituksia projektin kopioinnin aikana"
@@ -1685,7 +1741,6 @@ fi:
   label_public_projects: "Julkiset projektit"
   label_query_new: "Uusi haku"
   label_query_plural: "Räätälöidyt haut"
-  label_query_menu_item: "Kysely-valikkovaihtoehto"
   label_read: "Lue..."
   label_register: "Rekisteröidy"
   label_register_with_developer: "Rekisteröidy kehittäjänä"
@@ -1828,7 +1883,7 @@ fi:
   label_wiki_show_new_page_link: "Show submenu item 'Create new child page'"
   label_wiki_show_submenu_item: "Show as submenu item of "
   label_wiki_start: "Aloitussivu"
-  label_work_package: "Tehtävä"
+  label_work_package: "Työpaketti"
   label_work_package_attachments: "Work package attachments"
   label_work_package_category_new: "Uusi luokka"
   label_work_package_category_plural: "Kategoriat"
@@ -1893,17 +1948,36 @@ fi:
   mail:
     actions: 'Toiminnot'
     digests:
-      time_frame: 'Summary of all events you subscribed to in the period between %{start} and %{end}'
-      work_packages:
-        created_at: '%{user} created at %{timestamp}'
-        reason:
-          watched: 'watched'
-          involved: 'assignee or responsible'
-          mentioned: 'mentioned'
-          subscribed: 'kaikki'
-          prefix: 'Received because of the notification setting: %{reason}'
-        subject: 'Daily project summary for %{date} - %{number} updates'
-        updated_at: '%{user} updated at %{timestamp}'
+      including_mention_singular: 'including a mention'
+      including_mention_plural: 'including %{number_mentioned} mentions'
+      unread_notification_singular: '1 unread notification'
+      unread_notification_plural: '%{number_unread} unread notifications'
+      you_have: 'You have'
+    logo_alt_text: 'Logo'
+    mention:
+      subject: "%{user_name} mentioned you in #%{id} - %{subject}"
+    notification:
+      center: 'To notification center'
+      see_in_center: 'See comment in notification center'
+      settings: 'Change email settings'
+    salutation: 'Hey %{user}!'
+    work_packages:
+      created_at: 'Created at %{timestamp} by %{user} '
+      login_to_see_all: 'Log in to see all notifications.'
+      mentioned: 'You have been <b>mentioned in a comment</b>'
+      mentioned_by: '%{user} mentioned you in a comment'
+      more_to_see:
+        one: 'There is 1 more work package with notifications.'
+        other: 'There are %{count} more work packages with notifications.'
+      reason:
+        watched: 'Watched'
+        assigned: 'Assigned'
+        responsible: 'Vastuuhenkilö'
+        mentioned: 'Mentioned'
+        subscribed: 'kaikki'
+        prefix: 'Received because of the notification setting: %{reason}'
+      see_all: 'See all'
+      updated_at: 'Updated at %{timestamp} by %{user}'
   mail_body_account_activation_request: "Uusi käyttäjä (%{value}) on rekisteröitynyt. Hänen tili odottaa hyväksyntääsi:"
   mail_body_account_information: "Kirjautumistiedot"
   mail_body_account_information_external: "Voit nyt käyttää %{value} tiliäsi kirjautuaksesi järjestelmään."
@@ -1914,14 +1988,14 @@ fi:
   mail_body_backup_waiting_period: The new token will be enabled in %{hours} hours.
   mail_body_backup_token_warning: If this wasn't you, login to OpenProject immediately and reset it again.
   mail_body_lost_password: "Vaihtaaksesi salasanasi, napsauta seuraavaa linkkiä:"
-  mail_body_register: "Ole hyvä ja aktivoi tilisi alla olevalla linkillä:"
+  mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "Kutsu projektin jäseneksi"
   mail_body_register_user: "Hyvä %{name},"
   mail_body_register_links_html: |
     Please feel free to browse our youtube channel (%{youtube_link}) where we provide a webinar (%{webinar_link})
     and “Get started” videos (%{get_started_link}) to make your first steps in OpenProject as easy as possible.
     <br />
-    If you have any further questions, consult our documentation (%{documentation_link}) or contact us (%{contact_us_link}).
+    If you have any further questions, consult our documentation (%{documentation_link}) or contact your administrator.
   mail_body_register_closing: "OpenProject tiimisi"
   mail_body_register_ending: "Ystävällisin terveisin,"
   mail_body_reminder: "%{count} sinulle nimettyä tapahtuma(a) erääntyy %{days} päivä sisään:"
@@ -2057,7 +2131,7 @@ fi:
     heading_getting_started: "Yleiskatsaus"
     text_getting_started_description: "Get a quick overview of project management and team collaboration with OpenProject."
     text_show_again: "Voit käynnistää tämä videon uudelleen ohjeet-valikosta"
-    welcome: "Tervetuloa OpenProjectiin"
+    welcome: "Welcome to %{app_title}"
     select_language: "Valitse kieli"
   permission_add_work_package_notes: "Lisää kommentteja"
   permission_add_work_packages: "Lisää tehtävä"
@@ -2112,9 +2186,9 @@ fi:
   permission_protect_wiki_pages: "Suojaa wiki sivut"
   permission_rename_wiki_pages: "Uudelleennimeä wiki sivuja"
   permission_save_queries: "Save views"
+  permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Valitse projektin modulit"
   permission_manage_types: "Valitse tyypit"
-  permission_view_calendar: "Näytä kalenteri"
   permission_view_changesets: "Näytä muutosryhmät"
   permission_view_commit_author_statistics: "Tarkastele tilastoja tekijöistä"
   permission_view_work_package_watchers: "Tarkastele seuraajien luetteloa"
@@ -2126,6 +2200,8 @@ fi:
   permission_view_timelines: "Tarkastele aikajanoja"
   permission_view_wiki_edits: "Näytä wiki historia"
   permission_view_wiki_pages: "Näytä wiki"
+  permission_work_package_assigned: "Become assignee/responsible"
+  permission_work_package_assigned_explanation: "Toimia paketti voidaan määrittää käyttäjät ja ryhmät hallussaan tämä rooli kunkin projekti"
   placeholders:
     default: "-"
   project:
@@ -2150,7 +2226,6 @@ fi:
       archived: "Archived"
   project_module_activity: "Tapahtumat"
   project_module_forums: "Keskustelupalstat"
-  project_module_calendar: "Kalenteri"
   project_module_work_package_tracking: "Tehtävien seuranta"
   project_module_news: "Uutiset"
   project_module_repository: "Tietovarasto"
@@ -2163,7 +2238,7 @@ fi:
     active_or_archived: "Active or archived"
     assigned_to_role: "Työn suorittajan rooli"
     member_of_group: "Työn suorittajan ryhmä"
-    assignee_or_group: "Assignee or belonging group"
+    assignee_or_group: "Työn suorittaja tai kuuluu ryhmään"
     subproject_id: "Including Subproject"
     only_subproject_id: "Only subproject"
     name_or_identifier: "Name or identifier"
@@ -2278,6 +2353,9 @@ fi:
   setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
   setting_apiv3_cors_origins_text_html: >
     If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
+  setting_apiv3_max_page_size: "Maximum API page size"
+  setting_apiv3_max_page_instructions_html: >
+    Set the maximum page size the API will respond with. It will not be possible to perform API requests that return more values on a single page. <br/> <strong>Warning:</strong> Please only change this value if you are sure why you need it. Setting to a high value will result in significant performance impacts, while a value lower than the per page options will cause errors in paginated views.
   setting_apiv3_docs: "Käyttöohjeet"
   setting_apiv3_docs_enabled: "Enable docs page"
   setting_apiv3_docs_enabled_instructions_html: >
@@ -2329,8 +2407,6 @@ fi:
   setting_enabled_scm: "Käytössäoleva versionhallinta"
   setting_enabled_projects_columns: "Visible in project list"
   setting_notification_retention_period_days: "Notification retention period"
-  setting_notification_email_delay_minutes: "Email sending delay"
-  setting_notification_email_digest_time: "Email digest time"
   setting_feeds_enabled: "Ota syötteet käyttöön"
   setting_feeds_limit: "Syötteen sisällön raja"
   setting_file_max_size_displayed: "Max size of text files displayed inline"
@@ -2405,9 +2481,8 @@ fi:
     notifications:
       retention_text: >
         Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
-      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
-      email_digest_explanation: "Once a day, an email digest can be sent out containing a collection of all the notification users subscribed to. The setting is relative to each users configured time zone, so e.g. 8:00 will be executed at 7:00 UTC for users in UTC+1 and 9:00 UTC for those in UTC-1."
       events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
+      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
     display:
       first_date_of_week_and_year_set: >
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
@@ -2518,7 +2593,6 @@ fi:
   text_regexp_info: "esim. ^[A-Z0-9]+$"
   text_regexp_multiline: 'The regex is applied in a multi-line mode. e.g., ^---\s+'
   text_repository_usernames_mapping: "Valitse päivittääksesi Redmine käyttäjä jokaiseen käyttäjään joka löytyy tietovaraston lokista.\nKäyttäjät joilla on sama Redmine ja tietovaraston käyttäjänimi tai sähköpostiosoite, yhdistetään automaattisesti."
-  text_select_notifications: "Select actions for which notifications should be sent."
   text_status_changed_by_changeset: "Päivitetty muutosversioon %{value}."
   text_table_difference_description: "In this table the single %{entries} are shown. You can view the difference between any two entries by first selecting the according checkboxes in the table. When clicking on the button below the table the differences are shown."
   text_time_logged_by_changeset: "Päivitetty muutosversioon %{value}."
@@ -2598,7 +2672,7 @@ fi:
         explicit_order: "explicit order"
         project_sortation: "Projektien lajitteluperuste"
         date: "date"
-        default: "default"
+        default: "oletus"
       column:
         assigned_to: "Työn suorittaja"
         type: "Tyyppi"
@@ -2780,7 +2854,6 @@ fi:
   wiki_menu_item_new_main_item_explanation: >
     Sinä olet poistat vain tärkeimmät wiki valikosta. Sinun täytyy nyt valita wiki sivu joista tärkein uusi kohde luodaan. Poistaa wiki wiki moduuli voidaan kytkeä pois päältä hankkeen ylläpitäjät.
   wiki_menu_item_delete_not_permitted: Wiki valikosta vain wiki sivu voi olla Poistetaan.
-  query_menu_item_for: "Menu item for query \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
@@ -2801,6 +2874,8 @@ fi:
       code_409: "Could not update the resource because of conflicting modifications."
       code_429: "Too many requests. Please try again later."
       code_500: "Tapahtui sisäinen virhe."
+      not_found:
+        work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:
         date: "YYYY-MM-DD (ISO 8601 date only)"
         duration: "ISO 8601 duration"
@@ -2837,6 +2912,7 @@ fi:
       schema: 'Schema'
     undisclosed:
       parent: Undisclosed - The selected parent is invisible because of lacking permissions.
+      ancestor: Undisclosed - The ancestor is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 'Pre-authorization'
@@ -2845,8 +2921,11 @@ fi:
     errors:
       messages:
         #Common error messages
-        invalid_request: 'The request is missing a required parameter, includes an unsupported parameter value, or is otherwise malformed.'
-        invalid_redirect_uri: "The requested redirect URI is malformed or doesn't match client redirect URI."
+        invalid_request:
+          unknown: 'The request is missing a required parameter, includes an unsupported parameter value, or is otherwise malformed.'
+          missing_param: 'Missing required parameter: %{value}.'
+          request_not_authorized: 'Request need to be authorized. Required parameter for authorizing request is missing or invalid.'
+        invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
         unauthorized_client: 'The client is not authorized to perform this request using this method.'
         access_denied: 'The resource owner or authorization server denied the request.'
         invalid_scope: 'The requested scope is invalid, unknown, or malformed.'
@@ -2859,6 +2938,7 @@ fi:
         admin_authenticator_not_configured: 'Access to admin panel is forbidden due to Doorkeeper.configure.admin_authenticator being unconfigured.'
         #Access grant errors
         unsupported_response_type: 'The authorization server does not support this response type.'
+        unsupported_response_mode: 'The authorization server does not support this response mode.'
         #Access token errors
         invalid_client: 'Client authentication failed due to unknown client, no client authentication included, or unsupported authentication method.'
         invalid_grant: 'The provided authorization grant is invalid, expired, revoked, does not match the redirection URI used in the authorization request, or was issued to another client.'
@@ -2867,6 +2947,10 @@ fi:
           revoked: "API-salasana poistettiin käytöstä"
           expired: "API-salasana on vanhentunut"
           unknown: "Väärä API-salasana"
+        revoke:
+          unauthorized: "You are not authorized to revoke this token."
+        forbidden_token:
+          missing_scope: 'Access to this resource requires scope "%{oauth_scopes}".'
   unsupported_browser:
     title: "Your browser is outdated and unsupported."
     message: "You may run into errors and degraded experience on this page."

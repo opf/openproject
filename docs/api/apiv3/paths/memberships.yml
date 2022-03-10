@@ -26,7 +26,13 @@ get:
       + created_at: filters memberships based on the time the membership was created.
 
       + updated_at: filters memberships based on the time the membership was updated last.
-    example: '[{ "name": { "operator": "=", "values": ["A User"] }" }]'
+    examples:
+      name-filter:
+        summary: Filtering on the name of the principal
+        value: '[{ "name": { "operator": "=", "values": ["A User"] }" }]'
+      global-memberships:
+        summary: Get memberships for global roles
+        value: '[{ "project": { "operator": "!*", "values": null }" }]'
     in: query
     name: filters
     required: false
@@ -129,6 +135,8 @@ post:
     '400':
       content:
         application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
           examples:
             response:
               value:
@@ -141,6 +149,8 @@ post:
     '403':
       content:
         application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
           examples:
             response:
               value:
@@ -155,6 +165,8 @@ post:
     '422':
       content:
         application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
           examples:
             response:
               value:
@@ -174,9 +186,11 @@ post:
   description: |-
     Creates a new membership applying the attributes provided in the body.
 
-    You can use the form and schema to be retrieve the valid attribute values and by that be guided towards successful creation.
+    You can use the form and schema to retrieve the valid attribute values and by that be guided towards successful creation.
 
     By providing a `notificationMessage` within the `_meta` block of the payload, the client can include a customized message to the user
     of the newly created membership. In case of a group, the message will be sent to every user belonging to the group.
+
+    By including `{ "sendNotifications": false }` within the `_meta` block of the payload, no notifications is send out at all.
   operationId: Create_membership
   summary: Create membership

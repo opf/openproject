@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -33,17 +33,17 @@ describe '/api/v3/projects/:id/types' do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:role) { FactoryBot.create(:role, permissions: [:view_work_packages]) }
-  let(:project) { FactoryBot.create(:project, no_types: true, public: false) }
+  let(:role) { create(:role, permissions: [:view_work_packages]) }
+  let(:project) { create(:project, no_types: true, public: false) }
   let(:requested_project) { project }
   let(:current_user) do
-    FactoryBot.create(:user,
-                      member_in_project: project,
-                      member_through_role: role)
+    create(:user,
+           member_in_project: project,
+           member_through_role: role)
   end
 
-  let!(:irrelevant_types) { FactoryBot.create_list(:type, 4) }
-  let!(:expected_types) { FactoryBot.create_list(:type, 4) }
+  let!(:irrelevant_types) { create_list(:type, 4) }
+  let!(:expected_types) { create_list(:type, 4) }
 
   describe '#get' do
     let(:get_path) { api_v3_paths.types_by_project requested_project.id }
@@ -79,7 +79,7 @@ describe '/api/v3/projects/:id/types' do
       end
 
       context 'in a foreign project' do
-        let(:requested_project) { FactoryBot.create(:project, public: false) }
+        let(:requested_project) { create(:project, public: false) }
 
         it_behaves_like 'not found'
       end

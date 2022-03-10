@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,16 +23,16 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 describe 'creating a cost type', type: :feature, js: true do
-  let!(:user) { FactoryBot.create :admin }
+  let!(:user) { create :admin }
   let!(:cost_type) do
-    type = FactoryBot.create :cost_type, name: 'Translations'
-    FactoryBot.create :cost_rate, cost_type: type, rate: 1.00
+    type = create :cost_type, name: 'Translations'
+    create :cost_rate, cost_type: type, rate: 1.00
     type
   end
 
@@ -69,7 +69,7 @@ describe 'creating a cost type', type: :feature, js: true do
   end
 
   context 'with german locale' do
-    let(:user) { FactoryBot.create(:admin, language: :de) }
+    let(:user) { create(:admin, language: :de) }
 
     it 'creates the entry with german number separators' do
       visit "/cost_types/new"

@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module NotificationSettings::Scopes
@@ -45,8 +43,7 @@ module NotificationSettings::Scopes
                     .where(global_notifications[:project_id].eq(nil))
                     .join(project_notifications, Arel::Nodes::OuterJoin)
                     .on(project_notifications[:project_id].eq(project.id),
-                        global_notifications[:user_id].eq(project_notifications[:user_id]),
-                        global_notifications[:channel].eq(project_notifications[:channel]))
+                        global_notifications[:user_id].eq(project_notifications[:user_id]))
                     .project(global_notifications.coalesce(project_notifications[:id], global_notifications[:id]))
 
         where(global_notifications[:id].in(subselect))

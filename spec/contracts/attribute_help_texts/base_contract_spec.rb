@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -32,7 +32,7 @@ require 'contracts/shared/model_contract_shared_context'
 describe AttributeHelpTexts::BaseContract do
   include_context 'ModelContract shared context'
 
-  let(:model) { FactoryBot.build_stubbed :work_package_help_text }
+  let(:model) { build_stubbed :work_package_help_text }
   let(:contract) { described_class.new(model, current_user) }
 
   it_behaves_like 'contract is valid for active admins and invalid for regular users'

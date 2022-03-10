@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,19 +23,19 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 describe 'Work package filtering by subject', js: true do
-  let(:project) { FactoryBot.create :project, public: true }
-  let(:admin) { FactoryBot.create :admin }
+  let(:project) { create :project, public: true }
+  let(:admin) { create :admin }
   let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
   let(:filters) { ::Components::WorkPackages::Filters.new }
 
-  let!(:wp_match) { FactoryBot.create :work_package, project: project, subject: 'R#1234 Foobar' }
-  let!(:wp_nomatch) { FactoryBot.create :work_package, project: project, subject: 'R!1234 Foobar' }
+  let!(:wp_match) { create :work_package, project: project, subject: 'R#1234 Foobar' }
+  let!(:wp_nomatch) { create :work_package, project: project, subject: 'R!1234 Foobar' }
 
   before do
     login_as admin

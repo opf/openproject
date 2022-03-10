@@ -147,6 +147,9 @@ description: |-
   * `urn:openproject-org:api:v3:errors:InvalidUserStatusTransition` (**HTTP 400**)  
   The client used an invalid transition in the attempt to change the status of a user account.
 
+  * `urn:openproject-org:api:v3:errors:InvalidSignal` (**HTTP 400**)
+  The client specified a select not available on the resource, e.g because the property/link does not exist on it.
+
   * `urn:openproject-org:api:v3:errors:Unauthenticated` (**HTTP 401**)  
   The client has to authenticate to access the requested resource.
 
@@ -220,7 +223,7 @@ description: |-
 
   ## Dates, Times and Durations
 
-  Representation of time related values in this API is done according to [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601).
+  Representation of time related values in this API is done according to [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601).
   In this specification the following terms will be used as type specifiers (e.g. in tables):
 
   * `Date` - refers to an ISO 8601 date, e.g. "2014-05-21"
@@ -231,7 +234,7 @@ description: |-
 
   ## Colors
 
-  Colors are represented in RGB using hexadecimal notation as specified in [CSS Color Module Level 3](http://www.w3.org/TR/css3-color/).
+  Colors are represented in RGB using hexadecimal notation as specified in [CSS Color Module Level 3](https://www.w3.org/TR/css3-color/).
   That is a `#` followed by either three or six hexadecimal digits.
 
   ##### Example

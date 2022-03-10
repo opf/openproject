@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 fr:
   error_can_not_delete_export_card_configuration: "Cette configuration ne peut pas être supprimée."
@@ -29,8 +29,8 @@ fr:
   label_export_card_configuration_plural: "Configuration des cartes d'exportation"
   label_export_card_activate: "Activer"
   label_export_card_deactivate: "Désactiver"
-  notice_export_card_configuration_activated: "Config successfully activated"
-  notice_export_card_configuration_deactivated: "Config successfully de-activated"
+  notice_export_card_configuration_activated: "Configuration bien activée"
+  notice_export_card_configuration_deactivated: "Configuration bien désactivée"
   error_can_not_activate_export_card_configuration: "Cette configuration ne peut pas être activée"
   error_can_not_deactivate_export_card_configuration: "Cette configuration ne peut pas être désactivée"
   validation_error_required_keys_not_present: "La/Les clé(s) requise(nt) est/sont abente(s) :"

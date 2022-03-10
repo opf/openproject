@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -40,7 +40,7 @@ describe 'rendering the login buttons', js: true do
   end
 
   describe 'in a public project', with_settings: { login_required: false } do
-    let(:public_project) { FactoryBot.build(:project, public: true) }
+    let(:public_project) { build(:project, public: true) }
 
     it 'renders correctly' do
       visit project_path(public_project)

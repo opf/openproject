@@ -2,7 +2,7 @@ ar:
   js:
     grid:
       add_widget: 'Add widget'
-      remove: 'Remove widget'
+      remove: 'إزالة الأداة'
       configure: 'Configure widget'
       upsale:
         text: "Some widgets, like the work package graph widget, are only available in the "
@@ -31,10 +31,13 @@ ar:
           no_results: 'No custom fields have been defined for projects.'
         project_status:
           title: 'حالة المشروع'
+          not_started: 'Not started'
           on_track: 'On track'
           off_track: 'Off track'
           at_risk: 'At risk'
           not_set: 'Not set'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
         subprojects:
           title: 'المشاريع الفرعية'
           no_results: 'No subprojects.'

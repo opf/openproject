@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -35,27 +35,27 @@ describe 'API v3 Group resource', type: :request, content_type: :json do
 
   subject(:response) { last_response }
 
-  shared_let(:project) { FactoryBot.create(:project) }
+  shared_let(:project) { create(:project) }
   let(:group) do
-    FactoryBot.create(:group,
-                      member_in_project: project,
-                      member_through_role: role).tap do |g|
+    create(:group,
+           member_in_project: project,
+           member_through_role: role).tap do |g|
       members.each do |members|
         GroupUser.create group_id: g.id, user_id: members.id
       end
     end
   end
-  let(:role) { FactoryBot.create(:role, permissions: permissions) }
+  let(:role) { create(:role, permissions: permissions) }
   let(:permissions) { %i[view_members manage_members] }
   let(:members) do
-    FactoryBot.create_list(:user, 2)
+    create_list(:user, 2)
   end
-  let(:admin) { FactoryBot.create(:admin) }
+  let(:admin) { create(:admin) }
 
   current_user do
-    FactoryBot.create(:user,
-                      member_in_project: project,
-                      member_through_role: role)
+    create(:user,
+           member_in_project: project,
+           member_through_role: role)
   end
 
   describe 'GET api/v3/groups/:id' do
@@ -88,10 +88,7 @@ describe 'API v3 Group resource', type: :request, content_type: :json do
     context 'requesting nonexistent group' do
       let(:get_path) { api_v3_paths.group 9999 }
 
-      it_behaves_like 'not found' do
-        let(:id) { 9999 }
-        let(:type) { 'Group' }
-      end
+      it_behaves_like 'not found'
     end
 
     context 'not having the necessary permission to see any group' do
@@ -102,7 +99,7 @@ describe 'API v3 Group resource', type: :request, content_type: :json do
 
     context 'not having the necessary permission to see the specific group' do
       let(:permissions) { %i[view_members] }
-      let(:group) { FactoryBot.create(:group) }
+      let(:group) { create(:group) }
 
       it_behaves_like 'not found'
     end
@@ -129,7 +126,7 @@ describe 'API v3 Group resource', type: :request, content_type: :json do
     end
 
     context 'when the user is allowed and the input is valid' do
-      current_user { FactoryBot.create(:admin) }
+      current_user { create(:admin) }
 
       it 'responds with 201' do
         expect(last_response.status).to eq(201)
@@ -156,7 +153,7 @@ describe 'API v3 Group resource', type: :request, content_type: :json do
     end
 
     context 'when the user is allowed and the input is invalid' do
-      current_user { FactoryBot.create(:admin) }
+      current_user { create(:admin) }
 
       let(:body) do
         {
@@ -180,16 +177,16 @@ describe 'API v3 Group resource', type: :request, content_type: :json do
 
   describe 'PATCH api/v3/groups/:id' do
     let(:path) { api_v3_paths.group(group.id) }
-    let(:another_role) { FactoryBot.create(:role) }
+    let(:another_role) { create(:role) }
     let(:another_user) do
-      FactoryBot.create(:user,
-                        member_in_project: project,
-                        member_through_role: another_role)
+      create(:user,
+             member_in_project: project,
+             member_through_role: another_role)
     end
     let(:body) do
       {
         _links: {
-          "members": [
+          members: [
             {
               href: api_v3_paths.user(members.last.id)
             },
@@ -201,12 +198,12 @@ describe 'API v3 Group resource', type: :request, content_type: :json do
       }.to_json
     end
     let(:group_updated_at) { group.reload.updated_at }
-    let(:other_project) { FactoryBot.create(:project) }
+    let(:other_project) { create(:project) }
     let!(:membership) do
-      FactoryBot.create(:member,
-                        principal: group,
-                        project: other_project,
-                        roles: [FactoryBot.create(:role)])
+      create(:member,
+             principal: group,
+             project: other_project,
+             roles: [create(:role)])
     end
 
     before do
@@ -261,16 +258,18 @@ describe 'API v3 Group resource', type: :request, content_type: :json do
           .to match_array [members.last, another_user]
       end
 
-      it 'sends a mail notifying of the added project memberships to the added user' do
+      it 'sends mails notifying of the added and updated project memberships to the added user' do
         expect(ActionMailer::Base.deliveries.size)
-          .to eql 2
+          .to eq 2
 
         expect(ActionMailer::Base.deliveries.map(&:to).flatten.uniq)
           .to match_array another_user.mail
 
         expect(ActionMailer::Base.deliveries.map(&:subject).flatten)
-          .to match_array [I18n.t(:'mail_member_added_project.subject', project: other_project.name),
-                           I18n.t(:'mail_member_updated_project.subject', project: project.name)]
+          .to match_array [
+            I18n.t(:'mail_member_updated_project.subject', project: project.name),
+            I18n.t(:'mail_member_added_project.subject', project: other_project.name)
+          ]
       end
     end
 
@@ -280,7 +279,7 @@ describe 'API v3 Group resource', type: :request, content_type: :json do
       let(:body) do
         {
           _links: {
-            "members": [
+            members: [
               {
                 href: api_v3_paths.user(members.last.id)
               },
@@ -328,14 +327,14 @@ describe 'API v3 Group resource', type: :request, content_type: :json do
 
   describe 'DELETE /api/v3/groups/:id' do
     let(:path) { api_v3_paths.group(group.id) }
-    let(:other_project) { FactoryBot.create(:project) }
+    let(:other_project) { create(:project) }
     let!(:membership) do
-      FactoryBot.create(:member,
-                        principal: group,
-                        project: other_project,
-                        roles: [FactoryBot.create(:role)])
+      create(:member,
+             principal: group,
+             project: other_project,
+             roles: [create(:role)])
     end
-    let(:another_role) { FactoryBot.create(:role) }
+    let(:another_role) { create(:role) }
 
     before do
       # Setup the memberships in the group has
@@ -380,10 +379,7 @@ describe 'API v3 Group resource', type: :request, content_type: :json do
       context 'for a non-existent group' do
         let(:path) { api_v3_paths.group 11111337 }
 
-        it_behaves_like 'not found' do
-          let(:id) { 11111337 }
-          let(:type) { 'Group' }
-        end
+        it_behaves_like 'not found'
       end
     end
 
@@ -400,7 +396,7 @@ describe 'API v3 Group resource', type: :request, content_type: :json do
   describe 'GET api/v3/groups' do
     let(:get_path) { api_v3_paths.groups }
     let(:other_group) do
-      FactoryBot.create(:group)
+      create(:group)
     end
 
     before do
@@ -410,32 +406,53 @@ describe 'API v3 Group resource', type: :request, content_type: :json do
       get get_path
     end
 
-    context 'having the necessary permission' do
-      it 'responds with 200 OK' do
-        expect(subject.status)
-          .to eq(200)
+    it_behaves_like 'API V3 collection response', 2, 2, 'Group' do
+      let(:elements) { [other_group, group] }
+    end
+
+    context 'when signaling' do
+      let(:get_path) { api_v3_paths.path_for :groups, select: 'total,count,elements/*' }
+
+      let(:expected) do
+        {
+          total: 2,
+          count: 2,
+          _embedded: {
+            elements: [
+              {
+                _type: 'Group',
+                id: other_group.id,
+                name: other_group.name,
+                _links: {
+                  self: {
+                    href: api_v3_paths.group(other_group.id),
+                    title: other_group.name
+                  }
+                }
+              },
+              {
+                _type: 'Group',
+                id: group.id,
+                name: group.name,
+                _links: {
+                  self: {
+                    href: api_v3_paths.group(group.id),
+                    title: group.name
+                  }
+                }
+              }
+            ]
+          }
+        }
       end
 
-      it 'responds with a collection of groups' do
-        expect(subject.body)
-          .to be_json_eql('Collection'.to_json)
-          .at_path('_type')
-
-        expect(subject.body)
-          .to be_json_eql('2')
-          .at_path('total')
-
-        expect(subject.body)
-          .to be_json_eql(other_group.id.to_json)
-          .at_path('_embedded/elements/0/id')
-
-        expect(subject.body)
-          .to be_json_eql(group.id.to_json)
-          .at_path('_embedded/elements/1/id')
+      it 'is the reduced set of properties of the embedded elements' do
+        expect(last_response.body)
+          .to be_json_eql(expected.to_json)
       end
     end
 
-    context 'not having the necessary permission' do
+    context 'when not having the necessary permission' do
       let(:permissions) { [] }
 
       it_behaves_like 'unauthorized access'

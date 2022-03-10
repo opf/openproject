@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,19 +23,19 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 require 'support/pages/custom_fields'
 
 describe 'custom fields', js: true do
-  let(:user) { FactoryBot.create :admin }
+  let(:user) { create :admin }
   let(:cf_page) { Pages::CustomFields.new }
-  let(:for_all_cf) { FactoryBot.create :list_wp_custom_field, is_for_all: true }
-  let(:project_specific_cf) { FactoryBot.create :int_wp_custom_field }
+  let(:for_all_cf) { create :list_wp_custom_field, is_for_all: true }
+  let(:project_specific_cf) { create :int_wp_custom_field }
   let(:work_package) do
-    wp = FactoryBot.build(:work_package).tap do |wp|
+    wp = build(:work_package).tap do |wp|
       wp.type.custom_fields = [for_all_cf, project_specific_cf]
     end
     wp.save!

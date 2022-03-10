@@ -4,7 +4,7 @@ sidebar_navigation:
   priority: 900
 description: Introduction to projects in OpenProject.
 robots: index, follow
-keywords: open project, create project, projects introduction
+keywords: open project, create project, project introduction
 ---
 # Projects introduction
 
@@ -60,7 +60,7 @@ Alternatively, you can use the green **+ button** in the header menu to create a
 
 ![create-project-header](create-project-header.png)
 
-- You can either create a completely new project, create a subproject of an existing project or create a (sub)project from a template. For the latter option, choose a [template](../../user-guide/projects/#create-a-project-template) using the drop-down menu.
+- You can either create a completely new project, create a subproject of an existing project or create a (sub)project from a template. For the latter option, choose a [template](../../user-guide/projects/#create-a-project-template-premium-feature) using the drop-down menu.
 - Enter a **name** for your project and click the blue **Create** button.
 - The **Advanced Settings** allow for further configuration, e.g. description, URL, etc.
 

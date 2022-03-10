@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,13 +23,13 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 describe 'account/register', type: :view do
-  let(:user) { FactoryBot.build :user, auth_source: nil }
+  let(:user) { build :user, auth_source: nil }
 
   context 'with the email_login setting disabled (default value)' do
     before do
@@ -40,8 +40,8 @@ describe 'account/register', type: :view do
     end
 
     context 'with auth source' do
-      let(:auth_source) { FactoryBot.create :auth_source }
-      let(:user)        { FactoryBot.build :user, auth_source: auth_source }
+      let(:auth_source) { create :auth_source }
+      let(:user)        { build :user, auth_source: auth_source }
 
       it 'should not show a login field' do
         expect(rendered).not_to include('user[login]')
@@ -64,8 +64,8 @@ describe 'account/register', type: :view do
     end
 
     context 'with auth source' do
-      let(:auth_source) { FactoryBot.create :auth_source }
-      let(:user)        { FactoryBot.build :user, auth_source: auth_source }
+      let(:auth_source) { create :auth_source }
+      let(:user)        { build :user, auth_source: auth_source }
 
       it 'should not show a login field' do
         expect(rendered).not_to include('user[login]')

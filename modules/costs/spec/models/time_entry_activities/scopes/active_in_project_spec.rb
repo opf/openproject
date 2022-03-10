@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,16 +23,16 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 describe TimeEntryActivities::Scopes::ActiveInProject, type: :model do
-  let!(:activity) { FactoryBot.create(:time_entry_activity) }
-  let!(:other_activity) { FactoryBot.create(:time_entry_activity) }
-  let(:project) { FactoryBot.create(:project) }
-  let(:other_project) { FactoryBot.create(:project) }
+  let!(:activity) { create(:time_entry_activity) }
+  let!(:other_activity) { create(:time_entry_activity) }
+  let(:project) { create(:project) }
+  let(:other_project) { create(:project) }
 
   describe '.active_in_project' do
     subject { TimeEntryActivity.active_in_project(project) }

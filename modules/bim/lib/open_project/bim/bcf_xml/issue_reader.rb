@@ -45,7 +45,7 @@ module OpenProject::Bim::BcfXml
       # If there are already errors during the BCF issue creation, don't create or update the WP.
       return if issue.errors.any?
 
-      self.is_update = issue.work_package.present?
+      self.is_update = issue.work_package.persisted?
       self.wp_last_updated_at = issue.work_package&.updated_at
 
       call =
@@ -218,7 +218,7 @@ module OpenProject::Bim::BcfXml
     end
 
     def initialize_issue
-      ::Bim::Bcf::Issue.new(uuid: topic_uuid)
+      ::Bim::Bcf::Issue.new(uuid: topic_uuid, project: project)
     end
 
     ##

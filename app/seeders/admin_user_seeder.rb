@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 class AdminUserSeeder < Seeder
   def seed_data!
@@ -57,9 +55,7 @@ class AdminUserSeeder < Seeder
       user.language = I18n.locale.to_s
       user.status = User.statuses[:active]
       user.force_password_change = force_password_change?
-      user.notification_settings.build(channel: :mail, involved: true, mentioned: true, watched: true)
-      user.notification_settings.build(channel: :in_app, involved: true, mentioned: true, watched: true)
-      user.notification_settings.build(channel: :mail_digest, involved: true, mentioned: true, watched: true)
+      user.notification_settings.build(involved: true, mentioned: true, watched: true)
     end
   end
 

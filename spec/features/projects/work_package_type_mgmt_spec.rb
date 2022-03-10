@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,17 +23,17 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 describe 'Projects', 'work package type mgmt', type: :feature, js: true do
-  current_user { FactoryBot.create(:admin) }
+  current_user { create(:user, member_in_project: project, member_with_permissions: %i[edit_project manage_types]) }
 
-  let(:phase_type)     { FactoryBot.create(:type, name: 'Phase', is_default: true) }
-  let(:milestone_type) { FactoryBot.create(:type, name: 'Milestone', is_default: false) }
-  let!(:project) { FactoryBot.create(:project, name: 'Foo project', types: [phase_type, milestone_type]) }
+  let(:phase_type)     { create(:type, name: 'Phase', is_default: true) }
+  let(:milestone_type) { create(:type, name: 'Milestone', is_default: false) }
+  let!(:project) { create(:project, name: 'Foo project', types: [phase_type, milestone_type]) }
 
   it "have the correct types checked for the project's types" do
     visit projects_path
@@ -41,9 +41,18 @@ describe 'Projects', 'work package type mgmt', type: :feature, js: true do
     click_on 'Project settings'
     click_on 'Work package types'
 
-    field_checked = find_field('Phase', visible: false)['checked']
-    expect(field_checked).to be_truthy
-    field_checked = find_field('Milestone', visible: false)['checked']
-    expect(field_checked).to be_truthy
+    expect(find_field('Phase', visible: false)['checked'])
+      .to be_truthy
+
+    expect(find_field('Milestone', visible: false)['checked'])
+      .to be_truthy
+
+    # Disable a type
+    find_field('Milestone', visible: false).click
+
+    click_button 'Save'
+
+    expect(find_field('Milestone', visible: false)['checked'])
+      .to be_falsey
   end
 end

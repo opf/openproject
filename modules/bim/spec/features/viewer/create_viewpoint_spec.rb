@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require_relative '../../spec_helper'
@@ -32,14 +32,14 @@ describe 'Create viewpoint from BCF details page',
          type: :feature,
          with_config: { edition: 'bim' },
          js: true do
-  let(:project) { FactoryBot.create :project, enabled_module_names: %i[bim work_package_tracking] }
-  let(:user) { FactoryBot.create :admin }
+  let(:project) { create :project, enabled_module_names: %i[bim work_package_tracking] }
+  let(:user) { create :admin }
 
   let!(:model) do
-    FactoryBot.create(:ifc_model_minimal_converted,
-                      title: 'minimal',
-                      project: project,
-                      uploader: user)
+    create(:ifc_model_minimal_converted,
+           title: 'minimal',
+           project: project,
+           uploader: user)
   end
 
   let(:show_model_page) { Pages::IfcModels::ShowDefault.new(project) }
@@ -56,7 +56,7 @@ describe 'Create viewpoint from BCF details page',
       show_model_page.visit!
       show_model_page.finished_loading
       card_view.expect_work_package_listed(work_package)
-      card_view.open_full_screen_by_details(work_package)
+      card_view.open_split_view_by_info_icon(work_package)
 
       # Expect no viewpoint
       bcf_details.ensure_page_loaded
@@ -98,14 +98,14 @@ describe 'Create viewpoint from BCF details page',
   end
 
   context 'with a work package with BCF' do
-    let!(:work_package) { FactoryBot.create(:work_package, project: project) }
-    let!(:bcf) { FactoryBot.create :bcf_issue, work_package: work_package }
+    let!(:work_package) { create(:work_package, project: project) }
+    let!(:bcf) { create :bcf_issue, work_package: work_package }
 
     it_behaves_like 'can create a viewpoint from the BCF details page'
   end
 
   context 'with a work package without BCF' do
-    let!(:work_package) { FactoryBot.create(:work_package, project: project) }
+    let!(:work_package) { create(:work_package, project: project) }
 
     it_behaves_like 'can create a viewpoint from the BCF details page'
   end

@@ -102,7 +102,7 @@ To export the data from your Gantt chart there are several possibilities:
 
 * [Export via the work package view](../work-packages/edit-work-package/#export-work-packages)
 * [Print (e.g. to PDF)](#how-to-print-a-gantt-chart)
-* [Synchronize data from OpenProject to Excel](#synchronize-data-between-OpenProject-and-Excel) <-> MS Project
+* [Synchronize data from OpenProject to Excel](../../system-admin-guide/integrations/excel-synchronization/) <-> MS Project
 
 ### How to print a Gantt chart?
 
@@ -126,7 +126,7 @@ Press the **Print** button.
 
 For other browsers, please simply follow the browser's printing instruction to optimize results.
 
-To synchronize your work package data between OpenProject and Excel (two-way synchronization) please have a look at [this instruction](../integrations/excel-synchronization).
+To synchronize your work package data between OpenProject and Excel (two-way synchronization) please have a look at [this instruction](../../system-admin-guide/integrations/excel-synchronization/).
 
 ## Gantt chart views
 
@@ -159,13 +159,13 @@ With the Gantt charts in OpenProject you can create project overarching timeline
 
 Create multi project timelines  and display all activities, phases and milestones within your project and sub-projects. Also, you can create project overarching timelines by filtering and including respective projects in one joint plan.
 
-To include sub-projects: within the parent project, click on the Filter button and select the subproject(s) you want to have included in your project plan. You can also choose an [aggregation by project](aggregation-by-project).
+To include sub-projects: within the parent project, click on the Filter button and select the subproject(s) you want to have included in your project plan. You can also choose an [aggregation by project](#aggregation-by-project).
 
 Use the filter and grouping options as for the [work packages table configuration](../work-packages/work-package-table-configuration/) to customize your timeline. Do not forget to [save your timeline](../work-packages/work-package-table-configuration/#save-work-package-views).
 
-![OpenProject-overarching-project-planning](OpenProject-overarching-project-planning.PNG)
+![OpenProject-overarching-project-planning](OpenProject-overarching-project-planning.png)
 
-If you want to adjust your work package table and filter, sort or order your work packages to have a better overview in your Gantt chart, please refer to the section [work package table configuration](/../work-packages/work-package-table-configuration/).
+If you want to adjust your work package table and filter, sort or order your work packages to have a better overview in your Gantt chart, please refer to the section [work package table configuration](../work-packages/work-package-table-configuration/).
 
 ## Aggregation by project
 

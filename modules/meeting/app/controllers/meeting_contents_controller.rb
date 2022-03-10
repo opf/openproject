@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 class MeetingContentsController < ApplicationController
@@ -38,8 +38,6 @@ class MeetingContentsController < ApplicationController
   helper :meeting_contents
   helper :watchers
   helper :meetings
-
-  helper_method :gon
 
   before_action :find_meeting, :find_content
   before_action :authorize
@@ -138,6 +136,6 @@ class MeetingContentsController < ApplicationController
   end
 
   def content_params
-    params.require(@content_type).permit(:text, :lock_version, :comment)
+    params.require(@content_type).permit(:text, :lock_version, :journal_notes)
   end
 end

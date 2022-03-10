@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'forwardable'
@@ -146,7 +144,7 @@ module ApplicationHelper
 
     # Add autohide class to notice flashes if configured
     if type.to_s == 'notice' && User.current.pref.auto_hide_popups?
-      css_classes << 'autohide-notification'
+      css_classes << 'autohide-toaster'
     end
 
     html_options = { class: css_classes.join(' '), role: 'alert' }.merge(html_options)
@@ -307,6 +305,8 @@ module ApplicationHelper
     end
 
     css << "ee-banners-#{EnterpriseToken.show_banners? ? 'visible' : 'hidden'}"
+
+    css << "env-#{Rails.env}"
 
     # Add browser specific classes to aid css fixes
     css += browser_specific_classes

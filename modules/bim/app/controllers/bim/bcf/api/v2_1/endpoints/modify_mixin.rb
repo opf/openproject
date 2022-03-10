@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module Bim::Bcf::API::V2_1::Endpoints
@@ -34,10 +32,6 @@ module Bim::Bcf::API::V2_1::Endpoints
 
     def deduce_parse_service
       ::Bim::Bcf::API::V2_1::ParseResourceParamsService
-    end
-
-    def deduce_process_service
-      "::Bim::Bcf::#{deduce_backend_namespace}::#{update_or_create}Service".constantize
     end
 
     def deduce_in_and_out_representer

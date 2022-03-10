@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -58,7 +58,7 @@ shared_examples 'it supports direct uploads' do
         request!
       end
 
-      it 'should respond with validation error' do
+      it 'responds with a validation error' do
         expect(subject.status).to eq(422)
       end
 
@@ -76,7 +76,7 @@ shared_examples 'it supports direct uploads' do
         let(:metadata) { { fileName: 'cat.png' } }
         let(:json) { JSON.parse subject.body }
 
-        it 'should respond with 422 due to missing file size metadata' do
+        it 'responds with 422 due to missing file size metadata' do
           expect(subject.status).to eq(422)
           expect(subject.body).to include 'Size'
         end
@@ -89,7 +89,7 @@ shared_examples 'it supports direct uploads' do
       context 'with the correct parameters' do
         let(:json) { JSON.parse subject.body }
 
-        it 'should prepare a direct upload' do
+        it 'prepares a direct upload' do
           expect(subject.status).to eq 201
 
           expect(json["_type"]).to eq "AttachmentUpload"
@@ -117,15 +117,15 @@ shared_examples 'it supports direct uploads' do
                 expect(link).to be_present
               end
 
-              it 'should point to AWS' do
+              it 'points to AWS' do
                 expect(link["href"]).to eq "https://#{MockCarrierwave.bucket}.s3.amazonaws.com/"
               end
 
-              it 'should have the method POST' do
+              it 'has the method POST' do
                 expect(link["method"]).to eq "post"
               end
 
-              it 'should include form fields' do
+              it 'includes form fields' do
                 fields = link["form_fields"]
 
                 expect(fields).to be_present
@@ -140,7 +140,7 @@ shared_examples 'it supports direct uploads' do
                 expect(fields["key"]).to end_with "cat.png"
               end
 
-              it 'should also include the content type and the necessary policy in the form fields' do
+              it 'also includes the content type and the necessary policy in the form fields' do
                 fields = link["form_fields"]
 
                 expect(fields).to include("policy", "Content-Type")
@@ -151,6 +151,34 @@ shared_examples 'it supports direct uploads' do
                 expect(policy).to include '["starts-with","$Content-Type",""]'
               end
             end
+          end
+        end
+      end
+
+      context 'with an attachment whitelist', with_settings: { attachment_whitelist: ['text/csv'] } do
+        context 'with an allowed content type' do
+          let(:metadata) { { fileName: 'cats.csv', fileSize: file.size, contentType: 'text/csv' } }
+
+          it 'succeeds' do
+            expect(subject.status).to eq 201
+          end
+        end
+
+        context 'with a forbidden content type' do
+          let(:metadata) { { fileName: 'cats.txt', fileSize: file.size, contentType: 'text/plain' } }
+
+          it 'fails' do
+            expect(subject.status).to eq 422
+            expect(subject.body).to include "not whitelisted"
+          end
+        end
+
+        context 'with a non-specific content type not on the whitelist' do
+          let(:metadata) { { fileName: 'cats.bin', fileSize: file.size, contentType: 'application/binary' } }
+
+          # the actual whitelist check will be performed in the FinishDirectUpload job in this case
+          it 'still succeeds' do
+            expect(subject.status).to eq 201
           end
         end
       end
@@ -166,17 +194,17 @@ shared_examples 'an APIv3 attachment resource', type: :request, content_type: :j
   let(:current_user) { user_with_permissions }
 
   let(:user_with_permissions) do
-    FactoryBot.create(:user, member_in_project: project, member_through_role: role)
+    create(:user, member_in_project: project, member_through_role: role)
   end
 
   let(:author) do
     current_user
   end
 
-  let(:project) { FactoryBot.create(:project, public: false) }
-  let(:role) { FactoryBot.create(:role, permissions: permissions) }
+  let(:project) { create(:project, public: false) }
+  let(:role) { create(:role, permissions: permissions) }
 
-  let(:attachment) { FactoryBot.create(:attachment, container: container, author: author) }
+  let(:attachment) { create(:attachment, container: container, author: author) }
   let(:container) { send attachment_type }
 
   let(:attachment_type) { raise "attachment type goes here, e.g. work_package" }
@@ -205,30 +233,25 @@ shared_examples 'an APIv3 attachment resource', type: :request, content_type: :j
         get get_path
       end
 
-      it 'should respond with 200' do
+      it 'responds with 200' do
         expect(subject.status).to eq(200)
       end
 
-      it 'should respond with correct attachment' do
+      it 'responds with correct attachment' do
         expect(subject.body).to be_json_eql(attachment.filename.to_json).at_path('fileName')
       end
 
       context 'requesting nonexistent attachment' do
         let(:get_path) { api_v3_paths.attachment 9999 }
 
-        it_behaves_like 'not found' do
-          let(:id) { 9999 }
-          let(:type) { 'Attachment' }
-        end
+        it_behaves_like 'not found'
       end
 
       context 'requesting attachments without sufficient permissions' do
         let(:current_user) { missing_permissions_user }
         let(:permissions) { all_permissions - Array(read_permission) }
 
-        it_behaves_like 'not found' do
-          let(:type) { 'Attachment' }
-        end
+        it_behaves_like 'not found'
       end
     end
   end
@@ -249,11 +272,11 @@ shared_examples 'an APIv3 attachment resource', type: :request, content_type: :j
 
     subject(:response) { last_response }
 
-    it 'should respond with HTTP Created' do
+    it 'responds with HTTP Created' do
       expect(subject.status).to eq(201)
     end
 
-    it 'should return the new attachment without container' do
+    it 'returns the new attachment without container' do
       expect(subject.body).to be_json_eql('Attachment'.to_json).at_path('_type')
       expect(subject.body).to be_json_eql(nil.to_json).at_path('_links/container/href')
     end
@@ -276,7 +299,7 @@ shared_examples 'an APIv3 attachment resource', type: :request, content_type: :j
       let(:request_parts) { { metadata: metadata.to_json, wrongFileSection: file } }
 
       it_behaves_like 'constraint violation' do
-        let(:message) { "Content type #{I18n.t('activerecord.errors.messages.blank')}" }
+        let(:message) { "The content type of the file cannot be blank" }
       end
     end
 
@@ -367,10 +390,7 @@ shared_examples 'an APIv3 attachment resource', type: :request, content_type: :j
       context 'for a non-existent attachment' do
         let(:path) { api_v3_paths.attachment 1337 }
 
-        it_behaves_like 'not found' do
-          let(:id) { 1337 }
-          let(:type) { 'Attachment' }
-        end
+        it_behaves_like 'not found'
       end
     end
 
@@ -388,7 +408,7 @@ shared_examples 'an APIv3 attachment resource', type: :request, content_type: :j
       end
 
       context 'with the user not being the author' do
-        let(:author) { FactoryBot.create(:user) }
+        let(:author) { create(:user) }
 
         it_behaves_like 'does not delete the attachment', 404
       end
@@ -410,7 +430,7 @@ shared_examples 'an APIv3 attachment resource', type: :request, content_type: :j
         let(:content_disposition) { raise "define content_disposition" }
 
         let(:attachment) do
-          att = FactoryBot.create(:attachment, container: container, file: mock_file, author: current_user)
+          att = create(:attachment, container: container, file: mock_file, author: current_user)
 
           att.file.store!
           att.send :write_attribute, :file, mock_file.original_filename
@@ -476,7 +496,7 @@ shared_examples 'an APIv3 attachment resource', type: :request, content_type: :j
         let(:external_url) { 'http://some_service.org/blubs.gif' }
         let(:mock_file) { FileHelpers.mock_uploaded_file name: 'foobar.txt' }
         let(:attachment) do
-          FactoryBot.create(:attachment, container: container, file: mock_file, author: current_user).tap do
+          create(:attachment, container: container, file: mock_file, author: current_user).tap do
             # need to mock here to avoid dependency on external service
             allow_any_instance_of(Attachment)
               .to receive(:external_url)
@@ -515,11 +535,11 @@ shared_examples 'an APIv3 attachment resource', type: :request, content_type: :j
       let(:get_path) { api_v3_paths.send "attachments_by_#{attachment_type}", container.id }
 
       before do
-        FactoryBot.create_list(:attachment, 2, container: container)
+        create_list(:attachment, 2, container: container)
         get get_path
       end
 
-      it 'should respond with 200' do
+      it 'responds with 200' do
         expect(subject.status).to eq(200)
       end
 
@@ -538,11 +558,11 @@ shared_examples 'an APIv3 attachment resource', type: :request, content_type: :j
         post request_path, request_parts
       end
 
-      it 'should respond with HTTP Created' do
+      it 'responds with HTTP Created' do
         expect(subject.status).to eq(201)
       end
 
-      it 'should return the new attachment' do
+      it 'returns the new attachment' do
         expect(subject.body).to be_json_eql('Attachment'.to_json).at_path('_type')
       end
 
@@ -566,7 +586,7 @@ shared_examples 'an APIv3 attachment resource', type: :request, content_type: :j
         let(:request_parts) { { metadata: metadata.to_json, wrongFileSection: file } }
 
         it_behaves_like 'constraint violation' do
-          let(:message) { "Content type #{I18n.t('activerecord.errors.messages.blank')}" }
+          let(:message) { "The content type of the file cannot be blank." }
         end
       end
 

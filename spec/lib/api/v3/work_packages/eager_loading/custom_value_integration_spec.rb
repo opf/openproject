@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,58 +23,58 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++require 'rspec'
 
 require 'spec_helper'
 require_relative './eager_loading_mock_wrapper'
 
 describe ::API::V3::WorkPackages::EagerLoading::CustomValue do
-  let!(:work_package) { FactoryBot.create(:work_package) }
+  let!(:work_package) { create(:work_package) }
   let!(:type) { work_package.type }
-  let!(:other_type) { FactoryBot.create(:type) }
+  let!(:other_type) { create(:type) }
   let!(:project) { work_package.project }
-  let!(:other_project) { FactoryBot.create(:project) }
-  let!(:user) { FactoryBot.create(:user) }
-  let!(:version) { FactoryBot.create(:version, project: project) }
+  let!(:other_project) { create(:project) }
+  let!(:user) { create(:user) }
+  let!(:version) { create(:version, project: project) }
 
   describe 'multiple CFs' do
     let!(:type_project_list_cf) do
-      FactoryBot.create(:list_wp_custom_field).tap do |cf|
+      create(:list_wp_custom_field).tap do |cf|
         type.custom_fields << cf
         project.work_package_custom_fields << cf
       end
     end
     let!(:type_project_user_cf) do
-      FactoryBot.create(:user_wp_custom_field).tap do |cf|
+      create(:user_wp_custom_field).tap do |cf|
         type.custom_fields << cf
         project.work_package_custom_fields << cf
       end
     end
     let!(:type_project_version_cf) do
-      FactoryBot.create(:version_wp_custom_field, name: 'blubs').tap do |cf|
+      create(:version_wp_custom_field, name: 'blubs').tap do |cf|
         type.custom_fields << cf
         project.work_package_custom_fields << cf
       end
     end
     let!(:for_all_type_cf) do
-      FactoryBot.create(:list_wp_custom_field, is_for_all: true).tap do |cf|
+      create(:list_wp_custom_field, is_for_all: true).tap do |cf|
         type.custom_fields << cf
       end
     end
     let!(:for_all_other_type_cf) do
-      FactoryBot.create(:list_wp_custom_field, is_for_all: true).tap do |cf|
+      create(:list_wp_custom_field, is_for_all: true).tap do |cf|
         other_type.custom_fields << cf
       end
     end
     let!(:type_other_project_cf) do
-      FactoryBot.create(:list_wp_custom_field).tap do |cf|
+      create(:list_wp_custom_field).tap do |cf|
         type.custom_fields << cf
         other_project.work_package_custom_fields << cf
       end
     end
     let!(:other_type_project_cf) do
-      FactoryBot.create(:list_wp_custom_field).tap do |cf|
+      create(:list_wp_custom_field).tap do |cf|
         other_type.custom_fields << cf
         project.work_package_custom_fields << cf
       end
@@ -84,21 +82,21 @@ describe ::API::V3::WorkPackages::EagerLoading::CustomValue do
 
     describe '.apply' do
       it 'preloads the custom fields and values' do
-        FactoryBot.create(:custom_value,
-                          custom_field: type_project_list_cf,
-                          customized: work_package,
-                          value: type_project_list_cf.custom_options.last.id)
+        create(:custom_value,
+               custom_field: type_project_list_cf,
+               customized: work_package,
+               value: type_project_list_cf.custom_options.last.id)
 
-        FactoryBot.build(:custom_value,
-                         custom_field: type_project_user_cf,
-                         customized: work_package,
-                         value: user.id)
+        build(:custom_value,
+              custom_field: type_project_user_cf,
+              customized: work_package,
+              value: user.id)
                   .save(validate: false)
 
-        FactoryBot.create(:custom_value,
-                          custom_field: type_project_version_cf,
-                          customized: work_package,
-                          value: version.id)
+        create(:custom_value,
+               custom_field: type_project_version_cf,
+               customized: work_package,
+               value: version.id)
 
         work_package = WorkPackage.first
         wrapped = EagerLoadingMockWrapper.wrap(described_class, [work_package])
@@ -133,11 +131,11 @@ describe ::API::V3::WorkPackages::EagerLoading::CustomValue do
 
   describe '#usages returning an is_for_all custom field within one project (Regression #28435)' do
     let!(:for_all_type_cf) do
-      FactoryBot.create(:list_wp_custom_field, is_for_all: true).tap do |cf|
+      create(:list_wp_custom_field, is_for_all: true).tap do |cf|
         type.custom_fields << cf
       end
     end
-    let(:other_project) { FactoryBot.create :project }
+    let(:other_project) { create :project }
     subject { described_class.new [work_package] }
 
     before do
@@ -159,12 +157,12 @@ describe ::API::V3::WorkPackages::EagerLoading::CustomValue do
 
   describe '#usages returning an is_for_all custom field within multiple projects (Regression #28452)' do
     let!(:for_all_type_cf) do
-      FactoryBot.create(:list_wp_custom_field, is_for_all: true).tap do |cf|
+      create(:list_wp_custom_field, is_for_all: true).tap do |cf|
         type.custom_fields << cf
       end
     end
-    let(:other_project) { FactoryBot.create :project }
-    let(:other_project2) { FactoryBot.create :project }
+    let(:other_project) { create :project }
+    let(:other_project2) { create :project }
     subject { described_class.new [work_package] }
 
     before do

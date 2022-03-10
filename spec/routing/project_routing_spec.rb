@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -79,28 +79,28 @@ describe ProjectsController, type: :routing do
     end
   end
 
+  describe 'templated' do
+    it do
+      expect(delete('/projects/123/templated'))
+        .to route_to(controller: 'projects/templated', action: 'destroy', project_id: '123')
+    end
+
+    it do
+      expect(post('/projects/123/templated'))
+        .to route_to(controller: 'projects/templated', action: 'create', project_id: '123')
+    end
+  end
+
   describe 'miscellaneous' do
     it do
-      expect(put('projects/123/modules')).to route_to(
-        controller: 'projects', action: 'modules', id: '123'
+      expect(post('projects/123/archive')).to route_to(
+        controller: 'projects/archive', action: 'create', project_id: '123'
       )
     end
 
     it do
-      expect(put('projects/123/custom_fields')).to route_to(
-        controller: 'projects', action: 'custom_fields', id: '123'
-      )
-    end
-
-    it do
-      expect(put('projects/123/archive')).to route_to(
-        controller: 'projects', action: 'archive', id: '123'
-      )
-    end
-
-    it do
-      expect(put('projects/123/unarchive')).to route_to(
-        controller: 'projects', action: 'unarchive', id: '123'
+      expect(delete('projects/123/archive')).to route_to(
+        controller: 'projects/archive', action: 'destroy', project_id: '123'
       )
     end
 

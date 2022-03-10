@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,15 +23,15 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 describe UserPassword, type: :model do
-  let(:old_password) { FactoryBot.create(:old_user_password) }
-  let(:user) { FactoryBot.create(:user) }
-  let(:password) { FactoryBot.create(:user_password, user: user, plain_password: 'adminAdmin!') }
+  let(:old_password) { create(:old_user_password) }
+  let(:user) { create(:user) }
+  let(:password) { create(:user_password, user: user, plain_password: 'adminAdmin!') }
 
   describe '#expired?' do
     context 'with expiry value set',
@@ -62,7 +62,7 @@ describe UserPassword, type: :model do
 
   describe '#rehash_as_active' do
     let(:password) do
-      pass = FactoryBot.build(:legacy_sha1_password, user: user, plain_password: 'adminAdmin!')
+      pass = build(:legacy_sha1_password, user: user, plain_password: 'adminAdmin!')
       expect(pass).to receive(:salt_and_hash_password!).and_return nil
 
       pass.save!
@@ -96,7 +96,7 @@ describe UserPassword, type: :model do
   end
 
   describe '#save' do
-    let(:password) { FactoryBot.build(:user_password) }
+    let(:password) { build(:user_password) }
 
     it 'saves correctly' do
       expect(password).to receive(:salt_and_hash_password!).and_call_original

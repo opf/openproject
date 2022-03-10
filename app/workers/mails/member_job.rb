@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 class Mails::MemberJob < ApplicationJob
@@ -32,18 +32,39 @@ class Mails::MemberJob < ApplicationJob
   def perform(current_user:,
               member:,
               message: nil)
-    if member.project.nil?
-      send_updated_global(current_user, member, message)
-    elsif member.principal.is_a?(Group)
-      every_group_user_member(member) do |user_member|
-        send_for_group_user(current_user, user_member, member, message)
-      end
-    elsif member.principal.is_a?(User)
-      send_for_project_user(current_user, member, message)
+    case member.principal
+    when Group
+      perform_for_group(current_user: current_user, member: member, message: message)
+    when User
+      perform_for_user(current_user: current_user, member: member, message: message)
     end
   end
 
   private
+
+  def perform_for_group(current_user:,
+                        member:,
+                        message: nil)
+    every_group_user_member(member) do |user_member|
+      if member.project.nil?
+        next unless roles_changed?(user_member, member)
+
+        send_updated_global(current_user, user_member, message)
+      else
+        send_for_group_user(current_user, user_member, member, message)
+      end
+    end
+  end
+
+  def perform_for_user(current_user:,
+                       member:,
+                       message: nil)
+    if member.project.nil?
+      send_updated_global(current_user, member, message)
+    else
+      send_for_project_user(current_user, member, message)
+    end
+  end
 
   def send_for_group_user(_current_user, _member, _group, _message)
     raise NotImplementedError, "subclass responsibility"
@@ -54,7 +75,7 @@ class Mails::MemberJob < ApplicationJob
   end
 
   def send_updated_global(current_user, member, member_message)
-    return if sending_disabled?(:updated, member_message)
+    return if sending_disabled?(:updated, current_user, member.user_id, member_message)
 
     MemberMailer
       .updated_global(current_user, member, member_message)
@@ -62,7 +83,7 @@ class Mails::MemberJob < ApplicationJob
   end
 
   def send_added_project(current_user, member, member_message)
-    return if sending_disabled?(:added, member_message)
+    return if sending_disabled?(:added, current_user, member.user_id, member_message)
 
     MemberMailer
       .added_project(current_user, member, member_message)
@@ -70,7 +91,7 @@ class Mails::MemberJob < ApplicationJob
   end
 
   def send_updated_project(current_user, member, member_message)
-    return if sending_disabled?(:updated, member_message)
+    return if sending_disabled?(:updated, current_user, member.user_id, member_message)
 
     MemberMailer
       .updated_project(current_user, member, member_message)
@@ -85,7 +106,18 @@ class Mails::MemberJob < ApplicationJob
       .each(&block)
   end
 
-  def sending_disabled?(setting, message)
-    message.blank? && !Setting.notified_events.include?("membership_#{setting}")
+  def sending_disabled?(setting, current_user, user_id, message)
+    # Never self notify
+    return true if current_user.id == user_id
+    # In case we have an invitation message, always send a mail
+    return false if message.present?
+
+    NotificationSetting
+      .where(project_id: nil, user_id: user_id)
+      .exists?("membership_#{setting}" => false)
+  end
+
+  def roles_changed?(user_member, group_member)
+    Members::RolesDiff.new(user_member, group_member).roles_changed?
   end
 end

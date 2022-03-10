@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,23 +23,23 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 require 'features/work_packages/work_packages_page'
 
 describe 'work package export', type: :feature do
-  let(:project) { FactoryBot.create :project_with_types, types: [type_a, type_b] }
-  let(:current_user) { FactoryBot.create :admin }
+  let(:project) { create :project_with_types, types: [type_a, type_b] }
+  let(:current_user) { create :admin }
 
-  let(:type_a) { FactoryBot.create :type, name: "Type A" }
-  let(:type_b) { FactoryBot.create :type, name: "Type B" }
+  let(:type_a) { create :type, name: "Type A" }
+  let(:type_b) { create :type, name: "Type B" }
 
-  let(:wp_1) { FactoryBot.create :work_package, project: project, done_ratio: 25, type: type_a }
-  let(:wp_2) { FactoryBot.create :work_package, project: project, done_ratio: 0, type: type_a }
-  let(:wp_3) { FactoryBot.create :work_package, project: project, done_ratio: 0, type: type_b }
-  let(:wp_4) { FactoryBot.create :work_package, project: project, done_ratio: 0, type: type_a }
+  let(:wp_1) { create :work_package, project: project, done_ratio: 25, type: type_a }
+  let(:wp_2) { create :work_package, project: project, done_ratio: 0, type: type_a }
+  let(:wp_3) { create :work_package, project: project, done_ratio: 0, type: type_b }
+  let(:wp_4) { create :work_package, project: project, done_ratio: 0, type: type_a }
 
   let(:work_packages_page) { WorkPackagesPage.new(project) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
@@ -172,9 +172,9 @@ describe 'work package export', type: :feature do
 
     describe 'with a manually sorted query', js: true do
       let(:query) do
-        FactoryBot.create :query,
-                          user: current_user,
-                          project: project
+        create :query,
+               user: current_user,
+               project: project
       end
 
       before do
@@ -212,9 +212,9 @@ describe 'work package export', type: :feature do
   context 'PDF export', js: true do
     let(:export_type) { 'PDF' }
     let(:query) do
-      FactoryBot.create :query,
-                        user: current_user,
-                        project: project
+      create :query,
+             user: current_user,
+             project: project
     end
 
     context 'with many columns' do
@@ -225,8 +225,8 @@ describe 'work package export', type: :feature do
         # Despite attempts to provoke the error by having a lot of columns, the pdf
         # is still being drawn successfully. We thus have to fake the error.
         allow_any_instance_of(WorkPackage::PDFExport::WorkPackageListToPdf)
-          .to receive(:render!)
-          .and_return(WorkPackage::Exporter::Result::Error.new(I18n.t(:error_pdf_export_too_many_columns)))
+          .to receive(:export!)
+          .and_raise(I18n.t(:error_pdf_export_too_many_columns))
       end
 
       it 'returns the error' do

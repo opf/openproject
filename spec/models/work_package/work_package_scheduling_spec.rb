@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -31,8 +31,8 @@ require 'spec_helper'
 describe WorkPackage, type: :model do
   describe '#overdue' do
     let(:work_package) do
-      FactoryBot.create(:work_package,
-                        due_date: due_date)
+      create(:work_package,
+             due_date: due_date)
     end
 
     shared_examples_for 'overdue' do
@@ -74,8 +74,8 @@ describe WorkPackage, type: :model do
     context 'status closed' do
       let(:due_date) { 1.day.ago.to_date }
       let(:status) do
-        FactoryBot.create(:status,
-                          is_closed: true)
+        create(:status,
+               is_closed: true)
       end
 
       before do
@@ -88,10 +88,10 @@ describe WorkPackage, type: :model do
 
   describe '#behind_schedule?' do
     let(:work_package) do
-      FactoryBot.create(:work_package,
-                        start_date: start_date,
-                        due_date: due_date,
-                        done_ratio: done_ratio)
+      create(:work_package,
+             start_date: start_date,
+             due_date: due_date,
+             done_ratio: done_ratio)
     end
 
     shared_examples_for 'behind schedule' do

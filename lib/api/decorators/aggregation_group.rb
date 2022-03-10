@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,15 +23,14 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module API
   module Decorators
     class AggregationGroup < Single
-      def initialize(group_key, count, query:, current_user:, sums: nil)
+      def initialize(group_key, count, query:, current_user:)
         @count = count
-        @sums = sums
         @query = query
 
         if group_key.is_a?(Array)
@@ -55,15 +52,6 @@ module API
         end
       end
 
-      link :groupBy do
-        converted_name = convert_attribute(query.group_by_column.name)
-
-        {
-          href: api_v3_paths.query_group_by(converted_name),
-          title: query.group_by_column.caption
-        }
-      end
-
       property :value,
                exec_context: :decorator,
                render_nil: true
@@ -73,23 +61,11 @@ module API
                getter: ->(*) { count },
                render_nil: true
 
-      property :sums,
-               exec_context: :decorator,
-               getter: ->(*) {
-                 ::API::V3::WorkPackages::WorkPackageSumsRepresenter.create(sums, current_user) if sums
-               },
-               render_nil: false
-
-      def has_sums?
-        sums.present?
-      end
-
       def model_required?
         false
       end
 
-      attr_reader :sums,
-                  :count,
+      attr_reader :count,
                   :query
 
       ##
@@ -104,17 +80,13 @@ module API
           }
         end
 
-        if group_key.empty?
-          nil
-        else
+        if group_key.present?
           group_key.map(&:name).sort.join(", ")
         end
       end
 
       def value
-        if query.group_by_column.name == :done_ratio
-          "#{represented}%"
-        elsif represented == true || represented == false
+        if represented == true || represented == false
           represented
         else
           represented ? represented.to_s : nil

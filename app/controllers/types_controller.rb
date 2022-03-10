@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 class TypesController < ApplicationController
@@ -34,7 +32,6 @@ class TypesController < ApplicationController
   layout 'admin'
 
   before_action :require_admin
-  helper_method :gon
 
   def index
     @types = ::Type.page(page_param).per_page(per_page_param)
@@ -118,11 +115,7 @@ class TypesController < ApplicationController
       @type.destroy
       flash[:notice] = I18n.t(:notice_successful_delete)
     else
-      flash[:error] = if @type.is_standard?
-                        t(:error_can_not_delete_standard_type)
-                      else
-                        t(:error_can_not_delete_type)
-                      end
+      flash[:error] = destroy_error_message
     end
     redirect_to action: 'index'
   end
@@ -164,5 +157,32 @@ class TypesController < ApplicationController
 
   def show_local_breadcrumb
     true
+  end
+
+  def destroy_error_message
+    if @type.is_standard?
+      t(:error_can_not_delete_standard_type)
+    else
+      error_message = [
+        ApplicationController.helpers.sanitize(
+          t(:'error_can_not_delete_type.explanation', url: belonging_wps_url(@type.id)),
+          attributes: %w(href target)
+        )
+      ]
+
+      archived_projects = @type.projects.filter(&:archived?)
+      if !archived_projects.empty?
+        error_message.push(
+          t(:'error_can_not_delete_type.archived_projects',
+            archived_projects: archived_projects.map(&:name).join(', '))
+        )
+      end
+
+      error_message
+    end
+  end
+
+  def belonging_wps_url(type_id)
+    work_packages_path query_props: '{"f":[{"n":"type","o":"=","v":[' + type_id.to_s + ']}]}'
   end
 end

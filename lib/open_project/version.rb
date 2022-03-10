@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'rexml/document'
@@ -34,9 +32,8 @@ require 'open3'
 module OpenProject
   module VERSION #:nodoc:
     MAJOR = 12
-    MINOR = 0
+    MINOR = 1
     PATCH = 0
-    TINY  = PATCH # Redmine compat
 
     class << self
       # Used by semver to define the special version (if any).
@@ -55,18 +52,13 @@ module OpenProject
       end
 
       def revision
-        cached_or_block(:@revision) do
-          revision, = Open3.capture3('git', 'rev-parse', 'HEAD')
-          if revision.present?
-            revision.strip[0..8]
-          end
-        end
+        revision_from_core_version || revision_from_git
       end
 
       def product_version
         cached_or_block(:@product_version) do
           path = Rails.root.join('config', 'PRODUCT_VERSION')
-          if File.exists? path
+          if File.exist? path
             File.read(path)
           end
         end
@@ -75,7 +67,7 @@ module OpenProject
       def core_version
         cached_or_block(:@core_version) do
           path = Rails.root.join('config', 'CORE_VERSION')
-          if File.exists? path
+          if File.exist? path
             File.read(path)
           end
         end
@@ -102,7 +94,7 @@ module OpenProject
       def release_date_from_file
         cached_or_block(:@release_date_from_file) do
           path = Rails.root.join('config', 'RELEASE_DATE')
-          if File.exists? path
+          if File.exist? path
             s = File.read(path)
             Date.parse(s)
           end
@@ -113,6 +105,21 @@ module OpenProject
         cached_or_block(:@release_date_from_git) do
           date, = Open3.capture3('git', 'log', '-1', '--format=%cd', '--date=short')
           Date.parse(date) if date
+        end
+      end
+
+      def revision_from_core_version
+        return unless core_version.is_a?(String)
+
+        core_version.split.first
+      end
+
+      def revision_from_git
+        cached_or_block(:@revision) do
+          revision, = Open3.capture3('git', 'rev-parse', 'HEAD')
+          if revision.present?
+            revision.strip[0..8]
+          end
         end
       end
 

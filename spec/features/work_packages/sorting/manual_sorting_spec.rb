@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,45 +23,45 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 require 'features/work_packages/work_packages_page'
 
 describe 'Manual sorting of WP table', type: :feature, js: true do
-  let(:user) { FactoryBot.create(:admin) }
+  let(:user) { create(:admin) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
 
-  let(:type_task) { FactoryBot.create :type_task }
-  let(:type_bug) { FactoryBot.create :type_bug }
-  let(:project) { FactoryBot.create(:project, types: [type_task, type_bug]) }
+  let(:type_task) { create :type_task }
+  let(:type_bug) { create :type_bug }
+  let(:project) { create(:project, types: [type_task, type_bug]) }
   let(:work_package_1) do
-    FactoryBot.create(:work_package, subject: 'WP1', project: project, type: type_task, created_at: Time.now)
+    create(:work_package, subject: 'WP1', project: project, type: type_task, created_at: Time.now)
   end
   let(:work_package_2) do
-    FactoryBot.create(:work_package,
-                      subject: 'WP2',
-                      project: project,
-                      parent: work_package_1,
-                      type: type_task,
-                      created_at: Time.now - 1.minutes)
+    create(:work_package,
+           subject: 'WP2',
+           project: project,
+           parent: work_package_1,
+           type: type_task,
+           created_at: Time.now - 1.minutes)
   end
   let(:work_package_3) do
-    FactoryBot.create(:work_package,
-                      subject: 'WP3',
-                      project: project,
-                      parent: work_package_2,
-                      type: type_bug,
-                      created_at: Time.now - 2.minutes)
+    create(:work_package,
+           subject: 'WP3',
+           project: project,
+           parent: work_package_2,
+           type: type_bug,
+           created_at: Time.now - 2.minutes)
   end
   let(:work_package_4) do
-    FactoryBot.create(:work_package,
-                      subject: 'WP4',
-                      project: project,
-                      parent: work_package_3,
-                      type: type_bug,
-                      created_at: Time.now - 3.minutes)
+    create(:work_package,
+           subject: 'WP4',
+           project: project,
+           parent: work_package_3,
+           type: type_bug,
+           created_at: Time.now - 3.minutes)
   end
 
   let(:sort_by) { ::Components::WorkPackages::SortBy.new }
@@ -108,7 +108,7 @@ describe 'Manual sorting of WP table', type: :feature, js: true do
       expect(page).to have_selector('.editable-toolbar-title--save')
       wp_table.save_as "My sorted query"
 
-      wp_table.expect_and_dismiss_notification message: 'Successful creation.'
+      wp_table.expect_and_dismiss_toaster message: 'Successful creation.'
 
       query = nil
       retry_block do
@@ -158,10 +158,10 @@ describe 'Manual sorting of WP table', type: :feature, js: true do
 
     context 'drag an element partly out of the hierarchy' do
       let(:work_package_5) do
-        FactoryBot.create(:work_package, subject: 'WP5', project: project, parent: work_package_1)
+        create(:work_package, subject: 'WP5', project: project, parent: work_package_1)
       end
       let(:work_package_6) do
-        FactoryBot.create(:work_package, subject: 'WP6', project: project, parent: work_package_1)
+        create(:work_package, subject: 'WP6', project: project, parent: work_package_1)
       end
 
       before do
@@ -207,7 +207,7 @@ describe 'Manual sorting of WP table', type: :feature, js: true do
         group_by.enable_via_menu 'Type'
 
         wp_table.save_as 'Type query'
-        wp_table.expect_and_dismiss_notification message: 'Successful creation.'
+        wp_table.expect_and_dismiss_toaster message: 'Successful creation.'
 
         expect(page).to have_selector('.group--value', text: 'Task (2)')
         expect(page).to have_selector('.group--value', text: 'Bug (2)')
@@ -226,20 +226,20 @@ describe 'Manual sorting of WP table', type: :feature, js: true do
         expect(page).to have_selector('.group--value', text: 'Task (1)')
         expect(page).to have_selector('.group--value', text: 'Bug (3)')
 
-        expect(page).to have_no_selector '.notification-box.error'
+        expect(page).to have_no_selector '.op-toast.error'
       end
     end
   end
 
   describe 'with a saved query and positions increasing from zero' do
     let(:query) do
-      FactoryBot.create(:query, user: user, project: project, show_hierarchies: false).tap do |q|
+      create(:query, user: user, project: project, show_hierarchies: false).tap do |q|
         q.sort_criteria = [[:manual_sorting, 'asc']]
         q.save!
       end
     end
-    let!(:status) { FactoryBot.create :default_status }
-    let!(:priority) { FactoryBot.create :default_priority }
+    let!(:status) { create :default_status }
+    let!(:priority) { create :default_priority }
 
     before do
       ::OrderedWorkPackage.create(query: query, work_package: work_package_1, position: 0)
@@ -260,7 +260,7 @@ describe 'Manual sorting of WP table', type: :feature, js: true do
       subject_field.set_value 'Foobar!'
       subject_field.submit_by_enter
 
-      wp_table.expect_and_dismiss_notification(
+      wp_table.expect_and_dismiss_toaster(
         message: 'Successful creation. Click here to open this work package in fullscreen view.'
       )
 
@@ -290,7 +290,7 @@ describe 'Manual sorting of WP table', type: :feature, js: true do
 
   describe 'with a saved query that is NOT manually sorted' do
     let(:query) do
-      FactoryBot.create(:query, user: user, project: project, show_hierarchies: false).tap do |q|
+      create(:query, user: user, project: project, show_hierarchies: false).tap do |q|
         q.sort_criteria = [[:id, 'asc']]
         q.save!
       end
@@ -304,7 +304,7 @@ describe 'Manual sorting of WP table', type: :feature, js: true do
 
       wp_table.expect_work_package_order work_package_1, work_package_3, work_package_2, work_package_4
 
-      wp_table.expect_and_dismiss_notification message: 'Successful update.'
+      wp_table.expect_and_dismiss_toaster message: 'Successful update.'
 
       retry_block do
         query.reload
@@ -333,7 +333,7 @@ describe 'Manual sorting of WP table', type: :feature, js: true do
 
       wp_table.save_as 'Manual sorted query'
 
-      wp_table.expect_and_dismiss_notification message: 'Successful creation.'
+      wp_table.expect_and_dismiss_toaster message: 'Successful creation.'
 
       query = Query.last
       expect(query.name).to eq 'Manual sorted query'

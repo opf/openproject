@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module Queries::Register
@@ -38,12 +36,26 @@ module Queries::Register
       @filters[query] << filter
     end
 
+    # Exclude filter from filters collection representer.
+    def exclude(filter)
+      @excluded_filters ||= []
+      @excluded_filters << filter
+    end
+
     def order(query, order)
       @orders ||= Hash.new do |hash, order_key|
         hash[order_key] = []
       end
 
       @orders[query] << order
+    end
+
+    def group_by(query, group_by)
+      @group_bys ||= Hash.new do |hash, group_key|
+        hash[group_key] = []
+      end
+
+      @group_bys[query] << group_by
     end
 
     def column(query, column)
@@ -59,7 +71,9 @@ module Queries::Register
     end
 
     attr_accessor :filters,
+                  :excluded_filters,
                   :orders,
-                  :columns
+                  :columns,
+                  :group_bys
   end
 end

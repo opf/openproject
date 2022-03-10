@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -33,8 +33,8 @@ describe ::API::V3::UserPreferences::NotificationSettingRepresenter, 'rendering'
 
   subject(:generated) { representer.to_json }
 
-  let(:project) { FactoryBot.build_stubbed :project }
-  let(:notification_setting) { FactoryBot.build_stubbed(:notification_setting, project: project) }
+  let(:project) { build_stubbed :project }
+  let(:notification_setting) { build_stubbed(:notification_setting, project: project) }
 
   let(:representer) do
     described_class.create notification_setting,
@@ -44,7 +44,7 @@ describe ::API::V3::UserPreferences::NotificationSettingRepresenter, 'rendering'
 
   let(:embed_links) { true }
 
-  current_user { FactoryBot.build_stubbed(:user) }
+  current_user { build_stubbed(:user) }
 
   describe '_links' do
     describe 'self' do
@@ -69,44 +69,10 @@ describe ::API::V3::UserPreferences::NotificationSettingRepresenter, 'rendering'
         .not_to have_json_path('_type')
     end
 
-    it_behaves_like 'property', :channel do
-      let(:value) { notification_setting.channel }
-    end
-
-    it_behaves_like 'property', :watched do
-      let(:value) { notification_setting.watched }
-    end
-
-    it_behaves_like 'property', :involved do
-      let(:value) { notification_setting.involved }
-    end
-
-    it_behaves_like 'property', :mentioned do
-      let(:value) { notification_setting.mentioned }
-    end
-
-    it_behaves_like 'property', :all do
-      let(:value) { notification_setting.all }
-    end
-
-    it_behaves_like 'property', :workPackageCommented do
-      let(:value) { notification_setting.work_package_commented }
-    end
-
-    it_behaves_like 'property', :workPackageCreated do
-      let(:value) { notification_setting.work_package_created }
-    end
-
-    it_behaves_like 'property', :workPackageProcessed do
-      let(:value) { notification_setting.work_package_processed }
-    end
-
-    it_behaves_like 'property', :workPackagePrioritized do
-      let(:value) { notification_setting.work_package_prioritized }
-    end
-
-    it_behaves_like 'property', :workPackageScheduled do
-      let(:value) { notification_setting.work_package_scheduled }
+    NotificationSetting.all_settings.each do |property|
+      it_behaves_like 'property', property.to_s.camelize(:lower) do
+        let(:value) { notification_setting.send property }
+      end
     end
   end
 

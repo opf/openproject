@@ -1,51 +1,52 @@
 require 'spec_helper'
 
 describe 'Invalid query spec', js: true do
-  let(:user) { FactoryBot.create :admin }
-  let(:project) { FactoryBot.create :project }
+  let(:user) { create :admin }
+  let(:project) { create :project }
 
   let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
   let(:filters) { ::Components::WorkPackages::Filters.new }
   let(:group_by) { ::Components::WorkPackages::GroupBy.new }
 
   let(:member) do
-    FactoryBot.create(:member,
-                      user: user,
-                      project: project,
-                      roles: [FactoryBot.create(:role)])
+    create(:member,
+           user: user,
+           project: project,
+           roles: [create(:role)])
   end
   let(:status) do
-    FactoryBot.create(:status)
+    create(:status)
   end
   let(:status2) do
-    FactoryBot.create(:status)
+    create(:status)
   end
 
   let(:invalid_query) do
-    query = FactoryBot.create(:query,
-                              project: project,
-                              user: user)
+    query = create(:query,
+                   project: project,
+                   user: user)
 
     query.add_filter('assigned_to_id', '=', [99999])
     query.columns << 'cf_0815'
     query.group_by = 'cf_0815'
     query.sort_criteria = [%w(cf_0815 desc)]
     query.save(validate: false)
+    create(:view_work_packages_table, query: query)
 
     query
   end
 
   let(:valid_query) do
-    FactoryBot.create(:query,
-                      project: project,
-                      user: user)
+    create(:query,
+           project: project,
+           user: user)
   end
 
   let(:work_package_assigned) do
-    FactoryBot.create(:work_package,
-                      project: project,
-                      status: status2,
-                      assigned_to: user)
+    create(:work_package,
+           project: project,
+           status: status2,
+           assigned_to: user)
   end
 
   before do
@@ -65,8 +66,8 @@ describe 'Invalid query spec', js: true do
     filters.expect_no_filter_by('Assignee')
     filters.expect_filter_by('Status', 'open', nil)
 
-    wp_table.expect_no_notification(type: :error,
-                                    message: I18n.t('js.work_packages.faulty_query.description'))
+    wp_table.expect_no_toaster(type: :error,
+                               message: I18n.t('js.work_packages.faulty_query.description'))
 
     wp_table.expect_work_package_listed work_package_assigned
 
@@ -86,9 +87,9 @@ describe 'Invalid query spec', js: true do
 
     wp_table.visit_with_params("query_id=#{valid_query.id}&query_props=#{invalid_props}")
 
-    wp_table.expect_notification(type: :error,
-                                 message: I18n.t('js.work_packages.faulty_query.description'))
-    wp_table.dismiss_notification!
+    wp_table.expect_toast(type: :error,
+                          message: I18n.t('js.work_packages.faulty_query.description'))
+    wp_table.dismiss_toaster!
 
     wp_table.expect_no_work_package_listed
     filters.expect_filter_count 2
@@ -105,6 +106,6 @@ describe 'Invalid query spec', js: true do
     wp_table.expect_work_package_listed work_package_assigned
     wp_table.save
 
-    wp_table.expect_notification(message: I18n.t('js.notice_successful_update'))
+    wp_table.expect_toast(message: I18n.t('js.notice_successful_update'))
   end
 end

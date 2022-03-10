@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -33,7 +33,7 @@ require_relative '../support/pages/dashboard'
 describe 'Project description widget on dashboard', type: :feature, js: true do
   let(:project_description) { "Some text I like to write" }
   let!(:project) do
-    FactoryBot.create :project, description: project_description
+    create :project, description: project_description
   end
 
   let(:read_only_permissions) do
@@ -48,11 +48,11 @@ describe 'Project description widget on dashboard', type: :feature, js: true do
   end
 
   let(:read_only_user) do
-    FactoryBot.create(:user, member_in_project: project, member_with_permissions: read_only_permissions)
+    create(:user, member_in_project: project, member_with_permissions: read_only_permissions)
   end
 
   let(:editing_user) do
-    FactoryBot.create(:user, member_in_project: project, member_with_permissions: editing_permissions)
+    create(:user, member_in_project: project, member_with_permissions: editing_permissions)
   end
 
   let(:dashboard_page) do
@@ -63,7 +63,7 @@ describe 'Project description widget on dashboard', type: :feature, js: true do
     dashboard_page.visit!
     dashboard_page.add_widget(1, 1, :within, "Project description")
 
-    dashboard_page.expect_and_dismiss_notification message: I18n.t('js.notice_successful_update')
+    dashboard_page.expect_and_dismiss_toaster message: I18n.t('js.notice_successful_update')
   end
 
   before do
@@ -118,13 +118,13 @@ describe 'Project description widget on dashboard', type: :feature, js: true do
   end
 
   context 'with editing and wp add permissions' do
-    let!(:type) { FactoryBot.create :type_task, name: 'Task' }
+    let!(:type) { create :type_task, name: 'Task' }
     let!(:project) do
-      FactoryBot.create :project, types: [type]
+      create :project, types: [type]
     end
 
     let(:current_user) do
-      FactoryBot.create(:user, member_in_project: project, member_with_permissions: editing_permissions + %i[add_work_packages])
+      create(:user, member_in_project: project, member_with_permissions: editing_permissions + %i[add_work_packages])
     end
     let(:editor) { ::Components::WysiwygEditor.new 'body' }
 
@@ -143,7 +143,7 @@ describe 'Project description widget on dashboard', type: :feature, js: true do
 
       field.save!
 
-      dashboard_page.expect_and_dismiss_notification message: I18n.t('js.notice_successful_update')
+      dashboard_page.expect_and_dismiss_toaster message: I18n.t('js.notice_successful_update')
 
       within('#content') do
         expect(page).to have_selector("a[href=\"/projects/#{project.identifier}/work_packages/new?type=#{type.id}\"]")

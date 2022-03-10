@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module API
@@ -143,11 +141,11 @@ module API
         end
 
         link :customFields,
-             cache_if: -> { current_user_allowed_to(:edit_project, context: represented.project) } do
+             cache_if: -> { current_user_allowed_to(:select_custom_fields, context: represented.project) } do
           next if represented.project.nil?
 
           {
-            href: settings_custom_fields_project_path(represented.project.identifier),
+            href: project_settings_custom_fields_path(represented.project.identifier),
             type: 'text/html',
             title: "Custom fields"
           }

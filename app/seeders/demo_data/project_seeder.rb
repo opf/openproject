@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 
 # OpenProject is an open source project management software.
@@ -26,7 +24,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 module DemoData
   class ProjectSeeder < Seeder
     # Careful: The seeding recreates the seeded project before it runs, so any changes
@@ -134,7 +132,7 @@ module DemoData
 
     def set_members(project)
       role = Role.find_by(name: translate_with_base_url(:default_role_project_admin))
-      user = User.admin.first
+      user = User.user.admin.first
 
       Member.create!(
         project: project,

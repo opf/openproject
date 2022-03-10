@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require File.expand_path('../../../../spec_helper', __dir__)
@@ -53,7 +53,7 @@ describe OpenProject::GithubIntegration::Services::UpsertGithubUser do
 
   context 'when a github user with that id already exists' do
     let(:github_user) do
-      FactoryBot.create(:github_user, github_id: 123, github_avatar_url: 'https://github.com/test_user/old_avatar.jpg')
+      create(:github_user, github_id: 123, github_avatar_url: 'https://github.com/test_user/old_avatar.jpg')
     end
 
     it 'updates the github user' do

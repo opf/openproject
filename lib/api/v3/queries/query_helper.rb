@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'api/v3/queries/query_representer'
@@ -67,7 +67,6 @@ module API
           rep = representer.new Query.new, current_user: current_user
           query = rep.from_hash request_body
           call = ::Queries::CreateService.new(user: current_user).call query
-
           if call.success?
             representer.new call.result, current_user: current_user, embed_links: true
           else
@@ -78,7 +77,7 @@ module API
         def update_query(query, request_body, current_user)
           rep = representer.new query, current_user: current_user
           query = rep.from_hash request_body
-          call = ::Queries::UpdateService.new(user: current_user).call query
+          call = ::Queries::UpdateService.new(model: query, user: current_user).call query
 
           if call.success?
             representer.new call.result, current_user: current_user, embed_links: true

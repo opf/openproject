@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,39 +23,39 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 describe Project, 'allowed to', type: :model do
-  let(:user) { FactoryBot.build(:user) }
-  let(:anonymous) { FactoryBot.build(:anonymous) }
-  let(:admin) { FactoryBot.build(:admin) }
+  let(:user) { build(:user) }
+  let(:anonymous) { build(:anonymous) }
+  let(:admin) { build(:admin) }
 
   let(:private_project) do
-    FactoryBot.build(:project,
-                     public: false,
-                     active: project_status)
+    build(:project,
+          public: false,
+          active: project_status)
   end
   let(:public_project) do
-    FactoryBot.build(:project,
-                     public: true,
-                     active: project_status)
+    build(:project,
+          public: true,
+          active: project_status)
   end
   let(:project_status) { true }
 
   let(:role) do
-    FactoryBot.build(:role,
-                     permissions: permissions)
+    build(:role,
+          permissions: permissions)
   end
   let(:anonymous_role) do
-    FactoryBot.build(:anonymous_role,
-                     permissions: anonymous_permissions)
+    build(:anonymous_role,
+          permissions: anonymous_permissions)
   end
   let(:non_member_role) do
-    FactoryBot.build(:non_member,
-                     permissions: non_member_permissions)
+    build(:non_member,
+          permissions: non_member_permissions)
   end
   let(:permissions) { [action] }
   let(:anonymous_permissions) { [action] }
@@ -66,10 +64,10 @@ describe Project, 'allowed to', type: :model do
   let(:public_action) { :view_news }
   let(:public_non_module_action) { :view_project }
   let(:member) do
-    FactoryBot.build(:member,
-                     user: user,
-                     roles: [role],
-                     project: project)
+    build(:member,
+          user: user,
+          roles: [role],
+          project: project)
   end
 
   shared_examples_for 'includes the project' do

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -31,20 +31,20 @@ require 'spec_helper'
 require_relative '../support/pages/overview'
 
 describe 'Overview page managing', type: :feature, js: true, with_mail: false do
-  let!(:type) { FactoryBot.create :type }
-  let!(:project) { FactoryBot.create :project, types: [type], description: 'My **custom** description' }
-  let!(:open_status) { FactoryBot.create :default_status }
+  let!(:type) { create :type }
+  let!(:project) { create :project, types: [type], description: 'My **custom** description' }
+  let!(:open_status) { create :default_status }
   let!(:created_work_package) do
-    FactoryBot.create :work_package,
-                      project: project,
-                      type: type,
-                      author: user
+    create :work_package,
+           project: project,
+           type: type,
+           author: user
   end
   let!(:assigned_work_package) do
-    FactoryBot.create :work_package,
-                      project: project,
-                      type: type,
-                      assigned_to: user
+    create :work_package,
+           project: project,
+           type: type,
+           assigned_to: user
   end
 
   let(:permissions) do
@@ -57,9 +57,9 @@ describe 'Overview page managing', type: :feature, js: true, with_mail: false do
   end
 
   let(:user) do
-    FactoryBot.create(:user,
-                      member_in_project: project,
-                      member_with_permissions: permissions)
+    create(:user,
+           member_in_project: project,
+           member_with_permissions: permissions)
   end
   let(:overview_page) do
     Pages::Overview.new(project)
@@ -103,7 +103,7 @@ describe 'Overview page managing', type: :feature, js: true, with_mail: false do
     # browser can get confused. Therefore we wait.
     sleep(1)
 
-    overview_page.expect_and_dismiss_notification message: I18n.t('js.notice_successful_update')
+    overview_page.expect_and_dismiss_toaster message: I18n.t('js.notice_successful_update')
 
     table_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(6)')
     table_area.expect_to_span(1, 1, 2, 2)
@@ -111,13 +111,13 @@ describe 'Overview page managing', type: :feature, js: true, with_mail: false do
     # A useless resizing shows no message and does not alter the size
     table_area.resize_to(1, 1)
 
-    overview_page.expect_no_notification message: I18n.t('js.notice_successful_update')
+    overview_page.expect_no_toaster message: I18n.t('js.notice_successful_update')
 
     table_area.expect_to_span(1, 1, 2, 2)
 
     table_area.resize_to(1, 2)
 
-    overview_page.expect_and_dismiss_notification message: I18n.t('js.notice_successful_update')
+    overview_page.expect_and_dismiss_toaster message: I18n.t('js.notice_successful_update')
 
     # Resizing leads to the table area now spanning a larger area
     table_area.expect_to_span(1, 1, 2, 3)

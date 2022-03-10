@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 class Meeting < ApplicationRecord
@@ -136,7 +136,9 @@ class Meeting < ApplicationRecord
     changeable_participants = changeable_participants + \
                               User.allowed_members(:view_meetings, project)
 
-    changeable_participants.uniq(&:id)
+    changeable_participants
+      .compact
+      .uniq(&:id)
   end
 
   def copy(attrs)
@@ -180,7 +182,9 @@ class Meeting < ApplicationRecord
 
       attachments = agenda.attachments.map { |a| [a, a.copy] }
       original_text = String(agenda.text)
-      minutes = create_minutes(text: original_text, comment: 'Minutes created', attachments: attachments.map(&:last))
+      minutes = create_minutes(text: original_text,
+                               journal_notes: I18n.t('events.meeting_minutes_created'),
+                               attachments: attachments.map(&:last))
 
       # substitute attachment references in text to use the respective copied attachments
       updated_text = original_text.gsub(/(?<=\(\/api\/v3\/attachments\/)\d+(?=\/content\))/) do |id|

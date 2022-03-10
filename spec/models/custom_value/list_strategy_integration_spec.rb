@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,16 +23,16 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 describe CustomValue::ListStrategy, 'integration tests' do
-  let(:type) { FactoryBot.create :type }
-  let(:project) { FactoryBot.create :project, types: [type] }
+  let(:type) { create :type }
+  let(:project) { create :project, types: [type] }
   let!(:custom_field) do
-    FactoryBot.create(
+    create(
       :list_wp_custom_field,
       name: "Invalid List CF",
       multi_value: true,
@@ -43,10 +43,10 @@ describe CustomValue::ListStrategy, 'integration tests' do
   end
 
   let!(:work_package) do
-    FactoryBot.create :work_package,
-                      project: project,
-                      type: type,
-                      custom_values: { custom_field.id => custom_field.custom_options.find_by(value: 'A') }
+    create :work_package,
+           project: project,
+           type: type,
+           custom_values: { custom_field.id => custom_field.custom_options.find_by(value: 'A') }
   end
 
   it 'can handle invalid CustomOptions (Regression test)' do

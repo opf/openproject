@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
@@ -47,7 +47,7 @@ export abstract class WorkPackageRelationQueryBase extends UntilDestroyedMixin {
   public hidden = false;
 
   /** Reference to the embedded table instance */
-  @ViewChild('embeddedTable') protected embeddedTable:WorkPackageEmbeddedTableComponent;
+  @ViewChild('embeddedTable') protected embeddedTable?:WorkPackageEmbeddedTableComponent;
 
   constructor(protected queryUrlParamsHelper:UrlParamsHelperService) {
     super();
@@ -57,7 +57,7 @@ export abstract class WorkPackageRelationQueryBase extends UntilDestroyedMixin {
    * Request to refresh the results of the embedded table
    */
   public refreshTable() {
-    this.embeddedTable.isInitialized && this.embeddedTable.loadQuery(true, false);
+    this.embeddedTable?.isInitialized && this.embeddedTable.loadQuery(true, false);
   }
 
   /**

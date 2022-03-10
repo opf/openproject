@@ -1,6 +1,6 @@
 ---
 sidebar_navigation:
-  title: Manage members
+  title: Members
   priority: 650
 description: Manage members in OpenProject.
 robots: index, follow
@@ -21,7 +21,7 @@ keywords: members, project participants
 
 ## Add members
 
-Find out [here](../../getting-started/invite-members/#add-existing-members) how to add existing users to a project and [here](../../getting-started/invite-members/#invite-new-members) how to invite new users to join a project.
+Find out [here](../../getting-started/invite-members/#add-existing-users) how to add existing users to a project and [here](../../getting-started/invite-members/#invite-new-members) how to invite new users to join a project.
 
 ## Edit members
 
@@ -35,7 +35,7 @@ To edit an existing member of a project, click the **Edit icon** in the list nex
 
 ## Remove members
 
-To remove members from a project, [select the project](../projects/#select-a-project) for which you want to remove the members. In the project menu on the left, select the **Members** module. In the members list, click the trash can icon at the right end of the row with the corresponding member name.
+To remove members from a project, [select the project](../../getting-started/projects/#open-an-existing-project) for which you want to remove the members. In the project menu on the left, select the **Members** module. In the members list, click the trash can icon at the right end of the row with the corresponding member name.
 
 ![remove-project-members](image-20210305184318093.png)
 
@@ -43,7 +43,7 @@ To remove members from a project, [select the project](../projects/#select-a-pro
 
 ## Roles and permissions
 
-Members will have different roles with different permissions in a project. To find out how to configure roles and permissions click [here](../../system-admin-guide/#roles-permissions).
+Members will have different roles with different permissions in a project. To find out how to configure roles and permissions click [here](../../system-admin-guide/users-permissions/roles-permissions).
 
 <div class="glossary">A **role** is defined as a set of permissions defined by a unique name. Project members are assigned to a project by specifying a user's, group's or placeholder user's name and the role(s) they should assume in the project.
 </div>

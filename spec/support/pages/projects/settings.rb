@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'support/pages/page'
@@ -43,8 +43,8 @@ module Pages
         visit "/projects/#{project.identifier}/settings/#{name}"
       end
 
-      # only notice is used as opposed to notification-box
-      def expect_notification(message:, type: :notice)
+      # only notice is used as opposed to op-toast
+      def expect_toast(message:, type: :notice)
         expect(page).to have_selector(".flash.#{type}", text: message, wait: 10)
       end
 
@@ -88,12 +88,12 @@ module Pages
 
       private
 
-      def notification_type
+      def toast_type
         :rails
       end
 
       def path
-        settings_generic_project_path(project)
+        project_settings_general_path(project)
       end
     end
   end

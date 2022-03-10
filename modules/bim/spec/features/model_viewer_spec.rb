@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require_relative '../spec_helper'
@@ -32,21 +32,21 @@ describe 'model viewer',
          with_config: { edition: 'bim' },
          type: :feature,
          js: true do
-  let(:project) { FactoryBot.create :project, enabled_module_names: %i[bim work_package_tracking] }
+  let(:project) { create :project, enabled_module_names: %i[bim work_package_tracking] }
   # TODO: Add empty viewpoint and stub method to load viewpoints once defined
-  let(:work_package) { FactoryBot.create(:work_package, project: project) }
-  let(:role) { FactoryBot.create(:role, permissions: %i[view_ifc_models manage_ifc_models view_work_packages]) }
+  let(:work_package) { create(:work_package, project: project) }
+  let(:role) { create(:role, permissions: %i[view_ifc_models manage_ifc_models view_work_packages]) }
 
   let(:user) do
-    FactoryBot.create :user,
-                      member_in_project: project,
-                      member_through_role: role
+    create :user,
+           member_in_project: project,
+           member_through_role: role
   end
 
   let!(:model) do
-    FactoryBot.create(:ifc_model_minimal_converted,
-                      project: project,
-                      uploader: user)
+    create(:ifc_model_minimal_converted,
+           project: project,
+           uploader: user)
   end
 
   let(:show_model_page) { Pages::IfcModels::Show.new(project, model.id) }
@@ -97,17 +97,17 @@ describe 'model viewer',
       it 'shows a warning that no IFC models exist yet' do
         login_as user
         visit defaults_bcf_project_ifc_models_path(project)
-        expect(page).to have_selector('.notification-box.-info', text: I18n.t('js.ifc_models.empty_warning'))
+        expect(page).to have_selector('.op-toast.-info', text: I18n.t('js.ifc_models.empty_warning'))
       end
     end
   end
 
   context 'with only viewing permissions' do
-    let(:view_role) { FactoryBot.create(:role, permissions: %i[view_ifc_models]) }
+    let(:view_role) { create(:role, permissions: %i[view_ifc_models view_work_packages view_linked_issues]) }
     let(:view_user) do
-      FactoryBot.create :user,
-                        member_in_project: project,
-                        member_through_role: view_role
+      create :user,
+             member_in_project: project,
+             member_through_role: view_role
     end
 
     before do
@@ -125,11 +125,11 @@ describe 'model viewer',
   end
 
   context 'without any permissions' do
-    let(:no_permissions_role) { FactoryBot.create(:role, permissions: %i[]) }
+    let(:no_permissions_role) { create(:role, permissions: %i[]) }
     let(:user_without_permissions) do
-      FactoryBot.create :user,
-                        member_in_project: project,
-                        member_through_role: no_permissions_role
+      create :user,
+             member_in_project: project,
+             member_through_role: no_permissions_role
     end
 
     before do
@@ -140,7 +140,7 @@ describe 'model viewer',
 
     it 'shows no viewer' do
       expected = '[Error 403] You are not authorized to access this page.'
-      expect(page).to have_selector('.notification-box.-error', text: expected)
+      expect(page).to have_selector('.op-toast.-error', text: expected)
 
       show_model_page.model_viewer_visible false
       show_model_page.model_viewer_shows_a_toolbar false

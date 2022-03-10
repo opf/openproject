@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
 import * as moment from 'moment';
@@ -31,33 +31,34 @@ import flatpickr from 'flatpickr';
 import { Instance } from 'flatpickr/dist/types/instance';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { rangeSeparator } from 'core-app/shared/components/op-date-picker/op-range-date-picker/op-range-date-picker.component';
 import DateOption = flatpickr.Options.DateOption;
 
 export class DatePicker {
   private datepickerFormat = 'Y-m-d';
 
-  private datepickerCont:HTMLElement = document.querySelector(this.datepickerElemIdentifier)! ;
+  private datepickerCont:HTMLElement = document.querySelector(this.datepickerElemIdentifier)!;
 
   public datepickerInstance:Instance;
 
   private reshowTimeout:any;
 
   constructor(private datepickerElemIdentifier:string,
-    private date:any,
-    private options:any,
-    private datepickerTarget?:HTMLElement,
-    private configurationService?:ConfigurationService) {
+    private date:Date|Date[]|string[]|string,
+    private options:flatpickr.Options.Options,
+    private datepickerTarget:HTMLElement|null,
+    private configurationService:ConfigurationService) {
     this.initialize(options);
   }
 
-  private initialize(options:any) {
+  private initialize(options:flatpickr.Options.Options) {
     const I18n = new I18nService();
-    const firstDayOfWeek = this.configurationService?.startOfWeekPresent() ? this.configurationService.startOfWeek() : 1;
+    const firstDayOfWeek = this.configurationService.startOfWeek() as number;
 
     const mergedOptions = _.extend({}, options, {
       weekNumbers: true,
       getWeek(dateObj:Date) {
-        return moment(dateObj).week();
+        return moment(dateObj).format('W');
       },
       dateFormat: this.datepickerFormat,
       defaultDate: this.date,
@@ -67,11 +68,12 @@ export class DatePicker {
           longhand: I18n.t('date.day_names'),
         },
         months: {
-          shorthand: (I18n.t('date.abbr_month_names') as any).slice(1),
-          longhand: (I18n.t('date.month_names') as any).slice(1),
+          shorthand: I18n.t<string[]>('date.abbr_month_names').slice(1),
+          longhand: I18n.t<string[]>('date.month_names').slice(1),
         },
         firstDayOfWeek,
         weekAbbreviation: I18n.t('date.abbr_week'),
+        rangeSeparator: ` ${rangeSeparator} `,
       },
     });
 
@@ -122,7 +124,7 @@ export class DatePicker {
     // multiple scrolls event when it is open
     const target = event.target! as HTMLInputElement;
 
-    if (target?.classList?.contains('flatpickr-monthDropdown-months')) {
+    if (target?.classList?.contains('flatpickr-monthDropdown-months') || target?.classList?.contains('flatpickr-input')) {
       return;
     }
 

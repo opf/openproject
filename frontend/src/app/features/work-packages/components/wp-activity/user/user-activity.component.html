@@ -1,6 +1,7 @@
 <div
   class="op-user-activity work-package-details-activities-activity-contents"
   *ngIf="workPackage"
+  [attr.data-notification-selector]="hasUnreadNotification ? 'notification-activity' : null"
   (mouseenter)="focus()"
   (mouseleave)="blur()"
 >
@@ -8,7 +9,7 @@
     <op-principal
       *ngIf="userName"
       [principal]="user"
-      [hide-name]="true"
+      [hideName]="true"
       class="op-user-activity--avatar"
     ></op-principal>
 
@@ -27,6 +28,7 @@
       data-qa-selector="user-activity-bubble"
     ></span>
     <activity-link
+      class="comments-number--link"
       [workPackage]="workPackage"
       [activityNo]="activityNo"
     ></activity-link>

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,41 +23,41 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 describe 'Update status from WP card', type: :feature, js: true do
   let(:manager_role) do
-    FactoryBot.create :role, permissions: %i[view_work_packages edit_work_packages]
+    create :role, permissions: %i[view_work_packages edit_work_packages]
   end
   let(:manager) do
-    FactoryBot.create :user,
-                      firstname: 'Manager',
-                      lastname: 'Guy',
-                      member_in_project: project,
-                      member_through_role: manager_role
+    create :user,
+           firstname: 'Manager',
+           lastname: 'Guy',
+           member_in_project: project,
+           member_through_role: manager_role
   end
-  let(:status1) { FactoryBot.create :status }
-  let(:status2) { FactoryBot.create :status }
+  let(:status1) { create :status }
+  let(:status2) { create :status }
 
-  let(:type) { FactoryBot.create :type }
-  let!(:project) { FactoryBot.create(:project, types: [type]) }
+  let(:type) { create :type }
+  let!(:project) { create(:project, types: [type]) }
   let!(:work_package) do
-    FactoryBot.create(:work_package,
-                      project: project,
-                      type: type,
-                      status: status1,
-                      subject: 'Foobar')
+    create(:work_package,
+           project: project,
+           type: type,
+           status: status1,
+           subject: 'Foobar')
   end
 
   let!(:workflow) do
-    FactoryBot.create :workflow,
-                      type_id: type.id,
-                      old_status: status1,
-                      new_status: status2,
-                      role: manager_role
+    create :workflow,
+           type_id: type.id,
+           old_status: status1,
+           new_status: status2,
+           role: manager_role
   end
 
   let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
@@ -77,7 +77,7 @@ describe 'Update status from WP card', type: :feature, js: true do
     status_button = wp_card_view.status_button(work_package)
     status_button.update status2.name
 
-    wp_card_view.expect_and_dismiss_notification message: 'Successful update.'
+    wp_card_view.expect_and_dismiss_toaster message: 'Successful update.'
     status_button.expect_text status2.name
 
     work_package.reload

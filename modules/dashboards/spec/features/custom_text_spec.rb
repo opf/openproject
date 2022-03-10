@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -31,9 +31,9 @@ require 'spec_helper'
 require_relative '../support/pages/dashboard'
 
 describe 'Project description widget on dashboard', type: :feature, js: true do
-  let!(:type) { FactoryBot.create :type_task, name: 'Task' }
+  let!(:type) { create :type_task, name: 'Task' }
   let!(:project) do
-    FactoryBot.create :project, types: [type]
+    create :project, types: [type]
   end
 
   let(:permissions) do
@@ -44,11 +44,11 @@ describe 'Project description widget on dashboard', type: :feature, js: true do
   end
 
   let(:role) do
-    FactoryBot.create(:role, permissions: permissions)
+    create(:role, permissions: permissions)
   end
 
   let(:user) do
-    FactoryBot.create(:user, member_in_project: project, member_with_permissions: permissions)
+    create(:user, member_in_project: project, member_with_permissions: permissions)
   end
   let(:dashboard_page) do
     Pages::Dashboard.new(project)
@@ -86,7 +86,7 @@ describe 'Project description widget on dashboard', type: :feature, js: true do
 
       field.save!
 
-      dashboard_page.expect_and_dismiss_notification message: I18n.t('js.notice_successful_update')
+      dashboard_page.expect_and_dismiss_toaster message: I18n.t('js.notice_successful_update')
 
       within('#content') do
         expect(page).to have_selector("a[href=\"/projects/#{project.identifier}/work_packages/new?type=#{type.id}\"]")
@@ -108,7 +108,7 @@ describe 'Project description widget on dashboard', type: :feature, js: true do
         field.save!
       end
 
-      dashboard_page.expect_and_dismiss_notification message: I18n.t('js.notice_successful_update')
+      dashboard_page.expect_and_dismiss_toaster message: I18n.t('js.notice_successful_update')
 
       within custom_text_widget.area do
         expect(page)
@@ -123,7 +123,7 @@ describe 'Project description widget on dashboard', type: :feature, js: true do
           .to have_selector('.inline-edit--display-field', text: 'My own little text')
       end
 
-      dashboard_page.expect_no_notification message: I18n.t('js.notice_successful_update')
+      dashboard_page.expect_no_toaster message: I18n.t('js.notice_successful_update')
 
       within custom_text_widget.area do
         # adding an image
@@ -143,7 +143,7 @@ describe 'Project description widget on dashboard', type: :feature, js: true do
         field.save!
       end
 
-      dashboard_page.expect_and_dismiss_notification message: I18n.t('js.notice_successful_update')
+      dashboard_page.expect_and_dismiss_toaster message: I18n.t('js.notice_successful_update')
 
       within custom_text_widget.area do
         expect(page)
@@ -157,7 +157,7 @@ describe 'Project description widget on dashboard', type: :feature, js: true do
 
   context 'for a user lacking edit permissions' do
     let!(:dashboard) do
-      FactoryBot.create(:dashboard_with_custom_text, project: project)
+      create(:dashboard_with_custom_text, project: project)
     end
 
     let(:permissions) do

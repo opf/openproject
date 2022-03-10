@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module API
@@ -419,6 +417,13 @@ module API
 
           resources :version
 
+          index :view
+          show :view
+
+          def self.views_type(type)
+            "#{views}/#{type}"
+          end
+
           def self.versions_available_projects
             "#{versions}/available_projects"
           end
@@ -492,12 +497,15 @@ module API
             "#{project(project_id)}/work_packages"
           end
 
-          def self.path_for(path, filters: nil, sort_by: nil, page_size: nil)
+          def self.path_for(path, filters: nil, sort_by: nil, group_by: nil, page_size: nil, offset: nil, select: nil)
             query_params = {
               filters: filters&.to_json,
               sortBy: sort_by&.to_json,
-              pageSize: page_size
-            }.reject { |_, v| v.blank? }
+              groupBy: group_by,
+              pageSize: page_size,
+              offset: offset,
+              select: select
+            }.compact_blank
 
             if query_params.any?
               "#{send(path)}?#{query_params.to_query}"

@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -40,7 +38,7 @@ shared_examples 'BaseServices create service' do
 
   let(:set_attributes_class) { "#{namespace}::SetAttributesService".constantize }
 
-  let(:user) { FactoryBot.build_stubbed(:user) }
+  let(:user) { build_stubbed(:user) }
   let(:instance) do
     described_class.new(user: user, contract_class: contract_class)
   end
@@ -56,7 +54,7 @@ shared_examples 'BaseServices create service' do
                       success: set_attributes_success,
                       errors: set_attributes_errors
   end
-  let!(:model_instance) { FactoryBot.build_stubbed(factory) }
+  let!(:model_instance) { build_stubbed(factory) }
   let!(:set_attributes_service) do
     service = double('set_attributes_service_instance')
 

@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -25,17 +23,17 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 
 require 'spec_helper'
 
 describe 'GET /api/v3/users', type: :request do
   let!(:users) do
     [
-      FactoryBot.create(:admin, login: 'admin', status: :active),
-      FactoryBot.create(:user, login: 'h.wurst', status: :active),
-      FactoryBot.create(:user, login: 'h.heine', status: :locked),
-      FactoryBot.create(:user, login: 'm.mario', status: :active)
+      create(:admin, login: 'admin', status: :active),
+      create(:user, login: 'h.wurst', status: :active),
+      create(:user, login: 'h.heine', status: :locked),
+      create(:user, login: 'm.mario', status: :active)
     ]
   end
 

@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 class AccountController < ApplicationController
@@ -81,7 +79,7 @@ class AccountController < ApplicationController
       @user = @token.user
       if request.post?
         call = ::Users::ChangePasswordService.new(current_user: @user, session: session).call(params)
-        call.apply_flash_message!(flash)
+        call.apply_flash_message!(flash) if call.errors.empty?
 
         if call.success?
           @token.destroy
@@ -269,7 +267,8 @@ class AccountController < ApplicationController
 
   def auth_source_sso_failed
     failure = session.delete :auth_source_sso_failure
-    user = failure[:user]
+    login = failure[:login]
+    user = find_or_create_sso_user(login, save: false)
 
     if user.try(:new_record?)
       return onthefly_creation_failed user, login: user.login, auth_source_id: user.auth_source_id

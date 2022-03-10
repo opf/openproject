@@ -44,10 +44,12 @@ Configuring OpenProject through environment variables is detailed [in this separ
 * [`disabled_modules`](#disabled-modules) (default: [])
 * [`blacklisted_routes`](#blacklisted-routes) (default: [])
 * [`global_basic_auth`](#global-basic-auth)
-* [`apiv3_enable_basic_auth`](#apiv3_enable_basic_auth)
+* [`apiv3_enable_basic_auth`](#apiv3-basic-auth-control)
 * [`enterprise_limits`](#enterprise-limits)
 * [`backup_enabled`](#backup-enabled)
 * [`show_community_links`](#show-community-links)
+* [`web`](#web) (nested configuration)
+* [`statsd`](#statsd) (nested configuration)
 
 ## Setting session options
 
@@ -350,7 +352,7 @@ the configuration flag `security_badge_displayed: false` .
 
 ## Cache options:
 
-* `rails_cache_store`: `memcache` for [memcached](http://www.memcached.org/) or `memory_store` (default: `file_store`)
+* `rails_cache_store`: `memcache` for [memcached](https://www.memcached.org/) or `memory_store` (default: `file_store`)
 * `cache_memcache_server`: The memcache server host and IP (default: `127.0.0.1:11211`)
 * `cache_expires_in`: Expiration time for memcache entries (default: `0`, no expiry)
 * `cache_namespace`: Namespace for cache keys, useful when multiple applications use a single memcache server (default: none)
@@ -425,6 +427,98 @@ If you would like to hide the homescreen links to the OpenProject community, you
 OPENPROJECT_SHOW__COMMUNITY__LINKS=false
 ```
 
+### Web
+
+Configuration of the main ruby web server (currently puma). Sensible defaults are provided.
+
+```
+web:
+  workers: 2 # number of server processes
+  timeout: 60 # seconds before a request times out
+  wait_timeout: 10 # seconds before a request waiting to be served times out
+  min_threads: 4
+  max_threads: 16
+```
+
+**Note:** Timeouts only are supported when using at least 2 workers.
+
+As usual these values can be overridden via the environment.
+
+```
+OPENPROJECT_WEB_WORKERs=2
+OPENPROJECT_WEB_TIMEOUT=60 # overridden by: RACK_TIMEOUT_SERVICE_TIMEOUT
+OPENPROJECT_WEB_WAIT__TIMEOUT=10 # overridden by: RACK_TIMEOUT_WAIT_TIMEOUT
+OPENPROJECT_WEB_MIN__THREADS=4 # overridden by: RAILS_MIN_THREADS
+OPENPROJECT_WEB_MAX__THREADS=16 # overridden by: RAILS_MAX_THREADS
+```
+
+### Two-factor authentication
+
+**Note::** These configuration variables are only applied in an Enterprise Edition
+
+You can set the available 2FA strategies and/or enforce or disable 2FA system-wide.
+
+**Enforcing 2FA authentication system-wide**
+
+To enforce every user requires 2FA, you can use the checkbox under System settings > Authentication > Two-factor authentication.
+However, if you also want to ensure administrators cannot uncheck this, use the following variable
+
+```
+OPENPROJECT_2FA_ENFORCED="true"
+```
+
+**Setting available strategies**
+
+By default, the TOTP strategy for phone authenticator apps is active.
+
+
+If you have a [MessageBird account](https://www.messagebird.com/),
+you can setup a SMS 2FA by activating that strategy like so:
+
+```
+OPENPROJECT_2FA_ACTIVE__STRATEGIES="[totp,message_bird]"
+OPENPROJECT_2FA_MESSAGE__BIRD_APIKEY="your api key here"
+```
+
+You can also use Amazon SNS to send SMS for authentication:
+
+```
+OPENPROJECT_2FA_ACTIVE__STRATEGIES="[totp,sns]"
+OPENPROJECT_2FA_SNS_ACCESS__KEY__ID="YOUR KEY ID"
+OPENPROJECT_2FA_SNS_SECRET__ACCESS__KEY="YOUR SECRET KEY"
+OPENPROJECT_2FA_SNS_REGION="AWS REGION"
+```
+
+To disable 2FA altogether and remove all menus from the system, so that users cannot register their 2FA devices:
+
+```
+OPENPROJECT_2FA_DISABLED="true"
+OPENPROJECT_2FA_ACTIVE__STRATEGIES="[]
+```
+
+### statsd
+
+*default: { host: nil, port: 8125 }*
+
+OpenProject can push metrics to [statsd](https://github.com/statsd/statsd).
+Currently these are simply the metrics for the puma server
+but this may include more in the future.
+
+This is disabled by default unless a host configured.
+
+```
+statsd:
+  host: 127.0.0.1
+  port: 8125
+```
+
+Or via the environment:
+
+```
+OPENPROJECT_STATSD_HOST=127.0.0.1 # overridden by: STATSD_HOST
+OPENPRJOECT_STATSD_PORT=8125 # overridden by: STATSD_PORT
+```
+
 | ----------- | :---------- |
 | [List of supported environment variables](./environment) | The full list of environment variables you can use to override the default configuration |
 | [Configuring SSL](./ssl) | How to configure SSL so that your OpenProject installation is available over HTTPS |
@@ -432,6 +526,6 @@ OPENPROJECT_SHOW__COMMUNITY__LINKS=false
 | [Configuring inbound emails](./incoming-emails) | How to configure inbound emails for work package updates directly from an email |
 | [Configuring a custom database](./database) | How to use an external database |
 | [Configuring a custom web server](./server) | How to use a custom web server (e.g. NginX) with your OpenProject installation |
-| [Configuring a custom caching server](#TODO) | TODO: How to use a custom caching server with your OpenProject installation |
+| Configuring a custom caching server | How to use a custom caching server with your OpenProject installation |
 | [Configuring Git and Subversion repositories](./repositories) | How to integrate Git and Subversion repositories into OpenProject |
 | [Adding plugins](./plugins) | How to add plugins to your OpenProject installation |

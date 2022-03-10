@@ -1,6 +1,6 @@
 ---
 sidebar_navigation:
-  title: Manage projects
+  title: Projects
   priority: 600
 description: Manage projects in OpenProject.
 robots: index, follow
@@ -21,12 +21,13 @@ Your projects can be available publicly or internally. OpenProject does not limi
 | [Project settings](#project-settings)                        | Configure further settings for your projects, such as description, project hierarchy structure, or setting it to public. |
 | [Change the project hierarchy](#change-the-project-hierarchy) | You can change the hierarchy by selecting the parent project ("subproject of"). |
 | [Set a project to public](#set-a-project-to-public)          | Make a project accessible for (at least) all users within your instance. |
-| [Create a project template](#create-a-project-template)      | Configure a project and set it as template to copy it for future projects. |
-| [Use a project template](#use-a-project-template)            | Create a new project based on an existing template project.  |
+| [Create a project template](#create-a-project-template-premium-feature)      | Configure a project and set it as template to copy it for future projects. |
+| [Use a project template](#use-a-project-template-premium-feature)            | Create a new project based on an existing template project.  |
 | [Copy a project](#copy-a-project)                            | Copy an existing project.                                    |
 | [Archive a project](#archive-a-project)                      | Find out how to archive completed projects.                  |
 | [Delete a project](#delete-a-project)                        | How to delete a project?                                     |
 | [Global projects overview](#global-projects-overview---view-all-projects) | Get an overview of all your projects in the projects overview list ("View all projects"). |
+| [Export project list](#export-projects)                      | You can export the project list to XLS or CSV.               |
 | [Project overarching reports](#project-overarching-reports)  | How to create project overarching reports across multiple projects? |
 
 <video src="https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Projects-Introduction.mp4" type="video/mp4" controls="" style="width:100%"></video>
@@ -85,7 +86,7 @@ OpenProject, for example, uses the projects to structure the different modules/p
 
 ## Project Settings
 
-You can specify further advanced settings for your project. Navigate to your project settings by [selecting a project](#select-a-project), and click -> *Project settings* -> *Information*.
+You can specify further advanced settings for your project. Navigate to your project settings by [selecting a project](../../getting-started/projects/#open-an-existing-project), and click -> *Project settings* -> *Information*.
 
 - You can define whether the project should have a parent by selecting **Subproject of**. This way, you can [change the project hierarchy](#change-the-project-hierarchy).
 
@@ -126,9 +127,9 @@ Setting a project to public will make it accessible to all people within your Op
 
 
 
-### Create a project template
+### Create a project template (Premium feature)
 
-You can create a project template in OpenProject by [creating a new project](../../getting-started/#create-a-project) and configuring your project to your needs. Name the project so you can identify it as a template, e.g. "Project XY [template]".
+You can create a project template in OpenProject by [creating a new project](../../getting-started/projects/#create-a-new-project) and configuring your project to your needs. Name the project so you can identify it as a template, e.g. "Project XY [template]".
 
 Set up everything that you want to have available for future projects.
 
@@ -147,7 +148,7 @@ Navigate to the [project settings](project-settings) and click **Set as template
 
 
 
-### Use a project template
+### Use a project template (Premium feature)
 
 You can create a new project by using an existing template. This causes the properties of the project template to be copied to the new project. Find out in our Getting started guide how to [create a new project](../../getting-started/projects/#create-a-new-project) in OpenProject. 
 Another way for using a template project would be to [copy it](#copy-a-project).
@@ -229,6 +230,18 @@ The Gantt chart view can be configured in the [System settings](../../system-adm
 
 ![open-global-gantt-chart](image-20201007161248903.png)
 
+## Export projects
+
+You can export the project list by selecting the **View all projects** list from the drop-down.
+To export the project list, click on the three dots in the upper right hand corner and select > **Export**.
+
+![Export projects](image-20211109114709826.png)
+
+Next, you can select the format in which you want to export the project list.
+
+It can be exported as .xls or .csv.
+
+![Export project list formats](image-20211109114816611.png)
 
 
 
@@ -241,7 +254,7 @@ Click on the **Modules** icon with the dots in the header navigation. These are 
 
 Here you will find
 
-- The [global projects list](#Global-projects-overview-view-all-projects)
+- The [global projects list](#global-projects-overview---view-all-projects)
 - The global work packages list (see below)
 - The global news overview
 - The global time and costs module
@@ -252,6 +265,6 @@ Select **Work packages** from the drop down menu **Modules** in the upper right 
 
 In this project overarching list, you can search, filter, group by, sort, highlight and save views the same way as in the [work package list](../work-packages/work-package-table-configuration) in each project.
 
-You can group by projects by clicking in the header of the work package list next to PROJECT and select **Group by**. Collapsing the groups will allow you an **overview of the projects' aggregated milestones** as described [here](../../user-guide/work-packages/work-package-table-configuration/#aggregation-by-project).
+You can group by projects by clicking in the header of the work package list next to PROJECT and select **Group by**. Collapsing the groups will allow you an **overview of the projects' aggregated milestones** as described [here](../../user-guide/work-packages/work-package-table-configuration/#flat-list-hierarchy-mode-and-group-by).
 
 ![project-overarching-report](project-overarching-report.gif)

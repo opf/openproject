@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -31,21 +31,21 @@ require_relative '../support/pages/work_package_github_tab'
 
 describe 'Open the GitHub tab', type: :feature, js: true do
   let(:user) do
-    FactoryBot.create(:user,
-                      member_in_project: project,
-                      member_through_role: role)
+    create(:user,
+           member_in_project: project,
+           member_through_role: role)
   end
   let(:role) do
-    FactoryBot.create(:role,
-                      permissions: %i(view_work_packages
-                                      add_work_package_notes
-                                      show_github_content))
+    create(:role,
+           permissions: %i(view_work_packages
+                           add_work_package_notes
+                           show_github_content))
   end
-  let(:project) { FactoryBot.create :project }
-  let(:work_package) { FactoryBot.create(:work_package, project: project, subject: 'A test work_package') }
+  let(:project) { create :project }
+  let(:work_package) { create(:work_package, project: project, subject: 'A test work_package') }
   let(:github_tab) { Pages::GitHubTab.new(work_package.id) }
-  let(:pull_request) { FactoryBot.create :github_pull_request, :open, work_packages: [work_package], title: 'A Test PR title' }
-  let(:check_run) { FactoryBot.create :github_check_run, github_pull_request: pull_request, name: 'a check run name' }
+  let(:pull_request) { create :github_pull_request, :open, work_packages: [work_package], title: 'A Test PR title' }
+  let(:check_run) { create :github_check_run, github_pull_request: pull_request, name: 'a check run name' }
 
   shared_examples_for "a github tab" do
     before do
@@ -93,9 +93,9 @@ describe 'Open the GitHub tab', type: :feature, js: true do
 
     context 'when the user does not have the permissions to see the github tab' do
       let(:role) do
-        FactoryBot.create(:role,
-                          permissions: %i(view_work_packages
-                                          add_work_package_notes))
+        create(:role,
+               permissions: %i(view_work_packages
+                               add_work_package_notes))
       end
 
       it 'does not show the github tab' do
@@ -106,7 +106,7 @@ describe 'Open the GitHub tab', type: :feature, js: true do
     end
 
     context 'when the github integration is not enabled for the project' do
-      let(:project) { FactoryBot.create(:project, disable_modules: 'github') }
+      let(:project) { create(:project, disable_modules: 'github') }
 
       it 'does not show the github tab' do
         work_package_page.visit!

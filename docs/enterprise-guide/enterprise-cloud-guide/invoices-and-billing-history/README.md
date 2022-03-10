@@ -20,7 +20,7 @@ For invoices via bank transfer, the money needs to be paid via bank transfer to 
 **Note**: For the correct assignment of payments, please enter the  invoice number on your bank transfer.
 </div>
 
-![invoice](image-20200110105613725.png)
+![invoice](invoice.png)
 
 ## Payment history and download invoices
 
@@ -28,11 +28,11 @@ If you want to see the billing history or download older invoices of your Enterp
 
 Click the green **Manage button** at the top right.
 
-![Cloud-manage](Cloud-manage.png)
+![cloud-manage](cloud-manage-0584897.png)
 
 In the overlay window, click on the link **Billing History**.
 
-![Cloud-billing-history](Cloud-billing-history.png)
+![cloud-billing-history](cloud-billing-history-0584990.png)
 
 Here, you will get an overview about all your past payments for the Enterprise cloud edition. 
 

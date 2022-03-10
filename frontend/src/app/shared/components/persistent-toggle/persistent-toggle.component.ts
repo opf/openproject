@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { Component, ElementRef, OnInit } from '@angular/core';
@@ -65,16 +65,16 @@ export class PersistentToggleComponent implements OnInit {
       .find('.persistent-toggle--click-handler')
       .on('click', () => this.toggle(!this.isHidden));
 
-    // Register target notification close icon
+    // Register target toaster close icon
     this.$targetNotification
-      .find('.notification-box--close')
+      .find('.op-toast--close')
       .on('click', () => this.toggle(true));
   }
 
   private getTargetNotification() {
     return this.$element
       .parent()
-      .find('.persistent-toggle--notification');
+      .find('.persistent-toggle--toaster');
   }
 
   private toggle(isNowHidden:boolean) {

@@ -36,10 +36,10 @@ shared_examples 'an auth aware field' do
 
   context 'when user is not authorized' do
     let(:user) do
-      FactoryBot.create(
+      create(
         :user,
         member_in_project: project,
-        member_through_role: FactoryBot.build(
+        member_through_role: build(
           :role,
           permissions: [:view_work_packages]
         )
@@ -102,7 +102,7 @@ shared_examples 'a cancellable field' do
 end
 
 shared_examples 'a workpackage autocomplete field' do
-  let!(:wp2) { FactoryBot.create(:work_package, project: project, subject: 'AutoFoo') }
+  let!(:wp2) { create(:work_package, project: project, subject: 'AutoFoo') }
 
   it 'autocompletes the other work package' do
     field.activate!
@@ -113,26 +113,26 @@ shared_examples 'a workpackage autocomplete field' do
 end
 
 shared_examples 'a principal autocomplete field' do
-  let(:role) { FactoryBot.create(:role, permissions: %i[view_work_packages edit_work_packages]) }
+  let(:role) { create(:role, permissions: %i[view_work_packages edit_work_packages]) }
   let!(:user) do
-    FactoryBot.create :user,
-                      member_in_project: project,
-                      member_through_role: role,
-                      firstname: 'John'
+    create :user,
+           member_in_project: project,
+           member_through_role: role,
+           firstname: 'John'
   end
   let!(:mentioned_user) do
-    FactoryBot.create :user,
-                      member_in_project: project,
-                      member_through_role: role,
-                      firstname: 'Laura',
-                      lastname: 'Foobar'
+    create :user,
+           member_in_project: project,
+           member_through_role: role,
+           firstname: 'Laura',
+           lastname: 'Foobar'
   end
   let!(:mentioned_group) do
-    FactoryBot.create(:group, lastname: 'Laudators').tap do |group|
-      FactoryBot.create :member,
-                        principal: group,
-                        project: project,
-                        roles: [role]
+    create(:group, lastname: 'Laudators').tap do |group|
+      create :member,
+             principal: group,
+             project: project,
+             roles: [role]
     end
   end
 

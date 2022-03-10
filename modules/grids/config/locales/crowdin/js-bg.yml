@@ -2,7 +2,7 @@ bg:
   js:
     grid:
       add_widget: 'Add widget'
-      remove: 'Remove widget'
+      remove: 'Премахване на притурка'
       configure: 'Конфигурирайте приспособление'
       upsale:
         text: "Some widgets, like the work package graph widget, are only available in the "
@@ -31,10 +31,13 @@ bg:
           no_results: 'No custom fields have been defined for projects.'
         project_status:
           title: 'Статус на проекта'
+          not_started: 'Not started'
           on_track: 'On track'
           off_track: 'Off track'
           at_risk: 'At risk'
           not_set: 'Не е зададено'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
         subprojects:
           title: 'Подпроекти'
           no_results: 'Няма подпроекти.'

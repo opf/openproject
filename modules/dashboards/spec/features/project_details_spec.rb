@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -31,19 +31,19 @@ require 'spec_helper'
 require_relative '../support/pages/dashboard'
 
 describe 'Project details widget on dashboard', type: :feature, js: true do
-  let!(:version_cf) { FactoryBot.create(:version_project_custom_field) }
-  let!(:bool_cf) { FactoryBot.create(:bool_project_custom_field) }
-  let!(:user_cf) { FactoryBot.create(:user_project_custom_field) }
-  let!(:int_cf) { FactoryBot.create(:int_project_custom_field) }
-  let!(:float_cf) { FactoryBot.create(:float_project_custom_field) }
-  let!(:text_cf) { FactoryBot.create(:text_project_custom_field) }
-  let!(:string_cf) { FactoryBot.create(:string_project_custom_field) }
-  let!(:date_cf) { FactoryBot.create(:date_project_custom_field) }
+  let!(:version_cf) { create(:version_project_custom_field) }
+  let!(:bool_cf) { create(:bool_project_custom_field) }
+  let!(:user_cf) { create(:user_project_custom_field) }
+  let!(:int_cf) { create(:int_project_custom_field) }
+  let!(:float_cf) { create(:float_project_custom_field) }
+  let!(:text_cf) { create(:text_project_custom_field) }
+  let!(:string_cf) { create(:string_project_custom_field) }
+  let!(:date_cf) { create(:date_project_custom_field) }
 
-  let(:system_version) { FactoryBot.create(:version, sharing: 'system') }
+  let(:system_version) { create(:version, sharing: 'system') }
 
   let!(:project) do
-    FactoryBot.create(:project, members: { other_user => role }).tap do |p|
+    create(:project, members: { other_user => role }).tap do |p|
       p.send(:"custom_field_#{int_cf.id}=", 5)
       p.send(:"custom_field_#{bool_cf.id}=", true)
       p.send(:"custom_field_#{version_cf.id}=", system_version)
@@ -69,23 +69,23 @@ describe 'Project details widget on dashboard', type: :feature, js: true do
   end
 
   let(:role) do
-    FactoryBot.create(:role, permissions: permissions)
+    create(:role, permissions: permissions)
   end
 
   let(:read_only_user) do
-    FactoryBot.create(:user, member_in_project: project, member_through_role: role)
+    create(:user, member_in_project: project, member_through_role: role)
   end
   let(:editing_user) do
-    FactoryBot.create(:user,
-                      member_in_project: project,
-                      member_with_permissions: editing_permissions,
-                      firstname: 'Cool',
-                      lastname: 'Guy')
+    create(:user,
+           member_in_project: project,
+           member_with_permissions: editing_permissions,
+           firstname: 'Cool',
+           lastname: 'Guy')
   end
   let(:other_user) do
-    FactoryBot.create(:user,
-                      firstname: 'Other',
-                      lastname: 'User')
+    create(:user,
+           firstname: 'Other',
+           lastname: 'User')
   end
   let(:dashboard_page) do
     Pages::Dashboard.new(project)
@@ -95,7 +95,7 @@ describe 'Project details widget on dashboard', type: :feature, js: true do
     dashboard_page.visit!
     dashboard_page.add_widget(1, 1, :within, "Project details")
 
-    dashboard_page.expect_and_dismiss_notification message: I18n.t('js.notice_successful_update')
+    dashboard_page.expect_and_dismiss_toaster message: I18n.t('js.notice_successful_update')
   end
 
   def change_cf_value(cf, old_value, new_value)
@@ -143,7 +143,7 @@ describe 'Project details widget on dashboard', type: :feature, js: true do
         expect(page)
           .to have_content("#{date_cf.name}\n#{Date.today.strftime('%m/%d/%Y')}")
         expect(page)
-           .to have_content("#{user_cf.name}\n#{other_user.name.split.map(&:first).join}#{other_user.name}")
+           .to have_content("#{user_cf.name}\n#{other_user.name.split.map(&:first).join}\n#{other_user.name}")
 
         # The fields are not editable
         field = EditField.new dashboard_page, "customField#{bool_cf.id}"

@@ -17,9 +17,9 @@ package will contain all necessary fixes.
 ## Security fixes
 
   - Updates rails-html-sanitizer to 1.0.4 to
-    address [CVE-2018-3741](http://seclists.org/oss-sec/2018/q1/262)
+    address [CVE-2018-3741](https://seclists.org/oss-sec/2018/q1/262)
   - Updates loofah to 2.2.2 to
-    address [CVE-2018-8048](http://seclists.org/oss-sec/2018/q1/253)
+    address [CVE-2018-8048](https://seclists.org/oss-sec/2018/q1/253)
   - Updates Ruby 2.4.4 to address the following CVEs:
       - [CVE-2017-17742: HTTP response splitting in
         WEBrick](https://www.ruby-lang.org/en/news/2018/03/28/http-response-splitting-in-webrick-cve-2017-17742/)

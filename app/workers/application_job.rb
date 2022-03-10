@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'active_job'
@@ -36,10 +36,7 @@ class ApplicationJob < ::ActiveJob::Base
   # to avoid leaking sensitive information to logs
   self.log_arguments = false
 
-  around_perform do |_job, block|
-    reload_mailer_configuration!
-    with_clean_request_store { block.call }
-  end
+  around_perform :clean_context
 
   ##
   # Return a priority number on the given payload
@@ -49,6 +46,10 @@ class ApplicationJob < ::ActiveJob::Base
       0
     when :notification
       5
+    when :above_normal
+      7
+    when :below_normal
+      13
     when :low
       20
     else
@@ -89,5 +90,15 @@ class ApplicationJob < ::ActiveJob::Base
   # by the background jobs at runtime.
   def reload_mailer_configuration!
     OpenProject::Configuration.reload_mailer_configuration!
+  end
+
+  private
+
+  def clean_context
+    with_clean_request_store do
+      reload_mailer_configuration!
+
+      yield
+    end
   end
 end

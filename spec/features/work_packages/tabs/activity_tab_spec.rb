@@ -11,13 +11,13 @@ describe 'Activity tab', js: true, selenium: true do
     note_journal.update(created_at: at, user: user)
   end
 
-  let(:project) { FactoryBot.create :project_with_types, public: true }
+  let(:project) { create :project_with_types, public: true }
   let!(:work_package) do
-    work_package = FactoryBot.create(:work_package,
-                                     project: project,
-                                     created_at: 5.days.ago.to_date.to_s(:db),
-                                     subject: initial_subject,
-                                     journal_notes: initial_comment)
+    work_package = create(:work_package,
+                          project: project,
+                          created_at: 5.days.ago.to_date.to_s(:db),
+                          subject: initial_subject,
+                          journal_notes: initial_comment)
 
     note_journal = work_package.journals.last
     note_journal.update(created_at: 5.days.ago.to_date.to_s)
@@ -51,7 +51,7 @@ describe 'Activity tab', js: true, selenium: true do
     alter_work_package_at(work_package,
                           attributes: attributes,
                           at: 1.days.ago.to_date.to_s(:db),
-                          user: FactoryBot.create(:admin))
+                          user: create(:admin))
 
     work_package.journals.last
   end
@@ -79,8 +79,7 @@ describe 'Activity tab', js: true, selenium: true do
             idx + 1
           end
 
-        date_selector = ".work-package-details-activities-activity:nth-of-type(#{actual_index}) " +
-                        '.activity-date'
+        date_selector = ".work-package-details-activities-activity:nth-of-type(#{actual_index}) .activity-date"
         # Do not use :long format to match the printed date without double spaces
         # on the first 9 days of the month
         expect(page).to have_selector(date_selector,
@@ -114,13 +113,13 @@ describe 'Activity tab', js: true, selenium: true do
 
     context 'with permission' do
       let(:role) do
-        FactoryBot.create(:role, permissions: %i[view_work_packages
+        create(:role, permissions: %i[view_work_packages
                                                  add_work_package_notes])
       end
       let(:user) do
-        FactoryBot.create(:user,
-                          member_in_project: project,
-                          member_through_role: role)
+        create(:user,
+               member_in_project: project,
+               member_through_role: role)
       end
 
       context 'with ascending comments' do
@@ -131,6 +130,16 @@ describe 'Activity tab', js: true, selenium: true do
       context 'with reversed comments' do
         let(:comments_in_reverse) { true }
         it_behaves_like 'shows activities in order'
+      end
+
+      it 'can deep link to an activity' do
+        visit "/work_packages/#{work_package.id}/activity#activity-#{note_2.id}"
+
+        work_package_page.ensure_page_loaded
+        expect(page).to have_selector('.user-comment > .message',
+                                      text: initial_comment)
+
+        expect(page.current_url).to match /\/work_packages\/#{work_package.id}\/activity#activity-#{note_2.id}/
       end
 
       it 'can toggle between activities and comments-only' do
@@ -172,12 +181,12 @@ describe 'Activity tab', js: true, selenium: true do
 
     context 'with no permission' do
       let(:role) do
-        FactoryBot.create(:role, permissions: [:view_work_packages])
+        create(:role, permissions: [:view_work_packages])
       end
       let(:user) do
-        FactoryBot.create(:user,
-                          member_in_project: project,
-                          member_through_role: role)
+        create(:user,
+               member_in_project: project,
+               member_through_role: role)
       end
 
       it 'shows the activities, but does not allow commenting' do

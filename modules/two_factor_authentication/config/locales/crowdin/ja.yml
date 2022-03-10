@@ -72,7 +72,7 @@ ja:
       text_2fa_enabled: 'ログインごとに、このユーザはデフォルトの2FAデバイスからOTPトークンを入力するよう要求されます。'
       text_2fa_disabled: "ユーザーは2FAデバイスを「マイアカウントページ」から設定していません"
     upsale:
-      title: '2要素認証はエンタープライズ版の機能です'
+      title: 'Two-factor authentication'
       description: '第2の要素で内部または外部の認証メカニズムを強化します。'
     backup_codes:
       none_found: このアカウントのバックアップコードはありません。
@@ -139,7 +139,7 @@ ja:
     restdt:
       delivery_failed_with_code: 'トークンの配信に失敗しました。 (エラーコード %{code})'
     strategies:
-      totp: '認証システムアプリケーション'
+      totp: '認証システム アプリケーション'
       sns: 'Amazon SNS'
       resdt: 'SMS Rest API'
     mobile_transmit_notification: "ワンタイムパスワードが携帯電話に送信されました。"

@@ -4,20 +4,20 @@ require 'features/work_packages/work_packages_page'
 require 'features/page_objects/notification'
 
 describe 'new work package', js: true do
-  let(:type_task) { FactoryBot.create(:type_task) }
-  let(:type_bug) { FactoryBot.create(:type_bug) }
+  let(:type_task) { create(:type_task) }
+  let(:type_bug) { create(:type_bug) }
   let(:types) { [type_task, type_bug] }
-  let!(:status) { FactoryBot.create(:status, is_default: true) }
-  let!(:priority) { FactoryBot.create(:priority, is_default: true) }
+  let!(:status) { create(:status, is_default: true) }
+  let!(:priority) { create(:priority, is_default: true) }
   let!(:project) do
-    FactoryBot.create(:project, types: types)
+    create(:project, types: types)
   end
 
-  let(:permissions) { %i[view_work_packages add_work_packages edit_work_packages] }
+  let(:permissions) { %i[view_work_packages add_work_packages edit_work_packages work_package_assigned] }
   let(:user) do
-    FactoryBot.create(:user,
-                      member_in_project: project,
-                      member_with_permissions: permissions)
+    create(:user,
+           member_in_project: project,
+           member_with_permissions: permissions)
   end
 
   let(:work_packages_page) { WorkPackagesPage.new(project) }
@@ -30,17 +30,17 @@ describe 'new work package', js: true do
   let(:project_field) { wp_page.edit_field :project }
   let(:assignee_field) { wp_page.edit_field :assignee }
   let(:type_field) { wp_page.edit_field :type }
-  let(:notification) { PageObjects::Notifications.new(page) }
+  let(:toaster) { PageObjects::Notifications.new(page) }
 
   def disable_leaving_unsaved_warning
-    FactoryBot.create(:user_preference, user: user, others: { warn_on_leaving_unsaved: false })
+    create(:user_preference, user: user, others: { warn_on_leaving_unsaved: false })
   end
 
   def save_work_package!(expect_success = true)
     scroll_to_and_click find('#work-packages--edit-actions-save')
 
     if expect_success
-      notification.expect_success('Successful creation.')
+      toaster.expect_success('Successful creation.')
     end
   end
 
@@ -93,8 +93,8 @@ describe 'new work package', js: true do
       save_work_package!
 
       # safegurards
-      wp_page.dismiss_notification!
-      wp_page.expect_no_notification(
+      wp_page.dismiss_toaster!
+      wp_page.expect_no_toaster(
         message: 'Successful creation. Click here to open this work package in fullscreen view.'
       )
 
@@ -113,8 +113,8 @@ describe 'new work package', js: true do
       subject_field.send_keys(:enter)
 
       # safegurards
-      wp_page.dismiss_notification!
-      wp_page.expect_no_notification(
+      wp_page.dismiss_toaster!
+      wp_page.expect_no_toaster(
         message: 'Successful creation. Click here to open this work package in fullscreen view.'
       )
 
@@ -132,7 +132,7 @@ describe 'new work package', js: true do
         subject_field.send_keys(:backspace)
 
         save_work_package!(false)
-        notification.expect_error("Subject can't be blank.")
+        toaster.expect_error("Subject can't be blank.")
       end
     end
 
@@ -163,7 +163,7 @@ describe 'new work package', js: true do
 
       context 'custom fields' do
         let(:custom_field1) do
-          FactoryBot.create(
+          create(
             :work_package_custom_field,
             field_format: 'string',
             is_required: true,
@@ -171,7 +171,7 @@ describe 'new work package', js: true do
           )
         end
         let(:custom_field2) do
-          FactoryBot.create(
+          create(
             :work_package_custom_field,
             field_format: 'list',
             possible_values: %w(foo bar xyz),
@@ -182,11 +182,11 @@ describe 'new work package', js: true do
         let(:custom_fields) do
           [custom_field1, custom_field2]
         end
-        let(:type_task) { FactoryBot.create(:type_task, custom_fields: custom_fields) }
+        let(:type_task) { create(:type_task, custom_fields: custom_fields) }
         let(:project) do
-          FactoryBot.create(:project,
-                            types: types,
-                            work_package_custom_fields: custom_fields)
+          create(:project,
+                 types: types,
+                 work_package_custom_fields: custom_fields)
         end
 
         it do
@@ -202,7 +202,7 @@ describe 'new work package', js: true do
           cf.set_value 'foo'
           save_work_package!(false)
 
-          notification.expect_error("#{custom_field1.name} can't be blank.")
+          toaster.expect_error("#{custom_field1.name} can't be blank.")
 
           cf1.set 'Custom field content'
           save_work_package!(true)
@@ -227,12 +227,12 @@ describe 'new work package', js: true do
       let(:create_method) { method(:create_work_package) }
     end
 
-    it 'allows to go to the full page through the notification (Regression #37555)' do
+    it 'allows to go to the full page through the toaster (Regression #37555)' do
       create_work_package(type_task, project.name)
       save_work_package!
 
-      wp_page.expect_notification message: 'Successful creation. Click here to open this work package in fullscreen view.'
-      page.find('.notification-box--target-link', text: 'Click here to open this work package in fullscreen view.').click
+      wp_page.expect_toast message: 'Successful creation. Click here to open this work package in fullscreen view.'
+      page.find('.op-toast--target-link', text: 'Click here to open this work package in fullscreen view.').click
 
       full_page = Pages::FullWorkPackage.new(WorkPackage.last)
       full_page.ensure_page_loaded
@@ -247,7 +247,7 @@ describe 'new work package', js: true do
 
       wp_page.subject_field.set('new work package')
       save_work_package!
-      wp_page.dismiss_notification!
+      wp_page.dismiss_toaster!
 
       expect(page).to have_selector('.wp--row.-checked')
 
@@ -261,7 +261,7 @@ describe 'new work package', js: true do
       table_subject.submit_by_enter
       table_subject.expect_state_text new_subject
 
-      wp_page.expect_notification(
+      wp_page.expect_toast(
         message: 'Successful update. Click here to open this work package in fullscreen view.'
       )
 
@@ -276,7 +276,7 @@ describe 'new work package', js: true do
 
   context 'full screen' do
     let(:safeguard_selector) { '.work-package--new-state' }
-    let(:existing_wp) { FactoryBot.create :work_package, type: type_bug, project: project }
+    let(:existing_wp) { create :work_package, type: type_bug, project: project }
     let(:wp_page) { Pages::FullWorkPackage.new(existing_wp) }
 
     before do
@@ -331,7 +331,7 @@ describe 'new work package', js: true do
 
       wp_page.subject_field.set('new work package')
       save_work_package!
-      wp_page.dismiss_notification!
+      wp_page.dismiss_toaster!
 
       assignee_field.expect_state_text user.name
       wp = WorkPackage.last
@@ -340,7 +340,7 @@ describe 'new work package', js: true do
 
     context 'with a project without type_bug' do
       let!(:project_without_bug) do
-        FactoryBot.create(:project, name: 'Unrelated project', types: [type_task])
+        create(:project, name: 'Unrelated project', types: [type_task])
       end
 
       it 'will not show that value in the project drop down' do
@@ -357,8 +357,8 @@ describe 'new work package', js: true do
   end
 
   context 'as a user with no permissions' do
-    let(:user) { FactoryBot.create(:user, member_in_project: project, member_through_role: role) }
-    let(:role) { FactoryBot.create :role, permissions: %i(view_work_packages) }
+    let(:user) { create(:user, member_in_project: project, member_through_role: role) }
+    let(:role) { create :role, permissions: %i(view_work_packages) }
     let(:wp_page) { ::Pages::Page.new }
 
     let(:paths) do
@@ -373,14 +373,14 @@ describe 'new work package', js: true do
     it 'shows a 403 error on creation paths' do
       paths.each do |path|
         visit path
-        wp_page.expect_notification(type: :error, message: I18n.t('api_v3.errors.code_403'))
+        wp_page.expect_toast(type: :error, message: I18n.t('api_v3.errors.code_403'))
       end
     end
   end
 
   context 'as a user with add_work_packages permission, but not edit_work_packages permission (Regression 28580)' do
-    let(:user) { FactoryBot.create(:user, member_in_project: project, member_through_role: role) }
-    let(:role) { FactoryBot.create :role, permissions: %i(view_work_packages add_work_packages) }
+    let(:user) { create(:user, member_in_project: project, member_through_role: role) }
+    let(:role) { create :role, permissions: %i(view_work_packages add_work_packages) }
     let(:wp_page) { Pages::FullWorkPackageCreate.new }
 
     before do
@@ -394,7 +394,7 @@ describe 'new work package', js: true do
       sleep(0.2)
       subject_field.update('new work package')
 
-      wp_page.expect_and_dismiss_notification(
+      wp_page.expect_and_dismiss_toaster(
         message: 'Successful creation.'
       )
 
@@ -405,7 +405,7 @@ describe 'new work package', js: true do
   end
 
   context 'an anonymous user is prompted to login' do
-    let(:user) { FactoryBot.create(:anonymous) }
+    let(:user) { create(:anonymous) }
     let(:wp_page) { ::Pages::Page.new }
 
     let(:paths) do
@@ -427,11 +427,11 @@ describe 'new work package', js: true do
 
   context 'creating child work packages' do
     let!(:parent) do
-      FactoryBot.create(:work_package,
-                        project: project,
-                        author: user,
-                        start_date: Date.today - 5.days,
-                        due_date: Date.today + 5.days)
+      create(:work_package,
+             project: project,
+             author: user,
+             start_date: Date.today - 5.days,
+             due_date: Date.today + 5.days)
     end
     let(:context_menu) { Components::WorkPackages::ContextMenu.new }
     let(:split_create_page) { Pages::SplitWorkPackageCreate.new(project: project) }
@@ -461,7 +461,7 @@ describe 'new work package', js: true do
 
       split_create_page.save!
 
-      split_create_page.expect_and_dismiss_notification(message: I18n.t('js.notice_successful_create'))
+      split_create_page.expect_and_dismiss_toaster(message: I18n.t('js.notice_successful_create'))
 
       split_create_page.expect_attributes(combinedDate: "no start date - #{parent.due_date.strftime('%m/%d/%Y')}")
 
@@ -477,7 +477,7 @@ describe 'new work package', js: true do
       subject.set_value 'Child'
       subject.submit_by_enter
 
-      wp_page.expect_and_dismiss_notification(message: I18n.t('js.notice_successful_create'))
+      wp_page.expect_and_dismiss_toaster(message: I18n.t('js.notice_successful_create'))
       sleep 1
 
       # Move to the newly created child

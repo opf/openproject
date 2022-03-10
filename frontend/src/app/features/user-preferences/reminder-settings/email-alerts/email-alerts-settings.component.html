@@ -1,0 +1,18 @@
+<ng-container [formGroup]="form">
+  <div class="op-form--section-header">
+    <h5 [textContent]="text.title"></h5>
+    <p [textContent]="text.explanation"></p>
+  </div>
+
+  <op-checkbox-field
+    [control]="form.get(setting)"
+    *ngFor="let setting of alerts"
+  >
+    <input
+      slot="input"
+      type="checkbox"
+      [formControlName]="setting"
+    />
+    <p slot="description">{{ text[setting] }}</p>
+  </op-checkbox-field>
+</ng-container>

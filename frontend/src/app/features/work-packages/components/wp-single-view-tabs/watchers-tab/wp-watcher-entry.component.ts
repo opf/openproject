@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,22 +23,27 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
+} from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { UserResource } from 'core-app/features/hal/resources/user-resource';
 import { WorkPackageWatchersTabComponent } from './watchers-tab.component';
 
 @Component({
-  templateUrl: './wp-watcher-entry.html',
-  selector: 'wp-watcher-entry',
+  templateUrl: './wp-watcher-entry.component.html',
+  styleUrls: ['./wp-watcher-entry.component.sass'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'op-wp-watcher-entry',
 })
 export class WorkPackageWatcherEntryComponent implements OnInit {
-  @Input('watcher') public watcher:UserResource;
-
-  public deleting = false;
+  @Input() public watcher:UserResource;
 
   public text:{ remove:string };
 
@@ -46,14 +51,13 @@ export class WorkPackageWatcherEntryComponent implements OnInit {
     readonly panelCtrl:WorkPackageWatchersTabComponent) {
   }
 
-  ngOnInit() {
+  ngOnInit():void {
     this.text = {
       remove: this.I18n.t('js.label_remove_watcher', { name: this.watcher.name }),
     };
   }
 
-  public remove() {
-    this.deleting = true;
+  public remove():void {
     this.panelCtrl.removeWatcher(this.watcher);
   }
 }

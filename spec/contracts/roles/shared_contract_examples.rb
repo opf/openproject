@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,18 +23,17 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 shared_examples_for 'roles contract' do
   let(:current_user) do
-    FactoryBot.build_stubbed(:admin)
+    build_stubbed(:admin)
   end
   let(:role_instance) { Role.new }
   let(:role_name) { 'A role name' }
-  let(:role_assignable) { true }
   let(:role_permissions) { [:view_work_packages] }
 
   def expect_valid(valid, symbols = {})

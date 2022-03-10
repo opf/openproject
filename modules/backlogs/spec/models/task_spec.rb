@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,20 +23,20 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe Task, type: :model do
-  let(:task_type) { FactoryBot.create(:type) }
-  let(:default_status) { FactoryBot.create(:default_status) }
-  let(:project) { FactoryBot.create(:project) }
+  let(:task_type) { create(:type) }
+  let(:default_status) { create(:default_status) }
+  let(:project) { create(:project) }
   let(:task) do
-    FactoryBot.build(:task,
-                     project: project,
-                     status: default_status,
-                     type: task_type)
+    build(:task,
+          project: project,
+          status: default_status,
+          type: task_type)
   end
 
   before(:each) do

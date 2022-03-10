@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module Bim
@@ -34,6 +32,7 @@ module Bim
       protected
 
       def set_attributes(params)
+        model.project = params[:project] if params.key?(:project)
         set_ifc_attachment(params.delete(:ifc_attachment))
 
         super
@@ -76,7 +75,7 @@ module Bim
           model.attachments << ifc_attachment
         else
           ::Attachments::BuildService
-            .new(user: user)
+            .bypass_whitelist(user: user)
             .call(file: ifc_attachment, container: model, filename: ifc_attachment.original_filename, description: 'ifc')
         end
       end

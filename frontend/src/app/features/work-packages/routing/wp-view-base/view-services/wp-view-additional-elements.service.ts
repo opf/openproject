@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
@@ -34,7 +34,7 @@ import { WorkPackageNotificationService } from 'core-app/features/work-packages/
 import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { RelationResource } from 'core-app/features/hal/resources/relation-resource';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { WorkPackageViewHierarchiesService } from './wp-view-hierarchy.service';
@@ -47,12 +47,12 @@ export class WorkPackageViewAdditionalElementsService {
     readonly wpTableColumns:WorkPackageViewColumnsService,
     readonly notificationService:WorkPackageNotificationService,
     readonly halResourceService:HalResourceService,
-    readonly apiV3Service:APIV3Service,
+    readonly apiV3Service:ApiV3Service,
     readonly schemaCache:SchemaCacheService,
     readonly wpRelations:WorkPackageRelationsService) {
   }
 
-  public initialize(query:QueryResource, results:WorkPackageCollectionResource) {
+  public initialize(query:QueryResource, results:WorkPackageCollectionResource):void {
     const rows = results.elements;
 
     // Add relations to the stack

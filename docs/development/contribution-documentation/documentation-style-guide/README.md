@@ -59,16 +59,28 @@ Find an overview of content per folder here:
 
 Please respect the following when working with directories and files:
 
-1. When you create a new topic, i.e. a new documentation page, always create a new folder and a new README.md file in that folder.
-2. Do not use special characters and spaces, or capital letters in file names, directory names, branch names and anything that generates a path.
+1. When you create a new topic, i.e. a new documentation page, always create a new folder with a **lowercase name** and a new **README.md** file in that folder.
 
-3. When creating a file or directory and it has more than one word in its name, use underscores (`_`) instead of spaces or dashes. For example use open_details-view_work_packages.png. This applies to both image files and Markdown files.
+   Example: `new-feature/README.md`
 
-4. For image files, do not exceed 200KB.
+2. Use **lowercase latin characters and numbers**.
+
+   Do not use special characters, umlauts and spaces, or capital letters in file names, directory names, branch names and anything that generates a path.
+
+3. Use **no spaces**
+
+   When creating a directory and it has more than one word in its name, use dashes (`-`) instead of spaces.
+
+   Example: `new-feature`
+
+   When creating a file and it has more than one word in its name, use dashes (`-`) or underscores (`_`) instead of spaces.
+
+   Example: `open_details-view_work_packages.png`
+
+   Only exception is the markdown file which always needs to be named **README.md**
 
 If you are unsure where to place a document or a content addition, this should not stop you from authoring and contributing. Use your best judgment, and then add a comment to your pull request.
 
- 
 
 ## No duplication of information
 
@@ -79,9 +91,10 @@ Do not include the same information in multiple places. Instead, link through to
 ## References across the documentation
 
 - When mentioning other OpenProject modules or features, link to their respective documentation, at least on first mention. 
-- Please see in [links](../#links) how to use links within the documentation.
 
-- When making reference to third-party products or technologies, link out to their external sites,     documentation and resources.
+- Please see in [links](#links) how to use links within the documentation.
+
+- When making reference to third-party products or technologies, link out to their external sites, documentation and resources.
 
   
 
@@ -103,7 +116,7 @@ The OpenProject documentation should be as clear and easy to understand as possi
 
 ## Capitalization
 
-### Headings
+### Headings
 
 Use sentences that describe the content and capitalize the first letter in the sentence. For example:
 
@@ -113,7 +126,7 @@ Use sentences that describe the content and capitalize the first letter in the s
 
 
 
-### UI text
+### UI text
 
 When referring to specific user interface text, like a button label or menu item, use the name as in the application and start the word with a capital letter. Moreover, please make it bold. Example: **Start free trial** button.
 
@@ -193,7 +206,7 @@ Please do not use any contractions like don’t or isn’t.
 
 ## Copy
 
-### Punctuation
+### Punctuation
 
 Follow these guidelines for punctuation:
 
@@ -213,7 +226,7 @@ Use only standard spaces between words so that the search engine can find indivi
 
 
 
-## Lists
+## Lists
 
 Always start list items with a capital letter.
 
@@ -255,8 +268,8 @@ Example for an unordered list:
 
 - Do not add commas (`,`) or semicolons (`;`) to the ends of list items.
 - Separate list items from explanatory text with a colon (`:`). For example:
-  		- Feature 1: very attractive new feature
-  		- Feature 2: description of an additional feature
+    - Feature 1: very attractive new feature
+    - Feature 2: description of an additional feature
 
  
 
@@ -272,15 +285,11 @@ To keep tables accessible and scannable, tables should not have any empty cells.
 
 To help tables be easier to maintain, consider adding additional spaces to the column widths to make them consistent. For example:
 
-| Feature  	       | Description                                      										       |
+| **Feature**                                                | **Description**                                              |
+| ---------------------------------------------------------- | ------------------------------------------------------------ |
+| Great feature                                              |  Enhances collaboration between marketing and sales  |
+| Best feature                                               | Use it to synchronize your example table with OpenProject  |
 
-| --------------------- | :-----------------------------------------------------------------------------------  |
-
-| Great feature   | Enhances collaboration between marketing and sales          | 
-
-| Best feature     | Use it to synchronize your example table with OpenProject | 
-
- 
 
 ## Headings
 
@@ -298,7 +307,7 @@ To help tables be easier to maintain, consider adding additional spaces to the c
 
 - Make your subheading titles clear, descriptive, and complete to help users find the right example.
 
-- See  [Capitalization](../#capitalization) for guidelines on capitalizing headings.
+- See  [Capitalization](#capitalization) for guidelines on capitalizing headings.
 
   
 
@@ -358,20 +367,19 @@ When documenting navigation through the OpenProject application, use these terms
 Use these terms when referring to OpenProject’s main application elements:
 
 - **Header menu**: This is the blue bar at the top that spans the width of the application. It includes the OpenProject logo, the search field, the link to all projects, the global modules, the help icon and the user’s avatar.
-
 - **Project menu**: This is the menu on the left in the OpenProject application that displays the modules after the selection of a project.
+
+All project menu items are spelled as in the application in bold, e.g.
+
+- In the project menu, select **Work packages** to open your work package list.
 
   
 
-### How to document the menus
+### How to document a navigation path
 
-To be consistent, use this format when you write about UI navigation.
+To be consistent, use this format when you write about UI navigation. Use the same names as in the application in italic and with arrows in between:
 
-1. In the header menu, click on your **Avatar > Administration** to find system settings.
-
-2. In the project menu, select **Work packages** to open your work package list.
-
-   
+* In the header menu, click on your *Avatar > Administration* to find system settings.
 
 ## Images
 
@@ -395,7 +403,7 @@ When you take screenshots:
 
 ### Save images
 
-- Save the image with a file name that describes the image. Use lower cases. 
+- Save the image with a file name that describes the image. Use lower cases and no spaces (see [file names requirements](#directory-and-file-names)).
 
 - Make sure to not exceed the maximum image size of 200KB.
 
@@ -407,7 +415,7 @@ When you take screenshots:
 
 ### Add the image link to content
 
-The Markdown code for including an image in a document is: `![Image description which will be the alt tag](img/document_image_title_vX_Y.png)`
+The Markdown code for including an image in a document is: `![Image description which will be the alt tag](document_image_title_v_x_y.png)`
 
 The image description is the alt text for the rendered image on the documentation page. For accessibility and SEO, use descriptions that are short and precise.
 
@@ -423,7 +431,9 @@ At the moment it is not possible for external contributors to upload videos to t
 
 Use alert boxes to call attention to information. The alert boxes in the OpenProject documentation have a specific format. Please use the following to be consistent:
 
-`<div class="alert alert-info" role="alert">
-**Note**: If you do not have an OpenProject installation yet, please visit our site on [how to create an OpenProject trial installation](../../enterprise-guide/enterprise-cloud-guide/#create-an-openproject-trial-installation).
-</div>`
+```
+<div class="alert alert-info" role="alert">
+**Note**: If you do not have an OpenProject installation yet, please visit our site on [how to create an OpenProject trial installation](../../enterprise-guide/enterprise-cloud-guide/#create-a-new-account).
+</div>
+```
 

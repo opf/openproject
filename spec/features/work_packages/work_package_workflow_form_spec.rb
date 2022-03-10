@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -33,26 +31,26 @@ require 'features/page_objects/notification'
 
 describe 'Work package transitive status workflows', js: true do
   let(:dev_role) do
-    FactoryBot.create :role,
-                      permissions: %i[view_work_packages
-                                      edit_work_packages]
+    create :role,
+           permissions: %i[view_work_packages
+                           edit_work_packages]
   end
   let(:dev) do
-    FactoryBot.create :user,
-                      firstname: 'Dev',
-                      lastname: 'Guy',
-                      member_in_project: project,
-                      member_through_role: dev_role
+    create :user,
+           firstname: 'Dev',
+           lastname: 'Guy',
+           member_in_project: project,
+           member_through_role: dev_role
   end
 
-  let(:type) { FactoryBot.create :type }
-  let(:project) { FactoryBot.create(:project, types: [type]) }
+  let(:type) { create :type }
+  let(:project) { create(:project, types: [type]) }
 
   let(:work_package) do
-    work_package = FactoryBot.create :work_package,
-                                     project: project,
-                                     type: type,
-                                     created_at: 5.days.ago.to_date.to_s(:db)
+    work_package = create :work_package,
+                          project: project,
+                          type: type,
+                          created_at: 5.days.ago.to_date.to_s(:db)
 
     note_journal = work_package.journals.last
     note_journal.update(created_at: 5.days.ago.to_date.to_s)
@@ -62,21 +60,21 @@ describe 'Work package transitive status workflows', js: true do
   let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
 
   let(:status_from) { work_package.status }
-  let(:status_intermediate) { FactoryBot.create :status }
-  let(:status_to) { FactoryBot.create :status }
+  let(:status_intermediate) { create :status }
+  let(:status_to) { create :status }
 
   let(:workflows) do
-    FactoryBot.create :workflow,
-                      type_id: type.id,
-                      old_status: status_from,
-                      new_status: status_intermediate,
-                      role: dev_role
+    create :workflow,
+           type_id: type.id,
+           old_status: status_from,
+           new_status: status_intermediate,
+           role: dev_role
 
-    FactoryBot.create :workflow,
-                      type_id: type.id,
-                      old_status: status_intermediate,
-                      new_status: status_to,
-                      role: dev_role
+    create :workflow,
+           type_id: type.id,
+           old_status: status_intermediate,
+           new_status: status_to,
+           role: dev_role
   end
 
   before do

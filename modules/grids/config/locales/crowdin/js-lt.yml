@@ -31,13 +31,16 @@ lt:
           no_results: 'Projektui nenurodyti savi laukai.'
         project_status:
           title: 'Projekto būsena'
+          not_started: 'Nepradėta'
           on_track: 'Teisingame kelyje'
           off_track: 'Pasiklydęs'
           at_risk: 'Rizikingas'
           not_set: 'Nenustatyta'
+          finished: 'Baigta'
+          discontinued: 'Nutrauktas'
         subprojects:
           title: 'Sub-projektai'
-          no_results: 'Nėra su-projektų.'
+          no_results: 'Nėra subprojektų.'
         time_entries_current_user:
           title: 'Mano sugaištas laikas'
           displayed_days: 'Valdiklyje rodomos dienos:'
@@ -59,5 +62,5 @@ lt:
         work_packages_calendar:
           title: 'Kalendorius'
         work_packages_overview:
-          title: 'Darbo paketų peržiūra'
+          title: 'Darbo paketų apžvalga'
           placeholder: 'Spauskite keitimui...'

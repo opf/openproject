@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,10 +23,8 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
-
-require 'api/v3/activities/activity_representer'
 
 module API
   module V3
@@ -42,18 +40,6 @@ module API
               end
             end
 
-            helpers do
-              def save_activity(activity)
-                unless activity.save
-                  fail ::API::Errors::ErrorBase.create_and_merge_errors(activity.errors)
-                end
-              end
-
-              def authorize_edit_own(activity)
-                authorize_by_with_raise activity.editable_by?(current_user)
-              end
-            end
-
             get &::API::V3::Utilities::Endpoints::Show.new(model: ::Journal,
                                                            api_name: 'Activity',
                                                            instance_generator: ->(*) { @activity })
@@ -63,14 +49,13 @@ module API
               requires :comment, type: String
             end
 
-            patch do
-              # TODO: Write a journal update notes service and mount default endpoint
-              authorize_edit_own(@activity)
-              @activity.notes = declared_params[:comment]
-              save_activity(@activity)
-
-              ActivityRepresenter.new(@activity, current_user: current_user)
-            end
+            patch &::API::V3::Utilities::Endpoints::Update.new(model: ::Journal,
+                                                               api_name: 'Activity',
+                                                               instance_generator: ->(*) { @activity },
+                                                               params_modifier: ->(*) {
+                                                                 { notes: declared_params[:comment] }
+                                                               })
+                                                          .mount
           end
         end
       end

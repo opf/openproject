@@ -3,7 +3,7 @@ fi:
   activerecord:
     attributes:
       two_factor_authentication/device:
-        identifier: 'Tunniste'
+        identifier: 'Tunnistaa'
         default: 'Käytä oletuksena'
       two_factor_authentication/device/sms:
         phone_number: "Puhelinnumero"
@@ -31,7 +31,7 @@ fi:
     notice_pwd_confirmation: "Sinun on vahvistettava salasanasi tehdessä muutoksia näihin asetuksiin."
     label_device_type: "Laitetyyppi"
     label_default_device: "Oletus tunnistuslaite"
-    label_device: "Tunnistuslaite"
+    label_device: "2FA-laite"
     label_devices: "2FA laitteet"
     label_one_time_password: 'Kertakäyttösalasana'
     label_2fa_enabled: 'Kaksivaiheinen tunnistautuminen on käytössä'
@@ -71,7 +71,7 @@ fi:
       text_2fa_enabled: 'Jokaisen sisäänkirjautumisen yhteydessä tätä käyttäjää pyydetään syöttämään OTP-tunniste hänen oletusarvoisesta 2FA-laitteestaan.'
       text_2fa_disabled: "Käyttäjä ei ole asettanut tunnistuslaitetta tiliasetuksissa"
     upsale:
-      title: 'Two-factor authentication is an enterprise feature'
+      title: 'Two-factor authentication'
       description: 'Strenghten your internal or external authentication mechanisms with a second factor.'
     backup_codes:
       none_found: Tälle tilille ei ole palautuskoodeja.
@@ -102,7 +102,7 @@ fi:
       button_complete_registration: 'Viimeistele tunnistuslaitteen rekisteröinti'
       text_confirm_to_complete_html: "Vahvista laitteen <strong>%{identifier}</strong> rekisteröinti antamalla kertakäyttösalasana."
       text_confirm_to_change_default_html: "Please confirm changing your default device to <strong>%{new_identifier}</strong> by entering a one-time password from your current default device."
-      text_identifier: 'Voit antaa laitteelle mukautetun tunnisteen käyttämällä tätä kenttää.'
+      text_identifier: 'Voit antaa laitteelle mukautetun tunnisteen.'
       failed_to_delete: 'Tunnistuslaitteen poistaminen epäonnistui'
       is_default_cannot_delete: 'The device is marked as default and cannot be deleted due to an active security policy. Mark another device as default before deleting.'
       not_existing: 'Käyttäjätilillesi ei ole rekisteröity tunnistuslaitetta.'

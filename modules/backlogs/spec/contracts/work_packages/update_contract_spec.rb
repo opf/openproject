@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,20 +23,20 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 describe WorkPackages::UpdateContract do
   let(:work_package) do
-    FactoryBot.create(:work_package,
-                      done_ratio: 50,
-                      estimated_hours: 6.0,
-                      project: project)
+    create(:work_package,
+           done_ratio: 50,
+           estimated_hours: 6.0,
+           project: project)
   end
-  let(:member) { FactoryBot.create(:user, member_in_project: project, member_through_role: role) }
-  let(:project) { FactoryBot.create(:project) }
+  let(:member) { create(:user, member_in_project: project, member_through_role: role) }
+  let(:project) { create(:project) }
   let(:current_user) { member }
   let(:permissions) do
     %i[
@@ -49,7 +49,7 @@ describe WorkPackages::UpdateContract do
       add_work_package_notes
     ]
   end
-  let(:role) { FactoryBot.create :role, permissions: permissions }
+  let(:role) { create :role, permissions: permissions }
   let(:changed_values) { [] }
 
   subject(:contract) { described_class.new(work_package, current_user) }
@@ -94,7 +94,7 @@ describe WorkPackages::UpdateContract do
         contract.validate
       end
       let(:child) do
-        FactoryBot.create(:work_package, parent_id: work_package.id, project: project)
+        create(:work_package, parent_id: work_package.id, project: project)
       end
 
       context 'has not changed' do

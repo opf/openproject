@@ -39,7 +39,7 @@ The following guides are related:
 
 - [HAL resources](../hal-resources)
 
-- [Backend API overview](#TODO:api-overview)
+- Backend API overview
 
 
 
@@ -50,7 +50,7 @@ A query is an object that revolves about two types of information:
 1. The configuration needed to fetch data from the database (filters, sort criteria, grouping criterion etc.)
 2. The way the results retrieved from the database with the above filters are displayed (set of visible columns, highlighting, display mode of the work package table, etc.)
 
-Currently, the Queries endpoint and object is highly specific to work packages, but this is bound to change with more resources becoming queriable. For some other resources such as projects, queries already exists in the backend, but not yet in the frontend application.
+Currently, the Queries endpoint and object is highly specific to work packages, but this is bound to change with more resources becoming queryable. For some other resources such as projects, queries already exists in the backend, but not yet in the frontend application.
 
 
 
@@ -64,7 +64,7 @@ Queries are regular APIv3 grape endpoints that can be accessed through the `/api
 
 The default query `/api/v3/queries/default`  and `/api/v3/:project_id/queries/default` contains a default set of configuration (back-end and front-end) global and for the given project, respectively. They can only be modified administrators through some global settings.
 
-A number of parameters can be passed to the Query through parameters as elaborated on in [the respective APIv3 documentation](../../../api/endpoints/queries/#queries-query).
+A number of parameters can be passed to the Query through parameters as elaborated on in [the respective APIv3 documentation](../../../api/endpoints/queries/).
 
 Clients can define a query once, save it and use it later on to load the same set of filters, columns, and so on. When retrieved from the database (a query id is passed), the query has been previously stored. Saved properties may be overridden through URL parameters, which override the existing saved query.
 
@@ -72,7 +72,7 @@ Clients can define a query once, save it and use it later on to load the same se
 
 ### Query collections responses
 
-Since queries can be saved and should be listed to the user such as in the work package sidebar, they can also be requested as a collection of resources through `/api/v3/queries`.  This endpoint can also be filtered. For more details on that, see the [respective APIv3 section](../../../api/endpoints/queries/#queries-queries).
+Since queries can be saved and should be listed to the user such as in the work package sidebar, they can also be requested as a collection of resources through `/api/v3/queries`.  This endpoint can also be filtered. For more details on that, see the [respective APIv3 section](../../../api/endpoints/queries/).
 
 This response will end up representing the available queries on the `work packages` module sidebar as shown below.
 

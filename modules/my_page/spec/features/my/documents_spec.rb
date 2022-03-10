@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -31,24 +31,24 @@ require 'spec_helper'
 require_relative '../../support/pages/my/page'
 
 describe 'My page documents widget', type: :feature, js: true do
-  let!(:project) { FactoryBot.create :project }
-  let!(:other_project) { FactoryBot.create :project }
+  let!(:project) { create :project }
+  let!(:other_project) { create :project }
   let!(:visible_document) do
-    FactoryBot.create :document,
-                      project: project,
-                      description: 'blubs'
+    create :document,
+           project: project,
+           description: 'blubs'
   end
   let!(:invisible_document) do
-    FactoryBot.create :document,
-                      project: other_project
+    create :document,
+           project: other_project
   end
   let(:other_user) do
-    FactoryBot.create(:user)
+    create(:user)
   end
   let(:user) do
-    FactoryBot.create(:user,
-                      member_in_project: project,
-                      member_with_permissions: %i[view_documents])
+    create(:user,
+           member_in_project: project,
+           member_with_permissions: %i[view_documents])
   end
   let(:my_page) do
     Pages::My::Page.new

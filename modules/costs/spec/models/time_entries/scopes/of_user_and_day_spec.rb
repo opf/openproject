@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,33 +23,33 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 describe TimeEntries::Scopes::OfUserAndDay, type: :model do
-  let(:user) { FactoryBot.create(:user) }
+  let(:user) { create(:user) }
   let(:spent_on) { Date.today }
   let!(:time_entry) do
-    FactoryBot.create(:time_entry,
-                      user: user,
-                      spent_on: spent_on)
+    create(:time_entry,
+           user: user,
+           spent_on: spent_on)
   end
   let!(:other_time_entry) do
-    FactoryBot.create(:time_entry,
-                      user: user,
-                      spent_on: spent_on)
+    create(:time_entry,
+           user: user,
+           spent_on: spent_on)
   end
   let!(:other_user_time_entry) do
-    FactoryBot.create(:time_entry,
-                      user: FactoryBot.create(:user),
-                      spent_on: spent_on)
+    create(:time_entry,
+           user: create(:user),
+           spent_on: spent_on)
   end
   let!(:other_date_time_entry) do
-    FactoryBot.create(:time_entry,
-                      user: user,
-                      spent_on: spent_on - 3.days)
+    create(:time_entry,
+           user: user,
+           spent_on: spent_on - 3.days)
   end
 
   describe '.of_user_and_day' do

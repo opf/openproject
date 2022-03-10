@@ -10,8 +10,19 @@ Please follow this section only if you have installed OpenProject using [this pr
 Before attempting the upgrade, please ensure you have performed a backup of your installation by following the [backup guide](../../operation/backing-up/).
 </div>
 
-In the following, we assume that you initially let OpenProject setup your PostgreSQL installation, using a local database. If you are using an external database, please follow the instructions from your provider, or adapt the instructions given below.
+Please first check whether this guide applies to you at all. Only PostgreSQL installations that were installed by the OpenProject package are applicable to this guide.
 
+To do that, please run the following command:
+
+```bash
+sudo cat /etc/openproject/installer.dat | grep postgres/autoinstall
+```
+
+And verify that it outputs: postgres/autoinstall **install**.
+
+If that is not the case, you are likely using a self-provisioned database or a remote database. In this case, please follow the instructions from your provider or use generic PostgreSQL upgrade guides. A guide we can recommend for Debian/Ubuntu based servers is this one: https://gorails.com/guides/upgrading-postgresql-version-on-ubuntu-server Please adapt that guide or the following steps to your distribution.
+
+In the following, we assume that you initially let OpenProject setup your PostgreSQL installation, using a local database. 
 1. First, connect to your server and make sure your local version is PostgreSQL v10:
 
 ```bash
@@ -59,6 +70,7 @@ sudo su - postgres <<CMD
   --old-options '-c config_file=/etc/postgresql/10/main/postgresql.conf' \
   --new-options '-c config_file=/etc/postgresql/13/main/postgresql.conf'
 CMD
+```
 
 5. Make PostgreSQL v13 the new default server to run on port 45432:
 
@@ -73,7 +85,7 @@ sudo su - postgres -c "/usr/lib/postgresql/13/bin/pg_ctl start --wait --pgdata=/
 7. If everything is fine, you can then remove your older PostgreSQL installation:
 
 ```bash
-rm -rf /var/lib/postgresql/10/main
+sudo rm -rf /var/lib/postgresql/10/main
 # you can optionally go further and purge postgresql-10 from your system if you wish
 sudo apt-get purge postgresql-10 # debian/ubuntu
 sudo yum remove postgresql-10 # rhel/centos
@@ -81,15 +93,6 @@ sudo zypper remove postgresql-10 # sles
 ```
 
 [pg_upgrade]: https://www.postgresql.org/docs/10/pgupgrade.html
-
-### Debian/Ubuntu
-
-Refresh your package list:
-
-```bash
-apt-get update
-apt-get -y install postgresql-13
-```
 
 [package-based-installation]: ../../installation/packaged/
 
@@ -100,6 +103,10 @@ Please follow this section only if you have installed OpenProject using [this pr
 
 Before attempting the upgrade, please ensure you have performed a backup of your installation by following the [backup guide](../../operation/backing-up/).
 </div>
+
+You can find the upgrade instructions for your docker-compose setup in the [openproject-deploy](https://github.com/opf/openproject-deploy/blob/stable/12/compose/control/README.md#upgrade) repository.
+
+Remember that you need to have checked out that repository and work in the `compose` directory for the instructions to work.
 
 [compose-based-installation]: ../../installation/docker/#one-container-per-process-recommended
 
@@ -172,6 +179,23 @@ sudo mv /var/lib/openproject/pgdata-prev /var/lib/openproject/pgdata
 ```
 
 And then restart OpenProject.
+
+## Upgrade table query plans after the upgrade
+
+After an upgrade of PostgreSQL, we strongly recommend running the following SQL command to ensure query plans are regenerated as this doesn't necessarily happen automatically.
+
+For that, open a database console. On a packaged installation, this is the way to do it:
+
+```
+psql $(openproject config:get DATABASE_URL)
+``` 
+
+Please change the command appropriately for other installation methods. Once connected, run the following command
+
+```sql
+ANALYZE VERBOSE;
+```
+
 
 [all-in-one-docker-installation]: ../../installation/docker/#all-in-one-container
 

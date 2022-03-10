@@ -10,7 +10,7 @@
     <%= content_tag('colors-autocompleter',
                     '',
                     class: "colors-autocomplete form--select-container " + "#{container_class.present? ? container_class : '-middle'}",
-                    data: { colors: options_for_colors(object, allow_bright_colors),
+                    data: { colors: options_for_colors(object),
                             selected_color: selected_color(object),
                             highlight_text_inline: highlight_text_inline,
                             update_input: type + '[color_id]'}) %>

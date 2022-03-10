@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module UserPreferences
@@ -34,7 +32,15 @@ module UserPreferences
 
     attr_accessor :notifications
 
-    def before_perform(params)
+    def validate_params(params)
+      contract = ParamsContract.new(model, user, params: params)
+
+      ServiceResult.new success: contract.valid?,
+                        errors: contract.errors,
+                        result: model
+    end
+
+    def before_perform(params, _service_result)
       self.notifications = params&.delete(:notification_settings)
 
       super
@@ -51,11 +57,11 @@ module UserPreferences
 
     def persist_notifications
       global, project = notifications
-        .map { |item| item.merge(user_id: model.user_id) }
-        .partition { |setting| setting[:project_id].nil? }
+                          .map { |item| item.merge(user_id: model.user_id) }
+                          .partition { |setting| setting[:project_id].nil? }
 
-      global_ids = upsert_notifications(global, %i[user_id channel], 'project_id IS NULL')
-      project_ids = upsert_notifications(project, %i[user_id channel project_id], 'project_id IS NOT NULL')
+      global_ids = upsert_notifications(global, %i[user_id], 'project_id IS NULL')
+      project_ids = upsert_notifications(project, %i[user_id project_id], 'project_id IS NOT NULL')
 
       global_ids + project_ids
     end
@@ -91,7 +97,14 @@ module UserPreferences
                         work_package_processed
                         work_package_prioritized
                         work_package_scheduled
-                        all]
+                        news_added
+                        news_commented
+                        document_added
+                        forum_messages
+                        wiki_page_added
+                        wiki_page_updated
+                        membership_added
+                        membership_updated]
           },
           validate: false
         ).ids

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,21 +23,21 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 describe ::API::Decorators::AggregationGroup do
   let(:query) do
-    query = FactoryBot.build_stubbed(:query)
+    query = build_stubbed(:query)
     query.group_by = :assigned_to
 
     query
   end
   let(:group_key) { OpenStruct.new name: 'ABC' }
   let(:count) { 5 }
-  let(:current_user) { FactoryBot.build_stubbed(:user) }
+  let(:current_user) { build_stubbed(:user) }
 
   subject { described_class.new(group_key, count, query: query, current_user: current_user).to_json }
 

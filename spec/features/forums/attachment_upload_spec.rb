@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,20 +23,20 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 require 'features/page_objects/notification'
 
 describe 'Upload attachment to forum message', js: true do
-  let(:forum) { FactoryBot.create(:forum) }
+  let(:forum) { create(:forum) }
   let(:user) do
-    FactoryBot.create :user,
-                      member_in_project: project,
-                      member_with_permissions: %i[view_messages
-                                                  add_messages
-                                                  edit_messages]
+    create :user,
+           member_in_project: project,
+           member_with_permissions: %i[view_messages
+                                       add_messages
+                                       edit_messages]
   end
   let(:project) { forum.project }
   let(:attachments) { ::Components::Attachments.new }
@@ -61,7 +59,7 @@ describe 'Upload attachment to forum message', js: true do
     editor.drag_attachment image_fixture.path, 'Image uploaded on creation'
 
     expect(page).to have_selector('attachment-list-item', text: 'image.png')
-    expect(page).not_to have_selector('notification-upload-progress')
+    expect(page).not_to have_selector('op-toasters-upload-progress')
 
     show_page = create_page.click_save
 
@@ -81,7 +79,7 @@ describe 'Upload attachment to forum message', js: true do
     editor.drag_attachment image_fixture.path, 'Image uploaded the second time'
 
     expect(page).to have_selector('attachment-list-item', text: 'image.png', count: 2)
-    expect(page).not_to have_selector('notification-upload-progress')
+    expect(page).not_to have_selector('op-toasters-upload-progress')
 
     show_page.click_save
 

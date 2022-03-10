@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'roar/decorator'
@@ -46,14 +44,14 @@ module API
           def self.filters_schema
             ->(*) do
               {
-                'type': '[]QueryFilterInstance',
-                'name': Query.human_attribute_name('filters'),
-                'required': false,
-                'writable': true,
-                'hasDefault': true,
-                '_links': {
-                  'allowedValuesSchemas': {
-                    'href': filter_instance_schemas_href
+                type: '[]QueryFilterInstance',
+                name: Query.human_attribute_name('filters'),
+                required: false,
+                writable: true,
+                hasDefault: true,
+                _links: {
+                  allowedValuesSchemas: {
+                    href: filter_instance_schemas_href
                   }
                 }
               }
@@ -107,37 +105,43 @@ module API
                  type: 'Boolean',
                  required: false,
                  writable: true,
-                 has_default: true
+                 has_default: true,
+                 deprecated: true
 
           schema :timeline_zoom_level,
                  type: 'String',
                  required: false,
                  writable: true,
-                 has_default: true
+                 has_default: true,
+                 deprecated: true
 
           schema :timeline_labels,
                  type: 'QueryTimelineLabels',
                  required: false,
                  writable: true,
-                 has_default: true
+                 has_default: true,
+                 deprecated: true
 
           schema :highlighting_mode,
                  type: 'String',
                  required: false,
                  writable: true,
-                 has_default: true
+                 has_default: true,
+                 deprecated: true
 
           schema :display_representation,
                  type: 'String',
                  required: false,
                  writable: true,
-                 has_default: true
+                 has_default: true,
+                 deprecated: true
 
           schema :show_hierarchies,
                  type: 'Boolean',
                  required: false,
                  writable: true,
-                 has_default: true
+                 has_default: true,
+                 deprecated: true
 
           schema :starred,
                  type: 'Boolean',
@@ -149,7 +153,8 @@ module API
                  type: 'Boolean',
                  required: true,
                  writable: true,
-                 has_default: true
+                 has_default: true,
+                 deprecated: true
 
           schema :ordered_work_packages,
                  type: 'QueryOrder',
@@ -258,11 +263,7 @@ module API
           end
 
           def filters_schemas
-            # TODO: The RelatableFilter is not supported by the schema dependencies yet
-            filters = represented
-                      .available_filters
-                      .reject { |f| f.is_a?(::Queries::WorkPackages::Filter::RelatableFilter) }
-
+            filters = represented.available_filters
             QueryFilterInstanceSchemaCollectionRepresenter.new(filters,
                                                                self_link: filter_instance_schemas_href,
                                                                form_embedded: form_embedded,

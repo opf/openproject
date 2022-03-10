@@ -14,10 +14,8 @@ module Dashboards
                   { controller: '/dashboards/dashboards', action: 'show' },
                   caption: :'dashboards.label',
                   after: :work_packages,
-                  before: :calendar,
-                  param: :project_id,
                   icon: 'icon2 icon-status',
-                  badge: 'dashboards.menu_badge')
+                  badge: 'label_menu_badge.alpha')
       end
     end
 
@@ -27,8 +25,8 @@ module Dashboards
 
       OpenProject::AccessControl.map do |ac_map|
         ac_map.project_module(:dashboards) do |pm_map|
-          pm_map.permission(:view_dashboards, 'dashboards/dashboards': ['show'])
-          pm_map.permission(:manage_dashboards, 'dashboards/dashboards': ['show'])
+          pm_map.permission(:view_dashboards, { 'dashboards/dashboards': ['show'] })
+          pm_map.permission(:manage_dashboards, { 'dashboards/dashboards': ['show'] })
         end
       end
     end

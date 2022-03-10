@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -31,49 +31,50 @@ require 'spec_helper'
 describe ::API::V3::WorkPackages::WorkPackageRepresenter do
   include API::V3::Utilities::PathHelper
 
-  let(:project) { FactoryBot.create(:project) }
+  let(:project) { create(:project) }
   let(:role) do
-    FactoryBot.create(:role, permissions: %i[view_time_entries
-                                             view_cost_entries
-                                             view_cost_rates
-                                             view_work_packages])
+    create(:role,
+           permissions: %i[view_time_entries
+                           view_cost_entries
+                           view_cost_rates
+                           view_work_packages])
   end
   let(:user) do
-    FactoryBot.create(:user,
-                      member_in_project: project,
-                      member_through_role: role)
+    create(:user,
+           member_in_project: project,
+           member_through_role: role)
   end
 
   let(:cost_entry_1) do
-    FactoryBot.create(:cost_entry,
-                      work_package: work_package,
-                      project: project,
-                      units: 3,
-                      spent_on: Date.today,
-                      user: user,
-                      comments: 'Entry 1')
+    create(:cost_entry,
+           work_package: work_package,
+           project: project,
+           units: 3,
+           spent_on: Time.zone.today,
+           user: user,
+           comments: 'Entry 1')
   end
   let(:cost_entry_2) do
-    FactoryBot.create(:cost_entry,
-                      work_package: work_package,
-                      project: project,
-                      units: 3,
-                      spent_on: Date.today,
-                      user: user,
-                      comments: 'Entry 2')
+    create(:cost_entry,
+           work_package: work_package,
+           project: project,
+           units: 3,
+           spent_on: Time.zone.today,
+           user: user,
+           comments: 'Entry 2')
   end
 
   let(:work_package) do
-    FactoryBot.create(:work_package,
-                      project_id: project.id)
+    create(:work_package,
+           project_id: project.id)
   end
   let(:representer) do
-    described_class.new(work_package,
-                        current_user: user,
-                        embed_links: true)
+    described_class.create(work_package,
+                           current_user: user,
+                           embed_links: true)
   end
 
-  before(:each) do
+  before do
     allow(User).to receive(:current).and_return user
   end
 
@@ -105,10 +106,10 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       describe 'spentTime' do
         context 'time entry with single hour' do
           let(:time_entry) do
-            FactoryBot.create(:time_entry,
-                              project: work_package.project,
-                              work_package: work_package,
-                              hours: 1.0)
+            create(:time_entry,
+                   project: work_package.project,
+                   work_package: work_package,
+                   hours: 1.0)
           end
 
           before { time_entry }
@@ -118,10 +119,10 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
         context 'time entry with multiple hours' do
           let(:time_entry) do
-            FactoryBot.create(:time_entry,
-                              project: work_package.project,
-                              work_package: work_package,
-                              hours: 42.5)
+            create(:time_entry,
+                   project: work_package.project,
+                   work_package: work_package,
+                   hours: 42.5)
           end
 
           before { time_entry }
@@ -139,30 +140,30 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
         context 'only view_own_time_entries permission' do
           let(:own_time_entries_role) do
-            FactoryBot.create(:role, permissions: %i[view_own_time_entries
+            create(:role, permissions: %i[view_own_time_entries
                                                      view_work_packages])
           end
 
           let(:user2) do
-            FactoryBot.create(:user,
-                              member_in_project: project,
-                              member_through_role: own_time_entries_role)
+            create(:user,
+                   member_in_project: project,
+                   member_through_role: own_time_entries_role)
           end
 
           let!(:own_time_entry) do
-            FactoryBot.create(:time_entry,
-                              project: work_package.project,
-                              work_package: work_package,
-                              hours: 2,
-                              user: user2)
+            create(:time_entry,
+                   project: work_package.project,
+                   work_package: work_package,
+                   hours: 2,
+                   user: user2)
           end
 
           let!(:other_time_entry) do
-            FactoryBot.create(:time_entry,
-                              project: work_package.project,
-                              work_package: work_package,
-                              hours: 1,
-                              user: user)
+            create(:time_entry,
+                   project: work_package.project,
+                   work_package: work_package,
+                   hours: 1,
+                   user: user)
           end
 
           before do

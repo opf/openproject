@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -25,27 +23,24 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module API
   module V3
     module Utilities
       class SqlRepresenterWalker
-        include API::Utilities::PageSizeHelper
+        include API::Utilities::UrlPropsParsingHelper
 
         def initialize(scope,
                        current_user:,
                        url_query: {},
-                       embed: {},
-                       select: {},
                        self_path: nil)
           self.scope = scope
           self.current_user = current_user
-          self.embed = embed
-          self.select = select
           self.self_path = self_path
-          self.url_query = url_query
+          # Hard wiring the properties to embed is a work around until signaling the properties to embed is implemented
+          self.url_query = url_query.merge(embed: { 'elements' => {} })
         end
 
         def walk(start)
@@ -60,7 +55,7 @@ module API
           end
 
           embedded_depth_first([], start) do |_, stack, current_representer|
-            result.scope = current_representer.joins(select_for(stack), result.scope)
+            result.projection_scope = current_representer.joins(select_for(stack), result.projection_scope)
           end
 
           embedded_depth_first([], start) do |_, _, current_representer|
@@ -80,11 +75,17 @@ module API
 
         attr_accessor :scope,
                       :current_user,
-                      :embed,
-                      :select,
                       :sql,
                       :url_query,
                       :self_path
+
+        def embed
+          url_query[:embed]
+        end
+
+        def select
+          url_query[:select]
+        end
 
         def embedded_depth_first(stack, current_representer, &block)
           up_map = {}
@@ -96,15 +97,15 @@ module API
             up_map[key] = embedded_depth_first(stack.dup << key, representer, &block)
           end
 
-          yield up_map, stack, current_representer
+          yield up_map, stack, current_representer if select_for(stack)
         end
 
         def select_for(stack)
           stack.any? ? select.dig(*stack) : select
         end
 
-        def embed_for(stack)
-          stack.any? ? embed.dig(*stack) : embed
+        def embed_for(stacker)
+          stacker.any? ? embed.dig(*stacker) : embed
         end
       end
     end

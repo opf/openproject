@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,14 +23,14 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 describe Repository::Git, type: :model do
   let(:encoding) { 'UTF-8' }
-  let(:instance) { FactoryBot.build(:repository_git, path_encoding: encoding) }
+  let(:instance) { build(:repository_git, path_encoding: encoding) }
   let(:adapter) { instance.scm }
   let(:config) { {} }
   let(:enabled_scm) { %w[git] }
@@ -79,7 +79,7 @@ describe Repository::Git, type: :model do
 
     context 'with managed config' do
       let(:config) { { manages: managed_path } }
-      let(:project) { FactoryBot.build :project }
+      let(:project) { build :project }
       let(:identifier) { project.identifier + '.git' }
 
       it 'is manageable' do
@@ -123,8 +123,8 @@ describe Repository::Git, type: :model do
       end
 
       context 'and associated project with parent' do
-        let(:parent) { FactoryBot.build :project }
-        let(:project) { FactoryBot.build :project, parent: parent }
+        let(:parent) { build :project }
+        let(:project) { build :project, parent: parent }
 
         before do
           instance.project = project
@@ -139,7 +139,7 @@ describe Repository::Git, type: :model do
   end
 
   describe 'URL validation' do
-    let(:instance) { FactoryBot.build(:repository_git, url: url) }
+    let(:instance) { build(:repository_git, url: url) }
 
     shared_examples 'repository url is valid' do
       it 'is valid' do
@@ -176,10 +176,10 @@ describe Repository::Git, type: :model do
     with_git_repository do |repo_dir|
       let(:url) { repo_dir }
       let(:instance) do
-        FactoryBot.create(:repository_git,
-                          path_encoding: encoding,
-                          url: url,
-                          root_url: url)
+        create(:repository_git,
+               path_encoding: encoding,
+               url: url,
+               root_url: url)
       end
 
       before do
@@ -402,8 +402,8 @@ describe Repository::Git, type: :model do
       end
 
       context 'with an admin browsing activity' do
-        let(:user) { FactoryBot.create(:admin) }
-        let(:project) { FactoryBot.create(:project) }
+        let(:user) { create(:admin) }
+        let(:project) { create(:project) }
 
         def find_events(user, options = {})
           options[:scope] = ['changesets']

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,29 +23,29 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
-  let(:project) { FactoryBot.build_stubbed(:project) }
-  let(:query) { FactoryBot.build_stubbed(:query, project: project) }
+  let(:project) { build_stubbed(:project) }
+  let(:query) { build_stubbed(:query, project: project) }
   let(:cf_accessor) { "cf_#{custom_field.id}" }
   let(:instance) do
     described_class.create!(name: cf_accessor, operator: '=', context: query)
   end
   let(:instance_key) { nil }
 
-  shared_let(:list_wp_custom_field) { FactoryBot.create(:list_wp_custom_field) }
-  let(:bool_wp_custom_field) { FactoryBot.build_stubbed(:bool_wp_custom_field) }
-  let(:int_wp_custom_field) { FactoryBot.build_stubbed(:int_wp_custom_field) }
-  let(:float_wp_custom_field) { FactoryBot.build_stubbed(:float_wp_custom_field) }
-  let(:text_wp_custom_field) { FactoryBot.build_stubbed(:text_wp_custom_field) }
-  let(:user_wp_custom_field) { FactoryBot.build_stubbed(:user_wp_custom_field) }
-  let(:version_wp_custom_field) { FactoryBot.build_stubbed(:version_wp_custom_field) }
-  let(:date_wp_custom_field) { FactoryBot.build_stubbed(:date_wp_custom_field) }
-  let(:string_wp_custom_field) { FactoryBot.build_stubbed(:string_wp_custom_field) }
+  shared_let(:list_wp_custom_field) { create(:list_wp_custom_field) }
+  let(:bool_wp_custom_field) { build_stubbed(:bool_wp_custom_field) }
+  let(:int_wp_custom_field) { build_stubbed(:int_wp_custom_field) }
+  let(:float_wp_custom_field) { build_stubbed(:float_wp_custom_field) }
+  let(:text_wp_custom_field) { build_stubbed(:text_wp_custom_field) }
+  let(:user_wp_custom_field) { build_stubbed(:user_wp_custom_field) }
+  let(:version_wp_custom_field) { build_stubbed(:version_wp_custom_field) }
+  let(:date_wp_custom_field) { build_stubbed(:date_wp_custom_field) }
+  let(:string_wp_custom_field) { build_stubbed(:string_wp_custom_field) }
   let(:custom_field) { list_wp_custom_field }
 
   let(:all_custom_fields) do
@@ -77,20 +77,9 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
 
   describe '.valid?' do
     let(:custom_field) { string_wp_custom_field }
-    before do
-      instance.values = ['bogus']
-    end
 
     before do
-      if project
-        allow(project)
-          .to receive_message_chain(:all_work_package_custom_fields, :map, :include?)
-          .and_return(true)
-      else
-        allow(WorkPackageCustomField)
-          .to receive_message_chain(:filter, :for_all, :where, :not, :exists?)
-          .and_return(true)
-      end
+      instance.values = ['bogus']
     end
 
     shared_examples_for 'custom field type dependent validity' do
@@ -120,56 +109,11 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
     end
 
     context 'within a project' do
-      it 'is invalid with a custom field not active in the project' do
-        scope = double('AR::Scope')
-        allow(project)
-          .to receive(:all_work_package_custom_fields)
-          .and_return(scope)
-
-        allow(scope)
-          .to receive(:map)
-          .and_return(scope)
-
-        allow(scope)
-          .to receive(:include?)
-          .with(instance.custom_field.id)
-          .and_return(false)
-
-        expect(instance).to_not be_valid
-      end
-
       it_behaves_like 'custom field type dependent validity'
     end
 
     context 'without a project' do
       let(:project) { nil }
-
-      it 'is invalid with a custom field not valid as a global filter' do
-        scope = double('AR::Scope')
-        allow(WorkPackageCustomField)
-          .to receive(:filter)
-          .and_return(scope)
-
-        allow(scope)
-          .to receive(:for_all)
-          .and_return(scope)
-
-        allow(scope)
-          .to receive(:where)
-          .and_return(scope)
-
-        allow(scope)
-          .to receive(:not)
-          .with(field_format: ['user', 'version'])
-          .and_return(scope)
-
-        allow(scope)
-          .to receive(:exists?)
-          .with(instance.custom_field.id)
-          .and_return(false)
-
-        expect(instance).to_not be_valid
-      end
 
       it_behaves_like 'custom field type dependent validity'
     end
@@ -379,18 +323,31 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
   end
 
   describe '.all_for' do
-    context 'within a project' do
+    context 'with a project' do
       before do
+        filter_scope = instance_double('ActiveRecord::Relation')
+
+        allow(::WorkPackageCustomField)
+          .to receive(:filter)
+                .and_return(filter_scope)
+
+        project_cf_scope = instance_double('ActiveRecord::Relation')
+
         allow(project)
-          .to receive_message_chain(:all_work_package_custom_fields)
-          .and_return(all_custom_fields)
+          .to receive(:all_work_package_custom_fields)
+                .and_return(project_cf_scope)
+
+        allow(project_cf_scope)
+          .to receive(:merge)
+                .with(filter_scope)
+                .and_return(all_custom_fields)
       end
 
       it 'returns a list with a filter for every custom field' do
         filters = described_class.all_for(query)
 
         all_custom_fields.each do |cf|
-          expect(filters.detect { |filter| filter.name == :"cf_#{cf.id}" }).to_not be_nil
+          expect(filters.detect { |filter| filter.name == :"cf_#{cf.id}" }).not_to be_nil
         end
       end
 
@@ -398,7 +355,8 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
         filters = described_class.all_for(query)
 
         all_custom_fields.each do |cf|
-          expect(filters.detect { |filter| filter.name == :"cf_#{cf.id}" }.context)
+          expect(filters.detect { |filter| filter.name == :"cf_#{cf.id}" }.context.project)
+            .to eq project
         end
       end
     end
@@ -507,8 +465,8 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
       end
 
       describe '#value_objects' do
-        let(:user1) { FactoryBot.build_stubbed(:user) }
-        let(:user2) { FactoryBot.build_stubbed(:user) }
+        let(:user1) { build_stubbed(:user) }
+        let(:user2) { build_stubbed(:user) }
 
         before do
           allow(Principal)
@@ -537,8 +495,8 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
       end
 
       describe '#value_objects' do
-        let(:version1) { FactoryBot.build_stubbed(:version) }
-        let(:version2) { FactoryBot.build_stubbed(:version) }
+        let(:version1) { build_stubbed(:version) }
+        let(:version2) { build_stubbed(:version) }
 
         before do
           allow(Version)

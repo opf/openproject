@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
 import {
@@ -41,15 +41,16 @@ import {
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { NgSelectComponent } from '@ng-select/ng-select';
 import { UserResource } from 'core-app/features/hal/resources/user-resource';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { ApiV3FilterBuilder, FilterOperator } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 
 export const usersAutocompleterSelector = 'user-autocompleter';
 
-export interface UserAutocompleteItem {
+export interface IUserAutocompleteItem {
   name:string;
   id:string|null;
   href:string|null;
+  avatar:string|null;
 }
 
 @Component({
@@ -61,7 +62,7 @@ export class UserAutocompleterComponent implements OnInit {
 
   @ViewChild(NgSelectComponent, { static: true }) public ngSelectComponent:NgSelectComponent;
 
-  @Output() public onChange = new EventEmitter<void>();
+  @Output() public onChange = new EventEmitter<IUserAutocompleteItem>();
 
   @Input() public clearAfterSelection = false;
 
@@ -80,7 +81,7 @@ export class UserAutocompleterComponent implements OnInit {
   private updateInputField:HTMLInputElement|undefined;
 
   /** Keep a switchmap for search term and loading state */
-  public requests = new DebouncedRequestSwitchmap<string, UserAutocompleteItem>(
+  public requests = new DebouncedRequestSwitchmap<string, IUserAutocompleteItem>(
     (searchTerm:string) => this.getAvailableUsers(this.url, searchTerm),
     errorNotificationHandler(this.halNotification),
   );
@@ -92,7 +93,7 @@ export class UserAutocompleterComponent implements OnInit {
     protected I18n:I18nService,
     protected halNotification:HalResourceNotificationService,
     readonly pathHelper:PathHelperService,
-    readonly apiV3Service:APIV3Service,
+    readonly apiV3Service:ApiV3Service,
     readonly injector:Injector) {
   }
 
@@ -157,7 +158,7 @@ export class UserAutocompleterComponent implements OnInit {
     }
   }
 
-  protected getAvailableUsers(url:string, searchTerm:any):Observable<UserAutocompleteItem[]> {
+  protected getAvailableUsers(url:string, searchTerm:any):Observable<IUserAutocompleteItem[]> {
     // Need to clone the filters to not add additional filters on every
     // search term being processed.
     const searchFilters = this.inputFilters.clone();

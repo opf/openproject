@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
@@ -31,18 +31,18 @@ require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 describe CostQuery, type: :model, reporting_query_helper: true do
   minimal_query
 
-  let!(:project1) { FactoryBot.create(:project_with_types) }
-  let!(:work_package1) { FactoryBot.create(:work_package, project: project1) }
-  let!(:time_entry1) { FactoryBot.create(:time_entry, work_package: work_package1, project: project1) }
-  let!(:time_entry2) { FactoryBot.create(:time_entry, work_package: work_package1, project: project1) }
+  let!(:project1) { create(:project_with_types) }
+  let!(:work_package1) { create(:work_package, project: project1) }
+  let!(:time_entry1) { create(:time_entry, work_package: work_package1, project: project1) }
+  let!(:time_entry2) { create(:time_entry, work_package: work_package1, project: project1) }
 
-  let!(:project2) { FactoryBot.create(:project_with_types) }
-  let!(:work_package2) { FactoryBot.create(:work_package, project: project2) }
-  let!(:time_entry3) { FactoryBot.create(:time_entry, work_package: work_package2, project: project2) }
-  let!(:time_entry4) { FactoryBot.create(:time_entry, work_package: work_package2, project: project2) }
+  let!(:project2) { create(:project_with_types) }
+  let!(:work_package2) { create(:work_package, project: project2) }
+  let!(:time_entry3) { create(:time_entry, work_package: work_package2, project: project2) }
+  let!(:time_entry4) { create(:time_entry, work_package: work_package2, project: project2) }
 
   before do
-    FactoryBot.create(:admin)
+    create(:admin)
   end
 
   describe "the reporting system" do

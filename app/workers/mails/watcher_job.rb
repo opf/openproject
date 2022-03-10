@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 class Mails::WatcherJob < Mails::DeliverJob
@@ -38,11 +36,11 @@ class Mails::WatcherJob < Mails::DeliverJob
   end
 
   def render_mail
-    UserMailer
-      .work_package_watcher_changed(watcher.watchable,
-                                    recipient,
-                                    sender,
-                                    action)
+    WorkPackageMailer
+      .watcher_changed(watcher.watchable,
+                       recipient,
+                       sender,
+                       action)
   end
 
   private
@@ -54,21 +52,20 @@ class Mails::WatcherJob < Mails::DeliverJob
   end
 
   def notify_about_watcher_changed?
-    return false if notify_about_self_watching?
+    return false if self_watching?
     return false unless UserMailer.perform_deliveries
 
     settings = watcher
                .user
                .notification_settings
                .applicable(watcher.watchable.project)
-               .mail
                .first
 
-    settings.watched || settings.all
+    settings.watched
   end
 
-  def notify_about_self_watching?
-    watcher.user == sender && !sender.pref.self_notified?
+  def self_watching?
+    watcher.user == sender
   end
 
   def action

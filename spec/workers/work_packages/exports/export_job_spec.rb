@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,21 +23,21 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
-describe WorkPackages::Exports::ExportJob do
-  let(:user) { FactoryBot.build_stubbed(:user) }
+describe WorkPackages::ExportJob do
+  let(:user) { build_stubbed(:user) }
   let(:attachment) { double('Attachment', id: 1234) }
   let(:export) do
-    FactoryBot.create(:work_packages_export)
+    create(:work_packages_export)
   end
-  let(:query) { FactoryBot.build_stubbed(:query) }
+  let(:query) { build_stubbed(:query) }
   let(:query_attributes) { {} }
 
-  let(:job) { described_class.new(jobs_args) }
+  let(:job) { described_class.new(**jobs_args) }
   let(:jobs_args) do
     {
       export: export,
@@ -57,22 +55,23 @@ describe WorkPackages::Exports::ExportJob do
   end
 
   shared_examples_for 'exporter returning string' do
+    let(:result) do
+      Exports::Result.new(format: 'blubs',
+                          title: "some_title.#{mime_type}",
+                          content: 'some string',
+                          mime_type: "application/octet-stream")
+    end
+
+    let(:service) { double('attachments create service') } # rubocop:disable RSpec/VerifiedDoubles
+    let(:exporter_instance) { instance_double(exporter) }
+
     it 'exports' do
-      content = 'some string'
-
-      result = WorkPackage::Exporter::Result::Success.new(format: 'blubs',
-                                                          title: "some_title.#{mime_type}",
-                                                          content: content,
-                                                          mime_type: "application/octet-stream")
-
-      service = double('attachments create service')
-
       expect(Attachments::CreateService)
         .to receive(:bypass_whitelist)
-        .with(user: user)
-        .and_return(service)
+              .with(user: user)
+              .and_return(service)
 
-      expect(WorkPackages::Exports::CleanupOutdatedJob)
+      expect(Exports::CleanupOutdatedJob)
         .to receive(:perform_after_grace)
 
       expect(service)
@@ -86,9 +85,9 @@ describe WorkPackages::Exports::ExportJob do
         ServiceResult.new(result: attachment, success: true)
       end
 
-      allow("WorkPackage::Exporter::#{mime_type.upcase}".constantize)
-        .to receive(:list)
-        .and_yield(result)
+      allow(exporter).to receive(:new).and_return exporter_instance
+
+      allow(exporter_instance).to receive(:export!).and_return(result)
 
       # expect to create a status
       expect(subject.job_status).to be_present
@@ -99,15 +98,17 @@ describe WorkPackages::Exports::ExportJob do
   end
 
   describe 'query passing' do
-    context 'passing in group_by through attributes' do
+    context 'when passing in group_by through attributes' do
       let(:query_attributes) { { group_by: 'assigned_to' } }
       let(:mime_type) { :pdf }
+      let(:exporter) { WorkPackage::PDFExport::WorkPackageListToPdf }
 
       it 'updates the query from attributes' do
-        expect("WorkPackage::Exporter::#{mime_type.upcase}".constantize)
-          .to receive(:list) do |query, _options|
+        allow(exporter)
+          .to receive(:new) do |query, _options|
           expect(query.group_by).to eq 'assigned_to'
         end
+          .and_call_original
 
         subject
       end
@@ -117,14 +118,14 @@ describe WorkPackages::Exports::ExportJob do
   describe '#perform' do
     context 'with the pdf mime type' do
       let(:mime_type) { :pdf }
+      let(:exporter) { WorkPackage::PDFExport::WorkPackageListToPdf }
 
       it_behaves_like 'exporter returning string'
     end
-  end
 
-  describe '#perform' do
     context 'with the csv mime type' do
       let(:mime_type) { :csv }
+      let(:exporter) { WorkPackage::Exports::CSV }
 
       it_behaves_like 'exporter returning string'
     end

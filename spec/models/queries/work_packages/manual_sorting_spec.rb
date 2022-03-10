@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,23 +23,23 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 describe Query, "manual sorting ", type: :model do
-  shared_let(:user) { FactoryBot.create :admin }
-  shared_let(:project) { FactoryBot.create :project }
-  shared_let(:query) { FactoryBot.create :query, user: user, project: project }
+  shared_let(:user) { create :admin }
+  shared_let(:project) { create :project }
+  shared_let(:query) { create :query, user: user, project: project }
   shared_let(:wp_1) do
     User.execute_as user do
-      FactoryBot.create :work_package, project: project
+      create :work_package, project: project
     end
   end
   shared_let(:wp_2) do
     User.execute_as user do
-      FactoryBot.create :work_package, project: project
+      create :work_package, project: project
     end
   end
 
@@ -66,7 +66,7 @@ describe Query, "manual sorting ", type: :model do
   end
 
   describe 'with a second query on the same work package' do
-    let(:query2) { FactoryBot.create :query, user: user, project: project }
+    let(:query2) { create :query, user: user, project: project }
 
     before do
       ::OrderedWorkPackage.create(query: query, work_package: wp_1, position: 0)

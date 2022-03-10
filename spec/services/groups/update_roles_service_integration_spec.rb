@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -31,25 +31,25 @@ require 'spec_helper'
 describe Groups::UpdateRolesService, 'integration', type: :model do
   subject(:service_call) { instance.call(member: member, message: message) }
 
-  let(:project) { FactoryBot.create :project }
-  let(:role) { FactoryBot.create :role }
-  let(:current_user) { FactoryBot.create :admin }
+  let(:project) { create :project }
+  let(:role) { create :role }
+  let(:current_user) { create :admin }
   let(:roles) { [role] }
 
   let!(:group) do
-    FactoryBot.create(:group,
-                      members: users).tap do |group|
-      FactoryBot.create(:member,
-                        project: project,
-                        principal: group,
-                        roles: roles)
+    create(:group,
+           members: users).tap do |group|
+      create(:member,
+             project: project,
+             principal: group,
+             roles: roles)
 
       ::Groups::AddUsersService
         .new(group, current_user: User.system, contract_class: EmptyContract)
         .call(ids: users.map(&:id))
     end
   end
-  let(:users) { FactoryBot.create_list :user, 2 }
+  let(:users) { create_list :user, 2 }
   let(:member) { Member.find_by(principal: group) }
   let(:message) { "Some message" }
 
@@ -65,14 +65,14 @@ describe Groups::UpdateRolesService, 'integration', type: :model do
   shared_examples_for 'keeps timestamp' do
     it 'updated_at on member is unchanged' do
       expect { service_call }
-        .not_to change { Member.find_by(principal: user).updated_at }
+        .not_to(change { Member.find_by(principal: user).updated_at })
     end
   end
 
   shared_examples_for 'updates timestamp' do
     it 'updated_at on member is changed' do
       expect { service_call }
-        .to change { Member.find_by(principal: user).updated_at }
+        .to(change { Member.find_by(principal: user).updated_at })
     end
   end
 
@@ -82,13 +82,15 @@ describe Groups::UpdateRolesService, 'integration', type: :model do
 
       expect(Notifications::GroupMemberAlteredJob)
         .to have_received(:perform_later)
-        .with(a_collection_containing_exactly(*Member.where(principal: user).pluck(:id)),
-              message)
+        .with(current_user,
+              a_collection_containing_exactly(*Member.where(principal: user).pluck(:id)),
+              message,
+              true)
     end
   end
 
   context 'when adding a role' do
-    let(:added_role) { FactoryBot.create(:role) }
+    let(:added_role) { create(:role) }
 
     before do
       member.roles << added_role
@@ -113,8 +115,76 @@ describe Groups::UpdateRolesService, 'integration', type: :model do
     end
   end
 
+  context 'with global membership' do
+    let(:role) { create :global_role }
+    let!(:group) do
+      create(:group,
+             members: users).tap do |group|
+        create(:global_member,
+               principal: group,
+               roles: roles)
+
+        ::Groups::AddUsersService
+          .new(group, current_user: User.system, contract_class: EmptyContract)
+          .call(ids: users.map(&:id))
+      end
+    end
+
+    context 'when adding a global role' do
+      let(:added_role) { create(:global_role) }
+
+      before do
+        member.roles << added_role
+      end
+
+      it 'is successful' do
+        expect(service_call)
+          .to be_success
+      end
+
+      it 'adds the roles to all inherited memberships' do
+        service_call
+
+        Member.where(principal: users).each do |member|
+          expect(member.roles)
+            .to match_array([role, added_role])
+        end
+      end
+
+      it_behaves_like 'sends notification' do
+        let(:user) { users }
+      end
+    end
+
+    context 'when removing a global role' do
+      let(:roles) { [role, create(:global_role)] }
+
+      before do
+        member.roles = [role]
+      end
+
+      it 'is successful' do
+        expect(service_call)
+          .to be_success
+      end
+
+      it 'removes the roles from all inherited memberships' do
+        service_call
+
+        Member.where(principal: users).each do |member|
+          expect(member.roles)
+            .to match_array([role])
+        end
+      end
+
+      it_behaves_like 'sends notification' do
+        let(:user) { users }
+      end
+    end
+  end
+
   context 'when adding a role but with one user having had the role before (no inherited from)' do
-    let(:added_role) { FactoryBot.create(:role) }
+    let(:added_role) { create(:role) }
 
     before do
       member.roles << added_role
@@ -155,7 +225,7 @@ describe Groups::UpdateRolesService, 'integration', type: :model do
   end
 
   context 'when removing a role' do
-    let(:roles) { [role, FactoryBot.create(:role)] }
+    let(:roles) { [role, create(:role)] }
 
     before do
       member.roles = [role]
@@ -181,7 +251,7 @@ describe Groups::UpdateRolesService, 'integration', type: :model do
   end
 
   context 'when removing a role but with a user having had the role before (no inherited_from)' do
-    let(:roles) { [role, FactoryBot.create(:role)] }
+    let(:roles) { [role, create(:role)] }
 
     before do
       member.roles = [role]
@@ -223,7 +293,7 @@ describe Groups::UpdateRolesService, 'integration', type: :model do
   end
 
   context 'when replacing roles' do
-    let(:replacement_role) { FactoryBot.create(:role) }
+    let(:replacement_role) { create(:role) }
 
     before do
       member.roles = [replacement_role]
@@ -249,7 +319,7 @@ describe Groups::UpdateRolesService, 'integration', type: :model do
   end
 
   context 'when replacing a role but with a user having had the replaced role before (no inherited_from)' do
-    let(:replacement_role) { FactoryBot.create(:role) }
+    let(:replacement_role) { create(:role) }
 
     before do
       member.roles = [replacement_role]

@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -41,13 +39,13 @@ shared_examples_for 'user contract' do
   it_behaves_like 'contract is valid for active admins and invalid for regular users'
 
   context 'when admin' do
-    let(:current_user) { FactoryBot.build_stubbed :admin }
+    let(:current_user) { build_stubbed :admin }
 
     it_behaves_like 'contract is valid'
   end
 
   context 'when global user' do
-    let(:current_user) { FactoryBot.create :user, global_permission: :manage_user }
+    let(:current_user) { create :user, global_permission: :manage_user }
 
     describe 'cannot set the password' do
       before do
@@ -58,7 +56,7 @@ shared_examples_for 'user contract' do
     end
 
     describe 'can set the auth_source' do
-      let!(:auth_source) { FactoryBot.create :auth_source }
+      let!(:auth_source) { create :auth_source }
 
       before do
         user.password = user.password_confirmation = nil
@@ -78,7 +76,7 @@ shared_examples_for 'user contract' do
   end
 
   context 'when unauthorized user' do
-    let(:current_user) { FactoryBot.build_stubbed(:user) }
+    let(:current_user) { build_stubbed(:user) }
 
     it_behaves_like 'contract user is unauthorized'
   end

@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -34,13 +32,13 @@ require 'contracts/shared/model_contract_shared_context'
 describe Queries::UpdateContract do
   include_context 'ModelContract shared context'
 
-  let(:project) { FactoryBot.build_stubbed :project }
+  let(:project) { build_stubbed :project }
   let(:query) do
-    FactoryBot.build_stubbed(:query, project: project, is_public: public, user: user)
+    build_stubbed(:query, project: project, public: public, user: user)
   end
 
   let(:current_user) do
-    FactoryBot.build_stubbed(:user) do |user|
+    build_stubbed(:user) do |user|
       allow(user)
         .to receive(:allowed_to?) do |permission, permission_project|
         permissions.include?(permission) && project == permission_project
@@ -74,7 +72,7 @@ describe Queries::UpdateContract do
     end
 
     context 'when user is someone else' do
-      let(:user) { FactoryBot.build_stubbed :user }
+      let(:user) { build_stubbed :user }
       let(:permissions) { %i(save_queries) }
 
       it_behaves_like 'contract user is unauthorized'

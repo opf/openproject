@@ -1,5 +1,4 @@
 tr:
   dashboards:
     label: 'Gösterge panosu'
-    menu_badge: 'Alfa'
-  project_module_dashboards: 'Gösterge panosu'
+  project_module_dashboards: 'Gösterge paneli'

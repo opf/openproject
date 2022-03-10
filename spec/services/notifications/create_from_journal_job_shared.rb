@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,53 +23,44 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 require 'spec_helper'
 
 shared_context 'with CreateFromJournalJob context' do
-  shared_let(:project) { FactoryBot.create(:project_with_types) }
+  shared_let(:project) { create(:project_with_types) }
   let(:permissions) { [] }
   let(:recipient) do
-    FactoryBot.create(:user,
-                      notification_settings: recipient_notification_settings,
-                      member_in_project: project,
-                      member_through_role: FactoryBot.create(:role, permissions: permissions),
-                      login: recipient_login,
-                      preferences: {
-                        no_self_notified: recipient_no_self_notified
-                      })
+    create(:user,
+           notification_settings: recipient_notification_settings,
+           member_in_project: project,
+           member_through_role: create(:role, permissions: permissions),
+           login: recipient_login)
   end
   let(:recipient_login) { "johndoe" }
-  let(:recipient_no_self_notified) { true }
   let(:other_user) do
     notification_settings = [
-      FactoryBot.build(:mail_notification_setting, **notification_settings_all_false),
-      FactoryBot.build(:in_app_notification_setting, **notification_settings_all_false),
-      FactoryBot.build(:mail_digest_notification_setting, **notification_settings_all_false)
+      build(:notification_setting, **notification_settings_all_false)
     ]
 
-    FactoryBot.create(:user,
-                      notification_settings: notification_settings)
+    create(:user,
+           notification_settings: notification_settings)
   end
   let(:notification_settings_all_false) do
-    {
-      all: false,
-      involved: false,
-      watched: false,
-      mentioned: false,
-      work_package_commented: false,
-      work_package_processed: false,
-      work_package_created: false,
-      work_package_scheduled: false,
-      work_package_prioritized: false
-    }
+    NotificationSetting
+      .all_settings
+      .index_with(false)
   end
+
+  let(:notification_settings_all_true) do
+    NotificationSetting
+      .all_settings
+      .index_with(true)
+  end
+
   let(:recipient_notification_settings) do
     [
-      FactoryBot.build(:mail_notification_setting, all: true),
-      FactoryBot.build(:in_app_notification_setting, all: true),
-      FactoryBot.build(:mail_digest_notification_setting, all: true)
+      build(:notification_setting, **notification_settings_all_true)
     ]
   end
   let(:send_notifications) { true }
@@ -81,14 +70,11 @@ shared_context 'with CreateFromJournalJob context' do
     let(:notification_channel_reasons) do
       {
         read_ian: false,
-        reason_ian: :mentioned,
-        read_mail: false,
-        reason_mail: :mentioned,
-        read_mail_digest: false,
-        reason_mail_digest: :mentioned
+        reason: :mentioned,
+        mail_reminder_sent: false
       }
     end
-    let(:notification) { FactoryBot.build_stubbed(:notification) }
+    let(:notification) { build_stubbed(:notification) }
 
     it 'creates a notification and returns it' do
       notifications_service = instance_double(Notifications::CreateService)

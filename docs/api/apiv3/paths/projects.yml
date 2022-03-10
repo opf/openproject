@@ -57,6 +57,14 @@ get:
     required: false
     schema:
       type: string
+  - description: |-
+      Comma separated list of properties to include.
+    example: 'total,elements/identifier,elements/name'
+    in: query
+    name: select
+    required: false
+    schema:
+      type: string
   responses:
     '200':
       content:
@@ -157,17 +165,30 @@ get:
   operationId: List_projects
   summary: List projects
 post:
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+        examples:
+          "with custom fields":
+            "$ref": "../components/examples/project_body.yml"
   responses:
     '201':
       content:
         application/hal+json:
           schema:
-            "$ref": "../components/schemas/view_project_model.yml"
+            "$ref": "../components/schemas/project_model.yml"
+          examples:
+            "with custom fields":
+              "$ref": "../components/examples/project.yml"
       description: Created
       headers: {}
     '400':
       content:
         application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
           examples:
             response:
               value:
@@ -180,6 +201,8 @@ post:
     '403':
       content:
         application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
           examples:
             response:
               value:
@@ -194,6 +217,8 @@ post:
     '422':
       content:
         application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
           examples:
             response:
               value:

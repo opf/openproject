@@ -72,7 +72,7 @@ sk:
       text_2fa_enabled: 'Po každom prihlásení bude užívateľ požiadaný, aby zadal token OTP zo svojho predvoleného zariadenia 2FA.'
       text_2fa_disabled: "Používateľ neurčil zariadenie 2FA prostredníctvom svojej stránky \"Môj účet\""
     upsale:
-      title: 'Dvojfaktorové overovanie je funkcia Enterprise-Edition'
+      title: 'Two-factor authentication'
       description: 'Posilnite svoje interné alebo externé autentifikačné mechanizmy dvojfaktorovým overovaním.'
     backup_codes:
       none_found: Pre tento účet neexistujú žiadne záložné kódy.
@@ -155,7 +155,7 @@ sk:
       cookie_removed: 'All remembered 2FA sessions have been removed.'
       dont_ask_again: "Create cookie to remember 2FA authentication on this client for %{days} days."
   field_phone: "Mobilný telefón"
-  field_otp: "Jednorázové heslo"
+  field_otp: "Jednorazové heslo"
   notice_account_otp_invalid: "Neplatné jednorazové heslo."
   notice_account_otp_expired: "Doba platnosti jednorázového hesla vypršala."
   notice_developer_strategy_otp: "Developer strategy generated the following one-time password: %{token} (Channel: %{channel})"

@@ -1,10 +1,10 @@
-import { APIv3ResourcePath } from 'core-app/core/apiv3/paths/apiv3-resource';
+import { ApiV3ResourcePath } from 'core-app/core/apiv3/paths/apiv3-resource';
 import { FormResource } from 'core-app/features/hal/resources/form-resource';
 import { Observable } from 'rxjs';
 import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
 import { HalPayloadHelper } from 'core-app/features/hal/schemas/hal-payload.helper';
 
-export class APIv3FormResource<T extends FormResource = FormResource> extends APIv3ResourcePath<T> {
+export class ApiV3FormResource<T extends FormResource = FormResource> extends ApiV3ResourcePath<T> {
   /**
    * POST to the form resource identified by this path
    * @param request The request payload

@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -25,22 +23,22 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 
 require 'spec_helper'
 require 'rack/test'
 
 describe ::API::V3::PlaceholderUsers::PlaceholderUsersAPI,
          'index',
+         content_type: :json,
          type: :request do
 
   include API::V3::Utilities::PathHelper
 
-  shared_let(:placeholder1) { FactoryBot.create :placeholder_user, name: 'foo' }
-  shared_let(:placeholder2) { FactoryBot.create :placeholder_user, name: 'bar' }
+  shared_let(:placeholder1) { create :placeholder_user, name: 'foo' }
+  shared_let(:placeholder2) { create :placeholder_user, name: 'bar' }
 
   let(:send_request) do
-    header "Content-Type", "application/json"
     get api_v3_paths.placeholder_users
   end
 
@@ -52,27 +50,72 @@ describe ::API::V3::PlaceholderUsers::PlaceholderUsersAPI,
     send_request
   end
 
-  describe 'admin user' do
-    let(:user) { FactoryBot.build(:admin) }
+  context 'for an admin user' do
+    let(:user) { build(:admin) }
 
     it_behaves_like 'API V3 collection response', 2, 2, 'PlaceholderUser'
   end
 
-  describe 'user with manage_placeholder_user permission' do
-    let(:user) { FactoryBot.create(:user, global_permission: %i[manage_placeholder_user]) }
+  context 'when signaling for the desired properties' do
+    let(:user) { build(:admin) }
+    let(:send_request) do
+      get api_v3_paths.path_for :placeholder_users, select: 'total,count,elements/*'
+    end
+
+    let(:expected) do
+      {
+        total: 2,
+        count: 2,
+        _embedded: {
+          elements: [
+            {
+              _type: 'PlaceholderUser',
+              id: placeholder2.id,
+              name: placeholder2.name,
+              _links: {
+                self: {
+                  href: api_v3_paths.placeholder_user(placeholder2.id),
+                  title: placeholder2.name
+                }
+              }
+            },
+            {
+              _type: 'PlaceholderUser',
+              id: placeholder1.id,
+              name: placeholder1.name,
+              _links: {
+                self: {
+                  href: api_v3_paths.placeholder_user(placeholder1.id),
+                  title: placeholder1.name
+                }
+              }
+            }
+          ]
+        }
+      }
+    end
+
+    it 'is the reduced set of properties of the embedded elements' do
+      expect(last_response.body)
+        .to be_json_eql(expected.to_json)
+    end
+  end
+
+  context 'for a user with manage_placeholder_user permission' do
+    let(:user) { create(:user, global_permission: %i[manage_placeholder_user]) }
 
     it_behaves_like 'API V3 collection response', 2, 2, 'PlaceholderUser'
   end
 
-  describe 'user with manage_members permission' do
-    let(:project) { FactoryBot.create(:project) }
-    let(:user) { FactoryBot.create(:user, member_in_project: project, member_with_permissions: %i[manage_members]) }
+  context 'for a user with manage_members permission' do
+    let(:project) { create(:project) }
+    let(:user) { create(:user, member_in_project: project, member_with_permissions: %i[manage_members]) }
 
     it_behaves_like 'API V3 collection response', 2, 2, 'PlaceholderUser'
   end
 
-  describe 'unauthorized user' do
-    let(:user) { FactoryBot.build(:user) }
+  context 'for an unauthorized user' do
+    let(:user) { build(:user) }
 
     it_behaves_like 'API V3 collection response', 0, 0, 'PlaceholderUser'
   end

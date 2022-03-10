@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,39 +23,39 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 describe 'Meetings copy', type: :feature, js: true do
-  let(:project) { FactoryBot.create :project, enabled_module_names: %w[meetings] }
+  let(:project) { create :project, enabled_module_names: %w[meetings] }
   let(:user) do
-    FactoryBot.create(:user,
-                      member_in_project: project,
-                      member_with_permissions: permissions).tap do |u|
+    create(:user,
+           member_in_project: project,
+           member_with_permissions: permissions).tap do |u|
       u.pref[:time_zone] = 'UTC'
 
       u.save!
     end
   end
   let(:other_user) do
-    FactoryBot.create(:user,
-                      member_in_project: project,
-                      member_with_permissions: permissions)
+    create(:user,
+           member_in_project: project,
+           member_with_permissions: permissions)
   end
   let(:permissions) { %i[view_meetings create_meetings] }
 
   let(:agenda_text) { "We will talk" }
   let!(:meeting) do
-    FactoryBot.create(:meeting,
-                      author: other_user,
-                      project: project,
-                      title: 'Awesome meeting!',
-                      location: 'Meeting room',
-                      duration: 1.5,
-                      start_time: DateTime.parse("2013-03-27 18:55:00")).tap do |m|
-      FactoryBot.create(:meeting_agenda, meeting: m, text: agenda_text)
+    create(:meeting,
+           author: other_user,
+           project: project,
+           title: 'Awesome meeting!',
+           location: 'Meeting room',
+           duration: 1.5,
+           start_time: DateTime.parse("2013-03-27 18:55:00")).tap do |m|
+      create(:meeting_agenda, meeting: m, text: agenda_text)
       m.participants.build(user: other_user, attended: true)
     end
   end

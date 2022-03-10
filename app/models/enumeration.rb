@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 class Enumeration < ApplicationRecord
@@ -34,7 +32,6 @@ class Enumeration < ApplicationRecord
   belongs_to :project
 
   acts_as_list scope: 'type = \'#{type}\''
-  acts_as_customizable
   acts_as_tree order: 'position ASC'
 
   before_destroy :check_integrity
@@ -183,5 +180,5 @@ end
 
 # Force load the subclasses in development mode
 %w(time_entry_activity issue_priority).each do |enum_subclass|
-  require_dependency enum_subclass
+  require enum_subclass
 end

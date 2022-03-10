@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,14 +23,13 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { Injector } from '@angular/core';
 import { States } from 'core-app/core/states/states.service';
-import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
@@ -41,7 +40,7 @@ import { StateService } from '@uirouter/core';
 import { WorkPackageCreateService } from 'core-app/features/work-packages/components/wp-new/wp-create.service';
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import { WorkPackagesActivityService } from 'core-app/features/work-packages/components/wp-single-view-tabs/activity-panel/wp-activity.service';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { OpenProjectFileUploadService } from 'core-app/core/file-upload/op-file-upload.service';
 import { OpenProjectDirectFileUploadService } from 'core-app/core/file-upload/op-direct-file-upload.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
@@ -53,7 +52,6 @@ import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 describe('WorkPackage', () => {
   let halResourceService:HalResourceService;
   let injector:Injector;
-  let notificationsService:NotificationsService;
   let halResourceNotification:HalResourceNotificationService;
 
   let source:any;
@@ -75,14 +73,13 @@ describe('WorkPackage', () => {
         States,
         TimezoneService,
         WorkPackagesActivityService,
-        NotificationsService,
         ConfigurationService,
         OpenProjectFileUploadService,
         OpenProjectDirectFileUploadService,
         LoadingIndicatorService,
         PathHelperService,
         I18nService,
-        APIV3Service,
+        ApiV3Service,
         { provide: HalResourceNotificationService, useValue: { handleRawError: () => false } },
         { provide: WorkPackageNotificationService, useValue: {} as any },
         { provide: WorkPackageCreateService, useValue: {} },
@@ -94,7 +91,6 @@ describe('WorkPackage', () => {
       .then(() => {
         halResourceService = TestBed.inject(HalResourceService);
         injector = TestBed.inject(Injector);
-        notificationsService = injector.get(NotificationsService);
         halResourceNotification = injector.get(HalResourceNotificationService);
 
         halResourceService.registerResource('WorkPackage', { cls: WorkPackageResource });

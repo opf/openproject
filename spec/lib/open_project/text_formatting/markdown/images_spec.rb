@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -40,7 +38,7 @@ describe OpenProject::TextFormatting,
   context 'inline linking attachments' do
     context 'work package with attachments' do
       let!(:work_package) do
-        FactoryBot.build_stubbed(:work_package).tap do |wp|
+        build_stubbed(:work_package).tap do |wp|
           allow(wp)
             .to receive(:attachments)
             .and_return attachments
@@ -48,7 +46,7 @@ describe OpenProject::TextFormatting,
       end
       let(:attachments) { [inlinable, non_inlinable] }
       let!(:inlinable) do
-        FactoryBot.build_stubbed(:attached_picture) do |a|
+        build_stubbed(:attached_picture) do |a|
           allow(a)
             .to receive(:filename)
             .and_return('my-image.jpg')
@@ -58,7 +56,7 @@ describe OpenProject::TextFormatting,
         end
       end
       let!(:non_inlinable) do
-        FactoryBot.build_stubbed(:attachment) do |a|
+        build_stubbed(:attachment) do |a|
           allow(a)
             .to receive(:filename)
             .and_return('whatever.pdf')

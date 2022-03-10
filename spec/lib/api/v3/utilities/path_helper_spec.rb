@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -500,6 +500,17 @@ describe ::API::V3::Utilities::PathHelper do
       subject { helper.projects_by_version 42 }
 
       it_behaves_like 'api v3 path', '/versions/42/projects'
+    end
+  end
+
+  describe 'view paths' do
+    it_behaves_like 'show', :view
+    it_behaves_like 'index', :view
+
+    describe '#views_type' do
+      subject { helper.views_type('work_packages_table') }
+
+      it_behaves_like 'api v3 path', '/views/work_packages_table'
     end
   end
 

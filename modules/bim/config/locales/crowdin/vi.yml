@@ -16,7 +16,7 @@ vi:
     x_bcf_issues:
       zero: 'Không có vấn đề BCF'
       one: 'One BCF issue'
-      other: '%{count} BCF issues'
+      other: '%{count} vấn đề trong BCF'
     bcf_xml:
       xml_file: 'Tệp BCF XML'
       import_title: 'Nhập'
@@ -113,10 +113,12 @@ vi:
       check_1: 'Kiểm tra xem bạn đã tải lên ít nhất một mô hình IFC.'
       check_2: 'Kiểm tra xem ít nhất một mô hình IFC được đặt thành "Mặc định".'
     no_results: "Không có mô hình IFC đã được tải lên trong dự án này."
-    processing_state:
+    conversion_status:
       label: 'Đang xử lý…'
-      in_progress: 'Đang xử lý'
+      pending: 'Pending'
+      processing: 'Processing'
       completed: 'Đã Hoàn tất'
+      error: 'Lỗi'
     processing_notice:
       processing_default: 'Các mô hình IFC mặc định sau đây vẫn đang được xử lý và do đó không có sẵn:'
     flash_messages:

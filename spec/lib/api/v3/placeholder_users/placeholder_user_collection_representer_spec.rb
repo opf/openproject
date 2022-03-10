@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -35,11 +35,11 @@ describe ::API::V3::PlaceholderUsers::PlaceholderUserCollectionRepresenter do
   let(:page) { 1 }
   let(:page_size) { 2 }
   let(:actual_count) { 3 }
-  let(:current_user) { FactoryBot.build_stubbed :user }
+  let(:current_user) { build_stubbed :user }
 
   let(:placeholders) do
-    placeholders = FactoryBot.build_stubbed_list(:placeholder_user,
-                                          actual_count)
+    placeholders = build_stubbed_list(:placeholder_user,
+                                      actual_count)
     allow(placeholders)
       .to receive(:per_page)
       .with(page_size)
@@ -49,6 +49,10 @@ describe ::API::V3::PlaceholderUsers::PlaceholderUserCollectionRepresenter do
       .to receive(:page)
       .with(page)
       .and_return(placeholders)
+
+    allow(placeholders)
+      .to receive(:count)
+      .and_return(total)
 
     placeholders
   end

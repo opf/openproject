@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -34,16 +32,16 @@ require 'contracts/shared/model_contract_shared_context'
 describe PlaceholderUsers::DeleteContract do
   include_context 'ModelContract shared context'
 
-  let(:placeholder_user) { FactoryBot.create(:placeholder_user) }
-  let(:role) { FactoryBot.create :existing_role, permissions: [:manage_members] }
-  let(:shared_project) { FactoryBot.create(:project, members: { placeholder_user => role, current_user => role }) }
-  let(:not_shared_project) { FactoryBot.create(:project, members: { placeholder_user => role }) }
+  let(:placeholder_user) { create(:placeholder_user) }
+  let(:role) { create :existing_role, permissions: [:manage_members] }
+  let(:shared_project) { create(:project, members: { placeholder_user => role, current_user => role }) }
+  let(:not_shared_project) { create(:project, members: { placeholder_user => role }) }
   let(:contract) { described_class.new(placeholder_user, current_user) }
 
   it_behaves_like 'contract is valid for active admins and invalid for regular users'
 
   context 'when user with global permission to manage_placeholders' do
-    let(:current_user) { FactoryBot.create(:user, global_permission: %i[manage_placeholder_user]) }
+    let(:current_user) { create(:user, global_permission: %i[manage_placeholder_user]) }
 
     before do
       shared_project

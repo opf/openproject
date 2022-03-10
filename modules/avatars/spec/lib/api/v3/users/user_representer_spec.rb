@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,15 +23,15 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 describe ::API::V3::Users::UserRepresenter do
-  let(:user) { FactoryBot.build_stubbed(:user, status: 1) }
-  let(:current_user) { FactoryBot.build_stubbed(:user) }
-  let(:representer) { described_class.new(user, current_user: current_user) }
+  let(:user) { build_stubbed(:user, status: 1) }
+  let(:current_user) { build_stubbed(:user) }
+  let(:representer) { described_class.create(user, current_user: current_user) }
 
   context 'generation' do
     subject(:generated) { representer.to_json }

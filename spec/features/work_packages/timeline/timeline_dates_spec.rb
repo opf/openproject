@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -32,21 +32,21 @@ RSpec.feature 'Work package timeline date formatting',
               with_settings: { date_format: '%Y-%m-%d' },
               js: true,
               selenium: true do
-  shared_let(:type) { FactoryBot.create(:type_bug) }
-  shared_let(:project) { FactoryBot.create(:project, types: [type]) }
+  shared_let(:type) { create(:type_bug) }
+  shared_let(:project) { create(:project, types: [type]) }
 
   shared_let(:work_package) do
-    FactoryBot.create :work_package,
-                      project: project,
-                      type: type,
-                      start_date: '2020-12-31',
-                      due_date: '2021-01-01',
-                      subject: 'My subject'
+    create :work_package,
+           project: project,
+           type: type,
+           start_date: '2020-12-31',
+           due_date: '2021-01-01',
+           subject: 'My subject'
   end
 
   let(:wp_timeline) { Pages::WorkPackagesTimeline.new(project) }
   let!(:query_tl) do
-    query = FactoryBot.build(:query, user: current_user, project: project)
+    query = build(:query, user: current_user, project: project)
     query.column_names = ['id', 'type', 'subject']
     query.filters.clear
     query.timeline_visible = true
@@ -75,7 +75,7 @@ RSpec.feature 'Work package timeline date formatting',
            with_settings: { start_of_week: '', first_week_of_year: '' } do
 
     context 'with english locale user' do
-      let(:current_user) { FactoryBot.create :admin, language: 'en' }
+      let(:current_user) { create :admin, language: 'en' }
 
       it 'shows english ISO dates' do
         # expect moment to return week 01 for start date
@@ -87,7 +87,7 @@ RSpec.feature 'Work package timeline date formatting',
     end
 
     context 'with german locale user' do
-      let(:current_user) { FactoryBot.create :admin, language: 'de' }
+      let(:current_user) { create :admin, language: 'de' }
 
       it 'shows german ISO dates' do
         expect(page).to have_selector('.wp-timeline--header-element', text: '52')
@@ -105,7 +105,7 @@ RSpec.feature 'Work package timeline date formatting',
   describe 'with US/CA settings',
            with_settings: { start_of_week: '7', first_week_of_year: '1' } do
 
-    let(:current_user) { FactoryBot.create :admin }
+    let(:current_user) { create :admin }
 
     it 'shows english ISO dates' do
       expect(page).to have_selector('.wp-timeline--header-element', text: '01')

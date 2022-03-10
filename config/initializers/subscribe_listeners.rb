@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 OpenProject::Notifications.subscribe(OpenProject::Events::JOURNAL_CREATED) do |payload|
@@ -40,6 +38,10 @@ OpenProject::Notifications.subscribe(OpenProject::Events::JOURNAL_CREATED) do |p
   # at the end (it might be replaced because another journal was created within that timeframe)
   # that job generates a OpenProject::Events::AGGREGATED_..._JOURNAL_READY event.
   Journals::CompletedJob.schedule(payload[:journal], payload[:send_notification])
+end
+
+OpenProject::Notifications.subscribe(OpenProject::Events::JOURNAL_AGGREGATE_BEFORE_DESTROY) do |payload|
+  Notifications::AggregatedJournalService.relocate_immediate(**payload.slice(:journal, :predecessor))
 end
 
 OpenProject::Notifications.subscribe(OpenProject::Events::WATCHER_ADDED) do |payload|
@@ -57,6 +59,8 @@ OpenProject::Notifications.subscribe(OpenProject::Events::WATCHER_REMOVED) do |p
 end
 
 OpenProject::Notifications.subscribe(OpenProject::Events::MEMBER_CREATED) do |payload|
+  next unless payload[:send_notifications]
+
   Mails::MemberCreatedJob
     .perform_later(current_user: User.current,
                    member: payload[:member],
@@ -64,6 +68,8 @@ OpenProject::Notifications.subscribe(OpenProject::Events::MEMBER_CREATED) do |pa
 end
 
 OpenProject::Notifications.subscribe(OpenProject::Events::MEMBER_UPDATED) do |payload|
+  next unless payload[:send_notifications]
+
   Mails::MemberUpdatedJob
     .perform_later(current_user: User.current,
                    member: payload[:member],

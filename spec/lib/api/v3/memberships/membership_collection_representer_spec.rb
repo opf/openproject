@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -31,7 +31,7 @@ require 'spec_helper'
 describe ::API::V3::Memberships::MembershipCollectionRepresenter do
   let(:self_base_link) { '/api/v3/members' }
   let(:members) do
-    FactoryBot.build_stubbed_list(:member, 3).tap do |members|
+    build_stubbed_list(:member, 3).tap do |members|
       allow(members)
         .to receive(:per_page)
         .with(page_size)
@@ -41,9 +41,13 @@ describe ::API::V3::Memberships::MembershipCollectionRepresenter do
         .to receive(:page)
         .with(page)
         .and_return(members)
+
+      allow(members)
+        .to receive(:count)
+        .and_return(3)
     end
   end
-  let(:current_user) { FactoryBot.build_stubbed(:user) }
+  let(:current_user) { build_stubbed(:user) }
   let(:representer) do
     described_class.new(members,
                         self_link: self_base_link,

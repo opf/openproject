@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 shared_examples_for 'type service' do
@@ -95,8 +93,8 @@ shared_examples_for 'type service' do
     end
 
     describe 'custom fields' do
-      let(:cf1) { FactoryBot.create :work_package_custom_field, field_format: 'text' }
-      let(:cf2) { FactoryBot.create :work_package_custom_field, field_format: 'text' }
+      let(:cf1) { create :work_package_custom_field, field_format: 'text' }
+      let(:cf2) { create :work_package_custom_field, field_format: 'text' }
       let(:params) do
         {
           attribute_groups: [
@@ -134,7 +132,7 @@ shared_examples_for 'type service' do
         { 'type' => 'query', 'name' => 'group1', 'query' => JSON.dump(query_params) }
       end
       let(:params) { { attribute_groups: [query_group_params] } }
-      let(:query) { FactoryBot.create(:query, user_id: 0) }
+      let(:query) { create(:query, user_id: 0) }
       let(:service_result) { ServiceResult.new(success: true, result: query) }
 
       before do

@@ -1,6 +1,9 @@
 require_relative './20200924085508_cleanup_orphaned_journal_data'
+require_relative './migration_utils/utils'
 
 class AggregateJournals < ActiveRecord::Migration[6.1]
+  include ::Migration::Utils
+
   def up
     [Attachment,
      Changeset,
@@ -25,7 +28,7 @@ class AggregateJournals < ActiveRecord::Migration[6.1]
   # The change is irreversible (aggregated journals cannot be broken down) but down will not cause database inconsistencies.
 
   def aggregate_journals(klass)
-    klass.in_batches(of: ENV["OPENPROJECT_MIGRATION_AGGREGATE_JOURNALS_BATCH_SIZE"]&.to_i || 1000) do |instances|
+    in_configurable_batches(klass) do |instances|
       # Instantiating is faster than calculating the aggregated journals multiple times.
       aggregated_journals = aggregated_journals_of(klass, instances).to_a
 

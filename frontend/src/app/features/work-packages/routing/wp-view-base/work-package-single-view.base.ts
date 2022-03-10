@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,10 +23,13 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectorRef, Injector } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Injector,
+} from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { WorkPackageViewFocusService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
@@ -39,8 +42,11 @@ import { HalResourceEditingService } from 'core-app/shared/components/fields/edi
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { HookService } from 'core-app/features/plugins/hook-service';
+import { WpSingleViewService } from 'core-app/features/work-packages/routing/wp-view-base/state/wp-single-view.service';
+import { Observable } from 'rxjs';
+import { ActionsService } from 'core-app/core/state/actions/actions.service';
 
 export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
   @InjectField() states:States;
@@ -63,9 +69,13 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
 
   @InjectField() readonly titleService:OpTitleService;
 
-  @InjectField() readonly apiV3Service:APIV3Service;
+  @InjectField() readonly apiV3Service:ApiV3Service;
 
   @InjectField() readonly hooks:HookService;
+
+  @InjectField() readonly actions$:ActionsService;
+
+  @InjectField() readonly storeService:WpSingleViewService;
 
   // Static texts
   public text:any = {};
@@ -79,6 +89,8 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
 
   public showStaticPagePath:string;
 
+  public displayNotificationsButton$:Observable<boolean>;
+
   constructor(public injector:Injector,
     protected workPackageId:string) {
     super();
@@ -90,7 +102,6 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
    * Needs to be run explicitly by descendants.
    */
   protected observeWorkPackage() {
-    /** Require the work package once to ensure we're displaying errors */
     this
       .apiV3Service
       .work_packages
@@ -100,11 +111,18 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
         this.untilDestroyed(),
       )
       .subscribe((wp:WorkPackageResource) => {
-        this.workPackage = wp;
-        this.init();
+        if (!this.workPackage) {
+          this.workPackage = wp;
+          this.init();
+        } else {
+          this.workPackage = wp;
+        }
+
         this.cdRef.detectChanges();
       },
-      (error) => this.notificationService.handleRawError(error));
+      (error) => {
+        this.handleLoadingError(error);
+      });
   }
 
   /**
@@ -132,6 +150,9 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
         this.cdRef.detectChanges();
       });
 
+    this.displayNotificationsButton$ = this.storeService.query.hasNotifications$;
+    this.storeService.setFilters(this.workPackage.id as string);
+
     // Set authorisation data
     this.authorisationService.initModelAuth('work_package', this.workPackage.$links);
 
@@ -149,6 +170,10 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
       .subscribe((tabs:any) => {
         this.updateFocusAnchorLabel(tabs.active);
       });
+  }
+
+  protected handleLoadingError(error:unknown):void {
+    this.notificationService.handleRawError(error);
   }
 
   /**

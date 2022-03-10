@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -31,19 +31,19 @@ require 'spec_helper'
 describe ::API::V3::Memberships::Schemas::MembershipSchemaRepresenter do
   include API::V3::Utilities::PathHelper
 
-  let(:current_user) { FactoryBot.build_stubbed(:user) }
+  let(:current_user) { build_stubbed(:user) }
 
   let(:self_link) { '/a/self/link' }
   let(:embedded) { true }
   let(:new_record) { true }
-  let(:project) { FactoryBot.build_stubbed(:project) }
-  let(:principal) { FactoryBot.build_stubbed(:group) }
+  let(:project) { build_stubbed(:project) }
+  let(:principal) { build_stubbed(:group) }
   let(:assigned_project) { nil }
   let(:assigned_principal) { nil }
   let(:allowed_roles) do
     if new_record
-      [FactoryBot.build_stubbed(:role),
-       FactoryBot.build_stubbed(:role)]
+      [build_stubbed(:role),
+       build_stubbed(:role)]
     end
   end
 

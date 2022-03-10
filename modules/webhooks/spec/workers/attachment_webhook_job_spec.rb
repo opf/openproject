@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,18 +23,18 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 describe AttachmentWebhookJob, type: :job, webmock: true do
-  shared_let(:user) { FactoryBot.create :admin }
+  shared_let(:user) { create :admin }
   shared_let(:request_url) { "http://example.net/test/42" }
-  shared_let(:project) { FactoryBot.create :project, name: 'Foo Bar' }
-  shared_let(:container) { FactoryBot.create :work_package, project: project }
-  shared_let(:attachment) { FactoryBot.create :attachment, container: container }
-  shared_let(:webhook) { FactoryBot.create :webhook, all_projects: true, url: request_url, secret: nil }
+  shared_let(:project) { create :project, name: 'Foo Bar' }
+  shared_let(:container) { create :work_package, project: project }
+  shared_let(:attachment) { create :attachment, container: container }
+  shared_let(:webhook) { create :webhook, all_projects: true, url: request_url, secret: nil }
   let(:event) { "attachment:created" }
   let(:job) { described_class.perform_now(webhook.id, attachment, event) }
   let(:stubbed_url) { request_url }
@@ -103,7 +101,7 @@ describe AttachmentWebhookJob, type: :job, webmock: true do
     end
 
     context 'with uncontainered' do
-      shared_let(:attachment) { FactoryBot.create :attachment, container: nil }
+      shared_let(:attachment) { create :attachment, container: nil }
 
       it 'does requests even if project nil' do
         allow(webhook)

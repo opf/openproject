@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,40 +23,40 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 describe WorkPackages::AutoCompletesController, type: :controller do
-  let(:user) { FactoryBot.create(:user) }
-  let(:project) { FactoryBot.create(:project) }
+  let(:user) { create(:user) }
+  let(:project) { create(:project) }
   let(:role) do
-    FactoryBot.create(:role,
-                      permissions: [:view_work_packages])
+    create(:role,
+           permissions: [:view_work_packages])
   end
   let(:member) do
-    FactoryBot.create(:member,
-                      project: project,
-                      principal: user,
-                      roles: [role])
+    create(:member,
+           project: project,
+           principal: user,
+           roles: [role])
   end
   let(:work_package_1) do
-    FactoryBot.create(:work_package,
-                      subject: "Can't print recipes",
-                      project: project)
+    create(:work_package,
+           subject: "Can't print recipes",
+           project: project)
   end
 
   let(:work_package_2) do
-    FactoryBot.create(:work_package,
-                      subject: 'Error when updating a recipe',
-                      project: project)
+    create(:work_package,
+           subject: 'Error when updating a recipe',
+           project: project)
   end
 
   let(:work_package_3) do
-    FactoryBot.create(:work_package,
-                      subject: 'Lorem ipsum',
-                      project: project)
+    create(:work_package,
+           subject: 'Lorem ipsum',
+           project: project)
   end
 
   before do
@@ -172,9 +172,9 @@ describe WorkPackages::AutoCompletesController, type: :controller do
     describe 'returns work package for given id' do
       render_views
       let(:work_package_4) do
-        FactoryBot.create(:work_package,
-                          subject: "<script>alert('danger!');</script>",
-                          project: project)
+        create(:work_package,
+               subject: "<script>alert('danger!');</script>",
+               project: project)
       end
       let(:expected_values) { work_package_4 }
 
@@ -197,19 +197,19 @@ describe WorkPackages::AutoCompletesController, type: :controller do
 
     describe 'in different projects' do
       let(:project_2) do
-        FactoryBot.create(:project,
-                          parent: project)
+        create(:project,
+               parent: project)
       end
       let(:member_2) do
-        FactoryBot.create(:member,
-                          project: project_2,
-                          principal: user,
-                          roles: [role])
+        create(:member,
+               project: project_2,
+               principal: user,
+               roles: [role])
       end
       let(:work_package_4) do
-        FactoryBot.create(:work_package,
-                          subject: 'Foo Bar Baz',
-                          project: project_2)
+        create(:work_package,
+               subject: 'Foo Bar Baz',
+               project: project_2)
       end
 
       before do

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -31,18 +31,18 @@ require 'spec_helper'
 describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
   include API::V3::Utilities::PathHelper
 
-  let(:project) { FactoryBot.build_stubbed(:project_with_types) }
+  let(:project) { build_stubbed(:project_with_types) }
   let(:wp_type) { project.types.first }
-  let(:custom_field) { FactoryBot.build_stubbed(:custom_field) }
+  let(:custom_field) { build_stubbed(:custom_field) }
   let(:work_package) do
-    FactoryBot.build_stubbed(:stubbed_work_package, project: project, type: wp_type) do |wp|
+    build_stubbed(:stubbed_work_package, project: project, type: wp_type) do |wp|
       allow(wp)
         .to receive(:available_custom_fields)
         .and_return(available_custom_fields)
     end
   end
   let(:current_user) do
-    FactoryBot.build_stubbed(:user).tap do |user|
+    build_stubbed(:user).tap do |user|
       allow(user)
         .to receive(:allowed_to?) do |per, pro|
         project == pro && permissions.include?(per)
@@ -51,7 +51,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
   end
   let(:permissions) { [:edit_work_packages] }
   let(:attribute_query) do
-    FactoryBot.build_stubbed(:query).tap do |query|
+    build_stubbed(:query).tap do |query|
       query.filters.clear
       query.add_filter('parent', '=', ['{id}'])
     end
@@ -119,7 +119,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       end
 
       context 'when values are allowed' do
-        let(:values) { FactoryBot.build_stubbed_list(factory, 3) }
+        let(:values) { build_stubbed_list(factory, 3) }
 
         before do
           allow(schema).to receive(:assignable_values).with(factory, anything).and_return(values)
@@ -212,7 +212,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
       context 'with relation query group' do
         let(:attribute_query) do
-          FactoryBot.build_stubbed(:query).tap do |query|
+          build_stubbed(:query).tap do |query|
             query.filters.clear
             query.add_filter('follows', '=', ['{id}'])
           end
@@ -684,7 +684,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
       context 'when creating (new_record)' do
         let(:work_package) do
-          FactoryBot.build(:stubbed_work_package, project: project, type: wp_type) do |wp|
+          build(:stubbed_work_package, project: project, type: wp_type) do |wp|
             allow(wp)
               .to receive(:available_custom_fields)
               .and_return(available_custom_fields)
@@ -699,7 +699,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
       context 'when creating (new_record with empty type)' do
         let(:work_package) do
-          FactoryBot.build(:stubbed_work_package, project: project, type: nil) do |wp|
+          build(:stubbed_work_package, project: project, type: nil) do |wp|
             allow(wp)
               .to receive(:available_custom_fields)
                     .and_return(available_custom_fields)
@@ -956,7 +956,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     end
 
     describe 'custom fields' do
-      let(:available_custom_fields) { [FactoryBot.build_stubbed(:int_wp_custom_field)] }
+      let(:available_custom_fields) { [build_stubbed(:int_wp_custom_field)] }
       it 'uses a CustomFieldInjector' do
         expect(::API::V3::Utilities::CustomFieldInjector).to receive(:create_schema_representer)
           .and_return(described_class)
@@ -1052,7 +1052,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
       context 'for a different type' do
         it_behaves_like 'changes' do
-          let(:change) { work_package.project = FactoryBot.build_stubbed(:project) }
+          let(:change) { work_package.project = build_stubbed(:project) }
         end
       end
 
@@ -1064,7 +1064,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
       context 'for a different type' do
         it_behaves_like 'changes' do
-          let(:change) { work_package.type = FactoryBot.build_stubbed(:type) }
+          let(:change) { work_package.type = build_stubbed(:type) }
         end
       end
 
@@ -1085,7 +1085,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
           let(:change) do
             allow(work_package)
               .to receive(:available_custom_fields)
-              .and_return([FactoryBot.build_stubbed(:custom_field)])
+              .and_return([build_stubbed(:custom_field)])
           end
         end
       end
@@ -1108,9 +1108,9 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
       context 'if the users permissions change' do
         it_behaves_like 'changes' do
-          let(:role1) { FactoryBot.build_stubbed(:role, permissions: permissions1) }
+          let(:role1) { build_stubbed(:role, permissions: permissions1) }
           let(:permissions1) { %i[blubs some more] }
-          let(:role2) { FactoryBot.build_stubbed(:role, permissions: permissions2) }
+          let(:role2) { build_stubbed(:role, permissions: permissions2) }
           let(:permissions2) { %i[and other random permissions] }
           let(:roles) { [role1, role2] }
 

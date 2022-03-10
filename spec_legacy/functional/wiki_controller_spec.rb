@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 require_relative '../legacy_spec_helper'
 require 'wiki_controller'
@@ -85,72 +83,10 @@ describe WikiController, type: :controller do
     assert_template 'new'
   end
 
-  it 'should create page' do
-    session[:user_id] = 2
-    post :create, params: { project_id: 1,
-                            id: 'New page',
-                            content: { comments: 'Created the page',
-                                       text: "h1. New page\n\nThis is a new page",
-                                       page: { title: 'New page',
-                                               parent_id: '' } } }
-    assert_redirected_to action: 'show', project_id: 'ecookbook', id: 'new-page'
-    page = wiki.find_page('New page')
-    assert !page.new_record?
-    refute_nil page.content
-    assert_equal 'Created the page', page.content.last_journal.notes
-  end
-
-  it 'should update page with failure' do
-    session[:user_id] = 2
-    assert_no_difference 'WikiPage.count' do
-      assert_no_difference 'WikiContent.count' do
-        assert_no_difference 'Journal.count' do
-          put :update, params: { project_id: 1,
-                                 id: 'Another page',
-                                 content: {
-                                   comments: 'a' * 300, # failure here, comment is too long
-                                   text: 'edited',
-                                   lock_version: 1,
-                                   page: { title: 'Another page',
-                                           parent_id: '' }
-                                 } }
-        end
-      end
-    end
-    assert_response :success
-    assert_template 'edit'
-
-    assert_error_tag descendant: { content: /Comment is too long/ }
-    assert_select 'textarea', attributes: { id: 'content_text' }, content: /edited/
-    assert_select 'input', attributes: { id: 'content_lock_version', value: '1' }
-  end
-
-  it 'should history' do
-    FactoryBot.create :wiki_content_journal,
-                      journable_id: 1,
-                      data: FactoryBot.build(:journal_wiki_content_journal,
-                                             text: 'h1. CookBook documentation')
-    FactoryBot.create :wiki_content_journal,
-                      journable_id: 1,
-                      data: FactoryBot.build(:journal_wiki_content_journal,
-                                             text: "h1. CookBook documentation\n\n\nSome updated [[documentation]] here...")
-    FactoryBot.create :wiki_content_journal,
-                      journable_id: 1,
-                      data: FactoryBot.build(:journal_wiki_content_journal,
-                                             text: "h1. CookBook documentation\nSome updated [[documentation]] here...")
-
-    get :history, params: { project_id: 1, id: 'CookBook documentation' }
-    assert_response :success
-    assert_template 'history'
-    refute_nil assigns(:versions)
-    assert_equal 3, assigns(:versions).size
-    assert_select 'input[type=submit][name=commit]'
-  end
-
   it 'should history with one version' do
-    FactoryBot.create :wiki_content_journal,
+    create :wiki_content_journal,
                       journable_id: 2,
-                      data: FactoryBot.build(:journal_wiki_content_journal,
+                      data: build(:journal_wiki_content_journal,
                                              text: "h1. Another page\n\n\nthis is a link to ticket: #2")
     get :history, params: { project_id: 1, id: 'Another page' }
     assert_response :success
@@ -161,13 +97,13 @@ describe WikiController, type: :controller do
   end
 
   it 'should diff' do
-    journal_from = FactoryBot.create :wiki_content_journal,
+    journal_from = create :wiki_content_journal,
                                      journable_id: 1,
-                                     data: FactoryBot.build(:journal_wiki_content_journal,
+                                     data: build(:journal_wiki_content_journal,
                                                             text: 'h1. CookBook documentation')
-    journal_to = FactoryBot.create :wiki_content_journal,
+    journal_to = create :wiki_content_journal,
                                    journable_id: 1,
-                                   data: FactoryBot.build(:journal_wiki_content_journal,
+                                   data: build(:journal_wiki_content_journal,
                                                           text: "h1. CookBook documentation\n\n\nSome updated [[documentation]] here...")
 
     get :diff,
@@ -179,13 +115,13 @@ describe WikiController, type: :controller do
   end
 
   it 'should annotate' do
-    FactoryBot.create :wiki_content_journal,
+    create :wiki_content_journal,
                       journable_id: 1,
-                      data: FactoryBot.build(:journal_wiki_content_journal,
+                      data: build(:journal_wiki_content_journal,
                                              text: 'h1. CookBook documentation')
-    journal_to = FactoryBot.create :wiki_content_journal,
+    journal_to = create :wiki_content_journal,
                                    journable_id: 1,
-                                   data: FactoryBot.build(:journal_wiki_content_journal,
+                                   data: build(:journal_wiki_content_journal,
                                                           text: "h1. CookBook documentation\n\n\nSome [[documentation]] here...")
 
     get :annotate, params: { project_id: 1, id: 'CookBook documentation', version: journal_to.version }

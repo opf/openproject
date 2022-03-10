@@ -45,6 +45,7 @@ x-op-backend: &backend
     OPENPROJECT_CACHE__MEMCACHE__SERVER: cache:11211
     OPENPROJECT_RAILS__RELATIVE__URL__ROOT: "${OPENPROJECT_RAILS__RELATIVE__URL__ROOT:-}"
     DATABASE_URL: postgresql://${DB_USERNAME:-postgres}:${DB_PASSWORD:-postgres}@${DB_HOST:-db}:${DB_PORT:-5432}/${DB_DATABASE:-openproject}
+    OPENPROJECT_EDITION: $OPENPROJECT_EDITION
   volumes:
     - ".:/home/dev/openproject"
     - "opdata:/var/openproject/assets"
@@ -77,7 +78,7 @@ services:
     command: "npm run serve"
     volumes:
       - ".:/home/dev/openproject"
-      - "../commonmark-ckeditor-augmented-textarea-build/build/:/home/dev/openproject/frontend/src/vendor/ckeditor-augmented-textarea/"
+      - "${CKEDITOR_BUILD_DIR:-./frontend/src/vendor/ckeditor/}:/home/dev/openproject/frontend/src/vendor/ckeditor/"
     ports:
       - "4200:4200"
       - "9999:9999"
@@ -89,7 +90,7 @@ services:
       - backend
 
   db:
-    image: postgres:10
+    image: postgres:13
     <<: *restart_policy
     stop_grace_period: "3s"
     volumes:
@@ -110,7 +111,7 @@ services:
 ######### Testing stuff below ############
 
   db-test:
-    image: postgres:10
+    image: postgres:13
     stop_grace_period: "3s"
     volumes:
       - "pgdata-test:/var/lib/postgresql/data"
@@ -166,10 +167,11 @@ services:
       - "opdata:/var/openproject/assets"
       - "bundle:/usr/local/bundle"
       - "tmp-test:/home/dev/openproject/tmp"
+      - "./tmp/capybara:/home/dev/openproject/tmp/capybara"
 
   # https://vitobotta.com/2019/09/04/rails-parallel-system-tests-selenium-docker/
   selenium-hub:
-    image: selenium/hub:latest
+    image: selenium/hub:4.0
     container_name: selenium-hub
     hostname: selenium-hub
     environment:
@@ -181,10 +183,10 @@ services:
     networks:
       - testing
     ports:
-      - "4444:4444"
+      - "4442-4444:4442-4444"
 
   chrome:
-    image: selenium/node-chrome-debug:latest
+    image: selenium/node-chrome:4.0
     volumes:
       - /dev/shm:/dev/shm
       - "downloads-test:/home/seluser/Downloads"
@@ -192,9 +194,11 @@ services:
       - testing
     ports:
       - "5900-5915:5900"
+    shm_size: 2g
     environment:
-      HUB_HOST: selenium-hub
-      HUB_PORT: 4444
+      SE_EVENT_BUS_HOST: selenium-hub
+      SE_EVENT_BUS_PUBLISH_PORT: 4442
+      SE_EVENT_BUS_SUBSCRIBE_PORT: 4443
       SCREEN_WIDTH: 1920
       SCREEN_HEIGHT: 1080
       # in case we want multiple sessions per container
@@ -202,7 +206,7 @@ services:
       NODE_MAX_SESSION: "${CI_JOBS:-4}"
 
   firefox:
-    image: selenium/node-firefox-debug:latest
+    image: selenium/node-firefox:4.0
     volumes:
       - /dev/shm:/dev/shm
       - "downloads-test:/home/seluser/Downloads"
@@ -210,9 +214,11 @@ services:
       - testing
     ports:
       - "5916-5931:5900"
+    shm_size: 2g
     environment:
-      HUB_HOST: selenium-hub
-      HUB_PORT: 4444
+      SE_EVENT_BUS_HOST: selenium-hub
+      SE_EVENT_BUS_PUBLISH_PORT: 4442
+      SE_EVENT_BUS_SUBSCRIBE_PORT: 4443
       SCREEN_WIDTH: 1920
       SCREEN_HEIGHT: 1080
       # in case we want multiple sessions per container
@@ -220,7 +226,7 @@ services:
       NODE_MAX_SESSION: "${CI_JOBS:-4}"
 
   opera:
-    image: selenium/node-opera-debug:latest
+    image: selenium/node-opera:4.0
     volumes:
       - /dev/shm:/dev/shm
       - "downloads-test:/home/seluser/Downloads"
@@ -229,8 +235,9 @@ services:
     ports:
       - "5932-5957:5900"
     environment:
-      HUB_HOST: selenium-hub
-      HUB_PORT: 4444
+      SE_EVENT_BUS_HOST: selenium-hub
+      SE_EVENT_BUS_PUBLISH_PORT: 4442
+      SE_EVENT_BUS_SUBSCRIBE_PORT: 4443
       SCREEN_WIDTH: 1920
       SCREEN_HEIGHT: 1080
       # in case we want multiple sessions per container

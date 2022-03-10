@@ -40,6 +40,9 @@ Settings::Definition.define do
   add :apiv3_cors_origins,
       value: []
 
+  add :apiv3_max_page_size,
+      value: 1000
+
   add :apiv3_docs_enabled,
       value: true
 
@@ -49,11 +52,9 @@ Settings::Definition.define do
   add :attachment_max_size,
       value: 5120
 
-  # rubocop:disable Naming/InclusiveLanguage
   # Existing setting
   add :attachment_whitelist,
       value: []
-  # rubocop:enable Naming/InclusiveLanguage
 
   add :autofetch_changesets,
       value: true
@@ -67,6 +68,23 @@ Settings::Definition.define do
       format: :hash,
       value: %w[en de fr es pt pt-BR it zh-CN ko ru].freeze,
       allowed: -> { Redmine::I18n.all_languages }
+
+  # Allow users with the required permissions to create backups via the web interface or API.
+  add :backup_enabled,
+      value: true
+
+  add :backup_daily_limit,
+      value: 3
+
+  add :backup_initial_waiting_period,
+      value: 24.hours,
+      format: :integer
+
+  add :backup_include_attachments,
+      value: true
+
+  add :backup_attachment_size_max_sum_mb,
+      value: 1024
 
   add :bcc_recipients,
       value: true
@@ -167,6 +185,13 @@ Settings::Definition.define do
   add :diff_max_lines_displayed,
       value: 1500
 
+  # only applicable in conjunction with fog (effectively S3) attachments
+  # which will be uploaded directly to the cloud storage rather than via OpenProject's
+  # server process.
+  add :direct_uploads,
+      value: true,
+      api: false
+
   add :display_subprojects_work_packages,
       value: true
 
@@ -176,10 +201,7 @@ Settings::Definition.define do
 
   add :emails_footer,
       value: {
-        "en" => <<~MSG
-          You have received this notification because you have either subscribed to it, or are involved in it.
-          To change your notification preferences, please click here: {{opSetting:base_url}}/my/notifications
-        MSG
+        'en' => ''
       }
 
   add :emails_header,
@@ -233,6 +255,11 @@ Settings::Definition.define do
   add :log_requesting_user,
       value: false
 
+  # Use lograge to format logs, off by default
+  add :lograge_formatter,
+      value: nil,
+      format: :string
+
   add :login_required,
       value: false
 
@@ -275,26 +302,6 @@ Settings::Definition.define do
 
   add :notification_email_digest_time,
       value: '08:00'
-
-  add :notified_events,
-      value: %w[
-        news_added
-        news_comment_added
-        file_added message_posted
-        wiki_content_added
-        wiki_content_updated
-        membership_added
-        membership_updated
-      ],
-      allowed: %w[
-        news_added
-        news_comment_added
-        file_added message_posted
-        wiki_content_added
-        wiki_content_updated
-        membership_added
-        membership_updated
-      ]
 
   add :password_active_rules,
       value: %w[lowercase uppercase numeric special],
@@ -587,12 +594,14 @@ Settings::Definition.define do
       value: 50,
       api: false,
       writable: false
+
   ## Maximum number of minutes that jobs have not yet run after their designated 'run_at' time
   add :health_checks_jobs_never_ran_minutes_ago,
       format: :integer,
       value: 5,
       api: false,
       writable: false
+
   ## Maximum number of unprocessed requests in puma's backlog.
   add :health_checks_backlog_threshold,
       format: :integer,
@@ -617,6 +626,13 @@ Settings::Definition.define do
   add :ldap_auth_source_tls_options,
       format: :string,
       value: nil,
+      api: false,
+      writable: false
+
+  # Allow users to manually sync groups in a different way
+  # than the provided job using their own cron
+  add :ldap_groups_disable_sync_job,
+      value: false,
       api: false,
       writable: false
 
@@ -700,16 +716,6 @@ Settings::Definition.define do
     'autologin_cookie_name' => 'autologin',
     'autologin_cookie_path' => '/',
     'autologin_cookie_secure' => false,
-    # Allow users with the required permissions to create backups via the web interface or API.
-    'backup_enabled' => true,
-    'backup_daily_limit' => 3,
-    'backup_initial_waiting_period' => 24.hours,
-    'backup_include_attachments' => true,
-    'backup_attachment_size_max_sum_mb' => 1024,
-    # only applicable in conjunction with fog (effectively S3) attachments
-    # which will be uploaded directly to the cloud storage rather than via OpenProject's
-    # server process.
-    'direct_uploads' => true,
     'fog_download_url_expires_in' => 21600, # 6h by default as 6 hours is max in S3 when using IAM roles
     'show_community_links' => true,
     'log_level' => 'info',
@@ -787,12 +793,10 @@ Settings::Definition.define do
     # Render storage information
     'show_storage_information' => true,
 
-    # Allow connection to Augur
+    # Allow connections for trial creation and booking
     'enterprise_trial_creation_host' => 'https://augur.openproject.com',
-
-    # Allow users to manually sync groups in a different way
-    # than the provided job using their own cron
-    'ldap_groups_disable_sync_job' => false,
+    'enterprise_chargebee_site' => 'openproject-enterprise',
+    'enterprise_plan' => 'enterprise-on-premises---euro---1-year',
 
     # Slow query logging threshold in ms
     'sql_slow_query_threshold' => 2000,
@@ -803,7 +807,21 @@ Settings::Definition.define do
     'sentry_trace_factor' => 0,
     # Allow sentry to collect tracing samples on frontend
     # set to n >= 1 to enable n times the default tracing
-    'sentry_frontend_trace_factor' => 0
+    'sentry_frontend_trace_factor' => 0,
+
+    # enable statsd metrics (currently puma only) by configuring host
+    'statsd' => {
+      'host' => nil,
+      'port' => 8125
+    },
+
+    'web' => {
+      'workers' => 2,
+      'timeout' => 120,
+      'wait_timeout' => 10,
+      'min_threads' => 4,
+      'max_threads' => 16
+    }
   }.each do |key, value|
     add(key, value: value)
   end

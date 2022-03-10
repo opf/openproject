@@ -1,29 +1,44 @@
 import { Injectable } from '@angular/core';
 
 import { Query } from '@datorama/akita';
-import { map } from 'rxjs/operators';
+import {
+  filter,
+  map,
+} from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { UserPreferencesStore } from 'core-app/features/user-preferences/state/user-preferences.store';
 import { UserPreferencesModel } from 'core-app/features/user-preferences/state/user-preferences.model';
 import { NotificationSetting } from 'core-app/features/user-preferences/state/notification-setting.model';
 
-@Injectable()
 export class UserPreferencesQuery extends Query<UserPreferencesModel> {
-  /** All notification settings */
   notificationSettings$ = this.select('notifications');
 
-  /** Notification settings grouped by Project */
   notificationsGroupedByProject$:Observable<{ [key:string]:NotificationSetting[] }> = this
     .notificationSettings$
     .pipe(
-      map((notifications) => _.groupBy(notifications, (setting) => setting._links.project.title || 'global')),
+      map((settings) => settings.filter((setting) => setting._links.project.href)),
+      map((settings) => _.groupBy(settings, (setting) => setting._links.project.title)),
+    );
+
+  /** Notification settings grouped by Project */
+  notificationsForGlobal$:Observable<NotificationSetting|undefined> = this
+    .notificationSettings$
+    .pipe(
+      map((notifications) => notifications.find((setting) => setting._links.project.href === null)),
     );
 
   projectNotifications$ = this
     .notificationSettings$
     .pipe(
-      map((settings) => settings.filter((notification) => notification._links.project.href !== null)),
+      map((settings) => settings.filter((setting) => setting._links.project.href !== null)),
     );
+
+  globalNotification$ = this
+    .notificationSettings$
+    .pipe(
+      map((settings) => settings.find((notification) => !notification._links.project.href)),
+      filter((global) => !!global),
+    ) as Observable<NotificationSetting>;
 
   /** Selected projects */
   selectedProjects$ = this
@@ -32,6 +47,21 @@ export class UserPreferencesQuery extends Query<UserPreferencesModel> {
       map((notifications) => (
         new Set(notifications.map((setting) => setting._links.project?.href))
       )),
+    );
+
+  /** All daily reminders settings */
+  dailyReminders$ = this.select('dailyReminders');
+
+  dailyRemindersEnabled$ = this
+    .dailyReminders$
+    .pipe(
+      map((reminders) => reminders.enabled),
+    );
+
+  dailyRemindersTimes$ = this
+    .dailyReminders$
+    .pipe(
+      map((reminders) => reminders.times),
     );
 
   preferences$ = this.select();

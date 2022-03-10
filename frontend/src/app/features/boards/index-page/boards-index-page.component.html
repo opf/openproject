@@ -12,7 +12,7 @@
           <op-icon icon-classes="button--icon icon-add">
           </op-icon>
           <span class="button--text"
-                [textContent]="text.board">
+                [textContent]="text.create">
           </span>
         </a>
       </li>
@@ -77,7 +77,10 @@
           </td>
         </tr>
         <tr *ngFor="let board of boards">
-          <td class="name">
+          <td
+            class="name"
+            data-qa-selector="boards-table-column--name"
+          >
            <a [textContent]="board.name"
               uiSref="boards.partitioned.show"
               [uiParams]="{ board_id: board.id }">
@@ -94,9 +97,9 @@
             <button class="op-link"
                     type="button"
                     (click)="destroyBoard(board)"
+                    [title]="text.delete"
                     >
               <op-icon icon-classes="icon icon-delete"></op-icon>
-              <span [textContent]="text.delete"></span>
             </button>
           </td>
         </tr>

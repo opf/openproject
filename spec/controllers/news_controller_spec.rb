@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -34,14 +34,10 @@ describe NewsController, type: :controller do
   include BecomeMember
 
   let(:user) do
-    user = FactoryBot.create(:admin)
-
-    FactoryBot.create(:user_preference, user: user, others: { no_self_notified: false })
-
-    user
+    create(:admin)
   end
-  let(:project) { FactoryBot.create(:project) }
-  let(:news) { FactoryBot.create(:news) }
+  let(:project) { create(:project) }
+  let(:news) { create(:news) }
 
   before do
     allow(User).to receive(:current).and_return user
@@ -142,7 +138,7 @@ describe NewsController, type: :controller do
       expect(assigns(:news)).not_to be_nil
       expect(assigns(:news)).to be_new_record
 
-      expect(response.body).to have_selector('div.notification-box.-error', text: /1 error/)
+      expect(response.body).to have_selector('div.op-toast.-error', text: /1 error/)
     end
   end
 

@@ -1,28 +1,28 @@
 require 'spec_helper'
 
 describe 'inline create work package', js: true do
-  let(:type) { FactoryBot.create(:type) }
+  let(:type) { create(:type) }
   let(:types) { [type] }
 
   let(:permissions) { %i(view_work_packages add_work_packages edit_work_packages) }
-  let(:role) { FactoryBot.create :role, permissions: permissions }
+  let(:role) { create :role, permissions: permissions }
   let(:user) do
-    FactoryBot.create :user,
-                      member_in_project: project,
-                      member_through_role: role
+    create :user,
+           member_in_project: project,
+           member_through_role: role
   end
-  let(:status) { FactoryBot.create(:default_status) }
+  let(:status) { create(:default_status) }
   let(:workflow) do
-    FactoryBot.create :workflow,
-                      type_id: type.id,
-                      old_status: status,
-                      new_status: FactoryBot.create(:status),
-                      role: role
+    create :workflow,
+           type_id: type.id,
+           old_status: status,
+           new_status: create(:status),
+           role: role
   end
 
-  let!(:project) { FactoryBot.create(:project, public: true, types: types) }
-  let!(:existing_wp) { FactoryBot.create(:work_package, project: project) }
-  let!(:priority) { FactoryBot.create :priority, is_default: true }
+  let!(:project) { create(:project, public: true, types: types) }
+  let!(:existing_wp) { create(:work_package, project: project) }
+  let!(:priority) { create :priority, is_default: true }
   let(:filters) { ::Components::WorkPackages::Filters.new }
 
   before do
@@ -49,7 +49,7 @@ describe 'inline create work package', js: true do
         # Callback for adjustments
         callback.call
 
-        wp_table.expect_notification(
+        wp_table.expect_toast(
           message: 'Successful creation. Click here to open this work package in fullscreen view.'
         )
 
@@ -71,8 +71,8 @@ describe 'inline create work package', js: true do
         expect(page).to have_selector('.wp--row .subject', text: 'Another subject')
 
         # safegurards
-        wp_table.dismiss_notification!
-        wp_table.expect_no_notification(
+        wp_table.dismiss_toaster!
+        wp_table.expect_no_toaster(
           message: 'Successful update. Click here to open this work package in fullscreen view.'
         )
 
@@ -92,12 +92,12 @@ describe 'inline create work package', js: true do
 
     context 'when having filtered by custom field and switching to that type' do
       let(:cf_list) do
-        FactoryBot.create(:list_wp_custom_field, is_for_all: true, is_filter: true)
+        create(:list_wp_custom_field, is_for_all: true, is_filter: true)
       end
       let(:cf_accessor_frontend) { "customField#{cf_list.id}" }
       let(:types) { [type, cf_type] }
-      let(:type) { FactoryBot.create(:type_standard) }
-      let(:cf_type) { FactoryBot.create(:type, custom_fields: [cf_list]) }
+      let(:type) { create(:type_standard) }
+      let(:cf_type) { create(:type, custom_fields: [cf_list]) }
       let(:columns) { ::Components::WorkPackages::Columns.new }
 
       it 'applies the filter value for the custom field' do
@@ -120,7 +120,7 @@ describe 'inline create work package', js: true do
         type_field.openSelectField
         type_field.set_value cf_type.name
 
-        wp_table.expect_notification(
+        wp_table.expect_toast(
           type: :error,
           message: 'Subject can\'t be blank.'
         )
@@ -130,7 +130,7 @@ describe 'inline create work package', js: true do
         subject_field.set_value 'Some subject'
         subject_field.save!
 
-        wp_table.expect_notification(
+        wp_table.expect_toast(
           message: 'Successful creation. Click here to open this work package in fullscreen view.'
         )
 
@@ -186,17 +186,17 @@ describe 'inline create work package', js: true do
     context 'user has permissions in other project' do
       let(:permissions) { [:view_work_packages] }
 
-      let(:project2) { FactoryBot.create :project }
+      let(:project2) { create :project }
       let(:role2) do
-        FactoryBot.create :role,
-                          permissions: %i[view_work_packages
-                                          add_work_packages]
+        create :role,
+               permissions: %i[view_work_packages
+                               add_work_packages]
       end
       let!(:membership) do
-        FactoryBot.create :member,
-                          user: user,
-                          project: project2,
-                          roles: [role2]
+        create :member,
+               user: user,
+               project: project2,
+               roles: [role2]
       end
 
       it 'renders the work packages, but no create' do

@@ -1,8 +1,10 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { IAN_FACETS } from 'core-app/features/in-app-notifications/store/in-app-notification.model';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { InAppNotificationsQuery } from 'core-app/features/in-app-notifications/store/in-app-notifications.query';
-import { InAppNotificationsService } from 'core-app/features/in-app-notifications/store/in-app-notifications.service';
+import { IanCenterService } from 'core-app/features/in-app-notifications/center/state/ian-center.service';
+import {
+  IAN_FACET_FILTERS,
+  InAppNotificationFacet,
+} from 'core-app/features/in-app-notifications/center/state/ian-center.store';
 
 @Component({
   selector: 'op-activate-facet',
@@ -10,8 +12,6 @@ import { InAppNotificationsService } from 'core-app/features/in-app-notification
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ActivateFacetButtonComponent {
-  activeFacet$ = this.ianQuery.activeFacet$;
-
   text = {
     facets: {
       unread: this.I18n.t('js.notifications.facets.unread'),
@@ -19,17 +19,17 @@ export class ActivateFacetButtonComponent {
     },
   };
 
-  availableFacets = IAN_FACETS;
+  availableFacets = Object.keys(IAN_FACET_FILTERS);
+
+  activeFacet$ = this.storeService.query.activeFacet$;
 
   constructor(
     private I18n:I18nService,
-    private ianQuery:InAppNotificationsQuery,
-    private ianService:InAppNotificationsService,
+    private storeService:IanCenterService,
   ) {
   }
 
-  activateFacet(facet:string):void {
-    this.ianService.setActiveFacet(facet);
-    this.ianService.get();
+  activateFacet(facet:InAppNotificationFacet):void {
+    this.storeService.setFacet(facet);
   }
 }

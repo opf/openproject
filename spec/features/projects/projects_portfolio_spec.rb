@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -33,7 +33,7 @@ describe 'Projects index page',
          with_ee: %i[custom_fields_in_projects_list],
          js: true,
          with_settings: { login_required?: false } do
-  shared_let(:admin) { FactoryBot.create :admin }
+  shared_let(:admin) { create :admin }
 
   let(:modal) { ::Components::WorkPackages::TableConfigurationModal.new }
   let(:model_filters) { ::Components::WorkPackages::TableConfiguration::Filters.new }
@@ -58,7 +58,7 @@ describe 'Projects index page',
   end
 
   describe 'with only an archived project on index' do
-    let!(:project) { FactoryBot.create :project, active: false }
+    let!(:project) { create :project, active: false }
 
     it 'disables the button' do
       visit projects_path
@@ -68,18 +68,18 @@ describe 'Projects index page',
   end
 
   describe 'with projects defined' do
-    let!(:string_cf) { FactoryBot.create(:string_project_custom_field, name: 'Foobar') }
+    let!(:string_cf) { create(:string_project_custom_field, name: 'Foobar') }
 
-    let(:cv_a) { FactoryBot.build :custom_value, custom_field: string_cf, value: 'A' }
-    let(:cv_b) { FactoryBot.build :custom_value, custom_field: string_cf, value: 'B' }
+    let(:cv_a) { build :custom_value, custom_field: string_cf, value: 'A' }
+    let(:cv_b) { build :custom_value, custom_field: string_cf, value: 'B' }
 
-    let!(:project_a) { FactoryBot.create :project, name: 'A', types: [type_milestone], custom_values: [cv_a] }
-    let!(:project_b) { FactoryBot.create :project, name: 'B', types: [type_milestone], custom_values: [cv_b] }
+    let!(:project_a) { create :project, name: 'A', types: [type_milestone], custom_values: [cv_a] }
+    let!(:project_b) { create :project, name: 'B', types: [type_milestone], custom_values: [cv_b] }
 
-    let!(:type_milestone) { FactoryBot.create :type, name: 'Milestone', is_milestone: true }
+    let!(:type_milestone) { create :type, name: 'Milestone', is_milestone: true }
 
-    let!(:work_package_a) { FactoryBot.create :work_package, subject: 'WP A', type: type_milestone, project: project_a }
-    let!(:work_package_b) { FactoryBot.create :work_package, subject: 'WP B', type: type_milestone, project: project_b }
+    let!(:work_package_a) { create :work_package, subject: 'WP A', type: type_milestone, project: project_a }
+    let!(:work_package_b) { create :work_package, subject: 'WP B', type: type_milestone, project: project_b }
 
     it 'can manage and browse the project portfolio Gantt' do
       visit admin_settings_projects_path

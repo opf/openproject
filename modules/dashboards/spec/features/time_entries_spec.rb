@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -31,53 +31,53 @@ require 'spec_helper'
 require_relative '../support/pages/dashboard'
 
 describe 'Time entries widget on dashboard', type: :feature, js: true, with_mail: false do
-  let!(:type) { FactoryBot.create :type }
-  let!(:project) { FactoryBot.create :project, types: [type] }
-  let!(:other_project) { FactoryBot.create :project, types: [type] }
+  let!(:type) { create :type }
+  let!(:project) { create :project, types: [type] }
+  let!(:other_project) { create :project, types: [type] }
   let!(:work_package) do
-    FactoryBot.create :work_package,
-                      project: project,
-                      type: type,
-                      author: user
+    create :work_package,
+           project: project,
+           type: type,
+           author: user
   end
   let!(:visible_time_entry) do
-    FactoryBot.create :time_entry,
-                      work_package: work_package,
-                      project: project,
-                      user: user,
-                      spent_on: Date.today,
-                      hours: 6,
-                      comments: 'My comment'
+    create :time_entry,
+           work_package: work_package,
+           project: project,
+           user: user,
+           spent_on: Date.today,
+           hours: 6,
+           comments: 'My comment'
   end
   let!(:other_visible_time_entry) do
-    FactoryBot.create :time_entry,
-                      work_package: work_package,
-                      project: project,
-                      user: other_user,
-                      spent_on: Date.today - 1.day,
-                      hours: 5,
-                      comments: 'Another`s comment'
+    create :time_entry,
+           work_package: work_package,
+           project: project,
+           user: other_user,
+           spent_on: Date.today - 1.day,
+           hours: 5,
+           comments: 'Another`s comment'
   end
   let!(:invisible_time_entry) do
-    FactoryBot.create :time_entry,
-                      work_package: work_package,
-                      project: other_project,
-                      user: user,
-                      hours: 4
+    create :time_entry,
+           work_package: work_package,
+           project: other_project,
+           user: user,
+           hours: 4
   end
   let(:role) do
-    FactoryBot.create(:role,
-                      permissions: %i[view_time_entries
-                                      view_dashboards
-                                      manage_dashboards])
+    create(:role,
+           permissions: %i[view_time_entries
+                           view_dashboards
+                           manage_dashboards])
   end
   let(:other_user) do
-    FactoryBot.create(:user)
+    create(:user)
   end
   let(:user) do
-    FactoryBot.create(:user).tap do |u|
-      FactoryBot.create(:member, project: project, roles: [role], user: u)
-      FactoryBot.create(:member, project: other_project, roles: [role], user: u)
+    create(:user).tap do |u|
+      create(:member, project: project, roles: [role], user: u)
+      create(:member, project: other_project, roles: [role], user: u)
     end
   end
 

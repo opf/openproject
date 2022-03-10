@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,13 +23,13 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 describe ApplicationController, type: :controller do
-  let(:user) { FactoryBot.create(:user, lastname: "Crazy! Name with \r\n Newline") }
+  let(:user) { create(:user, lastname: "Crazy! Name with \r\n Newline") }
 
   # Fake controller to test calling an action
   controller do
@@ -109,7 +109,7 @@ describe ApplicationController, type: :controller do
       end
 
       it 'logs out the user' do
-        @controller.send(:logged_user=, FactoryBot.create(:user))
+        @controller.send(:logged_user=, create(:user))
         allow(@controller).to receive(:render_error)
 
         @controller.send :handle_unverified_request

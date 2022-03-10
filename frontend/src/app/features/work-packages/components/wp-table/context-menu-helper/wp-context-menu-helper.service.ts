@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { Injectable } from '@angular/core';
@@ -103,13 +103,14 @@ export class WorkPackageContextMenuHelperService {
 
   public getIntersectOfPermittedActions(workPackages:any) {
     const bulkPermittedActions:any = [];
-
-    const permittedActions = _.filter(this.BULK_ACTIONS, (action:any) => _.every(workPackages, (workPackage:WorkPackageResource) => this.getAllowedActions(workPackage, [action]).length >= 1));
+    const possibleActions = this.BULK_ACTIONS.concat(this.HookService.call('workPackageBulkContextMenu'));
+    const permittedActions = _.filter(possibleActions, (action:any) => _.every(workPackages, (workPackage:WorkPackageResource) => this.isActionAllowed(workPackage, action)));
 
     _.each(permittedActions, (permittedAction:any) => {
       bulkPermittedActions.push({
         key: permittedAction.key,
         text: permittedAction.text,
+        icon: permittedAction.icon,
         link: this.getBulkActionLink(permittedAction, workPackages),
       });
     });
@@ -128,6 +129,10 @@ export class WorkPackageContextMenuHelperService {
     const queryParts = linkAndQueryString.concat(new Array(serializedIdParams));
 
     return `${link}?${queryParts.join('&')}`;
+  }
+
+  private isActionAllowed(workPackage:WorkPackageResource, action:WorkPackageAction):boolean {
+    return _.filter(this.getAllowedActions(workPackage, [action]), (a) => a === action).length >= 1;
   }
 
   private getAllowedActions(workPackage:WorkPackageResource, actions:WorkPackageAction[]):WorkPackageAction[] {

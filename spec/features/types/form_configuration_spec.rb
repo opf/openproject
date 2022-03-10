@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,23 +23,23 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 describe 'form configuration', type: :feature, js: true do
-  shared_let(:admin) { FactoryBot.create :admin }
-  let(:type) { FactoryBot.create :type }
+  shared_let(:admin) { create :admin }
+  let(:type) { create :type }
 
-  let(:project) { FactoryBot.create :project, types: [type] }
-  let(:category) { FactoryBot.create :category, project: project }
+  let(:project) { create :project, types: [type] }
+  let(:category) { create :category, project: project }
   let(:work_package) do
-    FactoryBot.create :work_package,
-                      project: project,
-                      type: type,
-                      done_ratio: 10,
-                      category: category
+    create :work_package,
+           project: project,
+           type: type,
+           done_ratio: 10,
+           category: category
   end
 
   let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
@@ -247,7 +247,7 @@ describe 'form configuration', type: :feature, js: true do
 
     describe 'required custom field' do
       let(:custom_fields) { [custom_field] }
-      let(:custom_field) { FactoryBot.create(:integer_issue_custom_field, is_required: true, name: 'MyNumber') }
+      let(:custom_field) { create(:integer_issue_custom_field, is_required: true, name: 'MyNumber') }
       let(:cf_identifier) { "custom_field_#{custom_field.id}" }
       let(:cf_identifier_api) { "customField#{custom_field.id}" }
 
@@ -277,7 +277,7 @@ describe 'form configuration', type: :feature, js: true do
       let(:project_settings_page) { Pages::Projects::Settings.new(project) }
 
       let(:custom_fields) { [custom_field] }
-      let(:custom_field) { FactoryBot.create(:integer_issue_custom_field, name: 'MyNumber') }
+      let(:custom_field) { create(:integer_issue_custom_field, name: 'MyNumber') }
       let(:cf_identifier) { "custom_field_#{custom_field.id}" }
       let(:cf_identifier_api) { "customField#{custom_field.id}" }
 
@@ -336,9 +336,9 @@ describe 'form configuration', type: :feature, js: true do
 
       context 'active in project' do
         let(:project) do
-          FactoryBot.create :project,
-                            types: [type],
-                            work_package_custom_fields: custom_fields
+          create :project,
+                 types: [type],
+                 work_package_custom_fields: custom_fields
         end
 
         it 'can be added to type and is visible' do

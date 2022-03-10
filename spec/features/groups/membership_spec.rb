@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,32 +23,32 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 feature 'group memberships through project members page', type: :feature do
-  shared_let(:admin) { FactoryBot.create :admin }
-  let(:project) { FactoryBot.create :project, name: 'Project 1', identifier: 'project1', members: project_member }
+  shared_let(:admin) { create :admin }
+  let(:project) { create :project, name: 'Project 1', identifier: 'project1', members: project_member }
 
-  let(:alice) { FactoryBot.create :user, firstname: 'Alice', lastname: 'Wonderland' }
-  let(:bob)   { FactoryBot.create :user, firstname: 'Bob', lastname: 'Bobbit' }
-  let(:group) { FactoryBot.create :group, lastname: 'group1' }
+  let(:alice) { create :user, firstname: 'Alice', lastname: 'Wonderland' }
+  let(:bob)   { create :user, firstname: 'Bob', lastname: 'Bobbit' }
+  let(:group) { create :group, lastname: 'group1' }
 
-  let!(:alpha) { FactoryBot.create :role, name: 'alpha', permissions: [:manage_members] }
-  let!(:beta)  { FactoryBot.create :role, name: 'beta' }
+  let!(:alpha) { create :role, name: 'alpha', permissions: [:manage_members] }
+  let!(:beta)  { create :role, name: 'beta' }
 
   let(:members_page) { Pages::Members.new project.identifier }
   let(:groups_page)  { Pages::Groups.new }
   let(:project_member) { {} }
 
   before do
-    FactoryBot.create :member, user: bob, project: project, roles: [alpha]
+    create :member, user: bob, project: project, roles: [alpha]
   end
 
   context 'given a group with members' do
-    let!(:group) { FactoryBot.create :group, lastname: 'group1', members: alice }
+    let!(:group) { create :group, lastname: 'group1', members: alice }
     current_user { bob }
 
     scenario 'adding group1 as a member with the beta role', js: true do

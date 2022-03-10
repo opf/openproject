@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'securerandom'
@@ -198,17 +196,6 @@ module SettingsHelper
 
   def setting_block(setting, options = {}, &block)
     setting_label(setting, options) + wrap_field_outer(options, &block)
-  end
-
-  # Renders a notification field for an OpenProject::Notifiable option
-  def notification_field(notifiable, options = {})
-    content_tag(:label, class: 'form--label-with-check-box' + (notifiable.parent.present? ? ' parent' : '')) do
-      styled_check_box_tag('settings[notified_events][]',
-                           notifiable.name,
-                           Setting.notified_events.include?(notifiable.name),
-                           disabled_setting_option('notified_events').merge(options).merge(id: nil)) +
-        l_or_humanize(notifiable.name, prefix: 'label_')
-    end
   end
 
   private

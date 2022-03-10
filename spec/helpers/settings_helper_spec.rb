@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -327,56 +325,5 @@ important text</textarea>
 
     it_behaves_like 'labelled'
     it_behaves_like 'not wrapped in container'
-  end
-
-  describe '#notification_field' do
-    before do
-      allow(Setting).to receive(:notified_events).and_return(%w(interesting_stuff))
-      allow(Setting).to receive(:notified_events_writable?).and_return(true)
-    end
-
-    subject(:output) do
-      helper.notification_field(notifiable, options)
-    end
-
-    context 'when setting includes option' do
-      let(:notifiable) { OpenStruct.new(name: 'interesting_stuff') }
-
-      it 'has a label' do
-        expect(output).to have_selector 'label.form--label-with-check-box', count: 1
-      end
-
-      it_behaves_like 'wrapped in container', 'check-box-container'
-
-      it 'outputs element' do
-        expect(output).to have_selector 'input[type="checkbox"].form--check-box'
-        expect(output).to have_checked_field 'Interesting stuff'
-      end
-
-      context 'when the setting isn`t writable' do
-        before do
-          allow(Setting).to receive(:notified_events_writable?).and_return(false)
-        end
-
-        it 'returns a disabled field' do
-          expect(output).to have_field 'Interesting stuff', disabled: true
-        end
-      end
-    end
-
-    context 'when setting does not include option' do
-      let(:notifiable) { OpenStruct.new(name: 'boring_stuff') }
-
-      it 'has a label' do
-        expect(output).to have_selector 'label.form--label-with-check-box', count: 1
-      end
-
-      it_behaves_like 'wrapped in container', 'check-box-container'
-
-      it 'outputs element' do
-        expect(output).to have_selector 'input[type="checkbox"].form--check-box'
-        expect(output).to have_unchecked_field 'Boring stuff'
-      end
-    end
   end
 end

@@ -23,10 +23,11 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 
 import { ComponentType } from '@angular/cdk/portal';
 import { ApplicationRef } from '@angular/core';
+import { debugLog } from 'core-app/shared/helpers/debug_output';
 
 /**
  * Optional bootstrap definition to allow selecting all matching
@@ -113,7 +114,15 @@ export class DynamicBootstrapper {
 
         const elements = root.querySelectorAll(el.selector);
         for (let i = 0; i < elements.length; i++) {
-          appRef.bootstrap(el.cls, elements[i]);
+          const target = elements[i];
+
+          if (target.closest('[op-dynamic-bootstrap]')) {
+            debugLog(`Skipping nested bootstrap ${el.selector} in %O`, target);
+            return;
+          }
+
+          appRef.bootstrap(el.cls, target);
+          target.setAttribute('op-dynamic-bootstrap', 'true');
         }
       });
   }

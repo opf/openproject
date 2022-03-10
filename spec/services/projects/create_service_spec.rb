@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -33,7 +31,7 @@ require 'services/base_services/behaves_like_create_service'
 
 describe Projects::CreateService, type: :model do
   it_behaves_like 'BaseServices create service' do
-    let(:new_project_role) { FactoryBot.build_stubbed(:role) }
+    let(:new_project_role) { build_stubbed(:role) }
     let(:create_member_instance) { instance_double(Members::CreateService) }
 
     before do

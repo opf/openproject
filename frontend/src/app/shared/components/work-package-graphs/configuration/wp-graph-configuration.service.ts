@@ -12,7 +12,7 @@ import {
 } from 'core-app/shared/components/work-package-graphs/configuration/wp-graph-configuration';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { WorkPackageEmbeddedGraphDataset } from 'core-app/shared/components/work-package-graphs/embedded/wp-embedded-graph.component';
 
 @Injectable()
@@ -21,11 +21,11 @@ export class WpGraphConfigurationService {
 
   private _forms:{ [id:string]:QueryFormResource } = {};
 
-  private _formsPromise:Promise<void[]>|null;
+  private _formsPromise:Promise<unknown>|null;
 
   constructor(
     readonly I18n:I18nService,
-    readonly apiv3Service:APIV3Service,
+    readonly apiv3Service:ApiV3Service,
     readonly notificationService:WorkPackageNotificationService,
     readonly currentProject:CurrentProjectService,
   ) { }

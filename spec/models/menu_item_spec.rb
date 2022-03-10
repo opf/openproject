@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,14 +23,14 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 describe MenuItem, type: :model do
   describe 'validations' do
-    let(:item) { FactoryBot.build :menu_item }
+    let(:item) { build :menu_item }
 
     it 'requires a title' do
       item.title = nil
@@ -45,9 +45,9 @@ describe MenuItem, type: :model do
     end
 
     describe 'scoped uniqueness of title' do
-      let!(:item) { FactoryBot.create :menu_item }
-      let(:another_item) { FactoryBot.build :menu_item, title: item.title }
-      let(:wiki_menu_item) { FactoryBot.build :wiki_menu_item, title: item.title }
+      let!(:item) { create :menu_item }
+      let(:another_item) { build :menu_item, title: item.title }
+      let(:wiki_menu_item) { build :wiki_menu_item, title: item.title }
 
       it 'does not allow for duplicate titles' do
         expect(another_item).not_to be_valid
@@ -61,8 +61,8 @@ describe MenuItem, type: :model do
   end
 
   context 'it should destroy' do
-    let!(:menu_item) { FactoryBot.create(:menu_item) }
-    let!(:child_item) { FactoryBot.create(:menu_item, parent_id: menu_item.id) }
+    let!(:menu_item) { create(:menu_item) }
+    let!(:child_item) { create(:menu_item, parent_id: menu_item.id) }
 
     example 'all children when deleting the parent' do
       menu_item.destroy

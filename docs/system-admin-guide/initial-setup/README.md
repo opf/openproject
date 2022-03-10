@@ -34,4 +34,3 @@ If required, especially for on-premises versions, it might make sense to have a 
 | ------------------------------------------------------------ | :----------------------------------------------------------- |
 | [Configure outbound emails](../../installation-and-operations/configuration/outbound-emails/) | Set up SMTP on the server to send email                      |
 | [Configure incoming emails](../../installation-and-operations/configuration/incoming-emails/) | Receiving email by the server                                |
-| [Email configuration](../email/)                             | Set up email notifications, email provider and incoming email |

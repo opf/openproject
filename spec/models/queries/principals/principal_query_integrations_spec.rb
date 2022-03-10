@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,13 +23,13 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 describe Queries::Principals::PrincipalQuery, 'integration', type: :model do
-  let(:current_user) { FactoryBot.create(:user) }
+  let(:current_user) { create(:user) }
   let(:instance) { described_class.new }
 
   before do
@@ -37,24 +37,24 @@ describe Queries::Principals::PrincipalQuery, 'integration', type: :model do
   end
 
   context 'with a member filter' do
-    let(:project) { FactoryBot.create(:project) }
-    let(:role) { FactoryBot.create(:role) }
+    let(:project) { create(:project) }
+    let(:role) { create(:role) }
     let(:project_user) do
-      FactoryBot.create(:user,
-                        member_in_project: project,
-                        member_through_role: role) do |u|
+      create(:user,
+             member_in_project: project,
+             member_through_role: role) do |u|
         # Granting another membership in order to better test the "not" filter
-        FactoryBot.create(:member,
-                          principal: u,
-                          project: other_project,
-                          roles: [role])
+        create(:member,
+               principal: u,
+               project: other_project,
+               roles: [role])
       end
     end
-    let(:other_project) { FactoryBot.create(:project) }
+    let(:other_project) { create(:project) }
     let(:other_project_user) do
-      FactoryBot.create(:user,
-                        member_in_project: other_project,
-                        member_through_role: role)
+      create(:user,
+             member_in_project: other_project,
+             member_through_role: role)
     end
 
     let(:users) { [current_user, project_user, other_project_user] }

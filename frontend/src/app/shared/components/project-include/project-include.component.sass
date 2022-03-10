@@ -1,0 +1,34 @@
+@import '../../../spot/styles/sass/variables'
+
+\::ng-deep .spot-drop-modal--body
+
+  @media screen and #{$spot-mq-drop-modal-in-context}
+    width: 460px
+
+.op-project-include
+  &--header
+    display: flex
+    justify-content: space-between
+    align-items: center
+    margin: $spot-spacing-0_5
+
+  &--title
+    margin: 0
+    padding: 0
+    @include spot-subheader-big 
+
+  &--body
+    flex-shrink: 1
+    flex-basis: 100%
+    overflow: hidden
+
+    @media screen and #{$spot-mq-drop-modal-in-context}
+      max-height: 40vh
+
+  &--list
+    overflow-y: auto
+    flex-shrink: 1
+    flex-basis: 100%
+
+  &--loading
+    padding: 0 $spot-spacing-1 0 $spot-spacing-1

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -34,7 +34,7 @@ require 'spec_helper'
 shared_examples_for 'action link' do
   let(:permissions) { %i(view_work_packages edit_work_packages) }
   let(:user) do
-    FactoryBot.build_stubbed(:user)
+    build_stubbed(:user)
   end
 
   let(:href) { nil }
@@ -68,7 +68,7 @@ shared_context 'action link shared' do
   let(:all_permissions) { OpenProject::AccessControl.permissions.map(&:name) }
   let(:permissions) { all_permissions }
   let(:action_link_user) do
-    defined?(user) ? user : FactoryBot.build_stubbed(:user)
+    defined?(user) ? user : build_stubbed(:user)
   end
 
   before do

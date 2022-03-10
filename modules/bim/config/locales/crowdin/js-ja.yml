@@ -12,8 +12,8 @@ ja:
       show_viewpoint: 'ビューポイントを表示'
       delete_viewpoint: 'ビューポイントを削除'
       management: 'BCF 管理'
-      refresh: 'Refresh'
-      refresh_work_package: 'Refresh work package'
+      refresh: '更新'
+      refresh_work_package: 'ワークパッケージを更新'
     ifc_models:
       empty_warning: "このプロジェクトにはまだIFCモデルはありません。"
       use_this_link_to_manage: "リンクを使用して IFC モデルをアップロードして管理します"

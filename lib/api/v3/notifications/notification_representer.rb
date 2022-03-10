@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module API
@@ -34,9 +32,7 @@ module API
       class NotificationRepresenter < ::API::Decorators::Single
         include API::Decorators::DateProperty
         include API::Decorators::LinkedResource
-        include API::Decorators::FormattableProperty
         extend API::Decorators::PolymorphicResource
-        include API::V3::Activities::ActivityPropertyFormatters
 
         self_link title_getter: ->(*) { represented.subject }
 
@@ -46,22 +42,11 @@ module API
         property :read_ian,
                  as: :readIAN
 
-        property :reason_ian,
-                 as: :reason
+        property :reason
 
         date_time_property :created_at
 
         date_time_property :updated_at
-
-        property :details,
-                 exec_context: :decorator,
-                 getter: ->(*) do
-                   next unless represented.journal
-
-                   formatted_notification_details(represented.journal)
-                     .unshift formatted_notes(represented.journal)
-                 end,
-                 render_nil: false
 
         link :readIAN do
           next if represented.read_ian
@@ -100,19 +85,7 @@ module API
           'Notification'
         end
 
-        ##
-        # For notifications, we want to skip the initial journal
-        # as the information is not that useful
-        def formatted_notification_details(journal)
-          if journal.initial?
-            note_created = I18n.t('notifications.work_packages.subject.created')
-            [
-              { format: 'custom', raw: note_created, html: "<em>#{note_created}</em>" }
-            ]
-          else
-            formatted_details(journal)
-          end
-        end
+        self.to_eager_load = %i[project actor]
       end
     end
   end

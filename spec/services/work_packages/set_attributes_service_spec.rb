@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,21 +23,21 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 describe WorkPackages::SetAttributesService, type: :model do
-  let(:user) { FactoryBot.build_stubbed(:user) }
+  let(:user) { build_stubbed(:user) }
   let(:project) do
-    p = FactoryBot.build_stubbed(:project)
+    p = build_stubbed(:project)
     allow(p).to receive(:shared_versions).and_return([])
 
     p
   end
   let(:work_package) do
-    wp = FactoryBot.build_stubbed(:work_package, project: project)
+    wp = build_stubbed(:work_package, project: project)
     wp.type = initial_type
     wp.send(:clear_changes_information)
 
@@ -48,7 +46,7 @@ describe WorkPackages::SetAttributesService, type: :model do
   let(:new_work_package) do
     WorkPackage.new
   end
-  let(:initial_type) { FactoryBot.build_stubbed(:type) }
+  let(:initial_type) { build_stubbed(:type) }
   let(:statuses) { [] }
   let(:contract_class) { WorkPackages::UpdateContract }
   let(:mock_contract) do
@@ -138,8 +136,8 @@ describe WorkPackages::SetAttributesService, type: :model do
     end
 
     context 'status' do
-      let(:default_status) { FactoryBot.build_stubbed(:default_status) }
-      let(:other_status) { FactoryBot.build_stubbed(:status) }
+      let(:default_status) { build_stubbed(:default_status) }
+      let(:other_status) { build_stubbed(:status) }
       let(:new_statuses) { [other_status, default_status] }
 
       before do
@@ -205,7 +203,7 @@ describe WorkPackages::SetAttributesService, type: :model do
     end
 
     context 'author' do
-      let(:other_user) { FactoryBot.build_stubbed(:user) }
+      let(:other_user) { build_stubbed(:user) }
 
       context 'no value set before for a new work package' do
         let(:call_attributes) { {} }
@@ -268,14 +266,14 @@ describe WorkPackages::SetAttributesService, type: :model do
 
     context 'with the actual contract' do
       let(:invalid_wp) do
-        wp = FactoryBot.create(:work_package)
+        wp = create(:work_package)
         wp.start_date = Date.today + 5.days
         wp.due_date = Date.today
         wp.save!(validate: false)
 
         wp
       end
-      let(:user) { FactoryBot.build_stubbed(:admin) }
+      let(:user) { build_stubbed(:admin) }
       let(:instance) do
         described_class.new(user: user,
                             model: invalid_wp,
@@ -297,9 +295,9 @@ describe WorkPackages::SetAttributesService, type: :model do
 
     context 'start_date & due_date' do
       let(:parent) do
-        FactoryBot.build_stubbed(:stubbed_work_package,
-                                 start_date: parent_start_date,
-                                 due_date: parent_due_date)
+        build_stubbed(:stubbed_work_package,
+                      start_date: parent_start_date,
+                      due_date: parent_due_date)
       end
       let(:parent_start_date) { Date.today - 5.days }
       let(:parent_due_date) { Date.today + 10.days }
@@ -565,8 +563,8 @@ describe WorkPackages::SetAttributesService, type: :model do
     end
 
     context 'priority' do
-      let(:default_priority) { FactoryBot.build_stubbed(:priority) }
-      let(:other_priority) { FactoryBot.build_stubbed(:priority) }
+      let(:default_priority) { build_stubbed(:priority) }
+      let(:other_priority) { build_stubbed(:priority) }
 
       before do
         allow(IssuePriority)
@@ -613,7 +611,7 @@ describe WorkPackages::SetAttributesService, type: :model do
     end
 
     context 'when switching the type' do
-      let(:target_type) { FactoryBot.build_stubbed(:type) }
+      let(:target_type) { build_stubbed(:type) }
 
       context 'with a type that is no milestone' do
         before do
@@ -659,17 +657,17 @@ describe WorkPackages::SetAttributesService, type: :model do
     end
 
     context 'when switching the project' do
-      let(:new_project) { FactoryBot.build_stubbed(:project) }
-      let(:version) { FactoryBot.build_stubbed(:version) }
-      let(:category) { FactoryBot.build_stubbed(:category) }
-      let(:new_category) { FactoryBot.build_stubbed(:category, name: category.name) }
+      let(:new_project) { build_stubbed(:project) }
+      let(:version) { build_stubbed(:version) }
+      let(:category) { build_stubbed(:category) }
+      let(:new_category) { build_stubbed(:category, name: category.name) }
       let(:new_statuses) { [work_package.status] }
       let(:new_versions) { [] }
       let(:type) { work_package.type }
       let(:new_types) { [type] }
-      let(:default_type) { FactoryBot.build_stubbed(:type_standard) }
-      let(:other_type) { FactoryBot.build_stubbed(:type) }
-      let(:yet_another_type) { FactoryBot.build_stubbed(:type) }
+      let(:default_type) { build_stubbed(:type_standard) }
+      let(:other_type) { build_stubbed(:type) }
+      let(:yet_another_type) { build_stubbed(:type) }
 
       let(:call_attributes) { {} }
       let(:new_project_categories) do
@@ -870,12 +868,12 @@ describe WorkPackages::SetAttributesService, type: :model do
 
     context 'when switching back to automatic scheduling' do
       let(:work_package) do
-        wp = FactoryBot.build_stubbed(:work_package,
-                                      project: project,
-                                      schedule_manually: true,
-                                      start_date: Date.today,
-                                      due_date: Date.today + 5.days)
-        wp.type = FactoryBot.build_stubbed(:type)
+        wp = build_stubbed(:work_package,
+                           project: project,
+                           schedule_manually: true,
+                           start_date: Date.today,
+                           due_date: Date.today + 5.days)
+        wp.type = build_stubbed(:type)
         wp.send(:clear_changes_information)
 
         allow(wp)
@@ -929,9 +927,9 @@ describe WorkPackages::SetAttributesService, type: :model do
 
       context 'when the work package also has a child' do
         let(:child) do
-          FactoryBot.build_stubbed(:stubbed_work_package,
-                                   start_date: child_start_date,
-                                   due_date: child_due_date)
+          build_stubbed(:stubbed_work_package,
+                        start_date: child_start_date,
+                        due_date: child_due_date)
         end
         let(:child_start_date) { Date.today + 2.days }
         let(:child_due_date) { Date.today + 10.days }

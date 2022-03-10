@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 class MyController < ApplicationController
@@ -34,8 +32,6 @@ class MyController < ApplicationController
   include ActionView::Helpers::TagHelper
 
   layout 'my'
-
-  helper_method :gon
 
   before_action :require_login
   before_action :set_current_user
@@ -46,6 +42,7 @@ class MyController < ApplicationController
   menu_item :password,            only: [:password]
   menu_item :access_token,        only: [:access_token]
   menu_item :notifications,       only: [:notifications]
+  menu_item :reminders,           only: [:reminders]
 
   def account; end
 
@@ -55,7 +52,7 @@ class MyController < ApplicationController
     # If mail changed, expire all other sessions
     if @user.previous_changes['mail'] && ::Sessions::DropOtherSessionsService.call(@user, session)
       flash[:info] = "#{flash[:notice]} #{t(:notice_account_other_session_expired)}"
-      flash[:notice] = nil
+      flash.delete :notice
     end
   end
 
@@ -81,23 +78,33 @@ class MyController < ApplicationController
   # Administer access tokens
   def access_token; end
 
-  # Configure user's mail notifications
+  # Configure user's in app notifications
   def notifications
     render html: '',
-           layout: 'angular',
+           layout: 'angular/angular',
+           locals: {
+             menu_name: :my_menu,
+             page_title: [I18n.t(:label_my_account), I18n.t('js.notifications.settings.title')]
+           }
+  end
+
+  # Configure user's mail reminders
+  def reminders
+    render html: '',
+           layout: 'angular/angular',
            locals: { menu_name: :my_menu }
   end
 
   # Create a new feeds key
   def generate_rss_key
-    if request.post?
-      token = Token::RSS.create!(user: current_user)
-      flash[:info] = [
-        t('my.access_token.notice_reset_token', type: 'RSS').html_safe,
-        content_tag(:strong, token.plain_value),
-        t('my.access_token.token_value_warning')
-      ]
-    end
+    token = Token::RSS.create!(user: current_user)
+    flash[:info] = [
+      # rubocop:disable Rails/OutputSafety
+      t('my.access_token.notice_reset_token', type: 'RSS').html_safe,
+      # rubocop:enable Rails/OutputSafety
+      content_tag(:strong, token.plain_value),
+      t('my.access_token.token_value_warning')
+    ]
   rescue StandardError => e
     Rails.logger.error "Failed to reset user ##{current_user.id} RSS key: #{e}"
     flash[:error] = t('my.access_token.failed_to_reset_token', error: e.message)
@@ -107,14 +114,14 @@ class MyController < ApplicationController
 
   # Create a new API key
   def generate_api_key
-    if request.post?
-      token = Token::API.create!(user: current_user)
-      flash[:info] = [
-        t('my.access_token.notice_reset_token', type: 'API').html_safe,
-        content_tag(:strong, token.plain_value),
-        t('my.access_token.token_value_warning')
-      ]
-    end
+    token = Token::API.create!(user: current_user)
+    flash[:info] = [
+      # rubocop:disable Rails/OutputSafety
+      t('my.access_token.notice_reset_token', type: 'API').html_safe,
+      # rubocop:enable Rails/OutputSafety
+      content_tag(:strong, token.plain_value),
+      t('my.access_token.token_value_warning')
+    ]
   rescue StandardError => e
     Rails.logger.error "Failed to reset user ##{current_user.id} API key: #{e}"
     flash[:error] = t('my.access_token.failed_to_reset_token', error: e.message)

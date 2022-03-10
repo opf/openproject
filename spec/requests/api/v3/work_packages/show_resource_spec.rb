@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -36,27 +36,23 @@ describe 'API v3 Work package resource',
   include Capybara::RSpecMatchers
   include API::V3::Utilities::PathHelper
 
-  let(:closed_status) { FactoryBot.create(:closed_status) }
+  let(:closed_status) { create(:closed_status) }
 
   let(:work_package) do
-    FactoryBot.create(:work_package,
-                      project_id: project.id,
-                      description: 'lorem ipsum')
+    create(:work_package,
+           project_id: project.id,
+           description: 'lorem ipsum')
   end
   let(:project) do
-    FactoryBot.create(:project, identifier: 'test_project', public: false)
+    create(:project, identifier: 'test_project', public: false)
   end
-  let(:role) { FactoryBot.create(:role, permissions: permissions) }
+  let(:role) { create(:role, permissions: permissions) }
   let(:permissions) { %i[view_work_packages edit_work_packages assign_versions] }
   let(:current_user) do
-    user = FactoryBot.create(:user, member_in_project: project, member_through_role: role)
-
-    FactoryBot.create(:user_preference, user: user, others: { no_self_notified: false })
-
-    user
+    create(:user, member_in_project: project, member_through_role: role)
   end
-  let(:unauthorize_user) { FactoryBot.create(:user) }
-  let(:type) { FactoryBot.create(:type) }
+  let(:unauthorize_user) { create(:user) }
+  let(:type) { create(:type) }
 
   before do
     login_as(current_user)
@@ -78,14 +74,14 @@ describe 'API v3 Work package resource',
       describe 'response body' do
         subject { last_response.body }
         let!(:other_wp) do
-          FactoryBot.create(:work_package,
-                            project_id: project.id,
-                            status: closed_status)
+          create(:work_package,
+                 project_id: project.id,
+                 status: closed_status)
         end
         let(:work_package) do
-          FactoryBot.create(:work_package,
-                            project_id: project.id,
-                            description: description).tap do |wp|
+          create(:work_package,
+                 project_id: project.id,
+                 description: description).tap do |wp|
             wp.children << children
           end
         end
@@ -137,9 +133,9 @@ describe 'API v3 Work package resource',
         describe 'derived dates' do
           let(:children) do
             # This will be in another project but the user is still allowed to see the dates
-            [FactoryBot.create(:work_package,
-                               start_date: Date.today,
-                               due_date: Date.today + 5.days)]
+            [create(:work_package,
+                    start_date: Date.today,
+                    due_date: Date.today + 5.days)]
           end
 
           it 'has derived dates' do
@@ -155,18 +151,18 @@ describe 'API v3 Work package resource',
 
         describe 'relations' do
           let(:directly_related_wp) do
-            FactoryBot.create(:work_package, project_id: project.id)
+            create(:work_package, project_id: project.id)
           end
           let(:transitively_related_wp) do
-            FactoryBot.create(:work_package, project_id: project.id)
+            create(:work_package, project_id: project.id)
           end
 
           let(:work_package) do
-            FactoryBot.create(:work_package,
-                              project_id: project.id,
-                              description: 'lorem ipsum').tap do |wp|
-              FactoryBot.create(:relation, relates: 1, from: wp, to: directly_related_wp)
-              FactoryBot.create(:relation, relates: 1, from: directly_related_wp, to: transitively_related_wp)
+            create(:work_package,
+                   project_id: project.id,
+                   description: 'lorem ipsum').tap do |wp|
+              create(:relation, relates: 1, from: wp, to: directly_related_wp)
+              create(:relation, relates: 1, from: directly_related_wp, to: transitively_related_wp)
             end
           end
 
@@ -185,7 +181,8 @@ describe 'API v3 Work package resource',
       context 'requesting nonexistent work package' do
         let(:get_path) { api_v3_paths.work_package 909090 }
 
-        it_behaves_like 'not found'
+        it_behaves_like 'not found',
+                        I18n.t('api_v3.errors.not_found.work_package')
       end
     end
 
@@ -195,7 +192,8 @@ describe 'API v3 Work package resource',
         get get_path
       end
 
-      it_behaves_like 'not found'
+      it_behaves_like 'not found',
+                      I18n.t('api_v3.errors.not_found.work_package')
     end
 
     context 'when acting as an anonymous user' do
@@ -204,7 +202,8 @@ describe 'API v3 Work package resource',
         get get_path
       end
 
-      it_behaves_like 'not found'
+      it_behaves_like 'not found',
+                      I18n.t('api_v3.errors.not_found.work_package')
     end
   end
 end

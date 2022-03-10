@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,14 +23,14 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 describe 'Global role: Global Create project', type: :feature, js: true do
-  let(:user) { FactoryBot.create(:admin) }
-  let(:project) { FactoryBot.create :project }
+  let(:user) { create(:admin) }
+  let(:project) { create :project }
 
   before do
     login_as(user)
@@ -38,7 +38,7 @@ describe 'Global role: Global Create project', type: :feature, js: true do
 
   describe 'Create Project is not a member permission' do
     # Given there is a role "Member"
-    let!(:role) { FactoryBot.create(:role, name: 'Member') }
+    let!(:role) { create(:role, name: 'Member') }
 
     # And I am already admin
     # When I go to the edit page of the role "Member"
@@ -52,7 +52,7 @@ describe 'Global role: Global Create project', type: :feature, js: true do
 
   describe 'Create Project is a global permission' do
     # Given there is a global role "Global"
-    let!(:role) { FactoryBot.create(:global_role, name: 'Global') }
+    let!(:role) { create(:global_role, name: 'Global') }
     # And I am already admin
     # When I go to the edit page of the role "Global"
     # Then I should see "Create project"
@@ -64,14 +64,14 @@ describe 'Global role: Global Create project', type: :feature, js: true do
   end
 
   describe 'Create Project displayed to user' do
-    let!(:global_role) { FactoryBot.create(:global_role, name: 'Global', permissions: %i[add_project]) }
-    let!(:member_role) { FactoryBot.create(:role, name: 'Member', permissions: %i[view_project]) }
+    let!(:global_role) { create(:global_role, name: 'Global', permissions: %i[add_project]) }
+    let!(:member_role) { create(:role, name: 'Member', permissions: %i[view_project]) }
 
-    let(:user) { FactoryBot.create :user }
+    let(:user) { create :user }
     let!(:global_member) do
-      FactoryBot.create(:global_member,
-                        principal: user,
-                        roles: [global_role])
+      create(:global_member,
+             principal: user,
+             roles: [global_role])
     end
 
     let(:name_field) { ::FormFields::InputFormField.new :name }
@@ -97,7 +97,7 @@ describe 'Global role: Global Create project', type: :feature, js: true do
     # | Firstname | Bob |
     # | Lastname | Bobbit |
     #   When I am already logged in as "bob"
-    let(:user) { FactoryBot.create :user }
+    let(:user) { create :user }
     it 'does show the global permission' do
       # And I go to the overall projects page
       visit projects_path

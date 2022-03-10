@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,14 +23,14 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 describe ::API::V3::WorkPackages::Schema::TypedWorkPackageSchema do
-  let(:project) { FactoryBot.build(:project) }
-  let(:type) { FactoryBot.build(:type) }
+  let(:project) { build(:project) }
+  let(:type) { build(:type) }
 
   let(:current_user) do
     double('user').tap do |u|
@@ -102,8 +102,8 @@ describe ::API::V3::WorkPackages::Schema::TypedWorkPackageSchema do
   end
 
   describe '#assignable_custom_field_values' do
-    let(:list_cf) { FactoryBot.build_stubbed(:list_wp_custom_field) }
-    let(:version_cf) { FactoryBot.build_stubbed(:version_wp_custom_field) }
+    let(:list_cf) { build_stubbed(:list_wp_custom_field) }
+    let(:version_cf) { build_stubbed(:version_wp_custom_field) }
 
     it 'is nil for a list cf' do
       expect(subject.assignable_custom_field_values(list_cf)).to be_nil

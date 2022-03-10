@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -39,10 +37,12 @@ describe RootSeeder,
 
     expect(User.where(admin: true).count).to eq 1
     expect(Project.count).to eq 2
-    expect(WorkPackage.count).to eq 33
+    expect(WorkPackage.count).to eq 36
     expect(Wiki.count).to eq 2
-    expect(Query.where.not(hidden: true).count).to eq 7
-    expect(Query.count).to eq 25
+    expect(Query.having_views.count).to eq 8
+    expect(View.where(type: 'work_packages_table').count).to eq 7
+    expect(View.where(type: 'team_planner').count).to eq 1
+    expect(Query.count).to eq 26
     expect(Projects::Status.count).to eq 2
     expect(Role.where(type: 'Role').count).to eq 5
     expect(GlobalRole.count).to eq 1

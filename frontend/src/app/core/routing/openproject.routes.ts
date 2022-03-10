@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,22 +23,41 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
 import {
-  StateDeclaration, StateService, Transition, TransitionService, UIRouter,
+  StateDeclaration,
+  StateService,
+  Transition,
+  TransitionService,
+  UIRouter,
 } from '@uirouter/core';
-import { INotification, NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import {
+  IToast,
+  ToastService,
+} from 'core-app/shared/components/toaster/toast.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { Injector } from '@angular/core';
 import { FirstRouteService } from 'core-app/core/routing/first-route-service';
-import { Ng2StateDeclaration, StatesModule } from '@uirouter/angular';
-import { appBaseSelector, ApplicationBaseComponent } from 'core-app/core/routing/base/application-base.component';
+import {
+  Ng2StateDeclaration,
+  StatesModule,
+} from '@uirouter/angular';
+import {
+  appBaseSelector,
+  ApplicationBaseComponent,
+} from 'core-app/core/routing/base/application-base.component';
 import { BackRoutingService } from 'core-app/features/work-packages/components/back-routing/back-routing.service';
 import { MY_ACCOUNT_LAZY_ROUTES } from 'core-app/features/user-preferences/user-preferences.lazy-routes';
 import { IAN_LAZY_ROUTES } from 'core-app/features/in-app-notifications/in-app-notifications.lazy-routes';
 import { StateObject } from '@uirouter/core/lib/state/stateObject';
+import {
+  mobileGuardActivated,
+  redirectToMobileAlternative,
+} from 'core-app/shared/helpers/routing/mobile-guard.helper';
+import { TEAM_PLANNER_LAZY_ROUTES } from 'core-app/features/team-planner/team-planner/team-planner.lazy-routes';
+import { CALENDAR_LAZY_ROUTES } from 'core-app/features/calendar/calendar.lazy-routes';
 
 export const OPENPROJECT_ROUTES:Ng2StateDeclaration[] = [
   {
@@ -48,75 +67,87 @@ export const OPENPROJECT_ROUTES:Ng2StateDeclaration[] = [
   },
   {
     name: 'root',
-    url: '/{projects}/{projectPath}',
+    abstract: true,
+    url: '',
     component: ApplicationBaseComponent,
+    params: {
+      // Allow passing of flash messages after routes load
+      flash_message: { dynamic: true, value: null, inherit: false },
+    },
+  },
+  {
+    name: 'optional_project',
+    parent: 'root',
+    url: '/{projects}/{projectPath}',
     abstract: true,
     params: {
       // value: null makes the parameter optional
       // squash: true avoids duplicate slashes when the parameter is not provided
       projectPath: { type: 'path', value: null, squash: true },
       projects: { type: 'path', value: null, squash: true },
-
-      // Allow passing of flash messages after routes load
-      flash_message: { dynamic: true, value: null, inherit: false },
+    },
+    views: {
+      '!$default': { component: ApplicationBaseComponent },
     },
   },
   {
     name: 'api-docs.**',
-    parent: 'root',
+    parent: 'optional_project',
     url: '/api/docs',
     loadChildren: () => import('../../features/api-docs/openproject-api-docs.module').then((m) => m.OpenprojectApiDocsModule),
   },
   {
     name: 'boards.**',
-    parent: 'root',
+    parent: 'optional_project',
     url: '/boards',
     loadChildren: () => import('../../features/boards/openproject-boards.module').then((m) => m.OpenprojectBoardsModule),
   },
   {
     name: 'bim.**',
-    parent: 'root',
+    parent: 'optional_project',
     url: '/bcf',
     loadChildren: () => import('../../features/bim/ifc_models/openproject-ifc-models.module').then((m) => m.OpenprojectIFCModelsModule),
   },
   {
     name: 'backlogs.**',
-    parent: 'root',
+    parent: 'optional_project',
     url: '/backlogs',
     loadChildren: () => import('../../features/backlogs/openproject-backlogs.module').then((m) => m.OpenprojectBacklogsModule),
   },
   {
     name: 'backlogs_sprint.**',
-    parent: 'root',
+    parent: 'optional_project',
     url: '/sprints',
     loadChildren: () => import('../../features/backlogs/openproject-backlogs.module').then((m) => m.OpenprojectBacklogsModule),
   },
   {
     name: 'reporting.**',
-    parent: 'root',
+    parent: 'optional_project',
     url: '/cost_reports',
     loadChildren: () => import('../../features/reporting/openproject-reporting.module').then((m) => m.OpenprojectReportingModule),
   },
   {
     name: 'job-statuses.**',
-    parent: 'root',
+    parent: 'optional_project',
     url: '/job_statuses',
     loadChildren: () => import('../../features/job-status/openproject-job-status.module').then((m) => m.OpenProjectJobStatusModule),
   },
   {
     name: 'project_settings.**',
-    parent: 'root',
-    url: '/settings/generic',
+    parent: 'optional_project',
+    url: '/settings/general',
     loadChildren: () => import('../../features/projects/openproject-projects.module').then((m) => m.OpenprojectProjectsModule),
   },
   {
     name: 'project_copy.**',
-    parent: 'root',
+    parent: 'optional_project',
     url: '/copy',
     loadChildren: () => import('../../features/projects/openproject-projects.module').then((m) => m.OpenprojectProjectsModule),
   },
   ...MY_ACCOUNT_LAZY_ROUTES,
   ...IAN_LAZY_ROUTES,
+  ...TEAM_PLANNER_LAZY_ROUTES,
+  ...CALENDAR_LAZY_ROUTES,
 ];
 
 /**
@@ -177,12 +208,24 @@ export function uiRouterConfiguration(uiRouter:UIRouter, injector:Injector, modu
       equals: (a:any, b:any) => _.isEqual(a, b),
     },
   );
+
+  uiRouter.urlService.config.type(
+    'opQueryId',
+    {
+      encode: (id:string|null) => id || 'new',
+      decode: (id:string) => (id === 'new' ? null : id),
+      raw: true,
+      dynamic: true,
+      is: (val:unknown) => typeof (val) === 'string',
+      equals: (a:unknown, b:unknown) => _.isEqual(a, b),
+    },
+  );
 }
 
 export function initializeUiRouterListeners(injector:Injector) {
   const $transitions:TransitionService = injector.get(TransitionService);
   const stateService = injector.get(StateService);
-  const notificationsService:NotificationsService = injector.get(NotificationsService);
+  const toastService:ToastService = injector.get(ToastService);
   const currentProject:CurrentProjectService = injector.get(CurrentProjectService);
   const firstRoute:FirstRouteService = injector.get(FirstRouteService);
   const backRoutingService:BackRoutingService = injector.get(BackRoutingService);
@@ -194,6 +237,15 @@ export function initializeUiRouterListeners(injector:Injector) {
   // Uncomment to trace route changes
   // const uiRouter = injector.get(UIRouter);
   // uiRouter.trace.enable();
+
+  // For some pages it makes no sense to display them on mobile (e.g. the split screen).
+  // If a `mobileAlternative` is specified, we redirect there instead.
+  // Actually, this would be solved with an ActiveGuard, but unfortunately ui-router does not support this.
+  // The recommended alternative is this transition hook (compare: https://github.com/angular-ui/ui-router/issues/2964)
+  $transitions.onBefore(
+    { to: (state) => (state ? mobileGuardActivated(state) : false) },
+    (transition) => redirectToMobileAlternative(transition),
+  );
 
   // Apply classes from bodyClasses in each state definition
   // This was defined as onEnter, onExit functions in each state before
@@ -278,12 +330,12 @@ export function initializeUiRouterListeners(injector:Injector) {
 
     // Clear all notifications when actually moving between states.
     if (transition.to().name !== transition.from().name) {
-      notificationsService.clear();
+      toastService.clear();
     }
 
     // Add new notifications if passed to params
     if (toParams.flash_message) {
-      notificationsService.add(toParams.flash_message as INotification);
+      toastService.add(toParams.flash_message as IToast);
     }
 
     return true;

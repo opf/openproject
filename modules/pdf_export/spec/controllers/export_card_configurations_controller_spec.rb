@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -33,10 +33,10 @@ describe ExportCardConfigurationsController, type: :controller do
   before do
     allow(@controller).to receive(:require_admin) { true }
 
-    @default_config = FactoryBot.create(:default_export_card_configuration)
-    @custom_config = FactoryBot.create(:export_card_configuration)
-    @active_config = FactoryBot.create(:active_export_card_configuration)
-    @inactive_config = FactoryBot.create(:inactive_export_card_configuration)
+    @default_config = create(:default_export_card_configuration)
+    @custom_config = create(:export_card_configuration)
+    @active_config = create(:active_export_card_configuration)
+    @inactive_config = create(:inactive_export_card_configuration)
     @params = {}
     @valid_rows_yaml = "group1:\n  has_border: false\n  rows:\n    row1:\n      height: 50\n      priority: 1\n      columns:\n        id:\n          has_label: false"
     @invalid_rows_yaml = "group1:\n  invalid_property: true"

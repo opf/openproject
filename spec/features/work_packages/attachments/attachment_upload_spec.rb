@@ -3,18 +3,18 @@ require 'features/page_objects/notification'
 
 describe 'Upload attachment to work package', js: true do
   let(:role) do
-    FactoryBot.create :role,
-                      permissions: %i[view_work_packages add_work_packages edit_work_packages]
+    create :role,
+           permissions: %i[view_work_packages add_work_packages edit_work_packages]
   end
   let(:dev) do
-    FactoryBot.create :user,
-                      firstname: 'Dev',
-                      lastname: 'Guy',
-                      member_in_project: project,
-                      member_through_role: role
+    create :user,
+           firstname: 'Dev',
+           lastname: 'Guy',
+           member_in_project: project,
+           member_through_role: role
   end
-  let(:project) { FactoryBot.create(:project) }
-  let(:work_package) { FactoryBot.create(:work_package, project: project, description: 'Initial description') }
+  let(:project) { create(:project) }
+  let(:work_package) { create(:work_package, project: project, description: 'Initial description') }
   let(:wp_page) { ::Pages::FullWorkPackage.new(work_package, project) }
   let(:attachments) { ::Components::Attachments.new }
   let(:field) { TextEditorField.new wp_page, 'description' }
@@ -50,8 +50,8 @@ describe 'Upload attachment to work package', js: true do
 
       context 'with a user that is not allowed to add images (Regression #28541)' do
         let(:role) do
-          FactoryBot.create :role,
-                            permissions: %i[view_work_packages add_work_packages add_work_package_notes]
+          create :role,
+                 permissions: %i[view_work_packages add_work_packages add_work_package_notes]
         end
         let(:selector) { '.work-packages--activity--add-comment' }
         let(:comment_field) do
@@ -79,11 +79,11 @@ describe 'Upload attachment to work package', js: true do
     context 'on a new page' do
       shared_examples 'it supports image uploads via drag & drop' do
         let!(:new_page) { Pages::FullWorkPackageCreate.new }
-        let!(:type) { FactoryBot.create(:type_task) }
-        let!(:status) { FactoryBot.create(:status, is_default: true) }
-        let!(:priority) { FactoryBot.create(:priority, is_default: true) }
+        let!(:type) { create(:type_task) }
+        let!(:status) { create(:status, is_default: true) }
+        let!(:priority) { create(:priority, is_default: true) }
         let!(:project) do
-          FactoryBot.create(:project, types: [type])
+          create(:project, types: [type])
         end
 
         let(:post_conditions) { nil }
@@ -100,7 +100,7 @@ describe 'Upload attachment to work package', js: true do
           attachments.drag_and_drop_file(target, image_fixture.path)
 
           sleep 2
-          expect(page).not_to have_selector('notification-upload-progress')
+          expect(page).not_to have_selector('op-toasters-upload-progress')
 
           editor.in_editor do |_container, editable|
             expect(editable).to have_selector('img[src*="/api/v3/attachments/"]', wait: 20)
@@ -109,23 +109,14 @@ describe 'Upload attachment to work package', js: true do
 
           sleep 2
 
-          # Besides testing caption functionality this also slows down clicking on the submit button
-          # so that the image is properly embedded
-          caption = page.find('.op-uc-figure .op-uc-figure--description')
-          caption.click(x: 10, y: 10)
-          sleep 0.2
-          caption.base.send_keys('Some image caption')
-
           scroll_to_and_click find('#work-packages--edit-actions-save')
 
-          wp_page.expect_notification(
+          wp_page.expect_toast(
             message: 'Successful creation.'
           )
 
           field = wp_page.edit_field :description
-
           expect(field.display_element).to have_selector('img')
-          expect(field.display_element).to have_content('Some image caption')
 
           wp = WorkPackage.last
           expect(wp.subject).to eq('My subject')
@@ -171,13 +162,13 @@ describe 'Upload attachment to work package', js: true do
       # Attach file manually
       expect(page).to have_no_selector('.work-package--attachments--filename')
       attachments.attach_file_on_input(image_fixture.path)
-      expect(page).not_to have_selector('notification-upload-progress')
+      expect(page).not_to have_selector('op-toasters-upload-progress')
       expect(page).to have_selector('.work-package--attachments--filename', text: 'image.png', wait: 5)
 
       ##
       # and via drag & drop
       attachments.drag_and_drop_file(container, image_fixture.path)
-      expect(page).not_to have_selector('notification-upload-progress')
+      expect(page).not_to have_selector('op-toasters-upload-progress')
       expect(page).to have_selector('.work-package--attachments--filename', text: 'image.png', count: 2, wait: 5)
     end
   end

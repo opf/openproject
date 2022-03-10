@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 tr:
   activerecord:
@@ -54,7 +54,7 @@ tr:
     date: "Gün"
     definition_of_done: "Bitti Tanımı"
     generating_chart: "Grafik Oluşturma..."
-    hours: "Saat"
+    hours: "Saatler"
     impediment: "Engel"
     label_versions_default_fold_state: "Katlanmış sürümleri göster"
     work_package_is_closed: "İş paketi, ne zaman"
@@ -63,7 +63,7 @@ tr:
     points: "Puanlar / Noktalar"
     positions_could_not_be_rebuilt: "Pozisyonlar yeniden oluşturulamadı."
     positions_rebuilt_successfully: "Pozisyonlar başarıyla yeniden oluşturuldu."
-    properties: "Özellikler"
+    properties: "Özellikleri"
     rebuild: "Yeniden inşa etmek"
     rebuild_positions: "Pozisyonu yeniden inşa et"
     remaining_hours: "Kalan saat"
@@ -111,7 +111,7 @@ tr:
   label_backlog: "Biriktirme listesi"
   label_backlogs: "Biriktirme listeleri"
   label_backlogs_unconfigured: "Backlog'ları henüz yapılandırmadınız. Lütfen% %{administration}> %{plugins} adresine gidin, ardından bu eklenti için %{configure} bağlantısını tıklayın. Alanları belirledikten sonra, aracı kullanmaya başlamak için bu sayfaya geri dönün."
-  label_blocks_ids: "Engellenen iş paketlerinin ID'leri"
+  label_blocks_ids: "Bloke iş paketleri kimlikleri"
   label_burndown: "Kalan zaman"
   label_column_in_backlog: "Sütununda birikim var"
   label_hours: "saatler"
@@ -134,9 +134,10 @@ tr:
   label_version_setting: "Sürümler"
   label_version: 'Sürüm'
   label_webcal: "Webcal Yemi"
-  label_wiki: "Viki"
+  label_wiki: "wiki"
   permission_view_master_backlog: "Ana bekleme günlüğünü görüntüleme"
   permission_view_taskboards: "Görev tahtalarını görüntüleme"
+  permission_select_done_statuses: "Tamamlanan statüleri seçiniz"
   permission_update_sprints: "Süratleri güncelle"
   points_accepted: "kabul edilen puan"
   points_committed: "taahhüt edilen puanlar"

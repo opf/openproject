@@ -13,6 +13,9 @@ if [ -n "$custom_gemfile" ] && [ -f "$custom_gemfile" ]; then
         # Need to override the frozen setting for the vendored gems
         ${CLI} run bundle config --local frozen 0
 
+        # Unset deployment, allowing changes to the Gemfile
+        ${CLI} run bundle config unset deployment
+
         # Re-bundle the application including gems
         ${CLI} run bundle install
 
@@ -43,8 +46,8 @@ must_rebuild=$(${CLI} config:get RECOMPILE_ANGULAR_ASSETS || echo "")
 if [ -n "$must_rebuild" ]; then
         echo "RECOMPILE_ANGULAR_ASSETS was set. Installing node dependencies..."
         # Skip printing audit for installation
-        openproject run npm set audit false
-        openproject run npm install --silent
+        ${CLI} run npm set audit false
+        ${CLI} run bash -c "NODE_ENV=development npm install"
 fi
 
 # Set execjs to node since that's installed

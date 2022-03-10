@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,13 +23,13 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 describe Repository::Subversion, type: :model do
-  let(:instance) { FactoryBot.build(:repository_subversion) }
+  let(:instance) { build(:repository_subversion) }
   let(:adapter)  { instance.scm }
   let(:config)   { {} }
   let(:enabled_scm) { %w[subversion] }
@@ -100,7 +100,7 @@ describe Repository::Subversion, type: :model do
 
     context 'with managed config' do
       let(:config) { { manages: managed_path } }
-      let(:project) { FactoryBot.build :project }
+      let(:project) { build :project }
 
       it 'is manageable' do
         expect(instance.manageable?).to be true
@@ -129,8 +129,8 @@ describe Repository::Subversion, type: :model do
       end
 
       context 'and associated project with parent' do
-        let(:parent) { FactoryBot.build :project }
-        let(:project) { FactoryBot.build :project, parent: parent }
+        let(:parent) { build :project }
+        let(:project) { build :project, parent: parent }
 
         before do
           instance.project = project
@@ -146,8 +146,8 @@ describe Repository::Subversion, type: :model do
 
   describe 'with a remote repository' do
     let(:instance) do
-      FactoryBot.build(:repository_subversion,
-                       url: 'https://somewhere.example.org/svn/foo')
+      build(:repository_subversion,
+            url: 'https://somewhere.example.org/svn/foo')
     end
 
     it_behaves_like 'is not a countable repository' do
@@ -158,7 +158,7 @@ describe Repository::Subversion, type: :model do
   describe 'with an actual repository' do
     with_subversion_repository do |repo_dir|
       let(:url)      { "file://#{repo_dir}" }
-      let(:instance) { FactoryBot.create(:repository_subversion, url: url, root_url: url) }
+      let(:instance) { create(:repository_subversion, url: url, root_url: url) }
 
       it 'should be available' do
         expect(instance.scm).to be_available
@@ -302,8 +302,8 @@ describe Repository::Subversion, type: :model do
       end
 
       context 'with an admin browsing activity' do
-        let(:user) { FactoryBot.create(:admin) }
-        let(:project) { FactoryBot.create(:project) }
+        let(:user) { create(:admin) }
+        let(:project) { create(:project) }
 
         def find_events(user, options = {})
           options[:scope] = ['changesets']
@@ -368,7 +368,7 @@ describe Repository::Subversion, type: :model do
   describe 'ciphering' do
     context 'with cipher key', with_config: { 'database_cipher_key' => 'secret' } do
       it 'password is encrypted' do
-        r = FactoryBot.create(:repository_subversion, password: 'foo')
+        r = create(:repository_subversion, password: 'foo')
         expect(r.password)
           .to eql('foo')
 
@@ -379,7 +379,7 @@ describe Repository::Subversion, type: :model do
 
     context 'with blank cipher key', with_config: { 'database_cipher_key' => '' } do
       it 'password is unencrypted' do
-        r = FactoryBot.create(:repository_subversion, password: 'foo')
+        r = create(:repository_subversion, password: 'foo')
         expect(r.password)
           .to eql('foo')
         expect(r.read_attribute(:password))
@@ -389,7 +389,7 @@ describe Repository::Subversion, type: :model do
 
     context 'with cipher key nil', with_config: { 'database_cipher_key' => nil } do
       it 'password is unencrypted' do
-        r = FactoryBot.create(:repository_subversion, password: 'foo')
+        r = create(:repository_subversion, password: 'foo')
 
         expect(r.password)
           .to eql('foo')
@@ -402,7 +402,7 @@ describe Repository::Subversion, type: :model do
       before do
         WithConfig.new(self).stub_key(:database_cipher_key, nil)
 
-        FactoryBot.create(:repository_subversion, password: 'clear')
+        create(:repository_subversion, password: 'clear')
 
         WithConfig.new(self).stub_key(:database_cipher_key, 'secret')
       end
@@ -420,8 +420,8 @@ describe Repository::Subversion, type: :model do
 
           WithConfig.new(self).stub_key(:database_cipher_key, nil)
 
-          FactoryBot.create(:repository_subversion, password: 'foo')
-          FactoryBot.create(:repository_subversion, password: 'bar')
+          create(:repository_subversion, password: 'foo')
+          create(:repository_subversion, password: 'bar')
 
           WithConfig.new(self).stub_key(:database_cipher_key, 'secret')
         end
@@ -450,8 +450,9 @@ describe Repository::Subversion, type: :model do
     describe '#decrypt_all', with_config: { 'database_cipher_key' => 'secret' } do
       it 'removes cyphering from all passwords' do
         Repository.delete_all
-        foo = FactoryBot.create(:repository_subversion, password: 'foo')
-        bar = FactoryBot.create(:repository_subversion, password: 'bar')
+
+        foo = create(:repository_subversion, password: 'foo')
+        bar = create(:repository_subversion, password: 'bar')
 
         expect(Repository.decrypt_all(:password))
           .to be_truthy

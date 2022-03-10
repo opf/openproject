@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
 import {
@@ -52,6 +52,7 @@ import { ConfigurationService } from 'core-app/core/config/configuration.service
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { DayElement } from "flatpickr/dist/types/instance";
+import flatpickr from 'flatpickr';
 
 export type DateKeys = 'date'|'start'|'end';
 
@@ -285,11 +286,11 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
         onYearChange: () => {
           this.datepickerHelper.setRangeClasses(this.dates);
         },
-        onDayCreate: (dObj:Date[], dStr:string, fp:DatePicker, dayElem:DayElement) => {
+        onDayCreate: (dObj:Date[], dStr:string, fp:flatpickr.Instance, dayElem:DayElement) => {
           dayElem.setAttribute('data-iso-date', dayElem.dateObj.toISOString());
         },
       },
-      undefined,
+      null,
       this.configurationService,
     );
   }

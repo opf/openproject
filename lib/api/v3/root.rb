@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 # Root class of the API v3
@@ -37,8 +35,11 @@ module API
     class Root < ::API::OpenProjectAPI
       helpers ::API::V3::Utilities::EpropsConversion
 
-      # All endpoint accept query props as gzipped and base64 encoded json objects
       before do
+        # Add Link header for openapi spec
+        header 'Link', '</api/v3/openapi.json>; rel="service-desc"'
+
+        # All endpoint accept query props as gzipped and base64 encoded json objects
         transform_eprops
       end
 
@@ -73,6 +74,7 @@ module API
       mount ::API::V3::UserPreferences::UserPreferencesAPI
       mount ::API::V3::Groups::GroupsAPI
       mount ::API::V3::Versions::VersionsAPI
+      mount ::API::V3::Views::ViewsAPI
       mount ::API::V3::WorkPackages::WorkPackagesAPI
       mount ::API::V3::WikiPages::WikiPagesAPI
       mount ::API::V3::Grids::GridsAPI
@@ -82,6 +84,10 @@ module API
       end
 
       get '/spec.json' do
+        API::OpenAPI.spec
+      end
+
+      get '/openapi.json' do
         API::OpenAPI.spec
       end
 

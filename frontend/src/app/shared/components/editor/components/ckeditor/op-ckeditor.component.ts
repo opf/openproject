@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,13 +23,13 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
 import {
   Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild,
 } from '@angular/core';
-import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import {
@@ -52,10 +52,10 @@ export class OpCkeditorComponent implements OnInit, OnDestroy {
 
   @Input()
   public set content(newVal:string) {
-    this._content = newVal;
+    this._content = newVal || '';
 
     if (this.initialized) {
-      this.ckEditorInstance.setData(newVal);
+      this.ckEditorInstance.setData(this._content);
     }
   }
 
@@ -84,7 +84,7 @@ export class OpCkeditorComponent implements OnInit, OnDestroy {
 
   public manualMode = false;
 
-  private _content:string;
+  private _content = '';
 
   public text = {
     errorTitle: this.I18n.t('js.editor.ckeditor_error'),
@@ -109,7 +109,7 @@ export class OpCkeditorComponent implements OnInit, OnDestroy {
   private $element:JQuery;
 
   constructor(private readonly elementRef:ElementRef,
-    private readonly Notifications:NotificationsService,
+    private readonly Notifications:ToastService,
     private readonly I18n:I18nService,
     private readonly configurationService:ConfigurationService,
     private readonly ckEditorSetup:CKEditorSetupService) {

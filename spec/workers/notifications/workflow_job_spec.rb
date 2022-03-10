@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -38,15 +36,20 @@ describe Notifications::WorkflowJob, type: :model do
   let(:send_notification) { true }
 
   let(:notifications) do
-    [FactoryBot.build_stubbed(:notification),
-     FactoryBot.build_stubbed(:notification)]
+    [build_stubbed(:notification, reason: :assigned),
+     mentioned_notification,
+     build_stubbed(:notification, reason: :watched)]
+  end
+
+  let(:mentioned_notification) do
+    build_stubbed(:notification, reason: :mentioned)
   end
 
   describe '#perform' do
     context 'with the :create_notifications state' do
       let(:state) { :create_notifications }
       let(:arguments) { [resource, send_notification] }
-      let(:resource) { FactoryBot.build_stubbed(:comment) }
+      let(:resource) { build_stubbed(:comment) }
 
       let!(:create_service) do
         service_instance = instance_double(Notifications::CreateFromModelService)
@@ -69,6 +72,18 @@ describe Notifications::WorkflowJob, type: :model do
         service_instance
       end
 
+      let!(:mail_service) do
+        service_instance = instance_double(Notifications::MailService,
+                                           call: nil)
+
+        allow(Notifications::MailService)
+          .to receive(:new)
+                .with(mentioned_notification)
+                .and_return(service_instance)
+
+        service_instance
+      end
+
       it 'calls the service to create notifications' do
         perform_job
 
@@ -77,18 +92,24 @@ describe Notifications::WorkflowJob, type: :model do
                 .with(send_notification)
       end
 
-      it 'schedules a delayed WorkflowJob' do
+      it 'sends mails for all notifications that are marked to send mails and that have a mention reason' do
+        perform_job
+
+        expect(mail_service)
+          .to have_received(:call)
+      end
+
+      it 'schedules a delayed WorkflowJob for those notifications not to be sent directly' do
         allow(Time)
           .to receive(:current)
                 .and_return(Time.current)
 
         expected_time = Time.current +
-                        Setting.notification_email_delay_minutes.minutes +
                         Setting.journal_aggregation_time_minutes.to_i.minutes
 
         expect { perform_job }
           .to enqueue_job(described_class)
-                .with(:send_mails, *notifications.map(&:id))
+                .with(:send_mails, *(notifications - [mentioned_notification]).map(&:id))
                 .at(expected_time)
       end
     end
@@ -109,15 +130,8 @@ describe Notifications::WorkflowJob, type: :model do
         service_instance
       end
 
-      let!(:digest_job) do
-        allow(Mails::DigestJob)
-          .to receive(:schedule)
-      end
-
       before do
-        scope = class_double(Notification,
-                             unread_mail: [notifications.first],
-                             unread_mail_digest: [notifications.last])
+        scope = class_double(Notification, mail_alert_unsent: [notifications.first])
 
         allow(Notification)
           .to receive(:where)
@@ -130,14 +144,6 @@ describe Notifications::WorkflowJob, type: :model do
 
         expect(mail_service)
           .to have_received(:call)
-      end
-
-      it 'schedules a digest job for all notifications that are marked for the digest' do
-        perform_job
-
-        expect(Mails::DigestJob)
-          .to have_received(:schedule)
-                .with(notifications.last)
       end
     end
   end

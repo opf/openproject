@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,37 +23,37 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 describe Principals::Scopes::PossibleAssignee, type: :model do
-  let(:project) { FactoryBot.create(:project) }
-  let(:other_project) { FactoryBot.create(:project) }
+  let(:project) { create(:project) }
+  let(:other_project) { create(:project) }
   let(:role_assignable) { true }
-  let(:role) { FactoryBot.create(:role, assignable: role_assignable) }
+  let(:role) { create(:role, permissions: (role_assignable ? [:work_package_assigned] : [])) }
   let(:user_status) { :active }
   let!(:member_user) do
-    FactoryBot.create(:user,
-                      status: user_status,
-                      member_in_project: project,
-                      member_through_role: role)
+    create(:user,
+           status: user_status,
+           member_in_project: project,
+           member_through_role: role)
   end
   let!(:member_placeholder_user) do
-    FactoryBot.create(:placeholder_user,
-                      member_in_project: project,
-                      member_through_role: role)
+    create(:placeholder_user,
+           member_in_project: project,
+           member_through_role: role)
   end
   let!(:member_group) do
-    FactoryBot.create(:group,
-                      member_in_project: project,
-                      member_through_role: role)
+    create(:group,
+           member_in_project: project,
+           member_through_role: role)
   end
   let!(:other_project_member_user) do
-    FactoryBot.create(:group,
-                      member_in_project: other_project,
-                      member_through_role: role)
+    create(:group,
+           member_in_project: other_project,
+           member_through_role: role)
   end
 
   describe '.possible_assignee' do

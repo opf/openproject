@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,13 +23,16 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 // ++
 
-import { Transition } from '@uirouter/core';
-import { Component, OnInit } from '@angular/core';
+import { UIRouterGlobals } from '@uirouter/core';
+import {
+  Component,
+  OnInit,
+} from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { WpTabDefinition } from 'core-app/features/work-packages/components/wp-tabs/components/wp-tab-wrapper/tab';
@@ -48,13 +51,14 @@ export class WpTabWrapperComponent implements OnInit {
     tab:WpTabDefinition | undefined;
   }>;
 
-  get workPackageId() {
-    return (this.$transition.params('to').workPackageId);
+  get workPackageId():string {
+    const { workPackageId } = this.uiRouterGlobals.params as unknown as { workPackageId:string };
+    return workPackageId;
   }
 
   constructor(readonly I18n:I18nService,
-    readonly $transition:Transition,
-    readonly apiV3Service:APIV3Service,
+    readonly uiRouterGlobals:UIRouterGlobals,
+    readonly apiV3Service:ApiV3Service,
     readonly wpTabsService:WorkPackageTabsService) {}
 
   ngOnInit() {
@@ -72,7 +76,7 @@ export class WpTabWrapperComponent implements OnInit {
   }
 
   findTab(workPackage:WorkPackageResource):WpTabDefinition | undefined {
-    const { tabIdentifier } = this.$transition.params('to');
+    const { tabIdentifier } = this.uiRouterGlobals.params as unknown as { tabIdentifier:string };
 
     return this.wpTabsService.getTab(tabIdentifier, workPackage);
   }

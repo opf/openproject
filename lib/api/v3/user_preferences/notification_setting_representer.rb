@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module API
@@ -34,16 +32,9 @@ module API
       class NotificationSettingRepresenter < ::API::Decorators::Single
         include API::Decorators::LinkedResource
 
-        property :channel
-        property :watched
-        property :involved
-        property :mentioned
-        property :work_package_created
-        property :work_package_commented
-        property :work_package_processed
-        property :work_package_prioritized
-        property :work_package_scheduled
-        property :all
+        NotificationSetting.all_settings.each do |setting|
+          property setting
+        end
 
         associated_resource :project,
                             skip_render: ->(*) { true },

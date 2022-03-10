@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -31,18 +31,18 @@ require 'spec_helper'
 describe 'Resolved status',
          type: :feature do
   let!(:project) do
-    FactoryBot.create(:project,
-                      enabled_module_names: %w(backlogs))
+    create(:project,
+           enabled_module_names: %w(backlogs))
   end
-  let!(:status) { FactoryBot.create(:status, is_default: true) }
+  let!(:status) { create(:status, is_default: true) }
   let(:role) do
-    FactoryBot.create(:role,
-                      permissions: %i(edit_project))
+    create(:role,
+           permissions: %i[select_done_statuses])
   end
   let!(:current_user) do
-    FactoryBot.create(:user,
-                      member_in_project: project,
-                      member_through_role: role)
+    create(:user,
+           member_in_project: project,
+           member_through_role: role)
   end
   let(:settings_page) { Pages::Projects::Settings.new(project) }
 
@@ -56,7 +56,7 @@ describe 'Resolved status',
     check status.name
     click_button 'Save'
 
-    settings_page.expect_notification(message: 'Successful update')
+    settings_page.expect_toast(message: 'Successful update')
 
     expect(page)
       .to have_checked_field(status.name)

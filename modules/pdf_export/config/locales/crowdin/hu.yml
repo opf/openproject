@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 hu:
   error_can_not_delete_export_card_configuration: "Ez az elrendezés nem törölhető."
@@ -27,7 +27,7 @@ hu:
   label_export_card_configuration_new: "Új export kártya elrendezés"
   label_export_card_configuration: "Export kártya elrendezés"
   label_export_card_configuration_plural: "Export kártya elrendezések"
-  label_export_card_activate: "Aktivál"
+  label_export_card_activate: "Aktiválás"
   label_export_card_deactivate: "Deaktiválás"
   notice_export_card_configuration_activated: "Elrendezés sikeresen aktiválva."
   notice_export_card_configuration_deactivated: "Elrendezés sikeresen deaktiválva."

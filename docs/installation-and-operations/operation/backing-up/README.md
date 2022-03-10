@@ -89,4 +89,4 @@ Where `$OP_CONTAINER_NAME` is the name of your OpenProject container. If you don
 
 ### Importing the dump into a new container
 
-Follow the instructions in the [restoring section](../restoring/#restoring-a-dump) to import a dump into a new container.
+Follow the instructions in the [restoring section](../restoring/#docker-based-installation) to import a dump into a new container.

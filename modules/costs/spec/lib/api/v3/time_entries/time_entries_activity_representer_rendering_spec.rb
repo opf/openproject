@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -32,9 +32,9 @@ describe ::API::V3::TimeEntries::TimeEntriesActivityRepresenter, 'rendering' do
   include ::API::V3::Utilities::PathHelper
 
   let(:activity) do
-    FactoryBot.build_stubbed(:time_entry_activity)
+    build_stubbed(:time_entry_activity)
   end
-  let(:user) { FactoryBot.build_stubbed(:user) }
+  let(:user) { build_stubbed(:user) }
   let(:representer) do
     described_class.new(activity, current_user: user, embed_links: true)
   end
@@ -50,8 +50,8 @@ describe ::API::V3::TimeEntries::TimeEntriesActivityRepresenter, 'rendering' do
 
     # returns the projects where it (and it's children) is active
     it_behaves_like 'has a link collection' do
-      let(:project1) { FactoryBot.build_stubbed(:project) }
-      let(:project2) { FactoryBot.build_stubbed(:project) }
+      let(:project1) { build_stubbed(:project) }
+      let(:project2) { build_stubbed(:project) }
 
       before do
         allow(::Project)

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,25 +23,25 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 describe MeetingContentsController do
-  shared_let(:role) { FactoryBot.create(:role, permissions: [:view_meetings]) }
-  shared_let(:project) { FactoryBot.create(:project) }
-  shared_let(:author) { FactoryBot.create(:user, member_in_project: project, member_through_role: role) }
-  shared_let(:watcher1) { FactoryBot.create(:user, member_in_project: project, member_through_role: role) }
-  shared_let(:watcher2) { FactoryBot.create(:user, member_in_project: project, member_through_role: role) }
+  shared_let(:role) { create(:role, permissions: [:view_meetings]) }
+  shared_let(:project) { create(:project) }
+  shared_let(:author) { create(:user, member_in_project: project, member_through_role: role) }
+  shared_let(:watcher1) { create(:user, member_in_project: project, member_through_role: role) }
+  shared_let(:watcher2) { create(:user, member_in_project: project, member_through_role: role) }
   shared_let(:meeting) do
     User.execute_as author do
-      FactoryBot.create(:meeting, author: author, project: project)
+      create(:meeting, author: author, project: project)
     end
   end
   shared_let(:meeting_agenda) do
     User.execute_as author do
-      FactoryBot.create(:meeting_agenda, meeting: meeting)
+      create(:meeting_agenda, meeting: meeting)
     end
   end
 
@@ -66,32 +66,16 @@ describe MeetingContentsController do
     describe 'notify' do
       let(:action) { 'notify' }
 
-      context 'when author no_self_notified property is true' do
-        before do
-          author.pref[:no_self_notified] = true
-          author.save!
-        end
-
-        it_behaves_like 'delivered by mail' do
-          let(:mail_count) { 2 }
-        end
+      before do
+        author.save!
       end
 
-      context 'when author no_self_notified property is false' do
-        before do
-          author.pref[:no_self_notified] = false
-          author.save!
-        end
-
-        it_behaves_like 'delivered by mail' do
-          let(:mail_count) { 3 }
-        end
+      it_behaves_like 'delivered by mail' do
+        let(:mail_count) { 2 }
       end
 
       context 'with an error during deliver' do
         before do
-          author.pref[:no_self_notified] = false
-          author.save!
           allow(MeetingMailer).to receive(:content_for_review).and_raise(Net::SMTPError)
         end
 
@@ -111,31 +95,16 @@ describe MeetingContentsController do
     describe 'icalendar' do
       let(:action) { 'icalendar' }
 
-      context 'when author no_self_notified property is true' do
-        before do
-          author.pref[:no_self_notified] = true
-          author.save!
-        end
-
-        it_behaves_like 'delivered by mail' do
-          let(:mail_count) { 3 }
-        end
+      before do
+        author.save!
       end
 
-      context 'when author no_self_notified property is false' do
-        before do
-          author.pref[:no_self_notified] = false
-          author.save!
-        end
-
-        it_behaves_like 'delivered by mail' do
-          let(:mail_count) { 3 }
-        end
+      it_behaves_like 'delivered by mail' do
+        let(:mail_count) { 3 }
       end
 
       context 'with an error during deliver' do
         before do
-          author.pref[:no_self_notified] = false
           author.save!
           allow(MeetingMailer).to receive(:content_for_review).and_raise(Net::SMTPError)
         end

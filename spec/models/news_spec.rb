@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 require 'spec_helper'
 require File.expand_path('../support/shared/become_member', __dir__)
@@ -36,17 +34,17 @@ describe News, type: :model do
   include BecomeMember
 
   let(:project) do
-    project = FactoryBot.create(:public_project)
+    project = create(:public_project)
     project.enabled_modules << EnabledModule.new(name: 'news')
     project.reload
   end
 
-  let!(:news) { FactoryBot.create(:news, project: project) }
+  let!(:news) { create(:news, project: project) }
   let(:permissions) { [] }
-  let(:role) { FactoryBot.build(:role, permissions: permissions) }
+  let(:role) { build(:role, permissions: permissions) }
 
   it_behaves_like 'acts_as_watchable included' do
-    let(:model_instance) { FactoryBot.create(:news) }
+    let(:model_instance) { create(:news) }
     let(:watch_permission) { :view_news }
     let(:project) { model_instance.project }
   end
@@ -69,8 +67,8 @@ describe News, type: :model do
     end
 
     it 'only includes news elements from projects that are visible to the user' do
-      private_project = FactoryBot.create(:project, public: false)
-      FactoryBot.create(:news, project: private_project)
+      private_project = create(:project, public: false)
+      create(:news, project: private_project)
 
       latest_news = News.latest(user: User.anonymous)
       expect(latest_news).to match_array [news]
@@ -80,7 +78,7 @@ describe News, type: :model do
       project_news.delete_all
 
       10.times do
-        FactoryBot.create(:news, project: project)
+        create(:news, project: project)
       end
 
       expect(project_news.latest(user: User.current, count:  2).size).to eq(2)
@@ -92,33 +90,32 @@ describe News, type: :model do
       project_news.delete_all
 
       2.times do
-        FactoryBot.create(:news, project: project)
+        create(:news, project: project)
       end
 
       expect(project_news.latest.size).to eq(2)
 
       3.times do
-        FactoryBot.create(:news, project: project)
+        create(:news, project: project)
       end
       expect(project_news.latest.size).to eq(5)
 
       2.times do
-        FactoryBot.create(:news, project: project)
+        create(:news, project: project)
       end
       expect(project_news.latest.size).to eq(5)
     end
   end
 
-  describe '#save',
-           with_settings: { notified_events: %w(news_added) } do
+  describe '#save' do
     it 'sends email notifications when created' do
-      FactoryBot.create(:user,
-                        member_in_project: project,
-                        member_through_role: role)
+      create(:user,
+             member_in_project: project,
+             member_through_role: role)
       project.members.reload
 
       perform_enqueued_jobs do
-        FactoryBot.create(:news, project: project)
+        create(:news, project: project)
       end
       expect(ActionMailer::Base.deliveries.size).to eq(1)
     end
@@ -127,7 +124,7 @@ describe News, type: :model do
   describe '#to_param' do
     it 'includes includes id and title for a nicer url' do
       title = 'OpenProject now has a Twitter Account'
-      news  = FactoryBot.create(:news, title: title)
+      news  = create(:news, title: title)
       slug  = "#{news.id}-openproject-now-has-a-twitter-account"
 
       expect(news.to_param).to eq slug

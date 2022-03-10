@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -32,11 +32,11 @@ require_relative '../principals/shared_memberships_examples'
 feature 'user memberships through user page', type: :feature, js: true do
   include_context 'principal membership management context'
 
-  shared_let(:principal) { FactoryBot.create :user, firstname: 'Foobar', lastname: 'Blabla' }
+  shared_let(:principal) { create :user, firstname: 'Foobar', lastname: 'Blabla' }
   shared_let(:principal_page) { Pages::Admin::IndividualPrincipals::Edit.new(principal) }
 
   context 'as admin' do
-    current_user { FactoryBot.create :admin }
+    current_user { create :admin }
 
     it_behaves_like 'principal membership management flows'
   end

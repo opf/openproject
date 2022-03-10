@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,30 +23,30 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe Meeting, type: :model do
-  let(:project) { FactoryBot.create(:project, members: project_members) }
-  let(:user1) { FactoryBot.create(:user) }
-  let(:user2) { FactoryBot.create(:user) }
-  let(:meeting) { FactoryBot.create(:meeting, project: project, author: user1) }
+  let(:project) { create(:project, members: project_members) }
+  let(:user1) { create(:user) }
+  let(:user2) { create(:user) }
+  let(:meeting) { create(:meeting, project: project, author: user1) }
   let(:agenda) do
     meeting.create_agenda text: 'Meeting Agenda text'
     meeting.reload_agenda # avoiding stale object errors
   end
   let(:project_members) { {} }
 
-  let(:role) { FactoryBot.create(:role, permissions: [:view_meetings]) }
+  let(:role) { create(:role, permissions: [:view_meetings]) }
 
   it { is_expected.to belong_to :project }
   it { is_expected.to belong_to :author }
   it { is_expected.to validate_presence_of :title }
 
   before do
-    @m = FactoryBot.build :meeting, title: 'dingens'
+    @m = build :meeting, title: 'dingens'
   end
 
   describe 'to_s' do
@@ -119,7 +119,7 @@ describe Meeting, type: :model do
     end
 
     describe 'WITH a user not having the view_meetings permission' do
-      let(:role2) { FactoryBot.create(:role, permissions: []) }
+      let(:role2) { create(:role, permissions: []) }
       let(:project_members) { { user1 => role, user2 => role2 } }
 
       it 'should not contain the user' do
@@ -128,7 +128,7 @@ describe Meeting, type: :model do
     end
 
     describe 'WITH a user being locked but invited' do
-      let(:locked_user) { FactoryBot.create(:locked_user) }
+      let(:locked_user) { create(:locked_user) }
       before do
         meeting.participants_attributes = [{ 'user_id' => locked_user.id, 'invited' => 1 }]
       end

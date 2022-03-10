@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,14 +23,12 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module Bim
   module IfcModels
     class IfcModelsController < BaseController
-      helper_method :gon
-
       before_action :find_project_by_project_id,
                     only: %i[index new create show defaults edit update destroy direct_upload_finished]
       before_action :find_ifc_model_object, only: %i[edit update destroy]
@@ -75,11 +71,11 @@ module Bim
 
       def direct_upload_finished
         id = request.params[:key].scan(/\/file\/(\d+)\//).flatten.first
-        attachment = Attachment.pending_direct_uploads.where(id: id).first
+        attachment = Attachment.pending_direct_upload.where(id: id).first
         if attachment.nil? # this should not happen
           flash[:error] = "Direct upload failed."
-
           redirect_to action: :new
+          return
         end
 
         params = {
@@ -110,7 +106,8 @@ module Bim
         session.delete :pending_ifc_model_ifc_model_id
 
         if service_result.success?
-          ::Attachments::FinishDirectUploadJob.perform_later attachment.id
+          ::Attachments::FinishDirectUploadJob.perform_later attachment.id,
+                                                             whitelist: false
 
           flash[:notice] = if new_model
                              t('ifc_models.flash_messages.upload_successful')
@@ -179,7 +176,7 @@ module Bim
         return unless OpenProject::Configuration.direct_uploads?
 
         call = ::Attachments::PrepareUploadService
-                 .new(user: current_user)
+                 .bypass_whitelist(user: current_user)
                  .call(filename: "model.ifc", filesize: 0)
 
         call.on_failure { flash[:error] = call.message }
@@ -193,8 +190,9 @@ module Bim
       end
 
       def frontend_redirect(model_ids)
+        props = '{"c":["id","subject","bcfThumbnail","type","status","assignee","updatedAt"],"t":"id:desc"}'
         redirect_to bcf_project_frontend_path(models: JSON.dump(Array(model_ids)),
-                                              query_props: '{"t":"id:desc"}')
+                                              query_props: props)
       end
 
       def find_all_ifc_models

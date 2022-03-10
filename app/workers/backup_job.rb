@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,14 +23,14 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'tempfile'
 require 'zip'
 
 class BackupJob < ::ApplicationJob
-  queue_with_priority :low
+  queue_with_priority :above_normal
 
   attr_reader :backup, :user
 
@@ -53,15 +51,7 @@ class BackupJob < ::ApplicationJob
 
     raise e
   ensure
-    remove_files! db_dump_file_name, archive_file_name
-
-    backup.attachments.each(&:destroy) unless success?
-
-    Rails.logger.info(
-      "BackupJob(include_attachments: #{include_attachments}) finished " \
-      "with status #{job_status.status} " \
-      "(dumped: #{dumped?}, archived: #{archived?})"
-    )
+    after_backup
   end
 
   def run_backup!
@@ -77,6 +67,21 @@ class BackupJob < ::ApplicationJob
     store_backup file_name, backup: backup, user: user
     cleanup_previous_backups!
 
+    notify_backup_ready!
+  end
+
+  def after_backup
+    remove_files! db_dump_file_name, archive_file_name
+    remove_backup_attachment! unless success?
+
+    Rails.logger.info(
+      "BackupJob(include_attachments: #{include_attachments?}) finished " \
+      "with status #{status} " \
+      "(dumped: #{dumped?}, archived: #{archived?})"
+    )
+  end
+
+  def notify_backup_ready!
     UserMailer.backup_ready(user).deliver_later
   end
 
@@ -86,6 +91,10 @@ class BackupJob < ::ApplicationJob
 
   def archived?
     @archived
+  end
+
+  def status
+    job_status.status
   end
 
   def db_dump_file_name
@@ -114,8 +123,12 @@ class BackupJob < ::ApplicationJob
 
   def remove_files!(*files)
     Array(files).each do |file|
-      FileUtils.rm file if File.exists? file
+      FileUtils.rm file if File.exist? file
     end
+  end
+
+  def remove_backup_attachment!
+    backup.attachments.each(&:destroy)
   end
 
   def store_backup(file_name, backup:, user:)
@@ -142,6 +155,9 @@ class BackupJob < ::ApplicationJob
   end
 
   def create_backup_archive!(file_name:, db_dump_file_name:, attachments: attachments_to_include)
+    paths_to_clean = []
+    clean_up = OpenProject::Configuration.remote_storage?
+
     Zip::File.open(file_name, Zip::File::CREATE) do |zipfile|
       attachments.each do |attachment|
         # If an attachment is destroyed on disk, skip i
@@ -151,14 +167,35 @@ class BackupJob < ::ApplicationJob
         path = diskfile.path
 
         zipfile.add "attachment/file/#{attachment.id}/#{attachment[:file]}", path
+
+        paths_to_clean << get_cache_folder_path(attachment) if clean_up && attachment.file.cached?
       end
 
       zipfile.get_output_stream("openproject.sql") { |f| f.write File.read(db_dump_file_name) }
     end
 
+    remove_paths! paths_to_clean # delete locally cached files that were downloaded just for the backup
+
     @archived = true
 
     file_name
+  end
+
+  def remove_paths!(paths)
+    paths.each do |path|
+      FileUtils.rm_rf path
+    end
+  end
+
+  def get_cache_folder_path(attachment)
+    # expecting paths like /tmp/op_uploaded_files/1639754082-3468-0002-0911/file.ext
+    # just making extra sure so we don't delete anything wrong later on
+    unless attachment.diskfile.path =~ /#{attachment.file.cache_dir}\/[^\/]+\/[^\/]+/
+      raise "Unexpected cache path for attachment ##{attachment.id}: #{attachment.diskfile}"
+    end
+
+    # returning parent as each cached file is in a separate folder which shall be removed too
+    Pathname(attachment.diskfile.path).parent.to_s
   end
 
   def attachments_to_include
@@ -202,18 +239,6 @@ class BackupJob < ::ApplicationJob
 
   def dump_command(output_file_path)
     "pg_dump -x -O -f '#{output_file_path}'"
-  end
-
-  def success!
-    payload = download_payload(url_helpers.backups_path(target_project))
-
-    if errors.any?
-      payload[:errors] = errors
-    end
-
-    upsert_status status: :success,
-                  message: I18n.t('copy_project.succeeded', target_project_name: target_project.name),
-                  payload: payload
   end
 
   def failure!(error: nil)

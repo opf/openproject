@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,33 +23,13 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 describe 'Multi-value custom fields creation', type: :feature, js: true do
-  shared_let(:admin) { FactoryBot.create :admin }
-
-  def drag_and_drop(handle, to)
-    scroll_to_element(handle)
-    page
-      .driver
-      .browser
-      .action
-      .move_to(handle.native)
-      .click_and_hold(handle.native)
-      .perform
-
-    scroll_to_element(to)
-    page
-      .driver
-      .browser
-      .action
-      .move_to(to.native)
-      .release
-      .perform
-  end
+  shared_let(:admin) { create :admin }
 
   before do
     login_as(admin)
@@ -103,7 +83,7 @@ describe 'Multi-value custom fields creation', type: :feature, js: true do
 
     rows = page.all('tr.custom-option-row')
     expect(rows.length).to eq(3)
-    drag_and_drop rows[0].find('.dragula-handle'), page.find('.__drag_and_drop_end_of_list')
+    drag_n_drop_element from: rows[0].find('.dragula-handle'), to: page.find('.__drag_and_drop_end_of_list')
 
     sleep 1
 

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,29 +23,29 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 describe WorkPackage, type: :model do
   describe '#journal' do
-    let(:type) { FactoryBot.create :type }
+    let(:type) { create :type }
     let(:project) do
-      FactoryBot.create :project,
-                        types: [type]
+      create :project,
+             types: [type]
     end
-    let(:status) { FactoryBot.create :default_status }
-    let(:priority) { FactoryBot.create :priority }
+    let(:status) { create :default_status }
+    let(:priority) { create :priority }
     let(:work_package) do
-      FactoryBot.create(:work_package,
-                        project_id: project.id,
-                        type: type,
-                        description: 'Description',
-                        priority: priority,
-                        status: status)
+      create(:work_package,
+             project_id: project.id,
+             type: type,
+             description: 'Description',
+             priority: priority,
+             status: status)
     end
-    let(:current_user) { FactoryBot.create(:user) }
+    let(:current_user) { create(:user) }
 
     before do
       login_as(current_user)
@@ -101,11 +101,11 @@ describe WorkPackage, type: :model do
       let(:description) { "Description\n\nwith newlines\n\nembedded" }
       let(:changed_description) { description.gsub("\n", "\r\n") }
       let!(:work_package_1) do
-        FactoryBot.create(:work_package,
-                          project_id: project.id,
-                          type: type,
-                          description: description,
-                          priority: priority)
+        create(:work_package,
+               project_id: project.id,
+               type: type,
+               description: description,
+               priority: priority)
       end
 
       before do
@@ -134,18 +134,18 @@ describe WorkPackage, type: :model do
 
       context 'when there is a legacy journal containing non-escaped newlines' do
         let!(:work_package_journal_1) do
-          FactoryBot.create(:work_package_journal,
-                            journable_id: work_package_1.id,
-                            version: 2,
-                            data: FactoryBot.build(:journal_work_package_journal,
-                                                   description: description))
+          create(:work_package_journal,
+                 journable_id: work_package_1.id,
+                 version: 2,
+                 data: build(:journal_work_package_journal,
+                             description: description))
         end
         let!(:work_package_journal_2) do
-          FactoryBot.create(:work_package_journal,
-                            journable_id: work_package_1.id,
-                            version: 3,
-                            data: FactoryBot.build(:journal_work_package_journal,
-                                                   description: changed_description))
+          create(:work_package_journal,
+                 journable_id: work_package_1.id,
+                 version: 3,
+                 data: build(:journal_work_package_journal,
+                             description: changed_description))
         end
 
         subject { work_package_1.journals.reload.last.details }
@@ -156,14 +156,14 @@ describe WorkPackage, type: :model do
 
     context 'on work package change', with_settings: { journal_aggregation_time_minutes: 0 } do
       let(:parent_work_package) do
-        FactoryBot.create(:work_package,
-                          project_id: project.id,
-                          type: type,
-                          priority: priority)
+        create(:work_package,
+               project_id: project.id,
+               type: type,
+               priority: priority)
       end
-      let(:type_2) { FactoryBot.create :type }
-      let(:status_2) { FactoryBot.create :status }
-      let(:priority_2) { FactoryBot.create :priority }
+      let(:type_2) { create :type }
+      let(:status_2) { create :status }
+      let(:priority_2) { create :priority }
 
       before do
         project.types << type_2
@@ -272,7 +272,7 @@ describe WorkPackage, type: :model do
     end
 
     context 'attachments', with_settings: { journal_aggregation_time_minutes: 0 } do
-      let(:attachment) { FactoryBot.build :attachment }
+      let(:attachment) { build :attachment }
       let(:attachment_id) { "attachments_#{attachment.id}" }
 
       before do
@@ -302,11 +302,11 @@ describe WorkPackage, type: :model do
     end
 
     context 'custom values', with_settings: { journal_aggregation_time_minutes: 0 } do
-      let(:custom_field) { FactoryBot.create :work_package_custom_field }
+      let(:custom_field) { create :work_package_custom_field }
       let(:custom_value) do
-        FactoryBot.build :custom_value,
-                         value: 'false',
-                         custom_field: custom_field
+        build :custom_value,
+              value: 'false',
+              custom_field: custom_field
       end
 
       let(:custom_field_id) { "custom_fields_#{custom_value.custom_field_id}" }
@@ -335,9 +335,9 @@ describe WorkPackage, type: :model do
         include_context 'work package with custom value'
 
         let(:modified_custom_value) do
-          FactoryBot.create :custom_value,
-                            value: 'true',
-                            custom_field: custom_field
+          create :custom_value,
+                 value: 'true',
+                 custom_field: custom_field
         end
         before do
           work_package.custom_values = [modified_custom_value]
@@ -355,9 +355,9 @@ describe WorkPackage, type: :model do
         include_context 'work package with custom value'
 
         let(:unmodified_custom_value) do
-          FactoryBot.create :custom_value,
-                            value: 'false',
-                            custom_field: custom_field
+          create :custom_value,
+                 value: 'false',
+                 custom_field: custom_field
         end
         before do
           @original_journal_count = work_package.journals.reload.count
@@ -389,16 +389,16 @@ describe WorkPackage, type: :model do
 
       context 'custom value did not exist before' do
         let(:custom_field) do
-          FactoryBot.create :work_package_custom_field,
-                            is_required: false,
-                            field_format: 'list',
-                            possible_values: ['', '1', '2', '3', '4', '5', '6', '7']
+          create :work_package_custom_field,
+                 is_required: false,
+                 field_format: 'list',
+                 possible_values: ['', '1', '2', '3', '4', '5', '6', '7']
         end
         let(:custom_value) do
-          FactoryBot.create :custom_value,
-                            value: '',
-                            customized: work_package,
-                            custom_field: custom_field
+          create :custom_value,
+                 value: '',
+                 customized: work_package,
+                 custom_field: custom_field
         end
 
         describe 'empty values are recognized as unchanged' do
@@ -452,9 +452,9 @@ describe WorkPackage, type: :model do
       let(:current_user) { user1 }
 
       let(:notes) { nil }
-      let(:user1) { FactoryBot.create(:user) }
-      let(:user2) { FactoryBot.create(:user) }
-      let(:new_status) { FactoryBot.build(:status) }
+      let(:user1) { create(:user) }
+      let(:user2) { create(:user) }
+      let(:new_status) { build(:status) }
       let(:changes) do
         {
           status: new_status,
@@ -563,7 +563,7 @@ describe WorkPackage, type: :model do
         work_package.journals.last.update_columns(created_at: Time.now - 2.minutes,
                                                   updated_at: Time.now - 2.minutes)
 
-        work_package.status = FactoryBot.build(:status)
+        work_package.status = build(:status)
         work_package.save!
       end
 
@@ -577,7 +577,7 @@ describe WorkPackage, type: :model do
 
       context 'WP updated within milliseconds' do
         before do
-          work_package.status = FactoryBot.build(:status)
+          work_package.status = build(:status)
           work_package.save!
         end
 
@@ -589,22 +589,22 @@ describe WorkPackage, type: :model do
   end
 
   context 'on #destroy' do
-    let(:project) { FactoryBot.create(:project) }
-    let(:type) { FactoryBot.create(:type) }
+    let(:project) { create(:project) }
+    let(:type) { create(:type) }
     let(:custom_field) do
-      FactoryBot.create(:int_wp_custom_field).tap do |cf|
+      create(:int_wp_custom_field).tap do |cf|
         project.work_package_custom_fields << cf
         type.custom_fields << cf
       end
     end
     let(:work_package) do
-      FactoryBot.create(:work_package,
-                        project: project,
-                        type: type,
-                        custom_field_values: { custom_field.id => 5 },
-                        attachments: [attachment])
+      create(:work_package,
+             project: project,
+             type: type,
+             custom_field_values: { custom_field.id => 5 },
+             attachments: [attachment])
     end
-    let(:attachment) { FactoryBot.build(:attachment) }
+    let(:attachment) { build(:attachment) }
     let!(:journal) { work_package.journals.first }
     let!(:customizable_journals) { journal.customizable_journals }
     let!(:attachable_journals) { journal.attachable_journals }

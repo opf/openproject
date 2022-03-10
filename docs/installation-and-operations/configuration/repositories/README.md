@@ -280,7 +280,7 @@ This method additionally requires the `cgi` Apache module to be installed. The f
 You need to locate the location of the `git-http-backend` CGI wrapper shipping with the Git installation.
 Depending on your installation, it may reside in `/usr/libexec/git-core/git-http-backend`.
 
-[More information on git-http-backend.](http://git-scm.com/docs/git-http-backend)
+[More information on git-http-backend.](https://git-scm.com/docs/git-http-backend)
 
 ### Permissions
 

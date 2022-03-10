@@ -20,7 +20,7 @@ import { FormattableControlComponent } from 'core-app/shared/components/dynamic-
 import { OpCkeditorComponent } from 'core-app/shared/components/editor/components/ckeditor/op-ckeditor.component';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { CKEditorSetupService } from 'core-app/shared/components/editor/components/ckeditor/ckeditor-setup.service';
-import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { OpFormFieldComponent } from 'core-app/shared/components/forms/form-field/form-field.component';
 
 export function createDynamicInputFixture(fields:IOPFormlyFieldSettings[], model:any, providers?:any[]):ComponentFixture<any> {
@@ -45,7 +45,7 @@ export function createDynamicInputFixture(fields:IOPFormlyFieldSettings[], model
     @ViewChild(FormlyForm) dynamicForm:FormlyForm;
   }
 
-  const notificationsServiceSpy = jasmine.createSpyObj('NotificationsService', ['addError', 'addSuccess']);
+  const toastServiceSpy = jasmine.createSpyObj('ToastService', ['addError', 'addSuccess']);
 
   TestBed
     .configureTestingModule({
@@ -93,7 +93,7 @@ export function createDynamicInputFixture(fields:IOPFormlyFieldSettings[], model
         set: {
           providers: [
             CKEditorSetupService,
-            { provide: NotificationsService, useValue: notificationsServiceSpy },
+            { provide: ToastService, useValue: toastServiceSpy },
             {
               provide: NG_VALUE_ACCESSOR,
               multi: true,

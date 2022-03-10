@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -37,7 +37,7 @@ describe "wiki page attachments" do
     let(:read_permission) { :view_wiki_pages }
     let(:update_permission) { %i(delete_wiki_pages_attachments edit_wiki_pages) }
 
-    let(:wiki) { FactoryBot.create(:wiki, project: project) }
-    let(:wiki_page) { FactoryBot.create(:wiki_page, wiki: wiki) }
+    let(:wiki) { create(:wiki, project: project) }
+    let(:wiki_page) { create(:wiki_page, wiki: wiki) }
   end
 end

@@ -31,10 +31,13 @@ sv:
           no_results: 'Inga anpassade fält har definierats för projekt.'
         project_status:
           title: 'Projektstatus'
+          not_started: 'Not started'
           on_track: 'På banan'
           off_track: 'Utanför banan'
           at_risk: 'I riskzonen'
           not_set: 'Ej inställd'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
         subprojects:
           title: 'Delprojekt'
           no_results: 'Inga delprojekt.'

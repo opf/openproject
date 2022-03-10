@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
 import {
@@ -31,7 +31,7 @@ import {
 } from '@angular/core';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
-import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
 import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
 import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
@@ -74,7 +74,7 @@ export class SaveQueryModalComponent extends OpModalComponent {
     readonly wpListService:WorkPackagesListService,
     readonly halNotification:HalResourceNotificationService,
     readonly cdRef:ChangeDetectorRef,
-    readonly notificationsService:NotificationsService) {
+    readonly toastService:ToastService) {
     super(locals, cdRef, elementRef);
   }
 
@@ -92,6 +92,8 @@ export class SaveQueryModalComponent extends OpModalComponent {
   }
 
   public saveQueryAs($event:JQuery.TriggeredEvent) {
+    $event.preventDefault();
+
     if (this.isBusy || !this.queryName) {
       return;
     }

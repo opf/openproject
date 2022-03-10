@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'support/pages/page'
@@ -59,7 +59,7 @@ module Pages
           .to have_content(I18n.t('js.grid.add_widget'))
 
         expect(page)
-          .to have_selector('.notification-box.-ee-upsale', text: I18n.t('js.upsale.ee_only'))
+          .to have_selector('.op-toast.-ee-upsale', text: I18n.t('js.upsale.ee_only'))
       end
     end
 

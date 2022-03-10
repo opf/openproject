@@ -1,4 +1,3 @@
-require_dependency 'token/hashed_token'
 
 module TwoFactorAuthentication
   class BackupCode < ::Token::HashedToken

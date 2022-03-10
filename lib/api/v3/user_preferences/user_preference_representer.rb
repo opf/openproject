@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'roar/decorator'
@@ -57,7 +55,6 @@ module API
 
         property :hide_mail
         property :time_zone,
-                 getter: ->(*) { canonical_time_zone },
                  render_nil: true
 
         property :warn_on_leaving_unsaved
@@ -65,11 +62,35 @@ module API
                  as: :commentSortDescending
         property :auto_hide_popups
 
-        property :self_notified,
-                 getter: ->(*) { self_notified? },
-                 setter: ->(fragment:, represented:, **) do
-                   represented.no_self_notified = !fragment
+        # Also accept times in the format of HH:MM which are also valid according to ISO8601
+        # and have those as the only times in the resource.
+        property :daily_reminders,
+                 getter: ->(*) do
+                   reminders = daily_reminders.dup
+                   reminders['times'].map! { |time| time.gsub(/\A(\d{2}:\d{2}).*\z/, '\1') } if reminders
+                   reminders
+                 end,
+                 setter: ->(fragment:, **) do
+                   self.daily_reminders = fragment
+
+                   daily_reminders['times'].map! { |time| time.gsub(/\A(\d{2}:\d{2})\z/, '\1:00+00:00') }
                  end
+
+        property :immediate_reminders
+
+        property :pause_reminders,
+                 getter: ->(*) do
+                   pause_reminders.transform_keys { |k| k.camelize(:lower) }
+                 end,
+                 setter: ->(fragment:, **) do
+                   self.pause_reminders = fragment.transform_keys(&:underscore)
+
+                   if pause_reminders['last_day'].blank? && pause_reminders['first_day']
+                     pause_reminders['last_day'] = pause_reminders['first_day']
+                   end
+                 end
+
+        property :workdays
 
         property :notification_settings,
                  as: :notifications,

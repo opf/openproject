@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -25,33 +23,37 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 
 require 'spec_helper'
 require_relative './show_resource_examples'
 
 describe ::API::V3::Notifications::NotificationsAPI,
          'show',
+         content_type: :json,
          type: :request do
   include API::V3::Utilities::PathHelper
 
-  shared_let(:recipient) { FactoryBot.create :user }
-  shared_let(:project) { FactoryBot.create :project }
-  shared_let(:resource) { FactoryBot.create :work_package, project: project }
+  shared_let(:recipient) do
+    create :user
+  end
+  shared_let(:role) { create(:role, permissions: %i(view_work_packages)) }
+  shared_let(:project) do
+    create :project,
+           members: { recipient => role }
+  end
+  shared_let(:resource) { create :work_package, project: project }
   shared_let(:notification) do
-    FactoryBot.create :notification,
-                      recipient: recipient,
-                      project: project,
-                      resource: resource,
-                      journal: resource.journals.last
+    create :notification,
+           recipient: recipient,
+           project: project,
+           resource: resource,
+           journal: resource.journals.last
   end
 
   let(:send_request) do
-    header "Content-Type", "application/json"
     get api_v3_paths.notification(notification.id)
   end
-
-  let(:parsed_response) { JSON.parse(last_response.body) }
 
   before do
     login_as current_user
@@ -65,7 +67,7 @@ describe ::API::V3::Notifications::NotificationsAPI,
   end
 
   describe 'admin user' do
-    let(:current_user) { FactoryBot.build(:admin) }
+    let(:current_user) { build(:admin) }
 
     it 'returns a 404 response' do
       expect(last_response.status).to eq(404)
@@ -73,7 +75,7 @@ describe ::API::V3::Notifications::NotificationsAPI,
   end
 
   describe 'unauthorized user' do
-    let(:current_user) { FactoryBot.build(:user) }
+    let(:current_user) { build(:user) }
 
     it 'returns a 404 response' do
       expect(last_response.status).to eq(404)

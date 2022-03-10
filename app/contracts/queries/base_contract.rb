@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'model_contract'
@@ -35,8 +33,8 @@ module Queries
     attribute :name
 
     attribute :project_id
-    attribute :hidden
-    attribute :is_public # => public
+    attribute :starred
+    attribute :public # => public
     attribute :display_sums # => sums
     attribute :timeline_visible
     attribute :timeline_zoom_level
@@ -66,7 +64,7 @@ module Queries
     end
 
     def project_visible?
-      Project.visible(user).where(id: project_id).exists?
+      Project.visible(user).exists?(id: project_id)
     end
 
     def may_not_manage_queries?
@@ -75,10 +73,10 @@ module Queries
 
     def user_allowed_to_make_public
       # Add error only when changing public flag
-      return unless model.is_public_changed?
+      return unless model.public_changed?
       return if model.project_id.present? && model.project.nil?
 
-      if is_public && may_not_manage_queries?
+      if model.public && may_not_manage_queries?
         errors.add :public, :error_unauthorized
       end
     end

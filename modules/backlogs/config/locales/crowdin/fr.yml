@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 fr:
   activerecord:
@@ -49,7 +49,7 @@ fr:
     burndown_graph: "Graphique d'avancement"
     card_paper_size: "Format de papier pour l'impression des cartes"
     chart_options: "Options du graphique"
-    close: "Fermer"
+    close: "Clôturer"
     column_width: "Largeur de la colonne :"
     date: "Jour"
     definition_of_done: "Définition de Fait"
@@ -111,7 +111,7 @@ fr:
   label_backlog: "Backlog"
   label_backlogs: "Backlogs"
   label_backlogs_unconfigured: "Vous n'avez pas encore configuré Backlogs. Veuillez vous rendre dans %{administration} > %{plugins}, puis cliquer sur le lien %{configure} pour ce plugin. Une fois que vous avez défini les champs, revenez sur cette page pour commencer à utiliser l'outil."
-  label_blocks_ids: "IDs des lots de travaux bloqués"
+  label_blocks_ids: "ID des lots de travaux bloqués"
   label_burndown: "Avancement"
   label_column_in_backlog: "Colonne dans le backlog"
   label_hours: "heures"
@@ -120,7 +120,7 @@ fr:
   label_not_prioritized: "non priorisé"
   label_points: "points"
   label_points_burn_down: "Vers le bas"
-  label_points_burn_up: "Haut"
+  label_points_burn_up: "Vers le haut"
   label_product_backlog: "carnet de produit"
   label_select_all: "Tout sélectionner"
   label_sprint_backlog: "carnet de sprint"
@@ -137,6 +137,7 @@ fr:
   label_wiki: "Wiki"
   permission_view_master_backlog: "Afficher le backlog principal"
   permission_view_taskboards: "Voir les tableaux des tâches"
+  permission_select_done_statuses: "Sélectionner les statuts terminés"
   permission_update_sprints: "Éditer les sprints"
   points_accepted: "points acceptés"
   points_committed: "points soumis"
@@ -146,7 +147,7 @@ fr:
   project_module_backlogs: "Backlogs"
   rb_label_copy_tasks: "Copier lots de travaux"
   rb_label_copy_tasks_all: "Toutes"
-  rb_label_copy_tasks_none: "Aucun"
+  rb_label_copy_tasks_none: "Aucune"
   rb_label_copy_tasks_open: "Ouvertes"
   rb_label_link_to_original: "Inclure le lien vers l'histoire originale"
   remaining_hours: "heures restantes"

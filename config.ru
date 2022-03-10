@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,29 +23,12 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 # This file is used by Rack-based servers to start the application.
 
 require ::File.expand_path('config/environment', __dir__)
-
-##
-# Use the worker killer when Unicorn is being used
-if defined?(Unicorn) && Rails.env.production?
-  require 'unicorn/worker_killer'
-
-  min_ram = ENV.fetch('OPENPROJECT_UNICORN_RAM2KILL_MIN', 340 * 1 << 20).to_i
-  max_ram = ENV.fetch('OPENPROJECT_UNICORN_RAM2KILL_MAX', 400 * 1 << 20).to_i
-  min_req = ENV.fetch('OPENPROJECT_UNICORN_REQ2KILL_MIN', 3072).to_i
-  max_req = ENV.fetch('OPENPROJECT_UNICORN_REQ2KILL_MAX', 4096).to_i
-
-  # Kill Workers randomly between 340 and 400 MB (per default)
-  # or between 3072 and 4096 requests.
-  # Our largest installations are starting around 200/230 MB
-  use Unicorn::WorkerKiller::Oom, min_ram, max_ram
-  use Unicorn::WorkerKiller::MaxRequests, min_req, max_req
-end
 
 subdir = OpenProject::Configuration.rails_relative_url_root.presence
 

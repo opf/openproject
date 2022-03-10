@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -31,7 +31,7 @@ require 'spec_helper'
 describe Users::SetAttributesService, type: :model do
   subject(:call) { instance.call(params) }
 
-  let(:current_user) { FactoryBot.build_stubbed(:user) }
+  let(:current_user) { build_stubbed(:user) }
 
   let(:contract_instance) do
     contract = double('contract_instance')
@@ -86,9 +86,9 @@ describe Users::SetAttributesService, type: :model do
         .to eql model_instance
     end
 
-    it 'initalizes the notification settings' do
+    it 'initializes the notification settings' do
       expect(call.result.notification_settings.length)
-        .to eql(3) # one for every channel
+        .to be 1
 
       expect(call.result.notification_settings)
         .to(all(be_a(NotificationSetting).and(be_new_record)))
@@ -114,14 +114,14 @@ describe Users::SetAttributesService, type: :model do
       let(:params) do
         {
           pref: {
-            self_notified: true
+            auto_hide_popups: true
           }
         }
       end
 
       it 'initializes the user`s preferences with those attributes' do
         expect(call.result.pref)
-          .to be_self_notified
+          .to be_auto_hide_popups
       end
     end
   end
@@ -141,6 +141,24 @@ describe Users::SetAttributesService, type: :model do
     it "returns the contract's errors" do
       expect(call.errors)
         .to eql(contract_errors)
+    end
+  end
+
+  describe '.placeholder_name' do
+    it 'given an email it uses the local part as first and the domain as the last name' do
+      email = 'xxxhunterxxx@openproject.com'
+      first, last = instance.send(:placeholder_name, email)
+
+      expect(first).to eq 'xxxhunterxxx'
+      expect(last).to eq '@openproject.com'
+    end
+
+    it 'trims names if they are too long (> 30 characters)' do
+      email = 'hallowurstsalatgetraenkebuechse@veryopensuchproject.openproject.com'
+      first, last = instance.send(:placeholder_name, email)
+
+      expect(first).to eq 'hallowurstsalatgetraenkebue...'
+      expect(last).to eq '@veryopensuchproject.openpro...'
     end
   end
 end

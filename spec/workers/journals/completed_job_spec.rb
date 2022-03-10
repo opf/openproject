@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -34,7 +32,7 @@ describe Journals::CompletedJob, type: :model do
   let(:send_mail) { true }
 
   let(:journal) do
-    FactoryBot.build_stubbed(:journal, journable: journable).tap do |j|
+    build_stubbed(:journal, journable: journable).tap do |j|
       allow(Journal)
         .to receive(:find)
               .with(j.id.to_s)
@@ -77,19 +75,19 @@ describe Journals::CompletedJob, type: :model do
     end
 
     context 'with a work_package' do
-      let(:journable) { FactoryBot.build_stubbed(:work_package) }
+      let(:journable) { build_stubbed(:work_package) }
 
       it_behaves_like 'enqueues a JournalCompletedJob'
     end
 
     context 'with a wiki page' do
-      let(:journable) { FactoryBot.build_stubbed(:wiki_content) }
+      let(:journable) { build_stubbed(:wiki_content) }
 
       it_behaves_like 'enqueues a JournalCompletedJob'
     end
 
     context 'with a news' do
-      let(:journable) { FactoryBot.build_stubbed(:news) }
+      let(:journable) { build_stubbed(:news) }
 
       it_behaves_like 'enqueues a JournalCompletedJob'
     end
@@ -114,28 +112,28 @@ describe Journals::CompletedJob, type: :model do
     end
 
     context 'with a work packages' do
-      let(:journable) { FactoryBot.build_stubbed(:work_package) }
+      let(:journable) { build_stubbed(:work_package) }
 
       it_behaves_like 'sends a notification',
                       OpenProject::Events::AGGREGATED_WORK_PACKAGE_JOURNAL_READY
     end
 
     context 'with wiki page content' do
-      let(:journable) { FactoryBot.build_stubbed(:wiki_content) }
+      let(:journable) { build_stubbed(:wiki_content) }
 
       it_behaves_like 'sends a notification',
                       OpenProject::Events::AGGREGATED_WIKI_JOURNAL_READY
     end
 
     context 'with a news' do
-      let(:journable) { FactoryBot.build_stubbed(:news) }
+      let(:journable) { build_stubbed(:news) }
 
       it_behaves_like 'sends a notification',
                       OpenProject::Events::AGGREGATED_NEWS_JOURNAL_READY
     end
 
     context 'with a non non-existant journal' do
-      let(:journable) { FactoryBot.build_stubbed(:work_package) }
+      let(:journable) { build_stubbed(:work_package) }
 
       before do
         allow(Journal)

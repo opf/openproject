@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module Bim
@@ -80,7 +80,7 @@ module Bim
         # For local uploads the file must remain to be copied later to its final (local) destination from the cache.
         return unless OpenProject::Configuration.direct_uploads?
 
-        FileUtils.rm file_path if File.exists? file_path
+        FileUtils.rm file_path if File.exist? file_path
       end
 
       def uploader_is_ifc_attachment_author

@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 pt:
   no_results_title_text: Atualmente, não há o que exibir.
@@ -73,6 +73,11 @@ pt:
       start_trial: 'Iniciar avaliação gratuita'
       book_now: 'Reserve agora'
       get_quote: 'Fazer uma cotação'
+      buttons:
+        upgrade: "Upgrade now"
+        contact: "Contact us for a demo"
+      enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
+      upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
   announcements:
     show_until: Mostrar até
     is_active: atualmente exibido
@@ -160,7 +165,7 @@ pt:
     edit: 'Editar ação personalizada %{name}'
     execute: 'Executar %{name}'
     upsale:
-      title: 'Ações personalizadas são funcionalidades da versão Enterprise Edition'
+      title: 'Custom actions'
       description: 'As ações personalizadas simplificam o trabalho diário combinando um conjunto de etapas em um único botão.'
   custom_fields:
     text_add_new_custom_field: >
@@ -169,8 +174,8 @@ pt:
     enabled_in_project: 'Habilitado no projeto'
     contained_in_type: 'Contido no tipo'
     confirm_destroy_option: "Removendo uma opção removerá todas as suas ocorrências (ex. em pacotes de trabalho). Tem certeza que você quer removê-la?"
-    reorder_alphabetical: "Reorder values alphabetically"
-    reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
+    reorder_alphabetical: "Reorganizar valores em ordem alfabética"
+    reorder_confirmation: "Aviso: A ordem atual dos valores disponíveis será perdida. Continuar?"
     tab:
       no_results_title_text: Atualmente, não há campos personalizados.
       no_results_content_text: Criar um novo campo personalizado
@@ -259,7 +264,7 @@ pt:
       irreversible: "Esta ação é irreversível"
       confirmation: "Digite o nome de usuário do espaço reservado %{name} para confirmar a exclusão."
     upsale:
-      title: Atribuir trabalho a pessoas que não são membros do projeto.
+      title: Placeholder users
       description: >
         Existem vários cenários em que você deseja atribuir trabalho a pessoas que não são membros do seu projeto. Pode ser simplesmente que você ainda precise contratar a pessoa certa para o trabalho. Ou você não quer dar acesso a essas informações do projeto, mas ainda quer acompanhar as tarefas atribuídas a essa pessoa.
   prioritiies:
@@ -297,7 +302,8 @@ pt:
       query_group_placeholder: "Nomear tabela"
       reset: "Redefinir para os padrões"
       type_color_text: |
-        Clique para atribuir ou alterar a cor deste tipo. A cor selecionada indica os pacotes de trabalho em gráficos Gantt. Portanto recomenda-se o uso de uma cor forte.
+        A cor selecionada distingue os tipos diferentes
+        nas tabelas de Gantt ou tabelas dos pacotes de trabalho. Recomenda-se o uso de uma cor forte.
   versions:
     overview:
       no_results_title_text: Não há pacote de trabalho atribuído a esta versão.
@@ -315,6 +321,10 @@ pt:
       other: '%{count} pacotes de trabalho descendentes'
     bulk:
       could_not_be_saved: "Os seguintes pacotes de trabalho não puderam ser salvos:"
+      none_could_be_saved: "None of the %{total} work packages could be updated."
+      x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
+      selected_because_descendants: "While %{selected} work packages where selected, in total %{total} work packages are affected which includes descendants."
+      descendant: "descendant of selected"
     move:
       no_common_statuses_exists: "Não há situação disponível para todos os pacotes de trabalho selecionados. Sua situação não pode ser alterada."
       unsupported_for_multiple_projects: 'Movimentação/cópia em massa não é suportada para pacotes de trabalho de vários projetos'
@@ -444,9 +454,12 @@ pt:
         code: 'Status'
         explanation: 'Descrição do estado'
         codes:
+          not_started: 'Not started'
           on_track: 'Sob controle'
           at_risk: 'Em risco'
           off_track: 'Fora de controle'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
       query:
         column_names: "Colunas"
         relations_to_type_column: "Relações com %{type}"
@@ -457,7 +470,7 @@ pt:
       repository:
         url: "URL"
       role:
-        assignable: "Pacotes de trabalho podem ser atribuídos a usuários e grupos em posse deste papel no respectivo projeto"
+        permissions: "Permissões"
       time_entry:
         activity: "Atividade"
         hours: "horas"
@@ -533,6 +546,7 @@ pt:
         before: "deve ser antes de %{date}."
         before_or_equal_to: "deve ser antes ou igual a %{date}."
         blank: "não pode ficar em branco."
+        blank_nested: "precisa ter a propriedade '%{property}' definida. "
         cant_link_a_work_package_with_a_descendant: "Um pacote de trabalho não pode ser vinculado a uma das suas subtarefas."
         circular_dependency: "Esta relação vai criar uma dependência circular."
         confirmation: "não coincide com %{attribute}."
@@ -546,11 +560,14 @@ pt:
         even: "deve ser par."
         exclusion: "está reservado."
         file_too_large: "é muito grande (tamanho máximo é %{count} Bytes)."
+        format: "não corresponde ao formato '%{expected}' esperado."
+        format_nested: "não corresponde ao formato '%{expected}' esperado no caminho '%{path}'."
         greater_than: "deve ser maior que %{count}."
         greater_than_or_equal_to: "deve ser maior ou igual a %{count}."
         greater_than_or_equal_to_start_date: "deve ser maior ou igual a data de início."
         greater_than_start_date: "deve ser maior que a data de início."
         inclusion: "Não está definido como um dos valores permitidos."
+        inclusion_nested: "não foi definido para um dos valores permitidos no caminho '%{path}'. "
         invalid: "é inválido."
         invalid_url: 'não é um URL válido.'
         invalid_url_scheme: 'não é um protocolo suportado (permitidos: %{allowed_schemes}).'
@@ -571,14 +588,20 @@ pt:
         taken: "já está sendo utilizado."
         too_long: "é muito longo (o máximo é %{count} caracteres)."
         too_short: "é muito curto (mínimo é %{count} caracteres)."
+        type_mismatch: "não é do tipo '%{type}'"
+        type_mismatch_nested: "não é do tipo '%{type}' no caminho '%{path}'"
         unchangeable: "não pode ser alterado."
+        unknown_property: "não é uma propriedade conhecida."
+        unknown_property_nested: "possui o caminho desconhecido '%{path}'."
         unremovable: "não pode ser removido."
         wrong_length: "é o tamanho errado (deve ser %{count} caracteres)."
       models:
         attachment:
           attributes:
             content_type:
-              not_whitelisted: "está configurado para '%{value}', que não está na lista de permissões para upload. "
+              blank: "O tipo de conteúdo do arquivo não pode ficar em branco."
+              not_whitelisted: "O arquivo foi rejeitado por um filtro automático. '%{value}' não está na lista de permissões para ser enviado."
+              format: "%{message}"
         capability:
           context:
             global: 'Global'
@@ -617,16 +640,16 @@ pt:
           attributes:
             read_ian:
               read_on_creation: 'não pode ser definido como verdadeiro na criação da notificação.'
-            read_mail:
-              read_on_creation: 'não pode ser definido como verdadeiro na criação da notificação.'
-            read_mail_digest:
-              read_on_creation: 'não pode ser definido como verdadeiro na criação da notificação.'
-            reason_ian:
+            mail_reminder_sent:
+              set_on_creation: 'não pode ser definido como verdadeiro na criação da notificação.'
+            reason:
               no_notification_reason: 'não pode ficar em branco porque o IAN foi escolhido como um canal.'
-            reason_mail:
-              no_notification_reason: 'não pode ficar em branco porque o e-mail foi escolhido como canal.'
             reason_mail_digest:
               no_notification_reason: 'não pode ficar em branco porque o resumo do e-mail foi escolhido como um canal.'
+        notification_settings:
+          only_one_global_setting: 'Só pode haver uma configuração de notificação global.'
+          email_alerts_global: 'As configura de notificação de e-mail só podem ser definidas globalmente.'
+          format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -661,7 +684,6 @@ pt:
           filters:
             custom_fields:
               inexistent: "Não há nenhum campo personalizado para o filtro."
-              invalid: "O campo personalizado não é válido no contexto em questão."
         queries/filters/base:
           attributes:
             values:
@@ -691,6 +713,12 @@ pt:
           attributes:
             hours:
               day_limit: "muito alto, já que só se pode registrar um máximo de 24 horas por data."
+        user_preference:
+          attributes:
+            pause_reminders:
+              invalid_range: "só pode ser um intervalo de datas válido."
+            daily_reminders:
+              full_hour: "só pode ser configurado para ser entregue em uma hora completa."
         wiki_page:
           attributes:
             slug:
@@ -702,7 +730,7 @@ pt:
               not_start_date: "não é na data de início, embora isso seja necessário para os marcos."
             parent:
               cannot_be_milestone: "não pode ser um marco."
-              cannot_be_self_assigned: "cannot be assigned to itself."
+              cannot_be_self_assigned: "não pode ser atribuído a ele mesmo."
               cannot_be_in_another_project: "não pode ser em outro projeto."
               not_a_valid_parent: "é inválido."
             start_date:
@@ -719,6 +747,7 @@ pt:
               does_not_exist: "Categoria especificada não existe."
             estimated_hours:
               only_values_greater_or_equal_zeroes_allowed: "deve ser >= 0."
+          readonly_status: 'The work package is in a readonly status so its attributes cannot be changed.'
         type:
           attributes:
             attribute_groups:
@@ -729,6 +758,11 @@ pt:
               group_without_name: "Grupos sem nome não são permitidos."
         user:
           attributes:
+            base:
+              user_limit_reached: "User limit reached. No more accounts can be created on the current plan."
+            password_confirmation:
+              confirmation: "A confirmação da senha não corresponde à senha!"
+              format: "%{message}"
             password:
               weak: "Deve conter caracteres das seguintes classes (pelo menos %{min_count} de %{all_count}): %{rules}."
               lowercase: "minúscula (ex.: 'a')"
@@ -801,7 +835,7 @@ pt:
   attributes:
     active: "Ativo"
     assigned_to: "Atribuição"
-    assignee: "Atribuição"
+    assignee: "Atribuído para"
     attachments: "Anexos"
     author: "Autor"
     base: "Erro geral:"
@@ -827,20 +861,19 @@ pt:
     firstname: "Nome"
     group: "Grupo"
     groups: "Grupos"
-    name: "Nome"
     id: "ID"
     is_default: "Valor padrão"
     is_for_all: "Para todos os projetos"
-    is_public: "Público"
+    public: "Público"
     #kept for backwards compatibility
     issue: "Pacote de trabalho"
     lastname: "Sobrenome"
     login: "Nome de usuário"
     mail: "E-mail"
+    name: "Nome"
     password: "Senha"
     priority: "Prioridade"
     project: "Projeto"
-    public: "Público"
     responsible: "Responsável"
     role: "Papel"
     roles: "Papéis"
@@ -857,6 +890,7 @@ pt:
     version: "Versão"
     work_package: "Pacote de trabalho"
   backup:
+    failed: "Backup failed"
     label_backup_token: "Token de backup"
     label_create_token: "Criar token de backup"
     label_delete_token: "Excluir token de backup"
@@ -1177,7 +1211,9 @@ pt:
   error_can_not_archive_project: "Este projeto não pode ser arquivado: %{errors}"
   error_can_not_delete_entry: "Não é possível excluir a entrada"
   error_can_not_delete_custom_field: "Não é possível excluir o campo personalizado"
-  error_can_not_delete_type: "Este tipo contém pacotes de trabalho e não pode ser excluído."
+  error_can_not_delete_type:
+    explanation: 'Este tipo contém pacotes de trabalho e não pode ser excluído. Você pode ver todos os pacotes de trabalho afetados em <a target="_blank" href="%{url}">esta visão</a>.'
+    archived_projects: 'Também há pacotes de trabalho em projetos arquivados. Você precisa seguir primeiros projetos, antes de poder alterar o tipo dos respectivos pacotes de trabalho: %{archived_projects}'
   error_can_not_delete_standard_type: "Tipos padrão não podem ser excluídos."
   error_can_not_invite_user: "Falhou ao enviar convite ao usuário."
   error_can_not_remove_role: "Este papel está em uso e não pode ser excluído."
@@ -1206,6 +1242,7 @@ pt:
   error_no_type_in_project: "Nenhum tipo está associado a este projeto. Por favor, verifique as Configurações do Projeto."
   error_omniauth_registration_timed_out: "O registro por meio de um provedor de autenticação externo expirou. Por favor, tente novamente."
   error_omniauth_invalid_auth: "As informações de autenticação retornadas pelo provedor de identidade eram inválidas. Por favor, entre em contato com o administrador para obter mais ajuda."
+  error_password_change_failed: 'Ocorreu um erro durante a tentativa de alterar a senha.'
   error_scm_command_failed: "Ocorreu um erro ao tentar acessar o repositório: %{value}"
   error_scm_not_found: "A entrada ou a revisão não foi encontrada no repositório."
   error_unable_delete_status: "A situação de pacote de trabalho não pode ser excluída, pois ela é usada por ao menos um pacote de trabalho."
@@ -1257,7 +1294,7 @@ pt:
   general_csv_encoding: "UTF-8"
   general_csv_separator: ","
   general_first_day_of_week: "7"
-  general_lang_name: "Português Brasileiro"
+  general_lang_name: "Português (Brasil)"
   general_pdf_encoding: "ISO-8859-1"
   general_text_no: "não"
   general_text_yes: "sim"
@@ -1314,15 +1351,32 @@ pt:
         expiration: "Expira"
       indefinite_expiration: "Nunca"
   notifications:
-    send_notifications: "Enviando notificações para está ação "
+    send_notifications: "Enviar notificações para está ação "
     work_packages:
       subject:
         created: "O pacote de trabalho foi criado."
-        assigned: "Você foi designado para %{work_package}"
-        subscribed: "Você se inscreveu em %{work_package}"
+        assigned: "Você foi atribuído a %{work_package}"
+        subscribed: "Você assinou %{work_package}"
         mentioned: "Você foi mencionado em %{work_package}"
-        involved: "Você está atribuído a ou é responsável por %{work_package}"
+        responsible: "Você se tornou responsável por %{work_package}"
         watched: "Você está assistindo %{work_package}"
+    update_info_mail:
+      body: >
+        Estamos ansiosos para anunciar o lançamento do OpenProject 12.0. É um grande lançamento que esperamos que melhore significativamente a forma como você usa o OpenProject.
+
+        Neste lançamento, estamos apresentando as notificações no aplicativo. de agora em diante, você receberá notificações para as atualizações nos pacotes de trabalho diretamente no OpenProject. Você pode marcas estas notificações como lidas, responder a um comentário ou até mesmo modificar diretamente atributos do pacote de trabalho sem sair do centro de notificações.
+
+        Isto também significa que não iremos mais utilizar e-mail para notificações. Achamos que um novo centro de notificações é o melhor lugar para visualizar e tomar as ações necessárias para estas atualizações. No entanto, se você deseja continuar a receber atualizações por e-mail, opte por receber lembretes diários por e-mail em horários específicos de sua escolha.
+
+        Certifique-se de verificar suas novas configurações de notificação padrão e de definir suas preferências sobre notificações e lembretes por e-mail nas configurações de sua conta. Você pode fazer isso através do botão “Alterar configurações de e-mail” abaixo.
+
+        Esperamos que você ache nossas notificações no aplicativo útil e que ela aumente sua produtividade.
+
+        Atenciosamente,
+        Equipe OpenProject
+      body_header: 'Versão 12.0 com a Central de Notificações'
+      body_subheader: 'Notícias'
+      subject: 'Alterações importantes das notificações com o lançamento da versão 12.0'
   label_accessibility: "Acessibilidade"
   label_account: "Conta"
   label_active: "Ativo"
@@ -1408,7 +1462,7 @@ pt:
   label_check_uncheck_all_in_column: "Marcar/Desmarcar todos na coluna"
   label_check_uncheck_all_in_row: "Marcar/Desmarcar todos na linha"
   label_child_element: "Elemento filho"
-  label_chronological_order: "Oldest first"
+  label_chronological_order: "Mais antigo primeiro"
   label_close_versions: "Fechar versões concluídas"
   label_closed_work_packages: "fechado"
   label_collapse: "Recolher"
@@ -1451,7 +1505,7 @@ pt:
   label_deleted: "excluído"
   label_deleted_custom_field: "(campo personalizado excluído)"
   label_deleted_custom_option: "(opção excluída)"
-  label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
+  label_missing_or_hidden_custom_option: "(algum valor faltando ou falta permissões para acessar)"
   label_descending: "Decrescente"
   label_details: "Detalhes"
   label_development_roadmap: "Planejamento do desenvolvimento"
@@ -1496,7 +1550,6 @@ pt:
   label_feeds_access_key: "Chave de acesso RSS"
   label_feeds_access_key_created_on: "Chave de acesso RSS criada %{value} atrás"
   label_feeds_access_key_type: "RSS"
-  label_file_added: "Arquivo adicionado"
   label_file_plural: "Arquivos"
   label_filter_add: "Adicionar filtro"
   label_filter_plural: "Filtros"
@@ -1578,6 +1631,10 @@ pt:
   label_member_plural: "Membros"
   lable_membership_added: 'Membro adicionado'
   lable_membership_updated: 'Membro atualizado'
+  label_menu_badge:
+    pre_alpha: 'pre-alpha'
+    alpha: 'alpha'
+    beta: 'beta'
   label_menu_item_name: "Nome do item de menu"
   label_message: "Mensagem"
   label_message_last: "Última mensagem"
@@ -1683,7 +1740,6 @@ pt:
   label_public_projects: "Projetos públicos"
   label_query_new: "Nova consulta"
   label_query_plural: "Consultas personalizadas"
-  label_query_menu_item: "Item de menu de consulta"
   label_read: "Leia..."
   label_register: "Criar uma nova conta"
   label_register_with_developer: "Registre-se como desenvolvedor"
@@ -1712,7 +1768,7 @@ pt:
   label_required: 'requerido'
   label_requires: 'requer'
   label_result_plural: "Resultados"
-  label_reverse_chronological_order: "Newest first"
+  label_reverse_chronological_order: "Mais recentes primeiro"
   label_revision: "Revisão"
   label_revision_id: "Revisão %{value}"
   label_revision_plural: "Revisões"
@@ -1891,17 +1947,36 @@ pt:
   mail:
     actions: 'Ações'
     digests:
-      time_frame: 'Resumo de todos os eventos em que você se inscreveu no período entre %{start} e %{end}'
-      work_packages:
-        created_at: '%{user} criado em %{timestamp}'
-        reason:
-          watched: 'observado'
-          involved: 'designado ou responsável'
-          mentioned: 'mencionado'
-          subscribed: 'todos'
-          prefix: 'Recebido devido à configuração de notificação: %{reason}'
-        subject: 'Resumo diário do projeto para %{date} - %{number} atualizações'
-        updated_at: '%{user} atualizado em %{timestamp}'
+      including_mention_singular: 'incluindo uma menção'
+      including_mention_plural: 'incluindo %{number_mentioned} menções'
+      unread_notification_singular: '1 notificação não lida'
+      unread_notification_plural: '%{number_unread} notificações não lidas'
+      you_have: 'Você possui'
+    logo_alt_text: 'Logotipo'
+    mention:
+      subject: "%{user_name} mencionou você em #%{id} - %{subject}"
+    notification:
+      center: 'Para o centro de notificação'
+      see_in_center: 'Ver comentário no centro de notificações'
+      settings: 'Alterar configurações de e-mail'
+    salutation: 'Olá, %{user}!'
+    work_packages:
+      created_at: 'Criado em %{timestamp} por %{user}'
+      login_to_see_all: 'Faça o login para ver todas as notificações.'
+      mentioned: 'Você foi <b>mencionado(a) em um comentário</b>'
+      mentioned_by: '%{user} mencionou você em um comentário'
+      more_to_see:
+        one: 'Há mais 1 pacote de trabalho com notificações.'
+        other: 'Há mais %{count} pacotes de trabalho com notificações.'
+      reason:
+        watched: 'Assistido'
+        assigned: 'Atribuído'
+        responsible: 'Responsável'
+        mentioned: 'Mencionado'
+        subscribed: 'todos'
+        prefix: 'Recebido devido à configuração de notificação: %{reason}'
+      see_all: 'Ver todas'
+      updated_at: 'Atualizado em %{timestamp} por %{user}'
   mail_body_account_activation_request: "Um novo usuário (%{value}) registrou-se. A conta está aguardando sua aprovação:"
   mail_body_account_information: "Suas informações de conta"
   mail_body_account_information_external: "Você pode usar sua conta %{value} para logar."
@@ -1912,13 +1987,13 @@ pt:
   mail_body_backup_waiting_period: O novo token será habilitado em %{hours} horas.
   mail_body_backup_token_warning: Se não foi você, acesse o OpenProject imediatamente e redefina-o novamente.
   mail_body_lost_password: "Para alterar sua senha, clique no link a seguir:"
-  mail_body_register: "Bem-vindo ao OpenProject. Por favor, ative sua conta clicando neste link:"
+  mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "E-mail de convite a membro do projeto"
   mail_body_register_user: "Prezado(a) %{name},"
   mail_body_register_links_html: |
-    Por favor, fique à vontade para navegar em nosso canal do youtube (%{youtube_link}), onde fornecemos um webinar (%{webinar_link}) e vídeos de "Como começar" (%{get_started_link}) para aprender seus primeiros passos no OpenProject da maneira mais simples possível.
+    Fique à vontade para navegar por nosso canal do youtube (%{youtube_link}) onde fornecemos um webinário (%{webinar_link}) e vídeos de "Guia de introdução" (%{get_started_link}) para que você possa começar de forma simples a usar o OpenProject.
     <br />
-    Se você tiver mais perguntas, consulte nossa documentação (%{documentation_link}) ou entre em contato conosco (%{contact_us_link}).
+    Se você tiver mais dúvidas, consulte nossa documentação (%{documentation_link}) ou entre em contato com seu administrador.
   mail_body_register_closing: "Sua equipe do OpenProject"
   mail_body_register_ending: "Fique ligado! Atenciosamente,"
   mail_body_reminder: "%{count} pacote(s) de trabalho foram atribuídos a você para os próximos %{days} dias:"
@@ -2054,7 +2129,7 @@ pt:
     heading_getting_started: "Obter visão geral"
     text_getting_started_description: "Obter visão geral do gerenciamento de projetos e colaboração de equipe com o OpenProject."
     text_show_again: "Você pode reiniciar este vídeo através do menu ajuda"
-    welcome: "Bem-vindo ao OpenProject"
+    welcome: "Welcome to %{app_title}"
     select_language: "Por favor, selecione seu idioma"
   permission_add_work_package_notes: "Adicionar anotações"
   permission_add_work_packages: "Adicionar pacotes de trabalho"
@@ -2109,9 +2184,9 @@ pt:
   permission_protect_wiki_pages: "Proteger páginas wiki"
   permission_rename_wiki_pages: "Renomear páginas wiki"
   permission_save_queries: "Salvar visões"
+  permission_select_custom_fields: "Selecionar campos personalizados"
   permission_select_project_modules: "Selecionar módulos do projeto"
   permission_manage_types: "Selecionar tipos"
-  permission_view_calendar: "Exibir calendário"
   permission_view_changesets: "Revisões do repositório vistas no OpenProject"
   permission_view_commit_author_statistics: "Ver estatísticas de commits do autor"
   permission_view_work_package_watchers: "Visualizar lista de observadores"
@@ -2123,6 +2198,8 @@ pt:
   permission_view_timelines: "Ver cronogramas"
   permission_view_wiki_edits: "Ver histórico do wiki"
   permission_view_wiki_pages: "Ver wiki"
+  permission_work_package_assigned: "Become assignee/responsible"
+  permission_work_package_assigned_explanation: "Pacotes de trabalho podem ser atribuídos a usuários e grupos em posse deste papel no respectivo projeto"
   placeholders:
     default: "-"
   project:
@@ -2147,7 +2224,6 @@ pt:
       archived: "Arquivado"
   project_module_activity: "Atividade"
   project_module_forums: "Fóruns"
-  project_module_calendar: "Calendário"
   project_module_work_package_tracking: "Controle de pacote de trabalho"
   project_module_news: "Notícias"
   project_module_repository: "Repositório"
@@ -2235,7 +2311,7 @@ pt:
     go_to_revision: "Ir para revisão"
     managed_remote: "Repositórios gerenciados deste fornecedor são manipulados remotamente."
     managed_remote_note: "Informações sobre o URL e o caminho deste repositório não estão disponíveis antes da sua criação."
-    managed_url: "URL gerenciado"
+    managed_url: "URL gerenciada"
     settings:
       automatic_managed_repos_disabled: "Desativar criação automática"
       automatic_managed_repos: "Criação automática de repositórios gerenciados"
@@ -2258,7 +2334,7 @@ pt:
         url: "Digite o URL do repositório. Você pode apontar para um repositório local (começando com %{local_proto}) ou um repositório remoto. \nSão suportados os seguintes esquemas de URL:"
       managed_title: "Repositório do Subversion integrado ao OpenProject"
       managed_introduction: "Deixe OpenProject criar e integrar um repositório Subversion local automaticamente."
-      managed_url: "URL gerenciado"
+      managed_url: "URL gerenciada"
       password: "Senha do repositório"
       username: "Nome de usuário do repositório"
     truncated: "Pedimos desculpa, mas tivemos que truncar este diretório em %{limit} arquivos. %{truncated} entradas foram omitidas da lista."
@@ -2275,6 +2351,9 @@ pt:
   setting_apiv3_cors_origins: "Cross-Origin Resource Sharing (CORS) permitidos pela API V3"
   setting_apiv3_cors_origins_text_html: >
     Se o CORS estiver habilitado, essas são as origens que têm permissão para acessar a API OpenProject. <br/>Por favor, verifique a <a href="%{origin_link}" target="_blank">documentação na header da Origin </a> sobre como especificar os valores esperados.
+  setting_apiv3_max_page_size: "Tamanho Máximo da página de API"
+  setting_apiv3_max_page_instructions_html: >
+    Set the maximum page size the API will respond with. It will not be possible to perform API requests that return more values on a single page. <br/> <strong>Warning:</strong> Please only change this value if you are sure why you need it. Setting to a high value will result in significant performance impacts, while a value lower than the per page options will cause errors in paginated views.
   setting_apiv3_docs: "Documentação"
   setting_apiv3_docs_enabled: "Habilitar página de documentos"
   setting_apiv3_docs_enabled_instructions_html: >
@@ -2326,8 +2405,6 @@ pt:
   setting_enabled_scm: "SCM habilitado"
   setting_enabled_projects_columns: "Visível na lista de projetos"
   setting_notification_retention_period_days: "Período de retenção de notificação"
-  setting_notification_email_delay_minutes: "Atraso no envio de e-mail"
-  setting_notification_email_digest_time: "Resumo do tempo do email "
   setting_feeds_enabled: "Habilitar Feeds"
   setting_feeds_limit: "Limite de conteúdo de feed"
   setting_file_max_size_displayed: "Tamanho máximo de arquivos de texto exibidos em linha"
@@ -2398,13 +2475,12 @@ pt:
     brute_force_prevention: "Bloqueio automatizado de usuário"
     attachments:
       whitelist_text_html: >
-        Defina uma lista de extensões de arquivo válidas e/ou tipos MIME para arquivos carregados. <br/> Insira as extensões de arquivo  (e.x., <code>%{ext_example}</code>) ou tipos de míme (e.x., <code>%{mime_example}</code>). <br/> Deixe em branco para permitir que qualquer tipo de arquivo seja carregado. Vários valores permitidos (uma linha para cada valor). 
+        Defina uma lista de extensões de arquivo válidas e/ou tipos MIME para arquivos carregados. <br/> Insira as extensões de arquivo  (e.x., <code>%{ext_example}</code>) ou tipos de mime (e.x., <code>%{mime_example}</code>). <br/> Deixe em branco para permitir que qualquer tipo de arquivo seja carregado. Vários valores permitidos (uma linha para cada valor). 
     notifications:
       retention_text: >
         Defina o número de dias em que os eventos de notificação para usuários (a fonte para notificações no aplicativo) serão mantidos no sistema. Todos os eventos anteriores a esse horário serão excluídos. 
-      delay_minutes_explanation: "O envio de e-mail pode ser atrasado para permitir que os usuários com notificação configurada no aplicativo confirmem a notificação no aplicativo antes que um e-mail seja enviado. Os usuários que lerem uma notificação no aplicativo não receberão um e-mail com a notificação já lida. "
-      email_digest_explanation: "Uma vez por dia, um e-mail resumo  pode ser enviado contendo uma coleção de todas as notificações que os usuários assinaram. A configuração é relativa ao fuso horário de cada usuário configurado, por exemplo, 8:00 será executado às 7:00 UTC para usuários em UTC + 1 e 9:00 UTC para aqueles em UTC-1. "
-      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
+      events_explanation: 'Governa para qual evento um e-mail é enviado. Como as notificações de pacotes de trabalhos podem ser configuradas especificamente para todos os usuários, eles são excluídos desta lista.'
+      delay_minutes_explanation: "O envio de e-mail pode ser atrasado para permitir que os usuários com a notificação configurada no aplicativo confirmem a notificação dentro da aplicação antes que o e-mail seja enviado. Usuários que lerem uma notificação no aplicativo não receberão um e-mail dessa mesma notificação"
     display:
       first_date_of_week_and_year_set: >
         Se as opções "%{day_of_week_setting_name}" ou "%{first_week_setting_name}" forem definidas, a outra também deve ser definida, para evitar inconsistências no front-end.
@@ -2515,7 +2591,6 @@ pt:
   text_regexp_info: "ex. ^[A-Z0-9]+$"
   text_regexp_multiline: 'A expressão regular é aplicada no modo multilinha. Por exemplo: ^---\s+'
   text_repository_usernames_mapping: "Selecionar ou atualizar o usuário do OpenProject mapeado para cada nome de usuário encontrado no log do repositório. Os usuários com o mesmo nome de usuário OpenProject e repositório ou e-mail serão mapeados automaticamente."
-  text_select_notifications: "Selecione as ações para as quais as notificações devem ser enviadas. "
   text_status_changed_by_changeset: "Aplicado no conjunto de alterações %{value}."
   text_table_difference_description: "Nesta tabela, os únicos %{entries} são mostrados. Você pode ver a diferença entre quaisquer duas entradas selecionando primeiro as caixas de seleção correspondentes na tabela. Ao clicar no botão abaixo da tabela são mostradas as diferenças."
   text_time_logged_by_changeset: "Aplicado no conjunto de alterações %{value}."
@@ -2776,7 +2851,6 @@ pt:
   wiki_menu_item_new_main_item_explanation: >
     Você está excluindo somente o item de menu principal da wiki. Você agora tem que escolher uma página wiki para que um novo item principal seja gerado. Para excluir a wiki, o módulo wiki deve ser desativado pelos administradores do projeto.
   wiki_menu_item_delete_not_permitted: O item de menu da página wiki é único e não pode ser excluído.
-  query_menu_item_for: "Item de menu para consulta \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
@@ -2797,6 +2871,8 @@ pt:
       code_409: "Não foi possível atualizar o recurso devido a modificações conflitantes."
       code_429: "Muitas requisições. Tente novamente mais tarde."
       code_500: "Ocorreu um erro interno."
+      not_found:
+        work_package: "O pacote de trabalho que você está procurando não pode ser encontrado ou foi excluído."
       expected:
         date: "AAAA-MM-DD (somente data no formato ISO 8601)"
         duration: "Duração ISO 8601"
@@ -2833,6 +2909,7 @@ pt:
       schema: 'Esquema'
     undisclosed:
       parent: Não revelado - O primário selecionado está invisível devido à falta de permissões.
+      ancestor: Undisclosed - The ancestor is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 'Pré-autorização'
@@ -2841,8 +2918,11 @@ pt:
     errors:
       messages:
         #Common error messages
-        invalid_request: 'A solicitação não possui um parâmetro obrigatório, tem um valor de parâmetro não suportado ou está malformada.'
-        invalid_redirect_uri: "O URI de redirecionamento solicitado está malformado ou não corresponde ao URI de redirecionamento do cliente."
+        invalid_request:
+          unknown: 'A solicitação não possui um parâmetro obrigatório, tem um valor de parâmetro não suportado ou está malformada.'
+          missing_param: 'Missing required parameter: %{value}.'
+          request_not_authorized: 'Request need to be authorized. Required parameter for authorizing request is missing or invalid.'
+        invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
         unauthorized_client: 'O cliente não está autorizado a executar esta solicitação usando este método.'
         access_denied: 'O proprietário do recurso ou servidor de autorização negou o pedido.'
         invalid_scope: 'O escopo solicitado é inválido, desconhecido ou malformado.'
@@ -2855,6 +2935,7 @@ pt:
         admin_authenticator_not_configured: 'O acesso ao painel de administração está proibido devido ao Doorkeeper.configure.admin_autenticator não configurado.'
         #Access grant errors
         unsupported_response_type: 'O servidor de autorização não suporta este tipo de resposta.'
+        unsupported_response_mode: 'The authorization server does not support this response mode.'
         #Access token errors
         invalid_client: 'Autenticação do cliente falhou devido ao cliente desconhecido, nenhuma autenticação de cliente incluída ou método de autenticação não suportado.'
         invalid_grant: 'A concessão de autorização fornecida é inválida, expirada, revogada, não corresponde ao URI de redirecionamento usado na solicitação de autorização, ou foi emitida para outro cliente.'
@@ -2863,6 +2944,10 @@ pt:
           revoked: "O token de acesso foi revogado"
           expired: "O token de acesso expirou"
           unknown: "O token de acesso é inválido"
+        revoke:
+          unauthorized: "You are not authorized to revoke this token."
+        forbidden_token:
+          missing_scope: 'Access to this resource requires scope "%{oauth_scopes}".'
   unsupported_browser:
     title: "Seu navegador está desatualizado e não é suportado."
     message: "Você pode encontrar erros e experiência degradada nesta página."

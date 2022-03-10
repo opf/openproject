@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,17 +23,17 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 describe 'Wysiwyg tables',
          type: :feature, js: true do
-  shared_let(:admin) { FactoryBot.create :admin }
+  shared_let(:admin) { create :admin }
   let(:user) { admin }
 
-  let(:project) { FactoryBot.create(:project, enabled_module_names: %w[wiki]) }
+  let(:project) { create(:project, enabled_module_names: %w[wiki]) }
   let(:editor) { ::Components::WysiwygEditor.new }
 
   before do
@@ -98,6 +98,7 @@ describe 'Wysiwyg tables',
 
           # Make first row th
           tds.first.click
+          tds.first.send_keys :tab
 
           # Click row toolbar
           editor.click_hover_toolbar_button 'RowRow'
@@ -199,7 +200,11 @@ describe 'Wysiwyg tables',
 
           # Change table styles
           tds = editable.all('.op-uc-table .op-uc-table--cell')
-          tds.first.click
+
+          # For some reason, the entire table is still selected so use tab to move to the next cell
+          tds[0].click
+          tds[0].send_keys :tab
+
           editor.click_hover_toolbar_button 'Table properties'
 
           # Set style to dotted
@@ -222,10 +227,8 @@ describe 'Wysiwyg tables',
 
           # rest is set on table
           expect(editable).to have_selector('table[style*="background-color:red"]')
-          expect(editable).to have_selector('table[style*="border-bottom:10px dotted"]')
-          expect(editable).to have_selector('table[style*="border-right:10px dotted"]')
-          expect(editable).to have_selector('table[style*="border-left:10px dotted"]')
-          expect(editable).to have_selector('table[style*="border-top:10px dotted"]')
+          expect(editable).to have_selector('table[style*="border-style:dotted"]')
+          expect(editable).to have_selector('table[style*="border-width:10px"]')
         end
 
         # Save wiki page
@@ -240,10 +243,8 @@ describe 'Wysiwyg tables',
 
           # rest is set on table
           expect(page).to have_selector('table[style*="background-color:red"]')
-          expect(page).to have_selector('table[style*="border-bottom:10px dotted"]')
-          expect(page).to have_selector('table[style*="border-right:10px dotted"]')
-          expect(page).to have_selector('table[style*="border-left:10px dotted"]')
-          expect(page).to have_selector('table[style*="border-top:10px dotted"]')
+          expect(page).to have_selector('table[style*="border-style:dotted"]')
+          expect(page).to have_selector('table[style*="border-width:10px"]')
         end
 
         # Edit again
@@ -259,10 +260,8 @@ describe 'Wysiwyg tables',
 
           # rest is set on table
           expect(editable).to have_selector('table[style*="background-color:red"]')
-          expect(editable).to have_selector('table[style*="border-bottom:10px dotted"]')
-          expect(editable).to have_selector('table[style*="border-right:10px dotted"]')
-          expect(editable).to have_selector('table[style*="border-left:10px dotted"]')
-          expect(editable).to have_selector('table[style*="border-top:10px dotted"]')
+          expect(editable).to have_selector('table[style*="border-style:dotted"]')
+          expect(editable).to have_selector('table[style*="border-width:10px"]')
         end
       end
 
@@ -318,8 +317,8 @@ describe 'Wysiwyg tables',
 
     describe 'editing a wiki page with tables' do
       let(:wiki_page) do
-        page = FactoryBot.build :wiki_page_with_content,
-                                title: 'Wiki page with titles'
+        page = build :wiki_page_with_content,
+                     title: 'Wiki page with titles'
         page.content.text = <<~MARKDOWN
 
           ## This is markdown!

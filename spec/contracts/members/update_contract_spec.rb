@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -36,10 +36,10 @@ describe Members::UpdateContract do
 
   it_behaves_like 'member contract' do
     let(:member) do
-      FactoryBot.build_stubbed(:member,
-                               project: member_project,
-                               roles: member_roles,
-                               principal: member_principal)
+      build_stubbed(:member,
+                    project: member_project,
+                    roles: member_roles,
+                    principal: member_principal)
     end
 
     let(:contract) { described_class.new(member, current_user) }
@@ -47,7 +47,7 @@ describe Members::UpdateContract do
     describe 'validation' do
       context 'if the principal is changed' do
         before do
-          member.principal = FactoryBot.build_stubbed(:user)
+          member.principal = build_stubbed(:user)
         end
 
         it_behaves_like 'contract is invalid', user_id: :error_readonly
@@ -55,14 +55,14 @@ describe Members::UpdateContract do
 
       context 'if the project is changed' do
         before do
-          member.project = FactoryBot.build_stubbed(:project)
+          member.project = build_stubbed(:project)
         end
 
         it_behaves_like 'contract is invalid', project_id: :error_readonly
       end
 
       context 'if the principal is a locked user' do
-        let(:member_principal) { FactoryBot.build_stubbed(:locked_user) }
+        let(:member_principal) { build_stubbed(:locked_user) }
 
         it_behaves_like 'contract is valid'
       end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -34,19 +34,19 @@ describe "API v3 project's versions resource" do
   include API::V3::Utilities::PathHelper
 
   let(:current_user) do
-    user = FactoryBot.create(:user,
-                             member_in_project: project,
-                             member_through_role: role)
+    user = create(:user,
+                  member_in_project: project,
+                  member_through_role: role)
 
     allow(User).to receive(:current).and_return user
 
     user
   end
-  let(:role) { FactoryBot.create(:role, permissions: [:view_work_packages]) }
-  let(:project) { FactoryBot.create(:project, public: false) }
-  let(:other_project) { FactoryBot.create(:project, public: false) }
-  let(:versions) { FactoryBot.create_list(:version, 4, project: project) }
-  let(:other_versions) { FactoryBot.create_list(:version, 2) }
+  let(:role) { create(:role, permissions: [:view_work_packages]) }
+  let(:project) { create(:project, public: false) }
+  let(:other_project) { create(:project, public: false) }
+  let(:versions) { create_list(:version, 4, project: project) }
+  let(:other_versions) { create_list(:version, 2) }
 
   subject(:response) { last_response }
 
@@ -67,7 +67,7 @@ describe "API v3 project's versions resource" do
     end
 
     context 'logged in user without permission' do
-      let(:role) { FactoryBot.create(:role, permissions: []) }
+      let(:role) { create(:role, permissions: []) }
 
       before do
         current_user

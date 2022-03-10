@@ -14,7 +14,6 @@ module Budgets
       menu :project_menu,
            :budgets,
            { controller: '/budgets', action: 'index' },
-           param: :project_id,
            if: ->(project) { project.module_enabled?(:budgets) },
            after: :costs,
            caption: :budgets_title,
@@ -43,17 +42,15 @@ module Budgets
       mount ::API::V3::Budgets::BudgetsByProjectAPI
     end
 
-    initializer 'budgets.register_latest_project_activity' do
-      Project.register_latest_project_activity on: 'Budget',
-                                               attribute: :updated_at
-    end
-
     initializer 'budgets.register_hooks' do
       # TODO: avoid hooks as this is part of the core now
       require 'budgets/hooks/work_package_hook'
     end
 
     config.to_prepare do
+      Project.register_latest_project_activity on: 'Budget',
+                                               attribute: :updated_at
+
       # Add to the budget to the costs group
       ::Type.add_default_mapping(:costs, :budget)
 

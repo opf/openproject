@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,16 +23,16 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 require_relative './mock_global_permissions'
 
 describe 'Global role: No module', type: :feature, js: true do
-  let(:admin) { FactoryBot.create(:admin) }
-  let(:project) { FactoryBot.create :project }
-  let!(:role) { FactoryBot.create(:role) }
+  let(:admin) { create(:admin) }
+  let(:project) { create :project }
+  let!(:role) { create(:role) }
 
   before do
     login_as(admin)
@@ -49,7 +49,7 @@ describe 'Global role: No module', type: :feature, js: true do
     #   And I am already admin
     # When I go to the modules tab of the settings page for the project "test"
     #                                                     Then I should not see "Global"
-    visit settings_modules_project_path(project)
+    visit project_settings_modules_path(project)
 
     expect(page).to have_text 'Activity'
     expect(page).to have_no_text 'Foo'

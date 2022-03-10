@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,30 +23,34 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 require 'features/work_packages/work_packages_page'
 
 describe 'Query selection', type: :feature do
-  let(:project) { FactoryBot.create :project, identifier: 'test_project', public: false }
-  let(:role) { FactoryBot.create :role, permissions: [:view_work_packages] }
+  let(:project) { create :project, identifier: 'test_project', public: false }
+  let(:role) { create :role, permissions: [:view_work_packages] }
   let(:current_user) do
-    FactoryBot.create :user, member_in_project: project,
+    create :user, member_in_project: project,
                              member_through_role: role
   end
 
-  let(:default_status) { FactoryBot.create(:default_status) }
+  let(:default_status) { create(:default_status) }
   let(:wp_page) { ::Pages::WorkPackagesTable.new project }
   let(:filters) { ::Components::WorkPackages::Filters.new }
 
   let(:query) do
-    FactoryBot.build(:query, project: project, is_public: true).tap do |query|
+    build(:query, project: project, public: true).tap do |query|
       query.filters.clear
       query.add_filter('assigned_to_id', '=', ['me'])
       query.add_filter('done_ratio', '>=', [10])
       query.save!
+      create(:view_work_packages_table,
+             query: query)
+
+      query
     end
   end
 
@@ -90,7 +94,9 @@ describe 'Query selection', type: :feature do
 
   context 'when the selected query is changed' do
     let(:query2) do
-      FactoryBot.create(:query, project: project, is_public: true)
+      create(:query_with_view_work_packages_table,
+             project: project,
+             public: true)
     end
 
     before do
@@ -103,7 +109,7 @@ describe 'Query selection', type: :feature do
     it 'updates the page upon query switching', js: true do
       wp_page.expect_title query.name, editable: false
 
-      find('.collapsible-menu--item-link', text: query2.name).click
+      find('.op-sidemenu--item-action', text: query2.name).click
     end
   end
 end

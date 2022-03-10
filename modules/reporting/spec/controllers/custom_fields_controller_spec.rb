@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,17 +23,17 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 describe CustomFieldsController do
-  let!(:custom_field) { FactoryBot.create(:work_package_custom_field) }
-  let!(:custom_field_permanent) { FactoryBot.create(:work_package_custom_field) }
+  let!(:custom_field) { create(:work_package_custom_field) }
+  let!(:custom_field_permanent) { create(:work_package_custom_field) }
   let(:custom_field_name) { "CustomField#{custom_field.id}" }
   let(:custom_field_permanent_name) { "CustomField#{custom_field_permanent.id}" }
-  let(:cost_query) { FactoryBot.build(:cost_query) }
+  let(:cost_query) { build(:cost_query) }
 
   before do
     allow(@controller).to receive(:authorize)

@@ -1,0 +1,58 @@
+.op-sidemenu
+  display: flex
+  flex-direction: column
+  font-size: 14px
+
+  &--title
+    display: flex
+    background: transparent
+    color: var(--main-menu-fieldset-header-color)
+    border: 0
+    text-transform: uppercase
+    padding: 8px 12px
+    margin-top: 12px
+    font-size: 12px
+    cursor: pointer
+
+    &:hover
+      background: var(--main-menu-bg-hover-background)
+      color: var(--main-menu-hover-font-color)
+
+  &--items
+    list-style: none
+
+    &_collapsed
+      display: none
+
+  &--item-action
+    display: flex
+    align-items: center
+    color: var(--main-menu-font-color)
+    padding: 8px 12px 8px 32px
+
+    &:hover
+      background: var(--main-menu-bg-hover-background)
+      color: var(--main-menu-hover-font-color)
+
+    &_active
+      background: var(--main-menu-bg-selected-background)
+      color: var(--main-menu-selected-font-color)
+
+    &_active-child
+      background: var(--main-menu-bg-selected-background)
+      color: var(--main-menu-selected-font-color)
+
+    &_with_icon
+      padding-left: 12px
+
+  &--item-title
+    margin-right: auto
+    overflow: hidden
+    text-overflow: ellipsis
+    white-space: nowrap
+    line-height: 30px
+    text-decoration: none
+
+  &--item-icon
+    font-size: 24px
+    margin-right: 8px

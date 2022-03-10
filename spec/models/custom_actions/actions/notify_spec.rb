@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 require 'spec_helper'
 require_relative '../shared_expectations'
@@ -32,8 +32,8 @@ describe CustomActions::Actions::Notify, type: :model do
   let(:key) { :notify }
   let(:type) { :associated_property }
   let(:allowed_values) do
-    users = [FactoryBot.build_stubbed(:user),
-             FactoryBot.build_stubbed(:group)]
+    users = [build_stubbed(:user),
+             build_stubbed(:group)]
 
     allow(Principal)
       .to receive_message_chain(:not_locked, :select, :ordered_by_name)
@@ -57,12 +57,12 @@ describe CustomActions::Actions::Notify, type: :model do
     it_behaves_like 'associated custom action validations'
 
     describe '#apply' do
-      let(:work_package) { FactoryBot.build_stubbed(:stubbed_work_package) }
+      let(:work_package) { build_stubbed(:stubbed_work_package) }
 
       it 'adds a note with all values distinguised by type' do
-        principals = [FactoryBot.build_stubbed(:user),
-                      FactoryBot.build_stubbed(:group),
-                      FactoryBot.build_stubbed(:user)]
+        principals = [build_stubbed(:user),
+                      build_stubbed(:group),
+                      build_stubbed(:user)]
 
         allow(Principal)
           .to receive_message_chain(:not_locked, :select, :ordered_by_name, :where)

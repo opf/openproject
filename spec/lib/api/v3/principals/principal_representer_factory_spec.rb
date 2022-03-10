@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -33,16 +33,16 @@ class TestRepresenter < ::API::Decorators::Single
 end
 
 describe ::API::V3::Principals::PrincipalRepresenterFactory do
-  let(:current_user) { FactoryBot.build_stubbed :user }
+  let(:current_user) { build_stubbed :user }
 
   let(:represented) do
     OpenStruct.new(association_id: 5, association: principal)
   end
   let(:principal) { nil }
-  let(:user) { FactoryBot.build_stubbed :user }
-  let(:group) { FactoryBot.build_stubbed :group }
-  let(:placeholder) { FactoryBot.build_stubbed :placeholder_user }
-  let(:deleted) { FactoryBot.build_stubbed :deleted_user }
+  let(:user) { build_stubbed :user }
+  let(:group) { build_stubbed :group }
+  let(:placeholder) { build_stubbed :placeholder_user }
+  let(:deleted) { build_stubbed :deleted_user }
 
   describe '.create' do
     subject { described_class.create principal, current_user: current_user }

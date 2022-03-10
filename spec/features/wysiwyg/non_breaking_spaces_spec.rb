@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,17 +23,17 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 describe 'Wysiwyg &nbsp; behavior',
          type: :feature, js: true do
-  shared_let(:admin) { FactoryBot.create :admin }
+  shared_let(:admin) { create :admin }
   let(:user) { admin }
 
-  let(:project) { FactoryBot.create(:project, enabled_module_names: %w[wiki]) }
+  let(:project) { create(:project, enabled_module_names: %w[wiki]) }
   let(:editor) { ::Components::WysiwygEditor.new }
 
   before do
@@ -55,7 +55,9 @@ describe 'Wysiwyg &nbsp; behavior',
         expect(page).to have_selector('.flash.notice')
 
         within('#content') do
-          expect(page).to have_selector('p', text: 'some text with bold')
+          expect(page).to have_selector('p') do |node|
+            node.text.include?('some text') && node.text.include?('with bold')
+          end
           expect(page).to have_selector('strong', text: 'with bold')
         end
       end

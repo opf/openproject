@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -34,17 +34,17 @@ describe 'Custom text widget on my page', type: :feature, js: true do
   let(:permissions) do
     []
   end
-  let(:project) { FactoryBot.create(:project) }
+  let(:project) { create(:project) }
 
   let(:role) do
-    FactoryBot.create(:role, permissions: permissions)
+    create(:role, permissions: permissions)
   end
 
   let(:user) do
-    FactoryBot.create(:user, member_in_project: project, member_with_permissions: permissions)
+    create(:user, member_in_project: project, member_with_permissions: permissions)
   end
   let(:other_user) do
-    FactoryBot.create(:user, member_in_project: project, member_with_permissions: permissions)
+    create(:user, member_in_project: project, member_with_permissions: permissions)
   end
   let(:my_page) do
     Pages::My::Page.new
@@ -71,6 +71,9 @@ describe 'Custom text widget on my page', type: :feature, js: true do
 
     within custom_text_widget.area do
       find('.inplace-editing--container').click
+
+      sleep 1
+      expect(page).to have_selector('.op-uc-container_editing')
 
       field.set_value('My own little text')
       field.save!

@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -25,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 
 require 'spec_helper'
 require 'rack/test'
@@ -37,14 +35,26 @@ describe ::API::V3::Notifications::NotificationsAPI,
 
   include API::V3::Utilities::PathHelper
 
-  shared_let(:work_package) { FactoryBot.create :work_package }
+  shared_let(:work_package) { create :work_package }
   shared_let(:recipient) do
-    FactoryBot.create :user,
-                      member_in_project: work_package.project,
-                      member_with_permissions: %i[view_work_packages]
+    create :user,
+           member_in_project: work_package.project,
+           member_with_permissions: %i[view_work_packages]
   end
-  shared_let(:notification1) { FactoryBot.create :notification, recipient: recipient, resource: work_package }
-  shared_let(:notification2) { FactoryBot.create :notification, recipient: recipient, resource: work_package }
+  shared_let(:notification1) do
+    create :notification,
+           recipient: recipient,
+           resource: work_package,
+           project: work_package.project,
+           journal: work_package.journals.first
+  end
+  shared_let(:notification2) do
+    create :notification,
+           recipient: recipient,
+           resource: work_package,
+           project: work_package.project,
+           journal: work_package.journals.first
+  end
 
   let(:notifications) { [notification1, notification2] }
 
@@ -55,11 +65,15 @@ describe ::API::V3::Notifications::NotificationsAPI,
   end
 
   let(:parsed_response) { JSON.parse(last_response.body) }
+  let(:additional_setup) do
+    # To be overwritten by individual specs
+  end
 
   before do
     notifications
 
     login_as current_user
+    additional_setup
 
     send_request
   end
@@ -69,17 +83,8 @@ describe ::API::V3::Notifications::NotificationsAPI,
 
     it_behaves_like 'API V3 collection response', 2, 2, 'Notification'
 
-    context 'with a digest notification' do
-      let(:digest_notification) { FactoryBot.create :notification, recipient: recipient, reason_ian: nil }
-      let(:notifications) { [notification1, notification2, digest_notification] }
-
-      it_behaves_like 'API V3 collection response', 2, 2, 'Notification' do
-        let(:elements) { [notification2, notification1] }
-      end
-    end
-
     context 'with a readIAN filter' do
-      let(:nil_notification) { FactoryBot.create :notification, recipient: recipient, read_ian: nil }
+      let(:nil_notification) { create :notification, recipient: recipient, read_ian: nil }
 
       let(:notifications) { [notification1, notification2, nil_notification] }
 
@@ -103,7 +108,7 @@ describe ::API::V3::Notifications::NotificationsAPI,
     end
 
     context 'with a resource filter' do
-      let(:notification3) { FactoryBot.create :notification, recipient: recipient }
+      let(:notification3) { create :notification, recipient: recipient }
       let(:notifications) { [notification1, notification2, notification3] }
 
       let(:filters) do
@@ -129,16 +134,196 @@ describe ::API::V3::Notifications::NotificationsAPI,
         end
       end
     end
+
+    context 'with a project filter' do
+      let(:other_work_package) { create(:work_package) }
+      let(:notification3) do
+        create :notification,
+               recipient: recipient,
+               resource: other_work_package,
+               project: other_work_package.project
+      end
+      let(:notifications) { [notification1, notification2, notification3] }
+
+      let(:filters) do
+        [
+          {
+            'project' => {
+              'operator' => '=',
+              'values' => [work_package.project_id.to_s]
+            }
+          }
+        ]
+      end
+
+      it_behaves_like 'API V3 collection response', 2, 2, 'Notification' do
+        let(:elements) { [notification2, notification1] }
+      end
+    end
+
+    context 'with a reason filter' do
+      let(:notification3) do
+        create :notification,
+               reason: :assigned,
+               recipient: recipient,
+               resource: work_package,
+               project: work_package.project,
+               journal: work_package.journals.first
+      end
+      let(:notification4) do
+        create :notification,
+               reason: :responsible,
+               recipient: recipient,
+               resource: work_package,
+               project: work_package.project,
+               journal: work_package.journals.first
+      end
+      let(:notifications) { [notification1, notification2, notification3, notification4] }
+
+      let(:filters) do
+        [
+          {
+            'reason' => {
+              'operator' => '=',
+              'values' => [notification1.reason.to_s, notification4.reason.to_s]
+            }
+          }
+        ]
+      end
+
+      it_behaves_like 'API V3 collection response', 3, 3, 'Notification' do
+        let(:elements) { [notification4, notification2, notification1] }
+      end
+
+      context 'with an invalid reason' do
+        let(:filters) do
+          [
+            {
+              'reason' => {
+                'operator' => '=',
+                'values' => ['bogus']
+              }
+            }
+          ]
+        end
+
+        it 'returns an error' do
+          expect(last_response.status)
+            .to be 400
+
+          expect(last_response.body)
+            .to be_json_eql("Filters Reason filter has invalid values.".to_json)
+                  .at_path('message/0')
+        end
+      end
+    end
+
+    context 'with a non ian notification' do
+      let(:wiki_page) { create(:wiki_page_with_content) }
+
+      let(:non_ian_notification) do
+        create :notification,
+               read_ian: nil,
+               recipient: recipient,
+               resource: wiki_page,
+               project: wiki_page.wiki.project,
+               journal: wiki_page.content.journals.first
+      end
+
+      let(:notifications) { [notification2, notification1, non_ian_notification] }
+
+      it_behaves_like 'API V3 collection response', 2, 2, 'Notification' do
+        let(:elements) { [notification2, notification1] }
+      end
+    end
+
+    context 'with a reason groupBy' do
+      let(:responsible_notification) do
+        create :notification,
+               recipient: recipient,
+               reason: :responsible,
+               resource: work_package,
+               project: work_package.project,
+               journal: work_package.journals.first
+      end
+
+      let(:notifications) { [notification1, notification2, responsible_notification] }
+
+      let(:send_request) do
+        get api_v3_paths.path_for :notifications, group_by: :reason
+      end
+
+      let(:groups) { parsed_response['groups'] }
+
+      it_behaves_like 'API V3 collection response', 3, 3, 'Notification'
+
+      it 'contains the reason groups', :aggregate_failures do
+        expect(groups).to be_a Array
+        expect(groups.count).to eq 2
+
+        keyed = groups.index_by { |el| el['value'] }
+        expect(keyed.keys).to contain_exactly 'mentioned', 'responsible'
+        expect(keyed['mentioned']['count']).to eq 2
+        expect(keyed['responsible']['count']).to eq 1
+      end
+    end
+
+    context 'with a project groupBy' do
+      let(:other_project) do
+        create(:project,
+               members: { recipient => recipient.members.first.roles })
+      end
+      let(:work_package2) { create :work_package, project: other_project }
+      let(:other_project_notification) do
+        create :notification,
+               resource: work_package2,
+               project: other_project,
+               recipient: recipient,
+               reason: :responsible,
+               journal: work_package2.journals.first
+      end
+
+      let(:notifications) { [notification1, notification2, other_project_notification] }
+
+      let(:send_request) do
+        get api_v3_paths.path_for :notifications, group_by: :project
+      end
+
+      let(:groups) { parsed_response['groups'] }
+
+      it_behaves_like 'API V3 collection response', 3, 3, 'Notification'
+
+      it 'contains the project groups', :aggregate_failures do
+        expect(groups).to be_a Array
+        expect(groups.count).to eq 2
+
+        keyed = groups.index_by { |el| el['value'] }
+        expect(keyed.keys).to contain_exactly other_project.name, work_package.project.name
+        expect(keyed[work_package.project.name]['count']).to eq 2
+        expect(keyed[work_package2.project.name]['count']).to eq 1
+
+        expect(keyed.dig(work_package.project.name, '_links', 'valueLink')[0]['href'])
+          .to eq "/api/v3/projects/#{work_package.project.id}"
+      end
+    end
+
+    context 'when having lost the permission to see the work package' do
+      let(:additional_setup) do
+        Member.where(principal: recipient).destroy_all
+      end
+
+      it_behaves_like 'API V3 collection response', 0, 0, 'Notification'
+    end
   end
 
   describe 'admin user' do
-    let(:current_user) { FactoryBot.build(:admin) }
+    let(:current_user) { build(:admin) }
 
     it_behaves_like 'API V3 collection response', 0, 0, 'Notification'
   end
 
   describe 'as any user' do
-    let(:current_user) { FactoryBot.build(:user) }
+    let(:current_user) { build(:user) }
 
     it_behaves_like 'API V3 collection response', 0, 0, 'Notification'
   end

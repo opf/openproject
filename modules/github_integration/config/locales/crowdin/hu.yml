@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 hu:
   project_module_github: "GitHub"
@@ -32,4 +32,4 @@ hu:
     pull_request_referenced_comment: >
       **Referenced in PR:** [%{github_user}](%{github_user_url}) megjejölve a munkamenet, elküldve %{pr_number} [%{pr_title}](%{pr_url}) on [%{repository}](%{repository_url}).
     pull_request_ready_for_review_comment: >
-      **PR Ready for Review:** Pull request %{pr_number} [%{pr_title}](%{pr_url}) for [%{repository}](%{repository_url}) was marked as ready for review by [%{github_user}](%{github_user_url}).
+      **PR felülvizsgálatra kész:** A [%{pr_number} [%{pr_title}](%{pr_url}) letöltési kérelem a [%{repository}](%{repository_url}) felülvizsgálatra késznek nyilvánította a [%{github_user}](%{github_user_url}).

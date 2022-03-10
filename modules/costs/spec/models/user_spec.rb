@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require File.dirname(__FILE__) + '/../spec_helper'
@@ -31,14 +31,14 @@ require File.dirname(__FILE__) + '/../spec_helper'
 describe User, type: :model do
   include Cost::PluginSpecHelper
   let(:klass) { User }
-  let(:user) { FactoryBot.build(:user) }
-  let(:project) { FactoryBot.build(:valid_project) }
-  let(:project2) { FactoryBot.build(:valid_project) }
+  let(:user) { build(:user) }
+  let(:project) { build(:valid_project) }
+  let(:project2) { build(:valid_project) }
   let(:project_hourly_rate) do
-    FactoryBot.build(:hourly_rate, user: user,
+    build(:hourly_rate, user: user,
                                    project: project)
   end
-  let(:default_hourly_rate) { FactoryBot.build(:default_hourly_rate, user: user) }
+  let(:default_hourly_rate) { build(:default_hourly_rate, user: user) }
 
   describe '#allowed_to' do
     describe 'WITH querying for a non existent permission' do

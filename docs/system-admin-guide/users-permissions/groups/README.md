@@ -55,6 +55,12 @@ Removing a user from a group removes the role from that user in any project usin
 
 Click the **Projects** tab. Select the projects you want to add this group to from the "New project" drop-down list. Tick the roles that you want the group to have. Click the blue **Add** button. Users in the group are added to that project's members using the role selected.
 
+### Add global roles to a group
+
+Click the **Global Roles** tab. Select the global roles you want to add to this group. Click the **Add** button.
+
+In order to add a global role to a group, at least one global role needs to be [created](../roles-permissions) in the system (a role with the "Global role" field ticked).
+
 ### Delete a group
 
 To delete a group click on the **delete** icon in the respective line of the group list.
@@ -65,12 +71,12 @@ Deleting a group removes the role from the members of any project using that gro
 
 Groups impact [project members lists](../../../getting-started/invite-members) and [user details](../users). Changes in groups, project members or users may affect the other two.
 
-Find out more about the behavior of groups as project members from a project admin's perspective [here](../../../getting-started/invite-members/#behavior-of-groups-as-project-members). 
+Find out more about the behavior of groups as project members from a project admin's perspective [here](../../../getting-started/invite-members/#behavior-of-groups-as-project-members).
 
 ## Group profile
 
-Similar to users, groups have a profile page which shows their name and members. Each member of a group is only visible for users with the necessary permissions (e.g. user has permission to see this member in a common project or user is system administrator). 
+Similar to users, groups have a profile page which shows their name and members. Each member of a group is only visible for users with the necessary permissions (e.g. user has permission to see this member in a common project or user is system administrator).
 
 ![group-profile-page](image-20210302144820982.png)
 
-The profile page can be accessed via the group's [settings page](/#add-users-to-a-group-edit-or-remove-groups), via the overview page of projects the group is a member of and via [mentions](../../../user-guide/work-packages/edit-work-package/#-notification) of the group.
+The profile page can be accessed via the group's [settings page](#add-users-to-a-group-edit-or-remove-groups), via the overview page of projects the group is a member of and via [mentions](../../../user-guide/work-packages/edit-work-package/#-notification-mention) of the group.

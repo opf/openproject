@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -38,24 +38,24 @@ describe 'Work packages having story points', type: :feature, js: true do
                                                                        'task_type' => task_type.id.to_s)
   end
 
-  let(:current_user) { FactoryBot.create(:admin) }
+  let(:current_user) { create(:admin) }
   let(:project) do
-    FactoryBot.create(:project,
-                      enabled_module_names: %w(work_package_tracking backlogs))
+    create(:project,
+           enabled_module_names: %w(work_package_tracking backlogs))
   end
-  let(:status) { FactoryBot.create :default_status }
-  let(:story_type) { FactoryBot.create(:type_feature) }
-  let(:task_type) { FactoryBot.create(:type_feature) }
+  let(:status) { create :default_status }
+  let(:story_type) { create(:type_feature) }
+  let(:task_type) { create(:type_feature) }
 
   describe 'showing the story points on the work package show page' do
     let(:story_points) { 42 }
     let(:story_with_sp) do
-      FactoryBot.create(:story,
-                        type: story_type,
-                        author: current_user,
-                        project: project,
-                        status: status,
-                        story_points: story_points)
+      create(:story,
+             type: story_type,
+             author: current_user,
+             project: project,
+             status: status,
+             story_points: story_points)
     end
 
     it 'should be displayed' do

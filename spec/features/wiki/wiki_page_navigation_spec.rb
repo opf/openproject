@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,23 +23,23 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 describe 'Wiki page navigation spec', type: :feature, js: true do
-  shared_let(:admin) { FactoryBot.create :admin }
+  shared_let(:admin) { create :admin }
   current_user { admin }
 
-  let(:project) { FactoryBot.create :project, enabled_module_names: %w[wiki] }
+  let(:project) { create :project, enabled_module_names: %w[wiki] }
   let!(:wiki_page_55) do
-    FactoryBot.create :wiki_page_with_content,
-                      wiki: project.wiki,
-                      title: 'Wiki Page No. 55'
+    create :wiki_page_with_content,
+           wiki: project.wiki,
+           title: 'Wiki Page No. 55'
   end
   let!(:wiki_pages) do
-    FactoryBot.create_list(:wiki_page_with_content, 30, wiki: project.wiki)
+    create_list(:wiki_page_with_content, 30, wiki: project.wiki)
   end
 
   # Always use the same user for the wiki pages

@@ -19,7 +19,8 @@ get:
       type: integer
   - description: |-
       JSON specifying filter conditions.
-      Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/) endpoint. Currently supported filters are:
+      Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/)
+      endpoint. Currently supported filters are:
 
       + status: Status the user has
 
@@ -42,6 +43,14 @@ get:
     example: '[["status", "asc"]]'
     in: query
     name: sortBy
+    required: false
+    schema:
+      type: string
+  - description: |-
+      Comma separated list of properties to include.
+    example: 'total,elements/name,elements/self,self'
+    in: query
+    name: select
     required: false
     schema:
       type: string
@@ -98,6 +107,8 @@ get:
     '400':
       content:
         application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
           examples:
             response:
               value:
@@ -109,6 +120,8 @@ get:
     '403':
       content:
         application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
           examples:
             response:
               value:
@@ -138,6 +151,8 @@ post:
     '400':
       content:
         application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
           examples:
             response:
               value:
@@ -150,6 +165,8 @@ post:
     '403':
       content:
         application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
           examples:
             response:
               value:
@@ -164,6 +181,8 @@ post:
     '422':
       content:
         application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
           examples:
             response:
               value:

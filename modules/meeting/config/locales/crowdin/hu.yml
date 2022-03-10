@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 #English strings go here for Rails i18n
 hu:
@@ -54,15 +54,17 @@ hu:
   label_meeting_agenda: "Napirend"
   label_meeting_minutes: "Jegyzőkönyv"
   label_meeting_close: "Bezár"
-  label_meeting_open: "Open"
+  label_meeting_open: "Megnyit"
   label_meeting_agenda_close: "Napirend lezárása a jegyzőkönyv megkezdéséhez"
   label_meeting_date_time: "Dátum/idő"
   label_meeting_diff: "Eltérés"
   label_notify: "Küldés véleményezésre"
   label_icalendar: "iCalendar küldése"
   label_version: "Verzió"
-  label_time_zone: "Idő zóna"
-  label_start_date: "Indulási dátum"
+  label_time_zone: "Időzóna"
+  label_start_date: "Kezdési dátum"
+  meeting:
+    copied: "Copied from Meeting #%{id}"
   notice_successful_notification: "Értesítés sikeresen kiküldve"
   notice_timezone_missing: Nincs időzóna beállítva, %{zone} a feltételezett. Időzóna beállításához kattintson ide.
   permission_create_meetings: "Megbeszélések létrehozása"
@@ -75,7 +77,7 @@ hu:
   permission_create_meeting_minutes: "Jegyzőkönyvek kezelése"
   permission_send_meeting_minutes_notification: "Jegyzőkönyvek véleményezésre küldésének értesítése"
   permission_meetings_send_invite: "Felhasználó meghívása a megbeszélésre"
-  permission_send_meeting_agendas_icalendar: "Send meeting agenda as calendar entry"
+  permission_send_meeting_agendas_icalendar: "Az értekezlet napirendjének küldése naptárbejegyzésként"
   project_module_meetings: "Megbeszélések"
   text_duration_in_hours: "Hossza (óra)"
   text_in_hours: "órában"

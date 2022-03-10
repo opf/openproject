@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,14 +23,14 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 class Groups::UpdateService < ::BaseServices::Update
   protected
 
   def persist(call)
-    removed_users = call.result.group_users.select(&:marked_for_destruction?).map(&:user)
+    removed_users = groups_removed_users(call.result)
     member_roles = member_roles_to_prune(removed_users)
     project_ids = member_roles.pluck(:project_id)
     member_role_ids = member_roles.pluck(:id)
@@ -59,6 +57,10 @@ class Groups::UpdateService < ::BaseServices::Update
     call
   end
 
+  def groups_removed_users(group)
+    group.group_users.select(&:marked_for_destruction?).map(&:user).compact
+  end
+
   def remove_member_roles(member_role_ids)
     ::Groups::CleanupInheritedRolesService
       .new(model, current_user: user)
@@ -66,6 +68,8 @@ class Groups::UpdateService < ::BaseServices::Update
   end
 
   def member_roles_to_prune(users)
+    return MemberRole.none if users.empty?
+
     MemberRole
       .includes(member: :member_roles)
       .where(inherited_from: model.members.joins(:member_roles).select('member_roles.id'))

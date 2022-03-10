@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 sv:
   activerecord:
@@ -72,7 +72,7 @@ sv:
     story: "Berättelse"
     story_points: "Berättelsepoäng"
     story_points_ideal: "Berättelsepoäng (ideala)"
-    task: "Uppgift"
+    task: "Aktivitet"
     task_color: "Aktivitetsfärg"
     unassigned: "Ej tilldelad"
     x_more: "%{count} mer..."
@@ -137,6 +137,7 @@ sv:
   label_wiki: "Wiki"
   permission_view_master_backlog: "Visa master backlog"
   permission_view_taskboards: "Visa aktivitetstavlor"
+  permission_select_done_statuses: "Select done statuses"
   permission_update_sprints: "Uppdatera sprinter"
   points_accepted: "accepterade poäng"
   points_committed: "incheckade poäng"
@@ -146,7 +147,7 @@ sv:
   project_module_backlogs: "Backloggar"
   rb_label_copy_tasks: "Kopiera arbetspaket"
   rb_label_copy_tasks_all: "Alla"
-  rb_label_copy_tasks_none: "Ingen"
+  rb_label_copy_tasks_none: "Inga"
   rb_label_copy_tasks_open: "Öppna"
   rb_label_link_to_original: "Inkludera länk till originalberättelsen"
   remaining_hours: "återstående timmar"

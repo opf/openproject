@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,14 +23,14 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 class Attachments::FinishDirectUploadJob < ApplicationJob
   queue_with_priority :high
 
-  def perform(attachment_id)
-    attachment = Attachment.pending_direct_uploads.find_by(id: attachment_id)
+  def perform(attachment_id, whitelist: true)
+    attachment = Attachment.pending_direct_upload.find_by(id: attachment_id)
     # An attachment is guaranteed to have a file.
     # But if the attachment is nil the expression attachment&.file will be nil and attachment&.file.local_file
     # will throw a NoMethodError: undefined method local_file' for nil:NilClass`.
@@ -42,28 +40,64 @@ class Attachments::FinishDirectUploadJob < ApplicationJob
       return Rails.logger.error("File for attachment #{attachment_id} was not uploaded.")
     end
 
-    begin
-      set_attributes_from_file(attachment, local_file)
-      save_attachment(attachment)
-      journalize_container(attachment)
-      attachment_created_event(attachment)
-    ensure
-      File.unlink(local_file.path) if File.exist?(local_file.path)
+    User.execute_as(attachment.author) do
+      attach_uploaded_file(attachment, local_file, whitelist)
     end
   end
 
   private
 
+  def attach_uploaded_file(attachment, local_file, whitelist)
+    set_attributes_from_file(attachment, local_file)
+    validate_attachment(attachment, whitelist)
+    save_attachment(attachment)
+    journalize_container(attachment)
+    attachment_created_event(attachment)
+  rescue StandardError => e
+    ::OpenProject.logger.error e
+    attachment.destroy
+  ensure
+    File.unlink(local_file.path) if File.exist?(local_file.path)
+  end
+
   def set_attributes_from_file(attachment, local_file)
-    attachment.downloads = 0
-    attachment.set_file_size local_file
-    attachment.set_content_type local_file
-    attachment.set_digest local_file
+    attachment.extend(OpenProject::ChangedBySystem)
+    attachment.change_by_system do
+      attachment.downloads = 0
+      attachment.set_file_size local_file
+      attachment.set_content_type local_file
+      attachment.set_digest local_file
+    end
   end
 
   def save_attachment(attachment)
-    User.execute_as(attachment.author) do
-      attachment.save! if attachment.changed?
+    attachment.save! if attachment.changed?
+  end
+
+  def validate_attachment(attachment, whitelist)
+    contract = create_contract attachment, whitelist
+
+    unless contract.valid?
+      errors = contract.errors.full_messages.join(", ")
+      raise "Failed to validate attachment #{attachment.id}: #{errors}"
+    end
+  end
+
+  def create_contract(attachment, whitelist)
+    options = derive_contract_options(whitelist)
+    ::Attachments::CreateContract.new attachment,
+                                      attachment.author,
+                                      options: options
+  end
+
+  def derive_contract_options(whitelist)
+    case whitelist
+    when false
+      { whitelist: [] }
+    when Array
+      { whitelist: whitelist.map(&:to_s) }
+    else
+      {}
     end
   end
 

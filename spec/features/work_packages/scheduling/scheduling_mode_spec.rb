@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -35,7 +35,7 @@ require 'features/work_packages/work_packages_page'
 
 describe 'scheduling mode',
          js: true do
-  let(:project) { FactoryBot.create :project_with_types, public: true }
+  let(:project) { create :project_with_types, public: true }
   # Constructing a work package graph that looks like this:
   #
   #                   wp_parent       wp_suc_parent
@@ -50,38 +50,38 @@ describe 'scheduling mode',
   #                       v               v
   #                     wp_child      wp_suc_child
   #
-  let!(:wp) { FactoryBot.create :work_package, project: project, start_date: '2016-01-01', due_date: '2016-01-05' }
+  let!(:wp) { create :work_package, project: project, start_date: '2016-01-01', due_date: '2016-01-05' }
   let!(:wp_parent) do
-    FactoryBot.create(:work_package, project: project, start_date: '2016-01-01', due_date: '2016-01-05').tap do |parent|
-      FactoryBot.create(:hierarchy_relation, from: parent, to: wp)
+    create(:work_package, project: project, start_date: '2016-01-01', due_date: '2016-01-05').tap do |parent|
+      create(:hierarchy_relation, from: parent, to: wp)
     end
   end
   let!(:wp_child) do
-    FactoryBot.create(:work_package, project: project, start_date: '2016-01-01', due_date: '2016-01-05').tap do |child|
-      FactoryBot.create(:hierarchy_relation, from: wp, to: child)
+    create(:work_package, project: project, start_date: '2016-01-01', due_date: '2016-01-05').tap do |child|
+      create(:hierarchy_relation, from: wp, to: child)
     end
   end
   let!(:wp_pre) do
-    FactoryBot.create(:work_package, project: project, start_date: '2015-12-15', due_date: '2015-12-31').tap do |pre|
-      FactoryBot.create(:follows_relation, from: wp, to: pre)
+    create(:work_package, project: project, start_date: '2015-12-15', due_date: '2015-12-31').tap do |pre|
+      create(:follows_relation, from: wp, to: pre)
     end
   end
   let!(:wp_suc) do
-    FactoryBot.create(:work_package, project: project, start_date: '2016-01-06', due_date: '2016-01-10').tap do |suc|
-      FactoryBot.create(:follows_relation, from: suc, to: wp)
+    create(:work_package, project: project, start_date: '2016-01-06', due_date: '2016-01-10').tap do |suc|
+      create(:follows_relation, from: suc, to: wp)
     end
   end
   let!(:wp_suc_parent) do
-    FactoryBot.create(:work_package, project: project, start_date: '2016-01-06', due_date: '2016-01-10').tap do |parent|
-      FactoryBot.create(:hierarchy_relation, from: parent, to: wp_suc)
+    create(:work_package, project: project, start_date: '2016-01-06', due_date: '2016-01-10').tap do |parent|
+      create(:hierarchy_relation, from: parent, to: wp_suc)
     end
   end
   let!(:wp_suc_child) do
-    FactoryBot.create(:work_package, project: project, start_date: '2016-01-06', due_date: '2016-01-10').tap do |child|
-      FactoryBot.create(:hierarchy_relation, from: wp_suc, to: child)
+    create(:work_package, project: project, start_date: '2016-01-06', due_date: '2016-01-10').tap do |child|
+      create(:hierarchy_relation, from: wp_suc, to: child)
     end
   end
-  let(:user) { FactoryBot.create :admin }
+  let(:user) { create :admin }
   let(:work_packages_page) { Pages::SplitWorkPackage.new(wp, project) }
 
   let(:combined_field) { work_packages_page.edit_field(:combinedDate) }
@@ -111,7 +111,7 @@ describe 'scheduling mode',
     combined_field.toggle_scheduling_mode
     combined_field.update(%w[2016-01-05 2016-01-10])
 
-    work_packages_page.expect_and_dismiss_notification message: 'Successful update.'
+    work_packages_page.expect_and_dismiss_toaster message: 'Successful update.'
 
     # Changing the scheduling mode is journalized
     work_packages_page.expect_activity_message("Manual scheduling activated")
@@ -144,7 +144,7 @@ describe 'scheduling mode',
     combined_field.expect_parent_notification
     combined_field.save!
 
-    work_packages_page.expect_and_dismiss_notification message: 'Successful update.'
+    work_packages_page.expect_and_dismiss_toaster message: 'Successful update.'
 
     # Moved forward again as the child determines the dates again
     expect_dates(wp, '2016-01-01', '2016-01-05')
@@ -176,7 +176,7 @@ describe 'scheduling mode',
     # Increasing the duration while at it
     combined_field.update(%w[2015-12-20 2015-12-31])
 
-    work_packages_page.expect_and_dismiss_notification message: 'Successful update.'
+    work_packages_page.expect_and_dismiss_toaster message: 'Successful update.'
 
     expect_dates(wp, '2015-12-20', '2015-12-31')
     expect(wp.schedule_manually).to be_truthy
@@ -206,7 +206,7 @@ describe 'scheduling mode',
     combined_field.expect_parent_notification
     combined_field.save!
 
-    work_packages_page.expect_and_dismiss_notification message: 'Successful update.'
+    work_packages_page.expect_and_dismiss_toaster message: 'Successful update.'
 
     # Moved backwards again as the child determines the dates again
     expect_dates(wp, '2016-01-01', '2016-01-05')

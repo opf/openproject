@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,19 +23,19 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe Budget, type: :model do
-  let(:budget) { FactoryBot.build(:budget, project: project) }
-  let(:type) { FactoryBot.create(:type_feature) }
-  let(:project) { FactoryBot.create(:project_with_types) }
-  let(:user) { FactoryBot.create(:user) }
+  let(:budget) { build(:budget, project: project) }
+  let(:type) { create(:type_feature) }
+  let(:project) { create(:project_with_types) }
+  let(:user) { create(:user) }
 
   describe 'destroy' do
-    let(:work_package) { FactoryBot.create(:work_package, project: project) }
+    let(:work_package) { create(:work_package, project: project) }
 
     before do
       budget.author = user
@@ -52,7 +52,7 @@ describe Budget, type: :model do
 
   describe '#existing_material_budget_item_attributes=' do
     let!(:existing_material_budget_item) do
-      FactoryBot.create(:material_budget_item, budget: budget, units: 10.0)
+      create(:material_budget_item, budget: budget, units: 10.0)
 
       budget.material_budget_items.reload.first
     end
@@ -67,7 +67,7 @@ describe Budget, type: :model do
 
       context 'with a non integer value' do
         it 'updates the item' do
-          budget.existing_material_budget_item_attributes = { existing_material_budget_item.id.to_s => { units: "0.5" } }
+          budget.existing_material_budget_item_attributes = { existing_material_budget_item.id.to_s.to_sym => { units: "0.5" } }
 
           expect(existing_material_budget_item.units)
             .to eql 0.5
@@ -76,7 +76,7 @@ describe Budget, type: :model do
 
       context 'with no value' do
         it 'deletes the item' do
-          budget.existing_material_budget_item_attributes = { existing_material_budget_item.id.to_s => {} }
+          budget.existing_material_budget_item_attributes = { existing_material_budget_item.id.to_s.to_sym => {} }
 
           expect(existing_material_budget_item)
             .to be_destroyed

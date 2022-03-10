@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -17,13 +17,13 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 ar:
   error_can_not_delete_export_card_configuration: "لا يمكن حذف هذا التنسيق."
   error_can_not_change_name_of_default_configuration: "لا يمكن تغيير اسم الترتيب الافتراضي."
   label_backlogs_export_card_config_select: "قُم باختيار تنسيق بطاقة التصدير"
-  label_backlogs_export_card_export: "تصدير"
+  label_backlogs_export_card_export: "التصدير"
   label_export_card_configuration_new: "تنسيق بطاقة التصدير الجديد"
   label_export_card_configuration: "تنسيق بطاقة التصدير"
   label_export_card_configuration_plural: "تنسيقات بطاقة التصدير"
@@ -38,7 +38,7 @@ ar:
   validation_error_uknown_key: "مفتاح غير معروف:"
   yaml_error: "خطأ YAML:"
   help_link_rows_format: "تنسيق الصفوف"
-  export_config_per_page: "في كل صفحة"
+  export_config_per_page: "لكل صفحة"
   export_config_page_size: "حجم الصفحة"
   export_config_orientation: "الاتجاه"
   export_config_rows: "الصفوف"

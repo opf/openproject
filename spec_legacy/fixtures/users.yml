@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 ---
@@ -84,7 +84,6 @@ users_003:
   firstname: Dave
   id: 3
   auth_source_id:
-  mail_notification: all
   login: dlopper
   type: User
   first_login: false
@@ -101,7 +100,6 @@ users_005:
   lastname: Lopper2
   firstname: Dave2
   auth_source_id:
-  mail_notification: all
   login: dlopper2
   type: User
   first_login: false
@@ -132,7 +130,6 @@ users_007:
   lastname: One
   firstname: Some
   auth_source_id:
-  mail_notification: only_my_events
   login: someone
   type: User
   first_login: false
@@ -148,7 +145,6 @@ users_008:
   lastname: Misc
   firstname: User
   auth_source_id:
-  mail_notification: only_my_events
   login: miscuser8
   type: User
   first_login: false
@@ -164,7 +160,6 @@ users_009:
   lastname: Misc
   firstname: User
   auth_source_id:
-  mail_notification: only_my_events
   login: miscuser9
   type: User
   first_login: false

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,21 +23,21 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 shared_examples_for 'wiki page contract' do
   let(:current_user) do
-    FactoryBot.build_stubbed(:user) do |user|
+    build_stubbed(:user) do |user|
       allow(user)
         .to receive(:allowed_to?) do |permission, permission_project|
         permissions.include?(permission) && page_wiki.project == permission_project
       end
     end
   end
-  let(:page_wiki) { FactoryBot.build_stubbed(:wiki) }
+  let(:page_wiki) { build_stubbed(:wiki) }
   let(:page_author) { current_user }
   let(:page_title) { 'Wiki title' }
   let(:page_slug) { 'wiki slug' }
@@ -94,13 +94,13 @@ shared_examples_for 'wiki page contract' do
     end
 
     context 'if the parent is in the same wiki' do
-      let(:page_parent) { FactoryBot.build_stubbed(:wiki_page, wiki: page_wiki) }
+      let(:page_parent) { build_stubbed(:wiki_page, wiki: page_wiki) }
 
       it_behaves_like 'is valid'
     end
 
     context 'if the parent is in a different wiki' do
-      let(:page_parent) { FactoryBot.build_stubbed(:wiki_page) }
+      let(:page_parent) { build_stubbed(:wiki_page) }
 
       it 'is invalid' do
         expect_valid(false, parent_title: :not_same_project)
@@ -109,7 +109,7 @@ shared_examples_for 'wiki page contract' do
 
     context 'if the parent is a child of the page (circular dependency)' do
       it 'is invalid' do
-        page.parent = FactoryBot.build_stubbed(:wiki_page, wiki: page_wiki).tap do |parent|
+        page.parent = build_stubbed(:wiki_page, wiki: page_wiki).tap do |parent|
           # Using stubbing here to avoid infinite loops
           allow(parent)
             .to receive(:ancestors)

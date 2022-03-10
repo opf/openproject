@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,16 +23,16 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 describe 'work package hierarchies for milestones', js: true, selenium: true do
-  let(:user) { FactoryBot.create :admin }
-  let(:type) { FactoryBot.create(:type, is_milestone: true) }
-  let(:project) { FactoryBot.create(:project, types: [type]) }
-  let(:work_package) { FactoryBot.create(:work_package, project: project, type: type) }
+  let(:user) { create :admin }
+  let(:type) { create(:type, is_milestone: true) }
+  let(:project) { create(:project, types: [type]) }
+  let(:work_package) { create(:work_package, project: project, type: type) }
   let(:relations) { ::Components::WorkPackages::Relations.new(work_package) }
   let(:tabs) { ::Components::WorkPackages::Tabs.new(work_package) }
   let(:wp_page) { Pages::FullWorkPackage.new(work_package) }

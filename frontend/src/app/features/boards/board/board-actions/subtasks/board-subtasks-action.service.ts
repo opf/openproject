@@ -14,6 +14,8 @@ import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 export class BoardSubtasksActionService extends BoardActionService {
   filterName = 'parent';
 
+  resourceName = 'parent-child';
+
   text = this.I18n.t('js.boards.board_type.board_type_title.subtasks');
 
   description = this.I18n.t('js.boards.board_type.action_text_subtasks');
@@ -57,7 +59,7 @@ export class BoardSubtasksActionService extends BoardActionService {
     return this
       .apiV3Service
       .work_packages
-      .filtered(filters)
+      .filtered(filters, { pageSize: '-1' })
       .get()
       .pipe(
         map((collection) => collection.elements),

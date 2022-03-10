@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -34,23 +34,23 @@ describe 'Projects', 'editing settings', type: :feature, js: true do
   let(:permissions) { %i(edit_project) }
 
   current_user do
-    FactoryBot.create(:user,
-                      member_in_project: project,
-                      member_with_permissions: permissions)
+    create(:user,
+           member_in_project: project,
+           member_with_permissions: permissions)
   end
 
   shared_let(:project) do
-    FactoryBot.create(:project, name: 'Foo project', identifier: 'foo-project')
+    create(:project, name: 'Foo project', identifier: 'foo-project')
   end
 
   it 'hides the field whose functionality is presented otherwise' do
-    visit settings_generic_project_path(project.id)
+    visit project_settings_general_path(project.id)
 
     expect(page).to have_no_text :all, 'Active'
     expect(page).to have_no_text :all, 'Identifier'
   end
 
-  describe 'identifier edit' do
+  describe 'identifier edit', js: false do
     it 'updates the project identifier' do
       visit projects_path
       click_on project.name
@@ -59,36 +59,37 @@ describe 'Projects', 'editing settings', type: :feature, js: true do
       SeleniumHubWaiter.wait
       click_on 'Change identifier'
 
-      expect(page).to have_content "CHANGE THE PROJECT'S IDENTIFIER"
-      expect(current_path).to eq '/projects/foo-project/identifier'
+      expect(page).to have_content "Change the project's identifier"
+      expect(page).to have_current_path '/projects/foo-project/identifier'
 
       fill_in 'project[identifier]', with: 'foo-bar'
       click_on 'Update'
 
       expect(page).to have_content 'Successful update.'
-      expect(current_path).to match '/projects/foo-bar/settings/generic'
+      expect(page)
+        .to have_current_path '/projects/foo-bar/settings/general'
       expect(Project.first.identifier).to eq 'foo-bar'
     end
 
     it 'displays error messages on invalid input' do
-      visit identifier_project_path(project)
+      visit project_identifier_path(project)
 
       fill_in 'project[identifier]', with: 'FOOO'
       click_on 'Update'
 
       expect(page).to have_content 'Identifier is invalid.'
-      expect(current_path).to eq '/projects/foo-project/identifier'
+      expect(page).to have_current_path '/projects/foo-project/identifier'
     end
   end
 
   context 'with optional and required custom fields' do
     let!(:optional_custom_field) do
-      FactoryBot.create(:custom_field, name: 'Optional Foo',
+      create(:custom_field, name: 'Optional Foo',
                         type: ProjectCustomField,
                         is_for_all: true)
     end
     let!(:required_custom_field) do
-      FactoryBot.create(:custom_field, name: 'Required Foo',
+      create(:custom_field, name: 'Required Foo',
                         type: ProjectCustomField,
                         is_for_all: true,
                         is_required: true)
@@ -98,7 +99,7 @@ describe 'Projects', 'editing settings', type: :feature, js: true do
       project.custom_field_values.last.value = 'FOO'
       project.save!
 
-      visit settings_generic_project_path(project.id)
+      visit project_settings_general_path(project.id)
 
       expect(page).to have_text 'Optional Foo'
       expect(page).to have_text 'Required Foo'
@@ -107,17 +108,17 @@ describe 'Projects', 'editing settings', type: :feature, js: true do
 
   context 'with a length restricted custom field' do
     let!(:required_custom_field) do
-      FactoryBot.create(:string_project_custom_field,
-                        name: 'Foo',
-                        type: ProjectCustomField,
-                        min_length: 1,
-                        max_length: 2,
-                        is_for_all: true)
+      create(:string_project_custom_field,
+             name: 'Foo',
+             type: ProjectCustomField,
+             min_length: 1,
+             max_length: 2,
+             is_for_all: true)
     end
     let(:foo_field) { ::FormFields::InputFormField.new required_custom_field }
 
     it 'shows the errors of that field when saving (Regression #33766)' do
-      visit settings_generic_project_path(project.id)
+      visit project_settings_general_path(project.id)
 
       expect(page).to have_content 'Foo'
 
@@ -136,11 +137,11 @@ describe 'Projects', 'editing settings', type: :feature, js: true do
   context 'with a multi-select custom field' do
     include_context 'ng-select-autocomplete helpers'
 
-    let!(:list_custom_field) { FactoryBot.create(:list_project_custom_field, name: 'List CF', multi_value: true) }
+    let!(:list_custom_field) { create(:list_project_custom_field, name: 'List CF', multi_value: true) }
     let(:form_field) { ::FormFields::SelectFormField.new list_custom_field }
 
     it 'can select multiple values' do
-      visit settings_generic_project_path(project.id)
+      visit project_settings_general_path(project.id)
 
       form_field.select_option 'A', 'B'
 
@@ -157,11 +158,11 @@ describe 'Projects', 'editing settings', type: :feature, js: true do
   end
 
   context 'with a date custom field' do
-    let!(:date_custom_field) { FactoryBot.create(:date_project_custom_field, name: 'Date') }
+    let!(:date_custom_field) { create(:date_project_custom_field, name: 'Date') }
     let(:form_field) { ::FormFields::InputFormField.new date_custom_field }
 
     it 'can save and remove the date (Regression #37459)' do
-      visit settings_generic_project_path(project.id)
+      visit project_settings_general_path(project.id)
 
       form_field.set_value '2021-05-26'
       form_field.send_keys :escape
@@ -180,7 +181,7 @@ describe 'Projects', 'editing settings', type: :feature, js: true do
   context 'with a user not allowed to see the parent project' do
     include_context 'ng-select-autocomplete helpers'
 
-    let(:parent_project) { FactoryBot.create(:project) }
+    let(:parent_project) { create(:project) }
     let(:parent_field) { ::FormFields::SelectFormField.new 'parent' }
 
     before do
@@ -188,7 +189,7 @@ describe 'Projects', 'editing settings', type: :feature, js: true do
     end
 
     it 'can update the project without destroying the relation to the parent' do
-      visit settings_generic_project_path(project.id)
+      visit project_settings_general_path(project.id)
 
       fill_in 'Name', with: 'New project name'
 

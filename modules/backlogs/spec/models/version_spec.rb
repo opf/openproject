@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
@@ -33,33 +33,33 @@ describe Version, type: :model do
 
   describe 'rebuild positions' do
     def build_work_package(options = {})
-      FactoryBot.build(:work_package, options.reverse_merge(version_id: version.id,
-                                                            priority_id: priority.id,
-                                                            project_id: project.id,
-                                                            status_id: status.id))
+      build(:work_package, options.reverse_merge(version_id: version.id,
+                                                 priority_id: priority.id,
+                                                 project_id: project.id,
+                                                 status_id: status.id))
     end
 
     def create_work_package(options = {})
       build_work_package(options).tap(&:save!)
     end
 
-    let(:status)   { FactoryBot.create(:status) }
-    let(:priority) { FactoryBot.create(:priority_normal) }
-    let(:project)  { FactoryBot.create(:project, name: 'Project 1', types: [epic_type, story_type, task_type, other_type]) }
+    let(:status)   { create(:status) }
+    let(:priority) { create(:priority_normal) }
+    let(:project)  { create(:project, name: 'Project 1', types: [epic_type, story_type, task_type, other_type]) }
 
-    let(:epic_type)  { FactoryBot.create(:type, name: 'Epic') }
-    let(:story_type) { FactoryBot.create(:type, name: 'Story') }
-    let(:task_type)  { FactoryBot.create(:type, name: 'Task')  }
-    let(:other_type) { FactoryBot.create(:type, name: 'Other') }
+    let(:epic_type)  { create(:type, name: 'Epic') }
+    let(:story_type) { create(:type, name: 'Story') }
+    let(:task_type)  { create(:type, name: 'Task')  }
+    let(:other_type) { create(:type, name: 'Other') }
 
-    let(:version) { FactoryBot.create(:version, project_id: project.id, name: 'Version') }
+    let(:version) { create(:version, project_id: project.id, name: 'Version') }
 
-    shared_let(:admin) { FactoryBot.create :admin }
+    shared_let(:admin) { create :admin }
 
     def move_to_project(work_package, project)
-      service = WorkPackages::MoveService.new(work_package, admin)
-
-      service.call(project)
+      WorkPackages::UpdateService
+        .new(model: work_package, user: admin)
+        .call(project: project)
     end
 
     before do
@@ -87,15 +87,15 @@ describe Version, type: :model do
     end
 
     it 'moves an work_package to a project where backlogs is disabled while using versions' do
-      project2 = FactoryBot.create(:project, name: 'Project 2', types: [epic_type, story_type, task_type, other_type])
+      project2 = create(:project, name: 'Project 2', types: [epic_type, story_type, task_type, other_type])
       project2.enabled_module_names = project2.enabled_module_names - ['backlogs']
       project2.save!
       project2.reload
 
-      work_package1 = FactoryBot.create(:work_package, type_id: task_type.id, status_id: status.id, project_id: project.id)
-      work_package2 = FactoryBot.create(:work_package, parent_id: work_package1.id, type_id: task_type.id, status_id: status.id,
+      work_package1 = create(:work_package, type_id: task_type.id, status_id: status.id, project_id: project.id)
+      work_package2 = create(:work_package, parent_id: work_package1.id, type_id: task_type.id, status_id: status.id,
                                                        project_id: project.id)
-      work_package3 = FactoryBot.create(:work_package, parent_id: work_package2.id, type_id: task_type.id, status_id: status.id,
+      work_package3 = create(:work_package, parent_id: work_package2.id, type_id: task_type.id, status_id: status.id,
                                                        project_id: project.id)
 
       work_package1.reload
@@ -127,7 +127,7 @@ describe Version, type: :model do
       expect(work_package1.version_id).to eq(version.id)
     end
 
-    it 'rebuilds postions' do
+    it 'rebuilds positions' do
       e1 = create_work_package(type_id: epic_type.id)
       s2 = create_work_package(type_id: story_type.id)
       s3 = create_work_package(type_id: story_type.id)
@@ -145,7 +145,7 @@ describe Version, type: :model do
       t3.update_column(:position, 3)
       o9.update_column(:position, 9)
 
-      version.rebuild_positions(project)
+      version.rebuild_story_positions(project)
 
       work_packages = version
                       .work_packages

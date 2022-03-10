@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,13 +23,13 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 describe ::OpenProject::Bim::BcfXml::IssueWriter do
-  let(:project) { FactoryBot.create(:project) }
+  let(:project) { create(:project) }
   let(:markup) do
     <<-MARKUP
     <Markup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
@@ -83,22 +83,22 @@ describe ::OpenProject::Bim::BcfXml::IssueWriter do
     MARKUP
   end
   let(:bcf_issue) do
-    FactoryBot.create(:bcf_issue_with_comment,
-                      work_package: work_package,
-                      markup: markup)
+    create(:bcf_issue_with_comment,
+           work_package: work_package,
+           markup: markup)
   end
-  let(:priority) { FactoryBot.create :priority_low }
-  let(:current_user) { FactoryBot.create(:user) }
+  let(:priority) { create :priority_low }
+  let(:current_user) { create(:user) }
   let(:due_date) { DateTime.now }
-  let(:type) { FactoryBot.create :type, name: 'Issue' }
+  let(:type) { create :type, name: 'Issue' }
   let(:work_package) do
-    FactoryBot.create(:work_package,
-                      project_id: project.id,
-                      priority: priority,
-                      author: current_user,
-                      assigned_to: current_user,
-                      due_date: due_date,
-                      type: type)
+    create(:work_package,
+           project_id: project.id,
+           priority: priority,
+           author: current_user,
+           assigned_to: current_user,
+           due_date: due_date,
+           type: type)
   end
 
   before do
@@ -182,7 +182,7 @@ describe ::OpenProject::Bim::BcfXml::IssueWriter do
     it 'replaces the BCF viewpoints names to use its uuid only' do
       uuid = bcf_issue.viewpoints.first.uuid
       viewpoint_node = subject.at("/Markup/Viewpoints[@Guid='#{uuid}']")
-      expect(viewpoint_node.at('Viewpoint').content).to eql("#{uuid}.xml")
+      expect(viewpoint_node.at('Viewpoint').content).to eql("#{uuid}.bcfv")
       expect(viewpoint_node.at('Snapshot').content).to eql("#{uuid}.png")
     end
   end

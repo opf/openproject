@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -34,11 +34,11 @@ describe 'my',
          js: true do
   let(:user_password) { 'bob' * 4 }
   let(:user) do
-    FactoryBot.create(:user,
-                      mail: 'old@mail.com',
-                      login: 'bob',
-                      password: user_password,
-                      password_confirmation: user_password)
+    create(:user,
+           mail: 'old@mail.com',
+           login: 'bob',
+           password: user_password,
+           password_confirmation: user_password)
   end
 
   ##
@@ -100,7 +100,7 @@ describe 'my',
         end
 
         context 'as admin' do
-          shared_let(:admin) { FactoryBot.create :admin }
+          shared_let(:admin) { create :admin }
           let(:user) { admin }
 
           it 'requires the password' do

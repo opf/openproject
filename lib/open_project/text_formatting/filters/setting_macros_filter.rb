@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module OpenProject::TextFormatting
@@ -64,7 +62,11 @@ module OpenProject::TextFormatting
       end
 
       def base_url
-        OpenProject::Application.root_url
+        url_helpers.root_url.chomp('/')
+      end
+
+      def url_helpers
+        @url_helpers ||= OpenProject::StaticRouting::StaticRouter.new.url_helpers
       end
 
       ##

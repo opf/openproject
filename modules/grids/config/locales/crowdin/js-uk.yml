@@ -3,7 +3,7 @@ uk:
     grid:
       add_widget: 'Додати віджет'
       remove: 'Видалити віджет'
-      configure: 'Configure widget'
+      configure: 'Налаштувати віджет'
       upsale:
         text: "Деякі віджети, доступні тільки в "
         link: 'Enterprise Edition'
@@ -16,7 +16,7 @@ uk:
         members:
           title: 'Учасники'
           no_results: 'Немає видимих учасників.'
-          view_all_members: 'Перегляд учасників'
+          view_all_members: 'Переглянути всіх учасників'
           add: 'Учасник'
           too_many: 'Відображено %{count} з %{total} учасників.'
         news:
@@ -31,21 +31,24 @@ uk:
           no_results: 'У проектів немає жодних власних полів.'
         project_status:
           title: 'Статус Проекту'
-          on_track: 'On track'
-          off_track: 'Off track'
-          at_risk: 'At risk'
+          not_started: 'Не почато'
+          on_track: 'За графіком'
+          off_track: 'Не за графіком'
+          at_risk: 'Під загрозою'
           not_set: 'Не встановлено'
+          finished: 'Завершено'
+          discontinued: 'Припинено'
         subprojects:
           title: 'Підпроекти'
           no_results: 'Немає підпроектів.'
         time_entries_current_user:
           title: 'Мій витрачений час'
-          displayed_days: 'Days displayed in the widget:'
+          displayed_days: 'Днів, доступних у віджеті:'
         time_entries_list:
           title: 'Витрачений час (останні 7 днів)'
           no_results: 'Немає записів часу за останні 7 днів.'
         work_packages_accountable:
-          title: "Робочі пакети за які я відповідаю"
+          title: "Робочі пакети, за які я відповідаю"
         work_packages_assigned:
           title: 'Робочі пакети призначені мені'
         work_packages_created:

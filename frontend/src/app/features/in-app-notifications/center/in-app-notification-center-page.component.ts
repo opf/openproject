@@ -3,6 +3,7 @@ import {
   ChangeDetectorRef,
   Component,
   Injector,
+  OnDestroy,
   OnInit,
 } from '@angular/core';
 import {
@@ -13,26 +14,27 @@ import {
   StateService,
   TransitionService,
 } from '@uirouter/core';
-import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { NotificationSettingsButtonComponent } from 'core-app/features/in-app-notifications/center/toolbar/settings/notification-settings-button.component';
 import { ActivateFacetButtonComponent } from 'core-app/features/in-app-notifications/center/toolbar/facet/activate-facet-button.component';
 import { MarkAllAsReadButtonComponent } from 'core-app/features/in-app-notifications/center/toolbar/mark-all-as-read/mark-all-as-read-button.component';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
-import {
-  BackRouteOptions,
-  BackRoutingService,
-} from 'core-app/features/work-packages/components/back-routing/back-routing.service';
+import { BackRoutingService } from 'core-app/features/work-packages/components/back-routing/back-routing.service';
+import { IanCenterService } from 'core-app/features/in-app-notifications/center/state/ian-center.service';
+import { OpTitleService } from 'core-app/core/html/op-title.service';
 
 @Component({
   templateUrl: '../../work-packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.html',
   styleUrls: [
     '../../work-packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.sass',
   ],
+  providers: [
+    IanCenterService,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class InAppNotificationCenterPageComponent extends UntilDestroyedMixin implements OnInit {
+export class InAppNotificationCenterPageComponent extends UntilDestroyedMixin implements OnInit, OnDestroy {
   text = {
     title: this.I18n.t('js.notifications.title'),
   };
@@ -54,6 +56,10 @@ export class InAppNotificationCenterPageComponent extends UntilDestroyedMixin im
 
   /** Toolbar is not editable */
   titleEditingEnabled = false;
+
+  /** Listener callbacks */
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  removeTransitionSubscription:Function;
 
   /** Not savable */
   showToolbarSaveButton = false;
@@ -84,16 +90,26 @@ export class InAppNotificationCenterPageComponent extends UntilDestroyedMixin im
     readonly cdRef:ChangeDetectorRef,
     readonly $transitions:TransitionService,
     readonly state:StateService,
-    readonly notifications:NotificationsService,
     readonly injector:Injector,
-    readonly apiV3Service:APIV3Service,
+    readonly apiV3Service:ApiV3Service,
     readonly backRoutingService:BackRoutingService,
+    readonly titleService:OpTitleService,
   ) {
     super();
   }
 
   ngOnInit():void {
     this.documentReferer = document.referrer;
+    this.titleService.prependFirstPart(this.text.title);
+
+    this.removeTransitionSubscription = this.$transitions.onSuccess({}, ():any => {
+      this.titleService.setFirstPart(this.text.title);
+    });
+  }
+
+  ngOnDestroy():void {
+    super.ngOnDestroy();
+    this.removeTransitionSubscription();
   }
 
   /**
@@ -108,11 +124,13 @@ export class InAppNotificationCenterPageComponent extends UntilDestroyedMixin im
 
   // For shared template compliance
   // eslint-disable-next-line class-methods-use-this, @typescript-eslint/no-unused-vars
-  updateTitleName(val:string):void {}
+  updateTitleName(val:string):void {
+  }
 
   // For shared template compliance
   // eslint-disable-next-line class-methods-use-this, @typescript-eslint/no-unused-vars
-  changeChangesFromTitle(val:string):void {}
+  changeChangesFromTitle(val:string):void {
+  }
 
   private backButtonFn():void {
     if (this.documentReferer.length > 0) {

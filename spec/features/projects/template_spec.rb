@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,22 +23,22 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 describe 'Project templates', type: :feature, js: true do
   describe 'making project a template' do
-    let(:project) { FactoryBot.create :project }
-    shared_let(:admin) { FactoryBot.create :admin }
+    let(:project) { create :project }
+    shared_let(:admin) { create :admin }
 
     before do
       login_as admin
     end
 
     it 'can make the project a template from settings' do
-      visit settings_generic_project_path(project)
+      visit project_settings_general_path(project)
 
       # Make a template
       find('.button', text: 'Set as template').click
@@ -58,17 +58,17 @@ describe 'Project templates', type: :feature, js: true do
 
   describe 'instantiating templates' do
     let!(:template) do
-      FactoryBot.create(:template_project, name: 'My template', enabled_module_names: %w[wiki work_package_tracking])
+      create(:template_project, name: 'My template', enabled_module_names: %w[wiki work_package_tracking])
     end
-    let!(:template_status) { FactoryBot.create(:project_status, project: template, explanation: 'source') }
-    let!(:other_project) { FactoryBot.create(:project, name: 'Some other project') }
-    let!(:work_package) { FactoryBot.create :work_package, project: template }
-    let!(:wiki_page) { FactoryBot.create(:wiki_page_with_content, wiki: template.wiki) }
+    let!(:template_status) { create(:project_status, project: template, explanation: 'source') }
+    let!(:other_project) { create(:project, name: 'Some other project') }
+    let!(:work_package) { create :work_package, project: template }
+    let!(:wiki_page) { create(:wiki_page_with_content, wiki: template.wiki) }
 
     let!(:role) do
-      FactoryBot.create(:role, permissions: %i[view_project view_work_packages copy_projects add_subprojects add_project])
+      create(:role, permissions: %i[view_project view_work_packages copy_projects add_subprojects add_project])
     end
-    let!(:current_user) { FactoryBot.create(:user, member_in_projects: [template, other_project], member_through_role: role) }
+    let!(:current_user) { create(:user, member_in_projects: [template, other_project], member_through_role: role) }
     let(:status_field_selector) { 'ckeditor-augmented-textarea[textarea-selector="#project_status_explanation"]' }
     let(:status_description) { ::Components::WysiwygEditor.new status_field_selector }
 
@@ -100,7 +100,9 @@ describe 'Project templates', type: :feature, js: true do
 
       # It does not show the copy meta flags
       expect(page).to have_no_selector('[data-qa-field-name="copyMembers"]')
-      expect(page).to have_no_selector('[data-qa-field-name="sendNotifications"]')
+
+      # But shows the send notifications field
+      expect(page).to have_selector('[data-qa-field-name="sendNotifications"]')
 
       # Update status to off track
       status_field.select_option 'Off track'

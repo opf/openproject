@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,14 +23,14 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 describe PermittedParams, type: :model do
-  let(:user) { FactoryBot.build_stubbed(:user) }
-  let(:admin) { FactoryBot.build_stubbed(:admin) }
+  let(:user) { build_stubbed(:user) }
+  let(:admin) { build_stubbed(:admin) }
 
   shared_context 'prepare params comparison' do
     let(:params_key) { defined?(hash_key) ? hash_key : attribute }
@@ -529,7 +529,7 @@ describe PermittedParams, type: :model do
       end
 
       context 'non-admin with global :manage_user permission' do
-        let(:user) { FactoryBot.create(:user, global_permission: :manage_user) }
+        let(:user) { create(:user, global_permission: :manage_user) }
         let(:hash) { Hash[all_permissions.zip(all_permissions)] }
 
         it 'permits default permissions and "login"' do
@@ -890,7 +890,7 @@ describe PermittedParams, type: :model do
     let (:attribute) { :wiki_content }
 
     describe 'title' do
-      let(:hash) { { 'comments' => 'blubs' } }
+      let(:hash) { { 'journal_notes' => 'blubs' } }
 
       it_behaves_like 'allows params'
     end

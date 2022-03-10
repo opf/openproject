@@ -237,7 +237,7 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
    * Retrieve the editing value for the given attribute
    *
    * @param {string} key The attribute to read
-   * @return {any} Either the value from the overriden change, or the default value
+   * @return {any} Either the value from the overridden change, or the default value
    */
   public value(key:string) {
     // Overridden value by user?

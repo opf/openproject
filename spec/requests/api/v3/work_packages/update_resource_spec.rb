@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -34,29 +34,22 @@ describe 'API v3 Work package resource',
          content_type: :json do
   include API::V3::Utilities::PathHelper
 
-  let(:closed_status) { FactoryBot.create(:closed_status) }
+  let(:closed_status) { create(:closed_status) }
 
   let(:work_package) do
-    FactoryBot.create(:work_package,
-                      project_id: project.id,
-                      description: 'lorem ipsum')
+    create(:work_package,
+           project_id: project.id,
+           description: 'lorem ipsum')
   end
   let(:project) do
-    FactoryBot.create(:project, identifier: 'test_project', public: false)
+    create(:project, identifier: 'test_project', public: false)
   end
-  let(:role) { FactoryBot.create(:role, permissions: permissions) }
-  let(:permissions) { %i[view_work_packages edit_work_packages assign_versions] }
-  let(:current_user) do
-    user = FactoryBot.create(:user, member_in_project: project, member_through_role: role)
+  let(:role) { create(:role, permissions: permissions) }
+  let(:permissions) { %i[view_work_packages edit_work_packages assign_versions work_package_assigned] }
+  let(:type) { create(:type) }
 
-    FactoryBot.create(:user_preference, user: user, others: { no_self_notified: false })
-
-    user
-  end
-  let(:type) { FactoryBot.create(:type) }
-
-  before do
-    login_as(current_user)
+  current_user do
+    create(:user, member_in_project: project, member_through_role: role)
   end
 
   describe 'PATCH /api/v3/work_packages/:id' do
@@ -71,29 +64,29 @@ describe 'API v3 Work package resource',
     subject(:response) { last_response }
 
     shared_context 'patch request' do
-      before(:each) do
-        allow(User).to receive(:current).and_return current_user
-        patch patch_path, params.to_json, 'CONTENT_TYPE' => 'application/json'
+      before do
+        patch patch_path, params.to_json
       end
     end
 
     context 'user without needed permissions' do
       context 'no permission to see the work package' do
-        let(:work_package) { FactoryBot.create(:work_package) }
-        let(:current_user) { FactoryBot.create :user }
+        let(:work_package) { create(:work_package) }
+        let(:current_user) { create :user }
         let(:params) { valid_params }
 
         include_context 'patch request'
 
-        it_behaves_like 'not found'
+        it_behaves_like 'not found',
+                        I18n.t('api_v3.errors.not_found.work_package')
       end
 
       context 'no permission to edit the work package' do
-        let(:role) { FactoryBot.create(:role, permissions: [:view_work_packages]) }
+        let(:role) { create(:role, permissions: [:view_work_packages]) }
         let(:current_user) do
-          FactoryBot.create(:user,
-                            member_in_project: work_package.project,
-                            member_through_role: role)
+          create(:user,
+                 member_in_project: work_package.project,
+                 member_through_role: role)
         end
         let(:params) { valid_params }
 
@@ -114,39 +107,47 @@ describe 'API v3 Work package resource',
 
       describe 'notification' do
         let(:update_params) { valid_params.merge(subject: 'Updated subject') }
+        let(:other_user) do
+          create(:user,
+                 member_in_project: work_package.project,
+                 member_with_permissions: %i(view_work_packages))
+        end
 
-        before(:each) do
-          allow(User).to receive(:current).and_return current_user
+        before do
+          other_user
           work_package
-        end
 
-        include_context 'patch request'
-
-        context 'not set' do
-          let(:params) { update_params }
-
-          it { expect(Journals::CompletedJob).to have_been_enqueued.at_least(1) }
-        end
-
-        context 'disabled' do
-          let(:patch_path) { "#{api_v3_paths.work_package work_package.id}?notify=false" }
-          let(:params) { update_params }
-
-          it do
-            expect(Journals::CompletedJob)
-              .to have_been_enqueued
-                    .at_least(1)
+          perform_enqueued_jobs do
+            patch patch_path, params.to_json
           end
         end
 
-        context 'enabled' do
+        context 'without the parameter' do
+          let(:params) { update_params }
+
+          it 'creates a notification' do
+            expect(Notification.where(recipient: other_user, resource: work_package))
+              .to exist
+          end
+        end
+
+        context 'with the parameter disabling notifications' do
+          let(:patch_path) { "#{api_v3_paths.work_package work_package.id}?notify=false" }
+          let(:params) { update_params }
+
+          it 'creates no notification' do
+            expect(Notification)
+              .not_to exist
+          end
+        end
+
+        context 'with the parameter enabling notifications' do
           let(:patch_path) { "#{api_v3_paths.work_package work_package.id}?notify=Something" }
           let(:params) { update_params }
 
-          it do
-            expect(Journals::CompletedJob)
-              .to have_been_enqueued
-                    .at_least(1)
+          it 'creates a notification' do
+            expect(Notification.where(recipient: other_user, resource: work_package))
+              .to exist
           end
         end
       end
@@ -261,7 +262,7 @@ describe 'API v3 Work package resource',
       end
 
       context 'status' do
-        let(:target_status) { FactoryBot.create(:status) }
+        let(:target_status) { create(:status) }
         let(:status_link) { api_v3_paths.status target_status.id }
         let(:status_parameter) { { _links: { status: { href: status_link } } } }
         let(:params) { valid_params.merge(status_parameter) }
@@ -270,11 +271,11 @@ describe 'API v3 Work package resource',
 
         context 'valid status' do
           let!(:workflow) do
-            FactoryBot.create(:workflow,
-                              type_id: work_package.type.id,
-                              old_status: work_package.status,
-                              new_status: target_status,
-                              role: current_user.memberships[0].roles[0])
+            create(:workflow,
+                   type_id: work_package.type.id,
+                   old_status: work_package.status,
+                   new_status: target_status,
+                   role: current_user.memberships[0].roles[0])
           end
 
           include_context 'patch request'
@@ -317,7 +318,7 @@ describe 'API v3 Work package resource',
       end
 
       context 'type' do
-        let(:target_type) { FactoryBot.create(:type) }
+        let(:target_type) { create(:type) }
         let(:type_link) { api_v3_paths.type target_type.id }
         let(:type_parameter) { { _links: { type: { href: type_link } } } }
         let(:params) { valid_params.merge(type_parameter) }
@@ -342,7 +343,7 @@ describe 'API v3 Work package resource',
         end
 
         context 'valid type changing custom fields' do
-          let(:custom_field) { FactoryBot.create(:work_package_custom_field) }
+          let(:custom_field) { create(:work_package_custom_field) }
           let(:custom_field_parameter) { { "customField#{custom_field.id}": true } }
           let(:params) { valid_params.merge(type_parameter).merge(custom_field_parameter) }
 
@@ -387,17 +388,17 @@ describe 'API v3 Work package resource',
 
       context 'project' do
         let(:target_project) do
-          FactoryBot.create(:project, public: false)
+          create(:project, public: false)
         end
         let(:project_link) { api_v3_paths.project target_project.id }
         let(:project_parameter) { { _links: { project: { href: project_link } } } }
         let(:params) { valid_params.merge(project_parameter) }
 
         before do
-          FactoryBot.create :member,
-                            user: current_user,
-                            project: target_project,
-                            roles: [FactoryBot.create(:role, permissions: [:move_work_packages])]
+          create :member,
+                 user: current_user,
+                 project: target_project,
+                 roles: [create(:role, permissions: [:move_work_packages])]
 
           allow(User).to receive(:current).and_return current_user
         end
@@ -421,7 +422,7 @@ describe 'API v3 Work package resource',
         end
 
         context 'with a custom field defined on the target project' do
-          let(:custom_field) { FactoryBot.create(:work_package_custom_field) }
+          let(:custom_field) { create(:work_package_custom_field) }
           let(:custom_field_parameter) { { "customField#{custom_field.id}": true } }
           let(:params) { valid_params.merge(project_parameter).merge(custom_field_parameter) }
 
@@ -441,32 +442,32 @@ describe 'API v3 Work package resource',
       end
 
       context 'assignee and responsible' do
-        let(:user) { FactoryBot.create(:user, member_in_project: project) }
+        let(:user) { create(:user, member_in_project: project, member_with_permissions: %i[work_package_assigned]) }
         let(:params) { valid_params.merge(user_parameter) }
         let(:work_package) do
-          FactoryBot.create(:work_package,
-                            project: project,
-                            assigned_to: current_user,
-                            responsible: current_user)
+          create(:work_package,
+                 project: project,
+                 assigned_to: current_user,
+                 responsible: current_user)
         end
 
         before { login_as current_user }
 
         shared_context 'setup group membership' do
-          let(:group) { FactoryBot.create(:group) }
-          let(:group_role) { FactoryBot.create(:role) }
+          let(:group) { create(:group) }
+          let(:group_role) { create(:role, permissions: %i[work_package_assigned]) }
           let!(:group_member) do
-            FactoryBot.create(:member,
-                              principal: group,
-                              project: project,
-                              roles: [group_role])
+            create(:member,
+                   principal: group,
+                   project: project,
+                   roles: [group_role])
           end
         end
 
         let(:placeholder_user) do
-          FactoryBot.create(:placeholder_user,
-                            member_in_project: project,
-                            member_through_role: role)
+          create(:placeholder_user,
+                 member_in_project: project,
+                 member_through_role: role)
         end
 
         shared_examples_for 'handling people' do |property|
@@ -548,7 +549,7 @@ describe 'API v3 Work package resource',
             end
 
             context 'user is not visible' do
-              let(:invalid_user) { FactoryBot.create(:user) }
+              let(:invalid_user) { create(:user) }
               let(:user_href) { api_v3_paths.user invalid_user.id }
 
               it_behaves_like 'constraint violation' do
@@ -586,7 +587,7 @@ describe 'API v3 Work package resource',
       end
 
       context 'version' do
-        let(:target_version) { FactoryBot.create(:version, project: project) }
+        let(:target_version) { create(:version, project: project) }
         let(:version_link) { api_v3_paths.version target_version.id }
         let(:version_parameter) { { _links: { version: { href: version_link } } } }
         let(:params) { valid_params.merge(version_parameter) }
@@ -623,7 +624,7 @@ describe 'API v3 Work package resource',
       end
 
       context 'category' do
-        let(:target_category) { FactoryBot.create(:category, project: project) }
+        let(:target_category) { create(:category, project: project) }
         let(:category_link) { api_v3_paths.category target_category.id }
         let(:category_parameter) { { _links: { category: { href: category_link } } } }
         let(:params) { valid_params.merge(category_parameter) }
@@ -646,7 +647,7 @@ describe 'API v3 Work package resource',
       end
 
       context 'priority' do
-        let(:target_priority) { FactoryBot.create(:priority) }
+        let(:target_priority) { create(:priority) }
         let(:priority_link) { api_v3_paths.priority target_priority.id }
         let(:priority_parameter) { { _links: { priority: { href: priority_link } } } }
         let(:params) { valid_params.merge(priority_parameter) }
@@ -669,7 +670,7 @@ describe 'API v3 Work package resource',
       end
 
       context 'budget' do
-        let(:target_budget) { FactoryBot.create(:budget, project: project) }
+        let(:target_budget) { create(:budget, project: project) }
         let(:budget_link) { api_v3_paths.budget target_budget.id }
         let(:budget_parameter) { { _links: { budget: { href: budget_link } } } }
         let(:params) { valid_params.merge(budget_parameter) }
@@ -689,7 +690,7 @@ describe 'API v3 Work package resource',
         end
 
         context 'not valid' do
-          let(:target_budget) { FactoryBot.create(:budget) }
+          let(:target_budget) { create(:budget) }
 
           include_context 'patch request'
 
@@ -701,7 +702,7 @@ describe 'API v3 Work package resource',
 
       context 'list custom field' do
         let(:custom_field) do
-          FactoryBot.create(:list_wp_custom_field)
+          create(:list_wp_custom_field)
         end
 
         let(:target_value) { custom_field.possible_values.last }
@@ -839,8 +840,8 @@ describe 'API v3 Work package resource',
       end
 
       context 'claiming attachments' do
-        let(:old_attachment) { FactoryBot.create(:attachment, container: work_package) }
-        let(:attachment) { FactoryBot.create(:attachment, container: nil, author: current_user) }
+        let(:old_attachment) { create(:attachment, container: work_package) }
+        let(:attachment) { create(:attachment, container: nil, author: current_user) }
         let(:params) do
           {
             lockVersion: work_package.lock_version,

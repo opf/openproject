@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,16 +23,16 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 describe ::Query::Results, 'Subproject filter integration', type: :model, with_mail: false do
   let(:query) do
-    FactoryBot.build(:query,
-                     user: user,
-                     project: parent_project).tap do |q|
+    build(:query,
+          user: user,
+          project: parent_project).tap do |q|
       q.filters.clear
     end
   end
@@ -40,19 +40,19 @@ describe ::Query::Results, 'Subproject filter integration', type: :model, with_m
     ::Query::Results.new query
   end
 
-  shared_let(:parent_project) { FactoryBot.create :project }
-  shared_let(:child_project) { FactoryBot.create :project, parent: parent_project }
+  shared_let(:parent_project) { create :project }
+  shared_let(:child_project) { create :project, parent: parent_project }
 
   shared_let(:user) do
-    FactoryBot.create(:user,
-                      firstname: 'user',
-                      lastname: '1',
-                      member_in_projects: [parent_project, child_project],
-                      member_with_permissions: [:view_work_packages])
+    create(:user,
+           firstname: 'user',
+           lastname: '1',
+           member_in_projects: [parent_project, child_project],
+           member_with_permissions: [:view_work_packages])
   end
 
-  shared_let(:parent_wp) { FactoryBot.create :work_package, project: parent_project }
-  shared_let(:child_wp) { FactoryBot.create :work_package, project: child_project }
+  shared_let(:parent_wp) { create :work_package, project: parent_project }
+  shared_let(:child_wp) { create :work_package, project: child_project }
 
   before do
     login_as user

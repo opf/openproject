@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,12 +23,12 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { input } from 'reactivestates';
 import { Injectable } from '@angular/core';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { take } from 'rxjs/operators';
 import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
 import { HelpTextResource } from 'core-app/features/hal/resources/help-text-resource';
@@ -37,7 +37,7 @@ import { HelpTextResource } from 'core-app/features/hal/resources/help-text-reso
 export class AttributeHelpTextsService {
   private helpTexts = input<HelpTextResource[]>();
 
-  constructor(private apiV3Service:APIV3Service) {
+  constructor(private apiV3Service:ApiV3Service) {
   }
 
   /**
@@ -60,7 +60,7 @@ export class AttributeHelpTextsService {
    * Search for a given attribute help text
    *
    */
-  public requireById(id:string):Promise<HelpTextResource|undefined> {
+  public requireById(id:string|number):Promise<HelpTextResource|undefined> {
     this.load();
 
     return this
@@ -72,7 +72,7 @@ export class AttributeHelpTextsService {
       .toPromise()
       .then(() => {
         const value = this.helpTexts.getValueOr([]);
-        return _.find(value, (element) => element.id?.toString() === id);
+        return _.find(value, (element) => element.id?.toString() === id.toString());
       });
   }
 
