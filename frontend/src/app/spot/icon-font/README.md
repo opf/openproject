@@ -12,16 +12,14 @@ This license can also be found at this permalink: http://creativecommons.org/lic
 
 ## Structure
 
-This directory is the source for the generated icon font in the Rails `app/assets/font` directory.
+This directory is the source for the generated icon font in the Rails `frontend/src/global_styles/fonts` directory.
 Since it seldomly changes, it is only rebuilt manually and on demand.
 
 ## Rebuilding
 
-To rebuild the font (e.g., after changing icons in the source `app/assets/fonts/openproject_icon/src` directory), use the node script `generate.js`.
+To rebuild the font (e.g., after changing icons in the source `src/` directory under this README), use the node script `generate.js`.
 
 ```
-$ cd vendor/openproject-icon-font/
+$ cd frontend/src/app/spot/icon-font/
 $ node generate.js
 ```
-
-To use, you need to install the webfonts generator package with: `npm install webfonts-generator`.
