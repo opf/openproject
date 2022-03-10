@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# A "contract" is an OpenProject patter used to validate parameters
-# before actually creating a model.
+# A "contract" is an OpenProject pattern used to validate parameters
+# before actually creating, updating, or deleting a model.
 # Used by: projects_storages_controller.rb and in the API
 module Storages::ProjectStorages
   class BaseContract < ::ModelContract
