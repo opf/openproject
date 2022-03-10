@@ -89,7 +89,7 @@ describe 'Upload attachment to wiki page', js: true do
     end
 
     editor.click_hover_toolbar_button 'Resize image to 50%'
-    expect(page).to have_selector('.op-uc-figure[style="width:50%;"')
+    expect(page).to have_selector('.op-uc-figure[style="width:50%;"]')
 
     click_on 'Save'
 

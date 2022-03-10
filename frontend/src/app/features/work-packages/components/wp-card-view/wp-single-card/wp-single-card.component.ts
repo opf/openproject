@@ -172,8 +172,7 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
   }
 
   public wpDates(wp:WorkPackageResource):string {
-    const { startDate } = wp;
-    const { dueDate } = wp;
+    const { startDate, dueDate } = wp;
     const dateTimeFormat = new Intl.DateTimeFormat(this.I18n.locale, {
       year: 'numeric',
       month: 'short',
@@ -187,11 +186,11 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
       return String(dateTimeFormat.formatRange(new Date(startDate), new Date(dueDate)));
     }
     if (!startDate && dueDate) {
-      return `-${dateTimeFormat.format(new Date(dueDate))}`;
+      return `– ${dateTimeFormat.format(new Date(dueDate))}`;
     }
 
     if (startDate && !dueDate) {
-      return `${dateTimeFormat.format(new Date(startDate))}-`;
+      return `${dateTimeFormat.format(new Date(startDate))} –`;
     }
 
     return '';

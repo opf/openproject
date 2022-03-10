@@ -31,7 +31,7 @@ See COPYRIGHT and LICENSE files for more details.
   <div class="op-modal--header op-modal--header_highlight">
     <%= op_icon 'icon-context icon-user' %>
     <h1 class="op-modal--title">
-      <%= I18n.t('onboarding.welcome') %>
+      <%= I18n.t('onboarding.welcome', app_title: Setting.app_title) %>
     </h1>
     <button
       type="button"

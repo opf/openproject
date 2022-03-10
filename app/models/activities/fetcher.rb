@@ -48,7 +48,7 @@ module Activities
 
     # Returns an array of available event types
     def event_types
-      @event_types ||= begin
+      @event_types ||=
         if @project
           OpenProject::Activity.available_event_types.select do |o|
             @project.self_and_descendants.detect do |_p|
@@ -60,9 +60,8 @@ module Activities
             end
           end
         else
-          OpenProject::Activity.available_event_types
+          OpenProject::Activity.available_event_types.to_a
         end
-      end
     end
 
     # Returns an array of events for the given date range
@@ -92,7 +91,7 @@ module Activities
 
     # Resets the scope to the default scope
     def default_scope!
-      @scope = OpenProject::Activity.default_event_types
+      @scope = OpenProject::Activity.default_event_types.to_a
     end
 
     def events_from_providers(from, to, limit)

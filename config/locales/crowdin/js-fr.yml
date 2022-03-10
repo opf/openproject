@@ -1,123 +1,123 @@
 fr:
   js:
-    notice_warning_disabled: This setting cannot be changed in the hosted version of OpenProject.
-    warning_different_edition_classic: This environment runs the OpenProject classic edition while you were shown a price for the BIM edition before.
-    warning_different_edition_bim: This environment runs the OpenProject BIM edition while you were shown a price for the classic edition before.
-    or: 'or'
+    notice_warning_disabled:
+    warning_different_edition_classic:
+    warning_different_edition_bim:
+    or: ''
     subscription:
-      button_close: 'Fermer'
-      label_billing: 'Billing'
-      label_buy_now: 'Buy now'
-      label_chose_plan: 'Plans available for every organization size. Choose the one for you!'
-      label_request_quote: 'Request a quote'
-      label_status: 'Statut'
-      label_subscribe: 'Subscribe'
-      label_subscription: 'Subscription'
-      label_subscription_updated: 'Your subscription was successfully updated.'
-      label_cancel: 'Annuler'
-      members: 'Members'
-      text_no_active_subscription: Your subscription is not activated yet. Please choose a <a href="%{upgrade_url}">plan</a> first.
-      text_subscription_status_active: Your <strong>%{support_level}</strong> plan subscription is <b>active</b>.
-      text_subscription_status_cancelled: Your <strong>%{support_level}</strong> plan subscription has been <b>cancelled</b>.
-      text_subscription_status_in_trial: Your subscription is <b>in trial</b>.
-      text_subscription_status_non_renewing: Your <strong>%{support_level}</strong>  plan subscription will expire at the end of its term.
-      text_subscription_status_updated: Your <strong>%{support_level}</strong>  plan subscription will be updated with the beginning of the next payment period.
-      unlimited: 'Illimité'
-      users: 'Utilisateurs'
-      label_period: 'Subscription period'
-      label_support: 'Support plan'
-      label_bim_edition: 'BIM edition'
+      button_close: ''
+      label_billing: ''
+      label_buy_now: ''
+      label_chose_plan: ''
+      label_request_quote: ''
+      label_status: ''
+      label_subscribe: ''
+      label_subscription: ''
+      label_subscription_updated: ''
+      label_cancel: ''
+      members: ''
+      text_no_active_subscription:
+      text_subscription_status_active:
+      text_subscription_status_cancelled:
+      text_subscription_status_in_trial:
+      text_subscription_status_non_renewing:
+      text_subscription_status_updated:
+      unlimited: ''
+      users: ''
+      label_period: ''
+      label_support: ''
+      label_bim_edition: ''
       periods:
-        1_month: '1 month'
-        1_year: '1 year'
-        2_years: '2 years'
-        3_years: '3 years'
-        4_years: '4 years'
-        5_years: '5 years'
+        1_month: ''
+        1_year: ''
+        2_years: ''
+        3_years: ''
+        4_years: ''
+        5_years: ''
       support:
-        basic: 'Basic'
-        professional: 'Professional'
-        premium: 'Premium'
+        basic: ''
+        professional: ''
+        premium: ''
       plan:
-        country: 'Country'
-        payment_options: 'Payment options'
-        days_left: 'Days left'
+        country: ''
+        payment_options: ''
+        days_left: ''
       payment:
-        price_per_user_month: '(%{price} per user/month)'
-        american_express: 'American Express'
-        bank_transfer: 'Bank transfer'
-        maestro: 'Maestro'
-        master_card: 'Master Card'
-        sepa: 'SEPA'
-        visa: 'VISA'
-        invoice: 'Invoice'
-        vat: 'VAT'
-        amount: 'Amount'
-        total: 'Total'
-        vat_info: '(excl. VAT)'
-        pay_per_invoice: 'Pay per invoice'
-        saving_info_month: 'You get %{n} months for free!'
-        saving_info_money: 'you save %{amount}'
-        payment_info_annually: '(yearly plans only)'
+        price_per_user_month: ''
+        american_express: ''
+        bank_transfer: ''
+        maestro: ''
+        master_card: ''
+        sepa: ''
+        visa: ''
+        invoice: ''
+        vat: ''
+        amount: ''
+        total: ''
+        vat_info: ''
+        pay_per_invoice: ''
+        saving_info_month: ''
+        saving_info_money: ''
+        payment_info_annually: ''
       billing_info:
-        billing_info: 'Billing information'
-        first_name: 'Prénom'
-        last_name: 'Nom de famille'
-        organization: 'Organization'
-        billing_address: 'Address'
-        zip_code: 'Zip code'
-        city: 'City'
-        company_country: 'Organization is registered in'
-        email: 'Billing email'
-        company_internal_id: 'Company internal ID'
-        vat_id_number: 'VAT ID number'
-        business: Business
-        consumer: Consumer
+        billing_info: ''
+        first_name: ''
+        last_name: ''
+        organization: ''
+        billing_address: ''
+        zip_code: ''
+        city: ''
+        company_country: ''
+        email: ''
+        company_internal_id: ''
+        vat_id_number: ''
+        business:
+        consumer:
         title:
-          title: 'Titre'
-          mr: 'Mr.'
-          ms: 'Ms.'
+          title: ''
+          mr: ''
+          ms: ''
         agree: >
-          I agree with the <a href="https://www.openproject.org/legal/terms-of-service" target="_blank">terms of service</a> and the <a href="https://www.openproject.org/legal/privacy" target="_blank">privacy policy</a>.
-        acceptedTerms: You already confirmed the terms of service when you created your OpenProject trial.
+
+        acceptedTerms:
       quote_info:
-        quote_info: Quote information
-        request: Request an Enterprise Edition quote
-        success: Thank you for requesting a quote for the OpenProject Enterprise Edition. We will send you the quote shortly.
-        error: 'We are very sorry, something went wrong: %{error}'
+        quote_info:
+        request:
+        success:
+        error: ''
       gdpr:
         contact:
-          label: 'Contact'
-          contact_hint: 'If you notice a security or data privacy issue in OpenProject, please contact us:'
-          gpg_key: 'GPG Key ID'
+          label: ''
+          contact_hint: ''
+          gpg_key: ''
         contract_form:
-          label: 'Contract Information'
-          email: 'Courriel'
+          label: ''
+          email: ''
         dpa_introduction_text: >-
-          The General Data Protection Regulation (GDPR) strengthens and unifies data protection for all individuals within the European Union (EU). The DPA governs the obligations of the contracting parties with regard to data protection.
-        dpa_signed: 'DPA signed'
+
+        dpa_signed: ''
         dpa_download_text: >
-          Thank you for signing the Data Processing Agreement (DPA).<br> You can download the signed DPA for your safekeeping.
-        dpa_download_btn: 'Download signed DPA'
-        label_gdpr: 'GDPR'
-        label_dpa: 'Data Processing Agreement'
-        invalid_email: "Adresse e-mail invalide"
+
+        dpa_download_btn: ''
+        label_gdpr: ''
+        label_dpa: ''
+        invalid_email: ""
         related:
-          label: 'Related Documents'
-          service_agreement: 'Terms of Service'
-          service_description: 'Description of Services'
-          privacy_statement: 'Privacy Statement'
-          dpa: 'Data Processing Agreement (DPA)'
-          subcontractors: 'Sub-Processors'
-          data_security: 'Technical and Organizational Data Security Measures'
-          security_measures: 'Data Security Measures'
+          label: ''
+          service_agreement: ''
+          service_description: ''
+          privacy_statement: ''
+          dpa: ''
+          subcontractors: ''
+          data_security: ''
+          security_measures: ''
         links:
-          service_agreement: 'https://www.openproject.org/legal/terms-of-service'
-          service_description: 'https://www.openproject.org/legal/description-of-services'
-          privacy_statement: 'https://www.openproject.org/legal/privacy'
-          dpa: 'https://www.openproject.org/legal/data-processing-agreement'
-          subcontractors: 'https://www.openproject.org/legal/data-processing-agreement/sub-processors'
-          data_security: 'https://www.openproject.org/legal/data-processing-agreement/technical-and-organizational-data-security-measures'
-        review_dpa: 'Review DPA'
-        sign_eligible: 'I am eligible to sign this contract for my organization.'
-        sign_dpa: 'Sign DPA'
+          service_agreement: ''
+          service_description: ''
+          privacy_statement: ''
+          dpa: ''
+          subcontractors: ''
+          data_security: ''
+        review_dpa: ''
+        sign_eligible: ''
+        sign_dpa: ''

@@ -32,7 +32,7 @@ module Constants
   module ProjectActivity
     class << self
       def register(on:, attribute:, chain: [])
-        @registered ||= []
+        @registered ||= Set.new
 
         @registered << { on: on,
                          chain: chain,

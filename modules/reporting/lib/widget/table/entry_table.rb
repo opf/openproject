@@ -29,8 +29,6 @@
 class ::Widget::Table::EntryTable < ::Widget::Table
   FIELDS = %i[spent_on user_id activity_id work_package_id comments project_id]
 
-  detailed_table self
-
   def render
     content = content_tag :div, class: 'generic-table--container -with-footer' do
       content_tag :div, class: 'generic-table--results-container' do
