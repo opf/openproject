@@ -65,5 +65,5 @@ You can edit a project plan by clicking directly in the list and change work pac
 To change the start and end date or the duration of a work package, click directly in the Gantt chart and change it via drag and drop.
 All changes will also be tracked in the work packages [Activity](../../user-guide/activity).
 
-![edit-projectplan](edit-projectplan.gif)
+![edit the projectplan](edit-projectplan.gif)
 

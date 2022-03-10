@@ -23,7 +23,7 @@ My Page is your personal dashboard where you can display important information o
 
 You can open your **My page** by clicking on your user avatar in the upper right corner and then selecting **My page** from the dropdown menu.
 
-![navigate-to-my-page](navigate-to-my-page.png)
+![navigate to my page](navigate-to-my-page.png)
 
 As a default, you will see two lists of all **work packages assigned to you** and **work packages created by you** from all your projects.
 
@@ -99,4 +99,4 @@ You can directly create new time entries by clicking on the day, change the date
 
 Watch the short video to see how to activate the spent time widget, add spent time, edit spent time (e.g. change the date or work packages or change the time booked) and delete spent time.
 
-![my-page-time-log](my-page-time-log.gif)
+![my pagetime log](my-page-time-log.gif)
