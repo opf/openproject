@@ -166,7 +166,7 @@ uk:
   label_confirmed: 'Підтверджено'
   button_continue: 'Продовжити'
   button_make_default: 'Позначити за умовчанням'
-  label_unverified_phone: "Cell phone not yet verified"
+  label_unverified_phone: "Мобільний телефон не перевірено"
   notice_phone_number_format: "Введіть номер у такому форматі: + XX XXXXXXXX."
   text_otp_not_receive: "Інші методи верифікації"
   text_send_otp_again: "Повторно надіслати одноразовий пароль:"

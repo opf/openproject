@@ -545,28 +545,28 @@ uk:
         could_not_be_copied: "%{dependency} не вдалося скопіювати (повністю)."
         does_not_exist: "не існує."
         error_enterprise_only: "доступно лише у версії OpenProject Enterprise Edition"
-        error_unauthorized: "may not be accessed."
+        error_unauthorized: "може бути недоступний."
         error_readonly: "was attempted to be written but is not writable."
-        email: "is not a valid email address."
+        email: "– це не дійсна електронна адреса."
         empty: "не може бути порожнім."
         even: "має бути рівним."
         exclusion: "зарезервовано."
         file_too_large: "занадто великий (максимальний розмір -%{count} байт)"
-        format: "does not match the expected format '%{expected}'."
-        format_nested: "does not match the expected format '%{expected}' at path '%{path}'."
+        format: "не відповідає очікуваному формату «%{expected}»."
+        format_nested: "не відповідає очікуваному формату «%{expected}» за шляхом «%{path}»."
         greater_than: "має бути більше ніж %{count}."
         greater_than_or_equal_to: "має бути більшим або рівним %{count}"
         greater_than_or_equal_to_start_date: "має бути більшою або дорівнювати даті початку."
         greater_than_start_date: "має бути більше дати початку."
         inclusion: "не встановлено в одному з допустимих значень"
-        inclusion_nested: "is not set to one of the allowed values at path '%{path}'."
+        inclusion_nested: "не призначено одне з дозволених значень за шляхом «%{path}»."
         invalid: "зазначено невірно"
         invalid_url: 'не є дійсною URL-адресою.'
         invalid_url_scheme: 'не є підтримуваним протоколом (дозволено: %{allowed_schemes}).'
         less_than_or_equal_to: "має бути меншим або рівним %{count}"
         not_available: "is not available due to a system configuration."
-        not_deletable: "cannot be deleted."
-        not_current_user: "is not the current user."
+        not_deletable: "не можна видалити."
+        not_current_user: "не поточний користувач."
         not_a_date: "не є дійсною датою."
         not_a_datetime: "не є дійсним датою."
         not_a_number: "не є числом"
@@ -580,11 +580,11 @@ uk:
         taken: "вже прийнято."
         too_long: "занадто довгий (максимум - %{count} characters).\n"
         too_short: "занадто короткий (мінімум %{count} символів)."
-        type_mismatch: "is not of type '%{type}'"
-        type_mismatch_nested: "is not of type '%{type}' at path '%{path}'"
+        type_mismatch: "– це не тип «%{type}»."
+        type_mismatch_nested: "– це не тип «%{type}» за шляхом «%{path}»."
         unchangeable: "не можна змінити."
-        unknown_property: "is not a known property."
-        unknown_property_nested: "has the unknown path '%{path}'."
+        unknown_property: "– це не відома властивість."
+        unknown_property_nested: "має невідомий шлях «%{path}»."
         unremovable: "неможливо видалити."
         wrong_length: "неправильна довжина (повинна бути %{count} символів)."
       models:
@@ -599,7 +599,7 @@ uk:
             global: 'Глобальний'
           query:
             filters:
-              minimum: "need to include at least one filter for principal, context or id with the '=' operator."
+              minimum: "має містити принаймні один фільтр для адміністратора доступу, контексту або адміністратора з оператором «=»."
         custom_field:
           at_least_one_custom_option: "Необхідно мати принаймні один варіант."
         custom_actions:
@@ -704,11 +704,11 @@ uk:
         time_entry:
           attributes:
             hours:
-              day_limit: "is too high as a maximum of 24 hours can be logged per date."
+              day_limit: "завелике, оскільки на одну дату можна зареєструвати лише щонайбільше 24 години."
         user_preference:
           attributes:
             pause_reminders:
-              invalid_range: "can only be a valid date range."
+              invalid_range: "може належати лише до припустимого інтервалу дат"
             daily_reminders:
               full_hour: "можна налаштувати отримання лише на початку кожної години."
         wiki_page:
@@ -805,10 +805,10 @@ uk:
       member: "Учасник"
       news: "Новини"
       notification:
-        one: "Notification"
-        few: "Notifications"
-        many: "Notifications"
-        other: "Notifications"
+        one: "Сповіщення"
+        few: "Сповіщення"
+        many: "Сповіщення"
+        other: "Сповіщення"
       placeholder_user: "Прототип користувача"
       project: "Проект"
       query: "Частковий запит"
@@ -851,8 +851,8 @@ uk:
     date: "Дата"
     default_columns: "Типові колонки"
     description: "Опис"
-    derived_due_date: "Derived finish date"
-    derived_estimated_hours: "Derived estimated time"
+    derived_due_date: "Отримана дата завершення"
+    derived_estimated_hours: "Отриманий приблизний час"
     derived_start_date: "Отримана дата початку"
     display_sums: "Відображати суми"
     due_date: "Дата закінчення"
@@ -1530,7 +1530,7 @@ uk:
   label_deleted: "вилучено "
   label_deleted_custom_field: "(видалено спеціальне поле)"
   label_deleted_custom_option: "(параметр видалення)"
-  label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
+  label_missing_or_hidden_custom_option: "(відсутнє значення або бракує дозволів для доступу)"
   label_descending: "За спаданням"
   label_details: "Детальніше"
   label_development_roadmap: "Розробка дорожньої карти"
@@ -1548,7 +1548,7 @@ uk:
   label_duplicate: "Дублювати"
   label_duplicates: "Дублікати"
   label_edit: "Редагувати"
-  label_edit_x: "Edit: %{x}"
+  label_edit_x: "Редагувати: %{x}"
   label_enable_multi_select: "Перемкнути мультиселекцію"
   label_enabled_project_custom_fields: 'Увімкнено спеціальні поля'
   label_enabled_project_modules: 'Включені модулі'
@@ -1654,8 +1654,8 @@ uk:
   label_member_new: "Новий учасник"
   label_member_all_admin: "(Усі ролі через статус адміністратора)"
   label_member_plural: "Учасники"
-  lable_membership_added: 'Member added'
-  lable_membership_updated: 'Member updated'
+  lable_membership_added: 'Учасника додано'
+  lable_membership_updated: 'Учасника оновлено'
   label_menu_item_name: "Назва пункту меню"
   label_message: "Повідомлення"
   label_message_last: "Останнє повідомлення"
@@ -1890,7 +1890,7 @@ uk:
   label_wiki_content_added: "Додано сторінку Wiki"
   label_wiki_content_updated: "Сторінка Wiki оновлена"
   label_wiki_toc: "Зміст"
-  label_wiki_toc_empty: "Table of Contents is empty as no headings are present."
+  label_wiki_toc_empty: "Зміст пустий, оскільки немає заголовків."
   label_wiki_dont_show_menu_item: "Не показувати це wikipage в навігації проекту"
   label_wiki_edit: "Редагування Wiki"
   label_wiki_edit_plural: "Редагування Wiki"
@@ -1924,19 +1924,19 @@ uk:
   label_x_closed_work_packages_abbr:
     one: "1 закрита"
     other: "%{count} закритих"
-    zero: "0 closed"
+    zero: "0 закрито"
   label_x_comments:
     one: "1 коментар"
     other: "Коментарів: %{count}"
-    zero: "no comments"
+    zero: "немає коментарів"
   label_x_open_work_packages_abbr:
     one: "1 відкрита"
     other: "%{count} відкритих"
-    zero: "0 open"
+    zero: "0 відкрито"
   label_x_projects:
     one: "1 проект"
     other: "%{count} проектів"
-    zero: "no projects"
+    zero: "немає проєктів"
   label_yesterday: "вчора"
   label_role_type: "Тип"
   label_member_role: "Роль проекту"
@@ -1956,7 +1956,7 @@ uk:
     legacy_warning:
       timeline: 'Цей попередній макрос часової шкали видалено та більше не доступний. Можна замінити функціональність вбудованим макросом таблиці.'
     include_wiki_page:
-      removed: 'The macro does no longer exist.'
+      removed: 'Макрос більше не існує.'
     wiki_child_pages:
       errors:
         page_not_found: "Не вдається знайти вікі-сторінку %{name}"
@@ -1969,77 +1969,76 @@ uk:
   mail:
     actions: 'Дії'
     digests:
-      including_mention_singular: 'including a mention'
-      including_mention_plural: 'including %{number_mentioned} mentions'
+      including_mention_singular: 'включно зі згадкою'
+      including_mention_plural: 'включно зі згадками (%{number_mentioned})'
       unread_notification_singular: '1 не прочитане сповіщення '
-      unread_notification_plural: '%{number_unread} unread notifications'
-      you_have: 'You have'
+      unread_notification_plural: 'стільки непрочитаних сповіщень: %{number_unread}'
+      you_have: 'У вас'
     logo_alt_text: 'Логотип'
     mention:
-      subject: "%{user_name} mentioned you in #%{id} - %{subject}"
+      subject: "Користувач %{user_name} згадав вас у #%{id} – %{subject}"
     notification:
       center: 'Центр сповіщень'
       see_in_center: 'Переглянути коментарі у центрі сповіщень'
-      settings: 'Change email settings'
-    salutation: 'Hey %{user}!'
+      settings: 'Змінити налаштування електронної пошти'
+    salutation: 'Привіт, %{user}!'
     work_packages:
-      created_at: 'Created at %{timestamp} by %{user} '
-      login_to_see_all: 'Log in to see all notifications.'
-      mentioned: 'You have been <b>mentioned in a comment</b>'
-      mentioned_by: '%{user} mentioned you in a comment'
+      created_at: 'Створено о %{timestamp} користувачем %{user} '
+      login_to_see_all: 'Увійдіть, щоб переглянути всі сповіщення.'
+      mentioned: 'Вас <b>згадано в коментарі</b>'
+      mentioned_by: 'Користувач %{user} згадав вас у коментарі'
       more_to_see:
-        one: 'There is 1 more work package with notifications.'
-        few: 'There are %{count} more work packages with notifications.'
-        many: 'There are %{count} more work packages with notifications.'
-        other: 'There are %{count} more work packages with notifications.'
+        one: 'Є ще 1 пакет робіт зі сповіщеннями.'
+        few: 'Є ще %{count} пакети робіт зі сповіщеннями.'
+        many: 'Є ще %{count} пакетів робіт зі сповіщеннями.'
+        other: 'Є ще %{count} пакета робіт зі сповіщеннями.'
       reason:
-        watched: 'Watched'
-        assigned: 'Assigned'
+        watched: 'Переглянуто'
+        assigned: 'Призначено'
         responsible: 'Відповідальний'
-        mentioned: 'Mentioned'
+        mentioned: 'Згадано'
         subscribed: 'всі'
-        prefix: 'Received because of the notification setting: %{reason}'
-      see_all: 'See all'
-      updated_at: 'Updated at %{timestamp} by %{user}'
+        prefix: 'Отримано через налаштування сповіщень: %{reason}'
+      see_all: 'Переглянути всі'
+      updated_at: 'Оновлено о %{timestamp} користувачем %{user}'
   mail_body_account_activation_request: "Новий користувач (%{value}) зареєструвався. Його обліковий запис чекає на ваше підтвердження:"
   mail_body_account_information: "Інформація по Вашому обліковому запису"
   mail_body_account_information_external: "Ви можете використовувати ваш %{value} обліковий запис для входу."
-  mail_body_backup_ready: "Your requested backup is ready. You can download it here:"
-  mail_body_backup_token_reset_admin_info: The backup token for user '%{user}' has been reset.
-  mail_body_backup_token_reset_user_info: Your backup token has been reset.
-  mail_body_backup_token_info: The previous token is no longer valid.
-  mail_body_backup_waiting_period: The new token will be enabled in %{hours} hours.
-  mail_body_backup_token_warning: If this wasn't you, login to OpenProject immediately and reset it again.
+  mail_body_backup_ready: "Запитана вами резервна копія готова. Її можна завантажити тут:"
+  mail_body_backup_token_reset_admin_info: Маркер резервної копії для користувача «%{user}» скинуто.
+  mail_body_backup_token_reset_user_info: Ваш маркер резервної копії скинуто.
+  mail_body_backup_token_info: Попередній маркер більше не дійсний.
+  mail_body_backup_waiting_period: Новий маркер почне діяти через %{hours} год.
+  mail_body_backup_token_warning: Якщо це були не ви, негайно ввійдіть в OpenProject і знову скиньте його.
   mail_body_lost_password: "Щоб змінити пароль, натисніть на посилання:"
   mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
-  mail_body_register_header_title: "Project member invitation email"
-  mail_body_register_user: "Dear %{name}, "
+  mail_body_register_header_title: "Електронний лист із запрошенням стати учасником проєкту"
+  mail_body_register_user: "Добрий день, %{name}!"
   mail_body_register_links_html: |
-    Please feel free to browse our youtube channel (%{youtube_link}) where we provide a webinar (%{webinar_link})
-    and “Get started” videos (%{get_started_link}) to make your first steps in OpenProject as easy as possible.
+    Ознайомтеся з нашим каналом на YouTube (%{youtube_link}), де ми проводимо вебінар (%{webinar_link}) і відео «Як почати роботу» (%{get_started_link}), щоб якомога більше спростити свої перші кроки в OpenProject.
     <br />
-    If you have any further questions, consult our documentation (%{documentation_link}) or contact your administrator.
-  mail_body_register_closing: "Your OpenProject team"
-  mail_body_register_ending: "Stay connected! Kind regards,"
+    Якщо виникнуть запитання, перегляньте нашу документацію (%{documentation_link}) або зверніться до адміністратора.
+  mail_body_register_closing: "Ваша команда OpenProject"
+  mail_body_register_ending: "Будьте на зв’язку! З повагою,"
   mail_body_reminder: "%{count} призначених на Вас робочих пакетів на наступні %{days} днів:"
-  mail_body_group_reminder: "%{count} work package(s) that are assigned to group \"%{group}\" are due in the next %{days} days:"
+  mail_body_group_reminder: "Пакети робіт (%{count}), призначені групі «%{group}» потрібно завершити протягом наступних %{days} дн.:"
   mail_body_wiki_content_added: "%{author} додав(ла) wiki-сторінку %{id}."
   mail_body_wiki_content_updated: "%{author} оновив(ла) wiki-сторінку %{id}."
   mail_subject_account_activation_request: "Запит на активацію облікового запису %{value}"
-  mail_subject_backup_ready: "Your backup is ready"
-  mail_subject_backup_token_reset: "Backup token reset"
+  mail_subject_backup_ready: "Ваша резервна копія готова"
+  mail_subject_backup_token_reset: "Скидання маркера резервного копіювання"
   mail_subject_lost_password: "Ваш %{value} пароль"
   mail_subject_register: "Активація облікового запису %{value}"
   mail_subject_reminder: "%{count} призначених на Вас робочих пакетів в найближчі %{days} дні"
-  mail_subject_group_reminder: "For group \"%{group}\" %{count} work package(s) due in the next %{days} days"
+  mail_subject_group_reminder: "Пакети робіт (%{count}), призначені групі «%{group}» потрібно завершити протягом наступних %{days} дн."
   mail_subject_wiki_content_added: "Wiki-сторінка '%{id}' була додана"
   mail_subject_wiki_content_updated: "Wiki-сторінка '%{id}' була оновлена"
   mail_member_added_project:
-    subject: "%{project} - You have been added as a member"
+    subject: "%{project} — вас додано як учасника"
     body:
       added_by:
-        without_message: "%{user} added you as a member to the project '%{project}'."
-        with_message: "%{user} added you as a member to the project '%{project}' writing:"
+        without_message: "Користувач %{user} додав вас як учасника проєкту «%{project}»."
+        with_message: "Користувач %{user} додав вас як учасника проєкту «%{project}»:"
       roles: "У вас є наступні ролі:"
   mail_member_updated_project:
     subject: "%{project} – ваші ролі оновлено"
@@ -2902,10 +2901,10 @@ uk:
       code_403: "Ви не маєте права на доступ до цього ресурсу."
       code_404: "Не вдалося знайти потрібний ресурс."
       code_409: "Не вдалося оновити ресурс через конфліктуючі зміни."
-      code_429: "Too many requests. Please try again later."
+      code_429: "Забагато запитів. Повторіть спробу пізніше."
       code_500: "Сталася внутрішня помилка."
       not_found:
-        work_package: "The work package you are looking for cannot be found or has been deleted."
+        work_package: "Пакет робіт, який ви шукаєте, не можна знайти або його видалено."
       expected:
         date: "YYYY-MM-DD (ISO 8601 date only)"
         duration: "ISO 8601 тривалість"
@@ -2915,8 +2914,8 @@ uk:
       invalid_relation: "Відношення недійсне."
       invalid_resource: "За нерухомість %{property} посилання на зразок %{expected} очікується, але потрапив%{actual}."
       invalid_signal:
-        embed: "The requested embedding of %{invalid} is not supported. Supported embeddings are %{supported}."
-        select: "The requested select of %{invalid} is not supported. Supported selects are %{supported}."
+        embed: "Запитане вбудування %{invalid} не підтримується. Підтримувані вбудування: %{supported}."
+        select: "Запитаний варіант %{invalid} не підтримується. Підтримувані варіанти: %{supported}."
       invalid_user_status_transition: "Поточний статус облікового запису користувача не дозволяє цю операцію."
       missing_content_type: "не вказано"
       missing_request_body: "Не було органу запиту."
@@ -2936,25 +2935,25 @@ uk:
         invalid_user_assigned_to_work_package: "Вибраному користувачеві не дозволяється %{property} для цього робочого пакету."
         start_date: "Дата початку не може бути встановлена на базових робочих пакетах."
       eprops:
-        invalid_gzip: "is invalid gzip: %{message}"
-        invalid_json: "is invalid json: %{message}"
+        invalid_gzip: "– недійсний gzip: %{message}"
+        invalid_json: "– недійсний json: %{message}"
     resources:
       schema: 'Схема'
     undisclosed:
-      parent: Undisclosed - The selected parent is invisible because of lacking permissions.
+      parent: Нерозкритий – вибраний батьківський елемент невидимий через відсутність дозволів.
   doorkeeper:
     pre_authorization:
       status: 'Попередня авторизація'
-    auth_url: 'Auth URL'
-    access_token_url: 'Access token URL'
+    auth_url: 'URL автентифікації'
+    access_token_url: 'URL маркера доступу'
     errors:
       messages:
         #Common error messages
         invalid_request:
           unknown: 'У запиті відсутній необхідний параметр, він містить непідтримуваний параметр або інший варіант.'
-          missing_param: 'Missing required parameter: %{value}.'
-          request_not_authorized: 'Request need to be authorized. Required parameter for authorizing request is missing or invalid.'
-        invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
+          missing_param: 'Відсутній обов’язковий параметр: %{value}.'
+          request_not_authorized: 'Запит потрібно авторизувати. Необхідний параметр запиту авторизації відсутній або недійсний.'
+        invalid_redirect_uri: "Запитаний URI переспрямування пошкоджений або не збігається з клієнтським URI переспрямування."
         unauthorized_client: 'Клієнт не має права виконувати цей запит за допомогою цього методу.'
         access_denied: 'Власник ресурсів або сервер авторизації відхилив запит.'
         invalid_scope: 'Запитувана область дії є недійсною, невідомою або неправильною.'
@@ -2967,7 +2966,7 @@ uk:
         admin_authenticator_not_configured: 'Доступ до адміністративної панелі заборонений через Doorkeeper.configure.admin_authenticator being unconfigured.'
         #Access grant errors
         unsupported_response_type: 'Сервер авторизації не підтримує цей тип відповіді.'
-        unsupported_response_mode: 'The authorization server does not support this response mode.'
+        unsupported_response_mode: 'Сервер авторизації не підтримує цей режим відповіді.'
         #Access token errors
         invalid_client: 'Аутентифікація клієнта не вдалася за відстуності клієнта, не було включено автентифікацію клієнта або непідтримувався метод автентифікації.'
         invalid_grant: 'Наданий дозвіл на авторизацію недійсний, минув, анульований, не відповідає URI перенаправлення, що використовується в запиті на авторизацію, або був виданий іншому клієнту.'
@@ -2977,9 +2976,9 @@ uk:
           expired: "Термін дії доступу закінчився"
           unknown: "Маркер доступу недійсний"
         revoke:
-          unauthorized: "You are not authorized to revoke this token."
+          unauthorized: "Ви не вповноважені відкликати цей маркер."
         forbidden_token:
-          missing_scope: 'Access to this resource requires scope "%{oauth_scopes}".'
+          missing_scope: 'Для доступу до цього ресурсу потрібна область «%{oauth_scopes}».'
   unsupported_browser:
     title: "Ваш веб-переглядач застарілий і не підтримується."
     message: "Ви можете зіткнутися з помилками та погіршити досвід роботи на цій сторінці."
@@ -2997,7 +2996,7 @@ uk:
         redirect_uri_html: >
           Дозволені URL-адреси, дозволені користувачам, можна перенаправити. Один запис на рядок.  <br/>  Якщо ви реєструєте настільну програму, використовуйте таку URL-адресу.
         confidential: "Перевірте, чи буде використовуватися програма, якщо секрет клієнта може бути конфіденційним. Природні мобільні програми та програми з однією сторінкою вважаються неконфіденційними."
-        scopes: "Check the scopes you want the application to grant access to. If no scope is checked, api_v3 is assumed."
+        scopes: "Перевірте області, до яких ви хотіли б надати доступ. Якщо не позначено жодну область, такою вважатиметься api_v3."
         client_credential_user_id: "Необов'язковий ідентифікатор користувача, який видає себе, коли клієнти використовують цю програму. Залиште пустим, щоб дозволити лише загальний доступ"
         register_intro: "Якщо ви розробляєте клієнтське додаток OAuth для OpenProject, ви можете зареєструвати його, використовуючи цю форму для всіх користувачів."
         default_scopes: ""
@@ -3013,8 +3012,8 @@ uk:
         Ця програма запитує доступ до вашого облікового запису OpenProject.   <br/> <strong> 
         Він подав запит на такі дозволи:  </strong>
     scopes:
-      api_v3: "Full API v3 access"
-      api_v3_text: "Application will receive full read & write access to the OpenProject API v3 to perform actions on your behalf."
+      api_v3: "Повний доступ до API версії 3"
+      api_v3_text: "Додаток отримає повний доступ для читання та записування в OpenProject API версії 3, щоб виконувати дії від вашого імені."
     grants:
       created_date: "Затверджено"
       scopes: "Дозволи"
@@ -3036,4 +3035,4 @@ uk:
     authorization_error: "Сталася помилка авторизації."
     revoke_my_application_confirmation: "Ви дійсно бажаєте видалити цю програму? Це скасує %{token_count} активація для цього."
     my_registered_applications: "Зареєстровані програми OAuth"
-  you: you
+  you: ви
