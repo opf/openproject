@@ -38,7 +38,7 @@ OpenProject::AccessControl.map do |map|
                    global: true,
                    contract_actions: { projects: %i[create] }
 
-    map.permission Backup.permission,
+    map.permission :create_backup,
                    { backups: %i[index] },
                    require: :loggedin,
                    global: true,
