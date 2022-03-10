@@ -35,6 +35,7 @@ shared_examples_for 'file_link contract' do
   let(:project) { create(:project, members: { current_user => role }) }
   let(:work_package) { create(:work_package, project: project) }
   let(:storage) { create(:storage) }
+  let!(:project_storage) { create(:project_storage, project: project, storage: storage) }
   let(:file_link) { create(:file_link, container: work_package, storage: storage) }
 
   it_behaves_like 'contract is valid for active admins and invalid for regular users'

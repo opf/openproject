@@ -44,7 +44,7 @@ describe 'API v3 file links resource', type: :request do
   let(:storage) { create(:storage, creator: current_user) }
   let(:another_storage) { create(:storage, creator: current_user) }
 
-  let(:project_storage) { create(:project_storage, project: project, storage: storage) }
+  let!(:project_storage) { create(:project_storage, project: project, storage: storage) }
 
   let(:file_link) do
     create(:file_link, creator: current_user, container: work_package, storage: storage)
@@ -56,8 +56,6 @@ describe 'API v3 file links resource', type: :request do
   subject(:response) { last_response }
 
   before do
-    project_storage
-
     login_as current_user
   end
 
