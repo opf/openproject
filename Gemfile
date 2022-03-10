@@ -186,12 +186,10 @@ gem 'ruby-progressbar', '~> 1.11.0', require: false
 
 gem 'mini_magick', '~> 4.11.0', require: false
 
-# Sentry error reporting, loaded on demand
-group :sentry do
-  gem "sentry-delayed_job", '~> 5.1.0', require: false
-  gem "sentry-rails", '~> 5.1.0', require: false
-  gem "sentry-ruby", '~> 5.1.0',  require: false
-end
+# Sentry error reporting
+gem "sentry-delayed_job", '~> 5.1.0'
+gem "sentry-rails", '~> 5.1.0'
+gem "sentry-ruby", '~> 5.1.0'
 
 group :test do
   gem 'launchy', '~> 2.5.0'
