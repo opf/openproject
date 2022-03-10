@@ -41,9 +41,10 @@ describe 'API v3 file links resource', type: :request do
   let(:work_package) { create(:work_package, author: current_user, project: project) }
   let(:another_work_package) { create(:work_package, author: current_user, project: project) }
 
-  let(:storage) do
-    create(:storage, creator: current_user)
-  end
+  let(:storage) { create(:storage, creator: current_user) }
+  let(:another_storage) { create(:storage, creator: current_user) }
+
+  let(:project_storage) { create(:project_storage, project: project, storage: storage) }
 
   let(:file_link) do
     create(:file_link, creator: current_user, container: work_package, storage: storage)
@@ -55,6 +56,8 @@ describe 'API v3 file links resource', type: :request do
   subject(:response) { last_response }
 
   before do
+    project_storage
+
     login_as current_user
   end
 
@@ -83,6 +86,8 @@ describe 'API v3 file links resource', type: :request do
   describe 'POST /api/v3/work_packages/:work_package_id/file_links' do
     let(:path) { api_v3_paths.file_links(work_package.id) }
     let(:permissions) { %i(view_work_packages manage_file_links) }
+    let(:storage_url1) { storage.host }
+    let(:storage_url2) { storage.host }
     let(:params) do
       {
         _type: "Collection",
@@ -100,7 +105,7 @@ describe 'API v3 file links resource', type: :request do
               },
               _links: {
                 storageUrl: {
-                  href: storage.host
+                  href: storage_url1
                 }
               }
             },
@@ -116,7 +121,7 @@ describe 'API v3 file links resource', type: :request do
               },
               _links: {
                 storageUrl: {
-                  href: storage.host
+                  href: storage_url2
                 }
               }
             }
@@ -136,50 +141,20 @@ describe 'API v3 file links resource', type: :request do
     end
 
     context 'if the request body contains an invalid storage host' do
-      let(:params) do
-        {
-          _type: "Collection",
-          _embedded: {
-            elements: [
-              {
-                originData: {
-                  id: 5503,
-                  name: "logo.png",
-                  mimeType: "image/png",
-                  createdAt: "2021-12-19T09:42:10.170Z",
-                  lastModifiedAt: "2021-12-20T14:00:13.987Z",
-                  createdByName: "Luke Skywalker",
-                  lastModifiedByName: "Anakin Skywalker"
-                },
-                _links: {
-                  storageUrl: {
-                    href: 'https://invalid.host.org/'
-                  }
-                }
-              },
-              {
-                originData: {
-                  id: 5503,
-                  name: "logo2.png",
-                  mimeType: "image/png",
-                  createdAt: "2021-12-19T09:42:10.170Z",
-                  lastModifiedAt: "2021-12-20T14:00:13.987Z",
-                  createdByName: "Luke Skywalker",
-                  lastModifiedByName: "Anakin Skywalker"
-                },
-                _links: {
-                  storageUrl: {
-                    href: storage.host
-                  }
-                }
-              }
-            ]
-          }
-        }
-      end
+      let(:storage_url1) { 'https://invalid.host.org/' }
+      let(:storage_url2) { storage.host }
 
       it_behaves_like 'constraint violation' do
         let(:message) { 'Storage is invalid' }
+      end
+    end
+
+    context 'if the request body contains a storage host that is not linked to the project of the work package' do
+      let(:storage_url1) { another_storage.host }
+      let(:storage_url2) { storage.host }
+
+      it_behaves_like 'constraint violation' do
+        let(:message) { 'Storage not linked to project' }
       end
     end
   end
