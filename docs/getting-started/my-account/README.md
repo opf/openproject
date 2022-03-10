@@ -149,7 +149,7 @@ Default: Enable daily email reminders: 2am, Monday - Friday.
 
 You can choose to receive emails immediately, or only on certain days and times, temporarily pause reminder emails, or opt for no reminders at all.
 
- ![email-reminders](Bildschirmfoto 2022-03-02 um 16.02.09.png)
+![set email reminders](email-reminders.png)
 
 You can also opt-in to receive **email alerts for other items (that are not work packages)** whenever one of your project members:
 
@@ -173,10 +173,7 @@ Also, you can upload a **Custom Avatar** by choosing a Avatar to be uploaded fro
 <div class="alert alert-info" role="alert">
 Note: The optimum size to upload a new profile picture is 128 by 128 pixel. Larger files will be cropped.
 </div>
-
-![change-avatar](Bildschirmfoto 2022-03-02 um 16.11.12.png)
-
-
+![change your avatar](change-avatar.png)
 
 # Delete account
 
