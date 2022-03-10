@@ -16,6 +16,9 @@ if OpenProject::Logging::SentryLogger.enabled?
     # Don't send loaded modules
     config.send_modules = false
 
+    # Disable sentry's internal client reports
+    config.send_client_reports = false
+
     # Cleanup backtrace
     config.backtrace_cleanup_callback = lambda do |backtrace|
       Rails.backtrace_cleaner.clean(backtrace)
