@@ -4,7 +4,6 @@
 <%= toolbar title: t('label_edit_x', x: @object.name) %>
 
 <%= labelled_tabular_form_for @object, url: storage_path(@object) do |f| -%>
-  <%= error_messages_for_contract @object, @errors %>
   <%= render partial: 'form', locals: { f: f } %>
   <%= styled_button_tag t(:button_save), class: "-highlight -with-icon icon-checkmark" %>
 <% end %>

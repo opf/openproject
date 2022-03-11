@@ -117,6 +117,7 @@ class Storages::Admin::StoragesController < ApplicationController
       flash[:notice] = I18n.t(:notice_successful_update)
       redirect_to storage_path(@object)
     else
+      @errors = service_result.errors
       render :edit
     end
   end
