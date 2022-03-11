@@ -191,43 +191,43 @@ uk:
         trial:
           confirmation: "Підтвердження електронної адреси"
           confirmation_info: >
-            We sent you an email on %{date} to %{email}. Please check your inbox and click the confirmation link provided to start your 14 days trial.
+            Ми надіслали вам електронний лист %{date} на адресу %{email}. Перевірте поштову скриньку та перейдіть за відповідним посиланням у листі, щоб почати пробний 14-денний період.
           form:
             general_consent: >
-              I agree with the <a target="_blank" href="%{link_terms}">terms of service</a> and the <a target="_blank" href="%{link_privacy}">privacy policy</a>.
+              Я приймаю <a target="_blank" href="%{link_terms}">умови обслуговування</a> та <a target="_blank" href="%{link_privacy}">політику конфіденційності</a>.
             invalid_email: "Хибна адреса ел. пошти"
             label_company: "Компанія"
             label_first_name: "Ім'я"
             label_last_name: "Прізвище"
-            label_domain: "Domain"
+            label_domain: "Домен"
             label_subscriber: "Абонент"
             label_maximum_users: "Максимальна кількість активних користувачів"
-            label_starts_at: "Starts at"
+            label_starts_at: "Починається о"
             label_expires_at: "Закінчується о"
-            receive_newsletter: I want to receive the OpenProject <a target="_blank" href="%{link}">newsletter</a>.
-            taken_domain: There can only be one active trial per domain.
-            taken_email: Each user can only create one trial.
-          email_not_received: "You did not receive an email? You can resend the email with the link on the right."
+            receive_newsletter: Я хочу отримувати розсилку новин <a target="_blank" href="%{link}">OpenProject</a>.
+            taken_domain: Може бути лише одна активна пробна версія на домен.
+            taken_email: Кожен користувач може створити лише одну пробну версію.
+          email_not_received: "Ви не отримали електронний лист? Можете повторно надіслати його за допомогою посилання праворуч."
           try_another_email: "Спробуйте з іншою електронною адресою."
           next_steps: "Настуні кроки"
           resend_link: "Повторно надіслати"
-          resend_success: "Email has been resent. Please check your emails and click the confirmation link provided."
+          resend_success: "Електронний лист надіслано знову. Перевірте свою поштову скриньку та перейдіть за посиланням для підтвердження в листі."
           resend_warning: "Не вдалося повторно надіслати листа."
           session_timeout: "Сеанс закінчено. Будь ласка спробуйте перезавантажити сторінку або надіслати листа ще раз."
           status_label: "Статус:"
           status_confirmed: "Підтверджено"
           status_waiting: "Лист надіслано - очікуємо підтвердження"
           test_ee: "Test the Enterprise Edition 14 days for free"
-          quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise Edition."
+          quick_overview: "Отримайте стислий огляд управління проєктами та командної роботи в OpenProject Enterprise."
         upsale:
           become_hero: "Стань героєм!"
           benefits:
-            description: "What are the benefits of the Enterprise on-premises Edition?"
-            high_security: "Security features"
-            high_security_text: "Single sign on (SAML, OpenID Connect, CAS), two-factor authentication and automatic sync of LDAP groups."
-            installation: "Installation support"
-            installation_text: "Experienced software engineers guide you through the complete installation and setup process in your own infrastructure."
-            premium_features: "Premium features"
+            description: "Які переваги локального випуску Enterprise?"
+            high_security: "Функції безпеки"
+            high_security_text: "Єдиний вхід (SAML, OpenID Connect, CAS), двофакторна аутентифікація та автоматична синхронізація груп LDAP."
+            installation: "Підтримка встановлення"
+            installation_text: "Досвідчені інженери програмного забезпечення допоможуть вам виконати повне встановлення та налаштування процесу у власній інфраструктурі."
+            premium_features: "Ексклюзивні функції"
             premium_features_text: "Agile boards, custom theme and logo, graphs, intelligent workflows with custom actions, full text search for work package attachments and multi-select custom fields."
             professional_support: "Професійна підтримка"
             professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
