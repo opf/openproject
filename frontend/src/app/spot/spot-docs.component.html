@@ -1,9 +1,39 @@
 <h1>Buttons</h1>
 <button class="spot-button">Default</button>
+<button class="spot-button">
+  <span>Default</span>
+  <span class="spot-icon spot-icon_bell"></span>
+</button>
+<button class="spot-button"><span class="spot-icon spot-icon_bell"></span></button>
+
 <button class="spot-button spot-button_main">Main</button>
+<button class="spot-button spot-button_main">
+  <span>Main</span>
+  <span class="spot-icon spot-icon_bell"></span>
+</button>
+<button class="spot-button spot-button_main"><span class="spot-icon spot-icon_bell"></span></button>
+
 <button class="spot-button spot-button_accent">Accent</button>
+<button class="spot-button spot-button_accent">
+  <span>Accent</span>
+  <span class="spot-icon spot-icon_bell"></span>
+</button>
+<button class="spot-button spot-button_accent"><span class="spot-icon spot-icon_bell"></span></button>
+
 <button class="spot-button spot-button_danger">Danger</button>
+<button class="spot-button spot-button_danger">
+  <span>Danger</span>
+  <span class="spot-icon spot-icon_bell"></span>
+</button>
+<button class="spot-button spot-button_danger"><span class="spot-icon spot-icon_bell"></span></button>
+
 <button class="spot-button" disabled>Disabled</button>
+<button class="spot-button" disabled>
+  <span>Disabled</span>
+  <span class="spot-icon spot-icon_bell"></span>
+</button>
+<button class="spot-button" disabled><span class="spot-icon spot-icon_bell"></span></button>
+
 
 <hr>
 
@@ -69,26 +99,32 @@ Currently selected value is {{ toggleValue }}
 <ul class="spot-list">
   <li class="spot-list--item">
     <label class="spot-list--item-action">
-      <spot-checkbox [(ngModel)]="checkboxValue"></spot-checkbox>
+      <spot-checkbox [(ngModel)]="listCheckboxValue"></spot-checkbox>
       <div class="spot-list--item-title">Checkbox item</div>
     </label>
   </li>
   <li class="spot-list--item">
     <label class="spot-list--item-action">
-      <spot-checkbox [(ngModel)]="checkboxValue"></spot-checkbox>
+      <spot-checkbox [(ngModel)]="listCheckboxValue"></spot-checkbox>
       <div class="spot-list--item-title">Checkbox item with children</div>
     </label>
     <ul class="spot-list">
       <li class="spot-list--item">
         <label class="spot-list--item-action">
-          <spot-checkbox [(ngModel)]="checkboxValue"></spot-checkbox>
+          <spot-checkbox [(ngModel)]="listCheckboxValue"></spot-checkbox>
           <div class="spot-list--item-title">Child checkbox item</div>
         </label>
       </li>
       <li class="spot-list--item">
         <label class="spot-list--item-action">
-          <spot-checkbox [(ngModel)]="checkboxValue"></spot-checkbox>
+          <spot-checkbox [(ngModel)]="listCheckboxValue"></spot-checkbox>
           <div class="spot-list--item-title">Second child checkbox item</div>
+        </label>
+      </li>
+      <li class="spot-list--item">
+        <label class="spot-list--item-action spot-list--item-action_disabled">
+          <spot-checkbox [(ngModel)]="listCheckboxValue" disabled></spot-checkbox>
+          <div class="spot-list--item-title">Disabled item</div>
         </label>
       </li>
     </ul>
@@ -102,8 +138,18 @@ Currently selected value is {{ toggleValue }}
   (remove)="onRemoveChip()"
 ></spot-filter-chip>
 <spot-filter-chip
-  [removable]="false"
   title="Unremovable chip"
+  [removable]="false"
+></spot-filter-chip>
+<spot-filter-chip
+  title="Default chip with icon"
+  icon="bell"
+  (remove)="onRemoveChip()"
+></spot-filter-chip>
+<spot-filter-chip
+  icon="bell"
+  title="Unremovable chip with icon"
+  [removable]="false"
 ></spot-filter-chip>
 
 <h1>Text Field</h1>
@@ -135,7 +181,7 @@ Currently selected value is {{ toggleValue }}
 >
   <span
     slot="after"
-    class="op-icon icon-bell"
+    class="spot-icon spot-icon_bell"
   ></span>
 </spot-text-field>
 
@@ -145,11 +191,11 @@ Currently selected value is {{ toggleValue }}
 >
   <span
     slot="before"
-    class="op-icon icon-bell"
+    class="spot-icon spot-icon_bell"
   ></span>
   <span
     slot="after"
-    class="op-icon icon-bell"
+    class="spot-icon spot-icon_bell"
   ></span>
 </spot-text-field>
 
@@ -159,7 +205,7 @@ Currently selected value is {{ toggleValue }}
 >
   <span
     slot="before"
-    class="op-icon icon-bell"
+    class="spot-icon spot-icon_bell"
   ></span>
 </spot-text-field>
 
@@ -192,7 +238,19 @@ Currently selected value is {{ toggleValue }}
     (click)="dropModalOpen = !dropModalOpen"
   >Open Modal</button>
   <ng-container slot="body">
-    <h1>Test</h1>
+    <div class="spot-body">
+      <h1 class="spot-header-small">Test</h1>
+
+      <spot-text-field
+        placeholder="Placeholder value"
+        [(ngModel)]="textFieldValue"
+      >
+        <span
+          slot="before"
+          class="spot-icon spot-icon_bell"
+        ></span>
+      </spot-text-field>
+    </div>
   </ng-container>
 </spot-drop-modal>
 

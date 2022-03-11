@@ -1177,3 +1177,8 @@ cs:
       load_error_message: 'Při načítání formuláře došlo k chybě'
       validation_error_message: 'Opravte prosím chyby ve formuláři'
       advanced_settings: 'Pokročilá nastavení'
+    spot:
+      filter_chip:
+        remove: 'Odstranit'
+      drop_modal:
+        Close: 'Zavřít'

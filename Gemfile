@@ -189,9 +189,9 @@ gem 'mini_magick', '~> 4.11.0', require: false
 gem 'validate_url'
 
 # Sentry error reporting
-gem "sentry-delayed_job", '~> 5.1.0'
-gem "sentry-rails", '~> 5.1.0'
-gem "sentry-ruby", '~> 5.1.0'
+gem "sentry-delayed_job", '~> 5.2.0'
+gem "sentry-rails", '~> 5.2.0'
+gem "sentry-ruby", '~> 5.2.0'
 
 group :test do
   gem 'launchy', '~> 2.5.0'
@@ -287,7 +287,7 @@ group :development, :test do
   gem 'danger-brakeman'
 end
 
-gem 'bootsnap', '~> 1.10.0', require: false
+gem 'bootsnap', '~> 1.11.0', require: false
 
 # API gems
 gem 'grape', '~> 1.6.0'

@@ -1170,3 +1170,8 @@ et:
       load_error_message: 'There was an error loading the form'
       validation_error_message: 'Please fix the errors present in the form'
       advanced_settings: 'Täpsemad seaded'
+    spot:
+      filter_chip:
+        remove: 'Eemalda'
+      drop_modal:
+        Close: 'Sulge'
