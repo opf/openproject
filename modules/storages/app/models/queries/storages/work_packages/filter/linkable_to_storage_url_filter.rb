@@ -28,27 +28,22 @@
 
 module Queries::Storages::WorkPackages::Filter
   class LinkableToStorageUrlFilter < ::Queries::WorkPackages::Filter::WorkPackageFilter
-    def type
-      :list
+    include StoragesFilterMixin
+
+    def filter_model
+      ::Storages::Storage
     end
 
-    def allowed_values
-      # Allow all input values that are given to the filter.
-      # If no result is found, an empty collection is returned.
-      values.map { |value| [nil, value] }
+    def filter_column
+      'host'
     end
 
-    def where
-      canonical_url_values = values.map { |value| CGI.unescape(value).gsub(/\/+$/, '') }
-
-      <<-SQL.squish
-        #{::Queries::Operators::Equals.sql_for_field(canonical_url_values, ::Storages::Storage.table_name, 'host')}
-        AND work_packages.project_id IN (#{Project.allowed_to(User.current, :manage_file_links).select(:id).to_sql})
-      SQL
+    def permission
+      :manage_file_links
     end
 
-    def joins
-      :storages
+    def where_values
+      unescape_hosts(values)
     end
   end
 end

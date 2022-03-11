@@ -28,25 +28,18 @@
 
 module Queries::Storages::WorkPackages::Filter
   class LinkableToStorageIdFilter < ::Queries::WorkPackages::Filter::WorkPackageFilter
-    def type
-      :list
+    include StoragesFilterMixin
+
+    def filter_model
+      ::Storages::Storage
     end
 
-    def allowed_values
-      # Allow all input values that are given to the filter.
-      # If no result is found, an empty collection is returned.
-      values.map { |value| [nil, value] }
+    def filter_column
+      'id'
     end
 
-    def where
-      <<-SQL.squish
-        #{::Queries::Operators::Equals.sql_for_field(values, ::Storages::Storage.table_name, 'id')}
-        AND work_packages.project_id IN (#{Project.allowed_to(User.current, :manage_file_links).select(:id).to_sql})
-      SQL
-    end
-
-    def joins
-      :storages
+    def permission
+      :manage_file_links
     end
   end
 end

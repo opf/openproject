@@ -28,25 +28,18 @@
 
 module Queries::Storages::WorkPackages::Filter
   class StorageIdFilter < ::Queries::WorkPackages::Filter::WorkPackageFilter
-    def type
-      :list
+    include StoragesFilterMixin
+
+    def filter_model
+      ::Storages::FileLink
     end
 
-    def allowed_values
-      # Allow all input values that are given to the filter.
-      # If no result is found, an empty collection is returned.
-      values.map { |value| [nil, value] }
+    def filter_column
+      'storage_id'
     end
 
-    def where
-      <<-SQL.squish
-        #{::Queries::Operators::Equals.sql_for_field(values, ::Storages::FileLink.table_name, 'storage_id')}
-        AND project_id IN (#{Project.allowed_to(User.current, :view_file_links).select(:id).to_sql})
-      SQL
-    end
-
-    def joins
-      :file_links
+    def permission
+      :view_file_links
     end
   end
 end

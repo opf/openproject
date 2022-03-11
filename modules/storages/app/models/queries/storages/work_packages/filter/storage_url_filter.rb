@@ -28,23 +28,22 @@
 
 module Queries::Storages::WorkPackages::Filter
   class StorageUrlFilter < ::Queries::WorkPackages::Filter::WorkPackageFilter
-    def type
-      :list
+    include StoragesFilterMixin
+
+    def filter_model
+      ::Storages::Storage
     end
 
-    def allowed_values
-      # Allow all input values that are given to the filter.
-      # If no result is found, an empty collection is returned.
-      values.map { |value| [nil, value] }
+    def filter_column
+      'host'
     end
 
-    def where
-      canonical_url_values = values.map { |value| CGI.unescape(value).gsub(/\/+$/, '') }
+    def permission
+      :view_file_links
+    end
 
-      <<-SQL.squish
-        #{::Queries::Operators::Equals.sql_for_field(canonical_url_values, ::Storages::Storage.table_name, 'host')}
-        AND project_id IN (#{Project.allowed_to(User.current, :view_file_links).select(:id).to_sql})
-      SQL
+    def where_values
+      unescape_hosts(values)
     end
 
     def joins
