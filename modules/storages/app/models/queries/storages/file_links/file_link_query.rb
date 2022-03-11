@@ -35,9 +35,7 @@ class Queries::Storages::FileLinks::FileLinkQuery < Queries::BaseQuery
     # We need to overwrite the model method, as the standard implementation cannot derive the name from nested
     # namespaces. See app/models/queries/base_query.rb:31
     def model
-      # '.constantize' finds a declared constant with the specified name.
-      # A NameError is raised, if it is not initialized.
-      @model ||= '::Storages::FileLink'.constantize
+      @model ||= ::Storages::FileLink
     end
   end
 end
