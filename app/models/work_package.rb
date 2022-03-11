@@ -64,11 +64,11 @@ class WorkPackage < ApplicationRecord
            dependent: :delete_all, class_name: 'Storages::FileLink', foreign_key: 'container_id', inverse_of: :container
   has_many :storages, through: :project
 
-  has_and_belongs_to_many :changesets, -> {
+  has_and_belongs_to_many :changesets, -> { # rubocop:disable Rails/HasAndBelongsToMany
     order("#{Changeset.table_name}.committed_on ASC, #{Changeset.table_name}.id ASC")
   }
 
-  has_and_belongs_to_many :github_pull_requests
+  has_and_belongs_to_many :github_pull_requests # rubocop:disable Rails/HasAndBelongsToMany
 
   scope :recently_updated, -> {
     order(updated_at: :desc)
