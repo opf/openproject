@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -67,6 +65,8 @@ module Settings
         @value.to_f
       when :boolean
         @value.is_a?(Integer) ? ActiveRecord::Type::Boolean.new.cast(@value) : @value
+      when :symbol
+        @value.to_sym
       else
         if @value.respond_to?(:call)
           @value.call

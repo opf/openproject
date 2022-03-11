@@ -34,17 +34,32 @@ Settings::Definition.define do
       format: :string,
       value: nil
 
+  add :after_first_login_redirect_url,
+      format: :string,
+      value: nil,
+      api: false,
+      writable: false
+
+  add :after_login_default_redirect_url,
+      format: :string,
+      value: nil,
+      api: false,
+      writable: false
+
   add :apiv3_cors_enabled,
       value: false
 
   add :apiv3_cors_origins,
       value: []
 
-  add :apiv3_max_page_size,
-      value: 1000
-
   add :apiv3_docs_enabled,
       value: true
+
+  add :apiv3_enable_basic_auth,
+      value: true
+
+  add :apiv3_max_page_size,
+      value: 1000
 
   add :app_title,
       value: 'OpenProject'
@@ -56,6 +71,29 @@ Settings::Definition.define do
   add :attachment_whitelist,
       value: []
 
+  ##
+  # Carrierwave storage type. Possible values are, among others, :file and :fog.
+  # The latter requires further configuration.
+  add :attachments_storage,
+      value: :file,
+      format: :symbol,
+      allowed: %i[file fog]
+
+  add :attachments_storage_path,
+      format: :string,
+      value: nil,
+      api: false,
+      writable: false
+
+  add :attachments_grace_period,
+      value: 180
+
+  add :auth_source_sso,
+      format: :string,
+      value: nil,
+      api: false,
+      writable: false
+
   add :autofetch_changesets,
       value: true
 
@@ -64,10 +102,22 @@ Settings::Definition.define do
   add :autologin,
       value: 0
 
+  add :autologin_cookie_name,
+      value: 'autologin'
+
+  add :autologin_cookie_path,
+      value: '/'
+
+  add :autologin_cookie_secure,
+      value: false
+
   add :available_languages,
       format: :hash,
       value: %w[en de fr es pt pt-BR it zh-CN ko ru].freeze,
       allowed: -> { Redmine::I18n.all_languages }
+
+  add :avatar_link_expiry_seconds,
+      value: 24.hours.to_i
 
   # Allow users with the required permissions to create backups via the web interface or API.
   add :backup_enabled,
@@ -86,6 +136,9 @@ Settings::Definition.define do
   add :backup_attachment_size_max_sum_mb,
       value: 1024
 
+  add :blacklisted_routes,
+      value: []
+
   add :bcc_recipients,
       value: true
 
@@ -98,8 +151,27 @@ Settings::Definition.define do
   add :brute_force_block_after_failed_logins,
       value: 20
 
+  add :cache_expires_in_seconds,
+      format: :integer,
+      value: nil,
+      api: false,
+      writable: false
+
   add :cache_formatted_text,
       value: true
+
+  # use dalli defaults for memcache
+  add :cache_memcache_server,
+      format: :string,
+      value: nil,
+      api: false,
+      writable: false
+
+  add :cache_namespace,
+      format: :string,
+      value: nil,
+      api: false,
+      writable: false
 
   add :commit_fix_done_ratio,
       value: 100
@@ -151,6 +223,16 @@ Settings::Definition.define do
   add :cross_project_work_package_relations,
       value: true
 
+  # Allow in-context translations to be loaded with CSP
+  add :crowdin_in_context_translations,
+      value: true
+
+  add :database_cipher_key,
+      format: :string,
+      value: nil,
+      api: false,
+      writable: false
+
   add :date_format,
       format: :string,
       value: nil,
@@ -168,6 +250,10 @@ Settings::Definition.define do
 
   add :default_auto_hide_popups,
       value: true
+
+  # user configuration
+  add :default_comment_sort_order,
+      value: 'asc'
 
   add :default_language,
       value: 'en'
@@ -192,8 +278,48 @@ Settings::Definition.define do
       value: true,
       api: false
 
+  add :disable_browser_cache,
+      value: true
+
+  # allow to disable default modules
+  add :disabled_modules,
+      value: []
+
+  add :disable_password_choice,
+      value: false
+
+  add :disable_password_login,
+      value: false
+
   add :display_subprojects_work_packages,
       value: true
+
+  # Destroy all sessions for current_user on logout
+  add :drop_old_sessions_on_logout,
+      value: true
+
+  # Destroy all sessions for current_user on login
+  add :drop_old_sessions_on_login,
+      value: false
+
+  add :edition,
+      format: :string,
+      value: 'standard',
+      api: false,
+      writable: false,
+      allowed: %w[standard bim]
+
+  add :ee_manager_visible,
+      value: true
+
+  # Enable internal asset server
+  add :enable_internal_assets_server,
+      value: false
+
+  # email configuration
+  add :email_delivery_configuration,
+      value: 'inapp',
+      allowed: %w[inapp legacy]
 
   add :email_delivery_method,
       format: :symbol,
@@ -220,6 +346,16 @@ Settings::Definition.define do
   add :enabled_scm,
       value: %w[subversion git]
 
+  # Allow connections for trial creation and booking
+  add :enterprise_trial_creation_host,
+      value: 'https://augur.openproject.com'
+
+  add :enterprise_chargebee_site,
+      value: 'openproject-enterprise'
+
+  add :enterprise_plan,
+      value: 'enterprise-on-premises---euro---1-year'
+
   add :feeds_enabled,
       value: true
 
@@ -236,21 +372,115 @@ Settings::Definition.define do
       format: :integer,
       allowed: [1, 4]
 
+  # Configure fog, e.g. when using an S3 uploader
+  add :fog,
+      value: {},
+      api: false
+
+  add :fog_download_url_expires_in,
+      value: 21600 # 6h by default as 6 hours is max in S3 when using IAM roles
+
+  # Additional / overridden help links
+  add :force_help_link,
+      format: :string,
+      value: nil,
+      api: false,
+      writable: false
+
+  add :force_formatting_help_link,
+      format: :string,
+      value: nil,
+      api: false,
+      writable: false
+
   add :forced_single_page_size,
       value: 250
 
   add :host_name,
       value: "localhost:3000"
 
+  # Health check configuration
+  add :health_checks_authentication_password,
+      format: :string,
+      value: nil,
+      api: false,
+      writable: false
+
+  # Maximum number of backed up jobs (that are not yet executed)
+  # before health check fails
+  add :health_checks_jobs_queue_count_threshold,
+      format: :integer,
+      value: 50,
+      api: false,
+      writable: false
+
+  ## Maximum number of minutes that jobs have not yet run after their designated 'run_at' time
+  add :health_checks_jobs_never_ran_minutes_ago,
+      format: :integer,
+      value: 5,
+      api: false,
+      writable: false
+
+  ## Maximum number of unprocessed requests in puma's backlog.
+  add :health_checks_backlog_threshold,
+      format: :integer,
+      value: 20,
+      api: false,
+      writable: false
+
+  # Default gravatar image, set to something other than 404
+  # to ensure a default is returned
+  add :gravatar_fallback_image,
+      value: '404'
+
+  add :hidden_menu_items,
+      value: {}
+
+  # Impressum link to be set, nil by default (= hidden)
+  add :impressum_link,
+      format: :string,
+      value: nil,
+      api: false,
+      writable: false
+
+  add :installation_type,
+      value: 'manual'
+
   add :installation_uuid,
       format: :string,
       value: nil
+
+  add :internal_password_confirmation,
+      value: true
 
   add :invitation_expiration_days,
       value: 7
 
   add :journal_aggregation_time_minutes,
       value: 5
+
+  # Allow override of LDAP options
+  add :ldap_force_no_page,
+      format: :string,
+      value: nil,
+      api: false,
+      writable: false
+
+  add :ldap_auth_source_tls_options,
+      format: :string,
+      value: nil,
+      api: false,
+      writable: false
+
+  # Allow users to manually sync groups in a different way
+  # than the provided job using their own cron
+  add :ldap_groups_disable_sync_job,
+      value: false,
+      api: false,
+      writable: false
+
+  add :log_level,
+      value: 'info'
 
   add :log_requesting_user,
       value: false
@@ -285,6 +515,13 @@ Settings::Definition.define do
   add :mail_suffix_separators,
       value: '+'
 
+  add :main_content_language,
+      value: 'english'
+
+  # Check for missing migrations in internal errors
+  add :migration_check_on_exceptions,
+      value: true
+
   # Role given to a non-admin user who creates a project
   add :new_project_user_role_id,
       format: :integer,
@@ -294,6 +531,18 @@ Settings::Definition.define do
   add :oauth_allow_remapping_of_existing_users,
       value: false
 
+  add :omniauth_direct_login_provider,
+      format: :string,
+      value: nil,
+      api: false,
+      writable: false
+
+  add :override_bcrypt_cost_factor,
+      format: :string,
+      value: nil,
+      api: false,
+      writable: false
+
   add :notification_retention_period_days,
       value: 30
 
@@ -302,6 +551,12 @@ Settings::Definition.define do
 
   add :notification_email_digest_time,
       value: '08:00'
+
+  add :onboarding_video_url,
+      value: 'https://player.vimeo.com/video/163426858?autoplay=1'
+
+  add :onboarding_enabled,
+      value: true
 
   add :password_active_rules,
       value: %w[lowercase uppercase numeric special],
@@ -335,6 +590,26 @@ Settings::Definition.define do
   add :project_gantt_query,
       value: nil,
       format: :string
+
+  add :rails_asset_host,
+      format: :string,
+      value: nil,
+      api: false,
+      writable: false
+
+  add :rails_cache_store,
+      format: :symbol,
+      value: :file_store,
+      api: false,
+      writable: false,
+      allowed: %i[file_store memcache]
+
+  # url-path prefix
+  add :rails_relative_url_root,
+      value: ''
+
+  add :rails_force_ssl,
+      value: false
 
   add :registration_footer,
       value: {
@@ -373,8 +648,33 @@ Settings::Definition.define do
   add :rest_api_enabled,
       value: true
 
+  add :scm,
+      format: :hash,
+      value: {},
+      api: false,
+      writable: false
+
+  add :scm_git_command,
+      format: :string,
+      value: nil,
+      api: false,
+      writable: false
+
+  add :scm_local_checkout_path,
+      value: 'repositories' # relative to OpenProject directory
+
+  add :scm_subversion_command,
+      format: :string,
+      value: nil,
+      api: false,
+      writable: false
+
+  # Display update / security badge, enabled by default
   add :security_badge_displayed,
       value: true
+
+  add :security_badge_url,
+      value: "https://releases.openproject.com/v1/check.svg"
 
   add :self_registration,
       value: 2
@@ -387,11 +687,70 @@ Settings::Definition.define do
       format: :string,
       value: "/usr/sbin/sendmail"
 
+  # Log errors to sentry instance
+  add :sentry_dsn,
+      format: :string,
+      value: nil,
+      api: false,
+      writable: false
+
+  # Allow separate error reporting for frontend errors
+  add :sentry_frontend_dsn,
+      format: :string,
+      value: nil,
+      api: false,
+      writable: false
+
+  add :sentry_host,
+      format: :string,
+      value: nil,
+      api: false,
+      writable: false
+
+  # Allow sentry to collect tracing samples
+  # set to 1 to enable default tracing samples (see sentry initializer)
+  # set to n >= 1 to enable n times the default tracing
+  add :sentry_trace_factor,
+      value: 0
+
+  # Allow sentry to collect tracing samples on frontend
+  # set to n >= 1 to enable n times the default tracing
+  add :sentry_frontend_trace_factor,
+      value: 0
+
+  add :session_cookie_name,
+      value: '_open_project_session'
+
+  # where to store session data
+  add :session_store,
+      value: :active_record_store
+
   add :session_ttl_enabled,
       value: false
 
   add :session_ttl,
       value: 120
+
+  add :show_community_links,
+      value: true
+
+  # Show pending migrations as warning bar
+  add :show_pending_migrations_warning,
+      value: true
+
+  # Show mismatched protocol/hostname warning
+  # in settings where they must differ this can be disabled
+  add :show_setting_mismatch_warning,
+      value: true
+
+  # Render storage information
+  add :show_storage_information,
+      value: true
+
+  # Render warning bars (pending migrations, deprecation, unsupported browsers)
+  # Set to false to globally disable this for all users!
+  add :show_warning_bars,
+      value: true
 
   add :smtp_enable_starttls_auto,
       format: :boolean,
@@ -438,10 +797,21 @@ Settings::Definition.define do
   add :software_url,
       value: 'https://www.openproject.org/'
 
+  # Slow query logging threshold in ms
+  add :sql_slow_query_threshold,
+      value: 2000
+
   add :start_of_week,
       value: nil,
       format: :integer,
       allowed: [1, 6, 7]
+
+  # enable statsd metrics (currently puma only) by configuring host
+  add :statsd,
+      value: {
+        'host' => nil,
+        'port' => 8125
+      }
 
   add :sys_api_enabled,
       value: false
@@ -472,6 +842,16 @@ Settings::Definition.define do
   add :user_format,
       value: :firstname_lastname,
       allowed: -> { User::USER_FORMATS_STRUCTURE.keys }
+
+  add :web,
+      value: {
+        'workers' => 2,
+        'timeout' => 120,
+        'wait_timeout' => 10,
+        'min_threads' => 4,
+        'max_threads' => 16
+      },
+      api: false
 
   add :welcome_text,
       format: :string,
@@ -510,319 +890,6 @@ Settings::Definition.define do
   add :work_package_startdate_is_adddate,
       value: false
 
-  # Former configurations
-  add :after_first_login_redirect_url,
-      format: :string,
-      value: nil,
-      api: false,
-      writable: false
-
-  add :after_login_default_redirect_url,
-      format: :string,
-      value: nil,
-      api: false,
-      writable: false
-
-  add :attachments_storage_path,
-      format: :string,
-      value: nil,
-      api: false,
-      writable: false
-
-  add :auth_source_sso,
-      format: :string,
-      value: nil,
-      api: false,
-      writable: false
-
-  add :cache_expires_in_seconds,
-      format: :integer,
-      value: nil,
-      api: false,
-      writable: false
-
-  # use dalli defaults for memcache
-  add :cache_memcache_server,
-      format: :string,
-      value: nil,
-      api: false,
-      writable: false
-
-  add :cache_namespace,
-      format: :string,
-      value: nil,
-      api: false,
-      writable: false
-
-  add :database_cipher_key,
-      format: :string,
-      value: nil,
-      api: false,
-      writable: false
-
-  add :edition,
-      format: :string,
-      value: 'standard',
-      api: false,
-      writable: false,
-      allowed: %w[standard bim]
-
-  # Additional / overridden help links
-  add :force_help_link,
-      format: :string,
-      value: nil,
-      api: false,
-      writable: false
-
-  add :force_formatting_help_link,
-      format: :string,
-      value: nil,
-      api: false,
-      writable: false
-
-  # Health check configuration
-  add :health_checks_authentication_password,
-      format: :string,
-      value: nil,
-      api: false,
-      writable: false
-
-  # Maximum number of backed up jobs (that are not yet executed)
-  # before health check fails
-  add :health_checks_jobs_queue_count_threshold,
-      format: :integer,
-      value: 50,
-      api: false,
-      writable: false
-
-  ## Maximum number of minutes that jobs have not yet run after their designated 'run_at' time
-  add :health_checks_jobs_never_ran_minutes_ago,
-      format: :integer,
-      value: 5,
-      api: false,
-      writable: false
-
-  ## Maximum number of unprocessed requests in puma's backlog.
-  add :health_checks_backlog_threshold,
-      format: :integer,
-      value: 20,
-      api: false,
-      writable: false
-
-  # Impressum link to be set, nil by default (= hidden)
-  add :impressum_link,
-      format: :string,
-      value: nil,
-      api: false,
-      writable: false
-
-  # Allow override of LDAP options
-  add :ldap_force_no_page,
-      format: :string,
-      value: nil,
-      api: false,
-      writable: false
-
-  add :ldap_auth_source_tls_options,
-      format: :string,
-      value: nil,
-      api: false,
-      writable: false
-
-  # Allow users to manually sync groups in a different way
-  # than the provided job using their own cron
-  add :ldap_groups_disable_sync_job,
-      value: false,
-      api: false,
-      writable: false
-
-  add :omniauth_direct_login_provider,
-      format: :string,
-      value: nil,
-      api: false,
-      writable: false
-
-  add :override_bcrypt_cost_factor,
-      format: :string,
-      value: nil,
-      api: false,
-      writable: false
-
-  add :rails_asset_host,
-      format: :string,
-      value: nil,
-      api: false,
-      writable: false
-
-  add :rails_cache_store,
-      format: :symbol,
-      value: :file_store,
-      api: false,
-      writable: false,
-      allowed: %i[file_store memcache]
-
-  add :scm,
-      format: :hash,
-      value: {},
-      api: false,
-      writable: false
-
-  add :scm_git_command,
-      format: :string,
-      value: nil,
-      api: false,
-      writable: false
-
-  add :scm_subversion_command,
-      format: :string,
-      value: nil,
-      api: false,
-      writable: false
-
-  add :smtp_enable_starttls_auto,
-      format: :string,
-      value: nil,
-      api: false,
-      writable: false
-
-  # Log errors to sentry instance
-  add :sentry_dsn,
-      format: :string,
-      value: nil,
-      api: false,
-      writable: false
-
-  # Allow separate error reporting for frontend errors
-  add :sentry_frontend_dsn,
-      format: :string,
-      value: nil,
-      api: false,
-      writable: false
-
-  add :sentry_host,
-      format: :string,
-      value: nil,
-      api: false,
-      writable: false
-
-  # Configuration default values
-  {
-    'attachments_storage' => 'file',
-    'attachments_grace_period' => 180,
-
-    # Configure fog, e.g. when using an S3 uploader
-    'fog' => {},
-
-    'autologin_cookie_name' => 'autologin',
-    'autologin_cookie_path' => '/',
-    'autologin_cookie_secure' => false,
-    'fog_download_url_expires_in' => 21600, # 6h by default as 6 hours is max in S3 when using IAM roles
-    'show_community_links' => true,
-    'log_level' => 'info',
-    'scm_local_checkout_path' => 'repositories', # relative to OpenProject directory
-    'disable_browser_cache' => true,
-    # where to store session data
-    'session_store' => :active_record_store,
-    'session_cookie_name' => '_open_project_session',
-    # Destroy all sessions for current_user on logout
-    'drop_old_sessions_on_logout' => true,
-    # Destroy all sessions for current_user on login
-    'drop_old_sessions_on_login' => false,
-    # url-path prefix
-    'rails_relative_url_root' => '',
-    'rails_force_ssl' => false,
-    # Enable internal asset server
-    'enable_internal_assets_server' => false,
-
-    # user configuration
-    'default_comment_sort_order' => 'asc',
-
-    # email configuration
-    'email_delivery_configuration' => 'inapp',
-
-    'disable_password_login' => false,
-    'internal_password_confirmation' => true,
-
-    'disable_password_choice' => false,
-
-    'disabled_modules' => [], # allow to disable default modules
-    'hidden_menu_items' => {},
-    'blacklisted_routes' => [],
-
-    'apiv3_enable_basic_auth' => true,
-
-    'onboarding_video_url' => 'https://player.vimeo.com/video/163426858?autoplay=1',
-    'onboarding_enabled' => true,
-
-    'youtube_channel' => 'https://www.youtube.com/c/OpenProjectCommunity',
-
-    'ee_manager_visible' => true,
-
-    'main_content_language' => 'english',
-
-    # Allow in-context translations to be loaded with CSP
-    'crowdin_in_context_translations' => true,
-
-    'avatar_link_expiry_seconds' => 24.hours.to_i,
-
-    # Default gravatar image, set to something other than 404
-    # to ensure a default is returned
-    'gravatar_fallback_image' => '404',
-
-    'registration_footer' => {},
-
-    # Display update / security badge, enabled by default
-    'security_badge_displayed' => true,
-    'installation_type' => "manual",
-    'security_badge_url' => "https://releases.openproject.com/v1/check.svg",
-
-    # Check for missing migrations in internal errors
-    'migration_check_on_exceptions' => true,
-
-    # Show pending migrations as warning bar
-    'show_pending_migrations_warning' => true,
-
-    # Show mismatched protocol/hostname warning
-    # in settings where they must differ this can be disabled
-    'show_setting_mismatch_warning' => true,
-
-    # Render warning bars (pending migrations, deprecation, unsupported browsers)
-    # Set to false to globally disable this for all users!
-    'show_warning_bars' => true,
-
-    # Render storage information
-    'show_storage_information' => true,
-
-    # Allow connections for trial creation and booking
-    'enterprise_trial_creation_host' => 'https://augur.openproject.com',
-    'enterprise_chargebee_site' => 'openproject-enterprise',
-    'enterprise_plan' => 'enterprise-on-premises---euro---1-year',
-
-    # Slow query logging threshold in ms
-    'sql_slow_query_threshold' => 2000,
-
-    # Allow sentry to collect tracing samples
-    # set to 1 to enable default tracing samples (see sentry initializer)
-    # set to n >= 1 to enable n times the default tracing
-    'sentry_trace_factor' => 0,
-    # Allow sentry to collect tracing samples on frontend
-    # set to n >= 1 to enable n times the default tracing
-    'sentry_frontend_trace_factor' => 0,
-
-    # enable statsd metrics (currently puma only) by configuring host
-    'statsd' => {
-      'host' => nil,
-      'port' => 8125
-    },
-
-    'web' => {
-      'workers' => 2,
-      'timeout' => 120,
-      'wait_timeout' => 10,
-      'min_threads' => 4,
-      'max_threads' => 16
-    }
-  }.each do |key, value|
-    add(key, value: value)
-  end
+  add :youtube_channel,
+      value: 'https://www.youtube.com/c/OpenProjectCommunity'
 end
