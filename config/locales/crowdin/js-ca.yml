@@ -1170,3 +1170,8 @@ ca:
       load_error_message: 'There was an error loading the form'
       validation_error_message: 'Please fix the errors present in the form'
       advanced_settings: 'Configuració avançada'
+    spot:
+      filter_chip:
+        remove: 'Suprimir'
+      drop_modal:
+        Close: 'Tanca'
