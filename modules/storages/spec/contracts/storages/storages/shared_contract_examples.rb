@@ -122,6 +122,14 @@ shared_examples_for 'storage contract', :storage_server_helpers, webmock: true d
           storage.host_will_change!
         end
 
+        context 'when connection fails' do
+          before do
+            allow(Net::HTTP).to receive(:start).and_raise(SocketError, 'Failed to open TCP connection (SIMULATED)')
+          end
+
+          it_behaves_like 'contract is invalid'
+        end
+
         context 'when response code is a 404 NOT FOUND' do
           let(:host_response_code) { '404' }
 

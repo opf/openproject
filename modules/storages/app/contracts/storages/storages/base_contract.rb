@@ -103,8 +103,12 @@ module Storages::Storages
         use_ssl: uri.scheme == "https"
       }
 
-      Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
-        http.request(request)
+      begin
+        Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
+          http.request(request)
+        end
+      rescue StandardError
+        :unreachable
       end
     end
   end
