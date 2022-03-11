@@ -5,6 +5,6 @@
 
 <%= labelled_tabular_form_for @object, url: storages_path(@object) do |f| -%>
   <%= error_messages_for_contract @object, @errors %>
-  <%= render :partial => 'storages/admin/form', locals: { f: f } %>
+  <%= render partial: 'form', locals: { f: f } %>
   <%= styled_button_tag t(:button_create), class: "-highlight -with-icon icon-checkmark" %>
 <% end %>

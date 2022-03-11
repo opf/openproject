@@ -50,17 +50,11 @@ class Storages::Admin::StoragesController < ApplicationController
   # Called by: Global app/config/routes.rb to serve Web page
   def index
     @storages = Storages::Storage.all
-
-    # The view is located in a slightly off-standard directory
-    # Why not use a leading "/" as in other places?
-    render 'storages/admin/index'
   end
 
   # Show page with details of one Storage object.
   # Called by: Global app/config/routes.rb to serve Web page
-  def show
-    render 'storages/admin/show'
-  end
+  def show; end
 
   # Show the admin page to create a new Storage object.
   # Sets the attributes provider_type and name as default values and then
@@ -79,10 +73,6 @@ class Storages::Admin::StoragesController < ApplicationController
                      contract_class: EmptyContract)
                 .call(provider_type: 'nextcloud', name: I18n.t('storages.provider_types.nextcloud'))
                 .result
-
-    # Render the new page in a slightly off-standard location
-    # Error handling is done in the view page
-    render 'storages/admin/new'
   end
 
   # Actually create a Storage object.
@@ -103,7 +93,7 @@ class Storages::Admin::StoragesController < ApplicationController
       redirect_to storage_path(@object)
     else
       @errors = service_result.errors
-      render 'storages/admin/new'
+      render :new
     end
   end
   # rubocop:enable Metrics/AbcSize
@@ -111,9 +101,7 @@ class Storages::Admin::StoragesController < ApplicationController
   # Edit page is very similar to new page, except that we don't need to set
   # default attribute values because the object already exists
   # Called by: Global app/config/routes.rb to serve Web page
-  def edit
-    render 'storages/admin/edit'
-  end
+  def edit; end
 
   # Update is similar to create above
   # See also: create above
@@ -129,7 +117,7 @@ class Storages::Admin::StoragesController < ApplicationController
       flash[:notice] = I18n.t(:notice_successful_update)
       redirect_to storage_path(@object)
     else
-      render action: :edit
+      render :edit
     end
   end
 
