@@ -2011,7 +2011,7 @@ uk:
   mail_body_backup_waiting_period: Новий маркер почне діяти через %{hours} год.
   mail_body_backup_token_warning: Якщо це були не ви, негайно ввійдіть в OpenProject і знову скиньте його.
   mail_body_lost_password: "Щоб змінити пароль, натисніть на посилання:"
-  mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
+  mail_body_register: "Вітаємо в OpenProject. Активуйте свій обліковий запис, перейшовши за цим посиланням:"
   mail_body_register_header_title: "Електронний лист із запрошенням стати учасником проєкту"
   mail_body_register_user: "Добрий день, %{name}!"
   mail_body_register_links_html: |

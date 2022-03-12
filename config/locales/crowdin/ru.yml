@@ -894,7 +894,7 @@ ru:
     version: "Этапы"
     work_package: "Пакет работ"
   backup:
-    failed: "Backup failed"
+    failed: "Сбой резервного копирования"
     label_backup_token: "Маркер резервного копирования"
     label_create_token: "Создать маркер резервного копирования"
     label_delete_token: "Удалить маркер резервного копирования"
