@@ -898,7 +898,7 @@ lt:
     version: "Versija"
     work_package: "Darbų paketas"
   backup:
-    failed: "Backup failed"
+    failed: "Nepavyko sukurti atsarginės kopijos"
     label_backup_token: "Atsarginės kopijos žetonas"
     label_create_token: "Sukurti atsarginės kopijos žetoną"
     label_delete_token: "Pašalinti atsarginės kopijos žetoną"
@@ -2021,7 +2021,7 @@ lt:
   mail_body_backup_waiting_period: Naujas atsarginės kopijos žetonas bus tinkamas po %{hours} valandų.
   mail_body_backup_token_warning: Jei tai buvote ne jūs, nedelsiant prisijunkite prie OpenProject ir atšaukite jį dar kartą.
   mail_body_lost_password: "Norėdami pakeisti slaptažodį, spauskite nuorodą:"
-  mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
+  mail_body_register: "Jus sveikina %{app_title}. Prašome aktyvuoti jūsų paskyrą spaudžiant šią nuorodą:"
   mail_body_register_header_title: "Projekto nario kvietimo el. laiškas"
   mail_body_register_user: "Brangus %{name}, "
   mail_body_register_links_html: |
@@ -2166,7 +2166,7 @@ lt:
     heading_getting_started: "Gauti aprašymą"
     text_getting_started_description: "Gauti greitą apžvalgą apie projektų valdymą ir komandos bendradarbiavimą naudojant OpenProject."
     text_show_again: "Jūs galite paleisti šį video iš naujo iš pagalbos meniu"
-    welcome: "Welcome to %{app_title}"
+    welcome: "Jus sveikina %{app_title}"
     select_language: "Pasirinkite kalbą"
   permission_add_work_package_notes: "Pridėti pastabų"
   permission_add_work_packages: "Pridėti darbų paketų"
@@ -2235,7 +2235,7 @@ lt:
   permission_view_timelines: "Peržiūrėti laiko juostas"
   permission_view_wiki_edits: "Peržiūrėti wiki istoriją"
   permission_view_wiki_pages: "Peržiūrėti wiki"
-  permission_work_package_assigned: "Become assignee/responsible"
+  permission_work_package_assigned: "Tapti paskirtuoju/atsakinguoju"
   permission_work_package_assigned_explanation: "Darbų paketai gali būti priskirti naudotojams ir grupėms pagal vaidmenį atitinkamame projekte"
   placeholders:
     default: "-"
