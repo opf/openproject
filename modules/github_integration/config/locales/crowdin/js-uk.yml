@@ -28,7 +28,7 @@ uk:
         title: "Запити на включення"
         copy_menu:
           label: Фрагменти Git
-          description: Копіювати git-фрагменти у буфер обміну
+          description: Копіювати git-фрагменти в буфер обміну
         git_actions:
           branch_name: Назва гілки
           commit_message: Повідомлення про зміни
