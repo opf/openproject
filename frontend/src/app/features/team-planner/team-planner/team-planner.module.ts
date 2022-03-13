@@ -24,7 +24,7 @@ import { OpTeamPlannerLoadingSkeletonComponent } from 'core-app/features/team-pl
     AddAssigneeComponent,
     AddExistingPaneComponent,
     TeamPlannerSidemenuComponent,
-    OpTeamPlannerLoadingSkeletonComponent
+    OpTeamPlannerLoadingSkeletonComponent,
   ],
   imports: [
     OPSharedModule,
