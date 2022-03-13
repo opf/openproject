@@ -38,7 +38,10 @@
         class="op-team-planner--calendar fc-scroller"
         [ngClass]="{'op-team-planner--calendar_empty': (isEmpty$ | async)}"
       ></full-calendar>
-
+  
+      <op-team-planner-loading-skeleton
+      *ngIf="!(calendar.currentWorkPackages$ | async)"
+      ></op-team-planner-loading-skeleton>
       <div
         [textContent]="calendar.tooManyResultsText"
         class="op-wp-calendar--notification"></div>
