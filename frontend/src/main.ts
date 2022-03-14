@@ -41,15 +41,11 @@ whenDebugging(() => {
 // Import the correct locale early on
 void initializeLocale()
   .then(() => {
-    jQuery(() => {
-      // Now that DOM is loaded, also run the global listeners
-      initializeGlobalListeners();
-
-      // Due to the behaviour of the Edge browser we need to wait for 'DOM ready'
-      void platformBrowserDynamic()
-        .bootstrapModule(OpenProjectModule)
-        .then(() => {
-          jQuery('body').addClass('__ng2-bootstrap-has-run');
-        });
-    });
+    void platformBrowserDynamic()
+      .bootstrapModule(OpenProjectModule)
+      .then(() => {
+        // Now that DOM is loaded, also run the global listeners
+        initializeGlobalListeners();
+        document.body.classList.add('__ng2-bootstrap-has-run');
+      });
   });
