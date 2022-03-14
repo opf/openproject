@@ -43,7 +43,8 @@ describe ::API::V3::WorkPackages::WorkPackageSqlRepresenter, 'rendering' do
       .where(id: rendered_work_package.id)
   end
 
-  let(:rendered_work_package) { create(:work_package) }
+  let(:rendered_work_package) { create(:work_package, project: project) }
+  let(:project) { create(:project) }
 
   let(:select) { { '*' => {} } }
 
@@ -61,6 +62,10 @@ describe ::API::V3::WorkPackages::WorkPackageSqlRepresenter, 'rendering' do
           self: {
             href: api_v3_paths.work_package(rendered_work_package.id),
             title: rendered_work_package.subject
+          },
+          project: {
+            href: api_v3_paths.project(project.id),
+            title: project.name
           }
         }
       }
