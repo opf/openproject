@@ -35,14 +35,9 @@ module Storages::ProjectStorages
     # by ::BaseServices::Delete
     def persist(service_result)
       # Perform the @object.destroy etc. in the super-class
-      service_result = super(service_result)
-
-      delete_associated_file_links
-
-      # Just return the result from the superclass.
-      # There is currently no need to incorporate errors from
-      # delete_associated_file_links, because it doesn't fail (at the moment).
-      service_result
+      super(service_result).tap do |deletion_result|
+        delete_associated_file_links if deletion_result.success?
+      end
     end
 
     private
