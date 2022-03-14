@@ -1,4 +1,4 @@
-# Schema: Custom_ObjectModel
+# Schema: Custom_OptionModel
 ---
 type: object
 properties:
@@ -8,7 +8,7 @@ properties:
     readOnly: true
   value:
     type: string
-    description: The value defined for this custom object
+    description: The value defined for this custom option
     readOnly: true
   _links:
     type: object
@@ -19,13 +19,13 @@ properties:
         allOf:
         - "$ref": "./link.yml"
         - description: |-
-            This custom object
+            This custom option.
 
-            **Resource**: CustomObject
+            **Resource**: CustomOption
           readOnly: true
 example:
   _links:
     self:
-      href: "/api/v3/custom_objects/1"
-  _type: CustomObject
+      href: "/api/v3/custom_options/1"
+  _type: CustomOption
   value: Foo

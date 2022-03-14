@@ -1,8 +1,8 @@
-# /api/v3/custom_objects/{id}
+# /api/v3/custom_options/{id}
 ---
 get:
   parameters:
-  - description: The custom object's identifier
+  - description: The custom option's identifier
     example: '1'
     in: path
     name: id
@@ -18,11 +18,11 @@ get:
               value:
                 _links:
                   self:
-                    href: "/api/v3/custom_objects/1"
-                _type: CustomObject
+                    href: "/api/v3/custom_options/1"
+                _type: CustomOption
                 value: Foo
           schema:
-            "$ref": "../components/schemas/custom_object_model.yml"
+            "$ref": "../components/schemas/custom_option_model.yml"
       description: OK
       headers: {}
     '404':
@@ -35,12 +35,12 @@ get:
                 errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
                 message: The requested resource could not be found.
       description: |-
-        Returned if the custom object does not exist or the client does not have sufficient permissions to see it.
+        Returned if the custom option does not exist or the client does not have sufficient permissions to see it.
 
-        **Required permission:** view work package in any project the custom object's custom field is active in.
+        **Required permission:** view work package in any project the custom option's custom field is active in.
       headers: {}
   tags:
-  - Custom Objects
+  - Custom Options
   description: ''
-  operationId: View_Custom_Object
-  summary: View Custom Object
+  operationId: View_Custom_Option
+  summary: View Custom Option
