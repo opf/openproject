@@ -26,46 +26,40 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Reference: Representable https://trailblazer.to/2.1/docs/representable.html
-#   "Representable maps Ruby objects to documents and back"
-# Reference: Roar is a thin layer on top of Representable https://github.com/trailblazer/roar
-# Reference: Roar-Rails integration: https://github.com/apotonick/roar-rails
-module API
-  module V3
-    module Storages
-      class StorageRepresenter < ::API::Decorators::Single
-        # LinkedResource module defines helper methods to describe attributes
-        include API::Decorators::LinkedResource
-        include API::Decorators::DateProperty
+require 'spec_helper'
 
-        property :id
+describe ::API::V3::Storages::StorageRepresenter, 'rendering' do
+  let(:storage) { build_stubbed(:storage) }
+  let(:user) { build_stubbed(:user) }
+  let(:representer) { described_class.new(storage, current_user: user) }
 
-        property :name
+  subject(:generated) { representer.to_json }
 
-        date_time_property :created_at
-
-        date_time_property :updated_at
-
-        # A link back to the specific object ("represented")
-        self_link
-
-        link :type do
-          {
-            href: "#{::API::V3::URN_PREFIX}storages:nextcloud",
-            title: 'Nextcloud'
-          }
-        end
-
-        link :origin do
-          {
-            href: represented.host
-          }
-        end
-
-        def _type
-          'Storage'
-        end
+  describe '_links' do
+    describe 'self' do
+      it_behaves_like 'has a titled link' do
+        let(:link) { 'self' }
+        let(:href) { "/api/v3/storages/#{storage.id}" }
+        let(:title) { storage.name }
       end
+    end
+  end
+
+  describe 'properties' do
+    it_behaves_like 'property', :_type do
+      let(:value) { 'Storage' }
+    end
+
+    it_behaves_like 'property', :id do
+      let(:value) { storage.id }
+    end
+
+    it_behaves_like 'datetime property', :createdAt do
+      let(:value) { storage.created_at }
+    end
+
+    it_behaves_like 'datetime property', :updatedAt do
+      let(:value) { storage.updated_at }
     end
   end
 end

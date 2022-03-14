@@ -46,9 +46,10 @@ describe ::API::V3::FileLinks::FileLinkRepresenter, 'rendering' do
 
   describe '_links' do
     describe 'self' do
-      it_behaves_like 'has an untitled link' do
+      it_behaves_like 'has a titled link' do
         let(:link) { 'self' }
         let(:href) { "/api/v3/file_links/#{file_link.id}" }
+        let(:title) { file_link.name }
       end
     end
 

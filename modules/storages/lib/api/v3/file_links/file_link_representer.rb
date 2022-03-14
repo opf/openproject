@@ -49,11 +49,7 @@ module API
                    end
                  end
 
-        link :self do
-          {
-            href: api_v3_paths.file_link(represented.id)
-          }
-        end
+        self_link
 
         link :delete, cache_if: -> { user_allowed_to_manage?(represented) } do
           {
