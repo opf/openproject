@@ -1731,7 +1731,7 @@
   label_public_projects: "Offentlige prosjekter"
   label_query_new: "Ny spørring"
   label_query_plural: "Egendefinerte spørringer"
-  label_query_menu_item: "Menyelement-spørring"
+  label_query_menu_item: "Query menu item"
   label_read: "Les..."
   label_register: "Opprett ny konto"
   label_register_with_developer: "Registrer som utvikler"
@@ -2180,7 +2180,7 @@
   permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Velg prosjektmoduler"
   permission_manage_types: "Velg typer"
-  permission_view_calendar: "Vis kalender"
+  permission_view_calendar: "View calendar"
   permission_view_changesets: "View repository revisions in OpenProject"
   permission_view_commit_author_statistics: "Vis statistikk over forfatterbidrag"
   permission_view_work_package_watchers: "Vis liste over overvåkere"
@@ -2845,7 +2845,7 @@
   wiki_menu_item_new_main_item_explanation: >
     Du er i ferd med å slette det eneste wiki-menyelementet. Du må velge en wiki-side som skal brukes for generering av et nytt hovedelement. For å slette hele wikien må wiki-modulen deaktiveres av en prosjektadministrator.
   wiki_menu_item_delete_not_permitted: Menyelementet til den eneste wiki-siden kan ikke slettes.
-  query_menu_item_for: "Menyelement for spørringen \"%{title}\""
+  query_menu_item_for: "Menu item for query \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |

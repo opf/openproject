@@ -160,7 +160,7 @@ pt:
     edit: 'Editar ação personalizada %{name}'
     execute: 'Executar %{name}'
     upsale:
-      title: 'Ações personalizadas são funcionalidades da versão Enterprise Edition'
+      title: 'Custom actions is an Enterprise Edition feature'
       description: 'As ações personalizadas simplificam o trabalho diário combinando um conjunto de etapas em um único botão.'
   custom_fields:
     text_add_new_custom_field: >
@@ -259,7 +259,7 @@ pt:
       irreversible: "Esta ação é irreversível"
       confirmation: "Digite o nome de usuário do espaço reservado %{name} para confirmar a exclusão."
     upsale:
-      title: Atribuir trabalho a pessoas que não são membros do projeto.
+      title: Assign work to people that are not members of the project.
       description: >
         Existem vários cenários em que você deseja atribuir trabalho a pessoas que não são membros do seu projeto. Pode ser simplesmente que você ainda precise contratar a pessoa certa para o trabalho. Ou você não quer dar acesso a essas informações do projeto, mas ainda quer acompanhar as tarefas atribuídas a essa pessoa.
   prioritiies:
@@ -1730,7 +1730,7 @@ pt:
   label_public_projects: "Projetos públicos"
   label_query_new: "Nova consulta"
   label_query_plural: "Consultas personalizadas"
-  label_query_menu_item: "Item de menu de consulta"
+  label_query_menu_item: "Query menu item"
   label_read: "Leia..."
   label_register: "Criar uma nova conta"
   label_register_with_developer: "Registre-se como desenvolvedor"
@@ -1978,7 +1978,7 @@ pt:
   mail_body_backup_waiting_period: O novo token será habilitado em %{hours} horas.
   mail_body_backup_token_warning: Se não foi você, acesse o OpenProject imediatamente e redefina-o novamente.
   mail_body_lost_password: "Para alterar sua senha, clique no link a seguir:"
-  mail_body_register: "Bem-vindo ao OpenProject. Por favor, ative sua conta clicando neste link:"
+  mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "E-mail de convite a membro do projeto"
   mail_body_register_user: "Prezado(a) %{name},"
   mail_body_register_links_html: |
@@ -2120,7 +2120,7 @@ pt:
     heading_getting_started: "Obter visão geral"
     text_getting_started_description: "Obter visão geral do gerenciamento de projetos e colaboração de equipe com o OpenProject."
     text_show_again: "Você pode reiniciar este vídeo através do menu ajuda"
-    welcome: "Bem-vindo ao OpenProject"
+    welcome: "Welcome to OpenProject"
     select_language: "Por favor, selecione seu idioma"
   permission_add_work_package_notes: "Adicionar anotações"
   permission_add_work_packages: "Adicionar pacotes de trabalho"
@@ -2178,7 +2178,7 @@ pt:
   permission_select_custom_fields: "Selecionar campos personalizados"
   permission_select_project_modules: "Selecionar módulos do projeto"
   permission_manage_types: "Selecionar tipos"
-  permission_view_calendar: "Exibir calendário"
+  permission_view_calendar: "View calendar"
   permission_view_changesets: "Revisões do repositório vistas no OpenProject"
   permission_view_commit_author_statistics: "Ver estatísticas de commits do autor"
   permission_view_work_package_watchers: "Visualizar lista de observadores"
@@ -2842,7 +2842,7 @@ pt:
   wiki_menu_item_new_main_item_explanation: >
     Você está excluindo somente o item de menu principal da wiki. Você agora tem que escolher uma página wiki para que um novo item principal seja gerado. Para excluir a wiki, o módulo wiki deve ser desativado pelos administradores do projeto.
   wiki_menu_item_delete_not_permitted: O item de menu da página wiki é único e não pode ser excluído.
-  query_menu_item_for: "Item de menu para consulta \"%{title}\""
+  query_menu_item_for: "Menu item for query \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |

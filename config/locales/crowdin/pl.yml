@@ -158,7 +158,7 @@ pl:
     edit: 'Edytuj działanie niestandardowe %{name}'
     execute: 'Wykonaj %{name}'
     upsale:
-      title: 'Działania niestandardowe to funkcja wersji Enterprise'
+      title: 'Custom actions is an Enterprise Edition feature'
       description: 'Działania niestandardowe usprawniają codzienną pracę, łącząc zestaw oddzielnych kroków w jeden przycisk.'
   custom_fields:
     text_add_new_custom_field: >
@@ -257,7 +257,7 @@ pl:
       irreversible: "To działanie jest nieodwracalne."
       confirmation: "Wprowadź nazwę użytkownika zastępczego %{name}, aby potwierdzić usunięcie."
     upsale:
-      title: Przypisz pracę osobom, które nie są członkami projektu.
+      title: Assign work to people that are not members of the project.
       description: >
         Istnieje wiele scenariuszy, w których chcesz przypisać pracę osobom, które nie są członkami projektu. Może się po prostu zdarzyć, że nadal musisz zatrudnić odpowiednią osobę do danej pracy. Lub też po prostu nie chcesz udzielać tej osobie dostępu do informacji o projekcie, ale nadal chcesz śledzić zadania przypisane do tej osoby.
   prioritiies:
@@ -1762,7 +1762,7 @@ pl:
   label_public_projects: "Projekty publiczne"
   label_query_new: "Nowe zapytanie"
   label_query_plural: "Zapytania niestandardowe"
-  label_query_menu_item: "Pozycja menu zapytania"
+  label_query_menu_item: "Query menu item"
   label_read: "Czytaj..."
   label_register: "Utwórz nowe konto"
   label_register_with_developer: "Zarejestruj się jako programista"
@@ -2012,7 +2012,7 @@ pl:
   mail_body_backup_waiting_period: Nowy token zostanie włączony za %{hours} godz.
   mail_body_backup_token_warning: Jeśli to nie Ty, zaloguj się natychmiast do OpenProject i zresetuj go ponownie.
   mail_body_lost_password: "Aby zmienić hasło, kliknij na poniższy link:"
-  mail_body_register: "Witamy w OpenProject. Aktywuj swoje konto, klikając ten link:"
+  mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "Wiadomość e-mail z zaproszeniem członka projektu"
   mail_body_register_user: "Witaj %{name}, "
   mail_body_register_links_html: |
@@ -2156,7 +2156,7 @@ pl:
     heading_getting_started: "Zobacz szybki przegląd"
     text_getting_started_description: "Spójrz na szybki przegląd zarządzania projektem i pracą zespołową w OpenProject."
     text_show_again: "Możesz zresetować to wideo w menu pomocy"
-    welcome: "Witamy w OpenProject"
+    welcome: "Welcome to OpenProject"
     select_language: "Wybierz język"
   permission_add_work_package_notes: "Dodawanie notatek"
   permission_add_work_packages: "Dodawanie pakietów roboczych"
@@ -2214,7 +2214,7 @@ pl:
   permission_select_custom_fields: "Wybierz pola niestandardowe"
   permission_select_project_modules: "Wybieranie modułów projektu"
   permission_manage_types: "Select types"
-  permission_view_calendar: "Widok kalendarza"
+  permission_view_calendar: "View calendar"
   permission_view_changesets: "Zobacz repozytorium poprawek OpenProject"
   permission_view_commit_author_statistics: "Widok statystyk autorów"
   permission_view_work_package_watchers: "Zobacz listę obserwatorów"
@@ -2881,7 +2881,7 @@ pl:
   wiki_menu_item_new_main_item_explanation: >
     Usuwasz jedyny główny element menu wiki. Teraz musisz wybrać stronę wiki dla których zostanie wygenerowany nowy główny element. Aby usunąć wpis, moduł wiki może zostać dezaktywowany poprzez administratorów projektu.
   wiki_menu_item_delete_not_permitted: Nie można usunąć elementu menu dla jedynej strony wiki.
-  query_menu_item_for: "Element menu dla zapytania \"%{title}\""
+  query_menu_item_for: "Menu item for query \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |

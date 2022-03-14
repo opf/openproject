@@ -1748,7 +1748,7 @@ hr:
   label_public_projects: "Javni projekti"
   label_query_new: "Novi upit"
   label_query_plural: "Prilagođeni upiti"
-  label_query_menu_item: "Dohvati stavku izbornika"
+  label_query_menu_item: "Query menu item"
   label_read: "Pročitajte..."
   label_register: "Kreirajte novi račun"
   label_register_with_developer: "Registrirajte se kao developer"
@@ -2141,7 +2141,7 @@ hr:
     heading_getting_started: "Get an overview"
     text_getting_started_description: "Get a quick overview of project management and team collaboration with OpenProject."
     text_show_again: "You can restart this video from the help menu"
-    welcome: "Dobrodošli na OpenProject"
+    welcome: "Welcome to OpenProject"
     select_language: "Please select your language"
   permission_add_work_package_notes: "Dodaj bilješke"
   permission_add_work_packages: "Dodaj radne pakete"
@@ -2199,7 +2199,7 @@ hr:
   permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Odaberi module projekta"
   permission_manage_types: "Odaberi tipove"
-  permission_view_calendar: "Prikaži kalendar"
+  permission_view_calendar: "View calendar"
   permission_view_changesets: "Pogledaj revizije za repozitorij unutar OpenProjecta"
   permission_view_commit_author_statistics: "Pogledaj statistiku commitanja autora"
   permission_view_work_package_watchers: "Prikaži listu nadglednika"
@@ -2866,7 +2866,7 @@ hr:
   wiki_menu_item_new_main_item_explanation: >
     Izbrisati će te samo glavnu stavku wiki izbornika. U sljdećem koraku morate izabrati wiki stranicu za koju će se generirati nova stavka. Za brisanje wiki stranice, wiki modul mora biti deaktiviran od strane administratora projekta.
   wiki_menu_item_delete_not_permitted: Wiki stavka izbornika jedine wiki stranice ne može biti izbrisana.
-  query_menu_item_for: "Stavka izbornika za upit \"%{title}\""
+  query_menu_item_for: "Menu item for query \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |

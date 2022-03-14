@@ -260,7 +260,7 @@ th:
       irreversible: "This action is irreversible"
       confirmation: "Enter the placeholder user name %{name} to confirm the deletion."
     upsale:
-      title: กำหนดงานบุคคลที่ไม่ได้เป็นสามชิกในโครงการ
+      title: Assign work to people that are not members of the project.
       description: >
         มีหลายสถานการณ์ที่คุณต้องการมอบหมายงานให้กับบุคคลที่ไม่ใช่สมาชิกของโครงการของคุณ อาจเป็นได้ว่าคุณยังต้องจ้างคนที่เหมาะสมสำหรับงานนี้ หรือคุณเพียงแค่ไม่ต้องการให้บุคคลนั้นเข้าถึงข้อมูลของโครงการ แต่ยังต้องการติดตามงานที่มอบหมายให้กับบุคคลนั้น 
   prioritiies:
@@ -1715,7 +1715,7 @@ th:
   label_public_projects: "โครงการสาธารณะ"
   label_query_new: "แบบสอบถามใหม่"
   label_query_plural: "แบบสอบถามแบบกำหนดเอง"
-  label_query_menu_item: "เมนูแบบสอบถาม"
+  label_query_menu_item: "Query menu item"
   label_read: "อ่าน..."
   label_register: "Create a new account"
   label_register_with_developer: "ลงทะเบียนในฐานะผู้พัฒนา"
@@ -2162,7 +2162,7 @@ th:
   permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "เลือกโมดูลของโครงการ"
   permission_manage_types: "เลือกชนิด"
-  permission_view_calendar: "ดูปฏิทิน"
+  permission_view_calendar: "View calendar"
   permission_view_changesets: "View repository revisions in OpenProject"
   permission_view_commit_author_statistics: "ดูการส่งมอบสถิติผู้เขียน"
   permission_view_work_package_watchers: "ดูรายชื่อผู้เฝ้าดู"
@@ -2825,7 +2825,7 @@ th:
   wiki_menu_item_new_main_item_explanation: >
     คุณกำลังลบเฉพาะเมนูของวิกิหลัก ตอนนี้คุณต้องเลือกหน้าวิกิที่ไอเทมหลักจะถูกสร้าง ในการลบวิกิ ผู้ดูแลโครงการสามารถระงับการใช้งานโมดูลวิกิได้
   wiki_menu_item_delete_not_permitted: ไม่สามารถลบแค่เมนูของวิกิในหน้าวิกิเท่านั้น
-  query_menu_item_for: "เมนูของแบบสอบถาม \"%{title}\""
+  query_menu_item_for: "Menu item for query \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |

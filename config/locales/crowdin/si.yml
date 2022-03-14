@@ -161,7 +161,7 @@ si:
     edit: 'අභිරුචි පියවර සංස්කරණය කරන්න %{name}'
     execute: 'ක්රියාත්මක %{name}'
     upsale:
-      title: 'අභිරුචි ක්රියා යනු ව්යවසාය සංස්කරණය අංගයකි'
+      title: 'Custom actions is an Enterprise Edition feature'
       description: 'අභිරුචි ක්රියාවන් එක් බොත්තමක් බවට තනි පියවර මාලාවක් ඒකාබද්ධ කිරීම මගින් එදිනෙදා වැඩ කටයුතු විධිමත් කරයි.'
   custom_fields:
     text_add_new_custom_field: >
@@ -1731,7 +1731,7 @@ si:
   label_public_projects: "පොදු ව්යාපෘති"
   label_query_new: "නව විමසුම"
   label_query_plural: "අභිරුචි විමසුම්"
-  label_query_menu_item: "විමසුම් මෙනු අයිතමය"
+  label_query_menu_item: "Query menu item"
   label_read: "කියවන්න..."
   label_register: "නව ගිණුමක් සාදන්න"
   label_register_with_developer: "සංවර්ධක ලෙස ලියාපදිංචි වන්න"
@@ -2122,7 +2122,7 @@ si:
     heading_getting_started: "දළ විශ්ලේෂණයක් ලබා ගන්න"
     text_getting_started_description: "OpenProject සමඟ ව්යාපෘති කළමනාකරණය සහ කණ්ඩායම් සහයෝගීතාව පිළිබඳ ඉක්මන් දළ විශ්ලේෂණයක් ලබා ගන්න."
     text_show_again: "ඔබට උදව් මෙනුවෙන් මෙම වීඩියෝව නැවත ආරම්භ කළ හැකිය"
-    welcome: "විවෘත ව්යාපෘති වෙත සාදරයෙන් පිළිගනිමු"
+    welcome: "Welcome to OpenProject"
     select_language: "කරුණාකර ඔබේ භාෂාව තෝරන්න"
   permission_add_work_package_notes: "සටහන් එකතු කරන්න"
   permission_add_work_packages: "වැඩ පැකේජ එකතු කරන්න"
@@ -2180,7 +2180,7 @@ si:
   permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "ව්යාපෘති මොඩියුල තෝරන්න"
   permission_manage_types: "වර්ග තෝරන්න"
-  permission_view_calendar: "දින දර්ශනය"
+  permission_view_calendar: "View calendar"
   permission_view_changesets: "OpenProject හි නිධි සංශෝධන බලන්න"
   permission_view_commit_author_statistics: "කතෘ සංඛ්යා ලේඛන බලන්න"
   permission_view_work_package_watchers: "මුරකරුවන් ලැයිස්තුව බලන්න"
@@ -2845,7 +2845,7 @@ si:
   wiki_menu_item_new_main_item_explanation: >
     ඔබ එකම ප්රධාන විකි මෙනු අයිතමය මකා දමනවා. දැන් ඔබට නව ප්රධාන අයිතමයක් ජනනය කරනු ලබන විකි පිටුවක් තෝරා ගත යුතුය. විකි මකා දැමීම සඳහා විකි මොඩියුලය ව්යාපෘති පරිපාලකයින් විසින් අක්රිය කළ හැකිය.
   wiki_menu_item_delete_not_permitted: එකම විකි පිටුවේ විකි මෙනු අයිතමය මකා දැමිය නොහැක.
-  query_menu_item_for: "විමසුම සඳහා මෙනු අයිතමය \"%{title}”"
+  query_menu_item_for: "Menu item for query \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |

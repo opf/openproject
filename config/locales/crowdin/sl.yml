@@ -160,7 +160,7 @@ sl:
     edit: 'Urejanje dejanja po meri %{name}'
     execute: 'Izvedite %{name}'
     upsale:
-      title: 'Dejanja po meri so značilnost Enterprise Edition'
+      title: 'Custom actions is an Enterprise Edition feature'
       description: 'Dejanja po meri racionalizirajo vsakodnevno delo s kombiniranjem nabora posameznih korakov v en gumb.'
   custom_fields:
     text_add_new_custom_field: >
@@ -259,7 +259,7 @@ sl:
       irreversible: "To dejanje je nepreklicno"
       confirmation: "Vnesite nadomestno uporabniško ime %{name} za potrditev izbrisa."
     upsale:
-      title: Dodeli delo ljudem, ki niso člani projekta
+      title: Assign work to people that are not members of the project.
       description: >
         Obstaja več scenarijev, kjer želite dodeliti delo ljudem, ki niso člani vašega projekta. Mogoče morate samo zaposliti pravo osebo za to delo. Ali pa nočete tej osebi dati dostopa do informacij o projektu, a še vseeno želite slediti nalogam, ki so dodeljene tej osebi.
   prioritiies:
@@ -1762,7 +1762,7 @@ sl:
   label_public_projects: "Javni projekti"
   label_query_new: "Nova poizvedba"
   label_query_plural: "Poizvedbe po meri"
-  label_query_menu_item: "Poizvedba v meniju"
+  label_query_menu_item: "Query menu item"
   label_read: "Branje ..."
   label_register: "Ustvarite nov račun"
   label_register_with_developer: "Registrirajte se kot razvijalec"
@@ -2012,7 +2012,7 @@ sl:
   mail_body_backup_waiting_period: Novi žeton bo omogočen v %{hours} urah.
   mail_body_backup_token_warning: Če to niste bili vi, se takoj prijavite v OpenProject in ponovno ponastavite.
   mail_body_lost_password: "Za spremembo glesla kliknite na naslednjo povezavo:"
-  mail_body_register: "Dobrodošli v OpenProject. Aktivirajte svoj uporabniški račun s klikom na povezavo:"
+  mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "E-pošta člana projekta za vabilo"
   mail_body_register_user: "Dragi %{name},"
   mail_body_register_links_html: |
@@ -2157,7 +2157,7 @@ sl:
     heading_getting_started: "Pridobite pregled"
     text_getting_started_description: "Pridobite hiter pregled nad projektnim managementom ter skupinskim delovanjem z OpenProject"
     text_show_again: "Ta video lahko ponovno zaženete preko menija za pomoč"
-    welcome: "Dobrodošli v OpenProject"
+    welcome: "Welcome to OpenProject"
     select_language: "Prosimo izberite jezik"
   permission_add_work_package_notes: "Dodaj zapiske"
   permission_add_work_packages: "Dodaj delovne pakete"
@@ -2215,7 +2215,7 @@ sl:
   permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Izberi module projekta"
   permission_manage_types: "Izberi vrste"
-  permission_view_calendar: "Poglej koledar"
+  permission_view_calendar: "View calendar"
   permission_view_changesets: "Oglejte si revizije repozitorija v OpenProject"
   permission_view_commit_author_statistics: "Oglejte si statistiko avtorjev"
   permission_view_work_package_watchers: "Oglej si listo spremeljevalcev"
@@ -2883,7 +2883,7 @@ sl:
   wiki_menu_item_new_main_item_explanation: >
     Izbrisali boste edini glavni element menija wiki. Zdaj morate izbrati stran wiki, za katero bo ustvarjen nov glavni element. Da bi izbrisali wiki, lahko modul wiki deaktivirajo skrbniki projektov.
   wiki_menu_item_delete_not_permitted: Elementa v meniju wiki na edini strani wikija ni mogoče izbrisati.
-  query_menu_item_for: "Element menija za poizvedbo \"%{title}\""
+  query_menu_item_for: "Menu item for query \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |

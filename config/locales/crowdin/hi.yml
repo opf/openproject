@@ -161,7 +161,7 @@ hi:
     edit: 'विशेष या कस्टम क्रिया संपादित करें %{name}'
     execute: 'कार्यान्वित करें %{name}'
     upsale:
-      title: 'कस्टम क्रियाओं एंटरप्राइज़ संस्करण सुविधा है'
+      title: 'Custom actions is an Enterprise Edition feature'
       description: 'कस्टम क्रियाएं एक बटन में व्यक्तिगत चरणों का एक सेट के संयोजन से रोजमर्रा के काम को सरल बनाएं ।'
   custom_fields:
     text_add_new_custom_field: >
@@ -1729,7 +1729,7 @@ hi:
   label_public_projects: "सार्वजनिक परियोजनाएं"
   label_query_new: "नया प्रष्ण"
   label_query_plural: "विशेष प्रष्ण"
-  label_query_menu_item: "क्वेरी मेनू आइटम"
+  label_query_menu_item: "Query menu item"
   label_read: "पढ़ें..."
   label_register: "नया खाता बनाएँ"
   label_register_with_developer: "डेवलपर के रूप में पंजीकृत हों"

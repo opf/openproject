@@ -161,7 +161,7 @@ ar:
     edit: 'تعديل إجراء مخصص %{name}'
     execute: 'Execute %{name}'
     upsale:
-      title: 'الإجراءات المخصصة هي إحدى ميزات Enterprise Edition'
+      title: 'Custom actions is an Enterprise Edition feature'
       description: 'Custom actions streamline everyday work by combining a set of individual steps into one button.'
   custom_fields:
     text_add_new_custom_field: >
@@ -1799,7 +1799,7 @@ ar:
   label_public_projects: "المشاريع العامة"
   label_query_new: "استعلام جديد"
   label_query_plural: "استعلامات مخصصة"
-  label_query_menu_item: "استعلام عنصر قائمة"
+  label_query_menu_item: "Query menu item"
   label_read: "قراءة..."
   label_register: "إنشاء حساب جديد"
   label_register_with_developer: "التسجيل كمطور"
@@ -2198,7 +2198,7 @@ ar:
     heading_getting_started: "Get an overview"
     text_getting_started_description: "Get a quick overview of project management and team collaboration with OpenProject."
     text_show_again: "يمكنك إعادة تشغيل هذا الفيديو من قائمة المساعدة"
-    welcome: "مرحبًا بكم في أوبِن بروجِكت"
+    welcome: "Welcome to OpenProject"
     select_language: "Please select your language"
   permission_add_work_package_notes: "إضافة ملاحظات"
   permission_add_work_packages: "إضافة مجموعات عمل"
@@ -2256,7 +2256,7 @@ ar:
   permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "حدد وحدات المشروع"
   permission_manage_types: "حدد أنواع"
-  permission_view_calendar: "عرض التقويم"
+  permission_view_calendar: "View calendar"
   permission_view_changesets: "عرض مستودع التنقيحات في أوبينبروجيكت"
   permission_view_commit_author_statistics: "عرض إحصائيات المؤلِّف المنفّذة"
   permission_view_work_package_watchers: "عرض قائمة المراقبين"
@@ -2927,7 +2927,7 @@ ar:
   wiki_menu_item_new_main_item_explanation: >
     يتم حذف عنصر القائمة Wiki الرئيسي فقط. لديك الآن لاختيار صفحة wiki التي سيتم إنشاء عنصر جديد الرئيسي. لحذف صفحة wiki يمكن إلغاء تنشيط الوحدة النمطية Wiki بواسطة المسؤولين عن المشروع.
   wiki_menu_item_delete_not_permitted: لا يمكن حذف عنصر القائمة ويكي لصفحة wiki فقط.
-  query_menu_item_for: "عنصر القائمة للاستعلام \"%{title}\""
+  query_menu_item_for: "Menu item for query \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |

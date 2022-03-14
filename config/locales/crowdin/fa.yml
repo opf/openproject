@@ -161,7 +161,7 @@ fa:
     edit: 'ویرایش عمل سفارشی %{name}'
     execute: 'اجرای %{name}'
     upsale:
-      title: 'اقدامات سفارشی از ویژگی های نسخه سازمانی است'
+      title: 'Custom actions is an Enterprise Edition feature'
       description: 'Custom actions streamline everyday work by combining a set of individual steps into one button.'
   custom_fields:
     text_add_new_custom_field: >

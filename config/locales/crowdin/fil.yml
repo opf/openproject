@@ -161,7 +161,7 @@ fil:
     edit: 'I-edit ang mga custom aksyon %{name}'
     execute: 'Ipatupad ang %{name}'
     upsale:
-      title: 'Ang mga custom aksyon ay isang tampok ng Enterprise Edition'
+      title: 'Custom actions is an Enterprise Edition feature'
       description: 'Ang mga custom aksyon i-streamline ang araw-araw na gawain sa pamamagitan ng pagsasama ng nakatakdang indbidwal na hakbang patungo sa pindutan.'
   custom_fields:
     text_add_new_custom_field: >
@@ -1731,7 +1731,7 @@ fil:
   label_public_projects: "Publikong proyekto"
   label_query_new: "Bagong query"
   label_query_plural: "Ang mga custom query"
-  label_query_menu_item: "Aytem ng query na pagpipilian"
+  label_query_menu_item: "Query menu item"
   label_read: "Basahin..."
   label_register: "Gumawa ng bagong akwant"
   label_register_with_developer: "Pagrehistro bilang developer"
@@ -2122,7 +2122,7 @@ fil:
     heading_getting_started: "Kumuha ng isang buod"
     text_getting_started_description: "Kumuha ng isang mabilisang buod ng project management at pakikipagtulungan ng koponan sa OpenProject."
     text_show_again: "Maari mong i-restart amg video na ito mula sa tulong ng pagpipilian"
-    welcome: "Maligayang pagdating sa OpenProject"
+    welcome: "Welcome to OpenProject"
     select_language: "Please select your language"
   permission_add_work_package_notes: "Magdagdag ng mga talaan"
   permission_add_work_packages: "Magdagdag ng mga work package"
@@ -2180,7 +2180,7 @@ fil:
   permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Piliin ang mga proyektong modyul"
   permission_manage_types: "Pumili ng mga uri"
-  permission_view_calendar: "Tanawin ang kalendaryo"
+  permission_view_calendar: "View calendar"
   permission_view_changesets: "Tingnan ang mga repository revision ng OpenProject"
   permission_view_commit_author_statistics: "Tanawin ang commit"
   permission_view_work_package_watchers: "Tanawin ang mga manunuod ng listahan"
@@ -2843,7 +2843,7 @@ fil:
   wiki_menu_item_new_main_item_explanation: >
     Ikay ay nagtatanggal sa tanging pangunahing aytem sa wiki na pagpipilian. Ikaw ay pwede nang makapili ng isang pahinang wiki kung saan ang isang bagong pangunahing aytem ay magiging buo. Para matanggal ang wiki ang modyul na wiki ay hindi aktibo sa pamamagitan ng mga administrador sa proyekto.
   wiki_menu_item_delete_not_permitted: Ang wiki na aytem na pagpipilian sa pahinang wiki lamang ay hindi maibura.
-  query_menu_item_for: "Aytem na pagpipilian sa query \"%{title}\""
+  query_menu_item_for: "Menu item for query \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |

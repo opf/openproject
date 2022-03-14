@@ -157,7 +157,7 @@ uk:
     edit: 'Редагувати спеціальну дію %{name}'
     execute: 'Виконати %{name}'
     upsale:
-      title: 'Спеціальні дії - це функція корпоративної версії'
+      title: 'Custom actions is an Enterprise Edition feature'
       description: 'Спеціальні дії спрощують повсякденну роботу, поєднуючи окремі кроки в одну кнопку.'
   custom_fields:
     text_add_new_custom_field: >
@@ -256,7 +256,7 @@ uk:
       irreversible: "Цю дію не можна скасувати"
       confirmation: "Введіть ім’я прототипу  користувача %{name}, щоб підтвердити видалення."
     upsale:
-      title: Надає роботу людям, які не є учасниками проєкту.
+      title: Assign work to people that are not members of the project.
       description: >
         У вас є кілька варіантів, якщо потрібно призначити роботу людям, які не належать до учасників вашого проєкту. Можливо, ви хочете тільки найняти потрібну людину для виконання завдання. Або ж ви не хочете надавати цій особі доступ до інформації про проєкт, але хочете відстежувати завдання, які їй призначаєте.
   prioritiies:
@@ -1761,7 +1761,7 @@ uk:
   label_public_projects: "Публічні проекти"
   label_query_new: "Новий запит"
   label_query_plural: "Спеціальні запити"
-  label_query_menu_item: "Запит меню"
+  label_query_menu_item: "Query menu item"
   label_read: "Читання..."
   label_register: "Створити новий акаунт"
   label_register_with_developer: "Зареєструйтеся як розробник"
@@ -2011,7 +2011,7 @@ uk:
   mail_body_backup_waiting_period: Новий маркер почне діяти через %{hours} год.
   mail_body_backup_token_warning: Якщо це були не ви, негайно ввійдіть в OpenProject і знову скиньте його.
   mail_body_lost_password: "Щоб змінити пароль, натисніть на посилання:"
-  mail_body_register: "Вітаємо в OpenProject. Активуйте свій обліковий запис, перейшовши за цим посиланням:"
+  mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "Електронний лист із запрошенням стати учасником проєкту"
   mail_body_register_user: "Добрий день, %{name}!"
   mail_body_register_links_html: |
@@ -2155,7 +2155,7 @@ uk:
     heading_getting_started: "Отримати огляд"
     text_getting_started_description: "Отримати короткий огляд управління проектами та командної співпраці з OpenProject."
     text_show_again: "Ви можете перезапустити це відео з меню довідки"
-    welcome: "Ласкаво просимо до OpenProject"
+    welcome: "Welcome to OpenProject"
     select_language: "Будь ласка, виберіть мову"
   permission_add_work_package_notes: "Додати нотатки"
   permission_add_work_packages: "Додати робочі пакети"
@@ -2213,7 +2213,7 @@ uk:
   permission_select_custom_fields: "Вибирати власні поля"
   permission_select_project_modules: "Вибір модулів проекту"
   permission_manage_types: "Виберіть типи"
-  permission_view_calendar: "Перегляд календаря"
+  permission_view_calendar: "View calendar"
   permission_view_changesets: "Перегляд змін репозиторію (сховища) в OpenProject"
   permission_view_commit_author_statistics: "Перегляд статистики комітів автора"
   permission_view_work_package_watchers: "Перегляд списку спостерігачів"
@@ -2882,7 +2882,7 @@ uk:
   wiki_menu_item_new_main_item_explanation: >
     Ви видаляєте лише головний пункт меню вікі. Тепер ви повинні вибрати вікі-сторінку, для якої буде створено новий головний елемент. Щоб видалити вікі, модуль wiki може бути відключений адміністраторами проекту.
   wiki_menu_item_delete_not_permitted: Пункт меню вікі лише з вікі-сторінки не можна видалити.
-  query_menu_item_for: "Пункт меню для запиту %{title}"
+  query_menu_item_for: "Menu item for query \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |

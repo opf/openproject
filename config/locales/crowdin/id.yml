@@ -158,7 +158,7 @@ id:
     edit: 'Edit custom action %{name}'
     execute: 'Execute %{name}'
     upsale:
-      title: 'Tindakan khusus adalah fitur Edisi Perusahaan'
+      title: 'Custom actions is an Enterprise Edition feature'
       description: 'Tindakan khusus merampingkan pekerjaan sehari-hari dengan menggabungkan satu set langkah individual menjadi satu tombol.'
   custom_fields:
     text_add_new_custom_field: >
@@ -257,7 +257,7 @@ id:
       irreversible: "This action is irreversible"
       confirmation: "Enter the placeholder user name %{name} to confirm the deletion."
     upsale:
-      title: Tetapkan pekerjaan ke seseorang yang bukan anggota proyek.
+      title: Assign work to people that are not members of the project.
       description: >
         There are multiple scenarios where you want to assign work to people that are not member of your project. It could simply be that you still need to hire the correct person for the job. Or you just don't want to give that person access to the project's information but still want track tasks assigned to that person.
   prioritiies:
@@ -1711,7 +1711,7 @@ id:
   label_public_projects: "Project untuk publik"
   label_query_new: "Queri baru"
   label_query_plural: "Kustom queri"
-  label_query_menu_item: "Queri menu item"
+  label_query_menu_item: "Query menu item"
   label_read: "Baca..."
   label_register: "Buat akun baru"
   label_register_with_developer: "Daftar sebagai pengembang"
@@ -2158,7 +2158,7 @@ id:
   permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Pilih modul Project"
   permission_manage_types: "Pilih Tipe"
-  permission_view_calendar: "Lihat kalender"
+  permission_view_calendar: "View calendar"
   permission_view_changesets: "View repository revisions in OpenProject"
   permission_view_commit_author_statistics: "Lihat commit statistik penulis"
   permission_view_work_package_watchers: "Lihat daftar pemantau"

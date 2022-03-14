@@ -1731,7 +1731,7 @@ bg:
   label_public_projects: "Публични проекти"
   label_query_new: "Ново търсене"
   label_query_plural: "Потребителско търсене"
-  label_query_menu_item: "Търсене на елемент от менюто"
+  label_query_menu_item: "Query menu item"
   label_read: "Прочитане..."
   label_register: "Регистрирайте нов профил"
   label_register_with_developer: "Регистрирайте се като разработчик"
@@ -1979,7 +1979,7 @@ bg:
   mail_body_backup_waiting_period: The new token will be enabled in %{hours} hours.
   mail_body_backup_token_warning: If this wasn't you, login to OpenProject immediately and reset it again.
   mail_body_lost_password: "За да промените паролата си, използвайте следния линк:"
-  mail_body_register: "Добре дошли в OpenProject. Моля, активирайте акаунта си, като кликнете върху тази връзка:"
+  mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "Имейл с покана за участник в проекта"
   mail_body_register_user: "Уважаеми %{name},"
   mail_body_register_links_html: |
@@ -2122,7 +2122,7 @@ bg:
     heading_getting_started: "Get an overview"
     text_getting_started_description: "Get a quick overview of project management and team collaboration with OpenProject."
     text_show_again: "Можете да рестартирате това видео от менюто помощ"
-    welcome: "Добре дошли в OpenProject"
+    welcome: "Welcome to OpenProject"
     select_language: "Изберете езика си"
   permission_add_work_package_notes: "Добавяне на бележки"
   permission_add_work_packages: "Add work packages"
@@ -2180,7 +2180,7 @@ bg:
   permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Select project modules"
   permission_manage_types: "Select types"
-  permission_view_calendar: "Преглед на календара"
+  permission_view_calendar: "View calendar"
   permission_view_changesets: "View repository revisions in OpenProject"
   permission_view_commit_author_statistics: "View commit author statistics"
   permission_view_work_package_watchers: "View watchers list"
