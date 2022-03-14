@@ -36,9 +36,9 @@ module API
 
         property :id
 
-        date_time_property :created_at, writeable: false
+        date_time_property :created_at
 
-        date_time_property :updated_at, writeable: false
+        date_time_property :updated_at
 
         property :originData,
                  exec_context: :decorator,

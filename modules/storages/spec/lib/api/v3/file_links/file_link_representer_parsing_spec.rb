@@ -68,20 +68,6 @@ describe ::API::V3::FileLinks::FileLinkRepresenter, 'parsing' do
       }
     end
 
-    describe 'given createdAt and updatedAt' do
-      let(:parsed_hash) do
-        {
-          "createdAt" => "2022-02-09T10:03:37Z",
-          "updatedAt" => "2022-02-09T10:03:37Z"
-        }
-      end
-
-      it 'are not used by the parsing' do
-        expect(parsed).not_to have_attributes(created_at: DateTime.parse(parsed_hash["createdAt"]).in_time_zone,
-                                              updated_at: DateTime.parse(parsed_hash["updatedAt"]).in_time_zone)
-      end
-    end
-
     describe 'storage' do
       context 'if storage url is given with trailing slashes' do
         let(:parsed_hash) do
