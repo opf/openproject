@@ -67,7 +67,7 @@ module DemoData
           seeder.seed!
         end
 
-        Setting.demo_projects_available = 'true'
+        Setting.demo_projects_available = true
       end
 
       puts ' ↳ Assign groups to projects'

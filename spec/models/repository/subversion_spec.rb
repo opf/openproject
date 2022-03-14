@@ -78,12 +78,9 @@ describe Repository::Subversion, type: :model do
       end
     end
 
-    context 'with string disabled types' do
+    context 'with string disabled types',
+            with_config: { 'scm' => { 'subversion' => { 'disabled_types' => %w[managed unknowntype] } } } do
       before do
-        allow(OpenProject::Configuration).to receive(:default_override_source)
-          .and_return('OPENPROJECT_SCM_SUBVERSION_DISABLED__TYPES' => '[managed,unknowntype]')
-
-        OpenProject::Configuration.load
         allow(instance.class).to receive(:scm_config).and_call_original
       end
 
@@ -369,8 +366,8 @@ describe Repository::Subversion, type: :model do
   it_behaves_like 'repository can be relocated', :subversion
 
   describe 'ciphering' do
-    it 'password is encrypted' do
-      OpenProject::Configuration.with 'database_cipher_key' => 'secret' do
+    context 'with cipher key', with_config: { 'database_cipher_key' => 'secret' } do
+      it 'password is encrypted' do
         r = create(:repository_subversion, password: 'foo')
         expect(r.password)
           .to eql('foo')
@@ -380,8 +377,8 @@ describe Repository::Subversion, type: :model do
       end
     end
 
-    it 'password is unencrypted with blank key' do
-      OpenProject::Configuration.with 'database_cipher_key' => '' do
+    context 'with blank cipher key', with_config: { 'database_cipher_key' => '' } do
+      it 'password is unencrypted' do
         r = create(:repository_subversion, password: 'foo')
         expect(r.password)
           .to eql('foo')
@@ -390,8 +387,8 @@ describe Repository::Subversion, type: :model do
       end
     end
 
-    it 'password is unencrypted with nil key' do
-      OpenProject::Configuration.with 'database_cipher_key' => nil do
+    context 'with cipher key nil', with_config: { 'database_cipher_key' => nil } do
+      it 'password is unencrypted' do
         r = create(:repository_subversion, password: 'foo')
 
         expect(r.password)
@@ -401,28 +398,35 @@ describe Repository::Subversion, type: :model do
       end
     end
 
-    it 'unciphered password is readable if activating cipher later' do
-      OpenProject::Configuration.with 'database_cipher_key' => nil do
+    context 'without a cipher key first but activating it later' do
+      before do
+        WithConfig.new(self).stub_key(:database_cipher_key, nil)
+
         create(:repository_subversion, password: 'clear')
+
+        WithConfig.new(self).stub_key(:database_cipher_key, 'secret')
       end
 
-      OpenProject::Configuration.with 'database_cipher_key' => 'secret' do
-        r = Repository.last
-
-        expect(r.password)
+      it 'unciphered password is readable' do
+        expect(Repository.last.password)
           .to eql('clear')
       end
     end
 
-    context '#encrypt_all' do
-      it 'encrypts formerly unencrypted passwords' do
-        Repository.delete_all
-        OpenProject::Configuration.with 'database_cipher_key' => nil do
+    describe '#encrypt_all' do
+      context 'with unencrypted passwords first but then with an encryption key' do
+        before do
+          Repository.delete_all
+
+          WithConfig.new(self).stub_key(:database_cipher_key, nil)
+
           create(:repository_subversion, password: 'foo')
           create(:repository_subversion, password: 'bar')
+
+          WithConfig.new(self).stub_key(:database_cipher_key, 'secret')
         end
 
-        OpenProject::Configuration.with 'database_cipher_key' => 'secret' do
+        it 'encrypts formerly unencrypted passwords' do
           expect(Repository.encrypt_all(:password))
             .to be_truthy
 
@@ -443,30 +447,29 @@ describe Repository::Subversion, type: :model do
       end
     end
 
-    context '#decrypt_all' do
+    describe '#decrypt_all', with_config: { 'database_cipher_key' => 'secret' } do
       it 'removes cyphering from all passwords' do
         Repository.delete_all
-        OpenProject::Configuration.with 'database_cipher_key' => 'secret' do
-          foo = create(:repository_subversion, password: 'foo')
-          bar = create(:repository_subversion, password: 'bar')
 
-          expect(Repository.decrypt_all(:password))
-            .to be_truthy
+        foo = create(:repository_subversion, password: 'foo')
+        bar = create(:repository_subversion, password: 'bar')
 
-          bar.reload
+        expect(Repository.decrypt_all(:password))
+          .to be_truthy
 
-          expect(bar.password)
-            .to eql('bar')
-          expect(bar.read_attribute(:password))
-            .to eql('bar')
+        bar.reload
 
-          foo.reload
+        expect(bar.password)
+          .to eql('bar')
+        expect(bar.read_attribute(:password))
+          .to eql('bar')
 
-          expect(foo.password)
-            .to eql('foo')
-          expect(foo.read_attribute(:password))
-            .to eql('foo')
-        end
+        foo.reload
+
+        expect(foo.password)
+          .to eql('foo')
+        expect(foo.read_attribute(:password))
+          .to eql('foo')
       end
     end
   end

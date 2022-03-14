@@ -36,16 +36,10 @@ module AccountsHelper
   end
 
   ##
-  # Gets the registration footer in the given language.
-  # If registration footers are defined via the OpenProject configuration
-  # then any footers defined via settings will be ignored.
+  # Gets the registration footer in the given language from the settings.
   #
   # @param lang [String] ISO 639-1 language code (e.g. 'en', 'de')
   def registration_footer_for(lang:)
-    if footer = OpenProject::Configuration.registration_footer.presence
-      footer[lang.to_s].presence
-    else
-      Setting.registration_footer[lang.to_s].presence
-    end
+    Setting.registration_footer[lang.to_s].presence
   end
 end

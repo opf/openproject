@@ -30,23 +30,6 @@ class Setting < ApplicationRecord
   extend CallbacksHelper
   extend Aliases
 
-  DATE_FORMATS = [
-    '%Y-%m-%d',
-    '%d/%m/%Y',
-    '%d.%m.%Y',
-    '%d-%m-%Y',
-    '%m/%d/%Y',
-    '%d %b %Y',
-    '%d %B %Y',
-    '%b %d, %Y',
-    '%B %d, %Y'
-  ]
-
-  TIME_FORMATS = [
-    '%H:%M',
-    '%I:%M %p'
-  ]
-
   ENCODINGS = %w(US-ASCII
                  windows-1250
                  windows-1251
@@ -85,61 +68,83 @@ class Setting < ApplicationRecord
                  EUC-KR
                  Big5
                  Big5-HKSCS
-                 TIS-620)
+                 TIS-620).freeze
 
-  cattr_accessor :available_settings
+  class << self
+    def create_setting(name, value = {})
+      ::Settings::Definition.add(name, **value.symbolize_keys)
+    end
 
-  def self.create_setting(name, value = nil)
-    @@available_settings[name] = value
-  end
+    def create_setting_accessors(name)
+      return if [:installation_uuid].include?(name.to_sym)
 
-  def self.create_setting_accessors(name)
-    return if [:installation_uuid].include?(name.to_sym)
-
-    # Defines getter and setter for each setting
-    # Then setting values can be read using: Setting.some_setting_name
-    # or set using Setting.some_setting_name = "some value"
-    src = <<-END_SRC
-      def self.#{name}
-        # when running too early, there is no settings table. do nothing
-        self[:#{name}] if settings_table_exists_yet?
-      end
-
-      def self.#{name}?
-        # when running too early, there is no settings table. do nothing
-        return unless settings_table_exists_yet?
-        value = self[:#{name}]
-        ActiveRecord::Type::Boolean.new.cast(value)
-      end
-
-      def self.#{name}=(value)
-        if settings_table_exists_yet?
-          self[:#{name}] = value
-        else
-          logger.warn "Trying to save a setting named '#{name}' while there is no 'setting' table yet. This setting will not be saved!"
-          nil # when running too early, there is no settings table. do nothing
+      # Defines getter and setter for each setting
+      # Then setting values can be read using: Setting.some_setting_name
+      # or set using Setting.some_setting_name = "some value"
+      src = <<-END_SRC
+        def self.#{name}
+          # when running too early, there is no settings table. do nothing
+          self[:#{name}] if settings_table_exists_yet?
         end
+
+        def self.#{name}?
+          # when running too early, there is no settings table. do nothing
+          return unless settings_table_exists_yet?
+          value = self[:#{name}]
+          ActiveRecord::Type::Boolean.new.cast(value)
+        end
+
+        def self.#{name}=(value)
+          if settings_table_exists_yet?
+            self[:#{name}] = value
+          else
+            logger.warn "Trying to save a setting named '#{name}' while there is no 'setting' table yet. This setting will not be saved!"
+            nil # when running too early, there is no settings table. do nothing
+          end
+        end
+
+        def self.#{name}_writable?
+          Settings::Definition[:#{name}].writable?
+        end
+      END_SRC
+      class_eval src, __FILE__, __LINE__
+    end
+
+    def definitions
+      Settings::Definition.all
+    end
+
+    def method_missing(method, *args, &block)
+      if exists?(accessor_base_name(method))
+        create_setting_accessors(accessor_base_name(method))
+
+        send(method, *args)
+      else
+        super
       end
-    END_SRC
-    class_eval src, __FILE__, __LINE__
-  end
+    end
 
-  @@available_settings = YAML::load(File.open(Rails.root.join('config/settings.yml')))
+    def respond_to_missing?(method_name, include_private = false)
+      exists?(accessor_base_name(method_name)) || super
+    end
 
-  # Defines getter and setter for each setting
-  # Then setting values can be read using: Setting.some_setting_name
-  # or set using Setting.some_setting_name = "some value"
-  @@available_settings.each do |name, _params|
-    create_setting_accessors(name)
+    private
+
+    def accessor_base_name(name)
+      name.to_s.sub(/(_writable\?)|(\?)|=\z/, '')
+    end
   end
 
   validates_uniqueness_of :name
-  validates_inclusion_of :name, in: lambda { |_setting|
-                                      @@available_settings.keys
-                                    } # lambda, because @available_settings changes at runtime
-  validates_numericality_of :value, only_integer: true, if: Proc.new { |setting|
-                                                              @@available_settings[setting.name]['format'] == 'int'
-                                                            }
+  validates :name,
+            inclusion: {
+              in: ->(*) { Settings::Definition.all.map(&:name) } # @available_settings change at runtime
+            }
+  validates :value,
+            numericality: {
+              only_integer: true,
+              if: Proc.new { |setting| setting.format == :integer }
+            }
 
   def value
     self.class.deserialize(name, read_attribute(:value))
@@ -152,9 +157,7 @@ class Setting < ApplicationRecord
   def formatted_value(value)
     return value if value.blank?
 
-    default = @@available_settings[name]
-
-    if default['serialized']
+    if config.serialized?
       return value.to_yaml
     end
 
@@ -163,7 +166,7 @@ class Setting < ApplicationRecord
 
   # Returns the value of the setting named name
   def self.[](name)
-    filtered_cached_or_default(name)
+    cached_or_default(name)
   end
 
   def self.[]=(name, v)
@@ -192,7 +195,7 @@ class Setting < ApplicationRecord
 
   # Check whether a setting was defined
   def self.exists?(name)
-    @@available_settings.has_key?(name)
+    Settings::Definition[name].present?
   end
 
   def self.installation_uuid
@@ -246,28 +249,25 @@ class Setting < ApplicationRecord
   end
 
   # Returns the Setting instance for the setting named name
-  # and allows to filter the returned value
-  def self.filtered_cached_or_default(name)
-    name = name.to_s
-    raise "There's no setting named #{name}" unless exists? name
-
-    value = cached_or_default(name)
-
-    case name
-    when "work_package_list_default_highlighting_mode"
-      value = "none" unless EnterpriseToken.allows_to? :conditional_highlighting
-    end
-
-    value
-  end
-
-  # Returns the Setting instance for the setting named name
-  # (record found in cache or default value)
+  # The setting can come from either
+  # * The database
+  # * The cached database value
+  # * The setting definition
+  #
+  # In case the definition is overwritten, e.g. via an ENV var,
+  # the definition value will always be used.
   def self.cached_or_default(name)
     name = name.to_s
     raise "There's no setting named #{name}" unless exists? name
 
-    value = cached_settings.fetch(name) { @@available_settings[name]['default'] }
+    definition = Settings::Definition[name]
+
+    value = if definition.writable?
+              cached_settings.fetch(name) { Settings::Definition[name].value }
+            else
+              definition.value
+            end
+
     deserialize(name, value)
   end
 
@@ -312,12 +312,12 @@ class Setting < ApplicationRecord
 
   # Unserialize a serialized settings value
   def self.deserialize(name, v)
-    default = @@available_settings[name]
+    default = Settings::Definition[name]
 
-    if default['serialized'] && v.is_a?(String)
+    if default.serialized? && v.is_a?(String)
       YAML::safe_load(v, permitted_classes: [Symbol, ActiveSupport::HashWithIndifferentAccess, Date, Time])
     elsif v.present?
-      read_formatted_setting v, default["format"]
+      read_formatted_setting v, default.format
     else
       v
     end
@@ -325,18 +325,27 @@ class Setting < ApplicationRecord
 
   def self.read_formatted_setting(value, format)
     case format
-    when "boolean"
+    when :boolean
       ActiveRecord::Type::Boolean.new.cast(value)
-    when "symbol"
+    when :symbol
       value.to_sym
-    when "int"
+    when :integer
       value.to_i
-    when "date"
+    when :date
       Date.parse value
-    when "datetime"
+    when :datetime
       DateTime.parse value
     else
       value
     end
   end
+
+  protected
+
+  def config
+    @config ||= Settings::Definition[name]
+  end
+
+  delegate :format,
+           to: :config
 end

@@ -63,6 +63,21 @@ describe Setting, type: :model do
         expect(described_class.host_name).to eq 'some name'
       end
 
+      context 'when overwritten' do
+        let!(:setting_definition) do
+          Settings::Definition[:host_name].tap do |setting|
+            allow(setting)
+              .to receive(:writable?)
+                    .and_return false
+          end
+        end
+
+        it 'takes the setting from the definition' do
+          expect(described_class.host_name)
+            .to eql setting_definition.value
+        end
+      end
+
       it 'stores the setting' do
         expect(described_class.find_by(name: 'host_name').value).to eq 'some name'
       end
@@ -74,6 +89,10 @@ describe Setting, type: :model do
         described_class.host_name = 'some other name'
       end
 
+      after do
+        described_class.find_by(name: 'host_name').destroy
+      end
+
       it 'sets the setting' do
         expect(described_class.host_name).to eq 'some other name'
       end
@@ -81,9 +100,31 @@ describe Setting, type: :model do
       it 'stores the setting' do
         expect(described_class.find_by(name: 'host_name').value).to eq 'some other name'
       end
+    end
+  end
 
-      after do
-        described_class.find_by(name: 'host_name').destroy
+  describe '.[setting]_writable?' do
+    before do
+      allow(Settings::Definition[:host_name])
+        .to receive(:writable?)
+              .and_return writable
+    end
+
+    context 'when definition states it to be writable' do
+      let(:writable) { true }
+
+      it 'is writable' do
+        expect(described_class)
+          .to be_host_name_writable
+      end
+    end
+
+    context 'when definition states it to be non writable' do
+      let(:writable) { false }
+
+      it 'is non writable' do
+        expect(described_class)
+          .not_to be_host_name_writable
       end
     end
   end
