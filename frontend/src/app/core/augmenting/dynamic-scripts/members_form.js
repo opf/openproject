@@ -87,12 +87,14 @@ function hideAddMemberForm() {
 }
 
 jQuery(document).ready(function($) {
+  const filter = findFilter();
+
   // Show/Hide content when page is loaded
   if (window.OpenProject.guardedLocalStorage("showFilter") === "true") {
-    showFilter(filter = findFilter());
+    showFilter(filter);
   }
   else {
-    hideFilter(filter = findFilter());
+    hideFilter(filter);
     // In case showFilter is not set yet
     window.OpenProject.guardedLocalStorage("showFilter", 'false');
   }
