@@ -37,7 +37,13 @@
 # Additional attributes and constraints are defined in
 # db/migrate/20220113144323_create_storage.rb "migration".
 class Storages::Storage < ApplicationRecord
-  # One Storage can have multiple FileLinks, representing external files
+  # One Storage can have multiple FileLinks, representing external files.
+  #
+  # FileLink deletion is done:
+  #   - through a on_delete: :cascade at the database level when deleting a
+  #     Storage
+  #   - through a before_destroy hook at the application level when deleting a
+  #     ProjectStorage
   has_many :file_links, class_name: 'Storages::FileLink'
   # Basically every OpenProject object has a creator
   belongs_to :creator, class_name: 'User'
