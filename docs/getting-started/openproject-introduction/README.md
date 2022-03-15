@@ -62,7 +62,7 @@ OpenProject supports the initial set-up and configuration of a project structure
 | Features                   | Documentation for                                            |
 | -------------------------- | ------------------------------------------------------------ |
 | [Create a new project](../projects/#create-a-new-project)       | Create and set up a new project in OpenProject              |
-| [Set up a project structure](../../user-guide/projects/#project-structureproject-structure) | Create a project hierarchy to structure your work in OpenProject |
+| [Set up a project structure](../../user-guide/projects/#project-structure) | Create a project hierarchy to structure your work in OpenProject |
 | [Project settings](../../user-guide/projects/#project-settings)            | Create first ideas, tasks, rough milestones.                 |
 | [Add members](../invite-members/)            | Invite your team to collaborate in OpenProject.              |
 
