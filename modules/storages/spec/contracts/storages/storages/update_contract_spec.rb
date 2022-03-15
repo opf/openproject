@@ -36,20 +36,10 @@ describe ::Storages::Storages::UpdateContract do
   it_behaves_like 'storage contract' do
     let(:storage) do
       build_stubbed(:storage,
-                    creator: current_user,
-                    host: 'https://host1.example.com',
-                    name: 'Storage 1',
-                    provider_type: ::Storages::Storage::PROVIDER_TYPE_NEXTCLOUD).tap do |storage|
-        if storage_name == storage.name
-          # trigger at least one change per default
-          storage.name += " (DEFAULT UPDATED)"
-        else
-          storage.name = storage_name
-        end
-        storage.host = storage_host
-        storage.provider_type = storage_provider_type
-        storage.creator = storage_creator
-      end
+                    creator: storage_creator,
+                    host: storage_host,
+                    name: storage_name,
+                    provider_type: storage_provider_type)
     end
     let(:contract) { described_class.new(storage, current_user) }
   end
