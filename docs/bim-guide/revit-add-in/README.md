@@ -61,7 +61,7 @@ After you have downloaded the file, please run it to start the installation proc
 1. **Start Installation process**
    In the first screen, click *Next* to continue: 
 
-<img src="https://github.com/opf/openproject-revit-add-in/raw/master/docs/images/installation-step-01.png" alt="Installation Step 01" style="zoom:80%;" />
+![Installation Step 1](installation-step-01.png)
 
 
 
@@ -69,7 +69,7 @@ After you have downloaded the file, please run it to start the installation proc
 
    Next, select the Revit version you have installed locally and click *Next* to continue. You can select multiple versions:
 
-![Installation Step 02](https://github.com/opf/openproject-revit-add-in/raw/master/docs/images/installation-step-02.png)
+![Installation Step 02](installation-step-02.png)
 
 
 
@@ -77,7 +77,7 @@ After you have downloaded the file, please run it to start the installation proc
 
    Verify the installation steps are correct in the next screen and click on *Install* to install the **OpenProject Revit AddIn**:
 
-![Installation Step 03](https://github.com/opf/openproject-revit-add-in/raw/master/docs/images/installation-step-03.png)
+![Installation Step 03](installation-step-03.png)
 
 
 
@@ -195,7 +195,7 @@ To remove the **OpenProject Revit AddIn** remove the AddIn like any other AddIn 
 
 This is an internal Windows defense mechanism called *Windows SmartScreen*. When you run the installer, you might see a message similar to this:
 
-<img src="https://github.com/opf/openproject-revit-add-in/raw/master/docs/images/installer-smart-screen-01.png" alt="Installer Windows SmartScreen 01" style="zoom:80%;" />
+![Installer Windows SmartScreen 1](installer-smart-screen-01.png)
 
 
 
@@ -203,7 +203,7 @@ This can happen when a new release was not yet installed by many users, so inter
 
 To continue, please click on the highlighted part labeled *Additional Information*, then you should see a screen like the following:
 
-<img src="https://github.com/opf/openproject-revit-add-in/raw/master/docs/images/installer-smart-screen-02.png" alt="Installer Windows SmartScreen 02" style="zoom:80%;" />
+![Installer Windows SmartScreen 2](installer-smart-screen-02.png)
 
 
 
@@ -215,4 +215,4 @@ To proceed with the installation, click on *Run Anyway* and the installation wil
 
 ## Reporting bugs
 
-You found a bug? Please [report it](https://docs.openproject.org/development/report-a-bug) to our [OpenProject community](https://community.openproject.com/projects/revit-add-in). Thank you!
+You found a bug? Please [report it](../../development/report-a-bug) to our [OpenProject community](https://community.openproject.com/projects/revit-add-in). Thank you!

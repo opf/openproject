@@ -25,14 +25,14 @@ OpenProject BIM supports the standard of the ***BIM Collaboration Format (BCF)**
 
 ## Create a BIM Issue
 
-To create a BIM Issue you don't have to configure a new type of work package. Every work package (e.g. Task, Issue, Milestone, ... ) can become a BIM Issue only by adding a viewpoint to the work package. 
+To create a BIM Issue you don't have to configure a new type of work package. Every work package (e.g. Task, Issue, Milestone, … ) can become a BIM Issue only by adding a viewpoint to the work package. 
 
 There are two ways to create new BIM Issue:
 
 - [Create a new BIM Issue](#create-a-new-bim-issue) within the building model
 - Add a viewpoint to an existing work package (doesn't matter which type)
 
-BIM-Issues always belong to a project and a building model. Therefore, you first need to [select a project](https://www.openproject.org/docs/getting-started/projects/#open-an-existing-project) and upload an IFC file to see the building .
+BIM-Issues always belong to a project and a building model. Therefore, you first need to [select a project](../../getting-started/projects/#open-an-existing-project) and upload an IFC file to see the building .
 
 Then, navigate to the BCF module in the project navigation.
 
@@ -44,7 +44,7 @@ Then, navigate to the BCF module in the project navigation.
 
 ### Create a new BIM Issue
 
-To create new BIM Issues, you have to open the Model - Viewer first and create the view you want to save within the BIM Issue (e.g. zoom, [rotate](...\ifc-viewer\#how-to-rotate-the-building-model?), [slice](...\ifc-viewer\#how-to-slice-the-building-model?), [select](...\ifc-viewer\#how-to-select-elements?), [hide](...\ifc-viewer\#show-or-hide-elements-or-models), ... ). 
+To create new BIM Issues, you have to open the Model - Viewer first and create the view you want to save within the BIM Issue (e.g. zoom, [rotate](../ifc-viewer/#how-to-rotate-the-building-model?), [slice](../ifc-viewer/#how-to-slice-the-building-model?), [select](../ifc-viewer/#how-to-select-elements?), [hide](../ifc-viewer/#show-or-hide-elements-or-models), … ). 
 
 Click on the **+ Create new work package** and select the type of workpackage you want. 
 
@@ -139,13 +139,13 @@ You can switch between different View modes within the OpenProject toolbar. Just
 
 The detail view of every work package can be shown by different user actions. To open the viewpoint and see the description in the details view, just double click at the BIM Issue in the card view. After double click your current viewpoint in the model viewer will be reset and the viewpoint of the BIM Issue including all details will be displayed.  
 
-To view only the detail view of the BIM issue without resetting the current view of the model, you can click on the work package number ("#...") or the "information icon" on the card.
+To view only the detail view of the BIM issue without resetting the current view of the model, you can click on the work package number ("#…") or the "information icon" on the card.
 
 
 
 ### Cards Mode
 
-Within the cards view you are not able to jump directly to a viewpoint. First you have to open the details view by using the "information icon" or the work package number ("#...") at the card. There you can find the "Cube" which leads you to the viewpoint within the appearing model viewer.  
+Within the cards view you are not able to jump directly to a viewpoint. First you have to open the details view by using the "information icon" or the work package number ("#…") at the card. There you can find the "Cube" which leads you to the viewpoint within the appearing model viewer.  
 
 ![Cards Mode](Cards-mode.png)
 
@@ -166,7 +166,7 @@ To open the BIM Issue in this mode just click at the work package in the table. 
 
 ### Table
 
-Within the table view you are not able to jump directly to a viewpoint. First you have to open the details view by using the "information icon" or the work package number ("#...") or double click at the work package. At the details view you can find the "Cube" which leads you to the viewpoint within the appearing model viewer.  
+Within the table view you are not able to jump directly to a viewpoint. First you have to open the details view by using the "information icon" or the work package number ("#…") or double click at the work package. At the details view you can find the "Cube" which leads you to the viewpoint within the appearing model viewer.  
 
 ![Table](table.png)
 
