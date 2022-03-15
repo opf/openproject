@@ -180,7 +180,16 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin {
       ]);
     }
 
-    return { filters, pageSize: -1 };
+    return {
+      filters,
+      pageSize: -1,
+      select: [
+        'elements/id',
+        'elements/name',
+        'elements/self',
+        'elements/ancestors',
+      ],
+    };
   }
 
   constructor(
