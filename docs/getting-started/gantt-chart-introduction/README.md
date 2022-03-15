@@ -38,7 +38,7 @@ To open the Gantt chart view in OpenProject, the [work packages module needs to 
 
 Within your project menu, navigate to the work packages module. Select the **Gantt chart view** in the work package list with the button on the top right.
 
-![Bildschirmfoto 2022-02-23 um 17.45.10](/Users/jankeppler/Desktop/Bildschirmfoto 2022-02-23 um 17.45.10.png)
+![open the gantt chart view](gantt-chart-view.png)
 
 You can activate a Gantt chart view from any work package list (or saved query) by selecting the Gantt view from the top.
 
@@ -56,7 +56,7 @@ Click in the at the level of the line of the work package you want to map in the
 
 You can change the duration or move the element in the project plan via drag and drop.
 
-![create-projectplan](create-projectplan-1571743591204.gif)
+![create projectplan](create-projectplan-1571743591204.gif)
 
 ## Edit a project plan
 

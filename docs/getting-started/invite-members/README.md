@@ -19,8 +19,6 @@ In order to see a project and work in it, you have to be a member of a project. 
 </div>
 
 
-
-
 | Topic                                                        | Content                                                      |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | [View members](#view-members)                                | View the list of members in your project.                    |
