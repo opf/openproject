@@ -41,7 +41,7 @@ The dashboard shows the places where it is possible to add more widgets by displ
 
 Press a plus icon to add a widget to My Page at the according place.
 
-![my-page-add-widget](my-page-add-widget.png)
+![my page add widget](my-page-add-widget.png)
 
 Once you have chosen the place where to add the new widget on My Page, you can choose from a number of different widgets that can be included on your dashboard.
 
@@ -56,19 +56,13 @@ You can change the position of a widget on the dashboard with drag and drop.
 
 Click the dots next to the title and drag it to the new place.
 
-<video src="/Users/jankeppler/Desktop/Bildschirmaufnahme 2022-02-25 um 13.13.10.mov"></video>
-
 ![Move-widget](Move-widget.png)
 
 ### Change the size of a widget
 
 If you click the dots on the lower right hand corner in a widget you can change the size of a widget by pulling the widget left and right, up and down with the mouse.
 
-<video src="/Users/jankeppler/Desktop/Bildschirmaufnahme 2022-02-25 um 13.05.34.mov"></video>
 
-![chage-size-of-a-widget](chage-size-of-a-widget.png)
-
-![change-size-of-a-widget-addition](change-size-of-a-widget-addition.png)
 
 ### Configure the view of a widget (for work package tables)
 
@@ -77,7 +71,7 @@ You can configure the view of a work package widget to have the information incl
 <div class="glossary">
 **Work package** is a subset of a project that can be assigned to users for execution, such as Tasks, Bugs, User Stories, Milestones, and more. Work packages have a type, an ID and a subject and may have additional attributes, such as assignee, responsible, story points or target version. Work packages are displayed in a project timeline (unless they are filtered out in the timeline configuration) - either as a milestone or as a phase. In order to use the work packages, the work package module has to be activated in the project settings.
 </div>
-​          
+![change the size of a widget](change-size-of-widget.gif)          
 
 On a work package widget, click on the button with the three dots and select **Configure view...**
 
@@ -89,7 +83,7 @@ You can configure the work package table (e.g. filter, group, highlight, sort) a
 
 To delete a widget from the dashboard, click on the three dots in the upper right corner of the widget and select **Remove widget**.
 
-![my-page-remove-widget](my-page-remove-widget.png)
+![my page remove widget](my-page-remove-widget.png)
 
 ## My spent time widget
 

@@ -65,7 +65,7 @@ An email invitation will be sent out to the user with a link to [create an accou
 
 **Invite from header**
 
-In the header menu that is always present, you find a green button that allows you to create projectes, work packages an invite users from wherever in the application you are.
+In the header menu that is always present, you find a green button that allows you to create projects, work packages and invite users from wherever in the application you are.
 
 ![green button for project creation](create-project-button.png)
 

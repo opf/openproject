@@ -183,7 +183,7 @@ If you cannot see the entry **Delete account** in the **My account** side menu, 
 
 To delete your account, select **Delete account** from the side menu and enter your login to confirm the deletion.
 
-![delete-account](Bildschirmfoto 2022-03-02 um 16.15.19.png)
+![delete your account](delete-account.png)
 
 <div class="alert alert-info" role="alert">
 Important: Deleting a user account is permanent and cannot be reversed.
