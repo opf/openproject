@@ -47,6 +47,6 @@ class Storages::FileLinks::CreateContract < BaseContract
 
   def validate_project_storage_link
     storage_is_not_linked = model.storage.present? && model.project.storages.exclude?(model.storage)
-    errors.add(:storage_id, 'not linked to project.') if storage_is_not_linked
+    errors.add(:storage_id, :not_linked_to_project) if storage_is_not_linked
   end
 end

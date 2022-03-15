@@ -152,7 +152,7 @@ describe 'API v3 file links resource', type: :request do
       let(:storage_url2) { storage.host }
 
       it_behaves_like 'constraint violation' do
-        let(:message) { 'Storage not linked to project' }
+        let(:message) { 'Storage is not linked to project' }
       end
     end
   end

@@ -14,6 +14,16 @@ en:
         creator: "Creator"
         provider_type: "Provider type"
 
+    errors:
+      messages:
+        not_linked_to_project: "is not linked to project."
+      models:
+        storages/storage:
+          attributes:
+            host:
+              cannot_be_connected_to: "can not be connected to."
+              minimal_nextcloud_version_unmet: "does not meet minimal version requirements (must be Nextcloud 23 or higher)"
+
   storages:
     page_titles:
       project_settings:

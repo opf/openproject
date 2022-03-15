@@ -52,26 +52,26 @@ shared_examples_for 'storage contract', :storage_server_helpers, webmock: true d
 
   describe 'validations' do
     context 'when all attributes are valid' do
-      it_behaves_like 'contract is valid'
+      include_examples 'contract is valid'
     end
 
     context 'when name is invalid' do
       context 'as it is too long' do
         let(:storage_name) { 'X' * 257 }
 
-        it_behaves_like 'contract is invalid'
+        include_examples 'contract is invalid', name: :too_long
       end
 
       context 'as it is empty' do
         let(:storage_name) { '' }
 
-        it_behaves_like 'contract is invalid'
+        include_examples 'contract is invalid', name: :blank
       end
 
       context 'as it is nil' do
         let(:storage_name) { nil }
 
-        it_behaves_like 'contract is invalid'
+        include_examples 'contract is invalid', name: :blank
       end
     end
 
@@ -79,19 +79,19 @@ shared_examples_for 'storage contract', :storage_server_helpers, webmock: true d
       context 'as it is unknown' do
         let(:storage_provider_type) { 'unkwown_provider_type' }
 
-        it_behaves_like 'contract is invalid'
+        include_examples 'contract is invalid', provider_type: :inclusion
       end
 
       context 'as it is empty' do
         let(:storage_provider_type) { '' }
 
-        it_behaves_like 'contract is invalid'
+        include_examples 'contract is invalid', provider_type: :inclusion
       end
 
       context 'as it is nil' do
         let(:storage_provider_type) { nil }
 
-        it_behaves_like 'contract is invalid'
+        include_examples 'contract is invalid', provider_type: :inclusion
       end
     end
 
@@ -99,19 +99,19 @@ shared_examples_for 'storage contract', :storage_server_helpers, webmock: true d
       context 'as host is not a URL' do
         let(:storage_host) { '---invalid-url---' }
 
-        it_behaves_like 'contract is invalid'
+        include_examples 'contract is invalid', host: :url
       end
 
       context 'as host is an empty string' do
         let(:storage_host) { '' }
 
-        it_behaves_like 'contract is invalid'
+        include_examples 'contract is invalid', host: :url
       end
 
       context 'as host is nil' do
         let(:storage_host) { nil }
 
-        it_behaves_like 'contract is invalid'
+        include_examples 'contract is invalid', host: :url
       end
 
       context 'when provider_type is nextcloud' do
@@ -125,25 +125,25 @@ shared_examples_for 'storage contract', :storage_server_helpers, webmock: true d
             allow(Net::HTTP).to receive(:start).and_raise(SocketError, 'Failed to open TCP connection (SIMULATED)')
           end
 
-          it_behaves_like 'contract is invalid'
+          include_examples 'contract is invalid', host: :cannot_be_connected_to
         end
 
         context 'when response code is a 404 NOT FOUND' do
           let(:host_response_code) { '404' }
 
-          it_behaves_like 'contract is invalid'
+          include_examples 'contract is invalid', host: :cannot_be_connected_to
         end
 
         context 'when response code is a 500 PERMISSION DENIED' do
           let(:host_response_code) { '500' }
 
-          it_behaves_like 'contract is invalid'
+          include_examples 'contract is invalid', host: :cannot_be_connected_to
         end
 
         context 'when Nextcloud version is below the required minimal version which is 23' do
           let(:host_response_major_version) { '22' }
 
-          it_behaves_like 'contract is invalid'
+          include_examples 'contract is invalid', host: :minimal_nextcloud_version_unmet
         end
       end
     end

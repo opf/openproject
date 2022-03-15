@@ -41,10 +41,10 @@ module Storages::Storages
     include ActiveModel::Validations
 
     attribute :name
-    validates :name, length: { minimum: 1, maximum: 255 }, allow_nil: false
+    validates :name, presence: true, length: { maximum: 255 }
 
     attribute :provider_type
-    validates :provider_type, inclusion: { in: ->(*) { Storages::Storage::PROVIDER_TYPES } }, allow_nil: false
+    validates :provider_type, inclusion: { in: ->(*) { Storages::Storage::PROVIDER_TYPES } }
 
     attribute :creator, writable: false do
       validate_creator_is_user
@@ -69,12 +69,12 @@ module Storages::Storages
       response = request_capabilities
 
       unless response.is_a? Net::HTTPSuccess
-        errors.add(:host, :invalid)
+        errors.add(:host, :cannot_be_connected_to)
         return
       end
 
       unless major_version_sufficient?(response)
-        errors.add(:host, :invalid)
+        errors.add(:host, :minimal_nextcloud_version_unmet)
       end
     end
 
