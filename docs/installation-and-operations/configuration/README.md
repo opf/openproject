@@ -442,14 +442,14 @@ web:
 
 **Note:** Timeouts only are supported when using at least 2 workers.
 
-As usual these values can be overriden via the environment.
+As usual these values can be overridden via the environment.
 
 ```
 OPENPROJECT_WEB_WORKERs=2
-OPENPROJECT_WEB_TIMEOUT=60 # overriden by: RACK_TIMEOUT_SERVICE_TIMEOUT
-OPENPROJECT_WEB_WAIT__TIMEOUT=10 # overriden by: RACK_TIMEOUT_WAIT_TIMEOUT
-OPENPROJECT_WEB_MIN__THREADS=4 # overriden by: RAILS_MIN_THREADS
-OPENPROJECT_WEB_MAX__THREADS=16 # overriden by: RAILS_MAX_THREADS
+OPENPROJECT_WEB_TIMEOUT=60 # overridden by: RACK_TIMEOUT_SERVICE_TIMEOUT
+OPENPROJECT_WEB_WAIT__TIMEOUT=10 # overridden by: RACK_TIMEOUT_WAIT_TIMEOUT
+OPENPROJECT_WEB_MIN__THREADS=4 # overridden by: RAILS_MIN_THREADS
+OPENPROJECT_WEB_MAX__THREADS=16 # overridden by: RAILS_MAX_THREADS
 ```
 
 ### Two-factor authentication
@@ -515,8 +515,8 @@ statsd:
 Or via the environment:
 
 ```
-OPENPROJECT_STATSD_HOST=127.0.0.1 # overriden by: STATSD_HOST
-OPENPRJOECT_STATSD_PORT=8125 # overriden by: STATSD_PORT
+OPENPROJECT_STATSD_HOST=127.0.0.1 # overridden by: STATSD_HOST
+OPENPRJOECT_STATSD_PORT=8125 # overridden by: STATSD_PORT
 ```
 
 | ----------- | :---------- |
