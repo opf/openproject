@@ -68,7 +68,7 @@ class Storages::Admin::ProjectsStoragesController < Projects::SettingsController
                          .new(user: current_user,
                               model: Storages::ProjectStorage.new,
                               contract_class: EmptyContract)
-                         .call({ project: @project })
+                         .call(project: @project)
                          .result
 
     # Calculate the list of available Storage objects, subtracting already enabled storages.
@@ -80,16 +80,12 @@ class Storages::Admin::ProjectsStoragesController < Projects::SettingsController
 
   # Create a new ProjectStorage object.
   # Called by: The new page above with form-data from that form.
-  # rubocop:disable Metrics/AbcSize
   def create
     # Check params and overwrite creator_id and project_id in untrusted data from the Internet
     # @project was calculated by before_action :find_optional_project.
-    combined_params = permitted_project_storage_params
-                        .to_h
-                        .reverse_merge(creator_id: current_user.id, project_id: @project.id)
     service_result = ::Storages::ProjectStorages::CreateService
                        .new(user: current_user)
-                       .call(combined_params)
+                       .call(permitted_create_params)
 
     # Create success/error messages to the user
     if service_result.success?
@@ -100,7 +96,6 @@ class Storages::Admin::ProjectsStoragesController < Projects::SettingsController
 
     redirect_to project_settings_projects_storages_path # Redirect: Project -> Settings -> File Storages
   end
-  # rubocop:enable Metrics/AbcSize
 
   # Purpose: Destroy a ProjectStorage object
   # Called by: By pressing a "Delete" icon in the Project's settings ProjectStorages page
@@ -125,10 +120,12 @@ class Storages::Admin::ProjectsStoragesController < Projects::SettingsController
 
   # Define the list of permitted parameters for creating/updating a ProjectStorage.
   # Called by create and update actions above.
-  def permitted_project_storage_params
+  def permitted_create_params
     # "params" is an instance of ActionController::Parameters
     params
       .require(:storages_project_storage)
       .permit('storage_id')
+      .to_h
+      .reverse_merge(project_id: @project.id)
   end
 end

@@ -82,7 +82,7 @@ describe ::Storages::Storages::SetAttributesService, type: :model do
   end
 
   context 'with new record' do
-    it 'sets creator to user upon creation' do
+    it 'sets creator to current user' do
       expect(subject.result.creator).to eq current_user
     end
 

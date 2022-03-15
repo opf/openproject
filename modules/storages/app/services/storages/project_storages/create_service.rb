@@ -26,16 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# See: ../storages/create_service.rb for comments pm services
+# See: ../storages/create_service.rb for comments on services
 module Storages::ProjectStorages
   class CreateService < ::BaseServices::Create
-    protected
-
-    # Override the "creator_id" parameter with the actual user.
-    # before_perform is called in the service before attributes are set.
-    def before_perform(params, _service_result)
-      params[:creator_id] = user.id
-      super(params, _service_result)
-    end
   end
 end

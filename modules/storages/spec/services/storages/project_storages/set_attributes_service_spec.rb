@@ -32,7 +32,7 @@ describe ::Storages::ProjectStorages::SetAttributesService, type: :model do
   let(:current_user) { build_stubbed(:admin) }
 
   let(:contract_instance) do
-    contract = instance_double(::Storages::Storages::BaseContract, 'contract_instance')
+    contract = instance_double(::Storages::ProjectStorages::BaseContract, 'contract_instance')
     allow(contract)
       .to receive(:validate)
       .and_return(contract_valid)
@@ -52,13 +52,13 @@ describe ::Storages::ProjectStorages::SetAttributesService, type: :model do
                         contract_class: contract_class,
                         contract_options: {})
   end
-  let(:model_instance) { ::Storages::Storage.new }
+  let(:model_instance) { ::Storages::ProjectStorage.new }
   let(:contract_class) do
-    allow(::Storages::Storages::CreateContract)
+    allow(::Storages::ProjectStorages::CreateContract)
       .to receive(:new)
       .and_return(contract_instance)
 
-    ::Storages::Storages::CreateContract
+    ::Storages::ProjectStorages::CreateContract
   end
 
   let(:params) { {} }
@@ -81,17 +81,17 @@ describe ::Storages::ProjectStorages::SetAttributesService, type: :model do
       .to be_success
   end
 
-  context 'with params' do
-    let(:params) do
-      {
-        name: 'Foobar'
-      }
+  context 'with new record' do
+    it 'sets creator to current user' do
+      expect(subject.result.creator).to eq current_user
     end
+  end
 
-    it 'assigns the params' do
-      subject
+  context 'with existing record' do
+    let(:model_instance) { build_stubbed(:project_storage, creator: build_stubbed(:user)) }
 
-      expect(model_instance.name).to eq 'Foobar'
+    it 'keeps its creator' do
+      expect(subject.result.creator).not_to eq current_user
     end
   end
 
