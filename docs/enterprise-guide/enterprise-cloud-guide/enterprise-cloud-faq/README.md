@@ -9,13 +9,17 @@ keywords: Enterprise cloud FAQ, Cloud Edition, hosted by OpenProject
 
 # Frequently asked questions (FAQ) for Enterprise cloud
 
+## How can I test the Enterprise cloud version?
+
+Simply create a 14 days free trial on: https://start.openproject.com/. Enter your organization name in small letters, without spaces (e.g. openproject) and press the blue Start Free Trial button.
+
 ## How can I book additional users for the Enterprise cloud?
 
 You can do this in your OpenProject instance in the administration. The number of users can be increased in steps of 5. Find out [here](../manage-cloud-subscription/#upgrade-or-downgrade-subscription) how to change the number of users in your system administration. A reduction in the number of users takes effect at the beginning of the next subscription period.
 
 ## How can I change my payment details (e.g. new credit card)?
 
-Please have a look at [this instruction](../manage-cloud-subscription/).
+Please have a look at [this instruction](../manage-cloud-subscription/) for the Cloud edition to change your payment details.
 
 
 ## Does OpenProject comply with GDPR?
