@@ -164,8 +164,8 @@ paths:
     "$ref": "./paths/custom_action.yml"
   "/api/v3/custom_actions/{id}/execute":
     "$ref": "./paths/custom_action_execute.yml"
-  "/api/v3/custom_objects/{id}":
-    "$ref": "./paths/custom_object.yml"
+  "/api/v3/custom_options/{id}":
+    "$ref": "./paths/custom_option.yml"
   "/api/v3/documents":
     "$ref": "./paths/documents.yml"
   "/api/v3/documents/{id}":
@@ -465,8 +465,8 @@ components:
       "$ref": "./components/schemas/cursor_based_pagination.yml"
     Custom_ActionModel:
       "$ref": "./components/schemas/custom_action_model.yml"
-    Custom_ObjectModel:
-      "$ref": "./components/schemas/custom_object_model.yml"
+    Custom_OptionModel:
+      "$ref": "./components/schemas/custom_option_model.yml"
     CustomactionModel:
       "$ref": "./components/schemas/customaction_model.yml"
     Default_QueryModel:
@@ -747,7 +747,7 @@ tags:
 - "$ref": "./tags/categories.yml"
 - "$ref": "./tags/configuration.yml"
 - "$ref": "./tags/custom_actions.yml"
-- "$ref": "./tags/custom_objects.yml"
+- "$ref": "./tags/custom_options.yml"
 - "$ref": "./tags/documents.yml"
 - "$ref": "./tags/grids.yml"
 - "$ref": "./tags/groups.yml"
