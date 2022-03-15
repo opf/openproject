@@ -103,14 +103,10 @@ class Storages::Admin::ProjectsStoragesController < Projects::SettingsController
   def destroy
     # The complex logic for deleting associated objects was moved into a service:
     # https://dev.to/joker666/ruby-on-rails-pattern-service-objects-b19
-    service_result = Storages::ProjectStorages::DeleteService
+    Storages::ProjectStorages::DeleteService
       .new(user: current_user, model: @object)
       .call
-
-    # Handle errors.
-    unless service_result.success?
-      flash[:error] = service_result.errors.full_messages
-    end
+      .on_failure { |service_result| flash[:error] = service_result.errors.full_messages }
 
     # Redirect the user to the URL of Projects -> Settings -> File Storages
     redirect_to project_settings_projects_storages_path
