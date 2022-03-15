@@ -29,7 +29,7 @@ ru:
         Drag on editor field to inline image or reference attachment. Closed editor fields will be opened while you keep dragging.
     autocomplete_select:
       placeholder:
-        multi: "Add \"%{name}\""
+        multi: "Добавить \"%{name}\""
         single: "Select \"%{name}\""
       remove: "Remove %{name}"
       active: "Active %{label} %{name}"

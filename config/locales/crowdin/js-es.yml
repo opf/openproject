@@ -72,70 +72,70 @@ es:
     button_expand_all: "Expand all"
     button_advanced_filter: "Advanced filter"
     button_list_view: "List view"
-    button_show_view: "Fullscreen view"
-    button_log_time: "Log time"
-    button_more: "More"
-    button_open_details: "Open details view"
-    button_close_details: "Close details view"
-    button_open_fullscreen: "Open fullscreen view"
-    button_show_cards: "Show card view"
-    button_show_list: "Show list view"
-    button_quote: "Quote"
-    button_save: "Save"
-    button_settings: "Settings"
-    button_uncheck_all: "Uncheck all"
-    button_update: "Update"
-    button_export-pdf: "Download PDF"
-    button_export-atom: "Download Atom"
-    button_create: "Create"
+    button_show_view: "Pantalla completa"
+    button_log_time: "Registro de tiempo"
+    button_more: "Más"
+    button_open_details: "Abrir vista detallada"
+    button_close_details: "Cerrar vista detallada"
+    button_open_fullscreen: "Abrir vista de pantalla completa"
+    button_show_cards: "Mostrar vista de tarjeta"
+    button_show_list: "Mostrar vista de lista"
+    button_quote: "presupuesto"
+    button_save: "Guardar"
+    button_settings: "Configuración"
+    button_uncheck_all: "Deseleccionar todos"
+    button_update: "Actualizar"
+    button_export-pdf: "Descargar PDF"
+    button_export-atom: "Descargar Atom"
+    button_create: "Crear"
     calendar:
       title: 'Calendar'
       too_many: 'There are %{count} work packages in total, but only %{max} can be shown.'
     card:
-      add_new: 'Add new card'
+      add_new: 'Añadir nueva tarjeta'
       highlighting:
-        inline: 'Highlight inline:'
-        entire_card_by: 'Entire card by'
-      remove_from_list: 'Remove card from list'
-    caption_rate_history: "Rate history"
+        inline: 'Resaltar en línea:'
+        entire_card_by: 'Tarjeta entera por'
+      remove_from_list: 'Eliminar tarjeta de la lista'
+    caption_rate_history: "Historial de tasa"
     clipboard:
-      browser_error: "Your browser doesn't support copying to clipboard. Please copy the selected text manually."
-      copied_successful: "Successfully copied to clipboard!"
+      browser_error: "Su navegador no soporta copiar al portapapeles. Por favor, copie el texto seleccionado manualmente."
+      copied_successful: "Copiado correctamente en el Portapapeles"
     chart:
-      type: 'Chart type'
-      axis_criteria: 'Axis criteria'
-      modal_title: 'Work package graph configuration'
+      type: 'Tipo de gráfico'
+      axis_criteria: 'Criterios del eje'
+      modal_title: 'Configuración del gráfico del paquete de trabajo'
       types:
-        line: 'Line'
-        horizontal_bar: 'Horizontal bar'
-        bar: 'Bar'
-        pie: 'Pie'
-        doughnut: 'Doughnut'
+        line: 'Línea'
+        horizontal_bar: 'Barra horizontal'
+        bar: 'Barra'
+        pie: 'Gráfico Circular'
+        doughnut: 'Rosquilla'
         radar: 'Radar'
-        polar_area: 'Polar area'
+        polar_area: 'Área polar'
       tabs:
         graph_settings: 'General'
-        dataset: 'Dataset %{number}'
+        dataset: 'Conjunto de datos %{number}'
       errors:
-        could_not_load: 'The data to display the graph could not be loaded. The necessary permissions may be lacking.'
-    description_available_columns: "Available Columns"
-    description_current_position: "You are here: "
-    description_select_work_package: "Select work package #%{id}"
-    description_selected_columns: "Selected Columns"
-    description_subwork_package: "Child of work package #%{id}"
+        could_not_load: 'No se pueden cargar los datos necesarios para mostrar el gráfico. Puede que falten los permisos necesarios.'
+    description_available_columns: "Columnas disponibles"
+    description_current_position: "Usted está aquí: "
+    description_select_work_package: "Seleccione el paquete de trabajo #%{id}"
+    description_selected_columns: "Columnas seleccionadas"
+    description_subwork_package: "Seleccione el paquete de trabajo #%{id}"
     editor:
-      preview: 'Toggle preview mode'
-      source_code: 'Toggle Markdown source mode'
-      error_saving_failed: 'Saving the document failed with the following error: %{error}'
-      ckeditor_error: 'An error occurred within CKEditor'
+      preview: 'Cambiar modo de vista previa'
+      source_code: 'Alternar modo de visualización de Markdown'
+      error_saving_failed: 'No se pudo guardar el documento debido al siguiente error: %{error}'
+      ckeditor_error: 'Se ha producido un error dentro de CKEditor'
       mode:
-        manual: 'Switch to Markdown source'
-        wysiwyg: 'Switch to WYSIWYG editor'
+        manual: 'Cambiar a la fuente Markdown'
+        wysiwyg: 'Cambiar a editor WYSIWYG'
       macro:
-        error: 'Cannot expand macro: %{message}'
+        error: 'No se puede expandir la macro: %{message}'
         attribute_reference:
-          macro_help_tooltip: 'This text segment is being dynamically rendered by a macro.'
-          not_found: 'Requested resource could not be found'
+          macro_help_tooltip: 'Este segmento de texto está siendo renderizado dinámicamente por una macro.'
+          not_found: 'No se encuentra el recurso solicitado'
           invalid_attribute: "The selected attribute '%{name}' does not exist."
         child_pages:
           button: 'Links to child pages'
