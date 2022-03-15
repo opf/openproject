@@ -29,5 +29,16 @@
 # See also: create_service.rb for comments
 module Storages::Storages
   class SetAttributesService < ::BaseServices::SetAttributes
+    def set_default_attributes(_params)
+      storage.creator = user
+      storage.name ||= I18n.t('storages.provider_types.nextcloud')
+      storage.provider_type = Storages::Storage::PROVIDER_TYPE_NEXTCLOUD
+    end
+
+    private
+
+    def storage
+      model
+    end
   end
 end

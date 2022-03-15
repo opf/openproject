@@ -32,7 +32,7 @@ describe ::Storages::Storage, type: :model do
   let(:creator) { create(:user) }
   let(:default_attributes) do
     { name: "NC 1",
-      provider_type: 'nextcloud',
+      provider_type: ::Storages::Storage::PROVIDER_TYPE_NEXTCLOUD,
       host: 'https://example.com',
       creator: creator }
   end

@@ -69,7 +69,7 @@ class Storages::Admin::StoragesController < ApplicationController
                 .new(user: current_user,
                      model: Storages::Storage.new,
                      contract_class: EmptyContract)
-                .call(provider_type: 'nextcloud', name: I18n.t('storages.provider_types.nextcloud'))
+                .call
                 .result
   end
 
@@ -79,10 +79,8 @@ class Storages::Admin::StoragesController < ApplicationController
   # See also: storages/services/storages/storages/create_service.rb
   # See also: https://www.openproject.org/docs/development/concepts/contracted-services/
   # Called by: Global app/config/routes.rb to serve Web page
-  # rubocop:disable Metrics/AbcSize
   def create
-    combined_params = permitted_storage_params.to_h.reverse_merge(creator_id: current_user.id)
-    service_result = Storages::Storages::CreateService.new(user: current_user).call(combined_params)
+    service_result = Storages::Storages::CreateService.new(user: current_user).call(permitted_storage_params)
     @object = service_result.result
 
     if service_result.success?
@@ -94,7 +92,6 @@ class Storages::Admin::StoragesController < ApplicationController
       render :new
     end
   end
-  # rubocop:enable Metrics/AbcSize
 
   # Edit page is very similar to new page, except that we don't need to set
   # default attribute values because the object already exists

@@ -81,17 +81,50 @@ describe ::Storages::Storages::SetAttributesService, type: :model do
       .to be_success
   end
 
+  context 'with new record' do
+    it 'sets creator to user upon creation' do
+      expect(subject.result.creator).to eq current_user
+    end
+
+    it 'sets provider_type to nextcloud' do
+      expect(subject.result.provider_type).to eq Storages::Storage::PROVIDER_TYPE_NEXTCLOUD
+    end
+
+    it 'sets name to Nextcloud by default' do
+      expect(subject.result.name).to eq I18n.t('storages.provider_types.nextcloud')
+    end
+  end
+
+  context 'with existing record' do
+    let(:model_instance) { build_stubbed(:storage, name: 'My Storage', creator: build_stubbed(:user)) }
+
+    it 'keeps its name' do
+      expect(subject.result.name).to eq 'My Storage'
+    end
+
+    it 'keeps its creator' do
+      expect(subject.result.creator).not_to eq current_user
+    end
+  end
+
   context 'with params' do
     let(:params) do
       {
-        name: 'Foobar'
+        name: 'Foobar',
+        provider_type: 'foo provider'
       }
     end
 
-    it 'assigns the params' do
+    before do
       subject
+    end
 
+    it 'assigns the params' do
       expect(model_instance.name).to eq 'Foobar'
+    end
+
+    it 'cannot assign provider_type to anything else than "nextcloud"' do
+      expect(model_instance.provider_type).to eq Storages::Storage::PROVIDER_TYPE_NEXTCLOUD
     end
   end
 
