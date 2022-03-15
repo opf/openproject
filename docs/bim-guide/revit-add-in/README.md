@@ -7,8 +7,6 @@ robots: index, follow
 keywords: BIM, BCF, IFC, Viewer
 ---
 
-
-
 # Revit Add-In (BIM feature)
 
 The *OpenProject Revit Add-In* allows you to use the open source project management software *OpenProject BIM* directly within your Autodesk Revit environment. It lets you create, inspect and manage issues right in the moment when you can also solve them - when you have your Revit application fired up and the relevant BIM models open. Issues get stored as BIM Issues centrally and are available to every team member in real time - thanks to our browser based IFC viewer even to those team members without expensive Revit licenses. No BCF XML import/export is needed. However, you still can import and export BCF XML as you like and stay interoparable with any other software for BIM Issue Management.
@@ -20,22 +18,6 @@ To download the latest version (v2.2.3) of our OpenProject Revit AddIn click her
 <div class="alert alert-info" role="alert">
 **Note**: OpenProject BIM Issue Management is a Premium Feature and can only be used with [Enterprise cloud](../../enterprise-guide/enterprise-cloud-guide/) or [Enterprise on-premises](../../enterprise-guide/enterprise-on-premises-guide/). An upgrade from the free Community Edition is easily possible.
 </div>
-
-
-
-| Topic                                           | Content                  |
-| ----------------------------------------------- | ------------------------ |
-| [Before Usage](#before-usage)                   | First steps before usage |
-| How to install?                                 |                          |
-| How to update from an Earlier Version?          |                          |
-| How to login?                                   |                          |
-| How to select a Project                         |                          |
-| Working with BIM Issues                         |                          |
-| Synchronize Tasks between Revit and OpenProject |                          |
-| How to uninstall the OpenProject Revit AddIn?   |                          |
-| Troubleshooting                                 |                          |
-| Reporting bugs                                  |                          |
-
 
 
 ## Before Usage

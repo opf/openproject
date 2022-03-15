@@ -13,18 +13,6 @@ Within the *BCF-Module* you are able to manage *BIM Issues (BCF)*. All BIM Iccue
 
 
 
-| Topic                                          | Content                                          |
-| ---------------------------------------------- | ------------------------------------------------ |
-| [What is a BIM Issue?](#what-is-a-bim-issue?)  | Find out what a BIM Issue in OpenProject BIM is. |
-| [Create a BIM Issue](#Create-a-bim-issue)      | How to create a new BIM Issue in a project?      |
-| BIM Issue Handling (Details View)              | How to work with BIM Issues?                     |
-| View and Find BIM Issues (Cards and List View) |                                                  |
-| Filter BIM Issues                              |                                                  |
-| BIM Issues in Workpackage Module               |                                                  |
-| Import and Export BCF Issues using BCF         |                                                  |
-
-
-
 ## What is a BIM Issue?
 
 A BIM Issue is a special kind of work package to communicate directly within the building model. It supports you to solve problems and coordinate the planning phase in a building project.

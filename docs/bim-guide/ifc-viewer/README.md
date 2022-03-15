@@ -13,24 +13,6 @@ OpenProject BIM includes a very powerful IFC viewer to show and interact with bu
 
 IFC-Files can be uploaded and shown directly within your Web-Browser without installing any additional software on your computer. 
 
-
-
-| Topic                                          | Content                         |
-| ---------------------------------------------- | ------------------------------- |
-| [Basics](#basics)                              | Overview of the BIM module      |
-| Import and Export IFC Models                   | Show or Hide elements or models |
-| How to rotate the building model               |                                 |
-| IFC-Viewer toolbar                             |                                 |
-| How to slice the building model                |                                 |
-| How to clear slices?                           |                                 |
-| How to select elements?                        |                                 |
-| Show Properties                                |                                 |
-| Show or Hide elements via viewer               |                                 |
-| Show Elements in Model Tree                    |                                 |
-| Show or Hide models or elements via model tree |                                 |
-
-
-
 ## Basics
 
 The BCF Module has included a very powerful IFC viewer. Here is a short overview of available user actions:

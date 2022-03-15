@@ -10,7 +10,7 @@ keywords: BIM user guide
 
 Welcome to the OpenProject BIM User guide.
 
-This guide only covers the specific BIM features and functionalities of OpenProject. To learn more about the core features of OpenProject (are included in the BIM Edition as well), please visit our [User Guide](/.../user-guide/). 
+This guide only covers the specific [BIM features and functionalities of OpenProject](../../. To learn more about the core features of OpenProject (are included in the BIM Edition as well), please visit our [User Guide](/.../user-guide/). 
 
 ![BIM Project Management](demo_project_teaser_bim.jpg)
 
@@ -19,18 +19,6 @@ This guide only covers the specific BIM features and functionalities of OpenProj
 ## Overview of all topics regarding the OpenProject BIM Edition
 
 OpenProject BIM Edition provides powerful features particular designed for the needs of construction industry. Please choose the topic you want to learn more about.
-
-| Topic                                               | Content                                              |
-| --------------------------------------------------- | :--------------------------------------------------- |
-| [IFC-Viewer](./ifc-viewer)                          | How to use the IFC Viewer?                           |
-| [BIM Issue Management](./bim-issue-management)      | How to use OpenProject BIM Issue Management?         |
-| [Revit Add-in](./revit-add-in)                      | How to install and use the Revit Add-In?             |
-| [Free trial](#how-to-get-a-new-trial?)              | How to get a free trial?                             |
-| [Enable BCF Module](#how-to-enable-the-bcf-module?) | How to enable the BCF module?                        |
-| [Reporting Bugs](#reporting-bugs)                   | How to report a bug.                                 |
-| [FAQs](#faqs)                                       | Frequently asked questions (FAQ) for the BIM Edition |
-
-
 
 ## IFC Viewer
 
@@ -74,7 +62,7 @@ You found a bug? Please [report it](https://docs.openproject.org/development/rep
 
 
 
-## FAQs
+## BIM FAQs
 
 
 
