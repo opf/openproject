@@ -45,7 +45,7 @@ describe 'Admin storages', :storage_server_helpers, type: :feature, js: true do
 
     expect(page).to have_title('New storage')
     expect(page.find('.title-container')).to have_text('New storage')
-    expect(page).to have_select 'storages_storage[provider_type]', selected: 'Nextcloud'
+    expect(page).to have_select 'storages_storage[provider_type]', selected: 'Nextcloud', disabled: true
     expect(page).to have_field('storages_storage[name]', with: 'Nextcloud')
 
     mock_server_capabilities_response("https://example.com")
