@@ -108,6 +108,12 @@ shared_examples_for 'storage contract', :storage_server_helpers, webmock: true d
         include_examples 'contract is invalid', host: :url
       end
 
+      context 'as host is longer than 255' do
+        let(:storage_host) { "http://#{'a' * 250}.com" }
+
+        include_examples 'contract is invalid', host: :too_long
+      end
+
       context 'as host is nil' do
         let(:storage_host) { nil }
 

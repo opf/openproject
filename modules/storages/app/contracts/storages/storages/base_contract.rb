@@ -51,7 +51,7 @@ module Storages::Storages
     end
 
     attribute :host
-    validates :host, url: true
+    validates :host, url: true, length: { maximum: 255 }
 
     # Check that a host actually is a storage server.
     # But only do so if the validations above for URL were successful.
