@@ -120,7 +120,7 @@ The default behavior of the OpenProject BIM Model Viewer is a perspective view. 
 
 This function allows you to reset the current zoom level and the position of the building model. The button resets the zoom and position of the building model so that the entire model is visible and centered.
 
-![Fit View](Fit View.gif)
+![Fit View](fit-view.gif)
 
 
 
