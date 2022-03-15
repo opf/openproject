@@ -22,9 +22,7 @@ You can log unit costs on a work package within a project to keep track on certa
 
 To track unit costs to a work package select the **Log unit costs** option from the **More functions** drop down menu.
 
-<video src="/Users/jankeppler/Desktop/Bildschirmaufnahme 2022-02-12 um 18.44.32.mov"></video>
-
-
+![Cost tracking log costs](Cost-tracking_log-costs.png)
 
 A new form is opened, where you can log unit costs. You can edit the following information:
 
@@ -47,31 +45,33 @@ A new form is opened, where you can log unit costs. You can edit the following i
 
 8. Do not forget to **Save** your time log.
 
-9. ![Cost-tracking-log-costs-details](Cost-tracking-log-costs-details.png)
+9. ![Cost tracking log costs details](Cost-tracking-log-costs-details.png)
 
 The **spent unit costs** as well as the total amount of **overall costs** are displayed on the work packages details view.
 
-![Bildschirmfoto 2022-02-12 um 18.51.29](/Users/jankeppler/Desktop/Bildschirmfoto 2022-02-12 um 18.51.29.png)
+
+
+![Cost tracking overview](Cost-tracking-overview.png)
 
 
 
 ## Edit logged costs
 
-To display and edit the logged costs to a work package, navigate to the work package details view. Here, the total amount of spent costs are displayed. Click on the sum of logged costs on a work package to display the details. Click on the unit cost to navigate to the time and cost overview.
+To display and edit the logged costs to a work package, navigate to the work package details view. Here, the total amount of spent costs are displayed. Click on the sum of logged costs on a work package to display the details.
 
-![Bildschirmfoto 2022-02-12 um 18.59.41](/Users/jankeppler/Desktop/Bildschirmfoto 2022-02-12 um 18.59.41.png)
+![Edit logged costs](Edit-logged-costs.png)
 
-The detailed logs are there displayed in a cost report. It will open the details view of the cost entry and you will be able to make your changes just as for [Logging costs to a work package](#logging-costs-to-a-work-package).
+The detailed logs are displayed in a cost report. To edit a cost entry, click on the Edit icon with the little pen next to a cost entry.
 
-![Edit-logged-costs-details](Edit-logged-costs-details.png)
+![Edit logged costs details](Edit-logged-costs-details.png)
 
-To edit a cost entry, click on the Edit icon with the little pen next to a cost entry.
+It will open the details view of the cost entry and you will be able to make your changes just as for [Logging costs to a work package](#logging-costs-to-a-work-package).
 
 In some cases, you might want to change the costs manually so that it differs from the automatically calculated product from spent units and costs per unit.
 
 In this case, click on the **Edit icon**, the little pen, next to the cost entry. Now you can manually enter the costs.
 
-![Edit-costs-details](Edit-costs-details.png)
+![Edit costs details](Edit-costs-details.png)
 
 Do not forget to **save** your changes.
 
@@ -79,4 +79,4 @@ Do not forget to **save** your changes.
 
 If you made a mistake and need to delete logged costs, click on the **delete icon** next to a cost entry in the cost report.
 
-![Delete-cost-entry](Delete-cost-entry.png)
+![Delete cost entry](Delete-cost-entry.png)
