@@ -6,11 +6,15 @@ description: User guide for the OpenProject BIM Edition.
 robots: index, follow
 keywords: BIM user guide
 ---
-# BIM User guide
+# BIM user guide
 
-Welcome to the OpenProject BIM User guide.
+Welcome to the OpenProject user guide for Building Information Modeling (BIM) with OpenProject.
 
-This guide only covers the specific [BIM features and functionalities of OpenProject](../../. To learn more about the core features of OpenProject (are included in the BIM Edition as well), please visit our [User Guide](/.../user-guide/). 
+On top of the general project management functionalities, OpenProject BIM enables construction teams to better plan, communicate and collaborate in their building projects. OpenProject BIM includes a 3D model viewer (IFC viewer), support of the BIM collaboration format (BCF) for BIM issue management, and much more powerful features, e.g. a [Revit integration](/revit-add-in).
+
+<div class="alert alert-info" role="alert">
+**Note**: This guide only covers the specific [BIM features and functionalities of OpenProject](../../bim-project-management/). To learn more about the core features for project management of OpenProject (which are included in the BIM Edition as well), please visit our [User Guide](/.../user-guide/).
+</div>
 
 ![BIM Project Management](demo_project_teaser_bim.jpg)
 
@@ -24,7 +28,7 @@ OpenProject BIM Edition provides powerful features particular designed for the n
 
 Upload your IFC building models and show them directly in the internet browser, without any additional software.
 
-Details: [IFC-Viewer](./ifc-viewer)
+Details: [IFC-Viewer](ifc-viewer)
 
 
 
@@ -32,7 +36,7 @@ Details: [IFC-Viewer](./ifc-viewer)
 
 Create tasks directly connected to your building model, import tasks or export tasks from any other BIM application.
 
-Deails: [BIM Issue Management](./bim-issue-management)
+Deails: [BIM Issue Management](bim-issue-management)
 
 
 
@@ -40,7 +44,7 @@ Deails: [BIM Issue Management](./bim-issue-management)
 
 Stay always connected to OpenProject in realtime, show and create tasks while you're working in the Revit, using the Revit Addin.
 
-Details: [Revit Add-in](./revit-add-in)
+Details: [Revit Add-in](revit-add-in)
 
 
 
