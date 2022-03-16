@@ -26,7 +26,10 @@
     </op-add-existing-pane>
   </ng-container>
 
-  <div class="op-team-planner--calendar-pane">
+  <div
+    class="op-team-planner--calendar-pane"
+    data-qa-selector="op-team-planner--calendar-pane"
+  >
     <ng-container
       *ngIf="(calendarOptions$ | async) as calendarOptions"
     >
