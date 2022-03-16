@@ -31,32 +31,52 @@ See COPYRIGHT and LICENSE files for more details.
 <%= error_messages_for_contract @object, @errors %>
 
 <section class="form--section">
-  <div class="form--field -required">
-    <%= f.select :provider_type,
-                 ::Storages::Storage::PROVIDER_TYPES.map { |provider_type| [I18n.t("storages.provider_types.#{provider_type}"), provider_type] },
-                 {
-                   selected: ::Storages::Storage::PROVIDER_TYPE_NEXTCLOUD,
-                   container_class: '-slim'
-                 },
-                 {
-                   disabled: @object.persisted? || ::Storages::Storage::PROVIDER_TYPES.count == 1
-                 } %>
-  </div>
-  <div class="form--field -required">
-    <%= f.text_field :name, required: true, container_class: '-slim' %>
-    <span class="form--field-instructions">
+  <fieldset class="form--fieldset">
+    <legend class="form--fieldset-legend"><%= I18n.t(:label_general) %></legend>
+    <div class="form--field -required">
+      <%= f.select :provider_type,
+                   ::Storages::Storage::PROVIDER_TYPES.map { |provider_type| [I18n.t("storages.provider_types.#{provider_type}"), provider_type] },
+                   {
+                     selected: ::Storages::Storage::PROVIDER_TYPE_NEXTCLOUD,
+                     container_class: '-slim'
+                   },
+                   {
+                     disabled: @object.persisted? || ::Storages::Storage::PROVIDER_TYPES.count == 1
+                   } %>
+    </div>
+    <div class="form--field -required">
+      <%= f.text_field :name, required: true, container_class: '-slim' %>
+      <span class="form--field-instructions">
       <%= t('storages.instructions.name') %>
     </span>
-  </div>
-  <div class="form--field -required">
-    <%= f.text_field :host,
-                     type: :url,
-                     required: true,
-                     pattern: ".{1,255}",
-                     placeholder: "https://my-file-storage.com", container_class: '-wide' %>
-    <span class="form--field-instructions">
+    </div>
+    <div class="form--field -required">
+      <%= f.text_field :host,
+                       type: :url,
+                       required: true,
+                       pattern: ".{1,255}",
+                       placeholder: "https://my-file-storage.com", container_class: '-wide' %>
+      <span class="form--field-instructions">
       <%= t('storages.instructions.host') %>
     </span>
-  </div>
+    </div>
+  </fieldset>
+</section>
 
+<section class="form--section">
+  <fieldset class="form--fieldset">
+    <legend class="form--fieldset-legend"><%= t(:'storages.label_oauth') %></legend>
+    <div class="form--field">
+      <%= f.text_field :oauth_client_id, label: t('storages.label_oauth_client_id'), required: false, size: 40, container_class: '-wide' %>
+      <span class="form--field-instructions">
+        <%= t('storages.instructions.oauth_client_id') %>
+      </span>
+    </div>
+    <div class="form--field">
+      <%= f.text_field :oauth_client_secret, label: t('storages.label_oauth_client_secret'), required: false, size: 40, container_class: '-wide' %>
+      <span class="form--field-instructions">
+        <%= t('storages.instructions.oauth_client_secret') %>
+      </span>
+    </div>
+  </fieldset>
 </section>

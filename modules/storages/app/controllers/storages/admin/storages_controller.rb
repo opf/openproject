@@ -52,7 +52,12 @@ class Storages::Admin::StoragesController < ApplicationController
 
   # Show page with details of one Storage object.
   # Called by: Global app/config/routes.rb to serve Web page
-  def show; end
+  def show
+    # Replace the client secret by **** for security reasons
+    if @object.oauth_client_secret.present?
+      @object.oauth_client_secret = "****"
+    end
+  end
 
   # Show the admin page to create a new Storage object.
   # Sets the attributes provider_type and name as default values and then
@@ -96,7 +101,14 @@ class Storages::Admin::StoragesController < ApplicationController
   # Edit page is very similar to new page, except that we don't need to set
   # default attribute values because the object already exists
   # Called by: Global app/config/routes.rb to serve Web page
-  def edit; end
+  def edit
+    # Replace the client secret by **** for security reasons.
+    # A minimum length validation makes sure the old secret isn't
+    # easily overwritten.
+    if @object.oauth_client_secret.present?
+      @object.oauth_client_secret = "****"
+    end
+  end
 
   # Update is similar to create above
   # See also: create above
@@ -155,6 +167,6 @@ class Storages::Admin::StoragesController < ApplicationController
   def permitted_storage_params
     params
       .require(:storages_storage)
-      .permit('name', 'provider_type', 'host')
+      .permit('name', 'provider_type', 'host', 'oauth_client_id', 'oauth_client_secret')
   end
 end

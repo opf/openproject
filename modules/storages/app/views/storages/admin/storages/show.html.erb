@@ -51,25 +51,31 @@ See COPYRIGHT and LICENSE files for more details.
 <% end %>
 
 <div class="attributes-group">
+  <div class="attributes-group--header">
+    <div class="attributes-group--header-container">
+      <h3 class="attributes-group--header-text"><%= t(:label_general) %></h3>
+    </div>
+  </div>
   <div class="attributes-key-value">
     <div class="attributes-key-value--key"><%= t(:'storages.label_name') %></div>
     <div class="attributes-key-value--value-container">
-      <div class="attributes-key-value--value -text">
-        <span><%= @object.name %></span>
-      </div>
+      <div class="attributes-key-value--value -text"><span><%= @object.name %></span></div>
     </div>
+
     <div class="attributes-key-value--key"><%= t(:'storages.label_provider_type') %></div>
     <div class="attributes-key-value--value-container">
       <div class="attributes-key-value--value -text">
         <span><%= t(:"storages.provider_types.#{@object.provider_type}") %></span>
       </div>
     </div>
+
     <div class="attributes-key-value--key"><%= t(:'storages.label_host') %></div>
     <div class="attributes-key-value--value-container">
       <div class="attributes-key-value--value -text">
         <span><%= link_to @object.host, @object.host %></span>
       </div>
     </div>
+
     <div class="attributes-key-value--key"><%= t(:'storages.label_creator') %></div>
     <div class="attributes-key-value--value-container">
       <div class="attributes-key-value--value -text">
@@ -80,6 +86,28 @@ See COPYRIGHT and LICENSE files for more details.
     <div class="attributes-key-value--value-container">
       <div class="attributes-key-value--value -text">
         <span><%= format_time(@object.created_at) %></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="attributes-group">
+  <div class="attributes-group--header">
+    <div class="attributes-group--header-container">
+      <h3 class="attributes-group--header-text"><%= t(:'storages.label_oauth') %></h3>
+    </div>
+  </div>
+  <div class="attributes-key-value">
+    <div class="attributes-key-value--key"><%= t(:'storages.label_oauth_client_id') %></div>
+    <div class="attributes-key-value--value-container">
+      <div class="attributes-key-value--value -text">
+        <span><%= @object.oauth_client_id %></span>
+      </div>
+    </div>
+    <div class="attributes-key-value--key"><%= t(:'storages.label_oauth_client_secret') %></div>
+    <div class="attributes-key-value--value-container">
+      <div class="attributes-key-value--value -text">
+        <span><%= @object.oauth_client_secret %></span>
       </div>
     </div>
   </div>
