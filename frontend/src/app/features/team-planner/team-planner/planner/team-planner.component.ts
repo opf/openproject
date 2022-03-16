@@ -65,6 +65,7 @@ import { HalError } from 'core-app/features/hal/services/hal-error';
 import { ActionsService } from 'core-app/core/state/actions/actions.service';
 import { teamPlannerEventRemoved } from 'core-app/features/team-planner/team-planner/planner/team-planner.actions';
 import { imagePath } from 'core-app/shared/helpers/images/path-helper';
+import { skeletonEvents, skeletonResources } from './loading-skeleton-data';
 
 @Component({
   selector: 'op-team-planner',
@@ -238,6 +239,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
       .subscribe(([principals, showAddAssignee]) => {
         const api = this.ucCalendar.getApi();
 
+        // This also removes the skeleton resources that are rendered initially
         api.getResources().forEach((resource) => resource.remove());
 
         principals.forEach((principal) => {
@@ -285,18 +287,9 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
           this.calendar.calendarOptions({
             schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
             selectable: true,
-            plugins: [
-              resourceTimelinePlugin,
-              interactionPlugin,
-            ],
-            titleFormat: {
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric',
-            },
-            buttonText: {
-              today: this.text.today,
-            },
+            plugins: [ resourceTimelinePlugin, interactionPlugin ],
+            titleFormat: { year: 'numeric', month: 'long', day: 'numeric' },
+            buttonText: { today: this.text.today },
             initialView: this.calendar.initialView || 'resourceTimelineWeek',
             headerToolbar: {
               left: '',
@@ -310,16 +303,10 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
                 duration: { weeks: 1 },
                 slotDuration: { days: 1 },
                 slotLabelFormat: [
-                  {
-                    weekday: 'long',
-                    day: '2-digit',
-                  },
+                  { weekday: 'long', day: '2-digit' },
                 ],
                 resourceAreaColumns: [
-                  {
-                    field: 'title',
-                    headerContent: this.text.assignees,
-                  },
+                  { field: 'title', headerContent: this.text.assignees },
                 ],
               },
               resourceTimelineTwoWeeks: {
@@ -329,21 +316,18 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
                 duration: { weeks: 2 },
                 dateIncrement: { weeks: 1 },
                 slotLabelFormat: [
-                  {
-                    weekday: 'short',
-                    day: '2-digit',
-                  },
+                  { weekday: 'short', day: '2-digit' },
                 ],
                 resourceAreaColumns: [
-                  {
-                    field: 'title',
-                    headerContent: this.text.assignees,
-                  },
+                  { field: 'title', headerContent: this.text.assignees },
                 ],
               },
             },
-            eventSources: this.calendarEventsFunction.bind(this) as unknown,
-            resources: [],
+            eventSources: [
+              (_, successCallback) => successCallback(skeletonEvents),
+              this.calendarEventsFunction.bind(this) as unknown,
+            ],
+            resources: skeletonResources,
             resourceAreaWidth: '180px',
             select: this.handleDateClicked.bind(this) as unknown,
             resourceLabelContent: (data:ResourceLabelContentArg) => this.renderTemplate(this.resourceContent, data.resource.id, data),
@@ -384,78 +368,8 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
       .toPromise()
       .then((workPackages:WorkPackageCollectionResource) => {
         const events = this.mapToCalendarEvents(workPackages.elements);
-
         this.viewLookup.destroyDetached();
-        const fakeResources = [
-          {
-            id: '1',
-            title: '',
-            href:'',
-            dataLoaded: false,
-          },
-          {
-            id: '2',
-            title: '',
-            href:'',
-            dataLoaded: false,
-          },
-          {
-            id: '3',
-            title: '',
-            href:'',
-            dataLoaded: false,
-          },
-        ];
-
-        const fakeEvents = {
-          
-          events: [
-            {
-              id: '1',
-              resourceId: fakeResources[0].href,
-              title: '',
-              start: moment().subtract(1, 'days'),
-              end: moment(),
-              backgroundColor: '#FFFFFF',
-              borderColor: '#FFFFFF',
-              allDay: true,
-              dataLoaded: false,
-            },
-            {
-              id: '2',
-              resourceId: fakeResources[1].href,
-              title: '',
-              start: moment().subtract(3, 'days'),
-              end: moment().subtract(1, 'days'),
-              backgroundColor: '#FFFFFF',
-              borderColor: '#FFFFFF',
-              allDay: true,
-              dataLoaded: false,
-            },
-            {
-              id: '3',
-              resourceId: fakeResources[2].href,
-              title: '',
-              start: moment(),
-              end: moment().add(2, 'days'),
-              backgroundColor: '#FFFFFF',
-              borderColor: '#FFFFFF',
-              allDay: true,
-              dataLoaded: false,
-            },
-        ]
-      };
-
-      const realEvants = {
-        events : events,
-        dataLoaded: true,
-      };
-
-      const finalEvents = [ 
-        fakeEvents,
-        realEvants,
-      ];
-        successCallback(finalEvents);
+        successCallback(events);
       })
       .catch(failureCallback);
 
@@ -463,7 +377,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
   }
 
   renderTemplate(template:TemplateRef<unknown>, id:string, data:ResourceLabelContentArg|EventContentArg):{ domNodes:unknown[] } {
-    if (this.isDragggedEvent(id)) {
+    if (this.isDraggedEvent(id)) {
       this.viewLookup.markForDestruction(id);
     }
 
@@ -475,7 +389,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     this.viewLookup.markForDestruction(id);
   }
 
-  isDragggedEvent(id:string):boolean {
+  isDraggedEvent(id:string):boolean {
     const dragging = this.draggingItem$.getValue();
     return !!dragging && (dragging.event.extendedProps.workPackage as WorkPackageResource).href === id;
   }

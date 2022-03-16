@@ -1,6 +1,3 @@
-@import 'helpers'
-@import '../../app/spot/styles/sass/variables'
-
 .op-wp-single-card
   display: flex
   user-select: none
@@ -152,7 +149,8 @@
   &--inline-buttons
     opacity: 0
     padding-left: 40px
-    .op-icon--wrapper:not(&_selected)
+
+    .op-icon--wrapper:not(#{&}_selected)
       background: $spot-color-basic-white
 
     &.-show

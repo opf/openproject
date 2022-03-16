@@ -38,6 +38,7 @@
         class="op-team-planner--calendar fc-scroller"
         [ngClass]="{'op-team-planner--calendar_empty': (isEmpty$ | async)}"
       ></full-calendar>
+
       <div
         [textContent]="calendar.tooManyResultsText"
         class="op-wp-calendar--notification"></div>
@@ -57,60 +58,59 @@
     </ng-container>
 
     <ng-template #resourceContent let-resource="resource">
-      <div *ngIf="resource && !resource.dataLoaded">
-        <op-principal-loading-skeleton></op-principal-loading-skeleton>
+      <div
+        *ngIf="resource && resource.extendedProps.principal"
+        class="tp-assignee"
+      >
+        <op-principal
+          [principal]="resource.extendedProps.principal"
+          class="tp-assignee--principal op-principal_wrapped"
+        ></op-principal>
+        <button
+          type="button"
+          class="tp-assignee--remove"
+          (click)="removeAssignee(resource.id)"
+          [attr.aria-label]="text.remove_assignee"
+          [attr.data-qa-remove-assignee]="resource.extendedProps.principal.id"
+        >
+          <op-icon icon-classes="icon-remove"></op-icon>
+        </button>
       </div>
 
-      <div *ngIf="resource && resource.dataLoaded">
-          <div
-            *ngIf="resource && resource.extendedProps.principal"
-            class="tp-assignee"
-          >
-            <op-principal
-            [principal]="resource.extendedProps.principal"
-            class="tp-assignee--principal op-principal_wrapped"
-          ></op-principal>
-          <button
-            type="button"
-            class="tp-assignee--remove"
-            (click)="removeAssignee(resource.id)"
-            [attr.aria-label]="text.remove_assignee"
-            [attr.data-qa-remove-assignee]="resource.extendedProps.principal.id"
-          >
-            <op-icon icon-classes="icon-remove"></op-icon>
-          </button>
-        </div>
+      <op-principal-loading-skeleton
+        *ngIf="resource && !resource.extendedProps.principal && resource.id.startsWith('skeleton')"
+      ></op-principal-loading-skeleton>
 
-        <op-tp-add-assignee
-          *ngIf="resource && !resource.extendedProps.principal"
-          (selectAssignee)="addAssignee($event)"
-          [alreadySelected]="principalIds$ | async"
-        ></op-tp-add-assignee>
-      </div>
-
+      <op-tp-add-assignee
+        *ngIf="resource && !resource.extendedProps.principal && !resource.id.startsWith('skeleton')"
+        (selectAssignee)="addAssignee($event)"
+        [alreadySelected]="principalIds$ | async"
+      ></op-tp-add-assignee>
     </ng-template>
 
     <ng-template #eventContent let-event="event">
-      <div *ngIf="event && event.dataLoaded">
-        <wp-single-card
-          [workPackage]="event.extendedProps.workPackage"
-          [selectedWhenOpen]="true"
-          [orientation]="'horizontal'"
-          [highlightingMode]="'type'"
-          [showInfoButton]="true"
-          [disabledInfo]="showDisabledText(event.extendedProps.workPackage)"
-          [isClosed]="isStatusClosed(event.extendedProps.workPackage)"
-          [showAsInlineCard]="true"
-          [showStartDate]="!this.isWpDateInCurrentView(event.extendedProps.workPackage, 'start')"
-          [showEndDate]="!this.isWpDateInCurrentView(event.extendedProps.workPackage, 'end')"
-          (stateLinkClicked)="openStateLink($event)"
-          (cardClicked)="calendar.onCardClicked($event)"
-        >
-        </wp-single-card>
+      <div
+        class="op-wp-single-card op-wp-single-card_inline op-wp-single-card-78 op-wp-single-card_horizontal"
+        *ngIf="event.id.startsWith('skeleton')"
+      >
+        <op-wp-loading-skeleton ></op-wp-loading-skeleton>
       </div>
-      <div *ngIf="event && !event.dataLoaded">
-        <op-wp-loading-skeleton></op-wp-loading-skeleton>
-      </div>
+      <wp-single-card
+        *ngIf="!event.id.startsWith('skeleton')"
+        [workPackage]="event.extendedProps.workPackage"
+        [selectedWhenOpen]="true"
+        [orientation]="'horizontal'"
+        [highlightingMode]="'type'"
+        [showInfoButton]="true"
+        [disabledInfo]="showDisabledText(event.extendedProps.workPackage)"
+        [isClosed]="isStatusClosed(event.extendedProps.workPackage)"
+        [showAsInlineCard]="true"
+        [showStartDate]="!this.isWpDateInCurrentView(event.extendedProps.workPackage, 'start')"
+        [showEndDate]="!this.isWpDateInCurrentView(event.extendedProps.workPackage, 'end')"
+        (stateLinkClicked)="openStateLink($event)"
+        (cardClicked)="calendar.onCardClicked($event)"
+      >
+      </wp-single-card>
     </ng-template>
 
     <div class="op-team-planner--footer" data-qa-selector="op-team-planner-footer">
