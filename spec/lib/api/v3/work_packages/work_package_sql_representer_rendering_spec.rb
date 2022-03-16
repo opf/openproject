@@ -43,7 +43,13 @@ describe ::API::V3::WorkPackages::WorkPackageSqlRepresenter, 'rendering' do
       .where(id: rendered_work_package.id)
   end
 
-  let(:rendered_work_package) { create(:work_package) }
+  let(:rendered_work_package) do
+    create(:work_package,
+           project: project,
+           assigned_to: assignee)
+  end
+  let(:project) { create(:project) }
+  let(:assignee) { create(:user) }
 
   let(:select) { { '*' => {} } }
 
@@ -61,6 +67,14 @@ describe ::API::V3::WorkPackages::WorkPackageSqlRepresenter, 'rendering' do
           self: {
             href: api_v3_paths.work_package(rendered_work_package.id),
             title: rendered_work_package.subject
+          },
+          project: {
+            href: api_v3_paths.project(project.id),
+            title: project.name
+          },
+          assignee: {
+            href: api_v3_paths.user(assignee.id),
+            title: assignee.name
           }
         }
       }
@@ -69,6 +83,68 @@ describe ::API::V3::WorkPackages::WorkPackageSqlRepresenter, 'rendering' do
     it 'renders as expected' do
       expect(json)
         .to be_json_eql(expected.to_json)
+    end
+  end
+
+  describe 'assignee link' do
+    let(:select) { { 'assignee' => {} } }
+
+    context 'with a user' do
+      let(:expected) do
+        {
+          _links: {
+            assignee: {
+              href: api_v3_paths.user(assignee.id),
+              title: assignee.name
+            }
+          }
+        }
+      end
+
+      it 'renders as expected' do
+        expect(json)
+          .to be_json_eql(expected.to_json)
+      end
+    end
+
+    context 'with a group' do
+      let(:assignee) { create(:group) }
+
+      let(:expected) do
+        {
+          _links: {
+            assignee: {
+              href: api_v3_paths.group(assignee.id),
+              title: assignee.name
+            }
+          }
+        }
+      end
+
+      it 'renders as expected' do
+        expect(json)
+          .to be_json_eql(expected.to_json)
+      end
+    end
+
+    context 'with a placeholder user' do
+      let(:assignee) { create(:placeholder_user) }
+
+      let(:expected) do
+        {
+          _links: {
+            assignee: {
+              href: api_v3_paths.placeholder_user(assignee.id),
+              title: assignee.name
+            }
+          }
+        }
+      end
+
+      it 'renders as expected' do
+        expect(json)
+          .to be_json_eql(expected.to_json)
+      end
     end
   end
 end

@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -140,11 +138,6 @@ class ServiceResult
 
   def on_failure(&block)
     tap(&block) if failure?
-    self
-  end
-
-  def tap
-    yield(self)
     self
   end
 

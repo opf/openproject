@@ -1161,7 +1161,7 @@ de:
       clear_selection: 'Clear selection'
       apply: 'Anwenden'
       selected_filter:
-        all: 'All projects'
+        all: 'Alle Projekte'
         selected: 'Only selected'
       search_placeholder: 'Search project...'
     forms:
@@ -1169,3 +1169,8 @@ de:
       load_error_message: 'Beim Laden des Formulars ist ein Fehler aufgetreten'
       validation_error_message: 'Bitte die Fehler im Formular beheben'
       advanced_settings: 'Erweiterte Einstellungen'
+    spot:
+      filter_chip:
+        remove: 'Entfernen'
+      drop_modal:
+        Close: 'Schließen'

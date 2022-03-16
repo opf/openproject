@@ -1158,7 +1158,7 @@ zh-TW:
       clear_selection: 'Clear selection'
       apply: '套用'
       selected_filter:
-        all: 'All projects'
+        all: '所有專案'
         selected: 'Only selected'
       search_placeholder: 'Search project...'
     forms:
@@ -1166,3 +1166,8 @@ zh-TW:
       load_error_message: 'There was an error loading the form'
       validation_error_message: 'Please fix the errors present in the form'
       advanced_settings: '進階設定'
+    spot:
+      filter_chip:
+        remove: '刪除'
+      drop_modal:
+        Close: '關閉'

@@ -1170,3 +1170,8 @@ nl:
       load_error_message: 'There was an error loading the form'
       validation_error_message: 'Please fix the errors present in the form'
       advanced_settings: 'Geavanceerde instellingen'
+    spot:
+      filter_chip:
+        remove: 'Verwijder'
+      drop_modal:
+        Close: 'Sluiten'

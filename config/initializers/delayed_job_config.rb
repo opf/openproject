@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -34,9 +32,12 @@ Delayed::Worker.logger = nil
 # By default bypass worker queue and execute asynchronous tasks at once
 Delayed::Worker.delay_jobs = true
 
-# Set default priority (lower = higher priority)
-# Example ordering, see ApplicationJob.priority_number
-Delayed::Worker.default_priority = ::ApplicationJob.priority_number(:default)
+# Prevent loading ApplicationJob during initialization
+Rails.application.reloader.to_prepare do
+  # Set default priority (lower = higher priority)
+  # Example ordering, see ApplicationJob.priority_number
+  Delayed::Worker.default_priority = ::ApplicationJob.priority_number(:default)
+end
 
 # Do not retry jobs from delayed_job
 # instead use 'retry_on' activejob functionality

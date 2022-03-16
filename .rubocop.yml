@@ -264,9 +264,6 @@ Style/EachWithObject:
 Style/EmptyLiteral:
   Enabled: false
 
-Style/Encoding:
-  Enabled: false
-
 Style/EvenOdd:
   Enabled: false
 

@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -89,7 +87,7 @@ describe 'Upload attachment to wiki page', js: true do
     end
 
     editor.click_hover_toolbar_button 'Resize image to 50%'
-    expect(page).to have_selector('.op-uc-figure[style="width:50%;"')
+    expect(page).to have_selector('.op-uc-figure[style="width:50%;"]')
 
     click_on 'Save'
 

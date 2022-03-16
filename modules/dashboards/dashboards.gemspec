@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 Gem::Specification.new do |s|
   s.name        = "dashboards"
   s.version     = '1.0.0'
