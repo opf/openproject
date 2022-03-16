@@ -33,7 +33,7 @@ shared_examples_for 'error response' do |code, id, provided_message = nil|
     provided_message || message
   end
 
-  it 'has the expected status code' do
+  it "has the status code #{code}" do
     expect(last_response.status).to eq(code)
   end
 
@@ -46,7 +46,9 @@ shared_examples_for 'error response' do |code, id, provided_message = nil|
   describe 'response body' do
     subject { JSON.parse(last_response.body) }
 
-    it { expect(subject['errorIdentifier']).to eq("urn:openproject-org:api:v3:errors:#{id}") }
+    describe 'errorIdentifier' do
+      it { expect(subject['errorIdentifier']).to eq("urn:openproject-org:api:v3:errors:#{id}") }
+    end
 
     describe 'message' do
       it { expect(subject['message']).to include(expected_message) }
@@ -156,10 +158,14 @@ shared_examples_for 'read-only violation' do |attribute, model, attribute_messag
     it { expect(subject['attribute']).to eq(attribute) }
   end
 
+  message = [
+    attribute_message || model.human_attribute_name(attribute),
+    I18n.t('activerecord.errors.messages.error_readonly')
+  ].join(" ")
   it_behaves_like 'error response',
                   422,
                   'PropertyIsReadOnly',
-                  "#{attribute_message || model.human_attribute_name(attribute)} #{I18n.t('activerecord.errors.messages.error_readonly')}"
+                  message
 end
 
 shared_examples_for 'multiple errors' do |code, _message|
