@@ -75,7 +75,7 @@ Currently, there is unfortunately no option to export all the documents in OpenP
 
 Access to the database (including the PostgreSQL tables) is restricted for the Enterprise cloud edition due to technical and security reasons. Instead, you can use the OpenProject [API](../../../api) to both read and write data (where supported). If you require direct database access, you may want to take a look at the OpenProject [Enterprise on-premises edition](https://www.openproject.org/enterprise-edition) which you can run on your own server.
 
-## Can I use LDAP authentican in my Enterprise cloud environment?
+## Can I use LDAP authentication in my Enterprise cloud environment?
 
 You can use [LDAP authentication](../../../system-admin-guide/authentication/ldap-authentication/) in your cloud environment. **However**, usually LDAP servers will _not_ be exposed to the internet, which they have to be for this to work.
 Whitelisting IPs is no option since the OpenProject servers' IPs are not permanent and can change without notice.
