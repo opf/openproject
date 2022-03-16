@@ -49,6 +49,15 @@ en:
       setting_up_storages: "For setting up file storages, please visit"
       setting_up_storages_non_admin: "Administrators can set up file storages in Administration / File Storages."
       all_available_storages_already_added: "All available storages are already added to the project."
+      oauth_client_id: >
+        OAuth Client ID from attached storage, i.e. Nextcloud, that allows to identify OpenProject
+        when connecting to the storage. This should be a lengthy string of garbled characters.
+        For obtaining the OAuth Client ID, please see the storage manufacturers instructions
+        on how to setup an OAuth application.
+      oauth_client_secret: >
+        OAuth Client Secret from the attached storage (Nextcloud) above.
+        The secret is now shown here.
+        You have to provide the secret again if you want to modify and save other fields.
     delete_warning:
       storage: >
         Are you sure you want to delete this storage? This will also delete the storage from all projects where it is used.
@@ -61,11 +70,14 @@ en:
     label_file_links: "File links"
     label_name: "Name"
     label_host: "Host"
+    label_oauth: "OAuth"
     label_provider_type: "Provider type"
     label_new_storage: "New storage"
     label_storage: "Storage"
     label_storages: "Storages"
     no_results: "No storages set up, yet."
+    label_oauth_client_id: "OAuth Client ID"
+    label_oauth_client_secret: "OAuth Client Secret"
     provider_types:
       label: "Provider type"
       nextcloud: "Nextcloud"
