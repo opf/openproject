@@ -23,22 +23,6 @@ Welcome to the central overview of frequently asked questions for OpenProject.
 
 ## Learn more about OpenProject
 
-### What about data privacy, data security and GDPR conformity?
-
-Data protection and security are one of the main motivations for the development of this open source application. Thus, you have the possibility to move the OpenProject application including your data to your own infrastructure at any time. Unlike other cloud tools, you can also take a look at the software code and adapt it if necessary.
-
-For users who do not want to run OpenProject themselves, we offer a hosting product. Here we use subcontractors who are not based in the EU, too. We achieve compliance with the GDPR by using standard protection clauses (Art. 46 (2) (c) and (d) GDPR).
-A list of the subcontractors currently used in the Cloud Edition can be found here: [https://www.openproject.org/legal/data-processing-agreement/sub-processors/](https://www.openproject.org/legal/data-processing-agreement/sub-processors/)
-For our cloud product, we aim to completely eliminate subcontractors outside of the EU by the end of 2021. We have made a start by replacing Google Analytics with Matomo since 2020.
-You can also send us encrypted emails to privacy@openproject.com. You can find the corresponding GPG key here: [https://keys.openpgp.org/vks/v1/by-fingerprint/BDCFE01EDE84EA199AE172CE7D669C6D475339588](https://keys.openpgp.org/vks/v1/by-fingerprint/BDCFE01EDE84EA199AE172CE7D669C6D475339588)
-
-#### Is OpenProject Enterprise cloud GDPR compliant?
-
-The OpenProject cloud environment is hosted on a logically isolated virtual cloud at Amazon Web Services with all services being located in Ireland.
-AWS is a GDPR compliant cloud infrastructure provider with extensive security and compliance programs as well as unparalleled access control mechanisms to ensure data privacy.
-Employed facilities are compliant with the ISO 27001 and 27018 standards. The OpenProject cloud environment is continuously backing up user data with data at rest being fully encrypted with AES-256.
-Each individual instance is logically separated and data is persisted in a unique database schema, reducing the risk of intersection or data leaks between instances. Find out more about GDPR compliance on our [website](https://www.openproject.org/security-and-privacy/).
-
 ### How do I get access to the OpenProject premium features?
 We offer the premium functions of OpenProject (incl. boards) for two different OpenProject variants:
 

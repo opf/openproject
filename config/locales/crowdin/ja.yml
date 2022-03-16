@@ -159,7 +159,7 @@ ja:
     edit: 'カスタムアクション %{name} の編集'
     execute: '%{name} を実行'
     upsale:
-      title: 'Custom actions is an Enterprise Edition feature'
+      title: 'カスタムアクションは、エンタープライズ版の機能です'
       description: 'カスタムアクションは、1 つのボタンに個々のステップを組み合わせて日々の作業を合理化します。'
   custom_fields:
     text_add_new_custom_field: >
@@ -258,7 +258,7 @@ ja:
       irreversible: "この操作は元に戻せません"
       confirmation: "削除を確認するため、プレースホルダーユーザー名 %{name} を入力してください。"
     upsale:
-      title: Assign work to people that are not members of the project.
+      title: プロジェクトのメンバーではないユーザーに作業を割り当てる
       description: >
         プロジェクトのメンバーではない人に作業を割り当てたいと思うことは多々あります。それは単に、その仕事に適した人を雇う必要があるということかもしれません。あるいは、その人にプロジェクトの情報へのアクセスを許可したくないが、その人に割り当てられたタスクを追跡したいという場合もあります。
   prioritiies:
@@ -1710,7 +1710,7 @@ ja:
   label_public_projects: "公開プロジェクト"
   label_query_new: "新しいクエリ"
   label_query_plural: "カスタムクエリ"
-  label_query_menu_item: "Query menu item"
+  label_query_menu_item: "クエリのメニュー項目"
   label_read: "続いて読む..."
   label_register: "登録する"
   label_register_with_developer: "開発者として登録する"
@@ -1957,7 +1957,7 @@ ja:
   mail_body_backup_waiting_period: 新しいトークンは %{hours} 時間後に有効になります。
   mail_body_backup_token_warning: これがあなたでなかった場合、すぐに OpenProject にログインして、再度リセットしてください。
   mail_body_lost_password: "パスワードを変更するには、以下のリンクをクリックしてください:"
-  mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
+  mail_body_register: "OpenProjectへようこそ。このリンクをクリックしてアカウントを有効化してください："
   mail_body_register_header_title: "プロジェクトへの招待メール"
   mail_body_register_user: "%{name}さん"
   mail_body_register_links_html: |
@@ -2099,7 +2099,7 @@ ja:
     heading_getting_started: "概要を取得"
     text_getting_started_description: "OpenProject のプロジェクト管理とチームコラボレーションの簡単な概要を取得します。"
     text_show_again: "ヘルプメニューからこのビデオを再度開始することができます。"
-    welcome: "Welcome to OpenProject"
+    welcome: "OpenProjectへようこそ"
     select_language: "言語を選択してください"
   permission_add_work_package_notes: "注記の追加"
   permission_add_work_packages: "ワークパッケージの追加"
@@ -2157,7 +2157,7 @@ ja:
   permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "プロジェクトでモジュールの選択"
   permission_manage_types: "ワークパッケージのタイプを選択"
-  permission_view_calendar: "View calendar"
+  permission_view_calendar: "カレンダーの閲覧"
   permission_view_changesets: "OpenProject にリポジトリのリビジョンを表示"
   permission_view_commit_author_statistics: "コミット作成者の統計情報の閲覧"
   permission_view_work_package_watchers: "ウォッチャー一覧の閲覧"
@@ -2820,7 +2820,7 @@ ja:
   wiki_menu_item_new_main_item_explanation: >
     唯一の主なＷｉｋｉメニュー項目が削除されます。新しい主要項目が生成するためにＷｉｋｉページを選択する必要があります。Ｗｉｋｉを削除するには、プロジェクト管理者によってＷｉｋｉモジュールを無効にすることができます。
   wiki_menu_item_delete_not_permitted: 唯一のＷｉｋｉページにあるＷｉｋｉメニュー項目は削除できません。
-  query_menu_item_for: "Menu item for query \"%{title}\""
+  query_menu_item_for: "クエリ\"%{title}\"のメニュー項目"
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |

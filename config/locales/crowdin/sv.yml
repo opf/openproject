@@ -161,7 +161,7 @@ sv:
     edit: 'Redigera anpassad åtgärd %{name}'
     execute: 'Verkställ %{name}'
     upsale:
-      title: 'Custom actions is an Enterprise Edition feature'
+      title: 'Anpassade åtgärder är en Enterprise Edition funktion'
       description: 'Anpassade åtgärder effektiviserar det dagliga arbetet genom att kombinera en uppsättning enskilda steg till en knapp.'
   custom_fields:
     text_add_new_custom_field: >
@@ -1730,7 +1730,7 @@ sv:
   label_public_projects: "Offentliga projekt"
   label_query_new: "Ny fråga"
   label_query_plural: "Anpassade frågor"
-  label_query_menu_item: "Query menu item"
+  label_query_menu_item: "Fråga menyalternativ"
   label_read: "Läs..."
   label_register: "Skapa ett nytt konto"
   label_register_with_developer: "Registrera dig som utvecklare"
@@ -2121,7 +2121,7 @@ sv:
     heading_getting_started: "Få en översikt"
     text_getting_started_description: "Få en snabb överblick över projektledning och samarbete med OpenProject."
     text_show_again: "Du kan starta om denna video från hjälpmenyn"
-    welcome: "Welcome to OpenProject"
+    welcome: "Välkommen till OpenProject"
     select_language: "Välj ditt språk"
   permission_add_work_package_notes: "Lägg till anteckningar"
   permission_add_work_packages: "Lägg till arbetspaket"
@@ -2179,7 +2179,7 @@ sv:
   permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Välj projektmoduler"
   permission_manage_types: "Välj typer"
-  permission_view_calendar: "View calendar"
+  permission_view_calendar: "Visa kalender"
   permission_view_changesets: "Visa databasrevisioner i OpenProject"
   permission_view_commit_author_statistics: "Visa statistik över incheckningar per författare"
   permission_view_work_package_watchers: "Visa lista med bevakare"
@@ -2841,7 +2841,7 @@ sv:
   wiki_menu_item_new_main_item_explanation: >
     Du tar bort det enda huvudobjektet i wiki menyn. Du måste nu välja en wikisida för vilket ett nytt huvudobjekt kommer att genereras. För att radera wikin inaktiverar projektadministratören wiki-modulen.
   wiki_menu_item_delete_not_permitted: Menyalternativet wiki på den enda wiki-sidan kan inte tas bort.
-  query_menu_item_for: "Menu item for query \"%{title}\""
+  query_menu_item_for: "Menyalternativet för frågan \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
