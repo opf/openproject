@@ -73,6 +73,11 @@ module Storages::Storages
         return
       end
 
+      unless json_response?(response)
+        errors.add(:host, :not_nextcloud_server)
+        return
+      end
+
       unless major_version_sufficient?(response)
         errors.add(:host, :minimal_nextcloud_version_unmet)
       end
@@ -110,6 +115,15 @@ module Storages::Storages
       rescue StandardError
         :unreachable
       end
+    end
+
+    def json_response?(response)
+      (
+        response['content-type'].split(';').first.strip.downcase == 'application/json' \
+        && JSON.parse(response.body).dig('ocs', 'data', 'version', 'major')
+      )
+    rescue JSON::ParserError
+      false
     end
   end
 end

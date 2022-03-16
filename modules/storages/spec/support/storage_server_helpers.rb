@@ -27,8 +27,16 @@
 #++
 
 module StorageServerHelpers
-  def mock_server_capabilities_response(nextcloud_host, response_code: '200', response_nextcloud_major_version: 23)
-    response_body =
+  def mock_server_capabilities_response(nextcloud_host,
+                                        response_code: nil,
+                                        response_headers: nil,
+                                        response_body: nil,
+                                        response_nextcloud_major_version: 23)
+    response_code ||= 200
+    response_headers ||= {
+      'Content-Type' => 'application/json; charset=utf-8'
+    }
+    response_body ||=
       %{
         {
           "ocs": {
@@ -51,6 +59,7 @@ module StorageServerHelpers
       File.join(nextcloud_host, '/ocs/v2.php/cloud/capabilities')
     ).to_return(
       status: response_code,
+      headers: response_headers,
       body: response_body
     )
   end

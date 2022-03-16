@@ -23,6 +23,7 @@ en:
             host:
               cannot_be_connected_to: "can not be connected to."
               minimal_nextcloud_version_unmet: "does not meet minimal version requirements (must be Nextcloud 23 or higher)"
+              not_nextcloud_server: "is not a Nextcloud server"
 
   storages:
     page_titles:

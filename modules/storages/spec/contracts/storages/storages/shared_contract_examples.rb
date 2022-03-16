@@ -36,16 +36,9 @@ shared_examples_for 'storage contract', :storage_server_helpers, webmock: true d
   let(:storage_provider_type) { ::Storages::Storage::PROVIDER_TYPE_NEXTCLOUD }
   let(:storage_host) { 'https://host1.example.com' }
   let(:storage_creator) { current_user }
-  let(:host_response_code) { '200' }
-  let(:host_response_message) { 'OK' }
-  let(:host_response_major_version) { 23 }
 
   before do
-    if storage_host.present?
-      mock_server_capabilities_response(storage_host,
-                                        response_code: host_response_code,
-                                        response_nextcloud_major_version: host_response_major_version)
-    end
+    mock_server_capabilities_response(storage_host) if storage_host
   end
 
   it_behaves_like 'contract is valid for active admins and invalid for regular users'
@@ -77,7 +70,7 @@ shared_examples_for 'storage contract', :storage_server_helpers, webmock: true d
 
     context 'when provider_type is invalid' do
       context 'as it is unknown' do
-        let(:storage_provider_type) { 'unkwown_provider_type' }
+        let(:storage_provider_type) { 'unknown_provider_type' }
 
         include_examples 'contract is invalid', provider_type: :inclusion
       end
@@ -121,9 +114,20 @@ shared_examples_for 'storage contract', :storage_server_helpers, webmock: true d
       end
 
       context 'when provider_type is nextcloud' do
+        let(:host_response_body) { nil } # use default
+        let(:host_response_code) { nil } # use default
+        let(:host_response_headers) { nil } # use default
+        let(:host_response_major_version) { 23 }
+
         before do
           # simulate host value changed to have GET request sent to check host URL validity
           storage.host_will_change!
+          # simulate http response returned upon GET request
+          mock_server_capabilities_response(storage_host,
+                                            response_code: host_response_code,
+                                            response_headers: host_response_headers,
+                                            response_body: host_response_body,
+                                            response_nextcloud_major_version: host_response_major_version)
         end
 
         context 'when connection fails' do
@@ -135,19 +139,41 @@ shared_examples_for 'storage contract', :storage_server_helpers, webmock: true d
         end
 
         context 'when response code is a 404 NOT FOUND' do
-          let(:host_response_code) { '404' }
+          let(:host_response_code) { 404 }
 
           include_examples 'contract is invalid', host: :cannot_be_connected_to
         end
 
         context 'when response code is a 500 PERMISSION DENIED' do
-          let(:host_response_code) { '500' }
+          let(:host_response_code) { 500 }
 
           include_examples 'contract is invalid', host: :cannot_be_connected_to
         end
 
+        context 'when response content type is not application/json' do
+          let(:host_response_headers) do
+            {
+              'Content-Type' => 'text/html'
+            }
+          end
+
+          include_examples 'contract is invalid', host: :not_nextcloud_server
+        end
+
+        context 'when response is unparsable JSON' do
+          let(:host_response_body) { '{' }
+
+          include_examples 'contract is invalid', host: :not_nextcloud_server
+        end
+
+        context 'when response is valid JSON but not the expected data' do
+          let(:host_response_body) { '{}' }
+
+          include_examples 'contract is invalid', host: :not_nextcloud_server
+        end
+
         context 'when Nextcloud version is below the required minimal version which is 23' do
-          let(:host_response_major_version) { '22' }
+          let(:host_response_major_version) { 22 }
 
           include_examples 'contract is invalid', host: :minimal_nextcloud_version_unmet
         end
