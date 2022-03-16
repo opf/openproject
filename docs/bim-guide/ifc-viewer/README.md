@@ -1,6 +1,6 @@
 ---
 sidebar_navigation:
-  title: Revit Add-in
+  title: IFC viewer
   priority: 300
 description: How to use the OpenProject IFC-Viewer.
 robots: index, follow
