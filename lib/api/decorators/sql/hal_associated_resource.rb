@@ -67,7 +67,7 @@ module API
                 CASE #{table_name}_type
                 WHEN 'Group' THEN lastname
                 WHEN 'PlaceholderUser' THEN lastname
-                ELSE #{User::USER_FORMATS_STRUCTURE[Setting.user_format].map { |p| p }.join(join_string)}
+                ELSE #{User::USER_FORMATS_STRUCTURE[Setting.user_format].join(join_string)}
                 END
               SQL
             }
