@@ -35,6 +35,14 @@ module API
              column: -> { :id },
              title: -> { 'subject' }
 
+        link :project,
+             path: { api: :project, params: %w(id) },
+             column: -> { :project_id },
+             title: -> { 'project_name' },
+             join: { table: :projects,
+                     condition: 'projects.id = project_id',
+                     select: ['projects.name project_name'] }
+
         property :_type,
                  representation: ->(*) { "'WorkPackage'" }
 

@@ -13,13 +13,13 @@ uk:
         base_dn: "База пошуку унікальних імен"
     models:
       ldap_groups/synchronized_group: 'Синхронізована група LDAP'
-      ldap_groups/synchronized_filter: 'Фільтр синхронізації груп LDAP'
+      ldap_groups/synchronized_filter: 'Фільтр синхронізації групи LDAP'
     errors:
       models:
         ldap_groups/synchronized_filter:
           must_contain_base_dn: "Базове унікальне ім‘я фільтра має входити в базове унікальне ім’я LDAP-підключення "
   ldap_groups:
-    label_menu_item: 'Синхронізація LDAP-групи'
+    label_menu_item: 'Синхронізація групи LDAP'
     label_group_key: 'Ключ фільтра LDAP-групи'
     label_synchronize: 'Синхронізувати'
     settings:
@@ -48,7 +48,7 @@ uk:
       add_new: 'Додати синхронізовану групу LDAP'
       destroy:
         title: 'Вилучити синхронізовану групу %{name}'
-        confirmation: "Якщо ви продовжите, синхронізована група %{name} і всі користувачі (%{users_count}), синхронізовані через неї, буде вилучено."
+        confirmation: "Якщо ви продовжите, синхронізовану групу %{name} і всіх користувачі (%{users_count}), синхронізованих через неї, буде вилучено."
         info: "Примітка: групу OpenProject і учасників, доданих з-поза меж цієї синхронізації LDAP,  не буде вилучено."
         verification: "Введіть назву групи %{name}, щоб підтвердити видалення."
       help_text_html: |

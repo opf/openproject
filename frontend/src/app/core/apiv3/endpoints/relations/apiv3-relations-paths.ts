@@ -57,7 +57,10 @@ export class ApiV3RelationsPaths extends ApiV3ResourceCollection<RelationResourc
     }
 
     return this
-      .filtered(ApiV3Filter('involved', '=', validIds))
+      .filtered(
+        ApiV3Filter('involved', '=', validIds),
+        { pageSize: '-1' },
+      )
       .get()
       .pipe(
         map((collection) => collection.elements),

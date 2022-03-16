@@ -102,7 +102,7 @@ uk:
       Ця форма LDAP вимагає технічних знань про налаштування LDAP / Active Directory.<br/><a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Щоб отримати докладні вказівки, ознайомтеся з нашою документацією</a>.
     attribute_texts:
       name: Назва атрибута LDAP-підключення
-      host: Назва хоста LDAP або IP-адреса
+      host: Назва хосту LDAP або IP-адреса
       login_map: Ключ атрибута в LDAP, який використовується для ідентифікації унікального входу користувача. Зазвичай це «uid» або «samAccountName».
       generic_map: Ключ атрибута в LDAP, зіставлений з атрибутом «%{attribute}» OpenProject
       admin_map_html: "Необов’язково. Ключ атрибута в LDAP, який, <strong>якщо є</strong>, призначає користувача адміністратором OpenProject. Нічого не вказуйте, якщо маєте сумніви."
@@ -321,7 +321,7 @@ uk:
     bulk:
       could_not_be_saved: "Не вдалося зберегти такі робочі пакети:"
       none_could_be_saved: "Жоден із пакетів робіт (%{total}) не можна оновити."
-      x_out_of_y_could_be_saved: "Не вдалося оновити пакетів: %{failing} із %{total}. Оновлено: %{success}."
+      x_out_of_y_could_be_saved: "Не вдалось оновити пакетів робіт: %{failing} із %{total}. Оновлено: %{success}."
       selected_because_descendants: "Хоча вибрано кілька (%{selected}) пакетів робіт, змінено всього %{total}, включно з нащадками."
       descendant: "нащадок вибраного елемента"
     move:
@@ -646,8 +646,8 @@ uk:
             reason_mail_digest:
               no_notification_reason: '– потрібно вказати, оскільки як канал вибрано поштову розсилку.'
         notification_settings:
-          only_one_global_setting: 'Має існувати лише один глобальний параметр сповіщень.'
-          email_alerts_global: 'Параметри сповіщень електронною поштою можна встановити лише глобально.'
+          only_one_global_setting: 'Має існувати лише одне глобальне налаштування сповіщень.'
+          email_alerts_global: 'Налаштування сповіщень електронною поштою можна встановити лише глобально.'
           format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
@@ -1989,7 +1989,7 @@ uk:
     notification:
       center: 'Центр сповіщень'
       see_in_center: 'Переглянути коментарі у центрі сповіщень'
-      settings: 'Змінити параметри електронної пошти'
+      settings: 'Змінити налаштування електронної пошти'
     salutation: 'Привіт, %{user}!'
     work_packages:
       created_at: 'Створено о %{timestamp} користувачем %{user} '
@@ -2002,12 +2002,12 @@ uk:
         many: 'Є ще %{count} пакетів робіт зі сповіщеннями.'
         other: 'Є ще %{count} пакета робіт зі сповіщеннями.'
       reason:
-        watched: 'Переглянуто'
+        watched: 'Відстежено'
         assigned: 'Призначено'
         responsible: 'Відповідальний'
         mentioned: 'Згадано'
         subscribed: 'всі'
-        prefix: 'Отримано через параметр сповіщень: %{reason}'
+        prefix: 'Отримано через налаштування сповіщень: %{reason}'
       see_all: 'Показати всі'
       updated_at: 'Оновлено о %{timestamp} користувачем %{user}'
   mail_body_account_activation_request: "Новий користувач (%{value}) зареєструвався. Його обліковий запис чекає на ваше підтвердження:"
@@ -2211,11 +2211,11 @@ uk:
   permission_manage_project_activities: "Управління проектною діяльністю"
   permission_manage_public_queries: "Керуйте переглядами громадськості"
   permission_manage_repository: "Управління сховищем"
-  permission_manage_subtasks: "Керувати ієрархіями пакетів робіт"
+  permission_manage_subtasks: "Керування ієрархіями пакетів робіт"
   permission_manage_versions: "Управління версіями"
   permission_manage_wiki: "Управління wiki"
   permission_manage_wiki_menu: "Керування wiki-меню"
-  permission_move_work_packages: "Перемістити робочі пакети"
+  permission_move_work_packages: "Переміщення робочих пакетів"
   permission_protect_wiki_pages: "Захист wiki-сторінок"
   permission_rename_wiki_pages: "Перейменування wiki-сторінок"
   permission_save_queries: "Зберегти перегляди"
@@ -2523,8 +2523,8 @@ uk:
       first_week_of_year_text: >
         Виберіть дату в січні, що входить у перший тиждень року. Це значення разом із першим днем тижня визначає загальну кількість тижнів у році.
     projects:
-      section_new_projects: "Параметри нових проєктів"
-      section_project_overview: "Параметри списку огляду проєктів"
+      section_new_projects: "Налаштування нових проєктів"
+      section_project_overview: "Налаштування списку огляду проєктів"
     user:
       default_preferences: "Параметри за умовчанням"
       deletion: "Видалення"
@@ -2592,8 +2592,8 @@ uk:
   text_work_package_category_destroy_question: "Деякі робочі пакети (%{count}) були призначені для цієї категорії. Що ви хочете зробити?"
   text_work_package_category_reassign_to: "Перепризначити робочі пакети до даної категорії"
   text_work_package_updated: "%{author} оновив робочий пакет %{id}."
-  text_work_package_watcher_added: "Користувач %{watcher_changer} додав вас як спостерігача в пакет робіт %{id}."
-  text_work_package_watcher_removed: "Користувач %{watcher_changer} вилучив вас зі списку спостерігачів у пакеті робіт %{id}."
+  text_work_package_watcher_added: "Користувач %{watcher_changer} додав вас як відстежувача в пакет робіт %{id}."
+  text_work_package_watcher_removed: "Користувач %{watcher_changer} вилучив вас зі списку відстежувачів у пакеті робіт %{id}."
   text_work_packages_destroy_confirmation: "Ви впевнені у тому, що хочете видалити вибрані робочі пакети?"
   text_work_packages_ref_in_commit_messages: "Посилання та фіксація робочих пакетів у повідомленнях комітів"
   text_journal_added: "%{label} %{value} доданий"
@@ -2879,11 +2879,11 @@ uk:
     protocol_mismatch:
       title: 'Невідповідність налаштувань протоколу'
       text_html: >
-         Ваш додаток запущено з протоколом <code>%{set_protocol}</code>, але в запиті використовується <code>%{actual_protocol}</code>. Це призведе до помилок! Виберіть <a href="%{setting_path}">Системні параметри</a> та змініть параметр «Протокол» на правильний.
+        Ваш додаток запущено з протоколом <code>%{set_protocol}</code>, але в запиті використовується <code>%{actual_protocol}</code>. Це призведе до помилок! Виберіть <a href="%{setting_path}">Системні налаштування</a> та змініть параметр «Протокол» на правильний.
     hostname_mismatch:
       title: 'Невідповідність налаштуванням імені хосту'
       text_html: >
-        Ваш додаток запущено з іменем хосту <code>%{set_hostname}</code>, але в запиті використовується <code>%{actual_hostname}</code>. Це призведе до помилок! Виберіть <a href="%{setting_path}">Системні параметри</a> та змініть параметр «Ім’я хосту» на правильний.
+        Ваш додаток запущено з іменем хосту <code>%{set_hostname}</code>, але в запиті використовується <code>%{actual_hostname}</code>. Це призведе до помилок! Виберіть <a href="%{setting_path}">Системні налаштування</a> та змініть параметр «Ім’я хосту» на правильний.
   menu_item: "Пункт меню"
   menu_item_setting: "Видимість"
   wiki_menu_item_for: "Пункт меню для вікі-сторінки %{title}"
