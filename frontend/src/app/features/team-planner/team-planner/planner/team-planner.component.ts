@@ -342,7 +342,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
                 ],
               },
             },
-            events: this.calendarEventsFunction.bind(this) as unknown,
+            eventSources: this.calendarEventsFunction.bind(this) as unknown,
             resources: [],
             resourceAreaWidth: '180px',
             select: this.handleDateClicked.bind(this) as unknown,
@@ -386,8 +386,76 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
         const events = this.mapToCalendarEvents(workPackages.elements);
 
         this.viewLookup.destroyDetached();
+        const fakeResources = [
+          {
+            id: '1',
+            title: '',
+            href:'',
+            dataLoaded: false,
+          },
+          {
+            id: '2',
+            title: '',
+            href:'',
+            dataLoaded: false,
+          },
+          {
+            id: '3',
+            title: '',
+            href:'',
+            dataLoaded: false,
+          },
+        ];
 
-        successCallback(events);
+        const fakeEvents = {
+          
+          events: [
+            {
+              id: '1',
+              resourceId: fakeResources[0].href,
+              title: '',
+              start: moment().subtract(1, 'days'),
+              end: moment(),
+              backgroundColor: '#FFFFFF',
+              borderColor: '#FFFFFF',
+              allDay: true,
+              dataLoaded: false,
+            },
+            {
+              id: '2',
+              resourceId: fakeResources[1].href,
+              title: '',
+              start: moment().subtract(3, 'days'),
+              end: moment().subtract(1, 'days'),
+              backgroundColor: '#FFFFFF',
+              borderColor: '#FFFFFF',
+              allDay: true,
+              dataLoaded: false,
+            },
+            {
+              id: '3',
+              resourceId: fakeResources[2].href,
+              title: '',
+              start: moment(),
+              end: moment().add(2, 'days'),
+              backgroundColor: '#FFFFFF',
+              borderColor: '#FFFFFF',
+              allDay: true,
+              dataLoaded: false,
+            },
+        ]
+      };
+
+      const realEvants = {
+        events : events,
+        dataLoaded: true,
+      };
+
+      const finalEvents = [ 
+        fakeEvents,
+        realEvants,
+      ];
+        successCallback(finalEvents);
       })
       .catch(failureCallback);
 
