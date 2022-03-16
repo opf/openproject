@@ -30,7 +30,7 @@ module Storages
       link_to '',
               project_settings_projects_storage_path(project_id: model.project, id: model),
               class: 'icon icon-delete',
-              data: { confirm: I18n.t(:text_are_you_sure) },
+              data: { confirm: I18n.t('storages.delete_warning.project_storage') },
               title: I18n.t(:button_delete),
               method: :delete
     end
