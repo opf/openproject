@@ -31,6 +31,16 @@ module API
     module Utilities
       module Endpoints
         class Index < API::Utilities::Endpoints::Index
+          def initialize(model:,
+                         api_name: model.name.demodulize,
+                         scope: nil,
+                         render_representer: nil,
+                         self_path: api_name.underscore.pluralize)
+            super(model: model, api_name: api_name, scope: scope, render_representer: render_representer)
+
+            self.self_path = self_path
+          end
+
           def mount
             index = self
 
@@ -51,21 +61,18 @@ module API
             if query.valid?
               render_success(query,
                              request.params,
-                             request.api_v3_paths.send(self_path),
+                             calculated_self_path(request),
                              scope ? request.instance_exec(&scope) : model)
             else
               render_error(query)
             end
           end
 
-          def self_path
-            api_name.underscore.pluralize
-          end
-
           attr_accessor :model,
                         :api_name,
                         :scope,
-                        :render_representer
+                        :render_representer,
+                        :self_path
 
           private
 
@@ -126,6 +133,14 @@ module API
 
           def render_error(query)
             raise ::API::Errors::InvalidQuery.new(query.errors.full_messages)
+          end
+
+          def calculated_self_path(request)
+            if self_path.respond_to?(:call)
+              request.instance_exec(&self_path)
+            else
+              request.api_v3_paths.send(self_path)
+            end
           end
 
           def deduce_render_representer
