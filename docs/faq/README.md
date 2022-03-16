@@ -23,21 +23,24 @@ Welcome to the central overview of frequently asked questions for OpenProject.
 
 ## Learn more about OpenProject
 
-### What about data privacy, data security and GDPR conformity?
+### Does OpenProject employ sub-processors for the OpenProject Cloud Edition from outside the EU?
 
-Data protection and security are one of the main motivations for the development of this open source application. Thus, you have the possibility to move the OpenProject application including your data to your own infrastructure at any time. Unlike other cloud tools, you can also take a look at the software code and adapt it if necessary.
+A list of all sub-processors used in the OpenProject Enterprise Cloud can be found [here](https://www.openproject.org/legal/data-processing-agreement/sub-processors/).
 
-For users who do not want to run OpenProject themselves, we offer a hosting product. Here we use subcontractors who are not based in the EU, too. We achieve compliance with the GDPR by using standard protection clauses (Art. 46 (2) (c) and (d) GDPR).
-A list of the subcontractors currently used in the Cloud Edition can be found here: [https://www.openproject.org/legal/data-processing-agreement/sub-processors/](https://www.openproject.org/legal/data-processing-agreement/sub-processors/)
-For our cloud product, we aim to completely eliminate subcontractors outside of the EU by the end of 2021. We have made a start by replacing Google Analytics with Matomo since 2020.
-You can also send us encrypted emails to privacy@openproject.com. You can find the corresponding GPG key here: [https://keys.openpgp.org/vks/v1/by-fingerprint/BDCFE01EDE84EA199AE172CE7D669C6D475339588](https://keys.openpgp.org/vks/v1/by-fingerprint/BDCFE01EDE84EA199AE172CE7D669C6D475339588)
+Please note: For the OpenProject Enterprise Cloud we currently have two SaaS infrastructures:
 
-#### Is OpenProject Enterprise cloud GDPR compliant?
+**OpenProject.com** 
 
-The OpenProject cloud environment is hosted on a logically isolated virtual cloud at Amazon Web Services with all services being located in Ireland.
-AWS is a GDPR compliant cloud infrastructure provider with extensive security and compliance programs as well as unparalleled access control mechanisms to ensure data privacy.
-Employed facilities are compliant with the ISO 27001 and 27018 standards. The OpenProject cloud environment is continuously backing up user data with data at rest being fully encrypted with AES-256.
-Each individual instance is logically separated and data is persisted in a unique database schema, reducing the risk of intersection or data leaks between instances. Find out more about GDPR compliance on our [website](https://www.openproject.org/security-and-privacy/).
+This infrastructure is hosted at AWS in Dublin. For sending transactional emails we use the service Postmark which is based in the US.
+
+**OpenProject.eu (beta)**
+
+From April 2022, we will also offer hosting of the OpenProject Enterprise cloud in our new SaaS infrastructure *OpenProject.eu*. In this new environment there is no transfer to sub-processors outside the EU. If you want to join the beta program please contact privacy@openproject.com (GPG Key: [BDCFE01EDE84EA199AE172CE7D669C6D47533958](https://keys.openpgp.org/vks/v1/by-fingerprint/BDCFE01EDE84EA199AE172CE7D669C6D47533958)).
+
+**Migration after the beta phase in April 2022**
+
+After the end of the beta phase we plan to migrate <u>all</u> customers to the new infrastructure *OpenProject.eu*. Before this migration we (Processor) will notify all clients (Controller) about the new sub-processors by email.  After the expiry of the objection period of two weeks, the modification shall be deemed approved within the meaning of Article 28  (2) GDPR. If the the Controller objects by email to privacy@openproject.com within two weeks we will <u>not</u> migrate their data. For more information please have a look at [§ 8 "Sub-processors](https://www.openproject.org/legal/data-processing-agreement/#-8-sub-processors) in your DPA.
+
 
 ### How do I get access to the OpenProject premium features?
 We offer the premium functions of OpenProject (incl. boards) for two different OpenProject variants:
