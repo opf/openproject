@@ -38,11 +38,11 @@ shared_context 'ModelContract shared context' do # rubocop:disable RSpec/Context
     context 'when admin' do
       let(:current_user) { build_stubbed(:admin) }
 
-      context 'when admin active' do
+      context 'when active' do
         include_examples 'contract is valid'
       end
 
-      context 'when admin not active' do
+      context 'when not active' do
         let(:current_user) { build_stubbed(:admin, status: User.statuses[:locked]) }
 
         it_behaves_like 'contract user is unauthorized'
