@@ -62,7 +62,7 @@ describe 'Activation of storages in projects', type: :feature, js: true do
     # Check for an empty table in Project -> Settings -> File storages
     expect(page).to have_title('File storages')
     expect(page).to have_current_path project_settings_projects_storages_path(project)
-    expect(page).to have_text('No storage setup, yet.')
+    expect(page).to have_text(I18n.t('storages.no_results'))
     page.find('.toolbar .button--icon.icon-add').click
 
     # Enable one file storage
@@ -82,6 +82,6 @@ describe 'Activation of storages in projects', type: :feature, js: true do
 
     # List of ProjectStorages empty again
     expect(page).to have_current_path project_settings_projects_storages_path(project)
-    expect(page).to have_text('No storage setup, yet.')
+    expect(page).to have_text(I18n.t('storages.no_results'))
   end
 end

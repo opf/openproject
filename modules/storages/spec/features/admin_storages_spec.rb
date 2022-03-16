@@ -39,7 +39,7 @@ describe 'Admin storages', :storage_server_helpers, type: :feature, js: true do
     visit storages_path
     expect(page).to have_title('File storages')
     expect(page.find('.title-container')).to have_text('File storages')
-    expect(page).to have_text('No storage setup, yet.')
+    expect(page).to have_text(I18n.t('storages.no_results'))
 
     page.find('.toolbar .button--icon.icon-add').click
 

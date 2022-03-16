@@ -49,7 +49,7 @@ en:
     label_new_storage: "New storage"
     label_storage: "Storage"
     label_storages: "Storages"
-    no_results: "No storage setup, yet."
+    no_results: "No storages setup, yet."
     provider_types:
       label: "Provider type"
       nextcloud: "Nextcloud"

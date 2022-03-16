@@ -72,7 +72,7 @@ describe 'Delete ProjectStorage with FileLinks', type: :feature, js: true do
 
     # List of ProjectStorages empty again
     expect(page).to have_current_path project_settings_projects_storages_path(project)
-    expect(page).to have_text('No storage setup, yet.')
+    expect(page).to have_text(I18n.t('storages.no_results'))
 
     # Also check in the database that ProjectStorage and dependent FileLinks are gone
     expect(Storages::ProjectStorage.count).to be 0
