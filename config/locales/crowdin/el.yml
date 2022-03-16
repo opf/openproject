@@ -157,7 +157,7 @@ el:
     edit: 'Επεξεργασία της προσαρμοσμένης ενέργειας %{name}'
     execute: 'Εκτέλεση %{name}'
     upsale:
-      title: 'Custom actions is an Enterprise Edition feature'
+      title: 'Οι προσαρμοσμένες ενέργειες είναι μια λειτουργία της Έκδοσης για Επιχειρήσεις'
       description: 'Οι προσαρμοσμένες ενέργειες εξομαλύνουν την καθημερινή εργασία συνδυάζοντας ένα σύνολο μεμονωμένων βημάτων σε ένα κουμπί.'
   custom_fields:
     text_add_new_custom_field: >
@@ -256,7 +256,7 @@ el:
       irreversible: "Αυτή η ενέργεια είναι μη αναστρέψιμη"
       confirmation: "Enter the placeholder user name %{name} to confirm the deletion."
     upsale:
-      title: Assign work to people that are not members of the project.
+      title: Ανάθεση εργασίας σε άτομα που δεν είναι μέλη του έργου.
       description: >
         There are multiple scenarios where you want to assign work to people that are not member of your project. It could simply be that you still need to hire the correct person for the job. Or you just don't want to give that person access to the project's information but still want track tasks assigned to that person.
   prioritiies:
@@ -1727,7 +1727,7 @@ el:
   label_public_projects: "Δημόσια έργα"
   label_query_new: "Νέα αναζήτηση"
   label_query_plural: "Προσαρμοσμένες αναζητήσεις"
-  label_query_menu_item: "Query menu item"
+  label_query_menu_item: "Αντικείμενο μενού αναζήτησης"
   label_read: "Ανάγνωση..."
   label_register: "Δημιουργία νέου λογαριασμού"
   label_register_with_developer: "Εγγεγραμμένος ως προγραμματιστής"
@@ -1975,7 +1975,7 @@ el:
   mail_body_backup_waiting_period: The new token will be enabled in %{hours} hours.
   mail_body_backup_token_warning: If this wasn't you, login to OpenProject immediately and reset it again.
   mail_body_lost_password: "Για να αλλάξετε τον κωδικό πρόσβασης, πατήστε τον ακόλουθο σύνδεσμο:"
-  mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
+  mail_body_register: "Καλώς ήρθατε στο OpenProject. Παρακαλώ ενεργοποιήστε το λογαριασμό σας κάνοντας κλικ σε αυτόν τον σύνδεσμο:"
   mail_body_register_header_title: "Email πρόσκλησης μέλους του έργου"
   mail_body_register_user: "Αγαπητέ/ή %{name},"
   mail_body_register_links_html: |
@@ -2117,7 +2117,7 @@ el:
     heading_getting_started: "Λάβετε μια επισκόπηση"
     text_getting_started_description: "Λάβετε μια γρήγορη επισκόπηση της διαχείρισης έργων και της ομαδικής συνεργασίας με το OpenProject."
     text_show_again: "Μπορείτε να επανεκκινήσετε αυτό το βίντεο από το μενού βοήθειας"
-    welcome: "Welcome to OpenProject"
+    welcome: "Καλώς ορίσατε στο OpenProject"
     select_language: "Παρακαλούμε επιλέξτε την γλώσσα σας"
   permission_add_work_package_notes: "Προσθήκη σημειώσεων"
   permission_add_work_packages: "Προσθήκη πακέτων εργασίας"
@@ -2175,7 +2175,7 @@ el:
   permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Επιλογή ενοτήτων έργου"
   permission_manage_types: "Επιλέξτε τύπους"
-  permission_view_calendar: "View calendar"
+  permission_view_calendar: "Προβολή ημερολογίου"
   permission_view_changesets: "Προβολή αποθετηρίου των αναθεωρήσεων στο OpenProject"
   permission_view_commit_author_statistics: "Εμφάνιση στατιστικών συγγραφέων δέσμευσης"
   permission_view_work_package_watchers: "Προβολή λίστας παρατηρητών"
@@ -2840,7 +2840,7 @@ el:
   wiki_menu_item_new_main_item_explanation: >
     Πρόκειται να διαγράψετε το μόνο κύριο αντικείμενο του μενού. Τώρα πρέπει να επιλέξετε μία σελίδα wiki για την οποία θα δημιουργηθεί ένα καινούργιο κύριο αντικείμενο. Για να διαγράψετε το wiki, πρέπει να απενεργοποιηθεί η ενότητα wiki από τους διαχειριστές έργου.
   wiki_menu_item_delete_not_permitted: Το αντικείμενο μενού wiki της μοναδικής σελίδας wiki δεν μπορεί να διαγραφεί.
-  query_menu_item_for: "Menu item for query \"%{title}\""
+  query_menu_item_for: "Αντικείμενο μενού για την αναζήτηση \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |

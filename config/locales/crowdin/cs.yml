@@ -161,7 +161,7 @@ cs:
     edit: 'Upravit vlastní akci %{name}'
     execute: 'Spustit %{name}'
     upsale:
-      title: 'Custom actions is an Enterprise Edition feature'
+      title: 'Vlastní akce pouze v Enterprise Edition'
       description: 'Vlastní akce zjednodušuje každodenní práci tím, že kombinuje několik kroků do jednoho tlačítka.'
   custom_fields:
     text_add_new_custom_field: >
@@ -260,7 +260,7 @@ cs:
       irreversible: "Tato akce je nevratná"
       confirmation: "Zadejte název zástupného uživatele %{name} pro potvrzení odstranění."
     upsale:
-      title: Assign work to people that are not members of the project.
+      title: Přiřadit práci lidem, kteří nejsou členy projektu.
       description: >
         Existuje několik scénářů, kde chcete přiřadit práci lidem, kteří nejsou členy vašeho projektu. Mohlo by se jednoduše stát, že ještě musíte najmout správnou osobu na zaměstnání. Nebo nechcete této osobě umožnit přístup k informacím o projektu, ale přesto chcete sledovat úkoly přidělené této osobě.
   prioritiies:
@@ -1765,7 +1765,7 @@ cs:
   label_public_projects: "Veřejné projekty"
   label_query_new: "Nový dotaz"
   label_query_plural: "Vlastní dotazy"
-  label_query_menu_item: "Query menu item"
+  label_query_menu_item: "Položka nabídky dotazu"
   label_read: "Číst..."
   label_register: "Vytvořit nový účet"
   label_register_with_developer: "Zaregistrovat se jako vývojář"
@@ -2015,7 +2015,7 @@ cs:
   mail_body_backup_waiting_period: Nový token bude povolen za %{hours} hodin.
   mail_body_backup_token_warning: Pokud jste to nebyl Vy, přihlaste se okamžitě do OpenProject a resetujte jej .
   mail_body_lost_password: "Pro změnu vašeho hesla klikněte na následující odkaz:"
-  mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
+  mail_body_register: "Vítejte v OpenProject. Aktivujte svůj účet kliknutím na tento odkaz:"
   mail_body_register_header_title: "E-mail pozvánka člena projektu"
   mail_body_register_user: "Vážený %{name},"
   mail_body_register_links_html: |
@@ -2159,7 +2159,7 @@ cs:
     heading_getting_started: "Získejte přehled"
     text_getting_started_description: "Získejte rychlý přehled o řízení projektu a týmové spolupráci s OpenProject."
     text_show_again: "Toto video můžete restartovat z menu nápovědy"
-    welcome: "Welcome to OpenProject"
+    welcome: "Vítejte v OpenProject"
     select_language: "Vyberte prosím svůj jazyk"
   permission_add_work_package_notes: "Přidat poznámky"
   permission_add_work_packages: "Přidat pracovní balíčky"
@@ -2217,7 +2217,7 @@ cs:
   permission_select_custom_fields: "Vybrat vlastní pole"
   permission_select_project_modules: "Vyberte moduly projektu"
   permission_manage_types: "Vyberte typy"
-  permission_view_calendar: "View calendar"
+  permission_view_calendar: "Zobrazit kalendář"
   permission_view_changesets: "Zobrazit revize repozitáře v OpenProject"
   permission_view_commit_author_statistics: "Zobrazit statistiky autora commitu"
   permission_view_work_package_watchers: "Zobrazit seznam sledujících"
@@ -2885,7 +2885,7 @@ cs:
   wiki_menu_item_new_main_item_explanation: >
     Odstraňujete jedinou hlavní položku nabídky wiki. Nyní musíte vybrat wiki stránku, pro kterou bude vytvořena nová hlavní položka. Pro odstranění wiki může být wiki modul deaktivován administrátorem projektu.
   wiki_menu_item_delete_not_permitted: Položku wiki menu jediné wiki stránky nelze odstranit.
-  query_menu_item_for: "Menu item for query \"%{title}\""
+  query_menu_item_for: "Položka nabídky pro dotaz \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
