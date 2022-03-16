@@ -30,7 +30,7 @@ Data protection and security are one of the main motivations for the development
 For users who do not want to run OpenProject themselves, we offer a hosting product. Here we use subcontractors who are not based in the EU, too. We achieve compliance with the GDPR by using standard protection clauses (Art. 46 (2) (c) and (d) GDPR).
 A list of the subcontractors currently used in the Cloud Edition can be found here: [https://www.openproject.org/legal/data-processing-agreement/sub-processors/](https://www.openproject.org/legal/data-processing-agreement/sub-processors/)
 For our cloud product, we aim to completely eliminate subcontractors outside of the EU by the end of 2021. We have made a start by replacing Google Analytics with Matomo since 2020.
-You can also send us encrypted emails to privacy@openproject.com. You can find the corresponding GPG key here: [https://keys.openpgp.org/vks/v1/by-fingerprint/BDCFE01EDE84EA199AE172CE7D669C6D475339588](https://keys.openpgp.org/vks/v1/by-fingerprint/BDCFE01EDE84EA199AE172CE7D669C6D475339588)
+You can also send us encrypted emails to privacy@openproject.com. You can find the corresponding GPG key here: [https://keys.openpgp.org/vks/v1/by-fingerprint/BDCFE01EDE84EA199AE172CE7D669C6D47533958](https://keys.openpgp.org/vks/v1/by-fingerprint/BDCFE01EDE84EA199AE172CE7D669C6D47533958)
 
 #### Is OpenProject Enterprise cloud GDPR compliant?
 

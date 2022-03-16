@@ -95,7 +95,7 @@ If you choose newest first the latest comment will appear on top in the Activity
 
 ### Backlogs settings
 
-There are two personal settings available for the [Backlogs module](../../user-guide/backlogs-scrum):
+There are two personal settings available for the [Backlogs module](../../user-guide/backlogs-scrum/):
 **Task color**: Here you can enter the color in which your tasks on the task board (on the Backlogs page) are displayed. Tasks on the task board are color-coded based on who they are assigned to. Every user has a default color assigned but if you prefer a different color, you can change it.
 **Show versions folded**: When you navigate to the "Backlogs" module in a project, the available versions (e.g. Product backlog, Sprints) are displayed. By default they are expanded, i.e. all work packages included in those versions are shown right away. If you have a large number of versions that are shown on the "Backlogs" page, you may opt to collapse them by default. This way you see all the versions on a page and can then choose to expand those versions for which you want to see details.
 
@@ -133,9 +133,9 @@ Click the blue **Continue** button to finish the registration.
 
 **My account > Notification settings**
 
-In-app notifications can be configured and customized various ways. For a detailed guide, [click here](../../user-guide/notifications/notification-settings).
+In-app notifications can be configured and customized various ways. For a detailed guide, [click here](../../user-guide/notifications/notification-settings/).
 
-Please also see our detailed [in-app notifications](../../user-guide/notifications) guide to gain a general understanding.
+Please also see our detailed [in-app notifications](../../user-guide/notifications/) guide to gain a general understanding.
 
 ## Email reminders
 
@@ -153,13 +153,13 @@ You can choose to receive emails immediately, or only on certain days and times,
 
 You can also opt-in to receive **email alerts for other items (that are not work packages)** whenever one of your project members:
 
-- **News added** - ...adds or updates news in the [News Page](../../user-guide/news)
+- **News added** - ...adds or updates news in the [News Page](../../user-guide/news/)
 - **Comment on a news item** - ...adds a comment on a news item
 - **Documents added** - ...adds a document somewhere in the project (i.e. a work package)
 - **New forum message** - ...sends a new message into the [Forum](../../user-guide/forums/)
-- **Wiki page added** - ...adds a new [Wiki page](../../user-guide/wiki)
-- **Wiki page updated** - ...updates a [Wiki page](../../user-guide/wiki)
-- **Membership added** - ...adds you to a new [Work package](../work-package-introduction)
+- **Wiki page added** - ...adds a new [Wiki page](../../user-guide/wiki/)
+- **Wiki page updated** - ...updates a [Wiki page](../../user-guide/wiki/)
+- **Membership added** - ...adds you to a new [Work package](../work-packages-introduction/)
 - **Membership updates** - ...updates your membership associations
 
 ## Set an avatar
