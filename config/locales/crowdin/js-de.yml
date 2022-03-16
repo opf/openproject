@@ -572,11 +572,11 @@ de:
             title: 'Also notify me for'
             description: 'Receive notifications for these activities on work packages in all projects:'
         project_specific:
-          title: 'Project-specific notification settings'
-          description: 'These project-specific settings override default settings above'
-          add: 'Add setting for project'
-          already_selected: 'This project is already selected'
-          remove: 'Remove project settings'
+          title: 'Projektspezifische Benachrichtigungseinstellungen'
+          description: 'Diese projektspezifischen Einstellungen ersetzen die Standardeinstellungen oben'
+          add: 'Einstellung für Projekt hinzufügen'
+          already_selected: 'Dieses Projekt ist bereits ausgewählt'
+          remove: 'Projektspezifische Einstellungen entfernen'
     password_confirmation:
       field_description: 'You need to enter your account password to confirm this change.'
       title: 'Confirm your password to continue'
