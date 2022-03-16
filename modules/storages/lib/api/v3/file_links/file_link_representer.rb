@@ -33,6 +33,7 @@ module API
         include API::Decorators::LinkedResource
         include API::Decorators::DateProperty
         include ::API::Caching::CachedRepresenter
+        include API::V3::FileLinks::StorageUrlHelper
 
         property :id
 
@@ -67,7 +68,7 @@ module API
 
         link :originOpen do
           {
-            href: ::Storages::StorageUrlService.new(represented).call('open').result
+            href: storage_url_open(represented)
           }
         end
 

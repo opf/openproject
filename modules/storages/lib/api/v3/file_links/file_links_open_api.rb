@@ -30,13 +30,11 @@ module API
   module V3
     module FileLinks
       class FileLinksOpenAPI < ::API::OpenProjectAPI
+        helpers API::V3::FileLinks::StorageUrlHelper
+
         resources :open do
           get do
-            service_call = ::Storages::StorageUrlService.new(@file_link).call('open')
-
-            raise StandardError, 'Cannot create opening url for linked file.' if service_call.failure?
-
-            url = service_call.result
+            url = storage_url_open(@file_link)
             redirect url, body: "The requested resource can be viewed at #{url}"
             status 303 # The follow-up request to the resource must be GET
           end

@@ -40,10 +40,6 @@ describe ::API::V3::FileLinks::FileLinkRepresenter, 'rendering' do
 
   subject(:generated) { representer.to_json }
 
-  before do
-    allow(::Storages::StorageUrlService).to receive(:find).and_return creator
-  end
-
   describe '_links' do
     describe 'self' do
       it_behaves_like 'has a titled link' do

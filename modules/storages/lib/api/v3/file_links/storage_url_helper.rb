@@ -26,20 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Storages
-  class StorageUrlService
-    attr_reader :file_link
-
-    ACTION_TYPES = %w[open].freeze
-
-    def initialize(file_link)
-      @file_link = file_link
-    end
-
-    def call(action)
-      return ServiceResult.new(success: false, message: 'invalid action type') unless ACTION_TYPES.include?(action)
-
-      ServiceResult.new(success: true, result: "#{@file_link.storage.host}/f/#{@file_link.origin_id}")
-    end
+# Helper for open and download links for a file link object.
+module API::V3::FileLinks::StorageUrlHelper
+  def storage_url_open(file_link)
+    "#{file_link.storage.host}/f/#{file_link.origin_id}"
   end
 end
