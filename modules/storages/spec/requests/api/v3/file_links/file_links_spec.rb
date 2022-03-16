@@ -140,7 +140,6 @@ describe 'API v3 file links resource', type: :request do
 
     context 'if the request body contains an invalid storage host' do
       let(:storage_url1) { 'https://invalid.host.org/' }
-      let(:storage_url2) { storage.host }
 
       it_behaves_like 'constraint violation' do
         let(:message) { 'Storage is invalid' }
@@ -149,7 +148,6 @@ describe 'API v3 file links resource', type: :request do
 
     context 'if the request body contains a storage host that is not linked to the project of the work package' do
       let(:storage_url1) { another_storage.host }
-      let(:storage_url2) { storage.host }
 
       it_behaves_like 'constraint violation' do
         let(:message) { 'Storage is not linked to project' }

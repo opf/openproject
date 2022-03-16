@@ -27,7 +27,7 @@
 #++
 
 class Storages::FileLinks::CreateContract < BaseContract
-  validate :validate_storage_url
+  validate :validate_storage_presence
   validate :validate_user_allowed_to_manage
   validate :validate_project_storage_link
 
@@ -41,12 +41,12 @@ class Storages::FileLinks::CreateContract < BaseContract
     end
   end
 
-  def validate_storage_url
-    errors.add(:storage_id, :invalid) if model.storage_id.blank?
+  def validate_storage_presence
+    errors.add(:storage, :invalid) if model.storage.nil?
   end
 
   def validate_project_storage_link
     storage_is_not_linked = model.storage.present? && model.project.storages.exclude?(model.storage)
-    errors.add(:storage_id, :not_linked_to_project) if storage_is_not_linked
+    errors.add(:storage, :not_linked_to_project) if storage_is_not_linked
   end
 end
