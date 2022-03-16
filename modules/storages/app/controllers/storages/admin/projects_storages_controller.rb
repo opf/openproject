@@ -72,7 +72,7 @@ class Storages::Admin::ProjectsStoragesController < Projects::SettingsController
                          .result
 
     # Calculate the list of available Storage objects, subtracting already enabled storages.
-    @available_storages = Storages::Storage.where.not(id: @project.projects_storages.pluck(:storage_id))
+    @available_storages = Storages::ProjectStorages::CreateContract.new(@project_storage, current_user).assignable_storages
 
     # Show the HTML form to create the object.
     render '/storages/project_settings/new'

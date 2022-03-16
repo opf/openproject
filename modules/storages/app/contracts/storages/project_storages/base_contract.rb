@@ -49,6 +49,10 @@ module Storages::ProjectStorages
       validate_creator_is_user
     end
 
+    def assignable_storages
+      Storages::Storage.where.not(id: @model.project.projects_storages.pluck(:storage_id))
+    end
+
     def validate_creator_is_user
       unless creator == user
         errors.add(:creator, :invalid)
