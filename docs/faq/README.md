@@ -35,7 +35,7 @@ This infrastructure is hosted at AWS in Dublin. For sending transactional emails
 
 **OpenProject.eu (beta)**
 
-From April 2022, we will also offer hosting of the OpenProject Enterprise cloud in our new SaaS infrastructure *OpenProject.eu*. In this new environment there is no transfer to sub-processors outside the EU. If you want to join the beta program please contact privacy@openproject.com (GPG Key: [BDCFE01EDE84EA199AE172CE7D669C6D47533958](https://keys.openpgp.org/vks/v1/by-fingerprint/BDCFE01EDE84EA199AE172CE7D669C6D47533958)).
+Starting from April 2022, we will also offer hosting of the OpenProject Enterprise cloud in our new SaaS infrastructure *OpenProject.eu*. In this new environment there is no transfer to sub-processors outside the EU. If you want to join the beta program please contact privacy@openproject.com (GPG Key: [BDCFE01EDE84EA199AE172CE7D669C6D47533958](https://keys.openpgp.org/vks/v1/by-fingerprint/BDCFE01EDE84EA199AE172CE7D669C6D47533958)).
 
 **Migration after the beta phase in April 2022**
 
