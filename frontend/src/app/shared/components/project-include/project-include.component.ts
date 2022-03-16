@@ -185,6 +185,7 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin {
       pageSize: -1,
       select: [
         'elements/id',
+        'elements/identifier',
         'elements/name',
         'elements/self',
         'elements/ancestors',
