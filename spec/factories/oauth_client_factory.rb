@@ -26,19 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-OpenProject::Application.routes.draw do
-  namespace :admin do
-    namespace :settings do
-      resources :storages, controller: '/storages/admin/storages' do
-        resource :oauth_client, controller: '/storages/admin/oauth_clients', only: %i[new create]
-      end
-    end
-  end
-
-  scope 'projects/:project_id', as: 'project' do
-    namespace 'settings' do
-      resources :projects_storages, controller: '/storages/admin/projects_storages',
-                                    except: %i[show update]
-    end
+FactoryBot.define do
+  factory :oauth_client, class: '::OAuthClient' do
+    sequence(:client_id) { |n| "1234567890-#{n}" }
+    sequence(:client_secret) { |n| "2345678901-#{n}" }
+    integration factory: :storage
   end
 end

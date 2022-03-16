@@ -26,19 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-OpenProject::Application.routes.draw do
-  namespace :admin do
-    namespace :settings do
-      resources :storages, controller: '/storages/admin/storages' do
-        resource :oauth_client, controller: '/storages/admin/oauth_clients', only: %i[new create]
-      end
-    end
-  end
+require 'spec_helper'
+require 'services/base_services/behaves_like_delete_service'
 
-  scope 'projects/:project_id', as: 'project' do
-    namespace 'settings' do
-      resources :projects_storages, controller: '/storages/admin/projects_storages',
-                                    except: %i[show update]
-    end
+describe ::OAuthClients::DeleteService, type: :model do
+  it_behaves_like 'BaseServices delete service' do
+    let(:factory) { :oauth_client }
   end
 end

@@ -26,19 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-OpenProject::Application.routes.draw do
-  namespace :admin do
-    namespace :settings do
-      resources :storages, controller: '/storages/admin/storages' do
-        resource :oauth_client, controller: '/storages/admin/oauth_clients', only: %i[new create]
-      end
-    end
-  end
-
-  scope 'projects/:project_id', as: 'project' do
-    namespace 'settings' do
-      resources :projects_storages, controller: '/storages/admin/projects_storages',
-                                    except: %i[show update]
-    end
+# The logic for creating storage was extracted from the controller and put into
+# a service: https://dev.to/joker666/ruby-on-rails-pattern-service-objects-b19
+# Purpose: create and persist a Storages::Storage record
+# Used by: Storages::Admin::StoragesController#create, could also be used by the
+# API in the future.
+# Reference: https://www.openproject.org/docs/development/concepts/contracted-services/
+# The comments here are also valid for the other *_service.rb files
+module OAuthClients
+  class CreateService < ::BaseServices::Create
   end
 end
