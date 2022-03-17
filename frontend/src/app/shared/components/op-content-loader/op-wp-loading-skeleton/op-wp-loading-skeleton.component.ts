@@ -13,6 +13,6 @@ import {
   styleUrls: ['./op-wp-loading-skeleton.component.sass'],
 })
 export class OpWPLoadingComponent {
- // @HostBinding('class.op-wp-loading-skeleton--loader') className = true;
+  @HostBinding('class.op-wp-loading-skeleton--loader') className = true;
   @Input() public width?:number = 100;
 }
