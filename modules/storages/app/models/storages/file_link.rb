@@ -38,14 +38,23 @@
 # Additional attributes and constraints are defined in
 # db/migrate/20220113144759_create_file_links.rb migration.
 class Storages::FileLink < ApplicationRecord
-  # Every FileLink references it's Storage. A "on delete cascade"
-  # is defined in the migration, so this FileLink will be deleted
-  # when deleting the Storage.
+  # Every FileLink references its Storage. A "on delete cascade" is defined in
+  # the migration, so this FileLink will be deleted when deleting the Storage.
   belongs_to :storage
+
+  # The object who created the FileLink should be of type User.
   belongs_to :creator, class_name: 'User'
+
   # FileLinks are attached to a container ()currently a WorkPackage)
   # Wieland: This needs to become more flexible in the future
   belongs_to :container, class_name: 'WorkPackage'
+
+  # Currently only WorkPackages are supported as containers for FileLinks
+  # For some reason this case is not handled in the belongs_to above.
+  validates :container_type, inclusion: { in: ["WorkPackage"] }
+
+  # origin_id is the Nextcloud ID of the file and should be valid.
+  validates :origin_id, presence: true
 
   # A standard Rails custom query:
   # https://www.rubyguides.com/2019/10/scopes-in-ruby-on-rails/
