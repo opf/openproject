@@ -158,7 +158,7 @@ de:
     edit: 'Benutzerdefinierte Aktion %{name} bearbeiten'
     execute: '%{name} ausführen'
     upsale:
-      title: 'Custom actions is an Enterprise Edition feature'
+      title: 'Benutzerdefinierte Aktionen ist eine Enterprise Edition-Funktion'
       description: 'Benutzerdefinierte Aktionen optimieren tägliche Arbeit durch die Abarbeitung einer Reihe von Einzelschritten in einen Knopf.'
   custom_fields:
     text_add_new_custom_field: >
@@ -257,7 +257,7 @@ de:
       irreversible: "Dieser Vorgang kann nicht rückgängig gemacht werden"
       confirmation: "Geben Sie den Namen des Platzhalter-Benutzers %{name} ein, um die Löschung zu bestätigen."
     upsale:
-      title: Assign work to people that are not members of the project.
+      title: Weisen Sie Arbeit Personen zu, die nicht Mitglieder des Projekts sind
       description: >
         Es gibt mehrere Szenarien, in denen Sie Personen Arbeit zuweisen möchten, die nicht Mitglied Ihres Projekts sind. Es könnte einfach sein, dass Sie immer noch die richtige Person für den Job einstellen müssen. Oder Sie wollen dieser Person keinen Zugriff auf die Projektinformationen gewähren, aber dennoch die dieser Person zugewiesenen Tracking-Aufgaben aufweisen.
   prioritiies:
@@ -930,7 +930,7 @@ de:
   button_copy_and_follow: "Kopieren und Arbeitspaket anzeigen"
   button_create: "Anlegen"
   button_create_and_continue: "Anlegen und weiter"
-  button_delete: "Lösche"
+  button_delete: "Löschen"
   button_decline: "Ablehnen"
   button_delete_watcher: "Lösche Beobachter %{name}"
   button_download: "Download"
@@ -1726,7 +1726,7 @@ de:
   label_public_projects: "Öffentliche Projekte"
   label_query_new: "Neuer Bericht"
   label_query_plural: "Benutzerdefinierte Berichte"
-  label_query_menu_item: "Query menu item"
+  label_query_menu_item: "Filter-Menüpunkt"
   label_read: "Lesen ..."
   label_register: "Neues Konto erstellen"
   label_register_with_developer: "Als Entwickler anmelden"
@@ -1974,7 +1974,7 @@ de:
   mail_body_backup_waiting_period: Der neue Token wird in %{hours} Stunden aktiviert.
   mail_body_backup_token_warning: Wenn Sie dies nicht waren, melden Sie sich sofort bei OpenProject an und setzen Sie es erneut zurück.
   mail_body_lost_password: "Benutzen Sie den folgenden Link, um Ihr Kennwort zu ändern:"
-  mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
+  mail_body_register: "Willkommen bei OpenProject. Bitte aktivieren Sie Ihr Konto, indem Sie auf diesen Link klicken:"
   mail_body_register_header_title: "Einladung als Projektmitglied"
   mail_body_register_user: "Hallo %{name},"
   mail_body_register_links_html: |
@@ -2117,7 +2117,7 @@ de:
     heading_getting_started: "Erhalten Sie einen Überblick"
     text_getting_started_description: "Erhalten Sie einen schnellen Überblick über Projekt-Management und Zusammenarbeit in Teams mit OpenProject."
     text_show_again: "Sie können dieses Video über das Hilfe-Menü erneut starten"
-    welcome: "Welcome to OpenProject"
+    welcome: "Willkommen bei OpenProject"
     select_language: "Bitte wählen Sie Ihre Sprache"
   permission_add_work_package_notes: "Kommentare hinzufügen"
   permission_add_work_packages: "Arbeitspakete hinzufügen"
@@ -2175,7 +2175,7 @@ de:
   permission_select_custom_fields: "Benutzerdefinierte Felder verwalten"
   permission_select_project_modules: "Projektmodule auswählen"
   permission_manage_types: "Typen auswählen"
-  permission_view_calendar: "View calendar"
+  permission_view_calendar: "Kalender ansehen"
   permission_view_changesets: "Revisionen des Projektarchivs in OpenProject ansehen"
   permission_view_commit_author_statistics: "Commit Autor Statistiken ansehen"
   permission_view_work_package_watchers: "Liste der Beobachter ansehen"
@@ -2840,7 +2840,7 @@ de:
   wiki_menu_item_new_main_item_explanation: >
     Der einzige Wiki-Hauptmenüpunkt wird gelöscht. Sie müssen nun eine Wikiseite auswählen, für die ein neuer Menüpunkt erzeugt wird. Um das Wiki zu entfernen kann das Wiki Modul durch Projektadministratoren deaktiviert werden.
   wiki_menu_item_delete_not_permitted: Der Wiki-Menüpunkt der einzigen Wiki-Seite kann nicht gelöscht werden.
-  query_menu_item_for: "Menu item for query \"%{title}\""
+  query_menu_item_for: "Menüpunkt für die Suche \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |

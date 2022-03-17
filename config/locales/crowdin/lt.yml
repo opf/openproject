@@ -158,7 +158,7 @@ lt:
     edit: 'Redaguoti pasirinktinį veiksmą %{name}'
     execute: 'Vykdyti %{name}'
     upsale:
-      title: 'Custom actions is an Enterprise Edition feature'
+      title: 'Pasirinktiniai veiksmai yra „Enterprise Edition“ funkcija'
       description: 'Pasirinktiniai veiksmai supaprastina kasdienį darbą suderindami atskirus žingsnius į vieną mygtuką.'
   custom_fields:
     text_add_new_custom_field: >
@@ -257,7 +257,7 @@ lt:
       irreversible: "Šis veiksmas negrįžtamas"
       confirmation: "Naikinimo patvirtinimui įveskite statytinio naudotojo vardą %{name}."
     upsale:
-      title: Assign work to people that are not members of the project.
+      title: Priskirkite darbus žmonėms, kurie nėra projekto nariai.
       description: >
         Gali būti keletas scenarijų kuriuose jūs norite priskirti darbus žmogui, kuris nėra projekto narys. Paprasčiausiai, žmogus gali dar nebūti priimtas į darbą. Arba jūs nenorite duoti žmogui prieigos prie projekto informacijos, tačiau norite sekti šiam žmogui priskirtas užduotis.
   prioritiies:
@@ -1762,7 +1762,7 @@ lt:
   label_public_projects: "Vieši projektai"
   label_query_new: "Nauja užklausa"
   label_query_plural: "Naudotojo užklausos"
-  label_query_menu_item: "Query menu item"
+  label_query_menu_item: "Užklausos meniu punktas"
   label_read: "Skaityti..."
   label_register: "Sukurti naują paskyrą"
   label_register_with_developer: "Registruotis kaip kūrėjas"
@@ -2012,7 +2012,7 @@ lt:
   mail_body_backup_waiting_period: Naujas atsarginės kopijos žetonas bus tinkamas po %{hours} valandų.
   mail_body_backup_token_warning: Jei tai buvote ne jūs, nedelsiant prisijunkite prie OpenProject ir atšaukite jį dar kartą.
   mail_body_lost_password: "Norėdami pakeisti slaptažodį, spauskite nuorodą:"
-  mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
+  mail_body_register: "Sveikinimai nuo OpenProject. Prašome aktyvuoti savo paskyrą. Tam paspauskite šią nuorodą:"
   mail_body_register_header_title: "Projekto nario kvietimo el. laiškas"
   mail_body_register_user: "Brangus %{name}, "
   mail_body_register_links_html: |
@@ -2157,7 +2157,7 @@ lt:
     heading_getting_started: "Gauti aprašymą"
     text_getting_started_description: "Gauti greitą apžvalgą apie projektų valdymą ir komandos bendradarbiavimą naudojant OpenProject."
     text_show_again: "Jūs galite paleisti šį video iš naujo iš pagalbos meniu"
-    welcome: "Welcome to OpenProject"
+    welcome: "Sveiki atvykę į OpenProject"
     select_language: "Pasirinkite kalbą"
   permission_add_work_package_notes: "Pridėti pastabų"
   permission_add_work_packages: "Pridėti darbų paketų"
@@ -2215,7 +2215,7 @@ lt:
   permission_select_custom_fields: "Parinkite savo laukus"
   permission_select_project_modules: "Parinkti projekto modulius"
   permission_manage_types: "Pasirinkti tipus"
-  permission_view_calendar: "View calendar"
+  permission_view_calendar: "Peržiūrėti kalendorių"
   permission_view_changesets: "Rodyti repozitorijos pakeitimus OpenProject"
   permission_view_commit_author_statistics: "Peržiūrėti autorių pakeitimų pateikimo statistiką"
   permission_view_work_package_watchers: "Peržiūrėti stebėtojų sąrašą"
@@ -2881,7 +2881,7 @@ lt:
   wiki_menu_item_new_main_item_explanation: >
     Jūs ketinate šalinti tik pagrindinį wiki meniu punktą. Jūs dabar turėsite pasirinkti wiki puslapį, kuriam naujas pagrindinis punktas bus sugeneruotas. Jei norite ištrinti wiki, wiki modulį gali išjungti projekto administratoriai.
   wiki_menu_item_delete_not_permitted: Wiki meniu punktas, kuris priklauso vieninteliam wiki puslapiui, negali būti ištrintas.
-  query_menu_item_for: "Menu item for query \"%{title}\""
+  query_menu_item_for: "Meniu punktas užklausai „%{title}“"
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
