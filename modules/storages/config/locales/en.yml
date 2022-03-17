@@ -35,6 +35,9 @@ en:
       host: "The URL of your storage instance. The URL should not be more than 255 characters long."
       no_storage_set_up: "There are no file storages set up, yet."
       setting_up_additional_storages: "For setting up additional file storages, please visit"
+      setting_up_additional_storages_non_admin: "Administrators can set up additional file storages in Administration / File Storages."
+      setting_up_storages: "For setting up file storages, please visit"
+      setting_up_storages_non_admin: "Administrators can set up file storages in Administration / File Storages."
       all_available_storages_already_added: "All available storages are already added to the project."
     delete_warning:
       storage: >
@@ -52,7 +55,7 @@ en:
     label_new_storage: "New storage"
     label_storage: "Storage"
     label_storages: "Storages"
-    no_results: "No storages setup, yet."
+    no_results: "No storages set up, yet."
     provider_types:
       label: "Provider type"
       nextcloud: "Nextcloud"

@@ -27,12 +27,14 @@
           <p>
             <strong><%= t(:'storages.instructions.all_available_storages_already_added') %></strong>
           </p>
-          <% if User.current.admin? %>
-            <p>
+          <p>
+            <% if User.current.admin? %>
               <%= t(:"storages.instructions.setting_up_additional_storages") %>
               <%= link_to "#{t(:label_administration)} / #{t(:project_module_storages)}", controller: '/storages/admin/storages', action: :index %>.
-            </p>
-          <% end %>
+            <% else %>
+              <%= t(:"storages.instructions.setting_up_additional_storages_non_admin") %>
+            <% end %>
+          </p>
         </div>
       </div>
     <% end %>
