@@ -161,7 +161,7 @@ fr:
     edit: 'Modifier l’action personnalisée %{name}'
     execute: 'Exécuter %{name}'
     upsale:
-      title: 'Personnaliser les actions n''est disponible qu''avec "Enterprise Edition"'
+      title: 'Custom actions is an Enterprise Edition feature'
       description: 'Les actions personnalisées uniformisent le travail quotidien en combinant un ensemble d''étapes individuelles en un seul bouton.'
   custom_fields:
     text_add_new_custom_field: >
@@ -260,7 +260,7 @@ fr:
       irreversible: "Cette action est irréversible"
       confirmation: "Saisissez le nom d'utilisateur fictif %{name} pour confirmer ça suppression."
     upsale:
-      title: Assigner du travail à des personnes qui ne sont pas membres du projet.
+      title: Assign work to people that are not members of the project.
       description: >
         Il existe de multiples scénarios dans lesquels vous souhaitez confier des tâches à des personnes qui ne font pas partie de votre projet. Il se peut simplement que vous ayez encore besoin d'engager la bonne personne pour le travail. Ou vous ne voulez tout simplement pas donner à cette personne l'accès aux informations du projet, mais vous voulez quand même suivre les tâches qui lui sont assignées.
   prioritiies:
@@ -885,6 +885,7 @@ fr:
     version: "Version"
     work_package: "Lot de travaux"
   backup:
+    failed: "Backup failed"
     label_backup_token: "Jeton de sauvegarde"
     label_create_token: "Créer un jeton de sauvegarde"
     label_delete_token: "Supprimer le jeton de sauvegarde"
@@ -1730,7 +1731,7 @@ fr:
   label_public_projects: "Projets publics"
   label_query_new: "Nouvelle requête"
   label_query_plural: "Requêtes personnalisées"
-  label_query_menu_item: "Menu des requêtes"
+  label_query_menu_item: "Query menu item"
   label_read: "Lire…"
   label_register: "Créer un compte"
   label_register_with_developer: "S'inscrire en tant que développeur"
@@ -1978,7 +1979,7 @@ fr:
   mail_body_backup_waiting_period: Le nouveau jeton sera activé dans %{hours} heures.
   mail_body_backup_token_warning: Si ce n'était pas vous, connectez-vous immédiatement à OpenProject et réinitialisez-le à nouveau.
   mail_body_lost_password: "Pour changer votre mot de passe, cliquez sur le lien suivant:"
-  mail_body_register: "Bienvenue sur OpenProject. Veuillez activer votre compte en cliquant sur ce lien :"
+  mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "E-mail d'invitation du membre du projet"
   mail_body_register_user: "Chère/cher %{name}, "
   mail_body_register_links_html: |
@@ -2121,7 +2122,7 @@ fr:
     heading_getting_started: "Avoir une vue d’ensemble"
     text_getting_started_description: "Obtenez un aperçu rapide de la gestion de projets et de la collaboration en équipe avec OpenProject."
     text_show_again: "Vous pouvez relancer cette vidéo au départ du menu d'aide"
-    welcome: "Bienvenue dans OpenProject"
+    welcome: "Welcome to OpenProject"
     select_language: "Veuillez sélectionner votre langue"
   permission_add_work_package_notes: "Ajouter des notes"
   permission_add_work_packages: "Ajouter des lots de travaux"
@@ -2179,7 +2180,7 @@ fr:
   permission_select_custom_fields: "Sélectionner les champs personnalisés"
   permission_select_project_modules: "Sélectionner modules de projet"
   permission_manage_types: "Sélectionner types"
-  permission_view_calendar: "Voir le calendrier"
+  permission_view_calendar: "View calendar"
   permission_view_changesets: "Voir révisions du dépôt dans OpenProject"
   permission_view_commit_author_statistics: "Voir les statistiques des auteurs de «commit»"
   permission_view_work_package_watchers: "Voir la liste des observateurs"
@@ -2843,7 +2844,7 @@ fr:
   wiki_menu_item_new_main_item_explanation: >
     Vous êtes en train de supprimer l'élement principal du menu wiki. Vous devez maintenant choisir une page wiki pour laquelle un nouvel élément principal sera créé. Pour supprimer le wiki, le module wiki peut être désactivé par les administrateurs du projet.
   wiki_menu_item_delete_not_permitted: L'élement du menu wiki de la seule page wiki ne peut être supprimé.
-  query_menu_item_for: "Élément de menu pour question « %{title} »"
+  query_menu_item_for: "Menu item for query \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |

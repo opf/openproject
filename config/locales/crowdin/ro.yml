@@ -161,7 +161,7 @@ ro:
     edit: 'Editează acţiune personalizată %{name}'
     execute: 'Execută %{name}'
     upsale:
-      title: 'Acţiunile particularizate sunt o caracteristică a Ediţiei Enterprise'
+      title: 'Custom actions is an Enterprise Edition feature'
       description: 'Comenzile personalizate îmbunătățesc munca zilnică prin combinarea mai multor pași într-un macro accesibil printr-un singur buton.'
   custom_fields:
     text_add_new_custom_field: >
@@ -260,7 +260,7 @@ ro:
       irreversible: "Această acțiune este ireversibilă"
       confirmation: "Introduceți numele de utilizator de tip placeholder %{name} pentru a confirma ștergerea."
     upsale:
-      title: Atribuiți munca unor persoane care nu sunt membri ai proiectului.
+      title: Assign work to people that are not members of the project.
       description: >
         Există mai multe scenarii în care doriți să atribuiți sarcini unor persoane care nu sunt membre ale proiectului dumneavoastră. Ar putea fi pur și simplu pentru că trebuie să angajați persoana potrivită pentru această sarcină. Sau pur și simplu nu doriți să acordați accesul la informațiile proiectului, dar doriți totuși să urmăriți sarcinile atribuite acelei persoane.
   prioritiies:
@@ -890,6 +890,7 @@ ro:
     version: "Versiune"
     work_package: "Pachet de lucru"
   backup:
+    failed: "Backup failed"
     label_backup_token: "Token backup"
     label_create_token: "Creează token backup"
     label_delete_token: "Șterge token backup"
@@ -1747,7 +1748,7 @@ ro:
   label_public_projects: "Proiecte publice"
   label_query_new: "Interogare nouă"
   label_query_plural: "Interogări personalizate"
-  label_query_menu_item: "Meniu interogare"
+  label_query_menu_item: "Query menu item"
   label_read: "Citeşte..."
   label_register: "Creare cont nou"
   label_register_with_developer: "Înregistrare ca programator"
@@ -1996,7 +1997,7 @@ ro:
   mail_body_backup_waiting_period: Noul token va fi activat în %{hours} ore.
   mail_body_backup_token_warning: Dacă nu ați fost dvs., conectați-vă la OpenProject imediat și resetați-l din nou.
   mail_body_lost_password: "Pentru a vă modifica parola, dați click pe următorul link:"
-  mail_body_register: "Bine ați venit la OpenProject. Vă rugăm să vă activați contul făcând clic pe acest link:"
+  mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "E-mail de invitație pentru membrii proiectului"
   mail_body_register_user: "Dragă %{name},"
   mail_body_register_links_html: |
@@ -2139,7 +2140,7 @@ ro:
     heading_getting_started: "Obțineți o prezentare generală"
     text_getting_started_description: "Obțineți o viziune de ansamblu asupra administrării unui proiect și a activității echipelor folosind OpenProject."
     text_show_again: "Poate reporni acest videoclip din meniul de ajutor"
-    welcome: "Bine ați venit la OpenProject"
+    welcome: "Welcome to OpenProject"
     select_language: "Vă rugăm să selectați limba dvs"
   permission_add_work_package_notes: "Adăugare note"
   permission_add_work_packages: "Adăugare pachete de lucru"
@@ -2197,7 +2198,7 @@ ro:
   permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Selectare module proiect"
   permission_manage_types: "Selectare tipuri"
-  permission_view_calendar: "Vizualizare calendar"
+  permission_view_calendar: "View calendar"
   permission_view_changesets: "Vizualizare revizii repo în OpenProject"
   permission_view_commit_author_statistics: "Vizualizare statistici autor înregistrări"
   permission_view_work_package_watchers: "Vizualizare listă observatori"
@@ -2864,7 +2865,7 @@ ro:
   wiki_menu_item_new_main_item_explanation: >
     Ștergeți doar meniul principal wiki. Va trebui să alegeți o altă pagină wiki pentru care se va genera meniul principal. Dacă doriți să ștergeți wiki-ul, modulul corespunzător poate fi dezactivat de către administratorii de proiect.
   wiki_menu_item_delete_not_permitted: Meniul wiki pentru ultima pagină wiki nu poate fi șters.
-  query_menu_item_for: "Meniul pentru interogarea \"%{title}\""
+  query_menu_item_for: "Menu item for query \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |

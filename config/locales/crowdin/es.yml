@@ -158,7 +158,7 @@ es:
     edit: 'Editar Accion Personalizada %{name}'
     execute: 'Ejecutar %{name}'
     upsale:
-      title: 'Las Acciones personalizadas son una característica de la Enterprise Edition'
+      title: 'Custom actions is an Enterprise Edition feature'
       description: 'Las Acciones personalizadas agilizan el trabajo diario mediante la combinación de un conjunto de pasos individuales en un único botón.'
   custom_fields:
     text_add_new_custom_field: >
@@ -257,7 +257,7 @@ es:
       irreversible: "Esta acción no se puede deshacer"
       confirmation: "Escriba el nombre de usuario de marcador de posición %{name} para confirmar la eliminación."
     upsale:
-      title: Asigne trabajo a usuarios que no pertenezcan al proyecto.
+      title: Assign work to people that are not members of the project.
       description: >
         Hay varias situaciones en las que podría asignar trabajo a usuarios que no sean miembros del proyecto. Por ejemplo, puede que necesite contratar a la persona adecuada para el trabajo. O bien puede que no quiera conceder acceso a la información del proyecto, pero necesite llevar un seguimiento de las tareas asignadas a esa persona.
   prioritiies:
@@ -882,6 +882,7 @@ es:
     version: "Versión"
     work_package: "Paquete de trabajo"
   backup:
+    failed: "Backup failed"
     label_backup_token: "Token de copias de seguridad"
     label_create_token: "Crear token de copias de seguridad"
     label_delete_token: "Eliminar token de copias de seguridad"
@@ -1727,7 +1728,7 @@ es:
   label_public_projects: "Proyectos públicos"
   label_query_new: "Nueva consulta"
   label_query_plural: "Consultas personalizadas"
-  label_query_menu_item: "Menú de consulta"
+  label_query_menu_item: "Query menu item"
   label_read: "Leer..."
   label_register: "Crear una nueva cuenta"
   label_register_with_developer: "Registrarse como desarrollador"
@@ -1975,7 +1976,7 @@ es:
   mail_body_backup_waiting_period: El nuevo token se habilitará en %{hours} horas.
   mail_body_backup_token_warning: Si no lo ha solicitado, inicie sesión en OpenProject de inmediato y vuelva a restablecerlo.
   mail_body_lost_password: "Para cambiar su contraseña, haga clic en el siguiente enlace:"
-  mail_body_register: "Bienvenido a OpenProject. Por favor, active su cuenta haciendo clic en este enlace:"
+  mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "Correo electrónico de invitación al miembro del proyecto"
   mail_body_register_user: "Estimado/a %{name},"
   mail_body_register_links_html: |
@@ -2118,7 +2119,7 @@ es:
     heading_getting_started: "Obtener información general"
     text_getting_started_description: "Obtenga información general rápida sobre la administración de proyectos y la colaboración en equipo con OpenProject."
     text_show_again: "Puede reiniciar este vídeo en el menú ayuda"
-    welcome: "Bienvenido a OpenProject"
+    welcome: "Welcome to OpenProject"
     select_language: "Seleccione su idioma"
   permission_add_work_package_notes: "Añadir notas"
   permission_add_work_packages: "Añadir paquetes de trabajo"
@@ -2176,7 +2177,7 @@ es:
   permission_select_custom_fields: "Seleccionar campos personalizados"
   permission_select_project_modules: "Seleccionar módulos de proyecto"
   permission_manage_types: "Seleccionar Tipos"
-  permission_view_calendar: "Ver calendario"
+  permission_view_calendar: "View calendar"
   permission_view_changesets: "Ver las revisiones del repositorio en OpenProject"
   permission_view_commit_author_statistics: "Ver estadísticas del commit del autor"
   permission_view_work_package_watchers: "Ver lista de observadores"
@@ -2840,7 +2841,7 @@ es:
   wiki_menu_item_new_main_item_explanation: >
     Usted esta eliminando el único elemento de menú wiki principal. Ahora tiene que elegir un wiki para el cual un nuevo elemento de menú principal será generado. Para eliminar el wiki, éste módulo puede ser desactivado por los administradores del proyecto.
   wiki_menu_item_delete_not_permitted: El único elemento de menú de la única página wiki no puede ser eliminado.
-  query_menu_item_for: "Elemento de menu para consulta \"%{title}\""
+  query_menu_item_for: "Menu item for query \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |

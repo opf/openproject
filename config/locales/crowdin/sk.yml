@@ -161,7 +161,7 @@ sk:
     edit: 'Upraviť vlastnú akciu %{name}'
     execute: 'Spustiť %{name}'
     upsale:
-      title: 'Vlastné akcie sú len pre verziu Enterprise Edition'
+      title: 'Custom actions is an Enterprise Edition feature'
       description: 'Vlastné akcie zjednodušujú každodennú prácu kombináciou sady jednotlivých krokov do jedného tlačidla.'
   custom_fields:
     text_add_new_custom_field: >
@@ -895,6 +895,7 @@ sk:
     version: "Verzia"
     work_package: "Pracovný balíček"
   backup:
+    failed: "Backup failed"
     label_backup_token: "Backup token"
     label_create_token: "Create backup token"
     label_delete_token: "Delete backup token"
@@ -1764,7 +1765,7 @@ sk:
   label_public_projects: "Verejné projekty"
   label_query_new: "Nový dopyt"
   label_query_plural: "Vlastné dopyty"
-  label_query_menu_item: "Položka ponuky dotazu"
+  label_query_menu_item: "Query menu item"
   label_read: "Prečítajte si..."
   label_register: "Vytvoriť nový účet"
   label_register_with_developer: "Registrovať sa ako vývojár"
@@ -2158,7 +2159,7 @@ sk:
     heading_getting_started: "Získajte prehľad"
     text_getting_started_description: "Získajte rýchly prehľad o riadení projektov a tímovej spolupráci s OpenProject."
     text_show_again: "Môžete spustiť toto video z ponuky Pomocník"
-    welcome: "Vitajte v programe OpenProject"
+    welcome: "Welcome to OpenProject"
     select_language: "Prosím vyberte Váš jazyk"
   permission_add_work_package_notes: "Pridať poznámky"
   permission_add_work_packages: "Pridať pracovné balíky"
@@ -2216,7 +2217,7 @@ sk:
   permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Vyberte moduly projektu"
   permission_manage_types: "Vyberte typy"
-  permission_view_calendar: "Zobrazenie kalendára"
+  permission_view_calendar: "View calendar"
   permission_view_changesets: "Zobraziť revízie úložiska v programe OpenProject"
   permission_view_commit_author_statistics: "Zobraziť štatistiky o odovzdávkach do repozitára za autora"
   permission_view_work_package_watchers: "Zobrazenie zoznamu pozorovateľov"
@@ -2886,7 +2887,7 @@ sk:
     Zmažete iba hlavnú položku menu wiki. Teraz musíte vybrať stránku wiki, pre ktorú bude vytvorená nová hlavná položka.
     Modul pre odstránenie wiki môže byť deaktivovaný správcami projektu.
   wiki_menu_item_delete_not_permitted: Položku ponuky wiki na stránke s jednou wiki nemožno odstrániť.
-  query_menu_item_for: "Položka menu pre dopyt \"%{title}\""
+  query_menu_item_for: "Menu item for query \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |

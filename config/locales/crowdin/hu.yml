@@ -160,7 +160,7 @@ hu:
     edit: 'Egyéni művelet szerkesztése %{name}'
     execute: 'Végrehajt %{name}'
     upsale:
-      title: 'Az egyéni műveletek egy Enterprise Edition szolgáltatás'
+      title: 'Custom actions is an Enterprise Edition feature'
       description: 'Az egyéni műveletek egyszerűsítik a mindennapi munkát egyes lépések egyesítésével egyetlen gombhoz.'
   custom_fields:
     text_add_new_custom_field: >
@@ -261,7 +261,7 @@ hu:
       irreversible: "Ez a művelet visszavonhatatlan"
       confirmation: "Adja meg a teszt felhasználó nevét %{name} a törlés megerősítéséhez."
     upsale:
-      title: "Rendeljen munkát olyan személyekhez, akik nem tagjai a projektnek.\n"
+      title: Assign work to people that are not members of the project.
       description: >
         Számos olyan forgatókönyv létezik, amikor olyan embereket szeretne kiosztani, akik nem tagjai a projektnek. Egyszerűen előfordulhat, hogy még mindig a megfelelő személyt kell felvennie a munkára. Vagy egyszerűen nem akar hozzáférést biztosítani az adott személyhez a projekt információihoz, de mégis szeretné, ha nyomon követett feladatokat rendelne hozzá.
 
@@ -886,6 +886,7 @@ hu:
     version: "Verzió"
     work_package: "Feladatcsoport"
   backup:
+    failed: "Backup failed"
     label_backup_token: "Visszaállítási kulcs"
     label_create_token: "Visszaállítási kulcs létrehozása"
     label_delete_token: "Visszaállítási kulcs törlése"
@@ -1735,7 +1736,7 @@ hu:
   label_public_projects: "Nyilvános projektek"
   label_query_new: "Új lekérdezés"
   label_query_plural: "Egyéni lekérdezések"
-  label_query_menu_item: "Lekérdezések menüpont"
+  label_query_menu_item: "Query menu item"
   label_read: "Olvassa el..."
   label_register: "Új fiók létrehozása"
   label_register_with_developer: "Regisztráljon mint fejlesztő"
@@ -1983,7 +1984,7 @@ hu:
   mail_body_backup_waiting_period: A visszaállítási kulcs még %{hours} óráig érvényes.
   mail_body_backup_token_warning: "Ha nem te voltál, azonnal jelentkezz be az OpenProject szolgáltatásba, és állítsd újra.\n"
   mail_body_lost_password: "A jelszó módosításához kattintson az alábbi linkre:"
-  mail_body_register: "Üdvözli az OpenProject. Kérjük, aktiválja fiókját a következő linkre kattintva:\n"
+  mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "Projekttag meghívó e -mail\n"
   mail_body_register_user: "Kedves %{name},"
   mail_body_register_links_html: |
@@ -2125,7 +2126,7 @@ hu:
     heading_getting_started: "Áttekintés"
     text_getting_started_description: "Gyors áttekintés a projekt menedzsmentről és csapatmunkáról az OpenProjecttel."
     text_show_again: "Újra tudod indítani ezt a videót a segítség menüből"
-    welcome: "Üdvözöl az OpenProject"
+    welcome: "Welcome to OpenProject"
     select_language: "Kéjük válasszon nyelvet"
   permission_add_work_package_notes: "Megjegyzések hozzáadása"
   permission_add_work_packages: "feladatcsoport hozzáadása"
@@ -2183,7 +2184,7 @@ hu:
   permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Projekt modulok kiválasztása"
   permission_manage_types: "Jelölje ki a típust"
-  permission_view_calendar: "A naptár megtekintése"
+  permission_view_calendar: "View calendar"
   permission_view_changesets: "Tároló verziók megtekintése az OpenProject-ben"
   permission_view_commit_author_statistics: "Szerző,statisztika megtekintése"
   permission_view_work_package_watchers: "A megfigyelők listájának megtekintése"
@@ -2854,7 +2855,7 @@ hu:
   wiki_menu_item_new_main_item_explanation: >
     Csak a fő wiki menüelemet törölted. Most ki kell választani egy wiki oldalt, amelyre egy új fő menüelem jön létre. Ha törli a wiki oldalakat a projekt adminisztrátor tudja letiltani a wiki modult.
   wiki_menu_item_delete_not_permitted: A wiki menüpontjában egyetlen wiki oldalt nem lehet törölni.
-  query_menu_item_for: "Menüpont lekérdezés \"%{title}\""
+  query_menu_item_for: "Menu item for query \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
