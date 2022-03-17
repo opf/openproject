@@ -89,12 +89,13 @@
     </ng-template>
 
     <ng-template #eventContent let-event="event">
-      <div
+
+      <op-wp-loading-skeleton 
+        [width]="event.width"
         class="op-team-planner--wp-loading-skeleton"
         *ngIf="event.id.startsWith('skeleton')"
-      >
-        <op-wp-loading-skeleton ></op-wp-loading-skeleton>
-      </div>
+      ></op-wp-loading-skeleton>
+
       <wp-single-card
         *ngIf="!event.id.startsWith('skeleton')"
         [workPackage]="event.extendedProps.workPackage"

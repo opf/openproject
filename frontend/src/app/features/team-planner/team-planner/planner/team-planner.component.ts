@@ -7,6 +7,7 @@ import {
   OnInit,
   TemplateRef,
   ViewChild,
+  ViewEncapsulation,
 } from '@angular/core';
 import {
   CalendarOptions,
@@ -72,6 +73,7 @@ import { skeletonEvents, skeletonResources } from './loading-skeleton-data';
   templateUrl: './team-planner.component.html',
   styleUrls: ['./team-planner.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+ // encapsulation: ViewEncapsulation.None,
   providers: [
     EventViewLookupService,
     OpCalendarService,
@@ -240,7 +242,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
         const api = this.ucCalendar.getApi();
 
         // This also removes the skeleton resources that are rendered initially
-        api.getResources().forEach((resource) => resource.remove());
+        //api.getResources().forEach((resource) => resource.remove());
 
         principals.forEach((principal) => {
           const id = principal._links.self.href;
