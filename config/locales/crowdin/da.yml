@@ -159,7 +159,7 @@ da:
     edit: 'Rediger brugerdefineret handling %{name}'
     execute: 'Udfør %{name}'
     upsale:
-      title: 'Brugerdefinerede handlinger er en Enterprise Edition funktion'
+      title: 'Custom actions is an Enterprise Edition feature'
       description: 'Tilpassede handlinger strømliner hverdagens arbejde ved at kombinere et sæt individuelle trin i én knap.'
   custom_fields:
     text_add_new_custom_field: >
@@ -258,7 +258,7 @@ da:
       irreversible: "Denne handling kan ikke fortrydes"
       confirmation: "Indtast pladsholderens brugernavn %{name} for at bekræfte sletningen."
     upsale:
-      title: Tildel arbejde til personer, der ikke er medlemmer af projektet.
+      title: Assign work to people that are not members of the project.
       description: >
         Der er flere scenarier, hvor du ønsker at tildele arbejde til folk, der ikke er medlem af dit projekt. Det kunne simpelthen være, at du stadig har brug for at ansætte den rigtige person til jobbet. Eller du vil bare ikke give personen adgang til projektets oplysninger, men vil stadig have spore opgaverne tildelt den pågældende person.
   prioritiies:
@@ -883,6 +883,7 @@ da:
     version: "Version"
     work_package: "Arbejdspakke"
   backup:
+    failed: "Backup failed"
     label_backup_token: "Sikkerhedskopiér token"
     label_create_token: "Opret sikkerhedskopi token"
     label_delete_token: "Slet sikkerhedskopi token"
@@ -1728,7 +1729,7 @@ da:
   label_public_projects: "Offentlige projekter"
   label_query_new: "Ny forespørgsel"
   label_query_plural: "Selvvalgte forespørgsler"
-  label_query_menu_item: "Punkt på forespørgselsmenu"
+  label_query_menu_item: "Query menu item"
   label_read: "Læs..."
   label_register: "Opret en ny konto"
   label_register_with_developer: "Registrer dig som udvikler"
@@ -2119,7 +2120,7 @@ da:
     heading_getting_started: "Get an overview"
     text_getting_started_description: "Get a quick overview of project management and team collaboration with OpenProject."
     text_show_again: "You can restart this video from the help menu"
-    welcome: "Velkommen til OpenProject"
+    welcome: "Welcome to OpenProject"
     select_language: "Please select your language"
   permission_add_work_package_notes: "Tilføj noter"
   permission_add_work_packages: "Tilføj arbejdspakker"
@@ -2177,7 +2178,7 @@ da:
   permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Vælg projektmoduler"
   permission_manage_types: "Vælg typer"
-  permission_view_calendar: "Vis kalender"
+  permission_view_calendar: "View calendar"
   permission_view_changesets: "View repository revisions in OpenProject"
   permission_view_commit_author_statistics: "Vis statistik for tilknyttet forfatter"
   permission_view_work_package_watchers: "Se liste over tilsynsførende"
@@ -2840,7 +2841,7 @@ da:
   wiki_menu_item_new_main_item_explanation: >
     Du er ved at slette det eneste overordnede punkt på wiki-menuen. Du skal nu vælge en wiki-side, udfra hvilken der kan dannes et nyt hovedpunkt. Hvis du vil slette wikien helt kan wiki-modulet deaktiveres af projektadministratorer.
   wiki_menu_item_delete_not_permitted: Menupunktet til den eneste wiki-side kan ikke slettes.
-  query_menu_item_for: "Menupunkt for forespørgsel \"%{title}\""
+  query_menu_item_for: "Menu item for query \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |

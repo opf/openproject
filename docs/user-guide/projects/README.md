@@ -127,7 +127,7 @@ Setting a project to public will make it accessible to all people within your Op
 
 
 
-### Create a project template (Premium feature)
+### Create a project template 
 
 You can create a project template in OpenProject by [creating a new project](../../getting-started/projects/#create-a-new-project) and configuring your project to your needs. Name the project so you can identify it as a template, e.g. "Project XY [template]".
 

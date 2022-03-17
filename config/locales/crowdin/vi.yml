@@ -163,7 +163,7 @@ vi:
     edit: 'Chỉnh sửa hành động tùy chỉnh %{name}'
     execute: 'Thực hiện %{name}'
     upsale:
-      title: 'Những hành động tùy chỉnh là một tính năng của phiên bản doanh nghiệp'
+      title: 'Custom actions is an Enterprise Edition feature'
       description: 'Những hành động tùy chỉnh sắp xếp công việc hàng ngày bằng cách kết hợp một bộ các bước cá nhân vào một nút.'
   custom_fields:
     text_add_new_custom_field: >
@@ -262,7 +262,7 @@ vi:
       irreversible: "This action is irreversible"
       confirmation: "Enter the placeholder user name %{name} to confirm the deletion."
     upsale:
-      title: Chỉ định công việc cho những người không phải là thành viên của dự án.
+      title: Assign work to people that are not members of the project.
       description: >
         Có nhiều tình huống nơi bạn muốn gán công việc cho những người không phải là thành viên của dự án của bạn. Việc này có thể đơn giản là bạn vẫn cần phải thuê đúng người cho công việc. Hoặc bạn không muốn cung cấp cho người đó quyền truy cập thông tin của dự án nhưng vẫn muốn theo dõi các nhiệm vụ được giao cho người đó.
   prioritiies:
@@ -882,6 +882,7 @@ vi:
     version: "Phiên bản"
     work_package: "Work Package"
   backup:
+    failed: "Backup failed"
     label_backup_token: "Sao lưu token"
     label_create_token: "Tạo bản sao lưu token"
     label_delete_token: "Xóa bản sao lưu token"
@@ -1715,7 +1716,7 @@ vi:
   label_public_projects: "Các dự án công khai"
   label_query_new: "Truy vấn mới"
   label_query_plural: "Truy vấn tùy chỉnh"
-  label_query_menu_item: "Truy vấn trình đơn"
+  label_query_menu_item: "Query menu item"
   label_read: "Đọc..."
   label_register: "Tạo tài khoản mới"
   label_register_with_developer: "Đăng ký là nhà phát triển"

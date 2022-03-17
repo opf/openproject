@@ -885,6 +885,7 @@ eo:
     version: "Versio"
     work_package: "Laborpakaĵo"
   backup:
+    failed: "Backup failed"
     label_backup_token: "Backup token"
     label_create_token: "Create backup token"
     label_delete_token: "Delete backup token"
@@ -1730,7 +1731,7 @@ eo:
   label_public_projects: "Publikaj projektoj"
   label_query_new: "Nova informpeto"
   label_query_plural: "Propraj informpetoj"
-  label_query_menu_item: "Menuera informpeto "
+  label_query_menu_item: "Query menu item"
   label_read: "Legi..."
   label_register: "Krei novan konton"
   label_register_with_developer: "Register as developer"

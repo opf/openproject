@@ -885,6 +885,7 @@ rw:
     version: "Version"
     work_package: "Work package"
   backup:
+    failed: "Backup failed"
     label_backup_token: "Backup token"
     label_create_token: "Create backup token"
     label_delete_token: "Delete backup token"

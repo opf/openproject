@@ -161,7 +161,7 @@ tr:
     edit: 'Özel eylem %{name} Düzenle'
     execute: '%{name} yürütmek'
     upsale:
-      title: 'Özel eylemler bir Enterprise Edition özelliğidir'
+      title: 'Custom actions is an Enterprise Edition feature'
       description: 'Özel eylemler bir düğme içine tek tek adımları bir dizi birleştirerek günlük iş düzene.'
   custom_fields:
     text_add_new_custom_field: >
@@ -260,7 +260,7 @@ tr:
       irreversible: "Bu işlem geri alınamaz"
       confirmation: "Silme işlemini onaylamak için yer tutucu %{name} ismini girin."
     upsale:
-      title: Projenin üyesi olmayan kişilere iş atayın.
+      title: Assign work to people that are not members of the project.
       description: >
         Projenizin üyesi olmayan kişilere iş atamak istediğiniz birden çok senaryo vardır. Basitçe, iş için hala doğru kişiyi işe almanız gerekebilir. Ya da sadece o kişiye projenin bilgilerine erişim vermek istemezsiniz, ancak yine de o kişiye atanan görevleri izlemek istersiniz.
   prioritiies:
@@ -885,6 +885,7 @@ tr:
     version: "Sürüm"
     work_package: "İş paketi"
   backup:
+    failed: "Backup failed"
     label_backup_token: "Yedek jeton"
     label_create_token: "Yedek jeton oluşturun"
     label_delete_token: "Yedek jetonu silin"
@@ -1730,7 +1731,7 @@ tr:
   label_public_projects: "Genel Projeler"
   label_query_new: "Yeni Sorgu"
   label_query_plural: "Özel Sorgular"
-  label_query_menu_item: "Sorgu menü öğesi"
+  label_query_menu_item: "Query menu item"
   label_read: "Oku..."
   label_register: "Yeni hesap oluştur"
   label_register_with_developer: "Geliştirici olarak kayıt ol"
@@ -1978,7 +1979,7 @@ tr:
   mail_body_backup_waiting_period: Yeni jeton %{hours} saat içinde etkinleştirilecek.
   mail_body_backup_token_warning: Bu siz değildiyseniz, hemen OpenProject'te oturum açın ve yeniden sıfırlayın.
   mail_body_lost_password: "Parolanızı değiştirmek için aşağıdaki bağlantıyı tıklayın:"
-  mail_body_register: "OpenProject'e hoş geldiniz. Lütfen bu bağlantıyı tıklayarak hesabınızı etkinleştirin:"
+  mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "Proje üyesi davet e-postası"
   mail_body_register_user: "Sevgili %{name},"
   mail_body_register_links_html: |
@@ -2121,7 +2122,7 @@ tr:
     heading_getting_started: "Genel görünümü al"
     text_getting_started_description: "OpenProject ile takım çalışması ve proje yönetimi konusuna genel bir bakış."
     text_show_again: "Bu videoyu Yardım menüsünden yeniden başlatabilirsiniz"
-    welcome: "OpenProject'e hoş geldiniz"
+    welcome: "Welcome to OpenProject"
     select_language: "Lütfen dilinizi seçin"
   permission_add_work_package_notes: "Not eklemek"
   permission_add_work_packages: "İş paketi eklemek"
@@ -2179,7 +2180,7 @@ tr:
   permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Proje modülleri seçmek"
   permission_manage_types: "İş paketi türlerini seçmek"
-  permission_view_calendar: "Takvimi görüntülemek"
+  permission_view_calendar: "View calendar"
   permission_view_changesets: "OpenProject'de depo revizyonlarını görüntüle"
   permission_view_commit_author_statistics: "Yazar istatistiklerini inceleyin"
   permission_view_work_package_watchers: "Takipçi listesini göster"
@@ -2843,7 +2844,7 @@ tr:
   wiki_menu_item_new_main_item_explanation: >
     Sadece ana wiki menü öğesini silmektesiniz. Artık yeni bir ana öğenin oluşturulacağı bir wiki sayfası seçmelisiniz. Wiki'yi silmek için, wiki modülü proje yöneticileri tarafından devre dışı bırakılabilir.
   wiki_menu_item_delete_not_permitted: Yalnızca wiki sayfasının wiki menü öğesi silinemez.
-  query_menu_item_for: "\" %{title} \" sorgusu için menü öğesi"
+  query_menu_item_for: "Menu item for query \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |

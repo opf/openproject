@@ -161,7 +161,7 @@ ko:
     edit: '사용자 지정 작업 %{name} 편집'
     execute: '%{name} 실행'
     upsale:
-      title: '사용자 지정 작업은 Enterprise Edition 기능입니다.'
+      title: 'Custom actions is an Enterprise Edition feature'
       description: '사용자 지정 작업은 하나의 버튼으로 일련의 개별 단계를 결합하여 일상 업무를 간소화합니다.'
   custom_fields:
     text_add_new_custom_field: >
@@ -260,7 +260,7 @@ ko:
       irreversible: "이 작업은 취소할 수 없습니다"
       confirmation: "삭제를 확인하려면 플레이스홀더 사용자 이름 %{name}(을)를 입력하세요."
     upsale:
-      title: 프로젝트 멤버가 아닌 자에게 작업을 할당합니다.
+      title: Assign work to people that are not members of the project.
       description: >
         여러 상황에서 프로젝트의 멤버가 아닌 사람에게 작업을 할당할 수 있습니다. 단순히 그 일에 적합한 사람을 채용해야 하는 경우나, 어떤 사람이 프로젝트의 정보에 접근하지 못하게 하고 싶지만 동시에 그 사람에게 할당된 작업을 추적하고자 하는 경우 등이 있을 수 있습니다.
   prioritiies:
@@ -879,6 +879,7 @@ ko:
     version: "버전"
     work_package: "작업 패키지"
   backup:
+    failed: "Backup failed"
     label_backup_token: "백업 토큰"
     label_create_token: "백업 토큰 생성"
     label_delete_token: "백업 토큰 제거"
@@ -1712,7 +1713,7 @@ ko:
   label_public_projects: "공용 프로젝트"
   label_query_new: "새 쿼리"
   label_query_plural: "사용자 지정 쿼리"
-  label_query_menu_item: "쿼리 메뉴 항목"
+  label_query_menu_item: "Query menu item"
   label_read: "읽기..."
   label_register: "새 계정 만들기"
   label_register_with_developer: "개발자로 등록"
@@ -1959,7 +1960,7 @@ ko:
   mail_body_backup_waiting_period: '%{hours}시간 후 새 토큰이 활성화됩니다.'
   mail_body_backup_token_warning: 만약 본인이 한 것이 아니라면, OpenProject에 즉시 로그인하고 다시 초기화하십시오.
   mail_body_lost_password: "암호를 변경하려면 다음 링크를 클릭하세요."
-  mail_body_register: "OpenProject입니다. 다음 링크를 클릭하여 계정을 활성화하세요:"
+  mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "프로젝트 멤버 초대 이메일"
   mail_body_register_user: "%{name}님께, "
   mail_body_register_links_html: |
@@ -2101,7 +2102,7 @@ ko:
     heading_getting_started: "개요 가져오기"
     text_getting_started_description: "OpenProject로 프로젝트 관리 및 팀 공동 작업에 대한 간략한 개요를 가져올 수 있습니다."
     text_show_again: "도움말 메뉴에서 이 비디오를 다시 시작할 수 있습니다."
-    welcome: "OpenProject에 오신 것을 환영합니다."
+    welcome: "Welcome to OpenProject"
     select_language: "언어를 선택하세요."
   permission_add_work_package_notes: "메모 추가"
   permission_add_work_packages: "작업 패키지 추가"
@@ -2159,7 +2160,7 @@ ko:
   permission_select_custom_fields: "사용자 지정 필드 선택"
   permission_select_project_modules: "프로젝트 모듈 선택"
   permission_manage_types: "유형 선택"
-  permission_view_calendar: "달력 보기"
+  permission_view_calendar: "View calendar"
   permission_view_changesets: "OpenProject에서 리포지토리 수정 사항 보기"
   permission_view_commit_author_statistics: "커밋 작성자 통계 보기"
   permission_view_work_package_watchers: "주시자 목록 보기"
@@ -2820,7 +2821,7 @@ ko:
   wiki_menu_item_new_main_item_explanation: >
     유일한 기본 위키 메뉴 항목을 삭제하려고 합니다. 이제 새로운 기본 항목이 생성될 위키 페이지를 선택해야 합니다. 위키를 삭제하기 위해 프로젝트 관리자가 위키 모듈을 비활성화할 수 있습니다.
   wiki_menu_item_delete_not_permitted: 유일한 위키 페이지의 위키 메뉴 항목은 삭제할 수 없습니다.
-  query_menu_item_for: "쿼리 \"%{title}\"에 대한 메뉴 항목"
+  query_menu_item_for: "Menu item for query \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
