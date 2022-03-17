@@ -30,11 +30,42 @@ You have two groups *cn=groupA,ou=groups,ou=example,ou=com and cn=groupB,ou=grou
 
 LDAP group synchronization augments the memberships defined by  administrators in an existing OpenProject group. Important things to  note are:
 
-- Only existing groups and users in OpenProject can be synchronized.  The functionality will not simply create all entries in the LDAP group  base nor will it synchronize users that do not exist in OpenProject.
+- Only existing groups and users in OpenProject can be synchronized.  The functionality will not simply create all entries in the LDAP group base nor will it synchronize users that do not exist in OpenProject.
 - Group synchronization have to be enabled by an administrator by creating a *synchronized LDAP group* that ties the OpenProject group to an LDAP entry.
-- Only synchronized memberships will be removed from the OpenProject  group. If you want to add a user outside your LDAP authentication to an  OpenProject group, you can safely do so without the membership being  removed.
+- Only synchronized memberships will be removed from the OpenProject group. If you want to add a user outside your LDAP authentication to an  OpenProject group, you can safely do so without the membership being  removed.
 
-## Configure synchronized LDAP group
+
+
+
+
+## Configure an LDAP Group synchronization filter
+
+Instead of manually synchronizing groups from a given DN, you can also create filter objects that will query the LDAP not only for group members, but the groups themselves.
+
+When the synchronization task is executed, the filter is being queried against the LDAP and resulting group objects will be created as synchronized groups *and* as OpenProject groups.
+
+![LDAP synchronized filter form](ldap-groups-filter.png)
+
+### Create a synchronized filter
+
+To create a new synchronized filter, use the button on the top right of the index page. There, you will select your LDAP authentication source that should be queried. The following properties can be set:
+
+- **Name:** Name of the LDAP filter, only for organizational purposes
+- **Group name attribute:** The attribute used for naming the associated OpenProject groups.
+- **Sync users:** Check this option if you want members of all synchronized groups this filter creates to be automatically created in OpenProject. When unchecked, only members of any group that also are existing users in OpenProject can be synchronized.
+- **LDAP connection:** Select the LDAP connection you want this synchronized filter to use. Users created by group synchronization will be tied to that LDAP and may bind against it for authentication.
+- **Search base DN:** (optional) Enter the base DN of the LDAP subtree you want to perform the search in. If you leave this unset, the base DN of the LDAP connection will be used instead. The DN specified here must contain the base DN of the LDAP connection to be valid.
+- **LDAP filter:** The LDAP filter string to be used for identifying LDAP group entries to be synchronized with OpenProject.
+
+Click on *Create* to finish the creation of the synchronized  filter. This filter is being executed hourly as part of the background job before the actual group synchronization runs.
+
+**Note:** If you manually create a synchronized group that is also found by a filter, its properties (such as the *Sync users* setting) is being overridden by the filter setting.
+
+
+
+
+
+## Configure a synchronized LDAP group
 
 In order to get to the LDAP group sync administration pane, expand the LDAP authentication menu item in your administration.
 
@@ -69,28 +100,3 @@ sudo openproject run bundle exec rake ldap_groups:synchronize
 This method of creating synchronized groups is well-suited for a small number of groups, or a very individual set of groups that you need to synchronize. It is very flexible by allowing individual groups to synchronize users into OpenProject.
 
 If you need to synchronize a large number of groups that follow a common pattern, consider using the following filter functionality.
-
-
-
-## Configure synchronized LDAP filter
-
-Instead of manually synchronizing groups from a given DN, you can also create filter objects that will query the LDAP not only for group members, but the groups themselves.
-
-When the synchronization task is executed, the filter is being queried against the LDAP and resulting group objects will be created as synchronized groups *and* as OpenProject groups.
-
-![LDAP synchronized filter form](ldap-groups-filter.png)
-
-### Create a synchronized filter
-
-To create a new synchronized filter, use the button on the top right of the index page. There, you will select your LDAP authentication source that should be queried. The following properties can be set:
-
-- **Name:** Name of the LDAP filter, only for organizational purposes
-- **Group name attribute:** The attribute used for naming the associated OpenProject groups.
-- **Sync users:** Check this option if you want members of all synchronized groups this filter creates to be automatically created in OpenProject. When unchecked, only members of any group that also are existing users in OpenProject can be synchronized.
-- **LDAP connection:** Select the LDAP connection you want this synchronized filter to use. Users created by group synchronization will be tied to that LDAP and may bind against it for authentication.
-- **Search base DN:** (optional) Enter the base DN of the LDAP subtree you want to perform the search in. If you leave this unset, the base DN of the LDAP connection will be used instead. The DN specified here must contain the base DN of the LDAP connection to be valid.
-- **LDAP filter:** The LDAP filter string to be used for identifying LDAP group entries to be synchronized with OpenProject.
-
-Click on *Create* to finish the creation of the synchronized  filter. This filter is being executed hourly as part of the background job before the actual group synchronization runs.
-
-**Note:** If you manually create a synchronized group that is also found by a filter, its properties (such as the *Sync users* setting) is being overridden by the filter setting.
