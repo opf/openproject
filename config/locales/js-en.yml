@@ -31,6 +31,7 @@ en:
     ajax:
       hide: "Hide"
       loading: "Loading ..."
+      updating: "Updating ..."
 
     attachments:
       draggable_hint: |

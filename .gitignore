@@ -92,6 +92,7 @@ npm-debug.log*
 /.ruby-gemset
 /.foreman
 .DS_Store
+*.icloud
 .rspec
 .byebug_history
 
