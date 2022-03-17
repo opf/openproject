@@ -49,7 +49,8 @@ module API
                 CASE #{table_name}_type
                 WHEN 'Group' THEN format('#{api_v3_paths.group('%s')}', #{column_name})
                 WHEN 'PlaceholderUser' THEN format('#{api_v3_paths.placeholder_user('%s')}', #{column_name})
-                ELSE format('#{api_v3_paths.user('%s')}', #{column_name})
+                WHEN 'User' THEN format('#{api_v3_paths.user('%s')}', #{column_name})
+                ELSE NULL
                 END
               SQL
             }
@@ -63,11 +64,16 @@ module API
                               " || ' ' || "
                             end
 
+              user_format = User::USER_FORMATS_STRUCTURE[Setting.user_format]
+                              .map { |column| "#{table_name}_#{column}"}
+                              .join(join_string)
+
               <<~SQL.squish
                 CASE #{table_name}_type
-                WHEN 'Group' THEN lastname
-                WHEN 'PlaceholderUser' THEN lastname
-                ELSE #{User::USER_FORMATS_STRUCTURE[Setting.user_format].join(join_string)}
+                WHEN 'Group' THEN #{table_name}_lastname
+                WHEN 'PlaceholderUser' THEN #{table_name}_lastname
+                WHEN 'User' THEN #{user_format}
+                ELSE NULL
                 END
               SQL
             }
@@ -76,10 +82,10 @@ module API
           def associated_user_link_join(table_name, column_name)
             { table: :users,
               condition: "#{table_name}.id = #{column_name}",
-              select: ["#{table_name}.firstname",
-                       "#{table_name}.lastname",
-                       "#{table_name}.login",
-                       "#{table_name}.mail",
+              select: ["#{table_name}.firstname #{table_name}_firstname",
+                       "#{table_name}.lastname #{table_name}_lastname",
+                       "#{table_name}.login #{table_name}_login",
+                       "#{table_name}.mail #{table_name}_mail",
                        "#{table_name}.type #{table_name}_type"] }
           end
         end

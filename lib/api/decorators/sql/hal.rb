@@ -141,7 +141,7 @@ module API
                   SQL
                 else
                   <<-SQL.squish
-                   '#{name}', json_build_object(#{link_attributes.join(', ')})
+                   '#{name}', '{ "href": null }'::jsonb || json_strip_nulls(json_build_object(#{link_attributes.join(', ')}))::jsonb
                   SQL
                 end
               end
@@ -177,9 +177,9 @@ module API
 
           def select_sql(select, walker_result)
             <<~SELECT
-              json_strip_nulls(json_build_object(
+              json_build_object(
                 #{json_object_string(select, walker_result)}
-              ))
+              )
             SELECT
           end
 
@@ -280,9 +280,9 @@ module API
             return if json_object.blank?
 
             <<~SELECT
-              '#{namespace}', json_strip_nulls(json_build_object(
+              '#{namespace}', json_build_object(
                 #{json_object}
-              ))
+              )
             SELECT
           end
 
