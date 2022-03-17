@@ -213,7 +213,7 @@ We update hosted OpenProject environments (Enterprise cloud) automatically.
 
 ## Support
 
-You will find useful information in the OpenProject [Documentation](../../../) or you can post your questions in the [Forum](https://community.openproject.org/projects/openproject/boards).
+You will find useful information in the OpenProject [Documentation](https://www.openproject.org/docs/) or you can post your questions in the [Forum](https://community.openproject.org/projects/openproject/boards).
 
 ## Credits
 

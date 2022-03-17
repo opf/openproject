@@ -885,6 +885,7 @@ et:
     version: "Versioon"
     work_package: "Teema"
   backup:
+    failed: "Backup failed"
     label_backup_token: "Backup token"
     label_create_token: "Create backup token"
     label_delete_token: "Delete backup token"
@@ -1730,7 +1731,7 @@ et:
   label_public_projects: "Avalikud projektid"
   label_query_new: "Uus päring"
   label_query_plural: "Kohandatud päringud"
-  label_query_menu_item: "Päringu menüüvalik"
+  label_query_menu_item: "Query menu item"
   label_read: "Loe..."
   label_register: "Create a new account"
   label_register_with_developer: "Registreeru kui arendaja"
@@ -2179,7 +2180,7 @@ et:
   permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Vali projekti mooduleid"
   permission_manage_types: "Muuta tüüpe"
-  permission_view_calendar: "Kuva kalendrit"
+  permission_view_calendar: "View calendar"
   permission_view_changesets: "View repository revisions in OpenProject"
   permission_view_commit_author_statistics: "Kuvada sissekandestatistikat autorite kohta"
   permission_view_work_package_watchers: "Jälgijate nimekirja kuvada"
@@ -2844,7 +2845,7 @@ et:
   wiki_menu_item_new_main_item_explanation: >
     Sa oled kustutamas ainsat viki põhilehele viivat menüüvalikut. Nüüd pead sa valima ühe viki lehtedest, mille jaoks genereeritakse uus peamine menüüvalik. Kui soovid hoopiski vabaneda vikilehtedest, siis palu projekti administraatoril viki moodul välja lülitada.
   wiki_menu_item_delete_not_permitted: Ainsa vikilehe menüüvalikut ei saa kustutada.
-  query_menu_item_for: "Menüüvalik päringule \"%{title}\""
+  query_menu_item_for: "Menu item for query \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |

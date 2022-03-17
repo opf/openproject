@@ -158,7 +158,7 @@ lt:
     edit: 'Redaguoti pasirinktinį veiksmą %{name}'
     execute: 'Vykdyti %{name}'
     upsale:
-      title: 'Pasirinktiniai veiksmai yra „Enterprise Edition“ funkcija'
+      title: 'Custom actions is an Enterprise Edition feature'
       description: 'Pasirinktiniai veiksmai supaprastina kasdienį darbą suderindami atskirus žingsnius į vieną mygtuką.'
   custom_fields:
     text_add_new_custom_field: >
@@ -257,7 +257,7 @@ lt:
       irreversible: "Šis veiksmas negrįžtamas"
       confirmation: "Naikinimo patvirtinimui įveskite statytinio naudotojo vardą %{name}."
     upsale:
-      title: Priskirkite darbus žmonėms, kurie nėra projekto nariai.
+      title: Assign work to people that are not members of the project.
       description: >
         Gali būti keletas scenarijų kuriuose jūs norite priskirti darbus žmogui, kuris nėra projekto narys. Paprasčiausiai, žmogus gali dar nebūti priimtas į darbą. Arba jūs nenorite duoti žmogui prieigos prie projekto informacijos, tačiau norite sekti šiam žmogui priskirtas užduotis.
   prioritiies:
@@ -892,6 +892,7 @@ lt:
     version: "Versija"
     work_package: "Darbų paketas"
   backup:
+    failed: "Nepavyko sukurti atsarginės kopijos"
     label_backup_token: "Atsarginės kopijos žetonas"
     label_create_token: "Sukurti atsarginės kopijos žetoną"
     label_delete_token: "Pašalinti atsarginės kopijos žetoną"
@@ -1761,7 +1762,7 @@ lt:
   label_public_projects: "Vieši projektai"
   label_query_new: "Nauja užklausa"
   label_query_plural: "Naudotojo užklausos"
-  label_query_menu_item: "Užklausos meniu punktas"
+  label_query_menu_item: "Query menu item"
   label_read: "Skaityti..."
   label_register: "Sukurti naują paskyrą"
   label_register_with_developer: "Registruotis kaip kūrėjas"
@@ -2011,7 +2012,7 @@ lt:
   mail_body_backup_waiting_period: Naujas atsarginės kopijos žetonas bus tinkamas po %{hours} valandų.
   mail_body_backup_token_warning: Jei tai buvote ne jūs, nedelsiant prisijunkite prie OpenProject ir atšaukite jį dar kartą.
   mail_body_lost_password: "Norėdami pakeisti slaptažodį, spauskite nuorodą:"
-  mail_body_register: "Sveikinimai nuo OpenProject. Prašome aktyvuoti savo paskyrą. Tam paspauskite šią nuorodą:"
+  mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "Projekto nario kvietimo el. laiškas"
   mail_body_register_user: "Brangus %{name}, "
   mail_body_register_links_html: |
@@ -2156,7 +2157,7 @@ lt:
     heading_getting_started: "Gauti aprašymą"
     text_getting_started_description: "Gauti greitą apžvalgą apie projektų valdymą ir komandos bendradarbiavimą naudojant OpenProject."
     text_show_again: "Jūs galite paleisti šį video iš naujo iš pagalbos meniu"
-    welcome: "Sveiki atvykę į OpenProject"
+    welcome: "Welcome to OpenProject"
     select_language: "Pasirinkite kalbą"
   permission_add_work_package_notes: "Pridėti pastabų"
   permission_add_work_packages: "Pridėti darbų paketų"
@@ -2214,7 +2215,7 @@ lt:
   permission_select_custom_fields: "Parinkite savo laukus"
   permission_select_project_modules: "Parinkti projekto modulius"
   permission_manage_types: "Pasirinkti tipus"
-  permission_view_calendar: "Peržiūrėti kalendorių"
+  permission_view_calendar: "View calendar"
   permission_view_changesets: "Rodyti repozitorijos pakeitimus OpenProject"
   permission_view_commit_author_statistics: "Peržiūrėti autorių pakeitimų pateikimo statistiką"
   permission_view_work_package_watchers: "Peržiūrėti stebėtojų sąrašą"
@@ -2880,7 +2881,7 @@ lt:
   wiki_menu_item_new_main_item_explanation: >
     Jūs ketinate šalinti tik pagrindinį wiki meniu punktą. Jūs dabar turėsite pasirinkti wiki puslapį, kuriam naujas pagrindinis punktas bus sugeneruotas. Jei norite ištrinti wiki, wiki modulį gali išjungti projekto administratoriai.
   wiki_menu_item_delete_not_permitted: Wiki meniu punktas, kuris priklauso vieninteliam wiki puslapiui, negali būti ištrintas.
-  query_menu_item_for: "Meniu punktas užklausai „%{title}“"
+  query_menu_item_for: "Menu item for query \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
@@ -2949,9 +2950,9 @@ lt:
         #Common error messages
         invalid_request:
           unknown: 'Užklausoje trūksta privalomo parametro, yra nepalaikoma parametro reikšmė arba jis kažkaip kitaip netinkamas.'
-          missing_param: 'Missing required parameter: %{value}.'
-          request_not_authorized: 'Request need to be authorized. Required parameter for authorizing request is missing or invalid.'
-        invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
+          missing_param: 'Trūksta privalomo parametro: %{value}.'
+          request_not_authorized: 'Užklausa turi būti autorizuota. Trūksta privalomo užklausos autorizavimo parametro arba jis netinkamas.'
+        invalid_redirect_uri: "Paprašytas peradresavimo uri yra netinkamas arba neatitinka kliento peradresavimo URI."
         unauthorized_client: 'Klientui neleidžiama vykdyti šios užklausos naudojant šį metodą.'
         access_denied: 'Resurso savininkas arba autorizacijos serveris neleido užklausos.'
         invalid_scope: 'Užklausos apimtis yra netinkama, nežinoma arba blogai suformuota.'
@@ -2964,7 +2965,7 @@ lt:
         admin_authenticator_not_configured: "Prieiga prie administravimo skydelio uždrausta, nes\nDoorkeeper.configure.admin_authenticator nėra sukonfigūruotas."
         #Access grant errors
         unsupported_response_type: 'Autorizacijos serveris nepalaiko šito atsako tipo.'
-        unsupported_response_mode: 'The authorization server does not support this response mode.'
+        unsupported_response_mode: 'Autorizacijos serveris nepalaiko šito atsako režimo.'
         #Access token errors
         invalid_client: 'Kliento autentikacija nepavyko, nes klientas nežinomas, neįtraukta kliento autentikacija arba nepalaikomas autentikacijos metodas.'
         invalid_grant: 'Pateikta autorizavimo teisė yra netinkama, pasibaigusi, atšaukta, neatitinka peradresavimo URI, naudojamo autorizacijos užklausoje, arba buvo išduota kitam klientui.'
@@ -2974,9 +2975,9 @@ lt:
           expired: "Baigėsi prieigos žetono galiojimas"
           unknown: "Netinkamas prieigos žetonas"
         revoke:
-          unauthorized: "You are not authorized to revoke this token."
+          unauthorized: "Jūs neturite teisių atšaukti šį žetoną."
         forbidden_token:
-          missing_scope: 'Access to this resource requires scope "%{oauth_scopes}".'
+          missing_scope: 'Prieigai prie šio resurso reikia apimties „%{oauth_scopes}“.'
   unsupported_browser:
     title: "Jūsų naršyklė pasenusi ir nepalaikoma."
     message: "Šiame puslapyje jums gali kilti problemų ar jis gali prastai veikti."
