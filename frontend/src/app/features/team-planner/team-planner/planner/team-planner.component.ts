@@ -24,6 +24,7 @@ import {
   debounceTime,
   distinctUntilChanged,
   filter,
+  finalize,
   map,
   mergeMap,
   take,
@@ -63,8 +64,12 @@ import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/r
 import { KeepTabService } from 'core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service';
 import { HalError } from 'core-app/features/hal/services/hal-error';
 import { ActionsService } from 'core-app/core/state/actions/actions.service';
-import { teamPlannerEventRemoved } from 'core-app/features/team-planner/team-planner/planner/team-planner.actions';
+import {
+  teamPlannerEventAdded,
+  teamPlannerEventRemoved,
+} from 'core-app/features/team-planner/team-planner/planner/team-planner.actions';
 import { imagePath } from 'core-app/shared/helpers/images/path-helper';
+import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 
 @Component({
   selector: 'op-team-planner',
@@ -149,6 +154,8 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     map(([principals, showAddAssignee]) => !principals.length && !showAddAssignee),
   );
 
+  private loading$:Subject<unknown>|null = null;
+
   assignees:HalResource[] = [];
 
   statuses:StatusResource[] = [];
@@ -168,6 +175,8 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     today: this.I18n.t('js.team_planner.today'),
     drag_here_to_remove: this.I18n.t('js.team_planner.drag_here_to_remove'),
     cannot_drag_here: this.I18n.t('js.team_planner.cannot_drag_here'),
+    updating: this.I18n.t('js.ajax.updating'),
+    successful_update: this.I18n.t('js.notice_successful_update'),
   };
 
   principals$ = this.principalIds$
@@ -195,6 +204,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     readonly calendarDrag:CalendarDragDropService,
     readonly keepTab:KeepTabService,
     readonly actions$:ActionsService,
+    readonly toastService:ToastService,
   ) {
     super();
   }
@@ -363,7 +373,11 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
               this.draggingItem$.next(undefined);
             },
             eventDrop: (dropInfo:EventDropArg) => this.updateEvent(dropInfo),
-            eventReceive: (dropInfo:EventReceiveArg) => this.updateEvent(dropInfo),
+            eventReceive: async (dropInfo:EventReceiveArg) => {
+              await this.updateEvent(dropInfo);
+              const wp = dropInfo.event.extendedProps.workPackage as WorkPackageResource;
+              this.actions$.dispatch(teamPlannerEventAdded({ workPackage: wp.id as string }));
+            },
             // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
             eventContent: (data:EventContentArg) => this.renderTemplate(this.eventContent, this.eventId(data), data),
             // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
@@ -381,17 +395,41 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     this
       .calendar
       .currentWorkPackages$
-      .toPromise()
-      .then((workPackages:WorkPackageCollectionResource) => {
-        const events = this.mapToCalendarEvents(workPackages.elements);
+      .pipe(
+        take(1),
+        finalize(() => this.clearLoading()),
+      )
+      .subscribe(
+        (workPackages:WorkPackageCollectionResource) => {
+          const events = this.mapToCalendarEvents(workPackages.elements);
 
-        this.viewLookup.destroyDetached();
+          this.viewLookup.destroyDetached();
 
-        successCallback(events);
-      })
-      .catch(failureCallback);
+          this.removeExternalEvents();
+
+          successCallback(events);
+        },
+        failureCallback,
+      );
 
     void this.calendar.updateTimeframe(fetchInfo, this.projectIdentifier);
+  }
+
+  /**
+   * Clear loading and show successful toast if we were reloading the page
+   * @private
+   */
+  private clearLoading():void {
+    const prevLoading = this.loading$;
+    if (!prevLoading) {
+      return;
+    }
+
+    this.loading$ = null;
+    setTimeout(() => {
+      prevLoading.complete();
+      this.toastService.addSuccess(this.text.successful_update);
+    }, 500);
   }
 
   renderTemplate(template:TemplateRef<unknown>, id:string, data:ResourceLabelContentArg|EventContentArg):{ domNodes:unknown[] } {
@@ -594,9 +632,11 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
 
   private async saveChangeset(changeset:ResourceChangeset<WorkPackageResource>, info?:EventResizeDoneArg|EventDropArg|EventReceiveArg) {
     try {
-      const result = await this.halEditing.save(changeset);
-      this.halNotification.showSave(result.resource, result.wasNew);
+      this.loading$ = new Subject<unknown>();
+      this.toastService.addLoading(this.loading$);
+      await this.halEditing.save(changeset);
     } catch (e:unknown) {
+      this.loading$?.complete();
       this.halNotification.showError((e as HalError).resource, changeset.projectedResource);
       this.calendarDrag.handleDropError(changeset.projectedResource);
       info?.revert();
@@ -645,5 +685,17 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
   private toggleAddExistingPane():void {
     this.showAddExistingPane.next(!this.showAddExistingPane.getValue());
     (this.addExistingToggle.nativeElement as HTMLElement).blur();
+  }
+
+  private removeExternalEvents():void {
+    this
+      .ucCalendar
+      .getApi()
+      .getEvents()
+      .forEach((evt) => {
+        if (evt.id.includes('external')) {
+          evt.remove();
+        }
+      });
   }
 }
