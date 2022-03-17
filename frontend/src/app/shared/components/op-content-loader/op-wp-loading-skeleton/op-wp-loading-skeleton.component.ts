@@ -1,8 +1,6 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  ViewEncapsulation,
-  HostBinding,
   Input,
 } from '@angular/core';
 
@@ -13,6 +11,5 @@ import {
   styleUrls: ['./op-wp-loading-skeleton.component.sass'],
 })
 export class OpWPLoadingComponent {
-  @HostBinding('class.op-wp-loading-skeleton--loader') className = true;
-  @Input() public viewBox?:string = '0 0 2000 80';
+  @Input() public viewBox?:string = '0 0 800 80';
 }

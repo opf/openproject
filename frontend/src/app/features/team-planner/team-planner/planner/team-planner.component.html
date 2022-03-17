@@ -89,9 +89,9 @@
     </ng-template>
 
     <ng-template #eventContent let-event="event">
-
+  
       <op-wp-loading-skeleton 
-        [viewBox]="event.viewBox"
+        [viewBox]="event.extendedProps.viewBox"
         class="op-team-planner--wp-loading-skeleton"
         *ngIf="event.id.startsWith('skeleton')"
       ></op-wp-loading-skeleton>

@@ -31,6 +31,7 @@ import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'wp-single-card',
+  styleUrls: ['./wp-single-card.component.sass'],
   templateUrl: './wp-single-card.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
