@@ -22,7 +22,7 @@ export const skeletonEvents = [
     resourceId: skeletonResources[0].id,
     title: '',
     start: moment().subtract(1, 'days').toDate(),
-    end: moment().add(1,'day').toDate(),
+    end: moment().add(1,'day').toDate(), 
     backgroundColor: '#FFFFFF',
     borderColor: '#FFFFFF',
     allDay: true,
