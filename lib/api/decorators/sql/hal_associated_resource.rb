@@ -65,7 +65,7 @@ module API
                             end
 
               user_format = User::USER_FORMATS_STRUCTURE[Setting.user_format]
-                              .map { |column| "#{table_name}_#{column}"}
+                              .map { |column| "#{table_name}_#{column}" }
                               .join(join_string)
 
               <<~SQL.squish

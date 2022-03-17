@@ -32,6 +32,8 @@ module API
       module Hal
         extend ActiveSupport::Concern
 
+        TO_BE_REMOVED = '_to_be_removed_'.freeze
+
         included do
           extend ::API::V3::Utilities::PathHelper
 
@@ -56,14 +58,9 @@ module API
                                end
 
               if options[:render_if]
-                <<-SQL.squish
-                   '#{name}',
-                   CASE WHEN #{options[:render_if].call(walker_results)} THEN
-                     #{representation}
-                   ELSE
-                     NULL
-                   END
-                SQL
+                render_if_condition(name,
+                                    options[:render_if].call(walker_results),
+                                    representation)
               else
                 <<-SQL.squish
                  '#{name}', #{representation}
@@ -114,35 +111,16 @@ module API
             selected_links(select)
               .map do |name, link|
               if link[:sql]
-                <<-SQL.squish
-                  '#{name}', #{link[:sql].call}
-                SQL
+                link_from_sql(name, link)
               else
-                title = link[:title] ? link[:title].call : "#{name}.name"
-
-                link_attributes = ["'href'", link_href(link, name, walker_result)]
-
-                if title
-                  link_attributes += ["'title'", title]
-                end
-
-                (link[:additional_properties] || {}).each do |key, value|
-                  link_attributes += ["'#{key}'", value]
-                end
+                attributes = link_attributes(name, link, walker_result)
 
                 if link[:render_if]
-                  <<-SQL.squish
-                   '#{name}',
-                   CASE WHEN #{link[:render_if].call(walker_result)} THEN
-                     json_build_object(#{link_attributes.join(', ')})
-                   ELSE
-                     NULL
-                   END
-                  SQL
+                  render_if_condition(name,
+                                      link[:render_if].call(walker_result),
+                                      "json_build_object(#{attributes.join(', ')})")
                 else
-                  <<-SQL.squish
-                   '#{name}', '{ "href": null }'::jsonb || json_strip_nulls(json_build_object(#{link_attributes.join(', ')}))::jsonb
-                  SQL
+                  link_with_default(name, attributes)
                 end
               end
             end
@@ -179,7 +157,7 @@ module API
             <<~SELECT
               json_build_object(
                 #{json_object_string(select, walker_result)}
-              )
+              )::jsonb - '#{TO_BE_REMOVED}'
             SELECT
           end
 
@@ -232,9 +210,13 @@ module API
           end
 
           def select_links(select, walker_result)
-            namespaced_json_object('_links') do
+            links_section = namespaced_json_object('_links') do
               links_selects(select, walker_result)
             end
+
+            # If links come with a condition, they receive the key TO_BE_REMOVED if that condition fails
+            # and we remove it here.
+            "#{links_section}::jsonb - '#{TO_BE_REMOVED}'" if links_section
           end
 
           def select_from(walker_result)
@@ -286,11 +268,50 @@ module API
             SELECT
           end
 
+          def link_attributes(name, link, walker_result)
+            title = link[:title] ? link[:title].call : "#{name}.name"
+
+            attributes = ["'href'", link_href(link, name, walker_result)]
+
+            if title
+              attributes += ["'title'", title]
+            end
+
+            (link[:additional_properties] || {}).each do |key, value|
+              attributes += ["'#{key}'", value]
+            end
+
+            attributes
+          end
+
           def link_href(link, name, walker_result)
             path_name = link[:path] ? link[:path][:api] : name
             column = link[:column] ? link[:column].call : name
 
             link[:href] ? link[:href].call(walker_result) : "format('#{api_v3_paths.send(path_name, '%s')}', #{column})"
+          end
+
+          def link_from_sql(name, link)
+            <<-SQL.squish
+              '#{name}', #{link[:sql].call}
+            SQL
+          end
+
+          def link_with_default(name, attributes)
+            <<-SQL.squish
+              '#{name}', '{ "href": null }'::jsonb || json_strip_nulls(json_build_object(#{attributes.join(', ')}))::jsonb
+            SQL
+          end
+
+          def render_if_condition(name, condition, value)
+            <<-SQL.squish
+              CASE WHEN #{condition} THEN
+                '#{name}'
+              ELSE
+                '#{TO_BE_REMOVED}'
+              END,
+              #{value}
+            SQL
           end
 
           def sql_offset(walker_result)
