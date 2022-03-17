@@ -14,5 +14,5 @@ import {
 })
 export class OpWPLoadingComponent {
   @HostBinding('class.op-wp-loading-skeleton--loader') className = true;
-  @Input() public width?:number = 100;
+  @Input() public viewBox?:string = '0 0 2000 80';
 }

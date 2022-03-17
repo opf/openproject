@@ -30,7 +30,7 @@ export const skeletonEvents = [
     borderColor: '#FFFFFF',
     allDay: true,
     dataLoaded: false,
-    width: 100
+    viewBox: '0 0 500 80'
   },
   {
     id: 'skeleton-2',
@@ -42,7 +42,7 @@ export const skeletonEvents = [
     borderColor: '#FFFFFF',
     allDay: true,
     dataLoaded: false,
-    width: 150
+    viewBox: '0 0 2000 80'
   },
   {
     id: 'skeleton-3',
@@ -54,6 +54,6 @@ export const skeletonEvents = [
     borderColor: '#FFFFFF',
     allDay: true,
     dataLoaded: false,
-    width: 150
+    viewBox: '0 0 2000 80'
   },
 ]
