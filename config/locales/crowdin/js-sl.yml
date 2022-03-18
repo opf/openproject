@@ -24,6 +24,7 @@ sl:
     ajax:
       hide: "Skrij"
       loading: "Nalaganje..."
+      updating: "Updating ..."
     attachments:
       draggable_hint: |
         Povlecite na urejevalno polje, da vstavite sliko ali referenčno prilogo. Med nadaljevanjem vlečenja se bodo odprla zaprta polja urejevalnika.

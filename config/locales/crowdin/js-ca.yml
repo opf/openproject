@@ -24,6 +24,7 @@ ca:
     ajax:
       hide: "Amagar"
       loading: "Carregant ..."
+      updating: "Updating ..."
     attachments:
       draggable_hint: |
         Arrossega al editor per a pujar una imatge o referenciar un adjunt. Els camps tancats del editor seguiran oberts mentre se segueixi arrossegant.

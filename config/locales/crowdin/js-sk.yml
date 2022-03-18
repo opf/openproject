@@ -24,6 +24,7 @@ sk:
     ajax:
       hide: "Skryť"
       loading: "Načítava sa ..."
+      updating: "Updating ..."
     attachments:
       draggable_hint: |
         Pre vloženie obrázka alebo referenčnej prílohy presuňte súbor do editovateľného poľa. Uzavreté pole editora sa bude otvárať počas nepretržitého ťahania.

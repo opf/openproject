@@ -24,6 +24,7 @@ sv:
     ajax:
       hide: "Dölj"
       loading: "Laddar ..."
+      updating: "Updating ..."
     attachments:
       draggable_hint: |
         Dra på editorfältet för att infoga bild eller referensbilaga. Stängda editorfält kommer att öppnas medan du fortsätter att dra.

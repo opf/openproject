@@ -24,6 +24,7 @@ lt:
     ajax:
       hide: "Slėpti"
       loading: "Įkeliama..."
+      updating: "Updating ..."
     attachments:
       draggable_hint: |
         Tempkite į redagavimo lauką, kad įtrauktumėte piešinį ar paminėtumėte priedą. Uždari redaktoriaus laukai bus atidaryti, kol jūs tempsite.

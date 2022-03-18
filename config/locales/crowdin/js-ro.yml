@@ -24,6 +24,7 @@ ro:
     ajax:
       hide: "Ascundere"
       loading: "Se încarcă..."
+      updating: "Updating ..."
     attachments:
       draggable_hint: |
         Trageți pe câmpul editorului pentru a introduce o imagine sau un atașament de referință. Câmpurile de editor închise vor fi deschise în timp ce continuați să trageți.

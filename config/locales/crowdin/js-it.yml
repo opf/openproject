@@ -24,6 +24,7 @@ it:
     ajax:
       hide: "Nascondi"
       loading: "Caricamento ..."
+      updating: "Updating ..."
     attachments:
       draggable_hint: |
         Trascina l'elemento nei campi dell'editor per allineare l'immagine o il riferimento allegato. I campi dell'editor chiusi verranno sbloccati durante il trascinamento.

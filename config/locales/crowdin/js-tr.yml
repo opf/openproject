@@ -24,6 +24,7 @@ tr:
     ajax:
       hide: "Saklamak"
       loading: "Yükleniyor ..."
+      updating: "Updating ..."
     attachments:
       draggable_hint: |
         Editör alanında, satır içi görüntüye veya referans ekine sürükleyin. Sürüklemeye devam ederken kapalı editör alanları açılacaktır.

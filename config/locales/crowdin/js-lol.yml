@@ -24,6 +24,7 @@ lol:
     ajax:
       hide: "crwdns786842:0crwdne786842:0"
       loading: "crwdns786844:0crwdne786844:0"
+      updating: "crwdns807384:0crwdne807384:0"
     attachments:
       draggable_hint: |
         crwdns786846:0crwdne786846:0

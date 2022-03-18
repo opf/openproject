@@ -24,6 +24,7 @@ pt:
     ajax:
       hide: "Ocultar"
       loading: "Carregando ..."
+      updating: "Updating ..."
     attachments:
       draggable_hint: |
         Arraste sobre o campo do editor para incorporar uma imagem ou anexo de referência. Campos do editor fechados serão abertos enquanto você continuar arrastando.

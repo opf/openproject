@@ -24,6 +24,7 @@ ne:
     ajax:
       hide: "Hide"
       loading: "लोड हुँदै..."
+      updating: "Updating ..."
     attachments:
       draggable_hint: |
         दस्तावेज

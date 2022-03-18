@@ -24,6 +24,7 @@ cs:
     ajax:
       hide: "Skrýt"
       loading: "Načítání ..."
+      updating: "Updating ..."
     attachments:
       draggable_hint: |
         Přetáhněte pole editoru na vložený obrázek nebo referenční přílohu. Uzavřená pole editoru budou otevřena během pokračujícího přetahování.

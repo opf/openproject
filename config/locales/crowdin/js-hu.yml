@@ -24,6 +24,7 @@ hu:
     ajax:
       hide: "Elrejt"
       loading: "Betöltés folyamatban… ..."
+      updating: "Updating ..."
     attachments:
       draggable_hint: |
         Húzza át a szerkesztőmezőt a beillesztett képre vagy hivatkozási mellékletre. Zárt szerkesztőmezők nyílnak meg, amíg húzza.

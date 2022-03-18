@@ -24,6 +24,7 @@ es:
     ajax:
       hide: "Ocultar"
       loading: "Cargando ..."
+      updating: "Updating ..."
     attachments:
       draggable_hint: |
         Arrastre el campo del editor a una imagen alineada o un adjunto de referencia. Los campos del editor cerrados se abrirán mientras siga arrastrando elementos.

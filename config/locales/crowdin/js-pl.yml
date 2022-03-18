@@ -24,6 +24,7 @@ pl:
     ajax:
       hide: "Ukryj"
       loading: "Ładowanie ..."
+      updating: "Updating ..."
     attachments:
       draggable_hint: |
         Przeciągaj w polu edytora, aby wstawić obraz lub załącznik referencyjny. Zamknięte pola edytora zostaną otwarte podczas przeciągania.

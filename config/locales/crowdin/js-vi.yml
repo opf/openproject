@@ -24,6 +24,7 @@ vi:
     ajax:
       hide: "Ẩn"
       loading: "Đang tải..."
+      updating: "Updating ..."
     attachments:
       draggable_hint: |
         Kéo trên trường được soạn thảo để chèn ảnh hoặc file đính kèm. Trường soạn thảo đang được đóng sẽ được mở lại khi bạn kéo thả.

@@ -24,6 +24,7 @@ nl:
     ajax:
       hide: "Verberg"
       loading: "Bezig met laden ..."
+      updating: "Updating ..."
     attachments:
       draggable_hint: |
         Sleep op het invoerveld naar in line afbeelding of verwijzing bijlage. Gesloten invoervelden wordt geopend terwijl u blijft slepen.

@@ -24,6 +24,7 @@ fr:
     ajax:
       hide: "Masquer"
       loading: "Chargement…"
+      updating: "Updating ..."
     attachments:
       draggable_hint: |
         Faites glisser le champ de l'éditeur pour incorporer une image ou une pièce jointe de référence. Les champs fermés de l'éditeur seront ouverts tant que vous continuer à faire glisser.

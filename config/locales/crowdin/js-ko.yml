@@ -24,6 +24,7 @@ ko:
     ajax:
       hide: "숨기기"
       loading: "불러오는 중 ..."
+      updating: "Updating ..."
     attachments:
       draggable_hint: |
         인라인 이미지 또는 참조 첨부 파일로 편집기 필드를 드래그하세요. 드래그하는 동안에는 닫힌 편집기 필드가 열립니다.
