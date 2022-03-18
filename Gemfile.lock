@@ -357,7 +357,7 @@ GEM
     crass (1.0.6)
     daemons (1.4.1)
     dalli (3.2.1)
-    danger (8.4.5)
+    danger (8.5.0)
       claide (~> 1.0)
       claide-plugins (>= 0.9.2)
       colored2 (~> 3.1)
@@ -448,7 +448,7 @@ GEM
       tzinfo
     eventmachine (1.2.7)
     eventmachine_httpserver (0.2.1)
-    excon (0.91.0)
+    excon (0.92.0)
     factory_bot (6.2.0)
       activesupport (>= 5.0.0)
     factory_bot_rails (6.2.0)
