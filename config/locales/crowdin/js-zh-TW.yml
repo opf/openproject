@@ -516,7 +516,7 @@ zh-TW:
         mentioned: 'mentioned'
         watched: 'watched'
         assigned: 'assigned'
-        responsible: 'accountable'
+        responsible: '負責人'
       facets:
         unread: 'Unread'
         all: '全部'
@@ -538,7 +538,7 @@ zh-TW:
           message: 'There are new notifications.'
           link_text: 'Click here to load them'
       menu:
-        accountable: '可信賴的'
+        accountable: '負責人'
         assigned: '指派'
         by_project: 'Unread by project'
         by_reason: 'Involvement'
@@ -554,8 +554,8 @@ zh-TW:
             title: 'I am @mentioned'
             description: 'Receive a notification every time someone mentions me anywhere'
           involved:
-            title: 'Assigned to me or accountable'
-            description: 'Receive notifications for all activities on work packages for which I am assignee or accountable'
+            title: '分配給我或由我負責'
+            description: '對所有分配給我或由我負責的工作包接收所有活動通知'
           watched: 'Updates on watched items'
           work_package_commented: 'All new comments'
           work_package_created: 'New work packages'
