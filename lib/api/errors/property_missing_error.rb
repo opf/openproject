@@ -26,30 +26,24 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module API::V3::FileLinks
-  class ParseCreateParamsService < ::API::ParseResourceParamsService
-    def call(request_body)
-      ServiceResult.new(
-        success: true,
-        result: parse_elements(request_body)
-      )
-    end
+module API
+  module Errors
+    class PropertyMissingError < ErrorBase
+      identifier 'PropertyMissingError'
+      code 422
 
-    def parse_elements(request_body)
-      request_body.dig("_embedded", "elements")
-                  .tap { ensure_valid_elements(_1) }
-                  .map do |params|
-        API::V3::FileLinks::FileLinkRepresenter
-          .new(Hashie::Mash.new, current_user: current_user)
-          .from_hash(params)
+      attr_accessor :property
+
+      def initialize(property)
+        self.property = property
+
+        message = I18n.t('api_v3.errors.missing_property', property: property)
+        super message
       end
-    end
 
-    private
-
-    def ensure_valid_elements(elements)
-      raise API::Errors::PropertyMissingError.new('_embedded/elements') if elements.blank?
-      raise API::Errors::PropertyFormatError.new('_embedded/elements', 'Array', elements.class.name) unless elements.is_a?(Array)
+      def details
+        { attribute: property }
+      end
     end
   end
 end

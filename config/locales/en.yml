@@ -3063,6 +3063,7 @@ en:
         select: "The requested select of %{invalid} is not supported. Supported selects are %{supported}."
       invalid_user_status_transition: "The current user account status does not allow this operation."
       missing_content_type: "not specified"
+      missing_property: "Missing property '%{property}'."
       missing_request_body: "There was no request body."
       missing_or_malformed_parameter: "The query parameter '%{parameter}' is missing or malformed."
       multipart_body_error: "The request body did not contain the expected multipart parts."

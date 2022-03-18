@@ -174,6 +174,9 @@ description: |-
   * `urn:openproject-org:api:v3:errors:PropertyFormatError` (**HTTP 422**)
   A property value was provided in a format that the server does not understand or accept
 
+  * `urn:openproject-org:api:v3:errors:PropertyMissingError` (**HTTP 422**)
+  The request is syntactically correct, but is missing a property to perform the requested action
+
   * `urn:openproject-org:api:v3:errors:PropertyValueNotAvailableAnymore` (**HTTP 422**)
   An unchanged property needs to be changed, because other changes to the resource make it unavailable
 

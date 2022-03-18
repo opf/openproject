@@ -138,20 +138,50 @@ describe 'API v3 file links resource', type: :request do
       let(:expected_status_code) { 201 }
     end
 
-    context 'if the request body contains an invalid storage host' do
-      let(:storage_url1) { 'https://invalid.host.org/' }
+    context 'when storage host is invalid' do
+      context 'when unknown host' do
+        let(:storage_url1) { 'https://invalid.host.org/' }
 
-      it_behaves_like 'constraint violation' do
-        let(:message) { 'Storage is invalid' }
+        it_behaves_like 'constraint violation' do
+          let(:message) { 'Storage is invalid' }
+        end
+      end
+
+      context 'when not linked to the project of the work package' do
+        let(:storage_url1) { another_storage.host }
+
+        it_behaves_like 'constraint violation' do
+          let(:message) { 'Storage is not linked to project' }
+        end
       end
     end
 
-    context 'if the request body contains a storage host that is not linked to the project of the work package' do
-      let(:storage_url1) { another_storage.host }
-
-      it_behaves_like 'constraint violation' do
-        let(:message) { 'Storage is not linked to project' }
+    context 'when no _embedded/elements in given json' do
+      let(:params) do
+        {}
       end
+
+      it_behaves_like 'missing property', I18n.t('api_v3.errors.missing_property', property: '_embedded/elements')
+    end
+
+    context 'when _embedded/elements is empty' do
+      let(:params) do
+        { _embedded: { elements: [] } }
+      end
+
+      it_behaves_like 'missing property', I18n.t('api_v3.errors.missing_property', property: '_embedded/elements')
+    end
+
+    context 'when _embedded/elements is not an array' do
+      let(:params) do
+        { _embedded: { elements: 42 } }
+      end
+
+      it_behaves_like 'format error',
+                      I18n.t('api_v3.errors.invalid_format',
+                             property: '_embedded/elements',
+                             expected_format: 'Array',
+                             actual: 'Integer')
     end
   end
 

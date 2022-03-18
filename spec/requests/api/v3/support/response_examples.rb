@@ -151,6 +151,13 @@ shared_examples_for 'format error' do |message|
                   message
 end
 
+shared_examples_for 'missing property' do |message|
+  it_behaves_like 'error response',
+                  422,
+                  'PropertyMissingError',
+                  message
+end
+
 shared_examples_for 'read-only violation' do |attribute, model, attribute_message = nil|
   describe 'details' do
     subject { JSON.parse(last_response.body)['_embedded']['details'] }
