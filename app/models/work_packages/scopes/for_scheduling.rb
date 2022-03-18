@@ -131,7 +131,7 @@ module WorkPackages::Scopes
                    THEN relations.from_id
                    ELSE relations.to_id
                  END id,
-                 (work_packages.schedule_manually OR COALESCE(descendants.schedule_manually, false)) manually
+                 (related_work_packages.schedule_manually OR COALESCE(descendants.schedule_manually, false)) manually
                FROM
                  to_schedule
                JOIN
@@ -141,13 +141,13 @@ module WorkPackages::Scopes
                  AND
                    ((relations.to_id = to_schedule.id)
                    OR (relations.from_id = to_schedule.id AND relations.follows = 0))
-               LEFT JOIN work_packages
+               LEFT JOIN work_packages related_work_packages
                  ON (CASE
                    WHEN relations.to_id = to_schedule.id
                    THEN relations.from_id
                    ELSE relations.to_id
-                   END) = work_packages.id
-               LEFT JOIN (
+                   END) = related_work_packages.id
+               LEFT JOIN LATERAL (
                  SELECT
                    relations.from_id,
                    bool_and(COALESCE(work_packages.schedule_manually, false)) schedule_manually
@@ -155,9 +155,10 @@ module WorkPackages::Scopes
                  JOIN work_packages
                  ON
                    work_packages.id = relations.to_id
+                   AND related_work_packages.id = relations.from_id
                    AND relations.follows = 0 AND #{relations_condition_sql(transitive: true)}
                  GROUP BY relations.from_id
-          ) descendants ON work_packages.id = descendants.from_id
+               ) descendants ON related_work_packages.id = descendants.from_id
              )
         SQL
       end
