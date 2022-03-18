@@ -24,6 +24,7 @@ id:
     ajax:
       hide: "Sembunyikan"
       loading: "Loading ..."
+      updating: "Updating ..."
     attachments:
       draggable_hint: |
         Drag pada kotak editor untuk memasukan gambar atau referensikan lampiran. kotak editor akan tetap terbuka saat anda masih melakukan drag.

@@ -24,6 +24,7 @@ de:
     ajax:
       hide: "Verbergen"
       loading: "Lädt ..."
+      updating: "Updating ..."
     attachments:
       draggable_hint: |
         Ziehen Sie diesen Anhang auf ein editierbares Feld um das Bild oder den Anhang einzubinden. Geöffnete Felder werden automatisch geöffnet während Sie das Attachment mit der Maus ziehen und halten.
@@ -1161,7 +1162,7 @@ de:
       clear_selection: 'Clear selection'
       apply: 'Anwenden'
       selected_filter:
-        all: 'All projects'
+        all: 'Alle Projekte'
         selected: 'Only selected'
       search_placeholder: 'Search project...'
     forms:

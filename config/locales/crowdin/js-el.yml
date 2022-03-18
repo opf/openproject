@@ -24,6 +24,7 @@ el:
     ajax:
       hide: "Απόκρυψη"
       loading: "Φόρτωση ..."
+      updating: "Updating ..."
     attachments:
       draggable_hint: |
         Σύρετε στο πεδίο επεξεργαστή για να ευθυγραμμίσετε συνημμένα εικόνας ή αναφοράς. Τα κλειστά πεδία επεξεργαστή θα ανοίξουν όσο συνεχίζετε να σέρνετε.
@@ -1161,7 +1162,7 @@ el:
       clear_selection: 'Clear selection'
       apply: 'Εφαρμογή'
       selected_filter:
-        all: 'All projects'
+        all: 'Όλα τα έργα'
         selected: 'Only selected'
       search_placeholder: 'Search project...'
     forms:

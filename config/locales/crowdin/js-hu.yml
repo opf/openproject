@@ -24,6 +24,7 @@ hu:
     ajax:
       hide: "Elrejt"
       loading: "Betöltés folyamatban… ..."
+      updating: "Updating ..."
     attachments:
       draggable_hint: |
         Húzza át a szerkesztőmezőt a beillesztett képre vagy hivatkozási mellékletre. Zárt szerkesztőmezők nyílnak meg, amíg húzza.
@@ -1167,7 +1168,7 @@ hu:
       clear_selection: 'Clear selection'
       apply: 'Alkalmaz'
       selected_filter:
-        all: 'All projects'
+        all: 'Minden projekt'
         selected: 'Only selected'
       search_placeholder: 'Search project...'
     forms:

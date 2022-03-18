@@ -24,6 +24,7 @@ da:
     ajax:
       hide: "Gem"
       loading: "Henter..."
+      updating: "Updating ..."
     attachments:
       draggable_hint: |
         Træk på redigeringsfelt for at indsætte billede eller referencevedhæftning. Lukkede redigeringsfelter åbnes, mens du fortsætter med at trække.

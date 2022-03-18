@@ -24,6 +24,7 @@ ja:
     ajax:
       hide: "非表示"
       loading: "ロード中..."
+      updating: "Updating ..."
     attachments:
       draggable_hint: |
         インライン画像または参照添付ファイルをエディタ領域にドラッグします。
@@ -1162,7 +1163,7 @@ ja:
       clear_selection: 'Clear selection'
       apply: '適用'
       selected_filter:
-        all: 'All projects'
+        all: 'すべてのプロジェクト'
         selected: 'Only selected'
       search_placeholder: 'Search project...'
     forms:

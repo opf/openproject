@@ -173,9 +173,9 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
 
   //@hack adapting to provided styles
   //messy I dont have all the details for a magic resolve, this might change
-  & p, & ul
+  & p, & div, & ul
     margin-bottom: 0
-  & p, & ul>li, & .button
+  & p, & div, & ul>li, & .button
     font-size: $nm-font-size
 
 
@@ -225,6 +225,7 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
   .op-toast--content
     width: 100%
 
+    > div,
     > p
       margin-bottom: 0
       color: var(--body-font-color)
@@ -238,6 +239,14 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
         border-radius: $nm-pb-border-radius
       &::-webkit-progress-value
         border-radius: $nm-pb-border-radius
+
+.op-toast.-loading
+  width: 150px
+  margin: 0 auto
+
+  .op-toast--content
+    display: flex
+    align-items: center
 
 // upload toaster styles
 %progress-styles

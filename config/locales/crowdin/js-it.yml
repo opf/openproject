@@ -24,6 +24,7 @@ it:
     ajax:
       hide: "Nascondi"
       loading: "Caricamento ..."
+      updating: "Updating ..."
     attachments:
       draggable_hint: |
         Trascina l'elemento nei campi dell'editor per allineare l'immagine o il riferimento allegato. I campi dell'editor chiusi verranno sbloccati durante il trascinamento.
@@ -1163,7 +1164,7 @@ it:
       clear_selection: 'Clear selection'
       apply: 'Applica'
       selected_filter:
-        all: 'All projects'
+        all: 'Tutti i progetti'
         selected: 'Only selected'
       search_placeholder: 'Search project...'
     forms:

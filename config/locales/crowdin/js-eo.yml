@@ -24,6 +24,7 @@ eo:
     ajax:
       hide: "Kaŝi"
       loading: "Ŝarĝanta..."
+      updating: "Updating ..."
     attachments:
       draggable_hint: |
         Drag on editor field to inline image or reference attachment. Closed editor fields will be opened while you keep dragging.
@@ -1068,7 +1069,7 @@ eo:
         one: "laborpakaĵo"
         other: "laborpakaĵoj"
       child_work_packages:
-        one: "one child work package"
+        one: "unu laborpakaĵa filo"
         other: "%{count} work package children"
       hour:
         one: "1 h"

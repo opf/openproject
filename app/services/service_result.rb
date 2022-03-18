@@ -141,11 +141,6 @@ class ServiceResult
     self
   end
 
-  def tap
-    yield(self)
-    self
-  end
-
   def each
     yield result if success?
     self

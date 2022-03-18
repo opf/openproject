@@ -31,6 +31,8 @@ Here you will get an overview how to sign in and register to an existing OpenPro
 
 To sign in to an OpenProject installation with an existing account, please enter the URL of your OpenProject in a modern browser, e.g. documentation.openproject.com.
 
+![modern-browser-searchbar](modern-browser-searchbar.png)
+
 Type in your user name and password in the respective fields and click the blue Sign in button. You will then be signed in to your OpenProject environment.
 
 ![Sign-in to OpenProject](1565974792215.png)
