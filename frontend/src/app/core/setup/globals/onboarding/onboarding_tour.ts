@@ -70,7 +70,7 @@ function startTour(steps:OnboardingStep[]) {
 }
 
 function moduleVisible(name:string):boolean {
-  return document.getElementsByClassName(`.${name}-view-menu-item`).length > 0
+  return document.getElementsByClassName(`${name}-view-menu-item`).length > 0;
 }
 
 function mainTour() {
