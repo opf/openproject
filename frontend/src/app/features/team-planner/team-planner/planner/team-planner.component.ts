@@ -514,7 +514,8 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
       return dateCurrentlyVisible;
     }
 
-    return false;
+    // Milestones are always completely in view, everything else is outside
+    return !!workPackage.date;
   }
 
   showDisabledText(workPackage:WorkPackageResource):string {
