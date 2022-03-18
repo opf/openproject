@@ -65,7 +65,7 @@ describe 'team planner onboarding tour', js: true do
     login_as user
 
     allow(Setting).to receive(:demo_projects_available).and_return(true)
-    allow(Setting).to receive(:team_planner_demo_data_available).and_return(true)
+    allow(Setting).to receive(:demo_view_of_type_team_planner_seeded).and_return(true)
   end
 
   after do

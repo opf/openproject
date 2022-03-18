@@ -77,8 +77,7 @@ function mainTour() {
   initializeTour('mainTourFinished');
 
   const boardsDemoDataAvailable = jQuery('meta[name=boards_demo_data_available]').attr('content') === 'true';
-  // TODO
-  const teamPlannerDemoDataAvailable = true;
+  const teamPlannerDemoDataAvailable = jQuery('meta[name=demo_view_of_type_team_planner_seeded]').attr('content') === 'true';
   const eeTokenAvailable = !jQuery('body').hasClass('ee-banners-visible');
 
   waitForElement('.work-package--results-tbody', '#content', () => {
