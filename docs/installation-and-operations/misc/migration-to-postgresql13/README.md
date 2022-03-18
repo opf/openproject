@@ -88,8 +88,8 @@ sudo su - postgres -c "/usr/lib/postgresql/13/bin/pg_ctl start --wait --pgdata=/
 sudo rm -rf /var/lib/postgresql/10/main
 # you can optionally go further and purge postgresql-10 from your system if you wish
 sudo apt-get purge postgresql-10 # debian/ubuntu
-sudo yum remove postgresql-10 # rhel/centos
-sudo zypper remove postgresql-10 # sles
+sudo yum remove pgsql10 # rhel/centos
+sudo zypper remove postgresql-10 # sles ???????
 ```
 
 [pg_upgrade]: https://www.postgresql.org/docs/10/pgupgrade.html
@@ -188,7 +188,7 @@ For that, open a database console. On a packaged installation, this is the way t
 
 ```
 psql $(openproject config:get DATABASE_URL)
-``` 
+```
 
 Please change the command appropriately for other installation methods. Once connected, run the following command
 
