@@ -82,15 +82,17 @@ module OpenProject::Storages
     # This hook is executed when the module is loaded.
     config.to_prepare do
       # We have a bunch of filters defined within the module. Here we register the filters.
-      [
-        ::Queries::Storages::WorkPackages::Filter::FileLinkOriginIdFilter,
-        ::Queries::Storages::WorkPackages::Filter::StorageIdFilter,
-        ::Queries::Storages::WorkPackages::Filter::StorageUrlFilter,
-        ::Queries::Storages::WorkPackages::Filter::LinkableToStorageIdFilter,
-        ::Queries::Storages::WorkPackages::Filter::LinkableToStorageUrlFilter
-      ].each do |filter|
-        ::Queries::Register.filter ::Query, filter
-        ::Queries::Register.exclude filter
+      ::Queries::Register.register(::Query) do
+        [
+          ::Queries::Storages::WorkPackages::Filter::FileLinkOriginIdFilter,
+          ::Queries::Storages::WorkPackages::Filter::StorageIdFilter,
+          ::Queries::Storages::WorkPackages::Filter::StorageUrlFilter,
+          ::Queries::Storages::WorkPackages::Filter::LinkableToStorageIdFilter,
+          ::Queries::Storages::WorkPackages::Filter::LinkableToStorageUrlFilter
+        ].each do |filter|
+          filter filter
+          exclude filter
+        end
       end
     end
 
