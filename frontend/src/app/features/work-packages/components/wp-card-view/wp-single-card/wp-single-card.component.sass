@@ -31,9 +31,6 @@
       .op-wp-single-card--inline-buttons
         background-image: linear-gradient(to left, rgba($spot-color-main-light,1), rgba($spot-color-main-light,0))
 
-  &_disabled
-    opacity: 0.6
-
   &_closed:not(&_selected)
     background-color: $spot-color-basic-gray-6
     .op-icon--wrapper
@@ -146,14 +143,20 @@
   &--card-action
     z-index: 2
 
+    &_closed
+      color: $spot-color-basic-gray-2
+
     .op-wp-single-card_checked &
       background-color: $spot-color-main-light
-  
+
   &--inline-buttons
     opacity: 0
     padding-left: 40px
     .op-icon--wrapper:not(&_selected)
       background: $spot-color-basic-white
+
+      .op-wp-single-card_selected &
+        background: $spot-color-main-light
 
     &.-show
       opacity: 1

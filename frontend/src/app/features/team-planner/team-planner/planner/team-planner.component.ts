@@ -517,8 +517,13 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     return false;
   }
 
-  showDisabledText(workPackage:WorkPackageResource):string {
-    return this.calendarDrag.workPackageDisabledExplanation(workPackage);
+  showDisabledText(workPackage:WorkPackageResource):{ text:string, orientation:'left'|'right' } {
+    const dueDate = new Date(workPackage.dueDate).setHours(0, 0, 0, 0);
+    const firstCalendarDay = this.ucCalendar.getApi().view.currentStart.setHours(0, 0, 0, 0);
+    return {
+      text: this.calendarDrag.workPackageDisabledExplanation(workPackage),
+      orientation: dueDate === firstCalendarDay ? 'right' : 'left',
+    };
   }
 
   isStatusClosed(workPackage:WorkPackageResource):boolean {
