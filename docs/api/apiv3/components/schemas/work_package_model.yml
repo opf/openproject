@@ -148,8 +148,10 @@ properties:
         items:
           allOf:
           - "$ref": "./link.yml"
-          - description: Collection of predefined changes that can be applied to the
-              work package
+          - description: |-
+              A predefined action that can be applied to the work package.
+              
+              **Resource**: CustomAction
             readOnly: true
       previewMarkup:
         allOf:
@@ -230,23 +232,21 @@ properties:
           allOf:
           - "$ref": "./link.yml"
           - description: |-
-              Array of all visible ancestors of the work package, with the root node being the first element
+              A visible ancestor work package of the current work package.
               
-              **Resource**: Collection
+              **Resource**: WorkPackage
               
               # Conditions
               
               **Permission** view work packages
             readOnly: true
       attachments:
-        type: array
-        items:
-          allOf:
-          - "$ref": "./link.yml"
-          - description: |-
-              The files attached to this work package
-              
-              **Resource**: Collection
+        allOf:
+        - "$ref": "./link.yml"
+        - description: |-
+            The files attached to this work package
+            
+            **Resource**: Collection
       author:
         allOf:
           - "$ref": "./link.yml"
@@ -299,9 +299,9 @@ properties:
           allOf:
           - "$ref": "./link.yml"
           - description: |-
-              Array of all visible children of the work package
+              A visible child work package of the current work package.
               
-              **Resource**: Collection
+              **Resource**: WorkPackage
               
               # Conditions
               
@@ -393,20 +393,17 @@ properties:
               
               **Resource**: Version
       watchers:
-        type: array
-        readOnly: true
-        items:
-          allOf:
-          - "$ref": "./link.yml"
-          - description: |-
-              All users that are currently watching this work package
-              
-              **Resource**: Collection
-              
-              # Conditions
-              
-              **Permission** view work package watchers
-            readOnly: true
+        allOf:
+        - "$ref": "./link.yml"
+        - description: |-
+            All users that are currently watching this work package
+            
+            **Resource**: Collection
+            
+            # Conditions
+            
+            **Permission** view work package watchers
+          readOnly: true
 example:
   _type: WorkPackage
   _links:

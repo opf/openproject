@@ -436,17 +436,4 @@ post:
       application/json:
         schema:
           "$ref": "../components/schemas/work_package_model.yml"
-          example:
-            _links:
-              assignee:
-                href: "/api/v3/users/8"
-              customField32:
-                href: "/api/v3/users/3"
-              project:
-                href: "/api/v3/project/42"
-              type:
-                href: "/api/v3/type/123"
-            customField41: 8
-            startDate: '2048-01-03'
-            subject: Lorem
   summary: Create Work Package

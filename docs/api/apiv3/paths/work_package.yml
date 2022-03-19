@@ -485,10 +485,4 @@ patch:
       application/json:
         schema:
           "$ref": "../components/schemas/work_package_model.yml"
-          example:
-            _links:
-              parent:
-                href: "/api/v3/work_packages/42"
-            lockVersion: 13
-            subject: Lorem
   summary: Edit Work Package
