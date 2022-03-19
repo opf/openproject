@@ -95,9 +95,9 @@ module Projects::Copy
     end
 
     def copy_relations(wp, new_wp_id, work_packages_map)
-      wp.relations_to.non_hierarchy.direct.each do |source_relation|
+      wp.relations_to.each do |source_relation|
         new_relation = Relation.new
-        new_relation.attributes = source_relation.attributes.dup.except('id', 'from_id', 'to_id', 'relation_type')
+        new_relation.attributes = source_relation.attributes.dup.except('id', 'from_id', 'to_id')
         new_relation.to_id = work_packages_map[source_relation.to_id]
         if new_relation.to_id.nil? && Setting.cross_project_work_package_relations?
           new_relation.to_id = source_relation.to_id
@@ -106,9 +106,9 @@ module Projects::Copy
         new_relation.save
       end
 
-      wp.relations_from.non_hierarchy.direct.each do |source_relation|
+      wp.relations_from.each do |source_relation|
         new_relation = Relation.new
-        new_relation.attributes = source_relation.attributes.dup.except('id', 'from_id', 'to_id', 'relation_type')
+        new_relation.attributes = source_relation.attributes.dup.except('id', 'from_id', 'to_id')
         new_relation.from_id = work_packages_map[source_relation.from_id]
         if new_relation.from_id.nil? && Setting.cross_project_work_package_relations?
           new_relation.from_id = source_relation.from_id

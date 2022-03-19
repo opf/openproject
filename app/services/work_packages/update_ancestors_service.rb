@@ -192,6 +192,7 @@ class WorkPackages::UpdateAncestorsService
   def related_for_work_package(work_package, relation_type)
     scope = work_package
             .send(relation_type)
+            .where.not(id: work_package.id)
 
     if send("#{relation_type}_joins")
       scope = scope.joins(send("#{relation_type}_joins"))

@@ -123,7 +123,7 @@ class WorkPackages::UpdateService < ::BaseServices::BaseCallable
   def delete_relations(work_packages)
     unless Setting.cross_project_work_package_relations?
       Relation
-        .non_hierarchy_of_work_package(work_packages)
+        .of_work_package(work_packages)
         .destroy_all
     end
   end
@@ -141,23 +141,39 @@ class WorkPackages::UpdateService < ::BaseServices::BaseCallable
   def reschedule_related
     result = ServiceResult.new(success: true, result: work_package)
 
-    if work_package.parent_id_changed?
-      # HACK: we need to persist the parent relation before rescheduling the parent
-      # and the former parent
-      work_package.send(:update_parent_relation)
+    with_temporarily_persisted_parent_changes do
+      if work_package.parent_id_changed? && work_package.parent_id_was
+        result.merge!(reschedule_former_siblings)
+      end
 
-      result.merge!(reschedule_former_parent) if work_package.parent_id_was
+      result.merge!(reschedule(work_package))
     end
-
-    result.merge!(reschedule(work_package))
 
     result
   end
 
-  def reschedule_former_parent
-    former_siblings = WorkPackage.includes(:parent_relation).where(relations: { from_id: work_package.parent_id_was })
+  def with_temporarily_persisted_parent_changes
+    # Explicitly using requires_new: true since we are already within a transaction.
+    # Because of that, raising ActiveRecord::Rollback would have no effect:
+    # https://www.bigbinary.com/learn-rubyonrails-book/activerecord-transactions-in-depth#nested-transactions
+    WorkPackage.transaction(requires_new: true) do
+      if work_package.parent_id_changed?
+        # HACK: we need to persist the parent relation before rescheduling the parent
+        # and the former parent since we rely on the database for scheduling.
+        WorkPackage.where(id: work_package.id).update_all(parent_id: work_package.parent_id)
+        work_package.rebuild! # using the ClosureTree#rebuild! method to update the transitive hierarchy information
+      end
 
-    reschedule(former_siblings)
+      yield
+
+      # Always rolling back the changes we made in here
+      raise ActiveRecord::Rollback
+    end
+  end
+
+  # Rescheduling the former siblings will lead to the whole former tree being rescheduled.
+  def reschedule_former_siblings
+    reschedule(WorkPackage.where(parent_id: work_package.parent_id_was))
   end
 
   def reschedule(work_packages)
@@ -181,9 +197,7 @@ class WorkPackages::UpdateService < ::BaseServices::BaseCallable
       master = instances.pop
 
       instances.each do |instance|
-        master.attributes = instance.changes.map do |attribute, values|
-          [attribute, values.last]
-        end.to_h
+        master.attributes = instance.changes.transform_values(&:last)
       end
 
       a + [master]

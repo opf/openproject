@@ -45,7 +45,7 @@ describe WorkPackages::DeleteService do
   subject { instance.call }
 
   before do
-    expect(work_package)
+    allow(work_package)
       .to receive(:reload)
       .and_return(work_package)
 

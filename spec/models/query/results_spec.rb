@@ -453,7 +453,7 @@ describe ::Query::Results, type: :model, with_mail: false do
       before do
         login_as(user_1)
 
-        wp_p1[1].precedes << wp_p1[0]
+        create(:follows_relation, to: wp_p1[1], from: wp_p1[0])
 
         query.add_filter('precedes', '=', [wp_p1[0].id.to_s])
 

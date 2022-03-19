@@ -36,7 +36,6 @@ describe Relation, type: :model do
   describe 'all relation types' do
     Relation::TYPES.each do |key, type_hash|
       let(:type) { key }
-      let(:column_name) { type_hash[:sym] }
       let(:reversed) { type_hash[:reverse] }
 
       before do
@@ -50,86 +49,15 @@ describe Relation, type: :model do
           expect(relation.relation_type).to eq(reversed)
         end
       end
-
-      it "sets the correct column for '#{key}' to 1" do
-        expect(relation.send(column_name))
-          .to eql 1
-      end
     end
   end
 
-  describe '#relation_type' do
-    Relation::TYPES.each do |key, type_hash|
-      let(:column_name) { type_hash[:sym] }
-      let(:type) { key }
-      let(:reversed) { type_hash[:reverse] }
-      let(:relation) do
-        build_stubbed(:relation,
-                      relation_type: nil,
-                      column_name => column_count)
-      end
-
-      context 'with the column set to 1' do
-        let(:column_count) { 1 }
-
-        it 'deduces the name from the column' do
-          if reversed.nil?
-            expect(relation.relation_type).to eq(type)
-          else
-            expect(relation.relation_type).to eq(reversed)
-          end
-        end
-      end
-
-      context 'with the column set to 2' do
-        let(:column_count) { 2 }
-
-        it 'deduces the name from the column' do
-          if reversed.nil?
-            expect(relation.relation_type).to eq(type)
-          else
-            expect(relation.relation_type).to eq(reversed)
-          end
-        end
-      end
-
-      context 'with the column set to 1 and another column also set to 1' do
-        let(:column_count) { 1 }
-        let(:other_column) do
-          if type == Relation::TYPE_RELATES
-            Relation::TYPE_DUPLICATES
-          else
-            Relation::TYPE_RELATES
-          end
-        end
-        let(:relation) do
-          build_stubbed(:relation,
-                        relation_type: nil,
-                        column_name => 1,
-                        other_column => 1)
-        end
-
-        it 'is "mixed"' do
-          expect(relation.relation_type)
-            .to eql 'mixed'
-        end
-      end
-    end
-  end
-
-  describe '#relation_type=' do
+  describe '#relation_type= / #relation_type' do
     let(:type) { Relation::TYPE_RELATES }
 
-    it 'updates the column value' do
-      relation.save!
-      expect(relation.relates).to eq 1
-
-      relation.relation_type = 'duplicates'
-      relation.save!
-      expect(relation.relation_type).to eq('duplicates')
-
-      expect(relation.relates).to eq 0
-      expect(relation.duplicates).to eq 1
+    it 'sets the type' do
+      relation.relation_type = Relation::TYPE_BLOCKS
+      expect(relation.relation_type).to eq(Relation::TYPE_BLOCKS)
     end
   end
 
@@ -171,41 +99,32 @@ describe Relation, type: :model do
     end
   end
 
-  describe 'it should validate circular dependency' do
-    let(:otherwp) { create(:work_package) }
-    let(:relation) do
-      build(:relation, from: from, to: to, relation_type: Relation::TYPE_PRECEDES)
-    end
-    let(:relation2) do
-      build(:relation, from: to, to: otherwp, relation_type: Relation::TYPE_PRECEDES)
+  describe '#follows?' do
+    context 'for a follows relation' do
+      let(:type) { Relation::TYPE_FOLLOWS }
+
+      it 'is truthy' do
+        expect(relation)
+          .to be_follows
+      end
     end
 
-    let(:invalid_precedes_relation) do
-      build(:relation, from: otherwp, to: from, relation_type: Relation::TYPE_PRECEDES)
+    context 'for a precedes relation' do
+      let(:type) { Relation::TYPE_PRECEDES }
+
+      it 'is truthy' do
+        expect(relation)
+          .to be_follows
+      end
     end
 
-    let(:invalid_follows_relation) do
-      build(:relation, from: from, to: otherwp, relation_type: Relation::TYPE_FOLLOWS)
-    end
+    context 'for a blocks relation' do
+      let(:type) { Relation::TYPE_BLOCKS }
 
-    it 'prevents invalid precedes relations' do
-      expect(relation.save).to eq(true)
-      expect(relation2.save).to eq(true)
-      from.reload
-      to.reload
-      otherwp.reload
-      expect(invalid_precedes_relation.save).to eq(false)
-      expect(invalid_precedes_relation.errors[:base]).not_to be_empty
-    end
-
-    it 'prevents invalid follows relations' do
-      expect(relation.save).to eq(true)
-      expect(relation2.save).to eq(true)
-      from.reload
-      to.reload
-      otherwp.reload
-      expect(invalid_follows_relation.save).to eq(false)
-      expect(invalid_follows_relation.errors[:base]).not_to be_empty
+      it 'is falsey' do
+        expect(relation)
+          .not_to be_follows
+      end
     end
   end
 end

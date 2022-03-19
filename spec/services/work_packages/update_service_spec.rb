@@ -197,31 +197,37 @@ describe WorkPackages::UpdateService, type: :model do
       it_behaves_like 'service call'
 
       context 'relations' do
+        let!(:scope) do
+          instance_double('ActiveRecord::Relations').tap do |relations|
+            allow(Relation)
+              .to receive(:of_work_package)
+                    .with([work_package])
+                    .and_return(relations)
+            allow(relations)
+              .to receive(:destroy_all)
+          end
+        end
+
         it 'removes the relations if the setting does not permit cross project relations' do
           allow(Setting)
             .to receive(:cross_project_work_package_relations?)
             .and_return false
-          relations = double('relations')
-          expect(Relation)
-            .to receive(:non_hierarchy_of_work_package)
-            .with([work_package])
-            .and_return(relations)
-          expect(relations)
-            .to receive(:destroy_all)
 
           instance.call(project: target_project)
+
+          expect(scope)
+            .to have_received(:destroy_all)
         end
 
         it 'leaves the relations unchanged if the setting allows cross project relations' do
           allow(Setting)
             .to receive(:cross_project_work_package_relations?)
-            .and_return true
-          expect(work_package)
-            .to_not receive(:relations_from)
-          expect(work_package)
-            .to_not receive(:relations_to)
+                  .and_return true
 
           instance.call(project: target_project)
+
+          expect(scope)
+            .not_to have_received(:destroy_all)
         end
       end
 

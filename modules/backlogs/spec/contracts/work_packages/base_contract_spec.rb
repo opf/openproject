@@ -137,10 +137,28 @@ describe WorkPackages::BaseContract, type: :model do
                   priority: issue_priority)
   end
 
+  let(:relatable_scope) do
+    scope = instance_double('ActiveRecord::Relation')
+
+    allow(scope)
+      .to receive(:where)
+            .and_return(scope)
+
+    allow(scope)
+      .to receive(:empty?)
+            .and_return(false)
+
+    scope
+  end
+
   subject(:valid) { instance.validate }
 
-  before(:each) do
+  before do
     project.save!
+
+    allow(WorkPackage)
+      .to receive(:relatable)
+            .and_return(relatable_scope)
 
     allow(Setting).to receive(:plugin_openproject_backlogs).and_return({ 'points_burn_direction' => 'down',
                                                                          'wiki_template' => '',

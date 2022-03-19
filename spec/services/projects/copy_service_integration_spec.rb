@@ -232,7 +232,7 @@ describe Projects::CopyService, 'integration', type: :model do
 
       let(:only_args) { %w[work_packages] }
 
-      it 'should the relations relations' do
+      it 'copies relations' do
         expect(subject).to be_success
 
         expect(source.work_packages.count).to eq(project_copy.work_packages.count)
@@ -241,14 +241,14 @@ describe Projects::CopyService, 'integration', type: :model do
 
         # First issue with a relation on project
         # copied relation + reflexive relation
-        expect(copied_wp.relations.direct.count).to eq 2
-        relates_relation = copied_wp.relations.direct.find { |r| r.relation_type == 'relates' }
+        expect(copied_wp.relations.count).to eq 2
+        relates_relation = copied_wp.relations.find { |r| r.relation_type == 'relates' }
         expect(relates_relation.from_id).to eq copied_wp.id
         expect(relates_relation.to_id).to eq copied_wp_2.id
 
         # Second issue with a cross project relation
         # copied relation + reflexive relation
-        duplicates_relation = copied_wp.relations.direct.find { |r| r.relation_type == 'duplicates' }
+        duplicates_relation = copied_wp.relations.find { |r| r.relation_type == 'duplicates' }
         expect(duplicates_relation.from_id).to eq copied_wp.id
         expect(duplicates_relation.to_id).to eq other_wp.id
       end

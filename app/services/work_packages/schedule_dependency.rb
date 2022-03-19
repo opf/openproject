@@ -59,10 +59,6 @@ class WorkPackages::ScheduleDependency
   private
 
   def build_dependencies
-    load_all_following(work_packages)
-  end
-
-  def load_all_following(work_packages)
     following = load_following(work_packages)
 
     # Those variables are pure optimizations.
@@ -79,8 +75,24 @@ class WorkPackages::ScheduleDependency
   def load_following(work_packages)
     WorkPackage
       .for_scheduling(work_packages)
-      .includes(parent_relation: :from,
+      .includes(:parent,
                 follows_relations: :to)
+  end
+
+  def add_dependencies(dependent_work_packages)
+    added = dependent_work_packages.inject({}) do |new_dependencies, dependent_work_package|
+      dependency = Dependency.new dependent_work_package, self
+
+      new_dependencies[dependent_work_package] = dependency
+
+      new_dependencies
+    end
+
+    moved = find_moved(added)
+
+    moved.except(*dependencies.keys)
+
+    dependencies.merge!(moved)
   end
 
   def find_moved(candidates)
@@ -98,22 +110,6 @@ class WorkPackages::ScheduleDependency
     dependencies.slice(*tos).any? ||
       candidates.slice(*tos).any? ||
       (tos & work_packages).any?
-  end
-
-  def add_dependencies(dependent_work_packages)
-    added = dependent_work_packages.inject({}) do |new_dependencies, dependent_work_package|
-      dependency = Dependency.new dependent_work_package, self
-
-      new_dependencies[dependent_work_package] = dependency
-
-      new_dependencies
-    end
-
-    moved = find_moved(added)
-
-    moved.except(*dependencies.keys)
-
-    dependencies.merge!(moved)
   end
 
   def each_while_unhandled

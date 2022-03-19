@@ -28,6 +28,7 @@
 
 require 'spec_helper'
 
+# rubocop:disable RSpec/MultipleMemoizedHelpers
 describe WorkPackages::Scopes::ForScheduling, 'allowed scope' do
   let(:project) { create(:project) }
   let(:origin) { create(:work_package, project: project) }
@@ -38,12 +39,12 @@ describe WorkPackages::Scopes::ForScheduling, 'allowed scope' do
   end
   let(:parent) do
     create(:work_package, project: project).tap do |par|
-      create(:hierarchy_relation, from: par, to: origin)
+      origin.update(parent: par)
     end
   end
   let(:grandparent) do
     create(:work_package, project: project).tap do |grand|
-      create(:hierarchy_relation, from: grand, to: parent)
+      parent.update(parent: grand)
     end
   end
   let(:successor) do
@@ -58,18 +59,17 @@ describe WorkPackages::Scopes::ForScheduling, 'allowed scope' do
   end
   let(:successor_parent) do
     create(:work_package, project: project).tap do |par|
-      create(:hierarchy_relation, from: par, to: successor)
+      successor.update(parent: par)
     end
   end
   let(:successor_child) do
-    create(:work_package, project: project).tap do |chi|
-      create(:hierarchy_relation, from: successor, to: chi)
-    end
+    create(:work_package, project: project, parent: successor)
+  end
+  let(:successor_grandchild) do
+    create(:work_package, project: project, parent: successor_child)
   end
   let(:successor_child2) do
-    create(:work_package, project: project).tap do |chi|
-      create(:hierarchy_relation, from: successor, to: chi)
-    end
+    create(:work_package, project: project, parent: successor)
   end
   let(:successor_successor) do
     create(:work_package, project: project).tap do |suc|
@@ -83,13 +83,11 @@ describe WorkPackages::Scopes::ForScheduling, 'allowed scope' do
   end
   let(:parent_successor_parent) do
     create(:work_package, project: project).tap do |par|
-      create(:hierarchy_relation, from: par, to: parent_successor)
+      parent_successor.update(parent: par)
     end
   end
   let(:parent_successor_child) do
-    create(:work_package, project: project).tap do |chi|
-      create(:hierarchy_relation, from: parent_successor, to: chi)
-    end
+    create(:work_package, project: project, parent: parent_successor)
   end
   let(:blocker) do
     create(:work_package, project: project).tap do |blo|
@@ -211,7 +209,7 @@ describe WorkPackages::Scopes::ForScheduling, 'allowed scope' do
       let!(:existing_work_packages) { [successor, successor_child, successor_parent, successor_successor] }
 
       before do
-        create(:hierarchy_relation, from: successor_parent, to: successor_successor)
+        successor_successor.update(parent: successor_parent)
       end
 
       context 'with all scheduled automatically' do
@@ -421,5 +419,90 @@ describe WorkPackages::Scopes::ForScheduling, 'allowed scope' do
         end
       end
     end
+
+    context 'for a work package with a successor that has a child and grandchild' do
+      let!(:existing_work_packages) { [successor, successor_child, successor_grandchild] }
+
+      context 'with all scheduled automatically' do
+        it 'consists of both successors' do
+          expect(WorkPackage.for_scheduling([origin]))
+            .to match_array([successor, successor_child, successor_grandchild])
+        end
+      end
+
+      context 'with the successor\'s child scheduled manually' do
+        before do
+          successor_child.update_column(:schedule_manually, true)
+        end
+
+        it 'contains the successor' do
+          expect(WorkPackage.for_scheduling([origin]))
+            .to match_array [successor]
+        end
+      end
+    end
+
+    context 'for a work package with a successor that has a child and two grandchildren' do
+      let(:successor_grandchild2) do
+        create(:work_package, project: project, parent: successor_child)
+      end
+
+      let!(:existing_work_packages) { [successor, successor_child, successor_grandchild, successor_grandchild2] }
+
+      context 'with all scheduled automatically' do
+        it 'consists of the successor with its descendants' do
+          expect(WorkPackage.for_scheduling([origin]))
+            .to match_array([successor, successor_child, successor_grandchild, successor_grandchild2])
+        end
+      end
+
+      context 'with one of the successor\'s grandchildren scheduled manually' do
+        before do
+          successor_grandchild.update_column(:schedule_manually, true)
+        end
+
+        it 'contains the successor and the non automatically scheduled descendants' do
+          expect(WorkPackage.for_scheduling([origin]))
+            .to match_array([successor, successor_child, successor_grandchild2])
+        end
+      end
+
+      context 'with both of the successor\'s grandchildren scheduled manually' do
+        before do
+          successor_grandchild.update_column(:schedule_manually, true)
+          successor_grandchild2.update_column(:schedule_manually, true)
+        end
+
+        it 'includes successor' do
+          expect(WorkPackage.for_scheduling([origin]))
+            .to match_array([successor])
+        end
+      end
+
+      context 'with both of the successor\'s grandchildren and child scheduled manually' do
+        before do
+          successor_child.update_column(:schedule_manually, true)
+          successor_grandchild.update_column(:schedule_manually, true)
+          successor_grandchild2.update_column(:schedule_manually, true)
+        end
+
+        it 'is empty' do
+          expect(WorkPackage.for_scheduling([origin]))
+            .to be_empty
+        end
+      end
+
+      context 'with the successor\'s child scheduled manually' do
+        before do
+          successor_child.update_column(:schedule_manually, true)
+        end
+
+        it 'contains the successor' do
+          expect(WorkPackage.for_scheduling([origin]))
+            .to match_array [successor]
+        end
+      end
+    end
   end
 end
+# rubocop:enable RSpec/MultipleMemoizedHelpers

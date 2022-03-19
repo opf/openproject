@@ -1123,9 +1123,15 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
 
         before do
+          scope = instance_double('ActiveRecord::Relation')
+
           allow(work_package)
-            .to receive_message_chain(:visible_relations, :direct, :non_hierarchy, :includes)
-            .and_return([relation])
+            .to receive(:visible_relations)
+                  .with(current_user)
+                  .and_return(scope)
+          allow(scope)
+            .to receive(:includes)
+                  .and_return([relation])
         end
 
         it 'embeds a collection' do
