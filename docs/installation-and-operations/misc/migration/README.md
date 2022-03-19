@@ -62,7 +62,7 @@ First the dump has to be extracted (unzipped) and then restored. The command use
 
 ```
 # Restore the PostgreSQL dump
-pg_restore -h <dbhost> -u <dbuser> -W <dbname> --clean postgresql-dump-20180408095521.pgdump
+pg_restore -h <dbhost> -u <dbuser> -W --dbname <dbname> --clean postgresql-dump-20180408095521.pgdump
 ```
 
 

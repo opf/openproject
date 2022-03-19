@@ -1,4 +1,5 @@
 @import 'helpers'
+@import '../../app/spot/styles/sass/variables'
 
 .op-wp-single-card
   display: flex
@@ -14,25 +15,32 @@
   font-size: var(--card-font-size)
 
   &:hover
-    box-shadow: 0px 0px 10px lightgrey
-
-    .op-wp-single-card--content-project-name_hideable
-      opacity: 0.25
     .op-wp-single-card--inline-buttons
       opacity: 1
-      z-index: 1
+      z-index: 2
+      background-image: linear-gradient(to left, rgba($spot-color-basic-white,1), rgba($spot-color-basic-white,0))
 
   &_new
     padding-right: 25px
 
-  &_checked
-    background-color: var(--table-row-highlighting-color)
+  &_selected
+    background-color: $spot-color-main-light
+    .op-icon--wrapper
+      background: $spot-color-main-light
+    &:hover
+      .op-wp-single-card--inline-buttons
+        background-image: linear-gradient(to left, rgba($spot-color-main-light,1), rgba($spot-color-main-light,0))
 
   &_disabled
     opacity: 0.6
 
-  &_closed:not(&_checked)
-    background-color: #F3F3F3
+  &_closed:not(&_selected)
+    background-color: $spot-color-basic-gray-6
+    .op-icon--wrapper
+      background: $spot-color-basic-gray-6
+    &:hover
+      .op-wp-single-card--inline-buttons
+        background-image: linear-gradient(to left, rgba($spot-color-basic-gray-6,1), rgba($spot-color-basic-gray-6,0))
 
   &_horizontal
     height: 100%
@@ -77,7 +85,7 @@
     &-project-name
       grid-area: project
       font-style: italic
-      color: var(--gray-dark)
+      color: $spot-color-basic-gray-3
       font-size: 12px
       @include text-shortener
     &-type
@@ -89,11 +97,11 @@
     &-assignee
       grid-area: avatar
       max-width: 140px
-      color: var(--gray-dark)
+      color: $spot-color-basic-gray-3
       font-size: 12px
     &-id
       grid-area: id
-      color: var(--gray-dark)
+      color: $spot-color-basic-gray-3
       font-size: 12px
     &-status
       grid-area: status
@@ -112,12 +120,12 @@
       grid-area: dates
       place-self: center end
       white-space: nowrap
-      color: var(--gray-dark)
+      color: $spot-color-basic-gray-3
       font-size: 12px
 
     &-inline-date
       font-size: 12px
-      color: var(--gray-dark)
+      color: $spot-color-basic-gray-3
       margin: 0 8px
       white-space: nowrap
 
@@ -136,21 +144,22 @@
     right: 0
 
   &--card-action
-    background: white
     z-index: 2
 
     .op-wp-single-card_checked &
-      background-color: var(--table-row-highlighting-color)
-
+      background-color: $spot-color-main-light
+  
   &--inline-buttons
     opacity: 0
-    background: white
+    padding-left: 40px
+    .op-icon--wrapper:not(&_selected)
+      background: $spot-color-basic-white
 
     &.-show
       opacity: 1
 
     .op-wp-single-card_checked &
-      background-color: var(--table-row-highlighting-color)
+      background-color: $spot-color-main-light
 
   &--inline-cancel-button
     color: var(--warn)

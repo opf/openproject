@@ -58,7 +58,7 @@ describe 'Cost report showing my own times', type: :feature, js: true do
       expect(page).to have_no_selector('.report', text: '10.00')
       expect(page).to have_selector('.report', text: '15.00')
 
-      expect(find("##{filter_selector}").value).to eq 'me'
+      expect(page).to have_field(filter_selector, text: 'me')
     end
   end
 

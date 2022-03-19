@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -117,7 +115,8 @@ describe 'Team planner query handling', type: :feature, js: true do
 
   it 'shows only team planner queries' do
     # Go to team planner where no query is shown, only the create option
-    query_menu.expect_menu_entry 'Create new planner'
+    query_menu.expect_no_menu_entry
+    expect(page).to have_selector('[data-qa-selector="team-planner--create-button"]')
 
     # Change filter
     filters.open

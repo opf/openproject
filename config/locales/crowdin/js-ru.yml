@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -24,9 +24,10 @@ ru:
     ajax:
       hide: "Скрыть"
       loading: "Загрузка ..."
+      updating: "Обновление ..."
     attachments:
       draggable_hint: |
-        Для встраивания изображения или ссылки перетащите их в поле редактора. Закрытые поля редактора будут открыты, пока вы перетаскиваете.
+        Перетащите в поле редактора для вставки изображения или прикрепления ссылки. Закрытые поля будут открыты в течение перетаскивания.
     autocomplete_select:
       placeholder:
         multi: "Добавить \"%{name}\""
@@ -36,10 +37,10 @@ ru:
     backup:
       attachments_disabled: Вложения не могут быть включены, так как их общий размер превышает максимально разрешенный. Вы можете изменить это ограничение в конфигурации (потребуется перезапуск сервера).
       info: >
-        Здесь вы можете запустить резервное копирование. Процесс может занять некоторое время в зависимости от объема данных (особенно вложений). Как только копия будет готова, вы получите письмо.
+        Здесь вы можете запустить резервное копирование. Продолжительность процесса зависит от объема данных (особенно вложений). О завершении процесса вам будет сообщено письмом.
       note: >
         Новая резервная копия создается поверх предыдущий. Число создаваемых резервных копий в день ограничено.
-      last_backup: Последняя резервная копия
+      last_backup: Последняя резервное копирование
       last_backup_from: Последняя резервная копия от
       title: Резервное копирование OpenProject
       options: Параметры
@@ -52,7 +53,7 @@ ru:
     button_add_watcher: "Добавить наблюдателя"
     button_add: "Добавить"
     button_back: "Назад"
-    button_back_to_list_view: "Вернуться к просмотру списка"
+    button_back_to_list_view: "Назад к списку"
     button_cancel: "Отмена"
     button_close: "Закрыть"
     button_change_project: "Изменить проект"
@@ -61,7 +62,7 @@ ru:
     button_confirm: "Подтвердить"
     button_continue: "Продолжить"
     button_copy: "Копировать"
-    button_copy_to_other_project: "Copy to other project"
+    button_copy_to_other_project: "Копировать в другой проект"
     button_custom-fields: "Настраиваемые поля"
     button_delete: "Удалить"
     button_delete_watcher: "Удалить наблюдателя"
@@ -74,7 +75,7 @@ ru:
     button_advanced_filter: "Расширенный фильтр"
     button_list_view: "В виде списка"
     button_show_view: "Полноэкранный просмотр"
-    button_log_time: "Время записи"
+    button_log_time: "Журналировать время"
     button_more: "Ещё"
     button_open_details: "Открыть детальный просмотр"
     button_close_details: "Закрыть детальный просмотр"
@@ -85,7 +86,7 @@ ru:
     button_save: "Сохранить"
     button_settings: "Настройки"
     button_uncheck_all: "Снять все отметки"
-    button_update: "Обновить"
+    button_update: "Обновление"
     button_export-pdf: "Скачать PDF"
     button_export-atom: "Скачать Atom"
     button_create: "Создать"
@@ -104,8 +105,8 @@ ru:
       axis_criteria: 'Критерии осей'
       modal_title: 'Настройки диаграммы пакетов работ'
       types:
-        line: 'Линия'
-        horizontal_bar: 'Горизонтальная полоса'
+        line: 'Строка'
+        horizontal_bar: 'Полосовая'
         bar: 'Столбец'
         pie: 'Круговая'
         doughnut: 'Кольцевая'
@@ -113,7 +114,7 @@ ru:
         polar_area: 'Круговая полярная'
       tabs:
         graph_settings: 'Общие'
-        dataset: 'Набор данных %{number}'
+        dataset: 'Набор %{number}'
       errors:
         could_not_load: 'Данные для отображения диаграммы не могут быть загружены. Могут отсутствовать необходимые разрешения.'
     description_available_columns: "Доступные столбцы"
@@ -250,6 +251,7 @@ ru:
     enumeration_doc_categories: "Категории документов"
     enumeration_work_package_priorities: "Приоритеты пакета работ"
     filter:
+      more_values_not_shown: "Есть еще %{total} результатов для фильтрации."
       description:
         text_open_filter: "Откройте этот фильтр клавишей 'ALT' и клавишами со стрелками."
         text_close_filter: "Для выбора элемента установите на нем фокус и нажмите Enter. Для очистки фильтра выберите первую (пустого) запись."
@@ -365,7 +367,7 @@ ru:
     label_information_plural: "Информация"
     label_import: "Импорт"
     label_latest_activity: "Последние действия"
-    label_last_updated_on: "Последнее обновление"
+    label_last_updated_on: "Последний раз обновлено"
     label_learn_more_link: "Узнать больше"
     label_less_or_equal: "<="
     label_less_than_ago: "менее нескольких дней назад"
@@ -451,7 +453,6 @@ ru:
     label_starred_queries: "Избранные представления"
     label_global_queries: "Публичные представления"
     label_custom_queries: "Приватные представления"
-    label_create_new_query: "Создать новый"
     label_columns: "Столбцы"
     label_attachments: Файлы
     label_drop_files: Перетащите файлы сюда
@@ -684,7 +685,7 @@ ru:
       partof: "Часть"
       requires: "Требуется"
       required: "Требуется для"
-      relation_type: "тип отношения"
+      relation_type: "тип связи"
     relations_hierarchy:
       parent_headline: "Родитель"
       hierarchy_headline: "Иерархия"
@@ -693,7 +694,7 @@ ru:
       set_parent: "Установить родителя"
       change_parent: "Изменить родителя"
       remove_parent: "Удалить родителя"
-      hierarchy_indent: "Иерархия с отступом"
+      hierarchy_indent: "Иерархия отступов"
       hierarchy_outdent: "Иерархия с выступом"
       group_by_wp_type: "Группировать по типу пакета работ"
       group_by_relation_type: "Группировать по типу связи"
@@ -715,7 +716,7 @@ ru:
       abort: "Прервать"
     relations_autocomplete:
       placeholder: "Введите для поиска"
-      parent_placeholder: "Выберите нового родителя или нажмите кнопку \"Отменить\"."
+      parent_placeholder: "Выберите нового родителя или нажмите escape, чтобы отменить."
     autocompleter:
       placeholder: "Введите для поиска"
       notFoundText: "Элементов не найдено"
@@ -808,7 +809,7 @@ ru:
       deleted: "﻿Удалено"
       code: "Встроенный код"
       heading1: "Заголовок 1"
-      heading2: "Заголовок 2"
+      heading2: "Заголовок 1"
       heading3: "Заголовок 3"
       unordered_list: "Неупорядоченный список"
       ordered_list: "Упорядоченный список"
@@ -1048,7 +1049,7 @@ ru:
       button_save: "%{attribute}: Сохранить"
       button_cancel: "%{attribute}: Отменить"
       button_save_all: "Сохранить"
-      button_cancel_all: "Отменить"
+      button_cancel_all: "Отмена"
       link_formatting_help: "Справка по форматированию текста"
       btn_preview_enable: "Предпросмотр"
       btn_preview_disable: "Отключить предпросмотр"
@@ -1073,8 +1074,8 @@ ru:
       child_work_packages:
         one: "пакет работ с одним дочерним"
         few: "пакетов работ с %{count} дочерними"
-        many: "пакетов работ с %{count} дочерними"
-        other: "пакетов работ с %{count} дочерними"
+        many: "пакет работ с %{count} дочерними"
+        other: "пакет работ с %{count} дочерними"
       hour:
         one: "1 ч"
         other: "%{count} ч"
@@ -1161,8 +1162,22 @@ ru:
           placeholder: 'Теперь плейсхолдер может быть использован в %{project}. Тем временем вы уже можете планировать с этим пользователем и назначать рабочие пакеты.'
           group: 'Теперь группа является частью %{project}. Тем временем вы уже можете спланировать работу с этой группой и назначить пакеты работ.'
         next_button: 'Продолжить'
+    include_projects:
+      toggle_title: 'Включить проекты'
+      title: 'Проекты'
+      clear_selection: 'Отменить выделение'
+      apply: 'Применить'
+      selected_filter:
+        all: 'Все проекты'
+        selected: 'Только выбранные'
+      search_placeholder: 'Поиск проекта...'
     forms:
       submit_success_message: 'Форма успешно отправлена'
       load_error_message: 'Произошла ошибка при загрузке формы'
       validation_error_message: 'Пожалуйста, исправьте ошибки в форме'
       advanced_settings: 'Расширенные настройки'
+    spot:
+      filter_chip:
+        remove: 'Удалить'
+      drop_modal:
+        Close: 'Закрыть'

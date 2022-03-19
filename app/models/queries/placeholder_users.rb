@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -29,24 +27,14 @@
 #++
 
 module Queries::PlaceholderUsers
-  Queries::Register.filter Queries::PlaceholderUsers::PlaceholderUserQuery,
-                           Queries::PlaceholderUsers::Filters::NameFilter
+  ::Queries::Register.register(PlaceholderUserQuery) do
+    filter Filters::NameFilter
+    filter Filters::AnyNameAttributeFilter
+    filter Filters::GroupFilter
+    filter Filters::StatusFilter
 
-  Queries::Register.filter Queries::PlaceholderUsers::PlaceholderUserQuery,
-                           Queries::PlaceholderUsers::Filters::AnyNameAttributeFilter
-
-  Queries::Register.filter Queries::PlaceholderUsers::PlaceholderUserQuery,
-                           Queries::PlaceholderUsers::Filters::GroupFilter
-
-  Queries::Register.filter Queries::PlaceholderUsers::PlaceholderUserQuery,
-                           Queries::PlaceholderUsers::Filters::StatusFilter
-
-  Queries::Register.order Queries::PlaceholderUsers::PlaceholderUserQuery,
-                          Queries::PlaceholderUsers::Orders::DefaultOrder
-
-  Queries::Register.order Queries::PlaceholderUsers::PlaceholderUserQuery,
-                          Queries::PlaceholderUsers::Orders::NameOrder
-
-  Queries::Register.order Queries::PlaceholderUsers::PlaceholderUserQuery,
-                          Queries::PlaceholderUsers::Orders::GroupOrder
+    order Orders::DefaultOrder
+    order Orders::NameOrder
+    order Orders::GroupOrder
+  end
 end

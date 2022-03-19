@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -472,7 +472,6 @@ ro:
       repository:
         url: "URL"
       role:
-        assignable: "Pachetele de lucru pot fi atribuite utilizatorilor și grupurilor care dețin acest rol în proiectul respectiv"
         permissions: "Drepturi"
       time_entry:
         activity: "Activitate"
@@ -897,6 +896,7 @@ ro:
     version: "Versiune"
     work_package: "Pachet de lucru"
   backup:
+    failed: "Backup failed"
     label_backup_token: "Token backup"
     label_create_token: "Creează token backup"
     label_delete_token: "Șterge token backup"
@@ -2006,7 +2006,7 @@ ro:
   mail_body_backup_waiting_period: Noul token va fi activat în %{hours} ore.
   mail_body_backup_token_warning: Dacă nu ați fost dvs., conectați-vă la OpenProject imediat și resetați-l din nou.
   mail_body_lost_password: "Pentru a vă modifica parola, dați click pe următorul link:"
-  mail_body_register: "Bine ați venit la OpenProject. Vă rugăm să vă activați contul făcând clic pe acest link:"
+  mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "E-mail de invitație pentru membrii proiectului"
   mail_body_register_user: "Dragă %{name},"
   mail_body_register_links_html: |
@@ -2149,7 +2149,7 @@ ro:
     heading_getting_started: "Obțineți o prezentare generală"
     text_getting_started_description: "Obțineți o viziune de ansamblu asupra administrării unui proiect și a activității echipelor folosind OpenProject."
     text_show_again: "Poate reporni acest videoclip din meniul de ajutor"
-    welcome: "Bine ați venit la OpenProject"
+    welcome: "Welcome to %{app_title}"
     select_language: "Vă rugăm să selectați limba dvs"
   permission_add_work_package_notes: "Adăugare note"
   permission_add_work_packages: "Adăugare pachete de lucru"
@@ -2218,6 +2218,8 @@ ro:
   permission_view_timelines: "Vizualizare linii de timp"
   permission_view_wiki_edits: "Vizualizare istoric wiki"
   permission_view_wiki_pages: "Vizualizare wiki"
+  permission_work_package_assigned: "Become assignee/responsible"
+  permission_work_package_assigned_explanation: "Pachetele de lucru pot fi atribuite utilizatorilor și grupurilor care dețin acest rol în proiectul respectiv"
   placeholders:
     default: "-"
   project:
@@ -2939,8 +2941,11 @@ ro:
     errors:
       messages:
         #Common error messages
-        invalid_request: 'În cerere lipsește un parametru obligatoriu, include o valoare de parametru neacceptată sau este deformată în alt mod.'
-        invalid_redirect_uri: "URI-ul de redirecționare solicitat este deformat sau nu se potrivește cu URI-ul de redirecționare al clientului."
+        invalid_request:
+          unknown: 'În cerere lipsește un parametru obligatoriu, include o valoare de parametru neacceptată sau este deformată în alt mod.'
+          missing_param: 'Missing required parameter: %{value}.'
+          request_not_authorized: 'Request need to be authorized. Required parameter for authorizing request is missing or invalid.'
+        invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
         unauthorized_client: 'Clientul nu este autorizat să efectueze această cerere folosind această metodă.'
         access_denied: 'Proprietarul resursei sau serverul de autorizare a refuzat cererea.'
         invalid_scope: 'Domeniul de aplicare solicitat este invalid, necunoscut sau deformat.'
@@ -2953,6 +2958,7 @@ ro:
         admin_authenticator_not_configured: 'Accesul la panoul de administrare este interzis din cauza faptului că Doorkeeper.configure.admin_authenticator este neconfigurat.'
         #Access grant errors
         unsupported_response_type: 'Serverul de autorizare nu acceptă acest tip de răspuns.'
+        unsupported_response_mode: 'The authorization server does not support this response mode.'
         #Access token errors
         invalid_client: 'Autentificarea clientului nu a reușit din cauza nerecunoașterii clientului, nu a fost inclusă nicio autentificare client sau metoda de autentificare nu este acceptată.'
         invalid_grant: 'Autorizația de autorizare furnizată nu este valabilă, a expirat, a fost revocată, nu se potrivește cu URI-ul de redirecționare utilizat în cererea de autorizare sau a fost emisă pentru un alt client.'
@@ -2961,6 +2967,10 @@ ro:
           revoked: "Token-ul de acces a fost revocat"
           expired: "Token-ul de acces a expirat"
           unknown: "Token-ul de acces nu este valid"
+        revoke:
+          unauthorized: "You are not authorized to revoke this token."
+        forbidden_token:
+          missing_scope: 'Access to this resource requires scope "%{oauth_scopes}".'
   unsupported_browser:
     title: "Browserul dvs. este învechit și nu este acceptat."
     message: "Este posibil să întâmpinați erori și o experiență degradată pe această pagină."

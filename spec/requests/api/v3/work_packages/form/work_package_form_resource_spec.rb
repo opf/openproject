@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -404,7 +404,8 @@ describe 'API v3 Work package form resource', type: :request, with_mail: false d
                 let(:path) { "_embedded/payload/_links/#{property}/href" }
                 let(:visible_user) do
                   create(:user,
-                         member_in_project: project)
+                         member_in_project: project,
+                         member_with_permissions: [:work_package_assigned])
                 end
                 let(:user_parameter) { { _links: { property => { href: user_link } } } }
                 let(:params) { valid_params.merge(user_parameter) }
@@ -441,7 +442,7 @@ describe 'API v3 Work package form resource', type: :request, with_mail: false d
                   context 'existing group' do
                     let(:user_link) { api_v3_paths.group group.id }
                     let(:group) { create(:group) }
-                    let(:role) { create(:role) }
+                    let(:role) { create(:role, permissions: %i[work_package_assigned]) }
                     let(:group_member) do
                       create(:member,
                              principal: group,
@@ -458,11 +459,10 @@ describe 'API v3 Work package form resource', type: :request, with_mail: false d
 
                   context 'existing placeholder_user' do
                     let(:user_link) { api_v3_paths.placeholder_user placeholder_user.id }
-                    let(:role) { create(:role) }
                     let(:placeholder_user) do
                       create(:placeholder_user,
                              member_in_project: project,
-                             member_through_role: role)
+                             member_with_permissions: %i[work_package_assigned])
                     end
 
                     it_behaves_like 'valid user assignment'

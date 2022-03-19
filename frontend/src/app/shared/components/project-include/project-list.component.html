@@ -1,0 +1,31 @@
+<li
+  class="spot-list--item"
+  *ngFor="let project of projects"
+>
+  <label
+    class="spot-list--item-action op-project-list--item-action"
+    [ngClass]="{ 'spot-list--item-action_disabled': !project.found }"
+  >
+    <spot-checkbox
+      *ngFor="let checked of [isChecked(project.href)]"
+      [checked]="checked"
+      (change)="changeSelected(project.href)"
+      [disabled]="!project.found || project.href === currentProjectHref"
+      [attr.data-qa-project-include-id]="project.id"
+      [attr.data-qa-project-include-checked]="checked ? 1 : 0"
+    ></spot-checkbox>
+    <div
+      class="spot-list--item-title"
+      [opSearchHighlight]="query" 
+    >{{ project.name }}</div>
+  </label>
+
+  <ul
+    *ngIf="project.children.length"
+    op-project-list
+    [projects]="project.children"
+    [selected]="selected"
+    [query]="query"
+    (update)="updateSelected($event)"
+  ></ul>
+</li>

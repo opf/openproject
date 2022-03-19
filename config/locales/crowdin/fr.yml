@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -471,7 +471,6 @@ fr:
       repository:
         url: "URL"
       role:
-        assignable: "Des lots de travaux peuvent être assignés à des utilisateurs et des groupes possédant ce rôle dans le projet respectif"
         permissions: "Autorisations"
       time_entry:
         activity: "Activité"
@@ -892,6 +891,7 @@ fr:
     version: "Version"
     work_package: "Lot de travaux"
   backup:
+    failed: "Backup failed"
     label_backup_token: "Jeton de sauvegarde"
     label_create_token: "Créer un jeton de sauvegarde"
     label_delete_token: "Supprimer le jeton de sauvegarde"
@@ -1988,7 +1988,7 @@ fr:
   mail_body_backup_waiting_period: Le nouveau jeton sera activé dans %{hours} heures.
   mail_body_backup_token_warning: Si ce n'était pas vous, connectez-vous immédiatement à OpenProject et réinitialisez-le à nouveau.
   mail_body_lost_password: "Pour changer votre mot de passe, cliquez sur le lien suivant:"
-  mail_body_register: "Bienvenue sur OpenProject. Veuillez activer votre compte en cliquant sur ce lien :"
+  mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "E-mail d'invitation du membre du projet"
   mail_body_register_user: "Chère/cher %{name}, "
   mail_body_register_links_html: |
@@ -2131,7 +2131,7 @@ fr:
     heading_getting_started: "Avoir une vue d’ensemble"
     text_getting_started_description: "Obtenez un aperçu rapide de la gestion de projets et de la collaboration en équipe avec OpenProject."
     text_show_again: "Vous pouvez relancer cette vidéo au départ du menu d'aide"
-    welcome: "Bienvenue dans OpenProject"
+    welcome: "Welcome to %{app_title}"
     select_language: "Veuillez sélectionner votre langue"
   permission_add_work_package_notes: "Ajouter des notes"
   permission_add_work_packages: "Ajouter des lots de travaux"
@@ -2200,6 +2200,8 @@ fr:
   permission_view_timelines: "Voir les lignes du temps"
   permission_view_wiki_edits: "Voir l'historique du wiki"
   permission_view_wiki_pages: "Voir le wiki"
+  permission_work_package_assigned: "Become assignee/responsible"
+  permission_work_package_assigned_explanation: "Des lots de travaux peuvent être assignés à des utilisateurs et des groupes possédant ce rôle dans le projet respectif"
   placeholders:
     default: "-"
   project:
@@ -2918,8 +2920,11 @@ fr:
     errors:
       messages:
         #Common error messages
-        invalid_request: 'Il manque à la requête un paramètre requis, inclut une valeur de paramètre non supportée ou est malformée d''une autre manière.'
-        invalid_redirect_uri: "L'URI de redirection demandée est mal formée ou ne correspond pas à l'URI de redirection client."
+        invalid_request:
+          unknown: 'Il manque à la requête un paramètre requis, inclut une valeur de paramètre non supportée ou est malformée d''une autre manière.'
+          missing_param: 'Missing required parameter: %{value}.'
+          request_not_authorized: 'Request need to be authorized. Required parameter for authorizing request is missing or invalid.'
+        invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
         unauthorized_client: 'Le client n''est pas autorisé à effectuer cette demande en utilisant cette méthode.'
         access_denied: 'Le propriétaire de la ressource ou le serveur d''autorisation a refusé la demande.'
         invalid_scope: 'La portée demandée est invalide, inconnue ou incorrecte.'
@@ -2932,6 +2937,7 @@ fr:
         admin_authenticator_not_configured: 'L''accès au panneau d''administration est interdit en raison de l''absence de configuration de Doorkeeper.configure.admin_authenticator.'
         #Access grant errors
         unsupported_response_type: 'Le serveur d''autorisation ne supporte pas ce type de réponse.'
+        unsupported_response_mode: 'The authorization server does not support this response mode.'
         #Access token errors
         invalid_client: 'L''authentification du client a échoué en raison d''un client inconnu, d''une authentification du client non supportée ou d''une méthode d''authentification non supportée.'
         invalid_grant: 'Le droit d’autorisation fourni n’est pas valide, a expiré, est révoqué, ne correspond pas à l’URI de redirection utilisée dans la requête d’autorisation, ou a été remis à un autre client.'
@@ -2940,6 +2946,10 @@ fr:
           revoked: "Le jeton d'accès a été révoqué"
           expired: "Le jeton d'accès a expiré"
           unknown: "Le jeton d'accès est invalide"
+        revoke:
+          unauthorized: "You are not authorized to revoke this token."
+        forbidden_token:
+          missing_scope: 'Access to this resource requires scope "%{oauth_scopes}".'
   unsupported_browser:
     title: "Votre navigateur est obsolète et non pris en charge."
     message: "Vous pouvez rencontrer des erreurs et une expérience dégradée sur cette page."

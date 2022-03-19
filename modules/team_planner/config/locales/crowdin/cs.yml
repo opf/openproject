@@ -5,6 +5,8 @@ cs:
   project_module_team_planner_view: "Týmový plánovač"
   team_planner:
     label_team_planner: "Týmový plánovač"
+    label_team_planner_plural: "Team planners"
+    label_assignees: "Assignees"
     upsale:
       title: "Týmový plánovač"
       description: "Plánovač týmu vám poskytne úplný přehled o tom, na čem pracuje každý člen týmu, jeden týden najednou. Vizuálně přesuňte, roztáhněte a zmenšte pracovní balíčky, a dokonce je přetáhněte od jednoho pověřeného pracovníka k druhému. Dokonce můžete vytvořit nové pracovní balíčky nebo přidat existující balíčky, vše z plánovače týmu!"

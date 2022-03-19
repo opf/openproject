@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -137,6 +137,19 @@ describe Queries::Projects::ProjectQuery, type: :model do
       it 'returns all visible projects ordered by id asc' do
         expect(instance.order(id: :asc).results.to_sql)
           .to eql base_scope.except(:order).order(id: :asc).to_sql
+      end
+    end
+  end
+
+  context 'with an order by typeahead asc' do
+    before do
+      instance.order(typeahead: :asc)
+    end
+
+    describe '#results' do
+      it 'returns all visible projects ordered by lft asc' do
+        expect(instance.results.to_sql)
+          .to eql base_scope.except(:order).order(lft: :asc, name: :asc, id: :desc).to_sql
       end
     end
   end

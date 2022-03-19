@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -45,6 +45,7 @@ import {
 import { PrincipalLike } from './principal-types';
 import { DatasetInputs } from 'core-app/shared/components/dataset-inputs.decorator';
 import { PrincipalType } from 'core-app/shared/components/principal/principal-helper';
+import { PrincipalsResourceService } from 'core-app/core/state/principals/principals.service';
 
 export const principalSelector = 'op-principal';
 
@@ -70,16 +71,21 @@ export class OpPrincipalComponent implements OnInit {
 
   @Input() size:AvatarSize = 'default';
 
-  public constructor(readonly elementRef:ElementRef,
+  public constructor(
+    readonly elementRef:ElementRef,
     readonly PathHelper:PathHelperService,
     readonly principalRenderer:PrincipalRendererService,
+    readonly principalResourceService:PrincipalsResourceService,
     readonly I18n:I18nService,
     readonly apiV3Service:ApiV3Service,
-    readonly timezoneService:TimezoneService) {
-
-  }
+    readonly timezoneService:TimezoneService,
+  ) { }
 
   ngOnInit() {
+    if (!this.principal.name) {
+      return;
+    }
+
     this.principalRenderer.render(
       this.elementRef.nativeElement as HTMLElement,
       this.principal,

@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -24,6 +24,7 @@ vi:
     ajax:
       hide: "Ẩn"
       loading: "Đang tải..."
+      updating: "Updating ..."
     attachments:
       draggable_hint: |
         Kéo trên trường được soạn thảo để chèn ảnh hoặc file đính kèm. Trường soạn thảo đang được đóng sẽ được mở lại khi bạn kéo thả.
@@ -250,6 +251,7 @@ vi:
     enumeration_doc_categories: "Document categories"
     enumeration_work_package_priorities: "Độ ưu tiên của work package"
     filter:
+      more_values_not_shown: "There are %{total} more results, search to filter results."
       description:
         text_open_filter: "Mở bộ lọc này với 'ALT' và phím mũi tên."
         text_close_filter: "Để nhập thôi ô đang kích hoạt nội dung Vd ấn enter. Nếu không muốn lọc lựa chọn mục rỗng đầu tiên."
@@ -451,7 +453,6 @@ vi:
     label_starred_queries: "Mục xem ưa thích"
     label_global_queries: "Mục xem công khai"
     label_custom_queries: "Mục xem riêng"
-    label_create_new_query: "Create new"
     label_columns: "Cột"
     label_attachments: Tập tin
     label_drop_files: Thả các tập tin ở đây
@@ -1152,8 +1153,22 @@ vi:
           placeholder: 'The placeholder can now be used in %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
           group: 'Nhóm này hiện là một phần của %{project}. Trong khi đó, bạn có thể lên kế hoạch cho nhóm đó và chỉ định các gói làm việc cho từng trường hợp.'
         next_button: 'Tiếp tục'
+    include_projects:
+      toggle_title: 'Include Projects'
+      title: 'Các dự án'
+      clear_selection: 'Clear selection'
+      apply: 'Áp dụng'
+      selected_filter:
+        all: 'All projects'
+        selected: 'Only selected'
+      search_placeholder: 'Search project...'
     forms:
       submit_success_message: 'Form đã được gửi thành công'
       load_error_message: 'Đã có lỗi trong khi tải form'
       validation_error_message: 'Vui lòng sửa lỗi có trong mẫu'
       advanced_settings: 'Advanced settings'
+    spot:
+      filter_chip:
+        remove: 'Xoá'
+      drop_modal:
+        Close: 'Đóng'

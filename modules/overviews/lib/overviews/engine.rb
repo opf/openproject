@@ -22,7 +22,7 @@ module Overviews
       OpenProject::AccessControl.map do |ac_map|
         ac_map.project_module nil do |map|
           map.permission :manage_overview,
-                         'overviews/overviews': ['show'],
+                         { 'overviews/overviews': ['show'] },
                          public: true
         end
       end

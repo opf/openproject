@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -24,6 +24,7 @@ fi:
     ajax:
       hide: "Piilota"
       loading: "Ladataan..."
+      updating: "Updating ..."
     attachments:
       draggable_hint: |
         Drag on editor field to inline image or reference attachment. Closed editor fields will be opened while you keep dragging.
@@ -251,6 +252,7 @@ fi:
     enumeration_doc_categories: "Tiedostoluokat"
     enumeration_work_package_priorities: "Work package priorities"
     filter:
+      more_values_not_shown: "There are %{total} more results, search to filter results."
       description:
         text_open_filter: "Avaa suodatin \"Alt\"-näppäintä ja nuolinäppäimiä käyttämällä."
         text_close_filter: "To select an entry leave the focus for example by pressing enter. To leave without filter select the first (empty) entry."
@@ -452,7 +454,6 @@ fi:
     label_starred_queries: "Suosikkinäkymät"
     label_global_queries: "Julkiset näkymät"
     label_custom_queries: "Yksityiset näkymät"
-    label_create_new_query: "Create new"
     label_columns: "Sarakkeet"
     label_attachments: Tiedostot
     label_drop_files: Raahaa ja pudota tiedostoja tähän
@@ -1066,7 +1067,7 @@ fi:
     units:
       workPackage:
         one: "work package"
-        other: "work packages"
+        other: "tehtävät"
       child_work_packages:
         one: "one child work package"
         other: "%{count} work package children"
@@ -1156,8 +1157,22 @@ fi:
           placeholder: 'The placeholder can now be used in %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
           group: 'The group is now a part of %{project}. Meanwhile you can already plan with that group and assign work packages for instance.'
         next_button: 'Jatka'
+    include_projects:
+      toggle_title: 'Include Projects'
+      title: 'Projektit'
+      clear_selection: 'Clear selection'
+      apply: 'Ota käyttöön'
+      selected_filter:
+        all: 'All projects'
+        selected: 'Only selected'
+      search_placeholder: 'Search project...'
     forms:
       submit_success_message: 'The form was successfully submitted'
       load_error_message: 'There was an error loading the form'
       validation_error_message: 'Please fix the errors present in the form'
       advanced_settings: 'Lisäasetukset'
+    spot:
+      filter_chip:
+        remove: 'Poista'
+      drop_modal:
+        Close: 'Sulje'

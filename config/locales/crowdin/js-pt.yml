@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -24,6 +24,7 @@ pt:
     ajax:
       hide: "Ocultar"
       loading: "Carregando ..."
+      updating: "Updating ..."
     attachments:
       draggable_hint: |
         Arraste sobre o campo do editor para incorporar uma imagem ou anexo de referência. Campos do editor fechados serão abertos enquanto você continuar arrastando.
@@ -250,6 +251,7 @@ pt:
     enumeration_doc_categories: "Categorias de documento"
     enumeration_work_package_priorities: "Prioridades do pacote de trabalho"
     filter:
+      more_values_not_shown: "There are %{total} more results, search to filter results."
       description:
         text_open_filter: "Abra este filtro com a tecla 'ALT' e as teclas de seta."
         text_close_filter: "Para selecionar uma entrada, saia do foco, por exemplo, pressionando enter. Para sair sem filtro, selecione a primeira entrada (vazia)."
@@ -451,7 +453,6 @@ pt:
     label_starred_queries: "Visões favoritas"
     label_global_queries: "Visões públicas"
     label_custom_queries: "Visões privadas"
-    label_create_new_query: "Criar novo"
     label_columns: "Colunas"
     label_attachments: Arquivos
     label_drop_files: Solte os arquivos aqui
@@ -1155,8 +1156,22 @@ pt:
           placeholder: 'O espaço reservado agora pode ser usado em %{project}. Enquanto isso, você já pode planejar com este usuário e atribuir pacotes de trabalho por exemplo.'
           group: 'O grupo agora faz parte de %{project}. Enquanto isso, você já pode planejar com este grupo e atribuir pacotes de trabalho por exemplo.'
         next_button: 'Continuar'
+    include_projects:
+      toggle_title: 'Include Projects'
+      title: 'Projetos'
+      clear_selection: 'Clear selection'
+      apply: 'Aplicar'
+      selected_filter:
+        all: 'Todos os projetos'
+        selected: 'Only selected'
+      search_placeholder: 'Search project...'
     forms:
       submit_success_message: 'O formulário foi enviado com sucesso'
       load_error_message: 'Ocorreu um erro ao carregar o formulário'
       validation_error_message: 'Corrija os erros presentes no formulário'
       advanced_settings: 'Configurações avançadas'
+    spot:
+      filter_chip:
+        remove: 'Remover'
+      drop_modal:
+        Close: 'Fechar'

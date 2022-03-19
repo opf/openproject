@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,6 +33,7 @@ class User < Principal
     firstname_lastname: %i[firstname lastname],
     firstname: [:firstname],
     lastname_firstname: %i[lastname firstname],
+    lastname_n_firstname: %i[lastname firstname],
     lastname_coma_firstname: %i[lastname firstname],
     username: [:login]
   }.freeze
@@ -104,10 +103,10 @@ class User < Principal
   attr_accessor :password, :password_confirmation, :last_before_login_on
 
   validates :login,
-                        :firstname,
-                        :lastname,
-                        :mail,
-                        presence: { unless: Proc.new { |user| user.builtin? } }
+            :firstname,
+            :lastname,
+            :mail,
+            presence: { unless: Proc.new { |user| user.builtin? } }
 
   validates :login, uniqueness: { if: Proc.new { |user| !user.login.blank? }, case_sensitive: false }
   validates :mail, uniqueness: { allow_blank: true, case_sensitive: false }
@@ -268,6 +267,7 @@ class User < Principal
 
     when :firstname_lastname      then "#{firstname} #{lastname}"
     when :lastname_firstname      then "#{lastname} #{firstname}"
+    when :lastname_n_firstname    then "#{lastname}#{firstname}"
     when :lastname_coma_firstname then "#{lastname}, #{firstname}"
     when :firstname               then firstname
     when :username                then login

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -75,13 +75,13 @@ describe 'BCF 2.1 project extensions resource', type: :request, content_type: :j
     let(:current_user) do
       create(:user,
              member_in_project: project,
-             member_with_permissions: %i[view_project edit_project manage_bcf view_members])
+             member_with_permissions: %i[view_project edit_project manage_bcf view_members work_package_assigned])
     end
 
     let(:other_user) do
       create(:user,
              member_in_project: project,
-             member_with_permissions: [:view_project])
+             member_with_permissions: %i[view_project work_package_assigned])
     end
 
     before do

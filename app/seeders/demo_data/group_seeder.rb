@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 
 # OpenProject is an open source project management software.

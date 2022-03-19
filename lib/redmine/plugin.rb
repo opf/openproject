@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -315,11 +313,11 @@ module Redmine #:nodoc:
         mod, mod_options = @project_scope
         OpenProject::AccessControl.map do |map|
           map.project_module(mod, mod_options) do |map|
-            map.permission(name, actions, options)
+            map.permission(name, actions, **options)
           end
         end
       else
-        OpenProject::AccessControl.map { |map| map.permission(name, actions, options) }
+        OpenProject::AccessControl.map { |map| map.permission(name, actions, **options) }
       end
     end
 

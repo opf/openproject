@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,15 +27,15 @@
 #++
 
 module Queries::TimeEntries
-  query = Queries::TimeEntries::TimeEntryQuery
+  ::Queries::Register.register(TimeEntryQuery) do
+    filter Filters::UserFilter
+    filter Filters::WorkPackageFilter
+    filter Filters::ProjectFilter
+    filter Filters::SpentOnFilter
+    filter Filters::CreatedAtFilter
+    filter Filters::UpdatedAtFilter
+    filter Filters::ActivityFilter
 
-  Queries::Register.filter query, Queries::TimeEntries::Filters::UserFilter
-  Queries::Register.filter query, Queries::TimeEntries::Filters::WorkPackageFilter
-  Queries::Register.filter query, Queries::TimeEntries::Filters::ProjectFilter
-  Queries::Register.filter query, Queries::TimeEntries::Filters::SpentOnFilter
-  Queries::Register.filter query, Queries::TimeEntries::Filters::CreatedAtFilter
-  Queries::Register.filter query, Queries::TimeEntries::Filters::UpdatedAtFilter
-  Queries::Register.filter query, Queries::TimeEntries::Filters::ActivityFilter
-
-  Queries::Register.order query, Queries::TimeEntries::Orders::DefaultOrder
+    order Orders::DefaultOrder
+  end
 end

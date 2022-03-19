@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -276,11 +276,11 @@ RSpec.feature 'Work package navigation', js: true, selenium: true do
       cards.expect_work_package_listed work_package, work_package2
 
       # move to first details
-      split = cards.open_full_screen_by_details work_package
+      split = cards.open_split_view_by_info_icon work_package
       split.expect_subject
 
       # move to second details
-      split2 = cards.open_full_screen_by_details work_package2
+      split2 = cards.open_split_view_by_info_icon work_package2
       split2.expect_subject
     end
   end

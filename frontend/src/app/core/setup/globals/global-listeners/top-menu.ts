@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -222,11 +222,12 @@ export class TopMenu {
   }
 
   // If there is ANY input, it will have precedence over links,
-  // i.e. links will only get focussed, if there is NO input whatsoever
+  // i.e. links will only get focused, if there is NO input whatsoever
   focusFirstInputOrLink(dropdown:JQuery) {
-    let toFocus = dropdown.find('ul :input:visible:first');
-    if (toFocus.length === 0) {
-      toFocus = dropdown.find('ul a:visible:first');
+    const focusable = dropdown.find('input:not([disabled]), a[href], area[href], select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, *[tabindex], *[contenteditable]');
+    const toFocus = focusable[0];
+    if (!toFocus) {
+      return;
     }
     // actually a simple focus should be enough.
     // The rest is only there to work around a rendering bug in webkit (as of Oct 2011),

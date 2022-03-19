@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -63,7 +63,10 @@ describe 'Assigned to me embedded query on my page', type: :feature, js: true do
     create(:user)
   end
 
-  let(:role) { create(:role, permissions: %i[view_work_packages add_work_packages edit_work_packages save_queries]) }
+  let(:role) do
+    create(:role,
+           permissions: %i[view_work_packages add_work_packages edit_work_packages save_queries work_package_assigned])
+  end
 
   let(:user) do
     create(:user,
@@ -78,9 +81,7 @@ describe 'Assigned to me embedded query on my page', type: :feature, js: true do
   let(:embedded_table) { Pages::EmbeddedWorkPackagesTable.new(assigned_area.area) }
   let(:hierarchies) { ::Components::WorkPackages::Hierarchies.new }
 
-  before do
-    login_as user
-  end
+  current_user { user }
 
   context 'with parent work package' do
     let!(:assigned_work_package_child) do
@@ -147,11 +148,21 @@ describe 'Assigned to me embedded query on my page', type: :feature, js: true do
     subject_field.set_value 'Assigned to me'
     subject_field.save!
 
+    embedded_table.expect_toast(
+      message: 'Project can\'t be blank.',
+      type: :error
+    )
+
     # Set project
     project_field = embedded_table.edit_field(nil, :project)
     project_field.expect_active!
     project_field.openSelectField
     project_field.set_value project.name
+
+    embedded_table.expect_toast(
+      message: 'Type is not set to one of the allowed values.',
+      type: :error
+    )
 
     # Set type
     type_field = embedded_table.edit_field(nil, :type)

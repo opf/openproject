@@ -13,7 +13,7 @@ describe 'new work package', js: true do
     create(:project, types: types)
   end
 
-  let(:permissions) { %i[view_work_packages add_work_packages edit_work_packages] }
+  let(:permissions) { %i[view_work_packages add_work_packages edit_work_packages work_package_assigned] }
   let(:user) do
     create(:user,
            member_in_project: project,

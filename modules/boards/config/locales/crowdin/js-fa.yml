@@ -2,6 +2,7 @@
 fa:
   js:
     boards:
+      create_new: 'New board'
       label_unnamed_board: 'انجمن بدون نام'
       label_unnamed_list: 'Unnamed list'
       label_board_type: 'نوع انجمن'

@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -24,6 +24,7 @@ ro:
     ajax:
       hide: "Ascundere"
       loading: "Se încarcă..."
+      updating: "Updating ..."
     attachments:
       draggable_hint: |
         Trageți pe câmpul editorului pentru a introduce o imagine sau un atașament de referință. Câmpurile de editor închise vor fi deschise în timp ce continuați să trageți.
@@ -250,6 +251,7 @@ ro:
     enumeration_doc_categories: "Document nou"
     enumeration_work_package_priorities: "Priorități pentru pachetele de lucru"
     filter:
+      more_values_not_shown: "There are %{total} more results, search to filter results."
       description:
         text_open_filter: "Deschideți acest filtru cu 'ALT' și tastele săgeată."
         text_close_filter: "Pentru a selecta o poziție schimbați prim-planul (de exemplu apasand Enter). Pentru a ieși fără filtrare selectați prima poziție (goală)."
@@ -451,7 +453,6 @@ ro:
     label_starred_queries: "Configurații favorite"
     label_global_queries: "Configurații publice"
     label_custom_queries: "Configurații private"
-    label_create_new_query: "Creați un nou"
     label_columns: "Coloane"
     label_attachments: Fişiere
     label_drop_files: Trageți fișierele aici
@@ -1158,8 +1159,22 @@ ro:
           placeholder: 'Marca de poziție poate fi utilizată acum în %{project}. Între timp, puteți deja să planificați cu acel utilizator și să atribuiți pachete de lucru, de exemplu.'
           group: 'Grupul este acum o parte din %{project}. Între timp, puteți deja să planificați cu acest grup și să atribuiți pachete de lucru, de exemplu.'
         next_button: 'Continuaţi'
+    include_projects:
+      toggle_title: 'Include Projects'
+      title: 'Proiecte'
+      clear_selection: 'Clear selection'
+      apply: 'Salvare'
+      selected_filter:
+        all: 'Toate Proiectele'
+        selected: 'Only selected'
+      search_placeholder: 'Search project...'
     forms:
       submit_success_message: 'Formularul a fost trimis cu succes'
       load_error_message: 'A apărut o eroare la încărcarea formularului'
       validation_error_message: 'Vă rugăm să remediaţi erorile existente în formular'
       advanced_settings: 'Setări avansate'
+    spot:
+      filter_chip:
+        remove: 'Eliminare'
+      drop_modal:
+        Close: 'Închide'

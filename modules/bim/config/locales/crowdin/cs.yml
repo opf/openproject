@@ -23,7 +23,7 @@ cs:
       export: 'Export'
       import_update_comment: '(Aktualizováno v importu BCF)'
       import_failed: 'Nelze importovat soubor BCF: %{error}'
-      import_failed_unsupported_bcf_version: 'Failed to read the BCF file: The BCF version is not supported. Please ensure the version is at least %{minimal_version} or higher.'
+      import_failed_unsupported_bcf_version: 'Nepodařilo se přečíst BCF: není podporována verze BCF. Ujistěte se, že verze je alespoň %{minimal_version} nebo vyšší.'
       import_successful: 'Importováno %{count} problémů s BCF'
       import_canceled: 'Import BCF-XML byl zrušen.'
       type_not_active: "Typ problému není pro tento projekt aktivován."
@@ -57,7 +57,7 @@ cs:
         import_as_system_user: 'Importujte je jako "Systémový" uživatel.'
         what_to_do: "Co chcete udělat?"
         work_package_has_newer_changes: "Zastaralé! Toto téma nebylo aktualizováno, protože poslední změny na serveru byly novější než \"ModifiedDatum\" importovaného tématu. Připomínky k tomuto tématu však byly dovezeny."
-        bcf_file_not_found: "Failed to locate BCF file. Please start the upload process again."
+        bcf_file_not_found: "Nepodařilo se najít soubor BCF. Spusťte prosím proces nahrávání znovu."
   export:
     format:
       bcf: "BCF-XML"
@@ -70,8 +70,8 @@ cs:
   permission_delete_bcf: "Odstranit problémy  BCF"
   oauth:
     scopes:
-      bcf_v2_1: "Full access to the BCF v2.1 API"
-      bcf_v2_1_text: "Application will receive full read & write access to the OpenProject BCF API v2.1 to perform actions on your behalf."
+      bcf_v2_1: "Plný přístup k BCF v2.1 API"
+      bcf_v2_1_text: "Aplikace získá plný přístup ke čtení a zápisu do OpenProject API, aby mohla provádět akce vaším jménem."
   activerecord:
     models:
       bim/ifc_models/ifc_model: "Model IFC"
@@ -88,20 +88,20 @@ cs:
               ifc_attachment_missing: "Žádný soubor ifc není připojen."
               invalid_ifc_file: "Zadaný soubor není platný IFC soubor."
         bim/bcf/viewpoint:
-          bitmaps_not_writable: "bitmaps is not writable as it is not yet implemented."
-          index_not_integer: "index is not an integer."
-          invalid_clipping_planes: "clipping_planes is invalid."
+          bitmaps_not_writable: "bitmapy nejsou zapisovatelné, protože ještě nejsou implementovány."
+          index_not_integer: "index není celé číslo."
+          invalid_clipping_planes: "clipping_planes jsou neplatné."
           invalid_components: "komponenty jsou neplatné."
           invalid_lines: "řádky jsou neplatné."
-          invalid_orthogonal_camera: "orthogonal_camera is invalid."
-          invalid_perspective_camera: "perspective_camera is invalid."
-          mismatching_guid: "The guid in the json_viewpoint does not match the model's guid."
-          no_json: "Is not a well structured json."
-          snapshot_type_unsupported: "snapshot_type needs to be either 'png' or 'jpg'."
-          snapshot_data_blank: "snapshot_data needs to be provided."
-          unsupported_key: "An unsupported json property is included."
+          invalid_orthogonal_camera: "orthogonal_camera je neplatná."
+          invalid_perspective_camera: "perspective_camera je neplatná."
+          mismatching_guid: "guid v json_viewpoint neodpovídá guidu modelu."
+          no_json: "Není dobře strukturovaný json."
+          snapshot_type_unsupported: "snapshot_type musí být buď 'png' nebo 'jpg'."
+          snapshot_data_blank: "je třeba poskytnout snapshot_data."
+          unsupported_key: "Je zahrnuta nepodporovaná vlastnost JSon."
         bim/bcf/issue:
-          uuid_already_taken: "Can't import this BCF issue as there already is another with the same GUID. Could it be that this BCF issue had already been imported into a different project?"
+          uuid_already_taken: "Nelze importovat tento problém s BCF, protože již existuje jiný se stejným GUID. Mohlo by se stát, že tato otázka BCFF již byla importována do jiného projektu?"
   ifc_models:
     label_ifc_models: 'IFC modely'
     label_new_ifc_model: 'Nový model IFC'
@@ -109,9 +109,9 @@ cs:
     label_default_ifc_models: 'Výchozí IFC modely'
     label_edit_defaults: 'Upravit výchozí hodnoty'
     no_defaults_warning:
-      title: 'No IFC model was set as default for this project.'
-      check_1: 'Check that you have uploaded at least one IFC model.'
-      check_2: 'Check that at least one IFC model is set to "Default".'
+      title: 'Žádný IFC model nebyl nastaven jako výchozí pro tento projekt.'
+      check_1: 'Zkontrolujte, zda jste nahráli alespoň jeden IFC model.'
+      check_2: 'Zkontrolujte, zda je alespoň jeden IFC model nastaven na "Výchozí".'
     no_results: "V tomto projektu nebyly nahrány žádné IFC modely."
     conversion_status:
       label: 'Zpracovávání?'
@@ -120,11 +120,11 @@ cs:
       completed: 'Dokončeno'
       error: 'Chyba'
     processing_notice:
-      processing_default: 'The following default IFC models are still being processed and are thus not available, yet:'
+      processing_default: 'Následující standardní modely IFC jsou stále zpracovávány, a proto nejsou dosud k dispozici.'
     flash_messages:
-      upload_successful: 'Upload succeeded. It will now get processed and will be ready to use in a couple of minutes.'
+      upload_successful: 'Nahrávání bylo úspěšné. Nyní bude zpracováno a bude připraveno k použití během několika minut.'
     conversion:
-      missing_commands: "The following IFC converter commands are missing on this system: %{names}"
+      missing_commands: "Na tomto systému chybí následující příkazy IFC převodníku: %{names}"
   project_module_ifc_models: "IFC modely"
   permission_view_ifc_models: "Zobrazit IFC modely"
   permission_manage_ifc_models: "Importovat a spravovat IFC modely"

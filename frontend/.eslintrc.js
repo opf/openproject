@@ -62,6 +62,9 @@ module.exports = {
           },
         ],
 
+        // Sometimes we need to shush the TypeScript compiler
+        "no-unused-vars": ["error", { "varsIgnorePattern": "^_" }],
+
         // Who cares about line length
         "max-len": "off",
 
@@ -116,12 +119,13 @@ module.exports = {
               "_links",
               "_embedded",
               "_meta",
+              "_type",
             ],
-            allowAfterThis: false,
+            allowAfterThis: true,
             allowAfterSuper: false,
             allowAfterThisConstructor: false,
             enforceInMethodNames: true,
-            allowFunctionParams: false,
+            allowFunctionParams: true,
           }
         ],
 

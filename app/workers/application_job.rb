@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -46,6 +46,10 @@ class ApplicationJob < ::ActiveJob::Base
       0
     when :notification
       5
+    when :above_normal
+      7
+    when :below_normal
+      13
     when :low
       20
     else

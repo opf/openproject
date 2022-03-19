@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -472,7 +472,6 @@ vi:
       repository:
         url: "Đường dẫn (URL)"
       role:
-        assignable: "Work packages can be assigned to users and groups in possession of this role in the respective project"
         permissions: "Phân Quyền"
       time_entry:
         activity: "Hoạt động"
@@ -889,6 +888,7 @@ vi:
     version: "Phiên bản"
     work_package: "Work Package"
   backup:
+    failed: "Backup failed"
     label_backup_token: "Sao lưu token"
     label_create_token: "Tạo bản sao lưu token"
     label_delete_token: "Xóa bản sao lưu token"
@@ -1972,7 +1972,7 @@ vi:
   mail_body_backup_waiting_period: Mã token sao lưu sẽ được kích hoạt trong %{hours} giờ.
   mail_body_backup_token_warning: Nếu đây không phải là bạn, hãy đăng nhập vào OpenProject ngay lập tức và thiết lập lại lại.
   mail_body_lost_password: "To change your password, click on the following link:"
-  mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
+  mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "Project member invitation email"
   mail_body_register_user: "Dear %{name}, "
   mail_body_register_links_html: |
@@ -2114,7 +2114,7 @@ vi:
     heading_getting_started: "Get an overview"
     text_getting_started_description: "Get a quick overview of project management and team collaboration with OpenProject."
     text_show_again: "Bạn có thể khởi động lại video này từ trình đơn trợ giúp"
-    welcome: "Welcome to OpenProject"
+    welcome: "Welcome to %{app_title}"
     select_language: "Please select your language"
   permission_add_work_package_notes: "Add notes"
   permission_add_work_packages: "Thêm mới Gói công việc"
@@ -2183,6 +2183,8 @@ vi:
   permission_view_timelines: "View timelines"
   permission_view_wiki_edits: "View wiki history"
   permission_view_wiki_pages: "View wiki"
+  permission_work_package_assigned: "Become assignee/responsible"
+  permission_work_package_assigned_explanation: "Work packages can be assigned to users and groups in possession of this role in the respective project"
   placeholders:
     default: "-"
   project:
@@ -2899,8 +2901,11 @@ vi:
     errors:
       messages:
         #Common error messages
-        invalid_request: 'Yêu cầu thiếu tham số bắt buộc, bao gồm giá trị tham số không được hỗ trợ hoặc không đúng định dạng.'
-        invalid_redirect_uri: "Uri chuyển hướng được yêu cầu không đúng định dạng hoặc không khớp với URI chuyển hướng máy khách."
+        invalid_request:
+          unknown: 'Yêu cầu thiếu tham số bắt buộc, bao gồm giá trị tham số không được hỗ trợ hoặc không đúng định dạng.'
+          missing_param: 'Missing required parameter: %{value}.'
+          request_not_authorized: 'Request need to be authorized. Required parameter for authorizing request is missing or invalid.'
+        invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
         unauthorized_client: 'Máy khách không được phép thực hiện yêu cầu bằng phương pháp này.'
         access_denied: 'Chủ sở hữu tài nguyên hoặc máy chủ ủy quyền đã từ chối yêu cầu.'
         invalid_scope: 'Phạm vi yêu cầu không hợp lệ, không xác định hoặc không đúng định dạng.'
@@ -2913,6 +2918,7 @@ vi:
         admin_authenticator_not_configured: 'Quyền truy cập vào bảng quản trị bị cấm do Doorkeeper.configure.admin_authenticator không được định cấu hình.'
         #Access grant errors
         unsupported_response_type: 'Máy chủ ủy quyền không hỗ trợ loại phản hồi này.'
+        unsupported_response_mode: 'The authorization server does not support this response mode.'
         #Access token errors
         invalid_client: 'Xác thực ứng dụng khách không thành công do máy khách không xác định, không bao gồm xác thực ứng dụng khách hoặc phương thức xác thực không được hỗ trợ.'
         invalid_grant: 'Quyền được cung cấp không hợp lệ, hết hạn, bị thu hồi, không khớp với URI chuyển hướng được sử dụng trong yêu cầu ủy quyền hoặc được cấp cho một khách hàng khác.'
@@ -2921,6 +2927,10 @@ vi:
           revoked: "Mã truy cập đã bị thu hồi"
           expired: "Mã truy cập đã hết hạn"
           unknown: "Mã truy cập không hợp lệ"
+        revoke:
+          unauthorized: "You are not authorized to revoke this token."
+        forbidden_token:
+          missing_scope: 'Access to this resource requires scope "%{oauth_scopes}".'
   unsupported_browser:
     title: "Trình duyệt của bạn đã lỗi thời hoặc không được hỗ trợ."
     message: "Bạn có thể gặp phải lỗi và trải nghiệm không mong muốn trên trang này."

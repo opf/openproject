@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -24,6 +24,7 @@ es:
     ajax:
       hide: "Ocultar"
       loading: "Cargando ..."
+      updating: "Updating ..."
     attachments:
       draggable_hint: |
         Arrastre el campo del editor a una imagen alineada o un adjunto de referencia. Los campos del editor cerrados se abrirán mientras siga arrastrando elementos.
@@ -73,15 +74,15 @@ es:
     button_expand_all: "Expandir todos"
     button_advanced_filter: "Filtro avanzado"
     button_list_view: "Vista de lista"
-    button_show_view: "Vista de pantalla completa"
+    button_show_view: "Pantalla completa"
     button_log_time: "Registro de tiempo"
     button_more: "Más"
     button_open_details: "Abrir vista detallada"
     button_close_details: "Cerrar vista detallada"
-    button_open_fullscreen: "Ver pantalla completa"
+    button_open_fullscreen: "Abrir vista de pantalla completa"
     button_show_cards: "Mostrar vista de tarjeta"
     button_show_list: "Mostrar vista de lista"
-    button_quote: "Comentario"
+    button_quote: "presupuesto"
     button_save: "Guardar"
     button_settings: "Configuración"
     button_uncheck_all: "Deseleccionar todos"
@@ -93,7 +94,7 @@ es:
       add_new: 'Añadir nueva tarjeta'
       highlighting:
         inline: 'Resaltar en línea:'
-        entire_card_by: 'Toda la tarjeta en'
+        entire_card_by: 'Tarjeta entera por'
       remove_from_list: 'Eliminar tarjeta de la lista'
     caption_rate_history: "Historial de tasa"
     clipboard:
@@ -101,15 +102,15 @@ es:
       copied_successful: "Copiado correctamente en el Portapapeles"
     chart:
       type: 'Tipo de gráfico'
-      axis_criteria: 'Criterios de eje'
+      axis_criteria: 'Criterios del eje'
       modal_title: 'Configuración del gráfico del paquete de trabajo'
       types:
         line: 'Línea'
         horizontal_bar: 'Barra horizontal'
         bar: 'Barra'
-        pie: 'Circular'
-        doughnut: 'Anillos'
-        radar: 'Radial'
+        pie: 'Gráfico Circular'
+        doughnut: 'Rosquilla'
+        radar: 'Radar'
         polar_area: 'Área polar'
       tabs:
         graph_settings: 'General'
@@ -120,19 +121,19 @@ es:
     description_current_position: "Usted está aquí: "
     description_select_work_package: "Seleccione el paquete de trabajo #%{id}"
     description_selected_columns: "Columnas seleccionadas"
-    description_subwork_package: "Hijo del paquete de trabajo #%{id}"
+    description_subwork_package: "Seleccione el paquete de trabajo #%{id}"
     editor:
-      preview: 'Alternar modo de vista previa'
+      preview: 'Cambiar modo de vista previa'
       source_code: 'Alternar modo de visualización de Markdown'
       error_saving_failed: 'No se pudo guardar el documento debido al siguiente error: %{error}'
       ckeditor_error: 'Se ha producido un error dentro de CKEditor'
       mode:
-        manual: 'Cambiar a visualización de Markdown'
+        manual: 'Cambiar a la fuente Markdown'
         wysiwyg: 'Cambiar a editor WYSIWYG'
       macro:
         error: 'No se puede expandir la macro: %{message}'
         attribute_reference:
-          macro_help_tooltip: 'Este segmento de texto se representa dinámicamente mediante una macro.'
+          macro_help_tooltip: 'Este segmento de texto está siendo renderizado dinámicamente por una macro.'
           not_found: 'No se encuentra el recurso solicitado'
           invalid_attribute: "El atributo seleccionado («%{name}») no existe."
         child_pages:
@@ -251,6 +252,7 @@ es:
     enumeration_doc_categories: "Categorías de documentos"
     enumeration_work_package_priorities: "Prioridades del paquete de trabajo"
     filter:
+      more_values_not_shown: "There are %{total} more results, search to filter results."
       description:
         text_open_filter: "Abrir este filtro con 'ALT' y las flechas de dirección."
         text_close_filter: "Para seleccionar una entrada, deje el foco por ejemplo pulsando Intro. Para abandonar sin filtro, seleccione la primera entrada (vacía)."
@@ -452,7 +454,6 @@ es:
     label_starred_queries: "Vistas favoritas"
     label_global_queries: "Vistas públicas"
     label_custom_queries: "Vistas privadas"
-    label_create_new_query: "Crear nuevo"
     label_columns: "Columnas"
     label_attachments: Archivos
     label_drop_files: Suelta los archivos aquí
@@ -1156,8 +1157,22 @@ es:
           placeholder: 'El marcador de posición ya puede usarse en %{project}. Mientras tanto, puede crear planes con ese usuario y asignarle paquetes de trabajo.'
           group: 'El grupo ya forma parte de %{project}. Mientras tanto, puede crear planes con ese grupo y asignar paquetes de trabajo a este.'
         next_button: 'Continuar'
+    include_projects:
+      toggle_title: 'Include Projects'
+      title: 'Proyectos'
+      clear_selection: 'Clear selection'
+      apply: 'Aplicar'
+      selected_filter:
+        all: 'Todos los proyectos'
+        selected: 'Only selected'
+      search_placeholder: 'Search project...'
     forms:
       submit_success_message: 'El formulario se envió correctamente'
       load_error_message: 'Se produjo un error al cargar el formulario'
       validation_error_message: 'Corrija los errores del formulario'
       advanced_settings: 'Ajustes avanzados'
+    spot:
+      filter_chip:
+        remove: 'Eliminar'
+      drop_modal:
+        Close: 'Cerrar'

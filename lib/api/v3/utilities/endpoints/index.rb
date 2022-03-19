@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -90,13 +90,13 @@ module API
             resulting_params = calculate_resulting_params(query, params)
 
             render_representer
-              .new(results,
-                   self_link: self_path,
-                   query: resulting_params,
-                   page: resulting_params[:offset],
-                   per_page: resulting_params[:pageSize],
-                   groups: calculate_groups(query),
-                   current_user: User.current)
+              .create(results,
+                      self_link: self_path,
+                      query: resulting_params,
+                      page: resulting_params[:offset],
+                      per_page: resulting_params[:pageSize],
+                      groups: calculate_groups(query),
+                      current_user: User.current)
           end
 
           def render_unpaginated_success(results, self_path)

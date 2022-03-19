@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -216,7 +216,7 @@ shared_examples 'work package relations tab', js: true, selenium: true do
           expect(page).to have_no_selector('.wp-relation--parent-change')
 
           # Test for add children
-          expect(page).to have_no_selector('#hierarchy--add-exisiting-child')
+          expect(page).to have_no_selector('#hierarchy--add-existing-child')
           expect(page).to have_no_selector('#hierarchy--add-new-child')
 
           # But it should show the linked parent

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -39,21 +39,23 @@ shared_examples_for 'available principals' do |principals|
   let(:other_user) do
     create(:user,
            member_in_project: project,
-           member_through_role: role)
+           member_through_role: assignable_role)
   end
   let(:role) { create(:role, permissions: permissions) }
+  let(:assignable_role) { create(:role, permissions: assignable_permissions) }
   let(:project) { create(:project) }
   let(:group) do
     create(:group,
            member_in_project: project,
-           member_through_role: role)
+           member_through_role: assignable_role)
   end
   let(:placeholder_user) do
     create(:placeholder_user,
            member_in_project: project,
-           member_through_role: role)
+           member_through_role: assignable_role)
   end
   let(:permissions) { [:view_work_packages] }
+  let(:assignable_permissions) { [:work_package_assigned] }
 
   shared_context "request available #{principals}" do
     before { get href }
@@ -67,13 +69,15 @@ shared_examples_for 'available principals' do |principals|
     end
 
     describe 'users' do
-      context 'single user' do
+      let(:permissions) { %i[view_work_packages work_package_assigned] }
+
+      context 'for a single user' do
         # The current user
 
         it_behaves_like "returns available #{principals}", 1, 1, 'User'
       end
 
-      context 'multiple users' do
+      context 'for multiple users' do
         before do
           other_user
           # and the current user
@@ -81,26 +85,31 @@ shared_examples_for 'available principals' do |principals|
 
         it_behaves_like "returns available #{principals}", 2, 2, 'User'
       end
+
+      context 'if the user lacks the assignable permission' do
+        let(:permissions) { %i[view_work_packages] }
+
+        it_behaves_like "returns available #{principals}", 0, 0, 'User'
+      end
     end
 
     describe 'groups' do
       let!(:users) { [group] }
 
-      # current user and group
-      it_behaves_like "returns available #{principals}", 2, 2, 'Group'
+      it_behaves_like "returns available #{principals}", 1, 1, 'Group'
     end
 
     describe 'placeholder users' do
       let!(:users) { [placeholder_user] }
 
-      # current user and placeholder user
-      it_behaves_like "returns available #{principals}", 2, 2, 'PlaceholderUser'
+      it_behaves_like "returns available #{principals}", 1, 1, 'PlaceholderUser'
     end
   end
 
   describe 'if not allowed' do
     include Rack::Test::Methods
     let(:permissions) { [] }
+
     before { get href }
 
     it_behaves_like 'unauthorized access'
