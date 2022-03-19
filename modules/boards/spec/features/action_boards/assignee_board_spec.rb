@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -51,7 +51,7 @@ describe 'Assignee action board',
 
   let(:permissions) do
     %i[show_board_views manage_board_views add_work_packages
-       edit_work_packages view_work_packages manage_public_queries]
+       edit_work_packages view_work_packages manage_public_queries work_package_assigned]
   end
 
   let!(:priority) { create :default_priority }

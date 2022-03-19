@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,7 +32,7 @@ require_relative 'support/components/cost_reports_base_table'
 
 describe 'Updating entries within the cost report', type: :feature, js: true do
   let(:project) { create :project }
-  let(:user) { create :admin }
+  let(:user) { create :admin, member_in_project: project, member_with_permissions: %i[work_package_assigned] }
   let(:work_package) { create :work_package, project: project }
 
   let!(:time_entry_user) do

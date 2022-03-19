@@ -2,6 +2,7 @@
 ko:
   js:
     boards:
+      create_new: 'New board'
       label_unnamed_board: '명명되지 않은 보드'
       label_unnamed_list: '명명되지 않은 목록'
       label_board_type: '보드 유형'

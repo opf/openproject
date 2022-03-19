@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -24,6 +24,7 @@ si:
     ajax:
       hide: "සඟවන්න"
       loading: "පැටවීම..."
+      updating: "Updating ..."
     attachments:
       draggable_hint: |
         පේළිගත රූපය හෝ යොමු ඇමුණුමක් කර්තෘ ක්ෂේත්රය මත ඇදගෙන යන්න. ඔබ ඇදගෙන යන අතරතුර සංවෘත සංස්කාරක ක්ෂේත්ර විවෘත කරනු ඇත.
@@ -251,6 +252,7 @@ si:
     enumeration_doc_categories: "Document categories"
     enumeration_work_package_priorities: "වැඩ පැකේජ ප්රමුඛතා"
     filter:
+      more_values_not_shown: "There are %{total} more results, search to filter results."
       description:
         text_open_filter: "මෙම පෙරණය 'ALT' සහ ඊතල යතුරු සමඟ විවෘත කරන්න."
         text_close_filter: "ඇතුලත් කිරීමක් තෝරා ගැනීමට ඇතුලත් කරන්න එබීමෙන් උදාහරණයක් ලෙස අවධානය යොමු තබන්න. පෙරහන නොමැතිව පිටව යාමට පළමු (හිස්) ප්රවේශය තෝරන්න."
@@ -452,7 +454,6 @@ si:
     label_starred_queries: "ප්රියතම අදහස්"
     label_global_queries: "මහජන අදහස්"
     label_custom_queries: "පෞද්ගලික අදහස්"
-    label_create_new_query: "නව නිර්මාණය"
     label_columns: "තීරු"
     label_attachments: ගොනු
     label_drop_files: ගොනු මෙහි අතහැර
@@ -1085,10 +1086,10 @@ si:
       current_project_and_all_descendants: "මෙම ව්යාපෘතිය+උප ව්යාපෘති"
       title:
         all_projects: "සියලු ව්යාපෘති"
-        project_and_subprojects: "සහ සියලු උප ව්යාපෘති"
-        search_for: "සොයන්න"
+        project_and_subprojects: "සහ සියළු උප ව්යාපෘති"
+        search_for: "සඳහා සොයන්න"
     views:
-      card: 'කාඩ්'
+      card: 'පත්'
       list: 'මේසය'
       timeline: 'ගැන්ට්'
     invite_user_modal:
@@ -1156,8 +1157,22 @@ si:
           placeholder: 'The placeholder can now be used in %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
           group: 'The group is now a part of %{project}. Meanwhile you can already plan with that group and assign work packages for instance.'
         next_button: 'ඉදිරියට යන්න'
+    include_projects:
+      toggle_title: 'Include Projects'
+      title: 'ව්‍යාපෘති'
+      clear_selection: 'Clear selection'
+      apply: 'අයදුම් කරන්න'
+      selected_filter:
+        all: 'All projects'
+        selected: 'Only selected'
+      search_placeholder: 'Search project...'
     forms:
       submit_success_message: 'The form was successfully submitted'
       load_error_message: 'There was an error loading the form'
       validation_error_message: 'Please fix the errors present in the form'
       advanced_settings: 'උසස් සැකසුම්'
+    spot:
+      filter_chip:
+        remove: 'ඉවත් කරන්න'
+      drop_modal:
+        Close: 'වසන්න'

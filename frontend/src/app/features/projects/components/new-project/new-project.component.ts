@@ -120,7 +120,7 @@ export class NewProjectComponent extends UntilDestroyedMixin implements OnInit {
   }
 
   private isHiddenField(key:string|undefined):boolean {
-    // We explictly want to show the sendNotifications param
+    // We explicitly want to show the sendNotifications param
     if (key === '_meta.sendNotifications') {
       return false;
     }

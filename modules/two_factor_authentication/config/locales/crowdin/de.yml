@@ -71,7 +71,7 @@ de:
       text_2fa_enabled: 'Bei jedem Login werden dieser Nutzer aufgefordert, ein Einmalpasswort aus seinem Standardgerät für 2FA einzugeben.'
       text_2fa_disabled: "Der Nutzer hat kein 2FA-Gerät über seine Kontoseite registriert"
     upsale:
-      title: 'Two-factor authentication'
+      title: 'Zwei-Faktor-Authentifizierung'
       description: 'Stärken Sie Ihre interne oder externe Authentifizierung mittels Zwei-Faktor-Authentifizierung.'
     backup_codes:
       none_found: Keine 2FA Backup-Codes für dieses Konto gefunden.

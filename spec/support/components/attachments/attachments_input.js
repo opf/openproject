@@ -7,10 +7,25 @@ var target = params[0];
 // must exist on the page, create if needed.
 var name = params[1];
 
+var position = params[2];
+
 // We need coordinates to drop to the element
 var box = target.getBoundingClientRect();
-var targetX = box.left + (box.width / 2);
-var targetY = box.top + (box.height / 2);
+var targetX;
+var targetY;
+
+switch (position) {
+  case 'center':
+    targetX = box.left + (box.width / 2);
+    targetY = box.top + (box.height / 2);
+    break;
+  case 'bottom':
+    targetX = box.left + (box.width / 2);
+    targetY = box.bottom - 1;
+    break;
+  default:
+    throw new Error("Wrong position " + position);
+}
 
 var input = jQuery('<input>')
     .attr('id', name)

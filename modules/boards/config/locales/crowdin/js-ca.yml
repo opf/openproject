@@ -2,6 +2,7 @@
 ca:
   js:
     boards:
+      create_new: 'New board'
       label_unnamed_board: 'Taulell sense nom'
       label_unnamed_list: 'Llista sense nom'
       label_board_type: 'Tipus de taulell'

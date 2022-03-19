@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -63,6 +61,12 @@ describe Principals::Scopes::OrderedByName, type: :model do
     end
 
     context 'with lastname_firstname user sort', with_settings: { user_format: :lastname_firstname } do
+      it_behaves_like 'sorted results' do
+        let(:order) { [eve.id, group.id, placeholder_user.id, alice.id] }
+      end
+    end
+
+    context 'with lastname_n_firstname user sort', with_settings: { user_format: :lastname_n_firstname } do
       it_behaves_like 'sorted results' do
         let(:order) { [eve.id, group.id, placeholder_user.id, alice.id] }
       end

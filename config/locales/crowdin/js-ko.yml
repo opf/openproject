@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -24,6 +24,7 @@ ko:
     ajax:
       hide: "숨기기"
       loading: "불러오는 중 ..."
+      updating: "Updating ..."
     attachments:
       draggable_hint: |
         인라인 이미지 또는 참조 첨부 파일로 편집기 필드를 드래그하세요. 드래그하는 동안에는 닫힌 편집기 필드가 열립니다.
@@ -251,6 +252,7 @@ ko:
     enumeration_doc_categories: "문서 범주"
     enumeration_work_package_priorities: "작업 패키지 우선 순위"
     filter:
+      more_values_not_shown: "There are %{total} more results, search to filter results."
       description:
         text_open_filter: "'ALT'와 화살표 키로 이 필터를 여세요."
         text_close_filter: "항목을 선택하려면 예를 들어 Enter를 눌러 초점을 유지합니다. 필터 없이 두려면 첫 번째(빈) 항목을 선택합니다."
@@ -452,7 +454,6 @@ ko:
     label_starred_queries: "즐겨 찾는 보기"
     label_global_queries: "공개 보기"
     label_custom_queries: "비공개 보기"
-    label_create_new_query: "새로 만들기"
     label_columns: "컬럼"
     label_attachments: 파일
     label_drop_files: 여기에 파일을 놓으세요
@@ -1153,8 +1154,22 @@ ko:
           placeholder: '이제 %{project}에서 이 플레이스홀더를 사용할 수 있게 되었습니다. 한편 당신은 해당 사용자에 대한 계획을 세우거나 작업 패키지를 할당할 수 있습니다.'
           group: '이제 이 그룹은 %{project}의 일부입니다. 한편 당신은 해당 사용자에 대한 계획을 세우거나 작업 패키지를 할당할 수 있습니다.'
         next_button: '계속'
+    include_projects:
+      toggle_title: 'Include Projects'
+      title: '프로젝트'
+      clear_selection: 'Clear selection'
+      apply: '적용'
+      selected_filter:
+        all: '모든 프로젝트'
+        selected: 'Only selected'
+      search_placeholder: 'Search project...'
     forms:
       submit_success_message: '양식을 성공적으로 제출했습니다'
       load_error_message: '양식을 불러오는 중 오류가 발생했습니다'
       validation_error_message: '양식 내 오류를 수정하십시오'
       advanced_settings: '고급 설정'
+    spot:
+      filter_chip:
+        remove: '제거'
+      drop_modal:
+        Close: '닫기'

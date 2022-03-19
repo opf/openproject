@@ -13,7 +13,6 @@ import { ConfigurationService } from 'core-app/core/config/configuration.service
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { DomSanitizer } from '@angular/platform-browser';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
-import { EventClickArg } from '@fullcalendar/common';
 import { splitViewRoute } from 'core-app/features/work-packages/routing/split-view-routes.helper';
 import { StateService } from '@uirouter/angular';
 import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
@@ -45,6 +44,7 @@ import { HalResourceEditingService } from 'core-app/shared/components/fields/edi
 import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/resource-changeset';
 import * as moment from 'moment';
 import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
+import { isClickedWithModifier } from 'core-app/shared/helpers/link-handling/link-handling';
 
 export interface CalendarViewEvent {
   el:HTMLElement;
@@ -181,7 +181,7 @@ export class OpCalendarService extends UntilDestroyedMixin {
       const initialQuery = await this
         .apiV3Service
         .queries
-        .find({ perPage: 0 }, queryId)
+        .find({ pageSize: 0 }, queryId)
         .toPromise();
 
       queryProps = this.urlParamsHelper.encodeQueryJsonParams(
@@ -251,6 +251,28 @@ export class OpCalendarService extends UntilDestroyedMixin {
     return moment(end).subtract(1, 'd').format('YYYY-MM-DD');
   }
 
+  public openSplitView(id:string, onlyWhenOpen = false):void {
+    this.wpTableSelection.setSelection(id, -1);
+
+    // Only open the split view if already open, otherwise only clicking the details opens
+    if (onlyWhenOpen && !this.$state.includes('**.details.*')) {
+      return;
+    }
+
+    void this.$state.go(
+      `${splitViewRoute(this.$state)}.tabs`,
+      { workPackageId: id, tabIdentifier: 'overview' },
+    );
+  }
+
+  public onCardClicked({ workPackageId, event }:{ workPackageId:string, event:MouseEvent }):void {
+    if (isClickedWithModifier(event)) {
+      return;
+    }
+
+    this.openSplitView(workPackageId, true);
+  }
+
   private defaultOptions():CalendarOptions {
     return {
       editable: false,
@@ -267,21 +289,7 @@ export class OpCalendarService extends UntilDestroyedMixin {
       initialDate: this.initialDate,
       initialView: this.initialView,
       datesSet: (dates) => this.updateDateParam(dates),
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      eventClick: this.openSplitView.bind(this),
     };
-  }
-
-  private openSplitView(event:EventClickArg) {
-    const workPackage = event.event.extendedProps.workPackage as WorkPackageResource;
-    if (workPackage.id) {
-      this.wpTableSelection.setSelection(workPackage.id, -1);
-    }
-
-    void this.$state.go(
-      `${splitViewRoute(this.$state)}.tabs`,
-      { workPackageId: workPackage.id, tabIdentifier: 'overview' },
-    );
   }
 
   private static defaultQueryProps(startDate:string, endDate:string) {
@@ -311,14 +319,16 @@ export class OpCalendarService extends UntilDestroyedMixin {
   }
 
   private get initializingWithQuery():boolean {
-    return (this.areFiltersEmpty && this.urlParams.query_id && !this.urlParams.query_props) as boolean;
+    return this.areFiltersEmpty
+      && !!this.urlParams.query_id
+      && !this.urlParams.query_props;
   }
 
   private get urlParams() {
     return this.uiRouterGlobals.params;
   }
 
-  private get areFiltersEmpty() {
+  private get areFiltersEmpty():boolean {
     return this.wpTableFilters.isEmpty;
   }
 

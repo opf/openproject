@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,7 +33,7 @@ describe 'Work package calendars', type: :feature, js: true do
   let(:user) do
     create(:user,
            member_in_project: project,
-           member_with_permissions: %i[view_work_packages view_calendar])
+           member_with_permissions: %i[view_work_packages view_calendar manage_calendars])
   end
   let!(:current_work_package) do
     create(:work_package,
@@ -76,8 +74,14 @@ describe 'Work package calendars', type: :feature, js: true do
     visit project_path(project)
 
     within '#main-menu' do
-      click_link 'Calendar'
+      click_link 'Calendars'
     end
+
+    # Expect empty index
+    expect(page).to have_text 'There is currently nothing to display.'
+
+    # Open a new calendar from there
+    click_on 'Create'
 
     loading_indicator_saveguard
 

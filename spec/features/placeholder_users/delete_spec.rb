@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -72,7 +72,7 @@ describe 'delete placeholder user', type: :feature, js: true do
     it_behaves_like 'placeholders delete flow'
   end
 
-  context 'as user with global permission, but placeholder in an invisble project' do
+  context 'as user with global permission, but placeholder in an invisible project' do
     current_user { create :user, global_permission: %i[manage_placeholder_user] }
 
     let!(:project) { create :project }

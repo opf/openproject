@@ -2,6 +2,7 @@
 it:
   js:
     boards:
+      create_new: 'New board'
       label_unnamed_board: 'Scheda senza nome'
       label_unnamed_list: 'Lista senza nome'
       label_board_type: 'Tipo scheda'

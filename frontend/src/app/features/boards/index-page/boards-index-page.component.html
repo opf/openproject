@@ -12,7 +12,7 @@
           <op-icon icon-classes="button--icon icon-add">
           </op-icon>
           <span class="button--text"
-                [textContent]="text.board">
+                [textContent]="text.create">
           </span>
         </a>
       </li>
@@ -97,9 +97,9 @@
             <button class="op-link"
                     type="button"
                     (click)="destroyBoard(board)"
+                    [title]="text.delete"
                     >
               <op-icon icon-classes="icon icon-delete"></op-icon>
-              <span [textContent]="text.delete"></span>
             </button>
           </td>
         </tr>

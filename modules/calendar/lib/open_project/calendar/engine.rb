@@ -29,23 +29,29 @@ module OpenProject::Calendar
              name: 'OpenProject Calendar' do
       project_module :calendar_view, dependencies: :work_package_tracking do
         permission :view_calendar,
-                   { 'calendar/calendar': %i[index] }
+                   { 'calendar/calendars': %i[index show] },
+                   dependencies: %i[view_work_packages],
+                   contract_actions: { calendar: %i[read] }
+        permission :manage_calendars,
+                   { 'calendar/calendars': %i[index show new destroy] },
+                   dependencies: %i[view_calendar add_work_packages edit_work_packages save_queries manage_public_queries],
+                   contract_actions: { calendar: %i[create update destroy] }
       end
 
       menu :project_menu,
            :calendar_view,
-           { controller: '/calendar/calendar', action: 'index' },
-           caption: :label_calendar,
+           { controller: '/calendar/calendars', action: 'index' },
+           caption: :label_calendar_plural,
            icon: 'icon2 icon-calendar',
            after: :work_packages
 
       menu :project_menu,
            :calendar_menu,
-           { controller: '/calendar/calendar', action: 'index' },
+           { controller: '/calendar/calendars', action: 'index' },
            parent: :calendar_view,
-           partial: 'calendar/calendar/menu',
+           partial: 'calendar/calendars/menu',
            last: true,
-           caption: :label_calendar
+           caption: :label_calendar_plural
     end
 
     add_view :WorkPackagesCalendar,

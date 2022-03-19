@@ -2,6 +2,7 @@
 es:
   js:
     calendar:
+      create_new: 'New calendar'
       title: 'Calendar'
       too_many: 'Hay %{count} paquetes de trabajo en total, pero solo pueden mostrarse %{max}.'
       unsaved_title: 'Calendario sin nombre'

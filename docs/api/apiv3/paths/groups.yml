@@ -18,6 +18,14 @@ get:
     schema:
       default: '[["id", "asc"]]'
       type: string
+  - description: |-
+      Comma separated list of properties to include.
+    example: 'total,elements/name,elements/self,self'
+    in: query
+    name: select
+    required: false
+    schema:
+      type: string
   responses:
     '200':
       content:

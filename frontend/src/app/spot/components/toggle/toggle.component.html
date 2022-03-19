@@ -1,0 +1,13 @@
+<label
+  *ngFor="let option of options"
+  [ngClass]="{ 'spot-toggle--option': true, 'spot-toggle--option_selected': value === option.value }"
+>
+  <input
+    class="spot-toggle--option-input"
+    type="radio"
+    [name]="name"
+    [value]="option.value"
+    [(ngModel)]="value"
+  />
+  {{ option.title }}
+</label>

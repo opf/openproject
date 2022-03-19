@@ -14,6 +14,7 @@ import { TeamPlannerPageComponent } from 'core-app/features/team-planner/team-pl
 import { OPSharedModule } from 'core-app/shared/shared.module';
 import { AddExistingPaneComponent } from './add-work-packages/add-existing-pane.component';
 import { OpenprojectContentLoaderModule } from 'core-app/shared/components/op-content-loader/openproject-content-loader.module';
+import { TeamPlannerSidemenuComponent } from 'core-app/features/team-planner/team-planner/sidemenu/team-planner-sidemenu.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { OpenprojectContentLoaderModule } from 'core-app/shared/components/op-co
     TeamPlannerPageComponent,
     AddAssigneeComponent,
     AddExistingPaneComponent,
+    TeamPlannerSidemenuComponent,
   ],
   imports: [
     OPSharedModule,

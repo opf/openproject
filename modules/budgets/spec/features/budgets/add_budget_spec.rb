@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -97,7 +97,7 @@ describe 'adding a new budget', type: :feature, js: true do
     let(:new_budget_page) { Pages::NewBudget.new project.identifier }
     let(:budget_page) { Pages::EditBudget.new Budget.last }
 
-    let(:project_members) { { user => create(:role) } }
+    let(:project_members) { { user => create(:role, permissions: %i[work_package_assigned]) } }
 
     before do
       create :cost_rate, cost_type: cost_type, rate: 50.0

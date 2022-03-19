@@ -105,7 +105,7 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
 
     // Cases for wp
     // 1. No wp.ancestors in table -> Render them immediately (defer=false)
-    // 2. Parent in table -> deffered[parent] = wp
+    // 2. Parent in table -> defered[parent] = wp
     // 3. Parent not in table BUT a ancestor in table
     // -> deferred[a ancestor] = parent
     // -> deferred[parent] = wp

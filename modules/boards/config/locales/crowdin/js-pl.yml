@@ -2,6 +2,7 @@
 pl:
   js:
     boards:
+      create_new: 'New board'
       label_unnamed_board: 'Tablica bez nazwy'
       label_unnamed_list: 'Lista bez nazwy'
       label_board_type: 'Typ tablicy'

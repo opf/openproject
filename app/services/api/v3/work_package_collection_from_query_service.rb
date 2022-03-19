@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,7 +30,7 @@ module API
   module V3
     class WorkPackageCollectionFromQueryService
       include Utilities::PathHelper
-      include ::API::Utilities::PageSizeHelper
+      include ::API::Utilities::UrlPropsParsingHelper
 
       def initialize(query, user, scope: nil)
         self.query = query
@@ -81,13 +81,15 @@ module API
           if query.manually_sorted?
             params[:query_id] = query.id
             params[:offset] = 1
-            # Force the setting value in all cases except when 0 is requested explictly. Fetching with pageSize = 0
+            # Force the setting value in all cases except when 0 is requested explicitly. Fetching with pageSize = 0
             # is done for performance reasons to simply get the query without the results.
             params[:pageSize] = pageSizeParam(params) == 0 ? pageSizeParam(params) : Setting.forced_single_page_size
           else
             params[:offset] = to_i_or_nil(params[:offset])
             params[:pageSize] = pageSizeParam(params)
           end
+
+          params[:select] = nested_from_csv(provided_params['select'])
         end
       end
 
@@ -147,18 +149,27 @@ module API
       def collection_representer(work_packages, params:, project:, groups:, sums:)
         resulting_params = calculate_resulting_params(params)
 
-        ::API::V3::WorkPackages::WorkPackageCollectionRepresenter.new(
-          work_packages,
-          self_link: self_link(project),
-          project: project,
-          query: resulting_params,
-          page: resulting_params[:offset],
-          per_page: resulting_params[:pageSize],
-          groups: groups,
-          total_sums: sums,
-          embed_schemas: true,
-          current_user: current_user
-        )
+        if resulting_params[:select]
+          ::API::V3::Utilities::SqlRepresenterWalker
+            .new(work_packages,
+                 current_user: current_user,
+                 self_path: self_link(project),
+                 url_query: resulting_params)
+            .walk(::API::V3::WorkPackages::WorkPackageSqlCollectionRepresenter)
+        else
+          ::API::V3::WorkPackages::WorkPackageCollectionRepresenter.new(
+            work_packages,
+            self_link: self_link(project),
+            project: project,
+            query: resulting_params,
+            page: resulting_params[:offset],
+            per_page: resulting_params[:pageSize],
+            groups: groups,
+            total_sums: sums,
+            embed_schemas: true,
+            current_user: current_user
+          )
+        end
       end
 
       def to_i_or_nil(value)

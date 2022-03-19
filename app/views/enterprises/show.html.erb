@@ -2,10 +2,6 @@
 
 <%= toolbar title: t("admin.enterprise.upgrade_to_ee") %>
 
-<%= nonced_javascript_tag do %>
-  <%= include_gon(need_tag: false) -%>
-<% end %>
-
 <%= error_messages_for 'token' %>
 
 <% if @current_token.present? %>

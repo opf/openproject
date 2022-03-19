@@ -17,10 +17,10 @@
           <a
               class="op-tab-row--link"
               role="button"
-              [ngClass]="{ 'op-tab-row--link_selected': currentTab && tab.name === currentTab.name, 'op-tab-row--link_disabled': tab.disableBecause != null  }"
-              [attr.title]="tab.disableBecause || tab.title"
-              [textContent]="tab.title"
-              (click)="switchTo(tab.name)"
+              [ngClass]="{ 'op-tab-row--link_selected': currentTab && tab.name === currentTab.name, 'op-tab-row--link_disabled': tab.disable != null  }"
+              [attr.title]="tab.disable || tab.name"
+              [textContent]="tab.name"
+              (click)="switchTo(tab)"
               href
           ></a>
         </li>

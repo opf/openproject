@@ -17,7 +17,8 @@ describe 'edit work package', js: true do
   let(:manager_role) do
     create :role,
            permissions: %i[view_work_packages
-                           edit_work_packages]
+                           edit_work_packages
+                           work_package_assigned]
   end
   let(:manager) do
     create :admin,
