@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,7 +36,7 @@ describe 'filter me value', js: true do
            public: true,
            members: project_members
   end
-  let(:role) { create :existing_role, permissions: [:view_work_packages] }
+  let(:role) { create :existing_role, permissions: %i[view_work_packages work_package_assigned] }
   let(:admin) { create :admin }
   let(:user) { create :user }
   let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }

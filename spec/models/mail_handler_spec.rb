@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -47,7 +47,7 @@ describe MailHandler, type: :model do
   end
 
   shared_context 'wp_on_given_project' do
-    let(:permissions) { %i[add_work_packages assign_versions] }
+    let(:permissions) { %i[add_work_packages assign_versions work_package_assigned] }
     let!(:user) do
       create(:user,
              mail: 'JSmith@somenet.foo',
@@ -151,7 +151,7 @@ describe MailHandler, type: :model do
   end
 
   shared_context 'with a reply to a wp mention with attributes' do
-    let(:permissions) { %i[add_work_package_notes view_work_packages edit_work_packages] }
+    let(:permissions) { %i[add_work_package_notes view_work_packages edit_work_packages work_package_assigned] }
     let(:role) do
       create(:role, permissions: permissions)
     end

@@ -2,6 +2,7 @@
 ja:
   js:
     boards:
+      create_new: 'New board'
       label_unnamed_board: '無題のボード'
       label_unnamed_list: '無題のリスト'
       label_board_type: 'ボードの形式'

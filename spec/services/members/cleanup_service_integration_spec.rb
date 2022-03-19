@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -58,7 +58,7 @@ describe Members::CleanupService, 'integration', type: :model do
         create(:member,
                principal: user,
                project: project,
-               roles: [create(:role, assignable: true)])
+               roles: [create(:role, permissions: %i[work_package_assigned])])
       end
 
       it 'keeps assigned_to to the user' do
@@ -74,7 +74,8 @@ describe Members::CleanupService, 'integration', type: :model do
         create(:member,
                principal: user,
                project: project,
-               roles: [create(:role, assignable: false)])
+               # Lacking work_package_assigned
+               roles: [create(:role, permissions: [])])
       end
 
       it 'sets assigned_to to nil' do

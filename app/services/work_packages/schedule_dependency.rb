@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -38,21 +36,13 @@ class WorkPackages::ScheduleDependency
   end
 
   def each
-    unhandled = dependencies.keys
+    each_while_unhandled do |unhandled_by_id, scheduled, dependency|
+      next unless unhandled_by_id[scheduled.id]
+      next unless dependency.met?(unhandled_by_id.keys)
 
-    while unhandled.any?
-      movement = false
-      dependencies.each do |scheduled, dependency|
-        next unless unhandled.include?(scheduled)
-        next unless dependency.met?(unhandled)
+      yield scheduled, dependency
 
-        yield scheduled, dependency
-
-        unhandled.delete(scheduled)
-        movement = true
-      end
-
-      raise "Circular dependency" unless movement
+      unhandled_by_id.except!(scheduled.id)
     end
   end
 
@@ -61,6 +51,10 @@ class WorkPackages::ScheduleDependency
                 :known_work_packages,
                 :known_work_packages_by_id,
                 :known_work_packages_by_parent_id
+
+  def scheduled_work_packages_by_id
+    @scheduled_work_packages_by_id ||= (work_packages + dependencies.keys).group_by(&:id).transform_values(&:first)
+  end
 
   private
 
@@ -122,6 +116,21 @@ class WorkPackages::ScheduleDependency
     dependencies.merge!(moved)
   end
 
+  def each_while_unhandled
+    unhandled_by_id = dependencies.keys.group_by(&:id).transform_values(&:last)
+
+    while unhandled_by_id.any?
+      unhandled_by_id_count_before = unhandled_by_id_count_after = unhandled_by_id.count
+      dependencies.each do |scheduled, dependency|
+        yield unhandled_by_id, scheduled, dependency
+
+        unhandled_by_id_count_after = unhandled_by_id.count
+      end
+
+      raise "Circular dependency" unless unhandled_by_id_count_after < unhandled_by_id_count_before
+    end
+  end
+
   class Dependency
     def initialize(work_package, schedule_dependency)
       self.schedule_dependency = schedule_dependency
@@ -136,6 +145,10 @@ class WorkPackages::ScheduleDependency
       @descendants ||= descendants_from_preloaded(work_package)
     end
 
+    def descendants_ids
+      @descendants_ids ||= descendants.map(&:id)
+    end
+
     def follows_moved
       tree = ancestors + descendants
 
@@ -148,12 +161,16 @@ class WorkPackages::ScheduleDependency
       @follows_unmoved ||= unmoved_predecessors_from_preloaded(work_package, tree)
     end
 
+    def follows_moved_to_ids
+      @follows_moved_to_ids ||= follows_moved.map(&:to).map(&:id)
+    end
+
     attr_accessor :work_package,
                   :schedule_dependency
 
-    def met?(unhandled_work_packages)
-      (descendants & unhandled_work_packages).empty? &&
-        (follows_moved.map(&:to) & unhandled_work_packages).empty?
+    def met?(unhandled_ids)
+      (descendants_ids & unhandled_ids).empty? &&
+        (follows_moved_to_ids & unhandled_ids).empty?
     end
 
     def max_date_of_followed
@@ -195,7 +212,8 @@ class WorkPackages::ScheduleDependency
 
     delegate :known_work_packages,
              :known_work_packages_by_id,
-             :known_work_packages_by_parent_id, to: :schedule_dependency
+             :known_work_packages_by_parent_id,
+             :scheduled_work_packages_by_id, to: :schedule_dependency
 
     def scheduled_work_packages
       schedule_dependency.work_packages + schedule_dependency.dependencies.keys
@@ -206,7 +224,7 @@ class WorkPackages::ScheduleDependency
         .map(&:follows_relations)
         .flatten
         .map do |relation|
-          scheduled = scheduled_work_packages.detect { |c| relation.to_id == c.id }
+          scheduled = scheduled_work_packages_by_id[relation.to_id]
 
           if scheduled
             relation.to = scheduled
@@ -221,7 +239,7 @@ class WorkPackages::ScheduleDependency
         .map(&:follows_relations)
         .flatten
         .reject do |relation|
-          scheduled_work_packages.any? { |m| relation.to_id == m.id }
+          scheduled_work_packages_by_id[relation.to_id].present?
         end
     end
   end

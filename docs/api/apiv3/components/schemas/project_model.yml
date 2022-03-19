@@ -5,8 +5,7 @@ properties:
   id:
     type: integer
     description: Projects' id
-    minimum: 0
-    exclusiveMinimum: true
+    minimum: 1
   identifier:
     type: string
   name:

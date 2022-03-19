@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -248,12 +248,10 @@ module Costs
              writable: false
     end
 
-    initializer 'costs.register_latest_project_activity' do
+    config.to_prepare do
       Project.register_latest_project_activity on: 'TimeEntry',
                                                attribute: :updated_at
-    end
 
-    config.to_prepare do
       Costs::Patches::MembersPatch.mixin!
 
       ##
@@ -270,7 +268,9 @@ module Costs
         ::Type.add_constraint attribute, constraint
       end
 
-      Queries::Register.column Query, Costs::QueryCurrencyColumn
+      ::Queries::Register.register(::Query) do
+        column Costs::QueryCurrencyColumn
+      end
     end
   end
 end

@@ -8,6 +8,11 @@
 pre-commit:
   parallel: true
   commands:
+    eslint:
+      root: "frontend/"
+      files: git diff --name-only --staged
+      glob: "*.{js,ts,jsx,tsx}"
+      run: npx eslint {staged_files}
     rubocop:
       files: git diff --name-only --staged
       glob: "*.rb"

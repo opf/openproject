@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -37,6 +37,7 @@ import { OpContextMenuTrigger } from 'core-app/shared/components/op-context-menu
 import { States } from 'core-app/core/states/states.service';
 import { OpenprojectFieldsModule } from 'core-app/shared/components/fields/openproject-fields.module';
 import { OPSharedModule } from 'core-app/shared/shared.module';
+import { OpSpotModule } from 'core-app/spot/spot.module';
 import { OpDragScrollDirective } from 'core-app/shared/directives/op-drag-scroll/op-drag-scroll.directive';
 import { DynamicBootstrapper } from 'core-app/core/setup/globals/dynamic-bootstrapper';
 import { OpenprojectWorkPackagesModule } from 'core-app/features/work-packages/openproject-work-packages.module';
@@ -109,6 +110,8 @@ export function initializeServices(injector:Injector) {
     BrowserModule,
     // Commons
     OPSharedModule,
+    // Design System
+    OpSpotModule,
     // State module
     OpenProjectStateModule,
     // Router module

@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -24,6 +24,7 @@ fr:
     ajax:
       hide: "Masquer"
       loading: "Chargement…"
+      updating: "Updating ..."
     attachments:
       draggable_hint: |
         Faites glisser le champ de l'éditeur pour incorporer une image ou une pièce jointe de référence. Les champs fermés de l'éditeur seront ouverts tant que vous continuer à faire glisser.
@@ -251,6 +252,7 @@ fr:
     enumeration_doc_categories: "Catégories de documents"
     enumeration_work_package_priorities: "Priorités du Lot de Travaux"
     filter:
+      more_values_not_shown: "There are %{total} more results, search to filter results."
       description:
         text_open_filter: "Ouvrir ce filtre avec les touches « ALT » et fléchées."
         text_close_filter: "Pour sélectionner une entrée, laissez le focus par exemple en appuyant sur enter. Pour quitter sans filtre, sélectionnez la première entrée (vide)."
@@ -452,7 +454,6 @@ fr:
     label_starred_queries: "Vue préférées"
     label_global_queries: "Vues publiques"
     label_custom_queries: "Vues privées"
-    label_create_new_query: "Créer nouveau"
     label_columns: "Colonnes"
     label_attachments: Fichiers
     label_drop_files: Déposez des fichiers ici
@@ -1156,8 +1157,22 @@ fr:
           placeholder: 'Le utilisateur fictif peut maintenant être utilisé dans %{project}. En attendant, vous pouvez déjà planifier des taches avec cet utilisateur et l''assigner à des lots de travaux par exemple.'
           group: 'Le groupe fait maintenant partie du %{project}. Entre-temps, vous pouvez déjà planifier avec ce groupe et l''assigner des lots de travaux par exemple.'
         next_button: 'Continuer'
+    include_projects:
+      toggle_title: 'Include Projects'
+      title: 'Projets'
+      clear_selection: 'Clear selection'
+      apply: 'Appliquer'
+      selected_filter:
+        all: 'Tous les projets'
+        selected: 'Only selected'
+      search_placeholder: 'Search project...'
     forms:
       submit_success_message: 'Le formulaire a bien été envoyé'
       load_error_message: 'Une erreur s''est produite lors du chargement du formulaire'
       validation_error_message: 'Veuillez corriger les erreurs présentes dans le formulaire'
       advanced_settings: 'Paramètres avancés'
+    spot:
+      filter_chip:
+        remove: 'Supprimer'
+      drop_modal:
+        Close: 'Fermer'

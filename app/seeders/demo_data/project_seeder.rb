@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 
 # OpenProject is an open source project management software.
@@ -134,7 +132,7 @@ module DemoData
 
     def set_members(project)
       role = Role.find_by(name: translate_with_base_url(:default_role_project_admin))
-      user = User.admin.first
+      user = User.user.admin.first
 
       Member.create!(
         project: project,

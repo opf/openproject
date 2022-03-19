@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -39,12 +39,17 @@ import { HalResourceService } from 'core-app/features/hal/services/hal-resource.
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import {
+  map,
+  mergeMap,
+  take,
+} from 'rxjs/operators';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { WorkPackageViewFiltersService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service';
 
 @Component({
   templateUrl: './add-assignee.component.html',
@@ -67,26 +72,52 @@ export class AddAssigneeComponent {
     readonly apiV3Service:ApiV3Service,
     readonly injector:Injector,
     readonly currentProjectService:CurrentProjectService,
+    readonly wpTableFilters:WorkPackageViewFiltersService,
   ) { }
 
   public autocomplete(term:string|null):Observable<HalResource[]> {
-    const filters = new ApiV3FilterBuilder();
-
-    filters.add('member', '=', [this.currentProjectService.id || '']);
-
-    if (term) {
-      filters.add('typeahead', '**', [term]);
-    }
-
-    return this
-      .apiV3Service
-      .principals
-      .filtered(filters)
-      .get()
+    return this.wpTableFilters
+      .live$()
       .pipe(
-        map((collection) => collection.elements.filter(
-          (user) => !this.alreadySelected.find((selected) => selected === user.id),
-        )),
+        take(1),
+        map((queryFilters) => {
+          const projectFilter = queryFilters.find((queryFilter) => queryFilter._type === 'ProjectQueryFilter');
+
+          const selectedProjectIds = (() => {
+            const baseList = ((projectFilter?.values || []) as HalResource[]).map((p) => p.id);
+            const currentProjectId = this.currentProjectService.id;
+            if (baseList.includes(currentProjectId)) {
+              return [...baseList];
+            }
+
+            return [
+              ...baseList,
+              currentProjectId,
+            ];
+          })();
+
+          const filters = new ApiV3FilterBuilder();
+
+          filters.add('member', '=', selectedProjectIds as string[]);
+
+          if (term) {
+            filters.add('typeahead', '**', [term]);
+          }
+
+          return filters;
+        }),
+        mergeMap(
+          (filters) => this
+            .apiV3Service
+            .principals
+            .filtered(filters)
+            .get()
+            .pipe(
+              map((collection) => collection.elements.filter(
+                (user) => !this.alreadySelected.find((selected) => selected === user.id),
+              )),
+            ),
+        ),
       );
   }
 

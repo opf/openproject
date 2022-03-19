@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -29,27 +27,20 @@
 #++
 
 module Queries::Notifications
-  [Queries::Notifications::Filters::ReadIanFilter,
-   Queries::Notifications::Filters::IdFilter,
-   Queries::Notifications::Filters::ProjectFilter,
-   Queries::Notifications::Filters::ReasonFilter,
-   Queries::Notifications::Filters::ResourceIdFilter,
-   Queries::Notifications::Filters::ResourceTypeFilter].each do |filter|
-    Queries::Register.filter Queries::Notifications::NotificationQuery,
-                             filter
-  end
+  ::Queries::Register.register(NotificationQuery) do
+    filter Filters::ReadIanFilter
+    filter Filters::IdFilter
+    filter Filters::ProjectFilter
+    filter Filters::ReasonFilter
+    filter Filters::ResourceIdFilter
+    filter Filters::ResourceTypeFilter
 
-  [Queries::Notifications::Orders::DefaultOrder,
-   Queries::Notifications::Orders::ReasonOrder,
-   Queries::Notifications::Orders::ProjectOrder,
-   Queries::Notifications::Orders::ReadIanOrder].each do |order|
-    Queries::Register.order Queries::Notifications::NotificationQuery,
-                            order
-  end
+    order Orders::DefaultOrder
+    order Orders::ReasonOrder
+    order Orders::ProjectOrder
+    order Orders::ReadIanOrder
 
-  [Queries::Notifications::GroupBys::GroupByReason,
-   Queries::Notifications::GroupBys::GroupByProject].each do |group|
-    Queries::Register.group_by Queries::Notifications::NotificationQuery,
-                               group
+    group_by GroupBys::GroupByReason
+    group_by GroupBys::GroupByProject
   end
 end

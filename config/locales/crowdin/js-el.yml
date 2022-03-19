@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -24,6 +24,7 @@ el:
     ajax:
       hide: "Απόκρυψη"
       loading: "Φόρτωση ..."
+      updating: "Updating ..."
     attachments:
       draggable_hint: |
         Σύρετε στο πεδίο επεξεργαστή για να ευθυγραμμίσετε συνημμένα εικόνας ή αναφοράς. Τα κλειστά πεδία επεξεργαστή θα ανοίξουν όσο συνεχίζετε να σέρνετε.
@@ -250,6 +251,7 @@ el:
     enumeration_doc_categories: "Κατηγορίες εγγράφων"
     enumeration_work_package_priorities: "Προτεραιότητες πακέτου εργασίας"
     filter:
+      more_values_not_shown: "There are %{total} more results, search to filter results."
       description:
         text_open_filter: "Ανοίξτε αυτό το φίλτρο με το 'ALT' και τα πλήκτρα βέλους."
         text_close_filter: "Για να επιλέξετε μια καταχώρηση, φύγετε από την εστίαση, για παράδειγμα πατώντας το πλήκτρο enter. Για να φύγετε χωρίς το φίλτρο, επιλέξτε την πρώτη (άδεια) καταχώρηση."
@@ -451,7 +453,6 @@ el:
     label_starred_queries: "Αγαπημένες προβολές"
     label_global_queries: "Δημόσιες προβολές"
     label_custom_queries: "Ιδιωτικές προβολές"
-    label_create_new_query: "Δημιουργία νέου"
     label_columns: "Στήλες"
     label_attachments: Αρχεία
     label_drop_files: Σύρετε αρχεία εδώ
@@ -1155,8 +1156,22 @@ el:
           placeholder: 'The placeholder can now be used in %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
           group: 'Η ομάδα είναι τώρα μέρος του %{project}. Εν τω μεταξύ, μπορείτε να προγραμματίσετε ήδη με αυτή την ομάδα και να αντιστοιχίσετε πακέτα εργασίας.'
         next_button: 'Συνέχεια'
+    include_projects:
+      toggle_title: 'Include Projects'
+      title: 'Έργα'
+      clear_selection: 'Clear selection'
+      apply: 'Εφαρμογή'
+      selected_filter:
+        all: 'Όλα τα έργα'
+        selected: 'Only selected'
+      search_placeholder: 'Search project...'
     forms:
       submit_success_message: 'Η φόρμα υποβλήθηκε με επιτυχία'
       load_error_message: 'There was an error loading the form'
       validation_error_message: 'Please fix the errors present in the form'
       advanced_settings: 'Προηγμένες ρυθμίσεις'
+    spot:
+      filter_chip:
+        remove: 'Αφαίρεση'
+      drop_modal:
+        Close: 'Κλείσιμο'

@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -64,8 +62,12 @@ module OpenProject
 
       # Returns the permission of given name or nil if it wasn't found
       # Argument should be a symbol
-      def permission(name)
-        permissions.detect { |p| p.name == name }
+      def permission(action)
+        if action.is_a?(Hash)
+          permissions.detect { |p| p.controller_actions.include?("#{action[:controller]}/#{action[:action]}") }
+        else
+          permissions.detect { |p| p.name == action }
+        end
       end
 
       # Returns the actions that are allowed by the permission of given name
@@ -119,8 +121,17 @@ module OpenProject
         @contract_actions_map ||= permissions.each_with_object({}) do |p, hash|
           next unless p.contract_actions.any?
 
-          hash[p.name] = { actions: p.contract_actions, global: p.global?, module: p.project_module }
+          hash[p.name] = { actions: p.contract_actions,
+                           global: p.global?,
+                           module_name: p.project_module,
+                           grant_to_admin: p.grant_to_admin? }
         end
+      end
+
+      def grant_to_admin?(permission_name)
+        # Parts of the application currently rely on granting not defined permissions,
+        # e.g. :edit_attribute_help_texts to administrators.
+        permission(permission_name).nil? || permission(permission_name).grant_to_admin?
       end
 
       def remove_modules_permissions(module_name)

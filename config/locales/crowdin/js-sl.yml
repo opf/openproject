@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -24,6 +24,7 @@ sl:
     ajax:
       hide: "Skrij"
       loading: "Nalaganje..."
+      updating: "Updating ..."
     attachments:
       draggable_hint: |
         Povlecite na urejevalno polje, da vstavite sliko ali referenčno prilogo. Med nadaljevanjem vlečenja se bodo odprla zaprta polja urejevalnika.
@@ -250,6 +251,7 @@ sl:
     enumeration_doc_categories: "Kategorije dokumentov"
     enumeration_work_package_priorities: "Prednostne naloge delovnega paketa"
     filter:
+      more_values_not_shown: "There are %{total} more results, search to filter results."
       description:
         text_open_filter: "Odpri ta filter z 'ALT' in s puščicami za premikanje."
         text_close_filter: "Za izbiro vnosa zapustite fokus, na primer s pritiskom na enter. Če želite zapustiti brez filtra, izberite prvi (prazen) vnos."
@@ -451,7 +453,6 @@ sl:
     label_starred_queries: "Priljubljeni pogledi"
     label_global_queries: "Javni pogledi"
     label_custom_queries: "Zasebni pogledi"
-    label_create_new_query: "Ustvari novega"
     label_columns: "Stolpci"
     label_attachments: Datoteke
     label_drop_files: Spustite datoteke tukaj
@@ -1161,8 +1162,22 @@ sl:
           placeholder: 'Rezervirano mesto se zdaj lahko uporabi v %{project}. Medtem lahko planirate s tem uporabnikom in mu dodelite delovne naloge.'
           group: 'Skupina je zdaj del %{project}. Medtem lahko planirate s to skupino in ji dodelite delovne naloge.'
         next_button: 'Nadaljuj'
+    include_projects:
+      toggle_title: 'Include Projects'
+      title: 'Projekti'
+      clear_selection: 'Clear selection'
+      apply: 'Potrdi'
+      selected_filter:
+        all: 'Vsi projekti'
+        selected: 'Only selected'
+      search_placeholder: 'Search project...'
     forms:
       submit_success_message: 'Obrazev je bil uspešno oddan'
       load_error_message: 'Pri nalaganju obrazca je prišlo do napake'
       validation_error_message: 'Prosimo popravite napake v obrazcu'
       advanced_settings: 'Napredne nastavitve'
+    spot:
+      filter_chip:
+        remove: 'Odstrani'
+      drop_modal:
+        Close: 'Zapri'

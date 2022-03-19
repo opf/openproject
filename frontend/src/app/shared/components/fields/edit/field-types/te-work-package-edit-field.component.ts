@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -93,6 +93,7 @@ export class TimeEntryWorkPackageEditFieldComponent extends WorkPackageEditField
         .then((collection) => {
           this.recentWorkPackageIds = collection
             .elements
+            .filter((timeEntry) => timeEntry.workPackage?.href)
             .map((timeEntry) => idFromLink(timeEntry.workPackage.href))
             .filter((v, i, a) => a.indexOf(v) === i);
 
@@ -105,7 +106,8 @@ export class TimeEntryWorkPackageEditFieldComponent extends WorkPackageEditField
   protected allowedValuesFilter(query?:string):{} {
     const filters:ApiV3FilterBuilder = new ApiV3FilterBuilder();
 
-    if ((this._autocompleterComponent as TimeEntryWorkPackageAutocompleterComponent).mode === 'recent') {
+    const isRecent = (this._autocompleterComponent as TimeEntryWorkPackageAutocompleterComponent).mode === 'recent';
+    if (isRecent && this.recentWorkPackageIds.length > 0) {
       filters.add('id', '=', this.recentWorkPackageIds);
     }
 

@@ -4,8 +4,29 @@
   #content
     height: 100%
 
+  &.router--work-packages-partitioned-split-view-details,
+  &.router--work-packages-partitioned-split-view-new
+    full-calendar.op-team-planner--calendar .fc-header-toolbar
+      .fc-resourceTimelineWeek-button,
+      .fc-resourceTimelineTwoWeeks-button,
+      .fc-today-button
+        display: none
+
 .op-team-planner
+  --fc-border-color: #cccccc
+
   &--calendar_empty
     .fc-scrollgrid-section-body,
     .fc-scrollgrid-section-footer
       display: none
+
+  .fc-header-toolbar
+    margin-left: 138px
+
+  &_with_left_side_pane
+    .fc-header-toolbar
+      margin-left: -136px
+
+  .fc-event-dragging
+    .op-wp-single-card--content-inline-date
+      visibility: hidden

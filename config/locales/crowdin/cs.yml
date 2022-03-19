@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -77,13 +77,13 @@ cs:
         upgrade: "Upgradovat nyní"
         contact: "Kontaktujte nás pro demo"
       enterprise_info_html: "je funkcí Enterprise<strong class='icon-medal'></strong>."
-      upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
+      upgrade_info: "Přejděte na placenou verzi a začněte ji používat ve vašem týmu."
   announcements:
     show_until: Ukázat až do
     is_active: aktuálně zobrazené
     is_inactive: v současné době nejsou zobrazeny
   attribute_help_texts:
-    note_public: 'Any text and images you add to this field is publicly visible to all logged in users!'
+    note_public: 'Jakýkoliv text a obrázky, které přidáte do tohoto pole, jsou veřejně přístupné všem přihlášeným uživatelům!'
     text_overview: 'V tomto zobrazení můžete vytvořit vlastní nápovědné texty pro zobrazení atributů. Pokud je definováno, mohou být tyto texty zobrazeny klepnutím na ikonu nápovědy vedle jejího atributu.'
     label_plural: 'Texty nápovědy atributu'
     show_preview: 'Náhled textu'
@@ -95,7 +95,7 @@ cs:
       no_results_content_text: Vytvořit nový režim ověřování
   background_jobs:
     status:
-      error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
+      error_requeue: "Úkol zaznamenal chybu, ale opakuje se. Chyba je: %{message}"
       cancelled_due_to: "Úkol byl zrušen z důvodu chyby: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
@@ -166,7 +166,7 @@ cs:
     edit: 'Upravit vlastní akci %{name}'
     execute: 'Spustit %{name}'
     upsale:
-      title: 'Custom actions'
+      title: 'Vlastní akce'
       description: 'Vlastní akce zjednodušuje každodenní práci tím, že kombinuje několik kroků do jednoho tlačítka.'
   custom_fields:
     text_add_new_custom_field: >
@@ -176,14 +176,14 @@ cs:
     contained_in_type: 'Obsahuje typ'
     confirm_destroy_option: "Smazáním možnosti smažete všechny výskyty (např. v pracovních balíčcích). Opravdu ji chcete odstranit?"
     reorder_alphabetical: "Změnit pořadí abecedně"
-    reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
+    reorder_confirmation: "Varování: Aktuální pořadí dostupných hodnot bude ztraceno. Pokračovat?"
     tab:
       no_results_title_text: V současné době nejsou žádná vlastní pole.
       no_results_content_text: Vytvořit nové vlastní pole
   concatenation:
     single: 'nebo'
   documentation:
-    see_more_link: For more information, please see our documentation on this topic.
+    see_more_link: Více informací naleznete v naší dokumentaci k tomuto tématu.
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -201,7 +201,7 @@ cs:
       Zadejte seznam názvů, které budou ignorovány při zpracování příloh pro příchozí poštu (např. podpisy nebo ikony). Zadejte jeden název souboru na řádek.
   projects:
     delete:
-      scheduled: "Deletion has been scheduled and is performed in the background. You will be notified of the result."
+      scheduled: "Odstranění bylo naplánováno a je dokončeno na pozadí. Výsledek vám bude oznámen."
       schedule_failed: "Projekt nelze odstranit: %{errors}"
       failed: "Smazání projektu %{name} selhalo"
       failed_text: "Požadavek na smazání projektu %{name} se nezdařil. Projekt zůstal archivován."
@@ -210,7 +210,7 @@ cs:
     index:
       open_as_gantt: 'Otevřít jako zobrazení Gantt'
       open_as_gantt_title: "Použijte toto tlačítko pro generování Ganttova zobrazení, které filtruje pracovní balíčky pro projekty viditelné na této stránce."
-      open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
+      open_as_gantt_title_admin: "Nastavení zobrazení (například vybrané typy pracovních balíčků) můžete změnit v administraci pod nastavením projektu."
       no_results_title_text: V současné době nejsou žádné projekty
       no_results_content_text: Vytvořit nový projekt
     settings:
@@ -231,7 +231,7 @@ cs:
         no_results_title_text: V současné době neexistují žádné verze pro projekt.
         no_results_content_text: Vytvořit novou verzi
       storage:
-        no_results_title_text: There is no additional recorded disk space consumed by this project.
+        no_results_title_text: Neexistuje žádné další diskové místo využívané tímto projektem.
   members:
     index:
       no_results_title_text: Momentálně nejsou žádní členové součástí tohoto projektu.
@@ -255,19 +255,19 @@ cs:
       no_results_title_text: Tento uživatel není v současné době členem projektu.
   placeholder_users:
     right_to_manage_members_missing: >
-      You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
+      Nemáte oprávnění odstranit zástupného uživatele. Nemáte právo spravovat členy pro všechny projekty, jejichž členem je zástupný uživatel.
     delete_tooltip: "Odstranit placeholder uživatele"
     deletion_info:
       heading: "Odstranit zástupného uživatele %{name}"
       data_consequences: >
-        All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user".
-        As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
+        Všechny výskyty zástupného uživatele (např. jako pověřené nebo odpovědné nebo jiné uživatelské hodnoty) budou přeřazeny na účet nazvaný "Smazaný uživatel".
+        Vzhledem k tomu, že data každého smazaného účtu jsou znovu přiřazena k tomuto účtu, nebude možné rozlišit data, která uživatel vytvořil od dat jiného smazaného účtu.
       irreversible: "Tato akce je nevratná"
-      confirmation: "Enter the placeholder user name %{name} to confirm the deletion."
+      confirmation: "Zadejte název zástupného uživatele %{name} pro potvrzení odstranění."
     upsale:
       title: placeholder uživatel
       description: >
-        There are multiple scenarios where you want to assign work to people that are not member of your project. It could simply be that you still need to hire the correct person for the job. Or you just don't want to give that person access to the project's information but still want track tasks assigned to that person.
+        Existuje několik scénářů, kde chcete přiřadit práci lidem, kteří nejsou členy vašeho projektu. Mohlo by se jednoduše stát, že ještě musíte najmout správnou osobu na zaměstnání. Nebo nechcete této osobě umožnit přístup k informacím o projektu, ale přesto chcete sledovat úkoly přidělené této osobě.
   prioritiies:
     edit:
       priority_color_text: |
@@ -303,8 +303,8 @@ cs:
       query_group_placeholder: "Pojmenovat tabulku"
       reset: "Obnovit výchozí nastavení"
       type_color_text: |
-        The selected color distinguishes different types
-        in Gantt charts or work packages tables. It is therefore recommended to use a strong color.
+        Vybraná barva rozlišuje různé typy
+        v Ganttových grafech nebo tabulkách pracovních balíčků. Proto se doporučuje použít kontrastní barvu.
   versions:
     overview:
       no_results_title_text: Momentálně zde nejsou žádné pracovní balíčky přiřazené k této verzi.
@@ -326,7 +326,7 @@ cs:
       could_not_be_saved: "Následující pracovní balíčky nelze uložit:"
       none_could_be_saved: "Žádný z %{total} pracovních balíčků nemohl být aktualizován."
       x_out_of_y_could_be_saved: "%{failing} z pracovních balíčků %{total} nemohl být aktualizován, zatímco %{success} může."
-      selected_because_descendants: "While %{selected} work packages where selected, in total %{total} work packages are affected which includes descendants."
+      selected_because_descendants: "Zatímco %{selected} vybraných pracovních balíčků má vliv na %{total} pracovních balíčků, které zahrnují potomky."
       descendant: "potomek vybraného"
     move:
       no_common_statuses_exists: "Pro všechny vybrané pracovní balíčky není k dispozici žádný stav. Jejich stav nelze změnit."
@@ -457,12 +457,12 @@ cs:
         code: 'Stav'
         explanation: 'Popis stavu'
         codes:
-          not_started: 'Not started'
+          not_started: 'Nezahájeno'
           on_track: 'On track'
           at_risk: 'At risk'
           off_track: 'Off track'
-          finished: 'Finished'
-          discontinued: 'Discontinued'
+          finished: 'Dokončeno'
+          discontinued: 'Zrušeno'
       query:
         column_names: "Sloupce"
         relations_to_type_column: "Vztahy s %{type}"
@@ -473,7 +473,6 @@ cs:
       repository:
         url: "URL"
       role:
-        assignable: "Pracovní balíčky mohou být přiřazeny uživatelům a skupinám, které tuto roli vlastní v příslušném projektu"
         permissions: "Práva"
       time_entry:
         activity: "Aktivita"
@@ -550,7 +549,7 @@ cs:
         before: "musí být před %{date}."
         before_or_equal_to: "musí být před nebo rovno %{date}."
         blank: "nemůže být prázdné."
-        blank_nested: "needs to have the property '%{property}' set."
+        blank_nested: "musí mít nastavenou vlastnost '%{property}'."
         cant_link_a_work_package_with_a_descendant: "Pracovní balíček nemůže být propojen s jedním z jeho podúkolů."
         circular_dependency: "Tento vztah by vytvořil kruhovou závislost."
         confirmation: "neshoduje se s %{attribute}."
@@ -564,8 +563,8 @@ cs:
         even: "musí být sudé."
         exclusion: "vyhrazeno."
         file_too_large: "je příliš velký (maximální velikost je %{count} Bajtů)."
-        format: "does not match the expected format '%{expected}'."
-        format_nested: "does not match the expected format '%{expected}' at path '%{path}'."
+        format: "neodpovídá očekávanému formátu '%{expected}'."
+        format_nested: "neodpovídá očekávanému formátu '%{expected}' na cestě '%{path}'."
         greater_than: "musí být větší než %{count}."
         greater_than_or_equal_to: "musí být větší než nebo rovno %{count}."
         greater_than_or_equal_to_start_date: "musí být větší nebo rovno počátečnímu datu."
@@ -593,18 +592,18 @@ cs:
         too_long: "je příliš dlouhý (maximum je %{count} znaků)."
         too_short: "je příliš krátký (minimum je %{count} znaků)."
         type_mismatch: "není typu '%{type}'"
-        type_mismatch_nested: "is not of type '%{type}' at path '%{path}'"
+        type_mismatch_nested: "není typu '%{type}' na cestě '%{path}'"
         unchangeable: "nelze změnit."
-        unknown_property: "is not a known property."
-        unknown_property_nested: "has the unknown path '%{path}'."
+        unknown_property: "není známá vlastnost."
+        unknown_property_nested: "má neznámou cestu '%{path}'."
         unremovable: "nelze odstranit."
         wrong_length: "má chybnou délku (měla by být %{count} znaků)."
       models:
         attachment:
           attributes:
             content_type:
-              blank: "The content type of the file cannot be blank."
-              not_whitelisted: "The file was rejected by an automatic filter. '%{value}' is not whitelisted for upload."
+              blank: "Typ obsahu souboru nemůže být prázdný."
+              not_whitelisted: "Soubor byl odmítnut automatickým filtrem. '%{value}' není na seznamu povolených pro nahrávání."
               format: "%{message}"
         capability:
           context:
@@ -651,7 +650,7 @@ cs:
             reason_mail_digest:
               no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
         notification_settings:
-          only_one_global_setting: 'There must only be one global notification setting.'
+          only_one_global_setting: 'Musí existovat pouze jedno globální nastavení oznámení.'
           email_alerts_global: 'Nastavení e-mailových oznámení lze nastavit pouze globálně.'
           format: "%{message}"
         parse_schema_filter_params_service:
@@ -667,7 +666,7 @@ cs:
             types:
               in_use_by_work_packages: "stále používáno pracovními balíčky: %{types}"
             enabled_modules:
-              dependency_missing: "The module '%{dependency}' needs to be enabled as well since the module '%{module}' depends on it."
+              dependency_missing: "Modul '%{dependency}' musí být také povolen, protože modul '%{module}' na něm závisí."
               format: "%{message}"
         query:
           attributes:
@@ -716,7 +715,7 @@ cs:
         time_entry:
           attributes:
             hours:
-              day_limit: "is too high as a maximum of 24 hours can be logged per date."
+              day_limit: "je příliš vysoká, protože maximálně 24 hodin může být zaznamenáno za datum."
         user_preference:
           attributes:
             pause_reminders:
@@ -796,7 +795,7 @@ cs:
         version:
           undeletable_work_packages_attached: "Verze nemůže být odstraněna, protože jsou k ní připojeny pracovní balíčky."
         status:
-          readonly_default_exlusive: "can not be activated for statuses that are marked default."
+          readonly_default_exlusive: "nelze aktivovat pro stavy, které jsou označeny jako výchozí."
       template:
         body: "Zkontrolujte, prosím, následující pole:"
         header:
@@ -818,9 +817,9 @@ cs:
       news: "Novinky"
       notification:
         one: "Oznámení"
-        few: "Notifications"
-        many: "Notifications"
-        other: "Notifications"
+        few: "Oznámení"
+        many: "Oznámení"
+        other: "Oznámení"
       placeholder_user: "placeholder uživatel"
       project: "Projekt"
       query: "Vlastní dotaz"
@@ -902,6 +901,7 @@ cs:
     version: "Verze"
     work_package: "Pracovní balíček"
   backup:
+    failed: "Backup failed"
     label_backup_token: "Záložní token"
     label_create_token: "Vytvořit záložní token"
     label_delete_token: "Odstranit záložní token"
@@ -915,18 +915,18 @@ cs:
       implications: >
         Enabling backups will allow any user with the required permissions and this backup token to download a backup containing all data of this OpenProject installation. This includes the data of all other users.
       info: >
-        You will need to generate a backup token to be able to create a backup. Each time you want to request a backup you will have to provide this token. You can delete the backup token to disable backups for this user.
+        Budete muset vygenerovat token zálohy, abyste mohli vytvořit zálohu. Pokaždé, když chcete požádat o zálohu, budete muset tento token poskytnout.  Pro zakázání záloh tomuto uživateli můžete odstranit token zálohy
       verification: >
-        Enter %{word} to confirm you want to %{action} the backup token.
+        Zadejte %{word} pro potvrzení, že chcete %{action} tokenu.
       verification_word_reset: reset
       verification_word_create: vytvořit
       warning: >
-        When you create a new token you will only be allowed to request a backup after 24 hours. This is a safety measure. After that you can request a backup any time using that token.
+        Po vytvoření nového tokenu budete moci požádat o zálohu pouze po 24 hodinách. Toto je bezpečnostní opatření. Poté můžete kdykoliv požádat o zálohu.
     text_token_deleted: Záložní token odstraněn. Zálohy jsou nyní zakázány.
     error:
       invalid_token: Neplatný nebo chybí záložní token 
       token_cooldown: Záložní token bude platný za %{hours} hodin.
-      backup_pending: There is already a backup pending.
+      backup_pending: Záloha je již v pořadí.
       limit_reached: Můžete provádět pouze %{limit} záloh denně.
   button_add: "Přidat"
   button_add_comment: "Přidat komentář"
@@ -1068,7 +1068,7 @@ cs:
       - "únor"
       - "březen"
       - "duben"
-      - "Kvě"
+      - "Květen"
       - "červen"
       - "červenec"
       - "srpen"
@@ -1187,7 +1187,7 @@ cs:
   default_role_anonymous: "Anonymní"
   default_role_developer: "Vývojář"
   default_role_project_admin: "Projekt admin"
-  default_role_project_creator_and_staff_manager: "Staff and projects manager"
+  default_role_project_creator_and_staff_manager: "Manažer zaměstnanců a projektů"
   default_role_non_member: "Není člen"
   default_role_reader: "Čtenář"
   default_role_member: "Člen"
@@ -1239,7 +1239,7 @@ cs:
         rename_groups: "Přejmenovat skupiny atributů"
       project_filters:
         description_html: "Filtrování a třídění vlastních polí je funkcí enterprise edice."
-  enumeration_activities: "Time tracking activities"
+  enumeration_activities: "Sledování času"
   enumeration_work_package_priorities: "Priority pracovního balíčku"
   enumeration_reported_project_statuses: "Nahlášený stav projektu"
   error_auth_source_sso_failed: "Jednotné přihlášení (SSO) pro uživatele '%{value}' selhalo"
@@ -1247,8 +1247,8 @@ cs:
   error_can_not_delete_entry: "Nelze odstranit položku"
   error_can_not_delete_custom_field: "Nelze odstranit vlastní pole"
   error_can_not_delete_type:
-    explanation: 'This type contains work packages and cannot be deleted. You can see all affected work packages in <a target="_blank" href="%{url}">this view</a>.'
-    archived_projects: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the type of the respective work packages: %{archived_projects}'
+    explanation: 'Tento typ obsahuje pracovní balíčky a nelze je odstranit. Všechny dotčené pracovní balíčky můžete vidět v <a target="_blank" href="%{url}">tomto zobrazení</a>.'
+    archived_projects: 'V archivovaných projektech jsou také pracovní balíčky. Nejprve musíte projekty znovu aktivovat, než budete moci změnit typ příslušných pracovních balíčků: %{archived_projects}'
   error_can_not_delete_standard_type: "Standartní typy se nedají odstranit."
   error_can_not_invite_user: "Nepodařilo se odeslat pozvání uživateli."
   error_can_not_remove_role: "Tato role je používána a nelze ji odstranit."
@@ -1276,8 +1276,8 @@ cs:
   error_no_default_work_package_status: "Žádný výchozí stav pracovního balíčku není definovaný. Prosím zkontrolujte konfiguraci (v \"Administrace -> Stav pracovního balíčku\")."
   error_no_type_in_project: "Neexistuje žádný typ provázaný s tímto projektem. Prosím zkontrolujte nastavení projektu."
   error_omniauth_registration_timed_out: "Registrace prostřednictvím poskytovatele pro externí autentifikaci vypršela. Prosím zkuste to znova."
-  error_omniauth_invalid_auth: "The authentication information returned from the identity provider was invalid. Please contact your administrator for further help."
-  error_password_change_failed: 'An error occurred when trying to change the password.'
+  error_omniauth_invalid_auth: "Ověřovací údaje vrácené od poskytovatele identity byly neplatné. Pro další pomoc kontaktujte svého správce."
+  error_password_change_failed: 'Došlo k chybě při pokusu o změnu hesla.'
   error_scm_command_failed: "Vyskytla se chyba při pokusu o přístup k repozitáři: %{value}"
   error_scm_not_found: "Položka nebo revize nebyla v repozitáři nalezena."
   error_unable_delete_status: "Stav pracovního balíčku sa nedá odstranit, protože ho používá ještě alespoň jeden další pracovní balíček."
@@ -1291,7 +1291,7 @@ cs:
   error_menu_item_not_saved: Menu item could not be saved
   error_wiki_root_menu_item_conflict: >
     Nelze přejmenovat "%{old_name}" na "%{new_name}" kvůli konfliktu výsledné položky nabídky s existující položkou nabídky "%{existing_caption}" (%{existing_identifier}).
-  error_external_authentication_failed: "An error occurred during external authentication. Please try again."
+  error_external_authentication_failed: "Vyskytla sa chyba během externí autentifikace. Prosím zkuste to znova."
   error_attribute_not_highlightable: "Atribut není zvýrazněn: %{attributes}"
   events:
     project: 'Projekt upraven'
@@ -1397,18 +1397,18 @@ cs:
         watched: "Sledujete %{work_package}"
     update_info_mail:
       body: >
-        We are excited to announce the release of OpenProject 12.0. It's a major release that will hopefully significantly improve the way you use OpenProject.
+        Jsme rádi, že oznamujeme vydání OpenProject 12.0. Je to významná verze, která doufejme výrazně zlepší způsob, jakým používáte OpenProject.
 
-        Starting with this release, we are introducing in-app notifications. From now on, you will receive notifications for updates to work packages directly in OpenProject. You can mark these notifications as read, reply to a comment or even directly modify work package attributes without leaving the notification center.
+        Počínaje touto verzí přinášíme oznámení v aplikaci. Od nynějška budete dostávat upozornění na aktualizace pracovních balíčků přímo v OpenProject. Tato oznámení můžete označit jako přečtená, odpovědět na komentář nebo dokonce přímo upravit atributy pracovního balíčku, aniž byste opustili oznamovací centrum.
 
-        This also means that we will no longer be using emails for notifications. We think the new notification center is a better place to view and act upon these updates. Nevertheless, if you would like continue receiving updates via email, you can choose to receive daily email reminders at particular times of your choosing.
+        To také znamená, že již nebudeme používat e-maily pro oznámení. Myslíme si, že nové centrum oznámení je lepším místem pro prohlížení a jednání na základě těchto aktualizací. Nicméně, pokud chcete nadále dostávat aktualizace prostřednictvím e-mailu, můžete si vybrat denní připomenutí e-mailem v určitých okamžicích vašeho výběru.
 
-        Please make sure to verify your new default notification settings, and set your preferences for notifications and email reminders via your account settings. You can do this through the “Change email settings” button bellow.
+        Ujistěte se prosím, že jste si ověřili své nové výchozí nastavení oznámení a nastavte své předvolby pro upozornění a připomenutí e-mailem v nastavení vašeho účtu. Můžete to udělat pomocí tlačítka "Změnit nastavení e-mailu".
 
-        We hope you find in-app notifications useful and that they makes you even more productive.
+        Doufáme, že najdete oznámení v aplikacích užitečná a že vás učiní ještě produktivnějšími.
 
-        Sincerely,
-        The OpenProject team
+        S pozdravem,
+        OpenProject tým
       body_header: 'Verze 12.0 s oznamovacím centrem'
       body_subheader: 'Novinky'
       subject: 'Důležité změny oznámení s vydáním 12.0'
@@ -1540,7 +1540,7 @@ cs:
   label_deleted: "Smazáno"
   label_deleted_custom_field: "(odstraněno vlastní pole)"
   label_deleted_custom_option: "(deleted option)"
-  label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
+  label_missing_or_hidden_custom_option: "(chybí hodnota nebo chybí oprávnění k přístupu)"
   label_descending: "Sestupně"
   label_details: "Podrobnosti"
   label_development_roadmap: "Plán vývoje"
@@ -1720,7 +1720,7 @@ cs:
   label_on: "zapnuto"
   label_open_menu: "Otevřít nabídku"
   label_open_work_packages: "otevřít"
-  label_open_work_packages_plural: "otevřít"
+  label_open_work_packages_plural: "otevřené"
   label_openproject_website: "Webové stránky OpenProject"
   label_optional_description: "Popis"
   label_options: "Možnosti"
@@ -1982,7 +1982,7 @@ cs:
   mail:
     actions: 'Akce'
     digests:
-      including_mention_singular: 'including a mention'
+      including_mention_singular: 'včetně zmínky'
       including_mention_plural: 'včetně %{number_mentioned} zmínění'
       unread_notification_singular: '1 nepřečtené oznámení'
       unread_notification_plural: '%{number_unread} nepřečtených oznámení'
@@ -2002,36 +2002,36 @@ cs:
       mentioned_by: '%{user} vás zmínil v komentáři'
       more_to_see:
         one: 'Existuje ještě 1 pracovní balíček s oznámeními.'
-        few: 'There are %{count} more work packages with notifications.'
-        many: 'There are %{count} more work packages with notifications.'
-        other: 'There are %{count} more work packages with notifications.'
+        few: 'Existuje ještě  %{count}  pracovních balíčků s oznámeními.'
+        many: 'Existuje ještě  %{count}  pracovních balíčků s oznámeními.'
+        other: 'Existuje ještě  %{count}  pracovních balíčků s oznámeními.'
       reason:
         watched: 'Sledováno'
         assigned: 'Přiřazen'
         responsible: 'Odpovědný'
         mentioned: 'Zmíněné'
         subscribed: 'vše'
-        prefix: 'Received because of the notification setting: %{reason}'
+        prefix: 'Obdrženo z důvodu nastavení oznámení: %{reason}'
       see_all: 'Zobrazit vše'
       updated_at: 'Aktualizováno v %{timestamp} uživatelem %{user}'
   mail_body_account_activation_request: "Nový uživatel (%{value}) byl zaregistrován. Účet čeká na Vaše schválení:"
   mail_body_account_information: "Informace o vašem účtu"
   mail_body_account_information_external: "Můžete použít váš %{value} účet pro přihlášení."
-  mail_body_backup_ready: "Your requested backup is ready. You can download it here:"
-  mail_body_backup_token_reset_admin_info: The backup token for user '%{user}' has been reset.
+  mail_body_backup_ready: "Vaše požadovaná záloha je připravena. Můžete ji stáhnout zde:"
+  mail_body_backup_token_reset_admin_info: Záložní token pro uživatele '%{user}' byl resetován.
   mail_body_backup_token_reset_user_info: Váš záložní token byl resetován.
   mail_body_backup_token_info: Předchozí token již není platný.
-  mail_body_backup_waiting_period: The new token will be enabled in %{hours} hours.
-  mail_body_backup_token_warning: If this wasn't you, login to OpenProject immediately and reset it again.
+  mail_body_backup_waiting_period: Nový token bude povolen za %{hours} hodin.
+  mail_body_backup_token_warning: Pokud jste to nebyl Vy, přihlaste se okamžitě do OpenProject a resetujte jej .
   mail_body_lost_password: "Pro změnu vašeho hesla klikněte na následující odkaz:"
-  mail_body_register: "Vítejte v OpenProject. Aktivujte svůj účet kliknutím na tento odkaz:"
+  mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "E-mail pozvánka člena projektu"
   mail_body_register_user: "Vážený %{name},"
   mail_body_register_links_html: |
-    Please feel free to browse our youtube channel (%{youtube_link}) where we provide a webinar (%{webinar_link})
-    and “Get started” videos (%{get_started_link}) to make your first steps in OpenProject as easy as possible.
+    Prohlédněte si prosím náš YouTube kanál (%{youtube_link}), kde poskytneme webinář (%{webinar_link})
+    a videa "Začínáme" (%{get_started_link}), abychom učinili vaše první kroky v OpenProject co nejjednodušší.
     <br />
-    If you have any further questions, consult our documentation (%{documentation_link}) or contact your administrator.
+    Pokud máte nějaké další dotazy, podívejte se do dokumentace (%{documentation_link}) nebo kontaktujte svého správce.
   mail_body_register_closing: "Váš OpenProject tým"
   mail_body_register_ending: "Zůstaňte ve spojení! S pozdravem,"
   mail_body_reminder: "%{count} pracovních balíčků, které máte přiřazeny, mají termín během následujících %{days} dnů:"
@@ -2040,7 +2040,7 @@ cs:
   mail_body_wiki_content_updated: "Wiki stránka '%{id}' byla aktualizována uživatelem %{author}."
   mail_subject_account_activation_request: "Žádost o aktivaci účtu %{value}"
   mail_subject_backup_ready: "Vaše záloha je připravena"
-  mail_subject_backup_token_reset: "Backup token reset"
+  mail_subject_backup_token_reset: "Resetovat token zálohy"
   mail_subject_lost_password: "Vaše heslo %{value}"
   mail_subject_register: "Aktivace vašeho účtu %{value}"
   mail_subject_reminder: "%{count} pracovních balíčků s termínem do dalších %{days} dnů"
@@ -2052,21 +2052,21 @@ cs:
     body:
       added_by:
         without_message: "%{user} tě přidal jako člena do projektu '%{project}'."
-        with_message: "%{user} added you as a member to the project '%{project}' writing:"
+        with_message: "%{user} tě přidal jako člena do projektu '%{project}'."
       roles: "Máte následující role:"
   mail_member_updated_project:
     subject: "%{project} - Vaše role byly aktualizovány"
     body:
       updated_by:
-        without_message: "%{user} updated the roles you have in the project '%{project}'."
-        with_message: "%{user} updated the roles you have in the project '%{project}' writing:"
+        without_message: "%{user} aktualizoval vaše role v projektu '%{project}'."
+        with_message: "%{user} aktualizoval role, které máte v projektu '%{project}' a píše:"
       roles: "Nyní máte následující role:"
   mail_member_updated_global:
     subject: "Vaše globální oprávnění byla aktualizována"
     body:
       updated_by:
-        without_message: "%{user} updated the roles you have globally."
-        with_message: "%{user} updated the roles you have globally writing:"
+        without_message: "%{user} aktualizoval role, které máte globálně."
+        with_message: "%{user} aktualizoval role, které máte globálně a píše:"
       roles: "Nyní máte následující role:"
   mail_user_activation_limit_reached:
     subject: Dosažen limit aktivace uživatelů
@@ -2108,7 +2108,7 @@ cs:
   notice_email_sent: "Email zaslán na %{value}"
   notice_failed_to_save_work_packages: "Nepodařilo se uložit %{count} pracovních balíčků z %{total} vybraných: %{ids}."
   notice_failed_to_save_members: "Nepodařilo se uložit člena(y): %{errors}."
-  notice_deletion_scheduled: "The deletion has been scheduled and is performed asynchronously."
+  notice_deletion_scheduled: "Odstranění bylo naplánováno a probíhá asynchronně."
   notice_file_not_found: "Stránka, kterou se snažíte získat přístup, neexistuje nebo byla odstraněna."
   notice_forced_logout: "Byli jste automaticky odhlášeni po %{ttl_time} minutách nečinnosti."
   notice_internal_server_error: "Nastala chyba na stránce, ke které se pokoušíte přistoupit. Pokud přetrváváte problémy, obraťte se na správce %{app_title}."
@@ -2168,7 +2168,7 @@ cs:
     heading_getting_started: "Získejte přehled"
     text_getting_started_description: "Získejte rychlý přehled o řízení projektu a týmové spolupráci s OpenProject."
     text_show_again: "Toto video můžete restartovat z menu nápovědy"
-    welcome: "Vítejte v OpenProject"
+    welcome: "Welcome to %{app_title}"
     select_language: "Vyberte prosím svůj jazyk"
   permission_add_work_package_notes: "Přidat poznámky"
   permission_add_work_packages: "Přidat pracovní balíčky"
@@ -2237,6 +2237,8 @@ cs:
   permission_view_timelines: "Zobrazit časové osy"
   permission_view_wiki_edits: "Zobrazit historii wiki"
   permission_view_wiki_pages: "Zobrazit wiki"
+  permission_work_package_assigned: "Become assignee/responsible"
+  permission_work_package_assigned_explanation: "Pracovní balíčky mohou být přiřazeny uživatelům a skupinám, které tuto roli vlastní v příslušném projektu"
   placeholders:
     default: "-"
   project:
@@ -2390,12 +2392,12 @@ cs:
     If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
   setting_apiv3_max_page_size: "Maximální velikost stránky API"
   setting_apiv3_max_page_instructions_html: >
-    Set the maximum page size the API will respond with. It will not be possible to perform API requests that return more values on a single page. <br/> <strong>Warning:</strong> Please only change this value if you are sure why you need it. Setting to a high value will result in significant performance impacts, while a value lower than the per page options will cause errors in paginated views.
+    Nastavte maximální velikost stránky, se kterou bude API reagovat. Nebude možné provádět API požadavky, které vracejí více hodnot na jedné stránce. <br/> <strong>Varování:</strong> Změňte tuto hodnotu pouze pokud jste si jisti, proč ji potřebujete. Nastavení na vysokou hodnotu bude mít výrazný dopad na výkon, zatímco hodnota nižší, než jsou možnosti na stránce, způsobí chyby v stránkovaných zobrazeních.
   setting_apiv3_docs: "Dokumentace"
-  setting_apiv3_docs_enabled: "Enable docs page"
+  setting_apiv3_docs_enabled: "Povolit stránku dokumentace"
   setting_apiv3_docs_enabled_instructions_html: >
-    If the docs page is enabled you can get an interactive view of the APIv3 documentation under <a href="%{link}" target="_blank">%{link}</a>.
-  setting_attachment_whitelist: "Attachment upload whitelist"
+    Pokud je stránka dokumentace povolena, můžete získat interaktivní pohled na dokumentaci APIv3 pod <a href="%{link}" target="_blank">%{link}</a>.
+  setting_attachment_whitelist: "Seznam povolených povolených příloh"
   setting_email_delivery_method: "Způsob zasílání emailu"
   setting_sendmail_location: "Umístění spustitelného souboru sendmail"
   setting_smtp_enable_starttls_auto: "Automaticky použít STARTTLS, pokud je dostupné"
@@ -2441,7 +2443,7 @@ cs:
   setting_email_login: "Použít e-mail jako přihlášení"
   setting_enabled_scm: "Povolit SCM"
   setting_enabled_projects_columns: "Viditelné v seznamu projektů"
-  setting_notification_retention_period_days: "Notification retention period"
+  setting_notification_retention_period_days: "Lhůta pro uchovávání oznámení"
   setting_feeds_enabled: "Povolit kanály"
   setting_feeds_limit: "Limit obsahu kanálů"
   setting_file_max_size_displayed: "Maximální velikost textových souborů zobrazených přímo na stránce"
@@ -2455,7 +2457,7 @@ cs:
   setting_work_package_properties: "Vlastnosti pracovního balíčku"
   setting_work_package_startdate_is_adddate: "Použít aktuální datum jako počáteční datum pro nové úkoly"
   setting_work_packages_export_limit: "Limit exportu pracovních balíčků"
-  setting_journal_aggregation_time_minutes: "User actions aggregated within"
+  setting_journal_aggregation_time_minutes: "Uživatelské akce agregované v rámci"
   setting_log_requesting_user: "Logovat uživatelský login a emailovou adresu pro všechny požadavky"
   setting_login_required: "Vyžadována autentizace"
   setting_mail_from: "Odchozí emailová adresa"
@@ -2473,7 +2475,7 @@ cs:
   setting_plain_text_mail: "Prostý text (ne HTML)"
   setting_protocol: "Protokol"
   setting_project_gantt_query: "Gantt Zobrazení projektového portfolia"
-  setting_project_gantt_query_text: "You can modify the query that is used to display Gantt chart from the project overview page."
+  setting_project_gantt_query_text: "Můžete upravit dotaz, který se používá k zobrazení Gantt grafu ze stránky s přehledem projektu."
   setting_security_badge_displayed: "Zobrazit bezpečnostní odznak"
   setting_registration_footer: "Zápatí registrace"
   setting_repositories_automatic_managed_vendor: "Automatický typ dodavatele repozitáře"
@@ -2512,17 +2514,17 @@ cs:
     brute_force_prevention: "Automatizované blokování uživatelů"
     attachments:
       whitelist_text_html: >
-        Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
+        Definujte seznam platných přípon souborů a/nebo mime typů pro nahrané soubory. <br/> Zadejte přípony souborů (např. <code>%{ext_example}</code>) nebo mime typy (např. ., <code>%{mime_example}</code>). <br/> Ponechte prázdné pro nahrání jakéhokoli typu souboru. Povoleno více hodnot (jeden řádek pro každou hodnotu).
     notifications:
       retention_text: >
-        Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
-      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
-      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
+        Nastavte počet dní pro který bude oznámení pro uživatele bude udržováno v systému. Všechny události starší budou odstraněny.
+      events_explanation: 'Určuje, pro kterou událost je odeslán e-mail. Pracovní balíčky jsou z tohoto seznamu vyloučeny, protože oznámení pro ně mohou být nastavena speciálně pro každého uživatele.'
+      delay_minutes_explanation: "Odesílání e-mailu může být pozdrženo, aby bylo uživatelům s nakonfigurovaným v oznámení aplikace před odesláním pošty potvrzeno oznámení. Uživatelé, kteří si přečtou oznámení v aplikaci, nedostanou e-mail pro již přečtené oznámení."
     display:
       first_date_of_week_and_year_set: >
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
       first_week_of_year_text: >
-        Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year.
+        Vyberte datum ledna, které je obsaženo v prvním týdnu roku. Tato hodnota spolu s prvním dnem v týdnu určuje celkový počet týdnů v roce.
     projects:
       section_new_projects: "Nastavení pro nové projekty"
       section_project_overview: "Nastavení přehledu seznamu  projektu"
@@ -2598,9 +2600,9 @@ cs:
   text_work_packages_destroy_confirmation: "Jste si jisti, že chcete odstranit vybrané pracovní balíčky?"
   text_work_packages_ref_in_commit_messages: "Odkazování a opravování pracovních balíčků ve zprávách commitu"
   text_journal_added: "%{label} %{value} přidán"
-  text_journal_aggregation_time_explanation: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent."
-  text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
-  text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
+  text_journal_aggregation_time_explanation: "Individuální akce/úpravy uživatele (např. dvojnásobná aktualizace pracovního balíčku se sečtou do jediné akce, pokud je jejich časový rozdíl menší než stanovený čas. Budou zobrazeny jako jedna akce v rámci aplikace. Toto také zpozdí oznámení o stejný čas a sníží tak počet zasílaných e-mailů."
+  text_journal_changed_html: "%{label} se změnil z %{old} %{linebreak}<strong>na</strong> %{new}"
+  text_journal_changed_plain: "%{label} se změnil z %{old} %{linebreak}na %{new}"
   text_journal_changed_no_detail: "%{label} aktualizován"
   text_journal_changed_with_diff: "%{label} změněn (%{link})"
   text_journal_deleted: "%{label} smazán (%{old})"
@@ -2856,7 +2858,7 @@ cs:
     reset_failed_logins: "Resetovat nezdařené přihlášení"
     status_user_and_brute_force: "%{user} a %{brute_force}"
     status_change: "Změna stavu"
-    text_change_disabled_for_provider_login: "The name is set by your login provider and can thus not be changed."
+    text_change_disabled_for_provider_login: "Jméno je nastaveno vaším administrátorem přihlášení, a proto jej nelze změnit."
     unlock: "Odemknout"
     unlock_and_reset_failed_logins: "Odemknout a resetovat nezdařené přihlášení"
   version_status_closed: "uzavřeno"
@@ -2924,7 +2926,7 @@ cs:
       invalid_resource: "Pro vlastnost '%{property}' se očekává odkaz '%{expected}', ale dostal '%{actual}'."
       invalid_signal:
         embed: "The requested embedding of %{invalid} is not supported. Supported embeddings are %{supported}."
-        select: "The requested select of %{invalid} is not supported. Supported selects are %{supported}."
+        select: "Požadovaný select %{invalid} není podporován. Podporovaný select je %{supported}."
       invalid_user_status_transition: "Stav aktuálního uživatelského účtu tuto operaci nepovoluje."
       missing_content_type: "není specifikováno"
       missing_request_body: "Nebylo nalezeno žádné tělo požadavku."
@@ -2944,23 +2946,26 @@ cs:
         invalid_user_assigned_to_work_package: "Zvolený uživatel nesmí být '%{property}' pro tento pracovní balíček."
         start_date: "Počáteční datum nelze nastavit na nadřazených pracovních balíčcích."
       eprops:
-        invalid_gzip: "is invalid gzip: %{message}"
-        invalid_json: "is invalid json: %{message}"
+        invalid_gzip: "je neplatný gzip: %{message}"
+        invalid_json: "je neplatný json: %{message}"
     resources:
       schema: 'Schéma'
     undisclosed:
-      parent: Undisclosed - The selected parent is invisible because of lacking permissions.
-      ancestor: Undisclosed - The ancestor is invisible because of lacking permissions.
+      parent: Nezveřejněno - Vybraný rodič je neviditelný z důvodu nedostatku oprávnění.
+      ancestor: Nezveřejněno - Předák je neviditelný kvůli chybějícím oprávněním.
   doorkeeper:
     pre_authorization:
       status: 'Předběžná autorizace'
     auth_url: 'Auth URL'
-    access_token_url: 'Access token URL'
+    access_token_url: 'URL přístupového tokenu'
     errors:
       messages:
         #Common error messages
-        invalid_request: 'Požadavek chybí požadovaný parametr, obsahuje nepodporovanou hodnotu parametru nebo je jinak poškozený.'
-        invalid_redirect_uri: "The requested redirect URI is malformed or doesn't match client redirect URI."
+        invalid_request:
+          unknown: 'Požadavek chybí požadovaný parametr, obsahuje nepodporovanou hodnotu parametru nebo je jinak poškozený.'
+          missing_param: 'Missing required parameter: %{value}.'
+          request_not_authorized: 'Request need to be authorized. Required parameter for authorizing request is missing or invalid.'
+        invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
         unauthorized_client: 'Klient nemá oprávnění k provedení tohoto požadavku pomocí této metody.'
         access_denied: 'Vlastník zdroje nebo autorizační server požadavek zamítl.'
         invalid_scope: 'Požadovaný rozsah je neplatný, neznámý nebo nesprávný.'
@@ -2973,6 +2978,7 @@ cs:
         admin_authenticator_not_configured: 'Přístup do admin panelu je zakázán, protože Doorkeeper.configure.admin_authenticator není nakonfigurován.'
         #Access grant errors
         unsupported_response_type: 'Autorizační server tento typ odpovědi nepodporuje.'
+        unsupported_response_mode: 'The authorization server does not support this response mode.'
         #Access token errors
         invalid_client: 'Ověření klienta se nezdařilo z důvodu neznámého klienta, bez autentizace klienta nebo z důvodu nepodporované autentizační metody.'
         invalid_grant: 'Poskytnutá autorizace je neplatná, vypršela, zrušena, neodpovídá URI přesměrování použité v žádosti o autorizaci, nebo byla vydána jinému zákazníkovi.'
@@ -2981,6 +2987,10 @@ cs:
           revoked: "Přístupový token byl odvolán"
           expired: "Přístupový token vypršel"
           unknown: "Přístupový token je neplatný"
+        revoke:
+          unauthorized: "You are not authorized to revoke this token."
+        forbidden_token:
+          missing_scope: 'Access to this resource requires scope "%{oauth_scopes}".'
   unsupported_browser:
     title: "Váš prohlížeč je zastaralý a nepodporován."
     message: "Na této stránce se mohou objevit chyby a zhoršené zkušenosti."
@@ -2998,7 +3008,7 @@ cs:
         redirect_uri_html: >
           Povolené adresy URL oprávněných uživatelů mohou být přesměrovány na jeden záznam na řádek. <br/> Pokud registrujete aplikaci pro stolní počítač, použijte následující URL.
         confidential: "Zkontrolujte, zda bude aplikace použita tam, kde může být klient tajný. Domácí mobilní aplikace a aplikace na jednu stránku jsou považovány za nedůvěrné."
-        scopes: "Check the scopes you want the application to grant access to. If no scope is checked, api_v3 is assumed."
+        scopes: "Zkontrolujte rozsah, ke kterému chcete aplikaci udělit přístup. Pokud není zaškrtnutý rozsah, api_v3 se předpokládá."
         client_credential_user_id: "Volitelné uživatelské ID pro osobu, když klient používá tuto aplikaci. Ponechte prázdné pro povolení pouze veřejného přístupu"
         register_intro: "Pokud vytváříte klientskou aplikaci OAuth API pro OpenProject, můžete ji zaregistrovat pomocí tohoto formuláře pro všechny uživatele."
         default_scopes: ""
@@ -3013,8 +3023,8 @@ cs:
       wants_to_access_html: >
         Tato aplikace požaduje přístup k vašemu OpenProject účtu. <br/> <strong>Požádala o následující oprávnění:</strong>
     scopes:
-      api_v3: "Full API v3 access"
-      api_v3_text: "Application will receive full read & write access to the OpenProject API v3 to perform actions on your behalf."
+      api_v3: "Plný přístup k API v3"
+      api_v3_text: "Aplikace získá plný přístup ke čtení a zápisu do OpenProject API, aby mohla provádět akce vaším jménem."
     grants:
       created_date: "Schváleno dne"
       scopes: "Práva"

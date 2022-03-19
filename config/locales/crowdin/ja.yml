@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -466,7 +466,6 @@ ja:
       repository:
         url: "URL"
       role:
-        assignable: "それぞれのプロジェクトで、ワークパッケージはこの役割をもつユーザーおよびグループに割り当てることができます。"
         permissions: "権限"
       time_entry:
         activity: "活動"
@@ -883,6 +882,7 @@ ja:
     version: "バージョン"
     work_package: "ワーク パッケージ"
   backup:
+    failed: "Backup failed"
     label_backup_token: "バックアップトークン"
     label_create_token: "バックアップトークンを作成する"
     label_delete_token: "バックアップトークンを削除する"
@@ -1966,7 +1966,7 @@ ja:
   mail_body_backup_waiting_period: 新しいトークンは %{hours} 時間後に有効になります。
   mail_body_backup_token_warning: これがあなたでなかった場合、すぐに OpenProject にログインして、再度リセットしてください。
   mail_body_lost_password: "パスワードを変更するには、以下のリンクをクリックしてください:"
-  mail_body_register: "OpenProjectへようこそ。このリンクをクリックしてアカウントを有効化してください："
+  mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "プロジェクトへの招待メール"
   mail_body_register_user: "%{name}さん"
   mail_body_register_links_html: |
@@ -2108,7 +2108,7 @@ ja:
     heading_getting_started: "概要を取得"
     text_getting_started_description: "OpenProject のプロジェクト管理とチームコラボレーションの簡単な概要を取得します。"
     text_show_again: "ヘルプメニューからこのビデオを再度開始することができます。"
-    welcome: "OpenProjectへようこそ"
+    welcome: "Welcome to %{app_title}"
     select_language: "言語を選択してください"
   permission_add_work_package_notes: "注記の追加"
   permission_add_work_packages: "ワークパッケージの追加"
@@ -2177,6 +2177,8 @@ ja:
   permission_view_timelines: "タイムラインの閲覧"
   permission_view_wiki_edits: "Wiki履歴の閲覧"
   permission_view_wiki_pages: "Wikiの閲覧"
+  permission_work_package_assigned: "Become assignee/responsible"
+  permission_work_package_assigned_explanation: "それぞれのプロジェクトで、ワークパッケージはこの役割をもつユーザーおよびグループに割り当てることができます。"
   placeholders:
     default: "-"
   project:
@@ -2894,8 +2896,11 @@ ja:
     errors:
       messages:
         #Common error messages
-        invalid_request: 'リクエストに必要なパラメーターがありません、サポートされていないパラメーター値が含まれているか、その他の形式に誤りがあります。'
-        invalid_redirect_uri: "要求されたリダイレクトURIが不正な形式であるか、クライアントのリダイレクトURIと一致しません。"
+        invalid_request:
+          unknown: 'リクエストに必要なパラメーターがありません、サポートされていないパラメーター値が含まれているか、その他の形式に誤りがあります。'
+          missing_param: 'Missing required parameter: %{value}.'
+          request_not_authorized: 'Request need to be authorized. Required parameter for authorizing request is missing or invalid.'
+        invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
         unauthorized_client: 'クライアントはこのメソッドを使用してリクエストを実行することが許可されていません。'
         access_denied: 'リソース所有者または認証サーバーが要求を拒否しました。'
         invalid_scope: '要求された範囲は無効、不明、または不正な形式です。'
@@ -2908,6 +2913,7 @@ ja:
         admin_authenticator_not_configured: 'Doorkeeper.configure.admin_authenticatorの設定が解除されているため、管理パネルへのアクセスは禁止されています。'
         #Access grant errors
         unsupported_response_type: '認証サーバーはこのレスポンスタイプをサポートしません。'
+        unsupported_response_mode: 'The authorization server does not support this response mode.'
         #Access token errors
         invalid_client: '不明なクライアント、クライアント認証が含まれていない、またはサポートされていない認証方法のため、クライアント認証が失敗しました。'
         invalid_grant: '提供された許可付与が無効、期限切れ、取り消された、許可要求で使用されたリダイレクトURIと一致しない、または別のクライアントに発行されました。'
@@ -2916,6 +2922,10 @@ ja:
           revoked: "アクセストークンが取り消されました"
           expired: "アクセストークンの有効期限が切れました"
           unknown: "アクセストークンが無効です"
+        revoke:
+          unauthorized: "You are not authorized to revoke this token."
+        forbidden_token:
+          missing_scope: 'Access to this resource requires scope "%{oauth_scopes}".'
   unsupported_browser:
     title: "お使いのブラウザは古く、サポートされていません。"
     message: "このページでエラーと崩れを体験するかもしれません。"

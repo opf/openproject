@@ -2,6 +2,7 @@
 lt:
   js:
     boards:
+      create_new: 'Nauja lenta'
       label_unnamed_board: 'Bevardė lenta'
       label_unnamed_list: 'Bevardis sąrašas'
       label_board_type: 'Lentos tipas'

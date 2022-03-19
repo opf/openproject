@@ -1,43 +1,35 @@
 # Schema: Work_PackagesModel
 ---
-type: object
-properties:
-  total:
-    type: integer
-    description: Total number of entries
-    readOnly: true
-    minimum: 0
-    exclusiveMinimum: false
-  count:
-    type: integer
-    description: Embedded number of entries
-    readOnly: true
-    minimum: 0
-    exclusiveMinimum: false
-  _links:
-    type: object
+allOf:
+  - "$ref": "./collection_model.yml"
+  - type: object
     required:
-    - self
+      - _links
+      - _embedded
     properties:
-      self:
-        allOf:
-        - "$ref": "./link.yml"
-        - description: |-
-            This Work Package List
-
-            **Resource**: Work_PackagesModel
-          readOnly: true
-  _embedded:
-    type: object
-    properties:
-      elements:
-        type: array
-        readOnly: true
-        items:
+      _links:
+        type: object
+        required:
+          - self
+        properties:
+          self:
             allOf:
-            - "$ref": "./work_package_model.yml"
-            - description: Collection of WorkPackages
-            readOnly: true
+              - "$ref": "./link.yml"
+              - description: |-
+                  The work package collection
+                  
+                  **Resource**: WorkPackageCollection
+                readOnly: true
+      _embedded:
+        type: object
+        required:
+          - elements
+        properties:
+          elements:
+            type: array
+            items:
+              $ref: './work_package_model.yml'
+
 example:
   _links:
     self:
@@ -47,15 +39,15 @@ example:
   _type: Collection
   _embedded:
     elements:
-    - _type: WorkPackage
-      _links:
-        self:
-          href: "/api/v3/work_packages/1"
-      id: 1
-      subject: Skipped other properties for brevity
-    - _type: WorkPackage
-      _links:
-        self:
-          href: "/api/v3/work_packages/2"
-      id: 2
-      subject: Skipped other properties for brevity
+      - _hint: Work package resource shortened for brevity
+        _type: WorkPackage
+        _links:
+          self:
+            href: "/api/v3/work_packages/1"
+        id: 1
+      - _hint: Work package resource shortened for brevity
+        _type: WorkPackage
+        _links:
+          self:
+            href: "/api/v3/work_packages/2"
+        id: 2
