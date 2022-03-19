@@ -759,8 +759,6 @@ components:
       "$ref": "./components/schemas/work_package_activities_model.yml"
     Work_PackagesModel:
       "$ref": "./components/schemas/work_packages_model.yml"
-    Work_Packages_by_ProjectModel:
-      "$ref": "./components/schemas/work_packages_by_project_model.yml"
   securitySchemes:
     BasicAuth:
       type: http

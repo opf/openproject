@@ -1,43 +1,36 @@
 # Schema: WatchersModel
 ---
-type: object
-properties:
-  total:
-    type: integer
-    description: Total number of entries
-    readOnly: true
-    minimum: 0
-    exclusiveMinimum: false
-  count:
-    type: integer
-    description: Embedded number of entries
-    readOnly: true
-    minimum: 0
-    exclusiveMinimum: false
-  _links:
-    type: object
+allOf:
+  - "$ref": "./collection_model.yml"
+  - type: object
     required:
-    - self
+      - _links
+      - _embedded
     properties:
-      self:
-        allOf:
-        - "$ref": "./link.yml"
-        - description: |-
-            The watcher list
-
-            **Resource**: WatchersModel
-          readOnly: true
-  _embedded:
-    type: object
-    properties:
-      elements:
-        type: array
-        readOnly: true
-        items:
+      _links:
+        type: object
+        required:
+        - self
+        properties:
+          self:
             allOf:
-            - "$ref": "./user_model.yml"
-            - description: Collection of Users
+            - "$ref": "./link.yml"
+            - description: |-
+                The watcher list
+                
+                **Resource**: WatchersModel
+              readOnly: true
+      _embedded:
+        type: object
+        properties:
+          elements:
+            type: array
             readOnly: true
+            items:
+                allOf:
+                - "$ref": "./user_model.yml"
+                - description: Collection of Users
+                readOnly: true
 example:
   _links:
     self:
