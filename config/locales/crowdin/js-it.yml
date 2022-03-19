@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -24,6 +24,7 @@ it:
     ajax:
       hide: "Nascondi"
       loading: "Caricamento ..."
+      updating: "Updating ..."
     attachments:
       draggable_hint: |
         Trascina l'elemento nei campi dell'editor per allineare l'immagine o il riferimento allegato. I campi dell'editor chiusi verranno sbloccati durante il trascinamento.
@@ -251,6 +252,7 @@ it:
     enumeration_doc_categories: "Categorie di documenti"
     enumeration_work_package_priorities: "Priorità della macro-attività"
     filter:
+      more_values_not_shown: "There are %{total} more results, search to filter results."
       description:
         text_open_filter: "Apri questo filtro con i tasti 'ALT' e le frecce."
         text_close_filter: "Per selezionare una voce, lascia vuoto lo stato attivo per esempio premendo 'Invio'. Per uscire senza un filtro seleziona la prima voce (vuota)."
@@ -453,7 +455,6 @@ it:
     label_starred_queries: "Viste preferite"
     label_global_queries: "Viste pubbliche"
     label_custom_queries: "Viste private"
-    label_create_new_query: "Crea nuovo"
     label_columns: "Colonne"
     label_attachments: File
     label_drop_files: Trascina i file qui
@@ -1157,8 +1158,22 @@ it:
           placeholder: 'Il segnaposto è ora utilizzabile in %{project}. Nel mentre puoi ad esempio già pianificare con quell''utente e assegnare pacchetti di lavoro.'
           group: 'Il gruppo è ora parte di %{project}. Nel mentre puoi ad esempio già pianificare con quel gruppo e assegnare pacchetti di lavoro.'
         next_button: 'Continua'
+    include_projects:
+      toggle_title: 'Include Projects'
+      title: 'Progetti'
+      clear_selection: 'Clear selection'
+      apply: 'Applica'
+      selected_filter:
+        all: 'Tutti i progetti'
+        selected: 'Only selected'
+      search_placeholder: 'Search project...'
     forms:
       submit_success_message: 'Il modulo è stato inviato correttamente'
       load_error_message: 'Si è verificato un errore caricando il modulo'
       validation_error_message: 'Sei pregato di risolvere gli errori presenti nel modulo'
       advanced_settings: 'Impostazioni avanzate'
+    spot:
+      filter_chip:
+        remove: 'Rimuovi'
+      drop_modal:
+        Close: 'Chiuso'

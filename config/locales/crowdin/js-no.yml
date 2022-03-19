@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -24,6 +24,7 @@
     ajax:
       hide: "Skjul"
       loading: "Laster inn ..."
+      updating: "Updating ..."
     attachments:
       draggable_hint: |
         Drag on editor field to inline image or reference attachment. Closed editor fields will be opened while you keep dragging.
@@ -251,6 +252,7 @@
     enumeration_doc_categories: "Dokumentkategorier"
     enumeration_work_package_priorities: "Prioritering av arbeidspakker"
     filter:
+      more_values_not_shown: "There are %{total} more results, search to filter results."
       description:
         text_open_filter: "Åpne dette filteret med 'ALT' og piltastene."
         text_close_filter: "To select an entry leave the focus for example by pressing enter. To leave without filter select the first (empty) entry."
@@ -452,7 +454,6 @@
     label_starred_queries: "Favorittvisninger"
     label_global_queries: "Offentlige visninger"
     label_custom_queries: "Private views"
-    label_create_new_query: "Create new"
     label_columns: "Kolonner"
     label_attachments: Filer
     label_drop_files: Drop files here
@@ -1156,8 +1157,22 @@
           placeholder: 'The placeholder can now be used in %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
           group: 'The group is now a part of %{project}. Meanwhile you can already plan with that group and assign work packages for instance.'
         next_button: 'Fortsett'
+    include_projects:
+      toggle_title: 'Include Projects'
+      title: 'Prosjekter'
+      clear_selection: 'Clear selection'
+      apply: 'Bruk'
+      selected_filter:
+        all: 'All projects'
+        selected: 'Only selected'
+      search_placeholder: 'Search project...'
     forms:
       submit_success_message: 'The form was successfully submitted'
       load_error_message: 'There was an error loading the form'
       validation_error_message: 'Please fix the errors present in the form'
       advanced_settings: 'Advanced settings'
+    spot:
+      filter_chip:
+        remove: 'Fjern'
+      drop_modal:
+        Close: 'Lukk'

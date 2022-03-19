@@ -2,6 +2,7 @@
 de:
   js:
     boards:
+      create_new: 'Neues Board'
       label_unnamed_board: 'Unbenanntes Board'
       label_unnamed_list: 'Unbenannte Liste'
       label_board_type: 'Board-Typ'

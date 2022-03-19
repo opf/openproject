@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -452,7 +452,6 @@ lol:
       repository:
         url: "crwdns495259:0crwdne495259:0"
       role:
-        assignable: "crwdns495261:0crwdne495261:0"
         permissions: "crwdns495263:0crwdne495263:0"
       time_entry:
         activity: "crwdns495265:0crwdne495265:0"
@@ -873,6 +872,7 @@ lol:
     version: "crwdns495863:0crwdne495863:0"
     work_package: "crwdns495865:0crwdne495865:0"
   backup:
+    failed: "crwdns771128:0crwdne771128:0"
     label_backup_token: "crwdns495867:0crwdne495867:0"
     label_create_token: "crwdns495869:0crwdne495869:0"
     label_delete_token: "crwdns495871:0crwdne495871:0"
@@ -1958,7 +1958,7 @@ lol:
   mail_body_backup_waiting_period: crwdns498121:0%{hours}crwdne498121:0
   mail_body_backup_token_warning: crwdns498125:0crwdne498125:0
   mail_body_lost_password: "crwdns498129:0crwdne498129:0"
-  mail_body_register: "crwdns498135:0crwdne498135:0"
+  mail_body_register: "crwdns762262:0%{app_title}crwdne762262:0"
   mail_body_register_header_title: "crwdns498141:0crwdne498141:0"
   mail_body_register_user: "crwdns498143:0%{name}crwdne498143:0"
   mail_body_register_links_html: |
@@ -2097,7 +2097,7 @@ lol:
     heading_getting_started: "crwdns498517:0crwdne498517:0"
     text_getting_started_description: "crwdns498519:0crwdne498519:0"
     text_show_again: "crwdns498521:0crwdne498521:0"
-    welcome: "crwdns498523:0crwdne498523:0"
+    welcome: "crwdns762264:0%{app_title}crwdne762264:0"
     select_language: "crwdns498525:0crwdne498525:0"
   permission_add_work_package_notes: "crwdns498527:0crwdne498527:0"
   permission_add_work_packages: "crwdns498529:0crwdne498529:0"
@@ -2166,6 +2166,8 @@ lol:
   permission_view_timelines: "crwdns498657:0crwdne498657:0"
   permission_view_wiki_edits: "crwdns498659:0crwdne498659:0"
   permission_view_wiki_pages: "crwdns498661:0crwdne498661:0"
+  permission_work_package_assigned: "crwdns771130:0crwdne771130:0"
+  permission_work_package_assigned_explanation: "crwdns771132:0crwdne771132:0"
   placeholders:
     default: "crwdns498663:0crwdne498663:0"
   project:
@@ -2882,8 +2884,11 @@ lol:
     errors:
       messages:
         #Common error messages
-        invalid_request: 'crwdns499859:0crwdne499859:0'
-        invalid_redirect_uri: "crwdns499861:0crwdne499861:0"
+        invalid_request:
+          unknown: 'crwdns744050:0crwdne744050:0'
+          missing_param: 'crwdns744052:0%{value}crwdne744052:0'
+          request_not_authorized: 'crwdns744054:0crwdne744054:0'
+        invalid_redirect_uri: "crwdns744056:0crwdne744056:0"
         unauthorized_client: 'crwdns499863:0crwdne499863:0'
         access_denied: 'crwdns499865:0crwdne499865:0'
         invalid_scope: 'crwdns499867:0crwdne499867:0'
@@ -2896,6 +2901,7 @@ lol:
         admin_authenticator_not_configured: 'crwdns499879:0crwdne499879:0'
         #Access grant errors
         unsupported_response_type: 'crwdns499881:0crwdne499881:0'
+        unsupported_response_mode: 'crwdns744058:0crwdne744058:0'
         #Access token errors
         invalid_client: 'crwdns499883:0crwdne499883:0'
         invalid_grant: 'crwdns499885:0crwdne499885:0'
@@ -2904,6 +2910,10 @@ lol:
           revoked: "crwdns499889:0crwdne499889:0"
           expired: "crwdns499891:0crwdne499891:0"
           unknown: "crwdns499893:0crwdne499893:0"
+        revoke:
+          unauthorized: "crwdns744060:0crwdne744060:0"
+        forbidden_token:
+          missing_scope: 'crwdns744062:0%{oauth_scopes}crwdne744062:0'
   unsupported_browser:
     title: "crwdns499895:0crwdne499895:0"
     message: "crwdns499897:0crwdne499897:0"

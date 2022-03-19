@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -56,7 +56,7 @@ describe 'Create viewpoint from BCF details page',
       show_model_page.visit!
       show_model_page.finished_loading
       card_view.expect_work_package_listed(work_package)
-      card_view.open_full_screen_by_details(work_package)
+      card_view.open_split_view_by_info_icon(work_package)
 
       # Expect no viewpoint
       bcf_details.ensure_page_loaded

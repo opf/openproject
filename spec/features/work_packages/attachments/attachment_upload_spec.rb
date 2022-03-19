@@ -109,13 +109,6 @@ describe 'Upload attachment to work package', js: true do
 
           sleep 2
 
-          # Besides testing caption functionality this also slows down clicking on the submit button
-          # so that the image is properly embedded
-          caption = page.find('.op-uc-figure .op-uc-figure--description')
-          caption.click(x: 10, y: 10)
-          sleep 0.2
-          caption.base.send_keys('Some image caption')
-
           scroll_to_and_click find('#work-packages--edit-actions-save')
 
           wp_page.expect_toast(
@@ -123,9 +116,7 @@ describe 'Upload attachment to work package', js: true do
           )
 
           field = wp_page.edit_field :description
-
           expect(field.display_element).to have_selector('img')
-          expect(field.display_element).to have_content('Some image caption')
 
           wp = WorkPackage.last
           expect(wp.subject).to eq('My subject')

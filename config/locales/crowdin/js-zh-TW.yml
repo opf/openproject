@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -24,6 +24,7 @@ zh-TW:
     ajax:
       hide: "隱藏"
       loading: "載入中…"
+      updating: "Updating ..."
     attachments:
       draggable_hint: |
         在編輯器欄位上拖動到內聯圖像或引用附件。在繼續拖動時, 將打開已關閉的編輯器欄位。
@@ -250,6 +251,7 @@ zh-TW:
     enumeration_doc_categories: "文件類別"
     enumeration_work_package_priorities: "工作項目優先等級"
     filter:
+      more_values_not_shown: "There are %{total} more results, search to filter results."
       description:
         text_open_filter: "使用 ALT 和方向鍵打開此篩選器。"
         text_close_filter: "要選擇條目離開焦點例如按輸入。離開沒有篩選器的情況下選擇的第一個 （空） 條目。"
@@ -451,7 +453,6 @@ zh-TW:
     label_starred_queries: "最愛檢視"
     label_global_queries: "公開檢視"
     label_custom_queries: "私密檢視"
-    label_create_new_query: "新增"
     label_columns: "欄"
     label_attachments: 檔案
     label_drop_files: 將檔案拖曳至此處
@@ -515,7 +516,7 @@ zh-TW:
         mentioned: 'mentioned'
         watched: 'watched'
         assigned: 'assigned'
-        responsible: 'accountable'
+        responsible: '負責人'
       facets:
         unread: 'Unread'
         all: '全部'
@@ -537,7 +538,7 @@ zh-TW:
           message: 'There are new notifications.'
           link_text: 'Click here to load them'
       menu:
-        accountable: '可信賴的'
+        accountable: '負責人'
         assigned: '指派'
         by_project: 'Unread by project'
         by_reason: 'Involvement'
@@ -553,8 +554,8 @@ zh-TW:
             title: 'I am @mentioned'
             description: 'Receive a notification every time someone mentions me anywhere'
           involved:
-            title: 'Assigned to me or accountable'
-            description: 'Receive notifications for all activities on work packages for which I am assignee or accountable'
+            title: '分配給我或由我負責'
+            description: '對所有分配給我或由我負責的工作包接收所有活動通知'
           watched: 'Updates on watched items'
           work_package_commented: 'All new comments'
           work_package_created: 'New work packages'
@@ -1152,8 +1153,22 @@ zh-TW:
           placeholder: 'The placeholder can now be used in %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
           group: 'The group is now a part of %{project}. Meanwhile you can already plan with that group and assign work packages for instance.'
         next_button: '繼續'
+    include_projects:
+      toggle_title: 'Include Projects'
+      title: '專案'
+      clear_selection: 'Clear selection'
+      apply: '套用'
+      selected_filter:
+        all: '所有專案'
+        selected: 'Only selected'
+      search_placeholder: 'Search project...'
     forms:
       submit_success_message: '檔案已成功提交'
       load_error_message: 'There was an error loading the form'
       validation_error_message: 'Please fix the errors present in the form'
       advanced_settings: '進階設定'
+    spot:
+      filter_chip:
+        remove: '刪除'
+      drop_modal:
+        Close: '關閉'

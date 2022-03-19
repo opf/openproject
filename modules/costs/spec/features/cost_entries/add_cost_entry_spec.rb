@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,12 +36,14 @@ describe 'Work Package cost fields', type: :feature, js: true do
     create(:project, types: [type_task])
   end
   shared_let(:role) do
-    create :role, permissions: %i[view_work_packages
-                                             delete_work_packages
-                                             log_costs
-                                             view_cost_rates
-                                             edit_cost_entries
-                                             view_cost_entries]
+    create :role,
+           permissions: %i[view_work_packages
+                           delete_work_packages
+                           log_costs
+                           view_cost_rates
+                           edit_cost_entries
+                           view_cost_entries
+                           work_package_assigned]
   end
   shared_let(:user) do
     create :user,

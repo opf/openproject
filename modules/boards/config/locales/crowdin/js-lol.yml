@@ -2,6 +2,7 @@
 lol:
   js:
     boards:
+      create_new: 'crwdns773054:0crwdne773054:0'
       label_unnamed_board: 'crwdns500205:0crwdne500205:0'
       label_unnamed_list: 'crwdns500207:0crwdne500207:0'
       label_board_type: 'crwdns500209:0crwdne500209:0'

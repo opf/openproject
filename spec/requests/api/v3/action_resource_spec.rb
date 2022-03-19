@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -46,18 +46,9 @@ describe 'API v3 action resource', type: :request, content_type: :json do
       get path
     end
 
-    it 'returns a collection of actions' do
-      expect(subject.body)
-        .to be_json_eql(Action.count.to_json)
-        .at_path('total')
-
-      expect(subject.body)
-        .to be_json_eql(Action.order(id: :asc).first.id.to_json)
-        .at_path('_embedded/elements/0/id')
-
-      expect(subject.body)
-        .to be_json_eql(Action.order(id: :asc).first.id.to_json)
-        .at_path("_embedded/elements/0/id")
+    # 20 because this is the standard pagination size
+    it_behaves_like 'API V3 collection response', Action.count, 20, 'Action' do
+      let(:elements) { Action.order(id: :asc).limit(20).to_a }
     end
   end
 
@@ -70,7 +61,7 @@ describe 'API v3 action resource', type: :request, content_type: :json do
 
     it 'returns 200 OK' do
       expect(subject.status)
-        .to eql(200)
+        .to be(200)
     end
 
     it 'returns the action' do
@@ -88,7 +79,7 @@ describe 'API v3 action resource', type: :request, content_type: :json do
 
       it 'returns 200 OK' do
         expect(subject.status)
-          .to eql(200)
+          .to be(200)
       end
 
       it 'returns the action' do
@@ -105,19 +96,13 @@ describe 'API v3 action resource', type: :request, content_type: :json do
     context 'if querying a non existing action' do
       let(:path) { api_v3_paths.action("foo/bar") }
 
-      it 'returns 404 NOT FOUND' do
-        expect(subject.status)
-          .to be 404
-      end
+      it_behaves_like 'not found'
     end
 
     context 'if querying with malformed id' do
       let(:path) { api_v3_paths.action("foobar") }
 
-      it 'returns 404 NOT FOUND' do
-        expect(subject.status)
-          .to be 404
-      end
+      it_behaves_like 'not found'
     end
   end
 end

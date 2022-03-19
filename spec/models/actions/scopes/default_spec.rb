@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -44,7 +44,7 @@ describe Actions::Scopes::Default, type: :model do
       OpenProject::AccessControl
         .contract_actions_map
         .map do |permission, v|
-          v[:actions].map { |vk, vv| vv.map { |vvv| item.call(permission, vk, vvv, v[:global], v[:module]) } }
+          v[:actions].map { |vk, vv| vv.map { |vvv| item.call(permission, vk, vvv, v[:global], v[:module_name]) } }
         end.flatten(2)
     end
 

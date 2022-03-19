@@ -1,6 +1,13 @@
 OpenProject::Application.routes.draw do
   scope 'projects/:project_id', as: 'project' do
-    get '/team_planner/upsale', to: 'team_planner/team_planner#upsale', as: :team_planner_upsale
-    get '/team_planner(/*state)', to: 'team_planner/team_planner#index', as: :team_planner
+    resources :team_planners,
+              controller: 'team_planner/team_planner',
+              only: %i[index destroy],
+              as: :team_planners do
+      get :upsale, to: 'team_planner/team_planner#upsale', on: :collection, as: :upsale
+
+      get '/new' => 'team_planner/team_planner#show', on: :collection, as: 'new'
+      get '(/*state)' => 'team_planner/team_planner#show', on: :member, as: ''
+    end
   end
 end

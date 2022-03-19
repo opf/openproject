@@ -40,10 +40,10 @@ You can create a comparison of two versions to see the changes made for specific
 The data contained in a project repository can be downloaded to your computer using one of several clients, for example [Tortoise SVN](https://tortoisesvn.net/) for Subversion, and the [git client](https://git-scm.com/) or [one of the recommended GUI clients](https://git-scm.com/downloads/guis) for Git.
 
 The specifics of working of the selected version control client may vary. Please refer to the documentation of your version control software client for more information.
-If you choose to use Tortoise SVN, you will find a good guide [here](https://tortoisesvn.net/docs/release/TortoiseSVN_en/tsvn-dug.html).
+If you choose to use Tortoise SVN, you will find a good guide [here](https://tortoisesvn.net/docs/TortoiseSVN_en/tsvn-dug.html).
 For Git, we recommend the [Pro Git guide](https://git-scm.com/book/en/v2).
 
-The specifics of working of the selected version control client may vary. Please refer to the documentation of your version control software client for more information. If you choose to use Tortoise SVN, you will find a good guide [here](https://tortoisesvn.net/docs/release/TortoiseSVN_en/tsvn-dug.html).
+The specifics of working of the selected version control client may vary. Please refer to the documentation of your version control software client for more information. If you choose to use Tortoise SVN, you will find a good guide [here](https://tortoisesvn.net/docs/TortoiseSVN_en/tsvn-dug.html).
 
 ## Referencing work packages
 

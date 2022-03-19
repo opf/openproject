@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,16 +27,10 @@
 #++
 
 module Queries::Views
-  [
-    Queries::Views::Filters::ProjectFilter,
-    Queries::Views::Filters::TypeFilter
-  ].each do |filter|
-    Queries::Register.filter Queries::Views::ViewQuery,
-                             filter
-  end
+  ::Queries::Register.register(ViewQuery) do
+    filter Filters::ProjectFilter
+    filter Filters::TypeFilter
 
-  [Queries::Views::Orders::DefaultOrder].each do |order|
-    Queries::Register.order Queries::Views::ViewQuery,
-                            order
+    order Orders::DefaultOrder
   end
 end

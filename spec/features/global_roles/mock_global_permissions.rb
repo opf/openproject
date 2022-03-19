@@ -22,6 +22,9 @@ def mock_permissions(name, options = {})
   ::OpenProject::AccessControl::Permission.new(
     name,
     { does_not: :matter },
-    { project_module: 'Foo', public: false, global: false }.merge(options)
+    project_module: 'Foo',
+    public: false,
+    global: false,
+    **options
   )
 end

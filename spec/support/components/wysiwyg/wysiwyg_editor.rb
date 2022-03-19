@@ -72,16 +72,30 @@ module Components
     # Create an image fixture with the optional caption
     def drag_attachment(image_fixture, caption = 'Some caption')
       in_editor do |_container, editable|
-        sleep 0.5
+        sleep 1
+
+        # Click the latest figure, if any
+        images = editable.all('figure.image')
+        if images.count > 0
+          images.last.click
+        end
+
+        # Click the "move below figure" button if selected
+        selected = page.all('.ck-widget_selected .ck-widget__type-around__button_after')
+        if selected.count > 0
+          selected.first.click
+        end
+
         editable.base.send_keys(:enter, 'some text', :enter, :enter)
 
-        images = editable.all('figure.image')
-        attachments.drag_and_drop_file(editable, image_fixture)
+        sleep 1
+
+        attachments.drag_and_drop_file(editable, image_fixture, :bottom)
 
         expect(page)
             .to have_selector('figure img[src^="/api/v3/attachments/"]', count: images.length + 1, wait: 10)
 
-        sleep 3
+        sleep 1
         expect(page).not_to have_selector('op-toasters-upload-progress', wait: 5)
 
         # Get the image uploaded last. As there is no way to distinguish between
@@ -97,6 +111,10 @@ module Components
           # Click the figure
           figure.click
           sleep(0.2)
+
+          # Toggle caption with button since newer version of ckeditor
+          click_hover_toolbar_button 'Toggle caption on'
+
           # Locate figcaption to create comment
           figcaption = figure.find('figcaption')
           figcaption.click

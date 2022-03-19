@@ -2,6 +2,7 @@
 ru:
   js:
     boards:
+      create_new: 'Создать новую доску'
       label_unnamed_board: 'Безымянная доска'
       label_unnamed_list: 'Список досок без имени'
       label_board_type: 'Тип доски'
@@ -21,7 +22,7 @@ ru:
         unlock_version: 'Разблокировать спринт'
         edit_version: 'Изменить версию'
         show_version: 'Показать спринт'
-        locked: 'Заперто'
+        locked: 'Заблокировано'
         closed: 'закрыто'
       new_board: 'Новая доска'
       add_list: 'Добавить список в форум'
@@ -60,8 +61,8 @@ ru:
           subtasks: родитель-потомок
         board_type_title:
           assignee: Назначенный
-          status: Состояние
-          version: Спринт
+          status: Статус
+          version: Версия
           subproject: Подпроект
           subtasks: Родитель-Потомок
           basic: Базовый

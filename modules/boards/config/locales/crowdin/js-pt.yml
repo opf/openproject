@@ -2,6 +2,7 @@
 pt:
   js:
     boards:
+      create_new: 'New board'
       label_unnamed_board: 'Quadro sem nome'
       label_unnamed_list: 'Lista sem nome'
       label_board_type: 'Tipo de quadro'

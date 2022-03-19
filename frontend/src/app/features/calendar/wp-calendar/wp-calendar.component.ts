@@ -6,6 +6,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import {
+  EventClickArg,
   FullCalendarComponent,
   ToolbarInput,
 } from '@fullcalendar/angular';
@@ -142,6 +143,10 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
       editable: true,
       eventResize: (resizeInfo:EventResizeDoneArg) => this.updateEvent(resizeInfo),
       eventDrop: (dropInfo:EventDropArg) => this.updateEvent(dropInfo),
+      eventClick: (evt:EventClickArg) => {
+        const workPackage = evt.event.extendedProps.workPackage as WorkPackageResource;
+        this.calendar.openSplitView(workPackage.id as string);
+      },
     };
 
     if (this.static) {

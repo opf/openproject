@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -468,7 +468,6 @@ nl:
       repository:
         url: "URL"
       role:
-        assignable: "Werkpakketten kunnen worden toegewezen aan gebruikers en groepen met deze rol in het respectieve project"
         permissions: "Machtigingen"
       time_entry:
         activity: "Activiteit"
@@ -889,6 +888,7 @@ nl:
     version: "Versie"
     work_package: "Werkpakket"
   backup:
+    failed: "Backup failed"
     label_backup_token: "Backup token"
     label_create_token: "Create backup token"
     label_delete_token: "Delete backup token"
@@ -1985,7 +1985,7 @@ nl:
   mail_body_backup_waiting_period: The new token will be enabled in %{hours} hours.
   mail_body_backup_token_warning: If this wasn't you, login to OpenProject immediately and reset it again.
   mail_body_lost_password: "Om uw wachtwoord te wijzigen, klikt u op op de volgende link:"
-  mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
+  mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "Project member invitation email"
   mail_body_register_user: "Dear %{name}, "
   mail_body_register_links_html: |
@@ -2127,7 +2127,7 @@ nl:
     heading_getting_started: "Krijg een overzicht"
     text_getting_started_description: "Krijg een overzicht van project management en team samenwerking met OpenProject."
     text_show_again: "U kunt deze video van het helpmenu opnieuw starten"
-    welcome: "Welkom bij OpenProject"
+    welcome: "Welcome to %{app_title}"
     select_language: "Gelieve uw taal te kiezen"
   permission_add_work_package_notes: "Notities toevoegen"
   permission_add_work_packages: "Werkpakketten toevoegen"
@@ -2196,6 +2196,8 @@ nl:
   permission_view_timelines: "Weergave tijdlijnen"
   permission_view_wiki_edits: "Wiki weergavegeschiedenis"
   permission_view_wiki_pages: "Weergave wiki"
+  permission_work_package_assigned: "Become assignee/responsible"
+  permission_work_package_assigned_explanation: "Werkpakketten kunnen worden toegewezen aan gebruikers en groepen met deze rol in het respectieve project"
   placeholders:
     default: "-"
   project:
@@ -2914,8 +2916,11 @@ nl:
     errors:
       messages:
         #Common error messages
-        invalid_request: 'De aanvraag ontbreekt een vereiste parameter, bevat een niet-ondersteunde parameter waarde, of is anders niet geconfigureerd.'
-        invalid_redirect_uri: "De gevraagde omleidings-URI is onjuist of komt niet overeen met omleidings-URI."
+        invalid_request:
+          unknown: 'De aanvraag ontbreekt een vereiste parameter, bevat een niet-ondersteunde parameter waarde, of is anders niet geconfigureerd.'
+          missing_param: 'Missing required parameter: %{value}.'
+          request_not_authorized: 'Request need to be authorized. Required parameter for authorizing request is missing or invalid.'
+        invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
         unauthorized_client: 'De client is niet gemachtigd voor het uitvoeren van dit verzoek met behulp van deze methode.'
         access_denied: 'De resource eigenaar of autorisatie server heeft het verzoek geweigerd.'
         invalid_scope: 'De gevraagde reikwijdte is ongeldig, onbekend of ongeldig.'
@@ -2928,6 +2933,7 @@ nl:
         admin_authenticator_not_configured: 'Toegang tot admin paneel is verboden omdat Doorkeeper.configure.admin_authenticator niet is geconfigureerd.'
         #Access grant errors
         unsupported_response_type: 'De autorisatieserver ondersteunt dit reactietype niet.'
+        unsupported_response_mode: 'The authorization server does not support this response mode.'
         #Access token errors
         invalid_client: 'Client authenticatie is mislukt vanwege onbekende client, geen client authenticatie inbegrepen, of niet-ondersteunde authenticatie methode.'
         invalid_grant: 'De verstrekte machtiging is ongeldig, verlopen, ingetrokken, komt niet overeen met de omleiding URI die in het autorisatieverzoek wordt gebruikt, of is uitgegeven aan een andere client.'
@@ -2936,6 +2942,10 @@ nl:
           revoked: "De toegangstoken is ingetrokken"
           expired: "De toegangstoken is verlopen"
           unknown: "De toegangstoken is ongeldig"
+        revoke:
+          unauthorized: "You are not authorized to revoke this token."
+        forbidden_token:
+          missing_scope: 'Access to this resource requires scope "%{oauth_scopes}".'
   unsupported_browser:
     title: "Uw browser is verouderd en niet ondersteund."
     message: "U kan lopen in fouten en gedegradeerd ervaring op deze pagina."

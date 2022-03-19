@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -24,6 +24,7 @@ tr:
     ajax:
       hide: "Saklamak"
       loading: "Yükleniyor ..."
+      updating: "Updating ..."
     attachments:
       draggable_hint: |
         Editör alanında, satır içi görüntüye veya referans ekine sürükleyin. Sürüklemeye devam ederken kapalı editör alanları açılacaktır.
@@ -251,6 +252,7 @@ tr:
     enumeration_doc_categories: "Belge kategorileri"
     enumeration_work_package_priorities: "İş paketi öncelikleri"
     filter:
+      more_values_not_shown: "There are %{total} more results, search to filter results."
       description:
         text_open_filter: "Bu filtreyi 'ALT' ve ok tuşları ile açın."
         text_close_filter: "Bir giridi seçmek için, örneğin odaktan uzaklaşmak için entera basın. Filitrelemeden çıkmak için ilk girdiyi (boş olanı) seçin."
@@ -452,7 +454,6 @@ tr:
     label_starred_queries: "Gözde görünümler"
     label_global_queries: "Herkese açık görünümler"
     label_custom_queries: "Gizli görünümler"
-    label_create_new_query: "Yeni oluştur"
     label_columns: "Sütunlar"
     label_attachments: Dosyalar
     label_drop_files: Dosyaları buraya bırakın
@@ -752,7 +753,7 @@ tr:
           Gantt görünümünde ilgili pozisyonlarda her zaman gösterilmesini istediğiniz öznitelikleri seçin. Bir elementin üzerine geldiğinizde onun özellikleri yerine etiketinin görüneceğini unutmayın.
       button_activate: 'İş-Zaman çizelgesi göster'
       button_deactivate: 'İş-Zaman çizelgesi gizle.'
-      cancel: İptal
+      cancel: İptal etmek
       change: "Planlama değişikliği"
       due_date: "Bitiş tarihi"
       empty: "(boş)"
@@ -1020,7 +1021,7 @@ tr:
       button_apply: "Uygula"
       button_save: "Kaydet"
       button_submit: "Gönder"
-      button_cancel: "İptal"
+      button_cancel: "İptal etmek"
       form_submit:
         title: 'Devam etmek için onaylayın'
         text: 'Bu işlemi gerçekleştirmek istediğinizden emin misiniz?'
@@ -1047,7 +1048,7 @@ tr:
       button_save: "%{attribute}: Kaydet"
       button_cancel: "%{attribute}: İptal"
       button_save_all: "Kaydet"
-      button_cancel_all: "İptal"
+      button_cancel_all: "İptal etmek"
       link_formatting_help: "Metin biçimlendirme yardım"
       btn_preview_enable: "Ön İzleme"
       btn_preview_disable: "Öngörüntülemeyi devre dışı bırak"
@@ -1156,8 +1157,22 @@ tr:
           placeholder: 'Kullanıcı artık %{project} ''e erişmek için oturum açabilir. Bu arada, o kullanıcıyla zaten plan yapabilir ve örneğin iş paketleri atayabilirsiniz.'
           group: 'Grup artık %{project} ''nin bir parçası. Bu arada, bu grupla zaten plan yapabilir ve örneğin iş paketleri atayabilirsiniz.'
         next_button: 'Devam et'
+    include_projects:
+      toggle_title: 'Include Projects'
+      title: 'Projeler'
+      clear_selection: 'Clear selection'
+      apply: 'Uygula'
+      selected_filter:
+        all: 'Tüm projeler'
+        selected: 'Only selected'
+      search_placeholder: 'Search project...'
     forms:
       submit_success_message: 'Form başarıyla gönderildi'
       load_error_message: 'Form yüklenirken bir hata oluştu'
       validation_error_message: 'ütfen formda bulunan hataları düzeltin'
       advanced_settings: 'Gelişmiş ayarlar'
+    spot:
+      filter_chip:
+        remove: 'Kaldır'
+      drop_modal:
+        Close: 'Kapat'

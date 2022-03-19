@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -24,6 +24,7 @@ ja:
     ajax:
       hide: "非表示"
       loading: "ロード中..."
+      updating: "Updating ..."
     attachments:
       draggable_hint: |
         インライン画像または参照添付ファイルをエディタ領域にドラッグします。
@@ -252,6 +253,7 @@ ja:
     enumeration_doc_categories: "ドキュメントのカテゴリ"
     enumeration_work_package_priorities: "ワークパッケージの優先度"
     filter:
+      more_values_not_shown: "There are %{total} more results, search to filter results."
       description:
         text_open_filter: "'ALT' と矢印キーでこのフィルタを開きます。"
         text_close_filter: "エントリを選択するには、例えばエンターキーを押して、フォーカスを外します。フィルターを選択しないで離れるには、最初の (空の) のエントリを選択します。"
@@ -453,7 +455,6 @@ ja:
     label_starred_queries: "お気に入りのビュー"
     label_global_queries: "パブリックビュー"
     label_custom_queries: "プライベートビュー"
-    label_create_new_query: "新規作成"
     label_columns: "列"
     label_attachments: ファイルを添付する
     label_drop_files: ここにファイルをドロップ
@@ -1156,8 +1157,22 @@ ja:
           placeholder: 'プレースホルダーを %{project} で使用できるようになりました。一方で、そのユーザを使って計画を立てたり、ワークパッケージを割り当てたりすることができます。'
           group: 'グループは %{project} の一部になりました。一方で、そのグループを使って計画を立てたり、ワークパッケージを割り当てたりすることができます。'
         next_button: '続行'
+    include_projects:
+      toggle_title: 'Include Projects'
+      title: 'プロジェクト'
+      clear_selection: 'Clear selection'
+      apply: '適用'
+      selected_filter:
+        all: 'すべてのプロジェクト'
+        selected: 'Only selected'
+      search_placeholder: 'Search project...'
     forms:
       submit_success_message: 'フォームは正常に送信されました'
       load_error_message: 'フォームの読み込み中にエラーが発生しました'
       validation_error_message: 'フォームに存在するエラーを修正してください'
       advanced_settings: '詳細設定'
+    spot:
+      filter_chip:
+        remove: '削除'
+      drop_modal:
+        Close: '閉じる'

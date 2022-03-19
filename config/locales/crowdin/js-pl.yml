@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -24,6 +24,7 @@ pl:
     ajax:
       hide: "Ukryj"
       loading: "Ładowanie ..."
+      updating: "Updating ..."
     attachments:
       draggable_hint: |
         Przeciągaj w polu edytora, aby wstawić obraz lub załącznik referencyjny. Zamknięte pola edytora zostaną otwarte podczas przeciągania.
@@ -251,6 +252,7 @@ pl:
     enumeration_doc_categories: "Kategoria dokumentu"
     enumeration_work_package_priorities: "Priorytety pakietów roboczych"
     filter:
+      more_values_not_shown: "There are %{total} more results, search to filter results."
       description:
         text_open_filter: "Otwórz filtr klawiszami strzałek przytrzymując klawisz 'ALT'."
         text_close_filter: "Aby wybrać wpis wybierz opcję i kliknij np. enter. Aby usunąć filtr zaznacz (pusty) wpis."
@@ -452,7 +454,6 @@ pl:
     label_starred_queries: "Widoki ulubione"
     label_global_queries: "Widoki publiczne"
     label_custom_queries: "Widoki prywatne"
-    label_create_new_query: "Utwórz nową"
     label_columns: "Kolumny"
     label_attachments: Pliki
     label_drop_files: Upuść pliki tutaj
@@ -1162,8 +1163,22 @@ pl:
           placeholder: 'Symbolu zastępczego można teraz użyć w %{project}. Tymczasem możesz już planować z tym użytkownikiem i na przykład przypisać pakiety robocze.'
           group: 'Grupa jest teraz częścią %{project}. Tymczasem możesz już planować z tą grupą i na przykład przypisać pakiety robocze.'
         next_button: 'Kontynuuj'
+    include_projects:
+      toggle_title: 'Include Projects'
+      title: 'Projekty'
+      clear_selection: 'Clear selection'
+      apply: 'Zastosuj'
+      selected_filter:
+        all: 'Wszystkie projekty'
+        selected: 'Only selected'
+      search_placeholder: 'Search project...'
     forms:
       submit_success_message: 'Formularz został przesłany'
       load_error_message: 'Podczas ładowania formularza wystąpił błąd'
       validation_error_message: 'Napraw błędy obecne w formularzu'
       advanced_settings: 'Zaawansowane ustawienia'
+    spot:
+      filter_chip:
+        remove: 'Usuń'
+      drop_modal:
+        Close: 'Zamknij'
