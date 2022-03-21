@@ -63,10 +63,14 @@ class Storages::Storage < ApplicationRecord
   # Creates a scope of all storages, which belong to a project the user is a member
   # and has the permission ':view_file_links'
   scope :visible, ->(user = User.current) {
-    where(
-      projects_storages: ::Storages::ProjectStorage.where(
-        project: Project.allowed_to(user, :view_file_links)
+    if user.admin? || Project.allowed_to(user, :manage_storages_in_project).any?
+      all
+    else
+      where(
+        projects_storages: ::Storages::ProjectStorage.where(
+          project: Project.allowed_to(user, :view_file_links)
+        )
       )
-    )
+    end
   }
 end

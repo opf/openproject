@@ -28,6 +28,18 @@
 
 require 'spec_helper'
 
+shared_examples_for 'successful response' do |code = 200|
+  it "has the status code #{code}" do
+    expect(last_response.status).to eq(code)
+  end
+
+  it 'has a HAL+JSON Content-Type' do
+    expected_content_type = 'application/hal+json; charset=utf-8'
+    expect(last_response.headers).to include 'Content-Type'
+    expect(last_response.headers['Content-Type'].downcase).to eql expected_content_type
+  end
+end
+
 shared_examples_for 'error response' do |code, id, provided_message = nil|
   let(:expected_message) do
     provided_message || message
@@ -115,10 +127,10 @@ shared_examples_for 'unauthorized access' do
 end
 
 shared_examples_for 'not found' do |message = I18n.t('api_v3.errors.code_404')|
-  it_behaves_like 'error response',
-                  404,
-                  'NotFound',
-                  message
+  include_examples 'error response',
+                   404,
+                   'NotFound',
+                   message
 end
 
 shared_examples_for 'param validation error' do

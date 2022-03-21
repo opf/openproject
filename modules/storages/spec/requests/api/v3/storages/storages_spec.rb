@@ -42,36 +42,56 @@ describe 'API v3 storages resource', type: :request, content_type: :json do
     create(:storage, creator: current_user)
   end
 
-  let(:project_storage) { create(:project_storage, project: project, storage: storage) }
-
-  subject(:response) { last_response }
+  subject(:last_response) do
+    get path
+  end
 
   before do
-    project_storage
     login_as current_user
+  end
+
+  shared_examples_for 'successful storage response' do
+    include_examples 'successful response'
+
+    describe 'response body' do
+      subject { last_response.body }
+
+      it { is_expected.to be_json_eql('Storage'.to_json).at_path('_type') }
+      it { is_expected.to be_json_eql(storage.id.to_json).at_path('id') }
+    end
   end
 
   describe 'GET /api/v3/storages/:storage_id' do
     let(:path) { api_v3_paths.storage(storage.id) }
 
-    before do
-      get path
+    context 'when user belongs to a project using the given storage' do
+      let!(:project_storage) { create(:project_storage, project: project, storage: storage) }
+
+      it_behaves_like 'successful storage response'
+
+      context 'if user is missing permission view_file_links' do
+        let(:permissions) { [] }
+
+        it_behaves_like 'not found'
+      end
+
+      context 'if no storage with that id exists' do
+        let(:path) { api_v3_paths.storage(1337) }
+
+        it_behaves_like 'not found'
+      end
     end
 
-    it 'is successful' do
-      expect(subject.status).to be 200
+    context 'when user has :manage_storages_in_project permission in any project' do
+      let(:permissions) { %i(manage_storages_in_project) }
+
+      it_behaves_like 'successful storage response'
     end
 
-    context 'if user has no permissions' do
-      let(:permissions) { [] }
+    context 'as admin' do
+      let(:current_user) { create(:admin) }
 
-      it_behaves_like 'not found'
-    end
-
-    context 'if no storage with that id exists' do
-      let(:path) { api_v3_paths.storage(1337) }
-
-      it_behaves_like 'not found'
+      it_behaves_like 'successful storage response'
     end
   end
 end

@@ -50,7 +50,7 @@ module Storages::ProjectStorages
     end
 
     def assignable_storages
-      Storages::Storage.where.not(id: @model.project.projects_storages.pluck(:storage_id))
+      Storages::Storage.visible(user).where.not(id: @model.project.projects_storages.pluck(:storage_id))
     end
 
     def validate_creator_is_user
