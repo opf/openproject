@@ -31,7 +31,7 @@ export class SpotTextFieldComponent implements ControlValueAccessor {
 
   @Input() disabled = false;
 
-  @Input() showClearButton = false;
+  @Input() showClearButton = true;
 
   @Input() public placeholder = '';
 
