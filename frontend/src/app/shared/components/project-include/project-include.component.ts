@@ -36,6 +36,7 @@ import { IProject } from 'core-app/core/state/projects/project.model';
 import { IProjectData } from './project-data';
 import { insertInList } from './insert-in-list';
 import { recursiveSort } from './recursive-sort';
+import { getPaginatedResults } from 'core-app/core/apiv3/helpers/get-paginated-results';
 
 @Component({
   selector: 'op-project-include',
@@ -194,6 +195,9 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin {
         'elements/name',
         'elements/self',
         'elements/ancestors',
+        'total',
+        'count',
+        'pageSize',
       ],
     };
   }
@@ -211,7 +215,7 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin {
 
   public toggleOpen():void {
     this.opened = !this.opened;
-    this.searchProjects();
+    this.loadAllProjects();
     this.projectsInFilter$
       .pipe(take(1))
       .subscribe((selectedProjects) => {
@@ -221,14 +225,15 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin {
       });
   }
 
-  public searchProjects():void {
-    const collectionURL = listParamsString(this.params);
-
-    this
-      .http
-      .get<IHALCollection<IProject>>(this.apiV3Service.projects.path + collectionURL)
+  public loadAllProjects():void {
+    getPaginatedResults<IProject>(
+      (params) => {
+        const collectionURL = listParamsString({ ...this.params, ...params });
+        return this.http.get<IHALCollection<IProject>>(this.apiV3Service.projects.path + collectionURL);
+      },
+    )
       .subscribe((projects) => {
-        this.allProjects$.next(projects._embedded.elements);
+        this.allProjects$.next(projects);
       });
   }
 
