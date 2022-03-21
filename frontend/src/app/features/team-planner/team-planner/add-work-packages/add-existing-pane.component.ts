@@ -188,8 +188,11 @@ export class AddExistingPaneComponent extends UntilDestroyedMixin implements OnI
     return this.searchString$.value !== '';
   }
 
-  showDisabledText(wp:WorkPackageResource):string {
-    return this.calendarDrag.workPackageDisabledExplanation(wp);
+  showDisabledText(wp:WorkPackageResource):{ text:string, orientation:'left'|'right' } {
+    return {
+      text: this.calendarDrag.workPackageDisabledExplanation(wp),
+      orientation: 'left',
+    };
   }
 
   openStateLink(event:{ workPackageId:string; requestedState:string }):void {

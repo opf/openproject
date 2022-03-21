@@ -54,7 +54,7 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
 
   @Input() public shrinkOnMobile = false;
 
-  @Input() public disabledInfo = '';
+  @Input() public disabledInfo?:{ text:string, orientation:'left'|'right' };
 
   @Input() public showAsInlineCard = false;
 
@@ -145,7 +145,6 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
       [`${base}_draggable`]: this.draggable,
       [`${base}_new`]: isNewResource(this.workPackage),
       [`${base}_shrink`]: this.shrinkOnMobile,
-      [`${base}_disabled`]: this.disabledInfo.length > 0,
       [`${base}_inline`]: this.showAsInlineCard,
       [`${base}_closed`]: this.isClosed,
       // eslint-disable-next-line @typescript-eslint/restrict-template-expressions

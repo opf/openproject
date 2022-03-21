@@ -35,14 +35,15 @@
         (click)="onRemoved(workPackage)">
         <op-icon icon-classes="icon-context icon-close"></op-icon>
       </button>
-    </div>
 
-    <op-icon
-      *ngIf="disabledInfo.length > 0"
-      [attr.data-tooltip]="disabledInfo"
-      class="tooltip--left -multiline op-wp-single-card--card-action"
-      icon-classes="icon-context icon-not-supported">
-    </op-icon>
+      <op-icon
+        *ngIf="disabledInfo && disabledInfo.text.length > 0"
+        [attr.data-tooltip]="disabledInfo.text"
+        class="-multiline op-wp-single-card--card-action op-wp-single-card--card-action_closed"
+        [ngClass]="'tooltip--' + disabledInfo.orientation"
+        icon-classes="icon-context icon-not-supported">
+      </op-icon>
+    </div>
   </div>
 
   <edit-form [resource]="workPackage"
