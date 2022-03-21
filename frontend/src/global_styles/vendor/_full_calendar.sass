@@ -104,9 +104,17 @@
         &:after
           display: block
           content: ''
-          width: 1px
-          background: rgba(0,0,0,0.2)
-          margin: 0 -2px
+
+        &:before
+          height: 100%
+          width: 20px
+
+        &:after
+          border-left: 1px solid
+          border-right: 1px solid
+          border-color: rgba(0,0,0,0.2)
+          width: 4px
+          margin: 0 -4px
           height: 70%
           max-height: 16px
 
@@ -115,7 +123,7 @@
 
         &-end
           justify-content: flex-start
-          margin-right: 2px
+          margin-right: 14px
 
     // ------------------------ END:  Calendar events ------------------------
     // -------

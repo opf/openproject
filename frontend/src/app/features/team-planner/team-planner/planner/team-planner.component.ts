@@ -501,20 +501,21 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     if (workPackage.startDate && workPackage.dueDate) {
       let dateToCheck;
 
-      const currentStartDate = this.ucCalendar.getApi().view.currentStart;
-      const currentEndDate = this.ucCalendar.getApi().view.currentEnd;
+      const currentStartDate = this.ucCalendar.getApi().view.currentStart.setHours(0, 0, 0, 0);
+      const currentEndDate = this.ucCalendar.getApi().view.currentEnd.setHours(0, 0, 0, 0);
 
       if (date === 'start') {
-        dateToCheck = new Date(workPackage.startDate);
+        dateToCheck = new Date(workPackage.startDate).setHours(0, 0, 0, 0);
       } else {
-        dateToCheck = new Date(workPackage.dueDate);
+        dateToCheck = new Date(workPackage.dueDate).setHours(0, 0, 0, 0);
       }
 
       const dateCurrentlyVisible = dateToCheck >= currentStartDate && dateToCheck <= currentEndDate;
       return dateCurrentlyVisible;
     }
 
-    return false;
+    // Milestones are always completely in view, everything else is outside
+    return !!workPackage.date;
   }
 
   showDisabledText(workPackage:WorkPackageResource):{ text:string, orientation:'left'|'right' } {
