@@ -7,4 +7,12 @@
   [(ngModel)]="value"
   #input
 />
+<button
+  *ngIf="showClearButton && value !== ''"
+  (click)="value = ''"
+  type="button"
+  class="spot-text-field--clear-button"
+>
+  <span class="spot-icon spot-icon_close"></span>
+</button>
 <ng-content select="[slot=after]"></ng-content>
