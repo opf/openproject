@@ -212,6 +212,7 @@ export function uiRouterConfiguration(uiRouter:UIRouter, injector:Injector, modu
   uiRouter.urlService.config.type(
     'opQueryId',
     {
+      pattern: new RegExp(/(?:new|[0-9]+)/),
       encode: (id:string|null) => id || 'new',
       decode: (id:string) => (id === 'new' ? null : id),
       raw: true,
