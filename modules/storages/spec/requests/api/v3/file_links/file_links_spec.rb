@@ -183,6 +183,42 @@ describe 'API v3 file links resource', type: :request do
                              expected_format: 'Array',
                              actual: 'Integer')
     end
+
+    # rubocop:disable RSpec/MultipleMemoizedHelpers
+    context "when more than #{API::V3::FileLinks::ParseCreateParamsService::MAX_ELEMENTS} embedded elements" do
+      let(:max) { API::V3::FileLinks::ParseCreateParamsService::MAX_ELEMENTS }
+      let(:too_many) { max + 1 }
+      let(:params) do
+        {
+          _type: "Collection",
+          _embedded: {
+            elements: 1.upto(too_many).map do |id|
+              {
+                originData: {
+                  id: id,
+                  name: "logo#{id}.png",
+                  mimeType: "image/png",
+                  createdAt: "2021-12-19T09:42:10.170Z",
+                  lastModifiedAt: "2021-12-20T14:00:13.987Z",
+                  createdByName: "Luke Skywalker",
+                  lastModifiedByName: "Anakin Skywalker"
+                },
+                _links: {
+                  storageUrl: {
+                    href: storage_url1
+                  }
+                }
+              }
+            end
+          }
+        }
+      end
+
+      it_behaves_like 'constraint violation' do
+        let(:message) { "Too many elements created at once. Expected #{max} at most, got #{too_many}." }
+      end
+    end
+    # rubocop:enable RSpec/MultipleMemoizedHelpers
   end
 
   describe 'GET /api/v3/file_links/:file_link_id' do

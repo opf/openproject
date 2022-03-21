@@ -11,10 +11,10 @@ post:
 
     The request body must contain the generated storage token, and not the storage id. In addition, the request must
     send the origin file id and the stored meta data.
-    
-    If there is already a link on the given work package with the same file id from the same storage, the previous
-    data is not overwritten.
-    
+
+    Up to 20 file links can be submitted at once. If there is already a link on the given work package with the same
+    file id from the same storage, the previous data is not overwritten.
+
     As it is possible to link folders from a storage to a work package, the _mimeType_ of this entity can be empty.
   parameters:
     - name: id
@@ -44,7 +44,7 @@ post:
                 _links:
                   storageUrl:
                     href: https://nextcloud.deathstar.rocks/
-  
+
   responses:
     '201':
       description: Created
@@ -137,9 +137,9 @@ get:
             message: You are not authorized to access this resource.
       description: |-
         Returned if the client does not have sufficient permissions.
-        
+
         **Required permission:** view file links
-        
+
         *Note that you will only receive this error, if you are at least allowed to see the corresponding work package.*
     '404':
       content:

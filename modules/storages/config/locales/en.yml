@@ -25,6 +25,10 @@ en:
               minimal_nextcloud_version_unmet: "does not meet minimal version requirements (must be Nextcloud 23 or higher)"
               not_nextcloud_server: "is not a Nextcloud server"
 
+  api_v3:
+    errors:
+      too_many_elements_created_at_once: "Too many elements created at once. Expected %{max} at most, got %{actual}."
+
   storages:
     page_titles:
       project_settings:

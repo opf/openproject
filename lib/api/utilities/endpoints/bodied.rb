@@ -84,7 +84,7 @@ module API
           endpoint = self
 
           -> do
-            request = self # proc is executed in the context of the request
+            request = self # proc is executed in the context of the grape request
             endpoint.before_hook&.(request: request)
             params = endpoint.parse(request)
             call = endpoint.process(request, params)
