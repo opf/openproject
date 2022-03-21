@@ -98,6 +98,7 @@
         [showEndDate]="!this.isWpDateInCurrentView(event.extendedProps.workPackage, 'end')"
         (stateLinkClicked)="openStateLink($event)"
         (cardClicked)="calendar.onCardClicked($event)"
+        (cardContextMenu)="calendar.showEventContextMenu($event)"
       >
       </wp-single-card>
     </ng-template>

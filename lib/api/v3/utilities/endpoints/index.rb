@@ -61,7 +61,7 @@ module API
             if query.valid?
               render_success(query,
                              request.params,
-                             resolved_self_path(request),
+                             calculated_self_path(request),
                              scope ? request.instance_exec(&scope) : model)
             else
               render_error(query)
@@ -106,10 +106,6 @@ module API
                    current_user: User.current)
           end
 
-          def resolved_self_path(request)
-            self_path.respond_to?(:call) ? request.instance_exec(&self_path) : request.api_v3_paths.send(self_path)
-          end
-
           def calculate_resulting_params(query, provided_params)
             calculate_default_params(query).merge(provided_params.slice('offset', 'pageSize').symbolize_keys).tap do |params|
               params[:offset] = to_i_or_nil(params[:offset])
@@ -137,6 +133,14 @@ module API
 
           def render_error(query)
             raise ::API::Errors::InvalidQuery.new(query.errors.full_messages)
+          end
+
+          def calculated_self_path(request)
+            if self_path.respond_to?(:call)
+              request.instance_exec(&self_path)
+            else
+              request.api_v3_paths.send(self_path)
+            end
           end
 
           def deduce_render_representer
