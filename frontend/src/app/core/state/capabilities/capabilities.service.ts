@@ -4,33 +4,30 @@ import {
   tap,
 } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import {
-  applyTransaction,
-  ID,
-} from '@datorama/akita';
+import { ID } from '@datorama/akita';
 import { HttpClient } from '@angular/common/http';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
-import { ProjectsQuery } from 'core-app/core/state/projects/projects.query';
 import { ApiV3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import {
   collectionKey,
   insertCollectionIntoState,
 } from 'core-app/core/state/collection-store';
-import { ProjectsStore } from './projects.store';
-import { IProject } from './project.model';
+import { ICapability } from 'core-app/core/state/capabilities/capability.model';
+import { CapabilitiesStore } from 'core-app/core/state/capabilities/capabilities.store';
+import { CapabilitiesQuery } from 'core-app/core/state/capabilities/capabilities.query';
 
 @Injectable()
-export class ProjectsResourceService {
-  protected store = new ProjectsStore();
+export class CapabilitiesResourceService {
+  protected store = new CapabilitiesStore();
 
-  readonly query = new ProjectsQuery(this.store);
+  readonly query = new CapabilitiesQuery(this.store);
 
-  private get projectsPath():string {
+  private get capabilitiesPath():string {
     return this
       .apiV3Service
-      .projects
+      .capabilities
       .path;
   }
 
@@ -41,12 +38,12 @@ export class ProjectsResourceService {
   ) {
   }
 
-  fetchProjects(params:ApiV3ListParameters):Observable<IHALCollection<IProject>> {
+  fetchCapabilities(params:ApiV3ListParameters):Observable<IHALCollection<ICapability>> {
     const collectionURL = collectionKey(params);
 
     return this
       .http
-      .get<IHALCollection<IProject>>(this.projectsPath + collectionURL)
+      .get<IHALCollection<ICapability>>(this.capabilitiesPath + collectionURL)
       .pipe(
         tap((collection) => insertCollectionIntoState(this.store, collection, collectionURL)),
         catchError((error) => {
@@ -56,22 +53,7 @@ export class ProjectsResourceService {
       );
   }
 
-  update(id:ID, project:Partial<IProject>):void {
+  update(id:ID, project:Partial<ICapability>):void {
     this.store.update(id, project);
-  }
-
-  modifyCollection(params:ApiV3ListParameters, callback:(collection:ID[]) => ID[]):void {
-    const key = collectionKey(params);
-    this.store.update(({ collections }) => (
-      {
-        collections: {
-          ...collections,
-          [key]: {
-            ...collections[key],
-            ids: [...callback(collections[key]?.ids || [])],
-          },
-        },
-      }
-    ));
   }
 }

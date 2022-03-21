@@ -301,6 +301,8 @@ export class OpCalendarService extends UntilDestroyedMixin {
         { n: 'status', o: '*', v: [] },
         this.dateFilter(startDate, endDate),
       ],
+      dr: 'cards',
+      hi: false,
       pp: OpCalendarService.MAX_DISPLAYED,
       pa: 1,
     };
