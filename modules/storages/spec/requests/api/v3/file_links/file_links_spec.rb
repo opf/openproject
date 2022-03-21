@@ -143,7 +143,23 @@ describe 'API v3 file links resource', type: :request do
         let(:storage_url1) { 'https://invalid.host.org/' }
 
         it_behaves_like 'constraint violation' do
-          let(:message) { 'Storage is invalid' }
+          let(:message) { 'Storage does not exist' }
+        end
+      end
+
+      context 'when nil' do
+        let(:storage_url1) { nil }
+
+        it_behaves_like 'constraint violation' do
+          let(:message) { "Storage can't be blank." }
+        end
+      end
+
+      context 'when empty' do
+        let(:storage_url1) { "" }
+
+        it_behaves_like 'constraint violation' do
+          let(:message) { "Storage can't be blank." }
         end
       end
 

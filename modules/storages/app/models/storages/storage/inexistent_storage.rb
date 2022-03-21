@@ -26,34 +26,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Storages::FileLinks::CreateContract < BaseContract
-  validate :validate_storage_presence
-  validate :validate_user_allowed_to_manage
-  validate :validate_project_storage_link
-
-  private
-
-  # Check that the current has the permission on the project.
-  # model variable is available because the concern is executed inside a contract.
-  def validate_user_allowed_to_manage
-    unless user.allowed_to?(:manage_file_links, model.container.project)
-      errors.add :base, :error_unauthorized
-    end
-  end
-
-  def validate_storage_presence
-    case model.storage
-    when Storages::Storage::InexistentStorage
-      errors.add(:storage, :does_not_exist)
-    when nil
-      errors.add(:storage, :blank)
-    end
-  end
-
-  def validate_project_storage_link
-    return if errors.include?(:storage)
-    return if model.project.storages.include?(model.storage)
-
-    errors.add(:storage, :not_linked_to_project)
-  end
+class Storages::Storage::InexistentStorage < Storages::Storage
+  _validators.clear
 end
