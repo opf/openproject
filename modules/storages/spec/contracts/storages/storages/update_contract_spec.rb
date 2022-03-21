@@ -42,5 +42,11 @@ describe ::Storages::Storages::UpdateContract do
                     provider_type: storage_provider_type)
     end
     let(:contract) { described_class.new(storage, current_user) }
+
+    context 'when current user is not the initial storage creator' do
+      let(:storage_creator) { build_stubbed(:user) }
+
+      include_examples 'contract is valid'
+    end
   end
 end

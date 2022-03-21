@@ -46,9 +46,7 @@ module Storages::Storages
     attribute :provider_type
     validates :provider_type, inclusion: { in: ->(*) { Storages::Storage::PROVIDER_TYPES } }
 
-    attribute :creator, writable: false do
-      validate_creator_is_user
-    end
+    attribute :creator, writable: false
 
     attribute :host
     validates :host, url: true, length: { maximum: 255 }
@@ -56,12 +54,6 @@ module Storages::Storages
     # Check that a host actually is a storage server.
     # But only do so if the validations above for URL were successful.
     validate :validate_host_reachable, unless: -> { errors.include?(:host) }
-
-    def validate_creator_is_user
-      unless creator == user
-        errors.add(:creator, :invalid)
-      end
-    end
 
     def validate_host_reachable
       return unless model.host_changed?

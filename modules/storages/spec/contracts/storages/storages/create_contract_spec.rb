@@ -39,8 +39,14 @@ describe Storages::Storages::CreateContract do
       ::Storages::Storage.new(name: storage_name,
                               provider_type: storage_provider_type,
                               host: storage_host,
-                              creator: current_user)
+                              creator: storage_creator)
     end
     let(:contract) { described_class.new(storage, current_user) }
+
+    context 'when creator is not the current user' do
+      let(:storage_creator) { build_stubbed(:user) }
+
+      include_examples 'contract is invalid', creator: :invalid
+    end
   end
 end
