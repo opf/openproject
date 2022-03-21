@@ -31,7 +31,6 @@ require_relative './../../support/onboarding/onboarding_steps'
 
 describe 'team planner onboarding tour', js: true do
   let(:next_button) { find('.enjoyhint_next_btn') }
-  let(:user) { create :admin }
 
   let(:demo_project) do
     create :project,
@@ -47,6 +46,14 @@ describe 'team planner onboarding tour', js: true do
            public: true,
            enabled_module_names: %w[work_package_tracking wiki]
   end
+
+  let(:user) do
+    create :admin,
+           member_in_project: demo_project,
+           member_with_permissions: %w[view_work_packages edit_work_packages add_work_packages
+             view_team_planner manage_team_planner save_queries manage_public_queries work_package_assigned]
+  end
+
   let!(:wp_1) do
     create(:work_package,
            project: demo_project,
@@ -57,7 +64,12 @@ describe 'team planner onboarding tour', js: true do
   let!(:wp_2) { create(:work_package, project: scrum_project) }
 
   let(:query) { create :query, user: user, project: demo_project, public: true, name: 'Team planner' }
-  let(:team_plan) { create :view_team_planner, query: query }
+  let(:team_plan) do
+    create :view_team_planner,
+           query: query,
+           assignees: [user],
+           projects: [demo_project, scrum_project]
+  end
 
   before do
     team_plan

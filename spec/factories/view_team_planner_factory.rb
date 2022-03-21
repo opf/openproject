@@ -27,14 +27,27 @@
 #++
 
 FactoryBot.define do
-  factory :view do
-    type { 'work_packages_table' }
-    query
-  end
+  factory :view_team_planner, parent: :view do
+    type { 'team_planner' }
+    transient do
+      assignees { [] }
+      projects { [] }
+    end
 
-  factory :view_work_packages_table, parent: :view
+    callback(:after_create) do |view, evaluator|
+      query = view.query
 
-  factory :view_work_packages_calendar, parent: :view do
-    type { 'work_packages_calendar' }
+      if evaluator.assignees.any?
+        query.add_filter('assigned_to_id', '=', evaluator.assignees.map(&:id).uniq)
+      end
+
+      if evaluator.projects.any?
+        query.add_filter('project_id', '=', ([query.project.id] + evaluator.projects.map(&:id)).uniq)
+      end
+
+      User.system.run_given do
+        query.save!
+      end
+    end
   end
 end
