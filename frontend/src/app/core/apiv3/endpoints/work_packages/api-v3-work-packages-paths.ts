@@ -159,11 +159,11 @@ export class ApiV3WorkPackagesPaths extends ApiV3Collection<WorkPackageResource,
       .halResourceService
       .getAllPaginated<WorkPackageCollectionResource>(
       this.path,
-      ids.length,
       {
         filters: ApiV3Filter('id', '=', ids).toJson(),
       },
-    );
+    )
+      .toPromise();
   }
 
   protected createCache():WorkPackageCache {
