@@ -76,7 +76,6 @@ module API::V3::FileLinks
 
     def params_modifier
       ->(params) do
-        params[:creator_id] = current_user.id
         params[:container_id] = work_package.id
         params[:container_type] = work_package.class.name
         params

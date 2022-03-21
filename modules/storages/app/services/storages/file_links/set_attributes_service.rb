@@ -27,4 +27,7 @@
 #++
 
 class Storages::FileLinks::SetAttributesService < ::BaseServices::SetAttributes
+  def set_default_attributes(_params)
+    model.creator ||= user
+  end
 end
