@@ -4,15 +4,7 @@ import {
   Component,
   HostBinding,
 } from '@angular/core';
-import { ProjectsResourceService } from 'core-app/core/state/projects/projects.service';
-import {
-  ApiV3ListFilter,
-  ApiV3ListParameters,
-} from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
-import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-import { WorkPackageViewFiltersService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service';
-import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
-import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { HttpClient } from '@angular/common/http';
 import {
   BehaviorSubject,
   combineLatest,
@@ -25,12 +17,25 @@ import {
   skip,
   take,
 } from 'rxjs/operators';
-import { IProjectData } from './project-data';
-import { insertInList } from './insert-in-list';
-import { recursiveSort } from './recursive-sort';
+
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import {
+  ApiV3ListFilter,
+  ApiV3ListParameters,
+  listParamsString,
+} from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { WorkPackageViewFiltersService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service';
+import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { IProject } from 'core-app/core/state/projects/project.model';
+
+import { IProjectData } from './project-data';
+import { insertInList } from './insert-in-list';
+import { recursiveSort } from './recursive-sort';
 
 @Component({
   selector: 'op-project-include',
@@ -118,7 +123,7 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin {
 
   public numberOfProjectsInFilter$ = this.projectsInFilter$.pipe(map((selected) => selected.length));
 
-  public allProjects$ = this.projectsResourceService.query.selectAll();
+  public allProjects$ = new BehaviorSubject<IProject[]>([]);
 
   public projects$ = combineLatest([
     this.allProjects$,
@@ -180,12 +185,23 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin {
       ]);
     }
 
-    return { filters, pageSize: -1 };
+    return {
+      filters,
+      pageSize: -1,
+      select: [
+        'elements/id',
+        'elements/identifier',
+        'elements/name',
+        'elements/self',
+        'elements/ancestors',
+      ],
+    };
   }
 
   constructor(
+    readonly apiV3Service:ApiV3Service,
     readonly I18n:I18nService,
-    readonly projectsResourceService:ProjectsResourceService,
+    readonly http:HttpClient,
     readonly wpTableFilters:WorkPackageViewFiltersService,
     readonly halResourceService:HalResourceService,
     readonly currentProjectService:CurrentProjectService,
@@ -206,9 +222,14 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin {
   }
 
   public searchProjects():void {
-    this.projectsResourceService
-      .fetchProjects(this.params)
-      .subscribe();
+    const collectionURL = listParamsString(this.params);
+
+    this
+      .http
+      .get<IHALCollection<IProject>>(this.apiV3Service.projects.path + collectionURL)
+      .subscribe((projects) => {
+        this.allProjects$.next(projects._embedded.elements);
+      });
   }
 
   public clearSelection():void {

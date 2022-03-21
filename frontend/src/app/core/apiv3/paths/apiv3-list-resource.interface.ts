@@ -36,6 +36,7 @@ export interface ApiV3ListParameters {
   filters?:ApiV3ListFilter[];
   sortBy?:[string, string][];
   groupBy?:string;
+  select?:string[];
   pageSize?:number;
   offset?:number;
 }
@@ -63,6 +64,10 @@ export function listParamsString(params?:ApiV3ListParameters):string {
   // 0 should not be treated as false
   if (params && params.offset !== undefined) {
     queryProps.push(`offset=${params.offset}`);
+  }
+
+  if (params && params.select !== undefined) {
+    queryProps.push(`select=${params.select.join(',')}`);
   }
 
   if (params && params.filters) {
