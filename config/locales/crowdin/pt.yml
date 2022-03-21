@@ -316,10 +316,10 @@ pt:
       other: '%{count} pacotes de trabalho descendentes'
     bulk:
       could_not_be_saved: "Os seguintes pacotes de trabalho não puderam ser salvos:"
-      none_could_be_saved: "None of the %{total} work packages could be updated."
-      x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
-      selected_because_descendants: "While %{selected} work packages where selected, in total %{total} work packages are affected which includes descendants."
-      descendant: "descendant of selected"
+      none_could_be_saved: "Nenhum dos pacotes de trabalho %{total} pode ser atualizado."
+      x_out_of_y_could_be_saved: "%{failing} dos pacotes de trabalho %{total} não puderam ser atualizados enquanto %{success} podia."
+      selected_because_descendants: "Enquanto %{selected} pacotes de trabalho são selecionados, no total de %{total} pacotes de trabalho são afetados, o que inclui descendentes."
+      descendant: "descendente de selecionados"
     move:
       no_common_statuses_exists: "Não há situação disponível para todos os pacotes de trabalho selecionados. Sua situação não pode ser alterada."
       unsupported_for_multiple_projects: 'Movimentação/cópia em massa não é suportada para pacotes de trabalho de vários projetos'
@@ -740,7 +740,7 @@ pt:
               does_not_exist: "Categoria especificada não existe."
             estimated_hours:
               only_values_greater_or_equal_zeroes_allowed: "deve ser >= 0."
-          readonly_status: 'The work package is in a readonly status so its attributes cannot be changed.'
+          readonly_status: 'O pacote de trabalho está em estado somente leitura, então seus atributos não podem ser alterados.'
         type:
           attributes:
             attribute_groups:
@@ -752,7 +752,7 @@ pt:
         user:
           attributes:
             base:
-              user_limit_reached: "User limit reached. No more accounts can be created on the current plan."
+              user_limit_reached: "Limite de usuários atingido. Não é possível criar mais contas no plano atual."
             password_confirmation:
               confirmation: "A confirmação da senha não corresponde à senha!"
               format: "%{message}"
