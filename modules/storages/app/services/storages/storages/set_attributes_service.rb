@@ -29,6 +29,8 @@
 # See also: create_service.rb for comments
 module Storages::Storages
   class SetAttributesService < ::BaseServices::SetAttributes
+    after_call :remove_host_trailing_slashes
+
     def set_default_attributes(_params)
       storage.creator ||= user
       storage.name ||= I18n.t('storages.provider_types.nextcloud')
@@ -36,6 +38,10 @@ module Storages::Storages
     end
 
     private
+
+    def remove_host_trailing_slashes
+      storage.host = storage.host&.gsub(/\/+$/, '')
+    end
 
     def storage
       model

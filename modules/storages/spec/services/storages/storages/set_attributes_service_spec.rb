@@ -93,6 +93,16 @@ describe ::Storages::Storages::SetAttributesService, type: :model do
     it 'sets name to Nextcloud by default' do
       expect(subject.result.name).to eq I18n.t('storages.provider_types.nextcloud')
     end
+
+    context 'when setting host' do
+      before do
+        params[:host] = "https://some.host.com//"
+      end
+
+      it 'removes trailing slashes from host' do
+        expect(subject.result.host).to eq("https://some.host.com")
+      end
+    end
   end
 
   context 'with existing record' do
