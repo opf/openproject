@@ -32,13 +32,16 @@ import { ApiV3FilterBuilder, FilterOperator } from 'core-app/shared/helpers/api-
 
 export type ApiV3ListFilter = [string, FilterOperator, boolean|string[]];
 
-export interface ApiV3ListParameters {
+export interface ApiV3PaginationParameters {
+  pageSize:number;
+  offset:number;
+}
+
+export interface ApiV3ListParameters extends Partial<ApiV3PaginationParameters> {
   filters?:ApiV3ListFilter[];
   sortBy?:[string, string][];
   groupBy?:string;
   select?:string[];
-  pageSize?:number;
-  offset?:number;
 }
 
 export interface ApiV3ListResourceInterface<T> {
