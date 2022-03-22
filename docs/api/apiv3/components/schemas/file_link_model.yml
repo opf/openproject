@@ -38,8 +38,7 @@ properties:
       storage:
         $ref: './storage_model.yml'
       container:
-        oneOf:
-          - $ref: './work_package_model.yml'
+        $ref: './work_package_model.yml'
   _links:
     type: object
     required:
