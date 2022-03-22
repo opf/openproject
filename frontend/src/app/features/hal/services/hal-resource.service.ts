@@ -65,7 +65,7 @@ import {
 } from 'core-app/features/hal/resources/hal-resource';
 import { initializeHalProperties } from '../helpers/hal-resource-builder';
 import { HalError } from 'core-app/features/hal/services/hal-error';
-import { getPaginatedResults } from 'core-app/core/apiv3/helpers/get-paginated-results';
+import { getPaginatedCollections } from 'core-app/core/apiv3/helpers/get-paginated-results';
 
 export interface HalResourceFactoryConfigInterface {
   cls?:any;
@@ -153,13 +153,13 @@ export class HalResourceService {
     params:Record<string, string|number> = {},
     headers:HTTPClientHeaders = {},
   ):Observable<T[]> {
-    return getPaginatedResults(
+    return getPaginatedCollections(
       (pageParams) => {
-        const requestParams = { ...params, pageParams };
+        const requestParams = { ...params, ...pageParams };
         return this.request<CollectionResource<T>>('get', href, this.toEprops(requestParams), headers);
       },
       (params.pageSize as number|undefined) || -1,
-    );
+    ) as Observable<T[]>;
   }
 
   /**
