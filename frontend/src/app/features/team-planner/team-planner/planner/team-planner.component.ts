@@ -80,6 +80,7 @@ import { imagePath } from 'core-app/shared/helpers/images/path-helper';
 import { CapabilitiesResourceService } from 'core-app/core/state/capabilities/capabilities.service';
 import { ICapability } from 'core-app/core/state/capabilities/capability.model';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
+import { LoadingIndicatorService } from 'core-app/core/loading-indicator/loading-indicator.service';
 
 @Component({
   selector: 'op-team-planner',
@@ -206,7 +207,11 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     this.principalIds$,
     this.showAddAssignee$,
   ]).pipe(
-    map(([principals, showAddAssignee]) => !principals.length && !showAddAssignee),
+    debounceTime(250),
+    map(([principals, showAddAssignee]) => {
+      this.loadingIndicatorService.table.stop();
+      return !principals.length && !showAddAssignee;
+    }),
   );
 
   private loading$:Subject<unknown>|null = null;
@@ -263,6 +268,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     readonly keepTab:KeepTabService,
     readonly actions$:ActionsService,
     readonly toastService:ToastService,
+    readonly loadingIndicatorService:LoadingIndicatorService,
   ) {
     super();
   }

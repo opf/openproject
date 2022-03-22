@@ -41,7 +41,9 @@
 
       <div
         [textContent]="calendar.tooManyResultsText"
-        class="op-wp-calendar--notification"></div>
+        class="op-wp-calendar--notification">
+      </div>
+
       <div
         *ngIf="isEmpty$ | async"
         class="op-team-planner--no-data">
@@ -53,7 +55,8 @@
           data-qa-selector="op-team-planner--empty-state-button"
           (click)="showAssigneeAddRow()"
           [textContent]="text.add_assignee"
-        ></button>
+        >
+        </button>
       </div>
     </ng-container>
 
