@@ -34,8 +34,6 @@ import { map, switchMap } from 'rxjs/operators';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-import { States } from 'core-app/core/states/states.service';
-import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { IAttachment } from 'core-app/core/state/attachments/attachment.model';
 import { PrincipalsResourceService } from 'core-app/core/state/principals/principals.service';
 import { IUser } from 'core-app/core/state/principals/user.model';
@@ -71,11 +69,9 @@ export class AttachmentListItemComponent implements OnInit {
 
   public $author:Observable<IUser>;
 
-  constructor(protected halNotification:HalResourceNotificationService,
-    private readonly principalsResourceService:PrincipalsResourceService,
-    readonly I18n:I18nService,
-    readonly states:States,
-    readonly pathHelper:PathHelperService) {
+  constructor(private readonly principalsResourceService:PrincipalsResourceService,
+    private readonly I18n:I18nService,
+    private readonly pathHelper:PathHelperService) {
   }
 
   ngOnInit():void {
