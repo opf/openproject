@@ -26,15 +26,29 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-FactoryBot.define do
-  factory :view do
-    type { 'work_packages_table' }
-    query
-  end
+module OnboardingSteps
+  def step_through_onboarding_team_planner_tour
+    next_button.click
+    expect(page).to have_text sanitize_string(I18n.t('js.onboarding.steps.team_planner.overview')), normalize_ws: true
 
-  factory :view_work_packages_table, parent: :view
+    next_button.click
+    expect(page)
+      .to have_text sanitize_string(I18n.t('js.onboarding.steps.team_planner.calendar')), normalize_ws: true, wait: 5
 
-  factory :view_work_packages_calendar, parent: :view do
-    type { 'work_packages_calendar' }
+    next_button.click
+    expect(page)
+      .to have_text sanitize_string(I18n.t('js.onboarding.steps.team_planner.add_assignee')), normalize_ws: true
+
+    next_button.click
+    expect(page)
+      .to have_text sanitize_string(I18n.t('js.onboarding.steps.team_planner.add_existing')), normalize_ws: true
+
+    next_button.click
+    expect(page)
+      .to have_text sanitize_string(I18n.t('js.onboarding.steps.team_planner.card')), normalize_ws: true
   end
+end
+
+RSpec.configure do |config|
+  config.include OnboardingSteps
 end
