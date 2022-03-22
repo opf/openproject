@@ -27,10 +27,9 @@ allOf:
             type: array
             readOnly: true
             items:
-                allOf:
-                - "$ref": "./user_model.yml"
-                - description: Collection of Users
-                readOnly: true
+              allOf:
+              - "$ref": "./user_model.yml"
+              - description: Collection of Users
 example:
   _links:
     self:
