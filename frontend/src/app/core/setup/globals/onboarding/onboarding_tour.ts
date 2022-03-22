@@ -14,6 +14,7 @@ import {
   scrumBacklogsTourSteps,
   scrumTaskBoardTourSteps,
 } from 'core-app/core/setup/globals/onboarding/tours/backlogs_tour';
+import { teamPlannerTourSteps } from 'core-app/core/setup/globals/onboarding/tours/team_planners_tour';
 
 require('core-vendor/enjoyhint');
 
@@ -68,22 +69,35 @@ function startTour(steps:OnboardingStep[]) {
   window.onboardingTourInstance.run();
 }
 
+function moduleVisible(name:string):boolean {
+  return document.getElementsByClassName(`${name}-view-menu-item`).length > 0;
+}
+
 function mainTour() {
   initializeTour('mainTourFinished');
 
   const boardsDemoDataAvailable = jQuery('meta[name=boards_demo_data_available]').attr('content') === 'true';
+  const teamPlannerDemoDataAvailable = jQuery('meta[name=demo_view_of_type_team_planner_seeded]').attr('content') === 'true';
   const eeTokenAvailable = !jQuery('body').hasClass('ee-banners-visible');
 
   waitForElement('.work-package--results-tbody', '#content', () => {
-    let steps:OnboardingStep[];
+    let steps:OnboardingStep[] = wpOnboardingTourSteps();
 
-    // Check for EE edition, and available seed data of boards.
-    // Then add boards to the tour, otherwise skip it.
-    if (eeTokenAvailable && boardsDemoDataAvailable) {
-      steps = wpOnboardingTourSteps().concat(boardTourSteps()).concat(menuTourSteps());
-    } else {
-      steps = wpOnboardingTourSteps().concat(menuTourSteps());
+    // Check for EE edition
+    if (eeTokenAvailable) {
+      // ... and available seed data of boards.
+      // Then add boards to the tour, otherwise skip it.
+      if (boardsDemoDataAvailable && moduleVisible('board')) {
+        steps = steps.concat(boardTourSteps());
+      }
+
+      // ... same for team planners
+      if (teamPlannerDemoDataAvailable && moduleVisible('team-planner')) {
+        steps = steps.concat(teamPlannerTourSteps());
+      }
     }
+
+    steps = steps.concat(menuTourSteps());
 
     startTour(steps);
   });

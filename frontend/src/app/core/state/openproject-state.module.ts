@@ -32,12 +32,14 @@ import {
 import { InAppNotificationsResourceService } from './in-app-notifications/in-app-notifications.service';
 import { ProjectsResourceService } from './projects/projects.service';
 import { PrincipalsResourceService } from './principals/principals.service';
+import { CapabilitiesResourceService } from 'core-app/core/state/capabilities/capabilities.service';
 
 @NgModule({
   providers: [
     InAppNotificationsResourceService,
     ProjectsResourceService,
     PrincipalsResourceService,
+    CapabilitiesResourceService,
   ],
 })
 export class OpenProjectStateModule {

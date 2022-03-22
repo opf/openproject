@@ -1,6 +1,7 @@
 import {
   ElementRef,
   Injectable,
+  Injector,
 } from '@angular/core';
 import {
   CalendarOptions,
@@ -45,6 +46,10 @@ import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/r
 import * as moment from 'moment';
 import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
 import { isClickedWithModifier } from 'core-app/shared/helpers/link-handling/link-handling';
+import { uiStateLinkClass } from 'core-app/features/work-packages/components/wp-fast-table/builders/ui-state-link-builder';
+import { debugLog } from 'core-app/shared/helpers/debug_output';
+import { WorkPackageViewContextMenu } from 'core-app/shared/components/op-context-menu/wp-context-menu/wp-view-context-menu.directive';
+import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
 
 export interface CalendarViewEvent {
   el:HTMLElement;
@@ -73,8 +78,9 @@ export class OpCalendarService extends UntilDestroyedMixin {
     private I18n:I18nService,
     private configuration:ConfigurationService,
     private sanitizer:DomSanitizer,
-    readonly schemaCache:SchemaCacheService,
     private $state:StateService,
+    readonly injector:Injector,
+    readonly schemaCache:SchemaCacheService,
     readonly toastService:ToastService,
     readonly wpTableFilters:WorkPackageViewFiltersService,
     readonly wpListService:WorkPackagesListService,
@@ -87,6 +93,7 @@ export class OpCalendarService extends UntilDestroyedMixin {
     readonly timezoneService:TimezoneService,
     readonly halEditing:HalResourceEditingService,
     readonly wpTableSelection:WorkPackageViewSelectionService,
+    readonly contextMenuService:OPContextMenuService,
   ) {
     super();
   }
@@ -273,6 +280,27 @@ export class OpCalendarService extends UntilDestroyedMixin {
     this.openSplitView(workPackageId, true);
   }
 
+  public showEventContextMenu({ workPackageId, event }:{ workPackageId:string, event:MouseEvent }):void {
+    if (isClickedWithModifier(event)) {
+      return;
+    }
+
+    // We want to keep the original context menu on hrefs
+    // (currently, this is only the id)
+    if ((event.target as HTMLElement).closest(`.${uiStateLinkClass}`)) {
+      debugLog('Allowing original context menu on state link');
+      return;
+    }
+
+    // Set the selection to single
+    this.wpTableSelection.setSelection(workPackageId, -1);
+
+    event.preventDefault();
+
+    const handler = new WorkPackageViewContextMenu(this.injector, workPackageId, jQuery(event.target as HTMLElement));
+    this.contextMenuService.show(handler, event);
+  }
+
   private defaultOptions():CalendarOptions {
     return {
       editable: false,
@@ -301,6 +329,8 @@ export class OpCalendarService extends UntilDestroyedMixin {
         { n: 'status', o: '*', v: [] },
         this.dateFilter(startDate, endDate),
       ],
+      dr: 'cards',
+      hi: false,
       pp: OpCalendarService.MAX_DISPLAYED,
       pa: 1,
     };
