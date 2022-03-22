@@ -33,4 +33,16 @@ describe ::Storages::Storages::UpdateService, type: :model do
   it_behaves_like 'BaseServices update service' do
     let(:factory) { :storage }
   end
+
+  it 'cannot update storage creator' do
+    storage_creator = create(:admin, login: "storage_creator")
+    storage = create(:storage, creator: storage_creator)
+    service = described_class.new(user: create(:admin), model: storage)
+
+    service_result = service.call(creator: create(:user, login: "impostor"))
+
+    expect(service_result).to be_failure
+    expect(service_result.errors.symbols_for(:creator_id)).to contain_exactly(:error_readonly)
+    expect(storage.reload.creator).to eq(storage_creator)
+  end
 end

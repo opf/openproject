@@ -46,8 +46,6 @@ module Storages::Storages
     attribute :provider_type
     validates :provider_type, inclusion: { in: ->(*) { Storages::Storage::PROVIDER_TYPES } }
 
-    attribute :creator, writable: false
-
     attribute :host
     validates :host, url: true, length: { maximum: 255 }
 

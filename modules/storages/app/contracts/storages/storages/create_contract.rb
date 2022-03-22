@@ -33,6 +33,7 @@ module Storages::Storages
   #
   # We inherit from a BaseContract as the BaseContract here is sharing a lot in common with the UpdateContract.
   class CreateContract < ::Storages::Storages::BaseContract
+    attribute :creator
     validate :creator_must_be_user
 
     private
