@@ -30,4 +30,3 @@ allOf:
                 allOf:
                 - "$ref": "./attachment_model.yml"
                 - description: Collection of Attachments
-                readOnly: true
