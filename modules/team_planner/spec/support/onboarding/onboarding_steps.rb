@@ -33,7 +33,7 @@ module OnboardingSteps
 
     next_button.click
     expect(page)
-      .to have_text sanitize_string(I18n.t('js.onboarding.steps.team_planner.calendar')), normalize_ws: true
+      .to have_text sanitize_string(I18n.t('js.onboarding.steps.team_planner.calendar')), normalize_ws: true, wait: 5
 
     next_button.click
     expect(page)

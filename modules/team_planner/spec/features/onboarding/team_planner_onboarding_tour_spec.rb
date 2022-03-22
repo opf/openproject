@@ -51,17 +51,18 @@ describe 'team planner onboarding tour', js: true do
     create :admin,
            member_in_project: demo_project,
            member_with_permissions: %w[view_work_packages edit_work_packages add_work_packages
-             view_team_planner manage_team_planner save_queries manage_public_queries work_package_assigned]
+                                       view_team_planner manage_team_planner save_queries manage_public_queries
+                                       work_package_assigned]
   end
 
-  let!(:wp_1) do
+  let!(:wp1) do
     create(:work_package,
            project: demo_project,
            assigned_to: user,
-           start_date: Date.today,
-           due_date: Date.today)
+           start_date: Time.zone.today,
+           due_date: Time.zone.today)
   end
-  let!(:wp_2) { create(:work_package, project: scrum_project) }
+  let!(:wp2) { create(:work_package, project: scrum_project) }
 
   let(:query) { create :query, user: user, project: demo_project, public: true, name: 'Team planner' }
   let(:team_plan) do
@@ -86,25 +87,25 @@ describe 'team planner onboarding tour', js: true do
   end
 
   context 'as a new user' do
-    it 'I see the board onboarding tour in the demo project' do
+    it 'I see the team planner onboarding tour in the demo project' do
       # Set the tour parameter so that we can start on the wp page
       visit "/projects/#{demo_project.identifier}/work_packages?start_onboarding_tour=true"
 
-      step_through_onboarding_wp_tour demo_project, wp_1
+      step_through_onboarding_wp_tour demo_project, wp1
 
       step_through_onboarding_team_planner_tour
 
       step_through_onboarding_main_menu_tour has_full_capabilities: true
     end
 
-    it "I do not see the board onboarding tour in the scrum project" do
+    it "I do not see the team planner onboarding tour in the scrum project" do
       # Set sessionStorage value so that the tour knows that it is in the scum tour
       page.execute_script("window.sessionStorage.setItem('openProject-onboardingTour', 'startMainTourFromBacklogs');")
 
       # Set the tour parameter so that we can start on the wp page
       visit "/projects/#{scrum_project.identifier}/work_packages?start_onboarding_tour=true"
 
-      step_through_onboarding_wp_tour scrum_project, wp_2
+      step_through_onboarding_wp_tour scrum_project, wp2
 
       step_through_onboarding_main_menu_tour has_full_capabilities: true
     end
