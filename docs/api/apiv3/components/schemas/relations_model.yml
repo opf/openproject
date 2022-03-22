@@ -1,6 +1,18 @@
 # Schema: RelationsModel
 ---
 type: object
+properties:
+  _embedded:
+    type: object
+    properties:
+      elements:
+        type: array
+        readOnly: true
+        items:
+            allOf:
+            - "$ref": "./relation_model.yml"
+            - description: Collection of Work Package Relations
+            readOnly: true
 example:
   _links:
     self:

@@ -1,6 +1,18 @@
 # Schema: PrincipalsModel
 ---
 type: object
+properties:
+  _embedded:
+    type: object
+    properties:
+      elements:
+        type: array
+        readOnly: true
+        items:
+            allOf:
+            - "$ref": "./user_model.yml"
+            - description: Collection of Principals
+            readOnly: true
 example:
   _type: Collection
   total: 4

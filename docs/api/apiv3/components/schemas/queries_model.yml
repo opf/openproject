@@ -1,6 +1,18 @@
 # Schema: QueriesModel
 ---
 type: object
+properties:
+  _embedded:
+    type: object
+    properties:
+      elements:
+        type: array
+        readOnly: true
+        items:
+            allOf:
+            - "$ref": "./query_model.yml"
+            - description: Collection of Queries
+            readOnly: true
 example:
   _links:
     self:

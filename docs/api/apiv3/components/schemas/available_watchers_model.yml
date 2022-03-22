@@ -1,6 +1,18 @@
 # Schema: Available_WatchersModel
 ---
 type: object
+properties:
+  _embedded:
+    type: object
+    properties:
+      elements:
+        type: array
+        readOnly: true
+        items:
+            allOf:
+            - "$ref": "./user_model.yml"
+            - description: Collection of Users
+            readOnly: true
 example:
   _links:
     self:

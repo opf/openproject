@@ -1,6 +1,18 @@
 # Schema: Work_Package_activitiesModel
 ---
 type: object
+properties:
+  _embedded:
+    type: object
+    properties:
+      elements:
+        type: array
+        readOnly: true
+        items:
+            allOf:
+            - "$ref": "./activity_model.yml"
+            - description: Collection of Work Package Activities
+            readOnly: true
 example:
   _links:
     self:

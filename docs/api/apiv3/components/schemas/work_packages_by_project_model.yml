@@ -1,6 +1,6 @@
 # Schema: Work_Packages_by_ProjectModel
 ---
-type: object
+$ref: "./work_packages_model.yml"
 example:
   _links:
     self:

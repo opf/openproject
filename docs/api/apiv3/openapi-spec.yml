@@ -545,8 +545,6 @@ components:
       "$ref": "./components/schemas/help_text_model.yml"
     Help_textsModel:
       "$ref": "./components/schemas/help_texts_model.yml"
-    HelptextModel:
-      "$ref": "./components/schemas/helptext_model.yml"
     Link:
       "$ref": "./components/schemas/link.yml"
     List_actionsModel:
@@ -597,8 +595,6 @@ components:
       "$ref": "./components/schemas/post_model.yml"
     PreviewingModel:
       "$ref": "./components/schemas/previewing_model.yml"
-    PrincipalModel:
-      "$ref": "./components/schemas/principal_model.yml"
     PrincipalsModel:
       "$ref": "./components/schemas/principals_model.yml"
     PrioritiesModel:

@@ -1,6 +1,18 @@
 # Schema: Categories_by_ProjectModel
 ---
 type: object
+properties:
+  _embedded:
+    type: object
+    properties:
+      elements:
+        type: array
+        readOnly: true
+        items:
+            allOf:
+            - "$ref": "./category_model.yml"
+            - description: Collection of Categories
+            readOnly: true
 example:
   _links:
     self:

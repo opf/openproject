@@ -1,6 +1,18 @@
 # Schema: Versions_by_ProjectModel
 ---
 type: object
+properties:
+  _embedded:
+    type: object
+    properties:
+      elements:
+        type: array
+        readOnly: true
+        items:
+            allOf:
+            - "$ref": "./version_model.yml"
+            - description: Collection of Versions
+            readOnly: true
 example:
   _links:
     self:

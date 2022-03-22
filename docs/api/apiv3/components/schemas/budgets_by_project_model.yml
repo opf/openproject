@@ -1,6 +1,18 @@
 # Schema: Budgets_by_ProjectModel
 ---
 type: object
+properties:
+  _embedded:
+    type: object
+    properties:
+      elements:
+        type: array
+        readOnly: true
+        items:
+            allOf:
+            - "$ref": "./budget_model.yml"
+            - description: Collection of Budgets
+            readOnly: true
 example:
   _links:
     self:

@@ -1,2 +1,15 @@
 # Schema: Attachments_by_post
---- {}
+---
+type: object
+properties:
+  _embedded:
+    type: object
+    properties:
+      elements:
+        type: Collection
+        readOnly: true
+        items:
+            allOf:
+            - "$ref": "./attachment_model.yml"
+            - description: Collection of Attachments
+            readOnly: true
