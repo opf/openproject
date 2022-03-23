@@ -134,7 +134,7 @@ export class NewBoardModalComponent extends OpModalComponent implements OnInit {
 
   private createAction(attribute:string):void {
     if (this.eeShowBanners) {
-      this.toastService.addError(this.text.teaser_text);
+      this.toastService.addError(this.I18n.t('js.upsale.ee_only'));
       return;
     }
 
