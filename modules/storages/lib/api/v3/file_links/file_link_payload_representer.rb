@@ -31,6 +31,8 @@ module API
     module FileLinks
       # PayloadRepresenter mixin will filter out read-only attributes from user
       # params input.
+      #
+      # Used by: ParseCreateParamsService, in parent class.
       class FileLinkPayloadRepresenter < FileLinkRepresenter
         include ::API::Utilities::PayloadRepresenter
       end

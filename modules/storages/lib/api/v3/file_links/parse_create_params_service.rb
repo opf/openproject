@@ -32,23 +32,14 @@ module API::V3::FileLinks
 
     attr_reader :request_body
 
-    def call(request_body)
-      @request_body = request_body
-      ServiceResult.new(
-        success: true,
-        result: parse_elements
-      )
-    end
-
     private
 
-    def parse_elements
+    def parse_attributes(request_body)
+      @request_body = request_body
       assert_valid_elements
 
       elements.map do |element|
-        API::V3::FileLinks::FileLinkRepresenter
-          .new(Hashie::Mash.new, current_user: current_user)
-          .from_hash(element)
+        super(element)
       end
     end
 
