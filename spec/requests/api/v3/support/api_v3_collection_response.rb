@@ -60,6 +60,13 @@ shared_examples_for 'API V3 collection response' do |total, count, element_type,
   it 'returns a collection successfully' do
     aggregate_failures do
       expect(last_response.status).to eq(expected_status_code)
+      errors = JSON.parse(subject).dig("_embedded", "errors")&.map { _1["message"] }
+      expect(errors).to eq([]) if errors # make errors visible in console if any
+    end
+  end
+
+  it 'contains all elements' do
+    aggregate_failures do
       expect(subject).to be_json_eql(collection_type.to_json).at_path('_type')
       expect(subject).to be_json_eql(count_number.to_json).at_path('count')
       expect(subject).to be_json_eql(total_number.to_json).at_path('total')

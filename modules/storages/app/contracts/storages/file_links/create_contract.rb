@@ -26,7 +26,21 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Storages::FileLinks::CreateContract < BaseContract
+class Storages::FileLinks::CreateContract < ModelContract
+  attribute :name
+  attribute :storage
+  attribute :creator
+  attribute :container
+  attribute :container_type
+
+  attribute :origin_id
+  attribute :origin_name
+  attribute :origin_created_by_name
+  attribute :origin_last_modified_by_name
+  attribute :origin_mime_type
+  attribute :origin_created_at
+  attribute :origin_updated_at
+
   validate :validate_storage_presence
   validate :validate_user_allowed_to_manage
   validate :validate_project_storage_link
