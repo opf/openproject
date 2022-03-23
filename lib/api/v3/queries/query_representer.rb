@@ -288,6 +288,8 @@ module API
         property :filters,
                  exec_context: :decorator
 
+        property :include_subprojects
+
         property :display_sums, as: :sums
         property :public
 
