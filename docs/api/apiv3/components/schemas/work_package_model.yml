@@ -230,23 +230,23 @@ properties:
         readOnly: true
         items:
           allOf:
-          - "$ref": "./link.yml"
-          - description: |-
-              A visible ancestor work package of the current work package.
-              
-              **Resource**: WorkPackage
-              
-              # Conditions
-              
-              **Permission** view work packages
-            readOnly: true
+            - "$ref": "./link.yml"
+            - description: |-
+                A visible ancestor work package of the current work package.
+                
+                **Resource**: WorkPackage
+                
+                # Conditions
+                
+                **Permission** view work packages
+              readOnly: true
       attachments:
         allOf:
-        - "$ref": "./link.yml"
-        - description: |-
-            The files attached to this work package
-            
-            **Resource**: Collection
+          - "$ref": "./link.yml"
+          - description: |-
+              The files attached to this work package
+              
+              **Resource**: Collection
       author:
         allOf:
           - "$ref": "./link.yml"
@@ -297,16 +297,16 @@ properties:
         readOnly: true
         items:
           allOf:
-          - "$ref": "./link.yml"
-          - description: |-
-              A visible child work package of the current work package.
-              
-              **Resource**: WorkPackage
-              
-              # Conditions
-              
-              **Permission** view work packages
-            readOnly: true
+            - "$ref": "./link.yml"
+            - description: |-
+                A visible child work package of the current work package.
+                
+                **Resource**: WorkPackage
+                
+                # Conditions
+                
+                **Permission** view work packages
+              readOnly: true
       parent:
         allOf:
           - "$ref": "./link.yml"
@@ -394,16 +394,16 @@ properties:
               **Resource**: Version
       watchers:
         allOf:
-        - "$ref": "./link.yml"
-        - description: |-
-            All users that are currently watching this work package
-            
-            **Resource**: Collection
-            
-            # Conditions
-            
-            **Permission** view work package watchers
-          readOnly: true
+          - "$ref": "./link.yml"
+          - description: |-
+              All users that are currently watching this work package
+              
+              **Resource**: Collection
+              
+              # Conditions
+              
+              **Permission** view work package watchers
+            readOnly: true
 example:
   _type: WorkPackage
   _links:
