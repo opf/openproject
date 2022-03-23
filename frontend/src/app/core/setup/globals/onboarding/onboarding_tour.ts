@@ -88,13 +88,15 @@ function mainTour() {
       // ... and available seed data of boards.
       // Then add boards to the tour, otherwise skip it.
       if (boardsDemoDataAvailable && moduleVisible('board')) {
-        steps = steps.concat(boardTourSteps());
+        steps = steps.concat(boardTourSteps('enterprise'));
       }
 
       // ... same for team planners
       if (teamPlannerDemoDataAvailable && moduleVisible('team-planner')) {
         steps = steps.concat(teamPlannerTourSteps());
       }
+    } else if (boardsDemoDataAvailable && moduleVisible('board')) {
+      steps = steps.concat(boardTourSteps('basic'));
     }
 
     steps = steps.concat(menuTourSteps());

@@ -33,7 +33,7 @@ module OnboardingSteps
 
     next_button.click
     expect(page)
-      .to have_text sanitize_string(I18n.t('js.onboarding.steps.boards.lists')), normalize_ws: true
+      .to have_text sanitize_string(I18n.t('js.onboarding.steps.boards.lists_kanban')), normalize_ws: true
 
     next_button.click
     expect(page).to have_text sanitize_string(I18n.t('js.onboarding.steps.boards.add')), normalize_ws: true
