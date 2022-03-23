@@ -29,6 +29,8 @@
 module API
   module V3
     module FileLinks
+      # PayloadRepresenter mixin will filter out read-only attributes from user
+      # params input.
       class FileLinkPayloadRepresenter < FileLinkRepresenter
         include ::API::Utilities::PayloadRepresenter
       end
