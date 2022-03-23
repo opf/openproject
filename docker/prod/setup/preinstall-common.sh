@@ -1,10 +1,26 @@
 #!/bin/bash
 
+get_architecture() {	
+	if command -v uname > /dev/null; then
+		ARCHITECTURE=$(uname -m)
+		case $ARCHITECTURE in
+			aarch64|arm64)
+				echo "arm64"				
+				return 0
+				;;
+		esac
+	fi
+
+	echo "x64"
+	return 0
+}
+
 set -e
 set -o pipefail
+ARCHITECTURE=$(get_architecture)
 
 # install node + npm
-curl -s https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-${(uname -m | grep -q x && echo "x" || echo "arm")}64.tar.gz | tar xzf - -C /usr/local --strip-components=1
+curl -s https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-${ARCHITECTURE}.tar.gz | tar xzf - -C /usr/local --strip-components=1
 
 wget --quiet -O- https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
 echo "deb http://apt.postgresql.org/pub/repos/apt buster-pgdg main" > /etc/apt/sources.list.d/pgdg.list
