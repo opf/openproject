@@ -43,20 +43,8 @@ module Storages::ProjectStorages
     attribute :storage
     validates_presence_of :storage
 
-    # Attribute "creator" can only have the value of current user.
-    # "writable: false" means that the attribute can't be overwritten with an update.
-    attribute :creator, writable: false do
-      validate_creator_is_user
-    end
-
     def assignable_storages
       Storages::Storage.visible(user).where.not(id: @model.project.projects_storages.pluck(:storage_id))
-    end
-
-    def validate_creator_is_user
-      unless creator == user
-        errors.add(:creator, :invalid)
-      end
     end
   end
 end

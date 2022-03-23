@@ -32,5 +32,15 @@ module Storages::ProjectStorages
   #
   # We inherit from a BaseContract as the BaseContract here is sharing a lot in common with the UpdateContract.
   class CreateContract < ::Storages::ProjectStorages::BaseContract
+    attribute :creator
+    validate :creator_must_be_user
+
+    private
+
+    def creator_must_be_user
+      unless creator == user
+        errors.add(:creator, :invalid)
+      end
+    end
   end
 end
