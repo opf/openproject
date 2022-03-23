@@ -46,30 +46,23 @@ module API::V3::FileLinks
     # call is done by calling the `super` method. Results are aggregated in
     # global_result using the `add_dependent!` method.
     def process(request, params_elements)
-      global_result = ServiceResult.new(
-        success: true,
-        result: []
-      )
+      global_result = ServiceResult.new(success: true)
       params_elements.each do |params|
+        # call the default API::Utilities::Endpoints::Create#process
+        # implementation for each of the params_element array
         one_result = super(request, params)
+        # merge service result in one
         global_result.add_dependent!(one_result)
-        global_result.result << one_result.result
       end
       global_result
     end
 
     def present_success(request, service_call)
       render_representer.create(
-        service_call.result,
+        service_call.all_results,
         self_link: request.api_v3_paths.file_links(request.work_package.id),
         current_user: request.current_user
       )
-    end
-
-    protected
-
-    def build_error_from_result(result)
-      ActiveModel::Errors.new result.first
     end
 
     private

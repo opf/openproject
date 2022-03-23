@@ -36,12 +36,6 @@ module API
           end
         end
 
-        protected
-
-        def build_error_from_result(result)
-          ActiveModel::Errors.new result
-        end
-
         private
 
         def present_success(_request, _call)
@@ -62,7 +56,7 @@ module API
         end
 
         def merge_dependent_errors(call)
-          errors = build_error_from_result(call.result)
+          errors = ActiveModel::Errors.new call.all_results.first
 
           call.dependent_results.each do |dr|
             dr.errors.full_messages.each do |full_message|
