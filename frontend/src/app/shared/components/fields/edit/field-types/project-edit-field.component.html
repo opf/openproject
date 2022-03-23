@@ -1,0 +1,19 @@
+<ng-select
+  appendTo="body"
+
+  [typeahead]="typeahead$"
+  [items]="projects$ | async"
+
+  [ngModel]="projectId"
+  (change)="onModelChange($event)"
+
+  bindLabel="name"
+  bindValue="id"
+>
+  <!--Nothing found -->
+  <ng-template ng-notfound-tmp let-searchTerm="searchTerm">
+    <div class="ng-option disabled">
+      {{ text.noResultsFound }}
+    </div>
+  </ng-template>
+</ng-select>
