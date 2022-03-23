@@ -510,6 +510,12 @@ nl:
           create_button: 'De knop <b>+ Aanmaken</b> zal een nieuw werkpakket toevoegen aan uw project.'
           timeline_button: 'U kunt de <b>Gantt-grafiek</b> weergave activeren om een tijdlijn voor uw project te maken.'
           timeline: 'Hier kunt u <b>uw projectplan</b>bewerken, nieuwe werkpakketten maken, zoals taken, mijlpalen, fasen, en meer en <b>afhankelijkheden toevoegen</b>. Alle teamleden kunnen de laatste planning op elk moment zien en bijwerken.'
+        team_planner:
+          overview: 'The team planner lets you visually assign tasks to team members and get an overview of who is working on what.'
+          calendar: 'The weekly or biweekly planning board displays all work packages assigned to your team members.'
+          add_assignee: 'To get started, add assignees to the team planner.'
+          add_existing: 'Search for existing work packages and drag them to the team planner to instantly assign them to a team member and define start and end dates.'
+          card: 'Drag work packages horizontally to move them backwards or forwards in time, drag the edges to change start and end dates and even drag them vertically to a different row to assign them to another member.'
     notifications:
       title: "Meldingen"
       no_unread: "Geen ongelezen meldingen"

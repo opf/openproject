@@ -510,6 +510,12 @@ ko:
           create_button: '<b>+ 만들기</b> 버튼은 프로젝트에 새로운 작업 패키지를 추가합니다.'
           timeline_button: '<b>Gantt 차트</b> 보기를 활성화하여 프로젝트의 타임라인을 만들 수 있습니다.'
           timeline: '여기에서 <b>프로젝트 계획을 편집</b>하고 작업, 마일스톤, 단계 등 새로운 작업 패키지를 만들고 <b>종속성을 추가</b>할 수도 있습니다. 모든 팀원이 언제든지 최신 계획을 보고 업데이트할 수 있습니다.'
+        team_planner:
+          overview: 'The team planner lets you visually assign tasks to team members and get an overview of who is working on what.'
+          calendar: 'The weekly or biweekly planning board displays all work packages assigned to your team members.'
+          add_assignee: 'To get started, add assignees to the team planner.'
+          add_existing: 'Search for existing work packages and drag them to the team planner to instantly assign them to a team member and define start and end dates.'
+          card: 'Drag work packages horizontally to move them backwards or forwards in time, drag the edges to change start and end dates and even drag them vertically to a different row to assign them to another member.'
     notifications:
       title: "알림"
       no_unread: "읽지 않는 알림 없음"

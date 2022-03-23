@@ -24,7 +24,7 @@ lt:
     ajax:
       hide: "Slėpti"
       loading: "Įkeliama..."
-      updating: "Updating ..."
+      updating: "Atnaujinama..."
     attachments:
       draggable_hint: |
         Tempkite į redagavimo lauką, kad įtrauktumėte piešinį ar paminėtumėte priedą. Uždari redaktoriaus laukai bus atidaryti, kol jūs tempsite.
@@ -62,7 +62,7 @@ lt:
     button_confirm: "Patvirtinti"
     button_continue: "Tęsti"
     button_copy: "Kopijuoti"
-    button_copy_to_other_project: "Copy to other project"
+    button_copy_to_other_project: "Kopijuoti į kitą projektą"
     button_custom-fields: "Pritaikyti laukai"
     button_delete: "Trinti"
     button_delete_watcher: "Trinti stebėtoją"
@@ -252,7 +252,7 @@ lt:
     enumeration_doc_categories: "Dokumentų kategorijos"
     enumeration_work_package_priorities: "Darbų paketo prioritetai"
     filter:
-      more_values_not_shown: "There are %{total} more results, search to filter results."
+      more_values_not_shown: "Yra dar %{total} rezultatų, ieškokite rezultatų filtravimui."
       description:
         text_open_filter: "Atverkite šį filtrą su 'ALT' ir krypčių klavišais."
         text_close_filter: "Kad pasirinktumėte įrašą, palikite dėmesio režimą paspausdami Enter. Režimo palikimui be filtro pasirinkite pirmąjį (tuščią) įrašą."
@@ -510,6 +510,12 @@ lt:
           create_button: 'Mygtukas <b>+Sukurti</b> pridės naują darbą į jūsų projektą.'
           timeline_button: 'Jūs galite aktyvuoti <b>Gantto diagramą</b> norėdami matyti savo projekto laiko planavimo juostą.'
           timeline: 'Čia jūs galite <b>redaguoti savo projekto planą</b>, kurti naujus darbo paketus, tokius kaip užduotys, etapai ir <b>pridėti priklausomybių</b>. Visi komandos nariai gali peržiūrėti ir keisti naujausią planą bet kuriuo metu.'
+        team_planner:
+          overview: 'The team planner lets you visually assign tasks to team members and get an overview of who is working on what.'
+          calendar: 'The weekly or biweekly planning board displays all work packages assigned to your team members.'
+          add_assignee: 'To get started, add assignees to the team planner.'
+          add_existing: 'Search for existing work packages and drag them to the team planner to instantly assign them to a team member and define start and end dates.'
+          card: 'Drag work packages horizontally to move them backwards or forwards in time, drag the edges to change start and end dates and even drag them vertically to a different row to assign them to another member.'
     notifications:
       title: "Pranešimai"
       no_unread: "Nėra neperskaitytų pranešimų"
@@ -1164,14 +1170,14 @@ lt:
           group: 'Grupė jau tapo %{project} dalimi. Tuo pačiu, jūs jau galite planuoti darbus su šia grupe ir pavyzdžiui priskirti jai darbo užduotis.'
         next_button: 'Tęsti'
     include_projects:
-      toggle_title: 'Include Projects'
+      toggle_title: 'Įtraukti projektus'
       title: 'Projektai'
-      clear_selection: 'Clear selection'
+      clear_selection: 'Valyti pasirinkimą'
       apply: 'Taikyti'
       selected_filter:
         all: 'Visi projektai'
-        selected: 'Only selected'
-      search_placeholder: 'Search project...'
+        selected: 'Tik pasirinktus'
+      search_placeholder: 'Ieškoti projekte...'
     forms:
       submit_success_message: 'Forma buvo sėkmingai pateikta'
       load_error_message: 'Įkeliant formą įvyko klaida'

@@ -513,6 +513,12 @@ hu:
           create_button: 'A <b>Létrehoz</b> gombbal tudsz új feladatot hozzáadni a projekthez.'
           timeline_button: 'Aktiválhatja a <b>Gantt-diagramot</b>, hogy létrehozzon egy idővonalat a projekthez.'
           timeline: "Itt <b> szerkesztheti projekttervét </b>, új munkacsomagokat hozhat létre, például feladatokat, mérföldköveket, fázisokat és egyebeket, valamint <b> hozzáadhat függőségeket </b>. A csapat minden tagja bármikor láthatja és frissítheti a legújabb tervet.\n"
+        team_planner:
+          overview: 'The team planner lets you visually assign tasks to team members and get an overview of who is working on what.'
+          calendar: 'The weekly or biweekly planning board displays all work packages assigned to your team members.'
+          add_assignee: 'To get started, add assignees to the team planner.'
+          add_existing: 'Search for existing work packages and drag them to the team planner to instantly assign them to a team member and define start and end dates.'
+          card: 'Drag work packages horizontally to move them backwards or forwards in time, drag the edges to change start and end dates and even drag them vertically to a different row to assign them to another member.'
     notifications:
       title: "Értesítések"
       no_unread: "Nincs olvasatlan értesítés"

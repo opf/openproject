@@ -510,6 +510,12 @@ pl:
           create_button: 'Przycisk <b>+ Utwórz</b> doda nowy pakiet roboczy do twojego projektu.'
           timeline_button: 'Aby utworzyć oś czasu dla twojego projektu, możesz uaktywnić widok <b>wykresu Gantta</b>.'
           timeline: 'Tutaj możesz <b>edytować plan projektu.</b>, tworzyć nowe pakiety robocze, takie jak zadania robocze, kamienie milowe i inne oraz <b>dodawać  zależności</b>. Wszyscy członkowie zespołu mogą w każdej chwili wyświetlić i zaktualizować najnowszy plan.'
+        team_planner:
+          overview: 'The team planner lets you visually assign tasks to team members and get an overview of who is working on what.'
+          calendar: 'The weekly or biweekly planning board displays all work packages assigned to your team members.'
+          add_assignee: 'To get started, add assignees to the team planner.'
+          add_existing: 'Search for existing work packages and drag them to the team planner to instantly assign them to a team member and define start and end dates.'
+          card: 'Drag work packages horizontally to move them backwards or forwards in time, drag the edges to change start and end dates and even drag them vertically to a different row to assign them to another member.'
     notifications:
       title: "Powiadomienia"
       no_unread: "Brak nieprzeczytanych powiadomień"

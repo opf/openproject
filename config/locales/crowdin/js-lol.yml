@@ -509,6 +509,12 @@ lol:
           create_button: 'crwdns787676:0crwdne787676:0'
           timeline_button: 'crwdns787678:0crwdne787678:0'
           timeline: 'crwdns787680:0crwdne787680:0'
+        team_planner:
+          overview: 'crwdns807492:0crwdne807492:0'
+          calendar: 'crwdns807494:0crwdne807494:0'
+          add_assignee: 'crwdns807496:0crwdne807496:0'
+          add_existing: 'crwdns807498:0crwdne807498:0'
+          card: 'crwdns807500:0crwdne807500:0'
     notifications:
       title: "crwdns787682:0crwdne787682:0"
       no_unread: "crwdns787684:0crwdne787684:0"
