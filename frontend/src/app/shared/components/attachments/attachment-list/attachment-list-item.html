@@ -19,7 +19,7 @@
       <op-authoring
         class="work-package--attachments--info"
         [createdOn]="attachment.createdAt"
-        [author]="$author | async"
+        [author]="author$ | async"
         [showAuthorAsLink]="false"
       ></op-authoring>
     </a>

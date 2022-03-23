@@ -129,9 +129,7 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
     },
   };
 
-  public get isNewResource():boolean {
-    return isNewResource(this.workPackage);
-  }
+  public isNewResource:boolean;
 
   protected firstTimeFocused = false;
 
@@ -155,6 +153,8 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
 
   public ngOnInit() {
     this.$element = jQuery(this.elementRef.nativeElement as HTMLElement);
+
+    this.isNewResource = isNewResource(this.workPackage);
 
     const change = this.halEditing.changeFor<WorkPackageResource, WorkPackageChangeset>(this.workPackage);
     this.resourceContextChange.next(this.contextFrom(change.projectedResource));

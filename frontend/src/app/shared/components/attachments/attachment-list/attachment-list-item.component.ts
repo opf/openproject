@@ -67,7 +67,7 @@ export class AttachmentListItemComponent implements OnInit {
     return this.text.removeFile({ fileName: this.attachment.fileName });
   }
 
-  public $author:Observable<IUser>;
+  public author$:Observable<IUser>;
 
   constructor(private readonly principalsResourceService:PrincipalsResourceService,
     private readonly I18n:I18nService,
@@ -77,7 +77,7 @@ export class AttachmentListItemComponent implements OnInit {
   ngOnInit():void {
     const authorId = idFromLink(this.attachment._links.author.href);
 
-    this.$author = this.principalsResourceService.query.selectEntity(authorId)
+    this.author$ = this.principalsResourceService.query.selectEntity(authorId)
       .pipe(
         switchMap((user) => (user ? of(user) : this.principalsResourceService.fetchUser(authorId))),
         map((user) => user as IUser),
