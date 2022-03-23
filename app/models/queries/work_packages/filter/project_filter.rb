@@ -59,7 +59,7 @@ class Queries::WorkPackages::Filter::ProjectFilter < Queries::WorkPackages::Filt
     available_projects = visible_projects.index_by(&:id)
 
     values
-      .map { |project_id| available_projects[project_id.to_i] }
+      .flat_map { |project_id| expanded_subprojects(available_projects[project_id.to_i]) }
       .compact
   end
 
@@ -67,5 +67,18 @@ class Queries::WorkPackages::Filter::ProjectFilter < Queries::WorkPackages::Filt
 
   def visible_projects
     @visible_projects ||= Project.visible.active
+  end
+
+  ##
+  # Depending on whether subprojects are included in the query,
+  # expand selected projects with its descendants
+  def expanded_subprojects(selected_project)
+    return if selected_project.nil?
+
+    if context.include_subprojects?
+      [selected_project]
+    else
+      [selected_project].concat(selected_project.descendants.visible)
+    end
   end
 end

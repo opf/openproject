@@ -62,6 +62,7 @@ class Query < ApplicationRecord
       query.add_default_filter
       query.set_default_sort
       query.show_hierarchies = true
+      query.include_subprojects = Setting.display_subprojects_work_packages?
     end
   end
 
