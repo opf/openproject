@@ -1,8 +1,17 @@
-import { waitForElement } from 'core-app/core/setup/globals/onboarding/helpers';
+import {
+  ProjectName,
+  waitForElement,
+} from 'core-app/core/setup/globals/onboarding/helpers';
 import { OnboardingStep } from 'core-app/core/setup/globals/onboarding/onboarding_tour';
 
-export function boardTourSteps(edition:'basic'|'enterprise'):OnboardingStep[] {
-  const boardName = edition === 'basic' ? 'Basic board' : 'Kanban';
+export function boardTourSteps(edition:'basic'|'enterprise', project:ProjectName):OnboardingStep[] {
+  let boardName:string;
+  if (edition === 'basic') {
+    boardName = project === 'demo' ? 'Basic board' : 'Task board';
+  } else {
+    boardName = 'Kanban';
+  }
+
   const listExplanation = edition === 'basic' ? 'basic' : 'kanban';
 
   return [
