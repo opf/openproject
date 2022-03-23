@@ -57,27 +57,27 @@ export function detectOnboardingTour():void {
 
     // ------------------------------- Tutorial WP page -------------------------------
     if (currentTourPart === 'startMainTourFromBacklogs' || url.searchParams.get('start_onboarding_tour')) {
-      const projectName:ProjectName = currentTourPart === 'startMainTourFromBacklogs' ? 'scrum' : 'demo';
+      const projectName:ProjectName = currentTourPart === 'startMainTourFromBacklogs' ? ProjectName.scrum : ProjectName.demo;
       void triggerTour('main', projectName);
     }
 
     // ------------------------------- Prepare Backlogs page -------------------------------
     if (url.searchParams.get('start_scrum_onboarding_tour')) {
       if (jQuery('.backlogs-menu-item').length > 0) {
-        void triggerTour('prepareBacklogs', 'scrum');
+        void triggerTour('prepareBacklogs', ProjectName.scrum);
       } else {
-        void triggerTour('taskboard', 'scrum');
+        void triggerTour('taskboard', ProjectName.scrum);
       }
     }
 
     // ------------------------------- Tutorial Backlogs page -------------------------------
     if (currentTourPart === 'prepareTaskBoardTour') {
-      void triggerTour('backlogs', 'scrum');
+      void triggerTour('backlogs', ProjectName.scrum);
     }
 
     // ------------------------------- Tutorial Task Board page -------------------------------
     if (currentTourPart === 'startTaskBoardTour') {
-      void triggerTour('taskboard', 'scrum');
+      void triggerTour('taskboard', ProjectName.scrum);
     }
   }
 }

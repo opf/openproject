@@ -7,7 +7,7 @@ import { OnboardingStep } from 'core-app/core/setup/globals/onboarding/onboardin
 export function boardTourSteps(edition:'basic'|'enterprise', project:ProjectName):OnboardingStep[] {
   let boardName:string;
   if (edition === 'basic') {
-    boardName = project === 'demo' ? 'Basic board' : 'Task board';
+    boardName = project === ProjectName.demo ? 'Basic board' : 'Task board';
   } else {
     boardName = 'Kanban';
   }

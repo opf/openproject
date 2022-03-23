@@ -74,7 +74,7 @@ function moduleVisible(name:string):boolean {
   return document.getElementsByClassName(`${name}-view-menu-item`).length > 0;
 }
 
-function mainTour(project:ProjectName = 'demo') {
+function mainTour(project:ProjectName = ProjectName.demo) {
   initializeTour('mainTourFinished');
 
   const boardsDemoDataAvailable = jQuery('meta[name=boards_demo_data_available]').attr('content') === 'true';
