@@ -125,9 +125,11 @@ module API
             origin_created_by_name: origin_data["createdByName"],
             origin_last_modified_by_name: origin_data["lastModifiedByName"],
             origin_created_at: ::API::V3::Utilities::DateTimeFormatter.parse_datetime(origin_data["createdAt"],
-                                                                                      'originData.createdAt'),
+                                                                                      'originData.createdAt',
+                                                                                      allow_nil: true),
             origin_updated_at: ::API::V3::Utilities::DateTimeFormatter.parse_datetime(origin_data["lastModifiedAt"],
-                                                                                      'originData.lastModifiedAt')
+                                                                                      'originData.lastModifiedAt',
+                                                                                      allow_nil: true)
           }
         end
       end

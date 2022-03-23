@@ -36,7 +36,8 @@ shared_examples_for 'file_link contract' do
   let(:work_package) { create(:work_package, project: project) }
   let(:storage) { create(:storage) }
   let!(:project_storage) { create(:project_storage, project: project, storage: storage) }
-  let(:file_link) { create(:file_link, container: work_package, storage: storage) }
+  let(:file_link) { build(:file_link, container: work_package, storage: storage, **file_link_attributes) }
+  let(:file_link_attributes) { {} }
 
   it_behaves_like 'contract is valid for active admins and invalid for regular users'
 
@@ -45,12 +46,115 @@ shared_examples_for 'file_link contract' do
       it_behaves_like 'contract is valid'
     end
 
-    context 'when storage_id is invalid' do
-      context 'as it is empty' do
+    describe 'storage_id' do
+      context 'when empty' do
         let(:storage_id) { "" }
         let(:file_link) { create(:file_link, container: work_package, storage_id: storage_id) }
 
-        it_behaves_like 'contract is invalid'
+        include_examples 'contract is invalid', storage: :blank
+      end
+    end
+
+    describe 'origin_id' do
+      context 'when empty' do
+        let(:file_link_attributes) { { origin_id: '' } }
+
+        include_examples 'contract is invalid', origin_id: :blank
+      end
+
+      context 'when nil' do
+        let(:file_link_attributes) { { origin_id: nil } }
+
+        include_examples 'contract is invalid', origin_id: :blank
+      end
+
+      context 'when numeric' do
+        let(:file_link_attributes) { { origin_id: 12345 } }
+
+        include_examples 'contract is valid'
+      end
+
+      context 'when uuid-like' do
+        let(:file_link_attributes) { { origin_id: '5eda571a-819e-44b2-939c-2301f9322ac6' } }
+
+        include_examples 'contract is valid'
+      end
+
+      context 'when having non ascii characters' do
+        let(:file_link_attributes) { { origin_id: 'Hëllò Wôrłd!' } }
+
+        include_examples 'contract is invalid', origin_id: :invalid
+      end
+
+      context 'when longer than 100 characters' do
+        let(:file_link_attributes) { { origin_id: '1' * 101 } }
+
+        include_examples 'contract is invalid', origin_id: :too_long
+      end
+    end
+
+    describe 'origin_name' do
+      context 'when empty' do
+        let(:file_link_attributes) { { origin_name: '' } }
+
+        include_examples 'contract is invalid', origin_name: :blank
+      end
+
+      context 'when nil' do
+        let(:file_link_attributes) { { origin_name: nil } }
+
+        include_examples 'contract is invalid', origin_name: :blank
+      end
+    end
+
+    describe 'origin_mime_type' do
+      context 'when empty' do
+        let(:file_link_attributes) { { origin_mime_type: '' } }
+
+        include_examples 'contract is valid'
+      end
+
+      context 'when nil' do
+        let(:file_link_attributes) { { origin_mime_type: nil } }
+
+        include_examples 'contract is valid'
+      end
+
+      context 'when anything' do
+        let(:file_link_attributes) { { origin_mime_type: 'abcdef/zyxwvut' } }
+
+        include_examples 'contract is valid'
+      end
+
+      context 'when longer than 255 characters' do
+        let(:file_link_attributes) { { origin_mime_type: 'a' * 256 } }
+
+        include_examples 'contract is invalid', origin_mime_type: :too_long
+      end
+    end
+
+    shared_examples_for 'optional attribute' do |params|
+      context 'when nil' do
+        let(:file_link_attributes) { params.transform_values { nil } }
+
+        include_examples 'contract is valid'
+      end
+
+      context "when #{params.inspect}" do
+        let(:file_link_attributes) { params }
+
+        include_examples 'contract is valid'
+      end
+    end
+
+    {
+      origin_created_by_name: 'someone',
+      origin_last_modified_by_name: 'someone',
+      origin_created_at: Time.zone.now,
+      origin_updated_at: Time.zone.now
+    }.each do |(attribute, a_valid_value)|
+      describe attribute.name do
+        it_behaves_like 'optional attribute', attribute => a_valid_value
       end
     end
   end

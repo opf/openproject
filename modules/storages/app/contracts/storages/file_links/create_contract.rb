@@ -34,10 +34,14 @@ class Storages::FileLinks::CreateContract < ModelContract
   attribute :container_type
 
   attribute :origin_id
+  validates :origin_id, length: { maximum: 100 },
+                        format: { with: /\A[-0-9a-f]*\z/i, message: :only_numeric_or_uuid }
   attribute :origin_name
+  validates :origin_name, presence: true
   attribute :origin_created_by_name
   attribute :origin_last_modified_by_name
   attribute :origin_mime_type
+  validates :origin_mime_type, length: { maximum: 255 }
   attribute :origin_created_at
   attribute :origin_updated_at
 
