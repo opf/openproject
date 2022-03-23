@@ -54,6 +54,11 @@ RSpec.configure do |config|
     # and `failure_message` of custom matchers include text for helper methods
     # defined using `chain`
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true
+
+    # Configures the maximum character length that RSpec will print while
+    # formatting an object. Set length to nil to prevent RSpec from doing
+    # truncation.
+    expectations.max_formatted_output_length = 1000
   end
 
   # rspec-mocks config goes here. You can use an alternate test double
