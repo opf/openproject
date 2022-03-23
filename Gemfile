@@ -37,6 +37,9 @@ gem 'activerecord-session_store', '~> 2.0.0'
 gem 'rails', '~> 6.1.4', '>= 6.1.4.6'
 gem 'responders', '~> 3.0'
 
+# This has to be done because ffi is not available in debian bullseye
+gem 'ffi', github: 'ffi/ffi'
+
 gem 'rdoc', '>= 2.4.2'
 
 gem 'doorkeeper', '~> 5.5.0'
