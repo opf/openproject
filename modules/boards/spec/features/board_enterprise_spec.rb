@@ -54,14 +54,25 @@ describe 'Boards enterprise spec', type: :feature, js: true do
     end
 
     it 'disabled all action boards' do
-      # Expect both existing boards to show
-      expect(page).to have_content 'My board'
-      expect(page).to have_content 'Subproject board'
-
       page.find('.toolbar-item a', text: I18n.t('js.button_create')).click
 
       expect(page).to have_selector('[data-qa-selector="op-tile-block"]:not([disabled])', text: 'Basic')
       expect(page).to have_selector('[data-qa-selector="op-tile-block"]:disabled', count: 5)
+    end
+
+    it 'shows a banner on the action board' do
+      # Expect both existing boards to show
+      expect(page).to have_content 'My board'
+      expect(page).to have_content 'Subproject board'
+
+      board_page = board_index.open_board(manual_board)
+      board_page.expect_query 'My board'
+      expect(page).to have_no_selector '[data-qa-selector="op-enterprise-banner"]'
+
+      board_index.visit!
+      board_page = board_index.open_board(action_board)
+      board_page.expect_query 'Subproject board'
+      expect(page).to have_selector '[data-qa-selector="op-enterprise-banner"]'
     end
   end
 
@@ -73,12 +84,24 @@ describe 'Boards enterprise spec', type: :feature, js: true do
     end
 
     it 'enables all options' do
-      expect(page).to have_content 'My board'
-      expect(page).to have_content 'Subproject board'
-
       page.find('.toolbar-item a', text: I18n.t('js.button_create')).click
 
       expect(page).to have_selector('[data-qa-selector="op-tile-block"]:not([disabled])', count: 6)
+    end
+
+    it 'shows the action board' do
+      # Expect both existing boards to show
+      expect(page).to have_content 'My board'
+      expect(page).to have_content 'Subproject board'
+
+      board_page = board_index.open_board(manual_board)
+      board_page.expect_query 'My board'
+      expect(page).to have_no_selector '[data-qa-selector="op-enterprise-banner"]'
+
+      board_index.visit!
+      board_page = board_index.open_board(action_board)
+      board_page.expect_query 'Subproject board'
+      expect(page).to have_no_selector '[data-qa-selector="op-enterprise-banner"]'
     end
   end
 end
