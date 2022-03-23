@@ -117,7 +117,7 @@ export function insertCollectionIntoState<T extends { id:ID }>(
   const ids = collection._embedded.elements?.map((el) => el.id) || [];
 
   applyTransaction(() => {
-    store.add(collection._embedded.elements);
+    store.upsertMany(collection._embedded.elements);
     store.update(({ collections }) => (
       {
         collections: {

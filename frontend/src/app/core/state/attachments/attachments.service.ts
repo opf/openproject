@@ -76,18 +76,16 @@ export class AttachmentsResourceService {
     private readonly toastService:ToastService) { }
 
   /**
-   * Extension method that returns the same service instance after ensuring
-   * that a specific collection is fetched, if not available.
+   * This method ensures that a specific collection is fetched, if not available.
    *
    * @param key The collection key, of the required collection.
    */
-  requireCollection(key:string):AttachmentsResourceService {
+  requireCollection(key:string):void {
     if (this.store.getValue().collections[key]) {
-      return this;
+      return;
     }
 
     this.fetchAttachments(key).subscribe();
-    return this;
   }
 
   /**
