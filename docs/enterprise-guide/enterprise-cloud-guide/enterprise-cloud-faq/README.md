@@ -11,7 +11,7 @@ keywords: Enterprise cloud FAQ, Cloud Edition, hosted by OpenProject
 
 ## How can I test the Enterprise cloud version?
 
-Simply create a 14 days free trial on: https://start.openproject.com/. Enter your organization name in small letters, without spaces (e.g. openproject) and press the blue Start Free Trial button.
+Simply create a 14 days free trial on: [start.openproject.com](https://start.openproject.com/). Enter your organization name in small letters, without spaces (e.g. openproject) and press the blue Start Free Trial button.
 
 ## How can I book additional users for the Enterprise cloud?
 

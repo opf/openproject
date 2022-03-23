@@ -5,8 +5,10 @@ OpenProject version 12+ will default to PostgreSQL 13. If you have an existing O
 ## Package-based installation
 
 <div class="alert alert-info" role="alert">
-Please follow this section only if you have installed OpenProject using [this procedure][package-based-installation].
+
+Please follow this section only if you have installed OpenProject using [this procedure](../../installation/packaged/).
 Before attempting the upgrade, please ensure you have performed a backup of your installation by following the [backup guide](../../operation/backing-up/).
+
 </div>
 
 Please first check whether this guide applies to you at all. Only PostgreSQL installations that were installed by the OpenProject package are applicable to this guide.
@@ -19,7 +21,7 @@ sudo cat /etc/openproject/installer.dat | grep postgres/autoinstall
 
 And verify that it outputs: postgres/autoinstall **install**.
 
-If that is not the case, you are likely using a self-provisioned database or a remote database. In this case, please follow the instructions from your provider or use generic PostgreSQL upgrade guides. A guide we can recommend for Debian/Ubuntu based servers is this one: https://gorails.com/guides/upgrading-postgresql-version-on-ubuntu-server Please adapt that guide or the following steps to your distribution.
+If that is not the case, you are likely using a self-provisioned database or a remote database. In this case, please follow the instructions from your provider or use generic PostgreSQL upgrade guides. A guide we can recommend for Debian/Ubuntu based servers is [this one](https://gorails.com/guides/upgrading-postgresql-version-on-ubuntu-server). Please adapt that guide or the following steps to your distribution.
 
 In the following, we assume that you initially let OpenProject setup your PostgreSQL installation, using a local database. 
 
@@ -174,29 +176,28 @@ sudo rm -rf /var/lib/pgsql/10/data
 sudo yum remove pgsql10
 ```
 
-[pg_upgrade]: https://www.postgresql.org/docs/10/pgupgrade.html
-[package-based-installation]: ../../installation/packaged/
-
 ## Compose-based docker installation
 
 <div class="alert alert-info" role="alert">
-Please follow this section only if you have installed OpenProject using [this procedure][compose-based-installation].
+
+Please follow this section only if you have installed OpenProject using [this procedure](../../installation/docker/#one-container-per-process-recommended).
 
 Before attempting the upgrade, please ensure you have performed a backup of your installation by following the [backup guide](../../operation/backing-up/).
+
 </div>
 
 You can find the upgrade instructions for your docker-compose setup in the [openproject-deploy](https://github.com/opf/openproject-deploy/blob/stable/12/compose/control/README.md#upgrade) repository.
 
 Remember that you need to have checked out that repository and work in the `compose` directory for the instructions to work.
 
-[compose-based-installation]: ../../installation/docker/#one-container-per-process-recommended
-
 ## All-in-one docker installation
 
 <div class="alert alert-info" role="alert">
-Please follow this section only if you have installed OpenProject using [this procedure][all-in-one-docker-installation].
+
+Please follow this section only if you have installed OpenProject using [this procedure](../../installation/docker/#all-in-one-container).
 
 Before attempting the upgrade, please ensure you have performed a backup of your installation by following the [backup guide](../../operation/backing-up/).
+
 </div>
 
 The newer version of OpenProject includes an utility to automatically perform the upgrade for you. Assuming you followed the standard installation procedure, the folder (within the docker container) containing your PostgreSQL data will be located at `/var/openproject/pgdata`.
@@ -276,8 +277,3 @@ Please change the command appropriately for other installation methods. Once con
 ```sql
 ANALYZE VERBOSE;
 ```
-
-
-[all-in-one-docker-installation]: ../../installation/docker/#all-in-one-container
-
-[backup-guide]: ../../operation/backing-up/

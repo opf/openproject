@@ -19,7 +19,7 @@ bin/compose setup
 bin/compose start
 ```
 
-Once the containers are done booting you can access the application under http://localhost:3000.
+Once the containers are done booting you can access the application under `http://localhost:3000`.
 
 ### Tests
 
@@ -104,7 +104,7 @@ However, these are cached in a docker volume. Meaning that from the 2nd run onwa
 
 Wait until you see `frontend_1  | : Compiled successfully.` and `backend_1   | => Rails 6.0.2.2 application starting in development http://0.0.0.0:3000` in the logs.
 This means both frontend and backend have come up successfully.
-You can now access OpenProject under http://localhost:3000, and via the live-reloaded under http://localhost:4200.
+You can now access OpenProject under `http://localhost:3000`, and via the live-reloaded under `http://localhost:4200`.
 
 Again the first request to the server can take some time too.
 But subsequent requests will be a lot faster.

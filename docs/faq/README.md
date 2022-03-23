@@ -142,7 +142,7 @@ The projects overview is not optimized for export via PDF, yet. Nevertheless, yo
 
 ### How can I receive the OpenProject newsletter?
 
-Please go to https://www.openproject.org/newsletter/ and submit your data to receive our newsletter. Another option would be to agree to receive the newsletter when creating your account.
+Please go to [openproject.org/newsletter/](https://www.openproject.org/newsletter/) and submit your data to receive our newsletter. Another option would be to agree to receive the newsletter when creating your account.
 
 ## FAQ regarding features
 

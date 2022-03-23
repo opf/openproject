@@ -60,7 +60,7 @@ OpenProject provides means to fully erase both all identifiable information of a
 ### Data Portability
 
 OpenProject provides means to data controllers in order to receive *all* personal data connected to the OpenProject instance. This encompasses all user and system data (in the form of an SQL dump) as well as a collection of all uploaded files.
-This is now possible by controllers on their own using the backup feature of OpenProject: https://www.openproject.org/docs/enterprise-guide/enterprise-cloud-guide/backups/.
+This is now possible by controllers on their own using the [backup feature of OpenProject](../backups/).
 
 ## Signing a Data Processing Agreement (DPA) for the Enterprise cloud
 

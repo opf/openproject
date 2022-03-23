@@ -216,7 +216,7 @@ In case you are on Windows using WSL2 rather than Linux directly, running tests 
 
 **1) Download the chrome web driver**
 
-You can find the driver for your Chrome version here: https://chromedriver.chromium.org/downloads
+You can find the driver for your Chrome version [here](https://chromedriver.chromium.org/downloads)
 
 **2) Add the driver to your `PATH`**
 
@@ -229,7 +229,7 @@ It will be called something like "Ethernet adapter vEthernet (WSL)".
 
 **4) Download Selenium hub**
 
-Download version 3.141.59 (at the time of writing) here: https://www.selenium.dev/downloads/
+Download version 3.141.59 (at the time of writing) [here](https://www.selenium.dev/downloads/)
 
 The download is a JAR, i.e. a Java application. You will also need to download and install a Java Runtime Environment in at least version 8 to be able to run it.
 
@@ -360,7 +360,7 @@ RAILS_ENV=test bundle exec parallel_rspec -- modules/team_planner/spec
 ## Manual acceptance tests
 
 * Sometimes you want to test things manually. Always remember: If you test something more than once, write an automated test for it.
-* Assuming you do not have a version of Edge already installed on your computer, you can grab a VM with preinstalled IE's directly from Microsoft: http://www.modern.ie/en-us/virtualization-tools#downloads
+* Assuming you do not have a version of Edge already installed on your computer, you can grab a VM with preinstalled IE's directly from [Microsoft](https://developer.microsoft.com/en-us/microsoft-edge/tools/vms/)
 
 
 

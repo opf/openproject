@@ -74,7 +74,7 @@ Please follow these steps:
 1. Make a dump of files you might have uploaded. You can refer to the [Bitnami documentation](https://docs.bitnami.com/general/apps/openproject/) to perform a full dump.
 1. Copy both dumps to the server you want to install OpenProject on.
 1. Install OpenProject using the packaged installation.
-1. By default, this will allow you to install a PostgreSQL database, which we recommend. You can migrate your data from MySQL using https://pgloader.io
+1. By default, this will allow you to install a PostgreSQL database, which we recommend. You can migrate your data from MySQL using [pgloader](https://pgloader.io)
 1. Import the dump into your new database. You can get your configuration by running `sudo openproject config:get DATABASE_URL`
 1. Extract the Bitnami backup, and copy your file assets into the relevant directory (e.g. in `/var/db/openproject/files` for uploaded files)
 1. Restart OpenProject
@@ -115,7 +115,7 @@ Set a higher number of web workers to allow more processes to be handled at the 
 
 There are two different types of emails in OpenProject: One sent directly within the request to the server (this includes the test mail) and one sent asynchronously, via a background job from the backend. The majority of mail sending jobs is run asynchronously to facilitate a faster response time for server request.
 
-Use a browser to call your domain name followed by "health_checks/all" (e.g. https://myopenproject.com/health_checks/all). There should be entries about "delayed_jobs_backed_up" and "delayed_jobs_never_ran". If PASSED is written behind it, everything is good.
+Use a browser to call your domain name followed by "health_checks/all" (e.g. `https://myopenproject.com/health_checks/all`). There should be entries about "delayed_jobs_backed_up" and "delayed_jobs_never_ran". If PASSED is written behind it, everything is good.
 
 If the health check does not return satisfying results, have a look if the background worker is running by entering `ps aux | grep jobs` on the server. If it is not running, no entry is returned. If it is running an entry with "jobs:work" at the end is displayed.
 

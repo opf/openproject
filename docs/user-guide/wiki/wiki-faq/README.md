@@ -37,7 +37,7 @@ Also, you have the possibility to display the wiki’s Table of Contents, which 
 
 ### I activated the wiki module in the project settings but cannot see any wiki in the project menu. What happened?
 
-You have probably unchecked the option “show as menu item in project navigation” within the wiki settings “configure menu item” (s.a.). Type in the URL of any wiki page in the browser: https://www.openproject.org/projects/“project_name”/wiki to open the wiki. Open “configure menu item” for this page and choose the way you want this wiki to be displayed in the menu bar.
+You have probably unchecked the option “show as menu item in project navigation” within the wiki settings “configure menu item” (s.a.). Type in the URL of any wiki page in the browser: `https://www.openproject.org/projects/“project_name”/wiki` to open the wiki. Open “configure menu item” for this page and choose the way you want this wiki to be displayed in the menu bar.
 
 ### What is the markup language of the wiki in OpenProject?
 
