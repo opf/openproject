@@ -33,8 +33,8 @@ module BaseServices
 
     include ::WithReversibleState
 
-    def call(*params)
-      self.params = params.first.to_h.deep_symbolize_keys
+    def call(params = {})
+      self.params = params.to_h.deep_symbolize_keys
 
       run_callbacks(:call) do
         perform(**self.params)
