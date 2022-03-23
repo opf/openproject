@@ -74,7 +74,7 @@ expect(page).to have_selector('button', text: I18n.t('work_packages.my_specific_
 
 
 
-The Rails guide on translations will give advanced examples on variable interpolation and the like: https://guides.rubyonrails.org/i18n.html
+The Rails guide on translations will give advanced examples on variable interpolation and the like: [guides.rubyonrails.org/i18n](https://guides.rubyonrails.org/i18n.html)
 
 
 
@@ -127,4 +127,4 @@ Then you can use them as below in your template:
 
 
 
-For more information on formatting and other helpers of the `I18n.js` library, see https://github.com/fnando/i18n-js
+For more information on formatting and other helpers of the `I18n.js` library, see [github.com/fnando/i18n-js](https://github.com/fnando/i18n-js)

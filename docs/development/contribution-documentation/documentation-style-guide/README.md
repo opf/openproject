@@ -37,7 +37,7 @@ Within each folder there is a sub-hierarchy of topics. E.g. in the Getting start
 
 ### Folder content
 
-We aim to have a clear hierarchical structure with meaningful URLs like https://www.openproject.org/docs/getting-started/sign-in-registration/. With this structure you can identify straight away that this part of the documentation is about the sign in and registration process. At the same time, the website path matches our repository, making it easy to update the documentation.
+We aim to have a clear hierarchical structure with meaningful URLs like `https://www.openproject.org/docs/getting-started/sign-in-registration/`. With this structure you can identify straight away that this part of the documentation is about the sign in and registration process. At the same time, the website path matches our repository, making it easy to update the documentation.
 
 Find an overview of content per folder here:
 

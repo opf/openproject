@@ -48,7 +48,7 @@ Launch the containers:
 docker-compose up -d
 ```
 
-After a while, OpenProject should be up and running on <http://localhost:8080>. The default username and password is login: `admin`, and password: `admin`.
+After a while, OpenProject should be up and running on `http://localhost:8080`. The default username and password is login: `admin`, and password: `admin`.
 
 Note that the `docker-compose.yml` file present in the repository can be adjusted to your convenience. For instance you could mount specific configuration files, override environment variables, or switch off services you don't need. Please refer to the official [Docker Compose documentation](https://docs.docker.com/compose/extends/) for more details.
 
@@ -74,7 +74,7 @@ minutes you should see a success message indicating the default administration
 password (login: `admin`, password: `admin`).
 
 You can then launch a browser and access your new OpenProject installation at
-<http://localhost:8080>. Easy!
+`http://localhost:8080`. Easy!
 
 To stop the container, simply hit CTRL-C.
 
@@ -333,7 +333,7 @@ To just give it a quick try you can run this:
 docker run -p 8080:80 --rm -it openproject-with-slack
 ```
 
-After which you can access OpenProject under http://localhost:8080.
+After which you can access OpenProject under `http://localhost:8080`.
 
 ## Offline/air-gapped installation
 
@@ -554,7 +554,7 @@ canb3m7ilkjn        openproject_web      replicated          1/1                
 7ovn0sbu8a7w        openproject_worker   replicated          1/1                 openproject/community:12
 ```
 
-You can now access OpenProject under [http://0.0.0.0:8080](http://0.0.0.0:8080).
+You can now access OpenProject under `http://0.0.0.0:8080`.
 This endpoint then can be used in a apache reverse proxy setup as shown further up, for instance.
 
 Don't worry about one of the services (openproject_seeder) having 0/1 replicas.

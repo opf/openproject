@@ -25,7 +25,7 @@ To stop the servers from being accessed on the old installation, stop the servic
 
 ## Install new package
 
-Follow the first step (**Installation**) of our packaged installation guides at https://www.openproject.org/download-and-installation/.
+Follow the first step (**Installation**) of our [packaged installation guides](https://www.openproject.org/download-and-installation/).
 
 After this step, you should have an installed version of `openproject`.
 

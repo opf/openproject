@@ -20,7 +20,7 @@ In any case, you may also use the internally configured PostgreSQL instance of t
 
 If you want to set up a PostgreSQL installation database outside the container and not use the built-in database, please set up a PostgreSQL database now. These are generic apt-based installation steps, please adapt them appropriately for your distribution.
 
-OpenProject requires at least PostgreSQL 9.5 installed. Please check <https://www.postgresql.org/download/> if your distributed package is too old.
+OpenProject requires at least PostgreSQL 9.5 installed. Please check [www.postgresql.org/download](https://www.postgresql.org/download/) if your distributed package is too old.
 
 ```bash
 [root@host] apt-get install postgresql postgresql-contrib libpq-dev
