@@ -138,11 +138,11 @@
           [class.op-team-planner--remove-dropzone_active]="dropzone.isHovering && dropzone.canDrop"
           [class.op-team-planner--remove-dropzone_forbidden]="!dropzone.canDrop"
         >
-      <span
-        *ngIf="dropzone.canDrop"
-        class="op-team-planner--dropzone-label"
-        [textContent]="text.drag_here_to_remove"
-      ></span>
+          <span
+            *ngIf="dropzone.canDrop"
+            class="op-team-planner--dropzone-label"
+            [textContent]="text.drag_here_to_remove"
+          ></span>
           <span
             *ngIf="!dropzone.canDrop"
             class="op-team-planner--dropzone-label"

@@ -243,10 +243,14 @@ export class OpCalendarService extends UntilDestroyedMixin {
     return this.urlParams.cview as string|undefined;
   }
 
-  public eventDurationEditable(wp:WorkPackageResource):boolean {
+  dateEditable(wp:WorkPackageResource):boolean {
     const schema = this.schemaCache.of(wp);
     const schemaEditable = schema.isAttributeEditable('startDate') && schema.isAttributeEditable('dueDate');
-    return (wp.isLeaf || wp.scheduleManually) && schemaEditable && !this.isMilestone(wp);
+    return (wp.isLeaf || wp.scheduleManually) && schemaEditable;
+  }
+
+  eventDurationEditable(wp:WorkPackageResource):boolean {
+    return this.dateEditable(wp) && !this.isMilestone(wp);
   }
 
   /**

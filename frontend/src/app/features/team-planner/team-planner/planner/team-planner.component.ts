@@ -122,13 +122,17 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
       filter((dragging) => !!dragging),
       map((dragging) => {
         const workPackage = (dragging as EventDragStartArg).event.extendedProps.workPackage as WorkPackageResource;
-        const durationEditable = this.calendar.eventDurationEditable(workPackage);
+        const dateEditable = this.calendar.dateEditable(workPackage);
         const resourceEditable = this.eventResourceEditable(workPackage);
-        return durationEditable && resourceEditable;
+        return dateEditable && resourceEditable;
       }),
     );
 
-  dropzone$ = combineLatest([this.draggingItem$, this.dropzoneHovered$, this.dropzoneAllowed$])
+  dropzone$ = combineLatest([
+    this.draggingItem$,
+    this.dropzoneHovered$,
+    this.dropzoneAllowed$,
+  ])
     .pipe(
       map(([dragging, isHovering, canDrop]) => ({ dragging, isHovering, canDrop })),
     );
