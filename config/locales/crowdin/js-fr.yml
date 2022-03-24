@@ -499,7 +499,8 @@ fr:
           task_board: "Le tableau des tâches visualise la <b>progression pour ce sprint</b>. Cliquez sur l'icône plus (+) à côté d'un récit utilisateur pour ajouter de nouvelles tâches ou obstacles. <br> Le statut peut être mis à jour par glisser-déposer."
         boards:
           overview: 'Sélectionnez <b>tableaux</b> pour déplacer la vue et gérer votre projet en utilisant la vue des tableaux agiles.'
-          lists: 'Ici, vous pouvez créer plusieurs listes (colonnes) dans votre tableau. Cette fonctionnalité vous permet de créer un <b>tableau Kanban</b>, par exemple.'
+          lists_kanban: 'Ici, vous pouvez créer plusieurs listes (colonnes) dans votre tableau. Cette fonctionnalité vous permet de créer un <b>tableau Kanban</b>, par exemple.'
+          lists_basic: 'Here you can create multiple lists (columns) within your agile board.'
           add: 'Cliquez sur l''icône plus (+) pour <b>créer une nouvelle carte</b> ou <b>ajouter une carte existante</b> à la liste du tableau.'
           drag: 'Glissez et déposez vos cartes dans une liste donnée pour les réorganiser, ou pour les déplacer dans une autre liste. <br> Vous pouvez cliquer sur l''icône (i) dans le coin supérieur droit ou double-cliquer sur une carte pour ouvrir ses détails.'
         wp:
@@ -994,7 +995,7 @@ fr:
         activity: Activité
         relations: Relations
         watchers: Observateurs
-        attachments: Fichiers
+        files: Fichiers
       time_relative:
         days: "jours"
         weeks: "semaines"

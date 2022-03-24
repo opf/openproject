@@ -7,10 +7,8 @@ de:
       label_unnamed_list: 'Unbenannte Liste'
       label_board_type: 'Board-Typ'
       upsale:
-        teaser_text: 'Verbessere dein agiles Projektmanagement mit dieser flexiblen Board-Ansicht. Erstelle so viele Boards wie du möchtest, um alles zu verfolgen.'
-        upgrade_to_ee_text: 'Boards sind ein Enterprise-Feature. Bitte aktualisieren Sie auf einen bezahlten Plan.'
+        teaser_text: 'Need a predefined board template? Advanced boards are Enterprise features. Please upgrade to a paid plan.'
         upgrade: 'Jetzt Upgrade durchführen'
-        personal_demo: 'Kontaktieren Sie uns für eine Demo'
       lists:
         delete: 'Liste löschen'
       version:

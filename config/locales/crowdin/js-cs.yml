@@ -456,7 +456,7 @@ cs:
     label_global_queries: "Veřejné zobrazení"
     label_custom_queries: "Soukromé zobrazení"
     label_columns: "Sloupce"
-    label_attachments: Soubory
+    label_attachments: Přílohy
     label_drop_files: Sem přetáhněte soubory
     label_drop_files_hint: nebo klikněte pro přidání souborů
     label_drop_folders_hint: Není možné použít složku jako přílohu. Prosím vyberte jednotlivé soubory.
@@ -500,7 +500,8 @@ cs:
           task_board: "Pracovní panel vizualizuje postup <b>pro tento sprint</b>. Kliknutím na ikonu plus (+) vedle uživatelského příběhu přidáte nové úkoly nebo překážky. <br> Stav lze aktualizovat přetažením."
         boards:
           overview: 'Vyberte <b>tabule</b> pro posun zobrazení a správu vašeho projektu pomocí agilního zobrazení desek.'
-          lists: 'Zde si můžete vytvořit více seznamů (sloupce) ve vaší tabuli. Tato funkce vám umožní například vytvořit <b>Kanban desku</b>.'
+          lists_kanban: 'Zde si můžete vytvořit více seznamů (sloupce) ve vaší tabuli. Tato funkce vám umožní například vytvořit <b>Kanban desku</b>.'
+          lists_basic: 'Here you can create multiple lists (columns) within your agile board.'
           add: 'Klikněte na ikonu plus (+) pro <b>vytvoření nové karty</b> nebo <b>přidejte existující kartu</b> do seznamu na tabuli.'
           drag: 'Přetažením karet v daném seznamu je změníte, nebo je přesuňte do jiného seznamu. <br> Můžete kliknout na info (i) ikonu v pravém horním rohu nebo dvakrát kliknout na kartu pro otevření podrobností.'
         wp:
@@ -997,7 +998,7 @@ cs:
         activity: Aktivita
         relations: Vztahy
         watchers: Sledující
-        attachments: Přílohy
+        files: Soubory
       time_relative:
         days: "dnů"
         weeks: "týdny"
