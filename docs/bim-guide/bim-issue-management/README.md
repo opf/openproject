@@ -44,7 +44,7 @@ Then, navigate to the BCF module in the project navigation.
 
 ### Create a new BIM Issue
 
-To create new BIM Issues, you have to open the Model - Viewer first and create the view you want to save within the BIM Issue (e.g. zoom, [rotate](../ifc-viewer/#how-to-rotate-the-building-model?), [slice](../ifc-viewer/#how-to-slice-the-building-model?), [select](../ifc-viewer/#how-to-select-elements?), [hide](../ifc-viewer/#show-or-hide-elements-or-models), … ). 
+To create new BIM Issues, you have to open the Model - Viewer first and create the view you want to save within the BIM Issue (e.g. zoom, [rotate](../ifc-viewer/#how-to-rotate-the-building-model), [slice](../ifc-viewer/#how-to-slice-the-building-model), [select](../ifc-viewer/#how-to-select-elements?), [hide](../ifc-viewer/#show-or-hide-models-or-elements-via-model-tree), … ). 
 
 Click on the **+ Create new work package** and select the type of workpackage you want. 
 

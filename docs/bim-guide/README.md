@@ -10,10 +10,12 @@ keywords: BIM user guide
 
 Welcome to the OpenProject user guide for Building Information Modeling (BIM) with OpenProject.
 
-On top of the general project management functionalities, OpenProject BIM enables construction teams to better plan, communicate and collaborate in their building projects. OpenProject BIM includes a 3D model viewer (IFC viewer), support of the BIM collaboration format (BCF) for BIM issue management, and much more powerful features, e.g. a [Revit integration](/revit-add-in).
+On top of the general project management functionalities, OpenProject BIM enables construction teams to better plan, communicate and collaborate in their building projects. OpenProject BIM includes a 3D model viewer (IFC viewer), support of the BIM collaboration format (BCF) for BIM issue management, and much more powerful features, e.g. a [Revit integration](revit-add-in).
 
 <div class="alert alert-info" role="alert">
-**Note**: This guide only covers the specific [BIM features and functionalities of OpenProject](../../bim-project-management/). To learn more about the core features for project management of OpenProject (which are included in the BIM Edition as well), please visit our [User Guide](../user-guide/).
+
+**Note**: This guide only covers the specific [BIM features and functionalities of OpenProject](https://www.openproject.org/bim-project-management/). To learn more about the core features for project management of OpenProject (which are included in the BIM Edition as well), please visit our [User Guide](../user-guide/).
+
 </div>
 
 ![BIM Project Management](demo_project_teaser_bim.jpg)
@@ -98,7 +100,7 @@ You don't need it, but it makes your BIM Issue Management much easier. The *Open
 
 ### Are there any System Requirements for the Revit Add-In?
 
-The OpenProject Revit Add-In does not have any special system requirements. Only a supported [version of Autodesk Revit](#which-versions-of-Revit-are-supported?) must be installed. 
+The OpenProject Revit Add-In does not have any special system requirements. Only a supported [version of Autodesk Revit](/#system-requirements) must be installed. 
 
 
 
@@ -137,8 +139,8 @@ The BCF Module and the included IFC viewer can be enabled or disabled for every 
 There are many potential reasons why you can't see your building model. Please check out the most common reasons and their solution:
 
 - BCF Module could be disabled ([How to enable a module](../user-guide/projects/project-settings/modules/))
-- Building model is hidden in Model hierarchy (check within the [IFC Model Tree](ifc-viewer/#show-or-hide-elements-or-models))
-- Building model is completely sliced ([clear all slices](ifc-viewer/#slice) within the model viewer toolbar)
+- Building model is hidden in Model hierarchy (check within the [IFC Model Tree](ifc-viewer/#show-or-hide-models-or-elements-via-model-tree))
+- Building model is completely sliced ([clear all slices](ifc-viewer/#how-to-slice-the-building-model) within the model viewer toolbar)
 - IFC file isn't uploaded yet or is invalid (please check the status of the uploaded file within the [IFC Model management area](ifc-viewer/#import-and-export-ifc-models)).
 - IFC file does not have any geometry (please check if your IFC file has some geometry)
 
