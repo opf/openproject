@@ -401,8 +401,14 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
                 ],
               },
             },
+            // Ensure we show the skeleton from the beginning
+            progressiveEventRendering: true,
             eventSources: [
-              (_, successCallback) => successCallback(skeletonEvents),
+              {
+                id: 'skeleton',
+                events: skeletonEvents,
+                editable: false,
+              },
               {
                 id: 'work_packages',
                 events: this.calendarEventsFunction.bind(this) as unknown,
@@ -426,6 +432,10 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
             droppable: true,
             eventResize: (resizeInfo:EventResizeDoneArg) => this.updateEvent(resizeInfo),
             eventDragStart: (dragInfo:EventDragStartArg) => {
+              if (dragInfo.event.source?.id === 'skeleton') {
+                return;
+              }
+
               const { el } = dragInfo;
               el.style.pointerEvents = 'none';
               this.draggingItem$.next(dragInfo);
@@ -527,7 +537,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
 
   isDraggedEvent(id:string):boolean {
     const dragging = this.draggingItem$.getValue();
-    return !!dragging && (dragging.event.extendedProps.workPackage as WorkPackageResource).href === id;
+    return !!dragging && (dragging.event.extendedProps?.workPackage as undefined|WorkPackageResource)?.href === id;
   }
 
   eventId(data:EventContentArg):string {

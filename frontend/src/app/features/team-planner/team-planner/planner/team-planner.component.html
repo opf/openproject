@@ -99,11 +99,11 @@
       <op-wp-loading-skeleton 
         [viewBox]="event.extendedProps.viewBox"
         class="op-team-planner--wp-loading-skeleton"
-        *ngIf="event.id.startsWith('skeleton')"
+        *ngIf="event.source && event.source.id === 'skeleton'"
       ></op-wp-loading-skeleton>
 
       <wp-single-card
-        *ngIf="!event.id.startsWith('skeleton')"
+        *ngIf="!event.source || event.source.id === 'work_packages'"
         [workPackage]="event.extendedProps.workPackage"
         [selectedWhenOpen]="true"
         [orientation]="'horizontal'"
