@@ -1,6 +1,8 @@
 <ng-select
   appendTo="body"
 
+  [loading]="loading$ | async"
+
   [typeahead]="typeahead$"
   [items]="projects$ | async"
 

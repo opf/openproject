@@ -37,7 +37,7 @@ import {
 } from '@angular/core';
 import { NgSelectComponent } from '@ng-select/ng-select';
 import { HttpClient } from '@angular/common/http';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { ID } from '@datorama/akita';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import {
@@ -61,6 +61,8 @@ import { IFieldSchema } from '../../field.base';
 import { EditFieldHandler } from '../editing-portal/edit-field-handler';
 import { ProjectResource } from 'core-app/features/hal/resources/project-resource';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
+import { FormResource } from 'core-app/features/hal/resources/form-resource';
+import { finalize, tap } from 'rxjs/operators';
 
 @Component({
   templateUrl: './project-edit-field.component.html',
@@ -96,13 +98,20 @@ export class ProjectEditFieldComponent extends EditFieldComponent implements OnI
   projects$ = new Subject<IProject[]>();
 
   projectId:ID|null = null;
+  loading$ = new Subject<boolean>();
 
-  public ngOnInit() {
+  public async ngOnInit() {
+    super.ngOnInit();
+
+    this.loading$.next(true);
+    await this.change.getForm();  
+
     this.projectId = parseInt(this.value.id, 10);
-    console.log(this.projectId);
-    this.loadAllProjects();
+    this.loadAllProjects().subscribe(() => {
+      this.ngSelectComponent.open();
+    });
     this.typeahead$.subscribe((searchText:string) => {
-      this.loadAllProjects(searchText);
+      this.loadAllProjects(searchText).subscribe();
     });
   }
 
@@ -112,11 +121,7 @@ export class ProjectEditFieldComponent extends EditFieldComponent implements OnI
 
       // We fake a HalResource here because we're using a plain JS object, but the schema loading and editing
       // is part of the older HalResource stack
-      const newProject = {
-        ...project,
-        $links: { ...project._links },
-        $link: project._links.self,
-      };
+      const newProject = { ...project };
       const fakeProjectHal = this.halResourceService.createHalResourceOfType('project', newProject);
       this.value = fakeProjectHal;
     } else {
@@ -127,16 +132,18 @@ export class ProjectEditFieldComponent extends EditFieldComponent implements OnI
     return this.handler.handleUserSubmit();
   }
 
-  public loadAllProjects(searchText:string = ''):void {
-    getPaginatedResults<IProject>(
+  public loadAllProjects(searchText:string = ''):Observable<IProject[]> {
+    this.loading$.next(true);
+    return getPaginatedResults<IProject>(
       (params) => {
         const collectionURL = listParamsString({ ...this.getParams(searchText), ...params });
-        return this.http.get<IHALCollection<IProject>>(this.apiV3Service.projects.path + collectionURL);
+        return this.http.get<IHALCollection<IProject>>(this.schema.allowedValues.$link.href + collectionURL);
       },
     )
-      .subscribe((projects) => {
-        this.projects$.next(projects);
-      });
+      .pipe(
+        finalize(() => this.loading$.next(false)),
+        tap((projects) => this.projects$.next(projects)),
+      );
   }
     
   public getParams(searchText:string = ''):ApiV3ListParameters {
