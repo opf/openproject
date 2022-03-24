@@ -1,10 +1,4 @@
 GIT
-  remote: https://github.com/ffi/ffi.git
-  revision: 447845cb3030194c79700c86fb388a12e6f81386
-  specs:
-    ffi (1.15.5)
-
-GIT
   remote: https://github.com/opf/omniauth
   revision: fe862f986b2e846e291784d2caa3d90a658c67f0
   ref: fe862f986b2e846e291784d2caa3d90a658c67f0
@@ -488,6 +482,7 @@ GEM
     faraday-rack (1.0.0)
     faraday-retry (1.0.3)
     fastimage (2.2.6)
+    ffi (1.15.5)
     flamegraph (0.9.5)
     fog-aws (3.13.0)
       fog-core (~> 2.1)
@@ -1018,7 +1013,7 @@ DEPENDENCIES
   factory_bot (~> 6.2.0)
   factory_bot_rails (~> 6.2.0)
   faker
-  ffi!
+  ffi (~> 1.15)
   flamegraph
   fog-aws
   friendly_id (~> 5.4.0)

@@ -23,7 +23,7 @@ WORKDIR /home/$USER
 
 RUN apt-get update -qq && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
-    postgresql-client
+    postgresql-client libffi7 libffi-dev
 
 COPY ./docker/dev/backend/scripts/setup /usr/sbin/setup
 COPY ./docker/dev/backend/scripts/run-app /usr/sbin/run-app
