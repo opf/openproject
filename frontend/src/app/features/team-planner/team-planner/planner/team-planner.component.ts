@@ -3,6 +3,7 @@ import {
   Component,
   ElementRef,
   HostListener,
+  Injector,
   OnDestroy,
   OnInit,
   TemplateRef,
@@ -11,6 +12,7 @@ import {
 import {
   CalendarOptions,
   DateSelectArg,
+  EventApi,
   EventContentArg,
   EventDropArg,
   EventInput,
@@ -27,7 +29,11 @@ import {
   finalize,
   map,
   mergeMap,
+  shareReplay,
+  startWith,
+  switchMap,
   take,
+  withLatestFrom,
 } from 'rxjs/operators';
 import { StateService } from '@uirouter/angular';
 import resourceTimelinePlugin from '@fullcalendar/resource-timeline';
@@ -47,13 +53,15 @@ import { CurrentProjectService } from 'core-app/core/current-project/current-pro
 import { splitViewRoute } from 'core-app/features/work-packages/routing/split-view-routes.helper';
 import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
 import { PrincipalsResourceService } from 'core-app/core/state/principals/principals.service';
-import { ApiV3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
+import {
+  ApiV3ListFilter,
+  ApiV3ListParameters,
+} from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { ResourceLabelContentArg } from '@fullcalendar/resource-common';
 import { OpCalendarService } from 'core-app/features/calendar/op-calendar.service';
-import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
@@ -70,7 +78,10 @@ import {
 } from 'core-app/features/team-planner/team-planner/planner/team-planner.actions';
 import { imagePath } from 'core-app/shared/helpers/images/path-helper';
 import { skeletonEvents, skeletonResources } from './loading-skeleton-data';
+import { CapabilitiesResourceService } from 'core-app/core/state/capabilities/capabilities.service';
+import { ICapability } from 'core-app/core/state/capabilities/capability.model';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
+import { LoadingIndicatorService } from 'core-app/core/loading-indicator/loading-indicator.service';
 
 @Component({
   selector: 'op-team-planner',
@@ -112,13 +123,17 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
       filter((dragging) => !!dragging),
       map((dragging) => {
         const workPackage = (dragging as EventDragStartArg).event.extendedProps.workPackage as WorkPackageResource;
-        const durationEditable = this.calendar.eventDurationEditable(workPackage);
+        const dateEditable = this.calendar.dateEditable(workPackage);
         const resourceEditable = this.eventResourceEditable(workPackage);
-        return durationEditable && resourceEditable;
+        return dateEditable && resourceEditable;
       }),
     );
 
-  dropzone$ = combineLatest([this.draggingItem$, this.dropzoneHovered$, this.dropzoneAllowed$])
+  dropzone$ = combineLatest([
+    this.draggingItem$,
+    this.dropzoneHovered$,
+    this.dropzoneAllowed$,
+  ])
     .pipe(
       map(([dragging, isHovering, canDrop]) => ({ dragging, isHovering, canDrop })),
     );
@@ -139,6 +154,51 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
       }),
     );
 
+  private assigneeCaps$ = this.wpTableFilters
+    .live$()
+    .pipe(
+      this.untilDestroyed(),
+      switchMap((queryFilters) => {
+        const filters:ApiV3ListFilter[] = [
+          ['action', '=', ['work_packages/assigned']],
+        ];
+        const assigneeFilter = queryFilters.find((queryFilter) => queryFilter._type === 'AssigneeQueryFilter');
+        if (assigneeFilter) {
+          const values = (assigneeFilter.values as HalResource[]).map((el:HalResource) => el.id as string);
+          filters.push(['principal', '=', values]);
+        }
+
+        const projectFilter = queryFilters.find((queryFilter) => queryFilter._type === 'ProjectQueryFilter');
+        if (projectFilter) {
+          const values = (projectFilter.values as HalResource[]).map((el:HalResource) => `p${el.id as string}`);
+          filters.push(['context', '=', values]);
+        } else {
+          filters.push(['context', '=', [`p${this.currentProject.id as string}`]]);
+        }
+
+        return this
+          .capabilitiesResourceService
+          .fetchCapabilities({ pageSize: -1, filters });
+      }),
+      map((result) => result
+        ._embedded
+        .elements
+        .reduce(
+          (list:{ [projectId:string]:string[] }, cap:ICapability) => {
+            const project = cap._links.context.href;
+            const principal = cap._links.principal.href;
+            const cur = list[project] || [];
+            return {
+              ...list,
+              [project]: [...cur, principal],
+            };
+          },
+          {},
+        )),
+      startWith({} as { [projectId:string]:string[] }),
+      shareReplay(1),
+    );
+
   private params$ = this.principalIds$
     .pipe(
       this.untilDestroyed(),
@@ -152,7 +212,11 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     this.principalIds$,
     this.showAddAssignee$,
   ]).pipe(
-    map(([principals, showAddAssignee]) => !principals.length && !showAddAssignee),
+    debounceTime(250),
+    map(([principals, showAddAssignee]) => {
+      this.loadingIndicatorService.table.stop();
+      return !principals.length && !showAddAssignee;
+    }),
   );
 
   private loading$:Subject<unknown>|null = null;
@@ -186,17 +250,20 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
       mergeMap((ids:string[]) => this.principalsResourceService.query.byIds(ids)),
       debounceTime(50),
       distinctUntilChanged((prev, curr) => prev.length === curr.length && prev.length === 0),
+      shareReplay(1),
     );
 
   constructor(
     private $state:StateService,
     private configuration:ConfigurationService,
     private principalsResourceService:PrincipalsResourceService,
+    private capabilitiesResourceService:CapabilitiesResourceService,
     private wpTableFilters:WorkPackageViewFiltersService,
     private querySpace:IsolatedQuerySpace,
     private currentProject:CurrentProjectService,
     private viewLookup:EventViewLookupService,
     private I18n:I18nService,
+    readonly injector:Injector,
     readonly calendar:OpCalendarService,
     readonly halEditing:HalResourceEditingService,
     readonly halNotification:HalResourceNotificationService,
@@ -206,6 +273,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     readonly keepTab:KeepTabService,
     readonly actions$:ActionsService,
     readonly toastService:ToastService,
+    readonly loadingIndicatorService:LoadingIndicatorService,
   ) {
     super();
   }
@@ -335,7 +403,18 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
             },
             eventSources: [
               (_, successCallback) => successCallback(skeletonEvents),
-              this.calendarEventsFunction.bind(this) as unknown,
+               {
+                id: 'work_packages',
+                events: this.calendarEventsFunction.bind(this) as unknown,
+              },
+              {
+                events: [],
+                id: 'background',
+                color: 'red',
+                textColor: 'white',
+                display: 'background',
+                editable: false,
+              },
             ],
             resources: skeletonResources,
             resourceAreaWidth: '180px',
@@ -350,11 +429,13 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
               const { el } = dragInfo;
               el.style.pointerEvents = 'none';
               this.draggingItem$.next(dragInfo);
+              this.addBackgroundEvents(dragInfo.event);
             },
             eventDragStop: (dragInfo:EventDragStopArg) => {
               const { el } = dragInfo;
               el.style.removeProperty('pointer-events');
               this.draggingItem$.next(undefined);
+              this.removeBackGroundEvents();
             },
             eventDrop: (dropInfo:EventDropArg) => this.updateEvent(dropInfo),
             eventReceive: async (dropInfo:EventReceiveArg) => {
@@ -363,9 +444,23 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
               this.actions$.dispatch(teamPlannerEventAdded({ workPackage: wp.id as string }));
             },
             // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-            eventContent: (data:EventContentArg) => this.renderTemplate(this.eventContent, this.eventId(data), data),
+            eventContent: (data:EventContentArg):{ domNodes:unknown[] }|undefined => {
+              // Let FC handle the background events
+              if (data.event.source?.id === 'background') {
+                return undefined;
+              }
+
+              return this.renderTemplate(this.eventContent, this.eventId(data), data);
+            },
             // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-            eventWillUnmount: (data:EventContentArg) => this.unrenderTemplate(this.eventId(data)),
+            eventWillUnmount: (data:EventContentArg) => {
+              // Nothing to do for background events
+              if (data.event.source?.id === 'background') {
+                return;
+              }
+
+              this.unrenderTemplate(this.eventId(data));
+            },
           } as CalendarOptions),
         );
       });
@@ -380,12 +475,13 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
       .calendar
       .currentWorkPackages$
       .pipe(
+        withLatestFrom(this.assigneeCaps$),
         take(1),
         finalize(() => this.clearLoading()),
       )
       .subscribe(
-        (workPackages:WorkPackageCollectionResource) => {
-          const events = this.mapToCalendarEvents(workPackages.elements);
+        ([workPackages, projectAssignables]) => {
+          const events = this.mapToCalendarEvents(workPackages.elements, projectAssignables);
 
           this.viewLookup.destroyDetached();
 
@@ -485,24 +581,30 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     if (workPackage.startDate && workPackage.dueDate) {
       let dateToCheck;
 
-      const currentStartDate = this.ucCalendar.getApi().view.currentStart;
-      const currentEndDate = this.ucCalendar.getApi().view.currentEnd;
+      const currentStartDate = this.ucCalendar.getApi().view.currentStart.setHours(0, 0, 0, 0);
+      const currentEndDate = this.ucCalendar.getApi().view.currentEnd.setHours(0, 0, 0, 0);
 
       if (date === 'start') {
-        dateToCheck = new Date(workPackage.startDate);
+        dateToCheck = new Date(workPackage.startDate).setHours(0, 0, 0, 0);
       } else {
-        dateToCheck = new Date(workPackage.dueDate);
+        dateToCheck = new Date(workPackage.dueDate).setHours(0, 0, 0, 0);
       }
 
       const dateCurrentlyVisible = dateToCheck >= currentStartDate && dateToCheck <= currentEndDate;
       return dateCurrentlyVisible;
     }
 
-    return false;
+    // Milestones are always completely in view, everything else is outside
+    return !!workPackage.date;
   }
 
-  showDisabledText(workPackage:WorkPackageResource):string {
-    return this.calendarDrag.workPackageDisabledExplanation(workPackage);
+  showDisabledText(workPackage:WorkPackageResource):{ text:string, orientation:'left'|'right' } {
+    const dueDate = new Date(workPackage.dueDate).setHours(0, 0, 0, 0);
+    const firstCalendarDay = this.ucCalendar.getApi().view.currentStart.setHours(0, 0, 0, 0);
+    return {
+      text: this.calendarDrag.workPackageDisabledExplanation(workPackage),
+      orientation: dueDate === firstCalendarDay ? 'right' : 'left',
+    };
   }
 
   isStatusClosed(workPackage:WorkPackageResource):boolean {
@@ -527,7 +629,10 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     this.actions$.dispatch(teamPlannerEventRemoved({ workPackage: workPackage.id as string }));
   }
 
-  private mapToCalendarEvents(workPackages:WorkPackageResource[]):EventInput[] {
+  private mapToCalendarEvents(
+    workPackages:WorkPackageResource[],
+    projectAssignables:{ [projectId:string]:string[] },
+  ):EventInput[] {
     return workPackages
       .map((workPackage:WorkPackageResource):EventInput|undefined => {
         if (!workPackage.assignee) {
@@ -544,7 +649,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
           editable: durationEditable || resourceEditable,
           durationEditable,
           resourceEditable,
-          constraint: this.eventConstaints(workPackage),
+          constraint: this.eventConstaints(workPackage, projectAssignables),
           title: workPackage.subject,
           start: this.wpStartDate(workPackage),
           end: this.wpEndDate(workPackage),
@@ -638,7 +743,10 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
   // they are forced to drag the wp to the exact same date in the others assignee row. This might be confusing.
   // Without these constraints however, users can drag the WP everywhere, thinking that they changed the date as well.
   // The WP then moves back to the original date when the calendar re-draws again. Also not optimal..
-  private eventConstaints(wp:WorkPackageResource):{ [key:string]:string|string[] } {
+  private eventConstaints(
+    wp:WorkPackageResource,
+    projectAssignables:{ [projectId:string]:string[] },
+  ):{ [key:string]:string|string[] } {
     const constraints:{ [key:string]:string|string[] } = {};
 
     if (!this.calendar.eventDurationEditable(wp)) {
@@ -648,6 +756,12 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
 
     if (!this.eventResourceEditable(wp)) {
       constraints.resourceIds = [this.wpAssignee(wp)];
+      return constraints;
+    }
+
+    const assignables = projectAssignables[(wp.project as HalResource).href as string];
+    if (assignables) {
+      constraints.resourceIds = [...assignables];
     }
 
     return constraints;
@@ -681,5 +795,43 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
           evt.remove();
         }
       });
+  }
+
+  private addBackgroundEvents(event:EventApi) {
+    const wp = event.extendedProps.workPackage as WorkPackageResource;
+
+    this
+      .assigneeCaps$
+      .pipe(
+        filter((el) => Object.keys(el).length > 0),
+        take(1),
+        map((projectAssignables) => projectAssignables[(wp.project as HalResource).href as string]),
+        withLatestFrom(this.principals$),
+      )
+      .subscribe(([assignable, principals]) => {
+        const api = this.ucCalendar.getApi();
+
+        const eventBase = {
+          start: moment().subtract('1', 'month').toDate(),
+          end: moment().add('1', 'month').toDate(),
+        };
+
+        principals.forEach((principal) => {
+          const resourceId = principal._links.self.href;
+
+          if (!assignable.includes(resourceId)) {
+            api.addEvent({ ...eventBase, resourceId }, 'background');
+          }
+        });
+      });
+  }
+
+  private removeBackGroundEvents() {
+    this
+      .ucCalendar
+      .getApi()
+      .getEvents()
+      .filter((el) => el.source?.id === 'background')
+      .forEach((el) => el.remove());
   }
 }

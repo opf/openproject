@@ -96,7 +96,7 @@ get:
                 count: 2
                 total: 2
           schema:
-            "$ref": "../components/schemas/work_packages_by_project_model.yml"
+            "$ref": "../components/schemas/work_packages_model.yml"
       description: OK
       headers: {}
     '400':

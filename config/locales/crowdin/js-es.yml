@@ -24,6 +24,7 @@ es:
     ajax:
       hide: "Ocultar"
       loading: "Cargando ..."
+      updating: "Updating ..."
     attachments:
       draggable_hint: |
         Arrastre el campo del editor a una imagen alineada o un adjunto de referencia. Los campos del editor cerrados se abrirán mientras siga arrastrando elementos.
@@ -454,7 +455,7 @@ es:
     label_global_queries: "Vistas públicas"
     label_custom_queries: "Vistas privadas"
     label_columns: "Columnas"
-    label_attachments: Archivos
+    label_attachments: Archivos adjuntos
     label_drop_files: Suelta los archivos aquí
     label_drop_files_hint: o haga clic en Agregar archivos
     label_drop_folders_hint: No se pueden cargar carpetas como datos adjuntos. Seleccione archivos individuales.
@@ -498,7 +499,8 @@ es:
           task_board: "En el panel de tareas, se muestra el <b>progreso de este sprint</b>. Haga clic en el icono del signo más (+) junto a una historia de usuario para añadir nuevas tareas o impedimentos. <br> Puede actualizar el estado mediante las funciones de arrastrar y colocar."
         boards:
           overview: 'Seleccione los <b>paneles</b> para cambiar la vista y gestione su proyecto con la vista de paneles ágiles.'
-          lists: 'Aquí puede crear varias listas (columnas) en el panel. Por ejemplo, esta característica le permite crear un <b>panel kanban</b>.'
+          lists_kanban: 'Aquí puede crear varias listas (columnas) en el panel. Por ejemplo, esta característica le permite crear un <b>panel kanban</b>.'
+          lists_basic: 'Here you can create multiple lists (columns) within your agile board.'
           add: 'Haga clic en el icono del signo más (+) para <b>crear una tarjeta</b> o <b>añadir una tarjeta existente</b> a la lista en el panel.'
           drag: 'Arrastre y coloque las tarjetas en una lista específica para cambiar el orden o moverlas a otra lista. <br> Para ver los detalles, haga clic en el icono de información (i) de la esquina superior derecha o haga doble clic en una tarjeta.'
         wp:
@@ -509,6 +511,12 @@ es:
           create_button: 'Use el botón <b>+ Crear</b> para añadir un nuevo paquete de trabajo a su proyecto.'
           timeline_button: 'Puede activar la vista del <b>diagrama de Gantt</b> para crear una línea de tiempo del proyecto.'
           timeline: 'Aquí puede <b>editar su plan de proyecto</b>, crear nuevos paquetes de trabajo (como tareas, hitos, fases y más) y <b>añadir dependencias</b>. Todos los miembros del equipo pueden ver y actualizar el plan más reciente en cualquier momento.'
+        team_planner:
+          overview: 'The team planner lets you visually assign tasks to team members and get an overview of who is working on what.'
+          calendar: 'The weekly or biweekly planning board displays all work packages assigned to your team members.'
+          add_assignee: 'To get started, add assignees to the team planner.'
+          add_existing: 'Search for existing work packages and drag them to the team planner to instantly assign them to a team member and define start and end dates.'
+          card: 'Drag work packages horizontally to move them backwards or forwards in time, drag the edges to change start and end dates and even drag them vertically to a different row to assign them to another member.'
     notifications:
       title: "Notificaciones"
       no_unread: "No hay notificaciones sin leer"
@@ -987,7 +995,7 @@ es:
         activity: Actividad
         relations: Relaciones
         watchers: Controladores
-        attachments: Archivos adjuntos
+        files: Archivos
       time_relative:
         days: "días"
         weeks: "semanas"

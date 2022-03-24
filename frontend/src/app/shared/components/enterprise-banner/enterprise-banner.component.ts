@@ -1,4 +1,8 @@
-import { Component, Input } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+} from '@angular/core';
 import { BannersService } from 'core-app/core/enterprise/banners.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 
@@ -12,7 +16,7 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
         <div class="op-toast--content">
           <p class="-bold" [textContent]="text.enterpriseFeature"></p>
           <p [textContent]="textMessage"></p>
-          <a [href]="eeLink()"
+          <a [href]="link"
              target='blank'
              [textContent]="linkMessage"></a>
         </div>
@@ -20,7 +24,7 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
     </div>
   `
 })
-export class EnterpriseBannerComponent {
+export class EnterpriseBannerComponent implements OnInit {
   @Input() public leftMargin = false;
 
   @Input() public textMessage:string;
@@ -28,6 +32,8 @@ export class EnterpriseBannerComponent {
   @Input() public linkMessage:string;
 
   @Input() public opReferrer:string;
+
+  public link:string;
 
   public text:any = {
     enterpriseFeature: this.I18n.t('js.upsale.ee_only'),
@@ -38,7 +44,7 @@ export class EnterpriseBannerComponent {
     protected bannersService:BannersService,
   ) {}
 
-  public eeLink() {
-    this.bannersService.getEnterPriseEditionUrl({ referrer: this.opReferrer });
+  ngOnInit():void {
+    this.link = this.bannersService.getEnterPriseEditionUrl({ referrer: this.opReferrer });
   }
 }

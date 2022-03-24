@@ -433,18 +433,8 @@ components:
       "$ref": "./components/schemas/activity_model.yml"
     AttachmentModel:
       "$ref": "./components/schemas/attachment_model.yml"
-    Attachments_by_post:
-      "$ref": "./components/schemas/attachments_by_post.yml"
-    Attachments_by_postModel:
-      "$ref": "./components/schemas/attachments_by_post_model.yml"
-    Attachments_by_wiki_page:
-      "$ref": "./components/schemas/attachments_by_wiki_page.yml"
-    Attachments_by_wiki_pageModel:
-      "$ref": "./components/schemas/attachments_by_wiki_page_model.yml"
-    Attachments_by_work_package:
-      "$ref": "./components/schemas/attachments_by_work_package.yml"
-    Attachments_by_work_packageModel:
-      "$ref": "./components/schemas/attachments_by_work_package_model.yml"
+    Attachments_Model:
+      "$ref": "./components/schemas/attachments_model.yml"
     Available_AssigneesModel:
       "$ref": "./components/schemas/available_assignees_model.yml"
     Available_ResponsiblesModel:
@@ -759,8 +749,6 @@ components:
       "$ref": "./components/schemas/work_package_activities_model.yml"
     Work_PackagesModel:
       "$ref": "./components/schemas/work_packages_model.yml"
-    Work_Packages_by_ProjectModel:
-      "$ref": "./components/schemas/work_packages_by_project_model.yml"
   securitySchemes:
     BasicAuth:
       type: http

@@ -25,6 +25,7 @@ import { HTMLSanitizeService } from '../../core/html-sanitize/html-sanitize.serv
 import { DynamicContentModalComponent } from '../../shared/components/modals/modal-wrapper/dynamic-content.modal';
 import { PasswordConfirmationModalComponent } from '../../shared/components/modals/request-for-confirmation/password-confirmation.modal';
 import { DomAutoscrollService } from 'core-app/shared/helpers/drag-and-drop/dom-autoscroll.service';
+import { AttachmentsResourceService } from 'core-app/core/state/attachments/attachments.service';
 
 /**
  * Plugin context bridge for plugins outside the CLI compiler context
@@ -58,6 +59,7 @@ export class OpenProjectPluginContext {
     states: this.injector.get<States>(States),
     apiV3Service: this.injector.get<ApiV3Service>(ApiV3Service),
     configurationService: this.injector.get<ConfigurationService>(ConfigurationService),
+    attachmentsResourceService: this.injector.get(AttachmentsResourceService),
   };
 
   public readonly helpers = {

@@ -122,7 +122,11 @@ module Pages
     end
 
     def expect_event(work_package, present: true)
-      expect(page).to have_conditional_selector(present, '.fc-event', text: work_package.subject)
+      if present
+        expect(page).to have_selector('.fc-event', text: work_package.subject, wait: 10)
+      else
+        expect(page).to have_no_selector('.fc-event', text: work_package.subject)
+      end
     end
 
     def add_assignee(name)

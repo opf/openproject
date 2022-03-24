@@ -2,7 +2,6 @@
   <div class="boards-list--container"
        [ngClass]="{ '-free' : board.isFree }"
        #container
-       *ngIf="showBoardListView()"
        cdkDropList
        [cdkDropListDisabled]="!board.editable"
        cdkDropListOrientation="horizontal"
@@ -39,11 +38,4 @@
       </div>
     </div>
   </div>
-
-  <enterprise-banner *ngIf="!showBoardListView()"
-                     [leftMargin]="true"
-                     [linkMessage]="text.upsaleCheckOutLink"
-                     [textMessage]="text.upsaleBoards"
-                     [opReferrer]="opReferrer(board)">
-  </enterprise-banner>
 </ng-container>

@@ -74,6 +74,7 @@ module BasicData
           move_work_packages
           edit_work_packages
           assign_versions
+          work_package_assigned
           add_work_package_notes
           edit_own_work_package_notes
           manage_work_package_relations
