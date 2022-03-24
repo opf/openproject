@@ -115,7 +115,7 @@ export class ProjectEditFieldComponent extends EditFieldComponent implements OnI
       const newProject = {
         ...project,
         $links: { ...project._links },
-        $link: project._links.self.href,
+        $link: project._links.self,
       };
       const fakeProjectHal = this.halResourceService.createHalResourceOfType('project', newProject);
       this.value = fakeProjectHal;
