@@ -1,35 +1,7 @@
 if OpenProject::Logging::SentryLogger.enabled?
-  require "sentry-ruby"
-  require "sentry-rails"
-  require "sentry-delayed_job"
-
-  # Explicitly require the send event job
-  require File.join(Sentry::Engine.root, 'app/jobs/sentry/send_event_job')
-
-  # We need to manually load the sentry initializer
-  # as we're dynamically loading it
-  # https://github.com/getsentry/sentry-ruby/blob/master/sentry-rails/lib/sentry/rails/railtie.rb#L8-L13
-  OpenProject::Application.configure do |app|
-    # need to be placed at last to smuggle app exceptions via env
-    app.config.middleware.use(Sentry::Rails::RescuedExceptionInterceptor)
-  end
-
-  ##
-  # Define the SentryJob here, as sentry gets dynamically loaded
-  class SentryJob < Sentry::SendEventJob
-    queue_with_priority :low
-  end
-
   Sentry.init do |config|
     config.dsn = OpenProject::Logging::SentryLogger.sentry_dsn
     config.breadcrumbs_logger = OpenProject::Configuration.sentry_breadcrumb_loggers.map(&:to_sym)
-
-    # Submit events as delayed job only when requested to do that
-    if ENV['OPENPROJECT_SENTRY_DELAYED_JOB'] == 'true'
-      config.async = lambda do |event, hint|
-        ::SentryJob.perform_later(event, hint)
-      end
-    end
 
     # Output debug info for sentry
     config.before_send = lambda do |event, hint|
@@ -43,6 +15,9 @@ if OpenProject::Logging::SentryLogger.enabled?
 
     # Don't send loaded modules
     config.send_modules = false
+
+    # Disable sentry's internal client reports
+    config.send_client_reports = false
 
     # Cleanup backtrace
     config.backtrace_cleanup_callback = lambda do |backtrace|
