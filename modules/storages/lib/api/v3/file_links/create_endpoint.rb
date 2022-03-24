@@ -47,12 +47,18 @@ module API::V3::FileLinks
     # global_result using the `add_dependent!` method.
     def process(request, params_elements)
       global_result = ServiceResult.new(success: true)
-      params_elements.each do |params|
-        # call the default API::Utilities::Endpoints::Create#process
-        # implementation for each of the params_element array
-        one_result = super(request, params)
-        # merge service result in one
-        global_result.add_dependent!(one_result)
+
+      Storages::FileLink.transaction do
+        params_elements.each do |params|
+          # call the default API::Utilities::Endpoints::Create#process
+          # implementation for each of the params_element array
+          one_result = super(request, params)
+          # merge service result in one
+          global_result.add_dependent!(one_result)
+        end
+
+        # rollback records created if an error occurred (validation failed)
+        raise ActiveRecord::Rollback if global_result.failure?
       end
       global_result
     end

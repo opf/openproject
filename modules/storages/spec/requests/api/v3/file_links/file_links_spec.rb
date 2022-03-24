@@ -90,42 +90,32 @@ describe 'API v3 file links resource', type: :request do
       {
         _type: "Collection",
         _embedded: {
-          elements: [
-            {
-              originData: {
-                id: 5503,
-                name: "logo.png",
-                mimeType: "image/png",
-                createdAt: "2021-12-19T09:42:10.170Z",
-                lastModifiedAt: "2021-12-20T14:00:13.987Z",
-                createdByName: "Luke Skywalker",
-                lastModifiedByName: "Anakin Skywalker"
-              },
-              _links: {
-                storageUrl: {
-                  href: storage_url1
-                }
-              }
-            },
-            {
-              originData: {
-                id: 5514,
-                name: "plans.md",
-                mimeType: "text/markdown",
-                createdAt: "2021-12-14T09:01:23.456Z",
-                lastModifiedAt: "2021-12-14T09:01:23.456Z",
-                createdByName: "Yoda",
-                lastModifiedByName: "Yoda"
-              },
-              _links: {
-                storageUrl: {
-                  href: storage_url2
-                }
-              }
-            }
-          ]
+          elements: embedded_elements
         }
       }
+    end
+    let(:embedded_elements) do
+      # first record is not using a factory here so that the test documents what
+      # the request looks like, and it tests the factory.
+      [
+        {
+          originData: {
+            id: 5503,
+            name: "logo.png",
+            mimeType: "image/png",
+            createdAt: "2021-12-19T09:42:10.170Z",
+            lastModifiedAt: "2021-12-20T14:00:13.987Z",
+            createdByName: "Luke Skywalker",
+            lastModifiedByName: "Anakin Skywalker"
+          },
+          _links: {
+            storageUrl: {
+              href: storage_url1
+            }
+          }
+        },
+        build(:file_link_element, storage_url: storage_url2)
+      ]
     end
 
     before do
@@ -133,9 +123,40 @@ describe 'API v3 file links resource', type: :request do
       post path, params.to_json
     end
 
-    it_behaves_like 'API V3 collection response', 2, 2, 'FileLink' do
-      let(:elements) { Storages::FileLink.all.order(id: :asc) }
-      let(:expected_status_code) { 201 }
+    context 'when all embedded file link elements are valid' do
+      it_behaves_like 'API V3 collection response', 2, 2, 'FileLink' do
+        let(:elements) { Storages::FileLink.all.order(id: :asc) }
+        let(:expected_status_code) { 201 }
+      end
+
+      it 'creates corresponding FileLink records', :aggregate_failures do
+        expect(Storages::FileLink.count).to eq 2
+        Storages::FileLink.find_each.with_index do |file_link, i|
+          file_link.attributes.each do |(key, value)|
+            # check nil values to ensure the :file_link_element factory is accurate
+            expect(value).not_to be_nil,
+                                 "expected attribute #{key.inspect} of FileLink ##{i + 1} to be set.\ngot nil."
+          end
+        end
+      end
+    end
+
+    context 'when some embedded file link elements are NOT valid' do
+      let(:embedded_elements) do
+        [
+          build(:file_link_element, :invalid, storage_url: storage_url1),
+          build(:file_link_element, origin_name: "the valid one", storage_url: storage_url1)
+        ]
+      end
+
+      it_behaves_like 'constraint violation' do
+        let(:message) { 'Error attempting to create dependent object: File link ' }
+      end
+
+      it 'does not create any FileLink records' do
+        expect(Storages::FileLink.find_by(origin_name: "the valid one")).to be_nil
+        expect(Storages::FileLink.count).to eq 0
+      end
     end
 
     context 'when storage host is invalid' do
@@ -181,17 +202,13 @@ describe 'API v3 file links resource', type: :request do
     end
 
     context 'when _embedded/elements is empty' do
-      let(:params) do
-        { _embedded: { elements: [] } }
-      end
+      let(:embedded_elements) { [] }
 
       it_behaves_like 'missing property', I18n.t('api_v3.errors.missing_property', property: '_embedded/elements')
     end
 
     context 'when _embedded/elements is not an array' do
-      let(:params) do
-        { _embedded: { elements: 42 } }
-      end
+      let(:embedded_elements) { 42 }
 
       it_behaves_like 'format error',
                       I18n.t('api_v3.errors.invalid_format',
@@ -204,31 +221,7 @@ describe 'API v3 file links resource', type: :request do
     context "when more than #{API::V3::FileLinks::ParseCreateParamsService::MAX_ELEMENTS} embedded elements" do
       let(:max) { API::V3::FileLinks::ParseCreateParamsService::MAX_ELEMENTS }
       let(:too_many) { max + 1 }
-      let(:params) do
-        {
-          _type: "Collection",
-          _embedded: {
-            elements: 1.upto(too_many).map do |id|
-              {
-                originData: {
-                  id: id,
-                  name: "logo#{id}.png",
-                  mimeType: "image/png",
-                  createdAt: "2021-12-19T09:42:10.170Z",
-                  lastModifiedAt: "2021-12-20T14:00:13.987Z",
-                  createdByName: "Luke Skywalker",
-                  lastModifiedByName: "Anakin Skywalker"
-                },
-                _links: {
-                  storageUrl: {
-                    href: storage_url1
-                  }
-                }
-              }
-            end
-          }
-        }
-      end
+      let(:embedded_elements) { build_list(:file_link_element, too_many, storage_url: storage_url1) }
 
       it_behaves_like 'constraint violation' do
         let(:message) { "Too many elements created at once. Expected #{max} at most, got #{too_many}." }
