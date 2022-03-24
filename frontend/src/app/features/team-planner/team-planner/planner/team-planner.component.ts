@@ -403,7 +403,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
             },
             eventSources: [
               (_, successCallback) => successCallback(skeletonEvents),
-               {
+              {
                 id: 'work_packages',
                 events: this.calendarEventsFunction.bind(this) as unknown,
               },
