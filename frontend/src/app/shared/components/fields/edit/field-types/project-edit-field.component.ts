@@ -109,25 +109,22 @@ export class ProjectEditFieldComponent extends EditFieldComponent implements OnI
   public onModelChange(project?:IProject) {
     if (project) {
       this.projectId = project.id;
-      this.value.id = project.id
+
+      // We fake a HalResource here because we're using a plain JS object, but the schema loading and editing
+      // is part of the older HalResource stack
       const newProject = {
         ...project,
-        $links: {
-
-          ...project._links
-        },
+        $links: { ...project._links },
+        $link: project._links.self.href,
       };
-      console.log(newProject);
       const fakeProjectHal = this.halResourceService.createHalResourceOfType('project', newProject);
-      console.log(fakeProjectHal);
       this.value = fakeProjectHal;
-      this.handler.handleUserSubmit();
-      return;
+    } else {
+      this.projectId = null;
+      this.value = null;
     }
 
-    this.projectId = null;
-    this.value = null;
-    this.handler.handleUserSubmit();
+    return this.handler.handleUserSubmit();
   }
 
   public loadAllProjects(searchText:string = ''):void {
