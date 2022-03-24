@@ -55,15 +55,19 @@ Complete the following as required:
 1. **Role name** - must be entered and be a new name.
 2. **Global Role** - this role applies to all projects, and can only be assigned in the [user details](../users/#manage-user-settings). Once saved, the decision to make a role a "global role" can't be reverted.
    Ticking this box will show the available [global roles](#global-roles) and hide the regular permission options.
-3. **Work packages...** - tick to allow work packages to be assigned to a user with this role. This does not appear for global roles.
-4. **Copy workflow from** - select an existing role. The respective [workflows](../../manage-work-packages/work-package-workflows) will be copied to the role to be created.
+3. **Copy workflow from** - select an existing role. The respective [workflows](../../manage-work-packages/work-package-workflows) will be copied to the role to be created.
 5. **Permissions** for this role - you can specify the permissions per OpenProject module. Click the arrow next to the module name to expand or compress the permissions list.
 
 Select the permissions which should apply for this role. You can use "check all" or "uncheck all" at the right of a module permissions list. If a module is not enabled in a project it is not shown to a user despite having a permission for it.
 
 Don't forget to click the **Save** button at the bottom of the page.
 
-![Sys-admin-create-new-role](Sys-admin-create-new-role.png)
+![create new role with role template](create-new-role-with-role-template(2).png)
+
+**Note:** In the work package tracking section, you can also give the role permission to be able to be assigned to work packages or to be set as a responsible person.
+
+![work package tracking for role](work-package-tracking-for-role-8145761.png)
+
 
 ## Edit and remove roles
 
