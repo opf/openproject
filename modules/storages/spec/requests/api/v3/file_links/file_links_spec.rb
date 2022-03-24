@@ -28,6 +28,7 @@
 
 require 'spec_helper'
 
+# rubocop:disable RSpec/MultipleMemoizedHelpers
 describe 'API v3 file links resource', type: :request do
   include API::V3::Utilities::PathHelper
 
@@ -159,6 +160,72 @@ describe 'API v3 file links resource', type: :request do
       end
     end
 
+    context 'when some file link elements with matching origin_id, container, and storage already exist in database' do
+      let(:existing_file_link) do
+        create(:file_link, origin_name: 'original name',
+                           creator: current_user,
+                           container: work_package,
+                           storage: storage)
+      end
+      let(:already_existing_file_link_payload) do
+        build(:file_link_element, origin_name: 'new name',
+                                  origin_id: existing_file_link.origin_id,
+                                  storage_url: existing_file_link.storage.host)
+      end
+      let(:some_file_link_payload) do
+        build(:file_link_element, storage_url: existing_file_link.storage.host)
+      end
+      let(:embedded_elements) do
+        [
+          already_existing_file_link_payload,
+          some_file_link_payload
+        ]
+      end
+
+      it_behaves_like 'API V3 collection response', 2, 2, 'FileLink' do
+        let(:elements) { Storages::FileLink.all.order(id: :asc) }
+        let(:expected_status_code) { 201 }
+      end
+
+      it 'does not create any new FileLink records for the already existing one' do
+        expect(Storages::FileLink.count).to eq 2
+      end
+
+      it 'does not update the existing FileLink metadata from the POSTed one' do
+        expect(existing_file_link.reload.origin_name).to eq 'original name'
+      end
+    end
+
+    context 'when multiple file links elements are submitted with same origin_id, container, and storage' do
+      let(:some_file_link_payload) { build(:file_link_element, storage_url: storage.host) }
+      let(:embedded_elements) do
+        [
+          some_file_link_payload.deep_merge(originData: { name: 'first name' }),
+          some_file_link_payload.deep_merge(originData: { name: 'second name' }),
+          some_file_link_payload.deep_merge(originData: { name: 'third name' })
+        ]
+      end
+
+      it_behaves_like 'API V3 collection response', 3, 3, 'FileLink' do
+        let(:elements) { Storages::FileLink.all.order(id: :asc) }
+        let(:expected_status_code) { 201 }
+      end
+
+      it 'creates only one FileLink for all duplicates' do
+        expect(Storages::FileLink.count).to eq 1
+      end
+
+      it 'uses metadata from the first item' do
+        expect(Storages::FileLink.first.origin_name).to eq 'first name'
+      end
+
+      it 'replies with as many embedded elements as in the request, all identical', :aggregate_failures do
+        replied_elements = JSON.parse(last_response.body).dig('_embedded', 'elements')
+        expect(replied_elements.count).to eq(embedded_elements.count)
+        expect(replied_elements[1..]).to all(eq(replied_elements.first))
+      end
+    end
+
     context 'when storage host is invalid' do
       context 'when unknown host' do
         let(:storage_url1) { 'https://invalid.host.org/' }
@@ -217,7 +284,6 @@ describe 'API v3 file links resource', type: :request do
                              actual: 'Integer')
     end
 
-    # rubocop:disable RSpec/MultipleMemoizedHelpers
     context "when more than #{API::V3::FileLinks::ParseCreateParamsService::MAX_ELEMENTS} embedded elements" do
       let(:max) { API::V3::FileLinks::ParseCreateParamsService::MAX_ELEMENTS }
       let(:too_many) { max + 1 }
@@ -227,7 +293,6 @@ describe 'API v3 file links resource', type: :request do
         let(:message) { "Too many elements created at once. Expected #{max} at most, got #{too_many}." }
       end
     end
-    # rubocop:enable RSpec/MultipleMemoizedHelpers
   end
 
   describe 'GET /api/v3/file_links/:file_link_id' do
@@ -311,3 +376,4 @@ describe 'API v3 file links resource', type: :request do
     end
   end
 end
+# rubocop:enable RSpec/MultipleMemoizedHelpers

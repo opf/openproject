@@ -29,7 +29,7 @@
 # Expects parameters: storage, container_id
 FactoryBot.define do
   factory :file_link_element, class: Hash do
-    sequence(:origin_id) { |n| "10000#{n}" } # ID within external storage (i.e. Nextcloud)
+    sequence(:origin_id) { |n| "20000#{n}" } # ID within external storage (i.e. Nextcloud)
     sequence(:origin_name) { |n| "file_name_#{n}.txt" } # File name within external storage (i.e. Nextcloud)
     origin_mime_type { "text/plain" }
     origin_created_at { Time.zone.now }

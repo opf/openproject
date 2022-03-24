@@ -10,14 +10,19 @@ post:
     Creates file links on a work package.
 
     The request body must contain the generated storage token, and not the storage id. In addition, the request must
-    send the origin file id, name, and mime type. The request should also send the origin meta data: `createdAt`, `createdByName`, `lastModifiedAt`, `lastModifiedByName` can the stored meta data.
+    send the origin file id, name, and mime type.
+
+    The request should also send the origin meta data: _createdAt_, _createdByName_, _lastModifiedAt_,
+    _lastModifiedByName_. As it is possible to link folders from a storage to a work package, the _mimeType_ of this
+    entity can be empty.
 
     Up to 20 file links can be submitted at once. If there is already a link on the given work package with the same
     file id from the same storage, the previous data is not overwritten.
 
-    As it is possible to link folders from a storage to a work package, the _mimeType_ of this entity can be empty.
-
     If some data is invalid, no file links will be created.
+
+    If a file link with matching origin id, work package, and storage already exists, then it will not create an
+    additional file link or update the metadata. Instead the information from the existing file line will be returned.
   parameters:
     - name: id
       description: Work package id
