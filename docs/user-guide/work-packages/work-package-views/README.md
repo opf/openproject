@@ -11,11 +11,12 @@ keywords: work packages views
 
 Work packages can be displayed in different views. They include the same work package(s) but just have a different form to display the work packages.
 
-* List view
-* Split screen view
-* Details view
-* Gantt view
-* Board view
+* [List view](#work-package-list-view)
+* [Split screen view](#work-package-split-screen-view)
+* [Details view](#work-package-full-screen-view)
+* [Card view](#card-view)
+* [Gantt view](../../gantt-chart)
+* [Board view](../../../getting-started/boards-introduction/)
 
 ## Work package list view
 
@@ -50,3 +51,7 @@ Then, the work package with all its details will be displayed.
 The arrow next to the subject will bring you back to the list view. 
 
 ![back-to-list-view](image-20201217125332403.png)
+
+## Card view
+
+You can also display the work package list in a card view. To switch to the card view in the work package list, you must select the card icon at the top right of the work package list.
