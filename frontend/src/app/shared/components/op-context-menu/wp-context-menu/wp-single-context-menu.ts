@@ -53,6 +53,10 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
     const { link } = action;
 
     switch (key) {
+      case 'copy_to_other_project':
+        window.location.href = `${this.PathHelper.staticBase}/work_packages/move/new?copy=true&ids[]=${this.workPackage.id as string}`;
+        break;
+
       case 'copy':
         this.$state.go('work-packages.copy', { copiedFromWorkPackageId: this.workPackage.id });
         break;
