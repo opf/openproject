@@ -51,29 +51,24 @@ describe Storages::ProjectStorages::CreateContract do
   end
 
   context 'when checking creator_id' do
-    let(:current_user) { create(:admin) }
-    let(:other_user) { create(:user) }
+    let(:contract) { described_class.new(project_storage, current_user) }
+    let(:project_storage) { build(:project_storage, creator: creator) }
+    let(:current_user) { build_stubbed(:admin) }
 
-    context 'as creator_id == user_id' do
-      let(:project_storage) { create(:project_storage, creator: current_user) }
-      let(:contract) { described_class.new(project_storage, current_user) }
+    before do
+      login_as(current_user)
+    end
 
-      before do
-        login_as(current_user)
-      end
+    context 'as creator_id == current_user_id' do
+      let(:creator) { current_user }
 
       it_behaves_like 'contract is valid'
     end
 
-    context 'as creator_id != user_id' do
-      let(:project_storage) { create(:project_storage, creator: other_user) }
-      let(:contract) { described_class.new(project_storage, current_user) }
+    context 'as creator_id != current_user_id' do
+      let(:creator) { build_stubbed(:user) }
 
-      before do
-        login_as(current_user)
-      end
-
-      it_behaves_like 'contract is invalid'
+      it_behaves_like 'contract is invalid', creator: :invalid
     end
   end
 end
