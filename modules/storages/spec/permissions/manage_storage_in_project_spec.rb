@@ -29,8 +29,10 @@
 require 'spec_helper'
 require 'support/permission_specs'
 
-# describe Storages::BlaBlaController, 'manage_storage_in_proejct permission', type: :controller do
-#   include PermissionSpecs
-#
-#   check_permission_required_for('team_planner/team_planner#index', :view_team_planner)
-# end
+describe Storages::Admin::ProjectsStoragesController, 'manage_storage_in_project permission', type: :controller do
+  include PermissionSpecs
+
+  controller_actions.each do |action|
+    check_permission_required_for("#{described_class.controller_path}##{action}", :manage_storages_in_project)
+  end
+end
