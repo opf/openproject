@@ -500,7 +500,7 @@ lt:
         boards:
           overview: 'Pasirinkite <b>lentas</b> siekdami pakeisti vaizdą ir valdyti projektą naudodami agile lentų vaizdą.'
           lists_kanban: 'Lentoje galite sukurti keletą sąrašų (stulpelių) . Ši funkcija leidžia sukurti <b>Kanban lentą</b>.'
-          lists_basic: 'Here you can create multiple lists (columns) within your agile board.'
+          lists_basic: 'Čia galite sukurti kelis sąrašus (stulpelius) jūsų agile lentoje.'
           add: 'Nuspauskite plius (+) ženklą ir <b>sukurkite naują kortelę</b> arba <b>pridėkite jau esamą</b> prie sąrašo lentoje.'
           drag: 'Vilkite korteles sąrašo viduje norėdami pakeisti jų tvarką, arba perkelti į kitą sąrašą. <br> Galite nuspausti ant info (i) ženklo viršutiniame dešiniajame kampa arba du kartus spustelėti kortelę norėdami pamatyti jos detales.'
         wp:
