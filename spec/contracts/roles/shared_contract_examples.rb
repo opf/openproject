@@ -34,7 +34,6 @@ shared_examples_for 'roles contract' do
   end
   let(:role_instance) { Role.new }
   let(:role_name) { 'A role name' }
-  let(:role_assignable) { true }
   let(:role_permissions) { [:view_work_packages] }
 
   def expect_valid(valid, symbols = {})

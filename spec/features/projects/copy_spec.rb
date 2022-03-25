@@ -76,7 +76,9 @@ describe 'Projects copy',
       create(:role,
              permissions: permissions)
     end
-    let(:permissions) { %i(copy_projects edit_project add_subprojects manage_types view_work_packages select_custom_fields) }
+    let(:permissions) do
+      %i(copy_projects edit_project add_subprojects manage_types view_work_packages select_custom_fields work_package_assigned)
+    end
     let(:wp_user) do
       user = create(:user)
 
@@ -151,7 +153,8 @@ describe 'Projects copy',
       expect(page).to have_text 'The job has been queued and will be processed shortly.'
 
       # ensure all jobs are run especially emails which might be sent later on
-      while perform_enqueued_jobs > 0 do end
+      while perform_enqueued_jobs > 0
+      end
 
       copied_project = Project.find_by(name: 'Copied project')
 

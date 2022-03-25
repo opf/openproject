@@ -170,8 +170,8 @@ paths:
     "$ref": "./paths/custom_action.yml"
   "/api/v3/custom_actions/{id}/execute":
     "$ref": "./paths/custom_action_execute.yml"
-  "/api/v3/custom_objects/{id}":
-    "$ref": "./paths/custom_object.yml"
+  "/api/v3/custom_options/{id}":
+    "$ref": "./paths/custom_option.yml"
   "/api/v3/documents":
     "$ref": "./paths/documents.yml"
   "/api/v3/documents/{id}":
@@ -433,18 +433,8 @@ components:
       "$ref": "./components/schemas/activity_model.yml"
     AttachmentModel:
       "$ref": "./components/schemas/attachment_model.yml"
-    Attachments_by_post:
-      "$ref": "./components/schemas/attachments_by_post.yml"
-    Attachments_by_postModel:
-      "$ref": "./components/schemas/attachments_by_post_model.yml"
-    Attachments_by_wiki_page:
-      "$ref": "./components/schemas/attachments_by_wiki_page.yml"
-    Attachments_by_wiki_pageModel:
-      "$ref": "./components/schemas/attachments_by_wiki_page_model.yml"
-    Attachments_by_work_package:
-      "$ref": "./components/schemas/attachments_by_work_package.yml"
-    Attachments_by_work_packageModel:
-      "$ref": "./components/schemas/attachments_by_work_package_model.yml"
+    Attachments_Model:
+      "$ref": "./components/schemas/attachments_model.yml"
     Available_AssigneesModel:
       "$ref": "./components/schemas/available_assignees_model.yml"
     Available_ResponsiblesModel:
@@ -491,8 +481,8 @@ components:
       "$ref": "./components/schemas/cursor_based_pagination.yml"
     Custom_ActionModel:
       "$ref": "./components/schemas/custom_action_model.yml"
-    Custom_ObjectModel:
-      "$ref": "./components/schemas/custom_object_model.yml"
+    Custom_OptionModel:
+      "$ref": "./components/schemas/custom_option_model.yml"
     CustomactionModel:
       "$ref": "./components/schemas/customaction_model.yml"
     Default_QueryModel:
@@ -763,8 +753,6 @@ components:
       "$ref": "./components/schemas/work_package_activities_model.yml"
     Work_PackagesModel:
       "$ref": "./components/schemas/work_packages_model.yml"
-    Work_Packages_by_ProjectModel:
-      "$ref": "./components/schemas/work_packages_by_project_model.yml"
   securitySchemes:
     BasicAuth:
       type: http
@@ -774,6 +762,7 @@ tags:
   - "$ref": "./tags/collections.yml"
   - "$ref": "./tags/filters.yml"
   - "$ref": "./tags/forms.yml"
+  - "$ref": "./tags/signaling.yml"
   - "$ref": "./tags/actions_and_capabilities.yml"
   - "$ref": "./tags/activities.yml"
   - "$ref": "./tags/attachments.yml"
@@ -781,7 +770,7 @@ tags:
   - "$ref": "./tags/categories.yml"
   - "$ref": "./tags/configuration.yml"
   - "$ref": "./tags/custom_actions.yml"
-  - "$ref": "./tags/custom_objects.yml"
+  - "$ref": "./tags/custom_options.yml"
   - "$ref": "./tags/documents.yml"
   - "$ref": "./tags/grids.yml"
   - "$ref": "./tags/groups.yml"

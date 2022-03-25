@@ -27,8 +27,7 @@
 #++
 
 module Queries::Actions
-  query = Queries::Actions::ActionQuery
-  filter_ns = Queries::Actions::Filters
-
-  Queries::Register.filter query, filter_ns::IdFilter
+  ::Queries::Register.register(ActionQuery) do
+    filter Filters::IdFilter
+  end
 end

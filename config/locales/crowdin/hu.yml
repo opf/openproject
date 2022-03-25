@@ -472,7 +472,6 @@ hu:
       repository:
         url: "URL"
       role:
-        assignable: "Munkacsomagok hozzárendelhetők a szerephez tartozó felhasználókhoz és csoportokhoz az adott projektben"
         permissions: "Jogosultságok"
       time_entry:
         activity: "Tevékenység"
@@ -893,6 +892,7 @@ hu:
     version: "Verzió"
     work_package: "Feladatcsoport"
   backup:
+    failed: "Backup failed"
     label_backup_token: "Visszaállítási kulcs"
     label_create_token: "Visszaállítási kulcs létrehozása"
     label_delete_token: "Visszaállítási kulcs törlése"
@@ -2204,6 +2204,8 @@ hu:
   permission_view_timelines: "Az idővonalak megtekintése"
   permission_view_wiki_edits: "Wiki-előzmények megtekintése"
   permission_view_wiki_pages: "Wiki megtekintése"
+  permission_work_package_assigned: "Become assignee/responsible"
+  permission_work_package_assigned_explanation: "Munkacsomagok hozzárendelhetők a szerephez tartozó felhasználókhoz és csoportokhoz az adott projektben"
   placeholders:
     default: "-"
   project:

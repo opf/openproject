@@ -24,6 +24,7 @@ lt:
     ajax:
       hide: "Slėpti"
       loading: "Įkeliama..."
+      updating: "Atnaujinama..."
     attachments:
       draggable_hint: |
         Tempkite į redagavimo lauką, kad įtrauktumėte piešinį ar paminėtumėte priedą. Uždari redaktoriaus laukai bus atidaryti, kol jūs tempsite.
@@ -56,13 +57,13 @@ lt:
     button_cancel: "Nutraukti"
     button_close: "Uždaryti"
     button_change_project: "Keisti projektą"
-    button_check_all: "Tikrinti viską"
+    button_check_all: "Žymėti visus"
     button_configure-form: "Konfigūruoti formą"
     button_confirm: "Patvirtinti"
     button_continue: "Tęsti"
     button_copy: "Kopijuoti"
-    button_copy_to_other_project: "Copy to other project"
-    button_custom-fields: "Savi laukai"
+    button_copy_to_other_project: "Kopijuoti į kitą projektą"
+    button_custom-fields: "Pritaikyti laukai"
     button_delete: "Trinti"
     button_delete_watcher: "Trinti stebėtoją"
     button_details_view: "Detali peržiūra"
@@ -81,7 +82,7 @@ lt:
     button_open_fullscreen: "Atverti pilno ekrano vaizdą"
     button_show_cards: "Rodyti kortelių vaizdą"
     button_show_list: "Rodyti sąrašo vaizdą"
-    button_quote: "Pasiūlymas"
+    button_quote: "Cituoti"
     button_save: "Įrašyti"
     button_settings: "Nustatymai"
     button_uncheck_all: "Atžymėti visus"
@@ -175,7 +176,7 @@ lt:
           text: '[Placeholder] Įterptinis kalendorius'
     admin:
       type_form:
-        custom_field: 'Savas laukelis'
+        custom_field: 'Savas laukas'
         inactive: 'Neaktyvus'
         drag_to_activate: "Vilkite laukelius iš čia, kad juos aktyvuotumėte"
         add_group: "Pridėti atributų grupę"
@@ -251,7 +252,7 @@ lt:
     enumeration_doc_categories: "Dokumentų kategorijos"
     enumeration_work_package_priorities: "Darbų paketo prioritetai"
     filter:
-      more_values_not_shown: "There are %{total} more results, search to filter results."
+      more_values_not_shown: "Yra dar %{total} rezultatų, ieškokite rezultatų filtravimui."
       description:
         text_open_filter: "Atverkite šį filtrą su 'ALT' ir krypčių klavišais."
         text_close_filter: "Kad pasirinktumėte įrašą, palikite dėmesio režimą paspausdami Enter. Režimo palikimui be filtro pasirinkite pirmąjį (tuščią) įrašą."
@@ -310,7 +311,7 @@ lt:
     label_all: "visi"
     label_all_work_packages: "visi darbų paketai"
     label_and: "ir"
-    label_ascending: "Didėjančiai"
+    label_ascending: "Didėjančia tvarka"
     label_author: "Autorius: %{user}"
     label_avatar: "Nuotrauka"
     label_between: "tarp"
@@ -318,7 +319,7 @@ lt:
     label_board_locked: "Užrakinta"
     label_board_plural: "Lentos"
     label_board_sticky: "Lipnus"
-    label_change: "Keisti"
+    label_change: "Pakeisti"
     label_create: "Kurti"
     label_create_work_package: "Kurti naują darbų paketą"
     label_created_by: "Sukūrė"
@@ -330,7 +331,7 @@ lt:
     label_details: "Detalės"
     label_display: "Rodymas"
     label_cancel_comment: "Atšaukti komentarą"
-    label_closed_work_packages: "uždaryta"
+    label_closed_work_packages: "uždarytas"
     label_collapse: "Sutraukti"
     label_collapsed: "suskleistas"
     label_collapse_all: "Sutraukti visus"
@@ -414,8 +415,8 @@ lt:
     label_show_in_menu: "Rodyti vaizdą meniu"
     label_sort_by: "Rikiuoti pagal"
     label_sorted_by: "surikiuota pagal"
-    label_sort_higher: "Perkelti aukštyn"
-    label_sort_lower: "Perkelti žemyn"
+    label_sort_higher: "Aukštyn"
+    label_sort_lower: "Žemyn"
     label_sorting: "Rikiavimas"
     label_spent_time: "Praleista laiko"
     label_star_query: "Mėgiamiausi"
@@ -453,9 +454,8 @@ lt:
     label_starred_queries: "Mėgstamiausi vaizdai"
     label_global_queries: "Vieši vaizdai"
     label_custom_queries: "Asmeniniai vaizdai"
-    label_create_new_query: "Sukurti naują"
     label_columns: "Stulpeliai"
-    label_attachments: Failai
+    label_attachments: Priedai
     label_drop_files: Numeskite failus čia
     label_drop_files_hint: arba spustelkite, kad pridėtumėte failus
     label_drop_folders_hint: Aplankų negalima įkelti kaip priedų. Prašome pasirinkti atskirus failus.
@@ -466,7 +466,7 @@ lt:
     label_remove_all_files: Trinti visus failus
     label_add_description: "Pridėti %{file} aprašymą"
     label_upload_notification: "Įkeliami failai..."
-    label_work_package_upload_notification: "Įkeliami darbų paketo #%{id} failai: %{subject}"
+    label_work_package_upload_notification: "Įkelti failus darbų paketui #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} pridėjo %{author}"
     label_files_to_upload: "Šie failai bus įkelti:"
     label_rejected_files: "Negalima įkelti šių failų:"
@@ -499,7 +499,8 @@ lt:
           task_board: "Užduočių lenta vaizduoja <b>sprinto progresą</b>. Nuspauskite pliuso (+) ženklą prie user story norėdami pridėti naujas užduotis arba trukdžius. <br> Būsena gali būti pakeista nuvelkant į reikiamą vietą."
         boards:
           overview: 'Pasirinkite <b>lentas</b> siekdami pakeisti vaizdą ir valdyti projektą naudodami agile lentų vaizdą.'
-          lists: 'Lentoje galite sukurti keletą sąrašų (stulpelių) . Ši funkcija leidžia sukurti <b>Kanban lentą</b>.'
+          lists_kanban: 'Lentoje galite sukurti keletą sąrašų (stulpelių) . Ši funkcija leidžia sukurti <b>Kanban lentą</b>.'
+          lists_basic: 'Čia galite sukurti kelis sąrašus (stulpelius) jūsų agile lentoje.'
           add: 'Nuspauskite plius (+) ženklą ir <b>sukurkite naują kortelę</b> arba <b>pridėkite jau esamą</b> prie sąrašo lentoje.'
           drag: 'Vilkite korteles sąrašo viduje norėdami pakeisti jų tvarką, arba perkelti į kitą sąrašą. <br> Galite nuspausti ant info (i) ženklo viršutiniame dešiniajame kampa arba du kartus spustelėti kortelę norėdami pamatyti jos detales.'
         wp:
@@ -510,6 +511,12 @@ lt:
           create_button: 'Mygtukas <b>+Sukurti</b> pridės naują darbą į jūsų projektą.'
           timeline_button: 'Jūs galite aktyvuoti <b>Gantto diagramą</b> norėdami matyti savo projekto laiko planavimo juostą.'
           timeline: 'Čia jūs galite <b>redaguoti savo projekto planą</b>, kurti naujus darbo paketus, tokius kaip užduotys, etapai ir <b>pridėti priklausomybių</b>. Visi komandos nariai gali peržiūrėti ir keisti naujausią planą bet kuriuo metu.'
+        team_planner:
+          overview: 'Komandos planuotojas leidžia vizualiai priskirti užduotis komandos nariams ir gauti bendrą vaizdą, kas ką daro.'
+          calendar: 'Savaitės arba dviejų savaičių planavimo lenta rodo visus darbo paketus, priskirtus jūsų komandos nariams.'
+          add_assignee: 'Norėdami pradėti pridėkite paskiriamuosius į komandos planą.'
+          add_existing: 'Ieškokite esamų darbų paketų ir tempkite juos į komandos planą, kad akimirksniu priskirtumėte juos komandos nariui ir nurodytumėte pradžios ir pabaigos datas.'
+          card: 'Tempkite darbo paketus horizontaliai, kad perkeltumėte juos atgal arba į priekį laike. Tempkite kraštus, kad keistumėte pradžios ar pabaigos datas, arba tempkite vertikaliai į kitą eilutę, kad priskirtumėte juos kitam nariui.'
     notifications:
       title: "Pranešimai"
       no_unread: "Nėra neperskaitytų pranešimų"
@@ -543,7 +550,7 @@ lt:
           link_text: 'Spauskite čia, kad juos įkeltumėte'
       menu:
         accountable: 'Atsakingas'
-        assigned: 'Paskirtas'
+        assigned: 'Paskirta'
         by_project: 'Neperskaityti pagal projektą'
         by_reason: 'Pagal įsitraukimą'
         inbox: 'Gauti'
@@ -681,7 +688,7 @@ lt:
       blocks: "Blokuoja"
       blocked: "Blokuojamas"
       precedes: "Prieš"
-      follows: "Seka"
+      follows: "Po"
       includes: "Turi savyje"
       partof: "Dalis"
       requires: "Reikalauja"
@@ -769,14 +776,14 @@ lt:
         grouping_other: "Kita"
         noneSelection: "(nėra)"
       name: "Vardas"
-      outline: "Atstatyti planą"
+      outline: "Atnaujinti planą"
       outlines:
-        aggregation: "Rodyti tik agregatus"
-        level1: "Išplėsti 1 lygį"
-        level2: "Išplėsti 2 lygį"
-        level3: "Išplėsti 3 lygį"
-        level4: "Išplėsti 4 lygį"
-        level5: "Išplėsti 5 lygį"
+        aggregation: "Rodyti tik masėmis"
+        level1: "Išplėtimo lygis 1"
+        level2: "Išplėtimo lygis 2"
+        level3: "Išplėtimo lygis 3"
+        level4: "Išplėtimo lygis 4"
+        level5: "Išplėtimo lygis 5"
         all: "Rodyti viską"
       project_status: "Projekto būsena"
       really_close_dialog: "Ar tikrai norite uždaryti dialogo langą ir prarasti įvestus duomenis?"
@@ -925,8 +932,8 @@ lt:
         hierarchy_disabled_by_group_by: "Hierarchijos režimas išjungtas dėl rezultatų, kurie sugrupuoti pagal stulpelį, pavadinimu %{column}."
         sort_ascending: "Rikiuoti didėjančiai"
         sort_descending: "Rikiuoti mažėjančiai"
-        move_column_left: "Perkelti stulpelį kairėn"
-        move_column_right: "Perkelti stulpelį dešinėn"
+        move_column_left: "Perkelti stulpelį į kairę"
+        move_column_right: "Perkelti stulpelį į dešinę"
         hide_column: "Slėpti stulpelį"
         insert_columns: "Įterpti stulpelius ..."
         filters: "Filtrai"
@@ -990,7 +997,7 @@ lt:
         activity: Veikla
         relations: Ryšiai
         watchers: Stebėtojai
-        attachments: Priedai
+        files: Failai
       time_relative:
         days: "dienos"
         weeks: "savaitės"
@@ -1018,7 +1025,7 @@ lt:
       placeholder_query_title: "Suteikite šiam vaizdui pavadinimą"
     modals:
       label_settings: "Pervardinti vaizdą"
-      label_name: "Pavadinimas"
+      label_name: "Vardas"
       label_delete_page: "Trinti dabartinį puslapį"
       button_apply: "Taikyti"
       button_save: "Įrašyti"
@@ -1076,7 +1083,7 @@ lt:
         one: "vieno vaiko darbų paketas"
         few: "%{count} darbo paketo vaikai"
         many: "%{count} darbo paketo vaikų"
-        other: "%{count} darbo paketo vaikai"
+        other: "%{count} darbų paketo vaikai"
       hour:
         one: "1 val"
         other: "%{count} val"
@@ -1086,7 +1093,7 @@ lt:
       button_deactivate: 'Išjungti Zen režimą'
     global_search:
       all_projects: "Visuose projektuose"
-      search: "Ieškoti"
+      search: "Paieška"
       close_search: "Uždaryti paiešką"
       current_project: "Šiame projekte"
       current_project_and_all_descendants: "Šiame projekte + subprojektuose"
@@ -1102,7 +1109,7 @@ lt:
       back: 'Atgal'
       invite: 'Pakviesti'
       title:
-        invite: 'Pakviesti naudotoją'
+        invite: 'Pakviesti vartotoją'
         invite_to_project: 'Pakviesti %{type} į %{project}'
         User: 'naudotojas'
         Group: 'grupė'
@@ -1123,7 +1130,7 @@ lt:
           description: 'Teisės, suteiktos pagal pasirinktame projekte turimą vaidmenį'
         group:
           title: 'Grupė'
-          description: 'Teisės, suteiktos pagal pasirinktame projekte turimą vaidmenį'
+          description: 'Teisės, suteiktos pagal pasirinktame projekte turimą rolę'
         placeholder:
           title: 'Statytinis naudotojas'
           title_no_ee: 'Statytiniai naudotojai (galimybė pasiekiama tik Enterprise Edition)'
@@ -1164,16 +1171,21 @@ lt:
           group: 'Grupė jau tapo %{project} dalimi. Tuo pačiu, jūs jau galite planuoti darbus su šia grupe ir pavyzdžiui priskirti jai darbo užduotis.'
         next_button: 'Tęsti'
     include_projects:
-      toggle_title: 'Include Projects'
+      toggle_title: 'Įtraukti projektus'
       title: 'Projektai'
-      clear_selection: 'Clear selection'
+      clear_selection: 'Valyti pasirinkimą'
       apply: 'Taikyti'
       selected_filter:
-        all: 'All projects'
-        selected: 'Only selected'
-      search_placeholder: 'Search project...'
+        all: 'Visi projektai'
+        selected: 'Tik pasirinktus'
+      search_placeholder: 'Ieškoti projekte...'
     forms:
       submit_success_message: 'Forma buvo sėkmingai pateikta'
       load_error_message: 'Įkeliant formą įvyko klaida'
       validation_error_message: 'Prašome ištaisyti klaidas formoje'
-      advanced_settings: 'Sudėtingesni nustatymai'
+      advanced_settings: 'Išplėstiniai nustatymai'
+    spot:
+      filter_chip:
+        remove: 'Pašalinti'
+      drop_modal:
+        Close: 'Uždaryti'

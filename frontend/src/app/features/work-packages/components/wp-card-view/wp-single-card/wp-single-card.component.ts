@@ -54,7 +54,7 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
 
   @Input() public shrinkOnMobile = false;
 
-  @Input() public disabledInfo = '';
+  @Input() public disabledInfo?:{ text:string, orientation:'left'|'right' };
 
   @Input() public showAsInlineCard = false;
 
@@ -69,6 +69,8 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
   @Output() stateLinkClicked = new EventEmitter<{ workPackageId:string, requestedState:string }>();
 
   @Output() cardClicked = new EventEmitter<{ workPackageId:string, event:MouseEvent }>();
+
+  @Output() cardContextMenu = new EventEmitter<{ workPackageId:string, event:MouseEvent }>();
 
   public uiStateLinkClass:string = uiStateLinkClass;
 
@@ -143,7 +145,6 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
       [`${base}_draggable`]: this.draggable,
       [`${base}_new`]: isNewResource(this.workPackage),
       [`${base}_shrink`]: this.shrinkOnMobile,
-      [`${base}_disabled`]: this.disabledInfo.length > 0,
       [`${base}_inline`]: this.showAsInlineCard,
       [`${base}_closed`]: this.isClosed,
       // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
@@ -172,8 +173,7 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
   }
 
   public wpDates(wp:WorkPackageResource):string {
-    const { startDate } = wp;
-    const { dueDate } = wp;
+    const { startDate, dueDate } = wp;
     const dateTimeFormat = new Intl.DateTimeFormat(this.I18n.locale, {
       year: 'numeric',
       month: 'short',
@@ -187,11 +187,11 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
       return String(dateTimeFormat.formatRange(new Date(startDate), new Date(dueDate)));
     }
     if (!startDate && dueDate) {
-      return `-${dateTimeFormat.format(new Date(dueDate))}`;
+      return `– ${dateTimeFormat.format(new Date(dueDate))}`;
     }
 
     if (startDate && !dueDate) {
-      return `${dateTimeFormat.format(new Date(startDate))}-`;
+      return `${dateTimeFormat.format(new Date(startDate))} –`;
     }
 
     return '';

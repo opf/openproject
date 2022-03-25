@@ -26,8 +26,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-#-- encoding: UTF-8
-
 # This file is part of the acts_as_journalized plugin for the redMine
 # project management software
 #

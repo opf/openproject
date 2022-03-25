@@ -471,7 +471,6 @@ si:
       repository:
         url: "සැ. නි."
       role:
-        assignable: "අදාළ ව්යාපෘතියේ මෙම කාර්යභාරය සතුව ඇති පරිශීලකයින්ට සහ කණ්ඩායම්වලට වැඩ පැකේජ පැවරිය හැකිය"
         permissions: "අවසර"
       time_entry:
         activity: "ක්‍රියාකාරකම"
@@ -892,6 +891,7 @@ si:
     version: "අනුවාදය"
     work_package: "වැඩ පැකේජය"
   backup:
+    failed: "Backup failed"
     label_backup_token: "Backup token"
     label_create_token: "Create backup token"
     label_delete_token: "Delete backup token"
@@ -2200,6 +2200,8 @@ si:
   permission_view_timelines: "කාල නියමයන් බලන්න"
   permission_view_wiki_edits: "විකි ඉතිහාසය බලන්න"
   permission_view_wiki_pages: "විකි දැක්ම"
+  permission_work_package_assigned: "Become assignee/responsible"
+  permission_work_package_assigned_explanation: "අදාළ ව්යාපෘතියේ මෙම කාර්යභාරය සතුව ඇති පරිශීලකයින්ට සහ කණ්ඩායම්වලට වැඩ පැකේජ පැවරිය හැකිය"
   placeholders:
     default: "-"
   project:

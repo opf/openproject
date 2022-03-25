@@ -1,16 +1,25 @@
 <div
-  class="op-modal op-modal_wide confirm-form-submit--modal loading-indicator--location" 
+  class="op-modal op-modal_wide confirm-form-submit--modal loading-indicator--location"
   data-indicator-name="modal"
 >
   <op-modal-header (close)="closeMe($event)">{{text.board_type}}</op-modal-header>
 
   <div class="op-modal--body">
-    <p [textContent]="text.select_board_type"></p>
+    <enterprise-banner
+      *ngIf="eeShowBanners"
+      [linkMessage]="text.upgrade_to_ee_text"
+      [textMessage]="text.teaser_text"
+      opReferrer="boards"
+    ></enterprise-banner>
+
+    <p
+      *ngIf="!eeShowBanners"
+      [textContent]="text.select_board_type"></p>
     <section class="new-board--section">
       <tile-view
-      [tiles]="available"
-      [disable]="inFlight"
-      (create)="createBoard($event)">
+        [tiles]="available"
+        [disable]="inFlight"
+        (create)="createBoard($event)">
       </tile-view>
     </section>
   </div>

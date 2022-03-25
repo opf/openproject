@@ -147,6 +147,9 @@ description: |-
   * `urn:openproject-org:api:v3:errors:InvalidUserStatusTransition` (**HTTP 400**)  
   The client used an invalid transition in the attempt to change the status of a user account.
 
+  * `urn:openproject-org:api:v3:errors:InvalidSignal` (**HTTP 400**)
+  The client specified a select not available on the resource, e.g because the property/link does not exist on it.
+
   * `urn:openproject-org:api:v3:errors:Unauthenticated` (**HTTP 401**)  
   The client has to authenticate to access the requested resource.
 

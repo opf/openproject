@@ -51,25 +51,45 @@ describe OpenProject::AccessControl::Permission do
 
   describe '#global?' do
     describe 'setting global permission' do
-      before { @permission = OpenProject::AccessControl::Permission.new(:perm, { cont: [:action] }, { global: true }) }
+      let(:permission) { described_class.new(:perm, { cont: [:action] }, global: true) }
 
-      it { expect(@permission.global?).to be_truthy }
+      it { expect(permission).to be_global }
     end
 
     describe 'setting non global permission' do
-      before { @permission = OpenProject::AccessControl::Permission.new :perm, { cont: [:action] }, { global: false } }
+      let(:permission) { described_class.new :perm, { cont: [:action] }, global: false }
 
       it 'is false' do
-        expect(@permission.global?).to be_falsey
+        expect(permission).not_to be_global
       end
     end
 
     describe 'not specifying -> default' do
-      before { @permission = OpenProject::AccessControl::Permission.new :perm, { cont: [:action] }, {} }
+      let(:permission) { described_class.new :perm, { cont: [:action] } }
 
       it 'is false' do
-        expect(@permission.global?).to be_falsey
+        expect(permission).not_to be_global
       end
+    end
+  end
+
+  describe '#grant_to_admin?' do
+    context 'if explicitly specified' do
+      let(:permission) { described_class.new(:perm, {}, grant_to_admin: true) }
+
+      it { expect(permission).to be_grant_to_admin }
+    end
+
+    context 'as a default' do
+      let(:permission) { described_class.new(:perm, {}) }
+
+      it { expect(permission).to be_grant_to_admin }
+    end
+
+    context 'if explicitly specified not to' do
+      let(:permission) { described_class.new(:perm, {}, grant_to_admin: false) }
+
+      it { expect(permission).not_to be_grant_to_admin }
     end
   end
 end

@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -581,9 +579,7 @@ OpenProject::Application.routes.draw do
     get '(/*state)', to: 'angular#notifications_layout', as: :notifications_center
   end
 
-  # Development route for styleguide
-  if Rails.env.development?
-    get '/spot-docs', to: 'angular#empty_layout'
-    get '/styleguide' => redirect('/assets/styleguide.html')
-  end
+  # Routes for design related documentation and examples pages
+  get '/design/spot', to: 'angular#empty_layout'
+  get '/design/styleguide' => redirect('/assets/styleguide.html')
 end

@@ -466,7 +466,6 @@ ja:
       repository:
         url: "URL"
       role:
-        assignable: "それぞれのプロジェクトで、ワークパッケージはこの役割をもつユーザーおよびグループに割り当てることができます。"
         permissions: "権限"
       time_entry:
         activity: "活動"
@@ -883,6 +882,7 @@ ja:
     version: "バージョン"
     work_package: "ワーク パッケージ"
   backup:
+    failed: "Backup failed"
     label_backup_token: "バックアップトークン"
     label_create_token: "バックアップトークンを作成する"
     label_delete_token: "バックアップトークンを削除する"
@@ -2177,6 +2177,8 @@ ja:
   permission_view_timelines: "タイムラインの閲覧"
   permission_view_wiki_edits: "Wiki履歴の閲覧"
   permission_view_wiki_pages: "Wikiの閲覧"
+  permission_work_package_assigned: "Become assignee/responsible"
+  permission_work_package_assigned_explanation: "それぞれのプロジェクトで、ワークパッケージはこの役割をもつユーザーおよびグループに割り当てることができます。"
   placeholders:
     default: "-"
   project:

@@ -33,7 +33,7 @@ export const SPOT_DOCS_ROUTES:Ng2StateDeclaration[] = [
   {
     name: 'styleguide',
     parent: 'root',
-    url: '/spot-docs',
+    url: '/design/spot',
     views: {
       '!$default': { component: SpotDocsComponent },
     },

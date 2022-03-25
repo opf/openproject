@@ -12,8 +12,9 @@ keywords: Agile Boards
 This document provides an initial introduction to the boards in OpenProject, i.e. how to use a Kanban board to manage your tasks in an agile way.
 
 <div class="alert alert-info" role="alert">
-**Note**: The agile board is a premium feature and only available for [OpenProject Cloud Edition](https://www.openproject.org/hosting/) and [Enterprise Edition](https://www.openproject.org/enterprise-edition/) customers.
+**Note**: The agile board is a premium feature and only available for the [OpenProject Cloud Edition](https://www.openproject.org/hosting/) and the [Enterprise On-premises Edition](https://www.openproject.org/enterprise-edition/).
 </div>
+
 
 
 <div class="glossary">
@@ -40,7 +41,7 @@ You can create as many flexible boards as you want with both lists and cards on 
 
 ## Manage your work in a Board
 
-To manage your work in an agile board, open the Boards module in the project menu.
+To manage your work in an agile board, open the boards module in the project menu.
 
 1. Choose a board from the list where you want to work on. Open it by double clicking on the board's title.
 2. You can prioritize cards within a list via drag and drop.

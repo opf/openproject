@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 Gem::Specification.new do |s|
   s.name        = 'openproject-job_status'
   s.version     = '1.0.0'

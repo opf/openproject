@@ -22,7 +22,7 @@
 
     <% if feature_video.empty? %>
       <% if feature_image.empty? %>
-        <%= image_tag "enterprise_edition.png", class: "widget-box--teaser-image" %>
+        <%= image_tag "enterprise_edition.png", class: "widget-box--teaser-image_default" %>
       <% else %>
         <%= image_tag feature_image, class: "widget-box--teaser-image" %>
       <% end %>
@@ -42,7 +42,7 @@
       <span class="button--text"><%= t('admin.enterprise.buttons.contact') %></span>
     <% end %>
 
-    <%= link_to( "#{OpenProject::Static::Links.links[:upsale][:href]}/?utm_source=unknown&utm_medium=community-edition&utm_campaign=#{feature_reference}",
+    <%= link_to( "https://www.openproject.org/pricing/",
                  { class: 'button -highlight -round',
                    aria: {label: t('admin.enterprise.buttons.upgrade')},
                    target: '_blank',

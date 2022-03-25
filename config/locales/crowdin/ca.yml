@@ -468,7 +468,6 @@ ca:
       repository:
         url: "URL"
       role:
-        assignable: "Els paquets de treball es poden assignar als usuaris i als grups que tinguin aquest rol en el seu respectiu projecte"
         permissions: "Permisos"
       time_entry:
         activity: "Activitat"
@@ -889,6 +888,7 @@ ca:
     version: "Versió"
     work_package: "Paquet de treball"
   backup:
+    failed: "Backup failed"
     label_backup_token: "Backup token"
     label_create_token: "Create backup token"
     label_delete_token: "Delete backup token"
@@ -2197,6 +2197,8 @@ ca:
   permission_view_timelines: "Veure els terminis"
   permission_view_wiki_edits: "Visualitza l'historial de la wiki"
   permission_view_wiki_pages: "Visualitzar la wiki"
+  permission_work_package_assigned: "Become assignee/responsible"
+  permission_work_package_assigned_explanation: "Els paquets de treball es poden assignar als usuaris i als grups que tinguin aquest rol en el seu respectiu projecte"
   placeholders:
     default: "-"
   project:

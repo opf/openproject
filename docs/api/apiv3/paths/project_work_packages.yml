@@ -60,6 +60,14 @@ get:
     schema:
       default: 'false'
       type: boolean
+  - description: |-
+      Comma separated list of properties to include.
+    example: 'total,elements/subject,elements/id,self'
+    in: query
+    name: select
+    required: false
+    schema:
+      type: string
   responses:
     '200':
       content:
@@ -88,7 +96,7 @@ get:
                 count: 2
                 total: 2
           schema:
-            "$ref": "../components/schemas/work_packages_by_project_model.yml"
+            "$ref": "../components/schemas/work_packages_model.yml"
       description: OK
       headers: {}
     '400':

@@ -32,7 +32,7 @@ describe 'Invite user modal', type: :feature, js: true do
   shared_let(:project) { create :project }
   shared_let(:work_package) { create :work_package, project: project }
 
-  let(:permissions) { %i[view_work_packages edit_work_packages manage_members] }
+  let(:permissions) { %i[view_work_packages edit_work_packages manage_members work_package_assigned] }
   let(:global_permissions) { %i[] }
   let(:modal) do
     ::Components::Users::InviteUserModal.new project: project,
@@ -127,7 +127,7 @@ describe 'Invite user modal', type: :feature, js: true do
         let(:principal) { build :invited_user }
 
         context 'when the current user has permissions to create a user' do
-          let(:permissions) { %i[view_work_packages edit_work_packages manage_members] }
+          let(:permissions) { %i[view_work_packages edit_work_packages manage_members work_package_assigned] }
           let(:global_permissions) { %i[manage_user] }
 
           it_behaves_like 'invites the principal to the project' do
@@ -139,6 +139,7 @@ describe 'Invite user modal', type: :feature, js: true do
 
         context 'when the current user does not have permissions to invite a user to the instance by email' do
           let(:permissions) { %i[view_work_packages edit_work_packages manage_members] }
+
           it 'does not show the invite user option' do
             modal.project_step
             ngselect = modal.open_select_in_step principal.mail
@@ -186,9 +187,10 @@ describe 'Invite user modal', type: :feature, js: true do
         let(:principal) { build :placeholder_user, name: 'MY NEW PLACEHOLDER' }
 
         context 'an enterprise system', with_ee: %i[placeholder_users] do
+          let(:permissions) { %i[view_work_packages edit_work_packages manage_members work_package_assigned] }
+
           describe 'create a new placeholder' do
             context 'with permissions to manage placeholders' do
-              let(:permissions) { %i[view_work_packages edit_work_packages manage_members] }
               let(:global_permissions) { %i[manage_placeholder_user] }
 
               it_behaves_like 'invites the principal to the project' do
@@ -199,7 +201,6 @@ describe 'Invite user modal', type: :feature, js: true do
             end
 
             context 'without permissions to manage placeholders' do
-              let(:permissions) { %i[view_work_packages edit_work_packages manage_members] }
               it 'does not allow to invite a new placeholder' do
                 modal.project_step
 
@@ -213,7 +214,6 @@ describe 'Invite user modal', type: :feature, js: true do
 
           context 'with an existing placeholder' do
             let(:principal) { create :placeholder_user, name: 'EXISTING PLACEHOLDER' }
-            let(:permissions) { %i[view_work_packages edit_work_packages manage_members] }
             let(:global_permissions) { %i[] }
 
             it_behaves_like 'invites the principal to the project' do

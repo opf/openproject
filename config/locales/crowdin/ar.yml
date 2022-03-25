@@ -475,7 +475,6 @@ ar:
       repository:
         url: "الرابط"
       role:
-        assignable: "Work packages can be assigned to users and groups in possession of this role in the respective project"
         permissions: "السماحيات"
       time_entry:
         activity: "النشاط"
@@ -912,6 +911,7 @@ ar:
     version: "الإصدار"
     work_package: "مجموعة العمل"
   backup:
+    failed: "Backup failed"
     label_backup_token: "Backup token"
     label_create_token: "Create backup token"
     label_delete_token: "Delete backup token"
@@ -2276,6 +2276,8 @@ ar:
   permission_view_timelines: "عرض الخطوط الزمنية"
   permission_view_wiki_edits: "عرض تاريخ wiki"
   permission_view_wiki_pages: "عرض wiki"
+  permission_work_package_assigned: "Become assignee/responsible"
+  permission_work_package_assigned_explanation: "Work packages can be assigned to users and groups in possession of this role in the respective project"
   placeholders:
     default: "-"
   project:

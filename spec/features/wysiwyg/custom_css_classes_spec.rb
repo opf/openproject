@@ -63,7 +63,12 @@ describe 'Wysiwyg paragraphs in lists behavior (Regression #28765)',
 
       *   [ ] task list
 
-      <figure><img src="/api/v3/attachments/44/content"><figcaption>Image</figcaption></figure>
+      <figure>
+        <div>
+          <img src="/attachments/44/content">
+        </div>
+        <figcaption>Image</figcaption>
+      </figure>
 
       > Quote
 

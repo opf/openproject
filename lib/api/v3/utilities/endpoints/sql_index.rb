@@ -38,8 +38,6 @@ module API
 
             ::API::V3::Utilities::SqlRepresenterWalker
               .new(results,
-                   embed: { 'elements' => {} },
-                   select: { '*' => {}, 'elements' => { '*' => {} } },
                    current_user: User.current,
                    self_path: self_path,
                    url_query: resulting_params)
@@ -52,6 +50,12 @@ module API
 
           def deduce_render_representer
             "::API::V3::#{deduce_api_namespace}::#{api_name}SqlCollectionRepresenter".constantize
+          end
+
+          def calculate_resulting_params(query, provided_params)
+            super.tap do |params|
+              params[:select] = nested_from_csv(provided_params['select']) || { '*' => {}, 'elements' => { '*' => {} } }
+            end
           end
         end
       end

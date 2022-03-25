@@ -118,14 +118,15 @@ module Pages
     def within_lane(user, &block)
       raise ArgumentError.new("Expected instance of principal") unless user.is_a?(Principal)
 
-      type = ::API::V3::Principals::PrincipalType.for(user)
-      href = ::API::V3::Utilities::PathHelper::ApiV3Path.send(type, user.id)
-
-      page.within(%(.fc-timeline-lane[data-resource-id="#{href}"]), &block)
+      page.within(lane(user), &block)
     end
 
     def expect_event(work_package, present: true)
-      expect(page).to have_conditional_selector(present, '.fc-event', text: work_package.subject)
+      if present
+        expect(page).to have_selector('.fc-event', text: work_package.subject, wait: 10)
+      else
+        expect(page).to have_no_selector('.fc-event', text: work_package.subject)
+      end
     end
 
     def add_assignee(name)
@@ -174,6 +175,13 @@ module Pages
       drag_by_pixel(element: source, by_x: by_x, by_y: by_y)
     end
 
+    def drag_wp_to_lane(work_package, user)
+      wp_strip = event(work_package)
+      lane = lane(user)
+
+      drag_by_pixel(element: wp_strip, by_x: 0, by_y: y_distance(from: wp_strip, to: lane))
+    end
+
     def drag_to_remove_dropzone(work_package, expect_removable: true)
       source = event(work_package)
 
@@ -210,6 +218,13 @@ module Pages
       page.find('.fc-event', text: work_package.subject)
     end
 
+    def lane(user)
+      type = ::API::V3::Principals::PrincipalType.for(user)
+      href = ::API::V3::Utilities::PathHelper::ApiV3Path.send(type, user.id)
+
+      page.find(%(.fc-timeline-lane[data-resource-id="#{href}"]))
+    end
+
     def expect_wp_not_resizable(work_package)
       expect(page).to have_selector('.fc-event:not(.fc-event-resizable)', text: work_package.subject)
     end
@@ -220,6 +235,14 @@ module Pages
 
     def expect_no_menu_item(name)
       expect(page).not_to have_selector('.op-sidemenu--item-title', text: name)
+    end
+
+    def y_distance(from:, to:)
+      y_center(to) - y_center(from)
+    end
+
+    def y_center(element)
+      element.native.location.y + (element.native.size.height / 2)
     end
   end
 end

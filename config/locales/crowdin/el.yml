@@ -467,7 +467,6 @@ el:
       repository:
         url: "URL"
       role:
-        assignable: "Τα πακέτα εργασίας μπορούν να ανατεθούν σε χρήστες και ομάδες που έχουν αυτό το ρόλο στο αντίστοιχο έργο"
         permissions: "Δικαιώματα"
       time_entry:
         activity: "Δραστηριότητα"
@@ -888,6 +887,7 @@ el:
     version: "Έκδοση"
     work_package: "Εργασία"
   backup:
+    failed: "Backup failed"
     label_backup_token: "Token αντιγράφου ασφαλείας"
     label_create_token: "Δημιουργία token αντιγράφου ασφαλείας"
     label_delete_token: "Διαγραφή token αντιγράφου ασφαλείας"
@@ -2195,6 +2195,8 @@ el:
   permission_view_timelines: "Προβολή χρονοδιαγραμμάτων"
   permission_view_wiki_edits: "Προβολή ιστορικού wiki"
   permission_view_wiki_pages: "Προβολή wiki"
+  permission_work_package_assigned: "Become assignee/responsible"
+  permission_work_package_assigned_explanation: "Τα πακέτα εργασίας μπορούν να ανατεθούν σε χρήστες και ομάδες που έχουν αυτό το ρόλο στο αντίστοιχο έργο"
   placeholders:
     default: "-"
   project:

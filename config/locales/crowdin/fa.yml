@@ -471,7 +471,6 @@ fa:
       repository:
         url: "نشانی اینترنت"
       role:
-        assignable: "Work packages can be assigned to users and groups in possession of this role in the respective project"
         permissions: "Permissions"
       time_entry:
         activity: "فعالیت"
@@ -892,6 +891,7 @@ fa:
     version: "نسخه"
     work_package: "Work package"
   backup:
+    failed: "Backup failed"
     label_backup_token: "پشتیبان گیری توکن"
     label_create_token: "ایجاد پشتیبان گیری توکن"
     label_delete_token: "حذف پشتیبان گیری توکن"
@@ -2200,6 +2200,8 @@ fa:
   permission_view_timelines: "View timelines"
   permission_view_wiki_edits: "View wiki history"
   permission_view_wiki_pages: "View wiki"
+  permission_work_package_assigned: "Become assignee/responsible"
+  permission_work_package_assigned_explanation: "Work packages can be assigned to users and groups in possession of this role in the respective project"
   placeholders:
     default: "-"
   project:

@@ -24,6 +24,7 @@ cs:
     ajax:
       hide: "Skrýt"
       loading: "Načítání ..."
+      updating: "Updating ..."
     attachments:
       draggable_hint: |
         Přetáhněte pole editoru na vložený obrázek nebo referenční přílohu. Uzavřená pole editoru budou otevřena během pokračujícího přetahování.
@@ -454,9 +455,8 @@ cs:
     label_starred_queries: "Oblíbená zobrazení"
     label_global_queries: "Veřejné zobrazení"
     label_custom_queries: "Soukromé zobrazení"
-    label_create_new_query: "Vytvořit nový"
     label_columns: "Sloupce"
-    label_attachments: Soubory
+    label_attachments: Přílohy
     label_drop_files: Sem přetáhněte soubory
     label_drop_files_hint: nebo klikněte pro přidání souborů
     label_drop_folders_hint: Není možné použít složku jako přílohu. Prosím vyberte jednotlivé soubory.
@@ -500,7 +500,8 @@ cs:
           task_board: "Pracovní panel vizualizuje postup <b>pro tento sprint</b>. Kliknutím na ikonu plus (+) vedle uživatelského příběhu přidáte nové úkoly nebo překážky. <br> Stav lze aktualizovat přetažením."
         boards:
           overview: 'Vyberte <b>tabule</b> pro posun zobrazení a správu vašeho projektu pomocí agilního zobrazení desek.'
-          lists: 'Zde si můžete vytvořit více seznamů (sloupce) ve vaší tabuli. Tato funkce vám umožní například vytvořit <b>Kanban desku</b>.'
+          lists_kanban: 'Zde si můžete vytvořit více seznamů (sloupce) ve vaší tabuli. Tato funkce vám umožní například vytvořit <b>Kanban desku</b>.'
+          lists_basic: 'Here you can create multiple lists (columns) within your agile board.'
           add: 'Klikněte na ikonu plus (+) pro <b>vytvoření nové karty</b> nebo <b>přidejte existující kartu</b> do seznamu na tabuli.'
           drag: 'Přetažením karet v daném seznamu je změníte, nebo je přesuňte do jiného seznamu. <br> Můžete kliknout na info (i) ikonu v pravém horním rohu nebo dvakrát kliknout na kartu pro otevření podrobností.'
         wp:
@@ -511,6 +512,12 @@ cs:
           create_button: 'Tlačítko <b>Vytvořit</b> přidá do vašeho projektu nový pracovní balíček.'
           timeline_button: 'Můžete aktivovat <b>Gantt graf</b> pro vytvoření časové osy pro váš projekt.'
           timeline: 'Zde můžete upravit váš projektový plán. Vytvářet nové fáze, milníky a přidat závislosti. Všichni členové týmu mohou kdykoliv zobrazit a aktualizovat aktuální plán.'
+        team_planner:
+          overview: 'The team planner lets you visually assign tasks to team members and get an overview of who is working on what.'
+          calendar: 'The weekly or biweekly planning board displays all work packages assigned to your team members.'
+          add_assignee: 'To get started, add assignees to the team planner.'
+          add_existing: 'Search for existing work packages and drag them to the team planner to instantly assign them to a team member and define start and end dates.'
+          card: 'Drag work packages horizontally to move them backwards or forwards in time, drag the edges to change start and end dates and even drag them vertically to a different row to assign them to another member.'
     notifications:
       title: "Oznámení"
       no_unread: "Žádná nepřečtená oznámení"
@@ -991,7 +998,7 @@ cs:
         activity: Aktivita
         relations: Vztahy
         watchers: Sledující
-        attachments: Přílohy
+        files: Soubory
       time_relative:
         days: "dnů"
         weeks: "týdny"
@@ -1170,7 +1177,7 @@ cs:
       clear_selection: 'Clear selection'
       apply: 'Použít'
       selected_filter:
-        all: 'All projects'
+        all: 'Všechny projekty'
         selected: 'Only selected'
       search_placeholder: 'Search project...'
     forms:
@@ -1178,3 +1185,8 @@ cs:
       load_error_message: 'Při načítání formuláře došlo k chybě'
       validation_error_message: 'Opravte prosím chyby ve formuláři'
       advanced_settings: 'Pokročilá nastavení'
+    spot:
+      filter_chip:
+        remove: 'Odstranit'
+      drop_modal:
+        Close: 'Zavřít'

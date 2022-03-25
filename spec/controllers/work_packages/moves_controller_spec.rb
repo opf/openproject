@@ -37,7 +37,8 @@ describe WorkPackages::MovesController, type: :controller, with_settings: { jour
                            add_work_packages
                            edit_work_packages
                            assign_versions
-                           manage_subtasks)
+                           manage_subtasks
+                           work_package_assigned)
   end
   let(:type) { create :type }
   let(:type_2) { create :type }

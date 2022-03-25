@@ -74,6 +74,7 @@ describe 'Read-only statuses affect work package editing',
   end
 
   it 'locks the work package on a read only status' do
+    wp_page.switch_to_tab(tab: 'FILES')
     expect(page).to have_selector '.work-package--attachments--drop-box'
 
     subject_field = wp_page.edit_field :subject

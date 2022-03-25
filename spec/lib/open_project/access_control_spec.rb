@@ -55,12 +55,12 @@ describe OpenProject::AccessControl do
       end
 
       map.project_module :mixed_module do |mod|
-        mod.permission :proj3, { dont: :care }
+        mod.permission :proj3, { dont: :care }, grant_to_admin: true
         mod.permission :global2, { dont: :care }, global: true, contract_actions: { baz: %i[destroy] }
       end
 
       map.project_module :dependent_module, dependencies: :project_module do |mod|
-        mod.permission :proj4, { dont: :care }
+        mod.permission :proj4, { dont: :care }, grant_to_admin: false
       end
     end
   end
@@ -243,9 +243,49 @@ describe OpenProject::AccessControl do
 
     it 'contains all contract actions grouped by the permission' do
       expect(subject.contract_actions_map)
-        .to eql(global2: { actions: { baz: [:destroy] }, global: true, module: :mixed_module },
-                proj0: { actions: { foo: :create }, global: false, module: nil },
-                proj2: { actions: { bar: %i[create read] }, global: false, module: :project_module })
+        .to eql(global2: { actions: { baz: [:destroy] }, global: true, module_name: :mixed_module, grant_to_admin: true },
+                proj0: { actions: { foo: :create }, global: false, module_name: nil, grant_to_admin: true },
+                proj2: { actions: { bar: %i[create read] }, global: false, module_name: :project_module, grant_to_admin: true })
+    end
+  end
+
+  describe '.grant_to_admin?' do
+    before do
+      stash_access_control_permissions
+
+      setup_global_permissions
+    end
+
+    after do
+      restore_access_control_permissions
+    end
+
+    context 'for a granted permission (default)' do
+      it 'is granted' do
+        expect(described_class)
+          .to be_grant_to_admin(:proj0)
+      end
+    end
+
+    context 'for a non granted permission' do
+      it 'is granted' do
+        expect(described_class)
+          .not_to be_grant_to_admin(:proj4)
+      end
+    end
+
+    context 'for an explicitly granted permission' do
+      it 'is granted' do
+        expect(described_class)
+          .to be_grant_to_admin(:proj3)
+      end
+    end
+
+    context 'for a non existing permission' do
+      it 'is granted' do
+        expect(described_class)
+          .to be_grant_to_admin(:not_existing)
+      end
     end
   end
 end

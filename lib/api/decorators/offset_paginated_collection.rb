@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -31,7 +29,7 @@
 module API
   module Decorators
     class OffsetPaginatedCollection < ::API::Decorators::Collection
-      include ::API::Utilities::PageSizeHelper
+      include ::API::Utilities::UrlPropsParsingHelper
 
       def self.per_page_default(relation)
         relation.base_class.per_page

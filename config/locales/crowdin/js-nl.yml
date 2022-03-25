@@ -24,6 +24,7 @@ nl:
     ajax:
       hide: "Verberg"
       loading: "Bezig met laden ..."
+      updating: "Updating ..."
     attachments:
       draggable_hint: |
         Sleep op het invoerveld naar in line afbeelding of verwijzing bijlage. Gesloten invoervelden wordt geopend terwijl u blijft slepen.
@@ -453,9 +454,8 @@ nl:
     label_starred_queries: "Favoriete weergaven"
     label_global_queries: "Openbare weergaven"
     label_custom_queries: "Privé weergaven"
-    label_create_new_query: "Nieuwe aanmaken"
     label_columns: "Kolommen"
-    label_attachments: Bestanden
+    label_attachments: Bijlagen
     label_drop_files: Bestanden hier neerzetten
     label_drop_files_hint: of klik om bestanden toe te voegen
     label_drop_folders_hint: U kunt geen mappen uploaden als bijlage. Selecteer a. u. b. enkele bestanden.
@@ -499,7 +499,8 @@ nl:
           task_board: "Het taakbord geeft de <b>vooruitgang voor deze sprint</b> weer. Klik op het plus (+) pictogram naast een verhaal om nieuwe taken of belemmeringen toe te voegen. <br> De status kan worden bijgewerkt door slepen en neerzetten."
         boards:
           overview: 'Selecteer <b>borden</b> om het overzicht te verschuiven en uw project te beheren met behulp van de agile borden weergave.'
-          lists: 'Hier kunt u meerdere lijsten (kolommen) binnen uw bord maken. Met deze functie kunt u bijvoorbeeld een <b>Kanban board</b>maken.'
+          lists_kanban: 'Hier kunt u meerdere lijsten (kolommen) binnen uw bord maken. Met deze functie kunt u bijvoorbeeld een <b>Kanban board</b>maken.'
+          lists_basic: 'Here you can create multiple lists (columns) within your agile board.'
           add: 'Klik op het plus (+) icoon om <b>een nieuwe kaart te creëren</b> of <b>een bestaande kaart  toe te voegen</b> aan de lijst op het bord.'
           drag: 'Sleep uw kaarten in een bepaalde lijst om ze te rangschikken of om ze naar een andere lijst te verplaatsen. <br> U kunt op het info pictogram (i) in de rechterbovenhoek klikken of dubbelklikken op een kaart om de details te openen.'
         wp:
@@ -510,6 +511,12 @@ nl:
           create_button: 'De knop <b>+ Aanmaken</b> zal een nieuw werkpakket toevoegen aan uw project.'
           timeline_button: 'U kunt de <b>Gantt-grafiek</b> weergave activeren om een tijdlijn voor uw project te maken.'
           timeline: 'Hier kunt u <b>uw projectplan</b>bewerken, nieuwe werkpakketten maken, zoals taken, mijlpalen, fasen, en meer en <b>afhankelijkheden toevoegen</b>. Alle teamleden kunnen de laatste planning op elk moment zien en bijwerken.'
+        team_planner:
+          overview: 'The team planner lets you visually assign tasks to team members and get an overview of who is working on what.'
+          calendar: 'The weekly or biweekly planning board displays all work packages assigned to your team members.'
+          add_assignee: 'To get started, add assignees to the team planner.'
+          add_existing: 'Search for existing work packages and drag them to the team planner to instantly assign them to a team member and define start and end dates.'
+          card: 'Drag work packages horizontally to move them backwards or forwards in time, drag the edges to change start and end dates and even drag them vertically to a different row to assign them to another member.'
     notifications:
       title: "Meldingen"
       no_unread: "Geen ongelezen meldingen"
@@ -988,7 +995,7 @@ nl:
         activity: Activiteit
         relations: Relaties
         watchers: Volgers
-        attachments: Bijlagen
+        files: Bestanden
       time_relative:
         days: "dagen"
         weeks: "weken"
@@ -1171,3 +1178,8 @@ nl:
       load_error_message: 'There was an error loading the form'
       validation_error_message: 'Please fix the errors present in the form'
       advanced_settings: 'Geavanceerde instellingen'
+    spot:
+      filter_chip:
+        remove: 'Verwijder'
+      drop_modal:
+        Close: 'Sluiten'

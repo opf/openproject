@@ -29,7 +29,6 @@
 module Roles
   class BaseContract < ::ModelContract
     attribute :name
-    attribute :assignable
 
     validate :check_permission_prerequisites
 

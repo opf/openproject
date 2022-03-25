@@ -3,7 +3,7 @@ cs:
   js:
     team_planner:
       add_existing: 'Add Existing'
-      create_new: 'Vytvořit nový plánovače'
+      create_new: 'New team planner'
       title: 'Týmový plánovač'
       unsaved_title: 'Nepojmenovaný plánovač týmu'
       label_assignee_plural: 'Řešitelé'

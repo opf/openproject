@@ -129,11 +129,11 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
     },
   };
 
+  public isNewResource:boolean;
+
   protected firstTimeFocused = false;
 
   $element:JQuery;
-
-  isNewResource = isNewResource;
 
   constructor(readonly I18n:I18nService,
     protected currentProject:CurrentProjectService,
@@ -152,7 +152,9 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
   }
 
   public ngOnInit() {
-    this.$element = jQuery(this.elementRef.nativeElement);
+    this.$element = jQuery(this.elementRef.nativeElement as HTMLElement);
+
+    this.isNewResource = isNewResource(this.workPackage);
 
     const change = this.halEditing.changeFor<WorkPackageResource, WorkPackageChangeset>(this.workPackage);
     this.resourceContextChange.next(this.contextFrom(change.projectedResource));
@@ -166,7 +168,7 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
         distinctUntilChanged<ResourceContextChange>((a, b) => _.isEqual(a, b)),
         map(() => this.halEditing.changeFor(this.workPackage)),
       )
-      .subscribe((change:WorkPackageChangeset) => this.refresh(change));
+      .subscribe((changeset:WorkPackageChangeset) => this.refresh(changeset));
 
     // Update the resource context on every update to the temporary resource.
     // This allows detecting a changed type value in a new work package.
@@ -208,7 +210,7 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
    * Returns whether a group should be hidden due to being empty
    * (e.g., consists only of CFs and none of them are active in this project.
    */
-  public shouldHideGroup(group:GroupDescriptor) {
+  public shouldHideGroup(group:GroupDescriptor):boolean {
     // Hide if the group is empty
     const isEmpty = group.members.length === 0;
 
@@ -221,10 +223,10 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
   /**
    * angular 2 doesn't support track by property any more but requires a custom function
    * https://github.com/angular/angular/issues/12969
-   * @param index
+   * @param _index
    * @param elem
    */
-  public trackByName(_index:number, elem:{ name:string }) {
+  public trackByName(_index:number, elem:{ name:string }):string {
     return elem.name;
   }
 
@@ -256,8 +258,8 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
   /*
    * Returns the work package label
    */
-  public get idLabel() {
-    return `#${this.workPackage.id}`;
+  public get idLabel():string {
+    return `#${this.workPackage.id || ''}`;
   }
 
   public get projectContextText():string {
@@ -337,8 +339,10 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
    * combined 'start' and 'due' date field.
    */
   private getDateField(change:WorkPackageChangeset):FieldDescriptor {
-    const object:any = {
+    const object:FieldDescriptor = {
+      name: '',
       label: this.I18n.t('js.work_packages.properties.date'),
+      spanAll: false,
       multiple: false,
     };
 
@@ -359,7 +363,7 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
    * to the single view.
    *
    * @param {WorkPackage} workPackage
-   * @returns {SchemaContext}
+   * @returns {ResourceContextChange}
    */
   private contextFrom(workPackage:WorkPackageResource):ResourceContextChange {
     const schema = this.schema(workPackage);

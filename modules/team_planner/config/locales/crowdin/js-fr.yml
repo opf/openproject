@@ -3,7 +3,7 @@ fr:
   js:
     team_planner:
       add_existing: 'Add Existing'
-      create_new: 'Créer un nouveau planificateur'
+      create_new: 'New team planner'
       title: 'Planificateur d''équipe'
       unsaved_title: 'Planificateur d''équipe sans nom'
       label_assignee_plural: 'Affectés à'

@@ -74,10 +74,10 @@ de:
       book_now: 'Jetzt buchen'
       get_quote: 'Angebot anfordern'
       buttons:
-        upgrade: "Upgrade now"
-        contact: "Contact us for a demo"
-      enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
-      upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
+        upgrade: "Jetzt Upgrade durchführen"
+        contact: "Kontaktieren Sie uns für eine Demo"
+      enterprise_info_html: "ist eine Enterprise <strong class='icon-medal'></strong> Funktion."
+      upgrade_info: "Bitte steigen Sie auf einen kostenpflichtigen Plan um, um diese Funktion zu aktivieren und in Ihrem Team zu verwenden."
   announcements:
     show_until: Anzeigen bis
     is_active: derzeit angezeigt
@@ -163,7 +163,7 @@ de:
     edit: 'Benutzerdefinierte Aktion %{name} bearbeiten'
     execute: '%{name} ausführen'
     upsale:
-      title: 'Custom actions'
+      title: 'Benutzerdefinierte Aktionen'
       description: 'Benutzerdefinierte Aktionen optimieren tägliche Arbeit durch die Abarbeitung einer Reihe von Einzelschritten in einen Knopf.'
   custom_fields:
     text_add_new_custom_field: >
@@ -262,7 +262,7 @@ de:
       irreversible: "Dieser Vorgang kann nicht rückgängig gemacht werden"
       confirmation: "Geben Sie den Namen des Platzhalter-Benutzers %{name} ein, um die Löschung zu bestätigen."
     upsale:
-      title: Placeholder users
+      title: Platzhalter-Benutzer
       description: >
         Es gibt mehrere Szenarien, in denen Sie Personen Arbeit zuweisen möchten, die nicht Mitglied Ihres Projekts sind. Es könnte einfach sein, dass Sie immer noch die richtige Person für den Job einstellen müssen. Oder Sie wollen dieser Person keinen Zugriff auf die Projektinformationen gewähren, aber dennoch die dieser Person zugewiesenen Tracking-Aufgaben aufweisen.
   prioritiies:
@@ -450,12 +450,12 @@ de:
         code: 'Status'
         explanation: 'Statusbeschreibung'
         codes:
-          not_started: 'Not started'
+          not_started: 'Nicht gestartet'
           on_track: 'Planmäßig'
           at_risk: 'Gefährdet'
           off_track: 'Unplanmäßig'
-          finished: 'Finished'
-          discontinued: 'Discontinued'
+          finished: 'Abgeschlossen'
+          discontinued: 'Eingestellt / nicht verfügbar'
       query:
         column_names: "Spalten"
         relations_to_type_column: "Beziehungen zu %{type}"
@@ -466,7 +466,6 @@ de:
       repository:
         url: "URL"
       role:
-        assignable: "Arbeitspakete können Benutzern und Gruppen im Besitz dieser Rolle in dem jeweiligen Projekt zugeordnet werden"
         permissions: "Berechtigungen"
       time_entry:
         activity: "Aktivität"
@@ -756,7 +755,7 @@ de:
         user:
           attributes:
             base:
-              user_limit_reached: "User limit reached. No more accounts can be created on the current plan."
+              user_limit_reached: "Benutzerlimit erreicht. Für den aktuellen Plan können keine weiteren Benutzerkonten erstellt werden."
             password_confirmation:
               confirmation: "Passwort und Bestätigung stimmt nicht überein."
               format: "%{message}"
@@ -887,6 +886,7 @@ de:
     version: "Version"
     work_package: "Arbeitspaket"
   backup:
+    failed: "Backup fehlgeschlagen"
     label_backup_token: "Backup-Token"
     label_create_token: "Backup-Token erstellen"
     label_delete_token: "Backup-Token löschen"
@@ -1983,7 +1983,7 @@ de:
   mail_body_backup_waiting_period: Der neue Token wird in %{hours} Stunden aktiviert.
   mail_body_backup_token_warning: Wenn Sie dies nicht waren, melden Sie sich sofort bei OpenProject an und setzen Sie es erneut zurück.
   mail_body_lost_password: "Benutzen Sie den folgenden Link, um Ihr Kennwort zu ändern:"
-  mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
+  mail_body_register: "Willkommen zu %{app_title}. Bitte aktivieren Sie Ihr Konto, indem Sie auf diesen Link klicken:"
   mail_body_register_header_title: "Einladung als Projektmitglied"
   mail_body_register_user: "Hallo %{name},"
   mail_body_register_links_html: |
@@ -2126,7 +2126,7 @@ de:
     heading_getting_started: "Erhalten Sie einen Überblick"
     text_getting_started_description: "Erhalten Sie einen schnellen Überblick über Projekt-Management und Zusammenarbeit in Teams mit OpenProject."
     text_show_again: "Sie können dieses Video über das Hilfe-Menü erneut starten"
-    welcome: "Welcome to %{app_title}"
+    welcome: "Willkommen zu %{app_title}"
     select_language: "Bitte wählen Sie Ihre Sprache"
   permission_add_work_package_notes: "Kommentare hinzufügen"
   permission_add_work_packages: "Arbeitspakete hinzufügen"
@@ -2195,6 +2195,8 @@ de:
   permission_view_timelines: "Zeitplan-Reporte anzeigen"
   permission_view_wiki_edits: "Wiki-Versionsgeschichte ansehen"
   permission_view_wiki_pages: "Wiki ansehen"
+  permission_work_package_assigned: "Zugewiesener/Verantwortlicher werden"
+  permission_work_package_assigned_explanation: "Arbeitspakete können Benutzern und Gruppen im Besitz dieser Rolle in dem jeweiligen Projekt zugeordnet werden"
   placeholders:
     default: "-"
   project:
@@ -2346,9 +2348,9 @@ de:
   setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) erlaubte Origins"
   setting_apiv3_cors_origins_text_html: >
     Wenn CORS aktiviert ist, sind dies die Origins, die auf die OpenProject API zugreifen dürfen. <br/> Bitte überprüfen Sie die <a href="%{origin_link}" target="_blank">Dokumentation über den Origin Header</a>, wie die Werte anzugeben sind.
-  setting_apiv3_max_page_size: "Maximum API page size"
+  setting_apiv3_max_page_size: "Maximale API-Seitengröße"
   setting_apiv3_max_page_instructions_html: >
-    Set the maximum page size the API will respond with. It will not be possible to perform API requests that return more values on a single page. <br/> <strong>Warning:</strong> Please only change this value if you are sure why you need it. Setting to a high value will result in significant performance impacts, while a value lower than the per page options will cause errors in paginated views.
+    Legen Sie die maximale Seitengröße fest, mit der die API antworten soll. Es wird nicht möglich sein, API-Anfragen durchzuführen, die mehr Werte auf einer einzelnen Seite zurückgeben. <br/> <strong>Warnung:</strong> Bitte ändern Sie diesen Wert nur, wenn Sie sicher sind, warum Sie ihn benötigen. Die Einstellung auf einen hohen Wert führt zu erheblichen Performance-Auswirkungen, während ein Wert niedriger als die Einstellung "Objekte pro Seite" zu Fehlern in paginierten Ansichten führt.
   setting_apiv3_docs: "Dokumentation"
   setting_apiv3_docs_enabled: "Dokumentationsseite aktivieren"
   setting_apiv3_docs_enabled_instructions_html: >
@@ -2905,7 +2907,7 @@ de:
       schema: 'Schema'
     undisclosed:
       parent: Unbekannt - Das ausgewählte Elternelement ist wegen fehlender Berechtigungen nicht sichtbar.
-      ancestor: Undisclosed - The ancestor is invisible because of lacking permissions.
+      ancestor: Unbekannt - Das übergeordnete Element ist wegen fehlender Berechtigungen nicht sichtbar.
   doorkeeper:
     pre_authorization:
       status: 'Vorab-Autorisierung'
@@ -2916,9 +2918,9 @@ de:
         #Common error messages
         invalid_request:
           unknown: 'Der Anfrage fehlt ein benötigten Parameter, enthält einen nicht unterstützten Parameter oder ist anderweitig fehlerhaft.'
-          missing_param: 'Missing required parameter: %{value}.'
-          request_not_authorized: 'Request need to be authorized. Required parameter for authorizing request is missing or invalid.'
-        invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
+          missing_param: 'Erforderlicher Parameter fehlt: %{value}.'
+          request_not_authorized: 'Anfrage muss autorisiert werden. Benötigter Parameter für die Autorisierung der Anfrage fehlt oder ungültig.'
+        invalid_redirect_uri: "Der angeforderte Redirect-URI ist fehlerhaft."
         unauthorized_client: 'Der Client ist nicht berechtigt, einen Request mit dieser Methode durchzuführen.'
         access_denied: 'Der Autorisierungsserver verweigerte die Anfrage.'
         invalid_scope: 'Der angeforderte Geltungsbereich ist ungültig, unbekannt oder fehlerhaft.'
@@ -2931,7 +2933,7 @@ de:
         admin_authenticator_not_configured: 'Der Zugriff auf das Admin-Panel ist verboten, da Doorkeeper.configure.admin_authenticator nicht konfiguriert ist.'
         #Access grant errors
         unsupported_response_type: 'Der Autorisierungsserver unterstützt diesen Antworttyp nicht.'
-        unsupported_response_mode: 'The authorization server does not support this response mode.'
+        unsupported_response_mode: 'Der Autorisierungsserver unterstützt diesen Antworttyp nicht.'
         #Access token errors
         invalid_client: 'Die Client-Authentifizierung ist aufgrund eines unbekannten Clients oder einer nicht unterstützten Anfrage fehlgeschlagen.'
         invalid_grant: 'Die bereitgestellte Genehmigung ist ungültig, abgelaufen, widerrufen, entspricht nicht der Redirect-URI, die in der Autorisierungsanfrage verwendet wird oder wurde an einen anderen Client ausgegeben.'
@@ -2941,9 +2943,9 @@ de:
           expired: "Der Zugangstoken ist abgelaufen"
           unknown: "Das Zugangstoken ist ungültig"
         revoke:
-          unauthorized: "You are not authorized to revoke this token."
+          unauthorized: "Sie sind nicht berechtigt, diesen Token zu widerrufen."
         forbidden_token:
-          missing_scope: 'Access to this resource requires scope "%{oauth_scopes}".'
+          missing_scope: 'Der Zugriff auf diese Ressource erfordert den Scope "%{oauth_scopes}".'
   unsupported_browser:
     title: "Ihr Browser ist veraltet und nicht unterstützt."
     message: "Sie werden deshalb auf dieser Seite eventuell Fehler feststellen oder Ihr Benutzererlebnis wird eingeschränkt sein."

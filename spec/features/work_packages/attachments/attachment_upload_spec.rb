@@ -28,7 +28,7 @@ describe 'Upload attachment to work package', js: true do
   end
 
   describe 'wysiwyg editor' do
-    context 'on an existing page' do
+    context 'when on an existing page' do
       before do
         wp_page.visit!
         wp_page.ensure_page_loaded
@@ -76,7 +76,7 @@ describe 'Upload attachment to work package', js: true do
       end
     end
 
-    context 'on a new page' do
+    context 'when on a new page' do
       shared_examples 'it supports image uploads via drag & drop' do
         let!(:new_page) { Pages::FullWorkPackageCreate.new }
         let!(:type) { create(:type_task) }
@@ -109,13 +109,6 @@ describe 'Upload attachment to work package', js: true do
 
           sleep 2
 
-          # Besides testing caption functionality this also slows down clicking on the submit button
-          # so that the image is properly embedded
-          caption = page.find('.op-uc-figure .op-uc-figure--description')
-          caption.click(x: 10, y: 10)
-          sleep 0.2
-          caption.base.send_keys('Some image caption')
-
           scroll_to_and_click find('#work-packages--edit-actions-save')
 
           wp_page.expect_toast(
@@ -123,9 +116,7 @@ describe 'Upload attachment to work package', js: true do
           )
 
           field = wp_page.edit_field :description
-
           expect(field.display_element).to have_selector('img')
-          expect(field.display_element).to have_content('Some image caption')
 
           wp = WorkPackage.last
           expect(wp.subject).to eq('My subject')
@@ -164,8 +155,8 @@ describe 'Upload attachment to work package', js: true do
 
   describe 'attachment dropzone' do
     it 'can upload an image via attaching and drag & drop' do
+      wp_page.switch_to_tab(tab: 'FILES')
       container = page.find('.wp-attachment-upload')
-      scroll_to_element(container)
 
       ##
       # Attach file manually

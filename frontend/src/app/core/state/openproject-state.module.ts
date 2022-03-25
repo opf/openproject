@@ -26,19 +26,20 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {
-  NgModule,
-} from '@angular/core';
+import { NgModule } from '@angular/core';
+import { AttachmentsResourceService } from 'core-app/core/state/attachments/attachments.service';
 import { InAppNotificationsResourceService } from './in-app-notifications/in-app-notifications.service';
 import { ProjectsResourceService } from './projects/projects.service';
 import { PrincipalsResourceService } from './principals/principals.service';
+import { CapabilitiesResourceService } from 'core-app/core/state/capabilities/capabilities.service';
 
 @NgModule({
   providers: [
+    AttachmentsResourceService,
     InAppNotificationsResourceService,
     ProjectsResourceService,
     PrincipalsResourceService,
+    CapabilitiesResourceService,
   ],
 })
-export class OpenProjectStateModule {
-}
+export class OpenProjectStateModule {}

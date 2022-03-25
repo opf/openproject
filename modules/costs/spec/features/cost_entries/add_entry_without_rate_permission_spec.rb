@@ -36,9 +36,11 @@ describe 'Create cost entry without rate permissions', type: :feature, js: true 
     create(:project, types: [type_task])
   end
   shared_let(:role) do
-    create :role, permissions: %i[view_work_packages
-                                             log_costs
-                                             view_cost_entries]
+    create :role,
+           permissions: %i[view_work_packages
+                           log_costs
+                           view_cost_entries
+                           work_package_assigned]
   end
   shared_let(:user) do
     create :user,

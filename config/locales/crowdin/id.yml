@@ -467,7 +467,6 @@ id:
       repository:
         url: "URL"
       role:
-        assignable: "Paket kerja dapat ditetapkan untuk pengguna-pengguna tunggal dan kelompok-kelompok yang memiliki peran dalam proyek masing-masing"
         permissions: "Hak akses"
       time_entry:
         activity: "Activity"
@@ -884,6 +883,7 @@ id:
     version: "Versi"
     work_package: "Paket-Penugasan"
   backup:
+    failed: "Backup failed"
     label_backup_token: "Backup token"
     label_create_token: "Create backup token"
     label_delete_token: "Delete backup token"
@@ -2178,6 +2178,8 @@ id:
   permission_view_timelines: "Lihat Timeline"
   permission_view_wiki_edits: "Lihat Wiki histori"
   permission_view_wiki_pages: "Lihat Wiki"
+  permission_work_package_assigned: "Become assignee/responsible"
+  permission_work_package_assigned_explanation: "Paket kerja dapat ditetapkan untuk pengguna-pengguna tunggal dan kelompok-kelompok yang memiliki peran dalam proyek masing-masing"
   placeholders:
     default: "Hapus nilai"
   project:

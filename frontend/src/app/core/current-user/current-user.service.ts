@@ -27,21 +27,23 @@
 //++
 
 import { Injectable } from '@angular/core';
-import { forkJoin, of } from 'rxjs';
 import {
-  distinctUntilChanged, map, mergeMap, take,
+  distinctUntilChanged,
+  map,
+  take,
 } from 'rxjs/operators';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { CapabilityResource } from 'core-app/features/hal/resources/capability-resource';
-import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
 import { FilterOperator } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
-import { CurrentUser, CurrentUserStore } from './current-user.store';
+import {
+  CurrentUser,
+  CurrentUserStore,
+} from './current-user.store';
 import { CurrentUserQuery } from './current-user.query';
+import { getPaginatedResults } from 'core-app/core/apiv3/helpers/get-paginated-results';
 
 @Injectable({ providedIn: 'root' })
 export class CurrentUserService {
-  private PAGE_FETCH_SIZE = 1000;
-
   constructor(
     private apiV3Service:ApiV3Service,
     private currentUserStore:CurrentUserStore,
@@ -89,44 +91,9 @@ export class CurrentUserService {
         filters.push(['context', '=', contexts.map((context) => (context === 'global' ? 'g' : `p${context}`))]);
       }
 
-      this.apiV3Service.capabilities.list({
-        pageSize: this.PAGE_FETCH_SIZE,
-        filters,
-      })
-        .pipe(
-          mergeMap((data:CollectionResource<CapabilityResource>) => {
-          // The data we've loaded might not contain all capabilities. Some responses might have thousands of
-          // capabilites, and our page size is restricted. If this is the case, we branch out and sent out parallel
-          // requests for each of the other pages.
-            if (data.total > this.PAGE_FETCH_SIZE) {
-              const remaining = data.total - this.PAGE_FETCH_SIZE;
-              const pagesRemaining = Math.ceil(remaining / this.PAGE_FETCH_SIZE);
-              const calls = (new Array(pagesRemaining))
-                .fill(null)
-                .map((_, i) => this.apiV3Service.capabilities.list({
-                  pageSize: this.PAGE_FETCH_SIZE,
-                  offset: i + 2, // Page offsets are 1-indexed, and we already fetched the first page
-                  filters,
-                }));
-
-              // Branch out and fetch all remaining pages in parallel.
-              // Afterwards, merge the resulting list
-              return forkJoin(...calls).pipe(
-                map(
-                  (results:CollectionResource<CapabilityResource>[]) => results.reduce(
-                    (acc, next) => acc.concat(next.elements),
-                    data.elements,
-                  ),
-                ),
-              );
-            }
-
-            // The current page is the only page, return the results.
-            return of(data.elements);
-          }),
-          // Elements may incorrectly be undefined here due to the way the representer works
-          map((elements) => elements || []),
-        )
+      getPaginatedResults<CapabilityResource>(
+        (params) => this.apiV3Service.capabilities.list({ ...params, filters }),
+      )
         .subscribe((capabilities) => {
           this.currentUserStore.update((state) => ({
             ...state,

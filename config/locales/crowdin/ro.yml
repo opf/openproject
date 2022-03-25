@@ -472,7 +472,6 @@ ro:
       repository:
         url: "URL"
       role:
-        assignable: "Pachetele de lucru pot fi atribuite utilizatorilor și grupurilor care dețin acest rol în proiectul respectiv"
         permissions: "Drepturi"
       time_entry:
         activity: "Activitate"
@@ -897,6 +896,7 @@ ro:
     version: "Versiune"
     work_package: "Pachet de lucru"
   backup:
+    failed: "Backup failed"
     label_backup_token: "Token backup"
     label_create_token: "Creează token backup"
     label_delete_token: "Șterge token backup"
@@ -2218,6 +2218,8 @@ ro:
   permission_view_timelines: "Vizualizare linii de timp"
   permission_view_wiki_edits: "Vizualizare istoric wiki"
   permission_view_wiki_pages: "Vizualizare wiki"
+  permission_work_package_assigned: "Become assignee/responsible"
+  permission_work_package_assigned_explanation: "Pachetele de lucru pot fi atribuite utilizatorilor și grupurilor care dețin acest rol în proiectul respectiv"
   placeholders:
     default: "-"
   project:

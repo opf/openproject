@@ -24,6 +24,7 @@ pt:
     ajax:
       hide: "Ocultar"
       loading: "Carregando ..."
+      updating: "Updating ..."
     attachments:
       draggable_hint: |
         Arraste sobre o campo do editor para incorporar uma imagem ou anexo de referência. Campos do editor fechados serão abertos enquanto você continuar arrastando.
@@ -452,9 +453,8 @@ pt:
     label_starred_queries: "Visões favoritas"
     label_global_queries: "Visões públicas"
     label_custom_queries: "Visões privadas"
-    label_create_new_query: "Criar novo"
     label_columns: "Colunas"
-    label_attachments: Arquivos
+    label_attachments: Anexos
     label_drop_files: Solte os arquivos aqui
     label_drop_files_hint: ou clique para adicionar arquivos
     label_drop_folders_hint: Você não pode enviar pastas como anexo. Por favor, selecione arquivos individuais.
@@ -498,7 +498,8 @@ pt:
           task_board: "O painel de tarefas visualiza o <b>progresso para este sprint</b>. Clique no ícone mais (+) ao lado de uma história de usuário para adicionar novas tarefas ou impedimentos. <br> O status pode ser atualizado arrastando e soltando."
         boards:
           overview: 'Selecione <b>paineis</b> para mudar a visão e gerenciar seu projeto usando a exibição de paineis ágeis.'
-          lists: 'Aqui você pode criar várias listas (colunas) dentro do seu painel. Este recurso permite que você crie um <b>Painel Kanban</b>, por exemplo.'
+          lists_kanban: 'Aqui você pode criar várias listas (colunas) dentro do seu painel. Este recurso permite que você crie um <b>Painel Kanban</b>, por exemplo.'
+          lists_basic: 'Here you can create multiple lists (columns) within your agile board.'
           add: 'Clique no ícone mais (+) para <b>criar um novo cartão</b> ou <b>adicionar um cartão existente</b> à lista no painel.'
           drag: 'Arraste e solte suas cartas dentro de uma determinada lista para reordená-las, ou para movê-las para outra lista. <br> Você pode clicar no ícone informativo (i) no canto superior direito ou clicar duas vezes em um cartão para abrir seus detalhes.'
         wp:
@@ -509,6 +510,12 @@ pt:
           create_button: 'O botão <b>+ Criar</b> adicionará um novo pacote de trabalho ao seu projeto.'
           timeline_button: 'Você pode ativar a exibição de <b>gráfico de Gantt</b> para criar uma linha do tempo para o seu projeto.'
           timeline: 'Aqui você pode <b>editar seu plano de projeto</b>, criar novos pacotes de trabalho, tais como tarefas, marcos, fases e muito mais, bem como <b>adicionam dependências</b>. Todos os membros da equipe podem visualizar e atualizar o plano mais recente a qualquer momento.'
+        team_planner:
+          overview: 'The team planner lets you visually assign tasks to team members and get an overview of who is working on what.'
+          calendar: 'The weekly or biweekly planning board displays all work packages assigned to your team members.'
+          add_assignee: 'To get started, add assignees to the team planner.'
+          add_existing: 'Search for existing work packages and drag them to the team planner to instantly assign them to a team member and define start and end dates.'
+          card: 'Drag work packages horizontally to move them backwards or forwards in time, drag the edges to change start and end dates and even drag them vertically to a different row to assign them to another member.'
     notifications:
       title: "Notificações"
       no_unread: "Nenhuma notificação não lida"
@@ -987,7 +994,7 @@ pt:
         activity: Atividade
         relations: Relações
         watchers: Observadores
-        attachments: Anexos
+        files: Arquivos
       time_relative:
         days: "dias"
         weeks: "semanas"
@@ -1162,7 +1169,7 @@ pt:
       clear_selection: 'Clear selection'
       apply: 'Aplicar'
       selected_filter:
-        all: 'All projects'
+        all: 'Todos os projetos'
         selected: 'Only selected'
       search_placeholder: 'Search project...'
     forms:
@@ -1170,3 +1177,8 @@ pt:
       load_error_message: 'Ocorreu um erro ao carregar o formulário'
       validation_error_message: 'Corrija os erros presentes no formulário'
       advanced_settings: 'Configurações avançadas'
+    spot:
+      filter_chip:
+        remove: 'Remover'
+      drop_modal:
+        Close: 'Fechar'

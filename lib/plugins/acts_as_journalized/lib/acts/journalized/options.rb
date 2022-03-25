@@ -26,8 +26,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-#-- encoding: UTF-8
-
 # This file included as part of the acts_as_journalized plugin for
 # the redMine project management software; You can redistribute it
 # and/or modify it under the terms of the GNU General Public License
@@ -103,7 +101,7 @@ module Acts::Journalized
 
       def options_with_defaults(options)
         {
-          class_name: Journal.name,
+          class_name: 'Journal',
           dependent: :destroy,
           foreign_key: :journable_id,
           timestamp: :updated_at,

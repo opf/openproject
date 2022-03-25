@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -31,9 +29,8 @@
 module OpenProject
   module AccessControl
     class Mapper
-      def permission(name, hash, options = {})
-        options[:project_module] = @project_module
-        mapped_permissions << Permission.new(name, hash, options)
+      def permission(name, hash, **options)
+        mapped_permissions << Permission.new(name, hash, project_module: @project_module, **options)
       end
 
       def project_module(name, options = {})

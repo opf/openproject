@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -112,6 +110,34 @@ describe ServiceResult, type: :model do
       instance = ServiceResult.new
 
       expect(instance.result).to be_nil
+    end
+  end
+
+  describe 'apply_flash_message!' do
+    let(:service_result) { described_class.new(message: message, **params) }
+    let(:params) { {} }
+    let(:message) { 'some message' }
+
+    subject(:flash) do
+      {}.tap { service_result.apply_flash_message!(_1) }
+    end
+
+    context 'when successful' do
+      let(:params) { { success: true } }
+
+      it { is_expected.to include(notice: message) }
+    end
+
+    context 'when failure' do
+      let(:params) { { success: false } }
+
+      it { is_expected.to include(error: message) }
+    end
+
+    context 'when setting message_type to :info' do
+      let(:params) { { message_type: :info } }
+
+      it { is_expected.to include(info: message) }
     end
   end
 end

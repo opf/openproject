@@ -473,7 +473,6 @@ cs:
       repository:
         url: "URL"
       role:
-        assignable: "Pracovní balíčky mohou být přiřazeny uživatelům a skupinám, které tuto roli vlastní v příslušném projektu"
         permissions: "Práva"
       time_entry:
         activity: "Aktivita"
@@ -902,6 +901,7 @@ cs:
     version: "Verze"
     work_package: "Pracovní balíček"
   backup:
+    failed: "Backup failed"
     label_backup_token: "Záložní token"
     label_create_token: "Vytvořit záložní token"
     label_delete_token: "Odstranit záložní token"
@@ -1068,7 +1068,7 @@ cs:
       - "únor"
       - "březen"
       - "duben"
-      - "Kvě"
+      - "Květen"
       - "červen"
       - "červenec"
       - "srpen"
@@ -2237,6 +2237,8 @@ cs:
   permission_view_timelines: "Zobrazit časové osy"
   permission_view_wiki_edits: "Zobrazit historii wiki"
   permission_view_wiki_pages: "Zobrazit wiki"
+  permission_work_package_assigned: "Become assignee/responsible"
+  permission_work_package_assigned_explanation: "Pracovní balíčky mohou být přiřazeny uživatelům a skupinám, které tuto roli vlastní v příslušném projektu"
   placeholders:
     default: "-"
   project:

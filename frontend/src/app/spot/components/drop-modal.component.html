@@ -1,8 +1,0 @@
-<ng-content select="[slot=trigger]"></ng-content>
-<div
-  [ngClass]="['spot-drop-modal--body', 'spot-body', alignmentClass]"
-  (click)="onBodyClick($event)"
-  (keypress.escape)="close()"
->
-  <ng-content select="[slot=body]"></ng-content>
-</div>

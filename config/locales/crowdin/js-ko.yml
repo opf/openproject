@@ -24,6 +24,7 @@ ko:
     ajax:
       hide: "숨기기"
       loading: "불러오는 중 ..."
+      updating: "Updating ..."
     attachments:
       draggable_hint: |
         인라인 이미지 또는 참조 첨부 파일로 편집기 필드를 드래그하세요. 드래그하는 동안에는 닫힌 편집기 필드가 열립니다.
@@ -453,9 +454,8 @@ ko:
     label_starred_queries: "즐겨 찾는 보기"
     label_global_queries: "공개 보기"
     label_custom_queries: "비공개 보기"
-    label_create_new_query: "새로 만들기"
     label_columns: "컬럼"
-    label_attachments: 파일
+    label_attachments: 첨부 파일
     label_drop_files: 여기에 파일을 놓으세요
     label_drop_files_hint: 또는 파일을 추가 하려면 클릭하세요
     label_drop_folders_hint: 폴더를 첨부 파일로 업로드할 수 없습니다. 단일 파일을 선택하세요.
@@ -499,7 +499,8 @@ ko:
           task_board: "작업 보드는 <b>이 스프린트의 진행률</b>을 시각화합니다. 사용자 이야기 옆에 있는 더하기(+) 아이콘을 클릭하여 새 작업이나 제한을 추가하세요. <br> 드래그 앤 드롭으로 상태를 업데이트할 수 있습니다."
         boards:
           overview: '<b>보드</b>를 선택하여 보기를 전환하고 애자일 보드 보기를 사용하여 프로젝트를 관리하세요.'
-          lists: '여기에서 보드 내 여러 목록(열)을 만들 수 있습니다. 예를 들어, 이 기능을 사용하면 <b>Kanban 보드</b>를 만들 수 있습니다.'
+          lists_kanban: '여기에서 보드 내 여러 목록(열)을 만들 수 있습니다. 예를 들어, 이 기능을 사용하면 <b>Kanban 보드</b>를 만들 수 있습니다.'
+          lists_basic: 'Here you can create multiple lists (columns) within your agile board.'
           add: '더하기(+) 아이콘을 클릭하여 <b>새 카드를 생성</b>하거나 보드의 목록에 <b>기존 카드를 추가</b>합니다.'
           drag: '지정된 목록에서 카드를 드래그 앤 드롭하여 재정렬하거나 카드를 다른 목록으로 이동합니다. <br> 오른쪽 상단 모서리의 정보(i) 아이콘을 클릭하거나 카드를 두 번 클릭하면 세부 정보를 열 수 있습니다.'
         wp:
@@ -510,6 +511,12 @@ ko:
           create_button: '<b>+ 만들기</b> 버튼은 프로젝트에 새로운 작업 패키지를 추가합니다.'
           timeline_button: '<b>Gantt 차트</b> 보기를 활성화하여 프로젝트의 타임라인을 만들 수 있습니다.'
           timeline: '여기에서 <b>프로젝트 계획을 편집</b>하고 작업, 마일스톤, 단계 등 새로운 작업 패키지를 만들고 <b>종속성을 추가</b>할 수도 있습니다. 모든 팀원이 언제든지 최신 계획을 보고 업데이트할 수 있습니다.'
+        team_planner:
+          overview: 'The team planner lets you visually assign tasks to team members and get an overview of who is working on what.'
+          calendar: 'The weekly or biweekly planning board displays all work packages assigned to your team members.'
+          add_assignee: 'To get started, add assignees to the team planner.'
+          add_existing: 'Search for existing work packages and drag them to the team planner to instantly assign them to a team member and define start and end dates.'
+          card: 'Drag work packages horizontally to move them backwards or forwards in time, drag the edges to change start and end dates and even drag them vertically to a different row to assign them to another member.'
     notifications:
       title: "알림"
       no_unread: "읽지 않는 알림 없음"
@@ -987,7 +994,7 @@ ko:
         activity: 활동
         relations: 관계
         watchers: 주시자
-        attachments: 첨부 파일
+        files: 파일
       time_relative:
         days: "일"
         weeks: "주"
@@ -1160,7 +1167,7 @@ ko:
       clear_selection: 'Clear selection'
       apply: '적용'
       selected_filter:
-        all: 'All projects'
+        all: '모든 프로젝트'
         selected: 'Only selected'
       search_placeholder: 'Search project...'
     forms:
@@ -1168,3 +1175,8 @@ ko:
       load_error_message: '양식을 불러오는 중 오류가 발생했습니다'
       validation_error_message: '양식 내 오류를 수정하십시오'
       advanced_settings: '고급 설정'
+    spot:
+      filter_chip:
+        remove: '제거'
+      drop_modal:
+        Close: '닫기'
