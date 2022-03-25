@@ -50,8 +50,13 @@ describe 'API v3 file links resource', type: :request do
   let(:file_link) do
     create(:file_link, creator: current_user, container: work_package, storage: storage)
   end
-  let(:another_file_link) do
+  let(:file_link_of_other_work_package) do
     create(:file_link, creator: current_user, container: another_work_package, storage: storage)
+  end
+  # If a storage mapping between a project and a storage is removed, the file link still persist. This can occur on
+  # moving a work package to another project, too, if target project does not yet have the storage mapping.
+  let(:file_link_of_unlinked_storage) do
+    create(:file_link, creator: current_user, container: work_package, storage: another_storage)
   end
 
   subject(:response) { last_response }
@@ -65,7 +70,8 @@ describe 'API v3 file links resource', type: :request do
 
     before do
       file_link
-      another_file_link
+      file_link_of_other_work_package
+      file_link_of_unlinked_storage
       get path
     end
 
@@ -312,8 +318,14 @@ describe 'API v3 file links resource', type: :request do
       it_behaves_like 'not found'
     end
 
-    context 'if no storage with that id exists' do
+    context 'if no file link with that id exists' do
       let(:path) { api_v3_paths.file_link(1337) }
+
+      it_behaves_like 'not found'
+    end
+
+    context 'if file link is in a work package, while its project is not mapped to the file link\'s storage.' do
+      let(:path) { api_v3_paths.file_link(file_link_of_unlinked_storage.id) }
 
       it_behaves_like 'not found'
     end
