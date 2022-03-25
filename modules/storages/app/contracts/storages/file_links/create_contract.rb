@@ -45,16 +45,23 @@ class Storages::FileLinks::CreateContract < ModelContract
   attribute :origin_created_at
   attribute :origin_updated_at
 
+  validate :creator_must_be_user
   validate :validate_storage_presence
   validate :validate_user_allowed_to_manage
   validate :validate_project_storage_link
 
   private
 
+  def creator_must_be_user
+    unless creator == user
+      errors.add(:creator, :invalid)
+    end
+  end
+
   # Check that the current has the permission on the project.
   # model variable is available because the concern is executed inside a contract.
   def validate_user_allowed_to_manage
-    unless user.allowed_to?(:manage_file_links, model.container.project)
+    unless user.allowed_to?(:manage_file_links, model.container&.project)
       errors.add :base, :error_unauthorized
     end
   end

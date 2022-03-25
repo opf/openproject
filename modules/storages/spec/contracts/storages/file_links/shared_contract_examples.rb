@@ -36,7 +36,13 @@ shared_examples_for 'file_link contract' do
   let(:work_package) { create(:work_package, project: project) }
   let(:storage) { create(:storage) }
   let!(:project_storage) { create(:project_storage, project: project, storage: storage) }
-  let(:file_link) { build(:file_link, container: work_package, storage: storage, **file_link_attributes) }
+  let(:file_link) do
+    build(:file_link, container: work_package,
+                      storage: storage,
+                      creator: file_link_creator,
+                      **file_link_attributes)
+  end
+  let(:file_link_creator) { current_user }
   let(:file_link_attributes) { {} }
 
   it_behaves_like 'contract is valid for active admins and invalid for regular users'

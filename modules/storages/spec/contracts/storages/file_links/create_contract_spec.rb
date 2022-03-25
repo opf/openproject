@@ -35,5 +35,11 @@ describe Storages::FileLinks::CreateContract do
 
   it_behaves_like 'file_link contract' do
     let(:contract) { described_class.new(file_link, current_user) }
+
+    context 'when creator is not the current user' do
+      let(:file_link_creator) { build_stubbed(:user) }
+
+      include_examples 'contract is invalid', creator: :invalid
+    end
   end
 end
