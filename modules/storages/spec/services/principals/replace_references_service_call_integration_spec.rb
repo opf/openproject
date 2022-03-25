@@ -26,14 +26,52 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-OpenProject::Application.routes.draw do
-  scope 'admin/settings' do
-    resources :storages, controller: 'storages/admin/storages'
+require 'spec_helper'
+
+describe Principals::ReplaceReferencesService, '#call', type: :model do
+  shared_let(:principal) { create(:user) }
+  shared_let(:to_principal) { create :user }
+
+  subject(:service_call) { instance.call(from: principal, to: to_principal) }
+
+  let(:instance) do
+    described_class.new
   end
 
-  scope 'projects/:project_id', as: 'project' do
-    namespace 'settings' do
-      resources :projects_storages, controller: '/storages/admin/projects_storages'
+  shared_examples 'replaces the creator' do
+    before do
+      model
+    end
+
+    it 'is successful' do
+      expect(service_call)
+        .to be_success
+    end
+
+    it 'replaces principal with to_principal' do
+      service_call
+      model.reload
+
+      expect(model.creator).to eql to_principal
+    end
+  end
+
+  context 'with Storage' do
+    it_behaves_like 'replaces the creator' do
+      let(:model) { create(:storage, creator: principal) }
+    end
+  end
+
+  context 'with ProjectStorage' do
+    it_behaves_like 'replaces the creator' do
+      let(:model) { create(:project_storage, creator: principal) }
+    end
+  end
+
+  context 'with FileLink' do
+    it_behaves_like 'replaces the creator' do
+      let(:work_package) { create(:work_package) }
+      let(:model) { create(:file_link, creator: principal, container: work_package) }
     end
   end
 end
