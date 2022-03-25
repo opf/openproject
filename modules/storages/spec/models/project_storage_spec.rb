@@ -71,9 +71,9 @@ describe ::Storages::ProjectStorage, type: :model do
       project_storage_to_destroy.destroy
     end
 
-    it "destroys all associated FileLink records" do
-      expect(Storages::ProjectStorage.count).to be 0
-      expect(Storages::FileLink.count).to be 0
+    it "does not destroy associated FileLink records" do
+      expect(Storages::ProjectStorage.count).to eq 0
+      expect(Storages::FileLink.count).not_to eq 0
     end
   end
 end
