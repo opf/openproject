@@ -59,24 +59,23 @@ class WorkPackages::ScheduleDependency
   private
 
   def build_dependencies
-    following = load_following(work_packages)
+    following = load_following
 
     # Those variables are pure optimizations.
     # We want to reuse the already loaded work packages as much as possible
     # and we want to have them readily available as hashes.
     self.known_work_packages += following
     known_work_packages.uniq!
-    self.known_work_packages_by_id = known_work_packages.group_by(&:id)
-    self.known_work_packages_by_parent_id = known_work_packages.group_by(&:parent_id)
+    self.known_work_packages_by_id = known_work_packages.group_by(&:id).transform_values(&:first)
+    self.known_work_packages_by_parent_id = fetch_descendants.group_by(&:parent_id)
 
     add_dependencies(following)
   end
 
-  def load_following(work_packages)
+  def load_following
     WorkPackage
       .for_scheduling(work_packages)
-      .includes(:parent,
-                follows_relations: :to)
+      .includes(follows_relations: :to)
   end
 
   def add_dependencies(dependent_work_packages)
@@ -125,6 +124,19 @@ class WorkPackages::ScheduleDependency
 
       raise "Circular dependency" unless unhandled_by_id_count_after < unhandled_by_id_count_before
     end
+  end
+
+  # Use a mixture of work packages that are already loaded to be scheduled themselves but also load
+  # all the rest of the descendants. There are two cases in which descendants are not loaded for scheduling:
+  # * manual scheduling: A descendant is either scheduled manually itself or all of its descendants are scheduled manually.
+  # * sibling: the descendant is not below a work package to be scheduled (e.g. one following another) but below an ancestor of
+  #            a schedule work package.
+  def fetch_descendants
+    descendants = known_work_packages_by_id.values
+
+    descendants + WorkPackage
+                    .with_ancestor(descendants)
+                    .where.not(id: known_work_packages_by_id.keys)
   end
 
   class Dependency
@@ -195,7 +207,7 @@ class WorkPackages::ScheduleDependency
         parent = known_work_packages_by_id[work_package.parent_id]
 
         if parent
-          parent + ancestors_from_preloaded(parent.first)
+          [parent] + ancestors_from_preloaded(parent)
         end
       end || []
     end

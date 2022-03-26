@@ -118,26 +118,29 @@ module WorkPackages::Scopes
       def scheduling_paths_sql(work_packages)
         values = work_packages.map do |wp|
           ::OpenProject::SqlSanitization
-            .sanitize "(:id, false)",
+            .sanitize "(:id, false, false)",
                       id: wp.id
         end.join(', ')
 
         <<~SQL.squish
           to_schedule (id, manually) AS (
-            SELECT * FROM (VALUES#{values}) AS t(id, manually)
+
+            SELECT * FROM (VALUES#{values}) AS t(id, manually, hierarchy_up)
 
             UNION
 
             SELECT
               relations.from_id id,
-              (related_work_packages.schedule_manually OR COALESCE(descendants.manually, false)) manually
+              (related_work_packages.schedule_manually OR COALESCE(descendants.manually, false)) manually,
+              relations.hierarchy_up
             FROM
               to_schedule
             JOIN LATERAL
               (
                 SELECT
                   from_id,
-                  to_id
+                  to_id,
+                  false hierarchy_up
                 FROM
                   relations
                 WHERE NOT to_schedule.manually
@@ -149,14 +152,14 @@ module WorkPackages::Scopes
                     THEN work_package_hierarchies.descendant_id
                     ELSE work_package_hierarchies.ancestor_id
                     END from_id,
-                  to_schedule.id to_id
+                  to_schedule.id to_id,
+                  work_package_hierarchies.descendant_id = to_schedule.id hierarchy_up
                 FROM
                   work_package_hierarchies
                 WHERE
                   NOT to_schedule.manually
-                  AND work_package_hierarchies.generations = 1
-                  AND (work_package_hierarchies.ancestor_id = to_schedule.id
-                       OR work_package_hierarchies.descendant_id = to_schedule.id)
+                  AND ((work_package_hierarchies.ancestor_id = to_schedule.id AND NOT to_schedule.hierarchy_up AND work_package_hierarchies.generations = 1)
+                       OR (work_package_hierarchies.descendant_id = to_schedule.id AND work_package_hierarchies.generations > 0))
               ) relations ON relations.to_id = to_schedule.id
             LEFT JOIN work_packages related_work_packages
               ON relations.from_id = related_work_packages.id

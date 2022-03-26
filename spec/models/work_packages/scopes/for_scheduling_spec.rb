@@ -503,6 +503,22 @@ describe WorkPackages::Scopes::ForScheduling, 'allowed scope' do
         end
       end
     end
+
+    context 'for a work package with a sibling and a successor that also has a sibling' do
+      let(:sibling) do
+        create(:work_package, project: project, parent: parent)
+      end
+      let(:successor_sibling) do
+        create(:work_package, project: project, parent: successor_parent)
+      end
+
+      let!(:existing_work_packages) { [parent, sibling, successor, successor_parent, successor_sibling] }
+
+      it 'contains the successor and the parents but not the siblings' do
+        expect(WorkPackage.for_scheduling([origin]))
+          .to match_array([successor, parent, successor_parent])
+      end
+    end
   end
 end
 # rubocop:enable RSpec/MultipleMemoizedHelpers
