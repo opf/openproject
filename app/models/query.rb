@@ -369,7 +369,7 @@ class Query < ApplicationRecord
     subproject_filter = Queries::WorkPackages::Filter::SubprojectFilter.create!
     subproject_filter.context = self
 
-    subproject_filter.operator = if Setting.display_subprojects_work_packages?
+    subproject_filter.operator = if include_subprojects?
                                    '*'
                                  else
                                    '!*'
