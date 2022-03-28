@@ -27,7 +27,7 @@
 #++
 
 class Queries::CreateService < ::BaseServices::Create
-  def after_validate(params, call)
+  def after_validate(_params, call)
     query = call.result
     # Check which of the work package IDs exist
     ids = query.ordered_work_packages.map(&:work_package_id)
