@@ -4,12 +4,6 @@ type: object
 required:
   - id
   - name
-  - mimeType
-  - size
-  - createdAt
-  - lastModifiedAt
-  - createdByName
-  - lastModifiedByName
 properties:
   id:
     type: string
@@ -20,7 +14,11 @@ properties:
   mimeType:
     type: string
     minLength: 0
-    description: MIME type of the linked file
+    description: |-
+      MIME type of the linked file.
+
+      To link a folder entity, the custom MIME type `inode/directory` MUST be provided. Otherwise it defaults back to
+      an unknown MIME type.
   size:
     type: integer
     minimum: 0

@@ -772,6 +772,7 @@ tags:
   - "$ref": "./tags/custom_actions.yml"
   - "$ref": "./tags/custom_options.yml"
   - "$ref": "./tags/documents.yml"
+  - "$ref": "./tags/file_links.yml"
   - "$ref": "./tags/grids.yml"
   - "$ref": "./tags/groups.yml"
   - "$ref": "./tags/help_texts.yml"

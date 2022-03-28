@@ -9,13 +9,20 @@ post:
   description: |-
     Creates file links on a work package.
 
-    The request body must contain the generated storage token, and not the storage id. In addition, the request must
-    send the origin file id and the stored meta data.
-    
-    If there is already a link on the given work package with the same file id from the same storage, the previous
-    data is not overwritten.
-    
-    As it is possible to link folders from a storage to a work package, the _mimeType_ of this entity can be empty.
+    The request is interpreted as a bulk insert, where every element of the collection is validated separately. Each
+    element contains the origin meta data and a link to the storage, the file link is about to point to. The storage
+    link can be provided as a resource link with id or as the host url.
+
+    The file's id and name are considered mandatory information. The rest of the origin meta data SHOULD be provided
+    by the client. The _mimeType_ SHOULD be a standard mime type. An empty mime type will be handled as unknown. To link
+    a folder, the custom mime type `inode/directory` MUST be used.
+
+    Up to 20 file links can be submitted at once.
+
+    If any element data is invalid, no file links will be created.
+
+    If a file link with matching origin id, work package, and storage already exists, then it will not create an
+    additional file link or update the meta data. Instead the information from the existing file link will be returned.
   parameters:
     - name: id
       description: Work package id
@@ -44,7 +51,7 @@ post:
                 _links:
                   storageUrl:
                     href: https://nextcloud.deathstar.rocks/
-  
+
   responses:
     '201':
       description: Created
@@ -137,9 +144,9 @@ get:
             message: You are not authorized to access this resource.
       description: |-
         Returned if the client does not have sufficient permissions.
-        
+
         **Required permission:** view file links
-        
+
         *Note that you will only receive this error, if you are at least allowed to see the corresponding work package.*
     '404':
       content:
