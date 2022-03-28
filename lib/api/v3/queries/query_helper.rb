@@ -63,17 +63,6 @@ module API
           end
         end
 
-        def create_query(request_body, current_user)
-          rep = representer.new Query.new, current_user: current_user
-          query = rep.from_hash request_body
-          call = ::Queries::CreateService.new(user: current_user).call query
-          if call.success?
-            representer.new call.result, current_user: current_user, embed_links: true
-          else
-            fail ::API::Errors::ErrorBase.create_and_merge_errors(call.errors)
-          end
-        end
-
         def update_query(query, request_body, current_user)
           rep = representer.new query, current_user: current_user
           query = rep.from_hash request_body
