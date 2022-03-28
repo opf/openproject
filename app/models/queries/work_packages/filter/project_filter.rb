@@ -63,6 +63,14 @@ class Queries::WorkPackages::Filter::ProjectFilter < Queries::WorkPackages::Filt
       .compact
   end
 
+  def values_replaced
+    value_objects.map(&:id)
+  end
+
+  def where
+    operator_strategy.sql_for_field(values_replaced, self.class.model.table_name, :project_id)
+  end
+
   private
 
   def visible_projects
@@ -76,9 +84,9 @@ class Queries::WorkPackages::Filter::ProjectFilter < Queries::WorkPackages::Filt
     return if selected_project.nil?
 
     if context.include_subprojects?
-      [selected_project]
-    else
       [selected_project].concat(selected_project.descendants.visible)
+    else
+      [selected_project]
     end
   end
 end
