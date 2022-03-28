@@ -26,4 +26,18 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::SetAttributesService < ::BaseServices::SetAttributes; end
+class Queries::SetAttributesService < ::BaseServices::SetAttributes
+  def set_default_attributes(_params)
+    if model.include_subprojects.nil?
+      model.include_subprojects = Setting.display_subprojects_work_packages?
+    end
+
+    set_default_user
+  end
+
+  def set_default_user
+    model.change_by_system do
+      model.user = user
+    end
+  end
+end
