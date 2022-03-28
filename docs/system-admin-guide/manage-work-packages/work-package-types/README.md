@@ -70,6 +70,8 @@ Watch the following video to see how you can customize your work packages with c
 
 Also, you can add a table of related work packages to your work package form. Click the green **+ Group** button and choose **Add table of related work package** from the drop-down list.
 
+**Note**: To Add a table of related work package OpenProject is a Premium Feature and can only be used with [Enterprise cloud](../../enterprise-guide/enterprise-cloud-guide/) or [Enterprise on-premises](../../enterprise-guide/enterprise-on-premises-guide/). An upgrade from the free Community Edition is easily possible.
+
 ![Sys-admin-table-of-related-work-packages](Sys-admin-table-of-related-work-packages.png)
 
 Now, you can configure which related work packages should be included in your embedded list, e.g. child work packages or work packages related to this work package, and more. Then you can configure how the list should be filtered, grouped, etc. The configuration of the work package list can be done according to the [work package table configuration](../../../user-guide/work-packages/work-package-table-configuration/).
