@@ -26,17 +26,4 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::CreateService < ::BaseServices::Create
-  def after_validate(_params, call)
-    query = call.result
-    # Check which of the work package IDs exist
-    ids = query.ordered_work_packages.map(&:work_package_id)
-    existent_wps = WorkPackage.where(id: ids).pluck(:id).to_set
-
-    query.ordered_work_packages = query.ordered_work_packages.select do |order_item|
-      existent_wps.include?(order_item.work_package_id)
-    end
-
-    call
-  end
-end
+class Queries::CreateService < ::BaseServices::Create; end

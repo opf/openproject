@@ -259,11 +259,9 @@ module API
                  exec_context: :decorator,
                  getter: nil,
                  setter: ->(fragment:, **) {
-                   next unless represented.new_record?
+                   next if represented.persisted?
 
-                   Hash(fragment).each do |wp_id, position|
-                     represented.ordered_work_packages.build(work_package_id: wp_id, position: position)
-                   end
+                   represented.ordered_work_packages = Hash(fragment)
                  }
 
         property :starred,
