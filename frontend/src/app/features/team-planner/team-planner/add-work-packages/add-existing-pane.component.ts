@@ -159,7 +159,7 @@ export class AddExistingPaneComponent extends UntilDestroyedMixin implements OnI
     const activeFilters = this.wpFilters.currentlyVisibleFilters;
     const filters:ApiV3FilterBuilder = this.urlParamsHelper.filterBuilderFrom(activeFilters);
 
-    filters.add('subjectOrId', '**', [searchString]);
+    filters.add('typeahead', '**', [searchString]);
 
     // Add the existing filter, if any
     this.addExistingFilters(filters);

@@ -454,7 +454,7 @@ de:
     label_global_queries: "Öffentliche Ansichten"
     label_custom_queries: "Private Ansichten"
     label_columns: "Spalten"
-    label_attachments: Dateien
+    label_attachments: Anhänge
     label_drop_files: Dateien hier ablegen
     label_drop_files_hint: oder klicken Sie um Dateien hinzuzufügen
     label_drop_folders_hint: Ordner können nicht als Anhänge hinzugefügt werden. Bitte wählen Sie einzelne Dateien aus.
@@ -498,7 +498,8 @@ de:
           task_board: "Das Aufgabenfeld visualisiert den <b>Fortschritt für diesen Sprint</b>. Klicken Sie auf das Plus (+) Symbol neben einer User Story, um neue Aufgaben oder Hindernisse hinzuzufügen. <br> Der Status kann per Drag & Drop aktualisiert werden."
         boards:
           overview: 'Wählen Sie <b>Boards</b> aus, um eine andere Sicht auf Ihr Projekt zu erhalten und es in der agilen Board-Ansicht zu verwalten.'
-          lists: 'Hier können Sie mehrere Listen (Spalten) innerhalb Ihres Boards erstellen. Mit dieser Funktion können Sie zum Beispiel ein <b>Kanban Board</b>erstellen.'
+          lists_kanban: 'Hier können Sie mehrere Listen (Spalten) innerhalb Ihres Boards erstellen. Mit dieser Funktion können Sie zum Beispiel ein <b>Kanban Board</b>erstellen.'
+          lists_basic: 'Here you can create multiple lists (columns) within your agile board.'
           add: 'Klicken Sie auf das Plus-Symbol (+), um <b>eine neue Karte zu erstellen</b> oder <b>eine existierende Karte</b> zur Liste auf dem Board hinzuzufügen.'
           drag: 'Verschieben Sie die Karten innerhalb einer Liste, um sie neu zu ordnen oder in eine andere Liste zu verschieben. <br> Sie können das Info (i) Symbol in der oberen rechten Ecke anklicken oder doppelt auf eine Karte klicken, um dessen Details zu öffnen.'
         wp:
@@ -509,6 +510,12 @@ de:
           create_button: 'Mit dem <b>+ Anlegen</b> Knopf erstellen Sie weitere Arbeitspakete für Ihr Projekt.'
           timeline_button: 'Sie können ein <b>Gantt Diagramm</b> aktivieren um Projektpläne zu erstellen.'
           timeline: 'Hier sehen Sie den Projektplan. Sie können neue Phasen oder Meilensteine sowie Abhängigkeiten hinzufügen und bearbeiten. Das Team sieht jeder Zeit die aktuelle Planung und kann diese bei Bedarf aktualisieren.'
+        team_planner:
+          overview: 'The team planner lets you visually assign tasks to team members and get an overview of who is working on what.'
+          calendar: 'The weekly or biweekly planning board displays all work packages assigned to your team members.'
+          add_assignee: 'To get started, add assignees to the team planner.'
+          add_existing: 'Search for existing work packages and drag them to the team planner to instantly assign them to a team member and define start and end dates.'
+          card: 'Drag work packages horizontally to move them backwards or forwards in time, drag the edges to change start and end dates and even drag them vertically to a different row to assign them to another member.'
     notifications:
       title: "Benachrichtigungen"
       no_unread: "Keine ungelesenen Benachrichtigungen"
@@ -987,7 +994,7 @@ de:
         activity: Aktivität
         relations: Beziehungen
         watchers: Beobachter
-        attachments: Anhänge
+        files: Dateien
       time_relative:
         days: "Tagen"
         weeks: "Wochen"

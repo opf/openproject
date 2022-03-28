@@ -350,6 +350,10 @@ demo_projects_available:
   default: false
 boards_demo_data_available:
   default: false
+demo_view_of_type_work_packages_table_seeded:
+  default: false
+demo_view_of_type_team_planner_seeded:
+  default: false
 security_badge_displayed:
   default: true
 installation_uuid:

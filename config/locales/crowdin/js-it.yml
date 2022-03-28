@@ -456,7 +456,7 @@ it:
     label_global_queries: "Viste pubbliche"
     label_custom_queries: "Viste private"
     label_columns: "Colonne"
-    label_attachments: File
+    label_attachments: Allegati
     label_drop_files: Trascina i file qui
     label_drop_files_hint: o fai clic per aggiungere file
     label_drop_folders_hint: Non è possibile caricare cartelle come allegati. Si prega di selezionare singoli file.
@@ -500,7 +500,8 @@ it:
           task_board: "Il pannello delle attività visualizza l'<b>avanzamento dello sprint</b>. Fai clic sull'icona più (+) accanto a una storia utente per aggiungere nuove attività o impedimenti. <br> Lo stato può essere aggiornato trascinandolo."
         boards:
           overview: 'Seleziona <b>board</b> per cambiare visualizzazione e gestire il tuo progetto utilizzando la visualizzazione agile delle schede.'
-          lists: 'Qui puoi creare più liste  (colonne) all''interno della tua board. Questa funzione ti consente di creare una <b>board Kanban</b>, ad esempio.'
+          lists_kanban: 'Qui puoi creare più liste  (colonne) all''interno della tua board. Questa funzione ti consente di creare una <b>board Kanban</b>, ad esempio.'
+          lists_basic: 'Here you can create multiple lists (columns) within your agile board.'
           add: 'Fai clic sull''icona più (+) per <b>creare una nuova scheda</b> o <b>aggiungere una scheda esistente</b> all''elenco sulla board.'
           drag: 'Trascina e rilascia le tue schede all''interno di un determinato elenco per riordinarle o per spostarle in un altro elenco. <br> Puoi fare clic sull''icona delle informazioni (i) nell''angolo in alto a destra o fare doppio clic su una scheda per aprirne i dettagli.'
         wp:
@@ -511,6 +512,12 @@ it:
           create_button: 'Il pulsante <b>+ Crea</b> aggiungerà una nuova macro-attività al tuo progetto.'
           timeline_button: 'Puoi attivare la vista <b>Diagramma di Gantt</b> per creare una linea del tempo per il tuo progetto.'
           timeline: 'Qui puoi <b>modificare il tuo piano di progetto</b>, creare nuove macro-attività, come attività, pietre miliari, fasi e altro, nonché <b>aggiungere dipendenze</b>. Tutti i membri del team possono visualizzare e aggiornare il piano più recente in qualsiasi momento.'
+        team_planner:
+          overview: 'The team planner lets you visually assign tasks to team members and get an overview of who is working on what.'
+          calendar: 'The weekly or biweekly planning board displays all work packages assigned to your team members.'
+          add_assignee: 'To get started, add assignees to the team planner.'
+          add_existing: 'Search for existing work packages and drag them to the team planner to instantly assign them to a team member and define start and end dates.'
+          card: 'Drag work packages horizontally to move them backwards or forwards in time, drag the edges to change start and end dates and even drag them vertically to a different row to assign them to another member.'
     notifications:
       title: "Notifiche"
       no_unread: "Nessuna nuova notifica"
@@ -989,7 +996,7 @@ it:
         activity: Attività
         relations: Relazioni
         watchers: Osservatori
-        attachments: Allegati
+        files: File
       time_relative:
         days: "giorni"
         weeks: "Settimane"

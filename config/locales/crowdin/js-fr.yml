@@ -499,7 +499,8 @@ fr:
           task_board: "Le tableau des tâches visualise la <b>progression pour ce sprint</b>. Cliquez sur l'icône plus (+) à côté d'un récit utilisateur pour ajouter de nouvelles tâches ou obstacles. <br> Le statut peut être mis à jour par glisser-déposer."
         boards:
           overview: 'Sélectionnez <b>tableaux</b> pour déplacer la vue et gérer votre projet en utilisant la vue des tableaux agiles.'
-          lists: 'Ici, vous pouvez créer plusieurs listes (colonnes) dans votre tableau. Cette fonctionnalité vous permet de créer un <b>tableau Kanban</b>, par exemple.'
+          lists_kanban: 'Ici, vous pouvez créer plusieurs listes (colonnes) dans votre tableau. Cette fonctionnalité vous permet de créer un <b>tableau Kanban</b>, par exemple.'
+          lists_basic: 'Here you can create multiple lists (columns) within your agile board.'
           add: 'Cliquez sur l''icône plus (+) pour <b>créer une nouvelle carte</b> ou <b>ajouter une carte existante</b> à la liste du tableau.'
           drag: 'Glissez et déposez vos cartes dans une liste donnée pour les réorganiser, ou pour les déplacer dans une autre liste. <br> Vous pouvez cliquer sur l''icône (i) dans le coin supérieur droit ou double-cliquer sur une carte pour ouvrir ses détails.'
         wp:
@@ -510,6 +511,12 @@ fr:
           create_button: 'La touche <b>+ Créer</b> ajoutera un nouveau lot de travaux à votre projet.'
           timeline_button: 'Vous pouvez activer la vue <b>Diagramme de Gantt</b> pour créer une chronologie pour votre projet.'
           timeline: 'Ici vous pouvez <b>modifier votre plan de projet</b>, créer de nouveaux lots de travaux, comme des tâches, des jalons, des phases et plus, ainsi que <b>ajouter des dépendances</b>. Tous les membres de l''équipe peuvent voir et mettre à jour le plan le plus récent à tout moment.'
+        team_planner:
+          overview: 'The team planner lets you visually assign tasks to team members and get an overview of who is working on what.'
+          calendar: 'The weekly or biweekly planning board displays all work packages assigned to your team members.'
+          add_assignee: 'To get started, add assignees to the team planner.'
+          add_existing: 'Search for existing work packages and drag them to the team planner to instantly assign them to a team member and define start and end dates.'
+          card: 'Drag work packages horizontally to move them backwards or forwards in time, drag the edges to change start and end dates and even drag them vertically to a different row to assign them to another member.'
     notifications:
       title: "Notifications"
       no_unread: "Pas de notification non lue"
@@ -988,7 +995,7 @@ fr:
         activity: Activité
         relations: Relations
         watchers: Observateurs
-        attachments: Fichiers
+        files: Fichiers
       time_relative:
         days: "jours"
         weeks: "semaines"

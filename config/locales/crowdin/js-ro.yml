@@ -454,7 +454,7 @@ ro:
     label_global_queries: "Configurații publice"
     label_custom_queries: "Configurații private"
     label_columns: "Coloane"
-    label_attachments: Fişiere
+    label_attachments: Atașamente
     label_drop_files: Trageți fișierele aici
     label_drop_files_hint: sau dați click pentru a adăuga fişiere
     label_drop_folders_hint: Nu puteți încărca dosare ca atașament. Vă rugăm să selectați fișiere individuale.
@@ -498,7 +498,8 @@ ro:
           task_board: "Grupul de lucru vizualizează progresul <b>pentru această sprint</b>. Dă click pe pictograma plus (+) de lângă o povestire de utilizator pentru a adăuga sarcini noi sau impedimente. <br> Starea poate fi actualizată de drag și drop."
         boards:
           overview: 'Selectează secțiunile <b></b> pentru a schimba vizualizarea și administrarea proiectului tău folosind vizualizarea secțiunilor agile.'
-          lists: 'Aici puteţi crea mai multe liste (coloane) în cadrul secţiunii. Această funcţie vă permite să creaţi o <b>tabelă Kanban</b>, de exemplu.'
+          lists_kanban: 'Aici puteţi crea mai multe liste (coloane) în cadrul secţiunii. Această funcţie vă permite să creaţi o <b>tabelă Kanban</b>, de exemplu.'
+          lists_basic: 'Here you can create multiple lists (columns) within your agile board.'
           add: 'Faceți clic pe pictograma plus (+) pentru a <b>crea un nou card</b> sau <b>adăugați un card existent</b> în lista de pe bord.'
           drag: 'Trage și aruncă cartonașele dintr-o listă dată pentru a le reordona sau muta în altă listă. <br> Poți da click pe pictograma (i) din colțul din dreapta sus sau poți face dublu clic pe un card pentru a-i deschide detaliile.'
         wp:
@@ -509,6 +510,12 @@ ro:
           create_button: 'Butonul <b>Create (Creare</b> ) va adăuga un nou pachet de lucru la proiectul dumneavoastră.'
           timeline_button: 'Puteți activa <b>diagrama Gantt</b> pentru a crea o cronologie pentru proiectul dvs.'
           timeline: 'Aici puteţi <b>edita planul de proiect</b>, crea noi pachete de lucru, cum ar fi sarcini, repere de etapă, faze și multe altele, precum și <b>adaugă dependențe</b>. Toți membrii echipei pot vedea și actualiza cel mai recent plan în orice moment.'
+        team_planner:
+          overview: 'The team planner lets you visually assign tasks to team members and get an overview of who is working on what.'
+          calendar: 'The weekly or biweekly planning board displays all work packages assigned to your team members.'
+          add_assignee: 'To get started, add assignees to the team planner.'
+          add_existing: 'Search for existing work packages and drag them to the team planner to instantly assign them to a team member and define start and end dates.'
+          card: 'Drag work packages horizontally to move them backwards or forwards in time, drag the edges to change start and end dates and even drag them vertically to a different row to assign them to another member.'
     notifications:
       title: "Notificări"
       no_unread: "Nu sunt notificari necitite"
@@ -988,7 +995,7 @@ ro:
         activity: Activitate
         relations: Relații
         watchers: Observatori
-        attachments: Atașamente
+        files: Fişiere
       time_relative:
         days: "zile"
         weeks: "săptămâni"

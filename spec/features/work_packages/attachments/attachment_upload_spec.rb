@@ -28,7 +28,7 @@ describe 'Upload attachment to work package', js: true do
   end
 
   describe 'wysiwyg editor' do
-    context 'on an existing page' do
+    context 'when on an existing page' do
       before do
         wp_page.visit!
         wp_page.ensure_page_loaded
@@ -76,7 +76,7 @@ describe 'Upload attachment to work package', js: true do
       end
     end
 
-    context 'on a new page' do
+    context 'when on a new page' do
       shared_examples 'it supports image uploads via drag & drop' do
         let!(:new_page) { Pages::FullWorkPackageCreate.new }
         let!(:type) { create(:type_task) }
@@ -155,8 +155,8 @@ describe 'Upload attachment to work package', js: true do
 
   describe 'attachment dropzone' do
     it 'can upload an image via attaching and drag & drop' do
+      wp_page.switch_to_tab(tab: 'FILES')
       container = page.find('.wp-attachment-upload')
-      scroll_to_element(container)
 
       ##
       # Attach file manually

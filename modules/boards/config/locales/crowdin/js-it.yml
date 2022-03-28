@@ -7,10 +7,8 @@ it:
       label_unnamed_list: 'Lista senza nome'
       label_board_type: 'Tipo scheda'
       upsale:
-        teaser_text: 'Migliora la gestione agile del progetto con questa vista flessibile delle schede. Crea quante schede desideri per tutto ciò di cui vuoi tenere traccia.'
-        upgrade_to_ee_text: 'Le schede sono una funzione Enterprise. Aggiorna ad un piano a pagamento.'
+        teaser_text: 'Need a predefined board template? Advanced boards are Enterprise features. Please upgrade to a paid plan.'
         upgrade: 'Aggiorna ora'
-        personal_demo: 'Contattaci per una demo'
       lists:
         delete: 'Elimina elenco'
       version:

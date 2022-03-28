@@ -7,10 +7,8 @@ ar:
       label_unnamed_list: 'قائمة غير مسماة'
       label_board_type: 'نوع اللوحة'
       upsale:
-        teaser_text: 'قم بتحسين إدارة مشروعك الرائع مع عرض المجالس المرنة هذا. قم بإنشاء أكبر عدد من اللوحات التي تريدها لأي شيء ترغب في متابعته.'
-        upgrade_to_ee_text: 'الجلسات هي ميزة المؤسسة. الرجاء الترقية إلى خطة مدفوعة.'
+        teaser_text: 'Need a predefined board template? Advanced boards are Enterprise features. Please upgrade to a paid plan.'
         upgrade: 'الترقية الآن'
-        personal_demo: 'Contact us for a demo'
       lists:
         delete: 'حذف القائمة'
       version:

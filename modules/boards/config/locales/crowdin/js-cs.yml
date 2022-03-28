@@ -7,10 +7,8 @@ cs:
       label_unnamed_list: 'Nepojmenovaný seznam'
       label_board_type: 'Typ tabule'
       upsale:
-        teaser_text: 'Zlepšete své agilní řízení projektů s tímto flexibilním zobrazením Boardů. Vytvořte tolik desek, kolik chcete pro cokoliv, co chcete sledovat.'
-        upgrade_to_ee_text: 'Board je funkce Enterprise. Proveďte upgrade na placený plán.'
+        teaser_text: 'Need a predefined board template? Advanced boards are Enterprise features. Please upgrade to a paid plan.'
         upgrade: 'Upgradovat nyní'
-        personal_demo: 'Kontaktujte nás pro demo'
       lists:
         delete: 'Odstranit seznam'
       version:

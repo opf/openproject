@@ -34,10 +34,6 @@ FactoryBot.define do
 
   factory :view_work_packages_table, parent: :view
 
-  factory :view_team_planner, parent: :view do
-    type { 'team_planner' }
-  end
-
   factory :view_work_packages_calendar, parent: :view do
     type { 'work_packages_calendar' }
   end

@@ -44,8 +44,12 @@ module API
                      condition: 'projects.id = project_id',
                      select: ['projects.name project_name'] }
 
+        associated_user_link :author
+
         associated_user_link :assignee,
                              column_name: :assigned_to_id
+
+        associated_user_link :responsible
 
         property :_type,
                  representation: ->(*) { "'WorkPackage'" }
