@@ -30,17 +30,20 @@ require 'spec_helper'
 
 describe Queries::CreateService do
   let(:user) { build_stubbed(:admin) }
-  let(:query) { build(:query, user: user) }
 
   let(:instance) { described_class.new(user: user) }
-  subject { instance.call(query).result }
+  subject { instance.call(params).result }
 
   describe 'ordered work packages' do
     let!(:work_package) { create :work_package }
-
-    before do
-      query.ordered_work_packages.build(work_package_id: work_package.id, position: 0)
-      query.ordered_work_packages.build(work_package_id: 99999, position: 1)
+    let(:params) do
+      {
+        name: 'My query',
+        ordered_work_packages: {
+          work_package.id => 0,
+          9999 => 1
+        }
+      }
     end
 
     it 'removes items for which work packages do not exist' do
