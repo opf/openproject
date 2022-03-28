@@ -48,72 +48,8 @@ module Storages::Storages
 
     attribute :host
     validates :host, url: true, length: { maximum: 255 }
-
     # Check that a host actually is a storage server.
     # But only do so if the validations above for URL were successful.
-    validate :validate_host_reachable, unless: -> { errors.include?(:host) }
-
-    def validate_host_reachable
-      return unless model.host_changed?
-
-      response = request_capabilities
-
-      unless response.is_a? Net::HTTPSuccess
-        errors.add(:host, :cannot_be_connected_to)
-        return
-      end
-
-      unless json_response?(response)
-        errors.add(:host, :not_nextcloud_server)
-        return
-      end
-
-      unless major_version_sufficient?(response)
-        errors.add(:host, :minimal_nextcloud_version_unmet)
-      end
-    end
-
-    def major_version_sufficient?(response)
-      return false unless response.body
-
-      version = JSON.parse(response.body).dig('ocs', 'data', 'version', 'major')
-      return false if version.nil?
-      return false if version < MINIMAL_NEXTCLOUD_VERSION
-
-      true
-    end
-
-    private
-
-    def request_capabilities
-      uri = URI.parse(File.join(host, '/ocs/v2.php/cloud/capabilities'))
-      request = Net::HTTP::Get.new(uri)
-      request["Ocs-Apirequest"] = "true"
-      request["Accept"] = "application/json"
-
-      req_options = {
-        max_retries: 0,
-        open_timeout: 5, # seconds
-        read_timeout: 3, # seconds
-        use_ssl: uri.scheme == "https"
-      }
-
-      begin
-        Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
-          http.request(request)
-        end
-      rescue StandardError
-        :unreachable
-      end
-    end
-
-    def json_response?(response)
-      (
-        response['content-type'].split(';').first.strip.downcase == 'application/json' \
-        && JSON.parse(response.body).dig('ocs', 'data', 'version', 'major')
-      )
-    rescue JSON::ParserError
-      false
-    end
+    validates :host, nextcloud_compatible_host: true, unless: -> { errors.include?(:host) }
   end
 end
