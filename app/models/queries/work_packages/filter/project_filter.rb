@@ -59,8 +59,13 @@ class Queries::WorkPackages::Filter::ProjectFilter < Queries::WorkPackages::Filt
     available_projects = visible_projects.index_by(&:id)
 
     values
-      .flat_map { |project_id| expanded_subprojects(available_projects[project_id.to_i]) }
+      .flat_map { |project_id| available_projects[project_id.to_i] }
       .compact
+      .uniq
+  end
+
+  def where
+    operator_strategy.sql_for_field(projects_and_descendants, self.class.model.table_name, :project_id)
   end
 
   private
@@ -72,13 +77,17 @@ class Queries::WorkPackages::Filter::ProjectFilter < Queries::WorkPackages::Filt
   ##
   # Depending on whether subprojects are included in the query,
   # expand selected projects with its descendants
-  def expanded_subprojects(selected_project)
-    return if selected_project.nil?
+  def projects_and_descendants
+    value_objects
+      .inject(Set.new) { |project_set, project| project_set + expand_subprojects(project) }
+      .map(&:id)
+  end
 
+  def expand_subprojects(selected_project)
     if context.include_subprojects?
-      [selected_project]
-    else
       [selected_project].concat(selected_project.descendants.visible)
+    else
+      [selected_project]
     end
   end
 end
