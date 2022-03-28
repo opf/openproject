@@ -22,7 +22,7 @@ get:
       content:
         application/hal+json:
           schema:
-            $ref: '../components/schemas/file_link_model.yml'
+            $ref: '../components/schemas/file_link_read_model.yml'
     '404':
       content:
         application/hal+json:

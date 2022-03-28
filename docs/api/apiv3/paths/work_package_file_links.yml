@@ -28,7 +28,7 @@ post:
     content:
       application/json:
         schema:
-          $ref: '../components/schemas/file_links_model.yml'
+          $ref: '../components/schemas/file_link_collection_write_model.yml'
         example:
           _type: Collection
           _embedded:
@@ -51,7 +51,7 @@ post:
       content:
         application/hal+json:
           schema:
-            $ref: '../components/schemas/file_links_model.yml'
+            $ref: '../components/schemas/file_link_collection_read_model.yml'
     '400':
       content:
         application/hal+json:
@@ -125,7 +125,7 @@ get:
       content:
         application/hal+json:
           schema:
-            $ref: '../components/schemas/file_links_model.yml'
+            $ref: '../components/schemas/file_link_collection_read_model.yml'
     '403':
       content:
         application/hal+json:

@@ -1,7 +1,7 @@
-# Schema: File_LinksModel
+# Schema: FileLinkCollectionReadModel
 ---
 allOf:
-  - "$ref": './collection_model.yml'
+  - $ref: './collection_model.yml'
   - type: object
     required:
       - _links
@@ -14,12 +14,11 @@ allOf:
         properties:
           self:
             allOf:
-              - "$ref": "./link.yml"
+              - $ref: "./link.yml"
               - description: |-
                   This file links list
                   
                   **Resource**: File_LinksModel
-                readOnly: true
       _embedded:
         type: object
         required:
@@ -28,7 +27,7 @@ allOf:
           elements:
             type: array
             items:
-              $ref: './file_link_model.yml'
+              $ref: './file_link_read_model.yml'
 
 example:
   _type: Collection
@@ -47,6 +46,7 @@ example:
           id: 5503
           name: logo.png
           mimeType: image/png
+          size: 16042
           createdAt: '2021-12-19T09:42:10.170Z'
           lastModifiedAt: '2021-12-20T14:00:13.987Z'
           createdByName: Luke Skywalker
