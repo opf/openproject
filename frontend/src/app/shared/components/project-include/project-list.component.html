@@ -4,7 +4,7 @@
 >
   <label
     class="spot-list--item-action op-project-list--item-action"
-    [ngClass]="{ 'spot-list--item-action_disabled': !project.found || (includeSubprojects && parentChecked) }"
+    [ngClass]="{ 'spot-list--item-action_disabled': isDisabled(project) }"
   >
     <spot-checkbox
       *ngFor="let checked of [isChecked(project.href)]"

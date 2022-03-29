@@ -14,32 +14,22 @@
   border-width: 1px
   border-style: solid
   border-radius: $spot-spacing-1
-  border-color: $spot-color-basic-white
-  background-color: $spot-color-basic-white
+  border-color: transparent
+  background-color: transparent
   color: $spot-color-main
   cursor: pointer
-
-  .spot-icon
-    width: $spot-spacing-1_5
-    height: $spot-spacing-1_5
-
-    &:first-child
-      margin-left: calc(-1 * #{$spot-spacing-0_5} - 1px) // The border needs to be removed from this
-
-    &:last-child
-      margin-right: calc(-1 * #{$spot-spacing-0_5} - 1px) // The border needs to be removed from this
 
   &, *
     box-sizing: border-box
 
   &:hover
-    background-color: $spot-color-basic-gray-6
-    border-color: $spot-color-basic-gray-6
+    background-color: transparent
+    border-color: transparent
     color: $spot-color-main-dark
 
   &:active
-    background-color: $spot-color-basic-gray-6
-    border-color: $spot-color-basic-gray-6
+    background-color: transparent
+    border-color: transparent
     color: $spot-color-main
 
   &_main
@@ -194,3 +184,17 @@
 
     &:active
       color: $spot-color-danger
+
+  .spot-icon
+    width: $spot-spacing-1_5
+    height: $spot-spacing-1_5
+
+    &:first-child
+      margin-left: calc(-1 * #{$spot-spacing-0_5} - 1px) // The border needs to be removed from this
+
+    &:last-child
+      margin-right: calc(-1 * #{$spot-spacing-0_5} - 1px) // The border needs to be removed from this
+
+  .spot-checkbox
+    margin-right: $spot-spacing-0_75
+    
