@@ -1229,6 +1229,7 @@ si:
   error_enterprise_token_invalid_domain: "The Enterprise Edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: 'මෙම ප්රවේශය මකා දැමීමට අසමත් විය.'
   error_in_dependent: "යැපෙන වස්තුව වෙනස් කිරීමට උත්සාහ කිරීමේ දෝෂය: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
+  error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "වලංගු නොවන තෝරාගත් අගය."
   error_journal_attribute_not_present: "ජර්නලය %{attribute}ගුණාංගය අඩංගු නොවේ."
   error_pdf_export_too_many_columns: "PDF අපනයනය සඳහා තෝරාගෙන ඇති තීරු බොහොමයක්. කරුණාකර තීරු ගණන අඩු කරන්න."
@@ -2878,6 +2879,7 @@ si:
         work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:
         date: "YYY-MM-DD (ISO 8601 දිනය පමණි)"
+        datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm] (any compatible ISO 8601 datetime)"
         duration: "ISO 8601 කාල සීමාව"
       invalid_content_type: "අන්තර්ගතය-TYPE '%{content_type}' වනු ඇතැයි අපේක්ෂා කළ නමුත් '%{actual}' ලැබුණි."
       invalid_format: "Invalid format for property '%{property}': Expected format like '%{expected_format}', but got '%{actual}'."
@@ -2889,6 +2891,7 @@ si:
         select: "The requested select of %{invalid} is not supported. Supported selects are %{supported}."
       invalid_user_status_transition: "වත්මන් පරිශීලක ගිණුමේ තත්ත්වය මෙම මෙහෙයුමට ඉඩ නොදේ."
       missing_content_type: "නිශ්චිතව දක්වා නැත"
+      missing_property: "Missing property '%{property}'."
       missing_request_body: "ඉල්ලීම් ආයතනයක් නොතිබුණි."
       missing_or_malformed_parameter: "විමසුම් පරාමිතිය '%{parameter}' අතුරුදහන් හෝ අකර්මණ්ය වී ඇත."
       multipart_body_error: "ඉල්ලීමේ ශරීරයේ අපේක්ෂිත බහු කොටස් කොටස් අඩංගු නොවීය."
