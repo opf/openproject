@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   HostBinding,
+  OnInit,
 } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {
@@ -44,7 +45,7 @@ import { getPaginatedResults } from 'core-app/core/apiv3/helpers/get-paginated-r
   templateUrl: './project-include.component.html',
   styleUrls: ['./project-include.component.sass'],
 })
-export class OpProjectIncludeComponent extends UntilDestroyedMixin {
+export class OpProjectIncludeComponent extends UntilDestroyedMixin implements OnInit {
   @HostBinding('class.op-project-include') className = true;
 
   public text = {
@@ -58,6 +59,9 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin {
   };
 
   public opened = false;
+
+  public query$ = this.wpTableFilters.querySpace.query.values$();
+  public includeSubprojects$ = this.query$.pipe(map((query) => query.includeSubprojects));
 
   public displayModeOptions = [
     { value: 'all', title: this.text.filter_all },
@@ -77,18 +81,18 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin {
 
   public displayMode$ = new BehaviorSubject('all');
 
-  private _query = '';
+  private _searchText = '';
 
-  public get query():string {
-    return this._query;
+  public get searchText():string {
+    return this._searchText;
   }
 
-  public set query(val:string) {
-    this._query = val;
-    this.query$.next(val);
+  public set searchText(val:string) {
+    this._searchText = val;
+    this.searchText$.next(val);
   }
 
-  public query$ = new BehaviorSubject('');
+  public searchText$ = new BehaviorSubject('');
 
   private _selectedProjects:string[] = [];
 
@@ -128,28 +132,37 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin {
 
   public projects$ = combineLatest([
     this.allProjects$,
-    this.query$.pipe(distinctUntilChanged()),
     this.displayMode$.pipe(distinctUntilChanged()),
+    this.includeSubprojects$,
   ])
     .pipe(
       debounceTime(20),
-      mergeMap(([projects, query, displayMode]) => this.selectedProjects$.pipe(
+      mergeMap(([projects, displayMode, includeSubprojects]) => this.selectedProjects$.pipe(
         take(1),
-        map((selected) => [projects, query, displayMode, selected]),
+        map((selected) => [projects, displayMode, includeSubprojects, selected]),
       )),
       map(
-        ([projects, query, displayMode, selected]:[IProject[], string, string, string[]]) => projects
+        ([projects, displayMode, includeSubprojects, selected]:[IProject[], string, boolean, string[]]) => projects
           .filter(
             (project) => {
-              if (displayMode === 'selected' && !selected.includes(project._links.self.href)) {
-                return false;
+              if (displayMode !== 'selected') {
+                return true;
               }
 
-              if (query.length) {
-                return project.name.toLowerCase().includes(query.toLowerCase()) || project.identifier.toLowerCase().includes(query.toLowerCase());
+              if (selected.includes(project._links.self.href)) {
+                return true;
               }
 
-              return true;
+              const hasSelectedAncestor = project._links.ancestors.reduce(
+                (anySelected, ancestor) => anySelected || selected.includes(ancestor.href),
+                false,
+              );
+
+              if (includeSubprojects && hasSelectedAncestor) {
+                return true;
+              }
+
+              return false;
             },
           )
           .sort((a, b) => a._links.ancestors.length - b._links.ancestors.length)
@@ -178,11 +191,11 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin {
       ['active', '=', ['t']],
     ];
 
-    if (this.query) {
+    if (this.searchText) {
       filters.push([
         'name_and_identifier',
         '~',
-        [this.query],
+        [this.searchText],
       ]);
     }
 
@@ -213,6 +226,21 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin {
     super();
   }
 
+  public ngOnInit():void {
+    this.searchText$
+      .pipe(debounceTime(100))
+      .subscribe(() => {
+        this.loadAllProjects();
+      });
+  }
+
+  public toggleIncludeAllSubprojects():void {
+    this.wpTableFilters.querySpace.query.doModify((query) => {
+      query.includeSubprojects = !query?.includeSubprojects;
+      return query;
+    });
+  }
+
   public toggleOpen():void {
     this.opened = !this.opened;
     this.loadAllProjects();
@@ -220,7 +248,7 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin {
       .pipe(take(1))
       .subscribe((selectedProjects) => {
         this.displayMode = 'all';
-        this.query = '';
+        this.searchText = '';
         this.selectedProjects = selectedProjects as string[];
       });
   }
