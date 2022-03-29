@@ -16,7 +16,7 @@ description: |-
 
   ```json
   [
-    { "<filter name>": { "operator": "<operator>", "values": [<value>, ...] },
+    { "<filter name>": { "operator": "<operator>", "values": [<value>, ...] } },
     ...
   ]
   ```
