@@ -26,23 +26,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require Rails.root.join('config/constants/project_activity')
-
 module Projects::Activity
   def self.included(base)
     base.send :extend, ActivityScopes
   end
 
   module ActivityScopes
-    def register_latest_project_activity(on:, attribute:, chain: [])
-      Constants::ProjectActivity.register(on: on,
-                                          chain: chain,
-                                          attribute: attribute)
-    end
-
     def latest_project_activity
       @latest_project_activity ||=
-        Constants::ProjectActivity.registered.map do |params|
+        OpenProject::ProjectActivity.registered.map do |params|
           build_latest_project_activity_for(on: params[:on].constantize,
                                             chain: Array(params[:chain]).map(&:constantize),
                                             attribute: params[:attribute])

@@ -48,8 +48,8 @@ module Budgets
     end
 
     config.to_prepare do
-      Project.register_latest_project_activity on: 'Budget',
-                                               attribute: :updated_at
+      OpenProject::ProjectActivity.register on: 'Budget',
+                                            attribute: :updated_at
 
       # Add to the budget to the costs group
       ::Type.add_default_mapping(:costs, :budget)
