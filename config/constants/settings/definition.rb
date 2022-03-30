@@ -213,21 +213,21 @@ module Settings
       # exists.
       # Also merges the existing values that are hashes with values from ENV if they follow the naming
       # schema.
-      def override_config(source = default_override_source)
-        override_config_values(source)
-        merge_hash_config(source)
+      def override_config
+        override_config_values
+        merge_hash_config
       end
 
-      def override_config_values(source)
+      def override_config_values
         all
           .map(&:name)
-          .select { |key| source.include? key.upcase }
-          .each { |key| self[key].override_value(extract_value(key, source[key.upcase])) }
+          .select { |key| ENV.include? key.upcase }
+          .each { |key| self[key].override_value(extract_value(key, ENV[key.upcase])) }
       end
 
-      def merge_hash_config(source, prefix: ENV_PREFIX)
-        source.select { |k, _| k =~ /^#{prefix}/i }.each do |k, raw_value|
-          name, value = path_to_hash(*path(prefix, k),
+      def merge_hash_config
+        ENV.select { |k, _| k =~ /^#{ENV_PREFIX}/i }.each do |k, raw_value|
+          name, value = path_to_hash(*path(ENV_PREFIX, k),
                                      extract_value(k, raw_value))
                           .first
 
@@ -285,13 +285,6 @@ module Settings
         end
       rescue StandardError => e
         raise ArgumentError, "Configuration value for '#{key}' is invalid: #{e.message}"
-      end
-
-      ##
-      # The default source for overriding configuration values
-      # is ENV, but may be changed for testing purposes
-      def default_override_source
-        ENV
       end
 
       attr_accessor :loaded
