@@ -478,7 +478,7 @@ module OpenProject
         # To specify specific values, one can use !!str (-> '') or !!null (-> nil)
         return original_value if original_value == ''
 
-        parsed = YAML.load(original_value)
+        parsed = load_yaml(original_value)
 
         if parsed.is_a?(String)
           original_value
@@ -491,7 +491,7 @@ module OpenProject
 
       def load_config_from_file(filename, env, config)
         if File.file?(filename)
-          file_config = YAML::load(ERB.new(File.read(filename)).result)
+          file_config = load_yaml(ERB.new(File.read(filename)).result)
           if file_config.is_a? Hash
             config.deep_merge!(load_env_from_config(file_config, env))
           else
@@ -579,6 +579,10 @@ module OpenProject
             ['true', true, '1'].include? self[setting]
           end
         end
+      end
+
+      def load_yaml(source)
+        YAML::safe_load(source, permitted_classes: [Symbol, Date])
       end
     end
   end
