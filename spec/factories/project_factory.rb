@@ -36,14 +36,14 @@ FactoryBot.define do
 
     sequence(:name) { |n| "My Project No. #{n}" }
     sequence(:identifier) { |n| "myproject_no_#{n}" }
-    created_at { Time.now }
-    updated_at { Time.now }
+    created_at { Time.zone.now }
+    updated_at { Time.zone.now }
     enabled_module_names { OpenProject::AccessControl.available_project_modules }
     public { false }
     templated { false }
 
     callback(:after_build) do |project, evaluator|
-      disabled_modules = Array(evaluator.disable_modules)
+      disabled_modules = Array(evaluator.disable_modules).map(&:to_s)
       project.enabled_module_names = project.enabled_module_names - disabled_modules
 
       if !evaluator.no_types && project.types.empty?

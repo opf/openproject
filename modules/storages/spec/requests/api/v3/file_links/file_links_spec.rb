@@ -86,6 +86,14 @@ describe 'API v3 file links resource', type: :request do
         let(:elements) { [] }
       end
     end
+
+    context 'if storages module is deactivated for the work package\'s project' do
+      let(:project) { create(:project, disable_modules: :storages) }
+
+      it_behaves_like 'API V3 collection response', 0, 0, 'FileLink', 'Collection' do
+        let(:elements) { [] }
+      end
+    end
   end
 
   describe 'POST /api/v3/work_packages/:work_package_id/file_links' do
@@ -168,15 +176,17 @@ describe 'API v3 file links resource', type: :request do
 
     context 'when some file link elements with matching origin_id, container, and storage already exist in database' do
       let(:existing_file_link) do
-        create(:file_link, origin_name: 'original name',
-                           creator: current_user,
-                           container: work_package,
-                           storage: storage)
+        create(:file_link,
+               origin_name: 'original name',
+               creator: current_user,
+               container: work_package,
+               storage: storage)
       end
       let(:already_existing_file_link_payload) do
-        build(:file_link_element, origin_name: 'new name',
-                                  origin_id: existing_file_link.origin_id,
-                                  storage_url: existing_file_link.storage.host)
+        build(:file_link_element,
+              origin_name: 'new name',
+              origin_id: existing_file_link.origin_id,
+              storage_url: existing_file_link.storage.host)
       end
       let(:some_file_link_payload) do
         build(:file_link_element, storage_url: existing_file_link.storage.host)
@@ -326,6 +336,12 @@ describe 'API v3 file links resource', type: :request do
 
     context 'if file link is in a work package, while its project is not mapped to the file link\'s storage.' do
       let(:path) { api_v3_paths.file_link(file_link_of_unlinked_storage.id) }
+
+      it_behaves_like 'not found'
+    end
+
+    context 'if file link is in a work package, while the storages module is deactivated in its project.' do
+      let(:project) { create(:project, disable_modules: :storages) }
 
       it_behaves_like 'not found'
     end
