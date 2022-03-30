@@ -63,7 +63,7 @@
           <label class="spot-button">
             <spot-checkbox
               [checked]="includeSubprojects$ | async"
-              (change)="toggleIncludeAllSubprojects"
+              (change)="toggleIncludeAllSubprojects()"
             ></spot-checkbox>
             Include all sub-projects
           </label>

@@ -10,7 +10,8 @@ export class SpotDocsComponent {
   listCheckboxValue = null;
   textFieldValue = 'ngModel value';
   dropModalOpen = false;
-  alignment = 'bottom-left';
+  dropModalAlignment = 'bottom-left';
+  tooltipAlignment = 'right-center';
 
   toggleValue = null;
   toggleOptions = [

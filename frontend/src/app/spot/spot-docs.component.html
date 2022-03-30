@@ -217,18 +217,24 @@ Currently selected value is {{ toggleValue }}
 
 <h1>Drop Modal</h1>
 
-<select [(ngModel)]="alignment">
-  <option>bottom-center</option>
-  <option>bottom-left</option>
-  <option>bottom-right</option>
-  <option>top-center</option>
+<select [(ngModel)]="dropModalAlignment">
+  <option>left-top</option>
+  <option>left-center</option>
+  <option>left-bottom</option>
   <option>top-left</option>
+  <option>top-center</option>
   <option>top-right</option>
+  <option>right-top</option>
+  <option>right-center</option>
+  <option>right-bottom</option>
+  <option>bottom-left</option>
+  <option>bottom-center</option>
+  <option>bottom-right</option>
 </select>
 
 <spot-drop-modal
   [open]="dropModalOpen"
-  [alignment]="alignment"
+  [alignment]="dropModalAlignment"
   (closed)="dropModalOpen = false"
 >
   <button
@@ -253,6 +259,38 @@ Currently selected value is {{ toggleValue }}
     </div>
   </ng-container>
 </spot-drop-modal>
+
+<h1>Tooltip</h1>
+
+<select [(ngModel)]="tooltipAlignment">
+  <option>left-top</option>
+  <option>left-center</option>
+  <option>left-bottom</option>
+  <option>top-left</option>
+  <option>top-center</option>
+  <option>top-right</option>
+  <option>right-top</option>
+  <option>right-center</option>
+  <option>right-bottom</option>
+  <option>bottom-left</option>
+  <option>bottom-center</option>
+  <option>bottom-right</option>
+</select>
+<spot-tooltip [alignment]="tooltipAlignment">
+  <ng-container slot="trigger">Trigger</ng-container>
+  <p
+    slot="body"
+    class="spot-body-small"
+  >Body</p>
+</spot-tooltip>
+
+<spot-tooltip [alignment]="tooltipAlignment">
+  <ng-container slot="trigger">Trigger</ng-container>
+  <ng-container slot="body">
+    <p class="spot-body-small">Body with multiple paragraphs coming in here</p>
+    <p class="spot-body-small">This is the second paragraph</p>
+  </ng-container>
+</spot-tooltip>
 
 <h1>Action Bar</h1>
 
