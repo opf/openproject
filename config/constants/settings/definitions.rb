@@ -504,6 +504,10 @@ Settings::Definition.define do
       value: false,
       writable: false
 
+  add :ldap_tls_options,
+      value: {},
+      writable: false
+
   add :log_level,
       value: 'info',
       writable: false
