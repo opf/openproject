@@ -1,3 +1,4 @@
+
 @import 'helpers'
 @import '../../app/spot/styles/sass/variables'
 
@@ -30,9 +31,6 @@
     &:hover
       .op-wp-single-card--inline-buttons
         background-image: linear-gradient(to left, rgba($spot-color-main-light,1), rgba($spot-color-main-light,0))
-
-  &_disabled
-    opacity: 0.6
 
   &_closed:not(&_selected)
     background-color: $spot-color-basic-gray-6
@@ -146,19 +144,24 @@
   &--card-action
     z-index: 2
 
-    .op-wp-single-card_checked &
+    &_closed
+      color: $spot-color-basic-gray-2
+
+    .op-wp-single-card_selected &
       background-color: $spot-color-main-light
-  
+
   &--inline-buttons
     opacity: 0
     padding-left: 40px
+    padding-right: 4px
+
     .op-icon--wrapper:not(&_selected)
       background: $spot-color-basic-white
 
     &.-show
       opacity: 1
 
-    .op-wp-single-card_checked &
+    .op-wp-single-card_selected &
       background-color: $spot-color-main-light
 
   &--inline-cancel-button

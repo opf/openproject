@@ -1297,6 +1297,7 @@ ar:
   error_enterprise_token_invalid_domain: "The Enterprise Edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: 'Failed to delete this entry.'
   error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
+  error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Invalid selected value."
   error_journal_attribute_not_present: "Journal does not contain attribute %{attribute}."
   error_pdf_export_too_many_columns: "تم تحديد عدد كبير جداً من الأعمدة لتصدير PDF. الرجاء تقليل عدد الأعمدة."
@@ -2960,6 +2961,7 @@ ar:
         work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:
         date: "YYYY-MM-DD (ISO 8601 التاريخ فقط)"
+        datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm] (any compatible ISO 8601 datetime)"
         duration: "المدة ISO 8601"
       invalid_content_type: "يتوقع أن يكون نوع المحتوى هو '%{content_type}' ولكن حصلت على '%{actual}'."
       invalid_format: "تنسيق غير صالح للخاصية '%{property}': توقع تنسيق مثل '%{expected_format}'، ولكن حصلت على '%{actual}'."
@@ -2971,6 +2973,7 @@ ar:
         select: "The requested select of %{invalid} is not supported. Supported selects are %{supported}."
       invalid_user_status_transition: "حالة حساب المستخدم الحالي لا تسمح بهذه العملية."
       missing_content_type: "غير محدّد"
+      missing_property: "Missing property '%{property}'."
       missing_request_body: "لا توجد أي هيئة الطلب."
       missing_or_malformed_parameter: "The query parameter '%{parameter}' is missing or malformed."
       multipart_body_error: "لم يتضمن نص الطلب على أجزاء متعددة الأجزاء المتوقعة."

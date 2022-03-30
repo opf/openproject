@@ -14,7 +14,10 @@ import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
 import { HttpClient } from '@angular/common/http';
 import { InAppNotificationsQuery } from 'core-app/core/state/in-app-notifications/in-app-notifications.query';
 import { ApiV3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
-import { collectionKey } from 'core-app/core/state/collection-store';
+import {
+  collectionKey,
+  insertCollectionIntoState,
+} from 'core-app/core/state/collection-store';
 import {
   markNotificationsAsRead,
   notificationsMarkedRead,
@@ -56,22 +59,7 @@ export class InAppNotificationsResourceService {
       .http
       .get<IHALCollection<InAppNotification>>(this.notificationsPath + collectionURL)
       .pipe(
-        tap((events) => {
-          applyTransaction(() => {
-            this.store.add(events._embedded.elements);
-            this.store.update(({ collections }) => (
-              {
-                collections: {
-                  ...collections,
-                  [collectionURL]: {
-                    ...collections[collectionURL],
-                    ids: events._embedded.elements.map((el) => el.id),
-                  },
-                },
-              }
-            ));
-          });
-        }),
+        tap((collection) => insertCollectionIntoState(this.store, collection, collectionURL)),
         catchError((error) => {
           this.toastService.addError(error);
           throw error;

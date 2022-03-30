@@ -66,7 +66,7 @@ module API
               type_specific_representer_class(filter) ||
               custom_representer_class(filter)
 
-            name.nil? ? nil : name.constantize
+            name&.constantize
           end
 
           def filter_specific_representer_class(filter)

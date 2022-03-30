@@ -68,5 +68,5 @@ With the single sign-on feature you can securely access OpenProject. Control and
 
 
 
-Find out more about our [GDPR compliance](../../enterprise-guide/enterprise-cloud-guide/GDPR/).
+Find out more about our [GDPR compliance](../../enterprise-guide/enterprise-cloud-guide/gdpr-compliance/).
 

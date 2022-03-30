@@ -28,6 +28,15 @@
 
 module API
   module Utilities
+    # PayloadRepresenter responsibility is to parse user params input and render
+    # only the writeable attributes.
+    #
+    # The `UpdateContract` or the `CreateContract` is used to filter out read
+    # only attributes from the input parameters. Guessing is done by checking if
+    # the record is a new record.
+    #
+    # This module is intended to be included in a dedicated PayloadRepresenter
+    # class inheriting from the non-payload representer.
     module PayloadRepresenter
       def self.included(base)
         base.extend(ClassMethods)
@@ -46,7 +55,7 @@ module API
           end
 
           # Only filter unwritable if not a lambda
-          unless writeable&.respond_to?(:call)
+          unless writeable.respond_to?(:call)
             add_filter(property, UnwriteablePropertyFilter)
           end
         end
@@ -70,7 +79,7 @@ module API
           writeable_attr = options[:decorator].writeable_attributes
 
           input.reject do |link|
-            link.rel && !writeable_attr.include?(link.rel.to_s)
+            link.rel && writeable_attr.exclude?(link.rel.to_s)
           end
         end
       end
@@ -124,7 +133,7 @@ module API
       private
 
       def contract_class(represented)
-        return nil unless represented&.respond_to?(:new_record?)
+        return nil unless represented.respond_to?(:new_record?)
 
         contract_namespace = represented.class.name.pluralize
 

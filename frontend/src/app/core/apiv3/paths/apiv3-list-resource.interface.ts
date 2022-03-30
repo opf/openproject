@@ -32,12 +32,16 @@ import { ApiV3FilterBuilder, FilterOperator } from 'core-app/shared/helpers/api-
 
 export type ApiV3ListFilter = [string, FilterOperator, boolean|string[]];
 
-export interface ApiV3ListParameters {
+export interface ApiV3PaginationParameters {
+  pageSize:number;
+  offset:number;
+}
+
+export interface ApiV3ListParameters extends Partial<ApiV3PaginationParameters> {
   filters?:ApiV3ListFilter[];
   sortBy?:[string, string][];
   groupBy?:string;
-  pageSize?:number;
-  offset?:number;
+  select?:string[];
 }
 
 export interface ApiV3ListResourceInterface<T> {
@@ -63,6 +67,10 @@ export function listParamsString(params?:ApiV3ListParameters):string {
   // 0 should not be treated as false
   if (params && params.offset !== undefined) {
     queryProps.push(`offset=${params.offset}`);
+  }
+
+  if (params && params.select !== undefined) {
+    queryProps.push(`select=${params.select.join(',')}`);
   }
 
   if (params && params.filters) {

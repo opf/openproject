@@ -61,7 +61,7 @@ module API
             if query.valid?
               render_success(query,
                              request.params,
-                             request.api_v3_paths.send(self_path),
+                             calculated_self_path(request),
                              scope ? request.instance_exec(&scope) : model)
             else
               render_error(query)
@@ -133,6 +133,14 @@ module API
 
           def render_error(query)
             raise ::API::Errors::InvalidQuery.new(query.errors.full_messages)
+          end
+
+          def calculated_self_path(request)
+            if self_path.respond_to?(:call)
+              request.instance_exec(&self_path)
+            else
+              request.api_v3_paths.send(self_path)
+            end
           end
 
           def deduce_render_representer

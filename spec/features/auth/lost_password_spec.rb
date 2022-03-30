@@ -60,7 +60,7 @@ describe 'Lost password', type: :feature do
 
     click_button 'Save'
 
-    expect(page).to have_selector('.flash.notice', text: I18n.t(:notice_account_password_updated))
+    expect(page).to have_selector('.flash.info', text: I18n.t(:notice_account_password_updated))
 
     login_with user.login, new_password
 

@@ -30,7 +30,6 @@ class ServiceResult
   attr_accessor :success,
                 :result,
                 :errors,
-                :message_type,
                 :state,
                 :dependent_results
 
@@ -47,6 +46,7 @@ class ServiceResult
 
     initialize_errors(errors)
     @message = message
+    @message_type = message_type
 
     self.dependent_results = dependent_results
   end
@@ -75,10 +75,8 @@ class ServiceResult
   ##
   # Print messages to flash
   def apply_flash_message!(flash)
-    type = get_message_type
-
-    if message && type
-      flash[type] = message
+    if message
+      flash[message_type] = message
     end
   end
 
@@ -141,11 +139,6 @@ class ServiceResult
     self
   end
 
-  def tap
-    yield(self)
-    self
-  end
-
   def each
     yield result if success?
     self
@@ -187,9 +180,9 @@ class ServiceResult
     end
   end
 
-  def get_message_type
-    if message_type.present?
-      message_type.to_sym
+  def message_type
+    if @message_type
+      @message_type.to_sym
     elsif success?
       :notice
     else

@@ -43,7 +43,17 @@ describe ::API::V3::WorkPackages::WorkPackageSqlRepresenter, 'rendering' do
       .where(id: rendered_work_package.id)
   end
 
-  let(:rendered_work_package) { create(:work_package) }
+  let(:rendered_work_package) do
+    create(:work_package,
+           project: project,
+           assigned_to: assignee,
+           author: author,
+           responsible: responsible)
+  end
+  let(:project) { create(:project) }
+  let(:assignee) { nil }
+  let(:author) { create(:user) }
+  let(:responsible) { nil }
 
   let(:select) { { '*' => {} } }
 
@@ -61,6 +71,20 @@ describe ::API::V3::WorkPackages::WorkPackageSqlRepresenter, 'rendering' do
           self: {
             href: api_v3_paths.work_package(rendered_work_package.id),
             title: rendered_work_package.subject
+          },
+          project: {
+            href: api_v3_paths.project(project.id),
+            title: project.name
+          },
+          assignee: {
+            href: nil
+          },
+          responsible: {
+            href: nil
+          },
+          author: {
+            href: api_v3_paths.user(author.id),
+            title: author.name
           }
         }
       }
@@ -69,6 +93,90 @@ describe ::API::V3::WorkPackages::WorkPackageSqlRepresenter, 'rendering' do
     it 'renders as expected' do
       expect(json)
         .to be_json_eql(expected.to_json)
+    end
+  end
+
+  shared_examples_for 'principal link' do |link_name, only_user: false|
+    let(:select) { { link_name => {} } }
+
+    context 'with a user' do
+      let(:principal_object) { create(:user) }
+
+      let(:expected) do
+        {
+          _links: {
+            link_name => {
+              href: api_v3_paths.user(principal_object.id),
+              title: principal_object.name
+            }
+          }
+        }
+      end
+
+      it 'renders as expected' do
+        expect(json)
+          .to be_json_eql(expected.to_json)
+      end
+    end
+
+    unless only_user
+      context 'with a group' do
+        let(:principal_object) { create(:group) }
+
+        let(:expected) do
+          {
+            _links: {
+              link_name => {
+                href: api_v3_paths.group(principal_object.id),
+                title: principal_object.name
+              }
+            }
+          }
+        end
+
+        it 'renders as expected' do
+          expect(json)
+            .to be_json_eql(expected.to_json)
+        end
+      end
+
+      context 'with a placeholder user' do
+        let(:principal_object) { create(:placeholder_user) }
+
+        let(:expected) do
+          {
+            _links: {
+              link_name => {
+                href: api_v3_paths.placeholder_user(principal_object.id),
+                title: principal_object.name
+              }
+            }
+          }
+        end
+
+        it 'renders as expected' do
+          expect(json)
+            .to be_json_eql(expected.to_json)
+        end
+      end
+    end
+  end
+
+  describe 'assignee link' do
+    it_behaves_like 'principal link', 'assignee' do
+      let(:assignee) { principal_object }
+    end
+  end
+
+  describe 'responsible link' do
+    it_behaves_like 'principal link', 'responsible' do
+      let(:responsible) { principal_object }
+    end
+  end
+
+  describe 'author link' do
+    it_behaves_like 'principal link', 'author', only_user: true do
+      let(:author) { principal_object }
     end
   end
 end

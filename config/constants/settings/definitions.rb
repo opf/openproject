@@ -282,6 +282,12 @@ Settings::Definition.define do
   add :demo_projects_available,
       value: false
 
+  add :demo_view_of_type_work_packages_table_seeded,
+      value: false
+
+  add :demo_view_of_type_team_planner_seeded,
+      value: false
+
   add :diff_max_lines_displayed,
       value: 1500
 

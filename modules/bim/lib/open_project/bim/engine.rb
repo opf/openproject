@@ -219,8 +219,11 @@ module OpenProject::Bim
         formatter ::WorkPackage, OpenProject::Bim::WorkPackage::Exporter::Formatters::BcfThumbnail
       end
 
-      ::Queries::Register.filter ::Query, ::Bim::Queries::WorkPackages::Filter::BcfIssueAssociatedFilter
-      ::Queries::Register.column ::Query, ::Bim::Queries::WorkPackages::Columns::BcfThumbnailColumn
+      ::Queries::Register.register(::Query) do
+        filter ::Bim::Queries::WorkPackages::Filter::BcfIssueAssociatedFilter
+
+        column ::Bim::Queries::WorkPackages::Columns::BcfThumbnailColumn
+      end
 
       ::API::Root.class_eval do
         content_type :binary, 'application/octet-stream'

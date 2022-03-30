@@ -26,14 +26,14 @@ vi:
         position: "Vị trí"
         remaining_hours: "Số giờ còn lại"
         remaining_time: "Số giờ còn lại"
-        story_points: "Story Points"
+        story_points: "Điểm câu chuyện"
         backlogs_work_package_type: "Backlog type"
     errors:
       models:
         work_package:
           attributes:
             blocks_ids:
-              can_only_contain_work_packages_of_current_sprint: "can only contain IDs of work packages in the current sprint."
+              can_only_contain_work_packages_of_current_sprint: "chỉ có thể chứa ID của các gói công việc trong sprint hiện tại.\n"
               must_block_at_least_one_work_package: "bắt buộc phải chứa ID của ít nhất một việc"
             parent_id:
               parent_child_relationship_across_projects: "is invalid because the work package '%{work_package_name}' is a backlog task and therefore cannot have a parent outside of the current project."
@@ -44,7 +44,7 @@ vi:
           cannot_end_before_it_starts: "Sprint cannot end before it starts."
   backlogs:
     add_new_story: "Câu chuyện mới"
-    any: "any"
+    any: "bất kỳ"
     backlog_settings: "Lịch sử cài đặt"
     burndown_graph: "Burndown Graph"
     card_paper_size: "Paper size for card printing"
@@ -56,14 +56,14 @@ vi:
     generating_chart: "Tạo đồ thị..."
     hours: "Giờ"
     impediment: "Trở ngại"
-    label_versions_default_fold_state: "Show versions folded"
+    label_versions_default_fold_state: "Hiển thị các phiên bản \n"
     work_package_is_closed: "Work package is done, when"
     label_is_done_status: "Status %{status_name} means done"
     no_burndown_data: "No burndown data available. It is necessary to have the sprint start- and end dates set."
     points: "Points"
     positions_could_not_be_rebuilt: "Positions could not be rebuilt."
     positions_rebuilt_successfully: "Positions rebuilt successfully."
-    properties: "Properties"
+    properties: "Thuộc tính"
     rebuild: "Dựng lại"
     rebuild_positions: "Xây dựng lại vị trí"
     remaining_hours: "Số giờ còn lại"
@@ -105,9 +105,9 @@ vi:
   error_outro: "Please correct the above errors before submitting again."
   event_sprint_description: "%{summary}: %{url}\n%{description}"
   event_sprint_summary: "%{project}: %{summary}"
-  ideal: "ideal"
-  inclusion: "is not included in the list"
-  label_back_to_project: "Back to project page"
+  ideal: "Lý tưởng"
+  inclusion: "không có trong danh sách"
+  label_back_to_project: "Quay lại dự án"
   label_backlog: "Backlog"
   label_backlogs: "Backlogs"
   label_backlogs_unconfigured: "You have not configured Backlogs yet. Please go to %{administration} > %{plugins}, then click on the %{configure} link for this plugin. Once you have set the fields, come back to this page to start using the tool."

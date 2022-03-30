@@ -3,7 +3,7 @@ lt:
   js:
     team_planner:
       add_existing: 'Pridėti esamą'
-      create_new: 'New team planner'
+      create_new: 'Naujas komandos planas'
       title: 'Komandos planas'
       unsaved_title: 'Nepavadintas komandos planas'
       label_assignee_plural: 'Paskirtieji'

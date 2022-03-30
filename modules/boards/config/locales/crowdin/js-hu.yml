@@ -7,10 +7,8 @@ hu:
       label_unnamed_list: 'Névtelen lista'
       label_board_type: 'Tábla típus'
       upsale:
-        teaser_text: 'Javítsa az agilis projektmenedzsmentet ezzel a rugalmas táblák nézettel. Készítsen annyi táblát, amennyit csak akar, bármihez, amelyet nyomon követni szeretne.'
-        upgrade_to_ee_text: 'A táblák egy vállalati szolgáltatás. Kérjük, frissítsen Vállalati OpenProject licencre!'
+        teaser_text: 'Need a predefined board template? Advanced boards are Enterprise features. Please upgrade to a paid plan.'
         upgrade: 'Frissítés most'
-        personal_demo: 'Keressen fel minket a próbaverzióért'
       lists:
         delete: 'Törölt lista'
       version:

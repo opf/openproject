@@ -1229,6 +1229,7 @@ fr:
   error_enterprise_token_invalid_domain: "La version Entreprise n'est pas active. Le domaine de votre jeton Entreprise (%{actual}) ne correspond pas au nom d'hôte du système (%{expected})."
   error_failed_to_delete_entry: 'Échec lors de la suppression de cette entrée.'
   error_in_dependent: "Erreur lors de la tentative de modification de l'objet dépendant : %{dependent_class} #%{related_id} - %{related_subject} : %{error}"
+  error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Valeur sélectionnée invalide."
   error_journal_attribute_not_present: "Le journal ne contient pas l’attribut %{attribute}."
   error_pdf_export_too_many_columns: "Trop de colonnes sélectionnées pour l’exportation PDF. Veuillez réduire le nombre de colonnes."
@@ -2877,6 +2878,7 @@ fr:
         work_package: "Le lot de travaux que vous cherchez est introuvable ou a été supprimé."
       expected:
         date: "AAAA-MM-JJ (date ISO 8601 uniquement)"
+        datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm] (any compatible ISO 8601 datetime)"
         duration: "durée ISO 8601"
       invalid_content_type: "CONTENT-TYPE attendu «%{content_type} » , mais est à «%{actual} »."
       invalid_format: "Format invalide pour la propriété \"%{property}\" : un format de type \"%{expected_format}\" est requis, mais la valeur invalide \"%{actual}\" a été reçue."
@@ -2888,6 +2890,7 @@ fr:
         select: "Les requêtes demandée de %{invalid} ne sont pas prises en charge. Les sélections prises en charge sont %{supported}."
       invalid_user_status_transition: "L'état du compte de l'utilisateur ne permet pas cette opération."
       missing_content_type: "non spécifié"
+      missing_property: "Missing property '%{property}'."
       missing_request_body: "Il y n'avait aucun corps dans la requête."
       missing_or_malformed_parameter: "Le paramètre de requête « %{parameter} » est manquant ou incorrect."
       multipart_body_error: "Le corps de la requête ne contenait pas les pièces multiparts attendus."

@@ -26,7 +26,10 @@
     </op-add-existing-pane>
   </ng-container>
 
-  <div class="op-team-planner--calendar-pane">
+  <div
+    class="op-team-planner--calendar-pane"
+    data-qa-selector="op-team-planner--calendar-pane"
+  >
     <ng-container
       *ngIf="(calendarOptions$ | async) as calendarOptions"
     >
@@ -41,7 +44,9 @@
 
       <div
         [textContent]="calendar.tooManyResultsText"
-        class="op-wp-calendar--notification"></div>
+        class="op-wp-calendar--notification">
+      </div>
+
       <div
         *ngIf="isEmpty$ | async"
         class="op-team-planner--no-data">
@@ -53,7 +58,8 @@
           data-qa-selector="op-team-planner--empty-state-button"
           (click)="showAssigneeAddRow()"
           [textContent]="text.add_assignee"
-        ></button>
+        >
+        </button>
       </div>
     </ng-container>
 
@@ -77,15 +83,27 @@
         </button>
       </div>
 
+      <op-principal-loading-skeleton
+        *ngIf="resource && !resource.extendedProps.principal && resource.id.startsWith('skeleton')"
+      ></op-principal-loading-skeleton>
+
       <op-tp-add-assignee
-        *ngIf="resource && !resource.extendedProps.principal"
+        *ngIf="resource && !resource.extendedProps.principal && !resource.id.startsWith('skeleton')"
         (selectAssignee)="addAssignee($event)"
         [alreadySelected]="principalIds$ | async"
       ></op-tp-add-assignee>
     </ng-template>
 
     <ng-template #eventContent let-event="event">
+  
+      <op-wp-loading-skeleton 
+        [viewBox]="event.extendedProps.viewBox"
+        class="op-team-planner--wp-loading-skeleton"
+        *ngIf="event.source && event.source.id === 'skeleton'"
+      ></op-wp-loading-skeleton>
+
       <wp-single-card
+        *ngIf="!event.source || event.source.id === 'work_packages'"
         [workPackage]="event.extendedProps.workPackage"
         [selectedWhenOpen]="true"
         [orientation]="'horizontal'"
@@ -98,6 +116,7 @@
         [showEndDate]="!this.isWpDateInCurrentView(event.extendedProps.workPackage, 'end')"
         (stateLinkClicked)="openStateLink($event)"
         (cardClicked)="calendar.onCardClicked($event)"
+        (cardContextMenu)="calendar.showEventContextMenu($event)"
       >
       </wp-single-card>
     </ng-template>
@@ -131,11 +150,11 @@
           [class.op-team-planner--remove-dropzone_active]="dropzone.isHovering && dropzone.canDrop"
           [class.op-team-planner--remove-dropzone_forbidden]="!dropzone.canDrop"
         >
-      <span
-        *ngIf="dropzone.canDrop"
-        class="op-team-planner--dropzone-label"
-        [textContent]="text.drag_here_to_remove"
-      ></span>
+          <span
+            *ngIf="dropzone.canDrop"
+            class="op-team-planner--dropzone-label"
+            [textContent]="text.drag_here_to_remove"
+          ></span>
           <span
             *ngIf="!dropzone.canDrop"
             class="op-team-planner--dropzone-label"

@@ -30,7 +30,7 @@ Welcome to the OpenProject **Enterprise cloud edition guide**.
 | [Subscribe](./book-cloud)                                    | How to book Enterprise cloud?                                |
 | [Backups](./backups)                                         | How do backups work in the cloud?                            |
 | [Support](./support)                                         | How to get support as Enterprise cloud user?                 |
-| [GDPR and DPA](./GDPR)                                       | Review and sign a Data Processing Agreement (DPA).           |
+| [GDPR and DPA](./gdpr-compliance)                                       | Review and sign a Data Processing Agreement (DPA).           |
 
 The OpenProject Enterprise cloud edition contains all OpenProject Community features plus the additional OpenProject premium features, as well as professional support.
 

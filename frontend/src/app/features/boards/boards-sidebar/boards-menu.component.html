@@ -1,9 +1,12 @@
-<op-sidemenu
-  *ngIf="(boardOptions$ | async) as items"
-  [items]="items"
+<div
   class="op-sidebar--body"
 >
-</op-sidemenu>
+  <op-sidemenu
+    *ngIf="(boardOptions$ | async) as items"
+    [items]="items"
+  >
+  </op-sidemenu>
+</div>
 
 <div class="op-sidebar--footer">
   <button
@@ -11,6 +14,7 @@
     class="spot-button spot-button_outlined"
     (click)="showNewBoardModal()"
   >
-    {{text.create_new_board}}
+    <span class="spot-icon spot-icon_add"></span>
+    <span [textContent]="text.create_new_board"></span>
   </button>
 </div>

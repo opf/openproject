@@ -64,7 +64,7 @@ gem 'addressable', '~> 2.8.0'
 gem "auto_strip_attributes", "~> 2.5"
 
 # Provide timezone info for TZInfo used by AR
-gem 'tzinfo-data', '~> 1.2021.1'
+gem 'tzinfo-data', '~> 1.2022.1'
 
 # to generate html-diffs (e.g. for wiki comparison)
 gem 'htmldiff'
@@ -185,6 +185,8 @@ gem 'rest-client', '~> 2.0'
 gem 'ruby-progressbar', '~> 1.11.0', require: false
 
 gem 'mini_magick', '~> 4.11.0', require: false
+
+gem 'validate_url'
 
 # Sentry error reporting
 gem "sentry-delayed_job", '~> 5.2.0'

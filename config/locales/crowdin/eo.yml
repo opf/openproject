@@ -453,7 +453,7 @@ eo:
         templated: 'Template project'
       projects/status:
         code: 'Stato'
-        explanation: 'Statpriskribo'
+        explanation: 'Priskribo de stato'
         codes:
           not_started: 'Not started'
           on_track: 'Laŭ la plano'
@@ -909,7 +909,7 @@ eo:
       verification: >
         Enter %{word} to confirm you want to %{action} the backup token.
       verification_word_reset: reset
-      verification_word_create: create
+      verification_word_create: krei
       warning: >
         When you create a new token you will only be allowed to request a backup after 24 hours. This is a safety measure. After that you can request a backup any time using that token.
     text_token_deleted: Backup token deleted. Backups are now disabled.
@@ -1011,7 +1011,7 @@ eo:
     text:
       failed: "Ne eblis kopii la projekton \"%{source_project_name}\" al la projekto \"%{target_project_name}\"."
       succeeded: "Kopiita projekto de \"%{source_project_name}\" al \"%{target_project_name}\"."
-  create_new_page: "Vikipaĝo"
+  create_new_page: "Vikia paĝo"
   date:
     abbr_day_names:
       - "Dim"
@@ -1229,6 +1229,7 @@ eo:
   error_enterprise_token_invalid_domain: "The Enterprise Edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: 'Failed to delete this entry.'
   error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
+  error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "La elektita valoro nevalidas."
   error_journal_attribute_not_present: "Journal does not contain attribute %{attribute}."
   error_pdf_export_too_many_columns: "Too many columns selected for the PDF export. Please reduce the number of columns."
@@ -1758,7 +1759,7 @@ eo:
   label_renamed: "renamed"
   label_reply_plural: "Replies"
   label_report: "Report"
-  label_report_bug: "Report a bug"
+  label_report_bug: "Raporti cimon"
   label_report_plural: "Reports"
   label_reported_work_packages: "Reported work packages"
   label_reporting: "Reporting"
@@ -1773,7 +1774,7 @@ eo:
   label_revision: "Revision"
   label_revision_id: "Revision %{value}"
   label_revision_plural: "Revisions"
-  label_roadmap: "Roadmap"
+  label_roadmap: "Vojmapo"
   label_roadmap_edit: "Edit roadmap %{name}"
   label_roadmap_due_in: "Due in %{value}"
   label_roadmap_no_work_packages: "No work packages for this version"
@@ -1876,7 +1877,7 @@ eo:
   label_wiki_page_attachments: "Wiki page attachments"
   label_wiki_page_id: "Wiki page ID"
   label_wiki_navigation: "Wiki navigation"
-  label_wiki_page: "Vikipaĝo"
+  label_wiki_page: "Vikia paĝo"
   label_wiki_page_plural: "Wiki pages"
   label_wiki_show_index_page_link: "Show submenu item 'Table of Contents'"
   label_wiki_show_menu_item: "Show as menu item in project navigation"
@@ -1891,7 +1892,7 @@ eo:
   label_work_package_new: "New work package"
   label_work_package_edit: "Redakti laborpakaĵon %{name}"
   label_work_package_plural: "Laborpakaĵoj"
-  label_work_package_status: "Stato de la Laborpakaĵo"
+  label_work_package_status: "Stato de la laborpakaĵo"
   label_work_package_status_new: "Nova stato"
   label_work_package_status_plural: "Laborpakaĵa stato"
   label_work_package_types: "Laborpakaĵa tipo"
@@ -2348,7 +2349,7 @@ eo:
   scheduling:
     activated: 'activated'
     deactivated: 'deactivated'
-  search_input_placeholder: "Search ..."
+  search_input_placeholder: "Serĉi ..."
   setting_apiv3_cors_enabled: "Enable CORS"
   setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
   setting_apiv3_cors_origins_text_html: >
@@ -2878,6 +2879,7 @@ eo:
         work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:
         date: "YYYY-MM-DD (ISO 8601 date only)"
+        datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm] (any compatible ISO 8601 datetime)"
         duration: "ISO 8601 duration"
       invalid_content_type: "Expected CONTENT-TYPE to be '%{content_type}' but got '%{actual}'."
       invalid_format: "Invalid format for property '%{property}': Expected format like '%{expected_format}', but got '%{actual}'."
@@ -2889,6 +2891,7 @@ eo:
         select: "The requested select of %{invalid} is not supported. Supported selects are %{supported}."
       invalid_user_status_transition: "The current user account status does not allow this operation."
       missing_content_type: "not specified"
+      missing_property: "Missing property '%{property}'."
       missing_request_body: "There was no request body."
       missing_or_malformed_parameter: "The query parameter '%{parameter}' is missing or malformed."
       multipart_body_error: "The request body did not contain the expected multipart parts."

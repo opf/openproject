@@ -28,12 +28,24 @@
 
 require 'spec_helper'
 
+shared_examples_for 'successful response' do |code = 200|
+  it "has the status code #{code}" do
+    expect(last_response.status).to eq(code)
+  end
+
+  it 'has a HAL+JSON Content-Type' do
+    expected_content_type = 'application/hal+json; charset=utf-8'
+    expect(last_response.headers).to include 'Content-Type'
+    expect(last_response.headers['Content-Type'].downcase).to eql expected_content_type
+  end
+end
+
 shared_examples_for 'error response' do |code, id, provided_message = nil|
   let(:expected_message) do
     provided_message || message
   end
 
-  it 'has the expected status code' do
+  it "has the status code #{code}" do
     expect(last_response.status).to eq(code)
   end
 
@@ -46,7 +58,9 @@ shared_examples_for 'error response' do |code, id, provided_message = nil|
   describe 'response body' do
     subject { JSON.parse(last_response.body) }
 
-    it { expect(subject['errorIdentifier']).to eq("urn:openproject-org:api:v3:errors:#{id}") }
+    describe 'errorIdentifier' do
+      it { expect(subject['errorIdentifier']).to eq("urn:openproject-org:api:v3:errors:#{id}") }
+    end
 
     describe 'message' do
       it { expect(subject['message']).to include(expected_message) }
@@ -113,10 +127,10 @@ shared_examples_for 'unauthorized access' do
 end
 
 shared_examples_for 'not found' do |message = I18n.t('api_v3.errors.code_404')|
-  it_behaves_like 'error response',
-                  404,
-                  'NotFound',
-                  message
+  include_examples 'error response',
+                   404,
+                   'NotFound',
+                   message
 end
 
 shared_examples_for 'param validation error' do
@@ -149,6 +163,13 @@ shared_examples_for 'format error' do |message|
                   message
 end
 
+shared_examples_for 'missing property' do |message|
+  it_behaves_like 'error response',
+                  422,
+                  'PropertyMissingError',
+                  message
+end
+
 shared_examples_for 'read-only violation' do |attribute, model, attribute_message = nil|
   describe 'details' do
     subject { JSON.parse(last_response.body)['_embedded']['details'] }
@@ -156,10 +177,14 @@ shared_examples_for 'read-only violation' do |attribute, model, attribute_messag
     it { expect(subject['attribute']).to eq(attribute) }
   end
 
+  message = [
+    attribute_message || model.human_attribute_name(attribute),
+    I18n.t('activerecord.errors.messages.error_readonly')
+  ].join(" ")
   it_behaves_like 'error response',
                   422,
                   'PropertyIsReadOnly',
-                  "#{attribute_message || model.human_attribute_name(attribute)} #{I18n.t('activerecord.errors.messages.error_readonly')}"
+                  message
 end
 
 shared_examples_for 'multiple errors' do |code, _message|

@@ -1260,6 +1260,7 @@ pl:
   error_enterprise_token_invalid_domain: "Wersja Enterprise jest nieaktywna. Domena Twojego tokenu Enterprise (%{actual}) nie odpowiada nazwie hosta systemu (%{expected})."
   error_failed_to_delete_entry: 'Nie udało się usunąć tego wpisu.'
   error_in_dependent: "Błąd podczas próby zmiany obiektu zależnego: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
+  error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Nieprawidłowa wybrana wartość."
   error_journal_attribute_not_present: "Dziennik nie zawiera atrybutu %{attribute}."
   error_pdf_export_too_many_columns: "Wybrano zbyt dużo kolumn do eksportu PDF. Zmniejsz liczbę kolumn."
@@ -2914,6 +2915,7 @@ pl:
         work_package: "Pakiet roboczy, którego szukasz nie został znaleziony lub został usunięty."
       expected:
         date: "RRRR-MM-DD (tylko data ISO 8601)"
+        datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm] (any compatible ISO 8601 datetime)"
         duration: "Czas trwania ISO 8601"
       invalid_content_type: "Oczekiwano CONTENT-TYPE '%{content_type}' a otrzymano '%{actual}'."
       invalid_format: "Błędny format dla własności '%{property}': Format oczekiwany '%{expected_format}', otrzymano '%{actual}'."
@@ -2925,6 +2927,7 @@ pl:
         select: "Żądany wybór %{invalid} nie jest obsługiwany. Obsługiwane wybory to %{supported}."
       invalid_user_status_transition: "Aktualny stan konta użytkownika nie zezwala na wykonanie tej operacji."
       missing_content_type: "nie określono"
+      missing_property: "Missing property '%{property}'."
       missing_request_body: "There was no request body."
       missing_or_malformed_parameter: "Parametr zapytania '%{parameter}' jest brakujący lub nieprawidłowy."
       multipart_body_error: "Żądanie źródła nie zawiera oczekiwanych wieloczęściowych elementów."
