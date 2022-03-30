@@ -53,7 +53,7 @@ class LdapAuthSource < AuthSource
       attrs.except(:dn)
     end
   rescue Net::LDAP::Error => e
-    raise 'LdapError: ' + e.message
+    raise AuthSource::Error, "LdapError: #{e.message}"
   end
 
   def find_user(login)
@@ -66,7 +66,7 @@ class LdapAuthSource < AuthSource
       attrs.except(:dn)
     end
   rescue Net::LDAP::Error => e
-    raise 'LdapError: ' + e.message
+    raise AuthSource::Error, "LdapError: #{e.message}"
   end
 
   # Open and return a system connection
@@ -77,10 +77,10 @@ class LdapAuthSource < AuthSource
   # test the connection to the LDAP
   def test_connection
     unless authenticate_dn(account, account_password)
-      raise I18n.t('auth_source.ldap_error', error_message: I18n.t('auth_source.ldap_auth_failed'))
+      raise AuthSource::Error, I18n.t('auth_source.ldap_error', error_message: I18n.t('auth_source.ldap_auth_failed'))
     end
   rescue Net::LDAP::Error => e
-    raise I18n.t('auth_source.ldap_error', error_message: e.to_s)
+    raise AuthSource::Error, I18n.t('auth_source.ldap_error', error_message: e.to_s)
   end
 
   def auth_method_name
