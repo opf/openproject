@@ -1260,7 +1260,7 @@ en:
         next_button: 'Continue'
 
     include_projects:
-      toggle_title: 'Include Projects'
+      toggle_title: 'Include projects'
       title: 'Projects'
       clear_selection: 'Clear selection'
       apply: 'Apply'
