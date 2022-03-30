@@ -41,5 +41,13 @@ module Queries::Storages::WorkPackages::Filter
     def permission
       :view_file_links
     end
+
+    def joins
+      %i[file_links storages]
+    end
+
+    def additional_where_condition
+      "AND #{::Storages::FileLink.table_name}.storage_id = #{::Storages::Storage.table_name}.id"
+    end
   end
 end
