@@ -87,6 +87,13 @@ describe Settings::Definition do
           .to be false
       end
 
+      it 'overriding date configuration from ENV will cast the value' do
+        stub_const('ENV', { 'OPENPROJECT_CONSENT__TIME' => '2222-01-01' })
+
+        expect(all.detect { |d| d.name == 'consent_time' }.value)
+          .to eql Date.parse('2222-01-01')
+      end
+
       it 'overriding configuration from ENV will set it to non writable' do
         stub_const('ENV', { 'OPENPROJECT_EDITION' => 'bim' })
 
@@ -142,29 +149,29 @@ describe Settings::Definition do
       include_context 'with clean definitions'
 
       let(:file_contents) do
-        {
-          'default' => {
-            'edition' => 'bim',
-            'sendmail_location' => 'default location'
-          },
-          'test' => {
-            'smtp_address' => 'test address',
-            'sendmail_location' => 'test location',
-            'bogus' => 'bogusvalue'
-          }
-        }
+        <<~YAML
+          ---
+            default:
+              edition: 'bim'
+              sendmail_location: 'default_location'
+            test:
+              smtp_address: 'test address'
+              sendmail_location: 'test location'
+              bogus: 'bogusvalue'
+              consent_time: 2222-01-01
+        YAML
       end
 
       before do
-        allow(YAML)
-          .to receive(:load_file)
-          .with(Rails.root.join('config/configuration.yml'))
-          .and_return(file_contents)
-
         allow(File)
           .to receive(:file?)
-          .with(Rails.root.join('config/configuration.yml'))
-          .and_return(true)
+                .with(Rails.root.join('config/configuration.yml'))
+                .and_return(true)
+
+        allow(File)
+          .to receive(:read)
+                .with(Rails.root.join('config/configuration.yml'))
+                .and_return(file_contents)
 
         # Loading of the config file is disabled in test env normally.
         allow(Rails.env)
@@ -207,13 +214,18 @@ describe Settings::Definition do
           .to be_nil
       end
 
+      it 'correctly parses date objects' do
+        expect(all.detect { |d| d.name == 'consent_time' }.value)
+          .to eql DateTime.parse("2222-01-01")
+      end
+
       context 'when having invalid values in the file' do
         let(:file_contents) do
-          {
-            'default' => {
-              'smtp_openssl_verify_mode' => 'bogus'
-            }
-          }
+          <<~YAML
+            ---
+              default:
+                smtp_openssl_verify_mode: 'bogus'
+          YAML
         end
 
         it 'is invalid' do

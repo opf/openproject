@@ -94,6 +94,8 @@ module Settings
     end
 
     def valid?
+      # TODO: it would make sense to also check the type of the value (e.g. boolean).
+      # But as using e.g. 0 for a boolean is quite common, that would break.
       !allowed ||
         (format == :array && (value - allowed).empty?) ||
         allowed.include?(value)
@@ -194,7 +196,7 @@ module Settings
           file_config = {}
 
           if File.file?(filename)
-            file_config = YAML.load_file(filename)
+            file_config = load_yaml(ERB.new(File.read(filename)).result)
 
             if file_config.is_a? Hash
               file_config
@@ -294,7 +296,7 @@ module Settings
         # To specify specific values, one can use !!str (-> '') or !!null (-> nil)
         return original_value if original_value == ''
 
-        parsed = YAML.safe_load(original_value)
+        parsed = load_yaml(original_value)
 
         if parsed.is_a?(String)
           original_value
@@ -303,6 +305,10 @@ module Settings
         end
       rescue StandardError => e
         raise ArgumentError, "Configuration value for '#{key}' is invalid: #{e.message}"
+      end
+
+      def load_yaml(source)
+        YAML::safe_load(source, permitted_classes: [Symbol, Date])
       end
 
       attr_accessor :loaded
