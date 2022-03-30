@@ -23,7 +23,7 @@ az:
   activerecord:
     attributes:
       work_package:
-        position: "Position"
+        position: "Vəzifə"
         remaining_hours: "Remaining hours"
         remaining_time: "Remaining hours"
         story_points: "Story Points"
