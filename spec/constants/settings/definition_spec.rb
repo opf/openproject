@@ -124,6 +124,18 @@ describe Settings::Definition do
         expect(all.detect { |d| d.name == 'bogus' })
           .to be_nil
       end
+
+      it 'ENV vars for which a definition has been added after #all was called first (e.g. in a module)' do
+        stub_const('ENV', { 'OPENPROJECT_BOGUS' => '1' })
+
+        all
+
+        described_class.add 'bogus',
+                            value: 0
+
+        expect(all.detect { |d| d.name == 'bogus' }.value)
+          .to eq 1
+      end
     end
 
     context 'when overriding from file' do
@@ -148,11 +160,6 @@ describe Settings::Definition do
           .to receive(:load_file)
           .with(Rails.root.join('config/configuration.yml'))
           .and_return(file_contents)
-
-        allow(YAML)
-          .to receive(:load_file)
-          .with(Rails.root.join('config/settings.yml'))
-          .and_return({})
 
         allow(File)
           .to receive(:file?)

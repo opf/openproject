@@ -50,7 +50,7 @@ describe Setting, type: :model do
 
   # checks whether settings can be set and are persisted in the database
   describe 'changing a setting' do
-    context "setting doesn't exist in the database" do
+    context "for a setting that doesn't exist in the database" do
       before do
         described_class.host_name = 'some name'
       end
@@ -83,7 +83,7 @@ describe Setting, type: :model do
       end
     end
 
-    context 'setting already exist in the database' do
+    context 'for a setting that already exist in the database' do
       before do
         described_class.host_name = 'some name'
         described_class.host_name = 'some other name'

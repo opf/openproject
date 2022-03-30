@@ -133,11 +133,15 @@ module Settings
 
         @by_name = nil
 
-        all << new(name,
-                   format: format,
-                   value: value,
-                   writable: writable,
-                   allowed: allowed)
+        definition = new(name,
+                         format: format,
+                         value: value,
+                         writable: writable,
+                         allowed: allowed)
+
+        override_value(definition)
+
+        all << definition
       end
 
       def define(&block)
@@ -164,10 +168,6 @@ module Settings
         unless loaded
           self.loaded = true
           load './config/constants/settings/definitions.rb'
-
-          # The test setup should govern the configuration
-          load_config_from_file unless Rails.env.test?
-          override_config
         end
 
         @all
@@ -180,60 +180,75 @@ module Settings
         @all = nil
         @loaded = false
         @by_name = nil
+        @file_config = nil
       end
 
       def by_name
         @by_name ||= all.group_by(&:name).transform_values(&:first)
       end
 
-      def load_config_from_file
-        filename = Rails.root.join('config/configuration.yml')
+      def file_config
+        @file_config ||= begin
+          filename = Rails.root.join('config/configuration.yml')
 
-        if File.file?(filename)
-          file_config = YAML.load_file(filename)
+          file_config = {}
 
-          if file_config.is_a? Hash
-            load_env_from_config(file_config, Rails.env)
-          else
-            warn "#{filename} is not a valid OpenProject configuration file, ignoring."
+          if File.file?(filename)
+            file_config = YAML.load_file(filename)
+
+            if file_config.is_a? Hash
+              file_config
+            else
+              warn "#{filename} is not a valid OpenProject configuration file, ignoring."
+            end
           end
+
+          file_config
         end
       end
 
-      def load_env_from_config(config, env)
-        config['default']&.each do |name, value|
-          self[name]&.override_value(value)
-        end
-        config[env]&.each do |name, value|
-          self[name]&.override_value(value)
+      # Replace values for which an entry in the config file or as an environment variable exists.
+      def override_value(definition)
+        # The test setup should govern the configuration
+        override_value_from_file(definition) unless Rails.env.test?
+        override_value_from_env(definition)
+      end
+
+      def override_value_from_file(definition)
+        name = definition.name
+
+        ['default', Rails.env].each do |env|
+          next unless file_config.dig(env, name)
+
+          definition.override_value(file_config.dig(env, name))
         end
       end
 
-      # Replace config values for which an environment variable with the same key in upper case
-      # exists.
+      # Replace values for which an environment variable with the same key in upper case exists.
       # Also merges the existing values that are hashes with values from ENV if they follow the naming
       # schema.
-      def override_config
-        override_config_values
-        merge_hash_config
+      def override_value_from_env(definition)
+        override_config_values(definition)
+        merge_hash_config(definition) if definition.format == :hash
       end
 
-      def override_config_values
-        all
-          .map(&:name)
-          .select { |key| ENV.include? key.upcase }
-          .each { |key| self[key].override_value(extract_value(key, ENV[key.upcase])) }
+      def override_config_values(definition)
+        value = ENV[env_name(definition)]
+
+        return unless value
+
+        definition.override_value(extract_value(definition.name.upcase, value))
       end
 
-      def merge_hash_config
-        ENV.select { |k, _| k =~ /^#{ENV_PREFIX}/i }.each do |k, raw_value|
-          name, value = path_to_hash(*path(ENV_PREFIX, k),
-                                     extract_value(k, raw_value))
-                          .first
+      def merge_hash_config(definition)
+        ENV.select { |k, _| k =~ /^#{env_name(definition)}/i }.each do |k, raw_value|
+          _, value = path_to_hash(*path(ENV_PREFIX, k),
+                                  extract_value(k, raw_value))
+                        .first
 
           # There might be ENV vars that match the OPENPROJECT_ prefix but are no OP instance
           # settings, e.g. OPENPROJECT_DISABLE_DEV_ASSET_PROXY
-          self[name]&.override_value(value)
+          definition.override_value(value)
         end
       end
 
@@ -250,7 +265,6 @@ module Settings
       # where the last parameter becomes the value.
       #
       # e.g. path_to_hash(:a, :b, :c, :d) => { a: { b: { c: :d } } }
-
       def path_to_hash(*path)
         value = path.pop
 
@@ -261,6 +275,10 @@ module Settings
 
       def unescape_underscores(path_segment)
         path_segment.gsub '__', '_'
+      end
+
+      def env_name(definition)
+        "#{ENV_PREFIX}#{definition.name.upcase.gsub('_', '__')}"
       end
 
       ##
