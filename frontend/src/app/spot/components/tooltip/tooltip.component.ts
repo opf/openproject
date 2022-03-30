@@ -12,7 +12,7 @@ import SpotDropAlignmentOption from '../../drop-alignment-options';
 export class SpotTooltipComponent {
   @HostBinding('class.spot-tooltip') public className = true;
 
-  @Input() forceShow = false;
+  @Input() disabled = false;
 
   @Input() public alignment:SpotDropAlignmentOption = SpotDropAlignmentOption.BottomCenter;
 
