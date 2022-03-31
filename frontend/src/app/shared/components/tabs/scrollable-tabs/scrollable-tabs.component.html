@@ -3,7 +3,11 @@
     #scrollContainer
     class="op-scrollable-tabs--tab-container"
   >
-    <ul #scrollPane class="op-tab-row" (scroll)="onScroll()">
+    <ul
+      #scrollPane
+      class="op-tab-row"
+      (scroll)="onScroll()"
+    >
       <li
         *ngFor="let tab of tabs; trackBy:trackById"
         class="op-tab-row--tab"
