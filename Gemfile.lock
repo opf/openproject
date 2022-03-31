@@ -1018,6 +1018,7 @@ DEPENDENCIES
   factory_bot (~> 6.2.0)
   factory_bot_rails (~> 6.2.0)
   faker
+  ffi (~> 1.15)
   flamegraph
   fog-aws
   friendly_id (~> 5.4.0)
