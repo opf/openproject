@@ -1225,6 +1225,7 @@ el:
   error_enterprise_token_invalid_domain: "Η έκδοση Enterprise δεν είναι ενεργή. Ο τομέας του διακριτικού Enterprise (%{actual}) δεν ταιριάζει με το όνομα κεντρικού υπολογιστή του συστήματος (%{expected})."
   error_failed_to_delete_entry: 'Αποτυχία διαγραφής αυτής της καταχώρησης.'
   error_in_dependent: "Παρουσιάστηκε σφάλμα στην προσπάθεια αλλαγής του εξαρτώμενου αντικειμένου: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
+  error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Η επιλεγμένη τιμή δεν είναι έγκυρη."
   error_journal_attribute_not_present: "Το ημερολόγιο δεν περιέχει το χαρακτηριστικό %{attribute}."
   error_pdf_export_too_many_columns: "Επιλέχθηκαν πάρα πολλές στήλες για εξαγωγή σε PDF. Παρακαλούμε μειώστε τον αριθμό των στηλών."
@@ -2873,6 +2874,7 @@ el:
         work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:
         date: "ΕΕΕΕ-ΜΜ-ΗΗ (ISO 8601 ημερομηνία μόνο)"
+        datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm] (any compatible ISO 8601 datetime)"
         duration: "ISO 8601 διάρκεια"
       invalid_content_type: "Αναμενόταν το CONTENT-TYPE να είναι '%{content_type}' αλλά δόθηκε '%{actual}'."
       invalid_format: "Μη έγκυρη μορφοποίηση για την ιδιότητα '%{property}': Αναμενόταν μορφοποίηση με τη μορφή '%{expected_format}', αλλά δόθηκε '%{actual}'."
@@ -2884,6 +2886,7 @@ el:
         select: "The requested select of %{invalid} is not supported. Supported selects are %{supported}."
       invalid_user_status_transition: "Η τρέχουσα κατάσταση λογαριασμού χρήστη δεν επιτρέπει αυτή τη λειτουργία."
       missing_content_type: "δεν έχει καθοριστεί"
+      missing_property: "Missing property '%{property}'."
       missing_request_body: "Δεν υπάρχει σώμα αιτήματος."
       missing_or_malformed_parameter: "Η παράμετρος αναζήτησης '%{parameter}' λείπει ή δεν δημιουργήθηκε σωστά."
       multipart_body_error: "Το σώμα αιτήματος δεν περιέχει τα αναμενόμενα multipart κομμάτια."

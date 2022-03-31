@@ -261,7 +261,7 @@ module API
                  setter: ->(fragment:, **) {
                    next if represented.persisted?
 
-                   represented.ordered_work_packages = Hash(fragment)
+                   represented.ordered_work_packages = fragment
                  }
 
         property :starred,

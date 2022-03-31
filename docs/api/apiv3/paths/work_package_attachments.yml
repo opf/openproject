@@ -14,7 +14,7 @@ get:
       content:
         application/hal+json:
           schema:
-            "$ref": "../components/schemas/attachments_by_work_package_model.yml"
+            "$ref": "../components/schemas/attachments_model.yml"
       description: OK
       headers: {}
     '404':

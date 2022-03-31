@@ -458,7 +458,7 @@ hu:
     label_global_queries: "Publikus nézetek"
     label_custom_queries: "Privát nézetek"
     label_columns: "Oszlopok"
-    label_attachments: Fájlok
+    label_attachments: Csatolmány
     label_drop_files: Húzza a fájlokat ide
     label_drop_files_hint: vagy kattintson a fájlok hozzáadásához
     label_drop_folders_hint: Nem tölthet fel mappákat mellékletként. Válasszon egyetlen fájlt.
@@ -502,7 +502,8 @@ hu:
           task_board: "A feladattábla megjeleníti <b> a sprint haladását </b>. Új feladatok vagy akadályok hozzáadásához kattintson a felhasználói történet melletti plusz (+) ikonra. <br> Az állapot húzással frissíthető.\n"
         boards:
           overview: "Válassza a <b>táblák</b> lehetőséget a nézetváltáshoz, és kezelje projektjét az agilis táblák nézetben.\n"
-          lists: "Itt több listát (oszlopot) hozhat létre a táblán belül. Ezzel a funkcióval például <b> Kanban táblát </b> hozhat létre.\n"
+          lists_kanban: "Itt több listát (oszlopot) hozhat létre a táblán belül. Ezzel a funkcióval például <b> Kanban táblát </b> hozhat létre.\n"
+          lists_basic: 'Here you can create multiple lists (columns) within your agile board.'
           add: "Kattintson a plusz (+) ikonra, ha <b> új kártyát szeretne létrehozni </b>, vagy <b> hozzáadni egy meglévő kártyát </b> a táblán lévő listához.\n"
           drag: 'Egy adott listán belül húzza a kártyákat, hogy átrendezze őket, vagy áthelyezze őket egy másik listába. <br> A jobb felső sarokban található információs (i) ikonra kattintva vagy egy kártyára duplán kattintva megnyithatja annak részleteit.'
         wp:
@@ -999,7 +1000,7 @@ hu:
         activity: Tevékenység
         relations: Kapcsolatok
         watchers: Megfigyelők
-        attachments: Csatolmány
+        files: Fájlok
       time_relative:
         days: "nap"
         weeks: "Hetek"

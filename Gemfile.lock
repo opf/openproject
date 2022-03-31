@@ -156,6 +156,11 @@ PATH
       costs
 
 PATH
+  remote: modules/storages
+  specs:
+    openproject-storages (1.0.0)
+
+PATH
   remote: modules/team_planner
   specs:
     openproject-team_planner (1.0.0)
@@ -348,7 +353,7 @@ GEM
     commonmarker (0.23.4)
     compare-xml (0.66)
       nokogiri (~> 1.8)
-    concurrent-ruby (1.1.9)
+    concurrent-ruby (1.1.10)
     cookiejar (0.3.3)
     cork (0.3.0)
       colored2 (~> 3.1)
@@ -648,8 +653,8 @@ GEM
       webfinger (>= 1.0.1)
     openproject-token (2.2.0)
       activemodel
-    parallel (1.22.0)
-    parallel_tests (3.7.3)
+    parallel (1.22.1)
+    parallel_tests (3.8.1)
       parallel
     parser (3.1.1.0)
       ast (~> 2.4.1)
@@ -874,16 +879,16 @@ GEM
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2)
     semantic (1.6.1)
-    sentry-delayed_job (5.2.0)
+    sentry-delayed_job (5.2.1)
       delayed_job (>= 4.0)
-      sentry-ruby-core (~> 5.2.0)
-    sentry-rails (5.2.0)
+      sentry-ruby-core (~> 5.2.1)
+    sentry-rails (5.2.1)
       railties (>= 5.0)
-      sentry-ruby-core (~> 5.2.0)
-    sentry-ruby (5.2.0)
+      sentry-ruby-core (~> 5.2.1)
+    sentry-ruby (5.2.1)
       concurrent-ruby (~> 1.0, >= 1.0.2)
-      sentry-ruby-core (= 5.2.0)
-    sentry-ruby-core (5.2.0)
+      sentry-ruby-core (= 5.2.1)
+    sentry-ruby-core (5.2.1)
       concurrent-ruby
     shoulda-context (2.0.0)
     shoulda-matchers (5.1.0)
@@ -1061,6 +1066,7 @@ DEPENDENCIES
   openproject-pdf_export!
   openproject-recaptcha!
   openproject-reporting!
+  openproject-storages!
   openproject-team_planner!
   openproject-token (~> 2.2.0)
   openproject-two_factor_authentication!
@@ -1131,6 +1137,7 @@ DEPENDENCIES
   timecop (~> 0.9.0)
   typed_dag (~> 2.0.2)
   tzinfo-data (~> 1.2022.1)
+  validate_url
   warden (~> 1.2)
   warden-basic_auth (~> 0.2.1)
   webdrivers (~> 5.0.0)

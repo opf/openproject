@@ -39,10 +39,10 @@ describe Queries::CreateService do
     let(:params) do
       {
         name: 'My query',
-        ordered_work_packages: [
-          OrderedWorkPackage.new(work_package_id: work_package.id, position: 0),
-          OrderedWorkPackage.new(work_package_id: 9999, position: 1)
-        ]
+        ordered_work_packages: {
+          work_package.id => 0,
+          9999 => 1
+        }
       }
     end
 

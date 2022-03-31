@@ -4,6 +4,7 @@ import {
   OnboardingTourNames,
   onboardingTourStorageKey,
   preventClickHandler,
+  ProjectName,
   waitForElement,
 } from 'core-app/core/setup/globals/onboarding/helpers';
 import { boardTourSteps } from 'core-app/core/setup/globals/onboarding/tours/boards_tour';
@@ -73,7 +74,7 @@ function moduleVisible(name:string):boolean {
   return document.getElementsByClassName(`${name}-view-menu-item`).length > 0;
 }
 
-function mainTour() {
+function mainTour(project:ProjectName = ProjectName.demo) {
   initializeTour('mainTourFinished');
 
   const boardsDemoDataAvailable = jQuery('meta[name=boards_demo_data_available]').attr('content') === 'true';
@@ -88,13 +89,15 @@ function mainTour() {
       // ... and available seed data of boards.
       // Then add boards to the tour, otherwise skip it.
       if (boardsDemoDataAvailable && moduleVisible('board')) {
-        steps = steps.concat(boardTourSteps());
+        steps = steps.concat(boardTourSteps('enterprise', project));
       }
 
       // ... same for team planners
       if (teamPlannerDemoDataAvailable && moduleVisible('team-planner')) {
         steps = steps.concat(teamPlannerTourSteps());
       }
+    } else if (boardsDemoDataAvailable && moduleVisible('board')) {
+      steps = steps.concat(boardTourSteps('basic', project));
     }
 
     steps = steps.concat(menuTourSteps());
@@ -103,7 +106,7 @@ function mainTour() {
   });
 }
 
-export function start(name:OnboardingTourNames):void {
+export function start(name:OnboardingTourNames, project?:ProjectName):void {
   switch (name) {
     case 'prepareBacklogs':
       initializeTour('prepareTaskBoardTour');
@@ -122,7 +125,7 @@ export function start(name:OnboardingTourNames):void {
       startTour(homescreenOnboardingTourSteps());
       break;
     case 'main':
-      mainTour();
+      mainTour(project);
       break;
     default:
       break;

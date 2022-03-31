@@ -1226,6 +1226,7 @@ ca:
   error_enterprise_token_invalid_domain: "The Enterprise Edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: 'Failed to delete this entry.'
   error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
+  error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Invalid selected value."
   error_journal_attribute_not_present: "Journal does not contain attribute %{attribute}."
   error_pdf_export_too_many_columns: "Too many columns selected for the PDF export. Please reduce the number of columns."
@@ -2873,6 +2874,7 @@ ca:
         work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:
         date: "AAAA-MM-DD ( només dates ISO 8601)"
+        datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm] (any compatible ISO 8601 datetime)"
         duration: "durada ISO 8601"
       invalid_content_type: "El TIPUS-DE-CONTINGUT esperat és '%{content_type}' però s'ha trobat \"%{actual}\"."
       invalid_format: "Format no vàlid per a la propietat '%{property}': el format esperat és com \"%{expected_format}\", però s'ha trobat \"%{actual}\"."
@@ -2884,6 +2886,7 @@ ca:
         select: "The requested select of %{invalid} is not supported. Supported selects are %{supported}."
       invalid_user_status_transition: "L'estat de compte de l'usuari actual no permet aquesta operació."
       missing_content_type: "no especificat"
+      missing_property: "Missing property '%{property}'."
       missing_request_body: "Hi havia cos a la petició."
       missing_or_malformed_parameter: "The query parameter '%{parameter}' is missing or malformed."
       multipart_body_error: "El cos de la sol·licitud no conté les parts de multiparts que s'esperava."

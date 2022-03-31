@@ -1263,6 +1263,7 @@ sk:
   error_enterprise_token_invalid_domain: "The Enterprise Edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: 'Chyba pri odstraňovaní tejto položky.'
   error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
+  error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Vybratá neplatná hodnota."
   error_journal_attribute_not_present: "Denník neobsahuje atribút %{attribute}."
   error_pdf_export_too_many_columns: "Vybraných príliš veľa stĺpcov pre export do PDF. Znížte počet stĺpcov."
@@ -2920,6 +2921,7 @@ sk:
         work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:
         date: "RRRR-MM-DD (len dátumu ISO 8601)"
+        datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm] (any compatible ISO 8601 datetime)"
         duration: "ISO 8601 trvanie"
       invalid_content_type: "Očakávaný typ obsahu je \"%{content_type}\", dodaný bol však \"%{actual}\"."
       invalid_format: "Neplatný formát parametra \"%{property}\": systémom očakávaný formát je \"%{expected_format}\", používateľ dodal \"%{actual}\"."
@@ -2931,6 +2933,7 @@ sk:
         select: "The requested select of %{invalid} is not supported. Supported selects are %{supported}."
       invalid_user_status_transition: "Účet aktuálneho používateľa nemá oprávnenie na vykonanie tejto operácie."
       missing_content_type: "nešpecifikovaný"
+      missing_property: "Missing property '%{property}'."
       missing_request_body: "Chýba žiadosť tela (request body)."
       missing_or_malformed_parameter: "Parameter dotazu '%{parameter}' chýba alebo je chybne vytvorený."
       multipart_body_error: "Telo žiadosti neobsahuje očakávaný viacnásobné časti."

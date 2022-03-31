@@ -455,7 +455,7 @@ lt:
     label_global_queries: "Vieši vaizdai"
     label_custom_queries: "Asmeniniai vaizdai"
     label_columns: "Stulpeliai"
-    label_attachments: Failai
+    label_attachments: Priedai
     label_drop_files: Numeskite failus čia
     label_drop_files_hint: arba spustelkite, kad pridėtumėte failus
     label_drop_folders_hint: Aplankų negalima įkelti kaip priedų. Prašome pasirinkti atskirus failus.
@@ -499,7 +499,8 @@ lt:
           task_board: "Užduočių lenta vaizduoja <b>sprinto progresą</b>. Nuspauskite pliuso (+) ženklą prie user story norėdami pridėti naujas užduotis arba trukdžius. <br> Būsena gali būti pakeista nuvelkant į reikiamą vietą."
         boards:
           overview: 'Pasirinkite <b>lentas</b> siekdami pakeisti vaizdą ir valdyti projektą naudodami agile lentų vaizdą.'
-          lists: 'Lentoje galite sukurti keletą sąrašų (stulpelių) . Ši funkcija leidžia sukurti <b>Kanban lentą</b>.'
+          lists_kanban: 'Lentoje galite sukurti keletą sąrašų (stulpelių) . Ši funkcija leidžia sukurti <b>Kanban lentą</b>.'
+          lists_basic: 'Čia galite sukurti kelis sąrašus (stulpelius) jūsų agile lentoje.'
           add: 'Nuspauskite plius (+) ženklą ir <b>sukurkite naują kortelę</b> arba <b>pridėkite jau esamą</b> prie sąrašo lentoje.'
           drag: 'Vilkite korteles sąrašo viduje norėdami pakeisti jų tvarką, arba perkelti į kitą sąrašą. <br> Galite nuspausti ant info (i) ženklo viršutiniame dešiniajame kampa arba du kartus spustelėti kortelę norėdami pamatyti jos detales.'
         wp:
@@ -511,11 +512,11 @@ lt:
           timeline_button: 'Jūs galite aktyvuoti <b>Gantto diagramą</b> norėdami matyti savo projekto laiko planavimo juostą.'
           timeline: 'Čia jūs galite <b>redaguoti savo projekto planą</b>, kurti naujus darbo paketus, tokius kaip užduotys, etapai ir <b>pridėti priklausomybių</b>. Visi komandos nariai gali peržiūrėti ir keisti naujausią planą bet kuriuo metu.'
         team_planner:
-          overview: 'The team planner lets you visually assign tasks to team members and get an overview of who is working on what.'
-          calendar: 'The weekly or biweekly planning board displays all work packages assigned to your team members.'
-          add_assignee: 'To get started, add assignees to the team planner.'
-          add_existing: 'Search for existing work packages and drag them to the team planner to instantly assign them to a team member and define start and end dates.'
-          card: 'Drag work packages horizontally to move them backwards or forwards in time, drag the edges to change start and end dates and even drag them vertically to a different row to assign them to another member.'
+          overview: 'Komandos planuotojas leidžia vizualiai priskirti užduotis komandos nariams ir gauti bendrą vaizdą, kas ką daro.'
+          calendar: 'Savaitės arba dviejų savaičių planavimo lenta rodo visus darbo paketus, priskirtus jūsų komandos nariams.'
+          add_assignee: 'Norėdami pradėti pridėkite paskiriamuosius į komandos planą.'
+          add_existing: 'Ieškokite esamų darbų paketų ir tempkite juos į komandos planą, kad akimirksniu priskirtumėte juos komandos nariui ir nurodytumėte pradžios ir pabaigos datas.'
+          card: 'Tempkite darbo paketus horizontaliai, kad perkeltumėte juos atgal arba į priekį laike. Tempkite kraštus, kad keistumėte pradžios ar pabaigos datas, arba tempkite vertikaliai į kitą eilutę, kad priskirtumėte juos kitam nariui.'
     notifications:
       title: "Pranešimai"
       no_unread: "Nėra neperskaitytų pranešimų"
@@ -996,7 +997,7 @@ lt:
         activity: Veikla
         relations: Ryšiai
         watchers: Stebėtojai
-        attachments: Priedai
+        files: Failai
       time_relative:
         days: "dienos"
         weeks: "savaitės"

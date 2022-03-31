@@ -1259,6 +1259,7 @@ uk:
   error_enterprise_token_invalid_domain: "Версія Enterprise Edition не активна. Ваш домен маркера Enterprise (%{actual}) не збігається з іменем хосту системи (%{expected})."
   error_failed_to_delete_entry: 'Не вдалося видалити цей запис.'
   error_in_dependent: "Помилка спроби змінити залежний об'єкт: %{dependent_class} %{related_id} - %{related_subject}: %{error}"
+  error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Недійсне вибране значення."
   error_journal_attribute_not_present: "Журнал не містить атрибута %{attribute}."
   error_pdf_export_too_many_columns: "Для експорту PDF-файлу вибрано занадто багато стовпців. Скоротіть кількість стовпців."
@@ -2915,6 +2916,7 @@ uk:
         work_package: "Пакет робіт, який ви шукаєте, не можна знайти або його видалено."
       expected:
         date: "YYYY-MM-DD (ISO 8601 date only)"
+        datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm] (any compatible ISO 8601 datetime)"
         duration: "ISO 8601 тривалість"
       invalid_content_type: "Очікуваний тип CONTENT-TYPE %{content_type} але отримав %{actual}."
       invalid_format: "Недійсний формат властивості %{property}: Очікуваний формат на зразок %{expected_format} but got %{actual}"
@@ -2926,6 +2928,7 @@ uk:
         select: "Запитаний варіант %{invalid} не підтримується. Підтримувані варіанти: %{supported}."
       invalid_user_status_transition: "Поточний статус облікового запису користувача не дозволяє цю операцію."
       missing_content_type: "не вказано"
+      missing_property: "Missing property '%{property}'."
       missing_request_body: "Не було органу запиту."
       missing_or_malformed_parameter: "Параметр запиту %{parameter} відсутній або неправильно сформований."
       multipart_body_error: "Текст запиту не містить очікуваного складових частин."

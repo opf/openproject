@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   Input,
   OnInit,
@@ -9,20 +10,8 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 @Component({
   selector: 'enterprise-banner',
   styleUrls: ['./enterprise-banner.component.sass'],
-  template: `
-    <div class="op-enterprise-banner">
-      <div class="op-toast -ee-upsale"
-           [ngClass]="{'-left-margin': leftMargin }">
-        <div class="op-toast--content">
-          <p class="-bold" [textContent]="text.enterpriseFeature"></p>
-          <p [textContent]="textMessage"></p>
-          <a [href]="link"
-             target='blank'
-             [textContent]="linkMessage"></a>
-        </div>
-      </div>
-    </div>
-  `
+  templateUrl: './enterprise-banner.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EnterpriseBannerComponent implements OnInit {
   @Input() public leftMargin = false;

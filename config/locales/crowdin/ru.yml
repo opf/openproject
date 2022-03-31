@@ -1262,6 +1262,7 @@ ru:
   error_enterprise_token_invalid_domain: "Корпоративная версия не активна. Домен вашего корпоративного токена (%{actual}) не совпадает с системным именем (%{expected})."
   error_failed_to_delete_entry: 'Не удалось удалить эту запись.'
   error_in_dependent: "Ошибка при попытке изменить зависимый объект: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
+  error_in_new_dependent: "Ошибка при создании зависимого объекта: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Выбранное значение недопустимо."
   error_journal_attribute_not_present: "Журнал не содержит атрибут %{attribute}."
   error_pdf_export_too_many_columns: "Для экспорта в PDF-файл выбрано слишком много столбцов. Пожалуйста, сократите количество столбцов."
@@ -2916,6 +2917,7 @@ ru:
         work_package: "Пакет работ, который вы ищете, не найден или был удален."
       expected:
         date: "ГГГГ-мм-дд (только для даты ISO 8601)"
+        datetime: "ГГГГ-ММ-Дтч:мм:сс[.lll][+чч:мм] (любой совместимый ISO 8601 datetime)"
         duration: "ISO 8601 продолжительность"
       invalid_content_type: "Ожидаемый CONTENT-TYPE должен быть быть «%{content_type}», но получил «%{actual}»."
       invalid_format: "Недопустимый формат свойства «%{property}»: ожидаемый формат «%{expected_format}», но получил «%{actual}»."
@@ -2927,6 +2929,7 @@ ru:
         select: "Запрошенный выбор %{invalid} не поддерживается. Поддерживаются варианты %{supported}."
       invalid_user_status_transition: "Состояние учетной записи текущего пользователя не поддерживает эту операцию."
       missing_content_type: "Не определено"
+      missing_property: "Отсутствует свойство '%{property}'."
       missing_request_body: "Нет тела запроса."
       missing_or_malformed_parameter: "Параметр запроса «%{parameter}» отсутствует или имеет неправильный формат."
       multipart_body_error: "Тело запроса не содержит ожидаемых частей."

@@ -1208,6 +1208,7 @@ ja:
   error_enterprise_token_invalid_domain: "Enterprise Edition がアクティブではありません。Enterprise トークンのドメイン (%{actual}) がシステムのホスト名(%{expected}) と一致しません。"
   error_failed_to_delete_entry: 'このエントリを削除できませんでした。'
   error_in_dependent: "依存オブジェクトを変更しようとしてエラーが発生しました: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
+  error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "選択された値が無効です。"
   error_journal_attribute_not_present: "ジャーナルには属性%{attribute}は含まれていません。"
   error_pdf_export_too_many_columns: "PDF エクスポート用に選択された列が多すぎます。 列の数を減らしてください。"
@@ -2853,6 +2854,7 @@ ja:
         work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:
         date: "YYYY-MM-DD (ISO 8601 日付のみ)"
+        datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm] (any compatible ISO 8601 datetime)"
         duration: "ISO 8601 期間"
       invalid_content_type: "コンテンツの種類は'%{content_type}'を期待されたが '%{actual}'を得ました。"
       invalid_format: "不正なフォーマットのプロパティ '%{property}': 期待されるフォーマットは '%{expected_format}', ですが '%{actual}'を受け取りました."
@@ -2864,6 +2866,7 @@ ja:
         select: "要求された %{invalid} の選択はサポートされていません。 サポートされている選択は %{supported} です。"
       invalid_user_status_transition: "現在のユーザーのアカウントステータスはこの操作を許可していません。"
       missing_content_type: "指定されていません。"
+      missing_property: "Missing property '%{property}'."
       missing_request_body: "要求の本体がありませんでした。"
       missing_or_malformed_parameter: "クエリパラメーター '%{parameter}' が存在しないか、正しくありません。"
       multipart_body_error: "要求の本体に、期待したマルチパートが含まれていませんでした。"

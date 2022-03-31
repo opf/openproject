@@ -135,9 +135,9 @@ RSpec.feature 'Work package timeline labels',
 
     # Check the query
     query = Query.last
-    expect(query.timeline_labels).to eq 'left' => 'assignee',
-                                        'right' => 'type',
-                                        'farRight' => 'status'
+    expect(query.timeline_labels).to eq left: 'assignee',
+                                        right: 'type',
+                                        farRight: 'status'
 
     # Revisit page
     wp_timeline.visit_query query

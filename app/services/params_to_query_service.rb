@@ -133,7 +133,7 @@ class ParamsToQueryService
                        else
                          model_name = model.name
 
-                         "::Queries::#{model_name.pluralize}::#{model_name}Query".constantize
+                         "::Queries::#{model_name.pluralize}::#{model_name.demodulize}Query".constantize
                        end
   end
 end

@@ -1226,6 +1226,7 @@ it:
   error_enterprise_token_invalid_domain: "L'Enterprise Edition non è attiva. Il dominio del token Enterprise (%{actual}) non corrisponde al nome host del sistema (%{expected})."
   error_failed_to_delete_entry: 'Cancellazione voce non riuscita.'
   error_in_dependent: "Errore nel tentativo di modificare l'oggetto dipendente: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
+  error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Valore selezionato non valido."
   error_journal_attribute_not_present: "Il diario non contiene l'attributo %{attribute}."
   error_pdf_export_too_many_columns: "Troppe colonne selezionate per l'esportazione in PDF. Ridurre il numero di colonne."
@@ -2875,6 +2876,7 @@ it:
         work_package: "La macro-attività che stai cercando non può essere trovata o è stata eliminata."
       expected:
         date: "AAAA-MM-GG (solo date ISO 8601)"
+        datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm] (any compatible ISO 8601 datetime)"
         duration: "Durata ISO 8601"
       invalid_content_type: "Il CONTENT-TYPE avrebbe dovuto essere '%{content_type}', ma si è ottenuto '%{actual}'."
       invalid_format: "Formato non valido per la proprietà '%{property}': previsto un formato del tipo '%{expected_format}', rispetto al tipo attuale '%{actual}'."
@@ -2886,6 +2888,7 @@ it:
         select: "La selezione richiesta di %{invalid} non è supportata. Le selezioni supportate sono %{supported}."
       invalid_user_status_transition: "L'attuale stato dell'account utente non consente questa operazione."
       missing_content_type: "non specificato"
+      missing_property: "Missing property '%{property}'."
       missing_request_body: "Corpo della richiesta mancante."
       missing_or_malformed_parameter: "Il parametro della query '%{parameter}' è assente o non valido."
       multipart_body_error: "Il corpo della richiesta non contiene le multipart previste."

@@ -1213,6 +1213,7 @@ th:
   error_enterprise_token_invalid_domain: "The Enterprise Edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: 'Failed to delete this entry.'
   error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
+  error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Invalid selected value."
   error_journal_attribute_not_present: "Journal does not contain attribute %{attribute}."
   error_pdf_export_too_many_columns: "Too many columns selected for the PDF export. Please reduce the number of columns."
@@ -2858,6 +2859,7 @@ th:
         work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:
         date: "YYYY-MM-DD (ISO 8601 date only)"
+        datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm] (any compatible ISO 8601 datetime)"
         duration: "ISO 8601 duration"
       invalid_content_type: "Expected CONTENT-TYPE to be '%{content_type}' but got '%{actual}'."
       invalid_format: "Invalid format for property '%{property}': Expected format like '%{expected_format}', but got '%{actual}'."
@@ -2869,6 +2871,7 @@ th:
         select: "ไม่รองรับการเลือกที่ขอ %{invalid} การเลือกที่รองรับคือ %{supported} "
       invalid_user_status_transition: "The current user account status does not allow this operation."
       missing_content_type: "not specified"
+      missing_property: "Missing property '%{property}'."
       missing_request_body: "There was no request body."
       missing_or_malformed_parameter: "The query parameter '%{parameter}' is missing or malformed."
       multipart_body_error: "The request body did not contain the expected multipart parts."
