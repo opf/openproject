@@ -133,7 +133,7 @@ Setting.plugin_openproject_auth_saml = Hash(Setting.plugin_openproject_auth_saml
     "saml" => {
       "name" => "saml",
       "display_name" => "My SSO",
-      "assertion_consumer_service_url" => "https:/<YOUR OPENPROJECT HOSTNAME>/auth/saml/callback"
+      "assertion_consumer_service_url" => "https://<YOUR OPENPROJECT HOSTNAME>/auth/saml/callback"
       ### one liner to generate certificate in ONE line
       ### awk 'NF {sub(/\r/, ""); printf "%s\\n",$0;}' <yourcert.pem>
       "idp_cert" => "-----BEGIN CERTIFICATE-----\nMI................IEr\n-----END CERTIFICATE-----\n",
@@ -188,6 +188,8 @@ Setting.plugin_openproject_auth_saml = Hash(Setting.plugin_openproject_auth_saml
       "login" => "username",
       "first_name" => "firstname",
       "last_name" => "lastname"
+      # another example for combined attributes in an array:
+      "login" => ['username', 'samAccountName', 'uid'],
       # etc.
     }
   }
