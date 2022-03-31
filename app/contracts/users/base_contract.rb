@@ -42,6 +42,9 @@ module Users
     attribute :auth_source_id,
               writeable: ->(*) { user.allowed_to_globally?(:manage_user) }
 
+    attribute :status,
+              writeable: ->(*) { user.allowed_to_globally?(:manage_user) }
+
     attribute :identity_url,
               writeable: ->(*) { user.admin? }
 

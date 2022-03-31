@@ -176,6 +176,7 @@ class LdapAuthSource < AuthSource
     Rails.logger.debug do
       "LDAP initializing search (BASE=#{base_dn}), (FILTER=#{filter})"
     end
+
     ldap_con.search(base: base_dn,
                     filter: filter,
                     attributes: search_attributes) do |entry|
