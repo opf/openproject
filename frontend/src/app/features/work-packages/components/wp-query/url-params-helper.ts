@@ -67,6 +67,8 @@ export interface QueryProps {
   hla?:string[];
   // Display representation
   dr?:string;
+  // Inlude subprojects
+  is?:boolean;
   // Pagination
   pa?:string|number;
   pp?:string|number;
@@ -118,6 +120,7 @@ export class UrlParamsHelperService {
       hi: !!query.showHierarchies,
       g: _.get(query.groupBy, 'id', ''),
       dr: query.displayRepresentation,
+      is: query.includeSubprojects,
       ...this.encodeSums(query),
       ...this.encodeTimelineVisible(query),
       ...this.encodeHighlightingMode(query),
@@ -317,6 +320,7 @@ export class UrlParamsHelperService {
       queryData.displayRepresentation = query.displayRepresentation;
     }
 
+    queryData.includeSubprojects = !!query.includeSubprojects;
     queryData.showHierarchies = !!query.showHierarchies;
     queryData.groupBy = _.get(query.groupBy, 'id', '');
 

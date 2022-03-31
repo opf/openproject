@@ -32,12 +32,8 @@ import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/q
 import { Injectable } from '@angular/core';
 import { WorkPackageQueryStateService } from './wp-view-base.service';
 
-export const wpDisplayListRepresentation = 'list';
-export const wpDisplayCardRepresentation = 'card';
-export type WorkPackageDisplayRepresentationValue = 'list'|'card';
-
 @Injectable()
-export class WorkPackageViewDisplayRepresentationService extends WorkPackageQueryStateService<string|null> {
+export class WorkPackageViewIncludeSubprojectsService extends WorkPackageQueryStateService<boolean> {
   public constructor(
     readonly states:States,
     readonly querySpace:IsolatedQuerySpace,
@@ -45,35 +41,26 @@ export class WorkPackageViewDisplayRepresentationService extends WorkPackageQuer
     super(querySpace);
   }
 
-  public hasChanged(query:QueryResource) {
-    return this.current !== query.displayRepresentation;
+  public hasChanged(query:QueryResource):boolean {
+    return this.current !== query.includeSubprojects;
   }
 
-  valueFromQuery(query:QueryResource) {
-    return query.displayRepresentation || null;
+  valueFromQuery(query:QueryResource):boolean {
+    return query.includeSubprojects || false;
   }
 
-  public applyToQuery(query:QueryResource) {
+  public applyToQuery(query:QueryResource):boolean {
     const { current } = this;
-    query.displayRepresentation = current === null ? undefined : current;
+    query.includeSubprojects = current;
 
     return false;
   }
 
-  public get current():string|null {
-    return this.lastUpdatedState.getValueOr(null);
+  public get current():string {
+    return this.lastUpdatedState.getValueOr(false);
   }
 
-  public get isList():boolean {
-    const { current } = this;
-    return !current || current === wpDisplayListRepresentation;
-  }
-
-  public get isCards():boolean {
-    return this.current === wpDisplayCardRepresentation;
-  }
-
-  public setDisplayRepresentation(representation:WorkPackageDisplayRepresentationValue) {
-    this.update(representation);
+  public setIncludeSubprojects(include:boolean) {
+    this.update(include);
   }
 }
