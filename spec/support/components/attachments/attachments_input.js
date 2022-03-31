@@ -92,7 +92,10 @@ let input = jQuery('<input>')
           console.log("Dispatching event %O", event);
           stopover.dispatchEvent(event);
         });
+
+        setTimeout(() => dropOnTarget(dataTransfer), 2000);
+      } else {
+        dropOnTarget(dataTransfer);
       }
 
-      setTimeout(() => dropOnTarget(dataTransfer), 2000);
     });
