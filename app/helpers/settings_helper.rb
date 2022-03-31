@@ -55,11 +55,6 @@ module SettingsHelper
         label: :'attributes.attachments'
       },
       {
-        name: 'api',
-        controller: '/admin/settings/api_settings',
-        label: :label_api_access_key_type
-      },
-      {
         name: 'repositories',
         controller:'/admin/settings/repositories_settings',
         label: :label_repository_plural

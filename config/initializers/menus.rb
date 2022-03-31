@@ -288,29 +288,41 @@ Redmine::MenuManager.map :admin_menu do |menu|
               parent: :settings
   end
 
-  menu.push :in_out,
-            { controller: '/admin/settings/notifications_settings', action: :show },
+  menu.push :mail_and_notifications,
+            { controller: '/admin/settings/aggregation_settings', action: :show },
             if: Proc.new { User.current.admin? },
-            caption: :'menus.admin.incoming_outgoing',
+            caption: :'menus.admin.mails_and_notifications',
             icon: 'icon2 icon-mail1'
 
   menu.push :notification_settings,
-            { controller: '/admin/settings/notifications_settings', action: :show },
+            { controller: '/admin/settings/aggregation_settings', action: :show },
             if: Proc.new { User.current.admin? },
-            caption: :label_setting_plural,
-            parent: :in_out
+            caption: :'menus.admin.aggregation_and_retention',
+            parent: :mail_and_notifications
 
   menu.push :mail_notifications,
             { controller: '/admin/settings/mail_notifications_settings', action: :show },
             if: Proc.new { User.current.admin? },
             caption: :'menus.admin.mail_notification',
-            parent: :in_out
+            parent: :mail_and_notifications
 
   menu.push :incoming_mails,
             { controller: '/admin/settings/incoming_mails_settings', action: :show },
             if: Proc.new { User.current.admin? },
             caption: :label_incoming_emails,
-            parent: :in_out
+            parent: :mail_and_notifications
+
+  menu.push :api_and_webhooks,
+            { controller: '/admin/settings/api_settings', action: :show },
+            if: Proc.new { User.current.admin? },
+            caption: :'menus.admin.api_and_webhooks',
+            icon: 'icon2 icon-relations'
+
+  menu.push :api,
+            { controller: '/admin/settings/api_settings', action: :show },
+            if: Proc.new { User.current.admin? },
+            caption: :label_api_access_key_type,
+            parent: :api_and_webhooks
 
   menu.push :authentication,
             { controller: '/admin/settings/authentication_settings', action: :show },
