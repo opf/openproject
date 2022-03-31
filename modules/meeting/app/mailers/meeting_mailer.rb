@@ -77,7 +77,10 @@ class MeetingMailer < UserMailer
         e.uid         = "#{@meeting.id}@#{@meeting.project.identifier}"
         e.organizer   = author
       end
-
+      
+      # add needed 'METHOD:PUBLISH' to ics file
+      entry.publish
+      
       attachments['meeting.ics'] = entry.to_ical
       mail(to: user.mail, subject: subject)
     end
