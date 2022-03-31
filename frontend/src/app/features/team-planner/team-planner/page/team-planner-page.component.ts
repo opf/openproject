@@ -101,6 +101,7 @@ export class TeamPlannerPageComponent extends PartitionedQuerySpacePageComponent
       'memberOfGroup',
       'assignedToRole',
       'assigneeOrGroup',
+      'project',
     );
   }
 
