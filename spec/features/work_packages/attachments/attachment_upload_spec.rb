@@ -182,6 +182,18 @@ describe 'Upload attachment to work package', js: true do
   end
 
   describe 'attachment dropzone' do
+    it 'can drag something to the files tab and have it open' do
+      wp_page.expect_tab 'Activity'
+      attachments.drag_and_drop_file '.wp-attachment-upload',
+                                     image_fixture.path,
+                                     :center,
+                                     page.find('[data-qa-tab-id="files"]')
+
+      expect(page).to have_selector('.work-package--attachments--filename', text: 'image.png', wait: 10)
+      expect(page).not_to have_selector('op-toasters-upload-progress')
+      wp_page.expect_tab 'Files'
+    end
+
     it 'can upload an image via attaching and drag & drop' do
       wp_page.switch_to_tab(tab: 'files')
       container = page.find('.wp-attachment-upload')
