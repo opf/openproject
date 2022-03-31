@@ -37,6 +37,11 @@ export class OpProjectListComponent {
     return this.currentProjectService.apiv3Path;
   }
 
+  public text = {
+    include_all_selected: this.I18n.t('js.include_projects.tooltip.include_all_selected'),
+    current_project: this.I18n.t('js.include_projects.tooltip.current_project'),
+  };
+
   constructor(
     readonly I18n:I18nService,
     readonly currentProjectService:CurrentProjectService,

@@ -56,11 +56,11 @@ export class WorkPackageViewIncludeSubprojectsService extends WorkPackageQuerySt
     return false;
   }
 
-  public get current():string {
+  public get current():boolean {
     return this.lastUpdatedState.getValueOr(false);
   }
 
-  public setIncludeSubprojects(include:boolean) {
+  public setIncludeSubprojects(include:boolean):void {
     this.update(include);
   }
 }

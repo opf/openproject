@@ -1268,6 +1268,9 @@ en:
         all: 'All projects'
         selected: 'Only selected'
       search_placeholder: 'Search project...'
+      tooltip:
+        include_all_selected: 'Include all sub-projects is currently selected.'
+        current_project: 'This is the current project you are in.'
 
     forms:
       submit_success_message: 'The form was successfully submitted'

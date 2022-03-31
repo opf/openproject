@@ -64,10 +64,12 @@ export class WorkPackageViewToggleButtonComponent extends UntilDestroyedMixin im
     timeline: this.I18n.t('js.views.timeline'),
   };
 
-  constructor(readonly I18n:I18nService,
+  constructor(
+    readonly I18n:I18nService,
     readonly cdRef:ChangeDetectorRef,
     readonly wpDisplayRepresentationService:WorkPackageViewDisplayRepresentationService,
-    readonly wpTableTimeline:WorkPackageViewTimelineService) {
+    readonly wpTableTimeline:WorkPackageViewTimelineService,
+  ) {
     super();
   }
 

@@ -64,6 +64,7 @@
             <spot-checkbox
               [checked]="includeSubprojects$ | async"
               (change)="toggleIncludeAllSubprojects()"
+              data-qa-project-include-all-subprojects="1"
             ></spot-checkbox>
             Include all sub-projects
           </label>

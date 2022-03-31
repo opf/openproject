@@ -3,7 +3,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   HostBinding,
-  OnInit,
 } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {
@@ -15,8 +14,8 @@ import {
   distinctUntilChanged,
   map,
   mergeMap,
-  skip,
   take,
+  skip,
 } from 'rxjs/operators';
 
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
@@ -27,6 +26,7 @@ import {
 } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { WorkPackageViewFiltersService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service';
+import { WorkPackageViewIncludeSubprojectsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-include-subprojects.service';
 import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
@@ -45,7 +45,7 @@ import { getPaginatedResults } from 'core-app/core/apiv3/helpers/get-paginated-r
   templateUrl: './project-include.component.html',
   styleUrls: ['./project-include.component.sass'],
 })
-export class OpProjectIncludeComponent extends UntilDestroyedMixin implements OnInit {
+export class OpProjectIncludeComponent extends UntilDestroyedMixin {
   @HostBinding('class.op-project-include') className = true;
 
   public text = {
@@ -134,17 +134,26 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin implements On
     this.allProjects$,
     this.displayMode$.pipe(distinctUntilChanged()),
     this.includeSubprojects$,
+    this.searchText$.pipe(debounceTime(200)),
   ])
     .pipe(
-      debounceTime(20),
-      mergeMap(([projects, displayMode, includeSubprojects]) => this.selectedProjects$.pipe(
+      debounceTime(50),
+      mergeMap(([projects, displayMode, includeSubprojects, searchText]) => this.selectedProjects$.pipe(
         take(1),
-        map((selected) => [projects, displayMode, includeSubprojects, selected]),
+        map((selected) => [projects, displayMode, includeSubprojects, searchText, selected]),
       )),
       map(
-        ([projects, displayMode, includeSubprojects, selected]:[IProject[], string, boolean, string[]]) => projects
+        ([projects, displayMode, includeSubprojects, searchText, selected]:[IProject[], string, boolean, string, string[]]) => projects
           .filter(
             (project) => {
+              if (searchText.length) {
+                const matches = project.name.toLowerCase().includes(searchText.toLowerCase()) || project.identifier.toLowerCase().includes(searchText.toLowerCase());
+
+                if (!matches) {
+                  return false;
+                }
+              }
+
               if (displayMode !== 'selected') {
                 return true;
               }
@@ -177,8 +186,7 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin implements On
       ),
       map((projects) => recursiveSort(projects)),
     );
-
-  areProjectsLoaded$ = this
+   public areProjectsLoaded$ = this
     .projects$
     .pipe(
       distinctUntilChanged(),
@@ -191,21 +199,13 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin implements On
       ['active', '=', ['t']],
     ];
 
-    if (this.searchText) {
-      filters.push([
-        'name_and_identifier',
-        '~',
-        [this.searchText],
-      ]);
-    }
-
     return {
       filters,
       pageSize: -1,
       select: [
         'elements/id',
-        'elements/identifier',
         'elements/name',
+        'elements/identifier',
         'elements/self',
         'elements/ancestors',
         'total',
@@ -220,25 +220,15 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin implements On
     readonly I18n:I18nService,
     readonly http:HttpClient,
     readonly wpTableFilters:WorkPackageViewFiltersService,
+    readonly wpIncludeSubprojects:WorkPackageViewIncludeSubprojectsService,
     readonly halResourceService:HalResourceService,
     readonly currentProjectService:CurrentProjectService,
   ) {
     super();
   }
 
-  public ngOnInit():void {
-    this.searchText$
-      .pipe(debounceTime(100))
-      .subscribe(() => {
-        this.loadAllProjects();
-      });
-  }
-
   public toggleIncludeAllSubprojects():void {
-    this.wpTableFilters.querySpace.query.doModify((query) => {
-      query.includeSubprojects = !query?.includeSubprojects;
-      return query;
-    });
+    this.wpIncludeSubprojects.setIncludeSubprojects(!this.wpIncludeSubprojects.current);
   }
 
   public toggleOpen():void {

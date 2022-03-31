@@ -17,7 +17,7 @@
           (change)="changeSelected(project)"
           [disabled]="isDisabled(project)"
           [attr.data-qa-project-include-id]="project.id"
-          [attr.data-qa-project-include-checked]="checked ? 1 : 0"
+          [attr.data-qa-project-include-checked]="(checked || (includeSubprojects && parentChecked))  ? 1 : 0"
         ></spot-checkbox>
         <div
           class="spot-list--item-title"
@@ -29,8 +29,8 @@
         slot="body"
         class="spot-body-small"
       >
-        <span *ngIf="includeSubprojects && parentChecked">Include all sub-projects is selected.</span>
-        <span *ngIf="project.href === currentProjectHref">This is the project you are currently in.</span>
+        <span *ngIf="includeSubprojects && parentChecked">{{ text.include_all_selected }}</span>
+        <span *ngIf="project.href === currentProjectHref">{{ text.current_project }}</span>
       </p>
     </spot-tooltip>
   </label>
