@@ -38,7 +38,7 @@ Note: If a [project module](../../../user-guide/projects/project-settings/module
 
 ## Create a new role
 
-To create a new role, navigate to the administration and select *Users & Permissions -> Roles and permissions* from the menu on the left.
+To create a new role, navigate to the administration and select *Users and permissions -> Roles and permissions* from the menu on the left.
 
 You will see the list of all the roles that have been created so far.
 
