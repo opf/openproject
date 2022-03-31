@@ -1162,7 +1162,7 @@ th:
           group: 'ตอนนี้กลุ่มนี้เป็นส่วนหนึ่งของ %{project}, คุณสามารถวางแผนกับกลุ่มนั้นและกำหนดแพ็คเกจงานได้'
         next_button: 'Continue'
     include_projects:
-      toggle_title: 'Include Projects'
+      toggle_title: 'Include projects'
       title: 'โครงการ'
       clear_selection: 'Clear selection'
       apply: 'นำไปใช้'

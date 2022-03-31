@@ -1172,7 +1172,7 @@ cs:
           group: 'Skupina je nyní součástí %{project}. Mezitím již můžete s touto skupinou plánovat a přiřadit například pracovní balíčky.'
         next_button: 'Pokračovat'
     include_projects:
-      toggle_title: 'Include Projects'
+      toggle_title: 'Include projects'
       title: 'Projekty'
       clear_selection: 'Clear selection'
       apply: 'Použít'

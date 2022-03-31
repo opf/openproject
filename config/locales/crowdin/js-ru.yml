@@ -1170,7 +1170,7 @@ ru:
           group: 'Теперь группа является частью %{project}. Тем временем вы уже можете спланировать работу с этой группой и назначить пакеты работ.'
         next_button: 'Продолжить'
     include_projects:
-      toggle_title: 'Включить проекты'
+      toggle_title: 'Include projects'
       title: 'Проекты'
       clear_selection: 'Отменить выделение'
       apply: 'Применить'

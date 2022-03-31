@@ -1170,7 +1170,7 @@ sl:
           group: 'Skupina je zdaj del %{project}. Medtem lahko planirate s to skupino in ji dodelite delovne naloge.'
         next_button: 'Nadaljuj'
     include_projects:
-      toggle_title: 'Include Projects'
+      toggle_title: 'Include projects'
       title: 'Projekti'
       clear_selection: 'Clear selection'
       apply: 'Potrdi'

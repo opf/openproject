@@ -1,65 +1,65 @@
 #English strings go here
 lt:
-  permission_view_file_links: "View file links"
-  permission_manage_file_links: "Manage file links"
-  permission_manage_storages_in_project: "Manage file storages in project"
-  project_module_storages: "File storages"
+  permission_view_file_links: "Žiūrėti failo nuorodas"
+  permission_manage_file_links: "Tvarkyti failo nuorodas"
+  permission_manage_storages_in_project: "Tvarkyti failų saugyklas projekte"
+  project_module_storages: "Failų saugyklos"
   activerecord:
     models:
-      storages/storage: "Storage"
+      storages/storage: "Saugykla"
     attributes:
       storages/storage:
-        name: "Name"
-        creator: "Creator"
-        provider_type: "Provider type"
+        name: "Vardas"
+        creator: "Kūrėjas"
+        provider_type: "Tiekėjo tipas"
       storages/file_link:
-        origin_id: "Origin Id"
+        origin_id: "Kilmės Id"
     errors:
       messages:
-        not_linked_to_project: "is not linked to project."
+        not_linked_to_project: "nesusietas su projektu."
       models:
         storages/storage:
           attributes:
             host:
-              cannot_be_connected_to: "can not be connected to."
-              minimal_nextcloud_version_unmet: "does not meet minimal version requirements (must be Nextcloud 23 or higher)"
-              not_nextcloud_server: "is not a Nextcloud server"
+              cannot_be_connected_to: "negali būti prijungtas prie."
+              minimal_nextcloud_version_unmet: "neatitinka minimalių versijos reikalavimų (turi būti Nextcloud 23 ar aukštesnis)"
+              not_nextcloud_server: "nėra Nextcloud serveris"
         storages/file_link:
           attributes:
             origin_id:
-              only_numeric_or_uuid: "can only be numeric or uuid."
+              only_numeric_or_uuid: "gali būti tik skaitinis ar uuid."
   api_v3:
     errors:
-      too_many_elements_created_at_once: "Too many elements created at once. Expected %{max} at most, got %{actual}."
+      too_many_elements_created_at_once: "Per daug elementu vienu metu. Tikėtasi daugiausia %{max}, gauta %{actual}."
   storages:
     page_titles:
       project_settings:
-        index: "File storages available in this project"
-        new: "Enable a file storage for this project"
+        index: "Šiame projekte prieinamos failų saugyklos."
+        new: "Įjungti failų saugyklą šiam projektui"
     instructions:
-      name: "Please use a short name. It will get used as a tab title in the work package view."
-      host: "The URL of your storage instance. The URL should not be more than 255 characters long."
-      no_storage_set_up: "There are no file storages set up, yet."
-      setting_up_additional_storages: "For setting up additional file storages, please visit"
-      setting_up_additional_storages_non_admin: "Administrators can set up additional file storages in Administration / File Storages."
-      setting_up_storages: "For setting up file storages, please visit"
-      setting_up_storages_non_admin: "Administrators can set up file storages in Administration / File Storages."
-      all_available_storages_already_added: "All available storages are already added to the project."
+      name: "Prašome naudoti trumpą pavadinimą. Jis bus naudojamas kaip kortelės antraštė darbų paketų vaizde."
+      host: "Jūsų saugyklos egzemplioriaus URL. URL negali būti ilgesnis už 255 simbolius."
+      no_storage_set_up: "Dar nėra nustatyta nei viena failų saugykla."
+      setting_up_additional_storages: "Norėdami sukurti papildomas failų saugyklas, prašome aplankyti"
+      setting_up_additional_storages_non_admin: "Administratoriai gali sukurti papildomas failų saugyklas: Administravimas / Failų saugyklos."
+      setting_up_storages: "Norėdami nustatyti failų saugyklas aplankykite"
+      setting_up_storages_non_admin: "Administratoriai gali nustatyti failų saugyklas: Administravimas / Failų saugyklos"
+      all_available_storages_already_added: "Visos galimos failų saugyklos jau pridėtos į projektą."
     delete_warning:
       storage: >
-        Are you sure you want to delete this storage? This will also delete the storage from all projects where it is used. Further, it will also delete all links from work packages to files that are stored in that storage.
+        Ar tikrai norite ištrinti šią failų saugyklą? Saugykla taipogi bus ištrinta iš visų projektų, kur ji naudojama. Taipogi tai ištrins visus ryšius iš darbo paketų į failus, esančius šioje saugykloje.
       project_storage: >
-        Are you sure you want to remove this file storage from this project? This will also remove all links to files stored in this storage for this project.
-    label_creator: "Creator"
-    label_file_link: "File link"
-    label_file_links: "File links"
-    label_name: "Name"
-    label_host: "Host"
-    label_provider_type: "Provider type"
-    label_new_storage: "New storage"
-    label_storage: "Storage"
-    label_storages: "Storages"
-    no_results: "No storages set up, yet."
+        Ar tikrai norite išimti šią failų saugyklą iš jūsų projekto? Taipogi bus išimtos visos šio projekto nuorodos į failus, saugomus šioje saugykloje.
+    label_creator: "Kūrėjas"
+    label_file_link: "Failo nuoroda"
+    label_file_links: "Failo nuorodos"
+    label_name: "Pavadinimas"
+    label_host: "Serveris"
+    label_provider_type: "Tiekėjo tipas"
+    label_new_storage: "Nauja saugykla"
+    label_storage: "Saugykla"
+    label_storages: "Saugyklos"
+    no_results: "Dar nenustatyta jokia saugykla"
     provider_types:
-      label: "Provider type"
+      label: "Tiekėjo tipas"
       nextcloud: "Nextcloud"

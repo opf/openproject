@@ -1171,7 +1171,7 @@ lt:
           group: 'Grupė jau tapo %{project} dalimi. Tuo pačiu, jūs jau galite planuoti darbus su šia grupe ir pavyzdžiui priskirti jai darbo užduotis.'
         next_button: 'Tęsti'
     include_projects:
-      toggle_title: 'Įtraukti projektus'
+      toggle_title: 'Include projects'
       title: 'Projektai'
       clear_selection: 'Valyti pasirinkimą'
       apply: 'Taikyti'

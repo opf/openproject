@@ -1161,7 +1161,7 @@ vi:
           group: 'Nhóm này hiện là một phần của %{project}. Trong khi đó, bạn có thể lên kế hoạch cho nhóm đó và chỉ định các gói làm việc cho từng trường hợp.'
         next_button: 'Tiếp tục'
     include_projects:
-      toggle_title: 'Include Projects'
+      toggle_title: 'Include projects'
       title: 'Các dự án'
       clear_selection: 'Clear selection'
       apply: 'Áp dụng'

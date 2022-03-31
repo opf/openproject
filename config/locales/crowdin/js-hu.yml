@@ -1170,7 +1170,7 @@ hu:
           group: "A csoport mostantól a %{project} része. Eközben már tervezhet ezzel a csoporttal, és például munkacsomagokat rendelhet hozzá.\n"
         next_button: 'Folytatás'
     include_projects:
-      toggle_title: 'Include Projects'
+      toggle_title: 'Include projects'
       title: 'Projektek'
       clear_selection: 'Clear selection'
       apply: 'Alkalmaz'

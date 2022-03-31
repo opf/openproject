@@ -1167,7 +1167,7 @@ ro:
           group: 'Grupul este acum o parte din %{project}. Între timp, puteți deja să planificați cu acest grup și să atribuiți pachete de lucru, de exemplu.'
         next_button: 'Continuaţi'
     include_projects:
-      toggle_title: 'Include Projects'
+      toggle_title: 'Include projects'
       title: 'Proiecte'
       clear_selection: 'Clear selection'
       apply: 'Salvare'

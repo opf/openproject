@@ -1164,7 +1164,7 @@ da:
           group: 'Gruppen er nu en del af %{project}. I mellemtiden kan du allerede planlægge med denne gruppe og tildele arbejdspakker for eksempel.'
         next_button: 'Fortsæt'
     include_projects:
-      toggle_title: 'Include Projects'
+      toggle_title: 'Include projects'
       title: 'Projekter'
       clear_selection: 'Clear selection'
       apply: 'Benyt'

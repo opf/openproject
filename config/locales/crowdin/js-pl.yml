@@ -1171,7 +1171,7 @@ pl:
           group: 'Grupa jest teraz częścią %{project}. Tymczasem możesz już planować z tą grupą i na przykład przypisać pakiety robocze.'
         next_button: 'Kontynuuj'
     include_projects:
-      toggle_title: 'Include Projects'
+      toggle_title: 'Include projects'
       title: 'Projekty'
       clear_selection: 'Clear selection'
       apply: 'Zastosuj'

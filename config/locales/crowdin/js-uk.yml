@@ -1171,7 +1171,7 @@ uk:
           group: 'Ця група тепер входить у проєкт «%{project}». Тим часом ви вже можете включати її в план і призначати їй пакети робіт.'
         next_button: 'Продовжити'
     include_projects:
-      toggle_title: 'Включити проєкти'
+      toggle_title: 'Include projects'
       title: 'Проекти'
       clear_selection: 'Очистити вибране'
       apply: 'Застосувати'

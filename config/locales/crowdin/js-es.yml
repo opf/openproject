@@ -1165,7 +1165,7 @@ es:
           group: 'El grupo ya forma parte de %{project}. Mientras tanto, puede crear planes con ese grupo y asignar paquetes de trabajo a este.'
         next_button: 'Continuar'
     include_projects:
-      toggle_title: 'Include Projects'
+      toggle_title: 'Include projects'
       title: 'Proyectos'
       clear_selection: 'Clear selection'
       apply: 'Aplicar'

@@ -1165,7 +1165,7 @@ fr:
           group: 'Le groupe fait maintenant partie du %{project}. Entre-temps, vous pouvez déjà planifier avec ce groupe et l''assigner des lots de travaux par exemple.'
         next_button: 'Continuer'
     include_projects:
-      toggle_title: 'Include Projects'
+      toggle_title: 'Include projects'
       title: 'Projets'
       clear_selection: 'Clear selection'
       apply: 'Appliquer'
