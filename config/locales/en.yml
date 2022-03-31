@@ -1399,7 +1399,7 @@ en:
   menus:
     admin:
       mail_notification: "Email notifications"
-      incoming_outgoing: "Incoming & Outgoing"
+      incoming_outgoing: "Emails and notification"
     quick_add:
       label: "Open quick add menu"
 
