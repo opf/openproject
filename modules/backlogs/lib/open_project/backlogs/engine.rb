@@ -175,9 +175,9 @@ module OpenProject::Backlogs
       "#{root}/backlogs_types/#{id}"
     end
 
-    initializer 'backlogs.register_hooks' do
-      require 'open_project/backlogs/hooks'
-      require 'open_project/backlogs/hooks/user_settings_hook'
+    config.to_prepare do
+      OpenProject::Backlogs::Hooks::LayoutHook
+      OpenProject::Backlogs::Hooks::UserSettingsHook
     end
 
     config.to_prepare do

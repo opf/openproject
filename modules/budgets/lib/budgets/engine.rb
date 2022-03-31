@@ -42,9 +42,8 @@ module Budgets
       mount ::API::V3::Budgets::BudgetsByProjectAPI
     end
 
-    initializer 'budgets.register_hooks' do
-      # TODO: avoid hooks as this is part of the core now
-      require 'budgets/hooks/work_package_hook'
+    config.to_prepare do
+      Budgets::Hooks::WorkPackageHook
     end
 
     config.to_prepare do

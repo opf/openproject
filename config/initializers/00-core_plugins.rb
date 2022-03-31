@@ -26,6 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+require Rails.root.join('constants/redmine/i18n')
+require Rails.root.join('constants/redmine/diff')
+require Rails.root.join('constants/redmine/diff/diffable')
+
 # Loads the core plugins located in lib/plugins
 Dir.glob(File.join(Rails.root, 'lib/plugins/*')).sort.each do |directory|
   if File.directory?(directory)

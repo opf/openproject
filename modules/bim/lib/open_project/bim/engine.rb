@@ -187,12 +187,7 @@ module OpenProject::Bim
     end
 
     config.to_prepare do
-      require_relative 'hooks'
-    end
-
-    initializer 'bim.bcf.register_hooks' do
-      # don't use require_dependency to not reload hooks in development mode
-      require 'open_project/xls_export/hooks/work_package_hook'
+      OpenProject::Bim::Hooks::Hook
     end
 
     initializer 'bim.bcf.register_mimetypes' do
