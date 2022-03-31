@@ -119,6 +119,13 @@ class LdapAuthSource < AuthSource
     parsed_filter_string || object_filter
   end
 
+  ##
+  # Returns the filter object to search for a login
+  # adding the optional default filter
+  def login_filter(login)
+    Net::LDAP::Filter.eq(attr_login, login) & default_filter
+  end
+
   def parsed_filter_string
     Net::LDAP::Filter.from_rfc2254(filter_string) if filter_string.present?
   end
@@ -162,15 +169,15 @@ class LdapAuthSource < AuthSource
   # Get the user's dn and any attributes for them, given their login
   def get_user_dn(login)
     ldap_con = initialize_ldap_con(account, account_password)
-    login_filter = Net::LDAP::Filter.eq(attr_login, login)
 
     attrs = {}
 
+    filter = login_filter(login)
     Rails.logger.debug do
-      "LDAP initializing search (BASE=#{base_dn}), (FILTER=#{default_filter & login_filter})"
+      "LDAP initializing search (BASE=#{base_dn}), (FILTER=#{filter})"
     end
     ldap_con.search(base: base_dn,
-                    filter: default_filter & login_filter,
+                    filter: filter,
                     attributes: search_attributes) do |entry|
       attrs = if onthefly_register?
                 get_user_attributes_from_ldap_entry(entry)

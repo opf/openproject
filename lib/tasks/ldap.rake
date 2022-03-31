@@ -39,7 +39,7 @@ namespace :ldap do
   end
 
   desc 'Synchronize existing users from the LDAP auth source' \
-       'rake ldap:sync["name=<LdapAuthSource Name>", users=<login1,login2,...>]'
+       'rake ldap:sync name="<LdapAuthSource Name>" users=<login1,login2,...>'
   task sync: :environment do
     args = parse_args
     ldap = LdapAuthSource.find_by!(name: args.fetch(:name))
@@ -47,6 +47,36 @@ namespace :ldap do
     logins = args.fetch(:logins, '').split(/\s*,\s*/)
     ::Ldap::SynchronizeUsersService
       .new(ldap, logins)
+      .call
+  end
+
+  desc 'Synchronize users from the LDAP auth source with an optional filter.' \
+       'Note: If you omit the filter, ALL users are imported.' \
+       'rake ldap:import_from_filter name="<LdapAuthSource Name>" filter=<Optional RFC2254 filter string>'
+  task import_from_filter: :environment do
+    args = parse_args
+    ldap = LdapAuthSource.find_by!(name: args.fetch(:name))
+
+    # Parse filter string if available
+    filter = Net::LDAP::Filter.from_rfc2254 args.fetch(:filter, 'objectClass = *')
+
+    ::Ldap::ImportUsersFromFilterService
+      .new(ldap, filter)
+      .call
+  end
+
+  desc 'Synchronize a list of user logins with the LDAP auth source' \
+       'rake ldap:import_from_user_list name=<LdapAuthSource Name>" users=<Path to file with newline separated logins>'
+  task import_from_user_list: :environment do
+    args = parse_args
+    ldap = LdapAuthSource.find_by!(name: args.fetch(:name))
+    file = args.fetch(:users)
+
+    puts "--> Reading username file #{file}"
+    users = File.read(file).lines(chomp: true)
+
+    ::Ldap::ImportUsersFromListService
+      .new(ldap, users)
       .call
   end
 
