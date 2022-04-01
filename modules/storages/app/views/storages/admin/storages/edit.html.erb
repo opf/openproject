@@ -1,4 +1,8 @@
 <!-- Standard Ruby view, please see the controller for comments -->
+<% content_for :header_tags do %>
+  <meta name="required_script" content="storage_form" />
+<% end %>
+
 <% html_title t(:label_administration), t("project_module_storages"), t('label_edit_x', x: @object.name) %>
 <% local_assigns[:additional_breadcrumb] = @object.name %>
 <%= toolbar title: t('label_edit_x', x: @object.name) %>
