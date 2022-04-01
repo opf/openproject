@@ -151,8 +151,6 @@ module Settings
       end
 
       def [](name)
-        by_name ||= all.group_by(&:name).transform_values(&:first)
-
         by_name[name.to_s]
       end
 
@@ -186,7 +184,7 @@ module Settings
       end
 
       def by_name
-        @by_name ||= all.group_by(&:name).transform_values(&:first)
+        @by_name ||= all.index_by(&:name)
       end
 
       def file_config
