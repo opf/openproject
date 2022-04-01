@@ -241,7 +241,7 @@ GEM
     activerecord (6.1.5)
       activemodel (= 6.1.5)
       activesupport (= 6.1.5)
-    activerecord-import (1.3.0)
+    activerecord-import (1.4.0)
       activerecord (>= 4.2)
     activerecord-nulldb-adapter (0.8.0)
       activerecord (>= 5.2.0, < 7.1)
@@ -976,7 +976,7 @@ PLATFORMS
 DEPENDENCIES
   actionpack-xml_parser (~> 2.0.0)
   activemodel-serializers-xml (~> 1.0.1)
-  activerecord-import (~> 1.3.0)
+  activerecord-import (~> 1.4.0)
   activerecord-nulldb-adapter (~> 0.8.0)
   activerecord-session_store (~> 2.0.0)
   acts_as_list (~> 1.0.1)
