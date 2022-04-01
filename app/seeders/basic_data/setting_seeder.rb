@@ -51,8 +51,8 @@ module BasicData
           hash[definition.name] = definition.value || ''
         end
 
-        # deviate from the defaults specified in settings.yml here
-        # to set a default role. The role cannot be specified in the settings.yml as
+        # deviate from the defaults specified in the settings definition here
+        # to set a default role. The role cannot be specified in the definition as
         # that would mean to know the ID upfront.
         update_unless_present(settings, 'new_project_user_role_id') do
           Role.find_by(name: I18n.t(:default_role_project_admin)).try(:id)
