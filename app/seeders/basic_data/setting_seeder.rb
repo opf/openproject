@@ -47,7 +47,7 @@ module BasicData
 
     def data
       @settings ||= begin
-        settings = Setting.definitions.each_with_object({}) do |definition, hash|
+        settings = Setting.definitions.select(&:writable?).each_with_object({}) do |definition, hash|
           hash[definition.name] = definition.value || ''
         end
 

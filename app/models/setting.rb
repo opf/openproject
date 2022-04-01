@@ -156,8 +156,10 @@ class Setting < ApplicationRecord
     self.class.deserialize(name, read_attribute(:value))
   end
 
-  def value=(v)
-    write_attribute(:value, formatted_value(v))
+  def value=(val)
+    raise NoMethodError unless Settings::Definition[name].writable?
+
+    write_attribute(:value, formatted_value(val))
   end
 
   def formatted_value(value)

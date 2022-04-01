@@ -29,6 +29,10 @@
 require 'spec_helper'
 
 describe Setting, type: :model do
+  before do
+    described_class.clear_cache
+  end
+
   after do
     described_class.destroy_all
   end
@@ -128,6 +132,11 @@ describe Setting, type: :model do
       expect(described_class.app_title)
         .to eql('New title')
     end
+
+    it 'raises an error for a non writable setting' do
+      expect { described_class.smtp_openssl_verify_mode = 'none' }
+        .to raise_error NoMethodError
+    end
   end
 
   describe '.[setting]_writable?' do
@@ -205,10 +214,6 @@ describe Setting, type: :model do
 
   # Check that when reading certain setting values that they get overwritten if needed.
   describe "filter saved settings" do
-    before do
-      described_class.work_package_list_default_highlighting_mode = "inline"
-    end
-
     describe "with EE token", with_ee: [:conditional_highlighting] do
       it "returns the value for 'work_package_list_default_highlighting_mode' without changing it" do
         expect(described_class.work_package_list_default_highlighting_mode).to eq("inline")
