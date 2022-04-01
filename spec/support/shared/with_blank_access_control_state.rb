@@ -26,28 +26,29 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module RolesHelper
-  def setable_permissions(role)
-    # Use the base contract for now as we are only interested in the setable permissions
-    # which do not differentiate.
-    contract = Roles::BaseContract.new(role, current_user)
-
-    contract.assignable_permissions
+# Makes OpenProject::AccessControl clean before each example, like if no
+# permission initialization code was run at all, and restore it after each
+# example.
+RSpec.shared_context 'with blank access control state' do
+  around do |example|
+    stash = stash_instance_variables(OpenProject::AccessControl, :@permissions, :@modules, :@project_modules_without_permissions)
+    OpenProject::AccessControl.clear_caches
+    example.run
+  ensure
+    unstash_instance_variables(OpenProject::AccessControl, stash)
+    OpenProject::AccessControl.clear_caches
   end
 
-  def grouped_setable_permissions(role)
-    group_permissions_by_module(setable_permissions(role))
+  def stash_instance_variables(instance, *instance_variables)
+    instance_variables.each.with_object({}) do |instance_variable, stash|
+      stash[instance_variable] = instance.instance_variable_get(instance_variable)
+      instance.remove_instance_variable(instance_variable) if stash[instance_variable]
+    end
   end
 
-  private
-
-  def group_permissions_by_module(perms)
-    perms_by_module = perms.group_by { |p| p.project_module.to_s }
-    ::OpenProject::AccessControl
-      .sorted_module_names(include_disabled: false)
-      .select { |module_name| perms_by_module[module_name].present? }
-      .map do |module_name|
-      [module_name, perms_by_module[module_name]]
+  def unstash_instance_variables(instance, stash)
+    stash.each do |instance_variable, value|
+      instance.instance_variable_set(instance_variable, value)
     end
   end
 end
