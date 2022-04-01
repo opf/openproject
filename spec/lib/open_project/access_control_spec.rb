@@ -206,17 +206,17 @@ describe OpenProject::AccessControl do
     it { expect(described_class.available_project_modules).not_to include(:global_module) }
     it { expect(described_class.available_project_modules).to include(:mixed_module) }
 
-    context 'when a module :if is returning false' do
+    context 'when a module specifies :if' do
       before do
         described_class.map do |map|
-          map.project_module :dynamic_module, if: ->(*) { module_available } do |mod|
+          map.project_module :dynamic_module, if: if_proc do |mod|
             mod.permission :perm_d1, { dont: :care }
           end
         end
       end
 
       context 'with if: true' do
-        let(:module_available) { true }
+        let(:if_proc) { ->(*) { true } }
 
         it 'is considered available' do
           described_class.available_project_modules
@@ -225,9 +225,22 @@ describe OpenProject::AccessControl do
       end
 
       context 'with if: false' do
-        let(:module_available) { false }
+        let(:if_proc) { ->(*) { false } }
 
         it 'is not considered available anymore' do
+          expect(described_class.available_project_modules).not_to include(:dynamic_module)
+        end
+      end
+
+      context 'with if: dynamically changing' do
+        let(:if_proc) { ->(*) { if_state[:available] } }
+        let(:if_state) { { available: true } }
+
+        it 'reevaluates module availability each time' do
+          if_state[:available] = true
+          expect(described_class.available_project_modules).to include(:dynamic_module)
+
+          if_state[:available] = false
           expect(described_class.available_project_modules).not_to include(:dynamic_module)
         end
       end

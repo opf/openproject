@@ -29,14 +29,6 @@
 require 'spec_helper'
 
 describe OpenProject::AccessControl do
-  before do
-    described_class.clear_caches
-  end
-
-  after do
-    described_class.clear_caches
-  end
-
   describe '.sorted_module_names' do
     context 'with bim disabled' do
       before do
