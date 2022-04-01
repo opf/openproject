@@ -995,6 +995,7 @@ ko:
         relations: 관계
         watchers: 주시자
         files: 파일
+        files_tab_migration_help: 'You can now attach files to work packages via the new tab:'
       time_relative:
         days: "일"
         weeks: "주"

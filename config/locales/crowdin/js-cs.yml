@@ -999,6 +999,7 @@ cs:
         relations: Vztahy
         watchers: Sledující
         files: Soubory
+        files_tab_migration_help: 'You can now attach files to work packages via the new tab:'
       time_relative:
         days: "dnů"
         weeks: "týdny"

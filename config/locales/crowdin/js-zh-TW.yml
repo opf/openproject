@@ -994,6 +994,7 @@ zh-TW:
         relations: 關聯
         watchers: 監看者
         files: 檔案
+        files_tab_migration_help: 'You can now attach files to work packages via the new tab:'
       time_relative:
         days: "天"
         weeks: "週"

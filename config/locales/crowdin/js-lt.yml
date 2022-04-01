@@ -998,6 +998,7 @@ lt:
         relations: Ryšiai
         watchers: Stebėtojai
         files: Failai
+        files_tab_migration_help: 'You can now attach files to work packages via the new tab:'
       time_relative:
         days: "dienos"
         weeks: "savaitės"
@@ -1171,7 +1172,7 @@ lt:
           group: 'Grupė jau tapo %{project} dalimi. Tuo pačiu, jūs jau galite planuoti darbus su šia grupe ir pavyzdžiui priskirti jai darbo užduotis.'
         next_button: 'Tęsti'
     include_projects:
-      toggle_title: 'Include projects'
+      toggle_title: 'Įtraukti projektus'
       title: 'Projektai'
       clear_selection: 'Valyti pasirinkimą'
       apply: 'Taikyti'

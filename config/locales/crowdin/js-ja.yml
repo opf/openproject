@@ -998,6 +998,7 @@ ja:
         relations: 関係
         watchers: ウォッチャー
         files: ファイルを添付する
+        files_tab_migration_help: 'You can now attach files to work packages via the new tab:'
       time_relative:
         days: "日"
         weeks: "週"

@@ -997,6 +997,7 @@ sl:
         relations: Relacije
         watchers: Opazovalci
         files: Datoteke
+        files_tab_migration_help: 'You can now attach files to work packages via the new tab:'
       time_relative:
         days: "dnevi"
         weeks: "tednov"

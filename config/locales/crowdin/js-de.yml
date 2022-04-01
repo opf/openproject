@@ -995,6 +995,7 @@ de:
         relations: Beziehungen
         watchers: Beobachter
         files: Dateien
+        files_tab_migration_help: 'You can now attach files to work packages via the new tab:'
       time_relative:
         days: "Tagen"
         weeks: "Wochen"

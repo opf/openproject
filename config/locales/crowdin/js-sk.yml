@@ -998,6 +998,7 @@ sk:
         relations: Väzby
         watchers: Pozorovatelia
         files: Súbory
+        files_tab_migration_help: 'You can now attach files to work packages via the new tab:'
       time_relative:
         days: "dní"
         weeks: "týždne"

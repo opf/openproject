@@ -1001,6 +1001,7 @@ hu:
         relations: Kapcsolatok
         watchers: Megfigyelők
         files: Fájlok
+        files_tab_migration_help: 'You can now attach files to work packages via the new tab:'
       time_relative:
         days: "nap"
         weeks: "Hetek"
