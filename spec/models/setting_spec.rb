@@ -33,7 +33,6 @@ describe Setting, type: :model do
     described_class.destroy_all
   end
 
-  # OpenProject specific defaults that are set in settings.yml
   describe "OpenProject's default settings" do
     it 'has OpenProject as application title' do
       expect(described_class.app_title).to eq 'OpenProject'
@@ -100,6 +99,34 @@ describe Setting, type: :model do
       it 'stores the setting' do
         expect(described_class.find_by(name: 'host_name').value).to eq 'some other name'
       end
+    end
+  end
+
+  describe '.[setting]' do
+    it 'fetches the value' do
+      expect(described_class.app_title)
+        .to eql('OpenProject')
+    end
+  end
+
+  describe '.[setting]?' do
+    it 'fetches the value' do
+      expect(described_class.smtp_enable_starttls_auto?)
+        .to be false
+    end
+
+    it 'works for non boolean settings as well (deprecated)' do
+      expect(described_class.app_title?)
+        .to be true
+    end
+  end
+
+  describe '.[setting]=' do
+    it 'sets the value' do
+      described_class.app_title = 'New title'
+
+      expect(described_class.app_title)
+        .to eql('New title')
     end
   end
 

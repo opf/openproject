@@ -90,6 +90,12 @@ class Setting < ApplicationRecord
         def self.#{name}?
           # when running too early, there is no settings table. do nothing
           return unless settings_table_exists_yet?
+          definition = Settings::Definition[:#{name}]
+
+          if definition.format != :boolean
+            ActiveSupport::Deprecation.warn "Calling #{self}.#{name}? is deprecated since it is not a boolean", caller
+          end
+
           value = self[:#{name}]
           ActiveRecord::Type::Boolean.new.cast(value)
         end
