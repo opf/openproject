@@ -19,7 +19,7 @@ You can integrate your active directory or other SAML compliant identity provide
 
 The configuration can be provided in one of two ways:
 
-* `config/plugins/auth_saml/settings.yml` file (1.1)
+* `config/configuration.yml` file (1.1)
 
 * Environment variables (1.2)
 
@@ -30,23 +30,19 @@ The configuration can be provided in one of two ways:
 Whatever means are chosen, the plugin simply passes all options to omniauth-saml. See [their configuration
 documentation](https://github.com/omniauth/omniauth-saml#usage) for further details.
 
-The options are mutually exclusive. I.e. if settings are already provided via ENV variables, settings in a `settings.yml` file will be ignored. If you decide to save settings in the database, they will override any ENV variables you might have set.
+The options are mutually exclusive. I.e. if settings are already provided via ENV variables, they will overwrite settings in a `configuration.yml` file.
+If you decide to save settings in the database, they will override any ENV variables you might have set.
 
-#### 1.1 config/plugins/auth_saml/settings.yml file
+#### 1.1 config/configuration.yml file
 
-You need to create the folder `plugins` and `auth_saml` first. You can do that with the following command
-
-```
-mkdir -p /opt/openproject/config/plugins/auth_saml
-```
-
-and then edit the file in your favorite editor
+In your OpenProject packaged installation, you can modify the `/opt/openproject/config/configuration.yml` file. 
+Edit the file in your favorite editor
 
 ```
-vim /opt/openproject/config/plugins/auth_saml/settings.yml
+vim /opt/openproject/config/configuration.yml
 ```
 
-In your OpenProject packaged installation, you can modify the `/opt/openproject/config/plugins/auth_saml/settings.yml` file. This will contains the complete OpenProject configuration and can be extended to also contain metadata settings and connection details for your SSO identity provider.
+This will contains the complete OpenProject configuration and can be extended to also contain metadata settings and connection details for your SSO identity provider.
 
 The following is an exemplary file with a set of common settings:
 
@@ -87,7 +83,7 @@ saml:
     last_name: ['sn']
 ```
 
-Be sure to choose the correct indentation and base key. The items below the `saml` key should be indented two spaces. You will get an YAML parsing error otherwise when trying to start OpenProject.
+Be sure to choose the correct indentation and base key. The items below the `saml` key should be indented two spaces more than `saml` already is. And `saml` can will need to be placed in the `default` or `production` group so it will already be indented. You will get an YAML parsing error otherwise when trying to start OpenProject.
 
 #### 1.2 Environment variables
 
@@ -122,7 +118,7 @@ That means it's best to set them using the console.
 > docker-compose run --rm web bundle exec rails console
 ```
 
-Once on the console you can set the same values as named in the `settings.yml` file, however they need to be nested within a 'providers' key as follows.
+Once on the console you can set the same values as named in the `configuration.yml` file, however they need to be nested within a 'providers' key as follows.
 For example:
 
 ```ruby
