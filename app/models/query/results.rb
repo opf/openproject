@@ -41,9 +41,9 @@ class ::Query::Results
   def work_package_count
     work_package_scope
       .joins(all_filter_joins)
-      .includes(:status, :project)
+      .includes(:project)
       .where(query.statement)
-      .references(:statuses, :projects)
+      .references(:projects)
       .count
   rescue ::ActiveRecord::StatementInvalid => e
     raise ::Query::StatementInvalid.new(e.message)
@@ -79,7 +79,7 @@ class ::Query::Results
   end
 
   def all_includes
-    (%i(status project) +
+    (%i(project) +
       includes_for_columns(include_columns)).uniq
   end
 
