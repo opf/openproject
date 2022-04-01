@@ -83,6 +83,13 @@ module OpenProject
           end
         end
       end
+
+      initializer 'auth_saml.configuration' do
+        ::Settings::Definition.add 'saml',
+                                   value: nil,
+                                   format: :hash,
+                                   writable: false
+      end
     end
   end
 end
