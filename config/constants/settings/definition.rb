@@ -83,6 +83,7 @@ module Settings
 
     def override_value(other_value)
       if format == :hash
+        self.value = {} if value.nil?
         value.deep_merge! other_value
       else
         self.value = other_value
