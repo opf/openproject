@@ -157,7 +157,9 @@ class Setting < ApplicationRecord
   end
 
   def value=(val)
-    raise NoMethodError unless Settings::Definition[name].writable?
+    unless Settings::Definition[name].writable?
+      raise NoMethodError, "#{name} is not writable but can be set through env vars or configuration.yml file."
+    end
 
     write_attribute(:value, formatted_value(val))
   end
