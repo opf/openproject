@@ -593,7 +593,7 @@ GEM
       omniauth (~> 1.1)
       omniauth-openid-connect (>= 0.2.1)
       rails (>= 3.2.21)
-    lograge (0.11.2)
+    lograge (0.12.0)
       actionpack (>= 4)
       activesupport (>= 4)
       railties (>= 4)
@@ -1038,7 +1038,7 @@ DEPENDENCIES
   letter_opener
   listen (~> 3.7.0)
   livingstyleguide (~> 2.1.0)
-  lograge (~> 0.11.0)
+  lograge (~> 0.12.0)
   meta-tags (~> 2.16.0)
   mini_magick (~> 4.11.0)
   multi_json (~> 1.15.0)
