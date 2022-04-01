@@ -41,7 +41,11 @@ module OpenProject::GithubIntegration
 
     register 'openproject-github_integration',
              author_url: 'https://www.openproject.org/',
-             bundled: true
+             bundled: true do
+      project_module(:github, dependencies: :work_package_tracking) do
+        permission(:show_github_content, {})
+      end
+    end
 
     initializer 'github.register_hook' do
       ::OpenProject::Webhooks.register_hook 'github' do |hook, environment, params, user|
@@ -56,14 +60,6 @@ module OpenProject::GithubIntegration
                                              &NotificationHandler.method(:issue_comment))
       ::OpenProject::Notifications.subscribe('github.pull_request',
                                              &NotificationHandler.method(:pull_request))
-    end
-
-    initializer 'github.permissions' do
-      OpenProject::AccessControl.map do |ac_map|
-        ac_map.project_module(:github, dependencies: :work_package_tracking) do |pm_map|
-          pm_map.permission(:show_github_content, {})
-        end
-      end
     end
 
     extend_api_response(:v3, :work_packages, :work_package,

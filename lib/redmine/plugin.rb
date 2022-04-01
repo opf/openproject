@@ -331,7 +331,10 @@ module Redmine #:nodoc:
     #   end
     def project_module(name, options = {}, &block)
       @project_scope = [name, options]
-      instance_eval(&block)
+      plugin = self
+      Rails.application.reloader.to_prepare do
+        plugin.instance_eval(&block)
+      end
     ensure
       @project_scope = nil
     end

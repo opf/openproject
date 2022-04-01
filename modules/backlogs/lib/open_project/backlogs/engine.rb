@@ -51,16 +51,19 @@ module OpenProject::Backlogs
              author_url: 'https://www.openproject.org',
              bundled: true,
              settings: settings do
-      OpenProject::AccessControl.permission(:add_work_packages).tap do |add|
-        add.controller_actions << 'rb_stories/create'
-        add.controller_actions << 'rb_tasks/create'
-        add.controller_actions << 'rb_impediments/create'
-      end
 
-      OpenProject::AccessControl.permission(:edit_work_packages).tap do |edit|
-        edit.controller_actions << 'rb_stories/update'
-        edit.controller_actions << 'rb_tasks/update'
-        edit.controller_actions << 'rb_impediments/update'
+      Rails.application.reloader.to_prepare do
+        OpenProject::AccessControl.permission(:add_work_packages).tap do |add|
+          add.controller_actions << 'rb_stories/create'
+          add.controller_actions << 'rb_tasks/create'
+          add.controller_actions << 'rb_impediments/create'
+        end
+
+        OpenProject::AccessControl.permission(:edit_work_packages).tap do |edit|
+          edit.controller_actions << 'rb_stories/update'
+          edit.controller_actions << 'rb_tasks/update'
+          edit.controller_actions << 'rb_impediments/update'
+        end
       end
 
       project_module :backlogs, dependencies: :work_package_tracking do
