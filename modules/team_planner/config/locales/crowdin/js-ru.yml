@@ -2,7 +2,7 @@
 ru:
   js:
     team_planner:
-      add_existing: 'Add existing'
+      add_existing: 'Добавить существующее'
       create_new: 'Новый планировщик для команды'
       title: 'Командный планировщик'
       unsaved_title: 'Безымянный планировщик команды'

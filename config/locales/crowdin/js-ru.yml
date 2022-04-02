@@ -997,7 +997,7 @@ ru:
         relations: Связи
         watchers: Наблюдатель
         files: Файлы
-        files_tab_migration_help: 'You can now attach files to work packages via the new tab:'
+        files_tab_migration_help: 'Теперь вы можете прикрепить файлы к рабочим пакетам через новую вкладку:'
       time_relative:
         days: "дней"
         weeks: "недели"
@@ -1171,7 +1171,7 @@ ru:
           group: 'Теперь группа является частью %{project}. Тем временем вы уже можете спланировать работу с этой группой и назначить пакеты работ.'
         next_button: 'Продолжить'
     include_projects:
-      toggle_title: 'Include projects'
+      toggle_title: 'Включить проекты'
       title: 'Проекты'
       clear_selection: 'Отменить выделение'
       apply: 'Применить'
