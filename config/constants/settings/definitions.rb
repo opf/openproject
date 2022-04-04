@@ -387,6 +387,10 @@ Settings::Definition.define do
       value: 'enterprise-on-premises---euro---1-year',
       writable: false
 
+  add :feature_storages_module_active,
+      value: false,
+      format: :boolean
+
   add :feeds_enabled,
       value: true
 

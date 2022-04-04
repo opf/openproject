@@ -27,9 +27,10 @@
 #++
 
 require 'spec_helper'
+require_module_spec_helper
 require 'services/base_services/behaves_like_delete_service'
 
-describe ::Storages::ProjectStorages::DeleteService, type: :model do
+describe ::Storages::ProjectStorages::DeleteService, :enable_storages, type: :model do
   context 'with records written to DB' do
     let(:user) { create(:user) }
     let(:role) { create(:existing_role, permissions: [:manage_storages_in_project]) }

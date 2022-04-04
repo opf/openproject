@@ -50,7 +50,9 @@ module OpenProject::Storages
              name: 'OpenProject Storages' do
       # Defines permission constraints used in the module (controller, etc.)
       # Permissions documentation: https://www.openproject.org/docs/development/concepts/permissions/#definition-of-permissions
-      project_module :storages, dependencies: :work_package_tracking do
+      project_module :storages,
+                     dependencies: :work_package_tracking,
+                     if: ->(*) { OpenProject::FeatureDecisions.storages_module_active? } do
         permission :view_file_links,
                    {},
                    dependencies: %i[view_work_packages]

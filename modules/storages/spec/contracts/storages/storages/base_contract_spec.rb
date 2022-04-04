@@ -28,7 +28,7 @@
 
 require_relative '../../../spec_helper'
 
-describe Storages::Storages::BaseContract, :storage_server_helpers, webmock: true do
+describe Storages::Storages::BaseContract, :enable_storages, :storage_server_helpers, webmock: true do
   let(:current_user) { create(:admin) }
   let(:storage_host) { 'https://host1.example.com' }
   let(:storage) { build(:storage, host: storage_host) }

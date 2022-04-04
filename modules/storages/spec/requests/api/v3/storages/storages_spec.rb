@@ -27,8 +27,9 @@
 #++
 
 require 'spec_helper'
+require_module_spec_helper
 
-describe 'API v3 storages resource', type: :request, content_type: :json do
+describe 'API v3 storages resource', :enable_storages, type: :request, content_type: :json do
   include API::V3::Utilities::PathHelper
 
   let(:permissions) { %i(view_file_links) }

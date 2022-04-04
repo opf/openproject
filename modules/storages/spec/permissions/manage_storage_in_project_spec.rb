@@ -28,11 +28,17 @@
 
 require 'spec_helper'
 require 'support/permission_specs'
+require_module_spec_helper
 
-describe Storages::Admin::ProjectsStoragesController, 'manage_storage_in_project permission', type: :controller do
+# rubocop:disable RSpec/EmptyExampleGroup
+describe Storages::Admin::ProjectsStoragesController,
+         'manage_storage_in_project permission',
+         :enable_storages,
+         type: :controller do
   include PermissionSpecs
 
   controller_actions.each do |action|
     check_permission_required_for("#{described_class.controller_path}##{action}", :manage_storages_in_project)
   end
 end
+# rubocop:enable RSpec/EmptyExampleGroup

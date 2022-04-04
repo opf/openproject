@@ -27,9 +27,11 @@
 #++
 
 require 'spec_helper'
+require_module_spec_helper
 
 # rubocop:disable RSpec/MultipleMemoizedHelpers
 describe 'API v3 work packages resource with filters for linked storage file',
+         :enable_storages,
          type: :request,
          content_type: :json do
   include API::V3::Utilities::PathHelper

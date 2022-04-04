@@ -27,9 +27,10 @@
 #++
 
 require 'spec_helper'
+require_module_spec_helper
 
 # rubocop:disable RSpec/MultipleMemoizedHelpers
-describe 'API v3 file links resource', type: :request do
+describe 'API v3 file links resource', :enable_storages, type: :request do
   include API::V3::Utilities::PathHelper
 
   let(:permissions) { %i(view_work_packages view_file_links) }

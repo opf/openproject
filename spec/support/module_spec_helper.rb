@@ -23,19 +23,15 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See COPYRIGHT and LICENSE files for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
-require_module_spec_helper
-require 'contracts/shared/model_contract_shared_context'
+# load the module spec_helper.rb from calling spec if it exists
+def require_module_spec_helper
+  module_caller = caller.grep(Regexp.new("\\A#{Rails.root.join('modules')}")).first
+  return unless module_caller
 
-describe ::Storages::Storages::DeleteContract, :enable_storages do
-  include_context 'ModelContract shared context'
-
-  let(:storage) { create(:storage) }
-  let(:contract) { described_class.new(storage, current_user) }
-
-  # Generic checks that the contract is valid for valid admin, but invalid otherwise
-  it_behaves_like 'contract is valid for active admins and invalid for regular users'
+  module_name = module_caller.scan(/modules\/\w+/).first
+  module_spec_helper = Rails.root.join("#{module_name}/spec/spec_helper.rb")
+  require module_spec_helper if module_spec_helper.file?
 end
