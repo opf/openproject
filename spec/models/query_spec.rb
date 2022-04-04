@@ -63,19 +63,19 @@ describe Query, type: :model do
 
     context 'with global subprojects include', with_settings: { display_subprojects_work_packages: true } do
       it 'sets the include subprojects' do
-        expect(query.include_subprojects).to eq true
+        expect(query.include_subprojects).to be true
       end
     end
 
     context 'with global subprojects include', with_settings: { display_subprojects_work_packages: false } do
       it 'sets the include subprojects' do
-        expect(query.include_subprojects).to eq false
+        expect(query.include_subprojects).to be false
       end
     end
   end
 
   describe 'include_subprojects' do
-    let(:query) { Query.new name: 'foo' }
+    let(:query) { described_class.new name: 'foo' }
 
     it 'is required' do
       expect(query).not_to be_valid
