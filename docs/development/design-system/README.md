@@ -27,19 +27,19 @@ keywords: Design system, styles, design, components
 
 | Style definitions (Figma)                                    | Status                         | Implementation examples                                      |
 | ------------------------------------------------------------ | ------------------------------ | ------------------------------ |
-| [Action bar](https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/Components-Library?node-id=501%3A3578) | Working draft, designed, documented | [Include project multi-select modal](https://community.openproject.org/work_packages) |
+| [Action bar](https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/Components-Library?node-id=501%3A3578) | Working draft, designed, documented | [Include projects multi-select modal](https://community.openproject.org/work_packages) |
 | [Badges](https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/Components-Library?node-id=384%3A3249) | Working draft, designed, no documentation yet |  |
-| [Buttons and Toggles](https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/Components-Library?node-id=384%3A3399) | Working draft, designed, partial documentation |  |
-| [Calendar](https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/Components-Library?node-id=832%3A5342) | Working draft, designed, no documentation yet | [Calendar module](https://community.openproject.org/projects/openproject/calendars/3182?cdate=2022-04-01&cview=dayGridMonth) |
+| [Buttons and Toggles](https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/Components-Library?node-id=384%3A3399) | Working draft, designed, partial documentation | [Include projects multi-select modal](https://community.openproject.org/work_packages) |
+| [Calendar](https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/Components-Library?node-id=832%3A5342) | Working draft, designed, no documentation yet | [Calendar module](https://community.openproject.org/projects/openproject/calendars/3182?cdate=2022-04-01&cview=dayGridMonth) and Team Planner |
 | [Chips](https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/Components-Library?node-id=510%3A3564) | Working draft, designed, documented |  |
 | [Dividers](https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/?node-id=397%3A4114) | Working draft, designed, no documentation yet |  |
 | [Dropdowns](https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/?node-id=397%3A3910) | Working draft, designed, no documentation yet |  |
-| [Drop modal](https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/?node-id=502%3A3417) | Working draft, designed, documented |  |
-| [Search field](https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/?node-id=384%3A3315) | Working draft, designed, documented |  |
+| [Drop modal](https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/?node-id=502%3A3417) | Working draft, designed, documented | [Include projects multi-select modal](https://community.openproject.org/work_packages) |
+| [Search field](https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/?node-id=384%3A3315) | Working draft, designed, documented | [Include projects multi-select modal](https://community.openproject.org/work_packages) |
 | [Selection controls](https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/?node-id=400%3A3260) | Working draft, designed, partial documentation |  |
 | [Tab bar](https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/?node-id=384%3A3321) | Working draft, designed, no documentation yet |  |
 | [Tables](https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/?node-id=0%3A1) | Working draft, designed, no documentation yet |  |
-| [Text fields](https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/?node-id=400%3A3640) | Working draft, designed, documented |  |
+| [Text fields](https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/?node-id=400%3A3640) | Working draft, designed, documented | [Include projects multi-select modal](https://community.openproject.org/work_packages) |
 | [Toast](https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/?node-id=391%3A3910) | Working draft, designed, no documentation yet |  |
 | [Tooltip](https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/?node-id=391%3A3910) | Working draft, designed, no documentation yet |  |
 
