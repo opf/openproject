@@ -1,26 +1,26 @@
 ---
 sidebar_navigation:
-  title: Incoming & Outgoing
+  title: Emails and notification
   priority: 760
 description: incoming and outgoing notification settings in OpenProject.
 robots: index, follow
 keywords: incoming and outgoing notifications
 ---
-# Incoming & outgoing
+# Emails and notification
 
-Configure **incoming & outgoing settings** in OpenProject, i.e. email notifications and incoming email configuration.
+Configure **Emails and notification settings** in OpenProject, i.e. email notifications and incoming email configuration.
 
-Navigate to *Administration* -> *Incoming & Outgoing*.
+Navigate to *Administration* -> *Emails and notification*.
 
-| Topic                                                        | Content                                                    |
-| ------------------------------------------------------------ | ---------------------------------------------------------- |
-| [Incoming & outgoing settings](#incoming--outgoing-settings) | How to configure the global incoming and outgoing settings |
-| [Email notifications](#email-notifications-settings) | How to configure outgoing email notifications?             |
-| [Incoming emails](#incoming-emails-settings) | How to configure settings for inbound emails?              |
+| Topic                                                            | Content                                                    |
+|------------------------------------------------------------------|------------------------------------------------------------|
+| [Emails and notification settings](#incoming--outgoing-settings) | How to configure the global incoming and outgoing settings |
+| [Email notifications](#email-notifications-settings)             | How to configure outgoing email notifications?             |
+| [Incoming emails](#incoming-emails-settings)                     | How to configure settings for inbound emails?              |
 
-## Incoming & outgoing settings
+## Emails and notification settings
 
-To change the global settings for incoming and outgoing messages, navigate to *Administration* -> *Incoming & Outgoing*.
+To change the global settings for incoming and outgoing messages, navigate to *Administration* -> *Emails and notification*.
 
 ![image-20211129133408193](image-20211129133408193.png)
 
@@ -29,7 +29,7 @@ To change the global settings for incoming and outgoing messages, navigate to *A
 
 ## Email notifications settings
 
-To adapt email notification settings, go to *Administration* -> *Incoming & Outgoing* -> *Email notifications*.
+To adapt email notification settings, go to *Administration* -> *Emails and notification* -> *Email notifications*.
 
 1. **Emission email address**. This email address will be shown as the sender for the email notifications sent by OpenProject (for example, when a work package is changed).
 2. Activate **blind carbon copy recipients** (bcc).
@@ -48,7 +48,7 @@ Configure your notification email header and footer which will be sent out for e
 
 ## Incoming emails settings
 
-To adapt incoming email settings, go to *Administration* -> *Incoming & Outgoing* -> *Incoming emails*. Here you can configure the following options.
+To adapt incoming email settings, go to *Administration* -> *Emails and notification* -> *Incoming emails*. Here you can configure the following options.
 
 1. **Define after which lines an email should be truncated**. This setting allows shortening email after the entered lines.
 2. Specify a **regular expression** to truncate emails.

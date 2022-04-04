@@ -27,7 +27,7 @@
 #++
 
 module Admin::Settings
-  class NotificationsSettingsController < ::Admin::SettingsController
+  class AggregationSettingsController < ::Admin::SettingsController
     current_menu_item [:show] do
       :notification_settings
     end
@@ -37,7 +37,7 @@ module Admin::Settings
     end
 
     def default_breadcrumb
-      t(:'menus.admin.incoming_outgoing')
+      t(:'menus.admin.aggregation_and_retention')
     end
 
     def show_local_breadcrumb
