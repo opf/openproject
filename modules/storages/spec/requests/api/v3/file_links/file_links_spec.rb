@@ -81,6 +81,10 @@ describe 'API v3 file links resource', :enable_storages, type: :request do
         let(:elements) { [] }
       end
     end
+
+    context 'when storages module is inactive', :disable_storages do
+      it_behaves_like 'not found'
+    end
   end
 
   describe 'POST /api/v3/work_packages/:work_package_id/file_links' do
@@ -140,6 +144,10 @@ describe 'API v3 file links resource', :enable_storages, type: :request do
                                  "expected attribute #{key.inspect} of FileLink ##{i + 1} to be set.\ngot nil."
           end
         end
+      end
+
+      context 'when storages module is inactive', :disable_storages do
+        it_behaves_like 'not found'
       end
     end
 
@@ -318,6 +326,10 @@ describe 'API v3 file links resource', :enable_storages, type: :request do
 
       it_behaves_like 'not found'
     end
+
+    context 'when storages module is inactive', :disable_storages do
+      it_behaves_like 'not found'
+    end
   end
 
   describe 'DELETE /api/v3/file_links/:file_link_id' do
@@ -351,6 +363,10 @@ describe 'API v3 file links resource', :enable_storages, type: :request do
 
       it_behaves_like 'not found'
     end
+
+    context 'when storages module is inactive', :disable_storages do
+      it_behaves_like 'not found'
+    end
   end
 
   describe 'GET /api/v3/file_links/:file_link_id/open' do
@@ -373,6 +389,10 @@ describe 'API v3 file links resource', :enable_storages, type: :request do
     context 'if no storage with that id exists' do
       let(:path) { api_v3_paths.file_link(1337) }
 
+      it_behaves_like 'not found'
+    end
+
+    context 'when storages module is inactive', :disable_storages do
       it_behaves_like 'not found'
     end
   end

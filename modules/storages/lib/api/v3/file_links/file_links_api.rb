@@ -41,6 +41,10 @@ module API
           end
         end
 
+        before do
+          raise ::API::Errors::NotFound unless OpenProject::FeatureDecisions.storages_module_active?
+        end
+
         # The `:resources` keyword defines the API namespace -> /api/v3/file_links/...
         resources :file_links do
           # `route_param` extends the route by a route parameter of the endpoint.

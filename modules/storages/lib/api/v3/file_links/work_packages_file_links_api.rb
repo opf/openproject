@@ -42,6 +42,10 @@ module API
           end
         end
 
+        before do
+          raise ::API::Errors::NotFound unless OpenProject::FeatureDecisions.storages_module_active?
+        end
+
         # The `:resources` keyword defines the API namespace -> /api/v3/work_packages/:id/file_links/...
         resources :file_links do
           # A helper is used to define the behaviour at GET /api/v3/work_packages/:id/file_links

@@ -94,5 +94,9 @@ describe 'API v3 storages resource', :enable_storages, type: :request, content_t
 
       it_behaves_like 'successful storage response'
     end
+
+    context 'when storages module is inactive', :disable_storages do
+      it_behaves_like 'not found'
+    end
   end
 end
