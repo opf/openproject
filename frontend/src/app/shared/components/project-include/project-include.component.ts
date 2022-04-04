@@ -258,14 +258,17 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin implements On
 
   public toggleOpen():void {
     this.opened = !this.opened;
-    this.loadAllProjects();
-    this.projectsInFilter$
-      .pipe(take(1))
-      .subscribe((selectedProjects) => {
-        this.displayMode = 'all';
-        this.searchText = '';
-        this.selectedProjects = selectedProjects as string[];
-      });
+
+    if (this.opened) {
+      this.loadAllProjects();
+      this.projectsInFilter$
+        .pipe(take(1))
+        .subscribe((selectedProjects) => {
+          this.displayMode = 'all';
+          this.searchText = '';
+          this.selectedProjects = selectedProjects as string[];
+        });
+    }
   }
 
   public loadAllProjects():void {
