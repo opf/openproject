@@ -25,18 +25,37 @@ A few notes:
 | [Work package strip detail view](team-planner) | How to access the work package detail view? |
 | [Removing a work package strip](team-planner) | How to remove a work package strip? |
 
-## Main view - planning calendar basics
+## Main view - Start a new or select an existing Team Planner
 
-![image-20220208130807843](image-20220208130807843.png)
+![image-20220404115939045](image-20220404115939045.png)
+
+
+
+1. You can create a new team planner using either the "+ Create" button in the top right near your avatar, or by clicking the "+ New team planner" button at the bottom of the black menu bar.
+
+2. If you created a team planner before, you can select one of the planners from the list.
+
+3. Team planners with the visibility option "public" selected appear under the "Public Views" heading in the black menu bar. 
+
+4. Team planners with the visibility option "public" unselected appear under the "Private Views" heading in the black menu bar. Note: If "public" is not selected, the calendar is automatically "private" and can only be seen by you, not other members.
+
+   Both "public" and "private" calendars can be added as a "favored" planner, and would appear under the heading "Favorite Views" in the black menu bar.
+
+
+
+## Planning calendar basics
+
+![image-20220404122042628](image-20220404122042628.png)
 
 How to navigate the team planner? - The numbers below correspond with the above image:
 
-1. The top header: Click on the top header (where it says "My new team planner" in the picture above) to edit the name of     your new team planning calendar. The top header is in edit mode by default, so you can just click right on the text. This is where you can give the new team planning calendar its new name. Your new name gets saved automatically by exiting the top header (by clicking somewhere else, for example).
+1. The top header: Click on the top header (where it says "Team planner" in the picture above) to edit the name of your new team planning calendar. The top header is in edit mode by default, so you can just click right on the text. This is where you can give the new team planning calendar its new name. Your new name gets saved automatically by exiting the top header (by clicking somewhere else, for example).
 2. Use the "+ add existing" button to add an existing work package to your view. Note: You cannot create new work packages from the team planner module. Create new work packages in the work package module, then select them in the team planner.
 3. Add a new team member to you planning calendar using the "+ add assignee"
+3. "Include projects" filter: By default, this filter will only include the current project you are in. You can select additional projects as you see fit by pressing this filter button and check-marking additional projects. The number in the grey bubble inside of this button will indicate the number of projects that are currently selected inside of the filter.
 4. There is a filter button by which you can focus what is displayed on your calendar (for example, only certain team members or work packages).
 5. This switches you team planning calendar to full screen mode.
-6. Saving, renaming and saving a copy (saving as), or deleting can also be accomplished using the button with the three vertical     dots. This is also where you can modify the visibility options. Select "public" to allow others in your organization that are members of your respective project to see your planning calendar. If "public" is not selected, the calendar is "private" and can only be seen by you, not other members.
+6. Saving, renaming and saving a copy (saving as), or deleting can also be accomplished using the [⋮] button. This is also where you can modify the visibility options. Select "public" to allow others in your organization that are members of your respective project to see your planning calendar. If "public" is not selected, the calendar is "private" and can only be seen by you, not other members.
 7. By default the planning calendar only shows the current week. Use these buttons to toggle between the 1-week and 2-week view.
 
 ## Getting started
@@ -49,7 +68,7 @@ Repeat this step until all team members relevant for this planner are added, and
 
 **Note: Once you are finished adding members to the planner, click the floppy disk icon in the top header to save.**
 
-![image-20220208132317151](image-20220208132317151.png)
+![image-20220404122824367](image-20220404122824367.png)
 
 
 
@@ -57,19 +76,17 @@ Repeat this step until all team members relevant for this planner are added, and
 
 Next, add specific work packages to your planner. Do this by pressing the "+ add existing" button" we introduced in step 2 of the main view overview. Once you press the "+ add existing" button, start typing the name of the work package you are looking to add. Once found, drag & drop the work package strip. Should the work package have a duration exceeding the current 1 or 2 week view, a horizontal scroll bar will display, with which it is possible to scroll to the end date of the longest running work package.
 
+Additional features: You can change the status of a work package, and enter the work package strip detailed view by pressing the info button (i) on each respective strip
+
 **Note: You can only add existing work packages here. If you need to create some first, create them in the work package module as new work packages cannot be created from the team planner module.**
 
-
-
-![image-20220208134526915](image-20220208134526915.png)
-
-
+![image-20220404123048430](image-20220404123048430.png)
 
 - **Work package strip detail view**
 
 Click on any given work package strip to open up a split screen showing the work package detail view.
 
-![image-20220208135628101](image-20220208135628101.png)
+![image-20220404123438178](image-20220404123438178.png)
 
 
 
