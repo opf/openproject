@@ -280,10 +280,6 @@ describe 'API v3 work packages resource with filters for linked storage file',
           let(:elements) { [work_package3] }
         end
       end
-
-      context 'when storages module is inactive', :disable_storages do
-        it_behaves_like 'not found'
-      end
     end
   end
 end
