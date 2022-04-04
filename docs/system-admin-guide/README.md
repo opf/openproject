@@ -1,12 +1,12 @@
 ---
 sidebar_navigation:
-  title: System Admin Guide
+  title: System admin guide
   priority: 970
 description: OpenProject system administration guide.
 robots: index, follow
 keywords: system administration
 ---
-# System Administration guide
+# System admin guide
 
 Welcome to the OpenProject **System Administration guide**.
 
