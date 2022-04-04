@@ -45,6 +45,9 @@ class Query < ApplicationRecord
             presence: true,
             length: { maximum: 255 }
 
+  validates :include_subprojects,
+            inclusion: [true, false]
+
   validate :validate_work_package_filters
   validate :validate_columns
   validate :validate_sort_criteria
