@@ -1,4 +1,6 @@
 <!-- Standard Ruby view, please see the controller for comments -->
+
+<!-- We want to hide client_secret from the user while allowing the user to edit the other attributes -->
 <% content_for :header_tags do %>
   <meta name="required_script" content="storage_form" />
 <% end %>
@@ -11,3 +13,4 @@
   <%= render partial: 'form', locals: { f: f } %>
   <%= styled_button_tag t(:button_save), class: "-highlight -with-icon icon-checkmark" %>
 <% end %>
+

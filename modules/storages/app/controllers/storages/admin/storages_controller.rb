@@ -56,7 +56,7 @@ class Storages::Admin::StoragesController < ApplicationController
 
   # Show page with details of one Storage object.
   # Called by: Global app/config/routes.rb to serve Web page
-  def show;
+  def show
     @short_secret = shortened_secret(@object.oauth_client_secret)
   end
 
@@ -102,7 +102,7 @@ class Storages::Admin::StoragesController < ApplicationController
   # Edit page is very similar to new page, except that we don't need to set
   # default attribute values because the object already exists
   # Called by: Global app/config/routes.rb to serve Web page
-  def edit;
+  def edit
     @short_secret = shortened_secret(@object.oauth_client_secret)
   end
 
@@ -141,13 +141,11 @@ class Storages::Admin::StoragesController < ApplicationController
 
   # Show first two and last two characters, with **** in the middle
   def shortened_secret(secret)
-    # binding.pry
+    result = ""
     if secret.is_a?(String) && secret.present?
-      secret = secret[...2]+ "****" + secret[-2...]
-    else
-      secret = ""
+      result = "#{secret[...2]}****#{secret[-2...]}"
     end
-    secret
+    result
   end
 
   # Used by: admin layout
