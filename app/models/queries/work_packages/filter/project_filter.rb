@@ -72,10 +72,6 @@ class Queries::WorkPackages::Filter::ProjectFilter < Queries::WorkPackages::Filt
     value_objects.map(&:id)
   end
 
-  def where
-    operator_strategy.sql_for_field(values_replaced, self.class.model.table_name, :project_id)
-  end
-
   private
 
   def visible_projects
