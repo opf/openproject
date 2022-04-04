@@ -1,6 +1,6 @@
 ---
 sidebar_navigation:
-  title: OpenProject FAQ
+  title: Development FAQ
   priority: 980
 description: Frequently asked questions for development
 robots: index, follow
@@ -19,8 +19,3 @@ The documentation for creating plugins is indeed limited at the moment. What we 
 ## Which gateway provider does OpenProject use for 2FA by SMS?
 
 We use MessageBird. At the moment this can't be changed.
-
-## Additional information
-
-For additional information and FAQ have a look at the other FAQ sections, e.g. [in the Installation and upgrade guide](../../installation-and-operations/installation-faq).
-
