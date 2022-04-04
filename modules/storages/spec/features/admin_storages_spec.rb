@@ -36,7 +36,7 @@ describe 'Admin storages', :enable_storages, :storage_server_helpers, type: :fea
   end
 
   it 'creates, edits and deletes storages', webmock: true do
-    visit storages_path
+    visit admin_settings_storages_path
     expect(page).to have_title('File storages')
     expect(page.find('.title-container')).to have_text('File storages')
     expect(page).to have_text(I18n.t('storages.no_results'))
@@ -83,14 +83,14 @@ describe 'Admin storages', :enable_storages, :storage_server_helpers, type: :fea
     expect(page).to have_text(admin.name)
 
     page.find("a", text: 'Other NC').click
-    expect(page).to have_current_path storage_path(created_storage)
+    expect(page).to have_current_path admin_settings_storage_path(created_storage)
     page.find('.button--icon.icon-delete').click
 
     alert_text = page.driver.browser.switch_to.alert.text
     expect(alert_text).to eq(I18n.t('storages.delete_warning.storage'))
     page.driver.browser.switch_to.alert.accept
 
-    expect(page).to have_current_path(storages_path)
+    expect(page).to have_current_path(admin_settings_storages_path)
     expect(page).not_to have_text("Other NC")
   end
 end

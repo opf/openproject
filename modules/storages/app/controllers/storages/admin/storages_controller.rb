@@ -85,8 +85,8 @@ class Storages::Admin::StoragesController < ApplicationController
 
     if service_result.success?
       flash[:notice] = I18n.t(:notice_successful_create)
-      # storage_path is automagically created by Ruby routes.
-      redirect_to storage_path(@object)
+      # admin_settings_storage_path is automagically created by Ruby routes.
+      redirect_to admin_settings_storage_path(@object)
     else
       @errors = service_result.errors
       render :new
@@ -110,7 +110,7 @@ class Storages::Admin::StoragesController < ApplicationController
 
     if service_result.success?
       flash[:notice] = I18n.t(:notice_successful_update)
-      redirect_to storage_path(@object)
+      redirect_to admin_settings_storage_path(@object)
     else
       @errors = service_result.errors
       render :edit
@@ -128,7 +128,7 @@ class Storages::Admin::StoragesController < ApplicationController
     flash[:info] = I18n.t(:notice_successful_delete)
 
     # Redirect to the index page
-    redirect_to storages_path
+    redirect_to admin_settings_storages_path
   end
 
   # Used by: admin layout
@@ -138,7 +138,7 @@ class Storages::Admin::StoragesController < ApplicationController
     if action_name == :index
       t(:project_module_storages)
     else
-      ActionController::Base.helpers.link_to(t(:project_module_storages), storages_path)
+      ActionController::Base.helpers.link_to(t(:project_module_storages), admin_settings_storages_path)
     end
   end
 

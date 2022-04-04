@@ -33,14 +33,14 @@ See COPYRIGHT and LICENSE files for more details.
 <%= toolbar title: "#{t('project_module_storages')} - #{@object.name}",
             title_class: 'no-padding-bottom' do %>
   <li class="toolbar-item">
-    <%= link_to edit_storage_path(@object),
+    <%= link_to edit_admin_settings_storage_path(@object),
                 class: 'button' do %>
       <%= op_icon('button--icon icon-edit') %>
       <span class="button--text"><%= t(:button_edit) %></span>
     <% end %>
   </li>
   <li class="toolbar-item">
-    <%= link_to storage_path(@object),
+    <%= link_to admin_settings_storage_path(@object),
                 method: :delete,
                 data: { confirm: I18n.t('storages.delete_warning.storage') },
                 class: 'button -danger' do %>
