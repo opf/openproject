@@ -37,6 +37,10 @@ The guides for [upgrading](./installation-and-operations/operation/upgrading) ar
 
 Please see our [User Guide pages](https://www.openproject.org/docs/user-guide/) for detailed documentation on the functionality of OpenProject.
 
+## Use Cases
+
+Please see our [User Cases section](https://www.openproject.org/docs/user-cases/) for detailed how-to guides and step-by-step instruction on how to set up a variety of common cases and views.
+
 
 ## Development
 
