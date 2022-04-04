@@ -76,8 +76,8 @@ describe 'Team planner project include', type: :feature, js: true do
 
       work_package_view.within_lane(user) do
         work_package_view.expect_event task
-        work_package_view.expect_event sub_bug, present: false
-        work_package_view.expect_event sub_sub_bug, present: false
+        work_package_view.expect_event sub_bug, present: true
+        work_package_view.expect_event sub_sub_bug, present: true
       end
 
       work_package_view.within_lane(other_user) do
@@ -92,7 +92,7 @@ describe 'Team planner project include', type: :feature, js: true do
 
       work_package_view.within_lane(user) do
         work_package_view.expect_event task
-        work_package_view.expect_event sub_bug, present: false
+        work_package_view.expect_event sub_bug, present: true
         work_package_view.expect_event sub_sub_bug
       end
 
@@ -115,7 +115,7 @@ describe 'Team planner project include', type: :feature, js: true do
 
       work_package_view.within_lane(user) do
         work_package_view.expect_event task
-        work_package_view.expect_event sub_bug, present: false
+        work_package_view.expect_event sub_bug, present: true
         work_package_view.expect_event sub_sub_bug
       end
     end

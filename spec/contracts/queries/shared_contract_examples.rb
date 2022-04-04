@@ -26,4 +26,27 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::CreateService < ::BaseServices::Create; end
+require 'spec_helper'
+require 'contracts/shared/model_contract_shared_context'
+
+shared_context 'with queries contract' do
+  let(:project) { build_stubbed :project }
+  let(:query) do
+    build_stubbed(:query, project: project, public: public, user: user)
+  end
+
+  let(:current_user) do
+    build_stubbed(:user) do |user|
+      allow(user)
+        .to receive(:allowed_to?) do |permission, permission_project|
+        permissions.include?(permission) && project == permission_project
+      end
+    end
+  end
+  let(:contract) { described_class.new(query, current_user) }
+
+  before do
+    # Assume project is always visible
+    allow(contract).to receive(:project_visible?).and_return true
+  end
+end

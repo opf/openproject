@@ -41,7 +41,7 @@ describe WorkPackage::Exports::CSV, 'integration', type: :model do
            member_with_permissions: %i(view_work_packages))
   end
   let(:query) do
-    Query.new(name: '_').tap do |query|
+    Query.new_default(name: '_').tap do |query|
       query.column_names = %i(subject assigned_to updated_at estimated_hours)
     end
   end

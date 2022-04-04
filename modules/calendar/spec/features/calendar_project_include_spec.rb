@@ -50,8 +50,8 @@ describe 'Calendar project include', type: :feature, js: true do
       dropdown.expect_closed
 
       work_package_view.expect_event task
-      work_package_view.expect_event sub_bug, present: false
-      work_package_view.expect_event sub_sub_bug, present: false
+      work_package_view.expect_event sub_bug, present: true
+      work_package_view.expect_event sub_sub_bug, present: true
       work_package_view.expect_event other_task
       work_package_view.expect_event other_other_task, present: false
 
@@ -60,7 +60,7 @@ describe 'Calendar project include', type: :feature, js: true do
       dropdown.click_button 'Apply'
       dropdown.expect_count 2
 
-      work_package_view.expect_event sub_bug, present: false
+      work_package_view.expect_event sub_bug, present: true
       work_package_view.expect_event sub_sub_bug
 
       dropdown.toggle!
@@ -74,7 +74,7 @@ describe 'Calendar project include', type: :feature, js: true do
       page.refresh
 
       work_package_view.expect_event task
-      work_package_view.expect_event sub_bug, present: false
+      work_package_view.expect_event sub_bug, present: true
       work_package_view.expect_event sub_sub_bug
       work_package_view.expect_event other_task
       work_package_view.expect_event other_other_task

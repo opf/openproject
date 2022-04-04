@@ -26,4 +26,37 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::CreateService < ::BaseServices::Create; end
+require 'spec_helper'
+require 'contracts/shared/model_contract_shared_context'
+require_relative 'shared_contract_examples'
+
+describe Queries::CreateContract do
+  include_context 'ModelContract shared context'
+  include_context 'with queries contract'
+
+  describe 'include subprojects' do
+    let(:query) do
+      Query.new name: 'foo',
+                include_subprojects: include_subprojects,
+                project: project
+    end
+
+    context 'when true' do
+      let(:include_subprojects) { true }
+
+      it_behaves_like 'contract is valid'
+    end
+
+    context 'when falsea' do
+      let(:include_subprojects) { false }
+
+      it_behaves_like 'contract is valid'
+    end
+
+    context 'when nil' do
+      let(:include_subprojects) { nil }
+
+      it_behaves_like 'contract is invalid', include_subprojects: %i[inclusion]
+    end
+  end
+end
