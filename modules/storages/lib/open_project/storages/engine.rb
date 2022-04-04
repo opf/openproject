@@ -70,13 +70,14 @@ module OpenProject::Storages
       menu :admin_menu,
            :storages_admin_settings,
            { controller: '/storages/admin/storages', action: :index },
-           if: Proc.new { User.current.admin? },
+           if: Proc.new { User.current.admin? && OpenProject::FeatureDecisions.storages_module_active? },
            caption: :project_module_storages,
            icon: 'icon2 icon-hosting'
 
       menu :project_menu,
            :settings_projects_storages,
            { controller: '/storages/admin/projects_storages', action: 'index' },
+           if: Proc.new { OpenProject::FeatureDecisions.storages_module_active? },
            caption: :project_module_storages,
            parent: :settings
     end

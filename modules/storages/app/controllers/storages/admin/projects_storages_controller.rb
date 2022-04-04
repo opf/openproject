@@ -39,6 +39,10 @@ class Storages::Admin::ProjectsStoragesController < Projects::SettingsController
   # This defines @object as the model instance.
   model_object Storages::ProjectStorage
 
+  # Will return a 404 if the storages module has not been made available through
+  # a feature flag.
+  before_action :ensure_storages_module_active
+
   before_action :find_model_object, only: %i[destroy] # Fill @object with ProjectStorage
   # No need to before_action :find_project_by_project_id as SettingsController already checks
   # No need to check for before_action :authorize, as the SettingsController already checks this.
@@ -113,6 +117,12 @@ class Storages::Admin::ProjectsStoragesController < Projects::SettingsController
   end
 
   private
+
+  def ensure_storages_module_active
+    return if OpenProject::FeatureDecisions.storages_module_active?
+
+    raise ActionController::RoutingError, 'Not Found'
+  end
 
   # Define the list of permitted parameters for creating/updating a ProjectStorage.
   # Called by create and update actions above.
