@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   HostBinding,
+  OnInit,
 } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {
@@ -45,7 +46,7 @@ import { getPaginatedResults } from 'core-app/core/apiv3/helpers/get-paginated-r
   templateUrl: './project-include.component.html',
   styleUrls: ['./project-include.component.sass'],
 })
-export class OpProjectIncludeComponent extends UntilDestroyedMixin {
+export class OpProjectIncludeComponent extends UntilDestroyedMixin implements OnInit {
   @HostBinding('class.op-project-include') className = true;
 
   public text = {
@@ -61,7 +62,6 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin {
   public opened = false;
 
   public query$ = this.wpTableFilters.querySpace.query.values$();
-  public includeSubprojects$ = this.query$.pipe(map((query) => query.includeSubprojects));
 
   public displayModeOptions = [
     { value: 'all', title: this.text.filter_all },
@@ -93,6 +93,19 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin {
   }
 
   public searchText$ = new BehaviorSubject('');
+
+  private _includeSubprojects = true;
+
+  public get includeSubprojects():boolean {
+    return this._includeSubprojects;
+  }
+
+  public set includeSubprojects(val:boolean) {
+    this._includeSubprojects = val;
+    this.includeSubprojects$.next(val);
+  }
+
+  public includeSubprojects$ = new BehaviorSubject(true);
 
   private _selectedProjects:string[] = [];
 
@@ -186,6 +199,7 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin {
       ),
       map((projects) => recursiveSort(projects)),
     );
+
    public areProjectsLoaded$ = this
     .projects$
     .pipe(
@@ -227,7 +241,18 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin {
     super();
   }
 
-  public toggleIncludeAllSubprojects():void {
+  public ngOnInit():void {
+    this.query$
+      .pipe(
+        map((query) => query.includeSubprojects),
+        distinctUntilChanged(),
+      )
+      .subscribe((includeSubprojects) => {
+        this.includeSubprojects = includeSubprojects;
+      });
+  }
+
+  public toggleIncludeSubprojects():void {
     this.wpIncludeSubprojects.setIncludeSubprojects(!this.wpIncludeSubprojects.current);
   }
 
@@ -268,6 +293,8 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin {
       // eslint-disable-next-line no-param-reassign
       projectFilter.values = projectHrefs.map((href:string) => this.halResourceService.createHalResource({ href }, true));
     });
+
+    this.wpIncludeSubprojects.update(this.includeSubprojects);
 
     this.close();
   }

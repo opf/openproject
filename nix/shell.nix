@@ -17,7 +17,7 @@ in
       buildPackages.ruby_2_7
       postgresql
       nodejs
-      tightvnc
+      tigervnc
       bundix
       docker-compose
       google-chrome

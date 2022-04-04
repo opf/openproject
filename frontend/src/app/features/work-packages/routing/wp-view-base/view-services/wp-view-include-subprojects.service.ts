@@ -53,7 +53,7 @@ export class WorkPackageViewIncludeSubprojectsService extends WorkPackageQuerySt
     const { current } = this;
     query.includeSubprojects = current;
 
-    return false;
+    return true;
   }
 
   public get current():boolean {

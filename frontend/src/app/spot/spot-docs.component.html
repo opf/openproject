@@ -8,6 +8,7 @@
 
 <button class="spot-button spot-button_main">Main</button>
 <button class="spot-button spot-button_main">
+  <span class="spot-icon spot-icon_bell"></span>
   <span>Main</span>
   <span class="spot-icon spot-icon_bell"></span>
 </button>
@@ -15,6 +16,7 @@
 
 <button class="spot-button spot-button_accent">Accent</button>
 <button class="spot-button spot-button_accent">
+  <span class="spot-icon spot-icon_bell"></span>
   <span>Accent</span>
   <span class="spot-icon spot-icon_bell"></span>
 </button>
@@ -22,6 +24,7 @@
 
 <button class="spot-button spot-button_danger">Danger</button>
 <button class="spot-button spot-button_danger">
+  <span class="spot-icon spot-icon_bell"></span>
   <span>Danger</span>
   <span class="spot-icon spot-icon_bell"></span>
 </button>
@@ -29,6 +32,7 @@
 
 <button class="spot-button" disabled>Disabled</button>
 <button class="spot-button" disabled>
+  <span class="spot-icon spot-icon_bell"></span>
   <span>Disabled</span>
   <span class="spot-icon spot-icon_bell"></span>
 </button>
@@ -114,6 +118,14 @@ Currently selected value is {{ toggleValue }}
           <spot-checkbox [(ngModel)]="listCheckboxValue"></spot-checkbox>
           <div class="spot-list--item-title">Child checkbox item</div>
         </label>
+        <ul class="spot-list">
+          <li class="spot-list--item">
+            <label class="spot-list--item-action">
+              <spot-checkbox [(ngModel)]="listCheckboxValue"></spot-checkbox>
+              <div class="spot-list--item-title">Secon level child</div>
+            </label>
+          </li>
+        </ul>
       </li>
       <li class="spot-list--item">
         <label class="spot-list--item-action">
@@ -123,7 +135,10 @@ Currently selected value is {{ toggleValue }}
       </li>
       <li class="spot-list--item">
         <label class="spot-list--item-action spot-list--item-action_disabled">
-          <spot-checkbox [(ngModel)]="listCheckboxValue" disabled></spot-checkbox>
+          <spot-checkbox
+            [(ngModel)]="listCheckboxValue"
+            [disabled]="true"
+          ></spot-checkbox>
           <div class="spot-list--item-title">Disabled item</div>
         </label>
       </li>

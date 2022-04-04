@@ -48,7 +48,7 @@ export class OpProjectListComponent {
   ) { }
 
   public isDisabled(project:IProjectData):boolean {
-    return !project.found || project.href === this.currentProjectHref || (this.includeSubprojects && this.parentChecked);
+    return project.href === this.currentProjectHref || (this.includeSubprojects && this.parentChecked);
   }
 
   public updateSelected(selected:string[]):void {

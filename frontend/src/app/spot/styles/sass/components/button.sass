@@ -6,7 +6,7 @@
   align-items: center
   justify-content: center
   flex-wrap: nowrap
-  line-height: calc(#{$spot-spacing-2} - 2px) // The border needs to be removed from this
+  line-height: calc(#{$spot-spacing-1_25} - 2px) // The border needs to be removed from this
   min-height: $spot-spacing-2
 
   margin: 0
@@ -14,8 +14,8 @@
   border-width: 1px
   border-style: solid
   border-radius: $spot-spacing-1
-  border-color: transparent
-  background-color: transparent
+  border-color: $spot-color-basic-white
+  background-color: $spot-color-basic-white
   color: $spot-color-main
   cursor: pointer
 
@@ -23,13 +23,13 @@
     box-sizing: border-box
 
   &:hover
-    background-color: transparent
-    border-color: transparent
+    background-color: $spot-color-basic-gray-6
+    border-color: $spot-color-basic-gray-6
     color: $spot-color-main-dark
 
   &:active
-    background-color: transparent
-    border-color: transparent
+    background-color: $spot-color-basic-gray-6
+    border-color: $spot-color-basic-gray-6
     color: $spot-color-main
 
   &_main
@@ -190,10 +190,20 @@
     height: $spot-spacing-1_5
 
     &:first-child
-      margin-left: calc(-1 * #{$spot-spacing-0_5} - 1px) // The border needs to be removed from this
+      margin-left: calc(-1 * #{$spot-spacing-0_25} - 1px) // The border needs to be removed from this
+
+      &:not(:last-child)
+        margin-right: $spot-spacing-0_25
 
     &:last-child
-      margin-right: calc(-1 * #{$spot-spacing-0_5} - 1px) // The border needs to be removed from this
+      margin-right: calc(-1 * #{$spot-spacing-0_25} - 1px) // The border needs to be removed from this
+
+      &:not(:first-child)
+        margin-left: $spot-spacing-0_25
+
+    &:first-child:last-child
+      margin: 0 calc(-1 * #{$spot-spacing-0_5} - 1px) // The border needs to be removed from this
+
 
   .spot-checkbox
     margin-right: $spot-spacing-0_75

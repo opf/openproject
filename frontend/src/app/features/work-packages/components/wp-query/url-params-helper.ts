@@ -257,7 +257,7 @@ export class UrlParamsHelperService {
       queryData['highlightedAttributes[]'] = properties.hla.map((column:any) => column);
     }
 
-    if (properties.hi === false || properties.hi === true) {
+    if (properties.hi !== undefined) {
       queryData.showHierarchies = properties.hi;
     }
 
