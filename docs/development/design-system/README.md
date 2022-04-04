@@ -16,22 +16,42 @@ keywords: Design system, styles, design, components
 
 | Style definition (Figma)                                     | Status                         |
 | ------------------------------------------------------------ | ------------------------------ |
-| [Colours](https://www.figma.com/file/vOw6PEVIyzaQOIgf02VZFW/Foundations-Styles?node-id=0%3A1) | First draft - work in progress |
-| [Shadows](https://www.figma.com/file/vOw6PEVIyzaQOIgf02VZFW/Foundations-Styles?node-id=228%3A3) | First draft - work in progress |
-| [Typography](https://www.figma.com/file/vOw6PEVIyzaQOIgf02VZFW/Foundations-Styles?node-id=445%3A155) | First draft - work in progress |
-| [Spacings](https://www.figma.com/file/vOw6PEVIyzaQOIgf02VZFW/Foundations-Styles?node-id=228%3A2) | First draft - work in progress |
-| [Iconography](https://www.figma.com/file/vOw6PEVIyzaQOIgf02VZFW/Foundations-Styles?node-id=123%3A1076) | First draft - work in progress |
-| [Illustrations](https://www.figma.com/file/vOw6PEVIyzaQOIgf02VZFW/Foundations-Styles?node-id=220%3A2) | First draft - work in progress |
+| [Colours](https://www.figma.com/file/vOw6PEVIyzaQOIgf02VZFW/Foundations-Styles?node-id=0%3A1) | Working draft, designed, docs in progress |
+| [Shadows](https://www.figma.com/file/vOw6PEVIyzaQOIgf02VZFW/Foundations-Styles?node-id=228%3A3) | Working draft, designed, docs in progress |
+| [Typography](https://www.figma.com/file/vOw6PEVIyzaQOIgf02VZFW/Foundations-Styles?node-id=445%3A155) | Working draft, designed, docs in progress |
+| [Spacings](https://www.figma.com/file/vOw6PEVIyzaQOIgf02VZFW/Foundations-Styles?node-id=228%3A2) | Working draft, designed |
+| [Iconography](https://www.figma.com/file/vOw6PEVIyzaQOIgf02VZFW/Foundations-Styles?node-id=123%3A1076) | Working draft, designed |
+| [Illustrations](https://www.figma.com/file/vOw6PEVIyzaQOIgf02VZFW/Foundations-Styles?node-id=220%3A2) | Working draft, designed |
 
 ## Components
 
 | Style definitions (Figma)                                    | Status                         |
 | ------------------------------------------------------------ | ------------------------------ |
-| [Action bar](https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/Components-Library?node-id=501%3A3578) | First draft - work in progress |
-| [Badges](https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/Components-Library?node-id=384%3A3249) | First draft - work in progress |
-| [Buttons and Toggles](https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/Components-Library?node-id=384%3A3399) | First draft - work in progress |
-| [Calendar](https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/Components-Library?node-id=832%3A5342) | First draft - work in progress |
-| [Chips](https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/Components-Library?node-id=510%3A3564) | First draft - work in progress |
+| [Action bar](https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/Components-Library?node-id=501%3A3578) | Working draft, designed, documented |
+| [Badges](https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/Components-Library?node-id=384%3A3249) | Working draft, designed, no documentation yet |
+| [Buttons and Toggles](https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/Components-Library?node-id=384%3A3399) | Working draft, designed, partial documentation |
+| [Calendar](https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/Components-Library?node-id=832%3A5342) | Working draft, designed, no documentation yet |
+| [Chips](https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/Components-Library?node-id=510%3A3564) | Working draft, designed, documented |
+| [Dividers](https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/?node-id=397%3A4114) | Working draft, designed, no documentation yet |
+| [Dropdowns](https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/?node-id=397%3A3910) | Working draft, designed, no documentation yet |
+| [Drop modal](https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/?node-id=502%3A3417) | Working draft, designed, documented |
+| [Search field](https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/?node-id=384%3A3315) | Working draft, designed, documented |
+| [Selection controls](https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/?node-id=400%3A3260) | Working draft, designed, partial documentation |
+| [Tab bar](https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/?node-id=384%3A3321) | Working draft, designed, no documentation yet |
+| [Tables](https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/?node-id=0%3A1) | Working draft, designed, no documentation yet |
+| [Text fields](https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/?node-id=400%3A3640) | Working draft, designed, documented |
+| [Toast](https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/?node-id=391%3A3910) | Working draft, designed, no documentation yet |
+| [Tooltip](https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/?node-id=391%3A3910) | Working draft, designed, no documentation yet |
+
+## Patterns
+
+| [Action modal](https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/?node-id=861%3A10487) | Working draft, designed, documented |
+| [Dialogues](https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/?node-id=384%3A3400) | Working draft, designed, no documentation yet |
+| [Headers](https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/?node-id=861%3A10487) | Working draft, designed, no documentation yet |
+| [List and List Primitives](https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/?node-id=386%3A3606) | Working draft, designed, documented |
+| [Main sidebar](https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/?node-id=384%3A3262) | Working draft, designed, no documentation yet |
+| [Notifications](https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/?node-id=384%3A3362) | Working draft, designed, no documentation yet |
+
 
 ## Contribute
 
