@@ -997,6 +997,7 @@ ru:
         relations: Связи
         watchers: Наблюдатель
         files: Файлы
+        files_tab_migration_help: 'Теперь вы можете прикрепить файлы к рабочим пакетам через новую вкладку:'
       time_relative:
         days: "дней"
         weeks: "недели"

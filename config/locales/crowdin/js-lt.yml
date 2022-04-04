@@ -998,6 +998,7 @@ lt:
         relations: Ryšiai
         watchers: Stebėtojai
         files: Failai
+        files_tab_migration_help: 'Dabar jūs galite prisegti failus prie darbo paketųnaujoje kortelėje:'
       time_relative:
         days: "dienos"
         weeks: "savaitės"

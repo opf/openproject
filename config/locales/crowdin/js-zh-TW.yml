@@ -994,6 +994,7 @@ zh-TW:
         relations: 關聯
         watchers: 監看者
         files: 檔案
+        files_tab_migration_help: 'You can now attach files to work packages via the new tab:'
       time_relative:
         days: "天"
         weeks: "週"
@@ -1161,7 +1162,7 @@ zh-TW:
           group: 'The group is now a part of %{project}. Meanwhile you can already plan with that group and assign work packages for instance.'
         next_button: '繼續'
     include_projects:
-      toggle_title: 'Include Projects'
+      toggle_title: 'Include projects'
       title: '專案'
       clear_selection: 'Clear selection'
       apply: '套用'

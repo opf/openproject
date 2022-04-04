@@ -178,4 +178,17 @@ describe Project, type: :model do
       expect(project.types_used_by_work_packages).to match_array [project_work_package.type]
     end
   end
+
+  describe 'Views belonging to queries that belong to the project' do
+    let(:query) { create(:query, project: project) }
+    let(:view) { create(:view, query: query) }
+
+    it 'destroys the views and queries when project gets destroyed' do
+      view
+      project.destroy
+
+      expect { query.reload }.to raise_error ActiveRecord::RecordNotFound
+      expect { view.reload }.to raise_error ActiveRecord::RecordNotFound
+    end
+  end
 end

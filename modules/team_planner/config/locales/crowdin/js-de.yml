@@ -2,7 +2,7 @@
 de:
   js:
     team_planner:
-      add_existing: 'Vorhandene hinzufügen'
+      add_existing: 'Add existing'
       create_new: 'Neuer Teamplaner'
       title: 'Teamplaner'
       unsaved_title: 'Unbenannter Teamplaner'

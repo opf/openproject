@@ -45,6 +45,9 @@ class Query < ApplicationRecord
             presence: true,
             length: { maximum: 255 }
 
+  validates :include_subprojects,
+            inclusion: [true, false]
+
   validate :validate_work_package_filters
   validate :validate_columns
   validate :validate_sort_criteria
@@ -62,6 +65,7 @@ class Query < ApplicationRecord
       query.add_default_filter
       query.set_default_sort
       query.show_hierarchies = true
+      query.include_subprojects = Setting.display_subprojects_work_packages?
     end
   end
 
@@ -368,7 +372,7 @@ class Query < ApplicationRecord
     subproject_filter = Queries::WorkPackages::Filter::SubprojectFilter.create!
     subproject_filter.context = self
 
-    subproject_filter.operator = if Setting.display_subprojects_work_packages?
+    subproject_filter.operator = if include_subprojects?
                                    '*'
                                  else
                                    '!*'

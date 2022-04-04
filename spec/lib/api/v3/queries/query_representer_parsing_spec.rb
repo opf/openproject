@@ -31,7 +31,7 @@ require 'spec_helper'
 describe ::API::V3::Queries::QueryRepresenter, 'parsing' do
   include ::API::V3::Utilities::PathHelper
 
-  let(:query) { build_stubbed(:query, project: project) }
+  let(:query) { ::API::ParserStruct.new }
   let(:project) { build_stubbed(:project) }
   let(:user) { build_stubbed(:user) }
   let(:representer) do
@@ -82,10 +82,7 @@ describe ::API::V3::Queries::QueryRepresenter, 'parsing' do
     end
 
     it 'unsets group_by' do
-      expect(query).to be_grouped
       expect(query.group_by).to eq('project')
-
-      expect(subject).not_to be_grouped
     end
   end
 
@@ -115,20 +112,20 @@ describe ::API::V3::Queries::QueryRepresenter, 'parsing' do
     end
 
     before do
-      allow(query).to receive(:new_record?).and_return(new_record)
+      allow(query).to receive(:persisted?).and_return(persisted)
     end
 
     context 'if query is new' do
-      let(:new_record) { true }
+      let(:persisted) { nil }
 
       it 'sets ordered_work_packages' do
-        order = subject.ordered_work_packages.map { |el| [el.work_package_id, el.position] }
-        expect(order).to match_array [[50, 0], [38, 1234], [102, 81234123]]
+        order = subject.ordered_work_packages
+        expect(order).to eq({ '50' => 0, '38' => 1234, '102' => 81234123 })
       end
     end
 
     context 'if query is not new' do
-      let(:new_record) { false }
+      let(:persisted) { true }
 
       it 'sets ordered_work_packages' do
         allow(query)

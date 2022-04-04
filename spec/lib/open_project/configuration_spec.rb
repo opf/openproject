@@ -41,6 +41,32 @@ describe OpenProject::Configuration do
     Setting.clear_cache
   end
 
+  describe '.[setting]' do
+    it 'fetches the value' do
+      expect(described_class.app_title)
+        .to eql('OpenProject')
+    end
+  end
+
+  describe '.[setting]?' do
+    it 'fetches the value' do
+      expect(described_class.smtp_enable_starttls_auto?)
+        .to be false
+    end
+
+    it 'works for non boolean settings as well (deprecated)' do
+      expect(described_class.app_title?)
+        .to be false
+    end
+  end
+
+  describe '.[setting]=' do
+    it 'raises an error' do
+      expect { described_class.smtp_enable_starttls_auto = true }
+        .to raise_error NoMethodError
+    end
+  end
+
   describe '.migrate_mailer_configuration!' do
     before do
       allow(Setting)

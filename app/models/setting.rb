@@ -90,6 +90,12 @@ class Setting < ApplicationRecord
         def self.#{name}?
           # when running too early, there is no settings table. do nothing
           return unless settings_table_exists_yet?
+          definition = Settings::Definition[:#{name}]
+
+          if definition.format != :boolean
+            ActiveSupport::Deprecation.warn "Calling #{self}.#{name}? is deprecated since it is not a boolean", caller
+          end
+
           value = self[:#{name}]
           ActiveRecord::Type::Boolean.new.cast(value)
         end
@@ -150,8 +156,12 @@ class Setting < ApplicationRecord
     self.class.deserialize(name, read_attribute(:value))
   end
 
-  def value=(v)
-    write_attribute(:value, formatted_value(v))
+  def value=(val)
+    unless Settings::Definition[name].writable?
+      raise NoMethodError, "#{name} is not writable but can be set through env vars or configuration.yml file."
+    end
+
+    write_attribute(:value, formatted_value(val))
   end
 
   def formatted_value(value)

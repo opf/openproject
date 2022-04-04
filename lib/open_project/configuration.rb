@@ -191,28 +191,33 @@ module OpenProject
       end
 
       def method_missing(name, *args, &block)
-        setting_name = name.to_s.sub(/(=|\?)$/, '')
+        setting_name = name.to_s.sub(/\?$/, '')
 
-        if Settings::Definition.exists?(setting_name)
-          define_config_methods(setting_name)
+        definition = Settings::Definition[setting_name]
 
-          send(setting_name, *args, &block)
+        if definition
+          define_config_methods(definition)
+
+          send(name, *args, &block)
         else
           super
         end
       end
 
       def respond_to_missing?(name, include_private = false)
-        Settings::Definition.exists?(name.to_s.sub(/(=|\?)$/, '')) || super
+        Settings::Definition.exists?(name.to_s.sub(/\?$/, '')) || super
       end
 
-      def define_config_methods(setting_name)
-        define_singleton_method setting_name do
-          self[setting_name]
+      def define_config_methods(definition)
+        define_singleton_method definition.name do
+          self[definition.name]
         end
 
-        define_singleton_method "#{setting_name}?" do
-          ['true', true, '1'].include? self[setting_name]
+        define_singleton_method "#{definition.name}?" do
+          if definition.format != :boolean
+            ActiveSupport::Deprecation.warn "Calling #{self}.#{definition.name}? is deprecated since it is not a boolean", caller
+          end
+          ['true', true, '1'].include? self[definition.name]
         end
       end
 

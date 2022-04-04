@@ -27,7 +27,7 @@ Placeholder users can be managed by system admins and by users with the [role](.
 
 ## Placeholder user list
 
-To manage placeholder users navigate to *Administration -> Users & Permissions -> Placeholder users*. The placeholder user list gives you an overview of all placeholder users with their names and creation dates. From here you can also [add](#create-placeholder-users) placeholder users, [edit](#manage-placeholder-user-settings) them and [delete](#delete-placeholder-users) them.
+To manage placeholder users navigate to *Administration -> Users and permissions -> Placeholder users*. The placeholder user list gives you an overview of all placeholder users with their names and creation dates. From here you can also [add](#create-placeholder-users) placeholder users, [edit](#manage-placeholder-user-settings) them and [delete](#delete-placeholder-users) them.
 
 The column headers can be clicked to toggle sort direction. Arrows indicate sort order, up for ascending (a-z/0-9) and down for descending (z-a/9-0).
 

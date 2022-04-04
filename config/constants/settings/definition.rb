@@ -83,6 +83,7 @@ module Settings
 
     def override_value(other_value)
       if format == :hash
+        self.value = {} if value.nil?
         value.deep_merge! other_value
       else
         self.value = other_value
@@ -151,8 +152,6 @@ module Settings
       end
 
       def [](name)
-        by_name ||= all.group_by(&:name).transform_values(&:first)
-
         by_name[name.to_s]
       end
 
@@ -186,7 +185,7 @@ module Settings
       end
 
       def by_name
-        @by_name ||= all.group_by(&:name).transform_values(&:first)
+        @by_name ||= all.index_by(&:name)
       end
 
       def file_config

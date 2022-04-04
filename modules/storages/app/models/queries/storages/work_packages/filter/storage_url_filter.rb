@@ -47,7 +47,11 @@ module Queries::Storages::WorkPackages::Filter
     end
 
     def joins
-      { file_links: :storage }
+      [{ file_links: :storage }, { project: :projects_storages }]
+    end
+
+    def additional_where_condition
+      "AND #{::Storages::FileLink.table_name}.storage_id = #{::Storages::ProjectStorage.table_name}.storage_id"
     end
   end
 end

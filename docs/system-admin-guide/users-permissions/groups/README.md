@@ -10,7 +10,7 @@ keywords: manage groups
 # Manage Groups
 
 <div class="glossary">
-A **Group** is defined as a list of users which can be assigned to a project with a selected role. New groups can be defined in *Administration -> Users & Permissions -> Groups*.
+A **Group** is defined as a list of users which can be assigned to a project with a selected role. New groups can be defined in *Administration -> Users and permissions -> Groups*.
 </div>
 
 OpenProject allows creating tailored project member **groups**, which  grant additional permissions to individual users within a project. Instead of adding individual users to a project you can add a user group, e.g. Marketing. You can edit existing groups, create new ones, add and remove users or delete groups.

@@ -65,6 +65,10 @@ class Queries::WorkPackages::Filter::StatusFilter < Queries::WorkPackages::Filte
     true
   end
 
+  def joins
+    :status
+  end
+
   private
 
   def all_statuses

@@ -995,6 +995,7 @@ ko:
         relations: 관계
         watchers: 주시자
         files: 파일
+        files_tab_migration_help: 'You can now attach files to work packages via the new tab:'
       time_relative:
         days: "일"
         weeks: "주"
@@ -1162,7 +1163,7 @@ ko:
           group: '이제 이 그룹은 %{project}의 일부입니다. 한편 당신은 해당 사용자에 대한 계획을 세우거나 작업 패키지를 할당할 수 있습니다.'
         next_button: '계속'
     include_projects:
-      toggle_title: 'Include Projects'
+      toggle_title: 'Include projects'
       title: '프로젝트'
       clear_selection: 'Clear selection'
       apply: '적용'

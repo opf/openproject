@@ -35,6 +35,7 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
+import { StateService } from '@uirouter/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { distinctUntilChanged, map } from 'rxjs/operators';
@@ -114,6 +115,10 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
     attachments: {
       label: this.I18n.t('js.label_attachments'),
     },
+    files: {
+      label: this.I18n.t('js.work_packages.tabs.files'),
+      migration_help: this.I18n.t('js.work_packages.tabs.files_tab_migration_help'),
+    },
     project: {
       required: this.I18n.t('js.project.required_outside_context'),
       context: this.I18n.t('js.project.context'),
@@ -131,6 +136,8 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
 
   public isNewResource:boolean;
 
+  public uiSelfRef:string;
+
   protected firstTimeFocused = false;
 
   $element:JQuery;
@@ -138,6 +145,7 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
   constructor(readonly I18n:I18nService,
     protected currentProject:CurrentProjectService,
     protected PathHelper:PathHelperService,
+    protected $state:StateService,
     protected states:States,
     protected halEditing:HalResourceEditingService,
     protected halResourceService:HalResourceService,
@@ -151,10 +159,12 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
     super();
   }
 
-  public ngOnInit() {
+  public ngOnInit():void {
     this.$element = jQuery(this.elementRef.nativeElement as HTMLElement);
 
     this.isNewResource = isNewResource(this.workPackage);
+
+    this.uiSelfRef = this.$state.$current.name;
 
     const change = this.halEditing.changeFor<WorkPackageResource, WorkPackageChangeset>(this.workPackage);
     this.resourceContextChange.next(this.contextFrom(change.projectedResource));
@@ -368,7 +378,7 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
   private contextFrom(workPackage:WorkPackageResource):ResourceContextChange {
     const schema = this.schema(workPackage);
 
-    let schemaHref:string|null = null;
+    let schemaHref:string|null;
     const projectHref:string|null = workPackage.project && workPackage.project.href;
 
     if (schema.baseSchema) {

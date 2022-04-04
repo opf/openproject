@@ -998,6 +998,7 @@ uk:
         relations: Зв'язки
         watchers: Спостерігачі
         files: Файли
+        files_tab_migration_help: 'You can now attach files to work packages via the new tab:'
       time_relative:
         days: "днів"
         weeks: "тижнів"
@@ -1171,7 +1172,7 @@ uk:
           group: 'Ця група тепер входить у проєкт «%{project}». Тим часом ви вже можете включати її в план і призначати їй пакети робіт.'
         next_button: 'Продовжити'
     include_projects:
-      toggle_title: 'Включити проєкти'
+      toggle_title: 'Include projects'
       title: 'Проекти'
       clear_selection: 'Очистити вибране'
       apply: 'Застосувати'

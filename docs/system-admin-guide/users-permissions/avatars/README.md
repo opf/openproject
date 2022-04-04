@@ -8,7 +8,7 @@ keywords: Avatars
 ---
 # OpenProject Avatars
 
-To select which type of Avatars can be used in your OpenProject, navigate to -> *Administration* -> *Users & Permissions* -> *Avatars*.
+To select which type of Avatars can be used in your OpenProject, navigate to -> *Administration* -> *Users and permissions* -> *Avatars*.
 
 You can choose whether to allow user Gravatar or enable to upload custom avatars.
 

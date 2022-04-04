@@ -995,6 +995,7 @@ da:
         relations: Tilknytninger
         watchers: Tilsynsførende
         files: Filer
+        files_tab_migration_help: 'You can now attach files to work packages via the new tab:'
       time_relative:
         days: "dage"
         weeks: "uger"
@@ -1164,7 +1165,7 @@ da:
           group: 'Gruppen er nu en del af %{project}. I mellemtiden kan du allerede planlægge med denne gruppe og tildele arbejdspakker for eksempel.'
         next_button: 'Fortsæt'
     include_projects:
-      toggle_title: 'Include Projects'
+      toggle_title: 'Include projects'
       title: 'Projekter'
       clear_selection: 'Clear selection'
       apply: 'Benyt'

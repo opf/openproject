@@ -29,11 +29,14 @@
 require 'spec_helper'
 
 describe Setting, type: :model do
+  before do
+    described_class.clear_cache
+  end
+
   after do
     described_class.destroy_all
   end
 
-  # OpenProject specific defaults that are set in settings.yml
   describe "OpenProject's default settings" do
     it 'has OpenProject as application title' do
       expect(described_class.app_title).to eq 'OpenProject'
@@ -100,6 +103,39 @@ describe Setting, type: :model do
       it 'stores the setting' do
         expect(described_class.find_by(name: 'host_name').value).to eq 'some other name'
       end
+    end
+  end
+
+  describe '.[setting]' do
+    it 'fetches the value' do
+      expect(described_class.app_title)
+        .to eql('OpenProject')
+    end
+  end
+
+  describe '.[setting]?' do
+    it 'fetches the value' do
+      expect(described_class.smtp_enable_starttls_auto?)
+        .to be false
+    end
+
+    it 'works for non boolean settings as well (deprecated)' do
+      expect(described_class.app_title?)
+        .to be true
+    end
+  end
+
+  describe '.[setting]=' do
+    it 'sets the value' do
+      described_class.app_title = 'New title'
+
+      expect(described_class.app_title)
+        .to eql('New title')
+    end
+
+    it 'raises an error for a non writable setting' do
+      expect { described_class.smtp_openssl_verify_mode = 'none' }
+        .to raise_error NoMethodError
     end
   end
 
@@ -178,10 +214,6 @@ describe Setting, type: :model do
 
   # Check that when reading certain setting values that they get overwritten if needed.
   describe "filter saved settings" do
-    before do
-      described_class.work_package_list_default_highlighting_mode = "inline"
-    end
-
     describe "with EE token", with_ee: [:conditional_highlighting] do
       it "returns the value for 'work_package_list_default_highlighting_mode' without changing it" do
         expect(described_class.work_package_list_default_highlighting_mode).to eq("inline")

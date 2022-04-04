@@ -55,11 +55,16 @@ module Queries::Storages::WorkPackages::Filter::StoragesFilterMixin
     <<-SQL.squish
       #{::Queries::Operators::Equals.sql_for_field(where_values, filter_model.table_name, filter_column)}
       AND work_packages.project_id IN (#{Project.allowed_to(User.current, permission).select(:id).to_sql})
+      #{additional_where_condition}
     SQL
   end
 
   def where_values
     values
+  end
+
+  def additional_where_condition
+    ''
   end
 
   def joins
