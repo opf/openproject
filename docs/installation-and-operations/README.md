@@ -1,6 +1,6 @@
 ---
 sidebar_navigation:
-  title: Installation & Upgrade Guide
+  title: Installation & operations guide
   priority: 940
 robots: index, follow
 ---
