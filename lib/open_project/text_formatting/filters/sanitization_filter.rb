@@ -29,7 +29,7 @@
 module OpenProject::TextFormatting
   module Filters
     class SanitizationFilter < HTML::Pipeline::SanitizationFilter
-      def whitelist
+      def allowlist
         base = super
 
         Sanitize::Config.merge(
