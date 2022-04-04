@@ -26,27 +26,23 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module OpenProject::Reporting::Patches
-  module OpenProject::ConfigurationPatch
-    def self.included(base)
-      base.class_eval do
-        extend ModuleMethods
+module Ldap
+  class SynchronizationJob < ::Cron::CronJob
+    # Run once per night at 11:30pm
+    self.cron_expression = '30 23 * * *'
 
-        @defaults['cost_reporting_cache_filter_classes'] = true
-
-        if config_loaded_before_patch?
-          @config['cost_reporting_cache_filter_classes'] = true
-        end
-      end
+    def perform
+      run_user_sync
     end
 
-    module ModuleMethods
-      def config_loaded_before_patch?
-        @config.present? && !@config.has_key?('cost_reporting_cache_filter_classes')
-      end
+    private
 
-      def cost_reporting_cache_filter_classes
-        @config['cost_reporting_cache_filter_classes']
+    def run_user_sync
+      return if OpenProject::Configuration.ldap_users_disable_sync_job?
+
+      ::LdapAuthSource.find_each do |ldap|
+        Rails.logger.info { "[LDAP groups] Synchronizing users for LDAP connection #{ldap.name}" }
+        ::Ldap::SynchronizeUsersService.new(ldap).perform
       end
     end
   end

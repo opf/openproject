@@ -48,6 +48,12 @@ describe Queries::WorkPackages::Filter::ProjectFilter, type: :model do
       allow(visible_projects)
         .to receive(:exists?)
               .and_return(visible_projects.any?)
+
+      allow(visible_projects)
+        .to receive(:where) do |args|
+        ids = args[:id]
+        visible_projects.select { |p| ids.include?(p.id) }
+      end
     end
 
     describe '#available?' do

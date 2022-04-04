@@ -134,9 +134,10 @@ module API
         end
 
         def reformated(setting, &block)
-          format = setting.gsub(/%\w/, &block)
-
-          format.blank? ? nil : format
+          setting
+            .to_s
+            .gsub(/%\w/, &block)
+            .presence
         end
       end
     end

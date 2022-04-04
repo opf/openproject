@@ -995,6 +995,7 @@ id:
         relations: Relasi
         watchers: Pemantau
         files: File
+        files_tab_migration_help: 'You can now attach files to work packages via the new tab:'
       time_relative:
         days: "hari"
         weeks: "minggu"
@@ -1162,7 +1163,7 @@ id:
           group: 'The group is now a part of %{project}. Meanwhile you can already plan with that group and assign work packages for instance.'
         next_button: 'Lanjut'
     include_projects:
-      toggle_title: 'Include Projects'
+      toggle_title: 'Include projects'
       title: 'Project'
       clear_selection: 'Clear selection'
       apply: 'Apply'

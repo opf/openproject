@@ -1,7 +1,8 @@
 ---
 description: |-
   The configuration endpoint allows to read certain configuration parameters of the OpenProject instance.
-  Note that there is no 1:1 relationship between this endpoint and the settings you can find in your settings.yml.
+  Note that there is no 1:1 relationship between this endpoint and the settings an administrator has at hand to modify the behaviour
+  of the application via configuration.yml or ENV variables.
 
   For now this endpoint will only allow access to settings deemed useful for a client to know in general.
 

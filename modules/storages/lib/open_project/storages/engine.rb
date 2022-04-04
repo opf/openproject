@@ -79,6 +79,8 @@ module OpenProject::Storages
            parent: :settings
     end
 
+    patch_with_namespace :BasicData, :RoleSeeder
+
     # This hook is executed when the module is loaded.
     config.to_prepare do
       # We have a bunch of filters defined within the module. Here we register the filters.

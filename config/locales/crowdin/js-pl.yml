@@ -998,6 +998,7 @@ pl:
         relations: Relacje
         watchers: Obserwatorzy
         files: Pliki
+        files_tab_migration_help: 'You can now attach files to work packages via the new tab:'
       time_relative:
         days: "dni"
         weeks: "tygodnie"
@@ -1171,7 +1172,7 @@ pl:
           group: 'Grupa jest teraz częścią %{project}. Tymczasem możesz już planować z tą grupą i na przykład przypisać pakiety robocze.'
         next_button: 'Kontynuuj'
     include_projects:
-      toggle_title: 'Include Projects'
+      toggle_title: 'Include projects'
       title: 'Projekty'
       clear_selection: 'Clear selection'
       apply: 'Zastosuj'

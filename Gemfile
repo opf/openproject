@@ -32,10 +32,12 @@ ruby '~> 3.0.3'
 
 gem 'actionpack-xml_parser', '~> 2.0.0'
 gem 'activemodel-serializers-xml', '~> 1.0.1'
-gem 'activerecord-import', '~> 1.3.0'
+gem 'activerecord-import', '~> 1.4.0'
 gem 'activerecord-session_store', '~> 2.0.0'
 gem 'rails', '~> 6.1.4', '>= 6.1.4.6'
 gem 'responders', '~> 3.0'
+
+gem 'ffi', '~> 1.15'
 
 gem 'rdoc', '>= 2.4.2'
 
@@ -135,7 +137,7 @@ gem 'okcomputer', '~> 1.18.1'
 gem 'gon', '~> 6.4.0'
 
 # Lograge to provide sane and non-verbose logging
-gem 'lograge', '~> 0.11.0'
+gem 'lograge', '~> 0.12.0'
 
 # Structured warnings to selectively disable them in production
 gem 'structured_warnings', '~> 0.4.0'

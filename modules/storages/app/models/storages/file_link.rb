@@ -64,9 +64,10 @@ class Storages::FileLink < ApplicationRecord
     # join projects through the container, and filter on projects visible from
     # the user
     includes(:container)
-      .includes(container: :project)
+      .includes(container: { project: :projects_storages })
       .references(:projects)
       .merge(Project.allowed_to(user, :view_file_links))
+      .where('projects_storages.storage_id = file_links.storage_id')
   }
 
   delegate :project, to: :container

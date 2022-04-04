@@ -2,7 +2,7 @@
 pt:
   js:
     team_planner:
-      add_existing: 'Add Existing'
+      add_existing: 'Add existing'
       create_new: 'New team planner'
       title: 'Planejador de equipe'
       unsaved_title: 'Planejador de equipe não nomeado'

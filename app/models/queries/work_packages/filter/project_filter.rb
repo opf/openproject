@@ -56,26 +56,17 @@ class Queries::WorkPackages::Filter::ProjectFilter < Queries::WorkPackages::Filt
   end
 
   def value_objects
-    available_projects = visible_projects.index_by(&:id)
-
-    values
-      .flat_map { |project_id| available_projects[project_id.to_i] }
-      .compact
-      .uniq
+    visible_projects.where(id: values.map(&:to_i))
   end
 
   def where
     operator_strategy.sql_for_field(projects_and_descendants, self.class.model.table_name, :project_id)
   end
 
-  def values_replaced
-    value_objects.map(&:id)
-  end
-
   private
 
   def visible_projects
-    @visible_projects ||= Project.visible.active
+    Project.visible.active
   end
 
   ##

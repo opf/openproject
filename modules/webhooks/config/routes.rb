@@ -32,9 +32,11 @@ OpenProject::Application.routes.draw do
   end
 
   scope 'admin' do
-    resources :webhooks,
-              param: :webhook_id,
-              controller: 'webhooks/outgoing/admin',
-              as: 'admin_outgoing_webhooks'
+    scope :settings do
+      resources :webhooks,
+                param: :webhook_id,
+                controller: 'webhooks/outgoing/admin',
+                as: 'admin_outgoing_webhooks'
+    end
   end
 end
