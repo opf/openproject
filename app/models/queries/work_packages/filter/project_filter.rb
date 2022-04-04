@@ -56,12 +56,7 @@ class Queries::WorkPackages::Filter::ProjectFilter < Queries::WorkPackages::Filt
   end
 
   def value_objects
-    available_projects = visible_projects.index_by(&:id)
-
-    values
-      .flat_map { |project_id| available_projects[project_id.to_i] }
-      .compact
-      .uniq
+    visible_projects.where(id: values.map(&:to_i))
   end
 
   def where
@@ -71,7 +66,7 @@ class Queries::WorkPackages::Filter::ProjectFilter < Queries::WorkPackages::Filt
   private
 
   def visible_projects
-    @visible_projects ||= Project.visible.active
+    Project.visible.active
   end
 
   ##
