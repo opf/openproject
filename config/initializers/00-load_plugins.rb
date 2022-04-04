@@ -28,14 +28,6 @@
 
 # TODO: check if this can be postponed and if some plugins can make use of the ActiveSupport.on_load hooks
 
-require Rails.root.join('lib_static/redmine/i18n')
-require Rails.root.join('lib_static/redmine/diff')
-require Rails.root.join('lib_static/redmine/diff/diffable')
-require Rails.root.join('lib_static/redmine/diff/array_string_diff')
-
-require Rails.root.join('lib_static/plugins/load_path_helper')
-require Rails.root.join('lib_static/open_project/notifications')
-
 # Loads the core plugins located in lib_static/plugins
 Dir.glob(Rails.root.join('lib_static/plugins/*')).each do |directory|
   if File.directory?(directory)

@@ -199,16 +199,18 @@ module OpenProject::Bim
       Mime::Type.register "application/octet-stream", :bcfzip unless Mime::Type.lookup_by_extension(:bcfzip)
     end
 
-    initializer 'bim.bcf.add_api_scope' do
-      Doorkeeper.configuration.scopes.add(:bcf_v2_1)
+    initializer 'bim.bcf.add_api_scope' do |app|
+      app.config.before_initialize do
+        Doorkeeper.configuration.scopes.add(:bcf_v2_1)
 
-      module OpenProject::Authentication::Scope
-        BCF_V2_1 = :bcf_v2_1
-      end
+        module OpenProject::Authentication::Scope
+          BCF_V2_1 = :bcf_v2_1
+        end
 
-      OpenProject::Authentication.update_strategies(OpenProject::Authentication::Scope::BCF_V2_1,
-                                                    store: false) do |_strategies|
-        %i[oauth session]
+        OpenProject::Authentication.update_strategies(OpenProject::Authentication::Scope::BCF_V2_1,
+                                                      store: false) do |_strategies|
+          %i[oauth session]
+        end
       end
     end
 

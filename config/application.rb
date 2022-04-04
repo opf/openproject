@@ -39,18 +39,6 @@ ActiveSupport::Deprecation.silenced =
   (Rails.env.test? && ENV['CI'])
 
 if defined?(Bundler)
-  # lib directory has to be added to the load path so that
-  # the open_project/plugins files can be found (places under lib).
-  # Now it would be possible to remove that and use require with
-  # lib included but some plugins already use
-  #
-  # require 'open_project/plugins'
-  #
-  # to ensure the code to be loaded. So we provide a compatibility
-  # layer here. One might remove this later.
-  $LOAD_PATH.unshift File.dirname(__FILE__) + '/../lib'
-  require 'open_project/plugins'
-
   # Require the gems listed in Gemfile, including any gems
   # you've limited to :test, :development, or :production.
   Bundler.require(*Rails.groups(:opf_plugins))
@@ -102,6 +90,10 @@ module OpenProject
     config.enable_dependency_loading = true
     config.paths.add Rails.root.join('lib').to_s, eager_load: true
     config.paths.add Rails.root.join('lib/constraints').to_s, eager_load: true
+
+    # Constants in lib_static should only be loaded once and never be unloaded.
+    # That directory contains configurations and patches to rails core functionality.
+    config.autoload_once_paths << Rails.root.join('lib_static').to_s
 
     # Use our own error rendering for prettier error pages
     config.exceptions_app = routes
