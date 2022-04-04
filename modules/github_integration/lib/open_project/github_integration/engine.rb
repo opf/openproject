@@ -53,13 +53,15 @@ module OpenProject::GithubIntegration
       end
     end
 
-    initializer 'github.subscribe_to_notifications' do
-      ::OpenProject::Notifications.subscribe('github.check_run',
-                                             &NotificationHandler.method(:check_run))
-      ::OpenProject::Notifications.subscribe('github.issue_comment',
-                                             &NotificationHandler.method(:issue_comment))
-      ::OpenProject::Notifications.subscribe('github.pull_request',
-                                             &NotificationHandler.method(:pull_request))
+    initializer 'github.subscribe_to_notifications' do |app|
+      app.config.after_initialize do
+        ::OpenProject::Notifications.subscribe('github.check_run',
+                                               &NotificationHandler.method(:check_run))
+        ::OpenProject::Notifications.subscribe('github.issue_comment',
+                                               &NotificationHandler.method(:issue_comment))
+        ::OpenProject::Notifications.subscribe('github.pull_request',
+                                               &NotificationHandler.method(:pull_request))
+      end
     end
 
     extend_api_response(:v3, :work_packages, :work_package,
