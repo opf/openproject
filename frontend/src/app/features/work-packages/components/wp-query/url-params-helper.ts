@@ -245,6 +245,10 @@ export class UrlParamsHelperService {
       queryData.displayRepresentation = properties.dr;
     }
 
+    if (properties.is !== undefined) {
+      queryData.includeSubprojects = properties.is;
+    }
+
     if (properties.hl) {
       queryData.highlightingMode = properties.hl;
     }
