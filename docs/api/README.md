@@ -1,6 +1,6 @@
 ---
 sidebar_navigation:
-  title: API Documentation
+  title: API documentation
   priority: 910
 robots: index, follow
 ---
