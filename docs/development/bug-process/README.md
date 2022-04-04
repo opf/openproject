@@ -148,7 +148,7 @@ Out of the list of prioritized bugs the development team looks at the bugs start
 
 - Bugs are only assigned by the development team to a version, not by anyone else.
   - Exception: For releases that contain new features (minor / major releases), QA directly assigns bugs that are related to a new feature to the version the feature is in. That means that fixing them also has a higher precedence than fixing bugs that exist in already released versions. But if such a bug is deemed to be of lesser severity, it can be moved out of the version. It will then be prioritized just like any bug. 
-- On a general basis, new bugs will not be fixed between the time QA finishes and the release is published. (Generally, requires a re-test by QA.) Otherwise, untested and untried code might be published. Bugfixed deemed inadequate might also not be improved again. This is a risk vs gain assessment that has to be decided on case by case. The same is true for critical bugs discovered after QA. 
+- On a general basis, new bugs will not be fixed between the time QA finishes and the release is published. (Generally, requires a re-test by QA.) Otherwise, untested and untried code might be published. Bugfixes deemed inadequate might also not be improved again. This is a risk vs gain assessment that has to be decided on case by case. The same is true for critical bugs discovered after QA. 
 
 
 
