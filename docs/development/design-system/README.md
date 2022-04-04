@@ -9,7 +9,7 @@ keywords: Design system, styles, design, components
 # Design System
 
 <div class="alert alert-info" role="alert">
-**Note**: The initial version of the OpenProject design system is developed in Figma. We will move this documentation to the docs in a later stage.
+  <strong>Note</strong>: The initial version of the OpenProject design system is developed in Figma. We will move this documentation to the docs in a later stage.
 </div>
 
 ## Foundation library
@@ -45,12 +45,14 @@ keywords: Design system, styles, design, components
 
 ## Patterns
 
-| [Action modal](https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/?node-id=861%3A10487) | Working draft, designed, documented |
-| [Dialogues](https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/?node-id=384%3A3400) | Working draft, designed, no documentation yet |
-| [Headers](https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/?node-id=861%3A10487) | Working draft, designed, no documentation yet |
-| [List and List Primitives](https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/?node-id=386%3A3606) | Working draft, designed, documented |
-| [Main sidebar](https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/?node-id=384%3A3262) | Working draft, designed, no documentation yet |
-| [Notifications](https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/?node-id=384%3A3362) | Working draft, designed, no documentation yet |
+| Style definitions (Figma)                                    | Status                         | Implementation examples                                      |
+| ------------------------------------------------------------ | ------------------------------ | ------------------------------ |
+| [Action modal](https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/?node-id=861%3A10487) | Working draft, designed, documented |  |
+| [Dialogues](https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/?node-id=384%3A3400) | Working draft, designed, no documentation yet |  |
+| [Headers](https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/?node-id=861%3A10487) | Working draft, designed, no documentation yet | In all pages |
+| [List and List Primitives](https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/?node-id=386%3A3606) | Working draft, designed, documented |  |
+| [Main sidebar](https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/?node-id=384%3A3262) | Working draft, designed, no documentation yet | In almost all pages |
+| [Notifications](https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/?node-id=384%3A3362) | Working draft, designed, no documentation yet | [Notification Center](https://community.openproject.org/notifications) |
 
 
 ## Contribute
