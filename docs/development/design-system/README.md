@@ -30,7 +30,7 @@ keywords: Design system, styles, design, components
 | [Action bar](https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/Components-Library?node-id=501%3A3578) | Working draft, designed, documented | [Include project multi-select modal](https://community.openproject.org/work_packages) |
 | [Badges](https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/Components-Library?node-id=384%3A3249) | Working draft, designed, no documentation yet |  |
 | [Buttons and Toggles](https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/Components-Library?node-id=384%3A3399) | Working draft, designed, partial documentation |  |
-| [Calendar](https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/Components-Library?node-id=832%3A5342) | Working draft, designed, no documentation yet |  |
+| [Calendar](https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/Components-Library?node-id=832%3A5342) | Working draft, designed, no documentation yet | [Calendar module](https://community.openproject.org/projects/openproject/calendars/3182?cdate=2022-04-01&cview=dayGridMonth) |
 | [Chips](https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/Components-Library?node-id=510%3A3564) | Working draft, designed, documented |  |
 | [Dividers](https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/?node-id=397%3A4114) | Working draft, designed, no documentation yet |  |
 | [Dropdowns](https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/?node-id=397%3A3910) | Working draft, designed, no documentation yet |  |
