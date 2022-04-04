@@ -76,7 +76,7 @@ module API
     end
 
     def struct
-      Hashie::Mash.new
+      ParserStruct.new
     end
 
     def deep_to_h(value)
