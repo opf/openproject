@@ -66,56 +66,58 @@ module OpenProject
   end
 end
 
-config = OpenProject::Configuration
+Rails.application.config.after_initialize do
+  config = OpenProject::Configuration
 
-# Enforce session storage for testing
-if Rails.env.test?
-  config['session_store'] = :active_record_store
-end
+  # Enforce session storage for testing
+  if Rails.env.test?
+    config['session_store'] = :active_record_store
+  end
 
-session_store     = config['session_store'].to_sym
-relative_url_root = config['rails_relative_url_root'].presence
+  session_store     = config['session_store'].to_sym
+  relative_url_root = config['rails_relative_url_root'].presence
 
-session_options = {
-  key: config['session_cookie_name'],
-  httponly: true,
-  secure: Setting.https?,
-  path: relative_url_root
-}
+  session_options = {
+    key: config['session_cookie_name'],
+    httponly: true,
+    secure: Setting.https?,
+    path: relative_url_root
+  }
 
-if session_store == :cache_store
-  # env OPENPROJECT_CACHE__STORE__SESSION__USER__TTL__DAYS
-  session_ttl = config['cache_store_session_user_ttl_days']&.to_i&.days || 3.days
+  if session_store == :cache_store
+    # env OPENPROJECT_CACHE__STORE__SESSION__USER__TTL__DAYS
+    session_ttl = config['cache_store_session_user_ttl_days']&.to_i&.days || 3.days
 
-  # Extend session cache entry TTL so that they can stay logged in when their
-  # session ID cookie's TTL is 'session' where usually the session entry in the
-  # cache would expire before the session in the browser by default.
-  session_options[:expire_store_after] = lambda do |session, expire_after|
-    if session.include? "user_id" # logged-in user
-      [session_ttl, expire_after].compact.max
-    else
-      expire_after # anonymous user
+    # Extend session cache entry TTL so that they can stay logged in when their
+    # session ID cookie's TTL is 'session' where usually the session entry in the
+    # cache would expire before the session in the browser by default.
+    session_options[:expire_store_after] = lambda do |session, expire_after|
+      if session.include? "user_id" # logged-in user
+        [session_ttl, expire_after].compact.max
+      else
+        expire_after # anonymous user
+      end
     end
+
+    method = ActionDispatch::Session::CacheStore.instance_method(:write_session)
+    unless method.to_s.include?("write_session(env, sid, session, options)")
+      raise(
+        "The signature for `ActionDispatch::Session::CacheStore.write_session` " +
+        "seems to have changed. Please update the " +
+        "`ExpireStoreAfterOption` module (and this check) in #{__FILE__}"
+      )
+    end
+
+    ActionDispatch::Session::CacheStore.prepend OpenProject::ExpireStoreAfterOption
   end
 
-  method = ActionDispatch::Session::CacheStore.instance_method(:write_session)
-  unless method.to_s.include?("write_session(env, sid, session, options)")
-    raise(
-      "The signature for `ActionDispatch::Session::CacheStore.write_session` " +
-      "seems to have changed. Please update the " +
-      "`ExpireStoreAfterOption` module (and this check) in #{__FILE__}"
-    )
-  end
+  OpenProject::Application.config.session_store session_store, **session_options
 
-  ActionDispatch::Session::CacheStore.prepend OpenProject::ExpireStoreAfterOption
+  ##
+  # We use our own decorated session model to note the user_id
+  # for each session.
+  ActionDispatch::Session::ActiveRecordStore.session_class = ::Sessions::SqlBypass
+  # Continue to use marshal serialization to retain symbols and whatnot
+  ActiveRecord::SessionStore::Session.serializer = :marshal
 end
-
-OpenProject::Application.config.session_store session_store, **session_options
-
-##
-# We use our own decorated session model to note the user_id
-# for each session.
-ActionDispatch::Session::ActiveRecordStore.session_class = ::Sessions::SqlBypass
-# Continue to use marshal serialization to retain symbols and whatnot
-ActiveRecord::SessionStore::Session.serializer = :marshal
 
