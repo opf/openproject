@@ -90,7 +90,6 @@ import { LoadingIndicatorService } from 'core-app/core/loading-indicator/loading
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     EventViewLookupService,
-    OpCalendarService,
   ],
 })
 export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit, OnDestroy {
