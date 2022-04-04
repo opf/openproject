@@ -57,6 +57,7 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin implements On
     search_placeholder: this.I18n.t('js.include_projects.search_placeholder'),
     clear_selection: this.I18n.t('js.include_projects.clear_selection'),
     apply: this.I18n.t('js.include_projects.apply'),
+    include_subprojects: this.I18n.t('js.include_project.include_subprojects'),
   };
 
   public opened = false;
