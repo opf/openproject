@@ -30,8 +30,8 @@ en:
   js:
     ajax:
       hide: "Hide"
-      loading: "Loading ..."
-      updating: "Updating ..."
+      loading: "Loading…"
+      updating: "Updating…"
 
     attachments:
       draggable_hint: |
