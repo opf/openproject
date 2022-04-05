@@ -135,4 +135,14 @@ describe 'My Account 2FA configuration', with_2fa_ee: true,
     expect(page).to have_selector('.on-off-status.-disabled')
     expect(user.otp_devices.count).to eq 0
   end
+
+  context 'when a device has been registered already' do
+    let!(:device) { create :two_factor_authentication_device_totp, user: user }
+
+    it 'loads the page correctly (Regression #41719)' do
+      visit my_2fa_devices_path
+
+      expect(page).to have_content device.identifier
+    end
+  end
 end
