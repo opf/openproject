@@ -29,9 +29,9 @@ export class OpProjectListComponent {
 
   @Input() searchText = '';
 
-  @Input() includeSubprojects:boolean = false;
+  @Input() includeSubprojects = false;
 
-  @Input() parentChecked:boolean = false;
+  @Input() parentChecked = false;
 
   public get currentProjectHref():string|null {
     return this.currentProjectService.apiv3Path;

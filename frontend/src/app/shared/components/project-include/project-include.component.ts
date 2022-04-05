@@ -201,7 +201,7 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin implements On
       map((projects) => recursiveSort(projects)),
     );
 
-   public areProjectsLoaded$ = this
+  public areProjectsLoaded$ = this
     .projects$
     .pipe(
       distinctUntilChanged(),
