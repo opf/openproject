@@ -119,7 +119,7 @@ export class QuerySharingModalComponent extends OpModalComponent implements OnIn
         this.isBusy = false;
       })
       .catch(() => {
-        this.toastService.addError(this.I18n.t('js.errors.query_saving'));
+        this.toastService.addError(this.I18n.t('js.error.query_saving'));
         this.isBusy = false;
       });
   }
