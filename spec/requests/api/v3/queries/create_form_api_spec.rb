@@ -499,7 +499,7 @@ describe "POST /api/v3/queries/form", type: :request do
       end
 
       it "returns a validation error" do
-        expect(form.dig("_embedded", "validationErrors", "base", "message")).to eq "Statuz does not exist."
+        expect(form.dig("_embedded", "validationErrors", "base", "message")).to eq "Statuz filter does not exist."
       end
 
       it "has no commit link" do
