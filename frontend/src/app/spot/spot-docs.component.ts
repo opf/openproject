@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'spot-docs',
   templateUrl: './spot-docs.component.html',
+  styleUrls: ['./spot-docs.component.sass'],
 })
 export class SpotDocsComponent {
   indeterminateState = null;
