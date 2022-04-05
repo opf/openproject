@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'features/categories/categories_page'
 
-describe 'Deletion', type: :feature do
+describe 'Deletion', type: :feature, js: true do
   let(:current_user) do
     create :user,
            member_in_project: category.project,
@@ -46,9 +46,9 @@ describe 'Deletion', type: :feature do
     before do
       categories_page.visit_settings
 
-      expect(page).to have_selector(delete_button)
-
       find(delete_button).click
+
+      page.driver.browser.switch_to.alert.accept
     end
   end
 

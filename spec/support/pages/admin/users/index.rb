@@ -37,12 +37,12 @@ module Pages
         end
 
         def expect_listed(*users)
-          rows = page.all 'td.username'
+          rows = page.all 'td.username a'
           expect(rows.map(&:text)).to include(*users.map(&:login))
         end
 
         def expect_order(*users)
-          rows = page.all 'td.username'
+          rows = page.all 'td.username a'
           expect(rows.map(&:text)).to eq(users.map(&:login))
         end
 
