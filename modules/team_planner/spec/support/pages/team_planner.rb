@@ -250,6 +250,7 @@ module Pages
 
       retry_block do
         raise "Should not be there" if page.has_selector?('.op-team-planner--wp-loading-skeleton')
+
         sleep 5
       end
     end
