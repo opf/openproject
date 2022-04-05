@@ -26,29 +26,13 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Queries::Storages::WorkPackages::Filter
-  class FileLinkOriginIdFilter < ::Queries::WorkPackages::Filter::WorkPackageFilter
-    include StoragesFilterMixin
-    include Concerns::ValidateStoragesModuleAvailable
+require 'spec_helper'
 
-    def filter_model
-      ::Storages::FileLink
-    end
-
-    def filter_column
-      'origin_id'
-    end
-
-    def permission
-      :view_file_links
-    end
-
-    def joins
-      %i[file_links storages]
-    end
-
-    def additional_where_condition
-      "AND #{::Storages::FileLink.table_name}.storage_id = #{::Storages::Storage.table_name}.id"
-    end
+shared_examples_for 'filter unavailable when storages module is inactive' do
+  context 'when storages module is inactive', :disable_storages do
+    it_behaves_like 'error response',
+                    400,
+                    'InvalidQuery',
+                    'filter does not exist.'
   end
 end

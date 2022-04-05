@@ -29,6 +29,7 @@
 module Queries::Storages::WorkPackages::Filter
   class StorageIdFilter < ::Queries::WorkPackages::Filter::WorkPackageFilter
     include StoragesFilterMixin
+    include Concerns::ValidateStoragesModuleAvailable
 
     def filter_model
       ::Storages::FileLink

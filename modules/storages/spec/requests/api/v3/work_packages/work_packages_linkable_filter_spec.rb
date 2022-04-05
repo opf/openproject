@@ -28,6 +28,7 @@
 
 require 'spec_helper'
 require_module_spec_helper
+require_relative 'shared_filter_examples'
 
 # rubocop:disable RSpec/MultipleMemoizedHelpers
 describe 'API v3 work packages resource with filters for the linkable to storage attribute',
@@ -123,6 +124,8 @@ describe 'API v3 work packages resource with filters for the linkable to storage
           let(:elements) { [] }
         end
       end
+
+      include_examples 'filter unavailable when storages module is inactive'
     end
 
     context 'with filter for storage url' do
@@ -165,6 +168,8 @@ describe 'API v3 work packages resource with filters for the linkable to storage
           let(:elements) { [] }
         end
       end
+
+      include_examples 'filter unavailable when storages module is inactive'
     end
   end
 end

@@ -26,29 +26,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Queries::Storages::WorkPackages::Filter
-  class FileLinkOriginIdFilter < ::Queries::WorkPackages::Filter::WorkPackageFilter
-    include StoragesFilterMixin
-    include Concerns::ValidateStoragesModuleAvailable
+module Queries::Storages::WorkPackages::Filter::Concerns::ValidateStoragesModuleAvailable
+  extend ActiveSupport::Concern
 
-    def filter_model
-      ::Storages::FileLink
-    end
+  included do
+    validate :storages_module_available
 
-    def filter_column
-      'origin_id'
-    end
+    def storages_module_available
+      return if OpenProject::FeatureDecisions.storages_module_active?
 
-    def permission
-      :view_file_links
-    end
-
-    def joins
-      %i[file_links storages]
-    end
-
-    def additional_where_condition
-      "AND #{::Storages::FileLink.table_name}.storage_id = #{::Storages::Storage.table_name}.id"
+      errors.add :base, I18n.t('activerecord.errors.messages.filter_does_not_exist')
     end
   end
 end
