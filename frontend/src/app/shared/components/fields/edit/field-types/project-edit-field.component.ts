@@ -64,10 +64,11 @@ import { IFieldSchema } from '../../field.base';
 import { EditFieldHandler } from '../editing-portal/edit-field-handler';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { switchMap } from 'rxjs/operators';
+import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
+import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 
 @Component({
   templateUrl: './project-edit-field.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProjectEditFieldComponent extends EditFieldComponent implements OnInit {
   @ViewChild(NgSelectComponent, { static: true }) public ngSelectComponent:NgSelectComponent;
@@ -135,6 +136,11 @@ export class ProjectEditFieldComponent extends EditFieldComponent implements OnI
         '~',
         [searchText],
       ]);
+    }
+
+    if (isNewResource(this.resource) && this.change.value('type')) {
+      const typeId = idFromLink((this.change.value('type') as HalResource).href);
+      filters.push(['type_id', '=', [typeId]]);
     }
 
     return {

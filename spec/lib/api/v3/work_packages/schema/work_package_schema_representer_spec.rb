@@ -693,7 +693,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
         it_behaves_like 'links to allowed values via collection link' do
           let(:path) { 'project' }
-          let(:href) { api_v3_paths.available_projects_on_create(wp_type.id) }
+          let(:href) { api_v3_paths.available_projects_on_create }
         end
       end
 
@@ -708,7 +708,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
         it_behaves_like 'links to allowed values via collection link' do
           let(:path) { 'project' }
-          let(:href) { api_v3_paths.available_projects_on_create(nil) }
+          let(:href) { api_v3_paths.available_projects_on_create }
         end
       end
 
