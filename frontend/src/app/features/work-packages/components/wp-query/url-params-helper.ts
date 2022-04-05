@@ -220,7 +220,7 @@ export class UrlParamsHelperService {
       return queryData;
     }
 
-    const properties = JSON.parse(updateJson);
+    const properties = JSON.parse(updateJson) as QueryProps;
 
     if (properties.c) {
       queryData['columns[]'] = properties.c.map((column:any) => column);

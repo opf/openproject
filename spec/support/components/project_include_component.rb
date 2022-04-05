@@ -50,7 +50,7 @@ module Components
       expect(page).to have_selector("[data-qa-selector='project-include-button'] .badge", text: count)
     end
 
-    def toggle_include_all_subprojects()
+    def toggle_include_all_subprojects
       page.find("[data-qa-project-include-all-subprojects]").click
     end
 

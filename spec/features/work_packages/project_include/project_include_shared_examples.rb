@@ -68,7 +68,7 @@ shared_examples 'has a project include dropdown', type: :feature, js: true do
              other_project,
              other_sub_project,
              other_sub_sub_project,
-             another_sub_sub_project,
+             another_sub_sub_project
            ],
            member_with_permissions: permissions
   end
@@ -84,7 +84,7 @@ shared_examples 'has a project include dropdown', type: :feature, js: true do
              other_project,
              other_sub_project,
              other_sub_sub_project,
-             another_sub_sub_project,
+             another_sub_sub_project
            ],
            member_with_permissions: permissions
   end

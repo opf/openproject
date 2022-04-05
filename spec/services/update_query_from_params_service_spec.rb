@@ -163,7 +163,7 @@ describe UpdateQueryFromParamsService,
       end
     end
 
-    context 'include subprojects' do
+    context 'when using include subprojects' do
       let(:params) do
         { include_subprojects: include_subprojects }
       end

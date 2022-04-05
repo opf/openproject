@@ -51,7 +51,7 @@ export class WorkPackageViewIncludeSubprojectsService extends WorkPackageQuerySt
 
   public applyToQuery(query:QueryResource):boolean {
     const { current } = this;
-    query.includeSubprojects = current;
+    query.includeSubprojects = current; // eslint-disable-line no-param-reassign
 
     return true;
   }
