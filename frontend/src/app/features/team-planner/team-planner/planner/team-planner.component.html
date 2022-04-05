@@ -125,7 +125,7 @@
       <div class="op-team-planner--add-assignee">
         <div
           class="wp-inline-create-button"
-          *ngIf="!(showAddAssignee$ | async)"
+          *ngIf="!(showAddAssignee$ | async) && !(dropzone$ | async)?.dragging"
         >
           <button
             type="button"
