@@ -36,7 +36,6 @@ class Authorization::AbstractQuery
     model.unscoped
          .joins(joins(arel))
          .where(wheres(arel))
-         .distinct
   end
 
   def self.base_query
