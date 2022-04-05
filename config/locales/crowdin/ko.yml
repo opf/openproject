@@ -78,6 +78,10 @@ ko:
         contact: "Contact us for a demo"
       enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
       upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
+    journal_aggregation:
+      explanation:
+        text: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent and will also affect %{webhook_link} delay."
+        link: "webhook"
   announcements:
     show_until: 표시 기한
     is_active: 현재 표시됨
@@ -1321,7 +1325,9 @@ ko:
   menus:
     admin:
       mail_notification: "이메일 알림"
-      incoming_outgoing: "수신 & 발신"
+      mails_and_notifications: "Emails and notification"
+      aggregation_and_retention: 'Aggregation and retention'
+      api_and_webhooks: "API and webhooks"
     quick_add:
       label: "빠른 추가 메뉴 열기"
   my_account:
@@ -1821,7 +1827,7 @@ ko:
   label_used_by_types: "유형별로 사용됨"
   label_used_in_projects: "프로젝트에서 사용됨"
   label_user: "사용자"
-  label_user_and_permission: "사용자 및 권한"
+  label_user_and_permission: "Users and permissions"
   label_user_named: "사용자 %{name}"
   label_user_activity: "%{value}의 작업"
   label_user_anonymous: "익명"
@@ -2542,7 +2548,6 @@ ko:
   text_work_packages_destroy_confirmation: "선택한 작업 패키지를 삭제하시겠습니까?"
   text_work_packages_ref_in_commit_messages: "커밋 메시지의 작업 패키지 참조 또는 수정"
   text_journal_added: "%{label} %{value} 추가됨"
-  text_journal_aggregation_time_explanation: "사용자의 개별 작업(예: 작업 패키지를 두 번 업데이트)은 연령 차이가 지정된 기간 미만인 경우 단일 작업으로 집계됩니다. 애플리케이션 내에서 단일 작업으로 표시됩니다. 이것은 또한 전송되는 이메일의 수를 줄이는 동일한 시간만큼 알림을 지연시킵니다."
   text_journal_changed_html: "%{label}이(가) %{old}에서 %{linebreak}%{new}<strong>(으)로</strong> 변경되었습니다."
   text_journal_changed_plain: "%{label}이(가) %{old}에서 %{linebreak}%{new}(으)로 변경되었습니다."
   text_journal_changed_no_detail: "%{label} 업데이트됨"

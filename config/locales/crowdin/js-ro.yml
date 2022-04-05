@@ -23,8 +23,8 @@ ro:
   js:
     ajax:
       hide: "Ascundere"
-      loading: "Se încarcă..."
-      updating: "Updating ..."
+      loading: "Loading…"
+      updating: "Updating…"
     attachments:
       draggable_hint: |
         Trageți pe câmpul editorului pentru a introduce o imagine sau un atașament de referință. Câmpurile de editor închise vor fi deschise în timp ce continuați să trageți.
@@ -286,15 +286,15 @@ ro:
           learn_about: "Aflați mai multe despre noile caracteristici"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_0':
+          '12_1':
             standard:
-              learn_about_link: https://www.openproject.org/openproject-11-0-release
+              learn_about_link: https://www.openproject.org/openproject-12-1-release
               new_features_html: >
-                Versiunea conține diverse caracteristici noi și îmbunătățiri: <br> <ul class="%{list_styling_class}"> <li>Cu noile <b>notificări din aplicație</b> primiți toate actualizările importante direct în aplicație și nu mai primiți un flux de e-mailuri.</li> <li>Noul centru de notificare <b></b> prezintă toate schimbările, inclusiv opțiunile intuitive de filtrare, e. . din motive de notificare sau proiecte. Aceasta permite chiar editarea directă într-o vedere divizată.</li> <li>Setări de notificare îmbunătățite <b></b> permit ajustarea pentru ce acțiuni și în ce proiecte doriți să primiți o notificare.</li> <li><b>Memento-uri de e-mail</b> poate fi configurat pentru a primi actualizări importante prin intermediul unui sumar zilnic de e-mail.</li> <li>Completatorul automat pentru relații afișează acum și informații suplimentare (numele proiectului, statusul, . .) pentru a identifica cu ușurință pachetul de lucru respectiv.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A <b>new team planner module</b> (Enterprise feature) allows you to visually assign tasks to team members to get an overview of who is working on what.</li> <li>We are <b>releasing the basic agile boards</b> for the Community version.</li> <li>The <b>"Include Projects" filter</b> option makes it easier to add different projects to your views, such as for work packages, calendars, and team planners.</li> <li>We added <b>a new "Files" tab</b> in the work package details to have all possible information attached to a work package together.</li> <li>We created <b>global roles for groups</b> to assign these roles to groups and create superuser groups.</li> <li>Project status was given more options to choose from.</li> </ul>
             bim:
-              learn_about_link: https://www.openproject.org/openproject-11-0-release
+              learn_about_link: https://www.openproject.org/openproject-12-1-release
               new_features_html: >
-                Versiunea conţine diverse caracteristici noi şi îmbunătăţiri: <br> <ul class="%{list_styling_class}"> <li>Centrul de notificare: Reduceţi numărul de e-mailuri pe care le primiţi. Găsește și acționează pe toate notificările relevante într-un singur loc central.</li> <li>Toate fișierele IFC încărcate acum pot fi descărcate.</li> <li>Încărcarea și procesarea IFC a obținut mai repede și a primit mesaje de eroare mai bune.</li> <li>Add-in <a href="https://github.com/opf/openproject-revit-add-in">OpenProject Revit</a> a primit mai multe remedieri ale erorilor.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>In the BCF module you can now save your selected work package filters, columns etc. as <b>views</b> and share those with your team members.</li> <li>A <b>new team planner module</b> (Enterprise feature) allows you to visually assign tasks to team members to get an overview of who is working on what.</li> <li>We are <b>releasing the basic agile boards</b> for the Community version.</li> <li>The <b>"Include Projects" filter</b> option makes it easier to add different projects to your views, such as for work packages, calendars, and team planners.</li> <li>We added <b>a new "Files" tab</b> in the work package details to have all possible information attached to a work package together.</li> <li>We created <b>global roles for groups</b> to assign these roles to groups and create superuser groups.</li> <li>Project status was given more options to choose from.</li> </ul>
     label_activate: "Activare"
     label_add_column_after: "Adauga o coloana dupa"
     label_add_column_before: "Adauga o coloana inainte"

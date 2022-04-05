@@ -23,8 +23,8 @@ ko:
   js:
     ajax:
       hide: "숨기기"
-      loading: "불러오는 중 ..."
-      updating: "Updating ..."
+      loading: "Loading…"
+      updating: "Updating…"
     attachments:
       draggable_hint: |
         인라인 이미지 또는 참조 첨부 파일로 편집기 필드를 드래그하세요. 드래그하는 동안에는 닫힌 편집기 필드가 열립니다.
@@ -287,15 +287,15 @@ ko:
           learn_about: "새로운 기능에 대해 자세히 알아보기"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_0':
+          '12_1':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
+              learn_about_link: https://www.openproject.org/openproject-12-1-release
               new_features_html: >
-                이 릴리스에는 다양한 새로운 기능과 개선 사항이 포함되어 있습니다: <br> <ul class="%{list_styling_class}"> <li>새로운 <b>인앱 알림</b>으로 모든 중요 업데이트를 애플리케이션에서 직접 받으므로 더 이상 수많은 이메일을 받지 않게 됩니다.</li> <li>새로운 <b>알림 센터</b>는 알림 이유 또는 프로젝트 등 직관적인 필터 옵션을 비롯한, 모든 변경 사항을 표시합니다. 분할 보기에서 직접 편집도 가능합니다.</li> <li>개선된 <b>알림 설정</b>을 통해 알림을 받고 싶은 작업과 프로젝트를 미세 조정할 수 있습니다.</li> <li><b>이메일 미리 알림</b>은 일일 이메일 요약을 통해 중요 업데이트를 받도록 구성할 수 있습니다.</li> <li>이제 관계에 대한 작업 패키지 자동 완성 도구는 해당 작업 패키지를 쉽게 식별할 수 있는 추가 정보(프로젝트 이름, 상태...)도 표시합니다.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A <b>new team planner module</b> (Enterprise feature) allows you to visually assign tasks to team members to get an overview of who is working on what.</li> <li>We are <b>releasing the basic agile boards</b> for the Community version.</li> <li>The <b>"Include Projects" filter</b> option makes it easier to add different projects to your views, such as for work packages, calendars, and team planners.</li> <li>We added <b>a new "Files" tab</b> in the work package details to have all possible information attached to a work package together.</li> <li>We created <b>global roles for groups</b> to assign these roles to groups and create superuser groups.</li> <li>Project status was given more options to choose from.</li> </ul>
             bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
+              learn_about_link: https://www.openproject.org/openproject-12-1-release
               new_features_html: >
-                이 릴리스에는 다양한 새로운 기능과 개선 사항이 포함되어 있습니다: <br> <ul class="%{list_styling_class}"> <li>알림 센터: 수신하는 메일 수를 줄입니다. 대신 센터 한 곳에서 모든 관련 알림을 찾고 조치를 취할 수 있습니다.</li> <li>이제 업로드된 모든 IFC 파일도 다운로드할 수 있습니다.</li> <li>IFC 업로드 및 처리가 더욱 빨라졌으며 개선된 오류 메시지를 받게 됩니다.</li> <li><a href="https://github.com/opf/openproject-revit-add-in">OpenProject Revit 추가 기능</a>에서 많은 버그가 수정되었습니다.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>In the BCF module you can now save your selected work package filters, columns etc. as <b>views</b> and share those with your team members.</li> <li>A <b>new team planner module</b> (Enterprise feature) allows you to visually assign tasks to team members to get an overview of who is working on what.</li> <li>We are <b>releasing the basic agile boards</b> for the Community version.</li> <li>The <b>"Include Projects" filter</b> option makes it easier to add different projects to your views, such as for work packages, calendars, and team planners.</li> <li>We added <b>a new "Files" tab</b> in the work package details to have all possible information attached to a work package together.</li> <li>We created <b>global roles for groups</b> to assign these roles to groups and create superuser groups.</li> <li>Project status was given more options to choose from.</li> </ul>
     label_activate: "활성화"
     label_add_column_after: "다음 뒤에 열 추가"
     label_add_column_before: "다음 앞에 열 추가"

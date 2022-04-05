@@ -78,6 +78,10 @@ it:
         contact: "Contact us for a demo"
       enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
       upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
+    journal_aggregation:
+      explanation:
+        text: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent and will also affect %{webhook_link} delay."
+        link: "webhook"
   announcements:
     show_until: Mostra fino a
     is_active: attualmente visualizzato
@@ -1336,7 +1340,9 @@ it:
   menus:
     admin:
       mail_notification: "Notifiche email"
-      incoming_outgoing: "Entrate & Uscite"
+      mails_and_notifications: "Emails and notification"
+      aggregation_and_retention: 'Aggregation and retention'
+      api_and_webhooks: "API and webhooks"
     quick_add:
       label: "Apri menu di aggiunta rapida"
   my_account:
@@ -1836,7 +1842,7 @@ it:
   label_used_by_types: "Utilizzato dai tipi"
   label_used_in_projects: "Utilizzato nei progetti"
   label_user: "Utente"
-  label_user_and_permission: "Utenti & Permessi"
+  label_user_and_permission: "Users and permissions"
   label_user_named: "Utente %{name}"
   label_user_activity: "attività di %{value}"
   label_user_anonymous: "Anonimo"
@@ -2561,7 +2567,6 @@ it:
   text_work_packages_destroy_confirmation: "Sei sicuro di che voler eliminare le/le macro-attività selezionata/e?"
   text_work_packages_ref_in_commit_messages: "Macro-attivita che sono correlate e/o modificate nei messaggi di conferma"
   text_journal_added: "%{label} %{value} aggiunto"
-  text_journal_aggregation_time_explanation: "Le azioni individuali di un utente (ad es. l'aggiornamento di un pacchetto di lavoro due volte) sono aggregati in un'unica azione se la loro differenza di età è inferiore al periodo di tempo specificato. Verranno visualizzate come un'unica azione all'interno dell'applicazione. Questo ritarderà anche le notifiche della stessa quantità di tempo, riducendo il numero di e-mail inviate."
   text_journal_changed_html: "%{label} modificato da %{old} %{linebreak}<strong>a</strong> %{new}"
   text_journal_changed_plain: "%{label} modificato da %{old} %{linebreak}a %{new}"
   text_journal_changed_no_detail: "%{label} aggiornata"
