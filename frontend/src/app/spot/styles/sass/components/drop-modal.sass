@@ -3,6 +3,8 @@
   display: inline-flex
 
   &--body
+    $border-radius: 5px
+
     @include spot-z-index("drop-modal", 1)
     pointer-events: none
     opacity: 0
@@ -18,7 +20,7 @@
 
     box-shadow: $spot-shadow-light-mid
     background: $spot-color-basic-white
-    border-radius: 5px
+    border-radius: $border-radius
 
     display: flex
     flex-direction: column
@@ -65,6 +67,13 @@
       &_top-right
         bottom: calc(100% + #{$spot-spacing-0_25})
         right: 0%
+
+    // TODO: At some point, this needs to be a cleverer selector.
+    // Though most action bars will probably be at the bottom of a drop-modal,
+    // this does not necessarily have to be the case. In that case, this'll look weird.
+    > .spot-action-bar
+      border-bottom-left-radius: $border-radius
+      border-bottom-right-radius: $border-radius
   
   &_opened::before
     @include spot-z-index("drop-modal", 0)
