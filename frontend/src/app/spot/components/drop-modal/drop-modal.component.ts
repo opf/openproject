@@ -25,12 +25,12 @@ enum SpotDropModalAlignmentOption {
 export class SpotDropModalComponent implements OnDestroy {
   @HostBinding('class.spot-drop-modal') public className = true;
 
-  @HostBinding('class.spot-drop-modal_opened') public _open = false;
 
   @Output() closed = new EventEmitter<void>();
 
   @Input() public alignment:SpotDropModalAlignmentOption = SpotDropModalAlignmentOption.BottomLeft;
 
+  public _open = false;
   @Input('open')
   set open(value:boolean) {
     this._open = value;

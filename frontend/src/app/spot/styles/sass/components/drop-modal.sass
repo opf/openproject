@@ -6,8 +6,8 @@
     $border-radius: 5px
 
     @include spot-z-index("drop-modal", 1)
-    pointer-events: none
-    opacity: 0
+    pointer-events: all
+    opacity: 1
 
     position: fixed
     top: auto
@@ -75,7 +75,7 @@
       border-bottom-left-radius: $border-radius
       border-bottom-right-radius: $border-radius
   
-  &_opened::before
+  &::before
     @include spot-z-index("drop-modal", 0)
     display: block
     content: ''
@@ -90,7 +90,7 @@
       display: none
 
   &--close-button
-    display: none
+    display: block
     position: fixed
     top: auto
     height: auto
@@ -105,13 +105,5 @@
       right: $spot-spacing-0_75
       transform: none
 
-
-  &_opened &--close-button
-    display: block
-
     @media #{$spot-mq-drop-modal-in-context}
       display: none
-
-  &_opened &--body
-    pointer-events: all
-    opacity: 1

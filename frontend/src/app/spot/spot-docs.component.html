@@ -141,24 +141,56 @@ Currently selected value is {{ toggleValue }}
 </ul>
 
 <h1>Filter Chip</h1>
+
 <section class="space-children">
   <spot-filter-chip
     title="Default chip"
     (remove)="onRemoveChip()"
   ></spot-filter-chip>
+
   <spot-filter-chip
     title="Unremovable chip"
     [removable]="false"
   ></spot-filter-chip>
+
   <spot-filter-chip
     title="Default chip with icon"
     icon="bell"
     (remove)="onRemoveChip()"
   ></spot-filter-chip>
+
   <spot-filter-chip
     icon="bell"
     title="Unremovable chip with icon"
     [removable]="false"
+  ></spot-filter-chip>
+</section>
+
+<section class="space-children">
+  <spot-filter-chip
+    title="Default chip"
+    (remove)="onRemoveChip()"
+    [disabled]="true"
+  ></spot-filter-chip>
+
+  <spot-filter-chip
+    title="Unremovable chip"
+    [removable]="false"
+    [disabled]="true"
+  ></spot-filter-chip>
+
+  <spot-filter-chip
+    title="Default chip with icon"
+    icon="bell"
+    (remove)="onRemoveChip()"
+    [disabled]="true"
+  ></spot-filter-chip>
+
+  <spot-filter-chip
+    icon="bell"
+    title="Unremovable chip with icon"
+    [removable]="false"
+    [disabled]="true"
   ></spot-filter-chip>
 </section>
 
@@ -244,7 +276,7 @@ Currently selected value is {{ toggleValue }}
     (click)="dropModalOpen = !dropModalOpen"
   >Open Modal</button>
   <ng-container slot="body">
-    <div class="spot-body">
+    <div class="spot-container">
       <h1 class="spot-header-small">Test</h1>
 
       <spot-text-field
@@ -277,3 +309,9 @@ Currently selected value is {{ toggleValue }}
     </button>
   </div>
 </div>
+
+<style>
+  #content-wrapper {
+    background-color: #eee;
+  }
+</style>
