@@ -114,11 +114,11 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin {
         if (selectedProjectHrefs.includes(currentProjectHref)) {
           return selectedProjectHrefs;
         }
-
-        return [
-          ...selectedProjectHrefs,
-          currentProjectHref,
-        ];
+        const selectedPrjects = [...selectedProjectHrefs];
+        if (currentProjectHref) {
+          selectedPrjects.push(currentProjectHref);
+        }
+        return selectedPrjects;
       }),
     );
 
