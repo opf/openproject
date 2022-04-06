@@ -7,15 +7,16 @@ robots: index, follow
 keywords: agile boards, Kanban, Scrum, agile project management, action boards
 ---
 
-# Boards for Agile Project Management (Premium feature)
+# Boards for Agile Project Management 
 
 Boards support agile project management methodologies, such as Scrum or Kanban.
 
-Our Agile boards can be for anything you would like to keep track of within your projects: Tasks to be done, Bugs to be fixed, Things to be reviewed, Features to be developed, Risks to be monitored, Ideas to be spread, anything! The boards consist of lists (columns) and cards. You can choose between a Basic board and various Action boards.
+Our Agile boards can be for anything you would like to keep track of within your projects: Tasks to be done, Bugs to be fixed, Things to be reviewed, Features to be developed, Risks to be monitored, Ideas to be spread, anything! The boards consist of lists (columns) and cards. You can choose between a Basic board and various advanced Action boards.
 
 <div class="alert alert-info" role="alert">
-**Note**: OpenProject Agile boards is a Premium Feature and can only be used with [Enterprise cloud](../../enterprise-guide/enterprise-cloud-guide/) or [Enterprise on-premises](../../enterprise-guide/enterprise-on-premises-guide/). An upgrade from the free Community Edition is easily possible.
+**Note**: The basic board is included in the OpenProject Community Edition. OpenProject Action boards is a Premium Feature and can only be used with [Enterprise cloud](../../enterprise-guide/enterprise-cloud-guide/) or [Enterprise on-premises](../../enterprise-guide/enterprise-on-premises-guide/). An upgrade from the free Community Edition is easily possible.
 </div>
+
 
 | Topic                                                     | Content                                                      |
 | --------------------------------------------------------- | ------------------------------------------------------------ |
@@ -51,14 +52,12 @@ Click on the green **+Board** button to create a new Board view.
 
 Next, you need to choose which kind of Agile board you want to create.
 
-![select board type](board-types-7003479.png)
+### Basic board (Community Edition)
+The Basic board is included in the OpenProject Community Edition. You can freely create lists, name them and order your work packages within. If you move work packages between  the lists, there will be **NO changes** to the work package itself. This allows you to create flexible boards for any kind of activity you would like to track, e.g. Management of Ideas. 
 
-### Basic board
-You can freely create lists, name them and order your work packages within. If you move work packages between  the lists, there will be **NO changes** to the work package itself. This allows you to create flexible boards for any kind of activity you would like to track, e.g. Management of Ideas.
+![Board types basic board](Board-types-basic-board.png)
 
-![create basic board with unnamed lists](create-basic-board.png)
-
-### Action boards
+### Action boards (Premium feature)
 
 In an Action board each lists represents a value of an attribute of the contained work packages (cards), e.g. there's a list for the status "New" and a list for the status "In Progress" in the Status board.
 Moving work packages (cards) between two lists will update them automatically, based on the list to which they're moved.
@@ -74,24 +73,24 @@ Please note: You can't move work packages from or to every status. Please find o
 ![creat status board](create-status-board.png)
 
 ### Assignee board
-Every list represents one assignee. You can choose regular users, [placeholder users](../../system-admin-guide/users-permissions/placeholder-users) and groups as assignees.
+Every list represents one assignee. You can choose regular users, [placeholder users](../../system-admin-guide/users-permissions/placeholder-users) and groups as assignees. When you move a card from one list to another, the assigned user is changed to the user that is selected for the list you moved the card to.
 
 ![create assignee board](create-assignee-board.png)
 
 ### Version board
-Every list represents a version. This board is ideal for product development or planning software releases. When creating a new Version board a list with all work packages in the version(s) belonging to the current project will be added automatically, while additional lists need to be added manually.
+Every list represents a version. This board is ideal for product development or planning software releases. When creating a new Version board a list with all work packages in the version(s) belonging to the current project will be added automatically, while additional lists need to be added manually. By moving a card from one list to another, the version for the work package is changed to the version of the corresponding list.
 
 ![create version board](create-version-board.png)
 
 ### Subproject board
-Every list represents a subproject. Within the list you will find the subproject's work packages. 
+Every list represents a subproject. Within the list you will find the subproject's work packages. By moving a card within a list you can change the order of the cards and if you move a card to another list you change the (sub)project of this work package.
 
 ![create subproject board](create-subproject-board.png)
 
 ### Parent-Child board
 Every list represents a parent work package. Within the list you will find the work package's children. 
 Only work packages from the current project can be selected as a list, i.e. can be chosen as the name of the list.
-The Parent-Child board is ideal for depicting a **work breakdown structure (WBS)**.
+The Parent-Child board is ideal for depicting a **work breakdown structure (WBS)**. By moving cards to another list you can reorder the work package as a child to another work package.
 Please note: This will only display one hierarchy level below the displayed work package, i.e. only immediate children and no grandchildren.
 
 ![create parent child board](create-parent-child-board.png)
