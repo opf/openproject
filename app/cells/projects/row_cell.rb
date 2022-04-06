@@ -134,7 +134,8 @@ module Projects
         "-no-ellipsis"
       when /\Acf_/
         cf = custom_field(column)
-        "format-#{cf.field_format}"
+        formattable = cf.field_format == 'text' ? ' -no-ellipsis' : ''
+        "format-#{cf.field_format}#{formattable}"
       end
     end
   end
