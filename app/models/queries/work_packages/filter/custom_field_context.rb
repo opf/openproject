@@ -47,7 +47,7 @@ module Queries::WorkPackages::Filter::CustomFieldContext
           .filter
           .for_all
           .where
-          .not(field_format: %w(user version))
+          .not(field_format: %w(version))
       end
     end
 
