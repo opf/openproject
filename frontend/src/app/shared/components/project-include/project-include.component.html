@@ -56,27 +56,27 @@
           data-qa-selector="project-include-list"
         ></ul>
       </ng-container> 
-    </form>
 
-    <div class="spot-action-bar">
-      <div class="spot-action-bar--left"></div>
-      <div class="spot-action-bar--right">
-        <button
-          [disabled]="!(areProjectsLoaded$ | async)"
-          class="spot-button spot-button_outlined spot-button_main"
-          type="button"
-          (click)="clearSelection()"
-        >
-          {{ text.clear_selection }}
-        </button>
-        <button 
-          [disabled]="!(areProjectsLoaded$ | async)"
-          class="spot-button spot-button_main"
-        >
-          {{ text.apply }}
-        </button>
+      <div class="spot-action-bar">
+        <div class="spot-action-bar--left"></div>
+        <div class="spot-action-bar--right">
+          <button
+            [disabled]="!(areProjectsLoaded$ | async)"
+            class="spot-button spot-button_outlined spot-button_main"
+            type="button"
+            (click)="clearSelection()"
+          >
+            {{ text.clear_selection }}
+          </button>
+          <button 
+            [disabled]="!(areProjectsLoaded$ | async)"
+            class="spot-button spot-button_main"
+          >
+            {{ text.apply }}
+          </button>
+        </div>
       </div>
-    </div>
+    </form>
   </ng-container>
 </spot-drop-modal>
 
