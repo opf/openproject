@@ -31,6 +31,9 @@ module API
         self.embed_map = {
           elements: WorkPackageSqlRepresenter
         }.with_indifferent_access
+
+        property :_type,
+                 representation: ->(*) { "'WorkPackageCollection'" }
       end
     end
   end
