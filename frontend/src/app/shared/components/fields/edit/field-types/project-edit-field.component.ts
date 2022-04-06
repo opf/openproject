@@ -69,6 +69,7 @@ import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 
 @Component({
   templateUrl: './project-edit-field.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProjectEditFieldComponent extends EditFieldComponent implements OnInit {
   @ViewChild(NgSelectComponent, { static: true }) public ngSelectComponent:NgSelectComponent;
