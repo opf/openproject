@@ -32,7 +32,7 @@ require_relative '../spec_helper'
 # interface. Enable it first, check everything present, then disable it, and
 # check everything present.
 describe 'Disablement of storages module', type: :feature, js: true do
-  let(:admin) { create(:admin) }
+  current_user { create(:admin) }
 
   let(:role) do
     create(:role,
@@ -49,10 +49,6 @@ describe 'Disablement of storages module', type: :feature, js: true do
   before do
     storage
     project
-    login_as admin
-
-    @old_value = Capybara.raise_server_errors
-    Capybara.raise_server_errors = false
   end
 
   around do |example|
