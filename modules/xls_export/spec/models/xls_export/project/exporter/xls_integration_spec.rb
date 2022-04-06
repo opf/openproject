@@ -27,7 +27,8 @@ describe XlsExport::Project::Exporter::XLS do
 
   it 'performs a successful export' do
     expect(rows.count).to eq(1)
-    expect(sheet.row(1)).to eq [project.id.to_s, project.identifier, project.name, 'Off track', 'false']
+    expect(sheet.row(1)).to eq [project.id.to_s, project.identifier,
+                                project.name, project.description, 'Off track', 'false']
   end
 
   describe 'custom field columns selected' do
@@ -40,7 +41,7 @@ describe XlsExport::Project::Exporter::XLS do
         expect(rows.count).to eq 1
 
         cf_names = custom_fields.map(&:name)
-        expect(header).to eq ['ID', 'Identifier', 'Name', 'Status', 'Public', *cf_names]
+        expect(header).to eq ['ID', 'Identifier', 'Name', 'Description', 'Status', 'Public', *cf_names]
 
         custom_values = custom_fields.map do |cf|
           if cf == bool_cf
@@ -51,13 +52,13 @@ describe XlsExport::Project::Exporter::XLS do
         end
 
         expect(sheet.row(1))
-          .to eq [project.id.to_s, project.identifier, project.name, 'Off track', 'false', *custom_values]
+          .to eq [project.id.to_s, project.identifier, project.name, project.description, 'Off track', 'false', *custom_values]
       end
     end
 
     context 'when ee not enabled' do
       it 'renders only the default columns' do
-        expect(header).to eq %w[ID Identifier Name Status Public]
+        expect(header).to eq %w[ID Identifier Name Description Status Public]
       end
     end
   end
