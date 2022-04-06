@@ -39,6 +39,7 @@ import { IProjectData } from './project-data';
 import { insertInList } from './insert-in-list';
 import { recursiveSort } from './recursive-sort';
 import { getPaginatedResults } from 'core-app/core/apiv3/helpers/get-paginated-results';
+import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 
 @Component({
   selector: 'op-project-include',
@@ -126,17 +127,17 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin implements On
     .pipe(
       this.untilDestroyed(),
       map((queryFilters) => {
-        const projectFilter = queryFilters.find((queryFilter) => queryFilter._type === 'ProjectQueryFilter');
+        const projectFilter = queryFilters.find((queryFilter) => idFromLink(queryFilter.filter.href) === 'project');
         const selectedProjectHrefs = ((projectFilter?.values || []) as HalResource[]).map((p) => p.href);
         const currentProjectHref = this.currentProjectService.apiv3Path;
         if (selectedProjectHrefs.includes(currentProjectHref)) {
           return selectedProjectHrefs;
         }
-        const selectedPrjects = [...selectedProjectHrefs];
+        const selectedProjects = [...selectedProjectHrefs];
         if (currentProjectHref) {
-          selectedPrjects.push(currentProjectHref);
+          selectedProjects.push(currentProjectHref);
         }
-        return selectedPrjects;
+        return selectedProjects;
       }),
     );
 
@@ -234,6 +235,7 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin implements On
     readonly apiV3Service:ApiV3Service,
     readonly I18n:I18nService,
     readonly http:HttpClient,
+    readonly wpList:WorkPackagesListService,
     readonly wpTableFilters:WorkPackageViewFiltersService,
     readonly wpIncludeSubprojects:WorkPackageViewIncludeSubprojectsService,
     readonly halResourceService:HalResourceService,
@@ -245,11 +247,20 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin implements On
   public ngOnInit():void {
     this.query$
       .pipe(
+        this.untilDestroyed(),
         map((query) => query.includeSubprojects),
         distinctUntilChanged(),
       )
       .subscribe((includeSubprojects) => {
         this.includeSubprojects = includeSubprojects;
+      });
+
+    this.projectsInFilter$
+      .pipe(
+        this.untilDestroyed(),
+      )
+      .subscribe((selectedProjects) => {
+        this.selectedProjects = selectedProjects as string[];
       });
   }
 
@@ -261,14 +272,9 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin implements On
     this.opened = !this.opened;
 
     if (this.opened) {
+      this.displayMode = 'all';
+      this.searchText = '';
       this.loadAllProjects();
-      this.projectsInFilter$
-        .pipe(take(1))
-        .subscribe((selectedProjects) => {
-          this.displayMode = 'all';
-          this.searchText = '';
-          this.selectedProjects = selectedProjects as string[];
-        });
     }
   }
 

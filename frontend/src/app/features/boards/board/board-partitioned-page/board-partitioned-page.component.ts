@@ -30,6 +30,7 @@ import { BoardFiltersService } from 'core-app/features/boards/board/board-filter
 import { CardViewHandlerRegistry } from 'core-app/features/work-packages/components/wp-card-view/event-handler/card-view-handler-registry';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { OpTitleService } from 'core-app/core/html/op-title.service';
+import { OpProjectIncludeComponent } from 'core-app/shared/components/project-include/project-include.component';
 
 export function boardCardViewHandlerFactory(injector:Injector) {
   return new CardViewHandlerRegistry(injector);
@@ -127,6 +128,9 @@ export class BoardPartitionedPageComponent extends UntilDestroyedMixin {
     {
       component: WorkPackageFilterButtonComponent,
       containerClasses: 'hidden-for-mobile',
+    },
+    {
+      component: OpProjectIncludeComponent,
     },
     {
       component: ZenModeButtonComponent,

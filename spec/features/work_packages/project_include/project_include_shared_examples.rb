@@ -215,8 +215,16 @@ shared_examples 'has a project include dropdown', type: :feature, js: true do
     dropdown.expect_count 2
 
     dropdown.toggle!
+    dropdown.expect_checkbox(other_project.id)
+    dropdown.expect_checkbox(other_sub_project.id, true)
+    dropdown.expect_checkbox(other_sub_sub_project.id)
+    dropdown.expect_checkbox(another_sub_sub_project.id)
+    dropdown.expect_checkbox(project.id, true)
+    dropdown.expect_checkbox(sub_project.id)
+    dropdown.expect_checkbox(sub_sub_project.id)
 
     dropdown.toggle_checkbox(sub_sub_project.id)
+
     dropdown.click_button 'Apply'
     dropdown.expect_closed
     dropdown.expect_count 3

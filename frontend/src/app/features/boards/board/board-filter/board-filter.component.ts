@@ -40,7 +40,9 @@ export class BoardFilterComponent extends UntilDestroyedMixin implements AfterVi
     if (!this.board$) {
       return;
     }
-
+    this.wpTableFilters.hidden.push(
+      'project',
+    );
     this.board$
       .pipe(take(1))
       .subscribe((board) => {
