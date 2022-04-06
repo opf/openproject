@@ -55,11 +55,6 @@ module SettingsHelper
         label: :'attributes.attachments'
       },
       {
-        name: 'api',
-        controller: '/admin/settings/api_settings',
-        label: :label_api_access_key_type
-      },
-      {
         name: 'repositories',
         controller:'/admin/settings/repositories_settings',
         label: :label_repository_plural
@@ -75,7 +70,8 @@ module SettingsHelper
     setting_label(setting, options) +
       wrap_field_outer(options) do
         styled_select_tag("settings[#{setting}]",
-                          options_for_select(choices, Setting.send(setting).to_s), options)
+                          options_for_select(choices, Setting.send(setting).to_s),
+                          disabled_setting_option(setting).merge(options))
       end
   end
 
@@ -85,7 +81,9 @@ module SettingsHelper
         hidden_field_tag("settings[#{setting}][]", '') +
           choices.map do |choice|
             text, value, choice_options = (choice.is_a?(Array) ? choice : [choice, choice])
-            choice_options = (choice_options || {}).merge(options.except(:id))
+            choice_options = disabled_setting_option(setting)
+                             .merge(choice_options || {})
+                             .merge(options.except(:id))
             choice_options[:id] = "#{setting}_#{value}"
 
             content_tag(:label, class: 'form--label-with-check-box') do
@@ -106,13 +104,17 @@ module SettingsHelper
 
   def setting_text_field(setting, options = {})
     setting_field_wrapper(setting, options) do
-      styled_text_field_tag("settings[#{setting}]", Setting.send(setting), options)
+      styled_text_field_tag("settings[#{setting}]",
+                            Setting.send(setting),
+                            disabled_setting_option(setting).merge(options))
     end
   end
 
   def setting_number_field(setting, options = {})
     setting_field_wrapper(setting, options) do
-      styled_number_field_tag("settings[#{setting}]", Setting.send(setting), options)
+      styled_number_field_tag("settings[#{setting}]",
+                              Setting.send(setting),
+                              disabled_setting_option(setting).merge(options))
     end
   end
 
@@ -151,7 +153,9 @@ module SettingsHelper
           value = value.join("\n")
         end
 
-        styled_text_area_tag("settings[#{setting}]", value, options)
+        styled_text_area_tag("settings[#{setting}]",
+                             value,
+                             disabled_setting_option(setting).merge(options))
       end
   end
 
@@ -159,14 +163,19 @@ module SettingsHelper
     setting_label(setting, options) +
       wrap_field_outer(options) do
         tag(:input, type: 'hidden', name: "settings[#{setting}]", value: 0, id: "settings_#{setting}_hidden") +
-          styled_check_box_tag("settings[#{setting}]", 1, Setting.send("#{setting}?"), options)
+          styled_check_box_tag("settings[#{setting}]",
+                               1,
+                               Setting.send("#{setting}?"),
+                               disabled_setting_option(setting).merge(options))
       end
   end
 
   def setting_password(setting, options = {})
     setting_label(setting, options) +
       wrap_field_outer(options) do
-        styled_password_field_tag("settings[#{setting}]", Setting.send(setting), options)
+        styled_password_field_tag("settings[#{setting}]",
+                                  Setting.send(setting),
+                                  disabled_setting_option(setting).merge(options))
       end
   end
 
@@ -219,11 +228,15 @@ module SettingsHelper
               unless exceptions.include?(setting)
                 styled_check_box_tag("settings[#{setting}][]", value,
                                      Setting.send(setting).include?(value),
-                                     id: "#{setting}_#{value}")
+                                     disabled_setting_option(setting).merge(id: "#{setting}_#{value}"))
               end
             end
           end.join.html_safe
       end
     end.join.html_safe
+  end
+
+  def disabled_setting_option(setting)
+    { disabled: !Setting.send(:"#{setting}_writable?") }
   end
 end

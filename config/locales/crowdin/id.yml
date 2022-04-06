@@ -78,6 +78,10 @@ id:
         contact: "Contact us for a demo"
       enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
       upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
+    journal_aggregation:
+      explanation:
+        text: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent and will also affect %{webhook_link} delay."
+        link: "webhook"
   announcements:
     show_until: Show until
     is_active: currently displayed
@@ -1319,7 +1323,9 @@ id:
   menus:
     admin:
       mail_notification: "Notifikasi email"
-      incoming_outgoing: "Incoming & Outgoing"
+      mails_and_notifications: "Emails and notification"
+      aggregation_and_retention: 'Aggregation and retention'
+      api_and_webhooks: "API and webhooks"
     quick_add:
       label: "Buka cepat tambah menu"
   my_account:
@@ -1819,7 +1825,7 @@ id:
   label_used_by_types: "Digunakan oleh jenis"
   label_used_in_projects: "Digunakan dalam proyek-proyek"
   label_user: "User"
-  label_user_and_permission: "Users & Permissions"
+  label_user_and_permission: "Users and permissions"
   label_user_named: "User %{name}"
   label_user_activity: "%{value} aktivitas"
   label_user_anonymous: "Anonimus"
@@ -2540,7 +2546,6 @@ id:
   text_work_packages_destroy_confirmation: "Yakin akan menghapus?"
   text_work_packages_ref_in_commit_messages: "Referencing & fixing Paket-Penugasan di pesan terkirim"
   text_journal_added: "%{label} %{value} ditambahkan"
-  text_journal_aggregation_time_explanation: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent."
   text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
   text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label} telah diupdate"

@@ -27,6 +27,10 @@ ca:
       events:
         created: "Creat"
         updated: "Updated"
+      explanation:
+        text: >
+          Upon the occurrence of an event like the creation of a work package or an update on a project, OpenProject will send a POST request to the configured web endpoints. Oftentimes, the event is sent after the %{link} has passed.
+        link: configured aggregation period
       status:
         enabled: 'Webhook is enabled'
         disabled: 'Webhook is disabled'

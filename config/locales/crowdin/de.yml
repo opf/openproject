@@ -78,6 +78,10 @@ de:
         contact: "Kontaktieren Sie uns für eine Demo"
       enterprise_info_html: "ist eine Enterprise <strong class='icon-medal'></strong> Funktion."
       upgrade_info: "Bitte steigen Sie auf einen kostenpflichtigen Plan um, um diese Funktion zu aktivieren und in Ihrem Team zu verwenden."
+    journal_aggregation:
+      explanation:
+        text: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent and will also affect %{webhook_link} delay."
+        link: "webhook"
   announcements:
     show_until: Anzeigen bis
     is_active: derzeit angezeigt
@@ -1334,7 +1338,9 @@ de:
   menus:
     admin:
       mail_notification: "Mailbenachrichtigung"
-      incoming_outgoing: "Eingehende vs. Ausgehende"
+      mails_and_notifications: "Emails and notification"
+      aggregation_and_retention: 'Aggregation and retention'
+      api_and_webhooks: "API and webhooks"
     quick_add:
       label: "Schnellmenue öffnen"
   my_account:
@@ -1834,7 +1840,7 @@ de:
   label_used_by_types: "Verwendet von Typen"
   label_used_in_projects: "Verwendet in Projekten"
   label_user: "Benutzer"
-  label_user_and_permission: "Benutzer & Berechtigungen"
+  label_user_and_permission: "Users and permissions"
   label_user_named: "Benutzer %{name}"
   label_user_activity: "Aktivität von %{value}"
   label_user_anonymous: "Anonym"
@@ -2560,7 +2566,6 @@ de:
   text_work_packages_destroy_confirmation: "Sind Sie sicher, dass Sie die ausgewählten Arbeitspakete löschen möchten?"
   text_work_packages_ref_in_commit_messages: "Arbeitspaket-Beziehungen und -Status in Commit-Log-Meldungen"
   text_journal_added: "%{label} %{value} wurde hinzugefügt"
-  text_journal_aggregation_time_explanation: "Individuelle Aktionen eines Benutzers (z. ein Arbeitspaket zweimal aktualisieren) werden zu einer einzigen Aktion zusammengefasst, wenn ihr Altersunterschied kleiner ist als der angegebene Zeitraum. Sie werden als eine einzige Aktion innerhalb der Anwendung angezeigt. Dadurch werden auch Benachrichtigungen um die gleiche Zeit verzögert, wodurch die Anzahl der gesendeten E-Mails verringert wird."
   text_journal_changed_html: "%{label} von %{old} %{linebreak}<strong>in</strong> %{new} geändert"
   text_journal_changed_plain: "%{label} geändert von %{old} %{linebreak}zu %{new}"
   text_journal_changed_no_detail: "%{label} aktualisiert"

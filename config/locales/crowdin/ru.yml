@@ -78,6 +78,10 @@ ru:
         contact: "Свяжитесь с нами для опробирования"
       enterprise_info_html: "является функцией <strong class='icon-medal'></strong> корпоративной версии."
       upgrade_info: "Пожалуйста, перейдите на платный тарифный план, чтобы активировать его и начать использовать в вашей команде."
+    journal_aggregation:
+      explanation:
+        text: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent and will also affect %{webhook_link} delay."
+        link: "webhook"
   announcements:
     show_until: Показать до
     is_active: теперь отображается
@@ -1372,7 +1376,9 @@ ru:
   menus:
     admin:
       mail_notification: "Уведомления по электронной почте"
-      incoming_outgoing: "Входящие и исходящие"
+      mails_and_notifications: "Emails and notification"
+      aggregation_and_retention: 'Aggregation and retention'
+      api_and_webhooks: "API and webhooks"
     quick_add:
       label: "Открыть меню быстрого добавления"
   my_account:
@@ -1872,7 +1878,7 @@ ru:
   label_used_by_types: "Используемые типы"
   label_used_in_projects: "Используется в проектах"
   label_user: "Пользователь"
-  label_user_and_permission: "Пользователи и права доступа"
+  label_user_and_permission: "Users and permissions"
   label_user_named: "Пользователь %{name}"
   label_user_activity: "%{value} деятельности"
   label_user_anonymous: "Анонимно"
@@ -2599,7 +2605,6 @@ ru:
   text_work_packages_destroy_confirmation: "Вы уверены, что хотите удалить выбранные пакет(-ы) работ?"
   text_work_packages_ref_in_commit_messages: "Привязка и фиксация пакетов работ в сообщениях коммитов"
   text_journal_added: "%{label} %{value} добавлено"
-  text_journal_aggregation_time_explanation: "Личные действия пользователя (напр. обновление пакета работ дважды) агрегируются в одно действие, если их разница в возрасте меньше указанного промежутка времени. Они будут отображаться как одно действие внутри приложения. Это также задерживает уведомления на то же количество времени, уменьшая количество отправляемых сообщений."
   text_journal_changed_html: "%{label} изменено с %{old} %{linebreak}<strong>на</strong> %{new}"
   text_journal_changed_plain: "%{label} изменено с %{old} %{linebreak}на %{new}"
   text_journal_changed_no_detail: "%{label} обновлено"

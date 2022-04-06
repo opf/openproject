@@ -106,6 +106,14 @@ describe 'API v3 work packages resource with filters for the linkable to storage
         end
       end
 
+      context 'if a project has the storages module deactivated' do
+        let(:project1) { create(:project, disable_modules: :storages, members: { current_user => role1 }) }
+
+        it_behaves_like 'API V3 collection response', 2, 2, 'WorkPackage', 'WorkPackageCollection' do
+          let(:elements) { [work_package3, work_package4] }
+        end
+      end
+
       context 'if the filter is set to an unknown storage id' do
         let(:storage_id) { "1337" }
 
@@ -137,6 +145,14 @@ describe 'API v3 work packages resource with filters for the linkable to storage
 
         it_behaves_like 'API V3 collection response', 2, 2, 'WorkPackage', 'WorkPackageCollection' do
           let(:elements) { [work_package1, work_package2] }
+        end
+      end
+
+      context 'if a project has the storages module deactivated' do
+        let(:project1) { create(:project, disable_modules: :storages, members: { current_user => role1 }) }
+
+        it_behaves_like 'API V3 collection response', 2, 2, 'WorkPackage', 'WorkPackageCollection' do
+          let(:elements) { [work_package3, work_package4] }
         end
       end
 

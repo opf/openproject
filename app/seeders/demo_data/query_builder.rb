@@ -52,7 +52,8 @@ module DemoData
         public: config.fetch(:public, true),
         starred: config.fetch(:starred, false),
         show_hierarchies: config.fetch(:hierarchy, false),
-        timeline_visible: config.fetch(:timeline, false)
+        timeline_visible: config.fetch(:timeline, false),
+        include_subprojects: true
       }
     end
 

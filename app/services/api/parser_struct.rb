@@ -26,28 +26,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module OpenProject::Reporting::Patches
-  module OpenProject::ConfigurationPatch
-    def self.included(base)
-      base.class_eval do
-        extend ModuleMethods
-
-        @defaults['cost_reporting_cache_filter_classes'] = true
-
-        if config_loaded_before_patch?
-          @config['cost_reporting_cache_filter_classes'] = true
-        end
-      end
-    end
-
-    module ModuleMethods
-      def config_loaded_before_patch?
-        @config.present? && !@config.has_key?('cost_reporting_cache_filter_classes')
-      end
-
-      def cost_reporting_cache_filter_classes
-        @config['cost_reporting_cache_filter_classes']
-      end
+module API
+  class ParserStruct < ::Hashie::Mash
+    ##
+    # TODO: Hashie::Mash extends from Hash and
+    # does not allow overriding any enumerable methods.
+    #
+    # This clashed with moving the queries services to BaseContracted,
+    # as we now use a +group_by+ attribute clashing with +Enumerable#group_by#.
+    # This redefines the method to ensure it works with queries, but does not solve the underlying issue.
+    def group_by
+      self[:group_by]
     end
   end
 end

@@ -149,7 +149,7 @@ describe Admin::Settings::ProjectsSettingsController, type: :controller do
           password_min_adhered_rules: 0,
           password_days_valid: 365,
           password_count_former_banned: 2,
-          lost_password: 1
+          lost_password: true
         }
       end
 
@@ -160,7 +160,7 @@ describe Admin::Settings::ProjectsSettingsController, type: :controller do
           password_min_adhered_rules: 7,
           password_days_valid: 13,
           password_count_former_banned: 80,
-          lost_password: 3
+          lost_password: false
         }
       end
 
@@ -214,8 +214,8 @@ describe Admin::Settings::ProjectsSettingsController, type: :controller do
           expect(Setting[:password_count_former_banned]).to eq 80
         end
 
-        it 'sets the lost password option to the nonsensical 3' do
-          expect(Setting[:lost_password]).to eq 3
+        it 'sets the lost password option to false' do
+          expect(Setting[:lost_password]).to be false
         end
       end
 
@@ -250,8 +250,8 @@ describe Admin::Settings::ProjectsSettingsController, type: :controller do
           expect(Setting[:password_count_former_banned]).to eq 2
         end
 
-        it 'does not set the lost password option to the nonsensical 3' do
-          expect(Setting[:lost_password]).to eq 1
+        it 'keeps the lost password option' do
+          expect(Setting[:lost_password]).to be true
         end
       end
     end

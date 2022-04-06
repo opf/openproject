@@ -78,6 +78,10 @@ lt:
         contact: "Susisiekite su mumis dėl demonstracijos"
       enterprise_info_html: "yra Enterprise <strong class='icon-medal'></strong> savybė."
       upgrade_info: "Prašome atsinaujinti į mokamą planą, kad aktyvuotumėte ir pradėtumėte ji naudoti savo komandoje."
+    journal_aggregation:
+      explanation:
+        text: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent and will also affect %{webhook_link} delay."
+        link: "webhook"
   announcements:
     show_until: Rodyti iki
     is_active: šiuo metu rodoma
@@ -1260,7 +1264,7 @@ lt:
   error_enterprise_token_invalid_domain: "Enterprise Edition neaktyvi. Jūsų Enterprise rakto domenas (%{actual}) nesutampa su jūsų sistemos serverio vardu (%{expected})."
   error_failed_to_delete_entry: 'Šio įrašo nepavyko panaikinti.'
   error_in_dependent: "Klaida bandant pakeisti priklausomą objektą: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
-  error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
+  error_in_new_dependent: "Klaida bandant sukurti priklausomą objektą: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Netinkama parinkta reikšmė."
   error_journal_attribute_not_present: "Žurnale nėra atributo %{attribute}."
   error_pdf_export_too_many_columns: "PDF eksportavimui pasirinkta per daug stulpelių. Prašome sumažinti stulpelių skaičių."
@@ -1370,7 +1374,9 @@ lt:
   menus:
     admin:
       mail_notification: "El. pašto priminimai"
-      incoming_outgoing: "Įeinantis ir išeinantis"
+      mails_and_notifications: "Emails and notification"
+      aggregation_and_retention: 'Aggregation and retention'
+      api_and_webhooks: "API and webhooks"
     quick_add:
       label: "Atidaryti greitą pridėjimo meniu"
   my_account:
@@ -1870,7 +1876,7 @@ lt:
   label_used_by_types: "Naudojama šių tipų"
   label_used_in_projects: "Naudojama šių projektų"
   label_user: "Vartotojas"
-  label_user_and_permission: "Naudotojai ir leidimai"
+  label_user_and_permission: "Users and permissions"
   label_user_named: "Naudotojas %{name}"
   label_user_activity: "%{value} veikla"
   label_user_anonymous: "Anonimas"
@@ -2597,7 +2603,6 @@ lt:
   text_work_packages_destroy_confirmation: "Ar tikrai norite ištrinti pasirinktus(-ą) darbų paketus(-ą)?"
   text_work_packages_ref_in_commit_messages: "Darbų paketų susiejimas ir taisymas pavedimų žinutėse"
   text_journal_added: "%{label} %{value} pridėtas"
-  text_journal_aggregation_time_explanation: "Visi atskiri naudotojo veiksmai (t.y. darbų paketo atnaujinimas du kartus) yra sugrupuojami į vieną veiksmą, jei laiko tarpas tarp jų yra mažesnis už šį nustatymą. Programoje jie bus rodomi kaip vienas veiksmas. Tiek pat bus pavėlinti ir pranešimai. Dėl to sumažės siunčiamų el.laiškų skaičius."
   text_journal_changed_html: "%{label} pakeista iš %{old} %{linebreak}<strong>į</strong> %{new}"
   text_journal_changed_plain: "%{label} pakeista iš %{old} %{linebreak}į %{new}"
   text_journal_changed_no_detail: "%{label} atnaujintas"
@@ -2915,7 +2920,7 @@ lt:
         work_package: "Jūsų ieškomas darbo paketas nerastas arba ištrintas."
       expected:
         date: "YYYY-MM-DD (ISO 8601 date only)"
-        datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm] (any compatible ISO 8601 datetime)"
+        datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm] (bet kokia ISO 8601 data/laikas)"
         duration: "ISO 8601 trukmė"
       invalid_content_type: "Laukiamas turinio tipas turi būti „%{content_type}“, bet gautas „%{actual}“."
       invalid_format: "Netinkamas formatas ypatybei '%{property}': tikėtasi panašaus į '%{expected_format}', bet gautas '%{actual}'."
@@ -2927,7 +2932,7 @@ lt:
         select: "Prašomas %{invalid} pasirinkimas yra nepalaikomas. Palaikomi pasirinkimai yra %{supported}."
       invalid_user_status_transition: "Esama vartotojo paskyros būsena neleidžia šios operacijos."
       missing_content_type: "nenurodyta"
-      missing_property: "Missing property '%{property}'."
+      missing_property: "Trūkstama savybė '%{property}'."
       missing_request_body: "Nėra užklausos turinio."
       missing_or_malformed_parameter: "Užklausos '%{parameter}' parametras neegzistuoja arba yra neteisingai suformuluotas."
       multipart_body_error: "Užklausos turinys neturi laukiamų dalių."

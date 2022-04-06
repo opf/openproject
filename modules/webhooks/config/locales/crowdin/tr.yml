@@ -27,6 +27,10 @@ tr:
       events:
         created: "Oluşturuldu"
         updated: "Güncellenmiş"
+      explanation:
+        text: >
+          Upon the occurrence of an event like the creation of a work package or an update on a project, OpenProject will send a POST request to the configured web endpoints. Oftentimes, the event is sent after the %{link} has passed.
+        link: configured aggregation period
       status:
         enabled: 'Web kancası etkin'
         disabled: 'Web kancası devre dışı'

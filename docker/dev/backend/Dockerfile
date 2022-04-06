@@ -1,4 +1,4 @@
-FROM ruby:3.0.3-buster as develop
+FROM ruby:3.0.3-bullseye as develop
 MAINTAINER operations@openproject.com
 
 ARG DEV_UID=1000
@@ -23,7 +23,7 @@ WORKDIR /home/$USER
 
 RUN apt-get update -qq && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
-    postgresql-client
+    postgresql-client libffi7 libffi-dev
 
 COPY ./docker/dev/backend/scripts/setup /usr/sbin/setup
 COPY ./docker/dev/backend/scripts/run-app /usr/sbin/run-app

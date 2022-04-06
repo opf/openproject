@@ -23,8 +23,8 @@ uk:
   js:
     ajax:
       hide: "Приховати"
-      loading: "Завантаження ..."
-      updating: "Updating ..."
+      loading: "Loading…"
+      updating: "Updating…"
     attachments:
       draggable_hint: |
         Перетягніть поле редактора, щоб вбудувати зображення або вкладені посилання. Закриті поля редактора будуть відкриті, коли ви продовжуватимете перетягувати.
@@ -287,15 +287,15 @@ uk:
           learn_about: "Дізнатися більше про нові функції"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_0':
+          '12_1':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
+              learn_about_link: https://www.openproject.org/openproject-12-1-release
               new_features_html: >
-                Випуск містить різні функції та поліпшення: <br> <ul class="%{list_styling_class}"> <li>Завдяки новим <b>сповіщенням у додатку</b> ви отримуватимете всі важливі оновлення напряму, тож ваша поштова скринька не засмічуватиметься.</li> <li>Новий <b>центр сповіщень</b> показує всі зміни, включно з інтуїтивно зрозумілими фільтрами, напр., за причиною сповіщення або проєктами. Ви навіть можете виконувати редагування напряму в режимі розділеного екрана.</li> <li>Удосконалені <b>параметри сповіщень</b> дають змогу точно налаштувати дії та проєкти, щодо яких ви хочете отримувати сповіщення.</li> <li><b>Нагадування електронною поштою</b> можна налаштувати, щоб отримувати важливі щоденні зведення оновлень.</li> <li>Автозавершувач пакета робіт для зв’язків зараз також показує додаткову інформацію  (назву проєкту, статус тощо), щоб легко визначати відповідний пакет робіт.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A <b>new team planner module</b> (Enterprise feature) allows you to visually assign tasks to team members to get an overview of who is working on what.</li> <li>We are <b>releasing the basic agile boards</b> for the Community version.</li> <li>The <b>"Include Projects" filter</b> option makes it easier to add different projects to your views, such as for work packages, calendars, and team planners.</li> <li>We added <b>a new "Files" tab</b> in the work package details to have all possible information attached to a work package together.</li> <li>We created <b>global roles for groups</b> to assign these roles to groups and create superuser groups.</li> <li>Project status was given more options to choose from.</li> </ul>
             bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
+              learn_about_link: https://www.openproject.org/openproject-12-1-release
               new_features_html: >
-                Випуск містить багато нових функцій і поліпшень. <br> <ul class="%{list_styling_class}"> <li>Центр сповіщень: кількість сповіщень буде зменшено. Натомість усі сповіщення можна знайти та обробити в одному місці.</li> <li>Усі передані файли IFC теж можна буде завантажити.</li> <li>Передавання та обробка файлів IFC стали швидшими, а повідомлення про помилки – точнішими.</li> <li>Виправлено багато помилок надбудови <a href="https://github.com/opf/openproject-revit-add-in">OpenProject Revit</a>.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>In the BCF module you can now save your selected work package filters, columns etc. as <b>views</b> and share those with your team members.</li> <li>A <b>new team planner module</b> (Enterprise feature) allows you to visually assign tasks to team members to get an overview of who is working on what.</li> <li>We are <b>releasing the basic agile boards</b> for the Community version.</li> <li>The <b>"Include Projects" filter</b> option makes it easier to add different projects to your views, such as for work packages, calendars, and team planners.</li> <li>We added <b>a new "Files" tab</b> in the work package details to have all possible information attached to a work package together.</li> <li>We created <b>global roles for groups</b> to assign these roles to groups and create superuser groups.</li> <li>Project status was given more options to choose from.</li> </ul>
     label_activate: "Активувати"
     label_add_column_after: "Додати стовпець після"
     label_add_column_before: "Додати стовпець перед"
@@ -998,6 +998,7 @@ uk:
         relations: Зв'язки
         watchers: Спостерігачі
         files: Файли
+        files_tab_migration_help: 'You can now attach files to work packages via the new tab:'
       time_relative:
         days: "днів"
         weeks: "тижнів"
@@ -1171,7 +1172,7 @@ uk:
           group: 'Ця група тепер входить у проєкт «%{project}». Тим часом ви вже можете включати її в план і призначати їй пакети робіт.'
         next_button: 'Продовжити'
     include_projects:
-      toggle_title: 'Включити проєкти'
+      toggle_title: 'Include projects'
       title: 'Проекти'
       clear_selection: 'Очистити вибране'
       apply: 'Застосувати'

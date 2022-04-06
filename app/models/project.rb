@@ -71,7 +71,7 @@ class Project < ApplicationRecord
   }, dependent: :destroy
   has_many :time_entries, dependent: :delete_all
   has_many :time_entry_activities_projects, dependent: :delete_all
-  has_many :queries, dependent: :delete_all
+  has_many :queries, dependent: :destroy
   has_many :news, -> { includes(:author) }, dependent: :destroy
   has_many :categories, -> { order("#{Category.table_name}.name") }, dependent: :delete_all
   has_many :forums, -> { order('position ASC') }, dependent: :destroy
