@@ -32,8 +32,9 @@ module API
           elements: WorkPackageSqlRepresenter
         }.with_indifferent_access
 
-        property :_type,
-                 representation: ->(*) { "'WorkPackageCollection'" }
+        def self._type
+          'WorkPackageCollection'
+        end
       end
     end
   end
