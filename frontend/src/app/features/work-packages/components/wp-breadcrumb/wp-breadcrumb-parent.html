@@ -2,7 +2,7 @@
   <a *ngIf="parent"
     [attr.title]="parent.name"
     uiSref="work-packages.show.tabs"
-    [uiParams]="{ workPackageId: parent.id }"
+    [uiParams]="{workPackageId: parent.id}"
     class="op-wp-breadcrumb-parent nocut"
     data-qa-selector="op-wp-breadcrumb-parent">
     <span [textContent]="parent.name"></span>
