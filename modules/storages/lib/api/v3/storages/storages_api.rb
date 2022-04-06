@@ -35,14 +35,12 @@ module API
     module Storages
       # OpenProjectAPI is a simple subclass of Grape::API that handles patches.
       class StoragesAPI < ::API::OpenProjectAPI
-        helpers do
-          def visible_storages_scope
-            ::Storages::Storage.visible(current_user)
-          end
-        end
+        # helpers is defined by the grape framework. They make methods from the
+        # module available from within the endpoint context.
+        helpers API::V3::Utilities::StoragesHelpers
 
         before do
-          raise ::API::Errors::NotFound unless OpenProject::FeatureDecisions.storages_module_active?
+          reply_with_not_found_if_module_inactive
         end
 
         # The `:resources` keyword defines the API namespace -> /api/v3/storages/...
