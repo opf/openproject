@@ -55,7 +55,7 @@ module Components
     end
 
     def search(term)
-      page.find("[data-qa-selector='op-add-existing-pane--search-input']").set(term)
+      page.find("[data-qa-selector='op-add-existing-pane--search-input'] input").set(term)
     end
 
     def expect_result(work_package, visible: true)

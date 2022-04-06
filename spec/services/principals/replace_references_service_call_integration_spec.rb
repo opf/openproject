@@ -380,7 +380,13 @@ describe Principals::ReplaceReferencesService, '#call', type: :model do
     context 'with Query' do
       it_behaves_like 'rewritten record',
                       :query,
-                      :user_id
+                      :user_id do
+        let(:attributes) do
+          {
+            include_subprojects: true
+          }
+        end
+      end
     end
 
     context 'with CostQuery' do

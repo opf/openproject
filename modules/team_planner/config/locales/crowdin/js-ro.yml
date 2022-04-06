@@ -2,7 +2,7 @@
 ro:
   js:
     team_planner:
-      add_existing: 'Add Existing'
+      add_existing: 'Add existing'
       create_new: 'New team planner'
       title: 'Planificator de echipă'
       unsaved_title: 'Unnamed team planner'

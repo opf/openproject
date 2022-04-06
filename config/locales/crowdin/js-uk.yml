@@ -23,8 +23,8 @@ uk:
   js:
     ajax:
       hide: "Приховати"
-      loading: "Завантаження ..."
-      updating: "Updating ..."
+      loading: "Loading…"
+      updating: "Updating…"
     attachments:
       draggable_hint: |
         Перетягніть поле редактора, щоб вбудувати зображення або вкладені посилання. Закриті поля редактора будуть відкриті, коли ви продовжуватимете перетягувати.
@@ -287,15 +287,15 @@ uk:
           learn_about: "Дізнатися більше про нові функції"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_0':
+          '12_1':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
+              learn_about_link: https://www.openproject.org/openproject-12-1-release
               new_features_html: >
-                Випуск містить різні функції та поліпшення: <br> <ul class="%{list_styling_class}"> <li>Завдяки новим <b>сповіщенням у додатку</b> ви отримуватимете всі важливі оновлення напряму, тож ваша поштова скринька не засмічуватиметься.</li> <li>Новий <b>центр сповіщень</b> показує всі зміни, включно з інтуїтивно зрозумілими фільтрами, напр., за причиною сповіщення або проєктами. Ви навіть можете виконувати редагування напряму в режимі розділеного екрана.</li> <li>Удосконалені <b>параметри сповіщень</b> дають змогу точно налаштувати дії та проєкти, щодо яких ви хочете отримувати сповіщення.</li> <li><b>Нагадування електронною поштою</b> можна налаштувати, щоб отримувати важливі щоденні зведення оновлень.</li> <li>Автозавершувач пакета робіт для зв’язків зараз також показує додаткову інформацію  (назву проєкту, статус тощо), щоб легко визначати відповідний пакет робіт.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A <b>new team planner module</b> (Enterprise feature) allows you to visually assign tasks to team members to get an overview of who is working on what.</li> <li>We are <b>releasing the basic agile boards</b> for the Community version.</li> <li>The <b>"Include Projects" filter</b> option makes it easier to add different projects to your views, such as for work packages, calendars, and team planners.</li> <li>We added <b>a new "Files" tab</b> in the work package details to have all possible information attached to a work package together.</li> <li>We created <b>global roles for groups</b> to assign these roles to groups and create superuser groups.</li> <li>Project status was given more options to choose from.</li> </ul>
             bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
+              learn_about_link: https://www.openproject.org/openproject-12-1-release
               new_features_html: >
-                Випуск містить багато нових функцій і поліпшень. <br> <ul class="%{list_styling_class}"> <li>Центр сповіщень: кількість сповіщень буде зменшено. Натомість усі сповіщення можна знайти та обробити в одному місці.</li> <li>Усі передані файли IFC теж можна буде завантажити.</li> <li>Передавання та обробка файлів IFC стали швидшими, а повідомлення про помилки – точнішими.</li> <li>Виправлено багато помилок надбудови <a href="https://github.com/opf/openproject-revit-add-in">OpenProject Revit</a>.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>In the BCF module you can now save your selected work package filters, columns etc. as <b>views</b> and share those with your team members.</li> <li>A <b>new team planner module</b> (Enterprise feature) allows you to visually assign tasks to team members to get an overview of who is working on what.</li> <li>We are <b>releasing the basic agile boards</b> for the Community version.</li> <li>The <b>"Include Projects" filter</b> option makes it easier to add different projects to your views, such as for work packages, calendars, and team planners.</li> <li>We added <b>a new "Files" tab</b> in the work package details to have all possible information attached to a work package together.</li> <li>We created <b>global roles for groups</b> to assign these roles to groups and create superuser groups.</li> <li>Project status was given more options to choose from.</li> </ul>
     label_activate: "Активувати"
     label_add_column_after: "Додати стовпець після"
     label_add_column_before: "Додати стовпець перед"
@@ -455,7 +455,7 @@ uk:
     label_global_queries: "Види громадськості"
     label_custom_queries: "Приватні види"
     label_columns: "Стовпці"
-    label_attachments: Файли
+    label_attachments: Вкладення
     label_drop_files: Перетягніть файли сюди
     label_drop_files_hint: або клацніть, щоб додати файли
     label_drop_folders_hint: Ви не можете завантажувати теки як вкладення. Будь ласка, оберіть окремі файли.
@@ -499,7 +499,8 @@ uk:
           task_board: "Панель завдань візуалізує <b>перебіг цього спринту</b>. Натисніть на знак плюса (+) біля історії користувача, щоб додати нові завдання або перешкоди. <br> Стан можна оновити перетягуванням."
         boards:
           overview: 'Виберіть <b>дошки</b>, щоб зсунути подання та керувати своїм проєктом за допомогою подання дощок Agile.'
-          lists: 'Тут можна створити кілька списків (стовпців) у межах дошки. Ця функція дає змогу створити, наприклад, <b>дошку Kanban</b>.'
+          lists_kanban: 'Тут можна створити кілька списків (стовпців) у межах дошки. Ця функція дає змогу створити, наприклад, <b>дошку Kanban</b>.'
+          lists_basic: 'Here you can create multiple lists (columns) within your agile board.'
           add: 'Натисніть знак плюса (+), щоб <b>створити картку</b> або <b>додати наявну картку</b> до списку на дошці.'
           drag: 'Перевпорядкуйте картки в межах даного списку, перетягуючи їх, або перемістіть їх до іншого списку. Щоб переглянути докладні відомості, натисніть значок інформації (i) у верхньому правому куті або двічі натисніть картку.'
         wp:
@@ -510,6 +511,12 @@ uk:
           create_button: 'Кнопка <b>+ Створити</b> додасть новий пакет робіт до вашого проєкту.'
           timeline_button: 'Ви можете активувати <b>діаграму Ґанта</b>, щоб створити часову шкалу для свого проєкту.'
           timeline: 'Тут можна <b>відредагувати свій план проєкту</b>, створити нові пакети робіт, наприклад завдання, віхи, етапи тощо, а також <b>додати залежності</b>. Усі учасники команди зможуть будь-коли побачити й оновити останній план.'
+        team_planner:
+          overview: 'The team planner lets you visually assign tasks to team members and get an overview of who is working on what.'
+          calendar: 'The weekly or biweekly planning board displays all work packages assigned to your team members.'
+          add_assignee: 'To get started, add assignees to the team planner.'
+          add_existing: 'Search for existing work packages and drag them to the team planner to instantly assign them to a team member and define start and end dates.'
+          card: 'Drag work packages horizontally to move them backwards or forwards in time, drag the edges to change start and end dates and even drag them vertically to a different row to assign them to another member.'
     notifications:
       title: "Сповіщення"
       no_unread: "Немає непрочитаних сповіщень"
@@ -990,7 +997,8 @@ uk:
         activity: Активність
         relations: Зв'язки
         watchers: Спостерігачі
-        attachments: Вкладення
+        files: Файли
+        files_tab_migration_help: 'You can now attach files to work packages via the new tab:'
       time_relative:
         days: "днів"
         weeks: "тижнів"
@@ -1164,7 +1172,7 @@ uk:
           group: 'Ця група тепер входить у проєкт «%{project}». Тим часом ви вже можете включати її в план і призначати їй пакети робіт.'
         next_button: 'Продовжити'
     include_projects:
-      toggle_title: 'Включити проєкти'
+      toggle_title: 'Include projects'
       title: 'Проекти'
       clear_selection: 'Очистити вибране'
       apply: 'Застосувати'

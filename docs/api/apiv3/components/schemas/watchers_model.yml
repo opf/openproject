@@ -1,6 +1,35 @@
 # Schema: WatchersModel
 ---
-type: object
+allOf:
+  - "$ref": "./collection_model.yml"
+  - type: object
+    required:
+      - _links
+      - _embedded
+    properties:
+      _links:
+        type: object
+        required:
+        - self
+        properties:
+          self:
+            allOf:
+            - "$ref": "./link.yml"
+            - description: |-
+                The watcher list
+                
+                **Resource**: WatchersModel
+              readOnly: true
+      _embedded:
+        type: object
+        properties:
+          elements:
+            type: array
+            readOnly: true
+            items:
+              allOf:
+              - "$ref": "./user_model.yml"
+              - description: Collection of Users
 example:
   _links:
     self:

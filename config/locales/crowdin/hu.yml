@@ -78,6 +78,10 @@ hu:
         contact: "Contact us for a demo"
       enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
       upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
+    journal_aggregation:
+      explanation:
+        text: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent and will also affect %{webhook_link} delay."
+        link: "webhook"
   announcements:
     show_until: Mutassa eddig
     is_active: jelenleg látható
@@ -1234,6 +1238,7 @@ hu:
   error_enterprise_token_invalid_domain: "Az Enterprise Edition nem aktív. Vállalati jogkivonata domainje (%{actual}) nem egyezik a rendszer gazdagépnevével (%{expected})."
   error_failed_to_delete_entry: 'Nem sikerült törölni ezt a bejegyzést.'
   error_in_dependent: "Hiba a függő objektum módosítása során: %{dependent_class} # %{related_id} - %{related_subject}: %{error}\n"
+  error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Kijelölt érték érvénytelen."
   error_journal_attribute_not_present: "A lap nem tartalmaz attribútumot %{attribute}."
   error_pdf_export_too_many_columns: "Túl sok oszlop lett kiválasztva a PDF exportáláshoz. Kérlek csökkentsd a sorok számát."
@@ -1343,7 +1348,9 @@ hu:
   menus:
     admin:
       mail_notification: "Email értesítés"
-      incoming_outgoing: "Bejövő/Kimenő"
+      mails_and_notifications: "Emails and notification"
+      aggregation_and_retention: 'Aggregation and retention'
+      api_and_webhooks: "API and webhooks"
     quick_add:
       label: "Gyorsmenü megnyitása"
   my_account:
@@ -1843,7 +1850,7 @@ hu:
   label_used_by_types: "Használt típusok szerint"
   label_used_in_projects: "Használt projektek szerint"
   label_user: "Felhasználó"
-  label_user_and_permission: "Felhasználók és jogok"
+  label_user_and_permission: "Users and permissions"
   label_user_named: "Felhasználó: %{name}"
   label_user_activity: "%{value} tevékenység"
   label_user_anonymous: "Anonymous"
@@ -2572,7 +2579,6 @@ hu:
   text_work_packages_destroy_confirmation: "Biztosan törli a kijelölt feladatcsoportot?"
   text_work_packages_ref_in_commit_messages: "Viszonyítandó és elintézendő feladatcsoportok a véglegesítési üzenetekben"
   text_journal_added: "%{label} %{value} hozzáadva"
-  text_journal_aggregation_time_explanation: "A felhasználó egyes műveletei (pl. Egy munkacsomag kétszeri frissítése) egyetlen műveletbe kerülnek össze, ha korkülönbségük kisebb, mint a megadott időtartam. Ezek egyetlen műveletként jelennek meg az alkalmazásban. Ez szintén késlelteti az értesítéseket ugyanannyi idővel, csökkentve az elküldött e -mailek számát.\n"
   text_journal_changed_html: "%{label} megváltoztatva %{old} %{linebreak} <strong>, új érték: </strong> %{new}\n"
   text_journal_changed_plain: "%{label} megváltozott %{old} %{linebreak}-tól %{new} -ig"
   text_journal_changed_no_detail: "%{label} frissítve"
@@ -2888,6 +2894,7 @@ hu:
         work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:
         date: "ÉÉÉÉ-HH-NN (ISO 8601 dátum kötelező)"
+        datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm] (any compatible ISO 8601 datetime)"
         duration: "ISO 8601 időtartam"
       invalid_content_type: "A várt CONTENT-TYPE '%{content_type}', a kapott '%{actual}'."
       invalid_format: "Érvénytelen formátum tulajdonság \"%{property}\": várható formátum \"%{expected_format}\", de \"%{actual}\" kapott."
@@ -2899,6 +2906,7 @@ hu:
         select: "A %{invalid} kért kiválasztása nem támogatott. A támogatott kiválasztások %{supported}."
       invalid_user_status_transition: "A jelenlegi felhasználói fiók állapota nem teszi lehetővé ezt a műveletet."
       missing_content_type: "nincs megadva"
+      missing_property: "Missing property '%{property}'."
       missing_request_body: "Nem volt kérelem."
       missing_or_malformed_parameter: "A(z) '%{parameter}' lekérdezési paraméter hiányzik vagy hibás."
       multipart_body_error: "A kérelem nem tartalmazott várható többrészes elemet."

@@ -71,7 +71,7 @@ zh-TW:
       text_2fa_enabled: '每次登錄時, 都會要求該使用者從預設的2FA 設備中取得 OTP 密碼。'
       text_2fa_disabled: "使用者沒有透過【我的帳戶】頁面進行建立一個2FA設備的動作。"
     upsale:
-      title: 'Two-factor authentication'
+      title: '雙重身分驗證'
       description: '請使用第二種的認證方式加強您內部或外部的認證機制'
     backup_codes:
       none_found: 這個帳戶沒有存在備份代碼
@@ -165,7 +165,7 @@ zh-TW:
   label_confirmed: '已確認'
   button_continue: '繼續'
   button_make_default: '標記為預設值'
-  label_unverified_phone: "Cell phone not yet verified"
+  label_unverified_phone: "手機尚未驗證"
   notice_phone_number_format: "請輸入以下格式的號碼: + XX XXXXXXXX。"
   text_otp_not_receive: "其他驗證方法"
   text_send_otp_again: "通過以下操作，重新發送一次性密碼:"

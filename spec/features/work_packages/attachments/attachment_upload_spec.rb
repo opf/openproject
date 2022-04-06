@@ -1,10 +1,38 @@
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2022 the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
 require 'spec_helper'
 require 'features/page_objects/notification'
 
 describe 'Upload attachment to work package', js: true do
   let(:role) do
     create :role,
-           permissions: %i[view_work_packages add_work_packages edit_work_packages]
+           permissions: %i[view_work_packages add_work_packages edit_work_packages add_work_package_notes]
   end
   let(:dev) do
     create :user,
@@ -28,7 +56,7 @@ describe 'Upload attachment to work package', js: true do
   end
 
   describe 'wysiwyg editor' do
-    context 'on an existing page' do
+    context 'when on an existing page' do
       before do
         wp_page.visit!
         wp_page.ensure_page_loaded
@@ -76,7 +104,7 @@ describe 'Upload attachment to work package', js: true do
       end
     end
 
-    context 'on a new page' do
+    context 'when on a new page' do
       shared_examples 'it supports image uploads via drag & drop' do
         let!(:new_page) { Pages::FullWorkPackageCreate.new }
         let!(:type) { create(:type_task) }
@@ -154,9 +182,32 @@ describe 'Upload attachment to work package', js: true do
   end
 
   describe 'attachment dropzone' do
+    it 'can drag something to the files tab and have it open' do
+      wp_page.expect_tab 'Activity'
+      attachments.drag_and_drop_file '.wp-attachment-upload',
+                                     image_fixture.path,
+                                     :center,
+                                     page.find('[data-qa-tab-id="files"]')
+
+      expect(page).to have_selector('.work-package--attachments--filename', text: 'image.png', wait: 10)
+      expect(page).not_to have_selector('op-toasters-upload-progress')
+      wp_page.expect_tab 'Files'
+    end
+
+    it 'can drag something from the files tab and create a comment with it' do
+      wp_page.switch_to_tab(tab: 'files')
+
+      attachments.drag_and_drop_file '.work-package-comment',
+                                     image_fixture.path,
+                                     :center,
+                                     page.find('[data-qa-tab-id="activity"]')
+
+      wp_page.expect_tab 'Activity'
+    end
+
     it 'can upload an image via attaching and drag & drop' do
+      wp_page.switch_to_tab(tab: 'files')
       container = page.find('.wp-attachment-upload')
-      scroll_to_element(container)
 
       ##
       # Attach file manually

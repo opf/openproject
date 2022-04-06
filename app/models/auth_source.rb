@@ -29,6 +29,8 @@
 class AuthSource < ApplicationRecord
   include Redmine::Ciphering
 
+  class Error < ::StandardError; end
+
   has_many :users
 
   validates :name,

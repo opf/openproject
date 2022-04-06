@@ -31,6 +31,8 @@ module BaseServices
     include Contracted
 
     def initialize(user:, model:, contract_class:, contract_options: {})
+      super()
+
       self.user = user
       self.model = prepare_model(model)
 

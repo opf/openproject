@@ -50,8 +50,13 @@ describe 'API v3 file links resource', type: :request do
   let(:file_link) do
     create(:file_link, creator: current_user, container: work_package, storage: storage)
   end
-  let(:another_file_link) do
+  let(:file_link_of_other_work_package) do
     create(:file_link, creator: current_user, container: another_work_package, storage: storage)
+  end
+  # If a storage mapping between a project and a storage is removed, the file link still persist. This can occur on
+  # moving a work package to another project, too, if target project does not yet have the storage mapping.
+  let(:file_link_of_unlinked_storage) do
+    create(:file_link, creator: current_user, container: work_package, storage: another_storage)
   end
 
   subject(:response) { last_response }
@@ -65,7 +70,8 @@ describe 'API v3 file links resource', type: :request do
 
     before do
       file_link
-      another_file_link
+      file_link_of_other_work_package
+      file_link_of_unlinked_storage
       get path
     end
 
@@ -75,6 +81,14 @@ describe 'API v3 file links resource', type: :request do
 
     context 'if user has not sufficient permissions' do
       let(:permissions) { %i(view_work_packages) }
+
+      it_behaves_like 'API V3 collection response', 0, 0, 'FileLink', 'Collection' do
+        let(:elements) { [] }
+      end
+    end
+
+    context 'if storages module is deactivated for the work package\'s project' do
+      let(:project) { create(:project, disable_modules: :storages) }
 
       it_behaves_like 'API V3 collection response', 0, 0, 'FileLink', 'Collection' do
         let(:elements) { [] }
@@ -162,15 +176,17 @@ describe 'API v3 file links resource', type: :request do
 
     context 'when some file link elements with matching origin_id, container, and storage already exist in database' do
       let(:existing_file_link) do
-        create(:file_link, origin_name: 'original name',
-                           creator: current_user,
-                           container: work_package,
-                           storage: storage)
+        create(:file_link,
+               origin_name: 'original name',
+               creator: current_user,
+               container: work_package,
+               storage: storage)
       end
       let(:already_existing_file_link_payload) do
-        build(:file_link_element, origin_name: 'new name',
-                                  origin_id: existing_file_link.origin_id,
-                                  storage_url: existing_file_link.storage.host)
+        build(:file_link_element,
+              origin_name: 'new name',
+              origin_id: existing_file_link.origin_id,
+              storage_url: existing_file_link.storage.host)
       end
       let(:some_file_link_payload) do
         build(:file_link_element, storage_url: existing_file_link.storage.host)
@@ -312,8 +328,20 @@ describe 'API v3 file links resource', type: :request do
       it_behaves_like 'not found'
     end
 
-    context 'if no storage with that id exists' do
+    context 'if no file link with that id exists' do
       let(:path) { api_v3_paths.file_link(1337) }
+
+      it_behaves_like 'not found'
+    end
+
+    context 'if file link is in a work package, while its project is not mapped to the file link\'s storage.' do
+      let(:path) { api_v3_paths.file_link(file_link_of_unlinked_storage.id) }
+
+      it_behaves_like 'not found'
+    end
+
+    context 'if file link is in a work package, while the storages module is deactivated in its project.' do
+      let(:project) { create(:project, disable_modules: :storages) }
 
       it_behaves_like 'not found'
     end

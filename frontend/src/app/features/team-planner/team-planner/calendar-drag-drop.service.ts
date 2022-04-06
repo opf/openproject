@@ -10,6 +10,7 @@ import { BehaviorSubject } from 'rxjs';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { OpCalendarService } from 'core-app/features/calendar/op-calendar.service';
 
 @Injectable()
 export class CalendarDragDropService {
@@ -27,6 +28,7 @@ export class CalendarDragDropService {
   constructor(
     readonly authorisation:AuthorisationService,
     readonly schemaCache:SchemaCacheService,
+    readonly calendarService:OpCalendarService,
     readonly I18n:I18nService,
   ) {
   }
@@ -89,10 +91,7 @@ export class CalendarDragDropService {
       return { disabled: true, reason: this.text.draggingDisabled.permissionDenied };
     }
 
-    const schema = this.schemaCache.of(workPackage);
-    const schemaEditable = schema.isAttributeEditable('startDate') && schema.isAttributeEditable('dueDate');
-
-    if (!schemaEditable) {
+    if (!this.calendarService.dateEditable(workPackage)) {
       return { disabled: true, reason: this.text.draggingDisabled.fallback };
     }
 

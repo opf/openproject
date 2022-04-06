@@ -76,7 +76,7 @@ FactoryBot.define do
       projects_columns { [create(:project)] }
     end
 
-    callback(:after_build) do |board, evaluator| # this is also done after :create
+    callback(:after_create) do |board, evaluator| # this is also done after :create
       evaluator.projects_columns.each do |project|
 
         query = Query.new_default(name: project.name, project: board.project, public: true).tap do |q|
@@ -87,7 +87,6 @@ FactoryBot.define do
 
         filters = [{ "onlySubproject" => { "operator" => "=", "values" => [project.id.to_s] } }]
 
-        board.options = { 'type' => 'action', 'attribute' => 'subproject' }
         board.widgets << create(:grid_widget,
                                 identifier: 'work_package_query',
                                 start_row: 1,
@@ -97,6 +96,9 @@ FactoryBot.define do
                                 options: { 'queryId' => query.id,
                                            'filters' => filters })
       end
+
+      board.options = { 'type' => 'action', 'attribute' => 'subproject' }
+      board.save!
     end
   end
 end

@@ -23,8 +23,8 @@ ru:
   js:
     ajax:
       hide: "Скрыть"
-      loading: "Загрузка ..."
-      updating: "Обновление ..."
+      loading: "Loading…"
+      updating: "Updating…"
     attachments:
       draggable_hint: |
         Перетащите в поле редактора для вставки изображения или прикрепления ссылки. Закрытые поля будут открыты в течение перетаскивания.
@@ -286,15 +286,15 @@ ru:
           learn_about: "Подробнее о новых функциях"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_0':
+          '12_1':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
+              learn_about_link: https://www.openproject.org/openproject-12-1-release
               new_features_html: >
-                Релиз содержит различные новые функции и улучшения: <br> <ul class="%{list_styling_class}"> <li>С новыми <b>уведомлениями в приложении</b> вы получаете все важные обновления непосредственно в приложении и больше не получать письма от спама.</li> <li>Новый <b>центр уведомлений</b> показывает все изменения, включая интуитивные настройки фильтра. по причинам для уведомлений или проектов. Это даже позволяет редактировать непосредственно в виде раздельного просмотра.</li> <li>Улучшено <b>настройка уведомлений</b> позволяет тонкости, для каких действий и в каких проектах вы хотите получать уведомления.</li> <li><b>напоминания электронной почты</b> могут быть настроены на получение важных обновлений ежедневно по электронной почте.</li> <li>Пакет работ автоматически дополняет отношения теперь также показывает дополнительную информацию (название проекта, статус, . ), чтобы легко определить соответствующий пакет работ.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A <b>new team planner module</b> (Enterprise feature) allows you to visually assign tasks to team members to get an overview of who is working on what.</li> <li>We are <b>releasing the basic agile boards</b> for the Community version.</li> <li>The <b>"Include Projects" filter</b> option makes it easier to add different projects to your views, such as for work packages, calendars, and team planners.</li> <li>We added <b>a new "Files" tab</b> in the work package details to have all possible information attached to a work package together.</li> <li>We created <b>global roles for groups</b> to assign these roles to groups and create superuser groups.</li> <li>Project status was given more options to choose from.</li> </ul>
             bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
+              learn_about_link: https://www.openproject.org/openproject-12-1-release
               new_features_html: >
-                Релиз содержит различные новые функции и улучшения: <br> <ul class="%{list_styling_class}"> <li>Центр уведомлений: Уменьшите количество получаемых писем. Вместо этого найдите и задействуйте все соответствующие уведомления в одном центральном месте.</li> <li>Все загруженные IFC файлы теперь также могут быть загружены.</li> <li>Загрузка и обработка IFC ускорились и получили улучшенные сообщения об ошибках.</li> <li>На <a href="https://github.com/opf/openproject-revit-add-in">в дополнении</a> OpenProject Revit Add-in for </a> было много исправлений.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>In the BCF module you can now save your selected work package filters, columns etc. as <b>views</b> and share those with your team members.</li> <li>A <b>new team planner module</b> (Enterprise feature) allows you to visually assign tasks to team members to get an overview of who is working on what.</li> <li>We are <b>releasing the basic agile boards</b> for the Community version.</li> <li>The <b>"Include Projects" filter</b> option makes it easier to add different projects to your views, such as for work packages, calendars, and team planners.</li> <li>We added <b>a new "Files" tab</b> in the work package details to have all possible information attached to a work package together.</li> <li>We created <b>global roles for groups</b> to assign these roles to groups and create superuser groups.</li> <li>Project status was given more options to choose from.</li> </ul>
     label_activate: "Активировать"
     label_add_column_after: "Добавить столбец после"
     label_add_column_before: "Добавить столбец перед"
@@ -375,7 +375,7 @@ ru:
     label_mail_notification: "Уведомления по email"
     label_me: "я"
     label_meeting_agenda: "Повестка дня"
-    label_meeting_minutes: "Минут"
+    label_meeting_minutes: "Протокол(-ы)"
     label_menu_collapse: "свернуть"
     label_menu_expand: "развернуть"
     label_more_than_ago: "более нескольких дней назад"
@@ -454,7 +454,7 @@ ru:
     label_global_queries: "Публичные представления"
     label_custom_queries: "Приватные представления"
     label_columns: "Столбцы"
-    label_attachments: Файлы
+    label_attachments: Вложения
     label_drop_files: Перетащите файлы сюда
     label_drop_files_hint: или кликните для добавления файлов
     label_drop_folders_hint: Вы не можете загружать папки как вложение. Пожалуйста, выберите один файл.
@@ -498,7 +498,8 @@ ru:
           task_board: "Панель задач визуализирует прогресс <b>для этого спринта</b>. Нажмите на значок плюс (+) рядом с пользовательской историей, чтобы добавить новые задачи или препятствия. <br> Статус можно обновить перетаскиванием."
         boards:
           overview: 'Выберите <b>доски</b> , чтобы сдвинуть вид и управлять вашим проектом с помощью вида agile-доски.'
-          lists: 'Здесь вы можете создать несколько списков (столбцов) на доске. Эта функция позволяет создать <b>доску Канбана</b>, например.'
+          lists_kanban: 'Здесь вы можете создать несколько списков (столбцов) на доске. Эта функция позволяет создать <b>доску Канбана</b>, например.'
+          lists_basic: 'Здесь вы можете создать несколько списков (столбцов) внутри вашей agile-панели.'
           add: 'Нажмите на значок плюс (+) для <b>создания новой карты</b> или <b>добавить существующую карту</b> в список на доске.'
           drag: 'Перетащите карты в заданный список, чтобы упорядочить их или переместить в другой список. <br> Вы можете щелкнуть по иконке info (i) в верхнем правом углу или дважды щелкнуть по карте, чтобы открыть ее данные.'
         wp:
@@ -509,6 +510,12 @@ ru:
           create_button: 'Кнопка <b>+ Создать</b> добавит новый пакет работ в ваш проект.'
           timeline_button: 'Вы можете активировать <b>график Гантта</b> для создания ленты времени вашего проекта.'
           timeline: 'Здесь вы можете <b>редактировать план проекта</b>, создавать новые пакеты работ, например, задачи, этапы, фазы и многое другое, а также <b>добавить зависимости</b>. Все члены команды могут видеть и обновлять план в любое время.'
+        team_planner:
+          overview: 'Планировщик команды позволяет наглядно назначать задачи членам команды и получать представление о том, кто над чем работает.'
+          calendar: 'На доске планирования еженедельно или раз в две недели отображаются все пакеты работ членов вашей команды.'
+          add_assignee: 'Вначале добавьте в планировщике задачи назначенных лиц'
+          add_existing: 'Найдите существующие пакеты работ и перетащите их в планировщик команд для  немедленного их назначения члену команды и определения дат начала и окончания.'
+          card: 'Для перемещения пакета работ назад или вперед во времени перетаскивайте его по горизонтали, изменяйте даты начала и окончания, изменяя размер пакета перетаскиванием его краев, назначайте пакета работ другому участнику перетаскиванием пакета в другую строку по вертикали.'
     notifications:
       title: "Уведомления"
       no_unread: "Нет непрочитанных уведомлений"
@@ -989,7 +996,8 @@ ru:
         activity: Деятельность
         relations: Связи
         watchers: Наблюдатель
-        attachments: Вложения
+        files: Файлы
+        files_tab_migration_help: 'Теперь вы можете прикрепить файлы к рабочим пакетам через новую вкладку:'
       time_relative:
         days: "дней"
         weeks: "недели"

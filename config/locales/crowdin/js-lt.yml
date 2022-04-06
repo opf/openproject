@@ -23,8 +23,8 @@ lt:
   js:
     ajax:
       hide: "Slėpti"
-      loading: "Įkeliama..."
-      updating: "Updating ..."
+      loading: "Loading…"
+      updating: "Updating…"
     attachments:
       draggable_hint: |
         Tempkite į redagavimo lauką, kad įtrauktumėte piešinį ar paminėtumėte priedą. Uždari redaktoriaus laukai bus atidaryti, kol jūs tempsite.
@@ -62,7 +62,7 @@ lt:
     button_confirm: "Patvirtinti"
     button_continue: "Tęsti"
     button_copy: "Kopijuoti"
-    button_copy_to_other_project: "Copy to other project"
+    button_copy_to_other_project: "Kopijuoti į kitą projektą"
     button_custom-fields: "Pritaikyti laukai"
     button_delete: "Trinti"
     button_delete_watcher: "Trinti stebėtoją"
@@ -252,7 +252,7 @@ lt:
     enumeration_doc_categories: "Dokumentų kategorijos"
     enumeration_work_package_priorities: "Darbų paketo prioritetai"
     filter:
-      more_values_not_shown: "There are %{total} more results, search to filter results."
+      more_values_not_shown: "Yra dar %{total} rezultatų, ieškokite rezultatų filtravimui."
       description:
         text_open_filter: "Atverkite šį filtrą su 'ALT' ir krypčių klavišais."
         text_close_filter: "Kad pasirinktumėte įrašą, palikite dėmesio režimą paspausdami Enter. Režimo palikimui be filtro pasirinkite pirmąjį (tuščią) įrašą."
@@ -287,15 +287,15 @@ lt:
           learn_about: "Sužinokite daugiau apie naujas galimybes"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_0':
+          '12_1':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
+              learn_about_link: https://www.openproject.org/openproject-12-1-release
               new_features_html: >
-                Šioje laidoje yra įvairios naujos savybės ir patobulinimai: <br> <ul class="%{list_styling_class}"> <li>Su naujais <b>vidiniais pranešimais</b> jūs gausite visus svarbius pakeitimus tiesiai aplikacijoje, ir jums daugiau nebereikės siųsti krūvos e-laiškų.</li> <li>Naujas <b>pranešimų centras</b> rodo visus pakeitimus, įskaitant intuityvius filtrus, pavyzdžiui pagal pranešimo priežastį ar projektą. Galime net tiesiogiai keisti padalintame vaizde.</li> <li>Pagerinti <b>pranešimų nustatymai</b> leidžia nustatyti, kuriems veiksmams ir kuriuose projekte reikalingi pranešimai.</li> <li><b>E-pašto priminimai</b> gali būti sukonfigūruoti gauti svarbius atnaujinimus kasdienine e-pašto santrauka.</li> <li>Darbo paketų automatinis pabaigimas ryšiams dabar rodo papildomą informaciją (projekto pavadinimą, būseną, ...), taip jums lengviau identifikuoti atitinkamą darbo paketą.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A <b>new team planner module</b> (Enterprise feature) allows you to visually assign tasks to team members to get an overview of who is working on what.</li> <li>We are <b>releasing the basic agile boards</b> for the Community version.</li> <li>The <b>"Include Projects" filter</b> option makes it easier to add different projects to your views, such as for work packages, calendars, and team planners.</li> <li>We added <b>a new "Files" tab</b> in the work package details to have all possible information attached to a work package together.</li> <li>We created <b>global roles for groups</b> to assign these roles to groups and create superuser groups.</li> <li>Project status was given more options to choose from.</li> </ul>
             bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
+              learn_about_link: https://www.openproject.org/openproject-12-1-release
               new_features_html: >
-                Laidoje yra įvairios naujos funkcijos ir patobulinimai: <br> <ul class="%{list_styling_class}"> <li>Pranešimų centras: Sumažinkite gaunamų e-laiškų skaičių. Vietoje to veikite pagal momentinius pranešimus vienoje centralizuotoje vietoje.</li> <li>Visus įkeltus IFC failus dabar galima ir atsisiųsti.</li> <li>IFC įkėlimas ir apdorojimas pagreitėjo ir gaunami geresni klaidos pranešimai.</li> <li>The <a href="https://github.com/opf/openproject-revit-add-in">OpenProject Revit priedas</a> buvo gerokai sutvarkytas.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>In the BCF module you can now save your selected work package filters, columns etc. as <b>views</b> and share those with your team members.</li> <li>A <b>new team planner module</b> (Enterprise feature) allows you to visually assign tasks to team members to get an overview of who is working on what.</li> <li>We are <b>releasing the basic agile boards</b> for the Community version.</li> <li>The <b>"Include Projects" filter</b> option makes it easier to add different projects to your views, such as for work packages, calendars, and team planners.</li> <li>We added <b>a new "Files" tab</b> in the work package details to have all possible information attached to a work package together.</li> <li>We created <b>global roles for groups</b> to assign these roles to groups and create superuser groups.</li> <li>Project status was given more options to choose from.</li> </ul>
     label_activate: "Aktyvuoti"
     label_add_column_after: "Pridėti stulpelį po"
     label_add_column_before: "Pridėti stulpelį prieš"
@@ -455,7 +455,7 @@ lt:
     label_global_queries: "Vieši vaizdai"
     label_custom_queries: "Asmeniniai vaizdai"
     label_columns: "Stulpeliai"
-    label_attachments: Failai
+    label_attachments: Priedai
     label_drop_files: Numeskite failus čia
     label_drop_files_hint: arba spustelkite, kad pridėtumėte failus
     label_drop_folders_hint: Aplankų negalima įkelti kaip priedų. Prašome pasirinkti atskirus failus.
@@ -499,7 +499,8 @@ lt:
           task_board: "Užduočių lenta vaizduoja <b>sprinto progresą</b>. Nuspauskite pliuso (+) ženklą prie user story norėdami pridėti naujas užduotis arba trukdžius. <br> Būsena gali būti pakeista nuvelkant į reikiamą vietą."
         boards:
           overview: 'Pasirinkite <b>lentas</b> siekdami pakeisti vaizdą ir valdyti projektą naudodami agile lentų vaizdą.'
-          lists: 'Lentoje galite sukurti keletą sąrašų (stulpelių) . Ši funkcija leidžia sukurti <b>Kanban lentą</b>.'
+          lists_kanban: 'Lentoje galite sukurti keletą sąrašų (stulpelių) . Ši funkcija leidžia sukurti <b>Kanban lentą</b>.'
+          lists_basic: 'Čia galite sukurti kelis sąrašus (stulpelius) jūsų agile lentoje.'
           add: 'Nuspauskite plius (+) ženklą ir <b>sukurkite naują kortelę</b> arba <b>pridėkite jau esamą</b> prie sąrašo lentoje.'
           drag: 'Vilkite korteles sąrašo viduje norėdami pakeisti jų tvarką, arba perkelti į kitą sąrašą. <br> Galite nuspausti ant info (i) ženklo viršutiniame dešiniajame kampa arba du kartus spustelėti kortelę norėdami pamatyti jos detales.'
         wp:
@@ -510,6 +511,12 @@ lt:
           create_button: 'Mygtukas <b>+Sukurti</b> pridės naują darbą į jūsų projektą.'
           timeline_button: 'Jūs galite aktyvuoti <b>Gantto diagramą</b> norėdami matyti savo projekto laiko planavimo juostą.'
           timeline: 'Čia jūs galite <b>redaguoti savo projekto planą</b>, kurti naujus darbo paketus, tokius kaip užduotys, etapai ir <b>pridėti priklausomybių</b>. Visi komandos nariai gali peržiūrėti ir keisti naujausią planą bet kuriuo metu.'
+        team_planner:
+          overview: 'Komandos planuotojas leidžia vizualiai priskirti užduotis komandos nariams ir gauti bendrą vaizdą, kas ką daro.'
+          calendar: 'Savaitės arba dviejų savaičių planavimo lenta rodo visus darbo paketus, priskirtus jūsų komandos nariams.'
+          add_assignee: 'Norėdami pradėti pridėkite paskiriamuosius į komandos planą.'
+          add_existing: 'Ieškokite esamų darbų paketų ir tempkite juos į komandos planą, kad akimirksniu priskirtumėte juos komandos nariui ir nurodytumėte pradžios ir pabaigos datas.'
+          card: 'Tempkite darbo paketus horizontaliai, kad perkeltumėte juos atgal arba į priekį laike. Tempkite kraštus, kad keistumėte pradžios ar pabaigos datas, arba tempkite vertikaliai į kitą eilutę, kad priskirtumėte juos kitam nariui.'
     notifications:
       title: "Pranešimai"
       no_unread: "Nėra neperskaitytų pranešimų"
@@ -990,7 +997,8 @@ lt:
         activity: Veikla
         relations: Ryšiai
         watchers: Stebėtojai
-        attachments: Priedai
+        files: Failai
+        files_tab_migration_help: 'Dabar jūs galite prisegti failus prie darbo paketųnaujoje kortelėje:'
       time_relative:
         days: "dienos"
         weeks: "savaitės"
@@ -1164,14 +1172,14 @@ lt:
           group: 'Grupė jau tapo %{project} dalimi. Tuo pačiu, jūs jau galite planuoti darbus su šia grupe ir pavyzdžiui priskirti jai darbo užduotis.'
         next_button: 'Tęsti'
     include_projects:
-      toggle_title: 'Include Projects'
+      toggle_title: 'Įtraukti projektus'
       title: 'Projektai'
-      clear_selection: 'Clear selection'
+      clear_selection: 'Valyti pasirinkimą'
       apply: 'Taikyti'
       selected_filter:
         all: 'Visi projektai'
-        selected: 'Only selected'
-      search_placeholder: 'Search project...'
+        selected: 'Tik pasirinktus'
+      search_placeholder: 'Ieškoti projekte...'
     forms:
       submit_success_message: 'Forma buvo sėkmingai pateikta'
       load_error_message: 'Įkeliant formą įvyko klaida'

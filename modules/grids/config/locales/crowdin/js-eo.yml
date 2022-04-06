@@ -9,7 +9,7 @@ eo:
         link: 'enterprise edition.'
       widgets:
         custom_text:
-          title: 'Custom text'
+          title: 'Propra teksto'
         documents:
           title: 'Dokumentoj'
           no_results: 'No documents yet.'
@@ -24,19 +24,19 @@ eo:
           at: 'at'
           no_results: 'Nothing new to report.'
         project_description:
-          title: 'Project description'
+          title: 'Priskribo de projekto'
           no_results: "No description has been written yet. One can be provided in the 'Project settings'."
         project_details:
           title: 'Project details'
           no_results: 'No custom fields have been defined for projects.'
         project_status:
-          title: 'Projecta statuso'
-          not_started: 'Not started'
+          title: 'Projekta stato'
+          not_started: 'Nekomencita'
           on_track: 'Laŭ la plano'
-          off_track: 'Off track'
+          off_track: 'Preter plano'
           at_risk: 'Riske'
-          not_set: 'Not set'
-          finished: 'Finished'
+          not_set: 'Ne agordita'
+          finished: 'Finita'
           discontinued: 'Discontinued'
         subprojects:
           title: 'Subprojektoj'

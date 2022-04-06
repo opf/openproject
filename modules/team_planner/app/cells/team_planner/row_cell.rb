@@ -49,7 +49,7 @@ module TeamPlanner
       query
         .filters
         .detect { |filter| filter.name == :assigned_to_id }
-        .then { |filter| filter ? filter.values.count : 0 }
+        .then { |filter| filter ? filter.valid_values!.count : 0 }
     end
 
     def button_links

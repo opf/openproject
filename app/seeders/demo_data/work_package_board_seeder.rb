@@ -160,6 +160,7 @@ module DemoData
         Query.new(project: project, user: admin).tap do |query|
           # Make it public so that new members can see it too
           query.public = true
+          query.include_subprojects = true
 
           query.name = list[:name]
 

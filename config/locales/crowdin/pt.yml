@@ -78,6 +78,10 @@ pt:
         contact: "Contate-nos para uma demonstração"
       enterprise_info_html: "é uma Enterprise <strong class='icon-medal'></strong> recurso."
       upgrade_info: "Por favor, faça o upgrade para um plano pago para ativar e começar a usá-lo em sua equipe."
+    journal_aggregation:
+      explanation:
+        text: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent and will also affect %{webhook_link} delay."
+        link: "webhook"
   announcements:
     show_until: Mostrar até
     is_active: atualmente exibido
@@ -1228,6 +1232,7 @@ pt:
   error_enterprise_token_invalid_domain: "A Enterprise Edition não esta ativa. Seu domínio do token Enterprise (%{actual}) não corresponde ao nome do host do sistema (%{expected})."
   error_failed_to_delete_entry: 'Falha ao excluir esta entrada.'
   error_in_dependent: "Erro ao tentar alterar o objeto dependente: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
+  error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Valor selecionado inválido."
   error_journal_attribute_not_present: "O diário não contem atributo %{attribute}."
   error_pdf_export_too_many_columns: "Muitas colunas selecionadas para a exportação para PDF. Reduza o número de colunas."
@@ -1337,7 +1342,9 @@ pt:
   menus:
     admin:
       mail_notification: "Notificações por e-mail"
-      incoming_outgoing: "Entrada & Saída"
+      mails_and_notifications: "Emails and notification"
+      aggregation_and_retention: 'Aggregation and retention'
+      api_and_webhooks: "API and webhooks"
     quick_add:
       label: "Abrir menu de adição rápida"
   my_account:
@@ -1837,7 +1844,7 @@ pt:
   label_used_by_types: "Utilizado por tipos"
   label_used_in_projects: "Utilizado em projetos"
   label_user: "Usuário"
-  label_user_and_permission: "Usuários e permissões"
+  label_user_and_permission: "Users and permissions"
   label_user_named: "Usuário %{name}"
   label_user_activity: "atividade do %{value}"
   label_user_anonymous: "Anônimo"
@@ -2561,7 +2568,6 @@ pt:
   text_work_packages_destroy_confirmation: "Tem certeza que deseja excluir o(s) pacote(s) de trabalho selecionado(s)?"
   text_work_packages_ref_in_commit_messages: "Referenciando e corrigindo pacotes de trabalho nas mensagens de commit"
   text_journal_added: "%{label} %{value}  adicionado"
-  text_journal_aggregation_time_explanation: "As ações individuais de um usuário (por exemplo, atualizar um pacote de trabalho duas vezes) são agregadas em uma única ação se a diferença de idade for menor que o intervalo de tempo especificado. Eles serão exibidos como uma única ação no aplicativo. Isso também atrasará as notificações na mesma quantidade de tempo, reduzindo o número de e-mails enviados. "
   text_journal_changed_html: "%{label} modificado de  %{old} %{linebreak}<strong>para</strong> %{new}"
   text_journal_changed_plain: "%{label} alterado de %{old} %{linebreak}para %{new}"
   text_journal_changed_no_detail: "%{label} atualizado"
@@ -2875,6 +2881,7 @@ pt:
         work_package: "O pacote de trabalho que você está procurando não pode ser encontrado ou foi excluído."
       expected:
         date: "AAAA-MM-DD (somente data no formato ISO 8601)"
+        datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm] (any compatible ISO 8601 datetime)"
         duration: "Duração ISO 8601"
       invalid_content_type: "CONTENT-TYPE esperado '%{content_type}' mas '%{actual}' encontrado."
       invalid_format: "Formato inválido para a propriedade '%{property}': Formato esperado como '%{expected_format}', mas tem '%{actual}'."
@@ -2886,6 +2893,7 @@ pt:
         select: "A seleção requisitada de %{invalid} não é suportada. As seleções suportadas são %{supported}."
       invalid_user_status_transition: "A situação da conta do usuário atual não permite esta operação."
       missing_content_type: "não especificado"
+      missing_property: "Missing property '%{property}'."
       missing_request_body: "Não havia corpo da requisição."
       missing_or_malformed_parameter: "O parâmetro de consulta '%{parameter}' está ausente ou malformado."
       multipart_body_error: "O corpo da solicitação não continha as partes multipart esperadas."

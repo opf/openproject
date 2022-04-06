@@ -31,14 +31,11 @@ export const boardsMenuSelector = 'boards-menu';
 export class BoardsMenuComponent extends UntilDestroyedMixin implements OnInit {
   @HostBinding('class.op-sidebar') className = true;
 
-  selectedBoardId:string;
-
   boardOptions$:Observable<IOpSidemenuItem[]> = this
     .apiV3Service
     .boards
     .observeAll()
     .pipe(
-      skip(1),
       map((boards:Board[]) => {
         const menuItems:IOpSidemenuItem[] = boards.map((board) => ({
           title: board.name,
@@ -88,7 +85,7 @@ export class BoardsMenuComponent extends UntilDestroyedMixin implements OnInit {
       .onActivate('board_view')
       .subscribe(() => {
         this.focusBackArrow();
-        this.boardService.loadAllBoards();
+        void this.boardService.loadAllBoards();
       });
   }
 

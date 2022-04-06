@@ -78,6 +78,10 @@ lol:
         contact: "crwdns655651:0crwdne655651:0"
       enterprise_info_html: "crwdns655653:0crwdne655653:0"
       upgrade_info: "crwdns655655:0crwdne655655:0"
+    journal_aggregation:
+      explanation:
+        text: "crwdns808254:0%{webhook_link}crwdne808254:0"
+        link: "crwdns808256:0crwdne808256:0"
   announcements:
     show_until: crwdns494789:0crwdne494789:0
     is_active: crwdns494791:0crwdne494791:0
@@ -1210,6 +1214,7 @@ lol:
   error_enterprise_token_invalid_domain: "crwdns496621:0%{actual}crwdnd496621:0%{expected}crwdne496621:0"
   error_failed_to_delete_entry: 'crwdns496623:0crwdne496623:0'
   error_in_dependent: "crwdns496625:0%{dependent_class}crwdnd496625:0%{related_id}crwdnd496625:0%{related_subject}crwdnd496625:0%{error}crwdne496625:0"
+  error_in_new_dependent: "crwdns807892:0%{dependent_class}crwdnd807892:0%{related_subject}crwdnd807892:0%{error}crwdne807892:0"
   error_invalid_selected_value: "crwdns496627:0crwdne496627:0"
   error_journal_attribute_not_present: "crwdns496629:0%{attribute}crwdne496629:0"
   error_pdf_export_too_many_columns: "crwdns496631:0crwdne496631:0"
@@ -1319,7 +1324,9 @@ lol:
   menus:
     admin:
       mail_notification: "crwdns496809:0crwdne496809:0"
-      incoming_outgoing: "crwdns496811:0crwdne496811:0"
+      mails_and_notifications: "crwdns808258:0crwdne808258:0"
+      aggregation_and_retention: 'crwdns808260:0crwdne808260:0'
+      api_and_webhooks: "crwdns808262:0crwdne808262:0"
     quick_add:
       label: "crwdns496813:0crwdne496813:0"
   my_account:
@@ -1808,7 +1815,7 @@ lol:
   label_used_by_types: "crwdns497761:0crwdne497761:0"
   label_used_in_projects: "crwdns497763:0crwdne497763:0"
   label_user: "crwdns497765:0crwdne497765:0"
-  label_user_and_permission: "crwdns497767:0crwdne497767:0"
+  label_user_and_permission: "crwdns808264:0crwdne808264:0"
   label_user_named: "crwdns497769:0%{name}crwdne497769:0"
   label_user_activity: "crwdns497771:0%{value}crwdne497771:0"
   label_user_anonymous: "crwdns497773:0crwdne497773:0"
@@ -2527,7 +2534,6 @@ lol:
   text_work_packages_destroy_confirmation: "crwdns499265:0crwdne499265:0"
   text_work_packages_ref_in_commit_messages: "crwdns499267:0crwdne499267:0"
   text_journal_added: "crwdns499269:0%{label}crwdnd499269:0%{value}crwdne499269:0"
-  text_journal_aggregation_time_explanation: "crwdns499271:0crwdne499271:0"
   text_journal_changed_html: "crwdns499273:0%{label}crwdnd499273:0%{old}crwdnd499273:0%{linebreak}crwdnd499273:0%{new}crwdne499273:0"
   text_journal_changed_plain: "crwdns499275:0%{label}crwdnd499275:0%{old}crwdnd499275:0%{linebreak}crwdnd499275:0%{new}crwdne499275:0"
   text_journal_changed_no_detail: "crwdns499277:0%{label}crwdne499277:0"
@@ -2841,6 +2847,7 @@ lol:
         work_package: "crwdns499793:0crwdne499793:0"
       expected:
         date: "crwdns499795:0crwdne499795:0"
+        datetime: "crwdns807894:0[.lll]crwdne807894:0"
         duration: "crwdns499797:0crwdne499797:0"
       invalid_content_type: "crwdns499799:0%{content_type}crwdnd499799:0%{actual}crwdne499799:0"
       invalid_format: "crwdns499801:0%{property}crwdnd499801:0%{expected_format}crwdnd499801:0%{actual}crwdne499801:0"
@@ -2852,6 +2859,7 @@ lol:
         select: "crwdns499811:0%{invalid}crwdnd499811:0%{supported}crwdne499811:0"
       invalid_user_status_transition: "crwdns499813:0crwdne499813:0"
       missing_content_type: "crwdns499815:0crwdne499815:0"
+      missing_property: "crwdns807896:0%{property}crwdne807896:0"
       missing_request_body: "crwdns499817:0crwdne499817:0"
       missing_or_malformed_parameter: "crwdns499819:0%{parameter}crwdne499819:0"
       multipart_body_error: "crwdns499821:0crwdne499821:0"

@@ -39,10 +39,10 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
     updateSuccessful: this.I18n.t('js.notice_successful_update'),
     loadingError: 'No such board found',
     addList: this.I18n.t('js.boards.add_list'),
-    upsaleBoards: this.I18n.t('js.boards.upsale.teaser_text'),
-    upsaleCheckOutLink: this.I18n.t('js.work_packages.table_configuration.upsale.check_out_link'),
     unnamedList: this.I18n.t('js.boards.label_unnamed_list'),
     hiddenListWarning: this.I18n.t('js.boards.text_hidden_list_warning'),
+    teaser_text: this.I18n.t('js.boards.upsale.teaser_text'),
+    upgrade_to_ee_text: this.I18n.t('js.boards.upsale.upgrade'),
   };
 
   /** Container reference */
@@ -70,6 +70,8 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
   boardWidgets:GridWidgetResource[] = [];
 
   showHiddenListWarning:boolean = false;
+
+  eeShowBanners = this.Banner.eeShowBanners;
 
   private currentQueryUpdatedMonitoring:Subscription;
 
@@ -148,14 +150,6 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
       this.showHiddenListWarning = true;
       this.boardWidgets = this.boardWidgets.filter(widget => widget.id !== boardWidget.id);
     }
-  }
-
-  showBoardListView() {
-    return !this.Banner.eeShowBanners;
-  }
-
-  opReferrer(board:Board) {
-    return board.isFree ? 'boards#free' : 'boards#status';
   }
 
   saveBoard(board:Board):void {

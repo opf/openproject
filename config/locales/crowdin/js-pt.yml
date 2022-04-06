@@ -23,8 +23,8 @@ pt:
   js:
     ajax:
       hide: "Ocultar"
-      loading: "Carregando ..."
-      updating: "Updating ..."
+      loading: "Loading…"
+      updating: "Updating…"
     attachments:
       draggable_hint: |
         Arraste sobre o campo do editor para incorporar uma imagem ou anexo de referência. Campos do editor fechados serão abertos enquanto você continuar arrastando.
@@ -286,15 +286,15 @@ pt:
           learn_about: "Saiba mais sobre os novos recursos"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_0':
+          '12_1':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
+              learn_about_link: https://www.openproject.org/openproject-12-1-release
               new_features_html: >
-                A versão contém vários recursos e melhorias novos: <br> <ul class="%{list_styling_class}"> <li>Com as novas <b>notificações no aplicativo</b> você recebe todas as atualizações importantes diretamente do aplicativo, sem uma enxurrada de e-mail.</li> <li>O novo <b>centro de notificações</b> mostra todas as alterações, incluindo as opções de filtro, por ex., por motivo de notificação ou projetos. Ela até mesmo permite a edição direta em uma vista dividida.</li> <li>Configurações de Notificações <b>melhoradas</b> permitem que você ajuste de forma minuciosa para que ações e que projetos você deseja receber uma notificação.</li> <li><b>Lembretes por e-mail</b> podem ser configurados para que você receba atualizações importantes através de um e-mail com um resumo diário</li> <li>O auto-completador do pacote de trabalho para relações agora também mostra informações adicionais (nome do projeto, situação, ...) para uma fácil identificação do respectivo pacote de trabalho.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A <b>new team planner module</b> (Enterprise feature) allows you to visually assign tasks to team members to get an overview of who is working on what.</li> <li>We are <b>releasing the basic agile boards</b> for the Community version.</li> <li>The <b>"Include Projects" filter</b> option makes it easier to add different projects to your views, such as for work packages, calendars, and team planners.</li> <li>We added <b>a new "Files" tab</b> in the work package details to have all possible information attached to a work package together.</li> <li>We created <b>global roles for groups</b> to assign these roles to groups and create superuser groups.</li> <li>Project status was given more options to choose from.</li> </ul>
             bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
+              learn_about_link: https://www.openproject.org/openproject-12-1-release
               new_features_html: >
-                A versão contém vários recursos importantes: <br> <ul class="%{list_styling_class}"> <li>Centro de notificações: Reduz o número de e-mails que você recebe. Ao invés disso você encontra e toma as ações necessárias sobre todas as notificações importantes em um único local central.</li> <li>Todos os arquivos IFC enviados agora também podem ser baixados.</li> <li>O envio e processamento de IFC ficou mais rápido e recebeu melhores mensagens de erro.</li> <li>O <a href="https://github.com/opf/openproject-revit-add-in">Complemento Revit do OpenProject</a> passou por várias correções de erros.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>In the BCF module you can now save your selected work package filters, columns etc. as <b>views</b> and share those with your team members.</li> <li>A <b>new team planner module</b> (Enterprise feature) allows you to visually assign tasks to team members to get an overview of who is working on what.</li> <li>We are <b>releasing the basic agile boards</b> for the Community version.</li> <li>The <b>"Include Projects" filter</b> option makes it easier to add different projects to your views, such as for work packages, calendars, and team planners.</li> <li>We added <b>a new "Files" tab</b> in the work package details to have all possible information attached to a work package together.</li> <li>We created <b>global roles for groups</b> to assign these roles to groups and create superuser groups.</li> <li>Project status was given more options to choose from.</li> </ul>
     label_activate: "Ativar"
     label_add_column_after: "Adicionar coluna depois"
     label_add_column_before: "Adicionar coluna antes"
@@ -454,7 +454,7 @@ pt:
     label_global_queries: "Visões públicas"
     label_custom_queries: "Visões privadas"
     label_columns: "Colunas"
-    label_attachments: Arquivos
+    label_attachments: Anexos
     label_drop_files: Solte os arquivos aqui
     label_drop_files_hint: ou clique para adicionar arquivos
     label_drop_folders_hint: Você não pode enviar pastas como anexo. Por favor, selecione arquivos individuais.
@@ -498,7 +498,8 @@ pt:
           task_board: "O painel de tarefas visualiza o <b>progresso para este sprint</b>. Clique no ícone mais (+) ao lado de uma história de usuário para adicionar novas tarefas ou impedimentos. <br> O status pode ser atualizado arrastando e soltando."
         boards:
           overview: 'Selecione <b>paineis</b> para mudar a visão e gerenciar seu projeto usando a exibição de paineis ágeis.'
-          lists: 'Aqui você pode criar várias listas (colunas) dentro do seu painel. Este recurso permite que você crie um <b>Painel Kanban</b>, por exemplo.'
+          lists_kanban: 'Aqui você pode criar várias listas (colunas) dentro do seu painel. Este recurso permite que você crie um <b>Painel Kanban</b>, por exemplo.'
+          lists_basic: 'Here you can create multiple lists (columns) within your agile board.'
           add: 'Clique no ícone mais (+) para <b>criar um novo cartão</b> ou <b>adicionar um cartão existente</b> à lista no painel.'
           drag: 'Arraste e solte suas cartas dentro de uma determinada lista para reordená-las, ou para movê-las para outra lista. <br> Você pode clicar no ícone informativo (i) no canto superior direito ou clicar duas vezes em um cartão para abrir seus detalhes.'
         wp:
@@ -509,6 +510,12 @@ pt:
           create_button: 'O botão <b>+ Criar</b> adicionará um novo pacote de trabalho ao seu projeto.'
           timeline_button: 'Você pode ativar a exibição de <b>gráfico de Gantt</b> para criar uma linha do tempo para o seu projeto.'
           timeline: 'Aqui você pode <b>editar seu plano de projeto</b>, criar novos pacotes de trabalho, tais como tarefas, marcos, fases e muito mais, bem como <b>adicionam dependências</b>. Todos os membros da equipe podem visualizar e atualizar o plano mais recente a qualquer momento.'
+        team_planner:
+          overview: 'The team planner lets you visually assign tasks to team members and get an overview of who is working on what.'
+          calendar: 'The weekly or biweekly planning board displays all work packages assigned to your team members.'
+          add_assignee: 'To get started, add assignees to the team planner.'
+          add_existing: 'Search for existing work packages and drag them to the team planner to instantly assign them to a team member and define start and end dates.'
+          card: 'Drag work packages horizontally to move them backwards or forwards in time, drag the edges to change start and end dates and even drag them vertically to a different row to assign them to another member.'
     notifications:
       title: "Notificações"
       no_unread: "Nenhuma notificação não lida"
@@ -987,7 +994,8 @@ pt:
         activity: Atividade
         relations: Relações
         watchers: Observadores
-        attachments: Anexos
+        files: Arquivos
+        files_tab_migration_help: 'You can now attach files to work packages via the new tab:'
       time_relative:
         days: "dias"
         weeks: "semanas"
@@ -1157,7 +1165,7 @@ pt:
           group: 'O grupo agora faz parte de %{project}. Enquanto isso, você já pode planejar com este grupo e atribuir pacotes de trabalho por exemplo.'
         next_button: 'Continuar'
     include_projects:
-      toggle_title: 'Include Projects'
+      toggle_title: 'Include projects'
       title: 'Projetos'
       clear_selection: 'Clear selection'
       apply: 'Aplicar'

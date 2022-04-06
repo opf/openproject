@@ -101,7 +101,7 @@ describe NewsController, type: :controller do
   describe '#create' do
     context 'with news_added notifications' do
       it 'persists a news item' do
-        become_member_with_permissions(project, user)
+        become_member(project, user)
 
         post :create,
              params: {
