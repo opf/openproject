@@ -43,8 +43,11 @@ describe XlsExport::Project::Exporter::XLS do
         expect(header).to eq ['ID', 'Identifier', 'Name', 'Status', 'Public', *cf_names]
 
         custom_values = custom_fields.map do |cf|
-          if cf == bool_cf
+          case cf
+          when bool_cf
             'true'
+          when text_cf
+            project.typed_custom_value_for(cf)
           else
             project.formatted_custom_value_for(cf)
           end
