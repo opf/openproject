@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -38,11 +38,11 @@ describe 'Inviting user in project the current user is lacking permission in', t
 
   let(:view_role) do
     create :role,
-                      permissions: []
+           permissions: []
   end
   let(:invite_role) do
     create :role,
-                      permissions: %i[manage_members]
+           permissions: %i[manage_members]
   end
 
   let!(:other_user) { create(:user) }

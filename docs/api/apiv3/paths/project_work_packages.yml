@@ -53,13 +53,21 @@ get:
       type: string
   - description: Indicates whether properties should be summed up if they support
       it.
-    example: 'true'
+    example: true
     in: query
     name: showSums
     required: false
     schema:
-      default: 'false'
+      default: false
       type: boolean
+  - description: |-
+      Comma separated list of properties to include.
+    example: 'total,elements/subject,elements/id,self'
+    in: query
+    name: select
+    required: false
+    schema:
+      type: string
   responses:
     '200':
       content:
@@ -88,7 +96,7 @@ get:
                 count: 2
                 total: 2
           schema:
-            "$ref": "../components/schemas/work_packages_by_project_model.yml"
+            "$ref": "../components/schemas/work_packages_model.yml"
       description: OK
       headers: {}
     '400':
@@ -158,12 +166,12 @@ post:
       Indicates whether change notifications (e.g. via E-Mail) should be sent.
       Note that this controls notifications for all users interested in changes to the work package (e.g. watchers, author and assignee),
       not just the current user.
-    example: 'false'
+    example: false
     in: query
     name: notify
     required: false
     schema:
-      default: 'true'
+      default: true
       type: boolean
   responses:
     '200':
@@ -294,19 +302,19 @@ post:
                 createdAt: '2014-08-29T12:40:53Z'
                 customField1: Foo
                 customField2: 42
-                derivedDueDate: 
+                derivedDueDate:
                 derivedEstimatedTime: PT10H
-                derivedStartDate: 
+                derivedStartDate:
                 description:
                   format: markdown
                   html: "<p>Develop super cool OpenProject API.</p>"
                   raw: Develop super cool OpenProject API.
-                dueDate: 
+                dueDate:
                 estimatedTime: PT2H
                 id: 1528
                 percentageDone: 0
                 scheduleManually: false
-                startDate: 
+                startDate:
                 subject: Develop API
                 updatedAt: '2014-08-29T12:44:41Z'
           schema:

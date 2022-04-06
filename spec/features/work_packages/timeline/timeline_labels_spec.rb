@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -62,22 +62,22 @@ RSpec.feature 'Work package timeline labels',
 
   let(:work_package) do
     create :work_package,
-                      project: project,
-                      type: type,
-                      assigned_to: user,
-                      start_date: today,
-                      due_date: tomorrow,
-                      subject: 'My subject',
-                      custom_field_values: { custom_field.id => custom_value_for('onions') }
+           project: project,
+           type: type,
+           assigned_to: user,
+           start_date: today,
+           due_date: tomorrow,
+           subject: 'My subject',
+           custom_field_values: { custom_field.id => custom_value_for('onions') }
   end
 
   let(:milestone_work_package) do
     create :work_package,
-                      project: project,
-                      type: milestone_type,
-                      start_date: future,
-                      due_date: future,
-                      subject: 'My milestone'
+           project: project,
+           type: milestone_type,
+           start_date: future,
+           due_date: future,
+           subject: 'My milestone'
   end
 
   before do
@@ -135,9 +135,9 @@ RSpec.feature 'Work package timeline labels',
 
     # Check the query
     query = Query.last
-    expect(query.timeline_labels).to eq 'left' => 'assignee',
-                                        'right' => 'type',
-                                        'farRight' => 'status'
+    expect(query.timeline_labels).to eq left: 'assignee',
+                                        right: 'type',
+                                        farRight: 'status'
 
     # Revisit page
     wp_timeline.visit_query query

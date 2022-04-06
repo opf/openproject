@@ -1,0 +1,35 @@
+# Schema: FileLinkCollectionWriteModel
+---
+allOf:
+  - $ref: './collection_model.yml'
+  - type: object
+    required:
+      - _embedded
+    properties:
+      _embedded:
+        type: object
+        required:
+          - elements
+        properties:
+          elements:
+            type: array
+            items:
+              $ref: './file_link_write_model.yml'
+
+example:
+  _embedded:
+    elements:
+      - originData:
+          id: 5503
+          name: logo.png
+          mimeType: image/png
+          size: 16042
+          createdAt: '2021-12-19T09:42:10.170Z'
+          lastModifiedAt: '2021-12-20T14:00:13.987Z'
+          createdByName: Luke Skywalker
+          lastModifiedByName: Anakin Skywalker
+        _links:
+          storage:
+            href: /api/v3/storage/42
+      - _hint: File Link resource shortened for brevity
+        id: 1338

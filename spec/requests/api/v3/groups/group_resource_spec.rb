@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -38,8 +38,8 @@ describe 'API v3 Group resource', type: :request, content_type: :json do
   shared_let(:project) { create(:project) }
   let(:group) do
     create(:group,
-                      member_in_project: project,
-                      member_through_role: role).tap do |g|
+           member_in_project: project,
+           member_through_role: role).tap do |g|
       members.each do |members|
         GroupUser.create group_id: g.id, user_id: members.id
       end
@@ -54,8 +54,8 @@ describe 'API v3 Group resource', type: :request, content_type: :json do
 
   current_user do
     create(:user,
-                      member_in_project: project,
-                      member_through_role: role)
+           member_in_project: project,
+           member_through_role: role)
   end
 
   describe 'GET api/v3/groups/:id' do
@@ -180,8 +180,8 @@ describe 'API v3 Group resource', type: :request, content_type: :json do
     let(:another_role) { create(:role) }
     let(:another_user) do
       create(:user,
-                        member_in_project: project,
-                        member_through_role: another_role)
+             member_in_project: project,
+             member_through_role: another_role)
     end
     let(:body) do
       {
@@ -201,9 +201,9 @@ describe 'API v3 Group resource', type: :request, content_type: :json do
     let(:other_project) { create(:project) }
     let!(:membership) do
       create(:member,
-                        principal: group,
-                        project: other_project,
-                        roles: [create(:role)])
+             principal: group,
+             project: other_project,
+             roles: [create(:role)])
     end
 
     before do
@@ -330,9 +330,9 @@ describe 'API v3 Group resource', type: :request, content_type: :json do
     let(:other_project) { create(:project) }
     let!(:membership) do
       create(:member,
-                        principal: group,
-                        project: other_project,
-                        roles: [create(:role)])
+             principal: group,
+             project: other_project,
+             roles: [create(:role)])
     end
     let(:another_role) { create(:role) }
 
@@ -406,32 +406,53 @@ describe 'API v3 Group resource', type: :request, content_type: :json do
       get get_path
     end
 
-    context 'having the necessary permission' do
-      it 'responds with 200 OK' do
-        expect(subject.status)
-          .to eq(200)
+    it_behaves_like 'API V3 collection response', 2, 2, 'Group' do
+      let(:elements) { [other_group, group] }
+    end
+
+    context 'when signaling' do
+      let(:get_path) { api_v3_paths.path_for :groups, select: 'total,count,elements/*' }
+
+      let(:expected) do
+        {
+          total: 2,
+          count: 2,
+          _embedded: {
+            elements: [
+              {
+                _type: 'Group',
+                id: other_group.id,
+                name: other_group.name,
+                _links: {
+                  self: {
+                    href: api_v3_paths.group(other_group.id),
+                    title: other_group.name
+                  }
+                }
+              },
+              {
+                _type: 'Group',
+                id: group.id,
+                name: group.name,
+                _links: {
+                  self: {
+                    href: api_v3_paths.group(group.id),
+                    title: group.name
+                  }
+                }
+              }
+            ]
+          }
+        }
       end
 
-      it 'responds with a collection of groups' do
-        expect(subject.body)
-          .to be_json_eql('Collection'.to_json)
-          .at_path('_type')
-
-        expect(subject.body)
-          .to be_json_eql('2')
-          .at_path('total')
-
-        expect(subject.body)
-          .to be_json_eql(other_group.id.to_json)
-          .at_path('_embedded/elements/0/id')
-
-        expect(subject.body)
-          .to be_json_eql(group.id.to_json)
-          .at_path('_embedded/elements/1/id')
+      it 'is the reduced set of properties of the embedded elements' do
+        expect(last_response.body)
+          .to be_json_eql(expected.to_json)
       end
     end
 
-    context 'not having the necessary permission' do
+    context 'when not having the necessary permission' do
       let(:permissions) { [] }
 
       it_behaves_like 'unauthorized access'

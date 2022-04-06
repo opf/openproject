@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,15 +31,13 @@ require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper.rb')
 describe 'updating a budget', type: :feature, js: true do
   let(:project) do
     create :project_with_types,
-                      enabled_module_names: %i[budgets costs],
-                      members: { user => create(:role) }
+           enabled_module_names: %i[budgets costs work_package_tracking],
+           members: { user => create(:role, permissions: %i[work_package_assigned]) }
   end
   let(:user) { create :admin }
   let(:budget) { create :budget, author: user, project: project }
 
-  before do
-    login_as(user)
-  end
+  current_user { user }
 
   describe 'with new cost items' do
     let(:cost_type) do
@@ -81,16 +79,16 @@ describe 'updating a budget', type: :feature, js: true do
 
     let(:material_budget_item) do
       create :material_budget_item,
-                        units: 3,
-                        cost_type: cost_type,
-                        budget: budget
+             units: 3,
+             cost_type: cost_type,
+             budget: budget
     end
 
     let(:labor_budget_item) do
       create :labor_budget_item,
-                        hours: 5,
-                        user: user,
-                        budget: budget
+             hours: 5,
+             user: user,
+             budget: budget
     end
 
     let(:budget_page) { Pages::EditBudget.new budget.id }
@@ -145,10 +143,10 @@ describe 'updating a budget', type: :feature, js: true do
 
       let(:material_budget_item2) do
         create :material_budget_item,
-                          units: 3,
-                          cost_type: cost_type2,
-                          budget: budget,
-                          amount: 1000.0
+               units: 3,
+               cost_type: cost_type2,
+               budget: budget,
+               amount: 1000.0
       end
 
       it 'retains the overridden budget when opening, but not editing (Regression #32822)' do
@@ -176,9 +174,9 @@ describe 'updating a budget', type: :feature, js: true do
     context 'with two material budget items' do
       let!(:material_budget_item_2) do
         create :material_budget_item,
-                          units: 5,
-                          cost_type: cost_type,
-                          budget: budget
+               units: 5,
+               cost_type: cost_type,
+               budget: budget
       end
 
       it 'keeps previous planned material costs (Regression test #27692)' do
@@ -253,9 +251,9 @@ describe 'updating a budget', type: :feature, js: true do
     context 'with two labor budget items' do
       let!(:labor_budget_item_2) do
         create :labor_budget_item,
-                          hours: 5,
-                          user: user,
-                          budget: budget
+               hours: 5,
+               user: user,
+               budget: budget
       end
 
       it 'keeps previous planned labor costs (Regression test #27692)' do

@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -78,6 +78,10 @@ pl:
         contact: "Contact us for a demo"
       enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
       upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
+    journal_aggregation:
+      explanation:
+        text: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent and will also affect %{webhook_link} delay."
+        link: "webhook"
   announcements:
     show_until: Pokazuj do
     is_active: obecnie wyświetlane
@@ -454,9 +458,12 @@ pl:
         code: 'Status'
         explanation: 'Opis statusu'
         codes:
+          not_started: 'Not started'
           on_track: 'Na ścieżce'
           at_risk: 'Zagrożony'
           off_track: 'Poza ścieżką'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
       query:
         column_names: "Kolumny"
         relations_to_type_column: "Relacje %{type}"
@@ -467,7 +474,6 @@ pl:
       repository:
         url: "ADRES URL"
       role:
-        assignable: "Pakiety robocze mogą być przypisane do użytkowników i grup znajdujących się w posiadaniu tej roli w odpowiednim projekcie"
         permissions: "Uprawnienia"
       time_entry:
         activity: "Działanie"
@@ -896,6 +902,7 @@ pl:
     version: "Wersja"
     work_package: "Zadanie"
   backup:
+    failed: "Backup failed"
     label_backup_token: "Token kopii zapasowej"
     label_create_token: "Utwórz token kopii zapasowej"
     label_delete_token: "Usuń token kopii zapasowej"
@@ -1257,6 +1264,7 @@ pl:
   error_enterprise_token_invalid_domain: "Wersja Enterprise jest nieaktywna. Domena Twojego tokenu Enterprise (%{actual}) nie odpowiada nazwie hosta systemu (%{expected})."
   error_failed_to_delete_entry: 'Nie udało się usunąć tego wpisu.'
   error_in_dependent: "Błąd podczas próby zmiany obiektu zależnego: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
+  error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Nieprawidłowa wybrana wartość."
   error_journal_attribute_not_present: "Dziennik nie zawiera atrybutu %{attribute}."
   error_pdf_export_too_many_columns: "Wybrano zbyt dużo kolumn do eksportu PDF. Zmniejsz liczbę kolumn."
@@ -1366,7 +1374,9 @@ pl:
   menus:
     admin:
       mail_notification: "Powiadomienia e-mail"
-      incoming_outgoing: "Przychodzące i wychodzące"
+      mails_and_notifications: "Emails and notification"
+      aggregation_and_retention: 'Aggregation and retention'
+      api_and_webhooks: "API and webhooks"
     quick_add:
       label: "Otwórz menu szybkiego dodawania"
   my_account:
@@ -1866,7 +1876,7 @@ pl:
   label_used_by_types: "Używane wg typów"
   label_used_in_projects: "Używane w projektach"
   label_user: "Użytkownik"
-  label_user_and_permission: "Użytkownicy i uprawnienia"
+  label_user_and_permission: "Users and permissions"
   label_user_named: "Użytkownik %{name}"
   label_user_activity: "Aktywność użytkownika: %{value}"
   label_user_anonymous: "Anonimowy"
@@ -2018,7 +2028,7 @@ pl:
   mail_body_backup_waiting_period: Nowy token zostanie włączony za %{hours} godz.
   mail_body_backup_token_warning: Jeśli to nie Ty, zaloguj się natychmiast do OpenProject i zresetuj go ponownie.
   mail_body_lost_password: "Aby zmienić hasło, kliknij na poniższy link:"
-  mail_body_register: "Witamy w OpenProject. Aktywuj swoje konto, klikając ten link:"
+  mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "Wiadomość e-mail z zaproszeniem członka projektu"
   mail_body_register_user: "Witaj %{name}, "
   mail_body_register_links_html: |
@@ -2162,7 +2172,7 @@ pl:
     heading_getting_started: "Zobacz szybki przegląd"
     text_getting_started_description: "Spójrz na szybki przegląd zarządzania projektem i pracą zespołową w OpenProject."
     text_show_again: "Możesz zresetować to wideo w menu pomocy"
-    welcome: "Witamy w OpenProject"
+    welcome: "Welcome to %{app_title}"
     select_language: "Wybierz język"
   permission_add_work_package_notes: "Dodawanie notatek"
   permission_add_work_packages: "Dodawanie pakietów roboczych"
@@ -2231,6 +2241,8 @@ pl:
   permission_view_timelines: "Widok osi czasu"
   permission_view_wiki_edits: "WIdok historii wiki"
   permission_view_wiki_pages: "Widok wiki"
+  permission_work_package_assigned: "Become assignee/responsible"
+  permission_work_package_assigned_explanation: "Pakiety robocze mogą być przypisane do użytkowników i grup znajdujących się w posiadaniu tej roli w odpowiednim projekcie"
   placeholders:
     default: "-"
   project:
@@ -2590,7 +2602,6 @@ pl:
   text_work_packages_destroy_confirmation: "Czy na pewno chcesz usunąć wybrane pakiety robocze?"
   text_work_packages_ref_in_commit_messages: "Odwołania i poprawki do pakietów roboczych w wiadomościach o zmianach"
   text_journal_added: "%{label} %{value} added"
-  text_journal_aggregation_time_explanation: "Indywidualne czynności użytkownika (np. dwukrotna aktualizacja pakietu roboczego) są agregowane w pojedynczą czynność, jeśli ich różnica czasowa jest mniejsza niż określony przedział czasowy. Będą one wyświetlane jako pojedyncza czynność w aplikacji. Spowoduje to również opóźnienie powiadomień o tę samą ilość czasu, zmniejszając liczbę wysyłanych wiadomości e-mail."
   text_journal_changed_html: "%{label} zmieniono z %{old} %{linebreak}<strong>na</strong> %{new}"
   text_journal_changed_plain: "%{label} zmieniono z %{old} %{linebreak}na %{new}"
   text_journal_changed_no_detail: "%{label} updated"
@@ -2909,6 +2920,7 @@ pl:
         work_package: "Pakiet roboczy, którego szukasz nie został znaleziony lub został usunięty."
       expected:
         date: "RRRR-MM-DD (tylko data ISO 8601)"
+        datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm] (any compatible ISO 8601 datetime)"
         duration: "Czas trwania ISO 8601"
       invalid_content_type: "Oczekiwano CONTENT-TYPE '%{content_type}' a otrzymano '%{actual}'."
       invalid_format: "Błędny format dla własności '%{property}': Format oczekiwany '%{expected_format}', otrzymano '%{actual}'."
@@ -2920,6 +2932,7 @@ pl:
         select: "Żądany wybór %{invalid} nie jest obsługiwany. Obsługiwane wybory to %{supported}."
       invalid_user_status_transition: "Aktualny stan konta użytkownika nie zezwala na wykonanie tej operacji."
       missing_content_type: "nie określono"
+      missing_property: "Missing property '%{property}'."
       missing_request_body: "There was no request body."
       missing_or_malformed_parameter: "Parametr zapytania '%{parameter}' jest brakujący lub nieprawidłowy."
       multipart_body_error: "Żądanie źródła nie zawiera oczekiwanych wieloczęściowych elementów."
@@ -2952,8 +2965,11 @@ pl:
     errors:
       messages:
         #Common error messages
-        invalid_request: 'Żądanie nie zawiera wymaganego parametru, zawiera nieobsługiwaną wartość parametru lub jest w inny sposób nieprawidłowo sformułowane.'
-        invalid_redirect_uri: "Identyfikator URI żądanego przekierowania jest nieprawidłowo sformułowany lub niezgodny z identyfikatorem URI przekierowania klienta."
+        invalid_request:
+          unknown: 'Żądanie nie zawiera wymaganego parametru, zawiera nieobsługiwaną wartość parametru lub jest w inny sposób nieprawidłowo sformułowane.'
+          missing_param: 'Missing required parameter: %{value}.'
+          request_not_authorized: 'Request need to be authorized. Required parameter for authorizing request is missing or invalid.'
+        invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
         unauthorized_client: 'Klient nie ma uprawnień do wykonania tego żądania przy użyciu tej metody.'
         access_denied: 'Odrzucenie żądania ze strony właściciela zasobu lub serwera autoryzacji.'
         invalid_scope: 'Żądany zakres jest nieprawidłowy, nieznany lub nieprawidłowo sformułowany.'
@@ -2966,6 +2982,7 @@ pl:
         admin_authenticator_not_configured: 'Dostęp do panelu administratora jest zabroniony z powodu nieskonfigurowania ustawień Doorkeeper.configure.admin_authenticator.'
         #Access grant errors
         unsupported_response_type: 'Serwer autoryzacji nie obsługuje tego typu odpowiedzi.'
+        unsupported_response_mode: 'The authorization server does not support this response mode.'
         #Access token errors
         invalid_client: 'Uwierzytelnianie klienta nie powiodło się z powodu nieznanego klienta, nieuwzględnienia uwierzytelniania klienta lub nieobsługiwanej metody uwierzytelniania.'
         invalid_grant: 'Udzielona autoryzacja jest nieprawidłowa, wygasła, unieważniona, nie odpowiada identyfikatorowi URI przekierowania użytemu w żądaniu autoryzacji lub została wydana innemu klientowi.'
@@ -2974,6 +2991,10 @@ pl:
           revoked: "Token dostępu został unieważniony"
           expired: "Ten token wygasł"
           unknown: "Ten token jest nieprawidłowy"
+        revoke:
+          unauthorized: "You are not authorized to revoke this token."
+        forbidden_token:
+          missing_scope: 'Access to this resource requires scope "%{oauth_scopes}".'
   unsupported_browser:
     title: "Ta przeglądarka jest przestarzała i nieobsługiwana."
     message: "Na tej stronie mogą wystąpić błędy i pogorszenie działania."

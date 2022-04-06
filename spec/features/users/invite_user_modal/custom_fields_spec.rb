@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -42,8 +42,8 @@ feature 'Invite user modal custom fields', type: :feature, js: true do
   end
   let!(:role) do
     create :role,
-                      name: 'Member',
-                      permissions: permissions
+           name: 'Member',
+           permissions: permissions
   end
 
   let!(:boolean_cf) { create :boolean_user_custom_field, name: 'bool', is_required: true }
@@ -70,10 +70,10 @@ feature 'Invite user modal custom fields', type: :feature, js: true do
 
   current_user do
     create :user,
-                      :skip_validations,
-                      member_in_project: project,
-                      member_through_role: role,
-                      global_permissions: global_permissions
+           :skip_validations,
+           member_in_project: project,
+           member_through_role: role,
+           global_permissions: global_permissions
   end
 
   it 'shows the required fields during the principal step' do

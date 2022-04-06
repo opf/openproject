@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,7 +34,7 @@ describe 'Invite user modal subprojects', type: :feature, js: true do
   shared_let(:work_package) { create :work_package, project: subproject }
   shared_let(:invitable_user) { create :user, firstname: 'Invitable', lastname: 'User' }
 
-  let(:permissions) { %i[view_work_packages edit_work_packages manage_members] }
+  let(:permissions) { %i[view_work_packages edit_work_packages manage_members work_package_assigned] }
   let(:global_permissions) { %i[] }
   let(:modal) do
     ::Components::Users::InviteUserModal.new project: subproject,
@@ -43,17 +43,17 @@ describe 'Invite user modal subprojects', type: :feature, js: true do
   end
   let!(:role) do
     create :role,
-                      name: 'Member',
-                      permissions: permissions
+           name: 'Member',
+           permissions: permissions
   end
   let(:wp_page) { Pages::FullWorkPackage.new(work_package, project) }
   let(:assignee_field) { wp_page.edit_field :assignee }
 
   current_user do
     create :user,
-                      member_in_projects: [project, subproject],
-                      member_through_role: role,
-                      global_permissions: global_permissions
+           member_in_projects: [project, subproject],
+           member_through_role: role,
+           global_permissions: global_permissions
   end
 
   context 'with manage permissions in subproject' do

@@ -41,10 +41,6 @@ module OpenProject::Avatars
                     icon: 'icon2 icon-image1'
     end
 
-    config.to_prepare do
-      require_dependency 'project'
-    end
-
     add_api_endpoint 'API::V3::Users::UsersAPI', :id do
       mount ::API::V3::Users::UserAvatarAPI
     end

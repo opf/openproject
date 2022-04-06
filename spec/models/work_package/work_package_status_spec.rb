@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,7 +32,7 @@ describe WorkPackage, 'status', type: :model do
   let(:status) { create(:status) }
   let!(:work_package) do
     create(:work_package,
-                      status: status)
+           status: status)
   end
 
   describe '#readonly' do

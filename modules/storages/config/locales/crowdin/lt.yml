@@ -1,0 +1,65 @@
+#English strings go here
+lt:
+  permission_view_file_links: "Žiūrėti failo nuorodas"
+  permission_manage_file_links: "Tvarkyti failo nuorodas"
+  permission_manage_storages_in_project: "Tvarkyti failų saugyklas projekte"
+  project_module_storages: "Failų saugyklos"
+  activerecord:
+    models:
+      storages/storage: "Saugykla"
+    attributes:
+      storages/storage:
+        name: "Vardas"
+        creator: "Kūrėjas"
+        provider_type: "Tiekėjo tipas"
+      storages/file_link:
+        origin_id: "Kilmės Id"
+    errors:
+      messages:
+        not_linked_to_project: "nesusietas su projektu."
+      models:
+        storages/storage:
+          attributes:
+            host:
+              cannot_be_connected_to: "negali būti prijungtas prie."
+              minimal_nextcloud_version_unmet: "neatitinka minimalių versijos reikalavimų (turi būti Nextcloud 23 ar aukštesnis)"
+              not_nextcloud_server: "nėra Nextcloud serveris"
+        storages/file_link:
+          attributes:
+            origin_id:
+              only_numeric_or_uuid: "gali būti tik skaitinis ar uuid."
+  api_v3:
+    errors:
+      too_many_elements_created_at_once: "Per daug elementu vienu metu. Tikėtasi daugiausia %{max}, gauta %{actual}."
+  storages:
+    page_titles:
+      project_settings:
+        index: "Šiame projekte prieinamos failų saugyklos."
+        new: "Įjungti failų saugyklą šiam projektui"
+    instructions:
+      name: "Prašome naudoti trumpą pavadinimą. Jis bus naudojamas kaip kortelės antraštė darbų paketų vaizde."
+      host: "Jūsų saugyklos egzemplioriaus URL. URL negali būti ilgesnis už 255 simbolius."
+      no_storage_set_up: "Dar nėra nustatyta nei viena failų saugykla."
+      setting_up_additional_storages: "Norėdami sukurti papildomas failų saugyklas, prašome aplankyti"
+      setting_up_additional_storages_non_admin: "Administratoriai gali sukurti papildomas failų saugyklas: Administravimas / Failų saugyklos."
+      setting_up_storages: "Norėdami nustatyti failų saugyklas aplankykite"
+      setting_up_storages_non_admin: "Administratoriai gali nustatyti failų saugyklas: Administravimas / Failų saugyklos"
+      all_available_storages_already_added: "Visos galimos failų saugyklos jau pridėtos į projektą."
+    delete_warning:
+      storage: >
+        Ar tikrai norite ištrinti šią failų saugyklą? Saugykla taipogi bus ištrinta iš visų projektų, kur ji naudojama. Taipogi tai ištrins visus ryšius iš darbo paketų į failus, esančius šioje saugykloje.
+      project_storage: >
+        Ar tikrai norite išimti šią failų saugyklą iš jūsų projekto? Taipogi bus išimtos visos šio projekto nuorodos į failus, saugomus šioje saugykloje.
+    label_creator: "Kūrėjas"
+    label_file_link: "Failo nuoroda"
+    label_file_links: "Failo nuorodos"
+    label_name: "Pavadinimas"
+    label_host: "Serveris"
+    label_provider_type: "Tiekėjo tipas"
+    label_new_storage: "Nauja saugykla"
+    label_storage: "Saugykla"
+    label_storages: "Saugyklos"
+    no_results: "Dar nenustatyta jokia saugykla"
+    provider_types:
+      label: "Tiekėjo tipas"
+      nextcloud: "Nextcloud"

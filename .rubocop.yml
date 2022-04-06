@@ -139,6 +139,10 @@ Rails/HttpPositionalArguments:
   Exclude:
     - 'spec/requests/api/v3/**/*.rb'
 
+# require_dependency is an obsolete method for Rails applications running in Zeitwerk mode.
+Rails/RequireDependency:
+  Enabled: true
+
 # For feature specs, we tend to have longer specs that cover a larger part of the functionality.
 # This is done for multiple reasons:
 # * performance, as setting up integration tests is costly
@@ -194,6 +198,7 @@ RSpec/NamedSubject:
 
 RSpec/ContextWording:
   Prefixes:
+    - as
     - when
     - with
     - without
@@ -257,9 +262,6 @@ Style/EachWithObject:
   Enabled: false
 
 Style/EmptyLiteral:
-  Enabled: false
-
-Style/Encoding:
   Enabled: false
 
 Style/EvenOdd:

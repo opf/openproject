@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,14 +33,14 @@ describe ::API::V3::TimeEntries::TimeEntryRepresenter, 'rendering' do
 
   let(:time_entry) do
     build_stubbed(:time_entry,
-                             comments: 'blubs',
-                             spent_on: Date.today,
-                             created_at: DateTime.now - 6.hours,
-                             updated_at: DateTime.now - 3.hours,
-                             hours: hours,
-                             activity: activity,
-                             project: project,
-                             user: user)
+                  comments: 'blubs',
+                  spent_on: Date.today,
+                  created_at: DateTime.now - 6.hours,
+                  updated_at: DateTime.now - 3.hours,
+                  hours: hours,
+                  activity: activity,
+                  project: project,
+                  user: user)
   end
   let(:project) { build_stubbed(:project) }
   let(:work_package) { time_entry.work_package }

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,19 +37,19 @@ describe ::API::V3::CostEntries::WorkPackageCostsByTypeRepresenter do
   let(:cost_type_B) { create(:cost_type) }
   let(:cost_entries_A) do
     create_list(:cost_entry,
-                           2,
-                           units: 1,
-                           work_package: work_package,
-                           project: project,
-                           cost_type: cost_type_A)
+                2,
+                units: 1,
+                work_package: work_package,
+                project: project,
+                cost_type: cost_type_A)
   end
   let(:cost_entries_B) do
     create_list(:cost_entry,
-                           3,
-                           units: 2,
-                           work_package: work_package,
-                           project: project,
-                           cost_type: cost_type_B)
+                3,
+                units: 2,
+                work_package: work_package,
+                project: project,
+                cost_type: cost_type_B)
   end
   let(:current_user) do
     create(:user, member_in_project: project, member_through_role: role)

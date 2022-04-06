@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -45,7 +43,7 @@ describe UserMailer, type: :mailer do
   end
   let(:work_package) do
     build_stubbed(:work_package,
-                             type: type_standard)
+                  type: type_standard)
   end
 
   let(:recipient) { build_stubbed(:user) }

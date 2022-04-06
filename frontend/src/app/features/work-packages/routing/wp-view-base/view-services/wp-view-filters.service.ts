@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -255,7 +255,7 @@ export class WorkPackageViewFiltersService extends WorkPackageQueryStateService<
     return _.findIndex(this.current, (f) => f.id === id);
   }
 
-  public applyToQuery(query:QueryResource) {
+  public applyToQuery(query:QueryResource):boolean {
     query.filters = this.cloneFilters();
     return true;
   }
@@ -272,7 +272,7 @@ export class WorkPackageViewFiltersService extends WorkPackageQueryStateService<
    * Returns a deep clone of the current filters set, may be used
    * to modify the filters without altering this state.
    */
-  public cloneFilters() {
+  public cloneFilters():QueryFilterInstanceResource[] {
     return cloneHalResourceCollection<QueryFilterInstanceResource>(this.rawFilters);
   }
 
@@ -284,18 +284,18 @@ export class WorkPackageViewFiltersService extends WorkPackageQueryStateService<
     return this.lastUpdatedState.value || [];
   }
 
-  public get currentlyVisibleFilters() {
+  public get currentlyVisibleFilters():QueryFilterInstanceResource[] {
     const invisibleFilters = new Set(this.hidden);
     invisibleFilters.delete('search');
 
-    return _.reject(this.currentFilterResources, (filter) => invisibleFilters.has(filter.id));
+    return _.reject(this.current, (filter) => invisibleFilters.has(filter.id));
   }
 
   /**
    * Replace this filter state, but only if the given filters are complete
    * @param newState
    */
-  public replaceIfComplete(newState:QueryFilterInstanceResource[]) {
+  public replaceIfComplete(newState:QueryFilterInstanceResource[]):void {
     if (this.isComplete(newState)) {
       this.update(newState);
     } else {
@@ -306,7 +306,7 @@ export class WorkPackageViewFiltersService extends WorkPackageQueryStateService<
   /**
    * Filters service depends on two states
    */
-  public onReady() {
+  public onReady():Promise<null> {
     return combine(this.pristineState, this.availableState)
       .values$()
       .pipe(
@@ -321,13 +321,6 @@ export class WorkPackageViewFiltersService extends WorkPackageQueryStateService<
    */
   private remainingFilters(filters = this.rawFilters) {
     return _.differenceBy(this.availableFilters, filters, (filter) => filter.id);
-  }
-
-  /**
-   * Map current filter instances to their FilterResource
-   */
-  private get currentFilterResources():QueryFilterResource[] {
-    return this.rawFilters.map((filter:QueryFilterInstanceResource) => filter.filter);
   }
 
   isAvailable(el:QueryFilterInstanceResource):boolean {

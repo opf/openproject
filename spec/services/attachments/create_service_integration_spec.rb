@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -46,8 +44,8 @@ describe Attachments::CreateService, 'integration', with_settings: { journal_agg
       shared_let(:container) { create(:work_package) }
       shared_let(:user) do
         create :user,
-                          member_in_project: container.project,
-                          member_with_permissions: %i[view_work_packages edit_work_packages]
+               member_in_project: container.project,
+               member_with_permissions: %i[view_work_packages edit_work_packages]
       end
 
       shared_examples 'successful creation' do
@@ -109,8 +107,8 @@ describe Attachments::CreateService, 'integration', with_settings: { journal_agg
       shared_let(:container) { create(:message) }
       shared_let(:user) do
         create :user,
-                          member_in_project: container.forum.project,
-                          member_with_permissions: %i[add_messages edit_messages]
+               member_in_project: container.forum.project,
+               member_with_permissions: %i[add_messages edit_messages]
       end
 
       shared_examples 'successful creation' do

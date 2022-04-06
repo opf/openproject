@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -463,7 +463,7 @@ describe ::API::V3::Queries::QueryRepresenter do
     context 'with sort_by' do
       let(:query) do
         build_stubbed(:query,
-                                 sort_criteria: [%w[subject asc], %w[assigned_to desc]])
+                      sort_criteria: [%w[subject asc], %w[assigned_to desc]])
       end
 
       it 'has an array of sortBy' do
@@ -779,7 +779,7 @@ describe ::API::V3::Queries::QueryRepresenter do
     describe 'with sort criteria' do
       let(:query) do
         build_stubbed(:query,
-                                 sort_criteria: [%w[subject asc], %w[assigned_to desc]])
+                      sort_criteria: [%w[subject asc], %w[assigned_to desc]])
       end
 
       it 'has the sort criteria embedded' do

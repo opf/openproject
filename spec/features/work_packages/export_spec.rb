@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -173,8 +173,8 @@ describe 'work package export', type: :feature do
     describe 'with a manually sorted query', js: true do
       let(:query) do
         create :query,
-                          user: current_user,
-                          project: project
+               user: current_user,
+               project: project
       end
 
       before do
@@ -213,8 +213,8 @@ describe 'work package export', type: :feature do
     let(:export_type) { 'PDF' }
     let(:query) do
       create :query,
-                        user: current_user,
-                        project: project
+             user: current_user,
+             project: project
     end
 
     context 'with many columns' do

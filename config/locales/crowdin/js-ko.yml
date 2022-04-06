@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -23,7 +23,8 @@ ko:
   js:
     ajax:
       hide: "숨기기"
-      loading: "불러오는 중 ..."
+      loading: "Loading…"
+      updating: "Updating…"
     attachments:
       draggable_hint: |
         인라인 이미지 또는 참조 첨부 파일로 편집기 필드를 드래그하세요. 드래그하는 동안에는 닫힌 편집기 필드가 열립니다.
@@ -61,6 +62,7 @@ ko:
     button_confirm: "확인"
     button_continue: "계속"
     button_copy: "복사"
+    button_copy_to_other_project: "Copy to other project"
     button_custom-fields: "사용자 정의 필드"
     button_delete: "삭제"
     button_delete_watcher: "주시자 삭제"
@@ -250,6 +252,7 @@ ko:
     enumeration_doc_categories: "문서 범주"
     enumeration_work_package_priorities: "작업 패키지 우선 순위"
     filter:
+      more_values_not_shown: "There are %{total} more results, search to filter results."
       description:
         text_open_filter: "'ALT'와 화살표 키로 이 필터를 여세요."
         text_close_filter: "항목을 선택하려면 예를 들어 Enter를 눌러 초점을 유지합니다. 필터 없이 두려면 첫 번째(빈) 항목을 선택합니다."
@@ -284,15 +287,15 @@ ko:
           learn_about: "새로운 기능에 대해 자세히 알아보기"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_0':
+          '12_1':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
+              learn_about_link: https://www.openproject.org/openproject-12-1-release
               new_features_html: >
-                이 릴리스에는 다양한 새로운 기능과 개선 사항이 포함되어 있습니다: <br> <ul class="%{list_styling_class}"> <li>새로운 <b>인앱 알림</b>으로 모든 중요 업데이트를 애플리케이션에서 직접 받으므로 더 이상 수많은 이메일을 받지 않게 됩니다.</li> <li>새로운 <b>알림 센터</b>는 알림 이유 또는 프로젝트 등 직관적인 필터 옵션을 비롯한, 모든 변경 사항을 표시합니다. 분할 보기에서 직접 편집도 가능합니다.</li> <li>개선된 <b>알림 설정</b>을 통해 알림을 받고 싶은 작업과 프로젝트를 미세 조정할 수 있습니다.</li> <li><b>이메일 미리 알림</b>은 일일 이메일 요약을 통해 중요 업데이트를 받도록 구성할 수 있습니다.</li> <li>이제 관계에 대한 작업 패키지 자동 완성 도구는 해당 작업 패키지를 쉽게 식별할 수 있는 추가 정보(프로젝트 이름, 상태...)도 표시합니다.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A <b>new team planner module</b> (Enterprise feature) allows you to visually assign tasks to team members to get an overview of who is working on what.</li> <li>We are <b>releasing the basic agile boards</b> for the Community version.</li> <li>The <b>"Include Projects" filter</b> option makes it easier to add different projects to your views, such as for work packages, calendars, and team planners.</li> <li>We added <b>a new "Files" tab</b> in the work package details to have all possible information attached to a work package together.</li> <li>We created <b>global roles for groups</b> to assign these roles to groups and create superuser groups.</li> <li>Project status was given more options to choose from.</li> </ul>
             bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
+              learn_about_link: https://www.openproject.org/openproject-12-1-release
               new_features_html: >
-                이 릴리스에는 다양한 새로운 기능과 개선 사항이 포함되어 있습니다: <br> <ul class="%{list_styling_class}"> <li>알림 센터: 수신하는 메일 수를 줄입니다. 대신 센터 한 곳에서 모든 관련 알림을 찾고 조치를 취할 수 있습니다.</li> <li>이제 업로드된 모든 IFC 파일도 다운로드할 수 있습니다.</li> <li>IFC 업로드 및 처리가 더욱 빨라졌으며 개선된 오류 메시지를 받게 됩니다.</li> <li><a href="https://github.com/opf/openproject-revit-add-in">OpenProject Revit 추가 기능</a>에서 많은 버그가 수정되었습니다.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>In the BCF module you can now save your selected work package filters, columns etc. as <b>views</b> and share those with your team members.</li> <li>A <b>new team planner module</b> (Enterprise feature) allows you to visually assign tasks to team members to get an overview of who is working on what.</li> <li>We are <b>releasing the basic agile boards</b> for the Community version.</li> <li>The <b>"Include Projects" filter</b> option makes it easier to add different projects to your views, such as for work packages, calendars, and team planners.</li> <li>We added <b>a new "Files" tab</b> in the work package details to have all possible information attached to a work package together.</li> <li>We created <b>global roles for groups</b> to assign these roles to groups and create superuser groups.</li> <li>Project status was given more options to choose from.</li> </ul>
     label_activate: "활성화"
     label_add_column_after: "다음 뒤에 열 추가"
     label_add_column_before: "다음 앞에 열 추가"
@@ -451,9 +454,8 @@ ko:
     label_starred_queries: "즐겨 찾는 보기"
     label_global_queries: "공개 보기"
     label_custom_queries: "비공개 보기"
-    label_create_new_query: "새로 만들기"
     label_columns: "컬럼"
-    label_attachments: 파일
+    label_attachments: 첨부 파일
     label_drop_files: 여기에 파일을 놓으세요
     label_drop_files_hint: 또는 파일을 추가 하려면 클릭하세요
     label_drop_folders_hint: 폴더를 첨부 파일로 업로드할 수 없습니다. 단일 파일을 선택하세요.
@@ -497,7 +499,8 @@ ko:
           task_board: "작업 보드는 <b>이 스프린트의 진행률</b>을 시각화합니다. 사용자 이야기 옆에 있는 더하기(+) 아이콘을 클릭하여 새 작업이나 제한을 추가하세요. <br> 드래그 앤 드롭으로 상태를 업데이트할 수 있습니다."
         boards:
           overview: '<b>보드</b>를 선택하여 보기를 전환하고 애자일 보드 보기를 사용하여 프로젝트를 관리하세요.'
-          lists: '여기에서 보드 내 여러 목록(열)을 만들 수 있습니다. 예를 들어, 이 기능을 사용하면 <b>Kanban 보드</b>를 만들 수 있습니다.'
+          lists_kanban: '여기에서 보드 내 여러 목록(열)을 만들 수 있습니다. 예를 들어, 이 기능을 사용하면 <b>Kanban 보드</b>를 만들 수 있습니다.'
+          lists_basic: 'Here you can create multiple lists (columns) within your agile board.'
           add: '더하기(+) 아이콘을 클릭하여 <b>새 카드를 생성</b>하거나 보드의 목록에 <b>기존 카드를 추가</b>합니다.'
           drag: '지정된 목록에서 카드를 드래그 앤 드롭하여 재정렬하거나 카드를 다른 목록으로 이동합니다. <br> 오른쪽 상단 모서리의 정보(i) 아이콘을 클릭하거나 카드를 두 번 클릭하면 세부 정보를 열 수 있습니다.'
         wp:
@@ -508,6 +511,12 @@ ko:
           create_button: '<b>+ 만들기</b> 버튼은 프로젝트에 새로운 작업 패키지를 추가합니다.'
           timeline_button: '<b>Gantt 차트</b> 보기를 활성화하여 프로젝트의 타임라인을 만들 수 있습니다.'
           timeline: '여기에서 <b>프로젝트 계획을 편집</b>하고 작업, 마일스톤, 단계 등 새로운 작업 패키지를 만들고 <b>종속성을 추가</b>할 수도 있습니다. 모든 팀원이 언제든지 최신 계획을 보고 업데이트할 수 있습니다.'
+        team_planner:
+          overview: 'The team planner lets you visually assign tasks to team members and get an overview of who is working on what.'
+          calendar: 'The weekly or biweekly planning board displays all work packages assigned to your team members.'
+          add_assignee: 'To get started, add assignees to the team planner.'
+          add_existing: 'Search for existing work packages and drag them to the team planner to instantly assign them to a team member and define start and end dates.'
+          card: 'Drag work packages horizontally to move them backwards or forwards in time, drag the edges to change start and end dates and even drag them vertically to a different row to assign them to another member.'
     notifications:
       title: "알림"
       no_unread: "읽지 않는 알림 없음"
@@ -985,7 +994,8 @@ ko:
         activity: 활동
         relations: 관계
         watchers: 주시자
-        attachments: 첨부 파일
+        files: 파일
+        files_tab_migration_help: 'You can now attach files to work packages via the new tab:'
       time_relative:
         days: "일"
         weeks: "주"
@@ -1152,8 +1162,22 @@ ko:
           placeholder: '이제 %{project}에서 이 플레이스홀더를 사용할 수 있게 되었습니다. 한편 당신은 해당 사용자에 대한 계획을 세우거나 작업 패키지를 할당할 수 있습니다.'
           group: '이제 이 그룹은 %{project}의 일부입니다. 한편 당신은 해당 사용자에 대한 계획을 세우거나 작업 패키지를 할당할 수 있습니다.'
         next_button: '계속'
+    include_projects:
+      toggle_title: 'Include projects'
+      title: '프로젝트'
+      clear_selection: 'Clear selection'
+      apply: '적용'
+      selected_filter:
+        all: '모든 프로젝트'
+        selected: 'Only selected'
+      search_placeholder: 'Search project...'
     forms:
       submit_success_message: '양식을 성공적으로 제출했습니다'
       load_error_message: '양식을 불러오는 중 오류가 발생했습니다'
       validation_error_message: '양식 내 오류를 수정하십시오'
       advanced_settings: '고급 설정'
+    spot:
+      filter_chip:
+        remove: '제거'
+      drop_modal:
+        Close: '닫기'

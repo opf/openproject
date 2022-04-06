@@ -14,10 +14,10 @@ describe 'Activity tab', js: true, selenium: true do
   let(:project) { create :project_with_types, public: true }
   let!(:work_package) do
     work_package = create(:work_package,
-                                     project: project,
-                                     created_at: 5.days.ago.to_date.to_s(:db),
-                                     subject: initial_subject,
-                                     journal_notes: initial_comment)
+                          project: project,
+                          created_at: 5.days.ago.to_date.to_s(:db),
+                          subject: initial_subject,
+                          journal_notes: initial_comment)
 
     note_journal = work_package.journals.last
     note_journal.update(created_at: 5.days.ago.to_date.to_s)
@@ -58,17 +58,17 @@ describe 'Activity tab', js: true, selenium: true do
 
   let!(:revision) do
     repo = build(:repository_subversion,
-                            project: project)
+                 project: project)
 
     Setting.enabled_scm = Setting.enabled_scm << repo.vendor
 
     repo.save!
 
     changeset = build(:changeset,
-                                 comments: 'A comment on a changeset',
-                                 committed_on: 2.days.ago.to_date.to_s(:db),
-                                 repository: repo,
-                                 committer: 'cool@person.org')
+                      comments: 'A comment on a changeset',
+                      committed_on: 2.days.ago.to_date.to_s(:db),
+                      repository: repo,
+                      committer: 'cool@person.org')
 
     work_package.changesets << changeset
 
@@ -140,8 +140,8 @@ describe 'Activity tab', js: true, selenium: true do
       end
       let(:user) do
         create(:user,
-                          member_in_project: project,
-                          member_through_role: role)
+               member_in_project: project,
+               member_through_role: role)
       end
       let(:activities) do
         [initial_note, note_1, revision, note_2]
@@ -217,8 +217,8 @@ describe 'Activity tab', js: true, selenium: true do
       end
       let(:user) do
         create(:user,
-                          member_in_project: project,
-                          member_through_role: role)
+               member_in_project: project,
+               member_through_role: role)
       end
       let(:activities) do
         [initial_note, note_1, note_2]

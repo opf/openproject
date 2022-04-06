@@ -36,14 +36,14 @@ describe "Reminder email sending", type: :feature, js: true do
       },
       notification_settings: [
         build(:notification_setting,
-                         involved: true,
-                         watched: true,
-                         mentioned: true,
-                         work_package_commented: true,
-                         work_package_created: true,
-                         work_package_processed: true,
-                         work_package_prioritized: true,
-                         work_package_scheduled: true)
+              involved: true,
+              watched: true,
+              mentioned: true,
+              work_package_commented: true,
+              work_package_created: true,
+              work_package_processed: true,
+              work_package_prioritized: true,
+              work_package_scheduled: true)
       ]
     )
   end

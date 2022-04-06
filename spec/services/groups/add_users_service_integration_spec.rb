@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,8 +37,8 @@ describe Groups::AddUsersService, 'integration', type: :model do
 
   let!(:group) do
     create :group,
-                      member_in_projects: projects,
-                      member_through_role: role
+           member_in_projects: projects,
+           member_through_role: role
   end
 
   let(:user1) { create :user }
@@ -76,7 +76,8 @@ describe Groups::AddUsersService, 'integration', type: :model do
 
       expect(Notifications::GroupMemberAlteredJob)
         .to have_received(:perform_later)
-        .with(a_collection_containing_exactly(*ids),
+        .with(current_user,
+              a_collection_containing_exactly(*ids),
               message,
               true)
     end
@@ -109,9 +110,9 @@ describe Groups::AddUsersService, 'integration', type: :model do
       let(:previous_project) { projects.first }
       let!(:user_member) do
         create(:member,
-                          project: previous_project,
-                          roles: [role],
-                          principal: user1)
+               project: previous_project,
+               roles: [role],
+               principal: user1)
       end
 
       it_behaves_like 'adds the users to the group and project'
@@ -139,16 +140,16 @@ describe Groups::AddUsersService, 'integration', type: :model do
       let!(:group) do
         create :group do |g|
           create(:member,
-                            project: project,
-                            principal: g,
-                            roles: roles)
+                 project: project,
+                 principal: g,
+                 roles: roles)
         end
       end
       let!(:user_member) do
         create(:member,
-                          project: project,
-                          roles: [roles.first],
-                          principal: user1)
+               project: project,
+               roles: [roles.first],
+               principal: user1)
       end
 
       it 'adds the users to the group and project' do
@@ -156,8 +157,6 @@ describe Groups::AddUsersService, 'integration', type: :model do
 
         expect(group.users)
           .to match_array([user1, user2])
-        expect(user1.memberships.where(project_id: project).map(&:roles).flatten)
-          .to match_array(roles)
         expect(user1.memberships.where(project_id: project).map(&:roles).flatten)
           .to match_array(roles)
         expect(user2.memberships.where(project_id: project).count).to eq 1
@@ -181,9 +180,9 @@ describe Groups::AddUsersService, 'integration', type: :model do
       let(:previous_project) { projects.first }
       let!(:user_member) do
         create(:member,
-                          project: previous_project,
-                          roles: [other_role],
-                          principal: user1)
+               project: previous_project,
+               roles: [other_role],
+               principal: user1)
       end
 
       it 'adds the users to the group and project' do
@@ -208,6 +207,50 @@ describe Groups::AddUsersService, 'integration', type: :model do
 
       it_behaves_like 'sends notification' do
         let(:user) { user_ids }
+      end
+    end
+
+    context 'with global role' do
+      let(:role) { create :global_role }
+      let!(:group) do
+        create :group,
+               global_role: role,
+               global_permission: :add_project
+      end
+
+      it 'adds the users to the group and their membership to the global role' do
+        expect(service_call).to be_success
+
+        expect(group.users).to match_array([user1, user2])
+        expect(user1.memberships.where(project_id: nil).count).to eq 1
+        expect(user1.memberships.flat_map(&:roles)).to match_array [role]
+        expect(user2.memberships.where(project_id: nil).count).to eq 1
+        expect(user2.memberships.flat_map(&:roles)).to match_array [role]
+      end
+
+      context 'when one user already has a global role that the group would add' do
+        let(:global_roles) { create_list(:global_role, 2) }
+        let!(:group) do
+          create :group do |g|
+            create(:member,
+                   project: nil,
+                   principal: g,
+                   roles: global_roles)
+          end
+        end
+        let!(:user_membership) do
+          create(:member,
+                 project: nil,
+                 roles: [global_roles.first],
+                 principal: user1)
+        end
+
+        it 'adds their membership to the global role' do
+          expect(service_call).to be_success
+
+          expect(user1.memberships.where(project_id: nil).flat_map(&:roles)).to match_array global_roles
+          expect(user2.memberships.flat_map(&:roles)).to match_array global_roles
+        end
       end
     end
   end

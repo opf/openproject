@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,12 +31,12 @@ require 'spec_helper'
 describe WorkPackages::CreateService, 'integration', type: :model do
   let(:user) do
     create(:user,
-                      member_in_project: project,
-                      member_through_role: role)
+           member_in_project: project,
+           member_through_role: role)
   end
   let(:role) do
     create(:role,
-                      permissions: permissions)
+           permissions: permissions)
   end
 
   let(:permissions) do
@@ -45,7 +45,7 @@ describe WorkPackages::CreateService, 'integration', type: :model do
 
   let(:type) do
     create(:type,
-                      custom_fields: [custom_field])
+           custom_fields: [custom_field])
   end
   let(:default_type) do
     create(:type_standard)
@@ -53,8 +53,8 @@ describe WorkPackages::CreateService, 'integration', type: :model do
   let(:project) { create(:project, types: [type, default_type]) }
   let(:parent) do
     create(:work_package,
-                      project: project,
-                      type: type)
+           project: project,
+           type: type)
   end
   let(:instance) { described_class.new(user: user) }
   let(:custom_field) { create(:work_package_custom_field) }

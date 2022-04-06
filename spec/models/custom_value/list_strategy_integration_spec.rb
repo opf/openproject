@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -44,9 +44,9 @@ describe CustomValue::ListStrategy, 'integration tests' do
 
   let!(:work_package) do
     create :work_package,
-                      project: project,
-                      type: type,
-                      custom_values: { custom_field.id => custom_field.custom_options.find_by(value: 'A') }
+           project: project,
+           type: type,
+           custom_values: { custom_field.id => custom_field.custom_options.find_by(value: 'A') }
   end
 
   it 'can handle invalid CustomOptions (Regression test)' do

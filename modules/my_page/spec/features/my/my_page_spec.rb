@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,21 +36,21 @@ describe 'My page', type: :feature, js: true do
   let!(:open_status) { create :default_status }
   let!(:created_work_package) do
     create :work_package,
-                      project: project,
-                      type: type,
-                      author: user
+           project: project,
+           type: type,
+           author: user
   end
   let!(:assigned_work_package) do
     create :work_package,
-                      project: project,
-                      type: type,
-                      assigned_to: user
+           project: project,
+           type: type,
+           assigned_to: user
   end
 
   let(:user) do
     create(:user,
-                      member_in_project: project,
-                      member_with_permissions: %i[view_work_packages add_work_packages save_queries])
+           member_in_project: project,
+           member_with_permissions: %i[view_work_packages add_work_packages save_queries])
   end
   let(:my_page) do
     Pages::My::Page.new

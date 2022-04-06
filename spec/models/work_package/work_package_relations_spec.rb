@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,7 +32,7 @@ describe WorkPackage, type: :model do
   describe '#relation' do
     let(:closed_state) do
       create(:status,
-                        is_closed: true)
+             is_closed: true)
     end
 
     describe '#duplicate' do
@@ -40,50 +40,50 @@ describe WorkPackage, type: :model do
       let(:type) { create(:type) }
       let(:original) do
         create(:work_package,
-                          project: project,
-                          type: type,
-                          status: status)
+               project: project,
+               type: type,
+               status: status)
       end
       let(:project) { create(:project, members: { current_user => workflow.role }) }
       let(:dup_1) do
         create(:work_package,
-                          project: project,
-                          type: type,
-                          status: status)
+               project: project,
+               type: type,
+               status: status)
       end
       let(:relation_org_dup_1) do
         create(:relation,
-                          from: dup_1,
-                          to: original,
-                          relation_type: Relation::TYPE_DUPLICATES)
+               from: dup_1,
+               to: original,
+               relation_type: Relation::TYPE_DUPLICATES)
       end
       let(:workflow) do
         create(:workflow,
-                          old_status: status,
-                          new_status: closed_state,
-                          type_id: type.id)
+               old_status: status,
+               new_status: closed_state,
+               type_id: type.id)
       end
       current_user { create(:user) }
 
       context 'closes duplicates' do
         let(:dup_2) do
           create(:work_package,
-                            project: project,
-                            type: type,
-                            status: status)
+                 project: project,
+                 type: type,
+                 status: status)
         end
         let(:relation_dup_1_dup_2) do
           create(:relation,
-                            from: dup_2,
-                            to: dup_1,
-                            relation_type: Relation::TYPE_DUPLICATES)
+                 from: dup_2,
+                 to: dup_1,
+                 relation_type: Relation::TYPE_DUPLICATES)
         end
         # circular dependency
         let(:relation_dup_2_org) do
           create(:relation,
-                            from: dup_2,
-                            to: original,
-                            relation_type: Relation::TYPE_DUPLICATES)
+                 from: dup_2,
+                 to: original,
+                 relation_type: Relation::TYPE_DUPLICATES)
         end
 
         before do
@@ -123,32 +123,32 @@ describe WorkPackage, type: :model do
     describe '#soonest_start' do
       let(:predecessor) do
         create(:work_package,
-                          due_date: predecessor_due_date)
+               due_date: predecessor_due_date)
       end
       let(:predecessor_due_date) { nil }
       let(:successor) do
         create(:work_package,
-                          schedule_manually: successor_schedule_manually,
-                          project: predecessor.project)
+               schedule_manually: successor_schedule_manually,
+               project: predecessor.project)
       end
       let(:successor_schedule_manually) { false }
       let(:successor_child) do
         create(:work_package,
-                          schedule_manually: successor_child_schedule_manually,
-                          parent: successor,
-                          project: predecessor.project)
+               schedule_manually: successor_child_schedule_manually,
+               parent: successor,
+               project: predecessor.project)
       end
       let(:successor_child_schedule_manually) { false }
       let(:successor_grandchild) do
         create(:work_package,
-                          parent: successor_child,
-                          project: predecessor.project)
+               parent: successor_child,
+               project: predecessor.project)
       end
       let(:relation_successor) do
         create(:relation,
-                          from: predecessor,
-                          to: successor,
-                          relation_type: Relation::TYPE_PRECEDES)
+               from: predecessor,
+               to: successor,
+               relation_type: Relation::TYPE_PRECEDES)
       end
       let(:work_packages) { [predecessor, successor, successor_child] }
       let(:relations) { [relation_successor] }

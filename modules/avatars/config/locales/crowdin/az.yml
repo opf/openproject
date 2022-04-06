@@ -1,8 +1,8 @@
 #English strings go here
 az:
   label_avatar: "Avatar"
-  label_avatar_plural: "Avatars"
-  label_current_avatar: "Current Avatar"
+  label_avatar_plural: "Avatarlar"
+  label_current_avatar: "Cari avatar"
   label_choose_avatar: "Choose Avatar from file"
   message_avatar_uploaded: "Avatar changed successfully."
   error_image_upload: "Error saving the image."
@@ -16,8 +16,8 @@ az:
   avatars:
     label_avatar: "Avatar"
     label_gravatar: 'Gravatar'
-    label_current_avatar: 'Current avatar'
-    label_local_avatar: 'Custom avatar'
+    label_current_avatar: 'Cari avatar'
+    label_local_avatar: 'Fərdi avatar'
     text_current_avatar: |
       The following image shows the current avatar.
     text_upload_instructions: |

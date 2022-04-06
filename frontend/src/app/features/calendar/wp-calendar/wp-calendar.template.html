@@ -1,5 +1,6 @@
 <div class="op-wp-calendar"
      data-qa-selector="op-wp-calendar"
+     (contextmenu)="openContextMenu($event)"
      [attr.data-indicator-name]="'table'">
     <ng-container
       *ngIf="(calendarOptions$ | async) as calendarOptions"

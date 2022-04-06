@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -78,6 +78,10 @@ sv:
         contact: "Contact us for a demo"
       enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
       upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
+    journal_aggregation:
+      explanation:
+        text: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent and will also affect %{webhook_link} delay."
+        link: "webhook"
   announcements:
     show_until: Visa fram till
     is_active: visas för tillfället
@@ -454,9 +458,12 @@ sv:
         code: 'Status'
         explanation: 'Statusbeskrivning'
         codes:
+          not_started: 'Not started'
           on_track: 'På banan'
           at_risk: 'I riskzonen'
           off_track: 'Utanför banan'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
       query:
         column_names: "Kolumner"
         relations_to_type_column: "Relationer till %{type}"
@@ -467,7 +474,6 @@ sv:
       repository:
         url: "URL"
       role:
-        assignable: "Arbetspaket kan tilldelas användare och grupper som har denna roll i respektive projektet"
         permissions: "Behörigheter"
       time_entry:
         activity: "Aktivitet"
@@ -888,6 +894,7 @@ sv:
     version: "Version"
     work_package: "Arbetspaket"
   backup:
+    failed: "Backup failed"
     label_backup_token: "Backup token"
     label_create_token: "Create backup token"
     label_delete_token: "Delete backup token"
@@ -1225,6 +1232,7 @@ sv:
   error_enterprise_token_invalid_domain: "The Enterprise Edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: 'Det gick inte ta bort denna post.'
   error_in_dependent: "Fel vid försök att ändra beroende objekt: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
+  error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Ogiltigt valt värde."
   error_journal_attribute_not_present: "Loggbok innehåller inte attribut %{attribute}."
   error_pdf_export_too_many_columns: "För många kolumner har markerats för PDF-export. Vänlogen minska antalet kolumner."
@@ -1334,7 +1342,9 @@ sv:
   menus:
     admin:
       mail_notification: "E-postaviseringar"
-      incoming_outgoing: "Incoming & Outgoing"
+      mails_and_notifications: "Emails and notification"
+      aggregation_and_retention: 'Aggregation and retention'
+      api_and_webhooks: "API and webhooks"
     quick_add:
       label: "Open quick add menu"
   my_account:
@@ -1834,7 +1844,7 @@ sv:
   label_used_by_types: "Används av typer"
   label_used_in_projects: "Används i projekt"
   label_user: "Användare"
-  label_user_and_permission: "Användare och behörigheter"
+  label_user_and_permission: "Users and permissions"
   label_user_named: "Användare %{name}"
   label_user_activity: "%{value}s aktivitet"
   label_user_anonymous: "Anonym"
@@ -1984,7 +1994,7 @@ sv:
   mail_body_backup_waiting_period: The new token will be enabled in %{hours} hours.
   mail_body_backup_token_warning: If this wasn't you, login to OpenProject immediately and reset it again.
   mail_body_lost_password: "För att ändra ditt lösenord, klicka på följande länk:"
-  mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
+  mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "Project member invitation email"
   mail_body_register_user: "Dear %{name}, "
   mail_body_register_links_html: |
@@ -2127,7 +2137,7 @@ sv:
     heading_getting_started: "Få en översikt"
     text_getting_started_description: "Få en snabb överblick över projektledning och samarbete med OpenProject."
     text_show_again: "Du kan starta om denna video från hjälpmenyn"
-    welcome: "Välkommen till OpenProject"
+    welcome: "Welcome to %{app_title}"
     select_language: "Välj ditt språk"
   permission_add_work_package_notes: "Lägg till anteckningar"
   permission_add_work_packages: "Lägg till arbetspaket"
@@ -2196,6 +2206,8 @@ sv:
   permission_view_timelines: "Visa tidslinjer"
   permission_view_wiki_edits: "Visa historik över wiki"
   permission_view_wiki_pages: "Visa wiki"
+  permission_work_package_assigned: "Become assignee/responsible"
+  permission_work_package_assigned_explanation: "Arbetspaket kan tilldelas användare och grupper som har denna roll i respektive projektet"
   placeholders:
     default: "-"
   project:
@@ -2555,7 +2567,6 @@ sv:
   text_work_packages_destroy_confirmation: "Är du säker du vill ta bort det valda arbetspaket(paketen)?"
   text_work_packages_ref_in_commit_messages: "Referenser och fixande av arbetspaket i incheckningsmeddelanden"
   text_journal_added: "%{label} %{value} lades till"
-  text_journal_aggregation_time_explanation: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent."
   text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
   text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label} uppdaterades"
@@ -2869,6 +2880,7 @@ sv:
         work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:
         date: "ÅÅÅÅ-MM-DD (endast datum enligt ISO 8601)"
+        datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm] (any compatible ISO 8601 datetime)"
         duration: "ISO 8601 varaktighet"
       invalid_content_type: "Förväntade att CONTENT-TYPE var \"%{content_type}\" men erhöll istället \"%{actual}\"."
       invalid_format: "Ogiltigt format för egenskapen '%{property}': förväntat format är '%{expected_format}', men fick '%{actual}'."
@@ -2880,6 +2892,7 @@ sv:
         select: "The requested select of %{invalid} is not supported. Supported selects are %{supported}."
       invalid_user_status_transition: "Statusen på den aktuella användarens konto tillåter inte denna operation."
       missing_content_type: "inte angiven"
+      missing_property: "Missing property '%{property}'."
       missing_request_body: "Det fanns inget innehåll i frågan."
       missing_or_malformed_parameter: "Frågeparametern '%{parameter}' är felaktig eller saknas."
       multipart_body_error: "Frågan innehöll inte de förväntade multipart sektionerna."
@@ -2912,8 +2925,11 @@ sv:
     errors:
       messages:
         #Common error messages
-        invalid_request: 'Begäran saknar en obligatorisk parameter, innehåller ett parametervärde som inte stöds, eller är på annat sätt felformulerad.'
-        invalid_redirect_uri: "Den begärda omdirigerings-URI är felaktigt eller matchar inte klientens omdirigerings-URI."
+        invalid_request:
+          unknown: 'Begäran saknar en obligatorisk parameter, innehåller ett parametervärde som inte stöds, eller är på annat sätt felformulerad.'
+          missing_param: 'Missing required parameter: %{value}.'
+          request_not_authorized: 'Request need to be authorized. Required parameter for authorizing request is missing or invalid.'
+        invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
         unauthorized_client: 'Klienten har inte behörighet att utföra denna begäran med denna metod.'
         access_denied: 'Resursägaren eller auktoriseringsservern nekade begäran.'
         invalid_scope: 'Den begärda omfattningen är ogiltig, okänd eller felformulerad.'
@@ -2926,6 +2942,7 @@ sv:
         admin_authenticator_not_configured: 'Åtkomst till administratörspanelen är förbjuden på grund av att Doorkeeper.configure.admin_authenticator är okonfigurerad.'
         #Access grant errors
         unsupported_response_type: 'Auktoriseringsservern stöder inte denna typ av svar.'
+        unsupported_response_mode: 'The authorization server does not support this response mode.'
         #Access token errors
         invalid_client: 'Klientautentisering misslyckades på grund av okänd klient, ingen klientautentisering inkluderad eller autentiseringsmetod som ej stöds.'
         invalid_grant: 'Det angivna godkännandebidraget är ogiltigt, utgånget, återkallat, matchar inte den omdirigerings-URI som används i begäran om godkännande, eller utfärdades till en annan klient.'
@@ -2934,6 +2951,10 @@ sv:
           revoked: "Åtkomsttoken har återkallats"
           expired: "Åtkomsttoken har gått ut"
           unknown: "Åtkomsttoken är ogiltig"
+        revoke:
+          unauthorized: "You are not authorized to revoke this token."
+        forbidden_token:
+          missing_scope: 'Access to this resource requires scope "%{oauth_scopes}".'
   unsupported_browser:
     title: "Din webbläsare är föråldrad och stöds inte."
     message: "Du kan stöta på fel och få försämrad upplevelse på denna sida."

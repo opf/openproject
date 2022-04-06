@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 
 # OpenProject is an open source project management software.
@@ -69,7 +67,7 @@ module DemoData
           seeder.seed!
         end
 
-        Setting.demo_projects_available = 'true'
+        Setting.demo_projects_available = true
       end
 
       puts ' ↳ Assign groups to projects'
@@ -134,7 +132,7 @@ module DemoData
 
     def set_members(project)
       role = Role.find_by(name: translate_with_base_url(:default_role_project_admin))
-      user = User.admin.first
+      user = User.user.admin.first
 
       Member.create!(
         project: project,

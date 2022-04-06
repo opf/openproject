@@ -48,7 +48,7 @@ export class SingleHierarchyRowBuilder extends SingleRowBuilder {
 
   /**
    * Refresh a single row after structural changes.
-   * Remembers and re-adds the hierarchy indicator if neccessary.
+   * Remembers and re-adds the hierarchy indicator if necessary.
    */
   public refreshRow(workPackage:WorkPackageResource, jRow:JQuery):JQuery {
     // Remove any old hierarchy

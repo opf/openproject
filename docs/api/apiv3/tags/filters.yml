@@ -16,7 +16,7 @@ description: |-
 
   ```json
   [
-    { "<filter name>": { "operator": "<operator>", "values": [<value>, ...] },
+    { "<filter name>": { "operator": "<operator>", "values": [<value>, ...] } },
     ...
   ]
   ```
@@ -27,8 +27,8 @@ description: |-
 
   ```json
   [
-    { "subjectOrId": { "operator": "**", values: ["12"] } },
-    { "status": { "operator": "=", values: ["5"] } }
+    { "subjectOrId": { "operator": "**", "values": ["12"] } },
+    { "status": { "operator": "=", "values": ["5"] } }
   ]
   ```
 

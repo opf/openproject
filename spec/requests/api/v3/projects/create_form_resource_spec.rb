@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -39,8 +37,8 @@ describe ::API::V3::Projects::CreateFormAPI, content_type: :json do
   current_user do
     create(:user).tap do |u|
       create(:global_member,
-                        principal: u,
-                        roles: [global_role])
+             principal: u,
+             roles: [global_role])
     end
   end
 
@@ -182,8 +180,8 @@ describe ::API::V3::Projects::CreateFormAPI, content_type: :json do
     context 'with only add_subprojects permission' do
       current_user do
         create(:user,
-                          member_in_project: parent_project,
-                          member_with_permissions: %i[add_subprojects])
+               member_in_project: parent_project,
+               member_with_permissions: %i[add_subprojects])
       end
 
       let(:parent_project) { create(:project) }

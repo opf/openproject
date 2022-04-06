@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -40,27 +40,27 @@ describe 'Arbitrary WorkPackage query graph widget dashboard', type: :feature, j
   let!(:closed_status) { create :status, is_closed: true }
   let!(:type_work_package) do
     create :work_package,
-                      project: project,
-                      type: type,
-                      author: user,
-                      status: open_status,
-                      responsible: user
+           project: project,
+           type: type,
+           author: user,
+           status: open_status,
+           responsible: user
   end
   let!(:other_type_work_package) do
     create :work_package,
-                      project: project,
-                      type: other_type,
-                      author: user,
-                      status: closed_status,
-                      responsible: user
+           project: project,
+           type: other_type,
+           author: user,
+           status: closed_status,
+           responsible: user
   end
   let!(:other_project_work_package) do
     create :work_package,
-                      project: other_project,
-                      type: type,
-                      author: user,
-                      status: open_status,
-                      responsible: user
+           project: other_project,
+           type: type,
+           author: user,
+           status: open_status,
+           responsible: user
   end
 
   let(:permissions) do

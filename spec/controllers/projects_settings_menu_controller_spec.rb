@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -95,14 +95,14 @@ describe Projects::Settings::ModulesController, 'menu', type: :controller do
       describe 'with custom wiki menu item' do
         before do
           main_item = create(:wiki_menu_item,
-                                        navigatable_id: project.wiki.id,
-                                        name: 'example',
-                                        title: 'Example Title')
+                             navigatable_id: project.wiki.id,
+                             name: 'example',
+                             title: 'Example Title')
           create(:wiki_menu_item,
-                            navigatable_id: project.wiki.id,
-                            name: 'sub',
-                            title: 'Sub Title',
-                            parent_id: main_item.id)
+                 navigatable_id: project.wiki.id,
+                 name: 'sub',
+                 title: 'Sub Title',
+                 parent_id: main_item.id)
         end
 
         it_behaves_like 'renders the modules show page'

@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,15 +32,15 @@ require 'features/page_objects/notification'
 describe 'Work package transitive status workflows', js: true do
   let(:dev_role) do
     create :role,
-                      permissions: %i[view_work_packages
-                                      edit_work_packages]
+           permissions: %i[view_work_packages
+                           edit_work_packages]
   end
   let(:dev) do
     create :user,
-                      firstname: 'Dev',
-                      lastname: 'Guy',
-                      member_in_project: project,
-                      member_through_role: dev_role
+           firstname: 'Dev',
+           lastname: 'Guy',
+           member_in_project: project,
+           member_through_role: dev_role
   end
 
   let(:type) { create :type }
@@ -50,9 +48,9 @@ describe 'Work package transitive status workflows', js: true do
 
   let(:work_package) do
     work_package = create :work_package,
-                                     project: project,
-                                     type: type,
-                                     created_at: 5.days.ago.to_date.to_s(:db)
+                          project: project,
+                          type: type,
+                          created_at: 5.days.ago.to_date.to_s(:db)
 
     note_journal = work_package.journals.last
     note_journal.update(created_at: 5.days.ago.to_date.to_s)
@@ -67,16 +65,16 @@ describe 'Work package transitive status workflows', js: true do
 
   let(:workflows) do
     create :workflow,
-                      type_id: type.id,
-                      old_status: status_from,
-                      new_status: status_intermediate,
-                      role: dev_role
+           type_id: type.id,
+           old_status: status_from,
+           new_status: status_intermediate,
+           role: dev_role
 
     create :workflow,
-                      type_id: type.id,
-                      old_status: status_intermediate,
-                      new_status: status_to,
-                      role: dev_role
+           type_id: type.id,
+           old_status: status_intermediate,
+           new_status: status_to,
+           role: dev_role
   end
 
   before do

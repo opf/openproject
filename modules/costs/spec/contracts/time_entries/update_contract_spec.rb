@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,13 +33,13 @@ describe TimeEntries::UpdateContract do
   it_behaves_like 'time entry contract' do
     let(:time_entry) do
       build_stubbed(:time_entry,
-                               project: time_entry_project,
-                               work_package: time_entry_work_package,
-                               user: time_entry_user,
-                               activity: time_entry_activity,
-                               spent_on: time_entry_spent_on,
-                               hours: time_entry_hours,
-                               comments: time_entry_comments)
+                    project: time_entry_project,
+                    work_package: time_entry_work_package,
+                    user: time_entry_user,
+                    activity: time_entry_activity,
+                    spent_on: time_entry_spent_on,
+                    hours: time_entry_hours,
+                    comments: time_entry_comments)
     end
     subject(:contract) { described_class.new(time_entry, current_user) }
     let(:permissions) { %i(edit_time_entries) }

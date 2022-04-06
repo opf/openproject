@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -46,9 +44,9 @@ describe RepositoriesController, type: :controller do
   let(:repository) do
     allow(Setting).to receive(:enabled_scm).and_return(['subversion'])
     repo = build_stubbed(:repository_subversion,
-                                    scm_type: 'local',
-                                    url: url,
-                                    project: project)
+                         scm_type: 'local',
+                         url: url,
+                         project: project)
     allow(repo).to receive(:default_branch).and_return('master')
     allow(repo).to receive(:branches).and_return(['master'])
     allow(repo).to receive(:save).and_return(true)

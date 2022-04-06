@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,7 +33,7 @@ describe ::API::V3::Notifications::NotificationCollectionRepresenter do
   let(:user) { build_stubbed :user }
   let(:notifications) do
     build_stubbed_list(:notification,
-                                  3).tap do |items|
+                       3).tap do |items|
       allow(items)
         .to receive(:per_page)
               .with(page_size)

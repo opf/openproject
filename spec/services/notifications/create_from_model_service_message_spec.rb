@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -45,14 +43,14 @@ describe Notifications::CreateFromModelService, 'message', with_settings: { jour
 
   let(:resource) do
     create(:message,
-                      forum: forum,
-                      parent: root_message)
+           forum: forum,
+           parent: root_message)
   end
   let(:journal) { resource.journals.last }
   let(:author) { other_user }
   let(:root_message) do
     create(:message,
-                      forum: forum)
+           forum: forum)
   end
 
   current_user { other_user }

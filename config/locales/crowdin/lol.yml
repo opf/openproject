@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -78,6 +78,10 @@ lol:
         contact: "crwdns655651:0crwdne655651:0"
       enterprise_info_html: "crwdns655653:0crwdne655653:0"
       upgrade_info: "crwdns655655:0crwdne655655:0"
+    journal_aggregation:
+      explanation:
+        text: "crwdns808254:0%{webhook_link}crwdne808254:0"
+        link: "crwdns808256:0crwdne808256:0"
   announcements:
     show_until: crwdns494789:0crwdne494789:0
     is_active: crwdns494791:0crwdne494791:0
@@ -436,9 +440,12 @@ lol:
         code: 'crwdns495237:0crwdne495237:0'
         explanation: 'crwdns495239:0crwdne495239:0'
         codes:
+          not_started: 'crwdns710622:0crwdne710622:0'
           on_track: 'crwdns495241:0crwdne495241:0'
           at_risk: 'crwdns495243:0crwdne495243:0'
           off_track: 'crwdns495245:0crwdne495245:0'
+          finished: 'crwdns710624:0crwdne710624:0'
+          discontinued: 'crwdns710626:0crwdne710626:0'
       query:
         column_names: "crwdns495247:0crwdne495247:0"
         relations_to_type_column: "crwdns495249:0%{type}crwdne495249:0"
@@ -449,7 +456,6 @@ lol:
       repository:
         url: "crwdns495259:0crwdne495259:0"
       role:
-        assignable: "crwdns495261:0crwdne495261:0"
         permissions: "crwdns495263:0crwdne495263:0"
       time_entry:
         activity: "crwdns495265:0crwdne495265:0"
@@ -870,6 +876,7 @@ lol:
     version: "crwdns495863:0crwdne495863:0"
     work_package: "crwdns495865:0crwdne495865:0"
   backup:
+    failed: "crwdns771128:0crwdne771128:0"
     label_backup_token: "crwdns495867:0crwdne495867:0"
     label_create_token: "crwdns495869:0crwdne495869:0"
     label_delete_token: "crwdns495871:0crwdne495871:0"
@@ -1207,6 +1214,7 @@ lol:
   error_enterprise_token_invalid_domain: "crwdns496621:0%{actual}crwdnd496621:0%{expected}crwdne496621:0"
   error_failed_to_delete_entry: 'crwdns496623:0crwdne496623:0'
   error_in_dependent: "crwdns496625:0%{dependent_class}crwdnd496625:0%{related_id}crwdnd496625:0%{related_subject}crwdnd496625:0%{error}crwdne496625:0"
+  error_in_new_dependent: "crwdns807892:0%{dependent_class}crwdnd807892:0%{related_subject}crwdnd807892:0%{error}crwdne807892:0"
   error_invalid_selected_value: "crwdns496627:0crwdne496627:0"
   error_journal_attribute_not_present: "crwdns496629:0%{attribute}crwdne496629:0"
   error_pdf_export_too_many_columns: "crwdns496631:0crwdne496631:0"
@@ -1316,7 +1324,9 @@ lol:
   menus:
     admin:
       mail_notification: "crwdns496809:0crwdne496809:0"
-      incoming_outgoing: "crwdns496811:0crwdne496811:0"
+      mails_and_notifications: "crwdns808258:0crwdne808258:0"
+      aggregation_and_retention: 'crwdns808260:0crwdne808260:0'
+      api_and_webhooks: "crwdns808262:0crwdne808262:0"
     quick_add:
       label: "crwdns496813:0crwdne496813:0"
   my_account:
@@ -1805,7 +1815,7 @@ lol:
   label_used_by_types: "crwdns497761:0crwdne497761:0"
   label_used_in_projects: "crwdns497763:0crwdne497763:0"
   label_user: "crwdns497765:0crwdne497765:0"
-  label_user_and_permission: "crwdns497767:0crwdne497767:0"
+  label_user_and_permission: "crwdns808264:0crwdne808264:0"
   label_user_named: "crwdns497769:0%{name}crwdne497769:0"
   label_user_activity: "crwdns497771:0%{value}crwdne497771:0"
   label_user_anonymous: "crwdns497773:0crwdne497773:0"
@@ -1955,7 +1965,7 @@ lol:
   mail_body_backup_waiting_period: crwdns498121:0%{hours}crwdne498121:0
   mail_body_backup_token_warning: crwdns498125:0crwdne498125:0
   mail_body_lost_password: "crwdns498129:0crwdne498129:0"
-  mail_body_register: "crwdns498135:0crwdne498135:0"
+  mail_body_register: "crwdns762262:0%{app_title}crwdne762262:0"
   mail_body_register_header_title: "crwdns498141:0crwdne498141:0"
   mail_body_register_user: "crwdns498143:0%{name}crwdne498143:0"
   mail_body_register_links_html: |
@@ -2094,7 +2104,7 @@ lol:
     heading_getting_started: "crwdns498517:0crwdne498517:0"
     text_getting_started_description: "crwdns498519:0crwdne498519:0"
     text_show_again: "crwdns498521:0crwdne498521:0"
-    welcome: "crwdns498523:0crwdne498523:0"
+    welcome: "crwdns762264:0%{app_title}crwdne762264:0"
     select_language: "crwdns498525:0crwdne498525:0"
   permission_add_work_package_notes: "crwdns498527:0crwdne498527:0"
   permission_add_work_packages: "crwdns498529:0crwdne498529:0"
@@ -2163,6 +2173,8 @@ lol:
   permission_view_timelines: "crwdns498657:0crwdne498657:0"
   permission_view_wiki_edits: "crwdns498659:0crwdne498659:0"
   permission_view_wiki_pages: "crwdns498661:0crwdne498661:0"
+  permission_work_package_assigned: "crwdns771130:0crwdne771130:0"
+  permission_work_package_assigned_explanation: "crwdns771132:0crwdne771132:0"
   placeholders:
     default: "crwdns498663:0crwdne498663:0"
   project:
@@ -2522,7 +2534,6 @@ lol:
   text_work_packages_destroy_confirmation: "crwdns499265:0crwdne499265:0"
   text_work_packages_ref_in_commit_messages: "crwdns499267:0crwdne499267:0"
   text_journal_added: "crwdns499269:0%{label}crwdnd499269:0%{value}crwdne499269:0"
-  text_journal_aggregation_time_explanation: "crwdns499271:0crwdne499271:0"
   text_journal_changed_html: "crwdns499273:0%{label}crwdnd499273:0%{old}crwdnd499273:0%{linebreak}crwdnd499273:0%{new}crwdne499273:0"
   text_journal_changed_plain: "crwdns499275:0%{label}crwdnd499275:0%{old}crwdnd499275:0%{linebreak}crwdnd499275:0%{new}crwdne499275:0"
   text_journal_changed_no_detail: "crwdns499277:0%{label}crwdne499277:0"
@@ -2836,6 +2847,7 @@ lol:
         work_package: "crwdns499793:0crwdne499793:0"
       expected:
         date: "crwdns499795:0crwdne499795:0"
+        datetime: "crwdns807894:0[.lll]crwdne807894:0"
         duration: "crwdns499797:0crwdne499797:0"
       invalid_content_type: "crwdns499799:0%{content_type}crwdnd499799:0%{actual}crwdne499799:0"
       invalid_format: "crwdns499801:0%{property}crwdnd499801:0%{expected_format}crwdnd499801:0%{actual}crwdne499801:0"
@@ -2847,6 +2859,7 @@ lol:
         select: "crwdns499811:0%{invalid}crwdnd499811:0%{supported}crwdne499811:0"
       invalid_user_status_transition: "crwdns499813:0crwdne499813:0"
       missing_content_type: "crwdns499815:0crwdne499815:0"
+      missing_property: "crwdns807896:0%{property}crwdne807896:0"
       missing_request_body: "crwdns499817:0crwdne499817:0"
       missing_or_malformed_parameter: "crwdns499819:0%{parameter}crwdne499819:0"
       multipart_body_error: "crwdns499821:0crwdne499821:0"
@@ -2879,8 +2892,11 @@ lol:
     errors:
       messages:
         #Common error messages
-        invalid_request: 'crwdns499859:0crwdne499859:0'
-        invalid_redirect_uri: "crwdns499861:0crwdne499861:0"
+        invalid_request:
+          unknown: 'crwdns744050:0crwdne744050:0'
+          missing_param: 'crwdns744052:0%{value}crwdne744052:0'
+          request_not_authorized: 'crwdns744054:0crwdne744054:0'
+        invalid_redirect_uri: "crwdns744056:0crwdne744056:0"
         unauthorized_client: 'crwdns499863:0crwdne499863:0'
         access_denied: 'crwdns499865:0crwdne499865:0'
         invalid_scope: 'crwdns499867:0crwdne499867:0'
@@ -2893,6 +2909,7 @@ lol:
         admin_authenticator_not_configured: 'crwdns499879:0crwdne499879:0'
         #Access grant errors
         unsupported_response_type: 'crwdns499881:0crwdne499881:0'
+        unsupported_response_mode: 'crwdns744058:0crwdne744058:0'
         #Access token errors
         invalid_client: 'crwdns499883:0crwdne499883:0'
         invalid_grant: 'crwdns499885:0crwdne499885:0'
@@ -2901,6 +2918,10 @@ lol:
           revoked: "crwdns499889:0crwdne499889:0"
           expired: "crwdns499891:0crwdne499891:0"
           unknown: "crwdns499893:0crwdne499893:0"
+        revoke:
+          unauthorized: "crwdns744060:0crwdne744060:0"
+        forbidden_token:
+          missing_scope: 'crwdns744062:0%{oauth_scopes}crwdne744062:0'
   unsupported_browser:
     title: "crwdns499895:0crwdne499895:0"
     message: "crwdns499897:0crwdne499897:0"

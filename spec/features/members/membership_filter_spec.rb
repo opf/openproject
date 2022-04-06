@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,22 +34,22 @@ feature 'group memberships through groups page', type: :feature, js: true do
 
   let!(:peter) do
     create :user,
-                      firstname: 'Peter',
-                      lastname: 'Pan',
-                      mail: 'foo@example.org',
-                      member_in_project: project,
-                      member_through_role: role,
-                      preferences: { hide_mail: false }
+           firstname: 'Peter',
+           lastname: 'Pan',
+           mail: 'foo@example.org',
+           member_in_project: project,
+           member_through_role: role,
+           preferences: { hide_mail: false }
   end
 
   let!(:hannibal) do
     create :user,
-                      firstname: 'Pan',
-                      lastname: 'Hannibal',
-                      mail: 'foo@example.com',
-                      member_in_project: project,
-                      member_through_role: role,
-                      preferences: { hide_mail: true }
+           firstname: 'Pan',
+           lastname: 'Hannibal',
+           mail: 'foo@example.com',
+           member_in_project: project,
+           member_through_role: role,
+           preferences: { hide_mail: true }
   end
   let(:role) { create(:role, permissions: %i(add_work_packages)) }
   let(:members_page) { Pages::Members.new project.identifier }

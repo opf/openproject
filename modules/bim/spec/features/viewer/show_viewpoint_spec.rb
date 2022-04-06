@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,8 +34,8 @@ describe 'Show viewpoint in model viewer',
          js: true do
   let(:project) do
     create(:project,
-                      enabled_module_names: %i[bim work_package_tracking],
-                      parent: parent_project)
+           enabled_module_names: %i[bim work_package_tracking],
+           parent: parent_project)
   end
   let(:parent_project) { nil }
   let(:user) { create :admin }
@@ -46,9 +46,9 @@ describe 'Show viewpoint in model viewer',
 
   let!(:model) do
     create(:ifc_model_minimal_converted,
-                      title: 'minimal',
-                      project: project,
-                      uploader: user)
+           title: 'minimal',
+           project: project,
+           uploader: user)
   end
 
   let(:model_tree) { ::Components::XeokitModelTree.new }
@@ -140,8 +140,8 @@ describe 'Show viewpoint in model viewer',
 
       let(:user) do
         create(:user,
-                          member_in_project: project,
-                          member_with_permissions: permissions)
+               member_in_project: project,
+               member_with_permissions: permissions)
       end
 
       it 'does not show the viewpoint' do

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,6 +30,7 @@ FactoryBot.define do
   factory :query do
     project
     user factory: :user
+    include_subprojects { Setting.display_subprojects_work_packages? }
     sequence(:name) { |n| "Query #{n}" }
 
     factory :public_query do

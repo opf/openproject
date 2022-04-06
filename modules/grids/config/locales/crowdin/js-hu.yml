@@ -31,10 +31,13 @@ hu:
           no_results: 'A projektekhez nem definiáltak egyedi mezőket.'
         project_status:
           title: 'Projekt állapot'
+          not_started: 'Not started'
           on_track: 'Terv szerint'
           off_track: 'Kisiklott'
           at_risk: 'Veszélyben'
           not_set: 'Nincs beállítva'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
         subprojects:
           title: 'Alprojektek'
           no_results: "Nincsenek alprojektek\n"

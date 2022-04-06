@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -46,7 +46,7 @@ export class TimelineViewParametersSettings {
   zoomLevel:TimelineZoomLevel = 'days';
 }
 
-// Can't properly map the enum to a string aray
+// Can't properly map the enum to a string array
 export const zoomLevelOrder:TimelineZoomLevel[] = [
   'days', 'weeks', 'months', 'quarters', 'years',
 ];

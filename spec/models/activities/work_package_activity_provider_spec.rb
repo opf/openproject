@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -116,17 +116,17 @@ describe Activities::WorkPackageActivityProvider, type: :model do
       let(:user) do
         create(:user).tap do |u|
           create(:member,
-                            user: u,
-                            project: project,
-                            roles: [create(:role, permissions: [:view_work_packages])])
+                 user: u,
+                 project: project,
+                 roles: [create(:role, permissions: [:view_work_packages])])
           create(:member,
-                            user: u,
-                            project: child_project1,
-                            roles: [create(:role, permissions: [:view_work_packages])])
+                 user: u,
+                 project: child_project1,
+                 roles: [create(:role, permissions: [:view_work_packages])])
           create(:member,
-                            user: u,
-                            project: child_project2,
-                            roles: [create(:role, permissions: [])])
+                 user: u,
+                 project: child_project2,
+                 roles: [create(:role, permissions: [])])
 
           create(:non_member, permissions: [:view_work_packages])
         end

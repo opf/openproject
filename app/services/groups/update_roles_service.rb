@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -68,7 +68,7 @@ module Groups
           SELECT id
           FROM #{Member.table_name}
           WHERE user_id IN (SELECT user_id FROM group_users)
-          AND project_id = :project_id
+          AND project_id IS NOT DISTINCT FROM :project_id
         ),
         -- select all member roles the group has for the member
         group_member_roles AS (

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -43,77 +43,77 @@ describe ::Query::Results, 'sums', type: :model do
   end
   let!(:work_package1) do
     create(:work_package,
-                      type: type,
-                      project: project,
-                      estimated_hours: 5,
-                      done_ratio: 10,
-                      "custom_field_#{int_cf.id}" => 10,
-                      "custom_field_#{float_cf.id}" => 3.414,
-                      remaining_hours: 3,
-                      story_points: 7)
+           type: type,
+           project: project,
+           estimated_hours: 5,
+           done_ratio: 10,
+           "custom_field_#{int_cf.id}" => 10,
+           "custom_field_#{float_cf.id}" => 3.414,
+           remaining_hours: 3,
+           story_points: 7)
   end
   let!(:work_package2) do
     create(:work_package,
-                      type: type,
-                      project: project,
-                      assigned_to: current_user,
-                      done_ratio: 50,
-                      estimated_hours: 5,
-                      "custom_field_#{int_cf.id}" => 10,
-                      "custom_field_#{float_cf.id}" => 3.414,
-                      remaining_hours: 3,
-                      story_points: 7)
+           type: type,
+           project: project,
+           assigned_to: current_user,
+           done_ratio: 50,
+           estimated_hours: 5,
+           "custom_field_#{int_cf.id}" => 10,
+           "custom_field_#{float_cf.id}" => 3.414,
+           remaining_hours: 3,
+           story_points: 7)
   end
   let!(:work_package3) do
     create(:work_package,
-                      type: type,
-                      project: project,
-                      assigned_to: current_user,
-                      responsible: current_user,
-                      done_ratio: 50,
-                      estimated_hours: 5,
-                      "custom_field_#{int_cf.id}" => 10,
-                      "custom_field_#{float_cf.id}" => 3.414,
-                      remaining_hours: 3,
-                      story_points: 7)
+           type: type,
+           project: project,
+           assigned_to: current_user,
+           responsible: current_user,
+           done_ratio: 50,
+           estimated_hours: 5,
+           "custom_field_#{int_cf.id}" => 10,
+           "custom_field_#{float_cf.id}" => 3.414,
+           remaining_hours: 3,
+           story_points: 7)
   end
   let!(:invisible_work_package1) do
     create(:work_package,
-                      type: type,
-                      project: other_project,
-                      estimated_hours: 5,
-                      "custom_field_#{int_cf.id}" => 10,
-                      "custom_field_#{float_cf.id}" => 3.414,
-                      remaining_hours: 3,
-                      story_points: 7)
+           type: type,
+           project: other_project,
+           estimated_hours: 5,
+           "custom_field_#{int_cf.id}" => 10,
+           "custom_field_#{float_cf.id}" => 3.414,
+           remaining_hours: 3,
+           story_points: 7)
   end
   let!(:cost_entry1) do
     create(:cost_entry,
-                      project: project,
-                      work_package: work_package1,
-                      user: current_user,
-                      overridden_costs: 200)
+           project: project,
+           work_package: work_package1,
+           user: current_user,
+           overridden_costs: 200)
   end
   let!(:cost_entry2) do
     create(:cost_entry,
-                      project: project,
-                      work_package: work_package2,
-                      user: current_user,
-                      overridden_costs: 200)
+           project: project,
+           work_package: work_package2,
+           user: current_user,
+           overridden_costs: 200)
   end
   let!(:time_entry1) do
     create(:time_entry,
-                      project: project,
-                      work_package: work_package1,
-                      user: current_user,
-                      overridden_costs: 300)
+           project: project,
+           work_package: work_package1,
+           user: current_user,
+           overridden_costs: 300)
   end
   let!(:time_entry2) do
     create(:time_entry,
-                      project: project,
-                      work_package: work_package2,
-                      user: current_user,
-                      overridden_costs: 300)
+           project: project,
+           work_package: work_package2,
+           user: current_user,
+           overridden_costs: 300)
   end
   let(:int_cf) do
     create(:int_wp_custom_field)
@@ -129,8 +129,8 @@ describe ::Query::Results, 'sums', type: :model do
   end
   let(:current_user) do
     create(:user,
-                      member_in_project: project,
-                      member_with_permissions: permissions)
+           member_in_project: project,
+           member_with_permissions: permissions)
   end
   let(:permissions) do
     %i[view_work_packages view_cost_entries view_time_entries view_cost_rates view_hourly_rates]
@@ -138,8 +138,8 @@ describe ::Query::Results, 'sums', type: :model do
   let(:group_by) { nil }
   let(:query) do
     build :query,
-                     project: project,
-                     group_by: group_by
+          project: project,
+          group_by: group_by
   end
   let(:query_results) do
     ::Query::Results.new query

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -39,24 +39,24 @@ describe 'Arbitrary WorkPackage query table widget dashboard', type: :feature, j
   let!(:open_status) { create :default_status }
   let!(:type_work_package) do
     create :work_package,
-                      project: project,
-                      type: type,
-                      author: user,
-                      responsible: user
+           project: project,
+           type: type,
+           author: user,
+           responsible: user
   end
   let!(:other_type_work_package) do
     create :work_package,
-                      project: project,
-                      type: other_type,
-                      author: user,
-                      responsible: user
+           project: project,
+           type: other_type,
+           author: user,
+           responsible: user
   end
   let!(:other_project_work_package) do
     create :work_package,
-                      project: other_project,
-                      type: type,
-                      author: user,
-                      responsible: user
+           project: other_project,
+           type: type,
+           author: user,
+           responsible: user
   end
 
   let(:permissions) do
@@ -102,7 +102,7 @@ describe 'Arbitrary WorkPackage query table widget dashboard', type: :feature, j
 
       # At the beginning, the default query is displayed
       expect(filter_area.area)
-        .to have_selector('.subject', text: type_work_package.subject)
+        .to have_selector('.subject', text: type_work_package.subject, wait: 10)
 
       expect(filter_area.area)
         .to have_selector('.subject', text: other_type_work_package.subject)

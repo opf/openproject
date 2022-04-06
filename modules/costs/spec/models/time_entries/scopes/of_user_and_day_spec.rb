@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,23 +33,23 @@ describe TimeEntries::Scopes::OfUserAndDay, type: :model do
   let(:spent_on) { Date.today }
   let!(:time_entry) do
     create(:time_entry,
-                      user: user,
-                      spent_on: spent_on)
+           user: user,
+           spent_on: spent_on)
   end
   let!(:other_time_entry) do
     create(:time_entry,
-                      user: user,
-                      spent_on: spent_on)
+           user: user,
+           spent_on: spent_on)
   end
   let!(:other_user_time_entry) do
     create(:time_entry,
-                      user: create(:user),
-                      spent_on: spent_on)
+           user: create(:user),
+           spent_on: spent_on)
   end
   let!(:other_date_time_entry) do
     create(:time_entry,
-                      user: user,
-                      spent_on: spent_on - 3.days)
+           user: user,
+           spent_on: spent_on - 3.days)
   end
 
   describe '.of_user_and_day' do

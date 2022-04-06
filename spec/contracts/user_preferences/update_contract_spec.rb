@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -38,8 +36,8 @@ describe UserPreferences::UpdateContract do
   let(:preference_user) { current_user }
   let(:user_preference) do
     build_stubbed(:user_preference,
-                             user: preference_user,
-                             settings: settings&.with_indifferent_access)
+                  user: preference_user,
+                  settings: settings&.with_indifferent_access)
   end
   let(:settings) do
     {

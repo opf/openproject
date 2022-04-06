@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,6 +27,7 @@
 #++
 
 class CustomActionsController < ApplicationController
+  include EnterpriseTrialHelper
   before_action :require_admin
   before_action :require_enterprise_token
 
@@ -37,8 +36,6 @@ class CustomActionsController < ApplicationController
   before_action :pad_params, only: %i(create update)
 
   layout 'admin'
-
-  helper_method :gon
 
   def index
     @custom_actions = CustomAction.order_by_position
@@ -95,7 +92,8 @@ class CustomActionsController < ApplicationController
                feature_title: I18n.t('custom_actions.upsale.title'),
                feature_description: I18n.t('custom_actions.upsale.description'),
                feature_reference: 'custom_actions_admin',
-               feature_image: ''
+               feature_image: '',
+               feature_video: ''
              }
     else
       render_403

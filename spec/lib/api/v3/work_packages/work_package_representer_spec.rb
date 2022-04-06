@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -955,8 +955,8 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           let(:work_package) { create(:work_package, project: project) }
           let!(:forbidden_work_package) do
             create(:work_package,
-                              project: forbidden_project,
-                              parent: work_package)
+                   project: forbidden_project,
+                   parent: work_package)
           end
 
           it { expect(subject).not_to have_json_path('_links/children') }
@@ -964,8 +964,8 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           describe 'visible and invisible children' do
             let!(:child) do
               create(:work_package,
-                                project: project,
-                                parent: work_package)
+                     project: project,
+                     parent: work_package)
             end
 
             it { expect(subject).to have_json_size(1).at_path('_links/children') }
@@ -1075,8 +1075,8 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       describe 'customActions' do
         it 'has a collection of customActions' do
           unassign_action = build_stubbed(:custom_action,
-                                                     actions: [CustomActions::Actions::AssignedTo.new(value: nil)],
-                                                     name: 'Unassign')
+                                          actions: [CustomActions::Actions::AssignedTo.new(value: nil)],
+                                          name: 'Unassign')
           allow(work_package)
             .to receive(:custom_actions)
             .and_return([unassign_action])
@@ -1119,7 +1119,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       describe 'relations' do
         let(:relation) do
           build_stubbed(:relation,
-                                   from: work_package)
+                        from: work_package)
         end
 
         before do
@@ -1154,8 +1154,8 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       describe 'customActions' do
         it 'has an array of customActions' do
           unassign_action = build_stubbed(:custom_action,
-                                                     actions: [CustomActions::Actions::AssignedTo.new(value: nil)],
-                                                     name: 'Unassign')
+                                          actions: [CustomActions::Actions::AssignedTo.new(value: nil)],
+                                          name: 'Unassign')
           allow(work_package)
             .to receive(:custom_actions)
             .and_return([unassign_action])

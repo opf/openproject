@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -23,7 +23,8 @@ es:
   js:
     ajax:
       hide: "Ocultar"
-      loading: "Cargando ..."
+      loading: "Loading…"
+      updating: "Updating…"
     attachments:
       draggable_hint: |
         Arrastre el campo del editor a una imagen alineada o un adjunto de referencia. Los campos del editor cerrados se abrirán mientras siga arrastrando elementos.
@@ -61,6 +62,7 @@ es:
     button_confirm: "Confirmar"
     button_continue: "Continuar"
     button_copy: "Copiar"
+    button_copy_to_other_project: "Copy to other project"
     button_custom-fields: "Campos Personalizados"
     button_delete: "Borrar"
     button_delete_watcher: "Eliminar los observadores"
@@ -72,15 +74,15 @@ es:
     button_expand_all: "Expandir todos"
     button_advanced_filter: "Filtro avanzado"
     button_list_view: "Vista de lista"
-    button_show_view: "Vista de pantalla completa"
+    button_show_view: "Pantalla completa"
     button_log_time: "Registro de tiempo"
     button_more: "Más"
     button_open_details: "Abrir vista detallada"
     button_close_details: "Cerrar vista detallada"
-    button_open_fullscreen: "Ver pantalla completa"
+    button_open_fullscreen: "Abrir vista de pantalla completa"
     button_show_cards: "Mostrar vista de tarjeta"
     button_show_list: "Mostrar vista de lista"
-    button_quote: "Comentario"
+    button_quote: "presupuesto"
     button_save: "Guardar"
     button_settings: "Configuración"
     button_uncheck_all: "Deseleccionar todos"
@@ -92,7 +94,7 @@ es:
       add_new: 'Añadir nueva tarjeta'
       highlighting:
         inline: 'Resaltar en línea:'
-        entire_card_by: 'Toda la tarjeta en'
+        entire_card_by: 'Tarjeta entera por'
       remove_from_list: 'Eliminar tarjeta de la lista'
     caption_rate_history: "Historial de tasa"
     clipboard:
@@ -100,15 +102,15 @@ es:
       copied_successful: "Copiado correctamente en el Portapapeles"
     chart:
       type: 'Tipo de gráfico'
-      axis_criteria: 'Criterios de eje'
+      axis_criteria: 'Criterios del eje'
       modal_title: 'Configuración del gráfico del paquete de trabajo'
       types:
         line: 'Línea'
         horizontal_bar: 'Barra horizontal'
         bar: 'Barra'
-        pie: 'Circular'
-        doughnut: 'Anillos'
-        radar: 'Radial'
+        pie: 'Gráfico Circular'
+        doughnut: 'Rosquilla'
+        radar: 'Radar'
         polar_area: 'Área polar'
       tabs:
         graph_settings: 'General'
@@ -119,19 +121,19 @@ es:
     description_current_position: "Usted está aquí: "
     description_select_work_package: "Seleccione el paquete de trabajo #%{id}"
     description_selected_columns: "Columnas seleccionadas"
-    description_subwork_package: "Hijo del paquete de trabajo #%{id}"
+    description_subwork_package: "Seleccione el paquete de trabajo #%{id}"
     editor:
-      preview: 'Alternar modo de vista previa'
+      preview: 'Cambiar modo de vista previa'
       source_code: 'Alternar modo de visualización de Markdown'
       error_saving_failed: 'No se pudo guardar el documento debido al siguiente error: %{error}'
       ckeditor_error: 'Se ha producido un error dentro de CKEditor'
       mode:
-        manual: 'Cambiar a visualización de Markdown'
+        manual: 'Cambiar a la fuente Markdown'
         wysiwyg: 'Cambiar a editor WYSIWYG'
       macro:
         error: 'No se puede expandir la macro: %{message}'
         attribute_reference:
-          macro_help_tooltip: 'Este segmento de texto se representa dinámicamente mediante una macro.'
+          macro_help_tooltip: 'Este segmento de texto está siendo renderizado dinámicamente por una macro.'
           not_found: 'No se encuentra el recurso solicitado'
           invalid_attribute: "El atributo seleccionado («%{name}») no existe."
         child_pages:
@@ -250,6 +252,7 @@ es:
     enumeration_doc_categories: "Categorías de documentos"
     enumeration_work_package_priorities: "Prioridades del paquete de trabajo"
     filter:
+      more_values_not_shown: "There are %{total} more results, search to filter results."
       description:
         text_open_filter: "Abrir este filtro con 'ALT' y las flechas de dirección."
         text_close_filter: "Para seleccionar una entrada, deje el foco por ejemplo pulsando Intro. Para abandonar sin filtro, seleccione la primera entrada (vacía)."
@@ -284,15 +287,15 @@ es:
           learn_about: "Más información sobre las nuevas características"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_0':
+          '12_1':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
+              learn_about_link: https://www.openproject.org/openproject-12-1-release
               new_features_html: >
-                La versión contiene varias nuevas funcionalidades y mejoras: <br> <ul class="%{list_styling_class}"> <li>Con las nuevas <b>notificaciones dentro de la aplicación</b> recibe todas las actualizaciones importantes directamente en la aplicación y dejará de recibir un montón de correos electrónicos.</li> <li>El nuevo <b>centro de notificación</b> muestra todos los cambios, incluyendo opciones de filtro intuitivas, por ejemplo, por motivos de notificación o proyectos. Incluso permite editar directamente paquetes de trabajo en la vista partida.</li> <li>Mejorado la <b>configuración de notificaciones</b> le permite ajustar mejor qué acciones y en qué proyectos desea recibir una notificación.</li> <li>Los <b>recordatorios por correo electrónico</b> pueden ser configurados para recibir actualizaciones importantes a través de un resumen diario vía correo electrónico.</li> <li>El paquete de trabajo autocompletador para las relaciones ahora también muestra información adicional (nombre del proyecto, estado, . .) para identificar fácilmente el respectivo paquete de trabajo.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A <b>new team planner module</b> (Enterprise feature) allows you to visually assign tasks to team members to get an overview of who is working on what.</li> <li>We are <b>releasing the basic agile boards</b> for the Community version.</li> <li>The <b>"Include Projects" filter</b> option makes it easier to add different projects to your views, such as for work packages, calendars, and team planners.</li> <li>We added <b>a new "Files" tab</b> in the work package details to have all possible information attached to a work package together.</li> <li>We created <b>global roles for groups</b> to assign these roles to groups and create superuser groups.</li> <li>Project status was given more options to choose from.</li> </ul>
             bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
+              learn_about_link: https://www.openproject.org/openproject-12-1-release
               new_features_html: >
-                Esta versión contiene nuevas mejoras y características: <br> <ul class="%{list_styling_class}"> <li>Centro de notificaciones: reduzca el número de correos que recibe. En su lugar, busque y responda a todas las notificaciones pertinentes desde una ubicación central.</li> <li>Ahora se pueden descargar todos los archivos IFC cargados.</li> <li>La carga y el procesamiento de IFC ahora es más rápida y se han mejorado los mensajes de error mostrados.</li> <li>Se han aplicado numerosas correcciones de errores en el <a href="https://github.com/opf/openproject-revit-add-in">complemento OpenProject Revit</a>.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>In the BCF module you can now save your selected work package filters, columns etc. as <b>views</b> and share those with your team members.</li> <li>A <b>new team planner module</b> (Enterprise feature) allows you to visually assign tasks to team members to get an overview of who is working on what.</li> <li>We are <b>releasing the basic agile boards</b> for the Community version.</li> <li>The <b>"Include Projects" filter</b> option makes it easier to add different projects to your views, such as for work packages, calendars, and team planners.</li> <li>We added <b>a new "Files" tab</b> in the work package details to have all possible information attached to a work package together.</li> <li>We created <b>global roles for groups</b> to assign these roles to groups and create superuser groups.</li> <li>Project status was given more options to choose from.</li> </ul>
     label_activate: "Activar"
     label_add_column_after: "Añadir columna a la derecha"
     label_add_column_before: "Añadir columna a la izquierda"
@@ -451,9 +454,8 @@ es:
     label_starred_queries: "Vistas favoritas"
     label_global_queries: "Vistas públicas"
     label_custom_queries: "Vistas privadas"
-    label_create_new_query: "Crear nuevo"
     label_columns: "Columnas"
-    label_attachments: Archivos
+    label_attachments: Archivos adjuntos
     label_drop_files: Suelta los archivos aquí
     label_drop_files_hint: o haga clic en Agregar archivos
     label_drop_folders_hint: No se pueden cargar carpetas como datos adjuntos. Seleccione archivos individuales.
@@ -497,7 +499,8 @@ es:
           task_board: "En el panel de tareas, se muestra el <b>progreso de este sprint</b>. Haga clic en el icono del signo más (+) junto a una historia de usuario para añadir nuevas tareas o impedimentos. <br> Puede actualizar el estado mediante las funciones de arrastrar y colocar."
         boards:
           overview: 'Seleccione los <b>paneles</b> para cambiar la vista y gestione su proyecto con la vista de paneles ágiles.'
-          lists: 'Aquí puede crear varias listas (columnas) en el panel. Por ejemplo, esta característica le permite crear un <b>panel kanban</b>.'
+          lists_kanban: 'Aquí puede crear varias listas (columnas) en el panel. Por ejemplo, esta característica le permite crear un <b>panel kanban</b>.'
+          lists_basic: 'Here you can create multiple lists (columns) within your agile board.'
           add: 'Haga clic en el icono del signo más (+) para <b>crear una tarjeta</b> o <b>añadir una tarjeta existente</b> a la lista en el panel.'
           drag: 'Arrastre y coloque las tarjetas en una lista específica para cambiar el orden o moverlas a otra lista. <br> Para ver los detalles, haga clic en el icono de información (i) de la esquina superior derecha o haga doble clic en una tarjeta.'
         wp:
@@ -508,6 +511,12 @@ es:
           create_button: 'Use el botón <b>+ Crear</b> para añadir un nuevo paquete de trabajo a su proyecto.'
           timeline_button: 'Puede activar la vista del <b>diagrama de Gantt</b> para crear una línea de tiempo del proyecto.'
           timeline: 'Aquí puede <b>editar su plan de proyecto</b>, crear nuevos paquetes de trabajo (como tareas, hitos, fases y más) y <b>añadir dependencias</b>. Todos los miembros del equipo pueden ver y actualizar el plan más reciente en cualquier momento.'
+        team_planner:
+          overview: 'The team planner lets you visually assign tasks to team members and get an overview of who is working on what.'
+          calendar: 'The weekly or biweekly planning board displays all work packages assigned to your team members.'
+          add_assignee: 'To get started, add assignees to the team planner.'
+          add_existing: 'Search for existing work packages and drag them to the team planner to instantly assign them to a team member and define start and end dates.'
+          card: 'Drag work packages horizontally to move them backwards or forwards in time, drag the edges to change start and end dates and even drag them vertically to a different row to assign them to another member.'
     notifications:
       title: "Notificaciones"
       no_unread: "No hay notificaciones sin leer"
@@ -986,7 +995,8 @@ es:
         activity: Actividad
         relations: Relaciones
         watchers: Controladores
-        attachments: Archivos adjuntos
+        files: Archivos
+        files_tab_migration_help: 'You can now attach files to work packages via the new tab:'
       time_relative:
         days: "días"
         weeks: "semanas"
@@ -1155,8 +1165,22 @@ es:
           placeholder: 'El marcador de posición ya puede usarse en %{project}. Mientras tanto, puede crear planes con ese usuario y asignarle paquetes de trabajo.'
           group: 'El grupo ya forma parte de %{project}. Mientras tanto, puede crear planes con ese grupo y asignar paquetes de trabajo a este.'
         next_button: 'Continuar'
+    include_projects:
+      toggle_title: 'Include projects'
+      title: 'Proyectos'
+      clear_selection: 'Clear selection'
+      apply: 'Aplicar'
+      selected_filter:
+        all: 'Todos los proyectos'
+        selected: 'Only selected'
+      search_placeholder: 'Search project...'
     forms:
       submit_success_message: 'El formulario se envió correctamente'
       load_error_message: 'Se produjo un error al cargar el formulario'
       validation_error_message: 'Corrija los errores del formulario'
       advanced_settings: 'Ajustes avanzados'
+    spot:
+      filter_chip:
+        remove: 'Eliminar'
+      drop_modal:
+        Close: 'Cerrar'

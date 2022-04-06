@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,19 +37,19 @@ describe 'BCF 2.1 viewpoints resource', type: :request, content_type: :json, wit
 
   shared_let(:project) do
     create(:project,
-                      enabled_module_names: [:bim])
+           enabled_module_names: [:bim])
   end
 
   shared_let(:view_only_user) do
     create(:user,
-                      member_in_project: project,
-                      member_with_permissions: [:view_linked_issues])
+           member_in_project: project,
+           member_with_permissions: [:view_linked_issues])
   end
 
   shared_let(:create_user) do
     create(:user,
-                      member_in_project: project,
-                      member_with_permissions: %i[view_linked_issues manage_bcf])
+           member_in_project: project,
+           member_with_permissions: %i[view_linked_issues manage_bcf])
   end
 
   shared_let(:non_member_user) do

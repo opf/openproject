@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,6 +36,7 @@ describe 'Work Package boards sorting spec', type: :feature, js: true do
   let(:board_index) { Pages::BoardIndex.new(project) }
   let!(:status) { create :default_status }
   let(:version) { @version ||= create(:version, project: project) }
+  let(:query_menu) { ::Components::WorkPackages::QueryMenu.new }
 
   before do
     with_enterprise_token :board_view
@@ -52,23 +53,20 @@ describe 'Work Package boards sorting spec', type: :feature, js: true do
 
     expect(page.first('[data-qa-selector="boards-table-column--name"]'))
       .to have_text('Unnamed board')
-    expect(page.first('[data-qa-selector="boards-menu--item"]'))
-      .to have_text('Unnamed board')
+    query_menu.expect_menu_entry 'Unnamed board'
 
     board_page = board_index.create_board action: :Version, expect_empty: true
     board_page.back_to_index
 
     expect(page.first('[data-qa-selector="boards-table-column--name"]'))
       .to have_text('Action board (version)')
-    expect(page.first('[data-qa-selector="boards-menu--item"]'))
-      .to have_text('Action board (version)')
+    query_menu.expect_menu_entry 'Action board (version)'
 
     board_page = board_index.create_board action: :Status
     board_page.back_to_index
 
     expect(page.first('[data-qa-selector="boards-table-column--name"]'))
       .to have_text('Action board (status)')
-    expect(page.first('[data-qa-selector="boards-menu--item"]'))
-      .to have_text('Action board (status)')
+    query_menu.expect_menu_entry 'Action board (status)'
   end
 end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,16 +35,16 @@ describe 'Custom actions me value', type: :feature, js: true do
   let(:role) { create(:role, permissions: permissions) }
   let(:user) do
     create(:user,
-                             member_in_project: project,
-                             member_through_role: role)
+           member_in_project: project,
+           member_through_role: role)
   end
   let(:type) { create(:type_task) }
   let(:project) { create(:project, types: [type], name: 'This project') }
   let!(:custom_field) { create :user_wp_custom_field, types: [type], projects: [project] }
   let!(:work_package) do
     create(:work_package,
-                      type: type,
-                      project: project)
+           type: type,
+           project: project)
   end
 
   let(:wp_page) { Pages::FullWorkPackage.new(work_package) }

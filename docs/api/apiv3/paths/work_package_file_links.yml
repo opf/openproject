@@ -1,4 +1,4 @@
-# /api/v3/work_packages/{id}/file_links/
+# /api/v3/work_packages/{id}/file_links
 ---
 post:
   summary: Creates file links.
@@ -9,13 +9,20 @@ post:
   description: |-
     Creates file links on a work package.
 
-    The request body must contain the generated storage token, and not the storage id. In addition, the request must
-    send the origin file id and the stored meta data.
-    
-    If there is already a link on the given work package with the same file id from the same storage, the previous
-    data is not overwritten.
-    
-    As it is possible to link folders from a storage to a work package, the _mimeType_ of this entity can be empty.
+    The request is interpreted as a bulk insert, where every element of the collection is validated separately. Each
+    element contains the origin meta data and a link to the storage, the file link is about to point to. The storage
+    link can be provided as a resource link with id or as the host url.
+
+    The file's id and name are considered mandatory information. The rest of the origin meta data SHOULD be provided
+    by the client. The _mimeType_ SHOULD be a standard mime type. An empty mime type will be handled as unknown. To link
+    a folder, the custom mime type `inode/directory` MUST be used.
+
+    Up to 20 file links can be submitted at once.
+
+    If any element data is invalid, no file links will be created.
+
+    If a file link with matching origin id, work package, and storage already exists, then it will not create an
+    additional file link or update the meta data. Instead the information from the existing file link will be returned.
   parameters:
     - name: id
       description: Work package id
@@ -28,32 +35,7 @@ post:
     content:
       application/json:
         schema:
-          type: object
-          required:
-            - _type
-            - _embedded
-          properties:
-            _type:
-              type: string
-              enum:
-                - Collection
-            _embedded:
-              type: object
-              required:
-                - elements
-              properties:
-                elements:
-                  type: array
-                  items:
-                    allOf:
-                      - $ref: '#/components/schemas/File_LinkModel'
-                      - type: object
-                        required:
-                          - storageUrl
-                        properties:
-                          storageUrl:
-                            type: string
-                            format: uri
+          $ref: '../components/schemas/file_link_collection_write_model.yml'
         example:
           _type: Collection
           _embedded:
@@ -69,44 +51,19 @@ post:
                 _links:
                   storageUrl:
                     href: https://nextcloud.deathstar.rocks/
-          
+
   responses:
     '201':
       description: Created
       content:
         application/hal+json:
           schema:
-            type: object
-            required:
-              - _type
-              - count
-              - total
-              - _embedded
-            properties:
-              _type:
-                type: string
-                enum:
-                  - Collection
-              count:
-                type: integer
-                minimum: 0
-              total:
-                type: integer
-                minimum: 0
-              _embedded:
-                type: object
-                required:
-                  - elements
-                properties:
-                  elements:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/File_LinkModel'
+            $ref: '../components/schemas/file_link_collection_read_model.yml'
     '400':
       content:
         application/hal+json:
           schema:
-            $ref: "#/components/schemas/ErrorResponse"
+            $ref: "../components/schemas/error_response.yml"
           example:
             _type: Error
             errorIdentifier: urn:openproject-org:api:v3:errors:InvalidRequestBody
@@ -116,7 +73,7 @@ post:
       content:
         application/hal+json:
           schema:
-            $ref: "#/components/schemas/ErrorResponse"
+            $ref: "../components/schemas/error_response.yml"
           example:
             _type: Error
             errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
@@ -131,7 +88,7 @@ post:
       content:
         application/hal+json:
           schema:
-            $ref: "#/components/schemas/ErrorResponse"
+            $ref: "../components/schemas/error_response.yml"
           example:
             _type: Error
             errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
@@ -140,6 +97,19 @@ post:
         Returned if the work package does not exist or the client does not have sufficient permissions to see it.
 
         **Required permission:** view work package, view file links
+    '422':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:PropertyConstraintViolation
+            message: The request was invalid. File Link logo.png - Storage was invalid.
+      description: |-
+        Occurs if the request body was correctly formatted, but some properties lead to errors in the validation
+        process. This happens e.g. if the provided storage url is not available on the server.
+
 get:
   summary: Gets all file links of a work package
   operationId: Work_Package_Get_File_Links
@@ -148,8 +118,6 @@ get:
     - File links
   description: |-
     Gets all file links of a work package.
-
-    The request can be filtered for the storage types and ids.
   parameters:
     - name: id
       description: Work package id
@@ -164,52 +132,27 @@ get:
       content:
         application/hal+json:
           schema:
-            type: object
-            required:
-              - _type
-              - count
-              - total
-              - _embedded
-            properties:
-              _type:
-                type: string
-                enum:
-                  - Collection
-              count:
-                type: integer
-                minimum: 0
-              total:
-                type: integer
-                minimum: 0
-              _embedded:
-                type: object
-                required:
-                  - elements
-                properties:
-                  elements:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/File_LinkModel'
+            $ref: '../components/schemas/file_link_collection_read_model.yml'
     '403':
       content:
         application/hal+json:
           schema:
-            $ref: "#/components/schemas/ErrorResponse"
+            $ref: "../components/schemas/error_response.yml"
           example:
             _type: Error
             errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
             message: You are not authorized to access this resource.
       description: |-
         Returned if the client does not have sufficient permissions.
-        
+
         **Required permission:** view file links
-        
+
         *Note that you will only receive this error, if you are at least allowed to see the corresponding work package.*
     '404':
       content:
         application/hal+json:
           schema:
-            $ref: "#/components/schemas/ErrorResponse"
+            $ref: "../components/schemas/error_response.yml"
           example:
             _type: Error
             errorIdentifier: urn:openproject-org:api:v3:errors:NotFound

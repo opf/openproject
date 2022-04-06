@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,11 +31,11 @@ require 'spec_helper'
 describe ::Bim::Bcf::IssuesController, type: :controller do
   let(:manage_bcf_role) do
     create(:role,
-                      permissions: %i[manage_bcf view_linked_issues view_work_packages add_work_packages edit_work_packages])
+           permissions: %i[manage_bcf view_linked_issues view_work_packages add_work_packages edit_work_packages])
   end
   let(:collaborator_role) do
     create(:role,
-                      permissions: %i[view_linked_issues view_work_packages add_work_packages edit_work_packages])
+           permissions: %i[view_linked_issues view_work_packages add_work_packages edit_work_packages])
   end
   let(:bcf_manager) { create(:user, firstname: "BCF Manager") }
   let(:collaborator) { create(:user) }
@@ -46,15 +46,15 @@ describe ::Bim::Bcf::IssuesController, type: :controller do
   end
   let(:member) do
     create(:member,
-                      project: project,
-                      user: collaborator,
-                      roles: [collaborator_role])
+           project: project,
+           user: collaborator,
+           roles: [collaborator_role])
   end
   let(:bcf_manager_member) do
     create(:member,
-                      project: project,
-                      user: bcf_manager,
-                      roles: [manage_bcf_role])
+           project: project,
+           user: bcf_manager,
+           roles: [manage_bcf_role])
   end
   before do
     bcf_manager_member
@@ -76,9 +76,9 @@ describe ::Bim::Bcf::IssuesController, type: :controller do
       context 'no manage_bcf permission' do
         let(:bcf_manager_member) do
           create(:member,
-                            project: project,
-                            user: bcf_manager,
-                            roles: [collaborator_role])
+                 project: project,
+                 user: bcf_manager,
+                 roles: [collaborator_role])
         end
         it 'will return "not authorized"' do
           expect(response).to_not be_successful

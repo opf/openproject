@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,22 +27,20 @@
 #++
 
 require 'spec_helper'
-require_relative '../../../../spec/support/components/work_packages/query_menu'
 
 describe 'Team planner sidemenu', type: :feature, js: true do
   shared_let(:project) do
     create(:project, enabled_module_names: %w[work_package_tracking team_planner_view])
   end
-  let(:query_menu) { ::Components::WorkPackages::QueryMenu.new }
 
   context 'with a user that does not have create rights' do
     shared_let(:user_without_rights) do
       create :user,
-                        member_in_project: project,
-                        member_with_permissions: %w[
-                          view_work_packages edit_work_packages add_work_packages
-                          view_team_planner
-                        ]
+             member_in_project: project,
+             member_with_permissions: %w[
+               view_work_packages edit_work_packages add_work_packages
+               view_team_planner
+             ]
     end
 
     current_user { user_without_rights }
@@ -53,33 +49,33 @@ describe 'Team planner sidemenu', type: :feature, js: true do
       visit project_path(project)
 
       within '#main-menu' do
-        click_link 'Team planner'
+        click_link 'Team planners'
       end
 
-      query_menu.expect_menu_entry_not_visible('Create new planner')
+      expect(page).not_to have_selector('[data-qa-selector="team-planner--create-button"]')
     end
   end
 
   context 'with a user that has create rights' do
     shared_let(:user_with_rights) do
       create :user,
-                        member_in_project: project,
-                        member_with_permissions: %w[
-                          view_work_packages edit_work_packages add_work_packages
-                          view_team_planner manage_team_planner
-                        ]
+             member_in_project: project,
+             member_with_permissions: %w[
+               view_work_packages edit_work_packages add_work_packages
+               view_team_planner manage_team_planner
+             ]
     end
 
     current_user { user_with_rights }
 
-    it 'hides the create team planner option if you do not have rights' do
+    it 'shows the create team planner option' do
       visit project_path(project)
 
       within '#main-menu' do
-        click_link 'Team planner'
+        click_link 'Team planners'
       end
 
-      query_menu.expect_menu_entry('Create new planner')
+      expect(page).to have_selector('[data-qa-selector="team-planner--create-button"]')
     end
   end
 end

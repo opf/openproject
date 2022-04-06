@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,10 +36,10 @@ module API
       self.current_user = user
       self.model = model
 
-      self.representer = if !representer && model
-                           deduce_representer(model)
-                         elsif representer
+      self.representer = if representer
                            representer
+                         elsif model
+                           deduce_representer(model)
                          else
                            raise 'Representer not defined'
                          end
@@ -76,7 +76,7 @@ module API
     end
 
     def struct
-      Hashie::Mash.new
+      ParserStruct.new
     end
 
     def deep_to_h(value)

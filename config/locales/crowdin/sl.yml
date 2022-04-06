@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -78,6 +78,10 @@ sl:
         contact: "Contact us for a demo"
       enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
       upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
+    journal_aggregation:
+      explanation:
+        text: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent and will also affect %{webhook_link} delay."
+        link: "webhook"
   announcements:
     show_until: Prikaži dokler
     is_active: trenutno prikazano
@@ -454,9 +458,12 @@ sl:
         code: 'Stanje'
         explanation: 'Opis stanja'
         codes:
+          not_started: 'Not started'
           on_track: 'Na poti'
           at_risk: 'Ogroženo'
           off_track: 'Izven poti'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
       query:
         column_names: "Stolpci"
         relations_to_type_column: "Povezave z %{type}"
@@ -467,7 +474,6 @@ sl:
       repository:
         url: "URL"
       role:
-        assignable: "Delovni paketi se lahko dodelijo uporabnikom in skupinam, ki imajo to vlogo v posameznem projektu"
         permissions: "Dovoljenja"
       time_entry:
         activity: "Aktivnost"
@@ -896,6 +902,7 @@ sl:
     version: "Različica"
     work_package: "Zahtevek"
   backup:
+    failed: "Backup failed"
     label_backup_token: "Žeton za varnostno kopiranje"
     label_create_token: "Ustvari žeton za varnostno kopiranje"
     label_delete_token: "Izbriši žeton za varnostno kopiranje"
@@ -1257,6 +1264,7 @@ sl:
   error_enterprise_token_invalid_domain: "Podjetniška verzija ni aktivna. Domena vašega žetona podjetja (%{actual}) se ne ujema z imenom gostitelja sistema (%{expected})."
   error_failed_to_delete_entry: 'Izbris tega vnosa ni bilo mogoče.'
   error_in_dependent: "Napaka pri spremembi odvisnega predmeta: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
+  error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Neveljavna izbrana vrednost."
   error_journal_attribute_not_present: "Dnevnik ne vsebuje atributa %{attribute}."
   error_pdf_export_too_many_columns: "Za izvoz PDF je izbranih preveč stolpcev. Zmanjšajte število stolpcev."
@@ -1366,7 +1374,9 @@ sl:
   menus:
     admin:
       mail_notification: "E-poštna obvestila"
-      incoming_outgoing: "Incoming & Outgoing"
+      mails_and_notifications: "Emails and notification"
+      aggregation_and_retention: 'Aggregation and retention'
+      api_and_webhooks: "API and webhooks"
     quick_add:
       label: "Odpri meni za hitro dodajanje"
   my_account:
@@ -1866,7 +1876,7 @@ sl:
   label_used_by_types: "Uporablja se po vrstah"
   label_used_in_projects: "Uporablja se pri projektih"
   label_user: "Uporabnik"
-  label_user_and_permission: "Uporabniki in dovoljenja"
+  label_user_and_permission: "Users and permissions"
   label_user_named: "Uporabnik %{name}"
   label_user_activity: "%{value}'s aktivnost"
   label_user_anonymous: "Anonimno"
@@ -2018,7 +2028,7 @@ sl:
   mail_body_backup_waiting_period: Novi žeton bo omogočen v %{hours} urah.
   mail_body_backup_token_warning: Če to niste bili vi, se takoj prijavite v OpenProject in ponovno ponastavite.
   mail_body_lost_password: "Za spremembo glesla kliknite na naslednjo povezavo:"
-  mail_body_register: "Dobrodošli v OpenProject. Aktivirajte svoj uporabniški račun s klikom na povezavo:"
+  mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "E-pošta člana projekta za vabilo"
   mail_body_register_user: "Dragi %{name},"
   mail_body_register_links_html: |
@@ -2163,7 +2173,7 @@ sl:
     heading_getting_started: "Pridobite pregled"
     text_getting_started_description: "Pridobite hiter pregled nad projektnim managementom ter skupinskim delovanjem z OpenProject"
     text_show_again: "Ta video lahko ponovno zaženete preko menija za pomoč"
-    welcome: "Dobrodošli v OpenProject"
+    welcome: "Welcome to %{app_title}"
     select_language: "Prosimo izberite jezik"
   permission_add_work_package_notes: "Dodaj zapiske"
   permission_add_work_packages: "Dodaj delovne pakete"
@@ -2232,6 +2242,8 @@ sl:
   permission_view_timelines: "Oglejte si časovnice"
   permission_view_wiki_edits: "Poglej wiki zgodovino"
   permission_view_wiki_pages: "Poglej wiki"
+  permission_work_package_assigned: "Become assignee/responsible"
+  permission_work_package_assigned_explanation: "Delovni paketi se lahko dodelijo uporabnikom in skupinam, ki imajo to vlogo v posameznem projektu"
   placeholders:
     default: "-"
   project:
@@ -2592,7 +2604,6 @@ sl:
   text_work_packages_destroy_confirmation: "Ali ste prepričani, da želite izbrisati izbrane delovne pakete?"
   text_work_packages_ref_in_commit_messages: "Sklicevanje in popravljanje delovnih paketov v sporočilih"
   text_journal_added: "%{label} %{value} dodan"
-  text_journal_aggregation_time_explanation: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent."
   text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
   text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label} posodobljen"
@@ -2911,6 +2922,7 @@ sl:
         work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:
         date: "LLLL-MM-DD (ISO 8601 le datum)"
+        datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm] (any compatible ISO 8601 datetime)"
         duration: "ISO 8601 trajanje"
       invalid_content_type: "Pričakovano je, da je VRSTA-VSEBINE '%{content_type}', vendar je dobil '%{actual}'."
       invalid_format: "neveljaven format za lastnost '%{property}': Pričakovana oblika, kot je '%{expected_format}', vendar je dobila '%{actual}'."
@@ -2922,6 +2934,7 @@ sl:
         select: "Zahtevani izbor %{invalid} ni podprt. Podprti izbori so %{supported}."
       invalid_user_status_transition: "Trenutno stanje uporabniškega računa ne omogoča te operacije.\n"
       missing_content_type: "Ni določeno"
+      missing_property: "Missing property '%{property}'."
       missing_request_body: "Ni bilo organa zahteve."
       missing_or_malformed_parameter: "Parameter poizvedbe '%{parameter}' manjka ali je napačno oblikovan."
       multipart_body_error: "Organ zahteve ni vseboval pričakovanih večdelnih členov."
@@ -2954,8 +2967,11 @@ sl:
     errors:
       messages:
         #Common error messages
-        invalid_request: 'Zahtevku manjka zahtevani parameter, vključuje nepodprto vrednost parametra ali je drugače nepravilno oblikovan.'
-        invalid_redirect_uri: "Zahtevani URI preusmeritve je nepravilno oblikovan ali se ne ujema z URI preusmeritve odjemalca.\n"
+        invalid_request:
+          unknown: 'Zahtevku manjka zahtevani parameter, vključuje nepodprto vrednost parametra ali je drugače nepravilno oblikovan.'
+          missing_param: 'Missing required parameter: %{value}.'
+          request_not_authorized: 'Request need to be authorized. Required parameter for authorizing request is missing or invalid.'
+        invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
         unauthorized_client: 'Stranka nima pooblastila za izvajanje te zahteve po tej metodi.'
         access_denied: "Lastnik vira ali pooblastitveni strežnik je zahtevo zavrnil.\n"
         invalid_scope: 'Zahtevani obseg je neveljaven, neznan ali nepravilen.'
@@ -2968,6 +2984,7 @@ sl:
         admin_authenticator_not_configured: 'Dostop do skrbniške plošče je prepovedan, ker Doorkeeper.configure.admin_authenticator ni konfiguriran.'
         #Access grant errors
         unsupported_response_type: 'Strežnik pooblastil ne podpira te vrste odziva.'
+        unsupported_response_mode: 'The authorization server does not support this response mode.'
         #Access token errors
         invalid_client: 'Overitev odjemalca ni uspelo zaradi neznanega odjemalca, zaradi nevključitve overitve odjemalca ali zaradi nepodprte metode overitve.'
         invalid_grant: 'Predložena odobritev za pooblastilo je neveljavna, potekla, preklicana, se ne ujema z URI preusmeritvijo, ki je uporabljena v zahtevi za pooblastilo ali je bila izdana drugemu odjemalcu.'
@@ -2976,6 +2993,10 @@ sl:
           revoked: "Žeton za dostop je bil preklican"
           expired: "Žeton za dostop je pretekel"
           unknown: "Žeton za dostop je neveljaven"
+        revoke:
+          unauthorized: "You are not authorized to revoke this token."
+        forbidden_token:
+          missing_scope: 'Access to this resource requires scope "%{oauth_scopes}".'
   unsupported_browser:
     title: "Vaš brskalnik je zastarel in nepodprt.\n"
     message: "Na tej strani lahko naletite na napake in slabšo izkušnjo."

@@ -6,10 +6,10 @@ cs:
     verify_account: "Ověřte svůj účet"
     error_captcha: "Váš účet nemohl být ověřen. Kontaktujte prosím administrátora."
     settings:
-      website_key: 'Website key'
-      website_key_text: 'Enter the website key you created on the reCAPTCHA admin console for this domain.'
-      secret_key: 'Secret key'
-      secret_key_text: 'Enter the secret key you created on the reCAPTCHA admin console.'
+      website_key: 'Klíč webové stránky'
+      website_key_text: 'Zadejte webový klíč vytvořený v reCAPTCHA admin konzoli pro tuto doménu.'
+      secret_key: 'Secret Key'
+      secret_key_text: 'Zadejte webový klíč vytvořený v reCAPTCHA admin konzoli pro tuto doménu.'
       type: 'Použít reCAPTCHA'
       type_disabled: 'Zakázat reCAPTCHA'
       type_v2: 'reCAPTCHA v2'

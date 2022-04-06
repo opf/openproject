@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,8 +33,8 @@ require_relative './../support/board_page'
 describe 'Subproject action board', type: :feature, js: true do
   let(:user) do
     create(:user,
-                      member_in_project: project,
-                      member_through_role: role)
+           member_in_project: project,
+           member_through_role: role)
   end
   let(:type) { create(:type_standard) }
   let(:project) do
@@ -75,8 +75,8 @@ describe 'Subproject action board', type: :feature, js: true do
 
     let(:user) do
       create(:user,
-                        member_in_projects: [project, subproject1, subproject2],
-                        member_through_role: role)
+             member_in_projects: [project, subproject1, subproject2],
+             member_through_role: role)
     end
 
     it 'does not allow to move work packages' do
@@ -98,14 +98,14 @@ describe 'Subproject action board', type: :feature, js: true do
   context 'with permissions in all subprojects' do
     let(:user) do
       create(:user,
-                        member_in_projects: [project, subproject1, subproject2],
-                        member_through_role: role)
+             member_in_projects: [project, subproject1, subproject2],
+             member_through_role: role)
     end
 
     let(:only_parent_user) do
       create(:user,
-                        member_in_project: project,
-                        member_through_role: role)
+             member_in_project: project,
+             member_through_role: role)
     end
 
     it 'allows management of subproject work packages' do
@@ -179,14 +179,14 @@ describe 'Subproject action board', type: :feature, js: true do
     let(:user) do
       create(:user,
                         # The membership in subproject2 gets removed later on
-                        member_in_projects: [project, subproject1, subproject2],
-                        member_through_role: role)
+             member_in_projects: [project, subproject1, subproject2],
+             member_through_role: role)
     end
 
     let!(:board) do
       create(:subproject_board,
-                        project: project,
-                        projects_columns: [subproject1, subproject2])
+             project: project,
+             projects_columns: [subproject1, subproject2])
     end
 
     let(:board_page) { Pages::Board.new(board) }
@@ -219,14 +219,14 @@ describe 'Subproject action board', type: :feature, js: true do
   context 'with an archived subproject' do
     let(:user) do
       create(:user,
-                        member_in_projects: [project, subproject1, subproject2],
-                        member_through_role: role)
+             member_in_projects: [project, subproject1, subproject2],
+             member_through_role: role)
     end
 
     let!(:board) do
       create(:subproject_board,
-                        project: project,
-                        projects_columns: [subproject1])
+             project: project,
+             projects_columns: [subproject1])
     end
 
     let(:board_page) { Pages::Board.new(board) }

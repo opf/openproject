@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -64,7 +64,7 @@ describe OpenProject::GithubIntegration::NotificationHandler::Helper do
       expect(handler.extract_work_package_ids(source)).to eq([434, 234])
     end
 
-    it 'finds multiple occurences of a work package only once' do
+    it 'finds multiple occurrences of a work package only once' do
       source = "I reference https://example.net/work_packages/434\n and Blabla\n[WP 234](https://example.net/work_packages/434)\n"
       expect(handler.extract_work_package_ids(source)).to eq([434])
     end

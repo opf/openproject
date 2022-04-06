@@ -29,11 +29,11 @@ module OpenProject::TeamPlanner
              name: 'OpenProject Team Planner' do
       project_module :team_planner_view, dependencies: :work_package_tracking do
         permission :view_team_planner,
-                   { 'team_planner/team_planner': %i[index upsale] },
+                   { 'team_planner/team_planner': %i[index show upsale] },
                    dependencies: %i[view_work_packages],
                    contract_actions: { team_planner: %i[read] }
         permission :manage_team_planner,
-                   { 'team_planner/team_planner': %i[index upsale] },
+                   { 'team_planner/team_planner': %i[index show new destroy upsale] },
                    dependencies: %i[view_team_planner add_work_packages edit_work_packages save_queries manage_public_queries],
                    contract_actions: { team_planner: %i[create update destroy] }
       end
@@ -41,10 +41,9 @@ module OpenProject::TeamPlanner
       menu :project_menu,
            :team_planner_view,
            { controller: '/team_planner/team_planner', action: :index },
-           caption: :'team_planner.label_team_planner',
+           caption: :'team_planner.label_team_planner_plural',
            after: :work_packages,
-           icon: 'icon2 icon-calendar',
-           badge: 'label_menu_badge.pre_alpha'
+           icon: 'icon2 icon-calendar'
 
       menu :project_menu,
            :team_planner_menu,
@@ -52,7 +51,7 @@ module OpenProject::TeamPlanner
            parent: :team_planner_view,
            partial: 'team_planner/team_planner/menu',
            last: true,
-           caption: :'team_planner.label_team_planner'
+           caption: :'team_planner.label_team_planner_plural'
     end
 
     add_view :TeamPlanner,

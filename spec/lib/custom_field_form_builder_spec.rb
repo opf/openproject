@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -191,7 +189,7 @@ describe CustomFieldFormBuilder do
     context 'for a list custom field' do
       let(:custom_field) do
         build_stubbed(:list_wp_custom_field,
-                                 custom_options: [custom_option])
+                      custom_options: [custom_option])
       end
       let(:custom_option) do
         build_stubbed(:custom_option, value: 'my_option')

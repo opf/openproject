@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -112,8 +110,8 @@ describe News, type: :model do
   describe '#save' do
     it 'sends email notifications when created' do
       create(:user,
-                        member_in_project: project,
-                        member_through_role: role)
+             member_in_project: project,
+             member_through_role: role)
       project.members.reload
 
       perform_enqueued_jobs do

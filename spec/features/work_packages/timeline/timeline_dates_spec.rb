@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,11 +37,11 @@ RSpec.feature 'Work package timeline date formatting',
 
   shared_let(:work_package) do
     create :work_package,
-                      project: project,
-                      type: type,
-                      start_date: '2020-12-31',
-                      due_date: '2021-01-01',
-                      subject: 'My subject'
+           project: project,
+           type: type,
+           start_date: '2020-12-31',
+           due_date: '2021-01-01',
+           subject: 'My subject'
   end
 
   let(:wp_timeline) { Pages::WorkPackagesTimeline.new(project) }

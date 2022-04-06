@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -41,7 +41,7 @@ RSpec.feature 'Work package create uses attributes from filters', js: true, sele
   let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
   let(:split_view_create) { ::Pages::SplitWorkPackageCreate.new(project: project) }
 
-  let(:role) { create :existing_role, permissions: [:view_work_packages] }
+  let(:role) { create :existing_role, permissions: %i[view_work_packages work_package_assigned] }
 
   let!(:query) do
     build(:query, project: project, user: user).tap do |query|
@@ -70,8 +70,8 @@ RSpec.feature 'Work package create uses attributes from filters', js: true, sele
     let(:type_task) { create(:type_task, custom_fields: [custom_field]) }
     let!(:project) do
       create :project,
-                        types: [type_task],
-                        work_package_custom_fields: [custom_field]
+             types: [type_task],
+             work_package_custom_fields: [custom_field]
     end
 
     let!(:custom_field) do
@@ -112,10 +112,10 @@ RSpec.feature 'Work package create uses attributes from filters', js: true, sele
   context 'with assignee filter' do
     let!(:assignee) do
       create(:user,
-                        firstname: 'An',
-                        lastname: 'assignee',
-                        member_in_project: project,
-                        member_through_role: role)
+             firstname: 'An',
+             lastname: 'assignee',
+             member_in_project: project,
+             member_through_role: role)
     end
 
     let(:filters) do

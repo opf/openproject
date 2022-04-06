@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,10 +35,10 @@ describe 'Deleting a budget', type: :feature, js: true do
   let(:budget_description) { "A budget description" }
   let!(:budget) do
     create :budget,
-                      subject: budget_subject,
-                      description: budget_description,
-                      author: user,
-                      project: project
+           subject: budget_subject,
+           description: budget_description,
+           author: user,
+           project: project
   end
 
   let(:budget_page) { Pages::EditBudget.new budget.id }
@@ -101,10 +101,10 @@ describe 'Deleting a budget', type: :feature, js: true do
     context 'with another budget to assign to' do
       let(:budget2) do
         create :budget,
-                          subject: 'Another budget',
-                          description: budget_description,
-                          author: user,
-                          project: project
+               subject: 'Another budget',
+               description: budget_description,
+               author: user,
+               project: project
       end
 
       before do

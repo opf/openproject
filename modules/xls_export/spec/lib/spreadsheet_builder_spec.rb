@@ -11,7 +11,7 @@ describe "SpreadsheetBuilder" do
     expect(@sheet.last_row_index).to eq(0)
   end
 
-  it "should add the title complety in the first cell" do
+  it "should add the title completely in the first cell" do
     title = "A fancy title"
     @spreadsheet.add_title(title)
     expect(@sheet.last_row[0]).to eq(title)

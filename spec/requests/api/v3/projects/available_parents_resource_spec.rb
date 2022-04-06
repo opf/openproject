@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,32 +36,32 @@ describe 'API v3 Project available parents resource', type: :request, content_ty
   current_user do
     create(:user, member_in_project: project, member_with_permissions: permissions).tap do |u|
       create(:global_member,
-                        principal: u,
-                        roles: [create(:global_role, permissions: global_permissions)])
+             principal: u,
+             roles: [create(:global_role, permissions: global_permissions)])
     end
   end
   let(:project_with_add_subproject_permission) do
     create(:project).tap do |p|
       create(:member,
-                        user: current_user,
-                        project: p,
-                        roles: [create(:role, permissions: [:add_subprojects])])
+             user: current_user,
+             project: p,
+             roles: [create(:role, permissions: [:add_subprojects])])
     end
   end
   let(:child_project_with_add_subproject_permission) do
     create(:project, parent: project).tap do |p|
       create(:member,
-                        user: current_user,
-                        project: p,
-                        roles: [create(:role, permissions: [:add_subprojects])])
+             user: current_user,
+             project: p,
+             roles: [create(:role, permissions: [:add_subprojects])])
     end
   end
   let(:project_without_add_subproject_permission) do
     create(:project).tap do |p|
       create(:member,
-                        user: current_user,
-                        project: p,
-                        roles: [create(:role, permissions: [])])
+             user: current_user,
+             project: p,
+             roles: [create(:role, permissions: [])])
     end
   end
   let!(:project) do

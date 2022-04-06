@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -42,41 +42,41 @@ describe 'API v3 time entries available projects resource', type: :request do
   let(:project_with_log_permission) do
     create(:project).tap do |p|
       create(:member,
-                        roles: [create(:role, permissions: [:log_time])],
-                        project: p,
-                        user: current_user)
+             roles: [create(:role, permissions: [:log_time])],
+             project: p,
+             user: current_user)
     end
   end
   let(:project_with_edit_permission) do
     create(:project).tap do |p|
       create(:member,
-                        roles: [create(:role, permissions: [:edit_time_entries])],
-                        project: p,
-                        user: current_user)
+             roles: [create(:role, permissions: [:edit_time_entries])],
+             project: p,
+             user: current_user)
     end
   end
   let(:project_with_edit_own_permission) do
     create(:project).tap do |p|
       create(:member,
-                        roles: [create(:role, permissions: [:edit_own_time_entries])],
-                        project: p,
-                        user: current_user)
+             roles: [create(:role, permissions: [:edit_own_time_entries])],
+             project: p,
+             user: current_user)
     end
   end
   let(:project_with_view_permission) do
     create(:project).tap do |p|
       create(:member,
-                        roles: [create(:role, permissions: [:view_time_entries])],
-                        project: p,
-                        user: current_user)
+             roles: [create(:role, permissions: [:view_time_entries])],
+             project: p,
+             user: current_user)
     end
   end
   let(:project_without_permission) do
     create(:project).tap do |p|
       create(:member,
-                        roles: [create(:role, permissions: [])],
-                        project: p,
-                        user: current_user)
+             roles: [create(:role, permissions: [])],
+             project: p,
+             user: current_user)
     end
   end
   let(:project_without_membership) do

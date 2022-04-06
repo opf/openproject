@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -85,20 +83,20 @@ describe ::API::V3::WorkPackages::EagerLoading::CustomValue do
     describe '.apply' do
       it 'preloads the custom fields and values' do
         create(:custom_value,
-                          custom_field: type_project_list_cf,
-                          customized: work_package,
-                          value: type_project_list_cf.custom_options.last.id)
+               custom_field: type_project_list_cf,
+               customized: work_package,
+               value: type_project_list_cf.custom_options.last.id)
 
         build(:custom_value,
-                         custom_field: type_project_user_cf,
-                         customized: work_package,
-                         value: user.id)
+              custom_field: type_project_user_cf,
+              customized: work_package,
+              value: user.id)
                   .save(validate: false)
 
         create(:custom_value,
-                          custom_field: type_project_version_cf,
-                          customized: work_package,
-                          value: version.id)
+               custom_field: type_project_version_cf,
+               customized: work_package,
+               value: version.id)
 
         work_package = WorkPackage.first
         wrapped = EagerLoadingMockWrapper.wrap(described_class, [work_package])

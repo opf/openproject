@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -40,34 +38,34 @@ describe 'Team planner drag&dop and resizing', type: :feature, js: true do
 
   let!(:other_user) do
     create :user,
-                      firstname: 'Bernd',
-                      member_in_project: project,
-                      member_with_permissions: %w[
-                        view_work_packages view_team_planner
-                      ]
+           firstname: 'Bernd',
+           member_in_project: project,
+           member_with_permissions: %w[
+             view_work_packages view_team_planner work_package_assigned
+           ]
   end
 
   let!(:first_wp) do
     create :work_package,
-                      project: project,
-                      assigned_to: other_user,
-                      start_date: Time.zone.today.beginning_of_week.next_occurring(:tuesday),
-                      due_date: Time.zone.today.beginning_of_week.next_occurring(:thursday)
+           project: project,
+           assigned_to: other_user,
+           start_date: Time.zone.today.beginning_of_week.next_occurring(:tuesday),
+           due_date: Time.zone.today.beginning_of_week.next_occurring(:thursday)
   end
   let!(:second_wp) do
     create :work_package,
-                      project: project,
-                      parent: first_wp,
-                      assigned_to: other_user,
-                      start_date: Time.zone.today.beginning_of_week.next_occurring(:tuesday),
-                      due_date: Time.zone.today.beginning_of_week.next_occurring(:thursday)
+           project: project,
+           parent: first_wp,
+           assigned_to: other_user,
+           start_date: Time.zone.today.beginning_of_week.next_occurring(:tuesday),
+           due_date: Time.zone.today.beginning_of_week.next_occurring(:thursday)
   end
   let!(:third_wp) do
     create :work_package,
-                      project: project,
-                      assigned_to: user,
-                      start_date: Time.zone.today - 10.days,
-                      due_date: Time.zone.today + 20.days
+           project: project,
+           assigned_to: user,
+           start_date: Time.zone.today - 10.days,
+           due_date: Time.zone.today + 20.days
   end
 
   context 'with full permissions' do
@@ -95,7 +93,7 @@ describe 'Team planner drag&dop and resizing', type: :feature, js: true do
     it 'allows to drag&drop between the lanes to change the assignee' do
       # Move first wp to the user
       retry_block do
-        team_planner.drag_wp_by_pixel(first_wp, 0, -50)
+        team_planner.drag_wp_to_lane(first_wp, user)
       end
       team_planner.expect_and_dismiss_toaster(message: I18n.t('js.notice_successful_update'))
 
@@ -113,7 +111,7 @@ describe 'Team planner drag&dop and resizing', type: :feature, js: true do
 
       # Move second wp to the user, resulting in the other user having no WPs any more
       retry_block do
-        team_planner.drag_wp_by_pixel(second_wp, 0, -50)
+        team_planner.drag_wp_to_lane(second_wp, user)
       end
       team_planner.expect_and_dismiss_toaster(message: I18n.t('js.notice_successful_update'))
 
@@ -131,7 +129,7 @@ describe 'Team planner drag&dop and resizing', type: :feature, js: true do
 
       # Move the third WP to the empty row of the other user
       retry_block do
-        team_planner.drag_wp_by_pixel(third_wp, 0, 100)
+        team_planner.drag_wp_to_lane(third_wp, other_user)
       end
       team_planner.expect_and_dismiss_toaster(message: I18n.t('js.notice_successful_update'))
 
@@ -172,7 +170,7 @@ describe 'Team planner drag&dop and resizing', type: :feature, js: true do
 
       # Change the dates by dragging the complete wp
       retry_block do
-        team_planner.drag_wp_by_pixel(second_wp, -100, 0)
+        team_planner.drag_wp_by_pixel(second_wp, -150, 0)
       end
       team_planner.expect_and_dismiss_toaster(message: I18n.t('js.notice_successful_update'))
 

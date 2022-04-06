@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,8 +31,8 @@ require 'spec_helper'
 feature 'project settings index', type: :feature do
   let(:user) do
     create(:user,
-                      member_in_project: project,
-                      member_with_permissions: %i[manage_versions])
+           member_in_project: project,
+           member_with_permissions: %i[manage_versions])
   end
   let(:project) { create(:project) }
   let!(:version1) { create(:version, name: "aaaaa 1.", project: project) }

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -41,27 +41,27 @@ describe 'Manual sorting of WP table', type: :feature, js: true do
   end
   let(:work_package_2) do
     create(:work_package,
-                      subject: 'WP2',
-                      project: project,
-                      parent: work_package_1,
-                      type: type_task,
-                      created_at: Time.now - 1.minutes)
+           subject: 'WP2',
+           project: project,
+           parent: work_package_1,
+           type: type_task,
+           created_at: Time.now - 1.minutes)
   end
   let(:work_package_3) do
     create(:work_package,
-                      subject: 'WP3',
-                      project: project,
-                      parent: work_package_2,
-                      type: type_bug,
-                      created_at: Time.now - 2.minutes)
+           subject: 'WP3',
+           project: project,
+           parent: work_package_2,
+           type: type_bug,
+           created_at: Time.now - 2.minutes)
   end
   let(:work_package_4) do
     create(:work_package,
-                      subject: 'WP4',
-                      project: project,
-                      parent: work_package_3,
-                      type: type_bug,
-                      created_at: Time.now - 3.minutes)
+           subject: 'WP4',
+           project: project,
+           parent: work_package_3,
+           type: type_bug,
+           created_at: Time.now - 3.minutes)
   end
 
   let(:sort_by) { ::Components::WorkPackages::SortBy.new }

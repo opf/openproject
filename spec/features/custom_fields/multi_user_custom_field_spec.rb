@@ -38,24 +38,24 @@ describe "multi select custom values", js: true do
 
     let!(:user) do
       create :user,
-                        firstname: 'Da Real',
-                        lastname: 'User',
-                        member_in_project: project,
-                        member_through_role: role
+             firstname: 'Da Real',
+             lastname: 'User',
+             member_in_project: project,
+             member_through_role: role
     end
 
     let!(:group) do
       create :group,
-                        name: 'groupfoo',
-                        member_in_project: project,
-                        member_through_role: role
+             name: 'groupfoo',
+             member_in_project: project,
+             member_through_role: role
     end
 
     let!(:placeholder) do
       create :placeholder_user,
-                        name: 'PLACEHOLDER',
-                        member_in_project: project,
-                        member_through_role: role
+             name: 'PLACEHOLDER',
+             member_in_project: project,
+             member_through_role: role
     end
 
     it "should be shown and allowed to be updated" do
@@ -104,27 +104,27 @@ describe "multi select custom values", js: true do
   describe 'with all users' do
     let!(:user1) do
       create :user,
-                        firstname: 'Billy',
-                        lastname: 'Nobbler',
-                        member_in_project: project,
-                        member_through_role: role
+             firstname: 'Billy',
+             lastname: 'Nobbler',
+             member_in_project: project,
+             member_through_role: role
     end
 
     let!(:user2) do
       create :user,
-                        firstname: 'Cooper',
-                        lastname: 'Quatermaine',
-                        member_in_project: project,
-                        member_through_role: role
+             firstname: 'Cooper',
+             lastname: 'Quatermaine',
+             member_in_project: project,
+             member_through_role: role
     end
 
     let!(:user3) do
       create :user,
-                        firstname: 'Anton',
-                        lastname: 'Lupin',
-                        status: User.statuses[:invited],
-                        member_in_project: project,
-                        member_through_role: role
+             firstname: 'Anton',
+             lastname: 'Lupin',
+             status: User.statuses[:invited],
+             member_in_project: project,
+             member_through_role: role
     end
 
     context "with existing custom values" do

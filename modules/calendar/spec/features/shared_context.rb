@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -38,11 +36,11 @@ shared_context 'with calendar full access' do
 
   shared_let(:user) do
     create :user,
-                      member_in_project: project,
-                      member_with_permissions: %w[
-                        view_work_packages edit_work_packages add_work_packages
-                        view_calendar
-                      ]
+           member_in_project: project,
+           member_with_permissions: %w[
+             view_work_packages edit_work_packages add_work_packages
+             view_calendar
+           ]
   end
 
   let(:calendar) { ::Pages::Calendar.new project }

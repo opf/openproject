@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,21 +33,21 @@ describe 'Projects autocomplete page', type: :feature, js: true do
 
   let!(:project) do
     create(:project,
-                      name: 'Plain project',
-                      identifier: 'plain-project')
+           name: 'Plain project',
+           identifier: 'plain-project')
   end
 
   let!(:project2) do
     create(:project,
-                      name: '<strong>foobar</strong>',
-                      identifier: 'foobar')
+           name: '<strong>foobar</strong>',
+           identifier: 'foobar')
   end
 
   let!(:project3) do
     create(:project,
-                      name: 'Plain other project',
-                      parent: project2,
-                      identifier: 'plain-project-2')
+           name: 'Plain other project',
+           parent: project2,
+           identifier: 'plain-project-2')
   end
 
   let!(:other_projects) do

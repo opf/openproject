@@ -232,9 +232,9 @@ prevents you from such errors.
 
 **NOTE:** When not specified differently, the default data loaded via db:seed will have an english localization. You can choose to seed in a different language by specifying the language via the `LOCALE` environment variable on the call to `db:seed`. E.g.
 ```bash
-[openproject@all] RAILS_ENV="production" LOCALE=fr ./bin/rake db:seed
+[openproject@all] RAILS_ENV="production" OPENPROJECT_SEED_LOCALE=fr ./bin/rake db:seed
 ```
-will seed the database in the french language.
+will seed the database in the french language. A large portion of the seed data is only available in english, however.
 
 ### Secret token
 

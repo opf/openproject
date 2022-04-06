@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,19 +35,19 @@ describe WikiContent, type: :model do
   shared_let(:page) { create(:wiki_page, wiki: wiki) }
   shared_let(:author) do
     create(:user,
-                      member_in_project: wiki.project,
-                      member_with_permissions: [:view_wiki_pages])
+           member_in_project: wiki.project,
+           member_with_permissions: [:view_wiki_pages])
   end
   shared_let(:project_watcher) do
     create(:user,
-                      member_in_project: wiki.project,
-                      member_with_permissions: [:view_wiki_pages])
+           member_in_project: wiki.project,
+           member_with_permissions: [:view_wiki_pages])
   end
 
   shared_let(:wiki_watcher) do
     watcher = create(:user,
-                                member_in_project: wiki.project,
-                                member_with_permissions: [:view_wiki_pages])
+                     member_in_project: wiki.project,
+                     member_with_permissions: [:view_wiki_pages])
     wiki.watcher_users << watcher
 
     watcher
@@ -74,8 +74,8 @@ describe WikiContent, type: :model do
             with_settings: { journal_aggregation_time_minutes: 0 } do
       let(:page_watcher) do
         watcher = create(:user,
-                                    member_in_project: wiki.project,
-                                    member_with_permissions: [:view_wiki_pages])
+                         member_in_project: wiki.project,
+                         member_with_permissions: [:view_wiki_pages])
         page.watcher_users << watcher
 
         watcher

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -49,14 +49,14 @@ describe ActivitiesController, type: :controller do
       let(:work_package) { create(:work_package) }
       let!(:journal) do
         create(:work_package_journal,
-                          journable_id: work_package.id,
-                          created_at: 3.days.ago.to_date.to_s(:db),
-                          version: Journal.maximum(:version) + 1,
-                          data: build(:journal_work_package_journal,
-                                                 subject: work_package.subject,
-                                                 status_id: work_package.status_id,
-                                                 type_id: work_package.type_id,
-                                                 project_id: work_package.project_id))
+               journable_id: work_package.id,
+               created_at: 3.days.ago.to_date.to_s(:db),
+               version: Journal.maximum(:version) + 1,
+               data: build(:journal_work_package_journal,
+                           subject: work_package.subject,
+                           status_id: work_package.status_id,
+                           type_id: work_package.type_id,
+                           project_id: work_package.project_id))
       end
 
       before { get 'index' }
@@ -93,7 +93,7 @@ describe ActivitiesController, type: :controller do
     describe 'with activated activity module' do
       let(:project) do
         create(:project,
-                          enabled_module_names: %w[activity wiki])
+               enabled_module_names: %w[activity wiki])
       end
 
       it 'renders activity' do
@@ -106,7 +106,7 @@ describe ActivitiesController, type: :controller do
     describe 'without activated activity module' do
       let(:project) do
         create(:project,
-                          enabled_module_names: %w[wiki])
+               enabled_module_names: %w[wiki])
       end
 
       it 'renders 403' do
@@ -129,8 +129,8 @@ describe ActivitiesController, type: :controller do
       context 'work_package' do
         let!(:wp_1) do
           create(:work_package,
-                            project: project,
-                            author: user)
+                 project: project,
+                 author: user)
         end
 
         describe 'global' do
@@ -148,8 +148,8 @@ describe ActivitiesController, type: :controller do
         describe 'list' do
           let!(:wp_2) do
             create(:work_package,
-                              project: project,
-                              author: user)
+                   project: project,
+                   author: user)
           end
 
           let(:params) do
@@ -168,15 +168,15 @@ describe ActivitiesController, type: :controller do
       context 'forums' do
         let(:forum) do
           create(:forum,
-                            project: project)
+                 project: project)
         end
         let!(:message_1) do
           create(:message,
-                            forum: forum)
+                 forum: forum)
         end
         let!(:message_2) do
           create(:message,
-                            forum: forum)
+                 forum: forum)
         end
         let(:params) do
           { project_id: project.id,

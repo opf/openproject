@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,10 +33,10 @@ describe 'Show the date of a Work Package', type: :feature, js: true do
   let(:admin) { create :admin }
   let(:work_package) do
     create :work_package,
-                      project: project,
-                      due_date: Date.yesterday,
-                      type: type,
-                      status: open_status
+           project: project,
+           due_date: Date.yesterday,
+           type: type,
+           status: open_status
   end
 
   let(:open_status) { create :default_status }
@@ -47,9 +47,9 @@ describe 'Show the date of a Work Package', type: :feature, js: true do
   let(:type) { create :type }
   let!(:workflow) do
     create :workflow,
-                      type_id: type.id,
-                      old_status: open_status,
-                      new_status: closed_status
+           type_id: type.id,
+           old_status: open_status,
+           new_status: closed_status
   end
 
   context 'with an overdue date' do

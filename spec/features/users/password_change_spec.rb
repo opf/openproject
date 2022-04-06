@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -94,7 +94,7 @@ describe 'random password generation',
       expect(::Sessions::UserSession.for_user(user.id).count).to be >= 1
 
       click_on 'Save'
-      expect(page).to have_selector('.flash.notice', text: I18n.t(:notice_account_password_updated))
+      expect(page).to have_selector('.flash.info', text: I18n.t(:notice_account_password_updated))
 
       # The old session is removed
       expect(::Sessions::UserSession.find_by(session_id: 'other')).to be_nil

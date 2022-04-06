@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,8 +37,8 @@ describe 'Subtasks action board', type: :feature, js: true do
 
   let(:user) do
     create(:user,
-                      member_in_project: project,
-                      member_through_role: role)
+           member_in_project: project,
+           member_through_role: role)
   end
 
   let(:board_index) { Pages::BoardIndex.new(project) }
@@ -170,7 +170,7 @@ describe 'Subtasks action board', type: :feature, js: true do
       board_page.move_card(0, from: 'Parent WP', to: 'Child WP')
 
       board_page.expect_and_dismiss_toaster type: :error,
-                                                 message: I18n.t('js.boards.error_cannot_move_into_self')
+                                            message: I18n.t('js.boards.error_cannot_move_into_self')
 
       child.reload
       expect(child.parent).to eq parent

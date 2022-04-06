@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -74,10 +74,14 @@ pt:
       book_now: 'Reserve agora'
       get_quote: 'Fazer uma cotação'
       buttons:
-        upgrade: "Upgrade now"
-        contact: "Contact us for a demo"
-      enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
-      upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
+        upgrade: "Atualizar agora"
+        contact: "Contate-nos para uma demonstração"
+      enterprise_info_html: "é uma Enterprise <strong class='icon-medal'></strong> recurso."
+      upgrade_info: "Por favor, faça o upgrade para um plano pago para ativar e começar a usá-lo em sua equipe."
+    journal_aggregation:
+      explanation:
+        text: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent and will also affect %{webhook_link} delay."
+        link: "webhook"
   announcements:
     show_until: Mostrar até
     is_active: atualmente exibido
@@ -165,7 +169,7 @@ pt:
     edit: 'Editar ação personalizada %{name}'
     execute: 'Executar %{name}'
     upsale:
-      title: 'Custom actions'
+      title: 'Ações personalizadas'
       description: 'As ações personalizadas simplificam o trabalho diário combinando um conjunto de etapas em um único botão.'
   custom_fields:
     text_add_new_custom_field: >
@@ -264,7 +268,7 @@ pt:
       irreversible: "Esta ação é irreversível"
       confirmation: "Digite o nome de usuário do espaço reservado %{name} para confirmar a exclusão."
     upsale:
-      title: Placeholder users
+      title: Usuários reservados
       description: >
         Existem vários cenários em que você deseja atribuir trabalho a pessoas que não são membros do seu projeto. Pode ser simplesmente que você ainda precise contratar a pessoa certa para o trabalho. Ou você não quer dar acesso a essas informações do projeto, mas ainda quer acompanhar as tarefas atribuídas a essa pessoa.
   prioritiies:
@@ -321,10 +325,10 @@ pt:
       other: '%{count} pacotes de trabalho descendentes'
     bulk:
       could_not_be_saved: "Os seguintes pacotes de trabalho não puderam ser salvos:"
-      none_could_be_saved: "None of the %{total} work packages could be updated."
-      x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
-      selected_because_descendants: "While %{selected} work packages where selected, in total %{total} work packages are affected which includes descendants."
-      descendant: "descendant of selected"
+      none_could_be_saved: "Nenhum dos pacotes de trabalho %{total} pode ser atualizado."
+      x_out_of_y_could_be_saved: "%{failing} dos pacotes de trabalho %{total} não puderam ser atualizados enquanto %{success} podia."
+      selected_because_descendants: "Enquanto %{selected} pacotes de trabalho são selecionados, no total de %{total} pacotes de trabalho são afetados, o que inclui descendentes."
+      descendant: "descendente de selecionados"
     move:
       no_common_statuses_exists: "Não há situação disponível para todos os pacotes de trabalho selecionados. Sua situação não pode ser alterada."
       unsupported_for_multiple_projects: 'Movimentação/cópia em massa não é suportada para pacotes de trabalho de vários projetos'
@@ -454,9 +458,12 @@ pt:
         code: 'Status'
         explanation: 'Descrição do estado'
         codes:
+          not_started: 'Não iniciado'
           on_track: 'Sob controle'
           at_risk: 'Em risco'
           off_track: 'Fora de controle'
+          finished: 'Finalizado'
+          discontinued: 'Descontinuado'
       query:
         column_names: "Colunas"
         relations_to_type_column: "Relações com %{type}"
@@ -467,7 +474,6 @@ pt:
       repository:
         url: "URL"
       role:
-        assignable: "Pacotes de trabalho podem ser atribuídos a usuários e grupos em posse deste papel no respectivo projeto"
         permissions: "Permissões"
       time_entry:
         activity: "Atividade"
@@ -745,7 +751,7 @@ pt:
               does_not_exist: "Categoria especificada não existe."
             estimated_hours:
               only_values_greater_or_equal_zeroes_allowed: "deve ser >= 0."
-          readonly_status: 'The work package is in a readonly status so its attributes cannot be changed.'
+          readonly_status: 'O pacote de trabalho está em estado somente leitura, então seus atributos não podem ser alterados.'
         type:
           attributes:
             attribute_groups:
@@ -757,7 +763,7 @@ pt:
         user:
           attributes:
             base:
-              user_limit_reached: "User limit reached. No more accounts can be created on the current plan."
+              user_limit_reached: "Limite de usuários atingido. Não é possível criar mais contas no plano atual."
             password_confirmation:
               confirmation: "A confirmação da senha não corresponde à senha!"
               format: "%{message}"
@@ -888,6 +894,7 @@ pt:
     version: "Versão"
     work_package: "Pacote de trabalho"
   backup:
+    failed: "Backup failed"
     label_backup_token: "Token de backup"
     label_create_token: "Criar token de backup"
     label_delete_token: "Excluir token de backup"
@@ -1225,6 +1232,7 @@ pt:
   error_enterprise_token_invalid_domain: "A Enterprise Edition não esta ativa. Seu domínio do token Enterprise (%{actual}) não corresponde ao nome do host do sistema (%{expected})."
   error_failed_to_delete_entry: 'Falha ao excluir esta entrada.'
   error_in_dependent: "Erro ao tentar alterar o objeto dependente: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
+  error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Valor selecionado inválido."
   error_journal_attribute_not_present: "O diário não contem atributo %{attribute}."
   error_pdf_export_too_many_columns: "Muitas colunas selecionadas para a exportação para PDF. Reduza o número de colunas."
@@ -1334,7 +1342,9 @@ pt:
   menus:
     admin:
       mail_notification: "Notificações por e-mail"
-      incoming_outgoing: "Entrada & Saída"
+      mails_and_notifications: "Emails and notification"
+      aggregation_and_retention: 'Aggregation and retention'
+      api_and_webhooks: "API and webhooks"
     quick_add:
       label: "Abrir menu de adição rápida"
   my_account:
@@ -1834,7 +1844,7 @@ pt:
   label_used_by_types: "Utilizado por tipos"
   label_used_in_projects: "Utilizado em projetos"
   label_user: "Usuário"
-  label_user_and_permission: "Usuários e permissões"
+  label_user_and_permission: "Users and permissions"
   label_user_named: "Usuário %{name}"
   label_user_activity: "atividade do %{value}"
   label_user_anonymous: "Anônimo"
@@ -1984,7 +1994,7 @@ pt:
   mail_body_backup_waiting_period: O novo token será habilitado em %{hours} horas.
   mail_body_backup_token_warning: Se não foi você, acesse o OpenProject imediatamente e redefina-o novamente.
   mail_body_lost_password: "Para alterar sua senha, clique no link a seguir:"
-  mail_body_register: "Bem-vindo ao OpenProject. Por favor, ative sua conta clicando neste link:"
+  mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "E-mail de convite a membro do projeto"
   mail_body_register_user: "Prezado(a) %{name},"
   mail_body_register_links_html: |
@@ -2126,7 +2136,7 @@ pt:
     heading_getting_started: "Obter visão geral"
     text_getting_started_description: "Obter visão geral do gerenciamento de projetos e colaboração de equipe com o OpenProject."
     text_show_again: "Você pode reiniciar este vídeo através do menu ajuda"
-    welcome: "Bem-vindo ao OpenProject"
+    welcome: "Welcome to %{app_title}"
     select_language: "Por favor, selecione seu idioma"
   permission_add_work_package_notes: "Adicionar anotações"
   permission_add_work_packages: "Adicionar pacotes de trabalho"
@@ -2195,6 +2205,8 @@ pt:
   permission_view_timelines: "Ver cronogramas"
   permission_view_wiki_edits: "Ver histórico do wiki"
   permission_view_wiki_pages: "Ver wiki"
+  permission_work_package_assigned: "Become assignee/responsible"
+  permission_work_package_assigned_explanation: "Pacotes de trabalho podem ser atribuídos a usuários e grupos em posse deste papel no respectivo projeto"
   placeholders:
     default: "-"
   project:
@@ -2346,7 +2358,7 @@ pt:
   setting_apiv3_cors_origins: "Cross-Origin Resource Sharing (CORS) permitidos pela API V3"
   setting_apiv3_cors_origins_text_html: >
     Se o CORS estiver habilitado, essas são as origens que têm permissão para acessar a API OpenProject. <br/>Por favor, verifique a <a href="%{origin_link}" target="_blank">documentação na header da Origin </a> sobre como especificar os valores esperados.
-  setting_apiv3_max_page_size: "Maximum API page size"
+  setting_apiv3_max_page_size: "Tamanho Máximo da página de API"
   setting_apiv3_max_page_instructions_html: >
     Set the maximum page size the API will respond with. It will not be possible to perform API requests that return more values on a single page. <br/> <strong>Warning:</strong> Please only change this value if you are sure why you need it. Setting to a high value will result in significant performance impacts, while a value lower than the per page options will cause errors in paginated views.
   setting_apiv3_docs: "Documentação"
@@ -2556,7 +2568,6 @@ pt:
   text_work_packages_destroy_confirmation: "Tem certeza que deseja excluir o(s) pacote(s) de trabalho selecionado(s)?"
   text_work_packages_ref_in_commit_messages: "Referenciando e corrigindo pacotes de trabalho nas mensagens de commit"
   text_journal_added: "%{label} %{value}  adicionado"
-  text_journal_aggregation_time_explanation: "As ações individuais de um usuário (por exemplo, atualizar um pacote de trabalho duas vezes) são agregadas em uma única ação se a diferença de idade for menor que o intervalo de tempo especificado. Eles serão exibidos como uma única ação no aplicativo. Isso também atrasará as notificações na mesma quantidade de tempo, reduzindo o número de e-mails enviados. "
   text_journal_changed_html: "%{label} modificado de  %{old} %{linebreak}<strong>para</strong> %{new}"
   text_journal_changed_plain: "%{label} alterado de %{old} %{linebreak}para %{new}"
   text_journal_changed_no_detail: "%{label} atualizado"
@@ -2870,6 +2881,7 @@ pt:
         work_package: "O pacote de trabalho que você está procurando não pode ser encontrado ou foi excluído."
       expected:
         date: "AAAA-MM-DD (somente data no formato ISO 8601)"
+        datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm] (any compatible ISO 8601 datetime)"
         duration: "Duração ISO 8601"
       invalid_content_type: "CONTENT-TYPE esperado '%{content_type}' mas '%{actual}' encontrado."
       invalid_format: "Formato inválido para a propriedade '%{property}': Formato esperado como '%{expected_format}', mas tem '%{actual}'."
@@ -2881,6 +2893,7 @@ pt:
         select: "A seleção requisitada de %{invalid} não é suportada. As seleções suportadas são %{supported}."
       invalid_user_status_transition: "A situação da conta do usuário atual não permite esta operação."
       missing_content_type: "não especificado"
+      missing_property: "Missing property '%{property}'."
       missing_request_body: "Não havia corpo da requisição."
       missing_or_malformed_parameter: "O parâmetro de consulta '%{parameter}' está ausente ou malformado."
       multipart_body_error: "O corpo da solicitação não continha as partes multipart esperadas."
@@ -2913,8 +2926,11 @@ pt:
     errors:
       messages:
         #Common error messages
-        invalid_request: 'A solicitação não possui um parâmetro obrigatório, tem um valor de parâmetro não suportado ou está malformada.'
-        invalid_redirect_uri: "O URI de redirecionamento solicitado está malformado ou não corresponde ao URI de redirecionamento do cliente."
+        invalid_request:
+          unknown: 'A solicitação não possui um parâmetro obrigatório, tem um valor de parâmetro não suportado ou está malformada.'
+          missing_param: 'Missing required parameter: %{value}.'
+          request_not_authorized: 'Request need to be authorized. Required parameter for authorizing request is missing or invalid.'
+        invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
         unauthorized_client: 'O cliente não está autorizado a executar esta solicitação usando este método.'
         access_denied: 'O proprietário do recurso ou servidor de autorização negou o pedido.'
         invalid_scope: 'O escopo solicitado é inválido, desconhecido ou malformado.'
@@ -2927,6 +2943,7 @@ pt:
         admin_authenticator_not_configured: 'O acesso ao painel de administração está proibido devido ao Doorkeeper.configure.admin_autenticator não configurado.'
         #Access grant errors
         unsupported_response_type: 'O servidor de autorização não suporta este tipo de resposta.'
+        unsupported_response_mode: 'The authorization server does not support this response mode.'
         #Access token errors
         invalid_client: 'Autenticação do cliente falhou devido ao cliente desconhecido, nenhuma autenticação de cliente incluída ou método de autenticação não suportado.'
         invalid_grant: 'A concessão de autorização fornecida é inválida, expirada, revogada, não corresponde ao URI de redirecionamento usado na solicitação de autorização, ou foi emitida para outro cliente.'
@@ -2935,6 +2952,10 @@ pt:
           revoked: "O token de acesso foi revogado"
           expired: "O token de acesso expirou"
           unknown: "O token de acesso é inválido"
+        revoke:
+          unauthorized: "You are not authorized to revoke this token."
+        forbidden_token:
+          missing_scope: 'Access to this resource requires scope "%{oauth_scopes}".'
   unsupported_browser:
     title: "Seu navegador está desatualizado e não é suportado."
     message: "Você pode encontrar erros e experiência degradada nesta página."

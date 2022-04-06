@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -38,20 +38,20 @@ describe OpenProject::TextFormatting,
     let(:identifier) { project.identifier }
     shared_let(:role) do
       create :role,
-                        permissions: %i(view_work_packages edit_work_packages
-                                        browse_repository view_changesets view_wiki_pages)
+             permissions: %i(view_work_packages edit_work_packages
+                             browse_repository view_changesets view_wiki_pages)
     end
 
     shared_let(:project_member) do
       create :user,
-                        member_in_project: project,
-                        member_through_role: role
+             member_in_project: project,
+             member_through_role: role
     end
     shared_let(:work_package) do
       create :work_package,
-                        project: project,
-                        author: project_member,
-                        type: project.types.first
+             project: project,
+             author: project_member,
+             type: project.types.first
     end
 
     shared_let(:non_member) do
@@ -66,17 +66,17 @@ describe OpenProject::TextFormatting,
     context 'Changeset links' do
       let(:repository) do
         build_stubbed :repository_subversion,
-                                 project: project
+                      project: project
       end
       let(:changeset1) do
         build_stubbed :changeset,
-                                 repository: repository,
-                                 comments: 'My very first commit'
+                      repository: repository,
+                      comments: 'My very first commit'
       end
       let(:changeset2) do
         build_stubbed :changeset,
-                                 repository: repository,
-                                 comments: 'This commit fixes #1, #2 and references #1 & #3'
+                      repository: repository,
+                      comments: 'This commit fixes #1, #2 and references #1 & #3'
       end
       let(:changeset_link) do
         link_to("r#{changeset1.revision}",
@@ -130,8 +130,8 @@ describe OpenProject::TextFormatting,
     context 'Version link' do
       let!(:version) do
         create :version,
-                          name: '1.0',
-                          project: project
+               name: '1.0',
+               project: project
       end
       let(:version_link) do
         link_to('1.0',
@@ -180,8 +180,8 @@ describe OpenProject::TextFormatting,
       let(:message1) { create :message, forum: forum }
       let(:message2) do
         create :message,
-                          forum: forum,
-                          parent: message1
+               forum: forum,
+               parent: message1
       end
 
       before do
@@ -330,35 +330,35 @@ describe OpenProject::TextFormatting,
     context 'Wiki links' do
       let(:project_2) do
         create :valid_project,
-                          identifier: 'onlinestore'
+               identifier: 'onlinestore'
       end
       let(:wiki_1) do
         create :wiki,
-                          start_page: 'CookBook documentation',
-                          project: project
+               start_page: 'CookBook documentation',
+               project: project
       end
       let(:wiki_page_1_1) do
         create :wiki_page_with_content,
-                          wiki: wiki_1,
-                          title: 'CookBook documentation'
+               wiki: wiki_1,
+               title: 'CookBook documentation'
       end
       let(:wiki_page_1_2) do
         create :wiki_page_with_content,
-                          wiki: wiki_1,
-                          title: 'Another page'
+               wiki: wiki_1,
+               title: 'Another page'
       end
       let(:wiki_page_1_3) do
         create :wiki_page_with_content,
-                          wiki: wiki_1,
-                          title: '<script>alert("FOO")</script>'
+               wiki: wiki_1,
+               title: '<script>alert("FOO")</script>'
       end
 
       before do
         project_2.reload
 
         wiki_page_2_1 = create :wiki_page_with_content,
-                                          wiki: project_2.wiki,
-                                          title: 'Start Page'
+                               wiki: project_2.wiki,
+                               title: 'Start Page'
 
         project_2.wiki.pages << wiki_page_2_1
         project_2.wiki.start_page = 'Start Page'
@@ -558,13 +558,13 @@ describe OpenProject::TextFormatting,
     context 'Pre content should not parse wiki and redmine links' do
       let(:wiki) do
         create :wiki,
-                          start_page: 'CookBook documentation',
-                          project: project
+               start_page: 'CookBook documentation',
+               project: project
       end
       let(:wiki_page) do
         create :wiki_page_with_content,
-                          wiki: wiki,
-                          title: 'CookBook documentation'
+               wiki: wiki,
+               title: 'CookBook documentation'
       end
       let(:raw) do
         <<~RAW

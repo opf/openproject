@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -23,7 +23,8 @@ de:
   js:
     ajax:
       hide: "Verbergen"
-      loading: "Lädt ..."
+      loading: "Loading…"
+      updating: "Updating…"
     attachments:
       draggable_hint: |
         Ziehen Sie diesen Anhang auf ein editierbares Feld um das Bild oder den Anhang einzubinden. Geöffnete Felder werden automatisch geöffnet während Sie das Attachment mit der Maus ziehen und halten.
@@ -61,6 +62,7 @@ de:
     button_confirm: "Bestätigen"
     button_continue: "Fortfahren"
     button_copy: "Kopieren"
+    button_copy_to_other_project: "Copy to other project"
     button_custom-fields: "Benutzerdefinierte Felder"
     button_delete: "Lösche"
     button_delete_watcher: "Beobachter löschen"
@@ -249,6 +251,7 @@ de:
     enumeration_doc_categories: "Dokumentenkategorien"
     enumeration_work_package_priorities: "Arbeitspaket-Prioritäten"
     filter:
+      more_values_not_shown: "There are %{total} more results, search to filter results."
       description:
         text_open_filter: "Öffnen Sie diesen Filter mittels \"Alt\" und den Pfeiltasten."
         text_close_filter: "Zur Auswahl eines Eintrags fokussieren sie diesen und drücken Sie Enter. Zum Verlassen ohne Filterauswahl, wählen Sie den ersten (leeren) Eintrag aus."
@@ -283,15 +286,15 @@ de:
           learn_about: "Erfahren Sie mehr über die neuen Funktionen"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_0':
+          '12_1':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
+              learn_about_link: https://www.openproject.org/openproject-12-1-release
               new_features_html: >
-                Das Release besteht aus folgenden Features und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li>Mit den neuen<b>In-App-Benachrichtigungen</b> erhalten Sie wichtige Updates direkt in der Anwendung und werden nicht mit zahlreichen E-Mails überfordert.</li> <li>Die neue <b>Benachrichtigungszentrale</b> zeigt alle Aktivitäten mit intuitiven Filtermöglichkeiten wie z. B. Benachrichtungsgrund oder Projekte. Eine Split-View erlaubt das leichte Bearbeiten aus der Zentrale.</li> <li>Verbesserte <b>Einstellungen für Benachrichtigungen</b> erlaubt das genaue Einstellen für einzelne Projekte und Aktionen, die zu Benachrichtigungen führen sollen.</li> <li><b>E-Mail-Erinnerungen</b> erlauben eine regelmäßige Zusammenfassung ausstehender Benachrichtungen</li> <li>Die Autovervollständigung von Arbeitspaketen enthält zusätzliche Informationen (Projektname, Status, ...) für einfachere Identifizierung.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A <b>new team planner module</b> (Enterprise feature) allows you to visually assign tasks to team members to get an overview of who is working on what.</li> <li>We are <b>releasing the basic agile boards</b> for the Community version.</li> <li>The <b>"Include Projects" filter</b> option makes it easier to add different projects to your views, such as for work packages, calendars, and team planners.</li> <li>We added <b>a new "Files" tab</b> in the work package details to have all possible information attached to a work package together.</li> <li>We created <b>global roles for groups</b> to assign these roles to groups and create superuser groups.</li> <li>Project status was given more options to choose from.</li> </ul>
             bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
+              learn_about_link: https://www.openproject.org/openproject-12-1-release
               new_features_html: >
-                Das Release besteht aus folgenden Features und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li>Benachrichtigungszentrale: Reduziert die Anzahl an E-Mails, die Sie erhalten. Erhalten und verarbeiten Sie Benachrichtigungen an einer Stelle.</li> <li>Alle hochgeladenen IFC-Dateien können jetzt komfortabel heruntergeladen werden.</li> <li>Das Hochladen und Verarbeiten von IFC-Dateien sowie dessen Fehlerbehandlung wurde verbessert.</li> <li>Das <a href="https://github.com/opf/openproject-revit-add-in">OpenProject Revit Add-in</a> wurde verbessert.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>In the BCF module you can now save your selected work package filters, columns etc. as <b>views</b> and share those with your team members.</li> <li>A <b>new team planner module</b> (Enterprise feature) allows you to visually assign tasks to team members to get an overview of who is working on what.</li> <li>We are <b>releasing the basic agile boards</b> for the Community version.</li> <li>The <b>"Include Projects" filter</b> option makes it easier to add different projects to your views, such as for work packages, calendars, and team planners.</li> <li>We added <b>a new "Files" tab</b> in the work package details to have all possible information attached to a work package together.</li> <li>We created <b>global roles for groups</b> to assign these roles to groups and create superuser groups.</li> <li>Project status was given more options to choose from.</li> </ul>
     label_activate: "Aktiviere"
     label_add_column_after: "Spalte danach hinzufügen"
     label_add_column_before: "Spalte davor hinzufügen"
@@ -450,9 +453,8 @@ de:
     label_starred_queries: "Favoriten"
     label_global_queries: "Öffentliche Ansichten"
     label_custom_queries: "Private Ansichten"
-    label_create_new_query: "Neu erstellen"
     label_columns: "Spalten"
-    label_attachments: Dateien
+    label_attachments: Anhänge
     label_drop_files: Dateien hier ablegen
     label_drop_files_hint: oder klicken Sie um Dateien hinzuzufügen
     label_drop_folders_hint: Ordner können nicht als Anhänge hinzugefügt werden. Bitte wählen Sie einzelne Dateien aus.
@@ -496,7 +498,8 @@ de:
           task_board: "Das Aufgabenfeld visualisiert den <b>Fortschritt für diesen Sprint</b>. Klicken Sie auf das Plus (+) Symbol neben einer User Story, um neue Aufgaben oder Hindernisse hinzuzufügen. <br> Der Status kann per Drag & Drop aktualisiert werden."
         boards:
           overview: 'Wählen Sie <b>Boards</b> aus, um eine andere Sicht auf Ihr Projekt zu erhalten und es in der agilen Board-Ansicht zu verwalten.'
-          lists: 'Hier können Sie mehrere Listen (Spalten) innerhalb Ihres Boards erstellen. Mit dieser Funktion können Sie zum Beispiel ein <b>Kanban Board</b>erstellen.'
+          lists_kanban: 'Hier können Sie mehrere Listen (Spalten) innerhalb Ihres Boards erstellen. Mit dieser Funktion können Sie zum Beispiel ein <b>Kanban Board</b>erstellen.'
+          lists_basic: 'Here you can create multiple lists (columns) within your agile board.'
           add: 'Klicken Sie auf das Plus-Symbol (+), um <b>eine neue Karte zu erstellen</b> oder <b>eine existierende Karte</b> zur Liste auf dem Board hinzuzufügen.'
           drag: 'Verschieben Sie die Karten innerhalb einer Liste, um sie neu zu ordnen oder in eine andere Liste zu verschieben. <br> Sie können das Info (i) Symbol in der oberen rechten Ecke anklicken oder doppelt auf eine Karte klicken, um dessen Details zu öffnen.'
         wp:
@@ -507,6 +510,12 @@ de:
           create_button: 'Mit dem <b>+ Anlegen</b> Knopf erstellen Sie weitere Arbeitspakete für Ihr Projekt.'
           timeline_button: 'Sie können ein <b>Gantt Diagramm</b> aktivieren um Projektpläne zu erstellen.'
           timeline: 'Hier sehen Sie den Projektplan. Sie können neue Phasen oder Meilensteine sowie Abhängigkeiten hinzufügen und bearbeiten. Das Team sieht jeder Zeit die aktuelle Planung und kann diese bei Bedarf aktualisieren.'
+        team_planner:
+          overview: 'The team planner lets you visually assign tasks to team members and get an overview of who is working on what.'
+          calendar: 'The weekly or biweekly planning board displays all work packages assigned to your team members.'
+          add_assignee: 'To get started, add assignees to the team planner.'
+          add_existing: 'Search for existing work packages and drag them to the team planner to instantly assign them to a team member and define start and end dates.'
+          card: 'Drag work packages horizontally to move them backwards or forwards in time, drag the edges to change start and end dates and even drag them vertically to a different row to assign them to another member.'
     notifications:
       title: "Benachrichtigungen"
       no_unread: "Keine ungelesenen Benachrichtigungen"
@@ -985,7 +994,8 @@ de:
         activity: Aktivität
         relations: Beziehungen
         watchers: Beobachter
-        attachments: Anhänge
+        files: Dateien
+        files_tab_migration_help: 'You can now attach files to work packages via the new tab:'
       time_relative:
         days: "Tagen"
         weeks: "Wochen"
@@ -1154,8 +1164,22 @@ de:
           placeholder: 'Der Platzhalter kann jetzt in %{project} verwendet werden. In der Zwischenzeit können Sie bereits mit diesem Benutzer planen und beispielsweise Arbeitspakete zuweisen.'
           group: 'Die Gruppe ist nun %{project} zugewiesen. In der Zwischenzeit können Sie bereits mit dieser Gruppe planen und ihr zum Beispiel Arbeitspakete zuweisen.'
         next_button: 'Fortfahren'
+    include_projects:
+      toggle_title: 'Include projects'
+      title: 'Projekte'
+      clear_selection: 'Clear selection'
+      apply: 'Anwenden'
+      selected_filter:
+        all: 'Alle Projekte'
+        selected: 'Only selected'
+      search_placeholder: 'Search project...'
     forms:
       submit_success_message: 'Das Formular wurde erfolgreich übermittelt'
       load_error_message: 'Beim Laden des Formulars ist ein Fehler aufgetreten'
       validation_error_message: 'Bitte die Fehler im Formular beheben'
       advanced_settings: 'Erweiterte Einstellungen'
+    spot:
+      filter_chip:
+        remove: 'Entfernen'
+      drop_modal:
+        Close: 'Schließen'

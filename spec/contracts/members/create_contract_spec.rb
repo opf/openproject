@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -76,8 +76,8 @@ describe Members::CreateContract do
         let!(:project2) { create :project }
         let(:current_user) do
           create :user,
-                            member_in_project: project1,
-                            member_with_permissions: %i[manage_members]
+                 member_in_project: project1,
+                 member_with_permissions: %i[manage_members]
         end
 
         it 'returns the one project' do

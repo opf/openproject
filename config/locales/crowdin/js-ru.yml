@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -23,7 +23,8 @@ ru:
   js:
     ajax:
       hide: "Скрыть"
-      loading: "Загрузка ..."
+      loading: "Loading…"
+      updating: "Updating…"
     attachments:
       draggable_hint: |
         Перетащите в поле редактора для вставки изображения или прикрепления ссылки. Закрытые поля будут открыты в течение перетаскивания.
@@ -34,16 +35,16 @@ ru:
       remove: "Удалить %{name}"
       active: "Активировать %{label} %{name}"
     backup:
-      attachments_disabled: Вложения не могут быть включены, так как их общий размер превышает максимально разрешенный. Вы можете снять это ограничение изменив конфигурацию (потребуется перезапуск сервера).
+      attachments_disabled: Вложения не могут быть включены, так как их общий размер превышает максимально разрешенный. Вы можете изменить это ограничение в конфигурации (потребуется перезапуск сервера).
       info: >
         Здесь вы можете запустить резервное копирование. Продолжительность процесса зависит от объема данных (особенно вложений). О завершении процесса вам будет сообщено письмом.
       note: >
         Новая резервная копия создается поверх предыдущий. Число создаваемых резервных копий в день ограничено.
-      last_backup: Последняя резервная копия
+      last_backup: Последняя резервное копирование
       last_backup_from: Последняя резервная копия от
       title: Резервное копирование OpenProject
       options: Параметры
-      include_attachments: Включить вложения
+      include_attachments: Включая вложения
       download_backup: Скачать резервную копию
       request_backup: Запросить резервную копию
     close_popup_title: "Закрыть всплывающее окно"
@@ -61,6 +62,7 @@ ru:
     button_confirm: "Подтвердить"
     button_continue: "Продолжить"
     button_copy: "Копировать"
+    button_copy_to_other_project: "Копировать в другой проект"
     button_custom-fields: "Настраиваемые поля"
     button_delete: "Удалить"
     button_delete_watcher: "Удалить наблюдателя"
@@ -73,7 +75,7 @@ ru:
     button_advanced_filter: "Расширенный фильтр"
     button_list_view: "В виде списка"
     button_show_view: "Полноэкранный просмотр"
-    button_log_time: "Время записи"
+    button_log_time: "Журналировать время"
     button_more: "Ещё"
     button_open_details: "Открыть детальный просмотр"
     button_close_details: "Закрыть детальный просмотр"
@@ -84,7 +86,7 @@ ru:
     button_save: "Сохранить"
     button_settings: "Настройки"
     button_uncheck_all: "Снять все отметки"
-    button_update: "Обновить"
+    button_update: "Обновление"
     button_export-pdf: "Скачать PDF"
     button_export-atom: "Скачать Atom"
     button_create: "Создать"
@@ -103,8 +105,8 @@ ru:
       axis_criteria: 'Критерии осей'
       modal_title: 'Настройки диаграммы пакетов работ'
       types:
-        line: 'Линия'
-        horizontal_bar: 'Горизонтальная полоса'
+        line: 'Строка'
+        horizontal_bar: 'Полосовая'
         bar: 'Столбец'
         pie: 'Круговая'
         doughnut: 'Кольцевая'
@@ -112,7 +114,7 @@ ru:
         polar_area: 'Круговая полярная'
       tabs:
         graph_settings: 'Общие'
-        dataset: 'Набор данных %{number}'
+        dataset: 'Набор %{number}'
       errors:
         could_not_load: 'Данные для отображения диаграммы не могут быть загружены. Могут отсутствовать необходимые разрешения.'
     description_available_columns: "Доступные столбцы"
@@ -249,6 +251,7 @@ ru:
     enumeration_doc_categories: "Категории документов"
     enumeration_work_package_priorities: "Приоритеты пакета работ"
     filter:
+      more_values_not_shown: "Есть еще %{total} результатов для фильтрации."
       description:
         text_open_filter: "Откройте этот фильтр клавишей 'ALT' и клавишами со стрелками."
         text_close_filter: "Для выбора элемента установите на нем фокус и нажмите Enter. Для очистки фильтра выберите первую (пустого) запись."
@@ -283,15 +286,15 @@ ru:
           learn_about: "Подробнее о новых функциях"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_0':
+          '12_1':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
+              learn_about_link: https://www.openproject.org/openproject-12-1-release
               new_features_html: >
-                Релиз содержит различные новые функции и улучшения: <br> <ul class="%{list_styling_class}"> <li>С новыми <b>уведомлениями в приложении</b> вы получаете все важные обновления непосредственно в приложении и больше не получать письма от спама.</li> <li>Новый <b>центр уведомлений</b> показывает все изменения, включая интуитивные настройки фильтра. по причинам для уведомлений или проектов. Это даже позволяет редактировать непосредственно в виде раздельного просмотра.</li> <li>Улучшено <b>настройка уведомлений</b> позволяет тонкости, для каких действий и в каких проектах вы хотите получать уведомления.</li> <li><b>напоминания электронной почты</b> могут быть настроены на получение важных обновлений ежедневно по электронной почте.</li> <li>Пакет работ автоматически дополняет отношения теперь также показывает дополнительную информацию (название проекта, статус, . ), чтобы легко определить соответствующий пакет работ.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A <b>new team planner module</b> (Enterprise feature) allows you to visually assign tasks to team members to get an overview of who is working on what.</li> <li>We are <b>releasing the basic agile boards</b> for the Community version.</li> <li>The <b>"Include Projects" filter</b> option makes it easier to add different projects to your views, such as for work packages, calendars, and team planners.</li> <li>We added <b>a new "Files" tab</b> in the work package details to have all possible information attached to a work package together.</li> <li>We created <b>global roles for groups</b> to assign these roles to groups and create superuser groups.</li> <li>Project status was given more options to choose from.</li> </ul>
             bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
+              learn_about_link: https://www.openproject.org/openproject-12-1-release
               new_features_html: >
-                Релиз содержит различные новые функции и улучшения: <br> <ul class="%{list_styling_class}"> <li>Центр уведомлений: Уменьшите количество получаемых писем. Вместо этого найдите и задействуйте все соответствующие уведомления в одном центральном месте.</li> <li>Все загруженные IFC файлы теперь также могут быть загружены.</li> <li>Загрузка и обработка IFC ускорились и получили улучшенные сообщения об ошибках.</li> <li>На <a href="https://github.com/opf/openproject-revit-add-in">в дополнении</a> OpenProject Revit Add-in for </a> было много исправлений.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>In the BCF module you can now save your selected work package filters, columns etc. as <b>views</b> and share those with your team members.</li> <li>A <b>new team planner module</b> (Enterprise feature) allows you to visually assign tasks to team members to get an overview of who is working on what.</li> <li>We are <b>releasing the basic agile boards</b> for the Community version.</li> <li>The <b>"Include Projects" filter</b> option makes it easier to add different projects to your views, such as for work packages, calendars, and team planners.</li> <li>We added <b>a new "Files" tab</b> in the work package details to have all possible information attached to a work package together.</li> <li>We created <b>global roles for groups</b> to assign these roles to groups and create superuser groups.</li> <li>Project status was given more options to choose from.</li> </ul>
     label_activate: "Активировать"
     label_add_column_after: "Добавить столбец после"
     label_add_column_before: "Добавить столбец перед"
@@ -364,7 +367,7 @@ ru:
     label_information_plural: "Информация"
     label_import: "Импорт"
     label_latest_activity: "Последние действия"
-    label_last_updated_on: "Последнее обновление"
+    label_last_updated_on: "Последний раз обновлено"
     label_learn_more_link: "Узнать больше"
     label_less_or_equal: "<="
     label_less_than_ago: "менее нескольких дней назад"
@@ -372,7 +375,7 @@ ru:
     label_mail_notification: "Уведомления по email"
     label_me: "я"
     label_meeting_agenda: "Повестка дня"
-    label_meeting_minutes: "Минут"
+    label_meeting_minutes: "Протокол(-ы)"
     label_menu_collapse: "свернуть"
     label_menu_expand: "развернуть"
     label_more_than_ago: "более нескольких дней назад"
@@ -450,9 +453,8 @@ ru:
     label_starred_queries: "Избранные представления"
     label_global_queries: "Публичные представления"
     label_custom_queries: "Приватные представления"
-    label_create_new_query: "Создать новый"
     label_columns: "Столбцы"
-    label_attachments: Файлы
+    label_attachments: Вложения
     label_drop_files: Перетащите файлы сюда
     label_drop_files_hint: или кликните для добавления файлов
     label_drop_folders_hint: Вы не можете загружать папки как вложение. Пожалуйста, выберите один файл.
@@ -496,7 +498,8 @@ ru:
           task_board: "Панель задач визуализирует прогресс <b>для этого спринта</b>. Нажмите на значок плюс (+) рядом с пользовательской историей, чтобы добавить новые задачи или препятствия. <br> Статус можно обновить перетаскиванием."
         boards:
           overview: 'Выберите <b>доски</b> , чтобы сдвинуть вид и управлять вашим проектом с помощью вида agile-доски.'
-          lists: 'Здесь вы можете создать несколько списков (столбцов) на доске. Эта функция позволяет создать <b>доску Канбана</b>, например.'
+          lists_kanban: 'Здесь вы можете создать несколько списков (столбцов) на доске. Эта функция позволяет создать <b>доску Канбана</b>, например.'
+          lists_basic: 'Здесь вы можете создать несколько списков (столбцов) внутри вашей agile-панели.'
           add: 'Нажмите на значок плюс (+) для <b>создания новой карты</b> или <b>добавить существующую карту</b> в список на доске.'
           drag: 'Перетащите карты в заданный список, чтобы упорядочить их или переместить в другой список. <br> Вы можете щелкнуть по иконке info (i) в верхнем правом углу или дважды щелкнуть по карте, чтобы открыть ее данные.'
         wp:
@@ -507,6 +510,12 @@ ru:
           create_button: 'Кнопка <b>+ Создать</b> добавит новый пакет работ в ваш проект.'
           timeline_button: 'Вы можете активировать <b>график Гантта</b> для создания ленты времени вашего проекта.'
           timeline: 'Здесь вы можете <b>редактировать план проекта</b>, создавать новые пакеты работ, например, задачи, этапы, фазы и многое другое, а также <b>добавить зависимости</b>. Все члены команды могут видеть и обновлять план в любое время.'
+        team_planner:
+          overview: 'Планировщик команды позволяет наглядно назначать задачи членам команды и получать представление о том, кто над чем работает.'
+          calendar: 'На доске планирования еженедельно или раз в две недели отображаются все пакеты работ членов вашей команды.'
+          add_assignee: 'Вначале добавьте в планировщике задачи назначенных лиц'
+          add_existing: 'Найдите существующие пакеты работ и перетащите их в планировщик команд для  немедленного их назначения члену команды и определения дат начала и окончания.'
+          card: 'Для перемещения пакета работ назад или вперед во времени перетаскивайте его по горизонтали, изменяйте даты начала и окончания, изменяя размер пакета перетаскиванием его краев, назначайте пакета работ другому участнику перетаскиванием пакета в другую строку по вертикали.'
     notifications:
       title: "Уведомления"
       no_unread: "Нет непрочитанных уведомлений"
@@ -683,7 +692,7 @@ ru:
       partof: "Часть"
       requires: "Требуется"
       required: "Требуется для"
-      relation_type: "тип отношения"
+      relation_type: "тип связи"
     relations_hierarchy:
       parent_headline: "Родитель"
       hierarchy_headline: "Иерархия"
@@ -692,7 +701,7 @@ ru:
       set_parent: "Установить родителя"
       change_parent: "Изменить родителя"
       remove_parent: "Удалить родителя"
-      hierarchy_indent: "Иерархия с отступом"
+      hierarchy_indent: "Иерархия отступов"
       hierarchy_outdent: "Иерархия с выступом"
       group_by_wp_type: "Группировать по типу пакета работ"
       group_by_relation_type: "Группировать по типу связи"
@@ -714,7 +723,7 @@ ru:
       abort: "Прервать"
     relations_autocomplete:
       placeholder: "Введите для поиска"
-      parent_placeholder: "Выберите нового родителя или нажмите кнопку \"Отменить\"."
+      parent_placeholder: "Выберите нового родителя или нажмите escape, чтобы отменить."
     autocompleter:
       placeholder: "Введите для поиска"
       notFoundText: "Элементов не найдено"
@@ -775,7 +784,7 @@ ru:
         level4: "Развернуть уровень 4"
         level5: "Развернуть уровень 5"
         all: "Показывать всё"
-      project_status: "Состояние проекта"
+      project_status: "Статус проекта"
       really_close_dialog: "Вы действительно хотите закрыть диалоговое окно и потерять введенные данные?"
       responsible: "Ответственный"
       save: Сохранить
@@ -807,7 +816,7 @@ ru:
       deleted: "﻿Удалено"
       code: "Встроенный код"
       heading1: "Заголовок 1"
-      heading2: "Заголовок 2"
+      heading2: "Заголовок 1"
       heading3: "Заголовок 3"
       unordered_list: "Неупорядоченный список"
       ordered_list: "Упорядоченный список"
@@ -890,7 +899,7 @@ ru:
         projectName: "Проект"
         responsible: "Ответственный"
         startDate: "Дата начала"
-        status: "Состояние"
+        status: "Статус"
         subject: "Тема"
         subproject: "Подпроект"
         title: "Заголовок"
@@ -987,7 +996,8 @@ ru:
         activity: Деятельность
         relations: Связи
         watchers: Наблюдатель
-        attachments: Вложения
+        files: Файлы
+        files_tab_migration_help: 'Теперь вы можете прикрепить файлы к рабочим пакетам через новую вкладку:'
       time_relative:
         days: "дней"
         weeks: "недели"
@@ -1047,7 +1057,7 @@ ru:
       button_save: "%{attribute}: Сохранить"
       button_cancel: "%{attribute}: Отменить"
       button_save_all: "Сохранить"
-      button_cancel_all: "Отменить"
+      button_cancel_all: "Отмена"
       link_formatting_help: "Справка по форматированию текста"
       btn_preview_enable: "Предпросмотр"
       btn_preview_disable: "Отключить предпросмотр"
@@ -1072,8 +1082,8 @@ ru:
       child_work_packages:
         one: "пакет работ с одним дочерним"
         few: "пакетов работ с %{count} дочерними"
-        many: "пакетов работ с %{count} дочерними"
-        other: "пакетов работ с %{count} дочерними"
+        many: "пакет работ с %{count} дочерними"
+        other: "пакет работ с %{count} дочерними"
       hour:
         one: "1 ч"
         other: "%{count} ч"
@@ -1160,8 +1170,22 @@ ru:
           placeholder: 'Теперь плейсхолдер может быть использован в %{project}. Тем временем вы уже можете планировать с этим пользователем и назначать рабочие пакеты.'
           group: 'Теперь группа является частью %{project}. Тем временем вы уже можете спланировать работу с этой группой и назначить пакеты работ.'
         next_button: 'Продолжить'
+    include_projects:
+      toggle_title: 'Включить проекты'
+      title: 'Проекты'
+      clear_selection: 'Отменить выделение'
+      apply: 'Применить'
+      selected_filter:
+        all: 'Все проекты'
+        selected: 'Только выбранные'
+      search_placeholder: 'Поиск проекта...'
     forms:
       submit_success_message: 'Форма успешно отправлена'
       load_error_message: 'Произошла ошибка при загрузке формы'
       validation_error_message: 'Пожалуйста, исправьте ошибки в форме'
       advanced_settings: 'Расширенные настройки'
+    spot:
+      filter_chip:
+        remove: 'Удалить'
+      drop_modal:
+        Close: 'Закрыть'

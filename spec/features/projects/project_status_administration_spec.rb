@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,8 +34,8 @@ describe 'Projects status administration', type: :feature, js: true do
   let(:current_user) do
     create(:user).tap do |u|
       create(:global_member,
-                        principal: u,
-                        roles: [create(:global_role, permissions: global_permissions)])
+             principal: u,
+             roles: [create(:global_role, permissions: global_permissions)])
     end
   end
   let(:global_permissions) { [:add_project] }

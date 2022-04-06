@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -47,14 +47,14 @@ describe MailHandler, type: :model do
   end
 
   shared_context 'wp_on_given_project' do
-    let(:permissions) { %i[add_work_packages assign_versions] }
+    let(:permissions) { %i[add_work_packages assign_versions work_package_assigned] }
     let!(:user) do
       create(:user,
-                        mail: 'JSmith@somenet.foo',
-                        firstname: 'John',
-                        lastname: 'Smith',
-                        member_in_project: project,
-                        member_with_permissions: permissions)
+             mail: 'JSmith@somenet.foo',
+             firstname: 'John',
+             lastname: 'Smith',
+             member_in_project: project,
+             member_with_permissions: permissions)
     end
     let(:submit_options) { {} }
 
@@ -67,11 +67,11 @@ describe MailHandler, type: :model do
     let(:permissions) { %i[add_work_packages assign_versions] }
     let!(:user) do
       create(:user,
-                        mail: 'JSmith@somenet.foo',
-                        firstname: 'John',
-                        lastname: 'Smith',
-                        member_in_project: project,
-                        member_with_permissions: permissions)
+             mail: 'JSmith@somenet.foo',
+             firstname: 'John',
+             lastname: 'Smith',
+             member_in_project: project,
+             member_with_permissions: permissions)
     end
     let(:submit_options) { { allow_override: 'version' } }
 
@@ -84,15 +84,15 @@ describe MailHandler, type: :model do
     let(:permissions) { %i[edit_work_packages view_work_packages] }
     let!(:user) do
       create(:user,
-                        mail: 'JSmith@somenet.foo',
-                        member_in_project: project,
-                        member_with_permissions: permissions)
+             mail: 'JSmith@somenet.foo',
+             member_in_project: project,
+             member_with_permissions: permissions)
     end
 
     let!(:work_package) do
       create(:work_package,
-                        id: 2,
-                        project: project).tap do |wp|
+             id: 2,
+             project: project).tap do |wp|
         wp.journals.last.update_column(:id, 891223)
       end
     end
@@ -106,19 +106,19 @@ describe MailHandler, type: :model do
     let(:permissions) { %i[add_work_packages view_work_packages add_work_package_watchers] }
     let!(:user) do
       create(:user,
-                        mail: 'JSmith@somenet.foo',
-                        firstname: 'John',
-                        lastname: 'Smith',
-                        member_in_project: project,
-                        member_with_permissions: permissions)
+             mail: 'JSmith@somenet.foo',
+             firstname: 'John',
+             lastname: 'Smith',
+             member_in_project: project,
+             member_with_permissions: permissions)
     end
     let!(:cc_user) do
       create(:user,
-                        mail: 'dlopper@somenet.foo',
-                        firstname: 'D',
-                        lastname: 'Lopper',
-                        member_in_project: project,
-                        member_with_permissions: permissions)
+             mail: 'dlopper@somenet.foo',
+             firstname: 'D',
+             lastname: 'Lopper',
+             member_in_project: project,
+             member_with_permissions: permissions)
     end
     let(:submit_options) { { issue: { project: project.identifier } } }
 
@@ -131,16 +131,16 @@ describe MailHandler, type: :model do
     let(:permissions) { %i[add_work_package_notes view_work_packages] }
     let!(:user) do
       create(:user,
-                        mail: 'j.doe@openproject.org',
-                        member_in_project: project,
-                        member_with_permissions: permissions)
+             mail: 'j.doe@openproject.org',
+             member_in_project: project,
+             member_with_permissions: permissions)
     end
 
     let!(:work_package) do
       create(:work_package,
-                        subject: 'Some subject of the bug',
-                        id: 39733,
-                        project: project).tap do |wp|
+             subject: 'Some subject of the bug',
+             id: 39733,
+             project: project).tap do |wp|
         wp.journals.last.update_column(:id, 99999999)
       end
     end
@@ -151,23 +151,23 @@ describe MailHandler, type: :model do
   end
 
   shared_context 'with a reply to a wp mention with attributes' do
-    let(:permissions) { %i[add_work_package_notes view_work_packages edit_work_packages] }
+    let(:permissions) { %i[add_work_package_notes view_work_packages edit_work_packages work_package_assigned] }
     let(:role) do
       create(:role, permissions: permissions)
     end
     let!(:user) do
       create(:user,
-                        mail: 'j.doe@openproject.org',
-                        member_in_project: project,
-                        member_through_role: role)
+             mail: 'j.doe@openproject.org',
+             member_in_project: project,
+             member_through_role: role)
     end
 
     let!(:work_package) do
       create(:work_package,
-                        subject: 'Some subject of the bug',
-                        id: 39733,
-                        project: project,
-                        status: original_status).tap do |wp|
+             subject: 'Some subject of the bug',
+             id: 39733,
+             project: project,
+             status: original_status).tap do |wp|
         wp.journals.last.update_column(:id, 99999999)
       end
     end
@@ -176,23 +176,23 @@ describe MailHandler, type: :model do
     end
     let!(:resolved_status) do
       create(:status,
-                        name: 'Resolved').tap do |status|
+             name: 'Resolved').tap do |status|
         create(:workflow,
-                          old_status: original_status,
-                          new_status: status,
-                          role: role,
-                          type: work_package.type)
+               old_status: original_status,
+               new_status: status,
+               role: role,
+               type: work_package.type)
       end
     end
     let!(:other_user) do
       create(:user,
-                        mail: 'jsmith@somenet.foo',
-                        member_in_project: project,
-                        member_through_role: role)
+             mail: 'jsmith@somenet.foo',
+             member_in_project: project,
+             member_through_role: role)
     end
     let!(:float_cf) do
       create(:float_wp_custom_field,
-                        name: 'float field').tap do |cf|
+             name: 'float field').tap do |cf|
         project.work_package_custom_fields << cf
         work_package.type.custom_fields << cf
       end
@@ -207,15 +207,15 @@ describe MailHandler, type: :model do
     let(:permissions) { %i[view_messages add_messages] }
     let!(:user) do
       create(:user,
-                        mail: 'j.doe@openproject.org',
-                        member_in_project: project,
-                        member_with_permissions: permissions)
+             mail: 'j.doe@openproject.org',
+             member_in_project: project,
+             member_with_permissions: permissions)
     end
 
     let!(:message) do
       create(:message,
-                        id: 70917,
-                        forum: create(:forum, project: project)).tap do |wp|
+             id: 70917,
+             forum: create(:forum, project: project)).tap do |wp|
         wp.journals.last.update_column(:id, 99999999)
       end
     end
@@ -540,9 +540,9 @@ describe MailHandler, type: :model do
 
         it 'sends notifications' do
           assignee = create(:user,
-                                       member_in_project: project,
-                                       member_with_permissions: %i(view_work_packages),
-                                       notification_settings: [build(:notification_setting, involved: true)])
+                            member_in_project: project,
+                            member_with_permissions: %i(view_work_packages),
+                            notification_settings: [build(:notification_setting, involved: true)])
 
           work_package.update_column(:assigned_to_id, assignee.id)
 

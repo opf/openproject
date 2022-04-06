@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,15 +35,15 @@ describe 'Wiki unicode title spec', type: :feature, js: true do
   let(:project) { create :project }
   let(:wiki_page_1) do
     build :wiki_page_with_content,
-                     title: '<script>alert("FOO")</script>'
+          title: '<script>alert("FOO")</script>'
   end
   let(:wiki_page_2) do
     build :wiki_page_with_content,
-                     title: 'Base de données'
+          title: 'Base de données'
   end
   let(:wiki_page_3) do
     build :wiki_page_with_content,
-                     title: 'Base_de_données'
+          title: 'Base_de_données'
   end
 
   let(:wiki_body) do

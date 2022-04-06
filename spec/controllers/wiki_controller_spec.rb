@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -281,17 +281,17 @@ describe WikiController, type: :controller do
 
       # creating pages
       @page_default = create(:wiki_page,
-                                        wiki_id: project.wiki.id,
-                                        title: 'Wiki')
+                             wiki_id: project.wiki.id,
+                             title: 'Wiki')
       @page_with_content = create(:wiki_page,
-                                             wiki_id: project.wiki.id,
-                                             title: 'PagewithContent')
+                                  wiki_id: project.wiki.id,
+                                  title: 'PagewithContent')
       @page_without_content = create(:wiki_page,
-                                                wiki_id: project.wiki.id,
-                                                title: 'PagewithoutContent')
+                                     wiki_id: project.wiki.id,
+                                     title: 'PagewithoutContent')
       @unrelated_page = create(:wiki_page,
-                                          wiki_id: project.wiki.id,
-                                          title: 'UnrelatedPage')
+                               wiki_id: project.wiki.id,
+                               title: 'UnrelatedPage')
 
       # creating page contents
       create(:wiki_content, page_id: @page_default.id,
@@ -317,19 +317,19 @@ describe WikiController, type: :controller do
     describe '- main menu links' do
       before do
         @main_menu_item_for_page_with_content = create(:wiki_menu_item,
-                                                                  navigatable_id: project.wiki.id,
-                                                                  title: 'Item for Page with Content',
-                                                                  name: @page_with_content.slug)
+                                                       navigatable_id: project.wiki.id,
+                                                       title: 'Item for Page with Content',
+                                                       name: @page_with_content.slug)
 
         @main_menu_item_for_new_wiki_page = create(:wiki_menu_item,
-                                                              navigatable_id: project.wiki.id,
-                                                              title: 'Item for new WikiPage',
-                                                              name: 'new-wiki-page')
+                                                   navigatable_id: project.wiki.id,
+                                                   title: 'Item for new WikiPage',
+                                                   name: 'new-wiki-page')
 
         @other_menu_item = create(:wiki_menu_item,
-                                             navigatable_id: project.wiki.id,
-                                             title: 'Item for other page',
-                                             name: @unrelated_page.slug)
+                                  navigatable_id: project.wiki.id,
+                                  title: 'Item for other page',
+                                  name: @unrelated_page.slug)
       end
 
       shared_examples_for 'all wiki menu items' do
@@ -415,9 +415,9 @@ describe WikiController, type: :controller do
       describe '- wiki_menu_item containing special chars only' do
         before do
           @wiki_menu_item = create(:wiki_menu_item,
-                                              navigatable_id: project.wiki.id,
-                                              title: '?',
-                                              name: 'help')
+                                   navigatable_id: project.wiki.id,
+                                   title: '?',
+                                   name: 'help')
           @other_wiki_menu_item = @other_menu_item
         end
 

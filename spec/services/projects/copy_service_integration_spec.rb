@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -48,10 +46,10 @@ describe Projects::CopyService, 'integration', type: :model do
 
   let(:current_user) do
     create(:user,
-                      member_in_project: source,
-                      member_through_role: role)
+           member_in_project: source,
+           member_through_role: role)
   end
-  let(:role) { create :role, permissions: %i[copy_projects view_work_packages] }
+  let(:role) { create :role, permissions: %i[copy_projects view_work_packages work_package_assigned] }
   shared_let(:new_project_role) { create :role, permissions: %i[] }
   let(:instance) do
     described_class.new(source: source, user: current_user)
@@ -646,8 +644,8 @@ describe Projects::CopyService, 'integration', type: :model do
         let(:user_custom_field) { create(:user_project_custom_field) }
         let(:user_value) do
           create(:user,
-                            member_in_project: source,
-                            member_through_role: role)
+                 member_in_project: source,
+                 member_through_role: role)
         end
 
         before do

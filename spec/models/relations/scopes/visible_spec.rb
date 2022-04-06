@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -43,16 +41,16 @@ describe Relations::Scopes::Visible, type: :model do
   let(:role) { create(:role, permissions: [:view_work_packages]) }
   let(:member_project1) do
     create(:member,
-                      project: project1,
-                      user: user,
-                      roles: [role])
+           project: project1,
+           user: user,
+           roles: [role])
   end
 
   let(:member_project2) do
     create(:member,
-                      project: project2,
-                      user: user,
-                      roles: [role])
+           project: project2,
+           user: user,
+           roles: [role])
   end
 
   describe '.visible' do

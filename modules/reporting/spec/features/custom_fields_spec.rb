@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,39 +36,41 @@ describe 'Custom fields reporting', type: :feature, js: true do
 
   let(:work_package) do
     create :work_package,
-                      project: project,
-                      type: type,
-                      custom_values: initial_custom_values
+           project: project,
+           type: type,
+           custom_values: initial_custom_values
   end
 
   let!(:time_entry1) do
     create :time_entry,
-                      user: user,
-                      work_package: work_package,
-                      project: project,
-                      hours: 10
+           user: user,
+           work_package: work_package,
+           project: project,
+           hours: 10
   end
 
   let!(:time_entry2) do
     create :time_entry,
-                      user: user,
-                      work_package: work_package,
-                      project: project,
-                      hours: 2.50
+           user: user,
+           work_package: work_package,
+           project: project,
+           hours: 2.50
   end
 
   def custom_value_for(cf, str)
     cf.custom_options.find { |co| co.value == str }.try(:id)
   end
 
+  current_user { user }
+
   context 'with multi value cf' do
     let!(:custom_field) do
       create(:list_wp_custom_field,
-                        name: "List CF",
-                        multi_value: true,
-                        types: [type],
-                        projects: [project],
-                        possible_values: ['First option', 'Second option'])
+             name: "List CF",
+             multi_value: true,
+             types: [type],
+             projects: [project],
+             possible_values: ['First option', 'Second option'])
     end
 
     let(:initial_custom_values) { { custom_field.id => custom_value_for(custom_field, 'First option') } }
@@ -78,13 +80,13 @@ describe 'Custom fields reporting', type: :feature, js: true do
     # as this caused problems with casting the nil value of the custom value to 0.
     let!(:work_package2) do
       create :work_package,
-                        project: project,
-                        type: type
+             project: project,
+             type: type
     end
 
     before do
-      login_as(user)
       visit '/cost_reports'
+      sleep(0.1)
     end
 
     it 'filters by the multi CF' do
@@ -99,7 +101,7 @@ describe 'Custom fields reporting', type: :feature, js: true do
       expect(select).to have_selector('option', text: 'Second option')
       select.find('option', text: 'Second option').select_option
 
-      find('#query-icon-apply-button').click
+      click_link 'Apply'
 
       # Expect empty result table
       within('#result-table') do
@@ -125,7 +127,7 @@ describe 'Custom fields reporting', type: :feature, js: true do
       select 'List CF', from: 'group-by--add-columns'
       select 'Work package', from: 'group-by--add-rows'
 
-      find('#query-icon-apply-button').click
+      click_link 'Apply'
 
       # Expect row of work package
       within('#result-table') do
@@ -148,33 +150,33 @@ describe 'Custom fields reporting', type: :feature, js: true do
     context 'with additional WP with invalid value' do
       let!(:custom_field_2) do
         create(:list_wp_custom_field,
-                          name: "Invalid List CF",
-                          multi_value: true,
-                          types: [type],
-                          projects: [project],
-                          possible_values: %w[A B])
+               name: "Invalid List CF",
+               multi_value: true,
+               types: [type],
+               projects: [project],
+               possible_values: %w[A B])
       end
 
       let!(:work_package2) do
         create :work_package,
-                          project: project,
-                          custom_values: { custom_field_2.id => custom_value_for(custom_field_2, 'A') }
+               project: project,
+               custom_values: { custom_field_2.id => custom_value_for(custom_field_2, 'A') }
       end
 
       let!(:time_entry1) do
         create :time_entry,
-                          user: user,
-                          work_package: work_package2,
-                          project: project,
-                          hours: 10
+               user: user,
+               work_package: work_package2,
+               project: project,
+               hours: 10
       end
 
       before do
         CustomValue.find_by(customized_id: work_package2.id).update_columns(value: 'invalid')
         work_package2.reload
 
-        login_as(user)
         visit '/cost_reports'
+        sleep(0.1)
       end
 
       it 'groups by the raw values when an invalid value exists' do
@@ -186,7 +188,7 @@ describe 'Custom fields reporting', type: :feature, js: true do
         select 'Invalid List CF', from: 'group-by--add-columns'
         select 'Work package', from: 'group-by--add-rows'
 
-        find('#query-icon-apply-button').click
+        click_link 'Apply'
 
         # Expect row of work package
         within('#result-table') do
@@ -201,15 +203,15 @@ describe 'Custom fields reporting', type: :feature, js: true do
   context 'with text CF' do
     let(:custom_field) do
       create(:text_wp_custom_field,
-                        name: 'Text CF',
-                        types: [type],
-                        projects: [project])
+             name: 'Text CF',
+             types: [type],
+             projects: [project])
     end
     let(:initial_custom_values) { { custom_field.id => 'foo' } }
 
     before do
-      login_as(user)
       visit '/cost_reports'
+      sleep(0.1)
     end
 
     it 'groups by a text CF' do
@@ -219,7 +221,7 @@ describe 'Custom fields reporting', type: :feature, js: true do
       select 'Text CF', from: 'group-by--add-columns'
       select 'Work package', from: 'group-by--add-rows'
 
-      find('#query-icon-apply-button').click
+      click_link 'Apply'
 
       # Expect row of work package
       within('#result-table') do

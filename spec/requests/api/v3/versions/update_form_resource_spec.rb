@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -38,8 +36,8 @@ describe ::API::V3::Versions::UpdateFormAPI, content_type: :json do
   let(:project) { create(:project) }
   let(:user) do
     create(:user,
-                      member_in_project: project,
-                      member_with_permissions: permissions)
+           member_in_project: project,
+           member_with_permissions: permissions)
   end
   let(:permissions) { [:manage_versions] }
 
@@ -108,7 +106,7 @@ describe ::API::V3::Versions::UpdateFormAPI, content_type: :json do
         role = create(:role, permissions: permissions)
 
         create(:project,
-                          members: { user => role })
+               members: { user => role })
       end
       let(:parameters) do
         {

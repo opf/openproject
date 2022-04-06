@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -43,16 +41,16 @@ describe ::API::V3::Projects::Copy::CreateFormAPI, content_type: :json do
 
   shared_let(:source_project) do
     create :project,
-                      custom_field_values: {
-                        text_custom_field.id => 'source text',
-                        list_custom_field.id => list_custom_field.custom_options.last.id
-                      }
+           custom_field_values: {
+             text_custom_field.id => 'source text',
+             list_custom_field.id => list_custom_field.custom_options.last.id
+           }
   end
 
   shared_let(:current_user) do
     create :user,
-                      member_in_project: source_project,
-                      member_with_permissions: %i[copy_projects view_project view_work_packages]
+           member_in_project: source_project,
+           member_with_permissions: %i[copy_projects view_project view_work_packages]
   end
 
   let(:path) { api_v3_paths.project_copy_form(source_project.id) }
@@ -241,8 +239,8 @@ describe ::API::V3::Projects::Copy::CreateFormAPI, content_type: :json do
   context 'without the necessary permission' do
     let(:current_user) do
       create :user,
-                        member_in_project: source_project,
-                        member_with_permissions: %i[view_project view_work_packages]
+             member_in_project: source_project,
+             member_with_permissions: %i[view_project view_work_packages]
     end
 
     it 'returns 403 Not Authorized' do

@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -53,17 +51,17 @@ describe Notifications::CreateFromModelService,
 
     if %i[responsible assigned_to].include?(user_property)
       create(:work_package,
-                        **wp_attributes.merge(user_property => recipient))
+             **wp_attributes.merge(user_property => recipient))
     elsif user_property == :watcher
       create(:work_package,
-                        **wp_attributes).tap do |wp|
+             **wp_attributes).tap do |wp|
         Watcher.new(watchable: wp, user: recipient).save(validate: false)
       end
     else
       # Initialize recipient to have the same behaviour as if the recipient is assigned/responsible
       recipient
       create(:work_package,
-                        **wp_attributes)
+             **wp_attributes)
     end
   end
   let(:resource) { work_package }
@@ -959,9 +957,9 @@ describe Notifications::CreateFromModelService,
       context 'when there is a notification for mentioned on the journal' do
         let!(:mentioned_notification) do
           create :notification,
-                            journal: journal_2_with_notes,
-                            resource: journal_2_with_notes.journable,
-                            reason: :mentioned
+                 journal: journal_2_with_notes,
+                 resource: journal_2_with_notes.journable,
+                 reason: :mentioned
         end
 
         it_behaves_like 'creates no notification'

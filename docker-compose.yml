@@ -63,7 +63,6 @@ services:
     depends_on:
       - db
       - cache
-      - worker
 
   worker:
     <<: *backend
@@ -90,7 +89,7 @@ services:
       - backend
 
   db:
-    image: postgres:10
+    image: postgres:13
     <<: *restart_policy
     stop_grace_period: "3s"
     volumes:
@@ -111,7 +110,7 @@ services:
 ######### Testing stuff below ############
 
   db-test:
-    image: postgres:10
+    image: postgres:13
     stop_grace_period: "3s"
     volumes:
       - "pgdata-test:/var/lib/postgresql/data"

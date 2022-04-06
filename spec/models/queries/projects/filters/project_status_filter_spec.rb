@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -40,10 +38,20 @@ describe Queries::Projects::Filters::ProjectStatusFilter, type: :model do
     let(:human_name) { 'Project status' }
     let(:admin) { build_stubbed(:admin) }
     let(:user) { build_stubbed(:user) }
+    let(:expected) do
+      [
+        ["On track", "0"],
+        ["At risk", "1"],
+        ["Off track", "2"],
+        ["Not started", "3"],
+        ["Finished", "4"],
+        ["Discontinued", "5"]
+      ]
+    end
 
     describe '#allowed_values' do
       it 'is a list of the possible values' do
-        expect(instance.allowed_values).to match_array([["At risk", "1"], ["Off track", "2"], ["On track", "0"]])
+        expect(instance.allowed_values).to match_array(expected)
       end
     end
   end

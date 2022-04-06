@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -78,6 +78,10 @@ zh-TW:
         contact: "Contact us for a demo"
       enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
       upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
+    journal_aggregation:
+      explanation:
+        text: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent and will also affect %{webhook_link} delay."
+        link: "webhook"
   announcements:
     show_until: 顯示直到
     is_active: 當前已顯示
@@ -103,7 +107,7 @@ zh-TW:
       <br/>
       <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Please visit our documentation for detailed instructions</a>.
     attribute_texts:
-      name: Arbitrary name of the LDAP connection
+      name: LDAP 連接的任意名稱
       host: LDAP 主機名稱或 IP 位址
       login_map: The attribute key in LDAP that is used to identify the unique user login. Usually, this will be `uid` or `samAccountName`.
       generic_map: The attribute key in LDAP that is mapped to the OpenProject `%{attribute}` attribute
@@ -133,7 +137,7 @@ zh-TW:
       OpenProject requires read-only access through a system account to lookup users and groups in your LDAP tree.
       Please specify the bind credentials for that system user in the following section.
     ldap_details: 'LDAP 詳細資料'
-    user_settings: 'Attribute mapping'
+    user_settings: '屬性對應'
     user_settings_legend: |
       The following fields are related to how users are created in OpenProject from LDAP entries and
       what LDAP attributes are used to define the attributes of an OpenProject user (attribute mapping).
@@ -208,7 +212,7 @@ zh-TW:
       completed: "專案 %{name} 已完成刪除"
       completed_text: "刪除專案 \"%{name}\" 的請求已經完成。"
     index:
-      open_as_gantt: 'Open as Gantt view'
+      open_as_gantt: '以甘特圖打開'
       open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
       open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
       no_results_title_text: 目前沒有專案
@@ -396,7 +400,7 @@ zh-TW:
         attr_mail: "Email"
         base_dn: "Base DN"
         host: "主機"
-        onthefly: "Automatic user creation"
+        onthefly: "自動新增用戶"
         port: "埠"
       changeset:
         repository: "Repository"
@@ -454,9 +458,12 @@ zh-TW:
         code: '狀態'
         explanation: '狀態描述'
         codes:
+          not_started: '未開始'
           on_track: '進度良好'
           at_risk: '存在風險'
           off_track: '進度脫軌'
+          finished: '已完成'
+          discontinued: '已中止'
       query:
         column_names: "欄"
         relations_to_type_column: "與 %{type} 的關連"
@@ -467,7 +474,6 @@ zh-TW:
       repository:
         url: "URL"
       role:
-        assignable: "可以將工作包分配給在相應專案中擁有此角色的使用者和群組"
         permissions: "權限"
       time_entry:
         activity: "活動"
@@ -553,7 +559,7 @@ zh-TW:
         error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
         error_unauthorized: "無法被存取。"
         error_readonly: "被嘗試寫入但是無法寫入。"
-        email: "is not a valid email address."
+        email: "不是一個有效的電子郵件地址。 "
         empty: "不可為空"
         even: "必須是偶數"
         exclusion: "已保留"
@@ -571,8 +577,8 @@ zh-TW:
         invalid_url_scheme: '不是受支援的協定 (允許的協定: %{allowed_schemes})。'
         less_than_or_equal_to: "必須少於或者等於 %{count}。"
         not_available: "由於系統配置所以不可用"
-        not_deletable: "cannot be deleted."
-        not_current_user: "is not the current user."
+        not_deletable: "無法刪除"
+        not_current_user: "不是當前用戶。"
         not_a_date: "不是有效的日期。"
         not_a_datetime: "不是有效的日期時間。"
         not_a_number: "不是數字"
@@ -597,7 +603,7 @@ zh-TW:
         attachment:
           attributes:
             content_type:
-              blank: "The content type of the file cannot be blank."
+              blank: "文件的內容類型不能為空。"
               not_whitelisted: "The file was rejected by an automatic filter. '%{value}' is not whitelisted for upload."
               format: "%{message}"
         capability:
@@ -884,6 +890,7 @@ zh-TW:
     version: "版本"
     work_package: "工作項目"
   backup:
+    failed: "Backup failed"
     label_backup_token: "Backup token"
     label_create_token: "Create backup token"
     label_delete_token: "Delete backup token"
@@ -1209,6 +1216,7 @@ zh-TW:
   error_enterprise_token_invalid_domain: "The Enterprise Edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: '刪除此項目失敗。'
   error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
+  error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "不合法的項目數值。"
   error_journal_attribute_not_present: "Journal 不含有屬性 %{attribute}。"
   error_pdf_export_too_many_columns: "為 PDF 匯出選擇的列太多。請減少列數。"
@@ -1318,7 +1326,9 @@ zh-TW:
   menus:
     admin:
       mail_notification: "電子郵件通知"
-      incoming_outgoing: "輸入 & 輸出"
+      mails_and_notifications: "Emails and notification"
+      aggregation_and_retention: 'Aggregation and retention'
+      api_and_webhooks: "API and webhooks"
     quick_add:
       label: "Open quick add menu"
   my_account:
@@ -1407,7 +1417,7 @@ zh-TW:
   label_available_project_versions: '可用的版本'
   label_available_project_repositories: '可用的版本庫'
   label_api_documentation: "API文件"
-  label_backup: "Backup"
+  label_backup: "備份"
   label_between: "介於"
   label_blocked_by: "標示禁止者"
   label_blocks: "區塊"
@@ -1420,7 +1430,7 @@ zh-TW:
   label_branch: "分支"
   label_browse: "瀏覽"
   label_bulk_edit_selected_work_packages: "整批編輯選取的工作項目"
-  label_bundled: '(Bundled)'
+  label_bundled: '(已附帶)'
   label_calendar: "行事曆"
   label_calendar_show: "顯示行事曆"
   label_category: "類別"
@@ -1473,7 +1483,7 @@ zh-TW:
   label_custom_field_plural: "自訂欄位"
   label_custom_field_default_type: "空類型"
   label_custom_style: "設計"
-  label_database_version: "PostgreSQL version"
+  label_database_version: "PostgreSQL 版本"
   label_date: "日期"
   label_date_and_time: "日期和時間"
   label_date_from: "寄件者"
@@ -1818,7 +1828,7 @@ zh-TW:
   label_used_by_types: "被類別使用中"
   label_used_in_projects: "被專案使用中"
   label_user: "使用者"
-  label_user_and_permission: "使用者與權限"
+  label_user_and_permission: "Users and permissions"
   label_user_named: "用戶名 %{name}"
   label_user_activity: "%{value} 的活動"
   label_user_anonymous: "匿名者"
@@ -1951,7 +1961,7 @@ zh-TW:
       reason:
         watched: '監看'
         assigned: '指派'
-        responsible: '可信賴的'
+        responsible: '負責人'
         mentioned: '提醒'
         subscribed: '所有'
         prefix: '因為通知設定而收到：%{reason}'
@@ -1967,7 +1977,7 @@ zh-TW:
   mail_body_backup_waiting_period: The new token will be enabled in %{hours} hours.
   mail_body_backup_token_warning: If this wasn't you, login to OpenProject immediately and reset it again.
   mail_body_lost_password: "若要變更您的密碼，請按一下以下的連結:"
-  mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
+  mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "Project member invitation email"
   mail_body_register_user: "Dear %{name}, "
   mail_body_register_links_html: |
@@ -2108,7 +2118,7 @@ zh-TW:
     heading_getting_started: "取得概覽"
     text_getting_started_description: "用 OpenProject 取得專案管理和團隊協作的快速概覽。"
     text_show_again: "您可以從 \"説明\" 功能表中重新開啟此影片"
-    welcome: "歡迎來到 OpenProject"
+    welcome: "Welcome to %{app_title}"
     select_language: "請選擇您的語言"
   permission_add_work_package_notes: "增加註釋"
   permission_add_work_packages: "新增工作項目"
@@ -2177,6 +2187,8 @@ zh-TW:
   permission_view_timelines: "檢視時間軸"
   permission_view_wiki_edits: "檢視維基歷史"
   permission_view_wiki_pages: "檢視維基"
+  permission_work_package_assigned: "Become assignee/responsible"
+  permission_work_package_assigned_explanation: "可以將工作包分配給在相應專案中擁有此角色的使用者和群組"
   placeholders:
     default: "-"
   project:
@@ -2324,7 +2336,7 @@ zh-TW:
     activated: 'activated'
     deactivated: 'deactivated'
   search_input_placeholder: "搜尋 ..."
-  setting_apiv3_cors_enabled: "Enable CORS"
+  setting_apiv3_cors_enabled: "啟用 CORS"
   setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
   setting_apiv3_cors_origins_text_html: >
     If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
@@ -2538,7 +2550,6 @@ zh-TW:
   text_work_packages_destroy_confirmation: "你確定要刪除選定的工作項目嗎？"
   text_work_packages_ref_in_commit_messages: "在提交訊息中引用和修復工作項目"
   text_journal_added: "%{label} %{value} 已增加"
-  text_journal_aggregation_time_explanation: "用戶的單一操作（例如，更新工作包兩次）如果時間差異小於指定的時間間隔，則將整合為單一操作。它們將在應用程序中顯示為單個操作。這也會將通知延遲相同的時間，減少發送的電子郵件數量。"
   text_journal_changed_html: "%{label} 從 %{old} %{linebreak}<strong> 改為</strong> %{new}"
   text_journal_changed_plain: "%{label} 從 %{old} %{linebreak} 改為 %{new}"
   text_journal_changed_no_detail: "%{label} 已更新"
@@ -2851,6 +2862,7 @@ zh-TW:
         work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:
         date: "YYYY-MM-DD (僅適用於 ISO 8601 日期)"
+        datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm] (any compatible ISO 8601 datetime)"
         duration: "ISO 8601 持續時間"
       invalid_content_type: "預期得到 '%{content_type}' 的內容類型，但得到了 '%{actual}'。"
       invalid_format: "「%{property}」屬性的格式無效 ︰ 預期格式像 「%{expected_format}」，但 「%{actual}」。"
@@ -2862,6 +2874,7 @@ zh-TW:
         select: "The requested select of %{invalid} is not supported. Supported selects are %{supported}."
       invalid_user_status_transition: "當前的使用者帳戶狀態不允許此操作。"
       missing_content_type: "未指定"
+      missing_property: "Missing property '%{property}'."
       missing_request_body: "沒有請求正文。"
       missing_or_malformed_parameter: "查詢參數 \"%{parameter}\" 遺失或不正確。"
       multipart_body_error: "請求正文不包含預期的多段部分。"
@@ -2894,8 +2907,11 @@ zh-TW:
     errors:
       messages:
         #Common error messages
-        invalid_request: '請求缺少必需的參數, 包含不受支援的參數值, 或者格式不正確。'
-        invalid_redirect_uri: "請求的轉址 URI 格式不正確或與客戶端轉址 URI 不匹配。"
+        invalid_request:
+          unknown: '請求缺少必需的參數, 包含不受支援的參數值, 或者格式不正確。'
+          missing_param: 'Missing required parameter: %{value}.'
+          request_not_authorized: 'Request need to be authorized. Required parameter for authorizing request is missing or invalid.'
+        invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
         unauthorized_client: '用戶端沒有被授權使用此方法執行此請求。'
         access_denied: '資源擁有者或授權伺服器拒絕了該請求。'
         invalid_scope: '請求的範圍無效、未知或格式錯誤。'
@@ -2908,6 +2924,7 @@ zh-TW:
         admin_authenticator_not_configured: '訪問管理面板被禁止，因為 Doorkeeper.configure.admin_authenticator 未配置。'
         #Access grant errors
         unsupported_response_type: '授權伺服器不支援此回應類型。'
+        unsupported_response_mode: 'The authorization server does not support this response mode.'
         #Access token errors
         invalid_client: '由於用戶端未知、沒有包含用戶端身份驗證或不支援的身份驗證方法, 用戶端身份驗證失敗。'
         invalid_grant: '提供的授權授予無效、過期、已撤銷、與授權請求中使用的轉址 uri 不符合, 或已發給其他用戶端。'
@@ -2916,6 +2933,10 @@ zh-TW:
           revoked: "訪問權杖已被撤銷"
           expired: "訪問權杖已過期"
           unknown: "訪問權杖無效"
+        revoke:
+          unauthorized: "You are not authorized to revoke this token."
+        forbidden_token:
+          missing_scope: 'Access to this resource requires scope "%{oauth_scopes}".'
   unsupported_browser:
     title: "您的瀏覽器已過時且不受支援。"
     message: "您可能會在此頁面上遇到錯誤和降級的體驗。"

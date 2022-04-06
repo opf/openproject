@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -45,9 +45,9 @@ describe 'Members widget on dashboard', type: :feature, js: true do
   end
   let!(:placeholder_user) do
     create :placeholder_user,
-                      lastname: "Placeholder user",
-                      member_in_project: project,
-                      member_through_role: no_view_member_role
+           lastname: "Placeholder user",
+           member_in_project: project,
+           member_through_role: no_view_member_role
   end
   let!(:invisible_user) do
     create :user, lastname: "Invisible", member_in_project: other_project, member_through_role: role
@@ -55,21 +55,21 @@ describe 'Members widget on dashboard', type: :feature, js: true do
 
   let(:no_view_member_role) do
     create(:role,
-                      permissions: %i[manage_dashboards
-                                      view_dashboards])
+           permissions: %i[manage_dashboards
+                           view_dashboards])
   end
   let(:no_edit_member_role) do
     create(:role,
-                      permissions: %i[manage_dashboards
-                                      view_dashboards
-                                      view_members])
+           permissions: %i[manage_dashboards
+                           view_dashboards
+                           view_members])
   end
   let(:role) do
     create(:role,
-                      permissions: %i[manage_dashboards
-                                      view_dashboards
-                                      manage_members
-                                      view_members])
+           permissions: %i[manage_dashboards
+                           view_dashboards
+                           manage_members
+                           view_members])
   end
   let(:dashboard) do
     Pages::Dashboard.new(project)

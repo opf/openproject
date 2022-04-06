@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -40,8 +40,8 @@ describe 'API v3 Work package resource',
 
   let(:work_package) do
     create(:work_package,
-                      project_id: project.id,
-                      description: 'lorem ipsum')
+           project_id: project.id,
+           description: 'lorem ipsum')
   end
   let(:project) do
     create(:project, identifier: 'test_project', public: false)
@@ -75,13 +75,13 @@ describe 'API v3 Work package resource',
         subject { last_response.body }
         let!(:other_wp) do
           create(:work_package,
-                            project_id: project.id,
-                            status: closed_status)
+                 project_id: project.id,
+                 status: closed_status)
         end
         let(:work_package) do
           create(:work_package,
-                            project_id: project.id,
-                            description: description).tap do |wp|
+                 project_id: project.id,
+                 description: description).tap do |wp|
             wp.children << children
           end
         end
@@ -134,8 +134,8 @@ describe 'API v3 Work package resource',
           let(:children) do
             # This will be in another project but the user is still allowed to see the dates
             [create(:work_package,
-                               start_date: Date.today,
-                               due_date: Date.today + 5.days)]
+                    start_date: Date.today,
+                    due_date: Date.today + 5.days)]
           end
 
           it 'has derived dates' do
@@ -159,8 +159,8 @@ describe 'API v3 Work package resource',
 
           let(:work_package) do
             create(:work_package,
-                              project_id: project.id,
-                              description: 'lorem ipsum').tap do |wp|
+                   project_id: project.id,
+                   description: 'lorem ipsum').tap do |wp|
               create(:relation, relates: 1, from: wp, to: directly_related_wp)
               create(:relation, relates: 1, from: directly_related_wp, to: transitively_related_wp)
             end

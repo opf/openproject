@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -92,8 +92,6 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
   public expanded = false;
 
   public markable = false;
-
-  public isLoading = false;
 
   getAutocompleterData = (query:string):Observable<any[]> => this.autocompleteWorkPackages(query);
 
@@ -278,14 +276,12 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
 
     const hashFreeQuery = this.queryWithoutHash(query);
 
-    this.isLoading = true;
     return this
       .fetchSearchResults(hashFreeQuery, hashFreeQuery !== query)
       .get()
       .pipe(
         map((collection) => this.searchResultsToOptions(collection.elements, hashFreeQuery)),
         tap(() => {
-          this.isLoading = false;
           this.setMarkedOption();
         }),
       );

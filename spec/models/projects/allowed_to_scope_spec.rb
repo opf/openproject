@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,27 +35,27 @@ describe Project, 'allowed to', type: :model do
 
   let(:private_project) do
     build(:project,
-                     public: false,
-                     active: project_status)
+          public: false,
+          active: project_status)
   end
   let(:public_project) do
     build(:project,
-                     public: true,
-                     active: project_status)
+          public: true,
+          active: project_status)
   end
   let(:project_status) { true }
 
   let(:role) do
     build(:role,
-                     permissions: permissions)
+          permissions: permissions)
   end
   let(:anonymous_role) do
     build(:anonymous_role,
-                     permissions: anonymous_permissions)
+          permissions: anonymous_permissions)
   end
   let(:non_member_role) do
     build(:non_member,
-                     permissions: non_member_permissions)
+          permissions: non_member_permissions)
   end
   let(:permissions) { [action] }
   let(:anonymous_permissions) { [action] }
@@ -67,9 +65,9 @@ describe Project, 'allowed to', type: :model do
   let(:public_non_module_action) { :view_project }
   let(:member) do
     build(:member,
-                     user: user,
-                     roles: [role],
-                     project: project)
+          user: user,
+          roles: [role],
+          project: project)
   end
 
   shared_examples_for 'includes the project' do

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -306,8 +306,8 @@ describe Attachment, type: :model do
   describe 'full text extraction job on commit' do
     let(:created_attachment) do
       create(:attachment,
-                        author: author,
-                        container: container)
+             author: author,
+             container: container)
     end
 
     shared_examples_for 'runs extraction' do

@@ -2,18 +2,10 @@ require File.dirname(__FILE__) + '/../spec_helper'
 require 'ladle'
 
 describe LdapGroups::SynchronizeGroupsService, with_ee: %i[ldap_groups] do
+  include_context 'with temporary LDAP'
+
   let(:plugin_settings) do
     { group_base: 'ou=groups,dc=example,dc=com', group_key: 'cn' }
-  end
-
-  before(:all) do
-    ldif = Rails.root.join('spec/fixtures/ldap/users.ldif')
-    @ldap_server = Ladle::Server.new(quiet: false, port: ParallelHelper.port_for_ldap.to_s, domain: 'dc=example,dc=com',
-                                     ldif: ldif).start
-  end
-
-  after(:all) do
-    @ldap_server.stop
   end
 
   # Ldap has:
@@ -21,16 +13,16 @@ describe LdapGroups::SynchronizeGroupsService, with_ee: %i[ldap_groups] do
   # two groups foo (aa729), bar(aa729, bb459, cc414)
   let(:auth_source) do
     create :ldap_auth_source,
-                      port: ParallelHelper.port_for_ldap.to_s,
-                      account: 'uid=admin,ou=system',
-                      account_password: 'secret',
-                      base_dn: 'ou=people,dc=example,dc=com',
-                      onthefly_register: onthefly_register,
-                      filter_string: ldap_filter,
-                      attr_login: 'uid',
-                      attr_firstname: 'givenName',
-                      attr_lastname: 'sn',
-                      attr_mail: 'mail'
+           port: ParallelHelper.port_for_ldap.to_s,
+           account: 'uid=admin,ou=system',
+           account_password: 'secret',
+           base_dn: 'ou=people,dc=example,dc=com',
+           onthefly_register: onthefly_register,
+           filter_string: ldap_filter,
+           attr_login: 'uid',
+           attr_firstname: 'givenName',
+           attr_lastname: 'sn',
+           attr_mail: 'mail'
   end
 
   let(:onthefly_register) { false }
@@ -46,17 +38,17 @@ describe LdapGroups::SynchronizeGroupsService, with_ee: %i[ldap_groups] do
 
   let(:synced_foo) do
     create :ldap_synchronized_group,
-                      dn: 'cn=foo,ou=groups,dc=example,dc=com',
-                      group: group_foo,
-                      sync_users: sync_users,
-                      auth_source: auth_source
+           dn: 'cn=foo,ou=groups,dc=example,dc=com',
+           group: group_foo,
+           sync_users: sync_users,
+           auth_source: auth_source
   end
   let(:synced_bar) do
     create :ldap_synchronized_group,
-                      dn: 'cn=bar,ou=groups,dc=example,dc=com',
-                      group: group_bar,
-                      sync_users: sync_users,
-                      auth_source: auth_source
+           dn: 'cn=bar,ou=groups,dc=example,dc=com',
+           group: group_bar,
+           sync_users: sync_users,
+           auth_source: auth_source
   end
 
   subject do
@@ -344,8 +336,12 @@ describe LdapGroups::SynchronizeGroupsService, with_ee: %i[ldap_groups] do
     end
 
     it 'does not raise, but print to stderr' do
-      expect(Rails.logger).to receive(:error).with(/Failed to perform LDAP group synchronization/)
+      allow(Rails.logger).to receive(:error)
+
       subject
+
+      expect(Rails.logger).to have_received(:error).once.with(/Failed to synchronize group:/)
+      expect(Rails.logger).to have_received(:error).once.with(/Failed to perform LDAP group synchronization/)
     end
   end
 

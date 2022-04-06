@@ -22,19 +22,13 @@ module Overviews
       OpenProject::AccessControl.map do |ac_map|
         ac_map.project_module nil do |map|
           map.permission :manage_overview,
-                         'overviews/overviews': ['show'],
+                         { 'overviews/overviews': ['show'] },
                          public: true
         end
       end
     end
 
-    initializer 'overviews.patches' do
-      unless ::OpenProject::TextFormatting::Formats::Markdown::TextileConverter
-               .included_modules
-               .include?(Overviews::Patches::TextileConverterPatch)
-        ::OpenProject::TextFormatting::Formats::Markdown::TextileConverter.include(Overviews::Patches::TextileConverterPatch)
-      end
-    end
+    patch_with_namespace :OpenProject, :TextFormatting, :Formats, :Markdown, :TextileConverter
 
     initializer 'overviews.conversion' do
       require Rails.root.join('config', 'constants', 'ar_to_api_conversions')

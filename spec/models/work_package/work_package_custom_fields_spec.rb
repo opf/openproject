@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,15 +34,15 @@ describe WorkPackage, type: :model do
     let(:project) { create(:project, types: [type]) }
     let(:work_package) do
       build(:work_package,
-                       project: project,
-                       type: type)
+            project: project,
+            type: type)
     end
     let(:custom_field) do
       create(:work_package_custom_field,
-                        name: 'Database',
-                        field_format: 'list',
-                        possible_values: %w(MySQL PostgreSQL Oracle),
-                        is_required: cf_required)
+             name: 'Database',
+             field_format: 'list',
+             possible_values: %w(MySQL PostgreSQL Oracle),
+             is_required: cf_required)
     end
 
     let(:cf_required) { true }
@@ -248,7 +248,7 @@ describe WorkPackage, type: :model do
       let (:custom_field_2) { create(:work_package_custom_field) }
       let(:type_feature) do
         create(:type_feature,
-                          custom_fields: [custom_field_2])
+               custom_fields: [custom_field_2])
       end
 
       before do
@@ -279,8 +279,8 @@ describe WorkPackage, type: :model do
       context 'w/o initial type' do
         let(:work_package_without_type) do
           build_stubbed(:work_package,
-                                   project: project,
-                                   type: type)
+                        project: project,
+                        type: type)
         end
 
         describe 'pre-condition' do
@@ -323,9 +323,9 @@ describe WorkPackage, type: :model do
       let(:value) { 'text' * 1024 }
       let(:custom_field) do
         create(:work_package_custom_field,
-                          name: 'Test Text',
-                          field_format: 'text',
-                          is_required: true)
+               name: 'Test Text',
+               field_format: 'text',
+               is_required: true)
       end
 
       include_context 'project with custom field'
@@ -377,10 +377,10 @@ describe WorkPackage, type: :model do
     describe 'validation error interpolation' do
       let :custom_field do
         create :work_package_custom_field,
-                          name: 'PIN',
-                          field_format: 'text',
-                          max_length: 4,
-                          is_required: true
+               name: 'PIN',
+               field_format: 'text',
+               max_length: 4,
+               is_required: true
       end
 
       include_context 'project with custom field'

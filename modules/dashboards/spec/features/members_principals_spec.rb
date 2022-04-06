@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -43,24 +43,24 @@ describe 'Dashboard page members', type: :feature, js: true, with_mail: false do
 
   shared_let(:user) do
     create(:user,
-                      firstname: 'Foo',
-                      lastname: 'Bar',
-                      member_in_project: project,
-                      member_with_permissions: permissions)
+           firstname: 'Foo',
+           lastname: 'Bar',
+           member_in_project: project,
+           member_with_permissions: permissions)
   end
 
   shared_let(:group) do
     create(:group,
-                      name: 'DEV Team',
-                      member_in_project: project,
-                      member_with_permissions: permissions)
+           name: 'DEV Team',
+           member_in_project: project,
+           member_with_permissions: permissions)
   end
 
   shared_let(:placeholder) do
     create(:placeholder_user,
-                      name: 'DEVELOPER PLACEHOLDER',
-                      member_in_project: project,
-                      member_with_permissions: permissions)
+           name: 'DEVELOPER PLACEHOLDER',
+           member_in_project: project,
+           member_with_permissions: permissions)
   end
 
   let(:dashboard_page) do

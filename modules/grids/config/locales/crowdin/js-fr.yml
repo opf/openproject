@@ -31,10 +31,13 @@ fr:
           no_results: 'Aucun champ personnalisé n''a été défini pour les projets.'
         project_status:
           title: 'État du projet'
+          not_started: 'Not started'
           on_track: 'Sur la bonne voie'
           off_track: 'Sur la mauvaise voie'
           at_risk: 'À risque'
           not_set: 'Non défini'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
         subprojects:
           title: 'Sous-projets'
           no_results: 'Aucun sous-projet.'

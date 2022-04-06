@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -38,12 +38,12 @@ describe 'API v3 UserPreferences resource', type: :request, content_type: :json 
   let(:user) { create(:user, preference: preference) }
   let(:preference) do
     create(:user_preference,
-                      settings: {
-                        daily_reminders: {
-                          enabled: false,
-                          times: %w[07:00:00+00:00 15:00:00+00:00]
-                        }
-                      })
+           settings: {
+             daily_reminders: {
+               enabled: false,
+               times: %w[07:00:00+00:00 15:00:00+00:00]
+             }
+           })
   end
   let(:preference_path) { api_v3_paths.user_preferences(user.id) }
 

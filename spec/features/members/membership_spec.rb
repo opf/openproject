@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,32 +32,32 @@ feature 'Administrating memberships via the project settings', type: :feature, j
   shared_let(:admin) { create :admin }
   let(:current_user) do
     create(:user,
-                      member_in_project: project,
-                      member_through_role: manager)
+           member_in_project: project,
+           member_through_role: manager)
   end
   let!(:project) { create :project }
 
   let!(:peter) do
     create :user,
-                      status: User.statuses[:active],
-                      firstname: 'Peter',
-                      lastname: 'Pan',
-                      mail: 'foo@example.org',
-                      preferences: { hide_mail: false }
+           status: User.statuses[:active],
+           firstname: 'Peter',
+           lastname: 'Pan',
+           mail: 'foo@example.org',
+           preferences: { hide_mail: false }
   end
   let!(:hannibal) do
     create :user,
-                      status: User.statuses[:invited],
-                      firstname: 'Hannibal',
-                      lastname: 'Smith',
-                      mail: 'boo@bar.org',
-                      preferences: { hide_mail: true }
+           status: User.statuses[:invited],
+           firstname: 'Hannibal',
+           lastname: 'Smith',
+           mail: 'boo@bar.org',
+           preferences: { hide_mail: true }
   end
   let!(:developer_placeholder) { create :placeholder_user, name: 'Developer 1' }
   let!(:crash) do
     create :user,
-                      firstname: "<script>alert('h4x');</script>",
-                      lastname: "<script>alert('h4x');</script>"
+           firstname: "<script>alert('h4x');</script>",
+           lastname: "<script>alert('h4x');</script>"
   end
   let!(:group) do
     create(:group, lastname: 'A-Team', members: [peter, hannibal])

@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -206,6 +206,19 @@ export function uiRouterConfiguration(uiRouter:UIRouter, injector:Injector, modu
       dynamic: true,
       is: (val:unknown) => typeof (val) === 'string',
       equals: (a:any, b:any) => _.isEqual(a, b),
+    },
+  );
+
+  uiRouter.urlService.config.type(
+    'opQueryId',
+    {
+      pattern: new RegExp(/(?:new|[0-9]+)/),
+      encode: (id:string|null) => id || 'new',
+      decode: (id:string) => (id === 'new' ? null : id),
+      raw: true,
+      dynamic: true,
+      is: (val:unknown) => typeof (val) === 'string',
+      equals: (a:unknown, b:unknown) => _.isEqual(a, b),
     },
   );
 }

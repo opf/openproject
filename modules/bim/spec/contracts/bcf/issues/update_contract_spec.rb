@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,7 +33,7 @@ describe Bim::Bcf::Issues::UpdateContract do
   it_behaves_like 'issues contract' do
     let(:issue) do
       build_stubbed(:bcf_issue,
-                               work_package: issue_work_package).tap do |i|
+                    work_package: issue_work_package).tap do |i|
         # in order to actually have something changed
         i.index = issue_index
       end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -135,12 +135,12 @@ describe Impediments::UpdateService, type: :model do
   describe 'WHEN changing the blocking relationship to another story' do
     let(:story) do
       build(:work_package,
-                       subject: 'another story',
-                       type: type_feature,
-                       project: project,
-                       author: user,
-                       priority: priority,
-                       status: status1)
+            subject: 'another story',
+            type: type_feature,
+            project: project,
+            author: user,
+            priority: priority,
+            status: status1)
     end
     let(:blocks) { story.id.to_s }
     let(:story_version) { version }

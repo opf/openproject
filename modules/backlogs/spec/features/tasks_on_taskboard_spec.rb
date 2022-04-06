@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,8 +34,8 @@ describe 'Tasks on taskboard',
          js: true do
   let!(:project) do
     create(:project,
-                      types: [story, task, other_story],
-                      enabled_module_names: %w(work_package_tracking backlogs))
+           types: [story, task, other_story],
+           enabled_module_names: %w(work_package_tracking backlogs))
   end
   let!(:story) { create(:type_feature) }
   let!(:other_story) { create(:type) }
@@ -45,96 +45,97 @@ describe 'Tasks on taskboard',
   let!(:other_status) { create(:status) }
   let!(:workflows) do
     create(:workflow,
-                      old_status: default_status,
-                      new_status: other_status,
-                      role: role,
-                      type_id: task.id)
+           old_status: default_status,
+           new_status: other_status,
+           role: role,
+           type_id: task.id)
   end
   let(:role) do
     create(:role,
-                      permissions: %i(view_taskboards
-                                      add_work_packages
-                                      view_work_packages
-                                      edit_work_packages
-                                      manage_subtasks
-                                      assign_versions))
+           permissions: %i(view_taskboards
+                           add_work_packages
+                           view_work_packages
+                           edit_work_packages
+                           manage_subtasks
+                           assign_versions
+                           work_package_assigned))
   end
   let!(:current_user) do
     create(:user,
-                      member_in_project: project,
-                      member_through_role: role)
+           member_in_project: project,
+           member_through_role: role)
   end
   let!(:story1) do
     create(:work_package,
-                      project: project,
-                      type: story,
-                      status: default_status,
-                      version: sprint,
-                      position: 1,
-                      story_points: 10)
+           project: project,
+           type: story,
+           status: default_status,
+           version: sprint,
+           position: 1,
+           story_points: 10)
   end
   let!(:story1_task) do
     create(:work_package,
-                      project: project,
-                      parent: story1,
-                      type: task,
-                      status: default_status,
-                      version: sprint)
+           project: project,
+           parent: story1,
+           type: task,
+           status: default_status,
+           version: sprint)
   end
   let!(:story1_task_subtask) do
     create(:work_package,
-                      project: project,
-                      parent: story1_task,
-                      type: task,
-                      status: default_status,
-                      version: sprint)
+           project: project,
+           parent: story1_task,
+           type: task,
+           status: default_status,
+           version: sprint)
   end
   let!(:other_work_package) do
     create(:work_package,
-                      project: project,
-                      type: create(:type),
-                      status: default_status,
-                      version: sprint)
+           project: project,
+           type: create(:type),
+           status: default_status,
+           version: sprint)
   end
   let!(:other_work_package_subtask) do
     create(:work_package,
-                      project: project,
-                      parent: other_work_package,
-                      type: task,
-                      status: default_status,
-                      version: sprint)
+           project: project,
+           parent: other_work_package,
+           type: task,
+           status: default_status,
+           version: sprint)
   end
   let!(:story2) do
     create(:work_package,
-                      project: project,
-                      type: story,
-                      status: default_status,
-                      version: sprint,
-                      position: 2,
-                      story_points: 20)
+           project: project,
+           type: story,
+           status: default_status,
+           version: sprint,
+           position: 2,
+           story_points: 20)
   end
   let!(:sprint) do
     create(:version,
-                      project: project,
-                      start_date: Date.today - 10.days,
-                      effective_date: Date.today + 10.days,
-                      version_settings_attributes: [{ project: project, display: VersionSetting::DISPLAY_LEFT }])
+           project: project,
+           start_date: Date.today - 10.days,
+           effective_date: Date.today + 10.days,
+           version_settings_attributes: [{ project: project, display: VersionSetting::DISPLAY_LEFT }])
   end
   let!(:other_project) do
     create(:project).tap do |p|
       create(:member,
-                        principal: current_user,
-                        project: p,
-                        roles: [role])
+             principal: current_user,
+             project: p,
+             roles: [role])
     end
   end
   let!(:story_in_other_project) do
     create(:work_package,
-                      project: other_project,
-                      type: story,
-                      status: default_status,
-                      version: sprint,
-                      story_points: 10)
+           project: other_project,
+           type: story,
+           status: default_status,
+           version: sprint,
+           story_points: 10)
   end
   let!(:export_card_configurations) do
     ExportCardConfiguration.create!(name: 'Default',

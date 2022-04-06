@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -41,10 +41,10 @@ describe Notifications::Scopes::UnsentRemindersBefore, type: :model do
 
     let(:notification) do
       create(:notification,
-                        recipient: notification_recipient,
-                        read_ian: notification_read_ian,
-                        mail_reminder_sent: notification_mail_reminder_sent,
-                        created_at: notification_created_at)
+             recipient: notification_recipient,
+             read_ian: notification_read_ian,
+             mail_reminder_sent: notification_mail_reminder_sent,
+             created_at: notification_created_at)
     end
     let(:notification_mail_reminder_sent) { false }
     let(:notification_read_ian) { false }

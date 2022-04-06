@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -38,18 +38,18 @@ describe 'Work Package table cost entries', type: :feature, js: true do
 
   let!(:time_entry1) do
     create :time_entry,
-                      user: user,
-                      work_package: parent,
-                      project: project,
-                      hours: 10
+           user: user,
+           work_package: parent,
+           project: project,
+           hours: 10
   end
 
   let!(:time_entry2) do
     create :time_entry,
-                      user: user,
-                      work_package: work_package,
-                      project: project,
-                      hours: 2.50
+           user: user,
+           work_package: work_package,
+           project: project,
+           hours: 2.50
   end
 
   let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }

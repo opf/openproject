@@ -32,6 +32,10 @@ def register_firefox(language, name: :"firefox_#{language}")
       options.args << "--headless"
     end
 
+    if ActiveRecord::Type::Boolean.new.cast(ENV['OPENPROJECT_TESTING_AUTO_DEVTOOLS'])
+      options.args << "--devtools"
+    end
+
     is_grid = ENV['SELENIUM_GRID_URL'].present?
 
     driver_opts = {

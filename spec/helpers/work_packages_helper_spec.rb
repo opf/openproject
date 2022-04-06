@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -181,8 +181,8 @@ describe WorkPackagesHelper, type: :helper do
     let(:status) { statuses[0] }
     let(:stub_work_package) do
       build_stubbed(:work_package,
-                               status: status,
-                               priority: priority)
+                    status: status,
+                    priority: priority)
     end
 
     it 'always has the work_package class' do

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -41,20 +41,20 @@ describe "POST /api/v3/grids/form for Dashboard Grids", type: :request, content_
 
   shared_let(:allowed_user) do
     create(:user,
-                      member_in_project: project,
-                      member_with_permissions: %i[view_dashboards manage_dashboards save_queries manage_public_queries])
+           member_in_project: project,
+           member_with_permissions: %i[view_dashboards manage_dashboards save_queries manage_public_queries])
   end
 
   shared_let(:no_save_query_user) do
     create(:user,
-                      member_in_project: project,
-                      member_with_permissions: %i[view_dashboards manage_dashboards])
+           member_in_project: project,
+           member_with_permissions: %i[view_dashboards manage_dashboards])
   end
 
   shared_let(:prohibited_user) do
     create(:user,
-                      member_in_project: project,
-                      member_with_permissions: [])
+           member_in_project: project,
+           member_with_permissions: [])
   end
 
   let(:path) { api_v3_paths.create_grid_form }

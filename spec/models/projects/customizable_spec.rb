@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,7 +31,7 @@ require 'spec_helper'
 describe Project, 'customizable', type: :model do
   let(:project) do
     build_stubbed(:project,
-                             custom_values: custom_values)
+                  custom_values: custom_values)
   end
   let(:stub_available_custom_fields) do
     custom_fields_stub = double('custom fields stub')
@@ -81,8 +81,8 @@ describe Project, 'customizable', type: :model do
       context 'with a value set' do
         let(:custom_value) do
           build_stubbed(:custom_value,
-                                   custom_field: custom_field,
-                                   value: true)
+                        custom_field: custom_field,
+                        value: true)
         end
         let(:custom_values) { [custom_value] }
 
@@ -98,13 +98,13 @@ describe Project, 'customizable', type: :model do
     let(:available_custom_fields) { [bool_custom_field, list_custom_field, text_custom_field] }
     let(:text_custom_value) do
       build_stubbed(:custom_value,
-                               custom_field: text_custom_field,
-                               value: 'blubs')
+                    custom_field: text_custom_field,
+                    value: 'blubs')
     end
     let(:bool_custom_value) do
       build_stubbed(:custom_value,
-                               custom_field: bool_custom_field,
-                               value: true)
+                    custom_field: bool_custom_field,
+                    value: true)
     end
     let(:custom_values) { [bool_custom_value, text_custom_value] }
 

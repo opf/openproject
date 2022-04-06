@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -78,6 +78,10 @@ sk:
         contact: "Contact us for a demo"
       enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
       upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
+    journal_aggregation:
+      explanation:
+        text: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent and will also affect %{webhook_link} delay."
+        link: "webhook"
   announcements:
     show_until: Zobraziť do
     is_active: aktuálne zobrazené
@@ -457,9 +461,12 @@ sk:
         code: 'Stav'
         explanation: 'Status description'
         codes:
+          not_started: 'Not started'
           on_track: 'Na dobrej ceste'
           at_risk: 'V riziku'
           off_track: 'Na zlej ceste'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
       query:
         column_names: "Stĺpce"
         relations_to_type_column: "Vzťahy k %{type}"
@@ -470,7 +477,6 @@ sk:
       repository:
         url: "URL adresa"
       role:
-        assignable: "Pracovné balíčky môžu byť pridelené užívateľom a skupinám, ktoré majú v príslušnom projekte túto úlohu"
         permissions: "Oprávnenia"
       time_entry:
         activity: "Činnosť"
@@ -899,6 +905,7 @@ sk:
     version: "Verzia"
     work_package: "Pracovný balíček"
   backup:
+    failed: "Backup failed"
     label_backup_token: "Backup token"
     label_create_token: "Create backup token"
     label_delete_token: "Delete backup token"
@@ -1260,6 +1267,7 @@ sk:
   error_enterprise_token_invalid_domain: "The Enterprise Edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: 'Chyba pri odstraňovaní tejto položky.'
   error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
+  error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Vybratá neplatná hodnota."
   error_journal_attribute_not_present: "Denník neobsahuje atribút %{attribute}."
   error_pdf_export_too_many_columns: "Vybraných príliš veľa stĺpcov pre export do PDF. Znížte počet stĺpcov."
@@ -1369,7 +1377,9 @@ sk:
   menus:
     admin:
       mail_notification: "Upozornenia e-mailom"
-      incoming_outgoing: "Incoming & Outgoing"
+      mails_and_notifications: "Emails and notification"
+      aggregation_and_retention: 'Aggregation and retention'
+      api_and_webhooks: "API and webhooks"
     quick_add:
       label: "Open quick add menu"
   my_account:
@@ -1869,7 +1879,7 @@ sk:
   label_used_by_types: "Používa sa podľa typov"
   label_used_in_projects: "Použité v projektoch"
   label_user: "Užívateľ"
-  label_user_and_permission: "Users & Permissions"
+  label_user_and_permission: "Users and permissions"
   label_user_named: "Užívateľ %{name}"
   label_user_activity: "Aktivita používateľa %{value}"
   label_user_anonymous: "Anonymný"
@@ -2021,7 +2031,7 @@ sk:
   mail_body_backup_waiting_period: The new token will be enabled in %{hours} hours.
   mail_body_backup_token_warning: If this wasn't you, login to OpenProject immediately and reset it again.
   mail_body_lost_password: "Na zmenu hesla kliknite na nasledujúci odkaz:"
-  mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
+  mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "Project member invitation email"
   mail_body_register_user: "Dear %{name}, "
   mail_body_register_links_html: |
@@ -2165,7 +2175,7 @@ sk:
     heading_getting_started: "Získajte prehľad"
     text_getting_started_description: "Získajte rýchly prehľad o riadení projektov a tímovej spolupráci s OpenProject."
     text_show_again: "Môžete spustiť toto video z ponuky Pomocník"
-    welcome: "Vitajte v programe OpenProject"
+    welcome: "Welcome to %{app_title}"
     select_language: "Prosím vyberte Váš jazyk"
   permission_add_work_package_notes: "Pridať poznámky"
   permission_add_work_packages: "Pridať pracovné balíky"
@@ -2234,6 +2244,8 @@ sk:
   permission_view_timelines: "Zobrazenie časovej osi"
   permission_view_wiki_edits: "Zobrazenie histórie wiki"
   permission_view_wiki_pages: "Zobraziť wiki"
+  permission_work_package_assigned: "Become assignee/responsible"
+  permission_work_package_assigned_explanation: "Pracovné balíčky môžu byť pridelené užívateľom a skupinám, ktoré majú v príslušnom projekte túto úlohu"
   placeholders:
     default: "-"
   project:
@@ -2595,7 +2607,6 @@ sk:
   text_work_packages_destroy_confirmation: "Naozaj chcete odstrániť vybraný pracovný balíček(y)?"
   text_work_packages_ref_in_commit_messages: "Odkazovanie a oprava pracovných balíčkov v podrobnejšom vysvetľujúcom texte"
   text_journal_added: "%{label} %{value} pridaných"
-  text_journal_aggregation_time_explanation: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent."
   text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
   text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label} aktualizované"
@@ -2915,6 +2926,7 @@ sk:
         work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:
         date: "RRRR-MM-DD (len dátumu ISO 8601)"
+        datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm] (any compatible ISO 8601 datetime)"
         duration: "ISO 8601 trvanie"
       invalid_content_type: "Očakávaný typ obsahu je \"%{content_type}\", dodaný bol však \"%{actual}\"."
       invalid_format: "Neplatný formát parametra \"%{property}\": systémom očakávaný formát je \"%{expected_format}\", používateľ dodal \"%{actual}\"."
@@ -2926,6 +2938,7 @@ sk:
         select: "The requested select of %{invalid} is not supported. Supported selects are %{supported}."
       invalid_user_status_transition: "Účet aktuálneho používateľa nemá oprávnenie na vykonanie tejto operácie."
       missing_content_type: "nešpecifikovaný"
+      missing_property: "Missing property '%{property}'."
       missing_request_body: "Chýba žiadosť tela (request body)."
       missing_or_malformed_parameter: "Parameter dotazu '%{parameter}' chýba alebo je chybne vytvorený."
       multipart_body_error: "Telo žiadosti neobsahuje očakávaný viacnásobné časti."
@@ -2958,8 +2971,11 @@ sk:
     errors:
       messages:
         #Common error messages
-        invalid_request: 'V žiadosti chýba požadovaný parameter, obsahuje nepodporovanú hodnotu parametra alebo inak je chybný.'
-        invalid_redirect_uri: "The requested redirect URI is malformed or doesn't match client redirect URI."
+        invalid_request:
+          unknown: 'V žiadosti chýba požadovaný parameter, obsahuje nepodporovanú hodnotu parametra alebo inak je chybný.'
+          missing_param: 'Missing required parameter: %{value}.'
+          request_not_authorized: 'Request need to be authorized. Required parameter for authorizing request is missing or invalid.'
+        invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
         unauthorized_client: 'Klient nie je oprávnený vykonať túto požiadavku pomocou tejto metódy.'
         access_denied: 'Vlastník zdroja alebo autorizačný server žiadosť zamietol.'
         invalid_scope: 'Požadovaný rozsah je neplatný, neznámy alebo chybný.'
@@ -2972,6 +2988,7 @@ sk:
         admin_authenticator_not_configured: 'Prístup k administrátorskému panelu je zakázaný, pretože Doorkeeper.configure.admin_authenticator nie je nakonfigurovaný.'
         #Access grant errors
         unsupported_response_type: 'Autorizačný server tento typ odpovede nepodporuje.'
+        unsupported_response_mode: 'The authorization server does not support this response mode.'
         #Access token errors
         invalid_client: 'Overenie klienta zlyhalo z dôvodu neznámeho klienta, nebolo zahrnuté overenie klienta, alebo nie je podporovaná metóda overovania.'
         invalid_grant: 'Poskytnutý grant na autorizáciu je neplatný, vypršal, zrušil, nezodpovedal URI presmerovania použitému v žiadosti o autorizáciu alebo bol vydaný inému klientovi.'
@@ -2980,6 +2997,10 @@ sk:
           revoked: "Prístupový token bol zrušený"
           expired: "Platnosť prístupového tokenu vypršala"
           unknown: "Prístupový token je nesprávny"
+        revoke:
+          unauthorized: "You are not authorized to revoke this token."
+        forbidden_token:
+          missing_scope: 'Access to this resource requires scope "%{oauth_scopes}".'
   unsupported_browser:
     title: "Váš prehliadač je zastaraný a nepodporovaný."
     message: "Na tejto stránke môžete naraziť na chyby a neúplné/znehodnotené skúseností."

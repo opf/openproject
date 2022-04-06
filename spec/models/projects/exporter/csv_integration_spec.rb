@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -61,8 +59,11 @@ describe Projects::Exports::CSV, 'integration', type: :model do
         expect(header).to eq ['id', 'Identifier', 'Name', 'Status', 'Public', *cf_names]
 
         custom_values = custom_fields.map do |cf|
-          if cf == bool_cf
+          case cf
+          when bool_cf
             'true'
+          when text_cf
+            project.typed_custom_value_for(cf)
           else
             project.formatted_custom_value_for(cf)
           end

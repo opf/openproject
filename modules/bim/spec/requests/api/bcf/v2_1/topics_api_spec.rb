@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,40 +37,40 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
 
   let(:view_only_user) do
     create(:user,
-                      member_in_project: project,
-                      member_with_permissions: %i[view_linked_issues view_work_packages])
+           member_in_project: project,
+           member_with_permissions: %i[view_linked_issues view_work_packages work_package_assigned])
   end
   let(:only_member_user) do
     create(:user,
-                      member_in_project: project,
-                      member_with_permissions: [])
+           member_in_project: project,
+           member_with_permissions: [])
   end
   let(:edit_member_user) do
     create(:user,
-                      member_in_project: project,
-                      member_with_permissions: %i[manage_bcf
-                                                  add_work_packages
-                                                  view_linked_issues
-                                                  view_work_packages
-                                                  edit_work_packages])
+           member_in_project: project,
+           member_with_permissions: %i[manage_bcf
+                                       add_work_packages
+                                       view_linked_issues
+                                       view_work_packages
+                                       edit_work_packages])
   end
   let(:edit_and_delete_member_user) do
     create(:user,
-                      member_in_project: project,
-                      member_with_permissions: %i[delete_bcf
-                                                  delete_work_packages
-                                                  manage_bcf
-                                                  add_work_packages
-                                                  view_linked_issues
-                                                  view_work_packages])
+           member_in_project: project,
+           member_with_permissions: %i[delete_bcf
+                                       delete_work_packages
+                                       manage_bcf
+                                       add_work_packages
+                                       view_linked_issues
+                                       view_work_packages])
   end
   let(:edit_work_package_member_user) do
     create(:user,
-                      member_in_project: project,
-                      member_with_permissions: %i[add_work_packages
-                                                  view_linked_issues
-                                                  edit_work_packages
-                                                  view_work_packages])
+           member_in_project: project,
+           member_with_permissions: %i[add_work_packages
+                                       view_linked_issues
+                                       edit_work_packages
+                                       view_work_packages])
   end
   let(:non_member_user) do
     create(:user)
@@ -78,14 +78,14 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
 
   let(:project) do
     create(:project,
-                      enabled_module_names: %i[bim work_package_tracking])
+           enabled_module_names: %i[bim work_package_tracking])
   end
   let(:assignee) { create(:user) }
   let(:work_package) do
     create(:work_package,
-                      assigned_to: assignee,
-                      due_date: Date.today,
-                      project: project)
+           assigned_to: assignee,
+           due_date: Date.today,
+           project: project)
   end
   let(:other_status) do
     create(:status).tap do |s|
@@ -93,10 +93,10 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
 
       if member
         create(:workflow,
-                          old_status: work_package.status,
-                          new_status: s,
-                          type: work_package.type,
-                          role: member.roles.first)
+               old_status: work_package.status,
+               new_status: s,
+               type: work_package.type,
+               role: member.roles.first)
       end
     end
   end
@@ -505,10 +505,10 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
 
         if member
           create(:workflow,
-                            old_status: status,
-                            new_status: s,
-                            type: type,
-                            role: member.roles.first)
+                 old_status: status,
+                 new_status: s,
+                 type: type,
+                 role: member.roles.first)
         end
       end
     end
@@ -760,10 +760,10 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
 
         if member
           create(:workflow,
-                            old_status: status,
-                            new_status: s,
-                            type: type,
-                            role: member.roles.first)
+                 old_status: status,
+                 new_status: s,
+                 type: type,
+                 role: member.roles.first)
         end
       end
     end

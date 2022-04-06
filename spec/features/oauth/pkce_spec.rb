@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,9 +36,9 @@ describe 'OAuth authorization code flow with PKCE',
   let!(:allowed_redirect_uri) { redirect_uri }
   let!(:app) do
     create :oauth_application,
-                      name: 'Public mobile client',
-                      confidential: false,
-                      redirect_uri: allowed_redirect_uri
+           name: 'Public mobile client',
+           confidential: false,
+           redirect_uri: allowed_redirect_uri
   end
   let(:code_verifier) { SecureRandom.hex(64) }
   let(:code_challenge) { Doorkeeper::AccessGrant.generate_code_challenge code_verifier }

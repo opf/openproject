@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -48,11 +46,11 @@ describe DigestMailer, type: :mailer do
 
   let(:work_package) do
     build_stubbed(:work_package,
-                             type: build_stubbed(:type))
+                  type: build_stubbed(:type))
   end
   let(:journal) do
     build_stubbed(:work_package_journal,
-                             notes: 'Some notes').tap do |j|
+                  notes: 'Some notes').tap do |j|
       allow(j)
         .to receive(:details)
               .and_return({ "subject" => ["old subject", "new subject"] })
@@ -60,10 +58,10 @@ describe DigestMailer, type: :mailer do
   end
   let(:notifications) do
     [build_stubbed(:notification,
-                              resource: work_package,
-                              reason: :commented,
-                              journal: journal,
-                              project: project1)].tap do |notifications|
+                   resource: work_package,
+                   reason: :commented,
+                   journal: journal,
+                   project: project1)].tap do |notifications|
       allow(Notification)
         .to receive(:where)
               .and_return(notifications)

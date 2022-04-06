@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -41,9 +39,9 @@ describe WorkPackages::UpdateContract do
   end
   let(:work_package) do
     build_stubbed(:work_package,
-                             project: work_package_project,
-                             type: type,
-                             status: status).tap do |wp|
+                  project: work_package_project,
+                  type: type,
+                  status: status).tap do |wp|
       wp_scope = double('wp scope')
 
       allow(WorkPackage)
@@ -74,7 +72,7 @@ describe WorkPackages::UpdateContract do
   it_behaves_like 'work package contract' do
     let(:work_package) do
       build_stubbed(:work_package,
-                               project: work_package_project)
+                    project: work_package_project)
     end
   end
 

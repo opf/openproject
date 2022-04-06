@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -78,6 +78,10 @@ it:
         contact: "Contact us for a demo"
       enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
       upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
+    journal_aggregation:
+      explanation:
+        text: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent and will also affect %{webhook_link} delay."
+        link: "webhook"
   announcements:
     show_until: Mostra fino a
     is_active: attualmente visualizzato
@@ -452,9 +456,12 @@ it:
         code: 'Stato'
         explanation: 'Descrizione stato'
         codes:
+          not_started: 'Not started'
           on_track: 'Nei limiti'
           at_risk: 'A rischio'
           off_track: 'Fuori limite'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
       query:
         column_names: "Colonne"
         relations_to_type_column: "Relazioni con %{type}"
@@ -465,7 +472,6 @@ it:
       repository:
         url: "URL"
       role:
-        assignable: "È possibile assegnare macro-attività ad utenti e gruppi che hanno questo ruolo nel rispettivo progetto"
         permissions: "Permessi"
       time_entry:
         activity: "Attività"
@@ -886,6 +892,7 @@ it:
     version: "Versione"
     work_package: "Macro-attività"
   backup:
+    failed: "Backup failed"
     label_backup_token: "Token di backup"
     label_create_token: "Crea token di backup"
     label_delete_token: "Elimina token di backup"
@@ -1223,6 +1230,7 @@ it:
   error_enterprise_token_invalid_domain: "L'Enterprise Edition non è attiva. Il dominio del token Enterprise (%{actual}) non corrisponde al nome host del sistema (%{expected})."
   error_failed_to_delete_entry: 'Cancellazione voce non riuscita.'
   error_in_dependent: "Errore nel tentativo di modificare l'oggetto dipendente: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
+  error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Valore selezionato non valido."
   error_journal_attribute_not_present: "Il diario non contiene l'attributo %{attribute}."
   error_pdf_export_too_many_columns: "Troppe colonne selezionate per l'esportazione in PDF. Ridurre il numero di colonne."
@@ -1332,7 +1340,9 @@ it:
   menus:
     admin:
       mail_notification: "Notifiche email"
-      incoming_outgoing: "Entrate & Uscite"
+      mails_and_notifications: "Emails and notification"
+      aggregation_and_retention: 'Aggregation and retention'
+      api_and_webhooks: "API and webhooks"
     quick_add:
       label: "Apri menu di aggiunta rapida"
   my_account:
@@ -1832,7 +1842,7 @@ it:
   label_used_by_types: "Utilizzato dai tipi"
   label_used_in_projects: "Utilizzato nei progetti"
   label_user: "Utente"
-  label_user_and_permission: "Utenti & Permessi"
+  label_user_and_permission: "Users and permissions"
   label_user_named: "Utente %{name}"
   label_user_activity: "attività di %{value}"
   label_user_anonymous: "Anonimo"
@@ -1982,7 +1992,7 @@ it:
   mail_body_backup_waiting_period: Il nuovo token sarà abilitato tra %{hours} ore.
   mail_body_backup_token_warning: Se non sei stato tu, accedi immediatamente a OpenProject e ripristinalo di nuovo.
   mail_body_lost_password: "Per cambiare la password, clicca nel link seguente:"
-  mail_body_register: "Benvenuto in OpenProject. Attiva il tuo account cliccando su questo link:"
+  mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "Email di invito come membro del progetto"
   mail_body_register_user: "Gentile %{name}, "
   mail_body_register_links_html: |
@@ -2125,7 +2135,7 @@ it:
     heading_getting_started: "Fatti un'idea"
     text_getting_started_description: "Veloce panoramica sulla gestione dei progetti e il lavoro di squadra in OpenProject."
     text_show_again: "È possibile riavviare questo video dal menu Guida"
-    welcome: "Benvenuto in OpenProject"
+    welcome: "Welcome to %{app_title}"
     select_language: "Per favore seleziona la tua lingua"
   permission_add_work_package_notes: "Aggiungi nota"
   permission_add_work_packages: "Aggiungere macro-attività (work package)"
@@ -2194,6 +2204,8 @@ it:
   permission_view_timelines: "Visualizza le cronologie"
   permission_view_wiki_edits: "Visualizza il registro della wiki"
   permission_view_wiki_pages: "Visualizza la wiki"
+  permission_work_package_assigned: "Become assignee/responsible"
+  permission_work_package_assigned_explanation: "È possibile assegnare macro-attività ad utenti e gruppi che hanno questo ruolo nel rispettivo progetto"
   placeholders:
     default: "-"
   project:
@@ -2555,7 +2567,6 @@ it:
   text_work_packages_destroy_confirmation: "Sei sicuro di che voler eliminare le/le macro-attività selezionata/e?"
   text_work_packages_ref_in_commit_messages: "Macro-attivita che sono correlate e/o modificate nei messaggi di conferma"
   text_journal_added: "%{label} %{value} aggiunto"
-  text_journal_aggregation_time_explanation: "Le azioni individuali di un utente (ad es. l'aggiornamento di un pacchetto di lavoro due volte) sono aggregati in un'unica azione se la loro differenza di età è inferiore al periodo di tempo specificato. Verranno visualizzate come un'unica azione all'interno dell'applicazione. Questo ritarderà anche le notifiche della stessa quantità di tempo, riducendo il numero di e-mail inviate."
   text_journal_changed_html: "%{label} modificato da %{old} %{linebreak}<strong>a</strong> %{new}"
   text_journal_changed_plain: "%{label} modificato da %{old} %{linebreak}a %{new}"
   text_journal_changed_no_detail: "%{label} aggiornata"
@@ -2870,6 +2881,7 @@ it:
         work_package: "La macro-attività che stai cercando non può essere trovata o è stata eliminata."
       expected:
         date: "AAAA-MM-GG (solo date ISO 8601)"
+        datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm] (any compatible ISO 8601 datetime)"
         duration: "Durata ISO 8601"
       invalid_content_type: "Il CONTENT-TYPE avrebbe dovuto essere '%{content_type}', ma si è ottenuto '%{actual}'."
       invalid_format: "Formato non valido per la proprietà '%{property}': previsto un formato del tipo '%{expected_format}', rispetto al tipo attuale '%{actual}'."
@@ -2881,6 +2893,7 @@ it:
         select: "La selezione richiesta di %{invalid} non è supportata. Le selezioni supportate sono %{supported}."
       invalid_user_status_transition: "L'attuale stato dell'account utente non consente questa operazione."
       missing_content_type: "non specificato"
+      missing_property: "Missing property '%{property}'."
       missing_request_body: "Corpo della richiesta mancante."
       missing_or_malformed_parameter: "Il parametro della query '%{parameter}' è assente o non valido."
       multipart_body_error: "Il corpo della richiesta non contiene le multipart previste."
@@ -2913,8 +2926,11 @@ it:
     errors:
       messages:
         #Common error messages
-        invalid_request: 'La richiesta manca un parametro obbligatorio, include un valore non supportato in un parametro, o non è scritto correttamente.'
-        invalid_redirect_uri: "Il reindirizzamento dell'URI richiesto non è valido o non corrisponde all'URI di reindirizzamento del client."
+        invalid_request:
+          unknown: 'La richiesta manca un parametro obbligatorio, include un valore non supportato in un parametro, o non è scritto correttamente.'
+          missing_param: 'Missing required parameter: %{value}.'
+          request_not_authorized: 'Request need to be authorized. Required parameter for authorizing request is missing or invalid.'
+        invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
         unauthorized_client: 'Il client non è autorizzato ad eseguire questa richiesta usando questo metodo.'
         access_denied: 'Il proprietario della risorsa o il server di autorizzazione hanno rifiutato la richiesta.'
         invalid_scope: 'L''ambito richiesto non è valido, è sconosciuto o non è scritto bene.'
@@ -2927,6 +2943,7 @@ it:
         admin_authenticator_not_configured: 'Impossibile accedere al pannello di amministrazione a causa della mancata configurazione di Doorkeeper.configure.admin_authenticator.'
         #Access grant errors
         unsupported_response_type: 'Il server di autorizzazione non supporta questo tipo di risposta.'
+        unsupported_response_mode: 'The authorization server does not support this response mode.'
         #Access token errors
         invalid_client: 'L''autenticazione del client non è riuscita a causa di client sconosciuti, della mancata inclusione dell''autenticazione nel client, o del mancato supporto del metodo di autenticazione.'
         invalid_grant: 'Il permesso di autorizzazione fornito non è valido, è scaduto, è revocato, non corrisponde all''URI di reindirizzamento utilizzato nella richiesta di autorizzazione oppure è stato rilasciato per un altro client.'
@@ -2935,6 +2952,10 @@ it:
           revoked: "Il token di accesso è stato revocato"
           expired: "Il token di accesso è scaduto"
           unknown: "Il token di accesso non è valido"
+        revoke:
+          unauthorized: "You are not authorized to revoke this token."
+        forbidden_token:
+          missing_scope: 'Access to this resource requires scope "%{oauth_scopes}".'
   unsupported_browser:
     title: "Il tuo browser è obsoleto e non supportato."
     message: "Puoi incorrere in errori ed esperienza non ottimizzata su questa pagina."

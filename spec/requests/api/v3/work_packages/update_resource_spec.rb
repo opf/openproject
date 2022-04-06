@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -38,14 +38,14 @@ describe 'API v3 Work package resource',
 
   let(:work_package) do
     create(:work_package,
-                      project_id: project.id,
-                      description: 'lorem ipsum')
+           project_id: project.id,
+           description: 'lorem ipsum')
   end
   let(:project) do
     create(:project, identifier: 'test_project', public: false)
   end
   let(:role) { create(:role, permissions: permissions) }
-  let(:permissions) { %i[view_work_packages edit_work_packages assign_versions] }
+  let(:permissions) { %i[view_work_packages edit_work_packages assign_versions work_package_assigned] }
   let(:type) { create(:type) }
 
   current_user do
@@ -85,8 +85,8 @@ describe 'API v3 Work package resource',
         let(:role) { create(:role, permissions: [:view_work_packages]) }
         let(:current_user) do
           create(:user,
-                            member_in_project: work_package.project,
-                            member_through_role: role)
+                 member_in_project: work_package.project,
+                 member_through_role: role)
         end
         let(:params) { valid_params }
 
@@ -109,8 +109,8 @@ describe 'API v3 Work package resource',
         let(:update_params) { valid_params.merge(subject: 'Updated subject') }
         let(:other_user) do
           create(:user,
-                            member_in_project: work_package.project,
-                            member_with_permissions: %i(view_work_packages))
+                 member_in_project: work_package.project,
+                 member_with_permissions: %i(view_work_packages))
         end
 
         before do
@@ -272,10 +272,10 @@ describe 'API v3 Work package resource',
         context 'valid status' do
           let!(:workflow) do
             create(:workflow,
-                              type_id: work_package.type.id,
-                              old_status: work_package.status,
-                              new_status: target_status,
-                              role: current_user.memberships[0].roles[0])
+                   type_id: work_package.type.id,
+                   old_status: work_package.status,
+                   new_status: target_status,
+                   role: current_user.memberships[0].roles[0])
           end
 
           include_context 'patch request'
@@ -396,9 +396,9 @@ describe 'API v3 Work package resource',
 
         before do
           create :member,
-                            user: current_user,
-                            project: target_project,
-                            roles: [create(:role, permissions: [:move_work_packages])]
+                 user: current_user,
+                 project: target_project,
+                 roles: [create(:role, permissions: [:move_work_packages])]
 
           allow(User).to receive(:current).and_return current_user
         end
@@ -442,32 +442,32 @@ describe 'API v3 Work package resource',
       end
 
       context 'assignee and responsible' do
-        let(:user) { create(:user, member_in_project: project) }
+        let(:user) { create(:user, member_in_project: project, member_with_permissions: %i[work_package_assigned]) }
         let(:params) { valid_params.merge(user_parameter) }
         let(:work_package) do
           create(:work_package,
-                            project: project,
-                            assigned_to: current_user,
-                            responsible: current_user)
+                 project: project,
+                 assigned_to: current_user,
+                 responsible: current_user)
         end
 
         before { login_as current_user }
 
         shared_context 'setup group membership' do
           let(:group) { create(:group) }
-          let(:group_role) { create(:role) }
+          let(:group_role) { create(:role, permissions: %i[work_package_assigned]) }
           let!(:group_member) do
             create(:member,
-                              principal: group,
-                              project: project,
-                              roles: [group_role])
+                   principal: group,
+                   project: project,
+                   roles: [group_role])
           end
         end
 
         let(:placeholder_user) do
           create(:placeholder_user,
-                            member_in_project: project,
-                            member_through_role: role)
+                 member_in_project: project,
+                 member_through_role: role)
         end
 
         shared_examples_for 'handling people' do |property|

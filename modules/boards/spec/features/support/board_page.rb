@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -142,7 +142,7 @@ module Pages
       within_list(list_name) do
         found = all('[data-qa-selector="op-wp-single-card--content-subject"]')
           .map(&:text)
-        expected = card_titles.map { |title| title.is_a?(WorkPackage) ? "##{title.id} #{title.subject}" : title.to_s }
+        expected = card_titles.map { |title| title.is_a?(WorkPackage) ? title.subject : title.to_s }
 
         expect(found)
           .to match expected

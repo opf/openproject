@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,8 +37,8 @@ shared_examples 'member job' do
 
   let(:member) do
     build_stubbed(:member,
-                             project: project,
-                             principal: principal)
+                  project: project,
+                  principal: principal)
   end
   let(:project) { build_stubbed(:project) }
   let(:principal) { user }
@@ -46,20 +46,20 @@ shared_examples 'member job' do
   let(:group_users) { [user] }
   let(:group_member_roles) do
     [build_stubbed(:member_role,
-                              role: role,
-                              inherited_from: nil)]
+                   role: role,
+                   inherited_from: nil)]
   end
   let(:group_user_member_roles) do
     [build_stubbed(:member_role,
-                              role: role,
-                              inherited_from: nil)]
+                   role: role,
+                   inherited_from: nil)]
   end
 
   let(:group_user_member) do
     build_stubbed(:member,
-                             project: project,
-                             principal: user,
-                             member_roles: group_user_member_roles) do |gum|
+                  project: project,
+                  principal: user,
+                  member_roles: group_user_member_roles) do |gum|
       group_user_members << gum
     end
   end
@@ -128,11 +128,11 @@ shared_examples 'member job' do
     context 'with sending disabled' do
       let(:principal) do
         create :user,
-                          notification_settings: [
-                            build(:notification_setting,
-                                             NotificationSetting::MEMBERSHIP_ADDED => false,
-                                             NotificationSetting::MEMBERSHIP_UPDATED => false)
-                          ]
+               notification_settings: [
+                 build(:notification_setting,
+                       NotificationSetting::MEMBERSHIP_ADDED => false,
+                       NotificationSetting::MEMBERSHIP_UPDATED => false)
+               ]
       end
 
       it 'still sends mail due to the message present' do

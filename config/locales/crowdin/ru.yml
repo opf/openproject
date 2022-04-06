@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -78,6 +78,10 @@ ru:
         contact: "Свяжитесь с нами для опробирования"
       enterprise_info_html: "является функцией <strong class='icon-medal'></strong> корпоративной версии."
       upgrade_info: "Пожалуйста, перейдите на платный тарифный план, чтобы активировать его и начать использовать в вашей команде."
+    journal_aggregation:
+      explanation:
+        text: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent and will also affect %{webhook_link} delay."
+        link: "webhook"
   announcements:
     show_until: Показать до
     is_active: теперь отображается
@@ -456,9 +460,12 @@ ru:
         code: 'Состояние'
         explanation: 'Описание статуса'
         codes:
+          not_started: 'Не запущен'
           on_track: 'В работе'
           at_risk: 'Есть риск'
           off_track: 'Приостановлен'
+          finished: 'Завершено'
+          discontinued: 'Прекращено'
       query:
         column_names: "Столбцы"
         relations_to_type_column: "Отношения к %{type}"
@@ -469,7 +476,6 @@ ru:
       repository:
         url: "URL"
       role:
-        assignable: "Пакеты работ могут быть привязаны к пользователям и группам в зависимости от этой роли в рамках соответствующего проекта"
         permissions: "Разрешения"
       time_entry:
         activity: "Деятельность"
@@ -898,6 +904,7 @@ ru:
     version: "Этапы"
     work_package: "Пакет работ"
   backup:
+    failed: "Сбой резервного копирования"
     label_backup_token: "Маркер резервного копирования"
     label_create_token: "Создать маркер резервного копирования"
     label_delete_token: "Удалить маркер резервного копирования"
@@ -1259,6 +1266,7 @@ ru:
   error_enterprise_token_invalid_domain: "Корпоративная версия не активна. Домен вашего корпоративного токена (%{actual}) не совпадает с системным именем (%{expected})."
   error_failed_to_delete_entry: 'Не удалось удалить эту запись.'
   error_in_dependent: "Ошибка при попытке изменить зависимый объект: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
+  error_in_new_dependent: "Ошибка при создании зависимого объекта: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Выбранное значение недопустимо."
   error_journal_attribute_not_present: "Журнал не содержит атрибут %{attribute}."
   error_pdf_export_too_many_columns: "Для экспорта в PDF-файл выбрано слишком много столбцов. Пожалуйста, сократите количество столбцов."
@@ -1368,7 +1376,9 @@ ru:
   menus:
     admin:
       mail_notification: "Уведомления по электронной почте"
-      incoming_outgoing: "Входящие и исходящие"
+      mails_and_notifications: "Emails and notification"
+      aggregation_and_retention: 'Aggregation and retention'
+      api_and_webhooks: "API and webhooks"
     quick_add:
       label: "Открыть меню быстрого добавления"
   my_account:
@@ -1868,7 +1878,7 @@ ru:
   label_used_by_types: "Используемые типы"
   label_used_in_projects: "Используется в проектах"
   label_user: "Пользователь"
-  label_user_and_permission: "Пользователи и права доступа"
+  label_user_and_permission: "Users and permissions"
   label_user_named: "Пользователь %{name}"
   label_user_activity: "%{value} деятельности"
   label_user_anonymous: "Анонимно"
@@ -2020,7 +2030,7 @@ ru:
   mail_body_backup_waiting_period: Новый маркер будет действителен через %{hours} часов.
   mail_body_backup_token_warning: Если это не так, войдите в OpenProject и сбросьте его снова немедленно.
   mail_body_lost_password: "Чтобы изменить пароль, щёлкните по следующей ссылке:"
-  mail_body_register: "Добро пожаловать в OpenProject. Пожалуйста, активируйте свой аккаунт, нажав на эту ссылку:"
+  mail_body_register: "Добро пожаловать в %{app_title}. Пожалуйста, активируйте свою учетную запись, перейдя по ссылке:"
   mail_body_register_header_title: "Приглашение участника проекта по электронной почте"
   mail_body_register_user: "Уважаемый, %{name},"
   mail_body_register_links_html: |
@@ -2164,7 +2174,7 @@ ru:
     heading_getting_started: "Обзор"
     text_getting_started_description: "Быстрый просмотр управления проектом и и команды сопровождения с OpenProject."
     text_show_again: "Вы можете перезапустить это видео из меню «Справка»"
-    welcome: "Добро пожаловать в OpenProject"
+    welcome: "Добро пожаловать в %{app_title}"
     select_language: "Пожалуйста, выберите язык"
   permission_add_work_package_notes: "Добавить заметки"
   permission_add_work_packages: "Добавление пакетов работ"
@@ -2233,6 +2243,8 @@ ru:
   permission_view_timelines: "Просмотр графиков"
   permission_view_wiki_edits: "Просмотр истории wiki"
   permission_view_wiki_pages: "Просмотр wiki"
+  permission_work_package_assigned: "Назначиться/стать отвественным"
+  permission_work_package_assigned_explanation: "Пакеты работ могут быть привязаны к пользователям и группам в зависимости от этой роли в рамках соответствующего проекта"
   placeholders:
     default: "-"
   project:
@@ -2593,7 +2605,6 @@ ru:
   text_work_packages_destroy_confirmation: "Вы уверены, что хотите удалить выбранные пакет(-ы) работ?"
   text_work_packages_ref_in_commit_messages: "Привязка и фиксация пакетов работ в сообщениях коммитов"
   text_journal_added: "%{label} %{value} добавлено"
-  text_journal_aggregation_time_explanation: "Личные действия пользователя (напр. обновление пакета работ дважды) агрегируются в одно действие, если их разница в возрасте меньше указанного промежутка времени. Они будут отображаться как одно действие внутри приложения. Это также задерживает уведомления на то же количество времени, уменьшая количество отправляемых сообщений."
   text_journal_changed_html: "%{label} изменено с %{old} %{linebreak}<strong>на</strong> %{new}"
   text_journal_changed_plain: "%{label} изменено с %{old} %{linebreak}на %{new}"
   text_journal_changed_no_detail: "%{label} обновлено"
@@ -2911,6 +2922,7 @@ ru:
         work_package: "Пакет работ, который вы ищете, не найден или был удален."
       expected:
         date: "ГГГГ-мм-дд (только для даты ISO 8601)"
+        datetime: "ГГГГ-ММ-Дтч:мм:сс[.lll][+чч:мм] (любой совместимый ISO 8601 datetime)"
         duration: "ISO 8601 продолжительность"
       invalid_content_type: "Ожидаемый CONTENT-TYPE должен быть быть «%{content_type}», но получил «%{actual}»."
       invalid_format: "Недопустимый формат свойства «%{property}»: ожидаемый формат «%{expected_format}», но получил «%{actual}»."
@@ -2922,6 +2934,7 @@ ru:
         select: "Запрошенный выбор %{invalid} не поддерживается. Поддерживаются варианты %{supported}."
       invalid_user_status_transition: "Состояние учетной записи текущего пользователя не поддерживает эту операцию."
       missing_content_type: "Не определено"
+      missing_property: "Отсутствует свойство '%{property}'."
       missing_request_body: "Нет тела запроса."
       missing_or_malformed_parameter: "Параметр запроса «%{parameter}» отсутствует или имеет неправильный формат."
       multipart_body_error: "Тело запроса не содержит ожидаемых частей."
@@ -2954,8 +2967,11 @@ ru:
     errors:
       messages:
         #Common error messages
-        invalid_request: 'В запросе нет обязательного параметра, значение параметра не поддерживается или не соответствует требованиям.'
-        invalid_redirect_uri: "Запрашиваемый редирект URI является неверным или не соответствует URI перенаправления клиента."
+        invalid_request:
+          unknown: 'В запросе нет обязательного параметра, значение параметра не поддерживается или не соответствует требованиям.'
+          missing_param: 'Отсутствует обязательный параметр: %{value}.'
+          request_not_authorized: 'Запрос должен быть авторизован. Обязательный параметр для авторизации запроса отсутствует или недействителен.'
+        invalid_redirect_uri: "Запрашиваемый редирект uri является неверным или не соответствует URI перенаправления клиента."
         unauthorized_client: 'Клиент не уполномочен выполнить этот запрос с помощью этого метода.'
         access_denied: 'Владелец ресурса или сервер авторизации отклонил запрос.'
         invalid_scope: 'Запрашиваемая область является недопустимой, неизвестной или неправильной.'
@@ -2968,6 +2984,7 @@ ru:
         admin_authenticator_not_configured: 'Доступ к панели администратора запрещен, так как Doorkeeper.configure.admin_authenticator не настроен.'
         #Access grant errors
         unsupported_response_type: 'Сервер авторизации не поддерживает этот тип ответа.'
+        unsupported_response_mode: 'Сервер авторизации не поддерживает этот режим ответа.'
         #Access token errors
         invalid_client: 'Аутентификация клиента не удалась из-за неизвестности клиента, отсутствия у клиента аутентификации или не поддерживаемого метода аутентификации.'
         invalid_grant: 'Предоставленное разрешение недействительно, истекло, аннулировано, не соответствует URI перенаправления, используемому в запросе авторизации, или было выдано другому клиенту.'
@@ -2976,6 +2993,10 @@ ru:
           revoked: "Маркер доступа был отозван"
           expired: "Истек срок действия маркера доступа"
           unknown: "Недопустимый маркер доступа"
+        revoke:
+          unauthorized: "Вы не авторизованы для отзыва этого токена."
+        forbidden_token:
+          missing_scope: 'Доступ к этому ресурсу требует области "%{oauth_scopes}".'
   unsupported_browser:
     title: "Ваш браузер устарел и не поддерживается."
     message: "На этой странице вы рискуете столкнуться с ошибками и обедненным опытом."

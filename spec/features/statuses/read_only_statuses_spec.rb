@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -39,31 +39,31 @@ describe 'Read-only statuses affect work package editing',
   let(:project) { create :project, types: [type] }
   let!(:work_package) do
     create :work_package,
-                      project: project,
-                      type: type,
-                      status: unlocked_status
+           project: project,
+           type: type,
+           status: unlocked_status
   end
 
   let(:role) { create :role, permissions: %i[edit_work_packages view_work_packages] }
   let(:user) do
     create :user,
-                      member_in_project: project,
-                      member_through_role: role
+           member_in_project: project,
+           member_through_role: role
   end
 
   let!(:workflow1) do
     create :workflow,
-                      type_id: type.id,
-                      old_status: unlocked_status,
-                      new_status: locked_status,
-                      role: role
+           type_id: type.id,
+           old_status: unlocked_status,
+           new_status: locked_status,
+           role: role
   end
   let!(:workflow2) do
     create :workflow,
-                      type_id: type.id,
-                      old_status: locked_status,
-                      new_status: unlocked_status,
-                      role: role
+           type_id: type.id,
+           old_status: locked_status,
+           new_status: unlocked_status,
+           role: role
   end
 
   let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
@@ -74,6 +74,7 @@ describe 'Read-only statuses affect work package editing',
   end
 
   it 'locks the work package on a read only status' do
+    wp_page.switch_to_tab(tab: 'FILES')
     expect(page).to have_selector '.work-package--attachments--drop-box'
 
     subject_field = wp_page.edit_field :subject

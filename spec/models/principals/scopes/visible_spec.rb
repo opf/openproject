@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -54,6 +52,14 @@ describe Principals::Scopes::Visible, type: :model do
 
       it 'sees the other user in the same project' do
         expect(subject).to match_array [current_user, other_project_user]
+      end
+    end
+
+    context 'when user has no manage_members permission, but has manage_user global permission' do
+      current_user { create :user, global_permissions: %i[manage_user] }
+
+      it 'sees all users' do
+        expect(subject).to match_array [current_user, other_project_user, global_user]
       end
     end
 

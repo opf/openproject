@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,8 +33,8 @@ describe 'Impediments on taskboard',
          js: true do
   let!(:project) do
     create(:project,
-                      types: [story, task],
-                      enabled_module_names: %w(work_package_tracking backlogs))
+           types: [story, task],
+           enabled_module_names: %w(work_package_tracking backlogs))
   end
   let!(:story) { create(:type_feature) }
   let!(:task) { create(:type_task) }
@@ -43,56 +43,57 @@ describe 'Impediments on taskboard',
   let!(:other_status) { create(:status) }
   let!(:workflows) do
     create(:workflow,
-                      old_status: status,
-                      new_status: other_status,
-                      role: role,
-                      type_id: story.id)
+           old_status: status,
+           new_status: other_status,
+           role: role,
+           type_id: story.id)
     create(:workflow,
-                      old_status: status,
-                      new_status: other_status,
-                      role: role,
-                      type_id: task.id)
+           old_status: status,
+           new_status: other_status,
+           role: role,
+           type_id: task.id)
   end
   let(:role) do
     create(:role,
-                      permissions: %i(view_taskboards
-                                      add_work_packages
-                                      view_work_packages
-                                      edit_work_packages
-                                      manage_subtasks
-                                      assign_versions))
+           permissions: %i(view_taskboards
+                           add_work_packages
+                           view_work_packages
+                           edit_work_packages
+                           manage_subtasks
+                           assign_versions
+                           work_package_assigned))
   end
   let!(:current_user) do
     create(:user,
-                      member_in_project: project,
-                      member_through_role: role)
+           member_in_project: project,
+           member_through_role: role)
   end
   let!(:task1) do
     create(:work_package,
-                      status: status,
-                      project: project,
-                      type: task,
-                      version: sprint,
-                      parent: story1)
+           status: status,
+           project: project,
+           type: task,
+           version: sprint,
+           parent: story1)
   end
   let!(:story1) do
     create(:work_package,
-                      project: project,
-                      type: story,
-                      version: sprint)
+           project: project,
+           type: story,
+           version: sprint)
   end
   let!(:other_task) do
     create(:work_package,
-                      project: project,
-                      type: task,
-                      version: sprint,
-                      parent: other_story)
+           project: project,
+           type: task,
+           version: sprint,
+           parent: other_story)
   end
   let!(:other_story) do
     create(:work_package,
-                      project: project,
-                      type: story,
-                      version: other_sprint)
+           project: project,
+           type: story,
+           version: other_sprint)
   end
   let!(:sprint) do
     create(:version, project: project)

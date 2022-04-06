@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -44,15 +44,15 @@ describe 'Switching work package view',
 
   let(:wp_1) do
     create :work_package,
-                      project: project,
-                      priority: priority1,
-                      status: status
+           project: project,
+           priority: priority1,
+           status: status
   end
   let(:wp_2) do
     create :work_package,
-                      project: project,
-                      priority: priority2,
-                      status: status
+           project: project,
+           priority: priority2,
+           status: status
   end
 
   before do

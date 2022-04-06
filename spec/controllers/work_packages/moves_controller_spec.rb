@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,12 +32,13 @@ describe WorkPackages::MovesController, type: :controller, with_settings: { jour
   let(:user) { create(:user) }
   let(:role) do
     create :role,
-                      permissions: %i(move_work_packages
-                                      view_work_packages
-                                      add_work_packages
-                                      edit_work_packages
-                                      assign_versions
-                                      manage_subtasks)
+           permissions: %i(move_work_packages
+                           view_work_packages
+                           add_work_packages
+                           edit_work_packages
+                           assign_versions
+                           manage_subtasks
+                           work_package_assigned)
   end
   let(:type) { create :type }
   let(:type_2) { create :type }
@@ -47,15 +48,15 @@ describe WorkPackages::MovesController, type: :controller, with_settings: { jour
   let(:target_priority) { create :priority }
   let(:project) do
     create(:project,
-                      public: false,
-                      types: [type, type_2])
+           public: false,
+           types: [type, type_2])
   end
   let(:work_package) do
     create(:work_package,
-                      project_id: project.id,
-                      type: type,
-                      author: user,
-                      priority: priority)
+           project_id: project.id,
+           type: type,
+           author: user,
+           priority: priority)
   end
 
   let(:current_user) { create(:user) }
@@ -122,9 +123,9 @@ describe WorkPackages::MovesController, type: :controller, with_settings: { jour
     let(:target_project) { create(:project, public: false) }
     let(:work_package_2) do
       create(:work_package,
-                        project_id: project.id,
-                        type: type_2,
-                        priority: priority)
+             project_id: project.id,
+             type: type_2,
+             priority: priority)
     end
 
     describe 'an issue to another project' do
@@ -338,9 +339,9 @@ describe WorkPackages::MovesController, type: :controller, with_settings: { jour
             user = create :user
 
             create(:member,
-                              user: user,
-                              project: target_project,
-                              roles: [role])
+                   user: user,
+                   project: target_project,
+                   roles: [role])
 
             user
           end
@@ -432,9 +433,9 @@ describe WorkPackages::MovesController, type: :controller, with_settings: { jour
         context 'parent and child work package' do
           let!(:child_wp) do
             create(:work_package,
-                              type: type,
-                              project: project,
-                              parent: work_package)
+                   type: type,
+                   project: project,
+                   parent: work_package)
           end
 
           before do
@@ -461,19 +462,19 @@ describe WorkPackages::MovesController, type: :controller, with_settings: { jour
         context 'child work package from one project to other' do
           let(:to_project) do
             create(:project,
-                              types: [type])
+                   types: [type])
           end
           let!(:member) do
             create(:member,
-                              user: current_user,
-                              roles: [role],
-                              project: to_project)
+                   user: current_user,
+                   roles: [role],
+                   project: to_project)
           end
           let!(:child_wp) do
             create(:work_package,
-                              type: type,
-                              project: project,
-                              parent: work_package)
+                   type: type,
+                   project: project,
+                   parent: work_package)
           end
 
           shared_examples_for 'successful move' do

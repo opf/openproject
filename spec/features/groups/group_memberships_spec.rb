@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -103,9 +103,9 @@ feature 'group memberships through groups page', type: :feature, js: true do
   describe 'with the group in two projects' do
     let!(:project2) do
       create :project,
-                        name: 'Project 2',
-                        identifier: 'project2',
-                        members: project_members
+             name: 'Project 2',
+             identifier: 'project2',
+             members: project_members
     end
     let(:members_page1) { Pages::Members.new project.identifier }
     let(:members_page2) { Pages::Members.new project2.identifier }

@@ -1,5 +1,10 @@
-<div class="upsale-notification">
+<% write_augur_to_gon %>
 
+<% if !EnterpriseToken.current.present? %>
+  <% write_trial_key_to_gon %>
+<% end %>
+
+<div class="upsale-notification">
     <h2><%= feature_title %></h2>
     <% if feature_description.empty? %>
       <p class="upsale--feature-reference">
@@ -15,17 +20,20 @@
       </p>
     <% end %>
 
-    <% if feature_image.empty? %>
-      <%= image_tag "enterprise_edition.png", class: "widget-box--teaser-image" %>
+    <% if feature_video.empty? %>
+      <% if feature_image.empty? %>
+        <%= image_tag "enterprise_edition.png", class: "widget-box--teaser-image_default" %>
+      <% else %>
+        <%= image_tag feature_image, class: "widget-box--teaser-image" %>
+      <% end %>
     <% else %>
-      <%= image_tag feature_image, class: "widget-box--teaser-image" %>
+      <%= video_tag feature_video, :controls => false, class: "widget-box--teaser-video", autoplay: true, loop: true, muted: true %>
     <% end %>
 
     <p> <%= feature_title %> <%= t('admin.enterprise.enterprise_info_html') %> 
     </br>
     <%= t('admin.enterprise.upgrade_info') %>
     </p>
-
     <%= link_to( "https://www.openproject.org/contact-us/",
                  { class: 'button -highlight-inverted -round',
                    aria: {label: t('admin.enterprise.buttons.contact')},
@@ -34,7 +42,7 @@
       <span class="button--text"><%= t('admin.enterprise.buttons.contact') %></span>
     <% end %>
 
-    <%= link_to( "#{OpenProject::Static::Links.links[:upsale][:href]}/?utm_source=unknown&utm_medium=community-edition&utm_campaign=#{feature_reference}",
+    <%= link_to( "https://www.openproject.org/pricing/",
                  { class: 'button -highlight -round',
                    aria: {label: t('admin.enterprise.buttons.upgrade')},
                    target: '_blank',
@@ -42,4 +50,5 @@
       <%= op_icon('button--icon icon-medal') %>
       <span class="button--text"><%= t('admin.enterprise.buttons.upgrade') %></span>
     <% end %>
+    <free-trial-button></free-trial-button>
 </div>

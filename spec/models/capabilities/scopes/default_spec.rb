@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,6 +28,7 @@
 
 require 'spec_helper'
 
+# rubocop:disable RSpec/MultipleMemoizedHelpers
 describe Capabilities::Scopes::Default, type: :model do
   # we focus on the non current user capabilities to make the tests easier to understand
   subject(:scope) { Capability.default.where(principal_id: user.id) }
@@ -50,25 +51,25 @@ describe Capabilities::Scopes::Default, type: :model do
   let!(:user) { create(:user, admin: user_admin, status: user_status) }
   let(:global_member) do
     create(:global_member,
-                      principal: user,
-                      roles: [global_role])
+           principal: user,
+           roles: [global_role])
   end
   let(:member) do
     create(:member,
-                      principal: user,
-                      roles: [role],
-                      project: project)
+           principal: user,
+           roles: [role],
+           project: project)
   end
   let(:non_member_role) do
     create(:non_member,
-                      permissions: non_member_permissions)
+           permissions: non_member_permissions)
   end
   let(:own_role) { create(:role, permissions: [] )}
   let(:own_member) do
     create(:member,
-                      principal: current_user,
-                      roles: [own_role],
-                      project: project)
+           principal: current_user,
+           roles: [own_role],
+           project: project)
   end
   let(:members) { [] }
 
@@ -143,9 +144,9 @@ describe Capabilities::Scopes::Default, type: :model do
       end
     end
 
-    context 'with a lgobal member with an action permission and the user being locked' do
-      let(:permissions) { %i[manage_members] }
-      let(:members) { [member] }
+    context 'with a global member with an action permission and the user being locked' do
+      let(:permissions) { %i[manage_user] }
+      let(:members) { [global_member] }
       let(:user_status) { Principal.statuses[:locked] }
 
       it_behaves_like 'is empty'
@@ -235,7 +236,8 @@ describe Capabilities::Scopes::Default, type: :model do
 
           OpenProject::AccessControl
             .contract_actions_map
-            .map { |_, v| v[:actions].map { |vk, vv| vv.map { |vvv| item.call(vk, vvv, v[:global], v[:module]) } } }
+            .select { |_, v| v[:grant_to_admin] }
+            .map { |_, v| v[:actions].map { |vk, vv| vv.map { |vvv| item.call(vk, vvv, v[:global], v[:module_name]) } } }
             .flatten(2)
             .compact
         end
@@ -262,7 +264,8 @@ describe Capabilities::Scopes::Default, type: :model do
 
           OpenProject::AccessControl
             .contract_actions_map
-            .map { |_, v| v[:actions].map { |vk, vv| vv.map { |vvv| item.call(vk, vvv, v[:global], v[:module]) } } }
+            .select { |_, v| v[:grant_to_admin] }
+            .map { |_, v| v[:actions].map { |vk, vv| vv.map { |vvv| item.call(vk, vvv, v[:global], v[:module_name]) } } }
             .flatten(2)
             .compact
         end
@@ -305,6 +308,19 @@ describe Capabilities::Scopes::Default, type: :model do
       end
     end
 
+    context 'with a member with an action permission that is not granted to admin' do
+      let(:permissions) { %i[work_package_assigned] }
+      let(:members) { [member] }
+
+      it_behaves_like 'consists of contract actions' do
+        let(:expected) do
+          [
+            ['work_packages/assigned', user.id, project.id]
+          ]
+        end
+      end
+    end
+
     context 'with a member with an action permission and the project being archived' do
       let(:permissions) { %i[manage_members] }
       let(:members) { [member] }
@@ -314,3 +330,4 @@ describe Capabilities::Scopes::Default, type: :model do
     end
   end
 end
+# rubocop:enable RSpec/MultipleMemoizedHelpers

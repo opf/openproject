@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -78,6 +78,10 @@ ko:
         contact: "Contact us for a demo"
       enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
       upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
+    journal_aggregation:
+      explanation:
+        text: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent and will also affect %{webhook_link} delay."
+        link: "webhook"
   announcements:
     show_until: 표시 기한
     is_active: 현재 표시됨
@@ -453,9 +457,12 @@ ko:
         code: '상태'
         explanation: '상태 설명'
         codes:
+          not_started: 'Not started'
           on_track: '정상 상태'
           at_risk: '위험 상태'
           off_track: '비정상 상태'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
       query:
         column_names: "컬럼"
         relations_to_type_column: "%{type}에 대한 관계"
@@ -466,7 +473,6 @@ ko:
       repository:
         url: "주소"
       role:
-        assignable: "작업 패키지는 각각의 프로젝트에서 이 역할을 가진 사용자와 그룹에 할당될 수 있습니다."
         permissions: "권한"
       time_entry:
         activity: "활동"
@@ -883,6 +889,7 @@ ko:
     version: "버전"
     work_package: "작업 패키지"
   backup:
+    failed: "Backup failed"
     label_backup_token: "백업 토큰"
     label_create_token: "백업 토큰 생성"
     label_delete_token: "백업 토큰 제거"
@@ -1208,6 +1215,7 @@ ko:
   error_enterprise_token_invalid_domain: "Enterprise Edition이 활성화되지 않았습니다. 해당 Enterprise 토큰의 도메인(%{actual})이 시스템의 호스트 이름(%{expected})과 일치하지 않습니다."
   error_failed_to_delete_entry: '항목 삭제에 실패하였습니다.'
   error_in_dependent: "종속 개체를 변경하려는 중에 오류가 발생했습니다: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
+  error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "선택된 값이 유효하지 않습니다."
   error_journal_attribute_not_present: "저널에 %{attribute} 특성이 없습니다."
   error_pdf_export_too_many_columns: "PDF 내보내기에 대해 너무 많은 열을 선택했습니다. 열 수를 줄이십시오."
@@ -1317,7 +1325,9 @@ ko:
   menus:
     admin:
       mail_notification: "이메일 알림"
-      incoming_outgoing: "수신 & 발신"
+      mails_and_notifications: "Emails and notification"
+      aggregation_and_retention: 'Aggregation and retention'
+      api_and_webhooks: "API and webhooks"
     quick_add:
       label: "빠른 추가 메뉴 열기"
   my_account:
@@ -1817,7 +1827,7 @@ ko:
   label_used_by_types: "유형별로 사용됨"
   label_used_in_projects: "프로젝트에서 사용됨"
   label_user: "사용자"
-  label_user_and_permission: "사용자 및 권한"
+  label_user_and_permission: "Users and permissions"
   label_user_named: "사용자 %{name}"
   label_user_activity: "%{value}의 작업"
   label_user_anonymous: "익명"
@@ -1966,7 +1976,7 @@ ko:
   mail_body_backup_waiting_period: '%{hours}시간 후 새 토큰이 활성화됩니다.'
   mail_body_backup_token_warning: 만약 본인이 한 것이 아니라면, OpenProject에 즉시 로그인하고 다시 초기화하십시오.
   mail_body_lost_password: "암호를 변경하려면 다음 링크를 클릭하세요."
-  mail_body_register: "OpenProject입니다. 다음 링크를 클릭하여 계정을 활성화하세요:"
+  mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "프로젝트 멤버 초대 이메일"
   mail_body_register_user: "%{name}님께, "
   mail_body_register_links_html: |
@@ -2108,7 +2118,7 @@ ko:
     heading_getting_started: "개요 가져오기"
     text_getting_started_description: "OpenProject로 프로젝트 관리 및 팀 공동 작업에 대한 간략한 개요를 가져올 수 있습니다."
     text_show_again: "도움말 메뉴에서 이 비디오를 다시 시작할 수 있습니다."
-    welcome: "OpenProject에 오신 것을 환영합니다."
+    welcome: "Welcome to %{app_title}"
     select_language: "언어를 선택하세요."
   permission_add_work_package_notes: "메모 추가"
   permission_add_work_packages: "작업 패키지 추가"
@@ -2177,6 +2187,8 @@ ko:
   permission_view_timelines: "타임라인 보기"
   permission_view_wiki_edits: "위키 기록 보기"
   permission_view_wiki_pages: "위키 보기"
+  permission_work_package_assigned: "Become assignee/responsible"
+  permission_work_package_assigned_explanation: "작업 패키지는 각각의 프로젝트에서 이 역할을 가진 사용자와 그룹에 할당될 수 있습니다."
   placeholders:
     default: "-"
   project:
@@ -2536,7 +2548,6 @@ ko:
   text_work_packages_destroy_confirmation: "선택한 작업 패키지를 삭제하시겠습니까?"
   text_work_packages_ref_in_commit_messages: "커밋 메시지의 작업 패키지 참조 또는 수정"
   text_journal_added: "%{label} %{value} 추가됨"
-  text_journal_aggregation_time_explanation: "사용자의 개별 작업(예: 작업 패키지를 두 번 업데이트)은 연령 차이가 지정된 기간 미만인 경우 단일 작업으로 집계됩니다. 애플리케이션 내에서 단일 작업으로 표시됩니다. 이것은 또한 전송되는 이메일의 수를 줄이는 동일한 시간만큼 알림을 지연시킵니다."
   text_journal_changed_html: "%{label}이(가) %{old}에서 %{linebreak}%{new}<strong>(으)로</strong> 변경되었습니다."
   text_journal_changed_plain: "%{label}이(가) %{old}에서 %{linebreak}%{new}(으)로 변경되었습니다."
   text_journal_changed_no_detail: "%{label} 업데이트됨"
@@ -2849,6 +2860,7 @@ ko:
         work_package: "원하는 작업 패키지를 찾을 수 없거나 삭제되었습니다."
       expected:
         date: "YYYY-MM-DD(ISO 8601 날짜만)"
+        datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm] (any compatible ISO 8601 datetime)"
         duration: "ISO 8601 기간"
       invalid_content_type: "예상되는 CONTENT-TYPE 은 '%{content_type}' 이지만, '%{actual}' 을 응답 받았습니다."
       invalid_format: "'%{property}' 속성에 대한 잘못된 형식: '%{expected_format}' 같은 형식이 필요하지만 '%{actual}'이(가) 있습니다."
@@ -2860,6 +2872,7 @@ ko:
         select: "요청한 %{invalid}의 선택은 지원되지 않습니다. %{supported}의 선택은 지원합니다."
       invalid_user_status_transition: "현재 사용자의 계정 상태는이 작업을 허용 하지 않습니다."
       missing_content_type: "지정되지 않음"
+      missing_property: "Missing property '%{property}'."
       missing_request_body: "요청 본문이 없습니다."
       missing_or_malformed_parameter: "쿼리 매개 변수 '%{parameter}'는 누락되거나 잘못되었습니다."
       multipart_body_error: "요청 본문에는 필요한 multipart 부분이 포함되어 있지 않습니다."
@@ -2892,8 +2905,11 @@ ko:
     errors:
       messages:
         #Common error messages
-        invalid_request: '이 요청에는 필요한 매개 변수가 없거나, 지원되지 않는 매개 변수 값이 포함되어 있거나, 형식이 잘못되었습니다.'
-        invalid_redirect_uri: "요청한 리디렉션 URI가 잘못된 형식이거나 클라이언트 리디렉션 URI와 일치하지 않습니다."
+        invalid_request:
+          unknown: '이 요청에는 필요한 매개 변수가 없거나, 지원되지 않는 매개 변수 값이 포함되어 있거나, 형식이 잘못되었습니다.'
+          missing_param: 'Missing required parameter: %{value}.'
+          request_not_authorized: 'Request need to be authorized. Required parameter for authorizing request is missing or invalid.'
+        invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
         unauthorized_client: '클라이언트가 이 방법을 사용하여 해당 요청을 실행하도록 허용되지 않았습니다.'
         access_denied: '리소스 소유자 또는 권한 부여 서버가 요청을 거부했습니다.'
         invalid_scope: '요청한 범위가 유효하지 않거나, 알 수 없거나, 잘못된 형식입니다.'
@@ -2906,6 +2922,7 @@ ko:
         admin_authenticator_not_configured: 'Doorkeeper.configure.admin_authenticator 구성이 되지 않아 관리자 패널에 대한 액세스가 금지되었습니다.'
         #Access grant errors
         unsupported_response_type: '권한 부여 서버가 이 응답 유형을 지원하지 않습니다.'
+        unsupported_response_mode: 'The authorization server does not support this response mode.'
         #Access token errors
         invalid_client: '알 수 없는 클라이언트, 포함되지 않은 클라이언트 인증 또는 지원되지 않는 인증 방법으로 인해 클라이언트 인증이 실패했습니다.'
         invalid_grant: '제공된 권한 부여가 잘못되거나, 만료되거나, 취소되었거나, 권한 부여 요청에 사용된 리디렉션 URI와 일치하지 않거나, 다른 클라이언트에 지정되었습니다.'
@@ -2914,6 +2931,10 @@ ko:
           revoked: "액세스 토큰이 취소되었습니다."
           expired: "액세스 토큰이 만료되었습니다."
           unknown: "액세스 토큰이 잘못되었습니다."
+        revoke:
+          unauthorized: "You are not authorized to revoke this token."
+        forbidden_token:
+          missing_scope: 'Access to this resource requires scope "%{oauth_scopes}".'
   unsupported_browser:
     title: "해당 브라우저는 오래되어 지원되지 않습니다."
     message: "이 페이지에서 오류가 발생하고 기능이 저하될 수 있습니다."

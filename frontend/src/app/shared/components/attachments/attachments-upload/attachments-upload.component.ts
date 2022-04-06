@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -26,53 +26,61 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ConfigurationService } from 'core-app/core/config/configuration.service';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
 import {
-  Component, ElementRef, Input, OnInit, ViewChild,
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  Input,
+  OnInit,
+  ViewChild,
 } from '@angular/core';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { UploadFile } from 'core-app/core/file-upload/op-file-upload.service';
+import { AttachmentsResourceService } from 'core-app/core/state/attachments/attachments.service';
 
 @Component({
-  selector: 'attachments-upload',
+  selector: 'op-attachments-upload',
   templateUrl: './attachments-upload.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AttachmentsUploadComponent implements OnInit {
   @Input() public resource:HalResource;
 
-  @ViewChild('hiddenFileInput') public filePicker:ElementRef;
+  @ViewChild('hiddenFileInput') public filePicker:ElementRef<HTMLInputElement>;
 
   public draggingOver = false;
 
-  public text:any;
+  public text = {
+    uploadLabel: this.I18n.t('js.label_add_attachments'),
+    dropFiles: this.I18n.t('js.label_drop_files'),
+    dropFilesHint: this.I18n.t('js.label_drop_files_hint'),
+    foldersWarning: this.I18n.t('js.label_drop_folders_hint'),
+  };
 
   public maxFileSize:number;
 
   public $element:JQuery;
 
   constructor(readonly I18n:I18nService,
-    readonly ConfigurationService:ConfigurationService,
+    private readonly attachmentsResourceService:AttachmentsResourceService,
+    readonly configurationService:ConfigurationService,
     readonly toastService:ToastService,
     protected elementRef:ElementRef,
-    protected halResourceService:HalResourceService) {
-    this.text = {
-      uploadLabel: I18n.t('js.label_add_attachments'),
-      dropFiles: I18n.t('js.label_drop_files'),
-      dropFilesHint: I18n.t('js.label_drop_files_hint'),
-      foldersWarning: I18n.t('js.label_drop_folders_hint'),
-    };
+    protected halResourceService:HalResourceService) { }
+
+  ngOnInit():void {
+    this.$element = jQuery<HTMLElement>(this.elementRef.nativeElement);
+
+    void this.configurationService.initialized.then(() => {
+      this.maxFileSize = this.configurationService.maximumAttachmentFileSize as number;
+    });
   }
 
-  ngOnInit() {
-    this.$element = jQuery(this.elementRef.nativeElement);
-
-    this.ConfigurationService.initialized.then(() => this.maxFileSize = this.ConfigurationService.maximumAttachmentFileSize);
-  }
-
-  public triggerFileInput(event:MouseEvent) {
+  public triggerFileInput(event:MouseEvent):boolean {
     this.filePicker.nativeElement.click();
 
     event.preventDefault();
@@ -80,12 +88,15 @@ export class AttachmentsUploadComponent implements OnInit {
     return false;
   }
 
-  public onDropFiles(event:DragEvent) {
-    event.dataTransfer!.dropEffect = 'copy';
+  public onDropFiles(event:DragEvent):void {
+    if (event.dataTransfer === null) return;
+
+    // eslint-disable-next-line no-param-reassign
+    event.dataTransfer.dropEffect = 'copy';
     event.preventDefault();
     event.stopPropagation();
 
-    const dfFiles = event.dataTransfer!.files;
+    const dfFiles = event.dataTransfer.files;
     const length:number = dfFiles ? dfFiles.length : 0;
 
     const files:UploadFile[] = [];
@@ -97,9 +108,10 @@ export class AttachmentsUploadComponent implements OnInit {
     this.draggingOver = false;
   }
 
-  public onDragOver(event:DragEvent) {
-    if (this.containsFiles(event.dataTransfer)) {
-      event.dataTransfer!.dropEffect = 'copy';
+  public onDragOver(event:DragEvent):void {
+    if (event.dataTransfer !== null && AttachmentsUploadComponent.containsFiles(event.dataTransfer)) {
+      // eslint-disable-next-line no-param-reassign
+      event.dataTransfer.dropEffect = 'copy';
       this.draggingOver = true;
     }
 
@@ -107,30 +119,30 @@ export class AttachmentsUploadComponent implements OnInit {
     event.stopPropagation();
   }
 
-  public onDragLeave(event:DragEvent) {
+  public onDragLeave(event:DragEvent):void {
     this.draggingOver = false;
     event.preventDefault();
     event.stopPropagation();
   }
 
-  public onFilePickerChanged() {
-    const files:UploadFile[] = Array.from(this.filePicker.nativeElement.files);
+  public onFilePickerChanged():void {
+    const fileList = this.filePicker.nativeElement.files;
+    if (fileList === null) return;
+
+    const files:UploadFile[] = Array.from(fileList);
     this.uploadFiles(files);
   }
 
-  private containsFiles(dataTransfer:any) {
-    if (dataTransfer.types.contains) {
-      return dataTransfer.types.contains('Files');
-    }
-    return (dataTransfer as DataTransfer).types.indexOf('Files') >= 0;
+  private static containsFiles(dataTransfer:DataTransfer):boolean {
+    return dataTransfer.types.indexOf('Files') >= 0;
   }
 
   protected uploadFiles(files:UploadFile[]):void {
-    files = files || [];
+    let uploadFiles = files || [];
     const countBefore = files.length;
-    files = this.filterFolders(files);
+    uploadFiles = this.filterFolders(uploadFiles);
 
-    if (files.length === 0) {
+    if (uploadFiles.length === 0) {
       // If we filtered all files as directories, show a notice
       if (countBefore > 0) {
         this.toastService.addNotice(this.text.foldersWarning);
@@ -139,7 +151,10 @@ export class AttachmentsUploadComponent implements OnInit {
       return;
     }
 
-    this.resource.uploadAttachments(files);
+    this
+      .attachmentsResourceService
+      .attachFiles(this.resource, uploadFiles)
+      .subscribe();
   }
 
   /**
@@ -147,7 +162,7 @@ export class AttachmentsUploadComponent implements OnInit {
    * or empty file sizes.
    * @param files
    */
-  protected filterFolders(files:UploadFile[]) {
+  protected filterFolders(files:UploadFile[]):UploadFile[] {
     return files.filter((file) => {
       // Folders never have a mime type
       if (file.type !== '') {

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,17 +32,17 @@ describe 'Resolved status',
          type: :feature do
   let!(:project) do
     create(:project,
-                      enabled_module_names: %w(backlogs))
+           enabled_module_names: %w(backlogs))
   end
   let!(:status) { create(:status, is_default: true) }
   let(:role) do
     create(:role,
-                      permissions: %i[select_done_statuses])
+           permissions: %i[select_done_statuses])
   end
   let!(:current_user) do
     create(:user,
-                      member_in_project: project,
-                      member_through_role: role)
+           member_in_project: project,
+           member_through_role: role)
   end
   let(:settings_page) { Pages::Projects::Settings.new(project) }
 

@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -67,8 +65,8 @@ describe Relation, type: :model do
       let(:reversed) { type_hash[:reverse] }
       let(:relation) do
         build_stubbed(:relation,
-                                 relation_type: nil,
-                                 column_name => column_count)
+                      relation_type: nil,
+                      column_name => column_count)
       end
 
       context 'with the column set to 1' do
@@ -106,9 +104,9 @@ describe Relation, type: :model do
         end
         let(:relation) do
           build_stubbed(:relation,
-                                   relation_type: nil,
-                                   column_name => 1,
-                                   other_column => 1)
+                        relation_type: nil,
+                        column_name => 1,
+                        other_column => 1)
         end
 
         it 'is "mixed"' do

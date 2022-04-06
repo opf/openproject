@@ -106,7 +106,7 @@ export abstract class BoardActionService {
   /**
    * Returns the current filter value if any
    * @param query
-   * @returns The loaded action reosurce
+   * @returns The loaded action resource
    */
   getLoadedActionValue(query:QueryResource):Promise<HalResource|undefined> {
     const id = this.getActionValueId(query);

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -99,9 +99,9 @@ describe DocumentsController do
   describe "create" do
     let(:document_attributes) do
       attributes_for(:document,
-                                title: "New Document",
-                                project_id: project.id,
-                                category_id: default_category.id)
+                     title: "New Document",
+                     project_id: project.id,
+                     category_id: default_category.id)
     end
 
     before do
@@ -140,9 +140,9 @@ describe DocumentsController do
              params: {
                project_id: notify_project.identifier,
                document: attributes_for(:document,
-                                                   title: "New Document",
-                                                   project_id: notify_project.id,
-                                                   category_id: default_category.id),
+                                        title: "New Document",
+                                        project_id: notify_project.id,
+                                        category_id: default_category.id),
                attachments: { '1' => { id: uncontainered.id } }
              }
       end

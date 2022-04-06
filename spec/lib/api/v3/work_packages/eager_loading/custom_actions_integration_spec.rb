@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,17 +34,17 @@ describe ::API::V3::WorkPackages::EagerLoading::CustomAction do
   let!(:work_package2) { create(:work_package) }
   let!(:user) do
     create(:user,
-                      member_in_project: work_package2.project,
-                      member_through_role: role)
+           member_in_project: work_package2.project,
+           member_through_role: role)
   end
   let!(:role) { create(:role) }
   let!(:status_custom_action) do
     create(:custom_action,
-                      conditions: [CustomActions::Conditions::Status.new(work_package1.status_id.to_s)])
+           conditions: [CustomActions::Conditions::Status.new(work_package1.status_id.to_s)])
   end
   let!(:role_custom_action) do
     create(:custom_action,
-                      conditions: [CustomActions::Conditions::Role.new(role.id)])
+           conditions: [CustomActions::Conditions::Role.new(role.id)])
   end
 
   before do

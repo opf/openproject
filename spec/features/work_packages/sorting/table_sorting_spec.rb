@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -107,32 +107,32 @@ describe 'Select work package row', type: :feature, js: true do
 
     let(:parent) do
       create :work_package,
-                        project: project
+             project: project
     end
     let(:child1) do
       create :work_package,
-                        project: project,
-                        parent: parent
+             project: project,
+             parent: parent
     end
     let(:child2) do
       create :work_package,
-                        project: project,
-                        parent: parent
+             project: project,
+             parent: parent
     end
     let(:grand_child1) do
       create :work_package,
-                        project: project,
-                        parent: child1
+             project: project,
+             parent: child1
     end
     let(:grand_child2) do
       create :work_package,
-                        project: project,
-                        parent: child2
+             project: project,
+             parent: child2
     end
     let(:grand_child3) do
       create :work_package,
-                        project: project,
-                        parent: child1
+             project: project,
+             parent: child1
     end
 
     before do

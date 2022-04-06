@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -49,11 +47,28 @@ describe 'Team planner', type: :feature, js: true do
     end
 
     # weekly: Expect 7 slots
-    team_planner.expect_view_mode 'week'
+    team_planner.expect_view_mode '1-week'
     expect(page).to have_selector('.fc-timeline-slot-frame', count: 7)
 
     # 2 weeks: expect 14 slots
-    team_planner.switch_view_mode '2 weeks'
+    team_planner.switch_view_mode '2-week'
     expect(page).to have_selector('.fc-timeline-slot-frame', count: 14)
+
+    start_of_week = Time.zone.today.beginning_of_week(:sunday)
+    start_date = start_of_week.strftime('%d %a')
+    end_date = (start_of_week + 13.days).strftime('%d %a')
+
+    expect(page).to have_selector('.fc-timeline-slot', text: start_date)
+    expect(page).to have_selector('.fc-timeline-slot', text: end_date)
+
+    # Click next button, advance one week
+    find('.fc-next-button').click
+
+    start_of_week = (Time.zone.today + 1.week).beginning_of_week(:sunday)
+    start_date = start_of_week.strftime('%d %a')
+    end_date = (start_of_week + 13.days).strftime('%d %a')
+
+    expect(page).to have_selector('.fc-timeline-slot', text: start_date)
+    expect(page).to have_selector('.fc-timeline-slot', text: end_date)
   end
 end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,77 +34,78 @@ describe WorkPackages::BulkController, type: :controller, with_settings: { journ
   let(:custom_field_value) { '125' }
   let(:custom_field_1) do
     create(:work_package_custom_field,
-                      field_format: 'string',
-                      is_for_all: true)
+           field_format: 'string',
+           is_for_all: true)
   end
   let(:custom_field_2) { create(:work_package_custom_field) }
   let(:custom_field_user) { create(:user_issue_custom_field) }
   let(:status) { create(:status) }
   let(:type) do
     create(:type_standard,
-                      custom_fields: [custom_field_1, custom_field_2, custom_field_user])
+           custom_fields: [custom_field_1, custom_field_2, custom_field_user])
   end
   let(:project_1) do
     create(:project,
-                      types: [type],
-                      work_package_custom_fields: [custom_field_2])
+           types: [type],
+           work_package_custom_fields: [custom_field_2])
   end
   let(:project_2) do
     create(:project,
-                      types: [type])
+           types: [type])
   end
   let(:role) do
     create(:role,
-                      permissions: %i[edit_work_packages
-                                      view_work_packages
-                                      manage_subtasks
-                                      assign_versions])
+           permissions: %i[edit_work_packages
+                           view_work_packages
+                           manage_subtasks
+                           assign_versions
+                           work_package_assigned])
   end
   let(:member1_p1) do
     create(:member,
-                      project: project_1,
-                      principal: user,
-                      roles: [role])
+           project: project_1,
+           principal: user,
+           roles: [role])
   end
   let(:member2_p1) do
     create(:member,
-                      project: project_1,
-                      principal: user2,
-                      roles: [role])
+           project: project_1,
+           principal: user2,
+           roles: [role])
   end
   let(:member1_p2) do
     create(:member,
-                      project: project_2,
-                      principal: user,
-                      roles: [role])
+           project: project_2,
+           principal: user,
+           roles: [role])
   end
   let(:work_package_1) do
     create(:work_package,
-                      author: user,
-                      assigned_to: user,
-                      responsible: user2,
-                      type: type,
-                      status: status,
-                      custom_field_values: { custom_field_1.id => custom_field_value },
-                      project: project_1)
+           author: user,
+           assigned_to: user,
+           responsible: user2,
+           type: type,
+           status: status,
+           custom_field_values: { custom_field_1.id => custom_field_value },
+           project: project_1)
   end
   let(:work_package_2) do
     create(:work_package,
-                      author: user,
-                      assigned_to: user,
-                      responsible: user2,
-                      type: type,
-                      status: status,
-                      custom_field_values: { custom_field_1.id => custom_field_value },
-                      project: project_1)
+           author: user,
+           assigned_to: user,
+           responsible: user2,
+           type: type,
+           status: status,
+           custom_field_values: { custom_field_1.id => custom_field_value },
+           project: project_1)
   end
   let(:work_package_3) do
     create(:work_package,
-                      author: user,
-                      type: type,
-                      status: status,
-                      custom_field_values: { custom_field_1.id => custom_field_value },
-                      project: project_2)
+           author: user,
+           type: type,
+           status: status,
+           custom_field_values: { custom_field_1.id => custom_field_value },
+           project: project_2)
   end
 
   let(:stub_work_package) { build_stubbed(:work_package) }
@@ -339,9 +340,9 @@ describe WorkPackages::BulkController, type: :controller, with_settings: { journ
           context 'allowed' do
             let!(:member_group_p1) do
               create(:member,
-                                project: project_1,
-                                principal: group,
-                                roles: [role])
+                     project: project_1,
+                     principal: group,
+                     roles: [role])
             end
 
             include_context 'update_request'
@@ -379,10 +380,10 @@ describe WorkPackages::BulkController, type: :controller, with_settings: { journ
           let(:closed_status) { create(:closed_status) }
           let(:workflow) do
             create(:workflow,
-                              role: role,
-                              type_id: type.id,
-                              old_status: status,
-                              new_status: closed_status)
+                   role: role,
+                   type_id: type.id,
+                   old_status: status,
+                   new_status: closed_status)
           end
 
           before do
@@ -403,8 +404,8 @@ describe WorkPackages::BulkController, type: :controller, with_settings: { journ
         describe '#parent' do
           let(:parent) do
             create(:work_package,
-                              author: user,
-                              project: project_1)
+                   author: user,
+                   project: project_1)
           end
 
           before do
@@ -473,14 +474,14 @@ describe WorkPackages::BulkController, type: :controller, with_settings: { journ
           describe 'set version_id attribute to some version' do
             let(:version) do
               create(:version,
-                                status: 'open',
-                                sharing: 'tree',
-                                project: subproject)
+                     status: 'open',
+                     sharing: 'tree',
+                     project: subproject)
             end
             let(:subproject) do
               create(:project,
-                                parent: project_1,
-                                types: [type])
+                     parent: project_1,
+                     types: [type])
             end
 
             before do
@@ -548,16 +549,16 @@ describe WorkPackages::BulkController, type: :controller, with_settings: { journ
     describe 'updating two children with dates to a new parent (Regression #28670)' do
       let(:task1) do
         create :work_package,
-                          project: project_1,
-                          start_date: Date.today - 5.days,
-                          due_date: Date.today
+               project: project_1,
+               start_date: Date.today - 5.days,
+               due_date: Date.today
       end
 
       let(:task2) do
         create :work_package,
-                          project: project_1,
-                          start_date: Date.today - 2.days,
-                          due_date: Date.today + 1.days
+               project: project_1,
+               start_date: Date.today - 2.days,
+               due_date: Date.today + 1.days
       end
 
       let(:new_parent) do

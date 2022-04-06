@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,7 +34,7 @@ describe Color, type: :model do
       it 'can read planning_element_types w/ the help of the has_many association' do
         color                 = create(:color)
         planning_element_type = create(:type,
-                                                  color_id: color.id)
+                                       color_id: color.id)
 
         color.reload
 
@@ -45,7 +45,7 @@ describe Color, type: :model do
       it 'nullifies dependent planning_element_types' do
         color                 = create(:color)
         planning_element_type = create(:type,
-                                                  color_id: color.id)
+                                       color_id: color.id)
 
         color.reload
         color.destroy

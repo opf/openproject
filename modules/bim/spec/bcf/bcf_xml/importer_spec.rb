@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -39,13 +39,13 @@ describe ::OpenProject::Bim::BcfXml::Importer do
   let(:type) { create :type, name: 'Issue', is_standard: true, is_default: true }
   let(:project) do
     create(:project,
-                      identifier: 'bim_project',
-                      enabled_module_names: %w[bim work_package_tracking],
-                      types: [type])
+           identifier: 'bim_project',
+           enabled_module_names: %w[bim work_package_tracking],
+           types: [type])
   end
   let(:member_role) do
     create(:role,
-                      permissions: %i[view_linked_issues view_work_packages])
+           permissions: %i[view_linked_issues view_work_packages])
   end
   let(:manage_bcf_role) do
     create(
@@ -56,15 +56,15 @@ describe ::OpenProject::Bim::BcfXml::Importer do
   let(:bcf_manager) { create(:user) }
   let(:workflow) do
     create(:workflow_with_default_status,
-                      role: manage_bcf_role,
-                      type: type)
+           role: manage_bcf_role,
+           type: type)
   end
   let(:priority) { create :default_priority }
   let(:bcf_manager_member) do
     create(:member,
-                      project: project,
-                      user: bcf_manager,
-                      roles: [manage_bcf_role, member_role])
+           project: project,
+           user: bcf_manager,
+           roles: [manage_bcf_role, member_role])
   end
 
   subject { described_class.new file, project, current_user: bcf_manager }

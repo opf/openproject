@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,9 +37,9 @@ describe 'Filter by budget', js: true do
 
   let(:member) do
     create(:member,
-                      user: user,
-                      project: project,
-                      roles: [create(:role)])
+           user: user,
+           project: project,
+           roles: [create(:role)])
   end
   let(:status) do
     create(:status)
@@ -51,13 +51,13 @@ describe 'Filter by budget', js: true do
 
   let(:work_package_with_budget) do
     create(:work_package,
-                      project: project,
-                      budget: budget)
+           project: project,
+           budget: budget)
   end
 
   let(:work_package_without_budget) do
     create(:work_package,
-                      project: project)
+           project: project)
   end
 
   before do

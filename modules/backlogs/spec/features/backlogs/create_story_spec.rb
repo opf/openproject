@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -52,11 +52,11 @@ describe 'Backlogs', js: true do
 
   let(:user) do
     create :user,
-                      member_in_project: project,
-                      member_with_permissions: %i(add_work_packages
-                                                  view_master_backlog
-                                                  view_work_packages
-                                                  assign_versions)
+           member_in_project: project,
+           member_with_permissions: %i(add_work_packages
+                                       view_master_backlog
+                                       view_work_packages
+                                       assign_versions)
   end
   let(:project) { create :project }
 
@@ -64,23 +64,23 @@ describe 'Backlogs', js: true do
 
   let!(:existing_story1) do
     create(:work_package,
-                      type: story_type,
-                      project: project,
-                      status: default_status,
-                      priority: default_priority,
-                      position: 1,
-                      story_points: 3,
-                      version: backlog_version)
+           type: story_type,
+           project: project,
+           status: default_status,
+           priority: default_priority,
+           position: 1,
+           story_points: 3,
+           version: backlog_version)
   end
   let!(:existing_story2) do
     create(:work_package,
-                      type: story_type,
-                      project: project,
-                      status: default_status,
-                      priority: default_priority,
-                      position: 2,
-                      story_points: 4,
-                      version: backlog_version)
+           type: story_type,
+           project: project,
+           status: default_status,
+           priority: default_priority,
+           position: 2,
+           story_points: 4,
+           version: backlog_version)
   end
   let!(:default_status) do
     create(:default_status)

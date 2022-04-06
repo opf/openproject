@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,10 +37,11 @@ describe 'API v3 Principals resource', type: :request do
     subject(:response) { last_response }
 
     let(:path) do
-      api_v3_paths.path_for :principals, filters: filter, sort_by: order
+      api_v3_paths.path_for :principals, filters: filter, sort_by: order, select: select
     end
     let(:order) { { name: :desc } }
     let(:filter) { nil }
+    let(:select) { nil }
     let(:project) { create(:project) }
     let(:other_project) { create(:project) }
     let(:non_member_project) { create(:project) }
@@ -48,41 +49,41 @@ describe 'API v3 Principals resource', type: :request do
     let(:permissions) { [] }
     let(:user) do
       user = create(:user,
-                               member_in_project: project,
-                               member_through_role: role,
-                               lastname: 'Aaaa',
-                               mail: 'aaaa@example.com')
+                    member_in_project: project,
+                    member_through_role: role,
+                    lastname: 'Aaaa',
+                    mail: 'aaaa@example.com')
 
       create(:member,
-                        project: other_project,
-                        principal: user,
-                        roles: [role])
+             project: other_project,
+             principal: user,
+             roles: [role])
 
       user
     end
     let!(:other_user) do
       create(:user,
-                        member_in_project: other_project,
-                        member_through_role: role,
-                        lastname: 'Bbbb')
+             member_in_project: other_project,
+             member_through_role: role,
+             lastname: 'Bbbb')
     end
     let!(:user_in_non_member_project) do
       create(:user,
-                        member_in_project: non_member_project,
-                        member_through_role: role,
-                        lastname: 'Cccc')
+             member_in_project: non_member_project,
+             member_through_role: role,
+             lastname: 'Cccc')
     end
     let!(:group) do
       create(:group,
-                        member_in_project: project,
-                        member_through_role: role,
-                        lastname: 'Gggg')
+             member_in_project: project,
+             member_through_role: role,
+             lastname: 'Gggg')
     end
     let!(:placeholder_user) do
       create(:placeholder_user,
-                        member_in_project: project,
-                        member_through_role: role,
-                        name: 'Pppp')
+             member_in_project: project,
+             member_through_role: role,
+             name: 'Pppp')
     end
 
     current_user { user }
@@ -164,6 +165,72 @@ describe 'API v3 Principals resource', type: :request do
 
       it_behaves_like 'API V3 collection response', 1, 1, 'User' do
         let(:elements) { [current_user] }
+      end
+    end
+
+    context 'when signaling' do
+      let(:select) { 'total,count,elements/*' }
+
+      let(:expected) do
+        {
+          total: 4,
+          count: 4,
+          _embedded: {
+            elements: [
+              {
+                _type: 'PlaceholderUser',
+                id: placeholder_user.id,
+                name: placeholder_user.name,
+                _links: {
+                  self: {
+                    href: api_v3_paths.placeholder_user(placeholder_user.id),
+                    title: placeholder_user.name
+                  }
+                }
+              },
+              {
+                _type: 'Group',
+                id: group.id,
+                name: group.name,
+                _links: {
+                  self: {
+                    href: api_v3_paths.group(group.id),
+                    title: group.name
+                  }
+                }
+              },
+              {
+                _type: "User",
+                id: other_user.id,
+                name: other_user.name,
+                _links: {
+                  self: {
+                    href: api_v3_paths.user(other_user.id),
+                    title: other_user.name
+                  }
+                }
+              },
+              {
+                _type: "User",
+                id: user.id,
+                name: user.name,
+                firstname: user.firstname,
+                lastname: user.lastname,
+                _links: {
+                  self: {
+                    href: api_v3_paths.user(user.id),
+                    title: user.name
+                  }
+                }
+              }
+            ]
+          }
+        }
+      end
+
+      it 'is the reduced set of properties of the embedded elements' do
+        expect(last_response.body)
+          .to be_json_eql(expected.to_json)
       end
     end
   end

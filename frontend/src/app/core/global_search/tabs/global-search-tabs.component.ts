@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -31,7 +31,10 @@ import {
   Component,
   OnDestroy,
   Injector,
+  OnInit,
+  ChangeDetectionStrategy,
 } from '@angular/core';
+import { StateService } from '@uirouter/core';
 import { Subscription } from 'rxjs';
 import { GlobalSearchService } from 'core-app/core/global_search/services/global-search.service';
 import { ScrollableTabsComponent } from 'core-app/shared/components/tabs/scrollable-tabs/scrollable-tabs.component';
@@ -42,9 +45,10 @@ export const globalSearchTabsSelector = 'global-search-tabs';
 @Component({
   selector: globalSearchTabsSelector,
   templateUrl: '../../../shared/components/tabs/scrollable-tabs/scrollable-tabs.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
-export class GlobalSearchTabsComponent extends ScrollableTabsComponent implements OnDestroy {
+export class GlobalSearchTabsComponent extends ScrollableTabsComponent implements OnInit, OnDestroy {
   private currentTabSub:Subscription;
 
   private tabsSub:Subscription;
@@ -53,13 +57,14 @@ export class GlobalSearchTabsComponent extends ScrollableTabsComponent implement
 
   constructor(
     readonly globalSearchService:GlobalSearchService,
+    protected readonly $state:StateService,
     public injector:Injector,
     cdRef:ChangeDetectorRef,
   ) {
-    super(cdRef, injector);
+    super($state, cdRef, injector);
   }
 
-  ngOnInit() {
+  ngOnInit():void {
     this.currentTabSub = this.globalSearchService
       .currentTab$
       .subscribe((currentTab) => {
@@ -74,7 +79,7 @@ export class GlobalSearchTabsComponent extends ScrollableTabsComponent implement
       });
   }
 
-  public clickTab(tab:TabDefinition, event:Event) {
+  public clickTab(tab:TabDefinition, event:Event):void {
     super.clickTab(tab, event);
 
     this.globalSearchService.currentTab = tab.id;

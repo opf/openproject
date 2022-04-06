@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,36 +32,36 @@ describe 'Work package calendars', type: :feature, js: true do
   let(:project) { create(:project) }
   let(:user) do
     create(:user,
-                      member_in_project: project,
-                      member_with_permissions: %i[view_work_packages view_calendar])
+           member_in_project: project,
+           member_with_permissions: %i[view_work_packages view_calendar manage_calendars])
   end
   let!(:current_work_package) do
     create(:work_package,
-                      subject: 'Current work package',
-                      project: project,
-                      start_date: Date.today.at_beginning_of_month + 15.days,
-                      due_date: Date.today.at_beginning_of_month + 15.days)
+           subject: 'Current work package',
+           project: project,
+           start_date: Date.today.at_beginning_of_month + 15.days,
+           due_date: Date.today.at_beginning_of_month + 15.days)
   end
   let!(:another_current_work_package) do
     create(:work_package,
-                      subject: 'Another current work package',
-                      project: project,
-                      start_date: Date.today.at_beginning_of_month + 12.days,
-                      due_date: Date.today.at_beginning_of_month + 18.days)
+           subject: 'Another current work package',
+           project: project,
+           start_date: Date.today.at_beginning_of_month + 12.days,
+           due_date: Date.today.at_beginning_of_month + 18.days)
   end
   let!(:future_work_package) do
     create(:work_package,
-                      subject: 'Future work package',
-                      project: project,
-                      start_date: Date.today.at_beginning_of_month.next_month + 15.days,
-                      due_date: Date.today.at_beginning_of_month.next_month + 15.days)
+           subject: 'Future work package',
+           project: project,
+           start_date: Date.today.at_beginning_of_month.next_month + 15.days,
+           due_date: Date.today.at_beginning_of_month.next_month + 15.days)
   end
   let!(:another_future_work_package) do
     create(:work_package,
-                      subject: 'Another future work package',
-                      project: project,
-                      start_date: Date.today.at_beginning_of_month.next_month + 12.days,
-                      due_date: Date.today.at_beginning_of_month.next_month + 18.days)
+           subject: 'Another future work package',
+           project: project,
+           start_date: Date.today.at_beginning_of_month.next_month + 12.days,
+           due_date: Date.today.at_beginning_of_month.next_month + 18.days)
   end
   let(:filters) { ::Components::WorkPackages::Filters.new }
   let(:current_wp_split_screen) { Pages::SplitWorkPackage.new(current_work_package, project) }
@@ -76,8 +74,14 @@ describe 'Work package calendars', type: :feature, js: true do
     visit project_path(project)
 
     within '#main-menu' do
-      click_link 'Calendar'
+      click_link 'Calendars'
     end
+
+    # Expect empty index
+    expect(page).to have_text 'There is currently nothing to display.'
+
+    # Open a new calendar from there
+    click_on 'Create'
 
     loading_indicator_saveguard
 

@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -35,10 +33,10 @@ describe Attachments::FinishDirectUploadJob, 'integration', type: :job do
 
   let!(:pending_attachment) do
     create(:attachment,
-                      author: user,
-                      downloads: -1,
-                      digest: '',
-                      container: container)
+           author: user,
+           downloads: -1,
+           digest: '',
+           container: container)
   end
 
   let(:job) { described_class.new }

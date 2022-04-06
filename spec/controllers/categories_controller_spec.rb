@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,13 +33,13 @@ describe CategoriesController, type: :controller do
   let(:project) { create(:project) }
   let(:role) do
     create(:role,
-                      permissions: [:manage_categories])
+           permissions: [:manage_categories])
   end
   let(:member) do
     create(:member,
-                      project: project,
-                      principal: user,
-                      roles: [role])
+           project: project,
+           principal: user,
+           roles: [role])
   end
 
   before do
@@ -94,7 +94,7 @@ describe CategoriesController, type: :controller do
   describe '#edit' do
     let(:category) do
       create(:category,
-                        project: project)
+             project: project)
     end
 
     subject { response }
@@ -120,7 +120,7 @@ describe CategoriesController, type: :controller do
     context 'valid category' do
       let(:category) do
         create(:category,
-                          project: project)
+               project: project)
       end
 
       before do
@@ -162,12 +162,12 @@ describe CategoriesController, type: :controller do
   describe '#destroy' do
     let(:category) do
       create(:category,
-                        project: project)
+             project: project)
     end
     let(:work_package) do
       create(:work_package,
-                        project: project,
-                        category: category)
+             project: project,
+             category: category)
     end
 
     before { category }
@@ -211,7 +211,7 @@ describe CategoriesController, type: :controller do
     describe '#reassign' do
       let(:target) do
         create(:category,
-                          project: project)
+               project: project)
       end
       before do
         work_package

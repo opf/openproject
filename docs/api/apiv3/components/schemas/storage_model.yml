@@ -29,6 +29,7 @@ properties:
     type: object
     required:
       - self
+      - type
       - href
     properties:
       self:

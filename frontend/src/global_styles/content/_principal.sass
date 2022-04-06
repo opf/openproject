@@ -1,6 +1,7 @@
 .op-principal
   display: inline-flex
   align-items: center
+  vertical-align: middle
 
   &--avatar
     flex-grow: 0
@@ -12,6 +13,9 @@
     flex-shrink: 1
     min-width: 0 // See: https://css-tricks.com/flexbox-truncated-text/
     margin-left: 10px
+
+  &_wrapped &--name
+    white-space: normal
 
   &--multi-line
     display: block

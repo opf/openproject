@@ -10,35 +10,35 @@ describe 'Copy work packages through Rails view', js: true do
 
   shared_let(:dev) do
     create :user,
-                      firstname: 'Dev',
-                      lastname: 'Guy',
-                      member_in_project: project,
-                      member_with_permissions: %i[view_work_packages]
+           firstname: 'Dev',
+           lastname: 'Guy',
+           member_in_project: project,
+           member_with_permissions: %i[view_work_packages]
   end
   shared_let(:mover) do
     create :user,
-                      firstname: 'Manager',
-                      lastname: 'Guy',
-                      member_in_projects: [project, project2],
-                      member_with_permissions: %i[view_work_packages
-                                                  copy_work_packages
-                                                  move_work_packages
-                                                  manage_subtasks
-                                                  assign_versions
-                                                  add_work_packages]
+           firstname: 'Manager',
+           lastname: 'Guy',
+           member_in_projects: [project, project2],
+           member_with_permissions: %i[view_work_packages
+                                       copy_work_packages
+                                       move_work_packages
+                                       manage_subtasks
+                                       assign_versions
+                                       add_work_packages]
   end
 
   shared_let(:work_package) do
     create(:work_package,
-                      author: dev,
-                      project: project,
-                      type: type)
+           author: dev,
+           project: project,
+           type: type)
   end
   shared_let(:work_package2) do
     create(:work_package,
-                      author: dev,
-                      project: project,
-                      type: type)
+           author: dev,
+           project: project,
+           type: type)
   end
   shared_let(:version) { create :version, project: project2 }
 
@@ -96,10 +96,10 @@ describe 'Copy work packages through Rails view', js: true do
       context 'with a work package having a child' do
         let!(:child) do
           create(:work_package,
-                            author: dev,
-                            project: project,
-                            type: type,
-                            parent: work_package)
+                 author: dev,
+                 project: project,
+                 type: type,
+                 parent: work_package)
         end
 
         it 'moves parent and child wp to a new project with the hierarchy amended' do
@@ -125,10 +125,10 @@ describe 'Copy work packages through Rails view', js: true do
       context 'when the target project does not have the type' do
         let!(:child) do
           create(:work_package,
-                            author: dev,
-                            project: project,
-                            type: type,
-                            parent: work_package)
+                 author: dev,
+                 project: project,
+                 type: type,
+                 parent: work_package)
         end
 
         before do

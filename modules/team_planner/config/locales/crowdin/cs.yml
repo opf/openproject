@@ -1,10 +1,12 @@
 #English strings go here
 cs:
-  permission_view_team_planner: "View team planner"
-  permission_manage_team_planner: "Manage team planner"
-  project_module_team_planner_view: "Team planner"
+  permission_view_team_planner: "Zobrazit plánovač týmu"
+  permission_manage_team_planner: "Spravovat plánovač týmu"
+  project_module_team_planner_view: "Týmový plánovač"
   team_planner:
-    label_team_planner: "Team planner"
+    label_team_planner: "Týmový plánovač"
+    label_team_planner_plural: "Team planners"
+    label_assignees: "Assignees"
     upsale:
-      title: "Team planner"
-      description: "Team planner gives you a complete overview what each of team member is working on, one week at a time. Move, stretch and shrink work packages visually, and even drag them from one assignee to another to organise workload. You can even create new work packages or add existing ones, all from within team planner!"
+      title: "Týmový plánovač"
+      description: "Plánovač týmu vám poskytne úplný přehled o tom, na čem pracuje každý člen týmu, jeden týden najednou. Vizuálně přesuňte, roztáhněte a zmenšte pracovní balíčky, a dokonce je přetáhněte od jednoho pověřeného pracovníka k druhému. Dokonce můžete vytvořit nové pracovní balíčky nebo přidat existující balíčky, vše z plánovače týmu!"

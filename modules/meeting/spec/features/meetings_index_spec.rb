@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -39,9 +39,9 @@ describe 'Meetings', type: :feature do
     create(:user) do |user|
       [project, other_project].each do |p|
         create(:member,
-                          project: p,
-                          principal: user,
-                          roles: [role])
+               project: p,
+               principal: user,
+               roles: [role])
       end
     end
   end

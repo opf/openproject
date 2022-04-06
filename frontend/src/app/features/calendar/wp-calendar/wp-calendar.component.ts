@@ -6,6 +6,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import {
+  EventClickArg,
   FullCalendarComponent,
   ToolbarInput,
 } from '@fullcalendar/angular';
@@ -32,7 +33,10 @@ import { debounceTime } from 'rxjs/operators';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
-import { OpCalendarService } from 'core-app/features/calendar/op-calendar.service';
+import {
+  CalendarViewEvent,
+  OpCalendarService,
+} from 'core-app/features/calendar/op-calendar.service';
 import { Subject } from 'rxjs';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import interactionPlugin, { EventResizeDoneArg } from '@fullcalendar/interaction';
@@ -84,6 +88,9 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
   }
 
   ngOnInit():void {
+    this.wpTableFilters.hidden.push(
+      'project',
+    );
     this.calendar.resize$
       .pipe(
         this.untilDestroyed(),
@@ -140,8 +147,17 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
       select: this.handleDateClicked.bind(this) as unknown,
       eventResizableFromStart: true,
       editable: true,
+      eventDidMount: (evt:CalendarViewEvent) => {
+        const { el, event } = evt;
+        const workPackage = event.extendedProps.workPackage as WorkPackageResource;
+        el.dataset.workPackageId = workPackage.id as string;
+      },
       eventResize: (resizeInfo:EventResizeDoneArg) => this.updateEvent(resizeInfo),
       eventDrop: (dropInfo:EventDropArg) => this.updateEvent(dropInfo),
+      eventClick: (evt:EventClickArg) => {
+        const workPackage = evt.event.extendedProps.workPackage as WorkPackageResource;
+        this.calendar.openSplitView(workPackage.id as string);
+      },
     };
 
     if (this.static) {
@@ -165,6 +181,16 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
       center: 'title',
       left: 'prev,next today',
     };
+  }
+
+  public openContextMenu(event:MouseEvent):void {
+    const eventContainer = (event.target as HTMLElement).closest('.fc-event') as HTMLElement|undefined;
+    if (!eventContainer) {
+      return;
+    }
+
+    const workPackageId = eventContainer.dataset.workPackageId as string;
+    this.calendar.showEventContextMenu({ workPackageId, event });
   }
 
   private setupWorkPackagesListener():void {

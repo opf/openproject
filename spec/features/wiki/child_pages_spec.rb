@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,16 +34,16 @@ describe 'wiki child pages', type: :feature, js: true do
   end
   let(:user) do
     create :user,
-                      member_in_project: project,
-                      member_through_role: role
+           member_in_project: project,
+           member_through_role: role
   end
   let(:role) do
     create(:role,
-                      permissions: %i[view_wiki_pages edit_wiki_pages])
+           permissions: %i[view_wiki_pages edit_wiki_pages])
   end
   let(:parent_page) do
     create(:wiki_page_with_content,
-                      wiki: project.wiki)
+           wiki: project.wiki)
   end
   let(:child_page_name) { 'The child page !@#{$%^&*()_},./<>?;\':' }
 

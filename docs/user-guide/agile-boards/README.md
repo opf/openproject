@@ -70,14 +70,22 @@ Each list represents a status. That means that e.g. all work packages with the s
 When creating a new Status board a list with all work packages in the default status (usually this is the status "New") will be added automatically, while additional lists need to be added manually.
 Please note: You can't move work packages from or to every status. Please find out more about the work-flow logics restricting this here: [Allowed transitions between status](../../system-admin-guide/manage-work-packages/work-package-workflows/)
 
+![creat status board](create-status-board.png)
+
 ### Assignee board
 Every list represents one assignee. You can choose regular users, [placeholder users](../../system-admin-guide/users-permissions/placeholder-users) and groups as assignees. When you move a card from one list to another, the assigned user is changed to the user that is selected for the list you moved the card to.
+
+![create assignee board](create-assignee-board.png)
 
 ### Version board
 Every list represents a version. This board is ideal for product development or planning software releases. When creating a new Version board a list with all work packages in the version(s) belonging to the current project will be added automatically, while additional lists need to be added manually. By moving a card from one list to another, the version for the work package is changed to the version of the corresponding list.
 
+![create version board](create-version-board.png)
+
 ### Subproject board
 Every list represents a subproject. Within the list you will find the subproject's work packages. By moving a card within a list you can change the order of the cards and if you move a card to another list you change the (sub)project of this work package.
+
+![create subproject board](create-subproject-board.png)
 
 ### Parent-Child board
 Every list represents a parent work package. Within the list you will find the work package's children. 
@@ -85,7 +93,7 @@ Only work packages from the current project can be selected as a list, i.e. can 
 The Parent-Child board is ideal for depicting a **work breakdown structure (WBS)**. By moving cards to another list you can reorder the work package as a child to another work package.
 Please note: This will only display one hierarchy level below the displayed work package, i.e. only immediate children and no grandchildren.
 
-![image-20201005160802542](image-20201005160802542.png)
+![create parent child board](create-parent-child-board.png)
 
 ## Give the board a title
 

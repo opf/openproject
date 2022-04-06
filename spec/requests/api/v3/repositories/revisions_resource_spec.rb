@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,9 +36,9 @@ describe 'API v3 Revisions resource', type: :request do
 
   let(:revision) do
     create(:changeset,
-                      repository: repository,
-                      comments: 'Some commit message',
-                      committer: 'foo bar <foo@example.org>')
+           repository: repository,
+           comments: 'Some commit message',
+           committer: 'foo bar <foo@example.org>')
   end
   let(:repository) do
     create(:repository_subversion, project: project)
@@ -48,7 +48,7 @@ describe 'API v3 Revisions resource', type: :request do
   end
   let(:role) do
     create(:role,
-                      permissions: [:view_changesets])
+           permissions: [:view_changesets])
   end
   let(:current_user) do
     create(:user, member_in_project: project, member_through_role: role)

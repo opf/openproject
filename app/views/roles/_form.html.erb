@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2021 the OpenProject GmbH
+Copyright (C) 2012-2022 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -27,7 +27,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= render :partial => 'users/global_roles_header' %>
+<%= render partial: 'principals/global_roles_header' %>
 
 <% roles ||= nil %>
 
@@ -58,12 +58,13 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% if role.new_record? || role.is_a?(GlobalRole) %>
   <div id="global_permissions" style=<%= role.new_record? && !role.is_a?(GlobalRole) ? "display:none" : ""%> >
-    <%= render partial: "permissions", locals: {permissions: grouped_setable_permissions(GlobalRole.new), role: role, showGlobalRole: true }%>
+    <%= render partial: "permissions",
+               locals: { permissions: grouped_setable_permissions(GlobalRole.new), role: role, show_global_role: true }%>
   </div>
 <% end %>
 <% if role.new_record? || !role.is_a?(GlobalRole) %>
   <div id="member_permissions" style=<%= role.new_record? && role.is_a?(GlobalRole) ? "display:none" : ""%>>
-    <%= render partial: "permissions", locals: {permissions: grouped_setable_permissions(role), role: role, showGlobalRole: false }%>
+    <%= render partial: "permissions",
+               locals: { permissions: grouped_setable_permissions(role), role: role, show_global_role: false }%>
   </div>
 <% end %>
-

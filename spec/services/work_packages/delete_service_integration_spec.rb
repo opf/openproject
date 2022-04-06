@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,21 +32,21 @@ describe WorkPackages::DeleteService, 'integration', type: :model do
   shared_let(:project) { create(:project) }
   shared_let(:role) do
     create(:role,
-                      permissions: %i[delete_work_packages view_work_packages add_work_packages manage_subtasks])
+           permissions: %i[delete_work_packages view_work_packages add_work_packages manage_subtasks])
   end
   shared_let(:user) do
     create(:user,
-                      member_in_project: project,
-                      member_through_role: role)
+           member_in_project: project,
+           member_through_role: role)
   end
 
   describe 'deleting a child with estimated_hours set' do
     let(:parent) { create(:work_package, project: project) }
     let(:child) do
       create(:work_package,
-                        project: project,
-                        parent: parent,
-                        estimated_hours: 123)
+             project: project,
+             parent: parent,
+             estimated_hours: 123)
     end
 
     let(:instance) do
@@ -97,10 +97,10 @@ describe WorkPackages::DeleteService, 'integration', type: :model do
     let!(:work_package) { create :work_package, project: project }
     let!(:notification) do
       create :notification,
-                        recipient: user,
-                        actor: user,
-                        resource: work_package,
-                        project: project
+             recipient: user,
+             actor: user,
+             resource: work_package,
+             project: project
     end
 
     let(:instance) do

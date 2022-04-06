@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -100,16 +100,16 @@ describe ApplicationHelper, type: :helper do
     let(:project) { create :valid_project }
     let(:project_member) do
       create :user,
-                        member_in_project: project,
-                        member_through_role: create(:role,
-                                                               permissions: %i[view_work_packages edit_work_packages
-                                                                               browse_repository view_changesets view_wiki_pages])
+             member_in_project: project,
+             member_through_role: create(:role,
+                                         permissions: %i[view_work_packages edit_work_packages
+                                                         browse_repository view_changesets view_wiki_pages])
     end
     let(:issue) do
       create :work_package,
-                        project: project,
-                        author: project_member,
-                        type: project.types.first
+             project: project,
+             author: project_member,
+             type: project.types.first
     end
 
     context 'if user is authorized' do

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,32 +35,32 @@ describe 'Work package filtering by assignee', js: true do
   let(:role) { create(:role, permissions: %i[view_work_packages save_queries]) }
   let(:other_user) do
     create :user,
-                      firstname: 'Other',
-                      lastname: 'User',
-                      member_in_project: project,
-                      member_through_role: role
+           firstname: 'Other',
+           lastname: 'User',
+           member_in_project: project,
+           member_through_role: role
   end
   let(:placeholder_user) do
     create :placeholder_user,
-                      member_in_project: project,
-                      member_through_role: role
+           member_in_project: project,
+           member_through_role: role
   end
 
   let!(:work_package_user_assignee) do
     create :work_package,
-                      project: project,
-                      assigned_to: other_user
+           project: project,
+           assigned_to: other_user
   end
   let!(:work_package_placeholder_user_assignee) do
     create :work_package,
-                      project: project,
-                      assigned_to: placeholder_user
+           project: project,
+           assigned_to: placeholder_user
   end
 
   current_user do
     create :user,
-                      member_in_project: project,
-                      member_through_role: role
+           member_in_project: project,
+           member_through_role: role
   end
 
   it 'shows the work package matching the assigned to filter' do

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,10 +35,10 @@ describe 'Assignee action board',
          js: true do
   let(:bobself_user) do
     create(:user,
-                      firstname: 'Bob',
-                      lastname: 'Self',
-                      member_in_project: project,
-                      member_through_role: role)
+           firstname: 'Bob',
+           lastname: 'Self',
+           member_in_project: project,
+           member_through_role: role)
   end
   let(:admin) { create(:admin) }
   let(:type) { create(:type_standard) }
@@ -51,7 +51,7 @@ describe 'Assignee action board',
 
   let(:permissions) do
     %i[show_board_views manage_board_views add_work_packages
-       edit_work_packages view_work_packages manage_public_queries]
+       edit_work_packages view_work_packages manage_public_queries work_package_assigned]
   end
 
   let!(:priority) { create :default_priority }
@@ -60,26 +60,26 @@ describe 'Assignee action board',
 
   let!(:foobar_user) do
     create(:user,
-                      firstname: 'Foo',
-                      lastname: 'Bar',
-                      member_in_project: project,
-                      member_through_role: role)
+           firstname: 'Foo',
+           lastname: 'Bar',
+           member_in_project: project,
+           member_through_role: role)
   end
 
   let!(:group) do
     create(:group, name: 'Grouped').tap do |group|
       create(:member,
-                        principal: group,
-                        project: project,
-                        roles: [role])
+             principal: group,
+             project: project,
+             roles: [role])
     end
   end
 
   let!(:work_package) do
     create :work_package,
-                      project: project,
-                      assigned_to: bobself_user,
-                      subject: 'Some Task'
+           project: project,
+           assigned_to: bobself_user,
+           subject: 'Some Task'
   end
 
   context 'in a project with members' do

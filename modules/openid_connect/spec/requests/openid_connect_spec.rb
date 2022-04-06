@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -61,8 +61,8 @@ describe 'OpenID Connect', type: :rails_request do
       OpenIDConnect::ResponseObject::UserInfo.new(user_info)
     )
 
-    # enable storing the access token in a cookie
-    OpenProject::Configuration['omniauth_store_access_token_in_cookie'] = true
+    # Enable storing the access token in a cookie is not necessary since it is currently hard wired to always
+    # be true.
   end
 
   describe 'sign-up and login' do

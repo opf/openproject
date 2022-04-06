@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -44,10 +42,13 @@ module API
                             setter: ->(fragment:, **) {
                               id = id_from_href "projects", fragment['href']
 
-                              id = if id.to_i.nonzero?
+                              # In case an identifier is provided, which might
+                              # start with numbers, the id needs to be looked up
+                              # in the DB.
+                              id = if id.to_i.to_s == id
                                      id # return numerical ID
                                    else
-                                     Project.where(identifier: id).pluck(:id).first # lookup Project by identifier
+                                     Project.where(identifier: id).pick(:id) # lookup Project by identifier
                                    end
 
                               represented.project_id = id if id
@@ -258,11 +259,9 @@ module API
                  exec_context: :decorator,
                  getter: nil,
                  setter: ->(fragment:, **) {
-                   next unless represented.new_record?
+                   next if represented.persisted?
 
-                   Hash(fragment).each do |wp_id, position|
-                     represented.ordered_work_packages.build(work_package_id: wp_id, position: position)
-                   end
+                   represented.ordered_work_packages = fragment
                  }
 
         property :starred,
@@ -286,6 +285,8 @@ module API
 
         property :filters,
                  exec_context: :decorator
+
+        property :include_subprojects
 
         property :display_sums, as: :sums
         property :public

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -70,10 +70,10 @@ describe CopyProjectJob, type: :model do
     let(:type) { create(:type_bug) }
     let(:custom_field) do
       create(:work_package_custom_field,
-                        name: 'required_field',
-                        field_format: 'text',
-                        is_required: true,
-                        is_for_all: true)
+             name: 'required_field',
+             field_format: 'text',
+             is_required: true,
+             is_for_all: true)
     end
     let(:job_args) do
       {
@@ -208,9 +208,9 @@ describe CopyProjectJob, type: :model do
       let(:subproject) do
         create(:project, parent: project).tap do |p|
           create(:member,
-                            principal: user,
-                            roles: [role],
-                            project: p)
+                 principal: user,
+                 roles: [role],
+                 project: p)
         end
       end
 
@@ -242,9 +242,9 @@ describe CopyProjectJob, type: :model do
         let(:role_add_subproject) { create(:role, permissions: [:add_subprojects]) }
         let(:member_add_subproject) do
           create(:member,
-                            user: user,
-                            project: project,
-                            roles: [role_add_subproject])
+                 user: user,
+                 project: project,
+                 roles: [role_add_subproject])
         end
 
         before do

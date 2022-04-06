@@ -7,15 +7,15 @@ describe 'custom field inplace editor', js: true do
   let(:type) { create(:type_standard, custom_fields: custom_fields) }
   let(:project) do
     create :project,
-                      types: [type],
-                      work_package_custom_fields: custom_fields
+           types: [type],
+           work_package_custom_fields: custom_fields
   end
   let(:custom_fields) { [custom_field] }
   let(:work_package) do
     create :work_package,
-                      type: type,
-                      project: project,
-                      custom_values: initial_custom_values
+           type: type,
+           project: project,
+           custom_values: initial_custom_values
   end
   let(:wp_page) { Pages::SplitWorkPackage.new(work_package) }
 
@@ -64,13 +64,13 @@ describe 'custom field inplace editor', js: true do
   describe 'custom field lists' do
     let(:custom_field1) do
       create(:list_wp_custom_field,
-                        is_required: false,
-                        possible_values: %w(foo bar baz))
+             is_required: false,
+             possible_values: %w(foo bar baz))
     end
     let(:custom_field2) do
       create(:list_wp_custom_field,
-                        is_required: false,
-                        possible_values: %w(X Y Z))
+             is_required: false,
+             possible_values: %w(X Y Z))
     end
 
     let(:custom_fields) { [custom_field1, custom_field2] }

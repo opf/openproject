@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,21 +34,21 @@ describe 'Meetings participants', type: :feature do
   let(:project) { create :project, enabled_module_names: %w[meetings] }
   let!(:user) do
     create(:user,
-                      firstname: 'Current',
-                      member_in_project: project,
-                      member_with_permissions: %i[view_meetings edit_meetings])
+           firstname: 'Current',
+           member_in_project: project,
+           member_with_permissions: %i[view_meetings edit_meetings])
   end
   let!(:viewer_user) do
     create(:user,
-                      firstname: 'Viewer',
-                      member_in_project: project,
-                      member_with_permissions: %i[view_meetings])
+           firstname: 'Viewer',
+           member_in_project: project,
+           member_with_permissions: %i[view_meetings])
   end
   let!(:non_viewer_user) do
     create(:user,
-                      firstname: 'Nonviewer',
-                      member_in_project: project,
-                      member_with_permissions: %i[])
+           firstname: 'Nonviewer',
+           member_in_project: project,
+           member_with_permissions: %i[])
   end
   let(:meeting) { create(:meeting, project: project) }
   let(:edit_page) { Pages::Meetings::Edit.new(meeting) }

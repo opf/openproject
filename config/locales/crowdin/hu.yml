@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -78,6 +78,10 @@ hu:
         contact: "Contact us for a demo"
       enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
       upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
+    journal_aggregation:
+      explanation:
+        text: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent and will also affect %{webhook_link} delay."
+        link: "webhook"
   announcements:
     show_until: Mutassa eddig
     is_active: jelenleg látható
@@ -456,9 +460,12 @@ hu:
         code: 'Állapot'
         explanation: 'Állapot leírása'
         codes:
+          not_started: 'Not started'
           on_track: 'Terv szerint'
           at_risk: 'Veszélyben'
           off_track: 'Kisiklott'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
       query:
         column_names: "Oszlopok"
         relations_to_type_column: "Kapcsolatok %{type}-hoz"
@@ -469,7 +476,6 @@ hu:
       repository:
         url: "URL"
       role:
-        assignable: "Munkacsomagok hozzárendelhetők a szerephez tartozó felhasználókhoz és csoportokhoz az adott projektben"
         permissions: "Jogosultságok"
       time_entry:
         activity: "Tevékenység"
@@ -890,6 +896,7 @@ hu:
     version: "Verzió"
     work_package: "Feladatcsoport"
   backup:
+    failed: "Backup failed"
     label_backup_token: "Visszaállítási kulcs"
     label_create_token: "Visszaállítási kulcs létrehozása"
     label_delete_token: "Visszaállítási kulcs törlése"
@@ -1231,6 +1238,7 @@ hu:
   error_enterprise_token_invalid_domain: "Az Enterprise Edition nem aktív. Vállalati jogkivonata domainje (%{actual}) nem egyezik a rendszer gazdagépnevével (%{expected})."
   error_failed_to_delete_entry: 'Nem sikerült törölni ezt a bejegyzést.'
   error_in_dependent: "Hiba a függő objektum módosítása során: %{dependent_class} # %{related_id} - %{related_subject}: %{error}\n"
+  error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Kijelölt érték érvénytelen."
   error_journal_attribute_not_present: "A lap nem tartalmaz attribútumot %{attribute}."
   error_pdf_export_too_many_columns: "Túl sok oszlop lett kiválasztva a PDF exportáláshoz. Kérlek csökkentsd a sorok számát."
@@ -1340,7 +1348,9 @@ hu:
   menus:
     admin:
       mail_notification: "Email értesítés"
-      incoming_outgoing: "Bejövő/Kimenő"
+      mails_and_notifications: "Emails and notification"
+      aggregation_and_retention: 'Aggregation and retention'
+      api_and_webhooks: "API and webhooks"
     quick_add:
       label: "Gyorsmenü megnyitása"
   my_account:
@@ -1840,7 +1850,7 @@ hu:
   label_used_by_types: "Használt típusok szerint"
   label_used_in_projects: "Használt projektek szerint"
   label_user: "Felhasználó"
-  label_user_and_permission: "Felhasználók és jogok"
+  label_user_and_permission: "Users and permissions"
   label_user_named: "Felhasználó: %{name}"
   label_user_activity: "%{value} tevékenység"
   label_user_anonymous: "Anonymous"
@@ -1990,7 +2000,7 @@ hu:
   mail_body_backup_waiting_period: A visszaállítási kulcs még %{hours} óráig érvényes.
   mail_body_backup_token_warning: "Ha nem te voltál, azonnal jelentkezz be az OpenProject szolgáltatásba, és állítsd újra.\n"
   mail_body_lost_password: "A jelszó módosításához kattintson az alábbi linkre:"
-  mail_body_register: "Üdvözli az OpenProject. Kérjük, aktiválja fiókját a következő linkre kattintva:\n"
+  mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "Projekttag meghívó e -mail\n"
   mail_body_register_user: "Kedves %{name},"
   mail_body_register_links_html: |
@@ -2132,7 +2142,7 @@ hu:
     heading_getting_started: "Áttekintés"
     text_getting_started_description: "Gyors áttekintés a projekt menedzsmentről és csapatmunkáról az OpenProjecttel."
     text_show_again: "Újra tudod indítani ezt a videót a segítség menüből"
-    welcome: "Üdvözöl az OpenProject"
+    welcome: "Welcome to %{app_title}"
     select_language: "Kéjük válasszon nyelvet"
   permission_add_work_package_notes: "Megjegyzések hozzáadása"
   permission_add_work_packages: "feladatcsoport hozzáadása"
@@ -2201,6 +2211,8 @@ hu:
   permission_view_timelines: "Az idővonalak megtekintése"
   permission_view_wiki_edits: "Wiki-előzmények megtekintése"
   permission_view_wiki_pages: "Wiki megtekintése"
+  permission_work_package_assigned: "Become assignee/responsible"
+  permission_work_package_assigned_explanation: "Munkacsomagok hozzárendelhetők a szerephez tartozó felhasználókhoz és csoportokhoz az adott projektben"
   placeholders:
     default: "-"
   project:
@@ -2567,7 +2579,6 @@ hu:
   text_work_packages_destroy_confirmation: "Biztosan törli a kijelölt feladatcsoportot?"
   text_work_packages_ref_in_commit_messages: "Viszonyítandó és elintézendő feladatcsoportok a véglegesítési üzenetekben"
   text_journal_added: "%{label} %{value} hozzáadva"
-  text_journal_aggregation_time_explanation: "A felhasználó egyes műveletei (pl. Egy munkacsomag kétszeri frissítése) egyetlen műveletbe kerülnek össze, ha korkülönbségük kisebb, mint a megadott időtartam. Ezek egyetlen műveletként jelennek meg az alkalmazásban. Ez szintén késlelteti az értesítéseket ugyanannyi idővel, csökkentve az elküldött e -mailek számát.\n"
   text_journal_changed_html: "%{label} megváltoztatva %{old} %{linebreak} <strong>, új érték: </strong> %{new}\n"
   text_journal_changed_plain: "%{label} megváltozott %{old} %{linebreak}-tól %{new} -ig"
   text_journal_changed_no_detail: "%{label} frissítve"
@@ -2883,6 +2894,7 @@ hu:
         work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:
         date: "ÉÉÉÉ-HH-NN (ISO 8601 dátum kötelező)"
+        datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm] (any compatible ISO 8601 datetime)"
         duration: "ISO 8601 időtartam"
       invalid_content_type: "A várt CONTENT-TYPE '%{content_type}', a kapott '%{actual}'."
       invalid_format: "Érvénytelen formátum tulajdonság \"%{property}\": várható formátum \"%{expected_format}\", de \"%{actual}\" kapott."
@@ -2894,6 +2906,7 @@ hu:
         select: "A %{invalid} kért kiválasztása nem támogatott. A támogatott kiválasztások %{supported}."
       invalid_user_status_transition: "A jelenlegi felhasználói fiók állapota nem teszi lehetővé ezt a műveletet."
       missing_content_type: "nincs megadva"
+      missing_property: "Missing property '%{property}'."
       missing_request_body: "Nem volt kérelem."
       missing_or_malformed_parameter: "A(z) '%{parameter}' lekérdezési paraméter hiányzik vagy hibás."
       multipart_body_error: "A kérelem nem tartalmazott várható többrészes elemet."
@@ -2926,8 +2939,11 @@ hu:
     errors:
       messages:
         #Common error messages
-        invalid_request: 'A kérésből hiányzik egy szükséges paraméter, nem támogatott paramétert tartalmaz, vagy máshogy sérült.'
-        invalid_redirect_uri: "A kért átirányítási URI hibás formátumú vagy nem egyezik a kliens átirányítási URI-vel."
+        invalid_request:
+          unknown: 'A kérésből hiányzik egy szükséges paraméter, nem támogatott paramétert tartalmaz, vagy máshogy sérült.'
+          missing_param: 'Missing required parameter: %{value}.'
+          request_not_authorized: 'Request need to be authorized. Required parameter for authorizing request is missing or invalid.'
+        invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
         unauthorized_client: 'A kliens nincs feljogosítva erre a kérésre.'
         access_denied: 'Az erőforrás tulajdonosa vagy hitelesítő kiszolgálója megtagadta a kérést.'
         invalid_scope: "A kért hatókör érvénytelen, ismeretlen vagy rosszul formázott.\n"
@@ -2940,6 +2956,7 @@ hu:
         admin_authenticator_not_configured: "Az admin panelhez való hozzáférés tiltott, mivel a Doorkeeper.configure.admin_authenticator nincs konfigurálva.\n"
         #Access grant errors
         unsupported_response_type: 'A hitelesítő kiszolgáló nem támogatja ezt a választ.'
+        unsupported_response_mode: 'The authorization server does not support this response mode.'
         #Access token errors
         invalid_client: 'A kliens hitelesítése megszakadt, mert ismeretlen a kliens, a kliens nem küldött hitelesítést, vagy a hitelesítés módja nem támogatott.'
         invalid_grant: 'A biztosított hitelesítés érvénytelen, lejárt, visszavont, vagy nem egyezik a hitelesítési kérésben használt URI-val, vagy más kliensnek címezték.'
@@ -2948,6 +2965,10 @@ hu:
           revoked: "Hozzáférési kulcsot visszavonták"
           expired: "Hozzáférési kulcs lejárt"
           unknown: "Hozzáférési kulcs érvénytelen"
+        revoke:
+          unauthorized: "You are not authorized to revoke this token."
+        forbidden_token:
+          missing_scope: 'Access to this resource requires scope "%{oauth_scopes}".'
   unsupported_browser:
     title: "A böngésződ elavult és nem támogatott"
     message: "Előfordulhat, hogy hibákba ütközik és romlik az élmény ezen az oldalon."

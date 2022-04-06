@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -48,8 +46,10 @@ module API
 
       # Use this to create our own representers, giving them a chance to override the instantiation
       # if desired.
-      def self.create(model, current_user:, embed_links: false)
-        new(model, current_user: current_user, embed_links: embed_links)
+      # Explicitly forwards all arguments to new, to avoid having to override #create on subclasses
+      # such as collection
+      def self.create(...)
+        new(...)
       end
 
       def initialize(model, current_user:, embed_links: false)

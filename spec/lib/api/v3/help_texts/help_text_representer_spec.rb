@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,8 +35,8 @@ describe ::API::V3::HelpTexts::HelpTextRepresenter do
 
   let(:help_text) do
     build_stubbed :work_package_help_text,
-                             attribute_name: 'status',
-                             help_text: 'This is a help text for **status** attribute.'
+                  attribute_name: 'status',
+                  help_text: 'This is a help text for **status** attribute.'
   end
 
   let(:representer) { described_class.new help_text, current_user: user }

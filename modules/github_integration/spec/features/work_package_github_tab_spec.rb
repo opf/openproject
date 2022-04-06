@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,14 +32,14 @@ require_relative '../support/pages/work_package_github_tab'
 describe 'Open the GitHub tab', type: :feature, js: true do
   let(:user) do
     create(:user,
-                      member_in_project: project,
-                      member_through_role: role)
+           member_in_project: project,
+           member_through_role: role)
   end
   let(:role) do
     create(:role,
-                      permissions: %i(view_work_packages
-                                      add_work_package_notes
-                                      show_github_content))
+           permissions: %i(view_work_packages
+                           add_work_package_notes
+                           show_github_content))
   end
   let(:project) { create :project }
   let(:work_package) { create(:work_package, project: project, subject: 'A test work_package') }
@@ -94,8 +94,8 @@ describe 'Open the GitHub tab', type: :feature, js: true do
     context 'when the user does not have the permissions to see the github tab' do
       let(:role) do
         create(:role,
-                          permissions: %i(view_work_packages
-                                          add_work_package_notes))
+               permissions: %i(view_work_packages
+                               add_work_package_notes))
       end
 
       it 'does not show the github tab' do

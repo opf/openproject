@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -39,19 +39,19 @@ describe WorkPackages::UpdateAncestorsService do
   end
   let!(:parent) do
     create :work_package,
-                      parent: grandparent
+           parent: grandparent
   end
   let!(:sibling) do
     create :work_package,
-                      parent: parent,
-                      remaining_hours: sibling_remaining_hours
+           parent: parent,
+           remaining_hours: sibling_remaining_hours
   end
 
   context 'for a new ancestors' do
     let!(:work_package) do
       create :work_package,
-                        remaining_hours: work_package_remaining_hours,
-                        parent: parent
+             remaining_hours: work_package_remaining_hours,
+             parent: parent
     end
 
     subject do
@@ -83,8 +83,8 @@ describe WorkPackages::UpdateAncestorsService do
   context 'for the previous ancestors' do
     let!(:work_package) do
       create :work_package,
-                        remaining_hours: work_package_remaining_hours,
-                        parent: parent
+             remaining_hours: work_package_remaining_hours,
+             parent: parent
     end
 
     subject do

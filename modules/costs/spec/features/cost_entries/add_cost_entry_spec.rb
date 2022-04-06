@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,17 +36,19 @@ describe 'Work Package cost fields', type: :feature, js: true do
     create(:project, types: [type_task])
   end
   shared_let(:role) do
-    create :role, permissions: %i[view_work_packages
-                                             delete_work_packages
-                                             log_costs
-                                             view_cost_rates
-                                             edit_cost_entries
-                                             view_cost_entries]
+    create :role,
+           permissions: %i[view_work_packages
+                           delete_work_packages
+                           log_costs
+                           view_cost_rates
+                           edit_cost_entries
+                           view_cost_entries
+                           work_package_assigned]
   end
   shared_let(:user) do
     create :user,
-                      member_in_project: project,
-                      member_through_role: role
+           member_in_project: project,
+           member_through_role: role
   end
   shared_let(:cost_type1) do
     type = create :cost_type, name: 'A', unit: 'A single', unit_plural: 'A plural'
@@ -166,8 +168,8 @@ describe 'Work Package cost fields', type: :feature, js: true do
   context 'with an additional placeholder user in the project' do
     let!(:placeholder_user) do
       create :placeholder_user,
-                        member_in_project: project,
-                        member_through_role: role
+             member_in_project: project,
+             member_through_role: role
     end
 
     it 'does not allow to select them (Regression #36353)' do

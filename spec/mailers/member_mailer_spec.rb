@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -38,9 +36,9 @@ describe MemberMailer, type: :mailer do
   let(:current_user) { build_stubbed(:user) }
   let(:member) do
     build_stubbed(:member,
-                             principal: principal,
-                             project: project,
-                             roles: roles)
+                  principal: principal,
+                  project: project,
+                  roles: roles)
   end
   let(:principal) { build_stubbed(:user) }
   let(:project) { build_stubbed(:project) }
@@ -101,7 +99,12 @@ describe MemberMailer, type: :mailer do
 
   shared_examples_for 'has the expected body' do
     let(:body) { subject.body.parts.detect { |part| part['Content-Type'].value == 'text/html' }.body.to_s }
-
+    let(:i18n_params) do
+      {
+        project: project ? link_to_project(project, only_path: false) : nil,
+        user: link_to_user(current_user, only_path: false)
+      }.compact
+    end
 
     it 'highlights the roles received' do
       expected = <<~MSG
@@ -116,17 +119,24 @@ describe MemberMailer, type: :mailer do
         .at_path('body/table/tr/td/ul')
     end
 
+    context 'when current user and principal have different locales' do
+      let(:principal) { build_stubbed(:user, language: 'fr') }
+      let(:current_user) { build_stubbed(:user, language: 'de') }
+
+      it 'is in the locale of the recipient' do
+        OpenProject::LocaleHelper.with_locale_for(principal) do
+          i18n_params
+        end
+        expect(body).to include(I18n.t(:"#{expected_header}.without_message", locale: :fr, **i18n_params))
+      end
+    end
+
     context 'with a custom message' do
       let(:message) { "Some **styled** message" }
 
       it 'has the expected header' do
-        params = {
-          project: project ? link_to_project(project, only_path: false) : nil,
-          user: link_to_user(current_user, only_path: false)
-        }.compact
-
         expect(body)
-          .to include(I18n.t(:"#{expected_header}.with_message", **params))
+          .to include(I18n.t(:"#{expected_header}.with_message", **i18n_params))
       end
 
       it 'includes the custom message' do
@@ -136,21 +146,15 @@ describe MemberMailer, type: :mailer do
     end
 
     context 'without a custom message' do
-
       it 'has the expected header' do
-        params = {
-          project: project ? link_to_project(project, only_path: false) : nil,
-          user: link_to_user(current_user, only_path: false)
-        }.compact
-
         expect(body)
-          .to include(I18n.t(:"#{expected_header}.without_message", **params))
+          .to include(I18n.t(:"#{expected_header}.without_message", **i18n_params))
       end
     end
   end
 
   describe '#added_project' do
-    subject { MemberMailer.added_project(current_user, member, message) }
+    subject { described_class.added_project(current_user, member, message) }
 
     it_behaves_like "sends a mail to the member's principal"
     it_behaves_like 'has a subject', :'mail_member_added_project.subject'
@@ -165,7 +169,7 @@ describe MemberMailer, type: :mailer do
   end
 
   describe '#updated_project' do
-    subject { MemberMailer.updated_project(current_user, member, message) }
+    subject { described_class.updated_project(current_user, member, message) }
 
     it_behaves_like "sends a mail to the member's principal"
     it_behaves_like 'has a subject', :'mail_member_updated_project.subject'
@@ -182,7 +186,7 @@ describe MemberMailer, type: :mailer do
   describe '#updated_global' do
     let(:project) { nil }
 
-    subject { MemberMailer.updated_global(current_user, member, message) }
+    subject { described_class.updated_global(current_user, member, message) }
 
     it_behaves_like "sends a mail to the member's principal"
     it_behaves_like 'has a subject', :'mail_member_updated_global.subject'

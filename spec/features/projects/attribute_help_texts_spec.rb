@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,22 +33,22 @@ describe 'Project attribute help texts', type: :feature, js: true do
 
   let(:instance) do
     create :project_help_text,
-                      attribute_name: :status,
-                      help_text: 'Some **help text** for status.'
+           attribute_name: :status,
+           help_text: 'Some **help text** for status.'
     create :project_help_text,
-                      attribute_name: :description,
-                      help_text: 'Some **help text** for description.'
+           attribute_name: :description,
+           help_text: 'Some **help text** for description.'
   end
 
   let(:grid) do
     grid = create :grid
     grid.widgets << create(:grid_widget,
-                                      identifier: 'project_status',
-                                      options: { 'name' => 'Project status' },
-                                      start_row: 1,
-                                      end_row: 2,
-                                      start_column: 1,
-                                      end_column: 1)
+                           identifier: 'project_status',
+                           options: { 'name' => 'Project status' },
+                           start_row: 1,
+                           end_row: 2,
+                           start_column: 1,
+                           end_column: 1)
   end
 
   let(:modal) { Components::AttributeHelpTextModal.new(instance) }
@@ -105,8 +105,8 @@ describe 'Project attribute help texts', type: :feature, js: true do
     end
     let(:user) do
       create :user,
-                        member_in_project: project,
-                        member_through_role: view_role
+             member_in_project: project,
+             member_through_role: view_role
     end
 
     it_behaves_like 'allows to view help texts'

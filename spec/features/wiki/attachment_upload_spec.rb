@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,8 +32,8 @@ require 'features/page_objects/notification'
 describe 'Upload attachment to wiki page', js: true do
   let(:user) do
     create :user,
-                      member_in_project: project,
-                      member_with_permissions: %i[view_wiki_pages edit_wiki_pages]
+           member_in_project: project,
+           member_with_permissions: %i[view_wiki_pages edit_wiki_pages]
   end
   let(:project) { create(:project) }
   let(:attachments) { ::Components::Attachments.new }
@@ -53,7 +51,7 @@ describe 'Upload attachment to wiki page', js: true do
     # adding an image
     editor.drag_attachment image_fixture.path, 'Image uploaded the first time'
 
-    expect(page).to have_selector('attachment-list-item', text: 'image.png')
+    expect(page).to have_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png')
     expect(page).not_to have_selector('op-toasters-upload-progress')
 
     click_on 'Save'
@@ -61,7 +59,7 @@ describe 'Upload attachment to wiki page', js: true do
     expect(page).to have_text("Successful creation")
     expect(page).to have_selector('#content img', count: 1)
     expect(page).to have_content('Image uploaded the first time')
-    expect(page).to have_selector('attachment-list-item', text: 'image.png')
+    expect(page).to have_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png')
 
     # required sleep otherwise clicking on the Edit button doesn't do anything
     SeleniumHubWaiter.wait
@@ -77,7 +75,7 @@ describe 'Upload attachment to wiki page', js: true do
     editor.drag_attachment image_fixture.path, 'Image uploaded the second time'
 
     expect(page).not_to have_selector('op-toasters-upload-progress')
-    expect(page).to have_selector('attachment-list-item', text: 'image.png', count: 2)
+    expect(page).to have_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png', count: 2)
 
     editor.in_editor do |container, _|
       # Expect URL is mapped to the correct URL
@@ -89,7 +87,7 @@ describe 'Upload attachment to wiki page', js: true do
     end
 
     editor.click_hover_toolbar_button 'Resize image to 50%'
-    expect(page).to have_selector('.op-uc-figure[style="width:50%;"')
+    expect(page).to have_selector('.op-uc-figure[style="width:50%;"]')
 
     click_on 'Save'
 
@@ -97,45 +95,12 @@ describe 'Upload attachment to wiki page', js: true do
     expect(page).to have_selector('#content img', count: 2)
     # First figcaption is lost by having replaced the markdown
     expect(page).to have_content('Image uploaded the second time')
-    expect(page).to have_selector('attachment-list-item', text: 'image.png', count: 2)
+    expect(page).to have_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png', count: 2)
 
     # Both images rendered referring to the api endpoint
     expect(page).to have_selector('img[src^="/api/v3/attachments/"]', count: 2)
 
     expect(wiki_page_content).to have_selector 'figure.op-uc-figure[style="width:50%;"]'
     expect(wiki_page_content).to have_selector '.op-uc-image[src^="/api/v3/attachments"]'
-  end
-
-  it 'can upload an image on the new wiki page and recover from an error without losing the attachment (Regression #28171)' do
-    visit project_wiki_path(project, 'test')
-
-    expect(page).to have_selector('#content_page_title')
-    expect(page).to have_selector('.work-package--attachments--drop-box')
-
-    # Upload image to dropzone
-    expect(page).to have_no_selector('.work-package--attachments--filename')
-    attachments.attach_file_on_input(image_fixture.path)
-    expect(page).not_to have_selector('op-toasters-upload-progress')
-    expect(page).to have_selector('.work-package--attachments--filename', text: 'image.png')
-
-    # Assume we could still save the page with an empty title
-    page.execute_script 'jQuery("#content_page_title").removeAttr("required aria-required");'
-    # Remove title so we will result in an error
-    fill_in 'content_page_title', with: ''
-    click_on 'Save'
-
-    expect(page).to have_selector('#errorExplanation', text: "Title can't be blank.")
-    expect(page).to have_selector('.work-package--attachments--filename', text: 'image.png')
-
-    editor.in_editor do |_container, editable|
-      editable.send_keys 'hello there.'
-    end
-
-    fill_in 'content_page_title', with: 'Test'
-    click_on 'Save'
-
-    expect(page).to have_selector('.controller-wiki.action-show')
-    expect(page).to have_selector('h2', text: 'Test')
-    expect(page).to have_selector('.work-package--attachments--filename', text: 'image.png')
   end
 end

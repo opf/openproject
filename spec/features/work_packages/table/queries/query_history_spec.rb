@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,43 +31,43 @@ require 'spec_helper'
 describe 'Going back and forth through the browser history', type: :feature, js: true do
   let(:user) do
     create(:user,
-                      member_in_project: project,
-                      member_through_role: role)
+           member_in_project: project,
+           member_through_role: role)
   end
   let(:project) { create(:project) }
   let(:type) { project.types.first }
   let(:role) do
     create(:role,
-                      permissions: %i[view_work_packages
-                                      save_queries])
+           permissions: %i[view_work_packages
+                           save_queries])
   end
 
   let(:work_package_1) do
     create(:work_package,
-                      project: project,
-                      type: type)
+           project: project,
+           type: type)
   end
   let(:work_package_2) do
     create(:work_package,
-                      project: project,
-                      type: type,
-                      assigned_to: user)
+           project: project,
+           type: type,
+           assigned_to: user)
   end
   let(:version) do
     create(:version,
-                      project: project)
+           project: project)
   end
   let(:work_package_3) do
     create(:work_package,
-                      project: project,
-                      type: type,
-                      version: version)
+           project: project,
+           type: type,
+           version: version)
   end
   let(:assignee_query) do
     query = create(:query,
-                              name: 'Assignee Query',
-                              project: project,
-                              user: user)
+                   name: 'Assignee Query',
+                   project: project,
+                   user: user)
 
     query.add_filter('assigned_to_id', '=', [user.id])
     query.save!
@@ -76,9 +76,9 @@ describe 'Going back and forth through the browser history', type: :feature, js:
   end
   let(:version_query) do
     query = create(:query,
-                              name: 'Version Query',
-                              project: project,
-                              user: user)
+                   name: 'Version Query',
+                   project: project,
+                   user: user)
 
     query.add_filter('version_id', '=', [version.id])
     query.save!

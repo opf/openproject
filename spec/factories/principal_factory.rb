@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -56,14 +56,14 @@ FactoryBot.define do
       projects << evaluator.member_in_project if evaluator.member_in_project
       if projects.any?
         role = evaluator.member_through_role || build(:role,
-                                                                 permissions: evaluator.member_with_permissions || %i[
-                                                                   view_work_packages edit_work_packages
-                                                                 ])
+                                                      permissions: evaluator.member_with_permissions || %i[
+                                                        view_work_packages edit_work_packages
+                                                      ])
         projects.compact.each do |project|
           create(:member,
-                            project: project,
-                            principal: principal,
-                            roles: Array(role))
+                 project: project,
+                 principal: principal,
+                 roles: Array(role))
         end
       end
     end
@@ -74,8 +74,8 @@ FactoryBot.define do
         global_role = evaluator.global_role || create(:global_role, permissions: permissions)
 
         create(:global_member,
-                          principal: principal,
-                          roles: [global_role])
+               principal: principal,
+               roles: [global_role])
 
       end
     end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,16 +34,16 @@ describe ::API::V3::Budgets::BudgetRepresenter do
   let(:project) { build(:project, id: 999) }
   let(:user) do
     create(:user,
-                     member_in_project: project,
-                     created_at: 1.day.ago,
-                     updated_at: Date.today)
+           member_in_project: project,
+           created_at: 1.day.ago,
+           updated_at: Date.today)
   end
   let(:budget) do
     create(:budget,
-                      author: user,
-                      project: project,
-                      created_at: 1.day.ago,
-                      updated_at: Date.today)
+           author: user,
+           project: project,
+           created_at: 1.day.ago,
+           updated_at: Date.today)
   end
 
   let(:representer) { described_class.new(budget, current_user: user) }

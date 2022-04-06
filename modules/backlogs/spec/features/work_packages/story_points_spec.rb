@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -41,7 +41,7 @@ describe 'Work packages having story points', type: :feature, js: true do
   let(:current_user) { create(:admin) }
   let(:project) do
     create(:project,
-                      enabled_module_names: %w(work_package_tracking backlogs))
+           enabled_module_names: %w(work_package_tracking backlogs))
   end
   let(:status) { create :default_status }
   let(:story_type) { create(:type_feature) }
@@ -51,11 +51,11 @@ describe 'Work packages having story points', type: :feature, js: true do
     let(:story_points) { 42 }
     let(:story_with_sp) do
       create(:story,
-                        type: story_type,
-                        author: current_user,
-                        project: project,
-                        status: status,
-                        story_points: story_points)
+             type: story_type,
+             author: current_user,
+             project: project,
+             status: status,
+             story_points: story_points)
     end
 
     it 'should be displayed' do
