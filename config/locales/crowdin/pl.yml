@@ -899,6 +899,7 @@ pl:
     updated_on: "Aktualizacja"
     uploader: "Osoba przesyłająca"
     user: "Użytkownik"
+    value: "Value"
     version: "Wersja"
     work_package: "Zadanie"
   backup:

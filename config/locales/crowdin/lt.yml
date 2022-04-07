@@ -899,6 +899,7 @@ lt:
     updated_on: "Atnaujinta"
     uploader: "Įkėlėjas"
     user: "Naudotojas"
+    value: "Value"
     version: "Versija"
     work_package: "Darbų paketas"
   backup:

@@ -889,6 +889,7 @@ vi:
     updated_on: "Được cập nhật vào lúc"
     uploader: "Tải lên"
     user: "Người dùng"
+    value: "Value"
     version: "Phiên bản"
     work_package: "Work Package"
   backup:

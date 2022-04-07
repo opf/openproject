@@ -892,6 +892,7 @@ fr:
     updated_on: "Mis à jour le"
     uploader: "Téléversé par"
     user: "Utilisateur"
+    value: "Value"
     version: "Version"
     work_package: "Lot de travaux"
   backup:

@@ -897,6 +897,7 @@ hr:
     updated_on: "Ažurirano"
     uploader: "Uploader"
     user: "Korisnik"
+    value: "Value"
     version: "Verzija"
     work_package: "Radni paket"
   backup:

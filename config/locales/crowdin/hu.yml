@@ -893,6 +893,7 @@ hu:
     updated_on: "Frissítve"
     uploader: "Feltöltő"
     user: "Felhasználó"
+    value: "Value"
     version: "Verzió"
     work_package: "Feladatcsoport"
   backup:

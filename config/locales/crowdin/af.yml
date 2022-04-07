@@ -892,6 +892,7 @@ af:
     updated_on: "Opgedateer op"
     uploader: "Uploader"
     user: "Gebruiker"
+    value: "Value"
     version: "Weergawe"
     work_package: "Werkspakket"
   backup:

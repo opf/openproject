@@ -887,6 +887,7 @@ zh-TW:
     updated_on: "更新於"
     uploader: "上傳者"
     user: "使用者"
+    value: "Value"
     version: "版本"
     work_package: "工作項目"
   backup:

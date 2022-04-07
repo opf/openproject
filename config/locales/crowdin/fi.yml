@@ -892,6 +892,7 @@ fi:
     updated_on: "Päivitetty"
     uploader: "Uploader"
     user: "Käyttäjä"
+    value: "Value"
     version: "Versio"
     work_package: "Työpaketti"
   backup:

@@ -897,6 +897,7 @@ ro:
     updated_on: "Actualizat pe"
     uploader: "Autor"
     user: "Utilizator"
+    value: "Value"
     version: "Versiune"
     work_package: "Pachet de lucru"
   backup:

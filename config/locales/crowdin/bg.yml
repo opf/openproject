@@ -892,6 +892,7 @@ bg:
     updated_on: "Актуализиран на"
     uploader: "Uploader"
     user: "Потребител"
+    value: "Value"
     version: "Версия"
     work_package: "Работен пакет"
   backup:

@@ -898,6 +898,7 @@ uk:
     updated_on: "Оновлене"
     uploader: "Завантажувач"
     user: "Користувач"
+    value: "Value"
     version: "Версія"
     work_package: "Пакет робіт"
   backup:

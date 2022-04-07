@@ -892,6 +892,7 @@ si:
     updated_on: "යාවත්කාලීන කරන ලදි"
     uploader: "උඩුගත කරන්නා"
     user: "පරිශීලක"
+    value: "Value"
     version: "අනුවාදය"
     work_package: "වැඩ පැකේජය"
   backup:

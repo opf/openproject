@@ -23,8 +23,8 @@ de:
   js:
     ajax:
       hide: "Verbergen"
-      loading: "Loading…"
-      updating: "Updating…"
+      loading: "Laden…"
+      updating: "Aktualisiere…"
     attachments:
       draggable_hint: |
         Ziehen Sie diesen Anhang auf ein editierbares Feld um das Bild oder den Anhang einzubinden. Geöffnete Felder werden automatisch geöffnet während Sie das Attachment mit der Maus ziehen und halten.
@@ -64,7 +64,7 @@ de:
     button_copy: "Kopieren"
     button_copy_to_other_project: "Copy to other project"
     button_custom-fields: "Benutzerdefinierte Felder"
-    button_delete: "Lösche"
+    button_delete: "Löschen"
     button_delete_watcher: "Beobachter löschen"
     button_details_view: "Detailansicht"
     button_duplicate: "Duplizieren"

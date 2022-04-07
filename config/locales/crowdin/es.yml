@@ -889,6 +889,7 @@ es:
     updated_on: "Actualizada el"
     uploader: "Cargador"
     user: "Usuario"
+    value: "Value"
     version: "Versión"
     work_package: "Paquete de trabajo"
   backup:

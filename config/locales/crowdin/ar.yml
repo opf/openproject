@@ -912,6 +912,7 @@ ar:
     updated_on: "تم التحديث بتاريخ"
     uploader: "Uploader"
     user: "المستخدم"
+    value: "Value"
     version: "الإصدار"
     work_package: "مجموعة العمل"
   backup:

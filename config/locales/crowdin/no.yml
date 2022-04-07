@@ -892,6 +892,7 @@
     updated_on: "Oppdatert"
     uploader: "Opplaster"
     user: "Bruker"
+    value: "Value"
     version: "Versjon"
     work_package: "Arbeidspakke"
   backup:

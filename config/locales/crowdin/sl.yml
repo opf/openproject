@@ -899,6 +899,7 @@ sl:
     updated_on: "Posodobljeno"
     uploader: "Posodobitelj"
     user: "Uporabnik"
+    value: "Value"
     version: "Različica"
     work_package: "Zahtevek"
   backup:

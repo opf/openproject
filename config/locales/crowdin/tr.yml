@@ -892,6 +892,7 @@ tr:
     updated_on: "Güncelleme tarihi"
     uploader: "Yükleyici"
     user: "Kullanıcı"
+    value: "Value"
     version: "Sürüm"
     work_package: "İş paketi"
   backup:

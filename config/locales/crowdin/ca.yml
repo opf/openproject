@@ -889,6 +889,7 @@ ca:
     updated_on: "Actualitzat el"
     uploader: "Puja"
     user: "Usuari"
+    value: "Value"
     version: "Versió"
     work_package: "Paquet de treball"
   backup:

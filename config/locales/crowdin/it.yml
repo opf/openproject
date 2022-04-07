@@ -889,6 +889,7 @@ it:
     updated_on: "Aggiornato il"
     uploader: "Caricatore"
     user: "Utente"
+    value: "Value"
     version: "Versione"
     work_package: "Macro-attività"
   backup:

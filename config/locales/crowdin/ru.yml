@@ -80,8 +80,8 @@ ru:
       upgrade_info: "Пожалуйста, перейдите на платный тарифный план, чтобы активировать его и начать использовать в вашей команде."
     journal_aggregation:
       explanation:
-        text: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent and will also affect %{webhook_link} delay."
-        link: "webhook"
+        text: "Личные действия пользователя (напр. обновление пакета работ дважды) агрегируются в одно действие, если их разница в возрасте меньше указанного промежутка времени. Они будут отображаться как одно действие внутри приложения. Это также задерживает уведомление на такое же количество времени, уменьшая количество отправляемых писем и также повлияет на %{webhook_link} задержки."
+        link: "вебхук"
   announcements:
     show_until: Показать до
     is_active: теперь отображается
@@ -901,6 +901,7 @@ ru:
     updated_on: "Обновлено"
     uploader: "Кто загрузил"
     user: "Пользователь"
+    value: "Value"
     version: "Этапы"
     work_package: "Пакет работ"
   backup:
@@ -1376,9 +1377,9 @@ ru:
   menus:
     admin:
       mail_notification: "Уведомления по электронной почте"
-      mails_and_notifications: "Emails and notification"
-      aggregation_and_retention: 'Aggregation and retention'
-      api_and_webhooks: "API and webhooks"
+      mails_and_notifications: "Письма и уведомления"
+      aggregation_and_retention: 'Агрегация и удержание'
+      api_and_webhooks: "API и вебхуки"
     quick_add:
       label: "Открыть меню быстрого добавления"
   my_account:
@@ -1878,7 +1879,7 @@ ru:
   label_used_by_types: "Используемые типы"
   label_used_in_projects: "Используется в проектах"
   label_user: "Пользователь"
-  label_user_and_permission: "Users and permissions"
+  label_user_and_permission: "Пользователи и права доступа"
   label_user_named: "Пользователь %{name}"
   label_user_activity: "%{value} деятельности"
   label_user_anonymous: "Анонимно"

@@ -890,6 +890,7 @@ hi:
     updated_on: "पर अद्यतीत"
     uploader: "Uploader"
     user: "उपयोगकर्ता"
+    value: "Value"
     version: "संस्करण"
     work_package: "कार्य पैकेज"
   backup:

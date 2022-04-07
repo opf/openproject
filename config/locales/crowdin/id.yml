@@ -884,6 +884,7 @@ id:
     updated_on: "Diperbarui"
     uploader: "Uploader"
     user: "User"
+    value: "Value"
     version: "Versi"
     work_package: "Paket-Penugasan"
   backup:

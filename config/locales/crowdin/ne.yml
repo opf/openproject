@@ -892,6 +892,7 @@ ne:
     updated_on: "Updated on"
     uploader: "अप्लोडेर"
     user: "User"
+    value: "Value"
     version: "Version"
     work_package: "Work package"
   backup:

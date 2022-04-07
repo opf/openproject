@@ -889,6 +889,7 @@ nl:
     updated_on: "Bijgewerkt op"
     uploader: "Uploader"
     user: "Gebruiker"
+    value: "Value"
     version: "Versie"
     work_package: "Werkpakket"
   backup:
