@@ -189,7 +189,7 @@ describe "PATCH /api/v3/queries/:id", type: :request do
       post!
 
       expect(last_response.status).to eq 422
-      expect(json["message"]).to eq "Statuz does not exist."
+      expect(json["message"]).to eq "Statuz filter does not exist."
     end
   end
 end

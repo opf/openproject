@@ -27,15 +27,12 @@
 #++
 
 require 'spec_helper'
-require_module_spec_helper
-require 'contracts/shared/model_contract_shared_context'
 
-describe ::Storages::Storages::DeleteContract, :enable_storages do
-  include_context 'ModelContract shared context'
-
-  let(:storage) { create(:storage) }
-  let(:contract) { described_class.new(storage, current_user) }
-
-  # Generic checks that the contract is valid for valid admin, but invalid otherwise
-  it_behaves_like 'contract is valid for active admins and invalid for regular users'
+shared_examples_for 'filter unavailable when storages module is inactive' do
+  context 'when storages module is inactive', :disable_storages do
+    it_behaves_like 'error response',
+                    400,
+                    'InvalidQuery',
+                    'filter does not exist.'
+  end
 end

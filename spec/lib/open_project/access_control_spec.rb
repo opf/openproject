@@ -29,17 +29,6 @@
 require 'spec_helper'
 
 describe OpenProject::AccessControl do
-  def stash_access_control_permissions
-    @stashed_permissions = OpenProject::AccessControl.permissions.dup
-    OpenProject::AccessControl.clear_caches
-    OpenProject::AccessControl.instance_variable_get(:@permissions).clear
-  end
-
-  def restore_access_control_permissions
-    OpenProject::AccessControl.instance_variable_set(:@permissions, @stashed_permissions)
-    OpenProject::AccessControl.clear_caches
-  end
-
   def setup_global_permissions
     OpenProject::AccessControl.map do |map|
       map.permission :proj0, { dont: :care }, require: :member, contract_actions: { foo: :create }
@@ -66,26 +55,26 @@ describe OpenProject::AccessControl do
   end
 
   describe '.remove_modules_permissions' do
-    let!(:all_former_permissions) { OpenProject::AccessControl.permissions }
+    let!(:all_former_permissions) { described_class.permissions }
     let!(:former_repository_permissions) do
-      module_permissions = OpenProject::AccessControl.modules_permissions(['repository'])
+      module_permissions = described_class.modules_permissions(['repository'])
 
       module_permissions.select do |permission|
         permission.project_module == :repository
       end
     end
 
-    subject { OpenProject::AccessControl }
+    subject { described_class }
 
     before do
-      OpenProject::AccessControl.remove_modules_permissions(:repository)
+      described_class.remove_modules_permissions(:repository)
     end
 
     after do
-      raise 'Test outdated' unless OpenProject::AccessControl.instance_variable_defined?(:@permissions)
+      raise 'Test outdated' unless described_class.instance_variable_defined?(:@permissions)
 
-      OpenProject::AccessControl.instance_variable_set(:@permissions, all_former_permissions)
-      OpenProject::AccessControl.clear_caches
+      described_class.instance_variable_set(:@permissions, all_former_permissions)
+      described_class.clear_caches
     end
 
     it 'removes from global permissions' do
@@ -104,7 +93,7 @@ describe OpenProject::AccessControl do
       expect(subject.loggedin_only_permissions).not_to include(former_repository_permissions)
     end
 
-    it 'should disable repository module' do
+    it 'disables repository module' do
       expect(subject.available_project_modules).not_to include(:repository)
     end
   end
@@ -112,7 +101,7 @@ describe OpenProject::AccessControl do
   describe '#permissions' do
     it 'is an array of permissions' do
       expect(described_class.permissions)
-        .to(be_all{ |p| p.is_a?(OpenProject::AccessControl::Permission) })
+        .to all(be_instance_of(OpenProject::AccessControl::Permission))
     end
   end
 
@@ -121,18 +110,18 @@ describe OpenProject::AccessControl do
       subject { described_class.permission(:view_work_packages) }
 
       it 'is a permission' do
-        is_expected
+        expect(subject)
           .to be_a(OpenProject::AccessControl::Permission)
       end
 
       it 'is the permission with the queried for name' do
         expect(subject.name)
-          .to eql(:view_work_packages)
+          .to eq(:view_work_packages)
       end
 
       it 'belongs to a project module' do
         expect(subject.project_module)
-          .to eql(:work_package_tracking)
+          .to eq(:work_package_tracking)
       end
     end
 
@@ -140,13 +129,13 @@ describe OpenProject::AccessControl do
       subject { described_class.permission(:edit_project) }
 
       it 'is a permission' do
-        is_expected
+        expect(subject)
           .to be_a(OpenProject::AccessControl::Permission)
       end
 
       it 'is the permission with the queried for name' do
         expect(subject.name)
-          .to eql(:edit_project)
+          .to eq(:edit_project)
       end
 
       it 'belongs to a project module' do
@@ -165,7 +154,7 @@ describe OpenProject::AccessControl do
     context 'for a permission with a prerequisite' do
       subject { described_class.permission(:edit_work_packages) }
 
-      it 'denotes the prerequiresites' do
+      it 'denotes the prerequisites' do
         expect(subject.dependencies)
           .to match_array([:view_work_packages])
       end
@@ -174,7 +163,7 @@ describe OpenProject::AccessControl do
     context 'for a permission without a prerequisite' do
       subject { described_class.permission(:view_work_packages) }
 
-      it 'denotes the prerequiresites' do
+      it 'denotes the prerequisites' do
         expect(subject.dependencies)
           .to be_empty
       end
@@ -182,63 +171,87 @@ describe OpenProject::AccessControl do
   end
 
   describe '.modules' do
-    before do
-      stash_access_control_permissions
+    include_context 'with blank access control state'
 
+    before do
       setup_global_permissions
     end
 
-    after do
-      restore_access_control_permissions
-    end
-
     it 'can store dependencies' do
-      expect(OpenProject::AccessControl.modules.detect { |m| m[:name] == :dependent_module }[:dependencies])
+      expect(described_class.modules.detect { |m| m[:name] == :dependent_module }[:dependencies])
         .to match_array(%i[project_module])
     end
   end
 
   describe '#global_permissions' do
-    before do
-      stash_access_control_permissions
+    include_context 'with blank access control state'
 
+    before do
       setup_global_permissions
     end
 
-    after do
-      restore_access_control_permissions
-    end
-
-    it { expect(OpenProject::AccessControl.global_permissions.size).to eq(3) }
-    it { expect(OpenProject::AccessControl.global_permissions.collect(&:name)).to include(:global0) }
-    it { expect(OpenProject::AccessControl.global_permissions.collect(&:name)).to include(:global1) }
-    it { expect(OpenProject::AccessControl.global_permissions.collect(&:name)).to include(:global2) }
+    it { expect(described_class.global_permissions.size).to eq(3) }
+    it { expect(described_class.global_permissions.collect(&:name)).to include(:global0) }
+    it { expect(described_class.global_permissions.collect(&:name)).to include(:global1) }
+    it { expect(described_class.global_permissions.collect(&:name)).to include(:global2) }
   end
 
   describe '.available_project_modules' do
-    before do
-      stash_access_control_permissions
+    include_context 'with blank access control state'
 
+    before do
       setup_global_permissions
     end
 
-    after do
-      restore_access_control_permissions
-    end
+    it { expect(described_class.available_project_modules).not_to include(:global_module) }
+    it { expect(described_class.available_project_modules).to include(:mixed_module) }
 
-    it { expect(OpenProject::AccessControl.available_project_modules).not_to include(:global_module) }
-    it { expect(OpenProject::AccessControl.available_project_modules).to include(:mixed_module) }
+    context 'when a module specifies :if' do
+      before do
+        described_class.map do |map|
+          map.project_module :dynamic_module, if: if_proc do |mod|
+            mod.permission :perm_d1, { dont: :care }
+          end
+        end
+      end
+
+      context 'with if: true' do
+        let(:if_proc) { ->(*) { true } }
+
+        it 'is considered available' do
+          described_class.available_project_modules
+          expect(described_class.available_project_modules).to include(:dynamic_module)
+        end
+      end
+
+      context 'with if: false' do
+        let(:if_proc) { ->(*) { false } }
+
+        it 'is not considered available anymore' do
+          expect(described_class.available_project_modules).not_to include(:dynamic_module)
+        end
+      end
+
+      context 'with if: dynamically changing' do
+        let(:if_proc) { ->(*) { if_state[:available] } }
+        let(:if_state) { { available: true } }
+
+        it 'reevaluates module availability each time' do
+          if_state[:available] = true
+          expect(described_class.available_project_modules).to include(:dynamic_module)
+
+          if_state[:available] = false
+          expect(described_class.available_project_modules).not_to include(:dynamic_module)
+        end
+      end
+    end
   end
 
   describe '#contract_actions_map' do
+    include_context 'with blank access control state'
+
     before do
-      stash_access_control_permissions
-
       setup_global_permissions
-    end
-
-    after do
-      restore_access_control_permissions
     end
 
     it 'contains all contract actions grouped by the permission' do
@@ -250,14 +263,10 @@ describe OpenProject::AccessControl do
   end
 
   describe '.grant_to_admin?' do
+    include_context 'with blank access control state'
+
     before do
-      stash_access_control_permissions
-
       setup_global_permissions
-    end
-
-    after do
-      restore_access_control_permissions
     end
 
     context 'for a granted permission (default)' do

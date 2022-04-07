@@ -26,16 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_module_spec_helper
-require 'contracts/shared/model_contract_shared_context'
-
-describe ::Storages::Storages::DeleteContract, :enable_storages do
-  include_context 'ModelContract shared context'
-
-  let(:storage) { create(:storage) }
-  let(:contract) { described_class.new(storage, current_user) }
-
-  # Generic checks that the contract is valid for valid admin, but invalid otherwise
-  it_behaves_like 'contract is valid for active admins and invalid for regular users'
+module OpenProject
+  module FeatureDecisions
+    def self.storages_module_active?
+      Setting.feature_storages_module_active
+    end
+  end
 end

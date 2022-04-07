@@ -3,7 +3,7 @@
 <% local_assigns[:additional_breadcrumb] = t('storages.label_new_storage') %>
 <%= toolbar title: t("storages.label_new_storage") %>
 
-<%= labelled_tabular_form_for @object, url: storages_path(@object) do |f| -%>
+<%= labelled_tabular_form_for @object, url: admin_settings_storages_path(@object) do |f| -%>
   <%= render partial: 'form', locals: { f: f } %>
   <%= styled_button_tag t(:button_create), class: "-highlight -with-icon icon-checkmark" %>
 <% end %>

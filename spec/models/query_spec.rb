@@ -651,12 +651,6 @@ describe Query, type: :model do
 
   describe '#filter_for' do
     context 'for a status_id filter' do
-      before do
-        allow(Status)
-          .to receive(:exists?)
-          .and_return(true)
-      end
-
       subject { query.filter_for('status_id') }
 
       it 'exists' do

@@ -26,16 +26,23 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_module_spec_helper
-require 'contracts/shared/model_contract_shared_context'
+RSpec.shared_context "with storages module enabled" do
+  let(:storages_module_active) { true }
 
-describe ::Storages::Storages::DeleteContract, :enable_storages do
-  include_context 'ModelContract shared context'
+  before do
+    allow(OpenProject::FeatureDecisions).to receive(:storages_module_active?).and_return(storages_module_active)
+  end
+end
 
-  let(:storage) { create(:storage) }
-  let(:contract) { described_class.new(storage, current_user) }
+RSpec.shared_context "with storages module disabled" do
+  let(:storages_module_active) { false }
+end
 
-  # Generic checks that the contract is valid for valid admin, but invalid otherwise
-  it_behaves_like 'contract is valid for active admins and invalid for regular users'
+RSpec.configure do |rspec|
+  # examples tagged with `:enable_storages` will automatically have context
+  # included and storages module enabled
+  rspec.include_context "with storages module enabled", :enable_storages
+  # examples tagged with `disable_storages` will automatically have context
+  # included and storages module disabled
+  rspec.include_context "with storages module disabled", :disable_storages
 end

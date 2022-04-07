@@ -27,8 +27,10 @@
 #++
 
 OpenProject::Application.routes.draw do
-  scope 'admin/settings' do
-    resources :storages, controller: 'storages/admin/storages'
+  namespace :admin do
+    namespace :settings do
+      resources :storages, controller: '/storages/admin/storages'
+    end
   end
 
   scope 'projects/:project_id', as: 'project' do

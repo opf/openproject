@@ -33,12 +33,12 @@ module API
   module V3
     module FileLinks
       class FileLinksAPI < ::API::OpenProjectAPI
-        # helpers are defined by the grape framework. They provide methods that can be called from within the
-        # endpoint context.
-        helpers do
-          def visible_file_links_scope
-            ::Storages::FileLink.visible(current_user)
-          end
+        # helpers is defined by the grape framework. They make methods from the
+        # module available from within the endpoint context.
+        helpers API::V3::Utilities::StoragesHelpers
+
+        before do
+          reply_with_not_found_if_module_inactive
         end
 
         # The `:resources` keyword defines the API namespace -> /api/v3/file_links/...

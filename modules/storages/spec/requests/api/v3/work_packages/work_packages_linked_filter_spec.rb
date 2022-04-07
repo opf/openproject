@@ -27,9 +27,12 @@
 #++
 
 require 'spec_helper'
+require_module_spec_helper
+require_relative 'shared_filter_examples'
 
 # rubocop:disable RSpec/MultipleMemoizedHelpers
 describe 'API v3 work packages resource with filters for linked storage file',
+         :enable_storages,
          type: :request,
          content_type: :json do
   include API::V3::Utilities::PathHelper
@@ -137,6 +140,8 @@ describe 'API v3 work packages resource with filters for linked storage file',
         end
       end
 
+      include_examples 'filter unavailable when storages module is inactive'
+
       context 'if using signaling' do
         let(:path) { api_v3_paths.path_for :work_packages, select: 'total,count,_type,elements/*', filters: filters }
 
@@ -178,6 +183,8 @@ describe 'API v3 work packages resource with filters for linked storage file',
           let(:elements) { [] }
         end
       end
+
+      include_examples 'filter unavailable when storages module is inactive'
     end
 
     context 'with single filter for storage url' do
@@ -220,6 +227,8 @@ describe 'API v3 work packages resource with filters for linked storage file',
           let(:elements) { [] }
         end
       end
+
+      include_examples 'filter unavailable when storages module is inactive'
     end
 
     context 'with combined filter of file id and storage id' do

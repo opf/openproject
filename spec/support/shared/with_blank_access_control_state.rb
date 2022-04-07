@@ -26,16 +26,29 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_module_spec_helper
-require 'contracts/shared/model_contract_shared_context'
+# Makes OpenProject::AccessControl clean before each example, like if no
+# permission initialization code was run at all, and restore it after each
+# example.
+RSpec.shared_context 'with blank access control state' do
+  around do |example|
+    stash = stash_instance_variables(OpenProject::AccessControl, :@permissions, :@modules, :@project_modules_without_permissions)
+    OpenProject::AccessControl.clear_caches
+    example.run
+  ensure
+    unstash_instance_variables(OpenProject::AccessControl, stash)
+    OpenProject::AccessControl.clear_caches
+  end
 
-describe ::Storages::Storages::DeleteContract, :enable_storages do
-  include_context 'ModelContract shared context'
+  def stash_instance_variables(instance, *instance_variables)
+    instance_variables.each.with_object({}) do |instance_variable, stash|
+      stash[instance_variable] = instance.instance_variable_get(instance_variable)
+      instance.remove_instance_variable(instance_variable) if stash[instance_variable]
+    end
+  end
 
-  let(:storage) { create(:storage) }
-  let(:contract) { described_class.new(storage, current_user) }
-
-  # Generic checks that the contract is valid for valid admin, but invalid otherwise
-  it_behaves_like 'contract is valid for active admins and invalid for regular users'
+  def unstash_instance_variables(instance, stash)
+    stash.each do |instance_variable, value|
+      instance.instance_variable_set(instance_variable, value)
+    end
+  end
 end

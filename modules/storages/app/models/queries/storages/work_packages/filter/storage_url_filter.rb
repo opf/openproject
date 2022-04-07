@@ -29,6 +29,7 @@
 module Queries::Storages::WorkPackages::Filter
   class StorageUrlFilter < ::Queries::WorkPackages::Filter::WorkPackageFilter
     include StoragesFilterMixin
+    include Concerns::ValidateStoragesModuleAvailable
 
     def filter_model
       ::Storages::Storage
