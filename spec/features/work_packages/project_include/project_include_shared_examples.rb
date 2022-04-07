@@ -198,7 +198,6 @@ shared_examples 'has a project include dropdown', type: :feature, js: true do
     dropdown.expect_checkbox(sub_sub_project.id, true)
 
     dropdown.click_button 'Apply'
-    byebug
     dropdown.expect_closed
     dropdown.expect_count 3
 
