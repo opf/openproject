@@ -18,7 +18,11 @@
     cursor: pointer
     padding: $spot-spacing-0_25
 
+    @include spot-focus
+
   &--title
     padding: $spot-spacing-0_25
 
-
+  &_disabled
+    color: $spot-color-basic-gray-3
+    background-color: $spot-color-basic-gray-5

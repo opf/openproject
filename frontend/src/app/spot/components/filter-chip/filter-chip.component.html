@@ -4,6 +4,7 @@
   type="button"
   (click)="remove.emit()"
   [attr.aria-label]="text.remove"
+  [disabled]="disabled"
 >
   <span class="spot-icon spot-icon_close"></span>
 </button>

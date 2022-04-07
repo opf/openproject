@@ -17,13 +17,14 @@ import SpotDropAlignmentOption from '../../drop-alignment-options';
 export class SpotDropModalComponent implements OnDestroy {
   @HostBinding('class.spot-drop-modal') public className = true;
 
-  @HostBinding('class.spot-drop-modal_opened') public _open = false;
-
   @Output() closed = new EventEmitter<void>();
 
   @Input() public alignment:SpotDropAlignmentOption = SpotDropAlignmentOption.BottomLeft;
 
+  public _open = false;
+
   @Input('open')
+  @HostBinding('class.spot-drop-modal_opened')
   set open(value:boolean) {
     this._open = value;
 
