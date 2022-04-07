@@ -35,7 +35,7 @@
         [disabled]="!(areProjectsLoaded$ | async)"
         [placeholder]="text.search_placeholder"
         name="project-include-search"
-        [(ngModel)]="query"
+        [(ngModel)]="searchText"
         [ngModelOptions]="{standalone: true}"
         data-qa-selector="project-include-search"
       >
@@ -51,14 +51,24 @@
           op-project-list
           [projects]="projects$ | async"
           [selected]="selectedProjects"
-          [query]="query"
+          [includeSubprojects]="includeSubprojects$ | async"
+          [searchText]="searchText"
           (update)="selectedProjects = $event"
           data-qa-selector="project-include-list"
         ></ul>
       </ng-container> 
 
       <div class="spot-action-bar">
-        <div class="spot-action-bar--left"></div>
+        <div class="spot-action-bar--left">
+          <label class="op-project-include--include-all">
+            <spot-checkbox
+              [(ngModel)]="includeSubprojects"
+              [ngModelOptions]="{standalone: true}"
+              data-qa-project-include-all-subprojects="1"
+            ></spot-checkbox>
+            <span class="op-project-include--include-all-text">{{ text.include_subprojects }}</span>
+          </label>
+        </div>
         <div class="spot-action-bar--right">
           <button
             [disabled]="!(areProjectsLoaded$ | async)"

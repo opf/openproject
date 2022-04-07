@@ -162,5 +162,33 @@ describe UpdateQueryFromParamsService,
           .to eq(:none)
       end
     end
+
+    context 'when using include subprojects' do
+      let(:params) do
+        { include_subprojects: include_subprojects }
+      end
+
+      context 'when true' do
+        let(:include_subprojects) { true }
+
+        it 'sets the display_representation' do
+          subject
+
+          expect(query.include_subprojects)
+            .to be true
+        end
+      end
+
+      context 'when false' do
+        let(:include_subprojects) { false }
+
+        it 'sets the display_representation' do
+          subject
+
+          expect(query.include_subprojects)
+            .to be false
+        end
+      end
+    end
   end
 end

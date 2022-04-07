@@ -78,6 +78,10 @@ fr:
         contact: "Contact us for a demo"
       enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
       upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
+    journal_aggregation:
+      explanation:
+        text: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent and will also affect %{webhook_link} delay."
+        link: "webhook"
   announcements:
     show_until: Afficher jusqu'à
     is_active: actuellement affiché
@@ -888,6 +892,7 @@ fr:
     updated_on: "Mis à jour le"
     uploader: "Téléversé par"
     user: "Utilisateur"
+    value: "Value"
     version: "Version"
     work_package: "Lot de travaux"
   backup:
@@ -1339,7 +1344,9 @@ fr:
   menus:
     admin:
       mail_notification: "Notifications par courriel"
-      incoming_outgoing: "Entrant et sortant"
+      mails_and_notifications: "Emails and notification"
+      aggregation_and_retention: 'Aggregation and retention'
+      api_and_webhooks: "API and webhooks"
     quick_add:
       label: "Ouvrir le menu d'ajout rapide"
   my_account:
@@ -1839,7 +1846,7 @@ fr:
   label_used_by_types: "Utilisé par types"
   label_used_in_projects: "Utilisé dans les projets"
   label_user: "Utilisateur"
-  label_user_and_permission: "Utilisateurs & droits"
+  label_user_and_permission: "Users and permissions"
   label_user_named: "Utilisateur %{name}"
   label_user_activity: "Activité de %{value}"
   label_user_anonymous: "Anonyme"
@@ -2564,7 +2571,6 @@ fr:
   text_work_packages_destroy_confirmation: "Êtes-vous sûr de vouloir supprimer le(s) lot(s) de travaux sélectionné(s) ?"
   text_work_packages_ref_in_commit_messages: "Referencer et réparer les Lot(s) de Travaux dans les messages « commit »"
   text_journal_added: "%{label} %{value} ajouté"
-  text_journal_aggregation_time_explanation: "Actions individuelles d'un utilisateur (par ex. mis à jour un lot de travaux deux fois) sont agrégés en une seule action si leur différence d'âge est inférieure à la période spécifiée. Ils seront affichés en une seule action dans l'application. Cela retardera également les notifications du même temps réduisant donc le nombre d'e-mails envoyés."
   text_journal_changed_html: "%{label} changé de %{old} %{linebreak}<strong>à</strong> %{new}"
   text_journal_changed_plain: "%{label} changé de %{old} %{linebreak}à %{new}"
   text_journal_changed_no_detail: "%{label} mis à jour"

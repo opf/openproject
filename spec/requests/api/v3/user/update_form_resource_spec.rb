@@ -86,27 +86,24 @@ describe ::API::V3::Users::UpdateFormAPI, content_type: :json do
       end
     end
 
-    describe 'with a non-writable status' do
+    describe 'with a writable status' do
       let(:payload) do
         {
-          "status": 'locked'
+          status: 'locked'
         }
       end
 
-      it 'returns an invalid form', :aggregate_failures do
+      it 'returns a valid response', :aggregate_failures do
         expect(response.status).to eq(200)
         expect(response.body).to be_json_eql('Form'.to_json).at_path('_type')
 
         expect(subject.body)
-          .to have_json_size(1)
+          .to have_json_size(0)
                 .at_path('_embedded/validationErrors')
 
-        expect(subject.body)
-          .to have_json_path('_embedded/validationErrors/status')
-
         expect(body)
-          .to be_json_eql('urn:openproject-org:api:v3:errors:PropertyIsReadOnly'.to_json)
-                .at_path('_embedded/validationErrors/status/errorIdentifier')
+          .to be_json_eql('locked'.to_json)
+                .at_path('_embedded/payload/status')
 
         # Does not change the user's status
         user.reload
@@ -117,7 +114,7 @@ describe ::API::V3::Users::UpdateFormAPI, content_type: :json do
     describe 'with an empty firstname' do
       let(:payload) do
         {
-          "firstName": nil
+          firstName: nil
         }
       end
 
@@ -167,5 +164,4 @@ describe ::API::V3::Users::UpdateFormAPI, content_type: :json do
 
     it_behaves_like 'unauthorized access'
   end
-
 end

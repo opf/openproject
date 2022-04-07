@@ -23,8 +23,8 @@ lt:
   js:
     ajax:
       hide: "Slėpti"
-      loading: "Įkeliama..."
-      updating: "Atnaujinama..."
+      loading: "Loading…"
+      updating: "Updating…"
     attachments:
       draggable_hint: |
         Tempkite į redagavimo lauką, kad įtrauktumėte piešinį ar paminėtumėte priedą. Uždari redaktoriaus laukai bus atidaryti, kol jūs tempsite.
@@ -287,15 +287,15 @@ lt:
           learn_about: "Sužinokite daugiau apie naujas galimybes"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_0':
+          '12_1':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
+              learn_about_link: https://www.openproject.org/openproject-12-1-release
               new_features_html: >
-                Šioje laidoje yra įvairios naujos savybės ir patobulinimai: <br> <ul class="%{list_styling_class}"> <li>Su naujais <b>vidiniais pranešimais</b> jūs gausite visus svarbius pakeitimus tiesiai aplikacijoje, ir jums daugiau nebereikės siųsti krūvos e-laiškų.</li> <li>Naujas <b>pranešimų centras</b> rodo visus pakeitimus, įskaitant intuityvius filtrus, pavyzdžiui pagal pranešimo priežastį ar projektą. Galime net tiesiogiai keisti padalintame vaizde.</li> <li>Pagerinti <b>pranešimų nustatymai</b> leidžia nustatyti, kuriems veiksmams ir kuriuose projekte reikalingi pranešimai.</li> <li><b>E-pašto priminimai</b> gali būti sukonfigūruoti gauti svarbius atnaujinimus kasdienine e-pašto santrauka.</li> <li>Darbo paketų automatinis pabaigimas ryšiams dabar rodo papildomą informaciją (projekto pavadinimą, būseną, ...), taip jums lengviau identifikuoti atitinkamą darbo paketą.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A <b>new team planner module</b> (Enterprise feature) allows you to visually assign tasks to team members to get an overview of who is working on what.</li> <li>We are <b>releasing the basic agile boards</b> for the Community version.</li> <li>The <b>"Include Projects" filter</b> option makes it easier to add different projects to your views, such as for work packages, calendars, and team planners.</li> <li>We added <b>a new "Files" tab</b> in the work package details to have all possible information attached to a work package together.</li> <li>We created <b>global roles for groups</b> to assign these roles to groups and create superuser groups.</li> <li>Project status was given more options to choose from.</li> </ul>
             bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
+              learn_about_link: https://www.openproject.org/openproject-12-1-release
               new_features_html: >
-                Laidoje yra įvairios naujos funkcijos ir patobulinimai: <br> <ul class="%{list_styling_class}"> <li>Pranešimų centras: Sumažinkite gaunamų e-laiškų skaičių. Vietoje to veikite pagal momentinius pranešimus vienoje centralizuotoje vietoje.</li> <li>Visus įkeltus IFC failus dabar galima ir atsisiųsti.</li> <li>IFC įkėlimas ir apdorojimas pagreitėjo ir gaunami geresni klaidos pranešimai.</li> <li>The <a href="https://github.com/opf/openproject-revit-add-in">OpenProject Revit priedas</a> buvo gerokai sutvarkytas.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>In the BCF module you can now save your selected work package filters, columns etc. as <b>views</b> and share those with your team members.</li> <li>A <b>new team planner module</b> (Enterprise feature) allows you to visually assign tasks to team members to get an overview of who is working on what.</li> <li>We are <b>releasing the basic agile boards</b> for the Community version.</li> <li>The <b>"Include Projects" filter</b> option makes it easier to add different projects to your views, such as for work packages, calendars, and team planners.</li> <li>We added <b>a new "Files" tab</b> in the work package details to have all possible information attached to a work package together.</li> <li>We created <b>global roles for groups</b> to assign these roles to groups and create superuser groups.</li> <li>Project status was given more options to choose from.</li> </ul>
     label_activate: "Aktyvuoti"
     label_add_column_after: "Pridėti stulpelį po"
     label_add_column_before: "Pridėti stulpelį prieš"

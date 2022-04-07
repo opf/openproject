@@ -828,7 +828,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
         principals.forEach((principal) => {
           const resourceId = principal._links.self.href;
 
-          if (!assignable.includes(resourceId)) {
+          if (!assignable || !assignable.includes(resourceId)) {
             api.addEvent({ ...eventBase, resourceId }, 'background');
           }
         });

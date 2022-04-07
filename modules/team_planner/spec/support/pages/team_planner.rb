@@ -244,5 +244,15 @@ module Pages
     def y_center(element)
       element.native.location.y + (element.native.size.height / 2)
     end
+
+    def wait_for_loaded
+      expect(page).to have_selector('.op-team-planner--wp-loading-skeleton')
+
+      retry_block do
+        raise "Should not be there" if page.has_selector?('.op-team-planner--wp-loading-skeleton')
+
+        sleep 5
+      end
+    end
   end
 end

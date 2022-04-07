@@ -82,6 +82,7 @@ module OpenProject::Storages
            parent: :settings
     end
 
+    patch_with_namespace :Principals, :ReplaceReferencesService
     patch_with_namespace :BasicData, :RoleSeeder
 
     # This hook is executed when the module is loaded.

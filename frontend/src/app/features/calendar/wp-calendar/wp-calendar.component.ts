@@ -88,6 +88,9 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
   }
 
   ngOnInit():void {
+    this.wpTableFilters.hidden.push(
+      'project',
+    );
     this.calendar.resize$
       .pipe(
         this.untilDestroyed(),

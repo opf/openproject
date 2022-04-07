@@ -22,7 +22,7 @@ get:
         Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/)
         endpoint. If no filter is to be applied, the client should send an empty array (`[]`), otherwise a default
         filter is applied. A Currently supported filters are (there are additional filters added by modules):
-        
+
         - assigned_to
         - assignee_or_group
         - attachment_base
@@ -104,12 +104,12 @@ get:
         type: string
     - description: Indicates whether properties should be summed up if they support
         it.
-      example: 'true'
+      example: true
       in: query
       name: showSums
       required: false
       schema:
-        default: 'false'
+        default: false
         type: boolean
     - description: |-
         Comma separated list of properties to include.
@@ -192,12 +192,12 @@ post:
         Indicates whether change notifications (e.g. via E-Mail) should be sent.
         Note that this controls notifications for all users interested in changes to the work package (e.g. watchers, author and assignee),
         not just the current user.
-      example: 'false'
+      example: false
       in: query
       name: notify
       required: false
       schema:
-        default: 'true'
+        default: true
         type: boolean
   responses:
     '200':

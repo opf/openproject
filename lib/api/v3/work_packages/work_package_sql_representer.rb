@@ -41,7 +41,7 @@ module API
              column: -> { :project_id },
              title: -> { 'project_name' },
              join: { table: :projects,
-                     condition: 'projects.id = project_id',
+                     condition: 'projects.id = work_packages.project_id',
                      select: ['projects.name project_name'] }
 
         associated_user_link :author

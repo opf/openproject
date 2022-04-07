@@ -78,6 +78,10 @@ cs:
         contact: "Kontaktujte nás pro demo"
       enterprise_info_html: "je funkcí Enterprise<strong class='icon-medal'></strong>."
       upgrade_info: "Přejděte na placenou verzi a začněte ji používat ve vašem týmu."
+    journal_aggregation:
+      explanation:
+        text: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent and will also affect %{webhook_link} delay."
+        link: "webhook"
   announcements:
     show_until: Ukázat až do
     is_active: aktuálně zobrazené
@@ -898,6 +902,7 @@ cs:
     updated_on: "Aktualizováno"
     uploader: "Uploader"
     user: "Uživatel"
+    value: "Value"
     version: "Verze"
     work_package: "Pracovní balíček"
   backup:
@@ -1373,7 +1378,9 @@ cs:
   menus:
     admin:
       mail_notification: "E-mailová upozornění"
-      incoming_outgoing: "Příchozí a odchozí"
+      mails_and_notifications: "Emails and notification"
+      aggregation_and_retention: 'Aggregation and retention'
+      api_and_webhooks: "API and webhooks"
     quick_add:
       label: "Otevřít nabídku rychlého přidání"
   my_account:
@@ -1873,7 +1880,7 @@ cs:
   label_used_by_types: "Používá se podle typů"
   label_used_in_projects: "Používá se v projektech"
   label_user: "Uživatel"
-  label_user_and_permission: "Uživatelé a oprávnění"
+  label_user_and_permission: "Users and permissions"
   label_user_named: "Uživatel %{name}"
   label_user_activity: "Aktivita %{value}"
   label_user_anonymous: "Anonymní"
@@ -2601,7 +2608,6 @@ cs:
   text_work_packages_destroy_confirmation: "Jste si jisti, že chcete odstranit vybrané pracovní balíčky?"
   text_work_packages_ref_in_commit_messages: "Odkazování a opravování pracovních balíčků ve zprávách commitu"
   text_journal_added: "%{label} %{value} přidán"
-  text_journal_aggregation_time_explanation: "Individuální akce/úpravy uživatele (např. dvojnásobná aktualizace pracovního balíčku se sečtou do jediné akce, pokud je jejich časový rozdíl menší než stanovený čas. Budou zobrazeny jako jedna akce v rámci aplikace. Toto také zpozdí oznámení o stejný čas a sníží tak počet zasílaných e-mailů."
   text_journal_changed_html: "%{label} se změnil z %{old} %{linebreak}<strong>na</strong> %{new}"
   text_journal_changed_plain: "%{label} se změnil z %{old} %{linebreak}na %{new}"
   text_journal_changed_no_detail: "%{label} aktualizován"

@@ -141,6 +141,14 @@ describe 'API v3 work packages resource with filters for linked storage file',
       end
 
       include_examples 'filter unavailable when storages module is inactive'
+
+      context 'if using signaling' do
+        let(:path) { api_v3_paths.path_for :work_packages, select: 'total,count,_type,elements/*', filters: filters }
+
+        it_behaves_like 'API V3 collection response', 2, 2, 'WorkPackage', 'WorkPackageCollection' do
+          let(:elements) { [work_package1, work_package3] }
+        end
+      end
     end
 
     context 'with single filter for storage id' do

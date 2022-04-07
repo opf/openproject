@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-feature 'Types', type: :feature do
+describe 'Types', type: :feature, js: true do
   shared_let(:admin) { create :admin }
 
   let!(:existing_role) { create(:role) }

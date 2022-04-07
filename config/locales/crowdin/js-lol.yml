@@ -23,8 +23,8 @@ lol:
   js:
     ajax:
       hide: "crwdns786842:0crwdne786842:0"
-      loading: "crwdns786844:0crwdne786844:0"
-      updating: "crwdns807384:0crwdne807384:0"
+      loading: "crwdns808268:0crwdne808268:0"
+      updating: "crwdns808270:0crwdne808270:0"
     attachments:
       draggable_hint: |
         crwdns786846:0crwdne786846:0
@@ -286,15 +286,15 @@ lol:
           learn_about: "crwdns787258:0crwdne787258:0"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_0':
+          '12_1':
             standard:
-              learn_about_link: crwdns787260:0crwdne787260:0
+              learn_about_link: crwdns808272:0crwdne808272:0
               new_features_html: >
-                crwdns787262:0%{list_styling_class}crwdne787262:0
+                crwdns808274:0%{list_styling_class}crwdne808274:0
             bim:
-              learn_about_link: crwdns787264:0crwdne787264:0
+              learn_about_link: crwdns808276:0crwdne808276:0
               new_features_html: >
-                crwdns787266:0%{list_styling_class}crwdne787266:0
+                crwdns808278:0%{list_styling_class}crwdne808278:0
     label_activate: "crwdns787268:0crwdne787268:0"
     label_add_column_after: "crwdns787270:0crwdne787270:0"
     label_add_column_before: "crwdns787272:0crwdne787272:0"

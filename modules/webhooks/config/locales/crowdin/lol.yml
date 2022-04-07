@@ -27,6 +27,10 @@ lol:
       events:
         created: "crwdns494611:0crwdne494611:0"
         updated: "crwdns494613:0crwdne494613:0"
+      explanation:
+        text: >
+          crwdns808280:0%{link}crwdne808280:0
+        link: crwdns808282:0crwdne808282:0
       status:
         enabled: 'crwdns494615:0crwdne494615:0'
         disabled: 'crwdns494617:0crwdne494617:0'
