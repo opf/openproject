@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2022 the OpenProject GmbH
 //
@@ -26,21 +26,41 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-$badge-diameter: 1.25rem
+import { QueryResource } from 'core-app/features/hal/resources/query-resource';
+import { States } from 'core-app/core/states/states.service';
+import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
+import { Injectable } from '@angular/core';
+import { WorkPackageQueryStateService } from './wp-view-base.service';
 
-.badge
-  @include badge
-  width: auto
-  min-width: 1.25rem
-  padding-left: 0.3rem
-  padding-right: 0.3rem
+@Injectable()
+export class WorkPackageViewIncludeSubprojectsService extends WorkPackageQueryStateService<boolean> {
+  public constructor(
+    readonly states:States,
+    readonly querySpace:IsolatedQuerySpace,
+  ) {
+    super(querySpace);
+  }
 
-  &.-secondary
-    @include badge-style($secondary-color, auto)
+  public hasChanged(query:QueryResource):boolean {
+    return this.current !== query.includeSubprojects;
+  }
 
-  &.-border-only
-    border-color: var(--button--border-color)
-    color: var(--body-font-color)
-    background: transparent
-    border-width: 1px
-    border-style: solid
+  valueFromQuery(query:QueryResource):boolean {
+    return query.includeSubprojects || false;
+  }
+
+  public applyToQuery(query:QueryResource):boolean {
+    const { current } = this;
+    query.includeSubprojects = current; // eslint-disable-line no-param-reassign
+
+    return true;
+  }
+
+  public get current():boolean {
+    return this.lastUpdatedState.getValueOr(false);
+  }
+
+  public setIncludeSubprojects(include:boolean):void {
+    this.update(include);
+  }
+}

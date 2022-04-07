@@ -51,6 +51,8 @@ class UpdateQueryFromParamsService
 
     apply_display_representation(params)
 
+    apply_include_subprojects(params)
+
     disable_hierarchy_when_only_grouped_by(params)
 
     if valid_subset
@@ -110,6 +112,10 @@ class UpdateQueryFromParamsService
 
   def apply_display_representation(params)
     query.display_representation = params[:display_representation] if params.key?(:display_representation)
+  end
+
+  def apply_include_subprojects(params)
+    query.include_subprojects = params[:include_subprojects] if params.key?(:include_subprojects)
   end
 
   def disable_hierarchy_when_only_grouped_by(params)

@@ -226,8 +226,16 @@ describe 'Team planner add existing work packages', type: :feature, js: true do
         dropdown.toggle!
         dropdown.expect_open
 
+        dropdown.toggle_include_all_subprojects
+
         dropdown.expect_checkbox(project.id, true)
         dropdown.expect_checkbox(sub_project.id, false)
+
+        dropdown.click_button 'Apply'
+        dropdown.expect_closed
+        dropdown.expect_count 1
+        dropdown.toggle!
+        dropdown.expect_open
 
         dropdown.toggle_checkbox(sub_project.id)
 

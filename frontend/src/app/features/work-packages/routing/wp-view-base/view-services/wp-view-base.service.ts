@@ -45,8 +45,9 @@ export abstract class WorkPackageViewBaseService<T> {
   /** Internal pristine state filled during +initialize+ only */
   protected pristineState = input<T>();
 
-  constructor(protected readonly querySpace:IsolatedQuerySpace) {
-  }
+  constructor(
+    protected readonly querySpace:IsolatedQuerySpace,
+  ) { }
 
   /**
    * Get the state value from the current query.

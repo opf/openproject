@@ -27,16 +27,29 @@ export class OpProjectListComponent {
 
   @Input() selected:string[] = [];
 
-  @Input() query = '';
+  @Input() searchText = '';
+
+  @Input() includeSubprojects = false;
+
+  @Input() parentChecked = false;
 
   public get currentProjectHref():string|null {
     return this.currentProjectService.apiv3Path;
   }
 
+  public text = {
+    include_all_selected: this.I18n.t('js.include_projects.tooltip.include_all_selected'),
+    current_project: this.I18n.t('js.include_projects.tooltip.current_project'),
+  };
+
   constructor(
     readonly I18n:I18nService,
     readonly currentProjectService:CurrentProjectService,
   ) { }
+
+  public isDisabled(project:IProjectData):boolean {
+    return project.href === this.currentProjectHref || (this.includeSubprojects && this.parentChecked);
+  }
 
   public updateSelected(selected:string[]):void {
     this.update.emit(selected);
@@ -46,8 +59,15 @@ export class OpProjectListComponent {
     return this.selected.includes(href);
   }
 
-  public changeSelected(href:string):void {
+  public changeSelected(project:IProjectData):void {
+    const { href } = project;
     const checked = this.isChecked(href);
+    const disabled = this.isDisabled(project);
+
+    if (disabled) {
+      return;
+    }
+
     if (checked) {
       this.updateSelected(this.selected.filter((selectedHref) => selectedHref !== href));
     } else {

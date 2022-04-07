@@ -1,3 +1,5 @@
+@use "sass:list"
+
 .spot-list
   display: flex
   flex-direction: column
@@ -18,6 +20,9 @@
       border: 0
       cursor: pointer
 
+      &:hover
+        background-color: $spot-color-main-light
+
       &_disabled
         color: $spot-color-basic-gray-3
         cursor: default
@@ -28,5 +33,9 @@
       &:not(:last-child)
         margin-left: $spot-spacing-0_5
 
-    .spot-list
-      margin-left: $spot-spacing-1_5
+  $item-list: ""
+  @for $i from 1 through 10
+    $item-list: list.append($item-list, ".spot-list--item")
+
+    #{$item-list} .spot-list--item-action
+      padding-left: $i * $spot-spacing-1_5

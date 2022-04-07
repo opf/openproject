@@ -91,10 +91,19 @@ describe 'Team planner', type: :feature, js: true do
              project: project,
              type: type_bug,
              assigned_to: other_user,
-             status: closed_status,
              start_date: Time.zone.today - 1.day,
              due_date: Time.zone.today + 1.day,
              subject: 'Another task for the other user'
+    end
+    let!(:closed_bug) do
+      create :work_package,
+             project: project,
+             type: type_bug,
+             assigned_to: other_user,
+             status: closed_status,
+             start_date: Time.zone.today - 1.day,
+             due_date: Time.zone.today + 1.day,
+             subject: 'Closed bug'
     end
     let!(:user_bug) do
       create :work_package,
@@ -116,6 +125,7 @@ describe 'Team planner', type: :feature, js: true do
 
       team_planner.title
 
+      team_planner.wait_for_loaded
       team_planner.expect_empty_state
       team_planner.expect_assignee(user, present: false)
       team_planner.expect_assignee(other_user, present: false)
@@ -144,6 +154,7 @@ describe 'Team planner', type: :feature, js: true do
       team_planner.within_lane(other_user) do
         team_planner.expect_event other_task
         team_planner.expect_event other_bug
+        team_planner.expect_event closed_bug, present: false
       end
 
       # Add filter for type task
@@ -160,6 +171,7 @@ describe 'Team planner', type: :feature, js: true do
       team_planner.within_lane(other_user) do
         team_planner.expect_event other_task
         team_planner.expect_event other_bug, present: false
+        team_planner.expect_event closed_bug, present: false
       end
 
       # Open the split view for that task and change to bug

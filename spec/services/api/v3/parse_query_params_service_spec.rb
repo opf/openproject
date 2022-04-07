@@ -306,5 +306,17 @@ describe ::API::V3::ParseQueryParamsService,
         let(:expected) { { timeline_labels: input.stringify_keys } }
       end
     end
+
+    context 'with includeSubprojects' do
+      it_behaves_like 'transforms' do
+        let(:params) { { includeSubprojects: 'true' } }
+        let(:expected) { { include_subprojects: true } }
+      end
+
+      it_behaves_like 'transforms' do
+        let(:params) { { includeSubprojects: 'false' } }
+        let(:expected) { { include_subprojects: false } }
+      end
+    end
   end
 end
