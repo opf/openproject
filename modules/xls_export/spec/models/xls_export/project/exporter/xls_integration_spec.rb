@@ -31,6 +31,19 @@ describe XlsExport::Project::Exporter::XLS do
                                 project.name, project.description, 'Off track', 'false']
   end
 
+  context 'with status_explanation enabled' do
+    before do
+      Setting.enabled_projects_columns += ["status_explanation"]
+    end
+
+    it 'performs a successful export' do
+      expect(rows.count).to eq(1)
+      expect(sheet.row(1)).to eq [project.id.to_s, project.identifier,
+                                  project.name, project.description,
+                                  'Off track', project.status_explanation, 'false']
+    end
+  end
+
   describe 'custom field columns selected' do
     before do
       Setting.enabled_projects_columns += custom_fields.map { |cf| "cf_#{cf.id}" }
