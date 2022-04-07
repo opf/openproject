@@ -74,6 +74,8 @@ import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 export class ProjectEditFieldComponent extends EditFieldComponent implements OnInit {
   @ViewChild(NgSelectComponent, { static: true }) public ngSelectComponent:NgSelectComponent;
 
+  isNew = isNewResource(this.resource);
+
   constructor(
     readonly I18n:I18nService,
     readonly elementRef:ElementRef,
