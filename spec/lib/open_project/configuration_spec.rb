@@ -247,7 +247,7 @@ describe OpenProject::Configuration do
       { 'email_delivery_method' => 'smtp',
         'smtp_address' => 'smtp.example.net',
         'smtp_port' => '25' }.map do |name, value|
-        Hashie::Mash.new name: name, value: value
+        API::ParserStruct.new name: name, value: value
       end
     end
 

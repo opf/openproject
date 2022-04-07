@@ -250,7 +250,7 @@ describe ::API::V3::WorkPackageCollectionFromQueryService,
               .to receive(:summable)
               .and_return(custom_fields)
 
-            expected = Hashie::Mash.new(estimated_hours: 0.0, available_custom_fields: custom_fields)
+            expected = API::ParserStruct.new(estimated_hours: 0.0, available_custom_fields: custom_fields)
 
             expect(subject.total_sums)
               .to eq(expected)

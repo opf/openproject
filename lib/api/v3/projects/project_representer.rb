@@ -214,13 +214,13 @@ module API
                    end
                  },
                  setter: ->(fragment:, represented:, **) {
-                   represented.status_attributes ||= Hashie::Mash.new
+                   represented.status_attributes ||= API::ParserStruct.new
 
                    link = ::API::Decorators::LinkObject.new(represented.status_attributes,
                                                             path: :project_status,
                                                             property_name: :status,
                                                             getter: :code,
-                                                            setter: :"code=")
+                                                            setter: :'code=')
 
                    link.from_hash(fragment)
                  }
@@ -233,7 +233,7 @@ module API
                                                       plain: false)
                  },
                  setter: ->(fragment:, represented:, **) {
-                   represented.status_attributes ||= Hashie::Mash.new
+                   represented.status_attributes ||= API::ParserStruct.new
                    represented.status_attributes[:explanation] = fragment["raw"]
                  }
 

@@ -46,7 +46,7 @@ module API
                               # start with numbers, the id needs to be looked up
                               # in the DB.
                               id = if id.to_i.to_s == id
-                                     id # return numerical ID
+                                     id.to_i # return numerical ID
                                    else
                                      Project.where(identifier: id).pick(:id) # lookup Project by identifier
                                    end
@@ -255,14 +255,7 @@ module API
                   }
 
         property :ordered_work_packages,
-                 skip_render: true,
-                 exec_context: :decorator,
-                 getter: nil,
-                 setter: ->(fragment:, **) {
-                   next if represented.persisted?
-
-                   represented.ordered_work_packages = fragment
-                 }
+                 skip_render: true
 
         property :starred,
                  writeable: true
