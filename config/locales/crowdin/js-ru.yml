@@ -23,8 +23,8 @@ ru:
   js:
     ajax:
       hide: "Скрыть"
-      loading: "Loading…"
-      updating: "Updating…"
+      loading: "Загрузка…"
+      updating: "Обновление…"
     attachments:
       draggable_hint: |
         Перетащите в поле редактора для вставки изображения или прикрепления ссылки. Закрытые поля будут открыты в течение перетаскивания.
@@ -290,11 +290,11 @@ ru:
             standard:
               learn_about_link: https://www.openproject.org/openproject-12-1-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A <b>new team planner module</b> (Enterprise feature) allows you to visually assign tasks to team members to get an overview of who is working on what.</li> <li>We are <b>releasing the basic agile boards</b> for the Community version.</li> <li>The <b>"Include Projects" filter</b> option makes it easier to add different projects to your views, such as for work packages, calendars, and team planners.</li> <li>We added <b>a new "Files" tab</b> in the work package details to have all possible information attached to a work package together.</li> <li>We created <b>global roles for groups</b> to assign these roles to groups and create superuser groups.</li> <li>Project status was given more options to choose from.</li> </ul>
+                Релиз содержит различные новые функции и улучшения: <br> <ul class="%{list_styling_class}"> <li>В модуле BCF вы можете сохранить выбранные фильтры рабочих пакетов, колонки и т. д. как <b>просмотров</b> и поделиться ими с членами вашей команды.</li> <li>Новый <b>модуль командного планировщика</b> (Enterprise feature) позволяет наглядно назначить задачи членам команды, чтобы получить представление о том, кто над чем работает.</li> <li>Мы <b>выпустили базовые agile-доски</b> для версии Сообщества.</li> <li>Фильтр <b>"Включить проекты"</b> позволяет легко добавлять различные проекты к вашим представлениям, Например, для пакетов работ, календарей и командных планировщиков.</li> <li>Мы добавили <b>новую вкладку "Файлы"</b> в деталях пакета работ для получения всей возможной информации вместе с пакетом работ.</li> <li>Мы создали <b>глобальные роли для групп</b> для назначения этих ролей группам и создания групп суперпользователей.</li> <li>Статус проекта предоставляет больше вариантов выбора.</li> </ul>
             bim:
               learn_about_link: https://www.openproject.org/openproject-12-1-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>In the BCF module you can now save your selected work package filters, columns etc. as <b>views</b> and share those with your team members.</li> <li>A <b>new team planner module</b> (Enterprise feature) allows you to visually assign tasks to team members to get an overview of who is working on what.</li> <li>We are <b>releasing the basic agile boards</b> for the Community version.</li> <li>The <b>"Include Projects" filter</b> option makes it easier to add different projects to your views, such as for work packages, calendars, and team planners.</li> <li>We added <b>a new "Files" tab</b> in the work package details to have all possible information attached to a work package together.</li> <li>We created <b>global roles for groups</b> to assign these roles to groups and create superuser groups.</li> <li>Project status was given more options to choose from.</li> </ul>
+                Релиз содержит различные новые функции и улучшения: <br> <ul class="%{list_styling_class}"> <li>В модуле BCF вы можете сохранить выбранные фильтры рабочих пакетов, колонки и т. д. как <b>просмотров</b> и поделиться ими с членами вашей команды.</li> <li>Новый <b>модуль командного планировщика</b> (Enterprise feature) позволяет наглядно назначить задачи членам команды, чтобы получить представление о том, кто над чем работает.</li> <li>Мы <b>выпустили базовые agile-доски</b> для версии Сообщества.</li> <li>Фильтр <b>"Включить проекты"</b> позволяет легко добавлять различные проекты к вашим представлениям, Например, для пакетов работ, календарей и командных планировщиков.</li> <li>Мы добавили <b>новую вкладку "Файлы"</b> в деталях пакета работ для получения всей возможной информации вместе с пакетом работ.</li> <li>Мы создали <b>глобальные роли для групп</b> для назначения этих ролей группам и создания групп суперпользователей.</li> <li>Статус проекта предоставляет больше вариантов выбора.</li> </ul>
     label_activate: "Активировать"
     label_add_column_after: "Добавить столбец после"
     label_add_column_before: "Добавить столбец перед"

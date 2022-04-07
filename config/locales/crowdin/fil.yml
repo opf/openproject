@@ -892,6 +892,7 @@ fil:
     updated_on: "Naka-update sa"
     uploader: "Uploader"
     user: "Gumagamit"
+    value: "Value"
     version: "Bersyon"
     work_package: "Work package"
   backup:

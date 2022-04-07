@@ -888,6 +888,7 @@ el:
     updated_on: "Τροποποιήθηκε"
     uploader: "Μεταφορτώθηκε από"
     user: "Χρήστης"
+    value: "Value"
     version: "Έκδοση"
     work_package: "Εργασία"
   backup:

@@ -70,7 +70,7 @@ describe 'Team planner constraints for a subproject', type: :feature, js: true d
     project_include.toggle!
     project_include.toggle_checkbox(subproject.id)
     project_include.click_button 'Apply'
-    project_include.expect_count 2
+    project_include.expect_count 1
 
     team_planner.within_lane(user) do
       team_planner.expect_event work_package

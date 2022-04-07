@@ -50,6 +50,7 @@ import { uiStateLinkClass } from 'core-app/features/work-packages/components/wp-
 import { debugLog } from 'core-app/shared/helpers/debug_output';
 import { WorkPackageViewContextMenu } from 'core-app/shared/components/op-context-menu/wp-context-menu/wp-view-context-menu.directive';
 import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
+import { initial } from 'lodash';
 
 export interface CalendarViewEvent {
   el:HTMLElement;
@@ -191,9 +192,10 @@ export class OpCalendarService extends UntilDestroyedMixin {
         .find({ pageSize: 0 }, queryId)
         .toPromise();
 
-      queryProps = this.urlParamsHelper.encodeQueryJsonParams(
+      queryProps = this.generateQueryProps(
         initialQuery,
-        { pp: OpCalendarService.MAX_DISPLAYED, pa: 1 },
+        startDate,
+        endDate,
       );
     } else if (this.initializingWithQueryProps) {
       // This is the case on initially loading the calendar with query_props present in the url params.
@@ -216,17 +218,10 @@ export class OpCalendarService extends UntilDestroyedMixin {
         queryProps = OpCalendarService.defaultQueryProps(startDate, endDate);
       }
     } else {
-      queryProps = this.urlParamsHelper.encodeQueryJsonParams(
+      queryProps = this.generateQueryProps(
         this.querySpace.query.value as QueryResource,
-        (props) => ({
-          ...props,
-          pp: OpCalendarService.MAX_DISPLAYED,
-          pa: 1,
-          f: [
-            ...props.f.filter((filter) => filter.n !== 'datesInterval'),
-            OpCalendarService.dateFilter(startDate, endDate),
-          ],
-        }),
+        startDate,
+        endDate,
       );
 
       // There are no query props, ensure that they are not being shown the next load
@@ -237,6 +232,25 @@ export class OpCalendarService extends UntilDestroyedMixin {
       .wpListService
       .fromQueryParams({ query_id: queryId, query_props: queryProps }, projectIdentifier || undefined)
       .toPromise();
+  }
+
+  public generateQueryProps(
+    query: QueryResource,
+    startDate:string,
+    endDate:string,
+  ):string {
+    return this.urlParamsHelper.encodeQueryJsonParams(
+      query,
+      (props) => ({
+        ...props,
+        pp: OpCalendarService.MAX_DISPLAYED,
+        pa: 1,
+        f: [
+          ...props.f.filter((filter) => filter.n !== 'datesInterval'),
+          OpCalendarService.dateFilter(startDate, endDate),
+        ],
+      }),
+    );
   }
 
   public get initialView():string|undefined {

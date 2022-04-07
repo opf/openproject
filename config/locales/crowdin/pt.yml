@@ -891,6 +891,7 @@ pt:
     updated_on: "Atualizado em"
     uploader: "Enviado por"
     user: "Usuário"
+    value: "Value"
     version: "Versão"
     work_package: "Pacote de trabalho"
   backup:

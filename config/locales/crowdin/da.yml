@@ -890,6 +890,7 @@ da:
     updated_on: "Opdateret den"
     uploader: "Uploader"
     user: "Bruger"
+    value: "Value"
     version: "Version"
     work_package: "Arbejdspakke"
   backup:

@@ -75,7 +75,7 @@ describe 'Team planner project include', type: :feature, js: true do
       work_package_view.expect_assignee other_user
 
       work_package_view.within_lane(user) do
-        work_package_view.expect_event task
+        work_package_view.expect_event task, present: true
         work_package_view.expect_event sub_bug, present: true
         work_package_view.expect_event sub_sub_bug, present: true
       end
@@ -88,7 +88,7 @@ describe 'Team planner project include', type: :feature, js: true do
       dropdown.toggle!
       dropdown.toggle_checkbox(sub_sub_project.id)
       dropdown.click_button 'Apply'
-      dropdown.expect_count 2
+      dropdown.expect_count 1
 
       work_package_view.within_lane(user) do
         work_package_view.expect_event task
@@ -99,7 +99,7 @@ describe 'Team planner project include', type: :feature, js: true do
       dropdown.toggle!
       dropdown.toggle_checkbox(other_project.id)
       dropdown.click_button 'Apply'
-      dropdown.expect_count 3
+      dropdown.expect_count 2
 
       work_package_view.within_lane(other_user) do
         work_package_view.expect_event other_task

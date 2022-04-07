@@ -902,6 +902,7 @@ sk:
     updated_on: "Aktualizované"
     uploader: "Uploader"
     user: "Užívateľ(ka)"
+    value: "Value"
     version: "Verzia"
     work_package: "Pracovný balíček"
   backup:

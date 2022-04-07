@@ -55,7 +55,8 @@ module Projects::Exports
       [
         { name: :id, caption: Project.human_attribute_name(:id) },
         { name: :identifier, caption: Project.human_attribute_name(:identifier) },
-        { name: :name, caption: Project.human_attribute_name(:name) }
+        { name: :name, caption: Project.human_attribute_name(:name) },
+        { name: :description, caption: Project.human_attribute_name(:description) }
       ]
     end
 

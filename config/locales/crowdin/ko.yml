@@ -886,6 +886,7 @@ ko:
     updated_on: "업데이트 날짜"
     uploader: "업로더"
     user: "사용자"
+    value: "Value"
     version: "버전"
     work_package: "작업 패키지"
   backup:

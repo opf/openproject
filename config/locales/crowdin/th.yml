@@ -887,6 +887,7 @@ th:
     updated_on: "แก้ไขเมื่อ"
     uploader: "Uploader"
     user: "ผู้ใช้"
+    value: "Value"
     version: "เวอร์ชัน"
     work_package: "ชุดภารกิจ"
   backup:

@@ -897,6 +897,7 @@ lv:
     updated_on: "Labots"
     uploader: "Uploader"
     user: "User"
+    value: "Value"
     version: "Versija"
     work_package: "Work package"
   backup:

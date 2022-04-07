@@ -891,6 +891,7 @@ sv:
     updated_on: "Uppdaterat den"
     uploader: "Uploader"
     user: "Användare"
+    value: "Value"
     version: "Version"
     work_package: "Arbetspaket"
   backup:
