@@ -154,7 +154,7 @@ describe 'Team planner', type: :feature, js: true do
       team_planner.within_lane(other_user) do
         team_planner.expect_event other_task
         team_planner.expect_event other_bug
-        team_planner.expect_event closed_bug, present: false
+        team_planner.expect_event closed_bug
       end
 
       # Add filter for type task
@@ -191,7 +191,7 @@ describe 'Team planner', type: :feature, js: true do
       team_planner.expect_empty_state
       team_planner.expect_assignee(user, present: false)
       team_planner.expect_assignee(other_user, present: false)
-      
+
       retry_block do
         team_planner.click_add_user
         page.find('[data-qa-selector="tp-add-assignee"] input')
@@ -201,7 +201,7 @@ describe 'Team planner', type: :feature, js: true do
       team_planner.expect_empty_state(present: false)
       team_planner.expect_assignee(user)
       team_planner.expect_assignee(other_user, present: false)
-      
+
       retry_block do
         team_planner.click_add_user
         page.find('[data-qa-selector="tp-add-assignee"] input')
@@ -243,11 +243,11 @@ describe 'Team planner', type: :feature, js: true do
       end
 
       expect(page).to have_selector('.ng-option-disabled', text: "No items found")
-      
+
       retry_block do
         team_planner.select_user_to_add user.name
       end
-      
+
       team_planner.expect_assignee(user)
 
       retry_block do
