@@ -163,7 +163,7 @@ module API
             if scope_a.is_a? Class
               scope_b
             else
-              scope_a.merge(scope_b)
+              scope_a.merge(scope_b, rewhere: true)
             end
           end
         end
