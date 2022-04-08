@@ -115,7 +115,7 @@ describe SettingsHelper, type: :helper do
       end
 
       it 'is disabled and has no hidden field' do
-        expect(output).not_to have_selector 'input[type="hidden"][value="''"]', visible: :all
+        expect(output).not_to have_selector 'input[type="hidden"][value=""]', visible: :all
         expect(output).to have_selector 'input[type="checkbox"][disabled="disabled"].form--check-box', count: 3
       end
     end

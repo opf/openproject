@@ -56,7 +56,7 @@ module SettingsHelper
       },
       {
         name: 'repositories',
-        controller:'/admin/settings/repositories_settings',
+        controller: '/admin/settings/repositories_settings',
         label: :label_repository_plural
       }
     ]
@@ -85,7 +85,7 @@ module SettingsHelper
         hidden +
           choices.map do |choice|
             setting_multiselect_choice(setting, choice, options)
-          end.join.html_safe
+          end.join.html_safe # rubocop:disable Rails/OutputSafety
       end
   end
 
@@ -194,10 +194,10 @@ module SettingsHelper
   private
 
   def wrap_field_outer(options, &block)
-    if options[:label] != false
-      content_tag(:span, class: 'form--field-container', &block)
-    else
+    if options[:label] == false
       block.call
+    else
+      content_tag(:span, class: 'form--field-container', &block)
     end
   end
 
@@ -210,7 +210,7 @@ module SettingsHelper
             hidden_field_tag("settings[#{setting}][]", '') +
               I18n.t("setting_#{setting}")
           end
-        end.join.html_safe
+        end.join.html_safe # rubocop:disable Rails/OutputSafety
     end
   end
 
@@ -221,17 +221,21 @@ module SettingsHelper
       exceptions = Array(choice[:except]).compact
       content_tag(:tr, class: 'form--matrix-row') do
         content_tag(:td, caption, class: 'form--matrix-cell') +
-          settings.map do |setting|
-            content_tag(:td, class: 'form--matrix-checkbox-cell') do
-              unless exceptions.include?(setting)
-                styled_check_box_tag("settings[#{setting}][]", value,
-                                     Setting.send(setting).include?(value),
-                                     disabled_setting_option(setting).merge(id: "#{setting}_#{value}"))
-              end
-            end
-          end.join.html_safe
+          settings_matrix_tds(settings, exceptions, value)
       end
-    end.join.html_safe
+    end.join.html_safe # rubocop:disable Rails/OutputSafety
+  end
+
+  def settings_matrix_tds(settings, exceptions, value)
+    settings.map do |setting|
+      content_tag(:td, class: 'form--matrix-checkbox-cell') do
+        unless exceptions.include?(setting)
+          styled_check_box_tag("settings[#{setting}][]", value,
+                               Setting.send(setting).include?(value),
+                               disabled_setting_option(setting).merge(id: "#{setting}_#{value}"))
+        end
+      end
+    end.join.html_safe # rubocop:disable Rails/OutputSafety
   end
 
   def setting_multiselect_choice(setting, choice, options)
@@ -244,7 +248,6 @@ module SettingsHelper
     content_tag(:label, class: 'form--label-with-check-box') do
       styled_check_box_tag("settings[#{setting}][]", value,
                            Setting.send(setting).include?(value), choice_options) + text.to_s
-
     end
   end
 
