@@ -161,7 +161,15 @@
 #     - 'statuses'
 #     - 'types'
 #     - 'admin/roles'
-
+#
+# Enable file storages module:
+#
+# The file storages module is currently under development and can
+# be enabled for beta usage by setting a feature flag:
+#
+# production:
+#   feature_storages_module_active: true
+#
 
 # default configuration options for all environments
 default:
