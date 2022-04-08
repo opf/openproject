@@ -4,25 +4,24 @@ module Components
       SeleniumHubWaiter.wait
       # Open the element
       element.click
-      # Insert the text to find
-      within(element) do
-        ng_enter_query(query)
-      end
-      sleep(0.5)
 
-      ##
-      # Find the open dropdown
-      list =
+      # Wait for dropdown to open
+      dropdown_list =
         if results_selector
-          page.find(results_selector)
+          page.find(results_selector).find('.ng-dropdown-panel')
         else
           within(element) do
             page.find('ng-select .ng-dropdown-panel')
           end
         end
+      scroll_to_element(dropdown_list)
 
-      scroll_to_element(list)
-      list
+      # Insert the text to find
+      within(element) do
+        ng_enter_query(query)
+      end
+
+      dropdown_list
     end
 
     ##
@@ -50,7 +49,7 @@ module Components
       from_element.find('.ng-input input')
     end
 
-    def select_autocomplete(element, query:, results_selector: nil, select_text: nil, option_selector: nil)
+    def select_autocomplete(element, query:, results_selector: nil, select_text: nil)
       target_dropdown = search_autocomplete(element, results_selector: results_selector, query: query)
 
       ##
@@ -59,7 +58,7 @@ module Components
       text = select_text.presence || query
 
       # click the element to select it
-      target_dropdown.find('.ng-option', text: text, match: :first, wait: 60).click
+      target_dropdown.find('.ng-option', text: text, match: :first, wait: 15).click
     end
   end
 end
