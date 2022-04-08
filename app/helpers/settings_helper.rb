@@ -78,19 +78,13 @@ module SettingsHelper
   def setting_multiselect(setting, choices, options = {})
     setting_label(setting, options) +
       content_tag(:span, class: 'form--field-container -vertical') do
-        hidden_field_tag("settings[#{setting}][]", '') +
+        hidden = with_empty_unless_writable(setting) do
+          hidden_field_tag("settings[#{setting}][]", '')
+        end
+
+        hidden +
           choices.map do |choice|
-            text, value, choice_options = (choice.is_a?(Array) ? choice : [choice, choice])
-            choice_options = disabled_setting_option(setting)
-                             .merge(choice_options || {})
-                             .merge(options.except(:id))
-            choice_options[:id] = "#{setting}_#{value}"
-
-            content_tag(:label, class: 'form--label-with-check-box') do
-              styled_check_box_tag("settings[#{setting}][]", value,
-                                   Setting.send(setting).include?(value), choice_options) + text.to_s
-
-            end
+            setting_multiselect_choice(setting, choice, options)
           end.join.html_safe
       end
   end
@@ -162,7 +156,11 @@ module SettingsHelper
   def setting_check_box(setting, options = {})
     setting_label(setting, options) +
       wrap_field_outer(options) do
-        tag(:input, type: 'hidden', name: "settings[#{setting}]", value: 0, id: "settings_#{setting}_hidden") +
+        hidden = with_empty_unless_writable(setting) do
+          tag(:input, type: 'hidden', name: "settings[#{setting}]", value: 0, id: "settings_#{setting}_hidden")
+        end
+
+        hidden +
           styled_check_box_tag("settings[#{setting}]",
                                1,
                                Setting.send("#{setting}?"),
@@ -236,7 +234,29 @@ module SettingsHelper
     end.join.html_safe
   end
 
+  def setting_multiselect_choice(setting, choice, options)
+    text, value, choice_options = (choice.is_a?(Array) ? choice : [choice, choice])
+    choice_options = disabled_setting_option(setting)
+                       .merge(choice_options || {})
+                       .merge(options.except(:id))
+    choice_options[:id] = "#{setting}_#{value}"
+
+    content_tag(:label, class: 'form--label-with-check-box') do
+      styled_check_box_tag("settings[#{setting}][]", value,
+                           Setting.send(setting).include?(value), choice_options) + text.to_s
+
+    end
+  end
+
   def disabled_setting_option(setting)
     { disabled: !Setting.send(:"#{setting}_writable?") }
+  end
+
+  def with_empty_unless_writable(setting)
+    if Setting.send(:"#{setting}_writable?")
+      yield
+    else
+      ''.html_safe
+    end
   end
 end

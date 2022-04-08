@@ -114,7 +114,8 @@ describe SettingsHelper, type: :helper do
                 .and_return false
       end
 
-      it 'is disabled' do
+      it 'is disabled and has no hidden field' do
+        expect(output).not_to have_selector 'input[type="hidden"][value="''"]', visible: :all
         expect(output).to have_selector 'input[type="checkbox"][disabled="disabled"].form--check-box', count: 3
       end
     end
@@ -275,8 +276,21 @@ important text</textarea>
       it_behaves_like 'field disabled if non writable'
 
       it 'outputs element' do
+        expect(output).to have_selector 'input[type="hidden"][value=0]', visible: :hidden
         expect(output).to have_selector 'input[type="checkbox"].custom-class.form--check-box'
         expect(output).to have_checked_field 'settings_field'
+      end
+
+      context 'when the setting isn`t writable' do
+        before do
+          allow(Setting)
+            .to receive(:field_writable?)
+                  .and_return false
+        end
+
+        it 'does not output a hidden field' do
+          expect(output).not_to have_selector 'input[type="hidden"][value=0]', visible: :hidden
+        end
       end
     end
 
@@ -291,8 +305,21 @@ important text</textarea>
       it_behaves_like 'field disabled if non writable'
 
       it 'outputs element' do
+        expect(output).to have_selector 'input[type="hidden"][value=0]', visible: :hidden
         expect(output).to have_selector 'input[type="checkbox"].custom-class.form--check-box'
         expect(output).to have_unchecked_field 'settings_field'
+      end
+
+      context 'when the setting isn`t writable' do
+        before do
+          allow(Setting)
+            .to receive(:field_writable?)
+                  .and_return false
+        end
+
+        it 'does not output a hidden field' do
+          expect(output).not_to have_selector 'input[type="hidden"][value=0]', visible: :hidden
+        end
       end
     end
   end
