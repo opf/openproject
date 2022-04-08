@@ -1856,7 +1856,7 @@ eo:
   label_view_revisions: "View revisions"
   label_watched_work_packages: "Watched work packages"
   label_what_is_this: "What is this?"
-  label_week: "Week"
+  label_week: "Semajno"
   label_wiki_content_added: "Wiki page added"
   label_wiki_content_updated: "Wiki page updated"
   label_wiki_toc: "Table of Contents"
@@ -2112,8 +2112,8 @@ eo:
         format: "%n %u"
         units:
           byte:
-            one: "Byte"
-            other: "Bytes"
+            one: "Bajto"
+            other: "Bajtoj"
           gb: "GB"
           kb: "kB"
           mb: "MB"
@@ -2606,16 +2606,16 @@ eo:
   text_zoom_out: "Zoom out"
   text_setup_mail_configuration: "Configure your email provider"
   time:
-    am: "am"
+    am: "atm"
     formats:
       default: "%m/%d/%Y %I:%M %p"
       long: "%B %d, %Y %H:%M"
       short: "%d %b %H:%M"
       time: "%I:%M %p"
-    pm: "pm"
+    pm: "ptm"
   timeframe:
     show: "Show timeframe"
-    end: "to"
+    end: "ĝis"
     start: "from"
   timelines:
     admin_menu:
@@ -2705,14 +2705,14 @@ eo:
       project_time_filter: "Projects with a work package of a certain type in a certain timeframe"
       project_time_filter_timeframe: "Timeframe"
       project_time_filter_historical_from: "from"
-      project_time_filter_historical_to: "to"
+      project_time_filter_historical_to: "ĝis"
       project_time_filter_historical: "%{start_label} %{startdate} %{end_label} %{enddate}"
       project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} ago, %{end_label} %{endspan}%{endspanunit} from now"
       project_filters: "Filter projects"
       project_responsible: "Show projects with accountable"
       project_status: "Show project status"
       timeframe: "Show timeframe"
-      timeframe_end: "to"
+      timeframe_end: "ĝis"
       timeframe_start: "from"
       timeline: "General Settings"
       zoom: "Zoom factor"

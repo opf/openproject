@@ -21,7 +21,7 @@ eo:
           too_many: 'Displaying %{count} of %{total} members.'
         news:
           title: 'Novaĵoj'
-          at: 'at'
+          at: 'je'
           no_results: 'Nothing new to report.'
         project_description:
           title: 'Priskribo de projekto'

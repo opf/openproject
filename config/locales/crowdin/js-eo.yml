@@ -242,7 +242,7 @@ eo:
           you_contribute: "Developers need to pay their bills, too. With the Enterprise Edition, you substantially contribute to this Open Source community effort."
     custom_actions:
       date:
-        specific: 'en'
+        specific: 'je'
         current_date: 'Nuna dato'
     error:
       internal: "Okazis interna eraro."
