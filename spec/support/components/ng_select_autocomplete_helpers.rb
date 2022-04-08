@@ -8,7 +8,8 @@ module Components
       # Wait for dropdown to open
       dropdown_list =
         if results_selector
-          page.find(results_selector).find('.ng-dropdown-panel')
+          results_selector = "#{results_selector} .ng-dropdown-panel" if results_selector == 'body'
+          page.find(results_selector)
         else
           within(element) do
             page.find('ng-select .ng-dropdown-panel')
@@ -20,6 +21,7 @@ module Components
       within(element) do
         ng_enter_query(query)
       end
+      sleep(0.5)
 
       dropdown_list
     end
