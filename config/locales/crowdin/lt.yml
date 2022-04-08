@@ -564,6 +564,7 @@ lt:
         even: "turi būti lyginis."
         exclusion: "yra rezervuotas."
         file_too_large: "per didelis (didžiausias leistinas dydis yra %{count} baitų)."
+        filter_does_not_exist: "filter does not exist."
         format: "neatitinka laukiamo formato '%{expected}'."
         format_nested: "neatitinka laukiamo formato '%{expected}' kelyje „%{path}“."
         greater_than: "turi būti didesnis už %{count}."

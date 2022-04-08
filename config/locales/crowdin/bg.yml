@@ -565,6 +565,7 @@ bg:
         even: "трябва да бъде четно число."
         exclusion: "е запазено."
         file_too_large: "е твърде голям (максимален размер %{count} байта)."
+        filter_does_not_exist: "filter does not exist."
         format: "does not match the expected format '%{expected}'."
         format_nested: "does not match the expected format '%{expected}' at path '%{path}'."
         greater_than: "трябва да бъде по-голямо от %{count}."

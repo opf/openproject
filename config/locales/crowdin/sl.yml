@@ -564,6 +564,7 @@ sl:
         even: "mora biti enakomerno."
         exclusion: "je rezervirano."
         file_too_large: "je preveliko (največja velikost je %{count} Bytov)."
+        filter_does_not_exist: "filter does not exist."
         format: "se ne ujema s pričakovano obliko '%{expected}'."
         format_nested: "se ne ujema s pričakovano obliko '%{expected}' na poti '%{path}'."
         greater_than: "mora biti večje od %{count}."

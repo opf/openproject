@@ -565,6 +565,7 @@ fi:
         even: "täytyy olla parillinen."
         exclusion: "on jo varattu."
         file_too_large: "on liian suuri (suurin sallittu koko on %{count} tavua)."
+        filter_does_not_exist: "filter does not exist."
         format: "does not match the expected format '%{expected}'."
         format_nested: "does not match the expected format '%{expected}' at path '%{path}'."
         greater_than: "täytyy olla suurempi kuin %{count}."

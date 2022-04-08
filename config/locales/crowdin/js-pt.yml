@@ -23,8 +23,8 @@ pt:
   js:
     ajax:
       hide: "Ocultar"
-      loading: "Loading…"
-      updating: "Updating…"
+      loading: "Carregando…"
+      updating: "Atualizando…"
     attachments:
       draggable_hint: |
         Arraste sobre o campo do editor para incorporar uma imagem ou anexo de referência. Campos do editor fechados serão abertos enquanto você continuar arrastando.
@@ -62,7 +62,7 @@ pt:
     button_confirm: "Confirmar"
     button_continue: "Continuar"
     button_copy: "Copiar"
-    button_copy_to_other_project: "Copy to other project"
+    button_copy_to_other_project: "Copiar para outro projeto"
     button_custom-fields: "Campos personalizados"
     button_delete: "Excluir"
     button_delete_watcher: "Excluir observador"
@@ -251,7 +251,7 @@ pt:
     enumeration_doc_categories: "Categorias de documento"
     enumeration_work_package_priorities: "Prioridades do pacote de trabalho"
     filter:
-      more_values_not_shown: "There are %{total} more results, search to filter results."
+      more_values_not_shown: "Há %{total} mais resultados, pesquise para filtrar resultados."
       description:
         text_open_filter: "Abra este filtro com a tecla 'ALT' e as teclas de seta."
         text_close_filter: "Para selecionar uma entrada, saia do foco, por exemplo, pressionando enter. Para sair sem filtro, selecione a primeira entrada (vazia)."
@@ -1173,6 +1173,10 @@ pt:
         all: 'Todos os projetos'
         selected: 'Only selected'
       search_placeholder: 'Search project...'
+      include_subprojects: 'Include all sub-projects'
+      tooltip:
+        include_all_selected: 'Include all sub-projects is currently selected.'
+        current_project: 'This is the current project you are in.'
     forms:
       submit_success_message: 'O formulário foi enviado com sucesso'
       load_error_message: 'Ocorreu um erro ao carregar o formulário'

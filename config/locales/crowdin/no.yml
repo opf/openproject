@@ -565,6 +565,7 @@
         even: "må være partall"
         exclusion: "er reservert."
         file_too_large: "er for stor (maks størrelse er %{count} Bytes)."
+        filter_does_not_exist: "filter does not exist."
         format: "does not match the expected format '%{expected}'."
         format_nested: "does not match the expected format '%{expected}' at path '%{path}'."
         greater_than: "må være større enn %{count}."

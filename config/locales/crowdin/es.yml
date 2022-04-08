@@ -562,6 +562,7 @@ es:
         even: "debe ser incluido."
         exclusion: "está reservado."
         file_too_large: "es demasiado grande (el tamaño máximo es de %{count} Bytes)."
+        filter_does_not_exist: "filter does not exist."
         format: "no coincide con el formato esperado '%{expected}'."
         format_nested: "no coincide con el formato esperado '%{expected}' en la ruta '%{path}'."
         greater_than: "debe ser mayor que %{count}."

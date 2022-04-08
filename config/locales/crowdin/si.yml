@@ -565,6 +565,7 @@ si:
         even: "පවා විය යුතුය."
         exclusion: "වෙන් කර ඇත."
         file_too_large: "ඉතා විශාලයි (උපරිම ප්රමාණය බයිට් %{count} කි)."
+        filter_does_not_exist: "filter does not exist."
         format: "does not match the expected format '%{expected}'."
         format_nested: "does not match the expected format '%{expected}' at path '%{path}'."
         greater_than: "%{count}ට වඩා වැඩි විය යුතුය."

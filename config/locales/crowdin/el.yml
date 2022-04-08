@@ -561,6 +561,7 @@ el:
         even: "πρέπει να είναι άρτιος."
         exclusion: "είναι δεσμευμένο."
         file_too_large: "είναι πολύ μεγάλο (το μέγιστο μέγεθος είναι %{count} Bytes)."
+        filter_does_not_exist: "filter does not exist."
         format: "does not match the expected format '%{expected}'."
         format_nested: "does not match the expected format '%{expected}' at path '%{path}'."
         greater_than: "πρέπει να είναι μεγαλύτερο από %{count}."

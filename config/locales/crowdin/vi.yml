@@ -566,6 +566,7 @@ vi:
         even: "must be even."
         exclusion: "được bảo lưu."
         file_too_large: "quá lớn (kích thước tối đa là %{count} bytes)"
+        filter_does_not_exist: "filter does not exist."
         format: "does not match the expected format '%{expected}'."
         format_nested: "does not match the expected format '%{expected}' at path '%{path}'."
         greater_than: "phải lớn hơn %{count}"

@@ -546,6 +546,7 @@ lol:
         even: "crwdns495413:0crwdne495413:0"
         exclusion: "crwdns495415:0crwdne495415:0"
         file_too_large: "crwdns495417:0%{count}crwdne495417:0"
+        filter_does_not_exist: "crwdns809354:0crwdne809354:0"
         format: "crwdns495419:0%{expected}crwdne495419:0"
         format_nested: "crwdns495421:0%{expected}crwdnd495421:0%{path}crwdne495421:0"
         greater_than: "crwdns495423:0%{count}crwdne495423:0"

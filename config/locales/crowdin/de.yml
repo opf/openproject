@@ -560,6 +560,7 @@ de:
         even: "muss gerade sein."
         exclusion: "ist nicht verfügbar."
         file_too_large: "ist zu groß (nicht mehr als %{count} Bytes erlaubt)."
+        filter_does_not_exist: "filter does not exist."
         format: "stimmt nicht mit dem erwarteten Format '%{expected} ' überein."
         format_nested: "stimmt nicht mit dem erwarteten Format '%{expected} ' im Pfad '%{path}' überein."
         greater_than: "muss größer als %{count} sein."

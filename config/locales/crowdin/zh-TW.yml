@@ -564,6 +564,7 @@ zh-TW:
         even: "必須是偶數"
         exclusion: "已保留"
         file_too_large: "太大 (最大為 %{count} Bytes)."
+        filter_does_not_exist: "filter does not exist."
         format: "與預期的格式“%{expected}”不符"
         format_nested: "與路徑“%{path}”中的預期格式“%{expected}”不符"
         greater_than: "必須大於 %{count}。"

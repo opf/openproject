@@ -569,6 +569,7 @@ ar:
         even: "يجب أن يكون زوجي."
         exclusion: "محجوز."
         file_too_large: "إنه كبير جدا(الحجم الأكبر هو%{count} بايت)."
+        filter_does_not_exist: "filter does not exist."
         format: "does not match the expected format '%{expected}'."
         format_nested: "does not match the expected format '%{expected}' at path '%{path}'."
         greater_than: "يجب أن يكون أكبر من %{count}."

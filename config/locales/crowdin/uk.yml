@@ -563,6 +563,7 @@ uk:
         even: "має бути рівним."
         exclusion: "зарезервовано."
         file_too_large: "занадто великий (максимальний розмір -%{count} байт)"
+        filter_does_not_exist: "filter does not exist."
         format: "не відповідає очікуваному формату «%{expected}»."
         format_nested: "не відповідає очікуваному формату «%{expected}» за шляхом «%{path}»."
         greater_than: "має бути більше ніж %{count}."

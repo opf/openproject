@@ -566,6 +566,7 @@ hr:
         even: "mora biti izjednačeno."
         exclusion: "je rezerviran."
         file_too_large: "je prevelik (maksimalna veličina iznosi %{count} bajta)."
+        filter_does_not_exist: "filter does not exist."
         format: "does not match the expected format '%{expected}'."
         format_nested: "does not match the expected format '%{expected}' at path '%{path}'."
         greater_than: "mora biti veće od %{count}."

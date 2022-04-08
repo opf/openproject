@@ -567,6 +567,7 @@ sk:
         even: "musí byť párne."
         exclusion: "patrí medzi vyhradené výrazy."
         file_too_large: "je príliš veľká (maximálna veľkosť je %{count} bytov)."
+        filter_does_not_exist: "filter does not exist."
         format: "does not match the expected format '%{expected}'."
         format_nested: "does not match the expected format '%{expected}' at path '%{path}'."
         greater_than: "musí byť väčšie ako %{count}."

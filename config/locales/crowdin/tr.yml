@@ -565,6 +565,7 @@ tr:
         even: "çift olmalı."
         exclusion: "ayrılmıştır."
         file_too_large: "çok büyük (en büyük boyut %{count} bayt)."
+        filter_does_not_exist: "filter does not exist."
         format: "Beklenen biçim '%{expected}' ile eşleşmiyor."
         format_nested: "does not match the expected format '%{expected}' at path '%{path}'."
         greater_than: "%{count}'ten büyük olması gerekir."

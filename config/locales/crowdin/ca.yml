@@ -562,6 +562,7 @@ ca:
         even: "ha de ser parell."
         exclusion: "està reservat."
         file_too_large: "és massa gran (la mida màxima és de %{count} Bytes)."
+        filter_does_not_exist: "filter does not exist."
         format: "no coincideix  amb el format esperat '%{expected}'."
         format_nested: "no coincideix  amb el format esperat '%{expected}' a la ruta '%{path}'."
         greater_than: "ha de ser més gran que %{count}."

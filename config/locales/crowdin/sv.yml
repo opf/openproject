@@ -564,6 +564,7 @@ sv:
         even: "måste vara jämn."
         exclusion: "är reserverat."
         file_too_large: "är för stor (största storleken är %{count} Bytes)."
+        filter_does_not_exist: "filter does not exist."
         format: "does not match the expected format '%{expected}'."
         format_nested: "does not match the expected format '%{expected}' at path '%{path}'."
         greater_than: "måste vara större än %{count}."

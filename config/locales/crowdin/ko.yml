@@ -563,6 +563,7 @@ ko:
         even: "에 짝수를 입력해 주세요"
         exclusion: "예약됨"
         file_too_large: "은(는) 너무 큽니다. (최대 %{count} 바이트)"
+        filter_does_not_exist: "filter does not exist."
         format: "- 필요한 형식 '%{expected}'과(와) 일치하지 않습니다."
         format_nested: "- 경로 '%{path}'에서 필요한 형식 '%{expected}'과(와) 일치하지 않습니다."
         greater_than: "은(는) %{count}보다 커야 합니다"

@@ -565,6 +565,7 @@ fil:
         even: "dapat ay kapareho."
         exclusion: "ay nakareserba."
         file_too_large: "ay masyadong malaki (pinakamataas na laki ay %{count} Bytes)."
+        filter_does_not_exist: "filter does not exist."
         format: "does not match the expected format '%{expected}'."
         format_nested: "does not match the expected format '%{expected}' at path '%{path}'."
         greater_than: "dapat ay mas malaki kaysa %{count}."

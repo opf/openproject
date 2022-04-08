@@ -1174,6 +1174,10 @@ es:
         all: 'Todos los proyectos'
         selected: 'Only selected'
       search_placeholder: 'Search project...'
+      include_subprojects: 'Include all sub-projects'
+      tooltip:
+        include_all_selected: 'Include all sub-projects is currently selected.'
+        current_project: 'This is the current project you are in.'
     forms:
       submit_success_message: 'El formulario se envió correctamente'
       load_error_message: 'Se produjo un error al cargar el formulario'

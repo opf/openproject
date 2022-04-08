@@ -1180,6 +1180,10 @@ lt:
         all: 'Visi projektai'
         selected: 'Tik pasirinktus'
       search_placeholder: 'Ieškoti projekte...'
+      include_subprojects: 'Include all sub-projects'
+      tooltip:
+        include_all_selected: 'Include all sub-projects is currently selected.'
+        current_project: 'This is the current project you are in.'
     forms:
       submit_success_message: 'Forma buvo sėkmingai pateikta'
       load_error_message: 'Įkeliant formą įvyko klaida'

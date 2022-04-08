@@ -29,8 +29,8 @@ pt:
         updated: "Atualizado"
       explanation:
         text: >
-          Upon the occurrence of an event like the creation of a work package or an update on a project, OpenProject will send a POST request to the configured web endpoints. Oftentimes, the event is sent after the %{link} has passed.
-        link: configured aggregation period
+          Na ocorrência de um evento como a criação de um pacote de trabalho ou uma atualização em um projeto, o OpenProject enviará uma solicitação POST para os terminais web configurados. Muitas vezes, o evento é enviado após o %{link} ter passado.
+        link: período de agregação configurado
       status:
         enabled: 'Webhook está habilitado'
         disabled: 'Webhook está desativado'

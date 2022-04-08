@@ -1171,6 +1171,10 @@ ko:
         all: '모든 프로젝트'
         selected: 'Only selected'
       search_placeholder: 'Search project...'
+      include_subprojects: 'Include all sub-projects'
+      tooltip:
+        include_all_selected: 'Include all sub-projects is currently selected.'
+        current_project: 'This is the current project you are in.'
     forms:
       submit_success_message: '양식을 성공적으로 제출했습니다'
       load_error_message: '양식을 불러오는 중 오류가 발생했습니다'

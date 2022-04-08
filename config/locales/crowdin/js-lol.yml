@@ -1173,6 +1173,10 @@ lol:
         all: 'crwdns788744:0crwdne788744:0'
         selected: 'crwdns788746:0crwdne788746:0'
       search_placeholder: 'crwdns788748:0crwdne788748:0'
+      include_subprojects: 'crwdns809356:0crwdne809356:0'
+      tooltip:
+        include_all_selected: 'crwdns809358:0crwdne809358:0'
+        current_project: 'crwdns809360:0crwdne809360:0'
     forms:
       submit_success_message: 'crwdns788750:0crwdne788750:0'
       load_error_message: 'crwdns788752:0crwdne788752:0'

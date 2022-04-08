@@ -565,6 +565,7 @@ fr:
         even: "doit être pair."
         exclusion: "est réservé."
         file_too_large: "est trop volumineux (la taille maximale est de %{count} octets)."
+        filter_does_not_exist: "filter does not exist."
         format: "ne correspond pas au format attendu « %{expected} »."
         format_nested: "ne correspond pas au format attendu « %{expected} » dans le chemin « %{path} »."
         greater_than: "doit être supérieur à %{count}."

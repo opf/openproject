@@ -562,6 +562,7 @@ nl:
         even: "moet gelijk zijn."
         exclusion: "is gereserveerd."
         file_too_large: "is te groot (maximum grootte is %{count} Bytes)."
+        filter_does_not_exist: "filter does not exist."
         format: "komt niet overeen met het verwachte formaat '%{expected}' '."
         format_nested: "komt niet overeen met het verwachte formaat '%{expected}' op pad '%{path}'."
         greater_than: "moet groter zijn dan %{count}."

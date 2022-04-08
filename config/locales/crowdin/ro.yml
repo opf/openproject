@@ -566,6 +566,7 @@ ro:
         even: "trebuie să fie par."
         exclusion: "este rezervat."
         file_too_large: "este prea mare (dimensiunea maximă este %{count} Octeți)."
+        filter_does_not_exist: "filter does not exist."
         format: "nu se potrivește cu formatul așteptat '%{expected}'."
         format_nested: "nu se potrivește cu formatul preconizat '%{expected}' la calea '%{path}'."
         greater_than: "trebuie să fie mai mare de %{count}."

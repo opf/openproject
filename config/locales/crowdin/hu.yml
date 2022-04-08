@@ -566,6 +566,7 @@ hu:
         even: "kell még."
         exclusion: "foglalt."
         file_too_large: "túl nagy fájlméret (maximális méret %{count} Byte)."
+        filter_does_not_exist: "filter does not exist."
         format: "nem felel meg az elvárt '%{expected}' formátumnak."
         format_nested: "nem felel meg az elvárt '%{expected}' formátumnak az '%{path}' elérési útvonalon."
         greater_than: "nagyobbnak kell lenni mint %{count}."

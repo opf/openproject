@@ -561,6 +561,7 @@ id:
         even: "harus imbang."
         exclusion: "telah dipesan."
         file_too_large: "ukuran maksimum yang diperbolehkan %{count} Bytes."
+        filter_does_not_exist: "filter does not exist."
         format: "does not match the expected format '%{expected}'."
         format_nested: "does not match the expected format '%{expected}' at path '%{path}'."
         greater_than: "harus lebih besar dari %{count}."

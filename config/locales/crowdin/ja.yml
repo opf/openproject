@@ -560,6 +560,7 @@ ja:
         even: "は偶数にしてください。"
         exclusion: "は予約されています。"
         file_too_large: "は大きすぎます (最大サイズは%{count}バイト)"
+        filter_does_not_exist: "filter does not exist."
         format: "does not match the expected format '%{expected}'."
         format_nested: "does not match the expected format '%{expected}' at path '%{path}'."
         greater_than: "は%{count}より大きい値にしてください。"

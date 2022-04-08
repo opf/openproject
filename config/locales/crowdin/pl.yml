@@ -564,6 +564,7 @@ pl:
         even: "musi być takie samo."
         exclusion: "jest już zajęte."
         file_too_large: "jest za długie (maksymalna wielkość to %{count} Bajtów)."
+        filter_does_not_exist: "filter does not exist."
         format: "nie pasuje do oczekiwanego formatu '%{expected}'."
         format_nested: "nie pasuje do oczekiwanego formatu '%{expected}' na ścieżce %{path}."
         greater_than: "musi być większe niż %{count}."

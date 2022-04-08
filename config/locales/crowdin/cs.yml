@@ -567,6 +567,7 @@ cs:
         even: "musí být sudé."
         exclusion: "vyhrazeno."
         file_too_large: "je příliš velký (maximální velikost je %{count} Bajtů)."
+        filter_does_not_exist: "filter does not exist."
         format: "neodpovídá očekávanému formátu '%{expected}'."
         format_nested: "neodpovídá očekávanému formátu '%{expected}' na cestě '%{path}'."
         greater_than: "musí být větší než %{count}."
