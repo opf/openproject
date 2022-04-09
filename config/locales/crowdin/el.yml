@@ -1328,7 +1328,7 @@ el:
   menus:
     admin:
       mail_notification: "Ειδοποιήσεις email"
-      incoming_outgoing: "Incoming & Outgoing"
+      incoming_outgoing: "Εισερχόμενα & Εξερχόμενα"
     quick_add:
       label: "Άνοιγμα μενού γρήγορης προσθήκης"
   my_account:
