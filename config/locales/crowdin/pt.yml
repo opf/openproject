@@ -564,7 +564,7 @@ pt:
         even: "deve ser par."
         exclusion: "está reservado."
         file_too_large: "é muito grande (tamanho máximo é %{count} Bytes)."
-        filter_does_not_exist: "filter does not exist."
+        filter_does_not_exist: "filtro não existe."
         format: "não corresponde ao formato '%{expected}' esperado."
         format_nested: "não corresponde ao formato '%{expected}' esperado no caminho '%{path}'."
         greater_than: "deve ser maior que %{count}."

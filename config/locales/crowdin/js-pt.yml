@@ -290,11 +290,11 @@ pt:
             standard:
               learn_about_link: https://www.openproject.org/openproject-12-1-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A <b>new team planner module</b> (Enterprise feature) allows you to visually assign tasks to team members to get an overview of who is working on what.</li> <li>We are <b>releasing the basic agile boards</b> for the Community version.</li> <li>The <b>"Include Projects" filter</b> option makes it easier to add different projects to your views, such as for work packages, calendars, and team planners.</li> <li>We added <b>a new "Files" tab</b> in the work package details to have all possible information attached to a work package together.</li> <li>We created <b>global roles for groups</b> to assign these roles to groups and create superuser groups.</li> <li>Project status was given more options to choose from.</li> </ul>
+                A versão contém vários novos recursos e melhorias: <br> <ul class="%{list_styling_class}"> <li>Um <b>novo módulo de planejamento de equipe</b> (recurso Enterprise) permite atribuir tarefas visualmente à equipe membros para obter uma visão geral de quem está trabalhando e onde.</li> <li>Estamos <b>lançando os quadros ágeis básicos</b> para a versão da Comunidade.</li> <li>O <b>" A opção de filtro "Incluir projetos"</b> facilita a adição de projetos diferentes às suas visualizações, como pacotes de trabalho, calendários e planejadores de equipe.</li> <li>Adicionamos <b>uma nova guia "Arquivos" </b> nos detalhes do pacote de trabalho para ter todas as informações possíveis anexadas a um pacote de trabalho juntas.</li> <li>Criamos <b>funções globais para grupos</b> para atribuir essas funções a grupos e criar superusuário grupos.</li> <li>O status do projeto recebeu mais opções para escolher.</li> </ul>
             bim:
               learn_about_link: https://www.openproject.org/openproject-12-1-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>In the BCF module you can now save your selected work package filters, columns etc. as <b>views</b> and share those with your team members.</li> <li>A <b>new team planner module</b> (Enterprise feature) allows you to visually assign tasks to team members to get an overview of who is working on what.</li> <li>We are <b>releasing the basic agile boards</b> for the Community version.</li> <li>The <b>"Include Projects" filter</b> option makes it easier to add different projects to your views, such as for work packages, calendars, and team planners.</li> <li>We added <b>a new "Files" tab</b> in the work package details to have all possible information attached to a work package together.</li> <li>We created <b>global roles for groups</b> to assign these roles to groups and create superuser groups.</li> <li>Project status was given more options to choose from.</li> </ul>
+                A versão contém vários novos recursos e melhorias: <br> <ul class="%{list_styling_class}"> <li>No módulo BCF, agora você pode salvar seus filtros, colunas etc. do pacote de trabalho selecionado como <b>visualizações</b> b> e compartilhe-as com os membros de sua equipe.</li> <li>Um <b>novo módulo de planejamento de equipe</b> (recurso Enterprise) permite atribuir tarefas visualmente aos membros da equipe para obter uma visão geral de quem está trabalhando sobre o quê.</li> <li>Estamos <b>lançando os quadros ágeis básicos</b> para a versão Community.</li> <li>A opção <b>"Incluir projetos"</b> facilita a adição de projetos diferentes às suas visualizações, como pacotes de trabalho, calendários e planejadores de equipe.</li> <li>Adicionamos <b>uma nova guia "Arquivos"</b> nos detalhes do pacote de trabalho para ter todas as informações possíveis anexadas a um pacote de trabalho juntas.</li> <li>Criamos <b>funções globais para grupos</b> para atribuir essas funções a grupos e criar grupos de superusuários.</li> <li> O status do projeto recebeu mais opções para escolher.</li> </ul>
     label_activate: "Ativar"
     label_add_column_after: "Adicionar coluna depois"
     label_add_column_before: "Adicionar coluna antes"
@@ -499,7 +499,7 @@ pt:
         boards:
           overview: 'Selecione <b>paineis</b> para mudar a visão e gerenciar seu projeto usando a exibição de paineis ágeis.'
           lists_kanban: 'Aqui você pode criar várias listas (colunas) dentro do seu painel. Este recurso permite que você crie um <b>Painel Kanban</b>, por exemplo.'
-          lists_basic: 'Here you can create multiple lists (columns) within your agile board.'
+          lists_basic: 'Aqui você pode criar várias listas (colunas) em seu quadro ágil.'
           add: 'Clique no ícone mais (+) para <b>criar um novo cartão</b> ou <b>adicionar um cartão existente</b> à lista no painel.'
           drag: 'Arraste e solte suas cartas dentro de uma determinada lista para reordená-las, ou para movê-las para outra lista. <br> Você pode clicar no ícone informativo (i) no canto superior direito ou clicar duas vezes em um cartão para abrir seus detalhes.'
         wp:
@@ -511,11 +511,11 @@ pt:
           timeline_button: 'Você pode ativar a exibição de <b>gráfico de Gantt</b> para criar uma linha do tempo para o seu projeto.'
           timeline: 'Aqui você pode <b>editar seu plano de projeto</b>, criar novos pacotes de trabalho, tais como tarefas, marcos, fases e muito mais, bem como <b>adicionam dependências</b>. Todos os membros da equipe podem visualizar e atualizar o plano mais recente a qualquer momento.'
         team_planner:
-          overview: 'The team planner lets you visually assign tasks to team members and get an overview of who is working on what.'
-          calendar: 'The weekly or biweekly planning board displays all work packages assigned to your team members.'
-          add_assignee: 'To get started, add assignees to the team planner.'
-          add_existing: 'Search for existing work packages and drag them to the team planner to instantly assign them to a team member and define start and end dates.'
-          card: 'Drag work packages horizontally to move them backwards or forwards in time, drag the edges to change start and end dates and even drag them vertically to a different row to assign them to another member.'
+          overview: 'O planejador de equipe permite atribuir tarefas visualmente aos membros da equipe e obter uma visão geral de quem está trabalhando e no quê (onde).'
+          calendar: 'O quadro de planejamento semanal ou quinzenal exibe todos os pacotes de trabalho atribuídos aos membros de sua equipe.'
+          add_assignee: 'Para começar, adicione responsáveis ao planejador de equipe.'
+          add_existing: 'Pesquise pacotes de trabalho existentes e arraste-os para o planejador de equipe para atribuí-los instantaneamente a um membro da equipe e definir as datas de início e término.'
+          card: 'Arraste os pacotes de trabalho horizontalmente para movê-los para trás ou para frente no tempo, arraste as bordas para alterar as datas de início e término e até arraste-os verticalmente para uma linha diferente para atribuí-los a outro membro.'
     notifications:
       title: "Notificações"
       no_unread: "Nenhuma notificação não lida"
@@ -995,7 +995,7 @@ pt:
         relations: Relações
         watchers: Observadores
         files: Arquivos
-        files_tab_migration_help: 'You can now attach files to work packages via the new tab:'
+        files_tab_migration_help: 'Agora você pode anexar arquivos a pacotes de trabalho por meio da nova guia:'
       time_relative:
         days: "dias"
         weeks: "semanas"
@@ -1165,18 +1165,18 @@ pt:
           group: 'O grupo agora faz parte de %{project}. Enquanto isso, você já pode planejar com este grupo e atribuir pacotes de trabalho por exemplo.'
         next_button: 'Continuar'
     include_projects:
-      toggle_title: 'Include projects'
+      toggle_title: 'Incluir projetos'
       title: 'Projetos'
-      clear_selection: 'Clear selection'
+      clear_selection: 'Limpar seleção'
       apply: 'Aplicar'
       selected_filter:
         all: 'Todos os projetos'
-        selected: 'Only selected'
-      search_placeholder: 'Search project...'
-      include_subprojects: 'Include all sub-projects'
+        selected: 'Somente a seleção'
+      search_placeholder: 'Pesquisar projetos...'
+      include_subprojects: 'Incluir todos os subprojetos'
       tooltip:
-        include_all_selected: 'Include all sub-projects is currently selected.'
-        current_project: 'This is the current project you are in.'
+        include_all_selected: 'Incluir todos os subprojetos está selecionado no momento.'
+        current_project: 'Este é o projeto atual em que você está.'
     forms:
       submit_success_message: 'O formulário foi enviado com sucesso'
       load_error_message: 'Ocorreu um erro ao carregar o formulário'
