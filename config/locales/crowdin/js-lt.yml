@@ -23,8 +23,8 @@ lt:
   js:
     ajax:
       hide: "Slėpti"
-      loading: "Loading…"
-      updating: "Updating…"
+      loading: "Įkeliama…"
+      updating: "Atnaujinama…"
     attachments:
       draggable_hint: |
         Tempkite į redagavimo lauką, kad įtrauktumėte piešinį ar paminėtumėte priedą. Uždari redaktoriaus laukai bus atidaryti, kol jūs tempsite.
@@ -291,11 +291,11 @@ lt:
             standard:
               learn_about_link: https://www.openproject.org/openproject-12-1-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A <b>new team planner module</b> (Enterprise feature) allows you to visually assign tasks to team members to get an overview of who is working on what.</li> <li>We are <b>releasing the basic agile boards</b> for the Community version.</li> <li>The <b>"Include Projects" filter</b> option makes it easier to add different projects to your views, such as for work packages, calendars, and team planners.</li> <li>We added <b>a new "Files" tab</b> in the work package details to have all possible information attached to a work package together.</li> <li>We created <b>global roles for groups</b> to assign these roles to groups and create superuser groups.</li> <li>Project status was given more options to choose from.</li> </ul>
+                Laidoje yra kelios naujos savybės ir patobulinimai: <br> <ul class="%{list_styling_class}"> <li><b>Komandos plano modulis</b> (Enterprise savybė) leidžia jums vizualiai priskirti užduotis komandos nariams, gauti apžvalgą kas ką daro.</li> <li>Mes <b>išleidžiame bazines agile lentas</b> bendruomenės versijai.</li> <li><b>Filtras „Įtraukti projektus“</b> palengvina pridėti skirtingus projektus į jūsų vaizdus, tokius kaip darbų paketai, kalendoriai ar komandų planai.</li> <li>Mes darbo paketų detalėse pridėjom <b>naują kortelę „Failai“</b>, kurioje bus visa įmanoma informacija apie prie darbo paketo prisegtą informaciją.</li> <li>Mes sukūrėme <b>grupėms globalius vaidmenis</b>, kuriuos galima priskirti grupėms ir sukurti supernaudotojų grupes.</li> <li>Projekto būseną dabar galima nustatyti iš platesnio reikšmių pasirinkimo.</li> </ul>
             bim:
               learn_about_link: https://www.openproject.org/openproject-12-1-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>In the BCF module you can now save your selected work package filters, columns etc. as <b>views</b> and share those with your team members.</li> <li>A <b>new team planner module</b> (Enterprise feature) allows you to visually assign tasks to team members to get an overview of who is working on what.</li> <li>We are <b>releasing the basic agile boards</b> for the Community version.</li> <li>The <b>"Include Projects" filter</b> option makes it easier to add different projects to your views, such as for work packages, calendars, and team planners.</li> <li>We added <b>a new "Files" tab</b> in the work package details to have all possible information attached to a work package together.</li> <li>We created <b>global roles for groups</b> to assign these roles to groups and create superuser groups.</li> <li>Project status was given more options to choose from.</li> </ul>
+                Laidoje yra kelios naujos savybės ir patobulinimai: <br> <ul class="%{list_styling_class}"> <li>BCF modulyje jūs dabar galite įrašyti savo parinktus darbų paketų filtrus, stulpelius ir pan. kaip <b>vaizdus</b> ir dalintis jais su savo komandos nariais.</li> <li><b>Komandos plano modulis</b> (Enterprise savybė) leidžia jums vizualiai priskirti užduotis komandos nariams, gauti apžvalgą kas ką daro.</li> <li>Mes <b>išleidžiame bazines agile lentas</b> bendruomenės versijai.</li> <li><b>Filtras „Įtraukti projektus“</b> palengvina pridėti skirtingus projektus į jūsų vaizdus, tokius kaip darbų paketai, kalendoriai ar komandų planai.</li> <li>Mes darbo paketų detalėse pridėjom <b>naują kortelę „Failai“</b>, kurioje bus visa įmanoma informacija apie prie darbo paketo prisegtą informaciją.</li> <li>Mes sukūrėme <b>grupėms globalius vaidmenis</b>, kuriuos galima priskirti grupėms ir sukurti supernaudotojų grupes.</li> <li>Projekto būseną dabar galima nustatyti iš platesnio reikšmių pasirinkimo.</li> </ul>
     label_activate: "Aktyvuoti"
     label_add_column_after: "Pridėti stulpelį po"
     label_add_column_before: "Pridėti stulpelį prieš"
@@ -1180,10 +1180,10 @@ lt:
         all: 'Visi projektai'
         selected: 'Tik pasirinktus'
       search_placeholder: 'Ieškoti projekte...'
-      include_subprojects: 'Include all sub-projects'
+      include_subprojects: 'Įtraukti visus sub-projektus'
       tooltip:
-        include_all_selected: 'Include all sub-projects is currently selected.'
-        current_project: 'This is the current project you are in.'
+        include_all_selected: 'Įtraukti visus šiuo metu pažymėtus sub-projektus.'
+        current_project: 'Tai dabartinis projektas, kuriame jūs esate.'
     forms:
       submit_success_message: 'Forma buvo sėkmingai pateikta'
       load_error_message: 'Įkeliant formą įvyko klaida'

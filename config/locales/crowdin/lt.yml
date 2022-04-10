@@ -80,8 +80,8 @@ lt:
       upgrade_info: "Prašome atsinaujinti į mokamą planą, kad aktyvuotumėte ir pradėtumėte ji naudoti savo komandoje."
     journal_aggregation:
       explanation:
-        text: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent and will also affect %{webhook_link} delay."
-        link: "webhook"
+        text: "Visi atskiri naudotojo veiksmai (t.y. darbų paketo atnaujinimas du kartus) yra sugrupuojami į vieną veiksmą, jei laiko tarpas tarp jų yra mažesnis už šį nustatymą. Programoje jie bus rodomi kaip vienas veiksmas. Tiek pat bus pavėlinti ir pranešimai. Dėl to sumažės siunčiamų el.laiškų skaičius ir taipogi įtakos %{webhook_link} delsimą."
+        link: "tinklo jungtis"
   announcements:
     show_until: Rodyti iki
     is_active: šiuo metu rodoma
@@ -564,7 +564,7 @@ lt:
         even: "turi būti lyginis."
         exclusion: "yra rezervuotas."
         file_too_large: "per didelis (didžiausias leistinas dydis yra %{count} baitų)."
-        filter_does_not_exist: "filter does not exist."
+        filter_does_not_exist: "filtras neegzistuoja."
         format: "neatitinka laukiamo formato '%{expected}'."
         format_nested: "neatitinka laukiamo formato '%{expected}' kelyje „%{path}“."
         greater_than: "turi būti didesnis už %{count}."
@@ -900,7 +900,7 @@ lt:
     updated_on: "Atnaujinta"
     uploader: "Įkėlėjas"
     user: "Naudotojas"
-    value: "Value"
+    value: "Reikšmė"
     version: "Versija"
     work_package: "Darbų paketas"
   backup:
@@ -1376,9 +1376,9 @@ lt:
   menus:
     admin:
       mail_notification: "El. pašto priminimai"
-      mails_and_notifications: "Emails and notification"
-      aggregation_and_retention: 'Aggregation and retention'
-      api_and_webhooks: "API and webhooks"
+      mails_and_notifications: "E-paštas ir pranešimai"
+      aggregation_and_retention: 'Agregavimas ir palikimas'
+      api_and_webhooks: "API ir tinklo jungtys"
     quick_add:
       label: "Atidaryti greitą pridėjimo meniu"
   my_account:
@@ -1878,7 +1878,7 @@ lt:
   label_used_by_types: "Naudojama šių tipų"
   label_used_in_projects: "Naudojama šių projektų"
   label_user: "Vartotojas"
-  label_user_and_permission: "Users and permissions"
+  label_user_and_permission: "Naudotojai ir teisės"
   label_user_named: "Naudotojas %{name}"
   label_user_activity: "%{value} veikla"
   label_user_anonymous: "Anonimas"
