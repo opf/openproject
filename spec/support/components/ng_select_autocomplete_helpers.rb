@@ -1,21 +1,12 @@
 module Components
   module NgSelectAutocompleteHelpers
-    def search_autocomplete(element, query:, results_selector: nil)
+    def search_autocomplete(element, query:, results_selector: nil, wait_dropdown_open: true)
       SeleniumHubWaiter.wait
       # Open the element
       element.click
 
       # Wait for dropdown to open
-      dropdown_list =
-        if results_selector
-          results_selector = "#{results_selector} .ng-dropdown-panel" if results_selector == 'body'
-          page.find(results_selector)
-        else
-          within(element) do
-            page.find('ng-select .ng-dropdown-panel')
-          end
-        end
-      scroll_to_element(dropdown_list)
+      ng_find_dropdown(element, results_selector: results_selector) if wait_dropdown_open
 
       # Insert the text to find
       within(element) do
@@ -23,7 +14,21 @@ module Components
       end
       sleep(0.5)
 
+      # Find the open dropdown
+      dropdown_list = ng_find_dropdown(element, results_selector: results_selector)
+      scroll_to_element(dropdown_list)
       dropdown_list
+    end
+
+    def ng_find_dropdown(element, results_selector: nil)
+      if results_selector
+        results_selector = "#{results_selector} .ng-dropdown-panel" if results_selector == 'body'
+        page.find(results_selector)
+      else
+        within(element) do
+          page.find('ng-select .ng-dropdown-panel')
+        end
+      end
     end
 
     ##
@@ -51,8 +56,11 @@ module Components
       from_element.find('.ng-input input')
     end
 
-    def select_autocomplete(element, query:, results_selector: nil, select_text: nil)
-      target_dropdown = search_autocomplete(element, results_selector: results_selector, query: query)
+    def select_autocomplete(element, query:, select_text: nil, results_selector: nil, wait_dropdown_open: true)
+      target_dropdown = search_autocomplete(element,
+                                            query: query,
+                                            results_selector: results_selector,
+                                            wait_dropdown_open: wait_dropdown_open)
 
       ##
       # If a specific select_text is given, use that to locate the match,
