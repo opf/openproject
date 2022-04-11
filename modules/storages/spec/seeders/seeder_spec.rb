@@ -28,8 +28,7 @@
 
 require 'spec_helper'
 
-describe RootSeeder,
-         'Storage module' do
+describe RootSeeder, 'Storage module' do
   it 'seeds role permissions for Storages' do
     expect { described_class.new.do_seed! }.not_to raise_error
 
