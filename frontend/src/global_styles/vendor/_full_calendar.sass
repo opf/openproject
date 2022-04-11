@@ -145,7 +145,8 @@
 
       // ensure to have higher specificity than above extend
       .fc-button-group
-        margin-left: 8px
+        &:not(:first-child)
+          margin-left: 8px
         .fc-button
           margin-right: 0
           margin-bottom: 0
