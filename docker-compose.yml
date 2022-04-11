@@ -57,6 +57,8 @@ x-op-backend: &backend
 services:
   backend:
     <<: *backend
+    tty: true
+    stdin_open: true
     command: run-app
     ports:
       - "3000:3000"
@@ -94,6 +96,8 @@ services:
     stop_grace_period: "3s"
     volumes:
       - "pgdata:/var/lib/postgresql/data"
+    ports:
+      - "54322:5432"
     environment:
       POSTGRES_USER: ${DB_USERNAME:-postgres}
       POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
