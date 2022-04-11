@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Queries::Schemas::DateTimeFilterDependencyRepresenter, clear_cache: true do
+describe ::API::V3::Queries::Schemas::DateTimeFilterDependencyRepresenter do
   include ::API::V3::Utilities::PathHelper
 
   let(:project) { build_stubbed(:project) }
