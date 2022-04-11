@@ -32,8 +32,12 @@ describe XlsExport::Project::Exporter::XLS do
   end
 
   context 'with status_explanation enabled' do
-    before do
+    around do |example|
+      enabled_columns_value = Setting.enabled_projects_columns.dup
       Setting.enabled_projects_columns += ["status_explanation"]
+      example.run
+    ensure
+      Setting.enabled_projects_columns = enabled_columns_value
     end
 
     it 'performs a successful export' do
@@ -45,8 +49,12 @@ describe XlsExport::Project::Exporter::XLS do
   end
 
   describe 'custom field columns selected' do
-    before do
+    around do |example|
+      enabled_columns_value = Setting.enabled_projects_columns.dup
       Setting.enabled_projects_columns += custom_fields.map { |cf| "cf_#{cf.id}" }
+      example.run
+    ensure
+      Setting.enabled_projects_columns = enabled_columns_value
     end
 
     context 'when ee enabled', with_ee: %i[custom_fields_in_projects_list] do
