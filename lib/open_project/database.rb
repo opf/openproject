@@ -57,8 +57,8 @@ module OpenProject
     # Get the database system requirements
     def self.required_version
       {
-        numeric: 90500, # PG_VERSION_NUM
-        string: '9.5.0'
+        numeric: 100000, # PG_VERSION_NUM
+        string: '10.0.0'
       }
     end
 

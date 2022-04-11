@@ -28,39 +28,17 @@
 
 class BigintPrimaryKeyOnRelations < ActiveRecord::Migration[6.1]
   def up
-    change_relations_id(:bigint, 9223372036854775807)
+    unless OpenProject::Database.version_matches?(100000)
+      version = OpenProject::Database.version
+      raise "This migration requires a PostgreSQL server version of at least 10.0, found #{version}"
+    end
+
+    execute <<~SQL.squish
+      ALTER SEQUENCE relations_id_seq AS bigint;
+    SQL
   end
 
   def down
-    change_relations_id(:integer, 2147483647)
-  end
-
-  private
-
-  def change_relations_id(type, maxvalue)
-    # We cannot simply use
-    #
-    # ALTER SEQUENCE relations_id_seq AS bigint;
-    #
-    # since that is not supported by PostgreSQL 9.6.
-    execute <<~SQL.squish
-      ALTER SEQUENCE relations_id_seq RENAME TO relations_id_seq_old;
-
-      CREATE SEQUENCE IF NOT EXISTS relations_id_seq
-        INCREMENT 1
-        START 1
-        MINVALUE 1
-        MAXVALUE #{maxvalue}
-        CACHE 1
-        OWNED BY relations.id;
-
-      SELECT setval('relations_id_seq', (SELECT MAX(id) + 1 FROM relations));
-    SQL
-
-    change_column :relations, :id, type, default: -> { "nextval('relations_id_seq')" }
-
-    execute <<~SQL.squish
-      DROP SEQUENCE relations_id_seq_old;
-    SQL
+    # nothing to do
   end
 end
