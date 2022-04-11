@@ -70,7 +70,7 @@ describe Projects::Exports::CSV, 'integration', type: :model do
         expect(parsed.size).to eq 2
 
         cf_names = custom_fields.map(&:name)
-        expect(header).to eq ['id', 'Identifier', 'Name', 'Description', 'Status', 'Status description', 'Public', *cf_names]
+        expect(header).to eq ['id', 'Identifier', 'Name', 'Description', 'Status', 'Public', *cf_names]
 
         custom_values = custom_fields.map do |cf|
           case cf
@@ -84,13 +84,13 @@ describe Projects::Exports::CSV, 'integration', type: :model do
         end
         expect(rows.first)
           .to eq [project.id.to_s, project.identifier, project.name,
-                  project.description, 'Off track', '', 'false', *custom_values]
+                  project.description, 'Off track', 'false', *custom_values]
       end
     end
 
     context 'when ee not enabled' do
       it 'renders only the default columns' do
-        expect(header).to eq %w[id Identifier Name Description Status Status\ description Public]
+        expect(header).to eq %w[id Identifier Name Description Status Public]
       end
     end
   end

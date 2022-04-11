@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Queries::GroupBys::QueryGroupByRepresenter, clear_cache: true do
+describe ::API::V3::Queries::GroupBys::QueryGroupByRepresenter do
   include ::API::V3::Utilities::PathHelper
 
   let(:column) { Query.available_columns.detect { |column| column.name == :status } }

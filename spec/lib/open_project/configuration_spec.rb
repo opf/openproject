@@ -38,7 +38,6 @@ describe OpenProject::Configuration do
   after do
     Settings::Definition.send(:reset)
     Settings::Definition.instance_variable_set(:@all, definitions_before)
-    Setting.clear_cache
   end
 
   describe '.[setting]' do
