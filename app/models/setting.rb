@@ -141,8 +141,8 @@ class Setting < ApplicationRecord
     end
   end
 
-  validates_uniqueness_of :name
   validates :name,
+            uniqueness: true,
             inclusion: {
               in: ->(*) { Settings::Definition.all.map(&:name) } # @available_settings change at runtime
             }
@@ -179,10 +179,10 @@ class Setting < ApplicationRecord
     cached_or_default(name)
   end
 
-  def self.[]=(name, v)
+  def self.[]=(name, value)
     old_setting = cached_or_default(name)
     new_setting = find_or_initialize_by(name: name)
-    new_setting.value = v
+    new_setting.value = value
 
     # Keep the current cache key,
     # since updated_at will change after .save
@@ -290,7 +290,7 @@ class Setting < ApplicationRecord
   def self.cached_settings
     RequestStore.fetch(:cached_settings) do
       Rails.cache.fetch(cache_key) do
-        Hash[Setting.pluck(:name, :value)]
+        Setting.pluck(:name, :value).to_h
       end
     end
   end
@@ -321,15 +321,15 @@ class Setting < ApplicationRecord
   end
 
   # Unserialize a serialized settings value
-  def self.deserialize(name, v)
-    default = Settings::Definition[name]
+  def self.deserialize(name, value)
+    definition = Settings::Definition[name]
 
-    if default.serialized? && v.is_a?(String)
-      YAML::safe_load(v, permitted_classes: [Symbol, ActiveSupport::HashWithIndifferentAccess, Date, Time])
-    elsif v.present?
-      read_formatted_setting v, default.format
+    if definition.serialized? && value.is_a?(String)
+      YAML::safe_load(value, permitted_classes: [Symbol, ActiveSupport::HashWithIndifferentAccess, Date, Time])
+    elsif value.present?
+      read_formatted_setting value, definition.format
     else
-      v
+      value
     end
   end
 
