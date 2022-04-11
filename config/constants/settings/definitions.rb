@@ -707,8 +707,7 @@ Settings::Definition.define do
 
   # Display update / security badge, enabled by default
   add :security_badge_displayed,
-      value: true,
-      writable: false
+      value: true
 
   add :security_badge_url,
       value: "https://releases.openproject.com/v1/check.svg",
