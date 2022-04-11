@@ -2,7 +2,7 @@
 ---
 get:
   summary: Gets a file link.
-  operationId: Work_Package_Get_File_Link
+  operationId: Get_File_Link
   tags:
     - Work Packages
     - File links

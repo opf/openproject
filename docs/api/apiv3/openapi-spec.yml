@@ -555,8 +555,6 @@ components:
       "$ref": "./components/schemas/list_memberships_model.yml"
     List_of_NewsModel:
       "$ref": "./components/schemas/list_of_news_model.yml"
-    List_notificationsModel:
-      "$ref": "./components/schemas/list_notifications_model.yml"
     List_projectsModel:
       "$ref": "./components/schemas/list_projects_model.yml"
     List_projects_by_versionModel:
@@ -577,6 +575,8 @@ components:
       "$ref": "./components/schemas/membership_update_form.yml"
     NewsModel:
       "$ref": "./components/schemas/news_model.yml"
+    NotificationCollectionModel:
+      "$ref": "./components/schemas/notification_collection_model.yml"
     NotificationModel:
       "$ref": "./components/schemas/notification_model.yml"
     NotificationSettingsModel:
