@@ -12,7 +12,7 @@ keywords: help, documentation, use-cases, resource management
 
 **Note:** This is a workaround. OpenProject does not have the automated functionality to provide detailed resource management or employee work capacity calculations.
 
-![image-20220404132232988](image-20220404132232988.png)
+![resource management](resource-management.png)
 
 Step 1: Select a project and go to the work package overview. 
 
@@ -26,7 +26,7 @@ Step 5: Save your view
 
 You could also add the Gantt view to add an additional dimension to your overview
 
-![A screenshot of a computer  Description automatically generated with medium confidence](clip_image004.jpg)
+![Gantt](Gantt.jpg)
 
  
 
@@ -34,8 +34,8 @@ This will provide a rough overview of the various tasks assigned to a specific p
 
 You can also use the sum function inside of *[…] -> Configure view -> Display settings ->* check *Display Sums* box:
 
-![Graphical user interface, text, application  Description automatically generated](clip_image006.jpg)
+![Configure view](configure-view.jpg)
 
-![Graphical user interface, application  Description automatically generated](clip_image008.jpg) 
+![Display sums](display-sums.jpg) 
 
 **Limitations:** This workaround can provide an overview of who works on what and when, but it is unfortunately not a solid capacity management tool. It just provides a quick visual estimate.

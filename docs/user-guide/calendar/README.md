@@ -31,7 +31,7 @@ Hovering over one item displays more information to a work package, such as the 
 
 Click on any item to open the work package details or to edit an item.
 
-![image-20220321121454597](image-20220321121454597.png)
+![Calendar overview](calendar-overview.png)
 
 The numbers in the instruction below correspond to the numbers in the image above:
 

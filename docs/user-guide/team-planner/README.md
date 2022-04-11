@@ -27,7 +27,7 @@ A few notes:
 
 ## Main view - Start a new or select an existing Team Planner
 
-![image-20220404115939045](image-20220404115939045.png)
+![Overview of the team planner](Team-planner-overview.png)
 
 
 
@@ -45,7 +45,7 @@ A few notes:
 
 ## Planning calendar basics
 
-![image-20220404122042628](image-20220404122042628.png)
+![Overview of the planning calendar basics](planning-calendar-basics.png)
 
 How to navigate the team planner? - The numbers below correspond with the above image:
 
@@ -68,7 +68,7 @@ Repeat this step until all team members relevant for this planner are added, and
 
 **Note: Once you are finished adding members to the planner, click the floppy disk icon in the top header to save.**
 
-![image-20220404122824367](image-20220404122824367.png)
+![Adding team members](adding-team-members.png)
 
 
 
@@ -80,13 +80,13 @@ Additional features: You can change the status of a work package, and enter the 
 
 **Note: You can only add existing work packages here. If you need to create some first, create them in the work package module as new work packages cannot be created from the team planner module.**
 
-![image-20220404123048430](image-20220404123048430.png)
+![Working with work package strips](working-with-work-package-strips.png)
 
 - **Work package strip detail view**
 
 Click on any given work package strip to open up a split screen showing the work package detail view.
 
-![image-20220404123438178](image-20220404123438178.png)
+![Work package strip detail view](work-package-strip-detail-view.png)
 
 
 

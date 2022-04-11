@@ -12,7 +12,7 @@ keywords: help, documentation, use-cases, portfolio management
 
 Step 1: To view all projects, first select the *project chooser drop-down*, the chose *View all projects*
 
-![Timeline  Description automatically generated with medium confidence](clip_image002.jpg)
+![Chose project](chose-project.jpg)
 
  
 
@@ -30,11 +30,11 @@ The Wiki function allows you to build complete custom reports using embedded wor
 
 Here is an example of how a wiki could look:
 
-![Graphical user interface, text, application  Description automatically generated](clip_image004.jpg)
+![Creating custom reports](custom-reports.jpg)
 
 And how the dynamic data, such as calculations, filters, macros and reference language work behind the scenes:
 
-![Graphical user interface, table  Description automatically generated](clip_image006.jpg)
+![Dynamic data](dynamic-data.jpg)
 
 For more information about the syntax and how the attributes work: https://www.openproject.org/docs/user-guide/wysiwyg/
 
