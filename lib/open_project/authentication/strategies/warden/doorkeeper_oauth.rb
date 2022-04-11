@@ -9,9 +9,9 @@ module OpenProject
         #
         class DoorkeeperOAuth < ::Warden::Strategies::Base
           def valid?
-            bearer_token = ::Doorkeeper::OAuth::Token.from_request(decorated_request,
-                                                                   *Doorkeeper.configuration.access_token_methods)
-            bearer_token != nil
+            ::Doorkeeper::OAuth::Token
+              .from_request(decorated_request, *Doorkeeper.configuration.access_token_methods)
+              .present?
           end
 
           def authenticate!
