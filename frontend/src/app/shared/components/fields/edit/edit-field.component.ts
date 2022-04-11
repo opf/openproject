@@ -59,13 +59,15 @@ export abstract class EditFieldComponent extends Field implements OnInit, OnDest
   /** JQuery accessor to element ref */
   protected $element:JQuery;
 
-  constructor(readonly I18n:I18nService,
+  constructor(
+    readonly I18n:I18nService,
     readonly elementRef:ElementRef,
     @Inject(OpEditingPortalChangesetToken) protected change:ResourceChangeset<HalResource>,
     @Inject(OpEditingPortalSchemaToken) public schema:IFieldSchema,
     @Inject(OpEditingPortalHandlerToken) readonly handler:EditFieldHandler,
     readonly cdRef:ChangeDetectorRef,
-    readonly injector:Injector) {
+    readonly injector:Injector,
+  ) {
     super();
 
     this.updateFromChangeset(change);

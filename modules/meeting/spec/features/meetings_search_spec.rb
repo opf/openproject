@@ -46,7 +46,8 @@ describe 'Meeting search', type: :feature, js: true do
     it 'works' do
       select_autocomplete(page.find('.top-menu-search--input'),
                           query: "Meeting",
-                          select_text: "In this project ↵")
+                          select_text: "In this project ↵",
+                          wait_dropdown_open: false)
 
       page.find('[data-qa-tab-id="meetings"]').click
       expect(page.find('#search-results')).to have_text(meeting.title)

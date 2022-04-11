@@ -187,7 +187,7 @@ module API
                                    href_callback: ->(*) {
                                      work_package = represented.work_package
                                      if work_package&.new_record?
-                                       api_v3_paths.available_projects_on_create(work_package.type_id)
+                                       api_v3_paths.available_projects_on_create
                                      else
                                        api_v3_paths.available_projects_on_edit(represented.id)
                                      end

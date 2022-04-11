@@ -329,7 +329,8 @@ describe 'Search', type: :feature, js: true, with_settings: { per_page_options: 
 
         select_autocomplete(page.find('.top-menu-search--input'),
                             query: query,
-                            select_text: 'In this project ↵')
+                            select_text: 'In this project ↵',
+                            wait_dropdown_open: false)
 
         filters.expect_closed
         page.find('.advanced-filters--toggle').click
