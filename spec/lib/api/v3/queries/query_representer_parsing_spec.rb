@@ -66,7 +66,7 @@ describe ::API::V3::Queries::QueryRepresenter, 'parsing' do
     policy
   end
 
-  subject { representer.from_hash request_body }
+  subject { representer.from_hash(request_body) }
 
   describe 'empty group_by (Regression #25606)' do
     before do
@@ -82,7 +82,7 @@ describe ::API::V3::Queries::QueryRepresenter, 'parsing' do
     end
 
     it 'unsets group_by' do
-      expect(query.group_by).to eq('project')
+      expect(subject.group_by).to be_nil
     end
   end
 
@@ -111,37 +111,13 @@ describe ::API::V3::Queries::QueryRepresenter, 'parsing' do
       }
     end
 
-    before do
-      allow(query).to receive(:persisted?).and_return(persisted)
-    end
-
-    context 'if query is new' do
-      let(:persisted) { nil }
-
-      it 'sets ordered_work_packages' do
-        order = subject.ordered_work_packages
-        expect(order).to eq({ '50' => 0, '38' => 1234, '102' => 81234123 })
-      end
-    end
-
-    context 'if query is not new' do
-      let(:persisted) { true }
-
-      it 'sets ordered_work_packages' do
-        allow(query)
-          .to receive(:ordered_work_packages)
-
-        subject
-
-        expect(query)
-          .not_to have_received(:ordered_work_packages)
-      end
+    it 'sets ordered_work_packages' do
+      expect(subject.ordered_work_packages)
+        .to eq({ "50" => 0, "38" => 1234, "102" => 81234123 })
     end
   end
 
   describe 'project' do
-    let(:query) { build_stubbed(:query, project: nil) }
-
     let(:request_body) do
       {
         '_links' => {

@@ -29,14 +29,11 @@
 module API
   class ParserStruct < ::Hashie::Mash
     ##
-    # TODO: Hashie::Mash extends from Hash and
-    # does not allow overriding any enumerable methods.
+    # Hashie::Mash extends from Hash
+    # and by default does not allow overriding any enumerable methods.
     #
-    # This clashed with moving the queries services to BaseContracted,
-    # as we now use a +group_by+ attribute clashing with +Enumerable#group_by#.
-    # This redefines the method to ensure it works with queries, but does not solve the underlying issue.
-    def group_by
-      self[:group_by]
-    end
+    # This clashes with names (e.g. +group_by+) occurring when parsing in the API.
+    # Undefining the method allows to set and get the parsed value without conflicts.
+    undef_method :group_by
   end
 end
