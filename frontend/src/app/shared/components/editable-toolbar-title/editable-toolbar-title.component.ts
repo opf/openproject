@@ -29,6 +29,7 @@ import {
   Component,
   ElementRef,
   EventEmitter,
+  HostBinding,
   Injector,
   Input,
   OnChanges,
@@ -48,7 +49,6 @@ export const selectableTitleIdentifier = 'editable-toolbar-title';
   selector: 'editable-toolbar-title',
   templateUrl: './editable-toolbar-title.html',
   styleUrls: ['./editable-toolbar-title.sass'],
-  host: { class: 'title-container title-container_editable' },
 })
 export class EditableToolbarTitleComponent implements OnInit, OnChanges {
   @Input('title') public inputTitle:string;
@@ -66,6 +66,10 @@ export class EditableToolbarTitleComponent implements OnInit, OnChanges {
   @Output() public onSave = new EventEmitter<string>();
 
   @Output() public onEmptySubmit = new EventEmitter<void>();
+
+  @HostBinding('class.title-container') baseClass = true;
+
+  @HostBinding('class.title-container_editable') editableClass = true;
 
   @ViewChild('editableTitleInput') inputField?:ElementRef;
 
