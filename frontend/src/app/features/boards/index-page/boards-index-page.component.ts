@@ -27,6 +27,7 @@ export class BoardsIndexPageComponent extends UntilDestroyedMixin implements OnI
   public text = {
     name: this.I18n.t('js.modals.label_name'),
     create: this.I18n.t('js.button_create'),
+    create_new_board: this.I18n.t('js.boards.create_new'),
     board: this.I18n.t('js.label_board'),
     boards: this.I18n.t('js.label_board_plural'),
     type: this.I18n.t('js.boards.label_board_type'),

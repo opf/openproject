@@ -39,7 +39,7 @@ export class TeamPlannerSidemenuComponent extends UntilDestroyedMixin {
     );
 
   text = {
-    create_new_team_planner: this.I18n.t('js.team_planner.create_new'),
+    create_new_team_planner: this.I18n.t('js.team_planner.title'),
   };
 
   createButton = {

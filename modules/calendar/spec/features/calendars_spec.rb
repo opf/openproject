@@ -81,7 +81,7 @@ describe 'Work package calendars', type: :feature, js: true do
     expect(page).to have_text 'There is currently nothing to display.'
 
     # Open a new calendar from there
-    click_on 'Create'
+    find('.toolbar-item a', text: 'Calendar').click
 
     loading_indicator_saveguard
 

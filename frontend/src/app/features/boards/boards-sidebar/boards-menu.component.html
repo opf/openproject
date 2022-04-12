@@ -13,8 +13,9 @@
     *ngIf="canCreateBoards$ | async"
     class="spot-button spot-button_outlined"
     (click)="showNewBoardModal()"
+    [title]="text.create_new_board"
   >
     <span class="spot-icon spot-icon_add"></span>
-    <span [textContent]="text.create_new_board"></span>
+    <span [textContent]="text.board"></span>
   </button>
 </div>
