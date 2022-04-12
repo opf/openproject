@@ -26,8 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'core_extensions/string'
-require 'core_extensions/time_with_zone'
-
-::String.prepend CoreExtensions::String
-::ActiveSupport::TimeWithZone.include CoreExtensions::TimeWithZone
+module CoreExtensions
+  module TimeWithZone
+    def utc_offest_for_timezone(timezone)
+      period = timezone.period_for_local(self)
+      period.offset.utc_total_offset
+    end
+  end
+end
