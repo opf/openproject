@@ -15,7 +15,7 @@ RUN echo "deb http://apt.postgresql.org/pub/repos/apt buster-pgdg main" > /etc/a
 
 RUN apt-get update -qq && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
-    postgresql-9.6 postgresql-client-9.6 postgresql-13 postgresql-client-13 time pandoc imagemagick libpq-dev default-jre-headless firefox-esr
+    postgresql-10 postgresql-client-10 postgresql-13 postgresql-client-13 time pandoc imagemagick libpq-dev default-jre-headless firefox-esr
 
 # Try Downloading binary from fallback source if first one fails
 RUN for url in $CHROME_SOURCE_URL; do \
@@ -35,7 +35,7 @@ ENV CAPYBARA_DOWNLOADED_FILE_DIR=/tmp
 # disable deprecations and other warnings in output
 ENV RUBYOPT="-W0"
 ENV DATABASE_URL=postgres://app:p4ssw0rd@127.0.0.1/app
-ENV PGVERSION=9.6
+ENV PGVERSION=10
 
 RUN gem install bundler --version "$BUNDLER_VERSION" --no-document
 
