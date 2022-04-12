@@ -566,7 +566,7 @@ ru:
         even: "должно быть чётным."
         exclusion: "зарезервировано."
         file_too_large: "слишком большой (максимальный размер составляет %{count} байт)."
-        filter_does_not_exist: "filter does not exist."
+        filter_does_not_exist: "фильтр не существует."
         format: "не соответствует ожидаемому формату '%{expected}'."
         format_nested: "не соответствует ожидаемому формату '%{expected}' в пути '%{path}'."
         greater_than: "должно быть больше чем %{count}."
