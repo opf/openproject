@@ -45,7 +45,6 @@ properties:
     type: object
     required:
       - self
-      - readIAN
       - project
       - actor
       - activity
@@ -62,7 +61,12 @@ properties:
         allOf:
           - "$ref": "./link.yml"
           - description: |-
-              Request to mark the notification as read.
+              Request to mark the notification as read. Only available if the notification is currently unread.
+      unreadIAN:
+        allOf:
+          - "$ref": "./link.yml"
+          - description: |-
+              Request to mark the notification as unread. Only available if the notification is currently read.
       project:
         allOf:
           - "$ref": "./link.yml"
