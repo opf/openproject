@@ -130,15 +130,21 @@ describe UserMailer, type: :mailer do
 
   describe '#wiki_content_updated' do
     let(:wiki_content) { create(:wiki_content) }
+    let(:wiki_content_journal) { build_stubbed(:wiki_content_journal) }
 
     before do
+      allow(wiki_content).to receive(:journals).and_return([wiki_content_journal])
       described_class.wiki_content_updated(recipient, wiki_content).deliver_now
     end
 
     it_behaves_like 'mail is sent'
 
     it 'links to the latest version diff page' do
-      expect(deliveries.first.body.encoded).to include 'diff/1'
+      expect(deliveries.first.body.encoded).to include "diff/#{wiki_content.version}"
+    end
+
+    it 'uses the author from the journal' do
+      expect(deliveries.first.body.encoded).to include wiki_content_journal.user.name
     end
   end
 
