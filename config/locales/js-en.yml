@@ -345,6 +345,7 @@ en:
                 </ul>
 
     label_activate: "Activate"
+    label_assignee: 'Assignee'
     label_add_column_after: "Add column after"
     label_add_column_before: "Add column before"
     label_add_columns: "Add columns"
@@ -599,7 +600,6 @@ en:
           link_text: 'Click here to load them'
       menu:
         accountable: 'Accountable'
-        assigned: 'Assigned'
         by_project: 'Unread by project'
         by_reason: 'Involvement'
         inbox: 'Inbox'
