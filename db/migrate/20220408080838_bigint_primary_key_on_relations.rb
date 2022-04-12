@@ -26,15 +26,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+class BigintPrimaryKeyOnRelations < ActiveRecord::Migration[6.1]
+  def up
+    unless OpenProject::Database.version_matches?(100000)
+      version = OpenProject::Database.version
+      raise "This migration requires a PostgreSQL server version of at least 10.0, found #{version}"
+    end
 
-describe RootSeeder,
-         'Storage module' do
-  it 'seeds role permissions for Storages' do
-    expect { described_class.new.do_seed! }.not_to raise_error
+    execute <<~SQL.squish
+      ALTER SEQUENCE relations_id_seq AS bigint;
+    SQL
+  end
 
-    expect(RolePermission.where(permission: :view_file_links).count).to eq 5
-    expect(RolePermission.where(permission: :manage_file_links).count).to eq 2
-    expect(RolePermission.where(permission: :manage_storages_in_project).count).to eq 1
+  def down
+    # nothing to do
   end
 end

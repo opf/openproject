@@ -26,30 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'net/http'
-require 'uri'
+require 'spec_helper'
 
-# Purpose: common functionalities shared by CreateContract and UpdateContract
-# UpdateService by default checks if UpdateContract exists
-# and uses the contract to validate the model under consideration
-# (normally it's a model).
-module Storages::Storages
-  class BaseContract < ::ModelContract
-    MINIMAL_NEXTCLOUD_VERSION = 23
+describe RootSeeder, 'Storage module' do
+  it 'seeds role permissions for Storages' do
+    expect { described_class.new.do_seed! }.not_to raise_error
 
-    include ::Storages::Storages::Concerns::ManageStoragesGuarded
-    include ActiveModel::Validations
-
-    attribute :name
-    validates :name, presence: true, length: { maximum: 255 }
-
-    attribute :provider_type
-    validates :provider_type, inclusion: { in: ->(*) { Storages::Storage::PROVIDER_TYPES } }
-
-    attribute :host
-    validates :host, url: true, length: { maximum: 255 }
-    # Check that a host actually is a storage server.
-    # But only do so if the validations above for URL were successful.
-    validates :host, nextcloud_compatible_host: true, unless: -> { errors.include?(:host) }
+    expect(RolePermission.where(permission: :view_file_links).count).to eq 5
+    expect(RolePermission.where(permission: :manage_file_links).count).to eq 2
+    expect(RolePermission.where(permission: :manage_storages_in_project).count).to eq 1
   end
 end

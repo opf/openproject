@@ -942,7 +942,7 @@ de:
   button_copy_and_follow: "Kopieren und Arbeitspaket anzeigen"
   button_create: "Anlegen"
   button_create_and_continue: "Anlegen und weiter"
-  button_delete: "Lösche"
+  button_delete: "Löschen"
   button_decline: "Ablehnen"
   button_delete_watcher: "Lösche Beobachter %{name}"
   button_download: "Download"

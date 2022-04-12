@@ -38,27 +38,16 @@ module API
             current_user.preload_projects_allowed_to(checked_permissions)
           end
 
-          params do
-            optional :for_type, type: Integer
-          end
-
           get &::API::V3::Utilities::Endpoints::SqlFallbackedIndex
-                 .new(model: Project,
-                      self_path: -> { api_v3_paths.available_projects_on_create(params[:for_type]) },
-                      scope: -> {
-                        available_projects = WorkPackage
-                                             .allowed_target_projects_on_create(current_user)
-                                             .includes(Projects::ProjectCollectionRepresenter.to_eager_load)
+            .new(model: Project,
+                 self_path: -> { api_v3_paths.available_projects_on_create },
+                 scope: -> {
+                   WorkPackage
+                     .allowed_target_projects_on_create(current_user)
+                     .includes(Projects::ProjectCollectionRepresenter.to_eager_load)
 
-                        if params[:for_type]
-                          query = ::Queries::Projects::ProjectQuery.new(user: current_user)
-                          query.where('type_id', '=', params[:for_type])
-                          query.results.merge(available_projects)
-                        else
-                          available_projects
-                        end
-                      })
-                 .mount
+                 })
+            .mount
         end
       end
     end

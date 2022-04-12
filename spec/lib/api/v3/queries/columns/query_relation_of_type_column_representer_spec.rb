@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Queries::Columns::QueryRelationOfTypeColumnRepresenter, clear_cache: true do
+describe ::API::V3::Queries::Columns::QueryRelationOfTypeColumnRepresenter do
   include ::API::V3::Utilities::PathHelper
 
   let(:type) { { name: :label_relates_to, sym_name: :label_relates_to, order: 1, sym: :relation1 } }

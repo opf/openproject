@@ -40,38 +40,51 @@ describe Queries::Scopes::Visible, type: :model do
     let(:permissions) { %i[view_work_packages] }
     let!(:private_user_query) do
       create(:query,
+             name: 'Private user query',
              project: project,
              user: user)
     end
     let!(:private_other_user_query) do
       create(:query,
+             name: 'Private other user query',
              project: project)
     end
     let!(:private_user_query_lacking_permissions) do
       create(:query,
+             name: 'Private user query lacking permission',
              project: create(:project,
                              members: { user => create(:role, permissions: []) }),
              user: user)
     end
     let!(:public_query) do
       create(:query,
+             name: 'Public query',
              project: project,
              public: true)
     end
     let!(:public_query_lacking_permissions) do
       create(:query,
+             name: 'Public query lacking permission',
              project: create(:project,
                              members: { user => create(:role, permissions: []) }),
              public: true)
     end
     let!(:global_user_query) do
       create(:query,
+             name: 'Global user query',
              project: nil,
              user: user)
     end
     let!(:global_other_user_query) do
       create(:query,
+             name: 'Global other user query',
              project: nil)
+    end
+    let!(:global_other_user_public_query) do
+      create(:query,
+             name: 'Global other user public query',
+             project: nil,
+             public: true)
     end
     let(:project) { create(:project) }
     let(:public_project) { create(:public_project) }
@@ -79,7 +92,7 @@ describe Queries::Scopes::Visible, type: :model do
     context 'with the user having the :view_work_packages permission' do
       it 'returns the queries that are public or that are the user`s' do
         expect(scope)
-          .to match_array([private_user_query, public_query, global_user_query, global_other_user_query])
+          .to match_array([private_user_query, public_query, global_user_query, global_other_user_public_query])
       end
     end
 

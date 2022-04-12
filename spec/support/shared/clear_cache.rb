@@ -27,12 +27,7 @@
 #++
 
 RSpec.configure do |config|
-  config.around(:each) do |example|
-    clear_cache = example.metadata[:clear_cache]
-    OpenProject::Cache.clear if clear_cache
-
-    example.run
-
-    OpenProject::Cache.clear if clear_cache
+  config.before do
+    OpenProject::Cache.clear
   end
 end

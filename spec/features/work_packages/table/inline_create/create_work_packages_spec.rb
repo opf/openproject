@@ -159,6 +159,8 @@ describe 'inline create work package', js: true do
           project_field.openSelectField
           project_field.set_value project.name
 
+          sleep 1
+
           # Set type
           type_field = wp_table.edit_field(nil, :type)
           type_field.expect_active!

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Queries::Schemas::TypeFilterDependencyRepresenter, clear_cache: true do
+describe ::API::V3::Queries::Schemas::TypeFilterDependencyRepresenter do
   include ::API::V3::Utilities::PathHelper
 
   let(:project) { build_stubbed(:project) }

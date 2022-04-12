@@ -30,7 +30,6 @@ require 'spec_helper'
 
 describe 'Projects index page',
          type: :feature,
-         clear_cache: true,
          js: true,
          with_settings: { login_required?: false } do
   shared_let(:admin) { create :admin }

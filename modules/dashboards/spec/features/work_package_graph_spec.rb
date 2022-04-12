@@ -30,6 +30,7 @@ require 'spec_helper'
 
 require_relative '../support/pages/dashboard'
 
+# rubocop:disable RSpec/MultipleMemoizedHelpers
 describe 'Arbitrary WorkPackage query graph widget dashboard', type: :feature, js: true, with_mail: false do
   let!(:type) { create :type }
   let!(:other_type) { create :type }
@@ -101,9 +102,12 @@ describe 'Arbitrary WorkPackage query graph widget dashboard', type: :feature, j
 
   context 'with the permission to save queries' do
     it 'can add the widget and see the work packages of the filtered for types' do
+      expect(page)
+        .to have_content(type_work_package.subject)
+
       dashboard_page.add_widget(1, 1, :column, "Work packages graph")
 
-      sleep(0.1)
+      sleep(1)
 
       filter_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(2)')
 
@@ -133,6 +137,8 @@ describe 'Arbitrary WorkPackage query graph widget dashboard', type: :feature, j
 
       visit root_path
       dashboard_page.visit!
+      expect(page)
+        .to have_content(type_work_package.subject)
 
       filter_area.configure_wp_table
       modal.switch_to('Filters')
@@ -175,3 +181,4 @@ describe 'Arbitrary WorkPackage query graph widget dashboard', type: :feature, j
     end
   end
 end
+# rubocop:enable RSpec/MultipleMemoizedHelpers

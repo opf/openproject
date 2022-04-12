@@ -26,11 +26,18 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Component, InjectFlags, OnInit } from '@angular/core';
+import {
+  Component,
+  InjectFlags,
+  OnInit,
+} from '@angular/core';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { SelectAutocompleterRegisterService } from 'core-app/shared/components/fields/edit/field-types/select-edit-field/select-autocompleter-register.service';
 import { from } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import {
+  map,
+  tap,
+} from 'rxjs/operators';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { CreateAutocompleterComponent } from 'core-app/shared/components/autocompleter/create-autocompleter/create-autocompleter.component';
 import { EditFormComponent } from 'core-app/shared/components/fields/edit/edit-form/edit-form.component';
