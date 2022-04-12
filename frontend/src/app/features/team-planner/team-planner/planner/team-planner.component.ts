@@ -546,6 +546,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
       data.event.end?.toISOString(),
       data.timeText,
       `dragging=${data.isDragging.toString()}`,
+      `resizing=${data.isResizing.toString()}`,
     ].join('-');
   }
 
