@@ -93,17 +93,6 @@ module API
               SQL
             end
           end
-
-          def visibility_join
-            if User.current.admin?
-              ''
-            else
-              <<-SQL.squish
-                LEFT OUTER JOIN (#{Project.visible.to_sql}) visible_ancestors
-                ON visible_ancestors.id = ancestors.id
-              SQL
-            end
-          end
         end
 
         link :self,
