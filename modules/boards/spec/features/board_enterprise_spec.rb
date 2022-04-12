@@ -54,7 +54,7 @@ describe 'Boards enterprise spec', type: :feature, js: true do
     end
 
     it 'disabled all action boards' do
-      page.find('.toolbar-item a', text: I18n.t('js.button_create')).click
+      page.find('.toolbar-item a', text: 'Board').click
 
       expect(page).to have_selector('[data-qa-selector="op-tile-block"]:not([disabled])', text: 'Basic')
       expect(page).to have_selector('[data-qa-selector="op-tile-block"]:disabled', count: 5)
@@ -84,7 +84,7 @@ describe 'Boards enterprise spec', type: :feature, js: true do
     end
 
     it 'enables all options' do
-      page.find('.toolbar-item a', text: I18n.t('js.button_create')).click
+      page.find('.toolbar-item a', text: 'Board').click
 
       expect(page).to have_selector('[data-qa-selector="op-tile-block"]:not([disabled])', count: 6)
     end

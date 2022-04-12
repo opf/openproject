@@ -33,11 +33,12 @@ export class CalendarSidemenuComponent extends UntilDestroyedMixin {
     .pipe(this.untilDestroyed());
 
   text = {
+    calendar: this.I18n.t('js.calendar.title'),
     create_new_calendar: this.I18n.t('js.calendar.create_new'),
   };
 
   createButton = {
-    title: this.text.create_new_calendar,
+    title: this.text.calendar,
     uiSref: 'calendar.page.show',
     uiParams: {
       query_id: null,
