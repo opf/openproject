@@ -10,6 +10,7 @@
     >
       <li
         *ngFor="let tab of tabs; trackBy:trackById"
+        [id]="tab.id"
         class="op-tab-row--tab"
         (dragenter)="startDebouncedTabActivation(tab)"
         (dragleave)="cancelDebouncedTabActivation()"

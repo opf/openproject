@@ -156,7 +156,7 @@ export const OPENPROJECT_ROUTES:Ng2StateDeclaration[] = [
  * @param className
  * @param action
  */
-export function bodyClass(className:string[]|string|null|undefined, action:'add'|'remove' = 'add') {
+export function bodyClass(className:string[]|string|null|undefined, action:'add'|'remove' = 'add'):void {
   if (className) {
     if (Array.isArray(className)) {
       className.forEach((cssClass:string) => {
@@ -168,7 +168,7 @@ export function bodyClass(className:string[]|string|null|undefined, action:'add'
   }
 }
 
-export function updateMenuItem(menuItemClass:string|undefined, action:'add'|'remove' = 'add') {
+export function updateMenuItem(menuItemClass:string|undefined, action:'add'|'remove' = 'add'):void {
   if (!menuItemClass) {
     return;
   }
@@ -191,7 +191,8 @@ export function updateMenuItem(menuItemClass:string|undefined, action:'add'|'rem
   menuItem.setAttribute('title', menuItemTitle);
 }
 
-export function uiRouterConfiguration(uiRouter:UIRouter, injector:Injector, module:StatesModule) {
+// eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars
+export function uiRouterConfiguration(uiRouter:UIRouter, injector:Injector, module:StatesModule):void {
   // Allow optional trailing slashes
   uiRouter.urlService.config.strictMode(false);
 
@@ -205,7 +206,7 @@ export function uiRouterConfiguration(uiRouter:UIRouter, injector:Injector, modu
       raw: true,
       dynamic: true,
       is: (val:unknown) => typeof (val) === 'string',
-      equals: (a:any, b:any) => _.isEqual(a, b),
+      equals: (a, b) => _.isEqual(a, b),
     },
   );
 
@@ -223,7 +224,7 @@ export function uiRouterConfiguration(uiRouter:UIRouter, injector:Injector, modu
   );
 }
 
-export function initializeUiRouterListeners(injector:Injector) {
+export function initializeUiRouterListeners(injector:Injector):void {
   const $transitions:TransitionService = injector.get(TransitionService);
   const stateService = injector.get(StateService);
   const toastService:ToastService = injector.get(ToastService);
@@ -260,8 +261,15 @@ export function initializeUiRouterListeners(injector:Injector) {
       updateMenuItem(_.get(state, 'data.menuItem'), 'add');
     }
 
-    // Reset scroll position, mostly relevant for mobile
-    window.scrollTo(0, 0);
+    // Scroll to position, mostly relevant for mobile
+    const params = transition.params('to');
+    if (params['#']) {
+      // scroll to url fragment if available
+      document.getElementById(params['#'])?.scrollIntoView();
+    } else {
+      // scroll to top otherwise
+      window.scrollTo(0, 0);
+    }
   });
 
   $transitions.onExit({}, (transition:Transition, state:StateDeclaration) => {

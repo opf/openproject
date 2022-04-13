@@ -55,7 +55,7 @@ export class WpTabsComponent implements OnInit {
       .map((tab) => ({
         ...tab,
         route: `${this.uiSrefBase}.tabs`,
-        routeParams: { workPackageId: this.workPackage.id, tabIdentifier: tab.id },
+        routeParams: { workPackageId: this.workPackage.id, tabIdentifier: tab.id, '#': tab.id },
       }));
   }
 
@@ -64,7 +64,7 @@ export class WpTabsComponent implements OnInit {
   }
 
   public close():void {
-    this.$state.go(
+    void this.$state.go(
       this.uiRouterGlobals.current.data.baseRoute,
       this.uiRouterGlobals.params,
     );
