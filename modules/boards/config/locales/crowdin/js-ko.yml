@@ -7,7 +7,7 @@ ko:
       label_unnamed_list: '명명되지 않은 목록'
       label_board_type: '보드 유형'
       upsale:
-        teaser_text: 'Need a predefined board template? Advanced boards are Enterprise features. Please upgrade to a paid plan.'
+        teaser_text: 'Would you like ready-to-use board templates? Advanced boards are an Enterprise feature. Please upgrade to a paid plan.'
         upgrade: '지금 업그레이드'
       lists:
         delete: '목록 삭제'

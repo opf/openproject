@@ -238,7 +238,7 @@ lt:
           text: >
             OpenProject Enterprise Edition yra pastatyta virš Community Edition. Papildomai įdėtos „premium“ savybės ir profesionalus aptarnavimas, pagrinde orientuotas į organizacijas su daugiau nei 10 vartotojų, kurie naudodami OpenProject valdo verslui kritinius projektus.
           unlimited: "Neribota"
-          you_contribute: "Kūrėjams taip pat reikia apmokėti savo sąskaitas. Su „Enterprise Edition“ jūs iš esmės prisidėsite prie atviro kodo bendruomenės darbo."
+          you_contribute: "Developers need to pay their bills, too. By upgrading to the Enterprise Edition, you will be supporting this open source community effort and contributing to its development, maintenance and continuous improvement."
     custom_actions:
       date:
         specific: 'įjungta'

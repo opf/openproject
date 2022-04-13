@@ -238,7 +238,7 @@ uk:
           text: >
             Випуск OpenProject Enterprise Edition створено на основі Community Edition. Він включає ексклюзивні функції та професійну підтримку й призначений здебільшого для організацій із більш ніж 10 користувачами, які керують критично важливими для бізнесу проєктами в OpenProject.
           unlimited: "Необмежено"
-          you_contribute: "Розробники теж повинні оплачувати свої рахунки. Придбавши Enterprise Edition, ви зробите суттєвий внесок у спільноту Open Source."
+          you_contribute: "Developers need to pay their bills, too. By upgrading to the Enterprise Edition, you will be supporting this open source community effort and contributing to its development, maintenance and continuous improvement."
     custom_actions:
       date:
         specific: 'на'

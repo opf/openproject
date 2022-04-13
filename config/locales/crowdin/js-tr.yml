@@ -238,7 +238,7 @@ tr:
           text: >
             OpenProject Enterprise Edition, Topluluk Sürümü'nün üzerine kuruludur. OpenProject ile iş açısından kritik öneme sahip projeleri yöneten 10'dan fazla kullanıcısı olan kuruluşlara yönelik premium özellikler ve profesyonel destek içerir.
           unlimited: "Sınırsız"
-          you_contribute: "Geliştiricilerin faturalarını da ödemeleri gerekiyor. Enterprise Edition ile bu Açık Kaynak topluluk çalışmasına önemli ölçüde katkıda bulunursunuz."
+          you_contribute: "Developers need to pay their bills, too. By upgrading to the Enterprise Edition, you will be supporting this open source community effort and contributing to its development, maintenance and continuous improvement."
     custom_actions:
       date:
         specific: 'açık'

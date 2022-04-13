@@ -237,7 +237,7 @@ ru:
           text: >
             Версия OpenProject Enterprise Edition основана на версии Community Edition и включает в себя премиум-функции и профессиональную поддержку для организаций, у которых более 10 пользователей и которые управляют критически важными для бизнеса проектами с помощью OpenProject.
           unlimited: "Без ограничений"
-          you_contribute: "Разработчикам тоже нужно на что-то жить. Купив корпоративную версию, вы ощутимо поможете нашему сообществу свободного ПО."
+          you_contribute: "Developers need to pay their bills, too. By upgrading to the Enterprise Edition, you will be supporting this open source community effort and contributing to its development, maintenance and continuous improvement."
     custom_actions:
       date:
         specific: 'вкл'

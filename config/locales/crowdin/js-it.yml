@@ -238,7 +238,7 @@ it:
           text: >
             OpenProject Enterprise Edition si basa sull'edizione Community Edition. Include caratteristiche premium e supporto professionale principalmente rivolto alle organizzazioni con più di 10 utenti che gestiscono progetti critici di business con OpenProject.
           unlimited: "Illimitato"
-          you_contribute: "Anche gli sviluppatori devono pagare le bollette. Con Enterprise Edition puoi contribuire in modo sostanziale al lavoro di questa comunità Open Source."
+          you_contribute: "Developers need to pay their bills, too. By upgrading to the Enterprise Edition, you will be supporting this open source community effort and contributing to its development, maintenance and continuous improvement."
     custom_actions:
       date:
         specific: 'il'

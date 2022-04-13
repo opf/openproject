@@ -238,7 +238,7 @@ ko:
           text: >
             OpenProject Enterprise Edition은 Community Edition 위에서 빌드됩니다. OpenProject로 비즈니스 크리티컬 프로젝트를 관리하는 사용자가 10명이 넘는 조직을 주로 타겟으로 하는 프리미엄 기능과 전문 지원이 제공됩니다.
           unlimited: "무제한"
-          you_contribute: "개발자들도 청구서를 지불해야 합니다. Enterprise Edition으로 이 오픈 소스 커뮤니티의 노력에 여러분이 실질적으로 기여할 수 있습니다."
+          you_contribute: "Developers need to pay their bills, too. By upgrading to the Enterprise Edition, you will be supporting this open source community effort and contributing to its development, maintenance and continuous improvement."
     custom_actions:
       date:
         specific: '에'

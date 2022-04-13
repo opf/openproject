@@ -237,7 +237,7 @@ ro:
           text: >
             Ediția OpenProject Enterprise Edition se bazează pe ediția Community Edition. Aceasta include caracteristici premium și asistență profesională, destinate în principal organizațiilor cu peste 10 utilizatori care gestionează proiecte critice de afaceri cu OpenProject.
           unlimited: "Nelimitat"
-          you_contribute: "Dezvoltatorii trebuie să își plătească și ei facturile. Cu Enterprise Edition, contribuiți substanțial la acest efort al comunității Open Source."
+          you_contribute: "Developers need to pay their bills, too. By upgrading to the Enterprise Edition, you will be supporting this open source community effort and contributing to its development, maintenance and continuous improvement."
     custom_actions:
       date:
         specific: 'pe'

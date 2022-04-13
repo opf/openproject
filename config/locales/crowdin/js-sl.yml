@@ -237,7 +237,7 @@ sl:
           text: >
             Izdaja OpenProject Enterprise temelji na različici Community Edition. Vključuje vrhunske funkcije in strokovno podporo, namenjeno predvsem organizacijam z več kot 10 uporabniki, ki z OpenProjectom upravljajo poslovno pomembne projekte.
           unlimited: "Neomejeno"
-          you_contribute: "Razvijalci morajo plačati tudi svoje račune. Z Enterprise Edition znatno prispevate k temu prizadevanju za odprtokodno skupnost."
+          you_contribute: "Developers need to pay their bills, too. By upgrading to the Enterprise Edition, you will be supporting this open source community effort and contributing to its development, maintenance and continuous improvement."
     custom_actions:
       date:
         specific: 'vključeno'

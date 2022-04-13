@@ -237,7 +237,7 @@ da:
           text: >
             OpenProject Enterprise Edition bygger oven på Community Edition. Det omfatter premium-funktioner og professionel support primært rettet mod organisationer med mere end 10 brugere, der administrerer forretningskritiske projekter med OpenProject.
           unlimited: "Ubegrænset"
-          you_contribute: "Udviklere skal også betale deres regninger. Med Enterprise Edition bidrager du væsentligt til denne Open Source-fællesskabsindsats."
+          you_contribute: "Developers need to pay their bills, too. By upgrading to the Enterprise Edition, you will be supporting this open source community effort and contributing to its development, maintenance and continuous improvement."
     custom_actions:
       date:
         specific: 'på'
