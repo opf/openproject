@@ -27,7 +27,7 @@
     (blur)="onFocusOut()"
     (search)="search($event)"
     (open)="openCloseMenu(currentValue)"
-    (close)="select.searchTerm = currentValue"
+    (close)="onClose()"
     (change)="followItem($event)"
     (keydown.enter)="onEnterBeforeResultsLoaded()"
     (keydown.escape)="blur()"

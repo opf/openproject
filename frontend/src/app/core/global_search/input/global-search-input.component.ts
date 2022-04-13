@@ -57,6 +57,11 @@ import { ApiV3Service } from '../../apiv3/api-v3.service';
 
 export const globalSearchSelector = 'global-search-input';
 
+interface SearchResultItems {
+  items:[];
+  term:string;
+}
+
 interface SearchResultItem {
   id:string;
   subject:string;
@@ -138,7 +143,8 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
 
   ngAfterViewInit():void {
     // check searchterm on init, expand / collapse search bar and set correct classes
-    this.ngSelectComponent.ngSelectInstance.searchTerm = this.currentValue = this.globalSearchService.searchTerm;
+    this.ngSelectComponent.ngSelectInstance.searchTerm = this.globalSearchService.searchTerm;
+    this.currentValue = this.globalSearchService.searchTerm;
     this.expanded = (this.ngSelectComponent.ngSelectInstance.searchTerm.length > 0);
     this.toggleTopMenuClass();
   }
@@ -192,7 +198,7 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
     return Highlighting.inlineClass(property, id);
   }
 
-  public search($event:any) {
+  public search($event:SearchResultItems) {
     this.currentValue = this.ngSelectComponent.ngSelectInstance.searchTerm;
     this.openCloseMenu($event.term);
   }
@@ -217,8 +223,13 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
     }
   }
 
+  public onClose() {
+    this.ngSelectComponent.ngSelectInstance.searchTerm = this.currentValue;
+  }
+
   public clearSearch() {
-    this.currentValue = this.ngSelectComponent.ngSelectInstance.searchTerm = '';
+    this.currentValue = '';
+    this.ngSelectComponent.ngSelectInstance.searchTerm = '';
     this.openCloseMenu(this.currentValue);
   }
 
@@ -235,10 +246,6 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
 
   public statusHighlighting(statusId:string) {
     return Highlighting.inlineClass('status', statusId);
-  }
-
-  private get isDirectHit() {
-    return this.selectedItem && this.selectedItem.hasOwnProperty('id');
   }
 
   public followItem(item:WorkPackageResource|SearchOptionItem) {
@@ -259,7 +266,7 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
   }
 
   // return all project scope items and all items which contain the search term
-  public customSearchFn(term:string, item:any):boolean {
+  public customSearchFn(term:string, item:SearchResultItem):boolean {
     return item.id === undefined || item.subject.toLowerCase().indexOf(term.toLowerCase()) !== -1;
   }
 
