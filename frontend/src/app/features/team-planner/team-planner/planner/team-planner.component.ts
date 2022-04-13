@@ -77,7 +77,10 @@ import {
   teamPlannerEventRemoved,
 } from 'core-app/features/team-planner/team-planner/planner/team-planner.actions';
 import { imagePath } from 'core-app/shared/helpers/images/path-helper';
-import { skeletonEvents, skeletonResources } from './loading-skeleton-data';
+import {
+  skeletonEvents,
+  skeletonResources,
+} from './loading-skeleton-data';
 import { CapabilitiesResourceService } from 'core-app/core/state/capabilities/capabilities.service';
 import { ICapability } from 'core-app/core/state/capabilities/capability.model';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
@@ -230,7 +233,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
 
   text = {
     add_existing: this.I18n.t('js.team_planner.add_existing'),
-    assignees: this.I18n.t('js.team_planner.label_assignee_plural'),
+    assignee: this.I18n.t('js.label_assignee'),
     add_assignee: this.I18n.t('js.team_planner.add_assignee'),
     remove_assignee: this.I18n.t('js.team_planner.remove_assignee'),
     noData: this.I18n.t('js.team_planner.no_data'),
@@ -383,7 +386,12 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
                   { weekday: 'long', day: '2-digit' },
                 ],
                 resourceAreaColumns: [
-                  { field: 'title', headerContent: this.text.assignees },
+                  {
+                    field: 'title',
+                    headerContent: {
+                      html: `<span class="spot-icon spot-icon_user-plus"></span> <span>${this.text.assignee}</span>`,
+                    },
+                  },
                 ],
               },
               resourceTimelineTwoWeeks: {
@@ -396,7 +404,12 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
                   { weekday: 'short', day: '2-digit' },
                 ],
                 resourceAreaColumns: [
-                  { field: 'title', headerContent: this.text.assignees },
+                  {
+                    field: 'title',
+                    headerContent: {
+                      html: `<span class="spot-icon spot-icon_user-plus"></span> <span>${this.text.assignee}</span>`,
+                    },
+                  },
                 ],
               },
             },
