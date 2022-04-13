@@ -2,7 +2,7 @@
 ---
 post:
   summary: Unread notification
-  operationId: Unread_Notification
+  operationId: unread_notification
   tags:
     - Notifications
   description: |-

@@ -2,7 +2,7 @@
 ---
 post:
   summary: Read notification
-  operationId: Read_Notification
+  operationId: read_notification
   tags:
     - Notifications
   description: |-

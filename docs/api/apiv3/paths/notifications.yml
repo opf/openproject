@@ -2,7 +2,7 @@
 ---
 get:
   summary: Get notification collection
-  operationId: Get_Notification_Collection
+  operationId: list_notifications
   tags:
     - Notifications
   description: |-
