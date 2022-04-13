@@ -68,6 +68,7 @@ First, you will get an overview on author and date of the latest updates. Potent
 
 <div class="alert alert-info" role="alert">
 **Note**: The more distance between two versions, the more difficult it becomes to compare them, since only the selected versions are compared (ignoring the changes that were made in the meantime). The most comprehensible information is thus provided by comparing two consecutive versions.</div>
+**Note**: The wiki will merge changes, if changes are entered within less then 5 minutes by the same person. This helps to avoid clutter in the wiki history. 
 
 ## Export a wiki page
 
