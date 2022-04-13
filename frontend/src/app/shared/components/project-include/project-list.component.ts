@@ -9,6 +9,7 @@ import {
 } from '@angular/core';
 import { IProjectData } from './project-data';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
+import SpotDropAlignmentOption from 'core-app/spot/drop-alignment-options';
 
 @Component({
   selector: '[op-project-list]',
@@ -22,6 +23,8 @@ export class OpProjectListComponent {
   @HostBinding('class.op-project-list') className = true;
 
   @Output() update = new EventEmitter<string[]>();
+
+  @Input() root:boolean = false;
 
   @Input() projects:IProjectData[] = [];
 
@@ -76,5 +79,17 @@ export class OpProjectListComponent {
         href,
       ]);
     }
+  }
+
+  public getAlignment(project:IProjectData, isFirst:boolean, isLast:boolean):SpotDropAlignmentOption {
+    if (this.root && isFirst) {
+      if (isLast && !project.children.length) {
+        return SpotDropAlignmentOption.RightCenter;
+      }
+       
+      return SpotDropAlignmentOption.BottomLeft;
+    }
+
+    return SpotDropAlignmentOption.TopLeft;
   }
 }

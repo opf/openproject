@@ -53,6 +53,7 @@
           [selected]="selectedProjects"
           [includeSubprojects]="includeSubprojects$ | async"
           [searchText]="searchText"
+          [root]="true"
           (update)="selectedProjects = $event"
           data-qa-selector="project-include-list"
         ></ul>
