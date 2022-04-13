@@ -39,7 +39,7 @@ get:
 
 delete:
   summary: Removes a file link.
-  operationId: Work_Package_Delete_File_Link
+  operationId: Delete_File_Link
   tags:
     - Work Packages
     - File links

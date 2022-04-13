@@ -112,7 +112,7 @@ post:
 
 get:
   summary: Gets all file links of a work package
-  operationId: Work_Package_Get_File_Links
+  operationId: Work_Package_Get_File_Link_Collection
   tags:
     - Work Packages
     - File links

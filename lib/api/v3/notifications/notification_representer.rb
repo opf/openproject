@@ -34,6 +34,8 @@ module API
         include API::Decorators::LinkedResource
         extend API::Decorators::PolymorphicResource
 
+        self_link title_getter: ->(*) { nil }
+
         property :id
 
         property :read_ian,
