@@ -1,11 +1,12 @@
-# /api/v3/notifications/{id}
+# /api/v3/notifications/{id}/unread_ian
 ---
-get:
-  summary: Get the notification
-  operationId: view_notification
+post:
+  summary: Unread notification
+  operationId: unread_notification
   tags:
     - Notifications
-  description: Returns the notification identified by the notification id.
+  description: |-
+    Marks the given notification as unread.
   parameters:
     - name: id
       in: path
@@ -15,11 +16,7 @@ get:
       schema:
         type: integer
   responses:
-    '200':
-      content:
-        application/hal+json:
-          schema:
-            $ref: '../components/schemas/notification_model.yml'
+    '204':
       description: OK
     '404':
       content:

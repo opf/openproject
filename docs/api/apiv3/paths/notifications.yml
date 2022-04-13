@@ -1,23 +1,33 @@
 # /api/v3/notifications
 ---
 get:
+  summary: Get notification collection
+  operationId: list_notifications
+  tags:
+    - Notifications
+  description: |-
+    Returns the collection of available in-app notifications. The notifications returned depend on the provided
+    parameters and also on the requesting user's permissions.
   parameters:
-    - description: Page number inside the requested collection.
-      example: '25'
+    - name: offset
+      description: Page number inside the requested collection.
       in: query
-      name: offset
+      example: 25
       required: false
       schema:
         default: 1
         type: integer
-    - description: Number of elements to display per page.
-      example: '25'
+    - name: pageSize
+      description: Number of elements to display per page.
       in: query
-      name: pageSize
+      example: 25
       required: false
       schema:
+        default: 20
         type: integer
-    - description: |-
+    - name: sortBy
+      in: query
+      description: |-
         JSON specifying sort criteria.
         Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/) endpoint. Currently supported sorts are:
 
@@ -27,24 +37,24 @@ get:
 
         + readIAN: Sort by read status
       example: '[["reason", "asc"]]'
-      in: query
-      name: sortBy
       required: false
       schema:
         type: string
-    - description: |-
+    - name: groupBy
+      in: query
+      description: |-
         string specifying group_by criteria.
 
         + reason: Group by notification reason
 
         + project: Sort by associated project
       example: 'reason'
-      in: query
-      name: groupBy
       required: false
       schema:
         type: string
-    - description: |-
+    - name: filters
+      in: query
+      description: |-
         JSON specifying filter conditions.
         Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/) endpoint. Currently supported filters are:
 
@@ -60,8 +70,6 @@ get:
 
         + resourceType: Filter by the type of the resource the notification was created for. Ideally used together with the `resourceId` filter.
       example: '[{ "readIAN": { "operator": "=", "values": ["t"] } }]'
-      in: query
-      name: filters
       required: false
       schema:
         type: string
@@ -70,39 +78,26 @@ get:
       content:
         application/hal+json:
           schema:
-            "$ref": "../components/schemas/list_notifications_model.yml"
+            $ref: '../components/schemas/notification_collection_model.yml'
       description: OK
-      headers: { }
     '400':
       content:
         application/hal+json:
           schema:
-            $ref: "../components/schemas/error_response.yml"
-          examples:
-            response:
-              value:
-                _type: Error
-                errorIdentifier: urn:openproject-org:api:v3:errors:InvalidQuery
-                message:
-                  - Filters Invalid filter does not exist.
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:InvalidQuery
+            message:
+              - Filters Invalid filter does not exist.
       description: Returned if the client sends invalid request parameters e.g. filters
-      headers: { }
     '403':
       content:
         application/hal+json:
           schema:
-            $ref: "../components/schemas/error_response.yml"
-          examples:
-            response:
-              value:
-                _type: Error
-                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
-                message: You are not authorized to view this resource.
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+            message: You are not authorized to view this resource.
       description: Returned if the client is not logged in and login is required.
-      headers: { }
-  tags:
-    - Notifications
-  description: Lists available in-app notifications. The notifications returned depend on the provided parameters and
-    also on the requesting user's permissions.
-  operationId: List_Notifications
-  summary: List Notifications
