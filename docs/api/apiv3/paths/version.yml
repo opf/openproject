@@ -54,7 +54,7 @@ delete:
   description: Deletes the version. Work packages associated to the version will no
     longer be assigned to it.
   operationId: Delete_Version
-  summary: Delete Version
+  summary: Delete version
 get:
   parameters:
   - description: Version id
@@ -93,7 +93,7 @@ get:
                   format: plain
                   html: This version has a description
                   raw: This version has a description
-                endDate: 
+                endDate:
                 id: 11
                 name: v3.0 Alpha
                 sharing: system
@@ -206,5 +206,5 @@ patch:
   description: Updates the given version by applying the attributes provided in the
     body. Please note that while there is a fixed set of attributes, custom fields
     can extend a version's attributes and are accepted by the endpoint.
-  operationId: Update_Versions
-  summary: Update Versions
+  operationId: Update_Version
+  summary: Update Version
