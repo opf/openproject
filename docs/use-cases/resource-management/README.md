@@ -16,7 +16,7 @@ keywords: help, documentation, use-cases, resource management
 
 Step 1: Select a project and go to the work package overview. 
 
-Step 2: Either use existing fields, "Estimated time" and "Spent time", or create custom fields (i.e. “Est. Scope (h)” and “Time spent (h)”)
+Step 2: Either use existing fields, **Estimated time** and **Spent time**, or create custom fields (i.e. **Est. Scope (h)** and **Time spent (h)**)
 
 Step 3: Either insert the standard fields to the view, or insert the custom fields if created in Step 2
 
@@ -32,7 +32,7 @@ You could also add the Gantt view to add an additional dimension to your overvie
 
 This will provide a rough overview of the various tasks assigned to a specific person or team. Using the Gantt view in addition provides additional overview of how these tasks happen in terms of timelines. It’s a visual way of looking at roughly how many tasks are assigned to an individual and gives you an estimate about the timeline, allowing for adjustments in assignments and timing to be made to balance your resources a little bit. Using filters and the (+) zoom function will help to focus the Gantt view to only tasks that are scheduled in let’s say the next 30 days. These functions can help focus in on showing relevant results only. 
 
-You can also use the sum function inside of *[…] -> Configure view -> Display settings ->* check *Display Sums* box:
+You can also use the sum function inside of **[⋮]** -> ***Configure view*** -> ***Display settings*** -> check ***Display Sums*** box:
 
 ![Configure view](configure-view.jpg)
 

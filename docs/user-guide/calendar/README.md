@@ -39,15 +39,15 @@ The numbers in the instruction below correspond to the numbers in the image abov
 
 2. Change your calendar to be private to you or public to your organization: Select the **[⋮] button** -> **Visibility settings**
 
-   a. Check the "**Public**" box to make the calendar visible to your entire organization.
+   a. Check the **Public** box to make the calendar visible to your entire organization.
 
-   b. Check the "**Favored**" box to save the calendar to your favorites.
+   b. Check the **Favored** box to save the calendar to your favorites.
 
-3. Any calendar that has the "**Favored**" box checked in the "Visibility settings" will be displayed under the "**Favorite Views**" heading in the menu bar to the left.
+3. Any calendar that has the **Favored** box checked in the "Visibility settings" will be displayed under the **Favorite Views** heading in the menu bar to the left.
 
-4. Any calendar that has the "**Public**" box checked in the "Visibility settings" will be displayed under the "**Public Views**" heading in the menu bar to the left.
+4. Any calendar that has the **Public** box checked in the "Visibility settings" will be displayed under the **Public Views** heading in the menu bar to the left.
 
-5. Any calendar that has the "**Public" box unchecked** in the "**Visibility settings**" will be considered "**Private**", and hence displayed under the "**Private Views**" heading in the menu bar to the left.
+5. Any calendar that has the **Public** box unchecked in the **Visibility settings** will be considered **Private**, and hence displayed under the **Private Views** heading in the menu bar to the left.
 
 ## Filters in calendar
 
@@ -69,7 +69,7 @@ You can display the calendar in a full screen view to eliminate header and proje
 
 Click the **Activate zen mode** button on the top of the calendar.
 
-Click Escape (Esc) to leave the Zen mode.
+Click Escape (**Esc**) to leave the Zen mode.
 
 ![zen-calendar](zen-calendar.png)
 

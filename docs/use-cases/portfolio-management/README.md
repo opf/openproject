@@ -18,11 +18,11 @@ Step 1: To view all projects, first select the *project chooser drop-down*, the 
 
 Step 2: You can sort and filter this view using custom fields, such as *Initiative* or *Status.* If you have not added useful custom fields, please see: https://www.openproject.org/docs/system-admin-guide/custom-fields/
 
-Step 3: Press the floppy disk icon to save and name your view once you are happy with the information that is displayed. You can also add this view as a favorite to the black bar on the left.
+Step 3: Press the **floppy disk icon** to save and name your view once you are happy with the information that is displayed. You can also add this view as a favorite to the black bar on the left.
 
 **Creating Custom Reports**
 
-You can create advanced project reports by using the same techniques and the print function (CTRL+P), then saving as PDF, for example. The print function in OpenProject is optimized for reporting purposes. Only information displayed in the main screen area is included. None of the designs or side or top menus are in it.
+You can create advanced project reports by using the same techniques and the print function (**CTRL+P**), then saving as PDF, for example. The print function in OpenProject is optimized for reporting purposes. Only information displayed in the main screen area is included. None of the designs or side or top menus are in it.
 
 For more advanced requirements, using the Wiki is another powerful tool. For more information about how to use the Wiki function, please consult: https://www.openproject.org/docs/user-guide/wiki/
 
