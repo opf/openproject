@@ -360,6 +360,47 @@ describe Groups::UpdateRolesService, 'integration', type: :model do
     end
   end
 
+  context 'when adding a role and the user has a role already granted by a different group' do
+    let(:other_role) { create(:role) }
+
+    let!(:second_group) do
+      create(:group,
+             members: users).tap do |group|
+        create(:member,
+               project: project,
+               principal: group,
+               roles: [other_role])
+
+        ::Groups::AddUsersService
+          .new(group, current_user: User.system, contract_class: EmptyContract)
+          .call(ids: users.map(&:id))
+      end
+    end
+
+    let(:users) { [create(:user)] }
+    let(:added_role) { create(:role) }
+
+    before do
+      member.roles << added_role
+    end
+
+    it 'is successful' do
+      expect(service_call)
+        .to be_success
+    end
+
+    it 'keeps the roles the user already had before and adds the new one' do
+      service_call
+
+      expect(Member.find_by(principal: users.first).roles.uniq)
+        .to match_array([role, other_role, added_role])
+    end
+
+    it_behaves_like 'sends notification' do
+      let(:user) { users }
+    end
+  end
+
   context 'when not allowed' do
     let(:current_user) { User.anonymous }
 
