@@ -73,11 +73,46 @@ describe Settings::Definition do
     context 'when overriding from ENV' do
       include_context 'with clean definitions'
 
-      it 'allows overriding configuration from ENV' do
-        stub_const('ENV', { 'OPENPROJECT_EDITION' => 'bim' })
+      def value_for(name)
+        all.detect { |d| d.name == name }.value
+      end
 
-        expect(all.detect { |d| d.name == 'edition' }.value)
-          .to eql 'bim'
+      it 'allows overriding configuration from ENV with OPENPROJECT_ prefix with double underscore case (legacy)' do
+        stub_const('ENV',
+                   {
+                     'OPENPROJECT_EDITION' => 'bim',
+                     'OPENPROJECT_DEFAULT__LANGUAGE' => 'de'
+                   })
+
+        expect(value_for('edition')).to eql 'bim'
+        expect(value_for('default_language')).to eql 'de'
+      end
+
+      it 'allows overriding configuration from ENV with OPENPROJECT_ prefix with single underscore case' do
+        stub_const('ENV', { 'OPENPROJECT_DEFAULT_LANGUAGE' => 'de' })
+
+        expect(value_for('default_language')).to eql 'de'
+      end
+
+      it 'allows overriding configuration from ENV without OPENPROJECT_ prefix' do
+        stub_const('ENV',
+                   {
+                     'EDITION' => 'bim',
+                     'DEFAULT_LANGUAGE' => 'de'
+                   })
+
+        expect(value_for('edition')).to eql 'bim'
+        expect(value_for('default_language')).to eql 'de'
+      end
+
+      it 'logs a deprecation warning when overriding configuration from ENV without OPENPROJECT_ prefix' do
+        allow(Rails.logger).to receive(:warn)
+        stub_const('ENV', { 'DEFAULT_LANGUAGE' => 'de' })
+
+        expect(value_for('default_language')).to eql 'de'
+        expect(Rails.logger)
+          .to have_received(:warn)
+              .with(a_string_including("use OPENPROJECT_DEFAULT_LANGUAGE instead of DEFAULT_LANGUAGE"))
       end
 
       it 'overriding boolean configuration from ENV will cast the value' do
