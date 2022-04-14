@@ -6,7 +6,7 @@ tr:
       configure: 'Widget''ı yapılandır'
       upsale:
         text: "İş paketi grafik widget'ı gibi bazı widget’lar yalnızca"
-        link: 'kurumsal baskı.'
+        link: 'Enterprise Edition.'
       widgets:
         custom_text:
           title: 'Özel metin'

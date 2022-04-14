@@ -296,6 +296,7 @@ pt:
               new_features_html: >
                 A versão contém vários novos recursos e melhorias: <br> <ul class="%{list_styling_class}"> <li>No módulo BCF, agora você pode salvar seus filtros, colunas etc. do pacote de trabalho selecionado como <b>visualizações</b> b> e compartilhe-as com os membros de sua equipe.</li> <li>Um <b>novo módulo de planejamento de equipe</b> (recurso Enterprise) permite atribuir tarefas visualmente aos membros da equipe para obter uma visão geral de quem está trabalhando sobre o quê.</li> <li>Estamos <b>lançando os quadros ágeis básicos</b> para a versão Community.</li> <li>A opção <b>"Incluir projetos"</b> facilita a adição de projetos diferentes às suas visualizações, como pacotes de trabalho, calendários e planejadores de equipe.</li> <li>Adicionamos <b>uma nova guia "Arquivos"</b> nos detalhes do pacote de trabalho para ter todas as informações possíveis anexadas a um pacote de trabalho juntas.</li> <li>Criamos <b>funções globais para grupos</b> para atribuir essas funções a grupos e criar grupos de superusuários.</li> <li> O status do projeto recebeu mais opções para escolher.</li> </ul>
     label_activate: "Ativar"
+    label_assignee: 'Assignee'
     label_add_column_after: "Adicionar coluna depois"
     label_add_column_before: "Adicionar coluna antes"
     label_add_columns: "Adicionar colunas"
@@ -547,7 +548,6 @@ pt:
           link_text: 'Clique aqui para carregá-las'
       menu:
         accountable: 'Responsável'
-        assigned: 'Atribuído'
         by_project: 'Não lido por projeto'
         by_reason: 'Envolvimento'
         inbox: 'Caixa de entrada'

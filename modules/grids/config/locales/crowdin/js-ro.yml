@@ -6,7 +6,7 @@ ro:
       configure: 'Configurați widget-ul'
       upsale:
         text: "Unele widget-uri, cum ar fi widget-ul grafic al pachetului de lucru, sunt disponibile numai în"
-        link: 'Acţiunile particularizate sunt o caracteristică a Ediţiei Enterprise'
+        link: 'Enterprise Edition.'
       widgets:
         custom_text:
           title: 'Text customizat'

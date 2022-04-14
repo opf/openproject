@@ -6,7 +6,6 @@ es:
       create_new: 'Nuevo planificador de equipo'
       title: 'Planificador de equipos'
       unsaved_title: 'Planificador de equipo anonimo'
-      label_assignee_plural: 'Asignados'
       no_data: 'Añadir asignados para configurar el planificador de su equipo.'
       add_assignee: 'Añadir asignado'
       remove_assignee: 'Quitar asignado'

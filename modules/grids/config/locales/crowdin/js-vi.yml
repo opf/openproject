@@ -6,7 +6,7 @@ vi:
       configure: 'Configure widget'
       upsale:
         text: "Một số widget, như widget biểu đồ gói công việc, chỉ có sẵn trong"
-        link: 'Phiên bản doanh nghiệp.'
+        link: 'Enterprise Edition.'
       widgets:
         custom_text:
           title: 'Custom text'
