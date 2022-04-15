@@ -57,7 +57,7 @@ module Settings
       when :float
         @value.to_f
       when :boolean
-        @value.is_a?(Integer) ? ActiveRecord::Type::Boolean.new.cast(@value) : @value
+        ActiveRecord::Type::Boolean.new.cast(@value)
       when :symbol
         @value.to_sym
       else
