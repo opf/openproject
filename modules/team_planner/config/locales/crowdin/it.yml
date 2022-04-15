@@ -5,6 +5,7 @@ it:
   project_module_team_planner_view: "Pianificatore di team"
   team_planner:
     label_team_planner: "Pianificatore di team"
+    label_create_new_team_planner: "Create new team planner"
     label_team_planner_plural: "Organizzatori di gruppo"
     label_assignees: "Assegnatari"
     upsale:

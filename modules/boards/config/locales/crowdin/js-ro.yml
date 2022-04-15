@@ -2,7 +2,7 @@
 ro:
   js:
     boards:
-      create_new: 'New board'
+      create_new: 'Create new board'
       label_unnamed_board: 'Consiliul de administrație fără nume'
       label_unnamed_list: 'Listă fără nume'
       label_board_type: 'Tipul de placă'

@@ -5,6 +5,7 @@ ru:
   project_module_team_planner_view: "Командный планировщик"
   team_planner:
     label_team_planner: "Командный планировщик"
+    label_create_new_team_planner: "Create new team planner"
     label_team_planner_plural: "Командные планировщики"
     label_assignees: "Ответственные"
     upsale:

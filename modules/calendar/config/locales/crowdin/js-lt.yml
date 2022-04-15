@@ -2,7 +2,7 @@
 lt:
   js:
     calendar:
-      create_new: 'Naujas kalendorius'
+      create_new: 'Create new calendar'
       title: 'Kalendorius'
       too_many: 'Iš viso yra %{count} darbo paketų, bet tik %{max} gali būti rodomi.'
       unsaved_title: 'Bevardis kalendorius'

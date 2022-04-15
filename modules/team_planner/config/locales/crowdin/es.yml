@@ -5,6 +5,7 @@ es:
   project_module_team_planner_view: "Planificador de menús"
   team_planner:
     label_team_planner: "Planificador de menús"
+    label_create_new_team_planner: "Create new team planner"
     label_team_planner_plural: "Planificador de menús"
     label_assignees: "Asignados"
     upsale:
