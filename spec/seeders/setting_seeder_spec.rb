@@ -46,15 +46,16 @@ describe ::BasicData::SettingSeeder do
   end
 
   def reseed!
-    expect(subject).to be_applicable
     subject.seed!
   end
 
   it 'applies initial settings' do
     Setting.where(name: %w(commit_fix_status_id new_project_user_role_id)).delete_all
+    expect(subject).to be_applicable
 
     reseed!
 
+    expect(subject).not_to be_applicable
     expect(Setting.commit_fix_status_id).to eq closed_status.id
     expect(Setting.new_project_user_role_id).to eq new_project_role.id
   end
@@ -67,5 +68,12 @@ describe ::BasicData::SettingSeeder do
 
     expect(Setting.commit_fix_status_id).to eq 1337
     expect(Setting.new_project_user_role_id).to eq new_project_role.id
+  end
+
+  it 'does not seed settings whose default value is undefined' do
+    names_of_undefined_settings = Settings::Definition.all.select { _1.value == nil }.map(&:name)
+    # these ones are special as their value is set based on database ids
+    names_of_undefined_settings -= ["new_project_user_role_id", "commit_fix_status_id"]
+    expect(Setting.where(name: names_of_undefined_settings).pluck(:name)).to be_empty
   end
 end
