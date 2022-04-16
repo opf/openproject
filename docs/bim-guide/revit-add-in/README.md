@@ -22,7 +22,7 @@ To download the latest version (v2.2.3) of our OpenProject Revit AddIn click her
 
 ## Before Usage
 
-Please check the following steps before useing the OpenProject BIM Edition.
+Please check the following steps before using the OpenProject BIM Edition.
 
 1. Does OpenProject BIM support your [Version of Revit](#system-requirements)?
 2. Did you already install the latest Version of our OpenProject BIM Addin?
@@ -135,7 +135,7 @@ To work with BIM Issues, please open our AddIn and navigate to our BCF Module.
 
 
 
-Within this module all existing work packages are displayed. Within this demo project doen't exist any work package yet. To create a new one, click on the "add new workpackage"-Button.  
+Within this module all existing work packages are displayed. Within this demo project no work package exist yet. To create a new one, click on the "add new workpackage"-Button.  
 
 ![OpenProject BIM - Create BCF](OpenProject_BIM_Create_BCF.png)
 

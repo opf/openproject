@@ -37,7 +37,7 @@ shared_examples_for 'group contract' do
 
   shared_context 'with real group users' do
     # make sure users actually exist (not just stubbed) in this case
-    # so GroupUser validations checking for the existance of group and user don't fail
+    # so GroupUser validations checking for the existence of group and user don't fail
     before do
       group_users_user_ids.each do |id|
         create :user, id: id

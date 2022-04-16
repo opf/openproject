@@ -23,7 +23,7 @@ The BCF Module has included a very powerful IFC viewer. Here is a short overview
 
 1. **IFC Model Viewer** to have a look at the building model directly within OpenProject BIM.
 2. **IFC Model Tree** to see the IFC Model Structure and show / hide elements.
-3. The **OpenProject toolbar** shows the most important user actions like createing new (BIM) issues, Import & Export BCF files, Change OpenProject View and upload & download IFC-Models 
+3. The **OpenProject toolbar** shows the most important user actions like creating new (BIM) issues, Import & Export BCF files, Change OpenProject View and upload & download IFC-Models 
 4. The **View Cube** to rotate the building model.
 5. The **IFC-Viewer toolbar** to interact with the building model (e.g. change perspective, hide/ show elements, select elements & slice the building model)
 
@@ -84,7 +84,7 @@ To rotate the IFC model you either left-click on the building viewer and ***rota
 
 ## IFC-Viewer toolbar
 
-The IFC-Viewer toolbar has many functions which are described below. The user actions all relate to the viewer and can be startet by clicking on the button.
+The IFC-Viewer toolbar has many functions which are described below. The user actions all relate to the viewer and can be started by clicking on the button.
 
 ### Reset-View
 
@@ -110,7 +110,7 @@ If your building model can easily be shown in 2D or 3D. This function is very po
 
 ![Orthographic Button](orthographic-button.png)
 
-The default behavior of the OpenProject BIM Model Viewer is a perspective view. The perspective camera gives you more information about depth. Distant objects are smaller than nerby ones. This function changes from perspective view to orthographic view.  The orthographic view is widely used in engineering. All objects appear at the same scale and parallel lines remain parallel. Also a unit length appears the same length anywhere on the sceen. This makes it easier to assess the relative sizes. 
+The default behavior of the OpenProject BIM Model Viewer is a perspective view. The perspective camera gives you more information about depth. Distant objects are smaller than nerby ones. This function changes from perspective view to orthographic view.  The orthographic view is widely used in engineering. All objects appear at the same scale and parallel lines remain parallel. Also a unit length appears the same length anywhere on the screen. This makes it easier to assess the relative sizes. 
 
 ![Orthographic View](orthographic-view.png)
 
@@ -162,7 +162,7 @@ You are able to clear all slices by using the ***dropdown*** menu next to the "*
 
 ## How to select elements?
 
-To select elements within the building model, you have to activate the selection mode by clicking on the highlighted toogle button placed in the ***IFC-Viewer toolbar***. After activating the selection mode you are able to select a single or multiple elements within the viewer by left click. Your individual selection won't be reset after leaving the selection mode. You are able to reset your current selection with the context menu (right click).
+To select elements within the building model, you have to activate the selection mode by clicking on the highlighted toggle button placed in the ***IFC-Viewer toolbar***. After activating the selection mode you are able to select a single or multiple elements within the viewer by left click. Your individual selection won't be reset after leaving the selection mode. You are able to reset your current selection with the context menu (right click).
 
 ![Select Elements Button](select-elements-button.png)
 

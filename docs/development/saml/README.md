@@ -137,7 +137,7 @@ default:
 
 
 
-Here, again you  will have to change the hostname `localhost:3000` with the hostname of your OpenProject installation, and the iDP host name if you're not running both locally. I'd recommed to run both locally though for simplicity.
+Here, again you  will have to change the hostname `localhost:3000` with the hostname of your OpenProject installation, and the iDP host name if you're not running both locally. I'd recommend to run both locally though for simplicity.
 
 
 

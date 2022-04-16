@@ -92,7 +92,7 @@ describe ::Query::Results, 'Subproject filter integration', type: :model, with_m
     end
   end
 
-  describe 'query with overriden include_subprojects = true' do
+  describe 'query with overridden include_subprojects = true' do
     before do
       query.include_subprojects = true
     end
@@ -130,7 +130,7 @@ describe ::Query::Results, 'Subproject filter integration', type: :model, with_m
     end
   end
 
-  describe 'query with overriden include_subprojects = false' do
+  describe 'query with overridden include_subprojects = false' do
     before do
       query.include_subprojects = false
     end

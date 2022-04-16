@@ -158,7 +158,7 @@ module CostQuery::CustomFieldMixin
   end
 
   def new(*)
-    fail "Only subclasses of #{self} should be instanciated." if factory?
+    fail "Only subclasses of #{self} should be instantiated." if factory?
 
     super
   end

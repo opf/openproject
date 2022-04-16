@@ -57,7 +57,7 @@ module OpenProject
       hook
     end
 
-    # Unregisters a webhook. Might be usefull for tests only, because routes can not
+    # Unregisters a webhook. Might be useful for tests only, because routes can not
     # be redrawn in a running instance
     def self.unregister_hook(name)
       hook = find(name)

@@ -32,7 +32,7 @@
 #        But well this is again one of those temporary solutions.
 class Widget::Filters::Heavy < Widget::Filters::Base
   def render
-    # TODO: sometimes filter.values is of the form [["3"]] and somtimes ["3"].
+    # TODO: sometimes filter.values is of the form [["3"]] and sometimes ["3"].
     #       (using cost reporting)
     #       this might be a bug - further research would be fine
     values = filter.values.first.is_a?(Array) ? filter.values.first : filter.values
