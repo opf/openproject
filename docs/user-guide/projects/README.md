@@ -21,7 +21,6 @@ Your projects can be available publicly or internally. OpenProject does not limi
 | [Project settings](#project-settings)                        | Configure further settings for your projects, such as description, project hierarchy structure, or setting it to public. |
 | [Change the project hierarchy](#change-the-project-hierarchy) | You can change the hierarchy by selecting the parent project ("subproject of"). |
 | [Set a project to public](#set-a-project-to-public)          | Make a project accessible for (at least) all users within your instance. |
-| [Use a project template](#use-a-project-template-premium-feature) | Create a new project based on an existing template project.  |
 | [Copy a project](#copy-a-project)                            | Copy an existing project.                                    |
 | [Archive a project](#archive-a-project)                      | Find out how to archive completed projects.                  |
 | [Delete a project](#delete-a-project)                        | How to delete a project?                                     |
