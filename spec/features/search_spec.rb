@@ -28,7 +28,6 @@
 
 require 'spec_helper'
 
-# rubocop:disable RSpec:MultipleMemoizedHelpers
 describe 'Search', type: :feature, js: true, with_settings: { per_page_options: '5' }, with_mail: false do
   include ::Components::NgSelectAutocompleteHelpers
 
@@ -504,4 +503,3 @@ describe 'Search', type: :feature, js: true, with_settings: { per_page_options: 
     end
   end
 end
-# rubocop:enable RSpec:MultipleMemoizedHelpers
