@@ -58,7 +58,7 @@ import { ApiV3Service } from '../../apiv3/api-v3.service';
 export const globalSearchSelector = 'global-search-input';
 
 interface SearchResultItems {
-  items:SearchResultItem|SearchOptionItem[];
+  items:SearchResultItem[]|SearchOptionItem[];
   term:string;
 }
 
