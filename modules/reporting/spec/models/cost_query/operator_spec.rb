@@ -152,7 +152,7 @@ describe CostQuery, type: :model, reporting_query_helper: true do
       expect(query('projects', 'created_at', 't+', 1).size).to eq(n + 1)
     end
 
-    it "does >t+ (after the day which is n days in the furure)" do
+    it "does >t+ (after the day which is n days in the future)" do
       n = query('projects', 'created_at', '>t+', 1).size
       create(:project, created_at: Time.now)
       expect(query('projects', 'created_at', '>t+', 1).size).to eq(n)

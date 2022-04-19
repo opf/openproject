@@ -186,7 +186,7 @@ describe 'Omniauth authentication', type: :feature do
 
     it_behaves_like 'omniauth user registration'
 
-    it 'should redirect to homesceen' do
+    it 'should redirect to homescreen' do
       visit account_lost_password_path
       click_link("Omniauth Developer", match: :first)
 

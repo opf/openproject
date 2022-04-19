@@ -28,7 +28,7 @@
 
 class RbWikisController < RbApplicationController
   # NOTE: The methods #show and #edit are public (see init.rb). We will let
-  # OpenProject's WikiController#index take care of autorization
+  # OpenProject's WikiController#index take care of authorization
   #
   # NOTE: The methods #show and #edit create a template page when called.
   def show

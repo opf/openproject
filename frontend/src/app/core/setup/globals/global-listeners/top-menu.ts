@@ -231,7 +231,7 @@ export class TopMenu {
     }
     // actually a simple focus should be enough.
     // The rest is only there to work around a rendering bug in webkit (as of Oct 2011),
-    // occuring mostly inside the login/signup dropdown.
+    // occurring mostly inside the login/signup dropdown.
     toFocus.blur();
     setTimeout(() => {
       toFocus.focus();

@@ -67,7 +67,7 @@ export interface QueryProps {
   hla?:string[];
   // Display representation
   dr?:string;
-  // Inlude subprojects
+  // Include subprojects
   is?:boolean;
   // Pagination
   pa?:string|number;

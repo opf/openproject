@@ -52,7 +52,7 @@ Click on the **+ Create new work package** and select the type of workpackage yo
 
 
 
-Now you can see a detail view of the new Issue. Describe all necessary information to work on that task and add a viewpoint by clicking on the **"+ Viewpoint"**-Button. Now the current Viewpoint of the Building Model is added to the Issue. After saveing your new BIM issue is created.
+Now you can see a detail view of the new Issue. Describe all necessary information to work on that task and add a viewpoint by clicking on the **"+ Viewpoint"**-Button. Now the current Viewpoint of the Building Model is added to the Issue. After saving your new BIM issue is created.
 
 *Within the viewpoint the current status of your building model is saved. So please check the view before - is there everything shown within the model viewer?*
 
@@ -95,7 +95,7 @@ The handling of BIM Issues is similar to the handling of work packages (includin
 
 ### Jump to a Viewpoint with the Details View
 
-If the Model viewer isn't shown yet, open the Detail - view of the BIM Issue and follow the Cube symol of the preview. Now the model viewer opens and the viewpoint of the BIM Issue will be displayed.
+If the Model viewer isn't shown yet, open the Detail - view of the BIM Issue and follow the Cube symbol of the preview. Now the model viewer opens and the viewpoint of the BIM Issue will be displayed.
 
 ![Display BIM Issue](display_bim_issue.png)
 

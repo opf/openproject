@@ -155,7 +155,7 @@ module API
               uncacheable: true do
           represented.ancestors_from_root.map do |ancestor|
             # Explicitly check for admin as an archived project
-            # will lead to the admin loosing permissions in the project.
+            # will lead to the admin losing permissions in the project.
             if current_user.admin? || ancestor.visible?
               {
                 href: api_v3_paths.project(ancestor.id),
