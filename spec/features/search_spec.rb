@@ -215,7 +215,6 @@ describe 'Search', type: :feature, js: true, with_settings: { per_page_options: 
       end
     end
 
-    # rubocop:disable RSpec/MultipleMemoizedHelpers
     context 'for project search' do
       let(:subproject) { create :project, parent: project }
       let!(:other_work_package) do
@@ -383,7 +382,6 @@ describe 'Search', type: :feature, js: true, with_settings: { per_page_options: 
       end
     end
   end
-  # rubocop:enable RSpec/MultipleMemoizedHelpers
 
   describe 'search for projects' do
     let!(:searched_for_project) { create(:project, name: 'Searched for project') }
@@ -416,11 +414,11 @@ describe 'Search', type: :feature, js: true, with_settings: { per_page_options: 
 
         click_on 'Next', match: :first
         expect_range 1, 2
-        expect(current_path).to match "/projects/#{project.identifier}/search"
+        expect(page).to have_current_path /\/projects\/#{project.identifier}\/search/
 
         click_on 'Previous', match: :first
         expect_range 3, 12
-        expect(current_path).to match "/projects/#{project.identifier}/search"
+        expect(page).to have_current_path /\/projects\/#{project.identifier}\/search/
       end
     end
 
