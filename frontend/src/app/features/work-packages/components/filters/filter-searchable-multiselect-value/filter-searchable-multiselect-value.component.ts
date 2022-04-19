@@ -8,6 +8,7 @@ import { CurrentProjectService } from 'core-app/core/current-project/current-pro
 import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import {
   map,
+  shareReplay,
   switchMap,
   withLatestFrom,
 } from 'rxjs/operators';
@@ -24,6 +25,7 @@ import {
   EventEmitter,
   Input,
   NgZone,
+  OnInit,
   Output,
   ViewChild,
 } from '@angular/core';
@@ -31,13 +33,14 @@ import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 import { take } from 'rxjs/internal/operators/take';
+import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
 
 @Component({
   selector: 'op-filter-searchable-multiselect-value',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './filter-searchable-multiselect-value.component.html',
 })
-export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMixin {
+export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMixin implements OnInit {
   @Input() public filter:QueryFilterInstanceResource;
 
   @Input() public shouldFocus = false;
@@ -55,7 +58,9 @@ export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMix
     }, true,
   );
 
-  autocompleterFn = (searchTerm:string):Observable<HalResource[]> => this.loadAvailable(searchTerm);
+  autocompleterFn = (searchTerm:string):Observable<HalResource[]> => this.autocomplete(searchTerm);
+
+  initialRequest$:Observable<CollectionResource>;
 
   readonly text = {
     placeholder: this.I18n.t('js.placeholders.selection'),
@@ -78,23 +83,57 @@ export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMix
     super();
   }
 
-  public loadAvailable(matching:string):Observable<HalResource[]> {
-    const filters:ApiV3FilterBuilder = this.createFilters(matching);
-    /* eslint-disable-next-line @typescript-eslint/no-non-null-assertion */
-    const { href } = this.filter.currentSchema!.values!.allowedValues as { href:string };
-
-    const filteredData = (this.apiV3Service.collectionFromString(href) as
-      ApiV3ResourceCollection<HalResource, ApiV3Resource>)
-      .filtered(filters, { pageSize: '-1' })
-      .get()
+  ngOnInit():void {
+    this.initialRequest$ = this
+      .loadCollection('')
       .pipe(
-        switchMap((collection) => this.withMeValue(matching, collection.elements)),
+        shareReplay(1),
       );
-
-    return filteredData;
   }
 
-  protected createFilters(matching:string):ApiV3FilterBuilder {
+  private autocomplete(matching:string):Observable<HalResource[]> {
+    return this
+      .initialRequest$
+      .pipe(
+        switchMap((initialLoad) => {
+          // If we already loaded all values, just compare in the frontend
+          if (initialLoad.count === initialLoad.total) {
+            return this.matchingItems(initialLoad.elements, matching);
+          }
+
+          // Otherwise, request the matching API call
+          return this
+            .loadCollection(matching)
+            .pipe(
+              switchMap((collection) => this.withMeValue(matching, collection.elements)),
+            );
+        }),
+      );
+  }
+
+  matchingItems(elements:HalResource[], matching:string):Observable<HalResource[]> {
+    let filtered:HalResource[];
+
+    if (matching === '') {
+      filtered = elements;
+    } else {
+      const lowered = matching.toLowerCase();
+      filtered = elements.filter((el) => el.name.toLowerCase().includes(lowered));
+    }
+
+    return this.withMeValue(matching, filtered);
+  }
+
+  private loadCollection(matching:string):Observable<CollectionResource> {
+    const filters:ApiV3FilterBuilder = this.createFilters(matching);
+
+    return (this.apiV3Service.collectionFromString(this.allowedValuesLink) as
+      ApiV3ResourceCollection<HalResource, ApiV3Resource>)
+      .filtered(filters, { pageSize: '-1' })
+      .get();
+  }
+
+  private createFilters(matching:string):ApiV3FilterBuilder {
     const filters = new ApiV3FilterBuilder();
 
     if (matching) {
@@ -108,6 +147,13 @@ export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMix
     this.filter.values = val.length > 0 ? (Array.isArray(val) ? val : [val]) : [] as HalResource[];
     this.filterChanged.emit(this.filter);
     this.cdRef.detectChanges();
+  }
+
+  private get allowedValuesLink():string {
+    /* eslint-disable-next-line @typescript-eslint/no-non-null-assertion */
+    const { href } = this.filter.currentSchema!.values!.allowedValues as { href:string };
+
+    return href;
   }
 
   private withMeValue(matching:string, elements:HalResource[]):Observable<HalResource[]> {
