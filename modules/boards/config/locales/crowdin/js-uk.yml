@@ -2,12 +2,12 @@
 uk:
   js:
     boards:
-      create_new: 'Створити дошку'
+      create_new: 'Створіть нову дошку'
       label_unnamed_board: 'Дошка без назви'
       label_unnamed_list: 'Список без назви'
       label_board_type: 'Тип дошки'
       upsale:
-        teaser_text: 'Would you like ready-to-use board templates? Advanced boards are an Enterprise feature. Please upgrade to a paid plan.'
+        teaser_text: 'Хочете скористатися готовими шаблонами дощок? Дошки з додатковими функціями – це функція випуску Enterprise. Перейдіть на платний план.'
         upgrade: 'Купити зараз'
       lists:
         delete: 'Вилучити список'

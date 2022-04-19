@@ -72,7 +72,7 @@ pl:
       text_2fa_enabled: 'Po każdym logowaniu ten użytkownik zostanie poproszony o wprowadzenie tokena OTP z jego domyślnego urządzenia 2FA.'
       text_2fa_disabled: "Użytkownik nie ustawił urządzenia 2FA na swojej stronie \"Moje konto\""
     upsale:
-      title: 'Two-factor authentication'
+      title: 'Uwierzytelnianie dwuskładnikowe'
       description: 'Wzmocnij swoje mechanizmy uwierzytelniania wewnętrznego lub zewnętrznego za pomocą drugiego składnika.'
     backup_codes:
       none_found: Na tym koncie nie ma kodów zapasowych.

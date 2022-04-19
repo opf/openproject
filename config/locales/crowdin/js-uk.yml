@@ -23,8 +23,8 @@ uk:
   js:
     ajax:
       hide: "Приховати"
-      loading: "Loading…"
-      updating: "Updating…"
+      loading: "Завантаження…"
+      updating: "Оновлення..."
     attachments:
       draggable_hint: |
         Перетягніть поле редактора, щоб вбудувати зображення або вкладені посилання. Закриті поля редактора будуть відкриті, коли ви продовжуватимете перетягувати.
@@ -238,7 +238,7 @@ uk:
           text: >
             Випуск OpenProject Enterprise Edition створено на основі Community Edition. Він включає ексклюзивні функції та професійну підтримку й призначений здебільшого для організацій із більш ніж 10 користувачами, які керують критично важливими для бізнесу проєктами в OpenProject.
           unlimited: "Необмежено"
-          you_contribute: "Developers need to pay their bills, too. By upgrading to the Enterprise Edition, you will be supporting this open source community effort and contributing to its development, maintenance and continuous improvement."
+          you_contribute: "Розробники теж повинні оплачувати свої рахунки. Придбавши Enterprise Edition, ви суттєво допоможете спільноті Open Source і зробите свій внесок у її розвиток, підтримання й безперервне поліпшення."
     custom_actions:
       date:
         specific: 'на'
@@ -291,12 +291,13 @@ uk:
             standard:
               learn_about_link: https://www.openproject.org/openproject-12-1-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A <b>new team planner module</b> (Enterprise feature) allows you to visually assign tasks to team members to get an overview of who is working on what.</li> <li>We are <b>releasing the basic agile boards</b> for the Community version.</li> <li>The <b>"Include Projects" filter</b> option makes it easier to add different projects to your views, such as for work packages, calendars, and team planners.</li> <li>We added <b>a new "Files" tab</b> in the work package details to have all possible information attached to a work package together.</li> <li>We created <b>global roles for groups</b> to assign these roles to groups and create superuser groups.</li> <li>Project status was given more options to choose from.</li> </ul>
+                Випуск включає наведені нижче нові функції та поліпшення. <br> <ul class="%{list_styling_class}"> <li>З <b>новим модулем командного планувальника</b> (функція Enterprise) можна призначати завдання учасникам команди так, щоб бачити, хто над чим працює.</li> <li>Ми <b>випускаємо базові дошки Agile</b> для версії Community.</li> <li> <b>Фільтр «Включити проєкти»</b> спрощує додавання різних проєктів до представлень, наприклад пакетів робіт, календарів і командних планувальників.</li> <li>Ми додали <b>нову вкладку «Файли»  в режимі перегляду докладних відомостей про пакет робіт, щоб уся інформація про нього буда доступна на одному екрані.</li> <li>Ми створили <b>глобальні ролі для груп</b>, щоб призначати ці ролі групам і давати групи суперкористувачів.</li> <li>Ми розшили вибір доступних варіантів статусу проєкту.
             bim:
               learn_about_link: https://www.openproject.org/openproject-12-1-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>In the BCF module you can now save your selected work package filters, columns etc. as <b>views</b> and share those with your team members.</li> <li>A <b>new team planner module</b> (Enterprise feature) allows you to visually assign tasks to team members to get an overview of who is working on what.</li> <li>We are <b>releasing the basic agile boards</b> for the Community version.</li> <li>The <b>"Include Projects" filter</b> option makes it easier to add different projects to your views, such as for work packages, calendars, and team planners.</li> <li>We added <b>a new "Files" tab</b> in the work package details to have all possible information attached to a work package together.</li> <li>We created <b>global roles for groups</b> to assign these roles to groups and create superuser groups.</li> <li>Project status was given more options to choose from.</li> </ul>
+                Випуск включає наведені нижче нові функції та поліпшення. <br> <ul class="%{list_styling_class}"> <li>У модулі BCF тепер можна зберігати для пакетів робіт вибрані фільтри, стовпці тощо як <b>представлення</b> та ділитися ними з учасниками своєї команди.</li> <li>З <b>новим модулем командного планувальника</b> (функція Enterprise) можна призначати завдання учасникам команди так, щоб бачити, хто над чим працює.</li> <li>Ми <b>випускаємо базові дошки Agile</b> для версії Community.</li> <li> <b>Фільтр «Включити проєкти»</b> спрощує додавання різних проєктів до представлень, наприклад пакетів робіт, календарів і командних планувальників.</li> <li>Ми додали <b>нову вкладку «Файли»  в режимі перегляду докладних відомостей про пакет робіт, щоб уся інформація про нього буда доступна на одному екрані.</li> <li>Ми створили <b>глобальні ролі для груп</b>, щоб призначати ці ролі групам і давати групи суперкористувачів.</li> <li>Ми розшили вибір доступних варіантів статусу проєкту.
     label_activate: "Активувати"
+    label_assignee: 'Assignee'
     label_add_column_after: "Додати стовпець після"
     label_add_column_before: "Додати стовпець перед"
     label_add_columns: "Додати стовпці"
@@ -550,7 +551,6 @@ uk:
           link_text: 'Натисніть тут, щоб завантажити їх'
       menu:
         accountable: 'Відповідальний'
-        assigned: 'Призначено'
         by_project: 'Непрочитані проєктом'
         by_reason: 'Залучення'
         inbox: 'Вхідні'

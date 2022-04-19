@@ -97,7 +97,7 @@ services:
     volumes:
       - "pgdata:/var/lib/postgresql/data"
     ports:
-      - "54322:5432"
+      - "5432:5432"
     environment:
       POSTGRES_USER: ${DB_USERNAME:-postgres}
       POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
@@ -119,7 +119,7 @@ services:
     volumes:
       - "pgdata-test:/var/lib/postgresql/data"
     ports:
-      - "5432:5432"
+      - "5433:5432"
     environment:
       POSTGRES_DB: openproject
       POSTGRES_USER: openproject

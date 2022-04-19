@@ -6,7 +6,7 @@ hu:
       configure: 'Widget konfigurálása'
       upsale:
         text: "Néhány kütyü, például a munkacsomag-grafikon-kütyü, csak a"
-        link: 'enterprise edition.'
+        link: 'Enterprise Edition.'
       widgets:
         custom_text:
           title: 'Egyéni szöveg'

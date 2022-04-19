@@ -16,9 +16,9 @@ allOf:
             allOf:
               - $ref: "./link.yml"
               - description: |-
-                  This file links list
+                  This file links collection
                   
-                  **Resource**: File_LinksModel
+                  **Resource**: FileLinkCollectionReadModel
       _embedded:
         type: object
         required:

@@ -2,7 +2,7 @@
 ---
 get:
   summary: Creates an opening uri of the linked file.
-  operationId: Work_Package_File_Link_Open
+  operationId: open_file_link
   tags:
     - Work Packages
     - File links

@@ -301,10 +301,8 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
   }
 
   public opened(_:unknown) { // eslint-disable-line no-unused-vars
-    if (this.openDirectly) {
-      this.typeahead.next('');
-    }
-
+    // Re-search for empty value as search value gets removed
+    this.typeahead.next('');
     this.repositionDropdown();
     this.open.emit();
   }

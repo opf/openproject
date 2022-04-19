@@ -23,7 +23,12 @@ WORKDIR /home/$USER
 
 RUN apt-get update -qq && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
-    postgresql-client libffi7 libffi-dev
+    postgresql-client libffi7 libffi-dev curl
+
+# Setup node source and install nodejs. Needed for running certain scripts in backend container,
+# as the `./scripts/api/validate_spec`.
+RUN curl -fsSL https://deb.nodesource.com/setup_14.x | bash -
+RUN apt-get install -y nodejs
 
 COPY ./docker/dev/backend/scripts/setup /usr/sbin/setup
 COPY ./docker/dev/backend/scripts/run-app /usr/sbin/run-app

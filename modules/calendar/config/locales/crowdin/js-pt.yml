@@ -2,7 +2,7 @@
 pt:
   js:
     calendar:
-      create_new: 'Novo Calendário'
+      create_new: 'Criar novo calendário'
       title: 'Calendário'
       too_many: 'Existem %{count} pacotes de trabalho, mas apenas %{max} podem ser mostrados.'
       unsaved_title: 'Calendário sem nome'

@@ -2,7 +2,7 @@
 it:
   js:
     boards:
-      create_new: 'New board'
+      create_new: 'Create new board'
       label_unnamed_board: 'Scheda senza nome'
       label_unnamed_list: 'Lista senza nome'
       label_board_type: 'Tipo scheda'

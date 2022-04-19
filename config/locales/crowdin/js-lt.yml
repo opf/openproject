@@ -297,6 +297,7 @@ lt:
               new_features_html: >
                 Laidoje yra kelios naujos savybės ir patobulinimai: <br> <ul class="%{list_styling_class}"> <li>BCF modulyje jūs dabar galite įrašyti savo parinktus darbų paketų filtrus, stulpelius ir pan. kaip <b>vaizdus</b> ir dalintis jais su savo komandos nariais.</li> <li><b>Komandos plano modulis</b> (Enterprise savybė) leidžia jums vizualiai priskirti užduotis komandos nariams, gauti apžvalgą kas ką daro.</li> <li>Mes <b>išleidžiame bazines agile lentas</b> bendruomenės versijai.</li> <li><b>Filtras „Įtraukti projektus“</b> palengvina pridėti skirtingus projektus į jūsų vaizdus, tokius kaip darbų paketai, kalendoriai ar komandų planai.</li> <li>Mes darbo paketų detalėse pridėjom <b>naują kortelę „Failai“</b>, kurioje bus visa įmanoma informacija apie prie darbo paketo prisegtą informaciją.</li> <li>Mes sukūrėme <b>grupėms globalius vaidmenis</b>, kuriuos galima priskirti grupėms ir sukurti supernaudotojų grupes.</li> <li>Projekto būseną dabar galima nustatyti iš platesnio reikšmių pasirinkimo.</li> </ul>
     label_activate: "Aktyvuoti"
+    label_assignee: 'Assignee'
     label_add_column_after: "Pridėti stulpelį po"
     label_add_column_before: "Pridėti stulpelį prieš"
     label_add_columns: "Pridėti stulpelių"
@@ -550,7 +551,6 @@ lt:
           link_text: 'Spauskite čia, kad juos įkeltumėte'
       menu:
         accountable: 'Atsakingas'
-        assigned: 'Paskirta'
         by_project: 'Neperskaityti pagal projektą'
         by_reason: 'Pagal įsitraukimą'
         inbox: 'Gauti'

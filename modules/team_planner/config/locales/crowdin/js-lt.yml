@@ -3,10 +3,8 @@ lt:
   js:
     team_planner:
       add_existing: 'Pridėti esamą'
-      create_new: 'Naujas komandos planas'
       title: 'Komandos planas'
       unsaved_title: 'Nepavadintas komandos planas'
-      label_assignee_plural: 'Paskirtieji'
       no_data: 'Komandos plano sudarymui pridėkite paskirtųjų.'
       add_assignee: 'Pridėti paskirtąjį'
       remove_assignee: 'Išimti paskirtąjį'
