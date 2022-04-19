@@ -43,6 +43,13 @@ describe MigrateTeamPlannerPermissions, type: :model do
     end
   end
 
+  shared_examples_for 'migration is idempotent' do
+    context 'when the migration is ran twice' do
+      before { subject }
+      it_behaves_like 'not changing permissions'
+    end
+  end
+
   shared_examples_for 'adding permissions' do |new_permissions|
     it "adds the #{new_permissions} permissions for the role" do
       expect { subject }.to change { role.reload.permissions }
@@ -59,6 +66,7 @@ describe MigrateTeamPlannerPermissions, type: :model do
     let!(:role) { create(:role, permissions: %i[permission1 permission2]) }
 
     it_behaves_like 'not changing permissions'
+    it_behaves_like 'migration is idempotent'
   end
 
   context 'for a role eligible to view_team_planner' do
@@ -66,6 +74,7 @@ describe MigrateTeamPlannerPermissions, type: :model do
     let!(:role) { create(:role, permissions: permissions) }
 
     it_behaves_like 'adding permissions', %i[view_team_planner]
+    it_behaves_like 'migration is idempotent'
   end
 
   context 'for a role with view_team_planner' do
@@ -73,6 +82,7 @@ describe MigrateTeamPlannerPermissions, type: :model do
     let!(:role) { create(:role, permissions: permissions) }
 
     it_behaves_like 'not changing permissions'
+    it_behaves_like 'migration is idempotent'
   end
 
   context 'for a role eligible to manage_team_planner having view_team_planner' do
@@ -83,6 +93,7 @@ describe MigrateTeamPlannerPermissions, type: :model do
     let!(:role) { create(:role, permissions: permissions) }
 
     it_behaves_like 'adding permissions', %i[manage_team_planner]
+    it_behaves_like 'migration is idempotent'
   end
 
   context 'for a role eligible to manage_team_planner not having view_team_planner' do
@@ -93,6 +104,7 @@ describe MigrateTeamPlannerPermissions, type: :model do
     let!(:role) { create(:role, permissions: permissions) }
 
     it_behaves_like 'adding permissions', %i[manage_team_planner view_team_planner]
+    it_behaves_like 'migration is idempotent'
   end
 
   context 'for a role with manage_team_planner' do
@@ -103,5 +115,6 @@ describe MigrateTeamPlannerPermissions, type: :model do
     let!(:role) { create(:role, permissions: permissions) }
 
     it_behaves_like 'not changing permissions'
+    it_behaves_like 'migration is idempotent'
   end
 end
