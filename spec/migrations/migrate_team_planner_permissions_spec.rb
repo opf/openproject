@@ -46,6 +46,7 @@ describe MigrateTeamPlannerPermissions, type: :model do
   shared_examples_for 'migration is idempotent' do
     context 'when the migration is ran twice' do
       before { subject }
+
       it_behaves_like 'not changing permissions'
     end
   end
@@ -62,7 +63,7 @@ describe MigrateTeamPlannerPermissions, type: :model do
     end
   end
 
-  context 'for a role with unrelated permissions' do
+  context 'for a role not eligible to view_team_planner' do
     let!(:role) { create(:role, permissions: %i[permission1 permission2]) }
 
     it_behaves_like 'not changing permissions'
@@ -79,6 +80,17 @@ describe MigrateTeamPlannerPermissions, type: :model do
 
   context 'for a role with view_team_planner' do
     let(:permissions) { %i[view_team_planner view_work_packages permission1 permission2] }
+    let!(:role) { create(:role, permissions: permissions) }
+
+    it_behaves_like 'not changing permissions'
+    it_behaves_like 'migration is idempotent'
+  end
+
+  context 'for a role not eligible to manage_team_planner' do
+    let(:permissions) do
+      %i[view_team_planner view_work_packages edit_work_packages
+         save_queries manage_public_queries permission1 permission2]
+    end
     let!(:role) { create(:role, permissions: permissions) }
 
     it_behaves_like 'not changing permissions'
