@@ -197,8 +197,32 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
     return '';
   }
 
-  splittedDate(wp:WorkPackageResource):string[] {
-    return this.wpDates(wp).split('–');
+  startDate(wp:WorkPackageResource):string {
+    const { startDate } = wp;
+    if (!startDate) {
+      return '';
+    }
+
+    const dateTimeFormat = new Intl.DateTimeFormat(this.I18n.locale, {
+      month: 'short',
+      day: 'numeric',
+    });
+
+    return dateTimeFormat.format(new Date(startDate));
+  }
+
+  endDate(wp:WorkPackageResource):string {
+    const { dueDate } = wp;
+    if (!dueDate) {
+      return '';
+    }
+
+    const dateTimeFormat = new Intl.DateTimeFormat(this.I18n.locale, {
+      month: 'short',
+      day: 'numeric',
+    });
+
+    return dateTimeFormat.format(new Date(dueDate));
   }
 
   wpOverDueHighlighting(wp:WorkPackageResource):string {

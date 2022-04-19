@@ -601,25 +601,30 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     }
   }
 
-  isWpDateInCurrentView(workPackage:WorkPackageResource, date:'start'|'end'):boolean {
-    if (workPackage.startDate && workPackage.dueDate) {
-      let dateToCheck;
+  isWpEndDateInCurrentView(workPackage:WorkPackageResource):boolean {
+    const { dueDate } = workPackage;
 
-      const currentStartDate = this.ucCalendar.getApi().view.currentStart.setHours(0, 0, 0, 0);
-      const currentEndDate = this.ucCalendar.getApi().view.currentEnd.setHours(0, 0, 0, 0);
-
-      if (date === 'start') {
-        dateToCheck = new Date(workPackage.startDate).setHours(0, 0, 0, 0);
-      } else {
-        dateToCheck = new Date(workPackage.dueDate).setHours(0, 0, 0, 0);
-      }
-
-      const dateCurrentlyVisible = dateToCheck >= currentStartDate && dateToCheck <= currentEndDate;
-      return dateCurrentlyVisible;
+    if (!dueDate) {
+      return !!workPackage.date;
     }
 
-    // Milestones are always completely in view, everything else is outside
-    return !!workPackage.date;
+    const viewEndDate = this.ucCalendar.getApi().view.currentEnd.setHours(0, 0, 0, 0);
+    const dateToCheck = new Date(dueDate).setHours(0, 0, 0, 0);
+
+    return dateToCheck < viewEndDate;
+  }
+
+  isWpStartDateInCurrentView(workPackage:WorkPackageResource):boolean {
+    const { startDate } = workPackage;
+
+    if (!startDate) {
+      return !!workPackage.date;
+    }
+
+    const viewStartDate = this.ucCalendar.getApi().view.currentStart.setHours(0, 0, 0, 0);
+    const dateToCheck = new Date(startDate).setHours(0, 0, 0, 0);
+
+    return dateToCheck >= viewStartDate;
   }
 
   showDisabledText(workPackage:WorkPackageResource):{ text:string, orientation:'left'|'right' } {
