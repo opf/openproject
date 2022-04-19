@@ -70,6 +70,9 @@ Lint/UnderscorePrefixedVariableName:
 Lint/Void:
   Enabled: false
 
+Lint/AmbiguousBlockAssociation:
+  IgnoredMethods: [change]
+
 
 Metrics/ClassLength:
   Enabled: false
