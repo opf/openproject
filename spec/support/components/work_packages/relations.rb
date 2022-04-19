@@ -176,7 +176,7 @@ module Components
           next if page.has_selector?('.wp-relations--children .ng-input input')
 
           SeleniumHubWaiter.wait
-          find('.wp-inline-create--reference-link', text: I18n.t('js.relation_buttons.add_existing_child')).click
+          find('[data-qa-selector="op-wp-inline-create-reference"]', text: I18n.t('js.relation_buttons.add_existing_child')).click
 
           # Security check to be sure that the autocompleter has finished loading
           page.find '.wp-relations--children .ng-input input'
