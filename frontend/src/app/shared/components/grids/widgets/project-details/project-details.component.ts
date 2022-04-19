@@ -46,7 +46,6 @@ import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 @Component({
   templateUrl: './project-details.component.html',
-  styleUrls: ['./project-details.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     HalResourceEditingService,

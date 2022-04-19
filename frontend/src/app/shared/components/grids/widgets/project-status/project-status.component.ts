@@ -53,7 +53,6 @@ import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
     IsolatedQuerySpace,
     HalResourceEditingService,
   ],
-  styleUrls: ['./project-status.component.sass'],
 })
 export class WidgetProjectStatusComponent extends AbstractWidgetComponent implements OnInit {
   @ViewChild('contentContainer', { static: true }) readonly contentContainer:ElementRef;
