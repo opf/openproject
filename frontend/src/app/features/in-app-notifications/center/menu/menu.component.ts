@@ -76,7 +76,7 @@ export class IanMenuComponent implements OnInit {
     },
     {
       key: 'assigned',
-      title: this.I18n.t('js.notifications.menu.assigned'),
+      title: this.I18n.t('js.label_assignee'),
       icon: 'assigned',
       ...getUiLinkForFilters({ filter: 'reason', name: 'assigned' }),
     },

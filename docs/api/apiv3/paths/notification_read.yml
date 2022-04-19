@@ -1,0 +1,33 @@
+# /api/v3/notifications/{id}/read_ian
+---
+post:
+  summary: Read notification
+  operationId: read_notification
+  tags:
+    - Notifications
+  description: |-
+    Marks the given notification as read.
+  parameters:
+    - name: id
+      in: path
+      description: notification id
+      example: '1'
+      required: true
+      schema:
+        type: integer
+  responses:
+    '204':
+      description: OK
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+            message: The requested resource could not be found.
+      description: |-
+        Returned if the notification does not exist or if the user does not have permission to view it.
+
+        **Required permission** being recipient of the notification

@@ -40,7 +40,7 @@ Also, if you do not want to be limited to working on open source in your free ti
 
 ## Contact
 
-Here you can find our [contact information](https://www.openproject.org/contact-us).
+Here you can find our [contact information](https://www.openproject.org/contact-us). If you are interested in development or have general questions, feel free to also join our [community discussion forums](https://community.openproject.org/projects/openproject/forums).
 
 ## Security / responsible disclosure
 

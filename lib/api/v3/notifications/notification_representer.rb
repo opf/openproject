@@ -34,10 +34,9 @@ module API
         include API::Decorators::LinkedResource
         extend API::Decorators::PolymorphicResource
 
-        self_link title_getter: ->(*) { represented.subject }
+        self_link title_getter: ->(*) {}
 
         property :id
-        property :subject
 
         property :read_ian,
                  as: :readIAN

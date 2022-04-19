@@ -5,8 +5,9 @@ rw:
   project_module_team_planner_view: "Team planner"
   team_planner:
     label_team_planner: "Team planner"
+    label_create_new_team_planner: "Create new team planner"
     label_team_planner_plural: "Team planners"
     label_assignees: "Assignees"
     upsale:
       title: "Team planner"
-      description: "Team planner gives you a complete overview what each of team member is working on, one week at a time. Move, stretch and shrink work packages visually, and even drag them from one assignee to another to organise workload. You can even create new work packages or add existing ones, all from within team planner!"
+      description: "Team planner gives you a complete overview what each team member is working on, one week at a time. Move, stretch and shrink work packages visually, and even drag them from one assignee to another to organise workload. You can even create new work packages or add existing ones, all from within team planner!"

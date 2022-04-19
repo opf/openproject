@@ -183,9 +183,10 @@ module Pages
     end
 
     def drag_to_remove_dropzone(work_package, expect_removable: true)
-      source = event(work_package)
-
-      start_dragging(source)
+      retry_block do
+        source = event(work_package)
+        start_dragging(source)
+      end
 
       # Move the footer first to signal we're dragging something
       footer = find('[data-qa-selector="op-team-planner-footer"]')

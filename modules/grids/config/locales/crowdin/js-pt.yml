@@ -6,7 +6,7 @@ pt:
       configure: 'Configurar widget'
       upsale:
         text: "Alguns widgets, como o widget gráfico do pacote de trabalho, só estão disponíveis na "
-        link: 'edição empresarial.'
+        link: 'Edição Empresarial'
       widgets:
         custom_text:
           title: 'Texto personalizado'

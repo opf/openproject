@@ -6,7 +6,7 @@ sv:
       configure: 'Configure widget'
       upsale:
         text: "Vissa widgets, som t ex widgeten med graf över arbetspaket är endast tillgängliga i "
-        link: 'enterprise Edition.'
+        link: 'Enterprise Edition.'
       widgets:
         custom_text:
           title: 'Egen text'

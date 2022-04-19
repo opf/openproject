@@ -6,7 +6,7 @@ ja:
       configure: 'ウィジェットの設定'
       upsale:
         text: "ワークパッケージグラフウィジェットなどの一部のウィジェットは、次のみ利用可能です "
-        link: 'エンタープライズ版。'
+        link: 'Enterprise Edition.'
       widgets:
         custom_text:
           title: 'カスタムテキスト'

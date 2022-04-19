@@ -5,9 +5,9 @@
   <li class="toolbar-item">
     <%= link_to new_project_team_planners_path(@project),
                 class: 'button -alt-highlight',
-                title: t(:button_create) do %>
+                title: t(:'team_planner.label_create_new_team_planner') do %>
       <%= op_icon('button--icon icon-add') %>
-      <span class="button--text"><%= t(:button_create) %></span>
+      <span class="button--text"><%=  t(:'team_planner.label_team_planner') %></span>
     <% end %>
   </li>
   <% end %>

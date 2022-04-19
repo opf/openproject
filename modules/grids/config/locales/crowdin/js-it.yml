@@ -6,7 +6,7 @@ it:
       configure: 'Configura il widget'
       upsale:
         text: "Alcuni widget, come il widget del grafico di macro-attività, sono disponibili solo nella "
-        link: 'edizione Enterprise.'
+        link: 'Enterprise Edition.'
       widgets:
         custom_text:
           title: 'Testo personalizzato'

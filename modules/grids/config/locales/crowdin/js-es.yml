@@ -6,7 +6,7 @@ es:
       configure: 'Configurar widget'
       upsale:
         text: "Algunos widgets, como el widget del gráfico de paquetes de trabajo, solo están disponibles en la "
-        link: 'edición Enterprise.'
+        link: 'Enterprise Edition.'
       widgets:
         custom_text:
           title: 'Texto personalizado'

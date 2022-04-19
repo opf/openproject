@@ -43,7 +43,7 @@ describe 'Team planner index', type: :feature, js: true do
 
     expect(page).to have_text 'Upgrade now'
 
-    click_on 'New team planner'
+    visit new_project_team_planners_path(project)
 
     expect(page).to have_text 'Upgrade now'
 

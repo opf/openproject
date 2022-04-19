@@ -237,7 +237,7 @@ lol:
           text: >
             crwdns787190:0crwdne787190:0
           unlimited: "crwdns787192:0crwdne787192:0"
-          you_contribute: "crwdns787194:0crwdne787194:0"
+          you_contribute: "crwdns809574:0crwdne809574:0"
     custom_actions:
       date:
         specific: 'crwdns787196:0crwdne787196:0'
@@ -296,6 +296,7 @@ lol:
               new_features_html: >
                 crwdns808278:0%{list_styling_class}crwdne808278:0
     label_activate: "crwdns787268:0crwdne787268:0"
+    label_assignee: 'crwdns809580:0crwdne809580:0'
     label_add_column_after: "crwdns787270:0crwdne787270:0"
     label_add_column_before: "crwdns787272:0crwdne787272:0"
     label_add_columns: "crwdns787274:0crwdne787274:0"
@@ -547,7 +548,6 @@ lol:
           link_text: 'crwdns787720:0crwdne787720:0'
       menu:
         accountable: 'crwdns787722:0crwdne787722:0'
-        assigned: 'crwdns787724:0crwdne787724:0'
         by_project: 'crwdns787726:0crwdne787726:0'
         by_reason: 'crwdns787728:0crwdne787728:0'
         inbox: 'crwdns787730:0crwdne787730:0'

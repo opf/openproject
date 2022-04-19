@@ -3,10 +3,8 @@ pt:
   js:
     team_planner:
       add_existing: 'Adicionar existente'
-      create_new: 'Novo planejador de equipe'
       title: 'Planejador de equipe'
       unsaved_title: 'Planejador de equipe não nomeado'
-      label_assignee_plural: 'Responsáveis'
       no_data: 'Adicione responsáveis para configurar seu planejador de equipe.'
       add_assignee: 'Adicionar Responsáveis'
       remove_assignee: 'Remove Responsáveis'

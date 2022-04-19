@@ -6,7 +6,7 @@ lt:
       configure: 'Valdiklio nustatymai'
       upsale:
         text: "Kai kurie valdikliai, pavyzdžiui darbo paketų grafo valdiklis, galimi tik "
-        link: '„Enterprise edition“.'
+        link: 'Enterprise Edition.'
       widgets:
         custom_text:
           title: 'Pritaikytas tekstas'

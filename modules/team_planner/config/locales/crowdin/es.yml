@@ -5,8 +5,9 @@ es:
   project_module_team_planner_view: "Planificador de menús"
   team_planner:
     label_team_planner: "Planificador de menús"
+    label_create_new_team_planner: "Create new team planner"
     label_team_planner_plural: "Planificador de menús"
     label_assignees: "Asignados"
     upsale:
       title: "Planificador de menús"
-      description: "Planificador de equipos le ofrece una visión completa de lo que cada miembro del equipo está trabajando, una vez a la semana. Mueva, estire y reduzca visualmente los paquetes de trabajo, e incluso moviendolos de un asignatario a otro para organizar la carga de trabajo. ¡Incluso puede crear nuevos paquetes de trabajo o añadir los existentes, todo desde dentro del planificador de equipos!"
+      description: "Team planner gives you a complete overview what each team member is working on, one week at a time. Move, stretch and shrink work packages visually, and even drag them from one assignee to another to organise workload. You can even create new work packages or add existing ones, all from within team planner!"

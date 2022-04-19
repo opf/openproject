@@ -16,7 +16,7 @@
       />
       <p slot="description">{{ text.mentioned.description }}</p>
   </op-checkbox-field>
-  
+
   <op-checkbox-field
     [label]="text.involved.title"
     [control]="form.get('involved')"
@@ -25,7 +25,7 @@
       slot="input"
       type="checkbox"
       formControlName="involved"
-      data-qa-global-notification-type="involved" 
+      data-qa-global-notification-type="involved"
     />
     <p slot="description">{{ text.involved.description }}</p>
   </op-checkbox-field>
@@ -48,7 +48,7 @@
       slot="input"
       type="checkbox"
       formControlName="workPackageCreated"
-      data-qa-global-notification-type="work_package_created" 
+      data-qa-global-notification-type="work_package_created"
     />
     <p slot="description">{{ text.work_package_created }}</p>
   </op-checkbox-field>
@@ -58,7 +58,7 @@
       slot="input"
       type="checkbox"
       formControlName="workPackageProcessed"
-      data-qa-global-notification-type="work_package_processed" 
+      data-qa-global-notification-type="work_package_processed"
     />
     <p slot="description">{{ text.work_package_processed }}</p>
   </op-checkbox-field>
@@ -68,7 +68,7 @@
       slot="input"
       type="checkbox"
       formControlName="workPackageScheduled"
-      data-qa-global-notification-type="work_package_scheduled" 
+      data-qa-global-notification-type="work_package_scheduled"
     />
     <p slot="description">{{ text.work_package_scheduled }}</p>
   </op-checkbox-field>
@@ -78,7 +78,7 @@
       slot="input"
       type="checkbox"
       formControlName="workPackagePrioritized"
-      data-qa-global-notification-type="work_package_prioritized" 
+      data-qa-global-notification-type="work_package_prioritized"
     />
     <p slot="description">{{ text.work_package_prioritized }}</p>
   </op-checkbox-field>
@@ -88,16 +88,16 @@
       slot="input"
       type="checkbox"
       formControlName="workPackageCommented"
-      data-qa-global-notification-type="work_package_commented" 
+      data-qa-global-notification-type="work_package_commented"
     />
     <p slot="description">{{ text.work_package_commented }}</p>
   </op-checkbox-field>
 
   <hr />
 
-  <h5>Project-specific notification settings</h5>
-  <p>These project-specific settings override default settings above</p>
-  
+  <h5>{{text.projectSpecific.title}}</h5>
+  <p>{{text.projectSpecific.description}}</p>
+
   <op-notification-settings-table
     *ngIf="userId"
     [userId]="userId"
@@ -114,4 +114,3 @@
     ></button>
   </div>
 </form>
-
