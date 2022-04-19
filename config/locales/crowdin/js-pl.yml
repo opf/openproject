@@ -23,8 +23,8 @@ pl:
   js:
     ajax:
       hide: "Ukryj"
-      loading: "Loading…"
-      updating: "Updating…"
+      loading: "Ładowanie…"
+      updating: "Aktualizowanie..."
     attachments:
       draggable_hint: |
         Przeciągaj w polu edytora, aby wstawić obraz lub załącznik referencyjny. Zamknięte pola edytora zostaną otwarte podczas przeciągania.
@@ -62,7 +62,7 @@ pl:
     button_confirm: "Potwierdź"
     button_continue: "Kontynuuj"
     button_copy: "Kopiuj"
-    button_copy_to_other_project: "Copy to other project"
+    button_copy_to_other_project: "Kopiuj do innego projektu"
     button_custom-fields: "Pola niestandardowe"
     button_delete: "Usuń"
     button_delete_watcher: "Usuń obserwatora"
@@ -1174,12 +1174,12 @@ pl:
     include_projects:
       toggle_title: 'Include projects'
       title: 'Projekty'
-      clear_selection: 'Clear selection'
+      clear_selection: 'Wyczyść zaznaczenie'
       apply: 'Zastosuj'
       selected_filter:
         all: 'Wszystkie projekty'
-        selected: 'Only selected'
-      search_placeholder: 'Search project...'
+        selected: 'Tylko zaznaczone'
+      search_placeholder: 'Wyszukaj projekt...'
       include_subprojects: 'Include all sub-projects'
       tooltip:
         include_all_selected: 'Include all sub-projects is currently selected.'
