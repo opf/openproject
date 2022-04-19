@@ -449,8 +449,8 @@ module ApplicationHelper
 
   # To avoid the menu flickering, disable it
   # by default unless we're in test mode
-  def initial_menu_styles
-    Rails.env.test? ? '' : 'display:none'
+  def initial_menu_styles(side_displayed)
+    Rails.env.test? || !side_displayed ? '' : 'display:none'
   end
 
   def initial_menu_classes(side_displayed, show_decoration)
