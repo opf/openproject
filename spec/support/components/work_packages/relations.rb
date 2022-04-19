@@ -164,7 +164,7 @@ module Components
 
       def inline_create_child(subject_text)
         container = find('.wp-relations--children')
-        scroll_to_and_click(container.find('.wp-inline-create-button-row .wp-inline-create--add-link'))
+        scroll_to_and_click(container.find('[data-qa-selector="op-wp-inline-create"]'))
 
         subject = ::EditField.new(container, 'subject')
         subject.expect_active!
