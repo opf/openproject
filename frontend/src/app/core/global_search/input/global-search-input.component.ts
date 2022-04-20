@@ -57,6 +57,11 @@ import { ApiV3Service } from '../../apiv3/api-v3.service';
 
 export const globalSearchSelector = 'global-search-input';
 
+interface SearchResultItems {
+  items:SearchResultItem[]|SearchOptionItem[];
+  term:string;
+}
+
 interface SearchResultItem {
   id:string;
   subject:string;
@@ -138,13 +143,21 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
 
   ngAfterViewInit():void {
     // check searchterm on init, expand / collapse search bar and set correct classes
-    this.ngSelectComponent.ngSelectInstance.searchTerm = this.currentValue = this.globalSearchService.searchTerm;
-    this.expanded = (this.ngSelectComponent.ngSelectInstance.searchTerm.length > 0);
+    this.searchTerm = this.globalSearchService.searchTerm;
+    this.currentValue = '';
     this.toggleTopMenuClass();
   }
 
   ngOnDestroy():void {
     this.unregister();
+  }
+
+  public set searchTerm(searchTerm:string) {
+    this.ngSelectComponent.ngSelectInstance.searchTerm = searchTerm;
+  }
+
+  public get searchTerm():string {
+    return this.ngSelectComponent.ngSelectInstance.searchTerm;
   }
 
   // detect if click is outside or inside the element
@@ -159,7 +172,7 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
         this.toggleMobileSearch();
         // open ng-select menu on default
         jQuery('.ng-input input').focus();
-      } else if (this.ngSelectComponent.ngSelectInstance.searchTerm?.length === 0) {
+      } else if (this.searchTerm?.length === 0) {
         this.ngSelectComponent.ngSelectInstance.focus();
       } else {
         this.submitNonEmptySearch();
@@ -192,8 +205,8 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
     return Highlighting.inlineClass(property, id);
   }
 
-  public search($event:any) {
-    this.currentValue = this.ngSelectComponent.ngSelectInstance.searchTerm;
+  public search($event:SearchResultItems):void {
+    this.currentValue = this.searchTerm;
     this.openCloseMenu($event.term);
   }
 
@@ -210,15 +223,20 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
 
   public onFocusOut() {
     if (!this.deviceService.isMobile) {
-      this.expanded = (this.ngSelectComponent.ngSelectInstance.searchTerm !== null && this.ngSelectComponent.ngSelectInstance.searchTerm.length > 0);
+      this.expanded = (this.searchTerm !== null && this.searchTerm.length > 0);
       this.ngSelectComponent.ngSelectInstance.isOpen = false;
       this.selectedItem = null;
       this.toggleTopMenuClass();
     }
   }
 
+  public onClose():void {
+    this.searchTerm = this.currentValue;
+  }
+
   public clearSearch() {
-    this.currentValue = this.ngSelectComponent.ngSelectInstance.searchTerm = '';
+    this.currentValue = '';
+    this.searchTerm = '';
     this.openCloseMenu(this.currentValue);
   }
 
@@ -235,10 +253,6 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
 
   public statusHighlighting(statusId:string) {
     return Highlighting.inlineClass('status', statusId);
-  }
-
-  private get isDirectHit() {
-    return this.selectedItem && this.selectedItem.hasOwnProperty('id');
   }
 
   public followItem(item:WorkPackageResource|SearchOptionItem) {
@@ -259,7 +273,7 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
   }
 
   // return all project scope items and all items which contain the search term
-  public customSearchFn(term:string, item:any):boolean {
+  public customSearchFn(term:string, item:SearchResultItem):boolean {
     return item.id === undefined || item.subject.toLowerCase().indexOf(term.toLowerCase()) !== -1;
   }
 
@@ -400,7 +414,7 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
         && this.globalSearchService.currentTab === 'work_packages') {
         window.history
           .replaceState({},
-            `${I18n.t('global_search.search')}: ${this.ngSelectComponent.ngSelectInstance.searchTerm}`,
+            `${I18n.t('global_search.search')}: ${this.searchTerm}`,
             this.globalSearchService.searchPath());
 
         return;
