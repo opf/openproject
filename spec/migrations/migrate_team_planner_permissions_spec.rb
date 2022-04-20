@@ -54,7 +54,7 @@ describe MigrateTeamPlannerPermissions, type: :model do
   shared_examples_for 'adding permissions' do |new_permissions|
     it "adds the #{new_permissions} permissions for the role" do
       expect { subject }.to change { role.reload.permissions }
-        .from(permissions)
+        .from(match_array(permissions))
         .to match_array(permissions + new_permissions)
     end
 
