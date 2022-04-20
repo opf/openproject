@@ -50,7 +50,7 @@ module Pages
       # When using the inline create on initial page load,
       # there is a delay on travis where inline create can be clicked.
       sleep 1
-      container.find('.wp-inline-create--reference-link').click
+      container.find('[data-qa-selector="op-wp-inline-create-reference"]').click
 
       # Returns the autocomplete container
       container.find('[data-qa-selector="wp-relations-autocomplete"]')
