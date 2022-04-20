@@ -83,7 +83,7 @@
         *ngIf="showAsInlineCard && showStartDate"
         class="op-wp-single-card--content-inline-date"
       >
-        {{startDate(workPackage)}}
+        {{startDate(workPackage)}} -
       </span>
 
       <span
@@ -104,7 +104,7 @@
         *ngIf="showAsInlineCard && showEndDate"
         class="op-wp-single-card--content-inline-date"
       >
-        {{endDate(workPackage)}}
+        - {{endDate(workPackage)}}
       </span>
     </span>
 
