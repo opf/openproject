@@ -45,7 +45,7 @@ it:
           title: 'Tempo trascorso (ultimi 7 giorni)'
           no_results: 'Nessuna voce sul tempo per gli ultimi 7 giorni.'
         work_packages_accountable:
-          title: "Macro-attività di cui sono responsabile del risultato"
+          title: "Macro-attività di cui sono responsabile"
         work_packages_assigned:
           title: 'Macro-attività assegnate a me'
         work_packages_created:

@@ -317,10 +317,10 @@ fr:
       other: '%{count} lots de travaux descendants'
     bulk:
       could_not_be_saved: "Les lots de travaux suivants n'ont pas pu être sauvegardés :"
-      none_could_be_saved: "None of the %{total} work packages could be updated."
-      x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
-      selected_because_descendants: "While %{selected} work packages where selected, in total %{total} work packages are affected which includes descendants."
-      descendant: "descendant of selected"
+      none_could_be_saved: "Aucun des %{total} lots de travaux n'a pu être mis à jour."
+      x_out_of_y_could_be_saved: "%{failing} lots de travaux sur les %{total} n'ont pas pu être mis à jour alors que %{success} l'ont été."
+      selected_because_descendants: "Alors que %{selected} lots de travaux étaient sélectionnés, %{total} lots de travaux sont affectés, ce qui inclut les descendants."
+      descendant: "descendant de la sélection"
     move:
       no_common_statuses_exists: "Il n’y a pas de statut disponible pour tous les lots de travaux sélectionnés. Ce statut ne peut pas être changé."
       unsupported_for_multiple_projects: 'Déplacer/copier en masse n''est pas supporté pour des lots de travaux provenant de plusieurs projets'
@@ -741,7 +741,7 @@ fr:
               does_not_exist: "La catégorie spécifiée n'existe pas."
             estimated_hours:
               only_values_greater_or_equal_zeroes_allowed: "doit être >= 0."
-          readonly_status: 'The work package is in a readonly status so its attributes cannot be changed.'
+          readonly_status: 'Le lot de travaux est en lecture seule, ses attributs ne peuvent donc pas être changés.'
         type:
           attributes:
             attribute_groups:
@@ -753,7 +753,7 @@ fr:
         user:
           attributes:
             base:
-              user_limit_reached: "User limit reached. No more accounts can be created on the current plan."
+              user_limit_reached: "Limite d'utilisateurs atteinte. Aucun compte supplémentaire ne peut être créé sur le plan actuel."
             password_confirmation:
               confirmation: "La confirmation du mot de passe ne correspond pas au mot de passe."
               format: "%{message}"
@@ -885,7 +885,7 @@ fr:
     version: "Version"
     work_package: "Lot de travaux"
   backup:
-    failed: "Backup failed"
+    failed: "Échec de la sauvegarde"
     label_backup_token: "Jeton de sauvegarde"
     label_create_token: "Créer un jeton de sauvegarde"
     label_delete_token: "Supprimer le jeton de sauvegarde"
@@ -2344,9 +2344,9 @@ fr:
   setting_apiv3_cors_origins: "Origines autorisées de l'API V3 Cross-Origin Resource Sharing (CORS)"
   setting_apiv3_cors_origins_text_html: >
     Si CORS est activé, ce sont les origines qui sont autorisées à accéder à l'API OpenProject. <br/> Veuillez vérifier la <a href="%{origin_link}" target="_blank">documentation sur l'en-tête Origin</a> sur la façon de spécifier les valeurs attendues.
-  setting_apiv3_max_page_size: "Maximum API page size"
+  setting_apiv3_max_page_size: "Taille maximale de page d'API"
   setting_apiv3_max_page_instructions_html: >
-    Set the maximum page size the API will respond with. It will not be possible to perform API requests that return more values on a single page. <br/> <strong>Warning:</strong> Please only change this value if you are sure why you need it. Setting to a high value will result in significant performance impacts, while a value lower than the per page options will cause errors in paginated views.
+    Définissez la taille maximale de la page avec laquelle l'API répondra. Il ne sera pas possible d'effectuer des requêtes API qui retournent plus de valeurs sur une seule page. <br/> <strong>Avertissement :</strong> veuillez modifier cette valeur uniquement si vous êtes sûr de savoir pourquoi vous en avez besoin. Définir à une valeur élevée entraînera des impacts significatifs sur les performances, alors qu'une valeur inférieure aux options de chaque page provoquera des erreurs dans les vues paginées.
   setting_apiv3_docs: "Documentation"
   setting_apiv3_docs_enabled: "Activer la page docs"
   setting_apiv3_docs_enabled_instructions_html: >
@@ -2913,9 +2913,9 @@ fr:
         #Common error messages
         invalid_request:
           unknown: 'Il manque à la requête un paramètre requis, inclut une valeur de paramètre non supportée ou est malformée d''une autre manière.'
-          missing_param: 'Missing required parameter: %{value}.'
-          request_not_authorized: 'Request need to be authorized. Required parameter for authorizing request is missing or invalid.'
-        invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
+          missing_param: 'Parramètre requis manquant : %{value}.'
+          request_not_authorized: 'La requête doit être autorisée. Le paramètre requis pour l''autorisation de la requête est manquant ou non valide.'
+        invalid_redirect_uri: "L'URI de redirection demandée est mal formée ou ne correspond pas à l'URI de redirection client."
         unauthorized_client: 'Le client n''est pas autorisé à effectuer cette demande en utilisant cette méthode.'
         access_denied: 'Le propriétaire de la ressource ou le serveur d''autorisation a refusé la demande.'
         invalid_scope: 'La portée demandée est invalide, inconnue ou incorrecte.'
@@ -2928,7 +2928,7 @@ fr:
         admin_authenticator_not_configured: 'L''accès au panneau d''administration est interdit en raison de l''absence de configuration de Doorkeeper.configure.admin_authenticator.'
         #Access grant errors
         unsupported_response_type: 'Le serveur d''autorisation ne supporte pas ce type de réponse.'
-        unsupported_response_mode: 'The authorization server does not support this response mode.'
+        unsupported_response_mode: 'Le serveur d''autorisation ne supporte pas ce mode de réponse.'
         #Access token errors
         invalid_client: 'L''authentification du client a échoué en raison d''un client inconnu, d''une authentification du client non supportée ou d''une méthode d''authentification non supportée.'
         invalid_grant: 'Le droit d’autorisation fourni n’est pas valide, a expiré, est révoqué, ne correspond pas à l’URI de redirection utilisée dans la requête d’autorisation, ou a été remis à un autre client.'
@@ -2938,9 +2938,9 @@ fr:
           expired: "Le jeton d'accès a expiré"
           unknown: "Le jeton d'accès est invalide"
         revoke:
-          unauthorized: "You are not authorized to revoke this token."
+          unauthorized: "Vous n'êtes pas autorisé à révoquer ce jeton."
         forbidden_token:
-          missing_scope: 'Access to this resource requires scope "%{oauth_scopes}".'
+          missing_scope: 'L''accès à cette ressource nécessite la portée « %{oauth_scopes} ».'
   unsupported_browser:
     title: "Votre navigateur est obsolète et non pris en charge."
     message: "Vous pouvez rencontrer des erreurs et une expérience dégradée sur cette page."

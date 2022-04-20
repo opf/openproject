@@ -53,7 +53,7 @@ it:
     button_add: "Aggiungi"
     button_back: "Indietro"
     button_back_to_list_view: "Torna alla visualizzazione in lista"
-    button_cancel: "Cancella"
+    button_cancel: "Annulla"
     button_close: "Chiuso"
     button_change_project: "Cambia progetto"
     button_check_all: "Seleziona tutti"
@@ -754,7 +754,7 @@ it:
           Seleziona gli attributi che desideri mostrare nelle rispettive posizioni del diagramma di Gantt in ogni momento. Nota che al passaggio del mouse su un elemento, verranno visualizzate le etichette delle date anziché questi attributi.
       button_activate: 'Mostra Diagramma di Gantt'
       button_deactivate: 'Nascondi Diagramma di Gantt'
-      cancel: Cancella
+      cancel: Annulla
       change: "Cambiare nella pianificazione"
       due_date: "Data di fine"
       empty: "(vuoto)"
@@ -828,7 +828,7 @@ it:
       comment_added: "Il commento è stato aggiunto con successo."
       comment_send_failed: "Si è verificato un errore. Impossibile inviare il commento."
       comment_updated: "Il commento è stato aggiornato correttamente."
-      confirm_edit_cancel: "Sicuro di voler eliminare questa macro-attività?"
+      confirm_edit_cancel: "Sei sicuro di voler annullare la modifica della macro-attività?"
       description_filter: "Filtro"
       description_enter_text: "Inserisci testo"
       description_options_hide: "Nascondi opzioni"
@@ -1022,7 +1022,7 @@ it:
       button_apply: "Applica"
       button_save: "Salva"
       button_submit: "Invia"
-      button_cancel: "Cancella"
+      button_cancel: "Annulla"
       form_submit:
         title: 'Conferma per continuare'
         text: 'Eseguire questa azione?'
@@ -1049,7 +1049,7 @@ it:
       button_save: "%{attribute}: Salva"
       button_cancel: "%{attribute}: Annulla"
       button_save_all: "Salva"
-      button_cancel_all: "Cancella"
+      button_cancel_all: "Annulla"
       link_formatting_help: "Guida di formattazione del testo"
       btn_preview_enable: "Anteprima"
       btn_preview_disable: "Disabilita anteprima"
