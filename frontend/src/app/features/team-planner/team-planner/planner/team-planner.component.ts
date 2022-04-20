@@ -673,7 +673,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
           editable: durationEditable || resourceEditable,
           durationEditable,
           resourceEditable,
-          constraint: this.eventConstaints(workPackage, projectAssignables),
+          constraint: this.eventConstraints(workPackage, projectAssignables),
           title: workPackage.subject,
           start: this.wpStartDate(workPackage),
           end: this.wpEndDate(workPackage),
@@ -767,13 +767,13 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
   // they are forced to drag the wp to the exact same date in the others assignee row. This might be confusing.
   // Without these constraints however, users can drag the WP everywhere, thinking that they changed the date as well.
   // The WP then moves back to the original date when the calendar re-draws again. Also not optimal..
-  private eventConstaints(
+  private eventConstraints(
     wp:WorkPackageResource,
     projectAssignables:{ [projectId:string]:string[] },
   ):{ [key:string]:string|string[] } {
     const constraints:{ [key:string]:string|string[] } = {};
 
-    if (!this.calendar.eventDurationEditable(wp)) {
+    if (!this.calendar.eventDurationEditable(wp) && !wp.date) {
       constraints.start = this.wpStartDate(wp);
       constraints.end = this.wpEndDate(wp);
     }
