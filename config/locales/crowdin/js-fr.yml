@@ -23,8 +23,8 @@ fr:
   js:
     ajax:
       hide: "Masquer"
-      loading: "Loading…"
-      updating: "Updating…"
+      loading: "Chargement…"
+      updating: "Mise à jour…"
     attachments:
       draggable_hint: |
         Faites glisser le champ de l'éditeur pour incorporer une image ou une pièce jointe de référence. Les champs fermés de l'éditeur seront ouverts tant que vous continuer à faire glisser.
@@ -62,7 +62,7 @@ fr:
     button_confirm: "Confirmer"
     button_continue: "Continuer"
     button_copy: "Copier"
-    button_copy_to_other_project: "Copy to other project"
+    button_copy_to_other_project: "Copier vers un autre projet"
     button_custom-fields: "Champs personnalisés"
     button_delete: "Supprimer"
     button_delete_watcher: "Supprimer observateur"
@@ -238,7 +238,7 @@ fr:
           text: >
             L'Entreprise Edition d'OpenProject s'appuie sur la Community Edition. Elle comprend des fonctionnalités premium et un support professionnel principalement destiné aux organisations comptant plus de 10 utilisateurs gérant des projets critiques avec OpenProject.
           unlimited: "Illimité"
-          you_contribute: "Developers need to pay their bills, too. By upgrading to the Enterprise Edition, you will be supporting this open source community effort and contributing to its development, maintenance and continuous improvement."
+          you_contribute: "Les développeurs ont aussi besoin payer leurs factures. En passant à la version Entreprise, vous soutiendrez cet effort communautaire open source et contribuerez à son développement, sa maintenance et son amélioration continue."
     custom_actions:
       date:
         specific: 'le'
@@ -252,7 +252,7 @@ fr:
     enumeration_doc_categories: "Catégories de documents"
     enumeration_work_package_priorities: "Priorités du Lot de Travaux"
     filter:
-      more_values_not_shown: "There are %{total} more results, search to filter results."
+      more_values_not_shown: "Il y a %{total} résultats supplémentaires, effectuez une recherche pour filtrer les résultats."
       description:
         text_open_filter: "Ouvrir ce filtre avec les touches « ALT » et fléchées."
         text_close_filter: "Pour sélectionner une entrée, laissez le focus par exemple en appuyant sur enter. Pour quitter sans filtre, sélectionnez la première entrée (vide)."
@@ -291,13 +291,13 @@ fr:
             standard:
               learn_about_link: https://www.openproject.org/openproject-12-1-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A <b>new team planner module</b> (Enterprise feature) allows you to visually assign tasks to team members to get an overview of who is working on what.</li> <li>We are <b>releasing the basic agile boards</b> for the Community version.</li> <li>The <b>"Include Projects" filter</b> option makes it easier to add different projects to your views, such as for work packages, calendars, and team planners.</li> <li>We added <b>a new "Files" tab</b> in the work package details to have all possible information attached to a work package together.</li> <li>We created <b>global roles for groups</b> to assign these roles to groups and create superuser groups.</li> <li>Project status was given more options to choose from.</li> </ul>
+                Cette version contient diverses nouvelles fonctionnalités et améliorations : <br> <ul class="%{list_styling_class}"> <li>Un <b>nouveau module de planification d'équipe</b> (fonctionnalité Entreprise) vous permet d'attribuer visuellement des tâches aux membres de l'équipe pour avoir un aperçu de qui travaille sur quoi.</li> <li>Nous sommes <b>en train de libérer les tableaux agiles de base</b> pour la version Community. </li> <li>L'option de filtre <b>« Inclure les projets »</b> facilite l'ajout de différents projets à vos vues, comme pour les lots de travail, les calendriers et les planificateurs d'équipe.</li> <li>Nous avons ajouté <b>un nouvel onglet « Fichiers »</b> dans les détails du lot de travail pour avoir toutes les informations possibles attachées à un lot de travail ensemble. </li> <li>Nous avons créé des <b>rôles globaux pour les groupes</b> afin d'attribuer ces rôles aux groupes et de créer des groupes de super-utilisateurs.</li> <li>Le statut du projet a reçu plus d'options parmi lesquelles choisir.</li> </ul>
             bim:
               learn_about_link: https://www.openproject.org/openproject-12-1-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>In the BCF module you can now save your selected work package filters, columns etc. as <b>views</b> and share those with your team members.</li> <li>A <b>new team planner module</b> (Enterprise feature) allows you to visually assign tasks to team members to get an overview of who is working on what.</li> <li>We are <b>releasing the basic agile boards</b> for the Community version.</li> <li>The <b>"Include Projects" filter</b> option makes it easier to add different projects to your views, such as for work packages, calendars, and team planners.</li> <li>We added <b>a new "Files" tab</b> in the work package details to have all possible information attached to a work package together.</li> <li>We created <b>global roles for groups</b> to assign these roles to groups and create superuser groups.</li> <li>Project status was given more options to choose from.</li> </ul>
+                Cette version contient diverses nouvelles fonctionnalités et améliorations : <br> <ul class="%{list_styling_class}"> <li>Dans le module BCF, vous pouvez désormais enregistrer vos filtres de paquets de travail sélectionnés, vos colonnes, etc. en tant que <b>vues</b> et les partager avec les membres de votre équipe. </li> <li>Un <b>nouveau module de planification d'équipe</b> (fonctionnalité Entreprise) vous permet d'attribuer visuellement des tâches aux membres de l'équipe pour avoir un aperçu de qui travaille sur quoi.</li> <li>Nous sommes <b>en train de libérer les tableaux agiles de base</b> pour la version Community. </li> <li>L'option de filtre <b>« Inclure les projets »</b> facilite l'ajout de différents projets à vos vues, comme pour les lots de travail, les calendriers et les planificateurs d'équipe.</li> <li>Nous avons ajouté <b>un nouvel onglet « Fichiers »</b> dans les détails du lot de travail pour avoir toutes les informations possibles attachées à un lot de travail ensemble. </li> <li>Nous avons créé des <b>rôles globaux pour les groupes</b> afin d'attribuer ces rôles aux groupes et de créer des groupes de super-utilisateurs.</li> <li>Le statut du projet a reçu plus d'options parmi lesquelles choisir.</li> </ul>
     label_activate: "Activer"
-    label_assignee: 'Assignee'
+    label_assignee: 'Responsable'
     label_add_column_after: "Ajouter une colonne au-dessus"
     label_add_column_before: "Ajouter une colonne avant"
     label_add_columns: "Ajouter des colonnes"
@@ -501,7 +501,7 @@ fr:
         boards:
           overview: 'Sélectionnez <b>tableaux</b> pour déplacer la vue et gérer votre projet en utilisant la vue des tableaux agiles.'
           lists_kanban: 'Ici, vous pouvez créer plusieurs listes (colonnes) dans votre tableau. Cette fonctionnalité vous permet de créer un <b>tableau Kanban</b>, par exemple.'
-          lists_basic: 'Here you can create multiple lists (columns) within your agile board.'
+          lists_basic: 'Ici, vous pouvez créer plusieurs listes (colonnes) dans votre tableau agile.'
           add: 'Cliquez sur l''icône plus (+) pour <b>créer une nouvelle carte</b> ou <b>ajouter une carte existante</b> à la liste du tableau.'
           drag: 'Glissez et déposez vos cartes dans une liste donnée pour les réorganiser, ou pour les déplacer dans une autre liste. <br> Vous pouvez cliquer sur l''icône (i) dans le coin supérieur droit ou double-cliquer sur une carte pour ouvrir ses détails.'
         wp:
@@ -513,11 +513,11 @@ fr:
           timeline_button: 'Vous pouvez activer la vue <b>Diagramme de Gantt</b> pour créer une chronologie pour votre projet.'
           timeline: 'Ici vous pouvez <b>modifier votre plan de projet</b>, créer de nouveaux lots de travaux, comme des tâches, des jalons, des phases et plus, ainsi que <b>ajouter des dépendances</b>. Tous les membres de l''équipe peuvent voir et mettre à jour le plan le plus récent à tout moment.'
         team_planner:
-          overview: 'The team planner lets you visually assign tasks to team members and get an overview of who is working on what.'
-          calendar: 'The weekly or biweekly planning board displays all work packages assigned to your team members.'
-          add_assignee: 'To get started, add assignees to the team planner.'
-          add_existing: 'Search for existing work packages and drag them to the team planner to instantly assign them to a team member and define start and end dates.'
-          card: 'Drag work packages horizontally to move them backwards or forwards in time, drag the edges to change start and end dates and even drag them vertically to a different row to assign them to another member.'
+          overview: 'Le planificateur d''équipe vous permet d''assigner visuellement des tâches aux membres de l''équipe et d''obtenir un aperçu de qui travaille sur quoi.'
+          calendar: 'Le tableau de planification hebdomadaire ou bihebdomadaire affiche tous les lots de travaux assignés aux membres de votre équipe.'
+          add_assignee: 'Pour commencer, ajoutez des responsables au planificateur d''équipe.'
+          add_existing: 'Recherchez les lots de travaux existants et faites-les glisser vers le planificateur d''équipe pour les assigner instantanément à un membre de l''équipe et définir les dates de début et de fin.'
+          card: 'Faites glisser les lots de travaux horizontalement pour les déplacer vers l''arrière ou vers l''avant dans le temps, faites glisser les bords pour changer les dates de début et de fin et faites les même glisser verticalement vers une ligne différente pour les assigner à un autre membre.'
     notifications:
       title: "Notifications"
       no_unread: "Pas de notification non lue"
@@ -996,7 +996,7 @@ fr:
         relations: Relations
         watchers: Observateurs
         files: Fichiers
-        files_tab_migration_help: 'You can now attach files to work packages via the new tab:'
+        files_tab_migration_help: 'Vous pouvez maintenant joindre des fichiers aux lots de travaux via le nouvel onglet :'
       time_relative:
         days: "jours"
         weeks: "semaines"
@@ -1166,18 +1166,18 @@ fr:
           group: 'Le groupe fait maintenant partie du %{project}. Entre-temps, vous pouvez déjà planifier avec ce groupe et l''assigner des lots de travaux par exemple.'
         next_button: 'Continuer'
     include_projects:
-      toggle_title: 'Include projects'
+      toggle_title: 'Inclure les projets'
       title: 'Projets'
-      clear_selection: 'Clear selection'
+      clear_selection: 'Effacer la sélection'
       apply: 'Appliquer'
       selected_filter:
         all: 'Tous les projets'
-        selected: 'Only selected'
-      search_placeholder: 'Search project...'
-      include_subprojects: 'Include all sub-projects'
+        selected: 'Uniquement la sélection'
+      search_placeholder: 'Rechercher un projet...'
+      include_subprojects: 'inclure tous les sous-projets'
       tooltip:
-        include_all_selected: 'Include all sub-projects is currently selected.'
-        current_project: 'This is the current project you are in.'
+        include_all_selected: 'Inclure tous les sous-projets est actuellement sélectionné.'
+        current_project: 'Ceci est le projet dans lequel vous vous trouvez actuellement.'
     forms:
       submit_success_message: 'Le formulaire a bien été envoyé'
       load_error_message: 'Une erreur s''est produite lors du chargement du formulaire'

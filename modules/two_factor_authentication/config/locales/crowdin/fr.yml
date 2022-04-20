@@ -71,7 +71,7 @@ fr:
       text_2fa_enabled: 'Lors de chaque connexion, cet utilisateur sera demandé d’entrer un jeton OTP de son appareil 2FA par défaut.'
       text_2fa_disabled: "L’utilisateur n’a pas défini un appareil 2FA via sa page \"Mon compte\""
     upsale:
-      title: 'Two-factor authentication'
+      title: 'Authentification à deux facteurs'
       description: 'Renforcez vos mécanismes d''authentification interne ou externe avec un deuxième facteur.'
     backup_codes:
       none_found: Aucun code de sauvegarde n’existe pour ce compte.

@@ -1,7 +1,7 @@
 #English strings go here
 ko:
-  permission_view_file_links: "View file links"
-  permission_manage_file_links: "Manage file links"
+  permission_view_file_links: "파일 링크 보기"
+  permission_manage_file_links: "파일 링크 관리"
   permission_manage_storages_in_project: "Manage file storages in project"
   project_module_storages: "File storages"
   activerecord:
@@ -10,7 +10,7 @@ ko:
     attributes:
       storages/storage:
         name: "Name"
-        creator: "Creator"
+        creator: "생성자"
         provider_type: "Provider type"
       storages/file_link:
         origin_id: "Origin Id"
@@ -50,7 +50,7 @@ ko:
         Are you sure you want to delete this storage? This will also delete the storage from all projects where it is used. Further, it will also delete all links from work packages to files that are stored in that storage.
       project_storage: >
         Are you sure you want to remove this file storage from this project? This will also remove all links to files stored in this storage for this project.
-    label_creator: "Creator"
+    label_creator: "생성자"
     label_file_link: "File link"
     label_file_links: "File links"
     label_name: "Name"

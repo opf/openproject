@@ -238,7 +238,7 @@ pl:
           text: >
             Wersja OpenProject Enterprise opiera się na wersji społecznościowej. Zawiera funkcje premium i profesjonalne wsparcie skierowane głównie do organizacji z ponad 10 użytkownikami, które zarządzają projektami o znaczeniu krytycznym dla biznesu za pomocą OpenProject.
           unlimited: "Bez ograniczeń"
-          you_contribute: "Developers need to pay their bills, too. By upgrading to the Enterprise Edition, you will be supporting this open source community effort and contributing to its development, maintenance and continuous improvement."
+          you_contribute: "Deweloperzy również muszą płacić rachunki. Poprzez przejście na wersję Enterprise będziesz wspierać ten wysiłek społeczności open source i przyczyniać się do jej rozwoju, utrzymania i ciągłego doskonalenia."
     custom_actions:
       date:
         specific: 'wł'
@@ -252,7 +252,7 @@ pl:
     enumeration_doc_categories: "Kategoria dokumentu"
     enumeration_work_package_priorities: "Priorytety pakietów roboczych"
     filter:
-      more_values_not_shown: "There are %{total} more results, search to filter results."
+      more_values_not_shown: "Są jeszcze wyniki (%{total}), wyszukaj, aby przefiltrować wyniki."
       description:
         text_open_filter: "Otwórz filtr klawiszami strzałek przytrzymując klawisz 'ALT'."
         text_close_filter: "Aby wybrać wpis wybierz opcję i kliknij np. enter. Aby usunąć filtr zaznacz (pusty) wpis."
@@ -291,13 +291,13 @@ pl:
             standard:
               learn_about_link: https://www.openproject.org/openproject-12-1-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A <b>new team planner module</b> (Enterprise feature) allows you to visually assign tasks to team members to get an overview of who is working on what.</li> <li>We are <b>releasing the basic agile boards</b> for the Community version.</li> <li>The <b>"Include Projects" filter</b> option makes it easier to add different projects to your views, such as for work packages, calendars, and team planners.</li> <li>We added <b>a new "Files" tab</b> in the work package details to have all possible information attached to a work package together.</li> <li>We created <b>global roles for groups</b> to assign these roles to groups and create superuser groups.</li> <li>Project status was given more options to choose from.</li> </ul>
+                Wersja zawiera różne nowe funkcje i ulepszenia: <br> <ul class="%{list_styling_class}"> <li> <b>nowy moduł Planista zespołu</b> (funkcja wersji Enterprise) umożliwia wizualne przypisywanie zadań członkom zespołu, co pozwala uzyskać informacje o tym, kto nad czym pracuje.</li> <li>Wydajemy <b>tablice zwinne</b> dla wersji społecznościowej.</li> <li>Filtr „<b>Uwzględnij projekty</b>” ułatwia dodawanie różnych projektów do widoków, takich jak pakiety robocze, kalendarze i planiści zespołu.</li> <li>Dodaliśmy <b>nową kartę „Pliki”</b> w szczegółach pakietu roboczego, aby dołączać wszystkie możliwe informacje do pakietu roboczego.</li> <li>Utworzyliśmy <b>globalne role dla grup</b>, które można przypisać do grup i utworzyć grupy superużytkowników.</li> <li>Status projektu otrzymał więcej opcji do wyboru.</li> </ul>
             bim:
               learn_about_link: https://www.openproject.org/openproject-12-1-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>In the BCF module you can now save your selected work package filters, columns etc. as <b>views</b> and share those with your team members.</li> <li>A <b>new team planner module</b> (Enterprise feature) allows you to visually assign tasks to team members to get an overview of who is working on what.</li> <li>We are <b>releasing the basic agile boards</b> for the Community version.</li> <li>The <b>"Include Projects" filter</b> option makes it easier to add different projects to your views, such as for work packages, calendars, and team planners.</li> <li>We added <b>a new "Files" tab</b> in the work package details to have all possible information attached to a work package together.</li> <li>We created <b>global roles for groups</b> to assign these roles to groups and create superuser groups.</li> <li>Project status was given more options to choose from.</li> </ul>
+                Wersja zawiera różne nowe funkcje i ulepszenia: <br> <ul class="%{list_styling_class}"> <li>W module BCF można teraz zapisywać wybrane filtry pakietów roboczych, kolumny itd. jako <b>widoki</b> i udostępniać je członkom swojego zespołu.</li> <li> <b>nowy moduł Planista zespołu</b> (funkcja wersji Enterprise) umożliwia wizualne przypisywanie zadań członkom zespołu, co pozwala uzyskać informacje o tym, kto nad czym pracuje.</li> <li>Wydajemy <b>tablice zwinne</b> dla wersji społecznościowej.</li> <li>Filtr „<b>Uwzględnij projekty</b>” ułatwia dodawanie różnych projektów do widoków, takich jak pakiety robocze, kalendarze i planiści zespołu.</li> <li>Dodaliśmy <b>nową kartę „Pliki”</b> w szczegółach pakietu roboczego, aby dołączać wszystkie możliwe informacje do pakietu roboczego.</li> <li>Utworzyliśmy <b>globalne role dla grup</b>, które można przypisać do grup i utworzyć grupy superużytkowników.</li> <li>Status projektu otrzymał więcej opcji do wyboru.</li> </ul>
     label_activate: "Aktywuj"
-    label_assignee: 'Assignee'
+    label_assignee: 'Przypisana osoba'
     label_add_column_after: "Dodaj kolumnę po"
     label_add_column_before: "Dodaj kolumnę przed"
     label_add_columns: "Dodaj kolumny"
@@ -501,7 +501,7 @@ pl:
         boards:
           overview: 'Wybierz <b>tablice</b>, aby zmienić widok i zarządzać projektem za pomocą widoku tablic.'
           lists_kanban: 'Tutaj możesz utworzyć wiele list (kolumn) w jednym widoku tablicy. Ta funkcja pozwala ci na przykład na utworzenie <b>tablicy Kanban</b>.'
-          lists_basic: 'Here you can create multiple lists (columns) within your agile board.'
+          lists_basic: 'Tutaj możesz utworzyć wiele list (kolumn) w swojej tablicy zwinnej.'
           add: 'Kliknij ikonę plus (+), aby <b>utworzyć nową kartę</b> lub <b>dodać istniejącą kartę</b> do listy na tablicy.'
           drag: 'Przeciągaj i upuszczaj swoje karty w obrębie danej listy, aby zmienić ich kolejność lub przenieść je do innej listy. <br> Możesz kliknąć ikonę info (i) w prawym górnym rogu lub kliknąć dwukrotnie na karcie, aby wyświetlić jej szczegóły.'
         wp:
@@ -513,11 +513,11 @@ pl:
           timeline_button: 'Aby utworzyć oś czasu dla twojego projektu, możesz uaktywnić widok <b>wykresu Gantta</b>.'
           timeline: 'Tutaj możesz <b>edytować plan projektu.</b>, tworzyć nowe pakiety robocze, takie jak zadania robocze, kamienie milowe i inne oraz <b>dodawać  zależności</b>. Wszyscy członkowie zespołu mogą w każdej chwili wyświetlić i zaktualizować najnowszy plan.'
         team_planner:
-          overview: 'The team planner lets you visually assign tasks to team members and get an overview of who is working on what.'
-          calendar: 'The weekly or biweekly planning board displays all work packages assigned to your team members.'
-          add_assignee: 'To get started, add assignees to the team planner.'
-          add_existing: 'Search for existing work packages and drag them to the team planner to instantly assign them to a team member and define start and end dates.'
-          card: 'Drag work packages horizontally to move them backwards or forwards in time, drag the edges to change start and end dates and even drag them vertically to a different row to assign them to another member.'
+          overview: 'Planista zespołu umożliwia wizualne przypisywanie zadań członkom zespołu i uzyskanie informacji o tym, kto nad czym pracuje.'
+          calendar: 'Tygodniowa lub dwutygodniowa tablica planowania wyświetla wszystkie pakiety robocze przypisane członkom zespołu.'
+          add_assignee: 'Aby rozpocząć, dodaj przypisane osoby do planisty zespołu.'
+          add_existing: 'Wyszukaj istniejące pakiety robocze i przeciągnij je do planisty zespołu, aby natychmiast przypisać je członkowi zespołu oraz określić daty rozpoczęcia i zakończenia.'
+          card: 'Przeciągaj pakiety robocze w poziomie, aby przesuwać je wstecz lub do przodu w czasie, przeciągaj krawędzie, aby zmieniać daty rozpoczęcia i zakończenia, a nawet przeciągaj je w pionie do innego wiersza, aby przypisać je innemu członkowi zespołu.'
     notifications:
       title: "Powiadomienia"
       no_unread: "Brak nieprzeczytanych powiadomień"
@@ -998,7 +998,7 @@ pl:
         relations: Relacje
         watchers: Obserwatorzy
         files: Pliki
-        files_tab_migration_help: 'You can now attach files to work packages via the new tab:'
+        files_tab_migration_help: 'Pliki można teraz dołączać do pakietów roboczych za pomocą nowej karty:'
       time_relative:
         days: "dni"
         weeks: "tygodnie"
@@ -1172,7 +1172,7 @@ pl:
           group: 'Grupa jest teraz częścią %{project}. Tymczasem możesz już planować z tą grupą i na przykład przypisać pakiety robocze.'
         next_button: 'Kontynuuj'
     include_projects:
-      toggle_title: 'Include projects'
+      toggle_title: 'Uwzględnij projekty'
       title: 'Projekty'
       clear_selection: 'Wyczyść zaznaczenie'
       apply: 'Zastosuj'
@@ -1180,10 +1180,10 @@ pl:
         all: 'Wszystkie projekty'
         selected: 'Tylko zaznaczone'
       search_placeholder: 'Wyszukaj projekt...'
-      include_subprojects: 'Include all sub-projects'
+      include_subprojects: 'Uwzględnij wszystkie podprojekty'
       tooltip:
-        include_all_selected: 'Include all sub-projects is currently selected.'
-        current_project: 'This is the current project you are in.'
+        include_all_selected: 'Opcja Uwzględnij wszystkie podprojekty jest obecnie zaznaczona.'
+        current_project: 'To jest bieżący projekt, w którym jesteś.'
     forms:
       submit_success_message: 'Formularz został przesłany'
       load_error_message: 'Podczas ładowania formularza wystąpił błąd'

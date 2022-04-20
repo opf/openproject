@@ -23,8 +23,8 @@ it:
   js:
     ajax:
       hide: "Nascondi"
-      loading: "Loading…"
-      updating: "Updating…"
+      loading: "Caricamento…"
+      updating: "Aggiornamento…"
     attachments:
       draggable_hint: |
         Trascina l'elemento nei campi dell'editor per allineare l'immagine o il riferimento allegato. I campi dell'editor chiusi verranno sbloccati durante il trascinamento.
@@ -54,7 +54,7 @@ it:
     button_add: "Aggiungi"
     button_back: "Indietro"
     button_back_to_list_view: "Torna alla visualizzazione in lista"
-    button_cancel: "Cancella"
+    button_cancel: "Annulla"
     button_close: "Chiuso"
     button_change_project: "Cambia progetto"
     button_check_all: "Seleziona tutti"
@@ -62,7 +62,7 @@ it:
     button_confirm: "Conferma"
     button_continue: "Continua"
     button_copy: "Copia"
-    button_copy_to_other_project: "Copy to other project"
+    button_copy_to_other_project: "Copia su altro progetto"
     button_custom-fields: "Campo personalizzato"
     button_delete: "Cancella"
     button_delete_watcher: "Elimina osservatore"
@@ -238,7 +238,7 @@ it:
           text: >
             OpenProject Enterprise Edition si basa sull'edizione Community Edition. Include caratteristiche premium e supporto professionale principalmente rivolto alle organizzazioni con più di 10 utenti che gestiscono progetti critici di business con OpenProject.
           unlimited: "Illimitato"
-          you_contribute: "Developers need to pay their bills, too. By upgrading to the Enterprise Edition, you will be supporting this open source community effort and contributing to its development, maintenance and continuous improvement."
+          you_contribute: "Anche gli sviluppatori devono pagare le bollette. Con l'aggiornamento alla Enterprise Edition, sosterrai questo sforzo della comunità open source e contribuirai al suo sviluppo, manutenzione e miglioramento continuo."
     custom_actions:
       date:
         specific: 'il'
@@ -252,7 +252,7 @@ it:
     enumeration_doc_categories: "Categorie di documenti"
     enumeration_work_package_priorities: "Priorità della macro-attività"
     filter:
-      more_values_not_shown: "There are %{total} more results, search to filter results."
+      more_values_not_shown: "Ci sono altri %{total} risultati, effettua una ricerca per filtrare i risultati."
       description:
         text_open_filter: "Apri questo filtro con i tasti 'ALT' e le frecce."
         text_close_filter: "Per selezionare una voce, lascia vuoto lo stato attivo per esempio premendo 'Invio'. Per uscire senza un filtro seleziona la prima voce (vuota)."
@@ -291,13 +291,15 @@ it:
             standard:
               learn_about_link: https://www.openproject.org/openproject-12-1-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A <b>new team planner module</b> (Enterprise feature) allows you to visually assign tasks to team members to get an overview of who is working on what.</li> <li>We are <b>releasing the basic agile boards</b> for the Community version.</li> <li>The <b>"Include Projects" filter</b> option makes it easier to add different projects to your views, such as for work packages, calendars, and team planners.</li> <li>We added <b>a new "Files" tab</b> in the work package details to have all possible information attached to a work package together.</li> <li>We created <b>global roles for groups</b> to assign these roles to groups and create superuser groups.</li> <li>Project status was given more options to choose from.</li> </ul>
+                Questa versione contiene varie nuove funzionalità e miglioramenti: <br> <ul class="%{list_styling_class}"> <li>Un <b>nuovo modulo di pianificazione del team</b> (funzione Enterprise) consente di assegnare visivamente le attività al team membri per avere una panoramica di chi sta lavorando a cosa.</li> <li>Stiamo <b>rilasciando le agile board di base</b> per la versione Community.</li> <li>L'<b>opzione di filtro "Includi progetti"</b> semplifica l'aggiunta di diversi progetti alle visualizzazioni, ad esempio per macro-attività, calendari e pianificatori di team.</li> <li>Abbiamo aggiunto <b>una nuova scheda "File"</b> nei dettagli delle macro-attività per avere tutte le informazioni possibili di una macro-attività in un unico punto.</li> <li>Abbiamo creato <b>ruoli globali per i gruppi</b> per assegnare questi ruoli ai gruppi e creare un gruppi di superutenti.</li> <li>È possibile scegliere lo stato del progetto tra più opzioni.</li> </ul>
+
             bim:
               learn_about_link: https://www.openproject.org/openproject-12-1-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>In the BCF module you can now save your selected work package filters, columns etc. as <b>views</b> and share those with your team members.</li> <li>A <b>new team planner module</b> (Enterprise feature) allows you to visually assign tasks to team members to get an overview of who is working on what.</li> <li>We are <b>releasing the basic agile boards</b> for the Community version.</li> <li>The <b>"Include Projects" filter</b> option makes it easier to add different projects to your views, such as for work packages, calendars, and team planners.</li> <li>We added <b>a new "Files" tab</b> in the work package details to have all possible information attached to a work package together.</li> <li>We created <b>global roles for groups</b> to assign these roles to groups and create superuser groups.</li> <li>Project status was given more options to choose from.</li> </ul>
+                Questa versione contiene varie nuove funzionalità e miglioramenti: <br> <ul class="%{list_styling_class}"> <li>Nel modulo BCF ora puoi salvare filtri, colonne e altri elementi selezionati delle macro-attività come <b>viste</b> e condividerli con i membri del tuo team.</li> <li>Un <b>nuovo modulo di pianificazione del team</b> (funzione Enterprise) consente di assegnare visivamente le attività al team membri per avere una panoramica di chi sta lavorando a cosa.</li> <li>Stiamo <b>rilasciando le agile board di base</b> per la versione Community.</li> <li>L'<b>opzione di filtro "Includi progetti"</b> semplifica l'aggiunta di diversi progetti alle visualizzazioni, ad esempio per macro-attività, calendari e pianificatori di team.</li> <li>Abbiamo aggiunto <b>una nuova scheda "File"</b> nei dettagli delle macro-attività per avere tutte le informazioni possibili di una macro-attività in un unico punto.</li> <li>Abbiamo creato <b>ruoli globali per i gruppi</b> per assegnare questi ruoli ai gruppi e creare un gruppi di superutenti.</li> <li>È possibile scegliere lo stato del progetto tra più opzioni.</li> </ul>
+
     label_activate: "Attiva"
-    label_assignee: 'Assignee'
+    label_assignee: 'Assegnatario'
     label_add_column_after: "Aggiungi colonna dopo"
     label_add_column_before: "Aggiungi colonna prima"
     label_add_columns: "Aggiungi colonne"
@@ -501,7 +503,7 @@ it:
         boards:
           overview: 'Seleziona <b>board</b> per cambiare visualizzazione e gestire il tuo progetto utilizzando la visualizzazione agile delle schede.'
           lists_kanban: 'Qui puoi creare più liste  (colonne) all''interno della tua board. Questa funzione ti consente di creare una <b>board Kanban</b>, ad esempio.'
-          lists_basic: 'Here you can create multiple lists (columns) within your agile board.'
+          lists_basic: 'Qui puoi creare più liste (colonne) all''interno della tua agile board.'
           add: 'Fai clic sull''icona più (+) per <b>creare una nuova scheda</b> o <b>aggiungere una scheda esistente</b> all''elenco sulla board.'
           drag: 'Trascina e rilascia le tue schede all''interno di un determinato elenco per riordinarle o per spostarle in un altro elenco. <br> Puoi fare clic sull''icona delle informazioni (i) nell''angolo in alto a destra o fare doppio clic su una scheda per aprirne i dettagli.'
         wp:
@@ -513,11 +515,11 @@ it:
           timeline_button: 'Puoi attivare la vista <b>Diagramma di Gantt</b> per creare una linea del tempo per il tuo progetto.'
           timeline: 'Qui puoi <b>modificare il tuo piano di progetto</b>, creare nuove macro-attività, come attività, pietre miliari, fasi e altro, nonché <b>aggiungere dipendenze</b>. Tutti i membri del team possono visualizzare e aggiornare il piano più recente in qualsiasi momento.'
         team_planner:
-          overview: 'The team planner lets you visually assign tasks to team members and get an overview of who is working on what.'
-          calendar: 'The weekly or biweekly planning board displays all work packages assigned to your team members.'
-          add_assignee: 'To get started, add assignees to the team planner.'
-          add_existing: 'Search for existing work packages and drag them to the team planner to instantly assign them to a team member and define start and end dates.'
-          card: 'Drag work packages horizontally to move them backwards or forwards in time, drag the edges to change start and end dates and even drag them vertically to a different row to assign them to another member.'
+          overview: 'Il pianificatore di team consente di assegnare visivamente compiti ai membri del team e ottenere una panoramica di chi sta lavorando su cosa.'
+          calendar: 'La scheda di pianificazione settimanale o bisettimanale visualizza tutte le macro-attività assegnate ai membri del tuo team.'
+          add_assignee: 'Per iniziare, aggiungi gli assegnatari al team planner.'
+          add_existing: 'Cerca macro-attività esistenti e trascinale nel team planner per assegnarle istantaneamente a un membro del team e definire le date di inizio e fine.'
+          card: 'Trascina le macro-attività orizzontalmente per spostarle indietro o avanti nel tempo, trascina i bordi per cambiare le date di inizio o di fine, trascina le macro-attività verticalmente su una riga diversa per assegnarle ad un altro membro.'
     notifications:
       title: "Notifiche"
       no_unread: "Nessuna nuova notifica"
@@ -760,7 +762,7 @@ it:
           Seleziona gli attributi che desideri mostrare nelle rispettive posizioni del diagramma di Gantt in ogni momento. Nota che al passaggio del mouse su un elemento, verranno visualizzate le etichette delle date anziché questi attributi.
       button_activate: 'Mostra Diagramma di Gantt'
       button_deactivate: 'Nascondi Diagramma di Gantt'
-      cancel: Cancella
+      cancel: Annulla
       change: "Cambiare nella pianificazione"
       due_date: "Data di fine"
       empty: "(vuoto)"
@@ -834,7 +836,7 @@ it:
       comment_added: "Il commento è stato aggiunto con successo."
       comment_send_failed: "Si è verificato un errore. Impossibile inviare il commento."
       comment_updated: "Il commento è stato aggiornato correttamente."
-      confirm_edit_cancel: "Sicuro di voler eliminare questa macro-attività?"
+      confirm_edit_cancel: "Sei sicuro di voler annullare la modifica della macro-attività?"
       description_filter: "Filtro"
       description_enter_text: "Inserisci testo"
       description_options_hide: "Nascondi opzioni"
@@ -996,7 +998,7 @@ it:
         relations: Relazioni
         watchers: Osservatori
         files: File
-        files_tab_migration_help: 'You can now attach files to work packages via the new tab:'
+        files_tab_migration_help: 'È ora possibile allegare file alle macro-attività tramite la nuova scheda:'
       time_relative:
         days: "giorni"
         weeks: "Settimane"
@@ -1029,7 +1031,7 @@ it:
       button_apply: "Applica"
       button_save: "Salva"
       button_submit: "Invia"
-      button_cancel: "Cancella"
+      button_cancel: "Annulla"
       form_submit:
         title: 'Conferma per continuare'
         text: 'Eseguire questa azione?'
@@ -1056,7 +1058,7 @@ it:
       button_save: "%{attribute}: Salva"
       button_cancel: "%{attribute}: Annulla"
       button_save_all: "Salva"
-      button_cancel_all: "Cancella"
+      button_cancel_all: "Annulla"
       link_formatting_help: "Guida di formattazione del testo"
       btn_preview_enable: "Anteprima"
       btn_preview_disable: "Disabilita anteprima"
@@ -1166,18 +1168,18 @@ it:
           group: 'Il gruppo è ora parte di %{project}. Nel mentre puoi ad esempio già pianificare con quel gruppo e assegnare pacchetti di lavoro.'
         next_button: 'Continua'
     include_projects:
-      toggle_title: 'Include projects'
+      toggle_title: 'Includi progetti'
       title: 'Progetti'
-      clear_selection: 'Clear selection'
+      clear_selection: 'Annulla selezione'
       apply: 'Applica'
       selected_filter:
         all: 'Tutti i progetti'
-        selected: 'Only selected'
-      search_placeholder: 'Search project...'
-      include_subprojects: 'Include all sub-projects'
+        selected: 'Solo selezionati'
+      search_placeholder: 'Cerca progetto...'
+      include_subprojects: 'Includi tutti i sotto-progetti'
       tooltip:
-        include_all_selected: 'Include all sub-projects is currently selected.'
-        current_project: 'This is the current project you are in.'
+        include_all_selected: 'Includi tutti i sotto-progetti attualmente selezionati.'
+        current_project: 'Questo è il progetto corrente in cui ti trovi.'
     forms:
       submit_success_message: 'Il modulo è stato inviato correttamente'
       load_error_message: 'Si è verificato un errore caricando il modulo'

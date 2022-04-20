@@ -1,65 +1,65 @@
 #English strings go here
 de:
-  permission_view_file_links: "View file links"
-  permission_manage_file_links: "Manage file links"
-  permission_manage_storages_in_project: "Manage file storages in project"
-  project_module_storages: "File storages"
+  permission_view_file_links: "Datei-Links anzeigen"
+  permission_manage_file_links: "Datei-Links verwalten"
+  permission_manage_storages_in_project: "Datei-Speicher im Projekt verwalten"
+  project_module_storages: "Datei-Speicher"
   activerecord:
     models:
-      storages/storage: "Storage"
+      storages/storage: "Speicher"
     attributes:
       storages/storage:
         name: "Name"
-        creator: "Creator"
-        provider_type: "Provider type"
+        creator: "Ersteller"
+        provider_type: "Anbieter"
       storages/file_link:
-        origin_id: "Origin Id"
+        origin_id: "Ursprungs-ID"
     errors:
       messages:
-        not_linked_to_project: "is not linked to project."
+        not_linked_to_project: "ist nicht mit dem Projekt verknüpft."
       models:
         storages/storage:
           attributes:
             host:
-              cannot_be_connected_to: "can not be connected to."
-              minimal_nextcloud_version_unmet: "does not meet minimal version requirements (must be Nextcloud 23 or higher)"
-              not_nextcloud_server: "is not a Nextcloud server"
+              cannot_be_connected_to: "kann nicht verbunden werden."
+              minimal_nextcloud_version_unmet: "erfüllt nicht die minimalen Versionsanforderungen (muss Nextcloud 23 oder höher sein)"
+              not_nextcloud_server: "ist kein Nextcloud-Server"
         storages/file_link:
           attributes:
             origin_id:
-              only_numeric_or_uuid: "can only be numeric or uuid."
+              only_numeric_or_uuid: "kann nur numerisch oder uuid sein."
   api_v3:
     errors:
-      too_many_elements_created_at_once: "Too many elements created at once. Expected %{max} at most, got %{actual}."
+      too_many_elements_created_at_once: "Zu viele Elemente gleichzeitig erstellt. Maximal %{max} erwartet, %{actual} bekommen."
   storages:
     page_titles:
       project_settings:
-        index: "File storages available in this project"
-        new: "Enable a file storage for this project"
+        index: "Dateispeicher in diesem Projekt verfügbar"
+        new: "Aktiviere einen Datei-Speicher für dieses Projekt"
     instructions:
-      name: "Please use a short name. It will get used as a tab title in the work package view."
-      host: "The URL of your storage instance. The URL should not be more than 255 characters long."
-      no_storage_set_up: "There are no file storages set up, yet."
-      setting_up_additional_storages: "For setting up additional file storages, please visit"
-      setting_up_additional_storages_non_admin: "Administrators can set up additional file storages in Administration / File Storages."
-      setting_up_storages: "For setting up file storages, please visit"
-      setting_up_storages_non_admin: "Administrators can set up file storages in Administration / File Storages."
-      all_available_storages_already_added: "All available storages are already added to the project."
+      name: "Bitte verwenden Sie einen kurzen Namen. Er wird als Tab-Titel in der Arbeitspaket-Ansicht verwendet."
+      host: "Die URL Ihrer Speicher-Instanz. Die URL sollte nicht länger als 255 Zeichen lang sein."
+      no_storage_set_up: "Es wurden noch keine Datei-Speicher eingerichtet."
+      setting_up_additional_storages: "Um zusätzliche Datei-Speicher einzurichten, besuchen Sie bitte"
+      setting_up_additional_storages_non_admin: "Administratoren können zusätzliche Datei-Speicher in Administration / Datei-Speicher einrichten."
+      setting_up_storages: "Zum Einrichten von Datei-Speicher besuchen Sie bitte"
+      setting_up_storages_non_admin: "Administratoren können Datei-Speicher in Administration / Datei-Speicher einrichten."
+      all_available_storages_already_added: "Alle verfügbaren Speicher sind dem Projekt bereits hinzugefügt."
     delete_warning:
       storage: >
-        Are you sure you want to delete this storage? This will also delete the storage from all projects where it is used. Further, it will also delete all links from work packages to files that are stored in that storage.
+        Sind Sie sicher, dass Sie diesen Speicher löschen möchten? Dies löscht auch den Speicher aus allen Projekten, in denen er verwendet wird. Außerdem werden alle Links von Arbeitspaketen zu Dateien gelöscht, die in diesem Speicher gespeichert sind.
       project_storage: >
-        Are you sure you want to remove this file storage from this project? This will also remove all links to files stored in this storage for this project.
-    label_creator: "Creator"
-    label_file_link: "File link"
-    label_file_links: "File links"
+        Sind Sie sicher, dass Sie diesen Datei-Speicher aus diesem Projekt entfernen möchten? Dies wird auch alle Links zu Dateien entfernen, die für dieses Projekt in diesem Speicher gespeichert sind.
+    label_creator: "Ersteller"
+    label_file_link: "Datei-Link"
+    label_file_links: "Datei-Links"
     label_name: "Name"
     label_host: "Host"
-    label_provider_type: "Provider type"
-    label_new_storage: "New storage"
-    label_storage: "Storage"
-    label_storages: "Storages"
-    no_results: "No storages set up, yet."
+    label_provider_type: "Anbieter-Typ"
+    label_new_storage: "Neuer Speicher"
+    label_storage: "Speicher"
+    label_storages: "Speicher"
+    no_results: "Noch kein Speicher eingerichtet."
     provider_types:
-      label: "Provider type"
+      label: "Anbieter-Typ"
       nextcloud: "Nextcloud"
