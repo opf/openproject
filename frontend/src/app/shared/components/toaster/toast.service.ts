@@ -161,8 +161,15 @@ export class ToastService {
     this.stack.putValue([]);
   }
 
-  private createToast(message:IToast|string, type:ToastType):IToast {
-    return (typeof message === 'string') ? { message, type } : { message: message.message, type };
+  private createToast(toast:IToast|string, type:ToastType):IToast {
+    return (typeof toast === 'string')
+      ? { message: toast, type }
+      : {
+        message: toast.message,
+        type,
+        link: toast.link,
+        data: toast.data,
+      };
   }
 
   private createAttachmentUploadToast(message:IToast|string, uploads:UploadInProgress[]) {
