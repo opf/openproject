@@ -129,7 +129,7 @@ class Enumeration < ApplicationRecord
   def to_s; name end
 
   # Does the +new+ Hash override the previous Enumeration?
-  def self.overridding_change?(new, previous)
+  def self.overriding_change?(new, previous)
     if same_active_state?(new['active'], previous.active) && same_custom_values?(new, previous)
       false
     else
