@@ -2,12 +2,12 @@
 es:
   js:
     boards:
-      create_new: 'Create new board'
+      create_new: 'Crear panel'
       label_unnamed_board: 'Panel sin nombre'
       label_unnamed_list: 'Lista sin nombre'
       label_board_type: 'Tipo de panel'
       upsale:
-        teaser_text: 'Would you like ready-to-use board templates? Advanced boards are an Enterprise feature. Please upgrade to a paid plan.'
+        teaser_text: '¿Quiere usar plantillas de paneles listas para usar? Los paneles avanzados son una característica de la versión Enterprise. Actualice a un plan de pago.'
         upgrade: 'Actualizar ahora'
       lists:
         delete: 'Eliminar lista'

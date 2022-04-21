@@ -23,8 +23,8 @@ hu:
   js:
     ajax:
       hide: "Elrejt"
-      loading: "Loading…"
-      updating: "Updating…"
+      loading: "Betöltés…"
+      updating: "Frissítés..."
     attachments:
       draggable_hint: |
         Húzza át a szerkesztőmezőt a beillesztett képre vagy hivatkozási mellékletre. Zárt szerkesztőmezők nyílnak meg, amíg húzza.
@@ -64,7 +64,7 @@ hu:
     button_confirm: "Jóváhagy"
     button_continue: "Folytatás"
     button_copy: "Másol"
-    button_copy_to_other_project: "Copy to other project"
+    button_copy_to_other_project: "Másolás másik projektbe"
     button_custom-fields: "Választható mezők"
     button_delete: "Törlés"
     button_delete_watcher: "Megfigyelő törlése"
@@ -186,8 +186,8 @@ hu:
         new_group: 'Új csoport'
         reset_to_defaults: 'Alapbeállítások visszaállítása'
       enterprise:
-        text_reprieve_days_left: "%{days} days until end of grace period"
-        text_expired: "expired"
+        text_reprieve_days_left: "%{days} nap van hátra a türelmi idő végéig"
+        text_expired: "lejárt"
         trial:
           confirmation: "E-mail cím megerősítése"
           confirmation_info: >
@@ -300,7 +300,7 @@ hu:
               new_features_html: >
                 The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>In the BCF module you can now save your selected work package filters, columns etc. as <b>views</b> and share those with your team members.</li> <li>A <b>new team planner module</b> (Enterprise feature) allows you to visually assign tasks to team members to get an overview of who is working on what.</li> <li>We are <b>releasing the basic agile boards</b> for the Community version.</li> <li>The <b>"Include Projects" filter</b> option makes it easier to add different projects to your views, such as for work packages, calendars, and team planners.</li> <li>We added <b>a new "Files" tab</b> in the work package details to have all possible information attached to a work package together.</li> <li>We created <b>global roles for groups</b> to assign these roles to groups and create superuser groups.</li> <li>Project status was given more options to choose from.</li> </ul>
     label_activate: "Aktivál"
-    label_assignee: 'Assignee'
+    label_assignee: 'Megbízott'
     label_add_column_after: "Oszlop hozzáadása utána"
     label_add_column_before: "Oszlop hozzáadása előtte"
     label_add_columns: "Oszlopok hozzáadása"
@@ -520,15 +520,15 @@ hu:
           calendar: 'The weekly or biweekly planning board displays all work packages assigned to your team members.'
           add_assignee: 'To get started, add assignees to the team planner.'
           add_existing: 'Search for existing work packages and drag them to the team planner to instantly assign them to a team member and define start and end dates.'
-          card: 'Drag work packages horizontally to move them backwards or forwards in time, drag the edges to change start and end dates and even drag them vertically to a different row to assign them to another member.'
+          card: 'Húzza a munkacsomagokat vízszintesen az időben vissza vagy előre mozgatáshoz. Az élek megragadásával a kezdő és a befejezési dátum változtathatók. Más sorba való függőleges mozgatással más projekttaghoz rendelhető a munkacsomag.'
     notifications:
       title: "Értesítések"
       no_unread: "Nincs olvasatlan értesítés"
       reasons:
         mentioned: 'megemlített'
         watched: 'Megfigyelt'
-        assigned: 'assigned'
-        responsible: 'accountable'
+        assigned: 'hozzárendelve'
+        responsible: 'felelős'
       facets:
         unread: 'Olvasatlan'
         all: 'Mind'
@@ -538,55 +538,55 @@ hu:
           other: 'és %{count} egyéb'
         no_results:
           at_all: 'New notifications will appear here when there is activity that concerns you'
-          with_current_filter: 'There are no notifications in this view at the moment'
+          with_current_filter: 'Ebben a nézetben jelenleg nincsenek értesítések'
         mark_all_read: 'Mindegyik megjelölése olvasottként'
         mark_as_read: 'Megjelölés olvasottként'
         text_update_date: "%{date} szerint"
         total_count_warning: "A %{newest_count} legfrissebb értesítések megjelenítése. %{more_count} több nem jelenik meg.\n"
         empty_state:
-          no_notification: "Looks like you're all caught up."
+          no_notification: "Úgy tűnik, hogy teljesen naprakész."
           no_notification_with_current_filter: "Change of involvement or go back to the Inbox to view notifications"
           no_selection: "Click on a notification to view all activity details."
         new_notifications:
-          message: 'There are new notifications.'
-          link_text: 'Click here to load them'
+          message: 'Új értesítések érkeztek.'
+          link_text: 'Kattintson ide a betöltésükhöz'
       menu:
         accountable: 'Felelős'
-        by_project: 'Unread by project'
+        by_project: 'Olvasatlan projektenként'
         by_reason: 'Involvement'
-        inbox: 'Inbox'
-        mentioned: '@mentioned'
+        inbox: 'Beérkezett üzenetek'
+        mentioned: 'megemlített'
         watching: 'Watching'
       settings:
-        change_notification_settings: 'To view and change your notification settings, <a target="_blank" href="%{url}">click here</a>'
+        change_notification_settings: 'Az értesítési beállítások megtekintéséhez és megváltoztatásához <a target="_blank" href="%{url}">kattintson ide</a>'
         title: "Értesítési beállítások"
-        notify_me: "Notify me"
+        notify_me: "Értesítést kérek"
         reasons:
           mentioned:
-            title: 'I am @mentioned'
-            description: 'Receive a notification every time someone mentions me anywhere'
+            title: 'Megemlítettek'
+            description: 'Értesítés fogadása minden alkalommal, amikor bárki bárhol megemlít'
           involved:
-            title: 'Assigned to me or accountable'
+            title: 'Hozzám vagy a felelőshöz rendelve'
             description: 'Receive notifications for all activities on work packages for which I am assignee or accountable'
           watched: 'Updates on watched items'
-          work_package_commented: 'All new comments'
-          work_package_created: 'New work packages'
-          work_package_processed: 'All status changes'
-          work_package_prioritized: 'All priority changes'
-          work_package_scheduled: 'All date changes'
+          work_package_commented: 'Új megjegyzések'
+          work_package_created: 'Új munkacsomagok'
+          work_package_processed: 'Összes státusz változás'
+          work_package_prioritized: 'Összes prioritás változás'
+          work_package_scheduled: 'Összes dátum változás'
         global:
           immediately:
-            title: 'Notify me immediately'
-            description: 'These settings apply to all projects. You can create project-specific exceptions below.'
+            title: 'Értesítsen azonnal'
+            description: 'Ezek a beállítások az összes projektre vonatkoznak. Projekt-specifikus kivételeket alább lehet létrehozni.'
           delayed:
             title: 'Also notify me for'
-            description: 'Receive notifications for these activities on work packages in all projects:'
+            description: 'Értesítések beállítása ezekre a tevékenységekre minden projekt munkacsomagjára:'
         project_specific:
-          title: 'Project-specific notification settings'
-          description: 'These project-specific settings override default settings above'
+          title: 'Projekt-specifikus értesítések beállításai'
+          description: 'Ezek a projekt-specifikus beállítások felülbírálják a fenti beállításokat'
           add: 'Beállítás hozzáadása a projekthez'
           already_selected: 'A projekt már ki lett választva'
-          remove: 'Remove project settings'
+          remove: 'Projekt beállítások eltávolítása'
     password_confirmation:
       field_description: 'A változás megerősítéséhez adja meg jelszavát.'
       title: 'Adja meg a jelszavát a folytatáshoz'
@@ -619,32 +619,32 @@ hu:
         daily:
           add_time: "Idő hozzáadása\n"
           enable: "Napi e-mail emlékeztetők engedélyezése\n"
-          explanation: 'You will receive these reminders only for unread notifications and only at hours you specify. %{no_time_zone}'
-          no_time_zone: 'Until you configure a time zone for your account, the times will be interpreted to be in UTC.'
+          explanation: "Ezeket az emlékeztetőket csak az olvasatlan értesítésekről kapja, és csak az Ön által megadott órákban. %{no_time_zone}\n"
+          no_time_zone: 'Amíg a fiókjához nincs időzóna beállítva, addig az időpontok UTC szerint értendők.'
           time_label: 'Idő%{counter}:'
           title: "Napi e-mail emlékeztető küldése az olvasatlan értesítésekről\n"
         workdays:
-          title: 'Receive email reminders on these days'
+          title: 'Email emlékeztetők fogadása ezeken a napokon'
         immediate:
-          title: 'Send me an email reminder'
-          mentioned: 'Immediately when someone @mentions me'
+          title: 'Kérek email emlékeztetőt!'
+          mentioned: 'Amint valaki @megemlít engem'
         alerts:
           title: 'Email alerts for other items (that are not work packages)'
           explanation: >
             Notifications today are limited to work packages. You can choose to continue receiving email alerts for these events until they are included in notifications:
           news_added: 'Hírek hozzáadva'
-          news_commented: 'Comment on a news item'
-          document_added: 'Documents added'
-          forum_messages: 'New forum messages'
+          news_commented: 'Megjegyzés egy hír elemhez'
+          document_added: 'Dokumentum hozzáadva'
+          forum_messages: 'Új fórum üzenetek'
           wiki_page_added: 'Wiki oldal hozzáadva'
           wiki_page_updated: 'Wiki oldal frissítve'
-          membership_added: 'Membership added'
-          membership_updated: 'Membership updated'
+          membership_added: 'Felhasználó hozzáadva'
+          membership_updated: 'Felhasználó frissítve'
         title: 'E-mail emlékeztetők'
         pause:
-          label: 'Temporarily pause daily email reminders'
-          first_day: 'First day'
-          last_day: 'Last day'
+          label: 'Napi email emlékeztetők ideiglenes szüneteltetése'
+          first_day: 'Első nap'
+          last_day: 'Utolsó nap'
     text_are_you_sure: "Biztos vagy benne?"
     text_data_lost: "Az összes adat elveszhet"
     types:
@@ -882,7 +882,7 @@ hu:
       no_results:
         title: Nincs megjelenítendő munkacsomag.
         description: Vagy nincs még ilyen munkacsomag, vagy a szűrők miatt nem jeleníthető meg.
-      limited_results: Only %{count} work packages can be shown in manual sorting mode. Please reduce the results by filtering, or switch to automatic sorting.
+      limited_results: Csak %{count} munkacsomag jeleníthető meg kézi rendezés módban. Kérjük, szűréssel csökkentse az eredményeket vagy váltson automatikus rendezésre.
       property_groups:
         details: "Részletek"
         people: "Személyek"
@@ -925,7 +925,7 @@ hu:
         label_content: "Kattintson ide a menü átugrásához és a tartalom megtekintéséhez"
       placeholders:
         default: "-"
-        date: "Select date"
+        date: "Dátum kiválasztása"
         formattable: "%{name}: kattints a módosításhoz!"
       query:
         column_names: "Oszlopok"
@@ -1001,7 +1001,7 @@ hu:
         relations: Kapcsolatok
         watchers: Megfigyelők
         files: Fájlok
-        files_tab_migration_help: 'You can now attach files to work packages via the new tab:'
+        files_tab_migration_help: 'Mostantól az új fülön lehet fájlokat csatolni a munkacsomagokhoz.'
       time_relative:
         days: "nap"
         weeks: "Hetek"
@@ -1171,18 +1171,18 @@ hu:
           group: "A csoport mostantól a %{project} része. Eközben már tervezhet ezzel a csoporttal, és például munkacsomagokat rendelhet hozzá.\n"
         next_button: 'Folytatás'
     include_projects:
-      toggle_title: 'Include projects'
+      toggle_title: 'Projekteket tartalmaz'
       title: 'Projektek'
-      clear_selection: 'Clear selection'
+      clear_selection: 'Kijelölés törlése'
       apply: 'Alkalmaz'
       selected_filter:
         all: 'Minden projekt'
-        selected: 'Only selected'
-      search_placeholder: 'Search project...'
-      include_subprojects: 'Include all sub-projects'
+        selected: 'Csak a kijelölt'
+      search_placeholder: 'Projektek keresése'
+      include_subprojects: 'Összes alprojekt bevonása'
       tooltip:
         include_all_selected: 'Include all sub-projects is currently selected.'
-        current_project: 'This is the current project you are in.'
+        current_project: 'Ez a jelenlegi projekt, amiben vagyunk.'
     forms:
       submit_success_message: 'Jelentés sikeresen elküldve'
       load_error_message: 'Hiba történt az eredmény betöltésekor.'

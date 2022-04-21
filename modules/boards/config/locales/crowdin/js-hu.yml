@@ -2,7 +2,7 @@
 hu:
   js:
     boards:
-      create_new: 'Create new board'
+      create_new: 'Új tábla létrehozása'
       label_unnamed_board: 'Névtelen tábla'
       label_unnamed_list: 'Névtelen lista'
       label_board_type: 'Tábla típus'
