@@ -1,6 +1,6 @@
 ---
 sidebar_navigation:
-  title: User Guide
+  title: User guide
   priority: 990
 description: OpenProject user guide for Community, Cloud Edition and Enterprise Edition.
 robots: index, follow
