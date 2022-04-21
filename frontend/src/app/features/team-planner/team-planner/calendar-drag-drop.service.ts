@@ -18,6 +18,8 @@ export class CalendarDragDropService {
 
   draggableWorkPackages$ = new BehaviorSubject<WorkPackageResource[]>([]);
 
+  isDragging$ = new BehaviorSubject<string|undefined>(undefined);
+
   text = {
     draggingDisabled: {
       permissionDenied: this.I18n.t('js.team_planner.modify.errors.permission_denied'),
@@ -47,6 +49,11 @@ export class CalendarDragDropService {
 
     this.drake.on('drag', (el:HTMLElement) => {
       el.classList.add('gu-transit');
+      this.isDragging$.next(el.dataset.dragHelperId);
+    });
+
+    this.drake.on('dragend', () => {
+      this.isDragging$.next(undefined);
     });
 
     // eslint-disable-next-line no-new

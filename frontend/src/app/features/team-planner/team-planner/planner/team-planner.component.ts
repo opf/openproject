@@ -117,6 +117,23 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
 
   draggingItem$ = new BehaviorSubject<EventDragStartArg|undefined>(undefined);
 
+  globalDraggingItem$ = combineLatest([
+    this.draggingItem$,
+    this.calendarDrag.isDragging$,
+  ]).pipe(
+    map(([draggingItem, externalDrag]) => {
+      if (externalDrag !== undefined) {
+        return externalDrag;
+      }
+
+      if (draggingItem !== undefined) {
+        return (draggingItem.event.extendedProps.workPackage as WorkPackageResource).id as string;
+      }
+
+      return undefined;
+    }),
+  );
+
   dropzoneHovered$ = new BehaviorSubject<boolean>(false);
 
   dropzoneAllowed$ = this
@@ -734,6 +751,15 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     } else {
       this.keepTab.goCurrentShowState(params);
     }
+  }
+
+  shouldShowAsGhost(id:string, globalDraggingId:string|undefined):boolean {
+    if (globalDraggingId === undefined) {
+      return false;
+    }
+
+    // Everything else except the currently dragged element should be shown as ghost.
+    return id !== globalDraggingId;
   }
 
   private async updateEvent(info:EventResizeDoneArg|EventDropArg|EventReceiveArg):Promise<void> {
