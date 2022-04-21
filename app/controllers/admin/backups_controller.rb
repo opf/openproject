@@ -34,7 +34,7 @@ class Admin::BackupsController < ApplicationController
   layout 'admin'
 
   before_action :check_enabled
-  before_action :require_admin
+  before_action :authorize_global
 
   before_action :check_password_confirmation, only: %i[perform_token_reset]
 
@@ -111,10 +111,10 @@ class Admin::BackupsController < ApplicationController
     ]
   end
 
-  def token_reset_failed!(e)
-    Rails.logger.error "Failed to reset user ##{current_user.id}'s Backup key: #{e}"
+  def token_reset_failed!(key)
+    Rails.logger.error "Failed to reset user ##{current_user.id}'s Backup key: #{key}"
 
-    flash[:error] = t('my.access_token.failed_to_reset_token', error: e.message)
+    flash[:error] = t('my.access_token.failed_to_reset_token', error: key.message)
   end
 
   def may_include_attachments?
