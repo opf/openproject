@@ -88,6 +88,7 @@ export class AddExistingPaneComponent extends UntilDestroyedMixin implements OnI
   text = {
     empty_state: this.I18n.t('js.team_planner.quick_add.empty_state'),
     placeholder: this.I18n.t('js.team_planner.quick_add.search_placeholder'),
+    no_results: this.I18n.t('js.autocompleter.notFoundText'),
   };
 
   image = {
@@ -200,6 +201,14 @@ export class AddExistingPaneComponent extends UntilDestroyedMixin implements OnI
       `${splitViewRoute(this.$state)}.tabs`,
       { workPackageId: event.workPackageId, tabIdentifier: 'overview' },
     );
+  }
+
+  searchStringEmpty():boolean {
+    return this.searchString$.getValue().length === 0;
+  }
+
+  noResultsText():string {
+    return this.searchStringEmpty() ? this.text.empty_state : this.text.no_results;
   }
 
   private addExistingFilters(filters:ApiV3FilterBuilder) {
