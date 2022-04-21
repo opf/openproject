@@ -16,7 +16,7 @@
   &:focus,
   &_focused
     color: $spot-color-basic-black
-    outline: $spot-focus
+    @include spot-focus
 
   &--input
     background: transparent
@@ -40,7 +40,8 @@
     font-size: $spot-spacing-0_75
     color: $spot-color-basic-gray-3
 
-    @include spot-focus
+    &:focus
+      @include spot-focus
 
     &:not(:last-child)
       margin-right: $spot-spacing-0_5

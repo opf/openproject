@@ -1,5 +1,6 @@
-$spot-focus: 2px solid $spot-color-indication-attention
+$spot-focus: 1px solid $spot-color-indication-attention
 
 @mixin spot-focus
-  &:focus
-    outline: $spot-focus
+  outline: $spot-focus
+  outline-offset: -1px
+  box-shadow: 0 0 1px 0 $spot-color-indication-attention
