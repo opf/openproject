@@ -13,11 +13,14 @@ Note: This feature is available for the Enterprise on-premises only, for OpenPro
 
 In OpenProject Enterprise on-premises, you can synchronize LDAP group memberships defined through the [groupOfNames](https://tools.ietf.org/html/rfc4519#section-3.5) LDAP object class. This guide assumes that you:
 
-- - have at least one group defined in OpenProject (See the “[Managing groups](../../../users-permissions/groups/)” guide for more information on how to create and edit groups),
-  - have set up your LDAP authentication source (See the “[Manage LDAP authentication](../../ldap-authentication/)” guide)
-  - have at least one LDAP entry with a *groupOfNames* object class and members of that group to contain the *memberOf: <DN of the group>* attribute to determine the members of a group entry. Right now we do not support LDAP instances that only have *member* attributes, but not the inverse *memberOf* property.
+- have at least one group defined in OpenProject (See the “[Managing groups](../../../users-permissions/groups/)” guide for more information on how to create and edit groups),
+- have set up your LDAP authentication source (See the “[Manage LDAP authentication](../../ldap-authentication/)” guide)
+- have at least one LDAP entry with a *groupOfNames* object class and members of that group to contain the *`memberOf: <DN of the group>`* attribute to determine the members of a group entry. Right now we do not support LDAP instances that only have *member* attributes, but not the inverse *memberOf* property.
+
 <div class="alert alert-info" role="alert">
+
 **Please note**: OpenProject does not support other attributes other than the `memberOf` property to define groups. Please make sure that user objects have the `memberOf` property for the synchronization to work.
+
 </div>
 
 For the sake of simplicity, we assume that in this guide, your LDAP structure looks like the following:
@@ -30,10 +33,10 @@ You have two groups *cn=groupA,ou=groups,ou=example,ou=com and cn=groupB,ou=grou
 
 LDAP group synchronization augments the memberships defined by  administrators in an existing OpenProject group. Important things to  note are:
 
-- Only existing groups and users in OpenProject can be synchronized.  The functionality will not simply create all entries in the LDAP group  base nor will it synchronize users that do not exist in OpenProject.
+- Only existing groups and users in OpenProject can be synchronized. The functionality will not simply create all entries in the LDAP group  base nor will it synchronize users that do not exist in OpenProject.
 - Group synchronization have to be enabled by an administrator by creating a *synchronized LDAP group* that ties the OpenProject group to an LDAP entry.
-- Only synchronized memberships will be removed from the OpenProject  group. If you want to add a user outside your LDAP authentication to an  OpenProject group, you can safely do so without the membership being  removed.
-- 
+- Only synchronized memberships will be removed from the OpenProject group. If you want to add a user outside your LDAP authentication to an  OpenProject group, you can safely do so without the membership being  removed.
+
 
 ## Configure LDAP group synchronization filters
 

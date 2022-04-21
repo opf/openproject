@@ -20,7 +20,7 @@ If you do not yet have an own Community installation, the easiest way to test Op
 
 The Enterprise on-premises edition is an upgrade of the self-hosted Community Edition. When you are already using the Community Edition, you can purchase an Enterprise on-premises edition license to upgrade to the Enterprise on-premises edition. To do this, follow these steps:
 
-1. Navigate to https://www.openproject.org/enterprise-edition/.
+1. Navigate to [www.openproject.org/enterprise-edition/](https://www.openproject.org/enterprise-edition/).
 2. Click on the "Book now" button.
 3. Follow the steps to purchase the Enterprise on-premises edition license. You will then receive an Enterprise on-premises edition license key by email which you can use to upgrade your Community Edition to the Enterprise on-premises edition. 
 

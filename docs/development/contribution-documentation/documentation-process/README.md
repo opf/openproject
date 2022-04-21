@@ -45,7 +45,7 @@ Redirects are managed in a repository that is not accessible by the OpenProject 
 
 2. Check if there is already an existing ticket by using the search bar in the header navigation at the top. If there is one, please leave a comment or add additional information. Otherwise:
 
-3. Open a new [documentation work package]( https://community.openproject.org/projects/openproject/work_packages/new?type=69)
+3. Open a new [documentation work package](https://community.openproject.org/projects/openproject/work_packages/new?type=69)
 
 4. Add a precise subject.
 

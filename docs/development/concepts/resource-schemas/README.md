@@ -74,7 +74,7 @@ This section describes some of the existing schemas.
 
 **Projects**
 
-For projects, there is a single APIv3 endpoint for their schemas: `/api/v3/projects/schema`. This schema is identical for all projects. You can simply request the OpenProject Community schema for projects here: https://community.openproject.com/api/v3/projects/schema. It contains a set of static properties (name, identifier, status, etc.), as well as all project-level custom fields.
+For projects, there is a single APIv3 endpoint for their schemas: `/api/v3/projects/schema`. This schema is identical for all projects. You can simply request the OpenProject Community schema for projects [here](https://community.openproject.com/api/v3/projects/schema). It contains a set of static properties (name, identifier, status, etc.), as well as all project-level custom fields.
 
 
 
@@ -84,7 +84,7 @@ The work package schema is more complicated, as work package types can be custom
 
 This results in work package schemas being defined per project and type combination. The URL of each schema looks like this: `/api/v3/work_packages/schemas/{project id}-{type-id}`.
 
-An exemplary schema response on the Community for the OpenProject project (`ID=14`) and the Bug type (`ID=1`) is https://community.openproject.com/api/v3/work_packages/schemas/14-1
+An exemplary schema response on the Community for the OpenProject project (`ID=14`) and the Bug type (`ID=1`) is [community.openproject.com/api/v3/work_packages/schemas/14-1](https://community.openproject.com/api/v3/work_packages/schemas/14-1)
 
 The work package schema also contains the reference to the attribute groups from the form configuration in the `_attributeGroups` property.
 
@@ -96,7 +96,7 @@ The OpenProject frontend usually ensure that whenever you get access to a HAL re
 
 In some cases, such as the work package `/api/v3/work_packages` or `/api/v3/queries` endpoints, the needed schemas to represent the work packages contained in the collection are embedded automatically in the `_embedded.schemas` endpoint. Services handling these loaded requests such as the [`WorkPackagesStatesIntializationService`](https://github.com/opf/openproject/blob/dev/frontend/src/app/components/wp-list/wp-states-initialization.service.ts#L97-L101) will automatically update the schema states.
 
-If you look at the HAL+JSON response of a work package API request, you will see it has a `_links.schema.href` property which identifies the schema resource that the loaded work package is associated with. (Exemplary request: http://community.openproject.com/api/v3/work_packages/34250)
+If you look at the HAL+JSON response of a work package API request, you will see it has a `_links.schema.href` property which identifies the schema resource that the loaded work package is associated with. ([Exemplary request](https://community.openproject.com/api/v3/work_packages/34250))
 
 If you have work package resource, you can get hold of its associated schema as follows:
 

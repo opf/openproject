@@ -44,7 +44,7 @@ You can configure the following options.
 3. Create a new project and a new app or edit an existing project and an existing app, setting the following fields (shall be Internal):
    1. **App name** (e.g. EXAMPLE.COM SSO)
    2. **User support email** (e.g. user-support@example.com)
-   3. **App domains** (at minimum, you must provide the Application home page - e.g. https://example.openproject.com)
+   3. **App domains** (at minimum, you must provide the Application home page - e.g. `https://example.openproject.com`)
    4. **Authorized domains** (e.g. openproject.com)
    5. **Developer Contact information** (e.g.  developer@example.com)
    6. Click **SAVE AND CONTINUE** to proceed.

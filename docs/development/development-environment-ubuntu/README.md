@@ -137,7 +137,7 @@ git clone https://github.com/nodenv/node-build.git $(nodenv root)/plugins/node-b
 
 ### Install latest LTS node version
 
-You can find the latest LTS version here: https://nodejs.org/en/download/
+You can find the latest LTS version here: [nodejs.org/en/download/](https://nodejs.org/en/download/)
 
 At the time of writing this is v16.13.1 Install and activate it with:
 
@@ -176,7 +176,7 @@ npm --version
 In order to create a pull request to the core OpenProject repository, you will want to fork it to your own GitHub account.
 This allows you to create branches and push changes and finally opening a pull request for us to review.
 
-To do that, go to https://github.com/opf/openproject and press "Fork" on the upper right corner.
+To do that, go to [github.com/opf/openproject](https://github.com/opf/openproject) and press "Fork" on the upper right corner.
 
 ```bash
 # Download the repository
@@ -246,14 +246,14 @@ gem install foreman
 foreman start -f Procfile.dev
 ```
 The application will be available at `http://127.0.0.1:3000`. To customize bind address and port copy the `.env.example` provided in the root of this
-project as `.env` and [configure values][foreman-env] as required.
+project as `.env` and [configure values](https://ddollar.github.io/foreman/#ENVIRONMENT) as required.
 
 By default a worker process will also be started. In development asynchronous execution of long-running background tasks (sending emails, copying projects,
 etc.) may be of limited use. To disable the worker process:
 
 echo "concurrency: web=1,assets=1,worker=0" >> .foreman
 
-For more information refer to Foreman documentation section on [default options][foreman-defaults].
+For more information refer to Foreman documentation section on [default options](https://ddollar.github.io/foreman/#DEFAULT-OPTIONS).
 
 You can access the application with the admin-account having the following credentials:
 
@@ -315,6 +315,3 @@ If an error occurs, it should be logged there (as well as in the output to STDOU
 
 If you have any further questions, comments, feedback, or an idea to enhance this guide, please tell us at the appropriate community.openproject.org [forum](https://community.openproject.org/projects/openproject/boards/9).
 [Follow OpenProject on twitter](https://twitter.com/openproject), and follow [the news](https://www.openproject.org/blog) to stay up to date.
-
-[foreman-defaults]:http://ddollar.github.io/foreman/#DEFAULT-OPTIONS
-[foreman-env]:http://ddollar.github.io/foreman/#ENVIRONMENT

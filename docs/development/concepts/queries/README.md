@@ -112,7 +112,7 @@ These filters are also saved within the queries. If you would like to read more 
 
 ### Exemplary query response
 
-Due to the public nature of the OpenProject community, you can check out the following exemplary query response in HAL+JSON: http://community.openproject.com/api/v3/queries/2453
+Due to the public nature of the OpenProject community, you can check out the following exemplary query response in HAL+JSON: [community.openproject.com/api/v3/queries/2453](https://community.openproject.com/api/v3/queries/2453)
 
 It returns a saved query for the OpenProject 11.0 release, with a type filter `type is not [Idea, Phase, Release]` , a version filter `version = 11.0.0` and a "show all subprojects" filter with `subProject = all` . It is sorted by `type ascending`.
 
@@ -176,7 +176,7 @@ In practice, you will likely not only access the query resource itself, but rath
 
 The `WorkPackagesListService` can also update and save existing queries passed to it. This flow will often happen in the [`PartitionedQuerySpaceComponent`](https://github.com/opf/openproject/tree/dev/frontend/src/app/modules/work_packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.ts), which is the basis for the modules showing work packages as a table or grid such as the [`WorkPackageViewPageComponent`](https://github.com/opf/openproject/tree/dev/frontend/src/app/modules/work_packages/routing/wp-view-page/wp-view-page.component.ts) or the [`IfcViewerPageComponent`](https://github.com/opf/openproject/tree/dev/frontend/src/app/modules/bim/ifc_models/pages/viewer/ifc-viewer-page.component.ts).
 
-`PartionedQuerySpaceComponent` instances will be instantiated by the router and listen to URL params to load the corresponding query object. The most prominent example of such a page is the work packages module such as https://community.openproject.com/work_packages.
+`PartionedQuerySpaceComponent` instances will be instantiated by the router and listen to URL params to load the corresponding query object. The most prominent example of such a page is the work packages module such as [community.openproject.com/work_packages](https://community.openproject.com/work_packages).
 
 The partitioning comes from showing a work package table (or cards view) on one side, and a details view of a single work package on another side, splitting the page in two. The width of the split areas can be customized by the user through a drag-handle.
 

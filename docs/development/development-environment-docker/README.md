@@ -19,7 +19,7 @@ bin/compose setup
 bin/compose start
 ```
 
-Once the containers are done booting you can access the application under http://localhost:3000.
+Once the containers are done booting you can access the application under `http://localhost:3000`.
 
 ### Tests
 
