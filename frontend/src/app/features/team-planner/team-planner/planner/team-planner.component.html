@@ -95,25 +95,26 @@
     </ng-template>
 
     <ng-template #eventContent let-event="event">
-  
-      <op-wp-loading-skeleton 
+
+      <op-wp-loading-skeleton
         [viewBox]="event.extendedProps.viewBox"
         class="op-team-planner--wp-loading-skeleton"
         *ngIf="event.source && event.source.id === 'skeleton'"
       ></op-wp-loading-skeleton>
 
       <wp-single-card
-        *ngIf="!event.source || event.source.id === 'work_packages'"
-        [workPackage]="event.extendedProps.workPackage"
+        *ngIf="(!event.source || event.source.id === 'work_packages') && event.extendedProps.workPackage as wp"
+        [workPackage]="wp"
         [selectedWhenOpen]="true"
         [orientation]="'horizontal'"
         [highlightingMode]="'type'"
         [showInfoButton]="true"
-        [disabledInfo]="showDisabledText(event.extendedProps.workPackage)"
-        [isClosed]="isStatusClosed(event.extendedProps.workPackage)"
+        [disabledInfo]="showDisabledText(wp)"
+        [isClosed]="isStatusClosed(wp)"
+        [showAsGhost]="shouldShowAsGhost(wp.id, (globalDraggingItem$ | async))"
         [showAsInlineCard]="true"
-        [showStartDate]="!isWpStartDateInCurrentView(event.extendedProps.workPackage)"
-        [showEndDate]="!isWpEndDateInCurrentView(event.extendedProps.workPackage)"
+        [showStartDate]="!isWpStartDateInCurrentView(wp)"
+        [showEndDate]="!isWpEndDateInCurrentView(wp)"
         (stateLinkClicked)="openStateLink($event)"
         (cardClicked)="calendar.onCardClicked($event)"
         (cardContextMenu)="calendar.showEventContextMenu($event)"
