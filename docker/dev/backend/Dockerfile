@@ -7,7 +7,7 @@ ARG DEV_GID=1001
 ENV USER=dev
 ENV RAILS_ENV=development
 
-ENV BUNDLER_VERSION "2.0.2"
+ENV BUNDLER_VERSION "2.2.32"
 
 # `--no-log-init` is required as a workaround to avoid disk exhaustion.
 #
