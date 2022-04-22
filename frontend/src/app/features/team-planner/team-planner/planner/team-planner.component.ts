@@ -406,7 +406,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
                   {
                     field: 'title',
                     headerContent: {
-                      html: `<span class="spot-icon spot-icon_user-plus"></span> <span>${this.text.assignee}</span>`,
+                      html: `<span class="spot-icon spot-icon_user"></span> <span>${this.text.assignee}</span>`,
                     },
                   },
                 ],
@@ -424,7 +424,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
                   {
                     field: 'title',
                     headerContent: {
-                      html: `<span class="spot-icon spot-icon_user-plus"></span> <span>${this.text.assignee}</span>`,
+                      html: `<span class="spot-icon spot-icon_user"></span> <span>${this.text.assignee}</span>`,
                     },
                   },
                 ],
