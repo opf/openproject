@@ -192,7 +192,7 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call
       return String(this.dateTimeFormatYear.formatRange(new Date(startDate), new Date(dueDate)));
     }
-    
+
     if (!startDate && dueDate) {
       return `– ${this.dateTimeFormatYear.format(new Date(dueDate))}`;
     }
