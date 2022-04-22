@@ -15,5 +15,5 @@ hu:
       label_add_new: OpenID szolgáltató hozzáadása
       label_edit: OpenID szolgáltató  %{name} szerkesztése
       no_results_table: Nincs szolgáltató definiálva
-      plural: OpenID szolgáltató
+      plural: OpenID szolgáltatók
       singular: OpenID szolgáltató

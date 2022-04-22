@@ -29,7 +29,7 @@ hu:
         updated: "Frissítve"
       explanation:
         text: >
-          Upon the occurrence of an event like the creation of a work package or an update on a project, OpenProject will send a POST request to the configured web endpoints. Oftentimes, the event is sent after the %{link} has passed.
+          Olyan események előfordulása esetén, mint például munkacsomag létrehozása vagy projekt frissítése, az OpenProject egy POST kérést küld a bekonfigurált webes végpontoknak. Az esemény gyakran %{link} elteltével érkezik.
         link: beállított összesítési időszak
       status:
         enabled: 'Webhook engedélyezve'

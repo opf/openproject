@@ -291,7 +291,7 @@ es:
             standard:
               learn_about_link: https://www.openproject.org/openproject-12-1-release
               new_features_html: >
-                La versión contiene nuevas mejoras y características: <br> <ul class="%{list_styling_class}"> <li>El <b>nuevo módulo Planificador de equipo</b> (característica de la versión Enterprise) permite asignar tareas visualmente a los miembros del equipo y ver un resumen de las tareas en las que trabaja cada uno.</li> <li>Estamos <b>publicando paneles ágiles básicos</b> para la versión de la comunidad.</li> <li>El <b>filtro «Incluir proyectos»</b> permite añadir fácilmente varios proyectos a las vistas (por ejemplo, para paquetes de trabajo, calendarios y planificadores de equipo).</li> <li>Hemos añadido <b>una nueva pestaña «Archivos»</b> en los detalles del paquete de trabajo para adjuntar toda la información posible a un paquete de trabajo.</li> <li>Hemos creado <b>roles globales para grupos</b>, que pueden asignarse a grupos y crear grupos de superusuarios.</li> <li>Se han añadido opciones de estado del proyecto.</li> </ul>
+                La versión contiene nuevas mejoras y características: <br> <ul class="%{list_styling_class}"> <li>El <b>nuevo módulo Planificador de equipo</b> (característica de la versión Enterprise) permite asignar tareas visualmente a los miembros del equipo y ver un resumen del trabajo de cada uno.</li> <li>Estamos <b>publicando paneles ágiles básicos</b> para la versión de la comunidad.</li> <li>El <b>filtro «Incluir proyectos»</b> permite añadir fácilmente varios proyectos a las vistas (por ejemplo, para paquetes de trabajo, calendarios y planificadores de equipo).</li> <li>Hemos añadido <b>una nueva pestaña «Archivos»</b> en los detalles del paquete de trabajo para adjuntar toda la información posible a un paquete de trabajo.</li> <li>Hemos creado <b>roles globales para grupos</b>, que pueden asignarse a grupos y crear grupos de superusuarios.</li> <li>Se han añadido opciones de estado del proyecto.</li> </ul>
             bim:
               learn_about_link: https://www.openproject.org/openproject-12-1-release
               new_features_html: >
@@ -516,7 +516,7 @@ es:
           overview: 'El planificador de equipo permite asignar de forma visual tareas a los miembros del equipo y obtener un resumen del trabajo de cada uno.'
           calendar: 'En el panel de planificación semanal o bisemanal, se muestran todos los paquetes de trabajo asignados a los miembros del equipo.'
           add_assignee: 'Para empezar, añada usuarios asignados al planificador de equipo.'
-          add_existing: 'Busque paquetes de trabajo existentes y arrástrelos hasta el planificador de equipo para asignarlos rápidamente a un miembro del equipo y definir las fechas de inicio y finalización.'
+          add_existing: 'Busque paquetes de trabajo existentes y arrástrelos hasta el planificador de equipo para asignarlos rápidamente a un miembro del equipo y defina las fechas de inicio y finalización.'
           card: 'Arrastre los paquetes de trabajo horizontalmente para hacerlos avanzar o retroceder en el tiempo, arrastre los bordes para cambiar las fechas de inicio y finalización, e incluso puede arrastrarlos verticalmente a otra fila para asignarlos a otro miembro.'
     notifications:
       title: "Notificaciones"
