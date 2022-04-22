@@ -71,17 +71,18 @@ export class WidgetProjectStatusComponent extends AbstractWidgetComponent implem
     super(i18n, injector);
   }
 
-  ngOnInit() {
-    this.project$ = this
-      .apiV3Service
-      .projects
-      .id(this.currentProject.id!)
-      .get();
-
-    this.cdRef.detectChanges();
+  ngOnInit():void {
+    if (this.currentProject.id) {
+      this.project$ = this
+        .apiV3Service
+        .projects
+        .id(this.currentProject.id)
+        .get();
+      this.cdRef.detectChanges();
+    }
   }
 
-  public get isEditable() {
+  public get isEditable():boolean {
     return false;
   }
 }
