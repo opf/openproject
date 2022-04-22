@@ -112,13 +112,12 @@
         [disabledInfo]="showDisabledText(event.extendedProps.workPackage)"
         [isClosed]="isStatusClosed(event.extendedProps.workPackage)"
         [showAsInlineCard]="true"
-        [showStartDate]="!this.isWpDateInCurrentView(event.extendedProps.workPackage, 'start')"
-        [showEndDate]="!this.isWpDateInCurrentView(event.extendedProps.workPackage, 'end')"
+        [showStartDate]="!isWpStartDateInCurrentView(event.extendedProps.workPackage)"
+        [showEndDate]="!isWpEndDateInCurrentView(event.extendedProps.workPackage)"
         (stateLinkClicked)="openStateLink($event)"
         (cardClicked)="calendar.onCardClicked($event)"
         (cardContextMenu)="calendar.showEventContextMenu($event)"
-      >
-      </wp-single-card>
+      ></wp-single-card>
     </ng-template>
 
     <div class="op-team-planner--footer" data-qa-selector="op-team-planner-footer">
