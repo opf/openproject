@@ -1,7 +1,6 @@
 require 'spec_helper'
 require 'features/page_objects/notification'
 
-# rubocop:disable RSpec/MultipleMemoizedHelpers
 describe 'Bulk update work packages through Rails view', js: true do
   let(:dev_role) do
     create :role,
@@ -80,8 +79,6 @@ describe 'Bulk update work packages through Rails view', js: true do
         context_menu.open_for work_package
         context_menu.choose 'Bulk edit'
 
-        # On work packages edit page
-        expect(page).to have_selector('#work_package_status_id')
         select status2.name, from: 'work_package_status_id'
         notes.set_markdown('The typed note')
       end
@@ -160,6 +157,20 @@ describe 'Bulk update work packages through Rails view', js: true do
         context_menu.open_for work_package
         context_menu.expect_options ['Bulk edit']
       end
+
+      context 'with a project budget' do
+        let!(:budget) { create(:budget, project: project) }
+
+        it 'updates all the work packages' do
+          context_menu.open_for work_package
+          context_menu.choose 'Bulk edit'
+
+          select budget.subject, from: 'work_package_budget_id'
+          click_on 'Submit'
+          expect(work_package.reload.budget_id).to eq(budget.id)
+          expect(work_package2.reload.budget_id).to eq(budget.id)
+        end
+      end
     end
 
     context 'without permission' do
@@ -172,4 +183,3 @@ describe 'Bulk update work packages through Rails view', js: true do
     end
   end
 end
-# rubocop:enable RSpec/MultipleMemoizedHelpers
