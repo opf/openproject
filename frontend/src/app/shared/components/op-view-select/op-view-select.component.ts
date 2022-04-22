@@ -121,23 +121,22 @@ export class ViewSelectComponent extends UntilDestroyedMixin implements OnInit {
       .onActivate(...this.menuItems)
       .subscribe(() => this.initializeAutocomplete());
 
-    this.views$ = combineLatest(
+    this.views$ = combineLatest([
       this.search$,
       this.viewCategories$,
-    )
-      .pipe(
-        map(([searchText, categories]) => categories
-          .map((category) => {
-            if (ViewSelectComponent.matchesText(category.title, searchText)) {
-              return category;
-            }
+    ]).pipe(
+      map(([searchText, categories]) => categories
+        .map((category) => {
+          if (ViewSelectComponent.matchesText(category.title, searchText)) {
+            return category;
+          }
 
-            const filteredChildren = category.children
-              ?.filter((query) => ViewSelectComponent.matchesText(query.title, searchText));
-            return { title: category.title, children: filteredChildren, collapsible: true };
-          })
-          .filter((category) => category.children && category.children.length > 0)),
-      );
+          const filteredChildren = category.children
+            ?.filter((query) => ViewSelectComponent.matchesText(query.title, searchText));
+          return { title: category.title, children: filteredChildren, collapsible: true };
+        })
+        .filter((category) => category.children && category.children.length > 0)),
+    );
   }
 
   private initializeAutocomplete():void {
