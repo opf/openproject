@@ -67,6 +67,21 @@ export class AddExistingPaneComponent extends UntilDestroyedMixin implements OnI
 
   isLoading$ = new BehaviorSubject<boolean>(false);
 
+  noResultsFound$ = this.isEmpty$
+    .pipe(
+      map((resultEmpty) => {
+        if (this.searchString$.getValue().length === 0) {
+          return { showImage: true, text: this.text.empty_state };
+        }
+
+        if (resultEmpty) {
+          return { showImage: false, text: this.text.no_results };
+        }
+
+        return {};
+      }),
+    );
+
   currentWorkPackages$ = combineLatest([
     this.calendarDrag.draggableWorkPackages$,
     this.querySpace.results.values$(),
@@ -201,14 +216,6 @@ export class AddExistingPaneComponent extends UntilDestroyedMixin implements OnI
       `${splitViewRoute(this.$state)}.tabs`,
       { workPackageId: event.workPackageId, tabIdentifier: 'overview' },
     );
-  }
-
-  searchStringEmpty():boolean {
-    return this.searchString$.getValue().length === 0;
-  }
-
-  noResultsText():string {
-    return this.searchStringEmpty() ? this.text.empty_state : this.text.no_results;
   }
 
   private addExistingFilters(filters:ApiV3FilterBuilder) {
