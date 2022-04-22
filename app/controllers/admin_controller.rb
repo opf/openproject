@@ -38,9 +38,14 @@ class AdminController < ApplicationController
   menu_item :admin_overview, only: [:index]
 
   def index
-    @menu_nodes = Redmine::MenuManager.items(:admin_menu).children
-    @menu_nodes.delete_if { |node| node.name === :admin_overview }
-    @menu_nodes.delete_if { |node| node.condition && !node.condition.call }
+    @menu_nodes = Redmine::MenuManager.items(:admin_menu).children.reject do |node|
+      name = node.name
+      condition = node.condition
+
+      name === :admin_overview ||
+        (condition && !condition.call) ||
+        hidden_admin_menu_items.include?(name.to_s)
+    end
 
     if @menu_nodes.count == 1
       redirect_to @menu_nodes.first.url
@@ -71,7 +76,7 @@ class AdminController < ApplicationController
 
   def force_user_language
     available_languages = Setting.find_by(name: 'available_languages').value
-    User.where(['language not in (?)', available_languages]).each do |u|
+    User.where.not(language: available_languages).each do |u|
       u.language = Setting.default_language
       u.save
     end
@@ -109,14 +114,18 @@ class AdminController < ApplicationController
 
   private
 
+  def hidden_admin_menu_items
+    (OpenProject::Configuration.hidden_menu_items[:admin_menu.to_s] || [])
+  end
+
   def plaintext_extraction_checks
     if OpenProject::Database.allows_tsv?
       [
         [:'extraction.available.pdftotext', Plaintext::PdfHandler.available?],
-        [:'extraction.available.unrtf',     Plaintext::RtfHandler.available?],
-        [:'extraction.available.catdoc',    Plaintext::DocHandler.available?],
-        [:'extraction.available.xls2csv',   Plaintext::XlsHandler.available?],
-        [:'extraction.available.catppt',    Plaintext::PptHandler.available?],
+        [:'extraction.available.unrtf', Plaintext::RtfHandler.available?],
+        [:'extraction.available.catdoc', Plaintext::DocHandler.available?],
+        [:'extraction.available.xls2csv', Plaintext::XlsHandler.available?],
+        [:'extraction.available.catppt', Plaintext::PptHandler.available?],
         [:'extraction.available.tesseract', Plaintext::ImageHandler.available?]
       ]
     else
