@@ -55,7 +55,7 @@ pt:
         alternative-color: "Cor de destaque forte, normalmente usada para o botão mais importante na tela."
         content-link-color: "Cor da fonte da maioria dos links."
         primary-color: "Cor principal."
-        primary-color-dark: "Normalmente é uma versão mais escura da cor principal, usada para efeitos de focalizar."
+        primary-color-dark: "Normalmente, uma versão mais escura da cor principal usada para efeitos de foco."
         header-item-bg-hover-color: "Cor de fundo dos itens clicáveis do cabeçalho ao passar o mouse sobre eles."
         header-item-font-color: "Cor da fonte dos itens clicáveis do cabeçalho."
         header-item-font-hover-color: "Cor da fonte dos itens clicáveis do cabeçalho ao passar o mouse sobre eles."
@@ -76,11 +76,11 @@ pt:
       buttons:
         upgrade: "Atualizar agora"
         contact: "Contate-nos para uma demonstração"
-      enterprise_info_html: "é uma Enterprise <strong class='icon-medal'></strong> recurso."
+      enterprise_info_html: "é um recurso Enterprise <strong class='icon-medal'></strong>."
       upgrade_info: "Por favor, faça o upgrade para um plano pago para ativar e começar a usá-lo em sua equipe."
     journal_aggregation:
       explanation:
-        text: "As ações individuais de um usuário (por exemplo, atualizar um pacote de trabalho duas vezes) são agregadas em uma única ação se a diferença de idade for menor que o intervalo de tempo especificado. Eles serão exibidos como uma única ação dentro do aplicativo. Isso também atrasará as notificações na mesma quantidade de tempo, reduzindo o número de e-mails enviados e também afetará o atraso de %{webhook_link}."
+        text: "As ações individuais de um usuário (por exemplo, atualizar um pacote de trabalho duas vezes) são agregadas em uma única ação se o intervalo de tempo for menor que o intervalo especificado. Eles serão exibidos como uma única ação dentro do aplicativo. Isso também atrasará as notificações no mesmo intervalo de tempo, reduzindo o número de e-mails enviados e também afetará o atraso de %{webhook_link}."
         link: "webhook"
   announcements:
     show_until: Mostrar até
@@ -268,7 +268,7 @@ pt:
       irreversible: "Esta ação é irreversível"
       confirmation: "Digite o nome de usuário do espaço reservado %{name} para confirmar a exclusão."
     upsale:
-      title: Usuários reservados
+      title: Usuários de espaço reservado
       description: >
         Existem vários cenários em que você deseja atribuir trabalho a pessoas que não são membros do seu projeto. Pode ser simplesmente que você ainda precise contratar a pessoa certa para o trabalho. Ou você não quer dar acesso a essas informações do projeto, mas ainda quer acompanhar as tarefas atribuídas a essa pessoa.
   prioritiies:
@@ -325,8 +325,8 @@ pt:
       other: '%{count} pacotes de trabalho descendentes'
     bulk:
       could_not_be_saved: "Os seguintes pacotes de trabalho não puderam ser salvos:"
-      none_could_be_saved: "Nenhum dos pacotes de trabalho %{total} pode ser atualizado."
-      x_out_of_y_could_be_saved: "%{failing} dos pacotes de trabalho %{total} não puderam ser atualizados enquanto %{success} podia."
+      none_could_be_saved: "Nenhum dos %{total} pacotes de trabalho pode ser atualizado."
+      x_out_of_y_could_be_saved: "%{failing} dos %{total} pacotes de trabalho não puderam ser atualizados enquanto %{success} foram atualizados."
       selected_because_descendants: "Enquanto %{selected} pacotes de trabalho são selecionados, no total de %{total} pacotes de trabalho são afetados, o que inclui descendentes."
       descendant: "descendente de selecionados"
     move:
@@ -368,7 +368,7 @@ pt:
         other: "Digite o nome de usuário %{name} para validar a exclusão. Depois de enviado, você receberá uma solicitação de confirmação da sua senha."
         self: "Digite seu nome de usuário %{name} para validar a exclusão. Depois de enviado, você receberá uma solicitação de confirmação da sua senha."
     error_inactive_activation_by_mail: >
-      Sua conta ainda não foi ativada. Para ativar sua conta, clique no link que foi enviado por e-mail à você.
+      Sua conta ainda não foi ativada. Para ativar sua conta, clique no link que foi enviado por e-mail a você.
     error_inactive_manual_activation: >
       Sua conta ainda não foi ativada. Por favor, espere um administrador ativar sua conta.
     error_self_registration_disabled: >
@@ -455,8 +455,8 @@ pt:
         work_packages: "Pacotes de Trabalho"
         templated: 'Projeto modelo'
       projects/status:
-        code: 'Status'
-        explanation: 'Descrição do estado'
+        code: 'Situação'
+        explanation: 'Descrição da situação'
         codes:
           not_started: 'Não iniciado'
           on_track: 'Sob controle'
@@ -683,7 +683,7 @@ pt:
               invalid: "Coluna de consulta inválida: %{value}"
               format: "%{message}"
             sort_criteria:
-              invalid: "Não é possível ordenar por coluna: %{value}"
+              invalid: "Não é possível ordenar pela coluna: %{value}"
               format: "%{message}"
           group_by_hierarchies_exclusive: "é mutuamente exclusivo com o agrupamento por '%{group_by}'. Você não pode ativar os dois."
           filters:
@@ -776,7 +776,7 @@ pt:
               special: "carácter especial (ex.: '%')"
               reused:
                 one: "foi usada antes. Por favor, escolha uma que seja diferente da sua última."
-                other: "foi usada antes. Por favor, escolha uma que seja diferente das suas últimas %{count}."
+                other: "foi usada antes. Por favor, escolha uma que seja diferente das suas %{count} últimas."
               match:
                 confirm: "Confirme a nova senha."
                 description: "'Confirmação de senha' deve coincidir com a entrada no campo 'nova senha'."
@@ -905,8 +905,8 @@ pt:
     reset_token:
       action_create: Criar
       action_reset: Reiniciar
-      heading_reset: "Redefinir token de backup"
-      heading_create: "Criar token de backup"
+      heading_reset: "Redefinir token de cópia de segurança"
+      heading_create: "Criar token de cópia de segurança"
       implications: >
         Habilitar backups permitirá que qualquer usuário com as permissões necessárias e este token de backup baixe um backup contendo todos os dados desta instalação do OpenProject. Isso inclui os dados de todos os outros usuários.
       info: >
@@ -958,7 +958,7 @@ pt:
   button_generate: "Gerar"
   button_list: "Lista"
   button_lock: "Bloquear"
-  button_login: "Fazer login"
+  button_login: "Iniciar sessão"
   button_move: "Mover"
   button_move_and_follow: "Mover e seguir"
   button_print: "Imprimir"
@@ -1063,7 +1063,7 @@ pt:
       - "Fevereiro"
       - "Março"
       - "Abril"
-      - "Mai"
+      - "Maio"
       - "Junho"
       - "Julho"
       - "Agosto"
@@ -1201,7 +1201,7 @@ pt:
   description_toc_toggle: "Mostrar/Ocultar tabela de conteúdos"
   description_wiki_subpages_reassign: "Escolha a nova página pai"
   #Text direction: Left-to-Right (ltr) or Right-to-Left (rtl)
-  direction: ltr
+  direction: da esquerda para a direita
   ee:
     upsale:
       form_configuration:
@@ -1595,7 +1595,7 @@ pt:
   label_includes: 'inclui'
   label_index_by_date: "Índice por data"
   label_index_by_title: "Índice por título"
-  label_information: "Informações"
+  label_information: "Informação"
   label_information_plural: "Informações"
   label_integer: "Número inteiro"
   label_internal: "Interno"
@@ -1641,8 +1641,8 @@ pt:
   lable_membership_added: 'Membro adicionado'
   lable_membership_updated: 'Membro atualizado'
   label_menu_badge:
-    pre_alpha: 'pre-alpha'
-    alpha: 'Alfa'
+    pre_alpha: 'pré-alfa'
+    alpha: 'alfa'
     beta: 'beta'
   label_menu_item_name: "Nome do item de menu"
   label_message: "Mensagem"
@@ -1808,7 +1808,7 @@ pt:
   label_start_to_end: "início ao fim"
   label_start_to_start: "início à início"
   label_statistics: "Estatísticas"
-  label_status: "Status"
+  label_status: "Situação"
   label_stay_logged_in: "Permanecer conectado"
   label_storage_free_space: "Espaço em disco restante"
   label_storage_used_space: "Espaço em disco utilizado"
@@ -1846,7 +1846,7 @@ pt:
   label_used_by_types: "Utilizado por tipos"
   label_used_in_projects: "Utilizado em projetos"
   label_user: "Usuário"
-  label_user_and_permission: "Usuários e Permissões"
+  label_user_and_permission: "Usuários e permissões"
   label_user_named: "Usuário %{name}"
   label_user_activity: "atividade do %{value}"
   label_user_anonymous: "Anônimo"
@@ -2233,7 +2233,7 @@ pt:
       archived: "Arquivado"
   project_module_activity: "Atividade"
   project_module_forums: "Fóruns"
-  project_module_work_package_tracking: "Controle de pacote de trabalho"
+  project_module_work_package_tracking: "Acompanhamento de pacote de trabalho"
   project_module_news: "Notícias"
   project_module_repository: "Repositório"
   project_module_wiki: "Wiki"
@@ -2316,7 +2316,7 @@ pt:
       managed_title: "Repositório Git integrado ao OpenProject"
       managed_url: "URL gerenciado"
       path: "Caminho para o repositório Git"
-      path_encoding: "Codificação"
+      path_encoding: "Codificação do caminho"
     go_to_revision: "Ir para revisão"
     managed_remote: "Repositórios gerenciados deste fornecedor são manipulados remotamente."
     managed_remote_note: "Informações sobre o URL e o caminho deste repositório não estão disponíveis antes da sua criação."
@@ -2360,9 +2360,9 @@ pt:
   setting_apiv3_cors_origins: "Cross-Origin Resource Sharing (CORS) permitidos pela API V3"
   setting_apiv3_cors_origins_text_html: >
     Se o CORS estiver habilitado, essas são as origens que têm permissão para acessar a API OpenProject. <br/>Por favor, verifique a <a href="%{origin_link}" target="_blank">documentação na header da Origin </a> sobre como especificar os valores esperados.
-  setting_apiv3_max_page_size: "Tamanho Máximo da página de API"
+  setting_apiv3_max_page_size: "Tamanho máximo da página de API"
   setting_apiv3_max_page_instructions_html: >
-    Defina o tamanho máximo de página com o qual a API responderá. Não será possível realizar solicitações de API que retornem mais valores em uma única página. <br/> <strong>Aviso:</strong> Só altere este valor se tiver certeza do motivo de sua necessidade. Definir um valor alto resultará em impactos significativos no desempenho, enquanto um valor menor que as opções por página causará erros nas visualizações paginadas.
+    Defina o tamanho máximo de página com o qual a API responderá. Não será possível realizar solicitações de API que retornem mais valores em uma única página. <br/> <strong>Aviso:</strong> Somente altere este valor se tiver certeza do motivo de sua necessidade. Definir um valor alto resultará em impactos significativos no desempenho, enquanto um valor menor que as opções por página causará erros nas visualizações paginadas.
   setting_apiv3_docs: "Documentação"
   setting_apiv3_docs_enabled: "Habilitar página de documentos"
   setting_apiv3_docs_enabled_instructions_html: >
@@ -2629,7 +2629,7 @@ pt:
       time: "%I:%M %p"
     pm: "pm"
   timeframe:
-    show: "Mostrar calendário"
+    show: "Mostrar intervalo de tempo"
     end: "para"
     start: "de"
   timelines:
@@ -2684,7 +2684,7 @@ pt:
         type: "Tipo"
         due_date: "Data de término"
         name: "Nome"
-        status: "Status"
+        status: "Situação"
         start_date: "Data de início"
       columns: "Colunas"
       comparisons: "Comparações"
@@ -2895,7 +2895,7 @@ pt:
         select: "A seleção requisitada de %{invalid} não é suportada. As seleções suportadas são %{supported}."
       invalid_user_status_transition: "A situação da conta do usuário atual não permite esta operação."
       missing_content_type: "não especificado"
-      missing_property: "Faltando propriedade '%{property}' '."
+      missing_property: "Propriedade ausente '%{property}' '."
       missing_request_body: "Não havia corpo da requisição."
       missing_or_malformed_parameter: "O parâmetro de consulta '%{parameter}' está ausente ou malformado."
       multipart_body_error: "O corpo da solicitação não continha as partes multipart esperadas."
@@ -2919,7 +2919,7 @@ pt:
       schema: 'Esquema'
     undisclosed:
       parent: Não revelado - O primário selecionado está invisível devido à falta de permissões.
-      ancestor: Não divulgado - O ancestral é invisível devido à falta de permissões.
+      ancestor: Não revelado - O ancestral está invisível devido à falta de permissões.
   doorkeeper:
     pre_authorization:
       status: 'Pré-autorização'
@@ -2955,7 +2955,7 @@ pt:
           expired: "O token de acesso expirou"
           unknown: "O token de acesso é inválido"
         revoke:
-          unauthorized: "Você não está autorizado a revogar este símbolo."
+          unauthorized: "Você não está autorizado a revogar este token."
         forbidden_token:
           missing_scope: 'O acesso a este recurso requer o escopo "%{oauth_scopes}".'
   unsupported_browser:
