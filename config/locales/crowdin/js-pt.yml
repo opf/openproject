@@ -290,11 +290,11 @@ pt:
             standard:
               learn_about_link: https://www.openproject.org/openproject-12-1-release
               new_features_html: >
-                A versão contém vários novos recursos e melhorias: <br> <ul class="%{list_styling_class}"> <li>Um <b>novo módulo de planejamento de equipe</b> (recurso Enterprise) permite atribuir tarefas visualmente à equipe membros para obter uma visão geral de quem está trabalhando e onde.</li> <li>Estamos <b>lançando os quadros ágeis básicos</b> para a versão da Comunidade.</li> <li>O <b>" A opção de filtro "Incluir projetos"</b> facilita a adição de projetos diferentes às suas visualizações, como pacotes de trabalho, calendários e planejadores de equipe.</li> <li>Adicionamos <b>uma nova guia "Arquivos" </b> nos detalhes do pacote de trabalho para ter todas as informações possíveis anexadas a um pacote de trabalho juntas.</li> <li>Criamos <b>funções globais para grupos</b> para atribuir essas funções a grupos e criar superusuário grupos.</li> <li>O status do projeto recebeu mais opções para escolher.</li> </ul>
+                A versão contém vários novos recursos e melhorias: <br> <ul class="%{list_styling_class}"> <li>Um <b>novo módulo de planejamento de equipe</b> (recurso Enterprise) permite atribuir tarefas visualmente a membros da equipe obtendo uma visão geral de quem está trabalhando e onde.</li> <li>Estamos <b>lançando os quadros ágeis básicos</b> para a versão da comunidade.</li> <li>A opção de <b>filtro "Incluir projetos"</b> facilita a adição de projetos diferentes às suas visualizações, como pacotes de trabalho, calendários e planejadores de equipe.</li> <li>Adicionamos <b>uma nova aba "Arquivos" </b> nos detalhes do pacote de trabalho para ter todas as informações possíveis anexadas a um pacote de trabalho juntas.</li> <li>Criamos <b>papéis globais para grupos</b> para atribuir esses papéis a grupos e criar grupos de superusuários.</li> <li>A situação do projeto recebeu mais opções de escolha.</li> </ul>
             bim:
               learn_about_link: https://www.openproject.org/openproject-12-1-release
               new_features_html: >
-                A versão contém vários novos recursos e melhorias: <br> <ul class="%{list_styling_class}"> <li>No módulo BCF, agora você pode salvar seus filtros, colunas etc. do pacote de trabalho selecionado como <b>visualizações</b> b> e compartilhe-as com os membros de sua equipe.</li> <li>Um <b>novo módulo de planejamento de equipe</b> (recurso Enterprise) permite atribuir tarefas visualmente aos membros da equipe para obter uma visão geral de quem está trabalhando sobre o quê.</li> <li>Estamos <b>lançando os quadros ágeis básicos</b> para a versão Community.</li> <li>A opção <b>"Incluir projetos"</b> facilita a adição de projetos diferentes às suas visualizações, como pacotes de trabalho, calendários e planejadores de equipe.</li> <li>Adicionamos <b>uma nova guia "Arquivos"</b> nos detalhes do pacote de trabalho para ter todas as informações possíveis anexadas a um pacote de trabalho juntas.</li> <li>Criamos <b>funções globais para grupos</b> para atribuir essas funções a grupos e criar grupos de superusuários.</li> <li> O status do projeto recebeu mais opções para escolher.</li> </ul>
+                A versão contém vários novos recursos e melhorias: <br> <ul class="%{list_styling_class}"> <li>No módulo BCF, agora você pode salvar seus filtros, colunas, etc. do pacote de trabalho selecionado como <b>visualizações</b> e compartilhá-las com os membros de sua equipe.</li> <li>Um <b>novo módulo de planejamento de equipe</b> (recurso Enterprise) permite atribuir tarefas visualmente aos membros da equipe para obter uma visão geral de quem está trabalhando sobre o quê.</li> <li>Estamos <b>lançando os quadros ágeis básicos</b> para a versão Community.</li> <li>A opção <b>"Incluir projetos"</b> facilita a adição de projetos diferentes às suas visualizações, como pacotes de trabalho, calendários e planejadores de equipe.</li> <li>Adicionamos <b>uma nova aba "Arquivos"</b> nos detalhes do pacote de trabalho para ter todas as informações possíveis anexadas a um pacote de trabalho juntas.</li> <li>Criamos <b>papéis globais para grupos</b> para atribuir esses papéis a grupos e criar grupos de superusuários.</li> <li>A situação do projeto recebeu mais opções para escolher.</li> </ul>
     label_activate: "Ativar"
     label_assignee: 'Atribuído para'
     label_add_column_after: "Adicionar coluna depois"
@@ -414,7 +414,7 @@ pt:
     label_show_attributes: "Mostrar todos os atributos"
     label_show_in_menu: "Mostrar visualização no menu"
     label_sort_by: "Ordenar por"
-    label_sorted_by: "ordenados por"
+    label_sorted_by: "ordenado por"
     label_sort_higher: "Mover para cima"
     label_sort_lower: "Mover para baixo"
     label_sorting: "Ordenação"
@@ -433,10 +433,10 @@ pt:
     label_user_plural: "Usuários"
     label_activity_show_only_comments: "Mostrar somente as atividades com comentários"
     label_activity_show_all: "Mostrar todas as atividades"
-    label_total_progress: "%{percent}% Total de progresso"
+    label_total_progress: "%{percent}% de progresso total"
     label_total_amount: "Total: %{amount}"
     label_updated_on: "atualizado em"
-    label_value_derived_from_children: "(valor derivado de crianças)"
+    label_value_derived_from_children: "(valor derivado dos filhos)"
     label_children_derived_duration: "Duração derivada dos filhos do pacote de trabalho"
     label_warning: "Aviso"
     label_work_package: "Pacote de trabalho"
@@ -501,12 +501,12 @@ pt:
           overview: 'Selecione <b>quadros</b> para mudar a visão e gerenciar seu projeto usando a exibição de quadros ágeis.'
           lists_kanban: 'Aqui você pode criar várias listas (colunas) dentro do seu painel. Este recurso permite que você crie um <b>Quadro Kanban</b>, por exemplo.'
           lists_basic: 'Aqui você pode criar várias listas (colunas) em seu quadro ágil.'
-          add: 'Clique no ícone mais (+) para <b>criar um novo cartão</b> ou <b>adicionar um cartão existente</b> à lista no painel.'
+          add: 'Clique no ícone mais (+) para <b>criar um novo cartão</b> ou <b>adicionar um cartão existente</b> à lista no quadro.'
           drag: 'Arraste e solte suas cartas dentro de uma determinada lista para reordená-las, ou para movê-las para outra lista. <br> Você pode clicar no ícone informativo (i) no canto superior direito ou clicar duas vezes em um cartão para abrir seus detalhes.'
         wp:
           toggler: "Agora vamos dar uma olhada na seção <b>pacote de trabalho</b> , que permitirá que você tenha uma visão mais detalhada de seu trabalho."
-          list: 'Esta visão geral do pacote <b>de trabalho</b> fornece uma lista de todo o trabalho em seu projeto, como tarefas, marcos, fases e muito mais. <br> Os Pacotes de trabalho podem ser criados e editados diretamente deste panorama. Para acessar os detalhes de um determinado pacote de trabalho, basta clicar duas vezes na sua linha.'
-          full_view: 'O panorama <b>com os detalhes do pacote de trabalho</b> fornece todas as informações relevantes referentes a um determinado pacote de trabalho, como descrição, status, prioridade, atividades, dependências e comentários.'
+          list: 'Esta visão geral do pacote <b>de trabalho</b> fornece uma lista de todo o trabalho em seu projeto, como tarefas, marcos, fases e muito mais. <br> Os pacotes de trabalho podem ser criados e editados diretamente nesta visualização. Para acessar os detalhes de um determinado pacote de trabalho, basta clicar duas vezes na sua linha.'
+          full_view: 'A visualização com os <b>detalhes do pacote de trabalho</b> fornece todas as informações relevantes referentes a um determinado pacote de trabalho, como descrição, situação, prioridade, atividades, dependências e comentários.'
           back_button: 'Use a seta de retorno no canto superior esquerdo para sair e retornar à lista de pacotes de trabalho.'
           create_button: 'O botão <b>+ Criar</b> adicionará um novo pacote de trabalho ao seu projeto.'
           timeline_button: 'Você pode ativar a exibição de <b>gráfico de Gantt</b> para criar uma linha do tempo para o seu projeto.'
@@ -516,7 +516,7 @@ pt:
           calendar: 'O quadro de planejamento semanal ou quinzenal exibe todos os pacotes de trabalho atribuídos aos membros de sua equipe.'
           add_assignee: 'Para começar, adicione responsáveis ao planejador de equipe.'
           add_existing: 'Pesquise pacotes de trabalho existentes e arraste-os para o planejador de equipe para atribuí-los instantaneamente a um membro da equipe e definir as datas de início e término.'
-          card: 'Arraste os pacotes de trabalho horizontalmente para movê-los para trás ou para frente no tempo, arraste as bordas para alterar as datas de início e término e até arraste-os verticalmente para uma linha diferente para atribuí-los a outro membro.'
+          card: 'Arraste os pacotes de trabalho horizontalmente para movê-los para trás ou para frente no tempo, arraste as bordas para alterar as datas de início e término e arraste-os verticalmente para uma linha diferente para atribuí-los a outro membro.'
     notifications:
       title: "Notificações"
       no_unread: "Nenhuma notificação não lida"
@@ -564,7 +564,7 @@ pt:
           involved:
             title: 'Atribuído a mim ou responsável'
             description: 'Receba notificações para todas as atividades nos pacotes de trabalho atribuídos a mim ou de minha responsabilidade'
-          watched: 'Atualizações em itens assistidos'
+          watched: 'Atualizações em itens observados'
           work_package_commented: 'Todos os novos comentários'
           work_package_created: 'Novos pacotes de trabalho'
           work_package_processed: 'Todas as mudanças de situação'
@@ -649,8 +649,8 @@ pt:
         reset_title: "Voltar para a configuração padrão do formulário"
         confirm_reset: >
           Aviso: Tem certeza de que deseja redefinir a configuração de formulário? Isto irá redefinir os atributos para o grupo padrão e desativar TODOS os campos personalizados.
-        upgrade_to_ee: "Faça o upgrade para a Edição local Empresarial"
-        upgrade_to_ee_text: "Uau! Se você precisa deste recurso... você é um super profissional! Você se importaria de apoiar desenvolvedores de código aberto, tornando-se um cliente da versão Enterprise Edition?"
+        upgrade_to_ee: "Atualizar para a versão Enterprise Edition"
+        upgrade_to_ee_text: "Uau! Se você precisa desse recurso, você é um super profissional! Você se importaria de apoiar desenvolvedores de código aberto tornando-se um cliente Enterprise Edition ?"
         more_information: "Mais informações"
         nevermind: "Deixa pra lá"
       edit:
@@ -665,14 +665,14 @@ pt:
       comment: 'Comentário'
       duration: 'Duração'
       spent_on: 'Data'
-      hours: 'horas'
+      hours: 'Horas'
       title: 'Registro de tempo'
     two_factor_authentication:
       label_two_factor_authentication: 'Autenticação de dois fatores'
     watchers:
       label_loading: carregando observadores...
       label_error_loading: Ocorreu um erro ao carregar os observadores
-      label_search_watchers: Pesquisar observadores
+      label_search_watchers: Procurar observadores
       label_add: Adicionar observadores
       label_discard: Descartar seleção
       typeahead_placeholder: Procurar possíveis observadores
@@ -799,7 +799,7 @@ pt:
         months: "Meses"
         quarters: "Trimestres"
         years: "Anos"
-        slider: "Deslizar"
+        slider: "Controle deslizante de zoom"
         description: >
           Selecione o nível de zoom inicial que deve ser exibido quando o zoom automático não estiver disponível.
     tl_toolbar:
@@ -910,7 +910,7 @@ pt:
         created_by_me: "Criado por mim"
         assigned_to_me: "Atribuído a mim"
         recently_created: "Criado recentemente"
-        all_open: "Tudo aberto"
+        all_open: "Todos abertos"
         summary: "Sumário"
       jump_marks:
         pagination: "Pular para a tabela de paginação"
@@ -942,7 +942,7 @@ pt:
         public_text: >
           Publicar esta visualização, permitindo que outros usuários acessem sua visualização. Usuários com a permissão 'Gerenciar visualizações públicas' podem modificar ou remover a consulta pública. Isso não afeta a visibilidade dos resultados do pacote de trabalho nessa visualização e dependendo de suas permissões, os usuários podem ver resultados diferentes.
         errors:
-          unretrievable_query: "Não foi possível recuperar a visualização do URL"
+          unretrievable_query: "Não foi possível recuperar a visualização da URL"
           not_found: "Esta visão não existe"
           duplicate_query_title: "O nome desta visão já existe. Modificar assim mesmo?"
         text_no_results: "Nenhuma visão correspondente foi encontrada."
@@ -1039,11 +1039,11 @@ pt:
         confirm_deletion_children: "Tenho conhecimento que TODOS os descendentes dos pacotes de trabalho listados serão removidos recursivamente."
         deletes_children: "Todos os pacotes de trabalho filhos e seus descendentes também serão excluídos recursivamente."
       destroy_time_entry:
-        title: "Confirme a exclusão da entrada de tempo"
+        title: "Confirmar exclusão da entrada de tempo"
         text: "Você tem certeza que deseja excluir a seguinte entrada de tempo?"
     notice_no_results_to_display: "Nenhum resultado visível para exibir."
     notice_successful_create: "Criado com sucesso."
-    notice_successful_delete: "Exclusão bem sucedida."
+    notice_successful_delete: "Excluído com sucesso"
     notice_successful_update: "Atualizado com sucesso."
     notice_job_started: "trabalho iniciado."
     notice_bad_request: "Requisição Inválida."
@@ -1146,21 +1146,21 @@ pt:
           placeholder: 'Selecione um espaço reservado'
           group: 'Selecione um grupo'
       role:
-        label: 'Função em %{project}'
-        no_roles_found: 'Nenhuma função encontrada'
-        description: 'Esta é uma função que %{principal} receberá quando se juntar ao projeto. A função define que ações  que ela pode realizar e que informações pode visualizar. <a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Aprenda mais sobre funções e permissões. </a>'
-        required: 'Selecione uma função'
+        label: 'Papel em %{project}'
+        no_roles_found: 'Nenhum papel encontrado'
+        description: 'Este é um papel que %{principal} receberá quando se juntar ao projeto. O papel define que ações ela pode realizar e que informações pode visualizar. <a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Aprenda mais sobre papéis e permissões. </a>'
+        required: 'Selecione um papel'
         next_button: 'Próxima'
       message:
         label: 'Mensagem de convite'
         description: 'Enviaremos um e-mail para %{principal}, no qual você pode adicionar uma mensagem pessoal. Uma explicação para o convite pode ajudar, ou talvez algumas informações sobre o projeto para que ele/ela possa começar.'
         next_button: 'Revisar convite'
       summary:
-        next_button: 'Enviar Convite'
+        next_button: 'Enviar convite'
       success:
         title: '%{principal} foi convidado!'
         description:
-          user: 'O usuário agora pode registrar para acessar %{project}. Enquanto isso, você já pode planejar com este usuário e atribuir pacotes de trabalho por exemplo.'
+          user: 'O usuário agora pode entrar para acessar %{project}. Enquanto isso, você já pode planejar com este usuário e atribuir pacotes de trabalho por exemplo.'
           placeholder: 'O espaço reservado agora pode ser usado em %{project}. Enquanto isso, você já pode planejar com este usuário e atribuir pacotes de trabalho por exemplo.'
           group: 'O grupo agora faz parte de %{project}. Enquanto isso, você já pode planejar com este grupo e atribuir pacotes de trabalho por exemplo.'
         next_button: 'Continuar'
@@ -1171,7 +1171,7 @@ pt:
       apply: 'Aplicar'
       selected_filter:
         all: 'Todos os projetos'
-        selected: 'Somente a seleção'
+        selected: 'Somente selecionados'
       search_placeholder: 'Pesquisar projetos...'
       include_subprojects: 'Incluir todos os subprojetos'
       tooltip:
