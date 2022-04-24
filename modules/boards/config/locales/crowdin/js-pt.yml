@@ -59,8 +59,8 @@ pt:
           subproject: subprojeto
           subtasks: pai-filho
         board_type_title:
-          assignee: Atribuição
-          status: Status
+          assignee: Atribuído para
+          status: Situação
           version: Versão
           subproject: Subprojeto
           subtasks: Pai-Filho
