@@ -391,7 +391,7 @@ you can access both from inside a VM with nat/bridged networking as follows:
 
 ```bash
 # Start ng serve middleware binding to all interfaces
-npm run serve-public
+npm run serve:public
 
 # Start your openproject server with the CLI proxy configuration set
 OPENPROJECT_CLI_PROXY='http://<your local ip>:4200' ./bin/rails s -b 0.0.0.0 -p 3000
