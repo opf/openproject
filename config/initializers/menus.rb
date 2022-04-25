@@ -100,7 +100,11 @@ Redmine::MenuManager.map :account_menu do |menu|
             if: Proc.new { User.current.logged? }
   menu.push :administration,
             { controller: '/admin', action: 'index' },
-            if: Proc.new { User.current.allowed_to_globally?(:manage_placeholder_user) || User.current.allowed_to_globally?(:manage_user) }
+            if: Proc.new {
+              User.current.allowed_to_globally?(:create_backup) ||
+                User.current.allowed_to_globally?(:manage_placeholder_user) ||
+                User.current.allowed_to_globally?(:manage_user)
+            }
   menu.push :logout,
             :signout_path,
             if: Proc.new { User.current.logged? }
@@ -364,7 +368,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
 
   menu.push :backups,
             { controller: '/admin/backups', action: 'show' },
-            if: Proc.new { OpenProject::Configuration.backup_enabled? && User.current.admin? },
+            if: Proc.new { OpenProject::Configuration.backup_enabled? && User.current.allowed_to_globally?(Backup.permission) },
             caption: :label_backup,
             last: true,
             icon: 'icon2 icon-save'
