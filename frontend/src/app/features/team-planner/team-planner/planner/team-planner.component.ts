@@ -168,7 +168,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     .pipe(
       this.untilDestroyed(),
       map((queryFilters) => {
-        const assigneeFilter = queryFilters.find((queryFilter) => queryFilter._type === 'AssigneeQueryFilter');
+        const assigneeFilter = queryFilters.find((queryFilter) => queryFilter.id === 'assignee');
         return ((assigneeFilter?.values || []) as HalResource[]).map((p) => p.id);
       }),
     );
@@ -181,13 +181,13 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
         const filters:ApiV3ListFilter[] = [
           ['action', '=', ['work_packages/assigned']],
         ];
-        const assigneeFilter = queryFilters.find((queryFilter) => queryFilter._type === 'AssigneeQueryFilter');
+        const assigneeFilter = queryFilters.find((queryFilter) => queryFilter.id === 'assignee');
         if (assigneeFilter) {
           const values = (assigneeFilter.values as HalResource[]).map((el:HalResource) => el.id as string);
           filters.push(['principal', '=', values]);
         }
 
-        const projectFilter = queryFilters.find((queryFilter) => queryFilter._type === 'ProjectQueryFilter');
+        const projectFilter = queryFilters.find((queryFilter) => queryFilter.id === 'project');
         if (projectFilter) {
           const values = (projectFilter.values as HalResource[]).map((el:HalResource) => `p${el.id as string}`);
           filters.push(['context', '=', values]);
