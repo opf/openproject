@@ -143,7 +143,7 @@ class Project < ApplicationRecord
     where(["#{Project.table_name}.id IN (SELECT em.project_id FROM #{EnabledModule.table_name} em WHERE em.name=?)", mod.to_s])
   }
   scope :public_projects, -> { where(public: true) }
-  scope :visible, ->(user = User.current) { merge(Project.visible_by(user)) }
+  scope :visible, ->(user = User.current) { where(id: Project.visible_by(user)) }
   scope :newest, -> { order(created_at: :desc) }
   scope :active, -> { where(active: true) }
 
