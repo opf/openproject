@@ -105,16 +105,16 @@ class Admin::BackupsController < ApplicationController
 
   def token_reset_flash_message(token)
     [
-      t('my.access_token.notice_reset_token', type: 'Backup').html_safe,
+      t('my.access_token.notice_reset_token', type: 'Backup'),
       content_tag(:strong, token.plain_value),
       t('my.access_token.token_value_warning')
     ]
   end
 
-  def token_reset_failed!(key)
-    Rails.logger.error "Failed to reset user ##{current_user.id}'s Backup key: #{key}"
+  def token_reset_failed!(error)
+    Rails.logger.error "Failed to reset user ##{current_user.id}'s Backup token: #{error}"
 
-    flash[:error] = t('my.access_token.failed_to_reset_token', error: key.message)
+    flash[:error] = t('my.access_token.failed_to_reset_token', error: error.message)
   end
 
   def may_include_attachments?
