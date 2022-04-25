@@ -119,9 +119,9 @@ cs:
         OpenProject will always filter for the login attribute provided by the user to identify the record. If you provide a filter here,
         it will be concatenated with an AND. By default, a catch-all (objectClass=*) will be used as a filter.
       onthefly_register: |
-        If you check this box, OpenProject will automatically create new users from their LDAP entries
-        when they first authenticate with OpenProject.
-        Leave this unchecked to only allow existing accounts in OpenProject to authenticate through LDAP!
+        Pokud zaškrtnete toto políčko, OpenProject automaticky vytvoří nové uživatele z jejich LDAP položek
+        při prvním ověření OpenProject.
+        Ponechte toto nezaškrtnuté pro povolení pouze existujících účtů v OpenProject pro ověření pomocí LDAP!
     connection_encryption: 'Šifrování připojení'
     system_account: 'Systémový účet'
     system_account_legend: |
@@ -895,7 +895,7 @@ cs:
     version: "Verze"
     work_package: "Pracovní balíček"
   backup:
-    failed: "Backup failed"
+    failed: "Záloha se nezdařila"
     label_backup_token: "Záložní token"
     label_create_token: "Vytvořit záložní token"
     label_delete_token: "Odstranit záložní token"
@@ -1462,7 +1462,7 @@ cs:
   label_blog: "Blog"
   label_forums_locked: "Uzamčeno"
   label_forum_new: "Nové fórum"
-  label_forum_plural: "Diskuse"
+  label_forum_plural: "Fóra"
   label_forum_sticky: "Přilepit"
   label_boolean: "Logická hodnota"
   label_branch: "Větev"
@@ -1922,7 +1922,7 @@ cs:
   label_work_package_types: "Typy pracovních balíčků"
   label_work_package_tracking: "Sledování pracovních balíčků"
   label_work_package_view_all: "Zobrazit všechny pracovní balíčky"
-  label_workflow: "Pracovní vrstva"
+  label_workflow: "Workflow"
   label_workflow_plural: "Pracovní vrstvy"
   label_workflow_summary: "Souhrn"
   label_x_closed_work_packages_abbr:
@@ -2198,7 +2198,7 @@ cs:
   permission_export_wiki_pages: "Exportovat Wiki stránky"
   permission_list_attachments: "Seznam příloh"
   permission_log_time: "Protokolovat strávený čas"
-  permission_manage_forums: "Správa fóra"
+  permission_manage_forums: "Správa fór"
   permission_manage_categories: "Spravovat kategorie pracovního balíčku"
   permission_manage_work_package_relations: "Spravovat vztahy pracovních balíčků"
   permission_manage_members: "Správa členů"
@@ -2252,7 +2252,7 @@ cs:
       are_you_sure: "Opravdu chcete archivovat projekt '%{name}'?"
       archived: "Archivováno"
   project_module_activity: "Aktivita"
-  project_module_forums: "Diskuse"
+  project_module_forums: "Fóra"
   project_module_calendar: "Kalendář"
   project_module_work_package_tracking: "Sledování pracovních balíčků"
   project_module_news: "Novinky"
@@ -2871,7 +2871,7 @@ cs:
 
   warning_bar:
     protocol_mismatch:
-      title: 'Protocol setting mismatch'
+      title: 'Neshoda nastavení protokolu'
       text_html: >
         Your application is running with its protocol setting set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! Go to <a href="%{setting_path}">System settings</a> and change the "Protocol" setting to correct this.
     hostname_mismatch:
@@ -2954,7 +2954,7 @@ cs:
         #Common error messages
         invalid_request:
           unknown: 'Požadavek chybí požadovaný parametr, obsahuje nepodporovanou hodnotu parametru nebo je jinak poškozený.'
-          missing_param: 'Missing required parameter: %{value}.'
+          missing_param: 'Chybí potřebný parametr: %{value}.'
           request_not_authorized: 'Request need to be authorized. Required parameter for authorizing request is missing or invalid.'
         invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
         unauthorized_client: 'Klient nemá oprávnění k provedení tohoto požadavku pomocí této metody.'

@@ -203,7 +203,7 @@ cs:
             label_subscriber: "Odběratel"
             label_maximum_users: "Maximální počet aktivních uživatelů"
             label_starts_at: "Začíná v"
-            label_expires_at: "Vyprší za"
+            label_expires_at: "Vyprší v"
             receive_newsletter: Chci dostávat<a target="_blank" href="%{link}">newsletter OpenProject</a>.
             taken_domain: V každé doméně může být pouze jedna aktivní zkušební verze.
             taken_email: Každý uživatel může vytvořit pouze jednu zkušební verzi.
@@ -268,7 +268,7 @@ cs:
           two: "Druhé kritérium třídění"
           three: "Třetí kritérium třídění"
       upsale_for_more: "Pro více pokročilých filtrů, se podívejte"
-      upsale_link: 'Enterprise Edition.'
+      upsale_link: 'Enterprise Edice'
     general_text_no: "ne"
     general_text_yes: "ano"
     general_text_No: "Ne"
@@ -367,7 +367,7 @@ cs:
     label_in_more_than: "za více než"
     label_incoming_emails: "Příchozí e-maily"
     label_information_plural: "Informace"
-    label_import: "Importovat"
+    label_import: "Import"
     label_latest_activity: "Poslední aktivita"
     label_last_updated_on: "Naposled aktualizováno"
     label_learn_more_link: "Více informací"
@@ -402,7 +402,7 @@ cs:
     label_visibility_settings: "Nastavení viditelnosti"
     label_quote_comment: "Citovat tento komentář"
     label_recent: "Nedávné"
-    label_reset: "Obnovit"
+    label_reset: "Reset"
     label_remove: "Odstranit"
     label_remove_column: "Odstranit sloupec"
     label_remove_columns: "Odstranit vybrané sloupce"
@@ -439,7 +439,7 @@ cs:
     label_updated_on: "aktualizováno"
     label_value_derived_from_children: "(hodnota odvozená od dětí)"
     label_children_derived_duration: "Délka trvání pracovního balíčku odvozena"
-    label_warning: "Varování"
+    label_warning: "Upozornění"
     label_work_package: "Pracovní balíček"
     label_work_package_parent: "Nadřazený pracovní balíček"
     label_work_package_plural: "Pracovní balíčky"
@@ -559,7 +559,7 @@ cs:
             title: 'Jsem @zmíněn'
             description: 'Dostat upozornění, kdykoli mě někdo kdekoli zmíní'
           involved:
-            title: 'Přiřazeno mně nebo odpovědně'
+            title: 'Přiřazeno mně nebo odpovědný'
             description: 'Přijímat oznámení pro všechny aktivity v pracovních balíčcích, pro které jsem pověřen nebo jsem zodpovědný'
           watched: 'Aktualizace u sledovaných položek'
           work_package_commented: 'Všechny nové komentáře'
@@ -577,7 +577,7 @@ cs:
         project_specific:
           title: "Nastavení upozornění pro konkrétní projekt\n"
           description: 'Toto specifické nastavení projektu přepíše výchozí nastavení výše'
-          add: 'Přidat nastavení projektu'
+          add: 'Přidat nastavení pro projekt'
           already_selected: 'Tento projekt je již vybrán'
           remove: 'Odstranit nastavení projektu'
     password_confirmation:
@@ -586,7 +586,7 @@ cs:
     pagination:
       no_other_page: "Jste na jediné stránce."
       pages:
-        next: "Přeposlat na další stránku"
+        next: "Přejít na další stránku"
         previous: "Zpět na předchozí stránku"
     placeholders:
       default: '-'
@@ -679,7 +679,7 @@ cs:
       relates: "Související s"
       duplicates: "Duplikáty"
       duplicated: "Duplikováno"
-      blocks: "Bloky"
+      blocks: "Blokuje"
       blocked: "Zablokován"
       precedes: "Je předchúdcem"
       follows: "Následuje"
@@ -705,20 +705,20 @@ cs:
       create_new: "Vytvořit nový"
       add_existing: "Přidat existující"
       add_existing_child: "Přidat existujícího potomka"
-      remove_child: "Odstranit záznam"
+      remove_child: "Odstranit potomka"
       add_new_relation: "Vytvořit nový vztah"
       add_existing_relation: "Přidat existující vztah"
       update_description: "Nastavit nebo upravit popis tohoto vztahu"
       toggle_description: "Přepnout popis relace"
-      update_relation: "Klikněte pro změnu typu relace"
-      add_follower: "Přidat sledující"
+      update_relation: "Klikněte pro změnu typu vztahu"
+      add_follower: "Přidat následující"
       add_predecessor: "Přidat předchůdce"
       remove: "Odstranit vztah"
       save: "Uložit vztah"
       abort: "Zrušit"
     relations_autocomplete:
       placeholder: "Zadejte hledaný text"
-      parent_placeholder: "Vyberte nového rodiče nebo stiskněte úniku pro zrušení."
+      parent_placeholder: "Vyberte nového rodiče nebo stiskněte ESC pro zrušení."
     autocompleter:
       placeholder: "Zadejte hledaný text"
       notFoundText: "Nenalezeny žádné položky"
@@ -786,7 +786,7 @@ cs:
       start_date: "Datum zahájení"
       tooManyProjects: "Více než %{count} projektů. Použijte prosím lepší filtr!"
       selection_mode:
-        notification: 'Kliknutím na libovolný zvýrazněný pracovní balíček vytvoříte vztah. Stiskněte úniku pro zrušení.'
+        notification: 'Kliknutím na libovolný zvýrazněný pracovní balíček vytvoříte vztah. Stiskněte ESC pro zrušení.'
       zoom:
         in: "Přiblížit"
         out: "Oddálit"
@@ -837,8 +837,8 @@ cs:
       description_options_show: "Zobrazit možnosti"
       edit_attribute: "%{attribute} - Upravit"
       key_value: "%{key}: %{value}"
-      label_enable_multi_select: "Povolit vícenásobný výběr"
-      label_disable_multi_select: "Zakázat vícenásobný výběr"
+      label_enable_multi_select: "Povolit multiselect"
+      label_disable_multi_select: "Zakázat multiselect"
       label_filter_add: "Přidat filtr"
       label_filter_by_text: "Filtrovat podle textu"
       label_options: "Možnosti"
@@ -940,7 +940,7 @@ cs:
           Publikujte toto zobrazení, umožňující ostatním uživatelům přístup k vašemu zobrazení. Uživatelé s oprávněním 'Spravovat veřejné zobrazení' mohou upravit nebo odebrat veřejný dotaz. To nemá vliv na viditelnost výsledků pracovního balíčku v tomto zobrazení a v závislosti na jejich oprávněních mohou uživatelé vidět různé výsledky.
         errors:
           unretrievable_query: "Nelze načíst zobrazení z URL"
-          not_found: "Takový pohled není"
+          not_found: "Neexistuje takové zobrazení"
           duplicate_query_title: "Název tohoto zobrazení již existuje. Chcete přesto změnit?"
         text_no_results: "Nebyly nalezeny žádné odpovídající zobrazení."
       scheduling:
@@ -953,12 +953,12 @@ cs:
         text_sort_hint: "Pomocí odkazů v záhlaví tabulky můžete seřadit, seřadit, odstranit a přidat sloupce tabulky."
         text_select_hint: "Vyberte pole by mělo být otevřeno pomocí kláves \"ALT\" a šipkami."
       table_configuration:
-        button: 'Konfigurovat tabulku tohoto pracovního balíčku'
+        button: 'Konfigurovat tabulku pracovních balíčků'
         choose_display_mode: 'Zobrazit pracovní balíčky jako'
         modal_title: 'Konfigurace tabulky pracovních balíčků'
         embedded_tab_disabled: "Tato karta konfigurace není k dispozici pro vložené zobrazení, které upravujete."
         default: "výchozí"
-        display_settings: 'Zobrazit nastavení'
+        display_settings: 'Nastavení zobrazení'
         default_mode: "Plochý seznam"
         hierarchy_mode: "Hierarchie"
         hierarchy_hint: "Všechny filtrované výsledky z tabulky budou rozšířeny o jejich předky. Hierarchii lze rozbalit a sbalit."
@@ -1090,7 +1090,7 @@ cs:
       search: "Vyhledávání"
       close_search: "Zavřít hledání"
       current_project: "V tomto projektu"
-      current_project_and_all_descendants: "V tomto projektu + podprojekty"
+      current_project_and_all_descendants: "V tomto projektu + dilčí projekty"
       title:
         all_projects: "všechny projekty"
         project_and_subprojects: "a všechny podprojekty"

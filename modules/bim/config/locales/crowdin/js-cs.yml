@@ -21,7 +21,7 @@ cs:
       models:
         ifc_models: 'IFC modely'
       views:
-        viewer: 'Sledující'
+        viewer: 'Prohlížeč'
         split: 'Viewer and table'
         split_cards: 'Viewer and cards'
     revit:
