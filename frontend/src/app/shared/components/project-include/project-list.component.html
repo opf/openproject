@@ -1,14 +1,15 @@
 <li
   class="spot-list--item"
-  *ngFor="let project of projects"
+  *ngFor="let project of projects; index as i; first as isFirst; last as isLast"
 >
   <label
     class="spot-list--item-action op-project-list--item-action"
     [ngClass]="{ 'spot-list--item-action_disabled': isDisabled(project) }"
   >
     <spot-tooltip
-      alignment="top-left"
+      [alignment]="getAlignment(project, isFirst, isLast)"
       [disabled]="!isDisabled(project)"
+      [dark]="true"
     >
       <ng-container slot="trigger">
         <spot-checkbox

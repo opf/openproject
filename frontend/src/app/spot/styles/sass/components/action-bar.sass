@@ -1,9 +1,10 @@
 .spot-action-bar
   display: flex
-  flex-direction: row
+  flex-direction: column
   flex-wrap: nowrap
   justify-content: space-between
   padding: $spot-spacing-1
+  padding-bottom: $spot-spacing-0_5
   background-color: $spot-color-basic-gray-6
 
   &--left,
@@ -12,15 +13,28 @@
     flex-direction: row
     flex-wrap: wrap
     align-items: center
-
-  &--left
-    justify-content: flex-start
-
-    > *:not(:last-child)
-      margin-right: $spot-spacing-1
-
-  &--right
     justify-content: flex-end
 
-    > *:not(:first-child)
-      margin-left: $spot-spacing-1
+    > *
+      margin-bottom: $spot-spacing-0_5
+      margin-left: $spot-spacing-0_5
+
+  @media #{$spot-mq-action-bar-change}
+    flex-direction: row
+
+    &--left,
+    &--right
+      > *
+        margin-left: 0
+
+    &--left
+      justify-content: flex-start
+
+      > *:not(:last-child)
+        margin-right: $spot-spacing-1
+
+    &--right
+      justify-content: flex-end
+
+      > *:not(:first-child)
+        margin-left: $spot-spacing-1

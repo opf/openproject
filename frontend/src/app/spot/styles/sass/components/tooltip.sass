@@ -16,6 +16,7 @@
 
     box-shadow: $spot-shadow-light-low
     background: $spot-color-main-light
+    color: $spot-color-basic-gray-1
 
     display: flex
     flex-direction: column
@@ -140,3 +141,11 @@
   &:hover &--body
     pointer-events: all
     opacity: 1
+
+  &_dark &--body
+    color: $spot-color-basic-white
+    background: $spot-color-basic-gray-1
+
+    &::before
+      border-bottom-color: $spot-color-basic-gray-1
+    
