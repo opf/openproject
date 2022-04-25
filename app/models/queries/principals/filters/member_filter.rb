@@ -44,9 +44,9 @@ class Queries::Principals::Filters::MemberFilter < Queries::Principals::Filters:
   def scope
     case operator
     when '='
-      Principal.in_project(values)
+      visible_scope.in_project(values)
     when '!'
-      Principal.not_in_project(values)
+      visible_scope.not_in_project(values)
     when '*'
       member_included_scope.where.not(members: { id: nil })
     when '!*'
@@ -56,7 +56,11 @@ class Queries::Principals::Filters::MemberFilter < Queries::Principals::Filters:
 
   private
 
+  def visible_scope
+    Principal.visible(User.current)
+  end
+
   def member_included_scope
-    Principal.includes(:members)
+    visible_scope.includes(:members)
   end
 end
