@@ -20,6 +20,9 @@
       border: 0
       cursor: pointer
 
+      @include spot-body-big
+      line-height: $spot-spacing-1_5
+
       &:hover
         background-color: $spot-color-main-light
 
@@ -28,8 +31,6 @@
         cursor: default
 
     &-title
-      padding-top: 1px
-
       &:not(:first-child)
         margin-left: $spot-spacing-0_5
       &:not(:last-child)
