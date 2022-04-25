@@ -81,7 +81,7 @@ export class AddAssigneeComponent {
       .pipe(
         take(1),
         map((queryFilters) => {
-          const projectFilter = queryFilters.find((queryFilter) => queryFilter._type === 'ProjectQueryFilter');
+          const projectFilter = queryFilters.find((queryFilter) => queryFilter.id === 'project');
 
           const selectedProjectIds = (() => {
             const baseList = ((projectFilter?.values || []) as HalResource[]).map((p) => p.id);
