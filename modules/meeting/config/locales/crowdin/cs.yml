@@ -52,7 +52,7 @@ cs:
   label_meeting_new: "Nová schůzka"
   label_meeting_edit: "Upravit schůzku"
   label_meeting_agenda: "Agenda"
-  label_meeting_minutes: "Zápis"
+  label_meeting_minutes: "Zápisy"
   label_meeting_close: "Zavřít"
   label_meeting_open: "Otevřít"
   label_meeting_agenda_close: "Uzavřete agendu pro vytvoření zápisu"

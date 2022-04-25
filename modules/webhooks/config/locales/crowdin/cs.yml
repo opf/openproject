@@ -52,7 +52,7 @@ cs:
         events:
           title: 'Povolené události'
         project_ids:
-          title: 'Povolit projekty'
+          title: 'Povolené projekty'
           description: 'Vyberte, pro které projekty by měl být tento webhook spuštěn.'
           all: 'Všechny projekty'
           selected: 'Pouze vybrané projekty'
