@@ -241,25 +241,27 @@ module Settings
       end
 
       def merge_hash_config(definition)
-        ENV.select { |k, _| k =~ /^#{env_name_legacy(definition)}/i }.each do |env_var_name, env_var_value|
-          value = extract_hash_from_env(env_var_name, env_var_value)
-          definition.override_value(value)
+        merged_hash = {}
+        each_env_var_hash_override(definition) do |env_var_name, env_var_value, env_var_hash_part|
+          value = extract_hash_from_env(env_var_name, env_var_value, env_var_hash_part)
+          merged_hash.deep_merge!(value)
         end
+        return if merged_hash.empty?
+
+        definition.override_value(merged_hash)
       end
 
-      def extract_hash_from_env(env_var_name, env_var_value)
+      def extract_hash_from_env(env_var_name, env_var_value, env_var_hash_part)
         value = extract_value_from_env(env_var_name, env_var_value)
-        path_to_hash(*hash_path(env_var_name), value)
+        path_to_hash(*hash_path(env_var_hash_part), value)
       end
 
       # takes the hash part of an env variable and turn it into a path.
       #
-      # e.g. hash_path('OPENPROJECT_ABC__DEF_KEY_SUB__KEY') => ['key', 'sub_key']
-      def hash_path(env_var_name)
-        env_var_name
-          .sub(/^#{ENV_PREFIX}/, '')
+      # e.g. hash_path('KEY_SUB__KEY_SUB__SUB__KEY') => ['key', 'sub_key', 'sub_sub_key']
+      def hash_path(env_var_hash_part)
+        env_var_hash_part
           .scan(/(?:[a-zA-Z0-9]|__)+/)
-          .drop(1)
           .map do |seg|
             unescape_underscores(seg.downcase)
           end
@@ -292,6 +294,15 @@ module Settings
           )
         end
         yield found_env_name, ENV[found_env_name]
+      end
+
+      def each_env_var_hash_override(definition)
+        hash_override_matcher = /^(?:#{env_name(definition)}|#{env_name_legacy(definition)})_(.+)/i
+        ENV.each do |env_var_name, env_var_value|
+          env_var_name.match(hash_override_matcher) do |m|
+            yield env_var_name, env_var_value, m[1]
+          end
+        end
       end
 
       def possible_env_names(definition)

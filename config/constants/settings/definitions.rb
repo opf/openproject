@@ -121,7 +121,7 @@ Settings::Definition.define do
       writable: false
 
   add :available_languages,
-      format: :hash,
+      format: :array,
       value: %w[en de fr es pt pt-BR it zh-CN ko ru].freeze,
       allowed: -> { Redmine::I18n.all_languages }
 

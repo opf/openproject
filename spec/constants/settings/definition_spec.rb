@@ -153,21 +153,78 @@ describe Settings::Definition do
       it 'allows overriding settings hash partially from ENV' do
         stub_const('ENV', { 'OPENPROJECT_REPOSITORY__CHECKOUT__DATA_GIT_ENABLED' => '1' })
 
-        expect(all.detect { |d| d.name == 'repository_checkout_data' }.value)
+        expect(value_for('repository_checkout_data'))
           .to eql({
                     'git' => { 'enabled' => 1 },
                     'subversion' => { 'enabled' => 0 }
                   })
       end
 
-      it 'ENV vars for which no definition exists will not be handled' do
+      it 'allows overriding settings hash partially from ENV with single underscore name' do
+        stub_const('ENV', { 'OPENPROJECT_REPOSITORY_CHECKOUT_DATA_GIT_ENABLED' => '1' })
+
+        expect(value_for('repository_checkout_data'))
+          .to eql({
+                    'git' => { 'enabled' => 1 },
+                    'subversion' => { 'enabled' => 0 }
+                  })
+      end
+
+      it 'allows overriding settings hash partially from ENV with yaml data' do
+        stub_const('ENV', { 'OPENPROJECT_REPOSITORY_CHECKOUT_DATA' => '{git: {enabled: 1}}' })
+
+        expect(value_for('repository_checkout_data'))
+          .to eql({
+                    'git' => { 'enabled' => 1 },
+                    'subversion' => { 'enabled' => 0 }
+                  })
+      end
+
+      it 'allows overriding settings hash fully from repeated ENV values' do
+        stub_const(
+          'ENV',
+          {
+            'OPENPROJECT_REPOSITORY__CHECKOUT__DATA' => '{hg: {enabled: 0}}',
+            'OPENPROJECT_REPOSITORY__CHECKOUT__DATA_CVS_ENABLED' => '0',
+            'OPENPROJECT_REPOSITORY_CHECKOUT_DATA_GIT_ENABLED' => '1',
+            'OPENPROJECT_REPOSITORY_CHECKOUT_DATA_GIT_MINIMUM__VERSION' => '42',
+            'OPENPROJECT_REPOSITORY_CHECKOUT_DATA_SUBVERSION_ENABLED' => '1'
+          }
+        )
+
+        expect(value_for('repository_checkout_data'))
+          .to eql({
+                    'cvs' => { 'enabled' => 0 },
+                    'git' => { 'enabled' => 1, 'minimum_version' => 42 },
+                    'hg' => { 'enabled' => 0 },
+                    'subversion' => { 'enabled' => 1 }
+                  })
+      end
+
+      it 'allows overriding settings hash fully from ENV with yaml data' do
+        stub_const('ENV', { 'OPENPROJECT_REPOSITORY_CHECKOUT_DATA' => '
+          {
+            git: {enabled: 1, key: "42"},
+            cvs: {enabled: 0}
+          }
+        ' })
+
+        expect(all.detect { |d| d.name == 'repository_checkout_data' }.value)
+          .to eql({
+                    'git' => { 'enabled' => 1, 'key' => '42' },
+                    'cvs' => { 'enabled' => 0 },
+                    'subversion' => { 'enabled' => 0 }
+                  })
+      end
+
+      it 'will not handle ENV vars for which no definition exists' do
         stub_const('ENV', { 'OPENPROJECT_BOGUS' => '1' })
 
         expect(all.detect { |d| d.name == 'bogus' })
           .to be_nil
       end
 
-      it 'ENV vars for which a definition has been added after #all was called first (e.g. in a module)' do
+      it 'will handle ENV vars for definitions added after #all was called (e.g. in a module)' do
         stub_const('ENV', { 'OPENPROJECT_BOGUS' => '1' })
 
         all
