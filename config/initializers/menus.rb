@@ -101,7 +101,8 @@ Redmine::MenuManager.map :account_menu do |menu|
   menu.push :administration,
             { controller: '/admin', action: 'index' },
             if: Proc.new {
-              User.current.allowed_to_globally?(:manage_placeholder_user) ||
+              User.current.allowed_to_globally?(:create_backup) ||
+                User.current.allowed_to_globally?(:manage_placeholder_user) ||
                 User.current.allowed_to_globally?(:manage_user)
             }
   menu.push :logout,
