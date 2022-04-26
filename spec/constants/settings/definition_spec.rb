@@ -201,13 +201,81 @@ describe Settings::Definition do
                   })
       end
 
-      it 'allows overriding settings hash fully from ENV with yaml data' do
-        stub_const('ENV', { 'OPENPROJECT_REPOSITORY_CHECKOUT_DATA' => '
+      it 'logs a deprecation warning when overriding configuration from ENV with nested hash in env var name' do
+        allow(Rails.logger).to receive(:warn)
+        stub_const(
+          'ENV',
           {
-            git: {enabled: 1, key: "42"},
-            cvs: {enabled: 0}
+            'OPENPROJECT_REPOSITORY__CHECKOUT__DATA' => '{hg: {enabled: 0}}',
+            'OPENPROJECT_REPOSITORY__CHECKOUT__DATA_CVS_ENABLED' => '0',
+            'OPENPROJECT_REPOSITORY_CHECKOUT_DATA_GIT_ENABLED' => '1',
+            'OPENPROJECT_REPOSITORY_CHECKOUT_DATA_GIT_MINIMUM__VERSION' => '42',
+            'OPENPROJECT_REPOSITORY_CHECKOUT_DATA_SUBVERSION_ENABLED' => 'should be redacted'
           }
-        ' })
+        )
+
+        expect(value_for('repository_checkout_data')).to be_an_instance_of(Hash)
+        expect(Rails.logger)
+          .to have_received(:warn).once do |message|
+            expect(message).to include('Please use OPENPROJECT_REPOSITORY_CHECKOUT_DATA=\'{')
+            expect(message).to include('"cvs":{"enabled":"xxx"}')
+            expect(message).to include('"subversion":{"enabled":"xxx"}')
+            expect(message).to include('instead of')
+            expect(message).to include('OPENPROJECT_REPOSITORY__CHECKOUT__DATA_CVS_ENABLED')
+            expect(message).to include('OPENPROJECT_REPOSITORY_CHECKOUT_DATA_GIT_ENABLED')
+            expect(message).to include('OPENPROJECT_REPOSITORY_CHECKOUT_DATA_GIT_MINIMUM__VERSION')
+            expect(message).to include('OPENPROJECT_REPOSITORY_CHECKOUT_DATA_SUBVERSION_ENABLED')
+            expect(message).not_to include(ENV.fetch('OPENPROJECT_REPOSITORY_CHECKOUT_DATA_GIT_MINIMUM__VERSION'))
+            expect(message).not_to include('should be redacted')
+          end
+      end
+
+      it 'allows overriding settings hash fully from ENV with yaml data' do
+        stub_const(
+          'ENV',
+          {
+            'OPENPROJECT_REPOSITORY_CHECKOUT_DATA' => '{git: {enabled: 1, key: "42"}, cvs: {enabled: 0}}'
+          }
+        )
+
+        expect(all.detect { |d| d.name == 'repository_checkout_data' }.value)
+          .to eql({
+                    'git' => { 'enabled' => 1, 'key' => '42' },
+                    'cvs' => { 'enabled' => 0 },
+                    'subversion' => { 'enabled' => 0 }
+                  })
+      end
+
+      it 'allows overriding settings hash fully from ENV with yaml data multiline' do
+        stub_const(
+          'ENV',
+          {
+            'OPENPROJECT_REPOSITORY_CHECKOUT_DATA' => <<~YML
+              ---
+              git:
+                enabled: 1
+                key: "42"
+              cvs:
+                enabled: 0
+            YML
+          }
+        )
+
+        expect(all.detect { |d| d.name == 'repository_checkout_data' }.value)
+          .to eql({
+                    'git' => { 'enabled' => 1, 'key' => '42' },
+                    'cvs' => { 'enabled' => 0 },
+                    'subversion' => { 'enabled' => 0 }
+                  })
+      end
+
+      it 'allows overriding settings hash fully from ENV with json data' do
+        stub_const(
+          'ENV',
+          {
+            'OPENPROJECT_REPOSITORY_CHECKOUT_DATA' => '{"git": {"enabled": 1, "key": "42"}, "cvs": {"enabled": 0}}'
+          }
+        )
 
         expect(all.detect { |d| d.name == 'repository_checkout_data' }.value)
           .to eql({

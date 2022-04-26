@@ -248,7 +248,22 @@ module Settings
         end
         return if merged_hash.empty?
 
+        Rails.logger.warn(env_hash_name_deprecation_message(definition))
         definition.override_value(merged_hash)
+      end
+
+      def env_hash_name_deprecation_message(definition)
+        redacted_hash = {}
+        env_var_names = []
+        each_env_var_hash_override(definition) do |env_var_name, _env_var_value, env_var_hash_part|
+          env_var_names << env_var_name
+          redacted_value = extract_hash_from_env(env_var_name, 'xxx', env_var_hash_part)
+          redacted_hash.deep_merge!(redacted_value)
+        end
+
+        "Using environment variables with special names to set nested hash values is deprecated. " \
+          "Please use #{env_name(definition)}='#{redacted_hash.to_json}' " \
+          "instead of #{env_var_names.to_sentence}"
       end
 
       def extract_hash_from_env(env_var_name, env_var_value, env_var_hash_part)
@@ -293,7 +308,7 @@ module Settings
             "Please use #{env_name(definition)} instead of #{env_name_unprefixed(definition)}"
           )
         end
-        yield found_env_name, ENV[found_env_name]
+        yield found_env_name, ENV.fetch(found_env_name)
       end
 
       def each_env_var_hash_override(definition)
