@@ -1,6 +1,6 @@
 # openproject-gitlab-integration
 
-## NEW VERSION 2.0.3 GA
+## NEW VERSION 2.0.4 GA
 
 Based on the current Github integration (OpenProject 12), this plugin offers the same functionalities as the current plugin for Github (and something else). This version includes changes to the DB and a new view similar to the current Github tab. Only the management of "pipelines" is pending an open issue in Gitlab (https://gitlab.com/gitlab-org/gitlab/-/issues/345028).
 
@@ -10,11 +10,13 @@ The events captured in the WP activity log are the same as in version 1.0, only 
 
 If you use **manual** installation, keep in mind that it requires precompiling the assets and updating the DB with new tables.
 
-In case of a **docker** installation, you can follow the steps described in the [OpenProject](https://www.openproject.org/docs/installation-and-operations/installation/docker/#openproject-plugins) documentation.
+In case of a **docker** installation, you can follow the steps described in the [OpenProject](https://www.openproject.org/docs/installation-and-operations/installation/docker/#openproject-plugins) documentation (more info in [Configuration](https://github.com/btey/openproject-gitlab-integration/edit/master/README.md#configuration) section).
 
 ## Introduction
 
-OpenProject module for integration with Gitlab (latest release tested is 14.7.1)
+OpenProject module for integration with Gitlab:
+* Latest Gitlab release tested: **14.10**
+* Latest OpenProject release tested: **12.0.10**
 
 This plugin is based on the current [plugin to integrate Github with OpenProject](https://www.openproject.org/docs/system-admin-guide/integrations/github-integration/).
 
@@ -24,7 +26,7 @@ The reference system is the same as for GitHub integration. You can use a link t
 
 #### Difference between OP and PP
 
-If you use `OP#` as a reference in an Issue or MR title, all comments will be replicated in OpenProject. However, sometimes you may only want to keep information about the status of an Issue/MR in OpenProject, but you don't want your comments to be published. In this case, you can use `PP#` as a reference. This way the comments will not be published in OpenProject. But if at any time one of your comments is of interest to you to be published in OpenProject you can use `OP#` *directly in that comment*. So only that comment will be published in OpenProject. The rest of the comments will remain private and will not be published.
+If you use `OP#` as a reference in an Issue or MR title, all comments will be replicated in OpenProject. However, sometimes you may only want to keep information about the status of an Issue/MR in OpenProject, but you don't want your comments to be published. In this case, you can use `PP#` as a reference. This way the comments will not be published in OpenProject. But if at any time one of your comments in a private Issue/MR is of interest to you to be published in OpenProject you can use `OP#` *directly in that comment*. So only that comment will be published in OpenProject. The rest of the comments will remain private and will not be published.
 
 ## Available events captured in OpenProject
 
@@ -137,7 +139,12 @@ A typical workflow on Gitlab side would be:
 
 You will have to configure both **OpenProject** and **Gitlab** for the integration to work.
 
-In case of **Docker** installation, follow the official OpenProject documentation [here](https://www.openproject.org/docs/installation-and-operations/installation/docker/#openproject-plugins).
+In case of **Docker** installation, follow the official OpenProject documentation [here](https://www.openproject.org/docs/installation-and-operations/installation/docker/#openproject-plugins). If for some reason the installation with Docker described in the official documentation does not work for you, you can try building your own docker image:
+* Clone from the Openproject Repo: `git clone https://github.com/opf/openproject.git --branch=stable/12 --depth=1 .`
+* Clone the plugin inside the modules folder: `git clone https://github.com/btey/openproject-gitlab-integration.git --depth=1 modules/gitlab_integration`
+* Apply the changes below in Gemfile.lock and Gemfile.modules (the same ones you would do in a manual install).
+* Build the container: `docker build -t openproject-docker --file=docker/prod/Dockerfile .`
+* Now run the image following the official documentation
 
 In case of [**manual**](https://www.openproject.org/docs/installation-and-operations/installation/manual/) installation, this plugin should be installed in the same place as the Github plugin that comes bundled with OpenProject.
 
@@ -163,11 +170,11 @@ PATH
 PATH
   remote: modules/gitlab_integration
   specs:
-    openproject-gitlab_integration (2.0.3)
+    openproject-gitlab_integration (2.0.4)
       openproject-webhooks
 ```
 
-> **Note:** Use version 2.0.3 if you want to capture the events as comments and see the new UI Tab with the linked Merge Requests.
+> **Note:** Use version 2.0.4 if you want to capture the events as comments and see the new UI Tab with the linked Merge Requests.
 
 And add this other line in DEPENDENCIES section:
 
@@ -233,6 +240,8 @@ You need to configure just two things in the webhook:
    4. Merge request events
 
 Now the integration is set up on both sides and you can use it.
+
+> **Note:** If you are installing and configuring OpenProject on the same server as Gitlab you will need to enable in Gitlab the option "Allow requests to the local network from web hooks and services" so that it can send the data locally to the OpenProject webhook since they will be on the same machine.
 
 ## How to report bugs or issues
 
