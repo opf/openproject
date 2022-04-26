@@ -11,6 +11,8 @@
     flex-direction: column
 
     &-action
+      @include spot-body-big
+
       display: flex
       align-items: center
       justify-content: flex-start
@@ -19,9 +21,6 @@
       margin: 0
       border: 0
       cursor: pointer
-
-      @include spot-body-big
-      line-height: $spot-spacing-1_5
 
       &:hover
         background-color: $spot-color-main-light
@@ -41,4 +40,4 @@
     $item-list: list.append($item-list, ".spot-list--item")
 
     #{$item-list} .spot-list--item-action
-      padding-left: $i * $spot-spacing-1_5
+      padding-left: $i * $spot-spacing-1
