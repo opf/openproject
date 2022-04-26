@@ -27,7 +27,7 @@
 #++
 
 module Projects
-  class ReorderChildrenJob < ApplicationJob
+  class ReorderHierarchyJob < ApplicationJob
     def perform
       Rails.logger.info { "Resorting siblings by name in the project's nested set." }
       Project.transaction { reorder! }
@@ -36,9 +36,13 @@ module Projects
     private
 
     def reorder!
+      # Reorder the project roots
+      reorder_siblings Project.roots
+
+      # Reorder every project hierarchy
       Project
         .where(id: unique_parent_ids)
-        .find_each(&method(:reorder_children))
+        .find_each { |project| reorder_siblings(project.children) }
     end
 
     def unique_parent_ids
@@ -48,14 +52,14 @@ module Projects
         .distinct
     end
 
-    def reorder_children(parent)
-      return unless parent.children.many?
+    def reorder_siblings(siblings)
+      return unless siblings.many?
 
       # Resort children manually
-      sorted = parent.children.sort_by(&:name)
+      sorted = siblings.sort_by { |project| project.name.downcase }
 
       # Get the current first child
-      first = parent.children.first
+      first = siblings.first
 
       sorted.each_with_index do |child, i|
         if i == 0

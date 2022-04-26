@@ -30,7 +30,7 @@ module Projects::Hierarchy
   extend ActiveSupport::Concern
 
   included do
-    acts_as_nested_set order_column: :name, dependent: :destroy
+    acts_as_nested_set order_column: :lft, dependent: :destroy
 
     # Keep the siblings sorted after naming changes to ensure lft sort includes name sorting
     before_save :remember_reorder
@@ -40,20 +40,32 @@ module Projects::Hierarchy
       @reorder_nested_set = nil
       return unless siblings.any?
 
-      left_neighbor = find_left_neighbor(parent, :name, true)
+      left_neighbor = left_neighbor_by_name_order
 
       if left_neighbor
         move_to_right_of(left_neighbor)
-      elsif self != parent.children.first
-        move_to_left_of(parent.children[0])
+      elsif self != self_and_siblings.first
+        move_to_left_of(self_and_siblings.first)
       end
+    end
+
+    ##
+    # Find the sibling for which the current project's name is smaller.
+    # Since we sort ascending, start from the back.
+    # Returns:
+    #   - nil, if the current project does not have a left neighbor (should be added as first)
+    #   - the project sibling for which the project should be appended to the right to
+    def left_neighbor_by_name_order
+      siblings
+        .reverse_each
+        .detect { |project| project.name.casecmp(name) == -1 }
     end
 
     # We need to remember if we want to reorder as nested_set
     # will perform another save directly in +after_save+ if a parent was set
     # and that clear new_record? as well as previous_new_record?
     def remember_reorder
-      @reorder_nested_set = parent_id.present? && (new_record? || name_changed?)
+      @reorder_nested_set = new_record? || name_changed?
     end
   end
 end
