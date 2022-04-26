@@ -7,6 +7,7 @@
     [ngClass]="{ 'spot-list--item-action_disabled': isDisabled(project) }"
   >
     <spot-tooltip
+      class="op-project-list--tooltip"
       [alignment]="getAlignment(project, isFirst, isLast)"
       [disabled]="!isDisabled(project)"
       [dark]="true"
@@ -21,7 +22,7 @@
           [attr.data-qa-project-include-checked]="(checked || (includeSubprojects && parentChecked))  ? 1 : 0"
         ></spot-checkbox>
         <div
-          class="spot-list--item-title"
+          class="spot-list--item-title op-project-list--item-title"
           [opSearchHighlight]="searchText" 
         >{{ project.name }}</div>
       </ng-container>
