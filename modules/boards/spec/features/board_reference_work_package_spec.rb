@@ -119,7 +119,7 @@ describe 'Board reference work package spec', type: :feature, js: true do
 
       # Add subproject filter
       filters.open
-      filters.add_filter_by('Subproject', 'all', nil, 'subprojectId')
+      filters.add_filter_by('subproject', 'all', nil, 'subprojectId')
       sleep 2
 
       # Reference an existing work package
