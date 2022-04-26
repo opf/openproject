@@ -30,8 +30,13 @@ require 'spec_helper'
 
 describe Principals::Scopes::PossibleMember, type: :model do
   let(:project) { create(:project) }
+  let(:public_project) { create(:project, public: true) }
   let(:role) { create(:role) }
+  # Non-member role is needed to see public projects
+  let!(:non_member_role) { create(:non_member) }
   let!(:active_user) { create(:user) }
+  let!(:admin_user) { create(:admin) }
+  let!(:global_manager) { create(:user, global_permission: :manage_user) }
   let!(:locked_user) { create(:user, status: :locked) }
   let!(:registered_user) { create(:user, status: :registered) }
   let!(:invited_user) { create(:user, status: :invited) }
@@ -41,6 +46,11 @@ describe Principals::Scopes::PossibleMember, type: :model do
   let!(:member_user) do
     create(:user,
            member_in_project: project,
+           member_through_role: role)
+  end
+  let!(:member_in_public_project) do
+    create(:user,
+           member_in_project: public_project,
            member_through_role: role)
   end
   let!(:member_placeholder_user) do
@@ -57,13 +67,49 @@ describe Principals::Scopes::PossibleMember, type: :model do
   describe '.possible_member' do
     subject { Principal.possible_member(project) }
 
-    it 'returns non locked users, groups and placeholder users not part of the project yet' do
-      is_expected
-        .to match_array([active_user,
-                         registered_user,
-                         invited_user,
-                         placeholder_user,
-                         group])
+    context 'as a simple user' do
+      current_user { active_user }
+
+      it 'returns non locked users, groups and placeholder users not part of the project yet' do
+        expect(subject).to match_array([
+                                         active_user,
+                                         member_in_public_project
+                                       ])
+      end
+    end
+
+    context 'as a user with global permission to manage users' do
+      current_user { global_manager }
+
+      it 'returns non locked users, groups and placeholder users not part of the project yet' do
+        expect(subject).to match_array([
+                                         admin_user,
+                                         global_manager,
+                                         active_user,
+                                         registered_user,
+                                         invited_user,
+                                         placeholder_user,
+                                         group,
+                                         member_in_public_project
+                                       ])
+      end
+    end
+
+    context 'as an admin' do
+      current_user { admin_user }
+
+      it 'returns non locked users, groups and placeholder users not part of the project yet' do
+        expect(subject).to match_array([
+                                         admin_user,
+                                         global_manager,
+                                         active_user,
+                                         registered_user,
+                                         invited_user,
+                                         placeholder_user,
+                                         group,
+                                         member_in_public_project
+                                       ])
+      end
     end
   end
 end
