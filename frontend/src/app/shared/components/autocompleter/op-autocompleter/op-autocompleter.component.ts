@@ -11,6 +11,7 @@ import {
   Input,
   NgZone,
   OnChanges,
+  OnInit,
   Output,
   SimpleChanges,
   TemplateRef,
@@ -60,7 +61,7 @@ import { OpAutocompleterOptionTemplateDirective } from './directives/op-autocomp
 // it has all inputs and outputs of ng-select
 // in order to use it, you only need to pass the data type and its filters
 // you also can change the value of ng-select default options by changing @inputs and @outputs
-export class OpAutocompleterComponent extends UntilDestroyedMixin implements AfterViewInit, OnChanges {
+export class OpAutocompleterComponent extends UntilDestroyedMixin implements OnInit, AfterViewInit, OnChanges {
   @HostBinding('class.op-autocompleter') className = true;
 
   @Input() public filters?:IAPIFilter[] = [];
@@ -177,6 +178,9 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
 
   @Input() public typeahead:BehaviorSubject<string|null> = new BehaviorSubject(null);
 
+  // We only bind the typeahead to ng-select if we filter values from the backend
+  public boundTypeahead:Subject<string|null>;
+
   // a function for setting the options of ng-select
   @Input() public getOptionsFn:(searchTerm:string) => Observable<unknown>;
 
@@ -233,6 +237,12 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
     private readonly I18n:I18nService,
   ) {
     super();
+  }
+
+  ngOnInit() {
+    if (!!this.getOptionsFn || this.defaultData) {
+      this.boundTypeahead = this.typeahead;
+    }
   }
 
   ngOnChanges(changes:SimpleChanges):void {
