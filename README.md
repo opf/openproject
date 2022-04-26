@@ -16,7 +16,7 @@ In case of a **docker** installation, you can follow the steps described in the 
 
 OpenProject module for integration with Gitlab (latest release tested is 14.7.1)
 
-This plugin is based on the current plugin to integrate Github with OpenProject (https://docs.openproject.org/system-admin-guide/github-integration).
+This plugin is based on the current [plugin to integrate Github with OpenProject](https://www.openproject.org/docs/system-admin-guide/integrations/github-integration/).
 
 The reference system is the same as for GitHub integration. You can use a link to the work package or just use “OP#87” or "PP#87" in the title in Gitlab.
 
