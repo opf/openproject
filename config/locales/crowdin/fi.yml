@@ -2156,6 +2156,7 @@ fi:
   permission_comment_news: "Kommentoi uutisia"
   permission_commit_access: "Tee pääsyoikeus"
   permission_copy_projects: "Kopioi projekteja"
+  permission_create_backup: "Create backup"
   permission_delete_work_package_watchers: "Poista seuraajia"
   permission_delete_work_packages: "Poista tehtäviä"
   permission_delete_messages: "Poista viestit"

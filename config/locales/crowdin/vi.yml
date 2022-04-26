@@ -2139,6 +2139,7 @@ vi:
   permission_comment_news: "Chú thích vào tin mới"
   permission_commit_access: "Read/write access to repository (commit)"
   permission_copy_projects: "Sao chép dự án"
+  permission_create_backup: "Create backup"
   permission_delete_work_package_watchers: "Xóa người xem"
   permission_delete_work_packages: "Xóa gói công việc"
   permission_delete_messages: "Xóa tin nhắn"

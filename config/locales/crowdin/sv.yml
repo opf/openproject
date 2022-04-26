@@ -2155,6 +2155,7 @@ sv:
   permission_comment_news: "Kommentera nyhet"
   permission_commit_access: "Läs- och skrivbehörighet till databasen (incheckning)"
   permission_copy_projects: "Kopiera projekt"
+  permission_create_backup: "Create backup"
   permission_delete_work_package_watchers: "Ta bort bevakare"
   permission_delete_work_packages: "Ta bort arbetspaket"
   permission_delete_messages: "Ta bort meddelanden"

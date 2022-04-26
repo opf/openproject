@@ -2122,6 +2122,7 @@ lol:
   permission_comment_news: "crwdns498549:0crwdne498549:0"
   permission_commit_access: "crwdns498551:0crwdne498551:0"
   permission_copy_projects: "crwdns498553:0crwdne498553:0"
+  permission_create_backup: "crwdns809948:0crwdne809948:0"
   permission_delete_work_package_watchers: "crwdns498555:0crwdne498555:0"
   permission_delete_work_packages: "crwdns498557:0crwdne498557:0"
   permission_delete_messages: "crwdns498559:0crwdne498559:0"

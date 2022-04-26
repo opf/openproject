@@ -2156,6 +2156,7 @@ et:
   permission_comment_news: "Uudiseid kommenteerida"
   permission_commit_access: "Read/write access to repository (commit)"
   permission_copy_projects: "Kopeerida projekte"
+  permission_create_backup: "Create backup"
   permission_delete_work_package_watchers: "Jälgijaid eemaldada"
   permission_delete_work_packages: "Teemasid kustutada"
   permission_delete_messages: "Postitusi kustutada"

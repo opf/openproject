@@ -2138,6 +2138,7 @@ th:
   permission_comment_news: "แสดงความคิดเห็นเกี่ยวกับข่าว"
   permission_commit_access: "Read/write access to repository (commit)"
   permission_copy_projects: "คัดลอกโครงการ"
+  permission_create_backup: "Create backup"
   permission_delete_work_package_watchers: "ลบผู้เฝ้าดู"
   permission_delete_work_packages: "ลบชุดภารกิจ"
   permission_delete_messages: "ลบข้อความ"

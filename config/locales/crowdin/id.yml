@@ -2134,6 +2134,7 @@ id:
   permission_comment_news: "Komentar berita"
   permission_commit_access: "Read/write access to repository (commit)"
   permission_copy_projects: "Copy Project"
+  permission_create_backup: "Create backup"
   permission_delete_work_package_watchers: "Hapus pemantau"
   permission_delete_work_packages: "Hapus Paket-Penugasan"
   permission_delete_messages: "Hapus pesan"

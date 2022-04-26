@@ -2191,6 +2191,7 @@ sl:
   permission_comment_news: "Komentiraj novice"
   permission_commit_access: "Beri/piši dostop do skladišča (storiti)"
   permission_copy_projects: "Kopiraj projekte"
+  permission_create_backup: "Create backup"
   permission_delete_work_package_watchers: "Izbriši opazovalce"
   permission_delete_work_packages: "Izbriši delovni paket"
   permission_delete_messages: "Izbriši sporočila"

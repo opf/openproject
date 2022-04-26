@@ -2153,6 +2153,7 @@ es:
   permission_comment_news: "Comentar noticias"
   permission_commit_access: "Permiso de escritura sobre el repositorio (commit)"
   permission_copy_projects: "Copiar proyectos"
+  permission_create_backup: "Create backup"
   permission_delete_work_package_watchers: "Eliminar los observadores"
   permission_delete_work_packages: "Eliminar paquetes de trabajo"
   permission_delete_messages: "Eliminar mensajes"

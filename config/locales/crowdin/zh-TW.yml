@@ -2136,6 +2136,7 @@ zh-TW:
   permission_comment_news: "對新聞發表評論"
   permission_commit_access: "讀/寫 權限版本庫 (Commit)"
   permission_copy_projects: "複製專案"
+  permission_create_backup: "Create backup"
   permission_delete_work_package_watchers: "刪除監看者"
   permission_delete_work_packages: "刪除工作項目"
   permission_delete_messages: "刪除訊息"

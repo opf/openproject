@@ -2156,6 +2156,7 @@ fil:
   permission_comment_news: "Mga komento ng balita"
   permission_commit_access: "Magbasa/magsulat acess sa repositoryo (commit)"
   permission_copy_projects: "Kopyahin ang mga proyekto"
+  permission_create_backup: "Create backup"
   permission_delete_work_package_watchers: "Burahin ang mga manunuod"
   permission_delete_work_packages: "Burahin ang mga work package"
   permission_delete_messages: "Burahin ang mga mensahe"
