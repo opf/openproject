@@ -2282,7 +2282,7 @@ uk:
     assigned_to_role: "Роль виконавця"
     member_of_group: "Група виконавця"
     assignee_or_group: "Правонаступник або приналежність до групи"
-    subproject_id: "Включно з підпроєктом"
+    subproject_id: "Including subproject"
     only_subproject_id: "Лише підпроєкт"
     name_or_identifier: "Ім'я або ідентифікатор"
   repositories:

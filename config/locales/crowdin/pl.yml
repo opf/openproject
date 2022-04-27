@@ -2283,7 +2283,7 @@ pl:
     assigned_to_role: "Przypisany do roli"
     member_of_group: "Przypisany do grupy"
     assignee_or_group: "Przypisana osoba lub przynależna grupa"
-    subproject_id: "Z podprojektem włącznie"
+    subproject_id: "Including subproject"
     only_subproject_id: "Tylko podprojekt"
     name_or_identifier: "Nazwa lub identyfikator"
   repositories:

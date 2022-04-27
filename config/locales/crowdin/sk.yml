@@ -2286,7 +2286,7 @@ sk:
     assigned_to_role: "Priradená rola"
     member_of_group: "Skupina priradeného používateľa"
     assignee_or_group: "Priradené používateľovi alebo jeho skupine"
-    subproject_id: "Including Subproject"
+    subproject_id: "Including subproject"
     only_subproject_id: "Only subproject"
     name_or_identifier: "Meno alebo identifikátor"
   repositories:

@@ -2244,7 +2244,7 @@ el:
     assigned_to_role: "Ρόλος ανάθεσης"
     member_of_group: "Ομάδα ανάθεσης"
     assignee_or_group: "Ανάθεση σε ή ανήκει σε ομάδα"
-    subproject_id: "Συμπεριλαμβανομένου του Υποέργου"
+    subproject_id: "Including subproject"
     only_subproject_id: "Μόνο υποέργο"
     name_or_identifier: "Όνομα ή αναγνωριστικό"
   repositories:

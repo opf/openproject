@@ -2231,7 +2231,7 @@ th:
     assigned_to_role: "บทบาทของผู้รับผิดชอบ"
     member_of_group: "กลุ่มของผู้รับผิดชอบ"
     assignee_or_group: "Assignee or belonging group"
-    subproject_id: "Including Subproject"
+    subproject_id: "Including subproject"
     only_subproject_id: "Only subproject"
     name_or_identifier: "Name or identifier"
   repositories:

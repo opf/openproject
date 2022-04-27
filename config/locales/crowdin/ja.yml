@@ -2226,7 +2226,7 @@ ja:
     assigned_to_role: "担当者のロール"
     member_of_group: "担当者のグループ"
     assignee_or_group: "担当者または所属グループ"
-    subproject_id: "サブプロジェクトを含む"
+    subproject_id: "Including subproject"
     only_subproject_id: "サブプロジェクトのみ"
     name_or_identifier: "名前または ID"
   repositories:

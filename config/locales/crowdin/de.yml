@@ -2151,7 +2151,7 @@ de:
   permission_comment_news: "Nachricht kommentieren"
   permission_commit_access: "Lese- und Schreibzugriff auf Projektarchiv (Commit)"
   permission_copy_projects: "Projekte kopieren"
-  permission_create_backup: "Create backup"
+  permission_create_backup: "Backup erstellen"
   permission_delete_work_package_watchers: "Beobachter löschen"
   permission_delete_work_packages: "Arbeitspakete löschen"
   permission_delete_messages: "Forenbeiträge löschen"
@@ -2244,7 +2244,7 @@ de:
     assigned_to_role: "Rolle der zugewiesenen Person"
     member_of_group: "Gruppe der zugewiesenen Person"
     assignee_or_group: "Zugewiesen an Nutzer oder dessen Gruppe"
-    subproject_id: "Mit Unterprojekt"
+    subproject_id: "Including subproject"
     only_subproject_id: "Nur Unterprojekt"
     name_or_identifier: "Name oder Kennung"
   repositories:

@@ -2284,7 +2284,7 @@ sl:
     assigned_to_role: "Pooblaščenčeva vloga"
     member_of_group: "Pooblaščenčeva skupina"
     assignee_or_group: "Prejemnik ali pripadajoča skupina"
-    subproject_id: "Vključuje podprojekt"
+    subproject_id: "Including subproject"
     only_subproject_id: "Samo podprojekt"
     name_or_identifier: "Ime ali identifikator"
   repositories:

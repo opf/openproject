@@ -2246,7 +2246,7 @@ es:
     assigned_to_role: "Asignación de roles"
     member_of_group: "Asignación de grupo"
     assignee_or_group: "Grupo al que pertenece o al que está asignado"
-    subproject_id: "Incluyendo Subproyecto"
+    subproject_id: "Including subproject"
     only_subproject_id: "Sólo subproyecto"
     name_or_identifier: "Nombre o identificador"
   repositories:

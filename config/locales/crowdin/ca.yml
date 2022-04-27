@@ -2246,7 +2246,7 @@ ca:
     assigned_to_role: "Rol de l'assignat"
     member_of_group: "Grup de l'assignat"
     assignee_or_group: "Assignee or belonging group"
-    subproject_id: "Including Subproject"
+    subproject_id: "Including subproject"
     only_subproject_id: "Only subproject"
     name_or_identifier: "Name or identifier"
   repositories:

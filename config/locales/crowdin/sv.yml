@@ -2248,7 +2248,7 @@ sv:
     assigned_to_role: "Tilldelades roll"
     member_of_group: "Den tilldelades grupp"
     assignee_or_group: "Tilldelad eller tillhörandegrupp"
-    subproject_id: "Including Subproject"
+    subproject_id: "Including subproject"
     only_subproject_id: "Only subproject"
     name_or_identifier: "Namn eller identifierare"
   repositories:

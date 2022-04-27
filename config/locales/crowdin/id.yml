@@ -2227,7 +2227,7 @@ id:
     assigned_to_role: "Ditugaskan untuk Role"
     member_of_group: "Ditugaskan untuk Grup"
     assignee_or_group: "Penerima atau anggota kelompok"
-    subproject_id: "Including Subproject"
+    subproject_id: "Including subproject"
     only_subproject_id: "Only subproject"
     name_or_identifier: "Nama atau pengenal"
   repositories:

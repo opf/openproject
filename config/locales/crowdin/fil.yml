@@ -2249,7 +2249,7 @@ fil:
     assigned_to_role: "Naitalagang tungkulin"
     member_of_group: "Itinalagang grupo"
     assignee_or_group: "Nakatakda o pag-aari ng grupo"
-    subproject_id: "Including Subproject"
+    subproject_id: "Including subproject"
     only_subproject_id: "Only subproject"
     name_or_identifier: "Pangalan o pagkakakilanlan"
   repositories:

@@ -2267,7 +2267,7 @@ ro:
     assigned_to_role: "Rolul executantului"
     member_of_group: "Grupul executantului"
     assignee_or_group: "Destinatarul sau grupul de apartenență"
-    subproject_id: "Inclusiv subproiectul"
+    subproject_id: "Including subproject"
     only_subproject_id: "Numai subproiect"
     name_or_identifier: "Nume sau identificator"
   repositories:

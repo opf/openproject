@@ -2249,7 +2249,7 @@ si:
     assigned_to_role: "ඇසිග්නීගේ භූමිකාව"
     member_of_group: "අස්සිග්නි කණ්ඩායම"
     assignee_or_group: "Assignee හෝ අයත් පිරිසක්"
-    subproject_id: "Including Subproject"
+    subproject_id: "Including subproject"
     only_subproject_id: "Only subproject"
     name_or_identifier: "නම හෝ හඳුනාගැනීමේ"
   repositories:

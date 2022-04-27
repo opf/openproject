@@ -2192,7 +2192,7 @@ ru:
   permission_comment_news: "Комментировать новость"
   permission_commit_access: "Возможность чтения/записи в репозиторий (commit)"
   permission_copy_projects: "Копировать проект"
-  permission_create_backup: "Create backup"
+  permission_create_backup: "Создать резервную копию"
   permission_delete_work_package_watchers: "Удалить наблюдателей"
   permission_delete_work_packages: "Удалить пакеты работ"
   permission_delete_messages: "Удалить сообщения"
@@ -2285,7 +2285,7 @@ ru:
     assigned_to_role: "Роль назначенного"
     member_of_group: "Группа назначенного"
     assignee_or_group: "Назначенец или его группа"
-    subproject_id: "Включая подпроект"
+    subproject_id: "Including subproject"
     only_subproject_id: "Только подпроект"
     name_or_identifier: "Имя или идентификатор"
   repositories:
