@@ -161,11 +161,11 @@ module OpenProject
       end
 
       def web_timeout
-        Integer(web['timeout'].presence)
+        Integer(ENV['RACK_TIMEOUT_SERVICE_TIMEOUT'].presence || web['timeout'].presence)
       end
 
       def web_wait_timeout
-        Integer(web['wait_timeout'].presence)
+        Integer(ENV['RACK_TIMEOUT_WAIT_TIMEOUT'].presence || web['wait_timeout'].presence)
       end
 
       def web_min_threads
