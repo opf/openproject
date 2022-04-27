@@ -94,7 +94,7 @@ First, find out the container ID of your web process with:
 
 ```bash
 # Ensure the containers are running with the following output
-docker ps | gre web_1
+docker ps | grep web_1
 
 # save the container ID as a env variable $CID
 export CID=$(docker ps | grep web_1 | cut -d' ' -f 1)
