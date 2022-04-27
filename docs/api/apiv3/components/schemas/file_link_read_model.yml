@@ -42,6 +42,8 @@ properties:
       - creator
       - originOpen
       - staticOriginOpen
+      - originOpenLocation
+      - staticOriginOpenLocation
     properties:
       self:
         allOf:
@@ -92,6 +94,20 @@ properties:
           - $ref: './link.yml'
           - description: |-
               A static uri to open the origin file on the storage. Responds with a redirect.
+              
+              **Resource**: N/A
+      originOpenLocation:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The uri to open the location of origin file on the origin itself.
+              
+              **Resource**: N/A
+      staticOriginOpenLocation:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              A static uri to open the location of the origin file on the storage. Responds with a redirect.
               
               **Resource**: N/A
 
@@ -162,8 +178,14 @@ example:
       href: /api/v3/work_package/17/file_links/1337
       title: file link delete API
     originOpen:
-      href: https://nextcloud.deathstar.rocks/index.php/f?fileid=5503
+      href: https://nextcloud.deathstar.rocks/index.php/f?fileid=5503openfile=1
       title: file open
     staticOriginOpen:
       href: /api/v3/work_package/17/file_links/1337/open
+      title: file open
+    originOpenLocation:
+      href: https://nextcloud.deathstar.rocks/index.php/f?fileid=5503&openfile=0
+      title: file open
+    staticOriginOpenLocation:
+      href: /api/v3/work_package/17/file_links/1337/open?location=true
       title: file open
