@@ -78,6 +78,18 @@ module API
           }
         end
 
+        link :originOpenLocation do
+          {
+            href: storage_url_open(represented, true)
+          }
+        end
+
+        link :staticOriginOpenLocation do
+          {
+            href: api_v3_paths.file_link_open(represented.id, true)
+          }
+        end
+
         associated_resource :storage
 
         associated_resource :storageUrl,
