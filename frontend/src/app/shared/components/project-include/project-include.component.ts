@@ -13,10 +13,10 @@ import {
 import {
   debounceTime,
   distinctUntilChanged,
+  finalize,
   map,
   mergeMap,
   take,
-  skip,
 } from 'rxjs/operators';
 
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
@@ -201,13 +201,7 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin implements On
       map((projects) => recursiveSort(projects)),
     );
 
-  public areProjectsLoaded$ = this
-    .projects$
-    .pipe(
-      distinctUntilChanged(),
-      skip(1),
-      map((items) => items.length >= 0),
-    );
+  public loading$ = new BehaviorSubject(false);
 
   public get params():ApiV3ListParameters {
     const filters:ApiV3ListFilter[] = [
@@ -263,7 +257,9 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin implements On
     if (this.opened) {
       this.loadAllProjects();
       this.projectsInFilter$
-        .pipe(take(1))
+        .pipe(
+          take(1),
+        )
         .subscribe((selectedProjects) => {
           this.displayMode = 'all';
           this.searchText = '';
@@ -273,12 +269,17 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin implements On
   }
 
   public loadAllProjects():void {
+    this.loading$.next(true);
+
     getPaginatedResults<IProject>(
       (params) => {
         const collectionURL = listParamsString({ ...this.params, ...params });
         return this.http.get<IHALCollection<IProject>>(this.apiV3Service.projects.path + collectionURL);
       },
     )
+      .pipe(
+        finalize(() => this.loading$.next(false)),
+      )
       .subscribe((projects) => {
         this.allProjects$.next(projects);
       });

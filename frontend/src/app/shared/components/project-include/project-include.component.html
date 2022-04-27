@@ -32,7 +32,7 @@
       class="spot-container op-project-include--body"
     >
       <spot-text-field
-        [disabled]="!(areProjectsLoaded$ | async)"
+        [disabled]="(loading$ | async)"
         [placeholder]="text.search_placeholder"
         name="project-include-search"
         [(ngModel)]="searchText"
@@ -45,7 +45,7 @@
         ></span>
       </spot-text-field>
 
-      <ng-container *ngIf="(areProjectsLoaded$ | async); else loadingTemplate">
+      <ng-container *ngIf="(loading$ | async) === false; else loadingTemplate">
         <ul
           class="op-project-include--list"
           op-project-list
@@ -72,7 +72,7 @@
         </div>
         <div class="spot-action-bar--right">
           <button
-            [disabled]="!(areProjectsLoaded$ | async)"
+            [disabled]="(loading$ | async)"
             class="spot-button spot-button_outlined spot-button_main"
             type="button"
             (click)="clearSelection()"
@@ -80,7 +80,7 @@
             {{ text.clear_selection }}
           </button>
           <button 
-            [disabled]="!(areProjectsLoaded$ | async)"
+            [disabled]="(loading$ | async)"
             class="spot-button spot-button_main"
           >
             {{ text.apply }}

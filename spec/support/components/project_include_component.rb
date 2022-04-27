@@ -95,7 +95,7 @@ module Components
 
     def click_button(text)
       within_body do
-        page.find('button', text: text).click
+        page.find('button:not([disabled])', text: text).click
       end
     end
 
