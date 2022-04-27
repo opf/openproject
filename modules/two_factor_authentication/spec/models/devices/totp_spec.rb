@@ -83,7 +83,7 @@ describe ::TwoFactorAuthentication::Device::Totp, with_2fa_ee: true, type: :mode
 
       expect(subject.verify_token(valid)).to be false
 
-      future = Time.current + 1.minute
+      future = 1.minute.from_now
       Timecop.freeze(future) do
         valid = totp.now
         expect(subject.verify_token(valid)).to be true

@@ -93,7 +93,7 @@ module OpenProject::TwoFactorAuthentication
           types << s.device_type
         end
 
-        classes = types.to_h { |type| [type, ::TwoFactorAuthentication::Device.const_get(type.to_s.camelize)] }
+        types.index_with { |type| ::TwoFactorAuthentication::Device.const_get(type.to_s.camelize) }
       end
 
       ##

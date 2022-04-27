@@ -322,29 +322,30 @@ describe Settings::Definition do
           described_class.all << definition_2fa
         end
 
-        # it 'allows overriding settings from ENV with aliased env name' do
-        #   require Rails.root.join('modules/two_factor_authentication/lib/open_project/two_factor_authentication/engine')
-        #   stub_const(
-        #     'ENV',
-        #     {
-        #       'OPENPROJECT_2FA' => '{"enforced": true, "allow_remember_for_days": 15}'
-        #     }
-        #   )
-
-        #   expect(value_for('plugin_openproject_two_factor_authentication'))
-        #     .to eq(active_strategies: [], enforced: true, allow_remember_for_days: 15)
-        # end
-
         it 'allows overriding settings hash partially from ENV with aliased env name' do
+          stub_const(
+            'ENV',
+            {
+              'OPENPROJECT_2FA_ENFORCED' => 'true',
+              'OPENPROJECT_2FA_ALLOW__REMEMBER__FOR__DAYS' => '15'
+            }
+          )
+
+          described_class.send(:override_value, definition_2fa) # override from env manually after changing ENV
+          expect(value_for('plugin_openproject_two_factor_authentication'))
+            .to eq('active_strategies' => [:totp], 'enforced' => true, 'allow_remember_for_days' => 15)
+        end
+
+        it 'allows overriding settings hash from ENV with aliased env name' do
           stub_const(
             'ENV',
             {
               'OPENPROJECT_2FA' => '{"enforced": true, "allow_remember_for_days": 15}'
             }
           )
-          Settings::Definition.send(:override_value, definition_2fa) # override from env manually after changing ENV
+          described_class.send(:override_value, definition_2fa) # override from env manually after changing ENV
           expect(value_for('plugin_openproject_two_factor_authentication'))
-            .to eq({ 'active_strategies' => [], 'enforced' => true, 'allow_remember_for_days' => 15 })
+            .to eq({ 'active_strategies' => [:totp], 'enforced' => true, 'allow_remember_for_days' => 15 })
         end
       end
 

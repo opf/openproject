@@ -28,7 +28,7 @@ module ::Recaptcha
 
     def verify
       if valid_recaptcha?
-        save_recpatcha_verification_success!
+        save_recaptcha_verification_success!
         complete_stage_redirect
       else
         fail_recaptcha I18n.t('recaptcha.error_captcha')
@@ -39,7 +39,7 @@ module ::Recaptcha
 
     ##
     # Insert that the account was verified
-    def save_recpatcha_verification_success!
+    def save_recaptcha_verification_success!
       # Remove all previous
       ::Recaptcha::Entry.where(user_id: @authenticated_user.id).delete_all
       ::Recaptcha::Entry.create!(user_id: @authenticated_user.id, version: recaptcha_version)

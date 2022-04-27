@@ -317,7 +317,12 @@ module Settings
       end
 
       def each_env_var_hash_override(definition)
-        hash_override_matcher = /^(?:#{env_name(definition)}|#{env_name_legacy(definition)})_(.+)/i
+        hash_override_matcher =
+          if definition.env_alias
+            /^(?:#{env_name(definition)}|#{env_name_legacy(definition)}|#{env_name_alias(definition)})_(.+)/i
+          else
+            /^(?:#{env_name(definition)}|#{env_name_legacy(definition)})_(.+)/i
+          end
         ENV.each do |env_var_name, env_var_value|
           env_var_name.match(hash_override_matcher) do |m|
             yield env_var_name, env_var_value, m[1]

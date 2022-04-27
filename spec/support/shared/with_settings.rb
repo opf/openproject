@@ -67,7 +67,7 @@ module WithSettingsMixin
       raise "#{k} is not a valid setting" unless Setting.respond_to?(name)
 
       expect(name).not_to start_with("localized_"), -> do
-        base = name[10..-1]
+        base = name[10..]
 
         "Don't use `#{name}` in `with_settings`. Do this: `with_settings: { #{base}: { \"en\" => \"#{v}\" } }`"
       end
