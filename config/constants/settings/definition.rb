@@ -31,7 +31,8 @@ module Settings
     ENV_PREFIX = 'OPENPROJECT_'.freeze
 
     attr_accessor :name,
-                  :format
+                  :format,
+                  :env_alias
 
     attr_writer :value,
                 :allowed
@@ -40,12 +41,14 @@ module Settings
                    value:,
                    format: nil,
                    writable: true,
-                   allowed: nil)
+                   allowed: nil,
+                   env_alias: nil)
       self.name = name.to_s
       self.format = format ? format.to_sym : deduce_format(value)
-      self.value = value
+      self.value = value.is_a?(Hash) ? value.deep_stringify_keys : value
       self.writable = writable
       self.allowed = allowed
+      self.env_alias = env_alias
     end
 
     def value
@@ -84,7 +87,7 @@ module Settings
     def override_value(other_value)
       if format == :hash
         self.value = {} if value.nil?
-        value.deep_merge! other_value
+        value.deep_merge! other_value.deep_stringify_keys
       else
         self.value = other_value
       end
@@ -131,7 +134,8 @@ module Settings
               value:,
               format: nil,
               writable: true,
-              allowed: nil)
+              allowed: nil,
+              env_alias: nil)
         return if @by_name.present? && @by_name[name.to_s].present?
 
         @by_name = nil
@@ -140,7 +144,8 @@ module Settings
                          format: format,
                          value: value,
                          writable: writable,
-                         allowed: allowed)
+                         allowed: allowed,
+                         env_alias: env_alias)
 
         override_value(definition)
 
@@ -324,8 +329,9 @@ module Settings
         [
           env_name_legacy(definition),
           env_name(definition),
-          env_name_unprefixed(definition)
-        ]
+          env_name_unprefixed(definition),
+          env_name_alias(definition)
+        ].compact
       end
 
       def env_name_legacy(definition)
@@ -338,6 +344,10 @@ module Settings
 
       def env_name_unprefixed(definition)
         definition.name.upcase
+      end
+
+      def env_name_alias(definition)
+        "#{ENV_PREFIX}#{definition.env_alias.upcase}" if definition.env_alias
       end
 
       ##

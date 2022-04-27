@@ -285,6 +285,69 @@ describe Settings::Definition do
                   })
       end
 
+      it 'allows overriding configuration array from ENV with yaml/json data' do
+        stub_const(
+          'ENV',
+          {
+            'OPENPROJECT_BLACKLISTED_ROUTES' => '["admin/info", "admin/plugins"]'
+          }
+        )
+
+        expect(value_for('blacklisted_routes'))
+          .to eq(['admin/info', 'admin/plugins'])
+      end
+
+      it 'allows overriding configuration array from ENV with space separated string' do
+        stub_const(
+          'ENV',
+          {
+            'OPENPROJECT_BLACKLISTED_ROUTES' => 'admin/info admin/plugins'
+          }
+        )
+
+        # works for OpenProject::Configuration thanks to OpenProject::Configuration::Helper mixin
+        expect(OpenProject::Configuration.blacklisted_routes)
+          .to eq(['admin/info', 'admin/plugins'])
+        # sadly behaves differently for Setting
+        expect(Setting.blacklisted_routes)
+          .to eq('admin/info admin/plugins')
+      end
+
+      context 'with definitions from plugins' do
+        let(:definition_2fa) { definitions_before.find { _1.name == 'plugin_openproject_two_factor_authentication' }.dup }
+
+        before do
+          # hack to have access to Setting.plugin_openproject_two_factor_authentication after
+          # having done
+          described_class.all << definition_2fa
+        end
+
+        # it 'allows overriding settings from ENV with aliased env name' do
+        #   require Rails.root.join('modules/two_factor_authentication/lib/open_project/two_factor_authentication/engine')
+        #   stub_const(
+        #     'ENV',
+        #     {
+        #       'OPENPROJECT_2FA' => '{"enforced": true, "allow_remember_for_days": 15}'
+        #     }
+        #   )
+
+        #   expect(value_for('plugin_openproject_two_factor_authentication'))
+        #     .to eq(active_strategies: [], enforced: true, allow_remember_for_days: 15)
+        # end
+
+        it 'allows overriding settings hash partially from ENV with aliased env name' do
+          stub_const(
+            'ENV',
+            {
+              'OPENPROJECT_2FA' => '{"enforced": true, "allow_remember_for_days": 15}'
+            }
+          )
+          Settings::Definition.send(:override_value, definition_2fa) # override from env manually after changing ENV
+          expect(value_for('plugin_openproject_two_factor_authentication'))
+            .to eq({ 'active_strategies' => [], 'enforced' => true, 'allow_remember_for_days' => 15 })
+        end
+      end
+
       it 'will not handle ENV vars for which no definition exists' do
         stub_const('ENV', { 'OPENPROJECT_BOGUS' => '1' })
 
@@ -516,18 +579,18 @@ describe Settings::Definition do
       end
 
       before do
-        instance.override_value({ abc: { a: 5 }, xyz: 2 })
+        instance.override_value({ abc: { 'a' => 5 }, xyz: 2 })
       end
 
-      it 'deep merges' do
+      it 'deep merges and transforms keys to string' do
         expect(instance.value)
           .to eql({
-                    abc: {
-                      a: 5,
-                      b: 2
+                    'abc' => {
+                      'a' => 5,
+                      'b' => 2
                     },
-                    cde: 1,
-                    xyz: 2
+                    'cde' => 1,
+                    'xyz' => 2
                   })
       end
 
@@ -664,7 +727,7 @@ describe Settings::Definition do
     context 'with the minimal attributes (hash value)' do
       let(:instance) do
         described_class.new 'bogus',
-                            value: { a: 'b' }
+                            value: { a: 'b', c: { d: 'e' } }
       end
 
       it 'has the format (in symbol) deduced' do
@@ -675,6 +738,14 @@ describe Settings::Definition do
       it 'is serialized' do
         expect(instance)
           .to be_serialized
+      end
+
+      it 'transforms keys to string' do
+        expect(instance.value)
+          .to eq({
+                   'a' => 'b',
+                   'c' => { 'd' => 'e' }
+                 })
       end
     end
 

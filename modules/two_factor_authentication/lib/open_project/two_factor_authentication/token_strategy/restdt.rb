@@ -27,10 +27,10 @@ module OpenProject::TwoFactorAuthentication
 
       def service_params
         {
-          url: URI(configuration_params[:service_url]),
+          url: URI(configuration_params['service_url']),
           request_base: {
-            user: configuration_params[:username],
-            pass: configuration_params[:password],
+            user: configuration_params['username'],
+            pass: configuration_params['password'],
             # The API supports XML and plain.
             # In the latter case, only the status code is returned.
             output: 'plain'

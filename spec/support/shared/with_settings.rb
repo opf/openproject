@@ -55,7 +55,33 @@ RSpec.shared_context 'with settings reset' do
   end
 end
 
+module WithSettingsMixin
+  module_function
+
+  def with_settings(settings)
+    allow(Setting).to receive(:[]).and_call_original
+
+    settings.each do |k, v|
+      name = k.to_s.sub(/\?\Z/, '') # remove trailing question mark if present to get setting name
+
+      raise "#{k} is not a valid setting" unless Setting.respond_to?(name)
+
+      expect(name).not_to start_with("localized_"), -> do
+        base = name[10..-1]
+
+        "Don't use `#{name}` in `with_settings`. Do this: `with_settings: { #{base}: { \"en\" => \"#{v}\" } }`"
+      end
+      v = v.deep_stringify_keys if v.is_a?(Hash)
+
+      allow(Setting).to receive(:[]).with(name).and_return v
+      allow(Setting).to receive(:[]).with(name.to_sym).and_return v
+    end
+  end
+end
+
 RSpec.configure do |config|
+  config.include WithSettingsMixin
+
   # examples tagged with `:settings_reset` will automatically have the settings
   # reset before the example, and restored after.
   config.include_context "with settings reset", :settings_reset
@@ -64,23 +90,13 @@ RSpec.configure do |config|
     settings = example.metadata[:with_settings]
     if settings.present?
       settings = aggregate_mocked_settings(example, settings)
-
-      allow(Setting).to receive(:[]).and_call_original
-
-      settings.each do |k, v|
-        name = k.to_s.sub(/\?\Z/, '') # remove trailing question mark if present to get setting name
-
-        raise "#{k} is not a valid setting" unless Setting.respond_to?(name)
-
-        expect(name).not_to start_with("localized_"), -> do
-          base = name[10..-1]
-
-          "Don't use `#{name}` in `with_settings`. Do this: `with_settings: { #{base}: { \"en\" => \"#{v}\" } }`"
-        end
-
-        allow(Setting).to receive(:[]).with(name).and_return v
-        allow(Setting).to receive(:[]).with(name.to_sym).and_return v
-      end
+      with_settings(settings)
     end
+  end
+end
+
+RSpec.shared_context 'with settings' do
+  before do
+    with_settings(settings)
   end
 end

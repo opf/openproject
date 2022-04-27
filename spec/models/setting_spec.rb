@@ -269,9 +269,8 @@ describe Setting, type: :model do
   end
 
   # tests the serialization feature to store complex data types like arrays in settings
-  describe 'serialized settings' do
+  describe 'serialized array settings' do
     before do
-      # note: default_projects_modules is marked as serialized in settings.yml (no type-based automagic here)
       described_class.default_projects_modules = ['some_input']
     end
 
@@ -279,9 +278,28 @@ describe Setting, type: :model do
       expect(described_class.default_projects_modules).to eq ['some_input']
       expect(described_class.find_by(name: 'default_projects_modules').value).to eq ['some_input']
     end
+  end
 
-    after do
-      described_class.find_by(name: 'default_projects_modules').destroy
+  # tests the serialization feature to store complex data types like arrays in settings
+  describe 'serialized hash settings' do
+    before do
+      setting = described_class.create!(name: 'repository_checkout_data')
+      setting.update_columns(
+        value: {
+          git: { enabled: 0 },
+          subversion: { enabled: 0 }
+        }.to_yaml
+      )
+    end
+
+    it 'deserializes hashes stored with symbol keys as string keys' do
+      expected_value = {
+        "git" => { "enabled" => 0 },
+        "subversion" => { "enabled" => 0 }
+      }
+
+      expect(described_class.repository_checkout_data).to eq(expected_value)
+      expect(described_class.find_by(name: 'repository_checkout_data').value).to eq(expected_value)
     end
   end
 
@@ -298,7 +316,7 @@ describe Setting, type: :model do
       Rails.cache.clear
     end
 
-    context 'cache is empty' do
+    context 'when cache is empty' do
       it 'requests the settings once from database' do
         expect(Setting).to receive(:pluck).with(:name, :value)
           .once
