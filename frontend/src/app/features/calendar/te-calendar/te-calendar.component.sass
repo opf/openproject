@@ -85,9 +85,6 @@ te-calendar
         .te-calendar--add-icon
           display: none
 
-      .fc-event-title-container
-        margin: 0 !important
-
     .te-calendar--time-entry
       .fc-content
         height: 100%
@@ -101,6 +98,12 @@ te-calendar
       &.-no-fadeout
         .fc-fadeout
           display: none
+
+    .te-calendar--add-entry,
+    .te-calendar--time-entry
+      .fc-event-title-container
+        margin: 0 !important
+        line-height: 14px !important
 
     .fc-duration
       border-right: 1px solid white
