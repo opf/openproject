@@ -28,18 +28,7 @@
 
 require 'spec_helper'
 
-describe OpenProject::Configuration do
-  let!(:definitions_before) { Settings::Definition.all.dup }
-
-  before do
-    Settings::Definition.send(:reset)
-  end
-
-  after do
-    Settings::Definition.send(:reset)
-    Settings::Definition.instance_variable_set(:@all, definitions_before)
-  end
-
+describe OpenProject::Configuration, :settings_reset do
   describe '.[setting]' do
     it 'fetches the value' do
       expect(described_class.app_title)

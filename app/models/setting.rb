@@ -97,7 +97,7 @@ class Setting < ApplicationRecord
           end
 
           value = self[:#{name}]
-          ActiveRecord::Type::Boolean.new.cast(value)
+          ActiveRecord::Type::Boolean.new.cast(value) || false
         end
 
         def self.#{name}=(value)
@@ -157,7 +157,7 @@ class Setting < ApplicationRecord
   end
 
   def value=(val)
-    unless Settings::Definition[name].writable?
+    unless definition.writable?
       raise NoMethodError, "#{name} is not writable but can be set through env vars or configuration.yml file."
     end
 
@@ -167,7 +167,7 @@ class Setting < ApplicationRecord
   def formatted_value(value)
     return value if value.blank?
 
-    if config.serialized?
+    if definition.serialized?
       return value.to_yaml
     end
 
@@ -180,7 +180,7 @@ class Setting < ApplicationRecord
   end
 
   def self.[]=(name, value)
-    old_setting = cached_or_default(name)
+    old_value = cached_or_default(name)
     new_setting = find_or_initialize_by(name: name)
     new_setting.value = value
 
@@ -195,11 +195,11 @@ class Setting < ApplicationRecord
       clear_cache(old_cache_key)
 
       # fire callbacks for name and pass as much information as possible
-      fire_callbacks(name, new_value, old_setting)
+      fire_callbacks(name, new_value, old_value)
 
       new_value
     else
-      old_setting
+      old_value
     end
   end
 
@@ -273,7 +273,7 @@ class Setting < ApplicationRecord
     definition = Settings::Definition[name]
 
     value = if definition.writable?
-              cached_settings.fetch(name) { Settings::Definition[name].value }
+              cached_settings.fetch(name) { definition.value }
             else
               definition.value
             end
@@ -320,16 +320,16 @@ class Setting < ApplicationRecord
     @settings_table_exists_yet ||= connection.data_source_exists?(table_name)
   end
 
-  # Unserialize a serialized settings value
+  # Deserialize a serialized settings value
   def self.deserialize(name, value)
     definition = Settings::Definition[name]
 
     if definition.serialized? && value.is_a?(String)
       YAML::safe_load(value, permitted_classes: [Symbol, ActiveSupport::HashWithIndifferentAccess, Date, Time])
-    elsif value.present?
-      read_formatted_setting value, definition.format
+    elsif value != '' && !value.nil?
+      read_formatted_setting(value, definition.format)
     else
-      value
+      definition.format == :string ? value : nil
     end
   end
 
@@ -352,10 +352,10 @@ class Setting < ApplicationRecord
 
   protected
 
-  def config
-    @config ||= Settings::Definition[name]
+  def definition
+    @definition ||= Settings::Definition[name]
   end
 
   delegate :format,
-           to: :config
+           to: :definition
 end

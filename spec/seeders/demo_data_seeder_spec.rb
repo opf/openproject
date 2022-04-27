@@ -32,7 +32,11 @@ describe RootSeeder,
          'standard edition',
          with_config: { edition: 'standard' },
          with_settings: { journal_aggregation_time_minutes: 0 } do
-  it 'create the demo data' do
+  before do
+    allow($stdout).to receive(:puts) { |msg| Rails.logger.info(msg) }
+  end
+
+  it 'creates the demo data' do
     expect { described_class.new.do_seed! }.not_to raise_error
 
     expect(User.where(admin: true).count).to eq 1
