@@ -10,7 +10,8 @@
       <button
         *ngIf="canAdd"
         type="button"
-        class="spot-button spot-button_basic spot-button_main"
+        class="spot-link"
+        [class.wp-inline-create--split-link]="hasReferenceClass"
         [opAutofocus]="focus"
         (click)="handleAddRowClick()"
         [attr.aria-label]="text.create"
@@ -23,7 +24,7 @@
       <button
        *ngIf="canReference"
         type="button"
-        class="spot-button spot-button_basic spot-button_main"
+        class="spot-link wp-inline-create--split-link"
         (click)="handleReferenceClick()"
         [attr.aria-label]="text.create"
         aria-haspopup="true"
