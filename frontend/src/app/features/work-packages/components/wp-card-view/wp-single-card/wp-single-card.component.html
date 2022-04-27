@@ -18,7 +18,7 @@
          data-qa-selector="op-wp-single-card--inline-buttons">
       <button
         type="button"
-        class="op-link op-wp-single-card--details-button op-wp-single-card--card-action"
+        class="spot-link op-wp-single-card--details-button op-wp-single-card--card-action"
         data-qa-selector="op-wp-single-card--details-button"
         *ngIf="!isNewResource(workPackage) && showInfoButton"
         [title]="text.detailsView"
@@ -27,7 +27,7 @@
       </button>
 
       <button
-        class="op-link op-wp-single-card--inline-cancel-button op-wp-single-card--card-action"
+        class="spot-link op-wp-single-card--inline-cancel-button op-wp-single-card--card-action"
         data-qa-selector="op-wp-single-card--inline-cancel-button"
         *ngIf="isNewResource(workPackage) || showRemoveButton"
         [class.-show]="isNewResource(workPackage)"
