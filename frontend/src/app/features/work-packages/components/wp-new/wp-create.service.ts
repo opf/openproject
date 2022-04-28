@@ -270,7 +270,7 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
     const query = this.querySpace.query.value;
 
     if (query) {
-      const except:string[] = defaults?._links && defaults._links.type ? ['type'] : [];
+      const except:string[] = defaults?._links ? Object.keys(defaults._links) : [];
 
       new WorkPackageFilterValues(this.injector, query.filters, except)
         .applyDefaultsFromFilters(object);
