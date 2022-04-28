@@ -304,9 +304,9 @@ module Settings
       def each_env_var_hash_override(definition)
         hash_override_matcher =
           if definition.env_alias
-            /^(?:#{env_name(definition)}|#{env_name_legacy(definition)}|#{env_name_alias(definition)})_(.+)/i
+            /^(?:#{env_name(definition)}|#{env_name_nested(definition)}|#{env_name_alias(definition)})_(.+)/i
           else
-            /^(?:#{env_name(definition)}|#{env_name_legacy(definition)})_(.+)/i
+            /^(?:#{env_name(definition)}|#{env_name_nested(definition)})_(.+)/i
           end
         ENV.each do |env_var_name, env_var_value|
           env_var_name.match(hash_override_matcher) do |m|
@@ -317,14 +317,14 @@ module Settings
 
       def possible_env_names(definition)
         [
-          env_name_legacy(definition),
+          env_name_nested(definition),
           env_name(definition),
           env_name_unprefixed(definition),
           env_name_alias(definition)
         ].compact
       end
 
-      def env_name_legacy(definition)
+      def env_name_nested(definition)
         "#{ENV_PREFIX}#{definition.name.upcase.gsub('_', '__')}"
       end
 
