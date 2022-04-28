@@ -1,8 +1,8 @@
 class RestoreDefaultsOnEmptySettings < ActiveRecord::Migration[6.1]
   def up
-    Setting
-      .where(value: '')
-      .find_each do |setting|
+    settings = Setting.where(value: '')
+
+    settings.find_each do |setting|
       definition = Settings::Definition[setting.name]
 
       if definition.nil?
