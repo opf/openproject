@@ -109,7 +109,8 @@ module Redmine #:nodoc:
       if p.settings
         Settings::Definition.add("plugin_#{id}",
                                  value: p.settings[:default],
-                                 format: :hash)
+                                 format: :hash,
+                                 env_alias: p.settings[:env_alias])
       end
 
       # If there are plugins waiting for us to be loaded, we try loading those, again

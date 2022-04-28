@@ -1,4 +1,4 @@
-FROM ruby:3.0.3-bullseye as develop
+FROM ruby:3.0.4-bullseye as develop
 MAINTAINER operations@openproject.com
 
 ARG DEV_UID=1000
@@ -7,7 +7,7 @@ ARG DEV_GID=1001
 ENV USER=dev
 ENV RAILS_ENV=development
 
-ENV BUNDLER_VERSION "2.2.32"
+ENV BUNDLER_VERSION "2.3.12"
 
 # `--no-log-init` is required as a workaround to avoid disk exhaustion.
 #

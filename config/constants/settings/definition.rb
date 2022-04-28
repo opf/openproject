@@ -31,7 +31,8 @@ module Settings
     ENV_PREFIX = 'OPENPROJECT_'.freeze
 
     attr_accessor :name,
-                  :format
+                  :format,
+                  :env_alias
 
     attr_writer :value,
                 :allowed
@@ -40,12 +41,14 @@ module Settings
                    value:,
                    format: nil,
                    writable: true,
-                   allowed: nil)
+                   allowed: nil,
+                   env_alias: nil)
       self.name = name.to_s
       self.format = format ? format.to_sym : deduce_format(value)
-      self.value = value
+      self.value = value.is_a?(Hash) ? value.deep_stringify_keys : value
       self.writable = writable
       self.allowed = allowed
+      self.env_alias = env_alias
     end
 
     def value
@@ -84,7 +87,7 @@ module Settings
     def override_value(other_value)
       if format == :hash
         self.value = {} if value.nil?
-        value.deep_merge! other_value
+        value.deep_merge! other_value.deep_stringify_keys
       else
         self.value = other_value
       end
@@ -131,7 +134,8 @@ module Settings
               value:,
               format: nil,
               writable: true,
-              allowed: nil)
+              allowed: nil,
+              env_alias: nil)
         return if @by_name.present? && @by_name[name.to_s].present?
 
         @by_name = nil
@@ -140,7 +144,8 @@ module Settings
                          format: format,
                          value: value,
                          writable: writable,
-                         allowed: allowed)
+                         allowed: allowed,
+                         env_alias: env_alias)
 
         override_value(definition)
 
@@ -234,32 +239,37 @@ module Settings
       end
 
       def override_config_values(definition)
-        value = ENV[env_name(definition)]
-
-        return unless value
-
-        definition.override_value(extract_value(definition.name.upcase, value))
-      end
-
-      def merge_hash_config(definition)
-        ENV.select { |k, _| k =~ /^#{env_name(definition)}/i }.each do |k, raw_value|
-          _, value = path_to_hash(*path(ENV_PREFIX, k),
-                                  extract_value(k, raw_value))
-                        .first
-
-          # There might be ENV vars that match the OPENPROJECT_ prefix but are no OP instance
-          # settings, e.g. OPENPROJECT_DISABLE_DEV_ASSET_PROXY
+        find_env_var_override(definition) do |env_var_name, env_var_value|
+          value = extract_value_from_env(env_var_name, env_var_value)
           definition.override_value(value)
         end
       end
 
-      def path(prefix, env_var_name)
-        env_var_name
-          .sub(/^#{prefix}/, '')
-          .gsub(/([a-zA-Z0-9]|(__))+/)
-          .map do |seg|
-          unescape_underscores(seg.downcase)
+      def merge_hash_config(definition)
+        merged_hash = {}
+        each_env_var_hash_override(definition) do |env_var_name, env_var_value, env_var_hash_part|
+          value = extract_hash_from_env(env_var_name, env_var_value, env_var_hash_part)
+          merged_hash.deep_merge!(value)
         end
+        return if merged_hash.empty?
+
+        definition.override_value(merged_hash)
+      end
+
+      def extract_hash_from_env(env_var_name, env_var_value, env_var_hash_part)
+        value = extract_value_from_env(env_var_name, env_var_value)
+        path_to_hash(*hash_path(env_var_hash_part), value)
+      end
+
+      # takes the hash part of an env variable and turn it into a path.
+      #
+      # e.g. hash_path('KEY_SUB__KEY_SUB__SUB__KEY') => ['key', 'sub_key', 'sub_sub_key']
+      def hash_path(env_var_hash_part)
+        env_var_hash_part
+          .scan(/(?:[a-zA-Z0-9]|__)+/)
+          .map do |seg|
+            unescape_underscores(seg.downcase)
+          end
       end
 
       # takes the path provided and transforms it into a deeply nested hash
@@ -278,32 +288,80 @@ module Settings
         path_segment.gsub '__', '_'
       end
 
-      def env_name(definition)
+      def find_env_var_override(definition)
+        found_env_name = possible_env_names(definition).find { |name| ENV.key?(name) }
+        return unless found_env_name
+
+        if found_env_name == env_name_unprefixed(definition)
+          Rails.logger.warn(
+            "Using unprefixed environment variables is deprecated. " \
+            "Please use #{env_name(definition)} instead of #{env_name_unprefixed(definition)}"
+          )
+        end
+        yield found_env_name, ENV.fetch(found_env_name)
+      end
+
+      def each_env_var_hash_override(definition)
+        hash_override_matcher =
+          if definition.env_alias
+            /^(?:#{env_name(definition)}|#{env_name_legacy(definition)}|#{env_name_alias(definition)})_(.+)/i
+          else
+            /^(?:#{env_name(definition)}|#{env_name_legacy(definition)})_(.+)/i
+          end
+        ENV.each do |env_var_name, env_var_value|
+          env_var_name.match(hash_override_matcher) do |m|
+            yield env_var_name, env_var_value, m[1]
+          end
+        end
+      end
+
+      def possible_env_names(definition)
+        [
+          env_name_legacy(definition),
+          env_name(definition),
+          env_name_unprefixed(definition),
+          env_name_alias(definition)
+        ].compact
+      end
+
+      def env_name_legacy(definition)
         "#{ENV_PREFIX}#{definition.name.upcase.gsub('_', '__')}"
       end
 
+      def env_name(definition)
+        "#{ENV_PREFIX}#{definition.name.upcase}"
+      end
+
+      def env_name_unprefixed(definition)
+        definition.name.upcase
+      end
+
+      def env_name_alias(definition)
+        "#{ENV_PREFIX}#{definition.env_alias.upcase}" if definition.env_alias
+      end
+
       ##
-      # Extract the configuration value from the given input
+      # Extract the configuration value from the given environment variable
       # using YAML.
       #
-      # @param key [String] The key of the input within the source hash.
-      # @param original_value [String] The string from which to extract the actual value.
+      # @param env_var_name [String] The environment variable name.
+      # @param env_var_value [String] The string from which to extract the actual value.
       # @return A ruby object (e.g. Integer, Float, String, Hash, Boolean, etc.)
       # @raise [ArgumentError] If the string could not be parsed.
-      def extract_value(key, original_value)
+      def extract_value_from_env(env_var_name, env_var_value)
         # YAML parses '' as false, but empty ENV variables will be passed as that.
         # To specify specific values, one can use !!str (-> '') or !!null (-> nil)
-        return original_value if original_value == ''
+        return env_var_value if env_var_value == ''
 
-        parsed = load_yaml(original_value)
+        parsed = load_yaml(env_var_value)
 
         if parsed.is_a?(String)
-          original_value
+          env_var_value
         else
           parsed
         end
       rescue StandardError => e
-        raise ArgumentError, "Configuration value for '#{key}' is invalid: #{e.message}"
+        raise ArgumentError, "Configuration value for environment variable '#{env_var_name}' is invalid: #{e.message}"
       end
 
       def load_yaml(source)

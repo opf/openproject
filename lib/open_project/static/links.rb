@@ -93,7 +93,7 @@ module OpenProject
               label: 'noscript_learn_more'
             },
             upsale_get_quote: {
-              href: 'https://www.openproject.org/upgrade-enterprise-edition/',
+              href: 'https://www.openproject.org/request-quote/',
               label: 'admin.enterprise.get_quote'
             },
             user_guides: {
@@ -101,18 +101,18 @@ module OpenProject
               label: 'homescreen.links.user_guides'
             },
             upgrade_guides: {
-              href: 'https://www.openproject.org/operations/upgrading/',
+              href: 'https://www.openproject.org/docs/installation-and-operations/operation/upgrading/',
               label: :label_upgrade_guides
             },
             postgres_migration: {
-              href: 'https://www.openproject.org/operations/migration-guides/migrating-packaged-openproject-database-postgresql/',
+              href: 'https://www.openproject.org/docs/installation-and-operations/misc/packaged-postgresql-migration/',
               label: :'homescreen.links.postgres_migration'
             },
             postgres_13_upgrade: {
               href: 'https://docs.openproject.org/installation-and-operations/misc/migration-to-postgresql13/'
             },
             configuration_guide: {
-              href: 'https://www.openproject.org/operations/configuration/',
+              href: 'https://www.openproject.org/docs/installation-and-operations/configuration/',
               label: 'links.configuration_guide'
             },
             contact: {
@@ -120,7 +120,7 @@ module OpenProject
               label: 'links.get_in_touch'
             },
             glossary: {
-              href: 'https://www.openproject.org/help/glossary/',
+              href: 'https://www.openproject.org/docs/',
               label: 'homescreen.links.glossary'
             },
             shortcuts: {
@@ -152,7 +152,7 @@ module OpenProject
               label: :label_release_notes
             },
             data_privacy: {
-              href: 'https://www.openproject.org/data-privacy-and-security/',
+              href: 'https://www.openproject.org/legal/privacy/',
               label: :label_privacy_policy
             },
             report_bug: {
@@ -164,7 +164,7 @@ module OpenProject
               label: :label_development_roadmap
             },
             crowdin: {
-              href: 'https://crowdin.com/projects/opf',
+              href: 'https://www.openproject.org/docs/development/translate-openproject/',
               label: :label_add_edit_translations
             },
             api_docs: {
@@ -205,7 +205,7 @@ module OpenProject
               href: 'https://www.youtube.com/playlist?list=PLGzJ4gG7hPb8WWOWmeXqlfMfhdXReu-RJ'
             },
             openproject_docs: {
-              href: 'https://docs.openproject.org'
+              href: 'https://www.openproject.org/docs/'
             },
             contact_us: {
               href: 'https://www.openproject.org/contact-us'

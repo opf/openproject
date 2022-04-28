@@ -9,12 +9,18 @@ describe ::TwoFactorAuthentication::Users::TwoFactorDevicesController, with_2fa_
   let(:active_strategies) { [:developer] }
   let(:config) { {} }
 
+  include_context 'with settings' do
+    let(:settings) do
+      {
+        plugin_openproject_two_factor_authentication: {
+          'active_strategies' => active_strategies
+        }.merge(config)
+      }
+    end
+  end
+
   before do
     allow(User).to receive(:current).and_return(logged_in_user)
-    allow(OpenProject::Configuration).to receive(:[]).and_call_original
-    allow(OpenProject::Configuration)
-      .to receive(:[]).with('2fa')
-      .and_return({ active_strategies: active_strategies }.merge(config).with_indifferent_access)
     allow(OpenProject::TwoFactorAuthentication::TokenStrategyManager)
       .to receive(:add_default_strategy?)
       .and_return false

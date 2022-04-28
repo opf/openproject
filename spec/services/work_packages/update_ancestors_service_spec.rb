@@ -76,10 +76,14 @@ describe WorkPackages::UpdateAncestorsService, type: :model, with_mail: false do
     let(:parent) { create :work_package, status: open_status }
 
     subject do
+      # In the call we only use estimated_hours (instead of also adding
+      # done_ratio) in order to test that changes in estimated hours
+      # trigger a recalculation of done_ration, because estimated hours
+      # act as weights in this calculation.
       described_class
         .new(user: user,
              work_package: children.first)
-        .call(%i(done_ratio estimated_hours))
+        .call(%i(estimated_hours))
     end
 
     context 'with no estimated hours and no progress' do

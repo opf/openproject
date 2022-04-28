@@ -22,7 +22,8 @@
   &, *
     box-sizing: border-box
 
-  @include spot-focus
+  &:focus
+    @include spot-focus
 
   &:hover
     background-color: $spot-color-basic-gray-6

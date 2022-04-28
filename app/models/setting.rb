@@ -326,6 +326,7 @@ class Setting < ApplicationRecord
 
     if definition.serialized? && value.is_a?(String)
       YAML::safe_load(value, permitted_classes: [Symbol, ActiveSupport::HashWithIndifferentAccess, Date, Time])
+        .tap { |maybe_hash| maybe_hash.try(:deep_stringify_keys!) }
     elsif value != '' && !value.nil?
       read_formatted_setting(value, definition.format)
     else
