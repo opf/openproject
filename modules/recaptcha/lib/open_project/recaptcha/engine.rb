@@ -22,6 +22,10 @@ module OpenProject::Recaptcha
            caption: ->(*) { I18n.t('recaptcha.label_recaptcha') }
     end
 
+    initializer "openproject.configuration" do
+      ::Settings::Definition.add OpenProject::Recaptcha::Configuration::CONFIG_KEY, value: false
+    end
+
     config.after_initialize do
       SecureHeaders::Configuration.named_append(:recaptcha) do
         if OpenProject::Recaptcha.use_hcaptcha?
