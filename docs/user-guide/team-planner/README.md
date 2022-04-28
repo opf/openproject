@@ -16,20 +16,19 @@ A few notes:
 1. The work package module has to be enabled as a prerequisite for the team planner
 2. You can have multiple public, private, as well as favorite team planning calendars. They will all appear in the left menu bar.
 
-| Topic                 | Content                                     |
-| ------------------------------------- | :------------------------------------------ |
-| [Main view - planning calendar basics](team-planner) | How to navigate the team planner? |
-| **Getting started** |  |
-| [Step 1: Adding team members](team-planner) | How to add team members? |
-| [Step 2: Adding/working with work package strips](team-planner) | How to work with work package strips? |
-| [Work package strip detail view](team-planner) | How to access the work package detail view? |
-| [Removing a work package strip](team-planner) | How to remove a work package strip? |
+| Topic                                                                                     | Content                                     |
+|-------------------------------------------------------------------------------------------|:--------------------------------------------|
+| [Main view](#main-view-start-a-new-or-select-an-existing-team-planner)                    | How to start a team planner?                |
+| [Planning calendar basics](#planning-calendar-basics)                                     | How to navigate the team planner?           |
+| [Getting started](#getting-started)                                                       | How to get started?                         |
+| [Adding team members](#step-1-adding-team-members)                                        | How to add team members?                    |
+| [Adding/working with work package strips](#step-2-addingworking-with-work-package-strips) | How to work with work package strips?       |
+| [Work package strip detail view](#work-package-strip-detail-view)                         | How to access the work package detail view? |
+| [Removing a work package strip](#removing-a-work-package-strip)                           | How to remove a work package strip?         |
 
 ## Main view - Start a new or select an existing Team Planner
 
-![Overview of the team planner](Team-planner-overview.png)
-
-
+![Overview of the team planner](team-planner-overview.png)
 
 1. You can create a new team planner using either the **+ Create** button in the top right near your avatar, or by clicking the
 
@@ -42,7 +41,6 @@ A few notes:
 4. Team planners with the visibility option "public" unselected appear under the **Private Views** heading in the black menu bar. Note: If **public** is not selected, the calendar is automatically **private** and can only be seen by you, not other members.
 
    Both **public** and **private** calendars can be added as a **favored** planner, and would appear under the heading **Favorite Views** in the black menu bar.
-
 
 
 ## Planning calendar basics
@@ -62,7 +60,7 @@ How to navigate the team planner? - The numbers below correspond with the above 
 
 ## Getting started
 
-- ##### Step 1: Adding team members
+### Step 1: Adding team members
 
 The first step in setting up your team planning calendar is to add team members. This is done via the **+ add assignee** button in #3 above. Press the **+ add assignee** button, and then simply select the team member(s) from the drop-down list. Clicking on a given assignee's name will open a new window with a quick overview of which projects that member is assigned to.
 
@@ -72,9 +70,7 @@ Repeat this step until all team members relevant for this planner are added, and
 
 ![Adding team members](adding-team-members.png)
 
-
-
-- **Step 2: Adding/working with work package strips**
+### Step 2: Adding/working with work package strips
 
 Next, add specific work packages to your planner. Do this by pressing the **+ add existing" button** we introduced in step 2 of the main view overview. Once you press the **+ add existing** button, start typing the name of the work package you are looking to add. Once found, drag & drop the work package strip. Should the work package have a duration exceeding the current 1 or 2 week view, a horizontal scroll bar will display, with which it is possible to scroll to the end date of the longest running work package.
 
@@ -84,18 +80,16 @@ Additional features: You can change the status of a work package, and enter the 
 
 ![Working with work package strips](working-with-work-package-strips.png)
 
-- **Work package strip detail view**
+## Work package strip detail view
 
 Click on any given work package strip to open up a split screen showing the work package detail view.
 
 ![Work package strip detail view](work-package-strip-detail-view.png)
 
+## Removing a work package strip
 
+Work package strips are never fully removable, since the planning calendar is simply a view of the information pertaining to a given work package. There are, however, a few options to make the strip disappear from your view:
 
-- **Removing a work package strip**
-
-  Work package strips are never fully removable, since the planning calendar is simply a view of the information pertaining to a given work package. There are, however, a few options to make the strip disappear from your view:
-
-  1. Adding a filter that would exclude that work package.
-  2. Removing the assignee or changing the assignee to one that has not been added to the planner (and is thus not visible).
-  3. Changing the start/end dates so the currently visible date range does not fall in between them.
+1. Adding a filter that would exclude that work package.
+2. Removing the assignee or changing the assignee to one that has not been added to the planner (and is thus not visible).
+3. Changing the start/end dates so the currently visible date range does not fall in between them.
