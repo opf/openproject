@@ -31,7 +31,7 @@ Navigate to the [project settings](../project-settings) and click **Set as templ
 
 ## Use a project template 
 
-You can create a new project by using an existing template. This causes the properties of the project template to be copied to the new project. Find out in our Getting started guide how to [create a new project](../../getting-started/projects/#create-a-new-project) in OpenProject. 
+You can create a new project by using an existing template. This causes the properties of the project template to be copied to the new project. Find out in our Getting started guide how to [create a new project](../../../getting-started/projects/#create-a-new-project) in OpenProject. 
 Another way for using a template project would be to [copy it](../#copy-a-project).
 
 <video src="https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Project-Templates.mp4" type="video/mp4" controls="" style="width:100%"></video>
