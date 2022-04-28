@@ -7,11 +7,11 @@ robots: index, follow
 
 # Set up a development SAML idP
 
-**Note:** This guide is targeted only at development with OpenProject. For the SAML configuration guide, please see this URL: https://www.openproject.org/docs/system-admin-guide/authentication/saml/
+**Note:** This guide is targeted only at development with OpenProject. For the SAML configuration guide, please see this [here](../../system-admin-guide/authentication/saml/)
 
 
 
-To test the SAML integration in your development setup, you can use the following repository: https://github.com/kristophjunge/docker-test-saml-idp
+To test the SAML integration in your development setup, you can use the following repository: [docker-test-saml-idp](https://github.com/kristophjunge/docker-test-saml-idp)
 
 
 

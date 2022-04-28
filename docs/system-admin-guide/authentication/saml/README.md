@@ -300,7 +300,7 @@ A: You are able to chose a default direct-login-provider in the `/opt/openprojec
 omniauth_direct_login_provider: saml
 ```
 
-Read more: https://www.openproject.org/docs/installation-and-operations/configuration/#omniauth-direct-login-provider
+[Read more](../../../installation-and-operations/configuration/#omniauth-direct-login-provider)
 
 
 
