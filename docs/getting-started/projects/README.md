@@ -58,7 +58,7 @@ Alternatively, you can use the green **+ button** in the header menu to create a
 
 ![create project header](create-project-header.png)
 
-- You can either create a completely new project, create a subproject of an existing project or create a (sub)project from a template. For the latter option, choose a [template](../../user-guide/projects/#create-a-project-template) using the drop-down menu.
+- You can either create a completely new project, create a subproject of an existing project or create a (sub)project from a template. For the latter option, choose a [template](../../user-guide/projects/project-templates/#create-a-project-template) using the drop-down menu.
 - Enter a **name** for your project and click the blue **Save** button.
 - Integrate the project into the existing project hierarchy by defining it as a subproject of an existing project.
 - The **Advanced Settings** allow for further configuration, e.g. description, URL, etc.
