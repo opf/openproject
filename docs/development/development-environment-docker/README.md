@@ -192,7 +192,7 @@ When a dependency of the image or the base image itself is changed you may need 
 Ruby version is updated you may run into an error like the following when running `bin/compose setup`:
 
 ```
-Your Ruby version is 2.7.4, but your Gemfile specified ~> 3.0.3
+Your Ruby version is 2.7.4, but your Gemfile specified ~> 3.0.4
 ```
 
 This means that the current image is out-dated. You can update it like this:
