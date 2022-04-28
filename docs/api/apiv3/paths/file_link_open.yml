@@ -17,6 +17,13 @@ get:
       schema:
         type: integer
       example: 42
+    - name: location
+      description: Boolean flag indicating, if the file should be opened directly or rather the directory location.
+      in: query
+      required: false
+      schema:
+        type: boolean
+      example: true
   responses:
     '303':
       headers:
