@@ -65,7 +65,7 @@ describe 'creating a child directly after the wp itself was created', js: true d
 
     # Add child
     scroll_to_and_click relations_tab
-    find('.wp-inline-create--add-link.wp-inline-create--split-link').click
+    find('[data-qa-selector="op-wp-inline-create"]').click
     fill_in 'wp-new-inline-edit--field-subject', with: 'A child WP'
     find('#wp-new-inline-edit--field-subject').native.send_keys(:return)
 

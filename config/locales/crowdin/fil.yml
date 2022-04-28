@@ -2156,6 +2156,7 @@ fil:
   permission_comment_news: "Mga komento ng balita"
   permission_commit_access: "Magbasa/magsulat acess sa repositoryo (commit)"
   permission_copy_projects: "Kopyahin ang mga proyekto"
+  permission_create_backup: "Create backup"
   permission_delete_work_package_watchers: "Burahin ang mga manunuod"
   permission_delete_work_packages: "Burahin ang mga work package"
   permission_delete_messages: "Burahin ang mga mensahe"
@@ -2248,7 +2249,7 @@ fil:
     assigned_to_role: "Naitalagang tungkulin"
     member_of_group: "Itinalagang grupo"
     assignee_or_group: "Nakatakda o pag-aari ng grupo"
-    subproject_id: "Including Subproject"
+    subproject_id: "Including subproject"
     only_subproject_id: "Only subproject"
     name_or_identifier: "Pangalan o pagkakakilanlan"
   repositories:

@@ -2154,6 +2154,7 @@ da:
   permission_comment_news: "Kommenter nyheder"
   permission_commit_access: "Read/write access to repository (commit)"
   permission_copy_projects: "Kopiér projekter"
+  permission_create_backup: "Create backup"
   permission_delete_work_package_watchers: "Slet tilsynsførende"
   permission_delete_work_packages: "Slet arbejdspakker"
   permission_delete_messages: "Slet meddelelser"
@@ -2246,7 +2247,7 @@ da:
     assigned_to_role: "Tildeltes rolle"
     member_of_group: "Tildeltes gruppe"
     assignee_or_group: "Tildelte eller tilhørende gruppe"
-    subproject_id: "Including Subproject"
+    subproject_id: "Including subproject"
     only_subproject_id: "Only subproject"
     name_or_identifier: "Name or identifier"
   repositories:

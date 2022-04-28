@@ -2159,6 +2159,7 @@ hu:
   permission_comment_news: "Megjegyzések írása a hírekehez"
   permission_commit_access: "Olvasási és írási jog a tárolóhoz (commit)"
   permission_copy_projects: "Projekt másolása"
+  permission_create_backup: "Create backup"
   permission_delete_work_package_watchers: "Megfigyelők törlése"
   permission_delete_work_packages: "Törölje a feladatcsoportokat"
   permission_delete_messages: "Üzenetek törlése"
@@ -2251,7 +2252,7 @@ hu:
     assigned_to_role: "Hozzárendelt szerepkör"
     member_of_group: "Hozzárendelt csoport"
     assignee_or_group: "Megbízott, vagy a hozzá tartozó csoport"
-    subproject_id: "Alprojektet is beleértve\n"
+    subproject_id: "Including subproject"
     only_subproject_id: "Csak alprojekt"
     name_or_identifier: "Név vagy azonosító"
   repositories:

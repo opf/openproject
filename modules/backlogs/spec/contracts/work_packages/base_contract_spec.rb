@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
+require File.expand_path("#{File.dirname(__FILE__)}/../../spec_helper")
 
 describe WorkPackages::BaseContract, type: :model do
   let(:instance) { described_class.new(work_package, user) }
@@ -44,7 +44,7 @@ describe WorkPackages::BaseContract, type: :model do
     p = build(:project, members: [build(:member,
                                         principal: user,
                                         roles: [role])],
-                                   types: [type_feature, type_task, type_bug])
+                        types: [type_feature, type_task, type_bug])
 
     allow(p)
       .to receive(:assignable_versions)
@@ -60,7 +60,7 @@ describe WorkPackages::BaseContract, type: :model do
     p = build(:project, members: [build(:member,
                                         principal: user,
                                         roles: [role])],
-                                   types: [type_feature, type_task, type_bug])
+                        types: [type_feature, type_task, type_bug])
 
     allow(p)
       .to receive(:assignable_versions)
@@ -139,7 +139,7 @@ describe WorkPackages::BaseContract, type: :model do
 
   subject(:valid) { instance.validate }
 
-  before(:each) do
+  before do
     project.save!
 
     allow(Setting).to receive(:plugin_openproject_backlogs).and_return({ 'points_burn_direction' => 'down',
@@ -165,12 +165,12 @@ describe WorkPackages::BaseContract, type: :model do
     end
 
     shared_examples_for 'version being restricted by the parent' do
-      before(:each) do
-        work_package.parent = parent unless work_package.parent.present?
+      before do
+        work_package.parent = parent if work_package.parent.blank?
       end
 
       describe 'WITHOUT a version and the parent also having no version' do
-        before(:each) do
+        before do
           parent.version = nil
           work_package.version = nil
         end
@@ -179,7 +179,7 @@ describe WorkPackages::BaseContract, type: :model do
       end
 
       describe 'WITHOUT a version and the parent having a version' do
-        before(:each) do
+        before do
           parent.version = version1
           work_package.version = nil
         end
@@ -188,7 +188,7 @@ describe WorkPackages::BaseContract, type: :model do
       end
 
       describe 'WITH a version and the parent having a different version' do
-        before(:each) do
+        before do
           parent.version = version1
           work_package.version = version2
         end
@@ -197,7 +197,7 @@ describe WorkPackages::BaseContract, type: :model do
       end
 
       describe 'WITH a version and the parent having the same version' do
-        before(:each) do
+        before do
           parent.version = version1
           work_package.version = version1
         end
@@ -206,7 +206,7 @@ describe WorkPackages::BaseContract, type: :model do
       end
 
       describe 'WITH a version and the parent having no version' do
-        before(:each) do
+        before do
           parent.version = nil
           work_package.version = version1
         end
@@ -216,12 +216,12 @@ describe WorkPackages::BaseContract, type: :model do
     end
 
     shared_examples_for 'version not being restricted by the parent' do
-      before(:each) do
-        work_package.parent = parent unless work_package.parent.present?
+      before do
+        work_package.parent = parent if work_package.parent.blank?
       end
 
       describe 'WITHOUT a version and the parent also having no version' do
-        before(:each) do
+        before do
           parent.version = nil
           work_package.version = nil
         end
@@ -230,7 +230,7 @@ describe WorkPackages::BaseContract, type: :model do
       end
 
       describe 'WITHOUT a version and the parent having a version' do
-        before(:each) do
+        before do
           parent.version = version1
           work_package.version = nil
         end
@@ -239,7 +239,7 @@ describe WorkPackages::BaseContract, type: :model do
       end
 
       describe 'WITH a version and the parent having a different version' do
-        before(:each) do
+        before do
           parent.version = version1
           work_package.version = version2
         end
@@ -248,7 +248,7 @@ describe WorkPackages::BaseContract, type: :model do
       end
 
       describe 'WITH a version and the parent having the same version' do
-        before(:each) do
+        before do
           parent.version = version1
           work_package.version = version1
         end
@@ -257,7 +257,7 @@ describe WorkPackages::BaseContract, type: :model do
       end
 
       describe 'WITH a version and the parent having no version' do
-        before(:each) do
+        before do
           parent.version = nil
           work_package.version = version1
         end
@@ -268,7 +268,7 @@ describe WorkPackages::BaseContract, type: :model do
 
     shared_examples_for 'version without restriction' do
       describe 'WITHOUT a version' do
-        before(:each) do
+        before do
           work_package.version = nil
         end
 
@@ -276,7 +276,7 @@ describe WorkPackages::BaseContract, type: :model do
       end
 
       describe 'WITH a version' do
-        before(:each) do
+        before do
           work_package.version = version1
         end
 
@@ -288,19 +288,19 @@ describe WorkPackages::BaseContract, type: :model do
       let(:work_package) { story }
 
       describe 'WITHOUT a parent work_package' do
-        it_should_behave_like 'version without restriction'
+        it_behaves_like 'version without restriction'
       end
 
       describe "WITH a story as its parent" do
         let(:parent) { story2 }
 
-        it_should_behave_like 'version not being restricted by the parent'
+        it_behaves_like 'version not being restricted by the parent'
       end
 
       describe "WITH a non backlogs tracked work_package as its parent" do
         let(:parent) { bug }
 
-        it_should_behave_like 'version not being restricted by the parent'
+        it_behaves_like 'version not being restricted by the parent'
       end
     end
 
@@ -308,29 +308,29 @@ describe WorkPackages::BaseContract, type: :model do
       let(:work_package) { task }
 
       describe 'WITHOUT a parent work_package (would then be an impediment)' do
-        it_should_behave_like 'version without restriction'
+        it_behaves_like 'version without restriction'
       end
 
       describe "WITH a task as its parent" do
-        before(:each) do
+        before do
           task.parent = task2
         end
 
         let(:parent) { task2 }
 
-        it_should_behave_like 'version being restricted by the parent'
+        it_behaves_like 'version being restricted by the parent'
       end
 
       describe "WITH a story as its parent" do
         let(:parent) { story }
 
-        it_should_behave_like 'version being restricted by the parent'
+        it_behaves_like 'version being restricted by the parent'
       end
 
       describe "WITH a non backlogs tracked work_package as its parent" do
         let(:parent) { bug }
 
-        it_should_behave_like 'version not being restricted by the parent'
+        it_behaves_like 'version not being restricted by the parent'
       end
     end
 
@@ -338,25 +338,25 @@ describe WorkPackages::BaseContract, type: :model do
       let(:work_package) { bug }
 
       describe 'WITHOUT a parent work_package' do
-        it_should_behave_like 'version without restriction'
+        it_behaves_like 'version without restriction'
       end
 
       describe "WITH a task as its parent" do
         let(:parent) { task2 }
 
-        it_should_behave_like 'version not being restricted by the parent'
+        it_behaves_like 'version not being restricted by the parent'
       end
 
       describe "WITH a story as its parent" do
         let(:parent) { story }
 
-        it_should_behave_like 'version not being restricted by the parent'
+        it_behaves_like 'version not being restricted by the parent'
       end
 
       describe "WITH a non backlogs tracked work_package as its parent" do
         let(:parent) { bug2 }
 
-        it_should_behave_like 'version not being restricted by the parent'
+        it_behaves_like 'version not being restricted by the parent'
       end
     end
   end
@@ -367,26 +367,6 @@ describe WorkPackages::BaseContract, type: :model do
         expect(subject).to be_falsey
         expect(instance.errors.symbols_for(:parent_id))
           .to match_array([:parent_child_relationship_across_projects])
-      end
-    end
-
-    shared_examples_for 'project id restricted by parent' do
-      describe 'WITH the parent having a different project' do
-        before do
-          parent.project = other_project
-          work_package.parent = parent
-        end
-
-        it_behaves_like 'is invalid and notes the error'
-      end
-
-      describe 'WITH the work_package having a different project' do
-        before do
-          work_package.parent = parent
-          work_package.project = other_project
-        end
-
-        it_behaves_like 'is invalid and notes the error'
       end
     end
 
@@ -416,7 +396,7 @@ describe WorkPackages::BaseContract, type: :model do
       describe 'WITH a story as its parent' do
         let(:parent) { story }
 
-        it_behaves_like 'project id restricted by parent'
+        it_behaves_like 'project id unrestricted by parent'
       end
 
       describe 'WITH a non backlogs work package as its parent' do

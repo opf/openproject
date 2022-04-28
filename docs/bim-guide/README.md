@@ -100,7 +100,7 @@ You don't need it, but it makes your BIM Issue Management much easier. The *Open
 
 ### Are there any System Requirements for the Revit Add-In?
 
-The OpenProject Revit Add-In does not have any special system requirements. Only a supported [version of Autodesk Revit](/#system-requirements) must be installed. 
+The OpenProject Revit Add-In does not have any special system requirements. Only a supported [version of Autodesk Revit](./revit-add-in/#system-requirements) must be installed. 
 
 
 

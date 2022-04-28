@@ -2175,6 +2175,7 @@ lv:
   permission_comment_news: "Comment news"
   permission_commit_access: "Read/write access to repository (commit)"
   permission_copy_projects: "Kopēt projektus"
+  permission_create_backup: "Create backup"
   permission_delete_work_package_watchers: "Dzēst sekotājus"
   permission_delete_work_packages: "Delete work packages"
   permission_delete_messages: "Delete messages"
@@ -2267,7 +2268,7 @@ lv:
     assigned_to_role: "Assignee's role"
     member_of_group: "Assignee's group"
     assignee_or_group: "Assignee or belonging group"
-    subproject_id: "Including Subproject"
+    subproject_id: "Including subproject"
     only_subproject_id: "Only subproject"
     name_or_identifier: "Nosaukumu vai identifikatoru"
   repositories:

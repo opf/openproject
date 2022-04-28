@@ -2174,6 +2174,7 @@ ro:
   permission_comment_news: "Comentare noutăți"
   permission_commit_access: "Acces de citire/scriere la repo (încărcare)"
   permission_copy_projects: "Copiere proiecte"
+  permission_create_backup: "Create backup"
   permission_delete_work_package_watchers: "Eliminare observatori"
   permission_delete_work_packages: "Ștergere pachete de lucru"
   permission_delete_messages: "Ștergere mesaje"
@@ -2266,7 +2267,7 @@ ro:
     assigned_to_role: "Rolul executantului"
     member_of_group: "Grupul executantului"
     assignee_or_group: "Destinatarul sau grupul de apartenență"
-    subproject_id: "Inclusiv subproiectul"
+    subproject_id: "Including subproject"
     only_subproject_id: "Numai subproiect"
     name_or_identifier: "Nume sau identificator"
   repositories:

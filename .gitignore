@@ -115,6 +115,7 @@ structure.sql
 
 # Local development docker 
 /.env
+/docker-compose.override.yml
 
 # Local development direnv files
 /.envrc

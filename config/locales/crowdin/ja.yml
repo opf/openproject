@@ -2133,6 +2133,7 @@ ja:
   permission_comment_news: "ニュースへのコメント"
   permission_commit_access: "リポジトリに読み取り/書き込みアクセス (コミット)"
   permission_copy_projects: "プロジェクトのコピー"
+  permission_create_backup: "Create backup"
   permission_delete_work_package_watchers: "ウォッチャーの削除"
   permission_delete_work_packages: "ワークパッケージの削除"
   permission_delete_messages: "メッセージの削除"
@@ -2225,7 +2226,7 @@ ja:
     assigned_to_role: "担当者のロール"
     member_of_group: "担当者のグループ"
     assignee_or_group: "担当者または所属グループ"
-    subproject_id: "サブプロジェクトを含む"
+    subproject_id: "Including subproject"
     only_subproject_id: "サブプロジェクトのみ"
     name_or_identifier: "名前または ID"
   repositories:

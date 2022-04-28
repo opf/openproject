@@ -103,6 +103,7 @@ module DevelopmentData
         user.status = User.statuses[:active]
         user.language = I18n.locale
         user.force_password_change = false
+        user.notification_settings.build(involved: true, mentioned: true, watched: true)
       end
     end
 

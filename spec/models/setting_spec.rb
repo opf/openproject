@@ -111,6 +111,47 @@ describe Setting, type: :model do
       expect(described_class.app_title)
         .to eql('OpenProject')
     end
+
+    context 'when value is blank but not nil' do
+      it 'is read correctly for array' do
+        expect(Settings::Definition['apiv3_cors_origins'].format).to eq(:array) # safeguard
+        expect(described_class['apiv3_cors_origins']).to eq([])
+      end
+
+      it 'is read correctly for hash' do
+        expect(Settings::Definition['fog'].format).to eq(:hash) # safeguard
+        expect(described_class['fog']).to eq({})
+      end
+    end
+
+    context 'when value was seeded as empty string in database', :settings_reset do
+      let(:setting_name) { "my_setting" }
+
+      subject { described_class[setting_name] }
+
+      before do
+        Settings::Definition.add(
+          setting_name,
+          value: nil,
+          format: setting_format
+        )
+        described_class.create!(name: setting_name, value: '')
+      end
+
+      %i[array boolean date datetime hash symbol].each do |setting_format|
+        context "for a #{setting_format} setting" do
+          let(:setting_format) { setting_format }
+
+          it { is_expected.to be_nil }
+        end
+      end
+
+      context 'for a string setting' do
+        let(:setting_format) { :string }
+
+        it { is_expected.to eq('') }
+      end
+    end
   end
 
   describe '.[setting]?' do
@@ -295,7 +336,7 @@ describe Setting, type: :model do
       end
     end
 
-    context 'cache is not empty' do
+    context 'when cache is not empty' do
       let(:cached_hash) do
         { 'available_languages' => "---\n- en\n- de\n" }
       end

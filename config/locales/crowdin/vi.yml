@@ -2139,6 +2139,7 @@ vi:
   permission_comment_news: "Chú thích vào tin mới"
   permission_commit_access: "Read/write access to repository (commit)"
   permission_copy_projects: "Sao chép dự án"
+  permission_create_backup: "Create backup"
   permission_delete_work_package_watchers: "Xóa người xem"
   permission_delete_work_packages: "Xóa gói công việc"
   permission_delete_messages: "Xóa tin nhắn"
@@ -2231,7 +2232,7 @@ vi:
     assigned_to_role: "Assignee's role"
     member_of_group: "Assignee's group"
     assignee_or_group: "Người chuyển hoặc thuộc nhóm"
-    subproject_id: "Including Subproject"
+    subproject_id: "Including subproject"
     only_subproject_id: "Only subproject"
     name_or_identifier: "Name or identifier"
   repositories:

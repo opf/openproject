@@ -28,44 +28,52 @@
 
 require 'spec_helper'
 
-describe 'SettingSeeder' do
-  subject { ::BasicData::SettingSeeder.new }
+describe ::BasicData::SettingSeeder do
+  subject { described_class.new }
 
   let(:new_project_role) { Role.find_by(name: I18n.t(:default_role_project_admin)) }
   let(:closed_status) { Status.find_by(name: I18n.t(:default_status_closed)) }
 
   before do
-    allow(STDOUT).to receive(:puts)
     allow(ActionMailer::Base).to receive(:perform_deliveries).and_return(false)
     allow(Delayed::Worker).to receive(:delay_jobs).and_return(false)
 
-    expect { BasicDataSeeder.new.seed! }.not_to raise_error
+    BasicData::BuiltinRolesSeeder.new.seed!
+    BasicData::RoleSeeder.new.seed!
+    BasicData::ColorSchemeSeeder.new.seed!
+    StandardSeeder::BasicData::StatusSeeder.new.seed!
+    described_class.new.seed!
   end
 
   def reseed!
-    expect(subject).to receive(:update_unless_present).twice.and_call_original
-    expect(subject).to be_applicable
-    expect { subject.seed! }.not_to raise_error
+    subject.seed!
   end
 
-  shared_examples 'settings' do
-    it 'applies initial settings' do
-      Setting.where(name: %w(commit_fix_status_id new_project_user_role_id)).delete_all
+  it 'applies initial settings' do
+    Setting.where(name: %w(commit_fix_status_id new_project_user_role_id)).delete_all
+    expect(subject).to be_applicable
 
-      reseed!
+    reseed!
 
-      expect(Setting.commit_fix_status_id).to eq closed_status.id
-      expect(Setting.new_project_user_role_id).to eq new_project_role.id
-    end
+    expect(subject).not_to be_applicable
+    expect(Setting.commit_fix_status_id).to eq closed_status.id
+    expect(Setting.new_project_user_role_id).to eq new_project_role.id
+  end
 
-    it 'does not override settings' do
-      Setting.commit_fix_status_id = 1337
-      Setting.where(name: 'new_project_user_role_id').delete_all
+  it 'does not override settings' do
+    Setting.commit_fix_status_id = 1337
+    Setting.where(name: 'new_project_user_role_id').delete_all
 
-      reseed!
+    reseed!
 
-      expect(Setting.commit_fix_status_id).to eq 1337
-      expect(Setting.new_project_user_role_id).to eq new_project_role.id
-    end
+    expect(Setting.commit_fix_status_id).to eq 1337
+    expect(Setting.new_project_user_role_id).to eq new_project_role.id
+  end
+
+  it 'does not seed settings whose default value is undefined' do
+    names_of_undefined_settings = Settings::Definition.all.select { _1.value == nil }.map(&:name)
+    # these ones are special as their value is set based on database ids
+    names_of_undefined_settings -= ["new_project_user_role_id", "commit_fix_status_id"]
+    expect(Setting.where(name: names_of_undefined_settings).pluck(:name)).to be_empty
   end
 end

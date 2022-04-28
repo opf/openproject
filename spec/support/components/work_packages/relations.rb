@@ -164,7 +164,7 @@ module Components
 
       def inline_create_child(subject_text)
         container = find('.wp-relations--children')
-        scroll_to_and_click(container.find('.wp-inline-create-button-row .wp-inline-create--add-link'))
+        scroll_to_and_click(container.find('[data-qa-selector="op-wp-inline-create"]'))
 
         subject = ::EditField.new(container, 'subject')
         subject.expect_active!
@@ -176,7 +176,7 @@ module Components
           next if page.has_selector?('.wp-relations--children .ng-input input')
 
           SeleniumHubWaiter.wait
-          find('.wp-inline-create--reference-link', text: I18n.t('js.relation_buttons.add_existing_child')).click
+          find('[data-qa-selector="op-wp-inline-create-reference"]', text: I18n.t('js.relation_buttons.add_existing_child')).click
 
           # Security check to be sure that the autocompleter has finished loading
           page.find '.wp-relations--children .ng-input input'

@@ -2192,6 +2192,7 @@ ru:
   permission_comment_news: "Комментировать новость"
   permission_commit_access: "Возможность чтения/записи в репозиторий (commit)"
   permission_copy_projects: "Копировать проект"
+  permission_create_backup: "Создать резервную копию"
   permission_delete_work_package_watchers: "Удалить наблюдателей"
   permission_delete_work_packages: "Удалить пакеты работ"
   permission_delete_messages: "Удалить сообщения"

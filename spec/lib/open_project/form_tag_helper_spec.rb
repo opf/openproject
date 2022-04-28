@@ -44,7 +44,7 @@ describe OpenProject::FormTagHelper, type: :helper do
       expect(output).to be_html_eql(%{
         <form accept-charset="UTF-8" action="/feedback" class="form"
           method="post"><input name="utf8"
-          type="hidden" value="&#x2713;" autocomplete="off"/><p>Form content</p></form>
+          type="hidden" value="&#x2713;" autocomplete="off" /><p>Form content</p></form>
       })
     end
   end

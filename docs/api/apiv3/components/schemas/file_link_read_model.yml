@@ -42,6 +42,8 @@ properties:
       - creator
       - originOpen
       - staticOriginOpen
+      - originOpenLocation
+      - staticOriginOpenLocation
     properties:
       self:
         allOf:
@@ -92,6 +94,20 @@ properties:
           - $ref: './link.yml'
           - description: |-
               A static uri to open the origin file on the storage. Responds with a redirect.
+              
+              **Resource**: N/A
+      originOpenLocation:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The uri to open the location of origin file on the origin itself.
+              
+              **Resource**: N/A
+      staticOriginOpenLocation:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              A static uri to open the location of the origin file on the storage. Responds with a redirect.
               
               **Resource**: N/A
 
@@ -148,22 +164,22 @@ example:
   _links:
     self:
       href: /api/v3/work_package/17/file_links/1337
-      title: file link
     storage:
       href: /api/v3/storage/42
-      title: storage
+      title: It's no moon
     container:
       href: /api/v3/work_package/17
-      title: work package
+      title: Develop API
     creator:
       href: /api/v3/users/33
       title: Obi-Wan Kenobi
     delete:
       href: /api/v3/work_package/17/file_links/1337
-      title: file link delete API
     originOpen:
-      href: https://nextcloud.deathstar.rocks/index.php/f?fileid=5503
-      title: file open
+      href: https://nextcloud.deathstar.rocks/index.php/f/5503?openfile=1
     staticOriginOpen:
       href: /api/v3/work_package/17/file_links/1337/open
-      title: file open
+    originOpenLocation:
+      href: https://nextcloud.deathstar.rocks/index.php/f/5503?openfile=0
+    staticOriginOpenLocation:
+      href: /api/v3/work_package/17/file_links/1337/open?location=true

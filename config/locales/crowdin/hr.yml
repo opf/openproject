@@ -2175,6 +2175,7 @@ hr:
   permission_comment_news: "Komentirajte vijest"
   permission_commit_access: "Read/write pristup repozitoriju (commit)"
   permission_copy_projects: "Kopiraj projekte"
+  permission_create_backup: "Create backup"
   permission_delete_work_package_watchers: "Izbrišite nadglednike"
   permission_delete_work_packages: "Izbriši radne pakete"
   permission_delete_messages: "Obriši poruke"
@@ -2267,7 +2268,7 @@ hr:
     assigned_to_role: "Rola opunomoćenog korisnika"
     member_of_group: "Grupa opunomoćenog korisnika"
     assignee_or_group: "Assignee or belonging group"
-    subproject_id: "Including Subproject"
+    subproject_id: "Including subproject"
     only_subproject_id: "Only subproject"
     name_or_identifier: "Ime ili identifikator"
   repositories:

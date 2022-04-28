@@ -5,4 +5,5 @@ tmp/oas-generated.yml:
     - '#/paths/~1api~1v3~1work_packages~1{id}~1relations/get/responses'
     - '#/paths/~1api~1v3~1file_links~1{file_link_id}~1open/get/responses'
   operation-4xx-response:
+    - '#/paths/~1api~1v3/get/responses'
     - '#/paths/~1api~1v3~1work_packages~1{id}~1relations/get/responses'

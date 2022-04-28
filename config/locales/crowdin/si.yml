@@ -2156,6 +2156,7 @@ si:
   permission_comment_news: "අදහස් ප්රවෘත්ති"
   permission_commit_access: "කියවීමට/ගබඩාවට ප්රවේශ වීම (කැප කිරීම)"
   permission_copy_projects: "ව්යාපෘති පිටපත් කරන්න"
+  permission_create_backup: "Create backup"
   permission_delete_work_package_watchers: "මුරකරුවන් මකන්න"
   permission_delete_work_packages: "වැඩ පැකේජ මකන්න"
   permission_delete_messages: "පණිවිඩ මකන්න"
@@ -2248,7 +2249,7 @@ si:
     assigned_to_role: "ඇසිග්නීගේ භූමිකාව"
     member_of_group: "අස්සිග්නි කණ්ඩායම"
     assignee_or_group: "Assignee හෝ අයත් පිරිසක්"
-    subproject_id: "Including Subproject"
+    subproject_id: "Including subproject"
     only_subproject_id: "Only subproject"
     name_or_identifier: "නම හෝ හඳුනාගැනීමේ"
   repositories:

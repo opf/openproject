@@ -2193,6 +2193,7 @@ sk:
   permission_comment_news: "Komentovanie noviniek"
   permission_commit_access: "Prístup do úložiska čítanie/zápis (commit)"
   permission_copy_projects: "Kopírovať projekty"
+  permission_create_backup: "Create backup"
   permission_delete_work_package_watchers: "Zmazať sledujúcich užívateľov"
   permission_delete_work_packages: "Odstrániť pracovné balíčky"
   permission_delete_messages: "Vymazať správy"
@@ -2285,7 +2286,7 @@ sk:
     assigned_to_role: "Priradená rola"
     member_of_group: "Skupina priradeného používateľa"
     assignee_or_group: "Priradené používateľovi alebo jeho skupine"
-    subproject_id: "Including Subproject"
+    subproject_id: "Including subproject"
     only_subproject_id: "Only subproject"
     name_or_identifier: "Meno alebo identifikátor"
   repositories:

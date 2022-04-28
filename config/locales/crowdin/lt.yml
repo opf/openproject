@@ -2191,6 +2191,7 @@ lt:
   permission_comment_news: "Komentuoti naujienas"
   permission_commit_access: "Skaitymo/rašymo prieiga į repozitoriją"
   permission_copy_projects: "Kopijuoti projekus"
+  permission_create_backup: "Create backup"
   permission_delete_work_package_watchers: "Pašalinti stebėtojus"
   permission_delete_work_packages: "Pašalinti darbų paketus"
   permission_delete_messages: "Pašalinti pranešimus"
@@ -2283,7 +2284,7 @@ lt:
     assigned_to_role: "Priskirtojo asmens vaidmuo"
     member_of_group: "Priskirtojo asmens grupė"
     assignee_or_group: "Paskirtas ar priklausanti grupė"
-    subproject_id: "Įtraukti sub-projektus"
+    subproject_id: "Including subproject"
     only_subproject_id: "Tik sub-projektai"
     name_or_identifier: "Pavadinimas arba identifikatorius"
   repositories:

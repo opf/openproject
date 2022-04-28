@@ -2153,6 +2153,7 @@ it:
   permission_comment_news: "Commentare le novità"
   permission_commit_access: "Accesso in lettura/scrittura all'archivio (commit)"
   permission_copy_projects: "Copiare progetti"
+  permission_create_backup: "Create backup"
   permission_delete_work_package_watchers: "Eliminare osservatori"
   permission_delete_work_packages: "Cancellare macro-attività"
   permission_delete_messages: "Cancellare messaggi"
@@ -2245,7 +2246,7 @@ it:
     assigned_to_role: "Ruolo dell'incaricato"
     member_of_group: "Gruppo dell'incaricato"
     assignee_or_group: "Assegnatario o gruppo di appartenenza"
-    subproject_id: "Compreso Il sottoprogetto"
+    subproject_id: "Including subproject"
     only_subproject_id: "Solo sottoprogetto"
     name_or_identifier: "Nome o identificativo"
   repositories:

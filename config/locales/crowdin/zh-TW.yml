@@ -2136,6 +2136,7 @@ zh-TW:
   permission_comment_news: "對新聞發表評論"
   permission_commit_access: "讀/寫 權限版本庫 (Commit)"
   permission_copy_projects: "複製專案"
+  permission_create_backup: "Create backup"
   permission_delete_work_package_watchers: "刪除監看者"
   permission_delete_work_packages: "刪除工作項目"
   permission_delete_messages: "刪除訊息"
@@ -2228,7 +2229,7 @@ zh-TW:
     assigned_to_role: "負責執行者的角色"
     member_of_group: "負責執行者的群組"
     assignee_or_group: "被指派或所屬的人或群組"
-    subproject_id: "Including Subproject"
+    subproject_id: "Including subproject"
     only_subproject_id: "Only subproject"
     name_or_identifier: "名稱或識別碼"
   repositories:

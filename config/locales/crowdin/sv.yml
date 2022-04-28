@@ -2155,6 +2155,7 @@ sv:
   permission_comment_news: "Kommentera nyhet"
   permission_commit_access: "Läs- och skrivbehörighet till databasen (incheckning)"
   permission_copy_projects: "Kopiera projekt"
+  permission_create_backup: "Create backup"
   permission_delete_work_package_watchers: "Ta bort bevakare"
   permission_delete_work_packages: "Ta bort arbetspaket"
   permission_delete_messages: "Ta bort meddelanden"
@@ -2247,7 +2248,7 @@ sv:
     assigned_to_role: "Tilldelades roll"
     member_of_group: "Den tilldelades grupp"
     assignee_or_group: "Tilldelad eller tillhörandegrupp"
-    subproject_id: "Including Subproject"
+    subproject_id: "Including subproject"
     only_subproject_id: "Only subproject"
     name_or_identifier: "Namn eller identifierare"
   repositories:

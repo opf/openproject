@@ -2156,6 +2156,7 @@ et:
   permission_comment_news: "Uudiseid kommenteerida"
   permission_commit_access: "Read/write access to repository (commit)"
   permission_copy_projects: "Kopeerida projekte"
+  permission_create_backup: "Create backup"
   permission_delete_work_package_watchers: "Jälgijaid eemaldada"
   permission_delete_work_packages: "Teemasid kustutada"
   permission_delete_messages: "Postitusi kustutada"
@@ -2248,7 +2249,7 @@ et:
     assigned_to_role: "Omistatud rollile"
     member_of_group: "Omistatud rühmale"
     assignee_or_group: "Assignee or belonging group"
-    subproject_id: "Including Subproject"
+    subproject_id: "Including subproject"
     only_subproject_id: "Only subproject"
     name_or_identifier: "Name or identifier"
   repositories:

@@ -2152,6 +2152,7 @@ nl:
   permission_comment_news: "Opmerking nieuws"
   permission_commit_access: "Lees/schrijf toegang tot opslagplaats (bevestig)"
   permission_copy_projects: "Kopiëren van projecten"
+  permission_create_backup: "Create backup"
   permission_delete_work_package_watchers: "Kijkers verwijderen"
   permission_delete_work_packages: "Werkpakketten verwijderen"
   permission_delete_messages: "Berichten verwijderen"
@@ -2244,7 +2245,7 @@ nl:
     assigned_to_role: "Werknemer's rol"
     member_of_group: "Werknemer's groep"
     assignee_or_group: "Toegekend aan of hoort bij groep"
-    subproject_id: "Including Subproject"
+    subproject_id: "Including subproject"
     only_subproject_id: "Only subproject"
     name_or_identifier: "Naam of id"
   repositories:

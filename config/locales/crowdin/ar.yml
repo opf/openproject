@@ -2232,6 +2232,7 @@ ar:
   permission_comment_news: "أخبار التعليق"
   permission_commit_access: "الوصول للقراءة/الكتابة إلى المستودع (الالتزام)"
   permission_copy_projects: "نسخ المشاريع"
+  permission_create_backup: "Create backup"
   permission_delete_work_package_watchers: "حذف مراقبات"
   permission_delete_work_packages: "حذف مجموعات العمل"
   permission_delete_messages: "حذف الرسائل"
@@ -2324,7 +2325,7 @@ ar:
     assigned_to_role: "دور الموكل إليه"
     member_of_group: "مجموعة الموكل إليه"
     assignee_or_group: "Assignee or belonging group"
-    subproject_id: "Including Subproject"
+    subproject_id: "Including subproject"
     only_subproject_id: "Only subproject"
     name_or_identifier: "Name or identifier"
   repositories:

@@ -57,7 +57,7 @@ $table-timeline--compact-row-height: 28px
   .work-packages-tabletimeline--table-side,
   .work-packages-tabletimeline--timeline-side
     contain: initial !important
-    
+
     @media print
       max-width: 100%
 
@@ -90,15 +90,11 @@ $table-timeline--compact-row-height: 28px
       padding-top: 2px
       padding-bottom: 2px
 
-    // Fix inline create heights
-    .wp-inline-create--add-link,
-    .wp-inline-create--reference-link
-      height: $table-timeline--compact-row-height
-      padding: 0 5px 0 0
-      line-height: 2
-
     .wp-inline-create-button-td
       vertical-align: top
+
+      .wp-inline-create--split-link:not(:last-of-type)
+        margin-right: 12px
 
     // Disable default padding when hierarchies are disabled
     &.-hierarchy-disabled

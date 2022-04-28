@@ -2156,6 +2156,7 @@ tr:
   permission_comment_news: "Haberlere yorum yazmak"
   permission_commit_access: "Depoya okuma / yazma erişimi (tamamlama)"
   permission_copy_projects: "Proje kopyalamak"
+  permission_create_backup: "Create backup"
   permission_delete_work_package_watchers: "Takipçi sil"
   permission_delete_work_packages: "İş paketi silmek"
   permission_delete_messages: "İleti silmek"
@@ -2248,7 +2249,7 @@ tr:
     assigned_to_role: "Görev alanının rolü"
     member_of_group: "Atama grubunun grubu"
     assignee_or_group: "Atanan veya ait olunan grup"
-    subproject_id: "Alt Proje Dahil"
+    subproject_id: "Including subproject"
     only_subproject_id: "Sadece alt proje"
     name_or_identifier: "İsim veya tanımlayıcı"
   repositories:
