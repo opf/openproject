@@ -73,11 +73,46 @@ describe Settings::Definition do
     context 'when overriding from ENV' do
       include_context 'with clean definitions'
 
-      it 'allows overriding configuration from ENV' do
-        stub_const('ENV', { 'OPENPROJECT_EDITION' => 'bim' })
+      def value_for(name)
+        all.detect { |d| d.name == name }.value
+      end
 
-        expect(all.detect { |d| d.name == 'edition' }.value)
-          .to eql 'bim'
+      it 'allows overriding configuration from ENV with OPENPROJECT_ prefix with double underscore case (legacy)' do
+        stub_const('ENV',
+                   {
+                     'OPENPROJECT_EDITION' => 'bim',
+                     'OPENPROJECT_DEFAULT__LANGUAGE' => 'de'
+                   })
+
+        expect(value_for('edition')).to eql 'bim'
+        expect(value_for('default_language')).to eql 'de'
+      end
+
+      it 'allows overriding configuration from ENV with OPENPROJECT_ prefix with single underscore case' do
+        stub_const('ENV', { 'OPENPROJECT_DEFAULT_LANGUAGE' => 'de' })
+
+        expect(value_for('default_language')).to eql 'de'
+      end
+
+      it 'allows overriding configuration from ENV without OPENPROJECT_ prefix' do
+        stub_const('ENV',
+                   {
+                     'EDITION' => 'bim',
+                     'DEFAULT_LANGUAGE' => 'de'
+                   })
+
+        expect(value_for('edition')).to eql 'bim'
+        expect(value_for('default_language')).to eql 'de'
+      end
+
+      it 'logs a deprecation warning when overriding configuration from ENV without OPENPROJECT_ prefix' do
+        allow(Rails.logger).to receive(:warn)
+        stub_const('ENV', { 'DEFAULT_LANGUAGE' => 'de' })
+
+        expect(value_for('default_language')).to eql 'de'
+        expect(Rails.logger)
+          .to have_received(:warn)
+              .with(a_string_including("use OPENPROJECT_DEFAULT_LANGUAGE instead of DEFAULT_LANGUAGE"))
       end
 
       it 'overriding boolean configuration from ENV will cast the value' do
@@ -118,21 +153,181 @@ describe Settings::Definition do
       it 'allows overriding settings hash partially from ENV' do
         stub_const('ENV', { 'OPENPROJECT_REPOSITORY__CHECKOUT__DATA_GIT_ENABLED' => '1' })
 
-        expect(all.detect { |d| d.name == 'repository_checkout_data' }.value)
+        expect(value_for('repository_checkout_data'))
           .to eql({
                     'git' => { 'enabled' => 1 },
                     'subversion' => { 'enabled' => 0 }
                   })
       end
 
-      it 'ENV vars for which no definition exists will not be handled' do
+      it 'allows overriding settings hash partially from ENV with single underscore name' do
+        stub_const('ENV', { 'OPENPROJECT_REPOSITORY_CHECKOUT_DATA_GIT_ENABLED' => '1' })
+
+        expect(value_for('repository_checkout_data'))
+          .to eql({
+                    'git' => { 'enabled' => 1 },
+                    'subversion' => { 'enabled' => 0 }
+                  })
+      end
+
+      it 'allows overriding settings hash partially from ENV with yaml data' do
+        stub_const('ENV', { 'OPENPROJECT_REPOSITORY_CHECKOUT_DATA' => '{git: {enabled: 1}}' })
+
+        expect(value_for('repository_checkout_data'))
+          .to eql({
+                    'git' => { 'enabled' => 1 },
+                    'subversion' => { 'enabled' => 0 }
+                  })
+      end
+
+      it 'allows overriding settings hash fully from repeated ENV values' do
+        stub_const(
+          'ENV',
+          {
+            'OPENPROJECT_REPOSITORY__CHECKOUT__DATA' => '{hg: {enabled: 0}}',
+            'OPENPROJECT_REPOSITORY__CHECKOUT__DATA_CVS_ENABLED' => '0',
+            'OPENPROJECT_REPOSITORY_CHECKOUT_DATA_GIT_ENABLED' => '1',
+            'OPENPROJECT_REPOSITORY_CHECKOUT_DATA_GIT_MINIMUM__VERSION' => '42',
+            'OPENPROJECT_REPOSITORY_CHECKOUT_DATA_SUBVERSION_ENABLED' => '1'
+          }
+        )
+
+        expect(value_for('repository_checkout_data'))
+          .to eql({
+                    'cvs' => { 'enabled' => 0 },
+                    'git' => { 'enabled' => 1, 'minimum_version' => 42 },
+                    'hg' => { 'enabled' => 0 },
+                    'subversion' => { 'enabled' => 1 }
+                  })
+      end
+
+      it 'allows overriding settings hash fully from ENV with yaml data' do
+        stub_const(
+          'ENV',
+          {
+            'OPENPROJECT_REPOSITORY_CHECKOUT_DATA' => '{git: {enabled: 1, key: "42"}, cvs: {enabled: 0}}'
+          }
+        )
+
+        expect(all.detect { |d| d.name == 'repository_checkout_data' }.value)
+          .to eql({
+                    'git' => { 'enabled' => 1, 'key' => '42' },
+                    'cvs' => { 'enabled' => 0 },
+                    'subversion' => { 'enabled' => 0 }
+                  })
+      end
+
+      it 'allows overriding settings hash fully from ENV with yaml data multiline' do
+        stub_const(
+          'ENV',
+          {
+            'OPENPROJECT_REPOSITORY_CHECKOUT_DATA' => <<~YML
+              ---
+              git:
+                enabled: 1
+                key: "42"
+              cvs:
+                enabled: 0
+            YML
+          }
+        )
+
+        expect(all.detect { |d| d.name == 'repository_checkout_data' }.value)
+          .to eql({
+                    'git' => { 'enabled' => 1, 'key' => '42' },
+                    'cvs' => { 'enabled' => 0 },
+                    'subversion' => { 'enabled' => 0 }
+                  })
+      end
+
+      it 'allows overriding settings hash fully from ENV with json data' do
+        stub_const(
+          'ENV',
+          {
+            'OPENPROJECT_REPOSITORY_CHECKOUT_DATA' => '{"git": {"enabled": 1, "key": "42"}, "cvs": {"enabled": 0}}'
+          }
+        )
+
+        expect(all.detect { |d| d.name == 'repository_checkout_data' }.value)
+          .to eql({
+                    'git' => { 'enabled' => 1, 'key' => '42' },
+                    'cvs' => { 'enabled' => 0 },
+                    'subversion' => { 'enabled' => 0 }
+                  })
+      end
+
+      it 'allows overriding configuration array from ENV with yaml/json data' do
+        stub_const(
+          'ENV',
+          {
+            'OPENPROJECT_BLACKLISTED_ROUTES' => '["admin/info", "admin/plugins"]'
+          }
+        )
+
+        expect(value_for('blacklisted_routes'))
+          .to eq(['admin/info', 'admin/plugins'])
+      end
+
+      it 'allows overriding configuration array from ENV with space separated string' do
+        stub_const(
+          'ENV',
+          {
+            'OPENPROJECT_BLACKLISTED_ROUTES' => 'admin/info admin/plugins'
+          }
+        )
+
+        # works for OpenProject::Configuration thanks to OpenProject::Configuration::Helper mixin
+        expect(OpenProject::Configuration.blacklisted_routes)
+          .to eq(['admin/info', 'admin/plugins'])
+        # sadly behaves differently for Setting
+        expect(Setting.blacklisted_routes)
+          .to eq('admin/info admin/plugins')
+      end
+
+      context 'with definitions from plugins' do
+        let(:definition_2fa) { definitions_before.find { _1.name == 'plugin_openproject_two_factor_authentication' }.dup }
+
+        before do
+          # hack to have access to Setting.plugin_openproject_two_factor_authentication after
+          # having done
+          described_class.all << definition_2fa
+        end
+
+        it 'allows overriding settings hash partially from ENV with aliased env name' do
+          stub_const(
+            'ENV',
+            {
+              'OPENPROJECT_2FA_ENFORCED' => 'true',
+              'OPENPROJECT_2FA_ALLOW__REMEMBER__FOR__DAYS' => '15'
+            }
+          )
+
+          described_class.send(:override_value, definition_2fa) # override from env manually after changing ENV
+          expect(value_for('plugin_openproject_two_factor_authentication'))
+            .to eq('active_strategies' => [:totp], 'enforced' => true, 'allow_remember_for_days' => 15)
+        end
+
+        it 'allows overriding settings hash from ENV with aliased env name' do
+          stub_const(
+            'ENV',
+            {
+              'OPENPROJECT_2FA' => '{"enforced": true, "allow_remember_for_days": 15}'
+            }
+          )
+          described_class.send(:override_value, definition_2fa) # override from env manually after changing ENV
+          expect(value_for('plugin_openproject_two_factor_authentication'))
+            .to eq({ 'active_strategies' => [:totp], 'enforced' => true, 'allow_remember_for_days' => 15 })
+        end
+      end
+
+      it 'will not handle ENV vars for which no definition exists' do
         stub_const('ENV', { 'OPENPROJECT_BOGUS' => '1' })
 
         expect(all.detect { |d| d.name == 'bogus' })
           .to be_nil
       end
 
-      it 'ENV vars for which a definition has been added after #all was called first (e.g. in a module)' do
+      it 'will handle ENV vars for definitions added after #all was called (e.g. in a module)' do
         stub_const('ENV', { 'OPENPROJECT_BOGUS' => '1' })
 
         all
@@ -356,18 +551,18 @@ describe Settings::Definition do
       end
 
       before do
-        instance.override_value({ abc: { a: 5 }, xyz: 2 })
+        instance.override_value({ abc: { 'a' => 5 }, xyz: 2 })
       end
 
-      it 'deep merges' do
+      it 'deep merges and transforms keys to string' do
         expect(instance.value)
           .to eql({
-                    abc: {
-                      a: 5,
-                      b: 2
+                    'abc' => {
+                      'a' => 5,
+                      'b' => 2
                     },
-                    cde: 1,
-                    xyz: 2
+                    'cde' => 1,
+                    'xyz' => 2
                   })
       end
 
@@ -504,7 +699,7 @@ describe Settings::Definition do
     context 'with the minimal attributes (hash value)' do
       let(:instance) do
         described_class.new 'bogus',
-                            value: { a: 'b' }
+                            value: { a: 'b', c: { d: 'e' } }
       end
 
       it 'has the format (in symbol) deduced' do
@@ -515,6 +710,14 @@ describe Settings::Definition do
       it 'is serialized' do
         expect(instance)
           .to be_serialized
+      end
+
+      it 'transforms keys to string' do
+        expect(instance.value)
+          .to eq({
+                   'a' => 'b',
+                   'c' => { 'd' => 'e' }
+                 })
       end
     end
 

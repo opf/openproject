@@ -47,7 +47,7 @@ module ::UserConsentHelper
   def user_consent_instructions(_user, locale: I18n.locale)
     all = Setting.consent_info
 
-    all.fetch(locale) { all.values.first }
+    all.fetch(locale.to_s) { all.values.first }
   end
 
   def consent_checkbox_label(locale: I18n.locale)

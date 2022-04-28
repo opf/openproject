@@ -5,10 +5,19 @@ describe ::TwoFactorAuthentication::ForcedRegistration::TwoFactorDevicesControll
   let(:user) { create(:user, login: 'foobar') }
   let(:logged_in_user) { User.anonymous }
   let(:active_strategies) { [] }
-  let(:config) { {} }
 
   let(:authenticated_user_id) { user.id }
   let(:user_force_2fa) { true }
+
+  include_context 'with settings' do
+    let(:settings) do
+      {
+        plugin_openproject_two_factor_authentication: {
+          'active_strategies' => active_strategies
+        }
+      }
+    end
+  end
 
   before do
     allow(User).to receive(:current).and_return(User.anonymous)
@@ -16,10 +25,6 @@ describe ::TwoFactorAuthentication::ForcedRegistration::TwoFactorDevicesControll
     session[:authenticated_user_force_2fa] = user_force_2fa
     session[:stage_secrets] = { two_factor_authentication: 'asdf' }
 
-    allow(OpenProject::Configuration).to receive(:[]).and_call_original
-    allow(OpenProject::Configuration)
-      .to receive(:[]).with('2fa')
-      .and_return({ active_strategies: active_strategies }.merge(config).with_indifferent_access)
     allow(OpenProject::TwoFactorAuthentication::TokenStrategyManager)
       .to receive(:add_default_strategy?)
       .and_return false
@@ -31,17 +36,6 @@ describe ::TwoFactorAuthentication::ForcedRegistration::TwoFactorDevicesControll
     end
 
     context 'when no authenticated_user present' do
-      let(:active_strategies) { [:developer] }
-      let(:authenticated_user_id) { nil }
-      let(:user_force_2fa) { nil }
-
-      it 'does not give access' do
-        expect(response).to be_redirect
-        expect(response).to redirect_to stage_failure_path(stage: :two_factor_authentication)
-      end
-    end
-
-    context 'when authenticated_user present, but no registration' do
       let(:active_strategies) { [:developer] }
       let(:authenticated_user_id) { nil }
       let(:user_force_2fa) { nil }

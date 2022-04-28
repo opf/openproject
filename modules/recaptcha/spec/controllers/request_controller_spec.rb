@@ -2,11 +2,21 @@ require 'spec_helper'
 
 describe ::Recaptcha::RequestController, type: :controller do
   let(:user) { create :user }
+
+  include_context 'with settings' do
+    let(:settings) do
+      {
+        plugin_openproject_recaptcha: {
+          'recaptcha_type' => 'v2',
+          'website_key' => 'A',
+          'secret_key' => 'B'
+        }
+      }
+    end
+  end
+
   before do
     login_as user
-    allow(Setting)
-      .to receive(:plugin_openproject_recaptcha)
-      .and_return(recaptcha_type: 'v2', website_key: 'A', secret_key: 'B')
 
     session[:authenticated_user_id] = user.id
     session[:stage_secrets] = { recaptcha: 'asdf' }
@@ -21,7 +31,7 @@ describe ::Recaptcha::RequestController, type: :controller do
 
     it 'skips if user is verified' do
       allow(::Recaptcha::Entry)
-        .to receive_message_chain(:where, :exists?)
+        .to receive(:exists?).with(user_id: user.id)
         .and_return true
 
       get :perform
@@ -32,25 +42,27 @@ describe ::Recaptcha::RequestController, type: :controller do
       let(:user) { create :admin }
 
       it 'skips the verification' do
-        expect(controller).not_to receive(:perform)
+        allow(controller).to receive(:perform)
 
         get :perform
         expect(response).to redirect_to stage_success_path(stage: :recaptcha, secret: 'asdf')
+        expect(controller).not_to have_received(:perform)
       end
     end
   end
 
   describe 'verify' do
     it 'succeeds assuming verification works' do
-      allow(@controller).to receive(:valid_recaptcha?).and_return true
-      expect(@controller).to receive(:save_recpatcha_verification_success!)
+      allow(controller).to receive(:valid_recaptcha?).and_return true
+      allow(controller).to receive(:save_recaptcha_verification_success!)
       post :verify
       expect(flash[:error]).to be_nil
       expect(response).to redirect_to stage_success_path(stage: :recaptcha, secret: 'asdf')
+      expect(controller).to have_received(:save_recaptcha_verification_success!)
     end
 
     it 'fails assuming verification fails' do
-      allow(@controller).to receive(:valid_recaptcha?).and_return false
+      allow(controller).to receive(:valid_recaptcha?).and_return false
       post :verify
       expect(flash[:error]).to be_present
       expect(response).to redirect_to stage_failure_path(stage: :recaptcha)

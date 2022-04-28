@@ -25,11 +25,22 @@ describe ::OpenProject::TwoFactorAuthentication::TokenStrategy::Restdt, with_2fa
       }
     end
 
-    before do
-      allow(OpenProject::Configuration)
-        .to receive(:[]).with('2fa')
-        .and_return(active_strategies: [:restdt], restdt: params)
+    let(:result) { subject.request }
 
+    subject { ::TwoFactorAuthentication::TokenService.new user: user }
+
+    include_context 'with settings' do
+      let(:settings) do
+        {
+          plugin_openproject_two_factor_authentication: {
+            'active_strategies' => [:restdt],
+            'restdt' => params
+          }
+        }
+      end
+    end
+
+    before do
       allow_any_instance_of(::OpenProject::TwoFactorAuthentication::TokenStrategy::Restdt)
         .to receive(:create_mobile_otp)
         .and_return('1234')
@@ -44,9 +55,6 @@ describe ::OpenProject::TwoFactorAuthentication::TokenStrategy::Restdt, with_2fa
           .to raise_exception(ArgumentError)
       end
     end
-
-    subject { ::TwoFactorAuthentication::TokenService.new user: user }
-    let(:result) { subject.request }
 
     describe 'calling a mocked API', webmock: true do
       let(:response_code) { '200' }
@@ -74,6 +82,7 @@ describe ::OpenProject::TwoFactorAuthentication::TokenStrategy::Restdt, with_2fa
       describe 'request body' do
         context 'with SMS' do
           let(:expected_params) { { onlycall: '0' } }
+
           it_behaves_like 'API response', true
         end
 

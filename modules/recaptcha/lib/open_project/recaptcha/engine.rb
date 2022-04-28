@@ -23,7 +23,7 @@ module OpenProject::Recaptcha
     end
 
     config.after_initialize do
-      SecureHeaders::Configuration.named_append(:recaptcha) do |request|
+      SecureHeaders::Configuration.named_append(:recaptcha) do
         if OpenProject::Recaptcha.use_hcaptcha?
           value = %w(https://*.hcaptcha.com)
           keys = %i(frame_src script_src style_src connect_src)
@@ -41,7 +41,7 @@ module OpenProject::Recaptcha
         nil,
         run_after_activation: true,
         active: -> {
-          type = Setting.plugin_openproject_recaptcha[:recaptcha_type]
+          type = Setting.plugin_openproject_recaptcha['recaptcha_type']
 
           type.present? && type.to_s != ::OpenProject::Recaptcha::TYPE_DISABLED
         }

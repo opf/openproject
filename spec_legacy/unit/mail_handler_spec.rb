@@ -175,7 +175,7 @@ describe MailHandler, type: :model do
     assert_equal false, submit_email('ticket_without_from_header.eml')
   end
 
-  context 'without default start_date', with_settings: { work_package_startdate_is_adddate: false } do
+  context 'without default start_date', with_legacy_settings: { work_package_startdate_is_adddate: false } do
     it 'should add work package with invalid attributes' do
       issue = submit_email('ticket_with_invalid_attributes.eml', allow_override: 'type,category,priority')
       assert issue.is_a?(WorkPackage)
@@ -309,7 +309,7 @@ describe MailHandler, type: :model do
   end
 
   context 'with min password length',
-          with_settings: { password_min_length: 15 } do
+          with_legacy_settings: { password_min_length: 15 } do
     it 'should new user from attributes should respect minimum password length' do
       user = MailHandler.new_user_from_attributes('jsmith@example.net')
       assert user.valid?

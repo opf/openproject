@@ -17,7 +17,8 @@ module OpenProject::TwoFactorAuthentication
                  enforced: false,
                  # Don't allow remember cookie
                  allow_remember_for_days: 0
-               }
+               },
+               env_alias: '2FA' # can override values with OPENPROJECT_2FA env var
              },
              bundled: true do
                menu :my_menu,

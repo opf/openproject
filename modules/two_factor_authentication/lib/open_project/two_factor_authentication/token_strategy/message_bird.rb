@@ -63,7 +63,7 @@ module OpenProject::TwoFactorAuthentication
       end
 
       def message_bird_client
-        ::MessageBird::Client.new(configuration_params[:apikey])
+        ::MessageBird::Client.new(configuration_params['apikey'])
       end
 
       ##

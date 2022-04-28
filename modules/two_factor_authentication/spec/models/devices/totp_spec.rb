@@ -4,6 +4,7 @@ require 'timecop'
 describe ::TwoFactorAuthentication::Device::Totp, with_2fa_ee: true, type: :model do
   let(:user) { create :user }
   let(:channel) { :totp }
+
   subject { described_class.new identifier: 'foo', channel: channel, user: user, active: true }
 
   describe 'validations' do
@@ -27,40 +28,47 @@ describe ::TwoFactorAuthentication::Device::Totp, with_2fa_ee: true, type: :mode
   describe 'token validation' do
     let(:totp) { subject.send :totp }
 
-    context 'drift', with_config: { '2fa': { otp_drift_window: 30 } } do
+    context 'when setting drift',
+            with_settings: {
+              plugin_openproject_two_factor_authentication: {
+                'otp_drift_window' => 30
+              }
+            } do
       it 'uses the drift window from configuration' do
         expect(subject.allowed_drift).to eq 30
       end
     end
 
-    context 'no drift set' do
+    context 'when no drift set' do
       it 'uses the default drift window' do
         expect(subject.allowed_drift).to eq 60
       end
 
       it 'uses the drift value for verification' do
         # Assume never used
+        # rubocop:disable RSpec/SubjectStub
         allow(subject).to receive(:last_used_at).and_return nil
         allow(subject).to receive(:update_column).with(:last_used_at, any_args)
+        # rubocop:enable RSpec/SubjectStub
 
-        Timecop.freeze(Time.now) do
-          old_valid = totp.at(Time.now - 30.seconds)
-          old_valid2 = totp.at(Time.now - 60.seconds)
-          new_valid = totp.at(Time.now + 30.seconds)
-          new_valid2 = totp.at(Time.now + 60.seconds)
+        Timecop.freeze(Time.current) do
+          old_valid = totp.at(30.seconds.ago)
+          old_valid2 = totp.at(60.seconds.ago)
+          new_valid = totp.at(30.seconds.from_now)
+          new_valid2 = totp.at(60.seconds.from_now)
 
           # Next iteration at interval is 90
           # which should be invalid
-          old_invalid = totp.at(Time.now - 90.seconds)
-          new_invalid = totp.at(Time.now + 90.seconds)
+          old_invalid = totp.at(90.seconds.ago)
+          new_invalid = totp.at(90.seconds.from_now)
 
-          expect(subject.verify_token(old_valid)).to eq true
-          expect(subject.verify_token(old_valid2)).to eq true
-          expect(subject.verify_token(new_valid)).to eq true
-          expect(subject.verify_token(new_valid2)).to eq true
+          expect(subject.verify_token(old_valid)).to be true
+          expect(subject.verify_token(old_valid2)).to be true
+          expect(subject.verify_token(new_valid)).to be true
+          expect(subject.verify_token(new_valid2)).to be true
 
-          expect(subject.verify_token(old_invalid)).to eq false
-          expect(subject.verify_token(new_invalid)).to eq false
+          expect(subject.verify_token(old_invalid)).to be false
+          expect(subject.verify_token(new_invalid)).to be false
         end
       end
     end
@@ -68,18 +76,18 @@ describe ::TwoFactorAuthentication::Device::Totp, with_2fa_ee: true, type: :mode
     it 'avoids double verification' do
       subject.save!
 
-      valid = totp.at(Time.now)
-      expect(subject.verify_token(valid)).to eq true
+      valid = totp.at(Time.current)
+      expect(subject.verify_token(valid)).to be true
       last_date = subject.last_used_at
       expect(last_date).to be_present
 
-      expect(subject.verify_token(valid)).to eq false
+      expect(subject.verify_token(valid)).to be false
 
-      future = Time.now + 1.minute
+      future = 1.minute.from_now
       Timecop.freeze(future) do
         valid = totp.now
-        expect(subject.verify_token(valid)).to eq true
-        expect(subject.verify_token(valid)).to eq false
+        expect(subject.verify_token(valid)).to be true
+        expect(subject.verify_token(valid)).to be false
       end
     end
   end

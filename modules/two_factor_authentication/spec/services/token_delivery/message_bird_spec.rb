@@ -8,17 +8,29 @@ describe ::OpenProject::TwoFactorAuthentication::TokenStrategy::MessageBird, wit
     let!(:device) { create :two_factor_authentication_device_sms, user: user, channel: channel }
 
     let(:service_url) { 'https://example.org/foobar' }
+    let(:apikey) { 'whatever' }
     let(:params) do
       {
-        apikey: 'whatever'
+        apikey: apikey
       }
     end
 
-    before do
-      allow(OpenProject::Configuration)
-        .to receive(:[]).with('2fa')
-        .and_return(active_strategies: [:message_bird], message_bird: params)
+    let(:result) { subject.request }
 
+    subject { ::TwoFactorAuthentication::TokenService.new user: user }
+
+    include_context 'with settings' do
+      let(:settings) do
+        {
+          plugin_openproject_two_factor_authentication: {
+            'active_strategies' => [:message_bird],
+            'message_bird' => params
+          }
+        }
+      end
+    end
+
+    before do
       allow_any_instance_of(::OpenProject::TwoFactorAuthentication::TokenStrategy::MessageBird)
         .to receive(:create_mobile_otp)
         .and_return('1234')
@@ -34,12 +46,21 @@ describe ::OpenProject::TwoFactorAuthentication::TokenStrategy::MessageBird, wit
       end
     end
 
-    subject { ::TwoFactorAuthentication::TokenService.new user: user }
-    let(:result) { subject.request }
+    describe 'calling a mocked test API' do
+      let(:channel) { :sms }
 
-    describe 'calling the test API' do
+      before do
+        allow(::MessageBird::Client).to receive(:new)
+      end
+
+      it 'uses the api key defined in the settings' do
+        result
+        expect(::MessageBird::Client).to have_received(:new).with(apikey)
+      end
+    end
+
+    describe 'calling the real test API' do
       let(:apikey) { ENV['MESSAGEBIRD_TEST_APIKEY'] }
-      let(:params) { { apikey: apikey } }
 
       before do
         skip 'Missing MESSAGEBIRD_TEST_APIKEY environment variable' unless apikey.present?
