@@ -106,16 +106,16 @@ time to finish.
 [openproject@host] source ~/.profile
 [openproject@host] git clone https://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
 
-[openproject@host] rbenv install 3.0.3
+[openproject@host] rbenv install 3.0.4
 [openproject@host] rbenv rehash
-[openproject@host] rbenv global 3.0.3
+[openproject@host] rbenv global 3.0.4
 ```
 
 To check our Ruby installation we run `ruby --version`. It should output
 something very similar to:
 
 ```
-ruby 3.0.3p157 (2021-11-24 revision 3fb7d2cadc) [x86_64-darwin20]
+ruby 3.0.4p208 (2022-04-12 revision 3fa771dded) [x86_64-linux]
 ```
 
 ## Installation of Node
@@ -142,7 +142,7 @@ time to finish.
 To check our Node installation we run `node --version`. It should output something very similar to:
 
 ```
-v14.16.0
+v14.17.0
 ```
 
 ## Installation of OpenProject

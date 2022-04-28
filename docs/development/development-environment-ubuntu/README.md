@@ -17,7 +17,7 @@ If you find any bugs or you have any recommendations for improving this tutorial
 
 We need an active Ruby and Node JS environment to run OpenProject. To this end, we need some packages installed on the system.o
 
-CPU recommendation: 4 CPUs, Memory recommendation: 8 better 16 GB (in general we meed double the amount of a normal production installation)
+CPU recommendation: 4 CPUs, Memory recommendation: 8 better 16 GB (in general we need double the amount of a normal production installation)
 
 ```bash
 sudo apt-get update
@@ -26,7 +26,7 @@ sudo apt-get install git curl build-essential zlib1g-dev libyaml-dev libssl-dev 
 
 ## Install Ruby
 
-Use [rbenv](https://github.com/rbenv/rbenv) and [ruby-build](https://github.com/rbenv/ruby-build#readme) to install Ruby. We always require the latest ruby versions, and you can check which version is required by [checking the Gemfile](https://github.com/opf/openproject/blob/dev/Gemfile#L31) for the `ruby "~> X.Y"` statement. At the time of writing, this version is "3.0.3"
+Use [rbenv](https://github.com/rbenv/rbenv) and [ruby-build](https://github.com/rbenv/ruby-build#readme) to install Ruby. We always require the latest ruby versions, and you can check which version is required by [checking the Gemfile](https://github.com/opf/openproject/blob/dev/Gemfile#L31) for the `ruby "~> X.Y"` statement. At the time of writing, this version is "3.0.4"
 
 ### Install rbenv and ruby-build
 
@@ -60,20 +60,20 @@ git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build
 ### Installing ruby-3.0
 
 With both installed, we can now install the actual ruby version 3.0. You can check available ruby versions with `rbenv install --list`.
-At the time of this writing, the latest stable version is `3.0.3` which we also require.
+At the time of this writing, the latest stable version is `3.0.4` which we also require.
 
 We suggest you install the version we require in the [Gemfile](https://github.com/opf/openproject/blob/dev/Gemfile). Search for the `ruby '~> X.Y.Z'` line
 and install that version.
 
 ```bash
 # Install the required version as read from the Gemfile
-rbenv install 3.0.3
+rbenv install 3.0.4
 ```
 
 This might take a while depending on whether ruby is built from source. After it is complete, you need to tell rbenv to globally activate this version
 
 ```bash
-rbenv global 3.0.3
+rbenv global 3.0.4
 rbenv rehash
 ```
 
@@ -159,10 +159,10 @@ You should now have an active ruby and node installation. Verify that it works w
 
 ```bash
 ruby --version
-ruby 3.0.3p157 (2021-11-24 revision 3fb7d2cadc) [x86_64-darwin20]
+ruby 3.0.4p208 (2022-04-12 revision 3fa771dded) [x86_64-linux]
 
 bundler --version
-Bundler version 2.2.33
+Bundler version 2.3.12
 
 node --version
 v16.13.1
