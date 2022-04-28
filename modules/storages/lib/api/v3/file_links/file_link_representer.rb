@@ -80,7 +80,7 @@ module API
 
         link :originOpenLocation do
           {
-            href: storage_url_open(represented, true)
+            href: storage_url_open(represented, open_location: true)
           }
         end
 
