@@ -39,8 +39,8 @@ export class InAppNotificationCenterPageComponent extends UntilDestroyedMixin im
     title: this.I18n.t('js.notifications.title'),
   };
 
-  /** Go back using back-button */
-  backButtonCallback:() => void = this.backButtonFn.bind(this);
+  /** Disable the back button */
+  backButtonCallback = undefined;
 
   /** Current query title to render */
   selectedTitle = this.text.title;
@@ -130,14 +130,5 @@ export class InAppNotificationCenterPageComponent extends UntilDestroyedMixin im
   // For shared template compliance
   // eslint-disable-next-line class-methods-use-this, @typescript-eslint/no-unused-vars
   changeChangesFromTitle(val:string):void {
-  }
-
-  private backButtonFn():void {
-    if (this.documentReferer.length > 0) {
-      window.location.href = this.documentReferer;
-    } else {
-      // Default fallback
-      window.history.back();
-    }
   }
 }
