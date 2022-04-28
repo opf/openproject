@@ -2,18 +2,10 @@ require File.dirname(__FILE__) + '/../spec_helper'
 require 'ladle'
 
 describe LdapGroups::SynchronizeGroupsService, with_ee: %i[ldap_groups] do
+  include_context 'with temporary LDAP'
+
   let(:plugin_settings) do
     { group_base: 'ou=groups,dc=example,dc=com', group_key: 'cn' }
-  end
-
-  before(:all) do
-    ldif = Rails.root.join('spec/fixtures/ldap/users.ldif')
-    @ldap_server = Ladle::Server.new(quiet: false, port: ParallelHelper.port_for_ldap.to_s, domain: 'dc=example,dc=com',
-                                     ldif: ldif).start
-  end
-
-  after(:all) do
-    @ldap_server.stop
   end
 
   # Ldap has:
@@ -344,8 +336,12 @@ describe LdapGroups::SynchronizeGroupsService, with_ee: %i[ldap_groups] do
     end
 
     it 'does not raise, but print to stderr' do
-      expect(Rails.logger).to receive(:error).with(/Failed to perform LDAP group synchronization/)
+      allow(Rails.logger).to receive(:error)
+
       subject
+
+      expect(Rails.logger).to have_received(:error).once.with(/Failed to synchronize group:/)
+      expect(Rails.logger).to have_received(:error).once.with(/Failed to perform LDAP group synchronization/)
     end
   end
 

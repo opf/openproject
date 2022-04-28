@@ -12,7 +12,7 @@ keywords: development workflow, gitflow, git flow
 
 This guide will introduce you to how we at OpenProject develop OpenProject with Git, and how to contribute code. For other ways on how to contribute to OpenProject, [please see the contribution guide](../#contributor-code-of-conduct).
 
-The OpenProject core is developed fully at our GitHub repository at https://github.com/opf/openproject. In the course of this guide, we assume that you are familiar with Git. If you need a refresher on certain topics, we recommend the [free Pro Git online book](https://git-scm.com/book/en/v2) as a resource for all topics on Git.
+The OpenProject core is developed fully at our [GitHub repository](https://github.com/opf/openproject). In the course of this guide, we assume that you are familiar with Git. If you need a refresher on certain topics, we recommend the [free Pro Git online book](https://git-scm.com/book/en/v2) as a resource for all topics on Git.
 
 
 
@@ -49,7 +49,7 @@ The basic overview of how to contribute code to OpenProject is as follows.
 
 For contributing source code, please follow the git workflow below:
 
-- Use GitHub UI to fork the [OpenProject repository](https://github.com/opf/openproject) https://github.com/opf/openproject.
+- Use GitHub UI to fork the [OpenProject repository](https://github.com/opf/openproject).
 - Clone your fork to your development machine:
 
 ```

@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -35,10 +35,12 @@ import { Injectable } from '@angular/core';
 import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
 import {
   ApiV3Filter,
+  ApiV3FilterBuilder,
   FilterOperator,
 } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import { PaginationService } from 'core-app/shared/components/table-pagination/pagination-service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { QueryFilterResource } from 'core-app/features/hal/resources/query-filter-resource';
 
 export interface QueryPropsFilter {
   n:string;
@@ -65,6 +67,8 @@ export interface QueryProps {
   hla?:string[];
   // Display representation
   dr?:string;
+  // Include subprojects
+  is?:boolean;
   // Pagination
   pa?:string|number;
   pp?:string|number;
@@ -116,6 +120,7 @@ export class UrlParamsHelperService {
       hi: !!query.showHierarchies,
       g: _.get(query.groupBy, 'id', ''),
       dr: query.displayRepresentation,
+      is: query.includeSubprojects,
       ...this.encodeSums(query),
       ...this.encodeTimelineVisible(query),
       ...this.encodeHighlightingMode(query),
@@ -215,7 +220,7 @@ export class UrlParamsHelperService {
       return queryData;
     }
 
-    const properties = JSON.parse(updateJson);
+    const properties = JSON.parse(updateJson) as QueryProps;
 
     if (properties.c) {
       queryData['columns[]'] = properties.c.map((column:any) => column);
@@ -240,6 +245,10 @@ export class UrlParamsHelperService {
       queryData.displayRepresentation = properties.dr;
     }
 
+    if (properties.is !== undefined) {
+      queryData.includeSubprojects = properties.is;
+    }
+
     if (properties.hl) {
       queryData.highlightingMode = properties.hl;
     }
@@ -248,7 +257,7 @@ export class UrlParamsHelperService {
       queryData['highlightedAttributes[]'] = properties.hla.map((column:any) => column);
     }
 
-    if (properties.hi === false || properties.hi === true) {
+    if (properties.hi !== undefined) {
       queryData.showHierarchies = properties.hi;
     }
 
@@ -315,6 +324,7 @@ export class UrlParamsHelperService {
       queryData.displayRepresentation = query.displayRepresentation;
     }
 
+    queryData.includeSubprojects = !!query.includeSubprojects;
     queryData.showHierarchies = !!query.showHierarchies;
     queryData.groupBy = _.get(query.groupBy, 'id', '');
 
@@ -381,6 +391,20 @@ export class UrlParamsHelperService {
     return newFilters;
   }
 
+  public filterBuilderFrom(filters:QueryFilterInstanceResource[]) {
+    const builder:ApiV3FilterBuilder = new ApiV3FilterBuilder();
+
+    filters.forEach((filter:QueryFilterInstanceResource) => {
+      const id = this.buildV3GetFilterIdFromFilter(filter);
+      const operator = this.buildV3GetOperatorIdFromFilter(filter) as FilterOperator;
+      const values = this.buildV3GetValuesFromFilter(filter)
+
+      builder.add(id, operator, values);
+    });
+
+    return builder;
+  }
+
   public buildV3GetFiltersAsJson(filter:QueryFilterInstanceResource[], contextual = {}) {
     return JSON.stringify(this.buildV3GetFilters(filter, contextual));
   }
@@ -391,6 +415,13 @@ export class UrlParamsHelperService {
     return this.idFromHref(href);
   }
 
+  public buildV3GetValuesFromFilter(filter:QueryFilterInstanceResource|QueryFilterResource) {
+    if (filter.values) {
+      return _.map(filter.values, (v:any) => this.queryFilterValueToParam(v));
+    }
+    return _.map(filter._links.values, (v:any) => this.idFromHref(v.href));
+  }
+
   private buildV3GetOperatorIdFromFilter(filter:QueryFilterInstanceResource) {
     if (filter.operator) {
       return filter.operator.id || idFromLink(filter.operator.href);
@@ -398,13 +429,6 @@ export class UrlParamsHelperService {
     const { href } = filter._links.operator;
 
     return this.idFromHref(href);
-  }
-
-  private buildV3GetValuesFromFilter(filter:QueryFilterInstanceResource) {
-    if (filter.values) {
-      return _.map(filter.values, (v:any) => this.queryFilterValueToParam(v));
-    }
-    return _.map(filter._links.values, (v:any) => this.idFromHref(v.href));
   }
 
   private buildV3GetSortByFromQuery(query:QueryResource) {

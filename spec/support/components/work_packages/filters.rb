@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -170,7 +170,7 @@ module Components
             Array(value).each do |val|
               select_autocomplete page.find("#filter_#{id}"),
                                   query: val,
-                                  results_selector: '.advanced-filters--ng-select .ng-dropdown-panel-items'
+                                  results_selector: '.ng-dropdown-panel-items'
             end
           else
             within_values(id) do

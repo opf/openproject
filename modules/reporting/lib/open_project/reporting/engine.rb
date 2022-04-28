@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -95,7 +95,13 @@ module OpenProject::Reporting
       require_relative 'patches/to_date_patch'
     end
 
-    patches %i[CustomFieldsController OpenProject::Configuration]
+    initializer 'reporting.configuration' do
+      ::Settings::Definition.add 'cost_reporting_cache_filter_classes',
+                                 value: true,
+                                 format: :boolean
+    end
+
+    patches %i[CustomFieldsController]
     patch_with_namespace :BasicData, :RoleSeeder
     patch_with_namespace :BasicData, :SettingSeeder
   end

@@ -1,4 +1,6 @@
 #English strings go here
 ru:
-  permission_view_calendar: "Просмотреть календарь"
+  label_calendar_plural: "Календари"
+  permission_view_calendar: "Просмотр календарей"
+  permission_manage_calendars: "Управление календарями"
   project_module_calendar_view: "Календарь"

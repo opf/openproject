@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -304,6 +304,18 @@ describe ::API::V3::ParseQueryParamsService,
       it_behaves_like 'transforms' do
         let(:params) { { timelineLabels: input.to_json } }
         let(:expected) { { timeline_labels: input.stringify_keys } }
+      end
+    end
+
+    context 'with includeSubprojects' do
+      it_behaves_like 'transforms' do
+        let(:params) { { includeSubprojects: 'true' } }
+        let(:expected) { { include_subprojects: true } }
+      end
+
+      it_behaves_like 'transforms' do
+        let(:params) { { includeSubprojects: 'false' } }
+        let(:expected) { { include_subprojects: false } }
       end
     end
   end

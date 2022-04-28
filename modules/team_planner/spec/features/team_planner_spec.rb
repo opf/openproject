@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -42,8 +40,11 @@ describe 'Team planner', type: :feature, js: true do
     visit project_path(project)
 
     within '#main-menu' do
-      click_link 'Team planner'
+      click_link 'Team planners'
     end
+
+    expect(page).to have_content 'There is currently nothing to display.'
+    click_on 'Create'
 
     team_planner.expect_title
 
@@ -90,10 +91,19 @@ describe 'Team planner', type: :feature, js: true do
              project: project,
              type: type_bug,
              assigned_to: other_user,
-             status: closed_status,
              start_date: Time.zone.today - 1.day,
              due_date: Time.zone.today + 1.day,
              subject: 'Another task for the other user'
+    end
+    let!(:closed_bug) do
+      create :work_package,
+             project: project,
+             type: type_bug,
+             assigned_to: other_user,
+             status: closed_status,
+             start_date: Time.zone.today - 1.day,
+             due_date: Time.zone.today + 1.day,
+             subject: 'Closed bug'
     end
     let!(:user_bug) do
       create :work_package,
@@ -115,6 +125,7 @@ describe 'Team planner', type: :feature, js: true do
 
       team_planner.title
 
+      team_planner.wait_for_loaded
       team_planner.expect_empty_state
       team_planner.expect_assignee(user, present: false)
       team_planner.expect_assignee(other_user, present: false)
@@ -143,6 +154,7 @@ describe 'Team planner', type: :feature, js: true do
       team_planner.within_lane(other_user) do
         team_planner.expect_event other_task
         team_planner.expect_event other_bug
+        team_planner.expect_event closed_bug
       end
 
       # Add filter for type task
@@ -159,10 +171,11 @@ describe 'Team planner', type: :feature, js: true do
       team_planner.within_lane(other_user) do
         team_planner.expect_event other_task
         team_planner.expect_event other_bug, present: false
+        team_planner.expect_event closed_bug, present: false
       end
 
       # Open the split view for that task and change to bug
-      split_view = team_planner.open_split_view(other_task)
+      split_view = team_planner.open_split_view_by_info_icon(other_task)
       split_view.edit_field(:type).update(type_bug)
       split_view.expect_and_dismiss_toaster(message: "Successful update.")
 
@@ -178,7 +191,7 @@ describe 'Team planner', type: :feature, js: true do
       team_planner.expect_empty_state
       team_planner.expect_assignee(user, present: false)
       team_planner.expect_assignee(other_user, present: false)
-      
+
       retry_block do
         team_planner.click_add_user
         page.find('[data-qa-selector="tp-add-assignee"] input')
@@ -188,7 +201,7 @@ describe 'Team planner', type: :feature, js: true do
       team_planner.expect_empty_state(present: false)
       team_planner.expect_assignee(user)
       team_planner.expect_assignee(other_user, present: false)
-      
+
       retry_block do
         team_planner.click_add_user
         page.find('[data-qa-selector="tp-add-assignee"] input')
@@ -230,11 +243,11 @@ describe 'Team planner', type: :feature, js: true do
       end
 
       expect(page).to have_selector('.ng-option-disabled', text: "No items found")
-      
+
       retry_block do
         team_planner.select_user_to_add user.name
       end
-      
+
       team_planner.expect_assignee(user)
 
       retry_block do

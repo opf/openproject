@@ -2,15 +2,21 @@
 de:
   js:
     team_planner:
-      add_existing: 'Add existing'
-      create_new: 'Neuen Plan erstellen'
+      add_existing: 'Bestehende hinzufügen'
       title: 'Teamplaner'
       unsaved_title: 'Unbenannter Teamplaner'
-      label_assignee_plural: 'Zugewiesene Benutzer'
       no_data: 'Fügen Sie zugewiesene Benutzer hinzu, um Ihren Teamplaner einzurichten.'
       add_assignee: 'Zugewiesenen Benutzer hinzufügen'
       remove_assignee: 'Zugewiesenen Benutzer entfernen'
-      two_weeks: '2 weeks'
+      two_weeks: '2 Wochen'
+      one_week: '1 Woche'
+      today: 'Heute'
+      drag_here_to_remove: 'Hierher ziehen, um den zugewiesenen Benutzer zu entfernen und die Start- und Enddaten zu löschen.'
+      cannot_drag_here: 'Das Arbeitspaket kann aufgrund von Berechtigungen oder Beschränkungen nicht entfernt werden.'
       quick_add:
-        empty_state: 'Use the search field to find work packages and drag them to the planner to assign it to someone and define start and end dates.'
-        search_placeholder: 'Search...'
+        empty_state: 'Benutzen Sie das Suchfeld, um Arbeitspakete zu finden und ziehen Sie sie in den Planer, um sie Nutzern zuzuweisen und Start- und Enddaten zu setzen.'
+        search_placeholder: 'Suchen...'
+      modify:
+        errors:
+          permission_denied: 'Sie haben nicht die notwendigen Rechte für diese Änderung.'
+          fallback: 'Dieses Arbeitspaket kann nicht bearbeitet werden.'

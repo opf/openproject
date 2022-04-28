@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -40,8 +38,29 @@ def aggregate_mocked_settings(example, settings)
   settings
 end
 
+RSpec.shared_context 'with settings reset' do
+  let(:storages_module_active) { true }
+
+  around do |example|
+    definitions_before = Settings::Definition.all.dup
+    Settings::Definition.send(:reset)
+    example.run
+  ensure
+    Settings::Definition.send(:reset)
+    Settings::Definition.instance_variable_set(:@all, definitions_before)
+  end
+
+  before do
+    allow(OpenProject::FeatureDecisions).to receive(:storages_module_active?).and_return(storages_module_active)
+  end
+end
+
 RSpec.configure do |config|
-  config.before(:each) do |example|
+  # examples tagged with `:settings_reset` will automatically have the settings
+  # reset before the example, and restored after.
+  config.include_context "with settings reset", :settings_reset
+
+  config.before do |example|
     settings = example.metadata[:with_settings]
     if settings.present?
       settings = aggregate_mocked_settings(example, settings)

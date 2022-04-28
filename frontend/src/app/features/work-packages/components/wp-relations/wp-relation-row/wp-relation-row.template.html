@@ -52,7 +52,7 @@
          ng-class="{'-expanded': userInputs.showRelationInfo }">
       <button
         type="button"
-        class="op-link wp-relations--description-btn"
+        class="spot-link wp-relations--description-btn"
         [ngClass]="{'-visible': showDescriptionInfo }"
         [title]="text.description_label"
         (click)="userInputs.showRelationInfo = !userInputs.showRelationInfo"
@@ -63,7 +63,7 @@
       <button
         *ngIf="!!relation.delete"
         type="button"
-        class="op-link relation-row--remove-btn"
+        class="spot-link relation-row--remove-btn"
         [ngClass]="{'-visible': showDescriptionInfo }"
         [title]="text.removeButton"
         (click)="removeRelation()"

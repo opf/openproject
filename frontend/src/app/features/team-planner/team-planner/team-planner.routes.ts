@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -37,13 +37,13 @@ export const TEAM_PLANNER_ROUTES:Ng2StateDeclaration[] = [
   {
     name: 'team_planner',
     parent: 'optional_project',
-    url: '/team_planner?query_id&query_props&cdate&cview',
+    url: '/team_planners/:query_id?query_props&cdate&cview',
     redirectTo: 'team_planner.page',
     views: {
       '!$default': { component: WorkPackagesBaseComponent },
     },
     params: {
-      query_id: { type: 'query', dynamic: true },
+      query_id: { type: 'opQueryId', dynamic: true },
       cdate: { type: 'string', dynamic: true },
       cview: { type: 'string', dynamic: true },
       // Use custom encoder/decoder that ensures validity of URL string

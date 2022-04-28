@@ -1,7 +1,7 @@
 ---
 unnumbered_toc: true
 sidebar_navigation:
-  title: Release Notes
+  title: Release notes
   priority: 930
 robots: index, follow
 ---
@@ -15,6 +15,27 @@ Stay up to date and get an overview of the new features included in the releases
 
 <!--- New release notes are generated below. Do not remove comment. -->
 <!--- RELEASE MARKER -->
+
+## 12.0.10
+
+Release date: 2022-03-16
+
+[Release Notes](12-0-10/)
+
+
+## 12.0.9
+
+Release date: 2022-03-14
+
+[Release Notes](12-0-9/)
+
+
+## 12.0.8
+
+Release date: 2022-02-23
+
+[Release Notes](12-0-8/)
+
 
 ## 12.0.7
 

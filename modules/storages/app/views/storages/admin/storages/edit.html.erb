@@ -1,0 +1,9 @@
+<!-- Standard Ruby view, please see the controller for comments -->
+<% html_title t(:label_administration), t("project_module_storages"), t('label_edit_x', x: @object.name) %>
+<% local_assigns[:additional_breadcrumb] = @object.name %>
+<%= toolbar title: t('label_edit_x', x: @object.name) %>
+
+<%= labelled_tabular_form_for @object, url: admin_settings_storage_path(@object) do |f| -%>
+  <%= render partial: 'form', locals: { f: f } %>
+  <%= styled_button_tag t(:button_save), class: "-highlight -with-icon icon-checkmark" %>
+<% end %>

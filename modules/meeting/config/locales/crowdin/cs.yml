@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -52,7 +52,7 @@ cs:
   label_meeting_new: "Nová schůzka"
   label_meeting_edit: "Upravit schůzku"
   label_meeting_agenda: "Agenda"
-  label_meeting_minutes: "Zápis"
+  label_meeting_minutes: "Zápisy"
   label_meeting_close: "Zavřít"
   label_meeting_open: "Otevřít"
   label_meeting_agenda_close: "Uzavřete agendu pro vytvoření zápisu"
@@ -72,19 +72,19 @@ cs:
   permission_delete_meetings: "Smazat schůzku"
   permission_view_meetings: "Zobrazit schůzky"
   permission_create_meeting_agendas: "Správa agend"
-  permission_close_meeting_agendas: "Close agendas"
-  permission_send_meeting_agendas_notification: "Send review notification for agendas"
-  permission_create_meeting_minutes: "Manage minutes"
-  permission_send_meeting_minutes_notification: "Send review notification for minutes"
+  permission_close_meeting_agendas: "uzavřít agendy"
+  permission_send_meeting_agendas_notification: "Odeslat oznámení k revizi agendy"
+  permission_create_meeting_minutes: "Zápis ze schůzky"
+  permission_send_meeting_minutes_notification: "Odeslat oznámení k revizi zápisu"
   permission_meetings_send_invite: "Pozvat uživatele na schůzky"
-  permission_send_meeting_agendas_icalendar: "Send meeting agenda as calendar entry"
+  permission_send_meeting_agendas_icalendar: "Odeslat agendu schůzky jako záznam do kalendáře"
   project_module_meetings: "Schůzky"
   text_duration_in_hours: "Doba trvání v hodinách"
-  text_in_hours: "in hours"
-  text_meeting_agenda_for_meeting: 'agenda for the meeting "%{meeting}"'
+  text_in_hours: "v hodinách"
+  text_meeting_agenda_for_meeting: 'Agenda schůzky "%{meeting}"'
   text_meeting_closing_are_you_sure: "Opravdu chcete tuto schůzku zavřít?"
-  text_meeting_agenda_open_are_you_sure: "This will overwrite all changes in the minutes! Do you want to continue?"
-  text_meeting_minutes_for_meeting: 'minutes for the meeting "%{meeting}"'
-  text_review_meeting_agenda: "%{author} has put the %{link} up for review."
-  text_review_meeting_minutes: "%{author} has put the %{link} up for review."
-  text_notificiation_invited: "This mail contains an ics entry for the meeting below:"
+  text_meeting_agenda_open_are_you_sure: "Toto přepíše všechny změny v zápisech! Chcete pokračovat?"
+  text_meeting_minutes_for_meeting: 'zápis pro schůzku "%{meeting}"'
+  text_review_meeting_agenda: "%{author} dal %{link} na revizi."
+  text_review_meeting_minutes: "%{author} dal %{link} na revizi."
+  text_notificiation_invited: "Tento e-mail obsahuje ics záznam pro následující setkání:"

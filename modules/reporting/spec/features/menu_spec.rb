@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -79,8 +79,8 @@ describe 'project menu', type: :feature do
         it_behaves_like 'it leads to the project costs reports'
       end
 
-      context "when on the project's calendar" do
-        let(:current_path) { '/projects/ponyo/calendar' }
+      context "when on the project's calendars" do
+        let(:current_path) { '/projects/ponyo/calendars' }
 
         it_behaves_like 'it leads to the project costs reports'
       end
@@ -111,7 +111,7 @@ describe 'project menu', type: :feature do
       end
 
       context "when on the project's calendar" do
-        let(:current_path) { '/projects/ponyo/calendar' }
+        let(:current_path) { '/projects/ponyo/calendars' }
 
         it_behaves_like 'it leads to the cost reports'
       end

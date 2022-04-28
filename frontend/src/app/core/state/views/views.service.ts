@@ -21,6 +21,7 @@ import { ViewsQuery } from 'core-app/core/state/views/views.query';
 import { IView } from 'core-app/core/state/views/view.model';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { ApiV3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
+import { addParamToHref } from 'core-app/shared/helpers/url-helpers';
 
 @EffectHandler
 @Injectable()
@@ -49,11 +50,11 @@ export class ViewsResourceService {
 
     return this
       .http
-      .get<IHALCollection<IView>>(this.viewsPath + collectionURL)
+      .get<IHALCollection<IView>>(addParamToHref(this.viewsPath + collectionURL, { pageSize: '-1' }))
       .pipe(
         tap((events) => {
           applyTransaction(() => {
-            this.store.add(events._embedded.elements);
+            this.store.upsertMany(events._embedded.elements);
             this.store.update(({ collections }) => (
               {
                 collections: {

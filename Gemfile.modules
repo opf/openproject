@@ -46,6 +46,7 @@ group :opf_plugins do
   gem 'budgets',                               path: 'modules/budgets'
   gem 'openproject-team_planner',              path: 'modules/team_planner'
   gem 'openproject-calendar',                  path: 'modules/calendar'
+  gem 'openproject-storages',                  path: 'modules/storages'
 
   gem 'openproject-bim',                       path: 'modules/bim'
 end

@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -199,7 +199,7 @@ export class TopMenu {
 
   slideAndFocus(dropdown:JQuery, callback:any) {
     this.slideDown(dropdown, callback);
-    this.focusFirstInputOrLink(dropdown);
+    setTimeout(() => this.focusFirstInputOrLink(dropdown), ANIMATION_RATE_MS);
   }
 
   slideDown(dropdown:JQuery, callback:any) {
@@ -222,15 +222,16 @@ export class TopMenu {
   }
 
   // If there is ANY input, it will have precedence over links,
-  // i.e. links will only get focussed, if there is NO input whatsoever
-  focusFirstInputOrLink(dropdown:JQuery) {
-    let toFocus = dropdown.find('ul :input:visible:first');
-    if (toFocus.length === 0) {
-      toFocus = dropdown.find('ul a:visible:first');
+  // i.e. links will only get focused, if there is NO input whatsoever
+  focusFirstInputOrLink(dropdown:JQuery):void {
+    const focusable = dropdown.find('.op-app-menu--dropdown').find('input:not([disabled]):not([type="hidden"]), a[href], area[href], select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, *[tabindex], *[contenteditable]');
+    const toFocus = focusable[0];
+    if (!toFocus) {
+      return;
     }
     // actually a simple focus should be enough.
     // The rest is only there to work around a rendering bug in webkit (as of Oct 2011),
-    // occuring mostly inside the login/signup dropdown.
+    // occurring mostly inside the login/signup dropdown.
     toFocus.blur();
     setTimeout(() => {
       toFocus.focus();

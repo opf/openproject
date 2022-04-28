@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,8 +34,6 @@ class AttributeHelpTextsController < ApplicationController
   before_action :find_entry, only: %i(edit update destroy)
   before_action :find_type_scope
   before_action :require_enterprise_token_grant
-
-  helper_method :gon
 
   def new
     @attribute_help_text = AttributeHelpText.new type: @attribute_scope

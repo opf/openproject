@@ -1,0 +1,65 @@
+#English strings go here
+pl:
+  permission_view_file_links: "Wyświetl linki do plików"
+  permission_manage_file_links: "Zarządzaj linkami do plików"
+  permission_manage_storages_in_project: "Zarządzaj magazynami plików w projekcie"
+  project_module_storages: "Magazyny plików"
+  activerecord:
+    models:
+      storages/storage: "Magazyn"
+    attributes:
+      storages/storage:
+        name: "Nazwa"
+        creator: "Twórca"
+        provider_type: "Typ dostawcy"
+      storages/file_link:
+        origin_id: "Identyfikator pochodzenia"
+    errors:
+      messages:
+        not_linked_to_project: "nie ma powiązania z projektem."
+      models:
+        storages/storage:
+          attributes:
+            host:
+              cannot_be_connected_to: "nie można połączyć."
+              minimal_nextcloud_version_unmet: "nie spełnia wymagań wersji minimalnej (konieczna Nextcloud 23 lub wyższa)"
+              not_nextcloud_server: "nie jest serwerem Nextcloud"
+        storages/file_link:
+          attributes:
+            origin_id:
+              only_numeric_or_uuid: "może być tylko wartością liczbową lub uuid."
+  api_v3:
+    errors:
+      too_many_elements_created_at_once: "Zbyt wiele elementów utworzonych jednocześnie. Oczekiwano co najwyżej %{max} , otrzymano %{actual}."
+  storages:
+    page_titles:
+      project_settings:
+        index: "Magazyny plików dostępne w tym projekcie"
+        new: "Włącz magazyn plików dla tego projektu"
+    instructions:
+      name: "Użyj krótkiej nazwy. Zostanie ona użyta jako nazwa karty w widoku pakietu roboczego."
+      host: "Adres URL wystąpienia magazynu. Adres URL nie powinien być dłuższy niż 255 znaków."
+      no_storage_set_up: "Nie ma jeszcze skonfigurowanych magazynów plików."
+      setting_up_additional_storages: "Aby skonfigurować dodatkowe magazyny plików, odwiedź"
+      setting_up_additional_storages_non_admin: "Administratorzy mogą skonfigurować dodatkowe magazyny plików w obszarze Administracja / Magazyny plików."
+      setting_up_storages: "Aby skonfigurować magazyny plików, odwiedź"
+      setting_up_storages_non_admin: "Administratorzy mogą skonfigurować magazyny plików w obszarze Administracja / Magazyny plików."
+      all_available_storages_already_added: "Wszystkie dostępne magazyny zostały już dodane do projektu."
+    delete_warning:
+      storage: >
+        Czy na pewno chcesz usunąć ten magazyn? Spowoduje to również jego usunięcie z wszystkich projektów, w których jest używany. Ponadto usunięte zostaną wszystkie linki z pakietów roboczych do plików, które są przechowywane w tym magazynie.
+      project_storage: >
+        Czy na pewno chcesz usunąć ten plik z tego projektu? Spowoduje to również usunięcie wszystkich linków do plików przechowywanych w magazynie tego projektu.
+    label_creator: "Twórca"
+    label_file_link: "Link do pliku"
+    label_file_links: "Linki do plików"
+    label_name: "Nazwa"
+    label_host: "Host"
+    label_provider_type: "Typ dostawcy"
+    label_new_storage: "Nowy magazyn"
+    label_storage: "Magazyn"
+    label_storages: "Magazyny"
+    no_results: "Brak skonfigurowanych magazynów."
+    provider_types:
+      label: "Typ dostawcy"
+      nextcloud: "Nextcloud"

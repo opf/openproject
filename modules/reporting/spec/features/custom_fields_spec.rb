@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -61,6 +61,8 @@ describe 'Custom fields reporting', type: :feature, js: true do
     cf.custom_options.find { |co| co.value == str }.try(:id)
   end
 
+  current_user { user }
+
   context 'with multi value cf' do
     let!(:custom_field) do
       create(:list_wp_custom_field,
@@ -83,8 +85,8 @@ describe 'Custom fields reporting', type: :feature, js: true do
     end
 
     before do
-      login_as(user)
       visit '/cost_reports'
+      sleep(0.1)
     end
 
     it 'filters by the multi CF' do
@@ -99,7 +101,7 @@ describe 'Custom fields reporting', type: :feature, js: true do
       expect(select).to have_selector('option', text: 'Second option')
       select.find('option', text: 'Second option').select_option
 
-      find('#query-icon-apply-button').click
+      click_link 'Apply'
 
       # Expect empty result table
       within('#result-table') do
@@ -125,7 +127,7 @@ describe 'Custom fields reporting', type: :feature, js: true do
       select 'List CF', from: 'group-by--add-columns'
       select 'Work package', from: 'group-by--add-rows'
 
-      find('#query-icon-apply-button').click
+      click_link 'Apply'
 
       # Expect row of work package
       within('#result-table') do
@@ -173,8 +175,8 @@ describe 'Custom fields reporting', type: :feature, js: true do
         CustomValue.find_by(customized_id: work_package2.id).update_columns(value: 'invalid')
         work_package2.reload
 
-        login_as(user)
         visit '/cost_reports'
+        sleep(0.1)
       end
 
       it 'groups by the raw values when an invalid value exists' do
@@ -186,7 +188,7 @@ describe 'Custom fields reporting', type: :feature, js: true do
         select 'Invalid List CF', from: 'group-by--add-columns'
         select 'Work package', from: 'group-by--add-rows'
 
-        find('#query-icon-apply-button').click
+        click_link 'Apply'
 
         # Expect row of work package
         within('#result-table') do
@@ -208,8 +210,8 @@ describe 'Custom fields reporting', type: :feature, js: true do
     let(:initial_custom_values) { { custom_field.id => 'foo' } }
 
     before do
-      login_as(user)
       visit '/cost_reports'
+      sleep(0.1)
     end
 
     it 'groups by a text CF' do
@@ -219,7 +221,7 @@ describe 'Custom fields reporting', type: :feature, js: true do
       select 'Text CF', from: 'group-by--add-columns'
       select 'Work package', from: 'group-by--add-rows'
 
-      find('#query-icon-apply-button').click
+      click_link 'Apply'
 
       # Expect row of work package
       within('#result-table') do

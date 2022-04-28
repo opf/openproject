@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,13 +27,11 @@
 #++
 
 require 'spec_helper'
-require_relative '../../../../spec/support/components/work_packages/query_menu'
 
 describe 'Team planner sidemenu', type: :feature, js: true do
   shared_let(:project) do
     create(:project, enabled_module_names: %w[work_package_tracking team_planner_view])
   end
-  let(:query_menu) { ::Components::WorkPackages::QueryMenu.new }
 
   context 'with a user that does not have create rights' do
     shared_let(:user_without_rights) do
@@ -53,10 +49,10 @@ describe 'Team planner sidemenu', type: :feature, js: true do
       visit project_path(project)
 
       within '#main-menu' do
-        click_link 'Team planner'
+        click_link 'Team planners'
       end
 
-      query_menu.expect_menu_entry_not_visible('Create new planner')
+      expect(page).not_to have_selector('[data-qa-selector="team-planner--create-button"]')
     end
   end
 
@@ -72,14 +68,28 @@ describe 'Team planner sidemenu', type: :feature, js: true do
 
     current_user { user_with_rights }
 
-    it 'hides the create team planner option if you do not have rights' do
-      visit project_path(project)
+    context 'when EE disabled' do
+      it 'does not show the create team planner option' do
+        visit project_path(project)
 
-      within '#main-menu' do
-        click_link 'Team planner'
+        within '#main-menu' do
+          click_link 'Team planners'
+        end
+
+        expect(page).to have_no_selector('[data-qa-selector="team-planner--create-button"]')
       end
+    end
 
-      query_menu.expect_menu_entry('Create new planner')
+    context 'when EE enabled', with_ee: %i[team_planner_view] do
+      it 'shows the create team planner option' do
+        visit project_path(project)
+
+        within '#main-menu' do
+          click_link 'Team planners'
+        end
+
+        expect(page).to have_selector('[data-qa-selector="team-planner--create-button"]')
+      end
     end
   end
 end

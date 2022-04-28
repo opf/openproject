@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -37,6 +37,7 @@ import { OpenprojectFieldsModule } from 'core-app/shared/components/fields/openp
 import { OpenprojectTimeEntriesModule } from 'core-app/shared/components/time_entries/openproject-time-entries.module';
 import { WorkPackagesCalendarPageComponent } from 'core-app/features/calendar/wp-calendar-page/wp-calendar-page.component';
 import { CALENDAR_ROUTES } from 'core-app/features/calendar/calendar.routes';
+import { CalendarSidemenuComponent } from './sidemenu/calendar-sidemenu.component';
 
 @NgModule({
   imports: [
@@ -63,6 +64,7 @@ import { CALENDAR_ROUTES } from 'core-app/features/calendar/calendar.routes';
     WorkPackagesCalendarPageComponent,
     WorkPackagesCalendarComponent,
     TimeEntryCalendarComponent,
+    CalendarSidemenuComponent,
   ],
   exports: [
     WorkPackagesCalendarComponent,

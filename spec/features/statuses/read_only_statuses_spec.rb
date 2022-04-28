@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -74,6 +74,7 @@ describe 'Read-only statuses affect work package editing',
   end
 
   it 'locks the work package on a read only status' do
+    wp_page.switch_to_tab(tab: 'FILES')
     expect(page).to have_selector '.work-package--attachments--drop-box'
 
     subject_field = wp_page.edit_field :subject

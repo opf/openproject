@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,6 +32,7 @@ class Project < ApplicationRecord
 
   include Projects::Storage
   include Projects::Activity
+  include Projects::Hierarchy
   include Projects::AncestorsFromRoot
   include ::Scopes::Scoped
 
@@ -72,7 +71,7 @@ class Project < ApplicationRecord
   }, dependent: :destroy
   has_many :time_entries, dependent: :delete_all
   has_many :time_entry_activities_projects, dependent: :delete_all
-  has_many :queries, dependent: :delete_all
+  has_many :queries, dependent: :destroy
   has_many :news, -> { includes(:author) }, dependent: :destroy
   has_many :categories, -> { order("#{Category.table_name}.name") }, dependent: :delete_all
   has_many :forums, -> { order('position ASC') }, dependent: :destroy
@@ -88,8 +87,8 @@ class Project < ApplicationRecord
   has_one :status, class_name: 'Projects::Status', dependent: :destroy
   has_many :budgets, dependent: :destroy
   has_many :notification_settings, dependent: :destroy
-
-  acts_as_nested_set order_column: :name, dependent: :destroy
+  has_many :projects_storages, dependent: :destroy, class_name: 'Storages::ProjectStorage'
+  has_many :storages, through: :projects_storages
 
   acts_as_customizable
   acts_as_searchable columns: %W(#{table_name}.name #{table_name}.identifier #{table_name}.description),
@@ -138,11 +137,13 @@ class Project < ApplicationRecord
 
   friendly_id :identifier, use: :finders
 
+  delegate :explanation, to: :status, allow_nil: true, prefix: true
+
   scope :has_module, ->(mod) {
     where(["#{Project.table_name}.id IN (SELECT em.project_id FROM #{EnabledModule.table_name} em WHERE em.name=?)", mod.to_s])
   }
   scope :public_projects, -> { where(public: true) }
-  scope :visible, ->(user = User.current) { merge(Project.visible_by(user)) }
+  scope :visible, ->(user = User.current) { where(id: Project.visible_by(user)) }
   scope :newest, -> { order(created_at: :desc) }
   scope :active, -> { where(active: true) }
 

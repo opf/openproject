@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -43,7 +41,7 @@ describe WorkPackage::Exports::CSV, 'integration', type: :model do
            member_with_permissions: %i(view_work_packages))
   end
   let(:query) do
-    Query.new(name: '_').tap do |query|
+    Query.new_default(name: '_').tap do |query|
       query.column_names = %i(subject assigned_to updated_at estimated_hours)
     end
   end

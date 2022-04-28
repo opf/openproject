@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -451,8 +449,8 @@ module ApplicationHelper
 
   # To avoid the menu flickering, disable it
   # by default unless we're in test mode
-  def initial_menu_styles
-    Rails.env.test? ? '' : 'display:none'
+  def initial_menu_styles(side_displayed)
+    Rails.env.test? || !side_displayed ? '' : 'display:none'
   end
 
   def initial_menu_classes(side_displayed, show_decoration)

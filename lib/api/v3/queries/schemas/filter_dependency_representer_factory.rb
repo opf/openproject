@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -38,6 +36,8 @@ module API
           def create(filter, operator, form_embedded: false)
             klass = representer_class(filter)
 
+            return nil if klass.nil?
+
             instance = klass.new(filter,
                                  operator,
                                  form_embedded: form_embedded)
@@ -52,21 +52,21 @@ module API
           private
 
           @specific_conversion = {
-            'CreatedAtFilter': 'DateTimeFilter',
-            'UpdatedAtFilter': 'DateTimeFilter',
-            'AuthorFilter': 'UserFilter',
-            'ResponsibleFilter': 'AllPrincipalsFilter',
-            'AssignedToFilter': 'AllPrincipalsFilter',
-            'WatcherFilter': 'UserFilter'
+            CreatedAtFilter: 'DateTimeFilter',
+            UpdatedAtFilter: 'DateTimeFilter',
+            AuthorFilter: 'UserFilter',
+            ResponsibleFilter: 'AllPrincipalsFilter',
+            AssignedToFilter: 'AllPrincipalsFilter',
+            WatcherFilter: 'UserFilter'
           }
 
           def representer_class(filter)
             name = filter_specific_representer_class(filter) ||
-                   cf_representer_class(filter) ||
-                   type_specific_representer_class(filter) ||
-                   custom_representer_class(filter)
+              cf_representer_class(filter) ||
+              type_specific_representer_class(filter) ||
+              custom_representer_class(filter)
 
-            name.constantize
+            name&.constantize
           end
 
           def filter_specific_representer_class(filter)
@@ -108,12 +108,9 @@ module API
             end
 
             name = @specific_conversion[filter.class.to_s.demodulize.to_sym]
-            if name.nil?
-              raise ArgumentError,
-                    "Filter #{filter.class} does not map to a dependency representer."
-            end
+            return "API::V3::Queries::Schemas::#{name}DependencyRepresenter" if name.present?
 
-            "API::V3::Queries::Schemas::#{name}DependencyRepresenter"
+            raise ArgumentError, "Filter #{filter.class} does not map to a dependency representer."
           end
 
           module_function :create,

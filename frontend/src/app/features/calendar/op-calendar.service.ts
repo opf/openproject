@@ -1,6 +1,7 @@
 import {
   ElementRef,
   Injectable,
+  Injector,
 } from '@angular/core';
 import {
   CalendarOptions,
@@ -13,7 +14,6 @@ import { ConfigurationService } from 'core-app/core/config/configuration.service
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { DomSanitizer } from '@angular/platform-browser';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
-import { EventClickArg } from '@fullcalendar/common';
 import { splitViewRoute } from 'core-app/features/work-packages/routing/split-view-routes.helper';
 import { StateService } from '@uirouter/angular';
 import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
@@ -44,6 +44,13 @@ import {
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/resource-changeset';
 import * as moment from 'moment';
+import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
+import { isClickedWithModifier } from 'core-app/shared/helpers/link-handling/link-handling';
+import { uiStateLinkClass } from 'core-app/features/work-packages/components/wp-fast-table/builders/ui-state-link-builder';
+import { debugLog } from 'core-app/shared/helpers/debug_output';
+import { WorkPackageViewContextMenu } from 'core-app/shared/components/op-context-menu/wp-context-menu/wp-view-context-menu.directive';
+import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
+import { initial } from 'lodash';
 
 export interface CalendarViewEvent {
   el:HTMLElement;
@@ -72,8 +79,9 @@ export class OpCalendarService extends UntilDestroyedMixin {
     private I18n:I18nService,
     private configuration:ConfigurationService,
     private sanitizer:DomSanitizer,
-    readonly schemaCache:SchemaCacheService,
     private $state:StateService,
+    readonly injector:Injector,
+    readonly schemaCache:SchemaCacheService,
     readonly toastService:ToastService,
     readonly wpTableFilters:WorkPackageViewFiltersService,
     readonly wpListService:WorkPackagesListService,
@@ -85,6 +93,8 @@ export class OpCalendarService extends UntilDestroyedMixin {
     readonly uiRouterGlobals:UIRouterGlobals,
     readonly timezoneService:TimezoneService,
     readonly halEditing:HalResourceEditingService,
+    readonly wpTableSelection:WorkPackageViewSelectionService,
+    readonly contextMenuService:OPContextMenuService,
   ) {
     super();
   }
@@ -179,12 +189,13 @@ export class OpCalendarService extends UntilDestroyedMixin {
       const initialQuery = await this
         .apiV3Service
         .queries
-        .find({ perPage: 0 }, queryId)
+        .find({ pageSize: 0 }, queryId)
         .toPromise();
 
-      queryProps = this.urlParamsHelper.encodeQueryJsonParams(
+      queryProps = this.generateQueryProps(
         initialQuery,
-        { pp: OpCalendarService.MAX_DISPLAYED, pa: 1 },
+        startDate,
+        endDate,
       );
     } else if (this.initializingWithQueryProps) {
       // This is the case on initially loading the calendar with query_props present in the url params.
@@ -207,17 +218,10 @@ export class OpCalendarService extends UntilDestroyedMixin {
         queryProps = OpCalendarService.defaultQueryProps(startDate, endDate);
       }
     } else {
-      queryProps = this.urlParamsHelper.encodeQueryJsonParams(
+      queryProps = this.generateQueryProps(
         this.querySpace.query.value as QueryResource,
-        (props) => ({
-          ...props,
-          pp: OpCalendarService.MAX_DISPLAYED,
-          pa: 1,
-          f: [
-            ...props.f.filter((filter) => filter.n !== 'datesInterval'),
-            OpCalendarService.dateFilter(startDate, endDate),
-          ],
-        }),
+        startDate,
+        endDate,
       );
 
       // There are no query props, ensure that they are not being shown the next load
@@ -230,14 +234,37 @@ export class OpCalendarService extends UntilDestroyedMixin {
       .toPromise();
   }
 
+  public generateQueryProps(
+    query: QueryResource,
+    startDate:string,
+    endDate:string,
+  ):string {
+    return this.urlParamsHelper.encodeQueryJsonParams(
+      query,
+      (props) => ({
+        ...props,
+        pp: OpCalendarService.MAX_DISPLAYED,
+        pa: 1,
+        f: [
+          ...props.f.filter((filter) => filter.n !== 'datesInterval'),
+          OpCalendarService.dateFilter(startDate, endDate),
+        ],
+      }),
+    );
+  }
+
   public get initialView():string|undefined {
     return this.urlParams.cview as string|undefined;
   }
 
-  public eventDurationEditable(wp:WorkPackageResource):boolean {
+  dateEditable(wp:WorkPackageResource):boolean {
     const schema = this.schemaCache.of(wp);
     const schemaEditable = schema.isAttributeEditable('startDate') && schema.isAttributeEditable('dueDate');
-    return (wp.isLeaf || wp.scheduleManually) && schemaEditable && !this.isMilestone(wp);
+    return (wp.isLeaf || wp.scheduleManually) && schemaEditable;
+  }
+
+  eventDurationEditable(wp:WorkPackageResource):boolean {
+    return this.dateEditable(wp) && !this.isMilestone(wp);
   }
 
   /**
@@ -247,6 +274,49 @@ export class OpCalendarService extends UntilDestroyedMixin {
    */
   public getEndDateFromTimestamp(end:Date):string {
     return moment(end).subtract(1, 'd').format('YYYY-MM-DD');
+  }
+
+  public openSplitView(id:string, onlyWhenOpen = false):void {
+    this.wpTableSelection.setSelection(id, -1);
+
+    // Only open the split view if already open, otherwise only clicking the details opens
+    if (onlyWhenOpen && !this.$state.includes('**.details.*')) {
+      return;
+    }
+
+    void this.$state.go(
+      `${splitViewRoute(this.$state)}.tabs`,
+      { workPackageId: id, tabIdentifier: 'overview' },
+    );
+  }
+
+  public onCardClicked({ workPackageId, event }:{ workPackageId:string, event:MouseEvent }):void {
+    if (isClickedWithModifier(event)) {
+      return;
+    }
+
+    this.openSplitView(workPackageId, true);
+  }
+
+  public showEventContextMenu({ workPackageId, event }:{ workPackageId:string, event:MouseEvent }):void {
+    if (isClickedWithModifier(event)) {
+      return;
+    }
+
+    // We want to keep the original context menu on hrefs
+    // (currently, this is only the id)
+    if ((event.target as HTMLElement).closest(`.${uiStateLinkClass}`)) {
+      debugLog('Allowing original context menu on state link');
+      return;
+    }
+
+    // Set the selection to single
+    this.wpTableSelection.setSelection(workPackageId, -1);
+
+    event.preventDefault();
+
+    const handler = new WorkPackageViewContextMenu(this.injector, workPackageId, jQuery(event.target as HTMLElement));
+    this.contextMenuService.show(handler, event);
   }
 
   private defaultOptions():CalendarOptions {
@@ -265,17 +335,7 @@ export class OpCalendarService extends UntilDestroyedMixin {
       initialDate: this.initialDate,
       initialView: this.initialView,
       datesSet: (dates) => this.updateDateParam(dates),
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      eventClick: this.openSplitView.bind(this),
     };
-  }
-
-  private openSplitView(event:EventClickArg) {
-    const workPackage = event.event.extendedProps.workPackage as WorkPackageResource;
-    void this.$state.go(
-      `${splitViewRoute(this.$state)}.tabs`,
-      { workPackageId: workPackage.id, tabIdentifier: 'overview' },
-    );
   }
 
   private static defaultQueryProps(startDate:string, endDate:string) {
@@ -287,6 +347,8 @@ export class OpCalendarService extends UntilDestroyedMixin {
         { n: 'status', o: '*', v: [] },
         this.dateFilter(startDate, endDate),
       ],
+      dr: 'cards',
+      hi: false,
       pp: OpCalendarService.MAX_DISPLAYED,
       pa: 1,
     };
@@ -305,14 +367,16 @@ export class OpCalendarService extends UntilDestroyedMixin {
   }
 
   private get initializingWithQuery():boolean {
-    return (this.areFiltersEmpty && this.urlParams.query_id && !this.urlParams.query_props) as boolean;
+    return this.areFiltersEmpty
+      && !!this.urlParams.query_id
+      && !this.urlParams.query_props;
   }
 
   private get urlParams() {
     return this.uiRouterGlobals.params;
   }
 
-  private get areFiltersEmpty() {
+  private get areFiltersEmpty():boolean {
     return this.wpTableFilters.isEmpty;
   }
 

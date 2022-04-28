@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -101,7 +101,7 @@ describe NewsController, type: :controller do
   describe '#create' do
     context 'with news_added notifications' do
       it 'persists a news item' do
-        become_member_with_permissions(project, user)
+        become_member(project, user)
 
         post :create,
              params: {

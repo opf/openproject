@@ -2,6 +2,10 @@ export const demoProjectName = 'Demo project';
 export const scrumDemoProjectName = 'Scrum project';
 export const onboardingTourStorageKey = 'openProject-onboardingTour';
 export type OnboardingTourNames = 'prepareBacklogs'|'backlogs'|'taskboard'|'homescreen'|'main';
+export enum ProjectName {
+  demo = 'demo',
+  scrum = 'scrum',
+}
 
 export function waitForElement(element:string, container:string, execFunction:Function) {
   // Wait for the element to be ready

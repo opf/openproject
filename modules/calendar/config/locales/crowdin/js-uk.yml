@@ -2,6 +2,7 @@
 uk:
   js:
     calendar:
-      title: 'Calendar'
-      too_many: 'There are %{count} work packages in total, but only %{max} can be shown.'
-      unsaved_title: 'Unnamed calendar'
+      create_new: 'Створити новий календар'
+      title: 'Календар'
+      too_many: 'Усього існує %{count}  робочих пакетів, з яких лише %{max} можуть бути показані.'
+      unsaved_title: 'Неназваний календар'

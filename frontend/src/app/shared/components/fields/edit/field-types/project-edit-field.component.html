@@ -1,0 +1,11 @@
+<op-autocompleter
+  appendTo="body"
+  resource="default"
+  [fetchDataDirectly]="true"
+  [focusDirectly]="!(handler.inEditMode || isNew)"
+  [openDirectly]="!(handler.inEditMode || isNew)"
+  [getOptionsFn]="getOptionsFn"
+  [classes]="'inline-edit--field ' + handler.fieldName"
+  (change)="onModelChange($event)"
+>
+</op-autocompleter>

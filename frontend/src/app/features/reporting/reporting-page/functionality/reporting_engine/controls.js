@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -150,7 +150,7 @@ Reporting.Controls = function($){
         }
 
         if ($("#query-breadcrumb-save").length) {
-          // When saving an update of an exisiting query or apply filters, we replace the table on success
+          // When saving an update of an existing query or apply filters, we replace the table on success
           Reporting.Controls.attach_settings_callback($("#query-breadcrumb-save"), Reporting.Controls.update_result_table);
         }
       }
@@ -165,7 +165,7 @@ Reporting.Controls = function($){
     Reporting.Controls.attach_settings_callback($("#query-icon-save-button"), function (newLocation) {
       document.location = newLocation;
     });
-    // When saving an update of an exisiting query or apply filters, we replace the table on success
+    // When saving an update of an existing query or apply filters, we replace the table on success
     Reporting.Controls.attach_settings_callback($("#query-icon-apply-button"), Reporting.Controls.update_result_table);
     Reporting.Controls.observe_click('query-link-clear', Reporting.Controls.clear_query);
   });

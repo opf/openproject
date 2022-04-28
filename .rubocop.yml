@@ -70,6 +70,9 @@ Lint/UnderscorePrefixedVariableName:
 Lint/Void:
   Enabled: false
 
+Lint/AmbiguousBlockAssociation:
+  IgnoredMethods: [change]
+
 
 Metrics/ClassLength:
   Enabled: false
@@ -169,7 +172,7 @@ RSpec/MultipleExpectations:
     - 'modules/*/spec/features/**/*.rb'
 
 RSpec/MultipleMemoizedHelpers:
-  Max: 15
+  Max: 20
   AllowSubject: true
 
 RSpec/NestedGroups:
@@ -198,6 +201,7 @@ RSpec/NamedSubject:
 
 RSpec/ContextWording:
   Prefixes:
+    - as
     - when
     - with
     - without
@@ -261,9 +265,6 @@ Style/EachWithObject:
   Enabled: false
 
 Style/EmptyLiteral:
-  Enabled: false
-
-Style/Encoding:
   Enabled: false
 
 Style/EvenOdd:

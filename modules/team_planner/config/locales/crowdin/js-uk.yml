@@ -2,15 +2,21 @@
 uk:
   js:
     team_planner:
-      add_existing: 'Add existing'
-      create_new: 'Create new planner'
-      title: 'Team planner'
-      unsaved_title: 'Unnamed team planner'
-      label_assignee_plural: 'Assignees'
-      no_data: 'Add assignees to set up your team planner.'
-      add_assignee: 'Add assignee'
-      remove_assignee: 'Remove assignee'
-      two_weeks: '2 weeks'
+      add_existing: 'Додати наявний'
+      title: 'Командний планувальник'
+      unsaved_title: 'Командний планувальник без назви'
+      no_data: 'Додайте виконавців, щоб налаштувати свій командний планувальник.'
+      add_assignee: 'Додати виконавця'
+      remove_assignee: 'Вилучити виконавця'
+      two_weeks: '2 тижні'
+      one_week: '1 тиждень'
+      today: 'Сьогодні'
+      drag_here_to_remove: 'Перетягніть сюди, щоб вилучити виконавця, а також дати початку й закінчення.'
+      cannot_drag_here: 'Не вдалося вилучити пакет робіт через дозволи або обмеження на редагування.'
       quick_add:
-        empty_state: 'Use the search field to find work packages and drag them to the planner to assign it to someone and define start and end dates.'
-        search_placeholder: 'Search...'
+        empty_state: 'Скористайтеся полем пошуку, щоб знайти пакети робіт, і перетягніть їх у планувальник, щоб призначити комусь, а також визначити дати початку й закінчення завдання.'
+        search_placeholder: 'Пошук...'
+      modify:
+        errors:
+          permission_denied: 'Ви не маєте необхідних дозволів, щоб змінити це.'
+          fallback: 'Цей пакет робіт не можна змінити.'

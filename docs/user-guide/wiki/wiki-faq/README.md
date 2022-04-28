@@ -33,11 +33,11 @@ Otherwise the page will appear in the project navigation and you can select, whe
 
 After saving a wiki-page, you can create a referencing link for the page to easily access it - either by making it a wiki menu item (s.a.) or by referencing it with a link on the main wiki-page. If this chance was missed you can reaccess the page at any time, by typing in the page’s URL in the browser:
 The example URL would be: openproject.org/projects/your-projects-name/wiki/your-wiki-page’s-name
-Also, you have the possibility to display the wiki’s Table of Contents, which you also can acitvate for each wiki page with “configure menu item” (s.a.). Here you see all wiki pages for the project.
+Also, you have the possibility to display the wiki’s Table of Contents, which you also can activate for each wiki page with “configure menu item” (s.a.). Here you see all wiki pages for the project.
 
 ### I activated the wiki module in the project settings but cannot see any wiki in the project menu. What happened?
 
-You have probably unchecked the option “show as menu item in project navigation” within the wiki settings “configure menu item” (s.a.). Type in the URL of any wiki page in the browser: https://www.openproject.org/projects/“project_name”/wiki to open the wiki. Open “configure menu item” for this page and choose the way you want this wiki to be displayed in the menu bar.
+You have probably unchecked the option “show as menu item in project navigation” within the wiki settings “configure menu item” (s.a.). Type in the URL of any wiki page in the browser: `https://www.openproject.org/projects/“project_name”/wiki` to open the wiki. Open “configure menu item” for this page and choose the way you want this wiki to be displayed in the menu bar.
 
 ### What is the markup language of the wiki in OpenProject?
 

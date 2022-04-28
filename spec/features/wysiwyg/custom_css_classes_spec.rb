@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -63,7 +63,12 @@ describe 'Wysiwyg paragraphs in lists behavior (Regression #28765)',
 
       *   [ ] task list
 
-      <figure><img src="/api/v3/attachments/44/content"><figcaption>Image</figcaption></figure>
+      <figure>
+        <div>
+          <img src="/attachments/44/content">
+        </div>
+        <figcaption>Image</figcaption>
+      </figure>
 
       > Quote
 

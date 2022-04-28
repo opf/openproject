@@ -62,8 +62,8 @@ The reviewer should understand the code without explanations outside the code.
 
 ## Citations
 
-http://scientopia.org/blogs/goodmath/2011/07/06/things-everyone-should-do-code-review/
+[scientopia.org/blogs/goodmath/2011/07/06/things-everyone-should-do-code-review/](https://blog.csdn.net/zhangmike/article/details/30198411)
 
-http://beust.com/weblog/2006/06/22/why-code-reviews-are-good-for-you/
+[beust.com/weblog/2006/06/22/why-code-reviews-are-good-for-you/](https://beust.com/weblog/2006/06/22/why-code-reviews-are-good-for-you/)
 
-https://developer.mozilla.org/en/Code_Review_FAQ
+[www-archive.mozilla.org/hacking/code-review-faq](https://www-archive.mozilla.org/hacking/code-review-faq)

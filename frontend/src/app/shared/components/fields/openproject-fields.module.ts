@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -60,6 +60,7 @@ import { DateEditFieldModule } from 'core-app/shared/components/fields/edit/fiel
 import { SelectEditFieldModule } from 'core-app/shared/components/fields/edit/field-types/select-edit-field/select-edit-field.module';
 import { FormattableEditFieldModule } from 'core-app/shared/components/fields/edit/field-types/formattable-edit-field/formattable-edit-field.module';
 import { EditFieldControlsModule } from 'core-app/shared/components/fields/edit/field-controls/edit-field-controls.module';
+import { ProjectEditFieldComponent } from './edit/field-types/project-edit-field.component';
 
 @NgModule({
   imports: [
@@ -104,6 +105,7 @@ import { EditFieldControlsModule } from 'core-app/shared/components/fields/edit/
     FloatEditFieldComponent,
     PlainFormattableEditFieldComponent,
     MultiSelectEditFieldComponent,
+    ProjectEditFieldComponent,
     WorkPackageEditFieldComponent,
     TimeEntryWorkPackageEditFieldComponent,
     EditFormComponent,

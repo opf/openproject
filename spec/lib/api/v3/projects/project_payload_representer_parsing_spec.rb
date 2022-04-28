@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,7 +32,7 @@ describe ::API::V3::Projects::ProjectPayloadRepresenter, 'parsing' do
   include ::API::V3::Utilities::PathHelper
 
   let(:object) do
-    Hashie::Mash.new available_custom_fields: []
+    API::ParserStruct.new available_custom_fields: []
   end
   let(:user) { build_stubbed(:user) }
   let(:representer) do
@@ -40,7 +40,7 @@ describe ::API::V3::Projects::ProjectPayloadRepresenter, 'parsing' do
   end
 
   describe 'properties' do
-    context 'status' do
+    context 'for status' do
       let(:hash) do
         {
           'statusExplanation' => { 'raw' => 'status code explanation' },
@@ -130,7 +130,7 @@ describe ::API::V3::Projects::ProjectPayloadRepresenter, 'parsing' do
             .not_to have_key(:explanation)
 
           expect(status[:code])
-            .to eq nil
+            .to be_nil
         end
       end
     end
@@ -175,7 +175,7 @@ describe ::API::V3::Projects::ProjectPayloadRepresenter, 'parsing' do
             .to have_key(:parent_id)
 
           expect(project[:parent_id])
-            .to eq nil
+            .to be_nil
         end
       end
 

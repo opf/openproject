@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -41,6 +41,7 @@ describe 'Projects index page',
   let(:filters) { ::Components::WorkPackages::Filters.new }
   let(:wp_table) { ::Pages::WorkPackagesTable.new }
   let(:projects_page) { Pages::Projects::Index.new }
+  let(:dropdown) { ::Components::ProjectIncludeComponent.new }
 
   before do
     login_as admin
@@ -142,11 +143,11 @@ describe 'Projects index page',
       expect(page).to have_selector '.group--value', text: 'B'
 
       # Expect type and project filters
-      filters.expect_filter_count 2
+      dropdown.expect_count 2
+      filters.expect_filter_count 1
       filters.open
 
       filters.expect_filter_by('Type', 'is', [type_milestone.name])
-      filters.expect_filter_by('Project', 'is', [project_a.name, project_b.name])
 
       # Expect columns
       columns.open_modal

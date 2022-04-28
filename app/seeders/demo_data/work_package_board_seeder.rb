@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 
 # OpenProject is an open source project management software.
@@ -162,6 +160,7 @@ module DemoData
         Query.new(project: project, user: admin).tap do |query|
           # Make it public so that new members can see it too
           query.public = true
+          query.include_subprojects = true
 
           query.name = list[:name]
 

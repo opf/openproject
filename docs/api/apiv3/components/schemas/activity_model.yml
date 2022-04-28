@@ -22,7 +22,8 @@ properties:
     type: array
     readOnly: true
     items:
-      type: string
+      allOf:
+      - "$ref": "./formattable.yml"
   createdAt:
     type: string
     format: date-time

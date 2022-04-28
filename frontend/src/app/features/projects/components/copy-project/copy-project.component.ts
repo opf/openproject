@@ -84,6 +84,6 @@ export class CopyProjectComponent extends UntilDestroyedMixin implements OnInit 
   }
 
   private isMeta(property:string|undefined):boolean {
-    return !!property && (property.startsWith('copy') || property == 'sendNotifications');
+    return !!property && (property.startsWith('copy') || property === 'sendNotifications');
   }
 }

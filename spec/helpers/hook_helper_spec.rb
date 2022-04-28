@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -97,7 +95,7 @@ describe HookHelper do
       end
 
       it 'adds to the context' do
-        # mimicks having two different classes registered for the hook
+        # mimics having two different classes registered for the hook
         allow(OpenProject::Hook)
           .to receive(:call_hook)
           .and_return(%w[response1 response2])

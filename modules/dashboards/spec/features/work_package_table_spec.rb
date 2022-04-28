@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -94,6 +94,12 @@ describe 'Arbitrary WorkPackage query table widget dashboard', type: :feature, j
 
   context 'with the permission to save queries' do
     it 'can add the widget and see the work packages of the filtered for types' do
+      # This one always exists by default.
+      # Using it here as a safeguard to govern speed.
+      wp_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)')
+      expect(wp_area)
+        .to have_selector('.subject', text: type_work_package.subject)
+
       dashboard_page.add_widget(1, 1, :row, "Work packages table")
 
       filter_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(2)')
@@ -102,7 +108,7 @@ describe 'Arbitrary WorkPackage query table widget dashboard', type: :feature, j
 
       # At the beginning, the default query is displayed
       expect(filter_area.area)
-        .to have_selector('.subject', text: type_work_package.subject)
+        .to have_selector('.subject', text: type_work_package.subject, wait: 30)
 
       expect(filter_area.area)
         .to have_selector('.subject', text: other_type_work_package.subject)

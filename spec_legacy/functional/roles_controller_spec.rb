@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -38,32 +36,6 @@ describe RolesController, type: :controller do
   before do
     User.current = nil
     session[:user_id] = 1 # admin
-  end
-
-  it 'should get index' do
-    get :index
-    assert_response :success
-    assert_template 'index'
-
-    refute_nil assigns(:roles)
-    assert_equal Role.order(Arel.sql('builtin, position')).to_a, assigns(:roles)
-
-    assert_select 'a',
-                  attributes: { href: edit_role_path(1) },
-                  content: 'Manager'
-  end
-
-  it 'should get new' do
-    get :new
-    assert_response :success
-    assert_template 'new'
-  end
-
-  it 'should get edit' do
-    get :edit, params: { id: 1 }
-    assert_response :success
-    assert_template 'edit'
-    assert_equal Role.find(1), assigns(:role)
   end
 
   it 'should destroy' do

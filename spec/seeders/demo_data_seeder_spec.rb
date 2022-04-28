@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,16 +32,21 @@ describe RootSeeder,
          'standard edition',
          with_config: { edition: 'standard' },
          with_settings: { journal_aggregation_time_minutes: 0 } do
-  it 'create the demo data' do
+  before do
+    allow($stdout).to receive(:puts) { |msg| Rails.logger.info(msg) }
+  end
+
+  it 'creates the demo data' do
     expect { described_class.new.do_seed! }.not_to raise_error
 
     expect(User.where(admin: true).count).to eq 1
     expect(Project.count).to eq 2
-    expect(WorkPackage.count).to eq 33
+    expect(WorkPackage.count).to eq 36
     expect(Wiki.count).to eq 2
-    expect(Query.having_views.count).to eq 7
+    expect(Query.having_views.count).to eq 8
     expect(View.where(type: 'work_packages_table').count).to eq 7
-    expect(Query.count).to eq 25
+    expect(View.where(type: 'team_planner').count).to eq 1
+    expect(Query.count).to eq 26
     expect(Projects::Status.count).to eq 2
     expect(Role.where(type: 'Role').count).to eq 5
     expect(GlobalRole.count).to eq 1

@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -157,7 +155,7 @@ module API
               uncacheable: true do
           represented.ancestors_from_root.map do |ancestor|
             # Explicitly check for admin as an archived project
-            # will lead to the admin loosing permissions in the project.
+            # will lead to the admin losing permissions in the project.
             if current_user.admin? || ancestor.visible?
               {
                 href: api_v3_paths.project(ancestor.id),
@@ -216,13 +214,13 @@ module API
                    end
                  },
                  setter: ->(fragment:, represented:, **) {
-                   represented.status_attributes ||= Hashie::Mash.new
+                   represented.status_attributes ||= API::ParserStruct.new
 
                    link = ::API::Decorators::LinkObject.new(represented.status_attributes,
                                                             path: :project_status,
                                                             property_name: :status,
                                                             getter: :code,
-                                                            setter: :"code=")
+                                                            setter: :'code=')
 
                    link.from_hash(fragment)
                  }
@@ -235,7 +233,7 @@ module API
                                                       plain: false)
                  },
                  setter: ->(fragment:, represented:, **) {
-                   represented.status_attributes ||= Hashie::Mash.new
+                   represented.status_attributes ||= API::ParserStruct.new
                    represented.status_attributes[:explanation] = fragment["raw"]
                  }
 

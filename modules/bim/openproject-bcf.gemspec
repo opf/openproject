@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 # Describe your gem and declare its dependencies:
 Gem::Specification.new do |s|
   s.name        = "openproject-bim"

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -39,30 +39,12 @@ class Widget::Table < Widget::Base
   end
 
   def resolve_table
-    if @subject.group_bys.size == 0
-      self.class.detailed_table
-    elsif @subject.group_bys.size == 1
-      self.class.simple_table
+    if @subject.group_bys.empty?
+      Widget::Table::EntryTable
     else
-      self.class.fancy_table
+      Widget::Table::ReportTable
     end
   end
-
-  def self.detailed_table(klass = nil)
-    @@detail_table = klass if klass
-    defined?(@@detail_table) ? @@detail_table : fancy_table
-  end
-
-  def self.simple_table(klass = nil)
-    @@simple_table = klass if klass
-    defined?(@@simple_table) ? @@simple_table : fancy_table
-  end
-
-  def self.fancy_table(klass = nil)
-    @@fancy_table = klass if klass
-    @@fancy_table
-  end
-  fancy_table Widget::Table::ReportTable
 
   def render
     write('<!-- table start -->')

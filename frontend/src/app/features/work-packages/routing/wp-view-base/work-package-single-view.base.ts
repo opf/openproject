@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -47,6 +47,7 @@ import { HookService } from 'core-app/features/plugins/hook-service';
 import { WpSingleViewService } from 'core-app/features/work-packages/routing/wp-view-base/state/wp-single-view.service';
 import { Observable } from 'rxjs';
 import { ActionsService } from 'core-app/core/state/actions/actions.service';
+import { AttachmentsResourceService } from 'core-app/core/state/attachments/attachments.service';
 
 export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
   @InjectField() states:States;
@@ -64,6 +65,8 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
   @InjectField() notificationService:WorkPackageNotificationService;
 
   @InjectField() authorisationService:AuthorisationService;
+
+  @InjectField() attachmentsResourceService:AttachmentsResourceService;
 
   @InjectField() cdRef:ChangeDetectorRef;
 
@@ -161,6 +164,10 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
 
     // Preselect this work package for future list operations
     this.showStaticPagePath = this.PathHelper.workPackagePath(this.workPackageId);
+
+    // Fetch attachments of current work package
+    const attachments = this.workPackage.attachments as unknown&{ href:string };
+    this.attachmentsResourceService.fetchAttachments(attachments.href).subscribe();
 
     // Listen to tab changes to update the tab label
     this.keepTab.observable

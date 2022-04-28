@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -79,6 +79,12 @@ describe 'Accountable widget on my page', type: :feature, js: true do
   end
 
   it 'can add the widget and see the work packages the user is accountable for' do
+    # Added to ensure the page has finished loading.
+    # The page starts with a "wp created widget".
+    created_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(2)')
+    expect(created_area.area)
+      .to have_selector('.subject', text: accountable_work_package.subject)
+
     # Add widget below existing widgets
     my_page.add_widget(2, 2, :row, "Work packages I am accountable for")
 

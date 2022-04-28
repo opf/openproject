@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -131,7 +131,14 @@ describe 'API v3 capabilities resource', type: :request, content_type: :json do
           'values' => [other_user.id.to_s]
         } }]
       end
-      let(:path) { "#{api_v3_paths.path_for(:capabilities, filters: filters, sort_by: [%i(id asc)])}&pageSize=2&offset=2" }
+      let(:path) do
+        api_v3_paths.path_for(:capabilities,
+                              filters: filters,
+                              sort_by: [%i(id asc)],
+                              select: '*,elements/*',
+                              page_size: 2,
+                              offset: 2)
+      end
 
       it 'returns a slice of the visible memberships' do
         expect(subject.body)
@@ -244,7 +251,7 @@ describe 'API v3 capabilities resource', type: :request, content_type: :json do
       end
     end
 
-    context 'invalid filter' do
+    context 'with an invalid filter' do
       let(:filters) do
         [{ 'bogus' => {
           'operator' => '=',
@@ -320,6 +327,39 @@ describe 'API v3 capabilities resource', type: :request, content_type: :json do
       end
     end
 
+    context 'when signaling to only include a subset of properties' do
+      let(:current_user_permissions) { %i[manage_members] }
+      let(:path) { api_v3_paths.path_for(:capabilities, filters: filters, sort_by: [%i(id asc)], select: 'elements/id') }
+
+      let(:filters) do
+        [{ 'principalId' => {
+          'operator' => '=',
+          'values' => [current_user.id.to_s]
+        } }]
+      end
+
+      it 'contains only the filtered capabilities in the response' do
+        expected = {
+          _embedded: {
+            elements: [
+              {
+                id: "memberships/create/p#{project.id}-#{current_user.id}"
+              },
+              {
+                id: "memberships/destroy/p#{project.id}-#{current_user.id}"
+              },
+              {
+                id: "memberships/update/p#{project.id}-#{current_user.id}"
+              }
+            ]
+          }
+        }
+
+        expect(subject.body)
+          .to be_json_eql(expected.to_json)
+      end
+    end
+
     context 'without permissions' do
       current_user do
         create(:user)
@@ -382,7 +422,7 @@ describe 'API v3 capabilities resource', type: :request, content_type: :json do
 
     it 'returns 200 OK' do
       expect(subject.status)
-        .to eql(200)
+        .to be(200)
     end
 
     it 'returns the capability' do

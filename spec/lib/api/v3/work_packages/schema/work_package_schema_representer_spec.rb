@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -693,7 +693,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
         it_behaves_like 'links to allowed values via collection link' do
           let(:path) { 'project' }
-          let(:href) { api_v3_paths.available_projects_on_create(wp_type.id) }
+          let(:href) { api_v3_paths.available_projects_on_create }
         end
       end
 
@@ -708,7 +708,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
         it_behaves_like 'links to allowed values via collection link' do
           let(:path) { 'project' }
-          let(:href) { api_v3_paths.available_projects_on_create(nil) }
+          let(:href) { api_v3_paths.available_projects_on_create }
         end
       end
 

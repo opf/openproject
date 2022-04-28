@@ -40,7 +40,7 @@ A toolbar that can and should be used for actions on the current view. Initially
     </div>
     <ul class="toolbar-items">
       <li class="toolbar-item">
-        <select name="attribue">
+        <select name="attribute">
           <option value="" selected></option>
           <option value="super">Super</option>
         </select>

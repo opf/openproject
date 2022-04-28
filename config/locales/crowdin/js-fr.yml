@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -24,6 +24,7 @@ fr:
     ajax:
       hide: "Masquer"
       loading: "Chargement…"
+      updating: "Mise à jour…"
     attachments:
       draggable_hint: |
         Faites glisser le champ de l'éditeur pour incorporer une image ou une pièce jointe de référence. Les champs fermés de l'éditeur seront ouverts tant que vous continuer à faire glisser.
@@ -61,6 +62,7 @@ fr:
     button_confirm: "Confirmer"
     button_continue: "Continuer"
     button_copy: "Copier"
+    button_copy_to_other_project: "Copier vers un autre projet"
     button_custom-fields: "Champs personnalisés"
     button_delete: "Supprimer"
     button_delete_watcher: "Supprimer observateur"
@@ -236,7 +238,7 @@ fr:
           text: >
             L'Entreprise Edition d'OpenProject s'appuie sur la Community Edition. Elle comprend des fonctionnalités premium et un support professionnel principalement destiné aux organisations comptant plus de 10 utilisateurs gérant des projets critiques avec OpenProject.
           unlimited: "Illimité"
-          you_contribute: "Les développeurs ont aussi besoin payer leurs factures. Avec la version Entreprise, vous contribuez significativement à cet effort de la communauté Open Source."
+          you_contribute: "Les développeurs ont aussi besoin payer leurs factures. En passant à la version Entreprise, vous soutiendrez cet effort communautaire open source et contribuerez à son développement, sa maintenance et son amélioration continue."
     custom_actions:
       date:
         specific: 'le'
@@ -250,6 +252,7 @@ fr:
     enumeration_doc_categories: "Catégories de documents"
     enumeration_work_package_priorities: "Priorités du Lot de Travaux"
     filter:
+      more_values_not_shown: "Il y a %{total} résultats supplémentaires, effectuez une recherche pour filtrer les résultats."
       description:
         text_open_filter: "Ouvrir ce filtre avec les touches « ALT » et fléchées."
         text_close_filter: "Pour sélectionner une entrée, laissez le focus par exemple en appuyant sur enter. Pour quitter sans filtre, sélectionnez la première entrée (vide)."
@@ -284,16 +287,17 @@ fr:
           learn_about: "En savoir plus sur les nouvelles fonctionnalités"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_0':
+          '12_1':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
+              learn_about_link: https://www.openproject.org/openproject-12-1-release
               new_features_html: >
-                Cette version contient une variété de nouvelle fonctionnalités et d'améliorations : <br> <ul class="%{list_styling_class}"> <li>Avec les nouvelles<b>Notifications intégrées</b> vous recevez toutes les mises à jour importantes directement dans l'application et vous ne recevez plus une multitude d'emails.</li><li>Le nouveau <b>centre de notifications</b> affiche tous les changements, incluant les options de filtres intuitifs, par exemple par raison pour les notifications ou les projets. Il autorise même l'édition directement dans une vue séparée.</li> <li>Amélioration des <b>paramètres de notifications</b> autorisant un réglage précis de pour quels actions et dans quels projets vous voulez recevoir des notifications.</li><li>Des <b>rappels emails</b> peuvent être configurés pour recevoir les mises à jour importantes avec un résumé journalier.</li> <li>L'autocomplétion  des lots de travaux pour les relations affiche maintenant les information supplémentaires (nom du projet, status, ...) pour facilement identifier les lots de travaux correspondants</li> </ul>
+                Cette version contient diverses nouvelles fonctionnalités et améliorations : <br> <ul class="%{list_styling_class}"> <li>Un <b>nouveau module de planification d'équipe</b> (fonctionnalité Entreprise) vous permet d'attribuer visuellement des tâches aux membres de l'équipe pour avoir un aperçu de qui travaille sur quoi.</li> <li>Nous sommes <b>en train de libérer les tableaux agiles de base</b> pour la version Community. </li> <li>L'option de filtre <b>« Inclure les projets »</b> facilite l'ajout de différents projets à vos vues, comme pour les lots de travail, les calendriers et les planificateurs d'équipe.</li> <li>Nous avons ajouté <b>un nouvel onglet « Fichiers »</b> dans les détails du lot de travail pour avoir toutes les informations possibles attachées à un lot de travail ensemble. </li> <li>Nous avons créé des <b>rôles globaux pour les groupes</b> afin d'attribuer ces rôles aux groupes et de créer des groupes de super-utilisateurs.</li> <li>Le statut du projet a reçu plus d'options parmi lesquelles choisir.</li> </ul>
             bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
+              learn_about_link: https://www.openproject.org/openproject-12-1-release
               new_features_html: >
-                Cette version contient diverses nouvelles fonctionnalités et améliorations : <br> <ul class="%{list_styling_class}"> <li>Centre de notifications : réduisez le nombre de mails que vous recevez. Au lieu de cela, trouvez et agissez sur toutes les notifications pertinentes dans un endroit central.</li> <li>Tous les fichiers IFC téléversés peuvent maintenant également être téléchargés.</li> <li>Le téléversement et le traitement des fichiers IFC sont devenus plus rapides et ont reçu de meilleurs messages d'erreur.</li> <li>Le <a href="https://github.com/opf/openproject-revit-add-in">L'add-in OpenProject Revit</a> a reçu de nombreuses corrections de bugs.</li> </ul>.
+                Cette version contient diverses nouvelles fonctionnalités et améliorations : <br> <ul class="%{list_styling_class}"> <li>Dans le module BCF, vous pouvez désormais enregistrer vos filtres de paquets de travail sélectionnés, vos colonnes, etc. en tant que <b>vues</b> et les partager avec les membres de votre équipe. </li> <li>Un <b>nouveau module de planification d'équipe</b> (fonctionnalité Entreprise) vous permet d'attribuer visuellement des tâches aux membres de l'équipe pour avoir un aperçu de qui travaille sur quoi.</li> <li>Nous sommes <b>en train de libérer les tableaux agiles de base</b> pour la version Community. </li> <li>L'option de filtre <b>« Inclure les projets »</b> facilite l'ajout de différents projets à vos vues, comme pour les lots de travail, les calendriers et les planificateurs d'équipe.</li> <li>Nous avons ajouté <b>un nouvel onglet « Fichiers »</b> dans les détails du lot de travail pour avoir toutes les informations possibles attachées à un lot de travail ensemble. </li> <li>Nous avons créé des <b>rôles globaux pour les groupes</b> afin d'attribuer ces rôles aux groupes et de créer des groupes de super-utilisateurs.</li> <li>Le statut du projet a reçu plus d'options parmi lesquelles choisir.</li> </ul>
     label_activate: "Activer"
+    label_assignee: 'Responsable'
     label_add_column_after: "Ajouter une colonne au-dessus"
     label_add_column_before: "Ajouter une colonne avant"
     label_add_columns: "Ajouter des colonnes"
@@ -451,7 +455,6 @@ fr:
     label_starred_queries: "Vue préférées"
     label_global_queries: "Vues publiques"
     label_custom_queries: "Vues privées"
-    label_create_new_query: "Créer nouveau"
     label_columns: "Colonnes"
     label_attachments: Fichiers
     label_drop_files: Déposez des fichiers ici
@@ -497,7 +500,8 @@ fr:
           task_board: "Le tableau des tâches visualise la <b>progression pour ce sprint</b>. Cliquez sur l'icône plus (+) à côté d'un récit utilisateur pour ajouter de nouvelles tâches ou obstacles. <br> Le statut peut être mis à jour par glisser-déposer."
         boards:
           overview: 'Sélectionnez <b>tableaux</b> pour déplacer la vue et gérer votre projet en utilisant la vue des tableaux agiles.'
-          lists: 'Ici, vous pouvez créer plusieurs listes (colonnes) dans votre tableau. Cette fonctionnalité vous permet de créer un <b>tableau Kanban</b>, par exemple.'
+          lists_kanban: 'Ici, vous pouvez créer plusieurs listes (colonnes) dans votre tableau. Cette fonctionnalité vous permet de créer un <b>tableau Kanban</b>, par exemple.'
+          lists_basic: 'Ici, vous pouvez créer plusieurs listes (colonnes) dans votre tableau agile.'
           add: 'Cliquez sur l''icône plus (+) pour <b>créer une nouvelle carte</b> ou <b>ajouter une carte existante</b> à la liste du tableau.'
           drag: 'Glissez et déposez vos cartes dans une liste donnée pour les réorganiser, ou pour les déplacer dans une autre liste. <br> Vous pouvez cliquer sur l''icône (i) dans le coin supérieur droit ou double-cliquer sur une carte pour ouvrir ses détails.'
         wp:
@@ -508,6 +512,12 @@ fr:
           create_button: 'La touche <b>+ Créer</b> ajoutera un nouveau lot de travaux à votre projet.'
           timeline_button: 'Vous pouvez activer la vue <b>Diagramme de Gantt</b> pour créer une chronologie pour votre projet.'
           timeline: 'Ici vous pouvez <b>modifier votre plan de projet</b>, créer de nouveaux lots de travaux, comme des tâches, des jalons, des phases et plus, ainsi que <b>ajouter des dépendances</b>. Tous les membres de l''équipe peuvent voir et mettre à jour le plan le plus récent à tout moment.'
+        team_planner:
+          overview: 'Le planificateur d''équipe vous permet d''assigner visuellement des tâches aux membres de l''équipe et d''obtenir un aperçu de qui travaille sur quoi.'
+          calendar: 'Le tableau de planification hebdomadaire ou bihebdomadaire affiche tous les lots de travaux assignés aux membres de votre équipe.'
+          add_assignee: 'Pour commencer, ajoutez des responsables au planificateur d''équipe.'
+          add_existing: 'Recherchez les lots de travaux existants et faites-les glisser vers le planificateur d''équipe pour les assigner instantanément à un membre de l''équipe et définir les dates de début et de fin.'
+          card: 'Faites glisser les lots de travaux horizontalement pour les déplacer vers l''arrière ou vers l''avant dans le temps, faites glisser les bords pour changer les dates de début et de fin et faites les même glisser verticalement vers une ligne différente pour les assigner à un autre membre.'
     notifications:
       title: "Notifications"
       no_unread: "Pas de notification non lue"
@@ -539,7 +549,6 @@ fr:
           link_text: 'Cliquez ici pour les charger'
       menu:
         accountable: 'Responsable'
-        assigned: 'Assigné'
         by_project: 'Non lu par projet'
         by_reason: 'Participation'
         inbox: 'Boîte de réception'
@@ -986,7 +995,8 @@ fr:
         activity: Activité
         relations: Relations
         watchers: Observateurs
-        attachments: Fichiers
+        files: Fichiers
+        files_tab_migration_help: 'Vous pouvez maintenant joindre des fichiers aux lots de travaux via le nouvel onglet :'
       time_relative:
         days: "jours"
         weeks: "semaines"
@@ -1155,8 +1165,26 @@ fr:
           placeholder: 'Le utilisateur fictif peut maintenant être utilisé dans %{project}. En attendant, vous pouvez déjà planifier des taches avec cet utilisateur et l''assigner à des lots de travaux par exemple.'
           group: 'Le groupe fait maintenant partie du %{project}. Entre-temps, vous pouvez déjà planifier avec ce groupe et l''assigner des lots de travaux par exemple.'
         next_button: 'Continuer'
+    include_projects:
+      toggle_title: 'Inclure les projets'
+      title: 'Projets'
+      clear_selection: 'Effacer la sélection'
+      apply: 'Appliquer'
+      selected_filter:
+        all: 'Tous les projets'
+        selected: 'Uniquement la sélection'
+      search_placeholder: 'Rechercher un projet...'
+      include_subprojects: 'inclure tous les sous-projets'
+      tooltip:
+        include_all_selected: 'Inclure tous les sous-projets est actuellement sélectionné.'
+        current_project: 'Ceci est le projet dans lequel vous vous trouvez actuellement.'
     forms:
       submit_success_message: 'Le formulaire a bien été envoyé'
       load_error_message: 'Une erreur s''est produite lors du chargement du formulaire'
       validation_error_message: 'Veuillez corriger les erreurs présentes dans le formulaire'
       advanced_settings: 'Paramètres avancés'
+    spot:
+      filter_chip:
+        remove: 'Supprimer'
+      drop_modal:
+        Close: 'Fermer'

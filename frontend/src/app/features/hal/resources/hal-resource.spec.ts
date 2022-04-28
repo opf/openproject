@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -469,7 +469,7 @@ describe('HalResource', () => {
         deep = resource.$embedded.resource.$embedded.first.$embedded.second;
       });
 
-      it('should crate all nested resources recursively', () => {
+      it('should create all nested resources recursively', () => {
         expect(deep.$isHal).toBeTruthy();
       });
 

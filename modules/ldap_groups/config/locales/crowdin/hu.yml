@@ -27,7 +27,7 @@ hu:
       name_attribute_text: "Az OpenProject csoport elnevezésére használt LDAP attribútum szűrő létrehozásakor\n"
     synchronized_filters:
       add_new: 'Szinkronizált LDAP szűrő hozzáadása'
-      singular: 'LDAP csoport szinkronizálása'
+      singular: 'LDAP csoport szinkronizációs szűrő'
       plural: 'LDAP csoport szinkronizációs szűrő'
       label_n_groups_found:
         one: "1 csoportot talált a szűrő\n"

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -184,6 +184,11 @@ describe MeetingMailer, type: :mailer do
         expect(entry.dtend.utc).to eq meeting.start_time + 1.hour
         expect(entry.summary).to eq '[My project] Important meeting'
         expect(entry.description).to eq "[My project] Agenda: Important meeting"
+      end
+
+      it 'has the correct time matching the timezone' do
+        expect(entry.dtstart).to eq "2021-01-19T10:00:00Z".to_time(:utc).in_time_zone("Europe/Berlin")
+        expect(entry.dtend).to eq ("2021-01-19T10:00:00Z".to_time(:utc) + 1.hour).in_time_zone("Europe/Berlin")
       end
     end
 

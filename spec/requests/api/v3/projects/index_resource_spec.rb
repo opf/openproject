@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -42,7 +42,16 @@ describe 'API v3 Project resource index', type: :request, content_type: :json do
   let(:other_project) do
     create(:project, public: false)
   end
+  let(:parent_project) do
+    # Adding two roles in here to guard against regression where projects were returned twice if a user
+    # had multiple roles in the same project.
+    create(:project, public: false, members: { current_user => [role, second_role] }).tap do |parent|
+      project.parent = parent
+      project.save
+    end
+  end
   let(:role) { create(:role) }
+  let(:second_role) { create(:role) }
   let(:filters) { [] }
   let(:get_path) do
     api_v3_paths.path_for :projects, filters: filters
@@ -56,11 +65,6 @@ describe 'API v3 Project resource index', type: :request, content_type: :json do
     projects
 
     get get_path
-  end
-
-  it 'succeeds' do
-    expect(response.status)
-      .to be(200)
   end
 
   it_behaves_like 'API V3 collection response', 1, 1, 'Project'
@@ -87,14 +91,6 @@ describe 'API v3 Project resource index', type: :request, content_type: :json do
 
   context 'when filtering for project by ancestor' do
     let(:projects) { [project, other_project, parent_project] }
-
-    let(:parent_project) do
-      parent_project = create(:project, public: false, members: { current_user => role })
-
-      project.update_attribute(:parent_id, parent_project.id)
-
-      parent_project
-    end
 
     let(:filters) do
       [{ ancestor: { operator: '=', values: [parent_project.id.to_s] } }]
@@ -229,6 +225,45 @@ describe 'API v3 Project resource index', type: :request, content_type: :json do
       it 'responds with 200' do
         expect(last_response.status).to eq(200)
       end
+    end
+  end
+
+  context 'when signaling the properties to include' do
+    let(:projects) { [project, parent_project] }
+    let(:select) { 'elements/id,elements/name,elements/ancestors,total' }
+    let(:get_path) do
+      api_v3_paths.path_for :projects, select: select
+    end
+    let(:expected) do
+      {
+        total: 2,
+        _embedded: {
+          elements: [
+            {
+              id: parent_project.id,
+              name: parent_project.name,
+              _links: {
+                ancestors: []
+              }
+            },
+            {
+              id: project.id,
+              name: project.name,
+              _links: {
+                ancestors: [
+                  href: api_v3_paths.project(parent_project.id),
+                  title: parent_project.name
+                ]
+              }
+            }
+          ]
+        }
+      }
+    end
+
+    it 'is the reduced set of properties of the embedded elements' do
+      expect(last_response.body)
+        .to be_json_eql(expected.to_json)
     end
   end
 end

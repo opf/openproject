@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -78,6 +78,10 @@ nl:
         contact: "Contact us for a demo"
       enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
       upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
+    journal_aggregation:
+      explanation:
+        text: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent and will also affect %{webhook_link} delay."
+        link: "webhook"
   announcements:
     show_until: Toon tot
     is_active: momenteel getoond
@@ -452,9 +456,12 @@ nl:
         code: 'Status'
         explanation: 'Status beschrijving'
         codes:
+          not_started: 'Not started'
           on_track: 'Op schema'
           at_risk: 'In gevaar'
           off_track: 'Buiten schema'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
       query:
         column_names: "Kolommen"
         relations_to_type_column: "Betrekkingen %{type}"
@@ -465,7 +472,6 @@ nl:
       repository:
         url: "URL"
       role:
-        assignable: "Werkpakketten kunnen worden toegewezen aan gebruikers en groepen met deze rol in het respectieve project"
         permissions: "Machtigingen"
       time_entry:
         activity: "Activiteit"
@@ -556,6 +562,7 @@ nl:
         even: "moet gelijk zijn."
         exclusion: "is gereserveerd."
         file_too_large: "is te groot (maximum grootte is %{count} Bytes)."
+        filter_does_not_exist: "filter does not exist."
         format: "komt niet overeen met het verwachte formaat '%{expected}' '."
         format_nested: "komt niet overeen met het verwachte formaat '%{expected}' op pad '%{path}'."
         greater_than: "moet groter zijn dan %{count}."
@@ -883,9 +890,11 @@ nl:
     updated_on: "Bijgewerkt op"
     uploader: "Uploader"
     user: "Gebruiker"
+    value: "Value"
     version: "Versie"
     work_package: "Werkpakket"
   backup:
+    failed: "Backup failed"
     label_backup_token: "Backup token"
     label_create_token: "Create backup token"
     label_delete_token: "Delete backup token"
@@ -1223,6 +1232,7 @@ nl:
   error_enterprise_token_invalid_domain: "The Enterprise Edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: 'Fout bij het verwijderen van deze ingave.'
   error_in_dependent: "Fout bij poging tot wijziging van afhankelijke object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
+  error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "De geselecteerde waarde is ongeldig."
   error_journal_attribute_not_present: "Dagboek bevat geen kenmerk %{attribute}."
   error_pdf_export_too_many_columns: "Te veel kolommen geselecteerd voor het exporteren naar PDF. Beperk het aantal kolommen."
@@ -1332,7 +1342,9 @@ nl:
   menus:
     admin:
       mail_notification: "E-mailnotificaties"
-      incoming_outgoing: "Inkomend & uitgaand"
+      mails_and_notifications: "Emails and notification"
+      aggregation_and_retention: 'Aggregation and retention'
+      api_and_webhooks: "API and webhooks"
     quick_add:
       label: "Open quick add menu"
   my_account:
@@ -1832,7 +1844,7 @@ nl:
   label_used_by_types: "Wordt gebruikt door types"
   label_used_in_projects: "Wordt gebruikt in projecten"
   label_user: "Gebruiker"
-  label_user_and_permission: "Gebruikers & rechten"
+  label_user_and_permission: "Users and permissions"
   label_user_named: "Gebruiker %{name}"
   label_user_activity: "%{value} activiteit"
   label_user_anonymous: "Anoniem"
@@ -1982,7 +1994,7 @@ nl:
   mail_body_backup_waiting_period: The new token will be enabled in %{hours} hours.
   mail_body_backup_token_warning: If this wasn't you, login to OpenProject immediately and reset it again.
   mail_body_lost_password: "Om uw wachtwoord te wijzigen, klikt u op op de volgende link:"
-  mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
+  mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "Project member invitation email"
   mail_body_register_user: "Dear %{name}, "
   mail_body_register_links_html: |
@@ -2124,7 +2136,7 @@ nl:
     heading_getting_started: "Krijg een overzicht"
     text_getting_started_description: "Krijg een overzicht van project management en team samenwerking met OpenProject."
     text_show_again: "U kunt deze video van het helpmenu opnieuw starten"
-    welcome: "Welkom bij OpenProject"
+    welcome: "Welcome to %{app_title}"
     select_language: "Gelieve uw taal te kiezen"
   permission_add_work_package_notes: "Notities toevoegen"
   permission_add_work_packages: "Werkpakketten toevoegen"
@@ -2140,6 +2152,7 @@ nl:
   permission_comment_news: "Opmerking nieuws"
   permission_commit_access: "Lees/schrijf toegang tot opslagplaats (bevestig)"
   permission_copy_projects: "Kopiëren van projecten"
+  permission_create_backup: "Create backup"
   permission_delete_work_package_watchers: "Kijkers verwijderen"
   permission_delete_work_packages: "Werkpakketten verwijderen"
   permission_delete_messages: "Berichten verwijderen"
@@ -2193,6 +2206,8 @@ nl:
   permission_view_timelines: "Weergave tijdlijnen"
   permission_view_wiki_edits: "Wiki weergavegeschiedenis"
   permission_view_wiki_pages: "Weergave wiki"
+  permission_work_package_assigned: "Become assignee/responsible"
+  permission_work_package_assigned_explanation: "Werkpakketten kunnen worden toegewezen aan gebruikers en groepen met deze rol in het respectieve project"
   placeholders:
     default: "-"
   project:
@@ -2230,7 +2245,7 @@ nl:
     assigned_to_role: "Werknemer's rol"
     member_of_group: "Werknemer's groep"
     assignee_or_group: "Toegekend aan of hoort bij groep"
-    subproject_id: "Including Subproject"
+    subproject_id: "Including subproject"
     only_subproject_id: "Only subproject"
     name_or_identifier: "Naam of id"
   repositories:
@@ -2554,7 +2569,6 @@ nl:
   text_work_packages_destroy_confirmation: "Weet u zeker dat u geselecteerd(e) werkpakket(ten) wilt verwijderen?"
   text_work_packages_ref_in_commit_messages: "Verwijzen naar en herstellen van de werkpakketten in commit berichten"
   text_journal_added: "%{label} %{value} toegevoegd"
-  text_journal_aggregation_time_explanation: "Individuele acties van een gebruiker (bijv. twee keer bijwerken van een werkpakket) worden samengevoegd tot één actie als hun leeftijdsverschil minder is dan de aangegeven periode. Ze worden weergegeven als één actie binnen het programma. Dit vertraagt ook meldingen met dezelfde tijdspanne om het aantal verzonden e-mails te verminderen."
   text_journal_changed_html: "%{label} gewijzigd van %{old} %{linebreak}<strong>naar</strong> %{new}"
   text_journal_changed_plain: "%{label} veranderd van %{old} %{linebreak}naar %{new}"
   text_journal_changed_no_detail: "%{label} bijgewerkt"
@@ -2868,6 +2882,7 @@ nl:
         work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:
         date: "JJJJ-MM-DD (alleen ISO 8601 datum)"
+        datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm] (any compatible ISO 8601 datetime)"
         duration: "Standaard ISO 8601 duur"
       invalid_content_type: "CONTENT-TYPE  '%{content_type}' werd verwacht, maar '%{actual}' werd ingegeven."
       invalid_format: "Ongeldig formaat voor eigenschap '%{property}': een formaat zoals '%{expected_format}' wordt verwacht, maar '%{actual}' werd ingegeven."
@@ -2879,6 +2894,7 @@ nl:
         select: "The requested select of %{invalid} is not supported. Supported selects are %{supported}."
       invalid_user_status_transition: "De accountstatus van de huidige gebruiker laat deze actie niet toe."
       missing_content_type: "niet bepaald"
+      missing_property: "Missing property '%{property}'."
       missing_request_body: "Er was geen hoofdgedeelte van de aanvraag."
       missing_or_malformed_parameter: "De queryparameter '%{parameter}' is ongeldig of ontbreekt."
       multipart_body_error: "Het hoofdgedeelte van de aanvraag bevatte niet de verwachte meerdere delen."
@@ -2911,8 +2927,11 @@ nl:
     errors:
       messages:
         #Common error messages
-        invalid_request: 'De aanvraag ontbreekt een vereiste parameter, bevat een niet-ondersteunde parameter waarde, of is anders niet geconfigureerd.'
-        invalid_redirect_uri: "De gevraagde omleidings-URI is onjuist of komt niet overeen met omleidings-URI."
+        invalid_request:
+          unknown: 'De aanvraag ontbreekt een vereiste parameter, bevat een niet-ondersteunde parameter waarde, of is anders niet geconfigureerd.'
+          missing_param: 'Missing required parameter: %{value}.'
+          request_not_authorized: 'Request need to be authorized. Required parameter for authorizing request is missing or invalid.'
+        invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
         unauthorized_client: 'De client is niet gemachtigd voor het uitvoeren van dit verzoek met behulp van deze methode.'
         access_denied: 'De resource eigenaar of autorisatie server heeft het verzoek geweigerd.'
         invalid_scope: 'De gevraagde reikwijdte is ongeldig, onbekend of ongeldig.'
@@ -2925,6 +2944,7 @@ nl:
         admin_authenticator_not_configured: 'Toegang tot admin paneel is verboden omdat Doorkeeper.configure.admin_authenticator niet is geconfigureerd.'
         #Access grant errors
         unsupported_response_type: 'De autorisatieserver ondersteunt dit reactietype niet.'
+        unsupported_response_mode: 'The authorization server does not support this response mode.'
         #Access token errors
         invalid_client: 'Client authenticatie is mislukt vanwege onbekende client, geen client authenticatie inbegrepen, of niet-ondersteunde authenticatie methode.'
         invalid_grant: 'De verstrekte machtiging is ongeldig, verlopen, ingetrokken, komt niet overeen met de omleiding URI die in het autorisatieverzoek wordt gebruikt, of is uitgegeven aan een andere client.'
@@ -2933,6 +2953,10 @@ nl:
           revoked: "De toegangstoken is ingetrokken"
           expired: "De toegangstoken is verlopen"
           unknown: "De toegangstoken is ongeldig"
+        revoke:
+          unauthorized: "You are not authorized to revoke this token."
+        forbidden_token:
+          missing_scope: 'Access to this resource requires scope "%{oauth_scopes}".'
   unsupported_browser:
     title: "Uw browser is verouderd en niet ondersteund."
     message: "U kan lopen in fouten en gedegradeerd ervaring op deze pagina."

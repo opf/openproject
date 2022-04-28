@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -247,7 +247,7 @@ describe 'Stories in backlog',
     expect(Story.where(version: sprint, type: story, project: project).pluck(:position))
       .to match_array([1, 2, 3])
 
-    # Moving a story to from the backlog to the sprint (3nd position)
+    # Moving a story to from the backlog to the sprint (3rd position)
 
     SeleniumHubWaiter.wait
     backlogs_page

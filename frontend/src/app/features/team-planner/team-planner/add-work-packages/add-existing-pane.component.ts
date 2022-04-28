@@ -3,6 +3,7 @@ import {
   Component,
   ElementRef,
   HostBinding,
+  OnDestroy,
   OnInit,
   ViewChild,
 } from '@angular/core';
@@ -10,9 +11,9 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { imagePath } from 'core-app/shared/helpers/images/path-helper';
 import {
   BehaviorSubject,
+  combineLatest,
   Observable,
   of,
-  Subject,
 } from 'rxjs';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
@@ -21,8 +22,8 @@ import {
   debounceTime,
   distinctUntilChanged,
   map,
+  startWith,
   switchMap,
-  tap,
 } from 'rxjs/operators';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
@@ -31,7 +32,12 @@ import { UrlParamsHelperService } from 'core-app/features/work-packages/componen
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { CalendarDragDropService } from 'core-app/features/team-planner/team-planner/calendar-drag-drop.service';
-import { input } from 'reactivestates';
+import { splitViewRoute } from 'core-app/features/work-packages/routing/split-view-routes.helper';
+import { StateService } from '@uirouter/core';
+import { ActionsService } from 'core-app/core/state/actions/actions.service';
+import { teamPlannerEventRemoved } from 'core-app/features/team-planner/team-planner/planner/team-planner.actions';
+import { WorkPackageViewFiltersService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service';
+import { OpCalendarService } from 'core-app/features/calendar/op-calendar.service';
 
 @Component({
   selector: 'op-add-existing-pane',
@@ -39,7 +45,7 @@ import { input } from 'reactivestates';
   styleUrls: ['./add-existing-pane.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AddExistingPaneComponent extends UntilDestroyedMixin implements OnInit {
+export class AddExistingPaneComponent extends UntilDestroyedMixin implements OnInit, OnDestroy {
   @HostBinding('class.op-add-existing-pane') className = true;
 
   @ViewChild('container') container:ElementRef;
@@ -54,25 +60,54 @@ export class AddExistingPaneComponent extends UntilDestroyedMixin implements OnI
     }
   }
 
-  /** Observable to the current search filter term */
-  public searchString = input<string>('');
-
   /** Input for search requests */
-  public searchStringChanged$:Subject<string> = new Subject<string>();
+  public searchString$ = new BehaviorSubject<string>('');
 
   isEmpty$ = new BehaviorSubject<boolean>(true);
 
   isLoading$ = new BehaviorSubject<boolean>(false);
 
-  currentWorkPackages$ = this.calendarDrag.draggableWorkPackages$;
+  noResultsFound$ = this.isEmpty$
+    .pipe(
+      map((resultEmpty) => {
+        if (this.searchString$.getValue().length === 0) {
+          return { showImage: true, text: this.text.empty_state };
+        }
+
+        if (resultEmpty) {
+          return { showImage: false, text: this.text.no_results };
+        }
+
+        return {};
+      }),
+    );
+
+  currentWorkPackages$ = combineLatest([
+    this.calendarDrag.draggableWorkPackages$,
+    this.querySpace.results.values$(),
+  ])
+    .pipe(
+      map(([draggable, rendered]) => {
+        const renderedIds = rendered.elements.map((el) => el.id as string);
+        return draggable.filter((wp) => !renderedIds.includes(wp.id as string));
+      }),
+    );
+
+  workPackageRemoved$:Observable<unknown> = this
+    .actions$
+    .ofType(teamPlannerEventRemoved)
+    .pipe(
+      startWith(null),
+    );
 
   text = {
     empty_state: this.I18n.t('js.team_planner.quick_add.empty_state'),
     placeholder: this.I18n.t('js.team_planner.quick_add.search_placeholder'),
+    no_results: this.I18n.t('js.autocompleter.notFoundText'),
   };
 
   image = {
-    empty_state: imagePath('team-planner/add-existing-pane--empty-state.svg'),
+    empty_state: imagePath('team-planner/add-existing-pane--empty-state.gif'),
   };
 
   constructor(
@@ -82,20 +117,37 @@ export class AddExistingPaneComponent extends UntilDestroyedMixin implements OnI
     private readonly notificationService:WorkPackageNotificationService,
     private readonly currentProject:CurrentProjectService,
     private readonly urlParamsHelper:UrlParamsHelperService,
+    private readonly calendar:OpCalendarService,
     private readonly calendarDrag:CalendarDragDropService,
+    private readonly $state:StateService,
+    private readonly actions$:ActionsService,
+    private readonly wpFilters:WorkPackageViewFiltersService,
   ) {
     super();
   }
 
   ngOnInit():void {
-    this.searchStringChanged$
+    combineLatest([
+      this
+        .searchString$
+        .pipe(
+          distinctUntilChanged(),
+          debounceTime(500),
+        ),
+      this
+        .wpFilters
+        .updates$()
+        .pipe(
+          startWith(null),
+        ),
+      this.workPackageRemoved$,
+    ])
       .pipe(
         this.untilDestroyed(),
-        distinctUntilChanged(),
-        debounceTime(500),
-        tap((val) => this.searchString.putValue(val)),
+        map(([searchString]) => searchString),
         switchMap((searchString:string) => this.searchWorkPackages(searchString)),
-      ).subscribe((results) => {
+      )
+      .subscribe((results) => {
         this.calendarDrag.draggableWorkPackages$.next(results);
 
         this.isEmpty$.next(results.length === 0);
@@ -103,7 +155,6 @@ export class AddExistingPaneComponent extends UntilDestroyedMixin implements OnI
       });
   }
 
-  // eslint-disable-next-line @angular-eslint/use-lifecycle-interface
   ngOnDestroy():void {
     super.ngOnDestroy();
     this.calendarDrag.destroyDrake();
@@ -120,14 +171,11 @@ export class AddExistingPaneComponent extends UntilDestroyedMixin implements OnI
       return of([]);
     }
 
-    const filters:ApiV3FilterBuilder = new ApiV3FilterBuilder();
-    const queryResults = this.querySpace.results.value;
+    // Add any visible global filters
+    const activeFilters = this.wpFilters.currentlyVisibleFilters;
+    const filters:ApiV3FilterBuilder = this.urlParamsHelper.filterBuilderFrom(activeFilters);
 
-    filters.add('subjectOrId', '**', [searchString]);
-
-    if (queryResults && queryResults.elements.length > 0) {
-      filters.add('id', '!', queryResults.elements.map((wp:WorkPackageResource) => wp.id || ''));
-    }
+    filters.add('typeahead', '**', [searchString]);
 
     // Add the existing filter, if any
     this.addExistingFilters(filters);
@@ -136,7 +184,7 @@ export class AddExistingPaneComponent extends UntilDestroyedMixin implements OnI
       .apiV3Service
       .withOptionalProject(this.currentProject.id)
       .work_packages
-      .filtered(filters)
+      .filtered(filters, { pageSize: '-1' })
       .get()
       .pipe(
         map((collection) => collection.elements),
@@ -149,11 +197,25 @@ export class AddExistingPaneComponent extends UntilDestroyedMixin implements OnI
   }
 
   clearInput():void {
-    this.searchStringChanged$.next('');
+    this.searchString$.next('');
   }
 
   get isSearching():boolean {
-    return this.searchString.value !== '';
+    return this.searchString$.value !== '';
+  }
+
+  showDisabledText(wp:WorkPackageResource):{ text:string, orientation:'left'|'right' } {
+    return {
+      text: this.calendarDrag.workPackageDisabledExplanation(wp),
+      orientation: 'left',
+    };
+  }
+
+  openStateLink(event:{ workPackageId:string; requestedState:string }):void {
+    void this.$state.go(
+      `${splitViewRoute(this.$state)}.tabs`,
+      { workPackageId: event.workPackageId, tabIdentifier: 'overview' },
+    );
   }
 
   private addExistingFilters(filters:ApiV3FilterBuilder) {

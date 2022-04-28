@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -60,9 +60,6 @@ $arrow-left-width: 40px
     .searchable-menu--search-container,
     .main-menu--children > li.partial:only-child
       height: 100%
-
-    .main-menu--children > li.partial
-      height: initial
 
     .main-menu--children
       height: calc(100% - (var(--main-menu-item-height) + 10px)) // 10px spacing
@@ -164,9 +161,6 @@ $arrow-left-width: 40px
   &.unattached
     border-top: 1px solid #ddd
   li
-    &.partial
-      padding-bottom: 10px
-
     &:hover
       // simultaneously hover all menu item anchor tags
       > a
@@ -323,6 +317,8 @@ a.main-menu--parent-node
 #main-menu ul ul.main-menu--children ul.pages-hierarchy
   .tree-menu--hierarchy-indicator
     color: var(--main-menu-font-color)
+  .tree-menu--hierarchy-span + a, a
+    padding-left: 0
   .tree-menu--item
     &.-selected
       background: var(--main-menu-bg-selected-background)

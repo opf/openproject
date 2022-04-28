@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -176,6 +176,19 @@ describe Project, type: :model do
       other_project_work_package
 
       expect(project.types_used_by_work_packages).to match_array [project_work_package.type]
+    end
+  end
+
+  describe 'Views belonging to queries that belong to the project' do
+    let(:query) { create(:query, project: project) }
+    let(:view) { create(:view, query: query) }
+
+    it 'destroys the views and queries when project gets destroyed' do
+      view
+      project.destroy
+
+      expect { query.reload }.to raise_error ActiveRecord::RecordNotFound
+      expect { view.reload }.to raise_error ActiveRecord::RecordNotFound
     end
   end
 end

@@ -14,13 +14,17 @@ import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
 import { HttpClient } from '@angular/common/http';
 import { PrincipalsQuery } from 'core-app/core/state/principals/principals.query';
 import { ApiV3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
-import { collectionKey } from 'core-app/core/state/collection-store';
+import {
+  collectionKey,
+  insertCollectionIntoState,
+} from 'core-app/core/state/collection-store';
 import {
   EffectHandler,
 } from 'core-app/core/state/effects/effect-handler.decorator';
 import { ActionsService } from 'core-app/core/state/actions/actions.service';
 import { PrincipalsStore } from './principals.store';
 import { IPrincipal } from './principal.model';
+import { IUser } from 'core-app/core/state/principals/user.model';
 
 @EffectHandler
 @Injectable()
@@ -41,7 +45,22 @@ export class PrincipalsResourceService {
     private http:HttpClient,
     private apiV3Service:ApiV3Service,
     private toastService:ToastService,
-  ) {
+  ) { }
+
+  fetchUser(id:string|number):Observable<IUser> {
+    return this.http
+      .get<IUser>(this.apiV3Service.users.id(id).path)
+      .pipe(
+        tap((data) => {
+          applyTransaction(() => {
+            this.store.upsertMany([data]);
+          });
+        }),
+        catchError((error) => {
+          this.toastService.addError(error);
+          throw error;
+        }),
+      );
   }
 
   fetchPrincipals(params:ApiV3ListParameters):Observable<IHALCollection<IPrincipal>> {
@@ -51,22 +70,7 @@ export class PrincipalsResourceService {
       .http
       .get<IHALCollection<IPrincipal>>(this.principalsPath + collectionURL)
       .pipe(
-        tap((events) => {
-          applyTransaction(() => {
-            this.store.add(events._embedded.elements);
-            this.store.update(({ collections }) => (
-              {
-                collections: {
-                  ...collections,
-                  [collectionURL]: {
-                    ...collections[collectionURL],
-                    ids: events._embedded.elements.map((el) => el.id),
-                  },
-                },
-              }
-            ));
-          });
-        }),
+        tap((collection) => insertCollectionIntoState(this.store, collection, collectionURL)),
         catchError((error) => {
           this.toastService.addError(error);
           throw error;

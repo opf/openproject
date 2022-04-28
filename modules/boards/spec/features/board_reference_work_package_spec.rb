@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -119,7 +119,7 @@ describe 'Board reference work package spec', type: :feature, js: true do
 
       # Add subproject filter
       filters.open
-      filters.add_filter_by('Subproject', 'all', nil, 'subprojectId')
+      filters.add_filter_by('subproject', 'all', nil, 'subprojectId')
       sleep 2
 
       # Reference an existing work package

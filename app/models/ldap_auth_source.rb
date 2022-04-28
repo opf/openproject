@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -55,7 +53,7 @@ class LdapAuthSource < AuthSource
       attrs.except(:dn)
     end
   rescue Net::LDAP::Error => e
-    raise 'LdapError: ' + e.message
+    raise AuthSource::Error, "LdapError: #{e.message}"
   end
 
   def find_user(login)
@@ -68,7 +66,7 @@ class LdapAuthSource < AuthSource
       attrs.except(:dn)
     end
   rescue Net::LDAP::Error => e
-    raise 'LdapError: ' + e.message
+    raise AuthSource::Error, "LdapError: #{e.message}"
   end
 
   # Open and return a system connection
@@ -79,10 +77,10 @@ class LdapAuthSource < AuthSource
   # test the connection to the LDAP
   def test_connection
     unless authenticate_dn(account, account_password)
-      raise I18n.t('auth_source.ldap_error', error_message: I18n.t('auth_source.ldap_auth_failed'))
+      raise AuthSource::Error, I18n.t('auth_source.ldap_error', error_message: I18n.t('auth_source.ldap_auth_failed'))
     end
   rescue Net::LDAP::Error => e
-    raise I18n.t('auth_source.ldap_error', error_message: e.to_s)
+    raise AuthSource::Error, I18n.t('auth_source.ldap_error', error_message: e.to_s)
   end
 
   def auth_method_name
@@ -119,6 +117,13 @@ class LdapAuthSource < AuthSource
   def default_filter
     object_filter = Net::LDAP::Filter.eq('objectClass', '*')
     parsed_filter_string || object_filter
+  end
+
+  ##
+  # Returns the filter object to search for a login
+  # adding the optional default filter
+  def login_filter(login)
+    Net::LDAP::Filter.eq(attr_login, login) & default_filter
   end
 
   def parsed_filter_string
@@ -164,15 +169,16 @@ class LdapAuthSource < AuthSource
   # Get the user's dn and any attributes for them, given their login
   def get_user_dn(login)
     ldap_con = initialize_ldap_con(account, account_password)
-    login_filter = Net::LDAP::Filter.eq(attr_login, login)
 
     attrs = {}
 
+    filter = login_filter(login)
     Rails.logger.debug do
-      "LDAP initializing search (BASE=#{base_dn}), (FILTER=#{default_filter & login_filter})"
+      "LDAP initializing search (BASE=#{base_dn}), (FILTER=#{filter})"
     end
+
     ldap_con.search(base: base_dn,
-                    filter: default_filter & login_filter,
+                    filter: filter,
                     attributes: search_attributes) do |entry|
       attrs = if onthefly_register?
                 get_user_attributes_from_ldap_entry(entry)

@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -78,6 +78,10 @@ ja:
         contact: "Contact us for a demo"
       enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
       upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
+    journal_aggregation:
+      explanation:
+        text: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent and will also affect %{webhook_link} delay."
+        link: "webhook"
   announcements:
     show_until: までを表示
     is_active: 現在表示されています
@@ -450,9 +454,12 @@ ja:
         code: 'ステータス'
         explanation: '状況の説明'
         codes:
+          not_started: 'Not started'
           on_track: '順調'
           at_risk: 'リスクあり'
           off_track: '脱線'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
       query:
         column_names: "列"
         relations_to_type_column: "%{type} との関連"
@@ -463,7 +470,6 @@ ja:
       repository:
         url: "URL"
       role:
-        assignable: "それぞれのプロジェクトで、ワークパッケージはこの役割をもつユーザーおよびグループに割り当てることができます。"
         permissions: "権限"
       time_entry:
         activity: "活動"
@@ -554,6 +560,7 @@ ja:
         even: "は偶数にしてください。"
         exclusion: "は予約されています。"
         file_too_large: "は大きすぎます (最大サイズは%{count}バイト)"
+        filter_does_not_exist: "filter does not exist."
         format: "does not match the expected format '%{expected}'."
         format_nested: "does not match the expected format '%{expected}' at path '%{path}'."
         greater_than: "は%{count}より大きい値にしてください。"
@@ -877,9 +884,11 @@ ja:
     updated_on: "更新日時"
     uploader: "アップロード"
     user: "ユーザ"
+    value: "Value"
     version: "バージョン"
     work_package: "ワーク パッケージ"
   backup:
+    failed: "Backup failed"
     label_backup_token: "バックアップトークン"
     label_create_token: "バックアップトークンを作成する"
     label_delete_token: "バックアップトークンを削除する"
@@ -1205,6 +1214,7 @@ ja:
   error_enterprise_token_invalid_domain: "Enterprise Edition がアクティブではありません。Enterprise トークンのドメイン (%{actual}) がシステムのホスト名(%{expected}) と一致しません。"
   error_failed_to_delete_entry: 'このエントリを削除できませんでした。'
   error_in_dependent: "依存オブジェクトを変更しようとしてエラーが発生しました: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
+  error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "選択された値が無効です。"
   error_journal_attribute_not_present: "ジャーナルには属性%{attribute}は含まれていません。"
   error_pdf_export_too_many_columns: "PDF エクスポート用に選択された列が多すぎます。 列の数を減らしてください。"
@@ -1314,7 +1324,9 @@ ja:
   menus:
     admin:
       mail_notification: "電子メールの通知"
-      incoming_outgoing: "Incoming & Outgoing"
+      mails_and_notifications: "Emails and notification"
+      aggregation_and_retention: 'Aggregation and retention'
+      api_and_webhooks: "API and webhooks"
     quick_add:
       label: "クイック追加メニューを開く"
   my_account:
@@ -1814,7 +1826,7 @@ ja:
   label_used_by_types: "タイプで使用"
   label_used_in_projects: "プロジェクトで使用"
   label_user: "ユーザ"
-  label_user_and_permission: "ユーザーと権限"
+  label_user_and_permission: "Users and permissions"
   label_user_named: "ユーザー名 %{name}"
   label_user_activity: "%{value}の活動"
   label_user_anonymous: "匿名ユーザ"
@@ -1963,7 +1975,7 @@ ja:
   mail_body_backup_waiting_period: 新しいトークンは %{hours} 時間後に有効になります。
   mail_body_backup_token_warning: これがあなたでなかった場合、すぐに OpenProject にログインして、再度リセットしてください。
   mail_body_lost_password: "パスワードを変更するには、以下のリンクをクリックしてください:"
-  mail_body_register: "OpenProjectへようこそ。このリンクをクリックしてアカウントを有効化してください："
+  mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "プロジェクトへの招待メール"
   mail_body_register_user: "%{name}さん"
   mail_body_register_links_html: |
@@ -2105,7 +2117,7 @@ ja:
     heading_getting_started: "概要を取得"
     text_getting_started_description: "OpenProject のプロジェクト管理とチームコラボレーションの簡単な概要を取得します。"
     text_show_again: "ヘルプメニューからこのビデオを再度開始することができます。"
-    welcome: "OpenProjectへようこそ"
+    welcome: "Welcome to %{app_title}"
     select_language: "言語を選択してください"
   permission_add_work_package_notes: "注記の追加"
   permission_add_work_packages: "ワークパッケージの追加"
@@ -2121,6 +2133,7 @@ ja:
   permission_comment_news: "ニュースへのコメント"
   permission_commit_access: "リポジトリに読み取り/書き込みアクセス (コミット)"
   permission_copy_projects: "プロジェクトのコピー"
+  permission_create_backup: "Create backup"
   permission_delete_work_package_watchers: "ウォッチャーの削除"
   permission_delete_work_packages: "ワークパッケージの削除"
   permission_delete_messages: "メッセージの削除"
@@ -2174,6 +2187,8 @@ ja:
   permission_view_timelines: "タイムラインの閲覧"
   permission_view_wiki_edits: "Wiki履歴の閲覧"
   permission_view_wiki_pages: "Wikiの閲覧"
+  permission_work_package_assigned: "Become assignee/responsible"
+  permission_work_package_assigned_explanation: "それぞれのプロジェクトで、ワークパッケージはこの役割をもつユーザーおよびグループに割り当てることができます。"
   placeholders:
     default: "-"
   project:
@@ -2211,7 +2226,7 @@ ja:
     assigned_to_role: "担当者のロール"
     member_of_group: "担当者のグループ"
     assignee_or_group: "担当者または所属グループ"
-    subproject_id: "サブプロジェクトを含む"
+    subproject_id: "Including subproject"
     only_subproject_id: "サブプロジェクトのみ"
     name_or_identifier: "名前または ID"
   repositories:
@@ -2535,7 +2550,6 @@ ja:
   text_work_packages_destroy_confirmation: "選択したワークパッケージを削除してもよろしいですか？"
   text_work_packages_ref_in_commit_messages: "コミットメッセージ内でのワークパッケージの参照 / 修正"
   text_journal_added: "%{label}で%{value}を追加"
-  text_journal_aggregation_time_explanation: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent."
   text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
   text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label}を更新"
@@ -2848,6 +2862,7 @@ ja:
         work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:
         date: "YYYY-MM-DD (ISO 8601 日付のみ)"
+        datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm] (any compatible ISO 8601 datetime)"
         duration: "ISO 8601 期間"
       invalid_content_type: "コンテンツの種類は'%{content_type}'を期待されたが '%{actual}'を得ました。"
       invalid_format: "不正なフォーマットのプロパティ '%{property}': 期待されるフォーマットは '%{expected_format}', ですが '%{actual}'を受け取りました."
@@ -2859,6 +2874,7 @@ ja:
         select: "要求された %{invalid} の選択はサポートされていません。 サポートされている選択は %{supported} です。"
       invalid_user_status_transition: "現在のユーザーのアカウントステータスはこの操作を許可していません。"
       missing_content_type: "指定されていません。"
+      missing_property: "Missing property '%{property}'."
       missing_request_body: "要求の本体がありませんでした。"
       missing_or_malformed_parameter: "クエリパラメーター '%{parameter}' が存在しないか、正しくありません。"
       multipart_body_error: "要求の本体に、期待したマルチパートが含まれていませんでした。"
@@ -2891,8 +2907,11 @@ ja:
     errors:
       messages:
         #Common error messages
-        invalid_request: 'リクエストに必要なパラメーターがありません、サポートされていないパラメーター値が含まれているか、その他の形式に誤りがあります。'
-        invalid_redirect_uri: "要求されたリダイレクトURIが不正な形式であるか、クライアントのリダイレクトURIと一致しません。"
+        invalid_request:
+          unknown: 'リクエストに必要なパラメーターがありません、サポートされていないパラメーター値が含まれているか、その他の形式に誤りがあります。'
+          missing_param: 'Missing required parameter: %{value}.'
+          request_not_authorized: 'Request need to be authorized. Required parameter for authorizing request is missing or invalid.'
+        invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
         unauthorized_client: 'クライアントはこのメソッドを使用してリクエストを実行することが許可されていません。'
         access_denied: 'リソース所有者または認証サーバーが要求を拒否しました。'
         invalid_scope: '要求された範囲は無効、不明、または不正な形式です。'
@@ -2905,6 +2924,7 @@ ja:
         admin_authenticator_not_configured: 'Doorkeeper.configure.admin_authenticatorの設定が解除されているため、管理パネルへのアクセスは禁止されています。'
         #Access grant errors
         unsupported_response_type: '認証サーバーはこのレスポンスタイプをサポートしません。'
+        unsupported_response_mode: 'The authorization server does not support this response mode.'
         #Access token errors
         invalid_client: '不明なクライアント、クライアント認証が含まれていない、またはサポートされていない認証方法のため、クライアント認証が失敗しました。'
         invalid_grant: '提供された許可付与が無効、期限切れ、取り消された、許可要求で使用されたリダイレクトURIと一致しない、または別のクライアントに発行されました。'
@@ -2913,6 +2933,10 @@ ja:
           revoked: "アクセストークンが取り消されました"
           expired: "アクセストークンの有効期限が切れました"
           unknown: "アクセストークンが無効です"
+        revoke:
+          unauthorized: "You are not authorized to revoke this token."
+        forbidden_token:
+          missing_scope: 'Access to this resource requires scope "%{oauth_scopes}".'
   unsupported_browser:
     title: "お使いのブラウザは古く、サポートされていません。"
     message: "このページでエラーと崩れを体験するかもしれません。"

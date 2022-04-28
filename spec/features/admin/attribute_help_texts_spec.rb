@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -57,7 +57,7 @@ describe 'Attribute help texts', js: true do
         editor.set_markdown('My attribute help text')
         editor.drag_attachment image_fixture.path, 'Image uploaded on creation'
 
-        expect(page).to have_selector('attachment-list-item', text: 'image.png')
+        expect(page).to have_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png')
         click_button 'Save'
 
         expect(instance.help_text).to include 'My attribute help text'
@@ -81,7 +81,7 @@ describe 'Attribute help texts', js: true do
         # Add an image
         # adding an image
         editor.drag_attachment image_fixture.path, 'Image uploaded on creation'
-        expect(page).to have_selector('attachment-list-item', text: 'image.png')
+        expect(page).to have_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png')
         click_button 'Save'
 
         # Should now show on index for editing
@@ -98,7 +98,7 @@ describe 'Attribute help texts', js: true do
         modal.expect_edit(admin: true)
 
         # Expect files section to be present
-        expect(modal.modal_container).to have_selector('.form--fieldset-legend', text: 'FILES')
+        expect(modal.modal_container).to have_selector('.form--fieldset-legend', text: 'ATTACHMENTS')
         expect(modal.modal_container).to have_selector('.work-package--attachments--filename')
 
         modal.close!

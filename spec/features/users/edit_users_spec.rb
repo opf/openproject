@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -92,7 +92,7 @@ describe 'edit users', type: :feature, js: true do
       visit edit_user_path(user)
 
       expect(page).to have_no_selector('.admin-overview-menu-item', text: 'Overview')
-      expect(page).to have_no_selector('.users-and-permissions-menu-item', text: 'Users & Permissions')
+      expect(page).to have_no_selector('.users-and-permissions-menu-item', text: 'Users and permissions')
       expect(page).to have_selector('.users-menu-item.selected', text: 'Users')
 
       expect(page).to have_selector 'select#user_auth_source_id'

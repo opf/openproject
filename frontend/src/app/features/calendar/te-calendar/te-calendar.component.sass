@@ -28,11 +28,15 @@ te-calendar
     .fc-day-header
       padding-top: 5px
 
+    .fc-day
+      background: white !important
+
     .fc-widget-content
       border-left-color: white
 
       .fc-day
         border-left: 0
+        border-right: 0
         border-right: 0
 
     .fc-timeGrid-view .fc-day-grid .fc-row
@@ -95,6 +99,12 @@ te-calendar
         .fc-fadeout
           display: none
 
+    .te-calendar--add-entry,
+    .te-calendar--time-entry
+      .fc-event-title-container
+        margin: 0 !important
+        line-height: 14px !important
+
     .fc-duration
       border-right: 1px solid white
       border-bottom: 1px solid white
@@ -110,4 +120,3 @@ te-calendar
     right: 0
     top: 6px
     margin-right: 0px
-

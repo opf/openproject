@@ -1,0 +1,16 @@
+<!-- Standard Ruby view, please see the controller for comments -->
+<% html_title t(:label_administration), t("project_module_storages") %>
+
+<%= toolbar title: t("project_module_storages") do %>
+  <li class="toolbar-item">
+    <%= link_to new_admin_settings_storage_path,
+                { class: 'button -alt-highlight',
+                  aria: { label: t('storages.label_new_storage') },
+                  title: t('storages.label_new_storage') } do %>
+      <%= op_icon('button--icon icon-add') %>
+      <span class="button--text"><%= ::Storages::Storage.model_name.human %></span>
+    <% end %>
+  </li>
+<% end %>
+
+<%= rails_cell ::Storages::StoragesTableCell, @storages %>

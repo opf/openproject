@@ -27,6 +27,10 @@ ko:
       events:
         created: "생성됨"
         updated: "업데이트됨"
+      explanation:
+        text: >
+          작업 패키지 생성 또는 프로젝트 업데이트 같은 이벤트가 발생하면 OpenProject는 구성된 웹 엔드포인트에 POST 요청을 보냅니다. 종종 %{link}이(가) 통과된 후에 이벤트가 전송됩니다.
+        link: 구성된 집계 기간
       status:
         enabled: 'Webhook이 활성화되었습니다'
         disabled: 'Webhook이 비활성화되었습니다'

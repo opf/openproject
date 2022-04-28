@@ -7,12 +7,33 @@ import { DragMetaInput } from '@fullcalendar/common';
 import { Drake } from 'dragula';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { BehaviorSubject } from 'rxjs';
+import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
+import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { OpCalendarService } from 'core-app/features/calendar/op-calendar.service';
 
 @Injectable()
 export class CalendarDragDropService {
   drake:Drake;
 
   draggableWorkPackages$ = new BehaviorSubject<WorkPackageResource[]>([]);
+
+  isDragging$ = new BehaviorSubject<string|undefined>(undefined);
+
+  text = {
+    draggingDisabled: {
+      permissionDenied: this.I18n.t('js.team_planner.modify.errors.permission_denied'),
+      fallback: this.I18n.t('js.team_planner.modify.errors.fallback'),
+    },
+  };
+
+  constructor(
+    readonly authorisation:AuthorisationService,
+    readonly schemaCache:SchemaCacheService,
+    readonly calendarService:OpCalendarService,
+    readonly I18n:I18nService,
+  ) {
+  }
 
   destroyDrake():void {
     if (this.drake) {
@@ -28,6 +49,11 @@ export class CalendarDragDropService {
 
     this.drake.on('drag', (el:HTMLElement) => {
       el.classList.add('gu-transit');
+      this.isDragging$.next(el.dataset.dragHelperId);
+    });
+
+    this.drake.on('dragend', () => {
+      this.isDragging$.next(undefined);
     });
 
     // eslint-disable-next-line no-new
@@ -57,6 +83,28 @@ export class CalendarDragDropService {
     }
   }
 
+  workPackageDisabledExplanation(workPackage:WorkPackageResource):string {
+    const isDisabled = this.workPackageDisabled(workPackage);
+
+    if (isDisabled.disabled && isDisabled.reason) {
+      return isDisabled.reason;
+    }
+
+    return '';
+  }
+
+  private workPackageDisabled(workPackage:WorkPackageResource):{ disabled:boolean, reason?:string } {
+    if (!this.authorisation.can('work_packages', 'editWorkPackage')) {
+      return { disabled: true, reason: this.text.draggingDisabled.permissionDenied };
+    }
+
+    if (!this.calendarService.dateEditable(workPackage)) {
+      return { disabled: true, reason: this.text.draggingDisabled.fallback };
+    }
+
+    return { disabled: false };
+  }
+
   private eventData(eventEl:HTMLElement):undefined|DragMetaInput {
     const wpID = eventEl.dataset.dragHelperId;
     if (!wpID) {
@@ -73,11 +121,11 @@ export class CalendarDragDropService {
     const diff = dueDate.diff(startDate, 'days') + 1;
 
     return {
+      id: `${workPackage.href as string}-external`,
       title: workPackage.subject,
       duration: {
         days: diff || 1,
       },
-      className: `__hl_background_type_${workPackage.type.id as string}`,
       extendedProps: {
         workPackage,
       },

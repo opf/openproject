@@ -10,7 +10,10 @@ import {
 import { uiStateLinkClass } from 'core-app/features/work-packages/components/wp-fast-table/builders/ui-state-link-builder';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { Highlighting } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions';
-import { StateService } from '@uirouter/core';
+import {
+  StateService,
+  UIRouterGlobals,
+} from '@uirouter/core';
 import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
 import { WorkPackageCardViewService } from 'core-app/features/work-packages/components/wp-card-view/services/wp-card-view.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -22,6 +25,9 @@ import { WorkPackageResource } from 'core-app/features/hal/resources/work-packag
 import { isClickedWithModifier } from 'core-app/shared/helpers/link-handling/link-handling';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
+import { StatusResource } from 'core-app/features/hal/resources/status-resource';
+import { combineLatest } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'wp-single-card',
@@ -31,6 +37,8 @@ import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 })
 export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implements OnInit {
   @Input() public workPackage:WorkPackageResource;
+
+  @Input() public selectedWhenOpen = false;
 
   @Input() public showInfoButton = false;
 
@@ -46,23 +54,53 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
 
   @Input() public shrinkOnMobile = false;
 
+  @Input() public disabledInfo?:{ text:string, orientation:'left'|'right' };
+
+  @Input() public showAsInlineCard = false;
+
+  @Input() public showStartDate = true;
+
+  @Input() public showEndDate = true;
+
+  @Input() public isClosed = false;
+
+  @Input() public showAsGhost = false;
+
   @Output() onRemove = new EventEmitter<WorkPackageResource>();
 
   @Output() stateLinkClicked = new EventEmitter<{ workPackageId:string, requestedState:string }>();
 
+  @Output() cardClicked = new EventEmitter<{ workPackageId:string, event:MouseEvent }>();
+
+  @Output() cardContextMenu = new EventEmitter<{ workPackageId:string, event:MouseEvent }>();
+
   public uiStateLinkClass:string = uiStateLinkClass;
+
+  public selected = false;
 
   public text = {
     removeCard: this.I18n.t('js.card.remove_from_list'),
     detailsView: this.I18n.t('js.button_open_details'),
   };
 
-  isNewResource = isNewResource;
+  public isNewResource = isNewResource;
+
+  private dateTimeFormatYear = new Intl.DateTimeFormat(this.I18n.locale, {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  });
+
+  private dateTimeFormat = new Intl.DateTimeFormat(this.I18n.locale, {
+    month: 'short',
+    day: 'numeric',
+  });
 
   constructor(
     readonly pathHelper:PathHelperService,
     readonly I18n:I18nService,
     readonly $state:StateService,
+    readonly uiRouterGlobals:UIRouterGlobals,
     readonly wpTableSelection:WorkPackageViewSelectionService,
     readonly wpTableFocus:WorkPackageViewFocusService,
     readonly cardView:WorkPackageCardViewService,
@@ -74,11 +112,22 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
 
   ngOnInit():void {
     // Update selection state
-    this.wpTableSelection.live$()
+    combineLatest([
+      this.wpTableSelection.live$(),
+      this.uiRouterGlobals.params$,
+    ])
       .pipe(
         this.untilDestroyed(),
+        map(() => {
+          if (this.selectedWhenOpen) {
+            return this.uiRouterGlobals.params.workPackageId === this.workPackage.id;
+          }
+
+          return this.wpTableSelection.isSelected(this.workPackage.id as string);
+        }),
       )
-      .subscribe(() => {
+      .subscribe((selected) => {
+        this.selected = selected;
         this.cdRef.detectChanges();
       });
   }
@@ -105,14 +154,21 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
     const base = 'op-wp-single-card';
 
     return {
-      [`${base}_checked`]: this.isSelected(this.workPackage),
+      [`${base}_selected`]: this.selected,
       [`${base}_draggable`]: this.draggable,
       [`${base}_new`]: isNewResource(this.workPackage),
       [`${base}_shrink`]: this.shrinkOnMobile,
+      [`${base}_inline`]: this.showAsInlineCard,
+      [`${base}_closed`]: this.isClosed,
+      [`${base}_ghosted`]: this.showAsGhost,
       // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
       [`${base}-${this.workPackage.id}`]: !!this.workPackage.id,
       [`${base}_${this.orientation}`]: true,
     };
+  }
+
+  cardTitle():string {
+    return `${this.workPackage.subject} (${(this.workPackage.status as StatusResource).name})`;
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -131,29 +187,42 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
   }
 
   public wpDates(wp:WorkPackageResource):string {
-    const { startDate } = wp;
-    const { dueDate } = wp;
-    const dateTimeFormat = new Intl.DateTimeFormat(this.I18n.locale, {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-    });
+    const { startDate, dueDate } = wp;
 
     if (startDate && dueDate) {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore see https://github.com/microsoft/TypeScript/issues/46905
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-      return String(dateTimeFormat.formatRange(new Date(startDate), new Date(dueDate)));
+      return String(this.dateTimeFormatYear.formatRange(new Date(startDate), new Date(dueDate)));
     }
+
     if (!startDate && dueDate) {
-      return `- ${dateTimeFormat.format(new Date(dueDate))}`;
+      return `– ${this.dateTimeFormatYear.format(new Date(dueDate))}`;
     }
 
     if (startDate && !dueDate) {
-      return `${dateTimeFormat.format(new Date(startDate))} -`;
+      return `${this.dateTimeFormatYear.format(new Date(startDate))} –`;
     }
 
     return '';
+  }
+
+  startDate(wp:WorkPackageResource):string {
+    const { startDate } = wp;
+    if (!startDate) {
+      return '';
+    }
+
+    return this.dateTimeFormat.format(new Date(startDate));
+  }
+
+  endDate(wp:WorkPackageResource):string {
+    const { dueDate } = wp;
+    if (!dueDate) {
+      return '';
+    }
+
+    return this.dateTimeFormat.format(new Date(dueDate));
   }
 
   wpOverDueHighlighting(wp:WorkPackageResource):string {
@@ -184,10 +253,6 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
   // eslint-disable-next-line class-methods-use-this
   public bcfSnapshotPath(wp:WorkPackageResource):string|null {
     return wp.bcfViewpoints && wp.bcfViewpoints.length > 0 ? `${wp.bcfViewpoints[0].href}/snapshot` : null;
-  }
-
-  public isSelected(wp:WorkPackageResource):boolean {
-    return this.wpTableSelection.isSelected(wp.id!);
   }
 
   private cardHighlighting(wp:WorkPackageResource):string {

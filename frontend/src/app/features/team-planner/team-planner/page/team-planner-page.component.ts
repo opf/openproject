@@ -16,7 +16,17 @@ import { QueryParamListenerService } from 'core-app/features/work-packages/compo
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { WorkPackageSettingsButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/wp-settings-button/wp-settings-button.component';
 import { CalendarDragDropService } from 'core-app/features/team-planner/team-planner/calendar-drag-drop.service';
+import { OpProjectIncludeComponent } from 'core-app/shared/components/project-include/project-include.component';
+import {
+  EffectCallback,
+  EffectHandler,
+} from 'core-app/core/state/effects/effect-handler.decorator';
+import { teamPlannerEventAdded } from 'core-app/features/team-planner/team-planner/planner/team-planner.actions';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { ActionsService } from 'core-app/core/state/actions/actions.service';
+import { OpCalendarService } from 'core-app/features/calendar/op-calendar.service';
 
+@EffectHandler
 @Component({
   templateUrl: '../../../work-packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.html',
   styleUrls: [
@@ -25,10 +35,13 @@ import { CalendarDragDropService } from 'core-app/features/team-planner/team-pla
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     QueryParamListenerService,
+    OpCalendarService,
     CalendarDragDropService,
   ],
 })
 export class TeamPlannerPageComponent extends PartitionedQuerySpacePageComponent implements OnInit {
+  @InjectField() actions$:ActionsService;
+
   text = {
     title: this.I18n.t('js.team_planner.title'),
     unsaved_title: this.I18n.t('js.team_planner.unsaved_title'),
@@ -62,6 +75,9 @@ export class TeamPlannerPageComponent extends PartitionedQuerySpacePageComponent
   /** Define the buttons shown in the toolbar */
   toolbarButtonComponents:ToolbarButtonComponentDefinition[] = [
     {
+      component: OpProjectIncludeComponent,
+    },
+    {
       component: WorkPackageFilterButtonComponent,
     },
     {
@@ -87,6 +103,7 @@ export class TeamPlannerPageComponent extends PartitionedQuerySpacePageComponent
       'memberOfGroup',
       'assignedToRole',
       'assigneeOrGroup',
+      'project',
     );
   }
 
@@ -110,5 +127,15 @@ export class TeamPlannerPageComponent extends PartitionedQuerySpacePageComponent
    */
   protected loadInitialQuery():void {
     // We never load the initial query as the calendar service does all that.
+  }
+
+  /**
+   * Reload the team planner page if an external event was added.
+   * This is currently not handled by the HalEvents system, as it only
+   * detects updates to _existing_ or created events already rendered.
+   */
+  @EffectCallback(teamPlannerEventAdded)
+  reloadOnEventAdded():void {
+    void this.refresh(false, false);
   }
 }

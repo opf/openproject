@@ -72,7 +72,7 @@ pt:
       text_2fa_enabled: 'Em cada login, será solicitado a você entrar com seu token OTP do seu dispositivo padrão do seu dispositivo padrão do 2FA.'
       text_2fa_disabled: "O usuário não configurou o dispositivo de 2FA através da página \"Minha conta\""
     upsale:
-      title: 'Two-factor authentication'
+      title: 'Autenticação de dois fatores'
       description: 'Reforce seus mecanismos de autenticação interno e externo com o segundo fator.'
     backup_codes:
       none_found: Não existem códigos de backup para esta conta.

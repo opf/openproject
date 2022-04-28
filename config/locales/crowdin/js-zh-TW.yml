@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -23,7 +23,8 @@ zh-TW:
   js:
     ajax:
       hide: "隱藏"
-      loading: "載入中…"
+      loading: "Loading…"
+      updating: "Updating…"
     attachments:
       draggable_hint: |
         在編輯器欄位上拖動到內聯圖像或引用附件。在繼續拖動時, 將打開已關閉的編輯器欄位。
@@ -61,6 +62,7 @@ zh-TW:
     button_confirm: "確認"
     button_continue: "繼續"
     button_copy: "複製"
+    button_copy_to_other_project: "Copy to other project"
     button_custom-fields: "自訂欄位"
     button_delete: "删除"
     button_delete_watcher: "刪除關注者"
@@ -235,7 +237,7 @@ zh-TW:
           text: >
             The OpenProject Enterprise Edition builds on top of the Community Edition. It includes premium features and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
           unlimited: "Unlimited"
-          you_contribute: "Developers need to pay their bills, too. With the Enterprise Edition, you substantially contribute to this Open Source community effort."
+          you_contribute: "Developers need to pay their bills, too. By upgrading to the Enterprise Edition, you will be supporting this open source community effort and contributing to its development, maintenance and continuous improvement."
     custom_actions:
       date:
         specific: '開啟'
@@ -249,6 +251,7 @@ zh-TW:
     enumeration_doc_categories: "文件類別"
     enumeration_work_package_priorities: "工作項目優先等級"
     filter:
+      more_values_not_shown: "There are %{total} more results, search to filter results."
       description:
         text_open_filter: "使用 ALT 和方向鍵打開此篩選器。"
         text_close_filter: "要選擇條目離開焦點例如按輸入。離開沒有篩選器的情況下選擇的第一個 （空） 條目。"
@@ -283,16 +286,17 @@ zh-TW:
           learn_about: "瞭解更多新功能的資訊"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_0':
+          '12_1':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
+              learn_about_link: https://www.openproject.org/openproject-12-1-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>With the new <b>in-app notifications</b> you receive all important updates directly in the application and don't get a flood of emails anymore.</li> <li>The new <b>notification center</b> shows all the changes, including intuitive filter options, e.g. by reason for notification or projects. It even allows editing directly in a split view.</li> <li>Improved <b>notification settings</b> allow to fine-tune for which actions and in which projects you want to receive a notification.</li> <li><b>Email reminders</b> can be configured to receive important updates via a daily email summary.</li> <li>The work package auto-completer for relations now also shows additional information (project name, status, ...) to easily identify the respective work package.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A <b>new team planner module</b> (Enterprise feature) allows you to visually assign tasks to team members to get an overview of who is working on what.</li> <li>We are <b>releasing the basic agile boards</b> for the Community version.</li> <li>The <b>"Include Projects" filter</b> option makes it easier to add different projects to your views, such as for work packages, calendars, and team planners.</li> <li>We added <b>a new "Files" tab</b> in the work package details to have all possible information attached to a work package together.</li> <li>We created <b>global roles for groups</b> to assign these roles to groups and create superuser groups.</li> <li>Project status was given more options to choose from.</li> </ul>
             bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
+              learn_about_link: https://www.openproject.org/openproject-12-1-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Notification center: Reduce the number of mails you receive. Instead find and act upon all relevant notifications in one central place.</li> <li>All uploaded IFC files can now also be downloaded.</li> <li>The uploading and processing of IFC got faster and received better error messages.</li> <li>The <a href="https://github.com/opf/openproject-revit-add-in">OpenProject Revit Add-in</a> received many bug fixes.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>In the BCF module you can now save your selected work package filters, columns etc. as <b>views</b> and share those with your team members.</li> <li>A <b>new team planner module</b> (Enterprise feature) allows you to visually assign tasks to team members to get an overview of who is working on what.</li> <li>We are <b>releasing the basic agile boards</b> for the Community version.</li> <li>The <b>"Include Projects" filter</b> option makes it easier to add different projects to your views, such as for work packages, calendars, and team planners.</li> <li>We added <b>a new "Files" tab</b> in the work package details to have all possible information attached to a work package together.</li> <li>We created <b>global roles for groups</b> to assign these roles to groups and create superuser groups.</li> <li>Project status was given more options to choose from.</li> </ul>
     label_activate: "啟用"
+    label_assignee: 'Assignee'
     label_add_column_after: "在後面增加一欄"
     label_add_column_before: "在前面增加一欄"
     label_add_columns: "增加欄"
@@ -450,9 +454,8 @@ zh-TW:
     label_starred_queries: "最愛檢視"
     label_global_queries: "公開檢視"
     label_custom_queries: "私密檢視"
-    label_create_new_query: "新增"
     label_columns: "欄"
-    label_attachments: 檔案
+    label_attachments: 附加檔
     label_drop_files: 將檔案拖曳至此處
     label_drop_files_hint: 或按一下要添加的檔
     label_drop_folders_hint: 不能將資料夾作為附件上載。請選擇單個檔。
@@ -496,7 +499,8 @@ zh-TW:
           task_board: "The task board visualizes the <b>progress for this sprint</b>. Click on the plus (+) icon next to a user story to add new tasks or impediments. <br> The status can be updated by drag and drop."
         boards:
           overview: 'Select <b>boards</b> to shift the view and manage your project using the agile boards view.'
-          lists: 'Here you can create multiple lists (columns) within your board. This feature allows you to create a <b>Kanban board</b>, for example.'
+          lists_kanban: 'Here you can create multiple lists (columns) within your board. This feature allows you to create a <b>Kanban board</b>, for example.'
+          lists_basic: 'Here you can create multiple lists (columns) within your agile board.'
           add: 'Click on the plus (+) icon to <b>create a new card</b> or <b>add an existing card</b> to the list on the board.'
           drag: 'Drag and drop your cards within a given list to reorder them, or to move them to another list. <br> You can click the info (i) icon in the upper right-hand corner or double-click a card to open its details.'
         wp:
@@ -507,6 +511,12 @@ zh-TW:
           create_button: 'The <b>+ Create</b> button will add a new work package to your project.'
           timeline_button: 'You can activate the <b>Gantt chart</b> view to create a timeline for your project.'
           timeline: 'Here you can <b>edit your project plan</b>, create new work packages, such as tasks, milestones, phases, and more, as well as <b>add dependencies</b>. All team members can see and update the latest plan at any time.'
+        team_planner:
+          overview: 'The team planner lets you visually assign tasks to team members and get an overview of who is working on what.'
+          calendar: 'The weekly or biweekly planning board displays all work packages assigned to your team members.'
+          add_assignee: 'To get started, add assignees to the team planner.'
+          add_existing: 'Search for existing work packages and drag them to the team planner to instantly assign them to a team member and define start and end dates.'
+          card: 'Drag work packages horizontally to move them backwards or forwards in time, drag the edges to change start and end dates and even drag them vertically to a different row to assign them to another member.'
     notifications:
       title: "通知"
       no_unread: "No unread notifications"
@@ -514,7 +524,7 @@ zh-TW:
         mentioned: 'mentioned'
         watched: 'watched'
         assigned: 'assigned'
-        responsible: 'accountable'
+        responsible: '負責人'
       facets:
         unread: 'Unread'
         all: '全部'
@@ -536,8 +546,7 @@ zh-TW:
           message: 'There are new notifications.'
           link_text: 'Click here to load them'
       menu:
-        accountable: '可信賴的'
-        assigned: '指派'
+        accountable: '負責人'
         by_project: 'Unread by project'
         by_reason: 'Involvement'
         inbox: 'Inbox'
@@ -552,8 +561,8 @@ zh-TW:
             title: 'I am @mentioned'
             description: 'Receive a notification every time someone mentions me anywhere'
           involved:
-            title: 'Assigned to me or accountable'
-            description: 'Receive notifications for all activities on work packages for which I am assignee or accountable'
+            title: '分配給我或由我負責'
+            description: '對所有分配給我或由我負責的工作包接收所有活動通知'
           watched: 'Updates on watched items'
           work_package_commented: 'All new comments'
           work_package_created: 'New work packages'
@@ -984,7 +993,8 @@ zh-TW:
         activity: 活動
         relations: 關聯
         watchers: 監看者
-        attachments: 附加檔
+        files: 檔案
+        files_tab_migration_help: 'You can now attach files to work packages via the new tab:'
       time_relative:
         days: "天"
         weeks: "週"
@@ -1151,8 +1161,26 @@ zh-TW:
           placeholder: 'The placeholder can now be used in %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
           group: 'The group is now a part of %{project}. Meanwhile you can already plan with that group and assign work packages for instance.'
         next_button: '繼續'
+    include_projects:
+      toggle_title: 'Include projects'
+      title: '專案'
+      clear_selection: 'Clear selection'
+      apply: '套用'
+      selected_filter:
+        all: '所有專案'
+        selected: 'Only selected'
+      search_placeholder: 'Search project...'
+      include_subprojects: 'Include all sub-projects'
+      tooltip:
+        include_all_selected: 'Include all sub-projects is currently selected.'
+        current_project: 'This is the current project you are in.'
     forms:
       submit_success_message: '檔案已成功提交'
       load_error_message: 'There was an error loading the form'
       validation_error_message: 'Please fix the errors present in the form'
       advanced_settings: '進階設定'
+    spot:
+      filter_chip:
+        remove: '刪除'
+      drop_modal:
+        Close: '關閉'

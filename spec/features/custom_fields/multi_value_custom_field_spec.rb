@@ -1,7 +1,7 @@
 require "spec_helper"
 require "support/pages/work_packages/abstract_work_package"
 
-describe "multi select custom values", clear_cache: true, js: true do
+describe "multi select custom values", js: true do
   let(:type) { create :type }
   let(:project) { create :project, types: [type] }
   let(:multi_value) { true }

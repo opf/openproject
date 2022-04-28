@@ -55,7 +55,7 @@ describe('WpTabsService', () => {
   });
 
   describe('getTab()', () => {
-    it('returns the displayable tab whith the correct identifier', () => {
+    it('returns the displayable tab with the correct identifier', () => {
       expect(service.getTab('displayable-test-tab', workPackage)?.id).toEqual('displayable-test-tab');
       expect(service.getTab('non-existing-tab', workPackage)).toEqual(undefined);
       expect(service.getTab('non-displayable-test-tab', workPackage)).toEqual(undefined);

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,10 +36,10 @@ module API
       self.current_user = user
       self.model = model
 
-      self.representer = if !representer && model
-                           deduce_representer(model)
-                         elsif representer
+      self.representer = if representer
                            representer
+                         elsif model
+                           deduce_representer(model)
                          else
                            raise 'Representer not defined'
                          end
@@ -76,13 +76,13 @@ module API
     end
 
     def struct
-      Hashie::Mash.new
+      ParserStruct.new
     end
 
     def deep_to_h(value)
       # Does not yet factor in Arrays. There hasn't been the need to do that, yet.
       case value
-      when Hashie::Mash, Hash
+      when Hash, ParserStruct
         value.to_h.transform_values do |sub_value|
           deep_to_h(sub_value)
         end

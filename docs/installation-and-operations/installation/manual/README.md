@@ -61,7 +61,7 @@ sudo passwd openproject #(enter desired password)
 
 ## Install and setup the database server (PostgreSQL)
 
-OpenProject requires PostgreSQL v9.5+. If you system package is too old, you can check https://www.postgresql.org/download/ to get a newer version installed. In our case, Ubuntu 18.04 comes with a recent-enough version so we can use the system packages:
+OpenProject requires PostgreSQL v9.5+. If you system package is too old, you can check [postgresql.org](https://www.postgresql.org/download/) to get a newer version installed. In our case, Ubuntu 18.04 comes with a recent-enough version so we can use the system packages:
 
 ```bash
 [root@host] apt-get install postgresql postgresql-contrib libpq-dev
@@ -95,7 +95,7 @@ Lastly, revert to the previous system user:
 ## Installation of Ruby
 
 The are several possibilities to install Ruby on your machine. We will
-use [rbenv](http://rbenv.org/). Please be aware that the actual installation of a specific Ruby version takes some
+use [rbenv](https://github.com/rbenv/rbenv). Please be aware that the actual installation of a specific Ruby version takes some
 time to finish.
 
 ```bash
@@ -148,7 +148,7 @@ v14.16.0
 ## Installation of OpenProject
 
 We will install the OpenProject Community Edition. It contains the recommended set of plugins for use
-with OpenProject. For more information, see https://github.com/opf/openproject.
+with OpenProject. For more information, see [github.com/opf/openproject](https://github.com/opf/openproject).
 
 
 ```bash
@@ -214,7 +214,7 @@ rails_cache_store: :memcache
 ```
 
 __NOTE:__ You should validate your `yml` files, for example with
-http://www.yamllint.com/. Both, the `database.yml` and `configuration.yml`
+[yamlchecker.com](https://yamlchecker.com/). Both, the `database.yml` and `configuration.yml`
 file are sensitive to whitespace. It is pretty easy to write
 invalid `yml` files without seeing the error. Validating those files
 prevents you from such errors.
@@ -232,9 +232,9 @@ prevents you from such errors.
 
 **NOTE:** When not specified differently, the default data loaded via db:seed will have an english localization. You can choose to seed in a different language by specifying the language via the `LOCALE` environment variable on the call to `db:seed`. E.g.
 ```bash
-[openproject@all] RAILS_ENV="production" LOCALE=fr ./bin/rake db:seed
+[openproject@all] RAILS_ENV="production" OPENPROJECT_SEED_LOCALE=fr ./bin/rake db:seed
 ```
-will seed the database in the french language.
+will seed the database in the french language. A large portion of the seed data is only available in english, however.
 
 ### Secret token
 

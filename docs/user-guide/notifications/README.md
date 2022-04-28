@@ -12,8 +12,9 @@ This section will introduce in-app notifications and explain how to work with th
 
 ## Overview of in-app notifications in OpenProject
 
-
 In-app notifications are a tool to get notified about requests, changes and new assignments in OpenProject. The notifications can work as an alternative to email notification, or be used in parallel. This feature is enabled by default.
+
+<video src="https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-In-app-notifications.mp4" type="video/mp4" controls="" style="width:100%"></video>
 
 ## Accessing in-app notifications
 
@@ -51,7 +52,7 @@ You can filter or group the notifications using the two areas in the left menu b
 
    ![mark-as-read](mark-as-read.png)
    
-4. The [**Notification settings**](/notification-settings) button will bring you to your personal notification settings to configure your notification preferences.
+4. The [**Notification settings**](./notification-settings) button will bring you to your personal notification settings to configure your notification preferences.
 
 5. When selecting any of the notifications, you can also view more **details in the split screen**, for example comments members made regarding a specific work package. Unread messages are indicated by a blue bubble. You can even edit directly in this view.
 

@@ -1,7 +1,7 @@
 <ng-container *ngIf="!active">
   <a *ngIf="parent"
     [attr.title]="parent.name"
-    uiSref="work-packages.show"
+    uiSref="work-packages.show.tabs"
     [uiParams]="{workPackageId: parent.id}"
     class="op-wp-breadcrumb-parent nocut"
     data-qa-selector="op-wp-breadcrumb-parent">
@@ -10,7 +10,7 @@
   <button
       *ngIf="canModifyParent()"
       type="button"
-      class="op-link wp-relation--parent-change -no-decoration hide-when-print"
+      class="spot-link wp-relation--parent-change -no-decoration hide-when-print"
       [title]="parent ? text.edit_parent : text.set_parent"
       (click)="open()"
   >
@@ -20,7 +20,7 @@
   <button
       *ngIf="canModifyParent() && parent"
       type="button"
-      class="op-link wp-relation--parent-remove hide-when-print -no-decoration"
+      class="spot-link wp-relation--parent-remove hide-when-print -no-decoration"
       [title]="text.remove_parent"
       (click)="updateParent(null)"
   >

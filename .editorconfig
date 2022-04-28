@@ -291,9 +291,6 @@ ij_javascript_while_on_new_line = false
 ij_javascript_wrap_comments = false
 
 [{*.sht,*.html,*.shtm,*.shtml,*.htm,*.ng}]
-indent_size = 2
-tab_width = 2
-ij_continuation_indent_size = 2
 ij_html_add_new_line_before_tags = body,div,p,form,h1,h2,h3
 ij_html_align_attributes = true
 ij_html_align_text = false

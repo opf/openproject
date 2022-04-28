@@ -1,6 +1,6 @@
 ---
 sidebar_navigation:
-  title: Users & Permissions FAQ
+  title: Users and permissions FAQ
   priority: 001
 description: Frequently asked questions regarding user, permissions, roles and groups
 robots: index, follow
@@ -11,7 +11,7 @@ keywords: manage users FAQ, permissions, groups, roles, user settings
 
 ## I want to delete a user but it fails.
 
-If you are using the Enterprise cloud and the user you are trying to delete is the user that initially set up OpenProject, you will need to contact us to delete this user. For other users please make sure the box "User accounts deletable by admins" in *Administration -> Users & Permissions -> Settings* is checked.
+If you are using the Enterprise cloud and the user you are trying to delete is the user that initially set up OpenProject, you will need to contact us to delete this user. For other users please make sure the box "User accounts deletable by admins" in *Administration -> Users and permissions -> Settings* is checked.
 
 ## We use LDAP. How do we release a license should someone leave our team and no longer need access?
 

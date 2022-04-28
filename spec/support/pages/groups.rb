@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -115,7 +115,7 @@ module Pages
     end
 
     def select_project!(project_name)
-      select(project_name, from: 'new_membership_project_id')
+      select(project_name, from: 'membership_project_id')
     end
 
     def add_user!(user_name)

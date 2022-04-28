@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -250,7 +250,7 @@ describe ::API::V3::WorkPackageCollectionFromQueryService,
               .to receive(:summable)
               .and_return(custom_fields)
 
-            expected = Hashie::Mash.new(estimated_hours: 0.0, available_custom_fields: custom_fields)
+            expected = API::ParserStruct.new(estimated_hours: 0.0, available_custom_fields: custom_fields)
 
             expect(subject.total_sums)
               .to eq(expected)

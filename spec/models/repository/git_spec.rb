@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -96,12 +96,9 @@ describe Repository::Git, type: :model do
         end
       end
 
-      context 'with string disabled types' do
+      context 'with string disabled types',
+              with_config: { 'scm' => { 'git' => { 'disabled_types' => %w[managed local] } } } do
         before do
-          allow(OpenProject::Configuration).to receive(:default_override_source)
-                                                 .and_return('OPENPROJECT_SCM_GIT_DISABLED__TYPES' => '[managed,local]')
-
-          OpenProject::Configuration.load
           allow(adapter.class).to receive(:config).and_call_original
         end
 

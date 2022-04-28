@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
-title: FAQ
-priority: 950
+  title: FAQ
+  priority: 950
 description: Frequently asked questions for OpenProject (FAQ)
 robots: index, follow
 keywords: FAQ, introduction, tutorial, project management software, frequently asked questions, help
@@ -22,22 +22,6 @@ Welcome to the central overview of frequently asked questions for OpenProject.
 
 
 ## Learn more about OpenProject
-
-### What about data privacy, data security and GDPR conformity?
-
-Data protection and security are one of the main motivations for the development of this open source application. Thus, you have the possibility to move the OpenProject application including your data to your own infrastructure at any time. Unlike other cloud tools, you can also take a look at the software code and adapt it if necessary.
-
-For users who do not want to run OpenProject themselves, we offer a hosting product. Here we use subcontractors who are not based in the EU, too. We achieve compliance with the GDPR by using standard protection clauses (Art. 46 (2) (c) and (d) GDPR).
-A list of the subcontractors currently used in the Cloud Edition can be found here: [https://www.openproject.org/legal/data-processing-agreement/sub-processors/](https://www.openproject.org/legal/data-processing-agreement/sub-processors/)
-For our cloud product, we aim to completely eliminate subcontractors outside of the EU by the end of 2021. We have made a start by replacing Google Analytics with Matomo since 2020.
-You can also send us encrypted emails to privacy@openproject.com. You can find the corresponding GPG key here: [https://keys.openpgp.org/vks/v1/by-fingerprint/BDCFE01EDE84EA199AE172CE7D669C6D475339588](https://keys.openpgp.org/vks/v1/by-fingerprint/BDCFE01EDE84EA199AE172CE7D669C6D475339588)
-
-#### Is OpenProject Enterprise cloud GDPR compliant?
-
-The OpenProject cloud environment is hosted on a logically isolated virtual cloud at Amazon Web Services with all services being located in Ireland.
-AWS is a GDPR compliant cloud infrastructure provider with extensive security and compliance programs as well as unparalleled access control mechanisms to ensure data privacy.
-Employed facilities are compliant with the ISO 27001 and 27018 standards. The OpenProject cloud environment is continuously backing up user data with data at rest being fully encrypted with AES-256.
-Each individual instance is logically separated and data is persisted in a unique database schema, reducing the risk of intersection or data leaks between instances. Find out more about GDPR compliance on our [website](https://www.openproject.org/gdpr-compliance).
 
 ### How do I get access to the OpenProject premium features?
 We offer the premium functions of OpenProject (incl. boards) for two different OpenProject variants:
@@ -80,7 +64,7 @@ Terms and conditions regarding GPLv3 are available at [https://www.gnu.org/licen
 
 ### Is OpenProject free of charge?
 
-We offer three different versions of OpenProject. Please get an overview of the different OpenProject Editions [here](https://www.openproject.org/pricing/#compare).
+We offer three different versions of OpenProject. Please get an overview of the different OpenProject Editions [here](https://www.openproject.org/pricing/#features).
 
 The (on-premise) OpenProject Community edition is completely free. The Enterprise cloud and Enterprise on-premises edition offer premium features, hosting and support and thus we are charging for it. Nevertheless, we offer free 14 days trials for the Enterprise versions so that you can get to know their benefits. If you prefer to use the free OpenProject Community edition, you can follow these [installation instructions](https://www.openproject.org/download-and-installation/), please note that you need a Linux server to install the Community edition. It is always possible to upgrade from the Community to the Enterprise cloud and Enterprise on-premises edition – check out the premium features [here](https://www.openproject.org/enterprise-edition/#premium-features).
 
@@ -158,11 +142,11 @@ The projects overview is not optimized for export via PDF, yet. Nevertheless, yo
 
 ### How can I receive the OpenProject newsletter?
 
-Please go to https://www.openproject.org/newsletter/ and submit your data to receive our newsletter. Another option would be to agree to receive the newsletter when creating your account.
+Please go to [openproject.org/newsletter/](https://www.openproject.org/newsletter/) and submit your data to receive our newsletter. Another option would be to agree to receive the newsletter when creating your account.
 
 ## FAQ regarding features
 
-Please find information on the features of OpenProject [here](https://www.openproject.org/collaboration-software-features/) and a comparison between Enterprise on-premises, Enterprise cloud and Community Edition [here](https://www.openproject.org/pricing/#compare). The community platform to see and [issue](../development/submit-feature-idea/) feature ideas can be found [here](https://community.openproject.com).
+Please find information on the features of OpenProject [here](https://www.openproject.org/collaboration-software-features/) and a comparison between Enterprise on-premises, Enterprise cloud and Community Edition [here](https://www.openproject.org/pricing/#features). The community platform to see and [issue](../development/submit-feature-idea/) feature ideas can be found [here](https://community.openproject.com).
 
 ### Is it possible to use multiple languages in OpenProject?
 

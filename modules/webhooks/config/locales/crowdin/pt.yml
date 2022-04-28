@@ -27,6 +27,10 @@ pt:
       events:
         created: "Criado"
         updated: "Atualizado"
+      explanation:
+        text: >
+          Na ocorrência de um evento como a criação de um pacote de trabalho ou uma atualização em um projeto, o OpenProject enviará uma solicitação POST para os terminais web configurados. Muitas vezes, o evento é enviado após o %{link} ter passado.
+        link: período de agregação configurado
       status:
         enabled: 'Webhook está habilitado'
         disabled: 'Webhook está desativado'

@@ -170,8 +170,8 @@ paths:
     "$ref": "./paths/custom_action.yml"
   "/api/v3/custom_actions/{id}/execute":
     "$ref": "./paths/custom_action_execute.yml"
-  "/api/v3/custom_objects/{id}":
-    "$ref": "./paths/custom_object.yml"
+  "/api/v3/custom_options/{id}":
+    "$ref": "./paths/custom_option.yml"
   "/api/v3/documents":
     "$ref": "./paths/documents.yml"
   "/api/v3/documents/{id}":
@@ -182,6 +182,10 @@ paths:
     "$ref": "./paths/example_schema.yml"
   "/api/v3/examples":
     "$ref": "./paths/examples.yml"
+  "/api/v3/file_links/{id}":
+    "$ref": "./paths/file_link.yml"
+  "/api/v3/file_links/{id}/open":
+    "$ref": "./paths/file_link_open.yml"
   "/api/v3/grids":
     "$ref": "./paths/grids.yml"
   "/api/v3/grids/form":
@@ -218,8 +222,16 @@ paths:
     "$ref": "./paths/news_item.yml"
   "/api/v3/notifications":
     "$ref": "./paths/notifications.yml"
+  "/api/v3/notifications/read_ian":
+    "$ref": "./paths/notifications_read.yml"
+  "/api/v3/notifications/unread_ian":
+    "$ref": "./paths/notifications_unread.yml"
   "/api/v3/notifications/{id}":
     "$ref": "./paths/notification.yml"
+  "/api/v3/notifications/{id}/read_ian":
+    "$ref": "./paths/notification_read.yml"
+  "/api/v3/notifications/{id}/unread_ian":
+    "$ref": "./paths/notification_unread.yml"
   "/api/v3/posts/{id}":
     "$ref": "./paths/post.yml"
   "/api/v3/posts/{id}/attachments":
@@ -396,12 +408,6 @@ paths:
     "$ref": "./paths/work_package_available_watchers.yml"
   "/api/v3/work_packages/{id}/file_links":
     "$ref": "./paths/work_package_file_links.yml"
-  "/api/v3/work_packages/{id}/file_links/{file_link_id}":
-    "$ref": "./paths/work_package_file_link.yml"
-  "/api/v3/work_packages/{id}/file_links/{file_link_id}/download":
-    "$ref": "./paths/work_package_file_link_download.yml"
-  "/api/v3/work_packages/{id}/file_links/{file_link_id}/open":
-    "$ref": "./paths/work_package_file_link_open.yml"
   "/api/v3/work_packages/{id}/form":
     "$ref": "./paths/work_package_form.yml"
   "/api/v3/work_packages/{id}/revisions":
@@ -435,18 +441,8 @@ components:
       "$ref": "./components/schemas/activity_model.yml"
     AttachmentModel:
       "$ref": "./components/schemas/attachment_model.yml"
-    Attachments_by_post:
-      "$ref": "./components/schemas/attachments_by_post.yml"
-    Attachments_by_postModel:
-      "$ref": "./components/schemas/attachments_by_post_model.yml"
-    Attachments_by_wiki_page:
-      "$ref": "./components/schemas/attachments_by_wiki_page.yml"
-    Attachments_by_wiki_pageModel:
-      "$ref": "./components/schemas/attachments_by_wiki_page_model.yml"
-    Attachments_by_work_package:
-      "$ref": "./components/schemas/attachments_by_work_package.yml"
-    Attachments_by_work_packageModel:
-      "$ref": "./components/schemas/attachments_by_work_package_model.yml"
+    Attachments_Model:
+      "$ref": "./components/schemas/attachments_model.yml"
     Available_AssigneesModel:
       "$ref": "./components/schemas/available_assignees_model.yml"
     Available_ResponsiblesModel:
@@ -493,8 +489,8 @@ components:
       "$ref": "./components/schemas/cursor_based_pagination.yml"
     Custom_ActionModel:
       "$ref": "./components/schemas/custom_action_model.yml"
-    Custom_ObjectModel:
-      "$ref": "./components/schemas/custom_object_model.yml"
+    Custom_OptionModel:
+      "$ref": "./components/schemas/custom_option_model.yml"
     CustomactionModel:
       "$ref": "./components/schemas/customaction_model.yml"
     Default_QueryModel:
@@ -523,10 +519,16 @@ components:
       "$ref": "./components/schemas/example_schema_model.yml"
     Execute_custom_action:
       "$ref": "./components/schemas/execute_custom_action.yml"
-    File_LinkModel:
-      "$ref": "./components/schemas/file_link_model.yml"
-    File_Link_Origin_DataModel:
+    FileLinkCollectionReadModel:
+      $ref: './components/schemas/file_link_collection_read_model.yml'
+    FileLinkCollectionWriteModel:
+      $ref: './components/schemas/file_link_collection_write_model.yml'
+    FileLinkOriginDataModel:
       "$ref": "./components/schemas/file_link_origin_data_model.yml"
+    FileLinkReadModel:
+      $ref: './components/schemas/file_link_read_model.yml'
+    FileLinkWriteModel:
+      $ref: './components/schemas/file_link_write_model.yml'
     FormModel:
       "$ref": "./components/schemas/form_model.yml"
     Formattable:
@@ -561,8 +563,6 @@ components:
       "$ref": "./components/schemas/list_memberships_model.yml"
     List_of_NewsModel:
       "$ref": "./components/schemas/list_of_news_model.yml"
-    List_notificationsModel:
-      "$ref": "./components/schemas/list_notifications_model.yml"
     List_projectsModel:
       "$ref": "./components/schemas/list_projects_model.yml"
     List_projects_by_versionModel:
@@ -583,6 +583,8 @@ components:
       "$ref": "./components/schemas/membership_update_form.yml"
     NewsModel:
       "$ref": "./components/schemas/news_model.yml"
+    NotificationCollectionModel:
+      "$ref": "./components/schemas/notification_collection_model.yml"
     NotificationModel:
       "$ref": "./components/schemas/notification_model.yml"
     NotificationSettingsModel:
@@ -751,24 +753,14 @@ components:
       "$ref": "./components/schemas/wiki_page_model.yml"
     Work_PackageModel:
       "$ref": "./components/schemas/work_package_model.yml"
-    Work_Package_Create_Form:
-      "$ref": "./components/schemas/work_package_create_form.yml"
-    Work_Package_Create_Form_For_Project:
-      "$ref": "./components/schemas/work_package_create_form_for_project.yml"
-    Work_Package_Edit_Form:
-      "$ref": "./components/schemas/work_package_edit_form.yml"
     Work_Package_Relation_FormModel:
       "$ref": "./components/schemas/work_package_relation_form_model.yml"
-    Work_Package_Schema:
-      "$ref": "./components/schemas/work_package_schema.yml"
     Work_Package_SchemasModel:
       "$ref": "./components/schemas/work_package_schemas_model.yml"
     Work_Package_activitiesModel:
       "$ref": "./components/schemas/work_package_activities_model.yml"
     Work_PackagesModel:
       "$ref": "./components/schemas/work_packages_model.yml"
-    Work_Packages_by_ProjectModel:
-      "$ref": "./components/schemas/work_packages_by_project_model.yml"
   securitySchemes:
     BasicAuth:
       type: http
@@ -778,6 +770,7 @@ tags:
   - "$ref": "./tags/collections.yml"
   - "$ref": "./tags/filters.yml"
   - "$ref": "./tags/forms.yml"
+  - "$ref": "./tags/signaling.yml"
   - "$ref": "./tags/actions_and_capabilities.yml"
   - "$ref": "./tags/activities.yml"
   - "$ref": "./tags/attachments.yml"
@@ -785,8 +778,9 @@ tags:
   - "$ref": "./tags/categories.yml"
   - "$ref": "./tags/configuration.yml"
   - "$ref": "./tags/custom_actions.yml"
-  - "$ref": "./tags/custom_objects.yml"
+  - "$ref": "./tags/custom_options.yml"
   - "$ref": "./tags/documents.yml"
+  - "$ref": "./tags/file_links.yml"
   - "$ref": "./tags/grids.yml"
   - "$ref": "./tags/groups.yml"
   - "$ref": "./tags/help_texts.yml"

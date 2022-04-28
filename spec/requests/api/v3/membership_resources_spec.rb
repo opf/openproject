@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -87,6 +87,8 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
 
   describe 'GET api/v3/memberships' do
     let(:members) { [own_member, other_member, invisible_member, global_member] }
+    let(:filters) { nil }
+    let(:path) { api_v3_paths.path_for(:memberships, filters: filters, sort_by: [%i(id asc)]) }
 
     before do
       members
@@ -95,9 +97,6 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
 
       get path
     end
-
-    let(:filters) { nil }
-    let(:path) { api_v3_paths.path_for(:memberships, filters: filters, sort_by: [%i(id asc)]) }
 
     context 'without params' do
       it 'responds 200 OK' do
@@ -239,7 +238,7 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
       end
     end
 
-    context 'filtering by user name' do
+    context 'when filtering by user name' do
       let(:filters) do
         [{ 'any_name_attribute' => {
           'operator' => '~',
@@ -258,7 +257,7 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
       end
     end
 
-    context 'filtering by project' do
+    context 'when filtering by project' do
       let(:members) { [own_member, other_member, invisible_member, own_other_member] }
 
       let(:own_other_member) do
@@ -288,7 +287,7 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
       end
     end
 
-    context 'filtering by principal' do
+    context 'when filtering by principal' do
       let(:group) { create(:group) }
       let(:group_member) do
         create(:member,
@@ -317,6 +316,24 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
         expect(subject.body)
           .to be_json_eql(group_member.id.to_json)
           .at_path('_embedded/elements/1/id')
+      end
+
+      context 'when principal is a group without any memberships' do
+        let(:members) { [own_member, other_member, invisible_member] }
+        let(:filters) do
+          [{ 'principal' => {
+            'operator' => '=',
+            'values' => [group.id.to_s]
+          } }]
+        end
+
+        it 'returns empty members' do
+          expect(subject.status).to eq(200)
+
+          expect(subject.body)
+          .to be_json_eql([])
+          .at_path('_embedded/elements')
+        end
       end
     end
 
@@ -363,6 +380,7 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
 
     context 'without permissions' do
       let(:permissions) { [] }
+
       it 'is empty' do
         expect(subject.body)
           .to be_json_eql('0')
@@ -416,7 +434,7 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
       end
 
       it 'creates the member' do
-        expect(Member.find_by(user_id: principal.id, project: project))
+        expect(Member.find_by(principal: principal, project: project))
           .to be_present
       end
 
@@ -550,6 +568,33 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
           expect(ActionMailer::Base.deliveries)
             .to be_empty
         end
+      end
+
+      context 'when creating global role permission as admin' do
+        let(:current_user) { admin }
+        let(:project) { nil }
+        let(:expected_role) { global_role }
+        let(:body) do
+          {
+            _links: {
+              principal: {
+                href: principal_path
+              },
+              roles: [
+                {
+                  href: api_v3_paths.role(global_role.id)
+                }
+              ]
+            },
+            _meta: {
+              notificationMessage: {
+                raw: custom_message
+              }
+            }
+          }.to_json
+        end
+
+        it_behaves_like 'successful member creation'
       end
     end
 
@@ -738,7 +783,7 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
 
     it 'returns 200 OK' do
       expect(subject.status)
-        .to eql(200)
+        .to be(200)
     end
 
     it 'returns the member' do
@@ -758,7 +803,7 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
 
       it 'returns 404 NOT FOUND' do
         expect(subject.status)
-          .to eql(404)
+          .to be(404)
       end
     end
 
@@ -767,7 +812,7 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
 
       it 'returns 404 NOT FOUND' do
         expect(subject.status)
-          .to eql(404)
+          .to be(404)
       end
     end
   end
@@ -869,13 +914,19 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
     end
 
     context 'with a group' do
+      # first user has no direct roles
+      # second user has direct role `another_role`
+      # both users belong to a group which has `other_role`, so this role is inherited by users
+      # when updating `group` role from `other_role` to `another_role`
+      # expecting to have first user role changed from `other_role` to `another_role`
+      # and second user role extended from `[other_role]` to `[other_role, another_role]` because has direct role
       let(:group) do
         create(:group, member_in_project: project, member_through_role: other_role, members: users)
       end
       let(:principal) { group }
       let(:users) { [create(:user), create(:user)] }
       let(:other_member) do
-        Member.find_by(principal: group).tap do |m|
+        Member.find_by(principal: group).tap do
           # Behaves as if the user had that role before the role's membership was created.
           # Because the user had the role independent of the group, it is not to be removed.
           user_member = Member.find_by(principal: users.first)
@@ -967,6 +1018,45 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
             .to be_empty
         end
       end
+
+      context 'when updating global role permission as admin' do
+        let(:group) do
+          create(:group, global_role: other_role, members: users)
+        end
+        let(:current_user) { admin }
+        let(:project) { nil }
+        let(:other_role) { create(:global_role) }
+        let(:another_role) { create(:global_role) }
+
+        it 'responds with 200' do
+          expect(last_response.status).to eq(200)
+        end
+
+        it 'updates the member and all inherited members but does not update memberships users have already had' do
+          # other member is the group member
+          expect(other_member.reload.roles)
+            .to match_array [another_role]
+
+          expect(other_member.updated_at > other_member_updated_at)
+            .to be_truthy
+
+          last_user_member = Member.find_by(principal: users.last)
+
+          expect(last_user_member.roles)
+            .to match_array [another_role]
+
+          expect(last_user_member.updated_at > last_user_member_updated_at)
+            .to be_truthy
+
+          first_user_member = Member.find_by(principal: users.first)
+
+          expect(first_user_member.roles.uniq)
+            .to match_array [other_role, another_role]
+
+          expect(first_user_member.updated_at)
+            .to eql first_user_member_updated_at
+        end
+      end
     end
 
     context 'if attempting to empty the roles' do
@@ -980,7 +1070,7 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
 
       it 'returns 422' do
         expect(last_response.status)
-          .to eql(422)
+          .to be(422)
 
         expect(last_response.body)
           .to be_json_eql("Roles need to be assigned.".to_json)
@@ -1004,7 +1094,7 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
 
       it 'returns 422' do
         expect(last_response.status)
-          .to eql(422)
+          .to be(422)
 
         expect(last_response.body)
           .to be_json_eql("Roles has an unassignable role.".to_json)

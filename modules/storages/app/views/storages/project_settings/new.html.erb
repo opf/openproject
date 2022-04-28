@@ -1,0 +1,42 @@
+<!-- Standard Ruby view, please see the controller for comments -->
+<% html_title t(:label_administration), t("project_module_storages") %>
+<% local_assigns[:additional_breadcrumb] = t('storages.label_new_storage') %>
+<%= toolbar title: t("storages.page_titles.project_settings.new") %>
+
+<%= labelled_tabular_form_for @project_storage, url: project_settings_projects_storages_path do |f| -%>
+  <%= error_messages_for_contract @project_storage, @errors %>
+
+  <section class="form--section">
+    <% if @available_storages.any? %>
+      <div class="form--field -required">
+        <%= f.select :storage_id,
+            @available_storages.map { |storage| ["#{storage.name} (#{storage.provider_type})", storage.id] },
+                     selected: @available_storages.first.id.to_s,
+                     container_class: '-slim' %>
+        <% if User.current.admin? %>
+          <span class="form--field-instructions">
+            <%= t(:"storages.instructions.setting_up_additional_storages")  %>
+            <%= link_to "#{t(:label_administration)} / #{t(:project_module_storages)}", controller: '/storages/admin/storages', action: :index %>.
+          </span>
+        <% end %>
+      </div>
+      <%= styled_button_tag t(:button_create), class: "-highlight -with-icon icon-checkmark" %>
+    <% else %>
+      <div class="op-toast -info">
+        <div class="op-toast--content">
+          <p>
+            <strong><%= t(:'storages.instructions.all_available_storages_already_added') %></strong>
+          </p>
+          <p>
+            <% if User.current.admin? %>
+              <%= t(:"storages.instructions.setting_up_additional_storages") %>
+              <%= link_to "#{t(:label_administration)} / #{t(:project_module_storages)}", controller: '/storages/admin/storages', action: :index %>.
+            <% else %>
+              <%= t(:"storages.instructions.setting_up_additional_storages_non_admin") %>
+            <% end %>
+          </p>
+        </div>
+      </div>
+    <% end %>
+  </section>
+<% end %>
