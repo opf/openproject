@@ -31,36 +31,6 @@ describe "Notification center navigation", type: :feature, js: true do
 
   current_user { recipient }
 
-  describe 'the back button brings me back to where I came from' do
-    let(:navigation_helper) { ::Notifications::NavigationHelper.new(center, notification, work_package) }
-
-    it 'when coming from a rails based page' do
-      visit home_path
-
-      navigation_helper.open_and_close_the_center
-      expect(page).to have_current_path home_path
-
-      navigation_helper.open_center_and_navigate_within
-      expect(page).to have_current_path home_path
-
-      navigation_helper.open_center_and_navigate_out
-      expect(page).to have_current_path home_path
-    end
-
-    it 'when coming from an angular page' do
-      visit project_work_package_path(project, work_package, state: 'activity')
-
-      navigation_helper.open_and_close_the_center
-      expect(page).to have_current_path project_work_package_path(project, work_package, state: 'activity')
-
-      navigation_helper.open_center_and_navigate_within
-      expect(page).to have_current_path project_work_package_path(project, work_package, state: 'activity')
-
-      navigation_helper.open_center_and_navigate_out
-      expect(page).to have_current_path project_work_package_path(project, work_package, state: 'activity')
-    end
-  end
-
   describe 'the path updates accordingly' do
     it 'when navigating between the tabs' do
       visit home_path
