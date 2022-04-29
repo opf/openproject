@@ -97,22 +97,30 @@ describe Settings::Definition do
       it 'allows overriding configuration from ENV without OPENPROJECT_ prefix' do
         stub_const('ENV',
                    {
-                     'EDITION' => 'bim',
-                     'DEFAULT_LANGUAGE' => 'de'
+                     'EDITION' => 'bim'
                    })
 
         expect(value_for('edition')).to eql 'bim'
-        expect(value_for('default_language')).to eql 'de'
+      end
+
+      it 'does not allows overriding configuration from ENV without OPENPROJECT_ prefix if setting is writable' do
+        stub_const('ENV',
+                   {
+                     'DEFAULT_LANGUAGE' => 'de'
+                   })
+
+        expect(value_for('default_language')).not_to eql 'de'
+        expect(value_for('default_language')).to eql 'en'
       end
 
       it 'logs a deprecation warning when overriding configuration from ENV without OPENPROJECT_ prefix' do
         allow(Rails.logger).to receive(:warn)
-        stub_const('ENV', { 'DEFAULT_LANGUAGE' => 'de' })
+        stub_const('ENV', { 'EDITION' => 'bim' })
 
-        expect(value_for('default_language')).to eql 'de'
+        expect(value_for('edition')).to eql 'bim'
         expect(Rails.logger)
           .to have_received(:warn)
-              .with(a_string_including("use OPENPROJECT_DEFAULT_LANGUAGE instead of DEFAULT_LANGUAGE"))
+              .with(a_string_including("use OPENPROJECT_EDITION instead of EDITION"))
       end
 
       it 'overriding boolean configuration from ENV will cast the value' do
