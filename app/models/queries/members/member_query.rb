@@ -32,8 +32,17 @@ class Queries::Members::MemberQuery < Queries::BaseQuery
   end
 
   def results
-    super
-      .includes(:roles, { principal: :preference }, :member_roles)
+    base_query = super
+
+    # Add a "select distinct * from (...) members" around the Members base_query,
+    # because users may appear multiple times if member of multiple groups (bug #38672).
+    # Then also load roles and preference for speed-up.
+    # This query is used in the /projects/<id>/member page and the also in the
+    # membership_api, but there only to find the me
+    self.class.model
+        .from(base_query, :members)   # Add "select * from (...) members" around base_query
+        .distinct
+        .includes(:roles, { principal: :preference }, :member_roles)
   end
 
   def default_scope
