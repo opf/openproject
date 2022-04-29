@@ -17,6 +17,13 @@ te-calendar
     table.fc-scrollgrid.fc-scrollgrid-liquid
       border-left: none
 
+    // FullCalendar renders a different DOM in FF than in the other browsers (wtf?  ¯\_(ツ)_/¯)
+    // see: https://github.com/fullcalendar/fullcalendar/issues/6822
+    // That is why we need a special rule here
+    .-browser-firefox &
+      .fc-col-header-cell-cushion
+        padding: 2px 4px !important
+
     .fc-event, .fc-bgevent
       border-radius: 0
       margin-right: 8px
@@ -85,7 +92,11 @@ te-calendar
         .te-calendar--add-icon
           display: none
 
+      .fc-event-title-container
+        margin: 0 !important
+
     .te-calendar--time-entry
+      color: white
       .fc-content
         height: 100%
 
@@ -99,17 +110,11 @@ te-calendar
         .fc-fadeout
           display: none
 
-    .te-calendar--add-entry,
-    .te-calendar--time-entry
       .fc-event-title-container
-        margin: 0 !important
+        margin: 4px !important
         line-height: 14px !important
 
     .fc-duration
-      border-right: 1px solid white
-      border-bottom: 1px solid white
-      margin-left: -1px
-      padding-left: 1px
       display: inline-block
       margin-right: 5px
       padding-right: 5px
