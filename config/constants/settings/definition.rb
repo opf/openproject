@@ -84,6 +84,14 @@ module Settings
       end
     end
 
+    def unprefixed_env_var_name_allowed?
+      # Configuration values could be overridden with unprefixed env var
+      # names before being harmonized (PR#10296). Using unprefixed en var
+      # is deprecated and will be removed in 13.0.
+      # Configuration are recognized by not being writable.
+      !writable
+    end
+
     def override_value(other_value)
       if format == :hash
         self.value = {} if value.nil?
@@ -333,7 +341,7 @@ module Settings
       end
 
       def env_name_unprefixed(definition)
-        definition.name.upcase
+        definition.name.upcase if definition.unprefixed_env_var_name_allowed?
       end
 
       def env_name_alias(definition)
