@@ -29,26 +29,41 @@
 require 'spec_helper'
 
 describe Project, 'reordering of nested set', type: :model do
-  shared_let(:parent_project) { create :project, name: 'Parent' }
+  # Create some parents in non-alphabetical order
+  shared_let(:parent_project_b) { create(:project, name: 'ParentB') }
+  shared_let(:parent_project_a) { create(:project, name: 'ParentA') }
 
   # Create some children in non-alphabetical order
-  shared_let(:child_a) { create :project, name: 'A', parent: parent_project }
-  shared_let(:child_f) { create :project, name: 'F', parent: parent_project }
-  shared_let(:child_b) { create :project, name: 'B', parent: parent_project }
+  # including lower case to test case insensitivity
+  shared_let(:child_e) { create :project, name: 'e', parent: parent_project_a }
+  shared_let(:child_c) { create :project, name: 'C', parent: parent_project_a }
+  shared_let(:child_f) { create :project, name: 'F', parent: parent_project_a }
+  shared_let(:child_d) { create :project, name: 'D', parent: parent_project_b }
+  shared_let(:child_b) { create :project, name: 'B', parent: parent_project_b }
 
-  subject { parent_project.children.reorder(:lft) }
+  subject { described_class.all.reorder(:lft) }
 
   it 'has the correct sort' do
-    expect(subject.reload.pluck(:name)).to eq %w[A B F]
+    expect(subject.reload.pluck(:name)).to eq %w[ParentA C e F ParentB B D]
   end
 
   context 'when renaming a child' do
     before do
-      child_a.update! name: 'Z'
+      child_b.update! name: 'Z'
     end
 
     it 'updates that order' do
-      expect(subject.reload.pluck(:name)).to eq %w[B F Z]
+      expect(subject.reload.pluck(:name)).to eq %w[ParentA C e F ParentB D Z]
+    end
+  end
+
+  context 'when adding a new first child to the parent (Regression #40930)' do
+    it 'still resorts them' do
+      expect(subject.reload.pluck(:name)).to eq %w[ParentA C e F ParentB B D]
+
+      described_class.create!(parent: parent_project_a, name: 'A')
+
+      expect(subject.reload.pluck(:name)).to eq %w[ParentA A C e F ParentB B D]
     end
   end
 end

@@ -134,7 +134,7 @@ jQuery(function ($) {
   function sendForm() {
     $('#ajax-indicator').show();
     let filters = parseFilters();
-    let orderParam = getUrlParameter('sort');
+    let orderParam = getUrlParameter('sortBy');
 
 
     let query = '?filters=' + encodeURIComponent(JSON.stringify(filters));

@@ -149,7 +149,7 @@ describe Queries::Projects::ProjectQuery, type: :model do
     describe '#results' do
       it 'returns all visible projects ordered by lft asc' do
         expect(instance.results.to_sql)
-          .to eql base_scope.except(:order).order(lft: :asc, name: :asc, id: :desc).to_sql
+          .to eql base_scope.except(:order).order(lft: :asc, id: :desc).to_sql
       end
     end
   end
