@@ -70,7 +70,7 @@ en:
     label_file_links: "File links"
     label_name: "Name"
     label_host: "Host"
-    label_oauth: "OAuth"
+    label_oauth_client_details: "OAuth client details"
     label_provider_type: "Provider type"
     label_new_storage: "New storage"
     label_storage: "Storage"

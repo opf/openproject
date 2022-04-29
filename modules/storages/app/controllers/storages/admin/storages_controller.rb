@@ -43,6 +43,8 @@ class Storages::Admin::StoragesController < ApplicationController
   before_action :require_admin
   before_action :find_model_object, only: %i[show destroy edit update]
 
+  before_action :set_shortened_secret, only: %i[show edit update]
+
   # menu_item is defined in the Redmine::MenuManager::MenuController
   # module, included from ApplicationController.
   # The menu item is defined in the engine.rb
@@ -56,9 +58,7 @@ class Storages::Admin::StoragesController < ApplicationController
 
   # Show page with details of one Storage object.
   # Called by: Global app/config/routes.rb to serve Web page
-  def show
-    @short_secret = shortened_secret(@object.oauth_client_secret)
-  end
+  def show; end
 
   # Show the admin page to create a new Storage object.
   # Sets the attributes provider_type and name as default values and then
@@ -95,16 +95,14 @@ class Storages::Admin::StoragesController < ApplicationController
       redirect_to admin_settings_storage_path(@object)
     else
       @errors = service_result.errors
-      render :new
+      render :new_oauth_client
     end
   end
 
   # Edit page is very similar to new page, except that we don't need to set
   # default attribute values because the object already exists
   # Called by: Global app/config/routes.rb to serve Web page
-  def edit
-    @short_secret = shortened_secret(@object.oauth_client_secret)
-  end
+  def edit; end
 
   # Update is similar to create above
   # See also: create above
@@ -179,5 +177,9 @@ class Storages::Admin::StoragesController < ApplicationController
     params
       .require(:storages_storage)
       .permit('name', 'provider_type', 'host', 'oauth_client_id', 'oauth_client_secret')
+  end
+
+  def set_shortened_secret
+    @short_secret = shortened_secret(@object.oauth_client_secret)
   end
 end

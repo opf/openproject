@@ -14,3 +14,9 @@
   <%= styled_button_tag t(:button_save), class: "-highlight -with-icon icon-checkmark" %>
 <% end %>
 
+<section class="form--section">
+  <fieldset class="form--fieldset">
+    <legend class="form--fieldset-legend"><%= t(:'storages.label_oauth_client_details') %></legend>
+    <%= link_to "new", new_admin_settings_storage_oauth_client_path(@object) %>
+  </fieldset>
+</section>
