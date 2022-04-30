@@ -457,15 +457,15 @@ ru:
         work_packages: "Задачи"
         templated: 'Проект шаблона'
       projects/status:
-        code: 'Состояние'
+        code: 'Статус'
         explanation: 'Описание статуса'
         codes:
           not_started: 'Не запущен'
           on_track: 'В работе'
-          at_risk: 'Есть риск'
+          at_risk: 'Под угрозой'
           off_track: 'Приостановлен'
-          finished: 'Завершено'
-          discontinued: 'Прекращено'
+          finished: 'Завершен'
+          discontinued: 'Работы прекращены'
       query:
         column_names: "Столбцы"
         relations_to_type_column: "Отношения к %{type}"
@@ -754,7 +754,7 @@ ru:
               does_not_exist: "Указанная категория не существует."
             estimated_hours:
               only_values_greater_or_equal_zeroes_allowed: "должно быть > = 0."
-          readonly_status: 'Пакет работ находится в состоянии только для чтения, поэтому его атрибуты не могут быть изменены.'
+          readonly_status: 'Пакет работ находится в статусе доступном только для чтения, поэтому его атрибуты не могут быть изменены.'
         type:
           attributes:
             attribute_groups:
@@ -785,7 +785,7 @@ ru:
                 confirm: "Подтвердите новый пароль."
                 description: "«Подтвержденный пароль» должен совпадать с введенным «новым паролем»."
             status:
-              invalid_on_create: "для нового пользователя это неподходящий статус."
+              invalid_on_create: "не является допустимым статусом для новых пользователей."
             auth_source:
               error_not_found: "не найдено"
         member:
@@ -1842,7 +1842,7 @@ ru:
   label_start_to_end: "от начала до конца"
   label_start_to_start: "Пуск, чтобы начать"
   label_statistics: "Статистика"
-  label_status: "Состояние"
+  label_status: "Статус"
   label_stay_logged_in: "Запомнить"
   label_storage_free_space: "Свободное дисковое пространство"
   label_storage_used_space: "Используемое дисковое пространство"
@@ -1933,7 +1933,7 @@ ru:
   label_work_package_new: "Новый пакет работ"
   label_work_package_edit: "Редактирование пакета работ %{name}"
   label_work_package_plural: "Комплекс работ"
-  label_work_package_status: "Состояние группы работ"
+  label_work_package_status: "Статус пакета работ"
   label_work_package_status_new: "Новый статус"
   label_work_package_status_plural: "Статусы пакета работ"
   label_work_package_types: "Типы рабочих пакетов"
@@ -2724,7 +2724,7 @@ ru:
         type: "Тип"
         due_date: "Дате окончания"
         name: "Имя"
-        status: "Состояние"
+        status: "Статус"
         start_date: "Дата начала"
       columns: "Столбцы"
       comparisons: "Сравнения"
