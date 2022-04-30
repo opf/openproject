@@ -26,14 +26,14 @@ ru:
         author: "Автор"
         available: "Доступно"
         budget: "Запланированно"
-        budget_ratio: "Отработано (коэффициент)"
+        budget_ratio: "Потрачено (соотношение)"
         description: "Описание"
         spent: "Потрачено"
-        status: "Состояние"
+        status: "Статус"
         subject: "Тема"
         type: "Тип затрат"
         labor_budget: "Запланированные трудозатраты"
-        material_budget: "Запланированные затраты по количеству"
+        material_budget: "Запланированные расходы"
       work_package:
         budget_subject: "Название бюджета"
     models:
