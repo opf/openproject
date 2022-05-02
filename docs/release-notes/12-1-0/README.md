@@ -11,10 +11,60 @@ release_date: 2022-05-03
 Release date: 2022-05-03
 
 We released [OpenProject 12.1.0](https://community.openproject.com/versions/1493).
-The release contains several bug fixes and we recommend updating to the newest version.
+This release will introduce a new module, the team planner. With this Enterprise feature, you can visually assign work packages in a weekly or bi-weekly planning calendar view to your team, and keep an eye on everybody’s workload.
 
-<!--more-->
-#### Bug fixes and changes
+Also, we are proud to give the basic agile boards to the Community version of OpenProject with 12.1. Now, making it possible to create agile boards also in the free Community version.
+
+As always, the release contains many more improvements and bug fixes and we recommend updating to the newest version promptly.
+
+## Team planner (premium feature)
+
+A new team planner module (Enterprise feature) allows you to visually assign tasks to team members to get an overview of who is working on what. You can display in a weekly or bi-weekly view all work packages assigend to your team.
+
+![openproject-team-planner-view](openproject-team-planner-view.gif)
+
+Add assignees to your team planner and visualize the workload. You can search for existing work packages to include with drag and drop, or create new work packages. Changing the row will change the assignee of a work package. Change the start date, end date or duration with drag and drop.
+
+![openproject-team-planner-add-new](openproject-team-planner-add-new.gif)
+
+Also, you can include work packages from multiple projects with the new “Include projects” filter option.
+
+![openproject-team-planner-include-projects](openproject-team-planner-include-projects.gif)
+
+## Agile boards for the Community version
+
+We want to give an important feature to the Community version. Now, that we have implemented with the team planner a new Enterprpise feature, we also want to give something to the Community. We decided to release the basic agile boards for the Community. Making it possible to also create agile boards with the free of charge Community version of OpenProject.
+
+These flexible basic agile boards allow you to set up any kind of agile board you need. Freely configure the lists (columns) which should be displayed and add and move cards between these lists. The basic boards do not update the work package attributes when moving cards between the lists.
+
+![openproject-basic-boards-example](openproject-basic-boards-example.png)
+
+The more advanced action boards, which automatically update work package attributes, will remain part of the Enterprise edition.
+
+## Include projects filter
+
+The “Include Projects” filter option makes it easier to add different projects to your views and create project overarching reports. This easy filter option is valid for work packages, calendars, and the new team planners.
+
+![openproject-include-projects](openproject-include-projects.gif)
+
+
+
+## Files tab for work packages
+
+We added a new “Files” tab in the work package details. This way, you will have all possible information attached to a work package together in one place.
+
+![openproject-files-tab](openproject-files-tab.png)
+
+
+
+## Further improvements, changes, and bug fixes
+
+- We created global roles for groups to assign these roles to groups and create superuser groups.
+- The project status was given more options to choose from. You can now choose also NOT STARTED, FINISHED, DISCONTINUED to set as a project status.
+- An index page was added also for the team planner and calendar module.
+- API to CRUD links between files (i.e. for Nextcloud) and work packages in OpenProject.
+
+#### List of all bug fixes and changes
 
 - Epic: Introduce module specific queries (e.g. for calendar, team planner and BCF module) \[[#30583](https://community.openproject.com/wp/30583)\]
 - Epic: Team planner \[[#39784](https://community.openproject.com/wp/39784)\]
@@ -169,6 +219,8 @@ The release contains several bug fixes and we recommend updating to the newest v
 #### Contributions
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
-Special thanks for reporting and finding bugs go to
-
-Rainer Proehl, kak tux, Sven Kunze, Çağlar Yeşilyurt, Valentin Ege, Michael Kluge, Christina Vechkanova, Marius Heidenreich, Gerrit Bonn, Benjamin Tey, Daniel Wilke, Avgerinos Fotopoulos, Thilo Sautter, Andreas Sturm
+- Special thanks for Autoliv for sponsoring the development of the new team planner.
+- Special thanks for City of Cologne for sponsoring the development of the new global roles for groups.
+- Special thanks for reporting and finding bugs go Rainer Proehl, kak tux, Sven Kunze, Çağlar Yeşilyurt, Valentin Ege, Michael Kluge, Christina Vechkanova, Marius Heidenreich, Gerrit Bonn, Benjamin Tey, Daniel Wilke, Avgerinos Fotopoulos, Thilo Sautter, Andreas Sturm.
+- Every other dedicated user who has [reported bugs](../development/report-a-bug/) and supported the community by asking and answering questions in the [forum](https://community.openproject.org/projects/openproject/boards).
+- All the dedicated users who provided translations on [CrowdIn](https://crowdin.com/projects/opf).
