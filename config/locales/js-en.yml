@@ -319,7 +319,7 @@ en:
           # Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
           '12_1':
             standard:
-              learn_about_link: https://www.openproject.org/openproject-12-1-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-1-release
               new_features_html: >
                 The release contains various new features and improvements: <br>
                 <ul class="%{list_styling_class}">
@@ -331,7 +331,7 @@ en:
                   <li>Project status was given more options to choose from.</li>
                 </ul>
             bim:
-              learn_about_link: https://www.openproject.org/openproject-12-1-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-1-release
               new_features_html: >
                 The release contains various new features and improvements: <br>
                 <ul class="%{list_styling_class}">
