@@ -29,10 +29,12 @@
 import {
   ChangeDetectionStrategy, Component, Input, OnInit,
 } from '@angular/core';
-import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { IFileLink } from 'core-app/core/state/file-links/file-link.model';
+import { FileLinkResourceService } from 'core-app/core/state/file-links/file-links.service';
+import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'op-file-link-list',
@@ -40,29 +42,32 @@ import { IFileLink } from 'core-app/core/state/file-links/file-link.model';
   styleUrls: ['./file-link-list.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit {
+export class FileLinkListComponent implements OnInit {
   @Input() public resource:HalResource;
 
   $fileLinks:Observable<IFileLink[]>;
 
+  constructor(private readonly fileLinkResourceService:FileLinkResourceService) {}
+
   ngOnInit():void {
-    this.$fileLinks = of([
-      {
-        id: 1,
-        originData: {
-          name: 'awesome.png',
-          lastModifiedAt: '2022-04-01T12:00Z',
-          lastModifiedByName: 'Anakin Skywalker',
-        },
-      },
-      {
-        id: 2,
-        originData: {
-          name: 'logo.png',
-          lastModifiedAt: '2022-04-01T12:00Z',
-          lastModifiedByName: 'Leia Organa',
-        },
-      },
-    ]);
+    this.fileLinkResourceService.fetchCurrent(this.fileLinkSelfLink);
+
+    this.$fileLinks = this.fileLinkResourceService.all(this.collectionKey)
+      .pipe(
+        tap((fileLinks) => {
+          if (isNewResource(this.resource)) {
+            this.resource.fileLinks = { elements: fileLinks.map((a) => a._links?.self) };
+          }
+        }),
+      );
+  }
+
+  private get fileLinkSelfLink():string {
+    const fileLinks = this.resource.fileLinks as unknown&{ href:string };
+    return fileLinks.href;
+  }
+
+  private get collectionKey():string {
+    return isNewResource(this.resource) ? 'new' : this.fileLinkSelfLink;
   }
 }
