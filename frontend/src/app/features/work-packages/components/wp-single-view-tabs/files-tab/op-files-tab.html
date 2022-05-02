@@ -1,12 +1,24 @@
 <div class="work-packages--attachments-container">
-  <!-- The condition below will get replaced when implementing #41905. -->
-  <div *ngIf="false" class="attributes-group--header">
-    <div class="attributes-group--header-container">
-      <h3 class="attributes-group--header-text" [textContent]="text.attachments.label"></h3>
+  <div>
+    <!-- The condition below will get replaced when implementing #41905. -->
+    <div *ngIf="true" class="attributes-group--header">
+      <div class="attributes-group--header-container">
+        <h3 class="attributes-group--header-text" [textContent]="text.attachments.label"></h3>
+      </div>
     </div>
+
+    <op-attachment-list [resource]="workPackage"></op-attachment-list>
+
+    <op-attachments-upload [resource]="workPackage"></op-attachments-upload>
   </div>
 
-  <op-attachment-list [resource]="workPackage"></op-attachment-list>
+  <div *ngIf="true">
+    <div class="attributes-group--header">
+      <div class="attributes-group--header-container">
+        <h3 class="attributes-group--header-text" [textContent]="text.file_links.label"></h3>
+      </div>
+    </div>
 
-  <op-attachments-upload [resource]="workPackage"></op-attachments-upload>
+    <op-file-link-list [resource]="workPackage"></op-file-link-list>
+  </div>
 </div>

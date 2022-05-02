@@ -1,0 +1,9 @@
+<div class="work-package--attachments--files" *ngIf="resource">
+  <ul class="form--selected-value--list"
+      *ngFor="let fileLink of $fileLinks | async; let i = index;">
+    <op-file-link-list-item [fileLink]="fileLink"
+                            [resource]="resource"
+                            [index]="i">
+    </op-file-link-list-item>
+  </ul>
+</div>

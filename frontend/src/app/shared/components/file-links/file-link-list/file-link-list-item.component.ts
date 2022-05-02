@@ -26,30 +26,21 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { HookService } from 'core-app/features/plugins/hook-service';
+import {
+  ChangeDetectionStrategy, Component, Input,
+} from '@angular/core';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { IFileLink } from 'core-app/core/state/file-links/file-link.model';
 
 @Component({
-  templateUrl: './op-files-tab.html',
+  selector: 'op-file-link-list-item',
+  templateUrl: './file-link-list-item.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'op-files-tab',
 })
-export class WorkPackageFilesTabComponent {
-  public workPackage:WorkPackageResource;
+export class FileLinkListItemComponent {
+  @Input() public resource:HalResource;
 
-  public text = {
-    attachments: {
-      label: this.I18n.t('js.label_attachments'),
-    },
-    file_links: {
-      label: this.I18n.t('js.label_file_links'),
-    },
-  };
+  @Input() public fileLink:IFileLink;
 
-  constructor(
-    readonly I18n:I18nService,
-    protected hook:HookService,
-  ) { }
+  @Input() public index:number;
 }

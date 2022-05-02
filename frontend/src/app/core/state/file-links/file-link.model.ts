@@ -26,30 +26,37 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { HookService } from 'core-app/features/plugins/hook-service';
+import { ID } from '@datorama/akita';
+import {
+  IHalResourceLink,
+  IHalResourceLinks,
+} from 'core-app/core/state/hal-resource';
 
-@Component({
-  templateUrl: './op-files-tab.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'op-files-tab',
-})
-export class WorkPackageFilesTabComponent {
-  public workPackage:WorkPackageResource;
+export interface IFileLinkHalResourceLinks extends IHalResourceLinks {
+  self:IHalResourceLink;
+  storage?:IHalResourceLink;
+  container:IHalResourceLink;
+  creator:IHalResourceLink;
+  delete?:IHalResourceLink;
+  originOpen:IHalResourceLink;
+  staticOriginOpen:IHalResourceLink;
+  originOpenLocation:IHalResourceLink;
+  staticOriginOpenLocation:IHalResourceLink;
+}
 
-  public text = {
-    attachments: {
-      label: this.I18n.t('js.label_attachments'),
-    },
-    file_links: {
-      label: this.I18n.t('js.label_file_links'),
-    },
-  };
+interface IFileLinkOriginData {
+  name:string;
+  mimeType?:string;
+  size?:number;
+  createdAt?:string;
+  lastModifiedAt?:string;
+  createdByName?:string;
+  lastModifiedByName?:string;
+}
 
-  constructor(
-    readonly I18n:I18nService,
-    protected hook:HookService,
-  ) { }
+export interface IFileLink {
+  id:ID;
+  originData:IFileLinkOriginData;
+
+  _links?:IFileLinkHalResourceLinks;
 }

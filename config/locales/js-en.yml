@@ -505,6 +505,7 @@ en:
     label_custom_queries: "Private views"
     label_columns: "Columns"
     label_attachments: Attachments
+    label_file_links: File Links
     label_drop_files: Drop files here
     label_drop_files_hint: or click to add files
     label_drop_folders_hint: You cannot upload folders as an attachment. Please select single files.

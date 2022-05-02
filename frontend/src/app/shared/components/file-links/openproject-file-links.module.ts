@@ -26,30 +26,26 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { HookService } from 'core-app/features/plugins/hook-service';
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { IconModule } from 'core-app/shared/components/icon/icon.module';
 
-@Component({
-  templateUrl: './op-files-tab.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'op-files-tab',
+import { FileLinkListComponent } from 'core-app/shared/components/file-links/file-link-list/file-link-list.component';
+import { FileLinkListItemComponent } from 'core-app/shared/components/file-links/file-link-list/file-link-list-item.component';
+
+@NgModule({
+  imports: [
+    CommonModule,
+    IconModule,
+  ],
+  declarations: [
+    FileLinkListComponent,
+    FileLinkListItemComponent,
+  ],
+  exports: [
+    FileLinkListComponent,
+    FileLinkListItemComponent,
+  ],
 })
-export class WorkPackageFilesTabComponent {
-  public workPackage:WorkPackageResource;
-
-  public text = {
-    attachments: {
-      label: this.I18n.t('js.label_attachments'),
-    },
-    file_links: {
-      label: this.I18n.t('js.label_file_links'),
-    },
-  };
-
-  constructor(
-    readonly I18n:I18nService,
-    protected hook:HookService,
-  ) { }
+export class OpenprojectFileLinksModule {
 }
