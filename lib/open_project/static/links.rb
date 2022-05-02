@@ -97,7 +97,7 @@ module OpenProject
               label: 'admin.enterprise.get_quote'
             },
             user_guides: {
-              href: 'https://docs.openproject.org/user-guide/',
+              href: 'https://www.openproject.org/docs/user-guide/',
               label: 'homescreen.links.user_guides'
             },
             upgrade_guides: {
@@ -109,7 +109,7 @@ module OpenProject
               label: :'homescreen.links.postgres_migration'
             },
             postgres_13_upgrade: {
-              href: 'https://docs.openproject.org/installation-and-operations/misc/migration-to-postgresql13/'
+              href: 'https://www.openproject.org/docs/installation-and-operations/misc/migration-to-postgresql13/'
             },
             configuration_guide: {
               href: 'https://www.openproject.org/docs/installation-and-operations/configuration/',
@@ -124,7 +124,7 @@ module OpenProject
               label: 'homescreen.links.glossary'
             },
             shortcuts: {
-              href: 'https://docs.openproject.org/user-guide/keyboard-shortcuts-access-keys/',
+              href: 'https://www.openproject.org/docs/user-guide/keyboard-shortcuts-access-keys/',
               label: 'homescreen.links.shortcuts'
             },
             forums: {
@@ -148,7 +148,7 @@ module OpenProject
               label: 'homescreen.links.blog'
             },
             release_notes: {
-              href: 'https://docs.openproject.org/release-notes/',
+              href: 'https://www.openproject.org/docs/release-notes/',
               label: :label_release_notes
             },
             data_privacy: {
@@ -156,7 +156,7 @@ module OpenProject
               label: :label_privacy_policy
             },
             report_bug: {
-              href: 'https://docs.openproject.org/development/report-a-bug/',
+              href: 'https://www.openproject.org/docs/development/report-a-bug/',
               label: :label_report_bug
             },
             roadmap: {
@@ -168,11 +168,11 @@ module OpenProject
               label: :label_add_edit_translations
             },
             api_docs: {
-              href: 'https://docs.openproject.org/api',
+              href: 'https://www.openproject.org/docs/api/',
               label: :label_api_documentation
             },
             text_formatting: {
-              href: 'https://docs.openproject.org/user-guide/wiki/',
+              href: 'https://www.openproject.org/docs/user-guide/wysiwyg/',
               label: :setting_text_formatting
             },
             oauth_authorization_code_flow: {
@@ -190,10 +190,10 @@ module OpenProject
               href: 'https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Origin'
             },
             security_badge_documentation: {
-              href: 'https://docs.openproject.org/system-admin-guide/information/#security-badge'
+              href: 'https://www.openproject.org/docs/system-admin-guide/information/#security-badge'
             },
             display_settings_documentation: {
-              href: 'https://docs.openproject.org/system-admin-guide/system-settings/display-settings/'
+              href: 'https://www.openproject.org/docs/system-admin-guide/system-settings/display-settings/'
             },
             chargebee: {
               href: 'https://js.chargebee.com/v2/chargebee.js'
