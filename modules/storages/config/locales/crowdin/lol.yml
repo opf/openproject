@@ -1,65 +1,65 @@
 #English strings go here
 lol:
-  permission_view_file_links: "crwdns807898:0crwdne807898:0"
-  permission_manage_file_links: "crwdns807900:0crwdne807900:0"
-  permission_manage_storages_in_project: "crwdns807902:0crwdne807902:0"
-  project_module_storages: "crwdns807904:0crwdne807904:0"
+  permission_view_file_links: "crwdns810680:0crwdne810680:0"
+  permission_manage_file_links: "crwdns810682:0crwdne810682:0"
+  permission_manage_storages_in_project: "crwdns810684:0crwdne810684:0"
+  project_module_storages: "crwdns810686:0crwdne810686:0"
   activerecord:
     models:
-      storages/storage: "crwdns807906:0crwdne807906:0"
+      storages/storage: "crwdns810688:0crwdne810688:0"
     attributes:
       storages/storage:
-        name: "crwdns807908:0crwdne807908:0"
-        creator: "crwdns807910:0crwdne807910:0"
-        provider_type: "crwdns807912:0crwdne807912:0"
+        name: "crwdns810690:0crwdne810690:0"
+        creator: "crwdns810692:0crwdne810692:0"
+        provider_type: "crwdns810694:0crwdne810694:0"
       storages/file_link:
-        origin_id: "crwdns807914:0crwdne807914:0"
+        origin_id: "crwdns810696:0crwdne810696:0"
     errors:
       messages:
-        not_linked_to_project: "crwdns807916:0crwdne807916:0"
+        not_linked_to_project: "crwdns810698:0crwdne810698:0"
       models:
         storages/storage:
           attributes:
             host:
-              cannot_be_connected_to: "crwdns807918:0crwdne807918:0"
-              minimal_nextcloud_version_unmet: "crwdns807920:0crwdne807920:0"
-              not_nextcloud_server: "crwdns807922:0crwdne807922:0"
+              cannot_be_connected_to: "crwdns810700:0crwdne810700:0"
+              minimal_nextcloud_version_unmet: "crwdns810702:0crwdne810702:0"
+              not_nextcloud_server: "crwdns810704:0crwdne810704:0"
         storages/file_link:
           attributes:
             origin_id:
-              only_numeric_or_uuid: "crwdns807924:0crwdne807924:0"
+              only_numeric_or_uuid: "crwdns810706:0crwdne810706:0"
   api_v3:
     errors:
-      too_many_elements_created_at_once: "crwdns807926:0%{max}crwdnd807926:0%{actual}crwdne807926:0"
+      too_many_elements_created_at_once: "crwdns810708:0%{max}crwdnd810708:0%{actual}crwdne810708:0"
   storages:
     page_titles:
       project_settings:
-        index: "crwdns807928:0crwdne807928:0"
-        new: "crwdns807930:0crwdne807930:0"
+        index: "crwdns810710:0crwdne810710:0"
+        new: "crwdns810712:0crwdne810712:0"
     instructions:
-      name: "crwdns807932:0crwdne807932:0"
-      host: "crwdns807934:0crwdne807934:0"
-      no_storage_set_up: "crwdns807936:0crwdne807936:0"
-      setting_up_additional_storages: "crwdns807938:0crwdne807938:0"
-      setting_up_additional_storages_non_admin: "crwdns807940:0crwdne807940:0"
-      setting_up_storages: "crwdns807942:0crwdne807942:0"
-      setting_up_storages_non_admin: "crwdns807944:0crwdne807944:0"
-      all_available_storages_already_added: "crwdns807946:0crwdne807946:0"
+      name: "crwdns810714:0crwdne810714:0"
+      host: "crwdns810716:0crwdne810716:0"
+      no_storage_set_up: "crwdns810718:0crwdne810718:0"
+      setting_up_additional_storages: "crwdns810720:0crwdne810720:0"
+      setting_up_additional_storages_non_admin: "crwdns810722:0crwdne810722:0"
+      setting_up_storages: "crwdns810724:0crwdne810724:0"
+      setting_up_storages_non_admin: "crwdns810726:0crwdne810726:0"
+      all_available_storages_already_added: "crwdns810728:0crwdne810728:0"
     delete_warning:
       storage: >
-        crwdns807948:0crwdne807948:0
+        crwdns810730:0crwdne810730:0
       project_storage: >
-        crwdns807950:0crwdne807950:0
-    label_creator: "crwdns807952:0crwdne807952:0"
-    label_file_link: "crwdns807954:0crwdne807954:0"
-    label_file_links: "crwdns807956:0crwdne807956:0"
-    label_name: "crwdns807958:0crwdne807958:0"
-    label_host: "crwdns807960:0crwdne807960:0"
-    label_provider_type: "crwdns807962:0crwdne807962:0"
-    label_new_storage: "crwdns807964:0crwdne807964:0"
-    label_storage: "crwdns807966:0crwdne807966:0"
-    label_storages: "crwdns807968:0crwdne807968:0"
-    no_results: "crwdns807970:0crwdne807970:0"
+        crwdns810732:0crwdne810732:0
+    label_creator: "crwdns810734:0crwdne810734:0"
+    label_file_link: "crwdns810736:0crwdne810736:0"
+    label_file_links: "crwdns810738:0crwdne810738:0"
+    label_name: "crwdns810740:0crwdne810740:0"
+    label_host: "crwdns810742:0crwdne810742:0"
+    label_provider_type: "crwdns810744:0crwdne810744:0"
+    label_new_storage: "crwdns810746:0crwdne810746:0"
+    label_storage: "crwdns810748:0crwdne810748:0"
+    label_storages: "crwdns810750:0crwdne810750:0"
+    no_results: "crwdns810752:0crwdne810752:0"
     provider_types:
-      label: "crwdns807972:0crwdne807972:0"
-      nextcloud: "crwdns807974:0crwdne807974:0"
+      label: "crwdns810754:0crwdne810754:0"
+      nextcloud: "crwdns810756:0crwdne810756:0"

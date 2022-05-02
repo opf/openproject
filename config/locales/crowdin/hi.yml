@@ -320,7 +320,7 @@ hi:
       no_results_title_text: There are currently no workflows.
   work_packages:
     x_descendants:
-      one: 'एक वंशज काम पैकेज'
+      one: 'One descendant work package'
       other: '%{count} work package descendants'
     bulk:
       could_not_be_saved: "The following work packages could not be saved:"
@@ -774,7 +774,7 @@ hi:
               numeric: "सांख्यिक (उदा. ' 1 ')"
               special: "विशेष अक्षर (उदा. '% ')"
               reused:
-                one: "पहले इस्तेमाल किया गया है । कृपया एक है कि अपने पिछले एक से अलग है चुनें ।"
+                one: "has been used before. Please choose one that is different from your last one."
                 other: "has been used before. Please choose one that is different from your last %{count}."
               match:
                 confirm: "नए पासवर्ड की पुष्टि करें"
@@ -1078,42 +1078,42 @@ hi:
   datetime:
     distance_in_words:
       about_x_hours:
-        one: "लगभग 1 घंटा"
+        one: "about 1 hour"
         other: "about %{count} hours"
       about_x_months:
-        one: "लगभग 1 महीने"
+        one: "about 1 month"
         other: "about %{count} months"
       about_x_years:
-        one: "लगभग 1 वर्ष"
+        one: "about 1 year"
         other: "about %{count} years"
       almost_x_years:
         one: "almost 1 year"
         other: "almost %{count} years"
       half_a_minute: "आधा मिनट"
       less_than_x_minutes:
-        one: "एक मिनट से कम"
+        one: "less than a minute"
         other: "less than %{count} minutes"
       less_than_x_seconds:
-        one: "1 सेकंड से कम"
+        one: "less than 1 second"
         other: "less than %{count} seconds"
       over_x_years:
-        one: "1 वर्ष से अधिक"
+        one: "over 1 year"
         other: "over %{count} years"
       x_days:
-        one: "1 दिन"
+        one: "1 day"
         other: "%{count} days"
       x_minutes:
-        one: "1 मिनट"
+        one: "1 minute"
         other: "%{count} minutes"
       x_months:
-        one: "1 महीना"
+        one: "1 month"
         other: "%{count} months"
       x_seconds:
-        one: "1 सेकंड"
+        one: "1 second"
         other: "%{count} seconds"
     units:
       hour:
-        one: "घंटा"
+        one: "hour"
         other: "hours"
   default_activity_development: "विकास"
   default_activity_management: "प्रबंधन"
@@ -2649,7 +2649,7 @@ hi:
     delete_thing: "मिटाएँ"
     duration: "Duration"
     duration_days:
-      one: "1 दिन"
+      one: "1 day"
       other: "%{count} days"
     edit_color: "Edit color"
     edit_thing: "संपादित करें"

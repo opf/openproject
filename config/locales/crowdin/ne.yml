@@ -822,7 +822,7 @@ ne:
       query: "Custom query"
       role:
         one: "Role"
-        other: "भूमिकाहरु"
+        other: "Roles"
       type: "Type"
       user: "User"
       version: "Version"

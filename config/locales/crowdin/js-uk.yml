@@ -289,11 +289,11 @@ uk:
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
           '12_1':
             standard:
-              learn_about_link: https://www.openproject.org/openproject-12-1-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-1-release
               new_features_html: >
                 Випуск включає наведені нижче нові функції та поліпшення. <br> <ul class="%{list_styling_class}"> <li>З <b>новим модулем командного планувальника</b> (функція Enterprise) можна призначати завдання учасникам команди так, щоб бачити, хто над чим працює.</li> <li>Ми <b>випускаємо базові дошки Agile</b> для версії Community.</li> <li> <b>Фільтр «Включити проєкти»</b> спрощує додавання різних проєктів до представлень, наприклад пакетів робіт, календарів і командних планувальників.</li> <li>Ми додали <b>нову вкладку «Файли» в режимі перегляду докладних відомостей про пакет робіт, щоб уся інформація про нього була доступна на одному екрані.</li> <li>Ми створили <b>глобальні ролі для груп</b>, щоб призначати ці ролі групам і додавати групи суперкористувачів.</li> <li>Ми розширили вибір доступних варіантів статусу проєкту.
             bim:
-              learn_about_link: https://www.openproject.org/openproject-12-1-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-1-release
               new_features_html: >
                 Випуск включає наведені нижче нові функції та поліпшення. <br> <ul class="%{list_styling_class}"> <li>У модулі BCF тепер можна зберігати для пакетів робіт вибрані фільтри, стовпці тощо як <b>представлення</b> та ділитися ними з учасниками своєї команди.</li> <li>З <b>новим модулем командного планувальника</b> (функція Enterprise) можна призначати завдання учасникам команди так, щоб бачити, хто над чим працює.</li> <li>Ми <b>випускаємо базові дошки Agile</b> для версії Community.</li> <li> <b>Фільтр «Включити проєкти»</b> спрощує додавання різних проєктів до представлень, наприклад пакетів робіт, календарів і командних планувальників.</li> <li>Ми додали <b>нову вкладку «Файли» в режимі перегляду докладних відомостей про пакет робіт, щоб уся інформація про нього була доступна на одному екрані.</li> <li>Ми створили <b>глобальні ролі для груп</b>, щоб призначати ці ролі групам і додавати групи суперкористувачів.</li> <li>Ми розширили вибір доступних варіантів статусу проєкту.
     label_activate: "Активувати"
@@ -1155,7 +1155,7 @@ uk:
       role:
         label: 'Ролі у проєкті «%{project}»'
         no_roles_found: 'Ролей не знайдено'
-        description: 'Це роль, яку користувач %{principal} отримає в разі приєднання до вашого проєкту. Роль визначає, які дії йому дозволено та яку інформацію він може бачити. <a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Дізнатися більше про ролі й дозволи. </a>'
+        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
         required: 'Виберіть роль'
         next_button: 'Далі'
       message:
