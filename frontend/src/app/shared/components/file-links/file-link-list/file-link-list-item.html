@@ -1,3 +1,22 @@
-<li>
-  <span [textContent]="fileLink.originData.name"></span>
-</li>
+<div
+  class="op-files-tab--file-list-item--file-name"
+>
+  <op-icon icon-classes="icon4 icon-add"></op-icon>
+
+  <a
+    [textContent]="fileLink.originData.name"
+  ></a>
+</div>
+
+<div
+  class="op-files-tab--file-list-item--file-info"
+>
+  <span
+    class="op-files-tab--file-list-item--file-info-timestamp"
+    [textContent]="infoTimestampText"
+  ></span>
+
+  <span
+    [textContent]="fileLink.originData.lastModifiedByName"
+  ></span>
+</div>

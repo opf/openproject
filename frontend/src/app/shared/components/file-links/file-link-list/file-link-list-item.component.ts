@@ -27,7 +27,7 @@
 //++
 
 import {
-  ChangeDetectionStrategy, Component, Input,
+  ChangeDetectionStrategy, Component, Input, OnInit,
 } from '@angular/core';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { IFileLink } from 'core-app/core/state/file-links/file-link.model';
@@ -35,12 +35,20 @@ import { IFileLink } from 'core-app/core/state/file-links/file-link.model';
 @Component({
   selector: 'op-file-link-list-item',
   templateUrl: './file-link-list-item.html',
+  styleUrls: ['./file-link-list-item.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FileLinkListItemComponent {
+export class FileLinkListItemComponent implements OnInit {
   @Input() public resource:HalResource;
 
   @Input() public fileLink:IFileLink;
 
   @Input() public index:number;
+
+  public infoTimestampText:string;
+
+  ngOnInit():void {
+    const date = Date.parse(this.fileLink.originData.lastModifiedAt || '');
+    this.infoTimestampText = `Modified: ${new Date(date).toLocaleDateString()}`;
+  }
 }

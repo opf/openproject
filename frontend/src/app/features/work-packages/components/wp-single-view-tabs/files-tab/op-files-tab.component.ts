@@ -32,9 +32,10 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { HookService } from 'core-app/features/plugins/hook-service';
 
 @Component({
-  templateUrl: './op-files-tab.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'op-files-tab',
+  templateUrl: './op-files-tab.html',
+  styleUrls: ['./op-files-tab.sass'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WorkPackageFilesTabComponent {
   public workPackage:WorkPackageResource;

@@ -37,6 +37,7 @@ import { IFileLink } from 'core-app/core/state/file-links/file-link.model';
 @Component({
   selector: 'op-file-link-list',
   templateUrl: './file-link-list.html',
+  styleUrls: ['./file-link-list.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit {
@@ -46,8 +47,22 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
 
   ngOnInit():void {
     this.$fileLinks = of([
-      { id: 1, originData: { name: 'awesome.png' } },
-      { id: 2, originData: { name: 'logo.png' } },
+      {
+        id: 1,
+        originData: {
+          name: 'awesome.png',
+          lastModifiedAt: '2022-04-01T12:00Z',
+          lastModifiedByName: 'Anakin Skywalker',
+        },
+      },
+      {
+        id: 2,
+        originData: {
+          name: 'logo.png',
+          lastModifiedAt: '2022-04-01T12:00Z',
+          lastModifiedByName: 'Leia Organa',
+        },
+      },
     ]);
   }
 }
