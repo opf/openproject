@@ -17,7 +17,7 @@ OpenProject will automatically roll-up progress to parent work packages.
 |-----------------------------------------------------------------------------------------------------|:--------------------------------------------------|
 | [Manual progress tracking](#manual-progress-tracking)                                               | How to track progress manually per work package?  |
 | [Progress tracking in the work package hierarchy](#progress-tracking-in-the-work-package-hierarchy) | How to track progress for multiple work packages? |
-| [Status based progress tracking](Status-based-progress-tracking)                                    | How to track progress use work package status?    |
+| [Status based progress tracking](#status-based-progress-tracking)                                   | How to track progress use work package status?    |
 
 ## Manual progress tracking
 

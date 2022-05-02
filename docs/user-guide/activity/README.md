@@ -42,3 +42,20 @@ You can filter for different activities, e.g. for Work packages, News, or Wiki i
 The retrospective for the project activities is not limited. You can therefore trace all the project activities back to the beginning of the project.
 You can [configure in the admin settings](../../system-admin-guide/) how many days are shown on each activity page. Due to performance reasons, the days displayed should be set at a low level (e.g. 7 days).
 
+### Work package Activity
+
+When you open a work package, e.g. by clicking on the ID of the work package in the work package table, you have the Activity area next to the Work package information area on the right side.
+
+![work package activity](work-package-activity.png)
+
+
+There, all changes and activities concerning the work package are documented, e.g. if a user changes the status of the work package, this activity is recorded with the information who, when and what in the Activity area and is visible for other users who have the corresponding authorization. 
+
+You can also use the Activity area as a chat portal and share messages with other team members there.![Work package activity flag someone](Work-package-activity-flag-someone.png)
+
+
+
+If you want to notify a specific user about something in the Activity section, you can also flag them with an "@" symbol in front of their username so that they receive a notification within OpenProject.
+
+
+
