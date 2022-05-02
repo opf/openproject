@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: Team planner
-  priority: 890
+  priority: 863
 description: Using the team planner in OpenProject.
 robots: index, follow
 keywords: team planner,planning calendar, resource management
