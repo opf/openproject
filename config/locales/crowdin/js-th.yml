@@ -1146,7 +1146,7 @@ th:
       role:
         label: 'บทบาทใน %{project}'
         no_roles_found: 'ไม่พบบทบาท'
-        description: 'นี่คือบทบาทที่ %{principal} จะได้รับเมื่อพวกเขาเข้าร่วมโครงการของคุณ บทบาทกำหนดการกระทำที่พวกเขาได้รับอนุญาตให้ทำและข้อมูลที่พวกเขาได้รับอนุญาตให้ดู <a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> เรียนรู้เพิ่มเติมเกี่ยวกับบทบาทและการอนุญาต </a> '
+        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
         required: 'กรุณาเลือกบทบาท'
         next_button: 'ถัดไป'
       message:

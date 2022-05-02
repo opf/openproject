@@ -1149,7 +1149,7 @@ es:
       role:
         label: 'Rol en %{project}'
         no_roles_found: 'No se encontraron roles'
-        description: 'Este es el rol que %{principal} recibirá al unirse al proyecto. El rol define las acciones que pueden realizar y la información que pueden ver. <a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Obtenga más información sobre roles y permisos. </a>'
+        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
         required: 'Seleccione un rol'
         next_button: 'Siguiente'
       message:

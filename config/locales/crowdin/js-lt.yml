@@ -1155,7 +1155,7 @@ lt:
       role:
         label: 'Vaidmuo projekte %{project}'
         no_roles_found: 'Nerasta jokių vaidmenų'
-        description: 'Tai yra vaidmuo, kurį %{principal} gaus, kai prisijungs prie projekto. Šis vaidmuo nurodo, kokius veiksmus galės atlikti ir kokią informaciją matyti. <a href="<a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank">" target="_blank">Sužinokite daugiau apie vaidmenis ir teises. </a>'
+        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
         required: 'Prašome parinkti vaidmenį'
         next_button: 'Kitas'
       message:

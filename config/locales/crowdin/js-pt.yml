@@ -1148,7 +1148,7 @@ pt:
       role:
         label: 'Papel em %{project}'
         no_roles_found: 'Nenhum papel encontrado'
-        description: 'Este é um papel que %{principal} receberá quando se juntar ao projeto. O papel define que ações ela pode realizar e que informações pode visualizar. <a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Aprenda mais sobre papéis e permissões. </a>'
+        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
         required: 'Selecione um papel'
         next_button: 'Próxima'
       message:

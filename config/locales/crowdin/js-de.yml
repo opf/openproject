@@ -499,7 +499,7 @@ de:
           task_board: "Das Aufgabenfeld visualisiert den <b>Fortschritt für diesen Sprint</b>. Klicken Sie auf das Plus (+) Symbol neben einer User Story, um neue Aufgaben oder Hindernisse hinzuzufügen. <br> Der Status kann per Drag & Drop aktualisiert werden."
         boards:
           overview: 'Wählen Sie <b>Boards</b> aus, um eine andere Sicht auf Ihr Projekt zu erhalten und es in der agilen Board-Ansicht zu verwalten.'
-          lists_kanban: 'Hier können Sie mehrere Listen (Spalten) innerhalb Ihres Boards erstellen. Mit dieser Funktion können Sie zum Beispiel ein <b>Kanban Board</b>erstellen.'
+          lists_kanban: 'Hier können Sie mehrere Listen (Spalten) innerhalb Ihres Boards erstellen. Mit dieser Funktion können Sie zum Beispiel ein <b>Kanban Board</b> erstellen.'
           lists_basic: 'Hier können Sie mehrere Listen (Spalten) innerhalb Ihres agilen Boards erstellen.'
           add: 'Klicken Sie auf das Plus-Symbol (+), um <b>eine neue Karte zu erstellen</b> oder <b>eine existierende Karte</b> zur Liste auf dem Board hinzuzufügen.'
           drag: 'Verschieben Sie die Karten innerhalb einer Liste, um sie neu zu ordnen oder in eine andere Liste zu verschieben. <br> Sie können das Info (i) Symbol in der oberen rechten Ecke anklicken oder doppelt auf eine Karte klicken, um dessen Details zu öffnen.'
@@ -1148,7 +1148,7 @@ de:
       role:
         label: 'Rolle in %{project}'
         no_roles_found: 'Keine Rollen gefunden'
-        description: 'Dies ist die Rolle, die %{principal} erhalten wird, wenn sie Ihrem Projekt beitreten. Die Rolle legt fest, welche Maßnahmen sie ergreifen dürfen und welche Informationen ihnen erlaubt sind. <a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Erfahren Sie mehr über Rollen und Berechtigungen. </a>'
+        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
         required: 'Bitte eine Rolle auswählen'
         next_button: 'Weiter'
       message:
