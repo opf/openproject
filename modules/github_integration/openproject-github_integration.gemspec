@@ -3,7 +3,7 @@ Gem::Specification.new do |s|
   s.version     = '1.0.0'
   s.authors     = "OpenProject GmbH"
   s.email       = "info@openproject.com"
-  s.homepage    = "https://docs.openproject.org/system-admin-guide/github-integration/"
+  s.homepage    = "https://www.openproject.org/docs/system-admin-guide/integrations/github-integration/"
   s.summary     = 'OpenProject Github Integration'
   s.description = 'Integrates OpenProject and Github for a better workflow'
   s.license     = 'GPLv3'
