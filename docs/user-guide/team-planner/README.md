@@ -18,7 +18,7 @@ A few notes:
 
 | Topic                                                                                     | Content                                     |
 |-------------------------------------------------------------------------------------------|:--------------------------------------------|
-| [Main view](#main-view-start-a-new-or-select-an-existing-team-planner)                    | How to start a team planner?                |
+| [Main view](#main-view---start-a-new-or-select-an-existing-team-planner)                  | How to start a team planner?                |
 | [Planning calendar basics](#planning-calendar-basics)                                     | How to navigate the team planner?           |
 | [Getting started](#getting-started)                                                       | How to get started?                         |
 | [Adding team members](#step-1-adding-team-members)                                        | How to add team members?                    |
