@@ -218,6 +218,8 @@ test:
   database: openproject_test
 ```
 
+To configure the environment variables such as the number of web server threads `OPENPROJECT_WEB_WORKERS`, copy the `.env.example` to `.env` and add the environment variables you want to configure. The variables will be automatically loaded to the application's environment.
+
 ## Finish the Installation of OpenProject
 
 Install code dependencies, link plugin modules and export translation files.

@@ -265,6 +265,7 @@ group :development do
 end
 
 group :development, :test do
+  gem 'dotenv-rails'
   # Require factory_bot for usage with openproject plugins testing
   gem 'factory_bot', '~> 6.2.0'
   # require factory_bot_rails for convenience in core development

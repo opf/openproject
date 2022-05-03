@@ -411,6 +411,10 @@ GEM
       unf (>= 0.0.5, < 1.0.0)
     doorkeeper (5.5.4)
       railties (>= 5)
+    dotenv (2.7.6)
+    dotenv-rails (2.7.6)
+      dotenv (= 2.7.6)
+      railties (>= 3.2)
     dry-configurable (0.15.0)
       concurrent-ruby (~> 1.0)
       dry-core (~> 0.6)
@@ -1012,6 +1016,7 @@ DEPENDENCIES
   delayed_job_active_record (~> 4.1.5)
   disposable (~> 0.6.2)
   doorkeeper (~> 5.5.0)
+  dotenv-rails
   email_validator (~> 2.2.3)
   equivalent-xml (~> 0.6)
   escape_utils (~> 1.0)
