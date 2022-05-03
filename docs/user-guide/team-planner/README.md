@@ -92,7 +92,7 @@ After you clicked, the **new work package dialog** will automatically open. Here
 
 Press the **+ add existing" button** we introduced in step 2 of the main view overview. Once you press the **+ add existing** button, start typing the name of the work package you are looking to add. Once found, drag & drop the work package strip. Should the work package have a duration exceeding the current 1 or 2 week view, a horizontal scroll bar will display, with which it is possible to scroll to the end date of the longest running work package.
 
-Additional features: You can change the status of a work package, and enter the work package strip detailed view by pressing the info button **(i)** on each respective strip
+Additional features: You can change the status of a work package, and enter the work package strip detailed view by pressing the info button **(i)** on each respective strip.
 
 ![Working with work package strips](working-with-work-package-strips.png)
 
