@@ -219,6 +219,7 @@ file are sensitive to whitespace. It is pretty easy to write
 invalid `yml` files without seeing the error. Validating those files
 prevents you from such errors.
 
+To configure the environment variables such as the number of web server threads `OPENPROJECT_WEB_WORKERS`, copy the `.env.example` to `.env` and add the environment variables you want to configure. The variables will be automatically loaded to the application's environment.
 
 ## Finish the installation of OpenProject
 
