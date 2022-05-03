@@ -75,6 +75,6 @@ Click Escape (**Esc**) to leave the Zen mode.
 
 ## Project overarching calendar
 
-It is possible to display the work packages from more than one project in the calendar. To include, or exclude such work packages, use the **Include projects** dialog, where you can select/unselect the appropriate projects and sub-projects. To automatically include all subprojects for each project you chose to select, check the **Include all sub-projects** box at the bottom of the dialog
+It is possible to display the work packages from more than one project in the calendar. To include, or exclude such work packages, use the **Include projects** dialog, where you can select/unselect the appropriate projects and sub-projects. To automatically include all subprojects for each project you chose to select, check the **Include all sub-projects** box at the bottom of the dialog.
 
 ![Select projects](select-projects.png)
