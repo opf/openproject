@@ -628,6 +628,10 @@ GEM
       mustermann (>= 1.0.0)
     nap (1.1.0)
     net-ldap (0.17.0)
+    net-pop (0.1.1)
+      digest
+      net-protocol
+      timeout
     net-protocol (0.1.2)
       io-wait
       timeout
@@ -1054,6 +1058,7 @@ DEPENDENCIES
   multi_json (~> 1.15.0)
   my_page!
   net-ldap (~> 0.17.0)
+  net-pop (~> 0.1.1)
   net-smtp (~> 0.3.1)
   nokogiri (~> 1.13.4)
   oj (~> 3.13.0)
