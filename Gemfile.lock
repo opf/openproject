@@ -627,6 +627,10 @@ GEM
     mustermann-grape (1.0.1)
       mustermann (>= 1.0.0)
     nap (1.1.0)
+    net-imap (0.2.3)
+      digest
+      net-protocol
+      strscan
     net-ldap (0.17.0)
     net-pop (0.1.1)
       digest
@@ -922,6 +926,7 @@ GEM
     stackprof (0.2.19)
     stringex (2.8.5)
     stringio (3.0.1)
+    strscan (3.0.1)
     structured_warnings (0.4.0)
     svg-graph (2.2.1)
     swd (1.3.0)
@@ -1057,6 +1062,7 @@ DEPENDENCIES
   mini_magick (~> 4.11.0)
   multi_json (~> 1.15.0)
   my_page!
+  net-imap (~> 0.2.3)
   net-ldap (~> 0.17.0)
   net-pop (~> 0.1.1)
   net-smtp (~> 0.3.1)

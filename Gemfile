@@ -66,6 +66,7 @@ gem 'addressable', '~> 2.8.0'
 # after migrated to rails 7 (see https://stackoverflow.com/a/70500221)
 gem 'net-smtp', '~> 0.3.1', require: false
 gem 'net-pop', '~> 0.1.1', require: false
+gem 'net-imap', '~> 0.2.3', require: false
 
 # Remove whitespace from model input
 gem "auto_strip_attributes", "~> 2.5"
