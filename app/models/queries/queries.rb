@@ -34,7 +34,6 @@ module Queries::Queries
   ::Queries::Register.register(QueryQuery) do
     filter Filters::ProjectFilter
     filter Filters::ProjectIdentifierFilter
-    filter Filters::HiddenFilter
     filter Filters::UpdatedAtFilter
     filter Filters::IdFilter
   end
