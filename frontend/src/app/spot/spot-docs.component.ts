@@ -15,6 +15,8 @@ export class SpotDocsComponent {
 
   textFieldValue = 'ngModel value';
 
+  usernameValue = '';
+
   dropModalOpen = false;
 
   dropModalAlignment = 'bottom-left';

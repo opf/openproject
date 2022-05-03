@@ -429,6 +429,35 @@ Currently selected value is {{ toggleValue }}
       class="spot-icon spot-icon_bell"
     ></span>
   </spot-text-field>
+
+  <spot-text-field
+    placeholder="Disabled"
+    [disabled]="true"
+  >
+    <span
+      slot="before"
+      class="spot-icon spot-icon_bell"
+    ></span>
+  </spot-text-field>
+</section>
+
+<h1>Form Field</h1>
+
+<section class="space-children">
+  <spot-form-field
+    label="Username"
+    required="true"
+  >
+    <spot-text-field
+      slot="input"
+      [(ngModel)]="usernameValue"
+    >
+      <span
+        slot="before"
+        class="spot-icon spot-icon_user"
+      ></span>
+    </spot-text-field>
+  </spot-form-field>
 </section>
 
 <h1>Drop Modal</h1>

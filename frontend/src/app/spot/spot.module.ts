@@ -11,6 +11,8 @@ import { SpotTextFieldComponent } from './components/text-field/text-field.compo
 import { SpotFilterChipComponent } from './components/filter-chip/filter-chip.component';
 import { SpotDropModalComponent } from './components/drop-modal/drop-modal.component';
 import { SpotTooltipComponent } from './components/tooltip/tooltip.component';
+import { SpotFormFieldComponent } from './components/form-field/form-field.component';
+import { SpotFormBindingDirective } from './components/form-field/form-binding.directive';
 import { SpotDocsComponent } from './spot-docs.component';
 
 @NgModule({
@@ -31,6 +33,8 @@ import { SpotDocsComponent } from './spot-docs.component';
     SpotTextFieldComponent,
     SpotFilterChipComponent,
     SpotDropModalComponent,
+    SpotFormFieldComponent,
+    SpotFormBindingDirective,
     SpotTooltipComponent,
   ],
   exports: [
@@ -39,6 +43,8 @@ import { SpotDocsComponent } from './spot-docs.component';
     SpotTextFieldComponent,
     SpotFilterChipComponent,
     SpotDropModalComponent,
+    SpotFormFieldComponent,
+    SpotFormBindingDirective,
     SpotTooltipComponent,
   ],
 })

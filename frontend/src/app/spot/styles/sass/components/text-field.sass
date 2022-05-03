@@ -18,8 +18,16 @@
     color: $spot-color-basic-black
     @include spot-focus
 
+  &:disabled,
   &_disabled
+    color: $spot-color-basic-gray-3
     border-color: $spot-color-basic-gray-4
+
+  &:disabled,
+  &_disabled &--input
+    &,
+    &:hover
+      background-color: $spot-color-basic-white
 
   &--input
     background: transparent
