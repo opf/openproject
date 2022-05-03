@@ -38,7 +38,7 @@ This approach has the significant disadvantage to go through the entire Rails st
 
 ## Exemplary Rails view request augmented by Angular
 
-A response that is fully controlled by Rails but extended by some Angular components in the frontend might look as follows. Let's take a look at the request to [edit a type's form configuration](../../../system-admin-guide/manage-work-packages/work-package-types/#work-package-form-configuration) `/types/1/edit/form_configuration`:
+A response that is fully controlled by Rails but extended by some Angular components in the frontend might look as follows. Let's take a look at the request to [edit a type's form configuration](../../../system-admin-guide/manage-work-packages/work-package-types/#work-package-form-configuration-premium-feature) `/types/1/edit/form_configuration`:
 
 1. Rails receives the request and according to its [`config/routes.rb`](https://github.com/opf/openproject/blob/dev/config/routes.rb#L257), will handle the request with the [TypesController#edit action](https://github.com/opf/openproject/blob/dev/app/controllers/types_controller.rb#L71-L82) with its tab set to `form_configuration`. 
 
