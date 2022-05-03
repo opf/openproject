@@ -13,12 +13,12 @@ A **role** is a set of **permissions** that can be assigned to any project membe
 When creating a role, the "Global role" field can be ticked, making it a **Global role** that can be assigned to a [user details](../users/#manage-user-settings) or a [group details](../groups/#add-global-roles-to-a-group) and applied across all projects.
 
 
-| Topic                                           | Content                                                      |
-| ----------------------------------------------- | ------------------------------------------------------------ |
+| Topic                                           | Content                                                           |
+| ----------------------------------------------- |-------------------------------------------------------------------|
 | [Permissions](#permissions)                     | What are permissions and how can I access the permissions report? |
-| [Create a new role](#create-a-new-role)         | How to create a new (global) role.                           |
-| [Edit and remove roles](#edit-and-remove-roles) | How to change and delete existing roles.                     |
-| [Global roles](#global-roles)                   | Which global roles are there and what are their significances? |
+| [Create a new role](#create-a-new-role)         | How to create a new (global) role.                                |
+| [Edit and remove roles](#edit-and-remove-roles) | How to change and delete existing roles.                          |
+| [Global roles](#global-roles)                   | Which global roles are there and what are their significances?    |
 
 ## Permissions
 
@@ -56,13 +56,13 @@ Complete the following as required:
 2. **Global Role** - this role applies to all projects, and can be assigned in the [user details](../users/#manage-user-settings) or in the [group details](../groups/#add-global-roles-to-a-group). Once saved, the decision to make a role a "global role" can't be reverted.
    Ticking this box will show the available [global roles](#global-roles) and hide the regular permission options.
 3. **Copy workflow from** - select an existing role. The respective [workflows](../../manage-work-packages/work-package-workflows) will be copied to the role to be created.
-5. **Permissions** for this role - you can specify the permissions per OpenProject module. Click the arrow next to the module name to expand or compress the permissions list.
+4. **Permissions** for this role - you can specify the permissions per OpenProject module. Click the arrow next to the module name to expand or compress the permissions list.
 
 Select the permissions which should apply for this role. You can use "check all" or "uncheck all" at the right of a module permissions list. If a module is not enabled in a project it is not shown to a user despite having a permission for it.
 
 Don't forget to click the **Save** button at the bottom of the page.
 
-![create new role with role template](create-new-role-with-role-template(2).png)
+![create new role with role template](create-new-role-with-role-template.png)
 
 **Note:** In the work package tracking section, you can also give the role permission to be able to be assigned to work packages or to be set as a responsible person.
 
