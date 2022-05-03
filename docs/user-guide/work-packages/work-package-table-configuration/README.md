@@ -86,7 +86,7 @@ If you only selected work packages without children, no work packages will be sh
 
 ### Include/exclude work packages from a specific project or subproject
 
-It is possible to display the work packages from more than one project. To include, or exclude such work packages, use the **Include projects** dialog, where you can select/unselect the appropriate projects and sub-projects. To automatically include all subprojects for each project you chose to select, check the **Include all sub-projects** box at the bottom of the dialog
+It is possible to display the work packages from more than one project. To include, or exclude such work packages, use the **Include projects** dialog, where you can select/unselect the appropriate projects and sub-projects. To automatically include all subprojects for each project you chose to select, check the **Include all sub-projects** box at the bottom of the dialog.
 
 ![Work package filter](work_package_filter.png)
 
