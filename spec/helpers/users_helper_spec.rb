@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,9 +32,9 @@ describe UsersHelper, type: :helper do
   include UsersHelper
 
   def build_user(status, blocked)
-    FactoryBot.build_stubbed(:user,
-                             status: status,
-                             failed_login_count: 3).tap do |user|
+    build_stubbed(:user,
+                  status: status,
+                  failed_login_count: 3).tap do |user|
       allow(user)
         .to receive(:failed_too_many_recent_login_attempts?)
         .and_return(blocked)

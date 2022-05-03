@@ -21,7 +21,7 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { BoardListCrossSelectionService } from 'core-app/features/boards/board/board-list/board-list-cross-selection.service';
 import { filter, tap } from 'rxjs/operators';
 import { BoardActionsRegistryService } from 'core-app/features/boards/board/board-actions/board-actions-registry.service';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { WorkPackageStatesInitializationService } from 'core-app/features/work-packages/components/wp-list/wp-states-initialization.service';
 
 @Component({
@@ -39,10 +39,10 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
     updateSuccessful: this.I18n.t('js.notice_successful_update'),
     loadingError: 'No such board found',
     addList: this.I18n.t('js.boards.add_list'),
-    upsaleBoards: this.I18n.t('js.boards.upsale.teaser_text'),
-    upsaleCheckOutLink: this.I18n.t('js.work_packages.table_configuration.upsale.check_out_link'),
     unnamedList: this.I18n.t('js.boards.label_unnamed_list'),
     hiddenListWarning: this.I18n.t('js.boards.text_hidden_list_warning'),
+    teaser_text: this.I18n.t('js.boards.upsale.teaser_text'),
+    upgrade_to_ee_text: this.I18n.t('js.boards.upsale.upgrade'),
   };
 
   /** Container reference */
@@ -71,6 +71,8 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
 
   showHiddenListWarning:boolean = false;
 
+  eeShowBanners = this.Banner.eeShowBanners;
+
   private currentQueryUpdatedMonitoring:Subscription;
 
   constructor(readonly I18n:I18nService,
@@ -82,13 +84,13 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
     readonly boardActionRegistry:BoardActionsRegistryService,
     readonly opModalService:OpModalService,
     readonly injector:Injector,
-    readonly apiV3Service:APIV3Service,
+    readonly apiV3Service:ApiV3Service,
     readonly Boards:BoardService,
     readonly Banner:BannersService,
     readonly boardListCrossSelectionService:BoardListCrossSelectionService,
     readonly wpStatesInitialization:WorkPackageStatesInitializationService,
     readonly Drag:DragAndDropService,
-    readonly apiv3Service:APIV3Service,
+    readonly apiv3Service:ApiV3Service,
     readonly QueryUpdated:QueryUpdatedService) {
     super();
   }
@@ -148,14 +150,6 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
       this.showHiddenListWarning = true;
       this.boardWidgets = this.boardWidgets.filter(widget => widget.id !== boardWidget.id);
     }
-  }
-
-  showBoardListView() {
-    return !this.Banner.eeShowBanners;
-  }
-
-  opReferrer(board:Board) {
-    return board.isFree ? 'boards#free' : 'boards#status';
   }
 
   saveBoard(board:Board):void {

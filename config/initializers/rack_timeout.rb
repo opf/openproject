@@ -1,15 +1,15 @@
 # Use rack-timeout if we run in clustered mode with at least 2 workers
 # so that workers, should a timeout occur, can be restarted without interruption.
 if OpenProject::Configuration.web_workers >= 2
-  timeout = Integer(ENV['RACK_TIMEOUT_SERVICE_TIMEOUT'].presence || OpenProject::Configuration.web_timeout)
-  wait_timeout = Integer(ENV['RACK_TIMEOUT_WAIT_TIMEOUT'].presence || OpenProject::Configuration.web_wait_timeout)
+  service_timeout = OpenProject::Configuration.web_timeout
+  wait_timeout = OpenProject::Configuration.web_wait_timeout
 
-  Rails.logger.debug { "Enabling Rack::Timeout (service=#{timeout}s wait=#{wait_timeout}s)" }
+  Rails.logger.debug { "Enabling Rack::Timeout (service=#{service_timeout}s wait=#{wait_timeout}s)" }
 
   Rails.application.config.middleware.insert_before(
     ::Rack::Runtime,
     ::Rack::Timeout,
-    service_timeout: timeout, # time after which a request being served times out
+    service_timeout: service_timeout, # time after which a request being served times out
     wait_timeout: wait_timeout, # time after which a request waiting to be served times out
     term_on_timeout: 1 # shut down worker (gracefully) right away on timeout to be restarted
   )

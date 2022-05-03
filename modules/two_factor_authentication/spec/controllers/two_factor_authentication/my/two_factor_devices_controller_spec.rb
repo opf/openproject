@@ -2,18 +2,24 @@ require_relative '../../../spec_helper'
 require_relative './../authentication_controller_shared_examples'
 
 describe ::TwoFactorAuthentication::My::TwoFactorDevicesController, with_2fa_ee: true do
-  let(:user) { FactoryBot.create(:user, login: 'foobar') }
-  let(:other_user) { FactoryBot.create(:user) }
+  let(:user) { create(:user, login: 'foobar') }
+  let(:other_user) { create(:user) }
   let(:logged_in_user) { user }
   let(:active_strategies) { [] }
   let(:config) { {} }
 
+  include_context 'with settings' do
+    let(:settings) do
+      {
+        plugin_openproject_two_factor_authentication: {
+          'active_strategies' => active_strategies
+        }.merge(config)
+      }
+    end
+  end
+
   before do
     allow(User).to receive(:current).and_return(logged_in_user)
-    allow(OpenProject::Configuration).to receive(:[]).and_call_original
-    allow(OpenProject::Configuration)
-      .to receive(:[]).with('2fa')
-      .and_return({ active_strategies: active_strategies }.merge(config).with_indifferent_access)
     allow(OpenProject::TwoFactorAuthentication::TokenStrategyManager)
       .to receive(:add_default_strategy?)
       .and_return false
@@ -115,7 +121,7 @@ describe ::TwoFactorAuthentication::My::TwoFactorDevicesController, with_2fa_ee:
 
         describe 'and registered totp device' do
           let(:active_strategies) { [:totp] }
-          let!(:device) { FactoryBot.create :two_factor_authentication_device_totp, user: user, active: false, default: false }
+          let!(:device) { create :two_factor_authentication_device_totp, user: user, active: false, default: false }
 
           it 'renders the confirmation page' do
             get :confirm, params: { device_id: device.id }
@@ -126,7 +132,7 @@ describe ::TwoFactorAuthentication::My::TwoFactorDevicesController, with_2fa_ee:
         end
 
         describe 'with registered device' do
-          let!(:device) { FactoryBot.create :two_factor_authentication_device_sms, user: user, active: false, default: false }
+          let!(:device) { create :two_factor_authentication_device_sms, user: user, active: false, default: false }
 
           it 'renders the confirmation page' do
             get :confirm, params: { device_id: device.id }
@@ -154,7 +160,7 @@ describe ::TwoFactorAuthentication::My::TwoFactorDevicesController, with_2fa_ee:
 
         describe 'and registered totp device' do
           let(:active_strategies) { [:totp] }
-          let!(:device) { FactoryBot.create :two_factor_authentication_device_totp, user: user, active: false, default: false }
+          let!(:device) { create :two_factor_authentication_device_totp, user: user, active: false, default: false }
 
           it 'renders a 400 on missing token' do
             post :confirm, params: { device_id: device.id }
@@ -187,7 +193,7 @@ describe ::TwoFactorAuthentication::My::TwoFactorDevicesController, with_2fa_ee:
           end
 
           context 'with another default device present' do
-            let!(:default_device) { FactoryBot.create :two_factor_authentication_device_totp, user: user, default: true }
+            let!(:default_device) { create :two_factor_authentication_device_totp, user: user, default: true }
 
             it 'activates the device when entered correctly' do
               allow_any_instance_of(::TwoFactorAuthentication::TokenService)
@@ -220,7 +226,7 @@ describe ::TwoFactorAuthentication::My::TwoFactorDevicesController, with_2fa_ee:
         end
 
         context 'with existing non-default device' do
-          let!(:device) { FactoryBot.create :two_factor_authentication_device_totp, user: user, default: false }
+          let!(:device) { create :two_factor_authentication_device_totp, user: user, default: false }
 
           it 'deletes it' do
             delete :destroy, params: { device_id: device.id }
@@ -230,7 +236,7 @@ describe ::TwoFactorAuthentication::My::TwoFactorDevicesController, with_2fa_ee:
         end
 
         context 'with existing default device' do
-          let!(:device) { FactoryBot.create :two_factor_authentication_device_totp, user: user, default: true }
+          let!(:device) { create :two_factor_authentication_device_totp, user: user, default: true }
 
           it 'deletes it' do
             delete :destroy, params: { device_id: device.id }
@@ -240,7 +246,7 @@ describe ::TwoFactorAuthentication::My::TwoFactorDevicesController, with_2fa_ee:
         end
 
         context 'with existing default device AND enforced' do
-          let!(:device) { FactoryBot.create :two_factor_authentication_device_totp, user: user, default: true }
+          let!(:device) { create :two_factor_authentication_device_totp, user: user, default: true }
           let(:config) { { enforced: true } }
 
           it 'cannot be deleted' do

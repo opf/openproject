@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe Repository::Subversion, type: :model do
-  let(:instance) { FactoryBot.build(:repository_subversion) }
+  let(:instance) { build(:repository_subversion) }
   let(:adapter)  { instance.scm }
   let(:config)   { {} }
   let(:enabled_scm) { %w[subversion] }
@@ -78,12 +78,9 @@ describe Repository::Subversion, type: :model do
       end
     end
 
-    context 'with string disabled types' do
+    context 'with string disabled types',
+            with_config: { 'scm' => { 'subversion' => { 'disabled_types' => %w[managed unknowntype] } } } do
       before do
-        allow(OpenProject::Configuration).to receive(:default_override_source)
-          .and_return('OPENPROJECT_SCM_SUBVERSION_DISABLED__TYPES' => '[managed,unknowntype]')
-
-        OpenProject::Configuration.load
         allow(instance.class).to receive(:scm_config).and_call_original
       end
 
@@ -103,7 +100,7 @@ describe Repository::Subversion, type: :model do
 
     context 'with managed config' do
       let(:config) { { manages: managed_path } }
-      let(:project) { FactoryBot.build :project }
+      let(:project) { build :project }
 
       it 'is manageable' do
         expect(instance.manageable?).to be true
@@ -132,8 +129,8 @@ describe Repository::Subversion, type: :model do
       end
 
       context 'and associated project with parent' do
-        let(:parent) { FactoryBot.build :project }
-        let(:project) { FactoryBot.build :project, parent: parent }
+        let(:parent) { build :project }
+        let(:project) { build :project, parent: parent }
 
         before do
           instance.project = project
@@ -149,8 +146,8 @@ describe Repository::Subversion, type: :model do
 
   describe 'with a remote repository' do
     let(:instance) do
-      FactoryBot.build(:repository_subversion,
-                       url: 'https://somewhere.example.org/svn/foo')
+      build(:repository_subversion,
+            url: 'https://somewhere.example.org/svn/foo')
     end
 
     it_behaves_like 'is not a countable repository' do
@@ -161,7 +158,7 @@ describe Repository::Subversion, type: :model do
   describe 'with an actual repository' do
     with_subversion_repository do |repo_dir|
       let(:url)      { "file://#{repo_dir}" }
-      let(:instance) { FactoryBot.create(:repository_subversion, url: url, root_url: url) }
+      let(:instance) { create(:repository_subversion, url: url, root_url: url) }
 
       it 'should be available' do
         expect(instance.scm).to be_available
@@ -305,8 +302,8 @@ describe Repository::Subversion, type: :model do
       end
 
       context 'with an admin browsing activity' do
-        let(:user) { FactoryBot.create(:admin) }
-        let(:project) { FactoryBot.create(:project) }
+        let(:user) { create(:admin) }
+        let(:project) { create(:project) }
 
         def find_events(user, options = {})
           options[:scope] = ['changesets']
@@ -369,9 +366,9 @@ describe Repository::Subversion, type: :model do
   it_behaves_like 'repository can be relocated', :subversion
 
   describe 'ciphering' do
-    it 'password is encrypted' do
-      OpenProject::Configuration.with 'database_cipher_key' => 'secret' do
-        r = FactoryBot.create(:repository_subversion, password: 'foo')
+    context 'with cipher key', with_config: { 'database_cipher_key' => 'secret' } do
+      it 'password is encrypted' do
+        r = create(:repository_subversion, password: 'foo')
         expect(r.password)
           .to eql('foo')
 
@@ -380,9 +377,9 @@ describe Repository::Subversion, type: :model do
       end
     end
 
-    it 'password is unencrypted with blank key' do
-      OpenProject::Configuration.with 'database_cipher_key' => '' do
-        r = FactoryBot.create(:repository_subversion, password: 'foo')
+    context 'with blank cipher key', with_config: { 'database_cipher_key' => '' } do
+      it 'password is unencrypted' do
+        r = create(:repository_subversion, password: 'foo')
         expect(r.password)
           .to eql('foo')
         expect(r.read_attribute(:password))
@@ -390,9 +387,9 @@ describe Repository::Subversion, type: :model do
       end
     end
 
-    it 'password is unencrypted with nil key' do
-      OpenProject::Configuration.with 'database_cipher_key' => nil do
-        r = FactoryBot.create(:repository_subversion, password: 'foo')
+    context 'with cipher key nil', with_config: { 'database_cipher_key' => nil } do
+      it 'password is unencrypted' do
+        r = create(:repository_subversion, password: 'foo')
 
         expect(r.password)
           .to eql('foo')
@@ -401,28 +398,35 @@ describe Repository::Subversion, type: :model do
       end
     end
 
-    it 'unciphered password is readable if activating cipher later' do
-      OpenProject::Configuration.with 'database_cipher_key' => nil do
-        FactoryBot.create(:repository_subversion, password: 'clear')
+    context 'without a cipher key first but activating it later' do
+      before do
+        WithConfig.new(self).stub_key(:database_cipher_key, nil)
+
+        create(:repository_subversion, password: 'clear')
+
+        WithConfig.new(self).stub_key(:database_cipher_key, 'secret')
       end
 
-      OpenProject::Configuration.with 'database_cipher_key' => 'secret' do
-        r = Repository.last
-
-        expect(r.password)
+      it 'unciphered password is readable' do
+        expect(Repository.last.password)
           .to eql('clear')
       end
     end
 
-    context '#encrypt_all' do
-      it 'encrypts formerly unencrypted passwords' do
-        Repository.delete_all
-        OpenProject::Configuration.with 'database_cipher_key' => nil do
-          FactoryBot.create(:repository_subversion, password: 'foo')
-          FactoryBot.create(:repository_subversion, password: 'bar')
+    describe '#encrypt_all' do
+      context 'with unencrypted passwords first but then with an encryption key' do
+        before do
+          Repository.delete_all
+
+          WithConfig.new(self).stub_key(:database_cipher_key, nil)
+
+          create(:repository_subversion, password: 'foo')
+          create(:repository_subversion, password: 'bar')
+
+          WithConfig.new(self).stub_key(:database_cipher_key, 'secret')
         end
 
-        OpenProject::Configuration.with 'database_cipher_key' => 'secret' do
+        it 'encrypts formerly unencrypted passwords' do
           expect(Repository.encrypt_all(:password))
             .to be_truthy
 
@@ -443,30 +447,29 @@ describe Repository::Subversion, type: :model do
       end
     end
 
-    context '#decrypt_all' do
+    describe '#decrypt_all', with_config: { 'database_cipher_key' => 'secret' } do
       it 'removes cyphering from all passwords' do
         Repository.delete_all
-        OpenProject::Configuration.with 'database_cipher_key' => 'secret' do
-          foo = FactoryBot.create(:repository_subversion, password: 'foo')
-          bar = FactoryBot.create(:repository_subversion, password: 'bar')
 
-          expect(Repository.decrypt_all(:password))
-            .to be_truthy
+        foo = create(:repository_subversion, password: 'foo')
+        bar = create(:repository_subversion, password: 'bar')
 
-          bar.reload
+        expect(Repository.decrypt_all(:password))
+          .to be_truthy
 
-          expect(bar.password)
-            .to eql('bar')
-          expect(bar.read_attribute(:password))
-            .to eql('bar')
+        bar.reload
 
-          foo.reload
+        expect(bar.password)
+          .to eql('bar')
+        expect(bar.read_attribute(:password))
+          .to eql('bar')
 
-          expect(foo.password)
-            .to eql('foo')
-          expect(foo.read_attribute(:password))
-            .to eql('foo')
-        end
+        foo.reload
+
+        expect(foo.password)
+          .to eql('foo')
+        expect(foo.read_attribute(:password))
+          .to eql('foo')
       end
     end
   end

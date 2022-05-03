@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,18 +33,18 @@ describe 'BIM Revit Add-in navigation spec',
          with_config: { edition: 'bim' },
          js: true,
          driver: :chrome_revit_add_in do
-  let(:project) { FactoryBot.create :project, enabled_module_names: %i[bim work_package_tracking] }
-  let!(:work_package) { FactoryBot.create(:work_package, project: project) }
+  let(:project) { create :project, enabled_module_names: %i[bim work_package_tracking] }
+  let!(:work_package) { create(:work_package, project: project) }
   let(:role) do
-    FactoryBot.create(:role,
-                      permissions: %i[view_ifc_models manage_ifc_models add_work_packages edit_work_packages view_work_packages])
+    create(:role,
+           permissions: %i[view_ifc_models manage_ifc_models add_work_packages edit_work_packages view_work_packages])
   end
   let(:model_page) { ::Pages::IfcModels::ShowDefault.new(project) }
 
   let(:user) do
-    FactoryBot.create :user,
-                      member_in_project: project,
-                      member_through_role: role
+    create :user,
+           member_in_project: project,
+           member_through_role: role
   end
 
   context "when logged in on model page" do
@@ -85,14 +85,14 @@ describe 'BIM Revit Add-in navigation spec',
       find('.menu-item', text: 'NONE', wait: 10).click
 
       full_create.edit_field(:subject).expect_active!
-      expect(page).to have_selector('.work-packages-partitioned-page--content-right', visible: false)
+      expect(page).to have_selector('.work-packages-partitioned-page--content-right', visible: :all)
     end
 
     it 'shows work package details page in full view on Cards display mode' do
       model_page.click_info_icon(work_package)
 
       expect(page).to have_selector('.work-packages-partitioned-page--content-left', text: work_package.subject)
-      expect(page).to have_selector('.work-packages-partitioned-page--content-right', visible: false)
+      expect(page).to have_selector('.work-packages-partitioned-page--content-right', visible: :all)
     end
 
     context 'with the table display mode' do
@@ -112,11 +112,11 @@ describe 'BIM Revit Add-in navigation spec',
     end
 
     context 'Creating BCFs' do
-      let!(:status) { FactoryBot.create(:default_status) }
-      let!(:priority) { FactoryBot.create :priority, is_default: true }
+      let!(:status) { create(:default_status) }
+      let!(:priority) { create :priority, is_default: true }
 
       it 'redirects correctly' do
-        create_page = model_page.create_wp_by_button(FactoryBot.build(:type_standard))
+        create_page = model_page.create_wp_by_button(build(:type_standard))
         expect(page).to have_current_path /bcf\/new$/, ignore_query: true
         create_page.subject_field.set('Some subject')
         create_page.save!

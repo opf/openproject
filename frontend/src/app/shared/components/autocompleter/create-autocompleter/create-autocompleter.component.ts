@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -46,7 +46,7 @@ import { AddTagFn } from '@ng-select/ng-select/lib/ng-select.component';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { Subject } from 'rxjs';
-import { PrincipalHelper } from 'core-app/shared/components/principal/principal-helper';
+import { typeFromHref } from 'core-app/shared/components/principal/principal-helper';
 import { compareByHref } from 'core-app/shared/helpers/angular/tracking-functions';
 import { filter } from 'rxjs/operators';
 
@@ -195,6 +195,6 @@ export class CreateAutocompleterComponent extends UntilDestroyedMixin implements
   }
 
   public isPrincipal(item:CreateAutocompleterValueOption) {
-    return item.href && PrincipalHelper.typeFromHref(item.href) !== null;
+    return item.href && typeFromHref(item.href) !== null;
   }
 }

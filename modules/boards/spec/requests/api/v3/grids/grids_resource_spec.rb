@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,28 +33,28 @@ describe 'API v3 Grids resource for Board Grids', type: :request, content_type: 
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  shared_let(:manage_board_views_project) { FactoryBot.create(:project) }
-  shared_let(:show_board_views_project) { FactoryBot.create(:project) }
-  shared_let(:other_project) { FactoryBot.create(:project) }
-  shared_let(:show_board_views_role) { FactoryBot.create(:role, permissions: [:show_board_views]) }
-  shared_let(:manage_board_views_role) { FactoryBot.create(:role, permissions: [:manage_board_views]) }
-  shared_let(:other_role) { FactoryBot.create(:role, permissions: []) }
+  shared_let(:manage_board_views_project) { create(:project) }
+  shared_let(:show_board_views_project) { create(:project) }
+  shared_let(:other_project) { create(:project) }
+  shared_let(:show_board_views_role) { create(:role, permissions: [:show_board_views]) }
+  shared_let(:manage_board_views_role) { create(:role, permissions: [:manage_board_views]) }
+  shared_let(:other_role) { create(:role, permissions: []) }
   shared_let(:current_user) do
-    FactoryBot.create(:user).tap do |user|
-      FactoryBot.create(:member, user: user, project: manage_board_views_project, roles: [manage_board_views_role])
-      FactoryBot.create(:member, user: user, project: show_board_views_project, roles: [show_board_views_role])
-      FactoryBot.create(:member, user: user, project: other_project, roles: [other_role])
+    create(:user).tap do |user|
+      create(:member, user: user, project: manage_board_views_project, roles: [manage_board_views_role])
+      create(:member, user: user, project: show_board_views_project, roles: [show_board_views_role])
+      create(:member, user: user, project: other_project, roles: [other_role])
     end
   end
 
   let(:manage_board_views_grid) do
-    FactoryBot.create(:board_grid, project: manage_board_views_project)
+    create(:board_grid, project: manage_board_views_project)
   end
   let(:show_board_views_grid) do
-    FactoryBot.create(:board_grid, project: show_board_views_project)
+    create(:board_grid, project: show_board_views_project)
   end
   let(:other_board_grid) do
-    FactoryBot.create(:board_grid, project: other_project)
+    create(:board_grid, project: other_project)
   end
 
   before do
@@ -97,7 +97,7 @@ describe 'API v3 Grids resource for Board Grids', type: :request, content_type: 
 
     context 'with a filter on the scope attribute for all boards of a project' do
       # The user would be able to see both boards
-      shared_let(:other_role) { FactoryBot.create(:role, permissions: [:show_board_views]) }
+      shared_let(:other_role) { create(:role, permissions: [:show_board_views]) }
 
       let(:path) do
         filter = [{ 'scope' =>

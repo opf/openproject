@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 
 # OpenProject is an open source project management software.
@@ -110,11 +108,8 @@ module DemoData
 
       statuses.to_a.map do |status|
         Query.new_default(project: project, user: admin).tap do |query|
-          # Hide the query in the main menu
-          query.hidden = true
-
           # Make it public so that new members can see it too
-          query.is_public = true
+          query.public = true
 
           query.name = status.name
           # Set filter by this status
@@ -163,11 +158,9 @@ module DemoData
 
       lists.map do |list|
         Query.new(project: project, user: admin).tap do |query|
-          # Hide the query in the main menu
-          query.hidden = true
-
           # Make it public so that new members can see it too
-          query.is_public = true
+          query.public = true
+          query.include_subprojects = true
 
           query.name = list[:name]
 
@@ -235,11 +228,8 @@ module DemoData
 
       parents.map do |parent|
         Query.new_default(project: project, user: admin).tap do |query|
-          # Hide the query in the main menu
-          query.hidden = true
-
           # Make it public so that new members can see it too
-          query.is_public = true
+          query.public = true
 
           query.name = parent.subject
           # Set filter by this status

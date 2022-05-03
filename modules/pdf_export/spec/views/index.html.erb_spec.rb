@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,8 +29,8 @@
 require 'spec_helper'
 
 describe 'export_card_configurations/index', type: :view do
-  let(:config1) { FactoryBot.build(:export_card_configuration, name: "Config 1") }
-  let(:config2) { FactoryBot.build(:export_card_configuration, name: "Config 2") }
+  let(:config1) { build(:export_card_configuration, name: "Config 1") }
+  let(:config2) { build(:export_card_configuration, name: "Config 2") }
 
   before do
     config1.save

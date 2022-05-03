@@ -19,7 +19,7 @@ You can integrate your active directory or other SAML compliant identity provide
 
 The configuration can be provided in one of two ways:
 
-* `config/plugins/auth_saml/settings.yml` file (1.1)
+* `config/configuration.yml` file (1.1)
 
 * Environment variables (1.2)
 
@@ -30,23 +30,19 @@ The configuration can be provided in one of two ways:
 Whatever means are chosen, the plugin simply passes all options to omniauth-saml. See [their configuration
 documentation](https://github.com/omniauth/omniauth-saml#usage) for further details.
 
-The options are mutually exclusive. I.e. if settings are already provided via ENV variables, settings in a `settings.yml` file will be ignored. If you decide to save settings in the database, they will override any ENV variables you might have set.
+The options are mutually exclusive. I.e. if settings are already provided via ENV variables, they will overwrite settings in a `configuration.yml` file.
+If you decide to save settings in the database, they will override any ENV variables you might have set.
 
-#### 1.1 config/plugins/auth_saml/settings.yml file
+#### 1.1 config/configuration.yml file
 
-You need to create the folder `plugins` and `auth_saml` first. You can do that with the following command
-
-```
-mkdir -p /opt/openproject/config/plugins/auth_saml
-```
-
-and then edit the file in your favorite editor
+In your OpenProject packaged installation, you can modify the `/opt/openproject/config/configuration.yml` file. 
+Edit the file in your favorite editor
 
 ```
-vim /opt/openproject/config/plugins/auth_saml/settings.yml
+vim /opt/openproject/config/configuration.yml
 ```
 
-In your OpenProject packaged installation, you can modify the `/opt/openproject/config/plugins/auth_saml/settings.yml` file. This will contains the complete OpenProject configuration and can be extended to also contain metadata settings and connection details for your SSO identity provider.
+This will contains the complete OpenProject configuration and can be extended to also contain metadata settings and connection details for your SSO identity provider.
 
 The following is an exemplary file with a set of common settings:
 
@@ -61,11 +57,13 @@ saml:
   assertion_consumer_service_url: "https://<YOUR OPENPROJECT HOSTNAME>/auth/saml/callback"
   issuer: "https://<YOUR OPENPROJECT HOSTNAME>"
 
-  # IF your SSL certificate on your SSO is not trusted on this machine, you need to add it here
+  # IF your SSL certificate on your SSO is not trusted on this machine, you need to add it here in ONE line
+  ### one liner to generate certificate in ONE line
+  ### awk 'NF {sub(/\r/, ""); printf "%s\\n",$0;}' <yourcert.pem>
   #idp_cert: "-----BEGIN CERTIFICATE-----\n ..... SSL CERTIFICATE HERE ...-----END CERTIFICATE-----\n"
   # Otherwise, the certificate fingerprint must be added
   # Either `idp_cert` or `idp_cert_fingerprint` must be present!
-  idp_cert_fingerprint: "E7:91:B2:E1:...",
+  idp_cert_fingerprint: "E7:91:B2:E1:..."
 
   # Replace with your single sign on URL
   # For example: "https://sso.example.com/saml/singleSignOn"
@@ -87,7 +85,7 @@ saml:
     last_name: ['sn']
 ```
 
-Be sure to choose the correct indentation and base key. The items below the `saml` key should be indented two spaces. You will get an YAML parsing error otherwise when trying to start OpenProject.
+Be sure to choose the correct indentation and base key. The items below the `saml` key should be indented two spaces more than `saml` already is. And `saml` can will need to be placed in the `default` or `production` group so it will already be indented. You will get an YAML parsing error otherwise when trying to start OpenProject.
 
 #### 1.2 Environment variables
 
@@ -122,7 +120,7 @@ That means it's best to set them using the console.
 > docker-compose run --rm web bundle exec rails console
 ```
 
-Once on the console you can set the same values as named in the `settings.yml` file, however they need to be nested within a 'providers' key as follows.
+Once on the console you can set the same values as named in the `configuration.yml` file, however they need to be nested within a 'providers' key as follows.
 For example:
 
 ```ruby
@@ -131,7 +129,10 @@ Setting.plugin_openproject_auth_saml = Hash(Setting.plugin_openproject_auth_saml
     "saml" => {
       "name" => "saml",
       "display_name" => "My SSO",
-      "assertion_consumer_service_url" => "https:/<YOUR OPENPROJECT HOSTNAME>/auth/saml/callback"
+      "assertion_consumer_service_url" => "https://<YOUR OPENPROJECT HOSTNAME>/auth/saml/callback"
+      ### one liner to generate certificate in ONE line
+      ### awk 'NF {sub(/\r/, ""); printf "%s\\n",$0;}' <yourcert.pem>
+      "idp_cert" => "-----BEGIN CERTIFICATE-----\nMI................IEr\n-----END CERTIFICATE-----\n",
       # etc.
     }
   }
@@ -153,6 +154,8 @@ SAML responses by identity providers are required to be signed. You can configur
 
 Use the key `attribute_statements` to provide mappings for attributes returned by the SAML identity provider's response to OpenProject internal attributes. 
 
+**a) Attribute mapping example for settings.yml**
+
 ```yaml
 # <-- other configuration -->
 # Attribute map in SAML
@@ -170,6 +173,26 @@ attribute_statements:
 You may provide attribute names or namespace URIs as follows: `email: ['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress']`. 
 
 The OpenProject username is taken by default from the `email` attribute if no explicit login attribute is present.
+
+**b) Attribute mapping example for database**
+
+```ruby
+Setting.plugin_openproject_auth_saml = Hash(Setting.plugin_openproject_auth_saml).deep_merge({
+  "providers" => {
+    "saml" => {
+      "email" => "email",
+      "login" => "username",
+      "first_name" => "firstname",
+      "last_name" => "lastname"
+      # another example for combined attributes in an array:
+      "login" => ['username', 'samAccountName', 'uid'],
+      # etc.
+    }
+  }
+})
+```
+
+
 
 **Optional: Setting the attribute format**
 
@@ -213,7 +236,7 @@ To configure assertion encryption, you need to provide the certificate to send i
   private_key: "-----BEGIN PRIVATE KEY-----\n .... private key contents ....\n-----END PRIVATE KEY-----"
 ```
 
-Request signing means that the service provider (OpenProject in this case) uses the certificate specified to sign the request to the identity provider. They reuse the same `certificate` and `private_key` settings as for assertion encryption.
+Request signing means that the service provider (OpenProject in this case) uses the certificate specified to sign the request to the identity provider. They reuse the same `certificate` and `private_key` settings as for assertion encryption. It is recommended to use an RSA key pair, the key must be provided without password.
 
 To enable request signing, enable the following flag:
 
@@ -266,3 +289,23 @@ sudo openproject run console
 ```
 
 Then, existing users should be able to log in using their SAML identity. Note that this works only if the user is using password-based authentication, and is not linked to any other authentication source (e.g. LDAP) or OpenID provider.
+
+
+
+Q: Could the users be automatically logged in to OpenProject if they are already authenticated at the SAML Identity Provider?
+
+A: You are able to chose a default direct-login-provider in the `/opt/openproject/config/configuration.yml` or by using environment variables
+
+```
+omniauth_direct_login_provider: saml
+```
+
+[Read more](../../../installation-and-operations/configuration/#omniauth-direct-login-provider)
+
+
+
+Q: `"certificate"` and `"private key"` are used in the SAML configuration and openproject logs show a FATAL error after GET "/auth/saml"  `**FATAL** -- :  OpenSSL::PKey::RSAError (Neither PUB key nor PRIV key: nested asn1 error):`
+
+A1: The given private_key is encrypted. The key is needed without the password (cf., https://github.com/onelogin/ruby-saml/issues/473)
+
+A2: The provided key pair is not an RSA key. ruby-saml might expect an RSA key.

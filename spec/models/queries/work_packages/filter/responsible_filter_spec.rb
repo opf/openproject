@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -40,9 +40,9 @@ describe Queries::WorkPackages::Filter::ResponsibleFilter, type: :model do
   let(:values) { [] }
 
   describe 'where filter results' do
-    let(:work_package) { FactoryBot.create(:work_package, responsible: responsible) }
-    let(:responsible) { FactoryBot.create(:user) }
-    let(:group) { FactoryBot.create(:group) }
+    let(:work_package) { create(:work_package, responsible: responsible) }
+    let(:responsible) { create(:user) }
+    let(:group) { create(:group) }
 
     subject { WorkPackage.where(instance.where) }
 
@@ -84,7 +84,7 @@ describe Queries::WorkPackages::Filter::ResponsibleFilter, type: :model do
       before do
         allow(User)
           .to receive(:current)
-          .and_return(FactoryBot.create(:user))
+          .and_return(create(:user))
       end
 
       it 'does not return the work package' do
@@ -94,8 +94,8 @@ describe Queries::WorkPackages::Filter::ResponsibleFilter, type: :model do
     end
 
     context 'for me and user values' do
-      let(:user) { FactoryBot.create :user }
-      let(:responsible2) { FactoryBot.create :user }
+      let(:user) { create :user }
+      let(:responsible2) { create :user }
       let(:values) { [responsible.id, user.id, 'me', responsible2.id] }
 
       before do
@@ -133,7 +133,7 @@ describe Queries::WorkPackages::Filter::ResponsibleFilter, type: :model do
 
     context 'for a group value with a group member being assignee' do
       let(:values) { [group.id.to_s] }
-      let(:group) { FactoryBot.create(:group, members: responsible) }
+      let(:group) { create(:group, members: responsible) }
 
       it 'does not return the work package' do
         is_expected
@@ -153,8 +153,8 @@ describe Queries::WorkPackages::Filter::ResponsibleFilter, type: :model do
     context "for a user value with the user's group being assignee" do
       let(:values) { [user.id.to_s] }
       let(:responsible) { group }
-      let(:user) { FactoryBot.create(:user) }
-      let(:group) { FactoryBot.create(:group, members: user) }
+      let(:user) { create(:user) }
+      let(:group) { create(:group, members: user) }
 
       it 'does not return the work package' do
         is_expected
@@ -165,7 +165,7 @@ describe Queries::WorkPackages::Filter::ResponsibleFilter, type: :model do
     context "for a user value with the user not being member of the assigned group" do
       let(:values) { [user.id.to_s] }
       let(:responsible) { group }
-      let(:user) { FactoryBot.create(:user) }
+      let(:user) { create(:user) }
 
       it 'does not return the work package' do
         is_expected
@@ -187,7 +187,7 @@ describe Queries::WorkPackages::Filter::ResponsibleFilter, type: :model do
     let(:type) { :list_optional }
     let(:class_key) { :responsible_id }
 
-    let(:user_1) { FactoryBot.build_stubbed(:user) }
+    let(:user_1) { build_stubbed(:user) }
 
     let(:principal_loader) do
       loader = double('principal_loader')
@@ -247,7 +247,7 @@ describe Queries::WorkPackages::Filter::ResponsibleFilter, type: :model do
 
     describe '#allowed_values' do
       let(:logged_in) { true }
-      let(:group) { FactoryBot.build_stubbed(:group) }
+      let(:group) { build_stubbed(:group) }
 
       before do
         allow(User)
@@ -288,8 +288,8 @@ describe Queries::WorkPackages::Filter::ResponsibleFilter, type: :model do
     end
 
     describe '#value_objects' do
-      let(:user) { FactoryBot.build_stubbed(:user) }
-      let(:user2) { FactoryBot.build_stubbed(:user) }
+      let(:user) { build_stubbed(:user) }
+      let(:user2) { build_stubbed(:user) }
 
       before do
         allow(Principal)

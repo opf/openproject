@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,7 +29,7 @@
 require 'spec_helper'
 
 describe WikiPages::SetAttributesService, type: :model do
-  let(:user) { FactoryBot.build_stubbed(:user) }
+  let(:user) { build_stubbed(:user) }
   let(:contract_class) do
     contract = double('contract_class')
 
@@ -57,7 +55,7 @@ describe WikiPages::SetAttributesService, type: :model do
   end
   let(:call_attributes) { {} }
   let(:wiki_page) do
-    FactoryBot.build_stubbed(:wiki_page_with_content)
+    build_stubbed(:wiki_page_with_content)
   end
 
   describe 'call' do

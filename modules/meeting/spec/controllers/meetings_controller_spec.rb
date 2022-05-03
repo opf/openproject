@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe MeetingsController, type: :controller do
-  let(:project) { FactoryBot.create :project }
+  let(:project) { create :project }
 
   before do
     allow(Project).to receive(:find).and_return(project)
@@ -41,9 +41,9 @@ describe MeetingsController, type: :controller do
   describe 'GET' do
     describe 'index' do
       before(:each) do
-        @ms = [FactoryBot.build_stubbed(:meeting),
-               FactoryBot.build_stubbed(:meeting),
-               FactoryBot.build_stubbed(:meeting)]
+        @ms = [build_stubbed(:meeting),
+               build_stubbed(:meeting),
+               build_stubbed(:meeting)]
         allow(@ms).to receive(:from_tomorrow).and_return(@ms)
 
         allow(project).to receive(:meetings).and_return(@ms)
@@ -64,7 +64,7 @@ describe MeetingsController, type: :controller do
 
     describe 'show' do
       before(:each) do
-        @m = FactoryBot.build_stubbed(:meeting, project: project, agenda: nil)
+        @m = build_stubbed(:meeting, project: project, agenda: nil)
         allow(Meeting).to receive_message_chain(:includes, :find).and_return(@m)
       end
       describe 'html' do
@@ -78,7 +78,7 @@ describe MeetingsController, type: :controller do
     describe 'new' do
       before(:each) do
         allow(Project).to receive(:find).and_return(project)
-        @m = FactoryBot.build_stubbed(:meeting)
+        @m = build_stubbed(:meeting)
         allow(Meeting).to receive(:new).and_return(@m)
       end
       describe 'html' do
@@ -92,7 +92,7 @@ describe MeetingsController, type: :controller do
 
     describe 'edit' do
       before(:each) do
-        @m = FactoryBot.build_stubbed(:meeting, project: project)
+        @m = build_stubbed(:meeting, project: project)
         allow(Meeting).to receive_message_chain(:includes, :find).and_return(@m)
       end
       describe 'html' do

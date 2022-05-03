@@ -1,60 +1,59 @@
 require 'spec_helper'
 require 'features/page_objects/notification'
 
-# rubocop:disable RSpec/MultipleMemoizedHelpers
 describe 'Bulk update work packages through Rails view', js: true do
   let(:dev_role) do
-    FactoryBot.create :role,
-                      permissions: %i[view_work_packages]
+    create :role,
+           permissions: %i[view_work_packages]
   end
   let(:mover_role) do
-    FactoryBot.create :role,
-                      permissions: %i[view_work_packages copy_work_packages move_work_packages manage_subtasks add_work_packages]
+    create :role,
+           permissions: %i[view_work_packages copy_work_packages move_work_packages manage_subtasks add_work_packages]
   end
   let(:dev) do
-    FactoryBot.create :user,
-                      firstname: 'Dev',
-                      lastname: 'Guy',
-                      member_in_project: project,
-                      member_through_role: dev_role
+    create :user,
+           firstname: 'Dev',
+           lastname: 'Guy',
+           member_in_project: project,
+           member_through_role: dev_role
   end
   let(:mover) do
-    FactoryBot.create :admin,
-                      firstname: 'Manager',
-                      lastname: 'Guy',
-                      member_in_project: project,
-                      member_through_role: mover_role
+    create :admin,
+           firstname: 'Manager',
+           lastname: 'Guy',
+           member_in_project: project,
+           member_through_role: mover_role
   end
 
-  let(:type) { FactoryBot.create :type, name: 'Bug' }
+  let(:type) { create :type, name: 'Bug' }
 
-  let!(:project) { FactoryBot.create(:project, name: 'Source', types: [type]) }
+  let!(:project) { create(:project, name: 'Source', types: [type]) }
 
-  let!(:status) { FactoryBot.create :status }
+  let!(:status) { create :status }
   let(:work_package2_status) { status }
 
   let!(:work_package) do
-    FactoryBot.create(:work_package,
-                      author: dev,
-                      status: status,
-                      project: project,
-                      type: type)
+    create(:work_package,
+           author: dev,
+           status: status,
+           project: project,
+           type: type)
   end
   let!(:work_package2) do
-    FactoryBot.create(:work_package,
-                      author: dev,
-                      status: work_package2_status,
-                      project: project,
-                      type: type)
+    create(:work_package,
+           author: dev,
+           status: work_package2_status,
+           project: project,
+           type: type)
   end
 
-  let!(:status2) { FactoryBot.create :default_status }
+  let!(:status2) { create :default_status }
   let!(:workflow) do
-    FactoryBot.create :workflow,
-                      type_id: type.id,
-                      old_status: work_package.status,
-                      new_status: status2,
-                      role: mover_role
+    create :workflow,
+           type_id: type.id,
+           old_status: work_package.status,
+           new_status: status2,
+           role: mover_role
   end
 
   let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
@@ -80,8 +79,6 @@ describe 'Bulk update work packages through Rails view', js: true do
         context_menu.open_for work_package
         context_menu.choose 'Bulk edit'
 
-        # On work packages edit page
-        expect(page).to have_selector('#work_package_status_id')
         select status2.name, from: 'work_package_status_id'
         notes.set_markdown('The typed note')
       end
@@ -101,7 +98,7 @@ describe 'Bulk update work packages through Rails view', js: true do
       end
 
       context 'when making an error in the form' do
-        let(:work_package2_status) { FactoryBot.create(:status) } # without creating a workflow
+        let(:work_package2_status) { create(:status) } # without creating a workflow
 
         it 'does not update the work packages' do
           fill_in 'work_package_start_date', with: '123'
@@ -160,6 +157,20 @@ describe 'Bulk update work packages through Rails view', js: true do
         context_menu.open_for work_package
         context_menu.expect_options ['Bulk edit']
       end
+
+      context 'with a project budget' do
+        let!(:budget) { create(:budget, project: project) }
+
+        it 'updates all the work packages' do
+          context_menu.open_for work_package
+          context_menu.choose 'Bulk edit'
+
+          select budget.subject, from: 'work_package_budget_id'
+          click_on 'Submit'
+          expect(work_package.reload.budget_id).to eq(budget.id)
+          expect(work_package2.reload.budget_id).to eq(budget.id)
+        end
+      end
     end
 
     context 'without permission' do
@@ -172,4 +183,3 @@ describe 'Bulk update work packages through Rails view', js: true do
     end
   end
 end
-# rubocop:enable RSpec/MultipleMemoizedHelpers

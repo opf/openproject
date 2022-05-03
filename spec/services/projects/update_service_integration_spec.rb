@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,25 +30,25 @@ require 'spec_helper'
 
 describe Projects::UpdateService, 'integration', type: :model do
   let(:user) do
-    FactoryBot.create(:user,
-                      member_in_project: project,
-                      member_through_role: role)
+    create(:user,
+           member_in_project: project,
+           member_through_role: role)
   end
   let(:role) do
-    FactoryBot.create(:role,
-                      permissions: permissions)
+    create(:role,
+           permissions: permissions)
   end
   let(:permissions) do
     %i(edit_project)
   end
 
   let!(:project) do
-    FactoryBot.create(:project,
-                      "custom_field_#{custom_field.id}" => 1,
-                      status: project_status)
+    create(:project,
+           "custom_field_#{custom_field.id}" => 1,
+           status: project_status)
   end
   let(:instance) { described_class.new(user: user, model: project) }
-  let(:custom_field) { FactoryBot.create(:int_project_custom_field) }
+  let(:custom_field) { create(:int_project_custom_field) }
   let(:project_status) { nil }
 
   let(:attributes) { {} }
@@ -76,7 +76,7 @@ describe Projects::UpdateService, 'integration', type: :model do
     end
 
     context 'if a new custom field gets a value assigned' do
-      let(:custom_field2) { FactoryBot.create(:text_project_custom_field) }
+      let(:custom_field2) { create(:text_project_custom_field) }
 
       let(:attributes) do
         { "custom_field_#{custom_field2.id}" => 'some text' }
@@ -95,9 +95,9 @@ describe Projects::UpdateService, 'integration', type: :model do
     end
 
     context 'when saving the status as well as the parent' do
-      let(:parent_project) { FactoryBot.create(:project, members: { user => parent_role }) }
-      let(:parent_role) { FactoryBot.create :role, permissions: %i(add_subprojects) }
-      let(:project_status) { FactoryBot.create(:project_status, code: 'on_track') }
+      let(:parent_project) { create(:project, members: { user => parent_role }) }
+      let(:parent_role) { create :role, permissions: %i(add_subprojects) }
+      let(:project_status) { create(:project_status, code: 'on_track') }
       let(:attributes) do
         {
           parent_id: parent_project.id,

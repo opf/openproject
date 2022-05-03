@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,10 +28,10 @@
 require 'spec_helper'
 
 describe Relation, type: :model do
-  let(:from) { FactoryBot.create(:work_package) }
-  let(:to) { FactoryBot.create(:work_package) }
+  let(:from) { create(:work_package) }
+  let(:to) { create(:work_package) }
   let(:type) { 'relates' }
-  let(:relation) { FactoryBot.build(:relation, from: from, to: to, relation_type: type) }
+  let(:relation) { build(:relation, from: from, to: to, relation_type: type) }
 
   describe 'all relation types' do
     Relation::TYPES.each do |key, type_hash|
@@ -66,9 +64,9 @@ describe Relation, type: :model do
       let(:type) { key }
       let(:reversed) { type_hash[:reverse] }
       let(:relation) do
-        FactoryBot.build_stubbed(:relation,
-                                 relation_type: nil,
-                                 column_name => column_count)
+        build_stubbed(:relation,
+                      relation_type: nil,
+                      column_name => column_count)
       end
 
       context 'with the column set to 1' do
@@ -105,10 +103,10 @@ describe Relation, type: :model do
           end
         end
         let(:relation) do
-          FactoryBot.build_stubbed(:relation,
-                                   relation_type: nil,
-                                   column_name => 1,
-                                   other_column => 1)
+          build_stubbed(:relation,
+                        relation_type: nil,
+                        column_name => 1,
+                        other_column => 1)
         end
 
         it 'is "mixed"' do
@@ -174,20 +172,20 @@ describe Relation, type: :model do
   end
 
   describe 'it should validate circular dependency' do
-    let(:otherwp) { FactoryBot.create(:work_package) }
+    let(:otherwp) { create(:work_package) }
     let(:relation) do
-      FactoryBot.build(:relation, from: from, to: to, relation_type: Relation::TYPE_PRECEDES)
+      build(:relation, from: from, to: to, relation_type: Relation::TYPE_PRECEDES)
     end
     let(:relation2) do
-      FactoryBot.build(:relation, from: to, to: otherwp, relation_type: Relation::TYPE_PRECEDES)
+      build(:relation, from: to, to: otherwp, relation_type: Relation::TYPE_PRECEDES)
     end
 
     let(:invalid_precedes_relation) do
-      FactoryBot.build(:relation, from: otherwp, to: from, relation_type: Relation::TYPE_PRECEDES)
+      build(:relation, from: otherwp, to: from, relation_type: Relation::TYPE_PRECEDES)
     end
 
     let(:invalid_follows_relation) do
-      FactoryBot.build(:relation, from: from, to: otherwp, relation_type: Relation::TYPE_FOLLOWS)
+      build(:relation, from: from, to: otherwp, relation_type: Relation::TYPE_FOLLOWS)
     end
 
     it 'prevents invalid precedes relations' do

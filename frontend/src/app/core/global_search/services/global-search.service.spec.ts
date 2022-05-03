@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -34,7 +34,7 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { States } from 'core-app/core/states/states.service';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 describe('Global search service', () => {
   let service:GlobalSearchService;
@@ -48,7 +48,7 @@ describe('Global search service', () => {
         I18nService,
         PathHelperService,
         States,
-        APIV3Service,
+        ApiV3Service,
         CurrentProjectService,
         GlobalSearchService,
       ],

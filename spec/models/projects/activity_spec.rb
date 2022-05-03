@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,91 +30,91 @@ require 'spec_helper'
 
 describe Projects::Activity, type: :model do
   let(:project) do
-    FactoryBot.create(:project)
+    create(:project)
   end
 
   let(:initial_time) { Time.now }
 
   let(:work_package) do
-    FactoryBot.create(:work_package,
-                      project: project)
+    create(:work_package,
+           project: project)
   end
 
   let(:work_package2) do
-    FactoryBot.create(:work_package,
-                      project: project)
+    create(:work_package,
+           project: project)
   end
 
   let(:wiki_content) do
     project.reload
 
-    page = FactoryBot.create(:wiki_page,
-                             wiki: project.wiki)
+    page = create(:wiki_page,
+                  wiki: project.wiki)
 
-    FactoryBot.create(:wiki_content,
-                      page: page)
+    create(:wiki_content,
+           page: page)
   end
 
   let(:wiki_content2) do
     project.reload
 
-    page = FactoryBot.create(:wiki_page,
-                             wiki: project.wiki)
+    page = create(:wiki_page,
+                  wiki: project.wiki)
 
-    FactoryBot.create(:wiki_content,
-                      page: page)
+    create(:wiki_content,
+           page: page)
   end
 
   let(:news) do
-    FactoryBot.create(:news,
-                      project: project)
+    create(:news,
+           project: project)
   end
 
   let(:news2) do
-    FactoryBot.create(:news,
-                      project: project)
+    create(:news,
+           project: project)
   end
 
   let(:repository) do
-    FactoryBot.create(:repository_git,
-                      project: project)
+    create(:repository_git,
+           project: project)
   end
 
   let(:changeset) do
-    FactoryBot.create(:changeset,
-                      repository: repository)
+    create(:changeset,
+           repository: repository)
   end
 
   let(:changeset2) do
-    FactoryBot.create(:changeset,
-                      repository: repository)
+    create(:changeset,
+           repository: repository)
   end
 
   let(:forum) do
-    FactoryBot.create(:forum,
-                      project: project)
+    create(:forum,
+           project: project)
   end
 
   let(:message) do
-    FactoryBot.create(:message,
-                      forum: forum)
+    create(:message,
+           forum: forum)
   end
 
   let(:message2) do
-    FactoryBot.create(:message,
-                      forum: forum)
+    create(:message,
+           forum: forum)
   end
 
   let(:time_entry) do
-    FactoryBot.create(:time_entry,
-                      work_package: work_package,
-                      project: project)
+    create(:time_entry,
+           work_package: work_package,
+           project: project)
   end
 
   let(:time_entry2) do
-    FactoryBot.create(:time_entry,
-                      work_package: work_package,
-                      project: project)
+    create(:time_entry,
+           work_package: work_package,
+           project: project)
   end
 
   def latest_activity

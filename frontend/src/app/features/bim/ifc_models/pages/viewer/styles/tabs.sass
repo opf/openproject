@@ -116,7 +116,7 @@
         padding-bottom: 0.5rem
         vertical-align: top
 
-// Hightlighted list items shall look like a "pill", similarly to the selected tree item in the wiki menu.
+// Highlighted list items shall look like a "pill", similarly to the selected tree item in the wiki menu.
 $pill-padding-left: 8px
 
 .xeokit-tab
@@ -136,6 +136,10 @@ $pill-padding-left: 8px
         width: 20px
         // Workaround to hide the actual text of the link and show our icons instead
         color: var(--main-menu-bg-color)
+
+        .main-menu &
+          // reset main menu indents
+          padding: initial
 
         &:hover,
         &:focus,

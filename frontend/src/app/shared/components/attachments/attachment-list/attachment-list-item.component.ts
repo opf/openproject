@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -27,24 +27,29 @@
 //++
 
 import {
-  Component, EventEmitter, Input, Output,
+  ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output,
 } from '@angular/core';
+import { Observable, of } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-import { States } from 'core-app/core/states/states.service';
-import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
+import { IAttachment } from 'core-app/core/state/attachments/attachment.model';
+import { PrincipalsResourceService } from 'core-app/core/state/principals/principals.service';
+import { IUser } from 'core-app/core/state/principals/user.model';
+import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 
 @Component({
-  selector: 'attachment-list-item',
+  selector: 'op-attachment-list-item',
   templateUrl: './attachment-list-item.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AttachmentListItemComponent {
+export class AttachmentListItemComponent implements OnInit {
   @Input() public resource:HalResource;
 
-  @Input() public attachment:any;
+  @Input() public attachment:IAttachment;
 
-  @Input() public index:any;
+  @Input() public index:number;
 
   @Input() destroyImmediately = true;
 
@@ -55,30 +60,47 @@ export class AttachmentListItemComponent {
   public text = {
     dragHint: this.I18n.t('js.attachments.draggable_hint'),
     destroyConfirmation: this.I18n.t('js.text_attachment_destroy_confirmation'),
-    removeFile: (arg:any) => this.I18n.t('js.label_remove_file', arg),
+    removeFile: (arg:unknown):string => this.I18n.t('js.label_remove_file', arg),
   };
 
-  constructor(protected halNotification:HalResourceNotificationService,
-    readonly I18n:I18nService,
-    readonly states:States,
-    readonly pathHelper:PathHelperService) {
+  public get deleteIconTitle():string {
+    return this.text.removeFile({ fileName: this.attachment.fileName });
+  }
+
+  public author$:Observable<IUser>;
+
+  constructor(private readonly principalsResourceService:PrincipalsResourceService,
+    private readonly I18n:I18nService,
+    private readonly pathHelper:PathHelperService) {
+  }
+
+  ngOnInit():void {
+    const authorId = idFromLink(this.attachment._links.author.href);
+
+    this.author$ = this.principalsResourceService.query.selectEntity(authorId)
+      .pipe(
+        switchMap((user) => (user ? of(user) : this.principalsResourceService.fetchUser(authorId))),
+        map((user) => user as IUser),
+      );
   }
 
   /**
    * Set the appropriate data for drag & drop of an attachment item.
    * @param evt DragEvent
    */
-  public setDragData(evt:DragEvent) {
+  public setDragData(evt:DragEvent):void {
     const url = this.downloadPath;
     const previewElement = this.draggableHTML(url);
 
-    evt.dataTransfer!.setData('text/plain', url);
-    evt.dataTransfer!.setData('text/html', previewElement.outerHTML);
-    evt.dataTransfer!.setData('text/uri-list', url);
-    evt.dataTransfer!.setDragImage(previewElement, 0, 0);
+    if (evt.dataTransfer == null) return;
+
+    evt.dataTransfer.setData('text/plain', url);
+    evt.dataTransfer.setData('text/html', previewElement.outerHTML);
+    evt.dataTransfer.setData('text/uri-list', url);
+    evt.dataTransfer.setDragImage(previewElement, 0, 0);
   }
 
-  public draggableHTML(url:string) {
+  public draggableHTML(url:string):HTMLImageElement|HTMLAnchorElement {
     let el:HTMLImageElement|HTMLAnchorElement;
 
     if (this.isImage) {
@@ -94,21 +116,20 @@ export class AttachmentListItemComponent {
     return el;
   }
 
-  public get downloadPath() {
-    return this.pathHelper.attachmentDownloadPath(this.attachment.id, this.fileName);
+  public get downloadPath():string {
+    return this.pathHelper.attachmentDownloadPath(String(this.attachment.id), this.fileName);
   }
 
-  public get isImage() {
+  public get isImage():boolean {
     const ext = this.fileName.split('.').pop() || '';
     return AttachmentListItemComponent.imageFileExtensions.indexOf(ext.toLowerCase()) > -1;
   }
 
-  public get fileName() {
-    const a = this.attachment;
-    return a.fileName || a.customName || a.name;
+  public get fileName():string {
+    return this.attachment.fileName;
   }
 
-  public confirmRemoveAttachment($event:JQuery.TriggeredEvent) {
+  public confirmRemoveAttachment($event:JQuery.TriggeredEvent):boolean {
     if (!window.confirm(this.text.destroyConfirmation)) {
       $event.stopImmediatePropagation();
       $event.preventDefault();
@@ -116,13 +137,6 @@ export class AttachmentListItemComponent {
     }
 
     this.removeAttachment.emit();
-
-    if (this.destroyImmediately) {
-      this
-        .resource
-        .removeAttachment(this.attachment);
-    }
-
     return false;
   }
 }

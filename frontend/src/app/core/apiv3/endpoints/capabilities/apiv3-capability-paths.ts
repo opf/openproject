@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -27,12 +27,12 @@
 //++
 
 import { CapabilityResource } from 'core-app/features/hal/resources/capability-resource';
-import { CachableAPIV3Resource } from 'core-app/core/apiv3/cache/cachable-apiv3-resource';
+import { ApiV3Resource } from 'core-app/core/apiv3/cache/cachable-apiv3-resource';
 import { StateCacheService } from 'core-app/core/apiv3/cache/state-cache.service';
-import { Apiv3CapabilitiesPaths } from 'core-app/core/apiv3/endpoints/capabilities/apiv3-capabilities-paths';
+import { ApiV3CapabilitiesPaths } from 'core-app/core/apiv3/endpoints/capabilities/apiv3-capabilities-paths';
 
-export class Apiv3CapabilityPaths extends CachableAPIV3Resource<CapabilityResource> {
+export class ApiV3CapabilityPaths extends ApiV3Resource<CapabilityResource> {
   protected createCache():StateCacheService<CapabilityResource> {
-    return (this.parent as Apiv3CapabilitiesPaths).cache;
+    return (this.parent as ApiV3CapabilitiesPaths).cache;
   }
 }

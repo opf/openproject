@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,7 +31,7 @@ require 'spec_helper'
 describe ::API::V3::Groups::GroupCollectionRepresenter do
   let(:self_base_link) { '/api/v3/groups' }
   let(:groups) do
-    FactoryBot.build_stubbed_list(:group, 3).tap do |groups|
+    build_stubbed_list(:group, 3).tap do |groups|
       allow(groups)
         .to receive(:per_page)
         .with(page_size)
@@ -47,7 +47,7 @@ describe ::API::V3::Groups::GroupCollectionRepresenter do
         .and_return(total)
     end
   end
-  let(:current_user) { FactoryBot.build_stubbed(:user) }
+  let(:current_user) { build_stubbed(:user) }
   let(:representer) do
     described_class.new(groups,
                         self_link: self_base_link,

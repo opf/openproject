@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,38 +29,38 @@
 require 'spec_helper'
 
 describe 'Work package filtering by responsible', js: true do
-  let(:project) { FactoryBot.create :project }
+  let(:project) { create :project }
   let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
   let(:filters) { ::Components::WorkPackages::Filters.new }
-  let(:role) { FactoryBot.create(:role, permissions: %i[view_work_packages save_queries]) }
+  let(:role) { create(:role, permissions: %i[view_work_packages save_queries]) }
   let(:other_user) do
-    FactoryBot.create :user,
-                      firstname: 'Other',
-                      lastname: 'User',
-                      member_in_project: project,
-                      member_through_role: role
+    create :user,
+           firstname: 'Other',
+           lastname: 'User',
+           member_in_project: project,
+           member_through_role: role
   end
   let(:placeholder_user) do
-    FactoryBot.create :placeholder_user,
-                      member_in_project: project,
-                      member_through_role: role
+    create :placeholder_user,
+           member_in_project: project,
+           member_through_role: role
   end
 
   let!(:work_package_user_responsible) do
-    FactoryBot.create :work_package,
-                      project: project,
-                      responsible: other_user
+    create :work_package,
+           project: project,
+           responsible: other_user
   end
   let!(:work_package_placeholder_user_responsible) do
-    FactoryBot.create :work_package,
-                      project: project,
-                      responsible: placeholder_user
+    create :work_package,
+           project: project,
+           responsible: placeholder_user
   end
 
   current_user do
-    FactoryBot.create :user,
-                      member_in_project: project,
-                      member_through_role: role
+    create :user,
+           member_in_project: project,
+           member_through_role: role
   end
 
   it 'shows the work package matching the responsible filter' do

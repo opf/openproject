@@ -1,0 +1,8 @@
+#English strings go here
+ru:
+  js:
+    calendar:
+      create_new: 'Создать новый календарь'
+      title: 'Календарь'
+      too_many: 'Всего %{count} пакетов работ, но может быть отображено только %{max}.'
+      unsaved_title: 'Безымянный календарь'

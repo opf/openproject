@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -43,7 +43,7 @@ import { WorkPackageViewHighlightingService } from 'core-app/features/work-packa
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { Observable } from 'rxjs';
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 @Component({
   templateUrl: './project-status.component.html',
@@ -65,23 +65,24 @@ export class WidgetProjectStatusComponent extends AbstractWidgetComponent implem
 
   constructor(protected readonly i18n:I18nService,
     protected readonly injector:Injector,
-    protected readonly apiV3Service:APIV3Service,
+    protected readonly apiV3Service:ApiV3Service,
     protected readonly currentProject:CurrentProjectService,
     protected readonly cdRef:ChangeDetectorRef) {
     super(i18n, injector);
   }
 
-  ngOnInit() {
-    this.project$ = this
-      .apiV3Service
-      .projects
-      .id(this.currentProject.id!)
-      .get();
-
-    this.cdRef.detectChanges();
+  ngOnInit():void {
+    if (this.currentProject.id) {
+      this.project$ = this
+        .apiV3Service
+        .projects
+        .id(this.currentProject.id)
+        .get();
+      this.cdRef.detectChanges();
+    }
   }
 
-  public get isEditable() {
+  public get isEditable():boolean {
     return false;
   }
 }

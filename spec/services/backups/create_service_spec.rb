@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,9 +30,9 @@ require 'spec_helper'
 require 'services/base_services/behaves_like_create_service'
 
 describe Backups::CreateService, type: :model do
-  let(:user) { FactoryBot.create :admin }
+  let(:user) { create :admin }
   let(:service) { described_class.new user: user, backup_token: backup_token.plain_value }
-  let(:backup_token) { FactoryBot.create :backup_token, user: user }
+  let(:backup_token) { create :backup_token, user: user }
 
   it_behaves_like 'BaseServices create service' do
     let(:instance) { service }
@@ -66,7 +64,7 @@ describe Backups::CreateService, type: :model do
   end
 
   context "with missing permission" do
-    let(:user) { FactoryBot.create :user }
+    let(:user) { create :user }
 
     it "does not enqueue a BackupJob" do
       expect { expect(service.call).to be_failure }.not_to have_enqueued_job(BackupJob)

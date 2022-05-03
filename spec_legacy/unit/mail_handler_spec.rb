@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -113,9 +111,9 @@ describe MailHandler, type: :model do
   end
 
   it 'should add work package should match assignee on display name' do # added from redmine  - not sure if it is ok here
-    user = FactoryBot.create(:user, firstname: 'Foo', lastname: 'Bar')
-    role = FactoryBot.create(:role, name: 'Superhero')
-    FactoryBot.create(:member, user: user, project: Project.find(2), role_ids: [role.id])
+    user = create(:user, firstname: 'Foo', lastname: 'Bar')
+    role = create(:role, name: 'Superhero', permissions: ['work_package_assigned'])
+    create(:member, user: user, project: Project.find(2), role_ids: [role.id])
     issue = submit_email('ticket_on_given_project.eml') do |email|
       email.sub!(/^Assigned to.*$/, 'Assigned to: Foo Bar')
     end
@@ -177,7 +175,7 @@ describe MailHandler, type: :model do
     assert_equal false, submit_email('ticket_without_from_header.eml')
   end
 
-  context 'without default start_date', with_settings: { work_package_startdate_is_adddate: false } do
+  context 'without default start_date', with_legacy_settings: { work_package_startdate_is_adddate: false } do
     it 'should add work package with invalid attributes' do
       issue = submit_email('ticket_with_invalid_attributes.eml', allow_override: 'type,category,priority')
       assert issue.is_a?(WorkPackage)
@@ -311,7 +309,7 @@ describe MailHandler, type: :model do
   end
 
   context 'with min password length',
-          with_settings: { password_min_length: 15 } do
+          with_legacy_settings: { password_min_length: 15 } do
     it 'should new user from attributes should respect minimum password length' do
       user = MailHandler.new_user_from_attributes('jsmith@example.net')
       assert user.valid?

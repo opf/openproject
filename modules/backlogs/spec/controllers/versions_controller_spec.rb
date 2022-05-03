@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,23 +30,23 @@ require 'spec_helper'
 
 describe VersionsController, type: :controller do
   let(:version) do
-    FactoryBot.create(:version,
-                      sharing: 'system')
+    create(:version,
+           sharing: 'system')
   end
 
   let(:other_project) do
-    FactoryBot.create(:project).tap do |p|
-      FactoryBot.create(:member,
-                        user: current_user,
-                        roles: [FactoryBot.create(:role, permissions: [:manage_versions])],
-                        project: p)
+    create(:project).tap do |p|
+      create(:member,
+             user: current_user,
+             roles: [create(:role, permissions: [:manage_versions])],
+             project: p)
     end
   end
 
   let(:current_user) do
-    FactoryBot.create(:user,
-                      member_in_project: version.project,
-                      member_with_permissions: [:manage_versions])
+    create(:user,
+           member_in_project: version.project,
+           member_with_permissions: [:manage_versions])
   end
 
   before do

@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -366,6 +364,14 @@ module API
         end
 
         module RepresenterClass
+          def self.extended(base)
+            class << base
+              # In order to ensure the custom fields to be loaded correctly, consumers need to call the
+              # .create method.
+              protected :new
+            end
+          end
+
           def custom_field_injector(config)
             @custom_field_injector_config = config.reverse_merge custom_field_injector_config
           end

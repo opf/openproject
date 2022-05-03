@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,13 +30,13 @@ require 'spec_helper'
 require_relative '../support/shared/become_member'
 
 describe Group, type: :model do
-  let(:group) { FactoryBot.create(:group) }
-  let(:user) { FactoryBot.create(:user) }
-  let(:watcher) { FactoryBot.create :user }
-  let(:project) { FactoryBot.create(:project_with_types) }
-  let(:status) { FactoryBot.create(:status) }
+  let(:group) { create(:group) }
+  let(:user) { create(:user) }
+  let(:watcher) { create :user }
+  let(:project) { create(:project_with_types) }
+  let(:status) { create(:status) }
   let(:package) do
-    FactoryBot.build(:work_package, type: project.types.first,
+    build(:work_package, type: project.types.first,
                                     author: user,
                                     project: project,
                                     status: status)
@@ -107,7 +107,7 @@ describe Group, type: :model do
 
   describe '#create' do
     describe 'group with empty group name' do
-      let(:group) { FactoryBot.build(:group, lastname: '') }
+      let(:group) { build(:group, lastname: '') }
 
       it { expect(group.valid?).to be_falsey }
 

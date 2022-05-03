@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,11 +29,11 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 describe DocumentsMailer do
   let(:user) do
-    FactoryBot.create(:user, firstname: 'Test', lastname: "User", mail: 'test@test.com')
+    create(:user, firstname: 'Test', lastname: "User", mail: 'test@test.com')
   end
-  let(:project) { FactoryBot.create(:project, name: "TestProject") }
+  let(:project) { create(:project, name: "TestProject") }
   let(:document) do
-    FactoryBot.create(:document, project: project, description: "Test Description", title: "Test Title")
+    create(:document, project: project, description: "Test Description", title: "Test Title")
   end
   let(:mail) { DocumentsMailer.document_added(user, document) }
 

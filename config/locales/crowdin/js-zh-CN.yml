@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -49,7 +49,7 @@ zh-CN:
     close_popup_title: "关闭弹出窗口"
     close_filter_title: "关闭过滤器"
     close_form_title: "关闭表单"
-    button_add_watcher: "添加关注人"
+    button_add_watcher: "添加关注者"
     button_add: "添加"
     button_back: "返回"
     button_back_to_list_view: "返回列表视图"
@@ -409,7 +409,7 @@ zh-CN:
     label_report: "报告"
     label_repository_plural: "代码库"
     label_save_as: "另存为"
-    label_select_watcher: "选择一位关注人..."
+    label_select_watcher: "选择一位关注者..."
     label_selected_filter_list: "所选的筛选器"
     label_show_attributes: "显示所有属性"
     label_show_in_menu: "在菜单中显示视图"
@@ -444,8 +444,8 @@ zh-CN:
     label_work_package_plural: "工作包"
     label_watch: "关注"
     label_watch_work_package: "关注工作包"
-    label_watcher_added_successfully: "已成功添加的关注者人！"
-    label_watcher_deleted_successfully: "已成功删除关注人！"
+    label_watcher_added_successfully: "已成功添加的关注者 ！"
+    label_watcher_deleted_successfully: "已成功删除关注者！"
     label_work_package_details_you_are_here: "您在 %{type} %{subject} 的 %{tab} 选项卡。"
     label_unwatch: "取消关注"
     label_unwatch_work_package: "取消工作包关注"
@@ -454,6 +454,7 @@ zh-CN:
     label_starred_queries: "收藏夹视图"
     label_global_queries: "公共视图"
     label_custom_queries: "私有视图"
+    label_create_new_query: "新建"
     label_columns: "列"
     label_attachments: 文件
     label_drop_files: 将文件拖至此处
@@ -462,7 +463,7 @@ zh-CN:
     label_add_attachments: "添加附件"
     label_formattable_attachment_hint: "将文件拖拽到此区域或从剪贴板粘贴以附加文件"
     label_remove_file: "删除 %{fileName}"
-    label_remove_watcher: "删除关注人 %{name}"
+    label_remove_watcher: "删除关注者 %{name}"
     label_remove_all_files: 删除所有文件
     label_add_description: "为%{file} 添加说明"
     label_upload_notification: "正在上传文件…"
@@ -1062,7 +1063,7 @@ zh-CN:
     error_could_not_resolve_version_name: "无法解析版本名称"
     error_could_not_resolve_user_name: "不能确定用户名"
     error_attachment_upload: "文件上传失败: %{error}"
-    error_attachment_upload_permission: "您没有上传文件到此资源的权限。"
+    error_attachment_upload_permission: "您没有上传此资源上文件的权限。"
     units:
       workPackage:
         other: "工作包"

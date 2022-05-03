@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -27,25 +27,25 @@
 //++
 
 import { ProjectResource } from 'core-app/features/hal/resources/project-resource';
-import { APIv3GettableResource } from 'core-app/core/apiv3/paths/apiv3-resource';
+import { ApiV3GettableResource } from 'core-app/core/apiv3/paths/apiv3-resource';
 import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import {
-  Apiv3ListParameters,
-  Apiv3ListResourceInterface,
+  ApiV3ListParameters,
+  ApiV3ListResourceInterface,
   listParamsString,
 } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
-import { buildApiV3Filter } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
+import { ApiV3Filter } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 
-export class Apiv3AvailableProjectsPaths
-  extends APIv3GettableResource<CollectionResource<ProjectResource>>
-  implements Apiv3ListResourceInterface<ProjectResource> {
+export class ApiV3AvailableProjectsPaths
+  extends ApiV3GettableResource<CollectionResource<ProjectResource>>
+  implements ApiV3ListResourceInterface<ProjectResource> {
   /**
    * Load a list of available projects with a given list parameter filter
    * @param params
    */
-  public list(params?:Apiv3ListParameters):Observable<CollectionResource<ProjectResource>> {
+  public list(params?:ApiV3ListParameters):Observable<CollectionResource<ProjectResource>> {
     return this
       .halResourceService
       .get<CollectionResource<ProjectResource>>(this.path + listParamsString(params));
@@ -65,7 +65,7 @@ export class Apiv3AvailableProjectsPaths
       .halResourceService
       .get<CollectionResource<ProjectResource>>(
       this.path,
-      { filters: buildApiV3Filter('id', '=', [projectId]).toJson() },
+      { filters: ApiV3Filter('id', '=', [projectId]).toJson() },
     )
       .pipe(
         map((collection) => collection.count > 0),

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -44,13 +44,13 @@ describe 'Omniauth authentication', type: :feature do
   end
 
   let(:user) do
-    FactoryBot.create(:user,
-                      force_password_change: false,
-                      identity_url: 'developer:omnibob@example.com',
-                      login: 'omnibob',
-                      mail: 'omnibob@example.com',
-                      firstname: 'omni',
-                      lastname: 'bob')
+    create(:user,
+           force_password_change: false,
+           identity_url: 'developer:omnibob@example.com',
+           login: 'omnibob',
+           mail: 'omnibob@example.com',
+           firstname: 'omni',
+           lastname: 'bob')
   end
 
   before do
@@ -186,7 +186,7 @@ describe 'Omniauth authentication', type: :feature do
 
     it_behaves_like 'omniauth user registration'
 
-    it 'should redirect to homesceen' do
+    it 'should redirect to homescreen' do
       visit account_lost_password_path
       click_link("Omniauth Developer", match: :first)
 

@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -37,25 +35,25 @@ describe ::API::V3::Notifications::NotificationsAPI,
 
   include API::V3::Utilities::PathHelper
 
-  shared_let(:work_package) { FactoryBot.create :work_package }
+  shared_let(:work_package) { create :work_package }
   shared_let(:recipient) do
-    FactoryBot.create :user,
-                      member_in_project: work_package.project,
-                      member_with_permissions: %i[view_work_packages]
+    create :user,
+           member_in_project: work_package.project,
+           member_with_permissions: %i[view_work_packages]
   end
   shared_let(:notification1) do
-    FactoryBot.create :notification,
-                      recipient: recipient,
-                      resource: work_package,
-                      project: work_package.project,
-                      journal: work_package.journals.first
+    create :notification,
+           recipient: recipient,
+           resource: work_package,
+           project: work_package.project,
+           journal: work_package.journals.first
   end
   shared_let(:notification2) do
-    FactoryBot.create :notification,
-                      recipient: recipient,
-                      resource: work_package,
-                      project: work_package.project,
-                      journal: work_package.journals.first
+    create :notification,
+           recipient: recipient,
+           resource: work_package,
+           project: work_package.project,
+           journal: work_package.journals.first
   end
 
   let(:notifications) { [notification1, notification2] }
@@ -86,7 +84,7 @@ describe ::API::V3::Notifications::NotificationsAPI,
     it_behaves_like 'API V3 collection response', 2, 2, 'Notification'
 
     context 'with a readIAN filter' do
-      let(:nil_notification) { FactoryBot.create :notification, recipient: recipient, read_ian: nil }
+      let(:nil_notification) { create :notification, recipient: recipient, read_ian: nil }
 
       let(:notifications) { [notification1, notification2, nil_notification] }
 
@@ -110,7 +108,7 @@ describe ::API::V3::Notifications::NotificationsAPI,
     end
 
     context 'with a resource filter' do
-      let(:notification3) { FactoryBot.create :notification, recipient: recipient }
+      let(:notification3) { create :notification, recipient: recipient }
       let(:notifications) { [notification1, notification2, notification3] }
 
       let(:filters) do
@@ -138,12 +136,12 @@ describe ::API::V3::Notifications::NotificationsAPI,
     end
 
     context 'with a project filter' do
-      let(:other_work_package) { FactoryBot.create(:work_package) }
+      let(:other_work_package) { create(:work_package) }
       let(:notification3) do
-        FactoryBot.create :notification,
-                          recipient: recipient,
-                          resource: other_work_package,
-                          project: other_work_package.project
+        create :notification,
+               recipient: recipient,
+               resource: other_work_package,
+               project: other_work_package.project
       end
       let(:notifications) { [notification1, notification2, notification3] }
 
@@ -165,20 +163,20 @@ describe ::API::V3::Notifications::NotificationsAPI,
 
     context 'with a reason filter' do
       let(:notification3) do
-        FactoryBot.create :notification,
-                          reason: :assigned,
-                          recipient: recipient,
-                          resource: work_package,
-                          project: work_package.project,
-                          journal: work_package.journals.first
+        create :notification,
+               reason: :assigned,
+               recipient: recipient,
+               resource: work_package,
+               project: work_package.project,
+               journal: work_package.journals.first
       end
       let(:notification4) do
-        FactoryBot.create :notification,
-                          reason: :responsible,
-                          recipient: recipient,
-                          resource: work_package,
-                          project: work_package.project,
-                          journal: work_package.journals.first
+        create :notification,
+               reason: :responsible,
+               recipient: recipient,
+               resource: work_package,
+               project: work_package.project,
+               journal: work_package.journals.first
       end
       let(:notifications) { [notification1, notification2, notification3, notification4] }
 
@@ -221,15 +219,15 @@ describe ::API::V3::Notifications::NotificationsAPI,
     end
 
     context 'with a non ian notification' do
-      let(:wiki_page) { FactoryBot.create(:wiki_page_with_content) }
+      let(:wiki_page) { create(:wiki_page_with_content) }
 
       let(:non_ian_notification) do
-        FactoryBot.create :notification,
-                          read_ian: nil,
-                          recipient: recipient,
-                          resource: wiki_page,
-                          project: wiki_page.wiki.project,
-                          journal: wiki_page.content.journals.first
+        create :notification,
+               read_ian: nil,
+               recipient: recipient,
+               resource: wiki_page,
+               project: wiki_page.wiki.project,
+               journal: wiki_page.content.journals.first
       end
 
       let(:notifications) { [notification2, notification1, non_ian_notification] }
@@ -241,12 +239,12 @@ describe ::API::V3::Notifications::NotificationsAPI,
 
     context 'with a reason groupBy' do
       let(:responsible_notification) do
-        FactoryBot.create :notification,
-                          recipient: recipient,
-                          reason: :responsible,
-                          resource: work_package,
-                          project: work_package.project,
-                          journal: work_package.journals.first
+        create :notification,
+               recipient: recipient,
+               reason: :responsible,
+               resource: work_package,
+               project: work_package.project,
+               journal: work_package.journals.first
       end
 
       let(:notifications) { [notification1, notification2, responsible_notification] }
@@ -272,17 +270,17 @@ describe ::API::V3::Notifications::NotificationsAPI,
 
     context 'with a project groupBy' do
       let(:other_project) do
-        FactoryBot.create(:project,
-                          members: { recipient => recipient.members.first.roles })
+        create(:project,
+               members: { recipient => recipient.members.first.roles })
       end
-      let(:work_package2) { FactoryBot.create :work_package, project: other_project }
+      let(:work_package2) { create :work_package, project: other_project }
       let(:other_project_notification) do
-        FactoryBot.create :notification,
-                          resource: work_package2,
-                          project: other_project,
-                          recipient: recipient,
-                          reason: :responsible,
-                          journal: work_package2.journals.first
+        create :notification,
+               resource: work_package2,
+               project: other_project,
+               recipient: recipient,
+               reason: :responsible,
+               journal: work_package2.journals.first
       end
 
       let(:notifications) { [notification1, notification2, other_project_notification] }
@@ -319,13 +317,13 @@ describe ::API::V3::Notifications::NotificationsAPI,
   end
 
   describe 'admin user' do
-    let(:current_user) { FactoryBot.build(:admin) }
+    let(:current_user) { build(:admin) }
 
     it_behaves_like 'API V3 collection response', 0, 0, 'Notification'
   end
 
   describe 'as any user' do
-    let(:current_user) { FactoryBot.build(:user) }
+    let(:current_user) { build(:user) }
 
     it_behaves_like 'API V3 collection response', 0, 0, 'Notification'
   end

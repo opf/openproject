@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,11 +31,11 @@ require Rails.root + 'spec/lib/api/v3/work_packages/eager_loading/eager_loading_
 
 describe ::API::V3::WorkPackages::EagerLoading::Checksum do
   let!(:bcf_issue) do
-    FactoryBot.create(:bcf_issue,
-                      work_package: work_package)
+    create(:bcf_issue,
+           work_package: work_package)
   end
   let!(:work_package) do
-    FactoryBot.create(:work_package)
+    create(:work_package)
   end
 
   describe '.apply' do
@@ -57,8 +55,8 @@ describe ::API::V3::WorkPackages::EagerLoading::Checksum do
 
     it 'produces a different checksum on changes to the bcf issue id' do
       bcf_issue.delete
-      FactoryBot.create(:bcf_issue,
-                        work_package: work_package)
+      create(:bcf_issue,
+             work_package: work_package)
 
       expect(new_checksum)
         .not_to eql orig_checksum

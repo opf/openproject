@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -73,6 +73,15 @@ ro:
       start_trial: 'Începeți o încercare gratuită'
       book_now: 'Rezervă acum'
       get_quote: 'Obțineți o ofertă'
+      buttons:
+        upgrade: "Upgrade now"
+        contact: "Contact us for a demo"
+      enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
+      upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
+    journal_aggregation:
+      explanation:
+        text: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent and will also affect %{webhook_link} delay."
+        link: "webhook"
   announcements:
     show_until: Afişare până la
     is_active: afișat acum
@@ -161,7 +170,7 @@ ro:
     edit: 'Editează acţiune personalizată %{name}'
     execute: 'Execută %{name}'
     upsale:
-      title: 'Acţiunile particularizate sunt o caracteristică a Ediţiei Enterprise'
+      title: 'Custom actions'
       description: 'Comenzile personalizate îmbunătățesc munca zilnică prin combinarea mai multor pași într-un macro accesibil printr-un singur buton.'
   custom_fields:
     text_add_new_custom_field: >
@@ -260,7 +269,7 @@ ro:
       irreversible: "Această acțiune este ireversibilă"
       confirmation: "Introduceți numele de utilizator de tip placeholder %{name} pentru a confirma ștergerea."
     upsale:
-      title: Atribuiți munca unor persoane care nu sunt membri ai proiectului.
+      title: Placeholder users
       description: >
         Există mai multe scenarii în care doriți să atribuiți sarcini unor persoane care nu sunt membre ale proiectului dumneavoastră. Ar putea fi pur și simplu pentru că trebuie să angajați persoana potrivită pentru această sarcină. Sau pur și simplu nu doriți să acordați accesul la informațiile proiectului, dar doriți totuși să urmăriți sarcinile atribuite acelei persoane.
   prioritiies:
@@ -451,9 +460,12 @@ ro:
         code: 'Stare'
         explanation: 'Descrierea stării'
         codes:
+          not_started: 'Not started'
           on_track: 'Urmărește'
           at_risk: 'În pericol'
           off_track: 'În afara pistei'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
       query:
         column_names: "Coloane"
         relations_to_type_column: "Relații cu %{type}"
@@ -464,7 +476,6 @@ ro:
       repository:
         url: "URL"
       role:
-        assignable: "Pachetele de lucru pot fi atribuite utilizatorilor și grupurilor care dețin acest rol în proiectul respectiv"
         permissions: "Drepturi"
       time_entry:
         activity: "Activitate"
@@ -555,6 +566,7 @@ ro:
         even: "trebuie să fie par."
         exclusion: "este rezervat."
         file_too_large: "este prea mare (dimensiunea maximă este %{count} Octeți)."
+        filter_does_not_exist: "filter does not exist."
         format: "nu se potrivește cu formatul așteptat '%{expected}'."
         format_nested: "nu se potrivește cu formatul preconizat '%{expected}' la calea '%{path}'."
         greater_than: "trebuie să fie mai mare de %{count}."
@@ -863,7 +875,7 @@ ro:
     id: "ID"
     is_default: "Valoare implicită"
     is_for_all: "Pentru toate proiectele"
-    is_public: "Public"
+    public: "Public"
     #kept for backwards compatibility
     issue: "Pachet de lucru"
     lastname: "Nume"
@@ -873,7 +885,6 @@ ro:
     password: "Parolă"
     priority: "Prioritate"
     project: "Proiect"
-    public: "Public"
     responsible: "Responsabil"
     role: "Rol"
     roles: "Roluri"
@@ -887,6 +898,7 @@ ro:
     updated_on: "Actualizat pe"
     uploader: "Autor"
     user: "Utilizator"
+    value: "Value"
     version: "Versiune"
     work_package: "Pachet de lucru"
   backup:
@@ -1240,6 +1252,7 @@ ro:
   error_enterprise_token_invalid_domain: "Ediția Enterprise Edition nu este activă. Domeniul (%{actual}) al token-ului Enterprise nu se potrivește cu numele de gazdă al sistemului (%{expected})."
   error_failed_to_delete_entry: 'Nu s-a reușit ștergerea acestei intrări.'
   error_in_dependent: "Eroare la încercarea de a modifica un obiect dependent: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
+  error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Valoare selectată invalidă."
   error_journal_attribute_not_present: "Jurnalul nu conține atributul %{attribute}."
   error_pdf_export_too_many_columns: "Prea multe coloane selectate pentru exportul PDF. Vă rugăm să reduceți numărul de coloane."
@@ -1349,7 +1362,9 @@ ro:
   menus:
     admin:
       mail_notification: "Notificări prin e-mail"
-      incoming_outgoing: "De intrare vs Efectuate"
+      mails_and_notifications: "Emails and notification"
+      aggregation_and_retention: 'Aggregation and retention'
+      api_and_webhooks: "API and webhooks"
     quick_add:
       label: "Deschideți meniul de adăugare rapidă"
   my_account:
@@ -1643,6 +1658,10 @@ ro:
   label_member_plural: "Membri"
   lable_membership_added: 'Membru adăugat'
   lable_membership_updated: 'Membru actualizat'
+  label_menu_badge:
+    pre_alpha: 'pre-alpha'
+    alpha: 'alfa'
+    beta: 'beta'
   label_menu_item_name: "Numele meniului"
   label_message: "Mesaj"
   label_message_last: "Ultimul mesaj"
@@ -1748,7 +1767,6 @@ ro:
   label_public_projects: "Proiecte publice"
   label_query_new: "Interogare nouă"
   label_query_plural: "Interogări personalizate"
-  label_query_menu_item: "Meniu interogare"
   label_read: "Citeşte..."
   label_register: "Creare cont nou"
   label_register_with_developer: "Înregistrare ca programator"
@@ -1846,7 +1864,7 @@ ro:
   label_used_by_types: "Folosit/ă/e de tipurile"
   label_used_in_projects: "Folosit/ă/e în proiectele"
   label_user: "Utilizator"
-  label_user_and_permission: "Utilizatori și permisiuni"
+  label_user_and_permission: "Users and permissions"
   label_user_named: "User %{name}"
   label_user_activity: "Activitatea lui %{value}"
   label_user_anonymous: "Anonim"
@@ -1997,7 +2015,7 @@ ro:
   mail_body_backup_waiting_period: Noul token va fi activat în %{hours} ore.
   mail_body_backup_token_warning: Dacă nu ați fost dvs., conectați-vă la OpenProject imediat și resetați-l din nou.
   mail_body_lost_password: "Pentru a vă modifica parola, dați click pe următorul link:"
-  mail_body_register: "Bine ați venit la OpenProject. Vă rugăm să vă activați contul făcând clic pe acest link:"
+  mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "E-mail de invitație pentru membrii proiectului"
   mail_body_register_user: "Dragă %{name},"
   mail_body_register_links_html: |
@@ -2140,7 +2158,7 @@ ro:
     heading_getting_started: "Obțineți o prezentare generală"
     text_getting_started_description: "Obțineți o viziune de ansamblu asupra administrării unui proiect și a activității echipelor folosind OpenProject."
     text_show_again: "Poate reporni acest videoclip din meniul de ajutor"
-    welcome: "Bine ați venit la OpenProject"
+    welcome: "Welcome to %{app_title}"
     select_language: "Vă rugăm să selectați limba dvs"
   permission_add_work_package_notes: "Adăugare note"
   permission_add_work_packages: "Adăugare pachete de lucru"
@@ -2156,6 +2174,7 @@ ro:
   permission_comment_news: "Comentare noutăți"
   permission_commit_access: "Acces de citire/scriere la repo (încărcare)"
   permission_copy_projects: "Copiere proiecte"
+  permission_create_backup: "Create backup"
   permission_delete_work_package_watchers: "Eliminare observatori"
   permission_delete_work_packages: "Ștergere pachete de lucru"
   permission_delete_messages: "Ștergere mesaje"
@@ -2198,7 +2217,6 @@ ro:
   permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Selectare module proiect"
   permission_manage_types: "Selectare tipuri"
-  permission_view_calendar: "Vizualizare calendar"
   permission_view_changesets: "Vizualizare revizii repo în OpenProject"
   permission_view_commit_author_statistics: "Vizualizare statistici autor înregistrări"
   permission_view_work_package_watchers: "Vizualizare listă observatori"
@@ -2210,6 +2228,8 @@ ro:
   permission_view_timelines: "Vizualizare linii de timp"
   permission_view_wiki_edits: "Vizualizare istoric wiki"
   permission_view_wiki_pages: "Vizualizare wiki"
+  permission_work_package_assigned: "Become assignee/responsible"
+  permission_work_package_assigned_explanation: "Pachetele de lucru pot fi atribuite utilizatorilor și grupurilor care dețin acest rol în proiectul respectiv"
   placeholders:
     default: "-"
   project:
@@ -2234,7 +2254,6 @@ ro:
       archived: "Arhivat"
   project_module_activity: "Activitate"
   project_module_forums: "Forumuri"
-  project_module_calendar: "Calendar"
   project_module_work_package_tracking: "Urmărire pachete de lucru"
   project_module_news: "Noutăţi"
   project_module_repository: "Repo"
@@ -2248,7 +2267,7 @@ ro:
     assigned_to_role: "Rolul executantului"
     member_of_group: "Grupul executantului"
     assignee_or_group: "Destinatarul sau grupul de apartenență"
-    subproject_id: "Inclusiv subproiectul"
+    subproject_id: "Including subproject"
     only_subproject_id: "Numai subproiect"
     name_or_identifier: "Nume sau identificator"
   repositories:
@@ -2572,7 +2591,6 @@ ro:
   text_work_packages_destroy_confirmation: "Sunteți sigur că doriți ștergerea pachetelor de lucru selectate?"
   text_work_packages_ref_in_commit_messages: "Referențiere și rezolvare a pachetelor de lucru în mesajele de încărcare"
   text_journal_added: "%{label} %{value} adăugat"
-  text_journal_aggregation_time_explanation: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent."
   text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
   text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label} actualizat"
@@ -2865,7 +2883,6 @@ ro:
   wiki_menu_item_new_main_item_explanation: >
     Ștergeți doar meniul principal wiki. Va trebui să alegeți o altă pagină wiki pentru care se va genera meniul principal. Dacă doriți să ștergeți wiki-ul, modulul corespunzător poate fi dezactivat de către administratorii de proiect.
   wiki_menu_item_delete_not_permitted: Meniul wiki pentru ultima pagină wiki nu poate fi șters.
-  query_menu_item_for: "Meniul pentru interogarea \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
@@ -2890,6 +2907,7 @@ ro:
         work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:
         date: "AAAA-MM-ZZ (doar formate ISO 8601)"
+        datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm] (any compatible ISO 8601 datetime)"
         duration: "Durată ISO 8601"
       invalid_content_type: "CONTENT-TYPE așteptat '%{content_type}', dar am primit '%{actual}'."
       invalid_format: "Format invalid pentru proprietatea '%{property}': format așteptat '%{expected_format}', dar am primit '%{actual}'."
@@ -2901,6 +2919,7 @@ ro:
         select: "Selecția solicitată de %{invalid} nu este acceptată. Selecțiile acceptate sunt %{supported}."
       invalid_user_status_transition: "Starea contului pentru utilizatorul curent nu permite această operațiune."
       missing_content_type: "nespecificat"
+      missing_property: "Missing property '%{property}'."
       missing_request_body: "Cererea nu are conținut."
       missing_or_malformed_parameter: "Parametrul de interogare \"%{parameter}\" lipsește sau este deformat."
       multipart_body_error: "Conținutul nu cuprinde componentele multipart așteptate."
@@ -2924,6 +2943,7 @@ ro:
       schema: 'Schemă'
     undisclosed:
       parent: Undisclosed - The selected parent is invisible because of lacking permissions.
+      ancestor: Undisclosed - The ancestor is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 'Autorizare prealabilă'

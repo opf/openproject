@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,19 +32,19 @@ require_relative './support/board_page'
 
 describe 'Board management spec', type: :feature, js: true do
   let(:user) do
-    FactoryBot.create(:user,
-                      member_in_project: project,
-                      member_through_role: role)
+    create(:user,
+           member_in_project: project,
+           member_through_role: role)
   end
-  let(:project) { FactoryBot.create(:project, enabled_module_names: %i[work_package_tracking board_view]) }
-  let(:role) { FactoryBot.create(:role, permissions: permissions) }
-  let!(:work_package) { FactoryBot.create :work_package, subject: 'Foo', project: project }
+  let(:project) { create(:project, enabled_module_names: %i[work_package_tracking board_view]) }
+  let(:role) { create(:role, permissions: permissions) }
+  let!(:work_package) { create :work_package, subject: 'Foo', project: project }
 
   let(:board_index) { Pages::BoardIndex.new(project) }
   let(:filters) { ::Components::WorkPackages::Filters.new }
 
-  let!(:priority) { FactoryBot.create :default_priority }
-  let!(:status) { FactoryBot.create :default_status }
+  let!(:priority) { create :default_priority }
+  let!(:status) { create :default_status }
 
   before do
     with_enterprise_token :board_view
@@ -63,7 +63,7 @@ describe 'Board management spec', type: :feature, js: true do
         manage_public_queries
       ]
     end
-    let(:board_view) { FactoryBot.create :board_grid_with_query, project: project }
+    let(:board_view) { create :board_grid_with_query, project: project }
 
     it 'allows parallel creation of cards (Regression #30842)' do
       board_view
@@ -208,7 +208,7 @@ describe 'Board management spec', type: :feature, js: true do
 
   context 'with view boards + work package permission' do
     let(:permissions) { %i[show_board_views view_work_packages] }
-    let(:board_view) { FactoryBot.create :board_grid_with_query, project: project }
+    let(:board_view) { create :board_grid_with_query, project: project }
 
     it 'allows viewing boards index and boards' do
       board_view
@@ -227,7 +227,7 @@ describe 'Board management spec', type: :feature, js: true do
 
   context 'with view boards + edit work package permission' do
     let(:permissions) { %i[show_board_views view_work_packages add_work_packages edit_work_packages] }
-    let(:board_view) { FactoryBot.create :board_grid_with_queries, project: project }
+    let(:board_view) { create :board_grid_with_queries, project: project }
 
     it 'allows viewing boards index and moving items around' do
       board_view

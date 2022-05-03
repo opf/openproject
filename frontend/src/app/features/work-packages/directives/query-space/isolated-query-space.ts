@@ -1,5 +1,9 @@
 import {
-  derive, input, InputState, State, StatesGroup,
+  derive,
+  input,
+  InputState,
+  State,
+  StatesGroup,
 } from 'reactivestates';
 import { Subject } from 'rxjs';
 import { Injectable } from '@angular/core';

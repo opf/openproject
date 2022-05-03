@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,27 +31,27 @@ require 'spec_helper'
 require_relative '../support/pages/dashboard'
 
 describe 'News widget on dashboard', type: :feature, js: true do
-  let!(:project) { FactoryBot.create :project }
-  let!(:other_project) { FactoryBot.create :project }
+  let!(:project) { create :project }
+  let!(:other_project) { create :project }
   let!(:visible_news) do
-    FactoryBot.create :news,
-                      project: project,
-                      description: 'blubs'
+    create :news,
+           project: project,
+           description: 'blubs'
   end
   let!(:invisible_news) do
-    FactoryBot.create :news,
-                      project: other_project
+    create :news,
+           project: other_project
   end
   let(:role) do
-    FactoryBot.create(:role,
-                      permissions: %i[view_news
-                                      view_dashboards
-                                      manage_dashboards])
+    create(:role,
+           permissions: %i[view_news
+                           view_dashboards
+                           manage_dashboards])
   end
   let(:user) do
-    FactoryBot.create(:user).tap do |u|
-      FactoryBot.create(:member, project: project, roles: [role], user: u)
-      FactoryBot.create(:member, project: other_project, roles: [role], user: u)
+    create(:user).tap do |u|
+      create(:member, project: project, roles: [role], user: u)
+      create(:member, project: other_project, roles: [role], user: u)
     end
   end
 

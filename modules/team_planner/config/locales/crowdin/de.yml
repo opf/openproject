@@ -1,0 +1,13 @@
+#English strings go here
+de:
+  permission_view_team_planner: "Teamplaner anzeigen"
+  permission_manage_team_planner: "Teamplaner verwalten"
+  project_module_team_planner_view: "Teamplaner"
+  team_planner:
+    label_team_planner: "Teamplaner"
+    label_create_new_team_planner: "Neuen Teamplaner erstellen"
+    label_team_planner_plural: "Teamplaner"
+    label_assignees: "Zugewiesene Benutzer"
+    upsale:
+      title: "Teamplaner"
+      description: "Der Teamplaner gibt Ihnen einen vollständigen Überblick über die Arbeit jedes Teammitglieds, Woche bei Woche. Verschieben, strecken und verkleinern Sie Arbeitspakete visuell, und weisen Sie Aufgaben anderen Nutzern zu, um Arbeitslast zu verteilen. Sie können zudem neue Arbeitspakete erstellen oder bereits existierende hinzufügen."

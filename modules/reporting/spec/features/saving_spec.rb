@@ -2,8 +2,8 @@ require 'spec_helper'
 require_relative 'support/pages/cost_report_page'
 
 describe 'Cost report saving', type: :feature, js: true do
-  let(:project) { FactoryBot.create :project }
-  let(:user) { FactoryBot.create :admin }
+  let(:project) { create :project }
+  let(:user) { create :admin }
 
   let(:report_page) { ::Pages::CostReportPage.new project }
 
@@ -21,7 +21,7 @@ describe 'Cost report saving', type: :feature, js: true do
     report_page.save as: 'Testreport'
 
     # Check if the category is displayed
-    expect(page).to have_selector('#private_sidebar_report_category', text: I18n.t(:label_private_report_plural).upcase)
+    expect(page).to have_selector('#private_sidebar_report_category', text: I18n.t(:label_private_report_plural))
     # Check if the new report is displayed
     expect(page).to have_selector('.tree-menu--title', text: 'Testreport')
 
@@ -38,7 +38,7 @@ describe 'Cost report saving', type: :feature, js: true do
     report_page.save as: 'Public report', public: true
 
     # Check if the category is displayed
-    expect(page).to have_selector('#public_sidebar_report_category', text: I18n.t(:label_public_report_plural).upcase)
+    expect(page).to have_selector('#public_sidebar_report_category', text: I18n.t(:label_public_report_plural))
     # Check if the new report is displayed
     expect(page).to have_selector('.tree-menu--title', text: 'Public report')
 
@@ -47,11 +47,11 @@ describe 'Cost report saving', type: :feature, js: true do
   end
 
   context 'as user without permissions' do
-    let(:role) { FactoryBot.create :role, permissions: %i(view_time_entries) }
+    let(:role) { create :role, permissions: %i(view_time_entries) }
     let!(:user) do
-      FactoryBot.create :user,
-                        member_in_project: project,
-                        member_through_role: role
+      create :user,
+             member_in_project: project,
+             member_through_role: role
     end
 
     it 'cannot save reports' do

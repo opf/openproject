@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -123,8 +123,8 @@ module Pages
     def expect_query_in_select_dropdown(name)
       page.find('.title-container').click
 
-      page.within('#querySelectDropdown') do
-        expect(page).to have_selector('.ui-menu-item', text: name)
+      page.within('#viewSelect') do
+        expect(page).to have_selector('.op-sidemenu--item-action', text: name)
       end
     end
 
@@ -134,7 +134,7 @@ module Pages
       # there is a delay on travis where inline create can be clicked.
       sleep 3
 
-      container.find('.wp-inline-create--add-link').click
+      container.find('[data-qa-selector="op-wp-inline-create"]').click
       expect(container).to have_selector('.wp-inline-create-row', wait: 10)
     end
 

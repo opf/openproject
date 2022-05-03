@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -43,6 +41,7 @@ module OpenProject::Bim
                }
              } do
       project_module(:bim,
+                     dependencies: :work_package_tracking,
                      if: ->(*) { OpenProject::Configuration.bim? }) do
         permission :view_ifc_models,
                    {
@@ -74,6 +73,12 @@ module OpenProject::Bim
                                     edit_work_packages
                                     delete_work_packages],
                    contract_actions: { bcf: %i[destroy] }
+        permission :save_bcf_queries,
+                   {},
+                   dependencies: %i[save_queries]
+        permission :manage_public_bcf_queries,
+                   {},
+                   dependencies: %i[manage_public_queries save_bcf_queries]
       end
 
       OpenProject::AccessControl.permission(:view_work_packages).controller_actions << 'bim/bcf/issues/redirect_to_bcf_issues_list'
@@ -214,8 +219,11 @@ module OpenProject::Bim
         formatter ::WorkPackage, OpenProject::Bim::WorkPackage::Exporter::Formatters::BcfThumbnail
       end
 
-      ::Queries::Register.filter ::Query, ::Bim::Queries::WorkPackages::Filter::BcfIssueAssociatedFilter
-      ::Queries::Register.column ::Query, ::Bim::Queries::WorkPackages::Columns::BcfThumbnailColumn
+      ::Queries::Register.register(::Query) do
+        filter ::Bim::Queries::WorkPackages::Filter::BcfIssueAssociatedFilter
+
+        column ::Bim::Queries::WorkPackages::Columns::BcfThumbnailColumn
+      end
 
       ::API::Root.class_eval do
         content_type :binary, 'application/octet-stream'
@@ -225,5 +233,8 @@ module OpenProject::Bim
         end
       end
     end
+
+    add_view :Bim,
+             contract_strategy: 'Bim::Views::ContractStrategy'
   end
 end

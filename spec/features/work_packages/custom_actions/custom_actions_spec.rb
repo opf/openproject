@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,94 +29,94 @@
 require 'spec_helper'
 
 describe 'Custom actions', type: :feature, js: true do
-  shared_let(:admin) { FactoryBot.create :admin }
+  shared_let(:admin) { create :admin }
 
-  let(:permissions) { %i(view_work_packages edit_work_packages move_work_packages) }
-  let(:role) { FactoryBot.create(:role, permissions: permissions) }
-  let!(:other_role) { FactoryBot.create(:role, permissions: permissions) }
+  let(:permissions) { %i(view_work_packages edit_work_packages move_work_packages work_package_assigned) }
+  let(:role) { create(:role, permissions: permissions) }
+  let!(:other_role) { create(:role, permissions: permissions) }
   let(:user) do
-    user = FactoryBot.create(:user,
-                             firstname: 'A',
-                             lastname: 'User')
+    user = create(:user,
+                  firstname: 'A',
+                  lastname: 'User')
 
-    FactoryBot.create(:member,
-                      project: project,
-                      roles: [role],
-                      user: user)
+    create(:member,
+           project: project,
+           roles: [role],
+           user: user)
 
-    FactoryBot.create(:member,
-                      project: other_project,
-                      roles: [role],
-                      user: user)
+    create(:member,
+           project: other_project,
+           roles: [role],
+           user: user)
     user
   end
   let!(:other_member_user) do
-    FactoryBot.create(:user,
-                      firstname: 'Other member',
-                      lastname: 'User',
-                      member_in_project: project,
-                      member_through_role: role)
+    create(:user,
+           firstname: 'Other member',
+           lastname: 'User',
+           member_in_project: project,
+           member_through_role: role)
   end
-  let(:project) { FactoryBot.create(:project, name: 'This project') }
-  let(:other_project) { FactoryBot.create(:project, name: 'Other project') }
+  let(:project) { create(:project, name: 'This project') }
+  let(:other_project) { create(:project, name: 'Other project') }
   let!(:work_package) do
-    FactoryBot.create(:work_package,
-                      project: project,
-                      assigned_to: user,
-                      priority: default_priority,
-                      status: default_status)
+    create(:work_package,
+           project: project,
+           assigned_to: user,
+           priority: default_priority,
+           status: default_status)
   end
 
   let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
   let(:default_priority) do
-    FactoryBot.create(:default_priority, name: 'Normal')
+    create(:default_priority, name: 'Normal')
   end
   let!(:immediate_priority) do
-    FactoryBot.create(:issue_priority,
-                      name: 'At once',
-                      position: IssuePriority.maximum(:position) + 1)
+    create(:issue_priority,
+           name: 'At once',
+           position: IssuePriority.maximum(:position) + 1)
   end
   let(:default_status) do
-    FactoryBot.create(:default_status, name: 'Default status')
+    create(:default_status, name: 'Default status')
   end
   let(:closed_status) do
-    FactoryBot.create(:closed_status, name: 'Closed')
+    create(:closed_status, name: 'Closed')
   end
   let(:rejected_status) do
-    FactoryBot.create(:closed_status, name: 'Rejected')
+    create(:closed_status, name: 'Rejected')
   end
   let(:other_type) do
-    type = FactoryBot.create(:type)
+    type = create(:type)
 
     other_project.types << type
 
     type
   end
   let!(:workflows) do
-    FactoryBot.create(:workflow,
-                      old_status: default_status,
-                      new_status: closed_status,
-                      role: role,
-                      type: work_package.type)
+    create(:workflow,
+           old_status: default_status,
+           new_status: closed_status,
+           role: role,
+           type: work_package.type)
 
-    FactoryBot.create(:workflow,
-                      new_status: default_status,
-                      old_status: closed_status,
-                      role: role,
-                      type: work_package.type)
-    FactoryBot.create(:workflow,
-                      old_status: default_status,
-                      new_status: rejected_status,
-                      role: role,
-                      type: work_package.type)
-    FactoryBot.create(:workflow,
-                      old_status: rejected_status,
-                      new_status: default_status,
-                      role: role,
-                      type: other_type)
+    create(:workflow,
+           new_status: default_status,
+           old_status: closed_status,
+           role: role,
+           type: work_package.type)
+    create(:workflow,
+           old_status: default_status,
+           new_status: rejected_status,
+           role: role,
+           type: work_package.type)
+    create(:workflow,
+           old_status: rejected_status,
+           new_status: default_status,
+           role: role,
+           type: other_type)
   end
   let!(:list_custom_field) do
-    cf = FactoryBot.create(:list_wp_custom_field, multi_value: true)
+    cf = create(:list_wp_custom_field, multi_value: true)
 
     project.work_package_custom_fields = [cf]
     work_package.type.custom_fields = [cf]
@@ -124,13 +124,13 @@ describe 'Custom actions', type: :feature, js: true do
     cf
   end
   let!(:int_custom_field) do
-    FactoryBot.create(:int_wp_custom_field)
+    create(:int_wp_custom_field)
   end
   let(:selected_list_custom_field_options) do
     [list_custom_field.custom_options.first, list_custom_field.custom_options.last]
   end
   let!(:date_custom_field) do
-    cf = FactoryBot.create(:date_wp_custom_field)
+    cf = create(:date_wp_custom_field)
 
     other_project.work_package_custom_fields = [cf]
     other_type.custom_fields = [cf]

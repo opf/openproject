@@ -2,14 +2,13 @@
 hu:
   js:
     boards:
+      create_new: 'Új tábla létrehozása'
       label_unnamed_board: 'Névtelen tábla'
       label_unnamed_list: 'Névtelen lista'
       label_board_type: 'Tábla típus'
       upsale:
-        teaser_text: 'Javítsa az agilis projektmenedzsmentet ezzel a rugalmas táblák nézettel. Készítsen annyi táblát, amennyit csak akar, bármihez, amelyet nyomon követni szeretne.'
-        upgrade_to_ee_text: 'A táblák egy vállalati szolgáltatás. Kérjük, frissítsen Vállalati OpenProject licencre!'
+        teaser_text: 'Would you like ready-to-use board templates? Advanced boards are an Enterprise feature. Please upgrade to a paid plan.'
         upgrade: 'Frissítés most'
-        personal_demo: 'Keressen fel minket a próbaverzióért'
       lists:
         delete: 'Törölt lista'
       version:

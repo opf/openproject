@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,10 +31,10 @@ require 'spec_helper'
 describe 'OAuth authorization code flow',
          type: :feature,
          js: true do
-  let!(:user) { FactoryBot.create(:user) }
+  let!(:user) { create(:user) }
   let!(:redirect_uri) { 'urn:ietf:wg:oauth:2.0:oob' }
   let!(:allowed_redirect_uri) { redirect_uri }
-  let!(:app) { FactoryBot.create(:oauth_application, name: 'Cool API app!', redirect_uri: allowed_redirect_uri) }
+  let!(:app) { create(:oauth_application, name: 'Cool API app!', redirect_uri: allowed_redirect_uri) }
   let(:client_secret) { app.plaintext_secret }
 
   def oauth_path(client_id, redirect_url)

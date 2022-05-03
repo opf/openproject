@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -26,31 +26,31 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { APIv3ResourceCollection } from 'core-app/core/apiv3/paths/apiv3-resource';
-import { Apiv3GroupPaths } from 'core-app/core/apiv3/endpoints/groups/apiv3-group-paths';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3ResourceCollection } from 'core-app/core/apiv3/paths/apiv3-resource';
+import { ApiV3GroupPaths } from 'core-app/core/apiv3/endpoints/groups/apiv3-group-paths';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { Observable } from 'rxjs';
 import {
-  Apiv3ListParameters,
-  Apiv3ListResourceInterface,
+  ApiV3ListParameters,
+  ApiV3ListResourceInterface,
   listParamsString,
 } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
 import { GroupResource } from 'core-app/features/hal/resources/group-resource';
 
-export class Apiv3GroupsPaths
-  extends APIv3ResourceCollection<GroupResource, Apiv3GroupPaths>
-  implements Apiv3ListResourceInterface<GroupResource> {
-  constructor(protected apiRoot:APIV3Service,
+export class ApiV3GroupsPaths
+  extends ApiV3ResourceCollection<GroupResource, ApiV3GroupPaths>
+  implements ApiV3ListResourceInterface<GroupResource> {
+  constructor(protected apiRoot:ApiV3Service,
     protected basePath:string) {
-    super(apiRoot, basePath, 'groups', Apiv3GroupPaths);
+    super(apiRoot, basePath, 'groups', ApiV3GroupPaths);
   }
 
   /**
    * Load a list of placeholder users with a given list parameter filter
    * @param params
    */
-  public list(params?:Apiv3ListParameters):Observable<CollectionResource<GroupResource>> {
+  public list(params?:ApiV3ListParameters):Observable<CollectionResource<GroupResource>> {
     return this
       .halResourceService
       .get<CollectionResource<GroupResource>>(this.path + listParamsString(params));

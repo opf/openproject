@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,18 +29,18 @@
 require 'spec_helper'
 
 describe MessagesController, type: :controller, with_settings: { journal_aggregation_time_minutes: 0 } do
-  let(:user) { FactoryBot.create(:user) }
-  let(:project) { FactoryBot.create(:project) }
-  let(:role) { FactoryBot.create(:role) }
+  let(:user) { create(:user) }
+  let(:project) { create(:project) }
+  let(:role) { create(:role) }
   let!(:member) do
-    FactoryBot.create(:member,
-                      project: project,
-                      principal: user,
-                      roles: [role])
+    create(:member,
+           project: project,
+           principal: user,
+           roles: [role])
   end
   let!(:forum) do
-    FactoryBot.create(:forum,
-                      project: project)
+    create(:forum,
+           project: project)
   end
 
   let(:filename) { 'testfile.txt' }
@@ -51,8 +51,8 @@ describe MessagesController, type: :controller, with_settings: { journal_aggrega
   describe '#show' do
     context 'public project' do
       let(:user) { User.anonymous }
-      let(:project) { FactoryBot.create(:public_project) }
-      let!(:message) { FactoryBot.create :message, forum: forum }
+      let(:project) { create(:public_project) }
+      let!(:message) { create :message, forum: forum }
 
       it 'renders the show template' do
         get :show, params: { project_id: project.id, id: message.id }
@@ -67,8 +67,8 @@ describe MessagesController, type: :controller, with_settings: { journal_aggrega
   end
 
   describe '#update' do
-    let(:message) { FactoryBot.create :message, forum: forum }
-    let(:other_forum) { FactoryBot.create :forum, project: project }
+    let(:message) { create :message, forum: forum }
+    let(:other_forum) { create :forum, project: project }
 
     before do
       role.add_permission!(:edit_messages) and user.reload
@@ -81,10 +81,10 @@ describe MessagesController, type: :controller, with_settings: { journal_aggrega
     end
 
     context 'attachment upload' do
-      let!(:message) { FactoryBot.create(:message) }
+      let!(:message) { create(:message) }
       let(:attachment_id) { "attachments_#{message.attachments.first.id}" }
       # Attachment is already uploaded
-      let(:attachment) { FactoryBot.create(:attachment, container: nil, author: user) }
+      let(:attachment) { create(:attachment, container: nil, author: user) }
       let(:params) do
         { id: message.id,
           attachments: { '0' => { 'id' => attachment.id } } }
@@ -119,16 +119,16 @@ describe MessagesController, type: :controller, with_settings: { journal_aggrega
 
     describe '#remove' do
       let!(:attachment) do
-        FactoryBot.create(:attachment,
-                          container: message,
-                          author: user,
-                          filename: filename)
+        create(:attachment,
+               container: message,
+               author: user,
+               filename: filename)
       end
       let!(:attachable_journal) do
-        FactoryBot.create(:journal_attachable_journal,
-                          journal: message.journals.last,
-                          attachment: attachment,
-                          filename: filename)
+        create(:journal_attachable_journal,
+               journal: message.journals.last,
+               attachment: attachment,
+               filename: filename)
       end
 
       before do
@@ -156,10 +156,10 @@ describe MessagesController, type: :controller, with_settings: { journal_aggrega
   end
 
   describe 'quote' do
-    let(:message) { FactoryBot.create :message, content: 'foo', subject: 'subject', forum: forum }
+    let(:message) { create :message, content: 'foo', subject: 'subject', forum: forum }
 
     context 'when allowed' do
-      let(:user) { FactoryBot.create(:admin) }
+      let(:user) { create(:admin) }
 
       before do
         login_as user

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,7 +32,7 @@ require_relative './shared_model'
 
 describe Grids::MyPage, type: :model do
   let(:instance) { described_class.new(row_count: 5, column_count: 5) }
-  let(:user) { FactoryBot.build_stubbed(:user) }
+  let(:user) { build_stubbed(:user) }
 
   it_behaves_like 'grid attributes'
 
@@ -46,11 +46,10 @@ describe Grids::MyPage, type: :model do
 
   context 'altering widgets' do
     context 'when removing a work_packages_table widget' do
-      let(:user) { FactoryBot.create(:user) }
+      let(:user) { create(:user) }
       let(:query) do
-        FactoryBot.create(:query,
-                          user: user,
-                          hidden: true)
+        create(:query,
+               user: user)
       end
 
       before do

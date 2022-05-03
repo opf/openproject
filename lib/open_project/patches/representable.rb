@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -70,7 +70,7 @@ module OpenProject::Patches::Representable
   end
 end
 
-OpenProject::Patches.patch_gem_version 'representable', '3.0.4' do
+OpenProject::Patches.patch_gem_version 'representable', '3.1.1' do
   unless Representable::Decorator.included_modules.include?(OpenProject::Patches::Representable::DecoratorPatch)
     Representable::Decorator.include OpenProject::Patches::Representable::DecoratorPatch
   end

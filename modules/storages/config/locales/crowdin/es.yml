@@ -1,0 +1,65 @@
+#English strings go here
+es:
+  permission_view_file_links: "Ver enlaces de archivos"
+  permission_manage_file_links: "Administrar enlaces de archivos"
+  permission_manage_storages_in_project: "Administrar almacenes de archivos en el proyecto"
+  project_module_storages: "Almacenes de archivos"
+  activerecord:
+    models:
+      storages/storage: "Almacén"
+    attributes:
+      storages/storage:
+        name: "Nombre"
+        creator: "Autor"
+        provider_type: "Tipo de proveedor"
+      storages/file_link:
+        origin_id: "Id. de origen"
+    errors:
+      messages:
+        not_linked_to_project: "no está vinculado al proyecto."
+      models:
+        storages/storage:
+          attributes:
+            host:
+              cannot_be_connected_to: "no admite conexiones."
+              minimal_nextcloud_version_unmet: "no cumple los requisitos mínimos de versión (debe ser Nextcloud 23 o posteriores)"
+              not_nextcloud_server: "no es un servidor de Nextcloud"
+        storages/file_link:
+          attributes:
+            origin_id:
+              only_numeric_or_uuid: "solo puede ser numérico o un UUID."
+  api_v3:
+    errors:
+      too_many_elements_created_at_once: "Se intentaron crear demasiados elementos a la vez. Se esperaban como máximo %{max}, pero se recibieron %{actual}."
+  storages:
+    page_titles:
+      project_settings:
+        index: "Hay almacenes de archivos disponibles en este proyecto"
+        new: "Habilite un almacén de archivos para este proyecto"
+    instructions:
+      name: "Use un nombre corto. Se usará como el título de la pestaña en la vista del paquete de trabajo."
+      host: "La URL de la instancia del almacén. La URL no debe tener más de 255 caracteres de longitud."
+      no_storage_set_up: "Aún no se han configurado almacenes de archivos."
+      setting_up_additional_storages: "Para configurar almacenes de archivos adicionales, visite"
+      setting_up_additional_storages_non_admin: "Los administradores pueden configurar almacenes de archivos adicionales en Administración > Almacenes de archivos."
+      setting_up_storages: "Para configurar almacenes de archivos, visite"
+      setting_up_storages_non_admin: "Los administradores pueden configurar almacenes de archivos en Administración > Almacenes de archivos."
+      all_available_storages_already_added: "Ya se añadieron todos los almacenes disponibles al proyecto."
+    delete_warning:
+      storage: >
+        ¿Seguro que quiere eliminar este almacén? También se eliminará de todos los proyectos donde se use. Además, se quitarán todos los enlaces de los paquetes de trabajo a los archivos guardados en ese almacén.
+      project_storage: >
+        ¿Seguro que quiere quitar este almacén de archivos del proyecto? También se quitarán todos los enlaces a los archivos guardados en este almacén para el proyecto.
+    label_creator: "Autor"
+    label_file_link: "Enlace de archivo"
+    label_file_links: "Enlaces de archivos"
+    label_name: "Nombre"
+    label_host: "Host"
+    label_provider_type: "Tipo de proveedor"
+    label_new_storage: "Nuevo almacén"
+    label_storage: "Almacén"
+    label_storages: "Almacenes"
+    no_results: "Aún no se han configurado almacenes."
+    provider_types:
+      label: "Tipo de proveedor"
+      nextcloud: "Nextcloud"

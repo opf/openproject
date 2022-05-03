@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,37 +31,37 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper.rb')
 describe 'Deleting time entries', type: :feature, js: true do
   let(:project) { work_package.project }
   let(:user) do
-    FactoryBot.create :user,
-                      member_in_project: project,
-                      member_through_role: role
+    create :user,
+           member_in_project: project,
+           member_through_role: role
   end
   let(:role) do
-    FactoryBot.create :role,
-                      permissions: %i[view_work_packages
-                                      delete_work_packages
-                                      edit_cost_entries
-                                      view_cost_entries]
+    create :role,
+           permissions: %i[view_work_packages
+                           delete_work_packages
+                           edit_cost_entries
+                           view_cost_entries]
   end
-  let(:work_package) { FactoryBot.create :work_package }
+  let(:work_package) { create :work_package }
   let(:destroy_modal) { Components::WorkPackages::DestroyModal.new }
   let(:cost_type) do
-    type = FactoryBot.create :cost_type, name: 'Translations'
-    FactoryBot.create :cost_rate,
-                      cost_type: type,
-                      rate: 7.00
+    type = create :cost_type, name: 'Translations'
+    create :cost_rate,
+           cost_type: type,
+           rate: 7.00
     type
   end
   let(:budget) do
-    FactoryBot.create(:budget, project: project)
+    create(:budget, project: project)
   end
-  let(:other_work_package) { FactoryBot.create :work_package, project: project, budget: budget }
+  let(:other_work_package) { create :work_package, project: project, budget: budget }
   let(:cost_entry) do
-    FactoryBot.create :cost_entry,
-                      work_package: work_package,
-                      project: project,
-                      units: 2.00,
-                      cost_type: cost_type,
-                      user: user
+    create :cost_entry,
+           work_package: work_package,
+           project: project,
+           units: 2.00,
+           cost_type: cost_type,
+           user: user
   end
 
   it 'allows to move the time entry to a different work package' do

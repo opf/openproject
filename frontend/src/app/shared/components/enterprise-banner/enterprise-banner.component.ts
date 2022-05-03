@@ -1,26 +1,19 @@
-import { Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
+} from '@angular/core';
 import { BannersService } from 'core-app/core/enterprise/banners.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 
 @Component({
   selector: 'enterprise-banner',
   styleUrls: ['./enterprise-banner.component.sass'],
-  template: `
-    <div class="op-enterprise-banner">
-      <div class="op-toast -ee-upsale"
-           [ngClass]="{'-left-margin': leftMargin }">
-        <div class="op-toast--content">
-          <p class="-bold" [textContent]="text.enterpriseFeature"></p>
-          <p [textContent]="textMessage"></p>
-          <a [href]="eeLink()"
-             target='blank'
-             [textContent]="linkMessage"></a>
-        </div>
-      </div>
-    </div>
-  `
+  templateUrl: './enterprise-banner.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EnterpriseBannerComponent {
+export class EnterpriseBannerComponent implements OnInit {
   @Input() public leftMargin = false;
 
   @Input() public textMessage:string;
@@ -28,6 +21,8 @@ export class EnterpriseBannerComponent {
   @Input() public linkMessage:string;
 
   @Input() public opReferrer:string;
+
+  public link:string;
 
   public text:any = {
     enterpriseFeature: this.I18n.t('js.upsale.ee_only'),
@@ -38,7 +33,7 @@ export class EnterpriseBannerComponent {
     protected bannersService:BannersService,
   ) {}
 
-  public eeLink() {
-    this.bannersService.getEnterPriseEditionUrl({ referrer: this.opReferrer });
+  ngOnInit():void {
+    this.link = this.bannersService.getEnterPriseEditionUrl({ referrer: this.opReferrer });
   }
 }

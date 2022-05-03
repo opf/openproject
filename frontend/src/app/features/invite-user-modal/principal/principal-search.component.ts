@@ -13,7 +13,7 @@ import {
 import {
   debounceTime, distinctUntilChanged, share, map, shareReplay, switchMap,
 } from 'rxjs/operators';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { ProjectResource } from 'core-app/features/hal/resources/project-resource';
@@ -103,7 +103,7 @@ export class PrincipalSearchComponent extends UntilDestroyedMixin implements OnI
   constructor(
     public I18n:I18nService,
     readonly elementRef:ElementRef,
-    readonly apiV3Service:APIV3Service,
+    readonly apiV3Service:ApiV3Service,
     readonly currentUserService:CurrentUserService,
   ) {
     super();

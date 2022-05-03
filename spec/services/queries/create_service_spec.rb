@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,18 +29,21 @@
 require 'spec_helper'
 
 describe Queries::CreateService do
-  let(:user) { FactoryBot.build_stubbed(:admin) }
-  let(:query) { FactoryBot.build(:query, user: user) }
+  let(:user) { build_stubbed(:admin) }
 
   let(:instance) { described_class.new(user: user) }
-  subject { instance.call(query).result }
+  subject { instance.call(params).result }
 
   describe 'ordered work packages' do
-    let!(:work_package) { FactoryBot.create :work_package }
-
-    before do
-      query.ordered_work_packages.build(work_package_id: work_package.id, position: 0)
-      query.ordered_work_packages.build(work_package_id: 99999, position: 1)
+    let!(:work_package) { create :work_package }
+    let(:params) do
+      {
+        name: 'My query',
+        ordered_work_packages: {
+          work_package.id => 0,
+          9999 => 1
+        }
+      }
     end
 
     it 'removes items for which work packages do not exist' do

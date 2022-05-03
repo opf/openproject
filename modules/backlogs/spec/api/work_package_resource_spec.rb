@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,13 +33,13 @@ describe 'API v3 Work package resource' do
   include Rack::Test::Methods
   include Capybara::RSpecMatchers
 
-  let(:current_user) { FactoryBot.create(:admin) }
-  let(:project) { FactoryBot.create(:project) }
+  let(:current_user) { create(:admin) }
+  let(:project) { create(:project) }
   let(:work_package) do
-    FactoryBot.create(:work_package,
-                      project: project,
-                      story_points: 8,
-                      remaining_hours: 5)
+    create(:work_package,
+           project: project,
+           story_points: 8,
+           remaining_hours: 5)
   end
   let(:wp_path) { "/api/v3/work_packages/#{work_package.id}" }
 
@@ -67,7 +67,7 @@ describe 'API v3 Work package resource' do
 
     context 'backlogs deactivated' do
       let(:project) do
-        FactoryBot.create(:project, disable_modules: 'backlogs')
+        create(:project, disable_modules: 'backlogs')
       end
 
       include_context 'query work package'

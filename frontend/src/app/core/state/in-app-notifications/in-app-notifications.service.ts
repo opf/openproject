@@ -8,13 +8,16 @@ import {
   applyTransaction,
   ID,
 } from '@datorama/akita';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
 import { HttpClient } from '@angular/common/http';
 import { InAppNotificationsQuery } from 'core-app/core/state/in-app-notifications/in-app-notifications.query';
-import { Apiv3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
-import { collectionKey } from 'core-app/core/state/collection-store';
+import { ApiV3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
+import {
+  collectionKey,
+  insertCollectionIntoState,
+} from 'core-app/core/state/collection-store';
 import {
   markNotificationsAsRead,
   notificationsMarkedRead,
@@ -44,34 +47,19 @@ export class InAppNotificationsResourceService {
   constructor(
     readonly actions$:ActionsService,
     private http:HttpClient,
-    private apiV3Service:APIV3Service,
+    private apiV3Service:ApiV3Service,
     private toastService:ToastService,
   ) {
   }
 
-  fetchNotifications(params:Apiv3ListParameters):Observable<IHALCollection<InAppNotification>> {
+  fetchNotifications(params:ApiV3ListParameters):Observable<IHALCollection<InAppNotification>> {
     const collectionURL = collectionKey(params);
 
     return this
       .http
       .get<IHALCollection<InAppNotification>>(this.notificationsPath + collectionURL)
       .pipe(
-        tap((events) => {
-          applyTransaction(() => {
-            this.store.add(events._embedded.elements);
-            this.store.update(({ collections }) => (
-              {
-                collections: {
-                  ...collections,
-                  [collectionURL]: {
-                    ...collections[collectionURL],
-                    ids: events._embedded.elements.map((el) => el.id),
-                  },
-                },
-              }
-            ));
-          });
-        }),
+        tap((collection) => insertCollectionIntoState(this.store, collection, collectionURL)),
         catchError((error) => {
           this.toastService.addError(error);
           throw error;
@@ -83,7 +71,7 @@ export class InAppNotificationsResourceService {
     this.store.update(id, inAppNotification);
   }
 
-  modifyCollection(params:Apiv3ListParameters, callback:(collection:ID[]) => ID[]):void {
+  modifyCollection(params:ApiV3ListParameters, callback:(collection:ID[]) => ID[]):void {
     const key = collectionKey(params);
     this.store.update(({ collections }) => (
       {
@@ -98,7 +86,7 @@ export class InAppNotificationsResourceService {
     ));
   }
 
-  removeFromCollection(params:Apiv3ListParameters, ids:ID[]):void {
+  removeFromCollection(params:ApiV3ListParameters, ids:ID[]):void {
     const key = collectionKey(params);
     this.store.update(({ collections }) => (
       {

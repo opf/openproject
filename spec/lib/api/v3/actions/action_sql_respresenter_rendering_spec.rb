@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -40,15 +40,14 @@ describe ::API::V3::Actions::ActionSqlRepresenter, 'rendering' do
     'memberships/create'
   end
   current_user do
-    FactoryBot.create(:user)
+    create(:user)
   end
 
   subject(:json) do
     ::API::V3::Utilities::SqlRepresenterWalker
       .new(scope,
-           embed: {},
-           select: { 'id' => {}, '_type' => {}, 'self' => {} },
-           current_user: current_user)
+           current_user: current_user,
+           url_query: { select: { 'id' => {}, '_type' => {}, 'self' => {} } })
       .walk(API::V3::Actions::ActionSqlRepresenter)
       .to_json
   end

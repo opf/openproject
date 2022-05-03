@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -30,14 +28,14 @@
 require 'spec_helper'
 
 describe SCM::CheckoutInstructionsService do
-  let(:user) { FactoryBot.build(:user) }
-  let(:project) { FactoryBot.build(:project) }
+  let(:user) { build(:user) }
+  let(:project) { build(:project) }
 
   let(:url) { 'file:///tmp/some/svn/repo' }
   let(:repository) do
-    FactoryBot.build(:repository_subversion,
-                     url: url,
-                     project: project)
+    build(:repository_subversion,
+          url: url,
+          project: project)
   end
 
   let(:base_url) { 'http://example.org/svn/' }
@@ -133,7 +131,7 @@ describe SCM::CheckoutInstructionsService do
     end
 
     context 'disabled repository' do
-      let(:repository) { FactoryBot.build(:repository_git) }
+      let(:repository) { build(:repository_git) }
 
       it 'git is not available for checkout' do
         expect(service.available?).to be false

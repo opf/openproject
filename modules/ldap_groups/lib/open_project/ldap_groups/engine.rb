@@ -8,9 +8,7 @@ module OpenProject::LdapGroups
              author_url: 'https://github.com/opf/openproject-ldap_groups',
              bundled: true,
              settings: {
-               default: {
-                 name_attribute: 'cn'
-               }
+               default: {}
              } do
       menu :admin_menu,
            :plugin_ldap_groups,

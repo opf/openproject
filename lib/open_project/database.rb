@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -59,8 +57,8 @@ module OpenProject
     # Get the database system requirements
     def self.required_version
       {
-        numeric: 90500, # PG_VERSION_NUM
-        string: '9.5.0'
+        numeric: 100000, # PG_VERSION_NUM
+        string: '10.0.0'
       }
     end
 
@@ -115,7 +113,7 @@ module OpenProject
       elsif version_deprecated?
         message = "The next major release of OpenProject (v12) will require PostgreSQL 13 or later.\n" \
                   "You can anticipate this upgrade by updating your database installation by following the guide at " \
-                  "https://docs.openproject.org/installation-and-operations/misc/migration-to-postgresql13/"
+                  "https://www.openproject.org/docs/installation-and-operations/misc/migration-to-postgresql13/"
 
         raise DeprecatedVersionWarning.new message
       end

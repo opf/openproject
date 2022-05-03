@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -34,8 +32,8 @@ describe "POST /api/v3/queries/form", type: :request do
   include API::V3::Utilities::PathHelper
 
   let(:path) { api_v3_paths.create_query_form }
-  let(:user) { FactoryBot.create(:admin) }
-  let!(:project) { FactoryBot.create(:project_with_types) }
+  let(:user) { create(:admin) }
+  let!(:project) { create(:project_with_types) }
 
   let(:parameters) { {} }
   let(:override_params) { {} }
@@ -162,7 +160,7 @@ describe "POST /api/v3/queries/form", type: :request do
       let(:relation_columns_allowed) { true }
 
       let(:custom_field) do
-        cf = FactoryBot.create(:list_wp_custom_field)
+        cf = create(:list_wp_custom_field)
         project.work_package_custom_fields << cf
         cf.types << project.types.first
 
@@ -170,7 +168,7 @@ describe "POST /api/v3/queries/form", type: :request do
       end
 
       let(:non_project_type) do
-        FactoryBot.create(:type)
+        create(:type)
       end
 
       let(:additional_setup) do
@@ -255,7 +253,7 @@ describe "POST /api/v3/queries/form", type: :request do
       let(:relation_columns_allowed) { true }
 
       let(:custom_field) do
-        cf = FactoryBot.create(:list_wp_custom_field)
+        cf = create(:list_wp_custom_field)
         project.work_package_custom_fields << cf
         cf.types << project.types.first
 
@@ -263,7 +261,7 @@ describe "POST /api/v3/queries/form", type: :request do
       end
 
       let(:non_project_type) do
-        FactoryBot.create(:type)
+        create(:type)
       end
 
       let(:additional_setup) do
@@ -333,7 +331,7 @@ describe "POST /api/v3/queries/form", type: :request do
   end
 
   describe 'with all parameters given' do
-    let(:status) { FactoryBot.create :status }
+    let(:status) { create :status }
 
     let(:parameters) do
       {
@@ -501,7 +499,7 @@ describe "POST /api/v3/queries/form", type: :request do
       end
 
       it "returns a validation error" do
-        expect(form.dig("_embedded", "validationErrors", "base", "message")).to eq "Statuz does not exist."
+        expect(form.dig("_embedded", "validationErrors", "base", "message")).to eq "Statuz filter does not exist."
       end
 
       it "has no commit link" do
@@ -558,7 +556,7 @@ describe "POST /api/v3/queries/form", type: :request do
     end
 
     context "with an unauthorized user trying to set the query public" do
-      let(:user) { FactoryBot.create :user }
+      let(:user) { create :user }
 
       it "should reject the request" do
         expect(form.dig("_embedded", "validationErrors", "public", "message"))
@@ -569,15 +567,15 @@ describe "POST /api/v3/queries/form", type: :request do
 
   describe 'posting to a project-query form with a CF present only there (Regression #29873)' do
     let(:custom_field) do
-      FactoryBot.create(
+      create(
         :string_wp_custom_field,
         default_value: nil,
         is_required: true,
         is_for_all: true
       )
     end
-    let!(:type) { FactoryBot.create(:type, custom_fields: [custom_field]) }
-    let!(:project) { FactoryBot.create(:project, types: [type], work_package_custom_fields: [custom_field]) }
+    let!(:type) { create(:type, custom_fields: [custom_field]) }
+    let!(:project) { create(:project, types: [type], work_package_custom_fields: [custom_field]) }
 
     let(:path_with_cf) do
       uri = Addressable::URI.parse(path)

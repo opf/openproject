@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,20 +31,20 @@ require 'spec_helper'
 describe 'Wysiwyg work package user mentions',
          type: :feature,
          js: true do
-  let!(:user) { FactoryBot.create :admin }
-  let!(:user2) { FactoryBot.create(:user, firstname: 'Foo', lastname: 'Bar', member_in_project: project) }
-  let!(:group) { FactoryBot.create(:group, firstname: 'Foogroup', lastname: 'Foogroup') }
-  let!(:group_role) { FactoryBot.create(:role) }
+  let!(:user) { create :admin }
+  let!(:user2) { create(:user, firstname: 'Foo', lastname: 'Bar', member_in_project: project) }
+  let!(:group) { create(:group, firstname: 'Foogroup', lastname: 'Foogroup') }
+  let!(:group_role) { create(:role) }
   let!(:group_member) do
-    FactoryBot.create(:member,
-                      principal: group,
-                      project: project,
-                      roles: [group_role])
+    create(:member,
+           principal: group,
+           project: project,
+           roles: [group_role])
   end
-  let(:project) { FactoryBot.create(:project, enabled_module_names: %w[work_package_tracking]) }
+  let(:project) { create(:project, enabled_module_names: %w[work_package_tracking]) }
   let!(:work_package) do
     User.execute_as user do
-      FactoryBot.create(:work_package, subject: 'Foobar', project: project)
+      create(:work_package, subject: 'Foobar', project: project)
     end
   end
 

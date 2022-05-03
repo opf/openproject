@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,12 +33,12 @@ describe TabularFormBuilder do
 
   let(:helper) { ActionView::Base.new(ActionView::LookupContext.new(''), {}, nil) }
   let(:resource) do
-    FactoryBot.build(:user,
-                     firstname: 'JJ',
-                     lastname: 'Abrams',
-                     login: 'lost',
-                     mail: 'jj@lost-mail.com',
-                     failed_login_count: 45)
+    build(:user,
+          firstname: 'JJ',
+          lastname: 'Abrams',
+          login: 'lost',
+          mail: 'jj@lost-mail.com',
+          failed_login_count: 45)
   end
   let(:builder) { TabularFormBuilder.new(:user, resource, helper, {}) }
 
@@ -636,12 +634,12 @@ JJ Abrams</textarea>
 
       context 'with ActiveModel and without specified label' do
         let(:resource) do
-          FactoryBot.build_stubbed(:user,
-                                   firstname: 'JJ',
-                                   lastname: 'Abrams',
-                                   login: 'lost',
-                                   mail: 'jj@lost-mail.com',
-                                   failed_login_count: 45)
+          build_stubbed(:user,
+                        firstname: 'JJ',
+                        lastname: 'Abrams',
+                        login: 'lost',
+                        mail: 'jj@lost-mail.com',
+                        failed_login_count: 45)
         end
 
         it 'uses the human attribute name' do

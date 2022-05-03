@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,10 +29,10 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe HourlyRate, type: :model do
-  let(:project) { FactoryBot.create(:project) }
-  let(:user) { FactoryBot.create(:user) }
+  let(:project) { create(:project) }
+  let(:user) { create(:user) }
   let(:rate) do
-    FactoryBot.build(:hourly_rate, project: project,
+    build(:hourly_rate, project: project,
                                    user: user)
   end
 

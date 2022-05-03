@@ -18,21 +18,21 @@ FactoryBot.define do
 
     callback(:after_build) do |board, evaluator| # this is also done after :create
       query = evaluator.query || begin
-        Query.new_default(name: 'List 1', is_public: true, project: board.project).tap do |q|
+        Query.new_default(name: 'List 1', public: true, project: board.project).tap do |q|
           q.sort_criteria = [[:manual_sorting, 'asc']]
           q.add_filter(:manual_sort, 'ow', [])
           q.save!
         end
       end
 
-      board.widgets << FactoryBot.create(:grid_widget,
-                                         identifier: 'work_package_query',
-                                         start_row: 1,
-                                         end_row: 2,
-                                         start_column: 1,
-                                         end_column: 1,
-                                         options: { 'queryId' => query.id,
-                                                    "filters" => [{ "manualSort" => { "operator" => "ow", "values" => [] } }] })
+      board.widgets << create(:grid_widget,
+                              identifier: 'work_package_query',
+                              start_row: 1,
+                              end_row: 2,
+                              start_column: 1,
+                              end_column: 1,
+                              options: { 'queryId' => query.id,
+                                         "filters" => [{ "manualSort" => { "operator" => "ow", "values" => [] } }] })
     end
   end
 
@@ -48,20 +48,20 @@ FactoryBot.define do
 
     callback(:after_build) do |board, evaluator| # this is also done after :create
       evaluator.num_queries.times do |i|
-        query = Query.new_default(name: "List #{i + 1}", is_public: true, project: board.project).tap do |q|
+        query = Query.new_default(name: "List #{i + 1}", public: true, project: board.project).tap do |q|
           q.sort_criteria = [[:manual_sorting, 'asc']]
           q.add_filter(:manual_sort, 'ow', [])
           q.save!
         end
 
-        board.widgets << FactoryBot.create(:grid_widget,
-                                           identifier: 'work_package_query',
-                                           start_row: 1,
-                                           end_row: 2,
-                                           start_column: 1,
-                                           end_column: 1,
-                                           options: { 'queryId' => query.id,
-                                                      "filters" => [{ "manualSort" => { "operator" => "ow", "values" => [] } }] })
+        board.widgets << create(:grid_widget,
+                                identifier: 'work_package_query',
+                                start_row: 1,
+                                end_row: 2,
+                                start_column: 1,
+                                end_column: 1,
+                                options: { 'queryId' => query.id,
+                                           "filters" => [{ "manualSort" => { "operator" => "ow", "values" => [] } }] })
       end
     end
   end
@@ -73,13 +73,13 @@ FactoryBot.define do
     column_count { 4 }
 
     transient do
-      projects_columns { [FactoryBot.create(:project)] }
+      projects_columns { [create(:project)] }
     end
 
-    callback(:after_build) do |board, evaluator| # this is also done after :create
+    callback(:after_create) do |board, evaluator| # this is also done after :create
       evaluator.projects_columns.each do |project|
 
-        query = Query.new_default(name: project.name, project: board.project, is_public: true).tap do |q|
+        query = Query.new_default(name: project.name, project: board.project, public: true).tap do |q|
           q.sort_criteria = [[:manual_sorting, 'asc']]
           q.add_filter('only_subproject_id', '=', [project.id.to_s])
           q.save!
@@ -87,16 +87,18 @@ FactoryBot.define do
 
         filters = [{ "onlySubproject" => { "operator" => "=", "values" => [project.id.to_s] } }]
 
-        board.options = { 'type' => 'action', 'attribute' => 'subproject' }
-        board.widgets << FactoryBot.create(:grid_widget,
-                                           identifier: 'work_package_query',
-                                           start_row: 1,
-                                           end_row: 2,
-                                           start_column: 1,
-                                           end_column: 1,
-                                           options: { 'queryId' => query.id,
-                                                      'filters' => filters })
+        board.widgets << create(:grid_widget,
+                                identifier: 'work_package_query',
+                                start_row: 1,
+                                end_row: 2,
+                                start_column: 1,
+                                end_column: 1,
+                                options: { 'queryId' => query.id,
+                                           'filters' => filters })
       end
+
+      board.options = { 'type' => 'action', 'attribute' => 'subproject' }
+      board.save!
     end
   end
 end

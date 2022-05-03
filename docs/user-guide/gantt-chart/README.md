@@ -65,7 +65,7 @@ Select the item to which you want to create a dependency. The precede and follow
 
 ![dependencies-gantt-chart](dependencies-gantt-chart-1566556144225.gif)
 
-*OpenProject does not yet include a baseline feature to compare scheduled versions. However, we are aware of the need for it and documented it. Please check here https://community.openproject.com/projects/openproject/work_packages/26448/activity for an update.*
+*OpenProject does not yet include a baseline feature to compare scheduled versions. However, we are aware of the need for it and documented it. Please check [here](https://community.openproject.com/projects/openproject/work_packages/26448/activity) for an update.*
 
 To find out about **how work packages behave**, when you move their predecessor or follower or change the date of a child work package please read our guide for the [Automatic and manual scheduling mode](scheduling).
 

@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -73,6 +73,15 @@ eo:
       start_trial: 'Startu senpagan provperiodon'
       book_now: 'Book now'
       get_quote: 'Get a quote'
+      buttons:
+        upgrade: "Upgrade now"
+        contact: "Contact us for a demo"
+      enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
+      upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
+    journal_aggregation:
+      explanation:
+        text: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent and will also affect %{webhook_link} delay."
+        link: "webhook"
   announcements:
     show_until: Show until
     is_active: nun montrita
@@ -161,7 +170,7 @@ eo:
     edit: 'Redakti adaptitan agon %{name}'
     execute: 'Plenumi %{name}'
     upsale:
-      title: 'Custom actions is an Enterprise Edition feature'
+      title: 'Custom actions'
       description: 'Custom actions streamline everyday work by combining a set of individual steps into one button.'
   custom_fields:
     text_add_new_custom_field: >
@@ -260,7 +269,7 @@ eo:
       irreversible: "This action is irreversible"
       confirmation: "Enter the placeholder user name %{name} to confirm the deletion."
     upsale:
-      title: Assign work to people that are not members of the project.
+      title: Placeholder users
       description: >
         There are multiple scenarios where you want to assign work to people that are not member of your project. It could simply be that you still need to hire the correct person for the job. Or you just don't want to give that person access to the project's information but still want track tasks assigned to that person.
   prioritiies:
@@ -448,11 +457,14 @@ eo:
         templated: 'Template project'
       projects/status:
         code: 'Stato'
-        explanation: 'Statpriskribo'
+        explanation: 'Priskribo de stato'
         codes:
+          not_started: 'Not started'
           on_track: 'Laŭ la plano'
           at_risk: 'Riske'
           off_track: 'Off track'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
       query:
         column_names: "Kolumnoj"
         relations_to_type_column: "Rilatoj kun %{type}"
@@ -463,7 +475,6 @@ eo:
       repository:
         url: "URL"
       role:
-        assignable: "Work packages can be assigned to users and groups in possession of this role in the respective project"
         permissions: "Permesoj"
       time_entry:
         activity: "Aktiveco"
@@ -554,6 +565,7 @@ eo:
         even: "must be even."
         exclusion: "rezervita."
         file_too_large: "is too large (maximum size is %{count} Bytes)."
+        filter_does_not_exist: "filter does not exist."
         format: "does not match the expected format '%{expected}'."
         format_nested: "does not match the expected format '%{expected}' at path '%{path}'."
         greater_than: "devas esti pli granda ol %{count}."
@@ -858,7 +870,7 @@ eo:
     id: "ID"
     is_default: "Defaŭlta valoro"
     is_for_all: "Por ĉiuj projektoj"
-    is_public: "Publika"
+    public: "Publika"
     #kept for backwards compatibility
     issue: "Laborpakaĵo"
     lastname: "Familinomo"
@@ -868,7 +880,6 @@ eo:
     password: "Pasvorto"
     priority: "Prioritato"
     project: "Projekto"
-    public: "Publika"
     responsible: "Respondeculo"
     role: "Rolo"
     roles: "Roloj"
@@ -882,6 +893,7 @@ eo:
     updated_on: "Ĝisdatigita la"
     uploader: "Alŝutilo"
     user: "Uzanto"
+    value: "Value"
     version: "Versio"
     work_package: "Laborpakaĵo"
   backup:
@@ -903,7 +915,7 @@ eo:
       verification: >
         Enter %{word} to confirm you want to %{action} the backup token.
       verification_word_reset: reset
-      verification_word_create: create
+      verification_word_create: krei
       warning: >
         When you create a new token you will only be allowed to request a backup after 24 hours. This is a safety measure. After that you can request a backup any time using that token.
     text_token_deleted: Backup token deleted. Backups are now disabled.
@@ -1005,7 +1017,7 @@ eo:
     text:
       failed: "Ne eblis kopii la projekton \"%{source_project_name}\" al la projekto \"%{target_project_name}\"."
       succeeded: "Kopiita projekto de \"%{source_project_name}\" al \"%{target_project_name}\"."
-  create_new_page: "Vikipaĝo"
+  create_new_page: "Vikia paĝo"
   date:
     abbr_day_names:
       - "Dim"
@@ -1223,6 +1235,7 @@ eo:
   error_enterprise_token_invalid_domain: "The Enterprise Edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: 'Failed to delete this entry.'
   error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
+  error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "La elektita valoro nevalidas."
   error_journal_attribute_not_present: "Journal does not contain attribute %{attribute}."
   error_pdf_export_too_many_columns: "Too many columns selected for the PDF export. Please reduce the number of columns."
@@ -1332,7 +1345,9 @@ eo:
   menus:
     admin:
       mail_notification: "Retpoŝtaj sciigoj"
-      incoming_outgoing: "Incoming & Outgoing"
+      mails_and_notifications: "Emails and notification"
+      aggregation_and_retention: 'Aggregation and retention'
+      api_and_webhooks: "API and webhooks"
     quick_add:
       label: "Open quick add menu"
   my_account:
@@ -1626,6 +1641,10 @@ eo:
   label_member_plural: "Membroj"
   lable_membership_added: 'Member added'
   lable_membership_updated: 'Member updated'
+  label_menu_badge:
+    pre_alpha: 'pre-alpha'
+    alpha: 'alpha'
+    beta: 'beta'
   label_menu_item_name: "Nomo de menuero"
   label_message: "Mesaĝo"
   label_message_last: "Lasta mesaĝo"
@@ -1731,7 +1750,6 @@ eo:
   label_public_projects: "Publikaj projektoj"
   label_query_new: "Nova informpeto"
   label_query_plural: "Propraj informpetoj"
-  label_query_menu_item: "Menuera informpeto "
   label_read: "Legi..."
   label_register: "Krei novan konton"
   label_register_with_developer: "Register as developer"
@@ -1749,7 +1767,7 @@ eo:
   label_renamed: "renamed"
   label_reply_plural: "Replies"
   label_report: "Report"
-  label_report_bug: "Report a bug"
+  label_report_bug: "Raporti cimon"
   label_report_plural: "Reports"
   label_reported_work_packages: "Reported work packages"
   label_reporting: "Reporting"
@@ -1764,7 +1782,7 @@ eo:
   label_revision: "Revision"
   label_revision_id: "Revision %{value}"
   label_revision_plural: "Revisions"
-  label_roadmap: "Roadmap"
+  label_roadmap: "Vojmapo"
   label_roadmap_edit: "Edit roadmap %{name}"
   label_roadmap_due_in: "Due in %{value}"
   label_roadmap_no_work_packages: "No work packages for this version"
@@ -1829,7 +1847,7 @@ eo:
   label_used_by_types: "Used by types"
   label_used_in_projects: "Uzita en projektoj"
   label_user: "Uzanto"
-  label_user_and_permission: "Uzantoj kaj permesoj"
+  label_user_and_permission: "Users and permissions"
   label_user_named: "Uzanto %{name}"
   label_user_activity: "Aktiveco de %{value}"
   label_user_anonymous: "Aanonima"
@@ -1856,7 +1874,7 @@ eo:
   label_view_revisions: "View revisions"
   label_watched_work_packages: "Watched work packages"
   label_what_is_this: "What is this?"
-  label_week: "Week"
+  label_week: "Semajno"
   label_wiki_content_added: "Wiki page added"
   label_wiki_content_updated: "Wiki page updated"
   label_wiki_toc: "Table of Contents"
@@ -1867,7 +1885,7 @@ eo:
   label_wiki_page_attachments: "Wiki page attachments"
   label_wiki_page_id: "Wiki page ID"
   label_wiki_navigation: "Wiki navigation"
-  label_wiki_page: "Vikipaĝo"
+  label_wiki_page: "Vikia paĝo"
   label_wiki_page_plural: "Wiki pages"
   label_wiki_show_index_page_link: "Show submenu item 'Table of Contents'"
   label_wiki_show_menu_item: "Show as menu item in project navigation"
@@ -1882,7 +1900,7 @@ eo:
   label_work_package_new: "New work package"
   label_work_package_edit: "Redakti laborpakaĵon %{name}"
   label_work_package_plural: "Laborpakaĵoj"
-  label_work_package_status: "Stato de la Laborpakaĵo"
+  label_work_package_status: "Stato de la laborpakaĵo"
   label_work_package_status_new: "Nova stato"
   label_work_package_status_plural: "Laborpakaĵa stato"
   label_work_package_types: "Laborpakaĵa tipo"
@@ -1979,7 +1997,7 @@ eo:
   mail_body_backup_waiting_period: The new token will be enabled in %{hours} hours.
   mail_body_backup_token_warning: If this wasn't you, login to OpenProject immediately and reset it again.
   mail_body_lost_password: "To change your password, click on the following link:"
-  mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
+  mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "Project member invitation email"
   mail_body_register_user: "Dear %{name}, "
   mail_body_register_links_html: |
@@ -2112,8 +2130,8 @@ eo:
         format: "%n %u"
         units:
           byte:
-            one: "Byte"
-            other: "Bytes"
+            one: "Bajto"
+            other: "Bajtoj"
           gb: "GB"
           kb: "kB"
           mb: "MB"
@@ -2122,7 +2140,7 @@ eo:
     heading_getting_started: "Get an overview"
     text_getting_started_description: "Get a quick overview of project management and team collaboration with OpenProject."
     text_show_again: "You can restart this video from the help menu"
-    welcome: "Welcome to OpenProject"
+    welcome: "Welcome to %{app_title}"
     select_language: "Please select your language"
   permission_add_work_package_notes: "Add notes"
   permission_add_work_packages: "Add work packages"
@@ -2138,6 +2156,7 @@ eo:
   permission_comment_news: "Comment news"
   permission_commit_access: "Read/write access to repository (commit)"
   permission_copy_projects: "Copy projects"
+  permission_create_backup: "Create backup"
   permission_delete_work_package_watchers: "Delete watchers"
   permission_delete_work_packages: "Delete work packages"
   permission_delete_messages: "Delete messages"
@@ -2180,7 +2199,6 @@ eo:
   permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Select project modules"
   permission_manage_types: "Select types"
-  permission_view_calendar: "View calendar"
   permission_view_changesets: "View repository revisions in OpenProject"
   permission_view_commit_author_statistics: "View commit author statistics"
   permission_view_work_package_watchers: "View watchers list"
@@ -2192,6 +2210,8 @@ eo:
   permission_view_timelines: "View timelines"
   permission_view_wiki_edits: "View wiki history"
   permission_view_wiki_pages: "View wiki"
+  permission_work_package_assigned: "Become assignee/responsible"
+  permission_work_package_assigned_explanation: "Work packages can be assigned to users and groups in possession of this role in the respective project"
   placeholders:
     default: "-"
   project:
@@ -2216,7 +2236,6 @@ eo:
       archived: "Archived"
   project_module_activity: "Aktiveco"
   project_module_forums: "Forumoj"
-  project_module_calendar: "Kalendaro"
   project_module_work_package_tracking: "Laborpakaĵa spurado"
   project_module_news: "Novaĵoj"
   project_module_repository: "Deponejo"
@@ -2230,7 +2249,7 @@ eo:
     assigned_to_role: "Assignee's role"
     member_of_group: "Assignee's group"
     assignee_or_group: "Assignee or belonging group"
-    subproject_id: "Including Subproject"
+    subproject_id: "Including subproject"
     only_subproject_id: "Only subproject"
     name_or_identifier: "Name or identifier"
   repositories:
@@ -2339,7 +2358,7 @@ eo:
   scheduling:
     activated: 'activated'
     deactivated: 'deactivated'
-  search_input_placeholder: "Search ..."
+  search_input_placeholder: "Serĉi ..."
   setting_apiv3_cors_enabled: "Enable CORS"
   setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
   setting_apiv3_cors_origins_text_html: >
@@ -2554,7 +2573,6 @@ eo:
   text_work_packages_destroy_confirmation: "Are you sure you want to delete the selected work package(s)?"
   text_work_packages_ref_in_commit_messages: "Referencing and fixing work packages in commit messages"
   text_journal_added: "%{label} %{value} added"
-  text_journal_aggregation_time_explanation: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent."
   text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
   text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label} updated"
@@ -2606,16 +2624,16 @@ eo:
   text_zoom_out: "Zoom out"
   text_setup_mail_configuration: "Configure your email provider"
   time:
-    am: "am"
+    am: "atm"
     formats:
       default: "%m/%d/%Y %I:%M %p"
       long: "%B %d, %Y %H:%M"
       short: "%d %b %H:%M"
       time: "%I:%M %p"
-    pm: "pm"
+    pm: "ptm"
   timeframe:
     show: "Show timeframe"
-    end: "to"
+    end: "ĝis"
     start: "from"
   timelines:
     admin_menu:
@@ -2705,14 +2723,14 @@ eo:
       project_time_filter: "Projects with a work package of a certain type in a certain timeframe"
       project_time_filter_timeframe: "Timeframe"
       project_time_filter_historical_from: "from"
-      project_time_filter_historical_to: "to"
+      project_time_filter_historical_to: "ĝis"
       project_time_filter_historical: "%{start_label} %{startdate} %{end_label} %{enddate}"
       project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} ago, %{end_label} %{endspan}%{endspanunit} from now"
       project_filters: "Filter projects"
       project_responsible: "Show projects with accountable"
       project_status: "Show project status"
       timeframe: "Show timeframe"
-      timeframe_end: "to"
+      timeframe_end: "ĝis"
       timeframe_start: "from"
       timeline: "General Settings"
       zoom: "Zoom factor"
@@ -2845,7 +2863,6 @@ eo:
   wiki_menu_item_new_main_item_explanation: >
     You are deleting the only main wiki menu item. You now have to choose a wiki page for which a new main item will be generated. To delete the wiki the wiki module can be deactivated by project administrators.
   wiki_menu_item_delete_not_permitted: The wiki menu item of the only wiki page cannot be deleted.
-  query_menu_item_for: "Menu item for query \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
@@ -2870,6 +2887,7 @@ eo:
         work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:
         date: "YYYY-MM-DD (ISO 8601 date only)"
+        datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm] (any compatible ISO 8601 datetime)"
         duration: "ISO 8601 duration"
       invalid_content_type: "Expected CONTENT-TYPE to be '%{content_type}' but got '%{actual}'."
       invalid_format: "Invalid format for property '%{property}': Expected format like '%{expected_format}', but got '%{actual}'."
@@ -2881,6 +2899,7 @@ eo:
         select: "The requested select of %{invalid} is not supported. Supported selects are %{supported}."
       invalid_user_status_transition: "The current user account status does not allow this operation."
       missing_content_type: "not specified"
+      missing_property: "Missing property '%{property}'."
       missing_request_body: "There was no request body."
       missing_or_malformed_parameter: "The query parameter '%{parameter}' is missing or malformed."
       multipart_body_error: "The request body did not contain the expected multipart parts."
@@ -2904,6 +2923,7 @@ eo:
       schema: 'Schema'
     undisclosed:
       parent: Undisclosed - The selected parent is invisible because of lacking permissions.
+      ancestor: Undisclosed - The ancestor is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 'Pre-authorization'

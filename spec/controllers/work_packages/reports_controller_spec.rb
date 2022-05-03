@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,34 +29,34 @@
 require 'spec_helper'
 
 describe WorkPackages::ReportsController, type: :controller do
-  let(:user) { FactoryBot.create(:user) }
-  let(:project) { FactoryBot.create(:project) }
+  let(:user) { create(:user) }
+  let(:project) { create(:project) }
   let(:role) do
-    FactoryBot.create(:role,
-                      permissions: [:view_work_packages])
+    create(:role,
+           permissions: [:view_work_packages])
   end
   let(:member) do
-    FactoryBot.create(:member,
-                      project: project,
-                      principal: user,
-                      roles: [role])
+    create(:member,
+           project: project,
+           principal: user,
+           roles: [role])
   end
   let(:work_package_1) do
-    FactoryBot.create(:work_package,
-                      id: 21,
-                      subject: "Can't print recipes",
-                      project: project)
+    create(:work_package,
+           id: 21,
+           subject: "Can't print recipes",
+           project: project)
   end
   let(:work_package_2) do
-    FactoryBot.create(:work_package,
-                      id: 2101,
-                      subject: 'Error 281 when updating a recipe',
-                      project: project)
+    create(:work_package,
+           id: 2101,
+           subject: 'Error 281 when updating a recipe',
+           project: project)
   end
   let(:work_package_3) do
-    FactoryBot.create(:work_package,
-                      id: 2102,
-                      project: project)
+    create(:work_package,
+           id: 2102,
+           project: project)
   end
 
   before do

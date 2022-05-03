@@ -1,15 +1,19 @@
 require_relative '../spec_helper'
 
-describe 'Admin 2FA management', with_2fa_ee: true, type: :feature,
-                                 with_config: { '2fa': { active_strategies: %i[developer totp] } },
-                                 js: true do
+describe 'Admin 2FA management',
+         with_2fa_ee: true,
+         type: :feature,
+         with_settings: {
+           plugin_openproject_two_factor_authentication: { 'active_strategies' => %i[developer totp] }
+         },
+         js: true do
   let(:dialog) { ::Components::PasswordConfirmationDialog.new }
   let(:user_password) { 'admin!' * 4 }
-  let(:other_user) { FactoryBot.create :user, login: 'bob' }
+  let(:other_user) { create :user, login: 'bob' }
   let(:admin) do
-    FactoryBot.create(:admin,
-                      password: user_password,
-                      password_confirmation: user_password)
+    create(:admin,
+           password: user_password,
+           password_confirmation: user_password)
   end
 
   before do
@@ -24,7 +28,7 @@ describe 'Admin 2FA management', with_2fa_ee: true, type: :feature,
     page.find('.admin--edit-section a').click
 
     expect(page).to have_selector('.generic-table--empty-row')
-    expect(current_path).to eq my_2fa_devices_path
+    expect(page).to have_current_path my_2fa_devices_path
   end
 
   it 'allows 2FA device management of the user' do
@@ -65,8 +69,8 @@ describe 'Admin 2FA management', with_2fa_ee: true, type: :feature,
   end
 
   context 'with multiple devices registered' do
-    let!(:device1) { FactoryBot.create :two_factor_authentication_device_sms, user: other_user }
-    let!(:device2) { FactoryBot.create :two_factor_authentication_device_totp, user: other_user, default: false }
+    let!(:device1) { create :two_factor_authentication_device_sms, user: other_user }
+    let!(:device2) { create :two_factor_authentication_device_totp, user: other_user, default: false }
 
     it 'allows to delete all' do
       visit edit_user_path(other_user, tab: :two_factor_authentication)

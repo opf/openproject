@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -38,20 +36,20 @@ describe Notifications::WorkflowJob, type: :model do
   let(:send_notification) { true }
 
   let(:notifications) do
-    [FactoryBot.build_stubbed(:notification, reason: :assigned),
+    [build_stubbed(:notification, reason: :assigned),
      mentioned_notification,
-     FactoryBot.build_stubbed(:notification, reason: :watched)]
+     build_stubbed(:notification, reason: :watched)]
   end
 
   let(:mentioned_notification) do
-    FactoryBot.build_stubbed(:notification, reason: :mentioned)
+    build_stubbed(:notification, reason: :mentioned)
   end
 
   describe '#perform' do
     context 'with the :create_notifications state' do
       let(:state) { :create_notifications }
       let(:arguments) { [resource, send_notification] }
-      let(:resource) { FactoryBot.build_stubbed(:comment) }
+      let(:resource) { build_stubbed(:comment) }
 
       let!(:create_service) do
         service_instance = instance_double(Notifications::CreateFromModelService)

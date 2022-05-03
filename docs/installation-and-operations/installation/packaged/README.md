@@ -74,7 +74,7 @@ sudo apt-get update
 sudo apt-get install openproject
 ```
 
-Then finish the installation by reading the [*Initial configuration*][initial-config] section.
+Then finish the installation by reading the [*Initial configuration*](#initial-configuration) section.
 
 <video src="https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/openproject-installation-ubuntu.mp4" type="video/mp4" controls="" style="width:100%"></video>
 
@@ -100,7 +100,7 @@ sudo apt-get update
 sudo apt-get install openproject
 ```
 
-Then finish the installation by reading the [*Initial configuration*][initial-config] section.
+Then finish the installation by reading the [*Initial configuration*](#initial-configuration) section.
 
 ### Ubuntu 16.04
 
@@ -124,7 +124,7 @@ sudo apt-get update
 sudo apt-get install openproject
 ```
 
-Then finish the installation by reading the [*Initial configuration*][initial-config] section.
+Then finish the installation by reading the [*Initial configuration*](#initial-configuration) section.
 
 ## Debian Installation
 
@@ -150,7 +150,7 @@ sudo apt-get update
 sudo apt-get install openproject
 ```
 
-Then finish the installation by reading the [*Initial configuration*][initial-config] section.
+Then finish the installation by reading the [*Initial configuration*](#initial-configuration) section.
 
 ### Debian 10
 
@@ -174,7 +174,7 @@ sudo apt-get update
 sudo apt-get install openproject
 ```
 
-Then finish the installation by reading the [*Initial configuration*][initial-config] section.
+Then finish the installation by reading the [*Initial configuration*](#initial-configuration) section.
 
 ### Debian 9
 
@@ -198,7 +198,7 @@ sudo apt-get update
 sudo apt-get install openproject
 ```
 
-Then finish the installation by reading the [*Initial configuration*][initial-config] section.
+Then finish the installation by reading the [*Initial configuration*](#initial-configuration) section.
 
 ## CentOS Installation
 
@@ -223,7 +223,7 @@ Download the OpenProject package:
 sudo yum install openproject
 ```
 
-Then finish the installation by reading the [*Initial configuration*][initial-config] section.
+Then finish the installation by reading the [*Initial configuration*](#initial-configuration) section.
 
 **Note:** On this distribution full-text extraction for attachments [*is not supported*](#full-text-extraction-not-supported) by default.
 
@@ -242,7 +242,7 @@ Download the OpenProject package:
 sudo yum install openproject
 ```
 
-Then finish the installation by reading the [*Initial configuration*][initial-config] section.
+Then finish the installation by reading the [*Initial configuration*](#initial-configuration) section.
 
 **Note:** On this distribution full-text extraction for attachments [*is not supported*](#full-text-extraction-not-supported) by default.
 
@@ -263,11 +263,9 @@ Download the OpenProject package:
 sudo zypper install openproject
 ```
 
-Then finish the installation by reading the [*Initial configuration*][initial-config] section.
+Then finish the installation by reading the [*Initial configuration*](#initial-configuration) section.
 
 **Note:** On SLES12 full-text extraction for attachments [*is not supported*](#full-text-extraction-not-supported) by default.
-
-[initial-config]: #initial-configuration
 
 # Full-text extraction not supported
 

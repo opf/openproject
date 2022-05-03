@@ -33,5 +33,8 @@ Dir.glob('**/config/locales/crowdin/*.yml').each do |crowdin_file|
   next if crowdin_file == new_filepath
 
   puts "Renaming #{crowdin_file} to #{new_filepath}"
-  FileUtils.mv crowdin_file, new_filepath
+  FileUtils.mv crowdin_file,
+               new_filepath,
+               force: true,
+               verbose: true
 end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe Rate, type: :model do
-  let(:rate) { FactoryBot.build(:rate) }
+  let(:rate) { build(:rate) }
 
   describe '#valid?' do
     describe 'WHEN no rate is supplied' do

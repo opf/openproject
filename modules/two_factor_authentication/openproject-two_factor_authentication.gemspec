@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 Gem::Specification.new do |s|
   s.name        = "openproject-two_factor_authentication"
   s.version     = '1.0.0'
@@ -15,5 +13,5 @@ Gem::Specification.new do |s|
   s.add_dependency 'messagebird-rest', '~> 1.4.2'
   s.add_dependency 'rotp', '~> 6.1'
 
-  s.add_dependency 'aws-sdk-sns', '~> 1.46.0'
+  s.add_dependency 'aws-sdk-sns', '~> 1.53.0'
 end

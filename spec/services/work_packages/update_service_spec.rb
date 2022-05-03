@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,16 +29,16 @@
 require 'spec_helper'
 
 describe WorkPackages::UpdateService, type: :model do
-  let(:user) { FactoryBot.build_stubbed(:user) }
+  let(:user) { build_stubbed(:user) }
   let(:project) do
-    p = FactoryBot.build_stubbed(:project)
+    p = build_stubbed(:project)
     allow(p).to receive(:shared_versions).and_return([])
 
     p
   end
   let(:work_package) do
-    wp = FactoryBot.build_stubbed(:work_package, project: project)
-    wp.type = FactoryBot.build_stubbed(:type)
+    wp = build_stubbed(:work_package, project: project)
+    wp.type = build_stubbed(:type)
     wp.send(:clear_changes_information)
 
     wp
@@ -191,7 +189,7 @@ describe WorkPackages::UpdateService, type: :model do
 
     context 'when switching the project' do
       let(:target_project) do
-        FactoryBot.build_stubbed(:project)
+        build_stubbed(:project)
       end
       let(:call_attributes) { attributes }
       let(:attributes) { { project: target_project } }
@@ -246,7 +244,7 @@ describe WorkPackages::UpdateService, type: :model do
     end
 
     context 'when switching the type' do
-      let(:target_type) { FactoryBot.build_stubbed(:type) }
+      let(:target_type) { build_stubbed(:type) }
 
       context 'custom_values' do
         it 'resets the custom values' do

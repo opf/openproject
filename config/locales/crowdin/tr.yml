@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -73,6 +73,15 @@ tr:
       start_trial: 'Deneme sürümüne başla'
       book_now: 'Şimdi rezervasyon yaptırın'
       get_quote: 'Fiyat teklifi alın'
+      buttons:
+        upgrade: "Upgrade now"
+        contact: "Contact us for a demo"
+      enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
+      upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
+    journal_aggregation:
+      explanation:
+        text: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent and will also affect %{webhook_link} delay."
+        link: "webhook"
   announcements:
     show_until: Son görüntülenme tarihi
     is_active: şu an görüntüleniyor
@@ -161,7 +170,7 @@ tr:
     edit: 'Özel eylem %{name} Düzenle'
     execute: '%{name} yürütmek'
     upsale:
-      title: 'Özel eylemler bir Enterprise Edition özelliğidir'
+      title: 'Custom actions'
       description: 'Özel eylemler bir düğme içine tek tek adımları bir dizi birleştirerek günlük iş düzene.'
   custom_fields:
     text_add_new_custom_field: >
@@ -260,7 +269,7 @@ tr:
       irreversible: "Bu işlem geri alınamaz"
       confirmation: "Silme işlemini onaylamak için yer tutucu %{name} ismini girin."
     upsale:
-      title: Projenin üyesi olmayan kişilere iş atayın.
+      title: Placeholder users
       description: >
         Projenizin üyesi olmayan kişilere iş atamak istediğiniz birden çok senaryo vardır. Basitçe, iş için hala doğru kişiyi işe almanız gerekebilir. Ya da sadece o kişiye projenin bilgilerine erişim vermek istemezsiniz, ancak yine de o kişiye atanan görevleri izlemek istersiniz.
   prioritiies:
@@ -450,9 +459,12 @@ tr:
         code: 'Durum'
         explanation: 'Durum tanımlaması'
         codes:
+          not_started: 'Not started'
           on_track: 'Takipte'
           at_risk: 'Riskli'
           off_track: 'Kapalı parça'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
       query:
         column_names: "Sütunlar"
         relations_to_type_column: "%{type} ile ilişkileri"
@@ -463,7 +475,6 @@ tr:
       repository:
         url: "URL"
       role:
-        assignable: "İşpaketleri bağlı projedeki rollere göre kullanıcı ve gruplara atanabilir"
         permissions: "İzinler"
       time_entry:
         activity: "Etkinlik"
@@ -554,6 +565,7 @@ tr:
         even: "çift olmalı."
         exclusion: "ayrılmıştır."
         file_too_large: "çok büyük (en büyük boyut %{count} bayt)."
+        filter_does_not_exist: "filter does not exist."
         format: "Beklenen biçim '%{expected}' ile eşleşmiyor."
         format_nested: "does not match the expected format '%{expected}' at path '%{path}'."
         greater_than: "%{count}'ten büyük olması gerekir."
@@ -858,7 +870,7 @@ tr:
     id: "ID"
     is_default: "Varsayılan değer"
     is_for_all: "Tüm projeler için"
-    is_public: "Herkese Açık"
+    public: "Herkese Açık"
     #kept for backwards compatibility
     issue: "İş paketi"
     lastname: "Soyisim"
@@ -868,7 +880,6 @@ tr:
     password: "Parola"
     priority: "Öncelik"
     project: "Proje"
-    public: "Herkese Açık"
     responsible: "Sorumlu"
     role: "Rol"
     roles: "Yetkiler"
@@ -882,6 +893,7 @@ tr:
     updated_on: "Güncelleme tarihi"
     uploader: "Yükleyici"
     user: "Kullanıcı"
+    value: "Value"
     version: "Sürüm"
     work_package: "İş paketi"
   backup:
@@ -1223,6 +1235,7 @@ tr:
   error_enterprise_token_invalid_domain: "Enterprise Edition etkin değil. Kurumsal simgenizin etki alanı (%{actual}) sistemin ana makine adıyla (%{expected}) eşleşmiyor."
   error_failed_to_delete_entry: 'Girdi silinemedi.'
   error_in_dependent: "Bağımlı nesneyi değiştirmeye çalışırken hata: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
+  error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Seçili değeri geçersiz."
   error_journal_attribute_not_present: "Günlük  %{attribute} özniteliği içermiyor."
   error_pdf_export_too_many_columns: "PDF Dışa Aktarma için çok fazla sütun seçili. Sütun sayısını azaltın."
@@ -1332,7 +1345,9 @@ tr:
   menus:
     admin:
       mail_notification: "E-posta bildirimleri"
-      incoming_outgoing: "Incoming & Outgoing"
+      mails_and_notifications: "Emails and notification"
+      aggregation_and_retention: 'Aggregation and retention'
+      api_and_webhooks: "API and webhooks"
     quick_add:
       label: "Hızlı ekle menüsünü aç"
   my_account:
@@ -1626,6 +1641,10 @@ tr:
   label_member_plural: "Üyeler"
   lable_membership_added: 'Üye eklendi'
   lable_membership_updated: 'Üye güncellendi'
+  label_menu_badge:
+    pre_alpha: 'pre-alpha'
+    alpha: 'alpha'
+    beta: 'beta'
   label_menu_item_name: "Menü öğesinin ismi"
   label_message: "İleti"
   label_message_last: "Son mesaj"
@@ -1731,7 +1750,6 @@ tr:
   label_public_projects: "Genel Projeler"
   label_query_new: "Yeni Sorgu"
   label_query_plural: "Özel Sorgular"
-  label_query_menu_item: "Sorgu menü öğesi"
   label_read: "Oku..."
   label_register: "Yeni hesap oluştur"
   label_register_with_developer: "Geliştirici olarak kayıt ol"
@@ -1829,7 +1847,7 @@ tr:
   label_used_by_types: "Türleri tarafından kullanılan"
   label_used_in_projects: "Projede kullanılan"
   label_user: "Kullanıcı"
-  label_user_and_permission: "Kullanıcılar ve İzinler"
+  label_user_and_permission: "Users and permissions"
   label_user_named: "%{name} kullanıcısı"
   label_user_activity: "%{value}'ın faaliyet"
   label_user_anonymous: "Anonim"
@@ -1979,7 +1997,7 @@ tr:
   mail_body_backup_waiting_period: Yeni jeton %{hours} saat içinde etkinleştirilecek.
   mail_body_backup_token_warning: Bu siz değildiyseniz, hemen OpenProject'te oturum açın ve yeniden sıfırlayın.
   mail_body_lost_password: "Parolanızı değiştirmek için aşağıdaki bağlantıyı tıklayın:"
-  mail_body_register: "OpenProject'e hoş geldiniz. Lütfen bu bağlantıyı tıklayarak hesabınızı etkinleştirin:"
+  mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "Proje üyesi davet e-postası"
   mail_body_register_user: "Sevgili %{name},"
   mail_body_register_links_html: |
@@ -2122,7 +2140,7 @@ tr:
     heading_getting_started: "Genel görünümü al"
     text_getting_started_description: "OpenProject ile takım çalışması ve proje yönetimi konusuna genel bir bakış."
     text_show_again: "Bu videoyu Yardım menüsünden yeniden başlatabilirsiniz"
-    welcome: "OpenProject'e hoş geldiniz"
+    welcome: "Welcome to %{app_title}"
     select_language: "Lütfen dilinizi seçin"
   permission_add_work_package_notes: "Not eklemek"
   permission_add_work_packages: "İş paketi eklemek"
@@ -2138,6 +2156,7 @@ tr:
   permission_comment_news: "Haberlere yorum yazmak"
   permission_commit_access: "Depoya okuma / yazma erişimi (tamamlama)"
   permission_copy_projects: "Proje kopyalamak"
+  permission_create_backup: "Create backup"
   permission_delete_work_package_watchers: "Takipçi sil"
   permission_delete_work_packages: "İş paketi silmek"
   permission_delete_messages: "İleti silmek"
@@ -2180,7 +2199,6 @@ tr:
   permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Proje modülleri seçmek"
   permission_manage_types: "İş paketi türlerini seçmek"
-  permission_view_calendar: "Takvimi görüntülemek"
   permission_view_changesets: "OpenProject'de depo revizyonlarını görüntüle"
   permission_view_commit_author_statistics: "Yazar istatistiklerini inceleyin"
   permission_view_work_package_watchers: "Takipçi listesini göster"
@@ -2192,6 +2210,8 @@ tr:
   permission_view_timelines: "Zaman çizelgelerini görüntüle"
   permission_view_wiki_edits: "Wiki geçmişini görüntüle"
   permission_view_wiki_pages: "Wiki'yi görüntüle"
+  permission_work_package_assigned: "Become assignee/responsible"
+  permission_work_package_assigned_explanation: "İşpaketleri bağlı projedeki rollere göre kullanıcı ve gruplara atanabilir"
   placeholders:
     default: "-"
   project:
@@ -2216,7 +2236,6 @@ tr:
       archived: "Arşivlenen"
   project_module_activity: "Etkinlik"
   project_module_forums: "Forumlar"
-  project_module_calendar: "Takvim"
   project_module_work_package_tracking: "İş paketi takibi"
   project_module_news: "Haberler"
   project_module_repository: "Depo"
@@ -2230,7 +2249,7 @@ tr:
     assigned_to_role: "Görev alanının rolü"
     member_of_group: "Atama grubunun grubu"
     assignee_or_group: "Atanan veya ait olunan grup"
-    subproject_id: "Alt Proje Dahil"
+    subproject_id: "Including subproject"
     only_subproject_id: "Sadece alt proje"
     name_or_identifier: "İsim veya tanımlayıcı"
   repositories:
@@ -2554,7 +2573,6 @@ tr:
   text_work_packages_destroy_confirmation: "Seçilen çalışma paket(ler) ini silmek istediğinizden emin misiniz?"
   text_work_packages_ref_in_commit_messages: "İş paketlerini taahhüt mesajlarında referans ve sabitleme"
   text_journal_added: "%{value} %{label} eklendi"
-  text_journal_aggregation_time_explanation: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent."
   text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
   text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label} güncellendi"
@@ -2844,7 +2862,6 @@ tr:
   wiki_menu_item_new_main_item_explanation: >
     Sadece ana wiki menü öğesini silmektesiniz. Artık yeni bir ana öğenin oluşturulacağı bir wiki sayfası seçmelisiniz. Wiki'yi silmek için, wiki modülü proje yöneticileri tarafından devre dışı bırakılabilir.
   wiki_menu_item_delete_not_permitted: Yalnızca wiki sayfasının wiki menü öğesi silinemez.
-  query_menu_item_for: "\" %{title} \" sorgusu için menü öğesi"
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
@@ -2869,6 +2886,7 @@ tr:
         work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:
         date: "YYYY-AA-GG (ISO 8601 sadece tarih)"
+        datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm] (any compatible ISO 8601 datetime)"
         duration: "ISO 8601 süre"
       invalid_content_type: "Beklenen içerik tipi '%{content_type}' ancak gerçekte olan '%{actual}."
       invalid_format: "Özelliği özelliği özelliği' %{property} ' özelliği için geçersiz biçim: ' %{expected_format} ' gibi beklenen biçim, ancak ' %{actual} ' var."
@@ -2880,6 +2898,7 @@ tr:
         select: "İstenen %{invalid} seçimi desteklenmiyor. Desteklenen seçimler %{supported}"
       invalid_user_status_transition: "Geçerli kullanıcı hesabı durumu bu işleme izin vermiyor."
       missing_content_type: "belirtilmemiş"
+      missing_property: "Missing property '%{property}'."
       missing_request_body: "İstek gövdesi yoktu."
       missing_or_malformed_parameter: "Sorgu parametresi '%{parameter}' eksik veya hatalı biçimlendirilmiş."
       multipart_body_error: "İstek gövdesi, beklenen çok parçalı parçaları içeriyordu."
@@ -2903,6 +2922,7 @@ tr:
       schema: 'Şema'
     undisclosed:
       parent: Undisclosed - The selected parent is invisible because of lacking permissions.
+      ancestor: Undisclosed - The ancestor is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 'Ön yetkilendirme'

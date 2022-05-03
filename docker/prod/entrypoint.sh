@@ -28,7 +28,8 @@ if [ "$(id -u)" = '0' ]; then
 	export PATH="$PGBIN:$PATH"
 
 	mkdir -p $APP_DATA_PATH/{files,git,svn}
-	chown -R $APP_USER:$APP_USER $APP_DATA_PATH
+	# The $APP_DATA_PATH may be hosted on a NAS that creates snapshots (or a btrfs filesystem). In such a case, the .snapshot folder cannot be touched.
+  find $APP_DATA_PATH | grep -v .snapshot | xargs -n 1 chown $APP_USER:$APP_USER
 	if [ -d /etc/apache2/sites-enabled ]; then
 		chown -R $APP_USER:$APP_USER /etc/apache2/sites-enabled
 		echo "OpenProject currently expects to be reached on the following domain: ${SERVER_NAME:=localhost}, which does not seem to be how your installation is configured." > /var/www/html/index.html

@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,8 +35,8 @@ describe Queries::Projects::Filters::LatestActivityAtFilter, type: :model do
     let(:model) { Project.with_latest_activity }
     let(:attribute) { :activity }
     let(:values) { ['3'] }
-    let(:admin) { FactoryBot.build_stubbed(:admin) }
-    let(:user) { FactoryBot.build_stubbed(:user) }
+    let(:admin) { build_stubbed(:admin) }
+    let(:user) { build_stubbed(:user) }
 
     describe '#available?' do
       context 'for an admin' do

@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -44,7 +42,7 @@ class Wiki < ApplicationRecord
                                 allow_destroy: true,
                                 reject_if: proc { |attr| attr['name'].blank? && attr['title'].blank? }
 
-  validates_presence_of :start_page
+  validates :start_page, presence: true
 
   after_create :create_menu_item_for_start_page
 

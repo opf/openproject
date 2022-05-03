@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -68,7 +68,7 @@ describe ::Members::DeleteService, type: :model do
         end
 
         context 'when the model`s principal is a group' do
-          let(:principal) { FactoryBot.build_stubbed(:group) }
+          let(:principal) { build_stubbed(:group) }
           let!(:cleanup_inherited_roles_service_instance) do
             instance = instance_double(Groups::CleanupInheritedRolesService, call: nil)
 

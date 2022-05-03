@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -34,9 +32,9 @@ describe ::API::V3::WorkPackages::CreateProjectFormAPI, content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:project) { FactoryBot.create(:project, id: 5) }
+  let(:project) { create(:project, id: 5) }
   let(:post_path) { api_v3_paths.create_project_work_package_form(project.id) }
-  let(:user) { FactoryBot.build(:admin) }
+  let(:user) { build(:admin) }
 
   before do
     login_as(user)

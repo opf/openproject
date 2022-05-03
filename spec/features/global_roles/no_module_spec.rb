@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,9 +30,9 @@ require 'spec_helper'
 require_relative './mock_global_permissions'
 
 describe 'Global role: No module', type: :feature, js: true do
-  let(:admin) { FactoryBot.create(:admin) }
-  let(:project) { FactoryBot.create :project }
-  let!(:role) { FactoryBot.create(:role) }
+  let(:admin) { create(:admin) }
+  let(:project) { create :project }
+  let!(:role) { create(:role) }
 
   before do
     login_as(admin)

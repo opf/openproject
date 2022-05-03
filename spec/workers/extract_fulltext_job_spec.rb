@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -50,7 +48,7 @@ describe ExtractFulltextJob, type: :job do
 
   let(:text) { 'lorem ipsum' }
   let(:attachment) do
-    FactoryBot.create(:attachment).tap do |attachment|
+    create(:attachment).tap do |attachment|
       expect(ExtractFulltextJob)
         .to have_been_enqueued
         .with(attachment.id)

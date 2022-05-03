@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,50 +29,50 @@
 require 'spec_helper'
 
 describe 'Work package filtering by bool custom field', js: true do
-  let(:project) { FactoryBot.create :project }
+  let(:project) { create :project }
   let(:type) { project.types.first }
   let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
   let(:filters) { ::Components::WorkPackages::Filters.new }
   let!(:bool_cf) do
-    FactoryBot.create(:bool_wp_custom_field).tap do |cf|
+    create(:bool_wp_custom_field).tap do |cf|
       type.custom_fields << cf
       project.work_package_custom_fields << cf
     end
   end
-  let(:role) { FactoryBot.create(:role, permissions: %i[view_work_packages save_queries]) }
+  let(:role) { create(:role, permissions: %i[view_work_packages save_queries]) }
   let!(:work_package_true) do
-    FactoryBot.create(:work_package,
-                      type: type,
-                      project: project).tap do |wp|
+    create(:work_package,
+           type: type,
+           project: project).tap do |wp|
       wp.custom_field_values = { bool_cf.id => true }
       wp.save!
     end
   end
   let!(:work_package_false) do
-    FactoryBot.create(:work_package,
-                      type: type,
-                      project: project).tap do |wp|
+    create(:work_package,
+           type: type,
+           project: project).tap do |wp|
       wp.custom_field_values = { bool_cf.id => false }
       wp.save!
     end
   end
   let!(:work_package_without) do
     # Has no custom field value set
-    FactoryBot.create(:work_package,
-                      type: type,
-                      project: project)
+    create(:work_package,
+           type: type,
+           project: project)
   end
   let!(:work_package_other_type) do
     # Does not have the custom field at all
-    FactoryBot.create(:work_package,
-                      type: project.types.last,
-                      project: project)
+    create(:work_package,
+           type: project.types.last,
+           project: project)
   end
 
   current_user do
-    FactoryBot.create :user,
-                      member_in_project: project,
-                      member_with_permissions: %i[view_work_packages save_queries]
+    create :user,
+           member_in_project: project,
+           member_with_permissions: %i[view_work_packages save_queries]
   end
 
   it 'shows the work package matching the bool cf filter' do

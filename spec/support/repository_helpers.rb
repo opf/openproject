@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -69,7 +67,7 @@ end
 # Instead, we wrap these repository specs in a virtual
 # subversion repository which does not exist on disk.
 def with_virtual_subversion_repository(&block)
-  let(:repository) { FactoryBot.create(:repository_subversion) }
+  let(:repository) { create(:repository_subversion) }
 
   before do
     allow(Setting).to receive(:enabled_scm).and_return(['subversion'])

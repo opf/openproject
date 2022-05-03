@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,12 +29,12 @@
 require 'spec_helper'
 
 describe 'Invite user modal subprojects', type: :feature, js: true do
-  shared_let(:project) { FactoryBot.create :project, name: 'Parent project' }
-  shared_let(:subproject) { FactoryBot.create :project, name: 'Subproject', parent: project }
-  shared_let(:work_package) { FactoryBot.create :work_package, project: subproject }
-  shared_let(:invitable_user) { FactoryBot.create :user, firstname: 'Invitable', lastname: 'User' }
+  shared_let(:project) { create :project, name: 'Parent project' }
+  shared_let(:subproject) { create :project, name: 'Subproject', parent: project }
+  shared_let(:work_package) { create :work_package, project: subproject }
+  shared_let(:invitable_user) { create :user, firstname: 'Invitable', lastname: 'User' }
 
-  let(:permissions) { %i[view_work_packages edit_work_packages manage_members] }
+  let(:permissions) { %i[view_work_packages edit_work_packages manage_members work_package_assigned] }
   let(:global_permissions) { %i[] }
   let(:modal) do
     ::Components::Users::InviteUserModal.new project: subproject,
@@ -42,18 +42,18 @@ describe 'Invite user modal subprojects', type: :feature, js: true do
                                              role: role
   end
   let!(:role) do
-    FactoryBot.create :role,
-                      name: 'Member',
-                      permissions: permissions
+    create :role,
+           name: 'Member',
+           permissions: permissions
   end
   let(:wp_page) { Pages::FullWorkPackage.new(work_package, project) }
   let(:assignee_field) { wp_page.edit_field :assignee }
 
   current_user do
-    FactoryBot.create :user,
-                      member_in_projects: [project, subproject],
-                      member_through_role: role,
-                      global_permissions: global_permissions
+    create :user,
+           member_in_projects: [project, subproject],
+           member_through_role: role,
+           global_permissions: global_permissions
   end
 
   context 'with manage permissions in subproject' do

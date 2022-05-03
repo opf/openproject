@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,9 +29,9 @@
 require 'spec_helper'
 
 describe Grids::DeleteContract do
-  let(:user) { FactoryBot.build_stubbed(:user) }
+  let(:user) { build_stubbed(:user) }
   let(:grid) do
-    FactoryBot.build_stubbed(:grid)
+    build_stubbed(:grid)
   end
 
   let(:instance) { described_class.new(grid, user) }

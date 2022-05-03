@@ -1,0 +1,65 @@
+#English strings go here
+hu:
+  permission_view_file_links: "Fájl hivatkozások megtekintése"
+  permission_manage_file_links: "Fájl hivatkozások kezelése"
+  permission_manage_storages_in_project: "Tárterületek kezelése a projektben"
+  project_module_storages: "Tárterületek"
+  activerecord:
+    models:
+      storages/storage: "Storage"
+    attributes:
+      storages/storage:
+        name: "Név"
+        creator: "Creator"
+        provider_type: "Szolgáltató típusa"
+      storages/file_link:
+        origin_id: "Origin Id"
+    errors:
+      messages:
+        not_linked_to_project: "nincs projekthez kapcsolva."
+      models:
+        storages/storage:
+          attributes:
+            host:
+              cannot_be_connected_to: "nem lehet hozzákapcsolni."
+              minimal_nextcloud_version_unmet: "nem felel meg a minimális verzió követelményeknek (Nextcloud 23 vagy magasabb)"
+              not_nextcloud_server: "nem egy Nextcloud szerver"
+        storages/file_link:
+          attributes:
+            origin_id:
+              only_numeric_or_uuid: "csak numerikus vagy uuid lehet."
+  api_v3:
+    errors:
+      too_many_elements_created_at_once: "Egyszerre túl sok elem létrehozása történt. Legfejlebb %{max} lehet, ténylegesen %{actual} volt."
+  storages:
+    page_titles:
+      project_settings:
+        index: "File storages available in this project"
+        new: "Enable a file storage for this project"
+    instructions:
+      name: "Please use a short name. It will get used as a tab title in the work package view."
+      host: "The URL of your storage instance. The URL should not be more than 255 characters long."
+      no_storage_set_up: "There are no file storages set up, yet."
+      setting_up_additional_storages: "For setting up additional file storages, please visit"
+      setting_up_additional_storages_non_admin: "Administrators can set up additional file storages in Administration / File Storages."
+      setting_up_storages: "For setting up file storages, please visit"
+      setting_up_storages_non_admin: "Administrators can set up file storages in Administration / File Storages."
+      all_available_storages_already_added: "All available storages are already added to the project."
+    delete_warning:
+      storage: >
+        Are you sure you want to delete this storage? This will also delete the storage from all projects where it is used. Further, it will also delete all links from work packages to files that are stored in that storage.
+      project_storage: >
+        Are you sure you want to remove this file storage from this project? This will also remove all links to files stored in this storage for this project.
+    label_creator: "Creator"
+    label_file_link: "Fájl hivatkozás"
+    label_file_links: "Fájl hivatkozások"
+    label_name: "Név"
+    label_host: "Host"
+    label_provider_type: "Szolgáltató típusa"
+    label_new_storage: "Új tárhely"
+    label_storage: "Tárhely"
+    label_storages: "Tárhelyek"
+    no_results: "Még nincs tárhely beállítva."
+    provider_types:
+      label: "Szolgáltató típusa"
+      nextcloud: "Nextcloud"

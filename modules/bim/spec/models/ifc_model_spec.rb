@@ -5,7 +5,7 @@ describe ::Bim::IfcModels::IfcModel, type: :model do
   let(:params) { { title: 'foo', is_default: true } }
 
   describe 'converted?' do
-    let(:attachment) { FactoryBot.build :attachment }
+    let(:attachment) { build :attachment }
     it 'is converted when the xkt attachment is present' do
       expect(subject).not_to be_converted
 
@@ -16,16 +16,16 @@ describe ::Bim::IfcModels::IfcModel, type: :model do
   end
 
   describe 'ifc_attachment=' do
-    let(:project) { FactoryBot.create(:project, enabled_module_names: %i[bim]) }
+    let(:project) { create(:project, enabled_module_names: %i[bim]) }
     let(:ifc_attachment) { subject.ifc_attachment }
     let(:new_attachment) do
       FileHelpers.mock_uploaded_file name: "model.ifc", content_type: 'application/binary', binary: true
     end
-    subject { FactoryBot.create :ifc_model_minimal_converted, project: project }
+    subject { create :ifc_model_minimal_converted, project: project }
     current_user do
-      FactoryBot.create :user,
-                        member_in_project: project,
-                        member_with_permissions: %i[manage_ifc_models]
+      create :user,
+             member_in_project: project,
+             member_with_permissions: %i[manage_ifc_models]
     end
 
     it 'replaces the previous attachment' do

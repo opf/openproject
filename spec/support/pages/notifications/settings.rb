@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -77,8 +77,8 @@ module Pages
         expect_project project
       end
 
-      def configure_global(**types)
-        types.each(&method(:set_global_option))
+      def configure_global(notification_types)
+        notification_types.each { |type, checked| set_global_option(type, checked) }
       end
 
       def set_global_option(type, checked)

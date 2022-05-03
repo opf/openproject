@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { APIv3GettableResource } from 'core-app/core/apiv3/paths/apiv3-resource';
+import { ApiV3GettableResource } from 'core-app/core/apiv3/paths/apiv3-resource';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { States } from 'core-app/core/states/states.service';
 import { HasId, StateCacheService } from 'core-app/core/apiv3/cache/state-cache.service';
@@ -37,8 +37,8 @@ import {
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 
-export abstract class CachableAPIV3Resource<T extends HasId = HalResource>
-  extends APIv3GettableResource<T> {
+export abstract class ApiV3Resource<T extends HasId = HalResource>
+  extends ApiV3GettableResource<T> {
   @InjectField() states:States;
 
   @InjectField() schemaCache:SchemaCacheService;

@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,27 +29,28 @@
 require 'spec_helper'
 
 describe Projects::CopyService, 'integration', type: :model do
-  shared_let(:status_locked) { FactoryBot.create :status, is_readonly: true }
-  shared_let(:source) { FactoryBot.create :project, enabled_module_names: %w[wiki work_package_tracking] }
-  shared_let(:source_wp) { FactoryBot.create :work_package, project: source, subject: 'source wp' }
+  shared_let(:status_locked) { create :status, is_readonly: true }
+  shared_let(:source) { create :project, enabled_module_names: %w[wiki work_package_tracking] }
+  shared_let(:source_wp) { create :work_package, project: source, subject: 'source wp' }
   shared_let(:source_wp_locked) do
-    FactoryBot.create :work_package, project: source, subject: 'source wp locked', status: status_locked
+    create :work_package, project: source, subject: 'source wp locked', status: status_locked
   end
-  shared_let(:source_query) { FactoryBot.create :query, project: source, name: 'My query' }
-  shared_let(:source_category) { FactoryBot.create :category, project: source, name: 'Stock management' }
-  shared_let(:source_version) { FactoryBot.create :version, project: source, name: 'Version A' }
-  shared_let(:source_wiki_page) { FactoryBot.create(:wiki_page_with_content, wiki: source.wiki) }
-  shared_let(:source_child_wiki_page) { FactoryBot.create(:wiki_page_with_content, wiki: source.wiki, parent: source_wiki_page) }
-  shared_let(:source_forum) { FactoryBot.create(:forum, project: source) }
-  shared_let(:source_topic) { FactoryBot.create(:message, forum: source_forum) }
+  shared_let(:source_query) { create :query, project: source, name: 'My query' }
+  shared_let(:source_view) { create :view_work_packages_table, query: source_query }
+  shared_let(:source_category) { create :category, project: source, name: 'Stock management' }
+  shared_let(:source_version) { create :version, project: source, name: 'Version A' }
+  shared_let(:source_wiki_page) { create(:wiki_page_with_content, wiki: source.wiki) }
+  shared_let(:source_child_wiki_page) { create(:wiki_page_with_content, wiki: source.wiki, parent: source_wiki_page) }
+  shared_let(:source_forum) { create(:forum, project: source) }
+  shared_let(:source_topic) { create(:message, forum: source_forum) }
 
   let(:current_user) do
-    FactoryBot.create(:user,
-                      member_in_project: source,
-                      member_through_role: role)
+    create(:user,
+           member_in_project: source,
+           member_through_role: role)
   end
-  let(:role) { FactoryBot.create :role, permissions: %i[copy_projects view_work_packages] }
-  shared_let(:new_project_role) { FactoryBot.create :role, permissions: %i[] }
+  let(:role) { create :role, permissions: %i[copy_projects view_work_packages work_package_assigned] }
+  shared_let(:new_project_role) { create :role, permissions: %i[] }
   let(:instance) do
     described_class.new(source: source, user: current_user)
   end
@@ -103,6 +102,7 @@ describe Projects::CopyService, 'integration', type: :model do
       expect(project_copy.wiki).to be_present
       expect(project_copy.wiki.pages.count).to eq 2
       expect(project_copy.queries.count).to eq 1
+      expect(project_copy.queries[0].views.count).to eq 1
       expect(project_copy.versions.count).to eq 1
       expect(project_copy.wiki.pages.root.content.text).to eq source_wiki_page.content.text
       expect(project_copy.wiki.pages.leaves.first.content.text).to eq source_child_wiki_page.content.text
@@ -167,7 +167,7 @@ describe Projects::CopyService, 'integration', type: :model do
     end
 
     context 'with an assigned version' do
-      let!(:assigned_version) { FactoryBot.create(:version, name: 'Assigned Issues', project: source, status: 'open') }
+      let!(:assigned_version) { create(:version, name: 'Assigned Issues', project: source, status: 'open') }
 
       before do
         source_wp.update!(version: assigned_version)
@@ -187,10 +187,10 @@ describe Projects::CopyService, 'integration', type: :model do
     context 'with group memberships' do
       let(:only_args) { %w[members] }
 
-      let!(:user) { FactoryBot.create :user }
-      let!(:another_role) { FactoryBot.create(:role) }
+      let!(:user) { create :user }
+      let!(:another_role) { create(:role) }
       let!(:group) do
-        FactoryBot.create :group, members: [user]
+        create :group, members: [user]
       end
 
       it 'will copy them as well' do
@@ -223,12 +223,12 @@ describe Projects::CopyService, 'integration', type: :model do
     end
 
     context 'with work package relations', with_settings: { cross_project_work_package_relations: '1' } do
-      let!(:source_wp2) { FactoryBot.create(:work_package, project: source, subject: 'source wp2') }
-      let!(:source_relation) { FactoryBot.create(:relation, from: source_wp, to: source_wp2, relation_type: 'relates') }
+      let!(:source_wp2) { create(:work_package, project: source, subject: 'source wp2') }
+      let!(:source_relation) { create(:relation, from: source_wp, to: source_wp2, relation_type: 'relates') }
 
-      let!(:other_project) { FactoryBot.create(:project) }
-      let!(:other_wp) { FactoryBot.create(:work_package, project: other_project, subject: 'other wp') }
-      let!(:cross_relation) { FactoryBot.create(:relation, from: source_wp, to: other_wp, relation_type: 'duplicates') }
+      let!(:other_project) { create(:project) }
+      let!(:other_wp) { create(:work_package, project: other_project, subject: 'other wp') }
+      let!(:cross_relation) { create(:relation, from: source_wp, to: other_wp, relation_type: 'duplicates') }
 
       let(:only_args) { %w[work_packages] }
 
@@ -256,7 +256,7 @@ describe Projects::CopyService, 'integration', type: :model do
 
     describe '#copy_wiki' do
       it 'will not copy wiki pages without content' do
-        source.wiki.pages << FactoryBot.create(:wiki_page)
+        source.wiki.pages << create(:wiki_page)
         expect(source.wiki.pages.count).to eq 3
 
         expect(subject).to be_success
@@ -265,7 +265,7 @@ describe Projects::CopyService, 'integration', type: :model do
       end
 
       it 'will copy menu items' do
-        source.wiki.wiki_menu_items << FactoryBot.create(:wiki_menu_item_with_parent, wiki: source.wiki)
+        source.wiki.wiki_menu_items << create(:wiki_menu_item_with_parent, wiki: source.wiki)
 
         expect(subject).to be_success
         expect(project_copy.wiki.wiki_menu_items.count).to eq 3
@@ -275,9 +275,12 @@ describe Projects::CopyService, 'integration', type: :model do
     describe 'valid queries' do
       context 'with a filter' do
         let!(:query) do
-          query = FactoryBot.build(:query, project: source)
-          query.add_filter('subject', '~', ['bogus'])
-          query.save!
+          build(:query, project: source).tap do |q|
+            q.add_filter('subject', '~', ['bogus'])
+            q.save!
+
+            create(:view_work_packages_table, query: q)
+          end
         end
 
         it 'produces a valid query in the new project' do
@@ -289,11 +292,13 @@ describe Projects::CopyService, 'integration', type: :model do
 
       context 'with a filter to be mapped' do
         let!(:query) do
-          query = FactoryBot.build(:query, project: source)
-          query.add_filter('parent', '=', [source_wp.id.to_s])
-          # Not valid due to wp not visible
-          query.save!(validate: false)
-          query
+          build(:query, project: source).tap do |q|
+            q.add_filter('parent', '=', [source_wp.id.to_s])
+            # Not valid due to wp not visible
+            q.save!(validate: false)
+
+            create(:view_work_packages_table, query: q)
+          end
         end
 
         it 'produces a valid query that is mapped in the new project' do
@@ -305,38 +310,46 @@ describe Projects::CopyService, 'integration', type: :model do
       end
     end
 
-    describe 'query menu items' do
-      let!(:query) do
-        query = FactoryBot.build(:query, project: source, name: 'Query with item')
+    describe 'views' do
+      let!(:query_with_view) do
+        query = build(:query, project: source, name: 'Query with view')
         query.add_filter('subject', '~', ['bogus'])
         query.save!
 
-        MenuItems::QueryMenuItem.create(
-          navigatable_id: query.id,
-          name: 'some-uuid',
-          title: 'My query title'
-        )
+        create(:view_work_packages_table, query: query)
 
         query
       end
 
-      it 'copies the menu item' do
+      let!(:query_without_view) do
+        query = build(:query, project: source, name: 'Query without view')
+        query.add_filter('subject', '~', ['bogus'])
+        query.save!
+
+        query
+      end
+
+      it 'copies only the query with a view (non viewed queries will have to implement specific copy service)' do
         expect(subject).to be_success
-        query = project_copy.queries.find_by(name: 'Query with item')
-        expect(query).to be_present
-        expect(query.query_menu_item.title).to eq('My query title')
+        copied_query_with_view = project_copy.queries.find_by(name: 'Query with view')
+        expect(copied_query_with_view).to be_present
+        expect(copied_query_with_view.views.length).to eq 1
+        expect(copied_query_with_view.views[0].type).to eq 'work_packages_table'
+
+        expect(project_copy.queries)
+          .not_to exist(name: 'Query without view')
       end
     end
 
     describe 'work packages' do
-      let(:work_package) { FactoryBot.create(:work_package, project: source) }
-      let(:work_package2) { FactoryBot.create(:work_package, project: source) }
-      let(:work_package3) { FactoryBot.create(:work_package, project: source) }
+      let(:work_package) { create(:work_package, project: source) }
+      let(:work_package2) { create(:work_package, project: source) }
+      let(:work_package3) { create(:work_package, project: source) }
 
       let(:only_args) { %w[work_packages] }
 
       describe '#attachments' do
-        let!(:attachment) { FactoryBot.create(:attachment, container: work_package) }
+        let!(:attachment) { create(:attachment, container: work_package) }
 
         context 'when requested' do
           let(:only_args) { %i[work_packages work_package_attachments] }
@@ -363,9 +376,11 @@ describe Projects::CopyService, 'integration', type: :model do
 
       describe 'in an ordered query (Feature #31317)' do
         let!(:query) do
-          FactoryBot.create(:query, name: 'Manual query', user: current_user, project: source, show_hierarchies: false).tap do |q|
+          create(:query, name: 'Manual query', user: current_user, project: source, show_hierarchies: false).tap do |q|
             q.sort_criteria = [[:manual_sorting, 'asc']]
             q.save!
+
+            create(:view_work_packages_table, query: q)
           end
         end
 
@@ -393,7 +408,7 @@ describe Projects::CopyService, 'integration', type: :model do
         end
 
         context 'if one work package is a cross project reference' do
-          let(:other_project) { FactoryBot.create :project }
+          let(:other_project) { create :project }
           before do
             work_package2.update! project: other_project
           end
@@ -453,7 +468,7 @@ describe Projects::CopyService, 'integration', type: :model do
 
         before do
           wp = work_package
-          wp.category = FactoryBot.create(:category, project: source)
+          wp.category = create(:category, project: source)
           wp.save
 
           source.work_packages << wp.reload
@@ -468,8 +483,8 @@ describe Projects::CopyService, 'integration', type: :model do
       end
 
       describe '#watchers' do
-        let(:watcher_role) { FactoryBot.create(:role, permissions: [:view_work_packages]) }
-        let(:watcher) { FactoryBot.create(:user, member_in_project: source, member_through_role: watcher_role) }
+        let(:watcher_role) { create(:role, permissions: [:view_work_packages]) }
+        let(:watcher) { create(:user, member_in_project: source, member_through_role: watcher_role) }
 
         let(:only_args) { %w[work_packages members] }
 
@@ -496,7 +511,7 @@ describe Projects::CopyService, 'integration', type: :model do
             wp.add_watcher user
             wp.save
 
-            user.lock!
+            user.locked!
 
             source.work_packages << wp
           end
@@ -508,8 +523,8 @@ describe Projects::CopyService, 'integration', type: :model do
         end
 
         describe 'versions' do
-          let(:version) { FactoryBot.create(:version, project: source) }
-          let(:version2) { FactoryBot.create(:version, project: source) }
+          let(:version) { create(:version, project: source) }
+          let(:version2) { create(:version, project: source) }
 
           let(:only_args) { %w[versions work_packages] }
 
@@ -587,7 +602,7 @@ describe Projects::CopyService, 'integration', type: :model do
 
       describe 'work package user custom field' do
         let(:custom_field) do
-          FactoryBot.create(:user_wp_custom_field).tap do |cf|
+          create(:user_wp_custom_field).tap do |cf|
             source.work_package_custom_fields << cf
             work_package.type.custom_fields << cf
           end
@@ -626,11 +641,11 @@ describe Projects::CopyService, 'integration', type: :model do
 
     describe 'project custom fields' do
       context 'with user project CF' do
-        let(:user_custom_field) { FactoryBot.create(:user_project_custom_field) }
+        let(:user_custom_field) { create(:user_project_custom_field) }
         let(:user_value) do
-          FactoryBot.create(:user,
-                            member_in_project: source,
-                            member_through_role: role)
+          create(:user,
+                 member_in_project: source,
+                 member_through_role: role)
         end
 
         before do
@@ -650,7 +665,7 @@ describe Projects::CopyService, 'integration', type: :model do
       end
 
       context 'with multi selection project list CF' do
-        let(:list_custom_field) { FactoryBot.create(:list_project_custom_field, multi_value: true) }
+        let(:list_custom_field) { create(:list_project_custom_field, multi_value: true) }
 
         before do
           source.custom_values << CustomValue.new(custom_field: list_custom_field, value: list_custom_field.value_of('A'))

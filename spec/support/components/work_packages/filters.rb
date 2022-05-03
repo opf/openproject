@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -51,7 +51,7 @@ module Components
       end
 
       def expect_open
-        expect(page).to have_selector(filters_selector, wait: 5, visible: true)
+        expect(page).to have_selector(filters_selector, wait: 5, visible: :visible)
       end
 
       def expect_closed
@@ -70,8 +70,18 @@ module Components
         input.set text
       end
 
+      def open_available_filter_list
+        input = page.find('.advanced-filters--add-filter-value input')
+        input.hover
+        input.click
+      end
+
       def expect_available_filter(name, present: true)
-        expect(page).to have_conditional_selector(present, '.advanced-filters--add-filter-value option', text: name)
+        # The selector here is rather unspecific. Sometimes, we need ng-select to render the options outside of the
+        # current element tree. However this means that the selector loses all feature specificity, as it's rendered
+        # somewhere in the html body. This test assumes that only one ng-select can be opened at one time.
+        # If you find errors with your specs related to the filter options, it might be coming from here.
+        expect(page).to have_conditional_selector(present, '.ng-dropdown-panel .ng-option-label', text: name)
       end
 
       def expect_loaded
@@ -121,6 +131,18 @@ module Components
         end
       end
 
+      def expect_missing_filter_value_by(name, operator, value, selector = nil)
+        add_filter(name)
+
+        id = selector || name.downcase
+
+        set_operator(name, operator, selector)
+
+        expect_missing_value id, value
+
+        remove_filter id
+      end
+
       def expect_no_filter_by(name, selector = nil)
         id = selector || name.downcase
 
@@ -160,7 +182,7 @@ module Components
             Array(value).each do |val|
               select_autocomplete page.find("#filter_#{id}"),
                                   query: val,
-                                  results_selector: '.advanced-filters--ng-select .ng-dropdown-panel-items'
+                                  results_selector: '.ng-dropdown-panel-items'
             end
           else
             within_values(id) do
@@ -169,6 +191,17 @@ module Components
                 ensure_value_is_input_correctly input, value: value[index]
               end
             end
+          end
+        end
+      end
+
+      def expect_missing_value(id, value)
+        if page.has_selector?("#filter_#{id} .ng-select-container")
+          Array(value).each do |val|
+            dropdown = search_autocomplete page.find("#filter_#{id}"),
+                                           query: val,
+                                           results_selector: '.ng-dropdown-panel-items'
+            expect(dropdown).not_to have_selector('.ng-option', text: val)
           end
         end
       end

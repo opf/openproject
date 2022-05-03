@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -23,7 +23,8 @@ it:
   js:
     ajax:
       hide: "Nascondi"
-      loading: "Caricamento ..."
+      loading: "Caricamento…"
+      updating: "Aggiornamento…"
     attachments:
       draggable_hint: |
         Trascina l'elemento nei campi dell'editor per allineare l'immagine o il riferimento allegato. I campi dell'editor chiusi verranno sbloccati durante il trascinamento.
@@ -53,7 +54,7 @@ it:
     button_add: "Aggiungi"
     button_back: "Indietro"
     button_back_to_list_view: "Torna alla visualizzazione in lista"
-    button_cancel: "Cancella"
+    button_cancel: "Annulla"
     button_close: "Chiuso"
     button_change_project: "Cambia progetto"
     button_check_all: "Seleziona tutti"
@@ -61,6 +62,7 @@ it:
     button_confirm: "Conferma"
     button_continue: "Continua"
     button_copy: "Copia"
+    button_copy_to_other_project: "Copia su altro progetto"
     button_custom-fields: "Campo personalizzato"
     button_delete: "Cancella"
     button_delete_watcher: "Elimina osservatore"
@@ -88,9 +90,6 @@ it:
     button_export-pdf: "Scarica PDF"
     button_export-atom: "Scarica Atom"
     button_create: "Crea"
-    calendar:
-      title: 'Calendario'
-      too_many: 'Ci sono %{count} macro-attività in totale, ma solo %{max} può essere mostrata.'
     card:
       add_new: 'Aggiungi una nuova carta'
       highlighting:
@@ -239,7 +238,7 @@ it:
           text: >
             OpenProject Enterprise Edition si basa sull'edizione Community Edition. Include caratteristiche premium e supporto professionale principalmente rivolto alle organizzazioni con più di 10 utenti che gestiscono progetti critici di business con OpenProject.
           unlimited: "Illimitato"
-          you_contribute: "Anche gli sviluppatori devono pagare le bollette. Con Enterprise Edition puoi contribuire in modo sostanziale al lavoro di questa comunità Open Source."
+          you_contribute: "Anche gli sviluppatori devono pagare le bollette. Con l'aggiornamento alla Enterprise Edition, sosterrai questo sforzo della comunità open source e contribuirai al suo sviluppo, manutenzione e miglioramento continuo."
     custom_actions:
       date:
         specific: 'il'
@@ -253,6 +252,7 @@ it:
     enumeration_doc_categories: "Categorie di documenti"
     enumeration_work_package_priorities: "Priorità della macro-attività"
     filter:
+      more_values_not_shown: "Ci sono altri %{total} risultati, effettua una ricerca per filtrare i risultati."
       description:
         text_open_filter: "Apri questo filtro con i tasti 'ALT' e le frecce."
         text_close_filter: "Per selezionare una voce, lascia vuoto lo stato attivo per esempio premendo 'Invio'. Per uscire senza un filtro seleziona la prima voce (vuota)."
@@ -287,17 +287,19 @@ it:
           learn_about: "Scopri di più sulle nuove funzionalità"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_0':
+          '12_1':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-1-release
               new_features_html: >
-                La nuova versione contiene varie nuove funzionalità e miglioramenti: <br> <ul class="%{list_styling_class}"> <li>Con le nuove <b>notifiche in-app</b> ricevi tutti gli aggiornamenti importanti direttamente nell'applicazione e non riceverai più una marea di email.</li> <li>Il nuovo <b>centro notifiche</b> mostra tutte le modifiche, comprese le opzioni di filtro intuitive, ad es. per motivo di notifica o progetti. Consente anche la modifica direttamente in una vista divisa.</li> <li>Le <b>impostazioni di notifica</b> migliorate consentono di mettere a punto per quali azioni e in quali progetti si desidera ricevere una notifica.</li> <li><b>I promemoria email</b> possono essere configurati per ricevere aggiornamenti importanti tramite un riepilogo email giornaliero</li> <li>Il completamento automatico delle macro-attività per le relazioni ora mostra anche informazioni aggiuntive (nome del progetto, stato, ...) per identificare facilmente la rispettiva macro-attività.</li> </ul>
+                Questa versione contiene varie nuove funzionalità e miglioramenti: <br> <ul class="%{list_styling_class}"> <li>Un <b>nuovo modulo di pianificazione del team</b> (funzione Enterprise) consente di assegnare visivamente le attività al team membri per avere una panoramica di chi sta lavorando a cosa.</li> <li>Stiamo <b>rilasciando le agile board di base</b> per la versione Community.</li> <li>L'<b>opzione di filtro "Includi progetti"</b> semplifica l'aggiunta di diversi progetti alle visualizzazioni, ad esempio per macro-attività, calendari e pianificatori di team.</li> <li>Abbiamo aggiunto <b>una nuova scheda "File"</b> nei dettagli delle macro-attività per avere tutte le informazioni possibili di una macro-attività in un unico punto.</li> <li>Abbiamo creato <b>ruoli globali per i gruppi</b> per assegnare questi ruoli ai gruppi e creare un gruppi di superutenti.</li> <li>È possibile scegliere lo stato del progetto tra più opzioni.</li> </ul>
 
             bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-1-release
               new_features_html: >
-                La nuova versione contiene varie nuove funzionalità e miglioramenti: <br> <ul class="%{list_styling_class}"> <li>Centro notifiche: Riduci il numero di email che ricevi. Piuttosto controlla e agisci su tutte le notifiche importanti in un unico posto.</li> <li>Tutti i file IFC caricati ora possono anche essere scaricati.</li> <li>Il caricamento e l'elaborazione di IFC sono stati resi più veloci e mostrano messaggi di errore migliori.</li> <li>Il <a href="https://github.com/opf/openproject-revit-add-in">componente aggiuntivo OpenProject Revit</a> ha ricevuto molte correzioni di bug.</li > </ul>
+                Questa versione contiene varie nuove funzionalità e miglioramenti: <br> <ul class="%{list_styling_class}"> <li>Nel modulo BCF ora puoi salvare filtri, colonne e altri elementi selezionati delle macro-attività come <b>viste</b> e condividerli con i membri del tuo team.</li> <li>Un <b>nuovo modulo di pianificazione del team</b> (funzione Enterprise) consente di assegnare visivamente le attività al team membri per avere una panoramica di chi sta lavorando a cosa.</li> <li>Stiamo <b>rilasciando le agile board di base</b> per la versione Community.</li> <li>L'<b>opzione di filtro "Includi progetti"</b> semplifica l'aggiunta di diversi progetti alle visualizzazioni, ad esempio per macro-attività, calendari e pianificatori di team.</li> <li>Abbiamo aggiunto <b>una nuova scheda "File"</b> nei dettagli delle macro-attività per avere tutte le informazioni possibili di una macro-attività in un unico punto.</li> <li>Abbiamo creato <b>ruoli globali per i gruppi</b> per assegnare questi ruoli ai gruppi e creare un gruppi di superutenti.</li> <li>È possibile scegliere lo stato del progetto tra più opzioni.</li> </ul>
+
     label_activate: "Attiva"
+    label_assignee: 'Assegnatario'
     label_add_column_after: "Aggiungi colonna dopo"
     label_add_column_before: "Aggiungi colonna prima"
     label_add_columns: "Aggiungi colonne"
@@ -456,7 +458,7 @@ it:
     label_global_queries: "Viste pubbliche"
     label_custom_queries: "Viste private"
     label_columns: "Colonne"
-    label_attachments: File
+    label_attachments: Allegati
     label_drop_files: Trascina i file qui
     label_drop_files_hint: o fai clic per aggiungere file
     label_drop_folders_hint: Non è possibile caricare cartelle come allegati. Si prega di selezionare singoli file.
@@ -500,7 +502,8 @@ it:
           task_board: "Il pannello delle attività visualizza l'<b>avanzamento dello sprint</b>. Fai clic sull'icona più (+) accanto a una storia utente per aggiungere nuove attività o impedimenti. <br> Lo stato può essere aggiornato trascinandolo."
         boards:
           overview: 'Seleziona <b>board</b> per cambiare visualizzazione e gestire il tuo progetto utilizzando la visualizzazione agile delle schede.'
-          lists: 'Qui puoi creare più liste  (colonne) all''interno della tua board. Questa funzione ti consente di creare una <b>board Kanban</b>, ad esempio.'
+          lists_kanban: 'Qui puoi creare più liste  (colonne) all''interno della tua board. Questa funzione ti consente di creare una <b>board Kanban</b>, ad esempio.'
+          lists_basic: 'Qui puoi creare più liste (colonne) all''interno della tua agile board.'
           add: 'Fai clic sull''icona più (+) per <b>creare una nuova scheda</b> o <b>aggiungere una scheda esistente</b> all''elenco sulla board.'
           drag: 'Trascina e rilascia le tue schede all''interno di un determinato elenco per riordinarle o per spostarle in un altro elenco. <br> Puoi fare clic sull''icona delle informazioni (i) nell''angolo in alto a destra o fare doppio clic su una scheda per aprirne i dettagli.'
         wp:
@@ -511,6 +514,12 @@ it:
           create_button: 'Il pulsante <b>+ Crea</b> aggiungerà una nuova macro-attività al tuo progetto.'
           timeline_button: 'Puoi attivare la vista <b>Diagramma di Gantt</b> per creare una linea del tempo per il tuo progetto.'
           timeline: 'Qui puoi <b>modificare il tuo piano di progetto</b>, creare nuove macro-attività, come attività, pietre miliari, fasi e altro, nonché <b>aggiungere dipendenze</b>. Tutti i membri del team possono visualizzare e aggiornare il piano più recente in qualsiasi momento.'
+        team_planner:
+          overview: 'Il pianificatore di team consente di assegnare visivamente compiti ai membri del team e ottenere una panoramica di chi sta lavorando su cosa.'
+          calendar: 'La scheda di pianificazione settimanale o bisettimanale visualizza tutte le macro-attività assegnate ai membri del tuo team.'
+          add_assignee: 'Per iniziare, aggiungi gli assegnatari al team planner.'
+          add_existing: 'Cerca macro-attività esistenti e trascinale nel team planner per assegnarle istantaneamente a un membro del team e definire le date di inizio e fine.'
+          card: 'Trascina le macro-attività orizzontalmente per spostarle indietro o avanti nel tempo, trascina i bordi per cambiare le date di inizio o di fine, trascina le macro-attività verticalmente su una riga diversa per assegnarle ad un altro membro.'
     notifications:
       title: "Notifiche"
       no_unread: "Nessuna nuova notifica"
@@ -542,7 +551,6 @@ it:
           link_text: 'Clicca qui per caricarli'
       menu:
         accountable: 'Responsabile'
-        assigned: 'Assegnato'
         by_project: 'Non letto dal progetto'
         by_reason: 'Coinvolgimento'
         inbox: 'Posta In Arrivo'
@@ -754,7 +762,7 @@ it:
           Seleziona gli attributi che desideri mostrare nelle rispettive posizioni del diagramma di Gantt in ogni momento. Nota che al passaggio del mouse su un elemento, verranno visualizzate le etichette delle date anziché questi attributi.
       button_activate: 'Mostra Diagramma di Gantt'
       button_deactivate: 'Nascondi Diagramma di Gantt'
-      cancel: Cancella
+      cancel: Annulla
       change: "Cambiare nella pianificazione"
       due_date: "Data di fine"
       empty: "(vuoto)"
@@ -828,7 +836,7 @@ it:
       comment_added: "Il commento è stato aggiunto con successo."
       comment_send_failed: "Si è verificato un errore. Impossibile inviare il commento."
       comment_updated: "Il commento è stato aggiornato correttamente."
-      confirm_edit_cancel: "Sicuro di voler eliminare questa macro-attività?"
+      confirm_edit_cancel: "Sei sicuro di voler annullare la modifica della macro-attività?"
       description_filter: "Filtro"
       description_enter_text: "Inserisci testo"
       description_options_hide: "Nascondi opzioni"
@@ -989,7 +997,8 @@ it:
         activity: Attività
         relations: Relazioni
         watchers: Osservatori
-        attachments: Allegati
+        files: File
+        files_tab_migration_help: 'È ora possibile allegare file alle macro-attività tramite la nuova scheda:'
       time_relative:
         days: "giorni"
         weeks: "Settimane"
@@ -1022,7 +1031,7 @@ it:
       button_apply: "Applica"
       button_save: "Salva"
       button_submit: "Invia"
-      button_cancel: "Cancella"
+      button_cancel: "Annulla"
       form_submit:
         title: 'Conferma per continuare'
         text: 'Eseguire questa azione?'
@@ -1049,7 +1058,7 @@ it:
       button_save: "%{attribute}: Salva"
       button_cancel: "%{attribute}: Annulla"
       button_save_all: "Salva"
-      button_cancel_all: "Cancella"
+      button_cancel_all: "Annulla"
       link_formatting_help: "Guida di formattazione del testo"
       btn_preview_enable: "Anteprima"
       btn_preview_disable: "Disabilita anteprima"
@@ -1142,7 +1151,7 @@ it:
       role:
         label: 'Ruolo in %{project}'
         no_roles_found: 'Nessun ruolo è stato trovato'
-        description: 'Questo è il ruolo che %{principal} riceverà una volta unitosi al progetto. Il ruolo definisce che azioni possono intraprendere e che informazioni possono vedere. <a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank">Scopri di più sui ruoli e sulle autorizzazioni. </a>'
+        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
         required: 'Sei pregato di selezionare un ruolo'
         next_button: 'Prossimo'
       message:
@@ -1158,8 +1167,26 @@ it:
           placeholder: 'Il segnaposto è ora utilizzabile in %{project}. Nel mentre puoi ad esempio già pianificare con quell''utente e assegnare pacchetti di lavoro.'
           group: 'Il gruppo è ora parte di %{project}. Nel mentre puoi ad esempio già pianificare con quel gruppo e assegnare pacchetti di lavoro.'
         next_button: 'Continua'
+    include_projects:
+      toggle_title: 'Includi progetti'
+      title: 'Progetti'
+      clear_selection: 'Annulla selezione'
+      apply: 'Applica'
+      selected_filter:
+        all: 'Tutti i progetti'
+        selected: 'Solo selezionati'
+      search_placeholder: 'Cerca progetto...'
+      include_subprojects: 'Includi tutti i sotto-progetti'
+      tooltip:
+        include_all_selected: 'Includi tutti i sotto-progetti attualmente selezionati.'
+        current_project: 'Questo è il progetto corrente in cui ti trovi.'
     forms:
       submit_success_message: 'Il modulo è stato inviato correttamente'
       load_error_message: 'Si è verificato un errore caricando il modulo'
       validation_error_message: 'Sei pregato di risolvere gli errori presenti nel modulo'
       advanced_settings: 'Impostazioni avanzate'
+    spot:
+      filter_chip:
+        remove: 'Rimuovi'
+      drop_modal:
+        Close: 'Chiuso'

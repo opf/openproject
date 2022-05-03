@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,31 +31,31 @@ require 'spec_helper'
 require_relative '../../support/pages/my/page'
 
 describe 'My page time entries current user widget spec', type: :feature, js: true, with_mail: false do
-  let!(:type) { FactoryBot.create :type }
-  let!(:project) { FactoryBot.create :project, types: [type] }
-  let!(:activity) { FactoryBot.create :time_entry_activity }
-  let!(:other_activity) { FactoryBot.create :time_entry_activity }
+  let!(:type) { create :type }
+  let!(:project) { create :project, types: [type] }
+  let!(:activity) { create :time_entry_activity }
+  let!(:other_activity) { create :time_entry_activity }
   let!(:work_package) do
-    FactoryBot.create :work_package,
-                      project: project,
-                      type: type,
-                      author: user
+    create :work_package,
+           project: project,
+           type: type,
+           author: user
   end
   let!(:other_work_package) do
-    FactoryBot.create :work_package,
-                      project: project,
-                      type: type,
-                      author: user
+    create :work_package,
+           project: project,
+           type: type,
+           author: user
   end
   let!(:visible_time_entry) do
-    FactoryBot.create :time_entry,
-                      work_package: work_package,
-                      project: project,
-                      activity: activity,
-                      user: user,
-                      spent_on: Date.today.beginning_of_week(:sunday) + 1.day,
-                      hours: 3,
-                      comments: 'My comment'
+    create :time_entry,
+           work_package: work_package,
+           project: project,
+           activity: activity,
+           user: user,
+           spent_on: Date.today.beginning_of_week(:sunday) + 1.day,
+           hours: 3,
+           comments: 'My comment'
   end
   let!(:visible_time_entry_on_project) do
     FactoryBot.create :time_entry,
@@ -68,43 +68,43 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
                       comments: 'My comment'
   end
   let!(:other_visible_time_entry) do
-    FactoryBot.create :time_entry,
-                      work_package: work_package,
-                      project: project,
-                      activity: activity,
-                      user: user,
-                      spent_on: Date.today.beginning_of_week(:sunday) + 4.days,
-                      hours: 2,
-                      comments: 'My other comment'
+    create :time_entry,
+           work_package: work_package,
+           project: project,
+           activity: activity,
+           user: user,
+           spent_on: Date.today.beginning_of_week(:sunday) + 4.days,
+           hours: 2,
+           comments: 'My other comment'
   end
   let!(:last_week_visible_time_entry) do
-    FactoryBot.create :time_entry,
-                      work_package: work_package,
-                      project: project,
-                      activity: activity,
-                      user: user,
-                      spent_on: Date.today - (Date.today.wday + 3).days,
-                      hours: 8,
-                      comments: 'My last week comment'
+    create :time_entry,
+           work_package: work_package,
+           project: project,
+           activity: activity,
+           user: user,
+           spent_on: Date.today - (Date.today.wday + 3).days,
+           hours: 8,
+           comments: 'My last week comment'
   end
   let!(:invisible_time_entry) do
-    FactoryBot.create :time_entry,
-                      work_package: work_package,
-                      project: project,
-                      activity: activity,
-                      user: other_user,
-                      hours: 4
+    create :time_entry,
+           work_package: work_package,
+           project: project,
+           activity: activity,
+           user: other_user,
+           hours: 4
   end
   let!(:custom_field) do
-    FactoryBot.create :time_entry_custom_field, field_format: 'text'
+    create :time_entry_custom_field, field_format: 'text'
   end
   let(:other_user) do
-    FactoryBot.create(:user)
+    create(:user)
   end
   let(:user) do
-    FactoryBot.create(:user,
-                      member_in_project: project,
-                      member_with_permissions: %i[view_time_entries edit_time_entries view_work_packages log_time])
+    create(:user,
+           member_in_project: project,
+           member_with_permissions: %i[view_time_entries edit_time_entries view_work_packages log_time])
   end
   let(:my_page) do
     Pages::My::Page.new

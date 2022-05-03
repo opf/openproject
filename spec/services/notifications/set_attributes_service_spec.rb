@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,7 +30,7 @@ require 'spec_helper'
 
 # rubocop:disable RSpec/MultipleMemoizedHelpers
 describe Notifications::SetAttributesService, type: :model do
-  let(:user) { FactoryBot.build_stubbed(:user) }
+  let(:user) { build_stubbed(:user) }
   let(:contract_class) do
     contract = double('contract_class')
 
@@ -57,9 +55,9 @@ describe Notifications::SetAttributesService, type: :model do
                         contract_class: contract_class)
   end
   let(:call_attributes) { {} }
-  let(:project) { FactoryBot.build_stubbed(:project) }
+  let(:project) { build_stubbed(:project) }
   let(:reason) { :mentioned }
-  let(:journal) { FactoryBot.build_stubbed(:journal, journable: journable, data: journal_data) }
+  let(:journal) { build_stubbed(:journal, journable: journable, data: journal_data) }
   let(:journable) { nil }
   let(:journal_data) { nil }
   let(:event_subject) { 'I find it important' }
@@ -106,14 +104,14 @@ describe Notifications::SetAttributesService, type: :model do
 
       context 'with only the minimal set of attributes for a notification' do
         let(:journable) do
-          FactoryBot.build_stubbed(:work_package, project: project).tap do |wp|
+          build_stubbed(:work_package, project: project).tap do |wp|
             allow(wp)
               .to receive(:to_s)
               .and_return("wp to s")
           end
         end
         let(:journal_data) {
-          FactoryBot.build_stubbed(:journal_work_package_journal, project: project)
+          build_stubbed(:journal_work_package_journal, project: project)
         }
         let(:call_attributes) do
           {

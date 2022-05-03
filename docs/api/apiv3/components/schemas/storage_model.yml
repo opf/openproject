@@ -1,0 +1,70 @@
+# Schema: StorageModel
+---
+type: object
+required:
+  - id
+  - _type
+  - name
+  - storageType
+properties:
+  id:
+    type: integer
+    description: Storage id
+  _type:
+    type: string
+    enum:
+      - Storage
+  name:
+    type: string
+    description: Storage name
+  createdAt:
+    type: string
+    format: date-time
+    description: Time of creation
+  updatedAt:
+    type: string
+    format: date-time
+    description: Time of the most recent change to the storage
+  _links:
+    type: object
+    required:
+      - self
+      - type
+      - href
+    properties:
+      self:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              This storage resource. Contains the user defined storage name as title.
+
+              **Resource**: Storage
+      type:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The urn of the storage type. Currently only nextcloud storages are supported.
+
+              **Resource**: N/A
+      origin:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              Web uri of the storage instance
+
+              **Resource**: N/A
+example:
+  id: 1337
+  _type: Storage
+  name: It's no moon
+  createdAt: '2021-12-20T13:37:00.211Z'
+  updatedAt: '2021-12-20T13:37:00.211Z'
+  _links:
+    self:
+      href: /api/v3/storages/1337
+      title: It's no moon
+    type:
+      href: urn:openproject-org:api:v3:storages:nextcloud
+      title: Nextcloud
+    origin:
+      href: https://nextcloud.deathstar.rocks/

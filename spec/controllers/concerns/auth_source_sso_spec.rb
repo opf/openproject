@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -42,7 +42,7 @@ describe MyController, type: :controller do
   let(:secret) { "42" }
 
   let!(:auth_source) { DummyAuthSource.create name: "Dummy LDAP" }
-  let!(:user) { FactoryBot.create :user, login: login, auth_source_id: auth_source.id, last_login_on: 5.days.ago }
+  let!(:user) { create :user, login: login, auth_source_id: auth_source.id, last_login_on: 5.days.ago }
   let(:login) { "h.wurst" }
   let(:header_login_value) { login }
   let(:header_value) { "#{header_login_value}#{secret ? ':' : ''}#{secret}" }
@@ -130,7 +130,7 @@ describe MyController, type: :controller do
 
     context 'when the user is invited' do
       let!(:user) do
-        FactoryBot.create :user, login: login, status: Principal.statuses[:invited], auth_source_id: auth_source.id
+        create :user, login: login, status: Principal.statuses[:invited], auth_source_id: auth_source.id
       end
 
       it "should log in given user and activate it" do
@@ -149,7 +149,7 @@ describe MyController, type: :controller do
     end
 
     context "with a non-active user user" do
-      let(:user) { FactoryBot.create :user, login: login, auth_source_id: auth_source.id, status: 2 }
+      let(:user) { create :user, login: login, auth_source_id: auth_source.id, status: 2 }
 
       it_should_behave_like "auth source sso failure"
     end
@@ -157,11 +157,11 @@ describe MyController, type: :controller do
     context "with an invalid user" do
       let(:auth_source) { DummyAuthSource.create name: "Onthefly LDAP", onthefly_register: true }
 
-      let!(:duplicate) { FactoryBot.create :user, mail: "login@DerpLAP.net" }
+      let!(:duplicate) { create :user, mail: "login@DerpLAP.net" }
       let(:login) { "dummy_dupuser" }
 
       let(:user) do
-        FactoryBot.build :user, login: login, mail: duplicate.mail, auth_source_id: auth_source.id
+        build :user, login: login, mail: duplicate.mail, auth_source_id: auth_source.id
       end
 
       it_should_behave_like "auth source sso failure"
@@ -197,7 +197,7 @@ describe MyController, type: :controller do
   end
 
   context 'when the logged-in user differs from the header' do
-    let(:other_user) { FactoryBot.create :user, login: 'other_user' }
+    let(:other_user) { create :user, login: 'other_user' }
     let(:session_update_time) { 1.minute.ago }
     let(:service) { Users::LogoutService.new(controller: controller) }
 

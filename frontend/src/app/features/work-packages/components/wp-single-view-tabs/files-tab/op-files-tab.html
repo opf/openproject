@@ -1,0 +1,12 @@
+<div class="work-packages--attachments-container">
+  <!-- The condition below will get replaced when implementing #41905. -->
+  <div *ngIf="false" class="attributes-group--header">
+    <div class="attributes-group--header-container">
+      <h3 class="attributes-group--header-text" [textContent]="text.attachments.label"></h3>
+    </div>
+  </div>
+
+  <op-attachment-list [resource]="workPackage"></op-attachment-list>
+
+  <op-attachments-upload [resource]="workPackage"></op-attachments-upload>
+</div>

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -41,8 +41,8 @@ end
 shared_examples_for 'basic query filter' do
   include_context 'filter tests'
 
-  let(:context) { FactoryBot.build_stubbed(:query, project: project) }
-  let(:project) { FactoryBot.build_stubbed(:project) }
+  let(:context) { build_stubbed(:query, project: project) }
+  let(:project) { build_stubbed(:project) }
   let(:expected_class_key) { defined?(:class_key) ? class_key : raise('needs to be defined') }
   let(:type) { raise 'needs to be defined' }
   let(:human_name) { nil }
@@ -149,13 +149,14 @@ shared_examples_for 'list_optional query filter' do
 
   describe '#scope' do
     let(:values) { valid_values }
+    let(:db_values) { defined?(transformed_values) ? transformed_values : valid_values }
 
     context 'for "="' do
       let(:operator) { '=' }
 
       it 'is the same as handwriting the query' do
         expected = expected_base_scope
-                   .where(["#{expected_table_name}.#{attribute} IN (?)", values])
+                   .where(["#{expected_table_name}.#{attribute} IN (?)", db_values])
 
         expect(instance.scope.to_sql).to eql expected.to_sql
       end
@@ -167,7 +168,7 @@ shared_examples_for 'list_optional query filter' do
       it 'is the same as handwriting the query' do
         sql = "(#{expected_table_name}.#{attribute} IS NULL
                OR #{expected_table_name}.#{attribute} NOT IN (?))".squish
-        expected = expected_base_scope.where([sql, values])
+        expected = expected_base_scope.where([sql, db_values])
 
         expect(instance.scope.to_sql).to eql expected.to_sql
       end
@@ -469,9 +470,9 @@ end
 shared_examples_for 'filter by work package id' do
   include_context 'filter tests'
 
-  let(:project) { FactoryBot.build_stubbed(:project) }
+  let(:project) { build_stubbed(:project) }
   let(:query) do
-    FactoryBot.build_stubbed(:query, project: project)
+    build_stubbed(:query, project: project)
   end
 
   it_behaves_like 'basic query filter' do
@@ -542,7 +543,7 @@ shared_examples_for 'filter by work package id' do
     end
 
     describe '#value_object' do
-      let(:visible_wp) { FactoryBot.build_stubbed(:work_package) }
+      let(:visible_wp) { build_stubbed(:work_package) }
 
       it 'returns the work package for the values' do
         allow(WorkPackage)
@@ -564,8 +565,8 @@ shared_examples_for 'filter by work package id' do
     end
 
     describe '#valid_values!' do
-      let(:visible_wp) { FactoryBot.build_stubbed(:work_package) }
-      let(:invisible_wp) { FactoryBot.build_stubbed(:work_package) }
+      let(:visible_wp) { build_stubbed(:work_package) }
+      let(:invisible_wp) { build_stubbed(:work_package) }
 
       context 'within a project' do
         it 'removes all non existing/non visible ids' do
@@ -608,8 +609,8 @@ shared_examples_for 'filter by work package id' do
     end
 
     describe '#validate' do
-      let(:visible_wp) { FactoryBot.build_stubbed(:work_package) }
-      let(:invisible_wp) { FactoryBot.build_stubbed(:work_package) }
+      let(:visible_wp) { build_stubbed(:work_package) }
+      let(:invisible_wp) { build_stubbed(:work_package) }
 
       context 'within a project' do
         it 'is valid if only visible wps are values' do
@@ -700,15 +701,15 @@ end
 
 shared_examples_for 'filter for relation' do
   describe '#where' do
-    let!(:filter_value_wp) { FactoryBot.create(:work_package) }
+    let!(:filter_value_wp) { create(:work_package) }
     let(:wp_relation_type) { defined?(:relation_type) ? relation_type : raise('needs to be defined') }
     let!(:related_wp) do
       relation = Hash.new
       relation[wp_relation_type] = [filter_value_wp]
-      FactoryBot.create(:work_package, relation)
+      create(:work_package, relation)
     end
 
-    let!(:unrelated_wp) { FactoryBot.create(:work_package) }
+    let!(:unrelated_wp) { create(:work_package) }
 
     before do
       instance.values = [filter_value_wp.id.to_s]

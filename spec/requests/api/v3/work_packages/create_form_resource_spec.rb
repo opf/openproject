@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -34,10 +32,10 @@ describe ::API::V3::WorkPackages::CreateProjectFormAPI do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  shared_let(:status) { FactoryBot.create(:default_status) }
-  shared_let(:priority) { FactoryBot.create(:default_priority) }
-  shared_let(:user) { FactoryBot.create(:admin) }
-  shared_let(:project) { FactoryBot.create(:project_with_types) }
+  shared_let(:status) { create(:default_status) }
+  shared_let(:priority) { create(:default_priority) }
+  shared_let(:user) { create(:admin) }
+  shared_let(:project) { create(:project_with_types) }
 
   let(:path) { api_v3_paths.create_work_package_form }
   let(:parameters) { {} }
@@ -59,7 +57,7 @@ describe ::API::V3::WorkPackages::CreateProjectFormAPI do
 
   it 'has the available_projects link for creation in the schema' do
     expect(response.body)
-      .to be_json_eql(api_v3_paths.available_projects_on_create(nil).to_json)
+      .to be_json_eql(api_v3_paths.available_projects_on_create.to_json)
       .at_path('_embedded/schema/project/_links/allowedValues/href')
   end
 

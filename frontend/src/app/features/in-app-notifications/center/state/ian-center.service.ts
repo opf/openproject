@@ -22,7 +22,7 @@ import {
   setLoading,
 } from '@datorama/akita';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { ToastService } from 'core-app/shared/components/toaster/toast.service';
+import { IToast, ToastService } from 'core-app/shared/components/toaster/toast.service';
 import {
   centerUpdatedInPlace,
   markNotificationsAsRead,
@@ -37,7 +37,7 @@ import {
 } from 'core-app/core/state/effects/effect-handler.decorator';
 import { ActionsService } from 'core-app/core/state/actions/actions.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { InAppNotificationsResourceService } from 'core-app/core/state/in-app-notifications/in-app-notifications.service';
 import {
   mapHALCollectionToIDCollection,
@@ -63,6 +63,8 @@ export class IanCenterService extends UntilDestroyedMixin {
   readonly store = new IanCenterStore();
 
   readonly query = new IanCenterQuery(this.store, this.resourceService);
+
+  private activeReloadToast:IToast|null = null;
 
   private reload = new Subject();
 
@@ -108,7 +110,7 @@ export class IanCenterService extends UntilDestroyedMixin {
     readonly injector:Injector,
     readonly resourceService:InAppNotificationsResourceService,
     readonly actions$:ActionsService,
-    readonly apiV3Service:APIV3Service,
+    readonly apiV3Service:ApiV3Service,
     readonly toastService:ToastService,
     readonly uiRouterGlobals:UIRouterGlobals,
     readonly state:StateService,
@@ -147,7 +149,7 @@ export class IanCenterService extends UntilDestroyedMixin {
   }
 
   markAllAsRead():void {
-    const ids:ID[] = selectCollectionAsEntities$(this.resourceService, this.resourceService.query.getValue(), this.query.params)
+    const ids:ID[] = selectCollectionAsEntities$(this.resourceService, this.query.params)
       .filter((notification) => notification.readIAN === false)
       .map((notification) => notification.id);
 
@@ -201,7 +203,12 @@ export class IanCenterService extends UntilDestroyedMixin {
         return;
       }
 
-      this.toastService.add({
+      if (this.activeReloadToast) {
+        this.toastService.remove(this.activeReloadToast);
+        this.activeReloadToast = null;
+      }
+
+      this.activeReloadToast = this.toastService.add({
         type: 'info',
         message: this.I18n.t('js.notifications.center.new_notifications.message'),
         link: {
@@ -209,6 +216,7 @@ export class IanCenterService extends UntilDestroyedMixin {
           target: () => {
             this.store.update({ activeCollection: collection });
             this.actions$.dispatch(centerUpdatedInPlace({ origin: this.id }));
+            this.activeReloadToast = null;
           },
         },
       });

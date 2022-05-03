@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,41 +30,41 @@ require 'spec_helper'
 
 describe 'Filter by backlog type', js: true do
   let(:story_type) do
-    type = FactoryBot.create(:type_feature)
+    type = create(:type_feature)
     project.types << type
 
     type
   end
 
   let(:task_type) do
-    type = FactoryBot.create(:type_task)
+    type = create(:type_task)
     project.types << type
 
     type
   end
 
-  let(:user) { FactoryBot.create :admin }
-  let(:project) { FactoryBot.create :project }
+  let(:user) { create :admin }
+  let(:project) { create :project }
 
   let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
   let(:filters) { ::Components::WorkPackages::Filters.new }
 
   let(:member) do
-    FactoryBot.create(:member,
-                      user: user,
-                      project: project,
-                      roles: [FactoryBot.create(:role)])
+    create(:member,
+           user: user,
+           project: project,
+           roles: [create(:role)])
   end
 
   let(:work_package_with_story_type) do
-    FactoryBot.create(:work_package,
-                      type: story_type,
-                      project: project)
+    create(:work_package,
+           type: story_type,
+           project: project)
   end
   let(:work_package_with_task_type) do
-    FactoryBot.create(:work_package,
-                      type: task_type,
-                      project: project)
+    create(:work_package,
+           type: task_type,
+           project: project)
   end
 
   before do

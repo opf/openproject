@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -23,7 +23,8 @@ lol:
   js:
     ajax:
       hide: "crwdns803822:0crwdne803822:0"
-      loading: "crwdns803824:0crwdne803824:0"
+      loading: "crwdns810582:0crwdne810582:0"
+      updating: "crwdns810584:0crwdne810584:0"
     attachments:
       draggable_hint: |
         crwdns803826:0crwdne803826:0
@@ -61,6 +62,7 @@ lol:
     button_confirm: "crwdns803880:0crwdne803880:0"
     button_continue: "crwdns803882:0crwdne803882:0"
     button_copy: "crwdns803884:0crwdne803884:0"
+    button_copy_to_other_project: "crwdns810586:0crwdne810586:0"
     button_custom-fields: "crwdns803886:0crwdne803886:0"
     button_delete: "crwdns803888:0crwdne803888:0"
     button_delete_watcher: "crwdns803890:0crwdne803890:0"
@@ -88,9 +90,6 @@ lol:
     button_export-pdf: "crwdns803934:0crwdne803934:0"
     button_export-atom: "crwdns803936:0crwdne803936:0"
     button_create: "crwdns803938:0crwdne803938:0"
-    calendar:
-      title: 'crwdns803940:0crwdne803940:0'
-      too_many: 'crwdns803942:0%{count}crwdnd803942:0%{max}crwdne803942:0'
     card:
       add_new: 'crwdns803944:0crwdne803944:0'
       highlighting:
@@ -238,7 +237,7 @@ lol:
           text: >
             crwdns804172:0crwdne804172:0
           unlimited: "crwdns804174:0crwdne804174:0"
-          you_contribute: "crwdns804176:0crwdne804176:0"
+          you_contribute: "crwdns810588:0crwdne810588:0"
     custom_actions:
       date:
         specific: 'crwdns804178:0crwdne804178:0'
@@ -252,6 +251,7 @@ lol:
     enumeration_doc_categories: "crwdns804192:0crwdne804192:0"
     enumeration_work_package_priorities: "crwdns804194:0crwdne804194:0"
     filter:
+      more_values_not_shown: "crwdns810590:0%{total}crwdne810590:0"
       description:
         text_open_filter: "crwdns804196:0crwdne804196:0"
         text_close_filter: "crwdns804198:0crwdne804198:0"
@@ -286,16 +286,17 @@ lol:
           learn_about: "crwdns804238:0crwdne804238:0"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_0':
+          '12_1':
             standard:
-              learn_about_link: crwdns804240:0crwdne804240:0
+              learn_about_link: crwdns810592:0crwdne810592:0
               new_features_html: >
-                crwdns804242:0%{list_styling_class}crwdne804242:0
+                crwdns810594:0%{list_styling_class}crwdne810594:0
             bim:
-              learn_about_link: crwdns804244:0crwdne804244:0
+              learn_about_link: crwdns810596:0crwdne810596:0
               new_features_html: >
-                crwdns804246:0%{list_styling_class}crwdne804246:0
+                crwdns810598:0%{list_styling_class}crwdne810598:0
     label_activate: "crwdns804248:0crwdne804248:0"
+    label_assignee: 'crwdns810600:0crwdne810600:0'
     label_add_column_after: "crwdns804250:0crwdne804250:0"
     label_add_column_before: "crwdns804252:0crwdne804252:0"
     label_add_columns: "crwdns804254:0crwdne804254:0"
@@ -454,7 +455,7 @@ lol:
     label_global_queries: "crwdns804560:0crwdne804560:0"
     label_custom_queries: "crwdns804562:0crwdne804562:0"
     label_columns: "crwdns804564:0crwdne804564:0"
-    label_attachments: crwdns804566:0crwdne804566:0
+    label_attachments: crwdns810602:0crwdne810602:0
     label_drop_files: crwdns804568:0crwdne804568:0
     label_drop_files_hint: crwdns804570:0crwdne804570:0
     label_drop_folders_hint: crwdns804572:0crwdne804572:0
@@ -498,7 +499,8 @@ lol:
           task_board: "crwdns804638:0crwdne804638:0"
         boards:
           overview: 'crwdns804640:0crwdne804640:0'
-          lists: 'crwdns804642:0crwdne804642:0'
+          lists_kanban: 'crwdns810604:0crwdne810604:0'
+          lists_basic: 'crwdns810606:0crwdne810606:0'
           add: 'crwdns804644:0crwdne804644:0'
           drag: 'crwdns804646:0crwdne804646:0'
         wp:
@@ -509,6 +511,12 @@ lol:
           create_button: 'crwdns804656:0crwdne804656:0'
           timeline_button: 'crwdns804658:0crwdne804658:0'
           timeline: 'crwdns804660:0crwdne804660:0'
+        team_planner:
+          overview: 'crwdns810608:0crwdne810608:0'
+          calendar: 'crwdns810610:0crwdne810610:0'
+          add_assignee: 'crwdns810612:0crwdne810612:0'
+          add_existing: 'crwdns810614:0crwdne810614:0'
+          card: 'crwdns810616:0crwdne810616:0'
     notifications:
       title: "crwdns804662:0crwdne804662:0"
       no_unread: "crwdns804664:0crwdne804664:0"
@@ -540,7 +548,6 @@ lol:
           link_text: 'crwdns804700:0crwdne804700:0'
       menu:
         accountable: 'crwdns804702:0crwdne804702:0'
-        assigned: 'crwdns804704:0crwdne804704:0'
         by_project: 'crwdns804706:0crwdne804706:0'
         by_reason: 'crwdns804708:0crwdne804708:0'
         inbox: 'crwdns804710:0crwdne804710:0'
@@ -987,7 +994,8 @@ lol:
         activity: crwdns805442:0crwdne805442:0
         relations: crwdns805444:0crwdne805444:0
         watchers: crwdns805446:0crwdne805446:0
-        attachments: crwdns805448:0crwdne805448:0
+        files: crwdns810618:0crwdne810618:0
+        files_tab_migration_help: 'crwdns810620:0crwdne810620:0'
       time_relative:
         days: "crwdns805450:0crwdne805450:0"
         weeks: "crwdns805452:0crwdne805452:0"
@@ -1140,7 +1148,7 @@ lol:
       role:
         label: 'crwdns805688:0%{project}crwdne805688:0'
         no_roles_found: 'crwdns805690:0crwdne805690:0'
-        description: 'crwdns805692:0%{principal}crwdne805692:0'
+        description: 'crwdns810622:0%{principal}crwdne810622:0'
         required: 'crwdns805694:0crwdne805694:0'
         next_button: 'crwdns805696:0crwdne805696:0'
       message:
@@ -1156,8 +1164,26 @@ lol:
           placeholder: 'crwdns805710:0%{project}crwdne805710:0'
           group: 'crwdns805712:0%{project}crwdne805712:0'
         next_button: 'crwdns805714:0crwdne805714:0'
+    include_projects:
+      toggle_title: 'crwdns810624:0crwdne810624:0'
+      title: 'crwdns810626:0crwdne810626:0'
+      clear_selection: 'crwdns810628:0crwdne810628:0'
+      apply: 'crwdns810630:0crwdne810630:0'
+      selected_filter:
+        all: 'crwdns810632:0crwdne810632:0'
+        selected: 'crwdns810634:0crwdne810634:0'
+      search_placeholder: 'crwdns810636:0crwdne810636:0'
+      include_subprojects: 'crwdns810638:0crwdne810638:0'
+      tooltip:
+        include_all_selected: 'crwdns810640:0crwdne810640:0'
+        current_project: 'crwdns810642:0crwdne810642:0'
     forms:
       submit_success_message: 'crwdns805716:0crwdne805716:0'
       load_error_message: 'crwdns805718:0crwdne805718:0'
       validation_error_message: 'crwdns805720:0crwdne805720:0'
       advanced_settings: 'crwdns805722:0crwdne805722:0'
+    spot:
+      filter_chip:
+        remove: 'crwdns810644:0crwdne810644:0'
+      drop_modal:
+        Close: 'crwdns810646:0crwdne810646:0'

@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -73,6 +73,15 @@ sl:
       start_trial: 'Začnite z brezplačno preizkusno dobo'
       book_now: 'Rezerviraj'
       get_quote: 'Pridobite ponudbo'
+      buttons:
+        upgrade: "Upgrade now"
+        contact: "Contact us for a demo"
+      enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
+      upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
+    journal_aggregation:
+      explanation:
+        text: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent and will also affect %{webhook_link} delay."
+        link: "webhook"
   announcements:
     show_until: Prikaži dokler
     is_active: trenutno prikazano
@@ -160,7 +169,7 @@ sl:
     edit: 'Urejanje dejanja po meri %{name}'
     execute: 'Izvedite %{name}'
     upsale:
-      title: 'Dejanja po meri so značilnost Enterprise Edition'
+      title: 'Custom actions'
       description: 'Dejanja po meri racionalizirajo vsakodnevno delo s kombiniranjem nabora posameznih korakov v en gumb.'
   custom_fields:
     text_add_new_custom_field: >
@@ -259,7 +268,7 @@ sl:
       irreversible: "To dejanje je nepreklicno"
       confirmation: "Vnesite nadomestno uporabniško ime %{name} za potrditev izbrisa."
     upsale:
-      title: Dodeli delo ljudem, ki niso člani projekta
+      title: Placeholder users
       description: >
         Obstaja več scenarijev, kjer želite dodeliti delo ljudem, ki niso člani vašega projekta. Mogoče morate samo zaposliti pravo osebo za to delo. Ali pa nočete tej osebi dati dostopa do informacij o projektu, a še vseeno želite slediti nalogam, ki so dodeljene tej osebi.
   prioritiies:
@@ -449,9 +458,12 @@ sl:
         code: 'Stanje'
         explanation: 'Opis stanja'
         codes:
+          not_started: 'Not started'
           on_track: 'Na poti'
           at_risk: 'Ogroženo'
           off_track: 'Izven poti'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
       query:
         column_names: "Stolpci"
         relations_to_type_column: "Povezave z %{type}"
@@ -462,7 +474,6 @@ sl:
       repository:
         url: "URL"
       role:
-        assignable: "Delovni paketi se lahko dodelijo uporabnikom in skupinam, ki imajo to vlogo v posameznem projektu"
         permissions: "Dovoljenja"
       time_entry:
         activity: "Aktivnost"
@@ -553,6 +564,7 @@ sl:
         even: "mora biti enakomerno."
         exclusion: "je rezervirano."
         file_too_large: "je preveliko (največja velikost je %{count} Bytov)."
+        filter_does_not_exist: "filter does not exist."
         format: "se ne ujema s pričakovano obliko '%{expected}'."
         format_nested: "se ne ujema s pričakovano obliko '%{expected}' na poti '%{path}'."
         greater_than: "mora biti večje od %{count}."
@@ -865,7 +877,7 @@ sl:
     id: "ID"
     is_default: "Privzeta vrednost"
     is_for_all: "Za vse projekte"
-    is_public: "Javno"
+    public: "Javno"
     #kept for backwards compatibility
     issue: "Zahtevek"
     lastname: "Priimek"
@@ -875,7 +887,6 @@ sl:
     password: "Geslo"
     priority: "Prioriteta"
     project: "Projekt"
-    public: "Javno"
     responsible: "Odgovorni"
     role: "Vloga"
     roles: "Vloge"
@@ -889,6 +900,7 @@ sl:
     updated_on: "Posodobljeno"
     uploader: "Posodobitelj"
     user: "Uporabnik"
+    value: "Value"
     version: "Različica"
     work_package: "Zahtevek"
   backup:
@@ -1254,6 +1266,7 @@ sl:
   error_enterprise_token_invalid_domain: "Podjetniška verzija ni aktivna. Domena vašega žetona podjetja (%{actual}) se ne ujema z imenom gostitelja sistema (%{expected})."
   error_failed_to_delete_entry: 'Izbris tega vnosa ni bilo mogoče.'
   error_in_dependent: "Napaka pri spremembi odvisnega predmeta: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
+  error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Neveljavna izbrana vrednost."
   error_journal_attribute_not_present: "Dnevnik ne vsebuje atributa %{attribute}."
   error_pdf_export_too_many_columns: "Za izvoz PDF je izbranih preveč stolpcev. Zmanjšajte število stolpcev."
@@ -1363,7 +1376,9 @@ sl:
   menus:
     admin:
       mail_notification: "E-poštna obvestila"
-      incoming_outgoing: "Incoming & Outgoing"
+      mails_and_notifications: "Emails and notification"
+      aggregation_and_retention: 'Aggregation and retention'
+      api_and_webhooks: "API and webhooks"
     quick_add:
       label: "Odpri meni za hitro dodajanje"
   my_account:
@@ -1657,6 +1672,10 @@ sl:
   label_member_plural: "Člani"
   lable_membership_added: 'Član dodan'
   lable_membership_updated: 'Član posodobljen'
+  label_menu_badge:
+    pre_alpha: 'pre-alpha'
+    alpha: 'alpha'
+    beta: 'beta'
   label_menu_item_name: "Ime postavke menija"
   label_message: "Sporočilo"
   label_message_last: "Zadnje sporočilo"
@@ -1762,7 +1781,6 @@ sl:
   label_public_projects: "Javni projekti"
   label_query_new: "Nova poizvedba"
   label_query_plural: "Poizvedbe po meri"
-  label_query_menu_item: "Poizvedba v meniju"
   label_read: "Branje ..."
   label_register: "Ustvarite nov račun"
   label_register_with_developer: "Registrirajte se kot razvijalec"
@@ -1860,7 +1878,7 @@ sl:
   label_used_by_types: "Uporablja se po vrstah"
   label_used_in_projects: "Uporablja se pri projektih"
   label_user: "Uporabnik"
-  label_user_and_permission: "Uporabniki in dovoljenja"
+  label_user_and_permission: "Users and permissions"
   label_user_named: "Uporabnik %{name}"
   label_user_activity: "%{value}'s aktivnost"
   label_user_anonymous: "Anonimno"
@@ -2012,7 +2030,7 @@ sl:
   mail_body_backup_waiting_period: Novi žeton bo omogočen v %{hours} urah.
   mail_body_backup_token_warning: Če to niste bili vi, se takoj prijavite v OpenProject in ponovno ponastavite.
   mail_body_lost_password: "Za spremembo glesla kliknite na naslednjo povezavo:"
-  mail_body_register: "Dobrodošli v OpenProject. Aktivirajte svoj uporabniški račun s klikom na povezavo:"
+  mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "E-pošta člana projekta za vabilo"
   mail_body_register_user: "Dragi %{name},"
   mail_body_register_links_html: |
@@ -2157,7 +2175,7 @@ sl:
     heading_getting_started: "Pridobite pregled"
     text_getting_started_description: "Pridobite hiter pregled nad projektnim managementom ter skupinskim delovanjem z OpenProject"
     text_show_again: "Ta video lahko ponovno zaženete preko menija za pomoč"
-    welcome: "Dobrodošli v OpenProject"
+    welcome: "Welcome to %{app_title}"
     select_language: "Prosimo izberite jezik"
   permission_add_work_package_notes: "Dodaj zapiske"
   permission_add_work_packages: "Dodaj delovne pakete"
@@ -2173,6 +2191,7 @@ sl:
   permission_comment_news: "Komentiraj novice"
   permission_commit_access: "Beri/piši dostop do skladišča (storiti)"
   permission_copy_projects: "Kopiraj projekte"
+  permission_create_backup: "Create backup"
   permission_delete_work_package_watchers: "Izbriši opazovalce"
   permission_delete_work_packages: "Izbriši delovni paket"
   permission_delete_messages: "Izbriši sporočila"
@@ -2215,7 +2234,6 @@ sl:
   permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Izberi module projekta"
   permission_manage_types: "Izberi vrste"
-  permission_view_calendar: "Poglej koledar"
   permission_view_changesets: "Oglejte si revizije repozitorija v OpenProject"
   permission_view_commit_author_statistics: "Oglejte si statistiko avtorjev"
   permission_view_work_package_watchers: "Oglej si listo spremeljevalcev"
@@ -2227,6 +2245,8 @@ sl:
   permission_view_timelines: "Oglejte si časovnice"
   permission_view_wiki_edits: "Poglej wiki zgodovino"
   permission_view_wiki_pages: "Poglej wiki"
+  permission_work_package_assigned: "Become assignee/responsible"
+  permission_work_package_assigned_explanation: "Delovni paketi se lahko dodelijo uporabnikom in skupinam, ki imajo to vlogo v posameznem projektu"
   placeholders:
     default: "-"
   project:
@@ -2251,7 +2271,6 @@ sl:
       archived: "Arhiviran"
   project_module_activity: "Aktivnost"
   project_module_forums: "Forumi"
-  project_module_calendar: "Koledar"
   project_module_work_package_tracking: "Sledenje delovnega paketa"
   project_module_news: "Novice"
   project_module_repository: "Repozitorij"
@@ -2265,7 +2284,7 @@ sl:
     assigned_to_role: "Pooblaščenčeva vloga"
     member_of_group: "Pooblaščenčeva skupina"
     assignee_or_group: "Prejemnik ali pripadajoča skupina"
-    subproject_id: "Vključuje podprojekt"
+    subproject_id: "Including subproject"
     only_subproject_id: "Samo podprojekt"
     name_or_identifier: "Ime ali identifikator"
   repositories:
@@ -2588,7 +2607,6 @@ sl:
   text_work_packages_destroy_confirmation: "Ali ste prepričani, da želite izbrisati izbrane delovne pakete?"
   text_work_packages_ref_in_commit_messages: "Sklicevanje in popravljanje delovnih paketov v sporočilih"
   text_journal_added: "%{label} %{value} dodan"
-  text_journal_aggregation_time_explanation: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent."
   text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
   text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label} posodobljen"
@@ -2883,7 +2901,6 @@ sl:
   wiki_menu_item_new_main_item_explanation: >
     Izbrisali boste edini glavni element menija wiki. Zdaj morate izbrati stran wiki, za katero bo ustvarjen nov glavni element. Da bi izbrisali wiki, lahko modul wiki deaktivirajo skrbniki projektov.
   wiki_menu_item_delete_not_permitted: Elementa v meniju wiki na edini strani wikija ni mogoče izbrisati.
-  query_menu_item_for: "Element menija za poizvedbo \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
@@ -2908,6 +2925,7 @@ sl:
         work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:
         date: "LLLL-MM-DD (ISO 8601 le datum)"
+        datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm] (any compatible ISO 8601 datetime)"
         duration: "ISO 8601 trajanje"
       invalid_content_type: "Pričakovano je, da je VRSTA-VSEBINE '%{content_type}', vendar je dobil '%{actual}'."
       invalid_format: "neveljaven format za lastnost '%{property}': Pričakovana oblika, kot je '%{expected_format}', vendar je dobila '%{actual}'."
@@ -2919,6 +2937,7 @@ sl:
         select: "Zahtevani izbor %{invalid} ni podprt. Podprti izbori so %{supported}."
       invalid_user_status_transition: "Trenutno stanje uporabniškega računa ne omogoča te operacije.\n"
       missing_content_type: "Ni določeno"
+      missing_property: "Missing property '%{property}'."
       missing_request_body: "Ni bilo organa zahteve."
       missing_or_malformed_parameter: "Parameter poizvedbe '%{parameter}' manjka ali je napačno oblikovan."
       multipart_body_error: "Organ zahteve ni vseboval pričakovanih večdelnih členov."
@@ -2942,6 +2961,7 @@ sl:
       schema: 'Shema'
     undisclosed:
       parent: Undisclosed - The selected parent is invisible because of lacking permissions.
+      ancestor: Undisclosed - The ancestor is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 'Pred odobritvijo'

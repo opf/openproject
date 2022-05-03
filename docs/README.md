@@ -14,7 +14,7 @@ keywords: help, documentation
 
 ## Installation
 
-Get started with installing and upgrading OpenProject using [our Installation Guide starting point](https://www.openproject.org/docs/installation-and-operations/).
+Get started with installing and upgrading OpenProject using [our Installation Guide starting point](./installation-and-operations/).
 
 The guides for [manual](./installation-and-operations/installation/manual), [packaged](./installation-and-operations/installation/packaged) and [Docker-based](./installation-and-operations/installation/docker) installations are provided.
 
@@ -35,7 +35,11 @@ The guides for [upgrading](./installation-and-operations/operation/upgrading) ar
 
 ## User Guides
 
-Please see our [User Guide pages](https://www.openproject.org/docs/user-guide/) for detailed documentation on the functionality of OpenProject.
+Please see our [User Guide pages](./user-guide/) for detailed documentation on the functionality of OpenProject.
+
+## Use Cases
+
+Please see our [Use Cases section](./use-cases/) for detailed how-to guides and step-by-step instruction on how to set up a variety of common cases and views.
 
 
 ## Development

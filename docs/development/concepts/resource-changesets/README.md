@@ -43,9 +43,9 @@ The `ResourceChangeset` class is a temporarily created class whose lifetime is d
 
 The changeset maintains references to
 
- *  - The source HAL resource (a pristine, unchanged version) such as a work package
- *  - The actual `Changeset` object of changes (basically a map of `attribute -> values` of changes)
- *  - The `FormResource` for the resource (due to temporary changes such as switching types or projects in work packages)
+ * The source HAL resource (a pristine, unchanged version) such as a work package
+ * The actual `Changeset` object of changes (basically a map of `attribute -> values` of changes)
+ * The `FormResource` for the resource (due to temporary changes such as switching types or projects in work packages)
 
 
 The changeset provides a high level access to getting and writing changes as well as caching resources around editing to avoid reloading them too often. It also provides access to a `projectedResource`, which is a proxy class on the HAL resource with all overridden values returned from the changeset. It behaves as if the modified resource was saved and returned.

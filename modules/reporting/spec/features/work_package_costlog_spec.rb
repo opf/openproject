@@ -1,29 +1,29 @@
 require 'spec_helper'
 
 describe 'Cost report showing my own times', type: :feature, js: true do
-  let(:project) { FactoryBot.create :project }
+  let(:project) { create :project }
   let(:user) do
-    FactoryBot.create(:user, member_in_project: project, member_through_role: role)
+    create(:user, member_in_project: project, member_through_role: role)
   end
-  let(:role) { FactoryBot.create(:role, permissions: permissions) }
+  let(:role) { create(:role, permissions: permissions) }
   let(:permissions) { %i[view_work_packages view_own_cost_entries] }
 
   let(:budget) do
-    FactoryBot.create(:budget, project: project)
+    create(:budget, project: project)
   end
-  let(:cost_type) { FactoryBot.create(:cost_type, name: 'Foobar', unit: 'Foobar', unit_plural: 'Foobars') }
-  let(:work_package) { FactoryBot.create :work_package, project: project, budget: budget }
+  let(:cost_type) { create(:cost_type, name: 'Foobar', unit: 'Foobar', unit_plural: 'Foobars') }
+  let(:work_package) { create :work_package, project: project, budget: budget }
   let(:wp_page) { Pages::FullWorkPackage.new work_package, project }
 
   let(:cost_entry) do
-    FactoryBot.build(:cost_entry,
-                     cost_type: cost_type,
-                     project: project,
-                     work_package: work_package,
-                     spent_on: Date.today,
-                     units: '10',
-                     user: user,
-                     comments: 'foobar')
+    build(:cost_entry,
+          cost_type: cost_type,
+          project: project,
+          work_package: work_package,
+          spent_on: Date.today,
+          units: '10',
+          user: user,
+          comments: 'foobar')
   end
 
   before do

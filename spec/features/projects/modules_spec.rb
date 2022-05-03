@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,21 +32,21 @@ describe 'Projects module administration',
          type: :feature do
 
   let!(:project) do
-    FactoryBot.create(:project,
-                      enabled_module_names: [])
+    create(:project,
+           enabled_module_names: [])
   end
 
   let(:role) do
-    FactoryBot.create(:role,
-                      permissions: permissions)
+    create(:role,
+           permissions: permissions)
   end
   let(:permissions) { %i(edit_project select_project_modules) }
   let(:settings_page) { Pages::Projects::Settings.new(project) }
 
   current_user do
-    FactoryBot.create(:user,
-                      member_in_project: project,
-                      member_with_permissions: permissions)
+    create(:user,
+           member_in_project: project,
+           member_with_permissions: permissions)
   end
 
   it 'allows adding and removing modules' do
@@ -104,9 +104,9 @@ describe 'Projects module administration',
 
   context 'with a user who does not have the correct permissions (#38097)' do
     let(:user_without_permission) do
-      FactoryBot.create(:user,
-                        member_in_project: project,
-                        member_with_permissions: %i(edit_project))
+      create(:user,
+             member_in_project: project,
+             member_with_permissions: %i(edit_project))
     end
 
     before do

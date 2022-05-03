@@ -15,7 +15,7 @@ import {
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { JobStatusEnum, JobStatusInterface } from 'core-app/features/job-status/job-status.interface';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 @Component({
   templateUrl: './job-status.modal.html',
@@ -70,7 +70,7 @@ export class JobStatusModalComponent extends OpModalComponent implements OnInit 
     readonly I18n:I18nService,
     readonly elementRef:ElementRef,
     readonly pathHelper:PathHelperService,
-    readonly apiV3Service:APIV3Service,
+    readonly apiV3Service:ApiV3Service,
     readonly loadingIndicator:LoadingIndicatorService,
     readonly toastService:ToastService,
     readonly httpClient:HttpClient) {

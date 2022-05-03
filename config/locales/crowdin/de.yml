@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -73,6 +73,15 @@ de:
       start_trial: 'Kostenlose Testversion starten'
       book_now: 'Jetzt buchen'
       get_quote: 'Angebot anfordern'
+      buttons:
+        upgrade: "Jetzt Upgrade durchführen"
+        contact: "Kontaktieren Sie uns für eine Demo"
+      enterprise_info_html: "ist eine Enterprise <strong class='icon-medal'></strong> Funktion."
+      upgrade_info: "Bitte steigen Sie auf einen kostenpflichtigen Plan um, um diese Funktion zu aktivieren und in Ihrem Team zu verwenden."
+    journal_aggregation:
+      explanation:
+        text: "Individuelle Aktionen eines Benutzers (z.B. ein Arbeitspaket zweimal aktualisieren) werden zu einer einzigen Aktion zusammengefasst, wenn ihr Altersunterschied kleiner ist als der angegebene Zeitraum. Sie werden als eine einzige Aktion innerhalb der Anwendung angezeigt. Dadurch werden Benachrichtigungen um die gleiche Zeit verzögert, wodurch die Anzahl der gesendeten E-Mails verringert wird und sich auch auf die Verzögerung von %{webhook_link} auswirkt."
+        link: "Webhook"
   announcements:
     show_until: Anzeigen bis
     is_active: derzeit angezeigt
@@ -158,7 +167,7 @@ de:
     edit: 'Benutzerdefinierte Aktion %{name} bearbeiten'
     execute: '%{name} ausführen'
     upsale:
-      title: 'Benutzerdefinierte Aktionen ist eine Enterprise Edition-Funktion'
+      title: 'Benutzerdefinierte Aktionen'
       description: 'Benutzerdefinierte Aktionen optimieren tägliche Arbeit durch die Abarbeitung einer Reihe von Einzelschritten in einen Knopf.'
   custom_fields:
     text_add_new_custom_field: >
@@ -257,7 +266,7 @@ de:
       irreversible: "Dieser Vorgang kann nicht rückgängig gemacht werden"
       confirmation: "Geben Sie den Namen des Platzhalter-Benutzers %{name} ein, um die Löschung zu bestätigen."
     upsale:
-      title: Weisen Sie Arbeit Personen zu, die nicht Mitglieder des Projekts sind
+      title: Platzhalter-Benutzer
       description: >
         Es gibt mehrere Szenarien, in denen Sie Personen Arbeit zuweisen möchten, die nicht Mitglied Ihres Projekts sind. Es könnte einfach sein, dass Sie immer noch die richtige Person für den Job einstellen müssen. Oder Sie wollen dieser Person keinen Zugriff auf die Projektinformationen gewähren, aber dennoch die dieser Person zugewiesenen Tracking-Aufgaben aufweisen.
   prioritiies:
@@ -445,9 +454,12 @@ de:
         code: 'Status'
         explanation: 'Statusbeschreibung'
         codes:
+          not_started: 'Nicht gestartet'
           on_track: 'Planmäßig'
           at_risk: 'Gefährdet'
           off_track: 'Unplanmäßig'
+          finished: 'Abgeschlossen'
+          discontinued: 'Eingestellt / nicht verfügbar'
       query:
         column_names: "Spalten"
         relations_to_type_column: "Beziehungen zu %{type}"
@@ -458,7 +470,6 @@ de:
       repository:
         url: "URL"
       role:
-        assignable: "Arbeitspakete können Benutzern und Gruppen im Besitz dieser Rolle in dem jeweiligen Projekt zugeordnet werden"
         permissions: "Berechtigungen"
       time_entry:
         activity: "Aktivität"
@@ -549,6 +560,7 @@ de:
         even: "muss gerade sein."
         exclusion: "ist nicht verfügbar."
         file_too_large: "ist zu groß (nicht mehr als %{count} Bytes erlaubt)."
+        filter_does_not_exist: "Filter existiert nicht."
         format: "stimmt nicht mit dem erwarteten Format '%{expected} ' überein."
         format_nested: "stimmt nicht mit dem erwarteten Format '%{expected} ' im Pfad '%{path}' überein."
         greater_than: "muss größer als %{count} sein."
@@ -853,7 +865,7 @@ de:
     id: "ID"
     is_default: "Standardwert"
     is_for_all: "Für alle Projekte"
-    is_public: "Öffentlich"
+    public: "Öffentlich"
     #kept for backwards compatibility
     issue: "Arbeitspaket"
     lastname: "Nachname"
@@ -863,7 +875,6 @@ de:
     password: "Kennwort"
     priority: "Priorität"
     project: "Projekt"
-    public: "Öffentlich"
     responsible: "Verantwortlich"
     role: "Rollen"
     roles: "Rollen"
@@ -877,6 +888,7 @@ de:
     updated_on: "Aktualisiert am"
     uploader: "Bereitgestellt von"
     user: "Benutzer"
+    value: "Wert"
     version: "Version"
     work_package: "Arbeitspaket"
   backup:
@@ -1218,6 +1230,7 @@ de:
   error_enterprise_token_invalid_domain: "Die Enterprise-Edition ist nicht aktiv. Die aktuelle Domain (%{actual}) entspricht nicht dem erwarteten Hostnamen (%{expected})."
   error_failed_to_delete_entry: 'Fehler beim Löschen dieses Eintrags.'
   error_in_dependent: "Fehler beim Versuch, abhängiges Objekt zu ändern: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
+  error_in_new_dependent: "Fehler beim Versuch, abhängiges Objekt zu erstellen: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Ausgewählter Wert ist ungültig."
   error_journal_attribute_not_present: "Journal enthält Attribut %{attribute} nicht."
   error_pdf_export_too_many_columns: "Zu viele Spalten für PDF-Export ausgewählt. Bitte reduzieren Sie die Anzahl der ausgewählten Spalten."
@@ -1327,7 +1340,9 @@ de:
   menus:
     admin:
       mail_notification: "Mailbenachrichtigung"
-      incoming_outgoing: "Eingehende vs. Ausgehende"
+      mails_and_notifications: "E-Mails und Benachrichtigungen"
+      aggregation_and_retention: 'Aggregation und Zurückhaltung'
+      api_and_webhooks: "API und Webhooks"
     quick_add:
       label: "Schnellmenue öffnen"
   my_account:
@@ -1621,6 +1636,10 @@ de:
   label_member_plural: "Mitglieder"
   lable_membership_added: 'Mitglied hinzugefügt'
   lable_membership_updated: 'Mitglied aktualisiert'
+  label_menu_badge:
+    pre_alpha: 'pre-alpha'
+    alpha: 'alpha'
+    beta: 'beta'
   label_menu_item_name: "Name des Menüpunktes"
   label_message: "Nachricht"
   label_message_last: "Letzter Forenbeitrag"
@@ -1726,7 +1745,6 @@ de:
   label_public_projects: "Öffentliche Projekte"
   label_query_new: "Neuer Bericht"
   label_query_plural: "Benutzerdefinierte Berichte"
-  label_query_menu_item: "Filter-Menüpunkt"
   label_read: "Lesen ..."
   label_register: "Neues Konto erstellen"
   label_register_with_developer: "Als Entwickler anmelden"
@@ -1824,7 +1842,7 @@ de:
   label_used_by_types: "Verwendet von Typen"
   label_used_in_projects: "Verwendet in Projekten"
   label_user: "Benutzer"
-  label_user_and_permission: "Benutzer & Berechtigungen"
+  label_user_and_permission: "Benutzer und Berechtigungen"
   label_user_named: "Benutzer %{name}"
   label_user_activity: "Aktivität von %{value}"
   label_user_anonymous: "Anonym"
@@ -1974,7 +1992,7 @@ de:
   mail_body_backup_waiting_period: Der neue Token wird in %{hours} Stunden aktiviert.
   mail_body_backup_token_warning: Wenn Sie dies nicht waren, melden Sie sich sofort bei OpenProject an und setzen Sie es erneut zurück.
   mail_body_lost_password: "Benutzen Sie den folgenden Link, um Ihr Kennwort zu ändern:"
-  mail_body_register: "Willkommen bei OpenProject. Bitte aktivieren Sie Ihr Konto, indem Sie auf diesen Link klicken:"
+  mail_body_register: "Willkommen zu %{app_title}. Bitte aktivieren Sie Ihr Konto, indem Sie auf diesen Link klicken:"
   mail_body_register_header_title: "Einladung als Projektmitglied"
   mail_body_register_user: "Hallo %{name},"
   mail_body_register_links_html: |
@@ -2117,7 +2135,7 @@ de:
     heading_getting_started: "Erhalten Sie einen Überblick"
     text_getting_started_description: "Erhalten Sie einen schnellen Überblick über Projekt-Management und Zusammenarbeit in Teams mit OpenProject."
     text_show_again: "Sie können dieses Video über das Hilfe-Menü erneut starten"
-    welcome: "Willkommen bei OpenProject"
+    welcome: "Willkommen zu %{app_title}"
     select_language: "Bitte wählen Sie Ihre Sprache"
   permission_add_work_package_notes: "Kommentare hinzufügen"
   permission_add_work_packages: "Arbeitspakete hinzufügen"
@@ -2133,6 +2151,7 @@ de:
   permission_comment_news: "Nachricht kommentieren"
   permission_commit_access: "Lese- und Schreibzugriff auf Projektarchiv (Commit)"
   permission_copy_projects: "Projekte kopieren"
+  permission_create_backup: "Backup erstellen"
   permission_delete_work_package_watchers: "Beobachter löschen"
   permission_delete_work_packages: "Arbeitspakete löschen"
   permission_delete_messages: "Forenbeiträge löschen"
@@ -2175,7 +2194,6 @@ de:
   permission_select_custom_fields: "Benutzerdefinierte Felder verwalten"
   permission_select_project_modules: "Projektmodule auswählen"
   permission_manage_types: "Typen auswählen"
-  permission_view_calendar: "Kalender ansehen"
   permission_view_changesets: "Revisionen des Projektarchivs in OpenProject ansehen"
   permission_view_commit_author_statistics: "Commit Autor Statistiken ansehen"
   permission_view_work_package_watchers: "Liste der Beobachter ansehen"
@@ -2187,6 +2205,8 @@ de:
   permission_view_timelines: "Zeitplan-Reporte anzeigen"
   permission_view_wiki_edits: "Wiki-Versionsgeschichte ansehen"
   permission_view_wiki_pages: "Wiki ansehen"
+  permission_work_package_assigned: "Zugewiesener/Verantwortlicher werden"
+  permission_work_package_assigned_explanation: "Arbeitspakete können Benutzern und Gruppen im Besitz dieser Rolle in dem jeweiligen Projekt zugeordnet werden"
   placeholders:
     default: "-"
   project:
@@ -2211,7 +2231,6 @@ de:
       archived: "Archiviert"
   project_module_activity: "Aktivität"
   project_module_forums: "Foren"
-  project_module_calendar: "Kalender"
   project_module_work_package_tracking: "Arbeitspakete-Verfolgung"
   project_module_news: "Nachrichten"
   project_module_repository: "Projektarchiv"
@@ -2225,7 +2244,7 @@ de:
     assigned_to_role: "Rolle der zugewiesenen Person"
     member_of_group: "Gruppe der zugewiesenen Person"
     assignee_or_group: "Zugewiesen an Nutzer oder dessen Gruppe"
-    subproject_id: "Mit Unterprojekt"
+    subproject_id: "Including subproject"
     only_subproject_id: "Nur Unterprojekt"
     name_or_identifier: "Name oder Kennung"
   repositories:
@@ -2550,7 +2569,6 @@ de:
   text_work_packages_destroy_confirmation: "Sind Sie sicher, dass Sie die ausgewählten Arbeitspakete löschen möchten?"
   text_work_packages_ref_in_commit_messages: "Arbeitspaket-Beziehungen und -Status in Commit-Log-Meldungen"
   text_journal_added: "%{label} %{value} wurde hinzugefügt"
-  text_journal_aggregation_time_explanation: "Individuelle Aktionen eines Benutzers (z. ein Arbeitspaket zweimal aktualisieren) werden zu einer einzigen Aktion zusammengefasst, wenn ihr Altersunterschied kleiner ist als der angegebene Zeitraum. Sie werden als eine einzige Aktion innerhalb der Anwendung angezeigt. Dadurch werden auch Benachrichtigungen um die gleiche Zeit verzögert, wodurch die Anzahl der gesendeten E-Mails verringert wird."
   text_journal_changed_html: "%{label} von %{old} %{linebreak}<strong>in</strong> %{new} geändert"
   text_journal_changed_plain: "%{label} geändert von %{old} %{linebreak}zu %{new}"
   text_journal_changed_no_detail: "%{label} aktualisiert"
@@ -2840,7 +2858,6 @@ de:
   wiki_menu_item_new_main_item_explanation: >
     Der einzige Wiki-Hauptmenüpunkt wird gelöscht. Sie müssen nun eine Wikiseite auswählen, für die ein neuer Menüpunkt erzeugt wird. Um das Wiki zu entfernen kann das Wiki Modul durch Projektadministratoren deaktiviert werden.
   wiki_menu_item_delete_not_permitted: Der Wiki-Menüpunkt der einzigen Wiki-Seite kann nicht gelöscht werden.
-  query_menu_item_for: "Menüpunkt für die Suche \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
@@ -2865,6 +2882,7 @@ de:
         work_package: "Das von Ihnen gesuchte Arbeitspaket konnte nicht gefunden werden oder wurde gelöscht."
       expected:
         date: "YYYY-MM-DD (Datum nach ISO 8601)"
+        datetime: "JJJJ-MM-TTThh:mm:ss[.lll][+hh:mm] (kompatible ISO 8601-Datum)"
         duration: "ISO 8601 Zeitspanne"
       invalid_content_type: "Es wird der CONTENT-TYPE '%{content_type}' erwartet, es wurde aber der CONTENT-TYP '%{actual}' gesandt."
       invalid_format: "Ungültiges Format für Eigenschaft '%{property}': Ein Format der Art '%{expected_format}' wurde erwartet, aber '%{actual}' wurde übergeben."
@@ -2876,6 +2894,7 @@ de:
         select: "Die angeforderte Auswahl von %{invalid} wird nicht unterstützt. Unterstützte Auswahlen sind %{supported}."
       invalid_user_status_transition: "Für diesen Nutzeraccount ist die angeforderte Statusänderung nicht zulässig."
       missing_content_type: "nicht angegeben"
+      missing_property: "Fehlende Eigenschaft '%{property}'."
       missing_request_body: "Die Abfrage enthielt keinen Inhalt."
       missing_or_malformed_parameter: "Der Query-Parameter \"%{parameter}\" fehlt oder ist fehlerhaft."
       multipart_body_error: "Die Anfrage enthielt nicht die erwarteten mehrteiligen Abschnitte."
@@ -2899,6 +2918,7 @@ de:
       schema: 'Schema'
     undisclosed:
       parent: Unbekannt - Das ausgewählte Elternelement ist wegen fehlender Berechtigungen nicht sichtbar.
+      ancestor: Unbekannt - Das übergeordnete Element ist wegen fehlender Berechtigungen nicht sichtbar.
   doorkeeper:
     pre_authorization:
       status: 'Vorab-Autorisierung'

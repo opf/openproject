@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,7 +32,7 @@ describe User, type: :model do
   describe 'backlogs_preference' do
     describe 'task_color' do
       it 'reads from and writes to a user preference' do
-        u = FactoryBot.create(:user)
+        u = create(:user)
         u.backlogs_preference(:task_color, '#FFCC33')
 
         expect(u.backlogs_preference(:task_color)).to eq('#FFCC33')
@@ -41,7 +41,7 @@ describe User, type: :model do
       end
 
       it 'computes a random color and persists it, when none is set' do
-        u = FactoryBot.create(:user)
+        u = create(:user)
         u.backlogs_preference(:task_color, nil)
         u.save!
 

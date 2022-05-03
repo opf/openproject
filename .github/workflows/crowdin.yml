@@ -1,0 +1,81 @@
+name: crowdin
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 3 * * *' # Daily at 03:00
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      latest_release_branch: ${{ steps.find_latest_release.outputs.branch }}
+    steps:
+    - id: find_latest_release
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_REPOSITORY: ${{ github.repository }}
+      run: |
+        BRANCH=$(curl -H "Authorization: token $GITHUB_TOKEN" \
+          https://api.github.com/repos/$GITHUB_REPOSITORY/branches?protected=true | \
+          jq -r .[].name | grep "release/" | sort -r | head -1
+        )
+        if [ "$BRANCH" = "" ]; then
+          echo "Invalid release branch found: $BRANCH"
+          exit 1
+        fi
+
+        echo "::set-output name=branch::${BRANCH}"
+        echo "::set-output name=crowdin_release_branch::release"
+
+  crowdin:
+    runs-on: ubuntu-latest
+    needs: setup
+    timeout-minutes: 60
+    strategy:
+      max-parallel: 1
+      matrix:
+        branch:
+          - dev
+          - "${{ needs.setup.outputs.latest_release_branch }}"
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ matrix.branch }}
+          fetch-depth: 1
+      - uses: ruby/setup-ruby@v1
+      - name: "Set crowdin branch name"
+        id: vars
+        env:
+          BRANCH: ${{ matrix.branch }}
+        run: |
+          echo "Setting crowdin branch from $BRANCH"
+          if [ "$BRANCH" = "dev" ]; then
+            echo "::set-output name=crowdin_branch::dev"
+          else
+            echo "::set-output name=crowdin_branch::release"
+          fi
+      - name: "Updating translations"
+        uses: crowdin/github-action@1.4.4
+        with:
+          # Upload current source files
+          upload_sources: true
+          # Download updated translations
+          download_translations: true
+          # Which version branch to push to
+          crowdin_branch_name: ${{ steps.vars.outputs.crowdin_branch }}
+          # Dont create a PR for the updated translations
+          push_translations: false
+        env:
+          OPENPROJECT_CROWDIN_PROJECT: ${{ secrets.OPENPROJECT_CROWDINV2_PROJECT }}
+          OPENPROJECT_CROWDIN_API_KEY: ${{ secrets.OPENPROJECT_CROWDINV2_API_KEY }}
+      - name: "Fixing translation names"
+        run: |
+          ruby script/crowdin/fix_locale_keys.rb
+      - name: "Commit translations"
+        run: |
+          git config user.name "OpenProject Actions CI"
+          git config user.email "operations+ci@openproject.com"
+          echo "Updating combined translations"
+          git ls-files -m -o | grep 'crowdin\/.*\.yml$' | xargs git add
+          git diff --staged --name-only
+          git diff --staged --exit-code --quiet || ( git commit -m "update locales from crowdin [ci skip]" && git pull --rebase && git push origin $BRANCH )

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,12 +34,12 @@ describe 'API v3 posts resource', type: :request do
   include API::V3::Utilities::PathHelper
 
   let(:current_user) do
-    FactoryBot.create(:user, member_in_project: project, member_through_role: role)
+    create(:user, member_in_project: project, member_through_role: role)
   end
-  let(:forum) { FactoryBot.create(:forum, project: project) }
-  let(:message) { FactoryBot.create(:message, forum: forum) }
-  let(:project) { FactoryBot.create(:project) }
-  let(:role) { FactoryBot.create(:role, permissions: permissions) }
+  let(:forum) { create(:forum, project: project) }
+  let(:message) { create(:message, forum: forum) }
+  let(:project) { create(:project) }
+  let(:role) { create(:role, permissions: permissions) }
   let(:permissions) { %i(view_messages) }
 
   subject(:response) { last_response }
@@ -71,7 +71,7 @@ describe 'API v3 posts resource', type: :request do
     end
 
     context 'when lacking permissions' do
-      let(:current_user) { FactoryBot.create(:user) }
+      let(:current_user) { create(:user) }
 
       it 'returns 404 NOT FOUND' do
         expect(subject.status)

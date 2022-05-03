@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -73,6 +73,15 @@ ca:
       start_trial: 'Start free trial'
       book_now: 'Book now'
       get_quote: 'Get a quote'
+      buttons:
+        upgrade: "Upgrade now"
+        contact: "Contact us for a demo"
+      enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
+      upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
+    journal_aggregation:
+      explanation:
+        text: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent and will also affect %{webhook_link} delay."
+        link: "webhook"
   announcements:
     show_until: Mostra fins
     is_active: actualment mostrant
@@ -159,7 +168,7 @@ ca:
     edit: 'Edita l''acció personalitzada %{name}'
     execute: 'Executa %{name}'
     upsale:
-      title: 'Accions personalitzades és una característica de l''Edició Enterprise'
+      title: 'Custom actions'
       description: 'Les accions personalitzades agilitzen el treball quotidià combinant un conjunt de passos individuals en un sol botó.'
   custom_fields:
     text_add_new_custom_field: >
@@ -258,7 +267,7 @@ ca:
       irreversible: "This action is irreversible"
       confirmation: "Enter the placeholder user name %{name} to confirm the deletion."
     upsale:
-      title: Assign work to people that are not members of the project.
+      title: Placeholder users
       description: >
         There are multiple scenarios where you want to assign work to people that are not member of your project. It could simply be that you still need to hire the correct person for the job. Or you just don't want to give that person access to the project's information but still want track tasks assigned to that person.
   prioritiies:
@@ -447,9 +456,12 @@ ca:
         code: 'Estat'
         explanation: 'Descripció de l''estat'
         codes:
+          not_started: 'Not started'
           on_track: 'Pel bon camí'
           at_risk: 'En risc'
           off_track: 'En mal camí'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
       query:
         column_names: "Columnes"
         relations_to_type_column: "Relacions a %{type}"
@@ -460,7 +472,6 @@ ca:
       repository:
         url: "URL"
       role:
-        assignable: "Els paquets de treball es poden assignar als usuaris i als grups que tinguin aquest rol en el seu respectiu projecte"
         permissions: "Permisos"
       time_entry:
         activity: "Activitat"
@@ -551,6 +562,7 @@ ca:
         even: "ha de ser parell."
         exclusion: "està reservat."
         file_too_large: "és massa gran (la mida màxima és de %{count} Bytes)."
+        filter_does_not_exist: "filter does not exist."
         format: "no coincideix  amb el format esperat '%{expected}'."
         format_nested: "no coincideix  amb el format esperat '%{expected}' a la ruta '%{path}'."
         greater_than: "ha de ser més gran que %{count}."
@@ -855,7 +867,7 @@ ca:
     id: "Id"
     is_default: "Valor per defecte"
     is_for_all: "Per tots els projectes"
-    is_public: "Públic"
+    public: "Públic"
     #kept for backwards compatibility
     issue: "Paquet de treball"
     lastname: "Cognom"
@@ -865,7 +877,6 @@ ca:
     password: "Contrasenya"
     priority: "Prioritat"
     project: "Projecte"
-    public: "Públic"
     responsible: "Accountable"
     role: "Rol"
     roles: "Rol"
@@ -879,6 +890,7 @@ ca:
     updated_on: "Actualitzat el"
     uploader: "Puja"
     user: "Usuari"
+    value: "Value"
     version: "Versió"
     work_package: "Paquet de treball"
   backup:
@@ -1220,6 +1232,7 @@ ca:
   error_enterprise_token_invalid_domain: "The Enterprise Edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: 'Failed to delete this entry.'
   error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
+  error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Invalid selected value."
   error_journal_attribute_not_present: "Journal does not contain attribute %{attribute}."
   error_pdf_export_too_many_columns: "Too many columns selected for the PDF export. Please reduce the number of columns."
@@ -1329,7 +1342,9 @@ ca:
   menus:
     admin:
       mail_notification: "Avisos de correu electrònic"
-      incoming_outgoing: "Entrada i Sortida"
+      mails_and_notifications: "Emails and notification"
+      aggregation_and_retention: 'Aggregation and retention'
+      api_and_webhooks: "API and webhooks"
     quick_add:
       label: "Open quick add menu"
   my_account:
@@ -1623,6 +1638,10 @@ ca:
   label_member_plural: "Membres"
   lable_membership_added: 'Member added'
   lable_membership_updated: 'Member updated'
+  label_menu_badge:
+    pre_alpha: 'pre-alpha'
+    alpha: 'alpha'
+    beta: 'beta'
   label_menu_item_name: "Nom de l'element de menú"
   label_message: "Message"
   label_message_last: "Darrer missatge"
@@ -1728,7 +1747,6 @@ ca:
   label_public_projects: "Projectes públics"
   label_query_new: "Nova consulta"
   label_query_plural: "Consultes personalitzades"
-  label_query_menu_item: "Element de menú de consulta"
   label_read: "Llegir..."
   label_register: "Crea un nou compte"
   label_register_with_developer: "Registrar com a desenvolupador"
@@ -1826,7 +1844,7 @@ ca:
   label_used_by_types: "Used by types"
   label_used_in_projects: "Used in projects"
   label_user: "Usuari"
-  label_user_and_permission: "Users & Permissions"
+  label_user_and_permission: "Users and permissions"
   label_user_named: "User %{name}"
   label_user_activity: "Activitat de %{value}"
   label_user_anonymous: "Anònim"
@@ -1976,7 +1994,7 @@ ca:
   mail_body_backup_waiting_period: The new token will be enabled in %{hours} hours.
   mail_body_backup_token_warning: If this wasn't you, login to OpenProject immediately and reset it again.
   mail_body_lost_password: "Per a canviar la contrasenya, feu clic en l'enllaç següent:"
-  mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
+  mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "Project member invitation email"
   mail_body_register_user: "Dear %{name}, "
   mail_body_register_links_html: |
@@ -2119,7 +2137,7 @@ ca:
     heading_getting_started: "Get an overview"
     text_getting_started_description: "Get a quick overview of project management and team collaboration with OpenProject."
     text_show_again: "Pot reprendre aquest vídeo des del menú d'ajuda"
-    welcome: "Welcome to OpenProject"
+    welcome: "Welcome to %{app_title}"
     select_language: "Please select your language"
   permission_add_work_package_notes: "Afegir notes"
   permission_add_work_packages: "Afegir paquets de treball"
@@ -2135,6 +2153,7 @@ ca:
   permission_comment_news: "Comentar noticies"
   permission_commit_access: "Accés de lectura/escriptura al repositori (commit)"
   permission_copy_projects: "Copiar projectes"
+  permission_create_backup: "Create backup"
   permission_delete_work_package_watchers: "Suprimir observadors"
   permission_delete_work_packages: "Eliminar paquets de treball"
   permission_delete_messages: "Esborrar missatges"
@@ -2177,7 +2196,6 @@ ca:
   permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Selecciona els mòduls del projecte"
   permission_manage_types: "Seleccioneu tipus"
-  permission_view_calendar: "Visualitzar calendari"
   permission_view_changesets: "Veure les revisions del repositori a OpenProject"
   permission_view_commit_author_statistics: "Veure les estadístiques de commits de l'autor"
   permission_view_work_package_watchers: "Veure la llista d'observadors"
@@ -2189,6 +2207,8 @@ ca:
   permission_view_timelines: "Veure els terminis"
   permission_view_wiki_edits: "Visualitza l'historial de la wiki"
   permission_view_wiki_pages: "Visualitzar la wiki"
+  permission_work_package_assigned: "Become assignee/responsible"
+  permission_work_package_assigned_explanation: "Els paquets de treball es poden assignar als usuaris i als grups que tinguin aquest rol en el seu respectiu projecte"
   placeholders:
     default: "-"
   project:
@@ -2213,7 +2233,6 @@ ca:
       archived: "Archived"
   project_module_activity: "Activitat"
   project_module_forums: "Fòrums"
-  project_module_calendar: "Calendari"
   project_module_work_package_tracking: "Paquet de treball de seguiment"
   project_module_news: "Notícies"
   project_module_repository: "Repositori"
@@ -2227,7 +2246,7 @@ ca:
     assigned_to_role: "Rol de l'assignat"
     member_of_group: "Grup de l'assignat"
     assignee_or_group: "Assignee or belonging group"
-    subproject_id: "Including Subproject"
+    subproject_id: "Including subproject"
     only_subproject_id: "Only subproject"
     name_or_identifier: "Name or identifier"
   repositories:
@@ -2549,7 +2568,6 @@ ca:
   text_work_packages_destroy_confirmation: "¿Està segur que desitja eliminar el(s) paquet(s) de treball seleccionat(s)?"
   text_work_packages_ref_in_commit_messages: "Referència i arregla els paquets de treball en els missatges dels commits"
   text_journal_added: "S'ha afegit %{label} %{value}"
-  text_journal_aggregation_time_explanation: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent."
   text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
   text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "S'ha actualitzat %{label}"
@@ -2840,7 +2858,6 @@ ca:
   wiki_menu_item_new_main_item_explanation: >
     Esteu Suprimint l'únic l'element de menú principal wiki. Ara cal triar una pàgina wiki per a la qual es generarà un nou element principal. Per suprimir la wiki, els administradors del projecte poden desactivar el mòdul wiki.
   wiki_menu_item_delete_not_permitted: No es pot suprimir l'element de menú de wiki de la única pàgina wiki.
-  query_menu_item_for: "Element de menú per a la consulta \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
@@ -2865,6 +2882,7 @@ ca:
         work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:
         date: "AAAA-MM-DD ( només dates ISO 8601)"
+        datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm] (any compatible ISO 8601 datetime)"
         duration: "durada ISO 8601"
       invalid_content_type: "El TIPUS-DE-CONTINGUT esperat és '%{content_type}' però s'ha trobat \"%{actual}\"."
       invalid_format: "Format no vàlid per a la propietat '%{property}': el format esperat és com \"%{expected_format}\", però s'ha trobat \"%{actual}\"."
@@ -2876,6 +2894,7 @@ ca:
         select: "The requested select of %{invalid} is not supported. Supported selects are %{supported}."
       invalid_user_status_transition: "L'estat de compte de l'usuari actual no permet aquesta operació."
       missing_content_type: "no especificat"
+      missing_property: "Missing property '%{property}'."
       missing_request_body: "Hi havia cos a la petició."
       missing_or_malformed_parameter: "The query parameter '%{parameter}' is missing or malformed."
       multipart_body_error: "El cos de la sol·licitud no conté les parts de multiparts que s'esperava."
@@ -2899,6 +2918,7 @@ ca:
       schema: 'Esquema'
     undisclosed:
       parent: Undisclosed - The selected parent is invisible because of lacking permissions.
+      ancestor: Undisclosed - The ancestor is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 'Pre-authorization'

@@ -27,6 +27,7 @@
 
 import { ComponentType } from '@angular/cdk/portal';
 import { ApplicationRef } from '@angular/core';
+import { debugLog } from 'core-app/shared/helpers/debug_output';
 
 /**
  * Optional bootstrap definition to allow selecting all matching
@@ -113,7 +114,15 @@ export class DynamicBootstrapper {
 
         const elements = root.querySelectorAll(el.selector);
         for (let i = 0; i < elements.length; i++) {
-          appRef.bootstrap(el.cls, elements[i]);
+          const target = elements[i];
+
+          if (!embedded && target.closest('[op-dynamic-bootstrap]')) {
+            debugLog(`Skipping nested bootstrap ${el.selector} in %O`, target);
+            return;
+          }
+
+          appRef.bootstrap(el.cls, target);
+          target.setAttribute('op-dynamic-bootstrap', 'true');
         }
       });
   }

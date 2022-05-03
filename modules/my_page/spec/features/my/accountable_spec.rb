@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,42 +31,42 @@ require 'spec_helper'
 require_relative '../../support/pages/my/page'
 
 describe 'Accountable widget on my page', type: :feature, js: true do
-  let!(:type) { FactoryBot.create :type }
-  let!(:priority) { FactoryBot.create :default_priority }
-  let!(:project) { FactoryBot.create :project, types: [type] }
-  let!(:other_project) { FactoryBot.create :project, types: [type] }
-  let!(:open_status) { FactoryBot.create :default_status }
+  let!(:type) { create :type }
+  let!(:priority) { create :default_priority }
+  let!(:project) { create :project, types: [type] }
+  let!(:other_project) { create :project, types: [type] }
+  let!(:open_status) { create :default_status }
   let!(:accountable_work_package) do
-    FactoryBot.create :work_package,
-                      project: project,
-                      type: type,
-                      author: user,
-                      responsible: user
+    create :work_package,
+           project: project,
+           type: type,
+           author: user,
+           responsible: user
   end
   let!(:accountable_by_other_work_package) do
-    FactoryBot.create :work_package,
-                      project: project,
-                      type: type,
-                      author: user,
-                      responsible: other_user
+    create :work_package,
+           project: project,
+           type: type,
+           author: user,
+           responsible: other_user
   end
   let!(:accountable_but_invisible_work_package) do
-    FactoryBot.create :work_package,
-                      project: other_project,
-                      type: type,
-                      author: user,
-                      responsible: user
+    create :work_package,
+           project: other_project,
+           type: type,
+           author: user,
+           responsible: user
   end
   let(:other_user) do
-    FactoryBot.create(:user)
+    create(:user)
   end
 
-  let(:role) { FactoryBot.create(:role, permissions: %i[view_work_packages add_work_packages save_queries]) }
+  let(:role) { create(:role, permissions: %i[view_work_packages add_work_packages save_queries]) }
 
   let(:user) do
-    FactoryBot.create(:user,
-                      member_in_project: project,
-                      member_through_role: role)
+    create(:user,
+           member_in_project: project,
+           member_through_role: role)
   end
   let(:my_page) do
     Pages::My::Page.new
@@ -79,6 +79,12 @@ describe 'Accountable widget on my page', type: :feature, js: true do
   end
 
   it 'can add the widget and see the work packages the user is accountable for' do
+    # Added to ensure the page has finished loading.
+    # The page starts with a "wp created widget".
+    created_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(2)')
+    expect(created_area.area)
+      .to have_selector('.subject', text: accountable_work_package.subject)
+
     # Add widget below existing widgets
     my_page.add_widget(2, 2, :row, "Work packages I am accountable for")
 

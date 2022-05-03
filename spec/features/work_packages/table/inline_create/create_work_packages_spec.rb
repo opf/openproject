@@ -1,28 +1,28 @@
 require 'spec_helper'
 
 describe 'inline create work package', js: true do
-  let(:type) { FactoryBot.create(:type) }
+  let(:type) { create(:type) }
   let(:types) { [type] }
 
   let(:permissions) { %i(view_work_packages add_work_packages edit_work_packages) }
-  let(:role) { FactoryBot.create :role, permissions: permissions }
+  let(:role) { create :role, permissions: permissions }
   let(:user) do
-    FactoryBot.create :user,
-                      member_in_project: project,
-                      member_through_role: role
+    create :user,
+           member_in_project: project,
+           member_through_role: role
   end
-  let(:status) { FactoryBot.create(:default_status) }
+  let(:status) { create(:default_status) }
   let(:workflow) do
-    FactoryBot.create :workflow,
-                      type_id: type.id,
-                      old_status: status,
-                      new_status: FactoryBot.create(:status),
-                      role: role
+    create :workflow,
+           type_id: type.id,
+           old_status: status,
+           new_status: create(:status),
+           role: role
   end
 
-  let!(:project) { FactoryBot.create(:project, public: true, types: types) }
-  let!(:existing_wp) { FactoryBot.create(:work_package, project: project) }
-  let!(:priority) { FactoryBot.create :priority, is_default: true }
+  let!(:project) { create(:project, public: true, types: types) }
+  let!(:existing_wp) { create(:work_package, project: project) }
+  let!(:priority) { create :priority, is_default: true }
   let(:filters) { ::Components::WorkPackages::Filters.new }
 
   before do
@@ -55,7 +55,7 @@ describe 'inline create work package', js: true do
 
         # Expect new create row to exist
         expect(page).to have_selector('.wp--row', count: 2)
-        expect(page).to have_selector('.wp-inline-create--add-link')
+        expect(page).to have_button(exact_text: 'Create new work package')
 
         wp_table.click_inline_create
 
@@ -70,7 +70,7 @@ describe 'inline create work package', js: true do
         expect(page).to have_selector('.wp--row .subject', text: 'Some subject')
         expect(page).to have_selector('.wp--row .subject', text: 'Another subject')
 
-        # safegurards
+        # safeguards
         wp_table.dismiss_toaster!
         wp_table.expect_no_toaster(
           message: 'Successful update. Click here to open this work package in fullscreen view.'
@@ -86,18 +86,18 @@ describe 'inline create work package', js: true do
 
       it 'renders the work package, but no create row' do
         wp_table.expect_work_package_listed(existing_wp)
-        expect(page).to have_no_selector('.wp-inline-create--add-link')
+        expect(page).not_to have_button(exact_text: 'Create new work package')
       end
     end
 
     context 'when having filtered by custom field and switching to that type' do
       let(:cf_list) do
-        FactoryBot.create(:list_wp_custom_field, is_for_all: true, is_filter: true)
+        create(:list_wp_custom_field, is_for_all: true, is_filter: true)
       end
       let(:cf_accessor_frontend) { "customField#{cf_list.id}" }
       let(:types) { [type, cf_type] }
-      let(:type) { FactoryBot.create(:type_standard) }
-      let(:cf_type) { FactoryBot.create(:type, custom_fields: [cf_list]) }
+      let(:type) { create(:type_standard) }
+      let(:cf_type) { create(:type, custom_fields: [cf_list]) }
       let(:columns) { ::Components::WorkPackages::Columns.new }
 
       it 'applies the filter value for the custom field' do
@@ -159,6 +159,8 @@ describe 'inline create work package', js: true do
           project_field.openSelectField
           project_field.set_value project.name
 
+          sleep 1
+
           # Set type
           type_field = wp_table.edit_field(nil, :type)
           type_field.expect_active!
@@ -183,25 +185,25 @@ describe 'inline create work package', js: true do
       end
     end
 
-    context 'user has permissions in other project' do
+    context 'when user has permissions in other project' do
       let(:permissions) { [:view_work_packages] }
 
-      let(:project2) { FactoryBot.create :project }
+      let(:project2) { create :project }
       let(:role2) do
-        FactoryBot.create :role,
-                          permissions: %i[view_work_packages
-                                          add_work_packages]
+        create :role,
+               permissions: %i[view_work_packages
+                               add_work_packages]
       end
       let!(:membership) do
-        FactoryBot.create :member,
-                          user: user,
-                          project: project2,
-                          roles: [role2]
+        create :member,
+               user: user,
+               project: project2,
+               roles: [role2]
       end
 
       it 'renders the work packages, but no create' do
         wp_table.expect_work_package_listed(existing_wp)
-        expect(page).to have_no_selector('.wp-inline-create--add-link')
+        expect(page).not_to have_button(exact_text: 'Create new work package')
         expect(page).to have_selector('.add-work-package[disabled]')
       end
     end

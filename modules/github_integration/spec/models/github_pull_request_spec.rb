@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -66,7 +66,7 @@ describe GithubPullRequest do
   describe '.without_work_package' do
     subject { described_class.without_work_package }
 
-    let(:pull_request) { FactoryBot.create(:github_pull_request, work_packages: work_packages) }
+    let(:pull_request) { create(:github_pull_request, work_packages: work_packages) }
     let(:work_packages) { [] }
 
     before { pull_request }
@@ -74,7 +74,7 @@ describe GithubPullRequest do
     it { is_expected.to match_array([pull_request]) }
 
     context 'when the pr is linked to a work_package' do
-      let(:work_packages) { FactoryBot.create_list(:work_package, 1) }
+      let(:work_packages) { create_list(:work_package, 1) }
 
       it { is_expected.to be_empty }
     end
@@ -84,9 +84,9 @@ describe GithubPullRequest do
     let(:github_id) { 5 }
     let(:github_url) { 'https://github.com/opf/openproject/pull/123' }
     let(:pull_request) do
-      FactoryBot.create(:github_pull_request,
-                        github_id: github_id,
-                        github_html_url: github_url)
+      create(:github_pull_request,
+             github_id: github_id,
+             github_html_url: github_url)
     end
 
     context 'when the github_id attribute matches' do
@@ -158,7 +158,7 @@ describe GithubPullRequest do
           .to be_new_record
       end
 
-      it 'has the privided attributes initialized' do
+      it 'has the provided attributes initialized' do
         expect(finder.attributes.compact)
           .to eql("github_id" => pull_request.github_id + 1,
                   "github_html_url" => "#{pull_request.github_html_url}zzzz")
@@ -169,35 +169,35 @@ describe GithubPullRequest do
   describe '#latest_check_runs' do
     subject { pull_request.reload.latest_check_runs }
 
-    let(:pull_request) { FactoryBot.create(:github_pull_request) }
+    let(:pull_request) { create(:github_pull_request) }
 
     it { is_expected.to be_empty }
 
     context 'when multiple check_runs from different apps with different names exist' do
       let(:latest_check_runs) do
         [
-          FactoryBot.create(
+          create(
             :github_check_run,
             app_id: 123,
             name: 'test',
             started_at: 1.minute.ago,
             github_pull_request: pull_request
           ),
-          FactoryBot.create(
+          create(
             :github_check_run,
             app_id: 123,
             name: 'lint',
             started_at: 1.minute.ago,
             github_pull_request: pull_request
           ),
-          FactoryBot.create(
+          create(
             :github_check_run,
             app_id: 456,
             name: 'test',
             started_at: 1.minute.ago,
             github_pull_request: pull_request
           ),
-          FactoryBot.create(
+          create(
             :github_check_run,
             app_id: 789,
             name: 'test',
@@ -208,21 +208,21 @@ describe GithubPullRequest do
       end
       let(:outdated_check_runs) do
         [
-          FactoryBot.create(
+          create(
             :github_check_run,
             app_id: 123,
             name: 'test',
             started_at: 2.minutes.ago,
             github_pull_request: pull_request
           ),
-          FactoryBot.create(
+          create(
             :github_check_run,
             app_id: 123,
             name: 'test',
             started_at: 3.minutes.ago,
             github_pull_request: pull_request
           ),
-          FactoryBot.create(
+          create(
             :github_check_run,
             app_id: 123,
             name: 'lint',

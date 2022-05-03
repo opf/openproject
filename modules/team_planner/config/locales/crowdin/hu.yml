@@ -1,0 +1,13 @@
+#English strings go here
+hu:
+  permission_view_team_planner: "Csoport tervező megtekintése"
+  permission_manage_team_planner: "Csoport tervező kezelése"
+  project_module_team_planner_view: "Csoport tervező"
+  team_planner:
+    label_team_planner: "Csoport tervező"
+    label_create_new_team_planner: "Új csoport tervező létrehozása"
+    label_team_planner_plural: "Csoport tervezők"
+    label_assignees: "Megbízottak"
+    upsale:
+      title: "Csoport tervező"
+      description: "A csoport tervező teljes képet nyújt arról, hogy az egyes csapattagok heti bontásban min dolgoznak.\nVizuálisan mozgassa, nyújtsa vagy zsugorítsa a munkacsomagokat, vagy éppen húzza át azokat egy megbízottról egy másikra. A csoport tervezőben új munkacsomagok létrehozása vagy meglévők hozzáadása is lehetséges."

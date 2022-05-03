@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,11 +30,11 @@ require 'spec_helper'
 
 describe Principals::Scopes::OrderedByName, type: :model do
   describe '.ordered_by_name' do
-    shared_let(:alice) { FactoryBot.create(:user, login: 'alice', firstname: 'Alice', lastname: 'Zetop') }
-    shared_let(:eve) { FactoryBot.create(:user, login: 'eve', firstname: 'Eve', lastname: 'Baddie') }
+    shared_let(:alice) { create(:user, login: 'alice', firstname: 'Alice', lastname: 'Zetop') }
+    shared_let(:eve) { create(:user, login: 'eve', firstname: 'Eve', lastname: 'Baddie') }
 
-    shared_let(:group) { FactoryBot.create(:group, name: 'Core Team') }
-    shared_let(:placeholder_user) { FactoryBot.create(:placeholder_user, name: 'Developers') }
+    shared_let(:group) { create(:group, name: 'Core Team') }
+    shared_let(:placeholder_user) { create(:placeholder_user, name: 'Developers') }
 
     subject { Principal.ordered_by_name(desc: descending).pluck(:id) }
 
@@ -63,6 +61,12 @@ describe Principals::Scopes::OrderedByName, type: :model do
     end
 
     context 'with lastname_firstname user sort', with_settings: { user_format: :lastname_firstname } do
+      it_behaves_like 'sorted results' do
+        let(:order) { [eve.id, group.id, placeholder_user.id, alice.id] }
+      end
+    end
+
+    context 'with lastname_n_firstname user sort', with_settings: { user_format: :lastname_n_firstname } do
       it_behaves_like 'sorted results' do
         let(:order) { [eve.id, group.id, placeholder_user.id, alice.id] }
       end

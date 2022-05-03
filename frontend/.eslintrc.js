@@ -42,11 +42,11 @@ module.exports = {
          */
         "@angular-eslint/directive-selector": [
           "error",
-          { "type": "attribute", "prefix": "op", "style": "camelCase" }
+          { "type": "attribute", "prefix": ["op", "spot"], "style": "camelCase" }
         ],
         "@angular-eslint/component-selector": [
           "error",
-          { "type": "element", "prefix": "op", "style": "kebab-case" }
+          { "type": "element", "prefix": ["op", "spot"], "style": "kebab-case" }
         ],
 
         // Warn when new components are being created without OnPush
@@ -61,6 +61,9 @@ module.exports = {
             ],
           },
         ],
+
+        // Sometimes we need to shush the TypeScript compiler
+        "no-unused-vars": ["error", { "varsIgnorePattern": "^_" }],
 
         // Who cares about line length
         "max-len": "off",
@@ -116,12 +119,13 @@ module.exports = {
               "_links",
               "_embedded",
               "_meta",
+              "_type",
             ],
-            allowAfterThis: false,
+            allowAfterThis: true,
             allowAfterSuper: false,
             allowAfterThisConstructor: false,
             enforceInMethodNames: true,
-            allowFunctionParams: false,
+            allowFunctionParams: true,
           }
         ],
 
@@ -144,6 +148,7 @@ module.exports = {
          * Any template/HTML related rules you wish to use/reconfigure over and above the
          * recommended set provided by the @angular-eslint project would go here.
          */
+        "@angular-eslint/template/no-call-expression": 2,
       }
     },
     {
@@ -154,6 +159,13 @@ module.exports = {
          * Any template/HTML related rules you wish to use/reconfigure over and above the
          * recommended set provided by the @angular-eslint project would go here.
          */
+
+        // jasmine is unusable with unsafe member access, as expect(...) is always any
+        "@typescript-eslint/no-unsafe-member-access": "off",
+        "@typescript-eslint/no-unsafe-call": "off",
+
+        // Allow more than one class definitions per file (test components)
+        "max-classes-per-file": "off",
       }
     }
   ],

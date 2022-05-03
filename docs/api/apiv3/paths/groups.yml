@@ -18,6 +18,14 @@ get:
     schema:
       default: '[["id", "asc"]]'
       type: string
+  - description: |-
+      Comma separated list of properties to include.
+    example: 'total,elements/name,elements/self,self'
+    in: query
+    name: select
+    required: false
+    schema:
+      type: string
   responses:
     '200':
       content:
@@ -74,6 +82,8 @@ get:
     '403':
       content:
         application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
           examples:
             response:
               value:
@@ -105,6 +115,8 @@ post:
     '400':
       content:
         application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
           examples:
             response:
               value:
@@ -117,6 +129,8 @@ post:
     '403':
       content:
         application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
           examples:
             response:
               value:
@@ -131,6 +145,8 @@ post:
     '422':
       content:
         application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
           examples:
             response:
               value:
@@ -163,7 +179,7 @@ post:
             _links:
               properties:
                 members:
-                  type: arrray
+                  type: array
                   items:
                     type: object
                     properties:

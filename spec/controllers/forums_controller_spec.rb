@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,9 +29,9 @@
 require 'spec_helper'
 
 describe ForumsController, type: :controller do
-  shared_let(:user) { FactoryBot.create(:user) }
-  let(:project) { FactoryBot.create(:project) }
-  let!(:forum) { FactoryBot.create(:forum, project: project) }
+  shared_let(:user) { create(:user) }
+  let(:project) { create(:project) }
+  let!(:forum) { create(:forum, project: project) }
 
   before do
     disable_flash_sweep
@@ -39,8 +39,8 @@ describe ForumsController, type: :controller do
 
   describe '#index' do
     context 'public project' do
-      let(:project) { FactoryBot.create(:public_project) }
-      let!(:role) { FactoryBot.create(:non_member) }
+      let(:project) { create(:public_project) }
+      let!(:role) { create(:non_member) }
 
       it 'renders the index template' do
         as_logged_in_user(user) do
@@ -158,16 +158,16 @@ describe ForumsController, type: :controller do
   end
 
   describe '#move' do
-    let(:project) { FactoryBot.create(:project) }
+    let(:project) { create(:project) }
     let!(:forum_1) do
-      FactoryBot.create(:forum,
-                        project: project,
-                        position: 1)
+      create(:forum,
+             project: project,
+             position: 1)
     end
     let!(:forum_2) do
-      FactoryBot.create(:forum,
-                        project: project,
-                        position: 2)
+      create(:forum,
+             project: project,
+             position: 2)
     end
 
     before do
@@ -198,7 +198,7 @@ describe ForumsController, type: :controller do
 
   describe '#update' do
     let!(:forum) do
-      FactoryBot.create(:forum, name: 'Forum name',
+      create(:forum, name: 'Forum name',
                                 description: 'Forum description')
     end
 
@@ -254,10 +254,10 @@ describe ForumsController, type: :controller do
   end
 
   describe '#sticky' do
-    let!(:message1) { FactoryBot.create(:message, forum: forum) }
-    let!(:message2) { FactoryBot.create(:message, forum: forum) }
+    let!(:message1) { create(:message, forum: forum) }
+    let!(:message2) { create(:message, forum: forum) }
     let!(:sticked_message1) do
-      FactoryBot.create(:message, forum_id: forum.id,
+      create(:message, forum_id: forum.id,
                                   subject: 'How to',
                                   content: 'How to install this cool app',
                                   sticky: '1',
@@ -265,7 +265,7 @@ describe ForumsController, type: :controller do
     end
 
     let!(:sticked_message2) do
-      FactoryBot.create(:message, forum_id: forum.id,
+      create(:message, forum_id: forum.id,
                                   subject: 'FAQ',
                                   content: 'Frequestly asked question',
                                   sticky: '1',

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,14 +29,14 @@
 require 'spec_helper'
 
 describe 'robots.txt', type: :feature do
-  let!(:project) { FactoryBot.create(:public_project) }
+  let!(:project) { create(:public_project) }
 
   before do
     visit '/robots.txt'
   end
 
   it 'disallows global paths and paths from public project' do
-    expect(page).to have_content('Disallow: /work_packages/calendar')
+    expect(page).to have_content('Disallow: /calendar')
     expect(page).to have_content('Disallow: /activity')
 
     expect(page).to have_content("Disallow: /projects/#{project.identifier}/repository")

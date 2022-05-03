@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,20 +33,20 @@ describe ::API::V3::Notifications::NotificationRepresenter, 'rendering' do
 
   subject(:generated) { representer.to_json }
 
-  shared_let(:project) { FactoryBot.create :project }
-  shared_let(:resource) { FactoryBot.create :work_package, project: project }
+  shared_let(:project) { create :project }
+  shared_let(:resource) { create :work_package, project: project }
 
-  let(:recipient) { FactoryBot.build_stubbed(:user) }
+  let(:recipient) { build_stubbed(:user) }
   let(:journal) { nil }
   let(:actor) { nil }
   let(:notification) do
-    FactoryBot.build_stubbed :notification,
-                             recipient: recipient,
-                             project: project,
-                             resource: resource,
-                             journal: journal,
-                             actor: actor,
-                             read_ian: read_ian
+    build_stubbed :notification,
+                  recipient: recipient,
+                  project: project,
+                  resource: resource,
+                  journal: journal,
+                  actor: actor,
+                  read_ian: read_ian
   end
   let(:representer) do
     described_class.create notification,
@@ -58,10 +58,9 @@ describe ::API::V3::Notifications::NotificationRepresenter, 'rendering' do
   let(:read_ian) { false }
 
   describe 'self link' do
-    it_behaves_like 'has a titled link' do
+    it_behaves_like 'has an untitled link' do
       let(:link) { 'self' }
       let(:href) { api_v3_paths.notification notification.id }
-      let(:title) { notification.subject }
     end
   end
 
@@ -100,10 +99,6 @@ describe ::API::V3::Notifications::NotificationRepresenter, 'rendering' do
 
     it_behaves_like 'property', :id do
       let(:value) { notification.id }
-    end
-
-    it_behaves_like 'property', :subject do
-      let(:value) { notification.subject }
     end
 
     it_behaves_like 'property', :reason do
@@ -167,7 +162,7 @@ describe ::API::V3::Notifications::NotificationRepresenter, 'rendering' do
     end
 
     context 'when set' do
-      let(:actor) { FactoryBot.create :user }
+      let(:actor) { create :user }
 
       it_behaves_like 'has a titled link' do
         let(:link) { 'actor' }

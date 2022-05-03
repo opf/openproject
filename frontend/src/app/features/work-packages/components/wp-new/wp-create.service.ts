@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -42,7 +42,7 @@ import { FormResource } from 'core-app/features/hal/resources/form-resource';
 import { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
 import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { HalResource, HalSource, HalSourceLink } from 'core-app/features/hal/resources/hal-resource';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
@@ -60,7 +60,7 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
 
   constructor(protected injector:Injector,
     protected hooks:HookService,
-    protected apiV3Service:APIV3Service,
+    protected apiV3Service:ApiV3Service,
     protected halResourceService:HalResourceService,
     protected querySpace:IsolatedQuerySpace,
     protected authorisationService:AuthorisationService,
@@ -270,7 +270,7 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
     const query = this.querySpace.query.value;
 
     if (query) {
-      const except:string[] = defaults?._links && defaults._links.type ? ['type'] : [];
+      const except:string[] = defaults?._links ? Object.keys(defaults._links) : [];
 
       new WorkPackageFilterValues(this.injector, query.filters, except)
         .applyDefaultsFromFilters(object);

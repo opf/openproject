@@ -8,6 +8,7 @@ value:
     raw: Lorem **ipsum** dolor sit amet
   customField123: 123
   _links:
+    parent:
+      href: "/api/v3/projects/123"
     customField456:
       href: "/api/v3/users/315"
-      method: A user

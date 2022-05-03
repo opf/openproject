@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -73,6 +73,15 @@ el:
       start_trial: 'Έναρξη δωρεάν δοκιμαστικής περιόδου'
       book_now: 'Κάντε κράτηση τώρα'
       get_quote: 'Λάβετε μια προσφορά'
+      buttons:
+        upgrade: "Upgrade now"
+        contact: "Contact us for a demo"
+      enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
+      upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
+    journal_aggregation:
+      explanation:
+        text: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent and will also affect %{webhook_link} delay."
+        link: "webhook"
   announcements:
     show_until: Εμφάνιση μέχρι
     is_active: εμφανίζεται αυτή τη στιγμή
@@ -157,7 +166,7 @@ el:
     edit: 'Επεξεργασία της προσαρμοσμένης ενέργειας %{name}'
     execute: 'Εκτέλεση %{name}'
     upsale:
-      title: 'Οι προσαρμοσμένες ενέργειες είναι μια λειτουργία της Έκδοσης για Επιχειρήσεις'
+      title: 'Custom actions'
       description: 'Οι προσαρμοσμένες ενέργειες εξομαλύνουν την καθημερινή εργασία συνδυάζοντας ένα σύνολο μεμονωμένων βημάτων σε ένα κουμπί.'
   custom_fields:
     text_add_new_custom_field: >
@@ -256,7 +265,7 @@ el:
       irreversible: "Αυτή η ενέργεια είναι μη αναστρέψιμη"
       confirmation: "Enter the placeholder user name %{name} to confirm the deletion."
     upsale:
-      title: Ανάθεση εργασίας σε άτομα που δεν είναι μέλη του έργου.
+      title: Placeholder users
       description: >
         There are multiple scenarios where you want to assign work to people that are not member of your project. It could simply be that you still need to hire the correct person for the job. Or you just don't want to give that person access to the project's information but still want track tasks assigned to that person.
   prioritiies:
@@ -446,9 +455,12 @@ el:
         code: 'Κατάσταση'
         explanation: 'Περιγραφή κατάστασης'
         codes:
+          not_started: 'Not started'
           on_track: 'Eντός πορείας'
           at_risk: 'Σε κίνδυνο'
           off_track: 'Eκτός πορείας'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
       query:
         column_names: "Στήλες"
         relations_to_type_column: "Συσχετίσεις με %{type}"
@@ -459,7 +471,6 @@ el:
       repository:
         url: "URL"
       role:
-        assignable: "Τα πακέτα εργασίας μπορούν να ανατεθούν σε χρήστες και ομάδες που έχουν αυτό το ρόλο στο αντίστοιχο έργο"
         permissions: "Δικαιώματα"
       time_entry:
         activity: "Δραστηριότητα"
@@ -550,6 +561,7 @@ el:
         even: "πρέπει να είναι άρτιος."
         exclusion: "είναι δεσμευμένο."
         file_too_large: "είναι πολύ μεγάλο (το μέγιστο μέγεθος είναι %{count} Bytes)."
+        filter_does_not_exist: "filter does not exist."
         format: "does not match the expected format '%{expected}'."
         format_nested: "does not match the expected format '%{expected}' at path '%{path}'."
         greater_than: "πρέπει να είναι μεγαλύτερο από %{count}."
@@ -854,7 +866,7 @@ el:
     id: "Ταυτότητα"
     is_default: "Προεπιλεγμένη τιμή"
     is_for_all: "Για όλα τα έργα"
-    is_public: "Δημόσιο"
+    public: "Δημόσιο"
     #kept for backwards compatibility
     issue: "Εργασία"
     lastname: "Επώνυμο"
@@ -864,7 +876,6 @@ el:
     password: "Κωδικός"
     priority: "Προτεραιότητα"
     project: "Έργο"
-    public: "Δημόσιο"
     responsible: "Υπόλογος"
     role: "Ρόλος"
     roles: "Ρόλοι"
@@ -878,6 +889,7 @@ el:
     updated_on: "Τροποποιήθηκε"
     uploader: "Μεταφορτώθηκε από"
     user: "Χρήστης"
+    value: "Value"
     version: "Έκδοση"
     work_package: "Εργασία"
   backup:
@@ -1219,6 +1231,7 @@ el:
   error_enterprise_token_invalid_domain: "Η έκδοση Enterprise δεν είναι ενεργή. Ο τομέας του διακριτικού Enterprise (%{actual}) δεν ταιριάζει με το όνομα κεντρικού υπολογιστή του συστήματος (%{expected})."
   error_failed_to_delete_entry: 'Αποτυχία διαγραφής αυτής της καταχώρησης.'
   error_in_dependent: "Παρουσιάστηκε σφάλμα στην προσπάθεια αλλαγής του εξαρτώμενου αντικειμένου: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
+  error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Η επιλεγμένη τιμή δεν είναι έγκυρη."
   error_journal_attribute_not_present: "Το ημερολόγιο δεν περιέχει το χαρακτηριστικό %{attribute}."
   error_pdf_export_too_many_columns: "Επιλέχθηκαν πάρα πολλές στήλες για εξαγωγή σε PDF. Παρακαλούμε μειώστε τον αριθμό των στηλών."
@@ -1328,7 +1341,9 @@ el:
   menus:
     admin:
       mail_notification: "Ειδοποιήσεις email"
-      incoming_outgoing: "Incoming & Outgoing"
+      mails_and_notifications: "Emails and notification"
+      aggregation_and_retention: 'Aggregation and retention'
+      api_and_webhooks: "API and webhooks"
     quick_add:
       label: "Άνοιγμα μενού γρήγορης προσθήκης"
   my_account:
@@ -1622,6 +1637,10 @@ el:
   label_member_plural: "Μέλη"
   lable_membership_added: 'Το μέλος προστέθηκε'
   lable_membership_updated: 'Το μέλος ενημερώθηκε'
+  label_menu_badge:
+    pre_alpha: 'pre-alpha'
+    alpha: 'alpha'
+    beta: 'beta'
   label_menu_item_name: "Όνομα στοιχείου μενού"
   label_message: "Μήνυμα"
   label_message_last: "Τελευταίο μήνυμα"
@@ -1727,7 +1746,6 @@ el:
   label_public_projects: "Δημόσια έργα"
   label_query_new: "Νέα αναζήτηση"
   label_query_plural: "Προσαρμοσμένες αναζητήσεις"
-  label_query_menu_item: "Αντικείμενο μενού αναζήτησης"
   label_read: "Ανάγνωση..."
   label_register: "Δημιουργία νέου λογαριασμού"
   label_register_with_developer: "Εγγεγραμμένος ως προγραμματιστής"
@@ -1825,7 +1843,7 @@ el:
   label_used_by_types: "Χρησιμοποιείται από τύπους"
   label_used_in_projects: "Χρησιμοποιείται σε έργα"
   label_user: "Χρήστης"
-  label_user_and_permission: "Χρήστες & Δικαιώματα"
+  label_user_and_permission: "Users and permissions"
   label_user_named: "Χρήστης %{name}"
   label_user_activity: "δραστηριότητα του %{value}"
   label_user_anonymous: "Ανώνυμος"
@@ -1975,7 +1993,7 @@ el:
   mail_body_backup_waiting_period: The new token will be enabled in %{hours} hours.
   mail_body_backup_token_warning: If this wasn't you, login to OpenProject immediately and reset it again.
   mail_body_lost_password: "Για να αλλάξετε τον κωδικό πρόσβασης, πατήστε τον ακόλουθο σύνδεσμο:"
-  mail_body_register: "Καλώς ήρθατε στο OpenProject. Παρακαλώ ενεργοποιήστε το λογαριασμό σας κάνοντας κλικ σε αυτόν τον σύνδεσμο:"
+  mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "Email πρόσκλησης μέλους του έργου"
   mail_body_register_user: "Αγαπητέ/ή %{name},"
   mail_body_register_links_html: |
@@ -2117,7 +2135,7 @@ el:
     heading_getting_started: "Λάβετε μια επισκόπηση"
     text_getting_started_description: "Λάβετε μια γρήγορη επισκόπηση της διαχείρισης έργων και της ομαδικής συνεργασίας με το OpenProject."
     text_show_again: "Μπορείτε να επανεκκινήσετε αυτό το βίντεο από το μενού βοήθειας"
-    welcome: "Καλώς ορίσατε στο OpenProject"
+    welcome: "Welcome to %{app_title}"
     select_language: "Παρακαλούμε επιλέξτε την γλώσσα σας"
   permission_add_work_package_notes: "Προσθήκη σημειώσεων"
   permission_add_work_packages: "Προσθήκη πακέτων εργασίας"
@@ -2133,6 +2151,7 @@ el:
   permission_comment_news: "Σχολιασμός νέων"
   permission_commit_access: "Πρόσβαση ανάγνωσης/εγγραφής στο αποθετήριο (δέσμευση)"
   permission_copy_projects: "Αντιγραφή έργων"
+  permission_create_backup: "Create backup"
   permission_delete_work_package_watchers: "Διαγραφή παρατηρητών"
   permission_delete_work_packages: "Διαγραφή πακέτων εργασίας"
   permission_delete_messages: "Διαγραφή μηνυμάτων"
@@ -2175,7 +2194,6 @@ el:
   permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Επιλογή ενοτήτων έργου"
   permission_manage_types: "Επιλέξτε τύπους"
-  permission_view_calendar: "Προβολή ημερολογίου"
   permission_view_changesets: "Προβολή αποθετηρίου των αναθεωρήσεων στο OpenProject"
   permission_view_commit_author_statistics: "Εμφάνιση στατιστικών συγγραφέων δέσμευσης"
   permission_view_work_package_watchers: "Προβολή λίστας παρατηρητών"
@@ -2187,6 +2205,8 @@ el:
   permission_view_timelines: "Προβολή χρονοδιαγραμμάτων"
   permission_view_wiki_edits: "Προβολή ιστορικού wiki"
   permission_view_wiki_pages: "Προβολή wiki"
+  permission_work_package_assigned: "Become assignee/responsible"
+  permission_work_package_assigned_explanation: "Τα πακέτα εργασίας μπορούν να ανατεθούν σε χρήστες και ομάδες που έχουν αυτό το ρόλο στο αντίστοιχο έργο"
   placeholders:
     default: "-"
   project:
@@ -2211,7 +2231,6 @@ el:
       archived: "Αρχειοθετημένο"
   project_module_activity: "Δραστηριότητα"
   project_module_forums: "Φόρουμ"
-  project_module_calendar: "Ημερολόγιο"
   project_module_work_package_tracking: "Παρακολούθηση πακέτου εργασίας"
   project_module_news: "Νέα"
   project_module_repository: "Αποθετήριο"
@@ -2225,7 +2244,7 @@ el:
     assigned_to_role: "Ρόλος ανάθεσης"
     member_of_group: "Ομάδα ανάθεσης"
     assignee_or_group: "Ανάθεση σε ή ανήκει σε ομάδα"
-    subproject_id: "Συμπεριλαμβανομένου του Υποέργου"
+    subproject_id: "Including subproject"
     only_subproject_id: "Μόνο υποέργο"
     name_or_identifier: "Όνομα ή αναγνωριστικό"
   repositories:
@@ -2550,7 +2569,6 @@ el:
   text_work_packages_destroy_confirmation: "Είστε βέβαιοι ότι θέλετε να διαγράψετε το(-α) επιλεγμένο(-α) πακέτο(-α) εργασίας;"
   text_work_packages_ref_in_commit_messages: "Αναφορά και επιδιόρθωση πακέτων εργασίας σε μηνύματα δέσμευσης"
   text_journal_added: "%{label} %{value} προστέθηκε"
-  text_journal_aggregation_time_explanation: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent."
   text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
   text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "Το %{label} ενημερώθηκε"
@@ -2840,7 +2858,6 @@ el:
   wiki_menu_item_new_main_item_explanation: >
     Πρόκειται να διαγράψετε το μόνο κύριο αντικείμενο του μενού. Τώρα πρέπει να επιλέξετε μία σελίδα wiki για την οποία θα δημιουργηθεί ένα καινούργιο κύριο αντικείμενο. Για να διαγράψετε το wiki, πρέπει να απενεργοποιηθεί η ενότητα wiki από τους διαχειριστές έργου.
   wiki_menu_item_delete_not_permitted: Το αντικείμενο μενού wiki της μοναδικής σελίδας wiki δεν μπορεί να διαγραφεί.
-  query_menu_item_for: "Αντικείμενο μενού για την αναζήτηση \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
@@ -2865,6 +2882,7 @@ el:
         work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:
         date: "ΕΕΕΕ-ΜΜ-ΗΗ (ISO 8601 ημερομηνία μόνο)"
+        datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm] (any compatible ISO 8601 datetime)"
         duration: "ISO 8601 διάρκεια"
       invalid_content_type: "Αναμενόταν το CONTENT-TYPE να είναι '%{content_type}' αλλά δόθηκε '%{actual}'."
       invalid_format: "Μη έγκυρη μορφοποίηση για την ιδιότητα '%{property}': Αναμενόταν μορφοποίηση με τη μορφή '%{expected_format}', αλλά δόθηκε '%{actual}'."
@@ -2876,6 +2894,7 @@ el:
         select: "The requested select of %{invalid} is not supported. Supported selects are %{supported}."
       invalid_user_status_transition: "Η τρέχουσα κατάσταση λογαριασμού χρήστη δεν επιτρέπει αυτή τη λειτουργία."
       missing_content_type: "δεν έχει καθοριστεί"
+      missing_property: "Missing property '%{property}'."
       missing_request_body: "Δεν υπάρχει σώμα αιτήματος."
       missing_or_malformed_parameter: "Η παράμετρος αναζήτησης '%{parameter}' λείπει ή δεν δημιουργήθηκε σωστά."
       multipart_body_error: "Το σώμα αιτήματος δεν περιέχει τα αναμενόμενα multipart κομμάτια."
@@ -2899,6 +2918,7 @@ el:
       schema: 'Σχήμα'
     undisclosed:
       parent: Undisclosed - The selected parent is invisible because of lacking permissions.
+      ancestor: Undisclosed - The ancestor is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 'Πριν την εξουσιοδότηση'

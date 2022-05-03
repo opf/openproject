@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -35,7 +35,7 @@ import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packag
 import { WorkPackageRelationsHierarchyService } from 'core-app/features/work-packages/components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service';
 import { WorkPackageViewHierarchyIdentationService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy-indentation.service';
 import { WorkPackageViewDisplayRepresentationService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-display-representation.service';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { of } from 'rxjs';
 import SpyObj = jasmine.SpyObj;
 
@@ -52,7 +52,7 @@ describe('WorkPackageViewIndentation service', () => {
     }
   }
 
-  class Apiv3serviceStub {
+  class ApiV3serviceStub {
     work_packages = {
       id: (wpId:string) => ({
         get: () => of(states.workPackages.get(wpId).value),
@@ -74,7 +74,7 @@ describe('WorkPackageViewIndentation service', () => {
         States,
         IsolatedQuerySpace,
         { provide: WorkPackageViewDisplayRepresentationService, useValue: { isList: true } },
-        { provide: APIV3Service, useClass: Apiv3serviceStub },
+        { provide: ApiV3Service, useClass: ApiV3serviceStub },
         { provide: WorkPackageViewHierarchiesService, useClass: HierarchyServiceStub },
         { provide: WorkPackageRelationsHierarchyService, useValue: parentServiceSpy },
         WorkPackageViewHierarchyIdentationService,

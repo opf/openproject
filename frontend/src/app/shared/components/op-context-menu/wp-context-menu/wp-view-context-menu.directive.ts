@@ -21,6 +21,7 @@ import { TimeEntryCreateService } from 'core-app/shared/components/time_entries/
 import { splitViewRoute } from 'core-app/features/work-packages/routing/split-view-routes.helper';
 import { WpDestroyModalComponent } from 'core-app/shared/components/modals/wp-destroy-modal/wp-destroy.modal';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 
 export class WorkPackageViewContextMenu extends OpContextMenuHandler {
   @InjectField() protected states!:States;
@@ -36,6 +37,8 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
   @InjectField() protected WorkPackageContextMenuHelper!:WorkPackageContextMenuHelperService;
 
   @InjectField() protected timeEntryCreateService:TimeEntryCreateService;
+
+  @InjectField() protected pathHelper:PathHelperService;
 
   protected workPackage = this.states.workPackages.get(this.workPackageId).value!;
 
@@ -73,6 +76,7 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
 
   public triggerContextMenuAction(action:WorkPackageAction) {
     const { link } = action;
+    const id = this.workPackage.id as string;
 
     switch (action.key) {
       case 'delete':
@@ -85,6 +89,10 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
 
       case 'copy':
         this.copySelectedWorkPackages(link!);
+        break;
+
+      case 'copy_to_other_project':
+        window.location.href = `${this.pathHelper.staticBase}/work_packages/move/new?copy=true&ids[]=${id}`;
         break;
 
       case 'relation-new-child':

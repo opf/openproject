@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,17 +32,17 @@ describe Notifications::MailService, type: :model do
   subject(:call) { instance.call }
 
   let(:recipient) do
-    FactoryBot.build_stubbed(:user)
+    build_stubbed(:user)
   end
   let(:actor) do
-    FactoryBot.build_stubbed(:user)
+    build_stubbed(:user)
   end
   let(:instance) { described_class.new(notification) }
 
   context 'with a document journal notification' do
     let(:journal) do
-      FactoryBot.build_stubbed(:journal,
-                               journable: FactoryBot.build_stubbed(:document)).tap do |j|
+      build_stubbed(:journal,
+                    journable: build_stubbed(:document)).tap do |j|
         allow(j)
           .to receive(:initial?)
                 .and_return(initial_journal)
@@ -52,12 +50,12 @@ describe Notifications::MailService, type: :model do
     end
     let(:read_ian) { false }
     let(:notification) do
-      FactoryBot.build_stubbed(:notification,
-                               journal: journal,
-                               resource: journal.journable,
-                               recipient: recipient,
-                               actor: actor,
-                               read_ian: read_ian)
+      build_stubbed(:notification,
+                    journal: journal,
+                    resource: journal.journable,
+                    recipient: recipient,
+                    actor: actor,
+                    read_ian: read_ian)
     end
     let(:notification_setting) { %w(document_added) }
     let(:mail) do

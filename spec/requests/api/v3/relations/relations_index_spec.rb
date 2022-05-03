@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,21 +29,21 @@
 require 'spec_helper'
 
 describe 'GET /api/v3/relations', type: :request do
-  let(:user) { FactoryBot.create :admin }
+  let(:user) { create :admin }
 
-  let(:work_package) { FactoryBot.create :work_package }
-  let(:other_work_package) { FactoryBot.create :work_package }
+  let(:work_package) { create :work_package }
+  let(:other_work_package) { create :work_package }
 
   let!(:relations) do
     def new_relation(opts = {})
       relation_type = opts.delete(:type)
 
-      relation = FactoryBot.create :relation, opts.merge(relation_type: relation_type)
+      relation = create :relation, opts.merge(relation_type: relation_type)
       relation.id
     end
 
     def new_work_package
-      FactoryBot.create :work_package
+      create :work_package
     end
 
     [

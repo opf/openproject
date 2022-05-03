@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,14 +31,14 @@ require 'spec_helper'
 describe 'Journalized Objects' do
   describe 'journal_editable_by?' do
     context 'when the journable is a work package' do
-      let!(:user) { FactoryBot.create(:user, member_in_project: project, member_with_permissions: []) }
-      let!(:project) { FactoryBot.create(:project_with_types) }
+      let!(:user) { create(:user, member_in_project: project, member_with_permissions: []) }
+      let!(:project) { create(:project_with_types) }
       let!(:work_package) do
-        FactoryBot.create(:work_package,
-                          type: project.types.first,
-                          author: user,
-                          project: project,
-                          description: '')
+        create(:work_package,
+               type: project.types.first,
+               author: user,
+               project: project,
+               description: '')
       end
 
       subject { work_package.journal_editable_by?(work_package.journals.first, user) }

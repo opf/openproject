@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,15 +33,15 @@ describe WorkPackage, 'acts_as_searchable', type: :model do
 
   let(:wp_subject) { 'the quick brown fox jumps over the lazy dog' }
   let(:project) do
-    FactoryBot.create(:project,
-                      public: false)
+    create(:project,
+           public: false)
   end
   let(:work_package) do
-    FactoryBot.create(:work_package,
-                      subject: wp_subject,
-                      project: project)
+    create(:work_package,
+           subject: wp_subject,
+           project: project)
   end
-  let(:user) { FactoryBot.create(:user) }
+  let(:user) { create(:user) }
 
   describe '#search' do
     describe "w/ the user being logged in

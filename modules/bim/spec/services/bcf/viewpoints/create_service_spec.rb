@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,7 +29,7 @@
 require 'spec_helper'
 
 describe Bim::Bcf::Viewpoints::CreateService, type: :model do
-  let(:user) { FactoryBot.build_stubbed(:user) }
+  let(:user) { build_stubbed(:user) }
   let(:contract_class) do
     double('contract_class', '<=': true)
   end
@@ -61,7 +59,7 @@ describe Bim::Bcf::Viewpoints::CreateService, type: :model do
                       errors: set_attributes_errors
   end
   let!(:created_viewpoint) do
-    viewpoint = FactoryBot.build_stubbed(:bcf_viewpoint)
+    viewpoint = build_stubbed(:bcf_viewpoint)
 
     allow(Bim::Bcf::Viewpoint)
       .to receive(:new)

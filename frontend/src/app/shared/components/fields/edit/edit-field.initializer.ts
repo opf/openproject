@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -45,6 +45,7 @@ import { CombinedDateEditFieldComponent } from 'core-app/shared/components/field
 import { VersionAutocompleterComponent } from 'core-app/shared/components/autocompleter/version-autocompleter/version-autocompleter.component';
 import { WorkPackageAutocompleterComponent } from 'core-app/shared/components/autocompleter/work-package-autocompleter/wp-autocompleter.component';
 import { WorkPackageCommentFieldComponent } from 'core-app/features/work-packages/components/work-package-comment/wp-comment-field.component';
+import { ProjectEditFieldComponent } from './field-types/project-edit-field.component';
 
 export function initializeCoreEditFields(editFieldService:EditFieldService, selectAutocompleterRegisterService:SelectAutocompleterRegisterService) {
   return () => {
@@ -53,7 +54,9 @@ export function initializeCoreEditFields(editFieldService:EditFieldService, sele
       .addFieldType(TextEditFieldComponent, 'text', ['String'])
       .addFieldType(IntegerEditFieldComponent, 'integer', ['Integer'])
       .addFieldType(DurationEditFieldComponent, 'duration', ['Duration'])
-      .addFieldType(SelectEditFieldComponent, 'select', ['Priority',
+      .addFieldType(ProjectEditFieldComponent, 'project', ['Project'])
+      .addFieldType(SelectEditFieldComponent, 'select', [
+        'Priority',
         'Status',
         'Type',
         'User',
@@ -61,7 +64,7 @@ export function initializeCoreEditFields(editFieldService:EditFieldService, sele
         'TimeEntriesActivity',
         'Category',
         'CustomOption',
-        'Project'])
+      ])
       .addFieldType(MultiSelectEditFieldComponent, 'multi-select', [
         '[]CustomOption',
         '[]User',

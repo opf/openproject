@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -26,27 +26,27 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { APIv3ProjectPaths } from 'core-app/core/apiv3/endpoints/projects/apiv3-project-paths';
+import { ApiV3ProjectPaths } from 'core-app/core/apiv3/endpoints/projects/apiv3-project-paths';
 import { ProjectResource } from 'core-app/features/hal/resources/project-resource';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
 import {
-  Apiv3ListParameters,
-  Apiv3ListResourceInterface,
+  ApiV3ListParameters,
+  ApiV3ListResourceInterface,
   listParamsString,
 } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import { Observable } from 'rxjs';
-import { CachableAPIV3Collection } from 'core-app/core/apiv3/cache/cachable-apiv3-collection';
+import { ApiV3Collection } from 'core-app/core/apiv3/cache/cachable-apiv3-collection';
 import { StateCacheService } from 'core-app/core/apiv3/cache/state-cache.service';
 import { ProjectCache } from 'core-app/core/apiv3/endpoints/projects/project.cache';
 import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
 
-export class APIv3ProjectsPaths
-  extends CachableAPIV3Collection<ProjectResource, APIv3ProjectPaths>
-  implements Apiv3ListResourceInterface<ProjectResource> {
-  constructor(protected apiRoot:APIV3Service,
+export class ApiV3ProjectsPaths
+  extends ApiV3Collection<ProjectResource, ApiV3ProjectPaths>
+  implements ApiV3ListResourceInterface<ProjectResource> {
+  constructor(protected apiRoot:ApiV3Service,
     protected basePath:string) {
-    super(apiRoot, basePath, 'projects', APIv3ProjectPaths);
+    super(apiRoot, basePath, 'projects', ApiV3ProjectPaths);
   }
 
   // /api/v3/projects/schema
@@ -57,7 +57,7 @@ export class APIv3ProjectsPaths
    *
    * @param params
    */
-  public list(params?:Apiv3ListParameters):Observable<CollectionResource<ProjectResource>> {
+  public list(params?:ApiV3ListParameters):Observable<CollectionResource<ProjectResource>> {
     return this
       .halResourceService
       .get<CollectionResource<ProjectResource>>(this.path + listParamsString(params))

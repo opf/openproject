@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -60,11 +58,15 @@ class WorkPackage < ApplicationRecord
 
   has_many :time_entries, dependent: :delete_all
 
-  has_and_belongs_to_many :changesets, -> {
+  has_many :file_links,
+           dependent: :delete_all, class_name: 'Storages::FileLink', foreign_key: 'container_id', inverse_of: :container
+  has_many :storages, through: :project
+
+  has_and_belongs_to_many :changesets, -> { # rubocop:disable Rails/HasAndBelongsToMany
     order("#{Changeset.table_name}.committed_on ASC, #{Changeset.table_name}.id ASC")
   }
 
-  has_and_belongs_to_many :github_pull_requests
+  has_and_belongs_to_many :github_pull_requests # rubocop:disable Rails/HasAndBelongsToMany
 
   scope :recently_updated, -> {
     order(updated_at: :desc)

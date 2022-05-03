@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,15 +30,16 @@ require 'spec_helper'
 
 describe Notifications::GroupMemberAlteredJob, type: :model do
   subject(:service_call) do
-    described_class.new.perform(members_ids, message, send_notification)
+    described_class.new.perform(current_user, members_ids, message, send_notification)
   end
 
+  let(:current_user) { build_stubbed(:user) }
   let(:time) { Time.now }
   let(:member1) do
-    FactoryBot.build_stubbed(:member, updated_at: time, created_at: time)
+    build_stubbed(:member, updated_at: time, created_at: time)
   end
   let(:member2) do
-    FactoryBot.build_stubbed(:member, updated_at: time + 1.second, created_at: time)
+    build_stubbed(:member, updated_at: time + 1.second, created_at: time)
   end
   let(:members) { [member1, member2] }
   let(:members_ids) { members.map(&:id) }
@@ -71,5 +70,16 @@ describe Notifications::GroupMemberAlteredJob, type: :model do
     expect(OpenProject::Notifications)
       .to have_received(:send)
       .with(OpenProject::Events::MEMBER_UPDATED, member: member2, message: message, send_notifications: send_notification)
+  end
+
+  it 'propagates the given current user when sending notifications' do
+    captured_current_user = nil
+    allow(OpenProject::Notifications)
+      .to receive(:send) do |_args|
+        captured_current_user = User.current
+      end
+
+    service_call
+    expect(captured_current_user).to be(current_user)
   end
 end

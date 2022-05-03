@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,7 +29,7 @@
 require 'spec_helper'
 
 describe Bim::Bcf::Viewpoints::SetAttributesService, type: :model do
-  let(:user) { FactoryBot.build_stubbed(:user) }
+  let(:user) { build_stubbed(:user) }
   let(:contract_class) do
     contract = double('contract_class')
 
@@ -72,7 +70,7 @@ describe Bim::Bcf::Viewpoints::SetAttributesService, type: :model do
     # are immutable.
     context 'for a new record' do
       let(:call_attributes) do
-        attributes = FactoryBot.attributes_for(:bcf_viewpoint)
+        attributes = attributes_for(:bcf_viewpoint)
         attributes[:json_viewpoint].delete('guid')
         attributes[:json_viewpoint]["snapshot"] = {
           "snapshot_type" => "png",
@@ -100,7 +98,7 @@ describe Bim::Bcf::Viewpoints::SetAttributesService, type: :model do
       it 'sets the attributes with the uuid added to the json_viewpoint' do
         subject
 
-        expected_attributes = FactoryBot.attributes_for(:bcf_viewpoint)
+        expected_attributes = attributes_for(:bcf_viewpoint)
         expected_attributes[:json_viewpoint]['guid'] = viewpoint.uuid
         expected_attributes[:json_viewpoint]["snapshot"] = {
           "snapshot_type" => "png",
@@ -133,7 +131,7 @@ describe Bim::Bcf::Viewpoints::SetAttributesService, type: :model do
 
       context 'with an unsupported snapshot type' do
         let(:call_attributes) do
-          attributes = FactoryBot.attributes_for(:bcf_viewpoint)
+          attributes = attributes_for(:bcf_viewpoint)
           attributes[:json_viewpoint].delete('guid')
           attributes[:json_viewpoint]["snapshot"] = {
             "snapshot_type" => "tif",

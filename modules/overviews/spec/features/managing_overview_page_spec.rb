@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,20 +31,20 @@ require 'spec_helper'
 require_relative '../support/pages/overview'
 
 describe 'Overview page managing', type: :feature, js: true, with_mail: false do
-  let!(:type) { FactoryBot.create :type }
-  let!(:project) { FactoryBot.create :project, types: [type], description: 'My **custom** description' }
-  let!(:open_status) { FactoryBot.create :default_status }
+  let!(:type) { create :type }
+  let!(:project) { create :project, types: [type], description: 'My **custom** description' }
+  let!(:open_status) { create :default_status }
   let!(:created_work_package) do
-    FactoryBot.create :work_package,
-                      project: project,
-                      type: type,
-                      author: user
+    create :work_package,
+           project: project,
+           type: type,
+           author: user
   end
   let!(:assigned_work_package) do
-    FactoryBot.create :work_package,
-                      project: project,
-                      type: type,
-                      assigned_to: user
+    create :work_package,
+           project: project,
+           type: type,
+           assigned_to: user
   end
 
   let(:permissions) do
@@ -57,9 +57,9 @@ describe 'Overview page managing', type: :feature, js: true, with_mail: false do
   end
 
   let(:user) do
-    FactoryBot.create(:user,
-                      member_in_project: project,
-                      member_with_permissions: permissions)
+    create(:user,
+           member_in_project: project,
+           member_with_permissions: permissions)
   end
   let(:overview_page) do
     Pages::Overview.new(project)

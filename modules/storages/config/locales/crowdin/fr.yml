@@ -1,0 +1,65 @@
+#English strings go here
+fr:
+  permission_view_file_links: "Voir les liens des fichiers"
+  permission_manage_file_links: "Gérer les liens de fichiers"
+  permission_manage_storages_in_project: "Gérer les stockages de fichiers dans le projet"
+  project_module_storages: "Stockages de fichiers"
+  activerecord:
+    models:
+      storages/storage: "Stockage"
+    attributes:
+      storages/storage:
+        name: "Nom"
+        creator: "Créateur"
+        provider_type: "Type de fournisseur"
+      storages/file_link:
+        origin_id: "Id d'origine"
+    errors:
+      messages:
+        not_linked_to_project: "n'est pas lié au projet."
+      models:
+        storages/storage:
+          attributes:
+            host:
+              cannot_be_connected_to: "ne peut pas être connecté."
+              minimal_nextcloud_version_unmet: "ne répond pas aux exigences minimales de version (doit être Nextcloud 23 ou supérieur)"
+              not_nextcloud_server: "n'est pas un serveur Nextcloud"
+        storages/file_link:
+          attributes:
+            origin_id:
+              only_numeric_or_uuid: "ne peut être que numérique ou un uuid."
+  api_v3:
+    errors:
+      too_many_elements_created_at_once: "Trop d'éléments créés à la fois. %{max} attendu au maximum, obtenu %{actual}."
+  storages:
+    page_titles:
+      project_settings:
+        index: "Stockages de fichiers disponibles dans ce projet"
+        new: "Activer le stockage de fichiers pour ce projet"
+    instructions:
+      name: "Veuillez utiliser un nom court. Il sera utilisé comme titre d'onglet dans la vue du lot de travaux."
+      host: "L'URL de votre instance de stockage. L'URL ne doit pas contenir plus de 255 caractères."
+      no_storage_set_up: "Aucun stockage de fichiers configuré pour le moment."
+      setting_up_additional_storages: "Pour configurer des stockages de fichiers supplémentaires, veuillez visiter"
+      setting_up_additional_storages_non_admin: "Les administrateurs peuvent configurer des stockages de fichiers supplémentaires dans Administration / Stockages de fichiers."
+      setting_up_storages: "Pour configurer des stockages de fichiers, veuillez visiter"
+      setting_up_storages_non_admin: "Les administrateurs peuvent configurer des stockages de fichiers dans Administration / Stockages de fichiers."
+      all_available_storages_already_added: "Tous les stockages disponibles sont déjà ajoutés au projet."
+    delete_warning:
+      storage: >
+        Voulez-vous vraiment supprimer ce stockage ? Cela supprimera également le stockage de tous les projets où il est utilisé. De plus, il supprimera également tous les liens des lots de travaux vers les fichiers stockés dans ce stockage.
+      project_storage: >
+        Voulez-vous vraiment supprimer ce stockage de fichier de ce projet ? Cela supprimera aussi tous les liens vers des fichiers stockés dans ce stockage pour ce projet.
+    label_creator: "Créateur"
+    label_file_link: "Lien du fichier"
+    label_file_links: "Liens de fichier"
+    label_name: "Nom"
+    label_host: "Hôte"
+    label_provider_type: "Type de fournisseur"
+    label_new_storage: "Nouveau stockage"
+    label_storage: "Stockage"
+    label_storages: "Stockages"
+    no_results: "Aucun stockage configuré pour le moment."
+    provider_types:
+      label: "Type de fournisseur"
+      nextcloud: "Nextcloud"

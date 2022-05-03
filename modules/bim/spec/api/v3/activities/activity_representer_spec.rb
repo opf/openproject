@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,7 +34,7 @@ describe ::API::V3::Activities::ActivityRepresenter do
 
   include_context 'user with stubbed permissions'
   include_context 'bcf_topic with stubbed comment'
-  let(:other_user) { FactoryBot.build_stubbed(:user) }
+  let(:other_user) { build_stubbed(:user) }
   let(:project) do
     work_package.project
   end
@@ -46,7 +46,7 @@ describe ::API::V3::Activities::ActivityRepresenter do
     end
   end
   let(:journal) do
-    FactoryBot.build_stubbed(:work_package_journal).tap do |journal|
+    build_stubbed(:work_package_journal).tap do |journal|
       allow(journal)
         .to receive(:get_changes)
         .and_return(changes)

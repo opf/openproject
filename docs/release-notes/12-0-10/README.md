@@ -13,6 +13,11 @@ Release date: 2022-03-16
 We released [OpenProject 12.0.10](https://community.openproject.com/versions/1512).
 The release contains several bug fixes and we recommend updating to the newest version.
 
+##### Localization issues
+
+Some translations provided by our Crowdin integration were temporarily reverted to their english originals.
+This has been fixed and is the primary reason for this release.
+
 <!--more-->
 #### Bug fixes and changes
 

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe UserPassword::SHA1, type: :model do
   let(:legacy_password) do
-    pass = FactoryBot.build(:legacy_sha1_password, plain_password: 'adminAdmin!')
+    pass = build(:legacy_sha1_password, plain_password: 'adminAdmin!')
     expect(pass).to receive(:salt_and_hash_password!).and_return nil
 
     pass.save!
@@ -45,7 +45,7 @@ describe UserPassword::SHA1, type: :model do
   end
 
   describe '#create' do
-    let(:legacy_password) { FactoryBot.build(:legacy_sha1_password) }
+    let(:legacy_password) { build(:legacy_sha1_password) }
 
     it 'raises an exception trying to save it' do
       expect { legacy_password.save! }.to raise_error(ArgumentError)

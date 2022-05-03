@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -31,7 +31,7 @@ import { WorkPackageEditFieldComponent } from 'core-app/shared/components/fields
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import {
   TimeEntryWorkPackageAutocompleterComponent,
   TimeEntryWorkPackageAutocompleterMode,
@@ -44,7 +44,7 @@ const RECENT_TIME_ENTRIES_MAGIC_NUMBER = 30;
   templateUrl: './work-package-edit-field.component.html',
 })
 export class TimeEntryWorkPackageEditFieldComponent extends WorkPackageEditFieldComponent {
-  @InjectField() apiV3Service:APIV3Service;
+  @InjectField() apiV3Service:ApiV3Service;
 
   private recentWorkPackageIds:string[];
 

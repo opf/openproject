@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -40,7 +40,7 @@ import { StateService } from '@uirouter/core';
 import { WorkPackageCreateService } from 'core-app/features/work-packages/components/wp-new/wp-create.service';
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import { WorkPackagesActivityService } from 'core-app/features/work-packages/components/wp-single-view-tabs/activity-panel/wp-activity.service';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { OpenProjectFileUploadService } from 'core-app/core/file-upload/op-file-upload.service';
 import { OpenProjectDirectFileUploadService } from 'core-app/core/file-upload/op-direct-file-upload.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
@@ -79,7 +79,7 @@ describe('WorkPackage', () => {
         LoadingIndicatorService,
         PathHelperService,
         I18nService,
-        APIV3Service,
+        ApiV3Service,
         { provide: HalResourceNotificationService, useValue: { handleRawError: () => false } },
         { provide: WorkPackageNotificationService, useValue: {} as any },
         { provide: WorkPackageCreateService, useValue: {} },

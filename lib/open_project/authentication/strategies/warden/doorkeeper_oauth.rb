@@ -9,15 +9,20 @@ module OpenProject
         #
         class DoorkeeperOAuth < ::Warden::Strategies::Base
           def valid?
-            @token = ::Doorkeeper::OAuth::Token.authenticate(decorated_request, *Doorkeeper.configuration.access_token_methods)
-            @token&.accessible? && @token&.acceptable?(scope)
+            ::Doorkeeper::OAuth::Token
+              .from_request(decorated_request, *Doorkeeper.configuration.access_token_methods)
+              .present?
           end
 
           def authenticate!
-            if @token.resource_owner_id.nil?
-              authenticate_client_credentials(@token)
+            token = ::Doorkeeper::OAuth::Token.authenticate(decorated_request,
+                                                            *Doorkeeper.configuration.access_token_methods)
+            return fail!('invalid token') unless token&.acceptable?(scope)
+
+            if token.resource_owner_id.nil?
+              authenticate_client_credentials(token)
             else
-              authenticate_user(@token.resource_owner_id)
+              authenticate_user(token.resource_owner_id)
             end
           end
 

@@ -1,6 +1,6 @@
 module ::TwoFactorAuthentication
   class AuthenticationController < ApplicationController
-    # Remmeber token functionality
+    # Remember token functionality
     include ::TwoFactorAuthentication::RememberToken
     # Backup tokens functionality
     include ::TwoFactorAuthentication::BackupCodes

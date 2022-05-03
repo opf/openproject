@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -77,6 +77,6 @@ shared_examples_for 'grid attributes' do
 
   it_behaves_like 'acts_as_attachable included' do
     let(:model_instance) { instance }
-    let(:project) { FactoryBot.create(:project) }
+    let(:project) { create(:project) }
   end
 end

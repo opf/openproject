@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -131,7 +129,7 @@ class Enumeration < ApplicationRecord
   def to_s; name end
 
   # Does the +new+ Hash override the previous Enumeration?
-  def self.overridding_change?(new, previous)
+  def self.overriding_change?(new, previous)
     if same_active_state?(new['active'], previous.active) && same_custom_values?(new, previous)
       false
     else
@@ -182,5 +180,5 @@ end
 
 # Force load the subclasses in development mode
 %w(time_entry_activity issue_priority).each do |enum_subclass|
-  require_dependency enum_subclass
+  require enum_subclass
 end

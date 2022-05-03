@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,56 +29,56 @@
 require 'spec_helper'
 
 describe TimeEntry, type: :model do
-  let(:project) { FactoryBot.create(:project_with_types, public: false) }
-  let(:project2) { FactoryBot.create(:project_with_types, public: false) }
+  let(:project) { create(:project_with_types, public: false) }
+  let(:project2) { create(:project_with_types, public: false) }
   let(:work_package) do
-    FactoryBot.create(:work_package, project: project,
+    create(:work_package, project: project,
                                      type: project.types.first,
                                      author: user)
   end
   let(:work_package2) do
-    FactoryBot.create(:work_package, project: project2,
+    create(:work_package, project: project2,
                                      type: project2.types.first,
                                      author: user2)
   end
-  let(:user) { FactoryBot.create(:user) }
-  let(:user2) { FactoryBot.create(:user) }
+  let(:user) { create(:user) }
+  let(:user2) { create(:user) }
   let(:date) { Date.today }
-  let(:rate) { FactoryBot.build(:cost_rate) }
-  let!(:hourly_one) { FactoryBot.create(:hourly_rate, valid_from: 2.days.ago, project: project, user: user) }
-  let!(:hourly_three) { FactoryBot.create(:hourly_rate, valid_from: 4.days.ago, project: project, user: user) }
-  let!(:hourly_five) { FactoryBot.create(:hourly_rate, valid_from: 6.days.ago, project: project, user: user) }
-  let!(:default_hourly_one) { FactoryBot.create(:default_hourly_rate, valid_from: 2.days.ago, project: project, user: user2) }
-  let!(:default_hourly_three) { FactoryBot.create(:default_hourly_rate, valid_from: 4.days.ago, project: project, user: user2) }
-  let!(:default_hourly_five) { FactoryBot.create(:default_hourly_rate, valid_from: 6.days.ago, project: project, user: user2) }
+  let(:rate) { build(:cost_rate) }
+  let!(:hourly_one) { create(:hourly_rate, valid_from: 2.days.ago, project: project, user: user) }
+  let!(:hourly_three) { create(:hourly_rate, valid_from: 4.days.ago, project: project, user: user) }
+  let!(:hourly_five) { create(:hourly_rate, valid_from: 6.days.ago, project: project, user: user) }
+  let!(:default_hourly_one) { create(:default_hourly_rate, valid_from: 2.days.ago, project: project, user: user2) }
+  let!(:default_hourly_three) { create(:default_hourly_rate, valid_from: 4.days.ago, project: project, user: user2) }
+  let!(:default_hourly_five) { create(:default_hourly_rate, valid_from: 6.days.ago, project: project, user: user2) }
   let(:hours) { 5.0 }
   let(:time_entry) do
-    FactoryBot.create(:time_entry,
-                      project: project,
-                      work_package: work_package,
-                      spent_on: date,
-                      hours: hours,
-                      user: user,
-                      rate: hourly_one,
-                      comments: 'lorem')
+    create(:time_entry,
+           project: project,
+           work_package: work_package,
+           spent_on: date,
+           hours: hours,
+           user: user,
+           rate: hourly_one,
+           comments: 'lorem')
   end
 
   let(:time_entry2) do
-    FactoryBot.create(:time_entry,
-                      project: project,
-                      work_package: work_package,
-                      spent_on: date,
-                      hours: hours,
-                      user: user,
-                      rate: hourly_one,
-                      comments: 'lorem')
+    create(:time_entry,
+           project: project,
+           work_package: work_package,
+           spent_on: date,
+           hours: hours,
+           user: user,
+           rate: hourly_one,
+           comments: 'lorem')
   end
 
   def is_member(project, user, permissions)
-    FactoryBot.create(:member,
-                      project: project,
-                      user: user,
-                      roles: [FactoryBot.create(:role, permissions: permissions)])
+    create(:member,
+           project: project,
+           user: user,
+           roles: [create(:role, permissions: permissions)])
   end
 
   describe '#hours' do
@@ -380,7 +378,7 @@ describe TimeEntry, type: :model do
       before do
         is_member(project, user, [:view_own_time_entries])
 
-        time_entry.user = FactoryBot.build :user
+        time_entry.user = build :user
       end
 
       it 'is visible' do

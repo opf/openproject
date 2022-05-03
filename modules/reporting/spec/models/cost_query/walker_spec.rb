@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,10 +32,10 @@ describe CostQuery, type: :model, reporting_query_helper: true do
   minimal_query
 
   before do
-    FactoryBot.create(:admin)
-    project = FactoryBot.create(:project_with_types)
-    work_package = FactoryBot.create(:work_package, project: project)
-    FactoryBot.create(:time_entry, work_package: work_package, project: project)
+    create(:admin)
+    project = create(:project_with_types)
+    work_package = create(:work_package, project: project)
+    create(:time_entry, work_package: work_package, project: project)
   end
 
   describe Report::Transformer do

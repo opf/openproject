@@ -38,6 +38,10 @@ import {
   toastsContainerSelector,
 } from 'core-app/shared/components/toaster/toasts-container.component';
 import {
+  OpSidemenuComponent,
+  sidemenuSelector,
+} from 'core-app/shared/components/sidemenu/sidemenu.component';
+import {
   CkeditorAugmentedTextareaComponent,
   ckeditorAugmentedTextareaSelector,
 } from 'core-app/shared/components/editor/components/ckeditor-augmented-textarea/ckeditor-augmented-textarea.component';
@@ -45,7 +49,10 @@ import {
   PersistentToggleComponent,
   persistentToggleSelector,
 } from 'core-app/shared/components/persistent-toggle/persistent-toggle.component';
-import { OpPrincipalComponent, principalSelector } from 'core-app/shared/components/principal/principal.component';
+import {
+  OpPrincipalComponent,
+  principalSelector,
+} from 'core-app/shared/components/principal/principal.component';
 import {
   HideSectionLinkComponent,
   hideSectionLinkSelector,
@@ -91,9 +98,9 @@ import {
   wpOverviewGraphSelector,
 } from 'core-app/shared/components/work-package-graphs/overview/wp-overview-graph.component';
 import {
-  WorkPackageQuerySelectDropdownComponent,
-  wpQuerySelectSelector,
-} from 'core-app/features/work-packages/components/wp-query-select/wp-query-select-dropdown.component';
+  opViewSelectSelector,
+  ViewSelectComponent,
+} from 'core-app/shared/components/op-view-select/op-view-select.component';
 import {
   GlobalSearchTitleComponent,
   globalSearchTitleSelector,
@@ -140,6 +147,10 @@ import {
   enterpriseBaseSelector,
 } from 'core-app/features/enterprise/enterprise-base.component';
 import {
+  FreeTrialButtonComponent,
+  freeTrialButtonSelector,
+} from 'core-app/features/enterprise/free-trial-button/free-trial-button.component';
+import {
   EEActiveSavedTrialComponent,
   enterpriseActiveSavedTrialSelector,
 } from 'core-app/features/enterprise/enterprise-active-trial/ee-active-saved-trial.component';
@@ -176,7 +187,14 @@ import {
   IanMenuComponent,
   ianMenuSelector,
 } from 'core-app/features/in-app-notifications/center/menu/menu.component';
-
+import {
+  opTeamPlannerSidemenuSelector,
+  TeamPlannerSidemenuComponent,
+} from 'core-app/features/team-planner/team-planner/sidemenu/team-planner-sidemenu.component';
+import {
+  CalendarSidemenuComponent,
+  opCalendarSidemenuSelector,
+} from 'core-app/features/calendar/sidemenu/calendar-sidemenu.component';
 
 export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: appBaseSelector, cls: ApplicationBaseComponent },
@@ -194,6 +212,7 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: boardsMenuSelector, cls: BoardsMenuComponent },
   { selector: globalSearchWorkPackagesSelectorEntry, cls: GlobalSearchWorkPackagesEntryComponent },
   { selector: toastsContainerSelector, cls: ToastsContainerComponent },
+  { selector: sidemenuSelector, cls: OpSidemenuComponent },
   { selector: adminTypeFormConfigurationSelector, cls: TypeFormConfigurationComponent },
   { selector: ckeditorAugmentedTextareaSelector, cls: CkeditorAugmentedTextareaComponent, embeddable: true },
   { selector: persistentToggleSelector, cls: PersistentToggleComponent },
@@ -212,11 +231,14 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: collapsibleSectionAugmentSelector, cls: CollapsibleSectionComponent },
   { selector: enterpriseBannerSelector, cls: EnterpriseBannerBootstrapComponent },
   { selector: enterpriseBaseSelector, cls: EnterpriseBaseComponent },
+  { selector: freeTrialButtonSelector, cls: FreeTrialButtonComponent },
   { selector: enterpriseActiveSavedTrialSelector, cls: EEActiveSavedTrialComponent },
   { selector: projectMenuAutocompleteSelector, cls: ProjectMenuAutocompleteComponent },
   { selector: remoteFieldUpdaterSelector, cls: RemoteFieldUpdaterComponent },
   { selector: wpOverviewGraphSelector, cls: WorkPackageOverviewGraphComponent },
-  { selector: wpQuerySelectSelector, cls: WorkPackageQuerySelectDropdownComponent },
+  { selector: opViewSelectSelector, cls: ViewSelectComponent },
+  { selector: opTeamPlannerSidemenuSelector, cls: TeamPlannerSidemenuComponent },
+  { selector: opCalendarSidemenuSelector, cls: CalendarSidemenuComponent },
   { selector: triggerActionsEntryComponentSelector, cls: TriggerActionsEntryComponent, embeddable: true },
   { selector: backlogsPageComponentSelector, cls: BacklogsPageComponent },
   { selector: attributeValueMacro, cls: AttributeValueMacroComponent, embeddable: true },

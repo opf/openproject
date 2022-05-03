@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,12 +31,12 @@ require File.expand_path('../support/shared/become_member', __dir__)
 
 describe Project, type: :model do
   include BecomeMember
-  shared_let(:admin) { FactoryBot.create :admin }
+  shared_let(:admin) { create :admin }
 
   let(:active) { true }
-  let(:project) { FactoryBot.create(:project, active: active) }
-  let(:build_project) { FactoryBot.build_stubbed(:project, active: active) }
-  let(:user) { FactoryBot.create(:user) }
+  let(:project) { create(:project, active: active) }
+  let(:build_project) { build_stubbed(:project, active: active) }
+  let(:user) { create(:user) }
 
   describe '#active?' do
     context 'if active' do
@@ -71,7 +71,7 @@ describe Project, type: :model do
   end
 
   context 'when the wiki module is enabled' do
-    let(:project) { FactoryBot.create(:project, disable_modules: 'wiki') }
+    let(:project) { create(:project, disable_modules: 'wiki') }
 
     before :each do
       project.enabled_module_names = project.enabled_module_names | ['wiki']
@@ -90,8 +90,8 @@ describe Project, type: :model do
   end
 
   describe '#copy_allowed?' do
-    let(:user) { FactoryBot.build_stubbed(:user) }
-    let(:project) { FactoryBot.build_stubbed(:project) }
+    let(:user) { build_stubbed(:user) }
+    let(:project) { build_stubbed(:project) }
     let(:permission_granted) { true }
 
     before do
@@ -119,10 +119,10 @@ describe Project, type: :model do
   end
 
   describe 'status' do
-    let(:status) { FactoryBot.build_stubbed(:project_status) }
+    let(:status) { build_stubbed(:project_status) }
     let(:stubbed_project) do
-      FactoryBot.build_stubbed(:project,
-                               status: status)
+      build_stubbed(:project,
+                    status: status)
     end
 
     it 'has a status' do
@@ -142,7 +142,7 @@ describe Project, type: :model do
 
   describe 'name' do
     let(:name) { '     Hello    World   ' }
-    let(:project) { described_class.new FactoryBot.attributes_for(:project, name: name) }
+    let(:project) { described_class.new attributes_for(:project, name: name) }
 
     context 'with white spaces in the name' do
       it 'trims the name' do
@@ -164,18 +164,31 @@ describe Project, type: :model do
   end
 
   describe '#types_used_by_work_packages' do
-    let(:project) { FactoryBot.create(:project_with_types) }
+    let(:project) { create(:project_with_types) }
     let(:type) { project.types.first }
-    let(:other_type) { FactoryBot.create(:type) }
-    let(:project_work_package) { FactoryBot.create(:work_package, type: type, project: project) }
-    let(:other_project) { FactoryBot.create(:project, types: [other_type, type]) }
-    let(:other_project_work_package) { FactoryBot.create(:work_package, type: other_type, project: other_project) }
+    let(:other_type) { create(:type) }
+    let(:project_work_package) { create(:work_package, type: type, project: project) }
+    let(:other_project) { create(:project, types: [other_type, type]) }
+    let(:other_project_work_package) { create(:work_package, type: other_type, project: other_project) }
 
     it 'returns the type used by a work package of the project' do
       project_work_package
       other_project_work_package
 
       expect(project.types_used_by_work_packages).to match_array [project_work_package.type]
+    end
+  end
+
+  describe 'Views belonging to queries that belong to the project' do
+    let(:query) { create(:query, project: project) }
+    let(:view) { create(:view, query: query) }
+
+    it 'destroys the views and queries when project gets destroyed' do
+      view
+      project.destroy
+
+      expect { query.reload }.to raise_error ActiveRecord::RecordNotFound
+      expect { view.reload }.to raise_error ActiveRecord::RecordNotFound
     end
   end
 end

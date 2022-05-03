@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,7 +31,7 @@ require 'spec_helper'
 describe 'Enterprise trial management',
          type: :feature,
          driver: :chrome_billy do
-  let(:admin) { FactoryBot.create(:admin) }
+  let(:admin) { create(:admin) }
 
   let(:trial_id) { '1b6486b4-5a30-4042-8714-99d7c8e6b637' }
   let(:created_body) do

@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -256,10 +254,6 @@ OpenProject::Application.routes.draw do
     # work as a catchall for everything under /wiki
     get 'wiki' => 'wiki#show'
 
-    namespace :work_packages do
-      resources :calendar, controller: 'calendars', only: [:index]
-    end
-
     resources :work_packages, only: [] do
       collection do
         get '/report/:detail' => 'work_packages/reports#report_details'
@@ -367,12 +361,13 @@ OpenProject::Application.routes.draw do
     resources :groups, except: %i[show] do
       member do
         # this should be put into it's own resource
-        match '/members' => 'groups#add_users', via: :post, as: 'members_of'
-        match '/members/:user_id' => 'groups#remove_user', via: :delete, as: 'member_of'
+        post '/members' => 'groups#add_users', as: 'members_of'
+        delete '/members/:user_id' => 'groups#remove_user', as: 'member_of'
         # this should be put into it's own resource
-        match '/memberships/:membership_id' => 'groups#edit_membership', via: :put, as: 'membership_of'
-        match '/memberships/:membership_id' => 'groups#destroy_membership', via: :delete
-        match '/memberships' => 'groups#create_memberships', via: :post, as: 'memberships_of'
+        patch '/memberships/:membership_id' => 'groups#edit_membership', as: 'membership_of'
+        put '/memberships/:membership_id' => 'groups#edit_membership'
+        delete '/memberships/:membership_id' => 'groups#destroy_membership'
+        post '/memberships' => 'groups#create_memberships', as: 'memberships_of'
       end
     end
 
@@ -405,8 +400,9 @@ OpenProject::Application.routes.draw do
 
       resource :authentication, controller: '/admin/settings/authentication_settings', only: %i[show update]
       resource :incoming_mails, controller: '/admin/settings/incoming_mails_settings', only: %i[show update]
-      resource :notifications, controller: '/admin/settings/notifications_settings', only: %i[show update]
+      resource :aggregation, controller: '/admin/settings/aggregation_settings', only: %i[show update]
       resource :mail_notifications, controller: '/admin/settings/mail_notifications_settings', only: %i[show update]
+      resource :api, controller: '/admin/settings/api_settings', only: %i[show update]
       resource :work_packages, controller: '/admin/settings/work_packages_settings', only: %i[show update]
       resource :users, controller: '/admin/settings/users_settings', only: %i[show update]
 
@@ -437,7 +433,6 @@ OpenProject::Application.routes.draw do
 
   namespace :work_packages do
     match 'auto_complete' => 'auto_completes#index', via: %i[get post]
-    resources :calendar, controller: 'calendars', only: [:index]
     resource :bulk, controller: 'bulk', only: %i[edit update destroy]
     # FIXME: this is kind of evil!! We need to remove this soonest and
     # cover the functionality. Route is being used in work-package-service.js:331
@@ -585,8 +580,7 @@ OpenProject::Application.routes.draw do
     get '(/*state)', to: 'angular#notifications_layout', as: :notifications_center
   end
 
-  # Development route for styleguide
-  if Rails.env.development?
-    get '/styleguide' => redirect('/assets/styleguide.html')
-  end
+  # Routes for design related documentation and examples pages
+  get '/design/spot', to: 'angular#empty_layout'
+  get '/design/styleguide' => redirect('/assets/styleguide.html')
 end

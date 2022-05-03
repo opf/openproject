@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,10 +34,10 @@ describe Bim::IfcModels::UpdateContract do
     subject(:contract) { described_class.new(ifc_model, current_user) }
 
     let(:ifc_model) do
-      FactoryBot.build_stubbed(:ifc_model,
-                               uploader: model_user,
-                               title: model_title,
-                               project: model_project).tap do |model|
+      build_stubbed(:ifc_model,
+                    uploader: model_user,
+                    title: model_title,
+                    project: model_project).tap do |model|
         model.extend(OpenProject::ChangedBySystem)
 
         if changed_by_system
@@ -56,10 +54,10 @@ describe Bim::IfcModels::UpdateContract do
     let(:changed_by_system) { false }
 
     context 'if the uploader changes' do
-      let(:model_user) { FactoryBot.build_stubbed(:user) }
+      let(:model_user) { build_stubbed(:user) }
       let(:uploader_user) { other_user }
       let(:current_user) { other_user }
-      let(:ifc_attachment) { FactoryBot.build_stubbed(:attachment, author: other_user) }
+      let(:ifc_attachment) { build_stubbed(:attachment, author: other_user) }
 
       it 'is invalid as not writable' do
         expect_valid(false, uploader_id: %i(error_readonly))
@@ -67,10 +65,10 @@ describe Bim::IfcModels::UpdateContract do
     end
 
     context 'if the uploader changes' do
-      let(:model_user) { FactoryBot.build_stubbed(:user) }
+      let(:model_user) { build_stubbed(:user) }
       let(:uploader_user) { other_user }
       let(:current_user) { other_user }
-      let(:ifc_attachment) { FactoryBot.build_stubbed(:attachment, author: other_user) }
+      let(:ifc_attachment) { build_stubbed(:attachment, author: other_user) }
       let(:changed_by_system) { true }
 
       it 'is invalid as does not match' do
@@ -80,7 +78,7 @@ describe Bim::IfcModels::UpdateContract do
 
     context 'if the uploader does not change and the current user is different from the uploader' do
       let(:current_user) { other_user }
-      let(:model_user) { FactoryBot.build_stubbed(:user) }
+      let(:model_user) { build_stubbed(:user) }
 
       it_behaves_like 'is valid'
     end

@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -27,12 +27,12 @@
 //++
 
 import { TestBed, waitForAsync } from '@angular/core/testing';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { States } from 'core-app/core/states/states.service';
 
 describe('APIv3Service', () => {
-  let service:APIV3Service;
+  let service:ApiV3Service;
 
   beforeEach(waitForAsync(() => {
     // noinspection JSIgnoredPromiseFromCall
@@ -40,12 +40,12 @@ describe('APIv3Service', () => {
       providers: [
         States,
         PathHelperService,
-        APIV3Service,
+        ApiV3Service,
       ],
     })
       .compileComponents()
       .then(() => {
-        service = TestBed.inject(APIV3Service);
+        service = TestBed.inject(ApiV3Service);
       });
   }));
 

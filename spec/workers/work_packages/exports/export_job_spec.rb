@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,15 +29,15 @@
 require 'spec_helper'
 
 describe WorkPackages::ExportJob do
-  let(:user) { FactoryBot.build_stubbed(:user) }
+  let(:user) { build_stubbed(:user) }
   let(:attachment) { double('Attachment', id: 1234) }
   let(:export) do
-    FactoryBot.create(:work_packages_export)
+    create(:work_packages_export)
   end
-  let(:query) { FactoryBot.build_stubbed(:query) }
+  let(:query) { build_stubbed(:query) }
   let(:query_attributes) { {} }
 
-  let(:job) { described_class.new(jobs_args) }
+  let(:job) { described_class.new(**jobs_args) }
   let(:jobs_args) do
     {
       export: export,
@@ -100,7 +98,7 @@ describe WorkPackages::ExportJob do
   end
 
   describe 'query passing' do
-    context 'passing in group_by through attributes' do
+    context 'when passing in group_by through attributes' do
       let(:query_attributes) { { group_by: 'assigned_to' } }
       let(:mime_type) { :pdf }
       let(:exporter) { WorkPackage::PDFExport::WorkPackageListToPdf }

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,9 +31,9 @@ require 'spec_helper'
 describe Principals::ReplaceReferencesService, '#call', type: :model do
   subject(:service_call) { instance.call(from: principal, to: to_principal) }
 
-  shared_let(:other_user) { FactoryBot.create(:user) }
-  shared_let(:user) { FactoryBot.create(:user) }
-  shared_let(:to_principal) { FactoryBot.create :user }
+  shared_let(:other_user) { create(:user) }
+  shared_let(:user) { create(:user) }
+  shared_let(:to_principal) { create :user }
 
   let(:instance) do
     described_class.new
@@ -49,8 +49,8 @@ describe Principals::ReplaceReferencesService, '#call', type: :model do
 
     context 'with a Journal' do
       let!(:journal) do
-        FactoryBot.create(:work_package_journal,
-                          user_id: user_id)
+        create(:work_package_journal,
+               user_id: user_id)
       end
 
       context 'with the replaced user' do
@@ -166,7 +166,7 @@ describe Principals::ReplaceReferencesService, '#call', type: :model do
                       :custom_value,
                       :value,
                       String do
-        let(:user_cf) { FactoryBot.create(:user_wp_custom_field) }
+        let(:user_cf) { create(:user_wp_custom_field) }
         let(:attributes) do
           { custom_field_id: user_cf.id }
         end
@@ -176,7 +176,7 @@ describe Principals::ReplaceReferencesService, '#call', type: :model do
                       :journal_customizable_journal,
                       :value,
                       String do
-        let(:user_cf) { FactoryBot.create(:user_wp_custom_field) }
+        let(:user_cf) { create(:user_wp_custom_field) }
         let(:attributes) do
           { journal_id: 1,
             custom_field_id: user_cf.id }
@@ -380,11 +380,17 @@ describe Principals::ReplaceReferencesService, '#call', type: :model do
     context 'with Query' do
       it_behaves_like 'rewritten record',
                       :query,
-                      :user_id
+                      :user_id do
+        let(:attributes) do
+          {
+            include_subprojects: true
+          }
+        end
+      end
     end
 
     context 'with CostQuery' do
-      let(:query) { FactoryBot.create(:cost_query, user: principal) }
+      let(:query) { create(:cost_query, user: principal) }
 
       it_behaves_like 'rewritten record',
                       :cost_query,
@@ -397,7 +403,7 @@ describe Principals::ReplaceReferencesService, '#call', type: :model do
     end
 
     context 'with Notification actor' do
-      let(:recipient) { FactoryBot.create :user }
+      let(:recipient) { create :user }
 
       it_behaves_like 'rewritten record',
                       :notification,
