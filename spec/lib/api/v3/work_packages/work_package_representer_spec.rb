@@ -39,18 +39,18 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
     described_class.create(work_package, current_user: current_user, embed_links: embed_links)
   end
   let(:parent) { nil }
-  let(:priority) { build_stubbed(:priority, updated_at: Time.now) }
+  let(:priority) { build_stubbed(:priority, updated_at: Time.zone.now) }
   let(:assignee) { nil }
   let(:responsible) { nil }
   let(:schedule_manually) { nil }
-  let(:start_date) { Date.today.to_datetime }
-  let(:due_date) { Date.today.to_datetime }
+  let(:start_date) { Time.zone.today.to_datetime }
+  let(:due_date) { Time.zone.today.to_datetime }
   let(:type_milestone) { false }
   let(:estimated_hours) { nil }
   let(:derived_estimated_hours) { nil }
   let(:spent_hours) { 0 }
-  let(:derived_start_date) { Date.today - 4.days }
-  let(:derived_due_date) { Date.today - 5.days }
+  let(:derived_start_date) { Time.zone.today - 4.days }
+  let(:derived_due_date) { Time.zone.today - 5.days }
   let(:budget) { build_stubbed(:budget, project: project) }
   let(:work_package) do
     build_stubbed(:stubbed_work_package,
@@ -97,6 +97,8 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       add_work_packages
       view_time_entries
       view_changesets
+      view_file_links
+      manage_file_links
       delete_work_packages
     ]
   end
@@ -109,7 +111,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
     type
   end
-  let(:status) { build_stubbed(:status, updated_at: Time.now) }
+  let(:status) { build_stubbed(:status, updated_at: Time.zone.now) }
   let(:available_custom_fields) { [] }
 
   before(:each) do
@@ -141,7 +143,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       it_behaves_like 'API V3 formattable', 'description' do
         let(:format) { 'markdown' }
         let(:raw) { work_package.description }
-        let(:html) { '<p class="op-uc-p">' + work_package.description + '</p>' }
+        let(:html) { "<p class=\"op-uc-p\">#{work_package.description}</p>" }
       end
 
       describe 'scheduleManually' do
@@ -715,6 +717,60 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
       end
 
+      describe 'fileLinks' do
+        let(:storages_feature_enabled) { true }
+
+        before do
+          allow(OpenProject::FeatureDecisions).to receive(:storages_module_active?).and_return(storages_feature_enabled)
+        end
+
+        it_behaves_like 'has an untitled link' do
+          let(:link) { 'fileLinks' }
+          let(:href) { api_v3_paths.file_links(work_package.id) }
+        end
+
+        it_behaves_like 'has an untitled action link' do
+          let(:permission) { :manage_file_links }
+          let(:link) { 'addFileLink' }
+          let(:href) { api_v3_paths.file_links(work_package.id) }
+          let(:method) { 'post' }
+        end
+
+        context 'if user has no permission to view file links' do
+          let(:permissions) { all_permissions - %i[view_file_links] }
+
+          it_behaves_like 'has no link' do
+            let(:link) { 'fileLinks' }
+          end
+        end
+
+        context 'if file storages feature is disabled' do
+          let(:storages_feature_enabled) { false }
+
+          it_behaves_like 'has no link' do
+            let(:link) { 'fileLinks' }
+          end
+
+          it_behaves_like 'has no link' do
+            let(:link) { 'addFileLink' }
+          end
+        end
+
+        context 'if project has storages module disabled' do
+          before do
+            project.enabled_module_names = project.enabled_module_names - ['storages']
+          end
+
+          it_behaves_like 'has no link' do
+            let(:link) { 'fileLinks' }
+          end
+
+          it_behaves_like 'has no link' do
+            let(:link) { 'addFileLink' }
+          end
+        end
+      end
+
       context 'when the user is not watching the work package' do
         it 'should have a link to watch' do
           expect(subject)
@@ -1151,6 +1207,39 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
       end
 
+      describe 'fileLinks' do
+        let(:storages_feature_enabled) { true }
+        let(:storage) { build_stubbed(:storage) }
+        let(:file_link) { build_stubbed(:file_link, storage: storage, container: work_package) }
+
+        before do
+          allow(OpenProject::FeatureDecisions).to receive(:storages_module_active?).and_return(storages_feature_enabled)
+          allow(work_package).to receive(:file_links).and_return([file_link])
+        end
+
+        it 'embeds a collection' do
+          is_expected
+            .to be_json_eql('Collection'.to_json)
+                  .at_path('_embedded/fileLinks/_type')
+        end
+
+        it 'embeds with an href containing the work_package' do
+          is_expected
+            .to be_json_eql(api_v3_paths.file_links(work_package.id).to_json)
+                  .at_path('_embedded/fileLinks/_links/self/href')
+        end
+
+        it 'embeds the visible file links' do
+          is_expected
+            .to be_json_eql(1.to_json)
+                  .at_path('_embedded/fileLinks/total')
+
+          is_expected
+            .to be_json_eql(api_v3_paths.file_link(file_link.id).to_json)
+                  .at_path('_embedded/fileLinks/_embedded/elements/0/_links/self/href')
+        end
+      end
+
       describe 'customActions' do
         it 'has an array of customActions' do
           unassign_action = build_stubbed(:custom_action,
@@ -1223,7 +1312,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
 
         it 'changes when the work_package is updated' do
-          work_package.updated_at = Time.now + 20.seconds
+          work_package.updated_at = Time.zone.now + 20.seconds
 
           expect(representer.json_cache_key)
             .not_to eql former_cache_key
