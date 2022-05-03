@@ -32,7 +32,6 @@
       class="spot-container op-project-include--body"
     >
       <spot-text-field
-        [disabled]="(loading$ | async)"
         [placeholder]="text.search_placeholder"
         name="project-include-search"
         [(ngModel)]="searchText"
