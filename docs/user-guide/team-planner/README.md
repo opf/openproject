@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: Team planner
-  priority: 890
+  priority: 863
 description: Using the team planner in OpenProject.
 robots: index, follow
 keywords: team planner,planning calendar, resource management
@@ -66,17 +66,33 @@ The first step in setting up your team planning calendar is to add team members.
 
 Repeat this step until all team members relevant for this planner are added, and then save it using the floppy disk icon (adjacent to the top header in #1 above). 
 
+If you need to delete a member, please hover over their name in the team planner in the **Assignees** column and remove them by clicking on the **X button**, which will appear adjacent to the name during hovering.
+
 **Note: Once you are finished adding members to the planner, click the floppy disk icon in the top header to save.**
 
 ![Adding team members](adding-team-members.png)
 
 ### Step 2: Adding/working with work package strips
 
-Next, add specific work packages to your planner. Do this by pressing the **+ add existing" button** we introduced in step 2 of the main view overview. Once you press the **+ add existing** button, start typing the name of the work package you are looking to add. Once found, drag & drop the work package strip. Should the work package have a duration exceeding the current 1 or 2 week view, a horizontal scroll bar will display, with which it is possible to scroll to the end date of the longest running work package.
+Next, add specific work packages to your planner. You can do this by either adding a **new work package**, or by adding an **existing work package**:
 
-Additional features: You can change the status of a work package, and enter the work package strip detailed view by pressing the info button **(i)** on each respective strip
+**To add a new work package**: 
 
-**Note: You can only add existing work packages here. If you need to create some first, create them in the work package module as new work packages cannot be created from the team planner module.**
+Click on the cell in the team planner grid that corresponds to the preferred assignee and start date.
+
+![Add new work package](add-new-work-package.png)
+
+After you clicked, the **new work package dialog** will automatically open. Here you can set a variety of information pertaining to your work package, such as the (1) type, (2) one or more additional people, (3) the assignee (by default the person or group which you selected in the team planner grid), (4) the accountable person, as well as a variety of other settings, such as start and end dates, time and cost estimates, and more as you scroll further down the dialog.
+
+![New work package dialog](new-work-package-details.png)
+
+
+
+**To add an existing work package**: 
+
+Press the **+ add existing" button** we introduced in step 2 of the main view overview. Once you press the **+ add existing** button, start typing the name of the work package you are looking to add. Once found, drag & drop the work package strip. Should the work package have a duration exceeding the current 1 or 2 week view, a horizontal scroll bar will display, with which it is possible to scroll to the end date of the longest running work package.
+
+Additional features: You can change the status of a work package, and enter the work package strip detailed view by pressing the info button **(i)** on each respective strip.
 
 ![Working with work package strips](working-with-work-package-strips.png)
 
