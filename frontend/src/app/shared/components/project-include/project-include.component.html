@@ -45,11 +45,7 @@
         ></span>
       </spot-text-field>
 
-      <ng-container *ngIf="(projects$ | async)?.length > 0">
-        has projects
-      </ng-container>
       <ng-container *ngIf="(loading$ | async) === false; else loadingTemplate">
-        loading done
         <ul
           class="op-project-include--list"
           op-project-list
