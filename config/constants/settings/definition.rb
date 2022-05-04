@@ -138,6 +138,9 @@ module Settings
       #  Will serve to be validated against. A lambda can be provided returning an array in case
       #  the array needs to be evaluated dynamically. In case of e.g. boolean format, setting
       #  an allowed array is not necessary.
+      # @param [nil] env_alias Alternative for the default env name to also look up. E.g. with the alias set to
+      #  `OPENPROJECT_2FA` for a definition with the name `two_factor_authentication`, the value is fetched
+      #  from the ENV OPENPROJECT_2FA as well.
       def add(name,
               value:,
               format: nil,
@@ -345,7 +348,9 @@ module Settings
       end
 
       def env_name_alias(definition)
-        "#{ENV_PREFIX}#{definition.env_alias.upcase}" if definition.env_alias
+        return unless definition.env_alias
+
+        definition.env_alias.upcase
       end
 
       ##
