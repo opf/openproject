@@ -288,11 +288,11 @@ pt:
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
           '12_1':
             standard:
-              learn_about_link: https://www.openproject.org/openproject-12-1-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-1-release
               new_features_html: >
                 A versão contém vários novos recursos e melhorias: <br> <ul class="%{list_styling_class}"> <li>Um <b>novo módulo de planejamento de equipe</b> (recurso Enterprise) permite atribuir tarefas visualmente a membros da equipe obtendo uma visão geral de quem está trabalhando e onde.</li> <li>Estamos <b>lançando os quadros ágeis básicos</b> para a versão da comunidade.</li> <li>A opção de <b>filtro "Incluir projetos"</b> facilita a adição de projetos diferentes às suas visualizações, como pacotes de trabalho, calendários e planejadores de equipe.</li> <li>Adicionamos <b>uma nova aba "Arquivos" </b> nos detalhes do pacote de trabalho para ter todas as informações possíveis anexadas a um pacote de trabalho juntas.</li> <li>Criamos <b>papéis globais para grupos</b> para atribuir esses papéis a grupos e criar grupos de superusuários.</li> <li>A situação do projeto recebeu mais opções de escolha.</li> </ul>
             bim:
-              learn_about_link: https://www.openproject.org/openproject-12-1-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-1-release
               new_features_html: >
                 A versão contém vários novos recursos e melhorias: <br> <ul class="%{list_styling_class}"> <li>No módulo BCF, agora você pode salvar seus filtros, colunas, etc. do pacote de trabalho selecionado como <b>visualizações</b> e compartilhá-las com os membros de sua equipe.</li> <li>Um <b>novo módulo de planejamento de equipe</b> (recurso Enterprise) permite atribuir tarefas visualmente aos membros da equipe para obter uma visão geral de quem está trabalhando sobre o quê.</li> <li>Estamos <b>lançando os quadros ágeis básicos</b> para a versão Community.</li> <li>A opção <b>"Incluir projetos"</b> facilita a adição de projetos diferentes às suas visualizações, como pacotes de trabalho, calendários e planejadores de equipe.</li> <li>Adicionamos <b>uma nova aba "Arquivos"</b> nos detalhes do pacote de trabalho para ter todas as informações possíveis anexadas a um pacote de trabalho juntas.</li> <li>Criamos <b>papéis globais para grupos</b> para atribuir esses papéis a grupos e criar grupos de superusuários.</li> <li>A situação do projeto recebeu mais opções para escolher.</li> </ul>
     label_activate: "Ativar"
@@ -1148,7 +1148,7 @@ pt:
       role:
         label: 'Papel em %{project}'
         no_roles_found: 'Nenhum papel encontrado'
-        description: 'Este é um papel que %{principal} receberá quando se juntar ao projeto. O papel define que ações ela pode realizar e que informações pode visualizar. <a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Aprenda mais sobre papéis e permissões. </a>'
+        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
         required: 'Selecione um papel'
         next_button: 'Próxima'
       message:

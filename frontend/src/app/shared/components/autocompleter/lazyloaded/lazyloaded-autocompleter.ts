@@ -161,7 +161,7 @@ export namespace LazyLoadedAutocompleter {
     const height = container.outerHeight()!;
     const { scrollHeight } = container[0];
     const scrollTop = container.scrollTop()!;
-    return scrollTop >= (scrollHeight - height);
+    return scrollTop >= (scrollHeight - height - 6);
   }
 
   export function register<T>(name:string, ctrl:ILazyAutocompleterBridge<T>) {

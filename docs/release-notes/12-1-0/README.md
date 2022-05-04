@@ -222,5 +222,5 @@ A big thanks to community members for reporting bugs and helping us identifying 
 - Special thanks for Autoliv for sponsoring the development of the new team planner.
 - Special thanks for City of Cologne for sponsoring the development of the new global roles for groups.
 - Special thanks for reporting and finding bugs go Rainer Proehl, kak tux, Sven Kunze, Çağlar Yeşilyurt, Valentin Ege, Michael Kluge, Christina Vechkanova, Marius Heidenreich, Gerrit Bonn, Benjamin Tey, Daniel Wilke, Avgerinos Fotopoulos, Thilo Sautter, Andreas Sturm.
-- Every other dedicated user who has [reported bugs](../development/report-a-bug/) and supported the community by asking and answering questions in the [forum](https://community.openproject.org/projects/openproject/boards).
+- Every other dedicated user who has [reported bugs](../../development/report-a-bug/) and supported the community by asking and answering questions in the [forum](https://community.openproject.org/projects/openproject/boards).
 - All the dedicated users who provided translations on [CrowdIn](https://crowdin.com/projects/opf).

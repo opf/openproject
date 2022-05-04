@@ -64,7 +64,7 @@ info:
 
     ### API Key through Basic Auth
 
-    Users can authenticate towards the API v3 using basic auth with `apikey` (as a string, NOT your API key) as the user name and their API key as the password.
+    Users can authenticate towards the API v3 using basic auth with the user name `apikey` (NOT your login) and the API key as the password.
     Users can find their API key on their account page.
 
     Example:
@@ -408,6 +408,8 @@ paths:
     "$ref": "./paths/work_package_available_watchers.yml"
   "/api/v3/work_packages/{id}/file_links":
     "$ref": "./paths/work_package_file_links.yml"
+  "/api/v3/work_packages/{id}/update_file_links":
+    "$ref": "./paths/work_package_update_file_links.yml"
   "/api/v3/work_packages/{id}/form":
     "$ref": "./paths/work_package_form.yml"
   "/api/v3/work_packages/{id}/revisions":
@@ -701,6 +703,10 @@ components:
       "$ref": "./components/schemas/update_project.yml"
     Update_time_entry:
       "$ref": "./components/schemas/update_time_entry.yml"
+    UserCollectionModel:
+      "$ref": "./components/schemas/user_collection_model.yml"
+    UserCreateModel:
+      "$ref": "./components/schemas/user_create_model.yml"
     UserModel:
       "$ref": "./components/schemas/user_model.yml"
     UserPreferencesModel:
@@ -711,8 +717,6 @@ components:
       "$ref": "./components/schemas/user_create_form.yml"
     User_update_form:
       "$ref": "./components/schemas/user_update_form.yml"
-    UsersModel:
-      "$ref": "./components/schemas/users_model.yml"
     VersionModel:
       "$ref": "./components/schemas/version_model.yml"
     Version_create_form:

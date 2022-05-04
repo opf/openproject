@@ -96,7 +96,7 @@ Settings::Definition.define do
       writable: false
 
   add :auth_source_sso,
-      format: :string,
+      format: :hash,
       value: nil,
       writable: false
 

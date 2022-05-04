@@ -28,7 +28,7 @@
 
 source 'https://rubygems.org'
 
-ruby '~> 3.0.4'
+ruby '~> 3.1.2'
 
 gem 'actionpack-xml_parser', '~> 2.0.0'
 gem 'activemodel-serializers-xml', '~> 1.0.1'
@@ -61,6 +61,12 @@ gem 'rubytree', '~> 1.0.0'
 gem 'typed_dag', '~> 2.0.2'
 
 gem 'addressable', '~> 2.8.0'
+
+# Needed to make rails 6.x work with ruby 3.1, can be dropped
+# after migrated to rails 7 (see https://stackoverflow.com/a/70500221)
+gem 'net-smtp', '~> 0.3.1', require: false
+gem 'net-pop', '~> 0.1.1', require: false
+gem 'net-imap', '~> 0.2.3', require: false
 
 # Remove whitespace from model input
 gem "auto_strip_attributes", "~> 2.5"
