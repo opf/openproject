@@ -60,8 +60,6 @@ export class SpotFormFieldComponent {
       return false;
     }
 
-    console.log(this.formControl.errors);
-
     if (this.showValidationErrorOn === 'submit') {
       return this.formControl.invalid && this._formGroupDirective?.submitted;
     } if (this.showValidationErrorOn === 'blur') {
