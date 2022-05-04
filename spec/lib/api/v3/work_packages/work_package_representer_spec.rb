@@ -718,12 +718,6 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       end
 
       describe 'fileLinks' do
-        let(:storages_feature_enabled) { true }
-
-        before do
-          allow(OpenProject::FeatureDecisions).to receive(:storages_module_active?).and_return(storages_feature_enabled)
-        end
-
         it_behaves_like 'has an untitled link' do
           let(:link) { 'fileLinks' }
           let(:href) { api_v3_paths.file_links(work_package.id) }
@@ -741,32 +735,6 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
           it_behaves_like 'has no link' do
             let(:link) { 'fileLinks' }
-          end
-        end
-
-        context 'if file storages feature is disabled' do
-          let(:storages_feature_enabled) { false }
-
-          it_behaves_like 'has no link' do
-            let(:link) { 'fileLinks' }
-          end
-
-          it_behaves_like 'has no link' do
-            let(:link) { 'addFileLink' }
-          end
-        end
-
-        context 'if project has storages module disabled' do
-          before do
-            project.enabled_module_names = project.enabled_module_names - ['storages']
-          end
-
-          it_behaves_like 'has no link' do
-            let(:link) { 'fileLinks' }
-          end
-
-          it_behaves_like 'has no link' do
-            let(:link) { 'addFileLink' }
           end
         end
       end
@@ -1208,12 +1176,10 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       end
 
       describe 'fileLinks' do
-        let(:storages_feature_enabled) { true }
         let(:storage) { build_stubbed(:storage) }
         let(:file_link) { build_stubbed(:file_link, storage: storage, container: work_package) }
 
         before do
-          allow(OpenProject::FeatureDecisions).to receive(:storages_module_active?).and_return(storages_feature_enabled)
           allow(work_package).to receive(:file_links).and_return([file_link])
         end
 
@@ -1312,7 +1278,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
 
         it 'changes when the work_package is updated' do
-          work_package.updated_at = Time.zone.now + 20.seconds
+          work_package.updated_at = 20.seconds.from_now
 
           expect(representer.json_cache_key)
             .not_to eql former_cache_key

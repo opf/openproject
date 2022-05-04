@@ -63,9 +63,10 @@ module API
                      uncacheable_link: false,
                      show_if: ->(*) { true },
                      skip_render: nil,
+                     skip_link: skip_render,
                      embedded: true)
 
-          link(link_attr(name, uncacheable_link), &link)
+          link(link_attr(name, uncacheable_link, skip_link), &link)
 
           property name,
                    exec_context: :decorator,
@@ -85,9 +86,10 @@ module API
                       uncacheable_link: false,
                       show_if: ->(*) { true },
                       skip_render: nil,
+                      skip_link: skip_render,
                       embedded: true)
 
-          links(link_attr(name, uncacheable_link), &link)
+          links(link_attr(name, uncacheable_link, skip_link), &link)
 
           property name,
                    exec_context: :decorator,
@@ -117,8 +119,12 @@ module API
         # resources that are connected to the current resource via a belongs_to association, e.g.
         # WorkPackage -> belongs_to -> project.
         #
-        # @param skip_render [optional, Proc] If the proc returns true, neither _link nor _embedded of the resource will be rendered.
-        # @param undisclosed [optional, true, false] If true, instead of not rendering the resource upon `skip_render`, an { "href": "urn:openproject-org:api:v3:undisclosed" } link will be rendered. This can be used e.g. when the parent of a project is invisible to the user and the existence, if not the actual parent, is to be communicated. The resource is still not embedded in this case.
+        # @param skip_render [optional, Proc] If the proc returns true, neither _link nor
+        # _embedded of the resource will be rendered.
+        # @param undisclosed [optional, true, false] If true, instead of not rendering the resource upon `skip_render`,
+        # an { "href": "urn:openproject-org:api:v3:undisclosed" } link will be rendered. This can be used e.g. when
+        # the parent of a project is invisible to the user and the existence, if not the actual parent, is to be
+        # communicated. The resource is still not embedded in this case.
         def associated_resource(name,
                                 as: nil,
                                 representer: nil,
@@ -144,9 +150,10 @@ module API
                    skip_render: skip_render)
         end
 
-        def link_attr(name, uncacheable)
+        def link_attr(name, uncacheable, skip_link)
           links_attr = { rel: name.to_s.camelize(:lower) }
           links_attr[:uncacheable] = true if uncacheable
+          links_attr[:cache_if] = -> { (!skip_link || !instance_exec(&skip_link)) } if skip_link.present?
 
           links_attr
         end
