@@ -68,7 +68,7 @@ module OpenProject::GitlabIntegration
     initializer 'gitlab.permissions' do
       OpenProject::AccessControl.map do |ac_map|
         ac_map.project_module(:gitlab, dependencies: :work_package_tracking) do |pm_map|
-          pm_map.permission(:show_gitlab_content, {}, {})
+          pm_map.permission(:show_gitlab_content, {})
         end
       end
     end
