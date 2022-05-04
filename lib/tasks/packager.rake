@@ -115,11 +115,11 @@ namespace :packager do
         if svn_path.present?
           # migrate previous repositories with reposman to managed
           Rake::Task['scm:migrate:managed'].invoke("file://#{svn_path}")
-          checkout_data['subversion'] = { 'enabled' => 1, 'base_url' => URI.join(base_url, prefix, 'svn') }
+          checkout_data['subversion'] = { 'enabled' => 1, 'base_url' => URI.join(base_url, prefix, 'svn').to_s }
         end
 
         if git_path.present?
-          checkout_data['git'] = { 'enabled' => 1, 'base_url' => URI.join(base_url, prefix, 'git') }
+          checkout_data['git'] = { 'enabled' => 1, 'base_url' => URI.join(base_url, prefix, 'git').to_s }
         end
 
         Setting.repository_checkout_data = checkout_data
