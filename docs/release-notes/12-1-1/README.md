@@ -16,7 +16,6 @@ The release contains several bug fixes and we recommend updating to the newest v
 <!--more-->
 #### Bug fixes and changes
 
-- Changed: Add packaged installation support for Ubuntu 22.04 \[[#42069](https://community.openproject.com/wp/42069)\]
 - Fixed: Click on Include projects filter is flickering \[[#42196](https://community.openproject.com/wp/42196)\]
 - Fixed: Unprefixed E-Mail settings ignored \[[#42209](https://community.openproject.com/wp/42209)\]
 - Fixed: Crowdin downloaded translation strings do not match branch \[[#42215](https://community.openproject.com/wp/42215)\]
