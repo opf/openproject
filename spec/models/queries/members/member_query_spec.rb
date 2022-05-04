@@ -32,7 +32,7 @@ describe Queries::Members::MemberQuery, type: :model do
   let(:admin) { create(:admin) }
   let(:instance) { described_class.new(user: admin) }
   # This is the MemberQuery.default_scope with an admin user
-  let(:base_scope) { Member.from(Member.all.order(id: :desc), :members).distinct }
+  let(:base_scope) { Member.from(Member.all.distinct, :members).order(id: :desc) }
 
   # Objects required for testing with filters
   let(:group1) { create(:group) }

@@ -31,18 +31,28 @@ class Queries::Members::MemberQuery < Queries::BaseQuery
     Member
   end
 
+  # Convert the Query into an ActiveRecord Relation
   def results
-    base_query = super
+    # An invalid query reaults in an empty scope
+    if !valid?
+      return empty_scope
+    end
+
+    # Apply filters around a "select * from membership", but
+    # don't yet apply_orders, because the DISTINCT (below...) will break order
+    base_query = apply_filters(default_scope)
 
     # Add a "select distinct * from (...) members" around the Members base_query,
     # because users may appear multiple times if member of multiple groups (bug #38672).
     # Then also load roles and preference for speed-up.
     # This query is used in the /projects/<id>/member page and the also in the
     # membership_api, but there only to find the me
-    self.class.model
-        .from(base_query, :members)   # Add "select * from (...) members" around base_query
-        .distinct
-        .includes(:roles, { principal: :preference }, :member_roles)
+    distinct_query = self.class.model
+        .from(base_query.distinct, :members)
+
+    # Return the ordered query with additional resources eagerly loaded
+    apply_orders(distinct_query)
+      .includes(:roles, { principal: :preference }, :member_roles)
   end
 
   def default_scope
