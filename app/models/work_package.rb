@@ -350,14 +350,6 @@ class WorkPackage < ApplicationRecord
     end
   end
 
-  # Is the amount of work done less than it should for the finish date
-  def behind_schedule?
-    return false if start_date.nil? || due_date.nil?
-
-    done_date = start_date + (duration * done_ratio / 100).floor
-    done_date <= Date.today
-  end
-
   # check if user is allowed to edit WorkPackage Journals.
   # see Acts::Journalized::Permissions#journal_editable_by
   def journal_editable_by?(journal, user)
