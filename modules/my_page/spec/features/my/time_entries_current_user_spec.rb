@@ -39,13 +39,15 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
     create :work_package,
            project: project,
            type: type,
-           author: user
+           author: user,
+           subject: 'First work package'
   end
   let!(:other_work_package) do
     create :work_package,
            project: project,
            type: type,
-           author: user
+           author: user,
+           subject: 'Another task'
   end
   let!(:visible_time_entry) do
     create :time_entry,
@@ -184,6 +186,12 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
 
     expect(page)
       .not_to have_selector('.ng-spinner-loader')
+
+    # Expect filtering works
+    time_logging_modal.work_package_field.autocomplete work_package.subject, select: false
+
+    expect(page).to have_selector('[data-qa-selector="op-autocompleter-item-subject"]', text: work_package.subject)
+    expect(page).to have_no_selector('[data-qa-selector="op-autocompleter-item-subject"]', text: other_work_package.subject)
 
     time_logging_modal.update_work_package_field other_work_package.subject
 
