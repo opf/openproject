@@ -16,6 +16,7 @@ import {
   finalize,
   map,
   mergeMap,
+  shareReplay,
   take,
 } from 'rxjs/operators';
 
@@ -199,9 +200,16 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin implements On
           ),
       ),
       map((projects) => recursiveSort(projects)),
+      shareReplay(),
     );
 
-  public loading$ = new BehaviorSubject(false);
+  public fetchingProjects$ = new BehaviorSubject(false);
+  public loading$ = combineLatest([
+    this.fetchingProjects$,
+    this.projects$,
+  ]).pipe(
+    map(([isFetching, projects]) => isFetching || projects.length === 0)
+  );
 
   public get params():ApiV3ListParameters {
     const filters:ApiV3ListFilter[] = [
@@ -269,7 +277,7 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin implements On
   }
 
   public loadAllProjects():void {
-    this.loading$.next(true);
+    this.fetchingProjects$.next(true);
 
     getPaginatedResults<IProject>(
       (params) => {
@@ -278,7 +286,7 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin implements On
       },
     )
       .pipe(
-        finalize(() => this.loading$.next(false)),
+        finalize(() => this.fetchingProjects$.next(false)),
       )
       .subscribe((projects) => {
         this.allProjects$.next(projects);

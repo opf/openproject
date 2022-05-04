@@ -49,7 +49,7 @@ Depending on the module, for which the new custom field is being  created, sligh
     2. Custom field is activated for the project.
 </div>
 
-1. [Assign a custom field to a work package type](../manage-work-packages/work-package-types/#work-package-form-configuration) (Form configuration). You can do this directly via the link in the custom field overview.
+1. [Assign a custom field to a work package type](../manage-work-packages/work-package-types/#work-package-form-configuration-premium-feature) (Form configuration). You can do this directly via the link in the custom field overview.
 
 ![Sys-admin-add-custom-field](Sys-admin-add-custom-field.png)
 
