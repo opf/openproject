@@ -19,7 +19,7 @@ import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter
   templateUrl: './role-search.component.html',
 })
 export class RoleSearchComponent extends UntilDestroyedMixin implements OnInit {
-  @Input('opFormBinding') roleControl:FormControl;
+  @Input('spotFormBinding') roleControl:FormControl;
 
   public input$ = new Subject<string|null>();
 

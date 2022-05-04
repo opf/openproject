@@ -3,10 +3,14 @@
     <div class="spot-form-field--label">
       <span
         *ngIf="showErrorMessage"
-        class="Hidden for sighted"
-      >Invalid</span>
+        class="hidden-for-sighted"
+      >
+        {{ text.invalid }}
+      </span>
       {{ label }}
+
       <span *ngIf="required" class="spot-form-field--label-indicator">*</span>
+
       <attribute-help-text
         [attribute]="helpTextAttribute"
         [attributeScope]="helpTextAttributeScope"
@@ -22,11 +26,8 @@
     <ng-container *ngTemplateOutlet="inputTemplate"></ng-container>
   </ng-container>
 
-  <div
-    class="spot-form-field--description"
-    [id]="descriptionID"
-  >
-    <ng-content select="[slot=description]"></ng-content>
+  <div class="spot-form-field--help-text">
+    <ng-content select="[slot=help-text]"></ng-content>
   </div>
 
   <div
@@ -39,6 +40,13 @@
 </ng-container>
 
 <ng-template #inputTemplate>
+  <div
+    class="spot-form-field--description"
+    [id]="descriptionID"
+  >
+    <ng-content select="[slot=description]"></ng-content>
+  </div>
+
   <div
     class="spot-form-field--input"
     [attr.aria-describedby]="describedByID"

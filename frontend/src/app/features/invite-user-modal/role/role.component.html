@@ -6,29 +6,29 @@
 
   <div class="spot-divider"></div>
 
-  <div class="spot-modal--body op-form">
-    <op-form-field
+  <div class="spot-modal--body spot-container">
+    <spot-form-field
       [label]="text.label()"
       required
     >
       <p
-        class="op-form-field--description"
+        class="spot-form-field--description"
         slot="description"
         [innerHtml]="text.description()"
       ></p>
       <op-ium-role-search
-        [opFormBinding]="roleControl"
+        [spotFormBinding]="roleControl"
         slot="input"
       ></op-ium-role-search>
 
       <div
         slot="errors"
-        class="op-form-field--error"
+        class="spot-form-field--error"
         *ngIf="roleControl?.touched && roleControl?.invalid"
       >
         {{ text.required }}
       </div>
-    </op-form-field>
+    </spot-form-field>
   </div>
 
   <div class="spot-modal--footer spot-action-bar">

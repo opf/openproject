@@ -7,8 +7,8 @@
   <div class="spot-divider"></div>
 
   <div class="spot-modal--body op-form">
-    <op-form-field [label]="text.label">
-      <p class="op-form-field--description" slot="description">
+    <spot-form-field [label]="text.label">
+      <p class="spot-form-field--description" slot="description">
         {{ text.description() }}
       </p>
       <textarea
@@ -18,7 +18,7 @@
         #input
         autofocus>
       </textarea>
-    </op-form-field>
+    </spot-form-field>
   </div>
 
   <div class="spot-modal--footer spot-action-bar">

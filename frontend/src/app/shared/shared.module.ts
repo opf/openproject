@@ -79,8 +79,6 @@ import { ShowSectionDropdownComponent } from './components/hide-section/show-sec
 import { SlideToggleComponent } from './components/slide-toggle/slide-toggle.component';
 import { DynamicBootstrapModule } from './components/dynamic-bootstrap/dynamic-bootstrap.module';
 import { OpCheckboxFieldComponent } from './components/forms/checkbox-field/checkbox-field.component';
-import { OpFormFieldComponent } from './components/forms/form-field/form-field.component';
-import { OpFormBindingDirective } from './components/forms/form-field/form-binding.directive';
 import { OpOptionListComponent } from './components/option-list/option-list.component';
 import { OpSidemenuComponent } from './components/sidemenu/sidemenu.component';
 import { OpProjectIncludeComponent } from './components/project-include/project-include.component';
@@ -194,8 +192,6 @@ export function bootstrapModule(injector:Injector):void {
     SlideToggleComponent,
 
     OpCheckboxFieldComponent,
-    OpFormFieldComponent,
-    OpFormBindingDirective,
     OpOptionListComponent,
     OpSidemenuComponent,
     OpProjectIncludeComponent,
@@ -255,8 +251,6 @@ export function bootstrapModule(injector:Injector):void {
     SlideToggleComponent,
 
     OpCheckboxFieldComponent,
-    OpFormFieldComponent,
-    OpFormBindingDirective,
     OpOptionListComponent,
     OpSidemenuComponent,
     OpProjectIncludeComponent,

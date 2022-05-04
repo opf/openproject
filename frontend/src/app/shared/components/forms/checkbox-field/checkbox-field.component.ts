@@ -16,11 +16,11 @@ import {
   templateUrl: './checkbox-field.component.html',
 })
 export class OpCheckboxFieldComponent {
-  @HostBinding('class.op-form-field') className = true;
+  @HostBinding('class.spot-form-field') className = true;
 
   @HostBinding('class.op-checkbox-field') classNameCheckbox = true;
 
-  @HostBinding('class.op-form-field_invalid') get errorClassName():boolean {
+  @HostBinding('class.spot-form-field_invalid') get errorClassName():boolean {
     return this.showErrorMessage;
   }
 

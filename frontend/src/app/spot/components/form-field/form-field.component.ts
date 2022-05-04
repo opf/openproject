@@ -2,6 +2,7 @@ import {
   Component, ContentChild, HostBinding, Input, Optional,
 } from '@angular/core';
 import { AbstractControl, FormGroupDirective, NgControl } from '@angular/forms';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 
 @Component({
   selector: 'spot-form-field',
@@ -22,17 +23,21 @@ export class SpotFormFieldComponent {
 
   @Input() hidden = false;
 
+  @Input() showValidationErrorOn:'change' | 'blur' | 'submit' | 'never' = 'submit';
+
   @Input() control?:AbstractControl;
 
   @Input() helpTextAttribute?:string;
 
   @Input() helpTextAttributeScope?:string;
 
-  @Input() showValidationErrorOn:'change' | 'blur' | 'submit' | 'never' = 'submit';
-
   @ContentChild(NgControl) ngControl:NgControl;
 
   internalID = `spot-form-field-${+new Date()}`;
+
+  text = {
+    invalid: this.I18n.t('js.label_invalid'),
+  };
 
   get errorsID() {
     return `${this.internalID}-errors`;
@@ -68,5 +73,6 @@ export class SpotFormFieldComponent {
 
   constructor(
     @Optional() private _formGroupDirective:FormGroupDirective,
+    readonly I18n:I18nService,
   ) {}
 }

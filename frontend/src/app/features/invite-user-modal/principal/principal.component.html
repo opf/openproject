@@ -6,14 +6,14 @@
 
   <div class="spot-divider"></div>
 
-  <div class="spot-modal--body op-form">
-    <op-form-field
+  <div class="spot-modal--body spot-container">
+    <spot-form-field
       [label]="textLabel"
       required
     >
       <op-ium-principal-search
         *ngIf="!(hasPrincipalSelected && isNewPrincipal)"
-        [opFormBinding]="principalControl"
+        [spotFormBinding]="principalControl"
         [type]="type"
         [project]="project"
         slot="input"
@@ -46,12 +46,12 @@
 
       <div
         slot="errors"
-        class="op-form-field--error"
+        class="spot-form-field--error"
         *ngIf="principalControl?.touched && principalControl?.invalid"
       >
         {{ text.required[type] }}
       </div>
-    </op-form-field>
+    </spot-form-field>
 
     <op-dynamic-form
       *ngIf="isNewPrincipal && type === PrincipalType.User && userDynamicFieldConfig.schema"
