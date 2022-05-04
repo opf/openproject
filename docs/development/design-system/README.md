@@ -43,6 +43,19 @@ keywords: Design system, styles, design, components
 | [Toast](https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/?node-id=391%3A3910) | Working draft, designed, no documentation yet |  |
 | [Tooltip](https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/?node-id=391%3A3910) | Working draft, designed, no documentation yet |  |
 
+### Search field
+
+| Places where we use this style     | Current implementation | Migration to design system                              |
+| ---------------------------------- | ---------------------- | ------------------------------------------------------- |
+| Work packages -> Include projects  | Angular                | [12.1](https://community.openproject.org/versions/1493) |
+| Sidebar                            | Angular                | [12.2](https://community.openproject.org/versions/1494) |
+| Header main navigation             | Angular                | [12.2](https://community.openproject.org/versions/1494) |
+| Administration -> User             | Rails                  |                                                         |
+| Administration -> Placeholder User | Rails                  |                                                         |
+| Work packages -> Add relation      | Angular                |                                                         |
+| Work packages -> Add watcher       | Angular                |                                                         |
+| Work packages -> Add parent        | Angular                |                                                         |
+
 ## Patterns
 
 | Style definitions (Figma)                                    | Status                         | Implementation examples                                      |
