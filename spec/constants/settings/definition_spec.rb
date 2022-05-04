@@ -109,8 +109,34 @@ describe Settings::Definition do
                      'DEFAULT_LANGUAGE' => 'de'
                    })
 
-        expect(value_for('default_language')).not_to eql 'de'
         expect(value_for('default_language')).to eql 'en'
+      end
+
+      it 'allows overriding email/smpt configuration from ENV without OPENPROJECT_ prefix even though setting is writable' do
+        stub_const('ENV',
+                   {
+                     'EMAIL_DELIVERY_CONFIGURATION' => 'legacy',
+                     'EMAIL_DELIVERY_METHOD' => 'smtp',
+                     'SMTP_ADDRESS' => 'smtp.somedomain.org',
+                     'SMTP_AUTHENTICATION' => 'something',
+                     'SMTP_DOMAIN' => 'email.bogus.abc',
+                     'SMTP_ENABLE_STARTTLS_AUTO' => 'true',
+                     'SMTP_PASSWORD' => 'password',
+                     'SMTP_PORT' => '987',
+                     'SMTP_USER_NAME' => 'user',
+                     'SMTP_SSL' => 'true'
+                   })
+
+        expect(value_for('email_delivery_configuration')).to eql 'legacy'
+        expect(value_for('email_delivery_method')).to eq :smtp
+        expect(value_for('smtp_address')).to eql 'smtp.somedomain.org'
+        expect(value_for('smtp_authentication')).to eql 'something'
+        expect(value_for('smtp_domain')).to eql 'email.bogus.abc'
+        expect(value_for('smtp_enable_starttls_auto')).to be true
+        expect(value_for('smtp_password')).to eql 'password'
+        expect(value_for('smtp_port')).to eq 987
+        expect(value_for('smtp_user_name')).to eq 'user'
+        expect(value_for('smtp_ssl')).to be true
       end
 
       it 'logs a deprecation warning when overriding configuration from ENV without OPENPROJECT_ prefix' do
