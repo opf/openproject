@@ -288,11 +288,11 @@ lol:
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
           '12_1':
             standard:
-              learn_about_link: crwdns808272:0crwdne808272:0
+              learn_about_link: crwdns813928:0crwdne813928:0
               new_features_html: >
                 crwdns808274:0%{list_styling_class}crwdne808274:0
             bim:
-              learn_about_link: crwdns808276:0crwdne808276:0
+              learn_about_link: crwdns813930:0crwdne813930:0
               new_features_html: >
                 crwdns808278:0%{list_styling_class}crwdne808278:0
     label_activate: "crwdns787268:0crwdne787268:0"

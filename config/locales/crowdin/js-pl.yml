@@ -289,11 +289,11 @@ pl:
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
           '12_1':
             standard:
-              learn_about_link: https://www.openproject.org/openproject-12-1-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-1-release
               new_features_html: >
                 Wersja zawiera różne nowe funkcje i ulepszenia: <br> <ul class="%{list_styling_class}"> <li> <b>nowy moduł Planista zespołu</b> (funkcja wersji Enterprise) umożliwia wizualne przypisywanie zadań członkom zespołu, co pozwala uzyskać informacje o tym, kto nad czym pracuje.</li> <li>Wydajemy <b>tablice zwinne</b> dla wersji społecznościowej.</li> <li>Filtr „<b>Uwzględnij projekty</b>” ułatwia dodawanie różnych projektów do widoków, takich jak pakiety robocze, kalendarze i planiści zespołu.</li> <li>Dodaliśmy <b>nową kartę „Pliki”</b> w szczegółach pakietu roboczego, aby dołączać wszystkie możliwe informacje do pakietu roboczego.</li> <li>Utworzyliśmy <b>globalne role dla grup</b>, które można przypisać do grup i utworzyć grupy superużytkowników.</li> <li>Status projektu otrzymał więcej opcji do wyboru.</li> </ul>
             bim:
-              learn_about_link: https://www.openproject.org/openproject-12-1-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-1-release
               new_features_html: >
                 Wersja zawiera różne nowe funkcje i ulepszenia: <br> <ul class="%{list_styling_class}"> <li>W module BCF można teraz zapisywać wybrane filtry pakietów roboczych, kolumny itd. jako <b>widoki</b> i udostępniać je członkom swojego zespołu.</li> <li> <b>nowy moduł Planista zespołu</b> (funkcja wersji Enterprise) umożliwia wizualne przypisywanie zadań członkom zespołu, co pozwala uzyskać informacje o tym, kto nad czym pracuje.</li> <li>Wydajemy <b>tablice zwinne</b> dla wersji społecznościowej.</li> <li>Filtr „<b>Uwzględnij projekty</b>” ułatwia dodawanie różnych projektów do widoków, takich jak pakiety robocze, kalendarze i planiści zespołu.</li> <li>Dodaliśmy <b>nową kartę „Pliki”</b> w szczegółach pakietu roboczego, aby dołączać wszystkie możliwe informacje do pakietu roboczego.</li> <li>Utworzyliśmy <b>globalne role dla grup</b>, które można przypisać do grup i utworzyć grupy superużytkowników.</li> <li>Status projektu otrzymał więcej opcji do wyboru.</li> </ul>
     label_activate: "Aktywuj"
