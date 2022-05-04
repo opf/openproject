@@ -21,7 +21,7 @@ import { BooleanInputComponent } from 'core-app/shared/components/dynamic-forms/
 import { DateInputComponent } from 'core-app/shared/components/dynamic-forms/components/dynamic-inputs/date-input/date-input.component';
 import { FormattableTextareaInputComponent } from 'core-app/shared/components/dynamic-forms/components/dynamic-inputs/formattable-textarea-input/formattable-textarea-input.component';
 import { DynamicFieldGroupWrapperComponent } from 'core-app/shared/components/dynamic-forms/components/dynamic-field-group-wrapper/dynamic-field-group-wrapper.component';
-import { OpFormFieldComponent } from 'core-app/shared/components/forms/form-field/form-field.component';
+import { SpotFormFieldComponent } from 'core-app/spot/components/form-field/form-field.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DynamicFieldWrapperComponent } from 'core-app/shared/components/dynamic-forms/components/dynamic-field-wrapper/dynamic-field-wrapper.component';
 import { ConfirmDialogService } from "core-app/shared/components/modals/confirm-dialog/confirm-dialog.service";
@@ -308,7 +308,7 @@ describe('DynamicFormComponent', () => {
         ],
         declarations: [
           DynamicFormComponent,
-          OpFormFieldComponent,
+          SpotFormFieldComponent,
           TextInputComponent,
           IntegerInputComponent,
           SelectInputComponent,
