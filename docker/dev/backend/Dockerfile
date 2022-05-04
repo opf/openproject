@@ -1,4 +1,4 @@
-FROM ruby:3.0.4-bullseye as develop
+FROM ruby:3.1.2-bullseye as develop
 MAINTAINER operations@openproject.com
 
 ARG DEV_UID=1000
@@ -47,7 +47,7 @@ WORKDIR /home/$USER/openproject
 
 USER $USER
 
-RUN gem install bundler --version "${bundler_version}" --no-document
+RUN gem install bundler --version "${BUNDLER_VERSION}" --no-document
 
 ####### Testing image below #########
 
