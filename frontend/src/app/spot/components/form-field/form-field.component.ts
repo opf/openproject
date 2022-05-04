@@ -28,7 +28,7 @@ export class SpotFormFieldComponent {
 
   @Input() helpTextAttributeScope?:string;
 
-  @Input() showValidationErrorOn:'change' | 'blur' | 'submit' | 'never' = 'submit';
+  @Input() showValidationErrorOn:'change' | 'blur' | 'submit' | 'never' = 'blur';
 
   @ContentChild(NgControl) ngControl:NgControl;
 
@@ -54,6 +54,8 @@ export class SpotFormFieldComponent {
     if (!this.formControl) {
       return false;
     }
+
+    console.log(this.formControl.errors);
 
     if (this.showValidationErrorOn === 'submit') {
       return this.formControl.invalid && this._formGroupDirective?.submitted;
