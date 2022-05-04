@@ -24,7 +24,7 @@ interface NgSelectProjectOption {
   templateUrl: './project-search.component.html',
 })
 export class ProjectSearchComponent extends UntilDestroyedMixin implements OnInit {
-  @Input('opFormBinding') projectFormControl:FormControl;
+  @Input('spotFormBinding') projectFormControl:FormControl;
 
   public text = {
     noResultsFound: this.I18n.t('js.invite_user_modal.project.no_results'),

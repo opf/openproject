@@ -1,6 +1,9 @@
 <ng-container *ngIf="!hidden">
   <label class="spot-form-field--label-wrap">
-    <div class="spot-form-field--label">
+    <div
+      class="spot-form-field--label"
+      *ngIf="showErrorMessage || label || helpTextAttribute"
+    >
       <span
         *ngIf="showErrorMessage"
         class="Hidden for sighted"
@@ -8,6 +11,7 @@
       {{ label }}
       <span *ngIf="required" class="spot-form-field--label-indicator">*</span>
       <attribute-help-text
+        *ngIf="helpTextAttribute"
         [attribute]="helpTextAttribute"
         [attributeScope]="helpTextAttributeScope"
       ></attribute-help-text>
