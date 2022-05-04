@@ -1,4 +1,5 @@
 import { Component, ViewEncapsulation } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'spot-docs',
@@ -15,7 +16,13 @@ export class SpotDocsComponent {
 
   textFieldValue = 'ngModel value';
 
-  usernameValue = '';
+  usernameForm = new FormGroup({
+    username: new FormControl('', [
+      Validators.required,
+      Validators.minLength(3),
+      Validators.maxLength(5),
+    ]),
+  });
 
   dropModalOpen = false;
 
@@ -45,5 +52,9 @@ export class SpotDocsComponent {
     }
 
     return 'false (unchecked)';
+  }
+
+  onUsernameSubmit() {
+    alert(this.usernameForm.get('username')?.value);
   }
 }

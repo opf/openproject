@@ -11,15 +11,15 @@
       [label]="text.label()"
       required
     >
-      <p
-        class="spot-form-field--description"
-        slot="description"
-        [innerHtml]="text.description()"
-      ></p>
       <op-ium-role-search
         [spotFormBinding]="roleControl"
         slot="input"
       ></op-ium-role-search>
+
+      <p
+        slot="description"
+        [innerHtml]="text.description()"
+      ></p>
 
       <div
         slot="errors"
