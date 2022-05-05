@@ -27,6 +27,14 @@
 #++
 
 FactoryBot.define do
+  duration_calculation = -> do
+    if start_date && due_date
+      due_date - start_date + 1
+    else
+      1
+    end
+  end
+
   factory :work_package do
     transient do
       custom_values { nil }
@@ -38,8 +46,9 @@ FactoryBot.define do
     sequence(:subject) { |n| "WorkPackage No. #{n}" }
     description { |i| "Description for '#{i.subject}'" }
     author factory: :user
-    created_at { Time.now }
-    updated_at { Time.now }
+    created_at { Time.zone.now }
+    updated_at { Time.zone.now }
+    duration &duration_calculation
 
     callback(:after_build) do |work_package, evaluator|
       work_package.type = work_package.project.types.first unless work_package.type
@@ -56,7 +65,7 @@ FactoryBot.define do
     end
   end
 
-  factory :stubbed_work_package, class: WorkPackage do
+  factory :stubbed_work_package, class: 'WorkPackage' do
     transient do
       custom_values { nil }
     end
@@ -67,8 +76,9 @@ FactoryBot.define do
     sequence(:subject) { |n| "WorkPackage No. #{n}" }
     description { |i| "Description for '#{i.subject}'" }
     author factory: :user
-    created_at { Time.now }
-    updated_at { Time.now }
+    created_at { Time.zone.now }
+    updated_at { Time.zone.now }
+    duration &duration_calculation
 
     callback(:after_stub) do |wp, arguments|
       wp.type = wp.project.types.first unless wp.type_id || arguments.instance_variable_get(:@overrides).has_key?(:type)
