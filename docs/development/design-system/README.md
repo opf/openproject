@@ -45,32 +45,32 @@ keywords: Design system, styles, design, components
 
 ### Search field
 
-| Places where we use this style     | Current implementation | Migration to design system                              |
-| ---------------------------------- | ---------------------- | ------------------------------------------------------- |
-| Work packages -> Include projects  | Angular                | [12.1](https://community.openproject.org/versions/1493) |
-| Sidebar                            | Angular                | [12.2](https://community.openproject.org/versions/1494) |
-| Header main navigation             | Angular                | [12.2](https://community.openproject.org/versions/1494) |
-| Single select project              | Angular                |                                                         |
-| Team planner -> Add existing       | Angular                |                                                         |
-| Team planner -> Add assignee       | Angular                |                                                         |
-| Work packages -> Create relation   | Angular                |                                                         |
-| Work packages -> Set parent        | Angular                |                                                         |
-| Work packages -> Add child         | Angular                |                                                         |
-| Work packages -> Add watcher       | Angular                |                                                         |
-| Work packages -> All details       |                        |                                                         |
-| Work package list -> Columns       |                        |                                                         |
-| Work package list -> Highlighting  |                        |                                                         |
-| Boards -> Add existing card        |                        |                                                         |
-| Time and costs -> Report Project   |                        |                                                         |
-| Members -> Add new member          |                        |                                                         |
-| Filters -> All searchable          |                        |                                                         |
-| Filters -> Filter by text          |                        |                                                         |
-| Project settings -> Information    |                        |                                                         |
-| My profile -> Notification setting |                        |                                                         |
-| Administration -> User             | Rails                  |                                                         |
-| Administration -> Placeholder User | Rails                  |                                                         |
-| Administration -> Groups           |                        |                                                         |
-| Administration -> Custom actions   |                        |                                                         |
+| Places where we use this style         | Current implementation | Migration to design system                              |
+| -------------------------------------- | ---------------------- | ------------------------------------------------------- |
+| Work packages -> Include projects      | Angular                | [12.1](https://community.openproject.org/versions/1493) |
+| Sidebar                                | Angular                | [12.2](https://community.openproject.org/versions/1494) |
+| Header main navigation                 | Angular                | [12.2](https://community.openproject.org/versions/1494) |
+| Single select project                  | Angular                |                                                         |
+| Team planner -> Add existing           | Angular                |                                                         |
+| Team planner -> Add assignee           | Angular                |                                                         |
+| Work packages -> Create relation       | Angular                |                                                         |
+| Work packages -> Set parent            | Angular                |                                                         |
+| Work packages -> Add child             | Angular                |                                                         |
+| Work packages -> Add watcher           | Angular                |                                                         |
+| Work packages -> All details           |                        |                                                         |
+| Work package list -> Columns           | Angular                |                                                         |
+| Work package list -> Highlighting      | Angular                |                                                         |
+| Boards -> Add existing card            | Angular                |                                                         |
+| Time and costs -> Report project       |                        |                                                         |
+| Members -> Add new member              | Rails                  |                                                         |
+| Work package filters -> All searchable | Angular                |                                                         |
+| Work package filters -> Filter by text | Angular                |                                                         |
+| Project settings -> Information        | Angular                |                                                         |
+| My profile -> Notification settings    | Angular                |                                                         |
+| Administration -> User                 | Rails                  |                                                         |
+| Administration -> Placeholder user     | Rails                  |                                                         |
+| Administration -> Groups               | Rails                  |                                                         |
+| Administration -> Custom actions       | Rails                  |                                                         |
 
 ## Patterns
 
