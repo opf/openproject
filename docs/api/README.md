@@ -26,6 +26,10 @@ Examples for this include managing work packages, projects and users.
 
 ➔ [Go to OpenProject API](./introduction/)
 
+### OpenAPI Specification
+
+Download the API specification in OpenAPI format as [json](https://www.openproject.org/docs/api/v3/spec.json) or [yml](https://www.openproject.org/docs/api/v3/spec.yml).
+
 ## BCF v2.1
 
 This API supports BCF management in the context of BIM projects.
