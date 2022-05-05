@@ -30,6 +30,7 @@ module API
   module V3
     module Queries
       class QueryPayloadRepresenter < QueryRepresenter
+        include ::API::Caching::CachedRepresenter
         include ::API::Utilities::PayloadRepresenter
 
         def filters

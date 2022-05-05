@@ -30,6 +30,7 @@ module API
   module V3
     module Relations
       class RelationRepresenter < ::API::Decorators::Single
+        include API::Caching::CachedRepresenter
         include API::Decorators::LinkedResource
 
         link :self do
