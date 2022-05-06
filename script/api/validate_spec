@@ -2,26 +2,21 @@
 
 require 'pathname'
 require 'tempfile'
-require 'psych'
-require 'yaml'
 
-load 'lib/api/open_api.rb'
-
-assembled_path = "./tmp/oas-generated.yml"
-spec_path = Pathname(__dir__).join("../../docs/api/apiv3/openapi-spec.yml")
-full_spec = API::OpenAPI.send(:assemble_spec, spec_path).to_yaml
+openapi_yaml_spec_path = "./tmp/oas-generated.yml"
+full_spec = `#{Pathname(__dir__).join('spec')} --format yaml`
 status = 1
 
 begin
-  File.open(assembled_path, "w+") do |file|
+  File.open(openapi_yaml_spec_path, "w+") do |file|
     file.puts full_spec
   end
 
-  `npx @redocly/openapi-cli lint #{assembled_path}`
+  `npx @redocly/openapi-cli lint #{openapi_yaml_spec_path}`
 
   status = $?.exitstatus
 ensure
-  FileUtils.rm assembled_path if File.exist? assembled_path
+  FileUtils.rm_f openapi_yaml_spec_path
 end
 
 exit status
