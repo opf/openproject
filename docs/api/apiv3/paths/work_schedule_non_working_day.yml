@@ -1,0 +1,54 @@
+---
+# TODO: add missing description, missing tags, missing parameters, and missing response codes
+get:
+  summary: View a non-working day
+  operationId: view_non_working_day
+  parameters:
+    - name: date
+      in: path
+      required: true
+      description: |-
+        The date of the non-working day to view in ISO 8601 format.
+      schema:
+        type: string
+        format: date
+      example: '2022-05-06'
+  responses:
+    '200':
+      description: OK
+
+# TODO: add missing description, missing tags, missing parameters, and missing response codes
+patch:
+  summary: Update a non-working day attributes
+  operationId: update_non_working_day
+  parameters:
+    - name: date
+      in: path
+      required: true
+      description: |-
+        The date of the non-working day to view in ISO 8601 format.
+      schema:
+        type: string
+        format: date
+      example: '2022-05-06'
+  responses:
+    '200':
+      description: OK
+
+# TODO: add missing description, missing tags, missing parameters, and missing response codes
+delete:
+  summary: Remove a day from the non-working days
+  operationId: delete_non_working_day
+  parameters:
+    - name: date
+      in: path
+      required: true
+      description: |-
+        The date of the non-working day to view in ISO 8601 format.
+      schema:
+        type: string
+        format: date
+      example: '2022-05-06'
+  responses:
+    '200':
+      description: OK

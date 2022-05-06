@@ -1,0 +1,27 @@
+---
+get:
+  summary: Lists week days
+  operationId: list_week_days
+  tags:
+    - Work Schedule
+    - Non working days
+    - Week days
+  description: |-
+    Lists week days with work schedule information.
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/week_day_collection_model.yml'
+    '400':
+      description: Returned if the client sends invalid request parameters
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:InvalidRequestBody
+            message: The request body was not a single JSON object.

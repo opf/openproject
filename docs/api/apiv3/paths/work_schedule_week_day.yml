@@ -1,0 +1,126 @@
+---
+get:
+  summary: View a week day
+  operationId: view_week_day
+  tags:
+    - Work Schedule
+    - Week day
+  description: |-
+    View a week day and its attributes.
+  parameters:
+    - name: day
+      in: path
+      required: true
+      description: |-
+        The week day from 1 to 7. 1 is Monday. 7 is Sunday.
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 7
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/week_day_model.yml'
+    '400':
+      description: |-
+        Occurs if the client sends an invalid request.
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:InvalidRequestBody
+            message: The request body was not a single JSON object.
+    '422':
+      description: |-
+        Occurs if the request body was correctly formatted, but some properties lead to errors in the validation
+        process. This happens for example if the day is out of the 1-7 range.
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:PropertyConstraintViolation
+                message: The request was invalid. Expected day to be between 1 and 7.
+
+patch:
+  summary: Update a week day attributes
+  operationId: update_week_day
+  description: |-
+    Makes a week day a working or non-working day.
+
+    TODO: describe what should happen if a working attribute of a week day is changed and the impact it will have on
+    work packages scheduling once the behavior has been specified.
+  tags:
+    - Work Schedule
+    - Week day
+  parameters:
+    - name: day
+      in: path
+      required: true
+      description: |-
+        The week day from 1 to 7. 1 is Monday. 7 is Sunday.
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 7
+    - name: working
+      in: query
+      required: true
+      description: |-
+        Set to `true` to make this week day a working day. Set to `false` to make it a non-working day.
+      schema:
+        type: boolean
+  responses:
+    '200':
+      description: |-
+        Update succeeded.
+
+        Response will include the week day with updated attributes.
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/week_day_model.yml'
+    '400':
+      description: |-
+        Occurs if the client sends an invalid request.
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:InvalidRequestBody
+            message: The request body was not a single JSON object.
+    '403':
+      description: |-
+        Returned if the client does not have sufficient permissions.
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:InvalidQuery
+            message: You are not authorized to access this resource.
+    '422':
+      description: |-
+        Occurs if the request body was correctly formatted, but some properties lead to errors in the validation
+        process. This happens for example if the day is out of the 1-7 range.
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:PropertyConstraintViolation
+                message: The request was invalid. Expected day to be between 1 and 7.

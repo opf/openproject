@@ -1,0 +1,41 @@
+# Schema: NonWorkingDayModel
+---
+type: object
+required:
+  - _type
+  - date
+  - name
+  - _links
+properties:
+  _type:
+    type: string
+    enum:
+      - NonWorkingDay
+  date:
+    type: string
+    format: date
+    description: Date of the non-working day.
+  name:
+    type: string
+    description: Descriptive name for the non-working day.
+  _links:
+    type: object
+    required:
+      - self
+    properties:
+      self:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              This non working day. If the non-working day is recurring like a weekend day, the resource will point to a
+              week day.
+
+              **Resource**: NonWorkingDay or WeekDay
+example:
+  _type: NonWorkingDay
+  date: '2022-05-07'
+  name: Saturday
+  _links:
+    self:
+      href: /api/v3/work_schedule/non_working_days/2022-05-07
+      title: Saturday

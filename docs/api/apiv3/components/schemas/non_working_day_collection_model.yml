@@ -1,0 +1,86 @@
+# Schema: NonWorkingDayCollectionModel
+---
+allOf:
+  - $ref: './collection_model.yml'
+  - type: object
+    required:
+      - _links
+      - _embedded
+    properties:
+      _links:
+        type: object
+        required:
+          - self
+        properties:
+          self:
+            allOf:
+              - $ref: "./link.yml"
+              - description: |-
+                  This non working days collection
+
+                  **Resource**: NonWorkingDayCollectionModel
+      _embedded:
+        type: object
+        required:
+          - elements
+        properties:
+          elements:
+            type: array
+            description: |-
+              The array of non working days.
+
+              A particular date can appear multiple times as both a non working day and a week day.
+            items:
+              $ref: './non_working_day_model.yml'
+
+example:
+  _type: Collection
+  total: 6
+  count: 6
+  _links:
+    self:
+      href: '/api/v3/work_schedule/non_working_days?include_weekend=true&filters=[{"interval":{"operator":"<>d","values":["2022-05-01","2022-05-15"]}}]'
+  _embedded:
+    elements:
+      - _type: NonWorkingDay
+        date: '2022-05-01'
+        name: Labour day
+        _links:
+          self:
+            href: /api/v3/work_schedule/non_working_days/2022-05-01
+            title: Labour day
+      - _type: NonWorkingDay
+        date: '2022-05-01'
+        name: Sunday
+        _links:
+          self:
+            href: /api/v3/work_schedule/week_days/7
+            title: Sunday
+      - _type: NonWorkingDay
+        date: '2022-05-07'
+        name: Saturday
+        _links:
+          self:
+            href: /api/v3/work_schedule/week_days/6
+            title: Saturday
+      - _type: NonWorkingDay
+        date: '2022-05-08'
+        name: Sunday
+        _links:
+          self:
+            href: /api/v3/work_schedule/week_days/7
+            title: Sunday
+      - _type: NonWorkingDay
+        date: '2022-05-14'
+        name: Saturday
+        _links:
+          self:
+            href: /api/v3/work_schedule/week_days/6
+            title: Saturday
+      - _type: NonWorkingDay
+        date: '2022-05-15'
+        name: Sunday
+        _links:
+          self:
+            href: /api/v3/work_schedule/week_days/7
+            title: Sunday
