@@ -31,8 +31,7 @@ require 'spec_helper'
 describe Queries::Members::MemberQuery, type: :model do
   let(:admin) { create(:admin) }
   let(:instance) { described_class.new(user: admin) }
-  # This is the MemberQuery.default_scope with an admin user
-  let(:base_scope) { Member.from(Member.all.distinct, :members).order(id: :desc) }
+  let(:manual_reference_scope) { Member.from(Member.all.distinct, :members).order(id: :desc) }
 
   # Objects required for testing with filters
   let(:group1) { create(:group) }
@@ -51,20 +50,21 @@ describe Queries::Members::MemberQuery, type: :model do
     describe '#results' do
       # Check that the query SQL is the same as the manual SQL
       it 'is the same as getting all the members' do
-        expect(instance.results.to_sql).to eql base_scope.to_sql
+        expect(instance.results.to_sql).to eql manual_reference_scope.to_sql
       end
     end
   end
 
   context 'with a user but without filters' do
     before do
-      # We need to write the membership to the DB to count results
-      member.save
+      # Just instantiate one user
+      member
     end
 
     describe '#results' do
       it 'returns the single test user if no filters are specified' do
         expect(instance.results.count).to eq 1
+        expect(instance.results[0].user_id).to eq admin.id
       end
     end
   end
@@ -76,15 +76,17 @@ describe Queries::Members::MemberQuery, type: :model do
     let(:instance) { described_class.new(user: admin).where(:group, '=', group1.id) }
 
     before do
-      member.save
+      # Instantiate one user
+      member
       # Add the admin user to the two groups
-      Groups::UpdateService.new(user: admin, model: group1).call(user_ids: Array(admin.id))
-      Groups::UpdateService.new(user: admin, model: group2).call(user_ids: Array(admin.id))
+      Groups::UpdateService.new(user: admin, model: group1).call(user_ids: [admin.id])
+      Groups::UpdateService.new(user: admin, model: group2).call(user_ids: [admin.id])
     end
 
     describe '#results' do
       it 'returns a single result despite the test user being member of two groups' do
         expect(instance.results.count).to eq 1
+        expect(instance.results[0].user_id).to eq admin.id
       end
     end
   end
