@@ -50,28 +50,55 @@ describe 'scheduling mode',
   #                       v               v
   #                     wp_child      wp_suc_child
   #
-  let!(:wp) { create :work_package, project: project, start_date: '2016-01-01', due_date: '2016-01-05', parent: wp_parent }
+  let!(:wp) do
+    create :work_package,
+           project: project,
+           start_date: Date.parse('2016-01-01'),
+           due_date: Date.parse('2016-01-05'),
+           parent: wp_parent
+  end
   let!(:wp_parent) do
-    create(:work_package, project: project, start_date: '2016-01-01', due_date: '2016-01-05')
+    create(:work_package,
+           project: project,
+           start_date: Date.parse('2016-01-01'),
+           due_date: Date.parse('2016-01-05'))
   end
   let!(:wp_child) do
-    create(:work_package, project: project, start_date: '2016-01-01', due_date: '2016-01-05', parent: wp)
+    create(:work_package,
+           project: project,
+           start_date: Date.parse('2016-01-01'),
+           due_date: Date.parse('2016-01-05'),
+           parent: wp)
   end
   let!(:wp_pre) do
-    create(:work_package, project: project, start_date: '2015-12-15', due_date: '2015-12-31').tap do |pre|
+    create(:work_package,
+           project: project,
+           start_date: Date.parse('2015-12-15'),
+           due_date: Date.parse('2015-12-31')).tap do |pre|
       create(:follows_relation, from: wp, to: pre)
     end
   end
   let!(:wp_suc) do
-    create(:work_package, project: project, start_date: '2016-01-06', due_date: '2016-01-10', parent: wp_suc_parent).tap do |suc|
+    create(:work_package,
+           project: project,
+           start_date: Date.parse('2016-01-06'),
+           due_date: Date.parse('2016-01-10'),
+           parent: wp_suc_parent).tap do |suc|
       create(:follows_relation, from: suc, to: wp)
     end
   end
   let!(:wp_suc_parent) do
-    create(:work_package, project: project, start_date: '2016-01-06', due_date: '2016-01-10')
+    create(:work_package,
+           project: project,
+           start_date: Date.parse('2016-01-06'),
+           due_date: Date.parse('2016-01-10'))
   end
   let!(:wp_suc_child) do
-    create(:work_package, project: project, start_date: '2016-01-06', due_date: '2016-01-10', parent: wp_suc)
+    create(:work_package,
+           project: project,
+           start_date: Date.parse('2016-01-06'),
+           due_date: Date.parse('2016-01-10'),
+           parent: wp_suc)
   end
   let(:work_packages_page) { Pages::SplitWorkPackage.new(wp, project) }
 

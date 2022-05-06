@@ -33,7 +33,11 @@ describe 'Wysiwyg work package quicklink macros', type: :feature, js: true do
   let(:user) { admin }
   let!(:project) { create(:project, identifier: 'some-project', enabled_module_names: %w[wiki work_package_tracking]) }
   let!(:work_package) do
-    create(:work_package, subject: "Foo Bar", project: project, start_date: '2020-01-01', due_date: '2020-02-01')
+    create(:work_package,
+           subject: "Foo Bar",
+           project: project,
+           start_date: Date.parse('2020-01-01'),
+           due_date: Date.parse('2020-02-01'))
   end
   let(:editor) { ::Components::WysiwygEditor.new }
 
