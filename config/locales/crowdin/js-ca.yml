@@ -23,8 +23,8 @@ ca:
   js:
     ajax:
       hide: "Amagar"
-      loading: "Loading…"
-      updating: "Updating…"
+      loading: "Carregant..."
+      updating: "Actualitzant…"
     attachments:
       draggable_hint: |
         Arrossega al editor per a pujar una imatge o referenciar un adjunt. Els camps tancats del editor seguiran oberts mentre se segueixi arrossegant.
@@ -86,7 +86,7 @@ ca:
     button_save: "Desa"
     button_settings: "Configuració"
     button_uncheck_all: "Desmarca-ho tot"
-    button_update: "Actualitza"
+    button_update: "Actualitzar"
     button_export-pdf: "Descarregar PDF"
     button_export-atom: "Descarregar Atom"
     button_create: "Crear"
