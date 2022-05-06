@@ -737,8 +737,7 @@ Settings::Definition.define do
 
   add :sendmail_location,
       format: :string,
-      value: "/usr/sbin/sendmail",
-      writable: false
+      value: "/usr/sbin/sendmail"
 
   # Which breadcrumb loggers to enable
   add :sentry_breadcrumb_loggers,
