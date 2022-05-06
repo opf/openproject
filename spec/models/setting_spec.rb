@@ -303,6 +303,28 @@ describe Setting, type: :model do
     end
   end
 
+  describe 'serialized hash settings with URI::Generic inside it' do
+    before do
+      setting = described_class.create!(name: 'repository_checkout_data')
+      setting.update_columns(
+        value: {
+          git: { enabled: 1, base_url: URI::Generic.build(scheme: 'https', host: 'git.example.com', path: '/public') },
+          subversion: { enabled: 0 }
+        }.to_yaml
+      )
+    end
+
+    it 'deserializes correctly' do
+      expected_value = {
+        "git" => { "enabled" => 1, "base_url" => "https://git.example.com/public" },
+        "subversion" => { "enabled" => 0 }
+      }
+
+      expect(described_class.repository_checkout_data).to eq(expected_value)
+      expect(described_class.find_by(name: 'repository_checkout_data').value).to eq(expected_value)
+    end
+  end
+
   describe 'caching' do
     let(:cache_key) { described_class.send :cache_key }
 
