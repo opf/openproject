@@ -819,7 +819,6 @@ Settings::Definition.define do
   add :smtp_authentication,
       format: :string,
       value: 'plain',
-      writable: false,
       env_alias: 'SMTP_AUTHENTICATION'
 
   add :smtp_enable_starttls_auto,
