@@ -100,6 +100,18 @@ Settings::Definition.define do
       value: nil,
       writable: false
 
+  # Configures the authentication capabilities supported by the instance.
+  # Currently this is focused on the configuration for basic auth.
+  # e.g.
+  # authentication:
+  #   global_basic_auth:
+  #     user: admin
+  #     password: 123456
+  add :authentication,
+      format: :hash,
+      value: nil,
+      writable: false
+
   add :autofetch_changesets,
       value: true
 
