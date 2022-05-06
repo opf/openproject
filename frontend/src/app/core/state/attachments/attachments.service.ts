@@ -42,6 +42,7 @@ import {
 import {
   catchError,
   map,
+  switchMap,
   tap,
 } from 'rxjs/operators';
 import { AttachmentsStore } from 'core-app/core/state/attachments/attachments.store';
@@ -88,6 +89,20 @@ export class AttachmentsResourceService {
     }
 
     this.fetchAttachments(key).subscribe();
+  }
+
+  /**
+   * Returns an observable of all attachments in a collection identified by the collection key.
+   *
+   * @param key the collection key
+   */
+  all(key:string):Observable<IAttachment[]> {
+    return this.query
+      .select()
+      .pipe(
+        map((state) => state.collections[key]?.ids),
+        switchMap((attachmentIds) => this.query.selectMany(attachmentIds)),
+      );
   }
 
   /**

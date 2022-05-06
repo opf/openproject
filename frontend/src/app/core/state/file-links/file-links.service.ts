@@ -27,17 +27,17 @@
 //++
 
 import { Injectable } from '@angular/core';
-import { FileLinksStore } from 'core-app/core/state/file-links/file-links.store';
-import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
-import { IFileLink } from 'core-app/core/state/file-links/file-link.model';
 import { HttpClient } from '@angular/common/http';
-import { ToastService } from 'core-app/shared/components/toaster/toast.service';
+import { QueryEntity } from '@datorama/akita';
+import { Observable } from 'rxjs';
 import {
   catchError, map, switchMap, tap,
 } from 'rxjs/operators';
+import { IFileLink } from 'core-app/core/state/file-links/file-link.model';
+import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
+import { ToastService } from 'core-app/shared/components/toaster/toast.service';
+import { FileLinksStore } from 'core-app/core/state/file-links/file-links.store';
 import { insertCollectionIntoState } from 'core-app/core/state/collection-store';
-import { Observable } from 'rxjs';
-import { QueryEntity } from '@datorama/akita';
 
 @Injectable()
 export class FileLinkResourceService {

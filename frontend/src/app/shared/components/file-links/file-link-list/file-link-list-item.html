@@ -1,7 +1,10 @@
 <div
-  class="op-files-tab--file-list-item--file-name"
+  class="op-files-tab--file-list-item--content file-name"
 >
-  <op-icon icon-classes="icon4 icon-add"></op-icon>
+  <op-icon
+    icon-classes="icon4 icon-{{fileLinkIcon.icon}}"
+    class="op-files-tab--color-{{fileLinkIcon.color}}"
+  ></op-icon>
 
   <a
     [textContent]="fileLink.originData.name"
@@ -9,10 +12,10 @@
 </div>
 
 <div
-  class="op-files-tab--file-list-item--file-info"
+  class="op-files-tab--file-list-item--content file-info"
 >
   <span
-    class="op-files-tab--file-list-item--file-info-timestamp"
+    class="op-files-tab--file-list-item--file-info-timestamp op-files-tab--color-grey"
     [textContent]="infoTimestampText"
   ></span>
 

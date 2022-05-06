@@ -31,11 +31,16 @@ import {
 } from '@angular/core';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { IFileLink } from 'core-app/core/state/file-links/file-link.model';
+import {
+  getIconForMimeType,
+  IFileLinkListItemIcon,
+} from 'core-app/shared/components/file-links/file-link-list/file-link-list-item-icon.factory';
+import { TimezoneService } from 'core-app/core/datetime/timezone.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 
 @Component({
   selector: 'op-file-link-list-item',
   templateUrl: './file-link-list-item.html',
-  styleUrls: ['./file-link-list-item.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FileLinkListItemComponent implements OnInit {
@@ -47,8 +52,19 @@ export class FileLinkListItemComponent implements OnInit {
 
   public infoTimestampText:string;
 
+  public fileLinkIcon:IFileLinkListItemIcon;
+
+  constructor(
+    private readonly i18n:I18nService,
+    private readonly timezoneService:TimezoneService,
+  ) {}
+
   ngOnInit():void {
-    const date = Date.parse(this.fileLink.originData.lastModifiedAt || '');
-    this.infoTimestampText = `Modified: ${new Date(date).toLocaleDateString()}`;
+    if (this.fileLink.originData.lastModifiedAt) {
+      const date = this.timezoneService.formattedDate(this.fileLink.originData.lastModifiedAt);
+      this.infoTimestampText = this.i18n.t('js.label_modified_at', { date });
+    }
+
+    this.fileLinkIcon = getIconForMimeType(this.fileLink.originData.mimeType);
   }
 }

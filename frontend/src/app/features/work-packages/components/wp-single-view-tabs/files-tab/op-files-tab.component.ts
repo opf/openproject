@@ -34,7 +34,6 @@ import { HookService } from 'core-app/features/plugins/hook-service';
 @Component({
   selector: 'op-files-tab',
   templateUrl: './op-files-tab.html',
-  styleUrls: ['./op-files-tab.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WorkPackageFilesTabComponent {
@@ -45,7 +44,7 @@ export class WorkPackageFilesTabComponent {
       label: this.I18n.t('js.label_attachments'),
     },
     file_links: {
-      label: this.I18n.t('js.label_file_links'),
+      label: this.I18n.t('js.label_nextcloud'),
     },
   };
 

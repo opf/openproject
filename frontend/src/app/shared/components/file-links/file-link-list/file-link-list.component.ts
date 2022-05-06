@@ -39,7 +39,6 @@ import { tap } from 'rxjs/operators';
 @Component({
   selector: 'op-file-link-list',
   templateUrl: './file-link-list.html',
-  styleUrls: ['./file-link-list.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FileLinkListComponent implements OnInit {
@@ -63,8 +62,10 @@ export class FileLinkListComponent implements OnInit {
   }
 
   private get fileLinkSelfLink():string {
-    const fileLinks = this.resource.fileLinks as unknown&{ href:string };
-    return fileLinks.href;
+    // TODO: replace if work package resource contains file links link
+    // const fileLinks = this.resource.fileLinks as unknown&{ href:string };
+    // return fileLinks.href;
+    return `/api/v3/work_packages/${this.resource.id}/file_links`;
   }
 
   private get collectionKey():string {

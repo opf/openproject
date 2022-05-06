@@ -26,44 +26,53 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-// Table editing styles
-@import work_packages/table_content
-@import work_packages/table_hierarchy
-@import work_packages/table_relations
-@import work_packages/table_inline_create
-@import work_packages/table_drag_and_drop
+.op-files-tab
+  &--file-list-item
+    display: grid
+    grid-template-columns: 1fr 1fr
+    height: 40px
 
-// WP creation styles
-@import work_packages/new/type_status_row
-@import work_packages/new/split_view
-@import work_packages/new/full_view
-@import work_packages/new/overridden_description_wiki
+    &--content
+      align-self: center
+      width: 100%
+      white-space: nowrap
+      overflow: hidden
+      text-overflow: ellipsis
 
-// Specific field styles
-@import work_packages/inplace_editing/display_fields
-@import work_packages/inplace_editing/edit_fields
-@import work_packages/inplace_editing/textareas
+      &.file-name
+        font-size: 14px
 
-// WP single view styles
-@import work_packages/single_view/single_view
-@import work_packages/single_view/attachments
-@import work_packages/single_view/work_package_comment
+      &.file-info
+        text-align: right
+        font-size: 12px
 
-// WP fullscreen specific styles
-@import work_packages/fullscreen/fullscreen
+    &--file-info-timestamp
+      margin-right: 8px
 
-// Tabs
-@import work_packages/tabs/activities
-@import work_packages/tabs/relations
-@import work_packages/tabs/files
-@import work_packages/tabs/tab_content
+  &--color
+    &-red
+      color: #B93A33
 
-// Table configuration
-@import work_packages/table_configuration_modal
+    &-blue
+      color: #00BDF3
 
-// Timelines
-@import work_packages/timelines/timelines
+    &-blue-deep
+      color: #006E8F
 
-// Resizer
-@import work_packages/resizer/resizer
+    &-blue-dark
+      color: #0081C7
 
+    &-turquoise
+      color: #87E2C1
+
+    &-green
+      color: #007528
+
+    &-grey-dark
+      color: #9A9A9A
+
+    &-grey
+      color: #878787
+
+    &-orange
+      color: #EF9E56

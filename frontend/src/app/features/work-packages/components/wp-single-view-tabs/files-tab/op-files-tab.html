@@ -1,10 +1,8 @@
 <div class="op-tab-content--container">
   <div>
     <!-- The condition below will get replaced when implementing #41905. -->
-    <div *ngIf="true" class="attributes-group--header">
-      <div class="attributes-group--header-container">
-        <h3 class="attributes-group--header-text" [textContent]="text.attachments.label"></h3>
-      </div>
+    <div *ngIf="true" class="op-tab-content--header">
+      <h3 class="op-tab-content--header-text" [textContent]="text.attachments.label"></h3>
     </div>
 
     <op-attachment-list [resource]="workPackage"></op-attachment-list>
@@ -13,10 +11,9 @@
   </div>
 
   <div *ngIf="true">
-    <div class="attributes-group--header">
-      <div class="attributes-group--header-container">
-        <h3 class="attributes-group--header-text" [textContent]="text.file_links.label"></h3>
-      </div>
+    <div class=op-tab-content--header>
+      <op-icon icon-classes="icon3 icon-nextcloud-circle op-files-tab--color-blue-deep"></op-icon>
+      <h3 class="op-tab-content--header-text" [textContent]="text.file_links.label"></h3>
     </div>
 
     <op-file-link-list [resource]="workPackage"></op-file-link-list>

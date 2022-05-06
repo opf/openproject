@@ -428,6 +428,7 @@ en:
     label_meeting_minutes: "Minutes"
     label_menu_collapse: "collapse"
     label_menu_expand: "expand"
+    label_modified_at: "Modified: %{date}"
     label_more_than_ago: "more than days ago"
     label_next: "Next"
     label_no_color: "No color"
@@ -505,7 +506,7 @@ en:
     label_custom_queries: "Private views"
     label_columns: "Columns"
     label_attachments: Attachments
-    label_file_links: File Links
+    label_nextcloud: Nextcloud
     label_drop_files: Drop files here
     label_drop_files_hint: or click to add files
     label_drop_folders_hint: You cannot upload folders as an attachment. Please select single files.

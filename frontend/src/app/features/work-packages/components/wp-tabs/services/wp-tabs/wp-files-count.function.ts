@@ -27,23 +27,29 @@
 //++
 
 import { Injector } from '@angular/core';
-import { Observable } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { AttachmentsResourceService } from 'core-app/core/state/attachments/attachments.service';
+import { FileLinkResourceService } from 'core-app/core/state/file-links/file-links.service';
 
 export function workPackageFilesCount(
   workPackage:WorkPackageResource,
   injector:Injector,
 ):Observable<number> {
-  const service = injector.get(AttachmentsResourceService);
-  return service.query.select()
-    .pipe(
-      map((state) => {
-        const attachmentPath = workPackage.$links.attachments.href;
-        if (attachmentPath == null) return 0;
+  const attachmentService = injector.get(AttachmentsResourceService);
+  const fileLinkService = injector.get(FileLinkResourceService);
 
-        return state.collections[attachmentPath]?.ids.length || 0;
-      }),
-    );
+  // TODO: enable keys when work package resource is providing those
+  // const attachmentsKey = workPackage.$links.attachments.href;
+  // const fileLinksKey = workPackage.$links.fileLinks.href;
+
+  return combineLatest(
+    [
+      attachmentService.all(`/api/v3/work_packages/${workPackage.id}/attachments`),
+      fileLinkService.all(`/api/v3/work_packages/${workPackage.id}/file_links`),
+    ],
+  ).pipe(
+    map(([a, f]) => a.length + f.length),
+  );
 }
