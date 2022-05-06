@@ -72,9 +72,24 @@ Click the "+ Add" button to add an application:
 
 ![OAuth2 add](./oauth2-add.png)
 
-The "Name" attribute can be freely chosen. But naming reveals a difference between the way the two flows are used. While "Authorization code" flow is less focused on one use case per OAuth2 application, the "Client credentials" flow is more client application specific. This is because the user, and by that the permissions granted, can change for "Authorization code" but is fixed for "Client credentials" as a specific user has to be chosen when configuring the later.
+The "Name" attribute can be freely chosen. But naming reveals a 
+difference between the way the two flows are used. 
+While "Authorization code" flow is less focused on one use 
+case per OAuth2 application, the "Client credentials" 
+flow is more client application specific. 
+This is because the user, and by that the permissions granted, 
+can change for "Authorization code" but is fixed for 
+"Client credentials" as a specific user has to be chosen when 
+configuring the later.
 
-For the guide, we will focus on the "Authorization code" flow. After having selected a name, specify the callback url that the browser is redirected to, after the user has authenticated successfully. It is the end point that the credentials will be send to via POST from the OpenProject instance to the client so it is dependent on the client application. To stress the point, this is an end point within the client application, not within OpenProject.
+For the guide, we will focus on the "Authorization code" flow. 
+After having selected a name, specify the "Redirect URI" that the 
+browser is redirected to, after the user has authenticated successfully.
+So it is dependent on the client application, please see the respective 
+documentation.
+In the case of Postman, the Redirect URI is "https://oauth.pstmn.io/v1/callback". 
+To stress the point, this is an end point within the client application, 
+not within OpenProject.
 
 Next we chose "api_v3" to be the scope of the application. This means, that clients can only access the API v3 and cannot use the same OAuth application to also authenticate for the [BCF api which OpenProject also offers](../bcf-rest-api).
 
@@ -90,23 +105,35 @@ For this guide, we again chose Postman as our client application. Apart from "Ba
 
 ![OAuth2 postman configure](./oauth2-postman-configure.png)
 
-There are a couple of fields in that form but most of the information can simply be copied over:
+Please use the following instructions to set these fields for you:
 
-* Token Name: Freely choosable field
+* Token Name: Freely choosable field, 
+for example "Token Name"
 * Grant Type: Choose "Authorization Code"
-* Callback URL: Copy from OpenProject
-* Auth URL: Copy from OpenProject
-* Access Token URL: Copy from OpenProject
-* Client ID: Copy from OpenProject
-* Client Secret: Copy from OpenProject
-* Scope: Type in "api_v3" as we chose that in OpenProject
+* **Callback URL**: This is the callback URL of the _client_ _application_.
+With Postman 9.6 this is "https://oauth.pstmn.io/v1/callback".
+Postman automatically fills this field with this URL
+when you select "Authorize using browser". However, you have to
+uncheck "Authorize using browser" afterwards again, please see below.
+* Authorize using browser: Please leave unchecked.
+* Auth URL: Copy from OpenProject, for example "http://localhost:3000/oauth/authorize"
+* Access Token URL: Copy from OpenProject, for example "http://localhost:3000/oauth/token"
+* Client ID: Copy from OpenProject, for example "sTx_pT7DU7ixLeUtYQ1UpqOjUVRFilgUleTWV-nyPVA"
+* Client Secret: Copy from OpenProject, for example "DsPlyDgxv5P7yzzRtRclBAI63o-PdpzgwGxfgVLpi_U"
+* Scope: Please use "api_v3" as we chose that in OpenProject
 * State: You can leave this blank
+* Client Authentication: Please use "Send as Basic Auth header"
+
+
 
 After having provided the necessary information, you can press the "Request Token" button which will result in a browser being shown in which the user, not the client as it will impersonate the user, can log in:
 
 ![OAuth2 postman login](./oauth2-postman-login.png) 
 
-Using the UI credentials, be that username and password or any authentication provider e.g. Google, the user now authenticates and is asked whether she/he wants to grant the client application, Postman in this case, access on her/his behalf. 
+Using the UI credentials, be that username and password or any 
+authentication provider e.g. Google, the user now authenticates 
+and is asked whether she/he wants to grant the client application, 
+Postman in this case, access on her/his behalf. 
 
 ![OAuth2 postman grant](./oauth2-postman-grant.png) 
 
