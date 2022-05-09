@@ -32,9 +32,9 @@ properties:
               **Resource**: NonWorkingDay or WeekDay
 example:
   _type: NonWorkingDay
-  date: '2022-05-07'
-  name: Saturday
+  date: '2022-12-25'
+  name: Christmas
   _links:
     self:
-      href: /api/v3/work_schedule/non_working_days/2022-05-07
-      title: Saturday
+      href: /api/v3/work_schedule/non_working_days/2022-12-25
+      title: Christmas

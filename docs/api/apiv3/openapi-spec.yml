@@ -778,6 +778,8 @@ components:
       "$ref": "./components/schemas/week_day_collection_write_model.yml"
     WeekDayModel:
       "$ref": "./components/schemas/week_day_model.yml"
+    WeekDaySelfLinkModel:
+      "$ref": "./components/schemas/week_day_self_link_model.yml"
     WeekDayWriteModel:
       "$ref": "./components/schemas/week_day_write_model.yml"
     Wiki_PageModel:

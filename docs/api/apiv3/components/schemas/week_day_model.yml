@@ -27,16 +27,8 @@ properties:
     description: |-
       `true` for a working day. `false` for a weekend day.
   _links:
-    type: object
-    properties:
-      self:
-        allOf:
-          - "$ref": "./link.yml"
-          - description: |-
-              This week day resource link.
-
-              **Resource**: WeekDay
-            readOnly: true
+    allOf:
+      - $ref: './week_day_self_link_model.yml'
 example:
   _type: WeekDay
   day: 5

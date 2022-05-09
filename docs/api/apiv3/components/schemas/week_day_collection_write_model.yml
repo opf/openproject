@@ -18,33 +18,45 @@ properties:
         type: array
         description: |-
           The array of week days.
-        minItems: 7
+        minItems: 1
         maxItems: 7
         items:
-          $ref: './week_day_write_model.yml'
+          allOf:
+            - $ref: './week_day_write_model.yml'
+            - type: object
+              required:
+                - _links
+              properties:
+                _links:
+                  allOf:
+                    - $ref: './week_day_self_link_model.yml'
 
 example:
   _type: Collection
   _embedded:
     elements:
       - _type: WeekDay
-        day: 1
         working: true
+        _links:
+          self:
+            href: '/api/v3/days/week/1'
       - _type: WeekDay
-        day: 2
         working: true
+        _links:
+          self:
+            href: '/api/v3/days/week/2'
       - _type: WeekDay
-        day: 3
         working: true
+        _links:
+          self:
+            href: '/api/v3/days/week/4'
       - _type: WeekDay
-        day: 4
-        working: true
-      - _type: WeekDay
-        day: 5
-        working: true
-      - _type: WeekDay
-        day: 6
         working: false
+        _links:
+          self:
+            href: '/api/v3/days/week/6'
       - _type: WeekDay
-        day: 7
         working: false
+        _links:
+          self:
+            href: '/api/v3/days/week/7'
