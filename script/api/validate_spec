@@ -3,7 +3,7 @@
 require 'pathname'
 require 'tempfile'
 
-openapi_yaml_spec_path = "./tmp/oas-generated.yml"
+openapi_yaml_spec_path = Pathname(__dir__).join('../../tmp/oas-generated.yml')
 full_spec = `#{Pathname(__dir__).join('spec')} --format yaml`
 status = 1
 
