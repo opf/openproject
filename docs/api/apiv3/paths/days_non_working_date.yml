@@ -1,4 +1,4 @@
-# /api/v3/non_working_days/{date}
+# /api/v3/days/non_working/{date}
 ---
 get:
   summary: View a non-working day

@@ -1,3 +1,4 @@
+# /api/v3/days/week/{day}
 ---
 get:
   summary: View a week day

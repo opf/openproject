@@ -175,6 +175,16 @@ paths:
     "$ref": "./paths/custom_action_execute.yml"
   "/api/v3/custom_options/{id}":
     "$ref": "./paths/custom_option.yml"
+  "/api/v3/days/non_working":
+    "$ref": "./paths/days_non_working.yml"
+  "/api/v3/days/non_working/{date}":
+    "$ref": "./paths/days_non_working_date.yml"
+  "/api/v3/days/week":
+    "$ref": "./paths/days_week.yml"
+  "/api/v3/days/week/{day}":
+    "$ref": "./paths/days_week_day.yml"
+  "/api/v3/days/work_schedule":
+    "$ref": "./paths/days_work_schedule.yml"
   "/api/v3/documents":
     "$ref": "./paths/documents.yml"
   "/api/v3/documents/{id}":
@@ -423,15 +433,6 @@ paths:
     "$ref": "./paths/work_package_watchers.yml"
   "/api/v3/work_packages/{id}/watchers/{user_id}":
     "$ref": "./paths/work_package_watcher.yml"
-  "/api/v3/work_schedule/week_days":
-    "$ref": "./paths/work_schedule_week_days.yml"
-  "/api/v3/work_schedule/week_days/{day}":
-    "$ref": "./paths/work_schedule_week_day.yml"
-  "/api/v3/work_schedule/non_working_days":
-    "$ref": "./paths/work_schedule_non_working_days.yml"
-  "/api/v3/work_schedule/non_working_days/{date}":
-    "$ref": "./paths/work_schedule_non_working_day.yml"
-  # TODO: add some **Permission** in some description fields
 
 components:
   examples:

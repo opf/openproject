@@ -1,3 +1,4 @@
+# /api/v3/days/week
 ---
 get:
   summary: Lists week days
