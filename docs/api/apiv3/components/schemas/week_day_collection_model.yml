@@ -28,6 +28,8 @@ allOf:
             type: array
             description: |-
               The array of week days.
+            minItems: 7
+            maxItems: 7
             items:
               $ref: './week_day_model.yml'
 

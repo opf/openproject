@@ -424,7 +424,6 @@ paths:
   "/api/v3/work_packages/{id}/watchers/{user_id}":
     "$ref": "./paths/work_package_watcher.yml"
   "/api/v3/work_schedule/week_days":
-    # TODO: patch
     "$ref": "./paths/work_schedule_week_days.yml"
   "/api/v3/work_schedule/week_days/{day}":
     "$ref": "./paths/work_schedule_week_day.yml"
@@ -778,8 +777,12 @@ components:
       "$ref": "./components/schemas/watchers_model.yml"
     WeekDayCollectionModel:
       "$ref": "./components/schemas/week_day_collection_model.yml"
+    WeekDayCollectionWriteModel:
+      "$ref": "./components/schemas/week_day_collection_write_model.yml"
     WeekDayModel:
       "$ref": "./components/schemas/week_day_model.yml"
+    WeekDayWriteModel:
+      "$ref": "./components/schemas/week_day_write_model.yml"
     Wiki_PageModel:
       "$ref": "./components/schemas/wiki_page_model.yml"
     Work_PackageModel:

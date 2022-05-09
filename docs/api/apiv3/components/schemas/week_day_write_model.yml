@@ -1,0 +1,29 @@
+# Schema: WeekDayWriteModel
+---
+type: object
+description: |-
+  Describes a week day as a working day or a non working day (weekend).
+required:
+  - _type
+  - day
+  - working
+properties:
+  _type:
+    type: string
+    enum:
+      - WeekDay
+  day:
+    type: integer
+    description: |-
+      The week day from 1 to 7. 1 is Monday. 7 is Sunday.
+    readOnly: true
+    minimum: 1
+    maximum: 7
+  working:
+    type: boolean
+    description: |-
+      `true` for a working day. `false` for a weekend day.
+example:
+  _type: WeekDay
+  day: 5
+  working: false

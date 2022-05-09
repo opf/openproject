@@ -25,3 +25,75 @@ get:
             _type: Error
             errorIdentifier: urn:openproject-org:api:v3:errors:InvalidRequestBody
             message: The request body was not a single JSON object.
+
+patch:
+  summary: Update week days
+  operationId: update_week_days
+  tags:
+    - Work Schedule
+    - Non working days
+    - Week days
+  description: |-
+    Update all week days with work schedule information.
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/week_day_collection_write_model.yml
+        example:
+          _type: Collection
+          _embedded:
+            elements:
+              - _type: WeekDay
+                day: 1
+                working: true
+              - _type: WeekDay
+                day: 2
+                working: true
+              - _type: WeekDay
+                day: 3
+                working: true
+              - _type: WeekDay
+                day: 4
+                working: true
+              - _type: WeekDay
+                day: 5
+                working: true
+              - _type: WeekDay
+                day: 6
+                working: false
+              - _type: WeekDay
+                day: 7
+                working: false
+
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/week_day_collection_model.yml'
+    '400':
+      description: Returned if the client sends invalid request parameters
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:InvalidRequestBody
+            message: The request body was not a single JSON object.
+    '422':
+      description: |-
+        Occurs if the request body was correctly formatted, but some properties lead to errors in the validation
+        process. This happens for example if not every days were sent.
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:PropertyConstraintViolation
+                message: The request was invalid. Must send all days of the week.
