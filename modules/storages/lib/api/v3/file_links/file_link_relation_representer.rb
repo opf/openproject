@@ -33,13 +33,13 @@ module API
         extend ActiveSupport::Concern
 
         included do
-          link :fileLinks, cache_if: -> { render_file_links? } do
+          link :fileLinks, cache_if: -> { current_user.allowed_to?(:view_file_links, represented.project) } do
             {
               href: api_v3_paths.file_links(represented.id)
             }
           end
 
-          link :addFileLink, cache_if: -> { render_action_link? } do
+          link :addFileLink, cache_if: -> { current_user.allowed_to?(:manage_file_links, represented.project) } do
             {
               href: api_v3_paths.file_links(represented.id),
               method: :post
@@ -49,26 +49,13 @@ module API
           property :file_links,
                    embedded: true,
                    exec_context: :decorator,
-                   if: ->(*) { embed_links && render_file_links? },
+                   if: ->(*) { embed_links && current_user.allowed_to?(:view_file_links, represented.project) },
                    uncacheable: true
 
           def file_links
             ::API::V3::FileLinks::FileLinkCollectionRepresenter.new(represented.file_links,
                                                                     self_link: api_v3_paths.file_links(represented.id),
                                                                     current_user: current_user)
-          end
-
-          private
-
-          def render_action_link?
-            render_file_links? &&
-              current_user.allowed_to?(:manage_file_links, represented.project)
-          end
-
-          def render_file_links?
-            OpenProject::FeatureDecisions.storages_module_active? &&
-              represented.project.module_enabled?('storages') &&
-              current_user.allowed_to?(:view_file_links, represented.project)
           end
         end
       end
