@@ -40,7 +40,7 @@ get:
           schema:
             $ref: '../components/schemas/non_working_day_collection_model.yml'
     '400':
-      description: Returned if the client sends invalid request parameters
+      description: Returned if the client sends invalid request parameters.
       content:
         application/hal+json:
           schema:

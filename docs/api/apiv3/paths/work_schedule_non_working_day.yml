@@ -1,8 +1,13 @@
+# /api/v3/non_working_days/{date}
 ---
-# TODO: add missing description, missing tags, missing parameters, and missing response codes
 get:
   summary: View a non-working day
   operationId: view_non_working_day
+  tags:
+    - Work Schedule
+    - Non working days
+  description: |-
+    Returns the non-working day information for a given date.
   parameters:
     - name: date
       in: path
@@ -16,11 +21,36 @@ get:
   responses:
     '200':
       description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/non_working_day_model.yml'
+    '400':
+      description: Returned if the client sends invalid request parameters.
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+    '404':
+      description: Returned if the given date is not a non-working day.
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+            message: The requested resource could not be found.
 
 # TODO: add missing description, missing tags, missing parameters, and missing response codes
 patch:
   summary: Update a non-working day attributes
   operationId: update_non_working_day
+  tags:
+    - Work Schedule
+    - Non working days
+  description: |-
+    Update the non-working day information for a given date.
   parameters:
     - name: date
       in: path
@@ -31,14 +61,53 @@ patch:
         type: string
         format: date
       example: '2022-05-06'
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/non_working_day_model.yml
+        example:
+          _type: NonWorkingDay
+          date: '2022-05-01'
+          name: 'Labour day'
+
   responses:
     '200':
       description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/non_working_day_model.yml'
+    '400':
+      description: Returned if the client sends invalid request parameters.
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+    '404':
+      description: Returned if the given date is not a non-working day.
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+            message: The requested resource could not be found.
 
 # TODO: add missing description, missing tags, missing parameters, and missing response codes
 delete:
-  summary: Remove a day from the non-working days
+  summary: Removes a day from the non-working days
   operationId: delete_non_working_day
+  tags:
+    - Work Schedule
+    - Non working days
+  description: |-
+    Removes the day of the given day from the non-working days known.
+
+    Trying to remove a date which is not a non-working day, by calling the same
+    endpoint twice for example, will succeed in both cases and return a 204
+    status.
   parameters:
     - name: date
       in: path
@@ -50,5 +119,15 @@ delete:
         format: date
       example: '2022-05-06'
   responses:
-    '200':
-      description: OK
+    '204':
+      description: |-
+        No Content.
+
+        The operation succeeded.
+    '400':
+      description: |-
+        Returned if the client sends invalid request parameters.
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'

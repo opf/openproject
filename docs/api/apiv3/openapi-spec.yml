@@ -429,13 +429,9 @@ paths:
     "$ref": "./paths/work_schedule_week_day.yml"
   "/api/v3/work_schedule/non_working_days":
     "$ref": "./paths/work_schedule_non_working_days.yml"
-    # TODO: get
-    # TODO: patch
-    # TODO: delete
   "/api/v3/work_schedule/non_working_days/{date}":
     "$ref": "./paths/work_schedule_non_working_day.yml"
   # TODO: add some **Permission** in some description fields
-  # TODO: populate **tags** section
 
 components:
   examples:
