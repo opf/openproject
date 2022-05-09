@@ -1,0 +1,9 @@
+apis:
+  main:
+    root: docs/api/apiv3/openapi-spec.yml
+
+lint:
+  extends:
+    - recommended
+  rules:
+    no-ambiguous-paths: off
