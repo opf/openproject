@@ -522,6 +522,10 @@ Settings::Definition.define do
       value: false,
       writable: false
 
+  add :ldap_users_disable_sync_job,
+      value: false,
+      writable: false
+
   add :ldap_tls_options,
       value: {},
       writable: false
