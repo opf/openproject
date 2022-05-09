@@ -5,5 +5,3 @@ apis:
 lint:
   extends:
     - recommended
-  rules:
-    no-ambiguous-paths: off
