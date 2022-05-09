@@ -29,7 +29,6 @@
 require 'spec_helper'
 require_module_spec_helper
 
-# rubocop:disable RSpec/MultipleMemoizedHelpers
 describe 'API v3 file links resource', :enable_storages, type: :request do
   include API::V3::Utilities::PathHelper
 
@@ -408,6 +407,14 @@ describe 'API v3 file links resource', :enable_storages, type: :request do
       expect(subject.status).to be 303
     end
 
+    context 'with location flag' do
+      let(:path) { api_v3_paths.file_link_open(file_link.id, true) }
+
+      it 'is successful' do
+        expect(subject.status).to be 303
+      end
+    end
+
     context 'if user has no view permissions' do
       let(:permissions) { [] }
 
@@ -425,4 +432,3 @@ describe 'API v3 file links resource', :enable_storages, type: :request do
     end
   end
 end
-# rubocop:enable RSpec/MultipleMemoizedHelpers

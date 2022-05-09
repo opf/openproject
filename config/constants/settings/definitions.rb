@@ -100,6 +100,18 @@ Settings::Definition.define do
       value: nil,
       writable: false
 
+  # Configures the authentication capabilities supported by the instance.
+  # Currently this is focused on the configuration for basic auth.
+  # e.g.
+  # authentication:
+  #   global_basic_auth:
+  #     user: admin
+  #     password: 123456
+  add :authentication,
+      format: :hash,
+      value: nil,
+      writable: false
+
   add :autofetch_changesets,
       value: true
 
@@ -725,8 +737,7 @@ Settings::Definition.define do
 
   add :sendmail_location,
       format: :string,
-      value: "/usr/sbin/sendmail",
-      writable: false
+      value: "/usr/sbin/sendmail"
 
   # Which breadcrumb loggers to enable
   add :sentry_breadcrumb_loggers,
@@ -807,7 +818,6 @@ Settings::Definition.define do
   add :smtp_authentication,
       format: :string,
       value: 'plain',
-      writable: false,
       env_alias: 'SMTP_AUTHENTICATION'
 
   add :smtp_enable_starttls_auto,
