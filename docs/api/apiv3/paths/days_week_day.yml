@@ -112,17 +112,14 @@ patch:
             _type: Error
             errorIdentifier: urn:openproject-org:api:v3:errors:InvalidQuery
             message: You are not authorized to access this resource.
-    '422':
+    '404':
       description: |-
-        Occurs if the request body was correctly formatted, but some properties lead to errors in the validation
-        process. This happens for example if the day is out of the 1-7 range.
+        Returned if the day is out of the 1-7 range.
       content:
         application/hal+json:
           schema:
-            $ref: "../components/schemas/error_response.yml"
-          examples:
-            response:
-              value:
-                _type: Error
-                errorIdentifier: urn:openproject-org:api:v3:errors:PropertyConstraintViolation
-                message: The request was invalid. Expected day to be between 1 and 7.
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:InvalidQuery
+            message: The requested resource could not be found.
