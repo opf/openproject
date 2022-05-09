@@ -10,24 +10,15 @@ post:
     Marks a day as being a non-working day.
 
     Does nothing if the day is already a non-working day.
-  parameters:
-    - name: date
-      in: query
-      description: |-
-        The date to mark as non-working.
-      required: true
-      schema:
-        type: string
-        format: date
-      example: '2022-12-25'
-    - name: name
-      in: query
-      description: |-
-        A descriptive name for the non-working day.
-      required: false
-      schema:
-        type: string
-      example: 'Christmas'
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/non_working_day_model.yml
+        example:
+          _type: NonWorkingDay
+          date: '2022-12-25'
+          name: 'Christmas'
   responses:
     '200':
       description: OK

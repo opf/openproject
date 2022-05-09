@@ -72,13 +72,14 @@ patch:
         type: integer
         minimum: 1
         maximum: 7
-    - name: working
-      in: query
-      required: true
-      description: |-
-        Set to `true` to make this week day a working day. Set to `false` to make it a non-working day.
-      schema:
-        type: boolean
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/week_day_write_model.yml
+        example:
+          _type: WeekDay
+          working: false
   responses:
     '200':
       description: |-
