@@ -57,5 +57,5 @@ export interface IFileLink {
   id:ID;
   originData:IFileLinkOriginData;
 
-  _links?:IFileLinkHalResourceLinks;
+  _links:IFileLinkHalResourceLinks;
 }

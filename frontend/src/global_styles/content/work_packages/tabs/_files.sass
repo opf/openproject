@@ -46,8 +46,27 @@
         text-align: right
         font-size: 12px
 
+      &.hover-menu
+        display: none
+        font-size: 14px
+        padding: 0 8px
+
+        // TODO: overwrites of design system components.
+        // Can be removed once design system contains components needed here
+        .spot-link
+          color: #878787
+          outline: none
+
     &--file-info-timestamp
       margin-right: 8px
+
+    &:hover
+      .hover-menu
+        display: flex
+        justify-content: end
+
+      .file-info
+        display: none
 
   &--color
     &-red

@@ -67,4 +67,13 @@ export class FileLinkListItemComponent implements OnInit {
 
     this.fileLinkIcon = getIconForMimeType(this.fileLink.originData.mimeType);
   }
+
+  public openLinkedFile(openInLocation:boolean):void {
+    let link = this.fileLink._links.staticOriginOpen.href;
+    if (openInLocation) {
+      link = this.fileLink._links.staticOriginOpenLocation.href;
+    }
+
+    window.open(link);
+  }
 }

@@ -8,6 +8,7 @@
 
   <a
     [textContent]="fileLink.originData.name"
+    (click)="openLinkedFile(false)"
   ></a>
 </div>
 
@@ -22,4 +23,17 @@
   <span
     [textContent]="fileLink.originData.lastModifiedByName"
   ></span>
+</div>
+
+<div
+  class="op-files-tab--file-list-item--content hover-menu"
+>
+  <button
+    class="spot-link"
+    (click)="openLinkedFile(true)"
+  >
+    <span
+      class="spot-icon spot-icon_folder-open"
+    ></span>
+  </button>
 </div>
