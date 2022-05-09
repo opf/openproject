@@ -28,7 +28,9 @@
 
 # Helper for open and download links for a file link object.
 module API::V3::FileLinks::StorageUrlHelper
-  def storage_url_open(file_link)
-    "#{file_link.storage.host}/f/#{file_link.origin_id}"
+  def storage_url_open(file_link, open_location: false)
+    location_flag = ActiveModel::Type::Boolean.new.cast(open_location) ? 0 : 1
+
+    "#{file_link.storage.host}/f/#{file_link.origin_id}?openfile=#{location_flag}"
   end
 end
