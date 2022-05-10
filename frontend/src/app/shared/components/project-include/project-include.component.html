@@ -22,24 +22,10 @@
   <ng-container slot="body">
     <div class="op-project-include--header">
       <h1 class="op-project-include--title">{{ text.title }}</h1>
-      <div class="form--field-inline-buttons-container">
-        <button
-          class="button form--field-inline-button"
-          [ngClass]="{ '-active': displayMode === 'all' }"
-          type="button"
-          (click)="displayMode = 'all'"
-        >
-          {{ text.filter_all }}
-        </button>
-        <button
-          class="button form--field-inline-button"
-          type="button"
-          [ngClass]="{ '-active': displayMode === 'selected' }"
-          (click)="displayMode = 'selected'"
-        >
-          {{ text.filter_selected }}
-        </button>
-      </div>
+      <spot-toggle
+        [options]="displayModeOptions"
+        [(ngModel)]="displayMode"
+      ></spot-toggle>
     </div>
     <form
       (submit)="onSubmit($event)"
@@ -87,7 +73,7 @@
         <div class="spot-action-bar--right">
           <button
             [disabled]="(loading$ | async)"
-            class="button"
+            class="spot-button spot-button_outlined spot-button_main"
             type="button"
             (click)="clearSelection()"
           >
@@ -95,7 +81,7 @@
           </button>
           <button 
             [disabled]="(loading$ | async)"
-            class="button -highlight"
+            class="spot-button spot-button_main"
           >
             {{ text.apply }}
           </button>
