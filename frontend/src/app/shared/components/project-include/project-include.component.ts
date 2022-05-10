@@ -65,11 +65,6 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin implements On
 
   public query$ = this.wpTableFilters.querySpace.query.values$();
 
-  public displayModeOptions = [
-    { value: 'all', title: this.text.filter_all },
-    { value: 'selected', title: this.text.filter_selected },
-  ];
-
   private _displayMode = 'all';
 
   public get displayMode():string {
