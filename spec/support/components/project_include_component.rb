@@ -61,7 +61,7 @@ module Components
 
     def set_filter_selected(filter)
       within_body do
-        page.find("[data-qa-selector='op-project-include--toggle']", text: filter ? 'Only selected' : 'All projects').click
+        page.find("label.spot-toggle--option", text: filter ? 'Only selected' : 'All projects').click
       end
     end
 

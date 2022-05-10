@@ -26,7 +26,6 @@
         <button
           class="button form--field-inline-button"
           [ngClass]="{ '-active': displayMode === 'all' }"
-          data-qa-selector="op-project-include--toggle"
           type="button"
           (click)="displayMode = 'all'"
         >
@@ -35,7 +34,6 @@
         <button
           class="button form--field-inline-button"
           type="button"
-          data-qa-selector="op-project-include--toggle"
           [ngClass]="{ '-active': displayMode === 'selected' }"
           (click)="displayMode = 'selected'"
         >
