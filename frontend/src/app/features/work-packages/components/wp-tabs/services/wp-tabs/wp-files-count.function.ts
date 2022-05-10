@@ -40,14 +40,10 @@ export function workPackageFilesCount(
   const attachmentService = injector.get(AttachmentsResourceService);
   const fileLinkService = injector.get(FileLinkResourceService);
 
-  // TODO: enable keys when work package resource is providing those
-  // const attachmentsKey = workPackage.$links.attachments.href;
-  // const fileLinksKey = workPackage.$links.fileLinks.href;
-
   return combineLatest(
     [
-      attachmentService.all(`/api/v3/work_packages/${workPackage.id}/attachments`),
-      fileLinkService.all(`/api/v3/work_packages/${workPackage.id}/file_links`),
+      attachmentService.all(workPackage.$links.attachments.href || ''),
+      fileLinkService.all(workPackage.$links.fileLinks.href || ''),
     ],
   ).pipe(
     map(([a, f]) => a.length + f.length),
