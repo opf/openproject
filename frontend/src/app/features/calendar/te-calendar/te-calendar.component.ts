@@ -108,6 +108,7 @@ export class TimeEntryCalendarComponent {
 
   public text = {
     logTime: this.i18n.t('js.button_log_time'),
+    today: this.i18n.t('js.team_planner.today'),
   };
 
   calendarOptions:CalendarOptions = {
@@ -119,6 +120,7 @@ export class TimeEntryCalendarComponent {
       center: 'title',
       left: 'prev,next today',
     },
+    buttonText: { today: this.text.today },
     initialView: 'timeGridWeek',
     firstDay: this.configuration.startOfWeek(),
     hiddenDays: [],

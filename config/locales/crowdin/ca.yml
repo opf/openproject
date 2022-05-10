@@ -63,21 +63,21 @@ ca:
         main-menu-bg-color: "Color de fons del menú lateral de l'esquerra."
       theme_warning: Canviant el tema substituireu el vostre estil personalitzat. El disseny es perdrà. N'esteu segurs que voleu continuar?
     enterprise:
-      upgrade_to_ee: "Upgrade to the Enterprise Edition"
+      upgrade_to_ee: "Actualitza a l'edició Enterprise"
       add_token: "Puja un token de suport de l'Enterprise Edition"
       replace_token: "Reemplaça el token de suport actual"
-      order: "Order Enterprise on-premises Edition"
+      order: "Ordena l'edició Enterpise on-premises"
       paste: "Enganxeu el vostre token de suport de l'Enterprise Edition"
       required_for_feature: "Aquesta característica només està disponible amb un token de suport de l'Enterprise Edition."
       enterprise_link: "Per a més informació, cliqueu aquí."
-      start_trial: 'Start free trial'
-      book_now: 'Book now'
-      get_quote: 'Get a quote'
+      start_trial: 'Inicia la prova gratuïta'
+      book_now: 'Reserva ara'
+      get_quote: 'Obtenir un pressupost'
       buttons:
-        upgrade: "Upgrade now"
-        contact: "Contact us for a demo"
-      enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
-      upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
+        upgrade: "Actualitza ara"
+        contact: "Contacta amb nosaltres per una demostració"
+      enterprise_info_html: "és una secció <strong class='icon-medal'></strong> Enterprise"
+      upgrade_info: "Si us plau, actualitza a una versió de pagament per tal d'activar i començar a utilitzar aquesta funcionalitat en el teu equip."
     journal_aggregation:
       explanation:
         text: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent and will also affect %{webhook_link} delay."

@@ -4,7 +4,7 @@
     [(ngModel)]="model"
     [items]="results$ | async"
     [ngClass]="classes"
-    [typeahead]="boundTypeahead"
+    [typeahead]="typeahead"
     [clearOnBackspace]="clearOnBackspace"
     [clearSearchOnAdd]="clearSearchOnAdd"
     [hideSelected]="hideSelected"
@@ -128,6 +128,7 @@
       ></op-principal>
       <span
         class="op-autocompleter--wp-subject"
+        data-qa-selector="op-autocompleter-item-subject"
       >
         <span
           *ngIf="item.type"

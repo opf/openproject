@@ -176,10 +176,7 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements OnI
 
   @Input() public keyDownFn ? = ():boolean => true;
 
-  @Input() public typeahead:BehaviorSubject<string|null> = new BehaviorSubject(null);
-
-  // We only bind the typeahead to ng-select if we filter values from the backend
-  public boundTypeahead:Subject<string|null>;
+  @Input() public typeahead:BehaviorSubject<string|null>|null;
 
   // a function for setting the options of ng-select
   @Input() public getOptionsFn:(searchTerm:string) => Observable<unknown>;
@@ -241,7 +238,7 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements OnI
 
   ngOnInit() {
     if (!!this.getOptionsFn || this.defaultData) {
-      this.boundTypeahead = this.typeahead;
+      this.typeahead = new BehaviorSubject<string|null>(null);
     }
   }
 
@@ -260,32 +257,11 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements OnI
       setTimeout(() => {
         this.results$ = merge(
           this.items$,
-          this.typeahead.pipe(
-            filter(() => !!(this.defaultData || this.getOptionsFn)),
-            filter((val) => val !== null),
-            distinctUntilChanged(),
-            debounceTime(250),
-            tap(() => this.loading$.next(true)),
-            switchMap((queryString:string) => {
-              if (this.defaultData) {
-                return this.opAutocompleterService.loadData(queryString, this.resource, this.filters, this.searchKey);
-              }
-
-              if (this.getOptionsFn) {
-                return this.getOptionsFn(queryString);
-              }
-
-              return NEVER;
-            }),
-            tap(
-              () => this.loading$.next(false),
-              () => this.loading$.next(false),
-            ),
-          ),
+          this.autocompleteInputStream(),
         );
 
         if (this.fetchDataDirectly) {
-          this.typeahead.next('');
+          this.typeahead?.next('');
         }
 
         if (this.openDirectly) {
@@ -312,7 +288,7 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements OnI
 
   public opened(_:unknown) { // eslint-disable-line no-unused-vars
     // Re-search for empty value as search value gets removed
-    this.typeahead.next('');
+    this.typeahead?.next('');
     this.repositionDropdown();
     this.open.emit();
   }
@@ -383,5 +359,34 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements OnI
 
   public highlighting(property:string, id:string) {
     return Highlighting.inlineClass(property, id);
+  }
+
+  private autocompleteInputStream():Observable<unknown> {
+    if (!this.typeahead) {
+      return NEVER;
+    }
+
+    return this.typeahead.pipe(
+      filter(() => !!(this.defaultData || this.getOptionsFn)),
+      filter((val) => val !== null),
+      distinctUntilChanged(),
+      debounceTime(250),
+      tap(() => this.loading$.next(true)),
+      switchMap((queryString:string) => {
+        if (this.defaultData) {
+          return this.opAutocompleterService.loadData(queryString, this.resource, this.filters, this.searchKey);
+        }
+
+        if (this.getOptionsFn) {
+          return this.getOptionsFn(queryString);
+        }
+
+        return NEVER;
+      }),
+      tap(
+        () => this.loading$.next(false),
+        () => this.loading$.next(false),
+      ),
+    );
   }
 }

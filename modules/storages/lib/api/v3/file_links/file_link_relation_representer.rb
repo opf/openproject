@@ -29,14 +29,33 @@
 module API
   module V3
     module FileLinks
-      class FileLinksOpenAPI < ::API::OpenProjectAPI
-        helpers API::V3::FileLinks::StorageUrlHelper
+      module FileLinkRelationRepresenter
+        extend ActiveSupport::Concern
 
-        resources :open do
-          get do
-            url = storage_url_open(@file_link, open_location: params[:location])
-            redirect url, body: "The requested resource can be viewed at #{url}"
-            status 303 # The follow-up request to the resource must be GET
+        included do
+          link :fileLinks, cache_if: -> { current_user.allowed_to?(:view_file_links, represented.project) } do
+            {
+              href: api_v3_paths.file_links(represented.id)
+            }
+          end
+
+          link :addFileLink, cache_if: -> { current_user.allowed_to?(:manage_file_links, represented.project) } do
+            {
+              href: api_v3_paths.file_links(represented.id),
+              method: :post
+            }
+          end
+
+          property :file_links,
+                   embedded: true,
+                   exec_context: :decorator,
+                   if: ->(*) { embed_links && current_user.allowed_to?(:view_file_links, represented.project) },
+                   uncacheable: true
+
+          def file_links
+            ::API::V3::FileLinks::FileLinkCollectionRepresenter.new(represented.file_links,
+                                                                    self_link: api_v3_paths.file_links(represented.id),
+                                                                    current_user: current_user)
           end
         end
       end

@@ -120,8 +120,8 @@ module OpenProject::Storages
       "#{root}/file_links/#{file_link_id}/download"
     end
 
-    add_api_path :file_link_open do |file_link_id|
-      "#{root}/file_links/#{file_link_id}/open"
+    add_api_path :file_link_open do |file_link_id, location = false|
+      "#{root}/file_links/#{file_link_id}/open#{location ? '?location=true' : ''}"
     end
 
     # Add api endpoints specific to this module

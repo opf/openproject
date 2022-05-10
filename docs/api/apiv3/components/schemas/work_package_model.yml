@@ -307,6 +307,24 @@ properties:
                 
                 **Permission** view work packages
               readOnly: true
+      addFileLink:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              Add a file link to the work package
+
+              # Conditions
+
+              **Permission**: manage file links
+      fileLinks:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              Gets the file link collection of this work package
+
+              # Conditions
+
+              **Permission**: view file links
       parent:
         allOf:
           - "$ref": "./link.yml"

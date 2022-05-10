@@ -132,7 +132,7 @@ time to finish.
 [openproject@host] echo 'export PATH="$HOME/.nodenv/bin:$PATH"' >> ~/.profile
 [openproject@host] echo 'eval "$(nodenv init -)"' >> ~/.profile
 [openproject@host] source ~/.profile
-[openproject@host] git clone git://github.com/OiNutter/node-build.git ~/.nodenv/plugins/node-build
+[openproject@host] git clone https://github.com/OiNutter/node-build.git ~/.nodenv/plugins/node-build
 
 [openproject@host] nodenv install 14.16.0
 [openproject@host] nodenv rehash
