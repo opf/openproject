@@ -8,15 +8,10 @@ get:
     - Non working days
   description: |-
     Lists non-working days for a given date interval.
+
+    It will return both weekend days and registered non-working days from the
+    beginning of current month to the end of following month by default.
   parameters:
-    - name: include_weekend
-      in: query
-      description: |-
-        Include weekend days in the response when `true`.
-      required: false
-      schema:
-        default: false
-        type: boolean
     - name: filters
       in: query
       description: |-
@@ -25,11 +20,20 @@ get:
         Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/)
         endpoint. Currently supported filters are:
 
-        + interval: The inclusive date interval to scope non working days to look up.
+        + interval: the inclusive date interval to scope non-working days to
+          look up. When unspecified, default is from the beginning of current
+          month to the end of following month.
 
-          Example: `{ "interval": { "operator": "<>d", "values": ["2022-05-02","2022-05-26"] } }` would return non working days
-          between May 5 and May 26 2022, inclusive.
-      example: '[{ "interval": { "operator": "<>d", "values": ["2022-05-02","2022-05-26"] } }]'
+          Example: `{ "interval": { "operator": "<>d", "values": ["2022-05-02","2022-05-26"] } }`
+          would return non-working days between May 5 and May 26 2022, inclusive.
+
+        + type: the type of non-working days to return. Can have the values
+          `NonWorkDay` and `WeekDay`. When unspecified, default is
+          `["NonWorkingDay", "WeekDay"]`
+
+          Example: `{ "type": { "operator": "=", "values": ["NonWorkingDay"] } }`
+          would return registered non working days only.
+      example: '[{ "interval": { "operator": "<>d", "values": ["2022-05-02","2022-05-26"] } }, { "type": { "operator": "=", "values": ["NonWorkingDay"] } }]'
       required: false
       schema:
         type: string

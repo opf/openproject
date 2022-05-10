@@ -39,7 +39,7 @@ example:
   count: 7
   _links:
     self:
-      href: /api/v3/work_schedule/week_days
+      href: /api/v3/days/week
   _embedded:
     elements:
       - _type: WeekDay
@@ -48,7 +48,7 @@ example:
         working: true
         _links:
           self:
-            href: /api/v3/work_schedule/week_days/1
+            href: /api/v3/days/week/1
             title: Monday
       - _type: WeekDay
         day: 2
@@ -56,7 +56,7 @@ example:
         working: true
         _links:
           self:
-            href: /api/v3/work_schedule/week_days/2
+            href: /api/v3/days/week/2
             title: Tuesday
       - _type: WeekDay
         day: 3
@@ -64,7 +64,7 @@ example:
         working: true
         _links:
           self:
-            href: /api/v3/work_schedule/week_days/3
+            href: /api/v3/days/week/3
             title: Wednesday
       - _type: WeekDay
         day: 4
@@ -72,7 +72,7 @@ example:
         working: true
         _links:
           self:
-            href: /api/v3/work_schedule/week_days/4
+            href: /api/v3/days/week/4
             title: Thursday
       - _type: WeekDay
         day: 5
@@ -80,7 +80,7 @@ example:
         working: true
         _links:
           self:
-            href: /api/v3/work_schedule/week_days/5
+            href: /api/v3/days/week/5
             title: Friday
       - _type: WeekDay
         day: 6
@@ -88,7 +88,7 @@ example:
         working: false
         _links:
           self:
-            href: /api/v3/work_schedule/week_days/6
+            href: /api/v3/days/week/6
             title: Saturday
       - _type: WeekDay
         day: 7
@@ -96,5 +96,5 @@ example:
         working: false
         _links:
           self:
-            href: /api/v3/work_schedule/week_days/7
+            href: /api/v3/days/week/7
             title: Sunday
