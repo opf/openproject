@@ -8,6 +8,7 @@
 
   <a
     [textContent]="fileLink.originData.name"
+    [title]="text.title.openFile"
     (click)="openLinkedFile(false)"
   ></a>
 </div>
@@ -30,6 +31,7 @@
 >
   <button
     class="spot-link"
+    [title]="text.title.openFileLocation"
     (click)="openLinkedFile(true)"
   >
     <span

@@ -54,6 +54,13 @@ export class FileLinkListItemComponent implements OnInit {
 
   public fileLinkIcon:IFileLinkListItemIcon;
 
+  public text = {
+    title: {
+      openFile: this.i18n.t('js.label_open_file_link'),
+      openFileLocation: this.i18n.t('js.label_open_file_link_location'),
+    },
+  };
+
   constructor(
     private readonly i18n:I18nService,
     private readonly timezoneService:TimezoneService,
