@@ -180,6 +180,10 @@ export class ViewSelectComponent extends UntilDestroyedMixin implements OnInit {
       params.filters?.push(
         ['project', '=', [this.projectId]],
       );
+    } else {
+      params.filters?.push(
+        ['project', '!*', []],
+      );
     }
 
     this.viewsService.fetchViews(params)
