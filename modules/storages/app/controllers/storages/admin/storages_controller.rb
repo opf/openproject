@@ -180,6 +180,6 @@ class Storages::Admin::StoragesController < ApplicationController
   end
 
   def set_shortened_secret
-    @short_secret = shortened_secret(@object.oauth_client_secret)
+    @short_secret = shortened_secret(@object.oauth_client&.client_secret.to_s)
   end
 end

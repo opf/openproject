@@ -56,6 +56,8 @@ class Storages::Admin::OAuthClientsController < ApplicationController
   # See also: https://www.openproject.org/docs/development/concepts/contracted-services/
   # Called by: Global app/config/routes.rb to serve Web page
   def create
+    ::OAuthClients::DeleteService.new(user: User.current, model: @storage.oauth_client).call if @storage.oauth_client
+
     service_result = ::OAuthClients::CreateService.new(user: User.current)
                                                   .call(permitted_oauth_client_params.merge(integration: @storage))
     @oauth_client = service_result.result

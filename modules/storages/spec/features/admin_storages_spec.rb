@@ -53,8 +53,6 @@ describe 'Admin storages', :enable_storages, :storage_server_helpers, type: :fea
     mock_server_capabilities_response("https://example.com")
     page.find('#storages_storage_name').set("NC 1")
     page.find('#storages_storage_host').set("https://example.com")
-    page.find('#storages_storage_oauth_client_id').set("0123456789ABCDEF")
-    page.find('#storages_storage_oauth_client_secret').set("123456789ABCDEF0")
     page.find('button[type=submit]').click
 
     created_storage = Storages::Storage.find_by(name: 'NC 1')

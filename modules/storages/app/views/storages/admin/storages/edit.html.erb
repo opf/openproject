@@ -17,6 +17,26 @@
 <section class="form--section">
   <fieldset class="form--fieldset">
     <legend class="form--fieldset-legend"><%= t(:'storages.label_oauth_client_details') %></legend>
-    <%= link_to "new", new_admin_settings_storage_oauth_client_path(@object) %>
+    <% if @object.oauth_client %>
+      <div class="attributes-key-value">
+        <div class="attributes-key-value--key"><%= t(:'storages.label_oauth_client_id') %></div>
+        <div class="attributes-key-value--value-container">
+          <div class="attributes-key-value--value -text">
+            <span><%= @object.oauth_client.client_id %></span>
+          </div>
+        </div>
+        <div class="attributes-key-value--key"><%= t(:'storages.label_oauth_client_secret') %></div>
+        <div class="attributes-key-value--value-container">
+          <div class="attributes-key-value--value -text">
+            <span><%= @short_secret %></span>
+          </div>
+        </div>
+      </div>
+      <%= link_to(t("js.label_reset"),
+                  new_admin_settings_storage_oauth_client_path(@object),
+                  data: { confirm: t(:'storages.confirm_replace_oauth_client') }) %>
+    <% else %>
+      <%= link_to(t("js.label_create"), new_admin_settings_storage_oauth_client_path(@object)) %>
+    <% end %>
   </fieldset>
 </section>

@@ -81,3 +81,5 @@ en:
     provider_types:
       label: "Provider type"
       nextcloud: "Nextcloud"
+    confirm_replace_oauth_client: "Are you sure? All users will have to authorize again against the storage."
+    oauth_client_details_missing: "To complete the setup, please add OAuth client credentials from your storage."
