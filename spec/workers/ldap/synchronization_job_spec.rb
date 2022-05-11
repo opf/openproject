@@ -26,38 +26,32 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-namespace :setting do
-  desc 'Allow to set a Setting: rake setting:set[key1=value1,key2=value2]'
-  task set: :environment do |_t, args|
-    args.extras.each do |tuple|
-      key, value = tuple.split('=')
-      setting = Setting.find_by(name: key)
-      if setting.nil?
-        Setting.create! name: key, value: value
-      else
-        setting.update! value: value
-      end
+require 'spec_helper'
+
+describe Ldap::SynchronizationJob, type: :model do
+  let!(:auth_source) { create :ldap_auth_source }
+
+  let(:job) { described_class.new }
+  let(:service) { instance_double(Ldap::SynchronizeUsersService) }
+
+  before do
+    allow(::Ldap::SynchronizeUsersService).to receive(:new).and_return(service)
+    allow(service).to receive(:perform)
+
+    job.perform
+  end
+
+  context "with user synchronization enabled (default)" do
+    it "runs the sync" do
+      expect(service).to have_received(:perform)
     end
   end
 
-  desc 'Allow to get a Setting: rake setting:get[key]'
-  task :get, [:key] => :environment do |_t, args|
-    setting = Setting.find_by(name: args[:key])
-    unless setting.nil?
-      puts(setting.value)
-    end
-  end
-
-  desc 'Allow to set a Setting read from an ENV var. Example: rake setting:set_to_env[smtp_address=SMTP_HOST]'
-  task set_to_env: :environment do |_t, args|
-    args.extras.each do |tuple|
-      setting_name, env_var_name = tuple.split('=')
-
-      next unless Settings::Definition.exists? setting_name
-      next unless ENV.has_key? env_var_name
-
-      setting = Setting.find_by name: setting_name
-      setting.set_value! ENV[env_var_name].presence, force: true
+  context "with user synchronization disabled", with_config: {
+    'ldap_users_disable_sync_job' => true
+  } do
+    it "does not run the sync" do
+      expect(service).not_to have_received(:perform)
     end
   end
 end

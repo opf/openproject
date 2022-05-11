@@ -1,8 +1,6 @@
 .spot-action-bar
-  display: flex
-  flex-direction: column
-  flex-wrap: nowrap
-  justify-content: space-between
+  display: grid
+  grid-template-columns: 1fr
   padding: $spot-spacing-1
   padding-bottom: $spot-spacing-0_5
   background-color: $spot-color-basic-gray-6
@@ -20,7 +18,7 @@
       margin-left: $spot-spacing-0_5
 
   @media #{$spot-mq-action-bar-change}
-    flex-direction: row
+    grid-template-columns: 1fr auto
 
     &--left,
     &--right
