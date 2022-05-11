@@ -48,6 +48,7 @@ module Principals
       rewrite_assigned_to(from, to)
       rewrite_responsible(from, to)
       rewrite_actor(from, to)
+      rewrite_owner(from, to)
     end
 
     def rewrite_custom_value(from, to)
@@ -104,6 +105,12 @@ module Principals
     def rewrite_actor(from, to)
       [::Notification].each do |klass|
         klass.where(actor_id: from.id).update_all(actor_id: to.id)
+      end
+    end
+
+    def rewrite_owner(from, to)
+      [::Doorkeeper::Application].each do |klass|
+        klass.where(owner_id: from.id).update_all(owner_id: to.id)
       end
     end
 

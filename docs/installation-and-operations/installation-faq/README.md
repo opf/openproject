@@ -51,6 +51,10 @@ Ruby support on Windows is notoriously difficult, however you might be able to r
 There's no installation packages for Mac. However, you can use Docker (easier way) or install it manually. 
 Your Mac will have to be reachable from the Internet if you want to collaborate with others. 
 
+### Does the OpenProject docker container run on ARM technology like Apple M1 or Raspberry PI? 
+
+At the moment, OpenProject is supported only on x86-x64 technology (Intel). The Development of OpenProject started 2010, when ARM was out of scope for being supported. With strong ARM processors this might change in the future, but at the moment the only possible solution is to build OpenProject from source on your ARM hardware. OpenProject does not support ARM at the moment.
+
 ### Can I install OpenProject offline?
 
 For the packaged installation there are quite a few dependencies which would have to be loaded during installation (like SQLite3, unzip, poppler-utils, unrtf, ...). Therefore, we recommend  to use a Docker setup for offline installation. A Docker image contains all dependencies and can really be transferred as single files (via docker save ) without further dependencies. Please find out more about air-gapped installation [here](../installation/docker#offlineair-gapped-installation). 
