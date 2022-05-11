@@ -62,10 +62,8 @@ export class FileLinkListComponent implements OnInit {
   }
 
   private get fileLinkSelfLink():string {
-    // TODO: replace if work package resource contains file links link
-    // const fileLinks = this.resource.fileLinks as unknown&{ href:string };
-    // return fileLinks.href;
-    return `/api/v3/work_packages/${this.resource.id}/file_links`;
+    const fileLinks = this.resource.fileLinks as unknown&{ href:string };
+    return fileLinks.href;
   }
 
   private get collectionKey():string {

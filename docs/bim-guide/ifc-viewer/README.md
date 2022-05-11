@@ -7,7 +7,7 @@ robots: index, follow
 keywords: BIM, BCF, IFC, Viewer
 ---
 
-# IFC-Viewer (BIM feature)
+# IFC viewer (BIM feature)
 
 OpenProject BIM includes a very powerful IFC viewer to show and interact with building models in 2D & 3D.
 
@@ -29,7 +29,7 @@ The BCF Module has included a very powerful IFC viewer. Here is a short overview
 
 
 
-## Import and Export IFC Models
+## Import and export IFC models
 
 Within the BCF module you are able to manage your IFC files. You are able to upload new building models and download already existing files. Just Click on the ***"IFC-Models"-Button*** within the OpenProject Toolbar. 
 
@@ -82,11 +82,11 @@ To rotate the IFC model you either left-click on the building viewer and ***rota
 
 
 
-## IFC-Viewer toolbar
+## IFC-viewer toolbar
 
 The IFC-Viewer toolbar has many functions which are described below. The user actions all relate to the viewer and can be started by clicking on the button.
 
-### Reset-View
+### Reset view
 
 ![Reset View](reset-view.png)
 
@@ -96,7 +96,7 @@ If your building model (or objects within the model) is rotated, zoomed or cut a
 
 
 
-### 2D / 3D View
+### 2D / 3D view
 
 ![2D View](2-d-view.png)
 
@@ -106,7 +106,7 @@ If your building model can easily be shown in 2D or 3D. This function is very po
 
 
 
-### Orthographic View
+### Orthographic view
 
 ![Orthographic Button](orthographic-button.png)
 
@@ -114,7 +114,7 @@ The default behavior of the OpenProject BIM Model Viewer is a perspective view. 
 
 ![Orthographic View](orthographic-view.png)
 
-### Fit View
+### Fit view
 
 ![Fit View Button](fit-view-button.png)
 
@@ -124,7 +124,7 @@ This function allows you to reset the current zoom level and the position of the
 
 
 
-### First Person Perspective
+### First person perspective
 
 ![First Person Button](first-person-button.png)
 
@@ -172,7 +172,7 @@ To select elements within the building model, you have to activate the selection
 
 
 
-## Show Properties
+## Show properties
 
 You are able to see the basic properties of each element (e.g. the UUID) within OpenProject BIM. After using the "information" buttion a new tab named "Properties" will appear. 
 
@@ -198,7 +198,7 @@ In order to inspect the information for individual objects, you have to use the 
 
 
 
-## Show or Hide elements via viewer
+## Show or hide elements via viewer
 
 There are two options to hide elements via viewer. The **first possibility** is to use the ***IFC-viewer toolbar***. Within the toolbar you will find the **"hide-button"** 
 
@@ -226,7 +226,7 @@ Sometimes it is helpful to see elements in context to other elements but a good 
 
 
 
-## Show Elements in Model Tree
+## Show elements in model tree
 
 To be sure if you hide or select the element you want you are able to jump to this element in the IFC Model tree.
 
@@ -238,7 +238,7 @@ All you have to do is open the context menu on the desired element and select th
 
  
 
-## Show or Hide models or elements via model tree
+## Show or hide models or elements via model tree
 
 If you have uploaded several IFC models of one building (e.g. one for each discipline - Architecture, Structural & MEP) and want to have a look at a single model or just want to hide specific elements, you are able to hide them by changing the status of the ***checkbox within the model tree.***
 
