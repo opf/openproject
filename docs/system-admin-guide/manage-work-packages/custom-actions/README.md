@@ -8,13 +8,13 @@ robots: index, follow
 keywords: custom actions
 ---
 
-# Intelligent workflows with custom actions (Premium feature)
+# Automated workflows with custom actions (Premium feature)
 
-Intelligent workflows with custom actions support you to easily update several work package attributes at once with a single click on one button.
+Automated workflows with custom actions support you to easily update several work package attributes at once with a single click on one button.
 
 You can use custom actions to standardize your workflows, avoid errors and reduce manual work for updates.
 
-The intelligent workflows with custom actions are a premium feature and only available for [Enterprise Edition](https://www.openproject.org/enterprise-edition/) and [Cloud Edition](https://www.openproject.org/hosting/) customers.
+The workflows with custom actions are a premium feature and only available for [Enterprise Edition](https://www.openproject.org/enterprise-edition/) and [Cloud Edition](https://www.openproject.org/hosting/) customers.
 
 ## Create custom actions
 
