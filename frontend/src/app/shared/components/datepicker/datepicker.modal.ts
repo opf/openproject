@@ -133,7 +133,7 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
 
   ngAfterViewInit():void {
     if (this.isSchedulable) {
-      this.showDateSelection();
+      this.initializeDatepicker();
     }
 
     this.onDataChange();
@@ -144,7 +144,7 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
     this.cdRef.detectChanges();
 
     if (this.scheduleManually) {
-      this.showDateSelection();
+      this.initializeDatepicker();
     } else if (this.isParent) {
       this.removeDateSelection();
     }
@@ -212,20 +212,8 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
     });
   }
 
-  setCurrentActivatedField(key:DateKeys):void {
-    this.datepickerHelper.setCurrentActivatedField(key);
-    this.datepickerHelper.setDatepickerRestrictions(this.dates, this.datePickerInstance);
-    this.datepickerHelper.setRangeClasses(this.dates);
-  }
-
-  showTodayLink(key:DateKeys):boolean {
-    if (!this.isSchedulable) {
-      return false;
-    }
-    if (key === 'start') {
-      return !this.dates.end || this.datepickerHelper.parseDate(new Date()) <= this.datepickerHelper.parseDate(this.dates.end);
-    }
-    return !this.dates.start || this.datepickerHelper.parseDate(new Date()) >= this.datepickerHelper.parseDate(this.dates.start);
+  showTodayLink():boolean {
+    return this.isSchedulable;
   }
 
   /**
@@ -256,12 +244,6 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
     return !this.scheduleManually && !!this.changeset.value('scheduleManually');
   }
 
-  private showDateSelection() {
-    this.initializeDatepicker();
-    this.datepickerHelper.setDatepickerRestrictions(this.dates, this.datePickerInstance);
-    this.datepickerHelper.setRangeClasses(this.dates);
-  }
-
   private removeDateSelection() {
     this.datePickerInstance.destroy();
   }
@@ -272,19 +254,13 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
       '#flatpickr-input',
       this.singleDate ? this.dates.date : [this.dates.start, this.dates.end],
       {
-        mode: this.singleDate ? 'single' : 'multiple',
+        mode: this.singleDate ? 'single' : 'range',
         showMonths: this.browserDetector.isMobile ? 1 : 2,
         inline: true,
         onChange: (dates:Date[]) => {
           this.handleDatePickerChange(dates);
 
           this.onDataChange();
-        },
-        onMonthChange: () => {
-          this.datepickerHelper.setRangeClasses(this.dates);
-        },
-        onYearChange: () => {
-          this.datepickerHelper.setRangeClasses(this.dates);
         },
         onDayCreate: (dObj:Date[], dStr:string, fp:flatpickr.Instance, dayElem:DayElement) => {
           dayElem.setAttribute('data-iso-date', dayElem.dateObj.toISOString());
@@ -303,12 +279,31 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
       const dates = [this.datepickerHelper.parseDate(this.dates.start), this.datepickerHelper.parseDate(this.dates.end)];
       this.datepickerHelper.setDates(dates, this.datePickerInstance, enforceDate);
 
-      this.setRangeClassesAndToggleActiveField(toggleField);
+      if (toggleField) {
+        this.datepickerHelper.toggleCurrentActivatedField(this.dates, this.datePickerInstance);
+      }
     }
   }
 
   private handleDatePickerChange(dates:Date[]) {
+    // Todo: Handle some special cases
+
     switch (dates.length) {
+      case 1: {
+        break;
+      }
+      case 2: {
+        this.setDateAndToggleActiveField(this.timezoneService.formattedISODate(dates[0]), false);
+        this.setDateAndToggleActiveField(this.timezoneService.formattedISODate(dates[1]), false);
+        break;
+      }
+      default: {
+        break;
+      }
+    }
+
+    /* OLD
+   switch (dates.length) {
       case 0: {
         // In case we removed the only value by clicking on a already selected date within the datepicker:
         if (this.dates.start || this.dates.end) {
@@ -378,6 +373,9 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
     }
 
     this.cdRef.detectChanges();
+    */
+
+    this.cdRef.detectChanges();
   }
 
   private overwriteDatePickerWithNewDates(dates:Date[]) {
@@ -391,13 +389,6 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
       this.datepickerHelper.setDates([this.datepickerHelper.parseDate(newDate)], this.datePickerInstance);
     }
     this.datepickerHelper.toggleCurrentActivatedField(this.dates, this.datePickerInstance);
-  }
-
-  private setRangeClassesAndToggleActiveField(toggleField = true) {
-    if (toggleField) {
-      this.datepickerHelper.toggleCurrentActivatedField(this.dates, this.datePickerInstance);
-    }
-    this.datepickerHelper.setRangeClasses(this.dates);
   }
 
   private onDataChange() {
