@@ -43,6 +43,7 @@ import {
 } from '@uirouter/angular';
 import { OpSpotModule } from 'core-app/spot/spot.module';
 import { CurrentUserModule } from 'core-app/core/current-user/current-user.module';
+import { OpenprojectAutocompleterModule } from 'core-app/shared/components/autocompleter/openproject-autocompleter.module';
 import { IconModule } from 'core-app/shared/components/icon/icon.module';
 import { AttributeHelpTextModule } from 'core-app/shared/components/attribute-help-texts/attribute-help-text.module';
 import { IconTriggeredContextMenuComponent } from 'core-app/shared/components/op-context-menu/icon-triggered-context-menu/icon-triggered-context-menu.component';
@@ -134,6 +135,7 @@ export function bootstrapModule(injector:Injector) {
     DynamicBootstrapModule,
     OpenprojectPrincipalRenderingModule,
     OpenprojectContentLoaderModule,
+    OpenprojectAutocompleterModule,
 
     DatePickerModule,
     FocusModule,
@@ -154,6 +156,7 @@ export function bootstrapModule(injector:Injector) {
     NgOptionHighlightModule,
     DynamicBootstrapModule,
     OpenprojectPrincipalRenderingModule,
+    OpenprojectAutocompleterModule,
 
     OpSpotModule,
 

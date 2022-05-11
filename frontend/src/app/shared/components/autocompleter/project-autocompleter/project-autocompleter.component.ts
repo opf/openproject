@@ -40,36 +40,42 @@ import {
 } from 'core-app/shared/helpers/rxjs/debounced-input-switchmap';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { NgSelectComponent } from '@ng-select/ng-select';
-import { UserResource } from 'core-app/features/hal/resources/user-resource';
+import { ProjectResource } from 'core-app/features/hal/resources/project-resource';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { ApiV3FilterBuilder, FilterOperator } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import { DatasetInputs } from 'core-app/shared/components/dataset-inputs.decorator';
 
-export const usersAutocompleterSelector = 'user-autocompleter';
+export const projectsAutocompleterSelector = 'op-project-autocompleter';
 
-export interface IUserAutocompleteItem {
+export interface IProjectAutocompleteItem {
   name:string;
   id:string|null;
   href:string|null;
   avatar:string|null;
 }
 
+export interface IProjectAutocompleterFilters {
+  selector:string;
+  operator:FilterOperator;
+  values:string[];
+};
+
 @DatasetInputs
 @Component({
-  templateUrl: './user-autocompleter.component.html',
-  selector: usersAutocompleterSelector,
+  templateUrl: './project-autocompleter.component.html',
+  selector: projectsAutocompleterSelector,
 })
-export class UserAutocompleterComponent implements OnInit {
-  userTracker = (item:any) => item.href || item.id;
+export class ProjectAutocompleterComponent implements OnInit {
+  projectTracker = (item:any) => item.href || item.id;
 
   @ViewChild(NgSelectComponent, { static: true }) public ngSelectComponent:NgSelectComponent;
 
-  @Output() public onChange = new EventEmitter<IUserAutocompleteItem>();
+  @Output() public onChange = new EventEmitter<IProjectAutocompleteItem>();
 
   @Input() public clearAfterSelection = false;
 
-  // Load all users as default
-  @Input() public url:string = this.apiV3Service.users.path;
+  // Load all projects as default
+  @Input() public url:string = this.apiV3Service.projects.path;
 
   @Input() public allowEmpty = false;
 
@@ -79,7 +85,16 @@ export class UserAutocompleterComponent implements OnInit {
 
   @Input() public initialSelection:number|null = null;
 
-  @Input() public additionalFilters:{ selector:string; operator:FilterOperator, values:string[] }[];
+  private _additionalFilters:IProjectAutocompleterFilters[] = [];
+  @Input()
+  public set additionalFilters(newFilters:IProjectAutocompleterFilters[]) {
+    this._additionalFilters = newFilters;
+    this.inputFilters = new ApiV3FilterBuilder();
+    this.additionalFilters.forEach((filter) => this.inputFilters.add(filter.selector, filter.operator, filter.values));
+  }
+  public get additionalFilters() {
+    return this._additionalFilters;
+  }
 
   public inputFilters:ApiV3FilterBuilder = new ApiV3FilterBuilder();
 
@@ -87,10 +102,11 @@ export class UserAutocompleterComponent implements OnInit {
   private updateInputField:HTMLInputElement|undefined;
 
   /** Keep a switchmap for search term and loading state */
-  public requests = new DebouncedRequestSwitchmap<string, IUserAutocompleteItem>(
-    (searchTerm:string) => this.getAvailableUsers(this.url, searchTerm),
+  public requests = new DebouncedRequestSwitchmap<string, IProjectAutocompleteItem>(
+    (searchTerm:string) => this.getAvailableProjects(this.url, searchTerm),
     errorNotificationHandler(this.halNotification),
   );
+
 
   constructor(
     public elementRef:ElementRef,
@@ -102,16 +118,7 @@ export class UserAutocompleterComponent implements OnInit {
     readonly injector:Injector,
   ) { }
 
-  ngOnInit() {
-    const input = this.elementRef.nativeElement.dataset.updateInput;
-
-    if (input) {
-      this.updateInputField = document.getElementsByName(input)[0] as HTMLInputElement|undefined;
-      this.setInitialSelection();
-    }
-
-    this.additionalFilters.forEach((filter) => this.inputFilters.add(filter.selector, filter.operator, filter.values));
-  }
+  ngOnInit() { }
 
   public onFocus() {
     if (!this.requests.lastRequestedValue) {
@@ -119,26 +126,26 @@ export class UserAutocompleterComponent implements OnInit {
     }
   }
 
-  public onModelChange(user:any) {
-    if (user) {
-      this.onChange.emit(user);
+  public onModelChange(project:any) {
+    if (project) {
+      this.onChange.emit(project);
       this.requests.input$.next('');
 
       if (this.clearAfterSelection) {
-        this.ngSelectComponent.clearItem(user);
+        this.ngSelectComponent.clearItem(project);
       }
 
       if (this.updateInputField) {
         if (this.multiple) {
-          this.updateInputField.value = user.map((u:UserResource) => u.id);
+          this.updateInputField.value = project.map((u:ProjectResource) => u.id);
         } else {
-          this.updateInputField.value = user.id;
+          this.updateInputField.value = project.id;
         }
       }
     }
   }
 
-  protected getAvailableUsers(url:string, searchTerm:any):Observable<IUserAutocompleteItem[]> {
+  protected getAvailableProjects(url:string, searchTerm:any):Observable<IProjectAutocompleteItem[]> {
     // Need to clone the filters to not add additional filters on every
     // search term being processed.
     const searchFilters = this.inputFilters.clone();
