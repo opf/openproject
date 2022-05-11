@@ -419,5 +419,22 @@ describe Principals::ReplaceReferencesService, '#call', type: :model do
         end
       end
     end
+
+    context 'with OAuth application' do
+      it_behaves_like 'rewritten record',
+                      :oauth_application,
+                      :owner_id do
+        let(:attributes) do
+          {
+            name: "'foo'",
+            uid: "'bar'",
+            secret: "'bar'",
+            redirect_uri: "'urn:whatever'",
+            created_at: 'NOW()',
+            updated_at: 'NOW()'
+          }
+        end
+      end
+    end
   end
 end

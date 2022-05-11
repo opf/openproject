@@ -154,7 +154,8 @@ gem 'airbrake', '~> 13.0.0', require: false
 
 gem 'prawn', '~> 2.2'
 gem 'prawn-markup', '~> 0.3.0'
-gem 'matrix' # needed by prawn, can be removed when prawn version > 2.4.0
+# prawn implictly depends on matrix gem no longer in ruby core with 3.1
+gem 'matrix', '~> 0.4.2'
 
 gem 'cells-erb', '~> 0.1.0'
 gem 'cells-rails', '~> 0.1.4'

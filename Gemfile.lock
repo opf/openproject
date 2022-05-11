@@ -1058,7 +1058,7 @@ DEPENDENCIES
   listen (~> 3.7.0)
   livingstyleguide (~> 2.1.0)
   lograge (~> 0.12.0)
-  matrix
+  matrix (~> 0.4.2)
   meta-tags (~> 2.16.0)
   mini_magick (~> 4.11.0)
   multi_json (~> 1.15.0)
