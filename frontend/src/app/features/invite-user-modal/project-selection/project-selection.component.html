@@ -12,6 +12,8 @@
       <op-project-autocompleter
         [opFormBinding]="projectControl"
         slot="input"
+        [APIFilters]="APIFiltersForProjects"
+        [resultsFilterFn]="projectFilterFn"
       ></op-project-autocompleter>
 
       <div

@@ -18,6 +18,7 @@ import { IOpOptionListOption } from 'core-app/shared/components/option-list/opti
 import { ProjectResource } from 'core-app/features/hal/resources/project-resource';
 import { PrincipalType } from '../invite-user.component';
 import { ProjectAllowedValidator } from './project-allowed.validator';
+import { IProject } from 'core-app/core/state/projects/project.model';
 
 @Component({
   selector: 'op-ium-project-selection',
@@ -120,5 +121,12 @@ export class ProjectSelectionComponent implements OnInit {
       project: this.projectControl?.value,
       type: this.typeControl?.value,
     });
+  }
+
+  APIFiltersForProjects = [['active', '=', true]];
+
+  projectFilterFn(projects:IProject[]) {
+    console.log('filtering!', projects);
+    return projects;
   }
 }

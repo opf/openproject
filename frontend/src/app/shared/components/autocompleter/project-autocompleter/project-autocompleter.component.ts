@@ -42,22 +42,43 @@ import { HalResourceNotificationService } from 'core-app/features/hal/services/h
 import { NgSelectComponent } from '@ng-select/ng-select';
 import { ProjectResource } from 'core-app/features/hal/resources/project-resource';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { ApiV3FilterBuilder, FilterOperator } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import { DatasetInputs } from 'core-app/shared/components/dataset-inputs.decorator';
+import { ApiV3ListFilter, listParamsString } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
+import { getPaginatedResults } from 'core-app/core/apiv3/helpers/get-paginated-results';
+import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
+import { IProject } from 'core-app/core/state/projects/project.model';
+import { HttpClient } from '@angular/common/http';
+
+import { insertInList } from '../../project-include/insert-in-list';
+import { recursiveSort } from '../../project-include/recursive-sort';
+import { IProjectData } from '../../project-include/project-data';
+import { ID } from '@datorama/akita';
 
 export const projectsAutocompleterSelector = 'op-project-autocompleter';
 
 export interface IProjectAutocompleteItem {
   name:string;
-  id:string|null;
+  id:ID;
   href:string|null;
-  avatar:string|null;
+  numberOfAncestors:number;
+  disabled?:boolean;
+  disabledReason?:string;
 }
 
-export interface IProjectAutocompleterFilters {
-  selector:string;
-  operator:FilterOperator;
-  values:string[];
+const flattenProjectTree = (projectTree:IProjectData, depth = 0):IProjectAutocompleteItem[] => {
+  let projectList = [
+    {
+      name: projectTree.name,
+      id: projectTree.id,
+      href: projectTree.href,
+      numberOfAncestors: depth,
+    }
+  ];
+
+  return projectTree.children.reduce((list, child) => [
+    ...list,
+    ...flattenProjectTree(child, depth + 1),
+  ], projectList);
 };
 
 @DatasetInputs
@@ -85,34 +106,25 @@ export class ProjectAutocompleterComponent implements OnInit {
 
   @Input() public initialSelection:number|null = null;
 
-  private _additionalFilters:IProjectAutocompleterFilters[] = [];
-  @Input()
-  public set additionalFilters(newFilters:IProjectAutocompleterFilters[]) {
-    this._additionalFilters = newFilters;
-    this.inputFilters = new ApiV3FilterBuilder();
-    this.additionalFilters.forEach((filter) => this.inputFilters.add(filter.selector, filter.operator, filter.values));
-  }
-  public get additionalFilters() {
-    return this._additionalFilters;
-  }
+  @Input() public APIFilters:ApiV3ListFilter[] = [];
 
-  public inputFilters:ApiV3FilterBuilder = new ApiV3FilterBuilder();
+  @Input() public resultsFilterFn:(projects:IProject[]) => IProject[] = (projects) => projects;
 
   // Update an input field after changing, used when externally loaded
   private updateInputField:HTMLInputElement|undefined;
 
   /** Keep a switchmap for search term and loading state */
   public requests = new DebouncedRequestSwitchmap<string, IProjectAutocompleteItem>(
-    (searchTerm:string) => this.getAvailableProjects(this.url, searchTerm),
+    (searchTerm:string) => this.getAvailableProjects(searchTerm),
     errorNotificationHandler(this.halNotification),
   );
-
 
   constructor(
     public elementRef:ElementRef,
     protected halResourceService:HalResourceService,
     protected I18n:I18nService,
     protected halNotification:HalResourceNotificationService,
+    readonly http:HttpClient,
     readonly pathHelper:PathHelperService,
     readonly apiV3Service:ApiV3Service,
     readonly injector:Injector,
@@ -145,29 +157,46 @@ export class ProjectAutocompleterComponent implements OnInit {
     }
   }
 
-  protected getAvailableProjects(url:string, searchTerm:any):Observable<IProjectAutocompleteItem[]> {
-    // Need to clone the filters to not add additional filters on every
-    // search term being processed.
-    const searchFilters = this.inputFilters.clone();
-
-    if (searchTerm && searchTerm.length) {
-      searchFilters.add('name', '~', [searchTerm]);
-    }
-
-    return this.halResourceService
-      .get(url, { filters: searchFilters.toJson() })
+  protected getAvailableProjects(searchTerm:string):Observable<IProjectAutocompleteItem[]> {
+    return getPaginatedResults<IProject>(
+      (params) => {
+        const filters:ApiV3ListFilter[] = [ ...this.APIFilters ];
+        const fullParams = {
+          filters,
+          select: [
+            'elements/id',
+            'elements/name',
+            'elements/identifier',
+            'elements/self',
+            'elements/ancestors',
+            'total',
+            'count',
+            'pageSize',
+          ],
+          ...params,
+        };
+        const collectionURL = listParamsString(fullParams);
+        return this.http.get<IHALCollection<IProject>>(this.url + collectionURL);
+      },
+    )
       .pipe(
-        map((res) => {
-          const options = res.elements.map((el:any) => ({
-            name: el.name, id: el.id, href: el.href, avatar: el.avatar,
-          }));
+        map(this.resultsFilterFn),
+        map((projects) => projects
+          .sort((a, b) => a._links.ancestors.length - b._links.ancestors.length)
+          .reduce(
+            (list, project) => {
+              const { ancestors } = project._links;
 
-          if (this.allowEmpty) {
-            options.unshift({ name: this.I18n.t('js.timelines.filter.noneSelection'), href: null, id: null });
-          }
-
-          return options;
-        }),
+              return insertInList(projects, project, list, ancestors);
+            },
+            [] as IProjectData[],
+          )
+        ),
+        map((projects) => recursiveSort(projects)),
+        map((projectTreeItems) => projectTreeItems
+          .map(item => flattenProjectTree(item))
+          .reduce((total, list) => [...total, ...list], []),
+       )
       );
   }
 

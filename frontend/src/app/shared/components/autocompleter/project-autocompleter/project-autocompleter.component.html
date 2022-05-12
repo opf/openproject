@@ -12,13 +12,14 @@
   [appendTo]="appendTo"
   [multiple]="multiple"
 >
-  <ng-template ng-option-tmp let-item="item" let-index="index">
-    <op-principal
-      *ngIf="item && item.href"
-      [principal]="item"
-      [hideName]="true"
-      size="mini"
-    ></op-principal>
-    {{ item.name }}
+  <ng-template
+    ng-option-tmp
+    let-item="item"
+    let-index="index"
+  >
+    <div [ngStyle]="{ 'padding-left.px': item.numberOfAncestors * 20 }">
+      {{ item.name }}
+      {{ item.numberOfAncestors }}
+    </div>
   </ng-template>
 </ng-select>
