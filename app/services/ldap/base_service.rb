@@ -8,7 +8,7 @@ module Ldap
 
     def call
       User.system.run_given do
-        OpenProject::Mutex.with_advisory_lock_transaction(ldap, 'import_users') do
+        OpenProject::Mutex.with_advisory_lock_transaction(ldap, self.class.name) do
           perform
         end
       end
