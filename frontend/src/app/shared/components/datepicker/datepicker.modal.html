@@ -53,7 +53,7 @@
                      [ngModel]="dates.start"
                      (ngModelChange)="updateDate('start', $event)"
                      [disabled]="!isSchedulable"
-                     (click)="datepickerHelper.setCurrentActivatedField('start')">
+                     (focusin)="datepickerHelper.setCurrentActivatedField('start')">
             </div>
             <a class="form--field-inline-action"
                *ngIf="isSchedulable"
@@ -84,7 +84,7 @@
                      [ngModel]="dates.end"
                      (ngModelChange)="updateDate('end', $event)"
                      [disabled]="!isSchedulable"
-                     (click)="datepickerHelper.setCurrentActivatedField('end')">
+                     (focusin)="datepickerHelper.setCurrentActivatedField('end')">
             </div>
             <a class="form--field-inline-action"
                *ngIf="isSchedulable"

@@ -51,7 +51,7 @@ import { BrowserDetector } from 'core-app/core/browser/browser-detector.service'
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { DayElement } from "flatpickr/dist/types/instance";
+import { DayElement } from 'flatpickr/dist/types/instance';
 import flatpickr from 'flatpickr';
 
 export type DateKeys = 'date'|'start'|'end';
@@ -280,7 +280,7 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
       this.datepickerHelper.setDates(dates, this.datePickerInstance, enforceDate);
 
       if (toggleField) {
-        this.datepickerHelper.toggleCurrentActivatedField(this.dates, this.datePickerInstance);
+        this.datepickerHelper.toggleCurrentActivatedField();
       }
     }
   }
@@ -290,11 +290,13 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
 
     switch (dates.length) {
       case 1: {
+        this.setDateAndToggleActiveField(this.timezoneService.formattedISODate(dates[0]), false);
         break;
       }
       case 2: {
-        this.setDateAndToggleActiveField(this.timezoneService.formattedISODate(dates[0]), false);
-        this.setDateAndToggleActiveField(this.timezoneService.formattedISODate(dates[1]), false);
+        this.dates.start = this.timezoneService.formattedISODate(dates[0]);
+        this.dates.end = this.timezoneService.formattedISODate(dates[1]);
+        this.datepickerHelper.toggleCurrentActivatedField();
         break;
       }
       default: {
@@ -388,7 +390,7 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
     if (forceDatePickerUpdate) {
       this.datepickerHelper.setDates([this.datepickerHelper.parseDate(newDate)], this.datePickerInstance);
     }
-    this.datepickerHelper.toggleCurrentActivatedField(this.dates, this.datePickerInstance);
+    this.datepickerHelper.toggleCurrentActivatedField();
   }
 
   private onDataChange() {
@@ -401,6 +403,6 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
   }
 
   private initialActivatedField():DateKeys {
-    return this.locals.fieldName === 'dueDate' || (this.dates.start && !this.dates.end) ? 'end' : 'start';
+    return this.locals.fieldName === 'dueDate' ? 'end' : 'start';
   }
 }

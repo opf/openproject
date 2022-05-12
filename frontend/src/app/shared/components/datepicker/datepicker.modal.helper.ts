@@ -62,6 +62,7 @@ export class DatePickerModalHelper {
       || !!new Date(date).valueOf();
   }
 
+  /*
   sortDates(dates:Date[]):Date[] {
     return dates.sort((a:Date, b:Date) => a.getTime() - b.getTime());
   }
@@ -75,14 +76,14 @@ export class DatePickerModalHelper {
     }
     return parsedDate1.getTime() === parsedDate2.getTime();
   }
+  */
 
   setCurrentActivatedField(val:DateKeys):void {
     this.currentlyActivatedDateField = val;
   }
 
-  toggleCurrentActivatedField(dates:{ [key in DateKeys]:string }, datePicker:DatePicker):void {
+  toggleCurrentActivatedField():void {
     this.currentlyActivatedDateField = this.currentlyActivatedDateField === 'start' ? 'end' : 'start';
-    //this.setDatepickerRestrictions(dates, datePicker);
   }
 
   isStateOfCurrentActivatedField(val:DateKeys):boolean {
