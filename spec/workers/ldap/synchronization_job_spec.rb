@@ -36,14 +36,14 @@ describe Ldap::SynchronizationJob, type: :model do
 
   before do
     allow(::Ldap::SynchronizeUsersService).to receive(:new).and_return(service)
-    allow(service).to receive(:perform)
+    allow(service).to receive(:call)
 
     job.perform
   end
 
   context "with user synchronization enabled (default)" do
     it "runs the sync" do
-      expect(service).to have_received(:perform)
+      expect(service).to have_received(:call)
     end
   end
 
@@ -51,7 +51,7 @@ describe Ldap::SynchronizationJob, type: :model do
     'ldap_users_disable_sync_job' => true
   } do
     it "does not run the sync" do
-      expect(service).not_to have_received(:perform)
+      expect(service).not_to have_received(:call)
     end
   end
 end
