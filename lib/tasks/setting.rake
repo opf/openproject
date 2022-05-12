@@ -31,12 +31,9 @@ namespace :setting do
   task set: :environment do |_t, args|
     args.extras.each do |tuple|
       key, value = tuple.split('=')
-      setting = Setting.find_by(name: key)
-      if setting.nil?
-        Setting.create! name: key, value: value
-      else
-        setting.update! value: value
-      end
+      setting = Setting.find_by(name: key) || Setting.new(name: key)
+      setting.set_value! value, force: true
+      setting.save!
     end
   end
 
