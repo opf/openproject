@@ -58,6 +58,7 @@ namespace :setting do
 
       setting = Setting.find_by name: setting_name
       setting.set_value! ENV[env_var_name].presence, force: true
+      setting.save!
     end
   end
 end
