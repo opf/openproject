@@ -42,7 +42,7 @@ module Ldap
 
       ::LdapAuthSource.find_each do |ldap|
         Rails.logger.info { "[LDAP groups] Synchronizing users for LDAP connection #{ldap.name}" }
-        ::Ldap::SynchronizeUsersService.new(ldap).perform
+        ::Ldap::SynchronizeUsersService.new(ldap).call
       end
     end
   end
