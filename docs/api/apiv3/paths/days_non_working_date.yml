@@ -42,7 +42,6 @@ get:
             errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
             message: The requested resource could not be found.
 
-# TODO: add missing description, missing tags, missing parameters, and missing response codes
 patch:
   summary: Update a non-working day attributes
   operationId: update_non_working_day
