@@ -30,59 +30,14 @@ require 'spec_helper'
 require_module_spec_helper
 require 'contracts/shared/model_contract_shared_context'
 
-describe ::OAuthClients::CreateContract do
+# This DeleteContract spec just tests if the user is _allowed_
+# to execute the operation.
+describe ::OAuthClients::DeleteContract do
   include_context 'ModelContract shared context'
 
-  let(:current_user) { create(:admin) }
-  let(:client_id) { "1234567889" }
-  let(:client_secret) { "asdfasdfasdf" }
-  let(:integration) { build_stubbed :storage }
-  let(:oauth_client) { build :oauth_client,
-                             client_id: client_id,
-                             client_secret: client_secret,
-                             integration: integration }
-
+  let(:oauth_client) { create :oauth_client }
   let(:contract) { described_class.new(oauth_client, current_user) }
 
+  # Generic checks that the contract is valid for valid admin, but invalid otherwise
   it_behaves_like 'contract is valid for active admins and invalid for regular users'
-
-  describe 'validations' do
-    context 'when all attributes are valid' do
-      include_examples 'contract is valid'
-    end
-
-    %i[client_id client_secret].each do |attribute_name|
-      context 'when client_id is invalid' do
-        context 'as it is too long' do
-          let(attribute_name) { 'X' * 257 }
-
-          include_examples 'contract is invalid', attribute_name => :too_long
-        end
-
-        context 'as it is empty' do
-          let(attribute_name) { '' }
-
-          include_examples 'contract is invalid', attribute_name => :blank
-        end
-
-        context 'as it is nil' do
-          let(attribute_name) { nil }
-
-          include_examples 'contract is invalid', attribute_name => :blank
-        end
-      end
-    end
-
-    context 'with integration (polymorphic attribute) linked' do
-      let(:integration) { create :storage }
-
-      include_examples 'contract is valid'
-    end
-
-    context 'without integration (polymorphic attribute)' do
-      let(:integration) { nil }
-
-      include_examples 'contract is invalid', { integration_id: :blank, integration_type: :blank }
-    end
-  end
 end
