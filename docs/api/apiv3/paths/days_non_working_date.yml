@@ -130,3 +130,7 @@ delete:
         application/hal+json:
           schema:
             $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:InvalidRequestBody
+            message: The date is not valid.
