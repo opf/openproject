@@ -26,22 +26,22 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'net/http'
-require 'uri'
-
 module OAuthClients
-  class CreateContract < ::ModelContract
-    include ActiveModel::Validations
-    include Concerns::ManageStoragesGuarded
+  module Concerns
+    module ManageStoragesGuarded
+      extend ActiveSupport::Concern
 
-    attribute :client_id, writable: true
-    attribute :client_secret, writable: true
-    attribute :integration_type, writable: true
-    attribute :integration_id, writable: true
+      included do
+        validate :validate_user_allowed_to_manage
 
-    validates :client_id, presence: true, length: { maximum: 255 }
-    validates :client_secret, presence: true, length: { maximum: 255 }
-    validates :integration_id, presence: true
-    validates :integration_type, presence: true
+        private
+
+        def validate_user_allowed_to_manage
+          unless user.admin? && user.active?
+            errors.add :base, :error_unauthorized
+          end
+        end
+      end
+    end
   end
 end
