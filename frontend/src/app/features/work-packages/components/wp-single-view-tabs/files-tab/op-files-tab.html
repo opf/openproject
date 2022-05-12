@@ -1,6 +1,6 @@
 <div class="op-tab-content--container">
   <section data-qa-selector="op-tab-content--tab-section">
-    <div *ngIf="($can_view_file_links | async) === false" class="op-tab-content--header">
+    <div *ngIf="!canViewFileLinks" class="op-tab-content--header">
       <h3 class="op-tab-content--header-text" [textContent]="text.attachments.label"></h3>
     </div>
 
@@ -9,7 +9,7 @@
     <op-attachments-upload [resource]="workPackage"></op-attachments-upload>
   </section>
 
-  <section *ngIf="$can_view_file_links | async" data-qa-selector="op-tab-content--tab-section">
+  <section *ngIf="canViewFileLinks" data-qa-selector="op-tab-content--tab-section">
     <div class=op-tab-content--header>
       <op-icon icon-classes="icon3 icon-nextcloud-circle op-files-tab--color-blue-deep"></op-icon>
       <h3 class="op-tab-content--header-text" [textContent]="text.file_links.label"></h3>
