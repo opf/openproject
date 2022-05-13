@@ -43,7 +43,7 @@ export function workPackageFilesCount(
   return combineLatest(
     [
       attachmentService.all(workPackage.$links.attachments.href || ''),
-      fileLinkService.all(workPackage.$links.fileLinks.href || ''),
+      fileLinkService.all(workPackage.$links.fileLinks?.href || ''),
     ],
   ).pipe(
     map(([a, f]) => a.length + f.length),
