@@ -62,6 +62,16 @@ export class DatePickerModalHelper {
       || !!new Date(date).valueOf();
   }
 
+  areDatesEqual(firstDate:Date|string, secondDate:Date|string):boolean {
+    const parsedDate1 = this.parseDate(firstDate);
+    const parsedDate2 = this.parseDate(secondDate);
+
+    if ((typeof (parsedDate1) === 'string') || (typeof (parsedDate2) === 'string')) {
+      return false;
+    }
+    return parsedDate1.getTime() === parsedDate2.getTime();
+  }
+
   setCurrentActivatedField(val:DateKeys):void {
     this.currentlyActivatedDateField = val;
   }

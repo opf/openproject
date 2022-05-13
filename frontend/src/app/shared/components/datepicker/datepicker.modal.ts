@@ -304,6 +304,7 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
 
           if (selectedDate < parsedStartDate) {
             this.overwriteDatePickerWithNewDates([selectedDate, parsedEndDate]);
+            this.datepickerHelper.setCurrentActivatedField('end');
           } else if (selectedDate > parsedEndDate) {
             if (this.datepickerHelper.isStateOfCurrentActivatedField('end')) {
               this.overwriteDatePickerWithNewDates([parsedStartDate, selectedDate]);
@@ -312,6 +313,8 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
               this.dates.end = '';
               this.datepickerHelper.toggleCurrentActivatedField();
             }
+          } else if (this.datepickerHelper.areDatesEqual(selectedDate, parsedStartDate) || this.datepickerHelper.areDatesEqual(selectedDate, parsedEndDate)) {
+            this.overwriteDatePickerWithNewDates([selectedDate, selectedDate]);
           } else {
             const newDates = this.datepickerHelper.isStateOfCurrentActivatedField('start') ? [selectedDate, parsedEndDate] : [parsedStartDate, selectedDate];
             this.overwriteDatePickerWithNewDates(newDates);
