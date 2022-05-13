@@ -89,15 +89,15 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
     isSwitchedFromManualToAutomatic: this.I18n.t('js.work_packages.scheduling.is_switched_from_manual_to_automatic'),
   };
 
-  public onDataUpdated = new EventEmitter<string>();
+  onDataUpdated = new EventEmitter<string>();
 
-  public singleDate = false;
+  singleDate = false;
 
-  public scheduleManually = false;
+  scheduleManually = false;
 
-  public htmlId = '';
+  htmlId = '';
 
-  public dates:{ [key in DateKeys]:string } = {
+  dates:{ [key in DateKeys]:string } = {
     date: '',
     start: '',
     end: '',
@@ -286,14 +286,44 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
   }
 
   private handleDatePickerChange(dates:Date[]) {
-    // Todo: Handle some special cases
-
     switch (dates.length) {
       case 1: {
-        this.setDateAndToggleActiveField(this.timezoneService.formattedISODate(dates[0]), false);
+        const selectedDate = dates[0];
+        if (this.dates.start && this.dates.end) {
+          /**
+          Overwrite flatpickr default behavior by not starting a new date range everytime but preserving either start or end date.
+          There are three cases to cover.
+          1. Everything before the current start date will become the new start date (independent of the active field)
+          2. Everything after the current end date will become the new end date if that is the currently active field.
+          If the active field is the start date, the selected date becomes the new start date and the end date is cleared.
+          3. Everything in between the current start and end date is dependent on the currently activated field.
+          * */
+
+          const parsedStartDate = this.datepickerHelper.parseDate(this.dates.start) as Date;
+          const parsedEndDate = this.datepickerHelper.parseDate(this.dates.end) as Date;
+
+          if (selectedDate < parsedStartDate) {
+            this.overwriteDatePickerWithNewDates([selectedDate, parsedEndDate]);
+          } else if (selectedDate > parsedEndDate) {
+            if (this.datepickerHelper.isStateOfCurrentActivatedField('end')) {
+              this.overwriteDatePickerWithNewDates([parsedStartDate, selectedDate]);
+            } else {
+              this.dates.start = this.timezoneService.formattedISODate(selectedDate);
+              this.dates.end = '';
+              this.datepickerHelper.toggleCurrentActivatedField();
+            }
+          } else {
+            const newDates = this.datepickerHelper.isStateOfCurrentActivatedField('start') ? [selectedDate, parsedEndDate] : [parsedStartDate, selectedDate];
+            this.overwriteDatePickerWithNewDates(newDates);
+          }
+        } else {
+          this.dates[this.datepickerHelper.currentlyActivatedDateField] = this.timezoneService.formattedISODate(selectedDate);
+        }
+
         break;
       }
       case 2: {
+        // Write the dates to the input fields
         this.dates.start = this.timezoneService.formattedISODate(dates[0]);
         this.dates.end = this.timezoneService.formattedISODate(dates[1]);
         this.datepickerHelper.toggleCurrentActivatedField();
@@ -304,93 +334,12 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
       }
     }
 
-    /* OLD
-   switch (dates.length) {
-      case 0: {
-        // In case we removed the only value by clicking on a already selected date within the datepicker:
-        if (this.dates.start || this.dates.end) {
-          this.setDateAndToggleActiveField(this.dates.start || this.dates.end);
-        }
-
-        break;
-      }
-      case 1: {
-        if (this.singleDate) {
-          this.dates.date = this.timezoneService.formattedISODate(dates[0]);
-        } else if (this.dates.start && this.dates.end) {
-          // Both dates are the same, so it is correct to only highlight one date
-          if (this.dates.start === this.dates.end) {
-            return;
-          }
-
-          // I wanted to set the new start date to the preselected endDate OR
-          // I wanted to set the new end date to the preselected startDate
-          if ((this.datepickerHelper.isStateOfCurrentActivatedField('start') && this.datepickerHelper.areDatesEqual(this.dates.start, dates[0]))
-            || (this.datepickerHelper.isStateOfCurrentActivatedField('end') && this.datepickerHelper.areDatesEqual(this.dates.end, dates[0]))) {
-            const otherDateIndex:DateKeys = this.datepickerHelper.isStateOfCurrentActivatedField('start') ? 'end' : 'start';
-            this.setDateAndToggleActiveField(this.dates[otherDateIndex]);
-          } else {
-            // I clicked on the already set start or end date (and thus removed it):
-            // We restore both values
-            this.enforceManualChangesToDatepicker(true);
-          }
-        } else {
-          // It is the first value we set (either start or end date)
-          this.setDateAndToggleActiveField(this.timezoneService.formattedISODate(dates[0]), false);
-        }
-
-        break;
-      }
-      case 2: {
-        if ((!this.dates.end && this.datepickerHelper.isStateOfCurrentActivatedField('start'))
-          || (!this.dates.start && this.datepickerHelper.isStateOfCurrentActivatedField('end'))) {
-          // If we change a start date when no end date is set, we keep only the newly clicked value and not both
-          this.overwriteDatePickerWithNewDates([dates[1]]);
-        } else {
-          // Sort dates so that the start date is always first
-          if (dates[0] > dates[1]) {
-            // eslint-disable-next-line no-param-reassign
-            dates = this.datepickerHelper.sortDates(dates);
-            this.datepickerHelper.setDates(dates, this.datePickerInstance);
-          }
-
-          const index = this.datepickerHelper.isStateOfCurrentActivatedField('start') ? 0 : 1;
-          this.dates[this.datepickerHelper.currentlyActivatedDateField] = this.timezoneService.formattedISODate(dates[index]);
-
-          this.setRangeClassesAndToggleActiveField();
-        }
-
-        break;
-      }
-      default: {
-        // Reset the date picker with the two new values
-        if (this.datepickerHelper.isStateOfCurrentActivatedField('start')) {
-          this.overwriteDatePickerWithNewDates([dates[2], dates[1]]);
-        } else {
-          this.overwriteDatePickerWithNewDates([dates[0], dates[2]]);
-        }
-
-        break;
-      }
-    }
-
-    this.cdRef.detectChanges();
-    */
-
     this.cdRef.detectChanges();
   }
 
   private overwriteDatePickerWithNewDates(dates:Date[]) {
     this.datepickerHelper.setDates(dates, this.datePickerInstance);
     this.handleDatePickerChange(dates);
-  }
-
-  private setDateAndToggleActiveField(newDate:string, forceDatePickerUpdate = true) {
-    this.dates[this.datepickerHelper.currentlyActivatedDateField] = newDate;
-    if (forceDatePickerUpdate) {
-      this.datepickerHelper.setDates([this.datepickerHelper.parseDate(newDate)], this.datePickerInstance);
-    }
-    this.datepickerHelper.toggleCurrentActivatedField();
   }
 
   private onDataChange() {

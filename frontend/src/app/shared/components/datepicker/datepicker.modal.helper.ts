@@ -33,7 +33,7 @@ import { DateOption } from 'flatpickr/dist/types/options';
 
 @Injectable({ providedIn: 'root' })
 export class DatePickerModalHelper {
-  public currentlyActivatedDateField:DateKeys;
+  currentlyActivatedDateField:DateKeys;
 
   /**
    * Map the date to the internal format,
@@ -61,22 +61,6 @@ export class DatePickerModalHelper {
       || (date === '')
       || !!new Date(date).valueOf();
   }
-
-  /*
-  sortDates(dates:Date[]):Date[] {
-    return dates.sort((a:Date, b:Date) => a.getTime() - b.getTime());
-  }
-
-  areDatesEqual(firstDate:Date|string, secondDate:Date|string):boolean {
-    const parsedDate1 = this.parseDate(firstDate);
-    const parsedDate2 = this.parseDate(secondDate);
-
-    if ((typeof (parsedDate1) === 'string') || (typeof (parsedDate2) === 'string')) {
-      return false;
-    }
-    return parsedDate1.getTime() === parsedDate2.getTime();
-  }
-  */
 
   setCurrentActivatedField(val:DateKeys):void {
     this.currentlyActivatedDateField = val;
