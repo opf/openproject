@@ -13,10 +13,12 @@ properties:
   date:
     type: string
     format: date
-    description: Date of the non-working day.
+    description: |-
+      Date of the non-working day.
   name:
     type: string
-    description: Descriptive name for the non-working day.
+    description: |-
+      Descriptive name for the non-working day.
   _links:
     type: object
     required:

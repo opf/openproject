@@ -846,5 +846,6 @@ tags:
   - "$ref": "./tags/views.yml"
   - "$ref": "./tags/wiki_pages.yml"
   - "$ref": "./tags/work_packages.yml"
+  - "$ref": "./tags/work_schedule.yml"
 security:
   - BasicAuth: []

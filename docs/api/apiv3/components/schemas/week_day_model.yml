@@ -36,5 +36,5 @@ example:
   working: false
   _links:
     self:
-      href: "/api/v3/day/week/5"
+      href: /api/v3/day/week/5
       title: Friday

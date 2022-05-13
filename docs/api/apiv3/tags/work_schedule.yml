@@ -1,0 +1,15 @@
+---
+name: Work Schedule
+description: |-
+  The work schedule defines if days are working days or non-working days.
+
+  A day can be a non-working day if any of these two conditions are met:
+
+    - the day is a recurring non-working week day: a weekend day. For instance
+      Sunday is not worked in most countries;
+    - the day has been defined as a non-working day: national bank holidays or
+      other days deemed special. For instance the 1st of January is New Year's
+      day and is a bank holiday in most countries.
+
+  Endpoints can define which week days are working/non-working days, and which
+  dates are non-working days.

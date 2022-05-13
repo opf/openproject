@@ -5,7 +5,6 @@ post:
   operationId: create_non_working_day
   tags:
     - Work Schedule
-    - Non working days
   description: |-
     Marks a day as being a non-working day.
 
@@ -21,13 +20,15 @@ post:
           name: 'Christmas'
   responses:
     '200':
-      description: OK
+      description: |-
+        OK
       content:
         application/hal+json:
           schema:
             $ref: '../components/schemas/non_working_day_model.yml'
     '400':
-      description: Returned if the client sends invalid request parameters.
+      description: |-
+        Returned if the client sends invalid request parameters.
       content:
         application/hal+json:
           schema:
@@ -37,7 +38,8 @@ post:
             errorIdentifier: urn:openproject-org:api:v3:errors:InvalidRequestBody
             message: The request body was not a single JSON object.
     '403':
-      description: Returned if the client does not have sufficient permissions.
+      description: |-
+        Returned if the client does not have sufficient permissions.
       content:
         application/hal+json:
           schema:

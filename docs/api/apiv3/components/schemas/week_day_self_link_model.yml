@@ -6,7 +6,7 @@ description: |-
 properties:
   self:
     allOf:
-      - "$ref": "./link.yml"
+      - $ref: './link.yml'
       - description: |-
           This week day resource link.
 

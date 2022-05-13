@@ -5,7 +5,6 @@ get:
   operationId: view_non_working_day
   tags:
     - Work Schedule
-    - Non working days
   description: |-
     Returns the non-working day information for a given date.
   parameters:
@@ -20,19 +19,22 @@ get:
       example: '2022-05-06'
   responses:
     '200':
-      description: OK
+      description: |-
+        OK
       content:
         application/hal+json:
           schema:
             $ref: '../components/schemas/non_working_day_model.yml'
     '400':
-      description: Returned if the client sends invalid request parameters.
+      description: |-
+        Returned if the client sends invalid request parameters.
       content:
         application/hal+json:
           schema:
             $ref: '../components/schemas/error_response.yml'
     '404':
-      description: Returned if the given date is not a non-working day.
+      description: |-
+        Returned if the given date is not a non-working day.
       content:
         application/hal+json:
           schema:
@@ -47,7 +49,6 @@ patch:
   operationId: update_non_working_day
   tags:
     - Work Schedule
-    - Non working days
   description: |-
     Update the non-working day information for a given date.
   parameters:
@@ -72,19 +73,22 @@ patch:
 
   responses:
     '200':
-      description: OK
+      description: |-
+        OK
       content:
         application/hal+json:
           schema:
             $ref: '../components/schemas/non_working_day_model.yml'
     '400':
-      description: Returned if the client sends invalid request parameters.
+      description: |-
+        Returned if the client sends invalid request parameters.
       content:
         application/hal+json:
           schema:
             $ref: '../components/schemas/error_response.yml'
     '404':
-      description: Returned if the given date is not a non-working day.
+      description: |-
+        Returned if the given date is not a non-working day.
       content:
         application/hal+json:
           schema:
@@ -94,19 +98,13 @@ patch:
             errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
             message: The requested resource could not be found.
 
-# TODO: add missing description, missing tags, missing parameters, and missing response codes
 delete:
-  summary: Removes a day from the non-working days
+  summary: Removes a non-working day
   operationId: delete_non_working_day
   tags:
     - Work Schedule
-    - Non working days
   description: |-
-    Removes the day of the given day from the non-working days known.
-
-    Trying to remove a date which is not a non-working day, by calling the same
-    endpoint twice for example, will succeed in both cases and return a 204
-    status.
+    Removes the non-working day at the given date.
   parameters:
     - name: date
       in: path
@@ -134,3 +132,14 @@ delete:
             _type: Error
             errorIdentifier: urn:openproject-org:api:v3:errors:InvalidRequestBody
             message: The date is not valid.
+    '404':
+      description: |-
+        Returned if the given date is not a non-working day.
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+            message: The requested resource could not be found.
