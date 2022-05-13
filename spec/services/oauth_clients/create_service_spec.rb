@@ -26,24 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module OAuthClients
-  class CreateContract < ::ModelContract
-    include ActiveModel::Validations
-    include Concerns::ManageStoragesGuarded
+require 'spec_helper'
+require 'services/base_services/behaves_like_create_service'
 
-    include ::OAuthClients::Concerns::ManageStoragesGuarded
-    include ActiveModel::Validations
-
-    attribute :client_id, writable: true
-    validates :client_id, presence: true, length: { maximum: 255 }
-
-    attribute :client_secret, writable: true
-    validates :client_secret, presence: true, length: { maximum: 255 }
-
-    attribute :integration_type, writable: true
-    validates :integration_type, presence: true
-
-    attribute :integration_id, writable: true
-    validates :integration_id, presence: true
+describe ::OAuthClients::CreateService, type: :model do
+  it_behaves_like 'BaseServices create service' do
+    let(:factory) { :oauth_client }
   end
 end
