@@ -27,7 +27,7 @@
 //++
 
 import {
-  ChangeDetectionStrategy, Component, Input, OnInit,
+  ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output,
 } from '@angular/core';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { IFileLink } from 'core-app/core/state/file-links/file-link.model';
@@ -50,6 +50,8 @@ export class FileLinkListItemComponent implements OnInit {
 
   @Input() public index:number;
 
+  @Output() public removeFileLink = new EventEmitter<void>();
+
   public infoTimestampText:string;
 
   public fileLinkIcon:IFileLinkListItemIcon;
@@ -58,6 +60,7 @@ export class FileLinkListItemComponent implements OnInit {
     title: {
       openFile: this.i18n.t('js.label_open_file_link'),
       openFileLocation: this.i18n.t('js.label_open_file_link_location'),
+      removeFileLink: this.i18n.t('js.label_remove_file_link'),
     },
   };
 

@@ -61,6 +61,10 @@ export class FileLinkListComponent implements OnInit {
       );
   }
 
+  public removeFileLink(fileLink:IFileLink):void {
+    this.fileLinkResourceService.remove(this.collectionKey, fileLink);
+  }
+
   private get fileLinkSelfLink():string {
     const fileLinks = this.resource.fileLinks as unknown&{ href:string };
     return fileLinks.href;

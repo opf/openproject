@@ -5,6 +5,8 @@
     data-qa-selector="op-files-tab--file-list-item"
     [fileLink]="fileLink"
     [resource]="resource"
-    [index]="i">
+    [index]="i"
+    (removeFileLink)="removeFileLink(fileLink)"
+  >
   </op-file-link-list-item>
 </div>

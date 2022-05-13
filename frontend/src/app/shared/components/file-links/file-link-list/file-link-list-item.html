@@ -38,4 +38,14 @@
       class="spot-icon spot-icon_folder-open"
     ></span>
   </button>
+
+  <button
+    class="spot-link"
+    [title]="text.title.removeFileLink"
+    (click)="removeFileLink.emit()"
+  >
+    <span
+      class="spot-icon spot-icon_remove-link"
+    ></span>
+  </button>
 </div>

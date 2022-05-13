@@ -27,8 +27,8 @@
 //++
 
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { QueryEntity } from '@datorama/akita';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { applyTransaction, QueryEntity } from '@datorama/akita';
 import { Observable } from 'rxjs';
 import {
   catchError, map, switchMap, tap,
@@ -68,5 +68,37 @@ export class FileLinkResourceService {
         map((state) => state.collections[key]?.ids),
         switchMap((fileLinkIds) => query.selectMany(fileLinkIds)),
       );
+  }
+
+  remove(collectionKey:string, fileLink:IFileLink):void {
+    if (!fileLink._links.delete) {
+      return;
+    }
+
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    this.http
+      .delete<void>(fileLink._links.delete.href, { withCredentials: true, headers })
+      .pipe(
+        catchError((error) => {
+          this.toastService.addError(error);
+          throw error;
+        }),
+      )
+      .subscribe(() => {
+        applyTransaction(() => {
+          this.store.remove(fileLink.id);
+          this.store.update(({ collections }) => (
+            {
+              collections: {
+                ...collections,
+                [collectionKey]: {
+                  ...collections[collectionKey],
+                  ids: (collections[collectionKey]?.ids || []).filter((id) => id !== fileLink.id),
+                },
+              },
+            }
+          ));
+        });
+      });
   }
 }
