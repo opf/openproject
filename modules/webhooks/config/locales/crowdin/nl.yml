@@ -54,10 +54,10 @@ nl:
         project_ids:
           title: 'Ingeschakelde projecten'
           description: 'Select for which projects this webhook should be executed for.'
-          all: 'All projects'
-          selected: 'Selected projects only'
+          all: 'Alle projecten'
+          selected: 'Alleen geselecteerde projecten'
         selected_project_ids:
-          title: 'Selected projects'
+          title: 'Geselecteerde projecten'
         secret:
           description: >
             If set, this secret value is used by OpenProject to sign the webhook payload.
