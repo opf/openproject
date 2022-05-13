@@ -37,10 +37,12 @@ describe ::OAuthClients::CreateContract do
   let(:client_id) { "1234567889" }
   let(:client_secret) { "asdfasdfasdf" }
   let(:integration) { build_stubbed :storage }
-  let(:oauth_client) { build :oauth_client,
-                             client_id: client_id,
-                             client_secret: client_secret,
-                             integration: integration }
+  let(:oauth_client) do
+    build :oauth_client,
+          client_id: client_id,
+          client_secret: client_secret,
+          integration: integration
+  end
 
   let(:contract) { described_class.new(oauth_client, current_user) }
 
