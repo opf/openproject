@@ -50,6 +50,8 @@ export class FileLinkListItemComponent implements OnInit {
 
   @Input() public index:number;
 
+  @Input() public allowEditing = false;
+
   @Output() public removeFileLink = new EventEmitter<void>();
 
   public infoTimestampText:string;

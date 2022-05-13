@@ -40,6 +40,7 @@
   </button>
 
   <button
+    *ngIf="allowEditing"
     class="spot-link"
     [title]="text.title.removeFileLink"
     (click)="removeFileLink.emit()"

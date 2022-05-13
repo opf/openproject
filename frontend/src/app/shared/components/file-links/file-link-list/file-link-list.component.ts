@@ -29,24 +29,35 @@
 import {
   ChangeDetectionStrategy, Component, Input, OnInit,
 } from '@angular/core';
-import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { IFileLink } from 'core-app/core/state/file-links/file-link.model';
 import { FileLinkResourceService } from 'core-app/core/state/file-links/file-links.service';
+import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
+import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
-import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'op-file-link-list',
   templateUrl: './file-link-list.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FileLinkListComponent implements OnInit {
+export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit {
   @Input() public resource:HalResource;
 
   $fileLinks:Observable<IFileLink[]>;
 
-  constructor(private readonly fileLinkResourceService:FileLinkResourceService) {}
+  allowEditing = false;
+
+  constructor(
+    private readonly fileLinkResourceService:FileLinkResourceService,
+    private currentUserService:CurrentUserService,
+    private currentProjectService:CurrentProjectService,
+  ) {
+    super();
+  }
 
   ngOnInit():void {
     this.fileLinkResourceService.fetchCurrent(this.fileLinkSelfLink);
@@ -59,6 +70,14 @@ export class FileLinkListComponent implements OnInit {
           }
         }),
       );
+
+    this
+      .currentUserService
+      .hasCapabilities$('file_links/manage', this.currentProjectService.id as string)
+      .pipe(this.untilDestroyed())
+      .subscribe((value) => {
+        this.allowEditing = value;
+      });
   }
 
   public removeFileLink(fileLink:IFileLink):void {
