@@ -60,7 +60,7 @@ We have made **extensions to our API v3** to create, read, update and delete gro
 - List users of a group
 
 ### API V3 endpoints for placeholder users
-**We have added endpoints to our API v3 for fetching placeholder users so that placeholder users can be managed or read by a machine.
+We have added endpoints to our API v3 for fetching placeholder users so that placeholder users can be managed or read by a machine.
 
 ### Copy project via API v3
 
