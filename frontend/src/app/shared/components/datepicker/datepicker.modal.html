@@ -48,6 +48,7 @@
             <div class="form--text-field-container -xslim">
               <input type="text"
                      name="startDate"
+                     data-qa-selector="op-datepicker-modal--start-date-field"
                      class="form--date-field"
                      [ngClass]="{'-current' : datepickerHelper.isStateOfCurrentActivatedField('start')}"
                      [ngModel]="dates.start"
@@ -79,6 +80,7 @@
             <div class="form--text-field-container -xslim">
               <input type="text"
                      name="endDate"
+                     data-qa-selector="op-datepicker-modal--end-date-field"
                      class="form--date-field"
                      [ngClass]="{'-current' : datepickerHelper.isStateOfCurrentActivatedField('end')}"
                      [ngModel]="dates.end"
