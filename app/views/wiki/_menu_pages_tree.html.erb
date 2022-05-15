@@ -1,12 +1,14 @@
 <div class="menu-wiki-pages-tree tree-menu--container" data-selected-page="<%= @page.present? ? @page.slug : '' %>">
   <div class="main-menu--segment-header ellipsis"><%= t('label_table_of_contents') %></div>
-  <div class="generic-table--header-inner">
-    <div class="generic-table--header">
-      <a class="icon collapse icon-arrow-up2" href title="<%= t(:button_collapse_all) %>"></a>
-      <a class="icon expand icon-arrow-down2" href title="<%= t(:button_expand_all) %>" style="display: none"></a>
-    </div>
-  </div>
   <% cache([@project, @project.wiki]) do %>
+    <% unless @project.wiki.pages.where.not(parent: nil).empty? %>
+      <div class="generic-table--header-inner">
+        <div class="generic-table--header">
+          <a class="icon collapse icon-arrow-up2" href title="<%= t(:button_collapse_all) %>"></a>
+          <a class="icon expand icon-arrow-down2" href title="<%= t(:button_expand_all) %>" style="display: none"></a>
+        </div>
+      </div>
+    <% end %>
     <% pages = @project.wiki.pages.order(Arel.sql('title')).includes(:project)
        pages_by_parent_id = pages.group_by(&:parent_id) %>
     <%= render_page_hierarchy(pages_by_parent_id, nil, timestamp: false) %>
