@@ -28,31 +28,31 @@
 
 require_relative '../spec_helper'
 
-describe 'Admin storages', :enable_storages, :storage_server_helpers, type: :feature, js: true do
+# This test assumes that admin_storages_spec.rb already checked
+# the CRUD behavior and validation of Storages.
+# This test only checks the OAuthClient part related to Storages.
+describe 'Admin storages OAuthClient', :enable_storages, :storage_server_helpers, type: :feature, js: true do
   let(:admin) { create(:admin) }
 
   before do
     login_as admin
   end
 
-  it 'creates, edits and deletes storages', webmock: true do
+  it 'creates a storage and tests OAuthClient CRUD', webmock: true do
     visit admin_settings_storages_path
 
     # ---------------------------------------------------------------------
     # List page
     expect(page).to have_title('File storages')
-    expect(page.find('.title-container')).to have_text('File storages')
     expect(page).to have_text(I18n.t('storages.no_results'))
     page.find('.toolbar .button--icon.icon-add').click
 
     # ---------------------------------------------------------------------
-    # Create page - happy path
+    # Create a Storage as a base for testing
     expect(page).to have_title('New storage')
-    expect(page.find('.title-container')).to have_text('New storage')
     expect(page).to have_select 'storages_storage[provider_type]', selected: 'Nextcloud', disabled: true
     expect(page).to have_field('storages_storage[name]', with: 'Nextcloud')
 
-    # Test the happy path for a valid server.
     # Mock a valid response (=200) for example.com, so the host validation should succeed
     mock_server_capabilities_response("https://example.com")
     page.find('#storages_storage_name').set("NC 1")
@@ -60,7 +60,7 @@ describe 'Admin storages', :enable_storages, :storage_server_helpers, type: :fea
     page.find('button[type=submit]').click
 
     # ---------------------------------------------------------------------
-    # Display page - happy path
+    # Display page - show the created Storage
     created_storage = Storages::Storage.find_by(name: 'NC 1')
     expect(page).to have_title("Nc 1")
     expect(page.find('.title-container')).to have_text('NC 1')
@@ -70,68 +70,86 @@ describe 'Admin storages', :enable_storages, :storage_server_helpers, type: :fea
     page.find('.button--icon.icon-edit').click
 
     # ---------------------------------------------------------------------
-    # Edit page - Check for failed validation if server is down
+    # Edit page - This is where the Create/Reset buttons for OAuthClient should appear
     expect(page).to have_title("Edit: NC 1")
     expect(page.find('.title-container')).to have_text('Edit: NC 1')
 
-    # Test the behavior of a failed validation with code 400 (Bad Request)
-    # simulating server not running Nextcloud
-    mock_server_capabilities_response("https://other.example.com", response_code: '400')
-    page.find('#storages_storage_name').set("Other NC")
-    page.find('#storages_storage_host').set("https://other.example.com")
+    # Check for present of a "Create" link and follow
+    expect(page).to have_text("Create")
+    link = page.find('a', text: 'Create')
+    link.click
+
+    # ---------------------------------------------------------------------
+    # New page for OAuthClient - Test a number of different invalid states
+    # However, more detailed checks are performed in the service spec.
+    expect(page).to have_title("OAuth client details")
+
+    # ---------------------------------------------------------------------
+    # client_id set but client_secret is empty
+    page.find('#oauth_client_client_id').set("0123456789")
+    page.find('#oauth_client_client_secret').set("")
+    page.find('button[type=submit]').click
+    # Check that we're still on the same page
+    expect(page).to have_title("OAuth client details")
+
+    # ---------------------------------------------------------------------
+    # client_id empty but client_secret set
+    page.find('#oauth_client_client_id').set("")
+    page.find('#oauth_client_client_secret').set("1234567890")
+    page.find('button[type=submit]').click
+    # Check that we're still on the same page
+    expect(page).to have_title("OAuth client details")
+
+    # ---------------------------------------------------------------------
+    # Both client_id and client_secret valid
+    page.find('#oauth_client_client_id').set("0123456789")
+    page.find('#oauth_client_client_secret').set("1234567890")
     page.find('button[type=submit]').click
 
-    expect(page).to have_title("Edit: Other NC")
-    expect(page.find('.title-container')).to have_text('Edit: Other NC')
-    expect(page).to have_selector('.op-toast--content')
-    expect(page).to have_text("error prohibited this Storage from being saved")
+    # ---------------------------------------------------------------------
+    # Show page - Check that the OAuth client details are present
+    expect(page).to have_title("File storages")
+    expect(page).to have_title("Nc 1")
+
+    # Check for client_id and the shortened client secret
+    expect(page).to have_text("0123456789")
+    expect(page).to have_text("12****90")
+    page.find('.button--icon.icon-edit').click
 
     # ---------------------------------------------------------------------
-    # Edit page - Check for failed Nextcloud Version
-    # Test the behavior of a Nextcloud server with major version too low
-    mock_server_capabilities_response("https://old.example.com", response_nextcloud_major_version: 18)
-    page.find('#storages_storage_name').set("Old NC")
-    page.find('#storages_storage_host').set("https://old.example.com")
+    # Edit page - With option to reset the OAuth2 client
+    # Check for present of a "Reset" link and follow
+    expect(page).to have_text("Reset")
+    link = page.find('a', text: 'Reset')
+    link.click
+
+    alert_text = page.driver.browser.switch_to.alert.text
+    expect(alert_text).to have_text("Are you sure?")
+    page.driver.browser.switch_to.alert.accept
+
+    # ---------------------------------------------------------------------
+    # OAuth client new page - expect empty
+    expect(page).not_to have_text("234567")
+    expect(page).not_to have_text("****")
+
+    page.find('#oauth_client_client_id').set("2345678901")
+    page.find('#oauth_client_client_secret').set("3456789012")
     page.find('button[type=submit]').click
 
-    expect(page).to have_title("Edit: Old NC")
-    expect(page).to have_selector('.op-toast')
-    version_err = I18n.t('activerecord.errors.models.storages/storage.attributes.host.minimal_nextcloud_version_unmet')
-    expect(page).to have_text(version_err)
-
     # ---------------------------------------------------------------------
-    # Edit page - save working storage
-    # Restore the mocked working server example.com
-    page.find('#storages_storage_host').set("https://example.com")
-    page.find('#storages_storage_name').set("Other NC")
-    page.find('button[type=submit]').click
-
-    created_storage = Storages::Storage.find_by(name: 'Other NC')
-    expect(page).to have_title("Other Nc")
-    expect(page.find('.title-container')).to have_text('Other NC')
-    expect(page).to have_text(admin.name)
-    expect(page).to have_text('https://example.com')
-    expect(page).to have_text(created_storage.created_at.localtime.strftime("%m/%d/%Y %I:%M %p"))
-
-    # ---------------------------------------------------------------------
-    # List of Storages
-    page.find("ul.op-breadcrumb li", text: "File storages").click
-
-    # Go to Other NC again
-    page.find("a", text: 'Other NC').click
-    expect(page).to have_current_path admin_settings_storage_path(created_storage)
-
-    # ---------------------------------------------------------------------
-    # Delete on List page
+    # Delete
     page.find('.button--icon.icon-delete').click
 
     # ---------------------------------------------------------------------
-    # Check for warning
+    # List page with no entries anymore
     alert_text = page.driver.browser.switch_to.alert.text
     expect(alert_text).to eq(I18n.t('storages.delete_warning.storage'))
     page.driver.browser.switch_to.alert.accept
 
     expect(page).to have_current_path(admin_settings_storages_path)
+    expect(page).to have_text(I18n.t('storages.no_results'))
     expect(page).not_to have_text("Other NC")
+    # Also check that there are no more OAuthClient instances anymore
+    expect(OAuthClient.all.count).to eq(0)
   end
 end
