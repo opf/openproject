@@ -12,14 +12,34 @@
   [appendTo]="appendTo"
   [multiple]="multiple"
 >
-  <ng-template
-    ng-option-tmp
-    let-item="item"
-    let-index="index"
-  >
-    <div [ngStyle]="{ 'padding-left.px': item.numberOfAncestors * 20 }">
-      {{ item.name }}
-      {{ item.numberOfAncestors }}
+  <ng-template ng-label-tmp let-item="item">
+    {{ item.name }}
+  </ng-template>
+
+  <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+    <div
+      *ngIf="item"
+      class="ng-option-label"
+    >
+      <!--Selectable option-->
+      <div
+        class="ellipsis"
+        [ngStyle]="{ 'padding-left.px': item.numberOfAncestors * 20 }"
+        [ngOptionHighlight]="search"
+      >{{ item.name }}</div>
+
+      <!-- No invite rights -->
+      <div
+        *ngIf="item.disabled"
+        class="ellipsis"
+      >{{ text.noInviteRights }}</div>
+    </div>
+  </ng-template>
+
+  <!--Nothing found -->
+  <ng-template ng-notfound-tmp let-searchTerm="searchTerm">
+    <div class="ng-option disabled">
+      {{ text.noResultsFound }}
     </div>
   </ng-template>
 </ng-select>

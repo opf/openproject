@@ -108,7 +108,7 @@ export class ProjectAutocompleterComponent implements OnInit {
 
   @Input() public APIFilters:ApiV3ListFilter[] = [];
 
-  @Input() public resultsFilterFn:(projects:IProject[]) => IProject[] = (projects) => projects;
+  @Input() public resultsFilterFn:(projects:IProjectAutocompleteItem[]) => IProjectAutocompleteItem[] = (projects) => projects;
 
   // Update an input field after changing, used when externally loaded
   private updateInputField:HTMLInputElement|undefined;
@@ -160,7 +160,10 @@ export class ProjectAutocompleterComponent implements OnInit {
   protected getAvailableProjects(searchTerm:string):Observable<IProjectAutocompleteItem[]> {
     return getPaginatedResults<IProject>(
       (params) => {
-        const filters:ApiV3ListFilter[] = [ ...this.APIFilters ];
+        const filters:ApiV3ListFilter[] = [
+          ...this.APIFilters,
+          ['name_and_identifier', '~', [searchTerm]],
+        ];
         const fullParams = {
           filters,
           select: [

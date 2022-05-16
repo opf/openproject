@@ -19,6 +19,8 @@ import { ProjectResource } from 'core-app/features/hal/resources/project-resourc
 import { PrincipalType } from '../invite-user.component';
 import { ProjectAllowedValidator } from './project-allowed.validator';
 import { IProject } from 'core-app/core/state/projects/project.model';
+import { map } from 'rxjs/operators';
+import { CapabilityResource } from 'core-app/features/hal/resources/capability-resource';
 
 @Component({
   selector: 'op-ium-project-selection',
@@ -73,6 +75,8 @@ export class ProjectSelectionComponent implements OnInit {
     return this.projectAndTypeForm.get('project');
   }
 
+  private projectInviteCapabilities:CapabilityResource[] = [];
+
   constructor(
     readonly I18n:I18nService,
     readonly elementRef:ElementRef,
@@ -85,6 +89,14 @@ export class ProjectSelectionComponent implements OnInit {
     this.projectControl?.setValue(this.project);
 
     this.setPlaceholderOption();
+
+    this.currentUserService.capabilities$
+      .pipe(
+        map((capabilities) => capabilities.filter((c) => c.action.href.endsWith('/memberships/create'))),
+      )
+      .subscribe((projectInviteCapabilities) => {
+        this.projectInviteCapabilities = projectInviteCapabilities;
+      });
   }
 
   private setPlaceholderOption() {
@@ -126,7 +138,13 @@ export class ProjectSelectionComponent implements OnInit {
   APIFiltersForProjects = [['active', '=', true]];
 
   projectFilterFn(projects:IProject[]) {
-    console.log('filtering!', projects);
-    return projects;
+    const mapped = projects.map((project:ProjectResource) => ({
+      project,
+      disabled: !projectInviteCapabilities.find((cap) => cap.context.id === project.id),
+    }));
+    mapped.sort(
+      (a:IProjectAutocompleteItem, b:IProjectAutocompleteItem) => (a.disabled ? 1 : 0) - (b.disabled ? 1 : 0),
+    );
+    return mapped;
   }
 }
