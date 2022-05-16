@@ -91,11 +91,15 @@ class Storages::Admin::StoragesController < ApplicationController
 
     if service_result.success?
       flash[:notice] = I18n.t(:notice_successful_create)
-      # admin_settings_storage_path is automagically created by Ruby routes.
-      redirect_to admin_settings_storage_path(@object)
+      if @object.oauth_client
+        # admin_settings_storage_path is automagically created by Ruby routes.
+        redirect_to admin_settings_storage_path(@object)
+      else
+        redirect_to new_admin_settings_storage_oauth_client_path(@object)
+      end
     else
       @errors = service_result.errors
-      render :new_oauth_client
+      render :new
     end
   end
 
