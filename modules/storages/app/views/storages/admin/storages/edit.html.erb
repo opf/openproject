@@ -32,12 +32,12 @@
           </div>
         </div>
       </div>
-      <%= link_to(t("js.label_reset"),
+      <%= link_to(t("button_replace"),
                   new_admin_settings_storage_oauth_client_path(@object),
                   data: { confirm: t(:'storages.confirm_replace_oauth_client')},
                   class: 'button -with-icon icon-reload' ) %>
     <% else %>
-      <%= link_to(t("js.label_create"), new_admin_settings_storage_oauth_client_path(@object)) %>
+      <%= link_to(t("js.label_create"), new_admin_settings_storage_oauth_client_path(@object), class: 'button -with-icon icon-add') %>
     <% end %>
   </fieldset>
 </section>
