@@ -132,6 +132,7 @@ module OpenProject::Storages
 
     add_api_endpoint 'API::V3::WorkPackages::WorkPackagesAPI', :id do
       mount ::API::V3::FileLinks::WorkPackagesFileLinksAPI
+      mount ::API::V3::FileLinks::UpdateFileLinksAPI
     end
   end
 end
