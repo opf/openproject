@@ -558,7 +558,7 @@ GEM
     io-wait (0.2.1)
     iso8601 (0.13.0)
     jmespath (1.6.1)
-    json (2.6.1)
+    json (2.6.2)
     json-jwt (1.13.0)
       activesupport (>= 4.2)
       aes_key_wrap
