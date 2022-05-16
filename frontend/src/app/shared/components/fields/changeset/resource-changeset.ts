@@ -327,6 +327,13 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
     return this.cache[key] = request();
   }
 
+  /**
+   * Invalidate a cache value
+   */
+  public invalidateCache(key:string) {
+    delete this.cache[key];
+  }
+
   protected get minimalPayload() {
     return { lockVersion: this.pristineResource.lockVersion, _links: {} };
   }
