@@ -691,7 +691,7 @@ GEM
     prawn (2.4.0)
       pdf-core (~> 0.9.0)
       ttfunk (~> 1.7)
-    prawn-markup (0.3.5)
+    prawn-markup (0.3.6)
       nokogiri
       prawn
       prawn-table
