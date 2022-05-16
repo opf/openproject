@@ -146,7 +146,7 @@ describe 'Project templates', type: :feature, js: true do
 
       wp_source = template.work_packages.first.attributes.except(*%w[id author_id project_id updated_at created_at])
       wp_target = project.work_packages.first.attributes.except(*%w[id author_id project_id updated_at created_at])
-      expect(wp_source).to eq(wp_target)
+      expect(wp_target).to eq(wp_source)
 
       wiki_source = template.wiki.pages.first
       wiki_target = project.wiki.pages.first
