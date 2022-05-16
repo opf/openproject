@@ -108,7 +108,7 @@ module Redmine #:nodoc:
 
       if p.settings
         Settings::Definition.add("plugin_#{id}",
-                                 value: p.settings[:default],
+                                 default: p.settings[:default],
                                  format: :hash,
                                  env_alias: p.settings[:env_alias])
       end

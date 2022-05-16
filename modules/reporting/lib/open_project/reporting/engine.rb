@@ -97,7 +97,7 @@ module OpenProject::Reporting
 
     initializer 'reporting.configuration' do
       ::Settings::Definition.add 'cost_reporting_cache_filter_classes',
-                                 value: true,
+                                 default: true,
                                  format: :boolean
     end
 

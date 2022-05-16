@@ -58,4 +58,11 @@ namespace :setting do
       setting.save!
     end
   end
+
+  desc 'List the supported environment variables to override settings'
+  task available_envs: :environment do
+    Settings::Definition.all.sort_by(&:name).each do |definition|
+      puts "#{Settings::Definition.possible_env_names(definition).first} (default=#{definition.default.inspect})"
+    end
+  end
 end

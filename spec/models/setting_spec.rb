@@ -132,7 +132,7 @@ describe Setting, type: :model do
       before do
         Settings::Definition.add(
           setting_name,
-          value: nil,
+          default: nil,
           format: setting_format
         )
         described_class.create!(name: setting_name, value: '')
