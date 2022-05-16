@@ -105,6 +105,9 @@ delete:
     - Work Schedule
   description: |-
     Removes the non-working day at the given date.
+
+    Note: deleting a non-working day will not affect the start and finish dates
+    of work packages but will affect their duration.
   parameters:
     - name: date
       in: path

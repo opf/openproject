@@ -54,8 +54,8 @@ patch:
   description: |-
     Makes a week day a working or non-working day.
 
-    TODO: describe what should happen if a working attribute of a week day is changed and the impact it will have on
-    work packages scheduling once the behavior has been specified.
+    Note: changing a week day working attribute will not affect the start and
+    finish dates of work packages but will affect their duration attribute.
   tags:
     - Work Schedule
   parameters:

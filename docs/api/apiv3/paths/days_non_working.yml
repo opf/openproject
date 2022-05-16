@@ -8,7 +8,8 @@ post:
   description: |-
     Marks a day as being a non-working day.
 
-    Does nothing if the day is already a non-working day.
+    Note: creating a non-working day will not affect the start and finish dates
+    of work packages but will affect their duration.
   requestBody:
     content:
       application/json:
