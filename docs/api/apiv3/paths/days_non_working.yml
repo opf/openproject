@@ -1,7 +1,7 @@
 # /api/v3/days/non_working
 ---
 post:
-  summary: Create a non working day
+  summary: Creates a non-working day
   operationId: create_non_working_day
   tags:
     - Work Schedule
@@ -19,9 +19,9 @@ post:
           date: '2022-12-25'
           name: 'Christmas'
   responses:
-    '200':
+    '201':
       description: |-
-        OK
+        Non-working day created.
       content:
         application/hal+json:
           schema:

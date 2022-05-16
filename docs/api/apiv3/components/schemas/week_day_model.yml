@@ -25,7 +25,7 @@ properties:
   working:
     type: boolean
     description: |-
-      `true` for a working day. `false` for a weekend day.
+      `true` for a working week day, `false` otherwise.
   _links:
     allOf:
       - $ref: './week_day_self_link_model.yml'

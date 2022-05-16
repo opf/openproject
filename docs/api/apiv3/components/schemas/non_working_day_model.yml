@@ -28,10 +28,9 @@ properties:
         allOf:
           - $ref: './link.yml'
           - description: |-
-              This non working day. If the non-working day is recurring like a weekend day, the resource will point to a
-              week day.
+              This non-working day.
 
-              **Resource**: NonWorkingDay or WeekDay
+              **Resource**: NonWorkingDay
 example:
   _type: NonWorkingDay
   date: '2022-12-25'

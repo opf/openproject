@@ -2,7 +2,7 @@
 ---
 type: object
 description: |-
-  Describes a week day as a working day or a non working day (weekend).
+  Describes a week day as a working day or a non-working day (weekend).
 required:
   - _type
   - working
