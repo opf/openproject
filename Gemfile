@@ -199,9 +199,9 @@ gem 'mini_magick', '~> 4.11.0', require: false
 gem 'validate_url'
 
 # Sentry error reporting
-gem "sentry-delayed_job", '~> 5.2.0'
-gem "sentry-rails", '~> 5.2.0'
-gem "sentry-ruby", '~> 5.2.0'
+gem "sentry-delayed_job", '~> 5.3.0'
+gem "sentry-rails", '~> 5.3.0'
+gem "sentry-ruby", '~> 5.3.0'
 
 group :test do
   gem 'launchy', '~> 2.5.0'
