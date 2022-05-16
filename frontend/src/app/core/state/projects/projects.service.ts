@@ -4,10 +4,7 @@ import {
   tap,
 } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import {
-  applyTransaction,
-  ID,
-} from '@datorama/akita';
+import { ID } from '@datorama/akita';
 import { HttpClient } from '@angular/common/http';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
@@ -56,22 +53,11 @@ export class ProjectsResourceService {
       );
   }
 
-  update(id:ID, project:Partial<IProject>):void {
-    this.store.update(id, project);
+  lookup(id:ID):Observable<IProject | undefined> {
+    return this.query.selectEntity(id);
   }
 
-  modifyCollection(params:ApiV3ListParameters, callback:(collection:ID[]) => ID[]):void {
-    const key = collectionKey(params);
-    this.store.update(({ collections }) => (
-      {
-        collections: {
-          ...collections,
-          [key]: {
-            ...collections[key],
-            ids: [...callback(collections[key]?.ids || [])],
-          },
-        },
-      }
-    ));
+  update(id:ID, project:Partial<IProject>):void {
+    this.store.update(id, project);
   }
 }

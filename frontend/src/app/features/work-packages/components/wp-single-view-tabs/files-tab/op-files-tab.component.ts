@@ -29,25 +29,28 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  OnDestroy,
   OnInit,
 } from '@angular/core';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { HookService } from 'core-app/features/plugins/hook-service';
-import { Subscription } from 'rxjs';
+import { forkJoin, Observable, of } from 'rxjs';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
+import { ProjectsResourceService } from 'core-app/core/state/projects/projects.service';
+import { StoragesResourceService } from 'core-app/core/state/storages/storages.service';
+import { switchMap } from 'rxjs/operators';
+import { IStorage } from 'core-app/core/state/storages/storage.model';
 
 @Component({
   selector: 'op-files-tab',
   templateUrl: './op-files-tab.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class WorkPackageFilesTabComponent implements OnInit, OnDestroy {
-  public workPackage:WorkPackageResource;
+export class WorkPackageFilesTabComponent implements OnInit {
+  workPackage:WorkPackageResource;
 
-  public text = {
+  text = {
     attachments: {
       label: this.I18n.t('js.label_attachments'),
     },
@@ -56,27 +59,35 @@ export class WorkPackageFilesTabComponent implements OnInit, OnDestroy {
     },
   };
 
-  public canViewFileLinks = true;
+  canViewFileLinks$:Observable<boolean>;
 
-  private subscription:Subscription;
+  storages$:Observable<IStorage[]>;
 
   constructor(
     readonly I18n:I18nService,
     protected hook:HookService,
     private currentUserService:CurrentUserService,
     private currentProjectService:CurrentProjectService,
+    private projectsResourceService:ProjectsResourceService,
+    private storagesResourceService:StoragesResourceService,
   ) { }
 
   ngOnInit():void {
-    this.subscription = this
-      .currentUserService
-      .hasCapabilities$('file_links/view', this.currentProjectService.id as string)
-      .subscribe((value) => {
-        this.canViewFileLinks = value;
-      });
-  }
+    const projectId = this.currentProjectService.id as string;
 
-  ngOnDestroy():void {
-    this.subscription.unsubscribe();
+    this.canViewFileLinks$ = this
+      .currentUserService
+      .hasCapabilities$('file_links/view', projectId);
+
+    this.storages$ = this.projectsResourceService.lookup(projectId)
+      .pipe(
+        switchMap((project) => {
+          if (project === undefined) {
+            return of([]);
+          }
+
+          return forkJoin(project._links.storages.map((link) => this.storagesResourceService.lookup(link)));
+        }),
+      );
   }
 }
