@@ -183,8 +183,10 @@ paths:
     "$ref": "./paths/days_week.yml"
   "/api/v3/days/week/{day}":
     "$ref": "./paths/days_week_day.yml"
-  "/api/v3/days/work_schedule":
-    "$ref": "./paths/days_work_schedule.yml"
+  "/api/v3/days":
+    "$ref": "./paths/days.yml"
+  "/api/v3/days/{date}":
+    "$ref": "./paths/days_date.yml"
   "/api/v3/documents":
     "$ref": "./paths/documents.yml"
   "/api/v3/documents/{id}":
@@ -510,6 +512,10 @@ components:
       "$ref": "./components/schemas/custom_option_model.yml"
     CustomactionModel:
       "$ref": "./components/schemas/customaction_model.yml"
+    DayCollectionModel:
+      "$ref": "./components/schemas/day_collection_model.yml"
+    DayModel:
+      "$ref": "./components/schemas/day_model.yml"
     Default_QueryModel:
       "$ref": "./components/schemas/default_query_model.yml"
     Default_Query_for_ProjectModel:
@@ -600,8 +606,6 @@ components:
       "$ref": "./components/schemas/membership_update_form.yml"
     NewsModel:
       "$ref": "./components/schemas/news_model.yml"
-    NonWorkingDayCollectionModel:
-      "$ref": "./components/schemas/non_working_day_collection_model.yml"
     NonWorkingDayModel:
       "$ref": "./components/schemas/non_working_day_model.yml"
     NotificationCollectionModel:
