@@ -30,16 +30,11 @@ module API::V3::Days
   class WeekDayRepresenter < ::API::Decorators::Single
     include ::API::Caching::CachedRepresenter
 
-    property :day, render_nil: true
-    property :name, render_nil: true
+    property :day
+    property :name
     property :working
 
-    link :self do
-      {
-        href: api_v3_paths.days_week_day(represented.day),
-        title: represented.name
-      }
-    end
+    self_link path: :days_week_day, id_attribute: :day
 
     def _type
       'WeekDay'
