@@ -23,6 +23,9 @@ export interface SpotToggleOption<T> {
   }],
 })
 export class SpotToggleComponent<T> implements ControlValueAccessor {
+  // TODO: These old styles will need to be replaced
+  @HostBinding('class.form--field-inline-buttons-container') public classNameOld = true;
+
   @HostBinding('class.spot-toggle') public className = true;
 
   @Output() checkedChange = new EventEmitter<boolean>();
