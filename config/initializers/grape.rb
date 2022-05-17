@@ -25,9 +25,10 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-
-module Grape
-  class Endpoint
-    include ::API::V3::Utilities::PathHelper
+Rails.application.reloader.to_prepare do
+  module Grape
+    class Endpoint
+      include ::API::V3::Utilities::PathHelper
+    end
   end
 end
