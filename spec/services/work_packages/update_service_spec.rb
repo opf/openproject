@@ -198,7 +198,7 @@ describe WorkPackages::UpdateService, type: :model do
 
       context 'relations' do
         let!(:scope) do
-          instance_double('ActiveRecord::Relations').tap do |relations|
+          instance_double(ActiveRecord::Relation).tap do |relations|
             allow(Relation)
               .to receive(:of_work_package)
                     .with([work_package])

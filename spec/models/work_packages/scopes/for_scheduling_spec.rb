@@ -28,7 +28,6 @@
 
 require 'spec_helper'
 
-# rubocop:disable RSpec/MultipleMemoizedHelpers
 describe WorkPackages::Scopes::ForScheduling, 'allowed scope' do
   let(:project) { create(:project) }
   let(:origin) { create(:work_package, project: project) }
@@ -100,8 +99,6 @@ describe WorkPackages::Scopes::ForScheduling, 'allowed scope' do
     end
   end
   let(:existing_work_packages) { [] }
-
-  subject {}
 
   describe '.for_scheduling' do
     it 'is a AR scope' do
@@ -205,7 +202,7 @@ describe WorkPackages::Scopes::ForScheduling, 'allowed scope' do
       end
     end
 
-    context 'for a work package with a successor which has parent and child and a successor of its own which is also a child of parent' do
+    context 'for a work package with a successor having a parent and child and a successor of its own which is a child itself' do
       let!(:existing_work_packages) { [successor, successor_child, successor_parent, successor_successor] }
 
       before do
@@ -278,7 +275,7 @@ describe WorkPackages::Scopes::ForScheduling, 'allowed scope' do
         end
       end
 
-      context 'both scheduled manually' do
+      context 'with both scheduled manually' do
         before do
           successor.update_column(:schedule_manually, true)
           successor_parent.update_column(:schedule_manually, true)
@@ -521,4 +518,3 @@ describe WorkPackages::Scopes::ForScheduling, 'allowed scope' do
     end
   end
 end
-# rubocop:enable RSpec/MultipleMemoizedHelpers

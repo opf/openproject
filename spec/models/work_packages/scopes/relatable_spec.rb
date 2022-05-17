@@ -26,7 +26,6 @@
 
 require 'spec_helper'
 
-# rubocop:disable RSpec/MultipleMemoizedHelpers
 describe WorkPackages::Scopes::Relatable, '.relatable scope' do
   let(:project) { create(:project) }
   let(:origin) { create(:work_package, project: project) }
@@ -320,4 +319,3 @@ describe WorkPackages::Scopes::Relatable, '.relatable scope' do
     end
   end
 end
-# rubocop:enable RSpec/MultipleMemoizedHelpers

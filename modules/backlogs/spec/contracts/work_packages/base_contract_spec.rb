@@ -138,7 +138,7 @@ describe WorkPackages::BaseContract, type: :model do
   end
 
   let(:relatable_scope) do
-    scope = instance_double('ActiveRecord::Relation')
+    scope = instance_double(ActiveRecord::Relation)
 
     allow(scope)
       .to receive(:where)

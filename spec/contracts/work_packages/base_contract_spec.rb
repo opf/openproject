@@ -589,7 +589,7 @@ describe WorkPackages::BaseContract do
 
     context 'when the intended parent is not relatable' do
       before do
-        scope = instance_double('ActiveRecord::Relation')
+        scope = instance_double(ActiveRecord::Relation)
 
         allow(WorkPackage)
           .to receive(:relatable)
