@@ -38,7 +38,7 @@ class AddParentIdToWp < ActiveRecord::Migration[6.1]
 
     add_closure_tree_table
 
-    ClosureTreeWorkPackage.rebuild!
+    build_closure_tree
 
     cleanup_transitive_relations
 
@@ -126,6 +126,41 @@ class AddParentIdToWp < ActiveRecord::Migration[6.1]
               name: "work_package_desc_idx"
     # End copied from closure tree migration
     # rubocop:enable Rails/CreateTableWithTimestamps
+  end
+
+  # Creates the actual closure tree data.
+  # This recursive query is used over ClosureTreeWorkPackage.rebuild! for speed
+  # but its result is equivalent.
+  def build_closure_tree
+    execute <<~SQL.squish
+      WITH RECURSIVE closure_tree(ancestor_id, descendant_id, generations) AS (
+      SELECT
+        id ancestor_id,
+        id descendant_id,
+        0 generations
+        FROM work_packages
+      UNION
+      SELECT
+        closure_tree.ancestor_id,
+        work_packages.id descendant_id,
+        closure_tree.generations + 1
+      FROM closure_tree
+      JOIN work_packages ON work_packages.parent_id = closure_tree.descendant_id
+      )
+
+      INSERT INTO
+        work_package_hierarchies (
+          ancestor_id,
+          descendant_id,
+          generations
+        )
+      SELECT
+        ancestor_id,
+        descendant_id,
+        generations
+      FROM
+        closure_tree
+    SQL
   end
 
   def add_relation_index
