@@ -26,27 +26,26 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-FactoryBot.define do
-  factory :week_day do
-    sequence :day, [1, 2, 3, 4, 5, 6, 7].cycle
-    working { day < 6 }
+require 'spec_helper'
 
-    # hack to reuse the day if it already exists in database
-    to_create do |instance|
-      instance.attributes = WeekDay.find_or_create_by(instance.attributes.slice("day", "working")).attributes
-      instance.instance_variable_set('@new_record', false)
-    end
+describe ::API::V3::Days::DayCollectionRepresenter do
+  let(:days) do
+    [
+      build(:day, date: Date.new(2022, 12, 27)),
+      build(:day, date: Date.new(2022, 12, 28)),
+      build(:day, date: Date.new(2022, 12, 29))
+    ]
+  end
+  let(:current_user) { instance_double(User, name: 'current_user') }
+  let(:representer) do
+    described_class.new(days,
+                        self_link: '/api/v3/self_link_untested',
+                        current_user:)
   end
 
-  # Factory to create all 7 week days at once
-  factory :week_days, class: 'Array' do
-    # Skip the create callback to be able to use non-AR models. Otherwise FactoryBot will
-    # try to call #save! on any created object.
-    skip_create
+  describe '#to_json' do
+    subject(:collection) { representer.to_json }
 
-    initialize_with do
-      days = 1.upto(7).map { |day| create(:week_day, day:) }
-      new(days)
-    end
+    it_behaves_like 'unpaginated APIv3 collection', 3, 'self_link_untested', 'Day'
   end
 end

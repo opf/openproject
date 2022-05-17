@@ -192,8 +192,16 @@ module API
             "#{root}/custom_options/#{id}"
           end
 
+          def self.day(date)
+            "#{days}/#{date}"
+          end
+
+          def self.days
+            "#{root}/days"
+          end
+
           def self.days_week
-            "#{root}/days/week"
+            "#{days}/week"
           end
 
           def self.days_week_day(day)
