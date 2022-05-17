@@ -17,7 +17,7 @@ import {
   InAppNotification,
   NOTIFICATIONS_MAX_SIZE,
 } from 'core-app/core/state/in-app-notifications/in-app-notification.model';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { IanBellService } from 'core-app/features/in-app-notifications/bell/state/ian-bell.service';
 
@@ -87,7 +87,7 @@ export class InAppNotificationCenterComponent implements OnInit {
     readonly bellService:IanBellService,
     readonly uiRouterGlobals:UIRouterGlobals,
     readonly state:StateService,
-    readonly apiV3:APIV3Service,
+    readonly apiV3:ApiV3Service,
     readonly pathService:PathHelperService,
   ) {
   }

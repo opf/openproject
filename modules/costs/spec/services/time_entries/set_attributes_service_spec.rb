@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,11 +29,11 @@
 require 'spec_helper'
 
 describe TimeEntries::SetAttributesService, type: :model do
-  let(:user) { FactoryBot.build_stubbed(:user) }
-  let(:activity) { FactoryBot.build_stubbed(:time_entry_activity, project: project) }
-  let!(:default_activity) { FactoryBot.build_stubbed(:time_entry_activity, project: project, is_default: true) }
-  let(:work_package) { FactoryBot.build_stubbed(:work_package) }
-  let(:project) { FactoryBot.build_stubbed(:project) }
+  let(:user) { build_stubbed(:user) }
+  let(:activity) { build_stubbed(:time_entry_activity, project: project) }
+  let!(:default_activity) { build_stubbed(:time_entry_activity, project: project, is_default: true) }
+  let(:work_package) { build_stubbed(:work_package) }
+  let(:project) { build_stubbed(:project) }
   let(:spent_on) { Date.today.to_s }
   let(:hours) { 5.0 }
   let(:comments) { 'some comment' }

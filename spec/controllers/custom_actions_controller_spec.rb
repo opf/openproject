@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,9 +29,9 @@
 require 'spec_helper'
 
 describe CustomActionsController, type: :controller do
-  let(:admin) { FactoryBot.build(:admin) }
-  let(:non_admin) { FactoryBot.build(:user) }
-  let(:action) { FactoryBot.build_stubbed(:custom_action) }
+  let(:admin) { build(:admin) }
+  let(:non_admin) { build(:user) }
+  let(:action) { build_stubbed(:custom_action) }
   let(:params) do
     { custom_action: { name: 'blubs',
                        actions: { assigned_to: 1 } } }

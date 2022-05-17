@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -30,10 +28,10 @@
 require 'spec_helper'
 
 describe SCM::CreateManagedRepositoryService do
-  let(:user) { FactoryBot.build(:user) }
-  let(:project) { FactoryBot.build(:project) }
+  let(:user) { build(:user) }
+  let(:project) { build(:project) }
 
-  let(:repository) { FactoryBot.build(:repository_subversion) }
+  let(:repository) { build(:repository_subversion) }
   subject(:service) { SCM::CreateManagedRepositoryService.new(repository) }
 
   let(:config) { {} }
@@ -152,7 +150,7 @@ describe SCM::CreateManagedRepositoryService do
     end
 
     let(:repository) do
-      repo = FactoryBot.build(:repository_subversion, scm_type: :managed)
+      repo = build(:repository_subversion, scm_type: :managed)
       repo.project = project
       repo.configure(:managed, nil)
       repo

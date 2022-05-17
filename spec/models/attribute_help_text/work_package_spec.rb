@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,18 +35,18 @@ describe AttributeHelpText::WorkPackage, type: :model do
     # need to clear the cache to free the memoized
     # Type.translated_work_package_form_attributes
     Rails.cache.clear
-    FactoryBot.create(:work_package_help_text, attribute_name: "custom_field_#{custom_field.id}")
+    create(:work_package_help_text, attribute_name: "custom_field_#{custom_field.id}")
   end
 
-  let(:wp_custom_field) { FactoryBot.create :text_wp_custom_field }
+  let(:wp_custom_field) { create :text_wp_custom_field }
 
   let(:cf_instance) do
     create_cf_help_text(wp_custom_field)
   end
 
   it_behaves_like 'acts_as_attachable included' do
-    let(:model_instance) { FactoryBot.create(:work_package_help_text) }
-    let(:project) { FactoryBot.create(:project) }
+    let(:model_instance) { create(:work_package_help_text) }
+    let(:project) { create(:project) }
   end
 
   describe '.available_attributes' do
@@ -58,7 +58,7 @@ describe AttributeHelpText::WorkPackage, type: :model do
   end
 
   describe '.used_attributes' do
-    let!(:instance) { FactoryBot.create :work_package_help_text }
+    let!(:instance) { create :work_package_help_text }
 
     subject { described_class.used_attributes instance.type }
 
@@ -68,15 +68,15 @@ describe AttributeHelpText::WorkPackage, type: :model do
   end
 
   describe '.visible' do
-    let(:project) { FactoryBot.create(:project) }
-    let(:role) { FactoryBot.create(:role, permissions: permissions) }
+    let(:project) { create(:project) }
+    let(:role) { create(:role, permissions: permissions) }
     let(:user) do
-      FactoryBot.create(:user,
-                        member_in_project: project,
-                        member_through_role: role)
+      create(:user,
+             member_in_project: project,
+             member_through_role: role)
     end
     let(:permission) { [] }
-    let(:static_instance) { FactoryBot.create :work_package_help_text, attribute_name: 'project' }
+    let(:static_instance) { create :work_package_help_text, attribute_name: 'project' }
 
     before do
       cf_instance
@@ -87,7 +87,7 @@ describe AttributeHelpText::WorkPackage, type: :model do
 
     context 'user having no permission' do
       let(:user) do
-        FactoryBot.create(:user)
+        create(:user)
       end
 
       it 'returns the help text for the static attribute but not the one for the custom field' do
@@ -108,13 +108,13 @@ describe AttributeHelpText::WorkPackage, type: :model do
     context 'user being member in a project with activated custom fields' do
       let(:permissions) { [] }
       let(:type) do
-        type = FactoryBot.create(:type)
+        type = create(:type)
         project.types << type
 
         type
       end
       let(:cf_instance_active) do
-        custom_field = FactoryBot.create(:text_wp_custom_field)
+        custom_field = create(:text_wp_custom_field)
         project.work_package_custom_fields << custom_field
         type.custom_fields << custom_field
         create_cf_help_text(custom_field)
@@ -123,17 +123,17 @@ describe AttributeHelpText::WorkPackage, type: :model do
         cf_instance
       end
       let(:cf_instance_inactive_no_type) do
-        custom_field = FactoryBot.create(:text_wp_custom_field)
+        custom_field = create(:text_wp_custom_field)
         project.work_package_custom_fields << custom_field
         create_cf_help_text(custom_field)
       end
       let(:cf_instance_inactive_not_in_project) do
-        custom_field = FactoryBot.create(:text_wp_custom_field)
+        custom_field = create(:text_wp_custom_field)
         type.custom_fields << custom_field
         create_cf_help_text(custom_field)
       end
       let(:cf_instance_for_all) do
-        custom_field = FactoryBot.create(:text_wp_custom_field, is_for_all: true)
+        custom_field = create(:text_wp_custom_field, is_for_all: true)
         create_cf_help_text(custom_field)
       end
 
@@ -197,7 +197,7 @@ describe AttributeHelpText::WorkPackage, type: :model do
   end
 
   describe 'instance' do
-    subject { FactoryBot.build :work_package_help_text }
+    subject { build :work_package_help_text }
 
     it 'provides a caption of its type' do
       expect(subject.attribute_scope).to eq 'WorkPackage'

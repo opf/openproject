@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,30 +31,30 @@ require 'spec_helper'
 describe ::API::V3::CostEntries::WorkPackageCostsByTypeRepresenter do
   include API::V3::Utilities::PathHelper
 
-  let(:project) { FactoryBot.create(:project) }
-  let(:work_package) { FactoryBot.create(:work_package, project: project) }
-  let(:cost_type_A) { FactoryBot.create(:cost_type) }
-  let(:cost_type_B) { FactoryBot.create(:cost_type) }
+  let(:project) { create(:project) }
+  let(:work_package) { create(:work_package, project: project) }
+  let(:cost_type_A) { create(:cost_type) }
+  let(:cost_type_B) { create(:cost_type) }
   let(:cost_entries_A) do
-    FactoryBot.create_list(:cost_entry,
-                           2,
-                           units: 1,
-                           work_package: work_package,
-                           project: project,
-                           cost_type: cost_type_A)
+    create_list(:cost_entry,
+                2,
+                units: 1,
+                work_package: work_package,
+                project: project,
+                cost_type: cost_type_A)
   end
   let(:cost_entries_B) do
-    FactoryBot.create_list(:cost_entry,
-                           3,
-                           units: 2,
-                           work_package: work_package,
-                           project: project,
-                           cost_type: cost_type_B)
+    create_list(:cost_entry,
+                3,
+                units: 2,
+                work_package: work_package,
+                project: project,
+                cost_type: cost_type_B)
   end
   let(:current_user) do
-    FactoryBot.create(:user, member_in_project: project, member_through_role: role)
+    create(:user, member_in_project: project, member_through_role: role)
   end
-  let(:role) { FactoryBot.build(:role, permissions: [:view_cost_entries]) }
+  let(:role) { build(:role, permissions: [:view_cost_entries]) }
 
   let(:representer) { described_class.new(work_package, current_user: current_user) }
 

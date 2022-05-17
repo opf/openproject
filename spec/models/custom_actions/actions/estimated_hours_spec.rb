@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,7 +36,7 @@ describe CustomActions::Actions::EstimatedHours, type: :model do
 
   it_behaves_like 'base custom action' do
     describe '#apply' do
-      let(:work_package) { FactoryBot.build_stubbed(:stubbed_work_package) }
+      let(:work_package) { build_stubbed(:stubbed_work_package) }
 
       it 'sets the done_ratio to the action\'s value' do
         instance.values = [95.56]
@@ -57,7 +57,7 @@ describe CustomActions::Actions::EstimatedHours, type: :model do
 
     describe 'validate' do
       let(:errors) do
-        FactoryBot.build_stubbed(:custom_action).errors
+        build_stubbed(:custom_action).errors
       end
 
       it 'is valid for values equal to or greater than 0' do

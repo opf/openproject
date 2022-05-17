@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,63 +30,63 @@ require 'spec_helper'
 
 describe 'Backlogs', js: true do
   let(:story_type) do
-    FactoryBot.create(:type_feature)
+    create(:type_feature)
   end
   let(:story_type2) do
-    type = FactoryBot.create(:type)
+    type = create(:type)
 
     project.types << type
 
     type
   end
   let(:inactive_story_type) do
-    FactoryBot.create(:type)
+    create(:type)
   end
 
   let(:task_type) do
-    type = FactoryBot.create(:type_task)
+    type = create(:type_task)
     project.types << type
 
     type
   end
 
   let(:user) do
-    FactoryBot.create :user,
-                      member_in_project: project,
-                      member_with_permissions: %i(add_work_packages
-                                                  view_master_backlog
-                                                  view_work_packages
-                                                  assign_versions)
+    create :user,
+           member_in_project: project,
+           member_with_permissions: %i(add_work_packages
+                                       view_master_backlog
+                                       view_work_packages
+                                       assign_versions)
   end
-  let(:project) { FactoryBot.create :project }
+  let(:project) { create :project }
 
-  let(:backlog_version) { FactoryBot.create(:version, project: project) }
+  let(:backlog_version) { create(:version, project: project) }
 
   let!(:existing_story1) do
-    FactoryBot.create(:work_package,
-                      type: story_type,
-                      project: project,
-                      status: default_status,
-                      priority: default_priority,
-                      position: 1,
-                      story_points: 3,
-                      version: backlog_version)
+    create(:work_package,
+           type: story_type,
+           project: project,
+           status: default_status,
+           priority: default_priority,
+           position: 1,
+           story_points: 3,
+           version: backlog_version)
   end
   let!(:existing_story2) do
-    FactoryBot.create(:work_package,
-                      type: story_type,
-                      project: project,
-                      status: default_status,
-                      priority: default_priority,
-                      position: 2,
-                      story_points: 4,
-                      version: backlog_version)
+    create(:work_package,
+           type: story_type,
+           project: project,
+           status: default_status,
+           priority: default_priority,
+           position: 2,
+           story_points: 4,
+           version: backlog_version)
   end
   let!(:default_status) do
-    FactoryBot.create(:default_status)
+    create(:default_status)
   end
   let!(:default_priority) do
-    FactoryBot.create(:default_priority)
+    create(:default_priority)
   end
 
   before do

@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -26,26 +26,26 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { APIv3ResourceCollection } from 'core-app/core/apiv3/paths/apiv3-resource';
-import { APIv3UserPaths } from 'core-app/core/apiv3/endpoints/users/apiv3-user-paths';
+import { ApiV3ResourceCollection } from 'core-app/core/apiv3/paths/apiv3-resource';
+import { ApiV3UserPaths } from 'core-app/core/apiv3/endpoints/users/apiv3-user-paths';
 import { Observable } from 'rxjs';
 import { UserResource } from 'core-app/features/hal/resources/user-resource';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { APIv3FormResource } from 'core-app/core/apiv3/forms/apiv3-form-resource';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3FormResource } from 'core-app/core/apiv3/forms/apiv3-form-resource';
 
-export class Apiv3UsersPaths extends APIv3ResourceCollection<UserResource, APIv3UserPaths> {
-  constructor(protected apiRoot:APIV3Service,
+export class ApiV3UsersPaths extends ApiV3ResourceCollection<UserResource, ApiV3UserPaths> {
+  constructor(protected apiRoot:ApiV3Service,
     protected basePath:string) {
-    super(apiRoot, basePath, 'users', APIv3UserPaths);
+    super(apiRoot, basePath, 'users', ApiV3UserPaths);
   }
 
   // Static paths
 
   // /api/v3/users/me
-  public readonly me = this.subResource('me', APIv3UserPaths);
+  public readonly me = this.subResource('me', ApiV3UserPaths);
 
   // /api/v3/users/form
-  public readonly form = this.subResource('form', APIv3FormResource);
+  public readonly form = this.subResource('form', ApiV3FormResource);
 
   /**
    * Create a new UserResource

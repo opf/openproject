@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,17 +29,17 @@
 require 'spec_helper'
 
 describe CategoriesController, type: :controller do
-  let(:user) { FactoryBot.create(:user) }
-  let(:project) { FactoryBot.create(:project) }
+  let(:user) { create(:user) }
+  let(:project) { create(:project) }
   let(:role) do
-    FactoryBot.create(:role,
-                      permissions: [:manage_categories])
+    create(:role,
+           permissions: [:manage_categories])
   end
   let(:member) do
-    FactoryBot.create(:member,
-                      project: project,
-                      principal: user,
-                      roles: [role])
+    create(:member,
+           project: project,
+           principal: user,
+           roles: [role])
   end
 
   before do
@@ -93,8 +93,8 @@ describe CategoriesController, type: :controller do
 
   describe '#edit' do
     let(:category) do
-      FactoryBot.create(:category,
-                        project: project)
+      create(:category,
+             project: project)
     end
 
     subject { response }
@@ -119,8 +119,8 @@ describe CategoriesController, type: :controller do
 
     context 'valid category' do
       let(:category) do
-        FactoryBot.create(:category,
-                          project: project)
+        create(:category,
+               project: project)
       end
 
       before do
@@ -161,13 +161,13 @@ describe CategoriesController, type: :controller do
 
   describe '#destroy' do
     let(:category) do
-      FactoryBot.create(:category,
-                        project: project)
+      create(:category,
+             project: project)
     end
     let(:work_package) do
-      FactoryBot.create(:work_package,
-                        project: project,
-                        category: category)
+      create(:work_package,
+             project: project,
+             category: category)
     end
 
     before { category }
@@ -210,8 +210,8 @@ describe CategoriesController, type: :controller do
 
     describe '#reassign' do
       let(:target) do
-        FactoryBot.create(:category,
-                          project: project)
+        create(:category,
+               project: project)
       end
       before do
         work_package

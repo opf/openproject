@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,15 +29,15 @@
 require 'spec_helper'
 
 describe ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
-  let(:project) { FactoryBot.build(:project) }
-  let(:type) { FactoryBot.build(:type) }
+  let(:project) { build(:project) }
+  let(:type) { build(:type) }
   let(:work_package) do
-    FactoryBot.build(:work_package,
-                     project: project,
-                     type: type)
+    build(:work_package,
+          project: project,
+          type: type)
   end
   let(:current_user) do
-    FactoryBot.build_stubbed(:user).tap do |u|
+    build_stubbed(:user).tap do |u|
       allow(u)
         .to receive(:allowed_to?)
         .and_return(true)
@@ -45,7 +45,7 @@ describe ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
   end
 
   shared_examples_for 'with parent which is a BACKLOGS type' do |writable|
-    let(:parent) { FactoryBot.create(:work_package, type: type_task) }
+    let(:parent) { create(:work_package, type: type_task) }
 
     before do
       work_package.parent_id = parent.id
@@ -58,7 +58,7 @@ describe ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
   end
 
   shared_examples_for 'with parent which is not a BACKLOGS type' do
-    let(:parent) { FactoryBot.create(:work_package, type: type_feature) }
+    let(:parent) { create(:work_package, type: type_feature) }
 
     before do
       work_package.parent_id = parent.id
@@ -100,8 +100,8 @@ describe ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
 
   describe '#version_writable?' do
     subject { described_class.new(work_package: work_package) }
-    let(:type_task) { FactoryBot.create(:type_task) }
-    let(:type_feature) { FactoryBot.create(:type_feature) }
+    let(:type_task) { create(:type_task) }
+    let(:type_feature) { create(:type_feature) }
 
     before do
       allow(WorkPackage).to receive(:backlogs_types).and_return([type_task.id])

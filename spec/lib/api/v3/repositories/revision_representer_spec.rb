@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,16 +33,16 @@ describe ::API::V3::Repositories::RevisionRepresenter do
 
   let(:representer) { described_class.new(revision, current_user: double('current_user')) }
 
-  let(:project) { FactoryBot.build :project }
-  let(:repository) { FactoryBot.build :repository_subversion, project: project }
+  let(:project) { build :project }
+  let(:repository) { build :repository_subversion, project: project }
   let(:revision) do
-    FactoryBot.build(:changeset,
-                     id: 42,
-                     revision: '1234',
-                     repository: repository,
-                     comments: commit_message,
-                     committer: 'foo bar <foo@example.org>',
-                     committed_on: DateTime.now)
+    build(:changeset,
+          id: 42,
+          revision: '1234',
+          repository: repository,
+          comments: commit_message,
+          committer: 'foo bar <foo@example.org>',
+          committed_on: DateTime.now)
   end
 
   let(:commit_message) { 'Some commit message' }
@@ -88,7 +88,7 @@ describe ::API::V3::Repositories::RevisionRepresenter do
     end
 
     context 'with referencing commit message' do
-      let(:work_package) { FactoryBot.build_stubbed(:work_package, project: project) }
+      let(:work_package) { build_stubbed(:work_package, project: project) }
       let(:commit_message) { "Totally references ##{work_package.id}" }
       let(:html_reference) do
         id = work_package.id
@@ -100,7 +100,7 @@ describe ::API::V3::Repositories::RevisionRepresenter do
       end
 
       before do
-        allow(User).to receive(:current).and_return(FactoryBot.build_stubbed(:admin))
+        allow(User).to receive(:current).and_return(build_stubbed(:admin))
         allow(WorkPackage)
           .to receive_message_chain('includes.references.find_by')
           .and_return(work_package)
@@ -121,7 +121,7 @@ describe ::API::V3::Repositories::RevisionRepresenter do
       end
 
       context 'with linked user as author' do
-        let(:user) { FactoryBot.build(:user) }
+        let(:user) { build(:user) }
         before do
           allow(revision).to receive(:user).and_return(user)
         end

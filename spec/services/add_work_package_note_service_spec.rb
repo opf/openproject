@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,8 +29,8 @@
 require 'spec_helper'
 
 describe AddWorkPackageNoteService, type: :model do
-  let(:user) { FactoryBot.build_stubbed(:user) }
-  let(:work_package) { FactoryBot.build_stubbed(:work_package) }
+  let(:user) { build_stubbed(:user) }
+  let(:work_package) { build_stubbed(:work_package) }
   let(:instance) do
     described_class.new(user: user,
                         work_package: work_package)

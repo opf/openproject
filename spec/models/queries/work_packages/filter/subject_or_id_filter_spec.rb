@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,9 +32,9 @@ describe Queries::WorkPackages::Filter::SubjectOrIdFilter, type: :model do
   let(:value) { 'bogus' }
   let(:operator) { '**' }
   let(:subject) { 'Some subject' }
-  let(:work_package) { FactoryBot.create(:work_package, subject: subject) }
-  let(:current_user) { FactoryBot.create(:user, member_in_project: work_package.project) }
-  let(:query) { FactoryBot.build_stubbed(:global_query, user: current_user) }
+  let(:work_package) { create(:work_package, subject: subject) }
+  let(:current_user) { create(:user, member_in_project: work_package.project) }
+  let(:query) { build_stubbed(:global_query, user: current_user) }
   let(:instance) do
     described_class.create!(name: :search, context: query, operator: operator, values: [value])
   end

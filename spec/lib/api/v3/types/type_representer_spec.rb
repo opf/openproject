@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe ::API::V3::Types::TypeRepresenter do
-  let(:type) { FactoryBot.build_stubbed(:type, color: FactoryBot.build_stubbed(:color)) }
+  let(:type) { build_stubbed(:type, color: build_stubbed(:color)) }
   let(:representer) { described_class.new(type, current_user: double('current_user')) }
 
   include API::V3::Utilities::PathHelper
@@ -58,7 +58,7 @@ describe ::API::V3::Types::TypeRepresenter do
     end
 
     context 'no color set' do
-      let(:type) { FactoryBot.build_stubbed(:type, color: nil) }
+      let(:type) { build_stubbed(:type, color: nil) }
 
       it 'indicates a missing color' do
         is_expected.to be_json_eql(nil.to_json).at_path('color')
@@ -74,7 +74,7 @@ describe ::API::V3::Types::TypeRepresenter do
     end
 
     context 'as default type' do
-      let(:type) { FactoryBot.build_stubbed(:type, is_default: true) }
+      let(:type) { build_stubbed(:type, is_default: true) }
 
       it 'indicates that it is the default type' do
         is_expected.to be_json_eql(true.to_json).at_path('isDefault')
@@ -86,7 +86,7 @@ describe ::API::V3::Types::TypeRepresenter do
     end
 
     context 'as milestone' do
-      let(:type) { FactoryBot.build_stubbed(:type, is_milestone: true) }
+      let(:type) { build_stubbed(:type, is_milestone: true) }
 
       it 'indicates that it is a milestone' do
         is_expected.to be_json_eql(true.to_json).at_path('isMilestone')

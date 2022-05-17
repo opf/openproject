@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,10 +29,10 @@
 require 'spec_helper'
 
 describe 'filter work packages', js: true do
-  let(:user) { FactoryBot.create :admin }
-  let(:watcher) { FactoryBot.create :user }
-  let(:project) { FactoryBot.create :project, members: { watcher => role } }
-  let(:role) { FactoryBot.create :existing_role, permissions: [:view_work_packages] }
+  let(:user) { create :admin }
+  let(:watcher) { create :user }
+  let(:project) { create :project, members: { watcher => role } }
+  let(:role) { create :existing_role, permissions: [:view_work_packages] }
   let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
   let(:filters) { ::Components::WorkPackages::Filters.new }
 
@@ -40,13 +40,13 @@ describe 'filter work packages', js: true do
 
   context 'by watchers' do
     let(:work_package_with_watcher) do
-      wp = FactoryBot.build :work_package, project: project
+      wp = build :work_package, project: project
       wp.add_watcher watcher
       wp.save!
 
       wp
     end
-    let(:work_package_without_watcher) { FactoryBot.create :work_package, project: project }
+    let(:work_package_without_watcher) { create :work_package, project: project }
 
     before do
       work_package_with_watcher
@@ -69,11 +69,11 @@ describe 'filter work packages', js: true do
   end
 
   context 'by version in project' do
-    let(:version) { FactoryBot.create :version, project: project }
+    let(:version) { create :version, project: project }
     let(:work_package_with_version) do
-      FactoryBot.create :work_package, project: project, subject: 'With version', version: version
+      create :work_package, project: project, subject: 'With version', version: version
     end
-    let(:work_package_without_version) { FactoryBot.create :work_package, subject: 'Without version', project: project }
+    let(:work_package_without_version) { create :work_package, subject: 'Without version', project: project }
 
     before do
       work_package_with_version
@@ -119,8 +119,8 @@ describe 'filter work packages', js: true do
   end
 
   context 'by finish date outside of a project' do
-    let(:work_package_with_due_date) { FactoryBot.create :work_package, project: project, due_date: Date.today }
-    let(:work_package_without_due_date) { FactoryBot.create :work_package, project: project, due_date: Date.today + 5.days }
+    let(:work_package_with_due_date) { create :work_package, project: project, due_date: Date.today }
+    let(:work_package_without_due_date) { create :work_package, project: project, due_date: Date.today + 5.days }
     let(:wp_table) { ::Pages::WorkPackagesTable.new }
 
     before do
@@ -174,7 +174,7 @@ describe 'filter work packages', js: true do
 
   context 'by list cf inside a project' do
     let(:type) do
-      type = FactoryBot.create(:type)
+      type = create(:type)
 
       project.types << type
 
@@ -182,21 +182,21 @@ describe 'filter work packages', js: true do
     end
 
     let(:work_package_with_list_value) do
-      wp = FactoryBot.create :work_package, project: project, type: type
+      wp = create :work_package, project: project, type: type
       wp.send("#{list_cf.accessor_name}=", list_cf.custom_options.first.id)
       wp.save!
       wp
     end
 
     let(:work_package_with_anti_list_value) do
-      wp = FactoryBot.create :work_package, project: project, type: type
+      wp = create :work_package, project: project, type: type
       wp.send("#{list_cf.accessor_name}=", list_cf.custom_options.last.id)
       wp.save!
       wp
     end
 
     let(:list_cf) do
-      cf = FactoryBot.create :list_wp_custom_field
+      cf = create :list_wp_custom_field
 
       project.work_package_custom_fields << cf
       type.custom_fields << cf
@@ -252,7 +252,7 @@ describe 'filter work packages', js: true do
 
   context 'by string cf inside a project with url-query relevant chars' do
     let(:type) do
-      type = FactoryBot.create(:type)
+      type = create(:type)
 
       project.types << type
 
@@ -260,21 +260,21 @@ describe 'filter work packages', js: true do
     end
 
     let(:work_package_plus) do
-      wp = FactoryBot.create :work_package, project: project, type: type
+      wp = create :work_package, project: project, type: type
       wp.send("#{string_cf.accessor_name}=", 'G+H')
       wp.save!
       wp
     end
 
     let(:work_package_and) do
-      wp = FactoryBot.create :work_package, project: project, type: type
+      wp = create :work_package, project: project, type: type
       wp.send("#{string_cf.accessor_name}=", 'A&B')
       wp.save!
       wp
     end
 
     let(:string_cf) do
-      cf = FactoryBot.create :string_wp_custom_field
+      cf = create :string_wp_custom_field
 
       project.work_package_custom_fields << cf
       type.custom_fields << cf
@@ -338,15 +338,15 @@ describe 'filter work packages', js: true do
   end
 
   context 'by attachment content' do
-    let(:attachment_a) { FactoryBot.build(:attachment, filename: 'attachment-first.pdf') }
-    let(:attachment_b) { FactoryBot.build(:attachment, filename: 'attachment-second.pdf') }
+    let(:attachment_a) { build(:attachment, filename: 'attachment-first.pdf') }
+    let(:attachment_b) { build(:attachment, filename: 'attachment-second.pdf') }
     let(:wp_with_attachment_a) do
-      FactoryBot.create :work_package, subject: 'WP attachment A', project: project, attachments: [attachment_a]
+      create :work_package, subject: 'WP attachment A', project: project, attachments: [attachment_a]
     end
     let(:wp_with_attachment_b) do
-      FactoryBot.create :work_package, subject: 'WP attachment B', project: project, attachments: [attachment_b]
+      create :work_package, subject: 'WP attachment B', project: project, attachments: [attachment_b]
     end
-    let(:wp_without_attachment) { FactoryBot.create :work_package, subject: 'WP no attachment', project: project }
+    let(:wp_without_attachment) { create :work_package, subject: 'WP no attachment', project: project }
     let(:wp_table) { ::Pages::WorkPackagesTable.new }
 
     before do
@@ -459,10 +459,10 @@ describe 'filter work packages', js: true do
   describe 'specific filters' do
     describe 'filters on date by created_at (Regression #28459)' do
       let!(:wp_updated_today) do
-        FactoryBot.create :work_package, subject: 'Created today', project: project, created_at: (Date.today + 12.hours)
+        create :work_package, subject: 'Created today', project: project, created_at: (Date.today + 12.hours)
       end
       let!(:wp_updated_5d_ago) do
-        FactoryBot.create :work_package, subject: 'Created 5d ago', project: project, created_at: (Date.today - 5.days)
+        create :work_package, subject: 'Created 5d ago', project: project, created_at: (Date.today - 5.days)
       end
 
       it do
@@ -486,8 +486,8 @@ describe 'filter work packages', js: true do
   end
 
   describe 'keep the filter attribute order (Regression #33136)' do
-    let(:version1) { FactoryBot.create :version, project: project, name: 'Version 1', id: 1 }
-    let(:version2) { FactoryBot.create :version, project: project, name: 'Version 2', id: 2 }
+    let(:version1) { create :version, project: project, name: 'Version 1', id: 1 }
+    let(:version2) { create :version, project: project, name: 'Version 2', id: 2 }
 
     it do
       wp_table.visit!
@@ -508,10 +508,10 @@ describe 'filter work packages', js: true do
   end
 
   describe 'add parent WP filter' do
-    let(:wp_parent) { FactoryBot.create :work_package, project: project, subject: 'project' }
-    let(:wp_child1) { FactoryBot.create :work_package, project: project, subject: 'child 1', parent: wp_parent }
-    let(:wp_child2) { FactoryBot.create :work_package, project: project, subject: 'child 2', parent: wp_parent }
-    let(:wp_default) { FactoryBot.create :work_package, project: project, subject: 'default' }
+    let(:wp_parent) { create :work_package, project: project, subject: 'project' }
+    let(:wp_child1) { create :work_package, project: project, subject: 'child 1', parent: wp_parent }
+    let(:wp_child2) { create :work_package, project: project, subject: 'child 2', parent: wp_parent }
+    let(:wp_default) { create :work_package, project: project, subject: 'default' }
 
     it do
       wp_parent

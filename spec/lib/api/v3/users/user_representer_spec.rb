@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,9 +30,9 @@ require 'spec_helper'
 
 describe ::API::V3::Users::UserRepresenter do
   let(:status) { Principal.statuses[:active] }
-  let(:user) { FactoryBot.build_stubbed(:user, status: status) }
-  let(:current_user) { FactoryBot.build_stubbed(:user) }
-  let(:representer) { described_class.new(user, current_user: current_user) }
+  let(:user) { build_stubbed(:user, status: status) }
+  let(:current_user) { build_stubbed(:user) }
+  let(:representer) { described_class.create(user, current_user: current_user) }
 
   include API::V3::Utilities::PathHelper
 
@@ -78,7 +78,7 @@ describe ::API::V3::Users::UserRepresenter do
     end
 
     context 'as admin' do
-      let(:current_user) { FactoryBot.build_stubbed(:admin) }
+      let(:current_user) { build_stubbed(:admin) }
 
       it 'shows everything' do
         is_expected.to have_json_path('id')
@@ -104,7 +104,7 @@ describe ::API::V3::Users::UserRepresenter do
     end
 
     describe 'email' do
-      let(:user) { FactoryBot.build_stubbed(:user, status: 1, preference: preference) }
+      let(:user) { build_stubbed(:user, status: 1, preference: preference) }
 
       shared_examples_for 'shows the users E-Mail address' do
         it do
@@ -113,13 +113,13 @@ describe ::API::V3::Users::UserRepresenter do
       end
 
       context 'user shows his E-Mail address' do
-        let(:preference) { FactoryBot.build(:user_preference, hide_mail: false) }
+        let(:preference) { build(:user_preference, hide_mail: false) }
 
         it_behaves_like 'shows the users E-Mail address'
       end
 
       context 'user hides his E-Mail address' do
-        let(:preference) { FactoryBot.build(:user_preference, hide_mail: true) }
+        let(:preference) { build(:user_preference, hide_mail: true) }
 
         it 'does not render the users E-Mail address' do
           is_expected
@@ -127,7 +127,7 @@ describe ::API::V3::Users::UserRepresenter do
         end
 
         context 'if an admin inquires' do
-          let(:current_user) { FactoryBot.build_stubbed(:admin) }
+          let(:current_user) { build_stubbed(:admin) }
 
           it_behaves_like 'shows the users E-Mail address'
         end
@@ -178,7 +178,7 @@ describe ::API::V3::Users::UserRepresenter do
       end
 
       context 'when current_user is admin' do
-        let(:current_user) { FactoryBot.build_stubbed(:admin) }
+        let(:current_user) { build_stubbed(:admin) }
 
         it 'should link to lock and update' do
           expect(subject).to have_json_path('_links/lock/href')
@@ -285,7 +285,7 @@ describe ::API::V3::Users::UserRepresenter do
       end
 
       describe '#json_cache_key' do
-        let(:auth_source) { FactoryBot.build_stubbed(:auth_source) }
+        let(:auth_source) { build_stubbed(:auth_source) }
         let(:former_cache_key) { representer.json_cache_key }
 
         before do

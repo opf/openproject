@@ -2,14 +2,13 @@
 cs:
   js:
     boards:
+      create_new: 'Create new board'
       label_unnamed_board: 'Nepojmenovaná tabule'
       label_unnamed_list: 'Nepojmenovaný seznam'
       label_board_type: 'Typ tabule'
       upsale:
-        teaser_text: 'Zlepšete své agilní řízení projektů s tímto flexibilním zobrazením Boardů. Vytvořte tolik desek, kolik chcete pro cokoliv, co chcete sledovat.'
-        upgrade_to_ee_text: 'Board je funkce Enterprise. Proveďte upgrade na placený plán.'
+        teaser_text: 'Would you like ready-to-use board templates? Advanced boards are an Enterprise feature. Please upgrade to a paid plan.'
         upgrade: 'Upgradovat nyní'
-        personal_demo: 'Kontaktujte nás pro demo'
       lists:
         delete: 'Odstranit seznam'
       version:

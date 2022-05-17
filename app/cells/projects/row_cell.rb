@@ -79,8 +79,8 @@ module Projects
     end
 
     def status_explanation
-      if project.status.try(:explanation)
-        content_tag :div, format_text(project.status.explanation), class: 'wiki'
+      if project.status_explanation
+        content_tag :div, format_text(project.status_explanation), class: 'wiki'
       end
     end
 
@@ -134,7 +134,8 @@ module Projects
         "-no-ellipsis"
       when /\Acf_/
         cf = custom_field(column)
-        "format-#{cf.field_format}"
+        formattable = cf.field_format == 'text' ? ' -no-ellipsis' : ''
+        "format-#{cf.field_format}#{formattable}"
       end
     end
   end

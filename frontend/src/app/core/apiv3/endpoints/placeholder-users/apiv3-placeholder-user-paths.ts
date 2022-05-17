@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -26,11 +26,11 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { APIv3GettableResource } from 'core-app/core/apiv3/paths/apiv3-resource';
+import { ApiV3GettableResource } from 'core-app/core/apiv3/paths/apiv3-resource';
 import { PlaceholderUserResource } from 'core-app/features/hal/resources/placeholder-user-resource';
 import { Observable } from 'rxjs';
 
-export class Apiv3PlaceholderUserPaths extends APIv3GettableResource<PlaceholderUserResource> {
+export class ApiV3PlaceholderUserPaths extends ApiV3GettableResource<PlaceholderUserResource> {
   /**
    * Update a placeholder user resource or payload
    * @param resource

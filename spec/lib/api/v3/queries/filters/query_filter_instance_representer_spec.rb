@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,7 +34,7 @@ describe ::API::V3::Queries::Filters::QueryFilterInstanceRepresenter do
   let(:operator) { '=' }
   let(:values) { [status.id.to_s] }
 
-  let(:status) { FactoryBot.build_stubbed(:status) }
+  let(:status) { build_stubbed(:status) }
 
   let(:filter) do
     f = Queries::WorkPackages::Filter::StatusFilter.create!
@@ -142,10 +142,10 @@ describe ::API::V3::Queries::Filters::QueryFilterInstanceRepresenter do
     end
 
     context 'with a subproject filter value_objects' do
-      shared_let(:admin) { FactoryBot.create :admin }
+      shared_let(:admin) { create :admin }
 
-      let(:project) { FactoryBot.create :project }
-      let(:subproject) { FactoryBot.create :project, parent: project }
+      let(:project) { create :project }
+      let(:subproject) { create :project, parent: project }
       let(:filter) do
         subproject
         project.reload
@@ -205,7 +205,7 @@ describe ::API::V3::Queries::Filters::QueryFilterInstanceRepresenter do
     end
 
     context 'with a bool custom field filter' do
-      let(:bool_cf) { FactoryBot.create(:bool_wp_custom_field) }
+      let(:bool_cf) { create(:bool_wp_custom_field) }
       let(:filter) do
         Queries::WorkPackages::Filter::CustomFieldFilter.create!(name: "cf_#{bool_cf.id}", operator: operator, values: values)
       end

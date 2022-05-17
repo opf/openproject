@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,40 +33,40 @@ describe 'API v3 Watcher resource', type: :request, content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:project) { FactoryBot.create(:project, identifier: 'test_project', public: false) }
+  let(:project) { create(:project, identifier: 'test_project', public: false) }
   let(:current_user) do
-    FactoryBot.create :user, member_in_project: project, member_through_role: role
+    create :user, member_in_project: project, member_through_role: role
   end
-  let(:role) { FactoryBot.create(:role, permissions: permissions) }
+  let(:role) { create(:role, permissions: permissions) }
   let(:permissions) { [] }
-  let(:view_work_packages_role) { FactoryBot.create(:role, permissions: [:view_work_packages]) }
-  let(:work_package) { FactoryBot.create(:work_package, project: project) }
+  let(:view_work_packages_role) { create(:role, permissions: [:view_work_packages]) }
+  let(:work_package) { create(:work_package, project: project) }
   let(:available_watcher) do
-    FactoryBot.create :user,
-                      firstname: 'Something',
-                      lastname: 'Strange',
-                      member_in_project: project,
-                      member_through_role: view_work_packages_role
+    create :user,
+           firstname: 'Something',
+           lastname: 'Strange',
+           member_in_project: project,
+           member_through_role: view_work_packages_role
   end
 
   let(:watching_user) do
-    FactoryBot.create :user,
-                      member_in_project: project,
-                      member_through_role: view_work_packages_role
+    create :user,
+           member_in_project: project,
+           member_through_role: view_work_packages_role
   end
   let(:existing_watcher) do
-    FactoryBot.create(:watcher, watchable: work_package, user: watching_user)
+    create(:watcher, watchable: work_package, user: watching_user)
   end
 
   let!(:watching_blocked_user) do
-    FactoryBot.create :user,
-                      login: 'lockedUser',
-                      mail: 'lockedUser@gmail.com',
-                      member_in_project: project,
-                      member_through_role: view_work_packages_role
+    create :user,
+           login: 'lockedUser',
+           mail: 'lockedUser@gmail.com',
+           member_in_project: project,
+           member_through_role: view_work_packages_role
   end
   let!(:existing_blocked_watcher) do
-    FactoryBot.create(:watcher, watchable: work_package, user: watching_blocked_user).tap do
+    create(:watcher, watchable: work_package, user: watching_blocked_user).tap do
       watching_blocked_user.locked!
     end
   end
@@ -170,7 +170,7 @@ describe 'API v3 Watcher resource', type: :request, content_type: :json do
     end
 
     context 'when the target user is not allowed to watch the work package' do
-      let(:new_watcher) { FactoryBot.create(:user) }
+      let(:new_watcher) { create(:user) }
 
       it_behaves_like 'constraint violation' do
         let(:message) { 'User is invalid' }

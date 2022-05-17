@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -58,11 +56,11 @@ module API
             struct.status = struct.status_attributes
 
             # Remove temporary attributes workaround
-            struct.delete_field(:status_attributes)
+            struct.delete(:status_attributes)
 
             # Remove nil status_explanation when passed as nil
             if struct.respond_to?(:status_explanation)
-              struct.delete_field(:status_explanation)
+              struct.delete(:status_explanation)
             end
           end
         end
@@ -153,12 +151,31 @@ module API
           }
         end
 
+        links :ancestors,
+              uncacheable: true do
+          represented.ancestors_from_root.map do |ancestor|
+            # Explicitly check for admin as an archived project
+            # will lead to the admin losing permissions in the project.
+            if current_user.admin? || ancestor.visible?
+              {
+                href: api_v3_paths.project(ancestor.id),
+                title: ancestor.name
+              }
+            else
+              {
+                href: API::V3::URN_UNDISCLOSED,
+                title: I18n.t(:'api_v3.undisclosed.ancestor')
+              }
+            end
+          end
+        end
+
         associated_resource :parent,
                             v3_path: :project,
                             representer: ::API::V3::Projects::ProjectRepresenter,
                             uncacheable_link: true,
                             undisclosed: true,
-                            skip_render: ->(*) { represented.parent && !represented.parent.visible? }
+                            skip_render: ->(*) { represented.parent && !represented.parent.visible? && !current_user.admin? }
 
         property :id
         property :identifier,
@@ -197,13 +214,13 @@ module API
                    end
                  },
                  setter: ->(fragment:, represented:, **) {
-                   represented.status_attributes ||= OpenStruct.new
+                   represented.status_attributes ||= API::ParserStruct.new
 
                    link = ::API::Decorators::LinkObject.new(represented.status_attributes,
                                                             path: :project_status,
                                                             property_name: :status,
                                                             getter: :code,
-                                                            setter: :"code=")
+                                                            setter: :'code=')
 
                    link.from_hash(fragment)
                  }
@@ -216,7 +233,7 @@ module API
                                                       plain: false)
                  },
                  setter: ->(fragment:, represented:, **) {
-                   represented.status_attributes ||= OpenStruct.new
+                   represented.status_attributes ||= API::ParserStruct.new
                    represented.status_attributes[:explanation] = fragment["raw"]
                  }
 

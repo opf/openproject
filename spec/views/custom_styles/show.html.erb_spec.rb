@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'custom_styles/show', type: :view do
-  let(:user) { FactoryBot.build(:admin) }
+  let(:user) { build(:admin) }
 
   before do
     login_as user
@@ -50,7 +50,7 @@ describe 'custom_styles/show', type: :view do
 
   context "with existing custom logo" do
     before do
-      assign(:custom_style, FactoryBot.build(:custom_style_with_logo))
+      assign(:custom_style, build(:custom_style_with_logo))
       assign(:current_theme, '')
       allow(view).to receive(:options_for_select).and_return('')
       render

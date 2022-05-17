@@ -1,0 +1,8 @@
+#English strings go here
+cs:
+  js:
+    calendar:
+      create_new: 'Vytvořit nový kalendář'
+      title: 'Kalendář'
+      too_many: 'Celkem je zde %{count} pracovních balíčků, ale pouze %{max} lze zobrazit.'
+      unsaved_title: 'Nepojmenovaný kalendář'

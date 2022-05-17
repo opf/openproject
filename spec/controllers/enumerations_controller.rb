@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,7 +33,7 @@ describe EnumerationsController, type: :controller do
 
   describe '#destroy' do
     describe '#priority' do
-      let(:enum_to_delete) { FactoryBot.create(:priority_normal) }
+      let(:enum_to_delete) { create(:priority_normal) }
 
       shared_examples_for 'successful delete' do
         it { expect(Enumeration.find_by(id: enum_to_delete.id)).to be_nil }
@@ -50,10 +50,10 @@ describe EnumerationsController, type: :controller do
       end
 
       describe 'in use' do
-        let!(:enum_to_reassign) { FactoryBot.create(:priority_high) }
+        let!(:enum_to_reassign) { create(:priority_high) }
         let!(:work_package) do
-          FactoryBot.create(:work_package,
-                            priority: enum_to_delete)
+          create(:work_package,
+                 priority: enum_to_delete)
         end
 
         describe 'no reassign' do

@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -31,14 +29,14 @@
 require 'spec_helper'
 
 describe Attachments::FinishDirectUploadJob, 'integration', type: :job do
-  shared_let(:user) { FactoryBot.create :admin }
+  shared_let(:user) { create :admin }
 
   let!(:pending_attachment) do
-    FactoryBot.create(:attachment,
-                      author: user,
-                      downloads: -1,
-                      digest: '',
-                      container: container)
+    create(:attachment,
+           author: user,
+           downloads: -1,
+           digest: '',
+           container: container)
   end
 
   let(:job) { described_class.new }
@@ -74,7 +72,7 @@ describe Attachments::FinishDirectUploadJob, 'integration', type: :job do
   end
 
   context 'for a journalized container' do
-    let!(:container) { FactoryBot.create(:work_package) }
+    let!(:container) { create(:work_package) }
     let!(:container_timestamp) { container.updated_at }
 
     it_behaves_like 'turning pending attachment into a standard attachment'
@@ -122,7 +120,7 @@ describe Attachments::FinishDirectUploadJob, 'integration', type: :job do
   end
 
   context 'for a non journalized container' do
-    let!(:container) { FactoryBot.create(:wiki_page) }
+    let!(:container) { create(:wiki_page) }
 
     it_behaves_like 'turning pending attachment into a standard attachment'
     it_behaves_like "adding a journal to the attachment in the name of the attachment's author"
@@ -137,7 +135,7 @@ describe Attachments::FinishDirectUploadJob, 'integration', type: :job do
 
   context 'with an incompatible attachment whitelist',
           with_settings: { attachment_whitelist: %w[image/png] } do
-    let!(:container) { FactoryBot.create(:work_package) }
+    let!(:container) { create(:work_package) }
     let!(:container_timestamp) { container.updated_at }
 
     it "Does not save the attachment" do
@@ -171,8 +169,8 @@ describe Attachments::FinishDirectUploadJob, 'integration', type: :job do
 
   context 'with the user not being allowed',
           with_settings: { attachment_whitelist: %w[image/png] } do
-    shared_let(:user) { FactoryBot.create :user }
-    let!(:container) { FactoryBot.create(:work_package) }
+    shared_let(:user) { create :user }
+    let!(:container) { create(:work_package) }
 
     it "Does not save the attachment" do
       allow(pending_attachment).to receive(:save!)

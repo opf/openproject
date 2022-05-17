@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,8 +33,8 @@ describe Queries::WorkPackages::Filter::IdFilter, type: :model do
     let(:class_key) { :id }
 
     describe '#where' do
-      let!(:visible_wp) { FactoryBot.create(:work_package) }
-      let!(:other_wp) { FactoryBot.create(:work_package) }
+      let!(:visible_wp) { create(:work_package) }
+      let!(:other_wp) { create(:work_package) }
 
       before do
         instance.values = [visible_wp.id.to_s]

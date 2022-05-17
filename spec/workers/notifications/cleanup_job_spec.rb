@@ -4,8 +4,8 @@ RSpec.describe Notifications::CleanupJob, type: :job do
   let(:job) { described_class.new }
 
   describe 'with default period', with_settings: { notification_retention_period_days: 30 } do
-    let!(:old_notification) { FactoryBot.create :notification }
-    let!(:new_notification) { FactoryBot.create :notification }
+    let!(:old_notification) { create :notification }
+    let!(:new_notification) { create :notification }
 
     it 'removes any older event' do
       old_notification.update_column(:updated_at, 31.days.ago)

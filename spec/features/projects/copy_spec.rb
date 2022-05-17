@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,11 +34,11 @@ describe 'Projects copy',
          js: true do
   describe 'with a full copy example' do
     let!(:project) do
-      FactoryBot.create(:project,
-                        parent: parent_project,
-                        types: active_types,
-                        members: { user => role },
-                        custom_field_values: { project_custom_field.id => 'some text cf' }).tap do |p|
+      create(:project,
+             parent: parent_project,
+             types: active_types,
+             members: { user => role },
+             custom_field_values: { project_custom_field.id => 'some text cf' }).tap do |p|
         p.work_package_custom_fields << wp_custom_field
         p.types.first.custom_fields << wp_custom_field
 
@@ -48,70 +48,72 @@ describe 'Projects copy',
     end
 
     let!(:parent_project) do
-      project = FactoryBot.create(:project)
+      project = create(:project)
 
-      FactoryBot.create(:member,
-                        project: project,
-                        user: user,
-                        roles: [role])
+      create(:member,
+             project: project,
+             user: user,
+             roles: [role])
       project
     end
     let!(:project_custom_field) do
-      FactoryBot.create(:text_project_custom_field, is_required: true)
+      create(:text_project_custom_field, is_required: true)
     end
     let!(:wp_custom_field) do
-      FactoryBot.create(:text_wp_custom_field)
+      create(:text_wp_custom_field)
     end
     let!(:inactive_wp_custom_field) do
-      FactoryBot.create(:text_wp_custom_field)
+      create(:text_wp_custom_field)
     end
     let(:active_types) do
-      [FactoryBot.create(:type), FactoryBot.create(:type)]
+      [create(:type), create(:type)]
     end
     let!(:inactive_type) do
-      FactoryBot.create(:type)
+      create(:type)
     end
-    let(:user) { FactoryBot.create(:user) }
+    let(:user) { create(:user) }
     let(:role) do
-      FactoryBot.create(:role,
-                        permissions: permissions)
+      create(:role,
+             permissions: permissions)
     end
-    let(:permissions) { %i(copy_projects edit_project add_subprojects manage_types view_work_packages select_custom_fields) }
+    let(:permissions) do
+      %i(copy_projects edit_project add_subprojects manage_types view_work_packages select_custom_fields work_package_assigned)
+    end
     let(:wp_user) do
-      user = FactoryBot.create(:user)
+      user = create(:user)
 
-      FactoryBot.create(:member,
-                        project: project,
-                        user: user,
-                        roles: [role])
+      create(:member,
+             project: project,
+             user: user,
+             roles: [role])
       user
     end
     let(:category) do
-      FactoryBot.create(:category, project: project)
+      create(:category, project: project)
     end
     let(:version) do
-      FactoryBot.create(:version, project: project)
+      create(:version, project: project)
     end
     let!(:work_package) do
-      FactoryBot.create(:work_package,
-                        project: project,
-                        type: project.types.first,
-                        author: wp_user,
-                        assigned_to: wp_user,
-                        responsible: wp_user,
-                        done_ratio: 20,
-                        category: category,
-                        version: version,
-                        description: 'Some description',
-                        custom_field_values: { wp_custom_field.id => 'Some wp cf text' })
+      create(:work_package,
+             project: project,
+             type: project.types.first,
+             author: wp_user,
+             assigned_to: wp_user,
+             responsible: wp_user,
+             done_ratio: 20,
+             category: category,
+             version: version,
+             description: 'Some description',
+             custom_field_values: { wp_custom_field.id => 'Some wp cf text' })
     end
 
     let!(:wiki) { project.wiki }
     let!(:wiki_page) do
-      FactoryBot.create :wiki_page_with_content,
-                        title: 'Attached',
-                        wiki: wiki,
-                        attachments: [FactoryBot.build(:attachment, container: nil, filename: 'attachment.pdf')]
+      create :wiki_page_with_content,
+             title: 'Attached',
+             wiki: wiki,
+             attachments: [build(:attachment, container: nil, filename: 'attachment.pdf')]
     end
 
     let(:parent_field) { ::FormFields::SelectFormField.new :parent }
@@ -151,7 +153,8 @@ describe 'Projects copy',
       expect(page).to have_text 'The job has been queued and will be processed shortly.'
 
       # ensure all jobs are run especially emails which might be sent later on
-      while perform_enqueued_jobs > 0 do end
+      while perform_enqueued_jobs > 0
+      end
 
       copied_project = Project.find_by(name: 'Copied project')
 
@@ -236,24 +239,24 @@ describe 'Projects copy',
   end
 
   describe 'copying a set of ordered work packages' do
-    let(:user) { FactoryBot.create :admin }
-    let(:project) { FactoryBot.create :project, types: [type] }
-    let(:type) { FactoryBot.create :type }
-    let(:status) { FactoryBot.create :status }
-    let(:priority) { FactoryBot.create :priority }
+    let(:user) { create :admin }
+    let(:project) { create :project, types: [type] }
+    let(:type) { create :type }
+    let(:status) { create :status }
+    let(:priority) { create :priority }
 
     let(:default_params) do
       { type: type, status: status, project: project, priority: priority }
     end
 
-    let(:parent1) { FactoryBot.create :work_package, default_params.merge(subject: 'Initial phase') }
-    let(:child1_1) { FactoryBot.create :work_package, default_params.merge(parent: parent1, subject: 'Confirmation phase') }
-    let(:child1_2) { FactoryBot.create :work_package, default_params.merge(parent: parent1, subject: 'Initiation') }
-    let(:parent2) { FactoryBot.create :work_package, default_params.merge(subject: 'Execution') }
-    let(:child2_1) { FactoryBot.create :work_package, default_params.merge(parent: parent2, subject: 'Define goal') }
-    let(:child2_2) { FactoryBot.create :work_package, default_params.merge(parent: parent2, subject: 'Specify metrics') }
-    let(:child2_3) { FactoryBot.create :work_package, default_params.merge(parent: parent2, subject: 'Prepare launch') }
-    let(:child2_4) { FactoryBot.create :work_package, default_params.merge(parent: parent2, subject: 'Launch') }
+    let(:parent1) { create :work_package, default_params.merge(subject: 'Initial phase') }
+    let(:child1_1) { create :work_package, default_params.merge(parent: parent1, subject: 'Confirmation phase') }
+    let(:child1_2) { create :work_package, default_params.merge(parent: parent1, subject: 'Initiation') }
+    let(:parent2) { create :work_package, default_params.merge(subject: 'Execution') }
+    let(:child2_1) { create :work_package, default_params.merge(parent: parent2, subject: 'Define goal') }
+    let(:child2_2) { create :work_package, default_params.merge(parent: parent2, subject: 'Specify metrics') }
+    let(:child2_3) { create :work_package, default_params.merge(parent: parent2, subject: 'Prepare launch') }
+    let(:child2_4) { create :work_package, default_params.merge(parent: parent2, subject: 'Launch') }
 
     let(:order) do
       [parent1, child1_1, child1_2, parent2, child2_1, child2_2, child2_3, child2_4]

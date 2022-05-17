@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,35 +36,35 @@ describe ::OpenProject::Bim::BcfXml::Importer do
       'application/octet-stream'
     )
   end
-  let(:type) { FactoryBot.create :type, name: 'Issue', is_standard: true, is_default: true }
+  let(:type) { create :type, name: 'Issue', is_standard: true, is_default: true }
   let(:project) do
-    FactoryBot.create(:project,
-                      identifier: 'bim_project',
-                      enabled_module_names: %w[bim work_package_tracking],
-                      types: [type])
+    create(:project,
+           identifier: 'bim_project',
+           enabled_module_names: %w[bim work_package_tracking],
+           types: [type])
   end
   let(:member_role) do
-    FactoryBot.create(:role,
-                      permissions: %i[view_linked_issues view_work_packages])
+    create(:role,
+           permissions: %i[view_linked_issues view_work_packages])
   end
   let(:manage_bcf_role) do
-    FactoryBot.create(
+    create(
       :role,
       permissions: %i[manage_bcf view_linked_issues view_work_packages edit_work_packages add_work_packages]
     )
   end
-  let(:bcf_manager) { FactoryBot.create(:user) }
+  let(:bcf_manager) { create(:user) }
   let(:workflow) do
-    FactoryBot.create(:workflow_with_default_status,
-                      role: manage_bcf_role,
-                      type: type)
+    create(:workflow_with_default_status,
+           role: manage_bcf_role,
+           type: type)
   end
-  let(:priority) { FactoryBot.create :default_priority }
+  let(:priority) { create :default_priority }
   let(:bcf_manager_member) do
-    FactoryBot.create(:member,
-                      project: project,
-                      user: bcf_manager,
-                      roles: [manage_bcf_role, member_role])
+    create(:member,
+           project: project,
+           user: bcf_manager,
+           roles: [manage_bcf_role, member_role])
   end
 
   subject { described_class.new file, project, current_user: bcf_manager }

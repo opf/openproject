@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,11 +28,11 @@
 
 # Create memberships like this:
 #
-#   project = FactoryBot.create(:project)
-#   user    = FactoryBot.create(:user)
-#   role    = FactoryBot.create(:role, permissions: [:view_wiki_pages, :edit_wiki_pages])
+#   project = create(:project)
+#   user    = create(:user)
+#   role    = create(:role, permissions: [:view_wiki_pages, :edit_wiki_pages])
 #
-#   member = FactoryBot.create(:member, user: user, project: project)
+#   member = create(:member, user: user, project: project)
 #   member.role_ids = [role.id]
 #   member.save!
 #
@@ -47,11 +47,11 @@ FactoryBot.define do
     end
 
     callback(:after_build) do |member, options|
-      member.principal ||= options.user || FactoryBot.build(:user)
+      member.principal ||= options.user || build(:user)
     end
 
     callback(:after_stub) do |member, options|
-      member.principal ||= options.user || FactoryBot.build_stubbed(:user)
+      member.principal ||= options.user || build_stubbed(:user)
     end
   end
 

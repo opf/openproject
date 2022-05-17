@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -106,7 +106,7 @@ module OpenProject::Backlogs
            :backlogs,
            { controller: '/rb_master_backlogs', action: :index },
            caption: :project_module_backlogs,
-           before: :calendar,
+           after: :work_packages,
            icon: 'icon2 icon-backlogs'
 
       menu :project_menu,
@@ -206,8 +206,11 @@ module OpenProject::Backlogs
       ::Type.add_default_mapping(:estimates_and_time, :story_points, :remaining_time)
       ::Type.add_default_mapping(:other, :position)
 
-      Queries::Register.filter Query, OpenProject::Backlogs::WorkPackageFilter
-      Queries::Register.column Query, OpenProject::Backlogs::QueryBacklogsColumn
+      ::Queries::Register.register(::Query) do
+        filter OpenProject::Backlogs::WorkPackageFilter
+
+        column OpenProject::Backlogs::QueryBacklogsColumn
+      end
     end
   end
 end

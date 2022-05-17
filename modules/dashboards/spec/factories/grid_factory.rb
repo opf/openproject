@@ -22,18 +22,18 @@ FactoryBot.define do
     column_count { 4 }
 
     callback(:after_build) do |dashboard|
-      query = FactoryBot.create(:query, project: dashboard.project, hidden: true, is_public: true)
+      query = create(:query, project: dashboard.project, public: true)
 
-      widget = FactoryBot.build(:grid_widget,
-                                identifier: 'work_packages_table',
-                                start_row: 1,
-                                end_row: 7,
-                                start_column: 1,
-                                end_column: 3,
-                                options: {
-                                  name: 'Work package table',
-                                  queryId: query.id
-                                })
+      widget = build(:grid_widget,
+                     identifier: 'work_packages_table',
+                     start_row: 1,
+                     end_row: 7,
+                     start_column: 1,
+                     end_column: 3,
+                     options: {
+                       name: 'Work package table',
+                       queryId: query.id
+                     })
 
       dashboard.widgets = [widget]
     end
@@ -45,16 +45,16 @@ FactoryBot.define do
     column_count { 4 }
 
     callback(:after_build) do |dashboard|
-      widget = FactoryBot.build(:grid_widget,
-                                identifier: 'custom_text',
-                                start_row: 1,
-                                end_row: 7,
-                                start_column: 1,
-                                end_column: 3,
-                                options: {
-                                  name: 'Custom text',
-                                  text: 'Lorem ipsum'
-                                })
+      widget = build(:grid_widget,
+                     identifier: 'custom_text',
+                     start_row: 1,
+                     end_row: 7,
+                     start_column: 1,
+                     end_column: 3,
+                     options: {
+                       name: 'Custom text',
+                       text: 'Lorem ipsum'
+                     })
 
       dashboard.widgets = [widget]
     end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,14 +29,14 @@
 require 'spec_helper'
 
 describe 'Selecting cards in the card view (regression #31962)', js: true do
-  let(:user) { FactoryBot.create(:admin) }
-  let(:project) { FactoryBot.create(:project) }
+  let(:user) { create(:admin) }
+  let(:project) { create(:project) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:cards) { ::Pages::WorkPackageCards.new(project) }
   let(:display_representation) { ::Components::WorkPackages::DisplayRepresentation.new }
-  let(:work_package_1) { FactoryBot.create(:work_package, project: project) }
-  let(:work_package_2) { FactoryBot.create(:work_package, project: project) }
-  let(:work_package_3) { FactoryBot.create(:work_package, project: project) }
+  let(:work_package_1) { create(:work_package, project: project) }
+  let(:work_package_2) { create(:work_package, project: project) }
+  let(:work_package_3) { create(:work_package, project: project) }
 
   before do
     work_package_1

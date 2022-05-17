@@ -71,7 +71,7 @@ cs:
       text_2fa_enabled: 'Při každém přihlášení bude tento uživatel požádán, aby zadal jednorázové heslo z jeho výchozího 2FA zařízení.'
       text_2fa_disabled: "Uživatel si nenastavil 2FA zařízení prostřednictvím stránky 'Můj účet'"
     upsale:
-      title: 'Dvoufaktorové ověření je dostupne v Enterprise verzi'
+      title: 'Dvoufázové ověření'
       description: 'Posilte vaše interní nebo externí autentizační mechanismy pomocí druhého faktoru.'
     backup_codes:
       none_found: Pro tento účet neexistují žádné záložní kódy.
@@ -109,7 +109,7 @@ cs:
       not_existing: 'Žádné 2FA zařízení nebylo zaregistrováno pro váš účet.'
       request_2fa: Zadejte prosím kód z Vašeho %{device_name} pro ověření Vaší identity.
       totp:
-        title: 'Use your app-based authenticator'
+        title: 'Použít autentifikátor založený na aplikaci'
         provisioning_uri: 'Provisioning URI'
         secret_key: 'Tajný klíč'
         time_based: 'Time based'

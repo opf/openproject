@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,30 +29,30 @@
 require 'spec_helper'
 
 describe 'sticky messages', type: :feature do
-  let(:forum) { FactoryBot.create(:forum) }
+  let(:forum) { create(:forum) }
 
   let!(:message1) do
-    FactoryBot.create :message, forum: forum, created_at: Time.now - 1.minute do |message|
+    create :message, forum: forum, created_at: Time.now - 1.minute do |message|
       Message.where(id: message.id).update_all(updated_at: Time.now - 1.minute)
     end
   end
   let!(:message2) do
-    FactoryBot.create :message, forum: forum, created_at: Time.now - 2.minute do |message|
+    create :message, forum: forum, created_at: Time.now - 2.minute do |message|
       Message.where(id: message.id).update_all(updated_at: Time.now - 2.minute)
     end
   end
   let!(:message3) do
-    FactoryBot.create :message, forum: forum, created_at: Time.now - 3.minute do |message|
+    create :message, forum: forum, created_at: Time.now - 3.minute do |message|
       Message.where(id: message.id).update_all(updated_at: Time.now - 3.minute)
     end
   end
 
   let(:user) do
-    FactoryBot.create :user,
-                      member_in_project: forum.project,
-                      member_through_role: role
+    create :user,
+           member_in_project: forum.project,
+           member_through_role: role
   end
-  let(:role) { FactoryBot.create(:role, permissions: [:edit_messages]) }
+  let(:role) { create(:role, permissions: [:edit_messages]) }
 
   before do
     login_as user

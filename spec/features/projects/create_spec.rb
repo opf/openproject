@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,9 +31,9 @@ require 'spec_helper'
 describe 'Projects', 'creation', type: :feature, js: true do
   let(:name_field) { ::FormFields::InputFormField.new :name }
 
-  current_user { FactoryBot.create(:admin) }
+  current_user { create(:admin) }
 
-  shared_let(:project) { FactoryBot.create(:project, name: 'Foo project', identifier: 'foo-project') }
+  shared_let(:project) { create(:project, name: 'Foo project', identifier: 'foo-project') }
 
   before do
     visit projects_path
@@ -64,7 +64,7 @@ describe 'Projects', 'creation', type: :feature, js: true do
   end
 
   context 'with a multi-select custom field' do
-    let!(:list_custom_field) { FactoryBot.create(:list_project_custom_field, name: 'List CF', multi_value: true) }
+    let!(:list_custom_field) { create(:list_project_custom_field, name: 'List CF', multi_value: true) }
     let(:list_field) { ::FormFields::SelectFormField.new list_custom_field }
 
     it 'can create a project' do
@@ -100,12 +100,12 @@ describe 'Projects', 'creation', type: :feature, js: true do
 
   context 'with optional and required custom fields' do
     let!(:optional_custom_field) do
-      FactoryBot.create(:custom_field, name: 'Optional Foo',
+      create(:custom_field, name: 'Optional Foo',
                         type: ProjectCustomField,
                         is_for_all: true)
     end
     let!(:required_custom_field) do
-      FactoryBot.create(:custom_field, name: 'Required Foo',
+      create(:custom_field, name: 'Required Foo',
                         type: ProjectCustomField,
                         is_for_all: true,
                         is_required: true)

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,8 +30,8 @@ require 'spec_helper'
 require_relative 'shared_query_column_specs'
 
 describe Queries::WorkPackages::Columns::RelationToTypeColumn, type: :model do
-  let(:project) { FactoryBot.build_stubbed(:project) }
-  let(:type) { FactoryBot.build_stubbed(:type) }
+  let(:project) { build_stubbed(:project) }
+  let(:type) { build_stubbed(:type) }
   let(:instance) { described_class.new(type) }
   let(:enterprise_token_allows) { true }
 

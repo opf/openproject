@@ -1,0 +1,65 @@
+#English strings go here
+de:
+  permission_view_file_links: "Datei-Links anzeigen"
+  permission_manage_file_links: "Datei-Links verwalten"
+  permission_manage_storages_in_project: "Datei-Speicher im Projekt verwalten"
+  project_module_storages: "Datei-Speicher"
+  activerecord:
+    models:
+      storages/storage: "Speicher"
+    attributes:
+      storages/storage:
+        name: "Name"
+        creator: "Ersteller"
+        provider_type: "Anbieter"
+      storages/file_link:
+        origin_id: "Ursprungs-ID"
+    errors:
+      messages:
+        not_linked_to_project: "ist nicht mit dem Projekt verknüpft."
+      models:
+        storages/storage:
+          attributes:
+            host:
+              cannot_be_connected_to: "kann nicht verbunden werden."
+              minimal_nextcloud_version_unmet: "erfüllt nicht die minimalen Versionsanforderungen (muss Nextcloud 23 oder höher sein)"
+              not_nextcloud_server: "ist kein Nextcloud-Server"
+        storages/file_link:
+          attributes:
+            origin_id:
+              only_numeric_or_uuid: "kann nur numerisch oder uuid sein."
+  api_v3:
+    errors:
+      too_many_elements_created_at_once: "Zu viele Elemente gleichzeitig erstellt. Maximal %{max} erwartet, %{actual} bekommen."
+  storages:
+    page_titles:
+      project_settings:
+        index: "Dateispeicher in diesem Projekt verfügbar"
+        new: "Aktiviere einen Datei-Speicher für dieses Projekt"
+    instructions:
+      name: "Bitte verwenden Sie einen kurzen Namen. Er wird als Tab-Titel in der Arbeitspaket-Ansicht verwendet."
+      host: "Die URL Ihrer Speicher-Instanz. Die URL sollte nicht länger als 255 Zeichen lang sein."
+      no_storage_set_up: "Es wurden noch keine Datei-Speicher eingerichtet."
+      setting_up_additional_storages: "Um zusätzliche Datei-Speicher einzurichten, besuchen Sie bitte"
+      setting_up_additional_storages_non_admin: "Administratoren können zusätzliche Datei-Speicher in Administration / Datei-Speicher einrichten."
+      setting_up_storages: "Zum Einrichten von Datei-Speicher besuchen Sie bitte"
+      setting_up_storages_non_admin: "Administratoren können Datei-Speicher in Administration / Datei-Speicher einrichten."
+      all_available_storages_already_added: "Alle verfügbaren Speicher sind dem Projekt bereits hinzugefügt."
+    delete_warning:
+      storage: >
+        Sind Sie sicher, dass Sie diesen Speicher löschen möchten? Dies löscht auch den Speicher aus allen Projekten, in denen er verwendet wird. Außerdem werden alle Links von Arbeitspaketen zu Dateien gelöscht, die in diesem Speicher gespeichert sind.
+      project_storage: >
+        Sind Sie sicher, dass Sie diesen Datei-Speicher aus diesem Projekt entfernen möchten? Dies wird auch alle Links zu Dateien entfernen, die für dieses Projekt in diesem Speicher gespeichert sind.
+    label_creator: "Ersteller"
+    label_file_link: "Datei-Link"
+    label_file_links: "Datei-Links"
+    label_name: "Name"
+    label_host: "Host"
+    label_provider_type: "Anbieter-Typ"
+    label_new_storage: "Neuer Speicher"
+    label_storage: "Speicher"
+    label_storages: "Speicher"
+    no_results: "Noch kein Speicher eingerichtet."
+    provider_types:
+      label: "Anbieter-Typ"
+      nextcloud: "Nextcloud"

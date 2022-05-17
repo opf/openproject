@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,11 +32,11 @@ require 'services/base_services/behaves_like_update_service'
 describe Projects::UpdateService, type: :model do
   it_behaves_like 'BaseServices update service' do
     let!(:model_instance) do
-      FactoryBot.build_stubbed(:project, status: project_status).tap do |_p|
+      build_stubbed(:project, status: project_status).tap do |_p|
         project_status.clear_changes_information
       end
     end
-    let(:project_status) { FactoryBot.build_stubbed(:project_status) }
+    let(:project_status) { build_stubbed(:project_status) }
 
     it 'sends an update notification' do
       expect(OpenProject::Notifications)

@@ -72,7 +72,7 @@
       text_2fa_enabled: 'Ved hver pålogging vil denne brukeren bli bedt om å legge inn et OTP-token fra sin standard 2FA-enhet.'
       text_2fa_disabled: "Brukeren har ikke satt opp en 2FA-enhet via hans «Min konto side»"
     upsale:
-      title: 'Two-factor authentication is an enterprise feature'
+      title: 'Two-factor authentication'
       description: 'Strenghten your internal or external authentication mechanisms with a second factor.'
     backup_codes:
       none_found: Det finnes ingen sikkerhetskoder for denne kontoen.

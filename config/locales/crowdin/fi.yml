@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -73,6 +73,15 @@ fi:
       start_trial: 'Aloita ilmainen kokeilu'
       book_now: 'Book now'
       get_quote: 'Get a quote'
+      buttons:
+        upgrade: "Upgrade now"
+        contact: "Contact us for a demo"
+      enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
+      upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
+    journal_aggregation:
+      explanation:
+        text: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent and will also affect %{webhook_link} delay."
+        link: "webhook"
   announcements:
     show_until: Näytä tähän päivään asti
     is_active: näkyvissä tällä hetkellä
@@ -161,7 +170,7 @@ fi:
     edit: 'Edit custom action %{name}'
     execute: 'Suorita %{name}'
     upsale:
-      title: 'Custom actions is an Enterprise Edition feature'
+      title: 'Custom actions'
       description: 'Mukautettuja toimintoja tehostaa jokapäiväistä työtä yhdistämällä joukko yksittäisiä vaiheita yhdeksi painiketta.'
   custom_fields:
     text_add_new_custom_field: >
@@ -260,7 +269,7 @@ fi:
       irreversible: "This action is irreversible"
       confirmation: "Enter the placeholder user name %{name} to confirm the deletion."
     upsale:
-      title: Assign work to people that are not members of the project.
+      title: Placeholder users
       description: >
         There are multiple scenarios where you want to assign work to people that are not member of your project. It could simply be that you still need to hire the correct person for the job. Or you just don't want to give that person access to the project's information but still want track tasks assigned to that person.
   prioritiies:
@@ -450,9 +459,12 @@ fi:
         code: 'Tila'
         explanation: 'Tilan kuvaus'
         codes:
+          not_started: 'Not started'
           on_track: 'Hyvä'
           at_risk: 'Rajalla'
           off_track: 'Huono'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
       query:
         column_names: "Sarakkeet"
         relations_to_type_column: "Riippuvuus %{type}"
@@ -463,7 +475,6 @@ fi:
       repository:
         url: "URL"
       role:
-        assignable: "Toimia paketti voidaan määrittää käyttäjät ja ryhmät hallussaan tämä rooli kunkin projekti"
         permissions: "Oikeudet"
       time_entry:
         activity: "Tapahtumat"
@@ -554,6 +565,7 @@ fi:
         even: "täytyy olla parillinen."
         exclusion: "on jo varattu."
         file_too_large: "on liian suuri (suurin sallittu koko on %{count} tavua)."
+        filter_does_not_exist: "filter does not exist."
         format: "does not match the expected format '%{expected}'."
         format_nested: "does not match the expected format '%{expected}' at path '%{path}'."
         greater_than: "täytyy olla suurempi kuin %{count}."
@@ -858,7 +870,7 @@ fi:
     id: "ID"
     is_default: "Oletusarvo"
     is_for_all: "Kaikille projekteille"
-    is_public: "Julkinen"
+    public: "Julkinen"
     #kept for backwards compatibility
     issue: "Työpaketti"
     lastname: "Sukunimi"
@@ -868,7 +880,6 @@ fi:
     password: "Salasana"
     priority: "Prioriteetti"
     project: "Projekti"
-    public: "Julkinen"
     responsible: "Vastuuhenkilö"
     role: "Rooli"
     roles: "Roolit"
@@ -882,6 +893,7 @@ fi:
     updated_on: "Päivitetty"
     uploader: "Uploader"
     user: "Käyttäjä"
+    value: "Value"
     version: "Versio"
     work_package: "Työpaketti"
   backup:
@@ -1223,6 +1235,7 @@ fi:
   error_enterprise_token_invalid_domain: "The Enterprise Edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: 'Tämän merkinnän poisto ei onnistunut.'
   error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
+  error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Invalid selected value."
   error_journal_attribute_not_present: "Journal does not contain attribute %{attribute}."
   error_pdf_export_too_many_columns: "Liikaa sarakkeita valittuina PDF-vientiin. Pienennä sarakkeiden määrää."
@@ -1332,7 +1345,9 @@ fi:
   menus:
     admin:
       mail_notification: "Sähköposti-ilmoitukset"
-      incoming_outgoing: "Incoming & Outgoing"
+      mails_and_notifications: "Emails and notification"
+      aggregation_and_retention: 'Aggregation and retention'
+      api_and_webhooks: "API and webhooks"
     quick_add:
       label: "Open quick add menu"
   my_account:
@@ -1626,6 +1641,10 @@ fi:
   label_member_plural: "Jäsenet"
   lable_membership_added: 'Member added'
   lable_membership_updated: 'Member updated'
+  label_menu_badge:
+    pre_alpha: 'pre-alpha'
+    alpha: 'alpha'
+    beta: 'beta'
   label_menu_item_name: "Valinnan nimi"
   label_message: "Vesti"
   label_message_last: "Viimeisin viesti"
@@ -1731,7 +1750,6 @@ fi:
   label_public_projects: "Julkiset projektit"
   label_query_new: "Uusi haku"
   label_query_plural: "Räätälöidyt haut"
-  label_query_menu_item: "Kysely-valikkovaihtoehto"
   label_read: "Lue..."
   label_register: "Rekisteröidy"
   label_register_with_developer: "Rekisteröidy kehittäjänä"
@@ -1829,7 +1847,7 @@ fi:
   label_used_by_types: "Used by types"
   label_used_in_projects: "Käytetty projekteissa"
   label_user: "Käyttäjä"
-  label_user_and_permission: "Käyttäjät & Oikeudet"
+  label_user_and_permission: "Users and permissions"
   label_user_named: "Käyttäjä %{name}"
   label_user_activity: "Käyttäjän %{value} historia"
   label_user_anonymous: "Anonyymi"
@@ -1979,7 +1997,7 @@ fi:
   mail_body_backup_waiting_period: The new token will be enabled in %{hours} hours.
   mail_body_backup_token_warning: If this wasn't you, login to OpenProject immediately and reset it again.
   mail_body_lost_password: "Vaihtaaksesi salasanasi, napsauta seuraavaa linkkiä:"
-  mail_body_register: "Ole hyvä ja aktivoi tilisi alla olevalla linkillä:"
+  mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "Kutsu projektin jäseneksi"
   mail_body_register_user: "Hyvä %{name},"
   mail_body_register_links_html: |
@@ -2122,7 +2140,7 @@ fi:
     heading_getting_started: "Yleiskatsaus"
     text_getting_started_description: "Get a quick overview of project management and team collaboration with OpenProject."
     text_show_again: "Voit käynnistää tämä videon uudelleen ohjeet-valikosta"
-    welcome: "Tervetuloa OpenProjectiin"
+    welcome: "Welcome to %{app_title}"
     select_language: "Valitse kieli"
   permission_add_work_package_notes: "Lisää kommentteja"
   permission_add_work_packages: "Lisää tehtävä"
@@ -2138,6 +2156,7 @@ fi:
   permission_comment_news: "Kommentoi uutisia"
   permission_commit_access: "Tee pääsyoikeus"
   permission_copy_projects: "Kopioi projekteja"
+  permission_create_backup: "Create backup"
   permission_delete_work_package_watchers: "Poista seuraajia"
   permission_delete_work_packages: "Poista tehtäviä"
   permission_delete_messages: "Poista viestit"
@@ -2180,7 +2199,6 @@ fi:
   permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Valitse projektin modulit"
   permission_manage_types: "Valitse tyypit"
-  permission_view_calendar: "Näytä kalenteri"
   permission_view_changesets: "Näytä muutosryhmät"
   permission_view_commit_author_statistics: "Tarkastele tilastoja tekijöistä"
   permission_view_work_package_watchers: "Tarkastele seuraajien luetteloa"
@@ -2192,6 +2210,8 @@ fi:
   permission_view_timelines: "Tarkastele aikajanoja"
   permission_view_wiki_edits: "Näytä wiki historia"
   permission_view_wiki_pages: "Näytä wiki"
+  permission_work_package_assigned: "Become assignee/responsible"
+  permission_work_package_assigned_explanation: "Toimia paketti voidaan määrittää käyttäjät ja ryhmät hallussaan tämä rooli kunkin projekti"
   placeholders:
     default: "-"
   project:
@@ -2216,7 +2236,6 @@ fi:
       archived: "Archived"
   project_module_activity: "Tapahtumat"
   project_module_forums: "Keskustelupalstat"
-  project_module_calendar: "Kalenteri"
   project_module_work_package_tracking: "Tehtävien seuranta"
   project_module_news: "Uutiset"
   project_module_repository: "Tietovarasto"
@@ -2230,7 +2249,7 @@ fi:
     assigned_to_role: "Työn suorittajan rooli"
     member_of_group: "Työn suorittajan ryhmä"
     assignee_or_group: "Työn suorittaja tai kuuluu ryhmään"
-    subproject_id: "Including Subproject"
+    subproject_id: "Including subproject"
     only_subproject_id: "Only subproject"
     name_or_identifier: "Name or identifier"
   repositories:
@@ -2554,7 +2573,6 @@ fi:
   text_work_packages_destroy_confirmation: "Are you sure you want to delete the selected work package(s)?"
   text_work_packages_ref_in_commit_messages: "Vertailemalla ja korjaus toimia paketit sitoutua viestejä"
   text_journal_added: "%{label} %{value} lisätty"
-  text_journal_aggregation_time_explanation: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent."
   text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
   text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label} päivitetty"
@@ -2845,7 +2863,6 @@ fi:
   wiki_menu_item_new_main_item_explanation: >
     Sinä olet poistat vain tärkeimmät wiki valikosta. Sinun täytyy nyt valita wiki sivu joista tärkein uusi kohde luodaan. Poistaa wiki wiki moduuli voidaan kytkeä pois päältä hankkeen ylläpitäjät.
   wiki_menu_item_delete_not_permitted: Wiki valikosta vain wiki sivu voi olla Poistetaan.
-  query_menu_item_for: "Menu item for query \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
@@ -2870,6 +2887,7 @@ fi:
         work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:
         date: "YYYY-MM-DD (ISO 8601 date only)"
+        datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm] (any compatible ISO 8601 datetime)"
         duration: "ISO 8601 duration"
       invalid_content_type: "Expected CONTENT-TYPE to be '%{content_type}' but got '%{actual}'."
       invalid_format: "Invalid format for property '%{property}': Expected format like '%{expected_format}', but got '%{actual}'."
@@ -2881,6 +2899,7 @@ fi:
         select: "The requested select of %{invalid} is not supported. Supported selects are %{supported}."
       invalid_user_status_transition: "Nykyisen käyttäjän tilin tila ei salli tätä operaatio."
       missing_content_type: "not specified"
+      missing_property: "Missing property '%{property}'."
       missing_request_body: "Ei ollut pyyntö kehon."
       missing_or_malformed_parameter: "Kyselyparametri \"%{parameter}\" puuttuu tai on virheellinen."
       multipart_body_error: "Pyynnön elin ei sisällä odotettavissa moniosaisia osat."
@@ -2904,6 +2923,7 @@ fi:
       schema: 'Schema'
     undisclosed:
       parent: Undisclosed - The selected parent is invisible because of lacking permissions.
+      ancestor: Undisclosed - The ancestor is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 'Pre-authorization'

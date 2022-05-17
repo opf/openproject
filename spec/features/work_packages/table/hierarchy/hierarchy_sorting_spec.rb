@@ -1,46 +1,46 @@
 require 'spec_helper'
 
 describe 'Work Package table hierarchy and sorting', js: true do
-  let(:user) { FactoryBot.create :admin }
-  let(:project) { FactoryBot.create(:project) }
+  let(:user) { create :admin }
+  let(:project) { create(:project) }
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:hierarchy) { ::Components::WorkPackages::Hierarchies.new }
   let(:sort_by) { ::Components::WorkPackages::SortBy.new }
 
   let!(:wp_root) do
-    FactoryBot.create :work_package,
-                      project: project,
-                      subject: 'Parent',
-                      start_date: Date.today - 10.days,
-                      due_date: Date.today
+    create :work_package,
+           project: project,
+           subject: 'Parent',
+           start_date: Date.today - 10.days,
+           due_date: Date.today
   end
 
   let!(:wp_child1) do
-    FactoryBot.create :work_package,
-                      project: project,
-                      parent: wp_root,
-                      subject: 'Child at end',
-                      start_date: Date.today - 2.days,
-                      due_date: Date.today
+    create :work_package,
+           project: project,
+           parent: wp_root,
+           subject: 'Child at end',
+           start_date: Date.today - 2.days,
+           due_date: Date.today
   end
 
   let!(:wp_child2) do
-    FactoryBot.create :work_package,
-                      project: project,
-                      parent: wp_root,
-                      subject: 'Middle child',
-                      start_date: Date.today - 5.days,
-                      due_date: Date.today - 3.days
+    create :work_package,
+           project: project,
+           parent: wp_root,
+           subject: 'Middle child',
+           start_date: Date.today - 5.days,
+           due_date: Date.today - 3.days
   end
 
   let!(:wp_child3) do
-    FactoryBot.create :work_package,
-                      project: project,
-                      parent: wp_root,
-                      subject: 'Child at beginning',
-                      start_date: Date.today - 10.days,
-                      due_date: Date.today - 9.days
+    create :work_package,
+           project: project,
+           parent: wp_root,
+           subject: 'Child at beginning',
+           start_date: Date.today - 10.days,
+           due_date: Date.today - 9.days
   end
 
   before do

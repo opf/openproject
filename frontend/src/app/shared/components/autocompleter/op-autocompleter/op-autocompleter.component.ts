@@ -1,27 +1,33 @@
+/* We just forward the ng-select outputs without renaming */
+/* eslint-disable @angular-eslint/no-output-native */
 import {
   AfterViewInit,
-  OnChanges,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ContentChild,
   EventEmitter,
+  HostBinding,
   Input,
   NgZone,
+  OnChanges,
+  OnInit,
   Output,
+  SimpleChanges,
   TemplateRef,
   ViewChild,
-  SimpleChanges,
-  HostBinding,
 } from '@angular/core';
-import { DropdownPosition, NgSelectComponent } from '@ng-select/ng-select';
 import {
-  Observable,
+  DropdownPosition,
+  NgSelectComponent,
+} from '@ng-select/ng-select';
+import {
+  BehaviorSubject,
+  merge,
   NEVER,
+  Observable,
   of,
   Subject,
-  merge,
-  BehaviorSubject,
 } from 'rxjs';
 import {
   debounceTime,
@@ -55,7 +61,7 @@ import { OpAutocompleterOptionTemplateDirective } from './directives/op-autocomp
 // it has all inputs and outputs of ng-select
 // in order to use it, you only need to pass the data type and its filters
 // you also can change the value of ng-select default options by changing @inputs and @outputs
-export class OpAutocompleterComponent extends UntilDestroyedMixin implements AfterViewInit, OnChanges {
+export class OpAutocompleterComponent extends UntilDestroyedMixin implements OnInit, AfterViewInit, OnChanges {
   @HostBinding('class.op-autocompleter') className = true;
 
   @Input() public filters?:IAPIFilter[] = [];
@@ -108,15 +114,15 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
 
   @Input() public markFirst ? = true;
 
-  @Input() public placeholder?:string = this.I18n.t('js.autocompleter.placeholder');
+  @Input() public placeholder:string = this.I18n.t('js.autocompleter.placeholder');
 
-  @Input() public notFoundText?:string = this.I18n.t('js.autocompleter.notFoundText');
+  @Input() public notFoundText:string = this.I18n.t('js.autocompleter.notFoundText');
 
-  @Input() public typeToSearchText?:string = this.I18n.t('js.autocompleter.typeToSearchText');
+  @Input() public typeToSearchText:string = this.I18n.t('js.autocompleter.typeToSearchText');
 
   @Input() public addTagText?:string;
 
-  @Input() public loadingText?:string;
+  @Input() public loadingText:string = this.I18n.t('js.ajax.loading');
 
   @Input() public clearAllText?:string;
 
@@ -125,8 +131,6 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
   @Input() public dropdownPosition?:DropdownPosition = 'auto';
 
   @Input() public appendTo?:string;
-
-  @Input() public loading?:boolean = false;
 
   @Input() public closeOnSelect?:boolean = true;
 
@@ -138,7 +142,7 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
 
   @Input() public maxSelectedItems?:number;
 
-  @Input() public groupBy?:string | Function;
+  @Input() public groupBy?:string|(() => string);
 
   @Input() public groupValue?:GroupValueFn;
 
@@ -170,28 +174,31 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
 
   @Input() public editableSearchTerm?:boolean = false;
 
-  @Input() public keyDownFn ? = (_:KeyboardEvent) => true;
+  @Input() public keyDownFn ? = ():boolean => true;
 
   @Input() public typeahead:BehaviorSubject<string|null> = new BehaviorSubject(null);
 
+  // We only bind the typeahead to ng-select if we filter values from the backend
+  public boundTypeahead:Subject<string|null>;
+
   // a function for setting the options of ng-select
-  @Input() public getOptionsFn:(searchTerm:string) => any;
+  @Input() public getOptionsFn:(searchTerm:string) => Observable<unknown>;
 
-  @Output() public open = new EventEmitter<any>();
+  @Output() public open = new EventEmitter<unknown>();
 
-  @Output() public close = new EventEmitter<any>();
+  @Output() public close = new EventEmitter<unknown>();
 
-  @Output() public change = new EventEmitter<any>();
+  @Output() public change = new EventEmitter<unknown>();
 
-  @Output() public focus = new EventEmitter<any>();
+  @Output() public focus = new EventEmitter<unknown>();
 
-  @Output() public blur = new EventEmitter<any>();
+  @Output() public blur = new EventEmitter<unknown>();
 
-  @Output() public search = new EventEmitter<{ term:string, items:any[] }>();
+  @Output() public search = new EventEmitter<{ term:string, items:unknown[] }>();
 
-  @Output() public keydown = new EventEmitter<any>();
+  @Output() public keydown = new EventEmitter<unknown>();
 
-  @Output() public clear = new EventEmitter<any>();
+  @Output() public clear = new EventEmitter<unknown>();
 
   @Output() public add = new EventEmitter();
 
@@ -205,11 +212,9 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
 
   public active:Set<string>;
 
-  public results$:any;
+  public results$:Observable<unknown>;
 
   public loading$ = new Subject<boolean>();
-
-  public isLoading = false;
 
   @ViewChild('ngSelectInstance') ngSelectInstance:NgSelectComponent;
 
@@ -234,7 +239,13 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
     super();
   }
 
-  ngOnChanges(changes:SimpleChanges) {
+  ngOnInit() {
+    if (!!this.getOptionsFn || this.defaultData) {
+      this.boundTypeahead = this.typeahead;
+    }
+  }
+
+  ngOnChanges(changes:SimpleChanges):void {
     if (changes.items) {
       this.items$.next(changes.items.currentValue);
     }
@@ -300,10 +311,8 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
   }
 
   public opened(_:unknown) { // eslint-disable-line no-unused-vars
-    if (this.openDirectly) {
-      this.typeahead.next('');
-    }
-    
+    // Re-search for empty value as search value gets removed
+    this.typeahead.next('');
     this.repositionDropdown();
     this.open.emit();
   }

@@ -115,8 +115,8 @@ hu:
     no_results: "A projektbe nem töltöttek fel IFC modelleket."
     conversion_status:
       label: 'Indulhat a feldolgozás?'
-      pending: 'Pending'
-      processing: 'Processing'
+      pending: 'Függő'
+      processing: 'Feldolgozás alatt'
       completed: 'Befejeződött'
       error: 'Hiba'
     processing_notice:

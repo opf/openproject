@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,14 +29,14 @@
 require 'spec_helper'
 
 describe 'users/show', type: :view do
-  let(:project)    { FactoryBot.create :valid_project }
-  let(:user)       { FactoryBot.create :admin, member_in_project: project }
-  let(:custom_field) { FactoryBot.create :text_user_custom_field }
+  let(:project)    { create :valid_project }
+  let(:user)       { create :admin, member_in_project: project }
+  let(:custom_field) { create :text_user_custom_field }
   let(:visibility_custom_value) do
-    FactoryBot.create(:principal_custom_value,
-                      customized: user,
-                      custom_field: custom_field,
-                      value: 'TextUserCustomFieldValue')
+    create(:principal_custom_value,
+           customized: user,
+           custom_field: custom_field,
+           value: 'TextUserCustomFieldValue')
   end
 
   before do

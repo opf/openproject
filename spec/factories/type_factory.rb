@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,7 +36,7 @@ FactoryBot.define do
 
     factory :type_with_workflow, class: 'Type' do
       callback(:after_build) do |t|
-        t.workflows = [FactoryBot.build(:workflow_with_default_status)]
+        t.workflows = [build(:workflow_with_default_status)]
       end
     end
 
@@ -46,7 +46,7 @@ FactoryBot.define do
       end
 
       callback(:after_build) do |t, evaluator|
-        query = FactoryBot.create(:query)
+        query = create(:query)
         query.add_filter(evaluator.relation_filter.to_s, '=', [::Queries::Filters::TemplatedValue::KEY])
         query.save
         t.attribute_groups = t.default_attribute_groups + [["Embedded table for #{evaluator.relation_filter}",

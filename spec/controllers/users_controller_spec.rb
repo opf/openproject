@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,15 +30,15 @@ require 'spec_helper'
 require 'work_package'
 
 describe UsersController, type: :controller do
-  shared_let(:admin) { FactoryBot.create :admin }
+  shared_let(:admin) { create :admin }
   shared_let(:anonymous) { User.anonymous }
 
   shared_let(:user_password) { 'bob!' * 4 }
   shared_let(:user) do
-    FactoryBot.create :user,
-                      login: 'bob',
-                      password: user_password,
-                      password_confirmation: user_password
+    create :user,
+           login: 'bob',
+           password: user_password,
+           password_confirmation: user_password
   end
 
   describe 'GET new' do
@@ -198,10 +198,10 @@ describe UsersController, type: :controller do
   end
 
   describe 'POST resend_invitation' do
-    let(:invited_user) { FactoryBot.create :invited_user }
+    let(:invited_user) { create :invited_user }
 
     context 'without admin rights' do
-      let(:normal_user) { FactoryBot.create :user }
+      let(:normal_user) { create :user }
 
       before do
         as_logged_in_user normal_user do
@@ -334,7 +334,7 @@ describe UsersController, type: :controller do
       describe "WHEN the current user is the admin
                 WHEN the given password does not match
                 WHEN the setting users_deletable_by_admins is set to true" do
-        shared_let(:admin) { FactoryBot.create :admin }
+        shared_let(:admin) { create :admin }
 
         before do
           disable_flash_sweep
@@ -372,7 +372,7 @@ describe UsersController, type: :controller do
 
       describe "WHEN the current user is the admin
                 WHEN the setting users_deletable_by_admins is set to false" do
-        shared_let(:admin) { FactoryBot.create :admin }
+        shared_let(:admin) { create :admin }
 
         before do
           disable_flash_sweep
@@ -390,7 +390,7 @@ describe UsersController, type: :controller do
 
   describe '#change_status_info' do
     let!(:registered_user) do
-      FactoryBot.create(:user, status: User.statuses[:registered])
+      create(:user, status: User.statuses[:registered])
     end
 
     before do
@@ -443,7 +443,7 @@ describe UsersController, type: :controller do
            } do
     describe 'WHEN activating a registered user' do
       let!(:registered_user) do
-        FactoryBot.create(:user, status: User.statuses[:registered],
+        create(:user, status: User.statuses[:registered],
                                  language: 'de')
       end
 
@@ -525,7 +525,7 @@ describe UsersController, type: :controller do
     end
 
     context 'with a group filter' do
-      let(:group) { FactoryBot.create(:group, members: [user]) }
+      let(:group) { create(:group, members: [user]) }
 
       let(:params) do
         { group_id: group.id }
@@ -643,11 +643,11 @@ describe UsersController, type: :controller do
       current_user { admin }
 
       let(:user) do
-        FactoryBot.create(:user,
-                          firstname: 'Firstname',
-                          admin: true,
-                          login: 'testlogin',
-                          force_password_change: false)
+        create(:user,
+               firstname: 'Firstname',
+               admin: true,
+               login: 'testlogin',
+               force_password_change: false)
       end
       let(:params) do
         {
@@ -733,7 +733,7 @@ describe UsersController, type: :controller do
     end
 
     context 'with external authentication' do
-      let(:user) { FactoryBot.create(:user, identity_url: 'some:identity') }
+      let(:user) { create(:user, identity_url: 'some:identity') }
 
       before do
         as_logged_in_user(admin) do
@@ -748,7 +748,7 @@ describe UsersController, type: :controller do
     end
 
     context 'ldap auth source' do
-      let(:ldap_auth_source) { FactoryBot.create(:ldap_auth_source) }
+      let(:ldap_auth_source) { create(:ldap_auth_source) }
 
       it 'switchting to internal authentication on a password change' do
         user.auth_source = ldap_auth_source
@@ -848,7 +848,7 @@ describe UsersController, type: :controller do
       context 'when the user is locked for an non admin' do
         let(:current_user) do
           user.locked!
-          FactoryBot.create(:user)
+          create(:user)
         end
 
         it 'responds with 200' do
@@ -876,37 +876,37 @@ describe UsersController, type: :controller do
       render_views
 
       let(:work_package) do
-        FactoryBot.create(:work_package,
-                          author: user)
+        create(:work_package,
+               author: user)
       end
       let!(:member) do
-        FactoryBot.create(:member,
-                          project: work_package.project,
-                          principal: user,
-                          roles: [FactoryBot.create(:role,
-                                                    permissions: [:view_work_packages])])
+        create(:member,
+               project: work_package.project,
+               principal: user,
+               roles: [create(:role,
+                              permissions: [:view_work_packages])])
       end
       let!(:journal_1) do
-        FactoryBot.create(:work_package_journal,
-                          user: user,
-                          journable_id: work_package.id,
-                          version: Journal.maximum(:version) + 1,
-                          data: FactoryBot.build(:journal_work_package_journal,
-                                                 subject: work_package.subject,
-                                                 status_id: work_package.status_id,
-                                                 type_id: work_package.type_id,
-                                                 project_id: work_package.project_id))
+        create(:work_package_journal,
+               user: user,
+               journable_id: work_package.id,
+               version: Journal.maximum(:version) + 1,
+               data: build(:journal_work_package_journal,
+                           subject: work_package.subject,
+                           status_id: work_package.status_id,
+                           type_id: work_package.type_id,
+                           project_id: work_package.project_id))
       end
       let!(:journal_2) do
-        FactoryBot.create(:work_package_journal,
-                          user: user,
-                          journable_id: work_package.id,
-                          version: Journal.maximum(:version) + 1,
-                          data: FactoryBot.build(:journal_work_package_journal,
-                                                 subject: work_package.subject,
-                                                 status_id: work_package.status_id,
-                                                 type_id: work_package.type_id,
-                                                 project_id: work_package.project_id))
+        create(:work_package_journal,
+               user: user,
+               journable_id: work_package.id,
+               version: Journal.maximum(:version) + 1,
+               data: build(:journal_work_package_journal,
+                           subject: work_package.subject,
+                           status_id: work_package.status_id,
+                           type_id: work_package.type_id,
+                           project_id: work_package.project_id))
       end
 
       before do

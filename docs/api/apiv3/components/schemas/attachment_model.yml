@@ -38,7 +38,7 @@ properties:
     description: The files MIME-Type as determined by the server
     readOnly: true
   digest:
-    type: digest
+    type: string
     description: A checksum for the files content
     readOnly: true
   createdAt:

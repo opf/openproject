@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,20 +32,20 @@ require_relative '../support/pages/dashboard'
 
 describe 'Subprojects widget on dashboard', type: :feature, js: true do
   let!(:project) do
-    FactoryBot.create(:project, parent: parent_project)
+    create(:project, parent: parent_project)
   end
 
   let!(:child_project) do
-    FactoryBot.create(:project, parent: project)
+    create(:project, parent: project)
   end
   let!(:invisible_child_project) do
-    FactoryBot.create(:project, parent: project)
+    create(:project, parent: project)
   end
   let!(:grandchild_project) do
-    FactoryBot.create(:project, parent: child_project)
+    create(:project, parent: child_project)
   end
   let!(:parent_project) do
-    FactoryBot.create(:project)
+    create(:project)
   end
 
   let(:permissions) do
@@ -54,15 +54,15 @@ describe 'Subprojects widget on dashboard', type: :feature, js: true do
   end
 
   let(:role) do
-    FactoryBot.create(:role, permissions: permissions)
+    create(:role, permissions: permissions)
   end
 
   let(:user) do
-    FactoryBot.create(:user).tap do |u|
-      FactoryBot.create(:member, project: project, roles: [role], user: u)
-      FactoryBot.create(:member, project: child_project, roles: [role], user: u)
-      FactoryBot.create(:member, project: grandchild_project, roles: [role], user: u)
-      FactoryBot.create(:member, project: parent_project, roles: [role], user: u)
+    create(:user).tap do |u|
+      create(:member, project: project, roles: [role], user: u)
+      create(:member, project: child_project, roles: [role], user: u)
+      create(:member, project: grandchild_project, roles: [role], user: u)
+      create(:member, project: parent_project, roles: [role], user: u)
     end
   end
   let(:dashboard_page) do

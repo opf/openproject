@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,32 +31,32 @@ require 'spec_helper'
 require_relative '../support/pages/meetings/index'
 
 describe 'Meetings', type: :feature do
-  let(:project) { FactoryBot.create :project, enabled_module_names: %w[meetings] }
-  let(:other_project) { FactoryBot.create :project, enabled_module_names: %w[meetings] }
-  let(:role) { FactoryBot.create(:role, permissions: permissions) }
+  let(:project) { create :project, enabled_module_names: %w[meetings] }
+  let(:other_project) { create :project, enabled_module_names: %w[meetings] }
+  let(:role) { create(:role, permissions: permissions) }
   let(:permissions) { %i(view_meetings) }
   let(:user) do
-    FactoryBot.create(:user) do |user|
+    create(:user) do |user|
       [project, other_project].each do |p|
-        FactoryBot.create(:member,
-                          project: p,
-                          principal: user,
-                          roles: [role])
+        create(:member,
+               project: p,
+               principal: user,
+               roles: [role])
       end
     end
   end
 
   let(:meeting) do
-    FactoryBot.create :meeting, project: project, title: 'Awesome meeting today!', start_time: Time.now
+    create :meeting, project: project, title: 'Awesome meeting today!', start_time: Time.now
   end
   let(:tomorrows_meeting) do
-    FactoryBot.create :meeting, project: project, title: 'Awesome meeting tomorrow!', start_time: Time.now + 1.day
+    create :meeting, project: project, title: 'Awesome meeting tomorrow!', start_time: Time.now + 1.day
   end
   let(:yesterdays_meeting) do
-    FactoryBot.create :meeting, project: project, title: 'Awesome meeting yesterday!', start_time: Time.now - 1.day
+    create :meeting, project: project, title: 'Awesome meeting yesterday!', start_time: Time.now - 1.day
   end
   let!(:other_project_meeting) do
-    FactoryBot.create :meeting, project: other_project, title: 'Awesome other project meeting!'
+    create :meeting, project: other_project, title: 'Awesome other project meeting!'
   end
   let(:meetings_page) { Pages::Meetings::Index.new(project) }
 

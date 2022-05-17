@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,14 +31,14 @@ require 'spec_helper'
 require 'support/shared/acts_as_watchable'
 
 describe WorkPackage, type: :model do
-  let(:project) { FactoryBot.create(:project) }
+  let(:project) { create(:project) }
   let(:work_package) do
-    FactoryBot.create(:work_package,
-                      project: project)
+    create(:work_package,
+           project: project)
   end
 
   it_behaves_like 'acts_as_watchable included' do
-    let(:model_instance) { FactoryBot.create(:work_package) }
+    let(:model_instance) { create(:work_package) }
     let(:watch_permission) { :view_work_packages }
     let(:project) { model_instance.project }
   end

@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,19 +32,28 @@ module OpenProject
       class << self
         def register!
           # Listen to enqueues
-          ActiveSupport::Notifications.subscribe(/enqueue(_at)?\.active_job/) do |_name, job:, **_args|
+          ActiveSupport::Notifications.subscribe(/enqueue(_at)?\.active_job/) do |_name, _started, _call, _id, payload|
+            job = payload[:job]
+            next unless job
+
             Rails.logger.debug { "Enqueuing background job #{job.inspect}" }
             for_statused_jobs(job) { create_job_status(job) }
           end
 
           # Start of process
-          ActiveSupport::Notifications.subscribe('perform_start.active_job') do |job:, **_args|
+          ActiveSupport::Notifications.subscribe('perform_start.active_job') do |_name, _started, _call, _id, payload|
+            job = payload[:job]
+            next unless job
+
             Rails.logger.debug { "Background job #{job.inspect} is being started" }
             for_statused_jobs(job) { on_start(job) }
           end
 
           # Complete, or failure
-          ActiveSupport::Notifications.subscribe('perform.active_job') do |job:, exception_object: nil, **_args|
+          ActiveSupport::Notifications.subscribe('perform.active_job') do |_name, _started, _call, _id, payload|
+            job = payload[:job]
+            exception_object = payload[:exception_object]
+
             Rails.logger.debug do
               successful = exception_object ? "with error #{exception_object}" : "successful"
               "Background job #{job.inspect} was performed #{successful}."
@@ -56,19 +63,28 @@ module OpenProject
           end
 
           # Retry stopped -> failure
-          ActiveSupport::Notifications.subscribe('retry_stopped.active_job') do |job:, error: nil, **_args|
+          ActiveSupport::Notifications.subscribe('retry_stopped.active_job') do |_name, _started, _call, _id, payload|
+            job = payload[:job]
+            error = payload[:error]
+
             Rails.logger.debug { "Background job #{job.inspect} no longer retrying due to: #{error}" }
             for_statused_jobs(job) { on_performed(job, error) }
           end
 
           # Retry enqueued
-          ActiveSupport::Notifications.subscribe('enqueue_retry.active_job') do |job, error: nil, **_args|
+          ActiveSupport::Notifications.subscribe('enqueue_retry.active_job') do |_name, _started, _call, _id, payload|
+            job = payload[:job]
+            error = payload[:error]
+
             Rails.logger.debug { "Background job #{job.inspect} is being retried after error: #{error}" }
             for_statused_jobs(job) { on_requeue(job, error) }
           end
 
           # Discarded job
-          ActiveSupport::Notifications.subscribe('discard.active_job') do |job:, error: nil, **_args|
+          ActiveSupport::Notifications.subscribe('discard.active_job') do |_name, _started, _call, _id, payload|
+            job = payload[:job]
+            error = payload[:error]
+
             Rails.logger.debug { "Background job #{job.inspect} is being discarded after error: #{error}" }
             for_statused_jobs(job) { on_cancelled(job, error) }
           end

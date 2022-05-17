@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,13 +29,13 @@
 require 'spec_helper'
 require 'features/categories/categories_page'
 
-describe 'Deletion', type: :feature do
+describe 'Deletion', type: :feature, js: true do
   let(:current_user) do
-    FactoryBot.create :user,
-                      member_in_project: category.project,
-                      member_with_permissions: %i[manage_categories]
+    create :user,
+           member_in_project: category.project,
+           member_with_permissions: %i[manage_categories]
   end
-  let(:category) { FactoryBot.create :category }
+  let(:category) { create :category }
   let(:categories_page) { CategoriesPage.new(category.project) }
   let(:delete_button) { 'a.icon-delete' }
   let(:confirm_deletion_button) { 'input[type="submit"]' }
@@ -46,9 +46,9 @@ describe 'Deletion', type: :feature do
     before do
       categories_page.visit_settings
 
-      expect(page).to have_selector(delete_button)
-
       find(delete_button).click
+
+      page.driver.browser.switch_to.alert.accept
     end
   end
 
@@ -66,9 +66,9 @@ describe 'Deletion', type: :feature do
 
   describe 'with work package' do
     let!(:work_package) do
-      FactoryBot.create :work_package,
-                        project: category.project,
-                        category: category
+      create :work_package,
+             project: category.project,
+             category: category
     end
 
     include_context 'delete category'

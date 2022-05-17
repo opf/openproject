@@ -39,7 +39,7 @@ module Projects
 
     def deactivate_class_on_lft_sort
       if sorted_by_lft?
-        'op-link_inactive'
+        'spot-link_inactive'
       end
     end
 

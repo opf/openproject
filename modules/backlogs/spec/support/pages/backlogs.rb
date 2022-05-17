@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -150,21 +150,7 @@ module Pages
       moved_element = find(story_selector(moved))
       target_element = find(story_selector(target))
 
-      page
-        .driver
-        .browser
-        .action
-        .move_to(moved_element.native)
-        .click_and_hold(moved_element.native)
-        .perform
-
-      page
-        .driver
-        .browser
-        .action
-        .move_to(target_element.native, 0, before ? +10 : +20)
-        .release
-        .perform
+      drag_n_drop_element from: moved_element, to: target_element, offset_x: 0, offset_y: before ? +10 : +20
     end
 
     def fold_backlog(backlog)

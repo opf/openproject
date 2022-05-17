@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,30 +30,30 @@ require 'spec_helper'
 
 describe 'Query name inline edit', js: true do
   let(:user) do
-    FactoryBot.create(:user,
-                      member_in_project: project,
-                      member_through_role: role)
+    create(:user,
+           member_in_project: project,
+           member_through_role: role)
   end
-  let(:project) { FactoryBot.create(:project) }
+  let(:project) { create(:project) }
   let(:type) { project.types.first }
   let(:role) do
-    FactoryBot.create(:role,
-                      permissions: %i[view_work_packages
-                                      save_queries])
+    create(:role,
+           permissions: %i[view_work_packages
+                           save_queries])
   end
 
   let(:work_package) do
-    FactoryBot.create(:work_package,
-                      project: project,
-                      assigned_to: user,
-                      type: type)
+    create(:work_package,
+           project: project,
+           assigned_to: user,
+           type: type)
   end
 
   let(:assignee_query) do
-    query = FactoryBot.create(:query,
-                              name: 'Assignee Query',
-                              project: project,
-                              user: user)
+    query = create(:query,
+                   name: 'Assignee Query',
+                   project: project,
+                   user: user)
 
     query.add_filter('assigned_to_id', '=', [user.id])
     query.save!

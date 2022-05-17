@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,7 +31,7 @@ require 'spec_helper'
 describe ::API::V3::RootRepresenter do
   include ::API::V3::Utilities::PathHelper
 
-  let(:user) { FactoryBot.build_stubbed(:user) }
+  let(:user) { build_stubbed(:user) }
   let(:representer) { described_class.new({}, current_user: user) }
   let(:app_title) { 'Foo Project' }
   let(:version) { 'The version is over 9000!' }
@@ -154,7 +154,7 @@ describe ::API::V3::RootRepresenter do
         end
 
         context 'for an admin user' do
-          let(:user) { FactoryBot.build_stubbed(:admin) }
+          let(:user) { build_stubbed(:admin) }
 
           it 'indicates the OpenProject version number' do
             is_expected

@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,14 +29,14 @@
 require 'spec_helper'
 
 describe WorkPackages::ExportJob do
-  let(:user) { FactoryBot.build_stubbed(:user) }
+  let(:user) { build_stubbed(:user) }
   let(:attachment) { double('Attachment', id: 1234) }
   let(:export) do
-    FactoryBot.build_stubbed(:work_packages_export)
+    build_stubbed(:work_packages_export)
   end
-  let(:query) { FactoryBot.build_stubbed(:query) }
+  let(:query) { build_stubbed(:query) }
 
-  let(:job) { described_class.new(jobs_args) }
+  let(:job) { described_class.new(**jobs_args) }
   let(:jobs_args) do
     {
       export: export,

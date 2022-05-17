@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,35 +29,35 @@
 require 'spec_helper'
 
 describe 'Disabled activity', type: :feature do
-  shared_let(:admin) { FactoryBot.create :admin }
+  shared_let(:admin) { create :admin }
 
   let(:project1) do
-    FactoryBot.create(:project, enabled_module_names: %i[work_package_tracking wiki])
+    create(:project, enabled_module_names: %i[work_package_tracking wiki])
   end
   let(:project2) do
-    FactoryBot.create(:project, enabled_module_names: %i[work_package_tracking activity wiki])
+    create(:project, enabled_module_names: %i[work_package_tracking activity wiki])
   end
   let(:project3) do
-    FactoryBot.create(:project, enabled_module_names: %i[activity])
+    create(:project, enabled_module_names: %i[activity])
   end
-  let!(:work_package1) { FactoryBot.create(:work_package, project: project1) }
-  let!(:work_package2) { FactoryBot.create(:work_package, project: project2) }
-  let!(:work_package3) { FactoryBot.create(:work_package, project: project3) }
+  let!(:work_package1) { create(:work_package, project: project1) }
+  let!(:work_package2) { create(:work_package, project: project2) }
+  let!(:work_package3) { create(:work_package, project: project3) }
   let!(:wiki_page1) do
-    FactoryBot.create(:wiki_page, wiki: project1.wiki) do |page|
-      FactoryBot.create(:wiki_content, page: page)
+    create(:wiki_page, wiki: project1.wiki) do |page|
+      create(:wiki_content, page: page)
     end
   end
   let!(:wiki_page2) do
-    FactoryBot.create(:wiki_page, wiki: project2.wiki) do |page|
-      FactoryBot.create(:wiki_content, page: page)
+    create(:wiki_page, wiki: project2.wiki) do |page|
+      create(:wiki_content, page: page)
     end
   end
   let!(:wiki_page3) do
-    wiki = FactoryBot.create(:wiki, project: project3)
+    wiki = create(:wiki, project: project3)
 
-    FactoryBot.create(:wiki_page, wiki: wiki) do |page|
-      FactoryBot.create(:wiki_content, page: page)
+    create(:wiki_page, wiki: wiki) do |page|
+      create(:wiki_content, page: page)
     end
   end
 

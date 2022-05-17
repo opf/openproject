@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,24 +29,24 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe LaborBudgetItem, type: :model do
-  let(:item) { FactoryBot.build(:labor_budget_item, budget: budget, user: user) }
-  let(:budget) { FactoryBot.build(:budget, project: project) }
-  let(:user) { FactoryBot.create(:user) }
-  let(:user2) { FactoryBot.create(:user) }
+  let(:item) { build(:labor_budget_item, budget: budget, user: user) }
+  let(:budget) { build(:budget, project: project) }
+  let(:user) { create(:user) }
+  let(:user2) { create(:user) }
   let(:rate) do
-    FactoryBot.create(:hourly_rate, user: user,
+    create(:hourly_rate, user: user,
                                     valid_from: Date.today - 4.days,
                                     rate: 400.0,
                                     project: project)
   end
-  let(:project) { FactoryBot.create(:valid_project) }
-  let(:project2) { FactoryBot.create(:valid_project) }
+  let(:project) { create(:valid_project) }
+  let(:project2) { create(:valid_project) }
 
   def is_member(project, user, permissions)
-    FactoryBot.create(:member,
-                      project: project,
-                      user: user,
-                      roles: [FactoryBot.create(:role, permissions: permissions)])
+    create(:member,
+           project: project,
+           user: user,
+           roles: [create(:role, permissions: permissions)])
   end
 
   describe '#calculated_costs' do
@@ -109,7 +109,7 @@ describe LaborBudgetItem, type: :model do
     end
 
     describe 'WHEN a group is provided' do
-      let(:group) { FactoryBot.create :group }
+      let(:group) { create :group }
 
       before do
         item.save!

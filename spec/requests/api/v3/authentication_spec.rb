@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,10 +29,48 @@
 require 'spec_helper'
 
 describe API::V3, type: :request do
-  describe 'basic auth' do
-    let(:user)     { FactoryBot.create :user }
-    let(:resource) { "/api/v3/projects" }
+  let(:resource) { "/api/v3/projects" }
+  let(:user) { create :user }
 
+  describe 'oauth' do
+    let(:oauth_access_token) { '' }
+
+    before do
+      login_as user
+
+      header 'Authorization', "Bearer #{oauth_access_token}"
+
+      get resource
+    end
+
+    context 'with a valid access token' do
+      let(:token) { create :oauth_access_token, resource_owner: user }
+      let(:oauth_access_token) { token.plaintext_token }
+
+      it 'authenticates successfully' do
+        expect(last_response.status).to eq 200
+      end
+    end
+
+    context 'with an invalid access token' do
+      let(:oauth_access_token) { '1337' }
+
+      it 'returns unauthorized' do
+        expect(last_response.status).to eq 401
+      end
+    end
+
+    context 'with an expired access token' do
+      let(:token) { create :oauth_access_token, resource_owner: user, revoked_at: DateTime.now }
+      let(:oauth_access_token) { token.plaintext_token }
+
+      it 'returns unauthorized' do
+        expect(last_response.status).to eq 401
+      end
+    end
+  end
+
+  describe 'basic auth' do
     let(:response_401) do
       {
         '_type' => 'Error',
@@ -191,7 +229,7 @@ describe API::V3, type: :request do
         it_behaves_like 'it is basic auth protected'
 
         describe 'user basic auth' do
-          let(:api_key) { FactoryBot.create :api_token }
+          let(:api_key) { create :api_token }
 
           let(:username) { 'apikey' }
           let(:password) { api_key.plain_value }
@@ -202,7 +240,7 @@ describe API::V3, type: :request do
       end
 
       describe 'user basic auth' do
-        let(:api_key) { FactoryBot.create :api_token }
+        let(:api_key) { create :api_token }
 
         let(:username) { 'apikey' }
         let(:password) { api_key.plain_value }
@@ -223,8 +261,8 @@ describe API::V3, type: :request do
           let(:username) { 'hancholo' }
           let(:password) { 'olooleol' }
 
-          let(:api_user) { FactoryBot.create :user, login: 'user_account' }
-          let(:api_key)  { FactoryBot.create :api_token, user: api_user }
+          let(:api_user) { create :user, login: 'user_account' }
+          let(:api_key) { create :api_token, user: api_user }
 
           before do
             config = { user: 'global_account', password: 'global_password' }

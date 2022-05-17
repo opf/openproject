@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,7 +31,7 @@ require 'spec_helper'
 describe ::API::V3::CostTypes::CostTypeRepresenter do
   include API::V3::Utilities::PathHelper
 
-  let(:cost_type) { FactoryBot.build_stubbed(:cost_type) }
+  let(:cost_type) { build_stubbed(:cost_type) }
   let(:representer) { described_class.new(cost_type, current_user: double('current_user')) }
 
   subject { representer.to_json }

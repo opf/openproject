@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -73,6 +73,15 @@ hi:
       start_trial: 'Start free trial'
       book_now: 'Book now'
       get_quote: 'Get a quote'
+      buttons:
+        upgrade: "Upgrade now"
+        contact: "Contact us for a demo"
+      enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
+      upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
+    journal_aggregation:
+      explanation:
+        text: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent and will also affect %{webhook_link} delay."
+        link: "webhook"
   announcements:
     show_until: Show until
     is_active: currently displayed
@@ -161,7 +170,7 @@ hi:
     edit: 'विशेष या कस्टम क्रिया संपादित करें %{name}'
     execute: 'कार्यान्वित करें %{name}'
     upsale:
-      title: 'कस्टम क्रियाओं एंटरप्राइज़ संस्करण सुविधा है'
+      title: 'Custom actions'
       description: 'कस्टम क्रियाएं एक बटन में व्यक्तिगत चरणों का एक सेट के संयोजन से रोजमर्रा के काम को सरल बनाएं ।'
   custom_fields:
     text_add_new_custom_field: >
@@ -260,7 +269,7 @@ hi:
       irreversible: "This action is irreversible"
       confirmation: "Enter the placeholder user name %{name} to confirm the deletion."
     upsale:
-      title: Assign work to people that are not members of the project.
+      title: Placeholder users
       description: >
         There are multiple scenarios where you want to assign work to people that are not member of your project. It could simply be that you still need to hire the correct person for the job. Or you just don't want to give that person access to the project's information but still want track tasks assigned to that person.
   prioritiies:
@@ -448,9 +457,12 @@ hi:
         code: 'अवस्था'
         explanation: 'Status description'
         codes:
+          not_started: 'Not started'
           on_track: 'On track'
           at_risk: 'At risk'
           off_track: 'Off track'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
       query:
         column_names: "स्तंभ"
         relations_to_type_column: "Relations to %{type}"
@@ -461,7 +473,6 @@ hi:
       repository:
         url: "यू आर एल"
       role:
-        assignable: "Work packages can be assigned to users and groups in possession of this role in the respective project"
         permissions: "अनुमतियाँ"
       time_entry:
         activity: "गतिविधी"
@@ -552,6 +563,7 @@ hi:
         even: "must be even."
         exclusion: "is reserved."
         file_too_large: "is too large (maximum size is %{count} Bytes)."
+        filter_does_not_exist: "filter does not exist."
         format: "does not match the expected format '%{expected}'."
         format_nested: "does not match the expected format '%{expected}' at path '%{path}'."
         greater_than: "must be greater than %{count}."
@@ -856,7 +868,7 @@ hi:
     id: "आईडी"
     is_default: "डिफ़ॉल्ट मान"
     is_for_all: "सभी परियोजनाओं के लिए"
-    is_public: "सार्वजनिक"
+    public: "सार्वजनिक"
     #kept for backwards compatibility
     issue: "कार्य पैकेज"
     lastname: "अंतिम नाम"
@@ -866,7 +878,6 @@ hi:
     password: "पासवर्ड"
     priority: "वरीयता"
     project: "परियोजना"
-    public: "सार्वजनिक"
     responsible: "जवाबदेह"
     role: "भूमिका"
     roles: "भूमिकाएं"
@@ -880,6 +891,7 @@ hi:
     updated_on: "पर अद्यतीत"
     uploader: "Uploader"
     user: "उपयोगकर्ता"
+    value: "Value"
     version: "संस्करण"
     work_package: "कार्य पैकेज"
   backup:
@@ -1221,6 +1233,7 @@ hi:
   error_enterprise_token_invalid_domain: "The Enterprise Edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: 'Failed to delete this entry.'
   error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
+  error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "अमांय चयनित मान ।"
   error_journal_attribute_not_present: "जर्नल विशेषता वर्ग नहीं है %{attribute}"
   error_pdf_export_too_many_columns: "Too many columns selected for the PDF export. Please reduce the number of columns."
@@ -1330,7 +1343,9 @@ hi:
   menus:
     admin:
       mail_notification: "ईमेल की सूचनाएँ"
-      incoming_outgoing: "Incoming & Outgoing"
+      mails_and_notifications: "Emails and notification"
+      aggregation_and_retention: 'Aggregation and retention'
+      api_and_webhooks: "API and webhooks"
     quick_add:
       label: "Open quick add menu"
   my_account:
@@ -1624,6 +1639,10 @@ hi:
   label_member_plural: "सदस्य"
   lable_membership_added: 'Member added'
   lable_membership_updated: 'Member updated'
+  label_menu_badge:
+    pre_alpha: 'pre-alpha'
+    alpha: 'alpha'
+    beta: 'beta'
   label_menu_item_name: "Name of menu item"
   label_message: "Message"
   label_message_last: "Last message"
@@ -1729,7 +1748,6 @@ hi:
   label_public_projects: "सार्वजनिक परियोजनाएं"
   label_query_new: "नया प्रष्ण"
   label_query_plural: "विशेष प्रष्ण"
-  label_query_menu_item: "क्वेरी मेनू आइटम"
   label_read: "पढ़ें..."
   label_register: "नया खाता बनाएँ"
   label_register_with_developer: "डेवलपर के रूप में पंजीकृत हों"
@@ -1827,7 +1845,7 @@ hi:
   label_used_by_types: "प्रकार द्वारा प्रयुक्त"
   label_used_in_projects: "परियोजनाओं में प्रयुक्त"
   label_user: "उपयोगकर्ता"
-  label_user_and_permission: "Users & Permissions"
+  label_user_and_permission: "Users and permissions"
   label_user_named: "उपयोगकर्ता %{name}"
   label_user_activity: "%{value}'s activity"
   label_user_anonymous: "अज्ञात"
@@ -1977,7 +1995,7 @@ hi:
   mail_body_backup_waiting_period: The new token will be enabled in %{hours} hours.
   mail_body_backup_token_warning: If this wasn't you, login to OpenProject immediately and reset it again.
   mail_body_lost_password: "To change your password, click on the following link:"
-  mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
+  mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "Project member invitation email"
   mail_body_register_user: "Dear %{name}, "
   mail_body_register_links_html: |
@@ -2120,7 +2138,7 @@ hi:
     heading_getting_started: "अवलोकन प्राप्त करें"
     text_getting_started_description: "OpenProject के साथ परियोजना प्रबंधन और टीम सहयोग का एक त्वरित अवलोकन प्राप्त करें ।"
     text_show_again: "You can restart this video from the help menu"
-    welcome: "Welcome to OpenProject"
+    welcome: "Welcome to %{app_title}"
     select_language: "कृपया अपनी भाषा चुनें:"
   permission_add_work_package_notes: "Add notes"
   permission_add_work_packages: "Add work packages"
@@ -2136,6 +2154,7 @@ hi:
   permission_comment_news: "Comment news"
   permission_commit_access: "Read/write access to repository (commit)"
   permission_copy_projects: "Copy projects"
+  permission_create_backup: "Create backup"
   permission_delete_work_package_watchers: "Delete watchers"
   permission_delete_work_packages: "Delete work packages"
   permission_delete_messages: "Delete messages"
@@ -2178,7 +2197,6 @@ hi:
   permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Select project modules"
   permission_manage_types: "Select types"
-  permission_view_calendar: "View calendar"
   permission_view_changesets: "View repository revisions in OpenProject"
   permission_view_commit_author_statistics: "View commit author statistics"
   permission_view_work_package_watchers: "View watchers list"
@@ -2190,6 +2208,8 @@ hi:
   permission_view_timelines: "View timelines"
   permission_view_wiki_edits: "View wiki history"
   permission_view_wiki_pages: "View wiki"
+  permission_work_package_assigned: "Become assignee/responsible"
+  permission_work_package_assigned_explanation: "Work packages can be assigned to users and groups in possession of this role in the respective project"
   placeholders:
     default: "-"
   project:
@@ -2214,7 +2234,6 @@ hi:
       archived: "Archived"
   project_module_activity: "गतिविधी"
   project_module_forums: "मंच"
-  project_module_calendar: "कैलेंडर"
   project_module_work_package_tracking: "कार्य पैकेज ट्रैकिंग"
   project_module_news: "नया"
   project_module_repository: "Repository"
@@ -2228,7 +2247,7 @@ hi:
     assigned_to_role: "Assignee's role"
     member_of_group: "Assignee's group"
     assignee_or_group: "Assignee or belonging group"
-    subproject_id: "Including Subproject"
+    subproject_id: "Including subproject"
     only_subproject_id: "Only subproject"
     name_or_identifier: "Name or identifier"
   repositories:
@@ -2552,7 +2571,6 @@ hi:
   text_work_packages_destroy_confirmation: "Are you sure you want to delete the selected work package(s)?"
   text_work_packages_ref_in_commit_messages: "Referencing and fixing work packages in commit messages"
   text_journal_added: "%{label} %{value} added"
-  text_journal_aggregation_time_explanation: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent."
   text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
   text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label} updated"
@@ -2843,7 +2861,6 @@ hi:
   wiki_menu_item_new_main_item_explanation: >
     You are deleting the only main wiki menu item. You now have to choose a wiki page for which a new main item will be generated. To delete the wiki the wiki module can be deactivated by project administrators.
   wiki_menu_item_delete_not_permitted: The wiki menu item of the only wiki page cannot be deleted.
-  query_menu_item_for: "Menu item for query \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
@@ -2868,6 +2885,7 @@ hi:
         work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:
         date: "YYYY-MM-DD (ISO 8601 date only)"
+        datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm] (any compatible ISO 8601 datetime)"
         duration: "ISO 8601 duration"
       invalid_content_type: "Expected CONTENT-TYPE to be '%{content_type}' but got '%{actual}'."
       invalid_format: "Invalid format for property '%{property}': Expected format like '%{expected_format}', but got '%{actual}'."
@@ -2879,6 +2897,7 @@ hi:
         select: "The requested select of %{invalid} is not supported. Supported selects are %{supported}."
       invalid_user_status_transition: "The current user account status does not allow this operation."
       missing_content_type: "not specified"
+      missing_property: "Missing property '%{property}'."
       missing_request_body: "There was no request body."
       missing_or_malformed_parameter: "The query parameter '%{parameter}' is missing or malformed."
       multipart_body_error: "The request body did not contain the expected multipart parts."
@@ -2902,6 +2921,7 @@ hi:
       schema: 'Schema'
     undisclosed:
       parent: Undisclosed - The selected parent is invisible because of lacking permissions.
+      ancestor: Undisclosed - The ancestor is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 'Pre-authorization'

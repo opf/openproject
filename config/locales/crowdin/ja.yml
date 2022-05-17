@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -73,6 +73,15 @@ ja:
       start_trial: '無料トライアルを開始'
       book_now: '今すぐ予約'
       get_quote: '見積もりの入手'
+      buttons:
+        upgrade: "Upgrade now"
+        contact: "Contact us for a demo"
+      enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
+      upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
+    journal_aggregation:
+      explanation:
+        text: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent and will also affect %{webhook_link} delay."
+        link: "webhook"
   announcements:
     show_until: までを表示
     is_active: 現在表示されています
@@ -159,7 +168,7 @@ ja:
     edit: 'カスタムアクション %{name} の編集'
     execute: '%{name} を実行'
     upsale:
-      title: 'カスタムアクションは、エンタープライズ版の機能です'
+      title: 'Custom actions'
       description: 'カスタムアクションは、1 つのボタンに個々のステップを組み合わせて日々の作業を合理化します。'
   custom_fields:
     text_add_new_custom_field: >
@@ -258,7 +267,7 @@ ja:
       irreversible: "この操作は元に戻せません"
       confirmation: "削除を確認するため、プレースホルダーユーザー名 %{name} を入力してください。"
     upsale:
-      title: プロジェクトのメンバーではないユーザーに作業を割り当てる
+      title: Placeholder users
       description: >
         プロジェクトのメンバーではない人に作業を割り当てたいと思うことは多々あります。それは単に、その仕事に適した人を雇う必要があるということかもしれません。あるいは、その人にプロジェクトの情報へのアクセスを許可したくないが、その人に割り当てられたタスクを追跡したいという場合もあります。
   prioritiies:
@@ -445,9 +454,12 @@ ja:
         code: 'ステータス'
         explanation: '状況の説明'
         codes:
+          not_started: 'Not started'
           on_track: '順調'
           at_risk: 'リスクあり'
           off_track: '脱線'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
       query:
         column_names: "列"
         relations_to_type_column: "%{type} との関連"
@@ -458,7 +470,6 @@ ja:
       repository:
         url: "URL"
       role:
-        assignable: "それぞれのプロジェクトで、ワークパッケージはこの役割をもつユーザーおよびグループに割り当てることができます。"
         permissions: "権限"
       time_entry:
         activity: "活動"
@@ -549,6 +560,7 @@ ja:
         even: "は偶数にしてください。"
         exclusion: "は予約されています。"
         file_too_large: "は大きすぎます (最大サイズは%{count}バイト)"
+        filter_does_not_exist: "filter does not exist."
         format: "does not match the expected format '%{expected}'."
         format_nested: "does not match the expected format '%{expected}' at path '%{path}'."
         greater_than: "は%{count}より大きい値にしてください。"
@@ -849,7 +861,7 @@ ja:
     id: "ID"
     is_default: "デフォルト値"
     is_for_all: "全プロジェクト向け"
-    is_public: "公開"
+    public: "公開"
     #kept for backwards compatibility
     issue: "ワーク パッケージ"
     lastname: "苗字"
@@ -859,7 +871,6 @@ ja:
     password: "パスワード"
     priority: "優先度"
     project: "プロジェクト"
-    public: "公開"
     responsible: "責任者"
     role: "ロール"
     roles: "ロール"
@@ -873,6 +884,7 @@ ja:
     updated_on: "更新日時"
     uploader: "アップロード"
     user: "ユーザ"
+    value: "Value"
     version: "バージョン"
     work_package: "ワーク パッケージ"
   backup:
@@ -1202,6 +1214,7 @@ ja:
   error_enterprise_token_invalid_domain: "Enterprise Edition がアクティブではありません。Enterprise トークンのドメイン (%{actual}) がシステムのホスト名(%{expected}) と一致しません。"
   error_failed_to_delete_entry: 'このエントリを削除できませんでした。'
   error_in_dependent: "依存オブジェクトを変更しようとしてエラーが発生しました: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
+  error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "選択された値が無効です。"
   error_journal_attribute_not_present: "ジャーナルには属性%{attribute}は含まれていません。"
   error_pdf_export_too_many_columns: "PDF エクスポート用に選択された列が多すぎます。 列の数を減らしてください。"
@@ -1311,7 +1324,9 @@ ja:
   menus:
     admin:
       mail_notification: "電子メールの通知"
-      incoming_outgoing: "Incoming & Outgoing"
+      mails_and_notifications: "Emails and notification"
+      aggregation_and_retention: 'Aggregation and retention'
+      api_and_webhooks: "API and webhooks"
     quick_add:
       label: "クイック追加メニューを開く"
   my_account:
@@ -1605,6 +1620,10 @@ ja:
   label_member_plural: "メンバー"
   lable_membership_added: 'メンバーが追加されました'
   lable_membership_updated: 'メンバーが更新されました'
+  label_menu_badge:
+    pre_alpha: 'pre-alpha'
+    alpha: 'alpha'
+    beta: 'beta'
   label_menu_item_name: "メニュー項目の名称"
   label_message: "メッセージ"
   label_message_last: "最新のメッセージ"
@@ -1710,7 +1729,6 @@ ja:
   label_public_projects: "公開プロジェクト"
   label_query_new: "新しいクエリ"
   label_query_plural: "カスタムクエリ"
-  label_query_menu_item: "クエリのメニュー項目"
   label_read: "続いて読む..."
   label_register: "登録する"
   label_register_with_developer: "開発者として登録する"
@@ -1808,7 +1826,7 @@ ja:
   label_used_by_types: "タイプで使用"
   label_used_in_projects: "プロジェクトで使用"
   label_user: "ユーザ"
-  label_user_and_permission: "ユーザーと権限"
+  label_user_and_permission: "Users and permissions"
   label_user_named: "ユーザー名 %{name}"
   label_user_activity: "%{value}の活動"
   label_user_anonymous: "匿名ユーザ"
@@ -1957,7 +1975,7 @@ ja:
   mail_body_backup_waiting_period: 新しいトークンは %{hours} 時間後に有効になります。
   mail_body_backup_token_warning: これがあなたでなかった場合、すぐに OpenProject にログインして、再度リセットしてください。
   mail_body_lost_password: "パスワードを変更するには、以下のリンクをクリックしてください:"
-  mail_body_register: "OpenProjectへようこそ。このリンクをクリックしてアカウントを有効化してください："
+  mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "プロジェクトへの招待メール"
   mail_body_register_user: "%{name}さん"
   mail_body_register_links_html: |
@@ -2099,7 +2117,7 @@ ja:
     heading_getting_started: "概要を取得"
     text_getting_started_description: "OpenProject のプロジェクト管理とチームコラボレーションの簡単な概要を取得します。"
     text_show_again: "ヘルプメニューからこのビデオを再度開始することができます。"
-    welcome: "OpenProjectへようこそ"
+    welcome: "Welcome to %{app_title}"
     select_language: "言語を選択してください"
   permission_add_work_package_notes: "注記の追加"
   permission_add_work_packages: "ワークパッケージの追加"
@@ -2115,6 +2133,7 @@ ja:
   permission_comment_news: "ニュースへのコメント"
   permission_commit_access: "リポジトリに読み取り/書き込みアクセス (コミット)"
   permission_copy_projects: "プロジェクトのコピー"
+  permission_create_backup: "Create backup"
   permission_delete_work_package_watchers: "ウォッチャーの削除"
   permission_delete_work_packages: "ワークパッケージの削除"
   permission_delete_messages: "メッセージの削除"
@@ -2157,7 +2176,6 @@ ja:
   permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "プロジェクトでモジュールの選択"
   permission_manage_types: "ワークパッケージのタイプを選択"
-  permission_view_calendar: "カレンダーの閲覧"
   permission_view_changesets: "OpenProject にリポジトリのリビジョンを表示"
   permission_view_commit_author_statistics: "コミット作成者の統計情報の閲覧"
   permission_view_work_package_watchers: "ウォッチャー一覧の閲覧"
@@ -2169,6 +2187,8 @@ ja:
   permission_view_timelines: "タイムラインの閲覧"
   permission_view_wiki_edits: "Wiki履歴の閲覧"
   permission_view_wiki_pages: "Wikiの閲覧"
+  permission_work_package_assigned: "Become assignee/responsible"
+  permission_work_package_assigned_explanation: "それぞれのプロジェクトで、ワークパッケージはこの役割をもつユーザーおよびグループに割り当てることができます。"
   placeholders:
     default: "-"
   project:
@@ -2193,7 +2213,6 @@ ja:
       archived: "アーカイブ済み"
   project_module_activity: "活動"
   project_module_forums: "フォーラム"
-  project_module_calendar: "カレンダー"
   project_module_work_package_tracking: "ワークパッケージの追跡"
   project_module_news: "ニュース"
   project_module_repository: "リポジトリ"
@@ -2207,7 +2226,7 @@ ja:
     assigned_to_role: "担当者のロール"
     member_of_group: "担当者のグループ"
     assignee_or_group: "担当者または所属グループ"
-    subproject_id: "サブプロジェクトを含む"
+    subproject_id: "Including subproject"
     only_subproject_id: "サブプロジェクトのみ"
     name_or_identifier: "名前または ID"
   repositories:
@@ -2531,7 +2550,6 @@ ja:
   text_work_packages_destroy_confirmation: "選択したワークパッケージを削除してもよろしいですか？"
   text_work_packages_ref_in_commit_messages: "コミットメッセージ内でのワークパッケージの参照 / 修正"
   text_journal_added: "%{label}で%{value}を追加"
-  text_journal_aggregation_time_explanation: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent."
   text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
   text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label}を更新"
@@ -2820,7 +2838,6 @@ ja:
   wiki_menu_item_new_main_item_explanation: >
     唯一の主なＷｉｋｉメニュー項目が削除されます。新しい主要項目が生成するためにＷｉｋｉページを選択する必要があります。Ｗｉｋｉを削除するには、プロジェクト管理者によってＷｉｋｉモジュールを無効にすることができます。
   wiki_menu_item_delete_not_permitted: 唯一のＷｉｋｉページにあるＷｉｋｉメニュー項目は削除できません。
-  query_menu_item_for: "クエリ\"%{title}\"のメニュー項目"
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
@@ -2845,6 +2862,7 @@ ja:
         work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:
         date: "YYYY-MM-DD (ISO 8601 日付のみ)"
+        datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm] (any compatible ISO 8601 datetime)"
         duration: "ISO 8601 期間"
       invalid_content_type: "コンテンツの種類は'%{content_type}'を期待されたが '%{actual}'を得ました。"
       invalid_format: "不正なフォーマットのプロパティ '%{property}': 期待されるフォーマットは '%{expected_format}', ですが '%{actual}'を受け取りました."
@@ -2856,6 +2874,7 @@ ja:
         select: "要求された %{invalid} の選択はサポートされていません。 サポートされている選択は %{supported} です。"
       invalid_user_status_transition: "現在のユーザーのアカウントステータスはこの操作を許可していません。"
       missing_content_type: "指定されていません。"
+      missing_property: "Missing property '%{property}'."
       missing_request_body: "要求の本体がありませんでした。"
       missing_or_malformed_parameter: "クエリパラメーター '%{parameter}' が存在しないか、正しくありません。"
       multipart_body_error: "要求の本体に、期待したマルチパートが含まれていませんでした。"
@@ -2879,6 +2898,7 @@ ja:
       schema: 'スキーマ'
     undisclosed:
       parent: Undisclosed - The selected parent is invisible because of lacking permissions.
+      ancestor: Undisclosed - The ancestor is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: '事前承認'

@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,7 +30,7 @@ require 'spec_helper'
 
 describe CustomActions::UpdateWorkPackageService do
   let(:custom_action) do
-    action = FactoryBot.build_stubbed(:custom_action)
+    action = build_stubbed(:custom_action)
 
     allow(action)
       .to receive(:actions)
@@ -62,7 +60,7 @@ describe CustomActions::UpdateWorkPackageService do
 
     action
   end
-  let(:user) { FactoryBot.build_stubbed(:user) }
+  let(:user) { build_stubbed(:user) }
   let(:instance) { described_class.new(action: custom_action, user: user) }
   let(:update_service_call_implementation) do
     -> do
@@ -70,7 +68,7 @@ describe CustomActions::UpdateWorkPackageService do
     end
   end
   let!(:update_wp_service) do
-    wp_service_instance = double('WorkPackages::UpdateService instance')
+    wp_service_instance = instance_double(WorkPackages::UpdateService)
 
     allow(WorkPackages::UpdateService)
       .to receive(:new)
@@ -84,7 +82,7 @@ describe CustomActions::UpdateWorkPackageService do
 
     wp_service_instance
   end
-  let(:work_package) { FactoryBot.build_stubbed(:stubbed_work_package) }
+  let(:work_package) { build_stubbed(:stubbed_work_package) }
   let(:result) do
     ServiceResult.new(result: work_package, success: true)
   end
@@ -164,7 +162,7 @@ describe CustomActions::UpdateWorkPackageService do
 
         allow(contract)
           .to receive(:errors)
-          .and_return(alter_action1.key => ['invalid'])
+          .and_return(instance_double(ActiveModel::Errors, attribute_names: [alter_action1.key]))
 
         work_package.lock_version = 200
 
@@ -205,7 +203,7 @@ describe CustomActions::UpdateWorkPackageService do
 
         allow(contract)
           .to receive(:errors)
-          .and_return(base: ['invalid'])
+          .and_return(instance_double(ActiveModel::Errors, attribute_names: [:base]))
 
         work_package.lock_version = 200
 

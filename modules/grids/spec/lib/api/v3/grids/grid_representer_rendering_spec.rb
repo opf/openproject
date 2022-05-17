@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,12 +33,12 @@ describe ::API::V3::Grids::GridRepresenter, 'rendering' do
   include API::V3::Utilities::PathHelper
 
   let(:grid) do
-    FactoryBot.build_stubbed(
+    build_stubbed(
       :grid,
       row_count: 4,
       column_count: 5,
       widgets: [
-        FactoryBot.build_stubbed(
+        build_stubbed(
           :grid_widget,
           identifier: 'work_packages_assigned',
           start_row: 4,
@@ -46,7 +46,7 @@ describe ::API::V3::Grids::GridRepresenter, 'rendering' do
           start_column: 1,
           end_column: 2
         ),
-        FactoryBot.build_stubbed(
+        build_stubbed(
           :grid_widget,
           identifier: 'work_packages_created',
           start_row: 1,
@@ -54,7 +54,7 @@ describe ::API::V3::Grids::GridRepresenter, 'rendering' do
           start_column: 1,
           end_column: 2
         ),
-        FactoryBot.build_stubbed(
+        build_stubbed(
           :grid_widget,
           identifier: 'work_packages_watched',
           start_row: 2,
@@ -67,7 +67,7 @@ describe ::API::V3::Grids::GridRepresenter, 'rendering' do
   end
 
   let(:embed_links) { true }
-  let(:current_user) { FactoryBot.build_stubbed(:user) }
+  let(:current_user) { build_stubbed(:user) }
   let(:representer) { described_class.new(grid, current_user: current_user, embed_links: embed_links) }
 
   let(:writable) { true }

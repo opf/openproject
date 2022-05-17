@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,12 +29,12 @@
 require 'spec_helper'
 
 feature 'members pagination', type: :feature, js: true do
-  shared_let(:admin) { FactoryBot.create :admin }
+  shared_let(:admin) { create :admin }
   let(:project) do
-    FactoryBot.create :project,
-                      name: 'Project 1',
-                      identifier: 'project1',
-                      members: project_members
+    create :project,
+           name: 'Project 1',
+           identifier: 'project1',
+           members: project_members
   end
   let(:project_members) {
     {
@@ -43,12 +43,12 @@ feature 'members pagination', type: :feature, js: true do
     }
   }
 
-  let!(:peter) { FactoryBot.create :user, firstname: 'Peter', lastname: 'Pan' }
-  let(:bob)   { FactoryBot.create :user, firstname: 'Bob', lastname: 'Bobbit' }
-  let(:alice) { FactoryBot.create :user, firstname: 'Alice', lastname: 'Alison' }
+  let!(:peter) { create :user, firstname: 'Peter', lastname: 'Pan' }
+  let(:bob)   { create :user, firstname: 'Bob', lastname: 'Bobbit' }
+  let(:alice) { create :user, firstname: 'Alice', lastname: 'Alison' }
 
-  let(:manager)   { FactoryBot.create :role, name: 'Manager' }
-  let(:developer) { FactoryBot.create :role, name: 'Developer' }
+  let(:manager)   { create :role, name: 'Manager' }
+  let(:developer) { create :role, name: 'Developer' }
 
   let(:members_page) { Pages::Members.new project.identifier }
 

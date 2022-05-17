@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,20 +37,20 @@ describe 'Inviting user in project the current user is lacking permission in', t
   let(:quick_add) { ::Components::QuickAddMenu.new }
 
   let(:view_role) do
-    FactoryBot.create :role,
-                      permissions: []
+    create :role,
+           permissions: []
   end
   let(:invite_role) do
-    FactoryBot.create :role,
-                      permissions: %i[manage_members]
+    create :role,
+           permissions: %i[manage_members]
   end
 
-  let!(:other_user) { FactoryBot.create(:user) }
-  let!(:view_project) { FactoryBot.create(:project, members: { current_user => view_role }) }
-  let!(:invite_project) { FactoryBot.create(:project, members: { current_user => invite_role }) }
+  let!(:other_user) { create(:user) }
+  let!(:view_project) { create(:project, members: { current_user => view_role }) }
+  let!(:invite_project) { create(:project, members: { current_user => invite_role }) }
 
   current_user do
-    FactoryBot.create :user
+    create :user
   end
 
   it 'user cannot invite in current project but for different one' do

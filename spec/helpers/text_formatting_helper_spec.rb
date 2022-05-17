@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,7 +31,7 @@ require 'spec_helper'
 describe TextFormattingHelper, type: :helper do
   describe '#preview_context' do
     context 'for a News' do
-      let(:news) { FactoryBot.build_stubbed(:news) }
+      let(:news) { build_stubbed(:news) }
 
       it 'returns the v3 path' do
         expect(helper.preview_context(news))
@@ -42,7 +40,7 @@ describe TextFormattingHelper, type: :helper do
     end
 
     context 'for a Message' do
-      let(:message) { FactoryBot.build_stubbed(:message) }
+      let(:message) { build_stubbed(:message) }
 
       it 'returns the v3 path' do
         expect(helper.preview_context(message))
@@ -51,7 +49,7 @@ describe TextFormattingHelper, type: :helper do
     end
 
     context 'for a WikiPage' do
-      let(:wiki_page) { FactoryBot.build_stubbed(:wiki_page) }
+      let(:wiki_page) { build_stubbed(:wiki_page) }
 
       it 'returns the v3 path' do
         expect(helper.preview_context(wiki_page))

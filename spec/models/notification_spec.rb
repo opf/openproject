@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,7 +31,7 @@ describe Notification,
          type: :model do
   describe '.save' do
     context 'for a non existing journal (e.g. because it has been deleted)' do
-      let(:notification) { FactoryBot.build(:notification) }
+      let(:notification) { build(:notification) }
 
       it 'raises an error' do
         notification.journal_id = 99999

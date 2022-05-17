@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -105,14 +105,14 @@ describe('UrlParamsHelper', () => {
       };
 
       additional = {
-        page: 10,
-        perPage: 100,
+        pa: 10,
+        pp: 100,
       };
     });
 
     it('should encode query to params JSON', () => {
       const encodedJSON = UrlParamsHelper.encodeQueryJsonParams(query, additional);
-      const expectedJSON = '{"c":["type","status","soße"],"s":true,"tv":true,"tzl":"days","hl":"disabled","hi":true,"g":"status","t":"type:desc","f":[{"n":"soße","o":"=","v":["knoblauch"]},{"n":"created_at","o":"<t-","v":["5"]}],"pa":10,"pp":100}';
+      const expectedJSON = '{"c":["type","status","soße"],"hi":true,"g":"status","s":true,"tv":true,"tzl":"days","hl":"disabled","t":"type:desc","f":[{"n":"soße","o":"=","v":["knoblauch"]},{"n":"created_at","o":"<t-","v":["5"]}],"pa":10,"pp":100}'
 
       expect(encodedJSON).toEqual(expectedJSON);
     });
@@ -238,6 +238,7 @@ describe('UrlParamsHelper', () => {
         sortBy: JSON.stringify([['type', 'desc'], ['status', 'asc']]),
         timelineVisible: false,
         showHierarchies: false,
+        includeSubprojects: false,
         highlightingMode: 'inline',
         'highlightedAttributes[]': ['a', 'b'],
         offset: 10,
@@ -298,6 +299,7 @@ describe('UrlParamsHelper', () => {
         timelineVisible: false,
         showHierarchies: false,
         highlightingMode: 'inline',
+        includeSubprojects: false,
 
         sortBy: '[]',
       };

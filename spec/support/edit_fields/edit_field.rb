@@ -1,6 +1,7 @@
 class EditField
   include Capybara::DSL
   include RSpec::Matchers
+  include ::Components::NgSelectAutocompleteHelpers
 
   attr_reader :selector,
               :property_name,
@@ -134,7 +135,9 @@ class EditField
   def set_value(content)
     scroll_to_element(input_element)
     if field_type.end_with?('-autocompleter')
-      page.find('.ng-dropdown-panel .ng-option', visible: :all, text: content).click
+      select_autocomplete field_container,
+                          query: content,
+                          results_selector: 'body'
     else
       # A normal fill_in would cause the focus loss on the input for empty strings.
       # Thus the form would be submitted.
@@ -231,11 +234,12 @@ class EditField
            'responsible',
            'priority',
            'status',
-           'project',
            'type',
            'category',
            'workPackage'
         'create-autocompleter'
+      when 'project'
+        'op-autocompleter'
       when 'activity'
         'activity-autocompleter'
       else

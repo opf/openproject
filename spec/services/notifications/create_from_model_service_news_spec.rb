@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,9 +35,9 @@ describe Notifications::CreateFromModelService, 'news', with_settings: { journal
 
   include_context 'with CreateFromJournalJob context'
 
-  let(:journable) { FactoryBot.build_stubbed(:news) }
+  let(:journable) { build_stubbed(:news) }
 
-  let(:resource) { FactoryBot.create(:news, project: project) }
+  let(:resource) { create(:news, project: project) }
 
   # view_news is a public permission
   let(:permissions) { [] }
@@ -71,7 +69,7 @@ describe Notifications::CreateFromModelService, 'news', with_settings: { journal
       context 'with the user having registered for involved notifications' do
         let(:recipient_notification_settings) do
           [
-            FactoryBot.build(:notification_setting, **notification_settings_all_false.merge(involved: true))
+            build(:notification_setting, **notification_settings_all_false.merge(involved: true))
           ]
         end
 
@@ -81,7 +79,7 @@ describe Notifications::CreateFromModelService, 'news', with_settings: { journal
       context 'with the user having registered for no notifications' do
         let(:recipient_notification_settings) do
           [
-            FactoryBot.build(:notification_setting, **notification_settings_all_false)
+            build(:notification_setting, **notification_settings_all_false)
           ]
         end
 

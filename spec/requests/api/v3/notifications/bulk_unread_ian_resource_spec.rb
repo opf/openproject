@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -35,26 +33,26 @@ describe ::API::V3::Notifications::NotificationsAPI,
          content_type: :json do
   include API::V3::Utilities::PathHelper
 
-  shared_let(:project) { FactoryBot.create :project }
-  shared_let(:work_package) { FactoryBot.create :work_package, project: project }
+  shared_let(:project) { create :project }
+  shared_let(:work_package) { create :work_package, project: project }
 
-  shared_let(:recipient) { FactoryBot.create :user, member_in_project: project, member_with_permissions: %i[view_work_packages] }
-  shared_let(:other_recipient) { FactoryBot.create :user }
+  shared_let(:recipient) { create :user, member_in_project: project, member_with_permissions: %i[view_work_packages] }
+  shared_let(:other_recipient) { create :user }
   shared_let(:notification1) do
-    FactoryBot.create :notification, recipient: recipient, project: project, resource: work_package, read_ian: true
+    create :notification, recipient: recipient, project: project, resource: work_package, read_ian: true
   end
   shared_let(:notification2) do
-    FactoryBot.create :notification, recipient: recipient, project: project, resource: work_package, read_ian: true
+    create :notification, recipient: recipient, project: project, resource: work_package, read_ian: true
   end
   shared_let(:notification3) do
-    FactoryBot.create :notification, recipient: recipient, project: project, resource: work_package, read_ian: true
+    create :notification, recipient: recipient, project: project, resource: work_package, read_ian: true
   end
   shared_let(:other_user_notification) do
-    FactoryBot.create :notification,
-                      recipient: other_recipient,
-                      read_ian: true,
-                      project: project,
-                      resource: work_package
+    create :notification,
+           recipient: other_recipient,
+           read_ian: true,
+           project: project,
+           resource: work_package
   end
 
   let(:filters) { nil }

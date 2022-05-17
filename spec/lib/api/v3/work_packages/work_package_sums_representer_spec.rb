@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,13 @@
 require 'spec_helper'
 
 describe ::API::V3::WorkPackages::WorkPackageSumsRepresenter do
-  let(:custom_field) { FactoryBot.build_stubbed(:int_wp_custom_field, id: 1) }
+  let(:custom_field) do
+    build_stubbed(:int_wp_custom_field, id: 1).tap do |cf|
+      allow(WorkPackageCustomField)
+        .to receive(:summable)
+              .and_return([cf])
+    end
+  end
   let(:sums) do
     double('sums',
            story_points: 5,
@@ -41,10 +47,9 @@ describe ::API::V3::WorkPackages::WorkPackageSumsRepresenter do
            custom_field_1: 5,
            available_custom_fields: [custom_field])
   end
-  let(:schema) { double 'schema', available_custom_fields: [custom_field] }
-  let(:current_user) { FactoryBot.build_stubbed(:user) }
+  let(:current_user) { build_stubbed(:user) }
   let(:representer) do
-    described_class.create_class(schema, current_user).new(sums)
+    described_class.create(sums, current_user)
   end
 
   subject { representer.to_json }

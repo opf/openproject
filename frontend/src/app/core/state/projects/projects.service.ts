@@ -9,14 +9,17 @@ import {
   ID,
 } from '@datorama/akita';
 import { HttpClient } from '@angular/common/http';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
 import { ProjectsQuery } from 'core-app/core/state/projects/projects.query';
-import { Apiv3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
-import { collectionKey } from 'core-app/core/state/collection-store';
+import { ApiV3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
+import {
+  collectionKey,
+  insertCollectionIntoState,
+} from 'core-app/core/state/collection-store';
 import { ProjectsStore } from './projects.store';
-import { Project } from './project.model';
+import { IProject } from './project.model';
 
 @Injectable()
 export class ProjectsResourceService {
@@ -33,33 +36,19 @@ export class ProjectsResourceService {
 
   constructor(
     private http:HttpClient,
-    private apiV3Service:APIV3Service,
+    private apiV3Service:ApiV3Service,
     private toastService:ToastService,
   ) {
   }
 
-  fetchProjects(params:Apiv3ListParameters):Observable<IHALCollection<Project>> {
+  fetchProjects(params:ApiV3ListParameters):Observable<IHALCollection<IProject>> {
     const collectionURL = collectionKey(params);
 
     return this
       .http
-      .get<IHALCollection<Project>>(this.projectsPath + collectionURL)
+      .get<IHALCollection<IProject>>(this.projectsPath + collectionURL)
       .pipe(
-        tap((events) => {
-          applyTransaction(() => {
-            this.store.add(events._embedded.elements);
-            this.store.update(({ collections }) => (
-              {
-                collections: {
-                  ...collections,
-                  [collectionURL]: {
-                    ids: events._embedded.elements.map((el) => el.id),
-                  },
-                },
-              }
-            ));
-          });
-        }),
+        tap((collection) => insertCollectionIntoState(this.store, collection, collectionURL)),
         catchError((error) => {
           this.toastService.addError(error);
           throw error;
@@ -67,11 +56,11 @@ export class ProjectsResourceService {
       );
   }
 
-  update(id:ID, project:Partial<Project>):void {
+  update(id:ID, project:Partial<IProject>):void {
     this.store.update(id, project);
   }
 
-  modifyCollection(params:Apiv3ListParameters, callback:(collection:ID[]) => ID[]):void {
+  modifyCollection(params:ApiV3ListParameters, callback:(collection:ID[]) => ID[]):void {
     const key = collectionKey(params);
     this.store.update(({ collections }) => (
       {

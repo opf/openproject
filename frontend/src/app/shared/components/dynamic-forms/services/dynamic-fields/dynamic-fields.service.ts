@@ -194,11 +194,11 @@ export class DynamicFieldsService {
         required,
         label,
         hasDefault,
-        ...payloadValue != null && { payloadValue },
-        ...minLength && { minLength },
-        ...maxLength && { maxLength },
+        ...(payloadValue != null && { payloadValue }),
+        ...(minLength && { minLength }),
+        ...(maxLength && { maxLength }),
         ...templateOptions,
-        ...fieldOptions && { options: fieldOptions },
+        ...(fieldOptions && { options: fieldOptions }),
       },
     };
 
@@ -211,7 +211,7 @@ export class DynamicFieldsService {
 
     if (!inputType) {
       console.warn(
-        `Could not find a input definition for a field with the folowing type: ${fieldType}. The full field configuration is`, field,
+        `Could not find a input definition for a field with the following type: ${fieldType}. The full field configuration is`, field,
       );
       return null;
     }
@@ -224,8 +224,8 @@ export class DynamicFieldsService {
         className: field.name,
         templateOptions: {
           ...inputConfig.templateOptions,
-          ...this.isMultiSelectField(field) && { multiple: true },
-          ...fieldType === 'User' && { showAddNewUserButton: true },
+          ...(this.isMultiSelectField(field) && { multiple: true }),
+          ...(fieldType === 'User' && { showAddNewUserButton: true }),
         },
       };
     } else if (inputConfig.type === 'formattableInput') {
@@ -291,11 +291,11 @@ export class DynamicFieldsService {
           ...newFormFieldGroup,
           templateOptions: {
             ...newFormFieldGroup.templateOptions,
-            ...fieldGroup.settings.templateOptions && fieldGroup.settings.templateOptions,
+            ...(fieldGroup.settings.templateOptions && fieldGroup.settings.templateOptions),
           },
           expressionProperties: {
             ...newFormFieldGroup.expressionProperties,
-            ...fieldGroup.settings.expressionProperties && fieldGroup.settings.expressionProperties,
+            ...(fieldGroup.settings.expressionProperties && fieldGroup.settings.expressionProperties),
           },
         };
       }

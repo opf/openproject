@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,7 +30,7 @@ require 'spec_helper'
 
 describe Grids::CreateContract, 'for Grids::Overview' do
   let(:project) do
-    FactoryBot.build_stubbed(:project).tap do |p|
+    build_stubbed(:project).tap do |p|
       allow(Project)
         .to receive(:find)
         .with(p.identifier)
@@ -41,7 +39,7 @@ describe Grids::CreateContract, 'for Grids::Overview' do
   end
   let(:permissions) { %i[manage_overview] }
   let(:current_user) do
-    FactoryBot.build_stubbed(:user).tap do |u|
+    build_stubbed(:user).tap do |u|
       allow(u)
         .to receive(:allowed_to?) do |permission, permission_project|
           permissions.include?(permission) && permission_project == project

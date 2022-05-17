@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,7 +36,7 @@ describe 'API v3 capabilities global context resource', type: :request, content_
   subject(:response) { last_response }
 
   current_user do
-    FactoryBot.create(:user)
+    create(:user)
   end
 
   describe 'GET /api/v3/capabilities/contexts/global' do

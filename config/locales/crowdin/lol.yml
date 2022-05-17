@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -73,6 +73,15 @@ lol:
       start_trial: 'crwdns796406:0crwdne796406:0'
       book_now: 'crwdns796408:0crwdne796408:0'
       get_quote: 'crwdns796410:0crwdne796410:0'
+      buttons:
+        upgrade: "crwdns810522:0crwdne810522:0"
+        contact: "crwdns810524:0crwdne810524:0"
+      enterprise_info_html: "crwdns810526:0crwdne810526:0"
+      upgrade_info: "crwdns810528:0crwdne810528:0"
+    journal_aggregation:
+      explanation:
+        text: "crwdns810530:0%{webhook_link}crwdne810530:0"
+        link: "crwdns810532:0crwdne810532:0"
   announcements:
     show_until: crwdns796412:0crwdne796412:0
     is_active: crwdns796414:0crwdne796414:0
@@ -149,7 +158,7 @@ lol:
     edit: 'crwdns796508:0%{name}crwdne796508:0'
     execute: 'crwdns796510:0%{name}crwdne796510:0'
     upsale:
-      title: 'crwdns796512:0crwdne796512:0'
+      title: 'crwdns810534:0crwdne810534:0'
       description: 'crwdns796514:0crwdne796514:0'
   custom_fields:
     text_add_new_custom_field: >
@@ -247,7 +256,7 @@ lol:
       irreversible: "crwdns796628:0crwdne796628:0"
       confirmation: "crwdns796630:0%{name}crwdne796630:0"
     upsale:
-      title: crwdns796632:0crwdne796632:0
+      title: crwdns810536:0crwdne810536:0
       description: >
         crwdns796634:0crwdne796634:0
   prioritiies:
@@ -431,9 +440,12 @@ lol:
         code: 'crwdns796868:0crwdne796868:0'
         explanation: 'crwdns796870:0crwdne796870:0'
         codes:
+          not_started: 'crwdns810538:0crwdne810538:0'
           on_track: 'crwdns796872:0crwdne796872:0'
           at_risk: 'crwdns796874:0crwdne796874:0'
           off_track: 'crwdns796876:0crwdne796876:0'
+          finished: 'crwdns810540:0crwdne810540:0'
+          discontinued: 'crwdns810542:0crwdne810542:0'
       query:
         column_names: "crwdns796878:0crwdne796878:0"
         relations_to_type_column: "crwdns796880:0%{type}crwdne796880:0"
@@ -444,7 +456,6 @@ lol:
       repository:
         url: "crwdns796890:0crwdne796890:0"
       role:
-        assignable: "crwdns796892:0crwdne796892:0"
         permissions: "crwdns796894:0crwdne796894:0"
       time_entry:
         activity: "crwdns796896:0crwdne796896:0"
@@ -535,6 +546,7 @@ lol:
         even: "crwdns797044:0crwdne797044:0"
         exclusion: "crwdns797046:0crwdne797046:0"
         file_too_large: "crwdns797048:0%{count}crwdne797048:0"
+        filter_does_not_exist: "crwdns810544:0crwdne810544:0"
         format: "crwdns797050:0%{expected}crwdne797050:0"
         format_nested: "crwdns797052:0%{expected}crwdnd797052:0%{path}crwdne797052:0"
         greater_than: "crwdns797054:0%{count}crwdne797054:0"
@@ -839,7 +851,7 @@ lol:
     id: "crwdns797448:0crwdne797448:0"
     is_default: "crwdns797450:0crwdne797450:0"
     is_for_all: "crwdns797452:0crwdne797452:0"
-    is_public: "crwdns797454:0crwdne797454:0"
+    public: "crwdns797472:0crwdne797472:0"
     #kept for backwards compatibility
     issue: "crwdns797456:0crwdne797456:0"
     lastname: "crwdns797458:0crwdne797458:0"
@@ -849,7 +861,6 @@ lol:
     password: "crwdns797466:0crwdne797466:0"
     priority: "crwdns797468:0crwdne797468:0"
     project: "crwdns797470:0crwdne797470:0"
-    public: "crwdns797472:0crwdne797472:0"
     responsible: "crwdns797474:0crwdne797474:0"
     role: "crwdns797476:0crwdne797476:0"
     roles: "crwdns797478:0crwdne797478:0"
@@ -863,6 +874,7 @@ lol:
     updated_on: "crwdns797494:0crwdne797494:0"
     uploader: "crwdns797496:0crwdne797496:0"
     user: "crwdns797498:0crwdne797498:0"
+    value: "crwdns810546:0crwdne810546:0"
     version: "crwdns797500:0crwdne797500:0"
     work_package: "crwdns797502:0crwdne797502:0"
   backup:
@@ -1204,6 +1216,7 @@ lol:
   error_enterprise_token_invalid_domain: "crwdns798058:0%{actual}crwdnd798058:0%{expected}crwdne798058:0"
   error_failed_to_delete_entry: 'crwdns798060:0crwdne798060:0'
   error_in_dependent: "crwdns798062:0%{dependent_class}crwdnd798062:0%{related_id}crwdnd798062:0%{related_subject}crwdnd798062:0%{error}crwdne798062:0"
+  error_in_new_dependent: "crwdns810548:0%{dependent_class}crwdnd810548:0%{related_subject}crwdnd810548:0%{error}crwdne810548:0"
   error_invalid_selected_value: "crwdns798064:0crwdne798064:0"
   error_journal_attribute_not_present: "crwdns798066:0%{attribute}crwdne798066:0"
   error_pdf_export_too_many_columns: "crwdns798068:0crwdne798068:0"
@@ -1313,7 +1326,9 @@ lol:
   menus:
     admin:
       mail_notification: "crwdns798246:0crwdne798246:0"
-      incoming_outgoing: "crwdns798248:0crwdne798248:0"
+      mails_and_notifications: "crwdns810550:0crwdne810550:0"
+      aggregation_and_retention: 'crwdns810552:0crwdne810552:0'
+      api_and_webhooks: "crwdns810554:0crwdne810554:0"
     quick_add:
       label: "crwdns798250:0crwdne798250:0"
   my_account:
@@ -1596,6 +1611,10 @@ lol:
   label_member_plural: "crwdns798788:0crwdne798788:0"
   lable_membership_added: 'crwdns798790:0crwdne798790:0'
   lable_membership_updated: 'crwdns798792:0crwdne798792:0'
+  label_menu_badge:
+    pre_alpha: 'crwdns810556:0crwdne810556:0'
+    alpha: 'crwdns810558:0crwdne810558:0'
+    beta: 'crwdns810560:0crwdne810560:0'
   label_menu_item_name: "crwdns798794:0crwdne798794:0"
   label_message: "crwdns798796:0crwdne798796:0"
   label_message_last: "crwdns798798:0crwdne798798:0"
@@ -1701,7 +1720,6 @@ lol:
   label_public_projects: "crwdns798998:0crwdne798998:0"
   label_query_new: "crwdns799000:0crwdne799000:0"
   label_query_plural: "crwdns799002:0crwdne799002:0"
-  label_query_menu_item: "crwdns799004:0crwdne799004:0"
   label_read: "crwdns799006:0crwdne799006:0"
   label_register: "crwdns799008:0crwdne799008:0"
   label_register_with_developer: "crwdns799010:0crwdne799010:0"
@@ -1799,7 +1817,7 @@ lol:
   label_used_by_types: "crwdns799194:0crwdne799194:0"
   label_used_in_projects: "crwdns799196:0crwdne799196:0"
   label_user: "crwdns799198:0crwdne799198:0"
-  label_user_and_permission: "crwdns799200:0crwdne799200:0"
+  label_user_and_permission: "crwdns810562:0crwdne810562:0"
   label_user_named: "crwdns799202:0%{name}crwdne799202:0"
   label_user_activity: "crwdns799204:0%{value}crwdne799204:0"
   label_user_anonymous: "crwdns799206:0crwdne799206:0"
@@ -1949,7 +1967,7 @@ lol:
   mail_body_backup_waiting_period: crwdns799452:0%{hours}crwdne799452:0
   mail_body_backup_token_warning: crwdns799454:0crwdne799454:0
   mail_body_lost_password: "crwdns799456:0crwdne799456:0"
-  mail_body_register: "crwdns799458:0crwdne799458:0"
+  mail_body_register: "crwdns810564:0%{app_title}crwdne810564:0"
   mail_body_register_header_title: "crwdns799460:0crwdne799460:0"
   mail_body_register_user: "crwdns799462:0%{name}crwdne799462:0"
   mail_body_register_links_html: |
@@ -2088,7 +2106,7 @@ lol:
     heading_getting_started: "crwdns799682:0crwdne799682:0"
     text_getting_started_description: "crwdns799684:0crwdne799684:0"
     text_show_again: "crwdns799686:0crwdne799686:0"
-    welcome: "crwdns799688:0crwdne799688:0"
+    welcome: "crwdns810566:0%{app_title}crwdne810566:0"
     select_language: "crwdns799690:0crwdne799690:0"
   permission_add_work_package_notes: "crwdns799692:0crwdne799692:0"
   permission_add_work_packages: "crwdns799694:0crwdne799694:0"
@@ -2104,6 +2122,7 @@ lol:
   permission_comment_news: "crwdns799714:0crwdne799714:0"
   permission_commit_access: "crwdns799716:0crwdne799716:0"
   permission_copy_projects: "crwdns799718:0crwdne799718:0"
+  permission_create_backup: "crwdns810568:0crwdne810568:0"
   permission_delete_work_package_watchers: "crwdns799720:0crwdne799720:0"
   permission_delete_work_packages: "crwdns799722:0crwdne799722:0"
   permission_delete_messages: "crwdns799724:0crwdne799724:0"
@@ -2146,7 +2165,6 @@ lol:
   permission_select_custom_fields: "crwdns799798:0crwdne799798:0"
   permission_select_project_modules: "crwdns799800:0crwdne799800:0"
   permission_manage_types: "crwdns799802:0crwdne799802:0"
-  permission_view_calendar: "crwdns799804:0crwdne799804:0"
   permission_view_changesets: "crwdns799806:0crwdne799806:0"
   permission_view_commit_author_statistics: "crwdns799808:0crwdne799808:0"
   permission_view_work_package_watchers: "crwdns799810:0crwdne799810:0"
@@ -2158,6 +2176,8 @@ lol:
   permission_view_timelines: "crwdns799822:0crwdne799822:0"
   permission_view_wiki_edits: "crwdns799824:0crwdne799824:0"
   permission_view_wiki_pages: "crwdns799826:0crwdne799826:0"
+  permission_work_package_assigned: "crwdns810570:0crwdne810570:0"
+  permission_work_package_assigned_explanation: "crwdns810572:0crwdne810572:0"
   placeholders:
     default: "crwdns799828:0crwdne799828:0"
   project:
@@ -2182,7 +2202,6 @@ lol:
       archived: "crwdns799856:0crwdne799856:0"
   project_module_activity: "crwdns799858:0crwdne799858:0"
   project_module_forums: "crwdns799860:0crwdne799860:0"
-  project_module_calendar: "crwdns799862:0crwdne799862:0"
   project_module_work_package_tracking: "crwdns799864:0crwdne799864:0"
   project_module_news: "crwdns799866:0crwdne799866:0"
   project_module_repository: "crwdns799868:0crwdne799868:0"
@@ -2196,7 +2215,7 @@ lol:
     assigned_to_role: "crwdns799876:0crwdne799876:0"
     member_of_group: "crwdns799878:0crwdne799878:0"
     assignee_or_group: "crwdns799880:0crwdne799880:0"
-    subproject_id: "crwdns799882:0crwdne799882:0"
+    subproject_id: "crwdns810574:0crwdne810574:0"
     only_subproject_id: "crwdns799884:0crwdne799884:0"
     name_or_identifier: "crwdns799886:0crwdne799886:0"
   repositories:
@@ -2518,7 +2537,6 @@ lol:
   text_work_packages_destroy_confirmation: "crwdns800434:0crwdne800434:0"
   text_work_packages_ref_in_commit_messages: "crwdns800436:0crwdne800436:0"
   text_journal_added: "crwdns800438:0%{label}crwdnd800438:0%{value}crwdne800438:0"
-  text_journal_aggregation_time_explanation: "crwdns800440:0crwdne800440:0"
   text_journal_changed_html: "crwdns800442:0%{label}crwdnd800442:0%{old}crwdnd800442:0%{linebreak}crwdnd800442:0%{new}crwdne800442:0"
   text_journal_changed_plain: "crwdns800444:0%{label}crwdnd800444:0%{old}crwdnd800444:0%{linebreak}crwdnd800444:0%{new}crwdne800444:0"
   text_journal_changed_no_detail: "crwdns800446:0%{label}crwdne800446:0"
@@ -2808,7 +2826,6 @@ lol:
   wiki_menu_item_new_main_item_explanation: >
     crwdns800932:0crwdne800932:0
   wiki_menu_item_delete_not_permitted: crwdns800934:0crwdne800934:0
-  query_menu_item_for: "crwdns800936:0%{title}crwdne800936:0"
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
@@ -2833,6 +2850,7 @@ lol:
         work_package: "crwdns800964:0crwdne800964:0"
       expected:
         date: "crwdns800966:0crwdne800966:0"
+        datetime: "crwdns810576:0[.lll]crwdne810576:0"
         duration: "crwdns800968:0crwdne800968:0"
       invalid_content_type: "crwdns800970:0%{content_type}crwdnd800970:0%{actual}crwdne800970:0"
       invalid_format: "crwdns800972:0%{property}crwdnd800972:0%{expected_format}crwdnd800972:0%{actual}crwdne800972:0"
@@ -2844,6 +2862,7 @@ lol:
         select: "crwdns800982:0%{invalid}crwdnd800982:0%{supported}crwdne800982:0"
       invalid_user_status_transition: "crwdns800984:0crwdne800984:0"
       missing_content_type: "crwdns800986:0crwdne800986:0"
+      missing_property: "crwdns810578:0%{property}crwdne810578:0"
       missing_request_body: "crwdns800988:0crwdne800988:0"
       missing_or_malformed_parameter: "crwdns800990:0%{parameter}crwdne800990:0"
       multipart_body_error: "crwdns800992:0crwdne800992:0"
@@ -2867,6 +2886,7 @@ lol:
       schema: 'crwdns801020:0crwdne801020:0'
     undisclosed:
       parent: crwdns801022:0crwdne801022:0
+      ancestor: crwdns810580:0crwdne810580:0
   doorkeeper:
     pre_authorization:
       status: 'crwdns801024:0crwdne801024:0'

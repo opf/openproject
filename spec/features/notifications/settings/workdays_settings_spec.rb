@@ -79,7 +79,7 @@ describe "Workday notification settings", type: :feature, js: true do
     let(:pref) { current_user.pref }
 
     current_user do
-      FactoryBot.create :user
+      create :user
     end
 
     it_behaves_like 'workday settings'
@@ -88,11 +88,11 @@ describe "Workday notification settings", type: :feature, js: true do
   context 'with the user administration page' do
     let(:settings_page) { Pages::Reminders::Settings.new(other_user) }
 
-    let(:other_user) { FactoryBot.create :user }
+    let(:other_user) { create :user }
     let(:pref) { other_user.pref }
 
     current_user do
-      FactoryBot.create :admin
+      create :admin
     end
 
     it_behaves_like 'workday settings'

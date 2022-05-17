@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,7 +32,7 @@ describe 'layouts/base', type: :view do
   describe 'authenticator plugin' do
     include Redmine::MenuManager::MenuHelper
     helper Redmine::MenuManager::MenuHelper
-    let(:anonymous) { FactoryBot.build_stubbed(:anonymous) }
+    let(:anonymous) { build_stubbed(:anonymous) }
 
     before do
       allow(view).to receive(:current_menu_item).and_return('overview')

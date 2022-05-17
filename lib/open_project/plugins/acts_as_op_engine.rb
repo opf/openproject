@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,9 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_dependency 'open_project/ui/extensible_tabs'
-require_dependency 'config/constants/api_patch_registry'
-require_dependency 'config/constants/open_project/activity'
+require 'open_project/ui/extensible_tabs'
+require_relative '../../../config/constants/api_patch_registry'
+require_relative '../../../config/constants/open_project/activity'
+require_relative '../../../config/constants/views'
+require_relative '../../../config/constants/settings/definition'
 
 module OpenProject::Plugins
   module ActsAsOpEngine
@@ -195,24 +197,16 @@ module OpenProject::Plugins
           end
           p.instance_eval(&block) if p && block
         end
-
-        # Workaround to ensure settings are available after unloading in development mode
-        plugin_name = engine_name
-        if options.include? :settings
-          self.class.class_eval do
-            config.to_prepare do
-              Setting.create_setting("plugin_#{plugin_name}",
-                                     'default' => options[:settings][:default], 'serialized' => true)
-              Setting.create_setting_accessors("plugin_#{plugin_name}")
-            end
-          end
-        end
       end
 
       ##
       # Add a tab entry to an extensible tab
       def add_tab_entry(key, name:, partial:, path:, label:, only_if: nil)
         ::OpenProject::Ui::ExtensibleTabs.add(key, name: name, partial: partial, path: path, label: label, only_if: only_if)
+      end
+
+      def add_view(type, contract_strategy: nil)
+        Constants::Views.add(type, contract_strategy: contract_strategy)
       end
 
       def add_api_path(path_name, &block)

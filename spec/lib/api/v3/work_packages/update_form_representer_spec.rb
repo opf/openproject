@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -33,11 +31,11 @@ describe ::API::V3::WorkPackages::UpdateFormRepresenter do
   include API::V3::Utilities::PathHelper
 
   let(:errors) { [] }
-  let(:type) { FactoryBot.build_stubbed(:type) }
+  let(:type) { build_stubbed(:type) }
   let(:project) { work_package.project }
   let(:permissions) { %i(edit_work_packages) }
   let(:work_package) do
-    FactoryBot.build_stubbed(:stubbed_work_package)
+    build_stubbed(:stubbed_work_package)
   end
   include_context 'user with stubbed permissions'
   let(:representer) do

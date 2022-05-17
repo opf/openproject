@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -41,6 +41,7 @@ import {
   StateService,
   UIRouterModule,
 } from '@uirouter/angular';
+import { OpSpotModule } from 'core-app/spot/spot.module';
 import { CurrentUserModule } from 'core-app/core/current-user/current-user.module';
 import { IconModule } from 'core-app/shared/components/icon/icon.module';
 import { AttributeHelpTextModule } from 'core-app/shared/components/attribute-help-texts/attribute-help-text.module';
@@ -57,10 +58,13 @@ import { EnterpriseBannerBootstrapComponent } from 'core-app/shared/components/e
 import { HomescreenNewFeaturesBlockComponent } from 'core-app/features/homescreen/blocks/new-features.component';
 import { TablePaginationComponent } from 'core-app/shared/components/table-pagination/table-pagination.component';
 import { HookService } from 'core-app/features/plugins/hook-service';
+import { ViewSelectComponent } from 'core-app/shared/components/op-view-select/op-view-select.component';
+import { StaticQueriesService } from 'core-app/shared/components/op-view-select/op-static-queries.service';
 import {
   highlightColSelector,
   OpHighlightColDirective,
 } from './directives/highlight-col/highlight-col.directive';
+import { OpSearchHighlightDirective } from './directives/search-highlight.directive';
 
 import { CopyToClipboardDirective } from './components/copy-to-clipboard/copy-to-clipboard.directive';
 import { OpDateTimeComponent } from './components/date/op-date-time.component';
@@ -83,6 +87,10 @@ import { OpFormFieldComponent } from './components/forms/form-field/form-field.c
 import { OpFormBindingDirective } from './components/forms/form-field/form-binding.directive';
 import { OpOptionListComponent } from './components/option-list/option-list.component';
 import { OpSidemenuComponent } from './components/sidemenu/sidemenu.component';
+import { OpProjectIncludeComponent } from './components/project-include/project-include.component';
+import { OpProjectListComponent } from './components/project-include/project-list.component';
+import { ViewsResourceService } from 'core-app/core/state/views/views.service';
+import { OpenprojectContentLoaderModule } from 'core-app/shared/components/op-content-loader/openproject-content-loader.module';
 
 export function bootstrapModule(injector:Injector) {
   // Ensure error reporter is run
@@ -114,6 +122,7 @@ export function bootstrapModule(injector:Injector) {
     CommonModule,
     // Angular Forms
     FormsModule,
+    OpSpotModule,
     // Angular CDK
     PortalModule,
     DragDropModule,
@@ -124,6 +133,7 @@ export function bootstrapModule(injector:Injector) {
 
     DynamicBootstrapModule,
     OpenprojectPrincipalRenderingModule,
+    OpenprojectContentLoaderModule,
 
     DatePickerModule,
     FocusModule,
@@ -145,6 +155,8 @@ export function bootstrapModule(injector:Injector) {
     DynamicBootstrapModule,
     OpenprojectPrincipalRenderingModule,
 
+    OpSpotModule,
+
     DatePickerModule,
     FocusModule,
     OpDateTimeComponent,
@@ -156,6 +168,8 @@ export function bootstrapModule(injector:Injector) {
 
     // Table highlight
     OpHighlightColDirective,
+
+    OpSearchHighlightDirective,
 
     ResizerComponent,
 
@@ -185,9 +199,18 @@ export function bootstrapModule(injector:Injector) {
     OpFormBindingDirective,
     OpOptionListComponent,
     OpSidemenuComponent,
+    OpProjectIncludeComponent,
+    OpProjectListComponent,
+
+    ViewSelectComponent,
+  ],
+  providers: [
+    StaticQueriesService,
+    ViewsResourceService,
   ],
   declarations: [
     OpDateTimeComponent,
+    ViewSelectComponent,
 
     ToastsContainerComponent,
     ToastComponent,
@@ -209,6 +232,8 @@ export function bootstrapModule(injector:Injector) {
 
     TablePaginationComponent,
     SortHeaderDirective,
+
+    OpSearchHighlightDirective,
 
     // Zen mode button
     ZenModeButtonComponent,
@@ -237,6 +262,8 @@ export function bootstrapModule(injector:Injector) {
     OpFormBindingDirective,
     OpOptionListComponent,
     OpSidemenuComponent,
+    OpProjectIncludeComponent,
+    OpProjectListComponent,
   ],
 })
 export class OPSharedModule {

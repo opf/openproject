@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,7 +32,7 @@ module API
   module V3
     module WorkPackages
       class WatchersAPI < ::API::OpenProjectAPI
-        helpers ::API::Utilities::PageSizeHelper
+        helpers ::API::Utilities::UrlPropsParsingHelper
 
         get '/available_watchers' do
           authorize(:add_work_package_watchers, context: @work_package.project)
@@ -42,7 +42,7 @@ module API
 
           if query.valid?
             users = query.results.merge(@work_package.addable_watcher_users).includes(:preference)
-            ::API::V3::Users::PaginatedUserCollectionRepresenter.new(
+            ::API::V3::Users::UserCollectionRepresenter.new(
               users,
               self_link: api_v3_paths.users,
               page: to_i_or_nil(params[:offset]),
@@ -59,9 +59,9 @@ module API
             def watchers_collection
               watchers = @work_package.watcher_users.merge(Principal.not_locked)
               self_link = api_v3_paths.work_package_watchers(@work_package.id)
-              Users::UserCollectionRepresenter.new(watchers,
-                                                   self_link: self_link,
-                                                   current_user: current_user)
+              Users::UnpaginatedUserCollectionRepresenter.new(watchers,
+                                                              self_link: self_link,
+                                                              current_user: current_user)
             end
           end
 
@@ -76,7 +76,7 @@ module API
               fail ::API::Errors::InvalidRequestBody.new(I18n.t('api_v3.errors.missing_request_body'))
             end
 
-            representer = ::API::V3::Watchers::WatcherRepresenter.new(::Hashie::Mash.new)
+            representer = ::API::V3::Watchers::WatcherRepresenter.create(API::ParserStruct.new, current_user: current_user)
             representer.from_hash(request_body)
             user_id = representer.represented.user_id.to_i
 
@@ -95,7 +95,7 @@ module API
               }
             )
 
-            ::API::V3::Users::UserRepresenter.new(user, current_user: current_user)
+            ::API::V3::Users::UserRepresenter.create(user, current_user: current_user)
           end
 
           namespace ':user_id' do

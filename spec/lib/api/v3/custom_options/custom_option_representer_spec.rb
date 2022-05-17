@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,9 +31,9 @@ require 'spec_helper'
 describe ::API::V3::CustomOptions::CustomOptionRepresenter do
   include ::API::V3::Utilities::PathHelper
 
-  let(:custom_option) { FactoryBot.build_stubbed(:custom_option, custom_field: custom_field) }
-  let(:custom_field) { FactoryBot.build_stubbed(:list_wp_custom_field) }
-  let(:user) { FactoryBot.build_stubbed(:user) }
+  let(:custom_option) { build_stubbed(:custom_option, custom_field: custom_field) }
+  let(:custom_field) { build_stubbed(:list_wp_custom_field) }
+  let(:user) { build_stubbed(:user) }
   let(:representer) do
     described_class.new(custom_option, current_user: user)
   end

@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -39,7 +37,7 @@ describe Grids::CreateContract do
 
   describe 'user_id' do
     context 'for a Grids::MyPage' do
-      let(:grid) { FactoryBot.build_stubbed(:my_page, default_values) }
+      let(:grid) { build_stubbed(:my_page, default_values) }
 
       it_behaves_like 'is writable' do
         let(:attribute) { :user_id }
@@ -50,7 +48,7 @@ describe Grids::CreateContract do
 
   describe 'project_id' do
     context 'for a Grids::MyPage' do
-      let(:grid) { FactoryBot.build_stubbed(:my_page, default_values) }
+      let(:grid) { build_stubbed(:my_page, default_values) }
 
       it_behaves_like 'is not writable' do
         let(:attribute) { :project_id }

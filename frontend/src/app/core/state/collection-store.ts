@@ -1,17 +1,17 @@
 import {
+  applyTransaction,
   EntityState,
+  EntityStore,
   ID,
   QueryEntity,
 } from '@datorama/akita';
 import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
 import {
-  Apiv3ListParameters,
+  ApiV3ListParameters,
   listParamsString,
 } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import { Observable } from 'rxjs';
-import {
-  filter,
-} from 'rxjs/operators';
+import { filter } from 'rxjs/operators';
 
 export interface CollectionResponse {
   ids:ID[];
@@ -50,7 +50,7 @@ export function createInitialCollectionState():{ collections:Record<string, Coll
  *
  * @param params list params
  */
-export function collectionKey(params:Apiv3ListParameters):string {
+export function collectionKey(params:ApiV3ListParameters):string {
   return listParamsString(params);
 }
 
@@ -60,7 +60,7 @@ export function collectionKey(params:Apiv3ListParameters):string {
  * @param service
  * @param params
  */
-export function selectCollectionAsHrefs$<T extends CollectionItem>(service:CollectionService<T>, params:Apiv3ListParameters):Observable<CollectionResponse> {
+export function selectCollectionAsHrefs$<T extends CollectionItem>(service:CollectionService<T>, params:ApiV3ListParameters):Observable<CollectionResponse> {
   return service
     .query
     .select((state) => {
@@ -93,9 +93,46 @@ export function selectEntitiesFromIDCollection<T extends CollectionItem>(service
  * @param state
  * @param params
  */
-export function selectCollectionAsEntities$<T extends CollectionItem>(service:CollectionService<T>, state:CollectionState<T>, params:Apiv3ListParameters):T[] {
+export function selectCollectionAsEntities$<T extends CollectionItem>(service:CollectionService<T>, params:ApiV3ListParameters):T[] {
+  const state = service.query.getValue();
   const key = collectionKey(params);
   const collection = state.collections[key];
 
   return selectEntitiesFromIDCollection(service, collection);
+}
+
+/**
+ * Insert a collection into the given entity store
+ *
+ * @param store An entity store for the collection
+ * @param collection A loaded collection
+ * @param collectionUrl The key to insert the collection at
+ */
+export function insertCollectionIntoState<T extends { id:ID }>(
+  store:EntityStore<CollectionState<T>>,
+  collection:IHALCollection<T>,
+  collectionUrl:string,
+):void {
+  const { elements } = collection._embedded as { elements:undefined|T[] };
+
+  // Some JSON endpoints return no elements result if there are no elements
+  const ids = elements?.map((el) => el.id) || [];
+
+  applyTransaction(() => {
+    // Avoid inserting when elements is not defined
+    if (elements && elements.length > 0) {
+      store.upsertMany(collection._embedded.elements);
+    }
+
+    store.update(({ collections }) => (
+      {
+        collections: {
+          ...collections,
+          [collectionUrl]: {
+            ids,
+          },
+        },
+      }
+    ));
+  });
 }

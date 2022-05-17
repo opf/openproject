@@ -1,0 +1,13 @@
+#English strings go here
+lt:
+  permission_view_team_planner: "Žiūrėti komandos planą"
+  permission_manage_team_planner: "Tvarkyti komandos planą"
+  project_module_team_planner_view: "Komandos planas"
+  team_planner:
+    label_team_planner: "Komandos planas"
+    label_create_new_team_planner: "Create new team planner"
+    label_team_planner_plural: "Komandos planai"
+    label_assignees: "Paskirtieji"
+    upsale:
+      title: "Komandos planas"
+      description: "Team planner gives you a complete overview what each team member is working on, one week at a time. Move, stretch and shrink work packages visually, and even drag them from one assignee to another to organise workload. You can even create new work packages or add existing ones, all from within team planner!"

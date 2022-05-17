@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,21 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# We want to abort booting when there are missing migrations by default
-# since it can lead to runtime schema cache issues.
-# Refusing to boot will encourage admins to fix missing migrations.
-
-exceptions = %w(
-  db:create db:drop
-  db:migrate db:migrate:down db:migrate:redo db:migrate:up db:migrate:status
-  db:prepare db:reset db:rollback
-  db:structure:load db:schema:load
-  db:environment:set
-  db:version
-  assets:precompile assets:clean
-)
 is_console = Rails.const_defined? 'Console'
+no_rake_task = !(Rake.respond_to?(:application) && Rake.application.top_level_tasks.present?)
+no_override = ENV['OPENPROJECT_DISABLE__MIGRATIONS__CHECK'] != 'true'
 
-if Rails.env.production? && !is_console && (exceptions & ARGV).empty?
+if Rails.env.production? && !is_console && no_rake_task && no_override
   ActiveRecord::Migration.check_pending! # will raise an exception and abort boot
 end

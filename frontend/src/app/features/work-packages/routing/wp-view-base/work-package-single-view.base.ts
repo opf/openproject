@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -42,11 +42,12 @@ import { HalResourceEditingService } from 'core-app/shared/components/fields/edi
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { HookService } from 'core-app/features/plugins/hook-service';
 import { WpSingleViewService } from 'core-app/features/work-packages/routing/wp-view-base/state/wp-single-view.service';
 import { Observable } from 'rxjs';
 import { ActionsService } from 'core-app/core/state/actions/actions.service';
+import { AttachmentsResourceService } from 'core-app/core/state/attachments/attachments.service';
 
 export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
   @InjectField() states:States;
@@ -65,11 +66,13 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
 
   @InjectField() authorisationService:AuthorisationService;
 
+  @InjectField() attachmentsResourceService:AttachmentsResourceService;
+
   @InjectField() cdRef:ChangeDetectorRef;
 
   @InjectField() readonly titleService:OpTitleService;
 
-  @InjectField() readonly apiV3Service:APIV3Service;
+  @InjectField() readonly apiV3Service:ApiV3Service;
 
   @InjectField() readonly hooks:HookService;
 
@@ -161,6 +164,10 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
 
     // Preselect this work package for future list operations
     this.showStaticPagePath = this.PathHelper.workPackagePath(this.workPackageId);
+
+    // Fetch attachments of current work package
+    const attachments = this.workPackage.attachments as unknown&{ href:string };
+    this.attachmentsResourceService.fetchAttachments(attachments.href).subscribe();
 
     // Listen to tab changes to update the tab label
     this.keepTab.observable

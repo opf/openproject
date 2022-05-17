@@ -3,34 +3,34 @@ require 'spec_helper'
 describe 'Work Package highlighting fields',
          with_ee: %i[conditional_highlighting],
          js: true do
-  let(:user) { FactoryBot.create :admin }
+  let(:user) { create :admin }
 
-  let(:project) { FactoryBot.create(:project) }
+  let(:project) { create(:project) }
 
-  let(:status1) { FactoryBot.create :status, color: FactoryBot.create(:color, hexcode: '#FF0000') } # rgba(255, 0, 0, 1)
-  let(:status2) { FactoryBot.create :status, color: FactoryBot.create(:color, hexcode: '#F0F0F0') } # rgba(240, 240, 240, 1)
+  let(:status1) { create :status, color: create(:color, hexcode: '#FF0000') } # rgba(255, 0, 0, 1)
+  let(:status2) { create :status, color: create(:color, hexcode: '#F0F0F0') } # rgba(240, 240, 240, 1)
 
   let(:priority1) do
-    FactoryBot.create :issue_priority, color: FactoryBot.create(:color, hexcode: '#123456')
+    create :issue_priority, color: create(:color, hexcode: '#123456')
   end
-  let(:priority_no_color) { FactoryBot.create :issue_priority, color: nil }
+  let(:priority_no_color) { create :issue_priority, color: nil }
 
   let!(:wp_1) do
-    FactoryBot.create :work_package,
-                      project: project,
-                      status: status1,
-                      subject: 'B',
-                      due_date: (Date.today - 1.days),
-                      priority: priority1
+    create :work_package,
+           project: project,
+           status: status1,
+           subject: 'B',
+           due_date: (Date.today - 1.days),
+           priority: priority1
   end
 
   let!(:wp_2) do
-    FactoryBot.create :work_package,
-                      project: project,
-                      status: status2,
-                      subject: 'A',
-                      due_date: Date.today,
-                      priority: priority_no_color
+    create :work_package,
+           project: project,
+           status: status2,
+           subject: 'A',
+           due_date: Date.today,
+           priority: priority_no_color
   end
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
@@ -39,7 +39,7 @@ describe 'Work Package highlighting fields',
   let(:query_title) { ::Components::WorkPackages::QueryTitle.new }
 
   let!(:query) do
-    query = FactoryBot.build(:query, user: user, project: project)
+    query = build(:query, user: user, project: project)
     query.column_names = %w[id subject status priority due_date]
     query.highlighted_attributes = %i[status priority due_date]
     query.highlighting_mode = :inline

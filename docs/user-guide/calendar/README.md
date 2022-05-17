@@ -21,7 +21,7 @@ The calendar shows all of the project's work packages in calendar form.
 
 ## Calendar overview
 
-To display the calendar in a project, the module **calendar** needs to be activated in the [project settings](../projects/#project-settings).
+To display a calendar in a project, the module **calendar** needs to be activated in the [project settings](../projects/#project-settings).
 
 When you open the calendar, all work packages within the current project are displayed on the calendar, displaying the title of the work package. The colors represent the different [work package types](../../system-admin-guide/manage-work-packages/work-package-types).
 
@@ -29,9 +29,25 @@ The current month is automatically selected. You can change the  date range betw
 
 Hovering over one item displays more information to a work package, such as the type, status, start and finish date, assignee and priority, as well as the project to which the work package belongs.
 
-Click on one item to open the work package details or to edit an item.
+Click on any item to open the work package details or to edit an item.
 
-![calendar](1568639577828.png)
+![Calendar overview](calendar-overview.png)
+
+The numbers in the instruction below correspond to the numbers in the image above:
+
+1. Edit/change the name of your calendar or add additional calendars. Each calendar can be customized to display work packages from specific project(s). You can further fine-tune the information displayed using the filters.
+
+2. Change your calendar to be private to you or public to your organization: Select the **[⋮] button** -> **Visibility settings**
+
+   a. Check the **Public** box to make the calendar visible to your entire organization.
+
+   b. Check the **Favored** box to save the calendar to your favorites.
+
+3. Any calendar that has the **Favored** box checked in the "Visibility settings" will be displayed under the **Favorite Views** heading in the menu bar to the left.
+
+4. Any calendar that has the **Public** box checked in the "Visibility settings" will be displayed under the **Public Views** heading in the menu bar to the left.
+
+5. Any calendar that has the **Public** box unchecked in the **Visibility settings** will be considered **Private**, and hence displayed under the **Private Views** heading in the menu bar to the left.
 
 ## Filters in calendar
 
@@ -53,7 +69,7 @@ You can display the calendar in a full screen view to eliminate header and proje
 
 Click the **Activate zen mode** button on the top of the calendar.
 
-Click Escape (Esc) to leave the Zen mode.
+Click Escape (**Esc**) to leave the Zen mode.
 
 ![zen-calendar](zen-calendar.png)
 

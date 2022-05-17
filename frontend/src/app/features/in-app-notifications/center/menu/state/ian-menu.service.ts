@@ -11,8 +11,8 @@ import {
   EffectHandler,
 } from 'core-app/core/state/effects/effect-handler.decorator';
 import { ActionsService } from 'core-app/core/state/actions/actions.service';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { Apiv3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { InAppNotificationsResourceService } from 'core-app/core/state/in-app-notifications/in-app-notifications.service';
 import { ProjectsResourceService } from 'core-app/core/state/projects/projects.service';
@@ -37,7 +37,7 @@ export class IanMenuService {
     readonly ianResourceService:InAppNotificationsResourceService,
     readonly projectsResourceService:ProjectsResourceService,
     readonly actions$:ActionsService,
-    readonly apiV3Service:APIV3Service,
+    readonly apiV3Service:ApiV3Service,
   ) {
   }
 
@@ -60,7 +60,7 @@ export class IanMenuService {
   public reload():void {
     this.ianResourceService.fetchNotifications(IAN_MENU_PROJECT_FILTERS)
       .subscribe((data) => {
-        const projectsFilter:Apiv3ListParameters = {
+        const projectsFilter:ApiV3ListParameters = {
           pageSize: 100,
           filters: [],
         };

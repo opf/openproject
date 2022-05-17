@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,8 +29,8 @@
 require 'spec_helper'
 
 describe 'users/index', type: :view do
-  shared_let(:admin) { FactoryBot.create :admin }
-  let!(:user) { FactoryBot.create :user, firstname: "Scarlet", lastname: "Scallywag" }
+  shared_let(:admin) { create :admin }
+  let!(:user) { create :user, firstname: "Scarlet", lastname: "Scallywag" }
 
   before do
     User.system # create system user which is active but should not count towards limit

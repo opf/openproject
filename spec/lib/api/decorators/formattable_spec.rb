@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,43 +30,56 @@ require 'spec_helper'
 
 describe ::API::Decorators::Formattable do
   let(:represented) { 'A **raw** string!' }
+
   subject { described_class.new(represented).to_json }
 
-  it 'should indicate its format' do
-    is_expected.to be_json_eql('markdown'.to_json).at_path('format')
+  it 'indicates its format' do
+    expect(subject).to be_json_eql('markdown'.to_json).at_path('format')
   end
 
-  it 'should contain the raw string' do
-    is_expected.to be_json_eql(represented.to_json).at_path('raw')
+  it 'contains the raw string' do
+    expect(subject).to be_json_eql(represented.to_json).at_path('raw')
   end
 
-  it 'should contain the formatted string' do
-    is_expected.to be_json_eql('<p class="op-uc-p">A <strong>raw</strong> string!</p>'.to_json).at_path('html')
+  it 'contains the formatted string' do
+    expect(subject).to be_json_eql('<p class="op-uc-p">A <strong>raw</strong> string!</p>'.to_json).at_path('html')
   end
 
-  context 'passing an object context' do
-    let(:object) { FactoryBot.build_stubbed :work_package }
+  context 'when passing an object context' do
+    let(:object) { build_stubbed :work_package }
+
     subject { described_class.new(represented, object: object) }
 
     it 'passes that to format_text' do
+      # rubocop:disable RSpec/SubjectStub RSpec/MessageSpies
       expect(subject)
         .to receive(:format_text).with(anything, format: :markdown, object: object)
         .and_call_original
+      # rubocop:enable RSpec/SubjectStub RSpec/MessageSpies
 
       expect(subject.to_json)
         .to be_json_eql('<p class="op-uc-p">A <strong>raw</strong> string!</p>'.to_json).at_path('html')
     end
   end
 
-  context 'format specified explicitly' do
+  context 'when format specified explicitly' do
     subject { described_class.new(represented, plain: true).to_json }
 
-    it 'should indicate the explicit format' do
-      is_expected.to be_json_eql('plain'.to_json).at_path('format')
+    it 'indicates the explicit format' do
+      expect(subject).to be_json_eql('plain'.to_json).at_path('format')
     end
 
-    it 'should format using the explicit format' do
-      is_expected.to be_json_eql('<p>A **raw** string!</p>'.to_json).at_path('html')
+    it 'formats using the explicit format' do
+      expect(subject).to be_json_eql('<p>A **raw** string!</p>'.to_json).at_path('html')
+    end
+  end
+
+  context 'when passing a nil object as input' do
+    let(:represented) { nil }
+
+    it 'still outputs a string as per the specification' do
+      expect(subject).to be_json_eql(''.to_json).at_path('raw')
+      expect(subject).to be_json_eql(''.to_json).at_path('html')
     end
   end
 end

@@ -3,7 +3,7 @@ require:
   - rubocop-rspec
 
 AllCops:
-  TargetRubyVersion: 2.7
+  TargetRubyVersion: 3.0
   # Enable any new cops in new versions by default
   NewCops: enable
   Exclude:
@@ -69,6 +69,9 @@ Lint/UnderscorePrefixedVariableName:
 
 Lint/Void:
   Enabled: false
+
+Lint/AmbiguousBlockAssociation:
+  IgnoredMethods: [change]
 
 
 Metrics/ClassLength:
@@ -139,6 +142,10 @@ Rails/HttpPositionalArguments:
   Exclude:
     - 'spec/requests/api/v3/**/*.rb'
 
+# require_dependency is an obsolete method for Rails applications running in Zeitwerk mode.
+Rails/RequireDependency:
+  Enabled: true
+
 # For feature specs, we tend to have longer specs that cover a larger part of the functionality.
 # This is done for multiple reasons:
 # * performance, as setting up integration tests is costly
@@ -165,7 +172,7 @@ RSpec/MultipleExpectations:
     - 'modules/*/spec/features/**/*.rb'
 
 RSpec/MultipleMemoizedHelpers:
-  Max: 15
+  Max: 20
   AllowSubject: true
 
 RSpec/NestedGroups:
@@ -194,12 +201,16 @@ RSpec/NamedSubject:
 
 RSpec/ContextWording:
   Prefixes:
+    - as
     - when
     - with
     - without
     - if
     - unless
     - for
+
+RSpec/FactoryBot/SyntaxMethods:
+  Enabled: true
 
 Style/Alias:
   Enabled: false
@@ -254,9 +265,6 @@ Style/EachWithObject:
   Enabled: false
 
 Style/EmptyLiteral:
-  Enabled: false
-
-Style/Encoding:
   Enabled: false
 
 Style/EvenOdd:

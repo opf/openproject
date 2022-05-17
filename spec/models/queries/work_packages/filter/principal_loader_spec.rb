@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,10 +29,10 @@
 require 'spec_helper'
 
 describe Queries::WorkPackages::Filter::PrincipalLoader, type: :model do
-  let(:user) { FactoryBot.build_stubbed(:user) }
-  let(:group) { FactoryBot.build_stubbed(:group) }
-  let(:placeholder_user) { FactoryBot.build_stubbed(:placeholder_user) }
-  let(:project) { FactoryBot.build_stubbed(:project) }
+  let(:user) { build_stubbed(:user) }
+  let(:group) { build_stubbed(:group) }
+  let(:placeholder_user) { build_stubbed(:placeholder_user) }
+  let(:project) { build_stubbed(:project) }
   let(:instance) { described_class.new(project) }
 
   context 'with a project' do
@@ -90,12 +90,12 @@ describe Queries::WorkPackages::Filter::PrincipalLoader, type: :model do
 
   context 'without a project' do
     let(:project) { nil }
-    let(:visible_projects) { [FactoryBot.build_stubbed(:project)] }
+    let(:visible_projects) { [build_stubbed(:project)] }
     let(:matching_principals) { [user, group, placeholder_user] }
 
     before do
       allow(Principal)
-        .to receive_message_chain(:not_locked, :in_visible_project)
+        .to receive(:visible)
         .and_return(matching_principals)
     end
 
@@ -104,7 +104,7 @@ describe Queries::WorkPackages::Filter::PrincipalLoader, type: :model do
         expect(instance.user_values).to match_array([[user.name, user.id.to_s]])
       end
 
-      context 'no user exists' do
+      context 'if no user exists' do
         let(:matching_principals) { [group] }
 
         it 'is empty' do
@@ -118,7 +118,7 @@ describe Queries::WorkPackages::Filter::PrincipalLoader, type: :model do
         expect(instance.group_values).to match_array([[group.name, group.id.to_s]])
       end
 
-      context 'no group exists' do
+      context 'if no group exists' do
         let(:matching_principals) { [user] }
 
         it 'is empty' do
@@ -135,7 +135,7 @@ describe Queries::WorkPackages::Filter::PrincipalLoader, type: :model do
                            [placeholder_user.name, placeholder_user.id.to_s]])
       end
 
-      context 'no principals' do
+      context 'if no principals exist' do
         let(:matching_principals) { [] }
 
         it 'is empty' do

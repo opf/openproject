@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -56,7 +56,7 @@ module API
         end
 
         def merge_dependent_errors(call)
-          errors = ActiveModel::Errors.new call.result
+          errors = ActiveModel::Errors.new call.all_results.first
 
           call.dependent_results.each do |dr|
             dr.errors.full_messages.each do |full_message|
@@ -68,17 +68,25 @@ module API
         end
 
         def dependent_error_message(result, full_message)
+          key =
+            if result.id.blank?
+              :error_in_new_dependent
+            else
+              :error_in_dependent
+            end
+
           I18n.t(
-            :error_in_dependent,
+            key,
             dependent_class: result.model_name.human,
             related_id: result.id,
+            # TODO: Make it more robust, as not every model has a 'name' attribute (e.g. fall back to collection index?)
             related_subject: result.name,
             error: full_message
           )
         end
 
         def deduce_process_service
-          "::#{deduce_backend_namespace}::#{update_or_create}Service".constantize
+          lookup_namespaced_class("#{update_or_create}Service")
         end
 
         def deduce_process_contract

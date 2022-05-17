@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,23 +33,23 @@ describe 'API v3 Category resource' do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:role) { FactoryBot.create(:role, permissions: []) }
-  let(:private_project) { FactoryBot.create(:project, public: false) }
-  let(:public_project) { FactoryBot.create(:project, public: true) }
-  let(:anonymous_user) { FactoryBot.create(:user) }
+  let(:role) { create(:role, permissions: []) }
+  let(:private_project) { create(:project, public: false) }
+  let(:public_project) { create(:project, public: true) }
+  let(:anonymous_user) { create(:user) }
   let(:privileged_user) do
-    FactoryBot.create(:user,
-                      member_in_project: private_project,
-                      member_through_role: role)
+    create(:user,
+           member_in_project: private_project,
+           member_through_role: role)
   end
 
-  let!(:categories) { FactoryBot.create_list(:category, 3, project: private_project) }
-  let!(:other_categories) { FactoryBot.create_list(:category, 2, project: public_project) }
+  let!(:categories) { create_list(:category, 3, project: private_project) }
+  let!(:other_categories) { create_list(:category, 2, project: public_project) }
   let!(:user_categories) do
-    FactoryBot.create_list(:category,
-                           2,
-                           project: private_project,
-                           assigned_to: privileged_user)
+    create_list(:category,
+                2,
+                project: private_project,
+                assigned_to: privileged_user)
   end
 
   describe 'categories by project' do

@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -73,6 +73,15 @@
       start_trial: 'Start free trial'
       book_now: 'Book now'
       get_quote: 'Get a quote'
+      buttons:
+        upgrade: "Upgrade now"
+        contact: "Contact us for a demo"
+      enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
+      upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
+    journal_aggregation:
+      explanation:
+        text: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent and will also affect %{webhook_link} delay."
+        link: "webhook"
   announcements:
     show_until: Vis til
     is_active: vises nå
@@ -161,7 +170,7 @@
     edit: 'Rediger egendefinert handling %{name}'
     execute: 'Utfør %{name}'
     upsale:
-      title: 'Custom actions is an Enterprise Edition feature'
+      title: 'Custom actions'
       description: 'Custom actions streamline everyday work by combining a set of individual steps into one button.'
   custom_fields:
     text_add_new_custom_field: >
@@ -260,7 +269,7 @@
       irreversible: "This action is irreversible"
       confirmation: "Enter the placeholder user name %{name} to confirm the deletion."
     upsale:
-      title: Assign work to people that are not members of the project.
+      title: Placeholder users
       description: >
         There are multiple scenarios where you want to assign work to people that are not member of your project. It could simply be that you still need to hire the correct person for the job. Or you just don't want to give that person access to the project's information but still want track tasks assigned to that person.
   prioritiies:
@@ -450,9 +459,12 @@
         code: 'Status'
         explanation: 'Statusbeskrivelse'
         codes:
+          not_started: 'Not started'
           on_track: 'På rett spor'
           at_risk: 'I fare'
           off_track: 'Sporet av'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
       query:
         column_names: "Kolonner"
         relations_to_type_column: "Forbindelser til %{type}"
@@ -463,7 +475,6 @@
       repository:
         url: "URL"
       role:
-        assignable: "Work packages can be assigned to users and groups in possession of this role in the respective project"
         permissions: "Tilganger"
       time_entry:
         activity: "Aktivitet"
@@ -554,6 +565,7 @@
         even: "må være partall"
         exclusion: "er reservert."
         file_too_large: "er for stor (maks størrelse er %{count} Bytes)."
+        filter_does_not_exist: "filter does not exist."
         format: "does not match the expected format '%{expected}'."
         format_nested: "does not match the expected format '%{expected}' at path '%{path}'."
         greater_than: "må være større enn %{count}."
@@ -858,7 +870,7 @@
     id: "ID"
     is_default: "Standardverdi"
     is_for_all: "For alle prosjekter"
-    is_public: "Offentlig"
+    public: "Offentlig"
     #kept for backwards compatibility
     issue: "Arbeidspakke"
     lastname: "Etternavn"
@@ -868,7 +880,6 @@
     password: "Passord"
     priority: "Prioritet"
     project: "Prosjekt"
-    public: "Offentlig"
     responsible: "Ansvarlig"
     role: "Rolle"
     roles: "Rolle"
@@ -882,6 +893,7 @@
     updated_on: "Oppdatert"
     uploader: "Opplaster"
     user: "Bruker"
+    value: "Value"
     version: "Versjon"
     work_package: "Arbeidspakke"
   backup:
@@ -1223,6 +1235,7 @@
   error_enterprise_token_invalid_domain: "The Enterprise Edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: 'Kan ikke slette denne oppføringen.'
   error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
+  error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Ugyldig valgt verdi."
   error_journal_attribute_not_present: "Journal does not contain attribute %{attribute}."
   error_pdf_export_too_many_columns: "Too many columns selected for the PDF export. Please reduce the number of columns."
@@ -1332,7 +1345,9 @@
   menus:
     admin:
       mail_notification: "E-postvarsler"
-      incoming_outgoing: "Incoming & Outgoing"
+      mails_and_notifications: "Emails and notification"
+      aggregation_and_retention: 'Aggregation and retention'
+      api_and_webhooks: "API and webhooks"
     quick_add:
       label: "Open quick add menu"
   my_account:
@@ -1626,6 +1641,10 @@
   label_member_plural: "Medlemmer"
   lable_membership_added: 'Member added'
   lable_membership_updated: 'Member updated'
+  label_menu_badge:
+    pre_alpha: 'pre-alpha'
+    alpha: 'alpha'
+    beta: 'beta'
   label_menu_item_name: "Navn på menyelement"
   label_message: "Melding"
   label_message_last: "Siste melding"
@@ -1731,7 +1750,6 @@
   label_public_projects: "Offentlige prosjekter"
   label_query_new: "Ny spørring"
   label_query_plural: "Egendefinerte spørringer"
-  label_query_menu_item: "Menyelement-spørring"
   label_read: "Les..."
   label_register: "Opprett ny konto"
   label_register_with_developer: "Registrer som utvikler"
@@ -1829,7 +1847,7 @@
   label_used_by_types: "Used by types"
   label_used_in_projects: "Used in projects"
   label_user: "Bruker"
-  label_user_and_permission: "Users & Permissions"
+  label_user_and_permission: "Users and permissions"
   label_user_named: "User %{name}"
   label_user_activity: "%{value}s aktivitet"
   label_user_anonymous: "Anonym"
@@ -1979,7 +1997,7 @@
   mail_body_backup_waiting_period: The new token will be enabled in %{hours} hours.
   mail_body_backup_token_warning: If this wasn't you, login to OpenProject immediately and reset it again.
   mail_body_lost_password: "Trykk på følgende lenke for å endre passordet ditt:"
-  mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
+  mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "Project member invitation email"
   mail_body_register_user: "Dear %{name}, "
   mail_body_register_links_html: |
@@ -2122,7 +2140,7 @@
     heading_getting_started: "Get an overview"
     text_getting_started_description: "Get a quick overview of project management and team collaboration with OpenProject."
     text_show_again: "You can restart this video from the help menu"
-    welcome: "Welcome to OpenProject"
+    welcome: "Welcome to %{app_title}"
     select_language: "Please select your language"
   permission_add_work_package_notes: "Legg til notater"
   permission_add_work_packages: "Legg til arbeidspakker"
@@ -2138,6 +2156,7 @@
   permission_comment_news: "Kommenter nyheter"
   permission_commit_access: "Read/write access to repository (commit)"
   permission_copy_projects: "Kopier prosjekter"
+  permission_create_backup: "Create backup"
   permission_delete_work_package_watchers: "Slett overvåkere"
   permission_delete_work_packages: "Slett arbeidspakker"
   permission_delete_messages: "Slett meldinger"
@@ -2180,7 +2199,6 @@
   permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Velg prosjektmoduler"
   permission_manage_types: "Velg typer"
-  permission_view_calendar: "Vis kalender"
   permission_view_changesets: "View repository revisions in OpenProject"
   permission_view_commit_author_statistics: "Vis statistikk over forfatterbidrag"
   permission_view_work_package_watchers: "Vis liste over overvåkere"
@@ -2192,6 +2210,8 @@
   permission_view_timelines: "Vis tidslinjer"
   permission_view_wiki_edits: "Vis wiki-historikk"
   permission_view_wiki_pages: "Vis wiki"
+  permission_work_package_assigned: "Become assignee/responsible"
+  permission_work_package_assigned_explanation: "Work packages can be assigned to users and groups in possession of this role in the respective project"
   placeholders:
     default: "-"
   project:
@@ -2216,7 +2236,6 @@
       archived: "Archived"
   project_module_activity: "Aktivitet"
   project_module_forums: "Forum"
-  project_module_calendar: "Kalender"
   project_module_work_package_tracking: "Sporing av arbeidspakke"
   project_module_news: "Nyheter"
   project_module_repository: "Pakkebrønn"
@@ -2230,7 +2249,7 @@
     assigned_to_role: "Deltakers rolle"
     member_of_group: "Deltakers gruppe"
     assignee_or_group: "Assignee or belonging group"
-    subproject_id: "Including Subproject"
+    subproject_id: "Including subproject"
     only_subproject_id: "Only subproject"
     name_or_identifier: "Name or identifier"
   repositories:
@@ -2554,7 +2573,6 @@
   text_work_packages_destroy_confirmation: "Er du sikker på at du vil slette valgte arbeidspakke(r)?"
   text_work_packages_ref_in_commit_messages: "Referèring og retting av arbeidspakker i innsendingsmeldinger"
   text_journal_added: "%{label} %{value} lagt til"
-  text_journal_aggregation_time_explanation: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent."
   text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
   text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label} oppdatert"
@@ -2845,7 +2863,6 @@
   wiki_menu_item_new_main_item_explanation: >
     Du er i ferd med å slette det eneste wiki-menyelementet. Du må velge en wiki-side som skal brukes for generering av et nytt hovedelement. For å slette hele wikien må wiki-modulen deaktiveres av en prosjektadministrator.
   wiki_menu_item_delete_not_permitted: Menyelementet til den eneste wiki-siden kan ikke slettes.
-  query_menu_item_for: "Menyelement for spørringen \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
@@ -2870,6 +2887,7 @@
         work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:
         date: "YYYY-MM-DD (ISO 8601 date only)"
+        datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm] (any compatible ISO 8601 datetime)"
         duration: "ISO 8601 duration"
       invalid_content_type: "Forventet at INNHOLDSTYPE skulle være '%{content_type}', men mottok i stedet '%{actual}'."
       invalid_format: "Ugyldig format for '%{property}': forventet format som \"%{expected_format}\", men fikk '%{actual}'."
@@ -2881,6 +2899,7 @@
         select: "The requested select of %{invalid} is not supported. Supported selects are %{supported}."
       invalid_user_status_transition: "Kontostatusen til gjeldende brukerkonto tillater ikke denne operasjonen."
       missing_content_type: "ikke spesifisert"
+      missing_property: "Missing property '%{property}'."
       missing_request_body: "Det var ingen brødtekst i forespørselen."
       missing_or_malformed_parameter: "The query parameter '%{parameter}' is missing or malformed."
       multipart_body_error: "Brødteksten i forespørselen inneholder ikke de forventede multipart-delene."
@@ -2904,6 +2923,7 @@
       schema: 'Skjema'
     undisclosed:
       parent: Undisclosed - The selected parent is invisible because of lacking permissions.
+      ancestor: Undisclosed - The ancestor is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 'Pre-authorization'

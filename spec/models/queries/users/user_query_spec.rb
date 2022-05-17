@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,9 +27,6 @@
 #++
 
 require 'spec_helper'
-# prevents test failures where the system user
-# is mentioned in the User.user scope
-require 'system_user'
 
 describe Queries::Users::UserQuery, type: :model do
   let(:instance) { described_class.new }
@@ -98,7 +95,7 @@ describe Queries::Users::UserQuery, type: :model do
   end
 
   context 'with a group filter' do
-    let(:group_1) { FactoryBot.build_stubbed(:group) }
+    let(:group_1) { build_stubbed(:group) }
 
     before do
       allow(Group)
@@ -156,7 +153,7 @@ describe Queries::Users::UserQuery, type: :model do
       it 'returns the error on the filter' do
         instance.valid?
 
-        expect(instance.errors[:filters]).to eql ["Not supposed to exist does not exist."]
+        expect(instance.errors[:filters]).to eql ["Not supposed to exist filter does not exist."]
       end
     end
   end

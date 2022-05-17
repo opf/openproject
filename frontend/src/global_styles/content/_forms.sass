@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -95,6 +95,7 @@ form
 
       & > *
         padding-left: 1rem
+        padding-right: 1rem
 
     .form--section-title
       background-color: var(--content-form-danger-zone-bg-color)
@@ -181,7 +182,7 @@ hr
 
     &.-invisible
       border-bottom-width: 0px
-      
+
     &_limited
       max-width: 600px
 
@@ -483,6 +484,9 @@ fieldset.form--fieldset
 
   &.-no-italic
     font-style: normal
+
+  &.-labeled-checkbox
+    margin-left: 25px
 
 .form--inline-instructions
   font-style: italic

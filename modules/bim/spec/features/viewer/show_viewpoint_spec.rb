@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,22 +33,22 @@ describe 'Show viewpoint in model viewer',
          type: :feature,
          js: true do
   let(:project) do
-    FactoryBot.create(:project,
-                      enabled_module_names: %i[bim work_package_tracking],
-                      parent: parent_project)
+    create(:project,
+           enabled_module_names: %i[bim work_package_tracking],
+           parent: parent_project)
   end
   let(:parent_project) { nil }
-  let(:user) { FactoryBot.create :admin }
+  let(:user) { create :admin }
 
-  let!(:work_package) { FactoryBot.create(:work_package, project: project) }
-  let!(:bcf) { FactoryBot.create :bcf_issue, work_package: work_package }
-  let!(:viewpoint) { FactoryBot.create :bcf_viewpoint, issue: bcf, viewpoint_name: 'minimal_hidden_except_one' }
+  let!(:work_package) { create(:work_package, project: project) }
+  let!(:bcf) { create :bcf_issue, work_package: work_package }
+  let!(:viewpoint) { create :bcf_viewpoint, issue: bcf, viewpoint_name: 'minimal_hidden_except_one' }
 
   let!(:model) do
-    FactoryBot.create(:ifc_model_minimal_converted,
-                      title: 'minimal',
-                      project: project,
-                      uploader: user)
+    create(:ifc_model_minimal_converted,
+           title: 'minimal',
+           project: project,
+           uploader: user)
   end
 
   let(:model_tree) { ::Components::XeokitModelTree.new }
@@ -96,7 +96,7 @@ describe 'Show viewpoint in model viewer',
 
   context 'when in details view' do
     before do
-      card_view.open_full_screen_by_details(work_package)
+      card_view.click_info_icon(work_package)
       bcf_details.expect_viewpoint_count(1)
 
       # We need to wait a bit for xeokit to be initialized
@@ -117,7 +117,7 @@ describe 'Show viewpoint in model viewer',
         bcf_details.expect_viewpoint_count(1)
         bcf_details.show_current_viewpoint
 
-        path = Regexp.escape("bcf/split/details/#{work_package.id}/overview")
+        path = Regexp.escape("bcf/details/#{work_package.id}/overview")
         expect(page).to have_current_path /#{path}/
 
         expect(page).to have_current_path /#{project.id}/
@@ -129,7 +129,7 @@ describe 'Show viewpoint in model viewer',
     end
 
     context "current project is a parent of the work package's project" do
-      let(:parent_project) { FactoryBot.create :project, enabled_module_names: [:work_package_tracking] }
+      let(:parent_project) { create :project, enabled_module_names: [:work_package_tracking] }
       let(:wp_details) { ::Pages::SplitWorkPackage.new(work_package, parent_project) }
 
       it_behaves_like "moves to the BCF page"
@@ -139,9 +139,9 @@ describe 'Show viewpoint in model viewer',
       let(:permissions) { %i[view_ifc_models view_work_packages] }
 
       let(:user) do
-        FactoryBot.create(:user,
-                          member_in_project: project,
-                          member_with_permissions: permissions)
+        create(:user,
+               member_in_project: project,
+               member_with_permissions: permissions)
       end
 
       it 'does not show the viewpoint' do

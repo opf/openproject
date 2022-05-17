@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,15 +33,15 @@ describe ::API::V3::WorkPackages::CreateFormRepresenter do
 
   let(:errors) { [] }
   let(:project) do
-    FactoryBot.build_stubbed(:project)
+    build_stubbed(:project)
   end
   let(:work_package) do
-    FactoryBot.build_stubbed(:stubbed_work_package, project: project).tap do |wp|
+    build_stubbed(:stubbed_work_package, project: project).tap do |wp|
       allow(wp).to receive(:assignable_versions).and_return []
     end
   end
   let(:current_user) do
-    FactoryBot.build_stubbed(:user)
+    build_stubbed(:user)
   end
   let(:representer) do
     described_class.new(work_package, current_user: current_user, errors: errors)
@@ -189,14 +187,14 @@ describe ::API::V3::WorkPackages::CreateFormRepresenter do
       end
 
       context 'for an admin and with type' do
-        let(:type) { FactoryBot.build_stubbed(:type) }
-        let(:current_user) { FactoryBot.build_stubbed(:admin) }
+        let(:type) { build_stubbed(:type) }
+        let(:current_user) { build_stubbed(:admin) }
         let(:work_package) do
-          FactoryBot.build(:work_package,
-                           id: 42,
-                           created_at: DateTime.now,
-                           updated_at: DateTime.now,
-                           type: type)
+          build(:work_package,
+                id: 42,
+                created_at: DateTime.now,
+                updated_at: DateTime.now,
+                type: type)
         end
 
         before do

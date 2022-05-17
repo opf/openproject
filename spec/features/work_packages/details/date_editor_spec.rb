@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,9 +36,9 @@ require 'features/work_packages/work_packages_page'
 describe 'date inplace editor',
          with_settings: { date_format: '%Y-%m-%d' },
          js: true, selenium: true do
-  let(:project) { FactoryBot.create :project_with_types, public: true }
-  let(:work_package) { FactoryBot.create :work_package, project: project, start_date: '2016-01-01' }
-  let(:user) { FactoryBot.create :admin }
+  let(:project) { create :project_with_types, public: true }
+  let(:work_package) { create :work_package, project: project, start_date: '2016-01-01' }
+  let(:user) { create :admin }
   let(:work_packages_page) { Pages::FullWorkPackage.new(work_package, project) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
 
@@ -80,7 +80,7 @@ describe 'date inplace editor',
   end
 
   context 'with the start date empty' do
-    let(:work_package) { FactoryBot.create :work_package, project: project, start_date: nil }
+    let(:work_package) { create :work_package, project: project, start_date: nil }
 
     it 'can set "today" as a date via the provided link' do
       start_date.activate!
@@ -148,13 +148,13 @@ describe 'date inplace editor',
   end
 
   context 'with a date custom field' do
-    let!(:type) { FactoryBot.create :type }
-    let!(:project) { FactoryBot.create :project, types: [type] }
-    let!(:priority) { FactoryBot.create :default_priority }
-    let!(:status) { FactoryBot.create :default_status }
+    let!(:type) { create :type }
+    let!(:project) { create :project, types: [type] }
+    let!(:priority) { create :default_priority }
+    let!(:status) { create :default_status }
 
     let!(:date_cf) do
-      FactoryBot.create(
+      create(
         :date_wp_custom_field,
         name: "My date",
         types: [type],

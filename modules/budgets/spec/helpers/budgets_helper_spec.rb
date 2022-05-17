@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,8 +29,8 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe BudgetsHelper, type: :helper do
-  let(:project) { FactoryBot.build(:project) }
-  let(:budget) { FactoryBot.build(:budget, project: project) }
+  let(:project) { build(:project) }
+  let(:budget) { build(:budget, project: project) }
 
   describe '#budgets_to_csv' do
     describe 'WITH a list of one cost object' do

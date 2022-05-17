@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,15 +29,15 @@
 require 'spec_helper'
 
 describe WikiMenuItemsController, type: :controller do
-  let(:current_user) { FactoryBot.create(:admin) }
+  let(:current_user) { create(:admin) }
 
   # create project with wiki
-  let(:project) { FactoryBot.create(:project).reload } # a wiki is created for project, but the object doesn't know of it (FIXME?)
+  let(:project) { create(:project).reload } # a wiki is created for project, but the object doesn't know of it (FIXME?)
   let(:wiki) { project.wiki }
 
-  let(:wiki_page) { FactoryBot.create(:wiki_page, wiki: wiki) } # first wiki page without child pages
+  let(:wiki_page) { create(:wiki_page, wiki: wiki) } # first wiki page without child pages
   let!(:top_level_wiki_menu_item) do
-    FactoryBot.create(:wiki_menu_item, :with_menu_item_options, wiki: wiki, name: wiki_page.slug)
+    create(:wiki_menu_item, :with_menu_item_options, wiki: wiki, name: wiki_page.slug)
   end
 
   before :each do
@@ -47,21 +47,21 @@ describe WikiMenuItemsController, type: :controller do
 
   describe '#edit' do
     # more wiki pages with menu items
-    let(:another_wiki_page) { FactoryBot.create(:wiki_page, wiki: wiki) } # second wiki page with two child pages
+    let(:another_wiki_page) { create(:wiki_page, wiki: wiki) } # second wiki page with two child pages
     let!(:another_wiki_page_top_level_wiki_menu_item) do
-      FactoryBot.create(:wiki_menu_item, wiki: wiki, name: another_wiki_page.slug)
+      create(:wiki_menu_item, wiki: wiki, name: another_wiki_page.slug)
     end
 
     # child pages of another_wiki_page
-    let(:child_page) { FactoryBot.create(:wiki_page, parent: another_wiki_page, wiki: wiki) }
-    let!(:child_page_wiki_menu_item) { FactoryBot.create(:wiki_menu_item, wiki: wiki, name: child_page.slug) }
-    let(:another_child_page) { FactoryBot.create(:wiki_page, parent: another_wiki_page, wiki: wiki) }
+    let(:child_page) { create(:wiki_page, parent: another_wiki_page, wiki: wiki) }
+    let!(:child_page_wiki_menu_item) { create(:wiki_menu_item, wiki: wiki, name: child_page.slug) }
+    let(:another_child_page) { create(:wiki_page, parent: another_wiki_page, wiki: wiki) }
     let!(:another_child_page_wiki_menu_item) do
-      FactoryBot.create(:wiki_menu_item, wiki: wiki, name: another_child_page.slug, parent: top_level_wiki_menu_item)
+      create(:wiki_menu_item, wiki: wiki, name: another_child_page.slug, parent: top_level_wiki_menu_item)
     end
 
-    let(:grand_child_page) { FactoryBot.create(:wiki_page, parent: child_page, wiki: wiki) }
-    let!(:grand_child_page_wiki_menu_item) { FactoryBot.create(:wiki_menu_item, wiki: wiki, name: grand_child_page.slug) }
+    let(:grand_child_page) { create(:wiki_page, parent: child_page, wiki: wiki) }
+    let!(:grand_child_page_wiki_menu_item) { create(:wiki_menu_item, wiki: wiki, name: grand_child_page.slug) }
 
     context 'when no parent wiki menu item has been configured yet' do
       context 'and it is a child page' do
@@ -100,10 +100,10 @@ describe WikiMenuItemsController, type: :controller do
   end
 
   shared_context 'when there is one more wiki page with a child page' do
-    let!(:child_page) { FactoryBot.create(:wiki_page, parent: wiki_page, wiki: wiki) }
+    let!(:child_page) { create(:wiki_page, parent: wiki_page, wiki: wiki) }
 
-    let!(:another_wiki_page) { FactoryBot.create(:wiki_page, wiki: wiki) } # second wiki page with two child pages
-    let!(:another_child_page) { FactoryBot.create(:wiki_page, parent: another_wiki_page, wiki: wiki) }
+    let!(:another_wiki_page) { create(:wiki_page, wiki: wiki) } # second wiki page with two child pages
+    let!(:another_child_page) { create(:wiki_page, parent: another_wiki_page, wiki: wiki) }
   end
 
   describe '#select_main_menu_item' do

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,14 +34,14 @@ describe 'API v3 Cost Entry resource' do
   include API::V3::Utilities::PathHelper
 
   let(:current_user) do
-    FactoryBot.create(:user, member_in_project: project, member_through_role: role)
+    create(:user, member_in_project: project, member_through_role: role)
   end
-  let(:role) { FactoryBot.create(:role, permissions: permissions) }
+  let(:role) { create(:role, permissions: permissions) }
   let(:permissions) { [:view_cost_entries] }
-  let(:project) { FactoryBot.create(:project) }
+  let(:project) { create(:project) }
   subject(:response) { last_response }
 
-  let(:cost_entry) { FactoryBot.create(:cost_entry, project: project) }
+  let(:cost_entry) { create(:cost_entry, project: project) }
 
   before do
     login_as(current_user)
@@ -79,7 +79,7 @@ describe 'API v3 Cost Entry resource' do
       end
 
       context 'cost entry is his own' do
-        let(:cost_entry) { FactoryBot.create(:cost_entry, project: project, user: current_user) }
+        let(:cost_entry) { create(:cost_entry, project: project, user: current_user) }
 
         it 'should return HTTP 200' do
           expect(response.status).to eql(200)
@@ -91,7 +91,7 @@ describe 'API v3 Cost Entry resource' do
       let(:permissions) { [] }
 
       describe 'he can\'t even see own cost entries' do
-        let(:cost_entry) { FactoryBot.create(:cost_entry, project: project, user: current_user) }
+        let(:cost_entry) { create(:cost_entry, project: project, user: current_user) }
         it_behaves_like 'error response',
                         403,
                         'MissingPermission',

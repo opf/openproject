@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -64,7 +64,7 @@ describe Queries::WorkPackages::Filter::CategoryFilter, type: :model do
     end
 
     describe '#allowed_values' do
-      let(:category) { FactoryBot.build_stubbed(:category) }
+      let(:category) { build_stubbed(:category) }
 
       before do
         allow(project)
@@ -79,8 +79,8 @@ describe Queries::WorkPackages::Filter::CategoryFilter, type: :model do
     end
 
     describe '#value_objects' do
-      let(:category1) { FactoryBot.build_stubbed(:category) }
-      let(:category2) { FactoryBot.build_stubbed(:category) }
+      let(:category1) { build_stubbed(:category) }
+      let(:category2) { build_stubbed(:category) }
 
       before do
         allow(project)

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -61,7 +61,7 @@ describe DeletedUser, type: :model do
 
   describe '#available_custom_fields' do
     before do
-      FactoryBot.create(:user_custom_field)
+      create(:user_custom_field)
     end
 
     it { expect(user.available_custom_fields).to eq([]) }
@@ -69,8 +69,8 @@ describe DeletedUser, type: :model do
 
   describe '#create' do
     describe 'WHEN creating a second deleted user' do
-      let(:u1) { FactoryBot.build(:deleted_user) }
-      let(:u2) { FactoryBot.build(:deleted_user) }
+      let(:u1) { build(:deleted_user) }
+      let(:u2) { build(:deleted_user) }
 
       before do
         u1.save!
@@ -93,7 +93,7 @@ describe DeletedUser, type: :model do
 
   describe '#first' do
     describe 'WHEN a deleted user already exists' do
-      let(:user) { FactoryBot.build(:deleted_user) }
+      let(:user) { build(:deleted_user) }
 
       before do
         user.save!

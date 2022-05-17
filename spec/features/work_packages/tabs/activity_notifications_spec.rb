@@ -4,11 +4,11 @@ require 'features/work_packages/work_packages_page'
 require 'support/edit_fields/edit_field'
 
 describe 'Activity tab notifications', js: true, selenium: true do
-  shared_let(:project) { FactoryBot.create :project_with_types, public: true }
+  shared_let(:project) { create :project_with_types, public: true }
   shared_let(:work_package) do
-    work_package = FactoryBot.create(:work_package,
-                                     project: project,
-                                     created_at: 5.days.ago.to_date.to_s(:db))
+    work_package = create(:work_package,
+                          project: project,
+                          created_at: 5.days.ago.to_date.to_s(:db))
 
     work_package.update({ journal_notes: 'First comment on this wp.',
                           updated_at: 5.days.ago.to_date.to_s })
@@ -19,15 +19,15 @@ describe 'Activity tab notifications', js: true, selenium: true do
 
     work_package
   end
-  shared_let(:admin) { FactoryBot.create(:admin) }
+  shared_let(:admin) { create(:admin) }
 
   shared_examples_for 'when there are notifications for the work package' do
     shared_let(:notification) do
-      FactoryBot.create :notification,
-                        recipient: admin,
-                        project: project,
-                        resource: work_package,
-                        journal: work_package.journals.last
+      create :notification,
+             recipient: admin,
+             project: project,
+             resource: work_package,
+             journal: work_package.journals.last
     end
     it 'shows a notification bubble with the right number' do
       expect(page).to have_selector('[data-qa-selector="tab-counter-Activity"]', text: '1')
@@ -94,7 +94,7 @@ describe 'Activity tab notifications', js: true, selenium: true do
   context 'when visiting as an anonymous user', with_settings: { login_required?: false } do
     let(:full_view) { Pages::FullWorkPackage.new(work_package, project) }
     let!(:anonymous_role) do
-      FactoryBot.create :anonymous_role, permissions: [:view_work_packages]
+      create :anonymous_role, permissions: [:view_work_packages]
     end
 
     it 'does not show an error' do

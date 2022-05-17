@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,22 +29,22 @@
 require 'spec_helper'
 
 describe Projects::Scopes::VisibleWithActivatedTimeActivity, type: :model do
-  let!(:activity) { FactoryBot.create(:time_entry_activity) }
-  let!(:project) { FactoryBot.create(:project) }
-  let!(:other_project) { FactoryBot.create(:project) }
+  let!(:activity) { create(:time_entry_activity) }
+  let!(:project) { create(:project) }
+  let!(:other_project) { create(:project) }
   let(:project_permissions) { [:view_time_entries] }
   let(:other_project_permissions) { [:view_time_entries] }
   let(:current_user) do
-    FactoryBot.create(:user).tap do |u|
-      FactoryBot.create(:member,
-                        project: project,
-                        principal: u,
-                        roles: [FactoryBot.create(:role, permissions: project_permissions)])
+    create(:user).tap do |u|
+      create(:member,
+             project: project,
+             principal: u,
+             roles: [create(:role, permissions: project_permissions)])
 
-      FactoryBot.create(:member,
-                        project: other_project,
-                        principal: u,
-                        roles: [FactoryBot.create(:role, permissions: other_project_permissions)])
+      create(:member,
+             project: other_project,
+             principal: u,
+             roles: [create(:role, permissions: other_project_permissions)])
     end
   end
 

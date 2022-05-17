@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,12 +29,12 @@
 require 'spec_helper'
 
 describe MembersController, type: :controller do
-  shared_let(:admin) { FactoryBot.create :admin }
-  let(:user) { FactoryBot.create(:user) }
-  let(:project) { FactoryBot.create(:project, identifier: 'pet_project') }
-  let(:role) { FactoryBot.create(:role) }
+  shared_let(:admin) { create :admin }
+  let(:user) { create(:user) }
+  let(:project) { create(:project, identifier: 'pet_project') }
+  let(:role) { create(:role) }
   let(:member) do
-    FactoryBot.create(:member, project: project,
+    create(:member, project: project,
                                user: user,
                                roles: [role])
   end
@@ -44,8 +44,8 @@ describe MembersController, type: :controller do
   end
 
   describe 'create' do
-    shared_let(:admin) { FactoryBot.create :admin }
-    let(:project_2) { FactoryBot.create(:project) }
+    shared_let(:admin) { create :admin }
+    let(:project_2) { create(:project) }
 
     before do
       allow(User).to receive(:current).and_return(admin)
@@ -75,12 +75,12 @@ describe MembersController, type: :controller do
   end
 
   describe 'update' do
-    shared_let(:admin) { FactoryBot.create :admin }
-    let(:project_2) { FactoryBot.create(:project) }
-    let(:role_1) { FactoryBot.create(:role) }
-    let(:role_2) { FactoryBot.create(:role) }
+    shared_let(:admin) { create :admin }
+    let(:project_2) { create(:project) }
+    let(:role_1) { create(:role) }
+    let(:role_2) { create(:role) }
     let(:member_2) do
-      FactoryBot.create(
+      create(
         :member,
         project: project_2,
         user: admin,
@@ -137,9 +137,9 @@ describe MembersController, type: :controller do
 
   describe '#create' do
     render_views
-    let(:user2) { FactoryBot.create(:user) }
-    let(:user3) { FactoryBot.create(:user) }
-    let(:user4) { FactoryBot.create(:user) }
+    let(:user2) { create(:user) }
+    let(:user3) { create(:user) }
+    let(:user4) { create(:user) }
 
     context 'post :create' do
       context 'single member' do
@@ -219,7 +219,7 @@ describe MembersController, type: :controller do
              member: { role_ids: [role2.id], user_id: user.id }
            }
     end
-    let(:role2) { FactoryBot.create(:role) }
+    let(:role2) { create(:role) }
 
     before do
       member

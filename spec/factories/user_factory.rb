@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -60,19 +60,19 @@ FactoryBot.define do
       if user.notification_settings.empty?
         all_true = NotificationSetting.all_settings.index_with(true)
         user.notification_settings = [
-          FactoryBot.create(:notification_setting, user: user, **all_true)
+          create(:notification_setting, user: user, **all_true)
         ]
       end
 
       if factory.global_permissions.present?
-        global_role = FactoryBot.create :global_role, permissions: factory.global_permissions
-        FactoryBot.create :global_member, principal: user, roles: [global_role]
+        global_role = create :global_role, permissions: factory.global_permissions
+        create :global_member, principal: user, roles: [global_role]
       end
     end
 
     callback(:after_stub) do |user, evaluator|
       if evaluator.preferences.present?
-        user.preference = FactoryBot.build_stubbed(:user_preference, user: user, settings: evaluator.preferences)
+        user.preference = build_stubbed(:user_preference, user: user, settings: evaluator.preferences)
       end
     end
 

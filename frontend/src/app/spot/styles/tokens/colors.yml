@@ -1,0 +1,66 @@
+props:
+  - name: spot-color-basic-black
+    value: "#000000"
+  - name: spot-color-basic-gray-1
+    value: "#333333"
+  - name: spot-color-basic-gray-2
+    value: "#555555"
+  - name: spot-color-basic-gray-3
+    value: "#878787"
+  - name: spot-color-basic-gray-4
+    value: "#cccccc"
+  - name: spot-color-basic-gray-5
+    value: "#e0e0e0"
+  - name: spot-color-basic-gray-6
+    value: "#f3f3f3"
+  - name: spot-color-basic-white
+    value: "#ffffff"
+
+  - name: spot-color-main
+    value: "#1a67a3"
+  - name: spot-color-main-dark
+    value: "#034579"
+  - name: spot-color-main-light
+    value: "#d1e5f5"
+
+  - name: spot-color-accent
+    value: "#308720"
+  - name: spot-color-accent-dark
+    value: "#007528"
+  - name: spot-color-accent-light
+    value: "#bfeeb6"
+
+  - name: spot-color-danger
+    value: "#d01100"
+  - name: spot-color-danger-dark
+    value: "#7D000D"
+  - name: spot-color-danger-light
+    value: "#F4ABA9"
+
+  - name: spot-color-indication-attention
+    value: "#00A3FF"
+  - name: spot-color-indication-flagged
+    value: "#1CB6C0"
+  - name: spot-color-indication-current-date
+    value: "#ffffE1"
+
+  - name: spot-color-feedback-error-dark
+    value: "#CA3F3F"
+  - name: spot-color-feedback-error-light
+    value: "#FEDADA"
+  - name: spot-color-feedback-warning-dark
+    value: "#EF9E56"
+  - name: spot-color-feedback-warning-light
+    value: "#FFE6C6"
+  - name: spot-color-feedback-success-dark
+    value: "#35C53F"
+  - name: spot-color-feedback-success-light
+    value: "#D8FDD1"
+  - name: spot-color-feedback-info-dark
+    value: "#8FC0DB"
+  - name: spot-color-feedback-info-light
+    value: "#E3F5FF"
+
+global:
+  type: color
+  category: colors

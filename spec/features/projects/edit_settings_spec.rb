@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,13 +34,13 @@ describe 'Projects', 'editing settings', type: :feature, js: true do
   let(:permissions) { %i(edit_project) }
 
   current_user do
-    FactoryBot.create(:user,
-                      member_in_project: project,
-                      member_with_permissions: permissions)
+    create(:user,
+           member_in_project: project,
+           member_with_permissions: permissions)
   end
 
   shared_let(:project) do
-    FactoryBot.create(:project, name: 'Foo project', identifier: 'foo-project')
+    create(:project, name: 'Foo project', identifier: 'foo-project')
   end
 
   it 'hides the field whose functionality is presented otherwise' do
@@ -84,12 +84,12 @@ describe 'Projects', 'editing settings', type: :feature, js: true do
 
   context 'with optional and required custom fields' do
     let!(:optional_custom_field) do
-      FactoryBot.create(:custom_field, name: 'Optional Foo',
+      create(:custom_field, name: 'Optional Foo',
                         type: ProjectCustomField,
                         is_for_all: true)
     end
     let!(:required_custom_field) do
-      FactoryBot.create(:custom_field, name: 'Required Foo',
+      create(:custom_field, name: 'Required Foo',
                         type: ProjectCustomField,
                         is_for_all: true,
                         is_required: true)
@@ -108,12 +108,12 @@ describe 'Projects', 'editing settings', type: :feature, js: true do
 
   context 'with a length restricted custom field' do
     let!(:required_custom_field) do
-      FactoryBot.create(:string_project_custom_field,
-                        name: 'Foo',
-                        type: ProjectCustomField,
-                        min_length: 1,
-                        max_length: 2,
-                        is_for_all: true)
+      create(:string_project_custom_field,
+             name: 'Foo',
+             type: ProjectCustomField,
+             min_length: 1,
+             max_length: 2,
+             is_for_all: true)
     end
     let(:foo_field) { ::FormFields::InputFormField.new required_custom_field }
 
@@ -137,7 +137,7 @@ describe 'Projects', 'editing settings', type: :feature, js: true do
   context 'with a multi-select custom field' do
     include_context 'ng-select-autocomplete helpers'
 
-    let!(:list_custom_field) { FactoryBot.create(:list_project_custom_field, name: 'List CF', multi_value: true) }
+    let!(:list_custom_field) { create(:list_project_custom_field, name: 'List CF', multi_value: true) }
     let(:form_field) { ::FormFields::SelectFormField.new list_custom_field }
 
     it 'can select multiple values' do
@@ -158,7 +158,7 @@ describe 'Projects', 'editing settings', type: :feature, js: true do
   end
 
   context 'with a date custom field' do
-    let!(:date_custom_field) { FactoryBot.create(:date_project_custom_field, name: 'Date') }
+    let!(:date_custom_field) { create(:date_project_custom_field, name: 'Date') }
     let(:form_field) { ::FormFields::InputFormField.new date_custom_field }
 
     it 'can save and remove the date (Regression #37459)' do
@@ -181,7 +181,7 @@ describe 'Projects', 'editing settings', type: :feature, js: true do
   context 'with a user not allowed to see the parent project' do
     include_context 'ng-select-autocomplete helpers'
 
-    let(:parent_project) { FactoryBot.create(:project) }
+    let(:parent_project) { create(:project) }
     let(:parent_field) { ::FormFields::SelectFormField.new 'parent' }
 
     before do

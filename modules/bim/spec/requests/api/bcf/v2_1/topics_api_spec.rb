@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,71 +36,71 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
   include API::V3::Utilities::PathHelper
 
   let(:view_only_user) do
-    FactoryBot.create(:user,
-                      member_in_project: project,
-                      member_with_permissions: %i[view_linked_issues view_work_packages])
+    create(:user,
+           member_in_project: project,
+           member_with_permissions: %i[view_linked_issues view_work_packages work_package_assigned])
   end
   let(:only_member_user) do
-    FactoryBot.create(:user,
-                      member_in_project: project,
-                      member_with_permissions: [])
+    create(:user,
+           member_in_project: project,
+           member_with_permissions: [])
   end
   let(:edit_member_user) do
-    FactoryBot.create(:user,
-                      member_in_project: project,
-                      member_with_permissions: %i[manage_bcf
-                                                  add_work_packages
-                                                  view_linked_issues
-                                                  view_work_packages
-                                                  edit_work_packages])
+    create(:user,
+           member_in_project: project,
+           member_with_permissions: %i[manage_bcf
+                                       add_work_packages
+                                       view_linked_issues
+                                       view_work_packages
+                                       edit_work_packages])
   end
   let(:edit_and_delete_member_user) do
-    FactoryBot.create(:user,
-                      member_in_project: project,
-                      member_with_permissions: %i[delete_bcf
-                                                  delete_work_packages
-                                                  manage_bcf
-                                                  add_work_packages
-                                                  view_linked_issues
-                                                  view_work_packages])
+    create(:user,
+           member_in_project: project,
+           member_with_permissions: %i[delete_bcf
+                                       delete_work_packages
+                                       manage_bcf
+                                       add_work_packages
+                                       view_linked_issues
+                                       view_work_packages])
   end
   let(:edit_work_package_member_user) do
-    FactoryBot.create(:user,
-                      member_in_project: project,
-                      member_with_permissions: %i[add_work_packages
-                                                  view_linked_issues
-                                                  edit_work_packages
-                                                  view_work_packages])
+    create(:user,
+           member_in_project: project,
+           member_with_permissions: %i[add_work_packages
+                                       view_linked_issues
+                                       edit_work_packages
+                                       view_work_packages])
   end
   let(:non_member_user) do
-    FactoryBot.create(:user)
+    create(:user)
   end
 
   let(:project) do
-    FactoryBot.create(:project,
-                      enabled_module_names: %i[bim work_package_tracking])
+    create(:project,
+           enabled_module_names: %i[bim work_package_tracking])
   end
-  let(:assignee) { FactoryBot.create(:user) }
+  let(:assignee) { create(:user) }
   let(:work_package) do
-    FactoryBot.create(:work_package,
-                      assigned_to: assignee,
-                      due_date: Date.today,
-                      project: project)
+    create(:work_package,
+           assigned_to: assignee,
+           due_date: Date.today,
+           project: project)
   end
   let(:other_status) do
-    FactoryBot.create(:status).tap do |s|
+    create(:status).tap do |s|
       member = current_user.members.detect { |m| m.project_id == work_package.project_id }
 
       if member
-        FactoryBot.create(:workflow,
-                          old_status: work_package.status,
-                          new_status: s,
-                          type: work_package.type,
-                          role: member.roles.first)
+        create(:workflow,
+               old_status: work_package.status,
+               new_status: s,
+               type: work_package.type,
+               role: member.roles.first)
       end
     end
   end
-  let(:bcf_issue) { FactoryBot.create(:bcf_issue, work_package: work_package) }
+  let(:bcf_issue) { create(:bcf_issue, work_package: work_package) }
 
   subject(:response) { last_response }
 
@@ -489,40 +489,40 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
     let(:path) { "/api/bcf/2.1/projects/#{project.id}/topics" }
     let(:current_user) { edit_member_user }
     let(:type) do
-      FactoryBot.create(:type).tap do |t|
+      create(:type).tap do |t|
         project.types << t
       end
     end
     let(:status) do
-      FactoryBot.create(:status)
+      create(:status)
     end
     let!(:default_status) do
-      FactoryBot.create(:default_status)
+      create(:default_status)
     end
     let(:other_status) do
-      FactoryBot.create(:status).tap do |s|
+      create(:status).tap do |s|
         member = current_user.members.detect { |m| m.project_id == project.id }
 
         if member
-          FactoryBot.create(:workflow,
-                            old_status: status,
-                            new_status: s,
-                            type: type,
-                            role: member.roles.first)
+          create(:workflow,
+                 old_status: status,
+                 new_status: s,
+                 type: type,
+                 role: member.roles.first)
         end
       end
     end
     let!(:default_type) do
-      FactoryBot.create(:type, is_default: true)
+      create(:type, is_default: true)
     end
     let!(:standard_type) do
-      FactoryBot.create(:type_standard)
+      create(:type_standard)
     end
     let!(:priority) do
-      FactoryBot.create(:priority)
+      create(:priority)
     end
     let!(:default_priority) do
-      FactoryBot.create(:default_priority)
+      create(:default_priority)
     end
     let(:description) { 'some description' }
     let(:stage) { nil }
@@ -642,7 +642,7 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
 
     context 'with an existing work package' do
       let!(:existing_work_package) do
-        FactoryBot.create :work_package, author: assignee, assigned_to: assignee, project: project
+        create :work_package, author: assignee, assigned_to: assignee, project: project
       end
 
       let(:params) do
@@ -701,7 +701,7 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
       end
 
       context 'with a work package in another project' do
-        let!(:foreign_work_package) { FactoryBot.create :work_package }
+        let!(:foreign_work_package) { create :work_package }
 
         let(:params) do
           {
@@ -747,39 +747,39 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
     let(:path) { "/api/bcf/2.1/projects/#{project.id}/topics/#{bcf_issue.uuid}" }
     let(:current_user) { edit_member_user }
     let!(:type) do
-      FactoryBot.create(:type).tap do |t|
+      create(:type).tap do |t|
         project.types << t
       end
     end
     let(:status) do
-      FactoryBot.create(:status)
+      create(:status)
     end
     let(:other_status) do
-      FactoryBot.create(:status).tap do |s|
+      create(:status).tap do |s|
         member = current_user.members.detect { |m| m.project_id == project.id }
 
         if member
-          FactoryBot.create(:workflow,
-                            old_status: status,
-                            new_status: s,
-                            type: type,
-                            role: member.roles.first)
+          create(:workflow,
+                 old_status: status,
+                 new_status: s,
+                 type: type,
+                 role: member.roles.first)
         end
       end
     end
     let!(:default_status) do
-      FactoryBot.create(:default_status)
+      create(:default_status)
     end
     let!(:default_type) do
-      FactoryBot.create(:type, is_default: true).tap do |t|
+      create(:type, is_default: true).tap do |t|
         project.types << t
       end
     end
     let!(:priority) do
-      FactoryBot.create(:priority)
+      create(:priority)
     end
     let!(:default_priority) do
-      FactoryBot.create(:default_priority)
+      create(:default_priority)
     end
     let(:description) { 'some description' }
     let(:index) { 5 }

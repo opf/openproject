@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,34 +33,34 @@ require_relative '../shared_examples'
 describe Bim::Bcf::API::V2_1::Topics::SingleRepresenter, 'rendering' do
   include API::V3::Utilities::PathHelper
 
-  let(:assignee) { FactoryBot.build_stubbed(:user) }
-  let(:creator) { FactoryBot.build_stubbed(:user) }
-  let(:modifier) { FactoryBot.build_stubbed(:user) }
-  let(:first_journal) { FactoryBot.build_stubbed(:journal, version: 1, user: creator) }
-  let(:last_journal) { FactoryBot.build_stubbed(:journal, version: 2, user: modifier) }
+  let(:assignee) { build_stubbed(:user) }
+  let(:creator) { build_stubbed(:user) }
+  let(:modifier) { build_stubbed(:user) }
+  let(:first_journal) { build_stubbed(:journal, version: 1, user: creator) }
+  let(:last_journal) { build_stubbed(:journal, version: 2, user: modifier) }
   let(:journals) { [first_journal, last_journal] }
-  let(:type) { FactoryBot.build_stubbed(:type) }
-  let(:status) { FactoryBot.build_stubbed(:status) }
-  let(:priority) { FactoryBot.build_stubbed(:priority) }
+  let(:type) { build_stubbed(:type) }
+  let(:status) { build_stubbed(:status) }
+  let(:priority) { build_stubbed(:priority) }
   let(:work_package) do
-    FactoryBot.build_stubbed(:stubbed_work_package,
-                             assigned_to: assignee,
-                             due_date: Date.today,
-                             status: status,
-                             priority: priority,
-                             type: type).tap do |wp|
+    build_stubbed(:stubbed_work_package,
+                  assigned_to: assignee,
+                  due_date: Date.today,
+                  status: status,
+                  priority: priority,
+                  type: type).tap do |wp|
       allow(wp)
         .to receive(:journals)
         .and_return(journals)
     end
   end
-  let(:current_user) { FactoryBot.build_stubbed(:user) }
-  let(:issue) { FactoryBot.build_stubbed(:bcf_issue, work_package: work_package) }
+  let(:current_user) { build_stubbed(:user) }
+  let(:issue) { build_stubbed(:bcf_issue, work_package: work_package) }
   let(:manage_bcf_allowed) { true }
   let(:statuses) do
     [
-      FactoryBot.build_stubbed(:status),
-      FactoryBot.build_stubbed(:status)
+      build_stubbed(:status),
+      build_stubbed(:status)
     ]
   end
 

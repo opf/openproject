@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,11 +27,11 @@
 #++
 
 def become_admin
-  let(:current_user) { FactoryBot.create(:admin) }
+  let(:current_user) { create(:admin) }
 end
 
 def become_non_member(&block)
-  let(:current_user) { FactoryBot.create(:user) }
+  let(:current_user) { create(:user) }
 
   before do
     projects = block ? instance_eval(&block) : [project]
@@ -43,12 +43,12 @@ def become_non_member(&block)
 end
 
 def become_member_with_permissions(permissions)
-  let(:current_user) { FactoryBot.create(:user) }
+  let(:current_user) { create(:user) }
 
   before do
-    role = FactoryBot.create(:role, permissions: permissions)
+    role = create(:role, permissions: permissions)
 
-    member = FactoryBot.build(:member, user: current_user, project: project)
+    member = build(:member, user: current_user, project: project)
     member.roles = [role]
     member.save!
   end
@@ -67,7 +67,7 @@ def build_work_package_hierarchy(data, *attributes, parent: nil, shared_attribut
 
   Array(data).each do |attr|
     if attr.is_a? Hash
-      parent_wp = FactoryBot.create(
+      parent_wp = create(
         :work_package, shared_attributes.merge(**attributes.zip(attr.keys.first).to_h)
       )
 
@@ -76,7 +76,7 @@ def build_work_package_hierarchy(data, *attributes, parent: nil, shared_attribut
         attr.values.first, *attributes, parent: parent_wp, shared_attributes: shared_attributes
       )
     else
-      wp = FactoryBot.create :work_package, shared_attributes.merge(**attributes.zip(attr).to_h)
+      wp = create :work_package, shared_attributes.merge(**attributes.zip(attr).to_h)
 
       parent.children << wp if parent
 

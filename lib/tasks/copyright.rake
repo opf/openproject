@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -53,9 +51,9 @@ namespace :copyright do
   def copyright_file(options = {})
     path = 'COPYRIGHT_short'
     if options[:path]
-      path = File.join(options[:path], 'COPYRIGHT_short') if File.exists?(File.join(options[:path],
+      path = File.join(options[:path], 'COPYRIGHT_short') if File.exist?(File.join(options[:path],
                                                                                               'COPYRIGHT_short'))
-      path = File.join(options[:path], 'COPYRIGHT_short.md') if File.exists?(File.join(options[:path],
+      path = File.join(options[:path], 'COPYRIGHT_short.md') if File.exist?(File.join(options[:path],
                                                                                               'COPYRIGHT_short.md'))
     end
     path

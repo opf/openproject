@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@ import { Injectable } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ConfigurationResource } from 'core-app/features/hal/resources/configuration-resource';
 import * as moment from 'moment';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 @Injectable({ providedIn: 'root' })
 export class ConfigurationService {
@@ -41,7 +41,7 @@ export class ConfigurationService {
   public initialized:Promise<boolean>;
 
   public constructor(readonly I18n:I18nService,
-    readonly apiV3Service:APIV3Service) {
+    readonly apiV3Service:ApiV3Service) {
     this.initialized = this.loadConfiguration().then(() => true).catch(() => false);
   }
 
@@ -61,8 +61,8 @@ export class ConfigurationService {
     return !!this.timezone();
   }
 
-  public timezone() {
-    return this.userPreference('timeZone');
+  public timezone():string {
+    return this.userPreference('timeZone') as string;
   }
 
   public isDirectUploads() {
@@ -101,7 +101,7 @@ export class ConfigurationService {
     return !!this.systemPreference('startOfWeek');
   }
 
-  public startOfWeek() {
+  public startOfWeek():number {
     if (this.startOfWeekPresent()) {
       return this.systemPreference('startOfWeek');
     }

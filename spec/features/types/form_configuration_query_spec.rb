@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,18 +30,18 @@ require 'spec_helper'
 
 # rubocop:disable RSpec/MultipleMemoizedHelpers
 describe 'form query configuration', type: :feature, js: true do
-  shared_let(:admin) { FactoryBot.create :admin }
-  let(:type_bug) { FactoryBot.create :type_bug }
-  let(:type_task) { FactoryBot.create :type_task }
+  shared_let(:admin) { create :admin }
+  let(:type_bug) { create :type_bug }
+  let(:type_task) { create :type_task }
 
-  let(:project) { FactoryBot.create :project, types: [type_bug, type_task] }
-  let(:other_project) { FactoryBot.create :project, types: [type_task] }
+  let(:project) { create :project, types: [type_bug, type_task] }
+  let(:other_project) { create :project, types: [type_task] }
   let!(:work_package) do
-    FactoryBot.create :work_package,
-                      new_relation.merge(
-                        project: project,
-                        type: type_bug
-                      )
+    create :work_package,
+           new_relation.merge(
+             project: project,
+             type: type_bug
+           )
   end
   let(:wp_relation_type) { :children }
   let(:frontend_relation_type) { wp_relation_type }
@@ -52,19 +52,19 @@ describe 'form query configuration', type: :feature, js: true do
     relation
   end
   let!(:related_task) do
-    FactoryBot.create :work_package, project: project, type: type_task
+    create :work_package, project: project, type: type_task
   end
   let!(:unrelated_task) do
-    FactoryBot.create :work_package, subject: 'Unrelated task', type: type_task, project: project
+    create :work_package, subject: 'Unrelated task', type: type_task, project: project
   end
   let!(:unrelated_bug) do
-    FactoryBot.create :work_package, subject: 'Unrelated bug', type: type_bug, project: project
+    create :work_package, subject: 'Unrelated bug', type: type_bug, project: project
   end
   let!(:related_task_other_project) do
-    FactoryBot.create :work_package, project: other_project, type: type_task
+    create :work_package, project: other_project, type: type_task
   end
   let!(:related_bug) do
-    FactoryBot.create :work_package, project: project, type: type_bug
+    create :work_package, project: project, type: type_bug
   end
 
   let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
@@ -133,7 +133,7 @@ describe 'form query configuration', type: :feature, js: true do
     end
 
     context 'with an archived project' do
-      let!(:archived) { FactoryBot.create :project, name: 'To be archived' }
+      let!(:archived) { create :project, name: 'To be archived' }
 
       it 'uses the valid subset of the query (Regression #40324)' do
         form.add_query_group('Archived project', :children)

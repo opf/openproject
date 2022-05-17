@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,8 +29,8 @@
 require 'spec_helper'
 
 describe ::Users::DeleteService, type: :model do
-  let(:input_user) { FactoryBot.build_stubbed(:user) }
-  let(:project) { FactoryBot.build_stubbed(:project) }
+  let(:input_user) { build_stubbed(:user) }
+  let(:project) { build_stubbed(:project) }
 
   let(:instance) { described_class.new(model: input_user, user: actor) }
 
@@ -56,7 +56,7 @@ describe ::Users::DeleteService, type: :model do
 
   context 'if deletion by admins allowed', with_settings: { users_deletable_by_admins: true } do
     context 'with admin user' do
-      let(:actor) { FactoryBot.build_stubbed(:admin) }
+      let(:actor) { build_stubbed(:admin) }
 
       it_behaves_like 'deletes the user'
     end
@@ -80,7 +80,7 @@ describe ::Users::DeleteService, type: :model do
 
   context 'if deletion by admins NOT allowed', with_settings: { users_deletable_by_admins: false } do
     context 'with admin user' do
-      let(:actor) { FactoryBot.build_stubbed(:admin) }
+      let(:actor) { build_stubbed(:admin) }
 
       it_behaves_like 'does not delete the user'
     end

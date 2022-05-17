@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,22 +29,22 @@
 require 'spec_helper'
 
 describe 'members pagination', type: :feature, js: true do
-  shared_let(:admin) { FactoryBot.create :admin }
+  shared_let(:admin) { create :admin }
   let(:project) do
-    FactoryBot.create :project,
-                      name: 'Project 1',
-                      identifier: 'project1',
-                      members: {
-                        alice => beta,
-                        bob => alpha
-                      }
+    create :project,
+           name: 'Project 1',
+           identifier: 'project1',
+           members: {
+             alice => beta,
+             bob => alpha
+           }
   end
 
-  let(:bob)   { FactoryBot.create :user, firstname: 'Bob', lastname: 'Bobbit' }
-  let(:alice) { FactoryBot.create :user, firstname: 'Alice', lastname: 'Alison' }
+  let(:bob)   { create :user, firstname: 'Bob', lastname: 'Bobbit' }
+  let(:alice) { create :user, firstname: 'Alice', lastname: 'Alison' }
 
-  let(:alpha) { FactoryBot.create :role, name: 'alpha' }
-  let(:beta)  { FactoryBot.create :role, name: 'beta' }
+  let(:alpha) { create :role, name: 'alpha' }
+  let(:beta)  { create :role, name: 'beta' }
 
   let(:members_page) { Pages::Members.new project.identifier }
 

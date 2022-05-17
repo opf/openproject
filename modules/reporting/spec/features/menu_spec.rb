@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,8 +29,8 @@
 require 'spec_helper'
 
 describe 'project menu', type: :feature do
-  let(:current_user) { FactoryBot.create :admin }
-  let!(:project) { FactoryBot.create :valid_project, identifier: 'ponyo', name: 'Ponyo' }
+  let(:current_user) { create :admin }
+  let!(:project) { create :valid_project, identifier: 'ponyo', name: 'Ponyo' }
 
   before do
     allow(User).to receive(:current).and_return current_user
@@ -50,7 +50,7 @@ describe 'project menu', type: :feature do
   # `url_for controller: 'cost_reports'` will yield different results ...
   #
   # when on `/projects/ponyo/work_packages`: `/projects/ponyo/cost_reports` (correct)
-  # when on `/projects/ponyo/work_packages/calendar`: `/work_packages/cost_reports?project_id=ponyo`
+  # when on `/projects/ponyo/calendar`: `/work_packages/cost_reports?project_id=ponyo`
   #
   # This is only relevant for project menu entries, not global ones (`project_id` param is nil)*.
   # Meaning that you have to make sure to force the absolute URL in a project menu entry
@@ -79,8 +79,8 @@ describe 'project menu', type: :feature do
         it_behaves_like 'it leads to the project costs reports'
       end
 
-      context "when on the project's calendar" do
-        let(:current_path) { '/projects/ponyo/work_packages/calendar' }
+      context "when on the project's calendars" do
+        let(:current_path) { '/projects/ponyo/calendars' }
 
         it_behaves_like 'it leads to the project costs reports'
       end
@@ -111,7 +111,7 @@ describe 'project menu', type: :feature do
       end
 
       context "when on the project's calendar" do
-        let(:current_path) { '/projects/ponyo/work_packages/calendar' }
+        let(:current_path) { '/projects/ponyo/calendars' }
 
         it_behaves_like 'it leads to the cost reports'
       end

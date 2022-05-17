@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,24 +29,24 @@
 require_relative '../spec_helper'
 
 describe MeetingMailer, type: :mailer do
-  shared_let(:role) { FactoryBot.create(:role, permissions: [:view_meetings]) }
-  shared_let(:project) { FactoryBot.create(:project, name: 'My project') }
+  shared_let(:role) { create(:role, permissions: [:view_meetings]) }
+  shared_let(:project) { create(:project, name: 'My project') }
   shared_let(:author) do
-    FactoryBot.create :user,
-                      member_in_project: project,
-                      member_through_role: role,
-                      preferences: { time_zone: 'Europe/Berlin' }
+    create :user,
+           member_in_project: project,
+           member_through_role: role,
+           preferences: { time_zone: 'Europe/Berlin' }
   end
-  shared_let(:watcher1) { FactoryBot.create(:user, member_in_project: project, member_through_role: role) }
-  shared_let(:watcher2) { FactoryBot.create(:user, member_in_project: project, member_through_role: role) }
+  shared_let(:watcher1) { create(:user, member_in_project: project, member_through_role: role) }
+  shared_let(:watcher2) { create(:user, member_in_project: project, member_through_role: role) }
 
   let(:meeting) do
-    FactoryBot.create :meeting,
-                      author: author,
-                      project: project
+    create :meeting,
+           author: author,
+           project: project
   end
   let(:meeting_agenda) do
-    FactoryBot.create(:meeting_agenda, meeting: meeting)
+    create(:meeting_agenda, meeting: meeting)
   end
 
   before do
@@ -83,7 +83,7 @@ describe MeetingMailer, type: :mailer do
     end
 
     context 'with a recipient with another time zone' do
-      let!(:preference) { FactoryBot.create(:user_preference, user: watcher1, time_zone: 'Asia/Tokyo') }
+      let!(:preference) { create(:user_preference, user: watcher1, time_zone: 'Asia/Tokyo') }
       let(:mail) { described_class.content_for_review meeting_agenda, 'meeting_agenda', watcher1 }
 
       it 'renders the mail with the correcet locale' do
@@ -98,10 +98,10 @@ describe MeetingMailer, type: :mailer do
 
     context 'when the meeting time results in another date' do
       let(:meeting) do
-        FactoryBot.create :meeting,
-                          author: author,
-                          project: project,
-                          start_time: '2021-11-09T23:00:00 +0100'.to_datetime.utc
+        create :meeting,
+               author: author,
+               project: project,
+               start_time: '2021-11-09T23:00:00 +0100'.to_datetime.utc
       end
 
       describe 'it renders november 9th for Berlin zone' do
@@ -117,7 +117,7 @@ describe MeetingMailer, type: :mailer do
 
       describe 'it renders november 10th for Tokyo zone' do
         let(:mail) { described_class.content_for_review meeting_agenda, 'meeting_agenda', watcher1 }
-        let!(:preference) { FactoryBot.create(:user_preference, user: watcher1, time_zone: 'Asia/Tokyo') }
+        let!(:preference) { create(:user_preference, user: watcher1, time_zone: 'Asia/Tokyo') }
 
         it 'renders the mail with the correct locale' do
           expect(mail.text_part.body).to include('11/10/2021 07:00 AM-08:00 AM (GMT+09:00) Asia/Tokyo')
@@ -131,12 +131,12 @@ describe MeetingMailer, type: :mailer do
 
   describe 'icalendar' do
     let(:meeting) do
-      FactoryBot.create :meeting,
-                        author: author,
-                        project: project,
-                        title: 'Important meeting',
-                        start_time: "2021-01-19T10:00:00Z".to_time(:utc),
-                        duration: 1.0
+      create :meeting,
+             author: author,
+             project: project,
+             title: 'Important meeting',
+             start_time: "2021-01-19T10:00:00Z".to_time(:utc),
+             duration: 1.0
     end
     let(:mail) { described_class.icalendar_notification meeting_agenda, 'meeting_agenda', author }
 
@@ -185,10 +185,15 @@ describe MeetingMailer, type: :mailer do
         expect(entry.summary).to eq '[My project] Important meeting'
         expect(entry.description).to eq "[My project] Agenda: Important meeting"
       end
+
+      it 'has the correct time matching the timezone' do
+        expect(entry.dtstart).to eq "2021-01-19T10:00:00Z".to_time(:utc).in_time_zone("Europe/Berlin")
+        expect(entry.dtend).to eq ("2021-01-19T10:00:00Z".to_time(:utc) + 1.hour).in_time_zone("Europe/Berlin")
+      end
     end
 
     context 'with a recipient with another time zone' do
-      let!(:preference) { FactoryBot.create(:user_preference, user: watcher1, time_zone: 'Asia/Tokyo') }
+      let!(:preference) { create(:user_preference, user: watcher1, time_zone: 'Asia/Tokyo') }
       let(:mail) { described_class.content_for_review meeting_agenda, 'meeting_agenda', watcher1 }
 
       it 'renders the mail with the correct locale' do
@@ -203,10 +208,10 @@ describe MeetingMailer, type: :mailer do
 
     context 'when the meeting time results in another date' do
       let(:meeting) do
-        FactoryBot.create :meeting,
-                          author: author,
-                          project: project,
-                          start_time: '2021-11-09T23:00:00 +0100'.to_datetime.utc
+        create :meeting,
+               author: author,
+               project: project,
+               start_time: '2021-11-09T23:00:00 +0100'.to_datetime.utc
       end
 
       describe 'it renders november 9th for Berlin zone' do
@@ -222,7 +227,7 @@ describe MeetingMailer, type: :mailer do
 
       describe 'it renders november 10th for Tokyo zone' do
         let(:mail) { described_class.icalendar_notification meeting_agenda, 'meeting_agenda', watcher1 }
-        let!(:preference) { FactoryBot.create(:user_preference, user: watcher1, time_zone: 'Asia/Tokyo') }
+        let!(:preference) { create(:user_preference, user: watcher1, time_zone: 'Asia/Tokyo') }
 
         it 'renders the mail with the correct locale' do
           expect(mail.text_part.body).to include('11/10/2021 07:00 AM-08:00 AM (GMT+09:00) Asia/Tokyo')

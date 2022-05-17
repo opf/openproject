@@ -72,8 +72,8 @@ You can set other TLS options for the LDAP auth source connection. They are pass
 
 See the following resources for more information:
 
-- https://github.com/ruby-ldap/ruby-net-ldap/blob/master/lib/net/ldap.rb
-- https://ruby.github.io/openssl/OpenSSL/SSL/SSLContext.html
+- [https://github.com/ruby-ldap/ruby-net-ldap/blob/master/lib/net/ldap.rb](https://github.com/ruby-ldap/ruby-net-ldap/blob/master/lib/net/ldap.rb)
+- [https://ruby.github.io/openssl/OpenSSL/SSL/SSLContext.html](https://ruby.github.io/openssl/OpenSSL/SSL/SSLContext.html)
 
 
 #### LDAP system user credentials

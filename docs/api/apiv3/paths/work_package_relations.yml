@@ -13,6 +13,8 @@ get:
     '302':
       content:
         text/plain:
+          schema:
+            type: string
           examples:
             response:
               value: 'You are being redirected to /api/v3/relations?involved={work_package_id}'
@@ -42,6 +44,8 @@ post:
     '400':
       content:
         application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
           examples:
             response:
               value:
@@ -54,6 +58,8 @@ post:
     '403':
       content:
         application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
           examples:
             response:
               value:
@@ -68,6 +74,8 @@ post:
     '409':
       content:
         application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
           examples:
             response:
               value:
@@ -81,6 +89,8 @@ post:
     '422':
       content:
         application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
           examples:
             response:
               value:

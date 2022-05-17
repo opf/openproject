@@ -13,7 +13,7 @@ If you have any questions on the contribution process or encounter problems with
 
 1. Login to or register at the [OpenProject community platform](https://community.openproject.org/login). It’s fast and free.
 
-2. Open a new [documentation work package]( https://community.openproject.org/projects/openproject/work_packages/new?type=69).
+2. Open a new [documentation work package](https://community.openproject.org/projects/openproject/work_packages/new?type=69).
 
 3. Add a precise subject.
 

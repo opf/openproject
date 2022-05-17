@@ -1,0 +1,65 @@
+#English strings go here
+it:
+  permission_view_file_links: "Visualizza link ai file"
+  permission_manage_file_links: "Gestire link ai file"
+  permission_manage_storages_in_project: "Gestisci archivi di file nel progetto"
+  project_module_storages: "Archivi file"
+  activerecord:
+    models:
+      storages/storage: "Archivio"
+    attributes:
+      storages/storage:
+        name: "Nome"
+        creator: "Autore"
+        provider_type: "Tipo di fonte"
+      storages/file_link:
+        origin_id: "ID origine"
+    errors:
+      messages:
+        not_linked_to_project: "non è collegato al progetto."
+      models:
+        storages/storage:
+          attributes:
+            host:
+              cannot_be_connected_to: "non può essere collegato."
+              minimal_nextcloud_version_unmet: "non soddisfa i requisiti minimi di versione (deve essere Nextcloud 23 o superiore)"
+              not_nextcloud_server: "non è un server Nextcloud"
+        storages/file_link:
+          attributes:
+            origin_id:
+              only_numeric_or_uuid: "può essere solo numerico o uuid."
+  api_v3:
+    errors:
+      too_many_elements_created_at_once: "Troppi elementi creati contemporaneamente. Massimo atteso: %{max}, effettivi: %{actual}."
+  storages:
+    page_titles:
+      project_settings:
+        index: "File di archiviazione disponibili in questo progetto"
+        new: "Abilita un archivio file per questo progetto"
+    instructions:
+      name: "Usa un nome breve. Verrà mostrato come titolo di scheda nella vista della macro-attività."
+      host: "L'URL della tua istanza di archiviazione. L'URL non deve essere lungo più di 255 caratteri."
+      no_storage_set_up: "Non ci sono ancora archivi di file impostati."
+      setting_up_additional_storages: "Per impostare ulteriori archivi file, visita"
+      setting_up_additional_storages_non_admin: "Gli amministratori possono impostare ulteriori archivi file in Amministrazione / Archivi file."
+      setting_up_storages: "Per impostare archivi file, visita"
+      setting_up_storages_non_admin: "Gli amministratori possono impostare archivi file in Amministrazione / Archivi file."
+      all_available_storages_already_added: "Tutti gli archivi disponibili sono già stati aggiunti al progetto."
+    delete_warning:
+      storage: >
+        Vuoi davvero eliminare questo archivio? Ciò eliminerà anche lo spazio di archiviazione da tutti i progetti in cui viene utilizzato. Inoltre, eliminerà anche tutti i collegamenti dalle macro-attività ai file archiviati in tale archivio.
+      project_storage: >
+        Vuoi davvero rimuovere questo archivio di file da questo progetto? Ciò rimuoverà anche tutti i collegamenti ai file archiviati in questo archivio per questo progetto.
+    label_creator: "Autore"
+    label_file_link: "Link del File"
+    label_file_links: "Link dei File"
+    label_name: "Nome"
+    label_host: "Host"
+    label_provider_type: "Tipo di fonte"
+    label_new_storage: "Nuovo archivio"
+    label_storage: "Archivio"
+    label_storages: "Archivi"
+    no_results: "Ancora nessun archivio configurato."
+    provider_types:
+      label: "Tipo di fonte"
+      nextcloud: "Nextcloud"

@@ -1,15 +1,15 @@
 require 'spec_helper'
 
 describe 'Work Package group by boolean field', js: true do
-  let(:user) { FactoryBot.create :admin }
+  let(:user) { create :admin }
 
-  let(:project) { FactoryBot.create(:project, types: [type], work_package_custom_fields: [bool_cf]) }
-  let(:bool_cf) { FactoryBot.create :bool_wp_custom_field, name: 'booleanField', types: [type] }
-  let(:type) { FactoryBot.create(:type) }
+  let(:project) { create(:project, types: [type], work_package_custom_fields: [bool_cf]) }
+  let(:bool_cf) { create :bool_wp_custom_field, name: 'booleanField', types: [type] }
+  let(:type) { create(:type) }
 
-  let!(:wp1) { FactoryBot.create(:work_package, project: project, type: type) }
-  let!(:wp2) { FactoryBot.create(:work_package, project: project, type: type, custom_field_values: { bool_cf.id => true }) }
-  let!(:wp3) { FactoryBot.create(:work_package, project: project, type: type, custom_field_values: { bool_cf.id => false }) }
+  let!(:wp1) { create(:work_package, project: project, type: type) }
+  let!(:wp2) { create(:work_package, project: project, type: type, custom_field_values: { bool_cf.id => true }) }
+  let!(:wp3) { create(:work_package, project: project, type: type, custom_field_values: { bool_cf.id => false }) }
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:group_by) { ::Components::WorkPackages::GroupBy.new }

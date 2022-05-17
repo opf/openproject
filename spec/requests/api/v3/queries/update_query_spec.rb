@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,20 +29,20 @@
 require 'spec_helper'
 
 describe "PATCH /api/v3/queries/:id", type: :request do
-  let(:user) { FactoryBot.create :admin }
-  let(:status) { FactoryBot.create :status }
-  let(:project) { FactoryBot.create :project }
+  let(:user) { create :admin }
+  let(:status) { create :status }
+  let(:project) { create :project }
 
   def json
     JSON.parse last_response.body
   end
 
   let!(:query) do
-    FactoryBot.create(
+    create(
       :global_query,
       name: "A Query",
       user: user,
-      is_public: false,
+      public: false,
       show_hierarchies: false,
       display_sums: false
     )
@@ -136,7 +136,7 @@ describe "PATCH /api/v3/queries/:id", type: :request do
       expect(query.sort_criteria).to eq [["id", "desc"], ["assigned_to", "asc"]]
       expect(query.columns.map(&:name)).to eq %i[id subject status assigned_to]
       expect(query.project).to eq project
-      expect(query.is_public).to eq true
+      expect(query.public).to eq true
       expect(query.display_sums).to eq false
 
       expect(query.filters.size).to eq 1
@@ -189,7 +189,7 @@ describe "PATCH /api/v3/queries/:id", type: :request do
       post!
 
       expect(last_response.status).to eq 422
-      expect(json["message"]).to eq "Statuz does not exist."
+      expect(json["message"]).to eq "Statuz filter does not exist."
     end
   end
 end

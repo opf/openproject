@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,9 +30,9 @@ require 'spec_helper'
 
 describe MailHandler, type: :model do
   let(:anno_user) { User.anonymous }
-  let(:project) { FactoryBot.create(:valid_project, identifier: 'onlinestore', name: 'OnlineStore', public: false) }
-  let(:public_project) { FactoryBot.create(:valid_project, identifier: 'onlinestore', name: 'OnlineStore', public: true) }
-  let(:priority_low) { FactoryBot.create(:priority_low, is_default: true) }
+  let(:project) { create(:valid_project, identifier: 'onlinestore', name: 'OnlineStore', public: false) }
+  let(:public_project) { create(:valid_project, identifier: 'onlinestore', name: 'OnlineStore', public: true) }
+  let(:priority_low) { create(:priority_low, is_default: true) }
 
   before do
     # we need both of these run first so the anonymous user is created and
@@ -47,14 +47,14 @@ describe MailHandler, type: :model do
   end
 
   shared_context 'wp_on_given_project' do
-    let(:permissions) { %i[add_work_packages assign_versions] }
+    let(:permissions) { %i[add_work_packages assign_versions work_package_assigned] }
     let!(:user) do
-      FactoryBot.create(:user,
-                        mail: 'JSmith@somenet.foo',
-                        firstname: 'John',
-                        lastname: 'Smith',
-                        member_in_project: project,
-                        member_with_permissions: permissions)
+      create(:user,
+             mail: 'JSmith@somenet.foo',
+             firstname: 'John',
+             lastname: 'Smith',
+             member_in_project: project,
+             member_with_permissions: permissions)
     end
     let(:submit_options) { {} }
 
@@ -66,12 +66,12 @@ describe MailHandler, type: :model do
   shared_context 'wp_on_given_project_case_insensitive' do
     let(:permissions) { %i[add_work_packages assign_versions] }
     let!(:user) do
-      FactoryBot.create(:user,
-                        mail: 'JSmith@somenet.foo',
-                        firstname: 'John',
-                        lastname: 'Smith',
-                        member_in_project: project,
-                        member_with_permissions: permissions)
+      create(:user,
+             mail: 'JSmith@somenet.foo',
+             firstname: 'John',
+             lastname: 'Smith',
+             member_in_project: project,
+             member_with_permissions: permissions)
     end
     let(:submit_options) { { allow_override: 'version' } }
 
@@ -83,16 +83,16 @@ describe MailHandler, type: :model do
   shared_context 'with a reply to a wp mention with quotes above' do
     let(:permissions) { %i[edit_work_packages view_work_packages] }
     let!(:user) do
-      FactoryBot.create(:user,
-                        mail: 'JSmith@somenet.foo',
-                        member_in_project: project,
-                        member_with_permissions: permissions)
+      create(:user,
+             mail: 'JSmith@somenet.foo',
+             member_in_project: project,
+             member_with_permissions: permissions)
     end
 
     let!(:work_package) do
-      FactoryBot.create(:work_package,
-                        id: 2,
-                        project: project).tap do |wp|
+      create(:work_package,
+             id: 2,
+             project: project).tap do |wp|
         wp.journals.last.update_column(:id, 891223)
       end
     end
@@ -105,20 +105,20 @@ describe MailHandler, type: :model do
   shared_context 'with wp create with cc' do
     let(:permissions) { %i[add_work_packages view_work_packages add_work_package_watchers] }
     let!(:user) do
-      FactoryBot.create(:user,
-                        mail: 'JSmith@somenet.foo',
-                        firstname: 'John',
-                        lastname: 'Smith',
-                        member_in_project: project,
-                        member_with_permissions: permissions)
+      create(:user,
+             mail: 'JSmith@somenet.foo',
+             firstname: 'John',
+             lastname: 'Smith',
+             member_in_project: project,
+             member_with_permissions: permissions)
     end
     let!(:cc_user) do
-      FactoryBot.create(:user,
-                        mail: 'dlopper@somenet.foo',
-                        firstname: 'D',
-                        lastname: 'Lopper',
-                        member_in_project: project,
-                        member_with_permissions: permissions)
+      create(:user,
+             mail: 'dlopper@somenet.foo',
+             firstname: 'D',
+             lastname: 'Lopper',
+             member_in_project: project,
+             member_with_permissions: permissions)
     end
     let(:submit_options) { { issue: { project: project.identifier } } }
 
@@ -130,17 +130,17 @@ describe MailHandler, type: :model do
   shared_context 'with a reply to a wp mention' do
     let(:permissions) { %i[add_work_package_notes view_work_packages] }
     let!(:user) do
-      FactoryBot.create(:user,
-                        mail: 'j.doe@openproject.org',
-                        member_in_project: project,
-                        member_with_permissions: permissions)
+      create(:user,
+             mail: 'j.doe@openproject.org',
+             member_in_project: project,
+             member_with_permissions: permissions)
     end
 
     let!(:work_package) do
-      FactoryBot.create(:work_package,
-                        subject: 'Some subject of the bug',
-                        id: 39733,
-                        project: project).tap do |wp|
+      create(:work_package,
+             subject: 'Some subject of the bug',
+             id: 39733,
+             project: project).tap do |wp|
         wp.journals.last.update_column(:id, 99999999)
       end
     end
@@ -151,48 +151,48 @@ describe MailHandler, type: :model do
   end
 
   shared_context 'with a reply to a wp mention with attributes' do
-    let(:permissions) { %i[add_work_package_notes view_work_packages edit_work_packages] }
+    let(:permissions) { %i[add_work_package_notes view_work_packages edit_work_packages work_package_assigned] }
     let(:role) do
-      FactoryBot.create(:role, permissions: permissions)
+      create(:role, permissions: permissions)
     end
     let!(:user) do
-      FactoryBot.create(:user,
-                        mail: 'j.doe@openproject.org',
-                        member_in_project: project,
-                        member_through_role: role)
+      create(:user,
+             mail: 'j.doe@openproject.org',
+             member_in_project: project,
+             member_through_role: role)
     end
 
     let!(:work_package) do
-      FactoryBot.create(:work_package,
-                        subject: 'Some subject of the bug',
-                        id: 39733,
-                        project: project,
-                        status: original_status).tap do |wp|
+      create(:work_package,
+             subject: 'Some subject of the bug',
+             id: 39733,
+             project: project,
+             status: original_status).tap do |wp|
         wp.journals.last.update_column(:id, 99999999)
       end
     end
     let!(:original_status) do
-      FactoryBot.create(:default_status)
+      create(:default_status)
     end
     let!(:resolved_status) do
-      FactoryBot.create(:status,
-                        name: 'Resolved').tap do |status|
-        FactoryBot.create(:workflow,
-                          old_status: original_status,
-                          new_status: status,
-                          role: role,
-                          type: work_package.type)
+      create(:status,
+             name: 'Resolved').tap do |status|
+        create(:workflow,
+               old_status: original_status,
+               new_status: status,
+               role: role,
+               type: work_package.type)
       end
     end
     let!(:other_user) do
-      FactoryBot.create(:user,
-                        mail: 'jsmith@somenet.foo',
-                        member_in_project: project,
-                        member_through_role: role)
+      create(:user,
+             mail: 'jsmith@somenet.foo',
+             member_in_project: project,
+             member_through_role: role)
     end
     let!(:float_cf) do
-      FactoryBot.create(:float_wp_custom_field,
-                        name: 'float field').tap do |cf|
+      create(:float_wp_custom_field,
+             name: 'float field').tap do |cf|
         project.work_package_custom_fields << cf
         work_package.type.custom_fields << cf
       end
@@ -206,16 +206,16 @@ describe MailHandler, type: :model do
   shared_context 'with a reply to a message' do
     let(:permissions) { %i[view_messages add_messages] }
     let!(:user) do
-      FactoryBot.create(:user,
-                        mail: 'j.doe@openproject.org',
-                        member_in_project: project,
-                        member_with_permissions: permissions)
+      create(:user,
+             mail: 'j.doe@openproject.org',
+             member_in_project: project,
+             member_with_permissions: permissions)
     end
 
     let!(:message) do
-      FactoryBot.create(:message,
-                        id: 70917,
-                        forum: FactoryBot.create(:forum, project: project)).tap do |wp|
+      create(:message,
+             id: 70917,
+             forum: create(:forum, project: project)).tap do |wp|
         wp.journals.last.update_column(:id, 99999999)
       end
     end
@@ -248,8 +248,8 @@ describe MailHandler, type: :model do
 
     context 'when sending a mail not as a reply' do
       context 'in a given project' do
-        let!(:status) { FactoryBot.create(:status, name: 'Resolved') }
-        let!(:version) { FactoryBot.create(:version, name: 'alpha', project: project) }
+        let!(:status) { create(:status, name: 'Resolved') }
+        let!(:version) { create(:version, name: 'alpha', project: project) }
 
         include_context 'wp_on_given_project' do
           let(:submit_options) { { allow_override: 'version' } }
@@ -330,7 +330,7 @@ describe MailHandler, type: :model do
 
         it 'sends notifications to watching users' do
           # User gets all updates
-          user = FactoryBot.create(:user, member_in_project: project, member_with_permissions: %i(view_work_packages))
+          user = create(:user, member_in_project: project, member_with_permissions: %i(view_work_packages))
 
           expect do
             perform_enqueued_jobs do
@@ -342,7 +342,7 @@ describe MailHandler, type: :model do
 
       context 'in given project with a default type' do
         let(:default_type) do
-          FactoryBot.create(:type, is_default: true).tap do |t|
+          create(:type, is_default: true).tap do |t|
             project.types << t
           end
         end
@@ -449,7 +449,7 @@ describe MailHandler, type: :model do
       end
 
       context 'wp with status' do
-        let!(:status) { FactoryBot.create(:status, name: 'Resolved') }
+        let!(:status) { create(:status, name: 'Resolved') }
 
         # This email contains: 'Project: onlinestore' and 'Status: Resolved'
         include_context 'wp_on_given_project'
@@ -463,9 +463,9 @@ describe MailHandler, type: :model do
       end
 
       context 'wp with status case insensitive' do
-        let!(:status) { FactoryBot.create(:status, name: 'Resolved') }
-        let!(:priority_low) { FactoryBot.create(:priority_low, name: 'Low', is_default: true) }
-        let!(:version) { FactoryBot.create(:version, name: 'alpha', project: project) }
+        let!(:status) { create(:status, name: 'Resolved') }
+        let!(:priority_low) { create(:priority_low, name: 'Low', is_default: true) }
+        let!(:version) { create(:version, name: 'alpha', project: project) }
 
         # This email contains: 'Project: onlinestore' and 'Status: resolved'
         include_context 'wp_on_given_project_case_insensitive'
@@ -492,8 +492,8 @@ describe MailHandler, type: :model do
     end
 
     context 'when sending a reply to work package mail' do
-      let!(:mail_user) { FactoryBot.create :admin, mail: 'user@example.org' }
-      let!(:work_package) { FactoryBot.create :work_package, project: project }
+      let!(:mail_user) { create :admin, mail: 'user@example.org' }
+      let!(:work_package) { create :work_package, project: project }
 
       before do
         # Avoid trying to extract text
@@ -520,7 +520,7 @@ describe MailHandler, type: :model do
       end
 
       context 'with existing attachment' do
-        let!(:attachment) { FactoryBot.create(:attachment, container: work_package) }
+        let!(:attachment) { create(:attachment, container: work_package) }
 
         it 'does not replace it (Regression #29722)' do
           work_package.reload
@@ -539,10 +539,10 @@ describe MailHandler, type: :model do
         it_behaves_like 'journal created'
 
         it 'sends notifications' do
-          assignee = FactoryBot.create(:user,
-                                       member_in_project: project,
-                                       member_with_permissions: %i(view_work_packages),
-                                       notification_settings: [FactoryBot.build(:notification_setting, involved: true)])
+          assignee = create(:user,
+                            member_in_project: project,
+                            member_with_permissions: %i(view_work_packages),
+                            notification_settings: [build(:notification_setting, involved: true)])
 
           work_package.update_column(:assigned_to_id, assignee.id)
 
@@ -616,8 +616,8 @@ describe MailHandler, type: :model do
       end
 
       context 'with a custom field' do
-        let(:work_package) { FactoryBot.create :work_package, project: project }
-        let(:type) { FactoryBot.create :type }
+        let(:work_package) { create :work_package, project: project }
+        let(:type) { create :type }
 
         before do
           type.custom_fields << custom_field
@@ -630,7 +630,7 @@ describe MailHandler, type: :model do
         end
 
         context 'of type text' do
-          let(:custom_field) { FactoryBot.create :text_wp_custom_field, name: "Notes" }
+          let(:custom_field) { create :text_wp_custom_field, name: "Notes" }
 
           before do
             submit_email 'wp_reply_with_text_custom_field.eml', issue: { project: project.identifier }
@@ -646,7 +646,7 @@ describe MailHandler, type: :model do
         end
 
         context 'of type list' do
-          let(:custom_field) { FactoryBot.create :list_wp_custom_field, name: "Letters", possible_values: %w(A B C) }
+          let(:custom_field) { create :list_wp_custom_field, name: "Letters", possible_values: %w(A B C) }
 
           before do
             submit_email 'wp_reply_with_list_custom_field.eml', issue: { project: project.identifier }
@@ -767,7 +767,7 @@ describe MailHandler, type: :model do
     end
 
     describe 'category' do
-      let!(:category) { FactoryBot.create :category, project: project, name: 'Foobar' }
+      let!(:category) { create :category, project: project, name: 'Foobar' }
 
       it 'should add a work_package with category' do
         allow(Setting).to receive(:default_language).and_return('en')

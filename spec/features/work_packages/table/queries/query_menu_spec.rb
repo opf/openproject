@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,8 +29,8 @@
 require 'spec_helper'
 
 describe 'Query menu item', js: true do
-  let(:user) { FactoryBot.create :admin }
-  let(:project) { FactoryBot.create :project }
+  let(:user) { create :admin }
+  let(:project) { create :project }
   let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
   let(:filters) { ::Components::WorkPackages::Filters.new }
   let(:query_title) { ::Components::WorkPackages::QueryTitle.new }
@@ -43,15 +43,15 @@ describe 'Query menu item', js: true do
     let(:wp_table) { ::Pages::WorkPackagesTable.new }
     it 'should show the query menu (Regression #30082)' do
       wp_table.visit!
-      expect(page).to have_selector('.collapsible-menu--container')
-      expect(page).to have_selector('.collapsible-menu--item', wait: 20, minimum: 1)
+      expect(page).to have_selector('.op-view-select--search-results')
+      expect(page).to have_selector('.op-sidemenu--item-action', wait: 20, minimum: 1)
     end
   end
 
   context 'filtering by version in project' do
-    let(:version) { FactoryBot.create :version, project: project }
-    let(:work_package_with_version) { FactoryBot.create :work_package, project: project, version: version }
-    let(:work_package_without_version) { FactoryBot.create :work_package, project: project }
+    let(:version) { create :version, project: project }
+    let(:work_package_with_version) { create :work_package, project: project, version: version }
+    let(:work_package_without_version) { create :work_package, project: project }
 
     before do
       work_package_with_version
@@ -70,10 +70,10 @@ describe 'Query menu item', js: true do
 
       find('.button', text: 'Save').click
 
-      expect(page).to have_selector('.ui-menu-item', text: 'Some query name', wait: 20)
+      expect(page).to have_selector('.op-sidemenu--item-action', text: 'Some query name', wait: 20)
 
       last_query = Query.last
-      expect(last_query.is_public).to be_truthy
+      expect(last_query.public).to be_truthy
     end
 
     it 'only saves a single query when saving through the title input (Regression #31095)' do
@@ -87,7 +87,7 @@ describe 'Query menu item', js: true do
       query_title.rename 'My special query!123'
 
       query_title.expect_title 'My special query!123'
-      expect(page).to have_selector('.ui-menu-item', text: 'My special query!123', wait: 20, count: 1)
+      expect(page).to have_selector('.op-sidemenu--item-action', text: 'My special query!123', wait: 20, count: 1)
     end
 
     it 'allows filtering, saving, retrieving and altering the saved filter (Regression #25372)' do
@@ -123,7 +123,7 @@ describe 'Query menu item', js: true do
       wp_table.expect_work_package_listed work_package_with_version, work_package_without_version
 
       # Locate query
-      query_item = page.find(".ui-menu-item", text: 'Some query name')
+      query_item = page.find(".op-sidemenu--item-action", text: 'Some query name')
       query_item.click
 
       # Overrides the query_props
@@ -144,7 +144,7 @@ describe 'Query menu item', js: true do
       filters.expect_filter_count 1
       expect(page.current_url).to include('query_props')
 
-      query_item = page.find(".ui-menu-item", text: 'Some query name')
+      query_item = page.find(".op-sidemenu--item-action", text: 'Some query name')
       query_item.click
 
       retry_block do

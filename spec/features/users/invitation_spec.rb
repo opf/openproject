@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 feature 'invitation spec', type: :feature, js: true do
-  let(:user) { FactoryBot.create :invited_user, mail: 'holly@openproject.com' }
+  let(:user) { create :invited_user, mail: 'holly@openproject.com' }
 
   before do
     allow(User).to receive(:current).and_return current_user
@@ -54,12 +54,12 @@ feature 'invitation spec', type: :feature, js: true do
   end
 
   context 'as admin' do
-    shared_let(:admin) { FactoryBot.create :admin }
+    shared_let(:admin) { create :admin }
     let(:current_user) { admin }
   end
 
   context 'as global user' do
-    shared_let(:global_manage_user) { FactoryBot.create :user, global_permission: :manage_user }
+    shared_let(:global_manage_user) { create :user, global_permission: :manage_user }
     let(:current_user) { global_manage_user }
   end
 end

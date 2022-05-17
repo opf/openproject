@@ -16,6 +16,8 @@ delete:
     '403':
       content:
         application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
           examples:
             response:
               value:
@@ -30,6 +32,8 @@ delete:
     '404':
       content:
         application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
           examples:
             response:
               value:
@@ -50,7 +54,7 @@ delete:
   description: Deletes the version. Work packages associated to the version will no
     longer be assigned to it.
   operationId: Delete_Version
-  summary: Delete Version
+  summary: Delete version
 get:
   parameters:
   - description: Version id
@@ -89,7 +93,7 @@ get:
                   format: plain
                   html: This version has a description
                   raw: This version has a description
-                endDate: 
+                endDate:
                 id: 11
                 name: v3.0 Alpha
                 sharing: system
@@ -102,6 +106,8 @@ get:
     '404':
       content:
         application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
           examples:
             response:
               value:
@@ -142,6 +148,8 @@ patch:
     '400':
       content:
         application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
           examples:
             response:
               value:
@@ -154,6 +162,8 @@ patch:
     '403':
       content:
         application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
           examples:
             response:
               value:
@@ -168,6 +178,8 @@ patch:
     '404':
       content:
         application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
           examples:
             response:
               value:
@@ -194,5 +206,5 @@ patch:
   description: Updates the given version by applying the attributes provided in the
     body. Please note that while there is a fixed set of attributes, custom fields
     can extend a version's attributes and are accepted by the endpoint.
-  operationId: Update_Versions
-  summary: Update Versions
+  operationId: Update_Version
+  summary: Update Version
