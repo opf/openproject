@@ -145,58 +145,6 @@ describe Version, type: :model do
     assert_progress_equal 25.0 / 100.0 * 100, v.closed_percent
   end
 
-  context '#behind_schedule?' do
-    before do
-      ProjectCustomField.destroy_all # Custom values are a mess to isolate in tests
-      @project = create(:project, identifier: 'test0')
-      @project.types << create(:type)
-
-      (@version = Version.new.tap do |v|
-        v.attributes = { project: @project, effective_date: nil, name: 'test' }
-      end).save!
-    end
-
-    it 'should be false if there are no issues assigned' do
-      @version.update_attribute(:effective_date, Date.yesterday)
-      assert_equal false, @version.behind_schedule?
-    end
-
-    it 'should be false if there is no effective_date' do
-      assert_equal false, @version.behind_schedule?
-    end
-
-    it 'should be false if all of the issues are ahead of schedule' do
-      @version.update_attribute(:effective_date, 7.days.from_now.to_date)
-      @version.work_packages = [
-        create(:work_package, project: @project, start_date: 7.days.ago, done_ratio: 60), # 14 day span, 60% done, 50% time left
-        create(:work_package, project: @project, start_date: 7.days.ago, done_ratio: 60) # 14 day span, 60% done, 50% time left
-      ]
-      assert_equal 60, @version.completed_percent
-      assert_equal false, @version.behind_schedule?
-    end
-
-    it 'should be true if any of the issues are behind schedule' do
-      @version.update_attribute(:start_date, 7.days.ago.to_date)
-      @version.update_attribute(:effective_date, 7.days.from_now.to_date)
-      @version.work_packages = [
-        create(:work_package, project: @project, start_date: 7.days.ago, done_ratio: 60), # 14 day span, 60% done, 50% time left
-        create(:work_package, project: @project, start_date: 7.days.ago, done_ratio: 20) # 14 day span, 20% done, 50% time left
-      ]
-      assert_equal 40, @version.completed_percent
-      assert_equal true, @version.behind_schedule?
-    end
-
-    it 'should be false if all of the issues are complete' do
-      @version.update_attribute(:effective_date, 7.days.from_now.to_date)
-      @version.work_packages = [
-        create(:work_package, project: @project, start_date: 14.days.ago, done_ratio: 100, status: Status.find(5)), # 7 day span
-        create(:work_package, project: @project, start_date: 14.days.ago, done_ratio: 100, status: Status.find(5)) # 7 day span
-      ]
-      assert_equal 100, @version.completed_percent
-      assert_equal false, @version.behind_schedule?
-    end
-  end
-
   context '#estimated_hours' do
     before do
       (@version = Version.new.tap do |v|
