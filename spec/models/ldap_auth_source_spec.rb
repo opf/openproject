@@ -55,6 +55,87 @@ describe LdapAuthSource, type: :model do
     end
   end
 
+  describe 'admin attribute mapping' do
+    let(:auth_source) do
+      build :ldap_auth_source,
+            attr_login: 'uid',
+            attr_firstname: 'givenName',
+            attr_lastname: 'sn',
+            attr_mail: 'mail',
+            attr_admin: attr_admin
+    end
+    let(:entry) do
+      Net::LDAP::Entry.new('uid=login,foo=bar').tap do |entry|
+        entry['uid'] = 'login'
+        entry['givenName'] = 'abc'
+        entry['sn'] = 'lastname'
+        entry['mail'] = 'some@example.org'
+        entry['admin'] = admin_value
+      end
+    end
+
+    subject { auth_source.get_user_attributes_from_ldap_entry(entry) }
+
+    context 'when attribute defined and not present' do
+      let(:attr_admin) { 'admin' }
+      let(:admin_value) { nil }
+
+      it 'returns it as false' do
+        expect(subject).to have_key(:admin)
+        expect(subject[:admin]).to be false
+      end
+    end
+
+    context 'when attribute defined and castable number' do
+      let(:attr_admin) { 'admin' }
+      let(:admin_value) { '1' }
+
+      it 'does return the mapping' do
+        expect(subject).to have_key(:admin)
+        expect(subject[:admin]).to be true
+      end
+    end
+
+    context 'when attribute defined and boolean' do
+      let(:attr_admin) { 'admin' }
+      let(:admin_value) { false }
+
+      it 'does return the mapping' do
+        expect(subject).to have_key(:admin)
+        expect(subject[:admin]).to be false
+      end
+    end
+
+    context 'when attribute defined and true string' do
+      let(:attr_admin) { 'admin' }
+      let(:admin_value) { 'true' }
+
+      it 'does return the mapping' do
+        expect(subject).to have_key(:admin)
+        expect(subject[:admin]).to be true
+      end
+    end
+
+    context 'when attribute defined and false string' do
+      let(:attr_admin) { 'admin' }
+      let(:admin_value) { 'false' }
+
+      it 'does return the mapping' do
+        expect(subject).to have_key(:admin)
+        expect(subject[:admin]).to be false
+      end
+    end
+
+    context 'when attribute not defined and set' do
+      let(:attr_admin) { nil }
+      let(:admin_value) { true }
+
+      it 'does not return an admin mapping' do
+        expect(subject).not_to have_key(:admin)
+      end
+    end
+  end
+
   describe 'with live LDAP' do
     before(:all) do
       ldif = Rails.root.join('spec/fixtures/ldap/users.ldif')
