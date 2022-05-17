@@ -77,7 +77,10 @@ import {
   teamPlannerEventRemoved,
 } from 'core-app/features/team-planner/team-planner/planner/team-planner.actions';
 import { imagePath } from 'core-app/shared/helpers/images/path-helper';
-import { skeletonEvents, skeletonResources } from './loading-skeleton-data';
+import {
+  skeletonEvents,
+  skeletonResources,
+} from './loading-skeleton-data';
 import { CapabilitiesResourceService } from 'core-app/core/state/capabilities/capabilities.service';
 import { ICapability } from 'core-app/core/state/capabilities/capability.model';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
@@ -90,7 +93,6 @@ import { LoadingIndicatorService } from 'core-app/core/loading-indicator/loading
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     EventViewLookupService,
-    OpCalendarService,
   ],
 })
 export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit, OnDestroy {
@@ -114,6 +116,23 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
   calendarOptions$ = new Subject<CalendarOptions>();
 
   draggingItem$ = new BehaviorSubject<EventDragStartArg|undefined>(undefined);
+
+  globalDraggingItem$ = combineLatest([
+    this.draggingItem$,
+    this.calendarDrag.isDragging$,
+  ]).pipe(
+    map(([draggingItem, externalDrag]) => {
+      if (externalDrag !== undefined) {
+        return externalDrag;
+      }
+
+      if (draggingItem !== undefined) {
+        return (draggingItem.event.extendedProps.workPackage as WorkPackageResource).id as string;
+      }
+
+      return undefined;
+    }),
+  );
 
   dropzoneHovered$ = new BehaviorSubject<boolean>(false);
 
@@ -149,7 +168,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     .pipe(
       this.untilDestroyed(),
       map((queryFilters) => {
-        const assigneeFilter = queryFilters.find((queryFilter) => queryFilter._type === 'AssigneeQueryFilter');
+        const assigneeFilter = queryFilters.find((queryFilter) => queryFilter.id === 'assignee');
         return ((assigneeFilter?.values || []) as HalResource[]).map((p) => p.id);
       }),
     );
@@ -162,13 +181,13 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
         const filters:ApiV3ListFilter[] = [
           ['action', '=', ['work_packages/assigned']],
         ];
-        const assigneeFilter = queryFilters.find((queryFilter) => queryFilter._type === 'AssigneeQueryFilter');
+        const assigneeFilter = queryFilters.find((queryFilter) => queryFilter.id === 'assignee');
         if (assigneeFilter) {
           const values = (assigneeFilter.values as HalResource[]).map((el:HalResource) => el.id as string);
           filters.push(['principal', '=', values]);
         }
 
-        const projectFilter = queryFilters.find((queryFilter) => queryFilter._type === 'ProjectQueryFilter');
+        const projectFilter = queryFilters.find((queryFilter) => queryFilter.id === 'project');
         if (projectFilter) {
           const values = (projectFilter.values as HalResource[]).map((el:HalResource) => `p${el.id as string}`);
           filters.push(['context', '=', values]);
@@ -231,7 +250,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
 
   text = {
     add_existing: this.I18n.t('js.team_planner.add_existing'),
-    assignees: this.I18n.t('js.team_planner.label_assignee_plural'),
+    assignee: this.I18n.t('js.label_assignee'),
     add_assignee: this.I18n.t('js.team_planner.add_assignee'),
     remove_assignee: this.I18n.t('js.team_planner.remove_assignee'),
     noData: this.I18n.t('js.team_planner.no_data'),
@@ -384,7 +403,12 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
                   { weekday: 'long', day: '2-digit' },
                 ],
                 resourceAreaColumns: [
-                  { field: 'title', headerContent: this.text.assignees },
+                  {
+                    field: 'title',
+                    headerContent: {
+                      html: `<span class="spot-icon spot-icon_user"></span> <span>${this.text.assignee}</span>`,
+                    },
+                  },
                 ],
               },
               resourceTimelineTwoWeeks: {
@@ -397,7 +421,12 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
                   { weekday: 'short', day: '2-digit' },
                 ],
                 resourceAreaColumns: [
-                  { field: 'title', headerContent: this.text.assignees },
+                  {
+                    field: 'title',
+                    headerContent: {
+                      html: `<span class="spot-icon spot-icon_user"></span> <span>${this.text.assignee}</span>`,
+                    },
+                  },
                 ],
               },
             },
@@ -547,6 +576,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
       data.event.end?.toISOString(),
       data.timeText,
       `dragging=${data.isDragging.toString()}`,
+      `resizing=${data.isResizing.toString()}`,
     ].join('-');
   }
 
@@ -587,25 +617,30 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     }
   }
 
-  isWpDateInCurrentView(workPackage:WorkPackageResource, date:'start'|'end'):boolean {
-    if (workPackage.startDate && workPackage.dueDate) {
-      let dateToCheck;
+  isWpEndDateInCurrentView(workPackage:WorkPackageResource):boolean {
+    const { dueDate } = workPackage;
 
-      const currentStartDate = this.ucCalendar.getApi().view.currentStart.setHours(0, 0, 0, 0);
-      const currentEndDate = this.ucCalendar.getApi().view.currentEnd.setHours(0, 0, 0, 0);
-
-      if (date === 'start') {
-        dateToCheck = new Date(workPackage.startDate).setHours(0, 0, 0, 0);
-      } else {
-        dateToCheck = new Date(workPackage.dueDate).setHours(0, 0, 0, 0);
-      }
-
-      const dateCurrentlyVisible = dateToCheck >= currentStartDate && dateToCheck <= currentEndDate;
-      return dateCurrentlyVisible;
+    if (!dueDate) {
+      return !!workPackage.date;
     }
 
-    // Milestones are always completely in view, everything else is outside
-    return !!workPackage.date;
+    const viewEndDate = this.ucCalendar.getApi().view.currentEnd.setHours(0, 0, 0, 0);
+    const dateToCheck = new Date(dueDate).setHours(0, 0, 0, 0);
+
+    return dateToCheck < viewEndDate;
+  }
+
+  isWpStartDateInCurrentView(workPackage:WorkPackageResource):boolean {
+    const { startDate } = workPackage;
+
+    if (!startDate) {
+      return !!workPackage.date;
+    }
+
+    const viewStartDate = this.ucCalendar.getApi().view.currentStart.setHours(0, 0, 0, 0);
+    const dateToCheck = new Date(startDate).setHours(0, 0, 0, 0);
+
+    return dateToCheck >= viewStartDate;
   }
 
   showDisabledText(workPackage:WorkPackageResource):{ text:string, orientation:'left'|'right' } {
@@ -659,7 +694,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
           editable: durationEditable || resourceEditable,
           durationEditable,
           resourceEditable,
-          constraint: this.eventConstaints(workPackage, projectAssignables),
+          constraint: this.eventConstraints(workPackage, projectAssignables),
           title: workPackage.subject,
           start: this.wpStartDate(workPackage),
           end: this.wpEndDate(workPackage),
@@ -717,6 +752,15 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     }
   }
 
+  shouldShowAsGhost(id:string, globalDraggingId:string|undefined):boolean {
+    if (globalDraggingId === undefined) {
+      return false;
+    }
+
+    // Everything else except the currently dragged element should be shown as ghost.
+    return id !== globalDraggingId;
+  }
+
   private async updateEvent(info:EventResizeDoneArg|EventDropArg|EventReceiveArg):Promise<void> {
     const changeset = this.calendar.updateDates(info);
 
@@ -753,13 +797,13 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
   // they are forced to drag the wp to the exact same date in the others assignee row. This might be confusing.
   // Without these constraints however, users can drag the WP everywhere, thinking that they changed the date as well.
   // The WP then moves back to the original date when the calendar re-draws again. Also not optimal..
-  private eventConstaints(
+  private eventConstraints(
     wp:WorkPackageResource,
     projectAssignables:{ [projectId:string]:string[] },
   ):{ [key:string]:string|string[] } {
     const constraints:{ [key:string]:string|string[] } = {};
 
-    if (!this.calendar.eventDurationEditable(wp)) {
+    if (!this.calendar.eventDurationEditable(wp) && !wp.date) {
       constraints.start = this.wpStartDate(wp);
       constraints.end = this.wpEndDate(wp);
     }
@@ -829,7 +873,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
         principals.forEach((principal) => {
           const resourceId = principal._links.self.href;
 
-          if (!assignable.includes(resourceId)) {
+          if (!assignable || !assignable.includes(resourceId)) {
             api.addEvent({ ...eventBase, resourceId }, 'background');
           }
         });

@@ -28,7 +28,7 @@
 
 module Admin::Settings
   class APISettingsController < ::Admin::SettingsController
-    menu_item :settings_api
+    menu_item :api
 
     def default_breadcrumb
       t(:label_api_access_key_type)

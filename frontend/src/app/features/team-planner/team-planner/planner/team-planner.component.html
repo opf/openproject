@@ -95,48 +95,46 @@
     </ng-template>
 
     <ng-template #eventContent let-event="event">
-  
-      <op-wp-loading-skeleton 
+
+      <op-wp-loading-skeleton
         [viewBox]="event.extendedProps.viewBox"
         class="op-team-planner--wp-loading-skeleton"
         *ngIf="event.source && event.source.id === 'skeleton'"
       ></op-wp-loading-skeleton>
 
       <wp-single-card
-        *ngIf="!event.source || event.source.id === 'work_packages'"
-        [workPackage]="event.extendedProps.workPackage"
+        *ngIf="(!event.source || event.source.id === 'work_packages') && event.extendedProps.workPackage as wp"
+        [workPackage]="wp"
         [selectedWhenOpen]="true"
         [orientation]="'horizontal'"
         [highlightingMode]="'type'"
         [showInfoButton]="true"
-        [disabledInfo]="showDisabledText(event.extendedProps.workPackage)"
-        [isClosed]="isStatusClosed(event.extendedProps.workPackage)"
+        [disabledInfo]="showDisabledText(wp)"
+        [isClosed]="isStatusClosed(wp)"
+        [showAsGhost]="shouldShowAsGhost(wp.id, (globalDraggingItem$ | async))"
         [showAsInlineCard]="true"
-        [showStartDate]="!this.isWpDateInCurrentView(event.extendedProps.workPackage, 'start')"
-        [showEndDate]="!this.isWpDateInCurrentView(event.extendedProps.workPackage, 'end')"
+        [showStartDate]="!isWpStartDateInCurrentView(wp)"
+        [showEndDate]="!isWpEndDateInCurrentView(wp)"
         (stateLinkClicked)="openStateLink($event)"
         (cardClicked)="calendar.onCardClicked($event)"
         (cardContextMenu)="calendar.showEventContextMenu($event)"
-      >
-      </wp-single-card>
+      ></wp-single-card>
     </ng-template>
 
     <div class="op-team-planner--footer" data-qa-selector="op-team-planner-footer">
-      <div class="op-team-planner--add-assignee">
-        <div
-          class="wp-inline-create-button"
-          *ngIf="!(showAddAssignee$ | async)"
+      <div
+        class="op-team-planner--add-assignee"
+        *ngIf="!(showAddAssignee$ | async) && !(dropzone$ | async)?.dragging"
+      >
+        <button
+          type="button"
+          class="spot-link"
+          (click)="showAssigneeAddRow()"
+          data-qa-selector="tp-assignee-add-button"
         >
-          <button
-            type="button"
-            class="wp-inline-create--add-link tp-assignee-add-button"
-            (click)="showAssigneeAddRow()"
-            data-qa-selector="tp-assignee-add-button"
-          >
-            <op-icon icon-classes="icon-context icon-add"></op-icon>
-            <span [textContent]="text.add_assignee"></span>
-          </button>
-        </div>
+          <span class="spot-icon spot-icon_user-plus"></span>
+          <span [textContent]="text.add_assignee"></span>
+        </button>
       </div>
       <ng-container *ngIf="(dropzone$ | async) as dropzone">
         <div

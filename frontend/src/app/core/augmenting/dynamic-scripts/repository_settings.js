@@ -76,7 +76,7 @@ jQuery(function($){
         toggleContent(content, checkedInput.val());
       }
 
-      // Necessary for accessibilty purpose
+      // Necessary for accessibility purpose
       jQuery('#scm_vendor').on('change', function(){
         window.setTimeout(function(){
           document.getElementsByName('scm_type')[0].focus();

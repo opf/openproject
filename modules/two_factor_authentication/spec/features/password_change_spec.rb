@@ -1,8 +1,14 @@
 require_relative '../spec_helper'
 
-describe 'Password change with OTP', with_2fa_ee: true, type: :feature,
-                                     with_config: { '2fa': { active_strategies: [:developer] } },
-                                     js: true do
+describe 'Password change with OTP',
+         with_2fa_ee: true,
+         type: :feature,
+         with_settings: {
+           plugin_openproject_two_factor_authentication: {
+             'active_strategies' => [:developer]
+           }
+         },
+         js: true do
   let(:user_password) { 'boB&' * 4 }
   let(:new_user_password) { '%obB' * 4 }
   let(:user) do
@@ -22,10 +28,12 @@ describe 'Password change with OTP', with_2fa_ee: true, type: :feature,
     end
 
     sms_token = nil
+    # rubocop:disable RSpec/AnyInstance
     allow_any_instance_of(::OpenProject::TwoFactorAuthentication::TokenStrategy::Developer)
-        .to receive(:create_mobile_otp).and_wrap_original do |m|
+      .to receive(:create_mobile_otp).and_wrap_original do |m|
       sms_token = m.call
     end
+    # rubocop:enable RSpec/AnyInstance
 
     expect(page).to have_selector('h2', text: I18n.t(:button_change_password))
     within('#content') do
@@ -43,7 +51,7 @@ describe 'Password change with OTP', with_2fa_ee: true, type: :feature,
       click_button I18n.t(:button_login)
     end
 
-    expect(current_path).to eql expected_path_after_login
+    expect(page).to have_current_path(expected_path_after_login, ignore_query: true)
   end
 
   context 'when password is expired',

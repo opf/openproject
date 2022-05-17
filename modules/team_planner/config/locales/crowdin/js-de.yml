@@ -2,11 +2,9 @@
 de:
   js:
     team_planner:
-      add_existing: 'Vorhandene hinzufügen'
-      create_new: 'Neuer Teamplaner'
+      add_existing: 'Bestehende hinzufügen'
       title: 'Teamplaner'
       unsaved_title: 'Unbenannter Teamplaner'
-      label_assignee_plural: 'Zugewiesene Benutzer'
       no_data: 'Fügen Sie zugewiesene Benutzer hinzu, um Ihren Teamplaner einzurichten.'
       add_assignee: 'Zugewiesenen Benutzer hinzufügen'
       remove_assignee: 'Zugewiesenen Benutzer entfernen'

@@ -71,7 +71,7 @@ class Project < ApplicationRecord
   }, dependent: :destroy
   has_many :time_entries, dependent: :delete_all
   has_many :time_entry_activities_projects, dependent: :delete_all
-  has_many :queries, dependent: :delete_all
+  has_many :queries, dependent: :destroy
   has_many :news, -> { includes(:author) }, dependent: :destroy
   has_many :categories, -> { order("#{Category.table_name}.name") }, dependent: :delete_all
   has_many :forums, -> { order('position ASC') }, dependent: :destroy
@@ -79,11 +79,11 @@ class Project < ApplicationRecord
   has_many :changesets, through: :repository
   has_one :wiki, dependent: :destroy
   # Custom field for the project's work_packages
-  has_and_belongs_to_many :work_package_custom_fields, -> {
-    order("#{CustomField.table_name}.position")
-  }, class_name: 'WorkPackageCustomField',
-     join_table: "#{table_name_prefix}custom_fields_projects#{table_name_suffix}",
-     association_foreign_key: 'custom_field_id'
+  has_and_belongs_to_many :work_package_custom_fields,
+                          -> { order("#{CustomField.table_name}.position") },
+                          class_name: 'WorkPackageCustomField',
+                          join_table: "#{table_name_prefix}custom_fields_projects#{table_name_suffix}",
+                          association_foreign_key: 'custom_field_id'
   has_one :status, class_name: 'Projects::Status', dependent: :destroy
   has_many :budgets, dependent: :destroy
   has_many :notification_settings, dependent: :destroy
@@ -137,11 +137,13 @@ class Project < ApplicationRecord
 
   friendly_id :identifier, use: :finders
 
+  delegate :explanation, to: :status, allow_nil: true, prefix: true
+
   scope :has_module, ->(mod) {
     where(["#{Project.table_name}.id IN (SELECT em.project_id FROM #{EnabledModule.table_name} em WHERE em.name=?)", mod.to_s])
   }
   scope :public_projects, -> { where(public: true) }
-  scope :visible, ->(user = User.current) { merge(Project.visible_by(user)) }
+  scope :visible, ->(user = User.current) { where(id: Project.visible_by(user)) }
   scope :newest, -> { order(created_at: :desc) }
   scope :active, -> { where(active: true) }
 
@@ -223,7 +225,7 @@ class Project < ApplicationRecord
   # Closes open and locked project versions that are completed
   def close_completed_versions
     Version.transaction do
-      versions.where(status: %w(open locked)).each do |version|
+      versions.where(status: %w(open locked)).find_each do |version|
         if version.completed?
           version.update_attribute(:status, 'closed')
         end
@@ -304,7 +306,7 @@ class Project < ApplicationRecord
 
   def enabled_module_names=(module_names)
     if module_names&.is_a?(Array)
-      module_names = module_names.map(&:to_s).reject(&:blank?)
+      module_names = module_names.map(&:to_s).compact_blank
       self.enabled_modules = module_names.map do |name|
         enabled_modules.detect do |mod|
           mod.name == name
@@ -349,7 +351,7 @@ class Project < ApplicationRecord
     #
     def build_projects_hierarchy(projects)
       ancestors = []
-      result    = []
+      result = []
 
       projects.sort_by(&:lft).each do |project|
         while ancestors.any? && !project.is_descendant_of?(ancestors.last[:project])
@@ -359,7 +361,7 @@ class Project < ApplicationRecord
         end
 
         current_hierarchy = { project: project, children: [] }
-        current_tree      = ancestors.any? ? ancestors.last[:children] : result
+        current_tree = ancestors.any? ? ancestors.last[:children] : result
 
         current_tree << current_hierarchy
         ancestors << current_hierarchy
@@ -414,17 +416,18 @@ class Project < ApplicationRecord
   end
 
   def allowed_permissions
-    @allowed_permissions ||= begin
-      names = enabled_modules.loaded? ? enabled_module_names : enabled_modules.pluck(:name)
+    @allowed_permissions ||=
+      begin
+        names = enabled_modules.loaded? ? enabled_module_names : enabled_modules.pluck(:name)
 
-      OpenProject::AccessControl.modules_permissions(names).map(&:name)
-    end
+        OpenProject::AccessControl.modules_permissions(names).map(&:name)
+      end
   end
 
   def allowed_actions
     @actions_allowed ||= allowed_permissions
-                         .map { |permission| OpenProject::AccessControl.allowed_actions(permission) }
-                         .flatten
+                           .map { |permission| OpenProject::AccessControl.allowed_actions(permission) }
+                           .flatten
   end
 
   def remove_white_spaces_from_project_name

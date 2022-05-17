@@ -7,6 +7,8 @@ get:
       Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/) endpoint. Currently supported filters are:
 
       + id: The schema's id
+
+      Schema id has the form `project_id-work_package_type_id`.
     example: '[{ "id": { "operator": "=", "values": ["12-1", "14-2"] } }]'
     in: query
     name: filters

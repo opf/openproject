@@ -6,7 +6,7 @@ da:
       configure: 'Configure widget'
       upsale:
         text: "Nogle widgets, som fx arbejdspakke graf-widget, er kun tilgængelige i "
-        link: 'enterprise edition.'
+        link: 'Enterprise Edition.'
       widgets:
         custom_text:
           title: 'Tilpasset tekst'

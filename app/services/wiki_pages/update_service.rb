@@ -36,7 +36,6 @@ class WikiPages::UpdateService < ::BaseServices::Update
 
     page = service_result.result
     content = page.content
-    content.author_id = user.id
 
     unless page.save && content.save
       service_result.errors = page.errors

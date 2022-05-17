@@ -85,8 +85,8 @@ describe 'Search', type: :feature, js: true, with_settings: { per_page_options: 
 
   let(:run_visit) { true }
 
-  def expect_range(a, b)
-    (a..b).each do |n|
+  def expect_range(param_a, param_b)
+    (param_a..param_b).each do |n|
       expect(page).to have_content("No. #{n} WP")
       expect(page).to have_selector("a[href*='#{work_package_path(work_packages[n - 1].id)}']")
     end
@@ -132,7 +132,8 @@ describe 'Search', type: :feature, js: true, with_settings: { per_page_options: 
       expect(page)
         .to have_selector('.subject', text: target_work_package.subject)
 
-      expect(current_path).to eql project_work_package_path(target_work_package.project, target_work_package, state: 'activity')
+      expect(page)
+        .to have_current_path project_work_package_path(target_work_package.project, target_work_package, state: 'activity')
 
       search_target = work_packages.last
 
@@ -148,7 +149,8 @@ describe 'Search', type: :feature, js: true, with_settings: { per_page_options: 
       expect(page)
         .to have_selector('.subject', text: search_target.subject)
 
-      expect(current_path).to eql project_work_package_path(search_target.project, search_target, state: 'activity')
+      expect(page)
+        .to have_current_path project_work_package_path(search_target.project, search_target, state: 'activity')
 
       # Typing a hash sign before an ID shall only suggest that work package and (no hits within the subject)
       global_search.search("##{search_target.id}", submit: false)
@@ -162,46 +164,50 @@ describe 'Search', type: :feature, js: true, with_settings: { per_page_options: 
 
       # Selection project scope 'In all projects' redirects away from current project.
       global_search.submit_in_global_scope
-      expect(current_path).to match(/\/search/)
+      expect(page)
+      .to have_current_path (/\/search/)
       expect(current_url).to match(/\/search\?q=#{"%23#{search_target.id}"}&work_packages=1&scope=all$/)
     end
   end
 
   describe 'search for work packages' do
-    context 'search in all projects' do
+    context 'when search in all projects' do
       let(:params) { [project, { q: query, work_packages: 1 }] }
 
-      context 'custom fields not searchable' do
+      context 'as custom fields not searchable' do
         let(:searchable) { false }
 
         it "does not find WP via custom fields" do
           select_autocomplete(page.find('.top-menu-search--input'),
                               query: "text",
-                              select_text: "In all projects ↵")
+                              select_text: "In all projects ↵",
+                              wait_dropdown_open: false)
           table = Pages::EmbeddedWorkPackagesTable.new(find('.work-packages-embedded-view--container'))
           table.ensure_work_package_not_listed!(work_packages[0])
           table.ensure_work_package_not_listed!(work_packages[1])
         end
       end
 
-      context 'custom fields are no filters' do
+      context 'as custom fields are no filters' do
         let(:is_filter) { false }
 
         it "does not find WP via custom fields" do
           select_autocomplete(page.find('.top-menu-search--input'),
                               query: "text",
-                              select_text: "In all projects ↵")
+                              select_text: "In all projects ↵",
+                              wait_dropdown_open: false)
           table = Pages::EmbeddedWorkPackagesTable.new(find('.work-packages-embedded-view--container'))
           table.ensure_work_package_not_listed!(work_packages[0])
           table.ensure_work_package_not_listed!(work_packages[1])
         end
       end
 
-      context 'custom fields searchable' do
+      context 'as custom fields are searchable' do
         it "finds WP global custom fields" do
           select_autocomplete(page.find('.top-menu-search--input'),
                               query: "string",
-                              select_text: "In all projects ↵")
+                              select_text: "In all projects ↵",
+                              wait_dropdown_open: false)
           table = Pages::EmbeddedWorkPackagesTable.new(find('.work-packages-embedded-view--container'))
           table.ensure_work_package_not_listed!(work_packages[0])
           table.expect_work_package_subject(work_packages[1].subject)
@@ -209,8 +215,7 @@ describe 'Search', type: :feature, js: true, with_settings: { per_page_options: 
       end
     end
 
-    # rubocop:disable RSpec/MultipleMemoizedHelpers
-    context 'project search' do
+    context 'for project search' do
       let(:subproject) { create :project, parent: project }
       let!(:other_work_package) do
         create(:work_package, subject: 'Other work package', project: subproject)
@@ -293,7 +298,8 @@ describe 'Search', type: :feature, js: true, with_settings: { per_page_options: 
         # and expect that subproject's work packages will not be found
         table.ensure_work_package_not_listed! other_work_package
 
-        expect(current_url).to match(/\/#{project.identifier}\/search\?q=Other%20work%20package&work_packages=1&scope=current_project$/)
+        expect(current_url)
+          .to match(/\/#{project.identifier}\/search\?q=Other%20work%20package&work_packages=1&scope=current_project$/)
 
         # Expect to find custom field values
         # ...for type: text
@@ -329,7 +335,8 @@ describe 'Search', type: :feature, js: true, with_settings: { per_page_options: 
 
         select_autocomplete(page.find('.top-menu-search--input'),
                             query: query,
-                            select_text: 'In this project ↵')
+                            select_text: 'In this project ↵',
+                            wait_dropdown_open: false)
 
         filters.expect_closed
         page.find('.advanced-filters--toggle').click
@@ -375,17 +382,17 @@ describe 'Search', type: :feature, js: true, with_settings: { per_page_options: 
       end
     end
   end
-  # rubocop:enable RSpec/MultipleMemoizedHelpers
 
   describe 'search for projects' do
     let!(:searched_for_project) { create(:project, name: 'Searched for project') }
     let!(:other_project) { create(:project, name: 'Other project') }
 
-    context 'globally' do
+    context 'when globally' do
       it 'finds the project' do
         select_autocomplete(page.find('.top-menu-search--input'),
                             query: "Searched",
-                            select_text: "In all projects ↵")
+                            select_text: "In all projects ↵",
+                            wait_dropdown_open: false)
 
         within '.global-search--tabs' do
           click_on 'Projects'
@@ -401,21 +408,21 @@ describe 'Search', type: :feature, js: true, with_settings: { per_page_options: 
   end
 
   describe 'pagination' do
-    context 'project wide search' do
+    context 'for project wide search' do
       it 'works' do
         expect_range 3, 12
 
         click_on 'Next', match: :first
         expect_range 1, 2
-        expect(current_path).to match "/projects/#{project.identifier}/search"
+        expect(page).to have_current_path /\/projects\/#{project.identifier}\/search/
 
         click_on 'Previous', match: :first
         expect_range 3, 12
-        expect(current_path).to match "/projects/#{project.identifier}/search"
+        expect(page).to have_current_path /\/projects\/#{project.identifier}\/search/
       end
     end
 
-    context 'global "All" search' do
+    context 'for global "All" search' do
       before do
         login_as user
 
@@ -434,12 +441,12 @@ describe 'Search', type: :feature, js: true, with_settings: { per_page_options: 
     end
   end
 
-  describe 'params escaping' do
-    let(:wp_1) { create :work_package, subject: "Foo && Bar", project: project }
-    let(:wp_2) { create :work_package, subject: "Foo # Bar", project: project }
-    let(:wp_3) { create :work_package, subject: "Foo &# Bar", project: project }
-    let(:wp_4) { create :work_package, subject: %(Foo '' "" \(\) Bar), project: project }
-    let!(:work_packages) { [wp_1, wp_2, wp_3, wp_4] }
+  describe 'when params escaping' do
+    let(:wp1) { create :work_package, subject: "Foo && Bar", project: project }
+    let(:wp2) { create :work_package, subject: "Foo # Bar", project: project }
+    let(:wp3) { create :work_package, subject: "Foo &# Bar", project: project }
+    let(:wp4) { create :work_package, subject: %(Foo '' "" \(\) Bar), project: project }
+    let!(:work_packages) { [wp1, wp2, wp3, wp4] }
     let(:table) { Pages::EmbeddedWorkPackagesTable.new(find('.work-packages-embedded-view--container')) }
 
     let(:run_visit) { false }
@@ -456,33 +463,33 @@ describe 'Search', type: :feature, js: true, with_settings: { per_page_options: 
       global_search.expect_global_scope_marked
       global_search.submit_in_global_scope
 
-      table.expect_work_package_listed(wp_1, wp_3)
-      table.ensure_work_package_not_listed! wp_2
+      table.expect_work_package_listed(wp1, wp3)
+      table.ensure_work_package_not_listed! wp2
 
       global_search.search "# Bar"
       global_search.find_option "Foo # Bar"
       global_search.find_option "Foo &# Bar"
       global_search.submit_in_global_scope
-      table.expect_work_package_listed(wp_2)
-      table.ensure_work_package_not_listed! wp_1
+      table.expect_work_package_listed(wp2)
+      table.ensure_work_package_not_listed! wp1
 
       global_search.search "&"
       # Bug in ng-select causes highlights to break up entities
       global_search.find_option "Foo && Bar"
       global_search.find_option "Foo &# Bar"
       global_search.submit_in_global_scope
-      table.expect_work_package_listed(wp_1, wp_3)
-      table.ensure_work_package_not_listed! wp_2
+      table.expect_work_package_listed(wp1, wp3)
+      table.ensure_work_package_not_listed! wp2
 
       global_search.search '""'
-      global_search.find_option wp_4.subject
+      global_search.find_option wp4.subject
       global_search.submit_in_global_scope
-      table.expect_work_package_listed(wp_4)
+      table.expect_work_package_listed(wp4)
 
       global_search.search "'"
-      global_search.find_option wp_4.subject
+      global_search.find_option wp4.subject
       global_search.submit_in_global_scope
-      table.expect_work_package_listed(wp_4)
+      table.expect_work_package_listed(wp4)
     end
   end
 

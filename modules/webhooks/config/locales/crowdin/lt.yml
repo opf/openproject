@@ -27,6 +27,10 @@ lt:
       events:
         created: "Sukurta"
         updated: "Atnaujinta"
+      explanation:
+        text: >
+          Atsitikus įvykiui, tokiam kaip darbų paketo sukūrimui ar projekto pakeitimui, OpenProject išsiųs POST užklausą nurodytoms jungtims. Dažnai įvykis siunčiamas po %{link} praėjimo.
+        link: konfigūruotas agregavimo periodas
       status:
         enabled: '„Webhook“ įgalintas'
         disabled: '„Webhook“ atjungtas'

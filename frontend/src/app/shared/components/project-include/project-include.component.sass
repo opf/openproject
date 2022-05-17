@@ -1,4 +1,5 @@
 @import '../../../spot/styles/sass/variables'
+@import 'helpers'
 
 \::ng-deep .spot-drop-modal--body
 
@@ -26,9 +27,20 @@
       max-height: 70vh
 
   &--list
+    @include styled-scroll-bar
     overflow-y: auto
     flex-shrink: 1
     flex-basis: 100%
 
   &--loading
-    padding: 0 $spot-spacing-1 0 $spot-spacing-1
+    padding: $spot-spacing-1
+
+  &--include-all
+    display: flex
+    align-items: center
+    cursor: pointer
+
+    &-text
+      // A true center aligned text does not look center aligned
+      padding-top: 1px
+      margin-left: $spot-spacing-0_5

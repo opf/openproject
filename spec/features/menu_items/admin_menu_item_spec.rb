@@ -28,39 +28,53 @@
 
 require 'spec_helper'
 
-feature 'Admin menu items' do
+describe 'Admin menu items', js: true do
   let(:user) { create :admin }
 
   before do
-    allow(User).to receive(:current).and_return user
+    login_as user
   end
 
   after do
     OpenProject::Configuration['hidden_menu_items'] = []
   end
 
-  describe 'displaying all the menu items' do
-    it 'hides the specified admin menu items' do
+  context 'without having any menu items hidden in configuration' do
+    it 'must display all menu items' do
       visit admin_index_path
 
-      expect(page).to have_selector('a', text: I18n.t('label_user_plural'))
-      expect(page).to have_selector('a', text: I18n.t('label_role_plural'))
-      expect(page).to have_selector('a', text: I18n.t('label_type_plural'))
+      expect(page).to have_selector('[data-qa-selector="menu-blocks--container"]')
+      expect(page).to have_selector('[data-qa-selector="menu-block"]', count: 17)
+      expect(page).to have_selector('[data-qa-selector="op-menu--item-action"]', count: 18) # All plus 'overview'
     end
   end
 
-  describe 'hiding menu items' do
-    before do
-      OpenProject::Configuration['hidden_menu_items'] = { 'admin_menu' => ['roles', 'types'] }
-    end
-
-    it 'hides the specified admin menu items' do
+  context 'with having custom hidden menu items',
+          with_config: {
+            'hidden_menu_items' => { 'admin_menu' => ['colors'] }
+          } do
+    it 'must not display the hidden menu items and blocks' do
       visit admin_index_path
 
-      expect(page).to have_selector('a', text: I18n.t('label_user_plural'))
+      expect(page).to have_selector('[data-qa-selector="menu-blocks--container"]')
+      expect(page).to have_selector('[data-qa-selector="menu-block"]', count: 16)
+      expect(page).not_to have_selector('[data-qa-selector="menu-block"]', text: I18n.t('timelines.admin_menu.colors'))
 
-      expect(page).not_to have_selector('a', text: I18n.t('label_role_plural'))
-      expect(page).not_to have_selector('a', text: I18n.t('label_type_plural'))
+      expect(page).to have_selector('[data-qa-selector="op-menu--item-action"]', count: 17) # All plus 'overview'
+      expect(page).not_to have_selector('[data-qa-selector="op-menu--item-action"]', text: I18n.t('timelines.admin_menu.colors'))
+    end
+  end
+
+  context 'when logged in with a non-admin user with specific admin permissions' do
+    let(:user) { create :user, global_permission: %i[manage_user create_backup] }
+
+    it 'must display only the actions allowed by global permissions' do
+      visit admin_index_path
+
+      expect(page).to have_selector('[data-qa-selector="menu-block"]', text: I18n.t('label_user_plural'))
+      expect(page).to have_selector('[data-qa-selector="menu-block"]', text: I18n.t('label_backup'))
+      expect(page).to have_selector('[data-qa-selector="op-menu--item-action"]', text: I18n.t('label_user_plural'))
+      expect(page).to have_selector('[data-qa-selector="op-menu--item-action"]', text: I18n.t('label_backup'))
     end
   end
 end

@@ -48,14 +48,14 @@ class WithConfig
   #
   # @config [Hash] Hash containing the configurations with keys as seen in `configuration.rb`.
   def before(example, config)
-    allow(OpenProject::Configuration).to receive(:[]).and_call_original
-
     aggregate_mocked_configuration(example, config)
       .with_indifferent_access
       .each { |k, v| stub_key(k, v) }
   end
 
   def stub_key(key, value)
+    allow_original_implementation_for_unstubbed_keys
+
     allow(OpenProject::Configuration)
       .to receive(:[])
       .with(key.to_s)
@@ -78,10 +78,19 @@ class WithConfig
 
     config
   end
+
+  private
+
+  def allow_original_implementation_for_unstubbed_keys
+    return if @call_original_implementation_done
+
+    allow(OpenProject::Configuration).to receive(:[]).and_call_original
+    @call_original_implementation_done = true
+  end
 end
 
 RSpec.configure do |config|
-  config.before(:each) do |example|
+  config.before do |example|
     with_config = example.metadata[:with_config]
 
     WithConfig.new(self).before example, with_config if with_config.present?

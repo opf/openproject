@@ -45,7 +45,7 @@ class MeetingsController < ApplicationController
 
     # from params => today's page otherwise => first page as fallback
     tomorrows_meetings_count = scope.from_tomorrow.count
-    @page_of_today = 1 + tomorrows_meetings_count / per_page_param
+    @page_of_today = 1 + (tomorrows_meetings_count / per_page_param)
 
     page = params['page'] ? page_param : @page_of_today
 
@@ -119,18 +119,15 @@ class MeetingsController < ApplicationController
 
   private
 
-  def set_time_zone
-    old_time_zone = Time.zone
+  def set_time_zone(&block)
     zone = User.current.time_zone
     if zone.nil?
-      localzone = Time.now.utc_offset
-      localzone -= 3600 if Time.now.dst?
+      localzone = Time.current.utc_offset
+      localzone -= 3600 if Time.current.dst?
       zone = ::ActiveSupport::TimeZone[localzone]
     end
-    Time.zone = zone
-    yield
-  ensure
-    Time.zone = old_time_zone
+
+    Time.use_zone(zone, &block)
   end
 
   def find_project

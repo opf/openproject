@@ -6,7 +6,7 @@ hu:
       configure: 'Widget konfigurálása'
       upsale:
         text: "Néhány kütyü, például a munkacsomag-grafikon-kütyü, csak a"
-        link: 'enterprise edition.'
+        link: 'Vállalati kiadás.'
       widgets:
         custom_text:
           title: 'Egyéni szöveg'
@@ -31,13 +31,13 @@ hu:
           no_results: 'A projektekhez nem definiáltak egyedi mezőket.'
         project_status:
           title: 'Projekt állapot'
-          not_started: 'Not started'
+          not_started: 'El nem kezdett'
           on_track: 'Terv szerint'
           off_track: 'Kisiklott'
           at_risk: 'Veszélyben'
           not_set: 'Nincs beállítva'
-          finished: 'Finished'
-          discontinued: 'Discontinued'
+          finished: 'Befejezett'
+          discontinued: 'Megszakított'
         subprojects:
           title: 'Alprojektek'
           no_results: "Nincsenek alprojektek\n"

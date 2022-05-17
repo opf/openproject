@@ -1,36 +1,36 @@
 #English strings go here
 hu:
-  permission_view_file_links: "View file links"
-  permission_manage_file_links: "Manage file links"
-  permission_manage_storages_in_project: "Manage file storages in project"
-  project_module_storages: "File storages"
+  permission_view_file_links: "Fájl hivatkozások megtekintése"
+  permission_manage_file_links: "Fájl hivatkozások kezelése"
+  permission_manage_storages_in_project: "Tárterületek kezelése a projektben"
+  project_module_storages: "Tárterületek"
   activerecord:
     models:
       storages/storage: "Storage"
     attributes:
       storages/storage:
-        name: "Name"
+        name: "Név"
         creator: "Creator"
-        provider_type: "Provider type"
+        provider_type: "Szolgáltató típusa"
       storages/file_link:
         origin_id: "Origin Id"
     errors:
       messages:
-        not_linked_to_project: "is not linked to project."
+        not_linked_to_project: "nincs projekthez kapcsolva."
       models:
         storages/storage:
           attributes:
             host:
-              cannot_be_connected_to: "can not be connected to."
-              minimal_nextcloud_version_unmet: "does not meet minimal version requirements (must be Nextcloud 23 or higher)"
-              not_nextcloud_server: "is not a Nextcloud server"
+              cannot_be_connected_to: "nem lehet hozzákapcsolni."
+              minimal_nextcloud_version_unmet: "nem felel meg a minimális verzió követelményeknek (Nextcloud 23 vagy magasabb)"
+              not_nextcloud_server: "nem egy Nextcloud szerver"
         storages/file_link:
           attributes:
             origin_id:
-              only_numeric_or_uuid: "can only be numeric or uuid."
+              only_numeric_or_uuid: "csak numerikus vagy uuid lehet."
   api_v3:
     errors:
-      too_many_elements_created_at_once: "Too many elements created at once. Expected %{max} at most, got %{actual}."
+      too_many_elements_created_at_once: "Egyszerre túl sok elem létrehozása történt. Legfejlebb %{max} lehet, ténylegesen %{actual} volt."
   storages:
     page_titles:
       project_settings:
@@ -51,15 +51,15 @@ hu:
       project_storage: >
         Are you sure you want to remove this file storage from this project? This will also remove all links to files stored in this storage for this project.
     label_creator: "Creator"
-    label_file_link: "File link"
-    label_file_links: "File links"
-    label_name: "Name"
+    label_file_link: "Fájl hivatkozás"
+    label_file_links: "Fájl hivatkozások"
+    label_name: "Név"
     label_host: "Host"
-    label_provider_type: "Provider type"
-    label_new_storage: "New storage"
-    label_storage: "Storage"
-    label_storages: "Storages"
-    no_results: "No storages set up, yet."
+    label_provider_type: "Szolgáltató típusa"
+    label_new_storage: "Új tárhely"
+    label_storage: "Tárhely"
+    label_storages: "Tárhelyek"
+    no_results: "Még nincs tárhely beállítva."
     provider_types:
-      label: "Provider type"
+      label: "Szolgáltató típusa"
       nextcloud: "Nextcloud"

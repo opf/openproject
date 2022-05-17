@@ -57,7 +57,10 @@ describe API::V3::WorkPackages::AvailableProjectsOnCreateAPI, type: :request do
       project_with_type
       member
 
-      get api_v3_paths.available_projects_on_create(type_id)
+      params = [type_id: { operator: '=', values: [type_id] }]
+      escaped = CGI.escape(::JSON.dump(params))
+
+      get "#{api_v3_paths.available_projects_on_create}?filters=#{escaped}"
     end
 
     it_behaves_like 'API V3 collection response', 1, 1, 'Project' do
@@ -69,7 +72,7 @@ describe API::V3::WorkPackages::AvailableProjectsOnCreateAPI, type: :request do
     before do
       project
 
-      get api_v3_paths.available_projects_on_create(type_id)
+      get api_v3_paths.available_projects_on_create
     end
 
     context 'with the necessary permissions' do

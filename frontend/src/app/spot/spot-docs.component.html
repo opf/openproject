@@ -1,55 +1,74 @@
-<h1>Buttons</h1>
-<button class="spot-button">Default</button>
-<button class="spot-button">
-  <span>Default</span>
-  <span class="spot-icon spot-icon_bell"></span>
-</button>
-<button class="spot-button"><span class="spot-icon spot-icon_bell"></span></button>
+<h1>Buttons & Links</h1>
+<section class="space-children">
+  <button class="spot-button">Default</button>
+  <button class="spot-button">
+    <span>Default</span>
+    <span class="spot-icon spot-icon_bell"></span>
+  </button>
+  <button class="spot-button"><span class="spot-icon spot-icon_bell"></span></button>
+</section>
 
-<button class="spot-button spot-button_main">Main</button>
-<button class="spot-button spot-button_main">
-  <span>Main</span>
-  <span class="spot-icon spot-icon_bell"></span>
-</button>
-<button class="spot-button spot-button_main"><span class="spot-icon spot-icon_bell"></span></button>
+<section class="space-children">
+  <button class="spot-button spot-button_main">Main</button>
+  <button class="spot-button spot-button_main">
+    <span>Main</span>
+    <span class="spot-icon spot-icon_bell"></span>
+  </button>
+  <button class="spot-button spot-button_main"><span class="spot-icon spot-icon_bell"></span></button>
+</section>
 
-<button class="spot-button spot-button_accent">Accent</button>
-<button class="spot-button spot-button_accent">
-  <span>Accent</span>
-  <span class="spot-icon spot-icon_bell"></span>
-</button>
-<button class="spot-button spot-button_accent"><span class="spot-icon spot-icon_bell"></span></button>
+<section class="space-children">
+  <button class="spot-button spot-button_accent">Accent</button>
+  <button class="spot-button spot-button_accent">
+    <span>Accent</span>
+    <span class="spot-icon spot-icon_bell"></span>
+  </button>
+  <button class="spot-button spot-button_accent"><span class="spot-icon spot-icon_bell"></span></button>
+</section>
 
-<button class="spot-button spot-button_danger">Danger</button>
-<button class="spot-button spot-button_danger">
-  <span>Danger</span>
-  <span class="spot-icon spot-icon_bell"></span>
-</button>
-<button class="spot-button spot-button_danger"><span class="spot-icon spot-icon_bell"></span></button>
+<section class="space-children">
+  <button class="spot-button spot-button_danger">Danger</button>
+  <button class="spot-button spot-button_danger">
+    <span>Danger</span>
+    <span class="spot-icon spot-icon_bell"></span>
+  </button>
+  <button class="spot-button spot-button_danger"><span class="spot-icon spot-icon_bell"></span></button>
+</section>
 
-<button class="spot-button" disabled>Disabled</button>
-<button class="spot-button" disabled>
-  <span>Disabled</span>
-  <span class="spot-icon spot-icon_bell"></span>
-</button>
-<button class="spot-button" disabled><span class="spot-icon spot-icon_bell"></span></button>
+<section class="space-children">
+  <button class="spot-button" disabled>Disabled</button>
+  <button class="spot-button" disabled>
+    <span>Disabled</span>
+    <span class="spot-icon spot-icon_bell"></span>
+  </button>
+  <button class="spot-button" disabled><span class="spot-icon spot-icon_bell"></span></button>
+</section>
 
+<section class="space-children">
+  <button class="spot-button spot-button_outlined">Default</button>
+  <button class="spot-button spot-button_outlined spot-button_main">Main</button>
+  <button class="spot-button spot-button_outlined spot-button_accent">Accent</button>
+  <button class="spot-button spot-button_outlined spot-button_danger">Danger</button>
+  <button class="spot-button spot-button_outlined" disabled>Disabled</button>
+</section>
 
-<hr>
+<section class="space-children">
+  <button class="spot-link">Default link</button>
+  <a class="spot-link" href="#">
+    <span>Default Link</span>
+    <span class="spot-icon spot-icon_bell"></span>
+  </a>
+  <button class="spot-link"><span class="spot-icon spot-icon_bell"></span></button>
+</section>
 
-<button class="spot-button spot-button_outlined">Default</button>
-<button class="spot-button spot-button_outlined spot-button_main">Main</button>
-<button class="spot-button spot-button_outlined spot-button_accent">Accent</button>
-<button class="spot-button spot-button_outlined spot-button_danger">Danger</button>
-<button class="spot-button spot-button_outlined" disabled>Disabled</button>
-
-<hr>
-
-<button class="spot-button spot-button_basic">Default</button>
-<button class="spot-button spot-button_basic spot-button_main">Main</button>
-<button class="spot-button spot-button_basic spot-button_accent">Accent</button>
-<button class="spot-button spot-button_basic spot-button_danger">Danger</button>
-<button class="spot-button spot-button_basic" disabled>Disabled</button>
+<section class="space-children">
+  <button class="spot-link spot-link_danger">Danger Link</button>
+  <a class="spot-link spot-link_danger" href="#">
+    <span>Danger Link</span>
+    <span class="spot-icon spot-icon_bell"></span>
+  </a>
+  <button class="spot-link spot-link_danger"><span class="spot-icon spot-icon_bell"></span></button>
+</section>
 
 <h1>Toggles</h1>
 
@@ -114,6 +133,14 @@ Currently selected value is {{ toggleValue }}
           <spot-checkbox [(ngModel)]="listCheckboxValue"></spot-checkbox>
           <div class="spot-list--item-title">Child checkbox item</div>
         </label>
+        <ul class="spot-list">
+          <li class="spot-list--item">
+            <label class="spot-list--item-action">
+              <spot-checkbox [(ngModel)]="listCheckboxValue"></spot-checkbox>
+              <div class="spot-list--item-title">Secon level child</div>
+            </label>
+          </li>
+        </ul>
       </li>
       <li class="spot-list--item">
         <label class="spot-list--item-action">
@@ -123,7 +150,10 @@ Currently selected value is {{ toggleValue }}
       </li>
       <li class="spot-list--item">
         <label class="spot-list--item-action spot-list--item-action_disabled">
-          <spot-checkbox [(ngModel)]="listCheckboxValue" disabled></spot-checkbox>
+          <spot-checkbox
+            [(ngModel)]="listCheckboxValue"
+            [disabled]="true"
+          ></spot-checkbox>
           <div class="spot-list--item-title">Disabled item</div>
         </label>
       </li>
@@ -133,102 +163,137 @@ Currently selected value is {{ toggleValue }}
 
 <h1>Filter Chip</h1>
 
-<spot-filter-chip
-  title="Default chip"
-  (remove)="onRemoveChip()"
-></spot-filter-chip>
-<spot-filter-chip
-  title="Unremovable chip"
-  [removable]="false"
-></spot-filter-chip>
-<spot-filter-chip
-  title="Default chip with icon"
-  icon="bell"
-  (remove)="onRemoveChip()"
-></spot-filter-chip>
-<spot-filter-chip
-  icon="bell"
-  title="Unremovable chip with icon"
-  [removable]="false"
-></spot-filter-chip>
+<section class="space-children">
+  <spot-filter-chip
+    title="Default chip"
+    (remove)="onRemoveChip()"
+  ></spot-filter-chip>
+
+  <spot-filter-chip
+    title="Unremovable chip"
+    [removable]="false"
+  ></spot-filter-chip>
+
+  <spot-filter-chip
+    title="Default chip with icon"
+    icon="bell"
+    (remove)="onRemoveChip()"
+  ></spot-filter-chip>
+
+  <spot-filter-chip
+    icon="bell"
+    title="Unremovable chip with icon"
+    [removable]="false"
+  ></spot-filter-chip>
+</section>
+
+<section class="space-children">
+  <spot-filter-chip
+    title="Default chip"
+    (remove)="onRemoveChip()"
+    [disabled]="true"
+  ></spot-filter-chip>
+
+  <spot-filter-chip
+    title="Unremovable chip"
+    [removable]="false"
+    [disabled]="true"
+  ></spot-filter-chip>
+
+  <spot-filter-chip
+    title="Default chip with icon"
+    icon="bell"
+    (remove)="onRemoveChip()"
+    [disabled]="true"
+  ></spot-filter-chip>
+
+  <spot-filter-chip
+    icon="bell"
+    title="Unremovable chip with icon"
+    [removable]="false"
+    [disabled]="true"
+  ></spot-filter-chip>
+</section>
 
 <h1>Text Field</h1>
 
-<input
-  class="spot-text-field"
-  placeholder="Placeholder value"
-/>
+<section class="space-children">
+  <input
+    class="spot-text-field"
+    placeholder="Placeholder value"
+  />
 
-<input
-  class="spot-text-field"
-  value="Test value"
-/>
+  <input
+    class="spot-text-field"
+    value="Test value"
+  />
 
-<spot-text-field
-  placeholder="Placeholder value"
-  value="Test value"
-  name="textfield-name"
-></spot-text-field>
+  <spot-text-field
+    placeholder="Placeholder value"
+    value="Test value"
+    name="textfield-name"
+  ></spot-text-field>
 
-<spot-text-field
-  placeholder="Placeholder value"
-  [(ngModel)]="textFieldValue"
-></spot-text-field>
+  <spot-text-field
+    placeholder="Placeholder value"
+    [(ngModel)]="textFieldValue"
+  ></spot-text-field>
 
-<spot-text-field
-  placeholder="Placeholder value"
-  [(ngModel)]="textFieldValue"
->
-  <span
-    slot="after"
-    class="spot-icon spot-icon_bell"
-  ></span>
-</spot-text-field>
+  <spot-text-field
+    placeholder="Placeholder value"
+    [(ngModel)]="textFieldValue"
+  >
+    <span
+      slot="after"
+      class="spot-icon spot-icon_bell"
+    ></span>
+  </spot-text-field>
 
-<spot-text-field
-  placeholder="Placeholder value"
-  [(ngModel)]="textFieldValue"
->
-  <span
-    slot="before"
-    class="spot-icon spot-icon_bell"
-  ></span>
-  <span
-    slot="after"
-    class="spot-icon spot-icon_bell"
-  ></span>
-</spot-text-field>
+  <spot-text-field
+    placeholder="Placeholder value"
+    [(ngModel)]="textFieldValue"
+  >
+    <span
+      slot="before"
+      class="spot-icon spot-icon_bell"
+    ></span>
+    <span
+      slot="after"
+      class="spot-icon spot-icon_bell"
+    ></span>
+  </spot-text-field>
 
-<spot-text-field
-  placeholder="Placeholder value"
-  [(ngModel)]="textFieldValue"
->
-  <span
-    slot="before"
-    class="spot-icon spot-icon_bell"
-  ></span>
-</spot-text-field>
-
-<h1>Chip Field</h1>
-
-<spot-chip-field
-  placeholder="Type and press enter"
-></spot-chip-field>
+  <spot-text-field
+    placeholder="Placeholder value"
+    [(ngModel)]="textFieldValue"
+  >
+    <span
+      slot="before"
+      class="spot-icon spot-icon_bell"
+    ></span>
+  </spot-text-field>
+</section>
 
 <h1>Drop Modal</h1>
 
-<select [(ngModel)]="alignment">
-  <option>bottom-center</option>
-  <option>bottom-left</option>
-  <option>bottom-right</option>
-  <option>top-center</option>
+<select [(ngModel)]="dropModalAlignment">
+  <option>left-top</option>
+  <option>left-center</option>
+  <option>left-bottom</option>
   <option>top-left</option>
+  <option>top-center</option>
   <option>top-right</option>
+  <option>right-top</option>
+  <option>right-center</option>
+  <option>right-bottom</option>
+  <option>bottom-left</option>
+  <option>bottom-center</option>
+  <option>bottom-right</option>
 </select>
 
 <spot-drop-modal
   [open]="dropModalOpen"
-  [alignment]="alignment"
+  [alignment]="dropModalAlignment"
   (closed)="dropModalOpen = false"
 >
   <button
@@ -238,7 +303,7 @@ Currently selected value is {{ toggleValue }}
     (click)="dropModalOpen = !dropModalOpen"
   >Open Modal</button>
   <ng-container slot="body">
-    <div class="spot-body">
+    <div class="spot-container">
       <h1 class="spot-header-small">Test</h1>
 
       <spot-text-field
@@ -253,6 +318,50 @@ Currently selected value is {{ toggleValue }}
     </div>
   </ng-container>
 </spot-drop-modal>
+
+<h1>Tooltip</h1>
+
+<section class="space-children">
+  <select [(ngModel)]="tooltipAlignment">
+    <option>left-top</option>
+    <option>left-center</option>
+    <option>left-bottom</option>
+    <option>top-left</option>
+    <option>top-center</option>
+    <option>top-right</option>
+    <option>right-top</option>
+    <option>right-center</option>
+    <option>right-bottom</option>
+    <option>bottom-left</option>
+    <option>bottom-center</option>
+    <option>bottom-right</option>
+  </select>
+  <spot-tooltip [alignment]="tooltipAlignment">
+    <ng-container slot="trigger">Trigger</ng-container>
+    <p
+      slot="body"
+      class="spot-body-small"
+    >Body</p>
+  </spot-tooltip>
+
+  <spot-tooltip [alignment]="tooltipAlignment">
+    <ng-container slot="trigger">Trigger</ng-container>
+    <ng-container slot="body">
+      <p class="spot-body-small">Body with multiple paragraphs coming in here</p>
+      <p class="spot-body-small">This is the second paragraph</p>
+    </ng-container>
+  </spot-tooltip>
+
+  <spot-tooltip
+    [alignment]="tooltipAlignment"
+    [dark]="true"
+  >
+    <ng-container slot="trigger">Dark tooltip trigger</ng-container>
+    <ng-container slot="body">
+      <p class="spot-body-small">This is a dark tooltip</p>
+    </ng-container>
+  </spot-tooltip>
+</section>
 
 <h1>Action Bar</h1>
 
@@ -271,3 +380,9 @@ Currently selected value is {{ toggleValue }}
     </button>
   </div>
 </div>
+
+<style>
+  #content-wrapper {
+    background-color: #eee;
+  }
+</style>

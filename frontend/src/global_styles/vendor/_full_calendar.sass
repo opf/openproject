@@ -76,8 +76,8 @@
         right: 2px
 
     .fc-event-title-container
-      margin: 0 16px
       line-height: 12px
+      margin: 0 16px
 
       .fc-timegrid-event-condensed &
         white-space: nowrap
@@ -89,10 +89,6 @@
 
     .fc-event-main
       color: unset
-
-    // Avoid pointer cursor on hover
-    .fc-event-draggable:hover
-      cursor: default
 
     .fc-event:hover
       .fc-event-resizer
@@ -145,7 +141,8 @@
 
       // ensure to have higher specificity than above extend
       .fc-button-group
-        margin-left: 8px
+        &:not(:first-child)
+          margin-left: 8px
         .fc-button
           margin-right: 0
           margin-bottom: 0
@@ -177,7 +174,6 @@
 
     thead .fc-scroller
       @include no-visible-scroll-bar
-
   // ------------------------ END: Calendar toolbar ------------------------
   // -------
   // ------------------------ END: Full calendar overwrite ------------------------

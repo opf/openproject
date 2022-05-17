@@ -161,7 +161,15 @@
 #     - 'statuses'
 #     - 'types'
 #     - 'admin/roles'
-
+#
+# Enable file storages module:
+#
+# The file storages module is currently under development and can
+# be enabled for beta usage by setting a feature flag:
+#
+# production:
+#   feature_storages_module_active: true
+#
 
 # default configuration options for all environments
 default:
@@ -213,7 +221,7 @@ default:
 
   # Grace period until uploaded but unassigned (i.e. to a container like work packages,
   # wiki pages) attachments are deleted (in minutes)
-  # attachment_grace_period: 180
+  # attachments_grace_period: 180
 
   # Configuration of the autologin cookie.
   # autologin_cookie_name: the name of the cookie (default: autologin)
@@ -322,11 +330,11 @@ default:
   #
   #   Available types for git:
   #     - :local (Local repositories, registered using a local path)
-  #     - :managed (Managed repositores, available IF :manages path is set below)
+  #     - :managed (Managed repositories, available IF :manages path is set below)
   #   Available types for subversion:
   #     - :existing (Existing subversion repositories by URL - local using file:/// or remote
   #                 using one of the supported URL schemes (e.g., https://, svn+ssh:// )
-  #     - :managed (Managed repositores, available IF :manages path is set below)
+  #     - :managed (Managed repositories, available IF :manages path is set below)
   #
   # Exemplary configuration
   #
@@ -408,7 +416,7 @@ default:
   # after_first_login_redirect_url: '/projects/demo'
 
   # For filtering work packages based on their attachments (name, content) it's worth to specify the main language that
-  # is used in those documents. This improves the full text search features of PostgreSQL. Currently PostgreSQL shipps
+  # is used in those documents. This improves the full text search features of PostgreSQL. Currently PostgreSQL ships
   # with the following languages pre-installed:
   #
   # danish

@@ -42,11 +42,11 @@ module.exports = {
          */
         "@angular-eslint/directive-selector": [
           "error",
-          { "type": "attribute", "prefix": "op", "style": "camelCase" }
+          { "type": "attribute", "prefix": ["op", "spot"], "style": "camelCase" }
         ],
         "@angular-eslint/component-selector": [
           "error",
-          { "type": "element", "prefix": "op", "style": "kebab-case" }
+          { "type": "element", "prefix": ["op", "spot"], "style": "kebab-case" }
         ],
 
         // Warn when new components are being created without OnPush

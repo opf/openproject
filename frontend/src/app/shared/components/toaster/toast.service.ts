@@ -36,12 +36,13 @@ import { UploadInProgress } from 'core-app/core/file-upload/op-file-upload.servi
 import {
   IHalErrorBase,
   IHalMultipleError,
+  isHalError,
 } from 'core-app/features/hal/resources/error-resource';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 
-export function removeSuccessFlashMessages() {
+export function removeSuccessFlashMessages():void {
   jQuery('.flash.notice').remove();
 }
 
@@ -50,7 +51,7 @@ export const OPToastEvent = 'op:toasters:add';
 
 export interface IToast {
   message:string;
-  link?:{ text:string, target:Function };
+  link?:{ text:string, target:() => void };
   type:ToastType;
   data?:unknown;
 }
@@ -110,14 +111,17 @@ export class ToastService {
       errors = [...additionalErrors] as string[];
     }
 
-    if (obj instanceof HttpErrorResponse && (obj.error as IHalMultipleError)?._embedded?.errors) {
-      errors = [
-        ...errors,
-        ...(obj.error as IHalMultipleError)._embedded.errors.map((el:IHalErrorBase) => el.message),
-      ];
-      message = obj.message;
+    if (obj instanceof HttpErrorResponse) {
+      message = isHalError(obj.error) ? obj.error.message : obj.message;
+
+      if ((obj.error as IHalMultipleError)?._embedded?.errors) {
+        errors = [
+          ...errors,
+          ...(obj.error as IHalMultipleError)._embedded.errors.map((el:IHalErrorBase) => el.message),
+        ];
+      }
     } else {
-      message = obj as IToast|string;
+      message = obj;
     }
 
     const toast:IToast = this.createToast(message, 'error');
@@ -157,13 +161,15 @@ export class ToastService {
     this.stack.putValue([]);
   }
 
-  private createToast(message:IToast|string, type:ToastType):IToast {
-    if (typeof message === 'string') {
-      return { message, type };
-    }
-    message.type = type;
-
-    return message;
+  private createToast(toast:IToast|string, type:ToastType):IToast {
+    return (typeof toast === 'string')
+      ? { message: toast, type }
+      : {
+        message: toast.message,
+        type,
+        link: toast.link,
+        data: toast.data,
+      };
   }
 
   private createAttachmentUploadToast(message:IToast|string, uploads:UploadInProgress[]) {

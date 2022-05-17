@@ -6,7 +6,7 @@ el:
       configure: 'Ρύθμιση widget'
       upsale:
         text: "Ορισμένα γραφικά στοιχεία (widget), όπως το γραφικό στοιχείο πακέτων εργασίας, είναι διαθέσιμα μόνο στην "
-        link: 'έκδοση για επιχειρήσεις.'
+        link: 'Enterprise Edition.'
       widgets:
         custom_text:
           title: 'Προσαρμοσμένο κείμενο'

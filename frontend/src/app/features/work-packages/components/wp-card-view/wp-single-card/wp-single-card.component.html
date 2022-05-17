@@ -18,7 +18,7 @@
          data-qa-selector="op-wp-single-card--inline-buttons">
       <button
         type="button"
-        class="op-link op-wp-single-card--details-button op-wp-single-card--card-action"
+        class="spot-link op-wp-single-card--details-button op-wp-single-card--card-action"
         data-qa-selector="op-wp-single-card--details-button"
         *ngIf="!isNewResource(workPackage) && showInfoButton"
         [title]="text.detailsView"
@@ -27,7 +27,7 @@
       </button>
 
       <button
-        class="op-link op-wp-single-card--inline-cancel-button op-wp-single-card--card-action"
+        class="spot-link op-wp-single-card--inline-cancel-button op-wp-single-card--card-action"
         data-qa-selector="op-wp-single-card--inline-cancel-button"
         *ngIf="isNewResource(workPackage) || showRemoveButton"
         [class.-show]="isNewResource(workPackage)"
@@ -81,8 +81,9 @@
     <span class="op-wp-single-card--content-subject-line">
       <span
         *ngIf="showAsInlineCard && showStartDate"
-        class="op-wp-single-card--content-inline-date">
-        {{splittedDate(workPackage)[0]}}-
+        class="op-wp-single-card--content-inline-date"
+      >
+        {{startDate(workPackage)}} -
       </span>
 
       <span
@@ -90,18 +91,20 @@
         [textContent]="wpTypeAttribute(workPackage)"
         class="op-wp-single-card--content-type"
         data-qa-selector="op-wp-single-card--content-type"
-        [ngClass]="typeHighlightingClass(workPackage)">
-      </span>
+        [ngClass]="typeHighlightingClass(workPackage)"
+      ></span>
+
       <span
         class="op-wp-single-card--content-subject"
         data-qa-selector="op-wp-single-card--content-subject"
-        [textContent]="wpSubject(workPackage)">
-      </span>
+        [textContent]="wpSubject(workPackage)"
+      ></span>
 
       <span
         *ngIf="showAsInlineCard && showEndDate"
-        class="op-wp-single-card--content-inline-date">
-        -{{splittedDate(workPackage)[1]}}
+        class="op-wp-single-card--content-inline-date"
+      >
+        - {{endDate(workPackage)}}
       </span>
     </span>
 

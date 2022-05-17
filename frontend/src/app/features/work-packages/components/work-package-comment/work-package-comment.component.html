@@ -19,6 +19,7 @@
         <div
             *ngIf="!active"
             (dragover)="startDragOverActivation($event)"
+            (dragenter)="startDragOverActivation($event)"
         >
           <button
               class="work-package-comment inline-edit--display-field"

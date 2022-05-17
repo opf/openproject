@@ -1,6 +1,6 @@
 ---
 sidebar_navigation:
-  title: Enterprise Guide
+  title: Enterprise guide
   priority: 960
 description: OpenProject Enterprise guide.
 robots: index, follow

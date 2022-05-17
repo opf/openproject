@@ -41,42 +41,106 @@ describe 'Team planner create new work package', type: :feature, js: true do
     project.types << type_task
   end
 
-  it 'can create a new work package' do
-    team_planner.visit!
+  shared_examples 'can create a new work package' do
+    it 'creates a new work package for the given user' do
+      start_of_week = Time.zone.today.beginning_of_week(:sunday)
+      team_planner.expect_assignee(user)
+      split_create = team_planner.add_item "/api/v3/users/#{user.id}",
+                                           start_of_week.iso8601,
+                                           start_of_week.iso8601
 
-    team_planner.expect_assignee(user, present: false)
+      subject = split_create.edit_field(:subject)
+      subject.set_value 'Newly planned task'
 
-    retry_block do
-      team_planner.click_add_user
-      page.find('[data-qa-selector="tp-add-assignee"] input')
-      team_planner.select_user_to_add user.name
+      split_create.save!
+
+      split_create.expect_and_dismiss_toaster(message: I18n.t('js.notice_successful_create'))
+
+      split_create.expect_attributes(
+        combinedDate: "#{start_of_week.strftime('%m/%d/%Y')} - #{start_of_week.strftime('%m/%d/%Y')}",
+        assignee: user.name
+      )
+
+      wp = WorkPackage.last
+      expect(wp.subject).to eq 'Newly planned task'
+      expect(wp.start_date).to eq start_of_week
+      expect(wp.due_date).to eq start_of_week
+
+      team_planner.within_lane(user) do
+        team_planner.expect_event wp
+      end
+    end
+  end
+
+  context 'with a single user' do
+    before do
+      team_planner.visit!
+
+      team_planner.expect_assignee(user, present: false)
+
+      retry_block do
+        team_planner.click_add_user
+        page.find('[data-qa-selector="tp-add-assignee"] input')
+        team_planner.select_user_to_add user.name
+      end
     end
 
-    start_of_week = Time.zone.today.beginning_of_week(:sunday)
-    team_planner.expect_assignee(user)
-    split_create = team_planner.add_item "/api/v3/users/#{user.id}",
-                                         start_of_week.iso8601,
-                                         start_of_week.iso8601
+    it_behaves_like 'can create a new work package'
+  end
 
-    subject = split_create.edit_field(:subject)
-    subject.set_value 'Newly planned task'
-
-    split_create.save!
-
-    split_create.expect_and_dismiss_toaster(message: I18n.t('js.notice_successful_create'))
-
-    split_create.expect_attributes(
-      combinedDate: "#{start_of_week.strftime('%m/%d/%Y')} - #{start_of_week.strftime('%m/%d/%Y')}",
-      assignee: user.name
-    )
-
-    wp = WorkPackage.last
-    expect(wp.subject).to eq 'Newly planned task'
-    expect(wp.start_date).to eq start_of_week
-    expect(wp.due_date).to eq start_of_week
-
-    team_planner.within_lane(user) do
-      team_planner.expect_event wp
+  context 'with multiple users added' do
+    let!(:other_user) do
+      create :user,
+             firstname: 'Other',
+             lastname: 'User',
+             member_in_project: project,
+             member_with_permissions: %w[
+               view_work_packages edit_work_packages add_work_packages
+               view_team_planner manage_team_planner
+               save_queries manage_public_queries
+               work_package_assigned
+             ]
     end
+
+    let!(:third_user) do
+      create :user,
+             firstname: 'Other',
+             lastname: 'User',
+             member_in_project: project,
+             member_with_permissions: %w[
+               view_work_packages edit_work_packages add_work_packages
+               view_team_planner manage_team_planner
+               save_queries manage_public_queries
+               work_package_assigned
+             ]
+    end
+
+    before do
+      team_planner.visit!
+
+      team_planner.expect_assignee(user, present: false)
+      team_planner.expect_assignee(other_user, present: false)
+      team_planner.expect_assignee(third_user, present: false)
+
+      retry_block do
+        team_planner.click_add_user
+        page.find('[data-qa-selector="tp-add-assignee"] input')
+        team_planner.select_user_to_add other_user.name
+      end
+
+      retry_block do
+        team_planner.click_add_user
+        page.find('[data-qa-selector="tp-add-assignee"] input')
+        team_planner.select_user_to_add third_user.name
+      end
+
+      retry_block do
+        team_planner.click_add_user
+        page.find('[data-qa-selector="tp-add-assignee"] input')
+        team_planner.select_user_to_add user.name
+      end
+    end
+
+    it_behaves_like 'can create a new work package'
   end
 end

@@ -40,8 +40,7 @@ export function teamPlannerTourSteps():OnboardingStep[] {
       showSkip: false,
       nextButton: { text: I18n.t('js.onboarding.buttons.next') },
       onNext() {
-        const backArrows = Array.from(document.getElementsByClassName('main-menu--arrow-left-to-project'));
-        const teamPlannerBackArrow = backArrows.find((backArrow) => (backArrow.nextElementSibling as HTMLElement).innerText === 'Team planners') as HTMLElement;
+        const teamPlannerBackArrow = document.querySelector('li[data-name="team_planner_view"] .main-menu--arrow-left-to-project') as HTMLElement|undefined;
 
         if (teamPlannerBackArrow) {
           teamPlannerBackArrow.click();

@@ -69,7 +69,8 @@ module API
           highlighting_mode: params[:highlightingMode],
           highlighted_attributes: highlighted_attributes_from_params(params),
           display_representation: params[:displayRepresentation],
-          show_hierarchies: boolearize(params[:showHierarchies])
+          show_hierarchies: boolearize(params[:showHierarchies]),
+          include_subprojects: boolearize(params[:includeSubprojects])
         }
       end
 

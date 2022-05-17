@@ -23,8 +23,8 @@ ko:
   js:
     ajax:
       hide: "숨기기"
-      loading: "불러오는 중 ..."
-      updating: "Updating ..."
+      loading: "로드 중…"
+      updating: "업데이트 중…"
     attachments:
       draggable_hint: |
         인라인 이미지 또는 참조 첨부 파일로 편집기 필드를 드래그하세요. 드래그하는 동안에는 닫힌 편집기 필드가 열립니다.
@@ -62,7 +62,7 @@ ko:
     button_confirm: "확인"
     button_continue: "계속"
     button_copy: "복사"
-    button_copy_to_other_project: "Copy to other project"
+    button_copy_to_other_project: "다른 프로젝트에 복사"
     button_custom-fields: "사용자 정의 필드"
     button_delete: "삭제"
     button_delete_watcher: "주시자 삭제"
@@ -238,7 +238,7 @@ ko:
           text: >
             OpenProject Enterprise Edition은 Community Edition 위에서 빌드됩니다. OpenProject로 비즈니스 크리티컬 프로젝트를 관리하는 사용자가 10명이 넘는 조직을 주로 타겟으로 하는 프리미엄 기능과 전문 지원이 제공됩니다.
           unlimited: "무제한"
-          you_contribute: "개발자들도 청구서를 지불해야 합니다. Enterprise Edition으로 이 오픈 소스 커뮤니티의 노력에 여러분이 실질적으로 기여할 수 있습니다."
+          you_contribute: "개발자도 요금을 지불해야 합니다. Enterprise Edition으로 업그레이드하면 오픈 소스 커뮤니티의 이러한 노력을 지원하고 개발, 유지 관리 및 지속적인 개선에 기여할 수 있습니다."
     custom_actions:
       date:
         specific: '에'
@@ -252,7 +252,7 @@ ko:
     enumeration_doc_categories: "문서 범주"
     enumeration_work_package_priorities: "작업 패키지 우선 순위"
     filter:
-      more_values_not_shown: "There are %{total} more results, search to filter results."
+      more_values_not_shown: "%{total}개 결과가 더 있습니다. 결과를 필터링하려면 검색하세요."
       description:
         text_open_filter: "'ALT'와 화살표 키로 이 필터를 여세요."
         text_close_filter: "항목을 선택하려면 예를 들어 Enter를 눌러 초점을 유지합니다. 필터 없이 두려면 첫 번째(빈) 항목을 선택합니다."
@@ -287,16 +287,17 @@ ko:
           learn_about: "새로운 기능에 대해 자세히 알아보기"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_0':
+          '12_1':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-1-release
               new_features_html: >
-                이 릴리스에는 다양한 새로운 기능과 개선 사항이 포함되어 있습니다: <br> <ul class="%{list_styling_class}"> <li>새로운 <b>인앱 알림</b>으로 모든 중요 업데이트를 애플리케이션에서 직접 받으므로 더 이상 수많은 이메일을 받지 않게 됩니다.</li> <li>새로운 <b>알림 센터</b>는 알림 이유 또는 프로젝트 등 직관적인 필터 옵션을 비롯한, 모든 변경 사항을 표시합니다. 분할 보기에서 직접 편집도 가능합니다.</li> <li>개선된 <b>알림 설정</b>을 통해 알림을 받고 싶은 작업과 프로젝트를 미세 조정할 수 있습니다.</li> <li><b>이메일 미리 알림</b>은 일일 이메일 요약을 통해 중요 업데이트를 받도록 구성할 수 있습니다.</li> <li>이제 관계에 대한 작업 패키지 자동 완성 도구는 해당 작업 패키지를 쉽게 식별할 수 있는 추가 정보(프로젝트 이름, 상태...)도 표시합니다.</li> </ul>
+                이 릴리스에는 다양한 새로운 기능과 개선 사항이 포함되어 있습니다: <br> <ul class="%{list_styling_class}"> <li><b>새로운 팀 플래너 모듈</b>(Enterprise 기능)을 사용하면 시각적으로 팀원에게 작업을 할당하여 누가 어떤 작업을 하는지에 대한 개요를 확인할 수 있습니다.</li> <li>커뮤니티 버전용 <b>기본 애자일 보드가 출시</b>됩니다.</li> <li><b>"프로젝트 포함" 필터</b> 옵션을 사용하면 작업 패키지, 달력 및 팀 플래너 등 다양한 프로젝트를 보기에 더욱 쉽게 추가할 수 있습니다.</li> <li>작업 패키지 세부 정보에 <b>새로운 "파일" 탭</b>이 추가되어 작업 패키지에 가능한 모든 정보를 함께 첨부할 수 있습니다.</li> <li><b>그룹에 대한 글로벌 역할</b>이 생성되어 이 역할을 그룹에 할당하고 수퍼유저 그룹을 생성할 수 있습니다.</li> <li>프로젝트 상태에 선택할 수 있는 더 많은 옵션이 제공됩니다.</li> </ul>
             bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-1-release
               new_features_html: >
-                이 릴리스에는 다양한 새로운 기능과 개선 사항이 포함되어 있습니다: <br> <ul class="%{list_styling_class}"> <li>알림 센터: 수신하는 메일 수를 줄입니다. 대신 센터 한 곳에서 모든 관련 알림을 찾고 조치를 취할 수 있습니다.</li> <li>이제 업로드된 모든 IFC 파일도 다운로드할 수 있습니다.</li> <li>IFC 업로드 및 처리가 더욱 빨라졌으며 개선된 오류 메시지를 받게 됩니다.</li> <li><a href="https://github.com/opf/openproject-revit-add-in">OpenProject Revit 추가 기능</a>에서 많은 버그가 수정되었습니다.</li> </ul>
+                이 릴리스에는 다양한 새로운 기능과 개선 사항이 포함되어 있습니다: <br> <ul class="%{list_styling_class}"> <li>이제 BCF 모듈에서는 선택한 작업 패키지 필터, 열 등을 <b>보기</b>로 저장하고 팀원과 공유할 수 있습니다.</li> <li><b>새로운 팀 플래너 모듈</b>(Enterprise 기능)을 사용하면 시각적으로 팀원에게 작업을 할당하여 누가 어떤 작업을 하는지에 대한 개요를 확인할 수 있습니다.</li> <li>커뮤니티 버전용 <b>기본 애자일 보드가 출시</b>됩니다.</li> <li><b>"프로젝트 포함" 필터</b> 옵션을 사용하면 작업 패키지, 달력 및 팀 플래너 등 다양한 프로젝트를 보기에 더욱 쉽게 추가할 수 있습니다.</li> <li>작업 패키지 세부 정보에 <b>새로운 "파일" 탭</b>이 추가되어 작업 패키지에 가능한 모든 정보를 함께 첨부할 수 있습니다.</li> <li><b>그룹에 대한 글로벌 역할</b>이 생성되어 이 역할을 그룹에 할당하고 수퍼유저 그룹을 생성할 수 있습니다.</li> <li>프로젝트 상태에 선택할 수 있는 더 많은 옵션이 제공됩니다.</li> </ul>
     label_activate: "활성화"
+    label_assignee: '담당자'
     label_add_column_after: "다음 뒤에 열 추가"
     label_add_column_before: "다음 앞에 열 추가"
     label_add_columns: "열 추가"
@@ -500,7 +501,7 @@ ko:
         boards:
           overview: '<b>보드</b>를 선택하여 보기를 전환하고 애자일 보드 보기를 사용하여 프로젝트를 관리하세요.'
           lists_kanban: '여기에서 보드 내 여러 목록(열)을 만들 수 있습니다. 예를 들어, 이 기능을 사용하면 <b>Kanban 보드</b>를 만들 수 있습니다.'
-          lists_basic: 'Here you can create multiple lists (columns) within your agile board.'
+          lists_basic: '애자일 보드 내에서 여러 목록(열)을 만들 수 있습니다.'
           add: '더하기(+) 아이콘을 클릭하여 <b>새 카드를 생성</b>하거나 보드의 목록에 <b>기존 카드를 추가</b>합니다.'
           drag: '지정된 목록에서 카드를 드래그 앤 드롭하여 재정렬하거나 카드를 다른 목록으로 이동합니다. <br> 오른쪽 상단 모서리의 정보(i) 아이콘을 클릭하거나 카드를 두 번 클릭하면 세부 정보를 열 수 있습니다.'
         wp:
@@ -512,11 +513,11 @@ ko:
           timeline_button: '<b>Gantt 차트</b> 보기를 활성화하여 프로젝트의 타임라인을 만들 수 있습니다.'
           timeline: '여기에서 <b>프로젝트 계획을 편집</b>하고 작업, 마일스톤, 단계 등 새로운 작업 패키지를 만들고 <b>종속성을 추가</b>할 수도 있습니다. 모든 팀원이 언제든지 최신 계획을 보고 업데이트할 수 있습니다.'
         team_planner:
-          overview: 'The team planner lets you visually assign tasks to team members and get an overview of who is working on what.'
-          calendar: 'The weekly or biweekly planning board displays all work packages assigned to your team members.'
-          add_assignee: 'To get started, add assignees to the team planner.'
-          add_existing: 'Search for existing work packages and drag them to the team planner to instantly assign them to a team member and define start and end dates.'
-          card: 'Drag work packages horizontally to move them backwards or forwards in time, drag the edges to change start and end dates and even drag them vertically to a different row to assign them to another member.'
+          overview: '팀 플래너를 사용하면 시각적으로 팀원에게 작업을 할당하고 누가 어떤 작업을 하는지에 대한 개요를 확인할 수 있습니다.'
+          calendar: '주간 또는 격주 계획 보드에는 팀원에게 할당된 모든 작업 패키지가 표시됩니다.'
+          add_assignee: '시작하려면 팀 플래너에 담당자를 추가하세요.'
+          add_existing: '기존 작업 패키지를 검색하고 팀 플래너로 드래그하여 즉시 팀원에게 할당하고 시작 날짜 및 종료 날짜를 정의할 수 있습니다.'
+          card: '작업 패키지를 가로로 드래그하여 시간 앞뒤로 이동하고, 가장자리를 드래그하여 시작 날짜 및 종료 날짜를 변경하고, 세로로 다른 행에 드래그하여 다른 멤버에게 할당할 수도 있습니다.'
     notifications:
       title: "알림"
       no_unread: "읽지 않는 알림 없음"
@@ -547,7 +548,6 @@ ko:
           link_text: '로드하려면 여기를 클릭하세요'
       menu:
         accountable: '담당'
-        assigned: '할당됨'
         by_project: '프로젝트 기준 읽지 않음'
         by_reason: '참여'
         inbox: '받은 편지함'
@@ -995,6 +995,7 @@ ko:
         relations: 관계
         watchers: 주시자
         files: 파일
+        files_tab_migration_help: '이제 새로운 탭을 통해 작업 패키지에 파일을 첨부할 수 있습니다.'
       time_relative:
         days: "일"
         weeks: "주"
@@ -1145,7 +1146,7 @@ ko:
       role:
         label: '%{project} 내 역할'
         no_roles_found: '역할이 없습니다'
-        description: '%{principal}이(가) 프로젝트에 참여할 때 받게 되는 역할입니다. 역할은 수행할 수 있는 작업과 볼 수 있는 정보를 지정합니다. <a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank">역할과 권한에 대해 더 알아보기</a>'
+        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
         required: '역할을 선택하십시오'
         next_button: '다음'
       message:
@@ -1162,14 +1163,18 @@ ko:
           group: '이제 이 그룹은 %{project}의 일부입니다. 한편 당신은 해당 사용자에 대한 계획을 세우거나 작업 패키지를 할당할 수 있습니다.'
         next_button: '계속'
     include_projects:
-      toggle_title: 'Include Projects'
+      toggle_title: '프로젝트 포함'
       title: '프로젝트'
-      clear_selection: 'Clear selection'
+      clear_selection: '선택 해제'
       apply: '적용'
       selected_filter:
         all: '모든 프로젝트'
-        selected: 'Only selected'
-      search_placeholder: 'Search project...'
+        selected: '선택한 항목만'
+      search_placeholder: '프로젝트 검색...'
+      include_subprojects: '모든 하위 프로젝트 포함'
+      tooltip:
+        include_all_selected: '모든 하위 프로젝트 포함이 현재 선택되어 있습니다.'
+        current_project: '작업 중인 현재 프로젝트입니다.'
     forms:
       submit_success_message: '양식을 성공적으로 제출했습니다'
       load_error_message: '양식을 불러오는 중 오류가 발생했습니다'

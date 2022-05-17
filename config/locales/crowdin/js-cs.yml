@@ -23,8 +23,8 @@ cs:
   js:
     ajax:
       hide: "Skrýt"
-      loading: "Načítání ..."
-      updating: "Updating ..."
+      loading: "Načítání…"
+      updating: "Aktualizace..."
     attachments:
       draggable_hint: |
         Přetáhněte pole editoru na vložený obrázek nebo referenční přílohu. Uzavřená pole editoru budou otevřena během pokračujícího přetahování.
@@ -62,7 +62,7 @@ cs:
     button_confirm: "Potvrdit"
     button_continue: "Pokračovat"
     button_copy: "Kopírovat"
-    button_copy_to_other_project: "Copy to other project"
+    button_copy_to_other_project: "Kopírovat do jiného projektu"
     button_custom-fields: "Vlastní pole"
     button_delete: "Odstranit"
     button_delete_watcher: "Smazat sledujícího uživatele"
@@ -202,7 +202,7 @@ cs:
             label_subscriber: "Odběratel"
             label_maximum_users: "Maximální počet aktivních uživatelů"
             label_starts_at: "Začíná v"
-            label_expires_at: "Vyprší za"
+            label_expires_at: "Vyprší v"
             receive_newsletter: Chci dostávat<a target="_blank" href="%{link}">newsletter OpenProject</a>.
             taken_domain: V každé doméně může být pouze jedna aktivní zkušební verze.
             taken_email: Každý uživatel může vytvořit pouze jednu zkušební verzi.
@@ -238,7 +238,7 @@ cs:
           text: >
             OpenProject Enterprise Edition je postavena na komunitní edici. Obsahuje prémiové funkce a profesionální podporu zaměřenou především na organizace s více než 10 uživateli, kteří spravují kritické projekty
           unlimited: "Bez omezení"
-          you_contribute: "Vývojáři musí také platit své účty. S Enterprise edicí významně přispějete k tomuto Open-Source komunitnímu úsilí."
+          you_contribute: "Developers need to pay their bills, too. By upgrading to the Enterprise Edition, you will be supporting this open source community effort and contributing to its development, maintenance and continuous improvement."
     custom_actions:
       date:
         specific: 'zapnuto'
@@ -268,7 +268,7 @@ cs:
           two: "Druhé kritérium třídění"
           three: "Třetí kritérium třídění"
       upsale_for_more: "Pro více pokročilých filtrů, se podívejte"
-      upsale_link: 'Enterprise Edition.'
+      upsale_link: 'Enterprise Edice'
     general_text_no: "ne"
     general_text_yes: "ano"
     general_text_No: "Ne"
@@ -287,17 +287,17 @@ cs:
           learn_about: "Další informace o nových funkcích"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_0':
+          '12_1':
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
               new_features_html: >
-                Vydání obsahuje různé nové funkce a vylepšení: <br> <ul class="%{list_styling_class}"> <li>S novými <b>oznámeními </b> obdržíte všechny důležité aktualizace přímo v aplikaci a již nezískáte příliv e-mailů.</li> <li>Nové Centrum oznámení <b></b> zobrazuje všechny změny, včetně intuitivních filtrů, e. . z důvodu oznámení nebo projektů. Umožňuje to i úpravy přímo v rozděleném zobrazení.</li> <li>Vylepšené <b>nastavení oznámení</b> umožňuje doladit, pro které akce a ve kterých projektech chcete dostávat oznámení.</li> <li><b>Připomínky e-mailů</b> lze nakonfigurovat tak, aby jste  dostávaly důležité aktualizace prostřednictvím denního shrnutí e-mailu.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A <b>new team planner module</b> (Enterprise feature) allows you to visually assign tasks to team members to get an overview of who is working on what.</li> <li>We are <b>releasing the basic agile boards</b> for the Community version.</li> <li>The <b>"Include Projects" filter</b> option makes it easier to add different projects to your views, such as for work packages, calendars, and team planners.</li> <li>We added <b>a new "Files" tab</b> in the work package details to have all possible information attached to a work package together.</li> <li>We created <b>global roles for groups</b> to assign these roles to groups and create superuser groups.</li> <li>Project status was given more options to choose from.</li> </ul>
             bim:
               learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
               new_features_html: >
-                Vydání obsahuje různé nové funkce a vylepšení: <br> <ul class="%{list_styling_class}"> <li>Centrum oznámení: Snižte počet e-mailů, které dostáváte. Místo toho vyhledejte všechna relevantní oznámení a postupujte podle nich na jednom centrálním místě.</li></ul>
-
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>In the BCF module you can now save your selected work package filters, columns etc. as <b>views</b> and share those with your team members.</li> <li>A <b>new team planner module</b> (Enterprise feature) allows you to visually assign tasks to team members to get an overview of who is working on what.</li> <li>We are <b>releasing the basic agile boards</b> for the Community version.</li> <li>The <b>"Include Projects" filter</b> option makes it easier to add different projects to your views, such as for work packages, calendars, and team planners.</li> <li>We added <b>a new "Files" tab</b> in the work package details to have all possible information attached to a work package together.</li> <li>We created <b>global roles for groups</b> to assign these roles to groups and create superuser groups.</li> <li>Project status was given more options to choose from.</li> </ul>
     label_activate: "Aktivovat"
+    label_assignee: 'Řešitel'
     label_add_column_after: "Přidat sloupec za"
     label_add_column_before: "Přidat sloupec před"
     label_add_columns: "Přidat sloupce"
@@ -367,7 +367,7 @@ cs:
     label_in_more_than: "za více než"
     label_incoming_emails: "Příchozí e-maily"
     label_information_plural: "Informace"
-    label_import: "Importovat"
+    label_import: "Import"
     label_latest_activity: "Poslední aktivita"
     label_last_updated_on: "Naposled aktualizováno"
     label_learn_more_link: "Více informací"
@@ -402,7 +402,7 @@ cs:
     label_visibility_settings: "Nastavení viditelnosti"
     label_quote_comment: "Citovat tento komentář"
     label_recent: "Nedávné"
-    label_reset: "Obnovit"
+    label_reset: "Reset"
     label_remove: "Odstranit"
     label_remove_column: "Odstranit sloupec"
     label_remove_columns: "Odstranit vybrané sloupce"
@@ -439,7 +439,7 @@ cs:
     label_updated_on: "aktualizováno"
     label_value_derived_from_children: "(hodnota odvozená od dětí)"
     label_children_derived_duration: "Délka trvání pracovního balíčku odvozena"
-    label_warning: "Varování"
+    label_warning: "Upozornění"
     label_work_package: "Pracovní balíček"
     label_work_package_parent: "Nadřazený pracovní balíček"
     label_work_package_plural: "Pracovní balíčky"
@@ -515,7 +515,7 @@ cs:
         team_planner:
           overview: 'The team planner lets you visually assign tasks to team members and get an overview of who is working on what.'
           calendar: 'The weekly or biweekly planning board displays all work packages assigned to your team members.'
-          add_assignee: 'To get started, add assignees to the team planner.'
+          add_assignee: 'Chcete-li začít, přidejte do plánovače týmu řešitele'
           add_existing: 'Search for existing work packages and drag them to the team planner to instantly assign them to a team member and define start and end dates.'
           card: 'Drag work packages horizontally to move them backwards or forwards in time, drag the edges to change start and end dates and even drag them vertically to a different row to assign them to another member.'
     notifications:
@@ -551,7 +551,6 @@ cs:
           link_text: 'Klikněte zde pro jejich načtení'
       menu:
         accountable: 'Odpovědný'
-        assigned: 'Přiřazeno'
         by_project: 'Nepřečteno podle projektu'
         by_reason: 'Zapojení'
         inbox: 'Inbox'
@@ -566,7 +565,7 @@ cs:
             title: 'Jsem @zmíněn'
             description: 'Dostat upozornění, kdykoli mě někdo kdekoli zmíní'
           involved:
-            title: 'Přiřazeno mně nebo odpovědně'
+            title: 'Přiřazeno mně nebo odpovědný'
             description: 'Přijímat oznámení pro všechny aktivity v pracovních balíčcích, pro které jsem pověřen nebo jsem zodpovědný'
           watched: 'Aktualizace u sledovaných položek'
           work_package_commented: 'Všechny nové komentáře'
@@ -584,7 +583,7 @@ cs:
         project_specific:
           title: "Nastavení upozornění pro konkrétní projekt\n"
           description: 'Toto specifické nastavení projektu přepíše výchozí nastavení výše'
-          add: 'Přidat nastavení projektu'
+          add: 'Přidat nastavení pro projekt'
           already_selected: 'Tento projekt je již vybrán'
           remove: 'Odstranit nastavení projektu'
     password_confirmation:
@@ -593,7 +592,7 @@ cs:
     pagination:
       no_other_page: "Jste na jediné stránce."
       pages:
-        next: "Přeposlat na další stránku"
+        next: "Přejít na další stránku"
         previous: "Zpět na předchozí stránku"
     placeholders:
       default: '-'
@@ -686,7 +685,7 @@ cs:
       relates: "Související s"
       duplicates: "Duplikáty"
       duplicated: "Duplikováno"
-      blocks: "Bloky"
+      blocks: "Blokuje"
       blocked: "Zablokován"
       precedes: "Je předchúdcem"
       follows: "Následuje"
@@ -712,20 +711,20 @@ cs:
       create_new: "Vytvořit nový"
       add_existing: "Přidat existující"
       add_existing_child: "Přidat existujícího potomka"
-      remove_child: "Odstranit záznam"
+      remove_child: "Odstranit potomka"
       add_new_relation: "Vytvořit nový vztah"
       add_existing_relation: "Přidat existující vztah"
       update_description: "Nastavit nebo upravit popis tohoto vztahu"
       toggle_description: "Přepnout popis relace"
-      update_relation: "Klikněte pro změnu typu relace"
-      add_follower: "Přidat sledující"
+      update_relation: "Klikněte pro změnu typu vztahu"
+      add_follower: "Přidat následující"
       add_predecessor: "Přidat předchůdce"
       remove: "Odstranit vztah"
       save: "Uložit vztah"
       abort: "Zrušit"
     relations_autocomplete:
       placeholder: "Zadejte hledaný text"
-      parent_placeholder: "Vyberte nového rodiče nebo stiskněte úniku pro zrušení."
+      parent_placeholder: "Vyberte nového rodiče nebo stiskněte ESC pro zrušení."
     autocompleter:
       placeholder: "Zadejte hledaný text"
       notFoundText: "Nenalezeny žádné položky"
@@ -793,7 +792,7 @@ cs:
       start_date: "Datum zahájení"
       tooManyProjects: "Více než %{count} projektů. Použijte prosím lepší filtr!"
       selection_mode:
-        notification: 'Kliknutím na libovolný zvýrazněný pracovní balíček vytvoříte vztah. Stiskněte úniku pro zrušení.'
+        notification: 'Kliknutím na libovolný zvýrazněný pracovní balíček vytvoříte vztah. Stiskněte ESC pro zrušení.'
       zoom:
         in: "Přiblížit"
         out: "Oddálit"
@@ -844,8 +843,8 @@ cs:
       description_options_show: "Zobrazit možnosti"
       edit_attribute: "%{attribute} - Upravit"
       key_value: "%{key}: %{value}"
-      label_enable_multi_select: "Povolit vícenásobný výběr"
-      label_disable_multi_select: "Zakázat vícenásobný výběr"
+      label_enable_multi_select: "Povolit multiselect"
+      label_disable_multi_select: "Zakázat multiselect"
       label_filter_add: "Přidat filtr"
       label_filter_by_text: "Filtrovat podle textu"
       label_options: "Možnosti"
@@ -947,7 +946,7 @@ cs:
           Publikujte toto zobrazení, umožňující ostatním uživatelům přístup k vašemu zobrazení. Uživatelé s oprávněním 'Spravovat veřejné zobrazení' mohou upravit nebo odebrat veřejný dotaz. To nemá vliv na viditelnost výsledků pracovního balíčku v tomto zobrazení a v závislosti na jejich oprávněních mohou uživatelé vidět různé výsledky.
         errors:
           unretrievable_query: "Nelze načíst zobrazení z URL"
-          not_found: "Takový pohled není"
+          not_found: "Neexistuje takové zobrazení"
           duplicate_query_title: "Název tohoto zobrazení již existuje. Chcete přesto změnit?"
         text_no_results: "Nebyly nalezeny žádné odpovídající zobrazení."
       scheduling:
@@ -960,12 +959,12 @@ cs:
         text_sort_hint: "Pomocí odkazů v záhlaví tabulky můžete seřadit, seřadit, odstranit a přidat sloupce tabulky."
         text_select_hint: "Vyberte pole by mělo být otevřeno pomocí kláves \"ALT\" a šipkami."
       table_configuration:
-        button: 'Konfigurovat tabulku tohoto pracovního balíčku'
+        button: 'Konfigurovat tabulku pracovních balíčků'
         choose_display_mode: 'Zobrazit pracovní balíčky jako'
         modal_title: 'Konfigurace tabulky pracovních balíčků'
         embedded_tab_disabled: "Tato karta konfigurace není k dispozici pro vložené zobrazení, které upravujete."
         default: "výchozí"
-        display_settings: 'Zobrazit nastavení'
+        display_settings: 'Nastavení zobrazení'
         default_mode: "Plochý seznam"
         hierarchy_mode: "Hierarchie"
         hierarchy_hint: "Všechny filtrované výsledky z tabulky budou rozšířeny o jejich předky. Hierarchii lze rozbalit a sbalit."
@@ -999,6 +998,7 @@ cs:
         relations: Vztahy
         watchers: Sledující
         files: Soubory
+        files_tab_migration_help: 'You can now attach files to work packages via the new tab:'
       time_relative:
         days: "dnů"
         weeks: "týdny"
@@ -1097,7 +1097,7 @@ cs:
       search: "Vyhledávání"
       close_search: "Zavřít hledání"
       current_project: "V tomto projektu"
-      current_project_and_all_descendants: "V tomto projektu + podprojekty"
+      current_project_and_all_descendants: "V tomto projektu + dilčí projekty"
       title:
         all_projects: "všechny projekty"
         project_and_subprojects: "a všechny podprojekty"
@@ -1155,7 +1155,7 @@ cs:
       role:
         label: 'Role v %{project}'
         no_roles_found: 'Nebyly nalezeny žádné role.'
-        description: 'Toto je role, kterou %{principal} obdrží, když se připojí k vašemu projektu. Úloha vymezuje, která opatření mohou přijmout a jaké informace mohou vidět. <a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Další informace o rolích a oprávněních. </a>'
+        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
         required: 'Vyberte prosím roli'
         next_button: 'Další'
       message:
@@ -1172,14 +1172,18 @@ cs:
           group: 'Skupina je nyní součástí %{project}. Mezitím již můžete s touto skupinou plánovat a přiřadit například pracovní balíčky.'
         next_button: 'Pokračovat'
     include_projects:
-      toggle_title: 'Include Projects'
+      toggle_title: 'Zahrnout projekty'
       title: 'Projekty'
-      clear_selection: 'Clear selection'
+      clear_selection: 'Zrušit výběr'
       apply: 'Použít'
       selected_filter:
         all: 'Všechny projekty'
-        selected: 'Only selected'
-      search_placeholder: 'Search project...'
+        selected: 'Pouze vybrané'
+      search_placeholder: 'Hledat projekt...'
+      include_subprojects: 'Zahrnout všechny dílčí projekty'
+      tooltip:
+        include_all_selected: 'Zahrnout všechny dílčí projekty je vybráno.'
+        current_project: 'Toto je aktuální projekt, ve kterém se nacházíte.'
     forms:
       submit_success_message: 'Formulář byl úspěšně odeslán'
       load_error_message: 'Při načítání formuláře došlo k chybě'

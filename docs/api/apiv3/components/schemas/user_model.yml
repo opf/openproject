@@ -1,42 +1,21 @@
 # Schema: UserModel
 ---
 type: object
-example:
-  _type: User
-  _links:
-    self:
-      href: "/api/v3/users/1"
-      title: j.sheppard
-    show:
-      href: "/users/1"
-      type: text/html
-    lock:
-      href: "/api/v3/users/1/lock"
-      method: POST
-    updateImmediately:
-      href: "/api/v3/users/1"
-      method: PATCH
-    delete:
-      href: "/api/v3/users/1"
-      method: DELETE
-  id: 1
-  login: j.sheppard
-  firstName: John
-  lastName: Sheppard
-  email: shep@mail.com
-  admin: true
-  avatar: https://example.org/users/1/avatar
-  status: active
-  language: en
-  createdAt: '2014-05-21T08:51:20Z'
-  updatedAt: '2014-05-21T08:51:20Z'
+required:
+  - _type
+  - id
+  - name
+  - avatar
+  - _links
 properties:
+  _type:
+    type: string
+    enum:
+      - User
   id:
     type: integer
     description: User's id
-    readOnly: true
     minimum: 0
-    exclusiveMinimum: true
   login:
     type: string
     description: |-
@@ -67,7 +46,6 @@ properties:
   name:
     type: string
     description: User's full name, formatting depends on instance settings
-    readOnly: true
   email:
     type: string
     description: |-
@@ -89,11 +67,9 @@ properties:
     type: string
     format: uri
     description: URL to user's avatar
-    readOnly: true
   status:
     type: string
     description: The current activation status of the user (see below)
-    readOnly: true
   language:
     type: string
     description: |-
@@ -102,17 +78,9 @@ properties:
       # Conditions
 
       **Permission**: Administrator, manage_user global permission
-  password:
+  identityUrl:
     type: string
-    description: |-
-      User's password for the default password authentication
-
-      # Conditions
-
-      **Permission**: Administrator
-    writeOnly: true
-  identity_url:
-    type: string
+    nullable: true
     description: |-
       User's identity_url for OmniAuth authentication
 
@@ -123,90 +91,110 @@ properties:
     type: string
     format: date-time
     description: Time of creation
-    readOnly: true
   updatedAt:
     type: string
     format: date-time
     description: Time of the most recent change to the user
-    readOnly: true
   _links:
     type: object
     required:
-    - self
+      - self
+      - memberships
+      - showUser
     properties:
-      lock:
-        allOf:
-        - "$ref": "./link.yml"
-        - description: |-
-            Restrict the user from logging in and performing any actions
-
-            # Conditions
-
-            not locked; **Permission**: Administrator
-          readOnly: true
-      show:
-        allOf:
-        - "$ref": "./link.yml"
-        - description: Link to the OpenProject user page (HTML)
-          readOnly: true
-      unlock:
-        allOf:
-        - "$ref": "./link.yml"
-        - description: |-
-            Allow a locked user to login and act again
-
-            # Conditions
-
-            locked; **Permission**: Administrator
-          readOnly: true
-      updateImmediately:
-        allOf:
-        - "$ref": "./link.yml"
-        - description: |-
-            Updates the user's attributes.
-
-            # Conditions
-
-            **Permission**: Administrator, manage_user global permission
-          readOnly: true
-      delete:
-        allOf:
-        - "$ref": "./link.yml"
-        - description: |-
-            Permanently remove a user from the instance
-
-            # Conditions
-
-            **Permission**: Administrator, self-delete
-          readOnly: true
       self:
         allOf:
-        - "$ref": "./link.yml"
-        - description: |-
-            This user
-
-            **Resource**: User
-          readOnly: true
-      auth_source:
+          - "$ref": "./link.yml"
+          - description: |-
+              This user
+              
+              **Resource**: User
+      memberships:
         allOf:
-        - "$ref": "./link.yml"
-        - description: |-
-            Link to the user's auth source (endpoint not yet implemented)
-
-            **Resource**: AuthSource
-
-            # Conditions
-
-            **Permission**: Administrator
-      members:
+          - "$ref": "./link.yml"
+          - description: |-
+              Link to collection of all the user's memberships. The list will only include the memberships in projects in which the requesting user has the necessary permissions.
+              
+              **Resource**: MemberCollection
+              
+              # Conditions
+              
+              **Permission**: view members or manage members in any project
+      showUser:
         allOf:
-        - "$ref": "./link.yml"
-        - description: |-
-            Link to collection of all the user's memberships. The list will only include the memberships in projects in which the requesting user has the necessary permissions.
+          - "$ref": "./link.yml"
+          - description: Link to the OpenProject user page (HTML)
+      updateImmediately:
+        allOf:
+          - "$ref": "./link.yml"
+          - description: |-
+              Updates the user's attributes.
+              
+              # Conditions
+              
+              **Permission**: Administrator, manage_user global permission
+      lock:
+        allOf:
+          - "$ref": "./link.yml"
+          - description: |-
+              Restrict the user from logging in and performing any actions
+              
+              # Conditions
+              
+              not locked; **Permission**: Administrator
+      unlock:
+        allOf:
+          - "$ref": "./link.yml"
+          - description: |-
+              Allow a locked user to login and act again
+              
+              # Conditions
+              
+              locked; **Permission**: Administrator
+      delete:
+        allOf:
+          - "$ref": "./link.yml"
+          - description: |-
+              Permanently remove a user from the instance
+              
+              # Conditions
+              
+              **Permission**: Administrator, self-delete
 
-            **Resource**: MemberCollection
-
-            # Conditions
-
-            **Permission**: view members or manage members in any project
-          readOnly: true
+example:
+  _type: User
+  id: 1
+  name: John Sheppard
+  login: j.sheppard
+  firstName: John
+  lastName: Sheppard
+  email: shep@mail.com
+  admin: true
+  avatar: https://example.org/users/1/avatar
+  status: active
+  identityUrl: null,
+  language: en
+  createdAt: '2014-05-21T08:51:20Z'
+  updatedAt: '2014-05-21T08:51:20Z'
+  _links:
+    self:
+      href: '/api/v3/users/1'
+      title: John Sheppard
+    memberships:
+      href: /api/v3/memberships?filters=%5B%7B%22principal%22%3A%7B%22operator%22%3A%22%3D%22%2C%22values%22%3A%5B%221%22%5D%7D%7D%5D,
+      title: Members
+    showUser:
+      href: '/users/1'
+      type: text/html
+    lock:
+      href: '/api/v3/users/1/lock'
+      title: Set lock on John Sheppard
+      method: post
+    updateImmediately:
+      href: '/api/v3/users/1'
+      title: update John Sheppard
+      method: patch
+    delete:
+      href: '/api/v3/users/1'
+      title: delete John Sheppard
+    method: delete

@@ -60,6 +60,28 @@ describe Query, type: :model do
       expect(query.sort_criteria)
         .to match_array([['id', 'asc']])
     end
+
+    context 'with global subprojects include', with_settings: { display_subprojects_work_packages: true } do
+      it 'sets the include subprojects' do
+        expect(query.include_subprojects).to be true
+      end
+    end
+
+    context 'with global subprojects include', with_settings: { display_subprojects_work_packages: false } do
+      it 'sets the include subprojects' do
+        expect(query.include_subprojects).to be false
+      end
+    end
+  end
+
+  describe 'include_subprojects' do
+    let(:query) { described_class.new name: 'foo' }
+
+    it 'is required' do
+      expect(query).not_to be_valid
+
+      expect(query.errors[:include_subprojects]).to include 'is not set to one of the allowed values.'
+    end
   end
 
   describe 'hidden' do
@@ -629,12 +651,6 @@ describe Query, type: :model do
 
   describe '#filter_for' do
     context 'for a status_id filter' do
-      before do
-        allow(Status)
-          .to receive(:exists?)
-          .and_return(true)
-      end
-
       subject { query.filter_for('status_id') }
 
       it 'exists' do

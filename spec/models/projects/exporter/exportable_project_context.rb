@@ -50,6 +50,7 @@ shared_context 'with a project with an arrangement of custom fields' do
 
   shared_let(:project) do
     create(:project, members: { other_user => role }).tap do |p|
+      p.description = "The description of the project"
       p.send(:"custom_field_#{int_cf.id}=", 5)
       p.send(:"custom_field_#{bool_cf.id}=", true)
       p.send(:"custom_field_#{version_cf.id}=", system_version)

@@ -199,7 +199,7 @@ export class TopMenu {
 
   slideAndFocus(dropdown:JQuery, callback:any) {
     this.slideDown(dropdown, callback);
-    this.focusFirstInputOrLink(dropdown);
+    setTimeout(() => this.focusFirstInputOrLink(dropdown), ANIMATION_RATE_MS);
   }
 
   slideDown(dropdown:JQuery, callback:any) {
@@ -223,15 +223,15 @@ export class TopMenu {
 
   // If there is ANY input, it will have precedence over links,
   // i.e. links will only get focused, if there is NO input whatsoever
-  focusFirstInputOrLink(dropdown:JQuery) {
-    const focusable = dropdown.find('input:not([disabled]), a[href], area[href], select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, *[tabindex], *[contenteditable]');
+  focusFirstInputOrLink(dropdown:JQuery):void {
+    const focusable = dropdown.find('.op-app-menu--dropdown').find('input:not([disabled]):not([type="hidden"]), a[href], area[href], select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, *[tabindex], *[contenteditable]');
     const toFocus = focusable[0];
     if (!toFocus) {
       return;
     }
     // actually a simple focus should be enough.
     // The rest is only there to work around a rendering bug in webkit (as of Oct 2011),
-    // occuring mostly inside the login/signup dropdown.
+    // occurring mostly inside the login/signup dropdown.
     toFocus.blur();
     setTimeout(() => {
       toFocus.focus();

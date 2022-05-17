@@ -46,7 +46,7 @@ module API
                               # start with numbers, the id needs to be looked up
                               # in the DB.
                               id = if id.to_i.to_s == id
-                                     id # return numerical ID
+                                     id.to_i # return numerical ID
                                    else
                                      Project.where(identifier: id).pick(:id) # lookup Project by identifier
                                    end
@@ -255,16 +255,7 @@ module API
                   }
 
         property :ordered_work_packages,
-                 skip_render: true,
-                 exec_context: :decorator,
-                 getter: nil,
-                 setter: ->(fragment:, **) {
-                   next unless represented.new_record?
-
-                   Hash(fragment).each do |wp_id, position|
-                     represented.ordered_work_packages.build(work_package_id: wp_id, position: position)
-                   end
-                 }
+                 skip_render: true
 
         property :starred,
                  writeable: true
@@ -287,6 +278,8 @@ module API
 
         property :filters,
                  exec_context: :decorator
+
+        property :include_subprojects
 
         property :display_sums, as: :sums
         property :public

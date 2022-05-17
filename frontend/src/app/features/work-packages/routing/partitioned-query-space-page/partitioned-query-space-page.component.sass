@@ -8,6 +8,10 @@
   grid-template-columns: 1fr
   grid-template-rows: auto auto minmax(200px, 1fr)
 
+  margin-left: -10px
+  padding-left: 10px
+  width: calc(100% + 10px)
+
   &.-right-only
     .work-packages-partitioned-page--content-left
       display: none
@@ -38,6 +42,10 @@
   .work-packages-partitioned-page--content-left
     flex: 1
 
+  // Move to the left so that the actual header text is aligned with the content below
+  .title-container_editable
+    margin-left: -7px
+
   @media only screen and (max-width: 679px)
     .work-packages-partitioned-page--content-left,
     .work-packages-partitioned-page--content-right
@@ -49,6 +57,7 @@
       display: grid
       grid-template-columns: 1fr auto
       grid-template-rows: auto auto
+      justify-items: start
 
       .op-back-button
         grid-column: 1 / 3

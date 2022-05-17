@@ -27,9 +27,12 @@
 #++
 
 require 'spec_helper'
+require_module_spec_helper
+require_relative 'shared_filter_examples'
 
 # rubocop:disable RSpec/MultipleMemoizedHelpers
 describe 'API v3 work packages resource with filters for the linkable to storage attribute',
+         :enable_storages,
          type: :request,
          content_type: :json do
   include API::V3::Utilities::PathHelper
@@ -106,6 +109,14 @@ describe 'API v3 work packages resource with filters for the linkable to storage
         end
       end
 
+      context 'if a project has the storages module deactivated' do
+        let(:project1) { create(:project, disable_modules: :storages, members: { current_user => role1 }) }
+
+        it_behaves_like 'API V3 collection response', 2, 2, 'WorkPackage', 'WorkPackageCollection' do
+          let(:elements) { [work_package3, work_package4] }
+        end
+      end
+
       context 'if the filter is set to an unknown storage id' do
         let(:storage_id) { "1337" }
 
@@ -113,6 +124,8 @@ describe 'API v3 work packages resource with filters for the linkable to storage
           let(:elements) { [] }
         end
       end
+
+      include_examples 'filter unavailable when storages module is inactive'
     end
 
     context 'with filter for storage url' do
@@ -140,6 +153,14 @@ describe 'API v3 work packages resource with filters for the linkable to storage
         end
       end
 
+      context 'if a project has the storages module deactivated' do
+        let(:project1) { create(:project, disable_modules: :storages, members: { current_user => role1 }) }
+
+        it_behaves_like 'API V3 collection response', 2, 2, 'WorkPackage', 'WorkPackageCollection' do
+          let(:elements) { [work_package3, work_package4] }
+        end
+      end
+
       context 'if the filter is set to an unknown storage url' do
         let(:storage_url) { CGI.escape("https://not.my-domain.org") }
 
@@ -147,6 +168,8 @@ describe 'API v3 work packages resource with filters for the linkable to storage
           let(:elements) { [] }
         end
       end
+
+      include_examples 'filter unavailable when storages module is inactive'
     end
   end
 end

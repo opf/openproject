@@ -68,14 +68,28 @@ describe 'Team planner sidemenu', type: :feature, js: true do
 
     current_user { user_with_rights }
 
-    it 'shows the create team planner option' do
-      visit project_path(project)
+    context 'when EE disabled' do
+      it 'does not show the create team planner option' do
+        visit project_path(project)
 
-      within '#main-menu' do
-        click_link 'Team planners'
+        within '#main-menu' do
+          click_link 'Team planners'
+        end
+
+        expect(page).to have_no_selector('[data-qa-selector="team-planner--create-button"]')
       end
+    end
 
-      expect(page).to have_selector('[data-qa-selector="team-planner--create-button"]')
+    context 'when EE enabled', with_ee: %i[team_planner_view] do
+      it 'shows the create team planner option' do
+        visit project_path(project)
+
+        within '#main-menu' do
+          click_link 'Team planners'
+        end
+
+        expect(page).to have_selector('[data-qa-selector="team-planner--create-button"]')
+      end
     end
   end
 end

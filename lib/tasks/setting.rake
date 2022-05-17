@@ -31,12 +31,9 @@ namespace :setting do
   task set: :environment do |_t, args|
     args.extras.each do |tuple|
       key, value = tuple.split('=')
-      setting = Setting.find_by(name: key)
-      if setting.nil?
-        Setting.create! name: key, value: value
-      else
-        setting.update! value: value
-      end
+      setting = Setting.find_by(name: key) || Setting.new(name: key)
+      setting.set_value! value, force: true
+      setting.save!
     end
   end
 
@@ -45,6 +42,20 @@ namespace :setting do
     setting = Setting.find_by(name: args[:key])
     unless setting.nil?
       puts(setting.value)
+    end
+  end
+
+  desc 'Allow to set a Setting read from an ENV var. Example: rake setting:set_to_env[smtp_address=SMTP_HOST]'
+  task set_to_env: :environment do |_t, args|
+    args.extras.each do |tuple|
+      setting_name, env_var_name = tuple.split('=')
+
+      next unless Settings::Definition.exists? setting_name
+      next unless ENV.has_key? env_var_name
+
+      setting = Setting.find_by name: setting_name
+      setting.set_value! ENV[env_var_name].presence, force: true
+      setting.save!
     end
   end
 end

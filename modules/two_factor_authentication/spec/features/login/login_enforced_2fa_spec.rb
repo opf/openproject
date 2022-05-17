@@ -1,9 +1,16 @@
 require_relative '../../spec_helper'
 require_relative '../shared_2fa_examples'
 
-describe 'Login with enforced 2FA', with_2fa_ee: true, type: :feature,
-                                    with_config: { '2fa': { active_strategies: [:developer], enforced: true } },
-                                    js: true do
+describe 'Login with enforced 2FA',
+         with_2fa_ee: true,
+         type: :feature,
+         with_settings: {
+           plugin_openproject_two_factor_authentication: {
+             'active_strategies' => [:developer],
+             'enforced' => true
+           }
+         },
+         js: true do
   let(:user_password) { 'bob!' * 4 }
   let(:user) do
     create(:user,
@@ -17,10 +24,12 @@ describe 'Login with enforced 2FA', with_2fa_ee: true, type: :feature,
 
     it 'requests a 2FA' do
       sms_token = nil
+      # rubocop:disable RSpec/AnyInstance
       allow_any_instance_of(::OpenProject::TwoFactorAuthentication::TokenStrategy::Developer)
-          .to receive(:create_mobile_otp).and_wrap_original do |m|
+        .to receive(:create_mobile_otp).and_wrap_original do |m|
         sms_token = m.call
       end
+      # rubocop:enable RSpec/AnyInstance
 
       first_login_step
       two_factor_step(sms_token)
@@ -32,7 +41,7 @@ describe 'Login with enforced 2FA', with_2fa_ee: true, type: :feature,
       two_factor_step('whatever')
 
       expect(page).to have_selector('.flash.error', text: I18n.t(:notice_account_otp_invalid))
-      expect(current_path).to eql signin_path
+      expect(page).to have_current_path signin_path
     end
   end
 

@@ -119,6 +119,7 @@ module BasicData
           view_members
           manage_board_views
           show_board_views
+          view_team_planner
         ]
       }
     end
@@ -145,6 +146,7 @@ module BasicData
           browse_repository
           view_changesets
           show_board_views
+          view_team_planner
         ]
       }
     end

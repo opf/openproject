@@ -95,7 +95,7 @@ describe Queries::Notifications::NotificationQuery, type: :model do
       it 'returns the error on the filter' do
         instance.valid?
 
-        expect(instance.errors[:filters]).to eql ["Not supposed to exist does not exist."]
+        expect(instance.errors[:filters]).to eql ["Not supposed to exist filter does not exist."]
       end
     end
   end

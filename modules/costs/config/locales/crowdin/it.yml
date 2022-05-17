@@ -31,7 +31,7 @@ it:
         unit: "Nome dell'unità"
         unit_plural: "Nome unità pluralizzato"
       work_package:
-        costs_by_type: "Unita consumate"
+        costs_by_type: "Unità spese"
         labor_costs: "Costi della manodopera"
         material_costs: "Costi unitari"
         overall_costs: "Costi complessivi"

@@ -52,6 +52,7 @@ import { WorkPackageQueryStateService } from 'core-app/features/work-packages/ro
 import { WorkPackageStatesInitializationService } from 'core-app/features/work-packages/components/wp-list/wp-states-initialization.service';
 import { WorkPackageViewOrderService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-order.service';
 import { WorkPackageViewDisplayRepresentationService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-display-representation.service';
+import { WorkPackageViewIncludeSubprojectsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-include-subprojects.service';
 import { HalEvent, HalEventsService } from 'core-app/features/hal/services/hal-events.service';
 import { DeviceService } from 'core-app/core/browser/device.service';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
@@ -106,6 +107,8 @@ export abstract class WorkPackagesViewBase extends UntilDestroyedMixin implement
 
   @InjectField() wpDisplayRepresentation:WorkPackageViewDisplayRepresentationService;
 
+  @InjectField() wpIncludeSubprojects:WorkPackageViewIncludeSubprojectsService;
+
   @InjectField() halEvents:HalEventsService;
 
   @InjectField() deviceService:DeviceService;
@@ -156,6 +159,7 @@ export abstract class WorkPackagesViewBase extends UntilDestroyedMixin implement
     this.setupChangeObserver(this.wpTableHighlighting);
     this.setupChangeObserver(this.wpTableOrder);
     this.setupChangeObserver(this.wpDisplayRepresentation);
+    this.setupChangeObserver(this.wpIncludeSubprojects);
   }
 
   /**

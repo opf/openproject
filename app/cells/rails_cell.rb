@@ -65,8 +65,8 @@ class RailsCell < Cell::ViewModel
     context[:action_view] || controller.view_context
   end
 
-  def form_authenticity_token(*args)
-    controller.send(:form_authenticity_token, *args)
+  def form_authenticity_token(**args)
+    controller.send(:form_authenticity_token, **args)
   end
 
   def protect_against_forgery?

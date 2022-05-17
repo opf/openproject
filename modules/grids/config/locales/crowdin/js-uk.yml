@@ -6,7 +6,7 @@ uk:
       configure: 'Налаштувати віджет'
       upsale:
         text: "Деякі віджети, доступні тільки в "
-        link: 'Enterprise Edition'
+        link: 'Випуск Enterprise Edition. '
       widgets:
         custom_text:
           title: 'Текстовий блок'

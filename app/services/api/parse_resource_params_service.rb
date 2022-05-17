@@ -76,13 +76,13 @@ module API
     end
 
     def struct
-      Hashie::Mash.new
+      ParserStruct.new
     end
 
     def deep_to_h(value)
       # Does not yet factor in Arrays. There hasn't been the need to do that, yet.
       case value
-      when Hashie::Mash, Hash
+      when Hash, ParserStruct
         value.to_h.transform_values do |sub_value|
           deep_to_h(sub_value)
         end

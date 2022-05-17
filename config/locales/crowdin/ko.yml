@@ -74,10 +74,14 @@ ko:
       book_now: '지금 예약'
       get_quote: '견적 받기'
       buttons:
-        upgrade: "Upgrade now"
-        contact: "Contact us for a demo"
-      enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
-      upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
+        upgrade: "지금 업그레이드"
+        contact: "당사에 데모 요청하기"
+      enterprise_info_html: "- Enterprise <strong class='icon-medal'></strong> 기능입니다."
+      upgrade_info: "활성화하고 팀에서 사용하려면 유료 플랜으로 업그레이드하세요."
+    journal_aggregation:
+      explanation:
+        text: "사용자의 개별 작업(예: 작업 패키지를 두 번 업데이트)은 연령 차이가 지정된 기간 미만인 경우 단일 작업으로 집계됩니다. 애플리케이션 내에서 단일 작업으로 표시됩니다. 또한 이는 전송되는 이메일 수를 줄이는 동일한 시간만큼 알림을 지연시키고 %{webhook_link} 지연에도 영향을 미칩니다."
+        link: "webhook"
   announcements:
     show_until: 표시 기한
     is_active: 현재 표시됨
@@ -166,7 +170,7 @@ ko:
     edit: '사용자 지정 작업 %{name} 편집'
     execute: '%{name} 실행'
     upsale:
-      title: 'Custom actions'
+      title: '사용자 지정 작업'
       description: '사용자 지정 작업은 하나의 버튼으로 일련의 개별 단계를 결합하여 일상 업무를 간소화합니다.'
   custom_fields:
     text_add_new_custom_field: >
@@ -265,7 +269,7 @@ ko:
       irreversible: "이 작업은 취소할 수 없습니다"
       confirmation: "삭제를 확인하려면 플레이스홀더 사용자 이름 %{name}(을)를 입력하세요."
     upsale:
-      title: Placeholder users
+      title: 플레이스홀더 사용자
       description: >
         여러 상황에서 프로젝트의 멤버가 아닌 사람에게 작업을 할당할 수 있습니다. 단순히 그 일에 적합한 사람을 채용해야 하는 경우나, 어떤 사람이 프로젝트의 정보에 접근하지 못하게 하고 싶지만 동시에 그 사람에게 할당된 작업을 추적하고자 하는 경우 등이 있을 수 있습니다.
   prioritiies:
@@ -320,10 +324,10 @@ ko:
       other: '%{count}개 작업 패키지 하위 항목'
     bulk:
       could_not_be_saved: "다음 작업 패키지를 저장할 수 없습니다:"
-      none_could_be_saved: "None of the %{total} work packages could be updated."
-      x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
-      selected_because_descendants: "While %{selected} work packages where selected, in total %{total} work packages are affected which includes descendants."
-      descendant: "descendant of selected"
+      none_could_be_saved: "%{total}개 작업 패키지 중 아무것도 업데이트할 수 없습니다."
+      x_out_of_y_could_be_saved: "%{failing}/%{total}개 작업 패키지를 업데이트할 수 없지만 %{success}개는 성공했습니다."
+      selected_because_descendants: "%{selected}개 작업 패키지가 선택되었지만 하위 작업 패키지를 포함하여 총 %{total}개 작업 패키지가 영향을 받았습니다."
+      descendant: "선택한 항목의 하위 작업 패키지"
     move:
       no_common_statuses_exists: "선택한 모든 작업 패키지에 사용 가능한 상태가 없습니다. 해당 상태를 변경할 수 없습니다."
       unsupported_for_multiple_projects: '여러 프로젝트에서 작업 패키지 일괄 이동/복사는 지원되지 않습니다.'
@@ -453,12 +457,12 @@ ko:
         code: '상태'
         explanation: '상태 설명'
         codes:
-          not_started: 'Not started'
+          not_started: '시작되지 않음'
           on_track: '정상 상태'
           at_risk: '위험 상태'
           off_track: '비정상 상태'
-          finished: 'Finished'
-          discontinued: 'Discontinued'
+          finished: '마침'
+          discontinued: '중단됨'
       query:
         column_names: "컬럼"
         relations_to_type_column: "%{type}에 대한 관계"
@@ -559,6 +563,7 @@ ko:
         even: "에 짝수를 입력해 주세요"
         exclusion: "예약됨"
         file_too_large: "은(는) 너무 큽니다. (최대 %{count} 바이트)"
+        filter_does_not_exist: "필터가 존재하지 않습니다."
         format: "- 필요한 형식 '%{expected}'과(와) 일치하지 않습니다."
         format_nested: "- 경로 '%{path}'에서 필요한 형식 '%{expected}'과(와) 일치하지 않습니다."
         greater_than: "은(는) %{count}보다 커야 합니다"
@@ -746,7 +751,7 @@ ko:
               does_not_exist: "지정한 카테고리가 존재하지 않습니다."
             estimated_hours:
               only_values_greater_or_equal_zeroes_allowed: "0 이상이어야 함"
-          readonly_status: 'The work package is in a readonly status so its attributes cannot be changed.'
+          readonly_status: '작업 패키지가 읽기 전용 상태이므로 해당 속성을 변경할 수 없습니다.'
         type:
           attributes:
             attribute_groups:
@@ -758,7 +763,7 @@ ko:
         user:
           attributes:
             base:
-              user_limit_reached: "User limit reached. No more accounts can be created on the current plan."
+              user_limit_reached: "사용자 제한에 도달했습니다. 현재 플랜에서 더 이상 계정을 만들 수 없습니다."
             password_confirmation:
               confirmation: "비밀번호와 비밀번호 확인이 일치하지 않습니다."
               format: "%{message}"
@@ -882,10 +887,11 @@ ko:
     updated_on: "업데이트 날짜"
     uploader: "업로더"
     user: "사용자"
+    value: "값"
     version: "버전"
     work_package: "작업 패키지"
   backup:
-    failed: "Backup failed"
+    failed: "백업 실패"
     label_backup_token: "백업 토큰"
     label_create_token: "백업 토큰 생성"
     label_delete_token: "백업 토큰 제거"
@@ -1211,7 +1217,7 @@ ko:
   error_enterprise_token_invalid_domain: "Enterprise Edition이 활성화되지 않았습니다. 해당 Enterprise 토큰의 도메인(%{actual})이 시스템의 호스트 이름(%{expected})과 일치하지 않습니다."
   error_failed_to_delete_entry: '항목 삭제에 실패하였습니다.'
   error_in_dependent: "종속 개체를 변경하려는 중에 오류가 발생했습니다: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
-  error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
+  error_in_new_dependent: "종속 개체를 생성하려는 중에 오류가 발생했습니다: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "선택된 값이 유효하지 않습니다."
   error_journal_attribute_not_present: "저널에 %{attribute} 특성이 없습니다."
   error_pdf_export_too_many_columns: "PDF 내보내기에 대해 너무 많은 열을 선택했습니다. 열 수를 줄이십시오."
@@ -1321,7 +1327,9 @@ ko:
   menus:
     admin:
       mail_notification: "이메일 알림"
-      incoming_outgoing: "수신 & 발신"
+      mails_and_notifications: "이메일 및 알림"
+      aggregation_and_retention: '집계 및 보존'
+      api_and_webhooks: "API 및 webhook"
     quick_add:
       label: "빠른 추가 메뉴 열기"
   my_account:
@@ -1616,9 +1624,9 @@ ko:
   lable_membership_added: '멤버 추가됨'
   lable_membership_updated: '멤버 갱신됨'
   label_menu_badge:
-    pre_alpha: 'pre-alpha'
-    alpha: 'alpha'
-    beta: 'beta'
+    pre_alpha: '프리 알파'
+    alpha: '알파'
+    beta: '베타'
   label_menu_item_name: "메뉴 항목의 이름"
   label_message: "메시지"
   label_message_last: "마지막 메시지"
@@ -1970,7 +1978,7 @@ ko:
   mail_body_backup_waiting_period: '%{hours}시간 후 새 토큰이 활성화됩니다.'
   mail_body_backup_token_warning: 만약 본인이 한 것이 아니라면, OpenProject에 즉시 로그인하고 다시 초기화하십시오.
   mail_body_lost_password: "암호를 변경하려면 다음 링크를 클릭하세요."
-  mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
+  mail_body_register: "%{app_title}입니다. 다음 링크를 클릭하여 계정을 활성화하세요:"
   mail_body_register_header_title: "프로젝트 멤버 초대 이메일"
   mail_body_register_user: "%{name}님께, "
   mail_body_register_links_html: |
@@ -2112,7 +2120,7 @@ ko:
     heading_getting_started: "개요 가져오기"
     text_getting_started_description: "OpenProject로 프로젝트 관리 및 팀 공동 작업에 대한 간략한 개요를 가져올 수 있습니다."
     text_show_again: "도움말 메뉴에서 이 비디오를 다시 시작할 수 있습니다."
-    welcome: "Welcome to %{app_title}"
+    welcome: "%{app_title}입니다."
     select_language: "언어를 선택하세요."
   permission_add_work_package_notes: "메모 추가"
   permission_add_work_packages: "작업 패키지 추가"
@@ -2128,6 +2136,7 @@ ko:
   permission_comment_news: "뉴스에 코멘트 달기"
   permission_commit_access: "리포지토리(커밋)에 대한 읽기/쓰기 액세스"
   permission_copy_projects: "프로젝트 복사"
+  permission_create_backup: "Create backup"
   permission_delete_work_package_watchers: "주시자 삭제"
   permission_delete_work_packages: "작업 패키지 삭제"
   permission_delete_messages: "메시지 삭제"
@@ -2181,7 +2190,7 @@ ko:
   permission_view_timelines: "타임라인 보기"
   permission_view_wiki_edits: "위키 기록 보기"
   permission_view_wiki_pages: "위키 보기"
-  permission_work_package_assigned: "Become assignee/responsible"
+  permission_work_package_assigned: "담당자/책임자 되기"
   permission_work_package_assigned_explanation: "작업 패키지는 각각의 프로젝트에서 이 역할을 가진 사용자와 그룹에 할당될 수 있습니다."
   placeholders:
     default: "-"
@@ -2220,7 +2229,7 @@ ko:
     assigned_to_role: "담당자의 역할"
     member_of_group: "담당자의 그룹"
     assignee_or_group: "담당자 또는 소속 그룹"
-    subproject_id: "하위 프로젝트 포함"
+    subproject_id: "Including subproject"
     only_subproject_id: "하위 프로젝트만"
     name_or_identifier: "이름 또는 식별자"
   repositories:
@@ -2332,9 +2341,9 @@ ko:
   setting_apiv3_cors_origins: "API V3 CORS(크로스-원본 리소스 공유) 허용 원본"
   setting_apiv3_cors_origins_text_html: >
     CORS가 활성화된 경우, OpenProject API에 액세스하도록 허용된 원본이 있습니다. <br/> <a href="%{origin_link}" target="_blank">원본 헤더의 설명서</a>에서 예상 값 지정 방법을 확인하세요.
-  setting_apiv3_max_page_size: "Maximum API page size"
+  setting_apiv3_max_page_size: "최대 API 페이지 크기"
   setting_apiv3_max_page_instructions_html: >
-    Set the maximum page size the API will respond with. It will not be possible to perform API requests that return more values on a single page. <br/> <strong>Warning:</strong> Please only change this value if you are sure why you need it. Setting to a high value will result in significant performance impacts, while a value lower than the per page options will cause errors in paginated views.
+    API가 응답할 최대 페이지 크기를 설정하세요. 단일 페이지에서 더 많은 값을 반환하는 API 요청을 수행할 수 없습니다. <br/> <strong>경고:</strong> 이 값이 필요한 이유가 확실한 경우에만 이 값을 변경하세요. 높은 값으로 설정하면 성능에 상당한 영향을 미치고, 페이지당 옵션보다 낮은 값은 페이지가 매겨진 보기에서 오류를 일으킵니다.
   setting_apiv3_docs: "설명서"
   setting_apiv3_docs_enabled: "문서 페이지 활성화"
   setting_apiv3_docs_enabled_instructions_html: >
@@ -2542,7 +2551,6 @@ ko:
   text_work_packages_destroy_confirmation: "선택한 작업 패키지를 삭제하시겠습니까?"
   text_work_packages_ref_in_commit_messages: "커밋 메시지의 작업 패키지 참조 또는 수정"
   text_journal_added: "%{label} %{value} 추가됨"
-  text_journal_aggregation_time_explanation: "사용자의 개별 작업(예: 작업 패키지를 두 번 업데이트)은 연령 차이가 지정된 기간 미만인 경우 단일 작업으로 집계됩니다. 애플리케이션 내에서 단일 작업으로 표시됩니다. 이것은 또한 전송되는 이메일의 수를 줄이는 동일한 시간만큼 알림을 지연시킵니다."
   text_journal_changed_html: "%{label}이(가) %{old}에서 %{linebreak}%{new}<strong>(으)로</strong> 변경되었습니다."
   text_journal_changed_plain: "%{label}이(가) %{old}에서 %{linebreak}%{new}(으)로 변경되었습니다."
   text_journal_changed_no_detail: "%{label} 업데이트됨"
@@ -2855,7 +2863,7 @@ ko:
         work_package: "원하는 작업 패키지를 찾을 수 없거나 삭제되었습니다."
       expected:
         date: "YYYY-MM-DD(ISO 8601 날짜만)"
-        datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm] (any compatible ISO 8601 datetime)"
+        datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm](호환되는 모든 ISO 8601 날짜/시간)"
         duration: "ISO 8601 기간"
       invalid_content_type: "예상되는 CONTENT-TYPE 은 '%{content_type}' 이지만, '%{actual}' 을 응답 받았습니다."
       invalid_format: "'%{property}' 속성에 대한 잘못된 형식: '%{expected_format}' 같은 형식이 필요하지만 '%{actual}'이(가) 있습니다."
@@ -2867,7 +2875,7 @@ ko:
         select: "요청한 %{invalid}의 선택은 지원되지 않습니다. %{supported}의 선택은 지원합니다."
       invalid_user_status_transition: "현재 사용자의 계정 상태는이 작업을 허용 하지 않습니다."
       missing_content_type: "지정되지 않음"
-      missing_property: "Missing property '%{property}'."
+      missing_property: "'%{property}' 속성이 없습니다."
       missing_request_body: "요청 본문이 없습니다."
       missing_or_malformed_parameter: "쿼리 매개 변수 '%{parameter}'는 누락되거나 잘못되었습니다."
       multipart_body_error: "요청 본문에는 필요한 multipart 부분이 포함되어 있지 않습니다."
@@ -2891,7 +2899,7 @@ ko:
       schema: '스키마'
     undisclosed:
       parent: 숨겨짐 - 권한이 없어 선택한 부모를 볼 수 없습니다.
-      ancestor: Undisclosed - The ancestor is invisible because of lacking permissions.
+      ancestor: 숨겨짐 - 권한이 없어 상위 항목을 볼 수 없습니다.
   doorkeeper:
     pre_authorization:
       status: '사전 권한 부여'
@@ -2902,9 +2910,9 @@ ko:
         #Common error messages
         invalid_request:
           unknown: '이 요청에는 필요한 매개 변수가 없거나, 지원되지 않는 매개 변수 값이 포함되어 있거나, 형식이 잘못되었습니다.'
-          missing_param: 'Missing required parameter: %{value}.'
-          request_not_authorized: 'Request need to be authorized. Required parameter for authorizing request is missing or invalid.'
-        invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
+          missing_param: '필수 매개 변수 누락: %{value}.'
+          request_not_authorized: '인증이 필요한 요청입니다. 인증 요청을 위한 필수 매개 변수가 없거나 유효하지 않습니다.'
+        invalid_redirect_uri: "요청한 리디렉션 URI가 잘못된 형식이거나 클라이언트 리디렉션 URI와 일치하지 않습니다."
         unauthorized_client: '클라이언트가 이 방법을 사용하여 해당 요청을 실행하도록 허용되지 않았습니다.'
         access_denied: '리소스 소유자 또는 권한 부여 서버가 요청을 거부했습니다.'
         invalid_scope: '요청한 범위가 유효하지 않거나, 알 수 없거나, 잘못된 형식입니다.'
@@ -2917,7 +2925,7 @@ ko:
         admin_authenticator_not_configured: 'Doorkeeper.configure.admin_authenticator 구성이 되지 않아 관리자 패널에 대한 액세스가 금지되었습니다.'
         #Access grant errors
         unsupported_response_type: '권한 부여 서버가 이 응답 유형을 지원하지 않습니다.'
-        unsupported_response_mode: 'The authorization server does not support this response mode.'
+        unsupported_response_mode: '권한 부여 서버가 이 응답 모드를 지원하지 않습니다.'
         #Access token errors
         invalid_client: '알 수 없는 클라이언트, 포함되지 않은 클라이언트 인증 또는 지원되지 않는 인증 방법으로 인해 클라이언트 인증이 실패했습니다.'
         invalid_grant: '제공된 권한 부여가 잘못되거나, 만료되거나, 취소되었거나, 권한 부여 요청에 사용된 리디렉션 URI와 일치하지 않거나, 다른 클라이언트에 지정되었습니다.'
@@ -2927,9 +2935,9 @@ ko:
           expired: "액세스 토큰이 만료되었습니다."
           unknown: "액세스 토큰이 잘못되었습니다."
         revoke:
-          unauthorized: "You are not authorized to revoke this token."
+          unauthorized: "이 토큰을 취소할 권한이 없습니다."
         forbidden_token:
-          missing_scope: 'Access to this resource requires scope "%{oauth_scopes}".'
+          missing_scope: '이 리소스에 액세스하려면 "%{oauth_scopes}" 범위가 필요합니다.'
   unsupported_browser:
     title: "해당 브라우저는 오래되어 지원되지 않습니다."
     message: "이 페이지에서 오류가 발생하고 기능이 저하될 수 있습니다."

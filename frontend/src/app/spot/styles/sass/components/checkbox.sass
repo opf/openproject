@@ -4,6 +4,10 @@
   align-items: center
   height: $spot-spacing-1_5
   width: $spot-spacing-1_5
+  flex-shrink: 0
+
+  &:focus-within &--fake
+    @include spot-focus
 
   &, *
     box-sizing: border-box

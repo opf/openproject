@@ -32,13 +32,6 @@ module OpenProject
     # To be included into OpenProject::Configuration in order to provide
     # helper methods for easier access to certain configuration options.
     module Helpers
-      ##
-      # Carrierwave storage type. Possible values are, among others, :file and :fog.
-      # The latter requires further configuration.
-      def attachments_storage
-        (self['attachments_storage'] || 'file').to_sym
-      end
-
       def direct_uploads
         return false unless direct_uploads_supported?
 
@@ -163,21 +156,16 @@ module OpenProject
         uploaders
       end
 
-      def ldap_tls_options
-        val = self['ldap_tls_options']
-        val.presence || {}
-      end
-
       def web_workers
         Integer(web['workers'].presence)
       end
 
       def web_timeout
-        Integer(web['timeout'].presence)
+        Integer(ENV['RACK_TIMEOUT_SERVICE_TIMEOUT'].presence || web['timeout'].presence)
       end
 
       def web_wait_timeout
-        Integer(web['wait_timeout'].presence)
+        Integer(ENV['RACK_TIMEOUT_WAIT_TIMEOUT'].presence || web['wait_timeout'].presence)
       end
 
       def web_min_threads

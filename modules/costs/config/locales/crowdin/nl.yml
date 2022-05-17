@@ -107,7 +107,7 @@ nl:
   label_overall_costs: "Totale kosten"
   label_rate: "Rate"
   label_rate_plural: "Rates"
-  label_status_finished: "Finished"
+  label_status_finished: "Afgewerkt"
   label_units: "Cost units"
   label_user: "Gebruiker"
   label_until: "until"

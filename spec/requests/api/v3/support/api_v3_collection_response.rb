@@ -54,7 +54,7 @@ shared_examples_for 'API V3 collection response' do |total, count, element_type,
     end
   end
 
-  # Allow overridding the expect HTTP status code
+  # Allow overriding the expect HTTP status code
   let(:expected_status_code) { 200 }
 
   it 'returns a collection successfully' do

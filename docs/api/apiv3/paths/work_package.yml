@@ -242,12 +242,12 @@ patch:
         Indicates whether change notifications (e.g. via E-Mail) should be sent.
         Note that this controls notifications for all users interested in changes to the work package (e.g. watchers, author and assignee),
         not just the current user.
-      example: 'false'
+      example: false
       in: query
       name: notify
       required: false
       schema:
-        default: 'true'
+        default: true
         type: boolean
   responses:
     '200':

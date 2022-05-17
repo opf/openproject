@@ -72,7 +72,7 @@ ko:
       text_2fa_enabled: '로그인할 때마다 기본 2FA 장치에서 OTP 토큰을 입력하라는 메시지가 이 사용자에게 표시됩니다.'
       text_2fa_disabled: "사용자가 '내 계정 페이지'에서 2FA 장치를 설정하지 않았습니다."
     upsale:
-      title: 'Two-factor authentication'
+      title: '2단계 인증'
       description: '2단계로 내부 또는 외부 인증 메커니즘을 강화하세요.'
     backup_codes:
       none_found: 이 계정에 대한 백업 코드가 존재하지 않습니다.

@@ -34,6 +34,8 @@ module Pages
     include ::Components::NgSelectAutocompleteHelpers
 
     def initialize(board)
+      super()
+
       @board = board
     end
 
@@ -131,7 +133,9 @@ module Pages
     # Expect the given titled card in the list name to be present (expect=true) or not (expect=false)
     def expect_card(list_name, card_title, present: true)
       within_list(list_name) do
-        expect(page).to have_conditional_selector(present, '[data-qa-selector="op-wp-single-card--content-subject"]', text: card_title)
+        expect(page).to have_conditional_selector(present,
+                                                  '[data-qa-selector="op-wp-single-card--content-subject"]',
+                                                  text: card_title)
       end
     end
 
@@ -152,7 +156,9 @@ module Pages
     def expect_movable(list_name, card_title, movable: true)
       within_list(list_name) do
         expect(page).to have_selector('[data-qa-selector="op-wp-single-card"]', text: card_title)
-        expect(page).to have_conditional_selector(movable, '[data-qa-selector="op-wp-single-card"][data-qa-draggable]', text: card_title)
+        expect(page).to have_conditional_selector(movable,
+                                                  '[data-qa-selector="op-wp-single-card"][data-qa-draggable]',
+                                                  text: card_title)
       end
     end
 
@@ -183,7 +189,7 @@ module Pages
     def add_list_with_new_value(name)
       open_and_fill_add_list_modal name
 
-      page.find('.op-select-footer--label', text: 'Create ' + name).click
+      page.find('.op-select-footer--label', text: "Create #{name}").click
     end
 
     def save
@@ -260,7 +266,9 @@ module Pages
     end
 
     def back_to_index
-      find('[data-qa-selector="op-back-button"]').click
+      within '#main-menu' do
+        click_link 'Boards'
+      end
     end
 
     def expect_editable_board(editable)

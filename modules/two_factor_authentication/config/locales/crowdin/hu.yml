@@ -72,7 +72,7 @@ hu:
       text_2fa_enabled: 'Minden egyes belépésnél szükséged lesz az alapértelmezett 2FA eszközödről beírt OTP tokenre.'
       text_2fa_disabled: "A felhasználó nem állított be 2FA eszközt a „Saját fiókom” oldalon"
     upsale:
-      title: 'Two-factor authentication'
+      title: 'Kétlépcsős hitelesítés'
       description: 'Erősítse meg belső vagy külső hitelesítési mechanizmusait egy második tényezővel.'
     backup_codes:
       none_found: "Ehhez a fiókhoz nincsenek biztonsági kódok.\n"

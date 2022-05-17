@@ -6,7 +6,7 @@ nl:
       configure: 'Configure widget'
       upsale:
         text: "Some widgets, like the work package graph widget, are only available in the "
-        link: 'enterprise edition.'
+        link: 'Enterprise Edition.'
       widgets:
         custom_text:
           title: 'Aangepaste tekst'
@@ -35,7 +35,7 @@ nl:
           on_track: 'Op schema'
           off_track: 'Buiten schema'
           at_risk: 'In gevaar'
-          not_set: 'Not set'
+          not_set: 'Niet ingesteld'
           finished: 'Finished'
           discontinued: 'Discontinued'
         subprojects:

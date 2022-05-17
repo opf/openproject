@@ -11,6 +11,7 @@ import {
   Input,
   NgZone,
   OnChanges,
+  OnInit,
   Output,
   SimpleChanges,
   TemplateRef,
@@ -60,7 +61,7 @@ import { OpAutocompleterOptionTemplateDirective } from './directives/op-autocomp
 // it has all inputs and outputs of ng-select
 // in order to use it, you only need to pass the data type and its filters
 // you also can change the value of ng-select default options by changing @inputs and @outputs
-export class OpAutocompleterComponent extends UntilDestroyedMixin implements AfterViewInit, OnChanges {
+export class OpAutocompleterComponent extends UntilDestroyedMixin implements OnInit, AfterViewInit, OnChanges {
   @HostBinding('class.op-autocompleter') className = true;
 
   @Input() public filters?:IAPIFilter[] = [];
@@ -175,7 +176,7 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
 
   @Input() public keyDownFn ? = ():boolean => true;
 
-  @Input() public typeahead:BehaviorSubject<string|null> = new BehaviorSubject(null);
+  @Input() public typeahead:BehaviorSubject<string|null>|null;
 
   // a function for setting the options of ng-select
   @Input() public getOptionsFn:(searchTerm:string) => Observable<unknown>;
@@ -235,6 +236,12 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
     super();
   }
 
+  ngOnInit() {
+    if (!!this.getOptionsFn || this.defaultData) {
+      this.typeahead = new BehaviorSubject<string|null>(null);
+    }
+  }
+
   ngOnChanges(changes:SimpleChanges):void {
     if (changes.items) {
       this.items$.next(changes.items.currentValue);
@@ -250,32 +257,11 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
       setTimeout(() => {
         this.results$ = merge(
           this.items$,
-          this.typeahead.pipe(
-            filter(() => !!(this.defaultData || this.getOptionsFn)),
-            filter((val) => val !== null),
-            distinctUntilChanged(),
-            debounceTime(250),
-            tap(() => this.loading$.next(true)),
-            switchMap((queryString:string) => {
-              if (this.defaultData) {
-                return this.opAutocompleterService.loadData(queryString, this.resource, this.filters, this.searchKey);
-              }
-
-              if (this.getOptionsFn) {
-                return this.getOptionsFn(queryString);
-              }
-
-              return NEVER;
-            }),
-            tap(
-              () => this.loading$.next(false),
-              () => this.loading$.next(false),
-            ),
-          ),
+          this.autocompleteInputStream(),
         );
 
         if (this.fetchDataDirectly) {
-          this.typeahead.next('');
+          this.typeahead?.next('');
         }
 
         if (this.openDirectly) {
@@ -301,10 +287,8 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
   }
 
   public opened(_:unknown) { // eslint-disable-line no-unused-vars
-    if (this.openDirectly) {
-      this.typeahead.next('');
-    }
-
+    // Re-search for empty value as search value gets removed
+    this.typeahead?.next('');
     this.repositionDropdown();
     this.open.emit();
   }
@@ -375,5 +359,34 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
 
   public highlighting(property:string, id:string) {
     return Highlighting.inlineClass(property, id);
+  }
+
+  private autocompleteInputStream():Observable<unknown> {
+    if (!this.typeahead) {
+      return NEVER;
+    }
+
+    return this.typeahead.pipe(
+      filter(() => !!(this.defaultData || this.getOptionsFn)),
+      filter((val) => val !== null),
+      distinctUntilChanged(),
+      debounceTime(250),
+      tap(() => this.loading$.next(true)),
+      switchMap((queryString:string) => {
+        if (this.defaultData) {
+          return this.opAutocompleterService.loadData(queryString, this.resource, this.filters, this.searchKey);
+        }
+
+        if (this.getOptionsFn) {
+          return this.getOptionsFn(queryString);
+        }
+
+        return NEVER;
+      }),
+      tap(
+        () => this.loading$.next(false),
+        () => this.loading$.next(false),
+      ),
+    );
   }
 }

@@ -29,7 +29,7 @@ pt:
         budget_ratio: "Gasto (taxa)"
         description: "Descrição"
         spent: "Gasto"
-        status: "Status"
+        status: "Situação"
         subject: "Assunto"
         type: "Tipo de custo"
         labor_budget: "Custos planejados de trabalho"

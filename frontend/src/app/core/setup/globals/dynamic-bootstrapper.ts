@@ -116,7 +116,7 @@ export class DynamicBootstrapper {
         for (let i = 0; i < elements.length; i++) {
           const target = elements[i];
 
-          if (target.closest('[op-dynamic-bootstrap]')) {
+          if (!embedded && target.closest('[op-dynamic-bootstrap]')) {
             debugLog(`Skipping nested bootstrap ${el.selector} in %O`, target);
             return;
           }

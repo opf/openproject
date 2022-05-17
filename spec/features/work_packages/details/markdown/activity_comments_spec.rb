@@ -217,6 +217,32 @@ describe 'activity comments', js: true, with_mail: false do
         wp_page.expect_comment subselector: 'strong', text: 'a bold'
       end
     end
+
+    describe 'referencing another work package' do
+      let!(:work_package2) { create(:work_package, project: project) }
+
+      it 'can reference another work package with all methods' do
+        comment_field.activate!
+
+        # Insert new text, need to do this separately.
+        [
+          "Single ##{work_package2.id}",
+          :return,
+          "Double ###{work_package2.id}",
+          :return,
+          "Triple ####{work_package2.id}",
+          :return
+        ].each do |key|
+          comment_field.input_element.send_keys key
+        end
+
+        comment_field.submit_by_click
+
+        wp_page.expect_comment text: "Single ##{work_package2.id}"
+        expect(page).to have_selector('.user-comment .macro--wp-quickinfo', count: 2)
+        expect(page).to have_selector('.user-comment .work-package--quickinfo.preview-trigger', count: 2)
+      end
+    end
   end
 
   context 'with no permission' do

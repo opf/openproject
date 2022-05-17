@@ -64,6 +64,8 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
 
   @Input() public isClosed = false;
 
+  @Input() public showAsGhost = false;
+
   @Output() onRemove = new EventEmitter<WorkPackageResource>();
 
   @Output() stateLinkClicked = new EventEmitter<{ workPackageId:string, requestedState:string }>();
@@ -81,7 +83,18 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
     detailsView: this.I18n.t('js.button_open_details'),
   };
 
-  isNewResource = isNewResource;
+  public isNewResource = isNewResource;
+
+  private dateTimeFormatYear = new Intl.DateTimeFormat(this.I18n.locale, {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  });
+
+  private dateTimeFormat = new Intl.DateTimeFormat(this.I18n.locale, {
+    month: 'short',
+    day: 'numeric',
+  });
 
   constructor(
     readonly pathHelper:PathHelperService,
@@ -147,6 +160,7 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
       [`${base}_shrink`]: this.shrinkOnMobile,
       [`${base}_inline`]: this.showAsInlineCard,
       [`${base}_closed`]: this.isClosed,
+      [`${base}_ghosted`]: this.showAsGhost,
       // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
       [`${base}-${this.workPackage.id}`]: !!this.workPackage.id,
       [`${base}_${this.orientation}`]: true,
@@ -174,31 +188,41 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
 
   public wpDates(wp:WorkPackageResource):string {
     const { startDate, dueDate } = wp;
-    const dateTimeFormat = new Intl.DateTimeFormat(this.I18n.locale, {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-    });
 
     if (startDate && dueDate) {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore see https://github.com/microsoft/TypeScript/issues/46905
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-      return String(dateTimeFormat.formatRange(new Date(startDate), new Date(dueDate)));
+      return String(this.dateTimeFormatYear.formatRange(new Date(startDate), new Date(dueDate)));
     }
+
     if (!startDate && dueDate) {
-      return `– ${dateTimeFormat.format(new Date(dueDate))}`;
+      return `– ${this.dateTimeFormatYear.format(new Date(dueDate))}`;
     }
 
     if (startDate && !dueDate) {
-      return `${dateTimeFormat.format(new Date(startDate))} –`;
+      return `${this.dateTimeFormatYear.format(new Date(startDate))} –`;
     }
 
     return '';
   }
 
-  splittedDate(wp:WorkPackageResource):string[] {
-    return this.wpDates(wp).split('–');
+  startDate(wp:WorkPackageResource):string {
+    const { startDate } = wp;
+    if (!startDate) {
+      return '';
+    }
+
+    return this.dateTimeFormat.format(new Date(startDate));
+  }
+
+  endDate(wp:WorkPackageResource):string {
+    const { dueDate } = wp;
+    if (!dueDate) {
+      return '';
+    }
+
+    return this.dateTimeFormat.format(new Date(dueDate));
   }
 
   wpOverDueHighlighting(wp:WorkPackageResource):string {

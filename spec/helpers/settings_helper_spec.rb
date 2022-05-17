@@ -34,57 +34,94 @@ describe SettingsHelper, type: :helper do
 
   let(:options) { { class: 'custom-class' } }
 
-  describe '#setting_select' do
-    before do
-      allow(Setting).to receive(:field).and_return('2')
+  before do
+    allow(Setting)
+      .to receive(:field_writable?)
+            .and_return true
+  end
+
+  shared_examples_for 'field disabled if non writable' do
+    context 'when the setting is writable' do
+      it 'is enabled' do
+        expect(output)
+          .to have_field 'settings_field', disabled: false
+      end
     end
 
+    context 'when the setting isn`t writable' do
+      before do
+        allow(Setting)
+          .to receive(:field_writable?)
+                .and_return false
+      end
+
+      it 'is disabled' do
+        expect(output)
+          .to have_field 'settings_field', disabled: true
+      end
+    end
+  end
+
+  describe '#setting_select' do
     subject(:output) do
       helper.setting_select :field, [['Popsickle', '1'], ['Jello', '2'], ['Ice Cream', '3']], options
+    end
+
+    before do
+      allow(Setting).to receive(:field).and_return('2')
     end
 
     it_behaves_like 'labelled by default'
     it_behaves_like 'wrapped in field-container by default'
     it_behaves_like 'wrapped in container', 'select-container'
+    it_behaves_like 'field disabled if non writable'
 
-    it 'should output element' do
+    it 'outputs element' do
       expect(output).to have_selector 'select.form--select > option', count: 3
       expect(output).to have_select 'settings_field', selected: 'Jello'
     end
   end
 
   describe '#setting_multiselect' do
-    before do
-      allow(Setting).to receive(:field).at_least(:once).and_return('1')
-    end
-
     subject(:output) do
       helper.setting_multiselect :field, [['Popsickle', '1'], ['Jello', '2'], ['Ice Cream', '3']], options
+    end
+
+    before do
+      allow(Setting).to receive(:field).at_least(:once).and_return('1')
     end
 
     it_behaves_like 'wrapped in container' do
       let(:container_count) { 3 }
     end
 
-    it 'should have checkboxes wrapped in checkbox-container' do
+    it 'has checkboxes wrapped in checkbox-container' do
       expect(output).to have_selector 'span.form--check-box-container', count: 3
     end
 
-    it 'should have three labels' do
+    it 'has three labels' do
       expect(output).to have_selector 'label.form--label-with-check-box', count: 3
     end
 
-    it 'should output element' do
+    it 'outputs element' do
       expect(output).to have_selector 'input[type="checkbox"].form--check-box', count: 3
+    end
+
+    context 'when the setting isn`t writable' do
+      before do
+        allow(Setting)
+          .to receive(:field_writable?)
+                .and_return false
+      end
+
+      it 'is disabled and has no hidden field' do
+        expect(output).not_to have_selector 'input[type="hidden"][value=""]', visible: :all
+        expect(output).to have_selector 'input[type="checkbox"][disabled="disabled"].form--check-box', count: 3
+      end
     end
   end
 
   describe '#settings_matrix' do
-    before do
-      allow(Setting).to receive(:field_a).at_least(:once).and_return('2')
-      allow(Setting).to receive(:field_b).at_least(:once).and_return('3')
-    end
-
     subject(:output) do
       settings = %i[field_a field_b]
       choices = [
@@ -105,6 +142,13 @@ describe SettingsHelper, type: :helper do
         }
       ]
       helper.settings_matrix settings, choices
+    end
+
+    before do
+      allow(Setting).to receive(:field_a).at_least(:once).and_return('2')
+      allow(Setting).to receive(:field_b).at_least(:once).and_return('3')
+      allow(Setting).to receive(:field_a_writable?).and_return true
+      allow(Setting).to receive(:field_b_writable?).and_return true
     end
 
     it_behaves_like 'not wrapped in container'
@@ -151,22 +195,42 @@ describe SettingsHelper, type: :helper do
       expect(output).to have_checked_field 'field_a_2'
       expect(output).to have_checked_field 'field_b_3'
     end
+
+    context 'when the setting isn`t writable' do
+      before do
+        allow(Setting)
+          .to receive(:field_a_writable?)
+                .and_return false
+      end
+
+      it 'is disabled' do
+        expect(output).to be_html_eql(%{
+        <td class="form--matrix-checkbox-cell">
+          <span class="form--check-box-container">
+            <input class="form--check-box" id="field_a_1"
+              name="settings[field_a][]" type="checkbox" disabled="disabled" value="1">
+          </span>
+        </td>
+      }).at_path('tr.form--matrix-row:first-child > td:nth-of-type(2)')
+      end
+    end
   end
 
   describe '#setting_text_field' do
-    before do
-      allow(Setting).to receive(:field).and_return('important value')
-    end
-
     subject(:output) do
       helper.setting_text_field :field, options
+    end
+
+    before do
+      allow(Setting).to receive(:field).and_return('important value')
     end
 
     it_behaves_like 'labelled by default'
     it_behaves_like 'wrapped in field-container by default'
     it_behaves_like 'wrapped in container', 'text-field-container'
+    it_behaves_like 'field disabled if non writable'
 
-    it 'should output element' do
+    it 'outputs element' do
       expect(output).to be_html_eql(%{
         <input class="custom-class form--text-field"
           id="settings_field" name="settings[field]" type="text" value="important value" />
@@ -175,19 +239,20 @@ describe SettingsHelper, type: :helper do
   end
 
   describe '#setting_text_area' do
-    before do
-      allow(Setting).to receive(:field).and_return('important text')
-    end
-
     subject(:output) do
       helper.setting_text_area :field, options
+    end
+
+    before do
+      allow(Setting).to receive(:field).and_return('important text')
     end
 
     it_behaves_like 'labelled by default'
     it_behaves_like 'wrapped in field-container by default'
     it_behaves_like 'wrapped in container', 'text-area-container'
+    it_behaves_like 'field disabled if non writable'
 
-    it 'should output element' do
+    it 'outputs element' do
       expect(output).to be_html_eql(%{
         <textarea class="custom-class form--text-area" id="settings_field" name="settings[field]">
 important text</textarea>
@@ -208,10 +273,24 @@ important text</textarea>
       it_behaves_like 'labelled by default'
       it_behaves_like 'wrapped in field-container by default'
       it_behaves_like 'wrapped in container', 'check-box-container'
+      it_behaves_like 'field disabled if non writable'
 
-      it 'should output element' do
+      it 'outputs element' do
+        expect(output).to have_selector 'input[type="hidden"][value=0]', visible: :hidden
         expect(output).to have_selector 'input[type="checkbox"].custom-class.form--check-box'
         expect(output).to have_checked_field 'settings_field'
+      end
+
+      context 'when the setting isn`t writable' do
+        before do
+          allow(Setting)
+            .to receive(:field_writable?)
+                  .and_return false
+        end
+
+        it 'does not output a hidden field' do
+          expect(output).not_to have_selector 'input[type="hidden"][value=0]', visible: :hidden
+        end
       end
     end
 
@@ -223,10 +302,24 @@ important text</textarea>
       it_behaves_like 'labelled by default'
       it_behaves_like 'wrapped in field-container by default'
       it_behaves_like 'wrapped in container', 'check-box-container'
+      it_behaves_like 'field disabled if non writable'
 
-      it 'should output element' do
+      it 'outputs element' do
+        expect(output).to have_selector 'input[type="hidden"][value=0]', visible: :hidden
         expect(output).to have_selector 'input[type="checkbox"].custom-class.form--check-box'
         expect(output).to have_unchecked_field 'settings_field'
+      end
+
+      context 'when the setting isn`t writable' do
+        before do
+          allow(Setting)
+            .to receive(:field_writable?)
+                  .and_return false
+        end
+
+        it 'does not output a hidden field' do
+          expect(output).not_to have_selector 'input[type="hidden"][value=0]', visible: :hidden
+        end
       end
     end
   end
@@ -244,7 +337,7 @@ important text</textarea>
     it_behaves_like 'wrapped in field-container by default'
     it_behaves_like 'wrapped in container', 'text-field-container'
 
-    it 'should output element' do
+    it 'outputs element' do
       expect(output).to be_html_eql(%{
         <input class="custom-class form--text-field -time"
           id="settings_field" name="settings[field]" type="time" value="16:00" />

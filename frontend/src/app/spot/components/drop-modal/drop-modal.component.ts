@@ -8,15 +8,7 @@ import {
 } from '@angular/core';
 import { KeyCodes } from 'core-app/shared/helpers/keyCodes.enum';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-
-enum SpotDropModalAlignmentOption {
-  BottomCenter = 'bottom-center',
-  BottomLeft = 'bottom-left',
-  BottomRight = 'bottom-right',
-  TopCenter = 'top-center',
-  TopLeft = 'top-left',
-  TopRight = 'top-right',
-}
+import SpotDropAlignmentOption from '../../drop-alignment-options';
 
 @Component({
   selector: 'spot-drop-modal',
@@ -25,13 +17,14 @@ enum SpotDropModalAlignmentOption {
 export class SpotDropModalComponent implements OnDestroy {
   @HostBinding('class.spot-drop-modal') public className = true;
 
-  @HostBinding('class.spot-drop-modal_opened') public _open = false;
-
   @Output() closed = new EventEmitter<void>();
 
-  @Input() public alignment:SpotDropModalAlignmentOption = SpotDropModalAlignmentOption.BottomLeft;
+  @Input() public alignment:SpotDropAlignmentOption = SpotDropAlignmentOption.BottomLeft;
+
+  public _open = false;
 
   @Input('open')
+  @HostBinding('class.spot-drop-modal_opened')
   set open(value:boolean) {
     this._open = value;
 

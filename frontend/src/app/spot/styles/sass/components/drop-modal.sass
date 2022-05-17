@@ -3,9 +3,11 @@
   display: inline-flex
 
   &--body
+    $border-radius: 5px
+
     @include spot-z-index("drop-modal", 1)
-    pointer-events: none
-    opacity: 0
+    pointer-events: all
+    opacity: 1
 
     position: fixed
     top: auto
@@ -18,7 +20,7 @@
 
     box-shadow: $spot-shadow-light-mid
     background: $spot-color-basic-white
-    border-radius: 5px
+    border-radius: $border-radius
 
     display: flex
     flex-direction: column
@@ -40,31 +42,65 @@
       max-width: calc(100vw - (2 * #{$spot-spacing-1}))
       max-height: calc(100vh - (2 * #{$spot-spacing-1}))
 
-      &_bottom-center
-        top: calc(100% + #{$spot-spacing-0_25})
-        left: 50%
-        transform: translateX(-50%)
+      &_left-top
+        right: calc(100% + #{$spot-spacing-0_25})
+        top: 0%
+
+      &_left-center
+        right: calc(100% + #{$spot-spacing-0_25})
+        top: 50%
+        transform: translateY(-50%)
+
+      &_left-bottom
+        right: calc(100% + #{$spot-spacing-0_25})
+        bottom: 0%
 
       &_bottom-left
         top: calc(100% + #{$spot-spacing-0_25})
         left: 0%
 
+      &_bottom-center
+        top: calc(100% + #{$spot-spacing-0_25})
+        left: 50%
+        transform: translateX(-50%)
+
       &_bottom-right
         top: calc(100% + #{$spot-spacing-0_25})
         right: 0%
+
+      &_right-top
+        left: calc(100% + #{$spot-spacing-0_25})
+        top: 0%
+
+      &_right-center
+        left: calc(100% + #{$spot-spacing-0_25})
+        top: 50%
+        transform: translateY(-50%)
+
+      &_right-bottom
+        left: calc(100% + #{$spot-spacing-0_25})
+        bottom: 0%
+
+      &_top-left
+        bottom: calc(100% + #{$spot-spacing-0_25})
+        left: 0%
 
       &_top-center
         bottom: calc(100% + #{$spot-spacing-0_25})
         left: 50%
         transform: translateX(-50%)
 
-      &_top-left
-        bottom: calc(100% + #{$spot-spacing-0_25})
-        left: 0%
-
       &_top-right
         bottom: calc(100% + #{$spot-spacing-0_25})
         right: 0%
+
+    // TODO: At some point, this needs to be a cleverer selector.
+    // Though most action bars will probably be at the bottom of a drop-modal,
+    // this does not necessarily have to be the case. In that case, this'll look weird.
+    > .spot-action-bar,
+    > .spot-container > .spot-action-bar
+      border-bottom-left-radius: $border-radius
+      border-bottom-right-radius: $border-radius
   
   &_opened::before
     @include spot-z-index("drop-modal", 0)
@@ -81,7 +117,7 @@
       display: none
 
   &--close-button
-    display: none
+    display: block
     position: fixed
     top: auto
     height: auto
@@ -96,13 +132,5 @@
       right: $spot-spacing-0_75
       transform: none
 
-
-  &_opened &--close-button
-    display: block
-
     @media #{$spot-mq-drop-modal-in-context}
       display: none
-
-  &_opened &--body
-    pointer-events: all
-    opacity: 1

@@ -27,10 +27,11 @@
 #++
 
 require 'spec_helper'
+require_module_spec_helper
 require 'contracts/shared/model_contract_shared_context'
 require_relative 'shared_contract_examples'
 
-describe Storages::Storages::CreateContract do
+describe Storages::Storages::CreateContract, :enable_storages do
   include_context 'ModelContract shared context'
 
   it_behaves_like 'storage contract' do

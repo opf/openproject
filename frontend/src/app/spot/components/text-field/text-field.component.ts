@@ -21,6 +21,8 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 export class SpotTextFieldComponent implements ControlValueAccessor {
   @HostBinding('class.spot-text-field') public className = true;
 
+  @HostBinding('class.spot-text-field_focused') public focused = false;
+
   @HostListener('click') public onParentClick() {
     this.input.nativeElement.focus();
   }

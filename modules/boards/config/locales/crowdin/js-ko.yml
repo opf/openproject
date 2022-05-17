@@ -2,12 +2,12 @@
 ko:
   js:
     boards:
-      create_new: 'New board'
+      create_new: '새 보드 만들기'
       label_unnamed_board: '명명되지 않은 보드'
       label_unnamed_list: '명명되지 않은 목록'
       label_board_type: '보드 유형'
       upsale:
-        teaser_text: 'Need a predefined board template? Advanced boards are Enterprise features. Please upgrade to a paid plan.'
+        teaser_text: '바로 사용할 수 있는 보드 템플릿을 원하시나요? 고급 보드는 Enterprise 기능입니다. 유료 플랜으로 업그레이드하세요.'
         upgrade: '지금 업그레이드'
       lists:
         delete: '목록 삭제'

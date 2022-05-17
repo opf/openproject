@@ -73,6 +73,25 @@ describe Users::UpdateService do
       end
     end
 
+    context 'when valid status' do
+      let(:attributes) { { status: Principal.statuses[:locked] } }
+
+      it 'updates the user' do
+        expect(subject).to be_success
+
+        update_user.reload
+        expect(update_user).to be_locked
+      end
+
+      context 'if current_user is no admin' do
+        let(:current_user) { build_stubbed(:user) }
+
+        it 'is unsuccessful' do
+          expect(subject).not_to be_success
+        end
+      end
+    end
+
     describe 'updating prefs' do
       let(:attributes) { {} }
 

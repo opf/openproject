@@ -30,6 +30,7 @@ require 'spec_helper'
 
 describe 'Work package filtering by assignee', js: true do
   let(:project) { create :project }
+  let(:invisible_project) { create :project }
   let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
   let(:filters) { ::Components::WorkPackages::Filters.new }
   let(:role) { create(:role, permissions: %i[view_work_packages save_queries]) }
@@ -38,6 +39,13 @@ describe 'Work package filtering by assignee', js: true do
            firstname: 'Other',
            lastname: 'User',
            member_in_project: project,
+           member_through_role: role
+  end
+  let(:invisible_user) do
+    create :user,
+           firstname: 'Invisible',
+           lastname: 'User',
+           member_in_project: invisible_project,
            member_through_role: role
   end
   let(:placeholder_user) do
@@ -68,6 +76,8 @@ describe 'Work package filtering by assignee', js: true do
     wp_table.expect_work_package_listed(work_package_user_assignee, work_package_placeholder_user_assignee)
 
     filters.open
+    filters.expect_missing_filter_value_by('Assignee', 'is', [invisible_user.name])
+
     filters.add_filter_by('Assignee', 'is', [other_user.name])
 
     wp_table.ensure_work_package_not_listed!(work_package_placeholder_user_assignee)

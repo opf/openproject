@@ -12,9 +12,9 @@ OpenProject is a web-based project management software. Its key features are:
 * [Agile and Scrum](https://www.openproject.org/collaboration-software-features/#agile-scrum)
 * [Time tracking, cost reporting and budgeting](https://www.openproject.org/collaboration-software-features/#time-tracking)
 * [Bug tracking](https://www.openproject.org/collaboration-software-features/#bug-tracking)
-* [Wikis](https://docs.openproject.org/user-guide/wiki/)
-* [Forums](https://docs.openproject.org/user-guide/forums/)
-* [Meeting agendas and meeting minutes](https://docs.openproject.org/user-guide/meetings/)
+* [Wikis](https://www.openproject.org/docs/user-guide/wysiwyg/)
+* [Forums](https://www.openproject.org/docs/user-guide/forums/)
+* [Meeting agendas and meeting minutes](https://www.openproject.org/docs/user-guide/meetings/)
 
 More information and screenshots can be found on our [website](https://www.openproject.org).
 
@@ -25,7 +25,7 @@ in-depth [installation guides](https://www.openproject.org/download-and-installa
 
 ## Reporting bugs
 
-You found a bug? Please [report it](https://docs.openproject.org/development/report-a-bug) to our [OpenProject community](https://community.openproject.com/projects/openproject). Thank you!
+You found a bug? Please [report it](https://www.openproject.org/docs/development/report-a-bug/) to our [OpenProject community](https://community.openproject.com/projects/openproject). Thank you!
 
 ## Contribute
 
@@ -40,7 +40,7 @@ Also, if you do not want to be limited to working on open source in your free ti
 
 ## Contact
 
-Here you can find our [contact information](https://www.openproject.org/contact-us).
+Here you can find our [contact information](https://www.openproject.org/contact-us). If you are interested in development or have general questions, feel free to also join our [community discussion forums](https://community.openproject.org/projects/openproject/forums).
 
 ## Security / responsible disclosure
 

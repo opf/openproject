@@ -45,29 +45,27 @@ describe 'Calendar project include', type: :feature, js: true do
       dropdown.click_button 'Apply'
       dropdown.expect_closed
 
-      work_package_view.expect_work_package_listed(task, other_task)
-      work_package_view.ensure_work_package_not_listed!(sub_bug, sub_sub_bug, other_other_task)
+      work_package_view.expect_work_package_listed(task, other_task, sub_bug, sub_sub_bug)
+      work_package_view.ensure_work_package_not_listed!(other_other_task)
 
       dropdown.toggle!
       dropdown.toggle_checkbox(sub_sub_project.id)
       dropdown.click_button 'Apply'
-      dropdown.expect_count 2
+      dropdown.expect_count 1
 
-      work_package_view.expect_work_package_listed(task, other_task, sub_sub_bug)
-      work_package_view.ensure_work_package_not_listed!(sub_bug, other_other_task)
+      work_package_view.expect_work_package_listed(task, other_task, sub_sub_bug, sub_bug)
+      work_package_view.ensure_work_package_not_listed!(other_other_task)
 
       dropdown.toggle!
       dropdown.toggle_checkbox(other_project.id)
       dropdown.click_button 'Apply'
-      dropdown.expect_count 3
+      dropdown.expect_count 2
 
-      work_package_view.expect_work_package_listed(task, other_task, sub_sub_bug, other_other_task)
-      work_package_view.ensure_work_package_not_listed!(sub_bug)
+      work_package_view.expect_work_package_listed(task, other_task, sub_sub_bug, sub_bug, other_other_task)
 
       page.refresh
 
-      work_package_view.expect_work_package_listed(task, other_task, sub_sub_bug, other_other_task)
-      work_package_view.ensure_work_package_not_listed!(sub_bug)
+      work_package_view.expect_work_package_listed(task, other_task, sub_bug, sub_sub_bug, other_other_task)
     end
   end
 end

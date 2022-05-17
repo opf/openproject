@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Queries::Columns::QueryRelationToTypeColumnRepresenter, clear_cache: true do
+describe ::API::V3::Queries::Columns::QueryRelationToTypeColumnRepresenter do
   include ::API::V3::Utilities::PathHelper
 
   let(:type) { build_stubbed(:type) }

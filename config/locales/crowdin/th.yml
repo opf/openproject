@@ -78,6 +78,10 @@ th:
         contact: "Contact us for a demo"
       enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
       upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
+    journal_aggregation:
+      explanation:
+        text: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent and will also affect %{webhook_link} delay."
+        link: "webhook"
   announcements:
     show_until: แสดงจนถึง
     is_active: ที่แสดงอยู่
@@ -560,6 +564,7 @@ th:
         even: "must be even."
         exclusion: "is reserved."
         file_too_large: "ใหญ่เกินไป (ขนาดสูงสุดคือ %{count} ไบต์)"
+        filter_does_not_exist: "filter does not exist."
         format: "does not match the expected format '%{expected}'."
         format_nested: "does not match the expected format '%{expected}' at path '%{path}'."
         greater_than: "must be greater than %{count}."
@@ -883,6 +888,7 @@ th:
     updated_on: "แก้ไขเมื่อ"
     uploader: "Uploader"
     user: "ผู้ใช้"
+    value: "Value"
     version: "เวอร์ชัน"
     work_package: "ชุดภารกิจ"
   backup:
@@ -1323,7 +1329,9 @@ th:
   menus:
     admin:
       mail_notification: "อีเมล์แจ้งเตือน"
-      incoming_outgoing: "Incoming & Outgoing"
+      mails_and_notifications: "Emails and notification"
+      aggregation_and_retention: 'Aggregation and retention'
+      api_and_webhooks: "API and webhooks"
     quick_add:
       label: "เปิดเมนูเพิ่มด่วน"
   my_account:
@@ -1823,7 +1831,7 @@ th:
   label_used_by_types: "Used by types"
   label_used_in_projects: "Used in projects"
   label_user: "ผู้ใช้"
-  label_user_and_permission: "Users & Permissions"
+  label_user_and_permission: "Users and permissions"
   label_user_named: "User %{name}"
   label_user_activity: "กิจกรรมของ %{value}"
   label_user_anonymous: "ไม่ระบุชื่อ"
@@ -2130,6 +2138,7 @@ th:
   permission_comment_news: "แสดงความคิดเห็นเกี่ยวกับข่าว"
   permission_commit_access: "Read/write access to repository (commit)"
   permission_copy_projects: "คัดลอกโครงการ"
+  permission_create_backup: "Create backup"
   permission_delete_work_package_watchers: "ลบผู้เฝ้าดู"
   permission_delete_work_packages: "ลบชุดภารกิจ"
   permission_delete_messages: "ลบข้อความ"
@@ -2222,7 +2231,7 @@ th:
     assigned_to_role: "บทบาทของผู้รับผิดชอบ"
     member_of_group: "กลุ่มของผู้รับผิดชอบ"
     assignee_or_group: "Assignee or belonging group"
-    subproject_id: "Including Subproject"
+    subproject_id: "Including subproject"
     only_subproject_id: "Only subproject"
     name_or_identifier: "Name or identifier"
   repositories:
@@ -2546,7 +2555,6 @@ th:
   text_work_packages_destroy_confirmation: "คุณแน่ใจหรือไม่ว่าจะลบชุดภารกิจที่เลือก ?"
   text_work_packages_ref_in_commit_messages: "อ้างอิงและแก้ไขชุดภารกิจในข้อความยืนยัน"
   text_journal_added: "%{label} %{value} ถูกเพิ่มแล้ว"
-  text_journal_aggregation_time_explanation: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent."
   text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
   text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "มีการแก้ไข %{label} แล้ว"

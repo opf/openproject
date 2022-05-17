@@ -6,7 +6,7 @@ pt:
       configure: 'Configurar widget'
       upsale:
         text: "Alguns widgets, como o widget gráfico do pacote de trabalho, só estão disponíveis na "
-        link: 'edição empresarial.'
+        link: 'Enterprise Edition'
       widgets:
         custom_text:
           title: 'Texto personalizado'
@@ -31,13 +31,13 @@ pt:
           no_results: 'Nenhum campo personalizado foi definido para projetos.'
         project_status:
           title: 'Situação do projeto'
-          not_started: 'Not started'
+          not_started: 'Não iniciado'
           on_track: 'Sob controle'
           off_track: 'Fora de controle'
           at_risk: 'Em risco'
           not_set: 'Não definido'
-          finished: 'Finished'
-          discontinued: 'Discontinued'
+          finished: 'Finalizado'
+          discontinued: 'Descontinuado'
         subprojects:
           title: 'Subprojetos'
           no_results: 'Nenhum subprojeto.'

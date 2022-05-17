@@ -1,9 +1,12 @@
 require_relative '../spec_helper'
 
-describe 'My Account 2FA configuration', with_2fa_ee: true,
-                                         type: :feature,
-                                         with_config: { '2fa': { active_strategies: %i[developer totp] } },
-                                         js: true do
+describe 'My Account 2FA configuration',
+         with_2fa_ee: true,
+         type: :feature,
+         with_settings: {
+           plugin_openproject_two_factor_authentication: { 'active_strategies' => %i[developer totp] }
+         },
+         js: true do
   let(:dialog) { ::Components::PasswordConfirmationDialog.new }
   let(:user_password) { 'boB!4' * 4 }
   let(:user) do
@@ -26,7 +29,7 @@ describe 'My Account 2FA configuration', with_2fa_ee: true,
     # Visit inline create
     find('.wp-inline-create--add-link').click
     expect(page).to have_selector('h2', text: I18n.t('two_factor_authentication.devices.add_new'))
-    expect(current_path).to eq new_my_2fa_device_path
+    expect(page).to have_current_path new_my_2fa_device_path
 
     # Select SMS
     find('.mobile-otp-new-device-sms .button').click
@@ -45,10 +48,12 @@ describe 'My Account 2FA configuration', with_2fa_ee: true,
 
     # Log token for next access
     sms_token = nil
+    # rubocop:disable RSpec/AnyInstance
     allow_any_instance_of(::OpenProject::TwoFactorAuthentication::TokenStrategy::Developer)
-        .to receive(:create_mobile_otp).and_wrap_original do |m|
+      .to receive(:create_mobile_otp).and_wrap_original do |m|
       sms_token = m.call
     end
+    # rubocop:enable RSpec/AnyInstance
 
     click_button I18n.t(:button_continue)
 
@@ -134,5 +139,15 @@ describe 'My Account 2FA configuration', with_2fa_ee: true,
     expect(page).to have_selector('.generic-table--empty-row', text: I18n.t('two_factor_authentication.devices.not_existing'))
     expect(page).to have_selector('.on-off-status.-disabled')
     expect(user.otp_devices.count).to eq 0
+  end
+
+  context 'when a device has been registered already' do
+    let!(:device) { create :two_factor_authentication_device_totp, user: user }
+
+    it 'loads the page correctly (Regression #41719)' do
+      visit my_2fa_devices_path
+
+      expect(page).to have_content device.identifier
+    end
   end
 end

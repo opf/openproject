@@ -1,65 +1,65 @@
 #English strings go here
 ru:
-  permission_view_file_links: "View file links"
-  permission_manage_file_links: "Manage file links"
-  permission_manage_storages_in_project: "Manage file storages in project"
-  project_module_storages: "File storages"
+  permission_view_file_links: "Просмотр ссылок на файл"
+  permission_manage_file_links: "Управление ссылками файлов"
+  permission_manage_storages_in_project: "Управление файловыми хранилищами в проекте"
+  project_module_storages: "Файловые хранилища"
   activerecord:
     models:
-      storages/storage: "Storage"
+      storages/storage: "Хранилище"
     attributes:
       storages/storage:
-        name: "Name"
-        creator: "Creator"
-        provider_type: "Provider type"
+        name: "Имя"
+        creator: "Создатель"
+        provider_type: "Тип поставщика"
       storages/file_link:
-        origin_id: "Origin Id"
+        origin_id: "ID оригинала"
     errors:
       messages:
-        not_linked_to_project: "is not linked to project."
+        not_linked_to_project: "не связан с проектом."
       models:
         storages/storage:
           attributes:
             host:
-              cannot_be_connected_to: "can not be connected to."
-              minimal_nextcloud_version_unmet: "does not meet minimal version requirements (must be Nextcloud 23 or higher)"
-              not_nextcloud_server: "is not a Nextcloud server"
+              cannot_be_connected_to: "не может быть подключен."
+              minimal_nextcloud_version_unmet: "не соответствует минимальным требованиям к версии (должен быть Nextcloud 23 или выше)"
+              not_nextcloud_server: "не является сервером Nextcloud"
         storages/file_link:
           attributes:
             origin_id:
-              only_numeric_or_uuid: "can only be numeric or uuid."
+              only_numeric_or_uuid: "может быть только числовым или uuid."
   api_v3:
     errors:
-      too_many_elements_created_at_once: "Too many elements created at once. Expected %{max} at most, got %{actual}."
+      too_many_elements_created_at_once: "Слишком много элементов, созданных сразу. Ожидалось %{max} максимум - получено %{actual}."
   storages:
     page_titles:
       project_settings:
-        index: "File storages available in this project"
-        new: "Enable a file storage for this project"
+        index: "Файловые хранилища, доступные в этом проекте"
+        new: "Включить хранилище файлов для этого проекта"
     instructions:
-      name: "Please use a short name. It will get used as a tab title in the work package view."
-      host: "The URL of your storage instance. The URL should not be more than 255 characters long."
-      no_storage_set_up: "There are no file storages set up, yet."
-      setting_up_additional_storages: "For setting up additional file storages, please visit"
-      setting_up_additional_storages_non_admin: "Administrators can set up additional file storages in Administration / File Storages."
-      setting_up_storages: "For setting up file storages, please visit"
-      setting_up_storages_non_admin: "Administrators can set up file storages in Administration / File Storages."
-      all_available_storages_already_added: "All available storages are already added to the project."
+      name: "Пожалуйста, используйте короткое имя. Оно будет использоваться как название вкладки в представлении пакета работ."
+      host: "URL вашего экземпляра памяти. URL должен быть не более 255 символов."
+      no_storage_set_up: "Нет созданных файловых хранилищ."
+      setting_up_additional_storages: "Для настройки дополнительных файловых хранилищ посетите"
+      setting_up_additional_storages_non_admin: "Администраторы могут настроить дополнительные файловые хранилища в Администрировании / Файловых хранилищах."
+      setting_up_storages: "Для настройки файловых хранилищ посетите"
+      setting_up_storages_non_admin: "Администраторы могут настроить файловые хранилища в Администрировании / Файловых хранилищах."
+      all_available_storages_already_added: "Все доступные хранилища уже добавлены в проект."
     delete_warning:
       storage: >
-        Are you sure you want to delete this storage? This will also delete the storage from all projects where it is used. Further, it will also delete all links from work packages to files that are stored in that storage.
+        Вы уверены, что хотите удалить это хранилище? Это также удалит хранилище из всех проектов, где оно используется. Кроме того, будут удалены все ссылки из пакетов работ на файлы, хранящиеся в этом хранилище.
       project_storage: >
-        Are you sure you want to remove this file storage from this project? This will also remove all links to files stored in this storage for this project.
-    label_creator: "Creator"
-    label_file_link: "File link"
-    label_file_links: "File links"
-    label_name: "Name"
-    label_host: "Host"
-    label_provider_type: "Provider type"
-    label_new_storage: "New storage"
-    label_storage: "Storage"
-    label_storages: "Storages"
-    no_results: "No storages set up, yet."
+        Вы уверены, что хотите удалить это хранилище файлов из проекта? Это также удалит все ссылки на файлы, хранящиеся в этом хранилище для этого проекта.
+    label_creator: "Создатель"
+    label_file_link: "Ссылка на файл"
+    label_file_links: "Ссылки на файл"
+    label_name: "Имя"
+    label_host: "Хост"
+    label_provider_type: "Тип поставщика"
+    label_new_storage: "Новое хранилище"
+    label_storage: "Хранилище"
+    label_storages: "Хранилища"
+    no_results: "Хранилища пока не настроены."
     provider_types:
-      label: "Provider type"
+      label: "Тип поставщика"
       nextcloud: "Nextcloud"

@@ -247,7 +247,7 @@ describe 'Stories in backlog',
     expect(Story.where(version: sprint, type: story, project: project).pluck(:position))
       .to match_array([1, 2, 3])
 
-    # Moving a story to from the backlog to the sprint (3nd position)
+    # Moving a story to from the backlog to the sprint (3rd position)
 
     SeleniumHubWaiter.wait
     backlogs_page

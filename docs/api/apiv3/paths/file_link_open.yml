@@ -2,7 +2,7 @@
 ---
 get:
   summary: Creates an opening uri of the linked file.
-  operationId: Work_Package_File_Link_Open
+  operationId: open_file_link
   tags:
     - Work Packages
     - File links
@@ -17,6 +17,13 @@ get:
       schema:
         type: integer
       example: 42
+    - name: location
+      description: Boolean flag indicating, if the file should be opened directly or rather the directory location.
+      in: query
+      required: false
+      schema:
+        type: boolean
+      example: true
   responses:
     '303':
       headers:

@@ -14,6 +14,8 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 export class SpotFilterChipComponent {
   @HostBinding('class.spot-filter-chip') public className = true;
 
+  @Input() @HostBinding('class.spot-filter-chip_disabled') public disabled = false;
+
   @Input() removable = true;
 
   @Input() title = '';

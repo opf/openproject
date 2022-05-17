@@ -7,11 +7,11 @@ robots: index, follow
 
 # Set up a development SAML idP
 
-**Note:** This guide is targeted only at development with OpenProject. For the SAML configuration guide, please see this URL: https://www.openproject.org/docs/system-admin-guide/authentication/saml/
+**Note:** This guide is targeted only at development with OpenProject. For the SAML configuration guide, please see this [here](../../system-admin-guide/authentication/saml/)
 
 
 
-To test the SAML integration in your development setup, you can use the following repository: https://github.com/kristophjunge/docker-test-saml-idp
+To test the SAML integration in your development setup, you can use the following repository: [docker-test-saml-idp](https://github.com/kristophjunge/docker-test-saml-idp)
 
 
 
@@ -111,32 +111,33 @@ On the OpenProject side, you'll have to configure SAML to connect to the just st
 
 
 
-Here's a minimal configuration that you can put into `config/plugins/auth_saml/settings.yml`
+Here's a minimal configuration that you can put into `config/configuration.yml`
 
 
 
 ```yaml
-saml:
-  name: "saml"
-  display_name: "simplesaml-docker"
-  # Use the default SAML icon
-  icon: "auth_provider-saml.png"
-  # omniauth-saml config
-  assertion_consumer_service_url: "http://localhost:3000/auth/saml/callback"
-  issuer: "http://localhost:3000"
-  idp_cert_fingerprint: "119b9e027959cdb7c662cfd075d9e2ef384e445f"
-  idp_sso_target_url: "http://localhost:8080/simplesaml/saml2/idp/SSOService.php"
-  idp_slo_target_url: "http://localhost:8080/simplesaml/saml2/idp/SingleLogoutService.php"
-  attribute_statements:
-    email: ['email']
-    login: ['uid']
-    first_name: ['givenName']
-    last_name: ['sn']
+default:
+  saml:
+    name: "saml"
+    display_name: "simplesaml-docker"
+    # Use the default SAML icon
+    icon: "auth_provider-saml.png"
+    # omniauth-saml config
+    assertion_consumer_service_url: "http://localhost:3000/auth/saml/callback"
+    issuer: "http://localhost:3000"
+    idp_cert_fingerprint: "119b9e027959cdb7c662cfd075d9e2ef384e445f"
+    idp_sso_target_url: "http://localhost:8080/simplesaml/saml2/idp/SSOService.php"
+    idp_slo_target_url: "http://localhost:8080/simplesaml/saml2/idp/SingleLogoutService.php"
+    attribute_statements:
+      email: ['email']
+      login: ['uid']
+      first_name: ['givenName']
+      last_name: ['sn']
 ```
 
 
 
-Here, again you  will have to change the hostname `localhost:3000` with the hostname of your OpenProject installation, and the iDP host name if you're not running both locally. I'd recommed to run both locally though for simplicity.
+Here, again you  will have to change the hostname `localhost:3000` with the hostname of your OpenProject installation, and the iDP host name if you're not running both locally. I'd recommend to run both locally though for simplicity.
 
 
 

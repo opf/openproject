@@ -78,6 +78,10 @@ uk:
         contact: "Зв’яжіться з нами, щоб отримати демоверсію"
       enterprise_info_html: "– це функція Enterprise <strong class='icon-medal'>."
       upgrade_info: "Перейдіть на платний план, щоб активувати його та почати використовувати його у своїй команді."
+    journal_aggregation:
+      explanation:
+        text: "Окремі дії користувача (напр., оновлення робочого пакета двічі) зводяться в одну дію, якщо відмінність у часі між ними менша за вказаний проміжок часу. Їх буде виведено як окремі дії в межах додатка. Крім того, це призведе до затримки сповіщень на такий самий проміжок часу, що зменшить кількість електронних листів, які надсилатимуться, а також вплине на затримку %{webhook_link}."
+        link: "вебгука"
   announcements:
     show_until: Показувати до
     is_active: наразі відображається
@@ -559,6 +563,7 @@ uk:
         even: "має бути рівним."
         exclusion: "зарезервовано."
         file_too_large: "занадто великий (максимальний розмір -%{count} байт)"
+        filter_does_not_exist: "фільтр не існує."
         format: "не відповідає очікуваному формату «%{expected}»."
         format_nested: "не відповідає очікуваному формату «%{expected}» за шляхом «%{path}»."
         greater_than: "має бути більше ніж %{count}."
@@ -894,6 +899,7 @@ uk:
     updated_on: "Оновлене"
     uploader: "Завантажувач"
     user: "Користувач"
+    value: "Значення"
     version: "Версія"
     work_package: "Пакет робіт"
   backup:
@@ -1259,7 +1265,7 @@ uk:
   error_enterprise_token_invalid_domain: "Версія Enterprise Edition не активна. Ваш домен маркера Enterprise (%{actual}) не збігається з іменем хосту системи (%{expected})."
   error_failed_to_delete_entry: 'Не вдалося видалити цей запис.'
   error_in_dependent: "Помилка спроби змінити залежний об'єкт: %{dependent_class} %{related_id} - %{related_subject}: %{error}"
-  error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
+  error_in_new_dependent: "Не вдалося змінити залежний об’єкт: %{dependent_class} – %{related_subject}: %{error}"
   error_invalid_selected_value: "Недійсне вибране значення."
   error_journal_attribute_not_present: "Журнал не містить атрибута %{attribute}."
   error_pdf_export_too_many_columns: "Для експорту PDF-файлу вибрано занадто багато стовпців. Скоротіть кількість стовпців."
@@ -1369,7 +1375,9 @@ uk:
   menus:
     admin:
       mail_notification: "Email сповіщення"
-      incoming_outgoing: "Вхідні та вихідні"
+      mails_and_notifications: "Електронні листи й сповіщення"
+      aggregation_and_retention: 'Агрегація та утримання'
+      api_and_webhooks: "API та вебгуки"
     quick_add:
       label: "Відкрити меню швидкого додавання"
   my_account:
@@ -1869,7 +1877,7 @@ uk:
   label_used_by_types: "Використовується за типами"
   label_used_in_projects: "Використовується в проектах"
   label_user: "Користувач"
-  label_user_and_permission: "Користувачі та дозволи"
+  label_user_and_permission: "Користувачі й дозволи"
   label_user_named: "User %{name}"
   label_user_activity: "Дії користувача %{value}"
   label_user_anonymous: "Анонімний режим"
@@ -2181,6 +2189,7 @@ uk:
   permission_comment_news: "Коментування новин"
   permission_commit_access: "Доступ для читання/запису до сховища (фіксація)"
   permission_copy_projects: "Копіювати проекти"
+  permission_create_backup: "Create backup"
   permission_delete_work_package_watchers: "Видалення спостерігачів"
   permission_delete_work_packages: "Видалити робочі пакети"
   permission_delete_messages: "Видалити повідомлення"
@@ -2273,7 +2282,7 @@ uk:
     assigned_to_role: "Роль виконавця"
     member_of_group: "Група виконавця"
     assignee_or_group: "Правонаступник або приналежність до групи"
-    subproject_id: "Включно з підпроєктом"
+    subproject_id: "Including subproject"
     only_subproject_id: "Лише підпроєкт"
     name_or_identifier: "Ім'я або ідентифікатор"
   repositories:
@@ -2598,7 +2607,6 @@ uk:
   text_work_packages_destroy_confirmation: "Ви впевнені у тому, що хочете видалити вибрані робочі пакети?"
   text_work_packages_ref_in_commit_messages: "Посилання та фіксація робочих пакетів у повідомленнях комітів"
   text_journal_added: "%{label} %{value} доданий"
-  text_journal_aggregation_time_explanation: "Окремі дії користувача (напр., оновлення робочого пакета двічі) зводяться в одну дію, якщо відмінність у часі між ними менша за вказаний проміжок часу. Їх буде виведено як окремі дії в межах додатка. Крім того, це також призведе до затримки сповіщень на такий самий проміжок часу, що зменшить кількість електронних листів, які надсилатимуться. "
   text_journal_changed_html: "%{label} змінено з %{old} %{linebreak}<strong>на</strong> %{new}"
   text_journal_changed_plain: "%{label} змінено з %{old} %{linebreak}на %{new}"
   text_journal_changed_no_detail: "%{label} оновлено"
@@ -2916,7 +2924,7 @@ uk:
         work_package: "Пакет робіт, який ви шукаєте, не можна знайти або його видалено."
       expected:
         date: "YYYY-MM-DD (ISO 8601 date only)"
-        datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm] (any compatible ISO 8601 datetime)"
+        datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm] (будь-який сумісний формат ISO 8601 дати й часу)"
         duration: "ISO 8601 тривалість"
       invalid_content_type: "Очікуваний тип CONTENT-TYPE %{content_type} але отримав %{actual}."
       invalid_format: "Недійсний формат властивості %{property}: Очікуваний формат на зразок %{expected_format} but got %{actual}"
@@ -2928,7 +2936,7 @@ uk:
         select: "Запитаний варіант %{invalid} не підтримується. Підтримувані варіанти: %{supported}."
       invalid_user_status_transition: "Поточний статус облікового запису користувача не дозволяє цю операцію."
       missing_content_type: "не вказано"
-      missing_property: "Missing property '%{property}'."
+      missing_property: "Немає властивості «%{property}»."
       missing_request_body: "Не було органу запиту."
       missing_or_malformed_parameter: "Параметр запиту %{parameter} відсутній або неправильно сформований."
       multipart_body_error: "Текст запиту не містить очікуваного складових частин."

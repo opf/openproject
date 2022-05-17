@@ -1,12 +1,13 @@
 #English strings go here
 pl:
-  permission_view_team_planner: "View team planner"
-  permission_manage_team_planner: "Manage team planner"
-  project_module_team_planner_view: "Team planner"
+  permission_view_team_planner: "Wyświetlanie planisty zespołu"
+  permission_manage_team_planner: "Zarządzanie planistą zespołu"
+  project_module_team_planner_view: "Planista zespołu"
   team_planner:
-    label_team_planner: "Team planner"
-    label_team_planner_plural: "Team planners"
-    label_assignees: "Assignees"
+    label_team_planner: "Planista zespołu"
+    label_create_new_team_planner: "Utwórz nowego planistę zespołu"
+    label_team_planner_plural: "Planiści zespołu"
+    label_assignees: "Przypisane osoby"
     upsale:
-      title: "Team planner"
-      description: "Team planner gives you a complete overview what each of team member is working on, one week at a time. Move, stretch and shrink work packages visually, and even drag them from one assignee to another to organise workload. You can even create new work packages or add existing ones, all from within team planner!"
+      title: "Planista zespołu"
+      description: "Planista zespołu zapewnia wgląd w to, nad czym pracuje każdy członek zespołu w danym tygodniu. Przesuwaj, rozciągaj i zmniejszaj wizualnie pakiety robocze, a nawet przeciągaj je ze jednej przypisanej osoby do drugiej, aby zorganizować obciążenie pracą. Możesz nawet tworzyć nowe pakiety robocze lub dodawać istniejące, a wszystko to z poziomu planisty zespołu!"

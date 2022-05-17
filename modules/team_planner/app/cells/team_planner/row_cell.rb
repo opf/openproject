@@ -61,7 +61,7 @@ module TeamPlanner
         link_to(
           '',
           project_team_planner_path(project, query.id),
-          class: 'op-link icon icon-delete',
+          class: 'spot-link icon icon-delete',
           method: :delete,
           data: {
             confirm: I18n.t(:text_are_you_sure),

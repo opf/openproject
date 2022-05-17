@@ -140,7 +140,7 @@ describe Project, type: :model do
   end
 
   context 'with modules',
-          with_settings: { default_projects_modules: ['work_package_tracking', 'repository'] } do
+          with_legacy_settings: { default_projects_modules: ['work_package_tracking', 'repository'] } do
     it 'should enabled module names' do
       project = Project.new
 

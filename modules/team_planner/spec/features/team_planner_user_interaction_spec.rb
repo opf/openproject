@@ -68,6 +68,16 @@ describe 'Team planner drag&dop and resizing', type: :feature, js: true do
            due_date: Time.zone.today + 20.days
   end
 
+  let(:milestone_type) { create(:type, is_milestone: true) }
+  let!(:fourth_wp) do
+    create :work_package,
+           project: project,
+           assigned_to: user,
+           type: milestone_type,
+           start_date: Time.zone.today.beginning_of_week.next_occurring(:tuesday),
+           due_date: Time.zone.today.beginning_of_week.next_occurring(:tuesday)
+  end
+
   context 'with full permissions' do
     before do
       team_planner.visit!
@@ -81,12 +91,14 @@ describe 'Team planner drag&dop and resizing', type: :feature, js: true do
         team_planner.expect_event first_wp, present: false
         team_planner.expect_event second_wp, present: false
         team_planner.expect_event third_wp
+        team_planner.expect_event fourth_wp
       end
 
       team_planner.within_lane(other_user) do
         team_planner.expect_event first_wp
         team_planner.expect_event second_wp
         team_planner.expect_event third_wp, present: false
+        team_planner.expect_event fourth_wp, present: false
       end
     end
 
@@ -101,12 +113,14 @@ describe 'Team planner drag&dop and resizing', type: :feature, js: true do
         team_planner.expect_event first_wp
         team_planner.expect_event second_wp, present: false
         team_planner.expect_event third_wp
+        team_planner.expect_event fourth_wp
       end
 
       team_planner.within_lane(other_user) do
         team_planner.expect_event first_wp, present: false
         team_planner.expect_event second_wp
         team_planner.expect_event third_wp, present: false
+        team_planner.expect_event fourth_wp, present: false
       end
 
       # Move second wp to the user, resulting in the other user having no WPs any more
@@ -119,12 +133,14 @@ describe 'Team planner drag&dop and resizing', type: :feature, js: true do
         team_planner.expect_event first_wp
         team_planner.expect_event second_wp
         team_planner.expect_event third_wp
+        team_planner.expect_event fourth_wp
       end
 
       team_planner.within_lane(other_user) do
         team_planner.expect_event first_wp, present: false
         team_planner.expect_event second_wp, present: false
         team_planner.expect_event third_wp, present: false
+        team_planner.expect_event fourth_wp, present: false
       end
 
       # Move the third WP to the empty row of the other user
@@ -137,12 +153,34 @@ describe 'Team planner drag&dop and resizing', type: :feature, js: true do
         team_planner.expect_event first_wp
         team_planner.expect_event second_wp
         team_planner.expect_event third_wp, present: false
+        team_planner.expect_event fourth_wp
       end
 
       team_planner.within_lane(other_user) do
         team_planner.expect_event first_wp, present: false
         team_planner.expect_event second_wp, present: false
         team_planner.expect_event third_wp
+        team_planner.expect_event fourth_wp, present: false
+      end
+
+      # Move the Milestone
+      retry_block do
+        team_planner.drag_wp_to_lane(fourth_wp, other_user)
+      end
+      team_planner.expect_and_dismiss_toaster(message: I18n.t('js.notice_successful_update'))
+
+      team_planner.within_lane(user) do
+        team_planner.expect_event first_wp
+        team_planner.expect_event second_wp
+        team_planner.expect_event third_wp, present: false
+        team_planner.expect_event fourth_wp, present: false
+      end
+
+      team_planner.within_lane(other_user) do
+        team_planner.expect_event first_wp, present: false
+        team_planner.expect_event second_wp, present: false
+        team_planner.expect_event third_wp
+        team_planner.expect_event fourth_wp
       end
     end
 
@@ -190,6 +228,19 @@ describe 'Team planner drag&dop and resizing', type: :feature, js: true do
       team_planner.expect_wp_not_resizable(first_wp)
       # Elements that have start or due date outside of the current view are also not resizable
       team_planner.expect_wp_not_resizable(third_wp)
+      # Milestones are not resizable
+      team_planner.expect_wp_not_resizable(fourth_wp)
+
+      # Instead we move the milestone completely to change the date
+      retry_block do
+        team_planner.drag_wp_by_pixel(fourth_wp, 150, 0)
+      end
+      team_planner.expect_and_dismiss_toaster(message: I18n.t('js.notice_successful_update'))
+
+      fourth_wp.reload
+      expect(fourth_wp.start_date).to eq(Time.zone.today.beginning_of_week.next_occurring(:wednesday))
+      expect(fourth_wp.due_date).to eq(Time.zone.today.beginning_of_week.next_occurring(:wednesday))
+      expect(fourth_wp.assigned_to_id).to eq(user.id)
     end
   end
 
@@ -209,10 +260,12 @@ describe 'Team planner drag&dop and resizing', type: :feature, js: true do
       team_planner.expect_wp_not_resizable(first_wp)
       team_planner.expect_wp_not_resizable(second_wp)
       team_planner.expect_wp_not_resizable(third_wp)
+      team_planner.expect_wp_not_resizable(fourth_wp)
 
       team_planner.expect_wp_not_draggable(first_wp)
       team_planner.expect_wp_not_draggable(second_wp)
       team_planner.expect_wp_not_draggable(third_wp)
+      team_planner.expect_wp_not_draggable(fourth_wp)
     end
   end
 end

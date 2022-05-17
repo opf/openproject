@@ -6,7 +6,7 @@ sk:
       configure: 'Configurovať widget'
       upsale:
         text: "Some widgets, like the work package graph widget, are only available in the "
-        link: 'enterprise edition.'
+        link: 'Enterprise Edition.'
       widgets:
         custom_text:
           title: 'Vlastný text'

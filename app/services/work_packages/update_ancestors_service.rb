@@ -91,8 +91,16 @@ class WorkPackages::UpdateAncestorsService
   def inherit_attributes(ancestor, attributes)
     return unless attributes_justify_inheritance?(attributes)
 
+    # Estimated hours need to be calculated before the done_ratio below.
+    # The aggregation only depends on estimated hours.
     derive_estimated_hours(ancestor) if inherit?(attributes, :estimated_hours)
-    inherit_done_ratio(ancestor) if inherit?(attributes, :done_ratio)
+
+    # Progress (done_ratio or also: percentDone) depends on both
+    # the completion of sub-WPs, as well as the estimated hours
+    # as a weight factor. So changes in estimated hours also have
+    # to trigger a recalculation of done_ratio.
+    #
+    inherit_done_ratio(ancestor) if inherit?(attributes, :done_ratio) || inherit?(attributes, :estimated_hours)
   end
 
   def inherit?(attributes, attribute)

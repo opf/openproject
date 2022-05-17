@@ -1,369 +1,196 @@
 # /api/v3/projects/{id}/work_packages
 ---
 get:
+  summary: Get work packages of project
+  operationId: Get_Project_Work_Package_Collection
+  tags:
+    - Work Packages
+  description: Returns the collection of work packages that are related to the given project.
   parameters:
-  - description: Project id
-    example: '1'
-    in: path
-    name: id
-    required: true
-    schema:
-      type: integer
-  - description: Page number inside the requested collection.
-    example: '25'
-    in: query
-    name: offset
-    required: false
-    schema:
-      default: 1
-      type: integer
-  - description: Number of elements to display per page.
-    example: '25'
-    in: query
-    name: pageSize
-    required: false
-    schema:
-      type: integer
-  - description: |-
-      JSON specifying filter conditions.
-      Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/) endpoint. If no filter is to be applied, the client should send an empty array (`[]`).
-    example: '[{ "type_id": { "operator": "=", "values": [''1'', ''2''] }}]'
-    in: query
-    name: filters
-    required: false
-    schema:
-      default: '[{ "status_id": { "operator": "o", "values": null }}]'
-      type: string
-  - description: |-
-      JSON specifying sort criteria.
-      Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/) endpoint.
-    example: '[["status", "asc"]]'
-    in: query
-    name: sortBy
-    required: false
-    schema:
-      default: '[["id", "asc"]]'
-      type: string
-  - description: The column to group by.
-    example: status
-    in: query
-    name: groupBy
-    required: false
-    schema:
-      type: string
-  - description: Indicates whether properties should be summed up if they support
-      it.
-    example: 'true'
-    in: query
-    name: showSums
-    required: false
-    schema:
-      default: 'false'
-      type: boolean
-  - description: |-
-      Comma separated list of properties to include.
-    example: 'total,elements/subject,elements/id,self'
-    in: query
-    name: select
-    required: false
-    schema:
-      type: string
+    - description: Project id
+      example: '1'
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
+    - description: Page number inside the requested collection.
+      example: '25'
+      in: query
+      name: offset
+      required: false
+      schema:
+        default: 1
+        type: integer
+    - description: Number of elements to display per page.
+      example: '25'
+      in: query
+      name: pageSize
+      required: false
+      schema:
+        type: integer
+    - description: |-
+        JSON specifying filter conditions.
+        Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/) endpoint. If no filter is to be applied, the client should send an empty array (`[]`).
+      example: '[{ "type_id": { "operator": "=", "values": [''1'', ''2''] }}]'
+      in: query
+      name: filters
+      required: false
+      schema:
+        default: '[{ "status_id": { "operator": "o", "values": null }}]'
+        type: string
+    - description: |-
+        JSON specifying sort criteria.
+        Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/) endpoint.
+      example: '[["status", "asc"]]'
+      in: query
+      name: sortBy
+      required: false
+      schema:
+        default: '[["id", "asc"]]'
+        type: string
+    - description: The column to group by.
+      example: status
+      in: query
+      name: groupBy
+      required: false
+      schema:
+        type: string
+    - description: Indicates whether properties should be summed up if they support
+        it.
+      example: true
+      in: query
+      name: showSums
+      required: false
+      schema:
+        default: false
+        type: boolean
+    - description: |-
+        Comma separated list of properties to include.
+      example: 'total,elements/subject,elements/id,self'
+      in: query
+      name: select
+      required: false
+      schema:
+        type: string
   responses:
     '200':
       content:
         application/hal+json:
-          examples:
-            response:
-              value:
-                _embedded:
-                  elements:
-                  - _links:
-                      self:
-                        href: "/api/v3/work_packages/1"
-                    _type: WorkPackage
-                    id: 1
-                    subject: Skipped other properties for brevity
-                  - _links:
-                      self:
-                        href: "/api/v3/work_packages/2"
-                    _type: WorkPackage
-                    id: 2
-                    subject: Skipped other properties for brevity
-                _links:
-                  self:
-                    href: "/api/v3/projects/14/work_packages"
-                _type: Collection
-                count: 2
-                total: 2
           schema:
-            "$ref": "../components/schemas/work_packages_model.yml"
+            $ref: '../components/schemas/work_packages_model.yml'
       description: OK
-      headers: {}
     '400':
       content:
         application/hal+json:
           schema:
             $ref: "../components/schemas/error_response.yml"
-          examples:
-            response:
-              value:
-                _type: Error
-                errorIdentifier: urn:openproject-org:api:v3:errors:InvalidQuery
-                message: Operator can't be blank.
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:InvalidQuery
+            message: Operator can't be blank.
       description: |-
         Returned if the client sends a query parameter, that the server knows, but does not understand.
         E.g. by providing a syntactically incorrect `filters` parameter.
-      headers: {}
     '403':
       content:
         application/hal+json:
           schema:
             $ref: "../components/schemas/error_response.yml"
-          examples:
-            response:
-              value:
-                _type: Error
-                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
-                message: You are not allowed to see the work packages of this project.
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+            message: You are not allowed to see the work packages of this project.
       description: |-
         Returned if the client does not have sufficient permissions.
 
         **Required permission:** view work packages
 
         *Note that you will only receive this error, if you are at least allowed to see the corresponding project.*
-      headers: {}
     '404':
       content:
         application/hal+json:
           schema:
             $ref: "../components/schemas/error_response.yml"
-          examples:
-            response:
-              value:
-                _type: Error
-                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
-                message: The specified project does not exist.
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+            message: The specified project does not exist.
       description: |-
         Returned if the project does not exist or the client does not have sufficient permissions to see it.
 
         **Required permission:** view project
-      headers: {}
-  tags:
-  - Work Packages
-  description: ''
-  operationId: List_work_packages_by_project
-  summary: List work packages by project
+
 post:
+  summary: Create work package in project
+  operationId: Create_Project_Work_Package
+  tags:
+    - Work Packages
+  description: |-
+    When calling this endpoint the client provides a single object, containing at least the properties and links that
+    are required, in the body. The required fields of a WorkPackage can be found in its schema, which is embedded in
+    the respective form. Note that it is only allowed to provide properties or links supporting the write operation.
   parameters:
-  - description: Project id
-    example: '1'
-    in: path
-    name: id
-    required: true
-    schema:
-      type: integer
-  - description: |-
-      Indicates whether change notifications (e.g. via E-Mail) should be sent.
-      Note that this controls notifications for all users interested in changes to the work package (e.g. watchers, author and assignee),
-      not just the current user.
-    example: 'false'
-    in: query
-    name: notify
-    required: false
-    schema:
-      default: 'true'
-      type: boolean
+    - description: Project id
+      example: '1'
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
+    - description: |-
+        Indicates whether change notifications (e.g. via E-Mail) should be sent.
+        Note that this controls notifications for all users interested in changes to the work package (e.g. watchers, author and assignee),
+        not just the current user.
+      example: false
+      in: query
+      name: notify
+      required: false
+      schema:
+        default: true
+        type: boolean
   responses:
     '200':
       content:
         application/hal+json:
-          examples:
-            response:
-              value:
-                _links:
-                  addAttachment:
-                    href: "/api/v3/work_packages/1528/attachments"
-                    method: post
-                  addComment:
-                    href: "/api/v3/work_packages/1528/activities"
-                    method: post
-                    title: Add comment
-                  addRelation:
-                    href: "/api/v3/relations"
-                    method: post
-                    title: Add relation
-                  addWatcher:
-                    href: "/api/v3/work_packages/1528/watchers"
-                    method: post
-                    payload:
-                      user:
-                        href: "/api/v3/users/{user_id}"
-                    templated: true
-                  ancestors:
-                  - href: "/api/v3/work_packages/1290"
-                    title: Root node of hierarchy
-                  - href: "/api/v3/work_packages/1291"
-                    title: Intermediate node of hierarchy
-                  - href: "/api/v3/work_packages/1298"
-                    title: nisi eligendi officiis eos delectus quis voluptas dolores
-                  assignee:
-                    href: "/api/v3/users/11"
-                    title: Emmie Okuneva - Adele5450
-                  attachments:
-                    href: "/api/v3/work_packages/1528/attachments"
-                  author:
-                    href: "/api/v3/users/1"
-                    title: OpenProject Admin - admin
-                  availableWatchers:
-                    href: "/api/v3/work_packages/1528/available_watchers"
-                  category:
-                    href: "/api/v3/categories/1298"
-                    title: eligend isi
-                  changeParent:
-                    href: "/api/v3/work_packages/694"
-                    method: patch
-                    title: Change parent of Bug in OpenProject
-                  children:
-                  - href: "/api/v3/work_packages/1529"
-                    title: Write API documentation
-                  customActions:
-                  - href: "/api/v3/work_packages/1528/custom_actions/153/execute"
-                    method: post
-                    title: Reset
-                  - href: "/api/v3/work_packages/1528/custom_actions/94/execute"
-                    method: post
-                    title: Forward to accounting
-                  customField3:
-                    href: api/v3/users/14
-                  delete:
-                    href: "/work_packages/bulk?ids=1528"
-                    method: delete
-                    title: Delete Develop API
-                  logTime:
-                    href: "/work_packages/1528/time_entries/new"
-                    title: Log time on Develop API
-                    type: text/html
-                  move:
-                    href: "/work_packages/1528/move/new"
-                    title: Move Develop API
-                    type: text/html
-                  parent:
-                    href: "/api/v3/work_packages/1298"
-                    title: nisi eligendi officiis eos delectus quis voluptas dolores
-                  priority:
-                    href: "/api/v3/priorities/2"
-                    title: Normal
-                  project:
-                    href: "/api/v3/projects/1"
-                    title: A Test Project
-                  relations:
-                    href: "/api/v3/work_packages/1528/relations"
-                    title: Show relations
-                  removeWatcher:
-                    href: "/api/v3/work_packages/1528/watchers/{user_id}"
-                    method: delete
-                    templated: true
-                  responsible:
-                    href: "/api/v3/users/23"
-                    title: Laron Leuschke - Alaina5788
-                  revisions:
-                    href: "/api/v3/work_packages/1528/revisions"
-                  schema:
-                    href: "/api/v3/work_packages/schemas/11-2"
-                  self:
-                    href: "/api/v3/work_packages/1528"
-                    title: Develop API
-                  status:
-                    href: "/api/v3/statuses/1"
-                    title: New
-                  timeEntries:
-                    href: "/work_packages/1528/time_entries"
-                    title: Time entries
-                    type: text/html
-                  type:
-                    href: "/api/v3/types/1"
-                    title: A Type
-                  update:
-                    href: "/api/v3/work_packages/1528"
-                    method: patch
-                    title: Update Develop API
-                  version:
-                    href: "/api/v3/versions/1"
-                    title: Version 1
-                  watch:
-                    href: "/api/v3/work_packages/1528/watchers"
-                    method: post
-                    payload:
-                      user:
-                        href: "/api/v3/users/1"
-                  watchers:
-                    href: "/api/v3/work_packages/1528/watchers"
-                _type: WorkPackage
-                createdAt: '2014-08-29T12:40:53Z'
-                customField1: Foo
-                customField2: 42
-                derivedDueDate: 
-                derivedEstimatedTime: PT10H
-                derivedStartDate: 
-                description:
-                  format: markdown
-                  html: "<p>Develop super cool OpenProject API.</p>"
-                  raw: Develop super cool OpenProject API.
-                dueDate: 
-                estimatedTime: PT2H
-                id: 1528
-                percentageDone: 0
-                scheduleManually: false
-                startDate: 
-                subject: Develop API
-                updatedAt: '2014-08-29T12:44:41Z'
           schema:
-            "$ref": "../components/schemas/work_package_model.yml"
+            $ref: '../components/schemas/work_package_model.yml'
       description: OK
-      headers: {}
     '400':
       content:
         application/hal+json:
           schema:
-            $ref: "../components/schemas/error_response.yml"
-          examples:
-            response:
-              value:
-                _type: Error
-                errorIdentifier: urn:openproject-org:api:v3:errors:InvalidRequestBody
-                message: The request body was not a single JSON object.
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:InvalidRequestBody
+            message: The request body was not a single JSON object.
       description: Occurs when the client did not send a valid JSON object in the
         request body.
-      headers: {}
     '403':
       content:
         application/hal+json:
           schema:
             $ref: "../components/schemas/error_response.yml"
-          examples:
-            response:
-              value:
-                _type: Error
-                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
-                message: You are not allowed to add work packages to this project.
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+            message: You are not allowed to add work packages to this project.
       description: |-
         Returned if the client does not have sufficient permissions.
 
         **Required permission:** add work packages
 
         *Note that you will only receive this error, if you are at least allowed to see the corresponding project.*
-      headers: {}
     '404':
       content:
         application/hal+json:
           schema:
             $ref: "../components/schemas/error_response.yml"
-          examples:
-            response:
-              value:
-                _type: Error
-                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
-                message: The specified project does not exist.
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+            message: The specified project does not exist.
       description: |-
         Returned if the project does not exist or the client does not have sufficient permissions
         to see it.
@@ -372,21 +199,18 @@ post:
 
         *Note: A client without sufficient permissions shall not be able to test for the existence of a project.
         That's why a 404 is returned here, even if a 403 might be more appropriate.*
-      headers: {}
     '422':
       content:
         application/hal+json:
           schema:
             $ref: "../components/schemas/error_response.yml"
-          examples:
-            response:
-              value:
-                _embedded:
-                  details:
-                    attribute: Subject
-                _type: Error
-                errorIdentifier: urn:openproject-org:api:v3:errors:PropertyConstraintViolation
-                message: The subject might not be blank.
+          example:
+            _embedded:
+              details:
+                attribute: Subject
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:PropertyConstraintViolation
+            message: The subject might not be blank.
       description: |-
         Returned if:
 
@@ -395,12 +219,3 @@ post:
         * a constraint for a property was violated
 
         * a property was provided in an unreadable format
-      headers: {}
-  tags:
-  - Work Packages
-  description: |-
-    When calling this endpoint the client provides a single object, containing at least the properties and links that are required, in the body.
-    The required fields of a WorkPackage can be found in its schema, which is embedded in the respective form.
-    Note that it is only allowed to provide properties or links supporting the write operation.
-  operationId: Create_work_package_in_project
-  summary: Create work package in project

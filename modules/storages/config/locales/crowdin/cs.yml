@@ -50,7 +50,7 @@ cs:
         Are you sure you want to delete this storage? This will also delete the storage from all projects where it is used. Further, it will also delete all links from work packages to files that are stored in that storage.
       project_storage: >
         Are you sure you want to remove this file storage from this project? This will also remove all links to files stored in this storage for this project.
-    label_creator: "Creator"
+    label_creator: "Vytvořil"
     label_file_link: "File link"
     label_file_links: "File links"
     label_name: "Name"

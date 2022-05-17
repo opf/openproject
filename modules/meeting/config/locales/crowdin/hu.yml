@@ -64,7 +64,7 @@ hu:
   label_time_zone: "Időzóna"
   label_start_date: "Kezdési dátum"
   meeting:
-    copied: "Copied from Meeting #%{id}"
+    copied: "#%{id} megbeszélésből másolva"
   notice_successful_notification: "Értesítés sikeresen kiküldve"
   notice_timezone_missing: Nincs időzóna beállítva, %{zone} a feltételezett. Időzóna beállításához kattintson ide.
   permission_create_meetings: "Megbeszélések létrehozása"

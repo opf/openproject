@@ -2,11 +2,9 @@
 en:
   js:
     team_planner:
-      add_existing: 'Add Existing'
-      create_new: 'New team planner'
+      add_existing: 'Add existing'
       title: 'Team planner'
       unsaved_title: 'Unnamed team planner'
-      label_assignee_plural: 'Assignees'
       no_data: 'Add assignees to set up your team planner.'
       add_assignee: 'Add assignee'
       remove_assignee: 'Remove assignee'

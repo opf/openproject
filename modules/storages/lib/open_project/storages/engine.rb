@@ -50,7 +50,9 @@ module OpenProject::Storages
              name: 'OpenProject Storages' do
       # Defines permission constraints used in the module (controller, etc.)
       # Permissions documentation: https://www.openproject.org/docs/development/concepts/permissions/#definition-of-permissions
-      project_module :storages, dependencies: :work_package_tracking do
+      project_module :storages,
+                     dependencies: :work_package_tracking,
+                     if: ->(*) { OpenProject::FeatureDecisions.storages_module_active? } do
         permission :view_file_links,
                    {},
                    dependencies: %i[view_work_packages]
@@ -68,16 +70,20 @@ module OpenProject::Storages
       menu :admin_menu,
            :storages_admin_settings,
            { controller: '/storages/admin/storages', action: :index },
-           if: Proc.new { User.current.admin? },
+           if: Proc.new { User.current.admin? && OpenProject::FeatureDecisions.storages_module_active? },
            caption: :project_module_storages,
            icon: 'icon2 icon-hosting'
 
       menu :project_menu,
            :settings_projects_storages,
            { controller: '/storages/admin/projects_storages', action: 'index' },
+           if: Proc.new { OpenProject::FeatureDecisions.storages_module_active? },
            caption: :project_module_storages,
            parent: :settings
     end
+
+    patch_with_namespace :Principals, :ReplaceReferencesService
+    patch_with_namespace :BasicData, :RoleSeeder
 
     # This hook is executed when the module is loaded.
     config.to_prepare do
@@ -114,8 +120,8 @@ module OpenProject::Storages
       "#{root}/file_links/#{file_link_id}/download"
     end
 
-    add_api_path :file_link_open do |file_link_id|
-      "#{root}/file_links/#{file_link_id}/open"
+    add_api_path :file_link_open do |file_link_id, location = false|
+      "#{root}/file_links/#{file_link_id}/open#{location ? '?location=true' : ''}"
     end
 
     # Add api endpoints specific to this module

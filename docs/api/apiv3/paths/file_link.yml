@@ -2,7 +2,7 @@
 ---
 get:
   summary: Gets a file link.
-  operationId: Work_Package_Get_File_Link
+  operationId: view_file_link
   tags:
     - Work Packages
     - File links
@@ -39,7 +39,7 @@ get:
 
 delete:
   summary: Removes a file link.
-  operationId: Work_Package_Delete_File_Link
+  operationId: delete_file_link
   tags:
     - Work Packages
     - File links

@@ -108,6 +108,7 @@ export class TimeEntryCalendarComponent {
 
   public text = {
     logTime: this.i18n.t('js.button_log_time'),
+    today: this.i18n.t('js.team_planner.today'),
   };
 
   calendarOptions:CalendarOptions = {
@@ -119,10 +120,12 @@ export class TimeEntryCalendarComponent {
       center: 'title',
       left: 'prev,next today',
     },
+    buttonText: { today: this.text.today },
     initialView: 'timeGridWeek',
     firstDay: this.configuration.startOfWeek(),
     hiddenDays: [],
-    contentHeight: 605,
+    // This is a magic number that is derived by trial and error
+    contentHeight: 550,
     slotEventOverlap: false,
     slotLabelInterval: `${this.labelIntervalHours}:00:00`,
     slotLabelFormat: (info:any) => ((this.maxHour - info.date.hour) / this.scaleRatio).toString(),

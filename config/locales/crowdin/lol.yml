@@ -78,6 +78,10 @@ lol:
         contact: "crwdns655651:0crwdne655651:0"
       enterprise_info_html: "crwdns655653:0crwdne655653:0"
       upgrade_info: "crwdns655655:0crwdne655655:0"
+    journal_aggregation:
+      explanation:
+        text: "crwdns808254:0%{webhook_link}crwdne808254:0"
+        link: "crwdns808256:0crwdne808256:0"
   announcements:
     show_until: crwdns494789:0crwdne494789:0
     is_active: crwdns494791:0crwdne494791:0
@@ -542,6 +546,7 @@ lol:
         even: "crwdns495413:0crwdne495413:0"
         exclusion: "crwdns495415:0crwdne495415:0"
         file_too_large: "crwdns495417:0%{count}crwdne495417:0"
+        filter_does_not_exist: "crwdns809354:0crwdne809354:0"
         format: "crwdns495419:0%{expected}crwdne495419:0"
         format_nested: "crwdns495421:0%{expected}crwdnd495421:0%{path}crwdne495421:0"
         greater_than: "crwdns495423:0%{count}crwdne495423:0"
@@ -869,6 +874,7 @@ lol:
     updated_on: "crwdns495857:0crwdne495857:0"
     uploader: "crwdns495859:0crwdne495859:0"
     user: "crwdns495861:0crwdne495861:0"
+    value: "crwdns809346:0crwdne809346:0"
     version: "crwdns495863:0crwdne495863:0"
     work_package: "crwdns495865:0crwdne495865:0"
   backup:
@@ -1320,7 +1326,9 @@ lol:
   menus:
     admin:
       mail_notification: "crwdns496809:0crwdne496809:0"
-      incoming_outgoing: "crwdns496811:0crwdne496811:0"
+      mails_and_notifications: "crwdns808258:0crwdne808258:0"
+      aggregation_and_retention: 'crwdns808260:0crwdne808260:0'
+      api_and_webhooks: "crwdns808262:0crwdne808262:0"
     quick_add:
       label: "crwdns496813:0crwdne496813:0"
   my_account:
@@ -1809,7 +1817,7 @@ lol:
   label_used_by_types: "crwdns497761:0crwdne497761:0"
   label_used_in_projects: "crwdns497763:0crwdne497763:0"
   label_user: "crwdns497765:0crwdne497765:0"
-  label_user_and_permission: "crwdns497767:0crwdne497767:0"
+  label_user_and_permission: "crwdns808264:0crwdne808264:0"
   label_user_named: "crwdns497769:0%{name}crwdne497769:0"
   label_user_activity: "crwdns497771:0%{value}crwdne497771:0"
   label_user_anonymous: "crwdns497773:0crwdne497773:0"
@@ -2114,6 +2122,7 @@ lol:
   permission_comment_news: "crwdns498549:0crwdne498549:0"
   permission_commit_access: "crwdns498551:0crwdne498551:0"
   permission_copy_projects: "crwdns498553:0crwdne498553:0"
+  permission_create_backup: "crwdns809948:0crwdne809948:0"
   permission_delete_work_package_watchers: "crwdns498555:0crwdne498555:0"
   permission_delete_work_packages: "crwdns498557:0crwdne498557:0"
   permission_delete_messages: "crwdns498559:0crwdne498559:0"
@@ -2206,7 +2215,7 @@ lol:
     assigned_to_role: "crwdns498711:0crwdne498711:0"
     member_of_group: "crwdns498713:0crwdne498713:0"
     assignee_or_group: "crwdns498715:0crwdne498715:0"
-    subproject_id: "crwdns498717:0crwdne498717:0"
+    subproject_id: "crwdns810088:0crwdne810088:0"
     only_subproject_id: "crwdns498719:0crwdne498719:0"
     name_or_identifier: "crwdns498721:0crwdne498721:0"
   repositories:
@@ -2528,7 +2537,6 @@ lol:
   text_work_packages_destroy_confirmation: "crwdns499265:0crwdne499265:0"
   text_work_packages_ref_in_commit_messages: "crwdns499267:0crwdne499267:0"
   text_journal_added: "crwdns499269:0%{label}crwdnd499269:0%{value}crwdne499269:0"
-  text_journal_aggregation_time_explanation: "crwdns499271:0crwdne499271:0"
   text_journal_changed_html: "crwdns499273:0%{label}crwdnd499273:0%{old}crwdnd499273:0%{linebreak}crwdnd499273:0%{new}crwdne499273:0"
   text_journal_changed_plain: "crwdns499275:0%{label}crwdnd499275:0%{old}crwdnd499275:0%{linebreak}crwdnd499275:0%{new}crwdne499275:0"
   text_journal_changed_no_detail: "crwdns499277:0%{label}crwdne499277:0"

@@ -1,23 +1,41 @@
 <li
   class="spot-list--item"
-  *ngFor="let project of projects"
+  *ngFor="let project of projects; index as i; first as isFirst; last as isLast"
 >
   <label
     class="spot-list--item-action op-project-list--item-action"
-    [ngClass]="{ 'spot-list--item-action_disabled': !project.found }"
+    [ngClass]="{ 'spot-list--item-action_disabled': isDisabled(project) }"
   >
-    <spot-checkbox
-      *ngFor="let checked of [isChecked(project.href)]"
-      [checked]="checked"
-      (change)="changeSelected(project.href)"
-      [disabled]="!project.found || project.href === currentProjectHref"
-      [attr.data-qa-project-include-id]="project.id"
-      [attr.data-qa-project-include-checked]="checked ? 1 : 0"
-    ></spot-checkbox>
-    <div
-      class="spot-list--item-title"
-      [opSearchHighlight]="query" 
-    >{{ project.name }}</div>
+    <spot-tooltip
+      class="op-project-list--tooltip"
+      [alignment]="getAlignment(project, isFirst, isLast)"
+      [disabled]="!isDisabled(project)"
+      [dark]="true"
+    >
+      <ng-container slot="trigger">
+        <spot-checkbox
+          *ngFor="let checked of [isChecked(project.href)]"
+          [checked]="checked || (includeSubprojects && parentChecked)"
+          (change)="changeSelected(project)"
+          [disabled]="isDisabled(project)"
+          [attr.data-qa-project-include-id]="project.id"
+          [attr.data-qa-project-include-checked]="(checked || (includeSubprojects && parentChecked))  ? 1 : 0"
+        ></spot-checkbox>
+        <div
+          class="spot-list--item-title op-project-list--item-title"
+          [opSearchHighlight]="searchText" 
+          [title]="project.name"
+        >{{ project.name }}</div>
+      </ng-container>
+
+      <p
+        slot="body"
+        class="spot-body-small"
+      >
+        <span *ngIf="includeSubprojects && parentChecked">{{ text.include_all_selected }}</span>
+        <span *ngIf="project.href === currentProjectHref">{{ text.current_project }}</span>
+      </p>
+    </spot-tooltip>
   </label>
 
   <ul
@@ -25,7 +43,9 @@
     op-project-list
     [projects]="project.children"
     [selected]="selected"
-    [query]="query"
+    [includeSubprojects]="includeSubprojects"
+    [parentChecked]="parentChecked || isChecked(project.href)"
+    [searchText]="searchText"
     (update)="updateSelected($event)"
   ></ul>
 </li>

@@ -380,7 +380,13 @@ describe Principals::ReplaceReferencesService, '#call', type: :model do
     context 'with Query' do
       it_behaves_like 'rewritten record',
                       :query,
-                      :user_id
+                      :user_id do
+        let(:attributes) do
+          {
+            include_subprojects: true
+          }
+        end
+      end
     end
 
     context 'with CostQuery' do
@@ -407,6 +413,23 @@ describe Principals::ReplaceReferencesService, '#call', type: :model do
             recipient_id: user.id,
             resource_id: 1234,
             resource_type: "'WorkPackage'",
+            created_at: 'NOW()',
+            updated_at: 'NOW()'
+          }
+        end
+      end
+    end
+
+    context 'with OAuth application' do
+      it_behaves_like 'rewritten record',
+                      :oauth_application,
+                      :owner_id do
+        let(:attributes) do
+          {
+            name: "'foo'",
+            uid: "'bar'",
+            secret: "'bar'",
+            redirect_uri: "'urn:whatever'",
             created_at: 'NOW()',
             updated_at: 'NOW()'
           }

@@ -2,12 +2,12 @@
 sv:
   js:
     boards:
-      create_new: 'New board'
+      create_new: 'Create new board'
       label_unnamed_board: 'Namnlös tavla'
       label_unnamed_list: 'Namnlös lista'
       label_board_type: 'Typ av tavla'
       upsale:
-        teaser_text: 'Need a predefined board template? Advanced boards are Enterprise features. Please upgrade to a paid plan.'
+        teaser_text: 'Would you like ready-to-use board templates? Advanced boards are an Enterprise feature. Please upgrade to a paid plan.'
         upgrade: 'Uppgradera nu'
       lists:
         delete: 'Ta bort lista'

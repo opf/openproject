@@ -6,7 +6,7 @@ cs:
       configure: 'Konfigurovat widget'
       upsale:
         text: "Některé widgety, například widget s grafem pracovního balíčku, jsou dostupné pouze v "
-        link: 'Enterprise Edition.'
+        link: 'Enterprise Edice'
       widgets:
         custom_text:
           title: 'Vlastní text'

@@ -2,12 +2,12 @@
 fr:
   js:
     boards:
-      create_new: 'New board'
+      create_new: 'Créer un nouveau tableau'
       label_unnamed_board: 'Tableau sans nom'
       label_unnamed_list: 'Liste sans nom'
       label_board_type: 'Type de tableau'
       upsale:
-        teaser_text: 'Need a predefined board template? Advanced boards are Enterprise features. Please upgrade to a paid plan.'
+        teaser_text: 'Souhaitez-vous des modèles de tableau prêts à l''emploi ? Les tableaux avancés sont une fonctionnalité Entreprise. Veuillez passer à un plan payant.'
         upgrade: 'Passer au plan supérieur'
       lists:
         delete: 'Supprimer la liste'

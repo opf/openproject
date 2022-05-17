@@ -41,9 +41,11 @@
       class="op-add-existing-pane--empty-state"
       data-qa-selector="op-add-existing-pane--empty-state"
     >
-      <img [src]="image.empty_state" class="op-add-existing-pane--empty-state-image"/>
+      <img
+        *ngIf="(noResultsFound$ | async)?.showImage"
+        [src]="image.empty_state" class="op-add-existing-pane--empty-state-image"/>
       <span
-        [innerHTML]="text.empty_state"
+        [innerHTML]="(noResultsFound$ | async)?.text"
         class="op-add-existing-pane--empty-state-text"
       ></span>
     </div>

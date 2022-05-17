@@ -74,10 +74,14 @@ fr:
       book_now: 'Réserver maintenant'
       get_quote: 'Obtenir un devis'
       buttons:
-        upgrade: "Upgrade now"
-        contact: "Contact us for a demo"
-      enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
-      upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
+        upgrade: "Passer au plan supérieur"
+        contact: "Contactez-nous pour une démo"
+      enterprise_info_html: "est une fonctionnalité Entreprise <strong class='icon-medal'></strong>."
+      upgrade_info: "Veuillez passer à un plan payant pour l'activer et commencer à l'utiliser dans votre équipe."
+    journal_aggregation:
+      explanation:
+        text: "Les actions individuelles d'un utilisateur (par ex. mis à jour un lot de travaux deux fois) sont agrégés en une seule action si leur différence d'âge est inférieure à la période spécifiée. Elles seront affichées en une seule action dans l'application. Cela retardera également les notifications du même temps réduisant donc le nombre d'e-mails envoyés et affectera également le délai %{webhook_link}."
+        link: "webhook"
   announcements:
     show_until: Afficher jusqu'à
     is_active: actuellement affiché
@@ -166,7 +170,7 @@ fr:
     edit: 'Modifier l’action personnalisée %{name}'
     execute: 'Exécuter %{name}'
     upsale:
-      title: 'Custom actions'
+      title: 'Actions personnalisées'
       description: 'Les actions personnalisées uniformisent le travail quotidien en combinant un ensemble d''étapes individuelles en un seul bouton.'
   custom_fields:
     text_add_new_custom_field: >
@@ -265,7 +269,7 @@ fr:
       irreversible: "Cette action est irréversible"
       confirmation: "Saisissez le nom d'utilisateur fictif %{name} pour confirmer ça suppression."
     upsale:
-      title: Placeholder users
+      title: Utilisateurs de remplacement
       description: >
         Il existe de multiples scénarios dans lesquels vous souhaitez confier des tâches à des personnes qui ne font pas partie de votre projet. Il se peut simplement que vous ayez encore besoin d'engager la bonne personne pour le travail. Ou vous ne voulez tout simplement pas donner à cette personne l'accès aux informations du projet, mais vous voulez quand même suivre les tâches qui lui sont assignées.
   prioritiies:
@@ -322,10 +326,10 @@ fr:
       other: '%{count} lots de travaux descendants'
     bulk:
       could_not_be_saved: "Les lots de travaux suivants n'ont pas pu être sauvegardés :"
-      none_could_be_saved: "None of the %{total} work packages could be updated."
-      x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
-      selected_because_descendants: "While %{selected} work packages where selected, in total %{total} work packages are affected which includes descendants."
-      descendant: "descendant of selected"
+      none_could_be_saved: "Aucun des %{total} lots de travaux n'a pu être mis à jour."
+      x_out_of_y_could_be_saved: "%{failing} lots de travaux sur les %{total} n'ont pas pu être mis à jour alors que %{success} l'ont été."
+      selected_because_descendants: "Alors que %{selected} lots de travaux étaient sélectionnés, %{total} lots de travaux sont affectés, ce qui inclut les descendants."
+      descendant: "descendant de la sélection"
     move:
       no_common_statuses_exists: "Il n’y a pas de statut disponible pour tous les lots de travaux sélectionnés. Ce statut ne peut pas être changé."
       unsupported_for_multiple_projects: 'Déplacer/copier en masse n''est pas supporté pour des lots de travaux provenant de plusieurs projets'
@@ -455,12 +459,12 @@ fr:
         code: 'Statut'
         explanation: 'Description du statut'
         codes:
-          not_started: 'Not started'
+          not_started: 'Non démarré'
           on_track: 'Sur la bonne voie'
           at_risk: 'À risque'
           off_track: 'Sur la mauvaise voie'
-          finished: 'Finished'
-          discontinued: 'Discontinued'
+          finished: 'Terminé'
+          discontinued: 'Interrompu'
       query:
         column_names: "Colonnes"
         relations_to_type_column: "Relations avec %{type}"
@@ -561,6 +565,7 @@ fr:
         even: "doit être pair."
         exclusion: "est réservé."
         file_too_large: "est trop volumineux (la taille maximale est de %{count} octets)."
+        filter_does_not_exist: "le filtre n'existe pas."
         format: "ne correspond pas au format attendu « %{expected} »."
         format_nested: "ne correspond pas au format attendu « %{expected} » dans le chemin « %{path} »."
         greater_than: "doit être supérieur à %{count}."
@@ -748,7 +753,7 @@ fr:
               does_not_exist: "La catégorie spécifiée n'existe pas."
             estimated_hours:
               only_values_greater_or_equal_zeroes_allowed: "doit être >= 0."
-          readonly_status: 'The work package is in a readonly status so its attributes cannot be changed.'
+          readonly_status: 'Le lot de travaux est en lecture seule, ses attributs ne peuvent donc pas être changés.'
         type:
           attributes:
             attribute_groups:
@@ -760,7 +765,7 @@ fr:
         user:
           attributes:
             base:
-              user_limit_reached: "User limit reached. No more accounts can be created on the current plan."
+              user_limit_reached: "Limite d'utilisateurs atteinte. Aucun compte supplémentaire ne peut être créé sur le plan actuel."
             password_confirmation:
               confirmation: "La confirmation du mot de passe ne correspond pas au mot de passe."
               format: "%{message}"
@@ -888,10 +893,11 @@ fr:
     updated_on: "Mis à jour le"
     uploader: "Téléversé par"
     user: "Utilisateur"
+    value: "Valeur"
     version: "Version"
     work_package: "Lot de travaux"
   backup:
-    failed: "Backup failed"
+    failed: "Échec de la sauvegarde"
     label_backup_token: "Jeton de sauvegarde"
     label_create_token: "Créer un jeton de sauvegarde"
     label_delete_token: "Supprimer le jeton de sauvegarde"
@@ -1229,7 +1235,7 @@ fr:
   error_enterprise_token_invalid_domain: "La version Entreprise n'est pas active. Le domaine de votre jeton Entreprise (%{actual}) ne correspond pas au nom d'hôte du système (%{expected})."
   error_failed_to_delete_entry: 'Échec lors de la suppression de cette entrée.'
   error_in_dependent: "Erreur lors de la tentative de modification de l'objet dépendant : %{dependent_class} #%{related_id} - %{related_subject} : %{error}"
-  error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
+  error_in_new_dependent: "Erreur lors de la tentative de création d'un objet dépendant : %{dependent_class} - %{related_subject} : %{error}"
   error_invalid_selected_value: "Valeur sélectionnée invalide."
   error_journal_attribute_not_present: "Le journal ne contient pas l’attribut %{attribute}."
   error_pdf_export_too_many_columns: "Trop de colonnes sélectionnées pour l’exportation PDF. Veuillez réduire le nombre de colonnes."
@@ -1339,7 +1345,9 @@ fr:
   menus:
     admin:
       mail_notification: "Notifications par courriel"
-      incoming_outgoing: "Entrant et sortant"
+      mails_and_notifications: "E-mails et notifications"
+      aggregation_and_retention: 'Agrégation et rétention'
+      api_and_webhooks: "API et webhooks"
     quick_add:
       label: "Ouvrir le menu d'ajout rapide"
   my_account:
@@ -1634,9 +1642,9 @@ fr:
   lable_membership_added: 'Membre ajouté'
   lable_membership_updated: 'Membre mis à jour'
   label_menu_badge:
-    pre_alpha: 'pre-alpha'
+    pre_alpha: 'pré-alpha'
     alpha: 'alpha'
-    beta: 'beta'
+    beta: 'bêta'
   label_menu_item_name: "Nom de l'élément du menu"
   label_message: "Message"
   label_message_last: "Dernier message"
@@ -1839,7 +1847,7 @@ fr:
   label_used_by_types: "Utilisé par types"
   label_used_in_projects: "Utilisé dans les projets"
   label_user: "Utilisateur"
-  label_user_and_permission: "Utilisateurs & droits"
+  label_user_and_permission: "Utilisateurs et autorisations"
   label_user_named: "Utilisateur %{name}"
   label_user_activity: "Activité de %{value}"
   label_user_anonymous: "Anonyme"
@@ -1989,7 +1997,7 @@ fr:
   mail_body_backup_waiting_period: Le nouveau jeton sera activé dans %{hours} heures.
   mail_body_backup_token_warning: Si ce n'était pas vous, connectez-vous immédiatement à OpenProject et réinitialisez-le à nouveau.
   mail_body_lost_password: "Pour changer votre mot de passe, cliquez sur le lien suivant:"
-  mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
+  mail_body_register: "Bienvenue sur %{app_title}. Veuillez activer votre compte en cliquant sur ce lien :"
   mail_body_register_header_title: "E-mail d'invitation du membre du projet"
   mail_body_register_user: "Chère/cher %{name}, "
   mail_body_register_links_html: |
@@ -2132,7 +2140,7 @@ fr:
     heading_getting_started: "Avoir une vue d’ensemble"
     text_getting_started_description: "Obtenez un aperçu rapide de la gestion de projets et de la collaboration en équipe avec OpenProject."
     text_show_again: "Vous pouvez relancer cette vidéo au départ du menu d'aide"
-    welcome: "Welcome to %{app_title}"
+    welcome: "Bienvenue sur %{app_title}"
     select_language: "Veuillez sélectionner votre langue"
   permission_add_work_package_notes: "Ajouter des notes"
   permission_add_work_packages: "Ajouter des lots de travaux"
@@ -2148,6 +2156,7 @@ fr:
   permission_comment_news: "Commenter les actualités"
   permission_commit_access: "Accès au dépôt en lecture/écriture (« commit »)"
   permission_copy_projects: "Copier des projets"
+  permission_create_backup: "Create backup"
   permission_delete_work_package_watchers: "Supprimer des observateurs"
   permission_delete_work_packages: "Supprimer des lots de travaux"
   permission_delete_messages: "Supprimer des messages"
@@ -2201,7 +2210,7 @@ fr:
   permission_view_timelines: "Voir les lignes du temps"
   permission_view_wiki_edits: "Voir l'historique du wiki"
   permission_view_wiki_pages: "Voir le wiki"
-  permission_work_package_assigned: "Become assignee/responsible"
+  permission_work_package_assigned: "Devenir assigné/responsable"
   permission_work_package_assigned_explanation: "Des lots de travaux peuvent être assignés à des utilisateurs et des groupes possédant ce rôle dans le projet respectif"
   placeholders:
     default: "-"
@@ -2240,7 +2249,7 @@ fr:
     assigned_to_role: "Rôle du Destinataire"
     member_of_group: "Groupe du Destinataire"
     assignee_or_group: "Cessionnaire ou groupe d’appartenance"
-    subproject_id: "Inclure le sous-projet"
+    subproject_id: "Including subproject"
     only_subproject_id: "Seulement le sous-projet"
     name_or_identifier: "Nom ou identifiant"
   repositories:
@@ -2354,9 +2363,9 @@ fr:
   setting_apiv3_cors_origins: "Origines autorisées de l'API V3 Cross-Origin Resource Sharing (CORS)"
   setting_apiv3_cors_origins_text_html: >
     Si CORS est activé, ce sont les origines qui sont autorisées à accéder à l'API OpenProject. <br/> Veuillez vérifier la <a href="%{origin_link}" target="_blank">documentation sur l'en-tête Origin</a> sur la façon de spécifier les valeurs attendues.
-  setting_apiv3_max_page_size: "Maximum API page size"
+  setting_apiv3_max_page_size: "Taille maximale de page d'API"
   setting_apiv3_max_page_instructions_html: >
-    Set the maximum page size the API will respond with. It will not be possible to perform API requests that return more values on a single page. <br/> <strong>Warning:</strong> Please only change this value if you are sure why you need it. Setting to a high value will result in significant performance impacts, while a value lower than the per page options will cause errors in paginated views.
+    Définissez la taille maximale de la page avec laquelle l'API répondra. Il ne sera pas possible d'effectuer des requêtes API qui retournent plus de valeurs sur une seule page. <br/> <strong>Avertissement :</strong> veuillez modifier cette valeur uniquement si vous êtes sûr de savoir pourquoi vous en avez besoin. Définir à une valeur élevée entraînera des impacts significatifs sur les performances, alors qu'une valeur inférieure aux options de chaque page provoquera des erreurs dans les vues paginées.
   setting_apiv3_docs: "Documentation"
   setting_apiv3_docs_enabled: "Activer la page docs"
   setting_apiv3_docs_enabled_instructions_html: >
@@ -2564,7 +2573,6 @@ fr:
   text_work_packages_destroy_confirmation: "Êtes-vous sûr de vouloir supprimer le(s) lot(s) de travaux sélectionné(s) ?"
   text_work_packages_ref_in_commit_messages: "Referencer et réparer les Lot(s) de Travaux dans les messages « commit »"
   text_journal_added: "%{label} %{value} ajouté"
-  text_journal_aggregation_time_explanation: "Actions individuelles d'un utilisateur (par ex. mis à jour un lot de travaux deux fois) sont agrégés en une seule action si leur différence d'âge est inférieure à la période spécifiée. Ils seront affichés en une seule action dans l'application. Cela retardera également les notifications du même temps réduisant donc le nombre d'e-mails envoyés."
   text_journal_changed_html: "%{label} changé de %{old} %{linebreak}<strong>à</strong> %{new}"
   text_journal_changed_plain: "%{label} changé de %{old} %{linebreak}à %{new}"
   text_journal_changed_no_detail: "%{label} mis à jour"
@@ -2878,7 +2886,7 @@ fr:
         work_package: "Le lot de travaux que vous cherchez est introuvable ou a été supprimé."
       expected:
         date: "AAAA-MM-JJ (date ISO 8601 uniquement)"
-        datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm] (any compatible ISO 8601 datetime)"
+        datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm] (n'importe quelle date heure compatible ISO 8601)"
         duration: "durée ISO 8601"
       invalid_content_type: "CONTENT-TYPE attendu «%{content_type} » , mais est à «%{actual} »."
       invalid_format: "Format invalide pour la propriété \"%{property}\" : un format de type \"%{expected_format}\" est requis, mais la valeur invalide \"%{actual}\" a été reçue."
@@ -2890,7 +2898,7 @@ fr:
         select: "Les requêtes demandée de %{invalid} ne sont pas prises en charge. Les sélections prises en charge sont %{supported}."
       invalid_user_status_transition: "L'état du compte de l'utilisateur ne permet pas cette opération."
       missing_content_type: "non spécifié"
-      missing_property: "Missing property '%{property}'."
+      missing_property: "Propriété « %{property} » manquante."
       missing_request_body: "Il y n'avait aucun corps dans la requête."
       missing_or_malformed_parameter: "Le paramètre de requête « %{parameter} » est manquant ou incorrect."
       multipart_body_error: "Le corps de la requête ne contenait pas les pièces multiparts attendus."
@@ -2914,7 +2922,7 @@ fr:
       schema: 'Schéma'
     undisclosed:
       parent: Non divulgué - Le parent sélectionné est invisible en raison d'un manque de permissions.
-      ancestor: Undisclosed - The ancestor is invisible because of lacking permissions.
+      ancestor: Non divulgué - l'ancêtre est invisible en raison d'un manque de permissions.
   doorkeeper:
     pre_authorization:
       status: 'Préautorisation'
@@ -2925,9 +2933,9 @@ fr:
         #Common error messages
         invalid_request:
           unknown: 'Il manque à la requête un paramètre requis, inclut une valeur de paramètre non supportée ou est malformée d''une autre manière.'
-          missing_param: 'Missing required parameter: %{value}.'
-          request_not_authorized: 'Request need to be authorized. Required parameter for authorizing request is missing or invalid.'
-        invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
+          missing_param: 'Parramètre requis manquant : %{value}.'
+          request_not_authorized: 'La requête doit être autorisée. Le paramètre requis pour l''autorisation de la requête est manquant ou non valide.'
+        invalid_redirect_uri: "L'URI de redirection demandée est mal formée ou ne correspond pas à l'URI de redirection client."
         unauthorized_client: 'Le client n''est pas autorisé à effectuer cette demande en utilisant cette méthode.'
         access_denied: 'Le propriétaire de la ressource ou le serveur d''autorisation a refusé la demande.'
         invalid_scope: 'La portée demandée est invalide, inconnue ou incorrecte.'
@@ -2940,7 +2948,7 @@ fr:
         admin_authenticator_not_configured: 'L''accès au panneau d''administration est interdit en raison de l''absence de configuration de Doorkeeper.configure.admin_authenticator.'
         #Access grant errors
         unsupported_response_type: 'Le serveur d''autorisation ne supporte pas ce type de réponse.'
-        unsupported_response_mode: 'The authorization server does not support this response mode.'
+        unsupported_response_mode: 'Le serveur d''autorisation ne supporte pas ce mode de réponse.'
         #Access token errors
         invalid_client: 'L''authentification du client a échoué en raison d''un client inconnu, d''une authentification du client non supportée ou d''une méthode d''authentification non supportée.'
         invalid_grant: 'Le droit d’autorisation fourni n’est pas valide, a expiré, est révoqué, ne correspond pas à l’URI de redirection utilisée dans la requête d’autorisation, ou a été remis à un autre client.'
@@ -2950,9 +2958,9 @@ fr:
           expired: "Le jeton d'accès a expiré"
           unknown: "Le jeton d'accès est invalide"
         revoke:
-          unauthorized: "You are not authorized to revoke this token."
+          unauthorized: "Vous n'êtes pas autorisé à révoquer ce jeton."
         forbidden_token:
-          missing_scope: 'Access to this resource requires scope "%{oauth_scopes}".'
+          missing_scope: 'L''accès à cette ressource nécessite la portée « %{oauth_scopes} ».'
   unsupported_browser:
     title: "Votre navigateur est obsolète et non pris en charge."
     message: "Vous pouvez rencontrer des erreurs et une expérience dégradée sur cette page."

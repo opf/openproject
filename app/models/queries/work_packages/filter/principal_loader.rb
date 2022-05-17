@@ -59,7 +59,7 @@ class Queries::WorkPackages::Filter::PrincipalLoader
     if project
       project.principals.sort
     else
-      Principal.not_locked.in_visible_project.sort
+      Principal.visible.sort
     end
   end
 

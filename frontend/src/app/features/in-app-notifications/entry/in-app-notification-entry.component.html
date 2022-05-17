@@ -11,8 +11,8 @@
       </div>
 
       <a
-        class="op-ian-item--work-package-id-link op-link"
-        [class.op-link_inactive]="isMobile()"
+        class="op-ian-item--work-package-id-link spot-link"
+        [class.spot-link_inactive]="isMobile()"
         [attr.title]="workPackage.subject"
         uiSref="work-packages.show"
         [uiParams]="{workPackageId: workPackage.id}"
@@ -25,7 +25,7 @@
       >
         - <a
         class="op-ian-item--project-link"
-        [class.op-link_inactive]="isMobile()"
+        [class.spot-link_inactive]="isMobile()"
         [href]="project.showUrl"
         [textContent]="project.title"
         (click)="projectClicked($event)"

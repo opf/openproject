@@ -2,12 +2,12 @@
 de:
   js:
     boards:
-      create_new: 'Neues Board'
+      create_new: 'Neues Board erstellen'
       label_unnamed_board: 'Unbenanntes Board'
       label_unnamed_list: 'Unbenannte Liste'
       label_board_type: 'Board-Typ'
       upsale:
-        teaser_text: 'Need a predefined board template? Advanced boards are Enterprise features. Please upgrade to a paid plan.'
+        teaser_text: 'Möchten Sie hilfreiche Aktions-Boards verwenden? Aktions-Boards sind eine Enterprise-Funktion. Bitte upgraden Sie auf den Enterprise Plan.'
         upgrade: 'Jetzt Upgrade durchführen'
       lists:
         delete: 'Liste löschen'

@@ -117,7 +117,7 @@ omniauth provider if additional ones are configured.
 OpenProject uses gravatar images with a `404` fallback by default to render an internal, initials-based avatar.
 You can override this behavior by setting `gravatar_fallback_image` to a different value to always render Gravatars
 
-For supported values, please see https://en.gravatar.com/site/implement/images/
+For supported values, please see [en.gravatar.com/site/implement/images/](https://en.gravatar.com/site/implement/images/)
 
 
 ### Attachments storage
@@ -445,7 +445,7 @@ web:
 As usual these values can be overridden via the environment.
 
 ```
-OPENPROJECT_WEB_WORKERs=2
+OPENPROJECT_WEB_WORKERS=2
 OPENPROJECT_WEB_TIMEOUT=60 # overridden by: RACK_TIMEOUT_SERVICE_TIMEOUT
 OPENPROJECT_WEB_WAIT__TIMEOUT=10 # overridden by: RACK_TIMEOUT_WAIT_TIMEOUT
 OPENPROJECT_WEB_MIN__THREADS=4 # overridden by: RAILS_MIN_THREADS

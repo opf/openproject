@@ -14,10 +14,9 @@
     color: $spot-color-basic-gray-3
 
   &:focus,
-  &:focus-within
-    border-color: $spot-color-indication-attention
+  &_focused
     color: $spot-color-basic-black
-    outline: none
+    @include spot-focus
 
   &--input
     background: transparent
@@ -40,6 +39,9 @@
     align-items: center
     font-size: $spot-spacing-0_75
     color: $spot-color-basic-gray-3
+
+    &:focus
+      @include spot-focus
 
     &:not(:last-child)
       margin-right: $spot-spacing-0_5

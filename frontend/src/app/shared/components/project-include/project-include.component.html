@@ -29,13 +29,13 @@
     </div>
     <form
       (submit)="onSubmit($event)"
-      class="spot-body op-project-include--body"
+      class="spot-container op-project-include--body"
     >
       <spot-text-field
-        [disabled]="!(areProjectsLoaded$ | async)"
+        [disabled]="(loading$ | async)"
         [placeholder]="text.search_placeholder"
         name="project-include-search"
-        [(ngModel)]="query"
+        [(ngModel)]="searchText"
         [ngModelOptions]="{standalone: true}"
         data-qa-selector="project-include-search"
       >
@@ -45,23 +45,34 @@
         ></span>
       </spot-text-field>
 
-      <ng-container *ngIf="(areProjectsLoaded$ | async); else loadingTemplate">
+      <ng-container *ngIf="(loading$ | async) === false; else loadingTemplate">
         <ul
           class="op-project-include--list"
           op-project-list
           [projects]="projects$ | async"
           [selected]="selectedProjects"
-          [query]="query"
+          [includeSubprojects]="includeSubprojects$ | async"
+          [searchText]="searchText"
+          [root]="true"
           (update)="selectedProjects = $event"
           data-qa-selector="project-include-list"
         ></ul>
       </ng-container> 
 
       <div class="spot-action-bar">
-        <div class="spot-action-bar--left"></div>
+        <div class="spot-action-bar--left">
+          <label class="op-project-include--include-all">
+            <spot-checkbox
+              [(ngModel)]="includeSubprojects"
+              [ngModelOptions]="{standalone: true}"
+              data-qa-project-include-all-subprojects="1"
+            ></spot-checkbox>
+            <span class="op-project-include--include-all-text">{{ text.include_subprojects }}</span>
+          </label>
+        </div>
         <div class="spot-action-bar--right">
           <button
-            [disabled]="!(areProjectsLoaded$ | async)"
+            [disabled]="(loading$ | async)"
             class="spot-button spot-button_outlined spot-button_main"
             type="button"
             (click)="clearSelection()"
@@ -69,7 +80,7 @@
             {{ text.clear_selection }}
           </button>
           <button 
-            [disabled]="!(areProjectsLoaded$ | async)"
+            [disabled]="(loading$ | async)"
             class="spot-button spot-button_main"
           >
             {{ text.apply }}

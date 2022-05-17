@@ -2,7 +2,7 @@
 ---
 post:
   summary: Creates file links.
-  operationId: Work_Package_Create_File_Links
+  operationId: create_work_package_file_link
   tags:
     - Work Packages
     - File links
@@ -112,7 +112,7 @@ post:
 
 get:
   summary: Gets all file links of a work package
-  operationId: Work_Package_Get_File_Links
+  operationId: list_work_package_file_links
   tags:
     - Work Packages
     - File links

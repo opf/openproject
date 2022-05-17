@@ -8,7 +8,7 @@ module Storages
     include ::Redmine::I18n # Internationalization support (defines I18n.t(...) translation)
 
     def name
-      link_to model.name, storage_path(model)
+      link_to model.name, admin_settings_storage_path(model)
     end
 
     # Delegate delegates the execution of certain methods to :model.
@@ -27,7 +27,7 @@ module Storages
 
     def delete_link
       link_to '',
-              storage_path(model),
+              admin_settings_storage_path(model),
               class: 'icon icon-delete',
               data: { confirm: I18n.t('storages.delete_warning.storage') },
               title: I18n.t(:button_delete),
@@ -36,7 +36,7 @@ module Storages
 
     def edit_link
       link_to '',
-              edit_storage_path(model),
+              edit_admin_settings_storage_path(model),
               class: 'icon icon-edit',
               accesskey: accesskey(:edit),
               title: I18n.t(:button_edit)

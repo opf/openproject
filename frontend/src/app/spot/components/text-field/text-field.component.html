@@ -5,6 +5,8 @@
   [disabled]="disabled"
   [placeholder]="placeholder"
   [(ngModel)]="value"
+  (focus)="focused = true"
+  (blur)="focused = false"
   #input
 />
 <button

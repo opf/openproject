@@ -107,8 +107,10 @@ module Redmine #:nodoc:
       registered_plugins[id] = p
 
       if p.settings
-        Setting.create_setting("plugin_#{id}", 'default' => p.settings[:default], 'serialized' => true)
-        Setting.create_setting_accessors("plugin_#{id}")
+        Settings::Definition.add("plugin_#{id}",
+                                 value: p.settings[:default],
+                                 format: :hash,
+                                 env_alias: p.settings[:env_alias])
       end
 
       # If there are plugins waiting for us to be loaded, we try loading those, again

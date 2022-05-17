@@ -33,6 +33,11 @@ module Components
 
     def initialize; end
 
+    def clear_tooltips
+      # Just hover anything else
+      page.find("[data-qa-selector='project-include-search']").hover
+    end
+
     def toggle!
       page.find("[data-qa-selector='project-include-button']").click
     end
@@ -45,8 +50,13 @@ module Components
       expect(page).to have_selector("[data-qa-selector='project-include-button'] .badge", text: count)
     end
 
+    def toggle_include_all_subprojects
+      page.find("[data-qa-project-include-all-subprojects]").click
+    end
+
     def toggle_checkbox(project_id)
       page.find("[data-qa-project-include-id='#{project_id}']").click
+      clear_tooltips
     end
 
     def set_filter_selected(filter)
@@ -85,7 +95,7 @@ module Components
 
     def click_button(text)
       within_body do
-        page.find('button', text: text).click
+        page.find('button:not([disabled])', text: text).click
       end
     end
 

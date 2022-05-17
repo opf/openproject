@@ -1,12 +1,13 @@
 #English strings go here
 hu:
-  permission_view_team_planner: "View team planner"
-  permission_manage_team_planner: "Manage team planner"
-  project_module_team_planner_view: "Team planner"
+  permission_view_team_planner: "Csoport tervező megtekintése"
+  permission_manage_team_planner: "Csoport tervező kezelése"
+  project_module_team_planner_view: "Csoport tervező"
   team_planner:
-    label_team_planner: "Team planner"
-    label_team_planner_plural: "Team planners"
-    label_assignees: "Assignees"
+    label_team_planner: "Csoport tervező"
+    label_create_new_team_planner: "Új csoport tervező létrehozása"
+    label_team_planner_plural: "Csoport tervezők"
+    label_assignees: "Megbízottak"
     upsale:
-      title: "Team planner"
-      description: "Team planner gives you a complete overview what each of team member is working on, one week at a time. Move, stretch and shrink work packages visually, and even drag them from one assignee to another to organise workload. You can even create new work packages or add existing ones, all from within team planner!"
+      title: "Csoport tervező"
+      description: "A csoport tervező teljes képet nyújt arról, hogy az egyes csapattagok heti bontásban min dolgoznak.\nVizuálisan mozgassa, nyújtsa vagy zsugorítsa a munkacsomagokat, vagy éppen húzza át azokat egy megbízottról egy másikra. A csoport tervezőben új munkacsomagok létrehozása vagy meglévők hozzáadása is lehetséges."

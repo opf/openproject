@@ -43,13 +43,13 @@ describe 'account/register', type: :view do
       let(:auth_source) { create :auth_source }
       let(:user)        { build :user, auth_source: auth_source }
 
-      it 'should not show a login field' do
+      it 'does not show a login field' do
         expect(rendered).not_to include('user[login]')
       end
     end
 
     context 'without auth source' do
-      it 'should show a login field' do
+      it 'shows a login field' do
         expect(rendered).to include('user[login]')
       end
     end
@@ -67,21 +67,21 @@ describe 'account/register', type: :view do
       let(:auth_source) { create :auth_source }
       let(:user)        { build :user, auth_source: auth_source }
 
-      it 'should not show a login field' do
+      it 'does not show a login field' do
         expect(rendered).not_to include('user[login]')
       end
 
-      it 'should show an email field' do
+      it 'shows an email field' do
         expect(rendered).to include('user[mail]')
       end
     end
 
     context 'without auth source' do
-      it 'should not show a login field' do
+      it 'does not show a login field' do
         expect(rendered).not_to include('user[login]')
       end
 
-      it 'should show an email field' do
+      it 'shows an email field' do
         expect(rendered).to include('user[mail]')
       end
     end
@@ -96,30 +96,18 @@ describe 'account/register', type: :view do
       assign(:user, user)
     end
 
-    it 'should render the registration footer from the settings' do
+    it 'renders the registration footer from the settings' do
       render
 
       expect(rendered).to include(footer)
-    end
-
-    context 'with a registration footer in the OpenProject configuration' do
-      before do
-        allow(OpenProject::Configuration).to receive(:registration_footer).and_return("en" => footer.reverse)
-      end
-
-      it 'should render the registration footer from the configuration, overriding the settings' do
-        render
-
-        expect(rendered).to include(footer.reverse)
-      end
     end
   end
 
   context "with consent required", with_settings: {
     consent_required: true,
     consent_info: {
-      en: "You must consent!",
-      de: "Du musst zustimmen!"
+      'en' => "You must consent!",
+      'de' => "Du musst zustimmen!"
     }
   } do
     let(:locale) { raise "you have to define the locale" }

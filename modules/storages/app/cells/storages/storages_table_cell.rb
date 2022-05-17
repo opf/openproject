@@ -32,7 +32,7 @@ module Storages
     # Used by: app/cells/views/table/show.erb and
     # Purpose: return the link to be used to create the storage
     def inline_create_link
-      link_to(new_storage_path,
+      link_to(new_admin_settings_storage_path,
               class: 'wp-inline-create--add-link',
               title: I18n.t('storages.label_new_storage')) do
         op_icon('icon icon-add')

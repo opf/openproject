@@ -70,6 +70,9 @@ Lint/UnderscorePrefixedVariableName:
 Lint/Void:
   Enabled: false
 
+Lint/AmbiguousBlockAssociation:
+  IgnoredMethods: [change]
+
 
 Metrics/ClassLength:
   Enabled: false
@@ -169,7 +172,7 @@ RSpec/MultipleExpectations:
     - 'modules/*/spec/features/**/*.rb'
 
 RSpec/MultipleMemoizedHelpers:
-  Max: 15
+  Max: 20
   AllowSubject: true
 
 RSpec/NestedGroups:

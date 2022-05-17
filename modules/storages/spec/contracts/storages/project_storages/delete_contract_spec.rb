@@ -27,9 +27,10 @@
 #++
 
 require 'spec_helper'
+require_module_spec_helper
 require 'contracts/shared/model_contract_shared_context'
 
-describe ::Storages::ProjectStorages::DeleteContract do
+describe ::Storages::ProjectStorages::DeleteContract, :enable_storages do
   include_context 'ModelContract shared context'
 
   let(:current_user) { create(:user) }

@@ -58,10 +58,9 @@ describe ::API::V3::Notifications::NotificationRepresenter, 'rendering' do
   let(:read_ian) { false }
 
   describe 'self link' do
-    it_behaves_like 'has a titled link' do
+    it_behaves_like 'has an untitled link' do
       let(:link) { 'self' }
       let(:href) { api_v3_paths.notification notification.id }
-      let(:title) { notification.subject }
     end
   end
 
@@ -100,10 +99,6 @@ describe ::API::V3::Notifications::NotificationRepresenter, 'rendering' do
 
     it_behaves_like 'property', :id do
       let(:value) { notification.id }
-    end
-
-    it_behaves_like 'property', :subject do
-      let(:value) { notification.subject }
     end
 
     it_behaves_like 'property', :reason do

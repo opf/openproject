@@ -27,9 +27,12 @@
 #++
 
 require 'spec_helper'
+require_module_spec_helper
+require_relative 'shared_filter_examples'
 
 # rubocop:disable RSpec/MultipleMemoizedHelpers
 describe 'API v3 work packages resource with filters for linked storage file',
+         :enable_storages,
          type: :request,
          content_type: :json do
   include API::V3::Utilities::PathHelper
@@ -63,6 +66,9 @@ describe 'API v3 work packages resource with filters for linked storage file',
            storage: storage2,
            origin_id: file_link1.origin_id)
   end
+  # This link is considered invisible, as it is linking a work package to a file, where the work package's project
+  # and the file's storage are not linked together.
+  let(:file_link4) { create(:file_link, creator: current_user, container: work_package3, storage: storage1) }
 
   subject(:response) { last_response }
 
@@ -73,6 +79,7 @@ describe 'API v3 work packages resource with filters for linked storage file',
     file_link1
     file_link2
     file_link3
+    file_link4
 
     login_as current_user
   end
@@ -109,11 +116,37 @@ describe 'API v3 work packages resource with filters for linked storage file',
         end
       end
 
+      context 'if a project has the storages module deactivated' do
+        let(:project1) { create(:project, disable_modules: :storages, members: { current_user => role1 }) }
+
+        it_behaves_like 'API V3 collection response', 1, 1, 'WorkPackage', 'WorkPackageCollection' do
+          let(:elements) { [work_package3] }
+        end
+      end
+
       context 'if the filter is set to an unknown file id from origin' do
         let(:origin_id_value) { "1337" }
 
         it_behaves_like 'API V3 collection response', 0, 0, 'WorkPackage', 'WorkPackageCollection' do
           let(:elements) { [] }
+        end
+      end
+
+      context 'if the filter is set to a file linked to a work package in an unlinked project' do
+        let(:origin_id_value) { file_link4.origin_id.to_s }
+
+        it_behaves_like 'API V3 collection response', 0, 0, 'WorkPackage', 'WorkPackageCollection' do
+          let(:elements) { [] }
+        end
+      end
+
+      include_examples 'filter unavailable when storages module is inactive'
+
+      context 'if using signaling' do
+        let(:path) { api_v3_paths.path_for :work_packages, select: 'total,count,_type,elements/*', filters: filters }
+
+        it_behaves_like 'API V3 collection response', 2, 2, 'WorkPackage', 'WorkPackageCollection' do
+          let(:elements) { [work_package1, work_package3] }
         end
       end
     end
@@ -150,6 +183,8 @@ describe 'API v3 work packages resource with filters for linked storage file',
           let(:elements) { [] }
         end
       end
+
+      include_examples 'filter unavailable when storages module is inactive'
     end
 
     context 'with single filter for storage url' do
@@ -169,6 +204,14 @@ describe 'API v3 work packages resource with filters for linked storage file',
         let(:elements) { [work_package3] }
       end
 
+      context 'if any of the matching work packages is in a project without a mapping to that storage' do
+        let(:storage_url_value) { CGI.escape(storage1.host) }
+
+        it_behaves_like 'API V3 collection response', 2, 2, 'WorkPackage', 'WorkPackageCollection' do
+          let(:elements) { [work_package1, work_package2] }
+        end
+      end
+
       context 'if one project has not sufficient permissions' do
         let(:role2) { create :role, permissions: %i(view_work_packages) }
 
@@ -184,6 +227,8 @@ describe 'API v3 work packages resource with filters for linked storage file',
           let(:elements) { [] }
         end
       end
+
+      include_examples 'filter unavailable when storages module is inactive'
     end
 
     context 'with combined filter of file id and storage id' do
