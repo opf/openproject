@@ -160,6 +160,9 @@ class WorkPackages::UpdateService < ::BaseServices::BaseCallable
       if work_package.parent_id_changed?
         # HACK: we need to persist the parent relation before rescheduling the parent
         # and the former parent since we rely on the database for scheduling.
+        # The following will update the parent_id of the work package without that being noticed by the
+        # work package instance (work_package) that is already instantiated. That way, the change can be rolled
+        # back without any side effects to the instance (e.g. dirty tracking).
         WorkPackage.where(id: work_package.id).update_all(parent_id: work_package.parent_id)
         work_package.rebuild! # using the ClosureTree#rebuild! method to update the transitive hierarchy information
       end
