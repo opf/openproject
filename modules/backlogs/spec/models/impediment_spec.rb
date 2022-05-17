@@ -113,7 +113,6 @@ describe Impediment, type: :model do
           task.version = version
           task.save
 
-          # Using the default association method block_ids (without s) here
           impediment.blocks_ids = [feature.id, task.id]
           impediment.save
         end
