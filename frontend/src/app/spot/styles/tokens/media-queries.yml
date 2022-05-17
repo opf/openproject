@@ -5,6 +5,9 @@ props:
   spot-mq-drop-modal-in-context:
     value: "'(min-width: 1000px) and (min-height: 500px)'"
 
+  spot-mq-action-bar-change:
+    value: "'(min-width: 768px)'"
+
 global:
   type: media-query
   category: media-query

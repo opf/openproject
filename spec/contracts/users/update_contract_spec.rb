@@ -45,14 +45,36 @@ describe Users::UpdateContract do
       }
     end
 
-    describe "validations" do
-      describe "#user_allowed_to_update" do
-        context "updated user is current user" do
-          # That scenario is the only that is not covered by the shared examples
-          let(:current_user) { user }
+    context 'when global user' do
+      let(:current_user) { create :user, global_permission: :manage_user }
 
-          it_behaves_like 'contract is valid'
+      describe 'can lock the user' do
+        before do
+          # needed for the stub
+          user.password = user.password_confirmation = nil
+
+          user.status = Principal.statuses[:locked]
         end
+
+        it_behaves_like 'contract is valid'
+      end
+    end
+
+    context "when updated user is current user" do
+      # That scenario is the only that is not covered by the shared examples
+      let(:current_user) { user }
+
+      it_behaves_like 'contract is valid'
+
+      context 'when setting status' do
+        before do
+          # needed for the stub
+          user.password = user.password_confirmation = nil
+
+          user.status = Principal.statuses[:locked]
+        end
+
+        it_behaves_like 'contract is invalid', status: :error_readonly
       end
     end
   end

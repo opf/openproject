@@ -28,19 +28,7 @@
 
 require 'spec_helper'
 
-describe OpenProject::Configuration do
-  let!(:definitions_before) { Settings::Definition.all.dup }
-
-  before do
-    Settings::Definition.send(:reset)
-  end
-
-  after do
-    Settings::Definition.send(:reset)
-    Settings::Definition.instance_variable_set(:@all, definitions_before)
-    Setting.clear_cache
-  end
-
+describe OpenProject::Configuration, :settings_reset do
   describe '.[setting]' do
     it 'fetches the value' do
       expect(described_class.app_title)
@@ -151,6 +139,7 @@ describe OpenProject::Configuration do
                                                        port: 25,
                                                        domain: 'example.com',
                                                        enable_starttls_auto: true,
+                                                       openssl_verify_mode: 'peer',
                                                        ssl: false)
       end
     end
@@ -176,6 +165,7 @@ describe OpenProject::Configuration do
                                                        port: 25,
                                                        domain: 'example.com',
                                                        enable_starttls_auto: false,
+                                                       openssl_verify_mode: 'peer',
                                                        ssl: true)
       end
     end
@@ -203,6 +193,7 @@ describe OpenProject::Configuration do
                                                        user_name: 'username',
                                                        password: 'p4ssw0rd',
                                                        enable_starttls_auto: true,
+                                                       openssl_verify_mode: 'peer',
                                                        ssl: false)
       end
     end
@@ -230,6 +221,7 @@ describe OpenProject::Configuration do
                                                        user_name: 'username',
                                                        password: 'p4ssw0rd',
                                                        enable_starttls_auto: false,
+                                                       openssl_verify_mode: 'peer',
                                                        ssl: true)
       end
     end
@@ -248,7 +240,7 @@ describe OpenProject::Configuration do
       { 'email_delivery_method' => 'smtp',
         'smtp_address' => 'smtp.example.net',
         'smtp_port' => '25' }.map do |name, value|
-        Hashie::Mash.new name: name, value: value
+        API::ParserStruct.new name: name, value: value
       end
     end
 

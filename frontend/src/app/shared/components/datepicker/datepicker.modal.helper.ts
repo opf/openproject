@@ -33,7 +33,7 @@ import { DateOption } from 'flatpickr/dist/types/options';
 
 @Injectable({ providedIn: 'root' })
 export class DatePickerModalHelper {
-  public currentlyActivatedDateField:DateKeys;
+  currentlyActivatedDateField:DateKeys;
 
   /**
    * Map the date to the internal format,
@@ -62,10 +62,6 @@ export class DatePickerModalHelper {
       || !!new Date(date).valueOf();
   }
 
-  sortDates(dates:Date[]):Date[] {
-    return dates.sort((a:Date, b:Date) => a.getTime() - b.getTime());
-  }
-
   areDatesEqual(firstDate:Date|string, secondDate:Date|string):boolean {
     const parsedDate1 = this.parseDate(firstDate);
     const parsedDate2 = this.parseDate(secondDate);
@@ -80,9 +76,8 @@ export class DatePickerModalHelper {
     this.currentlyActivatedDateField = val;
   }
 
-  toggleCurrentActivatedField(dates:{ [key in DateKeys]:string }, datePicker:DatePicker):void {
+  toggleCurrentActivatedField():void {
     this.currentlyActivatedDateField = this.currentlyActivatedDateField === 'start' ? 'end' : 'start';
-    this.setDatepickerRestrictions(dates, datePicker);
   }
 
   isStateOfCurrentActivatedField(val:DateKeys):boolean {
@@ -105,88 +100,5 @@ export class DatePickerModalHelper {
     }
 
     datePicker.datepickerInstance.redraw();
-  }
-
-  setDatepickerRestrictions(dates:{ [key in DateKeys]:string }, datePicker:DatePicker):void {
-    if (!dates.start && !dates.end) {
-      return;
-    }
-
-    let disableFunction:Function = (date:Date) => false;
-
-    if (this.isStateOfCurrentActivatedField('start') && dates.end) {
-      disableFunction = (date:Date) => date.getTime() > new Date(dates.end).setHours(0, 0, 0, 0);
-    } else if (this.isStateOfCurrentActivatedField('end') && dates.start) {
-      disableFunction = (date:Date) => date.getTime() < new Date(dates.start).setHours(0, 0, 0, 0);
-    }
-
-    datePicker.datepickerInstance.set('disable', [disableFunction]);
-  }
-
-  setRangeClasses(dates:{ [key in DateKeys]:string }):void {
-    if (!dates.start || !dates.end || (dates.start === dates.end)) {
-      return;
-    }
-
-    const monthContainer = document.getElementsByClassName('dayContainer');
-    // For each container of the two-month layout, set the highlighting classes
-    for (let i = 0; i < monthContainer.length; i++) {
-      this.highlightRangeInSingleMonth(monthContainer[i], dates);
-    }
-  }
-
-  private highlightRangeInSingleMonth(container:Element, dates:{ [key in DateKeys]:string }):void {
-    const selectedElements = jQuery(container).find('.flatpickr-day.selected');
-    if (selectedElements.length === 2) {
-      // Both dates are in the same month
-      selectedElements[0].classList.add('startRange');
-      selectedElements[1].classList.add('endRange');
-
-      this.selectRangeFromUntil(selectedElements[0], selectedElements[1]);
-    } else if (selectedElements.length === 1) {
-      // Only one date is in this month
-      if (DatePickerModalHelper.datepickerShowsDate(dates.start, selectedElements[0])) {
-        selectedElements[0].classList.add('startRange');
-        this.selectRangeFromUntil(selectedElements[0], '');
-      } else if (DatePickerModalHelper.datepickerShowsDate(dates.end, selectedElements[0])) {
-        const firstDay = jQuery(container).find('.flatpickr-day')[0];
-
-        selectedElements[0].classList.add('endRange');
-        firstDay.classList.add('inRange');
-
-        this.selectRangeFromUntil(firstDay, selectedElements[0]);
-      }
-    } else if (DatePickerModalHelper.datepickerIsInDateRange(container, dates)) {
-      // No date is in this month, but the month is completely between start and end date
-      jQuery(container).find('.flatpickr-day').addClass('inRange');
-    }
-  }
-
-  private static datepickerShowsDate(date:string, selectedElement:Element):boolean {
-    const isoDate = selectedElement.getAttribute('data-iso-date');
-
-    if (isoDate) {
-      return moment(isoDate).isSame(date, 'days');
-    }
-
-    return false;
-  }
-
-  private static datepickerIsInDateRange(container:Element, dates:{ [key in DateKeys]:string }):boolean {
-    const firstDayOfMonthElement = jQuery(container).find('.flatpickr-day:not(.hidden)')[0];
-    const isoDate = firstDayOfMonthElement.getAttribute('data-iso-date');
-
-    if (isoDate) {
-      const firstDayOfMonth = new Date(isoDate);
-
-      return firstDayOfMonth <= new Date(dates.end)
-        && firstDayOfMonth >= new Date(dates.start);
-    }
-
-    return false;
-  }
-
-  private selectRangeFromUntil(from:Element, until:string|Element) {
-    jQuery(from).nextUntil(until).addClass('inRange');
   }
 }

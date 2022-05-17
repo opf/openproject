@@ -100,17 +100,6 @@ class Version < ApplicationRecord
     effective_date && (effective_date <= Date.today) && open_issues_count.zero?
   end
 
-  def behind_schedule?
-    if completed_percent == 100
-      false
-    elsif due_date && start_date
-      done_date = start_date + ((due_date - start_date + 1) * completed_percent / 100).floor
-      done_date <= Date.today
-    else
-      false # No issues so it's not late
-    end
-  end
-
   # Returns the completion percentage of this version based on the amount of open/closed issues
   # and the time spent on the open issues.
   def completed_percent

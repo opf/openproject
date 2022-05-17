@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Login', type: :feature, clear_cache: true do
+describe 'Login', type: :feature do
   before do
     @capybara_ignore_elements = Capybara.ignore_hidden_elements
     Capybara.ignore_hidden_elements = true

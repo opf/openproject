@@ -43,6 +43,8 @@ get:
 
       + name
 
+      + typeahead (sorting by hierarchy and name)
+
       + created_at
 
       + public

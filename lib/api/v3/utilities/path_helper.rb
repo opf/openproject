@@ -148,12 +148,8 @@ module API
             "#{work_package(work_package_id)}/available_projects"
           end
 
-          def self.available_projects_on_create(type_id)
-            if type_id.to_i.zero?
-              "#{work_packages}/available_projects"
-            else
-              "#{work_packages}/available_projects?for_type=#{type_id}"
-            end
+          def self.available_projects_on_create
+            "#{work_packages}/available_projects"
           end
 
           def self.available_relation_candidates(work_package_id)

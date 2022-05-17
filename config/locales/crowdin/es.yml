@@ -78,6 +78,10 @@ es:
         contact: "Contáctenos para una demostración"
       enterprise_info_html: "es una fuerte iniciativa<strong class='icon-medal'>Enterprise</strong>."
       upgrade_info: "Actualice a un plan de pago para activarlo y empezar a usarlo en su equipo."
+    journal_aggregation:
+      explanation:
+        text: "Las acciones individuales de un usuario (como actualizar dos veces un paquete de trabajo) se combinan en una sola acción si la diferencia de antigüedad es inferior al intervalo de tiempo especificado. Se mostrarán como una sola acción en la aplicación. También se retrasarán las notificaciones por la misma cantidad de tiempo, lo que reducirá el número de correos electrónicos enviados y causará también que se retrase el %{webhook_link}."
+        link: "webhook"
   announcements:
     show_until: Muestran hasta
     is_active: mostrado actualmente
@@ -558,6 +562,7 @@ es:
         even: "debe ser incluido."
         exclusion: "está reservado."
         file_too_large: "es demasiado grande (el tamaño máximo es de %{count} Bytes)."
+        filter_does_not_exist: "el filtro no existe."
         format: "no coincide con el formato esperado '%{expected}'."
         format_nested: "no coincide con el formato esperado '%{expected}' en la ruta '%{path}'."
         greater_than: "debe ser mayor que %{count}."
@@ -885,6 +890,7 @@ es:
     updated_on: "Actualizada el"
     uploader: "Cargador"
     user: "Usuario"
+    value: "Valor"
     version: "Versión"
     work_package: "Paquete de trabajo"
   backup:
@@ -1226,7 +1232,7 @@ es:
   error_enterprise_token_invalid_domain: "La versión Enterprise Edition no está activa. Su dominio del token de Enterprise (%{actual}) no coincide con el nombre de host del sistema (%{expected})."
   error_failed_to_delete_entry: 'No se puede eliminar esta entrada.'
   error_in_dependent: "Error al intentar alterar el objeto dependiente: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
-  error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
+  error_in_new_dependent: "Error al crear el objeto dependiente: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "El valor seleccionado no es válido."
   error_journal_attribute_not_present: "El diario no contiene el atributo %{attribute}."
   error_pdf_export_too_many_columns: "Demasiadas columnas seleccionadas para la exportación de PDF. Reduzca el número de columnas."
@@ -1336,7 +1342,9 @@ es:
   menus:
     admin:
       mail_notification: "Notificaciones de correo electrónico"
-      incoming_outgoing: "Entrante/saliente"
+      mails_and_notifications: "Correos electrónicos y notificaciones"
+      aggregation_and_retention: 'Agregación y retención'
+      api_and_webhooks: "API y webhooks"
     quick_add:
       label: "Abrir menú de adición rápida"
   my_account:
@@ -2145,6 +2153,7 @@ es:
   permission_comment_news: "Comentar noticias"
   permission_commit_access: "Permiso de escritura sobre el repositorio (commit)"
   permission_copy_projects: "Copiar proyectos"
+  permission_create_backup: "Create backup"
   permission_delete_work_package_watchers: "Eliminar los observadores"
   permission_delete_work_packages: "Eliminar paquetes de trabajo"
   permission_delete_messages: "Eliminar mensajes"
@@ -2237,7 +2246,7 @@ es:
     assigned_to_role: "Asignación de roles"
     member_of_group: "Asignación de grupo"
     assignee_or_group: "Grupo al que pertenece o al que está asignado"
-    subproject_id: "Incluyendo Subproyecto"
+    subproject_id: "Including subproject"
     only_subproject_id: "Sólo subproyecto"
     name_or_identifier: "Nombre o identificador"
   repositories:
@@ -2561,7 +2570,6 @@ es:
   text_work_packages_destroy_confirmation: "¿Esta usted seguro que desea eliminar paquete(s) de trabajo seleccionado(s)?"
   text_work_packages_ref_in_commit_messages: "Referenciando y reparando paquetes de trabajo en mensajes de commit"
   text_journal_added: "%{label} %{value} añadido"
-  text_journal_aggregation_time_explanation: "Acciones individuales de un usuario (p. ej. actualizar un paquete de trabajo dos veces) se agregan en una sola acción si su diferencia de edad es menor que el intervalo de tiempo especificado. Se mostrarán como una sola acción dentro de la aplicación. Esto también retrasará las notificaciones en la misma cantidad de tiempo reduciendo el número de correos electrónicos que se envían."
   text_journal_changed_html: "%{label} se cambió de %{old} %{linebreak}<strong>a</strong> %{new}"
   text_journal_changed_plain: "%{label} se cambió de %{old} %{linebreak}a %{new}"
   text_journal_changed_no_detail: "%{label} actualizado"
@@ -2875,7 +2883,7 @@ es:
         work_package: "No se encuentra el paquete de trabajo que busca, o bien se ha eliminado."
       expected:
         date: "AAAA-MM-DD (ISO 8601 fecha solamente)"
-        datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm] (any compatible ISO 8601 datetime)"
+        datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm] (cualquier valor de fecha/hora compatible con el formato ISO 8601)"
         duration: "Duración de la ISO 8601"
       invalid_content_type: "Se esperaba que el CONTENT-TYPE fuera '%{content_type}' pero se obtuvo '%{actual}'."
       invalid_format: "Formato inválido para la propiedad '%{property}': Formato esperado como '%{expected_format}', pero se recibió '%{actual}'."
@@ -2887,7 +2895,7 @@ es:
         select: "No se admite la selección solicitada de %{invalid}. Selecciones admitidas: %{supported}"
       invalid_user_status_transition: "El estado actual de la cuenta del usuario no permite esta operación."
       missing_content_type: "sin especificar"
-      missing_property: "Missing property '%{property}'."
+      missing_property: "Falta la propiedad «%{property}»."
       missing_request_body: "No hay cuerpo de la solicitud."
       missing_or_malformed_parameter: "Falta el parámetro '%{parameter}' de la solicitud o es incorrecto."
       multipart_body_error: "El cuerpo de la solicitud no contiene las partes multiparts previstas."

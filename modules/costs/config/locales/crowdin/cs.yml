@@ -47,7 +47,7 @@ cs:
         few: "Typy nákladů"
         many: "Typy nákladů"
         other: "Typy nákladů"
-      rate: "Kurz"
+      rate: "Sazba"
     errors:
       models:
         work_package:
@@ -107,7 +107,7 @@ cs:
   label_no: "Ne"
   label_option_plural: "Možnosti"
   label_overall_costs: "Celkové náklady"
-  label_rate: "Kurz"
+  label_rate: "Sazba"
   label_rate_plural: "Kurzy"
   label_status_finished: "Ukončeno"
   label_units: "Jednotky nákladu"

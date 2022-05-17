@@ -45,7 +45,7 @@ module OpenProject
       # Get a sorted array of module names
       #
       # @param include_disabled [boolean] Whether to return all modules or only those that are active (not disabled by config)
-      def sorted_module_names(include_disabled = true)
+      def sorted_module_names(include_disabled: true)
         modules
           .reject { |mod| !include_disabled && disabled_project_modules.include?(mod[:name]) }
           .sort_by { |a| [-a[:order], l_or_humanize(a[:name], prefix: 'project_module_')] }
@@ -99,18 +99,24 @@ module OpenProject
       end
 
       def available_project_modules
-        @available_project_modules ||= begin
-          (@permissions.reject(&:global?).map(&:project_module) + @project_modules_without_permissions)
-            .uniq
-            .compact
-            .reject { |name| disabled_project_modules.include? name }
-        end
+        project_modules
+          .reject { |name| disabled_project_modules.include? name }
       end
 
       def disabled_project_modules
-        @disabled_project_modules ||= modules
+        modules
           .select { |entry| entry[:if].respond_to?(:call) && !entry[:if].call }
           .map { |entry| entry[:name].to_sym }
+      end
+
+      def project_modules
+        @project_modules ||=
+          @permissions
+            .reject(&:global?)
+            .map(&:project_module)
+            .including(@project_modules_without_permissions)
+            .uniq
+            .compact
       end
 
       def modules_permissions(modules)
@@ -145,11 +151,11 @@ module OpenProject
       end
 
       def clear_caches
-        @available_project_modules = nil
-        @public_permissions = nil
-        @members_only_permissions = nil
-        @loggedin_only_permissions = nil
         @contract_actions_map = nil
+        @loggedin_only_permissions = nil
+        @members_only_permissions = nil
+        @project_modules = nil
+        @public_permissions = nil
       end
     end
   end

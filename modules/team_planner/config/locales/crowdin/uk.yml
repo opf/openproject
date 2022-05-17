@@ -5,6 +5,7 @@ uk:
   project_module_team_planner_view: "Командний планувальник"
   team_planner:
     label_team_planner: "Командний планувальник"
+    label_create_new_team_planner: "Створити новий командний планувальник"
     label_team_planner_plural: "Командні планувальники"
     label_assignees: "Виконавці"
     upsale:

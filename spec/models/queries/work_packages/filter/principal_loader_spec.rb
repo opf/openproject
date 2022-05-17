@@ -95,7 +95,7 @@ describe Queries::WorkPackages::Filter::PrincipalLoader, type: :model do
 
     before do
       allow(Principal)
-        .to receive_message_chain(:not_locked, :in_visible_project)
+        .to receive(:visible)
         .and_return(matching_principals)
     end
 
@@ -104,7 +104,7 @@ describe Queries::WorkPackages::Filter::PrincipalLoader, type: :model do
         expect(instance.user_values).to match_array([[user.name, user.id.to_s]])
       end
 
-      context 'no user exists' do
+      context 'if no user exists' do
         let(:matching_principals) { [group] }
 
         it 'is empty' do
@@ -118,7 +118,7 @@ describe Queries::WorkPackages::Filter::PrincipalLoader, type: :model do
         expect(instance.group_values).to match_array([[group.name, group.id.to_s]])
       end
 
-      context 'no group exists' do
+      context 'if no group exists' do
         let(:matching_principals) { [user] }
 
         it 'is empty' do
@@ -135,7 +135,7 @@ describe Queries::WorkPackages::Filter::PrincipalLoader, type: :model do
                            [placeholder_user.name, placeholder_user.id.to_s]])
       end
 
-      context 'no principals' do
+      context 'if no principals exist' do
         let(:matching_principals) { [] }
 
         it 'is empty' do

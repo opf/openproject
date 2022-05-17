@@ -113,11 +113,17 @@ export function insertCollectionIntoState<T extends { id:ID }>(
   collection:IHALCollection<T>,
   collectionUrl:string,
 ):void {
+  const { elements } = collection._embedded as { elements:undefined|T[] };
+
   // Some JSON endpoints return no elements result if there are no elements
-  const ids = collection._embedded.elements?.map((el) => el.id) || [];
+  const ids = elements?.map((el) => el.id) || [];
 
   applyTransaction(() => {
-    store.upsertMany(collection._embedded.elements);
+    // Avoid inserting when elements is not defined
+    if (elements && elements.length > 0) {
+      store.upsertMany(collection._embedded.elements);
+    }
+
     store.update(({ collections }) => (
       {
         collections: {

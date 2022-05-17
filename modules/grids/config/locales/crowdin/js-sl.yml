@@ -6,7 +6,7 @@ sl:
       configure: 'Oblikuj gradnik'
       upsale:
         text: "Nekateri gradniki, kot delovni paket graf Gradnik, so dostopni samo v"
-        link: 'enterprise edition. '
+        link: 'Enterprise Edition.'
       widgets:
         custom_text:
           title: 'Besedilo po meri'

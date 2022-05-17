@@ -1,6 +1,6 @@
 #English strings go here
 hu:
-  label_calendar_plural: "Calendars"
-  permission_view_calendars: "View calendars"
-  permission_manage_calendars: "Manage calendars"
-  project_module_calendar_view: "Calendar"
+  label_calendar_plural: "Naptárak"
+  permission_view_calendar: "Naptárak megtekintése"
+  permission_manage_calendars: "Naptárak kezelése"
+  project_module_calendar_view: "Naptár"

@@ -6,7 +6,7 @@ eo:
       configure: 'Agordi kromprogrameton'
       upsale:
         text: "Some widgets, like the work package graph widget, are only available in the "
-        link: 'enterprise edition.'
+        link: 'Enterprise Edition.'
       widgets:
         custom_text:
           title: 'Propra teksto'
@@ -21,7 +21,7 @@ eo:
           too_many: 'Displaying %{count} of %{total} members.'
         news:
           title: 'Novaĵoj'
-          at: 'at'
+          at: 'je'
           no_results: 'Nothing new to report.'
         project_description:
           title: 'Priskribo de projekto'

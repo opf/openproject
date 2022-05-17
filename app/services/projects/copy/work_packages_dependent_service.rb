@@ -134,6 +134,9 @@ module Projects::Copy
         assigned_to_id: work_package_assigned_to_id(source_work_package),
         responsible_id: work_package_responsible_id(source_work_package),
         custom_field_values: custom_value_attributes,
+        # We don't support copying budgets right now
+        budget_id: nil,
+
         # We fetch the value from the global registry to persist it in the job which
         # will trigger a delayed job for potentially sending the journal notifications.
         send_notifications: ActionMailer::Base.perform_deliveries

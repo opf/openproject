@@ -82,32 +82,22 @@ The results will be displayed accordingly in the work package list.
 If you want to only show work package with specific parents (e.g. all work packages belonging to a specific phase of your project) you can use the filter "Parent". Enter all required work packages and press Enter. This will show the selected work package(s) and its/their children. 
 If you only selected work packages without children, no work packages will be shown at all.
 
-![filter-for-parent-work-package](image-20210301182354564.png)
+![filter-for-parent-work-package](filter-for-parent-work-package.png)
 
-### Filter for work packages of a subproject
+### Include/exclude work packages from a specific project or subproject
 
-When you are in a parent project and would like to view the work packages of its subprojects, you can use a filter in the work package list.
+It is possible to display the work packages from more than one project. To include, or exclude such work packages, use the **Include projects** dialog, where you can select/unselect the appropriate projects and sub-projects. To automatically include all subprojects for each project you chose to select, check the **Include all sub-projects** box at the bottom of the dialog.
 
-The filter **Only subproject** will display all work packages of the subprojects you select. Thereby, the work packages of the parent project will not be displayed.
+![Work package filter](work_package_filter.png)
 
-![work_package_filter_only_subprojects](work_package_filter_only_subprojects.png)
-
-
-
-In order to view the work packages of the parent project as well as the subprojects that you select, you need to use the filter **Including subproject**.
-
-![work_package_filter_incl_subprojects](work_package_filter_incl_subprojects.png)
-
-
-
-To view all work packages across all projects, please refer to the [global work package list](../../projects/#global-work-packages-list).
+To view all work packages across all projects you could select everything, or use the [global work package list](../../projects/#global-work-packages-list).
 
 ### Filtering by ID or work package name
 
 If you want to [create a work package view](#save-work-package-views) with only specific work packages you can use the filter "ID". By entering the ID or subject of work packages you can select them. 
 Another use case would be to *exclude* specific work packages (e.g. you want to display all milestones but one). Therefore, use the "is not" option next to the filter's name on the left.
 
-![filtering-by-work-package-id](image-20210301185550169.png)
+![filtering-by-work-package-id](filtering-by-work-package-id.png)
 
 ### Filtering for assignees or assigned groups
 
@@ -120,7 +110,7 @@ There are several options to filter for the assignee of a work package. You can 
 - Assignee's group: Filters for work packages assigned to a user from this group
 - Assignee's role: Filters for work packages assigned to users with the specified project role
 
-![assignee-or-assignee-group-filter](image-20210413115230235.png)
+![assignee-or-assignee-group-filter](assignee-or-assignee-group-filter.png)
 
 ## Sort the work package list
 

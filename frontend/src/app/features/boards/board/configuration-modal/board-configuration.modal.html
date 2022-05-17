@@ -5,28 +5,6 @@
   <op-modal-header (close)="closeMe($event)">{{text.title}}</op-modal-header>
 
   <div class="op-modal--body">
-    <div
-        *ngIf="!!tabPortalHost"
-        class="content--tabs scrollable-tabs"
-    >
-      <ul class="op-tab-row">
-        <li
-            *ngFor="let tab of availableTabs"
-            class="op-tab-row--tab"
-        >
-          <a
-              class="op-tab-row--link"
-              role="button"
-              [ngClass]="{ 'op-tab-row--link_selected': currentTab && tab.name === currentTab.name, 'op-tab-row--link_disabled': tab.disable != null  }"
-              [attr.title]="tab.disable || tab.name"
-              [textContent]="tab.name"
-              (click)="switchTo(tab)"
-              href
-          ></a>
-        </li>
-      </ul>
-    </div>
-
     <div class="tab-content" #tabContentOutlet></div>
   </div>
 

@@ -4,15 +4,15 @@ At its core, OpenProject is an open-source software that is [developed and publi
 
 Automated tests and manual code reviews ensure that these contributions are safe for the entire community of OpenProject. These tests encompass the correctness of security and access control features. We have ongoing collaborations with security professionals from to test the OpenProject code base for security exploits.
 
-For more information on security and data privacy for OpenProject, please visit: https://www.openproject.org/security-and-privacy/.
+For more information on security and data privacy for OpenProject, please visit: [www.openproject.org/security-and-privacy](https://www.openproject.org/security-and-privacy/).
 
 
 
 ## Security announcements mailing list
 
-We provide a mailing list for security advisories on OpenProject at <https://groups.google.com/forum/#!forum/openproject-security>. Please register there to get immediate notifications as we publish them. No messages except for security advisories or security related announcements will be sent there.
+We provide a mailing list for security advisories on OpenProject at [groups.google.com/g/openproject-security](https://groups.google.com/g/openproject-security). Please register there to get immediate notifications as we publish them. No messages except for security advisories or security related announcements will be sent there.
 
-Any security related information will also be published on our blog and website at https://www.openproject.com
+Any security related information will also be published on our [blog and website](https://www.openproject.com)
 
 To join this mailing list, please use the UI if you have a google account. If you don't, you can send an empty email to [openproject-security+subscribe@googlegroups.com](mailto:openproject-security+subscribe@googlegroups.com). You will get a join request, which you again have to reply with any content.
 

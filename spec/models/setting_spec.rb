@@ -111,6 +111,47 @@ describe Setting, type: :model do
       expect(described_class.app_title)
         .to eql('OpenProject')
     end
+
+    context 'when value is blank but not nil' do
+      it 'is read correctly for array' do
+        expect(Settings::Definition['apiv3_cors_origins'].format).to eq(:array) # safeguard
+        expect(described_class['apiv3_cors_origins']).to eq([])
+      end
+
+      it 'is read correctly for hash' do
+        expect(Settings::Definition['fog'].format).to eq(:hash) # safeguard
+        expect(described_class['fog']).to eq({})
+      end
+    end
+
+    context 'when value was seeded as empty string in database', :settings_reset do
+      let(:setting_name) { "my_setting" }
+
+      subject { described_class[setting_name] }
+
+      before do
+        Settings::Definition.add(
+          setting_name,
+          default: nil,
+          format: setting_format
+        )
+        described_class.create!(name: setting_name, value: '')
+      end
+
+      %i[array boolean date datetime hash symbol].each do |setting_format|
+        context "for a #{setting_format} setting" do
+          let(:setting_format) { setting_format }
+
+          it { is_expected.to be_nil }
+        end
+      end
+
+      context 'for a string setting' do
+        let(:setting_format) { :string }
+
+        it { is_expected.to eq('') }
+      end
+    end
   end
 
   describe '.[setting]?' do
@@ -228,9 +269,8 @@ describe Setting, type: :model do
   end
 
   # tests the serialization feature to store complex data types like arrays in settings
-  describe 'serialized settings' do
+  describe 'serialized array settings' do
     before do
-      # note: default_projects_modules is marked as serialized in settings.yml (no type-based automagic here)
       described_class.default_projects_modules = ['some_input']
     end
 
@@ -238,9 +278,50 @@ describe Setting, type: :model do
       expect(described_class.default_projects_modules).to eq ['some_input']
       expect(described_class.find_by(name: 'default_projects_modules').value).to eq ['some_input']
     end
+  end
 
-    after do
-      described_class.find_by(name: 'default_projects_modules').destroy
+  # tests the serialization feature to store complex data types like arrays in settings
+  describe 'serialized hash settings' do
+    before do
+      setting = described_class.create!(name: 'repository_checkout_data')
+      setting.update_columns(
+        value: {
+          git: { enabled: 0 },
+          subversion: { enabled: 0 }
+        }.to_yaml
+      )
+    end
+
+    it 'deserializes hashes stored with symbol keys as string keys' do
+      expected_value = {
+        "git" => { "enabled" => 0 },
+        "subversion" => { "enabled" => 0 }
+      }
+
+      expect(described_class.repository_checkout_data).to eq(expected_value)
+      expect(described_class.find_by(name: 'repository_checkout_data').value).to eq(expected_value)
+    end
+  end
+
+  describe 'serialized hash settings with URI::Generic inside it' do
+    before do
+      setting = described_class.create!(name: 'repository_checkout_data')
+      setting.update_columns(
+        value: {
+          git: { enabled: 1, base_url: URI::Generic.build(scheme: 'https', host: 'git.example.com', path: '/public') },
+          subversion: { enabled: 0 }
+        }.to_yaml
+      )
+    end
+
+    it 'deserializes correctly' do
+      expected_value = {
+        "git" => { "enabled" => 1, "base_url" => "https://git.example.com/public" },
+        "subversion" => { "enabled" => 0 }
+      }
+
+      expect(described_class.repository_checkout_data).to eq(expected_value)
+      expect(described_class.find_by(name: 'repository_checkout_data').value).to eq(expected_value)
     end
   end
 
@@ -257,7 +338,7 @@ describe Setting, type: :model do
       Rails.cache.clear
     end
 
-    context 'cache is empty' do
+    context 'when cache is empty' do
       it 'requests the settings once from database' do
         expect(Setting).to receive(:pluck).with(:name, :value)
           .once
@@ -295,7 +376,7 @@ describe Setting, type: :model do
       end
     end
 
-    context 'cache is not empty' do
+    context 'when cache is not empty' do
       let(:cached_hash) do
         { 'available_languages' => "---\n- en\n- de\n" }
       end

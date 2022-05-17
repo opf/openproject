@@ -78,6 +78,10 @@ ru:
         contact: "Свяжитесь с нами для опробирования"
       enterprise_info_html: "является функцией <strong class='icon-medal'></strong> корпоративной версии."
       upgrade_info: "Пожалуйста, перейдите на платный тарифный план, чтобы активировать его и начать использовать в вашей команде."
+    journal_aggregation:
+      explanation:
+        text: "Личные действия пользователя (напр. обновление пакета работ дважды) агрегируются в одно действие, если их разница в возрасте меньше указанного промежутка времени. Они будут отображаться как одно действие внутри приложения. Это также задерживает уведомление на такое же количество времени, уменьшая количество отправляемых писем и также повлияет на %{webhook_link} задержки."
+        link: "вебхук"
   announcements:
     show_until: Показать до
     is_active: теперь отображается
@@ -453,15 +457,15 @@ ru:
         work_packages: "Задачи"
         templated: 'Проект шаблона'
       projects/status:
-        code: 'Состояние'
+        code: 'Статус'
         explanation: 'Описание статуса'
         codes:
           not_started: 'Не запущен'
           on_track: 'В работе'
-          at_risk: 'Есть риск'
+          at_risk: 'Под угрозой'
           off_track: 'Приостановлен'
-          finished: 'Завершено'
-          discontinued: 'Прекращено'
+          finished: 'Завершен'
+          discontinued: 'Работы прекращены'
       query:
         column_names: "Столбцы"
         relations_to_type_column: "Отношения к %{type}"
@@ -562,6 +566,7 @@ ru:
         even: "должно быть чётным."
         exclusion: "зарезервировано."
         file_too_large: "слишком большой (максимальный размер составляет %{count} байт)."
+        filter_does_not_exist: "фильтр не существует."
         format: "не соответствует ожидаемому формату '%{expected}'."
         format_nested: "не соответствует ожидаемому формату '%{expected}' в пути '%{path}'."
         greater_than: "должно быть больше чем %{count}."
@@ -749,7 +754,7 @@ ru:
               does_not_exist: "Указанная категория не существует."
             estimated_hours:
               only_values_greater_or_equal_zeroes_allowed: "должно быть > = 0."
-          readonly_status: 'Пакет работ находится в состоянии только для чтения, поэтому его атрибуты не могут быть изменены.'
+          readonly_status: 'Пакет работ находится в статусе доступном только для чтения, поэтому его атрибуты не могут быть изменены.'
         type:
           attributes:
             attribute_groups:
@@ -780,7 +785,7 @@ ru:
                 confirm: "Подтвердите новый пароль."
                 description: "«Подтвержденный пароль» должен совпадать с введенным «новым паролем»."
             status:
-              invalid_on_create: "для нового пользователя это неподходящий статус."
+              invalid_on_create: "не является допустимым статусом для новых пользователей."
             auth_source:
               error_not_found: "не найдено"
         member:
@@ -811,7 +816,7 @@ ru:
       custom_field: "Настраиваемое поле"
       group: "Группа"
       category: "Категория"
-      status: "Состояние группы работ"
+      status: "Статус пакета работ"
       member: "Участник"
       news: "Новости"
       notification:
@@ -888,7 +893,7 @@ ru:
     role: "Роль"
     roles: "Роль"
     start_date: "Дата начала"
-    status: "Состояние"
+    status: "Статус"
     subject: "Тема"
     summary: "Сводка"
     title: "Заголовок"
@@ -897,6 +902,7 @@ ru:
     updated_on: "Обновлено"
     uploader: "Кто загрузил"
     user: "Пользователь"
+    value: "Значение"
     version: "Этапы"
     work_package: "Пакет работ"
   backup:
@@ -1280,7 +1286,7 @@ ru:
   error_password_change_failed: 'Произошла ошибка при попытке изменить пароль.'
   error_scm_command_failed: "Произошла ошибка при попытке доступа к хранилищу: %{value}"
   error_scm_not_found: "Ни статья, ни ее исправленная версия в репозитории не найдены."
-  error_unable_delete_status: "Состояние работы пакета удалить нельзя, так как оно используется по крайней мере одним рабочим пакетом."
+  error_unable_delete_status: "Статус пакета работ удалить нельзя, так как он используется по крайней мере одним рабочим пакетом."
   error_unable_delete_default_status: "Не удается удалить статус работы пакета по умолчанию. Пожалуйста, выберите другой статус работы пакета по умолчанию перед удалением текущего."
   error_unable_to_connect: "Не удается подключиться (%{value})"
   error_unable_delete_wiki: "Не удается удалить вики-страницу."
@@ -1372,7 +1378,9 @@ ru:
   menus:
     admin:
       mail_notification: "Уведомления по электронной почте"
-      incoming_outgoing: "Входящие и исходящие"
+      mails_and_notifications: "Письма и уведомления"
+      aggregation_and_retention: 'Агрегация и удержание'
+      api_and_webhooks: "API и вебхуки"
     quick_add:
       label: "Открыть меню быстрого добавления"
   my_account:
@@ -1834,7 +1842,7 @@ ru:
   label_start_to_end: "от начала до конца"
   label_start_to_start: "Пуск, чтобы начать"
   label_statistics: "Статистика"
-  label_status: "Состояние"
+  label_status: "Статус"
   label_stay_logged_in: "Запомнить"
   label_storage_free_space: "Свободное дисковое пространство"
   label_storage_used_space: "Используемое дисковое пространство"
@@ -1925,7 +1933,7 @@ ru:
   label_work_package_new: "Новый пакет работ"
   label_work_package_edit: "Редактирование пакета работ %{name}"
   label_work_package_plural: "Комплекс работ"
-  label_work_package_status: "Состояние группы работ"
+  label_work_package_status: "Статус пакета работ"
   label_work_package_status_new: "Новый статус"
   label_work_package_status_plural: "Статусы пакета работ"
   label_work_package_types: "Типы рабочих пакетов"
@@ -2184,6 +2192,7 @@ ru:
   permission_comment_news: "Комментировать новость"
   permission_commit_access: "Возможность чтения/записи в репозиторий (commit)"
   permission_copy_projects: "Копировать проект"
+  permission_create_backup: "Создать резервную копию"
   permission_delete_work_package_watchers: "Удалить наблюдателей"
   permission_delete_work_packages: "Удалить пакеты работ"
   permission_delete_messages: "Удалить сообщения"
@@ -2599,7 +2608,6 @@ ru:
   text_work_packages_destroy_confirmation: "Вы уверены, что хотите удалить выбранные пакет(-ы) работ?"
   text_work_packages_ref_in_commit_messages: "Привязка и фиксация пакетов работ в сообщениях коммитов"
   text_journal_added: "%{label} %{value} добавлено"
-  text_journal_aggregation_time_explanation: "Личные действия пользователя (напр. обновление пакета работ дважды) агрегируются в одно действие, если их разница в возрасте меньше указанного промежутка времени. Они будут отображаться как одно действие внутри приложения. Это также задерживает уведомления на то же количество времени, уменьшая количество отправляемых сообщений."
   text_journal_changed_html: "%{label} изменено с %{old} %{linebreak}<strong>на</strong> %{new}"
   text_journal_changed_plain: "%{label} изменено с %{old} %{linebreak}на %{new}"
   text_journal_changed_no_detail: "%{label} обновлено"
@@ -2716,7 +2724,7 @@ ru:
         type: "Тип"
         due_date: "Дате окончания"
         name: "Имя"
-        status: "Состояние"
+        status: "Статус"
         start_date: "Дата начала"
       columns: "Столбцы"
       comparisons: "Сравнения"
@@ -2748,7 +2756,7 @@ ru:
       work_package_responsible: "Показать пакеты работ с подотчетными"
       work_package_assignee: "Показать пакеты работ с назначениями"
       types: "Показать типы"
-      status: "Показать состояние"
+      status: "Показать статус"
       project_time_filter: "Проекты пакета работ определенного типа в определенные сроки"
       project_time_filter_timeframe: "Срок"
       project_time_filter_historical_from: "от"

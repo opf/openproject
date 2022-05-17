@@ -47,14 +47,14 @@ class Queries::SetAttributesService < ::BaseServices::SetAttributes
   end
 
   def set_ordered_work_packages(ordered_hash)
-    return if ordered_hash.nil?
+    return if ordered_hash.nil? || model.persisted?
 
     available = WorkPackage.where(id: ordered_hash.keys.map(&:to_s)).pluck(:id).to_set
 
     ordered_hash.each do |key, position|
       # input keys are symbols due to hashie::mash, and AR doesn't like that
       wp_id = key.to_s.to_i
-      next unless available.include?(wp_id.to_s.to_i)
+      next unless available.include?(wp_id)
 
       model.ordered_work_packages.build(work_package_id: wp_id, position: position)
     end

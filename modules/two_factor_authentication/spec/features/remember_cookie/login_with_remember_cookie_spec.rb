@@ -4,7 +4,12 @@ require_relative '../shared_2fa_examples'
 describe 'Login with 2FA remember cookie',
          type: :feature,
          with_2fa_ee: true,
-         with_config: { '2fa': { active_strategies: [:developer], allow_remember_for_days: 30 } },
+         with_settings: {
+           plugin_openproject_two_factor_authentication: {
+             active_strategies: [:developer],
+             allow_remember_for_days: 30
+           }
+         },
          js: true do
   let(:user_password) do
     "user!user!"
@@ -40,15 +45,20 @@ describe 'Login with 2FA remember cookie',
     expect_not_logged_in
   end
 
-  context 'not enabled',
-          with_config: { '2fa': { active_strategies: [:developer], allow_remember_for_days: 0 } } do
+  context 'when not enabled',
+          with_settings: {
+            plugin_openproject_two_factor_authentication: {
+              active_strategies: [:developer],
+              allow_remember_for_days: 0
+            }
+          } do
     it 'does not show the save form' do
       first_login_step
       expect(page).to have_no_selector('input#remember_me')
     end
   end
 
-  context 'user has no remember cookie' do
+  context 'when user has no remember cookie' do
     it 'can remove the autologin cookie after login' do
       login_with_cookie
       visit my_2fa_devices_path

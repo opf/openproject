@@ -1,6 +1,7 @@
 class EditField
   include Capybara::DSL
   include RSpec::Matchers
+  include ::Components::NgSelectAutocompleteHelpers
 
   attr_reader :selector,
               :property_name,
@@ -133,14 +134,28 @@ class EditField
   # For fields of type select, will check for an option with that value.
   def set_value(content)
     scroll_to_element(input_element)
-    if field_type.end_with?('-autocompleter')
-      page.find('.ng-dropdown-panel .ng-option', visible: :all, text: content).click
+    if autocompleter_field?
+      autocomplete(content)
     else
       # A normal fill_in would cause the focus loss on the input for empty strings.
       # Thus the form would be submitted.
       # https://github.com/erikras/redux-form/issues/686
       input_element.fill_in with: content, fill_options: { clear: :backspace }
     end
+  end
+
+  def autocomplete(query, select: true)
+    raise ArgumentError.new('Is not an autocompleter field') unless autocompleter_field?
+
+    if select
+      select_autocomplete field_container, query: query, results_selector: 'body'
+    else
+      search_autocomplete field_container, query: query, results_selector: 'body'
+    end
+  end
+
+  def autocompleter_field?
+    field_type.end_with?('-autocompleter')
   end
 
   ##
@@ -231,11 +246,12 @@ class EditField
            'responsible',
            'priority',
            'status',
-           'project',
            'type',
            'category',
            'workPackage'
         'create-autocompleter'
+      when 'project'
+        'op-autocompleter'
       when 'activity'
         'activity-autocompleter'
       else

@@ -78,6 +78,10 @@ cs:
         contact: "Kontaktujte nás pro demo"
       enterprise_info_html: "je funkcí Enterprise<strong class='icon-medal'></strong>."
       upgrade_info: "Přejděte na placenou verzi a začněte ji používat ve vašem týmu."
+    journal_aggregation:
+      explanation:
+        text: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent and will also affect %{webhook_link} delay."
+        link: "webhook"
   announcements:
     show_until: Ukázat až do
     is_active: aktuálně zobrazené
@@ -124,9 +128,9 @@ cs:
         OpenProject will always filter for the login attribute provided by the user to identify the record. If you provide a filter here,
         it will be concatenated with an AND. By default, a catch-all (objectClass=*) will be used as a filter.
       onthefly_register: |
-        If you check this box, OpenProject will automatically create new users from their LDAP entries
-        when they first authenticate with OpenProject.
-        Leave this unchecked to only allow existing accounts in OpenProject to authenticate through LDAP!
+        Pokud zaškrtnete toto políčko, OpenProject automaticky vytvoří nové uživatele z jejich LDAP položek
+        při prvním ověření OpenProject.
+        Ponechte toto nezaškrtnuté pro povolení pouze existujících účtů v OpenProject pro ověření pomocí LDAP!
     connection_encryption: 'Šifrování připojení'
     system_account: 'Systémový účet'
     system_account_legend: |
@@ -563,6 +567,7 @@ cs:
         even: "musí být sudé."
         exclusion: "vyhrazeno."
         file_too_large: "je příliš velký (maximální velikost je %{count} Bajtů)."
+        filter_does_not_exist: "Filtr neexistuje."
         format: "neodpovídá očekávanému formátu '%{expected}'."
         format_nested: "neodpovídá očekávanému formátu '%{expected}' na cestě '%{path}'."
         greater_than: "musí být větší než %{count}."
@@ -898,10 +903,11 @@ cs:
     updated_on: "Aktualizováno"
     uploader: "Uploader"
     user: "Uživatel"
+    value: "Hodnota"
     version: "Verze"
     work_package: "Pracovní balíček"
   backup:
-    failed: "Backup failed"
+    failed: "Záloha se nezdařila"
     label_backup_token: "Záložní token"
     label_create_token: "Vytvořit záložní token"
     label_delete_token: "Odstranit záložní token"
@@ -1373,7 +1379,9 @@ cs:
   menus:
     admin:
       mail_notification: "E-mailová upozornění"
-      incoming_outgoing: "Příchozí a odchozí"
+      mails_and_notifications: "E-maily a oznámení"
+      aggregation_and_retention: 'Aggregation and retention'
+      api_and_webhooks: "API & Webhooky"
     quick_add:
       label: "Otevřít nabídku rychlého přidání"
   my_account:
@@ -1469,7 +1477,7 @@ cs:
   label_blog: "Blog"
   label_forums_locked: "Uzamčeno"
   label_forum_new: "Nové fórum"
-  label_forum_plural: "Diskuse"
+  label_forum_plural: "Fóra"
   label_forum_sticky: "Přilepit"
   label_boolean: "Logická hodnota"
   label_branch: "Větev"
@@ -1932,7 +1940,7 @@ cs:
   label_work_package_types: "Typy pracovních balíčků"
   label_work_package_tracking: "Sledování pracovních balíčků"
   label_work_package_view_all: "Zobrazit všechny pracovní balíčky"
-  label_workflow: "Pracovní vrstva"
+  label_workflow: "Workflow"
   label_workflow_plural: "Pracovní vrstvy"
   label_workflow_summary: "Souhrn"
   label_x_closed_work_packages_abbr:
@@ -2025,7 +2033,7 @@ cs:
   mail_body_backup_waiting_period: Nový token bude povolen za %{hours} hodin.
   mail_body_backup_token_warning: Pokud jste to nebyl Vy, přihlaste se okamžitě do OpenProject a resetujte jej .
   mail_body_lost_password: "Pro změnu vašeho hesla klikněte na následující odkaz:"
-  mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
+  mail_body_register: "Vítejte v %{app_title}. Aktivujte svůj účet kliknutím na tento odkaz:"
   mail_body_register_header_title: "E-mail pozvánka člena projektu"
   mail_body_register_user: "Vážený %{name},"
   mail_body_register_links_html: |
@@ -2169,7 +2177,7 @@ cs:
     heading_getting_started: "Získejte přehled"
     text_getting_started_description: "Získejte rychlý přehled o řízení projektu a týmové spolupráci s OpenProject."
     text_show_again: "Toto video můžete restartovat z menu nápovědy"
-    welcome: "Welcome to %{app_title}"
+    welcome: "Vítejte v %{app_title}"
     select_language: "Vyberte prosím svůj jazyk"
   permission_add_work_package_notes: "Přidat poznámky"
   permission_add_work_packages: "Přidat pracovní balíčky"
@@ -2185,6 +2193,7 @@ cs:
   permission_comment_news: "Komentování novinek"
   permission_commit_access: "Čtěte/zapisovat přístup do repozitáře (commit)"
   permission_copy_projects: "Kopírovat projekty"
+  permission_create_backup: "Create backup"
   permission_delete_work_package_watchers: "Smazat sledující uživatele"
   permission_delete_work_packages: "Odstranit pracovní balíčky"
   permission_delete_messages: "Odstranit zprávy"
@@ -2208,7 +2217,7 @@ cs:
   permission_export_wiki_pages: "Exportovat Wiki stránky"
   permission_list_attachments: "Seznam příloh"
   permission_log_time: "Protokolovat strávený čas"
-  permission_manage_forums: "Správa fóra"
+  permission_manage_forums: "Správa fór"
   permission_manage_categories: "Spravovat kategorie pracovního balíčku"
   permission_manage_work_package_relations: "Spravovat vztahy pracovních balíčků"
   permission_manage_members: "Správa členů"
@@ -2238,7 +2247,7 @@ cs:
   permission_view_timelines: "Zobrazit časové osy"
   permission_view_wiki_edits: "Zobrazit historii wiki"
   permission_view_wiki_pages: "Zobrazit wiki"
-  permission_work_package_assigned: "Become assignee/responsible"
+  permission_work_package_assigned: "Staňte se řešitelem/odpovědným"
   permission_work_package_assigned_explanation: "Pracovní balíčky mohou být přiřazeny uživatelům a skupinám, které tuto roli vlastní v příslušném projektu"
   placeholders:
     default: "-"
@@ -2263,7 +2272,7 @@ cs:
       are_you_sure: "Opravdu chcete archivovat projekt '%{name}'?"
       archived: "Archivováno"
   project_module_activity: "Aktivita"
-  project_module_forums: "Diskuse"
+  project_module_forums: "Fóra"
   project_module_work_package_tracking: "Sledování pracovních balíčků"
   project_module_news: "Novinky"
   project_module_repository: "Repozitář"
@@ -2277,7 +2286,7 @@ cs:
     assigned_to_role: "Řešitelova role"
     member_of_group: "Řešitelova skupina"
     assignee_or_group: "Přiřazený nebo patřící skupině"
-    subproject_id: "Včetně podprojektu"
+    subproject_id: "Including subproject"
     only_subproject_id: "Pouze podprojekt"
     name_or_identifier: "Jméno nebo identifikátor"
   repositories:
@@ -2601,7 +2610,6 @@ cs:
   text_work_packages_destroy_confirmation: "Jste si jisti, že chcete odstranit vybrané pracovní balíčky?"
   text_work_packages_ref_in_commit_messages: "Odkazování a opravování pracovních balíčků ve zprávách commitu"
   text_journal_added: "%{label} %{value} přidán"
-  text_journal_aggregation_time_explanation: "Individuální akce/úpravy uživatele (např. dvojnásobná aktualizace pracovního balíčku se sečtou do jediné akce, pokud je jejich časový rozdíl menší než stanovený čas. Budou zobrazeny jako jedna akce v rámci aplikace. Toto také zpozdí oznámení o stejný čas a sníží tak počet zasílaných e-mailů."
   text_journal_changed_html: "%{label} se změnil z %{old} %{linebreak}<strong>na</strong> %{new}"
   text_journal_changed_plain: "%{label} se změnil z %{old} %{linebreak}na %{new}"
   text_journal_changed_no_detail: "%{label} aktualizován"
@@ -2881,7 +2889,7 @@ cs:
 
   warning_bar:
     protocol_mismatch:
-      title: 'Protocol setting mismatch'
+      title: 'Neshoda nastavení protokolu'
       text_html: >
         Your application is running with its protocol setting set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! Go to <a href="%{setting_path}">System settings</a> and change the "Protocol" setting to correct this.
     hostname_mismatch:
@@ -2931,7 +2939,7 @@ cs:
         select: "Požadovaný select %{invalid} není podporován. Podporovaný select je %{supported}."
       invalid_user_status_transition: "Stav aktuálního uživatelského účtu tuto operaci nepovoluje."
       missing_content_type: "není specifikováno"
-      missing_property: "Missing property '%{property}'."
+      missing_property: "Chybí vlastnost '%{property}'."
       missing_request_body: "Nebylo nalezeno žádné tělo požadavku."
       missing_or_malformed_parameter: "Parametr dotazu '%{parameter}' chybí nebo je chybný."
       multipart_body_error: "Požadované tělo neobsahovalo očekávané vícenásobné části."
@@ -2966,7 +2974,7 @@ cs:
         #Common error messages
         invalid_request:
           unknown: 'Požadavek chybí požadovaný parametr, obsahuje nepodporovanou hodnotu parametru nebo je jinak poškozený.'
-          missing_param: 'Missing required parameter: %{value}.'
+          missing_param: 'Chybí potřebný parametr: %{value}.'
           request_not_authorized: 'Request need to be authorized. Required parameter for authorizing request is missing or invalid.'
         invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
         unauthorized_client: 'Klient nemá oprávnění k provedení tohoto požadavku pomocí této metody.'

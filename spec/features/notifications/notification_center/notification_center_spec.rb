@@ -109,7 +109,7 @@ describe "Notification center", type: :feature, js: true, with_settings: { journ
         raise "Expected notification to be marked read" unless notification.read_ian
       end
 
-      center.close
+      visit home_path
       center.expect_bell_count 1
 
       center.open

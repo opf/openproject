@@ -51,7 +51,7 @@ module API
                render_nil: true
       property :raw,
                exec_context: :decorator,
-               getter: ->(*) { represented },
+               getter: ->(*) { raw_text },
                render_nil: true
       property :html,
                exec_context: :decorator,
@@ -60,10 +60,15 @@ module API
                render_nil: true
 
       def to_html
-        format_text(represented, format: @format, object: @object)
+        format_text(raw_text, format: @format, object: @object)
       end
 
       private
+
+      # Ensure the raw text is always a string
+      def raw_text
+        represented.to_s
+      end
 
       def model_required?
         # the formatted string may also be nil, we are prepared for that

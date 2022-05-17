@@ -1,12 +1,13 @@
 #English strings go here
 ko:
-  permission_view_team_planner: "View team planner"
-  permission_manage_team_planner: "Manage team planner"
-  project_module_team_planner_view: "Team planner"
+  permission_view_team_planner: "팀 플래너 보기"
+  permission_manage_team_planner: "팀 플래너 관리"
+  project_module_team_planner_view: "팀 플래너"
   team_planner:
-    label_team_planner: "Team planner"
-    label_team_planner_plural: "Team planners"
-    label_assignees: "Assignees"
+    label_team_planner: "팀 플래너"
+    label_create_new_team_planner: "새로운 팀 플래너 만들기"
+    label_team_planner_plural: "팀 플래너"
+    label_assignees: "담당자"
     upsale:
-      title: "Team planner"
-      description: "Team planner gives you a complete overview what each of team member is working on, one week at a time. Move, stretch and shrink work packages visually, and even drag them from one assignee to another to organise workload. You can even create new work packages or add existing ones, all from within team planner!"
+      title: "팀 플래너"
+      description: "팀 플래너는 한 번에 한 주씩 각 팀원이 작업하고 있는 사항에 대한 전체 개요를 제공합니다. 작업 패키지를 시각적으로 이동, 확장 및 축소하고 한 담당자에게서 다른 담당자에게로 드래그하여 작업량을 구성할 수도 있습니다. 팀 플래너 내에서 새 작업 패키지를 생성하거나 기존 패키지를 추가할 수도 있습니다!"

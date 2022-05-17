@@ -5,8 +5,9 @@ lol:
   project_module_team_planner_view: "crwdns493749:0crwdne493749:0"
   team_planner:
     label_team_planner: "crwdns493751:0crwdne493751:0"
+    label_create_new_team_planner: "crwdns809626:0crwdne809626:0"
     label_team_planner_plural: "crwdns759496:0crwdne759496:0"
     label_assignees: "crwdns759498:0crwdne759498:0"
     upsale:
       title: "crwdns657565:0crwdne657565:0"
-      description: "crwdns657567:0crwdne657567:0"
+      description: "crwdns809576:0crwdne809576:0"

@@ -67,6 +67,21 @@ export class AddExistingPaneComponent extends UntilDestroyedMixin implements OnI
 
   isLoading$ = new BehaviorSubject<boolean>(false);
 
+  noResultsFound$ = this.isEmpty$
+    .pipe(
+      map((resultEmpty) => {
+        if (this.searchString$.getValue().length === 0) {
+          return { showImage: true, text: this.text.empty_state };
+        }
+
+        if (resultEmpty) {
+          return { showImage: false, text: this.text.no_results };
+        }
+
+        return {};
+      }),
+    );
+
   currentWorkPackages$ = combineLatest([
     this.calendarDrag.draggableWorkPackages$,
     this.querySpace.results.values$(),
@@ -88,6 +103,7 @@ export class AddExistingPaneComponent extends UntilDestroyedMixin implements OnI
   text = {
     empty_state: this.I18n.t('js.team_planner.quick_add.empty_state'),
     placeholder: this.I18n.t('js.team_planner.quick_add.search_placeholder'),
+    no_results: this.I18n.t('js.autocompleter.notFoundText'),
   };
 
   image = {

@@ -72,6 +72,10 @@ describe 'Project templates', type: :feature, js: true do
     let(:status_field_selector) { 'ckeditor-augmented-textarea[textarea-selector="#project_status_explanation"]' }
     let(:status_description) { ::Components::WysiwygEditor.new status_field_selector }
 
+    let!(:other_user) do
+      create(:user, member_in_project: template, member_through_role: role)
+    end
+
     let(:name_field) { ::FormFields::InputFormField.new :name }
     let(:template_field) { ::FormFields::SelectFormField.new :use_template }
     let(:status_field) { ::FormFields::SelectFormField.new :status }
@@ -86,9 +90,15 @@ describe 'Project templates', type: :feature, js: true do
 
       name_field.set_value 'Foo bar'
 
+      expect(page)
+        .not_to have_content('COPY OPTIONS')
+
       template_field.select_option 'My template'
 
-      sleep 1
+      # Only when a template is selected, the options are displayed.
+      # Using this to know when the copy form has been fetched from the backend.
+      expect(page)
+        .to have_content('COPY OPTIONS')
 
       # It keeps the name
       name_field.expect_value 'Foo bar'
@@ -98,15 +108,18 @@ describe 'Project templates', type: :feature, js: true do
       page.find('.op-fieldset--toggle', text: 'ADVANCED SETTINGS').click
       status_field.expect_selected 'ON TRACK'
 
-      # It does not show the copy meta flags
-      expect(page).to have_no_selector('[data-qa-field-name="copyMembers"]')
-
-      # But shows the send notifications field
-      expect(page).to have_selector('[data-qa-field-name="sendNotifications"]')
 
       # Update status to off track
       status_field.select_option 'Off track'
       parent_field.select_option other_project.name
+
+      page.find('.op-fieldset--toggle', text: 'COPY OPTIONS').click
+
+      # Now shows the send notifications field.
+      expect(page).to have_selector('[data-qa-field-name="sendNotifications"]')
+
+      # And allows to deselect copying the members.
+      uncheck 'Members'
 
       page.find('button:not([disabled])', text: 'Save').click
 
@@ -127,7 +140,8 @@ describe 'Project templates', type: :feature, js: true do
       project = Project.find_by identifier: 'foo-bar'
       expect(project.name).to eq 'Foo bar'
       expect(project).not_to be_templated
-      expect(project.users.first).to eq current_user
+      # Does not include the member excluded from being copied but sets the copying user as member.
+      expect(project.users).to match_array(current_user)
       expect(project.enabled_module_names.sort).to eq(template.enabled_module_names.sort)
 
       wp_source = template.work_packages.first.attributes.except(*%w[id author_id project_id updated_at created_at])

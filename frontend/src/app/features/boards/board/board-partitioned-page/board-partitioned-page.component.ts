@@ -76,7 +76,7 @@ export class BoardPartitionedPageComponent extends UntilDestroyedMixin {
   editable:boolean;
 
   /** Go back to boards using back-button */
-  backButtonCallback = () => this.state.go('boards');
+  backButtonCallback:() => void;
 
   /** Current query title to render */
   selectedTitle?:string;

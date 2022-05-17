@@ -7,11 +7,12 @@
       <li *ngIf="canAdd"
           class="toolbar-item">
         <a class="button -alt-highlight"
+           [title]="text.create_new_board"
            (click)="newBoard()">
           <op-icon icon-classes="button--icon icon-add">
           </op-icon>
           <span class="button--text"
-                [textContent]="text.create">
+                [textContent]="text.board">
           </span>
         </a>
       </li>
@@ -93,7 +94,7 @@
             <op-date-time [dateTimeValue]="board.createdAt"></op-date-time>
           </td>
           <td class="buttons">
-            <button class="op-link"
+            <button class="spot-link"
                     type="button"
                     (click)="destroyBoard(board)"
                     [title]="text.delete"

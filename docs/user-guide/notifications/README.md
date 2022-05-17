@@ -12,8 +12,9 @@ This section will introduce in-app notifications and explain how to work with th
 
 ## Overview of in-app notifications in OpenProject
 
-
 In-app notifications are a tool to get notified about requests, changes and new assignments in OpenProject. The notifications can work as an alternative to email notification, or be used in parallel. This feature is enabled by default.
+
+<video src="https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-In-app-notifications.mp4" type="video/mp4" controls="" style="width:100%"></video>
 
 ## Accessing in-app notifications
 

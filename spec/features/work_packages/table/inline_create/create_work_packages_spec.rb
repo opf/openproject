@@ -55,7 +55,7 @@ describe 'inline create work package', js: true do
 
         # Expect new create row to exist
         expect(page).to have_selector('.wp--row', count: 2)
-        expect(page).to have_selector('.wp-inline-create--add-link')
+        expect(page).to have_button(exact_text: 'Create new work package')
 
         wp_table.click_inline_create
 
@@ -70,7 +70,7 @@ describe 'inline create work package', js: true do
         expect(page).to have_selector('.wp--row .subject', text: 'Some subject')
         expect(page).to have_selector('.wp--row .subject', text: 'Another subject')
 
-        # safegurards
+        # safeguards
         wp_table.dismiss_toaster!
         wp_table.expect_no_toaster(
           message: 'Successful update. Click here to open this work package in fullscreen view.'
@@ -86,7 +86,7 @@ describe 'inline create work package', js: true do
 
       it 'renders the work package, but no create row' do
         wp_table.expect_work_package_listed(existing_wp)
-        expect(page).to have_no_selector('.wp-inline-create--add-link')
+        expect(page).not_to have_button(exact_text: 'Create new work package')
       end
     end
 
@@ -159,6 +159,8 @@ describe 'inline create work package', js: true do
           project_field.openSelectField
           project_field.set_value project.name
 
+          sleep 1
+
           # Set type
           type_field = wp_table.edit_field(nil, :type)
           type_field.expect_active!
@@ -183,7 +185,7 @@ describe 'inline create work package', js: true do
       end
     end
 
-    context 'user has permissions in other project' do
+    context 'when user has permissions in other project' do
       let(:permissions) { [:view_work_packages] }
 
       let(:project2) { create :project }
@@ -201,7 +203,7 @@ describe 'inline create work package', js: true do
 
       it 'renders the work packages, but no create' do
         wp_table.expect_work_package_listed(existing_wp)
-        expect(page).to have_no_selector('.wp-inline-create--add-link')
+        expect(page).not_to have_button(exact_text: 'Create new work package')
         expect(page).to have_selector('.add-work-package[disabled]')
       end
     end

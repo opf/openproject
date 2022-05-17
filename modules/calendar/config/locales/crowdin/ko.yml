@@ -1,6 +1,6 @@
 #English strings go here
 ko:
-  label_calendar_plural: "Calendars"
-  permission_view_calendars: "View calendars"
-  permission_manage_calendars: "Manage calendars"
-  project_module_calendar_view: "Calendar"
+  label_calendar_plural: "달력"
+  permission_view_calendar: "달력 보기"
+  permission_manage_calendars: "달력 관리"
+  project_module_calendar_view: "달력"

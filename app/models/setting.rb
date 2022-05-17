@@ -97,7 +97,7 @@ class Setting < ApplicationRecord
           end
 
           value = self[:#{name}]
-          ActiveRecord::Type::Boolean.new.cast(value)
+          ActiveRecord::Type::Boolean.new.cast(value) || false
         end
 
         def self.#{name}=(value)
@@ -141,8 +141,8 @@ class Setting < ApplicationRecord
     end
   end
 
-  validates_uniqueness_of :name
   validates :name,
+            uniqueness: true,
             inclusion: {
               in: ->(*) { Settings::Definition.all.map(&:name) } # @available_settings change at runtime
             }
@@ -157,7 +157,11 @@ class Setting < ApplicationRecord
   end
 
   def value=(val)
-    unless Settings::Definition[name].writable?
+    set_value! val
+  end
+
+  def set_value!(val, force: false)
+    unless force || definition.writable?
       raise NoMethodError, "#{name} is not writable but can be set through env vars or configuration.yml file."
     end
 
@@ -167,7 +171,7 @@ class Setting < ApplicationRecord
   def formatted_value(value)
     return value if value.blank?
 
-    if config.serialized?
+    if definition.serialized?
       return value.to_yaml
     end
 
@@ -179,10 +183,10 @@ class Setting < ApplicationRecord
     cached_or_default(name)
   end
 
-  def self.[]=(name, v)
-    old_setting = cached_or_default(name)
+  def self.[]=(name, value)
+    old_value = cached_or_default(name)
     new_setting = find_or_initialize_by(name: name)
-    new_setting.value = v
+    new_setting.value = value
 
     # Keep the current cache key,
     # since updated_at will change after .save
@@ -195,11 +199,11 @@ class Setting < ApplicationRecord
       clear_cache(old_cache_key)
 
       # fire callbacks for name and pass as much information as possible
-      fire_callbacks(name, new_value, old_setting)
+      fire_callbacks(name, new_value, old_value)
 
       new_value
     else
-      old_setting
+      old_value
     end
   end
 
@@ -273,7 +277,7 @@ class Setting < ApplicationRecord
     definition = Settings::Definition[name]
 
     value = if definition.writable?
-              cached_settings.fetch(name) { Settings::Definition[name].value }
+              cached_settings.fetch(name) { definition.value }
             else
               definition.value
             end
@@ -290,7 +294,7 @@ class Setting < ApplicationRecord
   def self.cached_settings
     RequestStore.fetch(:cached_settings) do
       Rails.cache.fetch(cache_key) do
-        Hash[Setting.pluck(:name, :value)]
+        Setting.pluck(:name, :value).to_h
       end
     end
   end
@@ -320,17 +324,23 @@ class Setting < ApplicationRecord
     @settings_table_exists_yet ||= connection.data_source_exists?(table_name)
   end
 
-  # Unserialize a serialized settings value
-  def self.deserialize(name, v)
-    default = Settings::Definition[name]
+  # Deserialize a serialized settings value
+  def self.deserialize(name, value)
+    definition = Settings::Definition[name]
 
-    if default.serialized? && v.is_a?(String)
-      YAML::safe_load(v, permitted_classes: [Symbol, ActiveSupport::HashWithIndifferentAccess, Date, Time])
-    elsif v.present?
-      read_formatted_setting v, default.format
+    if definition.serialized? && value.is_a?(String)
+      YAML::safe_load(value, permitted_classes: [Symbol, ActiveSupport::HashWithIndifferentAccess, Date, Time, URI::Generic])
+        .tap { |maybe_hash| normalize_hash!(maybe_hash) if maybe_hash.is_a?(Hash) }
+    elsif value != '' && !value.nil?
+      read_formatted_setting(value, definition.format)
     else
-      v
+      definition.format == :string ? value : nil
     end
+  end
+
+  def self.normalize_hash!(hash)
+    hash.deep_stringify_keys!
+    hash.deep_transform_values! { |v| v.is_a?(URI::Generic) ? v.to_s : v }
   end
 
   def self.read_formatted_setting(value, format)
@@ -352,10 +362,10 @@ class Setting < ApplicationRecord
 
   protected
 
-  def config
-    @config ||= Settings::Definition[name]
+  def definition
+    @definition ||= Settings::Definition[name]
   end
 
   delegate :format,
-           to: :config
+           to: :definition
 end

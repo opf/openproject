@@ -254,6 +254,22 @@ describe Projects::CopyService, 'integration', type: :model do
       end
     end
 
+    context 'with work package budgets' do
+      let!(:budget) { create(:budget, project: source) }
+
+      let(:only_args) { %w[work_packages] }
+
+      it 'copies the work package without budgets' do
+        source_wp.update!(budget: budget)
+
+        expect(subject).to be_success
+
+        expect(source.work_packages.count).to eq(project_copy.work_packages.count)
+        copied_wp = project_copy.work_packages.find_by(subject: 'source wp')
+        expect(copied_wp.budget).to be_nil
+      end
+    end
+
     describe '#copy_wiki' do
       it 'will not copy wiki pages without content' do
         source.wiki.pages << create(:wiki_page)

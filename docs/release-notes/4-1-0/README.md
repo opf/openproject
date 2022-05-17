@@ -70,8 +70,7 @@ updated:
 
 ## **New design through Foundation framework**
 
-The underlying CSS-framework is changed to “Foundation”:
-<http://foundation.zurb.com/>. This change ensures an easier
+The underlying CSS-framework is changed to [Foundation](https://get.foundation/). This change ensures an easier
 adaptability in the future and allows a more responsive design. As a
 result, the overall design of the application has been changed
 with OpenProject 4.1.

@@ -108,7 +108,7 @@ describe 'Work package with relation query group', js: true, selenium: true do
     end
   end
 
-  describe 'follower table with project filters', clear_cache: true do
+  describe 'follower table with project filters' do
     let(:visit) { false }
     let!(:project2) { create(:project, types: [type]) }
     let!(:project3) { create(:project, types: [type]) }

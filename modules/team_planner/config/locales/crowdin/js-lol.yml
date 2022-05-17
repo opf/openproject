@@ -3,10 +3,8 @@ lol:
   js:
     team_planner:
       add_existing: 'crwdns808126:0crwdne808126:0'
-      create_new: 'crwdns773050:0crwdne773050:0'
       title: 'crwdns500087:0crwdne500087:0'
       unsaved_title: 'crwdns500089:0crwdne500089:0'
-      label_assignee_plural: 'crwdns500091:0crwdne500091:0'
       no_data: 'crwdns500093:0crwdne500093:0'
       add_assignee: 'crwdns500095:0crwdne500095:0'
       remove_assignee: 'crwdns500097:0crwdne500097:0'

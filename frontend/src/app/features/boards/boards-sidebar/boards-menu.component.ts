@@ -62,6 +62,7 @@ export class BoardsMenuComponent extends UntilDestroyedMixin implements OnInit {
     .pipe(this.untilDestroyed());
 
   text = {
+    board: this.I18n.t('js.label_board'),
     create_new_board: this.I18n.t('js.boards.create_new'),
   };
 

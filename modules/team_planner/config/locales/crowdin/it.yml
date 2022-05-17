@@ -5,8 +5,9 @@ it:
   project_module_team_planner_view: "Pianificatore di team"
   team_planner:
     label_team_planner: "Pianificatore di team"
-    label_team_planner_plural: "Team planners"
-    label_assignees: "Assignees"
+    label_create_new_team_planner: "Crea nuovo pianificatore di team"
+    label_team_planner_plural: "Organizzatori di gruppo"
+    label_assignees: "Assegnatari"
     upsale:
       title: "Pianificatore di team"
-      description: "Il pianificatore di team ti offre una panoramica completa su ciò che ciascuno dei membri del team sta lavorando, una settimana alla volta. Spostare, allungare e ridurre le macro-attività in modo visivo, e anche trascinarle da un assegnatario a un altro per organizzare il carico di lavoro. È anche possibile creare nuove macro-attività o aggiungerne di esistenti, tutto dall'interno del team planner!"
+      description: "Il pianificatore di team ti offre una panoramica completa su ciò a cui ciascuno dei membri del team sta lavorando, una settimana alla volta. Spostare, allungare e ridurre le macro-attività in modo visivo, e anche trascinarle da un assegnatario a un altro per organizzare il carico di lavoro. È anche possibile creare nuove macro-attività o aggiungerne di esistenti, tutto dall'interno del team planner!"

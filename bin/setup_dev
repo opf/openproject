@@ -26,11 +26,13 @@ try 'bundle exec rake openproject:plugins:register_frontend >> log/setup_dev.log
 echo "Exporting frontend locale files"
 try 'bundle exec rake i18n:js:export >> log/setup_dev.log'
 
+echo "Setting up git hooks"
+try 'bundle exec lefthook install'
+
 echo "---------------------------------------"
 echo "Done. Now start the following services"
-echo '- Rails server `RAILS_ENV=development ./bin/rails s`'
+echo '- Rails server `RAILS_ENV=development bin/rails server`'
 echo '- Angular CLI: `npm run serve`'
+echo '- Delayed Job worker: `RAILS_ENV=development bin/rails jobs:work`'
 echo ""
 echo 'You can also run `foreman start -f Procfile.dev` to run all the above on a single terminal.'
-
-

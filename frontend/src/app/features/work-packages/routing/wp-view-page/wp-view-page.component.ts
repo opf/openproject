@@ -102,6 +102,9 @@ export class WorkPackageViewPageComponent extends PartitionedQuerySpacePageCompo
 
   ngOnInit() {
     super.ngOnInit();
+    this.wpTableFilters.hidden.push(
+      'project',
+    );
     this.text.button_settings = this.I18n.t('js.button_settings');
   }
 

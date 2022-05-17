@@ -10,13 +10,11 @@ keywords: webhooks
 
 You can set up webhooks for OpenProject in order to integrate OpenProject with other applications. A scenario is for example to signal the creation of a time log in OpenProject to a billing application.
 
-Navigate to -> *Administration* -> *Webhooks* to set up your webhooks in OpenProject.
+Navigate to -> *Administration* -> *Incoming vs. Outgoing* -> *Webhooks* to set up your webhooks in OpenProject.
 
 Press the green **+ Webhook** button to add a new webhook to OpenProject.
 
-![image-20201007133753887](image-20201007133753887.png)
-
-
+![incoming-vs-outgoing-webhooks](incoming-vs-outgoing-webhooks.png)
 
 You can configure the following options for webhooks:
 
@@ -29,6 +27,9 @@ You can configure the following options for webhooks:
 7. **Select for which projects the webhook should be active**. You can choose all projects or only specific projects. For example if you select the project "System admin guide", an event (ie. create a new time entry) will be fired via the webhook. This will only happen if a user logs time within the selected projects.
 8. Press the blue **Create** button to save your changes.
 
+![steps-to-create-a-webhook](steps-to-create-a-webhook.png)
 
+**Note** You have to scroll down to find the create button. There you can also cancel your input.
 
-![Add new webhook screenshot](image-20201007140523324.png)
+![create-button-new-webhook](create-button-new-webhook.png)
+

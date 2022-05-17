@@ -23,8 +23,8 @@ ro:
   js:
     ajax:
       hide: "Ascundere"
-      loading: "Se încarcă..."
-      updating: "Updating ..."
+      loading: "Loading…"
+      updating: "Updating…"
     attachments:
       draggable_hint: |
         Trageți pe câmpul editorului pentru a introduce o imagine sau un atașament de referință. Câmpurile de editor închise vor fi deschise în timp ce continuați să trageți.
@@ -237,7 +237,7 @@ ro:
           text: >
             Ediția OpenProject Enterprise Edition se bazează pe ediția Community Edition. Aceasta include caracteristici premium și asistență profesională, destinate în principal organizațiilor cu peste 10 utilizatori care gestionează proiecte critice de afaceri cu OpenProject.
           unlimited: "Nelimitat"
-          you_contribute: "Dezvoltatorii trebuie să își plătească și ei facturile. Cu Enterprise Edition, contribuiți substanțial la acest efort al comunității Open Source."
+          you_contribute: "Developers need to pay their bills, too. By upgrading to the Enterprise Edition, you will be supporting this open source community effort and contributing to its development, maintenance and continuous improvement."
     custom_actions:
       date:
         specific: 'pe'
@@ -286,16 +286,17 @@ ro:
           learn_about: "Aflați mai multe despre noile caracteristici"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_0':
+          '12_1':
             standard:
-              learn_about_link: https://www.openproject.org/openproject-11-0-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-1-release
               new_features_html: >
-                Versiunea conține diverse caracteristici noi și îmbunătățiri: <br> <ul class="%{list_styling_class}"> <li>Cu noile <b>notificări din aplicație</b> primiți toate actualizările importante direct în aplicație și nu mai primiți un flux de e-mailuri.</li> <li>Noul centru de notificare <b></b> prezintă toate schimbările, inclusiv opțiunile intuitive de filtrare, e. . din motive de notificare sau proiecte. Aceasta permite chiar editarea directă într-o vedere divizată.</li> <li>Setări de notificare îmbunătățite <b></b> permit ajustarea pentru ce acțiuni și în ce proiecte doriți să primiți o notificare.</li> <li><b>Memento-uri de e-mail</b> poate fi configurat pentru a primi actualizări importante prin intermediul unui sumar zilnic de e-mail.</li> <li>Completatorul automat pentru relații afișează acum și informații suplimentare (numele proiectului, statusul, . .) pentru a identifica cu ușurință pachetul de lucru respectiv.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A <b>new team planner module</b> (Enterprise feature) allows you to visually assign tasks to team members to get an overview of who is working on what.</li> <li>We are <b>releasing the basic agile boards</b> for the Community version.</li> <li>The <b>"Include Projects" filter</b> option makes it easier to add different projects to your views, such as for work packages, calendars, and team planners.</li> <li>We added <b>a new "Files" tab</b> in the work package details to have all possible information attached to a work package together.</li> <li>We created <b>global roles for groups</b> to assign these roles to groups and create superuser groups.</li> <li>Project status was given more options to choose from.</li> </ul>
             bim:
-              learn_about_link: https://www.openproject.org/openproject-11-0-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-1-release
               new_features_html: >
-                Versiunea conţine diverse caracteristici noi şi îmbunătăţiri: <br> <ul class="%{list_styling_class}"> <li>Centrul de notificare: Reduceţi numărul de e-mailuri pe care le primiţi. Găsește și acționează pe toate notificările relevante într-un singur loc central.</li> <li>Toate fișierele IFC încărcate acum pot fi descărcate.</li> <li>Încărcarea și procesarea IFC a obținut mai repede și a primit mesaje de eroare mai bune.</li> <li>Add-in <a href="https://github.com/opf/openproject-revit-add-in">OpenProject Revit</a> a primit mai multe remedieri ale erorilor.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>In the BCF module you can now save your selected work package filters, columns etc. as <b>views</b> and share those with your team members.</li> <li>A <b>new team planner module</b> (Enterprise feature) allows you to visually assign tasks to team members to get an overview of who is working on what.</li> <li>We are <b>releasing the basic agile boards</b> for the Community version.</li> <li>The <b>"Include Projects" filter</b> option makes it easier to add different projects to your views, such as for work packages, calendars, and team planners.</li> <li>We added <b>a new "Files" tab</b> in the work package details to have all possible information attached to a work package together.</li> <li>We created <b>global roles for groups</b> to assign these roles to groups and create superuser groups.</li> <li>Project status was given more options to choose from.</li> </ul>
     label_activate: "Activare"
+    label_assignee: 'Assignee'
     label_add_column_after: "Adauga o coloana dupa"
     label_add_column_before: "Adauga o coloana inainte"
     label_add_columns: "Adaugați coloane"
@@ -548,7 +549,6 @@ ro:
           link_text: 'Click aici pentru a le încărca'
       menu:
         accountable: 'Responsabil'
-        assigned: 'Assigned'
         by_project: 'Necitit după proiect'
         by_reason: 'Implicare'
         inbox: 'Cutie poștală'
@@ -1151,7 +1151,7 @@ ro:
       role:
         label: 'Rolul în %{project}'
         no_roles_found: 'No roles were found'
-        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
+        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
         required: 'Vă rugăm să selectați un rol'
         next_button: 'Înainte'
       message:
@@ -1176,6 +1176,10 @@ ro:
         all: 'Toate Proiectele'
         selected: 'Only selected'
       search_placeholder: 'Search project...'
+      include_subprojects: 'Include all sub-projects'
+      tooltip:
+        include_all_selected: 'Include all sub-projects is currently selected.'
+        current_project: 'This is the current project you are in.'
     forms:
       submit_success_message: 'Formularul a fost trimis cu succes'
       load_error_message: 'A apărut o eroare la încărcarea formularului'

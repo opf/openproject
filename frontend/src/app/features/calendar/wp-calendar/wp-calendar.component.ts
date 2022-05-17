@@ -88,6 +88,9 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
   }
 
   ngOnInit():void {
+    this.wpTableFilters.hidden.push(
+      'project',
+    );
     this.calendar.resize$
       .pipe(
         this.untilDestroyed(),
@@ -152,8 +155,17 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
       eventResize: (resizeInfo:EventResizeDoneArg) => this.updateEvent(resizeInfo),
       eventDrop: (dropInfo:EventDropArg) => this.updateEvent(dropInfo),
       eventClick: (evt:EventClickArg) => {
-        const workPackage = evt.event.extendedProps.workPackage as WorkPackageResource;
-        this.calendar.openSplitView(workPackage.id as string);
+        const workPackageId = (evt.event.extendedProps.workPackage as WorkPackageResource).id as string;
+        // Currently the calendar widget is shown on multiple pages,
+        // but only the calendar module itself is a partitioned query space which can deal with a split screen request
+        if (this.$state.includes('calendar')) {
+          this.calendar.openSplitView(workPackageId);
+        } else {
+          void this.$state.go(
+            'work-packages.show',
+            { workPackageId },
+          );
+        }
       },
     };
 

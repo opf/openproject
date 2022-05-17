@@ -259,9 +259,6 @@ export function initializeUiRouterListeners(injector:Injector) {
     if (transition.from().data && _.get(state, 'data.menuItem') !== transition.from().data.menuItem) {
       updateMenuItem(_.get(state, 'data.menuItem'), 'add');
     }
-
-    // Reset scroll position, mostly relevant for mobile
-    window.scrollTo(0, 0);
   });
 
   $transitions.onExit({}, (transition:Transition, state:StateDeclaration) => {

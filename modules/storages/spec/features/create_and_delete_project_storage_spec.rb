@@ -31,7 +31,7 @@ require_relative '../spec_helper'
 # Setup storages in Project -> Settings -> File Storages
 # This tests assumes that a Storage has already been setup
 # in the Admin section, tested by admin_storage_spec.rb.
-describe 'Activation of storages in projects', type: :feature, js: true do
+describe 'Activation of storages in projects', :enable_storages, type: :feature, js: true do
   let(:user) { create(:user) }
   # The first page is the Project -> Settings -> General page, so we need
   # to provide the user with the edit_project permission in the role.

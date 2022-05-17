@@ -1,65 +1,65 @@
 #English strings go here
 ko:
-  permission_view_file_links: "View file links"
-  permission_manage_file_links: "Manage file links"
-  permission_manage_storages_in_project: "Manage file storages in project"
-  project_module_storages: "File storages"
+  permission_view_file_links: "파일 링크 보기"
+  permission_manage_file_links: "파일 링크 관리"
+  permission_manage_storages_in_project: "프로젝트의 파일 저장소 관리"
+  project_module_storages: "파일 저장소"
   activerecord:
     models:
-      storages/storage: "Storage"
+      storages/storage: "저장소"
     attributes:
       storages/storage:
-        name: "Name"
-        creator: "Creator"
-        provider_type: "Provider type"
+        name: "이름"
+        creator: "생성자"
+        provider_type: "공급자 유형"
       storages/file_link:
-        origin_id: "Origin Id"
+        origin_id: "원본 ID"
     errors:
       messages:
-        not_linked_to_project: "is not linked to project."
+        not_linked_to_project: "- 프로젝트에 연결되지 않았습니다."
       models:
         storages/storage:
           attributes:
             host:
-              cannot_be_connected_to: "can not be connected to."
-              minimal_nextcloud_version_unmet: "does not meet minimal version requirements (must be Nextcloud 23 or higher)"
-              not_nextcloud_server: "is not a Nextcloud server"
+              cannot_be_connected_to: "- 연결할 수 없습니다."
+              minimal_nextcloud_version_unmet: "- 최소 버전 요구 사항을 충족하지 않습니다(Nextcloud 23 이상이어야 함)."
+              not_nextcloud_server: "- Nextcloud 서버가 아닙니다."
         storages/file_link:
           attributes:
             origin_id:
-              only_numeric_or_uuid: "can only be numeric or uuid."
+              only_numeric_or_uuid: "- 숫자 또는 uuid만 가능합니다."
   api_v3:
     errors:
-      too_many_elements_created_at_once: "Too many elements created at once. Expected %{max} at most, got %{actual}."
+      too_many_elements_created_at_once: "한 번에 너무 많은 요소가 생성되었습니다. 최대 개수는 %{max}개이지만 %{actual}개가 있습니다."
   storages:
     page_titles:
       project_settings:
-        index: "File storages available in this project"
-        new: "Enable a file storage for this project"
+        index: "이 프로젝트에서 사용 가능한 파일 저장소"
+        new: "이 프로젝트에 대한 파일 저장소 활성화"
     instructions:
-      name: "Please use a short name. It will get used as a tab title in the work package view."
-      host: "The URL of your storage instance. The URL should not be more than 255 characters long."
-      no_storage_set_up: "There are no file storages set up, yet."
-      setting_up_additional_storages: "For setting up additional file storages, please visit"
-      setting_up_additional_storages_non_admin: "Administrators can set up additional file storages in Administration / File Storages."
-      setting_up_storages: "For setting up file storages, please visit"
-      setting_up_storages_non_admin: "Administrators can set up file storages in Administration / File Storages."
-      all_available_storages_already_added: "All available storages are already added to the project."
+      name: "짧은 이름을 사용하세요. 이 이름은 작업 패키지 보기에서 탭 제목으로 사용됩니다."
+      host: "저장소 인스턴스의 URL입니다. 이 URL은 255자 이하여야 합니다."
+      no_storage_set_up: "아직 파일 저장소가 설정되지 않았습니다."
+      setting_up_additional_storages: "추가 파일 저장소를 설정하려면 다음을 방문하세요:"
+      setting_up_additional_storages_non_admin: "관리자는 관리/파일 저장소에서 추가 파일 저장소를 설정할 수 있습니다."
+      setting_up_storages: "파일 저장소를 설정하려면 다음을 방문하세요:"
+      setting_up_storages_non_admin: "관리자는 관리/파일 저장소에서 파일 저장소를 설정할 수 있습니다."
+      all_available_storages_already_added: "사용 가능한 모든 저장소가 이미 프로젝트에 추가되었습니다."
     delete_warning:
       storage: >
-        Are you sure you want to delete this storage? This will also delete the storage from all projects where it is used. Further, it will also delete all links from work packages to files that are stored in that storage.
+        이 저장소를 삭제하시겠습니까? 이렇게 하면 이 저장소가 사용되는 모든 프로젝트에서도 삭제됩니다. 또한 해당 저장소에 저장된 파일에 대한 모든 링크도 작업 패키지에서 삭제합니다.
       project_storage: >
-        Are you sure you want to remove this file storage from this project? This will also remove all links to files stored in this storage for this project.
-    label_creator: "Creator"
-    label_file_link: "File link"
-    label_file_links: "File links"
-    label_name: "Name"
-    label_host: "Host"
-    label_provider_type: "Provider type"
-    label_new_storage: "New storage"
-    label_storage: "Storage"
-    label_storages: "Storages"
-    no_results: "No storages set up, yet."
+        이 프로젝트에서 해당 파일 저장소를 제거하시겠습니까? 이렇게 하면 이 프로젝트에서는 해당 저장소에 저장된 파일에 대한 모든 링크도 제거됩니다.
+    label_creator: "생성자"
+    label_file_link: "파일 링크"
+    label_file_links: "파일 링크"
+    label_name: "이름"
+    label_host: "호스트"
+    label_provider_type: "공급자 유형"
+    label_new_storage: "새로운 저장소"
+    label_storage: "저장소"
+    label_storages: "저장소"
+    no_results: "아직 저장소가 설정되지 않았습니다."
     provider_types:
-      label: "Provider type"
+      label: "공급자 유형"
       nextcloud: "Nextcloud"

@@ -25,7 +25,7 @@ module OpenProject::TwoFactorAuthentication
           t = strategy.device_type
           if types.key? t
             raise ArgumentError, "Type #{t} already registered with strategy #{types[t].identifier}. " \
-                                "You cannot register two strategies with the same types."
+                                 "You cannot register two strategies with the same types."
           end
 
           types[t] = strategy
@@ -45,23 +45,23 @@ module OpenProject::TwoFactorAuthentication
       ##
       # Determines whether admins can register devices on user's behalf
       def admin_register_sms_strategy
-        enabled? && active_strategies.detect { |strategy_class| strategy_class.mobile_token? }
+        enabled? && active_strategies.detect(&:mobile_token?)
       end
 
       ##
       # Whether the system requires 2FA for all users
       def enforced?
-        !!configuration[:enforced]
+        !!configuration['enforced']
       end
 
       ##
       # Determine whether the plugin settings can be changed from the UI
       def configurable_by_ui?
-        !configuration[:hide_settings_menu_item]
+        !configuration['hide_settings_menu_item']
       end
 
       def allow_remember_for_days
-        configuration[:allow_remember_for_days].to_i
+        configuration['allow_remember_for_days'].to_i
       end
 
       ##
@@ -73,10 +73,10 @@ module OpenProject::TwoFactorAuthentication
       ##
       # Fetch all active strategies
       def active_strategies
-        configuration.fetch(:active_strategies, [])
-          .map(&:to_s)
-          .uniq
-          .map { |strategy| lookup_active_strategy strategy }
+        configuration.fetch('active_strategies', [])
+                     .map(&:to_s)
+                     .uniq
+                     .map { |strategy| lookup_active_strategy strategy }
       end
 
       ##
@@ -93,40 +93,32 @@ module OpenProject::TwoFactorAuthentication
           types << s.device_type
         end
 
-        classes = types.map { |type| [type, ::TwoFactorAuthentication::Device.const_get(type.to_s.camelize)] }
-        Hash[classes]
+        types.index_with { |type| ::TwoFactorAuthentication::Device.const_get(type.to_s.camelize) }
       end
 
       ##
       # 2FA Plugin configuration
       def configuration
-        config = OpenProject::Configuration['2fa'] || {}
-        settings = Setting.plugin_openproject_two_factor_authentication || {}
+        config = Setting.plugin_openproject_two_factor_authentication || {}
 
-        merge_with_settings! config, settings
+        merge_with_settings! config
 
         config
       end
 
       def enforced_by_configuration?
-        enforced = (OpenProject::Configuration['2fa'] || {})[:enforced]
+        enforced = (OpenProject::Configuration['2fa'] || {})['enforced']
         ActiveModel::Type::Boolean.new.cast enforced
       end
 
-      def merge_with_settings!(config, settings)
-        predefined_strategies = config.fetch(:active_strategies, [])
-        additional_strategies = settings.fetch(:active_strategies, [])
-
-        config[:active_strategies] = predefined_strategies | additional_strategies
+      def merge_with_settings!(config)
+        config['active_strategies'] ||= []
         # Always enable totp if nothing is enabled
-        config[:active_strategies] << :totp if add_default_strategy?(config)
-        # Allow enforcing from settings if not true in configuration
-        config[:enforced] ||= settings[:enforced]
-        config[:allow_remember_for_days] = config.fetch(:allow_remember_for_days, settings[:allow_remember_for_days])
+        config['active_strategies'] << :totp if add_default_strategy?(config)
       end
 
       def add_default_strategy?(config)
-        config[:active_strategies].empty? && !config[:disabled].present?
+        config['active_strategies'].empty? && config['disabled'].blank?
       end
 
       def available_strategies

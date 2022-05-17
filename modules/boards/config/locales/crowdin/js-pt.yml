@@ -2,12 +2,12 @@
 pt:
   js:
     boards:
-      create_new: 'New board'
+      create_new: 'Criar novo quadro'
       label_unnamed_board: 'Quadro sem nome'
       label_unnamed_list: 'Lista sem nome'
       label_board_type: 'Tipo de quadro'
       upsale:
-        teaser_text: 'Need a predefined board template? Advanced boards are Enterprise features. Please upgrade to a paid plan.'
+        teaser_text: 'Gostaria de usar modelos de quadro? Quadros avançados são um recurso Enterprise. Por favor, atualize para um plano pago.'
         upgrade: 'Atualizar agora'
       lists:
         delete: 'Excluir lista'
@@ -58,8 +58,8 @@ pt:
           subproject: subprojeto
           subtasks: pai-filho
         board_type_title:
-          assignee: Atribuição
-          status: Status
+          assignee: Atribuído para
+          status: Situação
           version: Versão
           subproject: Subprojeto
           subtasks: Pai-Filho

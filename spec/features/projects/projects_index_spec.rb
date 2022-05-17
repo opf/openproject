@@ -30,7 +30,6 @@ require 'spec_helper'
 
 describe 'Projects index page',
          type: :feature,
-         clear_cache: true,
          js: true,
          with_settings: { login_required?: false } do
   shared_let(:admin) { create :admin }
@@ -292,6 +291,7 @@ describe 'Projects index page',
       expect(page).to have_no_text(project.name)        # Filtered away
       expect(page).to have_no_text('Next')              # Filters kept active, so there is no third page.
       expect(page).to have_no_text(public_project.name) # That one should be on page 1
+      expect(page).to have_selector('.sort.desc', text: 'NAME')
 
       # Sending the filter form again what implies to compose the request freshly
       SeleniumHubWaiter.wait
@@ -303,6 +303,7 @@ describe 'Projects index page',
       expect(page).to have_no_text(development_project.name) # as it is on the second page
       expect(page).to have_no_text(project.name)             # as it filtered away
       expect(page).to have_text('Next') # as the result set is larger than 1
+      expect(page).to have_selector('.sort.desc', text: 'NAME')
     end
   end
 

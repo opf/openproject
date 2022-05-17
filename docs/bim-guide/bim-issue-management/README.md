@@ -1,19 +1,19 @@
 ---
 sidebar_navigation:
-  title: BIM Issue Management
+  title: BIM issue management
   priority: 200
 description: How to use OpenProject BIM Issue Management.
 robots: index, follow
 keywords: BIM, BCF, IFC, BIM Issue Management, BCF-Management
 ---
 
-# BIM Issue - Management (BIM feature)
+# BIM issue management (BIM feature)
 
-Within the *BCF-Module* you are able to manage *BIM Issues (BCF)*. All BIM Iccues get stored as BCFs centrally and are available to every team member in real time. Below you find the most important features how to use the BCF Module to create, inspect and manage issues. 
+Within the *BCF-Module* you are able to manage *BIM Issues (BCF)*. All BIM Issues get stored as BCFs centrally and are available to every team member in real time. Below you find the most important features how to use the BCF Module to create, inspect and manage issues. 
 
 
 
-## What is a BIM Issue?
+## What is a BIM issue?
 
 A BIM Issue is a special kind of work package to communicate directly within the building model. It supports you to solve problems and coordinate the planning phase in a building project.
 
@@ -23,7 +23,7 @@ OpenProject BIM supports the standard of the ***BIM Collaboration Format (BCF)**
 
 
 
-## Create a BIM Issue
+## Create a BIM issue
 
 To create a BIM Issue you don't have to configure a new type of work package. Every work package (e.g. Task, Issue, Milestone, … ) can become a BIM Issue only by adding a viewpoint to the work package. 
 
@@ -42,9 +42,9 @@ Then, navigate to the BCF module in the project navigation.
 
 
 
-### Create a new BIM Issue
+### Create a new BIM issue
 
-To create new BIM Issues, you have to open the Model - Viewer first and create the view you want to save within the BIM Issue (e.g. zoom, [rotate](../ifc-viewer/#how-to-rotate-the-building-model), [slice](../ifc-viewer/#how-to-slice-the-building-model), [select](../ifc-viewer/#how-to-select-elements?), [hide](../ifc-viewer/#show-or-hide-models-or-elements-via-model-tree), … ). 
+To create new BIM Issues, you have to open the Model - Viewer first and create the view you want to save within the BIM Issue (e.g. zoom, [rotate](../ifc-viewer/#how-to-rotate-the-building-model), [slice](../ifc-viewer/#how-to-slice-the-building-model), [select](../ifc-viewer/#how-to-select-elements), [hide](../ifc-viewer/#show-or-hide-models-or-elements-via-model-tree), … ). 
 
 Click on the **+ Create new work package** and select the type of workpackage you want. 
 
@@ -52,7 +52,7 @@ Click on the **+ Create new work package** and select the type of workpackage yo
 
 
 
-Now you can see a detail view of the new Issue. Describe all necessary information to work on that task and add a viewpoint by clicking on the **"+ Viewpoint"**-Button. Now the current Viewpoint of the Building Model is added to the Issue. After saveing your new BIM issue is created.
+Now you can see a detail view of the new Issue. Describe all necessary information to work on that task and add a viewpoint by clicking on the **"+ Viewpoint"**-Button. Now the current Viewpoint of the Building Model is added to the Issue. After saving your new BIM issue is created.
 
 *Within the viewpoint the current status of your building model is saved. So please check the view before - is there everything shown within the model viewer?*
 
@@ -86,16 +86,16 @@ Now open the **work package Details** by double click on the work package ("my f
 
 
 
-## BIM Issue Handling (Details View)
+## BIM issue handling (details view)
 
 The handling of BIM Issues is similar to the handling of work packages (including configuration of the attribute). To jump to a viewpoint of an existing BIM Issue the model viewer has to be activated (visible in the center of your screen) or you have to open the detail view of the work package.
 
 
 
 
-### Jump to a Viewpoint with the Details View
+### Jump to a viewpoint with the details view
 
-If the Model viewer isn't shown yet, open the Detail - view of the BIM Issue and follow the Cube symol of the preview. Now the model viewer opens and the viewpoint of the BIM Issue will be displayed.
+If the Model viewer isn't shown yet, open the Detail - view of the BIM Issue and follow the Cube symbol of the preview. Now the model viewer opens and the viewpoint of the BIM Issue will be displayed.
 
 ![Display BIM Issue](display_bim_issue.png)
 
@@ -103,7 +103,7 @@ If the Model viewer isn't shown yet, open the Detail - view of the BIM Issue and
 
 
 
-### Switch between different Viewpoints
+### Switch between different viewpoints
 
 After creating multiple BIM Issues you are able to jump between different viewpoints easily. The "Viewer and Cards" - Mode shows all of your BIM Issues. With a single click at the preview of the BIM Issue, the model viewer changes immediately. 
 
@@ -113,14 +113,14 @@ After creating multiple BIM Issues you are able to jump between different viewpo
 
 
 
-### Configuration of BIM Issues
+### Configuration of BIM issues
 
 To create BIM Issues you don't have to configure additional work package types. Every existing work package can become a BIM Issue by adding a viewpoint. Before you can add a viewpoint to a work package, this work package must be enabled for viewpoints in the system administration.
 
 
 
 
-## View and Find BIM Issues (Cards and List View)
+## View and find BIM issues (cards and list view)
 
 ### Overview
 
@@ -131,7 +131,7 @@ You can switch between different View modes within the OpenProject toolbar. Just
 
 
 
-### Viewer and Cards
+### Viewer and cards
 
 ![Viewer and Cards](Viewer_and_Cards.png)
 
@@ -143,7 +143,7 @@ To view only the detail view of the BIM issue without resetting the current view
 
 
 
-### Cards Mode
+### Cards mode
 
 Within the cards view you are not able to jump directly to a viewpoint. First you have to open the details view by using the "information icon" or the work package number ("#…") at the card. There you can find the "Cube" which leads you to the viewpoint within the appearing model viewer.  
 
@@ -154,7 +154,7 @@ Within the cards view you are not able to jump directly to a viewpoint. First yo
 
 
 
-### Viewer and Table
+### Viewer and table
 
 To open the BIM Issue in this mode just click at the work package in the table. By double click at the BIM Issue the viewpoint will be shown and the details will appear. The details of each work package can be shown without changing the current view of the model by single click at the work package ID.
 
@@ -175,7 +175,7 @@ Within the table view you are not able to jump directly to a viewpoint. First yo
 
 
 
-## Filter BIM Issues
+## Filter BIM issues
 
 You are able to filter BIM Issues by using the filter button in the **OpenProject toolbar**. The filter is usable in every view.
 
@@ -188,7 +188,7 @@ You are able to filter BIM Issues by using the filter button in the **OpenProjec
 
 
 
-## BIM Issues in Workpackage Module
+## BIM issues in workpackage module
 
 BIM Issues are also listed in the workpackage module. This supports you to manage your building project in the best way and get an overview of all issues. To separate work packages and BIM Issues we created a new filter which enables you to filter BIM Issues.
 
@@ -199,13 +199,13 @@ BIM Issues are also listed in the workpackage module. This supports you to manag
 
 
 
-## Import and Export BCF Issues using BCF
+## Import and export BCF issues using BCF
 
 Within the BCF module you are able to upload BIM Issues which are created within other software and download already existing files to manage them within other BIM project management solutions. Just Click on the ***"Import"-Button*** or ***"Export"-Button*** within the OpenProject Toolbar. 
 
 
 
-### Import of Attributes
+### Import of attributes
 
 After importing a BCF Issue (or multiple Issues at the same time) from another software, OpenProject will match existing attributes and types of the work package. 
 
@@ -242,7 +242,7 @@ After a successful matching of the attributes the topics will be displayed in Op
 
 
 
-### Outdated BCF Issues
+### Outdated BCF issues
 
 If there are more recent changes to the work package in OpenProject than in the imported BCF ("ModifiedDate"), the import will be rejected.     
 

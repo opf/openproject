@@ -41,11 +41,13 @@ import { WorkPackageViewTimelineService } from 'core-app/features/work-packages/
   selector: '[wpViewDropdown]',
 })
 export class WorkPackageViewDropdownMenuDirective extends OpContextMenuTrigger {
-  constructor(readonly elementRef:ElementRef,
+  constructor(
+    readonly elementRef:ElementRef,
     readonly opContextMenu:OPContextMenuService,
     readonly I18n:I18nService,
     readonly wpDisplayRepresentationService:WorkPackageViewDisplayRepresentationService,
-    readonly wpTableTimeline:WorkPackageViewTimelineService) {
+    readonly wpTableTimeline:WorkPackageViewTimelineService,
+  ) {
     super(elementRef, opContextMenu);
   }
 

@@ -19,7 +19,7 @@ cs:
       other: '%{count} Problémy s BCF'
     bcf_xml:
       xml_file: 'BCF XML soubor'
-      import_title: 'Importovat'
+      import_title: 'Import'
       export: 'Export'
       import_update_comment: '(Aktualizováno v importu BCF)'
       import_failed: 'Nelze importovat soubor BCF: %{error}'

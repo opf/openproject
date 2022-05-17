@@ -28,13 +28,13 @@
 
 source 'https://rubygems.org'
 
-ruby '~> 3.0.3'
+ruby '~> 3.1.2'
 
 gem 'actionpack-xml_parser', '~> 2.0.0'
 gem 'activemodel-serializers-xml', '~> 1.0.1'
 gem 'activerecord-import', '~> 1.4.0'
 gem 'activerecord-session_store', '~> 2.0.0'
-gem 'rails', '~> 6.1.4', '>= 6.1.4.6'
+gem 'rails', '~> 6.1.5', '>= 6.1.5.1'
 gem 'responders', '~> 3.0'
 
 gem 'ffi', '~> 1.15'
@@ -61,6 +61,12 @@ gem 'rubytree', '~> 1.0.0'
 gem 'typed_dag', '~> 2.0.2'
 
 gem 'addressable', '~> 2.8.0'
+
+# Needed to make rails 6.x work with ruby 3.1, can be dropped
+# after migrated to rails 7 (see https://stackoverflow.com/a/70500221)
+gem 'net-smtp', '~> 0.3.1', require: false
+gem 'net-pop', '~> 0.1.1', require: false
+gem 'net-imap', '~> 0.2.3', require: false
 
 # Remove whitespace from model input
 gem "auto_strip_attributes", "~> 2.5"
@@ -148,6 +154,8 @@ gem 'airbrake', '~> 13.0.0', require: false
 
 gem 'prawn', '~> 2.2'
 gem 'prawn-markup', '~> 0.3.0'
+# prawn implictly depends on matrix gem no longer in ruby core with 3.1
+gem 'matrix', '~> 0.4.2'
 
 gem 'cells-erb', '~> 0.1.0'
 gem 'cells-rails', '~> 0.1.4'
@@ -168,7 +176,7 @@ gem 'puma', '~> 5.6'
 gem 'rack-timeout', '~> 0.6.0', require: "rack/timeout/base"
 gem 'puma-plugin-statsd', '~> 2.0'
 
-gem 'nokogiri', '~> 1.13.0'
+gem 'nokogiri', '~> 1.13.4'
 
 gem 'carrierwave', '~> 1.3.1'
 gem 'carrierwave_direct', '~> 2.1.0'
@@ -191,9 +199,9 @@ gem 'mini_magick', '~> 4.11.0', require: false
 gem 'validate_url'
 
 # Sentry error reporting
-gem "sentry-delayed_job", '~> 5.2.0'
-gem "sentry-rails", '~> 5.2.0'
-gem "sentry-ruby", '~> 5.2.0'
+gem "sentry-delayed_job", '~> 5.3.0'
+gem "sentry-rails", '~> 5.3.0'
+gem "sentry-ruby", '~> 5.3.0'
 
 group :test do
   gem 'launchy', '~> 2.5.0'
@@ -220,7 +228,7 @@ group :test do
   # brings back testing for 'assigns' and 'assert_template' extracted in rails 5
   gem 'rails-controller-testing', '~> 1.0.2'
 
-  gem 'capybara', '~> 3.36.0'
+  gem 'capybara', '~> 3.37.0'
   gem 'capybara-screenshot', '~> 1.0.17'
   gem 'selenium-webdriver', '~> 4.0'
   gem 'webdrivers', '~> 5.0.0'
@@ -265,6 +273,7 @@ group :development do
 end
 
 group :development, :test do
+  gem 'dotenv-rails'
   # Require factory_bot for usage with openproject plugins testing
   gem 'factory_bot', '~> 6.2.0'
   # require factory_bot_rails for convenience in core development

@@ -26,11 +26,11 @@
       <span>&nbsp;</span>
       <op-user-link class="user-link"
                     [user]="workPackage.author"></op-user-link>
-      .
+      <span>.&nbsp;</span>
       <span [textContent]="text.infoRow.lastUpdatedOn"></span>
       <span>&nbsp;</span>
       <op-date-time [dateTimeValue]="workPackage.updatedAt"></op-date-time>
-      .
+      <span>.</span>
     </div>
 
     <wp-custom-actions [workPackage]="workPackage" class="custom-actions"></wp-custom-actions>

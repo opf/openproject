@@ -78,6 +78,10 @@ vi:
         contact: "Contact us for a demo"
       enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
       upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
+    journal_aggregation:
+      explanation:
+        text: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent and will also affect %{webhook_link} delay."
+        link: "webhook"
   announcements:
     show_until: Xem đến khi
     is_active: Đang hiển thị
@@ -562,6 +566,7 @@ vi:
         even: "must be even."
         exclusion: "được bảo lưu."
         file_too_large: "quá lớn (kích thước tối đa là %{count} bytes)"
+        filter_does_not_exist: "filter does not exist."
         format: "does not match the expected format '%{expected}'."
         format_nested: "does not match the expected format '%{expected}' at path '%{path}'."
         greater_than: "phải lớn hơn %{count}"
@@ -885,6 +890,7 @@ vi:
     updated_on: "Được cập nhật vào lúc"
     uploader: "Tải lên"
     user: "Người dùng"
+    value: "Value"
     version: "Phiên bản"
     work_package: "Work Package"
   backup:
@@ -1324,7 +1330,9 @@ vi:
   menus:
     admin:
       mail_notification: "Thông báo qua email"
-      incoming_outgoing: "Incoming & Outgoing"
+      mails_and_notifications: "Emails and notification"
+      aggregation_and_retention: 'Aggregation and retention'
+      api_and_webhooks: "API and webhooks"
     quick_add:
       label: "Open quick add menu"
   my_account:
@@ -1824,7 +1832,7 @@ vi:
   label_used_by_types: "Được sử dụng bởi các loại"
   label_used_in_projects: "Được sử dụng trong các dự án"
   label_user: "Người dùng"
-  label_user_and_permission: "Người dùng & Quyền"
+  label_user_and_permission: "Users and permissions"
   label_user_named: "Người dùng %{name}"
   label_user_activity: "%{value} hoạt động"
   label_user_anonymous: "Ẩn danh"
@@ -2131,6 +2139,7 @@ vi:
   permission_comment_news: "Chú thích vào tin mới"
   permission_commit_access: "Read/write access to repository (commit)"
   permission_copy_projects: "Sao chép dự án"
+  permission_create_backup: "Create backup"
   permission_delete_work_package_watchers: "Xóa người xem"
   permission_delete_work_packages: "Xóa gói công việc"
   permission_delete_messages: "Xóa tin nhắn"
@@ -2223,7 +2232,7 @@ vi:
     assigned_to_role: "Assignee's role"
     member_of_group: "Assignee's group"
     assignee_or_group: "Người chuyển hoặc thuộc nhóm"
-    subproject_id: "Including Subproject"
+    subproject_id: "Including subproject"
     only_subproject_id: "Only subproject"
     name_or_identifier: "Name or identifier"
   repositories:
@@ -2547,7 +2556,6 @@ vi:
   text_work_packages_destroy_confirmation: "Are you sure you want to delete the selected work package(s)?"
   text_work_packages_ref_in_commit_messages: "Referencing and fixing work packages in commit messages"
   text_journal_added: "%{label} %{value} added"
-  text_journal_aggregation_time_explanation: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent."
   text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
   text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label} updated"

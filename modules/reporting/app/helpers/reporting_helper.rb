@@ -62,7 +62,7 @@ module ReportingHelper
       CostQuery::GroupBy.const_get(name).label
     else
       # note that using WorkPackage.human_attribute_name relies on the attribute
-      # being an work_package attribute or a general attribute for all models whicht might not
+      # being an work_package attribute or a general attribute for all models which might not
       # be the case but so far I have only seen the "comments" attribute in reports
       WorkPackage.human_attribute_name(field)
     end

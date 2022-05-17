@@ -20,16 +20,44 @@
     .fc-scrollgrid-section-footer
       display: none
 
+  // -----------------
+  // This whole block is necessary to make the toolbar sticky and create a feeling of the team planner scrolling only inside.
+  // FullCalendar would normally do that on its own when passing `height: 100%` as parameter.
+  // However, this results in the team planner always spanning the complete screen which looks weird,
+  // if you only have few assignees. The last row is then always blown up.
   .fc-header-toolbar
-    margin-left: 138px
+    position: sticky
+    top: 0
+    background: white
+    z-index: 5
+    padding-left: 138px
+    padding-bottom: 1.5rem
+    margin: 0 !important
+
+  &--add-existing-toggle
+    z-index: 6
+
+  .fc-scrollgrid
+    border-top: none !important
+
+  .fc-scrollgrid-section-header.fc-scrollgrid-section-sticky > *
+    top: 58px !important
+    border-top: 1px solid var(--fc-border-color, #ddd)
+  //-----------------
 
   &_with_left_side_pane
     .fc-header-toolbar
       margin-left: -136px
 
   .fc-event-dragging
+    opacity: 1 !important
+
     .op-wp-single-card--content-inline-date
       visibility: hidden
+
+  // Avoid pointer cursor on hover
+  .fc-event-draggable:hover
+    cursor: default
 
   .op-team-planner--wp-loading-skeleton
     svg

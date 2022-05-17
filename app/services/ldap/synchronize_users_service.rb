@@ -7,18 +7,9 @@ module Ldap
       @logins = logins
     end
 
-    def call
-      Rails.logger.debug { "Start LDAP user synchronization for #{ldap.name}." }
-      User.system.run_given do
-        OpenProject::Mutex.with_advisory_lock_transaction(ldap, 'synchronize_users') do
-          synchronize!
-        end
-      end
-    end
-
     private
 
-    def synchronize!
+    def perform
       ldap_con = new_ldap_connection
 
       applicable_users.find_each do |user|

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-feature 'group memberships through groups page', type: :feature do
+describe 'group memberships through groups page', type: :feature, js: true do
   shared_let(:admin) { create :admin }
   let!(:group) { create :group, lastname: "Bob's Team" }
 

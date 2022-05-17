@@ -23,8 +23,8 @@ lt:
   js:
     ajax:
       hide: "Slėpti"
-      loading: "Įkeliama..."
-      updating: "Atnaujinama..."
+      loading: "Įkeliama…"
+      updating: "Atnaujinama…"
     attachments:
       draggable_hint: |
         Tempkite į redagavimo lauką, kad įtrauktumėte piešinį ar paminėtumėte priedą. Uždari redaktoriaus laukai bus atidaryti, kol jūs tempsite.
@@ -238,7 +238,7 @@ lt:
           text: >
             OpenProject Enterprise Edition yra pastatyta virš Community Edition. Papildomai įdėtos „premium“ savybės ir profesionalus aptarnavimas, pagrinde orientuotas į organizacijas su daugiau nei 10 vartotojų, kurie naudodami OpenProject valdo verslui kritinius projektus.
           unlimited: "Neribota"
-          you_contribute: "Kūrėjams taip pat reikia apmokėti savo sąskaitas. Su „Enterprise Edition“ jūs iš esmės prisidėsite prie atviro kodo bendruomenės darbo."
+          you_contribute: "Vystotojams taip pat reikia apmokėti sąskaitas. Pereidami į „Enterprise Edition“, jūs paremsite šį atviro kodo bendruomenės projektą ir prisidėsite prie jo vystymo, palaikymo ir pastovaus tobulinimo."
     custom_actions:
       date:
         specific: 'įjungta'
@@ -287,16 +287,17 @@ lt:
           learn_about: "Sužinokite daugiau apie naujas galimybes"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_0':
+          '12_1':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-1-release
               new_features_html: >
-                Šioje laidoje yra įvairios naujos savybės ir patobulinimai: <br> <ul class="%{list_styling_class}"> <li>Su naujais <b>vidiniais pranešimais</b> jūs gausite visus svarbius pakeitimus tiesiai aplikacijoje, ir jums daugiau nebereikės siųsti krūvos e-laiškų.</li> <li>Naujas <b>pranešimų centras</b> rodo visus pakeitimus, įskaitant intuityvius filtrus, pavyzdžiui pagal pranešimo priežastį ar projektą. Galime net tiesiogiai keisti padalintame vaizde.</li> <li>Pagerinti <b>pranešimų nustatymai</b> leidžia nustatyti, kuriems veiksmams ir kuriuose projekte reikalingi pranešimai.</li> <li><b>E-pašto priminimai</b> gali būti sukonfigūruoti gauti svarbius atnaujinimus kasdienine e-pašto santrauka.</li> <li>Darbo paketų automatinis pabaigimas ryšiams dabar rodo papildomą informaciją (projekto pavadinimą, būseną, ...), taip jums lengviau identifikuoti atitinkamą darbo paketą.</li> </ul>
+                Laidoje yra kelios naujos savybės ir patobulinimai: <br> <ul class="%{list_styling_class}"> <li><b>Komandos plano modulis</b> (Enterprise savybė) leidžia jums vizualiai priskirti užduotis komandos nariams, gauti apžvalgą kas ką daro.</li> <li>Mes <b>išleidžiame bazines agile lentas</b> bendruomenės versijai.</li> <li><b>Filtras „Įtraukti projektus“</b> palengvina pridėti skirtingus projektus į jūsų vaizdus, tokius kaip darbų paketai, kalendoriai ar komandų planai.</li> <li>Mes darbo paketų detalėse pridėjom <b>naują kortelę „Failai“</b>, kurioje bus visa įmanoma informacija apie prie darbo paketo prisegtą informaciją.</li> <li>Mes sukūrėme <b>grupėms globalius vaidmenis</b>, kuriuos galima priskirti grupėms ir sukurti supernaudotojų grupes.</li> <li>Projekto būseną dabar galima nustatyti iš platesnio reikšmių pasirinkimo.</li> </ul>
             bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-1-release
               new_features_html: >
-                Laidoje yra įvairios naujos funkcijos ir patobulinimai: <br> <ul class="%{list_styling_class}"> <li>Pranešimų centras: Sumažinkite gaunamų e-laiškų skaičių. Vietoje to veikite pagal momentinius pranešimus vienoje centralizuotoje vietoje.</li> <li>Visus įkeltus IFC failus dabar galima ir atsisiųsti.</li> <li>IFC įkėlimas ir apdorojimas pagreitėjo ir gaunami geresni klaidos pranešimai.</li> <li>The <a href="https://github.com/opf/openproject-revit-add-in">OpenProject Revit priedas</a> buvo gerokai sutvarkytas.</li> </ul>
+                Laidoje yra kelios naujos savybės ir patobulinimai: <br> <ul class="%{list_styling_class}"> <li>BCF modulyje jūs dabar galite įrašyti savo parinktus darbų paketų filtrus, stulpelius ir pan. kaip <b>vaizdus</b> ir dalintis jais su savo komandos nariais.</li> <li><b>Komandos plano modulis</b> (Enterprise savybė) leidžia jums vizualiai priskirti užduotis komandos nariams, gauti apžvalgą kas ką daro.</li> <li>Mes <b>išleidžiame bazines agile lentas</b> bendruomenės versijai.</li> <li><b>Filtras „Įtraukti projektus“</b> palengvina pridėti skirtingus projektus į jūsų vaizdus, tokius kaip darbų paketai, kalendoriai ar komandų planai.</li> <li>Mes darbo paketų detalėse pridėjom <b>naują kortelę „Failai“</b>, kurioje bus visa įmanoma informacija apie prie darbo paketo prisegtą informaciją.</li> <li>Mes sukūrėme <b>grupėms globalius vaidmenis</b>, kuriuos galima priskirti grupėms ir sukurti supernaudotojų grupes.</li> <li>Projekto būseną dabar galima nustatyti iš platesnio reikšmių pasirinkimo.</li> </ul>
     label_activate: "Aktyvuoti"
+    label_assignee: 'Paskirtas'
     label_add_column_after: "Pridėti stulpelį po"
     label_add_column_before: "Pridėti stulpelį prieš"
     label_add_columns: "Pridėti stulpelių"
@@ -550,7 +551,6 @@ lt:
           link_text: 'Spauskite čia, kad juos įkeltumėte'
       menu:
         accountable: 'Atsakingas'
-        assigned: 'Paskirta'
         by_project: 'Neperskaityti pagal projektą'
         by_reason: 'Pagal įsitraukimą'
         inbox: 'Gauti'
@@ -1155,7 +1155,7 @@ lt:
       role:
         label: 'Vaidmuo projekte %{project}'
         no_roles_found: 'Nerasta jokių vaidmenų'
-        description: 'Tai yra vaidmuo, kurį %{principal} gaus, kai prisijungs prie projekto. Šis vaidmuo nurodo, kokius veiksmus galės atlikti ir kokią informaciją matyti. <a href="<a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank">" target="_blank">Sužinokite daugiau apie vaidmenis ir teises. </a>'
+        description: 'Tai yra vaidmuo, kurį %{principal} gaus, kai prisijungs prie jūsų projekto. Vaidmuo nurodo, kokius veiksmus leidžiama atlikti ir kokią informaciją galima matyti. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Sužinokite daugiau apie vaidmenis ir teises. </a>'
         required: 'Prašome parinkti vaidmenį'
         next_button: 'Kitas'
       message:
@@ -1180,6 +1180,10 @@ lt:
         all: 'Visi projektai'
         selected: 'Tik pasirinktus'
       search_placeholder: 'Ieškoti projekte...'
+      include_subprojects: 'Įtraukti visus sub-projektus'
+      tooltip:
+        include_all_selected: 'Įtraukti visus šiuo metu pažymėtus sub-projektus.'
+        current_project: 'Tai dabartinis projektas, kuriame jūs esate.'
     forms:
       submit_success_message: 'Forma buvo sėkmingai pateikta'
       load_error_message: 'Įkeliant formą įvyko klaida'

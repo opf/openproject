@@ -2,23 +2,21 @@
 ko:
   js:
     team_planner:
-      add_existing: 'Add existing'
-      create_new: 'New team planner'
-      title: 'Team planner'
-      unsaved_title: 'Unnamed team planner'
-      label_assignee_plural: 'Assignees'
-      no_data: 'Add assignees to set up your team planner.'
-      add_assignee: 'Add assignee'
-      remove_assignee: 'Remove assignee'
-      two_weeks: '2-week'
-      one_week: '1-week'
-      today: 'Today'
-      drag_here_to_remove: 'Drag here to remove assignee and start and end dates.'
-      cannot_drag_here: 'Cannot remove the work package due to permissions or editing restrictions.'
+      add_existing: '기존 항목 추가'
+      title: '팀 플래너'
+      unsaved_title: '이름 없는 팀 플래너'
+      no_data: '담당자를 추가하여 팀 플래너를 설정하세요.'
+      add_assignee: '담당자 추가'
+      remove_assignee: '담당자 제거'
+      two_weeks: '2주'
+      one_week: '1주'
+      today: '오늘'
+      drag_here_to_remove: '담당자와 시작 날짜 및 종료 날짜를 제거하려면 여기로 드래그하세요.'
+      cannot_drag_here: '권한 또는 편집 제한으로 인해 작업 패키지를 제거할 수 없습니다.'
       quick_add:
-        empty_state: 'Use the search field to find work packages and drag them to the planner to assign it to someone and define start and end dates.'
-        search_placeholder: 'Search...'
+        empty_state: '검색 필드를 사용하여 작업 패키지를 찾고 플래너로 드래그하여 누군가에게 할당하고 시작 날짜 및 종료 날짜를 정의하세요.'
+        search_placeholder: '검색...'
       modify:
         errors:
-          permission_denied: 'You do not have the necessary permissions to modify this.'
-          fallback: 'This work package cannot be edited.'
+          permission_denied: '이를 수정하는 데 필요한 권한이 없습니다.'
+          fallback: '이 작업 패키지를 편집할 수 없습니다.'

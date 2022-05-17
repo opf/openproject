@@ -27,9 +27,9 @@
 #++
 
 require 'spec_helper'
+require_module_spec_helper
 
-# rubocop:disable RSpec/MultipleMemoizedHelpers
-describe 'API v3 file links resource', type: :request do
+describe 'API v3 file links resource', :enable_storages, type: :request do
   include API::V3::Utilities::PathHelper
 
   let(:permissions) { %i(view_work_packages view_file_links) }
@@ -94,6 +94,10 @@ describe 'API v3 file links resource', type: :request do
         let(:elements) { [] }
       end
     end
+
+    context 'when storages module is inactive', :disable_storages do
+      it_behaves_like 'not found'
+    end
   end
 
   describe 'POST /api/v3/work_packages/:work_package_id/file_links' do
@@ -153,6 +157,10 @@ describe 'API v3 file links resource', type: :request do
                                  "expected attribute #{key.inspect} of FileLink ##{i + 1} to be set.\ngot nil."
           end
         end
+      end
+
+      context 'when storages module is inactive', :disable_storages do
+        it_behaves_like 'not found'
       end
     end
 
@@ -345,6 +353,10 @@ describe 'API v3 file links resource', type: :request do
 
       it_behaves_like 'not found'
     end
+
+    context 'when storages module is inactive', :disable_storages do
+      it_behaves_like 'not found'
+    end
   end
 
   describe 'DELETE /api/v3/file_links/:file_link_id' do
@@ -378,6 +390,10 @@ describe 'API v3 file links resource', type: :request do
 
       it_behaves_like 'not found'
     end
+
+    context 'when storages module is inactive', :disable_storages do
+      it_behaves_like 'not found'
+    end
   end
 
   describe 'GET /api/v3/file_links/:file_link_id/open' do
@@ -391,6 +407,14 @@ describe 'API v3 file links resource', type: :request do
       expect(subject.status).to be 303
     end
 
+    context 'with location flag' do
+      let(:path) { api_v3_paths.file_link_open(file_link.id, true) }
+
+      it 'is successful' do
+        expect(subject.status).to be 303
+      end
+    end
+
     context 'if user has no view permissions' do
       let(:permissions) { [] }
 
@@ -402,6 +426,9 @@ describe 'API v3 file links resource', type: :request do
 
       it_behaves_like 'not found'
     end
+
+    context 'when storages module is inactive', :disable_storages do
+      it_behaves_like 'not found'
+    end
   end
 end
-# rubocop:enable RSpec/MultipleMemoizedHelpers

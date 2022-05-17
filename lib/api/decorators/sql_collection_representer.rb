@@ -44,7 +44,7 @@ module API
 
         private
 
-        def select_from(walker_result)
+        def select_from(_walker_result)
           "projection"
         end
 
@@ -81,10 +81,14 @@ module API
             end
           end
         end
+
+        def _type
+          'Collection'
+        end
       end
 
       property :_type,
-               representation: ->(*) { "'Collection'" }
+               representation: ->(*) { "'#{_type}'" }
 
       property :count,
                representation: ->(*) { "COUNT(*)" }

@@ -76,7 +76,7 @@ module API
               fail ::API::Errors::InvalidRequestBody.new(I18n.t('api_v3.errors.missing_request_body'))
             end
 
-            representer = ::API::V3::Watchers::WatcherRepresenter.create(::Hashie::Mash.new, current_user: current_user)
+            representer = ::API::V3::Watchers::WatcherRepresenter.create(API::ParserStruct.new, current_user: current_user)
             representer.from_hash(request_body)
             user_id = representer.represented.user_id.to_i
 

@@ -74,10 +74,14 @@ pl:
       book_now: 'Zarezerwuj teraz'
       get_quote: 'Uzyskaj wycenę'
       buttons:
-        upgrade: "Upgrade now"
-        contact: "Contact us for a demo"
-      enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
-      upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
+        upgrade: "Zmień plan teraz"
+        contact: "Skontaktuj się z nami, aby uzyskać demo"
+      enterprise_info_html: "to funkcja wersji Enterprise <strong class='icon-medal'></strong>."
+      upgrade_info: "Aby ją aktywować i zacząć korzystać z niej w zespole, przejdź na plan płatny."
+    journal_aggregation:
+      explanation:
+        text: "Indywidualne działania użytkownika (np. dwukrotna aktualizacja pakietu roboczego) są agregowane w jedno działanie, jeśli różnica czasowa między nimi jest mniejsza niż określony przedział czasowy. Będą one wyświetlane jako jedno działanie w aplikacji. Spowoduje to również opóźnienie powiadomień o tę samą ilość czasu, zmniejszając liczbę wysyłanych wiadomości e-mail i wpłynie też na opóźnienie %{webhook_link}."
+        link: "webhook"
   announcements:
     show_until: Pokazuj do
     is_active: obecnie wyświetlane
@@ -163,7 +167,7 @@ pl:
     edit: 'Edytuj działanie niestandardowe %{name}'
     execute: 'Wykonaj %{name}'
     upsale:
-      title: 'Custom actions'
+      title: 'Działania niestandardowe'
       description: 'Działania niestandardowe usprawniają codzienną pracę, łącząc zestaw oddzielnych kroków w jeden przycisk.'
   custom_fields:
     text_add_new_custom_field: >
@@ -262,7 +266,7 @@ pl:
       irreversible: "To działanie jest nieodwracalne."
       confirmation: "Wprowadź nazwę użytkownika zastępczego %{name}, aby potwierdzić usunięcie."
     upsale:
-      title: Placeholder users
+      title: Użytkownicy zastępczy
       description: >
         Istnieje wiele scenariuszy, w których chcesz przypisać pracę osobom, które nie są członkami projektu. Może się po prostu zdarzyć, że nadal musisz zatrudnić odpowiednią osobę do danej pracy. Lub też po prostu nie chcesz udzielać tej osobie dostępu do informacji o projekcie, ale nadal chcesz śledzić zadania przypisane do tej osoby.
   prioritiies:
@@ -321,10 +325,10 @@ pl:
       other: 'Wiele potomnych pakietów roboczych (%{count})'
     bulk:
       could_not_be_saved: "Nie można zapisać następujących pakietów roboczych:"
-      none_could_be_saved: "None of the %{total} work packages could be updated."
-      x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
-      selected_because_descendants: "While %{selected} work packages where selected, in total %{total} work packages are affected which includes descendants."
-      descendant: "descendant of selected"
+      none_could_be_saved: "Nie mógł zostać zaktualizowany żaden z pakietów roboczych %{total}."
+      x_out_of_y_could_be_saved: "%{failing} z %{total} pakietów roboczych nie można było zaktualizować, a %{success} można było zaktualizować."
+      selected_because_descendants: "Wybrano pakiety robocze w liczbie %{selected}, ale dotyczy to łącznie %{total} pakietów roboczych, w tym pakietów potomnych."
+      descendant: "elementy potomne wybranego"
     move:
       no_common_statuses_exists: "Brak stanu dostępnego dla wszystkich wybranych pakietów roboczych. Ich stanu nie można zmienić."
       unsupported_for_multiple_projects: 'Hurtowe przenoszenie / kopiowanie nie jest obsługiwane dla Zestawu zadań z różnych projektów'
@@ -454,12 +458,12 @@ pl:
         code: 'Status'
         explanation: 'Opis statusu'
         codes:
-          not_started: 'Not started'
+          not_started: 'Nierozpoczęte'
           on_track: 'Na ścieżce'
           at_risk: 'Zagrożony'
           off_track: 'Poza ścieżką'
-          finished: 'Finished'
-          discontinued: 'Discontinued'
+          finished: 'Zakończone'
+          discontinued: 'Przerwane'
       query:
         column_names: "Kolumny"
         relations_to_type_column: "Relacje %{type}"
@@ -560,6 +564,7 @@ pl:
         even: "musi być takie samo."
         exclusion: "jest już zajęte."
         file_too_large: "jest za długie (maksymalna wielkość to %{count} Bajtów)."
+        filter_does_not_exist: "filtr nie istnieje."
         format: "nie pasuje do oczekiwanego formatu '%{expected}'."
         format_nested: "nie pasuje do oczekiwanego formatu '%{expected}' na ścieżce %{path}."
         greater_than: "musi być większe niż %{count}."
@@ -747,7 +752,7 @@ pl:
               does_not_exist: "Podana kategoria nie istnieje."
             estimated_hours:
               only_values_greater_or_equal_zeroes_allowed: "musi być ≥ 0."
-          readonly_status: 'The work package is in a readonly status so its attributes cannot be changed.'
+          readonly_status: 'Pakiet roboczy ma status tylko do odczytu, więc jego atrybutów nie można zmienić.'
         type:
           attributes:
             attribute_groups:
@@ -759,7 +764,7 @@ pl:
         user:
           attributes:
             base:
-              user_limit_reached: "User limit reached. No more accounts can be created on the current plan."
+              user_limit_reached: "Osiągnięto limit liczby użytkowników. Nie można utworzyć więcej kont w bieżącym planie."
             password_confirmation:
               confirmation: "Powtórzone hasło różni się od wprowadzonego hasła!"
               format: "%{message}"
@@ -895,10 +900,11 @@ pl:
     updated_on: "Aktualizacja"
     uploader: "Osoba przesyłająca"
     user: "Użytkownik"
+    value: "Wartość"
     version: "Wersja"
     work_package: "Zadanie"
   backup:
-    failed: "Backup failed"
+    failed: "Tworzenie kopii zapasowej nie powiodło się"
     label_backup_token: "Token kopii zapasowej"
     label_create_token: "Utwórz token kopii zapasowej"
     label_delete_token: "Usuń token kopii zapasowej"
@@ -1260,7 +1266,7 @@ pl:
   error_enterprise_token_invalid_domain: "Wersja Enterprise jest nieaktywna. Domena Twojego tokenu Enterprise (%{actual}) nie odpowiada nazwie hosta systemu (%{expected})."
   error_failed_to_delete_entry: 'Nie udało się usunąć tego wpisu.'
   error_in_dependent: "Błąd podczas próby zmiany obiektu zależnego: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
-  error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
+  error_in_new_dependent: "Błąd podczas próby utworzenia obiektu zależnego: %{dependent_class} — %{related_subject}: %{error}"
   error_invalid_selected_value: "Nieprawidłowa wybrana wartość."
   error_journal_attribute_not_present: "Dziennik nie zawiera atrybutu %{attribute}."
   error_pdf_export_too_many_columns: "Wybrano zbyt dużo kolumn do eksportu PDF. Zmniejsz liczbę kolumn."
@@ -1370,7 +1376,9 @@ pl:
   menus:
     admin:
       mail_notification: "Powiadomienia e-mail"
-      incoming_outgoing: "Przychodzące i wychodzące"
+      mails_and_notifications: "Wiadomości e-mail i powiadomienia"
+      aggregation_and_retention: 'Agregacja i zatrzymanie'
+      api_and_webhooks: "Interfejs API i webhooki"
     quick_add:
       label: "Otwórz menu szybkiego dodawania"
   my_account:
@@ -1665,8 +1673,8 @@ pl:
   lable_membership_added: 'Dodano członka'
   lable_membership_updated: 'Zaktualizowano członka'
   label_menu_badge:
-    pre_alpha: 'pre-alpha'
-    alpha: 'alpha'
+    pre_alpha: 'wczesna alfa'
+    alpha: 'alfa'
     beta: 'beta'
   label_menu_item_name: "Nazwa elementu menu"
   label_message: "Wiadomość"
@@ -2022,7 +2030,7 @@ pl:
   mail_body_backup_waiting_period: Nowy token zostanie włączony za %{hours} godz.
   mail_body_backup_token_warning: Jeśli to nie Ty, zaloguj się natychmiast do OpenProject i zresetuj go ponownie.
   mail_body_lost_password: "Aby zmienić hasło, kliknij na poniższy link:"
-  mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
+  mail_body_register: "Witamy w %{app_title}. Aktywuj swoje konto, klikając ten link:"
   mail_body_register_header_title: "Wiadomość e-mail z zaproszeniem członka projektu"
   mail_body_register_user: "Witaj %{name}, "
   mail_body_register_links_html: |
@@ -2166,7 +2174,7 @@ pl:
     heading_getting_started: "Zobacz szybki przegląd"
     text_getting_started_description: "Spójrz na szybki przegląd zarządzania projektem i pracą zespołową w OpenProject."
     text_show_again: "Możesz zresetować to wideo w menu pomocy"
-    welcome: "Welcome to %{app_title}"
+    welcome: "Witamy w %{app_title}"
     select_language: "Wybierz język"
   permission_add_work_package_notes: "Dodawanie notatek"
   permission_add_work_packages: "Dodawanie pakietów roboczych"
@@ -2182,6 +2190,7 @@ pl:
   permission_comment_news: "Komentowanie Nowości"
   permission_commit_access: "Dostęp odczytu i zapisu do repozytorium (wykonanie)"
   permission_copy_projects: "Kopiowanie projektów"
+  permission_create_backup: "Create backup"
   permission_delete_work_package_watchers: "Usuwanie obserwatorów"
   permission_delete_work_packages: "Usuwanie pakietów roboczych"
   permission_delete_messages: "Usuwanie wiadomości"
@@ -2235,7 +2244,7 @@ pl:
   permission_view_timelines: "Widok osi czasu"
   permission_view_wiki_edits: "WIdok historii wiki"
   permission_view_wiki_pages: "Widok wiki"
-  permission_work_package_assigned: "Become assignee/responsible"
+  permission_work_package_assigned: "Zostań osobą przypisaną/odpowiedzialną"
   permission_work_package_assigned_explanation: "Pakiety robocze mogą być przypisane do użytkowników i grup znajdujących się w posiadaniu tej roli w odpowiednim projekcie"
   placeholders:
     default: "-"
@@ -2274,7 +2283,7 @@ pl:
     assigned_to_role: "Przypisany do roli"
     member_of_group: "Przypisany do grupy"
     assignee_or_group: "Przypisana osoba lub przynależna grupa"
-    subproject_id: "Z podprojektem włącznie"
+    subproject_id: "Including subproject"
     only_subproject_id: "Tylko podprojekt"
     name_or_identifier: "Nazwa lub identyfikator"
   repositories:
@@ -2386,9 +2395,9 @@ pl:
   setting_apiv3_cors_origins: "Dozwolone źródła mechanizmu Cross-Origin Resource Sharing (CORS) interfejsu API V3"
   setting_apiv3_cors_origins_text_html: >
     Jeśli mechanizm CORS jest włączony, są to źródła, których dostęp do interfejsu API OpenProject jest dozwolony. <br/> Sprawdź w <a href="%{origin_link}" target="_blank">dokumentacji nagłówka origin</a> jak należy określić oczekiwane wartości.
-  setting_apiv3_max_page_size: "Maximum API page size"
+  setting_apiv3_max_page_size: "Maksymalny rozmiar strony interfejsu API"
   setting_apiv3_max_page_instructions_html: >
-    Set the maximum page size the API will respond with. It will not be possible to perform API requests that return more values on a single page. <br/> <strong>Warning:</strong> Please only change this value if you are sure why you need it. Setting to a high value will result in significant performance impacts, while a value lower than the per page options will cause errors in paginated views.
+    Ustaw maksymalny rozmiar strony, którą będzie odpowiadać interfejs API. Nie będzie możliwe wykonanie żądań interfejsu API, które zwracają więcej wartości na jednej stronie. <br/> <strong>Ostrzeżenie:</strong> zmień tę wartość tylko mając pewność, dlaczego jej potrzebujesz. Ustawienie wysokiej wartości będzie mieć znaczące skutki dla wydajności, podczas gdy wartość niższa niż opcje liczby elementów na stronie spowodują błędy w widokach stronicowanych.
   setting_apiv3_docs: "Dokumentacja"
   setting_apiv3_docs_enabled: "Włącz stronę z dokumentami"
   setting_apiv3_docs_enabled_instructions_html: >
@@ -2596,7 +2605,6 @@ pl:
   text_work_packages_destroy_confirmation: "Czy na pewno chcesz usunąć wybrane pakiety robocze?"
   text_work_packages_ref_in_commit_messages: "Odwołania i poprawki do pakietów roboczych w wiadomościach o zmianach"
   text_journal_added: "%{label} %{value} added"
-  text_journal_aggregation_time_explanation: "Indywidualne czynności użytkownika (np. dwukrotna aktualizacja pakietu roboczego) są agregowane w pojedynczą czynność, jeśli ich różnica czasowa jest mniejsza niż określony przedział czasowy. Będą one wyświetlane jako pojedyncza czynność w aplikacji. Spowoduje to również opóźnienie powiadomień o tę samą ilość czasu, zmniejszając liczbę wysyłanych wiadomości e-mail."
   text_journal_changed_html: "%{label} zmieniono z %{old} %{linebreak}<strong>na</strong> %{new}"
   text_journal_changed_plain: "%{label} zmieniono z %{old} %{linebreak}na %{new}"
   text_journal_changed_no_detail: "%{label} updated"
@@ -2915,7 +2923,7 @@ pl:
         work_package: "Pakiet roboczy, którego szukasz nie został znaleziony lub został usunięty."
       expected:
         date: "RRRR-MM-DD (tylko data ISO 8601)"
-        datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm] (any compatible ISO 8601 datetime)"
+        datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm] (dowolna data i godzina zgodne z ISO 8601)"
         duration: "Czas trwania ISO 8601"
       invalid_content_type: "Oczekiwano CONTENT-TYPE '%{content_type}' a otrzymano '%{actual}'."
       invalid_format: "Błędny format dla własności '%{property}': Format oczekiwany '%{expected_format}', otrzymano '%{actual}'."
@@ -2927,7 +2935,7 @@ pl:
         select: "Żądany wybór %{invalid} nie jest obsługiwany. Obsługiwane wybory to %{supported}."
       invalid_user_status_transition: "Aktualny stan konta użytkownika nie zezwala na wykonanie tej operacji."
       missing_content_type: "nie określono"
-      missing_property: "Missing property '%{property}'."
+      missing_property: "Brakuje właściwości „%{property}”."
       missing_request_body: "There was no request body."
       missing_or_malformed_parameter: "Parametr zapytania '%{parameter}' jest brakujący lub nieprawidłowy."
       multipart_body_error: "Żądanie źródła nie zawiera oczekiwanych wieloczęściowych elementów."
@@ -2951,7 +2959,7 @@ pl:
       schema: 'Schemat'
     undisclosed:
       parent: Nie ujawniono — wybrany element nadrzędny jest niewidoczny ze względu na brak uprawnień.
-      ancestor: Undisclosed - The ancestor is invisible because of lacking permissions.
+      ancestor: Nie ujawniono — przodek jest niewidoczny ze względu na brak uprawnień.
   doorkeeper:
     pre_authorization:
       status: 'Pre-Autoryzacja'
@@ -2962,9 +2970,9 @@ pl:
         #Common error messages
         invalid_request:
           unknown: 'Żądanie nie zawiera wymaganego parametru, zawiera nieobsługiwaną wartość parametru lub jest w inny sposób nieprawidłowo sformułowane.'
-          missing_param: 'Missing required parameter: %{value}.'
-          request_not_authorized: 'Request need to be authorized. Required parameter for authorizing request is missing or invalid.'
-        invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
+          missing_param: 'Brak wymaganego parametru: %{value}.'
+          request_not_authorized: 'Żądanie musi być autoryzowane. Wymagany do autoryzacji żądania parametr nie istnieje lub jest nieprawidłowy.'
+        invalid_redirect_uri: "Identyfikator URI żądanego przekierowania jest nieprawidłowo sformułowany lub niezgodny z identyfikatorem URI przekierowania klienta."
         unauthorized_client: 'Klient nie ma uprawnień do wykonania tego żądania przy użyciu tej metody.'
         access_denied: 'Odrzucenie żądania ze strony właściciela zasobu lub serwera autoryzacji.'
         invalid_scope: 'Żądany zakres jest nieprawidłowy, nieznany lub nieprawidłowo sformułowany.'
@@ -2977,7 +2985,7 @@ pl:
         admin_authenticator_not_configured: 'Dostęp do panelu administratora jest zabroniony z powodu nieskonfigurowania ustawień Doorkeeper.configure.admin_authenticator.'
         #Access grant errors
         unsupported_response_type: 'Serwer autoryzacji nie obsługuje tego typu odpowiedzi.'
-        unsupported_response_mode: 'The authorization server does not support this response mode.'
+        unsupported_response_mode: 'Serwer autoryzacji nie obsługuje tego trybu odpowiedzi.'
         #Access token errors
         invalid_client: 'Uwierzytelnianie klienta nie powiodło się z powodu nieznanego klienta, nieuwzględnienia uwierzytelniania klienta lub nieobsługiwanej metody uwierzytelniania.'
         invalid_grant: 'Udzielona autoryzacja jest nieprawidłowa, wygasła, unieważniona, nie odpowiada identyfikatorowi URI przekierowania użytemu w żądaniu autoryzacji lub została wydana innemu klientowi.'
@@ -2987,9 +2995,9 @@ pl:
           expired: "Ten token wygasł"
           unknown: "Ten token jest nieprawidłowy"
         revoke:
-          unauthorized: "You are not authorized to revoke this token."
+          unauthorized: "Nie masz uprawnień, aby unieważnić ten token."
         forbidden_token:
-          missing_scope: 'Access to this resource requires scope "%{oauth_scopes}".'
+          missing_scope: 'Dostęp do tego zasobu wymaga zakresu „%{oauth_scopes}”.'
   unsupported_browser:
     title: "Ta przeglądarka jest przestarzała i nieobsługiwana."
     message: "Na tej stronie mogą wystąpić błędy i pogorszenie działania."

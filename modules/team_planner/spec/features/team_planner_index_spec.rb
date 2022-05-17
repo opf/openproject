@@ -47,16 +47,16 @@ describe 'Team planner index', type: :feature, js: true, with_ee: %i[team_planne
 
     it 'shows an index action' do
       expect(page).to have_text 'There is currently nothing to display.'
-      expect(page).to have_selector '.button', text: 'Create'
+      expect(page).to have_selector '.button', text: 'Team planner'
     end
 
     it 'can create an action through the sidebar' do
-      click_on 'New team planner'
+      find('[data-qa-selector="team-planner--create-button"]').click
 
       team_planner.expect_title
 
       # Also works from the frontend
-      click_on 'New team planner'
+      find('[data-qa-selector="team-planner--create-button"]').click
 
       team_planner.expect_no_toaster
       team_planner.expect_title
@@ -84,7 +84,7 @@ describe 'Team planner index', type: :feature, js: true, with_ee: %i[team_planne
         expect(page).to have_no_selector "[data-qa-selector='team-planner-remove-#{query.id}']"
 
         # Does not show the create button
-        expect(page).to have_no_selector '.button', text: 'Create'
+        expect(page).to have_no_selector '.button', text: 'Team planner'
       end
 
       context 'when the view is non-public' do
@@ -98,7 +98,7 @@ describe 'Team planner index', type: :feature, js: true, with_ee: %i[team_planne
           expect(page).to have_no_selector "[data-qa-selector='team-planner-remove-#{query.id}']"
 
           # Does not show the create button
-          expect(page).to have_no_selector '.button', text: 'Create'
+          expect(page).to have_no_selector '.button', text: 'Team planner'
         end
       end
     end

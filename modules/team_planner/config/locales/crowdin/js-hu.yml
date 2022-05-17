@@ -2,23 +2,21 @@
 hu:
   js:
     team_planner:
-      add_existing: 'Add existing'
-      create_new: 'New team planner'
-      title: 'Team planner'
-      unsaved_title: 'Unnamed team planner'
-      label_assignee_plural: 'Assignees'
+      add_existing: 'Létező hozzáadása'
+      title: 'Csoport tervező'
+      unsaved_title: 'Névtelen csoport tervező'
       no_data: 'Add assignees to set up your team planner.'
-      add_assignee: 'Add assignee'
-      remove_assignee: 'Remove assignee'
-      two_weeks: '2-week'
-      one_week: '1-week'
-      today: 'Today'
+      add_assignee: 'Megbízott hozzáadása'
+      remove_assignee: 'Megbízott eltávolítása'
+      two_weeks: '2 hét'
+      one_week: '1 hét'
+      today: 'Ma'
       drag_here_to_remove: 'Drag here to remove assignee and start and end dates.'
       cannot_drag_here: 'Cannot remove the work package due to permissions or editing restrictions.'
       quick_add:
         empty_state: 'Use the search field to find work packages and drag them to the planner to assign it to someone and define start and end dates.'
-        search_placeholder: 'Search...'
+        search_placeholder: 'Keresés...'
       modify:
         errors:
           permission_denied: 'You do not have the necessary permissions to modify this.'
-          fallback: 'This work package cannot be edited.'
+          fallback: 'Ez a munkacsomag nem szerkeszthető.'

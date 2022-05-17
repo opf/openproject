@@ -624,6 +624,7 @@ en:
         even: "must be even."
         exclusion: "is reserved."
         file_too_large: "is too large (maximum size is %{count} Bytes)."
+        filter_does_not_exist: "filter does not exist."
         format: "does not match the expected format '%{expected}'."
         format_nested: "does not match the expected format '%{expected}' at path '%{path}'."
         greater_than: "must be greater than %{count}."
@@ -957,6 +958,7 @@ en:
     updated_on: "Updated on"
     uploader: "Uploader"
     user: "User"
+    value: "Value"
     version: "Version"
     work_package: "Work package"
 
@@ -2241,6 +2243,7 @@ en:
   permission_comment_news: "Comment news"
   permission_commit_access: "Read/write access to repository (commit)"
   permission_copy_projects: "Copy projects"
+  permission_create_backup: "Create backup"
   permission_delete_work_package_watchers: "Delete watchers"
   permission_delete_work_packages: "Delete work packages"
   permission_delete_messages: "Delete messages"
@@ -2339,7 +2342,7 @@ en:
     assigned_to_role: "Assignee's role"
     member_of_group: "Assignee's group"
     assignee_or_group: "Assignee or belonging group"
-    subproject_id: "Including Subproject"
+    subproject_id: "Including subproject"
     only_subproject_id: "Only subproject"
     name_or_identifier: "Name or identifier"
 

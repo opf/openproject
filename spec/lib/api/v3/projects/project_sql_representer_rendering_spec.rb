@@ -154,6 +154,32 @@ describe ::API::V3::Projects::ProjectSqlRepresenter, 'rendering' do
           }.to_json
         )
     end
+
+    context 'when in a foreign language with single quotes in the translation hint text' do
+      before do
+        I18n.locale = :fr
+      end
+
+      it 'renders as expected' do
+        expect(json)
+          .to be_json_eql(
+            {
+              _links: {
+                ancestors: [
+                  {
+                    href: api_v3_paths.project(grandparent.id),
+                    title: grandparent.name
+                  },
+                  {
+                    href: API::V3::URN_UNDISCLOSED,
+                    title: I18n.t(:'api_v3.undisclosed.ancestor')
+                  }
+                ]
+              }
+            }.to_json
+          )
+      end
+    end
   end
 
   context 'with an archived ancestor but with the user being admin' do

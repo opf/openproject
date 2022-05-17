@@ -6,6 +6,7 @@
 
   &--option
     @include spot-body-small
+    line-height: 1rem
 
     display: flex
     flex-direction: row
@@ -18,6 +19,9 @@
     background-color: transparent
     color: $spot-color-main-dark
     cursor: pointer
+
+    &:focus-within
+      @include spot-focus
 
     &:not(:last-child)
       border-right: 0

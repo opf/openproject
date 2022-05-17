@@ -1,5 +1,5 @@
 class ReorderProjectChildren < ActiveRecord::Migration[6.1]
   def up
-    ::Projects::ReorderChildrenJob.perform_later
+    ::Projects::ReorderHierarchyJob.perform_later
   end
 end

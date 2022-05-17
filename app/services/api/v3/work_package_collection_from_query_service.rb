@@ -127,7 +127,7 @@ module API
       end
 
       def format_query_sums(sums)
-        Hashie::Mash.new(format_column_keys(sums).merge(available_custom_fields: WorkPackageCustomField.summable.to_a))
+        API::ParserStruct.new(format_column_keys(sums).merge(available_custom_fields: WorkPackageCustomField.summable.to_a))
       end
 
       def format_column_keys(hash_by_column)

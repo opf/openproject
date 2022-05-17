@@ -88,15 +88,23 @@ class LdapAuthSource < AuthSource
   end
 
   def get_user_attributes_from_ldap_entry(entry)
-    {
+    base_attributes = {
       dn: entry.dn,
-      login: LdapAuthSource.get_attr(entry, attr_login),
-      firstname: LdapAuthSource.get_attr(entry, attr_firstname),
-      lastname: LdapAuthSource.get_attr(entry, attr_lastname),
-      mail: LdapAuthSource.get_attr(entry, attr_mail),
-      admin: !!LdapAuthSource.get_attr(entry, attr_admin),
       auth_source_id: id
     }
+
+    base_attributes.merge mapped_attributes(entry)
+  end
+
+  def mapped_attributes(entry)
+    %i[login firstname lastname mail admin].each_with_object({}) do |key, hash|
+      ldap_attribute = send(:"attr_#{key}")
+      next if ldap_attribute.blank?
+
+      val = LdapAuthSource.get_attr(entry, ldap_attribute)
+      val = !!ActiveRecord::Type::Boolean.new.cast(val) if key == :admin
+      hash[key] = val
+    end
   end
 
   # Return the attributes needed for the LDAP search.
@@ -176,6 +184,7 @@ class LdapAuthSource < AuthSource
     Rails.logger.debug do
       "LDAP initializing search (BASE=#{base_dn}), (FILTER=#{filter})"
     end
+
     ldap_con.search(base: base_dn,
                     filter: filter,
                     attributes: search_attributes) do |entry|

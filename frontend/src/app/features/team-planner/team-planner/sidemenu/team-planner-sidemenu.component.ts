@@ -1,15 +1,17 @@
 import {
-  Component,
   ChangeDetectionStrategy,
-  Input,
+  Component,
   ElementRef,
   HostBinding,
+  Input,
 } from '@angular/core';
 import { DatasetInputs } from 'core-app/shared/components/dataset-inputs.decorator';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { BannersService } from 'core-app/core/enterprise/banners.service';
+import { map } from 'rxjs/operators';
 
 export const opTeamPlannerSidemenuSelector = 'op-team-planner-sidemenu';
 
@@ -26,14 +28,18 @@ export class TeamPlannerSidemenuComponent extends UntilDestroyedMixin {
 
   @Input() projectId:string|undefined;
 
-  canAddTeamPlanner$ = this.currentUserService.hasCapabilities$(
-    'team_planners/create',
-    this.currentProjectService.id || undefined,
-  )
-    .pipe(this.untilDestroyed());
+  canAddTeamPlanner$ = this
+    .currentUserService
+    .hasCapabilities$(
+      'team_planners/create',
+      this.currentProjectService.id || undefined,
+    )
+    .pipe(
+      map((val) => val && !this.bannersService.eeShowBanners),
+    );
 
   text = {
-    create_new_team_planner: this.I18n.t('js.team_planner.create_new'),
+    create_new_team_planner: this.I18n.t('js.team_planner.title'),
   };
 
   createButton = {
@@ -49,6 +55,7 @@ export class TeamPlannerSidemenuComponent extends UntilDestroyedMixin {
     readonly elementRef:ElementRef,
     readonly currentUserService:CurrentUserService,
     readonly currentProjectService:CurrentProjectService,
+    readonly bannersService:BannersService,
     readonly I18n:I18nService,
   ) {
     super();

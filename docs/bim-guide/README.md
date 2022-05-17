@@ -1,12 +1,12 @@
 ---
 sidebar_navigation:
-  title: BIM Guide
+  title: BIM guide
   priority: 975
 description: User guide for the OpenProject BIM Edition.
 robots: index, follow
 keywords: BIM user guide
 ---
-# BIM user guide
+# BIM guide
 
 Welcome to the OpenProject user guide for Building Information Modeling (BIM) with OpenProject.
 
@@ -26,7 +26,7 @@ On top of the general project management functionalities, OpenProject BIM enable
 
 OpenProject BIM Edition provides powerful features particular designed for the needs of construction industry. Please choose the topic you want to learn more about.
 
-## IFC Viewer
+## IFC viewer
 
 Upload your IFC building models and show them directly in the internet browser, without any additional software.
 
@@ -34,7 +34,7 @@ Details: [IFC-Viewer](ifc-viewer)
 
 
 
-## BIM Issue Management
+## BIM issue management
 
 Create tasks directly connected to your building model, import tasks or export tasks from any other BIM application.
 
@@ -42,7 +42,7 @@ Deails: [BIM Issue Management](bim-issue-management)
 
 
 
-## Revit Addin
+## Revit add-in
 
 Stay always connected to OpenProject in realtime, show and create tasks while you're working in the Revit, using the Revit Addin.
 
@@ -58,7 +58,7 @@ You easily can start a new BIM trial on our [OpenProject BIM website](https://ww
 
 ## How to enable the BCF module?
 
-The BCF Module and the included IFC viewer can be enabled for every single project. Here you can find the description how to [enable a module](../user-guide/projects/project-settings/modules/) within your ***poject settings***.
+The BCF Module and the included IFC viewer can be enabled for every single project. Here you can find the description how to [enable a module](../user-guide/projects/project-settings/modules/) within your ***project settings***.
 
 
 
@@ -72,35 +72,35 @@ You found a bug? Please [report it](../development/report-a-bug) to our [OpenPro
 
 
 
-### Can OpenProject features be used within the OpenProject BIM Edition?
+### Can OpenProject features be used within the OpenProject BIM edition?
 
-Yes, you are able to use all known features. Within our BIM Edition you get the full functionality and additionaly some features only for the building industry.
+Yes, you are able to use all known features. Within our BIM Edition you get the full functionality and additionally some features only for the building industry.
 
 
 
-### Is it possible to switch my existing OpenProject Installation to the BIM Edition?
+### Is it possible to switch my existing OpenProject installation to the BIM edition?
 
-Yes, an existing OpenProject on-premises (self-hosted) installation can easily be switched to the BIM Edition without loosing your settings and projects.
+Yes, an existing OpenProject on-premises (self-hosted) installation can easily be switched to the BIM Edition without losing your settings and projects.
 
 In our [Installation & Upgrade Guide](../installation-and-operations/changing-to-bim-edition) you can find a description how to switch.
 
 
 
-### Is OpenProject BIM compatible to other BIM Software?
+### Is OpenProject BIM compatible to other BIM software?
 
 Yes of course. We are of the opinion that the full potential of the BIM method only works through collaboration and the exchange of information (openBIM). For this reason we support the open BCF XML Standard. You are able to import and export all created BCF and stay interoparable with any other BCF software.
 
 
 
-### Why do I need a Revit Add-In?
+### Why do I need a Revit add-in?
 
 You don't need it, but it makes your BIM Issue Management much easier. The *OpenProject Revit Add-In* allows you to use the open source project management software *OpenProject BIM* directly within your Autodesk Revit environment. It lets you create, inspect and manage issues right in the moment when you can also solve them - when you have your Revit application fired up and the relevant BIM models open. Issues get stored as BIM Issues centrally and are available to every team member in real time - thanks to our browser based IFC viewer even to those team members without expensive Revit licenses. No BCF XML import/export is needed. However, you still can import and export BCF XML as you like and stay interoparable with any other BCF software.
 
 
 
-### Are there any System Requirements for the Revit Add-In?
+### Are there any system requirements for the Revit add-in?
 
-The OpenProject Revit Add-In does not have any special system requirements. Only a supported [version of Autodesk Revit](/#system-requirements) must be installed. 
+The OpenProject Revit Add-In does not have any special system requirements. Only a supported [version of Autodesk Revit](./revit-add-in/#system-requirements) must be installed. 
 
 
 
@@ -114,7 +114,7 @@ The OpenProject BIM Addin for Revit supports the following versions:
 
 
 
-### Is it possible to use OpenProject BIM without REVIT?
+### Is it possible to use OpenProject BIM without Revit?
 
 Yes! The Revit Add-In is just additional to the OpenProject BIM core functionality. It's still possible to import and export BCF XML as you like and stay interoparable with any other Software for BIM Issue Management.
 
@@ -146,7 +146,7 @@ There are many potential reasons why you can't see your building model. Please c
 
 
 
-### Where to find the Version of my Revit AddIn?
+### Where to find the version of my Revit add-in?
 
 To see which version of the Revit AddIn you are currently using, navigate to the OpenProject tab in the Revit taskbar and open the settings. Here you can see which version you are currently using.
 

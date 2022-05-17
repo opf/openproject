@@ -2,23 +2,21 @@
 pl:
   js:
     team_planner:
-      add_existing: 'Add existing'
-      create_new: 'New team planner'
-      title: 'Team planner'
-      unsaved_title: 'Unnamed team planner'
-      label_assignee_plural: 'Assignees'
-      no_data: 'Add assignees to set up your team planner.'
-      add_assignee: 'Add assignee'
-      remove_assignee: 'Remove assignee'
-      two_weeks: '2-week'
-      one_week: '1-week'
-      today: 'Today'
-      drag_here_to_remove: 'Drag here to remove assignee and start and end dates.'
-      cannot_drag_here: 'Cannot remove the work package due to permissions or editing restrictions.'
+      add_existing: 'Dodaj istniejącego'
+      title: 'Planista zespołu'
+      unsaved_title: 'Planista zespołu bez nazwy'
+      no_data: 'Aby skonfigurować planistę zespołu, dodaj przypisane osoby.'
+      add_assignee: 'Dodaj przypisaną osobę'
+      remove_assignee: 'Usuń osobę przypisaną'
+      two_weeks: '2 tygodnie'
+      one_week: '1 tydzień'
+      today: 'Dzisiaj'
+      drag_here_to_remove: 'Przeciągnij tutaj, aby usunąć przypisaną osobę oraz daty rozpoczęcia i zakończenia.'
+      cannot_drag_here: 'Nie można usunąć pakietu roboczego ze względu na uprawnienia lub ograniczenia edycji.'
       quick_add:
-        empty_state: 'Use the search field to find work packages and drag them to the planner to assign it to someone and define start and end dates.'
-        search_placeholder: 'Search...'
+        empty_state: 'Użyj pola wyszukiwania w celu znalezienia pakietów roboczych i przeciągnięcia ich do planisty, aby przypisać je do kogoś i zdefiniować daty rozpoczęcia i zakończenia.'
+        search_placeholder: 'Wyszukaj...'
       modify:
         errors:
-          permission_denied: 'You do not have the necessary permissions to modify this.'
-          fallback: 'This work package cannot be edited.'
+          permission_denied: 'Nie masz uprawnień niezbędnych do zmodyfikowania tego elementu.'
+          fallback: 'Tego pakietu roboczego nie można edytować.'

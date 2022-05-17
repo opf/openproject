@@ -32,9 +32,6 @@ shared_examples 'represents the notification' do
       .to(be_json_eql('Notification'.to_json).at_path('_type'))
 
     expect(last_response.body)
-      .to(be_json_eql(notification.subject.to_json).at_path('subject'))
-
-    expect(last_response.body)
       .to(be_json_eql(notification.read_ian.to_json).at_path('readIAN'))
 
     expect(last_response.body)

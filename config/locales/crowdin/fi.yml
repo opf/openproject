@@ -78,6 +78,10 @@ fi:
         contact: "Contact us for a demo"
       enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
       upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
+    journal_aggregation:
+      explanation:
+        text: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent and will also affect %{webhook_link} delay."
+        link: "webhook"
   announcements:
     show_until: Näytä tähän päivään asti
     is_active: näkyvissä tällä hetkellä
@@ -561,6 +565,7 @@ fi:
         even: "täytyy olla parillinen."
         exclusion: "on jo varattu."
         file_too_large: "on liian suuri (suurin sallittu koko on %{count} tavua)."
+        filter_does_not_exist: "filter does not exist."
         format: "does not match the expected format '%{expected}'."
         format_nested: "does not match the expected format '%{expected}' at path '%{path}'."
         greater_than: "täytyy olla suurempi kuin %{count}."
@@ -888,6 +893,7 @@ fi:
     updated_on: "Päivitetty"
     uploader: "Uploader"
     user: "Käyttäjä"
+    value: "Value"
     version: "Versio"
     work_package: "Työpaketti"
   backup:
@@ -1339,7 +1345,9 @@ fi:
   menus:
     admin:
       mail_notification: "Sähköposti-ilmoitukset"
-      incoming_outgoing: "Incoming & Outgoing"
+      mails_and_notifications: "Emails and notification"
+      aggregation_and_retention: 'Aggregation and retention'
+      api_and_webhooks: "API and webhooks"
     quick_add:
       label: "Open quick add menu"
   my_account:
@@ -1839,7 +1847,7 @@ fi:
   label_used_by_types: "Used by types"
   label_used_in_projects: "Käytetty projekteissa"
   label_user: "Käyttäjä"
-  label_user_and_permission: "Käyttäjät & Oikeudet"
+  label_user_and_permission: "Users and permissions"
   label_user_named: "Käyttäjä %{name}"
   label_user_activity: "Käyttäjän %{value} historia"
   label_user_anonymous: "Anonyymi"
@@ -2148,6 +2156,7 @@ fi:
   permission_comment_news: "Kommentoi uutisia"
   permission_commit_access: "Tee pääsyoikeus"
   permission_copy_projects: "Kopioi projekteja"
+  permission_create_backup: "Create backup"
   permission_delete_work_package_watchers: "Poista seuraajia"
   permission_delete_work_packages: "Poista tehtäviä"
   permission_delete_messages: "Poista viestit"
@@ -2240,7 +2249,7 @@ fi:
     assigned_to_role: "Työn suorittajan rooli"
     member_of_group: "Työn suorittajan ryhmä"
     assignee_or_group: "Työn suorittaja tai kuuluu ryhmään"
-    subproject_id: "Including Subproject"
+    subproject_id: "Including subproject"
     only_subproject_id: "Only subproject"
     name_or_identifier: "Name or identifier"
   repositories:
@@ -2564,7 +2573,6 @@ fi:
   text_work_packages_destroy_confirmation: "Are you sure you want to delete the selected work package(s)?"
   text_work_packages_ref_in_commit_messages: "Vertailemalla ja korjaus toimia paketit sitoutua viestejä"
   text_journal_added: "%{label} %{value} lisätty"
-  text_journal_aggregation_time_explanation: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent."
   text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
   text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label} päivitetty"

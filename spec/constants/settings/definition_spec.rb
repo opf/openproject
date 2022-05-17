@@ -73,11 +73,80 @@ describe Settings::Definition do
     context 'when overriding from ENV' do
       include_context 'with clean definitions'
 
-      it 'allows overriding configuration from ENV' do
-        stub_const('ENV', { 'OPENPROJECT_EDITION' => 'bim' })
+      def value_for(name)
+        all.detect { |d| d.name == name }.value
+      end
 
-        expect(all.detect { |d| d.name == 'edition' }.value)
-          .to eql 'bim'
+      it 'allows overriding configuration from ENV with OPENPROJECT_ prefix with double underscore case (legacy)' do
+        stub_const('ENV',
+                   {
+                     'OPENPROJECT_EDITION' => 'bim',
+                     'OPENPROJECT_DEFAULT__LANGUAGE' => 'de'
+                   })
+
+        expect(value_for('edition')).to eql 'bim'
+        expect(value_for('default_language')).to eql 'de'
+      end
+
+      it 'allows overriding configuration from ENV with OPENPROJECT_ prefix with single underscore case' do
+        stub_const('ENV', { 'OPENPROJECT_DEFAULT_LANGUAGE' => 'de' })
+
+        expect(value_for('default_language')).to eql 'de'
+      end
+
+      it 'allows overriding configuration from ENV without OPENPROJECT_ prefix' do
+        stub_const('ENV',
+                   {
+                     'EDITION' => 'bim'
+                   })
+
+        expect(value_for('edition')).to eql 'bim'
+      end
+
+      it 'does not allows overriding configuration from ENV without OPENPROJECT_ prefix if setting is writable' do
+        stub_const('ENV',
+                   {
+                     'DEFAULT_LANGUAGE' => 'de'
+                   })
+
+        expect(value_for('default_language')).to eql 'en'
+      end
+
+      it 'allows overriding email/smpt configuration from ENV without OPENPROJECT_ prefix even though setting is writable' do
+        stub_const('ENV',
+                   {
+                     'EMAIL_DELIVERY_CONFIGURATION' => 'legacy',
+                     'EMAIL_DELIVERY_METHOD' => 'smtp',
+                     'SMTP_ADDRESS' => 'smtp.somedomain.org',
+                     'SMTP_AUTHENTICATION' => 'something',
+                     'SMTP_DOMAIN' => 'email.bogus.abc',
+                     'SMTP_ENABLE_STARTTLS_AUTO' => 'true',
+                     'SMTP_PASSWORD' => 'password',
+                     'SMTP_PORT' => '987',
+                     'SMTP_USER_NAME' => 'user',
+                     'SMTP_SSL' => 'true'
+                   })
+
+        expect(value_for('email_delivery_configuration')).to eql 'legacy'
+        expect(value_for('email_delivery_method')).to eq :smtp
+        expect(value_for('smtp_address')).to eql 'smtp.somedomain.org'
+        expect(value_for('smtp_authentication')).to eql 'something'
+        expect(value_for('smtp_domain')).to eql 'email.bogus.abc'
+        expect(value_for('smtp_enable_starttls_auto')).to be true
+        expect(value_for('smtp_password')).to eql 'password'
+        expect(value_for('smtp_port')).to eq 987
+        expect(value_for('smtp_user_name')).to eq 'user'
+        expect(value_for('smtp_ssl')).to be true
+      end
+
+      it 'logs a deprecation warning when overriding configuration from ENV without OPENPROJECT_ prefix' do
+        allow(Rails.logger).to receive(:warn)
+        stub_const('ENV', { 'EDITION' => 'bim' })
+
+        expect(value_for('edition')).to eql 'bim'
+        expect(Rails.logger)
+          .to have_received(:warn)
+              .with(a_string_including("use OPENPROJECT_EDITION instead of EDITION"))
       end
 
       it 'overriding boolean configuration from ENV will cast the value' do
@@ -118,27 +187,187 @@ describe Settings::Definition do
       it 'allows overriding settings hash partially from ENV' do
         stub_const('ENV', { 'OPENPROJECT_REPOSITORY__CHECKOUT__DATA_GIT_ENABLED' => '1' })
 
-        expect(all.detect { |d| d.name == 'repository_checkout_data' }.value)
+        expect(value_for('repository_checkout_data'))
           .to eql({
                     'git' => { 'enabled' => 1 },
                     'subversion' => { 'enabled' => 0 }
                   })
       end
 
-      it 'ENV vars for which no definition exists will not be handled' do
+      it 'allows overriding settings hash partially from ENV with single underscore name' do
+        stub_const('ENV', { 'OPENPROJECT_REPOSITORY_CHECKOUT_DATA_GIT_ENABLED' => '1' })
+
+        expect(value_for('repository_checkout_data'))
+          .to eql({
+                    'git' => { 'enabled' => 1 },
+                    'subversion' => { 'enabled' => 0 }
+                  })
+      end
+
+      it 'allows overriding settings hash partially from ENV with yaml data' do
+        stub_const('ENV', { 'OPENPROJECT_REPOSITORY_CHECKOUT_DATA' => '{git: {enabled: 1}}' })
+
+        expect(value_for('repository_checkout_data'))
+          .to eql({
+                    'git' => { 'enabled' => 1 },
+                    'subversion' => { 'enabled' => 0 }
+                  })
+      end
+
+      it 'allows overriding settings hash fully from repeated ENV values' do
+        stub_const(
+          'ENV',
+          {
+            'OPENPROJECT_REPOSITORY__CHECKOUT__DATA' => '{hg: {enabled: 0}}',
+            'OPENPROJECT_REPOSITORY__CHECKOUT__DATA_CVS_ENABLED' => '0',
+            'OPENPROJECT_REPOSITORY_CHECKOUT_DATA_GIT_ENABLED' => '1',
+            'OPENPROJECT_REPOSITORY_CHECKOUT_DATA_GIT_MINIMUM__VERSION' => '42',
+            'OPENPROJECT_REPOSITORY_CHECKOUT_DATA_SUBVERSION_ENABLED' => '1'
+          }
+        )
+
+        expect(value_for('repository_checkout_data'))
+          .to eql({
+                    'cvs' => { 'enabled' => 0 },
+                    'git' => { 'enabled' => 1, 'minimum_version' => 42 },
+                    'hg' => { 'enabled' => 0 },
+                    'subversion' => { 'enabled' => 1 }
+                  })
+      end
+
+      it 'allows overriding settings hash fully from ENV with yaml data' do
+        stub_const(
+          'ENV',
+          {
+            'OPENPROJECT_REPOSITORY_CHECKOUT_DATA' => '{git: {enabled: 1, key: "42"}, cvs: {enabled: 0}}'
+          }
+        )
+
+        expect(all.detect { |d| d.name == 'repository_checkout_data' }.value)
+          .to eql({
+                    'git' => { 'enabled' => 1, 'key' => '42' },
+                    'cvs' => { 'enabled' => 0 },
+                    'subversion' => { 'enabled' => 0 }
+                  })
+      end
+
+      it 'allows overriding settings hash fully from ENV with yaml data multiline' do
+        stub_const(
+          'ENV',
+          {
+            'OPENPROJECT_REPOSITORY_CHECKOUT_DATA' => <<~YML
+              ---
+              git:
+                enabled: 1
+                key: "42"
+              cvs:
+                enabled: 0
+            YML
+          }
+        )
+
+        expect(all.detect { |d| d.name == 'repository_checkout_data' }.value)
+          .to eql({
+                    'git' => { 'enabled' => 1, 'key' => '42' },
+                    'cvs' => { 'enabled' => 0 },
+                    'subversion' => { 'enabled' => 0 }
+                  })
+      end
+
+      it 'allows overriding settings hash fully from ENV with json data' do
+        stub_const(
+          'ENV',
+          {
+            'OPENPROJECT_REPOSITORY_CHECKOUT_DATA' => '{"git": {"enabled": 1, "key": "42"}, "cvs": {"enabled": 0}}'
+          }
+        )
+
+        expect(all.detect { |d| d.name == 'repository_checkout_data' }.value)
+          .to eql({
+                    'git' => { 'enabled' => 1, 'key' => '42' },
+                    'cvs' => { 'enabled' => 0 },
+                    'subversion' => { 'enabled' => 0 }
+                  })
+      end
+
+      it 'allows overriding configuration array from ENV with yaml/json data' do
+        stub_const(
+          'ENV',
+          {
+            'OPENPROJECT_BLACKLISTED_ROUTES' => '["admin/info", "admin/plugins"]'
+          }
+        )
+
+        expect(value_for('blacklisted_routes'))
+          .to eq(['admin/info', 'admin/plugins'])
+      end
+
+      it 'allows overriding configuration array from ENV with space separated string' do
+        stub_const(
+          'ENV',
+          {
+            'OPENPROJECT_BLACKLISTED_ROUTES' => 'admin/info admin/plugins'
+          }
+        )
+
+        # works for OpenProject::Configuration thanks to OpenProject::Configuration::Helper mixin
+        expect(OpenProject::Configuration.blacklisted_routes)
+          .to eq(['admin/info', 'admin/plugins'])
+        # sadly behaves differently for Setting
+        expect(Setting.blacklisted_routes)
+          .to eq('admin/info admin/plugins')
+      end
+
+      context 'with definitions from plugins' do
+        let(:definition_2fa) { definitions_before.find { _1.name == 'plugin_openproject_two_factor_authentication' }.dup }
+
+        before do
+          # hack to have access to Setting.plugin_openproject_two_factor_authentication after
+          # having done
+          described_class.all << definition_2fa
+        end
+
+        it 'allows overriding settings hash partially from ENV with aliased env name' do
+          stub_const(
+            'ENV',
+            {
+              'OPENPROJECT_2FA_ENFORCED' => 'true',
+              'OPENPROJECT_2FA_ALLOW__REMEMBER__FOR__DAYS' => '15'
+            }
+          )
+
+          described_class.send(:override_value, definition_2fa) # override from env manually after changing ENV
+          expect(value_for('plugin_openproject_two_factor_authentication'))
+            .to eq('active_strategies' => [:totp], 'enforced' => true, 'allow_remember_for_days' => 15)
+        end
+
+        it 'allows overriding settings hash from ENV with aliased env name' do
+          stub_const(
+            'ENV',
+            {
+              'OPENPROJECT_2FA' => '{"enforced": true, "allow_remember_for_days": 15}'
+            }
+          )
+          described_class.send(:override_value, definition_2fa) # override from env manually after changing ENV
+          expect(value_for('plugin_openproject_two_factor_authentication'))
+            .to eq({ 'active_strategies' => [:totp], 'enforced' => true, 'allow_remember_for_days' => 15 })
+        end
+      end
+
+      it 'will not handle ENV vars for which no definition exists' do
         stub_const('ENV', { 'OPENPROJECT_BOGUS' => '1' })
 
         expect(all.detect { |d| d.name == 'bogus' })
           .to be_nil
       end
 
-      it 'ENV vars for which a definition has been added after #all was called first (e.g. in a module)' do
+      it 'will handle ENV vars for definitions added after #all was called (e.g. in a module)' do
         stub_const('ENV', { 'OPENPROJECT_BOGUS' => '1' })
 
         all
 
         described_class.add 'bogus',
-                            value: 0
+                            default: 0
 
         expect(all.detect { |d| d.name == 'bogus' }.value)
           .to eq 1
@@ -258,7 +487,7 @@ describe Settings::Definition do
         all
 
         described_class.add 'bogus',
-                            value: 1,
+                            default: 1,
                             format: :integer
 
         expect(all.detect { |d| d.name == 'bogus' }.value)
@@ -273,7 +502,7 @@ describe Settings::Definition do
     context 'with a string' do
       let(:key) { 'smtp_address' }
 
-      it 'returns the value' do
+      it 'returns the definition matching the name' do
         expect(definition.name)
           .to eql key
       end
@@ -282,7 +511,7 @@ describe Settings::Definition do
     context 'with a symbol' do
       let(:key) { :smtp_address }
 
-      it 'returns the value' do
+      it 'returns the definition matching the name' do
         expect(definition.name)
           .to eql key.to_s
       end
@@ -291,7 +520,7 @@ describe Settings::Definition do
     context 'with a non existing key' do
       let(:key) { 'bogus' }
 
-      it 'returns the value' do
+      it 'returns nil' do
         expect(definition)
           .to be_nil
       end
@@ -305,7 +534,7 @@ describe Settings::Definition do
         described_class[key]
 
         described_class.add 'bogus',
-                            value: 1,
+                            default: 1,
                             format: :integer
       end
 
@@ -318,13 +547,13 @@ describe Settings::Definition do
 
   describe '#override_value' do
     let(:format) { :string }
-    let(:value) { 'abc' }
+    let(:default) { 'abc' }
 
     let(:instance) do
       described_class
         .new 'bogus',
              format: format,
-             value: value
+             default: default
     end
 
     context 'with string format' do
@@ -332,9 +561,14 @@ describe Settings::Definition do
         instance.override_value('xyz')
       end
 
-      it 'overwrites' do
+      it 'overwrites the value' do
         expect(instance.value)
           .to eql 'xyz'
+      end
+
+      it 'does not overwrite the default' do
+        expect(instance.default)
+          .to eql 'abc'
       end
 
       it 'turns the definition unwritable' do
@@ -345,7 +579,7 @@ describe Settings::Definition do
 
     context 'with hash format' do
       let(:format) { :hash }
-      let(:value) do
+      let(:default) do
         {
           abc: {
             a: 1,
@@ -356,18 +590,29 @@ describe Settings::Definition do
       end
 
       before do
-        instance.override_value({ abc: { a: 5 }, xyz: 2 })
+        instance.override_value({ abc: { 'a' => 5 }, xyz: 2 })
       end
 
-      it 'deep merges' do
+      it 'deep merges and transforms keys to string' do
         expect(instance.value)
           .to eql({
-                    abc: {
-                      a: 5,
-                      b: 2
+                    'abc' => {
+                      'a' => 5,
+                      'b' => 2
                     },
-                    cde: 1,
-                    xyz: 2
+                    'cde' => 1,
+                    'xyz' => 2
+                  })
+      end
+
+      it 'does not overwrite the default' do
+        expect(instance.default)
+          .to eql({
+                    'abc' => {
+                      'a' => 1,
+                      'b' => 2
+                    },
+                    'cde' => 1
                   })
       end
 
@@ -379,15 +624,20 @@ describe Settings::Definition do
 
     context 'with array format' do
       let(:format) { :array }
-      let(:value) { [1, 2, 3] }
+      let(:default) { [1, 2, 3] }
 
       before do
         instance.override_value([4, 5, 6])
       end
 
-      it 'overwrites' do
+      it 'overwrites the value' do
         expect(instance.value)
           .to eql [4, 5, 6]
+      end
+
+      it 'does not overwrite the default' do
+        expect(instance.default)
+          .to eql [1, 2, 3]
       end
 
       it 'turns the definition unwritable' do
@@ -401,7 +651,7 @@ describe Settings::Definition do
         described_class
           .new 'bogus',
                format: format,
-               value: 'foo',
+               default: 'foo',
                allowed: %w[foo bar]
       end
 
@@ -433,7 +683,7 @@ describe Settings::Definition do
       let(:instance) do
         described_class.new 'bogus',
                             format: :integer,
-                            value: 1,
+                            default: 1,
                             writable: false,
                             allowed: [1, 2, 3]
       end
@@ -446,6 +696,11 @@ describe Settings::Definition do
       it 'has the format (in symbol)' do
         expect(instance.format)
           .to eq :integer
+      end
+
+      it 'has the default' do
+        expect(instance.default)
+          .to eq 1
       end
 
       it 'has the value' do
@@ -472,7 +727,7 @@ describe Settings::Definition do
     context 'with the minimal attributes (integer value)' do
       let(:instance) do
         described_class.new 'bogus',
-                            value: 1
+                            default: 1
       end
 
       it 'has the name' do
@@ -483,6 +738,16 @@ describe Settings::Definition do
       it 'has the format (in symbol) deduced' do
         expect(instance.format)
           .to eq :integer
+      end
+
+      it 'has the default' do
+        expect(instance.default)
+          .to eq 1
+      end
+
+      it 'has the default frozen' do
+        expect(instance.default)
+          .to be_frozen
       end
 
       it 'has the value' do
@@ -504,7 +769,7 @@ describe Settings::Definition do
     context 'with the minimal attributes (hash value)' do
       let(:instance) do
         described_class.new 'bogus',
-                            value: { a: 'b' }
+                            default: { a: 'b', c: { d: 'e' } }
       end
 
       it 'has the format (in symbol) deduced' do
@@ -516,12 +781,25 @@ describe Settings::Definition do
         expect(instance)
           .to be_serialized
       end
+
+      it 'has the default frozen' do
+        expect(instance.default)
+          .to be_frozen
+      end
+
+      it 'transforms keys to string' do
+        expect(instance.value)
+          .to eq({
+                   'a' => 'b',
+                   'c' => { 'd' => 'e' }
+                 })
+      end
     end
 
     context 'with the minimal attributes (array value)' do
       let(:instance) do
         described_class.new 'bogus',
-                            value: %i[a b]
+                            default: %i[a b]
       end
 
       it 'has the format (in symbol) deduced' do
@@ -538,7 +816,7 @@ describe Settings::Definition do
     context 'with the minimal attributes (true value)' do
       let(:instance) do
         described_class.new 'bogus',
-                            value: true
+                            default: true
       end
 
       it 'has the format (in symbol) deduced' do
@@ -550,7 +828,7 @@ describe Settings::Definition do
     context 'with the minimal attributes (false value)' do
       let(:instance) do
         described_class.new 'bogus',
-                            value: false
+                            default: false
       end
 
       it 'has the format (in symbol) deduced' do
@@ -562,7 +840,7 @@ describe Settings::Definition do
     context 'with the minimal attributes (date value)' do
       let(:instance) do
         described_class.new 'bogus',
-                            value: Time.zone.today
+                            default: Time.zone.today
       end
 
       it 'has the format (in symbol) deduced' do
@@ -574,7 +852,7 @@ describe Settings::Definition do
     context 'with the minimal attributes (datetime value)' do
       let(:instance) do
         described_class.new 'bogus',
-                            value: DateTime.now
+                            default: DateTime.now
       end
 
       it 'has the format (in symbol) deduced' do
@@ -586,7 +864,7 @@ describe Settings::Definition do
     context 'with the minimal attributes (string value)' do
       let(:instance) do
         described_class.new 'bogus',
-                            value: 'abc'
+                            default: 'abc'
       end
 
       it 'has the format (in symbol) deduced' do
@@ -599,9 +877,14 @@ describe Settings::Definition do
       let(:instance) do
         described_class.new 'bogus',
                             format: 'string',
-                            value: -> { 'some value' },
+                            default: -> { 'some value' },
                             writable: -> { false },
                             allowed: -> { %w[a b c] }
+      end
+
+      it 'returns the procs return value for default' do
+        expect(instance.default)
+          .to eql 'some value'
       end
 
       it 'returns the procs return value for value' do
@@ -624,7 +907,12 @@ describe Settings::Definition do
       let(:instance) do
         described_class.new 'bogus',
                             format: :integer,
-                            value: '5'
+                            default: '5'
+      end
+
+      it 'returns default as an int' do
+        expect(instance.default)
+          .to eq 5
       end
 
       it 'returns value as an int' do
@@ -637,7 +925,12 @@ describe Settings::Definition do
       let(:instance) do
         described_class.new 'bogus',
                             format: :float,
-                            value: '0.5'
+                            default: '0.5'
+      end
+
+      it 'returns default as a float' do
+        expect(instance.default)
+          .to eq 0.5
       end
 
       it 'returns value as a float' do

@@ -78,6 +78,10 @@ sl:
         contact: "Contact us for a demo"
       enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
       upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
+    journal_aggregation:
+      explanation:
+        text: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent and will also affect %{webhook_link} delay."
+        link: "webhook"
   announcements:
     show_until: Prikaži dokler
     is_active: trenutno prikazano
@@ -560,6 +564,7 @@ sl:
         even: "mora biti enakomerno."
         exclusion: "je rezervirano."
         file_too_large: "je preveliko (največja velikost je %{count} Bytov)."
+        filter_does_not_exist: "filter does not exist."
         format: "se ne ujema s pričakovano obliko '%{expected}'."
         format_nested: "se ne ujema s pričakovano obliko '%{expected}' na poti '%{path}'."
         greater_than: "mora biti večje od %{count}."
@@ -895,6 +900,7 @@ sl:
     updated_on: "Posodobljeno"
     uploader: "Posodobitelj"
     user: "Uporabnik"
+    value: "Value"
     version: "Različica"
     work_package: "Zahtevek"
   backup:
@@ -1370,7 +1376,9 @@ sl:
   menus:
     admin:
       mail_notification: "E-poštna obvestila"
-      incoming_outgoing: "Incoming & Outgoing"
+      mails_and_notifications: "Emails and notification"
+      aggregation_and_retention: 'Aggregation and retention'
+      api_and_webhooks: "API and webhooks"
     quick_add:
       label: "Odpri meni za hitro dodajanje"
   my_account:
@@ -1870,7 +1878,7 @@ sl:
   label_used_by_types: "Uporablja se po vrstah"
   label_used_in_projects: "Uporablja se pri projektih"
   label_user: "Uporabnik"
-  label_user_and_permission: "Uporabniki in dovoljenja"
+  label_user_and_permission: "Users and permissions"
   label_user_named: "Uporabnik %{name}"
   label_user_activity: "%{value}'s aktivnost"
   label_user_anonymous: "Anonimno"
@@ -2183,6 +2191,7 @@ sl:
   permission_comment_news: "Komentiraj novice"
   permission_commit_access: "Beri/piši dostop do skladišča (storiti)"
   permission_copy_projects: "Kopiraj projekte"
+  permission_create_backup: "Create backup"
   permission_delete_work_package_watchers: "Izbriši opazovalce"
   permission_delete_work_packages: "Izbriši delovni paket"
   permission_delete_messages: "Izbriši sporočila"
@@ -2275,7 +2284,7 @@ sl:
     assigned_to_role: "Pooblaščenčeva vloga"
     member_of_group: "Pooblaščenčeva skupina"
     assignee_or_group: "Prejemnik ali pripadajoča skupina"
-    subproject_id: "Vključuje podprojekt"
+    subproject_id: "Including subproject"
     only_subproject_id: "Samo podprojekt"
     name_or_identifier: "Ime ali identifikator"
   repositories:
@@ -2598,7 +2607,6 @@ sl:
   text_work_packages_destroy_confirmation: "Ali ste prepričani, da želite izbrisati izbrane delovne pakete?"
   text_work_packages_ref_in_commit_messages: "Sklicevanje in popravljanje delovnih paketov v sporočilih"
   text_journal_added: "%{label} %{value} dodan"
-  text_journal_aggregation_time_explanation: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent."
   text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
   text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label} posodobljen"

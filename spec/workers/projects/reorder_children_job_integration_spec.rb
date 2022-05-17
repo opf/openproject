@@ -28,29 +28,38 @@
 
 require 'spec_helper'
 
-describe Projects::ReorderChildrenJob, type: :model do
+describe Projects::ReorderHierarchyJob, type: :model do
   subject(:job) { described_class.perform_now }
 
-  shared_let(:parent_project) { create(:project, name: 'Parent') }
+  shared_let(:parent_project_a) { create(:project, name: 'ParentA') }
+  shared_let(:parent_project_b) { create(:project, name: 'ParentB') }
 
-  shared_let(:child_a) { create :project, name: 'A', parent: parent_project }
-  shared_let(:child_b) { create :project, name: 'B', parent: parent_project }
-  shared_let(:child_c) { create :project, name: 'C', parent: parent_project }
+  shared_let(:child_a) { create :project, name: 'A', parent: parent_project_a }
+  shared_let(:child_b) { create :project, name: 'B', parent: parent_project_b }
+  shared_let(:child_c) { create :project, name: 'C', parent: parent_project_a }
+  shared_let(:child_d) { create :project, name: 'D', parent: parent_project_b }
+  shared_let(:child_f) { create :project, name: 'F', parent: parent_project_a }
 
-  let(:ordered) { parent_project.children.reorder(:lft) }
+  let(:ordered) { Project.all.reorder(:lft) }
 
   before do
-    # Update the names
-    child_a.update_column(:name, 'Second')
-    child_b.update_column(:name, 'Third')
-    child_c.update_column(:name, 'First')
+    # Update the names, including lower case to test case insensitivity
+    parent_project_a.update_column(:name, 'ParentLast')
+    parent_project_b.update_column(:name, 'ParentFirst')
+    child_a.update_column(:name, 'SecondChild')
+    child_b.update_column(:name, 'ThirdChild')
+    child_c.update_column(:name, 'firstChild')
+    child_d.update_column(:name, 'FourthChild')
+    child_f.update_column(:name, 'FifthChild')
   end
 
   it 'corrects the order' do
-    expect(ordered.pluck(:name)).to eq %w[Second Third First]
+    expect(ordered.pluck(:name)).to eq %w[ParentLast SecondChild firstChild FifthChild
+                                          ParentFirst ThirdChild FourthChild]
 
     subject
 
-    expect(ordered.reload.pluck(:name)).to eq %w[First Second Third]
+    expect(ordered.reload.pluck(:name)).to eq %w[ParentFirst FourthChild ThirdChild
+                                                 ParentLast FifthChild firstChild SecondChild]
   end
 end

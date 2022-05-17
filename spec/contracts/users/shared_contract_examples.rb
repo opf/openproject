@@ -55,6 +55,15 @@ shared_examples_for 'user contract' do
       it_behaves_like 'contract is invalid', password: :error_readonly
     end
 
+    describe 'can set the status' do
+      before do
+        user.password = user.password_confirmation = nil
+        user.status = Principal.statuses[:invited]
+      end
+
+      it_behaves_like 'contract is valid'
+    end
+
     describe 'can set the auth_source' do
       let!(:auth_source) { create :auth_source }
 

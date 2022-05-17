@@ -1,0 +1,151 @@
+.spot-tooltip
+  position: relative
+  display: inline-flex
+
+  $indicator-size: $spot-spacing-0_5
+
+  &--body
+    @include spot-z-index("tooltip", 1)
+    pointer-events: none
+    opacity: 0
+
+    position: absolute
+    min-width: $spot-spacing-10 + $spot-spacing-2
+    max-width: 90vw
+    height: auto
+
+    box-shadow: $spot-shadow-light-low
+    background: $spot-color-main-light
+    color: $spot-color-basic-gray-1
+
+    display: flex
+    flex-direction: column
+
+    &::before
+      display: block
+      content: ''
+      position: absolute
+      border: $indicator-size solid transparent
+      border-bottom: $indicator-size solid $spot-color-main-light
+
+    &_left-top
+      right: calc(100% + #{$indicator-size})
+      top: -$indicator-size
+
+      &::before
+        right: -2 * $indicator-size
+        transform: rotate(90deg)
+        top: $indicator-size
+
+    &_left-center
+      right: calc(100% + #{$indicator-size})
+      top: 50%
+      transform: translateY(-50%)
+
+      &::before
+        right: -2 * $indicator-size
+        top: 50%
+        transform: translateY(-50%) rotate(90deg)
+
+    &_left-bottom
+      right: calc(100% + #{$indicator-size})
+      bottom: -$indicator-size
+
+      &::before
+        right: -2 * $indicator-size
+        transform: rotate(90deg)
+        bottom: $indicator-size
+
+    &_bottom-left
+      top: calc(100% + #{$indicator-size})
+      left: 0%
+
+      &::before
+        top: -2 * $indicator-size
+        left: $indicator-size
+
+    &_bottom-center
+      top: calc(100% + #{$indicator-size})
+      left: 50%
+      transform: translateX(-50%)
+
+      &::before
+        top: -2 * $indicator-size
+        left: 50%
+        transform: translateX(-50%)
+
+    &_bottom-right
+      top: calc(100% + #{$indicator-size})
+      right: 0%
+
+      &::before
+        top: -2 * $indicator-size
+        right: $indicator-size
+
+    &_right-top
+      left: calc(100% + #{$indicator-size})
+      top: -$indicator-size
+
+      &::before
+        left: -2 * $indicator-size
+        transform: rotate(-90deg)
+        top: $indicator-size
+
+    &_right-center
+      left: calc(100% + #{$indicator-size})
+      top: 50%
+      transform: translateY(-50%)
+
+      &::before
+        left: -2 * $indicator-size
+        top: 50%
+        transform: translateY(-50%) rotate(-90deg)
+
+    &_right-bottom
+      left: calc(100% + #{$indicator-size})
+      bottom: -$indicator-size
+
+      &::before
+        left: -2 * $indicator-size
+        transform: rotate(-90deg)
+        bottom: $indicator-size
+
+    &_top-left
+      bottom: calc(100% + #{$indicator-size})
+      left: 0%
+
+      &::before
+        bottom: -2 * $indicator-size
+        left: $indicator-size
+        transform: rotate(180deg)
+
+    &_top-center
+      bottom: calc(100% + #{$indicator-size})
+      left: 50%
+      transform: translateX(-50%)
+
+      &::before
+        bottom: -2 * $indicator-size
+        left: 50%
+        transform: translateX(-50%) rotate(180deg)
+
+    &_top-right
+      bottom: calc(100% + #{$indicator-size})
+      right: 0%
+
+      &::before
+        bottom: -2 * $indicator-size
+        right: $indicator-size
+        transform: rotate(180deg)
+
+  &:hover &--body
+    pointer-events: all
+    opacity: 1
+
+  &_dark &--body
+    color: $spot-color-basic-white
+    background: $spot-color-basic-gray-1
+
+    &::before
+      border-bottom-color: $spot-color-basic-gray-1
+    

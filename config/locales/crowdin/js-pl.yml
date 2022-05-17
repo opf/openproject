@@ -23,8 +23,8 @@ pl:
   js:
     ajax:
       hide: "Ukryj"
-      loading: "Ładowanie ..."
-      updating: "Updating ..."
+      loading: "Ładowanie…"
+      updating: "Aktualizowanie..."
     attachments:
       draggable_hint: |
         Przeciągaj w polu edytora, aby wstawić obraz lub załącznik referencyjny. Zamknięte pola edytora zostaną otwarte podczas przeciągania.
@@ -62,7 +62,7 @@ pl:
     button_confirm: "Potwierdź"
     button_continue: "Kontynuuj"
     button_copy: "Kopiuj"
-    button_copy_to_other_project: "Copy to other project"
+    button_copy_to_other_project: "Kopiuj do innego projektu"
     button_custom-fields: "Pola niestandardowe"
     button_delete: "Usuń"
     button_delete_watcher: "Usuń obserwatora"
@@ -238,7 +238,7 @@ pl:
           text: >
             Wersja OpenProject Enterprise opiera się na wersji społecznościowej. Zawiera funkcje premium i profesjonalne wsparcie skierowane głównie do organizacji z ponad 10 użytkownikami, które zarządzają projektami o znaczeniu krytycznym dla biznesu za pomocą OpenProject.
           unlimited: "Bez ograniczeń"
-          you_contribute: "Programiści też muszą płacić rachunki. Kupując wersję Enterprise, znacznie przyczyniasz się do tego wysiłku społeczności Open-Source."
+          you_contribute: "Deweloperzy również muszą płacić rachunki. Poprzez przejście na wersję Enterprise będziesz wspierać ten wysiłek społeczności open source i przyczyniać się do jej rozwoju, utrzymania i ciągłego doskonalenia."
     custom_actions:
       date:
         specific: 'wł'
@@ -252,7 +252,7 @@ pl:
     enumeration_doc_categories: "Kategoria dokumentu"
     enumeration_work_package_priorities: "Priorytety pakietów roboczych"
     filter:
-      more_values_not_shown: "There are %{total} more results, search to filter results."
+      more_values_not_shown: "Są jeszcze wyniki (%{total}), wyszukaj, aby przefiltrować wyniki."
       description:
         text_open_filter: "Otwórz filtr klawiszami strzałek przytrzymując klawisz 'ALT'."
         text_close_filter: "Aby wybrać wpis wybierz opcję i kliknij np. enter. Aby usunąć filtr zaznacz (pusty) wpis."
@@ -287,16 +287,17 @@ pl:
           learn_about: "Dowiedz się więcej o nowych funkcjach"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_0':
+          '12_1':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-1-release
               new_features_html: >
-                Wersja zawiera różne nowe funkcje i ulepszenia: <br> <ul class="%{list_styling_class}"> <li>Dzięki nowym <b>powiadomieniom w aplikacji</b> otrzymujesz wszystkie ważne aktualizacje bezpośrednio w aplikacji i nie przychodzi do ciebie ogromna ilość wiadomości e-mail.</li> <li>Nowe <b>Centrum powiadomień</b> pokazuje wszystkie zmiany, w tym intuicyjne opcje filtrowania np. wg przyczyny powiadomienia lub projektów. Umożliwia ono nawet edycję bezpośrednio w widoku podzielonym.</li> <li>Poprawione <b>ustawienia powiadomień</b> pozwalają na dostosowanie dla jakich czynności i w których projektach chcesz otrzymywać powiadomienia.</li> <li><b>Przypomnienia e-mail</b> można skonfigurować tak, aby otrzymywać ważne aktualizacje za pomocą dziennego podsumowania w wiadomości e-mail.</li> <li>Auto uzupełnianie pakietu roboczego dla relacji wyświetla teraz również dodatkowe informacje (nazwa projektu, status, itp.), aby łatwo zidentyfikować odpowiedni pakiet roboczy.</li> </ul>
+                Wersja zawiera różne nowe funkcje i ulepszenia: <br> <ul class="%{list_styling_class}"> <li> <b>nowy moduł Planista zespołu</b> (funkcja wersji Enterprise) umożliwia wizualne przypisywanie zadań członkom zespołu, co pozwala uzyskać informacje o tym, kto nad czym pracuje.</li> <li>Wydajemy <b>tablice zwinne</b> dla wersji społecznościowej.</li> <li>Filtr „<b>Uwzględnij projekty</b>” ułatwia dodawanie różnych projektów do widoków, takich jak pakiety robocze, kalendarze i planiści zespołu.</li> <li>Dodaliśmy <b>nową kartę „Pliki”</b> w szczegółach pakietu roboczego, aby dołączać wszystkie możliwe informacje do pakietu roboczego.</li> <li>Utworzyliśmy <b>globalne role dla grup</b>, które można przypisać do grup i utworzyć grupy superużytkowników.</li> <li>Status projektu otrzymał więcej opcji do wyboru.</li> </ul>
             bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-1-release
               new_features_html: >
-                Wersja zawiera różne nowe funkcje i ulepszenia: <br> <ul class="%{list_styling_class}"> <li>Centrum powiadomień: Zmniejsz liczbę otrzymywanych wiadomości. Zamiast tego wszystkie istotne powiadomienia znajdziesz w jednym centralnym miejscu.</li> <li>Możesz również pobierać wszystkie przesłane pliki IFC.</li> <li>Przesyłanie i przetwarzanie IFC stało się szybsze i otrzymało lepsze komunikaty o błędach.</li> <li>Natomiast w<a href="https://github.com/opf/openproject-revit-add-in">Dodatku OpenProject Revit</a> poprawiliśmy wiele usterek.</li> </ul>
+                Wersja zawiera różne nowe funkcje i ulepszenia: <br> <ul class="%{list_styling_class}"> <li>W module BCF można teraz zapisywać wybrane filtry pakietów roboczych, kolumny itd. jako <b>widoki</b> i udostępniać je członkom swojego zespołu.</li> <li> <b>nowy moduł Planista zespołu</b> (funkcja wersji Enterprise) umożliwia wizualne przypisywanie zadań członkom zespołu, co pozwala uzyskać informacje o tym, kto nad czym pracuje.</li> <li>Wydajemy <b>tablice zwinne</b> dla wersji społecznościowej.</li> <li>Filtr „<b>Uwzględnij projekty</b>” ułatwia dodawanie różnych projektów do widoków, takich jak pakiety robocze, kalendarze i planiści zespołu.</li> <li>Dodaliśmy <b>nową kartę „Pliki”</b> w szczegółach pakietu roboczego, aby dołączać wszystkie możliwe informacje do pakietu roboczego.</li> <li>Utworzyliśmy <b>globalne role dla grup</b>, które można przypisać do grup i utworzyć grupy superużytkowników.</li> <li>Status projektu otrzymał więcej opcji do wyboru.</li> </ul>
     label_activate: "Aktywuj"
+    label_assignee: 'Przypisana osoba'
     label_add_column_after: "Dodaj kolumnę po"
     label_add_column_before: "Dodaj kolumnę przed"
     label_add_columns: "Dodaj kolumny"
@@ -500,7 +501,7 @@ pl:
         boards:
           overview: 'Wybierz <b>tablice</b>, aby zmienić widok i zarządzać projektem za pomocą widoku tablic.'
           lists_kanban: 'Tutaj możesz utworzyć wiele list (kolumn) w jednym widoku tablicy. Ta funkcja pozwala ci na przykład na utworzenie <b>tablicy Kanban</b>.'
-          lists_basic: 'Here you can create multiple lists (columns) within your agile board.'
+          lists_basic: 'Tutaj możesz utworzyć wiele list (kolumn) w swojej tablicy zwinnej.'
           add: 'Kliknij ikonę plus (+), aby <b>utworzyć nową kartę</b> lub <b>dodać istniejącą kartę</b> do listy na tablicy.'
           drag: 'Przeciągaj i upuszczaj swoje karty w obrębie danej listy, aby zmienić ich kolejność lub przenieść je do innej listy. <br> Możesz kliknąć ikonę info (i) w prawym górnym rogu lub kliknąć dwukrotnie na karcie, aby wyświetlić jej szczegóły.'
         wp:
@@ -512,11 +513,11 @@ pl:
           timeline_button: 'Aby utworzyć oś czasu dla twojego projektu, możesz uaktywnić widok <b>wykresu Gantta</b>.'
           timeline: 'Tutaj możesz <b>edytować plan projektu.</b>, tworzyć nowe pakiety robocze, takie jak zadania robocze, kamienie milowe i inne oraz <b>dodawać  zależności</b>. Wszyscy członkowie zespołu mogą w każdej chwili wyświetlić i zaktualizować najnowszy plan.'
         team_planner:
-          overview: 'The team planner lets you visually assign tasks to team members and get an overview of who is working on what.'
-          calendar: 'The weekly or biweekly planning board displays all work packages assigned to your team members.'
-          add_assignee: 'To get started, add assignees to the team planner.'
-          add_existing: 'Search for existing work packages and drag them to the team planner to instantly assign them to a team member and define start and end dates.'
-          card: 'Drag work packages horizontally to move them backwards or forwards in time, drag the edges to change start and end dates and even drag them vertically to a different row to assign them to another member.'
+          overview: 'Planista zespołu umożliwia wizualne przypisywanie zadań członkom zespołu i uzyskanie informacji o tym, kto nad czym pracuje.'
+          calendar: 'Tygodniowa lub dwutygodniowa tablica planowania wyświetla wszystkie pakiety robocze przypisane członkom zespołu.'
+          add_assignee: 'Aby rozpocząć, dodaj przypisane osoby do planisty zespołu.'
+          add_existing: 'Wyszukaj istniejące pakiety robocze i przeciągnij je do planisty zespołu, aby natychmiast przypisać je członkowi zespołu oraz określić daty rozpoczęcia i zakończenia.'
+          card: 'Przeciągaj pakiety robocze w poziomie, aby przesuwać je wstecz lub do przodu w czasie, przeciągaj krawędzie, aby zmieniać daty rozpoczęcia i zakończenia, a nawet przeciągaj je w pionie do innego wiersza, aby przypisać je innemu członkowi zespołu.'
     notifications:
       title: "Powiadomienia"
       no_unread: "Brak nieprzeczytanych powiadomień"
@@ -550,7 +551,6 @@ pl:
           link_text: 'Kliknij tutaj, aby je wczytać'
       menu:
         accountable: 'Osoba odpowiedzialna'
-        assigned: 'Przypisane'
         by_project: 'Nieprzeczytane wg projektu'
         by_reason: 'Zaangażowanie'
         inbox: 'Inbox'
@@ -998,7 +998,7 @@ pl:
         relations: Relacje
         watchers: Obserwatorzy
         files: Pliki
-        files_tab_migration_help: 'You can now attach files to work packages via the new tab:'
+        files_tab_migration_help: 'Pliki można teraz dołączać do pakietów roboczych za pomocą nowej karty:'
       time_relative:
         days: "dni"
         weeks: "tygodnie"
@@ -1155,7 +1155,7 @@ pl:
       role:
         label: 'Rola w %{project}'
         no_roles_found: 'Nie znaleziono żadnych ról'
-        description: 'To jest rola, którą %{principal} otrzyma po dołączeniu do projektu. Rola określa działania, które można podjąć i widoczne informacje. <a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Dowiedz się więcej o rolach i uprawnieniach. </a>'
+        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
         required: 'Wybierz rolę'
         next_button: 'Następny'
       message:
@@ -1172,14 +1172,18 @@ pl:
           group: 'Grupa jest teraz częścią %{project}. Tymczasem możesz już planować z tą grupą i na przykład przypisać pakiety robocze.'
         next_button: 'Kontynuuj'
     include_projects:
-      toggle_title: 'Include projects'
+      toggle_title: 'Uwzględnij projekty'
       title: 'Projekty'
-      clear_selection: 'Clear selection'
+      clear_selection: 'Wyczyść zaznaczenie'
       apply: 'Zastosuj'
       selected_filter:
         all: 'Wszystkie projekty'
-        selected: 'Only selected'
-      search_placeholder: 'Search project...'
+        selected: 'Tylko zaznaczone'
+      search_placeholder: 'Wyszukaj projekt...'
+      include_subprojects: 'Uwzględnij wszystkie podprojekty'
+      tooltip:
+        include_all_selected: 'Opcja Uwzględnij wszystkie podprojekty jest obecnie zaznaczona.'
+        current_project: 'To jest bieżący projekt, w którym jesteś.'
     forms:
       submit_success_message: 'Formularz został przesłany'
       load_error_message: 'Podczas ładowania formularza wystąpił błąd'

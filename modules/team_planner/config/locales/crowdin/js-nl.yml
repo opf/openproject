@@ -3,10 +3,8 @@ nl:
   js:
     team_planner:
       add_existing: 'Add existing'
-      create_new: 'New team planner'
       title: 'Team planner'
       unsaved_title: 'Unnamed team planner'
-      label_assignee_plural: 'Assignees'
       no_data: 'Add assignees to set up your team planner.'
       add_assignee: 'Add assignee'
       remove_assignee: 'Remove assignee'
@@ -17,7 +15,7 @@ nl:
       cannot_drag_here: 'Cannot remove the work package due to permissions or editing restrictions.'
       quick_add:
         empty_state: 'Use the search field to find work packages and drag them to the planner to assign it to someone and define start and end dates.'
-        search_placeholder: 'Search...'
+        search_placeholder: 'Zoeken ...'
       modify:
         errors:
           permission_denied: 'You do not have the necessary permissions to modify this.'

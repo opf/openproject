@@ -29,6 +29,7 @@ import {
   Component,
   ElementRef,
   EventEmitter,
+  HostBinding,
   Injector,
   Input,
   OnChanges,
@@ -48,7 +49,6 @@ export const selectableTitleIdentifier = 'editable-toolbar-title';
   selector: 'editable-toolbar-title',
   templateUrl: './editable-toolbar-title.html',
   styleUrls: ['./editable-toolbar-title.sass'],
-  host: { class: 'title-container' },
 })
 export class EditableToolbarTitleComponent implements OnInit, OnChanges {
   @Input('title') public inputTitle:string;
@@ -66,6 +66,13 @@ export class EditableToolbarTitleComponent implements OnInit, OnChanges {
   @Output() public onSave = new EventEmitter<string>();
 
   @Output() public onEmptySubmit = new EventEmitter<void>();
+
+  @HostBinding('class.title-container') baseClass = true;
+
+  @HostBinding('class.title-container_editable')
+  public get editableClass():boolean {
+    return this.editable;
+  }
 
   @ViewChild('editableTitleInput') inputField?:ElementRef;
 
@@ -91,7 +98,7 @@ export class EditableToolbarTitleComponent implements OnInit, OnChanges {
   constructor(readonly injector:Injector) {
   }
 
-  ngOnInit() {
+  ngOnInit():void {
     this.text.input_title = `${this.text.click_to_edit} ${this.text.press_enter_to_save}`;
 
     jQuery(this.elementRef.nativeElement).on(triggerEditingEvent, (evt:Event, val = '') => {
@@ -121,36 +128,36 @@ export class EditableToolbarTitleComponent implements OnInit, OnChanges {
     }
   }
 
-  public onFocus(event:FocusEvent) {
+  public onFocus(event:FocusEvent):void {
     this.toggleToolbarButtonVisibility(true);
     this.selectInputOnInitalFocus(event.target as HTMLInputElement);
   }
 
-  public onBlur() {
+  public onBlur():void {
     this.toggleToolbarButtonVisibility(false);
   }
 
-  public selectInputOnInitalFocus(input:HTMLInputElement) {
+  public selectInputOnInitalFocus(input:HTMLInputElement):void {
     if (this.initialFocus) {
       input.select();
       this.initialFocus = false;
     }
   }
 
-  public saveWhenFocusOutside($event:FocusEvent) {
+  public saveWhenFocusOutside($event:FocusEvent):void {
     whenOutside(this.elementRef.nativeElement, () => this.save($event));
   }
 
-  public reset() {
+  public reset():void {
     this.resetInputField();
     this.selectedTitle = this.inputTitle;
   }
 
-  public get showSave() {
+  public get showSave():boolean {
     return this.editable && this.showSaveCondition;
   }
 
-  public save($event:Event, force = false) {
+  public save($event:Event, force = false):void {
     $event.preventDefault();
 
     this.resetInputField();
@@ -191,20 +198,20 @@ export class EditableToolbarTitleComponent implements OnInit, OnChanges {
   /**
    * Called when saving the changed title
    */
-  private emitSave(title:string) {
+  private emitSave(title:string):void {
     this.onSave.emit(title);
   }
 
   /**
    * Called when trying to save an empty text
    */
-  private onEmptyError() {
+  private onEmptyError():void {
     // this.updateItemInMenu();  // Throws an error message, when name is empty
     this.onEmptySubmit.emit();
     this.focusInputOnError();
   }
 
-  private focusInputOnError() {
+  private focusInputOnError():void {
     if (this.inputField) {
       const el = this.inputField.nativeElement;
       el.classList.add('-error');
@@ -212,14 +219,14 @@ export class EditableToolbarTitleComponent implements OnInit, OnChanges {
     }
   }
 
-  private resetInputField() {
+  private resetInputField():void {
     if (this.inputField) {
       const el = this.inputField.nativeElement;
       el.classList.remove('-error');
     }
   }
 
-  private toggleToolbarButtonVisibility(hidden:boolean) {
+  private toggleToolbarButtonVisibility(hidden:boolean):void {
     jQuery('.toolbar-items').toggleClass('hidden-for-mobile', hidden);
   }
 }

@@ -34,6 +34,6 @@ class Queries::Projects::Orders::TypeaheadOrder < Queries::Projects::Orders::Def
   end
 
   def order
-    model.order(lft: :asc, name: :asc)
+    model.order(lft: :asc)
   end
 end

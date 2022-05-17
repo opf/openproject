@@ -23,8 +23,8 @@ de:
   js:
     ajax:
       hide: "Verbergen"
-      loading: "Lädt ..."
-      updating: "Updating ..."
+      loading: "Laden…"
+      updating: "Aktualisiere…"
     attachments:
       draggable_hint: |
         Ziehen Sie diesen Anhang auf ein editierbares Feld um das Bild oder den Anhang einzubinden. Geöffnete Felder werden automatisch geöffnet während Sie das Attachment mit der Maus ziehen und halten.
@@ -62,9 +62,9 @@ de:
     button_confirm: "Bestätigen"
     button_continue: "Fortfahren"
     button_copy: "Kopieren"
-    button_copy_to_other_project: "Copy to other project"
+    button_copy_to_other_project: "In anderes Projekt kopieren"
     button_custom-fields: "Benutzerdefinierte Felder"
-    button_delete: "Lösche"
+    button_delete: "Löschen"
     button_delete_watcher: "Beobachter löschen"
     button_details_view: "Detailansicht"
     button_duplicate: "Duplizieren"
@@ -237,7 +237,7 @@ de:
           text: >
             Die OpenProject Enterprise Edition baut auf der Community Edition auf. Die Enterprise Edition umfasst Premium-Funktionen und professionelle Unterstützung und richtet sich primär an Organisationen mit mehr als 10 Benutzern, die unternehmenskritische Projekte mit OpenProject verwalten.
           unlimited: "Unbegrenzt"
-          you_contribute: "Auch Softwareentwickler müssen ihre Rechnungen begleichen. Mit der Enterprise Edition tragen Sie wesentlich zu der Open-Source Community von OpenProject bei."
+          you_contribute: "Auch Software-Entwickler müssen ihre Rechnungen bezahlen. Durch ein Upgrade auf die Enterprise Edition unterstützen Sie diese Open-Source-Community und tragen zur Entwicklung, Wartung und kontinuierlichen Verbesserung von OpenProject bei."
     custom_actions:
       date:
         specific: 'am'
@@ -251,7 +251,7 @@ de:
     enumeration_doc_categories: "Dokumentenkategorien"
     enumeration_work_package_priorities: "Arbeitspaket-Prioritäten"
     filter:
-      more_values_not_shown: "There are %{total} more results, search to filter results."
+      more_values_not_shown: "Es gibt %{total} weitere Ergebnisse. Verwenden Sie die Suche um Ergebnisse zu filtern."
       description:
         text_open_filter: "Öffnen Sie diesen Filter mittels \"Alt\" und den Pfeiltasten."
         text_close_filter: "Zur Auswahl eines Eintrags fokussieren sie diesen und drücken Sie Enter. Zum Verlassen ohne Filterauswahl, wählen Sie den ersten (leeren) Eintrag aus."
@@ -286,16 +286,17 @@ de:
           learn_about: "Erfahren Sie mehr über die neuen Funktionen"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_0':
+          '12_1':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-1-release
               new_features_html: >
-                Das Release besteht aus folgenden Features und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li>Mit den neuen<b>In-App-Benachrichtigungen</b> erhalten Sie wichtige Updates direkt in der Anwendung und werden nicht mit zahlreichen E-Mails überfordert.</li> <li>Die neue <b>Benachrichtigungszentrale</b> zeigt alle Aktivitäten mit intuitiven Filtermöglichkeiten wie z. B. Benachrichtungsgrund oder Projekte. Eine Split-View erlaubt das leichte Bearbeiten aus der Zentrale.</li> <li>Verbesserte <b>Einstellungen für Benachrichtigungen</b> erlaubt das genaue Einstellen für einzelne Projekte und Aktionen, die zu Benachrichtigungen führen sollen.</li> <li><b>E-Mail-Erinnerungen</b> erlauben eine regelmäßige Zusammenfassung ausstehender Benachrichtungen</li> <li>Die Autovervollständigung von Arbeitspaketen enthält zusätzliche Informationen (Projektname, Status, ...) für einfachere Identifizierung.</li> </ul>
+                Das Release enthält zahlreiche neue Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li>Ein <b>neues Teamplanermodul</b> (Enterprise-Funktion) ermöglicht es Ihnen, Aufgaben den Teammitgliedern visuell zuzuweisen, um einen Überblick darüber zu bekommen, wer an was arbeitet.</li> <li>Die  <b>einfachen agilen Boards</b> werden für die Community Version freigegeben.</li> <li>Der <b>Filter "Projekte einbeziehen"</b> erleichtert das Hinzufügen verschiedener Projekte zu Ihren Ansichten, z.B. für Arbeitspakete, Kalender und Teamplaner.</li> <li>Arbeitspakete haben einen <b>neuen Reiter "Dateien"</b> um alle verfügbaren Arbeitspaket-Informationen gemeinsam darzustellen.</li> <li>Es gibt nun <b>globale Rollen für Gruppen</b> um Gruppen Rollen zuzuweisen und Superuser-Gruppen zu erstellen.</li> <li>Der Projektstatus wird ergänzt um weitere Optionen.</li> </ul>
             bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-1-release
               new_features_html: >
-                Das Release besteht aus folgenden Features und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li>Benachrichtigungszentrale: Reduziert die Anzahl an E-Mails, die Sie erhalten. Erhalten und verarbeiten Sie Benachrichtigungen an einer Stelle.</li> <li>Alle hochgeladenen IFC-Dateien können jetzt komfortabel heruntergeladen werden.</li> <li>Das Hochladen und Verarbeiten von IFC-Dateien sowie dessen Fehlerbehandlung wurde verbessert.</li> <li>Das <a href="https://github.com/opf/openproject-revit-add-in">OpenProject Revit Add-in</a> wurde verbessert.</li> </ul>
+                Das Release enthält zahlreiche neue Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li>Im BCF-Modul können Sie nun die ausgewählten Arbeitspaket-Filter, -Spalten usw. als <b>Ansichten</b> speichern und diese mit Ihren Teammitgliedern teilen.</li> <li>Ein <b>neues Teamplanermodul</b> (Enterprise-Funktion) ermöglicht es Ihnen, Aufgaben den Teammitgliedern visuell zuzuweisen, um einen Überblick darüber zu bekommen, wer an was arbeitet.</li> <li>Die  <b>einfachen agilen Boards</b> werden für die Community Version freigegeben.</li> <li>Der <b>Filter "Projekte einbeziehen"</b> erleichtert das Hinzufügen verschiedener Projekte zu Ihren Ansichten, z.B. für Arbeitspakete, Kalender und Teamplaner.</li> <li>Arbeitspakete haben einen <b>neuen Reiter "Dateien"</b> um alle verfügbaren Arbeitspaket-Informationen gemeinsam darzustellen.</li> <li>Es gibt nun <b>globale Rollen für Gruppen</b> um Gruppen Rollen zuzuweisen und Superuser-Gruppen zu erstellen.</li> <li>Der Projektstatus wird ergänzt um weitere Optionen.</li> </ul>
     label_activate: "Aktiviere"
+    label_assignee: 'Zugewiesen an'
     label_add_column_after: "Spalte danach hinzufügen"
     label_add_column_before: "Spalte davor hinzufügen"
     label_add_columns: "Spalte hinzufügen"
@@ -498,8 +499,8 @@ de:
           task_board: "Das Aufgabenfeld visualisiert den <b>Fortschritt für diesen Sprint</b>. Klicken Sie auf das Plus (+) Symbol neben einer User Story, um neue Aufgaben oder Hindernisse hinzuzufügen. <br> Der Status kann per Drag & Drop aktualisiert werden."
         boards:
           overview: 'Wählen Sie <b>Boards</b> aus, um eine andere Sicht auf Ihr Projekt zu erhalten und es in der agilen Board-Ansicht zu verwalten.'
-          lists_kanban: 'Hier können Sie mehrere Listen (Spalten) innerhalb Ihres Boards erstellen. Mit dieser Funktion können Sie zum Beispiel ein <b>Kanban Board</b>erstellen.'
-          lists_basic: 'Here you can create multiple lists (columns) within your agile board.'
+          lists_kanban: 'Hier können Sie mehrere Listen (Spalten) innerhalb Ihres Boards erstellen. Mit dieser Funktion können Sie zum Beispiel ein <b>Kanban Board</b> erstellen.'
+          lists_basic: 'Hier können Sie mehrere Listen (Spalten) innerhalb Ihres agilen Boards erstellen.'
           add: 'Klicken Sie auf das Plus-Symbol (+), um <b>eine neue Karte zu erstellen</b> oder <b>eine existierende Karte</b> zur Liste auf dem Board hinzuzufügen.'
           drag: 'Verschieben Sie die Karten innerhalb einer Liste, um sie neu zu ordnen oder in eine andere Liste zu verschieben. <br> Sie können das Info (i) Symbol in der oberen rechten Ecke anklicken oder doppelt auf eine Karte klicken, um dessen Details zu öffnen.'
         wp:
@@ -511,11 +512,11 @@ de:
           timeline_button: 'Sie können ein <b>Gantt Diagramm</b> aktivieren um Projektpläne zu erstellen.'
           timeline: 'Hier sehen Sie den Projektplan. Sie können neue Phasen oder Meilensteine sowie Abhängigkeiten hinzufügen und bearbeiten. Das Team sieht jeder Zeit die aktuelle Planung und kann diese bei Bedarf aktualisieren.'
         team_planner:
-          overview: 'The team planner lets you visually assign tasks to team members and get an overview of who is working on what.'
-          calendar: 'The weekly or biweekly planning board displays all work packages assigned to your team members.'
-          add_assignee: 'To get started, add assignees to the team planner.'
-          add_existing: 'Search for existing work packages and drag them to the team planner to instantly assign them to a team member and define start and end dates.'
-          card: 'Drag work packages horizontally to move them backwards or forwards in time, drag the edges to change start and end dates and even drag them vertically to a different row to assign them to another member.'
+          overview: 'Mit dem Teamplaner können Sie den Teammitgliedern Aufgaben visuell zuweisen und sich einen Überblick verschaffen, wer an welchen Aufgaben arbeitet.'
+          calendar: 'Das wöchentliche oder zwei-wöchentliche Planungsboard zeigt alle Arbeitspakete, die Ihren Teammitgliedern zugewiesen sind.'
+          add_assignee: 'Um zu starten, fügen Sie zugewiesene Personen zum Teamplaner hinzu.'
+          add_existing: 'Suchen Sie nach bestehenden Arbeitspaketen und ziehen Sie diese in den Teamplaner, um diese sofort einem Teammitglied zuzuweisen und Start- und Enddatum festzulegen.'
+          card: 'Verschieben Sie Arbeitspakete horizontal, um sie in die Vergangenheit oder Zukunft zu schieben. Ziehen Sie die Kanten, um Start- und Enddaten zu ändern oder verschieben Sie diese vertikal in eine andere Zeile, um sie einem anderen Mitglied zuzuordnen.'
     notifications:
       title: "Benachrichtigungen"
       no_unread: "Keine ungelesenen Benachrichtigungen"
@@ -547,7 +548,6 @@ de:
           link_text: 'Hier klicken zum aktualisieren'
       menu:
         accountable: 'Verantwortlich'
-        assigned: 'Zugewiesen'
         by_project: 'Ungelesen pro Projekt'
         by_reason: 'Beteiligung'
         inbox: 'Eingang'
@@ -995,7 +995,7 @@ de:
         relations: Beziehungen
         watchers: Beobachter
         files: Dateien
-        files_tab_migration_help: 'You can now attach files to work packages via the new tab:'
+        files_tab_migration_help: 'Sie können nun Dateien an Arbeitspakete über den neuen Tab hochladen:'
       time_relative:
         days: "Tagen"
         weeks: "Wochen"
@@ -1148,7 +1148,7 @@ de:
       role:
         label: 'Rolle in %{project}'
         no_roles_found: 'Keine Rollen gefunden'
-        description: 'Dies ist die Rolle, die %{principal} erhalten wird, wenn sie Ihrem Projekt beitreten. Die Rolle legt fest, welche Maßnahmen sie ergreifen dürfen und welche Informationen ihnen erlaubt sind. <a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Erfahren Sie mehr über Rollen und Berechtigungen. </a>'
+        description: 'Dies ist die Rolle, die %{principal} erhalten wird, wenn sie Ihrem Projekt beitreten. Die Rolle legt fest, welche Maßnahmen sie ergreifen dürfen und welche Informationen ihnen erlaubt sind. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions"  target="_blank"> Erfahren Sie mehr über Rollen und Berechtigungen. </a>'
         required: 'Bitte eine Rolle auswählen'
         next_button: 'Weiter'
       message:
@@ -1165,14 +1165,18 @@ de:
           group: 'Die Gruppe ist nun %{project} zugewiesen. In der Zwischenzeit können Sie bereits mit dieser Gruppe planen und ihr zum Beispiel Arbeitspakete zuweisen.'
         next_button: 'Fortfahren'
     include_projects:
-      toggle_title: 'Include projects'
+      toggle_title: 'Enthaltene Projekte'
       title: 'Projekte'
-      clear_selection: 'Clear selection'
+      clear_selection: 'Auswahl aufheben'
       apply: 'Anwenden'
       selected_filter:
         all: 'Alle Projekte'
-        selected: 'Only selected'
-      search_placeholder: 'Search project...'
+        selected: 'Nur ausgewählte'
+      search_placeholder: 'Projekte durchsuchen...'
+      include_subprojects: 'Alle Unterprojekte einbeziehen'
+      tooltip:
+        include_all_selected: '"Alle Unterprojekte einbeziehen" ist derzeit ausgewählt.'
+        current_project: 'Dies ist das aktuelle Projekt, in dem Sie sich befinden.'
     forms:
       submit_success_message: 'Das Formular wurde erfolgreich übermittelt'
       load_error_message: 'Beim Laden des Formulars ist ein Fehler aufgetreten'

@@ -2,7 +2,9 @@ require_relative '../../spec_helper'
 require_relative '../shared_2fa_examples'
 
 describe 'Login with 2FA backup code', with_2fa_ee: true, type: :feature,
-                                       with_config: { '2fa': { active_strategies: [:developer] } },
+                                       with_settings: {
+                                         plugin_openproject_two_factor_authentication: { 'active_strategies' => [:developer] }
+                                       },
                                        js: true do
   let(:user_password) { 'bob!' * 4 }
   let(:user) do
@@ -13,7 +15,7 @@ describe 'Login with 2FA backup code', with_2fa_ee: true, type: :feature,
   end
   let!(:device) { create :two_factor_authentication_device_sms, user: user, active: true, default: true }
 
-  context 'user has no backup code' do
+  context 'when user has no backup code' do
     it 'does not show the backup code link' do
       first_login_step
 
@@ -23,7 +25,7 @@ describe 'Login with 2FA backup code', with_2fa_ee: true, type: :feature,
     end
   end
 
-  context 'user has backup codes' do
+  context 'when user has backup codes' do
     let!(:valid_backup_codes) { ::TwoFactorAuthentication::BackupCode.regenerate! user }
 
     it 'allows entering a backup code' do
@@ -51,7 +53,7 @@ describe 'Login with 2FA backup code', with_2fa_ee: true, type: :feature,
 
       # Expect failure
       expect(page).to have_selector('.flash.error', text: I18n.t('two_factor_authentication.error_invalid_backup_code'))
-      expect(current_path).to eql signin_path
+      expect(page).to have_current_path signin_path
 
       # Try again!
       first_login_step

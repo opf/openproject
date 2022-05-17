@@ -120,20 +120,20 @@ get:
     - description: Indicates whether properties should be summed up if they support
         it. The showSums parameter is applied to the to the query's result collection
         of work packages overriding the query's persisted sums property.
-      example: 'true'
+      example: true
       in: query
       name: showSums
       required: false
       schema:
-        default: 'false'
+        default: false
         type: boolean
     - description: Indicates whether the timeline should be shown.
-      example: 'true'
+      example: true
       in: query
       name: timelineVisible
       required: false
       schema:
-        default: 'false'
+        default: false
         type: boolean
     - description: Overridden labels in the timeline view
       example: "{}"
@@ -162,12 +162,12 @@ get:
         default: "['type', 'priority']"
         type: string
     - description: Indicates whether the hierarchy mode should be enabled.
-      example: 'true'
+      example: true
       in: query
       name: showHierarchies
       required: false
       schema:
-        default: 'true'
+        default: true
         type: boolean
   responses:
     '200':
@@ -264,8 +264,8 @@ patch:
                   - href: "/api/v3/queries/columns/updated_at"
                     title: Updated on
                   groupBy:
-                    href: 
-                    title: 
+                    href:
+                    title:
                   highlightedAttributes: []
                   project:
                     href: "/api/v3/projects/3"

@@ -183,9 +183,10 @@ module Pages
     end
 
     def drag_to_remove_dropzone(work_package, expect_removable: true)
-      source = event(work_package)
-
-      start_dragging(source)
+      retry_block do
+        source = event(work_package)
+        start_dragging(source)
+      end
 
       # Move the footer first to signal we're dragging something
       footer = find('[data-qa-selector="op-team-planner-footer"]')
@@ -243,6 +244,16 @@ module Pages
 
     def y_center(element)
       element.native.location.y + (element.native.size.height / 2)
+    end
+
+    def wait_for_loaded
+      expect(page).to have_selector('.op-team-planner--wp-loading-skeleton')
+
+      retry_block do
+        raise "Should not be there" if page.has_selector?('.op-team-planner--wp-loading-skeleton')
+
+        sleep 5
+      end
     end
   end
 end

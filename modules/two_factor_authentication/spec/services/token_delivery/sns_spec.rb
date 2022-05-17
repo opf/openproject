@@ -7,7 +7,7 @@ describe ::OpenProject::TwoFactorAuthentication::TokenStrategy::Sns, with_2fa_ee
     let!(:device) { create :two_factor_authentication_device_sms, user: user, channel: channel }
     let(:channel) { :sms }
 
-    let(:params) do
+    let(:sns_params) do
       {
         region: 'eu-west-1',
         access_key_id: 'foobar',
@@ -15,22 +15,38 @@ describe ::OpenProject::TwoFactorAuthentication::TokenStrategy::Sns, with_2fa_ee
       }
     end
 
-    before do
-      allow(OpenProject::Configuration)
-        .to receive(:[]).with('2fa')
-        .and_return(active_strategies: [:sns], sns: params)
+    include_context 'with settings' do
+      let(:settings) do
+        {
+          plugin_openproject_two_factor_authentication: {
+            'active_strategies' => [:sns],
+            'sns' => sns_params
+          }
+        }
+      end
+    end
 
+    before do
       allow_any_instance_of(::OpenProject::TwoFactorAuthentication::TokenStrategy::Sns)
         .to receive(:create_mobile_otp)
         .and_return('1234')
     end
 
     describe '#setup' do
-      let(:params) { { region: nil } }
+      context 'for valid params' do
+        it 'validates without errors' do
+          expect { described_class.validate! }
+            .not_to raise_exception
+        end
+      end
 
-      it 'raises an exception for incomplete params' do
-        expect { described_class.validate! }
-          .to raise_exception(ArgumentError)
+      context 'for incomplete params' do
+        let(:sns_params) { { region: nil } }
+
+        it 'raises an exception' do
+          expect { described_class.validate! }
+            .to raise_exception(ArgumentError)
+        end
       end
     end
 

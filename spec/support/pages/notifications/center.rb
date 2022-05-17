@@ -39,11 +39,6 @@ module Pages
         notifications_center_path
       end
 
-      def close
-        page.find('button[data-qa-selector="op-back-button"]').click
-        expect_closed
-      end
-
       def mark_all_read
         click_button 'Mark all as read'
       end

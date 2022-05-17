@@ -52,7 +52,7 @@ module API
             selected_properties(select)
               .map do |name, options|
               representation = if options[:representation]
-                                 options[:representation].call(walker_results)
+                                 instance_exec(walker_results, &options[:representation])
                                else
                                  options[:column]
                                end

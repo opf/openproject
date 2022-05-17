@@ -3,6 +3,9 @@
 set -e
 set -u
 
+mkdir -p public/assets
+mkdir -p tmp/cache
+
 chown -R "$USER:$USER" public/assets
 chown -R "$USER:$USER" tmp/cache
 

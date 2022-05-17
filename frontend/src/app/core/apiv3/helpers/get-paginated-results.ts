@@ -14,7 +14,7 @@ import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 
 /**
  * The API will resolve pageSize=-1 to the maximum value
- * we can request in one call. This is configurable under adminstration.
+ * we can request in one call. This is configurable under administration.
  */
 export const MAGIC_PAGE_NUMBER = -1;
 

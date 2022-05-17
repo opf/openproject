@@ -13,8 +13,8 @@ We eat our own ice cream so we use OpenProject for roadmap planning and team col
 - [Product roadmap](https://community.openproject.org/projects/openproject/work_packages?query_id=1993)
 - [Wish list](https://community.openproject.org/projects/openproject/work_packages?query_id=180)
 - [Bug backlog board](https://community.openproject.org/projects/openproject/boards/2905)
-- [Report a bug](https://docs.openproject.org/development/report-a-bug/)
-- [Submit a feature idea](https://docs.openproject.org/development/submit-feature-idea/)
+- [Report a bug](https://www.openproject.org/docs/development/report-a-bug/)
+- [Submit a feature idea](https://www.openproject.org/docs/development/submit-feature-idea/)
 
 
 ## Branching model

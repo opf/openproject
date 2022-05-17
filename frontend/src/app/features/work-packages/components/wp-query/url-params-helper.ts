@@ -67,6 +67,8 @@ export interface QueryProps {
   hla?:string[];
   // Display representation
   dr?:string;
+  // Include subprojects
+  is?:boolean;
   // Pagination
   pa?:string|number;
   pp?:string|number;
@@ -118,6 +120,7 @@ export class UrlParamsHelperService {
       hi: !!query.showHierarchies,
       g: _.get(query.groupBy, 'id', ''),
       dr: query.displayRepresentation,
+      is: query.includeSubprojects,
       ...this.encodeSums(query),
       ...this.encodeTimelineVisible(query),
       ...this.encodeHighlightingMode(query),
@@ -217,7 +220,7 @@ export class UrlParamsHelperService {
       return queryData;
     }
 
-    const properties = JSON.parse(updateJson);
+    const properties = JSON.parse(updateJson) as QueryProps;
 
     if (properties.c) {
       queryData['columns[]'] = properties.c.map((column:any) => column);
@@ -242,6 +245,10 @@ export class UrlParamsHelperService {
       queryData.displayRepresentation = properties.dr;
     }
 
+    if (properties.is !== undefined) {
+      queryData.includeSubprojects = properties.is;
+    }
+
     if (properties.hl) {
       queryData.highlightingMode = properties.hl;
     }
@@ -250,7 +257,7 @@ export class UrlParamsHelperService {
       queryData['highlightedAttributes[]'] = properties.hla.map((column:any) => column);
     }
 
-    if (properties.hi === false || properties.hi === true) {
+    if (properties.hi !== undefined) {
       queryData.showHierarchies = properties.hi;
     }
 
@@ -317,6 +324,7 @@ export class UrlParamsHelperService {
       queryData.displayRepresentation = query.displayRepresentation;
     }
 
+    queryData.includeSubprojects = !!query.includeSubprojects;
     queryData.showHierarchies = !!query.showHierarchies;
     queryData.groupBy = _.get(query.groupBy, 'id', '');
 

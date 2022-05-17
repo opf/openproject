@@ -2,23 +2,21 @@
 fr:
   js:
     team_planner:
-      add_existing: 'Add existing'
-      create_new: 'New team planner'
+      add_existing: 'Ajouter existant'
       title: 'Planificateur d''équipe'
       unsaved_title: 'Planificateur d''équipe sans nom'
-      label_assignee_plural: 'Affectés à'
       no_data: 'Ajouter des personnes pour configurer votre planificateur d''équipe.'
       add_assignee: 'Assigner à quelqu''un'
       remove_assignee: 'Supprimer l''assignation'
-      two_weeks: '2-week'
-      one_week: '1-week'
-      today: 'Today'
-      drag_here_to_remove: 'Drag here to remove assignee and start and end dates.'
-      cannot_drag_here: 'Cannot remove the work package due to permissions or editing restrictions.'
+      two_weeks: '2 semaines'
+      one_week: '1 semaine'
+      today: 'Aujourd''hui'
+      drag_here_to_remove: 'Faites glisser ici pour supprimer le responsable et les dates de début et de fin.'
+      cannot_drag_here: 'Impossible de supprimer le lot de travaux en raison des autorisations ou des restrictions d''édition.'
       quick_add:
-        empty_state: 'Use the search field to find work packages and drag them to the planner to assign it to someone and define start and end dates.'
-        search_placeholder: 'Search...'
+        empty_state: 'Utilisez le champ de recherche pour trouver des lots de travaux et faites-les glisser vers le planificateur pour l''assigner à quelqu''un et définir des dates de début et de fin.'
+        search_placeholder: 'Rechercher...'
       modify:
         errors:
-          permission_denied: 'You do not have the necessary permissions to modify this.'
-          fallback: 'This work package cannot be edited.'
+          permission_denied: 'Vous n’avez pas les autorisations nécessaires pour modifier ceci.'
+          fallback: 'Ce lot de travaux ne peut pas être modifié.'

@@ -11,7 +11,7 @@
         <ng-container *ngFor="let item of settings.controls">
           <th class="op-table--cell op-table--cell_heading">
             <a
-              class="op-link"
+              class="spot-link"
               [href]="projectLink(item.controls.project.value.href)"
             >{{ item.controls.project.value.title }}</a>
           </th>
@@ -121,7 +121,7 @@
           <td class="op-table--cell">
             <button
               type="button"
-              class="op-link"
+              class="spot-link"
               (click)="removeProjectSettings(index)"
             >
               {{ text.remove_project_settings }}
