@@ -166,6 +166,8 @@ class AddParentIdToWp < ActiveRecord::Migration[6.1]
   def add_relation_index
     add_index :relations, %i[from_id to_id relation_type],
               unique: true
+    add_index :relations, %i[to_id from_id relation_type],
+              unique: true
   end
 
   def add_parent_index
