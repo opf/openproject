@@ -50,7 +50,7 @@ A query is an object that revolves about two types of information:
 1. The configuration needed to fetch data from the database (filters, sort criteria, grouping criterion etc.)
 2. The way the results retrieved from the database with the above filters are displayed (set of visible columns, highlighting, display mode of the work package table, etc.)
 
-Currently, the Queries endpoint and object is highly specific to work packages, but this is bound to change with more resources becoming queriable. For some other resources such as projects, queries already exists in the backend, but not yet in the frontend application.
+Currently, the Queries endpoint and object is highly specific to work packages, but this is bound to change with more resources becoming queryable. For some other resources such as projects, queries already exists in the backend, but not yet in the frontend application.
 
 
 

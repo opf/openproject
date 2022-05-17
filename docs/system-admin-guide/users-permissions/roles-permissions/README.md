@@ -10,7 +10,7 @@ keywords: manage roles, manage permissions
 
 A **role** is a set of **permissions** that can be assigned to any project member. Multiple roles can be assigned to the same project member.
 
-When creating a role, the "Global role" field can be ticked, making it a **Global role** that can be assigned to a [users details](../users/#manage-user-settings) and applied across all projects.
+When creating a role, the "Global role" field can be ticked, making it a **Global role** that can be assigned to a [user details](../users/#manage-user-settings) and applied across all projects.
 
 
 | Topic                                           | Content                                                      |

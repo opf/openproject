@@ -158,7 +158,7 @@ es:
     edit: 'Editar Accion Personalizada %{name}'
     execute: 'Ejecutar %{name}'
     upsale:
-      title: 'Custom actions is an Enterprise Edition feature'
+      title: 'Las Acciones personalizadas son una característica de la Enterprise Edition'
       description: 'Las Acciones personalizadas agilizan el trabajo diario mediante la combinación de un conjunto de pasos individuales en un único botón.'
   custom_fields:
     text_add_new_custom_field: >
@@ -257,7 +257,7 @@ es:
       irreversible: "Esta acción no se puede deshacer"
       confirmation: "Escriba el nombre de usuario de marcador de posición %{name} para confirmar la eliminación."
     upsale:
-      title: Assign work to people that are not members of the project.
+      title: Asigne trabajo a usuarios que no pertenezcan al proyecto.
       description: >
         Hay varias situaciones en las que podría asignar trabajo a usuarios que no sean miembros del proyecto. Por ejemplo, puede que necesite contratar a la persona adecuada para el trabajo. O bien puede que no quiera conceder acceso a la información del proyecto, pero necesite llevar un seguimiento de las tareas asignadas a esa persona.
   prioritiies:
@@ -314,10 +314,10 @@ es:
       other: '%{count} paquetes de trabajo descendientes'
     bulk:
       could_not_be_saved: "Los siguientes paquetes de trabajo no pudieron guardarse:"
-      none_could_be_saved: "None of the %{total} work packages could be updated."
-      x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
-      selected_because_descendants: "While %{selected} work packages where selected, in total %{total} work packages are affected which includes descendants."
-      descendant: "descendant of selected"
+      none_could_be_saved: "Ninguno de los %{total} paquetes de trabajo pudo ser actualizado."
+      x_out_of_y_could_be_saved: "%{failing} de %{total} paquetes de trabajo no pudieron ser actualizados mientras que %{success} pudieron."
+      selected_because_descendants: "Mientras que %{selected} paquetes de trabajo seleccionados, en total %{total} paquetes de trabajo son afectados que incluye descendientes."
+      descendant: "descendiente seleccionado"
     move:
       no_common_statuses_exists: "No hay ningún estado disponible para todos los paquetes de trabajo seleccionados. Su estado no se puede cambiar."
       unsupported_for_multiple_projects: 'Mover o copiar por lotes no esta soportado para paquetes de trabajo de múltiples proyectos'
@@ -738,7 +738,7 @@ es:
               does_not_exist: "La categoría especificada no existe."
             estimated_hours:
               only_values_greater_or_equal_zeroes_allowed: "debe ser >=0."
-          readonly_status: 'The work package is in a readonly status so its attributes cannot be changed.'
+          readonly_status: 'El paquete de trabajo está en un estado de sólo lectura por lo que sus atributos no se pueden cambiar.'
         type:
           attributes:
             attribute_groups:
@@ -750,7 +750,7 @@ es:
         user:
           attributes:
             base:
-              user_limit_reached: "User limit reached. No more accounts can be created on the current plan."
+              user_limit_reached: "El límite de usuarios ha sido alcanzado. No se pueden crear más cuentas en el plan actual."
             password_confirmation:
               confirmation: "La confirmación de contraseña no coincide con la contraseña."
               format: "%{message}"
@@ -882,7 +882,7 @@ es:
     version: "Versión"
     work_package: "Paquete de trabajo"
   backup:
-    failed: "Backup failed"
+    failed: "La copia de seguridad ha fallado"
     label_backup_token: "Token de copias de seguridad"
     label_create_token: "Crear token de copias de seguridad"
     label_delete_token: "Eliminar token de copias de seguridad"
@@ -1728,7 +1728,7 @@ es:
   label_public_projects: "Proyectos públicos"
   label_query_new: "Nueva consulta"
   label_query_plural: "Consultas personalizadas"
-  label_query_menu_item: "Query menu item"
+  label_query_menu_item: "Menú de consulta"
   label_read: "Leer..."
   label_register: "Crear una nueva cuenta"
   label_register_with_developer: "Registrarse como desarrollador"
@@ -1976,7 +1976,7 @@ es:
   mail_body_backup_waiting_period: El nuevo token se habilitará en %{hours} horas.
   mail_body_backup_token_warning: Si no lo ha solicitado, inicie sesión en OpenProject de inmediato y vuelva a restablecerlo.
   mail_body_lost_password: "Para cambiar su contraseña, haga clic en el siguiente enlace:"
-  mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
+  mail_body_register: "Bienvenido a OpenProject. Por favor, active su cuenta haciendo clic en este enlace:"
   mail_body_register_header_title: "Correo electrónico de invitación al miembro del proyecto"
   mail_body_register_user: "Estimado/a %{name},"
   mail_body_register_links_html: |
@@ -2119,7 +2119,7 @@ es:
     heading_getting_started: "Obtener información general"
     text_getting_started_description: "Obtenga información general rápida sobre la administración de proyectos y la colaboración en equipo con OpenProject."
     text_show_again: "Puede reiniciar este vídeo en el menú ayuda"
-    welcome: "Welcome to OpenProject"
+    welcome: "Bienvenido a OpenProject"
     select_language: "Seleccione su idioma"
   permission_add_work_package_notes: "Añadir notas"
   permission_add_work_packages: "Añadir paquetes de trabajo"
@@ -2177,7 +2177,7 @@ es:
   permission_select_custom_fields: "Seleccionar campos personalizados"
   permission_select_project_modules: "Seleccionar módulos de proyecto"
   permission_manage_types: "Seleccionar Tipos"
-  permission_view_calendar: "View calendar"
+  permission_view_calendar: "Ver calendario"
   permission_view_changesets: "Ver las revisiones del repositorio en OpenProject"
   permission_view_commit_author_statistics: "Ver estadísticas del commit del autor"
   permission_view_work_package_watchers: "Ver lista de observadores"
@@ -2341,9 +2341,9 @@ es:
   setting_apiv3_cors_origins: "Orígenes permitidos de la API de CORS (uso compartido de recursos entre orígenes) V3"
   setting_apiv3_cors_origins_text_html: >
     Si CORS está habilitado, estos son los orígenes que tienen permiso para acceder a la API de OpenProject. <br/> Consulte la <a href="%{origin_link}" target="_blank">documentación sobre el encabezado Origin</a> para obtener información sobre cómo especificar los valores esperados.
-  setting_apiv3_max_page_size: "Maximum API page size"
+  setting_apiv3_max_page_size: "Tamaño máximo de página"
   setting_apiv3_max_page_instructions_html: >
-    Set the maximum page size the API will respond with. It will not be possible to perform API requests that return more values on a single page. <br/> <strong>Warning:</strong> Please only change this value if you are sure why you need it. Setting to a high value will result in significant performance impacts, while a value lower than the per page options will cause errors in paginated views.
+    Establecer el tamaño máximo de página con el que responderá la API. No será posible realizar peticiones API que devuelvan más valores en una sola página. <br/> <strong>Advertencia:</strong> Por favor, cambie este valor sólo si está seguro de por qué lo necesita. Un ajuste alto impactará significativamente el rendimiento, mientras que un valor inferior a las opciones por página causará errores en las vistas paginadas.
   setting_apiv3_docs: "Documentación"
   setting_apiv3_docs_enabled: "Activar página de documentos"
   setting_apiv3_docs_enabled_instructions_html: >
@@ -2841,7 +2841,7 @@ es:
   wiki_menu_item_new_main_item_explanation: >
     Usted esta eliminando el único elemento de menú wiki principal. Ahora tiene que elegir un wiki para el cual un nuevo elemento de menú principal será generado. Para eliminar el wiki, éste módulo puede ser desactivado por los administradores del proyecto.
   wiki_menu_item_delete_not_permitted: El único elemento de menú de la única página wiki no puede ser eliminado.
-  query_menu_item_for: "Menu item for query \"%{title}\""
+  query_menu_item_for: "Elemento de menu para consulta \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
@@ -2910,9 +2910,9 @@ es:
         #Common error messages
         invalid_request:
           unknown: 'Falta un parámetro necesario en la petición, un valor de parámetro no compatible ha sido añadido, o se encuentra deformado.'
-          missing_param: 'Missing required parameter: %{value}.'
-          request_not_authorized: 'Request need to be authorized. Required parameter for authorizing request is missing or invalid.'
-        invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
+          missing_param: 'Falta el parámetro requerido: %{value}.'
+          request_not_authorized: 'La solicitud debe ser autorizada. El parámetro requerido para autorizar la solicitud falta o no es válido.'
+        invalid_redirect_uri: "El URI de redirección solicitado tiene un formato incorrecto o no coincide con el URI de redirección del cliente."
         unauthorized_client: 'El cliente no está autorizado a realizar esta petición usando este método.'
         access_denied: 'El propietario de este recurso o servidor de autorización ha denegado la petición.'
         invalid_scope: 'El ámbito solicitado es inválido, desconocido, o está malformado.'
@@ -2925,7 +2925,7 @@ es:
         admin_authenticator_not_configured: 'El acceso al panel de administrador está prohibido debido a la desconfiguración de Doorkeeper.configure.admin_authenticator.'
         #Access grant errors
         unsupported_response_type: 'El servidor de autorización no es compatible con este tipo de respuesta.'
-        unsupported_response_mode: 'The authorization server does not support this response mode.'
+        unsupported_response_mode: 'El servidor de autorización no es compatible con este tipo de respuesta.'
         #Access token errors
         invalid_client: 'La certificación del cliente ha fallado debido a un cliente desconocido, omisión del cliente, o un método de certificación no compatible.'
         invalid_grant: 'El permiso de autorización proporcionado es inválido, ha sido revocado, no concuerda con la redirección URI usada en la petición de autorización, o ha sido otorgada a otro cliente.'
@@ -2935,9 +2935,9 @@ es:
           expired: "El token de acceso ha expirado"
           unknown: "El token de acceso es inválido"
         revoke:
-          unauthorized: "You are not authorized to revoke this token."
+          unauthorized: "No estás autorizado a revocar este bono."
         forbidden_token:
-          missing_scope: 'Access to this resource requires scope "%{oauth_scopes}".'
+          missing_scope: 'El acceso a este recurso requiere competencia "%{oauth_scopes}".'
   unsupported_browser:
     title: "Tu explorador esta desactualizado y no es compatible."
     message: "Podrás experimentar errores y una experiencia de mala calidad en esta página."
