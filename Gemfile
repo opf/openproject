@@ -199,9 +199,9 @@ gem 'mini_magick', '~> 4.11.0', require: false
 gem 'validate_url'
 
 # Sentry error reporting
-gem "sentry-delayed_job", '~> 5.2.0'
-gem "sentry-rails", '~> 5.2.0'
-gem "sentry-ruby", '~> 5.2.0'
+gem "sentry-delayed_job", '~> 5.3.0'
+gem "sentry-rails", '~> 5.3.0'
+gem "sentry-ruby", '~> 5.3.0'
 
 group :test do
   gem 'launchy', '~> 2.5.0'
@@ -228,7 +228,7 @@ group :test do
   # brings back testing for 'assigns' and 'assert_template' extracted in rails 5
   gem 'rails-controller-testing', '~> 1.0.2'
 
-  gem 'capybara', '~> 3.36.0'
+  gem 'capybara', '~> 3.37.0'
   gem 'capybara-screenshot', '~> 1.0.17'
   gem 'selenium-webdriver', '~> 4.0'
   gem 'webdrivers', '~> 5.0.0'
