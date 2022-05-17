@@ -139,6 +139,7 @@ describe OpenProject::Configuration, :settings_reset do
                                                        port: 25,
                                                        domain: 'example.com',
                                                        enable_starttls_auto: true,
+                                                       openssl_verify_mode: 'peer',
                                                        ssl: false)
       end
     end
@@ -164,6 +165,7 @@ describe OpenProject::Configuration, :settings_reset do
                                                        port: 25,
                                                        domain: 'example.com',
                                                        enable_starttls_auto: false,
+                                                       openssl_verify_mode: 'peer',
                                                        ssl: true)
       end
     end
@@ -191,6 +193,7 @@ describe OpenProject::Configuration, :settings_reset do
                                                        user_name: 'username',
                                                        password: 'p4ssw0rd',
                                                        enable_starttls_auto: true,
+                                                       openssl_verify_mode: 'peer',
                                                        ssl: false)
       end
     end
@@ -218,6 +221,7 @@ describe OpenProject::Configuration, :settings_reset do
                                                        user_name: 'username',
                                                        password: 'p4ssw0rd',
                                                        enable_starttls_auto: false,
+                                                       openssl_verify_mode: 'peer',
                                                        ssl: true)
       end
     end
