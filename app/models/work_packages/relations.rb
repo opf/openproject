@@ -28,28 +28,6 @@ module WorkPackages::Relations
   extend ActiveSupport::Concern
 
   included do
-    # Relations pointing to another work package.
-    # In this case,
-    #   * from is self
-    #   * to is the other work package involved
-    has_many :relations_to,
-             class_name: 'Relation',
-             foreign_key: :from_id,
-             autosave: true,
-             dependent: :nullify,
-             inverse_of: :from
-
-    # Relations pointing away from the work package.
-    # In this case,
-    #   * to is self
-    #   * from is the other work package involved
-    has_many :relations_from,
-             class_name: 'Relation',
-             foreign_key: :to_id,
-             autosave: true,
-             dependent: :nullify,
-             inverse_of: :to
-
     # Relations where the current work package follows another one.
     # In this case,
     #   * from is self.id
