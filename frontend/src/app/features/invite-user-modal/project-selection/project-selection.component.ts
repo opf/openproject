@@ -21,6 +21,7 @@ import { ProjectAllowedValidator } from './project-allowed.validator';
 import { IProject } from 'core-app/core/state/projects/project.model';
 import { map } from 'rxjs/operators';
 import { CapabilityResource } from 'core-app/features/hal/resources/capability-resource';
+import { IProjectAutocompleteItem } from 'core-app/shared/components/autocompleter/project-autocompleter/project-autocomplete-item';
 
 @Component({
   selector: 'op-ium-project-selection',
@@ -42,6 +43,7 @@ export class ProjectSelectionComponent implements OnInit {
       required: this.I18n.t('js.invite_user_modal.project.required'),
       lackingPermission: this.I18n.t('js.invite_user_modal.project.lacking_permission'),
       lackingPermissionInfo: this.I18n.t('js.invite_user_modal.project.lacking_permission_info'),
+      noInviteRights: this.I18n.t('js.invite_user_modal.project.no_invite_rights'),
     },
     type: {
       required: this.I18n.t('js.invite_user_modal.type.required'),
@@ -137,14 +139,20 @@ export class ProjectSelectionComponent implements OnInit {
 
   APIFiltersForProjects = [['active', '=', true]];
 
-  projectFilterFn(projects:IProject[]) {
-    const mapped = projects.map((project:ProjectResource) => ({
-      project,
-      disabled: !projectInviteCapabilities.find((cap) => cap.context.id === project.id),
-    }));
+  projectFilterFn(projects:IProject[]):IProjectAutocompleteItem[] {
+    const mapped = projects.map((project:IProject) => ({
+      id: project.id,
+      name: project.name,
+      href: project._links.self.href,
+      ancestors: project._links.ancestors,
+      disabled: !this.projectInviteCapabilities.find((cap) => cap.context.id === project.id),
+      disabledReason: this.text.project.noInviteRights,
+    }) as IProjectAutocompleteItem);
+
     mapped.sort(
-      (a:IProjectAutocompleteItem, b:IProjectAutocompleteItem) => (a.disabled ? 1 : 0) - (b.disabled ? 1 : 0),
+      (a, b) => (a.disabled ? 1 : 0) - (b.disabled ? 1 : 0),
     );
+
     return mapped;
   }
 }

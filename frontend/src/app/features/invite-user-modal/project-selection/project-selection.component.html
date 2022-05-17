@@ -13,7 +13,7 @@
         [opFormBinding]="projectControl"
         slot="input"
         [APIFilters]="APIFiltersForProjects"
-        [resultsFilterFn]="projectFilterFn"
+        [mapResultsFn]="projectFilterFn.bind(this)"
       ></op-project-autocompleter>
 
       <div

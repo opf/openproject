@@ -49,37 +49,32 @@ import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
 import { IProject } from 'core-app/core/state/projects/project.model';
 import { HttpClient } from '@angular/common/http';
 
-import { insertInList } from '../../project-include/insert-in-list';
-import { recursiveSort } from '../../project-include/recursive-sort';
-import { IProjectData } from '../../project-include/project-data';
-import { ID } from '@datorama/akita';
+import { buildTree } from './insert-in-list';
+import { recursiveSort } from './recursive-sort';
+import { IProjectAutocompleteItem, IProjectAutocompleteItemTree } from './project-autocomplete-item';
 
 export const projectsAutocompleterSelector = 'op-project-autocompleter';
 
-export interface IProjectAutocompleteItem {
-  name:string;
-  id:ID;
-  href:string|null;
-  numberOfAncestors:number;
-  disabled?:boolean;
-  disabledReason?:string;
-}
-
-const flattenProjectTree = (projectTree:IProjectData, depth = 0):IProjectAutocompleteItem[] => {
-  let projectList = [
-    {
-      name: projectTree.name,
-      id: projectTree.id,
-      href: projectTree.href,
-      numberOfAncestors: depth,
-    }
-  ];
-
-  return projectTree.children.reduce((list, child) => [
-    ...list,
-    ...flattenProjectTree(child, depth + 1),
-  ], projectList);
-};
+const flattenProjectTree = (
+  projectTreeItems:IProjectAutocompleteItemTree[],
+  depth = 0,
+):IProjectAutocompleteItem[] => projectTreeItems.reduce(
+  (fullList, projectTreeItem, i) => {
+    return [
+      ...fullList,
+      {
+        ...projectTreeItem,
+        numberOfAncestors: depth,
+        // The actual list of ancestors does not matter anymore from this point forward,
+        // but to keep typing straightforward for consumers of this component that use mapResultsFn,
+        // it is marked as required in the interface.
+        ancestors: [],
+      },
+      ...flattenProjectTree(projectTreeItem.children, depth + 1),
+    ];
+  },
+  [],
+);
 
 @DatasetInputs
 @Component({
@@ -108,7 +103,16 @@ export class ProjectAutocompleterComponent implements OnInit {
 
   @Input() public APIFilters:ApiV3ListFilter[] = [];
 
-  @Input() public resultsFilterFn:(projects:IProjectAutocompleteItem[]) => IProjectAutocompleteItem[] = (projects) => projects;
+  @Input()
+  public mapResultsFn:(projects:IProject[]) => IProjectAutocompleteItem[] = (projects) => projects.map((project) => ({
+    id: project.id,
+    href: project._links.self.href,
+    name: project.name,
+    found: true,
+    disabled: false,
+    ancestors: project._links.ancestors,
+    children: [],
+  }));
 
   // Update an input field after changing, used when externally loaded
   private updateInputField:HTMLInputElement|undefined;
@@ -160,10 +164,11 @@ export class ProjectAutocompleterComponent implements OnInit {
   protected getAvailableProjects(searchTerm:string):Observable<IProjectAutocompleteItem[]> {
     return getPaginatedResults<IProject>(
       (params) => {
-        const filters:ApiV3ListFilter[] = [
-          ...this.APIFilters,
-          ['name_and_identifier', '~', [searchTerm]],
-        ];
+        const filters:ApiV3ListFilter[] = [...this.APIFilters];
+        
+        if (searchTerm.length) {
+          filters.push(['name_and_identifier', '~', [searchTerm]]);
+        }
         const fullParams = {
           filters,
           select: [
@@ -183,24 +188,12 @@ export class ProjectAutocompleterComponent implements OnInit {
       },
     )
       .pipe(
-        map(this.resultsFilterFn),
-        map((projects) => projects
-          .sort((a, b) => a._links.ancestors.length - b._links.ancestors.length)
-          .reduce(
-            (list, project) => {
-              const { ancestors } = project._links;
-
-              return insertInList(projects, project, list, ancestors);
-            },
-            [] as IProjectData[],
-          )
-        ),
+        map(this.mapResultsFn),
+        map((projects) => projects.sort((a, b) => a.ancestors.length - b.ancestors.length)),
+        map((projects) => buildTree(projects)),
         map((projects) => recursiveSort(projects)),
-        map((projectTreeItems) => projectTreeItems
-          .map(item => flattenProjectTree(item))
-          .reduce((total, list) => [...total, ...list], []),
-       )
-      );
+        map((projectTreeItems) => flattenProjectTree(projectTreeItems)),
+       );
   }
 
   private setInitialSelection() {

@@ -1,4 +1,4 @@
-<ng-select
+<op-autocompleter
   [items]="requests.output$ | async"
   bindLabel="name"
   bindValue="id"
@@ -6,21 +6,24 @@
   [virtualScroll]="true"
   [trackByFn]="projectTracker"
   [typeahead]="requests.input$"
-  [loading]="requests.loading$ | async"
   (focus)="onFocus()"
   (change)="onModelChange($event)"
   [appendTo]="appendTo"
   [multiple]="multiple"
 >
-  <ng-template ng-label-tmp let-item="item">
+  <ng-template
+    op-autocompleter-label-tmp
+    let-item="item"
+  >
     {{ item.name }}
   </ng-template>
 
-  <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
-    <div
-      *ngIf="item"
-      class="ng-option-label"
-    >
+  <ng-template
+    op-autocompleter-option-tmp
+    let-item="item"
+    let-search="searchTerm"
+  >
+    <div class="ng-option-label">
       <!--Selectable option-->
       <div
         class="ellipsis"
@@ -36,10 +39,12 @@
     </div>
   </ng-template>
 
-  <!--Nothing found -->
-  <ng-template ng-notfound-tmp let-searchTerm="searchTerm">
+  <ng-template
+    op-autocompleter-notfound-tmp
+    let-searchTerm="searchTerm"
+  >
     <div class="ng-option disabled">
       {{ text.noResultsFound }}
     </div>
   </ng-template>
-</ng-select>
+</op-autocompleter>
