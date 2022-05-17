@@ -96,7 +96,7 @@ Settings::Definition.define do
       writable: false
 
   add :auth_source_sso,
-      format: :string,
+      format: :hash,
       value: nil,
       writable: false
 
@@ -347,11 +347,13 @@ Settings::Definition.define do
   add :email_delivery_configuration,
       value: 'inapp',
       allowed: %w[inapp legacy],
-      writable: false
+      writable: false,
+      env_alias: 'EMAIL_DELIVERY_CONFIGURATION'
 
   add :email_delivery_method,
       format: :symbol,
-      value: nil
+      value: nil,
+      env_alias: 'EMAIL_DELIVERY_METHOD'
 
   add :emails_footer,
       value: {
@@ -802,9 +804,16 @@ Settings::Definition.define do
       value: true,
       writable: false
 
+  add :smtp_authentication,
+      format: :string,
+      value: 'plain',
+      writable: false,
+      env_alias: 'SMTP_AUTHENTICATION'
+
   add :smtp_enable_starttls_auto,
       format: :boolean,
-      value: false
+      value: false,
+      env_alias: 'SMTP_ENABLE_STARTTLS_AUTO'
 
   add :smtp_openssl_verify_mode,
       format: :string,
@@ -814,32 +823,33 @@ Settings::Definition.define do
 
   add :smtp_ssl,
       format: :boolean,
-      value: false
+      value: false,
+      env_alias: 'SMTP_SSL'
 
   add :smtp_address,
       format: :string,
-      value: ''
+      value: '',
+      env_alias: 'SMTP_ADDRESS'
 
   add :smtp_domain,
       format: :string,
-      value: 'your.domain.com'
+      value: 'your.domain.com',
+      env_alias: 'SMTP_DOMAIN'
 
   add :smtp_user_name,
       format: :string,
-      value: ''
+      value: '',
+      env_alias: 'SMTP_USER_NAME'
 
   add :smtp_port,
       format: :integer,
-      value: 587
+      value: 587,
+      env_alias: 'SMTP_PORT'
 
   add :smtp_password,
       format: :string,
-      value: ''
-
-  add :smtp_authentication,
-      format: :string,
-      value: 'plain',
-      writable: false
+      value: '',
+      env_alias: 'SMTP_PASSWORD'
 
   add :software_name,
       value: 'OpenProject'

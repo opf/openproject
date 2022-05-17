@@ -325,13 +325,18 @@ class Setting < ApplicationRecord
     definition = Settings::Definition[name]
 
     if definition.serialized? && value.is_a?(String)
-      YAML::safe_load(value, permitted_classes: [Symbol, ActiveSupport::HashWithIndifferentAccess, Date, Time])
-        .tap { |maybe_hash| maybe_hash.try(:deep_stringify_keys!) }
+      YAML::safe_load(value, permitted_classes: [Symbol, ActiveSupport::HashWithIndifferentAccess, Date, Time, URI::Generic])
+        .tap { |maybe_hash| normalize_hash!(maybe_hash) if maybe_hash.is_a?(Hash) }
     elsif value != '' && !value.nil?
       read_formatted_setting(value, definition.format)
     else
       definition.format == :string ? value : nil
     end
+  end
+
+  def self.normalize_hash!(hash)
+    hash.deep_stringify_keys!
+    hash.deep_transform_values! { |v| v.is_a?(URI::Generic) ? v.to_s : v }
   end
 
   def self.read_formatted_setting(value, format)

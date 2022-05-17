@@ -25,6 +25,10 @@ curl -s https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-${A
 wget --quiet -O- https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
 echo "deb http://apt.postgresql.org/pub/repos/apt buster-pgdg main" > /etc/apt/sources.list.d/pgdg.list
 
+# sources for dotnet runtime
+wget -qO- https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
+wget -qO /etc/apt/sources.list.d/microsoft.list https://packages.microsoft.com/config/debian/10/prod.list
+
 apt-get update -qq
 apt-get install -y \
 	apt-transport-https \
@@ -37,16 +41,14 @@ apt-get install -y \
 	postgresql-client-9.6 \
 	postgresql-13 \
 	postgresql-client-13 \
-	imagemagick
+	imagemagick \
+	dotnet-runtime-3.1 # required for BIM edition
 
 # remove any existing cluster
 service postgresql stop
 rm -rf /var/lib/postgresql/{9.6,13}
 
 # Specifics for BIM edition
-curl 'https://dotnet.microsoft.com/download/dotnet/scripts/v1/dotnet-install.sh' -o ./dotnet-install.sh
-chmod +x dotnet-install.sh
-./dotnet-install.sh -c 3.1
 
 tmpdir=$(mktemp -d)
 cd $tmpdir
