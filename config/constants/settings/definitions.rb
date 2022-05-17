@@ -831,7 +831,7 @@ Settings::Definition.define do
 
   add :smtp_openssl_verify_mode,
       format: :string,
-      value: "none",
+      value: "peer",
       allowed: %w[none peer client_once fail_if_no_peer_cert],
       writable: false
 

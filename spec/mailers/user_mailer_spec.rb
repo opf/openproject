@@ -116,6 +116,12 @@ describe UserMailer, type: :mailer do
             with_settings: { user_format: :lastname_coma_firstname } do
       it_behaves_like 'mail is sent'
     end
+
+    context 'with the recipient being the system user' do
+      let(:recipient) { User.system }
+
+      it_behaves_like 'mail is not sent'
+    end
   end
 
   describe '#wiki_content_added' do
