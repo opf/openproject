@@ -1,5 +1,5 @@
 zh-TW:
   dashboards:
     label: 'Dashboards'
-    menu_badge: 'Alpha'
+    menu_badge: '透明度'
   project_module_dashboards: 'Dashboards'

@@ -160,7 +160,7 @@ ru:
     edit: 'Редактировать пользовательское действие %{name}'
     execute: 'Выполнить %{name}'
     upsale:
-      title: 'Custom actions is an Enterprise Edition feature'
+      title: 'Пользовательские действия — особенность Корпоративной версии'
       description: 'Пользовательские действия автоматизируют повседневную работу, объединяя отдельные шаги в одну кнопку.'
   custom_fields:
     text_add_new_custom_field: >
@@ -259,7 +259,7 @@ ru:
       irreversible: "Это действие необратимо"
       confirmation: "Введите имя пользователя %{name} для подтверждения удаления."
     upsale:
-      title: Assign work to people that are not members of the project.
+      title: Назначить работу людям, которые не являются членами проекта.
       description: >
         Есть несколько сценариев, где вы хотите назначить работу людям, которые не являются участниками вашего проекта. Это может быть просто то, что вам все равно нужно нанять правильного человека для работы. Или вы просто не хотите дать этому человеку доступ к информации о проекте, но хотите отслеживать задачи, назначенные этому человеку.
   prioritiies:
@@ -1764,7 +1764,7 @@ ru:
   label_public_projects: "Проекты, доступные всем"
   label_query_new: "Новый запрос"
   label_query_plural: "Пользовательские запросы"
-  label_query_menu_item: "Query menu item"
+  label_query_menu_item: "Пункт меню запроса"
   label_read: "Читать..."
   label_register: "Создайте новую учетную запись"
   label_register_with_developer: "Зарегистрируйтесь как разработчик"
@@ -2014,7 +2014,7 @@ ru:
   mail_body_backup_waiting_period: Новый маркер будет действителен через %{hours} часов.
   mail_body_backup_token_warning: Если это не так, войдите в OpenProject и сбросьте его снова немедленно.
   mail_body_lost_password: "Чтобы изменить пароль, щёлкните по следующей ссылке:"
-  mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
+  mail_body_register: "Добро пожаловать в OpenProject. Пожалуйста, активируйте свой аккаунт, нажав на эту ссылку:"
   mail_body_register_header_title: "Приглашение участника проекта по электронной почте"
   mail_body_register_user: "Уважаемый, %{name},"
   mail_body_register_links_html: |
@@ -2158,7 +2158,7 @@ ru:
     heading_getting_started: "Обзор"
     text_getting_started_description: "Быстрый просмотр управления проектом и и команды сопровождения с OpenProject."
     text_show_again: "Вы можете перезапустить это видео из меню «Справка»"
-    welcome: "Welcome to OpenProject"
+    welcome: "Добро пожаловать в OpenProject"
     select_language: "Пожалуйста, выберите язык"
   permission_add_work_package_notes: "Добавить заметки"
   permission_add_work_packages: "Добавление пакетов работ"
@@ -2216,7 +2216,7 @@ ru:
   permission_select_custom_fields: "Выберите настраиваемые поля"
   permission_select_project_modules: "Выбор модулей проекта"
   permission_manage_types: "Выберите типы"
-  permission_view_calendar: "View calendar"
+  permission_view_calendar: "Просмотр календаря"
   permission_view_changesets: "Просмотр изменений репозитория в OpenProject"
   permission_view_commit_author_statistics: "Посмотреть статистику автора, внесшего свою часть работы"
   permission_view_work_package_watchers: "Посмотреть список наблюдателей"
@@ -2883,7 +2883,7 @@ ru:
   wiki_menu_item_new_main_item_explanation: >
     Вы удалили только элемент главного меню wiki. Сейчас вы должны выбрать wiki-страницы для которых будет сгенерирован новый элемент меню. Для удаления wiki  администратор проекта должен деактивировать модуль wiki.
   wiki_menu_item_delete_not_permitted: Элемент меню wiki только wiki-страницы удален быть не может.
-  query_menu_item_for: "Menu item for query \"%{title}\""
+  query_menu_item_for: "Пункт меню для запроса \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |

@@ -161,7 +161,7 @@ zh-TW:
     edit: '編輯自訂操作 %{name}'
     execute: '執行 %{name}'
     upsale:
-      title: 'Custom actions is an Enterprise Edition feature'
+      title: '自訂動作是企業版功能'
       description: '自訂動作通過將一組單獨的步驟組合成一個按鈕來簡化日常工作。'
   custom_fields:
     text_add_new_custom_field: >
@@ -260,7 +260,7 @@ zh-TW:
       irreversible: "This action is irreversible"
       confirmation: "Enter the placeholder user name %{name} to confirm the deletion."
     upsale:
-      title: Assign work to people that are not members of the project.
+      title: 分配工作予非計劃成員。
       description: >
         There are multiple scenarios where you want to assign work to people that are not member of your project. It could simply be that you still need to hire the correct person for the job. Or you just don't want to give that person access to the project's information but still want track tasks assigned to that person.
   prioritiies:
@@ -1714,7 +1714,7 @@ zh-TW:
   label_public_projects: "公開專案"
   label_query_new: "新增查詢"
   label_query_plural: "自訂查詢"
-  label_query_menu_item: "Query menu item"
+  label_query_menu_item: "查詢選單項目"
   label_read: "讀取..."
   label_register: "建立新帳號"
   label_register_with_developer: "註冊成開發者"
@@ -1961,7 +1961,7 @@ zh-TW:
   mail_body_backup_waiting_period: The new token will be enabled in %{hours} hours.
   mail_body_backup_token_warning: If this wasn't you, login to OpenProject immediately and reset it again.
   mail_body_lost_password: "若要變更您的密碼，請按一下以下的連結:"
-  mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
+  mail_body_register: "歡迎使用OpenProject。請點擊以下連結以啟動帳號："
   mail_body_register_header_title: "Project member invitation email"
   mail_body_register_user: "Dear %{name}, "
   mail_body_register_links_html: |
@@ -2102,7 +2102,7 @@ zh-TW:
     heading_getting_started: "取得概覽"
     text_getting_started_description: "用 OpenProject 取得專案管理和團隊協作的快速概覽。"
     text_show_again: "您可以從 \"説明\" 功能表中重新開啟此影片"
-    welcome: "Welcome to OpenProject"
+    welcome: "歡迎使用OpenProject"
     select_language: "請選擇您的語言"
   permission_add_work_package_notes: "增加註釋"
   permission_add_work_packages: "新增工作項目"
@@ -2160,7 +2160,7 @@ zh-TW:
   permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "選擇專案的模組"
   permission_manage_types: "選擇類型"
-  permission_view_calendar: "View calendar"
+  permission_view_calendar: "檢視行事曆"
   permission_view_changesets: "在 OpenProject 檢視版本庫修訂"
   permission_view_commit_author_statistics: "檢視 Commit 的作者統計資訊"
   permission_view_work_package_watchers: "檢視監看者清單"
@@ -2823,7 +2823,7 @@ zh-TW:
   wiki_menu_item_new_main_item_explanation: >
     您正在刪除 wiki 唯一的主功能表項目。現在, 您必須選擇一個 wiki 頁面, 該網頁將生成一個新的主專案。要刪除 wiki, 可以由專案管理員停用 wiki 模組。
   wiki_menu_item_delete_not_permitted: 無法刪除 wiki 頁面的唯一 wiki 功能表項目。
-  query_menu_item_for: "Menu item for query \"%{title}\""
+  query_menu_item_for: "查詢 \"%{title}\" 的功能表項目"
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
