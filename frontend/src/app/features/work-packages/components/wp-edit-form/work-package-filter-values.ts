@@ -7,11 +7,14 @@ import { WorkPackageChangeset } from 'core-app/features/work-packages/components
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { FilterOperator } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
+import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 
 export class WorkPackageFilterValues {
   @InjectField() currentUser:CurrentUserService;
 
   @InjectField() halResourceService:HalResourceService;
+
+  @InjectField() currentProject:CurrentProjectService;
 
   handlers:Partial<Record<FilterOperator, (filter:QueryFilterInstanceResource) => void>> = {
     '=': this.applyFirstValue.bind(this),
@@ -28,6 +31,18 @@ export class WorkPackageFilterValues {
     _.each(this.filters, (filter) => {
       // Exclude filters specified in constructor
       if (this.excluded.indexOf(filter.id) !== -1) {
+        return;
+      }
+
+      // Special case due to the introduction of the project include dropdown
+      // If we are in a project, we want the create wp to be part of that project.
+      // Only for embedded tables, there might be different filter values necessary.
+      if (filter.id === 'project') {
+        const projectFilter = _.find(filter.values, (resource:HalResource|string) => {
+          return ((resource instanceof HalResource) ? resource.href : resource) === this.currentProject.apiv3Path;
+        });
+        this.setValue(change, 'project', projectFilter || filter.values[0]);
+
         return;
       }
 

@@ -59,7 +59,6 @@ import { SchemaResource } from 'core-app/features/hal/resources/schema-resource'
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/resource-changeset';
-import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 
 export const newWorkPackageHref = '/api/v3/work_packages/new';
 
@@ -80,7 +79,6 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
     protected halEditing:HalResourceEditingService,
     protected schemaCache:SchemaCacheService,
     protected halEvents:HalEventsService,
-    protected currentProject:CurrentProjectService,
   ) {
     super();
 
@@ -193,18 +191,9 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
 
   public createOrContinueWorkPackage(projectIdentifier:string|null|undefined, type?:number, defaults?:HalSource):Promise<WorkPackageChangeset> {
     let changePromise = this.continueExistingEdit(type);
-    const extendedDefaults:HalSource = defaults || { _links: {} };
-    const projectId = this.currentProject.id;
-
-    // Special case due to the introduction of the project include dropdown
-    // If we are in a project, we want the create wp to be part of that project.
-    // Only on the global WP page, the filters should be applied.
-    if (projectId) {
-      extendedDefaults._links.project = { href: this.apiV3Service.projects.id(projectId).path };
-    }
 
     if (!changePromise) {
-      changePromise = this.createNewWithDefaults(projectIdentifier, extendedDefaults);
+      changePromise = this.createNewWithDefaults(projectIdentifier, defaults);
     }
 
     return changePromise.then((change:WorkPackageChangeset) => {
