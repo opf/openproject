@@ -108,8 +108,8 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
   /**
    * Returns the cached form or loads it if necessary.
    */
-  public getForm():Promise<FormResource> {
-    if (this.form$.isPristine() && !this.form$.hasActivePromiseRequest()) {
+  public getForm(reload = false):Promise<FormResource> {
+    if ((this.form$.isPristine() || reload) && !this.form$.hasActivePromiseRequest()) {
       return this.updateForm();
     }
 
@@ -325,13 +325,6 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
     }
 
     return this.cache[key] = request();
-  }
-
-  /**
-   * Invalidate a cache value
-   */
-  public invalidateCache(key:string) {
-    delete this.cache[key];
   }
 
   protected get minimalPayload() {

@@ -251,9 +251,7 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
       return;
     }
 
-    const cacheKey = this.schema.allowedValues.$link.href;
-    this.change.invalidateCache(cacheKey);
-    await this.loadValues().toPromise();
+    await this.change.getForm(true);
 
     this.onChange(value);
   }
