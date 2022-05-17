@@ -25,20 +25,28 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-module StandardSeeder
-  class BasicDataSeeder < ::BasicDataSeeder
-    def data_seeder_classes
-      [
-        ::BasicData::BuiltinRolesSeeder,
-        ::BasicData::RoleSeeder,
-        ::BasicData::WeekDaySeeder,
-        ::StandardSeeder::BasicData::ActivitySeeder,
-        ::BasicData::ColorSeeder,
-        ::BasicData::ColorSchemeSeeder,
-        ::StandardSeeder::BasicData::WorkflowSeeder,
-        ::StandardSeeder::BasicData::PrioritySeeder,
-        ::BasicData::SettingSeeder
-      ]
-    end
+
+require 'spec_helper'
+
+describe ::BasicData::WeekDaySeeder do
+  subject { described_class.new }
+
+  before do
+    subject.seed!
+  end
+
+  def reseed!
+    subject.seed!
+  end
+
+  it 'creates the initial days' do
+    WeekDay.destroy_all
+    expect { reseed! }.to change { WeekDay.pluck(:day, :working) }
+      .from([])
+      .to([[1, true], [2, true], [3, true], [4, true], [5, true], [6, false], [7, false]])
+  end
+
+  it 'does not override existing days' do
+    expect { reseed! }.not_to change { WeekDay.pluck(:day, :working) }
   end
 end
