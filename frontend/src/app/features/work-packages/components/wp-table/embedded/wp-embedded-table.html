@@ -15,7 +15,7 @@
 
     <!-- TABLE + TIMELINE horizontal split -->
     <wp-table *ngIf="!configuration.isCardView"
-              [projectIdentifier]="projectIdentifier"
+              [projectID]="projectID"
               [configuration]="configuration"
               (itemClicked)="handleWorkPackageClicked($event)"
               (stateLinkClicked)="openStateLink($event)"

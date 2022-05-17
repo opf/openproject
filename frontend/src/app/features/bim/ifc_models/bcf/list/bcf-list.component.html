@@ -10,7 +10,7 @@
               localStorageKey="openProject-splitViewFlexBasis">
   </wp-resizer>
 
-  <wp-table [projectIdentifier]="CurrentProject.identifier"
+  <wp-table [projectID]="CurrentProject.id"
             [configuration]="wpTableConfiguration"
             (itemClicked)="handleWorkPackageClicked($event)"
             (stateLinkClicked)="openStateLink($event)"

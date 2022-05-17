@@ -68,7 +68,7 @@
       <tbody *ngIf="tableElement && configuration.inlineCreateEnabled"
              wpInlineCreate
              [wp-inline-create--table]="workPackageTable"
-             [wp-inline-create--project-identifier]="projectIdentifier"
+             [wp-inline-create--project-id]="projectID"
              (wp-inline-create--showing)="inlineCreateVisible = $event"
       >
       </tbody>

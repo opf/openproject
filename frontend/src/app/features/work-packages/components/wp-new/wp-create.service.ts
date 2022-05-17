@@ -48,6 +48,8 @@ import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
+import { ID } from '@datorama/akita';
+import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 
 export const newWorkPackageHref = '/api/v3/work_packages/new';
 
@@ -58,7 +60,8 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
   // Allow callbacks to happen on newly created work packages
   protected newWorkPackageCreatedSubject = new Subject<WorkPackageResource>();
 
-  constructor(protected injector:Injector,
+  constructor(
+    protected injector:Injector,
     protected hooks:HookService,
     protected apiV3Service:ApiV3Service,
     protected halResourceService:HalResourceService,
@@ -66,7 +69,9 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
     protected authorisationService:AuthorisationService,
     protected halEditing:HalResourceEditingService,
     protected schemaCache:SchemaCacheService,
-    protected halEvents:HalEventsService) {
+    protected halEvents:HalEventsService,
+    protected currentProject:CurrentProjectService,
+  ) {
     super();
 
     this.halEditing
@@ -99,10 +104,10 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
     return this.newWorkPackageCreatedSubject.asObservable();
   }
 
-  public createNewWorkPackage(projectIdentifier:string|undefined|null, payload:HalSource):Promise<WorkPackageChangeset> {
+  public createNewWorkPackage(payload:HalSource, projectID?:ID|null):Promise<WorkPackageChangeset> {
     return this
       .apiV3Service
-      .withOptionalProject(projectIdentifier)
+      .withOptionalProject(projectID)
       .work_packages
       .form
       .forPayload(payload)
@@ -176,11 +181,20 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
       .values$();
   }
 
-  public createOrContinueWorkPackage(projectIdentifier:string|null|undefined, type?:number, defaults?:HalSource) {
+  public createOrContinueWorkPackage(projectId?:ID|null, type?:number, defaults?:HalSource):Promise<WorkPackageChangeset> {
     let changePromise = this.continueExistingEdit(type);
+    const extendedDefaults:HalSource = defaults || { _links: {} };
+    const projectID = projectId || this.currentProject.id;
+
+    // Special case due to the introduction of the project include dropdown
+    // If we are in a project, we want the create wp to be part of that project.
+    // Only on the global WP page, the filters should be applied.
+    if (projectID) {
+      extendedDefaults._links.project = { href: this.apiV3Service.projects.id(projectID).path };
+    }
 
     if (!changePromise) {
-      changePromise = this.createNewWithDefaults(projectIdentifier, defaults);
+      changePromise = this.createNewWithDefaults(projectID === null ? undefined : projectID, extendedDefaults);
     }
 
     return changePromise.then((change:WorkPackageChangeset) => {
@@ -231,16 +245,15 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
    *  The first can be employed to e.g. provide the type or the parent of the work package.
    *  The later can be employed to create a work package that adheres to the filter values.
    *
-   * @params projectIdentifier The project the work package is to be created in.
-   * @param defaults Values the new work package should possess on creation.
+   * @param defaults? Values the new work package should possess on creation.
    */
-  protected createNewWithDefaults(projectIdentifier:string|null|undefined, defaults?:HalSource) {
+  protected createNewWithDefaults(projectID?:ID|null, defaults?: HalSource):Promise<WorkPackageChangeset> {
     return this
-      .withFiltersPayload(projectIdentifier, defaults)
+      .withFiltersPayload(projectID, defaults)
       .then((filterDefaults) => {
         const mergedPayload = _.merge({ _links: {} }, filterDefaults, defaults);
 
-        return this.createNewWorkPackage(projectIdentifier, mergedPayload).then((change:WorkPackageChangeset) => {
+        return this.createNewWorkPackage(mergedPayload, projectID).then((change:WorkPackageChangeset) => {
           if (!change) {
             throw new Error('No new work package was created');
           }
@@ -286,7 +299,7 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
    * HalResources are in the _links section and follow the { href: some_link } format while simple properties stay on the
    * top level.
     */
-  private withFiltersPayload(projectIdentifier:string|null|undefined, defaults?:HalSource):Promise<HalSource> {
+  private withFiltersPayload(projectID?:ID|null, defaults?:HalSource):Promise<HalSource> {
     const fromFilter = { _links: {} };
     this.defaultsFromFilters(fromFilter, defaults);
 
@@ -295,7 +308,7 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
     if (filtersApplied) {
       return this
         .apiV3Service
-        .withOptionalProject(projectIdentifier)
+        .withOptionalProject(projectID)
         .work_packages
         .form
         .forTypePayload(defaults || { _links: {} })

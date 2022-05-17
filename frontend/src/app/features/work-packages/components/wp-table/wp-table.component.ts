@@ -61,6 +61,7 @@ import {
 } from 'core-app/features/work-packages/components/wp-table/wp-table-configuration';
 import { States } from 'core-app/core/states/states.service';
 import { QueryGroupByResource } from 'core-app/features/hal/resources/query-group-by-resource';
+import { ID } from '@datorama/akita';
 
 export interface WorkPackageFocusContext {
   /** Work package that was focused */
@@ -77,7 +78,7 @@ export interface WorkPackageFocusContext {
   selector: 'wp-table',
 })
 export class WorkPackagesTableComponent extends UntilDestroyedMixin implements OnInit, TableEventComponent {
-  @Input() projectIdentifier:string;
+  @Input() projectID:ID;
 
   @Input('configuration') configurationObject:WorkPackageTableConfigurationObject;
 

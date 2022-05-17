@@ -159,7 +159,7 @@ export class WorkPackageCardDragAndDropService {
    */
   public addNewCard() {
     this.wpCreate
-      .createOrContinueWorkPackage(this.currentProject.identifier)
+      .createOrContinueWorkPackage()
       .then((changeset:WorkPackageChangeset) => {
         this.activeInlineCreateWp = changeset.projectedResource;
         this.workPackages = this.workPackages;

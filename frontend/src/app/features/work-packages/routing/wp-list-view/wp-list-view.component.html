@@ -3,7 +3,7 @@
 
 <!-- TABLE + TIMELINE horizontal split -->
 <wp-table *ngIf="tableInformationLoaded && showTableView"
-          [projectIdentifier]="CurrentProject.identifier"
+          [projectID]="CurrentProject.id"
           [configuration]="wpTableConfiguration"
           (itemClicked)="handleWorkPackageClicked($event)"
           (stateLinkClicked)="openStateLink($event)"

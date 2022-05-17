@@ -48,7 +48,7 @@ export class WorkPackageTableConfiguration {
   public projectContext = true;
 
   /** Whether the embedded table should live within a specific project context (e.g., given by its parent) */
-  public projectIdentifier:string|null = null;
+  public projectID:string|null = null;
 
   /** Whether inline create is enabled */
   public inlineCreateEnabled = true;

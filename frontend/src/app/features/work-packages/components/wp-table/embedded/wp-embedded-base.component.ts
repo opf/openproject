@@ -70,11 +70,11 @@ export abstract class WorkPackageEmbeddedBaseComponent extends WorkPackagesViewB
     }
   }
 
-  public get projectIdentifier() {
+  public get projectID() {
     if (this.configuration.projectContext) {
-      return this.currentProject.identifier || undefined;
+      return this.currentProject.id || undefined;
     }
-    return this.configuration.projectIdentifier || undefined;
+    return this.configuration.projectID || undefined;
   }
 
   public buildQueryProps() {
@@ -135,7 +135,7 @@ export abstract class WorkPackageEmbeddedBaseComponent extends WorkPackagesViewB
     if (!this.configuration.projectContext) {
       return undefined;
     }
-    return this.projectIdentifier;
+    return this.projectID;
   }
 
   protected initializeStates(query:QueryResource) {

@@ -190,7 +190,6 @@ export class WorkPackageCreateComponent extends UntilDestroyedMixin implements O
 
     const type = this.stateParams.type ? parseInt(this.stateParams.type) : undefined;
     const parent = this.stateParams.parent_id ? parseInt(this.stateParams.parent_id) : undefined;
-    const project = this.stateParams.projectPath;
 
     if (type) {
       defaults._links.type = { href: this.apiV3Service.types.id(type).path };
@@ -199,7 +198,7 @@ export class WorkPackageCreateComponent extends UntilDestroyedMixin implements O
       defaults._links.parent = { href: this.apiV3Service.work_packages.id(parent).path };
     }
 
-    return this.wpCreate.createOrContinueWorkPackage(project, type, defaults);
+    return this.wpCreate.createOrContinueWorkPackage(undefined, type, defaults);
   }
 
   private closeEditFormWhenNewWorkPackageSaved() {

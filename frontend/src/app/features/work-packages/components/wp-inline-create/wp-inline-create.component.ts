@@ -59,6 +59,7 @@ import {
 import { WorkPackageCreateService } from '../wp-new/wp-create.service';
 import { WorkPackageTable } from '../wp-fast-table/wp-fast-table';
 import { onClickOrEnter } from '../wp-fast-table/handlers/click-or-enter-handler';
+import { ID } from '@datorama/akita';
 
 @Component({
   selector: '[wpInlineCreate]',
@@ -67,7 +68,7 @@ import { onClickOrEnter } from '../wp-fast-table/handlers/click-or-enter-handler
 export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implements OnInit, AfterViewInit {
   @Input('wp-inline-create--table') table:WorkPackageTable;
 
-  @Input('wp-inline-create--project-identifier') projectIdentifier:string;
+  @Input('wp-inline-create--project-id') projectID:ID;
 
   @Output('wp-inline-create--showing') showing = new EventEmitter<boolean>();
 
@@ -216,7 +217,7 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
 
   public addWorkPackageRow() {
     this.wpCreate
-      .createOrContinueWorkPackage(this.projectIdentifier)
+      .createOrContinueWorkPackage(this.projectID)
       .then((change:WorkPackageChangeset) => {
         const wp = this.currentWorkPackage = change.projectedResource;
 
