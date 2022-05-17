@@ -1,13 +1,13 @@
 Rails.application.config.after_initialize do
-  WS = OpenProject::Authentication::Strategies::Warden
+  namespace = OpenProject::Authentication::Strategies::Warden
 
   strategies = [
-    [:basic_auth_failure, WS::BasicAuthFailure,  'Basic'],
-    [:global_basic_auth,  WS::GlobalBasicAuth,   'Basic'],
-    [:user_basic_auth,    WS::UserBasicAuth,     'Basic'],
-    [:oauth,              WS::DoorkeeperOAuth,   'OAuth'],
-    [:anonymous_fallback, WS::AnonymousFallback, 'Basic'],
-    [:session,            WS::Session,           'Session']
+    [:basic_auth_failure, namespace::BasicAuthFailure,  'Basic'],
+    [:global_basic_auth,  namespace::GlobalBasicAuth,   'Basic'],
+    [:user_basic_auth,    namespace::UserBasicAuth,     'Basic'],
+    [:oauth,              namespace::DoorkeeperOAuth,   'OAuth'],
+    [:anonymous_fallback, namespace::AnonymousFallback, 'Basic'],
+    [:session,            namespace::Session,           'Session']
   ]
 
   strategies.each do |name, clazz, auth_scheme|

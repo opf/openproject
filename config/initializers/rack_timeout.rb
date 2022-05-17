@@ -30,6 +30,7 @@ if OpenProject::Configuration.web_workers >= 2
     # report the generic internal server error too as it doesn't
     # add any more information. Even worse, it's not immediately
     # clear that the two reports are related.
+    # rubocop:disable Lint/ConstantDefinitionInBlock
     module SuppressInternalErrorReportOnTimeout
       def op_handle_error(message_or_exception, context = {})
         return if request && request.env[Rack::Timeout::ENV_INFO_KEY].try(:state) == :timed_out
@@ -40,6 +41,7 @@ if OpenProject::Configuration.web_workers >= 2
 
     OpenProjectErrorHelper.prepend SuppressInternalErrorReportOnTimeout
   end
+  # rubocop:enable Lint/ConstantDefinitionInBlock
 else
   Rails.logger.debug { "Not enabling Rack::Timeout since we are not running in cluster mode with at least 2 workers" }
 end

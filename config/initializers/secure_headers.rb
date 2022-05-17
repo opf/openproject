@@ -1,3 +1,4 @@
+# rubocop:disable Lint/PercentStringArray
 Rails.application.reloader.to_prepare do
   SecureHeaders::Configuration.default do |config|
     config.cookies = {
@@ -42,7 +43,7 @@ Rails.application.reloader.to_prepare do
     script_src = assets_src
 
     # Allow unsafe-eval for rack-mini-profiler
-    if Rails.env.development? && ENV['OPENPROJECT_RACK_PROFILER_ENABLED']
+    if Rails.env.development? && ENV.fetch('OPENPROJECT_RACK_PROFILER_ENABLED', false)
       script_src += %w('unsafe-eval')
     end
 
@@ -75,3 +76,4 @@ Rails.application.reloader.to_prepare do
     }
   end
 end
+# rubocop:enable Lint/PercentStringArray

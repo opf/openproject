@@ -199,11 +199,12 @@ module OpenProject::Bim
       Mime::Type.register "application/octet-stream", :bcfzip unless Mime::Type.lookup_by_extension(:bcfzip)
     end
 
+    # rubocop:disable Naming/VariableNumber
     config.to_prepare do
       Doorkeeper.configuration.scopes.add(:bcf_v2_1)
 
       module OpenProject::Authentication::Scope
-        BCF_V2_1 = :bcf_v2_1
+        BCF_V2_1 = :bcf_v2_1 # rubocop:disable Lint/ConstantDefinitionInBlock
       end
 
       OpenProject::Authentication.update_strategies(OpenProject::Authentication::Scope::BCF_V2_1,
@@ -211,6 +212,7 @@ module OpenProject::Bim
         %i[oauth session]
       end
     end
+    # rubocop:enable Naming/VariableNumber
 
     config.to_prepare do
       ::Exports::Register.register do
