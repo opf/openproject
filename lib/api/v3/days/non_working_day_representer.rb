@@ -27,12 +27,17 @@
 #++
 
 module API::V3::Days
-  class DaysAPI < ::API::OpenProjectAPI
-    helpers ::API::Utilities::UrlPropsParsingHelper
+  class NonWorkingDayRepresenter < ::API::Decorators::Single
+    include ::API::Decorators::DateProperty
+    include ::API::Caching::CachedRepresenter
 
-    resources :days do
-      mount WeekAPI
-      mount NonWorkingDaysAPI
+    property :name
+    date_property :date
+
+    self_link path: :days_non_working_day, id_attribute: :date
+
+    def _type
+      'NonWorkingDay'
     end
   end
 end

@@ -27,12 +27,19 @@
 #++
 
 module API::V3::Days
-  class DaysAPI < ::API::OpenProjectAPI
+  class NonWorkingDaysAPI < ::API::OpenProjectAPI
     helpers ::API::Utilities::UrlPropsParsingHelper
 
-    resources :days do
-      mount WeekAPI
-      mount NonWorkingDaysAPI
+    resources :non_working do
+      route_param :date, type: Date, desc: 'NonWorkingDay DATE' do
+        after_validation do
+          @non_working_day = NonWorkingDay.find_by!(date: declared_params[:date])
+        end
+
+        get &::API::V3::Utilities::Endpoints::Show.new(model: NonWorkingDay,
+                                                       render_representer: NonWorkingDayRepresenter)
+                                                  .mount
+      end
     end
   end
 end

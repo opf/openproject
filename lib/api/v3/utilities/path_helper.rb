@@ -200,6 +200,14 @@ module API
             "#{days_week}/#{day}"
           end
 
+          def self.days_non_working
+            "#{root}/days/non_working"
+          end
+
+          def self.days_non_working_day(date)
+            "#{days_non_working}/#{date}"
+          end
+
           index :help_text
           show :help_text
 
