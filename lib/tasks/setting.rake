@@ -31,7 +31,7 @@ namespace :setting do
   task set: :environment do |_t, args|
     args.extras.each do |tuple|
       key, value = tuple.split('=')
-      setting = Setting.find_by(name: key) || Setting.new(name: key)
+      setting = Setting.find_or_initialize_by(name: key)
       setting.set_value! value, force: true
       setting.save!
     end
@@ -53,7 +53,7 @@ namespace :setting do
       next unless Settings::Definition.exists? setting_name
       next unless ENV.has_key? env_var_name
 
-      setting = Setting.find_by name: setting_name
+      setting = Setting.find_or_initialize_by(name: setting_name)
       setting.set_value! ENV[env_var_name].presence, force: true
       setting.save!
     end

@@ -7,6 +7,18 @@ describe Ldap::SynchronizeUsersService do
     described_class.new(auth_source).call
   end
 
+  context 'when updating an admin' do
+    let!(:user_aa729) { create :user, login: 'aa729', firstname: 'Foobar', auth_source: auth_source, admin: true }
+
+    it 'does not update the admin attribute if not defined (Regression #42396)' do
+      expect(user_aa729).to be_admin
+
+      subject
+
+      expect(user_aa729.reload).to be_admin
+    end
+  end
+
   context 'when updating users' do
     let!(:user_aa729) { create :user, login: 'aa729', firstname: 'Foobar', auth_source: auth_source }
     let!(:user_bb459) { create :user, login: 'bb459', firstname: 'Bla', auth_source: auth_source }
