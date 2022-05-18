@@ -85,7 +85,6 @@ module OpenProject
     # http://stackoverflow.com/questions/4590229
     config.middleware.use Rack::TempfileReaper
 
-    config.autoloader = :zeitwerk
     # Custom directories with classes and modules you want to be autoloadable.
     config.enable_dependency_loading = true
     config.paths.add Rails.root.join('lib').to_s, eager_load: true
