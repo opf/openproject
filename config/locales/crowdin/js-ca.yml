@@ -23,8 +23,8 @@ ca:
   js:
     ajax:
       hide: "Amagar"
-      loading: "Loading…"
-      updating: "Updating…"
+      loading: "Carregant..."
+      updating: "Actualitzant…"
     attachments:
       draggable_hint: |
         Arrossega al editor per a pujar una imatge o referenciar un adjunt. Els camps tancats del editor seguiran oberts mentre se segueixi arrossegant.
@@ -86,7 +86,7 @@ ca:
     button_save: "Desa"
     button_settings: "Configuració"
     button_uncheck_all: "Desmarca-ho tot"
-    button_update: "Actualitza"
+    button_update: "Actualitzar"
     button_export-pdf: "Descarregar PDF"
     button_export-atom: "Descarregar Atom"
     button_create: "Crear"
@@ -1149,7 +1149,7 @@ ca:
       role:
         label: 'Role in %{project}'
         no_roles_found: 'No roles were found'
-        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
+        description: 'Aquest és el rol que els %{principal} rebran quan s''uneixin al teu projecte. El rol defineix quines accions els hi són permeses i quina informació poden veure. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Més informació sobre rols i permisos. </a>'
         required: 'Please select a role'
         next_button: 'Següent'
       message:

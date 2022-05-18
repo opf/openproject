@@ -151,10 +151,9 @@ as described in the [installation section](../../installation/docker/#one-contai
 
 ## Upgrade notes to 12.x
 
-There are no special steps or caveats when upgrading to OpenProject 12.x or higher from any version greater than 9.x.
+Generally, there are no special steps or caveats when upgrading to OpenProject 12.x or higher from any version greater than 9.x. Simply follow the upgrade steps outlined above for your type of installation.
 
-Simply follow the upgrade steps outlined above for your type of installation.
-
+If you are using Docker, you should mount your OpenProject volume at `/var/openproject/assets` instead of `/var/db/openproject`
 
 ## Upgrade notes for 8.x to 9.x
 
