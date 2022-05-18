@@ -955,9 +955,9 @@ Settings::Definition.define do
 
   add :work_package_list_default_highlighting_mode,
       format: :string,
-      value: -> 'inline',
+      value: -> { 'inline' },
       allowed: -> { Query::QUERY_HIGHLIGHTING_MODES },
-      writable: -> false
+      writable: -> { true }
 
   add :work_package_list_default_columns,
       value: %w[id subject type status assigned_to priority],
