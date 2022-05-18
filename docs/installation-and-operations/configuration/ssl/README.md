@@ -79,7 +79,7 @@ If you're terminating SSL on the outer server, you need to set the `X-Forwarded-
 
 
 
-Finally, to let OpenProject know that it should create links with 'https' when no request is available (for example, when sending emails), you need to set the Protocol setting of OpenProject to `https`. You will find this setting on your system settings or via the rails console with `Setting.protocol = 'https'`
+Finally, to let OpenProject know that it should create links with 'https' when no request is available (for example, when sending emails), you need to set the Protocol setting of OpenProject to `https`. You can set this configuration by setting the ENV `OPENPROJECT_HTTPS=true`.
 
 
 _<sup>1</sup> In the packaged installation this means you selected "no" when asked for SSL in the configuration wizard but at the same time take care of SSL termination elsewhere. This can be a manual Apache setup on the same server (not recommended) or an external server, for instance._
