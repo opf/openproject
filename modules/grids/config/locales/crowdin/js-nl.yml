@@ -35,7 +35,7 @@ nl:
           on_track: 'Op schema'
           off_track: 'Buiten schema'
           at_risk: 'In gevaar'
-          not_set: 'Not set'
+          not_set: 'Niet ingesteld'
           finished: 'Finished'
           discontinued: 'Discontinued'
         subprojects:

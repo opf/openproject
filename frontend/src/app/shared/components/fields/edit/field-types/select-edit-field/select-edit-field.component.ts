@@ -33,7 +33,7 @@ import {
 } from '@angular/core';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { SelectAutocompleterRegisterService } from 'core-app/shared/components/fields/edit/field-types/select-edit-field/select-autocompleter-register.service';
-import { from } from 'rxjs';
+import { from, Observable } from 'rxjs';
 import {
   map,
   tap,
@@ -75,6 +75,7 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
   public referenceOutputs:{ [key:string]:Function } = {
     onCreate: (newElement:HalResource) => this.onCreate(newElement),
     onChange: (value:HalResource) => this.onChange(value),
+    onAddNew: (value:HalResource) => this.onNewValueAdded(value),
     onKeydown: (event:JQuery.TriggeredEvent) => this.handler.handleUserKeydown(event, true),
     onOpen: () => this.onOpen(),
     onClose: () => this.onClose(),
@@ -87,14 +88,6 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
   }
 
   public set selectedOption(val:ValueOption|HalResource) {
-    // The InviteUserModal gives us a resource that is not in availableOptions yet,
-    // but we also don't want to wait for a refresh of the options every time we want to
-    // select an option, so if we get a HalResource we trust it exists
-    if (val instanceof HalResource) {
-      this.value = val;
-      return;
-    }
-
     const option = _.find(this.availableOptions, (o) => o.href === val.href);
 
     // Special case 'null' value, which angular
@@ -103,7 +96,7 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
       option.href = null;
     }
 
-    this.value = option;
+    this.value = option || val;
   }
 
   public showAddNewButton:boolean;
@@ -167,7 +160,7 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
     this.addEmptyOption();
   }
 
-  protected loadValues(query?:string) {
+  protected loadValues(query?:string):Observable<HalResource[]> {
     const { allowedValues } = this.schema;
 
     if (Array.isArray(allowedValues)) {
@@ -251,6 +244,16 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
       this.selectedOption = emptyOption;
       this.handler.handleUserSubmit();
     }
+  }
+
+  private async onNewValueAdded(value:HalResource|undefined|null) {
+    if (!value) {
+      return;
+    }
+
+    await this.change.getForm(true);
+
+    this.onChange(value);
   }
 
   private addEmptyOption() {

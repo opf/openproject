@@ -33,10 +33,10 @@ nl:
       other: Overige
   documents:
     label_attachment_author: "Attachment author"
-  label_document_added: "Document added"
-  label_document_new: "New document"
+  label_document_added: "Document toegevoegd"
+  label_document_new: "Nieuw document"
   label_document_plural: "Documenten"
   label_documents: "Documenten"
-  permission_manage_documents: "Manage documents"
-  permission_view_documents: "View documents"
+  permission_manage_documents: "Beheer documenten"
+  permission_view_documents: "Bekijk documenten"
   project_module_documents: "Documenten"
