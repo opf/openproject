@@ -90,7 +90,7 @@ module WorkPackages::Scopes
             FROM #{related_cte_name}
         SQL
 
-        scope = where("work_packages.id NOT IN (#{sql})")
+        scope = where("work_packages.id NOT IN (#{Arel.sql(sql)})")
 
         if relation_type == Relation::TYPE_PARENT
           # Explicitly allow ancestors except the parent.
