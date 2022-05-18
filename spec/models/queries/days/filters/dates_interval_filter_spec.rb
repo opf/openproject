@@ -26,45 +26,25 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Day < ApplicationRecord
-  include Tableless
+require 'spec_helper'
 
-  belongs_to :week_day,
-             inverse_of: false,
-             class_name: 'WeekDay',
-             foreign_key: :day_of_week,
-             primary_key: :day
+describe Queries::Days::Filters::DatesIntervalFilter, type: :model do
+  it_behaves_like 'basic query filter' do
+    let(:type) { :date }
+    let(:class_key) { :date }
 
-  attribute :date, :date, default: nil
-  attribute :day_of_week, :integer, default: nil
-  attribute :working, :boolean, default: 't'
+    describe '#available?' do
+      it 'is true' do
+        expect(instance).to be_available
+      end
+    end
 
-  delegate :name, to: :week_day
+    describe '#allowed_values' do
+      it 'is nil' do
+        expect(instance.allowed_values).to be_nil
+      end
+    end
 
-  def self.default
-    today = Time.zone.today
-    from = today.at_beginning_of_month
-    to = today.next_month.at_end_of_month
-
-    select('days.*')
-      .from(Arel.sql(from_sql(from:, to:)))
-  end
-
-  def self.from_sql(from:, to:)
-    <<~SQL.squish
-      (
-        SELECT
-          date_trunc('day', dd)::date date,
-          extract(isodow from dd) day_of_week,
-          week_days.working
-        FROM generate_series
-          ( '#{from}'::timestamp,
-            '#{to}'::timestamp,
-            '1 day'::interval) dd
-        LEFT JOIN week_days
-          ON extract(isodow from dd) = week_days.day
-        ORDER BY date
-      ) days
-    SQL
+    it_behaves_like 'non ar filter'
   end
 end

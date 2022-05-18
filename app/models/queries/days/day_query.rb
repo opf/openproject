@@ -35,7 +35,19 @@ class Queries::Days::DayQuery < Queries::BaseQuery
     Day.default
   end
 
+  ##
+  # This override is necessary, the dates interval filter needs to adjust the
+  # `from` clause of the query. To update the `from` clause, we reverse merge the filters,
+  # otherwise the `from` clause of the filter is ignored.
+  def apply_filters(scope)
+    filters.each do |filter|
+      scope = filter.scope.merge(scope)
+    end
+
+    scope
+  end
+
   def results
-    super.reorder('date ASC')
+    super.reorder(date: :asc)
   end
 end

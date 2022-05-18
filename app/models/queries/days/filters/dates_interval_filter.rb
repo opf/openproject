@@ -26,45 +26,37 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Day < ApplicationRecord
-  include Tableless
+class Queries::Days::Filters::DatesIntervalFilter < Queries::Days::Filters::DayFilter
+  include Queries::Operators::DateRangeClauses
 
-  belongs_to :week_day,
-             inverse_of: false,
-             class_name: 'WeekDay',
-             foreign_key: :day_of_week,
-             primary_key: :day
-
-  attribute :date, :date, default: nil
-  attribute :day_of_week, :integer, default: nil
-  attribute :working, :boolean, default: 't'
-
-  delegate :name, to: :week_day
-
-  def self.default
-    today = Time.zone.today
-    from = today.at_beginning_of_month
-    to = today.next_month.at_end_of_month
-
-    select('days.*')
-      .from(Arel.sql(from_sql(from:, to:)))
+  def type
+    :date
   end
 
-  def self.from_sql(from:, to:)
-    <<~SQL.squish
-      (
-        SELECT
-          date_trunc('day', dd)::date date,
-          extract(isodow from dd) day_of_week,
-          week_days.working
-        FROM generate_series
-          ( '#{from}'::timestamp,
-            '#{to}'::timestamp,
-            '1 day'::interval) dd
-        LEFT JOIN week_days
-          ON extract(isodow from dd) = week_days.day
-        ORDER BY date
-      ) days
-    SQL
+  def self.key
+    :date
+  end
+
+  def from
+    from, to = values.map { |v| v.blank? ? nil : Date.parse(v) }
+
+    # Both from and to cannot be blank at this point
+    if from.nil?
+      from = to.at_beginning_of_month
+    end
+
+    if to.nil?
+      to = from.next_month.at_end_of_month
+    end
+
+    model.from_sql(from:, to:)
+  end
+
+  def type_strategy
+    @type_strategy ||= Queries::Filters::Strategies::DateInterval.new(self)
+  end
+
+  def connection
+    ActiveRecord::Base::connection
   end
 end

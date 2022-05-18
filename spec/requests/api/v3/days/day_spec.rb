@@ -33,12 +33,13 @@ describe ::API::V3::Days::DaysAPI,
   include API::V3::Utilities::PathHelper
 
   let(:parsed_response) { JSON.parse(last_response.body) }
+  let(:filters) { [] }
 
   current_user { user }
 
   before do
     create(:week_days)
-    get api_v3_paths.days
+    get api_v3_paths.path_for :days, filters:
   end
 
   context 'for an admin user' do
@@ -46,5 +47,14 @@ describe ::API::V3::Days::DaysAPI,
 
     nb_days = Time.zone.today.end_of_month.day + Time.zone.today.next_month.end_of_month.day
     it_behaves_like 'API V3 collection response', nb_days, nb_days, 'Day'
+
+    context 'when filtering by date' do
+      let(:filters) do
+        [{ date: { operator: '<>d',
+                   values: [Time.zone.today.iso8601, 5.days.from_now.to_date.iso8601] } }]
+      end
+
+      it_behaves_like 'API V3 collection response', 6, 6, 'Day'
+    end
   end
 end
