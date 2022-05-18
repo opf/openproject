@@ -31,8 +31,14 @@ module API::V3::Days
     helpers ::API::Utilities::UrlPropsParsingHelper
 
     resources :days do
-      mount WeekAPI
       mount NonWorkingDaysAPI
+      mount WeekAPI
+
+      get &::API::V3::Utilities::Endpoints::Index.new(
+        model: Day,
+        render_representer: DayCollectionRepresenter,
+        self_path: -> { api_v3_paths.days }
+      ).mount
     end
   end
 end

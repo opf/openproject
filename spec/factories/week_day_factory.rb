@@ -36,6 +36,10 @@ FactoryBot.define do
       instance.attributes = WeekDay.find_or_create_by(instance.attributes.slice("day", "working")).attributes
       instance.instance_variable_set('@new_record', false)
     end
+
+    trait :tuesday do
+      day { 2 }
+    end
   end
 
   # Factory to create all 7 week days at once

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,14 +24,27 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
 
-FactoryBot.define do
-  factory :day, class: 'Day' do
-    sequence :date do |n|
-      (1.year.ago + n.days).to_date
-    end
-    day_of_week { date.wday }
-    working { date.wday < 6 }
+require 'spec_helper'
+
+describe ::API::V3::Days::DaysAPI,
+         content_type: :json,
+         type: :request do
+  include API::V3::Utilities::PathHelper
+
+  let(:parsed_response) { JSON.parse(last_response.body) }
+
+  current_user { user }
+
+  before do
+    create(:week_days)
+    get api_v3_paths.days
+  end
+
+  context 'for an admin user' do
+    let(:user) { build(:admin) }
+
+    nb_days = Time.zone.today.end_of_month.day + Time.zone.today.next_month.end_of_month.day
+    it_behaves_like 'API V3 collection response', nb_days, nb_days, 'Day'
   end
 end

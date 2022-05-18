@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe ::API::V3::Days::DayRepresenter do
   let(:day) do
-    build(:day, date: Date.new(2022, 12, 27), name: 'Tuesday', working: true)
+    build(:day, date: Date.new(2022, 12, 27), week_day: create(:week_day, :tuesday), working: true)
   end
   let(:current_user) { instance_double(User, name: 'current_user') }
   let(:representer) { described_class.new(day, current_user:) }

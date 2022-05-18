@@ -26,12 +26,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-FactoryBot.define do
-  factory :day, class: 'Day' do
-    sequence :date do |n|
-      (1.year.ago + n.days).to_date
-    end
-    day_of_week { date.wday }
-    working { date.wday < 6 }
+class Queries::Days::DayQuery < Queries::BaseQuery
+  def self.model
+    Day
+  end
+
+  def default_scope
+    Day.default
+  end
+
+  def results
+    super.reorder('date ASC')
   end
 end
