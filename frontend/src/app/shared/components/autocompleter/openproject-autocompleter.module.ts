@@ -17,7 +17,7 @@ import { OpAutocompleterLabelTemplateDirective } from 'core-app/shared/component
 import { OpAutocompleterHeaderTemplateDirective } from 'core-app/shared/components/autocompleter/op-autocompleter/directives/op-autocompleter-header-template.directive';
 import { CreateAutocompleterComponent } from 'core-app/shared/components/autocompleter/create-autocompleter/create-autocompleter.component';
 import { OpAutocompleterFooterTemplateDirective } from 'core-app/shared/components/autocompleter/autocompleter-footer-template/op-autocompleter-footer-template.directive';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 export const OPENPROJECT_AUTOCOMPLETE_COMPONENTS = [
   CreateAutocompleterComponent,
@@ -42,6 +42,7 @@ export const OPENPROJECT_AUTOCOMPLETE_COMPONENTS = [
     NgSelectModule,
     DragulaModule,
     FormsModule,
+    ReactiveFormsModule,
 
     DynamicModule.withComponents(OPENPROJECT_AUTOCOMPLETE_COMPONENTS),
   ],

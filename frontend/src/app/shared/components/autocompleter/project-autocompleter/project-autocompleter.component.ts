@@ -27,8 +27,14 @@
 //++
 
 import {
-  Component, ElementRef, EventEmitter, Injector, Input, OnInit, Output, ViewChild,
+  Component,
+  ElementRef,
+  Injector,
+  Input,
+  OnInit,
+  forwardRef,
 } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -39,8 +45,6 @@ import {
   errorNotificationHandler,
 } from 'core-app/shared/helpers/rxjs/debounced-input-switchmap';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
-import { NgSelectComponent } from '@ng-select/ng-select';
-import { ProjectResource } from 'core-app/features/hal/resources/project-resource';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { DatasetInputs } from 'core-app/shared/components/dataset-inputs.decorator';
 import { ApiV3ListFilter, listParamsString } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
@@ -49,46 +53,28 @@ import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
 import { IProject } from 'core-app/core/state/projects/project.model';
 import { HttpClient } from '@angular/common/http';
 
+import { IProjectAutocompleteItem } from './project-autocomplete-item';
 import { buildTree } from './insert-in-list';
 import { recursiveSort } from './recursive-sort';
-import { IProjectAutocompleteItem, IProjectAutocompleteItemTree } from './project-autocomplete-item';
+import { flattenProjectTree } from './flatten-project-tree';
 
 export const projectsAutocompleterSelector = 'op-project-autocompleter';
-
-const flattenProjectTree = (
-  projectTreeItems:IProjectAutocompleteItemTree[],
-  depth = 0,
-):IProjectAutocompleteItem[] => projectTreeItems.reduce(
-  (fullList, projectTreeItem, i) => {
-    return [
-      ...fullList,
-      {
-        ...projectTreeItem,
-        numberOfAncestors: depth,
-        // The actual list of ancestors does not matter anymore from this point forward,
-        // but to keep typing straightforward for consumers of this component that use mapResultsFn,
-        // it is marked as required in the interface.
-        ancestors: [],
-      },
-      ...flattenProjectTree(projectTreeItem.children, depth + 1),
-    ];
-  },
-  [],
-);
 
 @DatasetInputs
 @Component({
   templateUrl: './project-autocompleter.component.html',
   selector: projectsAutocompleterSelector,
+  providers: [{
+    provide: NG_VALUE_ACCESSOR,
+    useExisting: forwardRef(() => ProjectAutocompleterComponent),
+    multi: true,
+  }],
 })
-export class ProjectAutocompleterComponent implements OnInit {
-  projectTracker = (item:any) => item.href || item.id;
-
-  @ViewChild(NgSelectComponent, { static: true }) public ngSelectComponent:NgSelectComponent;
-
-  @Output() public onChange = new EventEmitter<IProjectAutocompleteItem>();
-
-  @Input() public clearAfterSelection = false;
+export class ProjectAutocompleterComponent implements OnInit, ControlValueAccessor {
+  projectTracker = (item:IProjectAutocompleteItem) => {
+    console.log(item);
+    return item.href || item.id;
+  }
 
   // Load all projects as default
   @Input() public url:string = this.apiV3Service.projects.path;
@@ -99,10 +85,11 @@ export class ProjectAutocompleterComponent implements OnInit {
 
   @Input() public multiple = false;
 
-  @Input() public initialSelection:number|null = null;
-
   @Input() public APIFilters:ApiV3ListFilter[] = [];
 
+  // This function maps the API results to the internally used IProjectAutocompleteItems.
+  // By default it does not do much, but it is overwritable so additional filtering or
+  // transforming can be done on the API result set.
   @Input()
   public mapResultsFn:(projects:IProject[]) => IProjectAutocompleteItem[] = (projects) => projects.map((project) => ({
     id: project.id,
@@ -114,8 +101,17 @@ export class ProjectAutocompleterComponent implements OnInit {
     children: [],
   }));
 
-  // Update an input field after changing, used when externally loaded
-  private updateInputField:HTMLInputElement|undefined;
+  @Input('value') public _value = '';
+
+  get value():string {
+    return this._value;
+  }
+
+  set value(value:string) {
+    this._value = value;
+    this.onChange(value);
+    this.onTouched(value);
+  }
 
   /** Keep a switchmap for search term and loading state */
   public requests = new DebouncedRequestSwitchmap<string, IProjectAutocompleteItem>(
@@ -134,31 +130,10 @@ export class ProjectAutocompleterComponent implements OnInit {
     readonly injector:Injector,
   ) { }
 
-  ngOnInit() { }
-
-  public onFocus() {
-    if (!this.requests.lastRequestedValue) {
-      this.requests.input$.next('');
-    }
-  }
-
-  public onModelChange(project:any) {
-    if (project) {
-      this.onChange.emit(project);
-      this.requests.input$.next('');
-
-      if (this.clearAfterSelection) {
-        this.ngSelectComponent.clearItem(project);
-      }
-
-      if (this.updateInputField) {
-        if (this.multiple) {
-          this.updateInputField.value = project.map((u:ProjectResource) => u.id);
-        } else {
-          this.updateInputField.value = project.id;
-        }
-      }
-    }
+  ngOnInit() {
+    this.requests.output$.subscribe((projects) => {
+      console.log('new projects', projects);
+    })
   }
 
   protected getAvailableProjects(searchTerm:string):Observable<IProjectAutocompleteItem[]> {
@@ -193,13 +168,22 @@ export class ProjectAutocompleterComponent implements OnInit {
         map((projects) => buildTree(projects)),
         map((projects) => recursiveSort(projects)),
         map((projectTreeItems) => flattenProjectTree(projectTreeItems)),
-       );
+      );
   }
 
-  private setInitialSelection() {
-    if (this.updateInputField) {
-      const id = parseInt(this.updateInputField.value);
-      this.initialSelection = isNaN(id) ? null : id;
-    }
+  writeValue(value:string) {
+    this.value = value;
+  }
+
+  onChange = (_:string):void => {};
+
+  onTouched = (_:string):void => {};
+
+  registerOnChange(fn:(_:string) => void):void {
+    this.onChange = fn;
+  }
+
+  registerOnTouched(fn:(_:string) => void):void {
+    this.onTouched = fn;
   }
 }

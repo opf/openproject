@@ -32,6 +32,7 @@ import { OPSharedModule } from 'core-app/shared/shared.module';
         { name: 'textInput', component: TextInputComponent },
         { name: 'dateInput', component: DateInputComponent },
         { name: 'selectInput', component: SelectInputComponent },
+        { name: 'projectInput', component: SelectInputComponent },
         { name: 'selectProjectStatusInput', component: SelectProjectStatusInputComponent },
         { name: 'formattableInput', component: FormattableTextareaInputComponent },
       ],

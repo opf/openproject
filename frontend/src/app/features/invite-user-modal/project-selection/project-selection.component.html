@@ -10,7 +10,7 @@
       required
     >
       <op-project-autocompleter
-        [opFormBinding]="projectControl"
+        formControlName="project" 
         slot="input"
         [APIFilters]="APIFiltersForProjects"
         [mapResultsFn]="projectFilterFn.bind(this)"
