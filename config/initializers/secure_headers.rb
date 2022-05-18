@@ -1,5 +1,5 @@
 # rubocop:disable Lint/PercentStringArray
-Rails.application.reloader.to_prepare do
+Rails.application.config.after_initialize do
   SecureHeaders::Configuration.default do |config|
     config.cookies = {
       secure: true,

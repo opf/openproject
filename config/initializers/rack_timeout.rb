@@ -14,7 +14,7 @@ if OpenProject::Configuration.web_workers >= 2
     term_on_timeout: 1 # shut down worker (gracefully) right away on timeout to be restarted
   )
 
-  Rails.application.reloader.to_prepare do
+  Rails.application.config.after_initialize do
     # remove default logger (logging uninteresting extra info with each not timed out request)
     Rack::Timeout.unregister_state_change_observer(:logger)
 

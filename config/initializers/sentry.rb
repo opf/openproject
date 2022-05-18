@@ -1,5 +1,5 @@
-if OpenProject::Logging::SentryLogger.enabled?
-  Rails.application.reloader.to_prepare do
+Rails.application.config.after_initialize do
+  if OpenProject::Logging::SentryLogger.enabled?
     Sentry.init do |config|
       config.dsn = OpenProject::Logging::SentryLogger.sentry_dsn
       config.breadcrumbs_logger = OpenProject::Configuration.sentry_breadcrumb_loggers.map(&:to_sym)
