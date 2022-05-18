@@ -1156,7 +1156,7 @@ DEPENDENCIES
   shoulda-matchers (~> 5.0)
   spring
   spring-commands-rspec
-  sprockets (~> 3.7.0)
+  sprockets-rails (~> 3.4.2)
   stackprof
   stringex (~> 2.8.5)
   structured_warnings (~> 0.4.0)
