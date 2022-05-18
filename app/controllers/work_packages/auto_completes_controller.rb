@@ -81,19 +81,6 @@ class WorkPackages::AutoCompletesController < ::ApplicationController
   end
 
   def work_package_scope
-    scope = WorkPackage.all
-
-    # The filter on subject in combination with the ORDER BY on id
-    # seems to trip MySql's usage of indexes on the order statement
-    # I haven't seen similar problems on postgresql but there might be as the
-    # data at hand was not very large.
-    #
-    # For MySql we are therefore helping the DB optimizer to use the correct index
-
-    if ActiveRecord::Base.connection_config[:adapter] == 'mysql2'
-      scope = scope.from("#{WorkPackage.table_name} USE INDEX(PRIMARY)")
-    end
-
-    scope
+    WorkPackage.all
   end
 end
