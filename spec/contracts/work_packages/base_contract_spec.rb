@@ -195,7 +195,7 @@ describe WorkPackages::BaseContract do
       end
 
       it 'is not writable' do
-        expect(contract.writable?(:status)).to be_falsey
+        expect(contract).not_to be_writable(:status)
       end
 
       context 'if we only switched into that status now' do
@@ -206,7 +206,7 @@ describe WorkPackages::BaseContract do
         end
 
         it 'is writable' do
-          expect(contract.writable?(:status)).to be_truthy
+          expect(contract).to be_writable(:status)
         end
       end
     end
@@ -564,7 +564,6 @@ describe WorkPackages::BaseContract do
   end
 
   describe 'parent' do
-    let(:child) { build_stubbed(:stubbed_work_package) }
     let(:parent) { build_stubbed(:stubbed_work_package) }
 
     before do
@@ -576,47 +575,36 @@ describe WorkPackages::BaseContract do
 
       # while we do validate the parent
       # the errors are still put on :base so that the messages can be reused
-      contract.errors.symbols_for(:base)
+      contract.errors.symbols_for(:parent)
     end
 
     context 'when self assigning' do
       let(:parent) { work_package }
 
-      it 'returns an error for the aparent' do
-        expect(contract.validate).to eq false
-        expect(contract.errors.symbols_for(:parent)).to eq [:cannot_be_self_assigned]
+      it 'returns an error for the parent' do
+        expect(subject)
+          .to eq [:cannot_be_self_assigned]
       end
     end
 
-    context 'a relation exists between the parent and its ancestors and the work package and its descendants' do
-      let(:parent) { child }
-
+    context 'when the intended parent is not relatable' do
       before do
-        from_parent_stub = double('from parent stub')
-        allow(Relation)
-          .to receive(:from_parent_to_self_and_descendants)
-          .with(work_package)
-          .and_return(from_parent_stub)
+        scope = instance_double(ActiveRecord::Relation)
 
-        from_descendants_stub = double('from descendants stub')
-        allow(Relation)
-          .to receive(:from_self_and_descendants_to_ancestors)
-          .with(work_package)
-          .and_return(from_descendants_stub)
+        allow(WorkPackage)
+          .to receive(:relatable)
+                .with(work_package, Relation::TYPE_PARENT)
+                .and_return(scope)
 
-        allow(from_parent_stub)
-          .to receive(:or)
-          .with(from_descendants_stub)
-          .and_return(from_parent_stub)
-
-        allow(from_parent_stub)
-          .to receive_message_chain(:direct, :exists?)
-          .and_return(true)
+        allow(scope)
+          .to receive(:where)
+                .with(id: parent.id)
+                .and_return([])
       end
 
       it 'is invalid' do
-        expect(subject.include?(:cant_link_a_work_package_with_a_descendant))
-          .to be_truthy
+        expect(subject)
+          .to include(:cant_link_a_work_package_with_a_descendant)
       end
     end
   end

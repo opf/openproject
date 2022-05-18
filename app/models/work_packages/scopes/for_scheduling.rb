@@ -36,20 +36,21 @@ module WorkPackages::Scopes
       # and hierarchy) work package is modified or created.
       #
       # The SQL relies on a recursive CTE which will fetch all work packages that are connected to the rescheduled work package
-      # via relations (follows/precedes and/or hierarchy) either directly or transitively. It will do so by increasing the relation path
-      # length one at a time and will stop on that path if the work package evaluated to be added is either:
+      # via relations (follows/precedes and/or hierarchy) either directly or transitively. It will do so by increasing the
+      # relation path length one at a time and will stop on that path if the work package evaluated to be added is either:
       # * itself scheduled manually
       # * having all of it's children scheduled manually
       #
-      # The children themselves are scheduled manually if all of their children are scheduled manually which repeats itself down to the leaf
-      # work packages. So another way of putting it, and that is how the sql statement works, is that a work package is considered to
-      # be scheduled manually if *all* of the paths to their leafs have at least one work package that is scheduled manually.
+      # The children themselves are scheduled manually if all of their children are scheduled manually which repeats itself down
+      # to the leaf work packages. So another way of putting it, and that is how the sql statement works, is that a work package
+      # is considered to be scheduled manually if *all* of its descendants are scheduled manually.
       # For example in case of the hierarchy:
       # A and B <- hierarchy (C is parent of both A and B) - C <- hierarchy - D
       # if A and B are both scheduled manually, C is also scheduled manually and so is D. But if only A is scheduled manually,
-      # B, C and D are scheduled automatically.
+      # B, C and D are scheduled automatically. If only C is scheduled manually, then D is still scheduled automatically since
+      # A and B are scheduled manually.
       #
-      # The recursiveness will of course also stop if no more work packages can be added.
+      # The recursion will of course also stop if no more work packages can be added.
       #
       # The work packages can either be connected via a follows relationship, a hierarchy relationship
       # or a combination of both.
@@ -77,10 +78,10 @@ module WorkPackages::Scopes
       def for_scheduling(work_packages)
         return none if work_packages.empty?
 
-        sql = <<~SQL
+        sql = <<~SQL.squish
           WITH
             RECURSIVE
-            #{paths_sql(work_packages)}
+            #{scheduling_paths_sql(work_packages)}
 
             SELECT id
             FROM to_schedule
@@ -114,57 +115,67 @@ module WorkPackages::Scopes
       #     whether *all* of the added work package's descendants are automatically or manually scheduled.
       #
       # Paths whose ending work package is marked to be manually scheduled are not joined with any more.
-      def paths_sql(work_packages)
-        values = work_packages.map { |wp| "(#{wp.id}, false)" }.join(', ')
+      def scheduling_paths_sql(work_packages)
+        values = work_packages.map do |wp|
+          ::OpenProject::SqlSanitization
+            .sanitize "(:id, false, false)",
+                      id: wp.id
+        end.join(', ')
 
         <<~SQL.squish
           to_schedule (id, manually) AS (
-            SELECT * FROM (VALUES#{values}) AS t(id, manually)
+
+            SELECT * FROM (VALUES#{values}) AS t(id, manually, hierarchy_up)
 
             UNION
 
             SELECT
-              CASE
-                WHEN relations.to_id = to_schedule.id
-                THEN relations.from_id
-                ELSE relations.to_id
-              END id,
-              (related_work_packages.schedule_manually OR COALESCE(descendants.schedule_manually, false)) manually
+              relations.from_id id,
+              (related_work_packages.schedule_manually OR COALESCE(descendants.manually, false)) manually,
+              relations.hierarchy_up
             FROM
               to_schedule
-            JOIN
-              relations
-              ON NOT to_schedule.manually
-              AND (#{relations_condition_sql})
-              AND
-                ((relations.to_id = to_schedule.id)
-                OR (relations.from_id = to_schedule.id AND relations.follows = 0))
+            JOIN LATERAL
+              (
+                SELECT
+                  from_id,
+                  to_id,
+                  false hierarchy_up
+                FROM
+                  relations
+                WHERE NOT to_schedule.manually
+                  AND (relations.to_id = to_schedule.id AND relations.relation_type = '#{Relation::TYPE_FOLLOWS}')
+              UNION
+                SELECT
+                  CASE
+                    WHEN work_package_hierarchies.ancestor_id = to_schedule.id
+                    THEN work_package_hierarchies.descendant_id
+                    ELSE work_package_hierarchies.ancestor_id
+                    END from_id,
+                  to_schedule.id to_id,
+                  work_package_hierarchies.descendant_id = to_schedule.id hierarchy_up
+                FROM
+                  work_package_hierarchies
+                WHERE
+                  NOT to_schedule.manually
+                  AND ((work_package_hierarchies.ancestor_id = to_schedule.id AND NOT to_schedule.hierarchy_up AND work_package_hierarchies.generations = 1)
+                       OR (work_package_hierarchies.descendant_id = to_schedule.id AND work_package_hierarchies.generations > 0))
+              ) relations ON relations.to_id = to_schedule.id
             LEFT JOIN work_packages related_work_packages
-              ON (CASE
-                WHEN relations.to_id = to_schedule.id
-                THEN relations.from_id
-                ELSE relations.to_id
-                END) = related_work_packages.id
+              ON relations.from_id = related_work_packages.id
             LEFT JOIN LATERAL (
               SELECT
-                relations.from_id,
-                bool_and(COALESCE(work_packages.schedule_manually, false)) schedule_manually
-              FROM relations relations
-              JOIN work_packages
+                descendant_hierarchies.ancestor_id from_id,
+                bool_and(COALESCE(descendant_work_packages.schedule_manually, false)) manually
+              FROM work_package_hierarchies descendant_hierarchies
+              JOIN work_packages descendant_work_packages
               ON
-                work_packages.id = relations.to_id
-                AND related_work_packages.id = relations.from_id
-                AND relations.follows = 0 AND #{relations_condition_sql(transitive: true)}
-              GROUP BY relations.from_id
+                descendant_hierarchies.ancestor_id = relations.from_id
+                AND descendant_hierarchies.generations > 0
+                AND descendant_hierarchies.descendant_id = descendant_work_packages.id
+              GROUP BY descendant_hierarchies.ancestor_id
             ) descendants ON related_work_packages.id = descendants.from_id
           )
-        SQL
-      end
-
-      def relations_condition_sql(transitive: false)
-        <<~SQL.squish
-          "relations"."relates" = 0 AND "relations"."duplicates" = 0 AND "relations"."blocks" = 0 AND "relations"."includes" = 0 AND "relations"."requires" = 0
-            AND (relations.hierarchy + relations.relates + relations.duplicates + relations.follows + relations.blocks + relations.includes + relations.requires #{transitive ? '>' : ''}= 1)
         SQL
       end
     end

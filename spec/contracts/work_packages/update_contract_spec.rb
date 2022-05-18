@@ -244,10 +244,11 @@ describe WorkPackages::UpdateContract do
   describe 'with children' do
     context 'changing to milestone' do
       let(:milestone) { build_stubbed :type, is_milestone: true }
+      let(:children) { [build_stubbed(:work_package)] }
 
       before do
         work_package.type = milestone
-        allow(work_package).to receive_message_chain(:children, :any?).and_return true
+        allow(work_package).to receive(:children).and_return children
         contract.validate
       end
 

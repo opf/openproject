@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Relations::RelationRepresenter, type: :request do
+describe ::API::V3::WorkPackages::AvailableRelationCandidatesAPI, type: :request do
   let(:user) { create :admin }
 
   let(:project_1) { create :project }
@@ -141,8 +141,8 @@ describe ::API::V3::Relations::RelationRepresenter, type: :request do
         end
 
         context 'for a follows relationship' do
-          it 'does not contain the work packages with which a relationship already exists' do
-            expect(subjects).to match_array ["WP 1.2", "WP 1.2.1", "WP 2.1"]
+          it 'does not contain the work packages with which a relationship already exists but the parent' do
+            expect(subjects).to match_array ["WP 1", "WP 1.2", "WP 1.2.1", "WP 2.1"]
           end
         end
 

@@ -75,7 +75,7 @@ class Version < ApplicationRecord
   # Returns the total estimated time for this version
   # (sum of leaves estimated_hours)
   def estimated_hours
-    @estimated_hours ||= work_packages.hierarchy_leaves.sum(:estimated_hours).to_f
+    @estimated_hours ||= work_packages.leaves.sum(:estimated_hours).to_f
   end
 
   # Returns the total reported time for this version

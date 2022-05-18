@@ -55,13 +55,7 @@ describe XlsExport::WorkPackage::Exporter::XLS do
     end
 
     let(:relation) do
-      child_2.new_relation.tap do |r|
-        r.to = followed
-        r.relation_type = 'follows'
-        r.delay = 0
-        r.description = 'description foobar'
-        r.save
-      end
+      create(:follows_relation, from: child_2, to: followed, description: 'description foobar')
     end
 
     let(:relations) { [relation] }
