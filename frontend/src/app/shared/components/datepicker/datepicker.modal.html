@@ -7,6 +7,22 @@
   (submit)="save($event)"
 >
   <div class="op-modal--body form -vertical">
+    <div class="form--field op-datepicker-modal--scheduling-action-container">
+      <div class="form--field-container">
+        <label class="form--label-with-check-box">
+          <div class="form--check-box-container">
+            <input type="checkbox"
+                   name="scheduling"
+                   class="form--check-box op-datepicker-modal--scheduling-action"
+                   data-qa-selector="op-datepicker-modal--scheduling-action"
+                   [ngModel]="scheduleManually"
+                   (ngModelChange)="changeSchedulingMode()">
+          </div>
+          {{ text.manualScheduling }}
+        </label>
+      </div>
+    </div>
+
     <div class="op-datepicker-modal--dates-container">
       <ng-container *ngIf="singleDate">
         <div class="form--field">
@@ -103,21 +119,6 @@
           </div>
         </div>
       </ng-container>
-      <div class="form--field op-datepicker-modal--scheduling-action-container">
-        <div class="form--field-container">
-          <label class="form--label-with-check-box">
-            <div class="form--check-box-container">
-              <input type="checkbox"
-                     name="scheduling"
-                     class="form--check-box op-datepicker-modal--scheduling-action"
-                     data-qa-selector="op-datepicker-modal--scheduling-action"
-                     [ngModel]="scheduleManually"
-                     (ngModelChange)="changeSchedulingMode()">
-            </div>
-            {{ text.manualScheduling }}
-          </label>
-        </div>
-      </div>
     </div>
 
     <ng-container *ngIf="!isSchedulable">
