@@ -44,7 +44,7 @@ if defined?(Bundler)
   Bundler.require(*Rails.groups(:opf_plugins))
 end
 
-require_relative '../lib/open_project/configuration'
+require_relative '../lib_static/open_project/configuration'
 
 module OpenProject
   class Application < Rails::Application
@@ -176,8 +176,6 @@ module OpenProject
     # Configure the relative url root to be whatever the configuration is set to.
     # This allows for setting the root either via config file or via environment variable.
     config.action_controller.relative_url_root = OpenProject::Configuration['rails_relative_url_root']
-
-    OpenProject::Configuration.configure_cache(config)
 
     config.active_job.queue_adapter = :delayed_job
 

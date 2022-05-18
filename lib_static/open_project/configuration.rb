@@ -45,8 +45,6 @@ module OpenProject
       end
 
       def configure_cache(application_config)
-        return unless override_cache_config? application_config
-
         # rails defaults to :file_store, use :mem_cache_store when :memcache is configured in configuration.yml
         # Also use :mem_cache_store for when :dalli_store is configured
         cache_store = self['rails_cache_store'].try(:to_sym)
@@ -55,131 +53,20 @@ module OpenProject
         when :memcache, :dalli_store
           cache_config = [:mem_cache_store]
           cache_config << self['cache_memcache_server'] if self['cache_memcache_server']
-        # default to :file_store
+          # default to :file_store
         when NilClass, :file_store
           cache_config = [:file_store, Rails.root.join('tmp/cache')]
         else
           cache_config = [cache_store]
         end
 
-        parameters = cache_parameters
-        cache_config << parameters if parameters.size > 0
+        parameters = cache_store_parameters
+        cache_config << parameters unless parameters.empty?
 
         application_config.cache_store = cache_config
       end
 
-      def override_cache_config?(application_config)
-        # override if cache store is not set
-        # or cache store is :file_store
-        # or there is something to overwrite it
-        application_config.cache_store.nil? ||
-          application_config.cache_store == :file_store ||
-          self['rails_cache_store'].present?
-      end
-
-      def migrate_mailer_configuration!
-        # do not migrate if forced to legacy configuration (using settings or ENV)
-        return true if self['email_delivery_configuration'] == 'legacy'
-        # do not migrate if no legacy configuration
-        return true if self['email_delivery_method'].blank?
-        # do not migrate if the setting already exists and is not blank
-        return true if Setting.email_delivery_method.present?
-
-        Rails.logger.info 'Migrating existing email configuration to the settings table...'
-        Setting.email_delivery_method = self['email_delivery_method'].to_sym
-
-        ['smtp_', 'sendmail_'].each do |config_type|
-          mail_delivery_configs = Settings::Definition.all_of_prefix(config_type)
-
-          next if mail_delivery_configs.empty?
-
-          mail_delivery_configs.each do |config|
-            Setting["#{config_type}#{config.name}"] = case config.value
-                                                      when TrueClass
-                                                        1
-                                                      when FalseClass
-                                                        0
-                                                      else
-                                                        v
-                                                      end
-          end
-        end
-
-        true
-      end
-
-      def reload_mailer_configuration!
-        if self['email_delivery_configuration'] == 'legacy'
-          configure_legacy_action_mailer
-        else
-          case Setting.email_delivery_method
-          when :smtp
-            ActionMailer::Base.perform_deliveries = true
-            ActionMailer::Base.delivery_method = Setting.email_delivery_method
-
-            reload_smtp_settings!
-          when :sendmail
-            ActionMailer::Base.perform_deliveries = true
-            ActionMailer::Base.delivery_method = Setting.email_delivery_method
-          end
-        end
-      rescue StandardError => e
-        Rails.logger.warn "Unable to set ActionMailer settings (#{e.message}). " \
-                          'Email sending will most likely NOT work.'
-      end
-
-      # This is used to configure email sending from users who prefer to
-      # continue using environment variables of configuration.yml settings. Our
-      # hosted SaaS version requires this.
-      def configure_legacy_action_mailer
-        return true if self['email_delivery_method'].blank?
-
-        ActionMailer::Base.perform_deliveries = true
-        ActionMailer::Base.delivery_method = self['email_delivery_method'].to_sym
-
-        %w[smtp_ sendmail_].each do |config_type|
-          config = settings_of_prefix(config_type)
-
-          next if config.empty?
-
-          ActionMailer::Base.send("#{config_type}settings=", config)
-        end
-      end
-
-      private
-
-      def reload_smtp_settings!
-        # Correct smtp settings when using authentication :none
-        authentication = Setting.smtp_authentication.try(:to_sym)
-        keys = %i[address port domain authentication user_name password]
-        if authentication == :none
-          # Rails Mailer will croak if passing :none as the authentication.
-          # Instead, it requires to be removed from its settings
-          ActionMailer::Base.smtp_settings.delete :user_name
-          ActionMailer::Base.smtp_settings.delete :password
-          ActionMailer::Base.smtp_settings.delete :authentication
-
-          keys = %i[address port domain]
-        end
-
-        keys.each do |setting|
-          value = Setting["smtp_#{setting}"]
-          if value.present?
-            ActionMailer::Base.smtp_settings[setting] = value
-          else
-            ActionMailer::Base.smtp_settings.delete setting
-          end
-        end
-
-        ActionMailer::Base.smtp_settings[:enable_starttls_auto] = Setting.smtp_enable_starttls_auto?
-        ActionMailer::Base.smtp_settings[:ssl] = Setting.smtp_ssl?
-
-        Setting.smtp_openssl_verify_mode.tap do |mode|
-          ActionMailer::Base.smtp_settings[:openssl_verify_mode] = mode unless mode.nil?
-        end
-      end
-
-      def cache_parameters
+      def cache_store_parameters
         mapping = {
           'cache_expires_in_seconds' => %i[expires_in to_i],
           'cache_namespace' => %i[namespace to_s]
@@ -193,6 +80,8 @@ module OpenProject
         end
         parameters
       end
+
+      private
 
       def method_missing(name, *args, &block)
         setting_name = name.to_s.sub(/\?$/, '')
