@@ -47,6 +47,7 @@ class Day < ApplicationRecord
     to = today.next_month.at_end_of_month
 
     select('days.*')
+      .includes(:week_day)
       .from(Arel.sql(from_sql(from:, to:)))
   end
 
