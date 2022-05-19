@@ -50,18 +50,18 @@ describe WorkPackages::SetAttributesService, type: :model do
   let(:statuses) { [] }
   let(:contract_class) { WorkPackages::UpdateContract }
   let(:mock_contract) do
-    double(contract_class,
-           new: mock_contract_instance)
+    class_double(contract_class,
+                 new: mock_contract_instance)
   end
   let(:mock_contract_instance) do
-    double(contract_class,
-           assignable_statuses: statuses,
-           errors: contract_errors,
-           validate: contract_valid)
+    instance_double(contract_class,
+                    assignable_statuses: statuses,
+                    errors: contract_errors,
+                    validate: contract_valid)
   end
   let(:contract_valid) { true }
   let(:contract_errors) do
-    double('contract_errors')
+    instance_double(ActiveModel::Errors)
   end
   let(:instance) do
     described_class.new(user: user,
@@ -70,7 +70,12 @@ describe WorkPackages::SetAttributesService, type: :model do
   end
 
   shared_examples_for 'service call' do
-    subject { instance.call(call_attributes) }
+    subject do
+      allow(work_package)
+        .to receive(:save)
+
+      instance.call(call_attributes)
+    end
 
     it 'is successful' do
       expect(subject).to be_success
@@ -85,10 +90,10 @@ describe WorkPackages::SetAttributesService, type: :model do
     end
 
     it 'does not persist the work_package' do
-      expect(work_package)
-        .not_to receive(:save)
-
       subject
+
+      expect(work_package)
+        .not_to have_received(:save)
     end
 
     it 'has no errors' do
@@ -105,7 +110,8 @@ describe WorkPackages::SetAttributesService, type: :model do
       it 'does not persist the changes' do
         subject
 
-        expect(work_package).not_to receive(:save)
+        expect(work_package)
+          .not_to have_received(:save)
       end
 
       it "exposes the contract's errors" do
@@ -255,7 +261,7 @@ describe WorkPackages::SetAttributesService, type: :model do
       it_behaves_like 'service call'
     end
 
-    context 'updating author via attributes' do
+    context 'when updating author via attributes' do
       let(:call_attributes) { attributes }
       let(:attributes) { { author: other_user } }
 
@@ -783,8 +789,13 @@ describe WorkPackages::SetAttributesService, type: :model do
     let(:other_priority) { build_stubbed(:priority) }
 
     before do
+      scope = class_double(IssuePriority)
+
       allow(IssuePriority)
-        .to receive_message_chain(:active, :default)
+        .to receive(:active)
+              .and_return(scope)
+      allow(scope)
+        .to receive(:default)
               .and_return(default_priority)
     end
 
@@ -933,12 +944,11 @@ describe WorkPackages::SetAttributesService, type: :model do
 
     let(:call_attributes) { {} }
     let(:new_project_categories) do
-      categories_stub = double('categories')
-      allow(new_project)
-        .to receive(:categories)
-              .and_return(categories_stub)
-
-      categories_stub
+      instance_double(ActiveRecord::Relation).tap do |categories_stub|
+        allow(new_project)
+          .to receive(:categories)
+                .and_return(categories_stub)
+      end
     end
 
     before do
@@ -1116,8 +1126,8 @@ describe WorkPackages::SetAttributesService, type: :model do
   context 'for custom fields' do
     subject { instance.call(call_attributes) }
 
-    context 'non existing fields' do
-      let(:call_attributes) { { custom_field_891: '1' } }
+    context 'for non existing fields' do
+      let(:call_attributes) { { custom_field_891: '1' } } # rubocop:disable Naming/VariableNumber
 
       before do
         subject
