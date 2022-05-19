@@ -30,9 +30,10 @@ export function getPosition(evt:any):number {
       return range.startOffset;
     }
 
-    if (document.caretRangeFromPoint) {
-      return document
-        .caretRangeFromPoint(evt.clientX!, evt.clientY!)
+    const legacyDocument = document as { caretRangeFromPoint?:(x:number, y:number) => { startOffset:number } };
+    if (legacyDocument.caretRangeFromPoint) {
+      return legacyDocument
+        .caretRangeFromPoint((evt as MouseEvent).clientX, (evt as MouseEvent).clientY)
         .startOffset;
     }
 

@@ -8,8 +8,6 @@ import { enableReactiveStatesLogging } from 'reactivestates';
 import { initializeLocale } from 'core-app/core/setup/init-locale';
 import { environment } from './environments/environment';
 
-(window as any).global = window;
-
 // Ensure we set the correct dynamic frontend path
 // based on the RAILS_RELATIVE_URL_ROOT setting
 // https://webpack.js.org/guides/public-path/

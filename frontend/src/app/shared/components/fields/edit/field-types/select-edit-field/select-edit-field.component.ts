@@ -200,7 +200,7 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
     return this.fetchAllowedValueQuery(query);
   }
 
-  protected fetchAllowedValueQuery(query?:string) {
+  protected fetchAllowedValueQuery(query?:string):Promise<CollectionResource> {
     return this.schema.allowedValues.$link.$fetch(this.allowedValuesFilter(query)) as Promise<CollectionResource>;
   }
 
