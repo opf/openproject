@@ -518,16 +518,16 @@ class User < Principal
     Authorization.users(action, project).where.not(members: { id: nil })
   end
 
-  def allowed_to?(action, context, options = {})
-    authorization_service.call(action, context, options).result
+  def allowed_to?(action, context, global: false)
+    authorization_service.call(action, context, global:).result
   end
 
-  def allowed_to_in_project?(action, project, options = {})
-    authorization_service.call(action, project, options).result
+  def allowed_to_in_project?(action, project)
+    allowed_to?(action, project)
   end
 
-  def allowed_to_globally?(action, options = {})
-    authorization_service.call(action, nil, options.merge(global: true)).result
+  def allowed_to_globally?(action)
+    allowed_to?(action, nil, global: true)
   end
 
   delegate :preload_projects_allowed_to, to: :authorization_service

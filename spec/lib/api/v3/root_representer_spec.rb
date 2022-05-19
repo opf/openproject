@@ -39,9 +39,9 @@ describe ::API::V3::RootRepresenter do
 
   before do
     allow(user)
-      .to receive(:allowed_to?) do |action, _project, options|
-      permissions.include?(action) && options[:global] = true
-    end
+      .to receive(:allowed_to_globally?) do |action|
+        permissions.include?(action)
+      end
   end
 
   context 'generation' do

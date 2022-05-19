@@ -33,7 +33,7 @@ See COPYRIGHT and LICENSE files for more details.
 <% html_title(t(:label_project_plural)) -%>
 
 <%= toolbar title: t(:label_project_plural), html: { class: '-with-dropdown' } do %>
-  <% if User.current.allowed_to?(:add_project, nil, global: true) %>
+  <% if User.current.allowed_to_globally?(:add_project) %>
     <li class="toolbar-item">
       <%= link_to new_project_path,
                   { class: 'button -alt-highlight',
