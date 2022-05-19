@@ -4,7 +4,7 @@ import {
   OnInit,
 } from '@angular/core';
 import {
-  FormGroup,
+  UntypedFormGroup,
   FormGroupDirective,
 } from '@angular/forms';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -21,7 +21,7 @@ import { Observable } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PauseRemindersComponent implements OnInit {
-  form:FormGroup;
+  form:UntypedFormGroup;
 
   selectedDates$:Observable<[string, string]>;
 
@@ -41,7 +41,7 @@ export class PauseRemindersComponent implements OnInit {
   }
 
   ngOnInit():void {
-    this.form = this.rootFormGroup.control.get('pauseReminders') as FormGroup;
+    this.form = this.rootFormGroup.control.get('pauseReminders') as UntypedFormGroup;
     this.selectedDates$ = this
       .form
       .valueChanges

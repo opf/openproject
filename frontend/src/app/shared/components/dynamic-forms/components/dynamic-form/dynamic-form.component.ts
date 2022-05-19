@@ -15,7 +15,7 @@ import { catchError, finalize } from 'rxjs/operators';
 import { HalSource } from 'core-app/features/hal/resources/hal-resource';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { DynamicFieldsService } from 'core-app/shared/components/dynamic-forms/services/dynamic-fields/dynamic-fields.service';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { ConfirmDialogService } from 'core-app/shared/components/modals/confirm-dialog/confirm-dialog.service';
@@ -143,7 +143,7 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
 
   @Input() settings?:IOPFormSettings;
 
-  @Input() dynamicFormGroup?:FormGroup;
+  @Input() dynamicFormGroup?:UntypedFormGroup;
 
   /** Initial payload to POST to the form */
   @Input() initialPayload:Object = {};
@@ -178,7 +178,7 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
 
   @Output() errored = new EventEmitter<IOPFormErrorResponse>();
 
-  form:FormGroup;
+  form:UntypedFormGroup;
 
   fields:IOPFormlyFieldSettings[];
 
@@ -254,7 +254,7 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
     this.modelChange.emit(changes);
   }
 
-  submitForm(form:FormGroup) {
+  submitForm(form:UntypedFormGroup) {
     if (!this.handleSubmit) {
       return;
     }

@@ -4,7 +4,7 @@ import { Component, forwardRef, ViewChild } from '@angular/core';
 import { ComponentFixture, fakeAsync, flush, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { defer, of } from 'rxjs';
-import { FormControl, FormGroup, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { FormlyModule } from '@ngx-formly/core';
 
@@ -32,7 +32,7 @@ import { ConfirmDialogService } from "core-app/shared/components/modals/confirm-
   providers: [],
 })
 class DynamicFormsTestingComponent {
-  control = new FormControl('');
+  control = new UntypedFormControl('');
 
   @ViewChild(DynamicFormComponent) dynamicFormControl:DynamicFormComponent;
 }
@@ -260,7 +260,7 @@ describe('DynamicFormComponent', () => {
         },
       },
     },
-    form: new FormGroup({}),
+    form: new UntypedFormGroup({}),
   };
   const I18nServiceStub = {
     t(key:string) {
