@@ -36,6 +36,5 @@ describe ::OAuthClients::ConnectionManager, type: :model do
 
   describe '#get_access_token' do
     subject { instance.get_access_token(oauth_client, state) }
-
   end
 end

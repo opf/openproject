@@ -44,6 +44,7 @@ module OAuthClients
     # that wants to access OAuth2 protected resources.
     # Returns an OAuthClientToken object or a String in case a renew is required.
     def get_access_token(state)
+
       # Check for an already existing token from last call
       @token = get_existing_token
       if token.present?
@@ -56,7 +57,7 @@ module OAuthClients
           # ToDo: Check token for validity (or issues during renew)
         #end
 
-        return token
+        ServiceResult.new(success: true, result: token)
       end
 
       # ToDo: Check that we've got valid oauth_client with valid OAuth2 params
@@ -65,7 +66,8 @@ module OAuthClients
       # That's in order to avoid infinite loops with Nextcloud
 
       # Return a String with a redirect URL to Nextcloud instead of a token
-      redirect_to_oauth_authorize(state)
+      @redirect_url = redirect_to_oauth_authorize(state)
+      ServiceResult.new(success: false, result: nil)
     end
 
     # Check if a token already exists and return nil otherwise
