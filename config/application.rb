@@ -185,6 +185,9 @@ module OpenProject
 
     config.log_level = OpenProject::Configuration['log_level'].to_sym
 
+    # Enable the Rails 7 cache format
+    config.active_support.cache_format_version = 7.0
+
     def self.root_url
       Setting.protocol + "://" + Setting.host_name
     end
