@@ -46,7 +46,7 @@ module API
     use OpenProject::Authentication::Manager
 
     helpers API::Caching::Helpers
-    helpers do
+    module Helpers
       def current_user
         User.current
       end
@@ -116,11 +116,30 @@ module API
         current_user && (current_user.admin? || !current_user.anonymous?)
       end
 
+      # Checks that the current user has the given permission or raise
+      # {API::Errors::Unauthorized}.
+      #
+      # @param permission [String] the permission name
+      #
+      # @param context [Project, Array<Project>, nil] can be:
+      #   * a project : returns true if user is allowed to do the specified
+      #     action on this project
+      #   * a group of projects : returns true if user is allowed on every
+      #     project
+      #   * +nil+ with +options[:global]+ set: check if user has at least one
+      #     role allowed for this action, or falls back to Non Member /
+      #     Anonymous permissions depending if the user is logged
+      #
+      # @param global [Boolean] when +true+ and with +context+ set to +nil+:
+      #   checks that the current user is allowed to do the specified action on
+      #   any project
+      #
+      # @raise [API::Errors::Unauthorized] when permission is not met
       def authorize(permission, context: nil, global: false, user: current_user, &block)
         auth_service = AuthorizationService.new(permission,
-                                                context: context,
-                                                global: global,
-                                                user: user)
+                                                context:,
+                                                global:,
+                                                user:)
 
         authorize_by_with_raise auth_service, &block
       end
@@ -183,6 +202,8 @@ module API
         end
       end
     end
+
+    helpers Helpers
 
     def self.auth_headers
       lambda do
