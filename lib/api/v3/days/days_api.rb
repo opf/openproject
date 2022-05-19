@@ -36,7 +36,6 @@ module API::V3::Days
 
       get &::API::V3::Utilities::Endpoints::Index.new(
         model: Day,
-        render_representer: DayCollectionRepresenter,
         self_path: -> { api_v3_paths.days }
       ).mount
     end

@@ -28,8 +28,6 @@
 
 module API::V3::Days
   class DayRepresenter < ::API::Decorators::Single
-    # include ::API::Caching::CachedRepresenter
-
     property :date
     property :name
     property :working
