@@ -1,8 +1,7 @@
 <op-autocompleter
-  [items]="requests.output$ | async"
+  [getOptionsFn]="getAvailableProjects.bind(this)"
   [(ngModel)]="value"
   [trackByFn]="projectTracker"
-  [typeahead]="requests.input$"
 
   placeholder="My placeholder"
   notFoundText="Nothing found"

@@ -113,12 +113,6 @@ export class ProjectAutocompleterComponent implements OnInit, ControlValueAccess
     this.onTouched(value);
   }
 
-  /** Keep a switchmap for search term and loading state */
-  public requests = new DebouncedRequestSwitchmap<string, IProjectAutocompleteItem>(
-    (searchTerm:string) => this.getAvailableProjects(searchTerm),
-    errorNotificationHandler(this.halNotification),
-  );
-
   constructor(
     public elementRef:ElementRef,
     protected halResourceService:HalResourceService,
@@ -130,13 +124,9 @@ export class ProjectAutocompleterComponent implements OnInit, ControlValueAccess
     readonly injector:Injector,
   ) { }
 
-  ngOnInit() {
-    this.requests.output$.subscribe((projects) => {
-      console.log('new projects', projects);
-    })
-  }
+  ngOnInit() { }
 
-  protected getAvailableProjects(searchTerm:string):Observable<IProjectAutocompleteItem[]> {
+  public getAvailableProjects(searchTerm:string):Observable<IProjectAutocompleteItem[]> {
     return getPaginatedResults<IProject>(
       (params) => {
         const filters:ApiV3ListFilter[] = [...this.APIFilters];
