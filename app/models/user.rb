@@ -164,7 +164,7 @@ class User < Principal
   def reload(*args)
     @name = nil
     @projects_by_role = nil
-    @authorization_service = nil
+    @user_allowed_service = nil
     @project_role_cache = nil
 
     super
@@ -519,7 +519,7 @@ class User < Principal
   end
 
   def allowed_to?(action, context, global: false)
-    authorization_service.call(action, context, global:).result
+    user_allowed_service.call(action, context, global:).result
   end
 
   def allowed_to_in_project?(action, project)
@@ -530,7 +530,7 @@ class User < Principal
     allowed_to?(action, nil, global: true)
   end
 
-  delegate :preload_projects_allowed_to, to: :authorization_service
+  delegate :preload_projects_allowed_to, to: :user_allowed_service
 
   def reported_work_package_count
     WorkPackage.on_active_project.with_author(self).visible.count
@@ -648,8 +648,8 @@ class User < Principal
     [skip_suffix_check, regexp]
   end
 
-  def authorization_service
-    @authorization_service ||= ::Authorization::UserAllowedService.new(self, role_cache: project_role_cache)
+  def user_allowed_service
+    @user_allowed_service ||= ::Authorization::UserAllowedService.new(self, role_cache: project_role_cache)
   end
 
   def project_role_cache
