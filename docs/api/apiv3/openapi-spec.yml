@@ -594,6 +594,10 @@ components:
       "$ref": "./components/schemas/list_projects_by_version_model.yml"
     List_time_entriesModel:
       "$ref": "./components/schemas/list_time_entries_model.yml"
+    LiveFileLinkCollectionModel:
+      "$ref": "./components/schemas/live_file_link_collection_model.yml"
+    LiveFileLinkModel:
+      "$ref": "./components/schemas/live_file_link_model.yml"
     Lock_user:
       "$ref": "./components/schemas/lock_user.yml"
     Markdown:

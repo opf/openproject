@@ -30,7 +30,8 @@ properties:
     required:
       - self
       - type
-      - href
+      - origin
+      - liveFileLinks
     properties:
       self:
         allOf:
@@ -53,6 +54,13 @@ properties:
               Web uri of the storage instance
 
               **Resource**: N/A
+      liveFileLinks:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              A templated link to fetch the file links with live data for a given container.
+
+              **Resource**: LiveFileLinkCollection
 example:
   id: 1337
   _type: Storage
@@ -68,3 +76,6 @@ example:
       title: Nextcloud
     origin:
       href: https://nextcloud.deathstar.rocks/
+    liveFileLinks:
+      href: '/api/v3/storages/1337/file_links?filters=[{"container_id":{"operator":"=","values":["%{container_id}"]}},{"container_type":{"operator":"=","values":["%{container_type}"]}}]'
+      templated: true

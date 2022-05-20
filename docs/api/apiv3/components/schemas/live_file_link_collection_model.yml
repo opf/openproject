@@ -32,25 +32,26 @@ allOf:
             allOf:
               - $ref: "./link.yml"
               - description: |-
-                  The urn of the storage connection state.
+                  The urn of the storage connection state. Can be one of:
                   
-                  Can be one of:
-                  
-                  - connected
-                  - missing authentication
-                  - failed authentication
-                  - connection error
+                  - urn:openproject-org:api:v3:storages:connection:connected
+                  - urn:openproject-org:api:v3:storages:connection:missing-authentication
+                  - urn:openproject-org:api:v3:storages:connection:failed-authentication
+                  - urn:openproject-org:api:v3:storages:connection:error
                   
                   **Resource**: N/A
       _embedded:
         type: object
         required:
           - elements
+          - storage
         properties:
           elements:
             type: array
             items:
               $ref: './live_file_link_model.yml'
+          storage:
+            $ref: './storage_model.yml'
 
 example:
   _type: Collection
@@ -60,6 +61,21 @@ example:
     self:
       href: '/api/v3/work_packages/42/file_links'
   _embedded:
+    storage:
+      id: 42
+      _type: Storage
+      name: It's no moon
+      createdAt: '2021-12-20T13:37:00.211Z'
+      updatedAt: '2021-12-20T13:37:00.211Z'
+      _links:
+        self:
+          href: /api/v3/storages/42
+          title: It's no moon
+        type:
+          href: urn:openproject-org:api:v3:storages:nextcloud
+          title: Nextcloud
+        origin:
+          href: https://nextcloud.deathstar.rocks/
     elements:
       - id: 1337
         _type: FileLink
@@ -80,7 +96,7 @@ example:
             title: file link
           storage:
             href: /api/v3/storage/42
-            title: storage
+            title: It's no moon
           container:
             href: /api/v3/work_package/17
             title: work package
@@ -94,5 +110,8 @@ example:
             href: https://nextcloud.deathstar.rocks/index.php/f?fileid=5503
           staticOriginOpen:
             href: /api/v3/work_package/17/file_links/1337/open
+          permission:
+            href: urn:openproject-org:api:v3:file-links:permission:not-allowed
+            title: Not Allowed
       - _hint: File Link resource shortened for brevity
         id: 1338
