@@ -4,10 +4,10 @@ es:
     team_planner:
       add_existing: 'Añadir existente'
       title: 'Planificador de equipos'
-      unsaved_title: 'Planificador de equipo anonimo'
-      no_data: 'Añadir asignados para configurar el planificador de su equipo.'
+      unsaved_title: 'Planificador de equipo sin nombre'
+      no_data: 'Añadir asignados para configurar su planificador de equipo.'
       add_assignee: 'Añadir asignado'
-      remove_assignee: 'Quitar asignado'
+      remove_assignee: 'Eliminar asignado'
       two_weeks: '2 semanas'
       one_week: '1 semana'
       today: 'Hoy'
