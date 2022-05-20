@@ -1,0 +1,99 @@
+# Schema: LiveFileLinkModel
+---
+allOf:
+  - $ref: './file_link_read_model.yml'
+  - type: object
+    required:
+      - permission
+    properties:
+      _links:
+        type: object
+        required:
+          - permission
+        properties:
+          permission:
+            allOf:
+              - $ref: './link.yml'
+              - description: |-
+                  The urn of the user specific file link permission on this storage. Can be:
+
+                  - urn:openproject-org:api:v3:file-links:permission:view
+                  - urn:openproject-org:api:v3:file-links:permission:not-allowed
+                  
+                  **Resource**: N/A
+
+example:
+  id: 1337
+  _type: FileLink
+  createdAt: '2021-12-20T13:37:00.211Z'
+  updatedAt: '2021-12-20T13:37:00.211Z'
+  originData:
+    id: 5503
+    name: logo.png
+    mimeType: image/png
+    size: 16042
+    createdAt: '2021-12-19T09:42:10.170Z'
+    lastModifiedAt: '2021-12-20T14:00:13.987Z'
+    createdByName: Luke Skywalker
+    lastModifiedByName: Anakin Skywalker
+  _embedded:
+    storage:
+      id: 1337
+      _type: Storage
+      name: It's no moon
+      createdAt: '2021-12-20T13:37:00.211Z'
+      updatedAt: '2021-12-20T13:37:00.211Z'
+      _links:
+        self:
+          href: /api/v3/storages/1337
+          title: It's no moon
+        type:
+          href: urn:openproject-org:api:v3:storages:nextcloud
+          title: Nextcloud
+        origin:
+          href: https://nextcloud.deathstar.rocks/
+    container:
+      _hint: Work package resource shortened for brevity
+      _type: WorkPackage
+      _links:
+        self:
+          href: "/api/v3/work_packages/1528"
+          title: Develop API
+        schema:
+          href: "/api/v3/work_packages/schemas/11-2"
+      id: 1528
+      subject: Develop API
+      description:
+        format: markdown
+        raw: Develop super cool OpenProject API.
+        html: "<p>Develop super cool OpenProject API.</p>"
+      scheduleManually: false
+      startDate:
+      dueDate:
+      createdAt: '2014-08-29T12:40:53Z'
+      updatedAt: '2014-08-29T12:44:41Z'
+  _links:
+    self:
+      href: /api/v3/work_package/17/file_links/1337
+    storage:
+      href: /api/v3/storage/42
+      title: It's no moon
+    container:
+      href: /api/v3/work_package/17
+      title: Develop API
+    creator:
+      href: /api/v3/users/33
+      title: Obi-Wan Kenobi
+    delete:
+      href: /api/v3/work_package/17/file_links/1337
+    originOpen:
+      href: https://nextcloud.deathstar.rocks/index.php/f/5503?openfile=1
+    staticOriginOpen:
+      href: /api/v3/work_package/17/file_links/1337/open
+    originOpenLocation:
+      href: https://nextcloud.deathstar.rocks/index.php/f/5503?openfile=0
+    staticOriginOpenLocation:
+      href: /api/v3/work_package/17/file_links/1337/open?location=true
+    permission:
+      href: urn:openproject-org:api:v3:file-links:permission:not-allowed
+      title: Not Allowed

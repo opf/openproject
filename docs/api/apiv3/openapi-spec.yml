@@ -351,6 +351,8 @@ paths:
     "$ref": "./paths/status.yml"
   "/api/v3/storages/{id}":
     "$ref": "./paths/storage.yml"
+  "/api/v3/storages/{id}/live_file_links":
+    "$ref": "./paths/live_file_links.yml"
   "/api/v3/time_entries":
     "$ref": "./paths/time_entries.yml"
   "/api/v3/time_entries/{id}/form":
