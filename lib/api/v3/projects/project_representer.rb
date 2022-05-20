@@ -88,10 +88,10 @@ module API
           { href: api_v3_paths.work_packages_by_project(represented.id) }
         end
 
-        links :storages,
-              cache_if: -> {
-                current_user_allowed_to(:view_file_links, context: represented)
-              } do
+        link :storages,
+             cache_if: -> {
+               current_user_allowed_to(:view_file_links, context: represented)
+             } do
           represented.storages.map do |storage|
             {
               href: api_v3_paths.storage(storage.id),

@@ -53,7 +53,7 @@ export class ProjectsResourceService {
       );
   }
 
-  lookup(id:ID):Observable<IProject | undefined> {
+  lookup(id:ID):Observable<IProject|undefined> {
     return this.query.selectEntity(id);
   }
 

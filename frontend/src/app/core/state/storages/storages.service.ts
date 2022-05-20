@@ -31,6 +31,9 @@ import { HttpClient } from '@angular/common/http';
 import { IHalResourceLink } from 'core-app/core/state/hal-resource';
 import { Observable } from 'rxjs';
 import { IStorage } from 'core-app/core/state/storages/storage.model';
+import {
+  ILiveFileLinkCollection,
+} from 'core-app/features/work-packages/components/wp-single-view-tabs/files-tab/op-files-tab.component';
 
 @Injectable()
 export class StoragesResourceService {
@@ -38,5 +41,12 @@ export class StoragesResourceService {
 
   lookup(storageLink:IHalResourceLink):Observable<IStorage> {
     return this.httpClient.get<IStorage>(storageLink.href);
+  }
+
+  liveLinks(storage:IStorage):(containerType:string, containerId:string) => Observable<ILiveFileLinkCollection> {
+    return (containerType:string, containerId:string):Observable<ILiveFileLinkCollection> => {
+      const url = `${storage._links?.self.href || ''}/live_file_links?container_type=${containerType}&container_id=${containerId}`;
+      return this.httpClient.get<ILiveFileLinkCollection>(url);
+    };
   }
 }
