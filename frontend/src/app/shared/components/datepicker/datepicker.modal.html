@@ -30,20 +30,17 @@
                  [textContent]="text.date">
           </label>
           <div class="form--field-container">
-            <div class="form--text-field-container -xslim">
-              <input type="text"
+            <div class="form--text-field-container op-datepicker-modal--date-container">
+              <spot-text-field
                      name="date"
-                     class="form--date-field"
-                     [ngClass]="{'-current' : datepickerHelper.isStateOfCurrentActivatedField('date')}"
+                     class="op-datepicker-modal--date-field"
+                     [ngClass]="{'op-datepicker-modal--date-field_current' : datepickerHelper.isStateOfCurrentActivatedField('date')}"
                      [ngModel]="dates.date"
                      (ngModelChange)="updateDate('date', $event)"
-                     (click)="datepickerHelper.setCurrentActivatedField('date')">
+                     [showClearButton]="datepickerHelper.isStateOfCurrentActivatedField('date')"
+                     (click)="datepickerHelper.setCurrentActivatedField('date')"
+              ></spot-text-field>
             </div>
-            <a class="form--field-inline-action"
-               [title]="text.clear"
-               (click)="clear('date')">
-              <span class="icon2 icon-small icon-cancel"></span>
-            </a>
           </div>
           <div class="form--field-extra-actions">
             <a (click)="setToday('date')"
@@ -61,23 +58,19 @@
                  [textContent]="text.startDate">
           </label>
           <div class="form--field-container">
-            <div class="form--text-field-container -xslim">
-              <input type="text"
+            <div class="form--text-field-container op-datepicker-modal--date-container">
+              <spot-text-field
                      name="startDate"
                      data-qa-selector="op-datepicker-modal--start-date-field"
-                     class="form--date-field"
-                     [ngClass]="{'-current' : datepickerHelper.isStateOfCurrentActivatedField('start')}"
+                     class="op-datepicker-modal--date-field"
+                     [ngClass]="{'op-datepicker-modal--date-field_current' : datepickerHelper.isStateOfCurrentActivatedField('start')}"
                      [ngModel]="dates.start"
                      (ngModelChange)="updateDate('start', $event)"
                      [disabled]="!isSchedulable"
-                     (focusin)="datepickerHelper.setCurrentActivatedField('start')">
+                     [showClearButton]="datepickerHelper.isStateOfCurrentActivatedField('start')"
+                     (focusin)="datepickerHelper.setCurrentActivatedField('start')"
+              ></spot-text-field>
             </div>
-            <a class="form--field-inline-action"
-               *ngIf="isSchedulable"
-               [title]="text.clear"
-               (click)="clear('start')">
-              <span class="icon2 icon-small  icon-cancel"></span>
-            </a>
           </div>
           <div class="form--field-extra-actions">
             <a *ngIf="showTodayLink()"
@@ -93,23 +86,19 @@
                  [textContent]="text.endDate">
           </label>
           <div class="form--field-container">
-            <div class="form--text-field-container -xslim">
-              <input type="text"
+            <div class="form--text-field-container op-datepicker-modal--date-container">
+              <spot-text-field
                      name="endDate"
                      data-qa-selector="op-datepicker-modal--end-date-field"
-                     class="form--date-field"
-                     [ngClass]="{'-current' : datepickerHelper.isStateOfCurrentActivatedField('end')}"
+                     class="op-datepicker-modal--date-field"
+                     [ngClass]="{'op-datepicker-modal--date-field_current' : datepickerHelper.isStateOfCurrentActivatedField('end')}"
                      [ngModel]="dates.end"
                      (ngModelChange)="updateDate('end', $event)"
                      [disabled]="!isSchedulable"
-                     (focusin)="datepickerHelper.setCurrentActivatedField('end')">
+                     [showClearButton]="datepickerHelper.isStateOfCurrentActivatedField('end')"
+                     (focusin)="datepickerHelper.setCurrentActivatedField('end')"
+              ></spot-text-field>
             </div>
-            <a class="form--field-inline-action"
-               *ngIf="isSchedulable"
-               [title]="text.clear"
-               (click)="clear('end')">
-              <span class="icon2 icon-small icon-cancel"></span>
-            </a>
           </div>
           <div class="form--field-extra-actions">
             <a *ngIf="showTodayLink()"

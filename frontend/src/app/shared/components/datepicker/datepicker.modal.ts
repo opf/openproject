@@ -78,7 +78,6 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
   text = {
     save: this.I18n.t('js.button_save'),
     cancel: this.I18n.t('js.button_cancel'),
-    clear: this.I18n.t('js.work_packages.button_clear'),
     manualScheduling: this.I18n.t('js.scheduling.manual'),
     date: this.I18n.t('js.work_packages.properties.date'),
     startDate: this.I18n.t('js.work_packages.properties.startDate'),
@@ -174,11 +173,6 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
 
   cancel():void {
     this.closeMe();
-  }
-
-  clear(key:DateKeys):void {
-    this.dates[key] = '';
-    this.enforceManualChangesToDatepicker();
   }
 
   updateDate(key:DateKeys, val:string):void {
