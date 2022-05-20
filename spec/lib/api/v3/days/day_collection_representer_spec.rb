@@ -25,20 +25,28 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-module StandardSeeder
-  class BasicDataSeeder < ::BasicDataSeeder
-    def data_seeder_classes
-      [
-        ::BasicData::BuiltinRolesSeeder,
-        ::BasicData::RoleSeeder,
-        ::BasicData::WeekDaySeeder,
-        ::StandardSeeder::BasicData::ActivitySeeder,
-        ::BasicData::ColorSeeder,
-        ::BasicData::ColorSchemeSeeder,
-        ::StandardSeeder::BasicData::WorkflowSeeder,
-        ::StandardSeeder::BasicData::PrioritySeeder,
-        ::BasicData::SettingSeeder
-      ]
-    end
+
+require 'spec_helper'
+
+describe ::API::V3::Days::DayCollectionRepresenter do
+  let!(:week_days) { create(:week_days) }
+  let(:days) do
+    [
+      build(:day, date: Date.new(2022, 12, 27)),
+      build(:day, date: Date.new(2022, 12, 28)),
+      build(:day, date: Date.new(2022, 12, 29))
+    ]
+  end
+  let(:current_user) { instance_double(User, name: 'current_user') }
+  let(:representer) do
+    described_class.new(days,
+                        self_link: '/api/v3/self_link_untested',
+                        current_user:)
+  end
+
+  describe '#to_json' do
+    subject(:collection) { representer.to_json }
+
+    it_behaves_like 'unpaginated APIv3 collection', 3, 'self_link_untested', 'Day'
   end
 end

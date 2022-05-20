@@ -25,20 +25,19 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-module StandardSeeder
-  class BasicDataSeeder < ::BasicDataSeeder
-    def data_seeder_classes
-      [
-        ::BasicData::BuiltinRolesSeeder,
-        ::BasicData::RoleSeeder,
-        ::BasicData::WeekDaySeeder,
-        ::StandardSeeder::BasicData::ActivitySeeder,
-        ::BasicData::ColorSeeder,
-        ::BasicData::ColorSchemeSeeder,
-        ::StandardSeeder::BasicData::WorkflowSeeder,
-        ::StandardSeeder::BasicData::PrioritySeeder,
-        ::BasicData::SettingSeeder
-      ]
+
+module API::V3::Days
+  class DaysAPI < ::API::OpenProjectAPI
+    helpers ::API::Utilities::UrlPropsParsingHelper
+
+    resources :days do
+      mount NonWorkingDaysAPI
+      mount WeekAPI
+
+      get &::API::V3::Utilities::Endpoints::Index.new(
+        model: Day,
+        self_path: -> { api_v3_paths.days }
+      ).mount
     end
   end
 end

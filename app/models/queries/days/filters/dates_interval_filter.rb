@@ -25,20 +25,38 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-module StandardSeeder
-  class BasicDataSeeder < ::BasicDataSeeder
-    def data_seeder_classes
-      [
-        ::BasicData::BuiltinRolesSeeder,
-        ::BasicData::RoleSeeder,
-        ::BasicData::WeekDaySeeder,
-        ::StandardSeeder::BasicData::ActivitySeeder,
-        ::BasicData::ColorSeeder,
-        ::BasicData::ColorSchemeSeeder,
-        ::StandardSeeder::BasicData::WorkflowSeeder,
-        ::StandardSeeder::BasicData::PrioritySeeder,
-        ::BasicData::SettingSeeder
-      ]
+
+class Queries::Days::Filters::DatesIntervalFilter < Queries::Days::Filters::DayFilter
+  include Queries::Operators::DateRangeClauses
+
+  def type
+    :date
+  end
+
+  def self.key
+    :date
+  end
+
+  def from
+    from, to = values.map { |v| v.blank? ? nil : Date.parse(v) }
+
+    # Both from and to cannot be blank at this point
+    if from.nil?
+      from = to.at_beginning_of_month
     end
+
+    if to.nil?
+      to = from.next_month.at_end_of_month
+    end
+
+    model.from_sql(from:, to:)
+  end
+
+  def type_strategy
+    @type_strategy ||= Queries::Filters::Strategies::DateInterval.new(self)
+  end
+
+  def connection
+    ActiveRecord::Base::connection
   end
 end

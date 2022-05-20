@@ -25,20 +25,19 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-module StandardSeeder
-  class BasicDataSeeder < ::BasicDataSeeder
-    def data_seeder_classes
-      [
-        ::BasicData::BuiltinRolesSeeder,
-        ::BasicData::RoleSeeder,
-        ::BasicData::WeekDaySeeder,
-        ::StandardSeeder::BasicData::ActivitySeeder,
-        ::BasicData::ColorSeeder,
-        ::BasicData::ColorSchemeSeeder,
-        ::StandardSeeder::BasicData::WorkflowSeeder,
-        ::StandardSeeder::BasicData::PrioritySeeder,
-        ::BasicData::SettingSeeder
-      ]
+
+module API::V3::Days
+  class WeekDayRepresenter < ::API::Decorators::Single
+    include ::API::Caching::CachedRepresenter
+
+    property :day
+    property :name
+    property :working
+
+    self_link path: :days_week_day, id_attribute: :day
+
+    def _type
+      'WeekDay'
     end
   end
 end

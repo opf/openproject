@@ -25,20 +25,23 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-module StandardSeeder
-  class BasicDataSeeder < ::BasicDataSeeder
-    def data_seeder_classes
-      [
-        ::BasicData::BuiltinRolesSeeder,
-        ::BasicData::RoleSeeder,
-        ::BasicData::WeekDaySeeder,
-        ::StandardSeeder::BasicData::ActivitySeeder,
-        ::BasicData::ColorSeeder,
-        ::BasicData::ColorSchemeSeeder,
-        ::StandardSeeder::BasicData::WorkflowSeeder,
-        ::StandardSeeder::BasicData::PrioritySeeder,
-        ::BasicData::SettingSeeder
-      ]
+
+module API::V3::Days
+  class WeekAPI < ::API::OpenProjectAPI
+    helpers ::API::Utilities::UrlPropsParsingHelper
+
+    resources :week do
+      get &::API::V3::Utilities::Endpoints::Index.new(model: WeekDay,
+                                                      render_representer: WeekDayCollectionRepresenter,
+                                                      self_path: -> { api_v3_paths.days_week })
+                                                 .mount
+      route_param :day, type: Integer, desc: 'WeekDay ID' do
+        after_validation do
+          @week_day = WeekDay.find_by!(day: declared_params[:day])
+        end
+
+        get &::API::V3::Utilities::Endpoints::Show.new(model: WeekDay, render_representer: WeekDayRepresenter).mount
+      end
     end
   end
 end

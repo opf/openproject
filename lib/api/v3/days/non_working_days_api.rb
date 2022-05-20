@@ -25,20 +25,21 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-module StandardSeeder
-  class BasicDataSeeder < ::BasicDataSeeder
-    def data_seeder_classes
-      [
-        ::BasicData::BuiltinRolesSeeder,
-        ::BasicData::RoleSeeder,
-        ::BasicData::WeekDaySeeder,
-        ::StandardSeeder::BasicData::ActivitySeeder,
-        ::BasicData::ColorSeeder,
-        ::BasicData::ColorSchemeSeeder,
-        ::StandardSeeder::BasicData::WorkflowSeeder,
-        ::StandardSeeder::BasicData::PrioritySeeder,
-        ::BasicData::SettingSeeder
-      ]
+
+module API::V3::Days
+  class NonWorkingDaysAPI < ::API::OpenProjectAPI
+    helpers ::API::Utilities::UrlPropsParsingHelper
+
+    resources :non_working do
+      route_param :date, type: Date, desc: 'NonWorkingDay DATE' do
+        after_validation do
+          @non_working_day = NonWorkingDay.find_by!(date: declared_params[:date])
+        end
+
+        get &::API::V3::Utilities::Endpoints::Show.new(model: NonWorkingDay,
+                                                       render_representer: NonWorkingDayRepresenter)
+                                                  .mount
+      end
     end
   end
 end

@@ -25,20 +25,29 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-module StandardSeeder
-  class BasicDataSeeder < ::BasicDataSeeder
-    def data_seeder_classes
-      [
-        ::BasicData::BuiltinRolesSeeder,
-        ::BasicData::RoleSeeder,
-        ::BasicData::WeekDaySeeder,
-        ::StandardSeeder::BasicData::ActivitySeeder,
-        ::BasicData::ColorSeeder,
-        ::BasicData::ColorSchemeSeeder,
-        ::StandardSeeder::BasicData::WorkflowSeeder,
-        ::StandardSeeder::BasicData::PrioritySeeder,
-        ::BasicData::SettingSeeder
-      ]
+
+class Queries::Days::DayQuery < Queries::BaseQuery
+  def self.model
+    Day
+  end
+
+  def default_scope
+    Day.default
+  end
+
+  ##
+  # This override is necessary, the dates interval filter needs to adjust the
+  # `from` clause of the query. To update the `from` clause, we reverse merge the filters,
+  # otherwise the `from` clause of the filter is ignored.
+  def apply_filters(scope)
+    filters.each do |filter|
+      scope = filter.scope.merge(scope)
     end
+
+    scope
+  end
+
+  def results
+    super.reorder(date: :asc)
   end
 end

@@ -25,20 +25,26 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-module StandardSeeder
-  class BasicDataSeeder < ::BasicDataSeeder
-    def data_seeder_classes
-      [
-        ::BasicData::BuiltinRolesSeeder,
-        ::BasicData::RoleSeeder,
-        ::BasicData::WeekDaySeeder,
-        ::StandardSeeder::BasicData::ActivitySeeder,
-        ::BasicData::ColorSeeder,
-        ::BasicData::ColorSchemeSeeder,
-        ::StandardSeeder::BasicData::WorkflowSeeder,
-        ::StandardSeeder::BasicData::PrioritySeeder,
-        ::BasicData::SettingSeeder
-      ]
+
+require 'spec_helper'
+
+describe Queries::Days::Filters::DatesIntervalFilter, type: :model do
+  it_behaves_like 'basic query filter' do
+    let(:type) { :date }
+    let(:class_key) { :date }
+
+    describe '#available?' do
+      it 'is true' do
+        expect(instance).to be_available
+      end
     end
+
+    describe '#allowed_values' do
+      it 'is nil' do
+        expect(instance.allowed_values).to be_nil
+      end
+    end
+
+    it_behaves_like 'non ar filter'
   end
 end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,21 +24,50 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
-module StandardSeeder
-  class BasicDataSeeder < ::BasicDataSeeder
-    def data_seeder_classes
-      [
-        ::BasicData::BuiltinRolesSeeder,
-        ::BasicData::RoleSeeder,
-        ::BasicData::WeekDaySeeder,
-        ::StandardSeeder::BasicData::ActivitySeeder,
-        ::BasicData::ColorSeeder,
-        ::BasicData::ColorSchemeSeeder,
-        ::StandardSeeder::BasicData::WorkflowSeeder,
-        ::StandardSeeder::BasicData::PrioritySeeder,
-        ::BasicData::SettingSeeder
-      ]
+
+require 'spec_helper'
+
+describe ::API::V3::Days::WeekAPI,
+         'show',
+         content_type: :json,
+         type: :request do
+  include API::V3::Utilities::PathHelper
+
+  let(:week_day) { create(:week_day, day: 1) }
+  let(:path) { api_v3_paths.days_week_day(week_day.day) }
+
+  current_user { user }
+  subject { last_response.body }
+
+  before do
+    get path
+  end
+
+  context 'for an admin user' do
+    let(:user) { build(:admin) }
+
+    it_behaves_like 'successful response'
+
+    it 'responds with the correct day' do
+      expect(subject).to be_json_eql('WeekDay'.to_json).at_path('_type')
+      expect(subject).to be_json_eql(1.to_json).at_path('day')
+    end
+
+    context 'when requesting nonexistent day' do
+      let(:path) { api_v3_paths.days_week_day(0) }
+
+      it_behaves_like 'not found'
+    end
+  end
+
+  context 'for a not logged in user' do
+    let(:user) { build(:anonymous) }
+
+    it_behaves_like 'successful response'
+
+    it 'responds with the correct day' do
+      expect(subject).to be_json_eql('WeekDay'.to_json).at_path('_type')
+      expect(subject).to be_json_eql(1.to_json).at_path('day')
     end
   end
 end

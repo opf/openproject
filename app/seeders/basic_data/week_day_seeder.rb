@@ -25,19 +25,33 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-module StandardSeeder
-  class BasicDataSeeder < ::BasicDataSeeder
-    def data_seeder_classes
+module BasicData
+  class WeekDaySeeder < Seeder
+    def seed_data!
+      WeekDay.transaction do
+        days.each do |attributes|
+          WeekDay.create!(attributes)
+        end
+      end
+    end
+
+    def applicable?
+      WeekDay.none?
+    end
+
+    def not_applicable_message
+      'Skipping week days as there are already some configured'
+    end
+
+    def days
       [
-        ::BasicData::BuiltinRolesSeeder,
-        ::BasicData::RoleSeeder,
-        ::BasicData::WeekDaySeeder,
-        ::StandardSeeder::BasicData::ActivitySeeder,
-        ::BasicData::ColorSeeder,
-        ::BasicData::ColorSchemeSeeder,
-        ::StandardSeeder::BasicData::WorkflowSeeder,
-        ::StandardSeeder::BasicData::PrioritySeeder,
-        ::BasicData::SettingSeeder
+        { day: 1, working: true },
+        { day: 2, working: true },
+        { day: 3, working: true },
+        { day: 4, working: true },
+        { day: 5, working: true },
+        { day: 6, working: false },
+        { day: 7, working: false }
       ]
     end
   end

@@ -25,20 +25,47 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-module StandardSeeder
-  class BasicDataSeeder < ::BasicDataSeeder
-    def data_seeder_classes
-      [
-        ::BasicData::BuiltinRolesSeeder,
-        ::BasicData::RoleSeeder,
-        ::BasicData::WeekDaySeeder,
-        ::StandardSeeder::BasicData::ActivitySeeder,
-        ::BasicData::ColorSeeder,
-        ::BasicData::ColorSchemeSeeder,
-        ::StandardSeeder::BasicData::WorkflowSeeder,
-        ::StandardSeeder::BasicData::PrioritySeeder,
-        ::BasicData::SettingSeeder
-      ]
-    end
+
+class Day < ApplicationRecord
+  include Tableless
+
+  belongs_to :week_day,
+             inverse_of: false,
+             class_name: 'WeekDay',
+             foreign_key: :day_of_week,
+             primary_key: :day
+
+  attribute :date, :date, default: nil
+  attribute :day_of_week, :integer, default: nil
+  attribute :working, :boolean, default: 't'
+
+  delegate :name, to: :week_day
+
+  def self.default
+    today = Time.zone.today
+    from = today.at_beginning_of_month
+    to = today.next_month.at_end_of_month
+
+    select('days.*')
+      .includes(:week_day)
+      .from(Arel.sql(from_sql(from:, to:)))
+  end
+
+  def self.from_sql(from:, to:)
+    <<~SQL.squish
+      (
+        SELECT
+          date_trunc('day', dd)::date date,
+          extract(isodow from dd) day_of_week,
+          week_days.working
+        FROM generate_series
+          ( '#{from}'::timestamp,
+            '#{to}'::timestamp,
+            '1 day'::interval) dd
+        LEFT JOIN week_days
+          ON extract(isodow from dd) = week_days.day
+        ORDER BY date
+      ) days
+    SQL
   end
 end
