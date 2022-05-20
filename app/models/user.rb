@@ -164,8 +164,8 @@ class User < Principal
   def reload(*args)
     @name = nil
     @projects_by_role = nil
-    @authorization_service = ::Authorization::UserAllowedService.new(self)
-    @project_role_cache = ::Users::ProjectRoleCache.new(self)
+    @authorization_service = nil
+    @project_role_cache = nil
 
     super
   end
