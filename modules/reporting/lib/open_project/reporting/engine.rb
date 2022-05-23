@@ -46,12 +46,16 @@ module OpenProject::Reporting
         permission :save_private_cost_reports, { cost_reports: edit_actions }
       end
 
-      # register additional permissions for viewing time and cost entries through the CostReportsController
-      view_actions.each do |action|
-        OpenProject::AccessControl.permission(:view_time_entries).controller_actions << "cost_reports/#{action}"
-        OpenProject::AccessControl.permission(:view_own_time_entries).controller_actions << "cost_reports/#{action}"
-        OpenProject::AccessControl.permission(:view_cost_entries).controller_actions << "cost_reports/#{action}"
-        OpenProject::AccessControl.permission(:view_own_cost_entries).controller_actions << "cost_reports/#{action}"
+      Rails.application.reloader.to_prepare do
+        OpenProject::AccessControl.map do
+          # register additional permissions for viewing time and cost entries through the CostReportsController
+          view_actions.each do |action|
+            OpenProject::AccessControl.permission(:view_time_entries).controller_actions << "cost_reports/#{action}"
+            OpenProject::AccessControl.permission(:view_own_time_entries).controller_actions << "cost_reports/#{action}"
+            OpenProject::AccessControl.permission(:view_cost_entries).controller_actions << "cost_reports/#{action}"
+            OpenProject::AccessControl.permission(:view_own_cost_entries).controller_actions << "cost_reports/#{action}"
+          end
+        end
       end
 
       # menu extensions

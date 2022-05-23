@@ -638,10 +638,6 @@ Settings::Definition.define do
   add :plain_text_mail,
       default: false
 
-  add :protocol,
-      default: "http",
-      allowed: %w[http https]
-
   add :project_gantt_query,
       default: nil,
       format: :string
@@ -662,8 +658,17 @@ Settings::Definition.define do
       default: '',
       writable: false
 
+  # Assume we're running in an TLS terminated connection.
+  # This does not affect HSTS, use +rails_force_ssl+ for that.
+  add :https,
+      format: :boolean,
+      default: Rails.env.production?,
+      writable: false
+
+  # Enable HTTPS and HSTS
   add :rails_force_ssl,
-      default: false,
+      format: :boolean,
+      default: Rails.env.production?,
       writable: false
 
   add :registration_footer,

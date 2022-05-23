@@ -26,18 +26,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Constants
-  module ProjectActivity
-    class << self
-      def register(on:, attribute:, chain: [])
-        @registered ||= Set.new
+module API::V3::Days
+  class DayRepresenter < ::API::Decorators::Single
+    property :date
+    property :name
+    property :working
 
-        @registered << { on: on,
-                         chain: chain,
-                         attribute: attribute }
-      end
+    self_link path: :day, id_attribute: :date
 
-      attr_reader :registered
+    def _type
+      'Day'
     end
   end
 end

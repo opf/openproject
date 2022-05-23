@@ -29,6 +29,7 @@
 class Setting < ApplicationRecord
   extend CallbacksHelper
   extend Aliases
+  extend MailSettings
 
   ENCODINGS = %w(US-ASCII
                  windows-1250

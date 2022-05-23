@@ -26,17 +26,37 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Loads the core plugins located in lib/plugins
-Dir.glob(File.join(Rails.root, 'lib/plugins/*')).sort.each do |directory|
-  if File.directory?(directory)
-    lib = File.join(directory, 'lib')
+class Queries::Days::Filters::DatesIntervalFilter < Queries::Days::Filters::DayFilter
+  include Queries::Operators::DateRangeClauses
 
-    $:.unshift lib
-    Rails.configuration.paths.add lib, eager_load: true, glob: "**[^test]/*"
+  def type
+    :date
+  end
 
-    initializer = File.join(directory, 'init.rb')
-    if File.file?(initializer)
-      eval(File.read(initializer), binding, initializer)
+  def self.key
+    :date
+  end
+
+  def from
+    from, to = values.map { |v| v.blank? ? nil : Date.parse(v) }
+
+    # Both from and to cannot be blank at this point
+    if from.nil?
+      from = to.at_beginning_of_month
     end
+
+    if to.nil?
+      to = from.next_month.at_end_of_month
+    end
+
+    model.from_sql(from:, to:)
+  end
+
+  def type_strategy
+    @type_strategy ||= Queries::Filters::Strategies::DateInterval.new(self)
+  end
+
+  def connection
+    ActiveRecord::Base::connection
   end
 end

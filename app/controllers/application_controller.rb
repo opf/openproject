@@ -139,7 +139,7 @@ class ApplicationController < ActionController::Base
                 :stop_if_feeds_disabled,
                 :set_cache_buster,
                 :action_hooks,
-                :reload_mailer_configuration!
+                :reload_mailer_settings!
 
   include Redmine::Search::Controller
   include Redmine::MenuManager::MenuController
@@ -167,8 +167,8 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def reload_mailer_configuration!
-    OpenProject::Configuration.reload_mailer_configuration!
+  def reload_mailer_settings!
+    Setting.reload_mailer_settings!
   end
 
   # Checks if the session cookie is missing.

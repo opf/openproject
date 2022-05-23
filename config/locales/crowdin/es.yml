@@ -55,12 +55,12 @@ es:
         alternative-color: "Color de énfasis intenso, que suele usarse para el botón más importante de una pantalla."
         content-link-color: "Color de fuente de la mayoría de los enlaces."
         primary-color: "Color principal."
-        primary-color-dark: "Se suelen usar colores más oscuros para la acción de pasar el ratón por encima."
+        primary-color-dark: "Se suelen usar versions oscuras del color principal para la acción de pasar el ratón por encima."
         header-item-bg-hover-color: "Color de fondo de los elementos interactivos del encabezado cuando se mantiene el ratón sobre estos."
         header-item-font-color: "Color de fuente de los elementos interactivos del encabezado."
         header-item-font-hover-color: "Color de fuente de los elementos interactivos del encabezado cuando se mantiene el ratón sobre estos."
         header-border-bottom-color: "Línea fina debajo del encabezado. Deje este campo vacío si no quiere que se muestre ninguna línea."
-        main-menu-bg-color: "Color de fondo del menú izquierdo."
+        main-menu-bg-color: "Color de fondo del menú lateral izquierdo."
       theme_warning: Al cambiar el tema, se sobrescribirá su estilo personalizado y, como consecuencia, se perderá el diseño. ¿Seguro que quiere continuar?
     enterprise:
       upgrade_to_ee: "Actualizar a Enterprise Edition"
@@ -74,9 +74,9 @@ es:
       book_now: 'Reservar ahora'
       get_quote: 'Solicitar presupuesto'
       buttons:
-        upgrade: "Actualice ahora"
+        upgrade: "Actualizar ahora"
         contact: "Contáctenos para una demostración"
-      enterprise_info_html: "es una fuerte iniciativa<strong class='icon-medal'>Enterprise</strong>."
+      enterprise_info_html: "es una función <strong class='icon-medal'>Enterprise</strong>."
       upgrade_info: "Actualice a un plan de pago para activarlo y empezar a usarlo en su equipo."
     journal_aggregation:
       explanation:
@@ -157,7 +157,7 @@ es:
     label_no_color: 'Sin color'
   custom_actions:
     actions:
-      name: 'Comportamiento'
+      name: 'Acciones'
       add: 'Añadir Acción'
       assigned_to:
         executing_user_value: '(Asignar al usuario que ejecuta)'
@@ -297,7 +297,7 @@ es:
       no_results_content_text: Crear un nuevo tipo
     edit:
       settings: "Configuración"
-      form_configuration: "Configuración del formato"
+      form_configuration: "Configuración del formulario"
       projects: "Proyectos"
       enabled_projects: "Proyectos habilitados"
       edit_query: "Editar tabla"
@@ -325,7 +325,7 @@ es:
       could_not_be_saved: "Los siguientes paquetes de trabajo no pudieron guardarse:"
       none_could_be_saved: "Ninguno de los %{total} paquetes de trabajo pudo ser actualizado."
       x_out_of_y_could_be_saved: "%{failing} de %{total} paquetes de trabajo no pudieron ser actualizados mientras que %{success} pudieron."
-      selected_because_descendants: "Mientras que %{selected} paquetes de trabajo seleccionados, en total %{total} paquetes de trabajo son afectados que incluye descendientes."
+      selected_because_descendants: "Mientras que %{selected} paquetes de trabajo seleccionados, en total %{total} paquetes de trabajo son afectados incluyendo descendientes."
       descendant: "descendiente seleccionado"
     move:
       no_common_statuses_exists: "No hay ningún estado disponible para todos los paquetes de trabajo seleccionados. Su estado no se puede cambiar."
@@ -343,7 +343,7 @@ es:
         priority:
           no_results_title_text: No hay prioridades disponibles por el momento.
         type:
-          no_results_title_text: Actualmente no hay tipos disponibles.
+          no_results_title_text: Actualmente no hay tipos de paquete disponibles.
         version:
           no_results_title_text: No hay versiones disponibles por el momento.
   label_invitation: Invitación
@@ -366,7 +366,7 @@ es:
         other: "Escriba el nombre de usuario de %{name} para verificar la eliminación. Después del envío, se le pedirá que confirme la contraseña."
         self: "Escriba su nombre de usuario (%{name}) para verificar la eliminación. Después del envío, se le pedirá que confirme la contraseña."
     error_inactive_activation_by_mail: >
-      Su cuenta aún no está activada. Para activar su cuenta, haga clic en el enlace que fue enviado por correo electrónico.
+      Su cuenta aún no está activada. Para activar su cuenta, haga clic en el enlace que fue enviado a su correo electrónico.
     error_inactive_manual_activation: >
       Su cuenta aún no está activada. Por favor, espere a que el administrador active su cuenta.
     error_self_registration_disabled: >
@@ -405,7 +405,7 @@ es:
       comment:
         commented: "Comentado" #an object that this comment belongs to
       custom_action:
-        actions: "Comportamiento"
+        actions: "Acciones"
       custom_field:
         default_value: "Valor predeterminado"
         editable: "Editable"
@@ -644,7 +644,7 @@ es:
             read_ian:
               read_on_creation: 'no puede establecerse a verdadero en la creación de notificaciones.'
             mail_reminder_sent:
-              set_on_creation: 'no puede establecerse a verdadero en la creación de notificaciones.'
+              set_on_creation: 'no puede establecerse al valor verdadero en la creación de notificaciones.'
             reason:
               no_notification_reason: 'no puede estar en blanco, ya que se han elegido las notificaciones en la aplicación como un canal.'
             reason_mail_digest:
@@ -698,10 +698,10 @@ es:
           attributes:
             to:
               error_not_found: "el paquete de trabajo en posición 'a' no se ha encontrado o no es visible"
-              error_readonly: "no se puede modificar el enlace de una relación existente 'a'"
+              error_readonly: "la relación existente no se puede modificar 'a' enlace es inmutable"
             from:
               error_not_found: "el paquete de trabajo en la posición 'de' no se ha encontrado o no es visible"
-              error_readonly: "no se puede modificar el enlace de una relación existente 'de'"
+              error_readonly: "la relación existente no se puede modificar 'de' enlace es inmutable"
         repository:
           not_available: "El proveedor SMC no está disponible"
           not_whitelisted: "no está permitido por la configuración."
@@ -734,7 +734,7 @@ es:
             parent:
               cannot_be_milestone: "no puede ser un hito."
               cannot_be_self_assigned: "no se puede asignar a su propio usuario."
-              cannot_be_in_another_project: "No puede estar en otro proyecto."
+              cannot_be_in_another_project: "no puede estar en otro proyecto."
               not_a_valid_parent: "no es válido."
             start_date:
               violates_relationships: "sólo se puede establecer a %{soonest_start} o posterior para que no se violen las relaciones de los paquetes de trabajo."
@@ -818,8 +818,8 @@ es:
       project: "Proyecto"
       query: "Consulta personalizada"
       role:
-        one: "Perfil"
-        other: "Perfiles"
+        one: "Rol"
+        other: "Roles"
       type: "Tipo"
       user: "Usuario"
       version: "Versión"
@@ -879,7 +879,7 @@ es:
     project: "Proyecto"
     responsible: "Responsable"
     role: "Perfil"
-    roles: "Perfiles"
+    roles: "Roles"
     start_date: "Fecha de inicio"
     status: "Estado"
     subject: "Asunto"
@@ -922,7 +922,7 @@ es:
       backup_pending: Ya hay una copia de seguridad pendiente.
       limit_reached: Solo puede ejecutar %{limit} copias de seguridad al día.
   button_add: "Añadir"
-  button_add_comment: "Agregar comentario"
+  button_add_comment: "Añadir comentario"
   button_add_member: Añadir miembro
   button_add_watcher: "Añadir observador"
   button_annotate: "Anotar"
@@ -956,7 +956,7 @@ es:
   button_generate: "Generar"
   button_list: "Lista"
   button_lock: "Bloquear"
-  button_login: "Ingresar"
+  button_login: "Iniciar sesión"
   button_move: "Mover"
   button_move_and_follow: "Mover y seguir"
   button_print: "Imprimir"
@@ -985,7 +985,7 @@ es:
   button_watch: "Controlar"
   button_manage_menu_entry: "Configurar el menú"
   button_add_menu_entry: "Agregar el elemento de menú"
-  button_configure_menu_entry: "Configurar el menú"
+  button_configure_menu_entry: "Configurar elemento del menú"
   button_delete_menu_entry: "Eliminar el elemento del menú"
   consent:
     checkbox_label: He notado y doy mi consentimiento a lo anterior.
@@ -1051,7 +1051,7 @@ es:
       #Use the strftime parameters for formats.
       #When no format has been given, it uses default.
       #You can provide other formats here if you like!
-      default: "%m/%d/%Y"
+      default: "%d.%m.%Y"
       long: "%B %d, %Y"
       short: "%b %d"
     #Don't forget the nil at the beginning; there's no such thing as a 0th month
@@ -1077,10 +1077,10 @@ es:
   datetime:
     distance_in_words:
       about_x_hours:
-        one: "cerca de 1 hora"
-        other: "cerca de %{count} horas"
+        one: "alrededor de 1 hora"
+        other: "alrededor de %{count} horas"
       about_x_months:
-        one: "alrededor de un més"
+        one: "alrededor de un mes"
         other: "alrededor de %{count} meses"
       about_x_years:
         one: "alrededor de un año"
@@ -1099,8 +1099,8 @@ es:
         one: "mas de un año"
         other: "mas de %{count} años"
       x_days:
-        one: "1 dia"
-        other: "%{count} dias"
+        one: "1 día"
+        other: "%{count} días"
       x_minutes:
         one: "un minuto"
         other: "%{count} minutos"
@@ -1109,7 +1109,7 @@ es:
         other: "%{count} meses"
       x_seconds:
         one: "un segundo"
-        other: "%{count} segundo"
+        other: "%{count} segundos"
     units:
       hour:
         one: "una hora"
@@ -1199,7 +1199,7 @@ es:
   description_toc_toggle: "Mostrar/ocultar tabla de contenidos"
   description_wiki_subpages_reassign: "Elija nueva página principal"
   #Text direction: Left-to-Right (ltr) or Right-to-Left (rtl)
-  direction: ltr
+  direction: iad (ltr)
   ee:
     upsale:
       form_configuration:
@@ -1317,10 +1317,10 @@ es:
     blocks:
       community: "Comunidad de OpenProject"
       upsale:
-        title: "Actualizar hasta versión corporativa"
+        title: "Actualizar hasta versión Enterprise"
         more_info: "Más información"
     links:
-      upgrade_enterprise_edition: "Actualizar hasta versión corporativa"
+      upgrade_enterprise_edition: "Actualizar hasta versión Enterprise"
       postgres_migration: "Migrando su instalación a PostgreSQL"
       user_guides: "Guia de usuario"
       faq: "Preguntas Frecuentes"
@@ -1423,7 +1423,7 @@ es:
   label_attachment_plural: "Archivos"
   label_attribute: "Atributo"
   label_attribute_plural: "Atributos"
-  label_auth_source: "Modos de autentificación"
+  label_auth_source: "Modo de autentificación"
   label_auth_source_new: "Nuevo modo de autenticaficación"
   label_auth_source_plural: "Modos de autentificación"
   label_authentication: "Autentificación"
@@ -1441,7 +1441,7 @@ es:
   label_forums_locked: "Bloqueado"
   label_forum_new: "Foro nuevo"
   label_forum_plural: "Foros"
-  label_forum_sticky: "Adhesivo"
+  label_forum_sticky: "Fijo"
   label_boolean: "Booleano"
   label_branch: "Sucursal"
   label_browse: "Explorar"
@@ -1496,7 +1496,7 @@ es:
   label_current_version: "Version actual"
   label_custom_field_add_no_type: "Agregue este campo a un tipo de paquete de trabajo"
   label_custom_field_new: "Nuevo campo personalizado"
-  label_custom_field_plural: "Campos Personalizados"
+  label_custom_field_plural: "Campos personalizados"
   label_custom_field_default_type: "Tipo vacío"
   label_custom_style: "Diseño"
   label_database_version: "Versión de PostgreSQL"
@@ -1709,7 +1709,7 @@ es:
   label_path_encoding: "Ruta de codificación"
   label_pdf_with_descriptions: "PDF con las descripciones"
   label_per_page: "Por página"
-  label_people: "Participantes"
+  label_people: "Personas"
   label_permissions: "Permisos"
   label_permissions_report: "Informe de permisos"
   label_personalize_page: "Personalizar esta página"
@@ -1952,7 +1952,7 @@ es:
       link_name: 'Nuevo paquete de trabajo'
       link_name_type: '%{type_name} nuevo'
   mail:
-    actions: 'Comportamiento'
+    actions: 'Acciones'
     digests:
       including_mention_singular: 'incluyendo una mención'
       including_mention_plural: 'incluyendo %{number_mentioned} menciones'
@@ -2050,7 +2050,7 @@ es:
   more_actions: "Más funciones"
   noscript_description: "Necesita activar JavaScript para poder usar OpenProject!"
   noscript_heading: "JavaScript desactivado"
-  noscript_learn_more: "Saber más"
+  noscript_learn_more: "Más información"
   notice_accessibility_mode: El modo de accesibilidad puede ser habilitado a través de tu cuenta [settings](url).
   notice_account_activated: "Su cuenta ha sido activada. Ahora puede iniciar sesión."
   notice_account_already_activated: La Cuenta ya había sido activada.
@@ -2153,7 +2153,7 @@ es:
   permission_comment_news: "Comentar noticias"
   permission_commit_access: "Permiso de escritura sobre el repositorio (commit)"
   permission_copy_projects: "Copiar proyectos"
-  permission_create_backup: "Create backup"
+  permission_create_backup: "Crear copia de seguridad"
   permission_delete_work_package_watchers: "Eliminar los observadores"
   permission_delete_work_packages: "Eliminar paquetes de trabajo"
   permission_delete_messages: "Eliminar mensajes"
@@ -2246,7 +2246,7 @@ es:
     assigned_to_role: "Asignación de roles"
     member_of_group: "Asignación de grupo"
     assignee_or_group: "Grupo al que pertenece o al que está asignado"
-    subproject_id: "Including subproject"
+    subproject_id: "Incluyendo subproyecto"
     only_subproject_id: "Sólo subproyecto"
     name_or_identifier: "Nombre o identificador"
   repositories:
@@ -2360,7 +2360,7 @@ es:
   setting_apiv3_cors_origins: "Orígenes permitidos de la API de CORS (uso compartido de recursos entre orígenes) V3"
   setting_apiv3_cors_origins_text_html: >
     Si CORS está habilitado, estos son los orígenes que tienen permiso para acceder a la API de OpenProject. <br/> Consulte la <a href="%{origin_link}" target="_blank">documentación sobre el encabezado Origin</a> para obtener información sobre cómo especificar los valores esperados.
-  setting_apiv3_max_page_size: "Tamaño máximo de página"
+  setting_apiv3_max_page_size: "Tamaño máximo de página API"
   setting_apiv3_max_page_instructions_html: >
     Establecer el tamaño máximo de página con el que responderá la API. No será posible realizar peticiones API que devuelvan más valores en una sola página. <br/> <strong>Advertencia:</strong> Por favor, cambie este valor sólo si está seguro de por qué lo necesita. Un ajuste alto impactará significativamente el rendimiento, mientras que un valor inferior a las opciones por página causará errores en las vistas paginadas.
   setting_apiv3_docs: "Documentación"
@@ -2629,9 +2629,9 @@ es:
       time: "%I:%M %p"
     pm: "pm"
   timeframe:
-    show: "Mostrar calendario"
+    show: "Mostrar marco temporal"
     end: "a"
-    start: "De"
+    start: "de"
   timelines:
     admin_menu:
       color: "Color"
@@ -2644,12 +2644,12 @@ es:
     current_planning: "Planificación actual"
     dates: "Fechas"
     dates_are_calculated_based_on_sub_elements: "Las fechas se calculan basándose en sub elementos."
-    delete_all: "Borrar todo"
+    delete_all: "Borrar todos"
     delete_thing: "Borrar"
     duration: "Duración"
     duration_days:
-      one: "1 dia"
-      other: "%{count} dias"
+      one: "1 día"
+      other: "%{count} días"
     edit_color: "Editar colores"
     edit_thing: "Editar"
     edit_timeline: "Edición del informe de tiempos %{timeline}"
@@ -2719,7 +2719,7 @@ es:
       status: "Mostrar estado"
       project_time_filter: "Proyectos con paquete de trabajo de un tipo determinado en un plazo"
       project_time_filter_timeframe: "Marco de tiempo"
-      project_time_filter_historical_from: "De"
+      project_time_filter_historical_from: "de"
       project_time_filter_historical_to: "a"
       project_time_filter_historical: "%{start_label} %{startdate} %{end_label} %{enddate}"
       project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} hace, %{end_label} %{endspan}%{endspanunit} desde ahora"
@@ -2768,7 +2768,7 @@ es:
       ¿Esta seguro que desea eliminar el siguiente informe? Los informes de estados anteriores se eliminaran, también.
     start: "Inicio"
     timeline: "Informe de línea de tiempo"
-    timelines: "Informes de cronograma"
+    timelines: "Informe de línea de tiempo"
     settings: "Líneas de tiempo"
     vertical_work_package: "Paquetes de trabajo vertical"
     you_are_viewing_the_selected_timeline: "Usted está viendo el informe de línea de tiempo seleccionado"
@@ -2809,7 +2809,7 @@ es:
     blocked: "bloqueado temporalmente"
     blocked_num_failed_logins:
       one: "bloqueado temporalmente (un intento fallido de inicio de sesión)"
-      other: "bloqueada temporalmente (%{count} intentos de ingreso fallidos)"
+      other: "bloqueada temporalmente (%{count} intentos fallidos de inicio de sesión)"
     confirm_status_change: "Va a cambiar el estado de “%{name}”. ¿Está seguro de que quiere continuar?"
     deleted: "Usuarios Eliminados"
     error_status_change_failed: "Cambiar la condición de usuario falló debido a los errores siguientes: %{errors}"
@@ -2955,7 +2955,7 @@ es:
           expired: "El token de acceso ha expirado"
           unknown: "El token de acceso es inválido"
         revoke:
-          unauthorized: "No estás autorizado a revocar este bono."
+          unauthorized: "No estás autorizado a revocar este token."
         forbidden_token:
           missing_scope: 'El acceso a este recurso requiere competencia "%{oauth_scopes}".'
   unsupported_browser:

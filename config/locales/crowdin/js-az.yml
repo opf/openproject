@@ -22,68 +22,68 @@
 az:
   js:
     ajax:
-      hide: "Hide"
-      loading: "Loading…"
-      updating: "Updating…"
+      hide: "Gizlət"
+      loading: "Yüklənir…"
+      updating: "Yenilənir…"
     attachments:
       draggable_hint: |
         Drag on editor field to inline image or reference attachment. Closed editor fields will be opened while you keep dragging.
     autocomplete_select:
       placeholder:
-        multi: "Add \"%{name}\""
-        single: "Select \"%{name}\""
-      remove: "Remove %{name}"
-      active: "Active %{label} %{name}"
+        multi: "\"%{name}\" əlavə et"
+        single: "\"%{name}\" seç"
+      remove: "%{name} çıxart"
+      active: "Aktiv %{label} %{name}"
     backup:
-      attachments_disabled: Attachments may not be included since they exceed the maximum overall size allowed. You can change this via the configuration (requires a server restart).
+      attachments_disabled: İcazə verilən maksimal cəm sayını aşdığı üçün qoşmalar daxil edilməyə bilər. Bunu konfiqurasiya vasitəsilə dəyişdirə bilərsiniz (serverin yenidən başladılmasını tələb edir).
       info: >
         You can trigger a backup here. The process can take some time depending on the amount of data (especially attachments) you have. You will receive an email once it's ready.
       note: >
-        A new backup will override any previous one. Only a limited number of backups per day can be requested.
-      last_backup: Last backup
-      last_backup_from: Last backup from
-      title: Backup OpenProject
-      options: Options
-      include_attachments: Include attachments
-      download_backup: Download backup
-      request_backup: Request backup
+        Yeni bir nüsxələmə, əvvəlkini etibarsız edəcək. Gündəlik yalnız limitli sayda nüsxələmə tələb oluna bilər.
+      last_backup: Son nüsxələmə
+      last_backup_from: Son nüsxələmə
+      title: OpenProject nüsxələməsi
+      options: Seçimlər
+      include_attachments: Qoşmaları daxil et
+      download_backup: Nüsxəni endir
+      request_backup: Nüsxə tələb et
     close_popup_title: "Açılan pəncərəni bağla"
-    close_filter_title: "Close filter"
-    close_form_title: "Close form"
-    button_add_watcher: "Add watcher"
-    button_add: "Add"
-    button_back: "Back"
-    button_back_to_list_view: "Back to list view"
-    button_cancel: "Cancel"
-    button_close: "Close"
-    button_change_project: "Change project"
-    button_check_all: "Check all"
-    button_configure-form: "Configure form"
-    button_confirm: "Confirm"
-    button_continue: "Continue"
-    button_copy: "Copy"
-    button_copy_to_other_project: "Copy to other project"
-    button_custom-fields: "Custom fields"
-    button_delete: "Delete"
+    close_filter_title: "Filtr seç"
+    close_form_title: "Formu bağla"
+    button_add_watcher: "Nəzarətçi əlavə et"
+    button_add: "Əlavə et"
+    button_back: "Geri"
+    button_back_to_list_view: "Siyahı görünüşünə qayıt"
+    button_cancel: "İmtina"
+    button_close: "Bağla"
+    button_change_project: "Layihəni dəyişdir"
+    button_check_all: "Hamısını seç"
+    button_configure-form: "Formu konfiqurasiya et"
+    button_confirm: "Təsdiqlə"
+    button_continue: "Davam"
+    button_copy: "Kopyala"
+    button_copy_to_other_project: "Digər layihəyə kopyala"
+    button_custom-fields: "Özəl sahələr"
+    button_delete: "Sil"
     button_delete_watcher: "İzləyicini sil"
     button_details_view: "Təfsilat baxışı"
-    button_duplicate: "Duplicate"
-    button_edit: "Edit"
-    button_filter: "Filter"
-    button_collapse_all: "Collapse all"
-    button_expand_all: "Expand all"
-    button_advanced_filter: "Advanced filter"
+    button_duplicate: "Çoxalt"
+    button_edit: "Düzəliş et"
+    button_filter: "Filtr"
+    button_collapse_all: "Hamısını yığcamlaşdır"
+    button_expand_all: "Hamısını genişləndir"
+    button_advanced_filter: "Qabaqcıl filtr"
     button_list_view: "Siyahı baxışı"
-    button_show_view: "Fullscreen view"
-    button_log_time: "Log time"
-    button_more: "More"
+    button_show_view: "Tam ekran görünüşü"
+    button_log_time: "Jurnal vaxtı"
+    button_more: "Daha çox"
     button_open_details: "Təfsilat baxışını aç"
-    button_close_details: "Close details view"
-    button_open_fullscreen: "Open fullscreen view"
-    button_show_cards: "Show card view"
-    button_show_list: "Show list view"
-    button_quote: "Quote"
-    button_save: "Save"
+    button_close_details: "Təfsilatlar görünüşünü bağla"
+    button_open_fullscreen: "Tam ekran görünüşünü aç"
+    button_show_cards: "Kart görünüşünü göstər"
+    button_show_list: "Siyahı görünüşünü göstər"
+    button_quote: "Sitat"
+    button_save: "Saxla"
     button_settings: "Settings"
     button_uncheck_all: "Uncheck all"
     button_update: "Yeniləmə"
@@ -147,7 +147,7 @@ az:
         code_block:
           button: 'Insert code snippet'
           title: 'Insert / edit Code snippet'
-          language: 'Formatting language'
+          language: 'Formatlama dili'
           language_hint: 'Enter the formatting language that will be used for highlighting (if supported).'
         dropdown:
           macros: 'Macros'
