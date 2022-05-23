@@ -93,10 +93,9 @@ class Authorization::UserAllowedService
     has_authorized_role?(action, project)
   end
 
+  # Authorize if user is authorized on every element of the array
   def allowed_to_in_all_projects?(action, projects)
-    projects = projects.to_a
-    # Authorize if user is authorized on every element of the array
-    projects.present? && projects.all? do |project|
+    Array(projects).all? do |project|
       allowed_to?(action, project)
     end
   end
@@ -140,7 +139,7 @@ class Authorization::UserAllowedService
   def normalize_action(action)
     if action.is_a?(Hash) && action[:controller] && action[:controller].to_s.starts_with?('/')
       action = action.dup
-      action[:controller] = action[:controller][1..-1]
+      action[:controller] = action[:controller][1..]
     end
 
     action
