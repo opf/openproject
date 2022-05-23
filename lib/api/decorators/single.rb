@@ -30,8 +30,6 @@ require 'roar/decorator'
 require 'roar/hypermedia'
 require 'roar/json/hal'
 
-require 'api/v3/utilities/path_helper'
-
 module API
   module Decorators
     class Single < ::Roar::Decorator

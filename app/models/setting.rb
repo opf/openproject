@@ -29,6 +29,7 @@
 class Setting < ApplicationRecord
   extend CallbacksHelper
   extend Aliases
+  extend MailSettings
 
   ENCODINGS = %w(US-ASCII
                  windows-1250
@@ -157,7 +158,11 @@ class Setting < ApplicationRecord
   end
 
   def value=(val)
-    unless definition.writable?
+    set_value! val
+  end
+
+  def set_value!(val, force: false)
+    unless force || definition.writable?
       raise NoMethodError, "#{name} is not writable but can be set through env vars or configuration.yml file."
     end
 

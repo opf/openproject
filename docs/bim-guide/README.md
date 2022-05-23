@@ -6,7 +6,7 @@ description: User guide for the OpenProject BIM Edition.
 robots: index, follow
 keywords: BIM user guide
 ---
-# BIM user guide
+# BIM guide
 
 Welcome to the OpenProject user guide for Building Information Modeling (BIM) with OpenProject.
 

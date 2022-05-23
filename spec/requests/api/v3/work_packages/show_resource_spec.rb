@@ -161,8 +161,8 @@ describe 'API v3 Work package resource',
             create(:work_package,
                    project_id: project.id,
                    description: 'lorem ipsum').tap do |wp|
-              create(:relation, relates: 1, from: wp, to: directly_related_wp)
-              create(:relation, relates: 1, from: directly_related_wp, to: transitively_related_wp)
+              create(:relation, relation_type: Relation::TYPE_RELATES, from: wp, to: directly_related_wp)
+              create(:relation, relation_type: Relation::TYPE_RELATES, from: directly_related_wp, to: transitively_related_wp)
             end
           end
 

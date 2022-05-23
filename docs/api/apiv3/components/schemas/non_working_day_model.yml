@@ -1,0 +1,41 @@
+# Schema: NonWorkingDayModel
+---
+type: object
+required:
+  - _type
+  - date
+  - name
+properties:
+  _type:
+    type: string
+    enum:
+      - NonWorkingDay
+  date:
+    type: string
+    format: date
+    description: |-
+      Date of the non-working day.
+  name:
+    type: string
+    description: |-
+      Descriptive name for the non-working day.
+  _links:
+    type: object
+    required:
+      - self
+    properties:
+      self:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              This non-working day.
+
+              **Resource**: NonWorkingDay
+example:
+  _type: NonWorkingDay
+  date: '2022-12-25'
+  name: Christmas
+  _links:
+    self:
+      href: /api/v3/days/non_working/2022-12-25
+      title: Christmas

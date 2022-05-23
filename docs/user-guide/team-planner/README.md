@@ -26,6 +26,8 @@ A few notes:
 | [Work package strip detail view](#work-package-strip-detail-view)                         | How to access the work package detail view? |
 | [Removing a work package strip](#removing-a-work-package-strip)                           | How to remove a work package strip?         |
 
+<video src="https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Team-Planner.mp4" type="video/mp4" controls="" style="width:100%"></video>
+
 ## Main view - Start a new or select an existing Team Planner
 
 ![Overview of the team planner](team-planner-overview.png)

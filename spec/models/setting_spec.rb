@@ -132,7 +132,7 @@ describe Setting, type: :model do
       before do
         Settings::Definition.add(
           setting_name,
-          value: nil,
+          default: nil,
           format: setting_format
         )
         described_class.create!(name: setting_name, value: '')
@@ -472,6 +472,123 @@ describe Setting, type: :model do
       described_class.register_callback(:host_name, &cb)
       described_class.host_name = 'some other name'
       expect(collector).to include 'some name'
+    end
+  end
+
+  describe '.reload_mailer_settings!' do
+    before do
+      allow(ActionMailer::Base)
+        .to receive(:perform_deliveries=)
+      allow(ActionMailer::Base)
+        .to receive(:delivery_method=)
+    end
+
+    context 'without smtp_authentication and without ssl' do
+      it 'uses the setting values',
+         with_settings: {
+           email_delivery_method: :smtp,
+           smtp_authentication: :none,
+           smtp_password: 'old',
+           smtp_address: 'smtp.example.com',
+           smtp_domain: 'example.com',
+           smtp_port: 25,
+           smtp_user_name: 'username',
+           smtp_enable_starttls_auto: 1,
+           smtp_ssl: 0
+         } do
+        described_class.reload_mailer_settings!
+        expect(ActionMailer::Base).to have_received(:perform_deliveries=).with(true)
+        expect(ActionMailer::Base).to have_received(:delivery_method=).with(:smtp)
+        expect(ActionMailer::Base.smtp_settings[:smtp_authentication]).to be_nil
+        expect(ActionMailer::Base.smtp_settings).to eq(address: 'smtp.example.com',
+                                                       port: 25,
+                                                       domain: 'example.com',
+                                                       enable_starttls_auto: true,
+                                                       openssl_verify_mode: 'peer',
+                                                       ssl: false)
+      end
+    end
+
+    context 'without smtp_authentication and with ssl' do
+      it 'users the setting values',
+         with_settings: {
+           email_delivery_method: :smtp,
+           smtp_authentication: :none,
+           smtp_password: 'old',
+           smtp_address: 'smtp.example.com',
+           smtp_domain: 'example.com',
+           smtp_port: 25,
+           smtp_user_name: 'username',
+           smtp_enable_starttls_auto: 0,
+           smtp_ssl: 1
+         } do
+        described_class.reload_mailer_settings!
+        expect(ActionMailer::Base).to have_received(:perform_deliveries=).with(true)
+        expect(ActionMailer::Base).to have_received(:delivery_method=).with(:smtp)
+        expect(ActionMailer::Base.smtp_settings[:smtp_authentication]).to be_nil
+        expect(ActionMailer::Base.smtp_settings).to eq(address: 'smtp.example.com',
+                                                       port: 25,
+                                                       domain: 'example.com',
+                                                       enable_starttls_auto: false,
+                                                       openssl_verify_mode: 'peer',
+                                                       ssl: true)
+      end
+    end
+
+    context 'with smtp_authentication and without ssl' do
+      it 'users the setting values',
+         with_settings: {
+           email_delivery_method: :smtp,
+           smtp_password: 'p4ssw0rd',
+           smtp_address: 'smtp.example.com',
+           smtp_domain: 'example.com',
+           smtp_port: 587,
+           smtp_user_name: 'username',
+           smtp_enable_starttls_auto: 1,
+           smtp_ssl: 0
+         } do
+        described_class.reload_mailer_settings!
+        expect(ActionMailer::Base).to have_received(:perform_deliveries=).with(true)
+        expect(ActionMailer::Base).to have_received(:delivery_method=).with(:smtp)
+        expect(ActionMailer::Base.smtp_settings[:smtp_authentication]).to be_nil
+        expect(ActionMailer::Base.smtp_settings).to eq(address: 'smtp.example.com',
+                                                       port: 587,
+                                                       domain: 'example.com',
+                                                       authentication: 'plain',
+                                                       user_name: 'username',
+                                                       password: 'p4ssw0rd',
+                                                       enable_starttls_auto: true,
+                                                       openssl_verify_mode: 'peer',
+                                                       ssl: false)
+      end
+    end
+
+    context 'with smtp_authentication and with ssl' do
+      it 'users the setting values',
+         with_settings: {
+           email_delivery_method: :smtp,
+           smtp_password: 'p4ssw0rd',
+           smtp_address: 'smtp.example.com',
+           smtp_domain: 'example.com',
+           smtp_port: 587,
+           smtp_user_name: 'username',
+           smtp_enable_starttls_auto: 0,
+           smtp_ssl: 1
+         } do
+        described_class.reload_mailer_settings!
+        expect(ActionMailer::Base).to have_received(:perform_deliveries=).with(true)
+        expect(ActionMailer::Base).to have_received(:delivery_method=).with(:smtp)
+        expect(ActionMailer::Base.smtp_settings[:smtp_authentication]).to be_nil
+        expect(ActionMailer::Base.smtp_settings).to eq(address: 'smtp.example.com',
+                                                       port: 587,
+                                                       domain: 'example.com',
+                                                       authentication: 'plain',
+                                                       user_name: 'username',
+                                                       password: 'p4ssw0rd',
+                                                       enable_starttls_auto: false,
+                                                       openssl_verify_mode: 'peer',
+                                                       ssl: true)
+      end
     end
   end
 end

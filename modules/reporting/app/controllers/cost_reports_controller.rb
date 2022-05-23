@@ -359,31 +359,22 @@ class CostReportsController < ApplicationController
     # If report does not belong to a project, it is ok to look for the
     # permission in any project. Otherwise, the user should have the permission
     # in this project.
-    options = if report.project.present?
-                {}
-              else
-                { global: true }
-              end
+    global = report.project.nil?
 
-    case action
-    when :create
-      user.allowed_to?(:save_cost_reports, @project, options) or
-        user.allowed_to?(:save_private_cost_reports, @project, options)
-
-    when :save, :destroy, :rename
-      if report.is_public?
-        user.allowed_to?(:save_cost_reports, @project, options)
-      else
-        user.allowed_to?(:save_cost_reports, @project, options) or
-          user.allowed_to?(:save_private_cost_reports, @project, options)
+    permissions =
+      case action
+      when :create
+        %i[save_cost_reports save_private_cost_reports]
+      when :save, :destroy, :rename
+        if report.is_public?
+          %i[save_cost_reports]
+        else
+          %i[save_cost_reports save_private_cost_reports]
+        end
+      when :save_as_public
+        %i[save_cost_reports]
       end
-
-    when :save_as_public
-      user.allowed_to?(:save_cost_reports, @project, options)
-
-    else
-      false
-    end
+    Array(permissions).any? { |permission| user.allowed_to?(permission, @project, global:) }
   end
 
   def display_report_list

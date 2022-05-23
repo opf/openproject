@@ -1,6 +1,7 @@
 <label
   *ngFor="let option of options"
-  [ngClass]="{ 'spot-toggle--option': true, 'spot-toggle--option_selected': value === option.value }"
+  [ngClass]="{ 'button': true, 'form--field-inline-button': true, '-active': value === option.value }"
+  data-qa-selector="spot-toggle--option"
 >
   <input
     class="spot-toggle--option-input"

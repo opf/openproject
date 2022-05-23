@@ -111,18 +111,18 @@ describe Impediments::UpdateService, type: :model do
 
   shared_examples_for 'impediment update with changed blocking relationship' do
     it_should_behave_like 'impediment update'
-    it { expect(subject.relations_to.direct.size).to eq(1) }
-    it { expect(subject.relations_to.direct[0]).not_to be_new_record }
-    it { expect(subject.relations_to.direct[0].to).to eql story }
-    it { expect(subject.relations_to.direct[0].relation_type).to eql Relation::TYPE_BLOCKS }
+    it { expect(subject.relations.size).to eq(1) }
+    it { expect(subject.relations[0]).not_to be_new_record }
+    it { expect(subject.relations[0].to).to eql story }
+    it { expect(subject.relations[0].relation_type).to eql Relation::TYPE_BLOCKS }
   end
 
   shared_examples_for 'impediment update with unchanged blocking relationship' do
     it_should_behave_like 'impediment update'
-    it { expect(subject.relations_to.direct.size).to eq(1) }
-    it { expect(subject.relations_to.direct[0]).not_to be_changed }
-    it { expect(subject.relations_to.direct[0].to).to eql feature }
-    it { expect(subject.relations_to.direct[0].relation_type).to eql Relation::TYPE_BLOCKS }
+    it { expect(subject.relations.size).to eq(1) }
+    it { expect(subject.relations[0]).not_to be_changed }
+    it { expect(subject.relations[0].to).to eql feature }
+    it { expect(subject.relations[0].relation_type).to eql Relation::TYPE_BLOCKS }
   end
 
   subject do

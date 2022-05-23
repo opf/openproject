@@ -47,5 +47,5 @@ es:
       export_card_configuration:
         rows: "Filas"
         per_page: "Por página"
-        page_size: "Tamaño de la página"
+        page_size: "Tamaño de página"
         orientation: "Orientación"
