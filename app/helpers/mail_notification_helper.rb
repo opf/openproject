@@ -35,7 +35,7 @@ module MailNotificationHelper
       .uniq
   end
 
-  def notifications_path(id)
+  def notifications_details_path(id)
     notifications_center_url(['details', id, 'activity'])
   end
 

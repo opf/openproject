@@ -1,6 +1,10 @@
 # rubocop:disable Lint/PercentStringArray
 Rails.application.config.after_initialize do
   SecureHeaders::Configuration.default do |config|
+    config.csp = SecureHeaders::OPT_OUT
+    next
+
+
     config.cookies = {
       secure: true,
       httponly: true
@@ -51,6 +55,8 @@ Rails.application.config.after_initialize do
     if Rails.env.development? && ENV.fetch('OPENPROJECT_RACK_PROFILER_ENABLED', false)
       script_src += %w('unsafe-eval')
     end
+
+    script_src += %w('unsafe-inline')
 
     config.csp = {
       preserve_schemes: true,

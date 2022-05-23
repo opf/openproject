@@ -1,0 +1,4 @@
+<% count = DumbNotification.recipient(current_user).count %>
+<% if count > 0 %>
+  <span class="op-ian-bell--indicator"><%= count %></span>
+<% end %>

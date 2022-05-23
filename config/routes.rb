@@ -570,9 +570,10 @@ OpenProject::Application.routes.draw do
 
   root to: 'account#login'
 
-  scope :notifications do
-    get '(/*state)', to: 'angular#notifications_layout', as: :notifications_center
-  end
+  resources :notifications, only: %i[index destroy new create]
+  # scope :notifications do
+  #   get '(/*state)', to: 'angular#notifications_layout', as: :notifications_center
+  # end
 
   # OAuthClient needs a "callback" URL that Nextcloud calls with a "code" (see OAuth2 RFC)
   scope 'oauth_clients/:oauth_client_id' do

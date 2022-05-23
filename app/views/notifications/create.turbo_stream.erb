@@ -1,0 +1,4 @@
+<%= turbo_stream.prepend(:notifications_feed, partial: 'notification', locals: { notification: @notification }) %>
+<%= turbo_stream.update(:notifications_bell_count, partial: 'unread_count') %>
+<%= turbo_stream.update(:notification_create, partial: 'notification_create') %>
+<%= turbo_stream.remove(:notifications_empty) %>

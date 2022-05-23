@@ -109,6 +109,7 @@
     "@fullcalendar/resource-common": "^6.0.0-beta.1",
     "@fullcalendar/resource-timeline": "^6.0.2",
     "@fullcalendar/timegrid": "^6.0.2",
+    "@hotwired/turbo": "^7.1.0",
     "@kolkov/ngx-gallery": "^1.0.11",
     "@ng-select/ng-option-highlight": "0.0.5",
     "@ng-select/ng-select": "^4.0.4",

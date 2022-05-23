@@ -1,0 +1,3 @@
+<% if DumbNotification.recipient(current_user).empty? %>
+  <%= no_results_box %>
+<% end %>
