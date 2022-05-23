@@ -123,25 +123,74 @@ class ::Query::Results
     criteria = ::Query::SortCriteria.new query.sortable_columns
     criteria.available_criteria = aliased_sorting_by_column_name
     criteria.criteria = query.sort_criteria
-    criteria.map_each { |criteria| criteria.map { |raw| Arel.sql raw } }
+    criteria.map_each { |c| c.map { |raw| Arel.sql raw } }
   end
 
   def aliased_sorting_by_column_name
     sorting_by_column_name = query.sortable_key_by_column_name
-
     aliases = include_aliases
+    reflections = reflection_includes
 
-    reflection_includes.each do |inc|
-      sorting_by_column_name[inc.to_s] = Array(sorting_by_column_name[inc.to_s]).map do |column|
-        if column.respond_to?(:call)
-          column.call(aliases[inc])
-        else
-          "#{aliases[inc]}.#{column}"
-        end
-      end
+    sorting_by_column_name.each_with_object({}) do |(column_key, sortable), hash|
+      column_is_association = reflections.include?(column_key.to_sym)
+      columns_hash = columns_hash_for(column_is_association ? column_key : nil)
+      hash[column_key] = if column_is_association
+                           alias_name = aliases[column_key.to_sym]
+                           expand_association_columns(alias_name, sortable, columns_hash)
+                         else
+                           case_insensitive_condition(column_key, sortable, columns_hash)
+                         end
     end
+  end
 
-    sorting_by_column_name
+  ##
+  # Returns the expanded association columns name
+  def expand_association_columns(alias_name, sortable, columns_hash)
+    Array(sortable).map do |column|
+      sort_condition = expand_association_column(column, alias_name)
+      case_insensitive_condition(column, sort_condition, columns_hash)
+    end
+  end
+
+  ##
+  # Returns a single expanded association column name
+  def expand_association_column(column, alias_name)
+    if column.respond_to?(:call)
+      column.call(alias_name)
+    else
+      "#{alias_name}.#{column}"
+    end
+  end
+
+  ##
+  # Return the columns hash for a given association
+  # If the association is nil, then return the WorkPackage.columns_hash
+  def columns_hash_for(association = nil)
+    if association
+      WorkPackage.reflections[association].klass.columns_hash
+    else
+      WorkPackage.columns_hash
+    end
+  end
+
+  ##
+  # Return the case insensitive version for columns with a string type
+  def case_insensitive_condition(column_key, condition, columns_hash)
+    if columns_hash[column_key]&.type == :string
+      "LOWER(#{condition})"
+    elsif custom_field_type(column_key) == "string"
+      condition.map { |c| "LOWER(#{c})" }
+    else
+      condition
+    end
+  end
+
+  ##
+  # Find the custom field type based on the column key
+  def custom_field_type(column_key)
+    (column = query.sortable_columns.detect { |c| c.name.to_s == column_key }) &&
+    column.respond_to?(:custom_field) &&
+    column.custom_field.field_format
   end
 
   # To avoid naming conflicts, joined tables are aliased if they are joined

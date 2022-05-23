@@ -172,8 +172,7 @@ RSpec/MultipleExpectations:
     - 'modules/*/spec/features/**/*.rb'
 
 RSpec/MultipleMemoizedHelpers:
-  Max: 20
-  AllowSubject: true
+  Enabled: false
 
 RSpec/NestedGroups:
   Max: 4
