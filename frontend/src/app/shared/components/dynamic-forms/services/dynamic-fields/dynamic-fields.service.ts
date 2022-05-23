@@ -100,14 +100,6 @@ export class DynamicFieldsService {
         templateOptions: {
           locale: this.I18n.locale,
           bindLabel: 'name',
-          searchable: true,
-          virtualScroll: true,
-          clearOnBackspace: false,
-          clearSearchOnAdd: false,
-          hideSelected: false,
-          text: {
-            add_new_action: this.I18n.t('js.label_create'),
-          },
         },
         expressionProperties: {
           'templateOptions.clearable': (model:any, formState:any, field:FormlyFieldConfig) => !field.templateOptions?.required,

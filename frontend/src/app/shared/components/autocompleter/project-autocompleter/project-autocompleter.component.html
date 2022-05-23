@@ -1,40 +1,34 @@
 <op-autocompleter
   [getOptionsFn]="getAvailableProjects.bind(this)"
-  [(ngModel)]="value"
+  [model]="value"
   [trackByFn]="projectTracker"
 
-  placeholder="My placeholder"
-  notFoundText="Nothing found"
+  (change)="onChange($event)" 
 
   bindLabel="name"
   bindValue="id"
 >
   <ng-template
     op-autocompleter-label-tmp
-    let-item="item"
+    let-item
   >
-    This should show if it is actually working, no?
     {{ item.name }}
   </ng-template>
 
   <ng-template
     op-autocompleter-option-tmp
-    let-item="item"
+    let-item
     let-search="searchTerm"
   >
-    <div class="ng-option-label">
-      <!--Selectable option-->
-      <div
-        class="ellipsis"
-        [ngStyle]="{ 'padding-left.px': item.numberOfAncestors * 20 }"
-        [ngOptionHighlight]="search"
-      >{{ item.name }}</div>
-
-      <!-- No invite rights -->
-      <div
-        *ngIf="item.disabled"
-        class="ellipsis"
-      >{{ text.noInviteRights }}</div>
-    </div>
+    <div
+      class="ng-option-label ellipsis"
+      [ngStyle]="{ 'padding-left.px': item.numberOfAncestors * 20 }"
+      [ngOptionHighlight]="search"
+    >{{ item.name }}</div>
+    <div
+      *ngIf="item.disabledReason"
+      class="ng-option-label ellipsis"
+      [ngStyle]="{ 'padding-left.px': item.numberOfAncestors * 20 }"
+    >{{ item.disabledReason }}</div>
   </ng-template>
 </op-autocompleter>

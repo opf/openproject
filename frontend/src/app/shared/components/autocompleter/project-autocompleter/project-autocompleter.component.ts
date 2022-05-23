@@ -39,14 +39,9 @@ import { HalResourceService } from 'core-app/features/hal/services/hal-resource.
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import {
-  DebouncedRequestSwitchmap,
-  errorNotificationHandler,
-} from 'core-app/shared/helpers/rxjs/debounced-input-switchmap';
+import { map, tap } from 'rxjs/operators';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { DatasetInputs } from 'core-app/shared/components/dataset-inputs.decorator';
 import { ApiV3ListFilter, listParamsString } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import { getPaginatedResults } from 'core-app/core/apiv3/helpers/get-paginated-results';
 import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
@@ -60,7 +55,6 @@ import { flattenProjectTree } from './flatten-project-tree';
 
 export const projectsAutocompleterSelector = 'op-project-autocompleter';
 
-@DatasetInputs
 @Component({
   templateUrl: './project-autocompleter.component.html',
   selector: projectsAutocompleterSelector,
@@ -72,7 +66,6 @@ export const projectsAutocompleterSelector = 'op-project-autocompleter';
 })
 export class ProjectAutocompleterComponent implements OnInit, ControlValueAccessor {
   projectTracker = (item:IProjectAutocompleteItem) => {
-    console.log(item);
     return item.href || item.id;
   }
 
@@ -95,7 +88,6 @@ export class ProjectAutocompleterComponent implements OnInit, ControlValueAccess
     id: project.id,
     href: project._links.self.href,
     name: project.name,
-    found: true,
     disabled: false,
     ancestors: project._links.ancestors,
     children: [],
@@ -159,6 +151,10 @@ export class ProjectAutocompleterComponent implements OnInit, ControlValueAccess
         map((projects) => recursiveSort(projects)),
         map((projectTreeItems) => flattenProjectTree(projectTreeItems)),
       );
+  }
+
+  change(val:any) {
+    this.value = val;
   }
 
   writeValue(value:string) {
