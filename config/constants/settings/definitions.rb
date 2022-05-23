@@ -526,6 +526,12 @@ Settings::Definition.define do
       default: false,
       writable: false
 
+  # Update users' status through the synchronization job
+  add :ldap_users_sync_status,
+      format: :boolean,
+      value: true,
+      writable: false
+
   add :ldap_tls_options,
       default: {},
       writable: false
