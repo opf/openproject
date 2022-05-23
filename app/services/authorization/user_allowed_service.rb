@@ -95,7 +95,7 @@ class Authorization::UserAllowedService
 
   # Authorize if user is authorized on every element of the array
   def allowed_to_in_all_projects?(action, projects)
-    Array(projects).all? do |project|
+    projects.present? && Array(projects).all? do |project|
       allowed_to?(action, project)
     end
   end
