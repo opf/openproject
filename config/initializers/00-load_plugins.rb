@@ -26,18 +26,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Constants
-  module ProjectActivity
-    class << self
-      def register(on:, attribute:, chain: [])
-        @registered ||= Set.new
+# TODO: check if this can be postponed and if some plugins can make use of the ActiveSupport.on_load hooks
 
-        @registered << { on: on,
-                         chain: chain,
-                         attribute: attribute }
-      end
+# Loads the core plugins located in lib_static/plugins
+Dir.glob(Rails.root.join('lib_static/plugins/*')).each do |directory|
+  if File.directory?(directory)
+    lib = File.join(directory, 'lib')
 
-      attr_reader :registered
+    $:.unshift lib
+    Rails.configuration.paths.add lib, eager_load: true, glob: "**[^test]/*"
+
+    initializer = File.join(directory, 'init.rb')
+    if File.file?(initializer)
+      eval(File.read(initializer), binding, initializer)
     end
   end
 end

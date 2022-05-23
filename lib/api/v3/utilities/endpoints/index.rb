@@ -77,7 +77,7 @@ module API
           private
 
           def render_success(query, params, self_path, base_scope)
-            results = merge_scopes(base_scope, query.results)
+            results = apply_scope_constraint(base_scope, query.results)
 
             if paginated_representer?
               render_paginated_success(results, query, params, self_path)
@@ -159,11 +159,11 @@ module API
             end
           end
 
-          def merge_scopes(scope_a, scope_b)
-            if scope_a.is_a? Class
-              scope_b
+          def apply_scope_constraint(constraint, result_scope)
+            if constraint.is_a?(Class)
+              result_scope
             else
-              scope_a.merge(scope_b)
+              result_scope.where id: constraint.select(:id)
             end
           end
         end

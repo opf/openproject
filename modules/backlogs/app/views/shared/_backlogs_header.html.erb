@@ -32,5 +32,5 @@ See COPYRIGHT and LICENSE files for more details.
 <% end %>
 
  <%= nonced_javascript_tag do %>
-   <%= render(partial: 'shared/server_variables.js.erb') %>
+   <%= render(partial: 'shared/server_variables', formats: [:js]) %>
  <% end %>

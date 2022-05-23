@@ -38,3 +38,5 @@ module AvatarHelper
     ''.html_safe
   end
 end
+
+ActiveSupport.run_load_hooks(:op_helpers_avatar, AvatarHelper)

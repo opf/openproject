@@ -28,7 +28,7 @@ describe 'Default device', with_2fa_ee: true, type: :model do
       expect(user.otp_devices.get_default).to eq(other_otp)
 
       subject.make_default!
-      expect(user.otp_devices.get_default).to eq(subject)
+      expect(user.otp_devices.reload.get_default).to eq(subject)
     end
   end
 end

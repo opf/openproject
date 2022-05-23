@@ -62,8 +62,9 @@ module OpenProject::Plugins
           app.config.i18n.load_path += Dir[config.root.join('config', 'locales', 'crowdin', '*.{rb,yml}').to_s]
         end
 
-        initializer "#{engine_name}.register_cell_view_paths" do |_app|
-          pathname = config.root.join("app/cells/views")
+        current_engine = self
+        config.to_prepare do
+          pathname = current_engine.root.join("app/cells/views")
 
           ::RailsCell.view_paths << pathname.to_path if pathname.exist?
         end
