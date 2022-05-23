@@ -13,7 +13,16 @@ keywords: SAML, SSO, single sign-on, authentication
 </div>
 You can integrate your active directory or other SAML compliant identity provider in your OpenProject Enterprise Edition.
 
+### Prerequisites
 
+In order to use integrate OpenProject as a service provider (SP) using SAML, your identity providers (idP):
+
+- needs to be able to handle SAML 2.0 redirect Single-Sign On (SSO) flows, in some implementations also referred to as WebSSO
+- has a known or configurable set of attributes that map to the following required OpenProject attributes. The way these attribute mappings will be defined is described later in this document.
+  - **login**: A stable attribute used to uniquely identify the user. This willl most commonly map to an account ID, samAccountName or email (but please note that emails are often interchangeable, and this might result in logins changing in OpenProject).
+  - **email**: The email attribute of the user being authenticated
+  - **first name** and **last name** of the user.
+- provides the public certificate or certificate fingerprint (SHA1) in use for communicating with the idP.
 
 ### 1: Configuring the SAML integration
 
@@ -68,7 +77,7 @@ saml:
   # Either `idp_cert` or `idp_cert_fingerprint` must be present!
   idp_cert_fingerprint: "E7:91:B2:E1:..."
 
-  # Replace with your redirect flow single sign on URL
+  # Replace with your SAML 2.0 redirect flow single sign on URL
   # For example: "https://sso.example.com/saml/singleSignOn"
   idp_sso_target_url: "<YOUR SSO URL>"
   # Replace with your redirect flow single sign out URL
