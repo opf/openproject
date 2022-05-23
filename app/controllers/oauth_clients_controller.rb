@@ -41,32 +41,101 @@ class OAuthClientsController < ApplicationController
   #   state=http%3A%2F%2Flocalhost%3A4200%2Fprojects%2Fdemo-project%2Foauth2_example&
   #   code=MQoOnUTJGFdAo5jBGD1SqnDH0PV6yioG7NoYM2zZZlK3g6LuKrGUmOxjIS1bIy7fHEfZy2WrgYcx
   def callback
+    # oauth_client can be nil if OAuthClient was not found.
+    # This happens during admin setup if the user forgot to update the return_uri
+    # on Nextcloud after updating the OpenProject side with a new client_id and client_secret.
+    if !@oauth_client
+      flash[:error] = [I18n.t('oauth_client.errors.oauth_client_not_found'),
+                       I18n.t('oauth_client.errors.oauth_client_not_found_explanation')]
+      redirect_to admin_settings_storages_path # Redirect to admin, because this only happens to sloppy admins
+      return
+    end
+
     # Extract the cryptographic "code" that indicates that the user
     # has successfully authenticated agains the OAuth2 provider and has
     # provided authorization to access his resources.
     code = params[:code]
-    if code.nil?
-      # We should have gotten a code as a URL parameter after a redirect from Nextcloud.
-      # ToDo:
-      raise "OAuthClientsController.callback: Expected a 'code' parameter"
+    if code.blank?
+      # The OAuth2 provider should have sent a code when using response_type = "code"
+      # So this could either an error from the OAuth2 provider (Nextcloud) or
+      # ConnectionManager has used the wrong response_type.
+      flash[:error] = [I18n.t('oauth_client.errors.oauth_code_not_present'),
+                       I18n.t('oauth_client.errors.oauth_code_not_present_explanation')]
+      redirect_to admin_settings_storages_path # Redirect to admin, because this only happens to sloppy admins
+      return
+    end
+
+    # state is used by OpenProject to contain the redirection URL where to
+    # continue after receiving an OAuth2 token. So it should not be blank
+    state = params[:state]
+    if state.blank?
+      flash[:error] = [I18n.t('oauth_client.errors.oauth_state_not_present'),
+                       I18n.t('oauth_client.errors.oauth_state_not_present_explanation')]
+      redirect_to admin_settings_storages_path # Redirect to admin, because this only happens to sloppy admins
+      return
     end
 
     # Start the OAuth2 manager that will handle all the rest
-    connection_manager = OAuthClients::ConnectionManager.new(User.current)
+    connection_manager = OAuthClients::ConnectionManager.new(user: User.current, oauth_client: @oauth_client)
 
     # Exchange the code with a token using a HTTP call to the OAuth2 provider
-    user_token = connection_manager.code_to_token(@oauth_client, code)
+    service_result = connection_manager.code_to_token(code)
+    if service_result.success?
+      # Redirect the user to the page that initially wanted to access the OAuth2 resource.
+      # "state" is a variable that encapsulates the page's URL and status.
+      redirect_uri = connection_manager.callback_page_redirect_uri(params[:state])
+      redirect_to redirect_uri
+    else
+      # We got a list of errors from ConnectionManger
+      flash[:error] = ["#{t(:'oauth_client.errors.oauth_was_a_mess')}:"]
+      service_result.errors.each do |error|
+        flash[:error] << "#{t(:'oauth_client.errors.oauth_reported')}: #{error.full_message}"
+      end
 
-    # Redirect the user to the page that initially wanted to access the OAuth2 resource.
-    # "state" is a variable that encapsulates the page's URL and status.
-    redirect_uri = connection_manager.callback_page_redirect_uri(user_token, params[:state])
-    redirect_to redirect_uri
+      redirect_user_or_admin(state)
+    end
+  end
+
+  def refresh
+    # Test page for refreshing OAuth2 token
+    if !@oauth_client
+      flash[:error] = [I18n.t('oauth_client.errors.oauth_client_not_found'),
+                       I18n.t('oauth_client.errors.oauth_client_not_found_explanation')]
+      redirect_to admin_settings_storages_path # Redirect to admin, because this only happens to sloppy admins
+      return
+    end
+
+    # Start the OAuth2 manager that will handle all the rest
+    connection_manager = OAuthClients::ConnectionManager.new(user: User.current, oauth_client: @oauth_client)
+    connection_manager.refresh_token
+
+    # ToDo: This redirect is only for admins
+    redirect_to admin_settings_storages_path(@oauth_client.integration)
   end
 
   private
 
+  def redirect_user_or_admin(state)
+    if User.current.admin
+      # ToDo: Check that integration a storage is
+      redirect_to admin_settings_storages_path(@oauth_client.integration)
+    else
+      flash[:error] = [t(:'oauth_client.errors.oauth_issue_contact_admin')]
+      redirect_to state
+    end
+  end
+
   # Storage ID coming from routes.rb preparsed
+  # Returns nil in case thae OAuthClient is not found.
+  # This can happen during setup if the user forgot to update
+  # the ID in the return_uri on the Nextcloud side.
   def find_oauth_client
-    @oauth_client = OAuthClient.find(params[:id])
+    # During development we need to be able to identify the oauth_client by it's ID
+    @oauth_client = OAuthClient.find_by(id: params[:id])
+    # Nextcloud "automaticial" configuration just adds the OAuth2 client_id as the Id
+    # so the Nextcloud side doesn't need to know the OpenProject object ID.
+    if @oauth_client.nil?
+      @oauth_client = OAuthClient.find_by(client_id: params[:id])
+    end
   end
 end

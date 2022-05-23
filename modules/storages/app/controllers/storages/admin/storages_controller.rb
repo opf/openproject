@@ -58,7 +58,18 @@ class Storages::Admin::StoragesController < ApplicationController
 
   # Show page with details of one Storage object.
   # Called by: Global app/config/routes.rb to serve Web page
-  def show; end
+  def show
+    # Start the OAuth2 manager that will handle all the rest
+    oauth_client = @object.oauth_client
+    connection_manager = OAuthClients::ConnectionManager.new(user: User.current, oauth_client:)
+    # The URL for the "callback" endpoint, including the the ID of the OAuthClient object
+    # We use 1+id because a new oauth_client will be created after enter the client_id + client_secret
+    # from the Nextcloud side.
+    @redirect_url = "#{request.protocol}#{request.host_with_port}/oauth_clients/#{1 + oauth_client.id}/callback"
+    scope = nil # Nextcloud doesn't have multiple scopes.
+    state = "#{request.protocol}#{request.host_with_port}/projects/"
+    @authorize_url = connection_manager.redirect_to_oauth_authorize(scope:, state:)
+  end
 
   # Show the admin page to create a new Storage object.
   # Sets the attributes provider_type and name as default values and then

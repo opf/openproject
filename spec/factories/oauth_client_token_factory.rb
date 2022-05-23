@@ -26,23 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# OAuthClientToken stores the OAuth2 Bearer+Refresh tokens that
-# an OAuth2 server (Nextcloud or similar) provides after a user
-# has granted access.
-class OAuthClientToken < ApplicationRecord
-  # OAuthClientToken sits between User and OAuthClient
-  belongs_to :user
-  belongs_to :oauth_client
-
-  # There should be only one token per project and oauth_client.
-  validates :user, presence: true
-  validates :user, uniqueness: { scope: :oauth_client }
-
-  # There should be an oauth_client as parent
-  validates :oauth_client, presence: true
-
-  # ToDo: Cover with model spec
-  validates :access_token, length: { minimum: 1, maximum: 255 }
-  # ToDo: Cover with model spec
-  validates :refresh_token, length: { minimum: 1, maximum: 255 }
+FactoryBot.define do
+  factory :oauth_client_token, class: '::OAuthClientToken' do
+    sequence(:access_token) { |n| "1234567890-#{n}" }
+    sequence(:refresh_token) { |n| "2345678901-#{n}" }
+    oauth_client factory: :oauth_client
+    user factory: :user
+  end
 end

@@ -50,12 +50,14 @@ See COPYRIGHT and LICENSE files for more details.
   </li>
 <% end %>
 
+
 <div class="attributes-group">
   <div class="attributes-group--header">
     <div class="attributes-group--header-container">
       <h3 class="attributes-group--header-text"><%= t(:label_general) %></h3>
     </div>
   </div>
+
   <div class="attributes-key-value">
     <div class="attributes-key-value--key"><%= t(:'storages.label_name') %></div>
     <div class="attributes-key-value--value-container">
@@ -82,14 +84,18 @@ See COPYRIGHT and LICENSE files for more details.
         <span><%= @object.creator.name %></span>
       </div>
     </div>
+
     <div class="attributes-key-value--key"><%= Storages::ProjectStorage.human_attribute_name(:created_at) %></div>
     <div class="attributes-key-value--value-container">
       <div class="attributes-key-value--value -text">
         <span><%= format_time(@object.created_at) %></span>
       </div>
     </div>
+
   </div>
 </div>
+
+
 <div class="attributes-group">
   <div class="attributes-group--header">
     <div class="attributes-group--header-container">
@@ -114,4 +120,51 @@ See COPYRIGHT and LICENSE files for more details.
   <% else %>
     <%= t("storages.oauth_client_details_missing") %>
   <% end %>
+</div>
+
+
+
+
+<div class="attributes-group">
+  <div class="attributes-group--header">
+    <div class="attributes-group--header-container">
+      <h3 class="attributes-group--header-text"><%= t(:'oauth_client.labels.label_oauth_integration') %></h3>
+    </div>
+  </div>
+
+  <div class="attributes-key-value">
+
+    <div class="attributes-key-value--key"><%= t(:'oauth_client.labels.label_redirect_uri') %></div>
+    <div class="attributes-key-value--value-container">
+      <div class="attributes-key-value--value -text">
+        <span><%= @redirect_url %></span>
+      </div>
+    </div>
+
+    <div class="attributes-key-value--key"><%= t(:'oauth_client.labels.label_request_token') %></div>
+    <div class="attributes-key-value--value-container">
+      <div class="attributes-key-value--value -text">
+        <span>
+          <%= link_to @authorize_url, target: "_blank", class: 'button' do %>
+          <%= op_icon('button--icon') %>
+            <span class="button--text"><%= "Request OAuth2 Token" %></span>
+          <% end %>
+        </span>
+      </div>
+    </div>
+
+    <div class="attributes-key-value--key"><%= t(:'oauth_client.labels.label_refresh_token') %></div>
+    <div class="attributes-key-value--value-container">
+      <div class="attributes-key-value--value -text">
+        <span>
+          <%= link_to "#{request.protocol}#{request.host_with_port}/oauth_clients/#{@object.oauth_client.id}/refresh", target: "_blank", class: 'button' do %>
+          <%= op_icon('button--icon') %>
+            <span class="button--text"><%= "Refresh OAuth2 Token" %></span>
+          <% end %>
+        </span>
+      </div>
+    </div>
+
+
+  </div>
 </div>

@@ -583,6 +583,7 @@ OpenProject::Application.routes.draw do
   # OAuthClient needs a "callback" URL that Nextcloud calls with a "code" (see OAuth2 RFC)
   scope 'oauth_clients/:id' do
     get 'callback', controller: 'oauth_clients', action: :callback
+    get 'refresh', controller: 'oauth_clients', action: :refresh
   end
 
   # Routes for design related documentation and examples pages
