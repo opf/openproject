@@ -30,7 +30,7 @@ class Queries::WorkPackages::Filter::RelatableFilter < Queries::WorkPackages::Fi
   include Queries::WorkPackages::Filter::FilterForWpMixin
 
   def available?
-    User.current.allowed_to?(:manage_work_package_relations, nil, global: true)
+    User.current.allowed_to_globally?(:manage_work_package_relations)
   end
 
   def type

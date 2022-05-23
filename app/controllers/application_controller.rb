@@ -228,7 +228,7 @@ class ApplicationController < ActionController::Base
   # Authorize the user for the requested action
   def authorize(ctrl = params[:controller], action = params[:action], global = false)
     context = @project || @projects
-    is_authorized = AuthorizationService.new({ controller: ctrl, action: action }, context: context, global: global).call
+    is_authorized = User.current.allowed_to?({ controller: ctrl, action: }, context, global:)
 
     unless is_authorized
       if @project&.archived?

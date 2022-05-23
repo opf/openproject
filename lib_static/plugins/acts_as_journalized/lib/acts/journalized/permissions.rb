@@ -56,8 +56,7 @@ module Acts::Journalized
                    editable_by?(user)
                  else
                    p = @project || (project if respond_to? :project)
-                   options = { global: p.present? }
-                   user.allowed_to? journable_edit_permission, p, options
+                   user.allowed_to? journable_edit_permission, p, global: p.present?
                  end
 
       editable && journal.user_id == user.id

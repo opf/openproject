@@ -44,7 +44,7 @@ Redmine::MenuManager.map :top_menu do |menu|
             caption: I18n.t('label_work_package_plural'),
             if: Proc.new {
               (User.current.logged? || !Setting.login_required?) &&
-                User.current.allowed_to?(:view_work_packages, nil, global: true)
+                User.current.allowed_to_globally?(:view_work_packages)
             }
   menu.push :news,
             { controller: '/news', project_id: nil, action: 'index' },
@@ -52,7 +52,7 @@ Redmine::MenuManager.map :top_menu do |menu|
             caption: I18n.t('label_news_plural'),
             if: Proc.new {
               (User.current.logged? || !Setting.login_required?) &&
-                User.current.allowed_to?(:view_news, nil, global: true)
+                User.current.allowed_to_globally?(:view_news)
             }
   menu.push :help,
             OpenProject::Static::Links.help_link,
