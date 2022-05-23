@@ -219,14 +219,21 @@ describe 'activity comments', js: true, with_mail: false do
     end
 
     describe 'referencing another work package' do
-      let!(:work_package2) { create(:work_package, project: project) }
+      let!(:work_package2) { create(:work_package, project: project, type: create(:type)) }
 
       it 'can reference another work package with all methods' do
         comment_field.activate!
 
+        # Insert a new reference using the autocompleter
+        comment_field.input_element.send_keys "Single ##{work_package2.id}"
+        expect(page)
+          .to have_selector('.mention-list-item', text: "#{work_package2.type.name} ##{work_package2.id}:")
+
+        find('.mention-list-item', text: "#{work_package2.type.name} ##{work_package2.id}:").click
+
         # Insert new text, need to do this separately.
+        # No autocompleter used this time.
         [
-          "Single ##{work_package2.id}",
           :return,
           "Double ###{work_package2.id}",
           :return,
