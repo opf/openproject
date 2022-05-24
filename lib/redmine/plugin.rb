@@ -331,10 +331,13 @@ module Redmine #:nodoc:
     #     permission :destroy_contacts, { contacts: :destroy }
     #   end
     def project_module(name, options = {}, &block)
-      @project_scope = [name, options]
-      instance_eval(&block)
+      plugin = self
+      Rails.application.reloader.to_prepare do
+        plugin.instance_eval { @project_scope = [name, options] }
+        plugin.instance_eval(&block)
+      end
     ensure
-      @project_scope = nil
+      plugin.instance_eval { @project_scope = nil }
     end
 
     # Registers an activity provider.

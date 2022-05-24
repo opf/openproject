@@ -26,18 +26,18 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Constants
-  module ProjectActivity
-    class << self
-      def register(on:, attribute:, chain: [])
-        @registered ||= Set.new
+module API::V3::Days
+  class DaysAPI < ::API::OpenProjectAPI
+    helpers ::API::Utilities::UrlPropsParsingHelper
 
-        @registered << { on: on,
-                         chain: chain,
-                         attribute: attribute }
-      end
+    resources :days do
+      mount NonWorkingDaysAPI
+      mount WeekAPI
 
-      attr_reader :registered
+      get &::API::V3::Utilities::Endpoints::Index.new(
+        model: Day,
+        self_path: -> { api_v3_paths.days }
+      ).mount
     end
   end
 end

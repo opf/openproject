@@ -34,7 +34,7 @@ gem 'actionpack-xml_parser', '~> 2.0.0'
 gem 'activemodel-serializers-xml', '~> 1.0.1'
 gem 'activerecord-import', '~> 1.4.0'
 gem 'activerecord-session_store', '~> 2.0.0'
-gem 'rails', '~> 6.1.5', '>= 6.1.5.1'
+gem 'rails', '~> 7.0.3'
 gem 'responders', '~> 3.0'
 
 gem 'ffi', '~> 1.15'
@@ -64,12 +64,6 @@ gem 'rubytree', '~> 1.0.0'
 gem 'typed_dag', '~> 2.0.2', require: false
 
 gem 'addressable', '~> 2.8.0'
-
-# Needed to make rails 6.x work with ruby 3.1, can be dropped
-# after migrated to rails 7 (see https://stackoverflow.com/a/70500221)
-gem 'net-smtp', '~> 0.3.1', require: false
-gem 'net-pop', '~> 0.1.1', require: false
-gem 'net-imap', '~> 0.2.3', require: false
 
 # Remove whitespace from model input
 gem "auto_strip_attributes", "~> 2.5"
@@ -173,7 +167,9 @@ end
 
 gem 'i18n-js', '~> 3.9.0'
 gem 'rails-i18n', '~> 7.0.0'
-gem 'sprockets', '~> 3.7.0'
+
+gem 'sprockets', '~> 3.7.2' # lock sprockets below 4.0
+gem 'sprockets-rails', '~> 3.4.2'
 
 gem 'puma', '~> 5.6'
 gem 'rack-timeout', '~> 0.6.0', require: "rack/timeout/base"
@@ -219,7 +215,7 @@ group :test do
   gem 'rack_session_access'
   gem 'rspec', '~> 3.11.0'
   # also add to development group, so "spec" rake task gets loaded
-  gem 'rspec-rails', '~> 5.1.0', group: :development
+  gem 'rspec-rails', '6.0.0.rc1', group: :development
 
   # Retry failures within the same environment
   gem 'retriable', '~> 3.1.1'

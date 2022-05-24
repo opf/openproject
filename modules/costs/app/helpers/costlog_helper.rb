@@ -38,8 +38,9 @@ module CostlogHelper
   end
 
   def user_collection_for_select_options(_options = {})
-    User
+    Principal
       .possible_assignee(@project)
+      .where(type: 'User')
       .map { |t| [t.name, t.id] }
   end
 

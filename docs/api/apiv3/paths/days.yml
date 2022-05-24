@@ -19,11 +19,11 @@ get:
         Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/)
         endpoint. Currently supported filters are:
 
-        + interval: the inclusive date interval to scope days to look up. When
+        + date: the inclusive date interval to scope days to look up. When
           unspecified, default is from the beginning of current month to the end
           of following month.
 
-          Example: `{ "interval": { "operator": "<>d", "values": ["2022-05-02","2022-05-26"] } }`
+          Example: `{ "date": { "operator": "<>d", "values": ["2022-05-02","2022-05-26"] } }`
           would return days between May 5 and May 26 2022, inclusive.
 
         + working: when `true`, returns only the working days. When `false`,
@@ -32,7 +32,7 @@ get:
 
           Example: `{ "working": { "operator": "=", "values": ["t"] } }`
           would exclude non-working days from the response.
-      example: '[{ "interval": { "operator": "<>d", "values": ["2022-05-02","2022-05-26"] } }, { "working": { "operator": "=", "values": ["f"] } }]'
+      example: '[{ "date": { "operator": "<>d", "values": ["2022-05-02","2022-05-26"] } }, { "working": { "operator": "=", "values": ["f"] } }]'
       required: false
       schema:
         type: string

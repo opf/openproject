@@ -20,13 +20,15 @@ module Dashboards
     end
 
     initializer 'dashboards.permissions' do
-      # deactivate for now
-      next unless Rails.env == 'test'
+      Rails.application.reloader.to_prepare do
+        # deactivate for now
+        next unless Rails.env.test?
 
-      OpenProject::AccessControl.map do |ac_map|
-        ac_map.project_module(:dashboards) do |pm_map|
-          pm_map.permission(:view_dashboards, { 'dashboards/dashboards': ['show'] })
-          pm_map.permission(:manage_dashboards, { 'dashboards/dashboards': ['show'] })
+        OpenProject::AccessControl.map do |ac_map|
+          ac_map.project_module(:dashboards) do |pm_map|
+            pm_map.permission(:view_dashboards, { 'dashboards/dashboards': ['show'] })
+            pm_map.permission(:manage_dashboards, { 'dashboards/dashboards': ['show'] })
+          end
         end
       end
     end

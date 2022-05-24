@@ -26,24 +26,37 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# project, projects, global, user = nil
+class Queries::Days::Filters::DatesIntervalFilter < Queries::Days::Filters::DayFilter
+  include Queries::Operators::DateRangeClauses
 
-class AuthorizationService
-  # @params
-  #   ctrl - controller
-  #   action - action
-  # @named params
-  #   context - single project or array of projects - default nil
-  #   global - global - default false
-  #   user - user - default current user
-  def initialize(permission, context: nil, global: false, user: User.current)
-    @permission = permission
-    @context = context
-    @global = global
-    @user = user
+  def type
+    :date
   end
 
-  def call
-    @user.allowed_to?(@permission, @context, global: @global)
+  def self.key
+    :date
+  end
+
+  def from
+    from, to = values.map { |v| v.blank? ? nil : Date.parse(v) }
+
+    # Both from and to cannot be blank at this point
+    if from.nil?
+      from = to.at_beginning_of_month
+    end
+
+    if to.nil?
+      to = from.next_month.at_end_of_month
+    end
+
+    model.from_sql(from:, to:)
+  end
+
+  def type_strategy
+    @type_strategy ||= Queries::Filters::Strategies::DateInterval.new(self)
+  end
+
+  def connection
+    ActiveRecord::Base::connection
   end
 end

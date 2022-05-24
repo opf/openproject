@@ -27,7 +27,6 @@
 #++
 
 require 'optparse'
-require 'plugins/load_path_helper'
 
 begin
   Bundler.gem('parallel_tests')

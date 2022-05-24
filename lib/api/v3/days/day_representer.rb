@@ -26,17 +26,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Loads the core plugins located in lib/plugins
-Dir.glob(File.join(Rails.root, 'lib/plugins/*')).sort.each do |directory|
-  if File.directory?(directory)
-    lib = File.join(directory, 'lib')
+module API::V3::Days
+  class DayRepresenter < ::API::Decorators::Single
+    property :date
+    property :name
+    property :working
 
-    $:.unshift lib
-    Rails.configuration.paths.add lib, eager_load: true, glob: "**[^test]/*"
+    self_link path: :day, id_attribute: :date
 
-    initializer = File.join(directory, 'init.rb')
-    if File.file?(initializer)
-      eval(File.read(initializer), binding, initializer)
+    def _type
+      'Day'
     end
   end
 end
