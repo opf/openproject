@@ -61,4 +61,10 @@ Before you can make changes you need to create a local clone of the OpenProject 
 
 ## Step 7: Create a new Git branch for your change
 
-Select the branch "Release 12.1" as the current branch. 
+Select the latest release branch e.g.`release/12.1` as the current branch. 
+
+![image-20220524204024162](C:\Users\nlind\AppData\Roaming\Typora\typora-user-images\image-20220524204024162.png)
+
+In the same drop down click on "New branch". In this window insert a branch name select the latest release branch e.g. `release/12.1`.
+
+![image-20220524204132363](C:\Users\nlind\AppData\Roaming\Typora\typora-user-images\image-20220524204132363.png)
