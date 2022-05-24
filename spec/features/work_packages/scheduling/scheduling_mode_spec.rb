@@ -52,27 +52,27 @@ describe 'scheduling mode',
   #
   let!(:wp) do
     create :work_package,
-           project: project,
+           project:,
            start_date: Date.parse('2016-01-01'),
            due_date: Date.parse('2016-01-05'),
            parent: wp_parent
   end
   let!(:wp_parent) do
     create(:work_package,
-           project: project,
+           project:,
            start_date: Date.parse('2016-01-01'),
            due_date: Date.parse('2016-01-05'))
   end
   let!(:wp_child) do
     create(:work_package,
-           project: project,
+           project:,
            start_date: Date.parse('2016-01-01'),
            due_date: Date.parse('2016-01-05'),
            parent: wp)
   end
   let!(:wp_pre) do
     create(:work_package,
-           project: project,
+           project:,
            start_date: Date.parse('2015-12-15'),
            due_date: Date.parse('2015-12-31')).tap do |pre|
       create(:follows_relation, from: wp, to: pre)
@@ -80,7 +80,7 @@ describe 'scheduling mode',
   end
   let!(:wp_suc) do
     create(:work_package,
-           project: project,
+           project:,
            start_date: Date.parse('2016-01-06'),
            due_date: Date.parse('2016-01-10'),
            parent: wp_suc_parent).tap do |suc|
@@ -89,13 +89,13 @@ describe 'scheduling mode',
   end
   let!(:wp_suc_parent) do
     create(:work_package,
-           project: project,
+           project:,
            start_date: Date.parse('2016-01-06'),
            due_date: Date.parse('2016-01-10'))
   end
   let!(:wp_suc_child) do
     create(:work_package,
-           project: project,
+           project:,
            start_date: Date.parse('2016-01-06'),
            due_date: Date.parse('2016-01-10'),
            parent: wp_suc)

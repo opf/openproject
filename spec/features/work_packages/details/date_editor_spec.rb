@@ -37,7 +37,7 @@ describe 'date inplace editor',
          with_settings: { date_format: '%Y-%m-%d' },
          js: true, selenium: true do
   let(:project) { create :project_with_types, public: true }
-  let(:work_package) { create :work_package, project: project, start_date: Date.parse('2016-01-02') }
+  let(:work_package) { create :work_package, project:, start_date: Date.parse('2016-01-02') }
   let(:user) { create :admin }
   let(:work_packages_page) { Pages::FullWorkPackage.new(work_package, project) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
@@ -95,7 +95,7 @@ describe 'date inplace editor',
   context 'with start and end date set' do
     let(:work_package) do
       create :work_package,
-             project: project,
+             project:,
              start_date: Date.parse('2016-01-02'),
              due_date: Date.parse('2016-01-25')
     end
@@ -161,7 +161,7 @@ describe 'date inplace editor',
   end
 
   context 'with the start date empty' do
-    let(:work_package) { create :work_package, project: project, start_date: nil }
+    let(:work_package) { create :work_package, project:, start_date: nil }
 
     it 'can set "today" as a date via the provided link' do
       start_date.activate!
@@ -245,7 +245,7 @@ describe 'date inplace editor',
 
     let(:cf_field) { EditField.new page, :"customField#{date_cf.id}" }
     let(:datepicker) { ::Components::Datepicker.new }
-    let(:create_page) { ::Pages::FullWorkPackageCreate.new(project: project) }
+    let(:create_page) { ::Pages::FullWorkPackageCreate.new(project:) }
 
     it 'can handle creating a CF date' do
       create_page.visit!

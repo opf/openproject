@@ -68,7 +68,7 @@ FactoryBot.define do
 
         if custom_values.is_a? Hash
           custom_values.each_pair do |custom_field_id, value|
-            work_package.custom_values.build custom_field_id: custom_field_id, value: value
+            work_package.custom_values.build custom_field_id:, value:
           end
         else
           custom_values.each { |cv| work_package.custom_values << cv }

@@ -37,7 +37,7 @@ describe WorkPackages::SetAttributesService, type: :model do
     p
   end
   let(:work_package) do
-    wp = build_stubbed(:work_package, project: project)
+    wp = build_stubbed(:work_package, project:)
     wp.type = initial_type
     wp.send(:clear_changes_information)
 
@@ -64,7 +64,7 @@ describe WorkPackages::SetAttributesService, type: :model do
     instance_double(ActiveModel::Errors)
   end
   let(:instance) do
-    described_class.new(user: user,
+    described_class.new(user:,
                         model: work_package,
                         contract_class: mock_contract)
   end
@@ -280,9 +280,9 @@ describe WorkPackages::SetAttributesService, type: :model do
     end
     let(:user) { build_stubbed(:admin) }
     let(:instance) do
-      described_class.new(user: user,
+      described_class.new(user:,
                           model: invalid_wp,
-                          contract_class: contract_class)
+                          contract_class:)
     end
 
     context 'with a current invalid start date' do
@@ -312,7 +312,7 @@ describe WorkPackages::SetAttributesService, type: :model do
       let(:parent_due_date) { Time.zone.today + 10.days }
 
       context 'with the parent having dates and not providing own dates' do
-        let(:call_attributes) { { parent: parent } }
+        let(:call_attributes) { { parent: } }
 
         it_behaves_like 'service call' do
           it "sets the start_date to the parent`s start_date" do
@@ -332,7 +332,7 @@ describe WorkPackages::SetAttributesService, type: :model do
       end
 
       context 'with the parent having start date (no due) and not providing own dates' do
-        let(:call_attributes) { { parent: parent } }
+        let(:call_attributes) { { parent: } }
         let(:parent_due_date) { nil }
 
         it_behaves_like 'service call' do
@@ -353,7 +353,7 @@ describe WorkPackages::SetAttributesService, type: :model do
       end
 
       context 'with the parent having due date (no start) and not providing own dates' do
-        let(:call_attributes) { { parent: parent } }
+        let(:call_attributes) { { parent: } }
         let(:parent_start_date) { nil }
 
         it_behaves_like 'service call' do
@@ -374,7 +374,7 @@ describe WorkPackages::SetAttributesService, type: :model do
       end
 
       context 'with the parent having dates but providing own dates' do
-        let(:call_attributes) { { parent: parent, start_date: Time.zone.today, due_date: Time.zone.today + 1.day } }
+        let(:call_attributes) { { parent:, start_date: Time.zone.today, due_date: Time.zone.today + 1.day } }
 
         it_behaves_like 'service call' do
           it "sets the start_date to the provided date" do
@@ -394,7 +394,7 @@ describe WorkPackages::SetAttributesService, type: :model do
       end
 
       context 'with the parent having dates but providing own start_date' do
-        let(:call_attributes) { { parent: parent, start_date: Time.zone.today } }
+        let(:call_attributes) { { parent:, start_date: Time.zone.today } }
 
         it_behaves_like 'service call' do
           it "sets the start_date to the provided date" do
@@ -414,7 +414,7 @@ describe WorkPackages::SetAttributesService, type: :model do
       end
 
       context 'with the parent having dates but providing own due_date' do
-        let(:call_attributes) { { parent: parent, due_date: Time.zone.today + 4.days } }
+        let(:call_attributes) { { parent:, due_date: Time.zone.today + 4.days } }
 
         it_behaves_like 'service call' do
           it "sets the start_date to the parent's start date" do
@@ -434,7 +434,7 @@ describe WorkPackages::SetAttributesService, type: :model do
       end
 
       context 'with the parent having dates but providing own empty start_date' do
-        let(:call_attributes) { { parent: parent, start_date: nil } }
+        let(:call_attributes) { { parent:, start_date: nil } }
 
         it_behaves_like 'service call' do
           it "sets the start_date to nil" do
@@ -454,7 +454,7 @@ describe WorkPackages::SetAttributesService, type: :model do
       end
 
       context 'with the parent having dates but providing own empty due_date' do
-        let(:call_attributes) { { parent: parent, due_date: nil } }
+        let(:call_attributes) { { parent:, due_date: nil } }
 
         it_behaves_like 'service call' do
           it "sets the start_date to the parent's start date" do
@@ -474,7 +474,7 @@ describe WorkPackages::SetAttributesService, type: :model do
       end
 
       context 'with the parent having dates but providing a start date that is before parent`s due date`' do
-        let(:call_attributes) { { parent: parent, start_date: parent_due_date - 4.days } }
+        let(:call_attributes) { { parent:, start_date: parent_due_date - 4.days } }
 
         it_behaves_like 'service call' do
           it "sets the start_date to the provided date" do
@@ -494,7 +494,7 @@ describe WorkPackages::SetAttributesService, type: :model do
       end
 
       context 'with the parent having dates but providing a start date that is after the parent`s due date`' do
-        let(:call_attributes) { { parent: parent, start_date: parent_due_date + 1.day } }
+        let(:call_attributes) { { parent:, start_date: parent_due_date + 1.day } }
 
         it_behaves_like 'service call' do
           it "sets the start_date to the provided date" do
@@ -514,7 +514,7 @@ describe WorkPackages::SetAttributesService, type: :model do
       end
 
       context 'with the parent having dates but providing a due date that is before the parent`s start date`' do
-        let(:call_attributes) { { parent: parent, due_date: parent_start_date - 3.days } }
+        let(:call_attributes) { { parent:, due_date: parent_start_date - 3.days } }
 
         it_behaves_like 'service call' do
           it "leaves the start date empty" do
@@ -928,7 +928,6 @@ describe WorkPackages::SetAttributesService, type: :model do
     end
   end
 
-  # rubocop:disable RSpec/MultipleMemoizedHelpers
   context 'when switching the project' do
     let(:new_project) { build_stubbed(:project) }
     let(:version) { build_stubbed(:version) }
@@ -1121,7 +1120,6 @@ describe WorkPackages::SetAttributesService, type: :model do
       end
     end
   end
-  # rubocop:enable RSpec/MultipleMemoizedHelpers
 
   context 'for custom fields' do
     subject { instance.call(call_attributes) }
@@ -1142,7 +1140,7 @@ describe WorkPackages::SetAttributesService, type: :model do
   context 'when switching back to automatic scheduling' do
     let(:work_package) do
       wp = build_stubbed(:work_package,
-                         project: project,
+                         project:,
                          schedule_manually: true,
                          start_date: Time.zone.today,
                          due_date: Time.zone.today + 5.days)
