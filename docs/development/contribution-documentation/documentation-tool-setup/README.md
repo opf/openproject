@@ -58,3 +58,7 @@ If you are an external contributor you don't have write permissions on the repos
 Before you can make changes you need to create a local clone of the OpenProject repository on your local computer. Open the GitHub desktop client and navigate to "File -> Clone repository". Here select the repository you selected in Step 5. Also select a folder on your computer for the cloned repository. Click "Clone".
 
 ![image-20220524203252508](image-20220524203252508.png)
+
+## Step 7: Create a new Git branch for your change
+
+Select the branch "Release 12.1" as the current branch. 
