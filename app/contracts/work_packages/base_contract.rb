@@ -205,7 +205,7 @@ module WorkPackages
 
     def validate_enabled_type
       # Checks that the issue can not be added/moved to a disabled type
-      if type_context_changed? && !model.project.types.include?(model.type)
+      if type_context_changed? && model.project.types.exclude?(model.type)
         errors.add :type_id, :inclusion
       end
     end
@@ -313,9 +313,7 @@ module WorkPackages
     end
 
     def validate_duration_matches_dates
-      return unless model.start_date && model.due_date && model.duration
-
-      calculated_duration = model.due_date - model.start_date + 1
+      return unless calculated_duration && model.duration
 
       if calculated_duration > model.duration
         errors.add :duration, :smaller_than_dates
@@ -343,7 +341,7 @@ module WorkPackages
     end
 
     def principal_visible?(id, list)
-      list.exists?(id: id)
+      list.exists?(id:)
     end
 
     def start_before_soonest_start?
@@ -364,7 +362,7 @@ module WorkPackages
     end
 
     def category_not_of_project?
-      model.category && !model.project.categories.include?(model.category)
+      model.category && model.project.categories.exclude?(model.category)
     end
 
     def status_changed?
@@ -433,6 +431,12 @@ module WorkPackages
     # We're in a readonly status and did not move into that status right now.
     def already_in_readonly_status?
       model.readonly_status? && !model.status_id_change
+    end
+
+    def calculated_duration
+      return nil unless model.due_date && model.start_date
+
+      model.due_date - model.start_date + 1
     end
   end
 end
