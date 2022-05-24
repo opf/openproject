@@ -98,6 +98,8 @@ module WorkPackages
                 model.leaf? || model.schedule_manually?
               }
 
+    attribute :duration
+
     attribute :budget
 
     validates :due_date,
@@ -127,6 +129,11 @@ module WorkPackages
     validate :validate_estimated_hours
 
     validate :validate_assigned_to_exists
+
+    validates :duration,
+              comparison: { greater_than: 0 }
+
+    validate :validate_duration_matches_dates
 
     def initialize(work_package, user, options: {})
       super
@@ -282,7 +289,7 @@ module WorkPackages
     end
 
     def validate_version_is_assignable
-      if model.version_id && !model.assignable_versions.map(&:id).include?(model.version_id)
+      if model.version_id && model.assignable_versions.map(&:id).exclude?(model.version_id)
         errors.add :version_id, :inclusion
       end
     end
@@ -296,12 +303,24 @@ module WorkPackages
     def validate_people_visible(attribute, id_attribute, list)
       id = model[id_attribute]
 
-      return if id.nil? || !model.changed.include?(id_attribute)
+      return if id.nil? || model.changed.exclude?(id_attribute)
 
       unless principal_visible?(id, list)
         errors.add attribute,
                    I18n.t('api_v3.errors.validation.invalid_user_assigned_to_work_package',
                           property: I18n.t("attributes.#{attribute}"))
+      end
+    end
+
+    def validate_duration_matches_dates
+      return unless model.start_date && model.due_date && model.duration
+
+      calculated_duration = model.due_date - model.start_date + 1
+
+      if calculated_duration > model.duration
+        errors.add :duration, :smaller_than_dates
+      elsif calculated_duration < model.duration
+        errors.add :duration, :larger_than_dates
       end
     end
 
