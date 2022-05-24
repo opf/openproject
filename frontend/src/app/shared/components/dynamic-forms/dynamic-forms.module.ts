@@ -5,10 +5,10 @@ import { NgOptionHighlightModule } from '@ng-select/ng-option-highlight';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
-import { ProjectAutocompleterComponent } from 'core-app/shared/components/autocompleter/project-autocompleter/project-autocompleter.component';
 import { TextInputComponent } from 'core-app/shared/components/dynamic-forms/components/dynamic-inputs/text-input/text-input.component';
 import { IntegerInputComponent } from 'core-app/shared/components/dynamic-forms/components/dynamic-inputs/integer-input/integer-input.component';
 import { SelectInputComponent } from 'core-app/shared/components/dynamic-forms/components/dynamic-inputs/select-input/select-input.component';
+import { ProjectInputComponent } from 'core-app/shared/components/dynamic-forms/components/dynamic-inputs/project-input/project-input.component';
 import { SelectProjectStatusInputComponent } from 'core-app/shared/components/dynamic-forms/components/dynamic-inputs/select-project-status-input/select-project-status-input.component';
 import { DatePickerControlModule } from 'core-app/shared/components/dynamic-forms/components/dynamic-inputs/date-input/components/date-picker-control/date-picker-control.module';
 import { BooleanInputComponent } from 'core-app/shared/components/dynamic-forms/components/dynamic-inputs/boolean-input/boolean-input.component';
@@ -33,7 +33,7 @@ import { OPSharedModule } from 'core-app/shared/shared.module';
         { name: 'textInput', component: TextInputComponent },
         { name: 'dateInput', component: DateInputComponent },
         { name: 'selectInput', component: SelectInputComponent },
-        { name: 'projectInput', component: ProjectAutocompleterComponent },
+        { name: 'projectInput', component: ProjectInputComponent },
         { name: 'selectProjectStatusInput', component: SelectProjectStatusInputComponent },
         { name: 'formattableInput', component: FormattableTextareaInputComponent },
       ],
@@ -67,6 +67,7 @@ import { OPSharedModule } from 'core-app/shared/shared.module';
     IntegerInputComponent,
     TextInputComponent,
     SelectInputComponent,
+    ProjectInputComponent,
     SelectProjectStatusInputComponent,
     DateInputComponent,
     FormattableTextareaInputComponent,

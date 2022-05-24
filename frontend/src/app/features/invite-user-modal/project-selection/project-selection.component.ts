@@ -21,6 +21,8 @@ import { ProjectAllowedValidator } from './project-allowed.validator';
 import { map } from 'rxjs/operators';
 import { CapabilityResource } from 'core-app/features/hal/resources/capability-resource';
 import { IProjectAutocompleteItem } from 'core-app/shared/components/autocompleter/project-autocompleter/project-autocomplete-item';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 
 @Component({
   selector: 'op-ium-project-selection',
@@ -34,7 +36,7 @@ export class ProjectSelectionComponent implements OnInit {
 
   @Output() close = new EventEmitter<void>();
 
-  @Output() save = new EventEmitter<{ project:any, type:string }>();
+  @Output() save = new EventEmitter<{ project:ProjectResource|null, type:string }>();
 
   public text = {
     title: this.I18n.t('js.invite_user_modal.title.invite'),
@@ -82,12 +84,16 @@ export class ProjectSelectionComponent implements OnInit {
     readonly I18n:I18nService,
     readonly elementRef:ElementRef,
     readonly bannersService:BannersService,
+    readonly apiV3Service:ApiV3Service,
     readonly currentUserService:CurrentUserService,
   ) {}
 
   ngOnInit() {
     this.typeControl?.setValue(this.type);
-    this.projectControl?.setValue(this.project);
+
+    if (this.project) {
+      this.projectControl?.setValue({ ...this.project });
+    }
 
     this.setPlaceholderOption();
 
@@ -123,15 +129,18 @@ export class ProjectSelectionComponent implements OnInit {
     }
   }
 
-  onSubmit($e:Event) {
+  async onSubmit($e:Event) {
     $e.preventDefault();
     if (this.projectAndTypeForm.invalid) {
       this.projectAndTypeForm.markAsDirty();
       return;
     }
 
+    const projectId = idFromLink(this.projectControl?.value.href);
+    const project = await this.apiV3Service.projects.id(projectId).get().toPromise();
+
     this.save.emit({
-      project: this.projectControl?.value,
+      project,
       type: this.typeControl?.value,
     });
   }
@@ -139,11 +148,14 @@ export class ProjectSelectionComponent implements OnInit {
   APIFiltersForProjects = [['active', '=', true]];
 
   projectFilterFn(projects:IProjectAutocompleteItem[]):IProjectAutocompleteItem[] {
-    const mapped = projects.map((project) => ({
-      ...project,
-      disabled: !this.projectInviteCapabilities.find((cap) => cap.context.id === project.id),
-      disabledReason: this.text.project.noInviteRights,
-    }));
+    const mapped = projects.map((project) => {
+      const disabled = !this.projectInviteCapabilities.find((cap) => parseInt(cap.context.id, 10) === project.id);
+      return {
+        ...project,
+        disabled,
+        disabledReason: disabled ? this.text.project.noInviteRights : '',
+      };
+    });
 
     mapped.sort(
       (a, b) => (a.disabled ? 1 : 0) - (b.disabled ? 1 : 0),

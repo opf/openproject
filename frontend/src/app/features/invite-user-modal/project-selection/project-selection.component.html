@@ -10,8 +10,8 @@
       required
     >
       <op-project-autocompleter
-        formControlName="project"
         slot="input"
+        formControlName="project"
         [APIFilters]="APIFiltersForProjects"
         [mapResultsFn]="projectFilterFn.bind(this)"
       ></op-project-autocompleter>

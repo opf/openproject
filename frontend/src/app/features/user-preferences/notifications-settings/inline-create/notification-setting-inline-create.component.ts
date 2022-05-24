@@ -7,7 +7,6 @@ import {
 } from '@angular/core';
 import { FormArray } from '@angular/forms';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { Observable } from 'rxjs';
 import { HalSourceLink } from 'core-app/features/hal/resources/hal-resource';
 import { IProjectAutocompleteItem } from 'core-app/shared/components/autocompleter/project-autocompleter/project-autocomplete-item';
 
@@ -39,9 +38,7 @@ export class NotificationSettingInlineCreateComponent {
   };
 
   public get APIFilters() {
-    return [
-      ['visible', '=', [this.userId]],
-    ];
+    return [['visible', '=', [this.userId]]];
   }
 
   constructor(

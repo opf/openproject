@@ -93,7 +93,7 @@ export class InviteUserModalComponent extends OpModalComponent implements OnInit
     }
   }
 
-  onProjectSelectionSave({ type, project }:{ type:PrincipalType, project:any }) {
+  onProjectSelectionSave({ type, project }:{ type:PrincipalType, project:ProjectResource|null }) {
     this.type = type;
     this.project = project;
     this.goTo(Steps.Principal);

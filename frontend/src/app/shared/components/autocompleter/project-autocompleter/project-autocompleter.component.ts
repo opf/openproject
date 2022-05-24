@@ -58,6 +58,12 @@ import { ID } from '@datorama/akita';
 
 export const projectsAutocompleterSelector = 'op-project-autocompleter';
 
+export interface IProjectAutocompleterData {
+  id:ID;
+  href:string;
+  name:string;
+};
+
 @Component({
   templateUrl: './project-autocompleter.component.html',
   selector: projectsAutocompleterSelector,
@@ -91,20 +97,20 @@ export class ProjectAutocompleterComponent implements OnInit, ControlValueAccess
   @Input()
   public mapResultsFn:(projects:IProjectAutocompleteItem[]) => IProjectAutocompleteItem[] = (projects) => projects;
 
-  @Input('value') public _value:ID|null = null;
+  @Input('value') public _value:IProjectAutocompleterData|null = null;
 
-  get value():ID|null {
+  get value():IProjectAutocompleterData|null {
     return this._value;
   }
 
-  set value(value:ID|null) {
+  set value(value:IProjectAutocompleterData|null) {
     this._value = value;
     this.onChange(value);
     this.changeEmitter.emit(value);
     this.onTouched(value);
   }
 
-  @Output('change') changeEmitter = new EventEmitter();
+  @Output('change') changeEmitter = new EventEmitter<IProjectAutocompleterData|null>();
 
   constructor(
     public elementRef:ElementRef,
@@ -162,19 +168,19 @@ export class ProjectAutocompleterComponent implements OnInit, ControlValueAccess
       );
   }
 
-  writeValue(value:ID|null) {
+  writeValue(value:IProjectAutocompleterData|null) {
     this.value = value;
   }
 
-  onChange = (_:ID|null):void => {};
+  onChange = (_:IProjectAutocompleterData|null):void => {};
 
-  onTouched = (_:ID|null):void => {};
+  onTouched = (_:IProjectAutocompleterData|null):void => {};
 
-  registerOnChange(fn:(_:ID|null) => void):void {
+  registerOnChange(fn:(_:IProjectAutocompleterData|null) => void):void {
     this.onChange = fn;
   }
 
-  registerOnTouched(fn:(_:ID|null) => void):void {
+  registerOnTouched(fn:(_:IProjectAutocompleterData|null) => void):void {
     this.onTouched = fn;
   }
 }
