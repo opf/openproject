@@ -31,4 +31,30 @@ You can install the GitHub desktop client on any [supported operating systems](/
 
 ## Step 4: Sign in into Github.com in GitHub desktop client
 
-You need an account on GitHub.com to contribute to the OpenProject documentation. To exchange data between your local and remote repositories you need to first sign. After authenticating your account, you are ready to manage and contribute to projects with the GitHub desktop client.
+You need an account on GitHub.com to contribute to the OpenProject documentation. To exchange data between your local and remote repositories you need to first sign (File -> Options -> Sign in).
+
+![image-20220524201335248](image-20220524201335248.png)
+
+In the next screen click on "Continue with browser".
+
+
+
+![image-20220524201506732](image-20220524201506732.png)
+
+This opens your browser. To authenticate to type your GitHub.com credentials and click **Sign in**. If you have configured two-factor authentication (2FA) for GitHub enter your 2FA code in the prompt on GitHub and click **Verify**.
+
+Alternatively, if you were already signed in to GitHub, follow the prompts to return to GitHub Desktop to finish authenticating.
+
+After authenticating your account, you are ready to manage and contribute to projects with the GitHub desktop client.
+
+## Step 5: Fork the OpenProject repository 
+
+If you are an external contributor you don't have write permissions on the repository https://github.com/opf/openproject/. In this case you need to fork the repository first. This basically means that you have your own copy of the repository on GitHub.com. Since it is your own repository you have write privileges here.
+
+![image-20220524202802004](image-20220524202802004.png)
+
+## Step 6: Clone the OpenProject repository in the GitHub desktop client
+
+Before you can make changes you need to create a local clone of the OpenProject repository on your local computer. Open the GitHub desktop client and navigate to "File -> Clone repository". Here select the repository you selected in Step 5. Also select a folder on your computer for the cloned repository. Click "Clone".
+
+![image-20220524203252508](image-20220524203252508.png)
