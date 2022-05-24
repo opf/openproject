@@ -126,8 +126,8 @@ OPENPROJECT_SAML_SAML_ISSUER="https://<openproject.host>"
 # Either `OPENPROJECT_SAML_SAML_IDP__CERT` or `OPENPROJECT_SAML_SAML_IDP__CERT__FINGERPRINT` must be present!
 OPENPROJECT_SAML_SAML_IDP__CERT="-----BEGIN CERTIFICATE-----<cert one liner>-----END CERTIFICATE-----"
 OPENPROJECT_SAML_SAML_IDP__CERT__FINGERPRINT="da:39:a3:ee:5e:6b:4b:0d:32:55:bf:ef:95:60:18:90:af:d8:07:09"
-# Replace with your single sign on URL
-OPENPROJECT_SAML_SAML_IDP__SSO__TARGET__URL="https://<auth.host>/application/saml/vjdyzjls/sso/binding/post/"
+# Replace with your single sign on URL, the exact value depends on your idP implemention
+OPENPROJECT_SAML_SAML_IDP__SSO__TARGET__URL="https://<hostname of your idp>/application/saml/<slug>/sso/binding/post/"
 
 # (Optinal) Replace with your redirect flow single sign out URL that we should redirect to
 OPENPROJECT_SAML_SAML_IDP__SLO__TARGET__URL=""
