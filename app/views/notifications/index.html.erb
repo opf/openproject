@@ -27,6 +27,8 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
+<%= turbo_stream_from 'notification_center' %>
+
 <h1>Notifications</h1>
 <%= turbo_frame_tag 'notifications_empty' do %>
   <%= render partial: 'notifications_empty' %>

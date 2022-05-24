@@ -346,3 +346,5 @@ gemfiles.each do |file|
 end
 
 gem "turbo-rails", "~> 1.1"
+
+gem "redis", "~> 4.6"
