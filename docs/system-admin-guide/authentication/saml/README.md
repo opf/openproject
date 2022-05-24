@@ -110,7 +110,7 @@ E.g.
 OPENPROJECT_SAML_SAML_NAME="saml"
 
 # The name that will be display in the login button
-OPENPROJECT_SAML_SAML_DISPLAY__NAME=">Name of the login button>"
+OPENPROJECT_SAML_SAML_DISPLAY__NAME="<Name of the login button>"
 
 # The callback within OpenProject that your idP should redirect to
 OPENPROJECT_SAML_SAML_ASSERTION__CONSUMER__SERVICE__URL="https://<openproject.host>/auth/saml/callback"
@@ -139,6 +139,8 @@ OPENPROJECT_SAML_SAML_ATTRIBUTE__STATEMENTS_EMAIL="mail"
 OPENPROJECT_SAML_SAML_ATTRIBUTE__STATEMENTS_LOGIN="mail"
 OPENPROJECT_SAML_SAML_ATTRIBUTE__STATEMENTS_FIRST__NAME="givenName"
 OPENPROJECT_SAML_SAML_ATTRIBUTE__STATEMENTS_LAST__NAME="sn"
+# You can also specify an array of attributes, the first found value will be used. Example:
+# OPENPROJECT_SAML_SAML_ATTRIBUTE__STATEMENTS_LOGIN="['mail', 'samAccountName', 'uid']"
 ```
 
 Please note that every underscore (`_`) in the original configuration key has to be replaced by a duplicate underscore
