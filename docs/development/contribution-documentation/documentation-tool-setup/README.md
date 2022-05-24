@@ -92,3 +92,33 @@ Open the GitHub desktop client. Here you can see all the changes you made in the
 ![image-20220524205416700](image-20220524205416700.png)
 
 Add a commit message that best describes your change. This description should allow other users to easily understand the change you made.
+
+## Step 12: Push your changes to GitHub.com
+
+At the moment your change is only available in your local repository. To make it available on GitHub.com you need upload (push) by pressing the button "Push origin".
+
+![image-20220524205510769](image-20220524205510769.png)
+
+## Step 13: Create a pull request
+
+A pull request is a workflow to ask for a review from the OpenProject team. With a pull request you basically ask to check your changes and to copy it over to the OpenProject repository (opf/openproject). Navigate to https://github.com/opf/openproject/pulls/compare.
+
+Here select the latest release branch e.g. release/12.1 in the first dropdown. In the second select the branch you have changed.
+
+![image-20220524210503915](image-20220524210503915.png)
+
+  In the description field of the pull request enter a summary for the changes you made. If there is already a work package on community.openproject.org you can also add this to the description. This adds a relation between your pull request and the work package.
+
+## Step 14: Request review
+
+Select the label "documentation". 
+
+![image-20220524210811330](image-20220524210811330.png) 
+
+In the field "Reviewers" select "opf/doc-writers". 
+
+![image-20220524211008555](image-20220524211008555.png)
+
+## Step 15: Wait for feedback from the reviewers
+
+... and hopefully it is all LGTM which means "Looks good to me(rge). Congrats to your first contribution to the OpenProject documentation. We appreciate your effort :-)
