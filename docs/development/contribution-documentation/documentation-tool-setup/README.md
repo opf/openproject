@@ -68,3 +68,27 @@ Select the latest release branch e.g.`release/12.1` as the current branch.
 In the same drop down click on "New branch". In this window insert a branch name select the latest release branch e.g. `release/12.1`.
 
 ![image-20220524204132363](C:\Users\nlind\AppData\Roaming\Typora\typora-user-images\image-20220524204132363.png)
+
+## Step 8: Fetch origin (update local repository)
+
+Every time you start editing please make sure you have fetched the latest changes from GitHub.com by clicking on "Fetch origin" in the main toolbar:
+
+![image-20220524204624785](image-20220524204624785.png)
+
+
+
+## Step 9: Open the files you want to change in Typora
+
+In Typora open the files you want to change (File -> Open). In the file picker navigate to the local folder you selected in the step 6.
+
+## Step 10: Make the changes in Typora and save the file
+
+The Typora editor makes it quite easy to make changes to the file. After you made your changes do not forgot to save.
+
+## Step 11: Commit the change to your local repository in the GitHub desktop client
+
+Open the GitHub desktop client. Here you can see all the changes you made in the local repository.
+
+![image-20220524205416700](image-20220524205416700.png)
+
+Add a commit message that best describes your change. This description should allow other users to easily understand the change you made.
