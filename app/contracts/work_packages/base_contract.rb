@@ -131,7 +131,8 @@ module WorkPackages
     validate :validate_assigned_to_exists
 
     validates :duration,
-              comparison: { greater_than: 0 }
+              comparison: { greater_than: 0 },
+              allow_nil: true
 
     validate :validate_duration_matches_dates
 
