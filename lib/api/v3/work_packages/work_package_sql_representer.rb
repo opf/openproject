@@ -55,8 +55,9 @@ module API
                  representation: ->(*) { "'WorkPackage'" }
 
         property :id
-
         property :subject
+        property :start_date
+        property :due_date
       end
     end
   end

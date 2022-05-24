@@ -32,8 +32,8 @@ describe ::API::V3::WorkPackages::WorkPackageSqlRepresenter, 'rendering' do
   subject(:json) do
     ::API::V3::Utilities::SqlRepresenterWalker
       .new(scope,
-           current_user: current_user,
-           url_query: { select: select })
+           current_user:,
+           url_query: { select: })
       .walk(described_class)
       .to_json
   end
@@ -45,10 +45,10 @@ describe ::API::V3::WorkPackages::WorkPackageSqlRepresenter, 'rendering' do
 
   let(:rendered_work_package) do
     create(:work_package,
-           project: project,
+           project:,
            assigned_to: assignee,
-           author: author,
-           responsible: responsible)
+           author:,
+           responsible:)
   end
   let(:project) { create(:project) }
   let(:assignee) { nil }
@@ -67,6 +67,8 @@ describe ::API::V3::WorkPackages::WorkPackageSqlRepresenter, 'rendering' do
         _type: "WorkPackage",
         id: rendered_work_package.id,
         subject: rendered_work_package.subject,
+        due_date: rendered_work_package.due_date,
+        start_date: rendered_work_package.start_date,
         _links: {
           self: {
             href: api_v3_paths.work_package(rendered_work_package.id),
