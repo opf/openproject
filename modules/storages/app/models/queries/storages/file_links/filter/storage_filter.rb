@@ -27,7 +27,7 @@
 #++
 
 module Queries::Storages::FileLinks::Filter
-  class StorageIdFilter < ::Queries::Filters::Base
+  class StorageFilter < ::Queries::Filters::Base
     self.model = ::Storages::FileLink
 
     def human_name

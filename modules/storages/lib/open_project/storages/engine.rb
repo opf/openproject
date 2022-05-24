@@ -94,11 +94,14 @@ module OpenProject::Storages
           ::Queries::Storages::WorkPackages::Filter::StorageIdFilter,
           ::Queries::Storages::WorkPackages::Filter::StorageUrlFilter,
           ::Queries::Storages::WorkPackages::Filter::LinkableToStorageIdFilter,
-          ::Queries::Storages::WorkPackages::Filter::LinkableToStorageUrlFilter,
-          ::Queries::Storages::FileLinks::Filter::StorageIdFilter
+          ::Queries::Storages::WorkPackages::Filter::LinkableToStorageUrlFilter
         ].each do |filter|
           filter filter
           exclude filter
+        end
+
+        ::Queries::Register.register(::Queries::Storages::FileLinks::FileLinkQuery) do
+          filter ::Queries::Storages::FileLinks::Filter::StorageFilter
         end
       end
     end

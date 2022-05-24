@@ -136,9 +136,9 @@ get:
         Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/)
         endpoint. The following filters are supported:
 
-        - storage_id
+        - storage
       required: false
-      example: '[{"storage_id":{"operator":"=","values":["42"]}}]'
+      example: '[{"storage":{"operator":"=","values":["42"]}}]'
       schema:
         type: string
   responses:
