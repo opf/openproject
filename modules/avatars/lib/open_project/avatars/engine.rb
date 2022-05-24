@@ -51,15 +51,5 @@ module OpenProject::Avatars
                   path: ->(params) { edit_user_path(params[:user], tab: :avatar) },
                   label: :label_avatar,
                   only_if: ->(*) { User.current.admin? && ::OpenProject::Avatars::AvatarManager.avatars_enabled? }
-
-    initializer 'patch avatar helper' do
-      Rails.autoloaders.main.ignore(config.root.join('lib/open_project/avatars/patches/avatar_helper_patch.rb'))
-
-      ActiveSupport.on_load(:op_helpers_avatar) do
-        require_relative './patches/avatar_helper_patch'
-      end
-    end
-
-    patches %i[User]
   end
 end

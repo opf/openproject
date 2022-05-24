@@ -16,63 +16,48 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-module OpenProject::Avatars
-  module Patches
-    module UserPatch
-      def self.included(base) # :nodoc:
-        base.class_eval do
-          acts_as_attachable
+module Users
+  module Avatars
+    extend ActiveSupport::Concern
 
-          include InstanceMethods
+    included do
+      acts_as_attachable
+    end
 
-          class << self
-            def get_local_avatar(user_id)
-              Attachment.find_by(container_id: user_id, container_type: 'Principal', description: 'avatar')
-            end
-          end
-        end
+    class_methods do
+      def get_local_avatar(user_id)
+        Attachment.find_by(container_id: user_id, container_type: 'Principal', description: 'avatar')
+      end
+    end
+
+    def reload(*args)
+      reset_avatar_attachment_cache!
+
+      super
+    end
+
+    def local_avatar_attachment
+      defined?(@local_avatar_attachment) || begin
+        @local_avatar_attachment = attachments.find_by(description: 'avatar')
       end
 
-      module InstanceMethods
-        def reload(*args)
-          reset_avatar_attachment_cache!
+      @local_avatar_attachment
+    end
 
-          super
-        end
+    def local_avatar_attachment=(file)
+      local_avatar_attachment&.destroy
+      reset_avatar_attachment_cache!
 
-        def local_avatar_attachment
-          # @local_avatar_attachment can legitimately be nil which is why the
-          # typical
-          # inst_var ||= calculation
-          # pattern does not work for caching
-          return @local_avatar_attachment if @local_avatar_attachment_calculated
+      @local_avatar_attachment = Attachments::CreateService
+        .new(user: User.system, contract_class: EmptyContract)
+        .call(file:, container: self, filename: file.original_filename, description: 'avatar')
+        .result
 
-          @local_avatar_attachment_calculated ||= begin
-            @local_avatar_attachment = attachments.find_by_description('avatar')
+      touch
+    end
 
-            true
-          end
-
-          @local_avatar_attachment
-        end
-
-        def local_avatar_attachment=(file)
-          local_avatar_attachment&.destroy
-          reset_avatar_attachment_cache!
-
-          @local_avatar_attachment = Attachments::CreateService
-            .new(user: User.system, contract_class: EmptyContract)
-            .call(file: file, container: self, filename: file.original_filename, description: 'avatar')
-            .result
-          
-          touch
-        end
-
-        def reset_avatar_attachment_cache!
-          @local_avatar_attachment = nil
-          @local_avatar_attachment_calculated = nil
-        end
-      end
+    def reset_avatar_attachment_cache!
+      @local_avatar_attachment = nil
     end
   end
 end
