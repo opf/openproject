@@ -129,6 +129,18 @@ get:
       schema:
         type: integer
       example: 1337
+    - name: filters
+      in: query
+      description: |-
+        JSON specifying filter conditions.
+        Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/)
+        endpoint. The following filters are supported:
+
+        - storage_id
+      required: false
+      example: '[{"storage_id":{"operator":"=","values":["42"]}}]'
+      schema:
+        type: string
   responses:
     '200':
       description: OK
