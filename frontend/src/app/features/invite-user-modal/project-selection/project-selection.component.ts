@@ -18,7 +18,6 @@ import { IOpOptionListOption } from 'core-app/shared/components/option-list/opti
 import { ProjectResource } from 'core-app/features/hal/resources/project-resource';
 import { PrincipalType } from '../invite-user.component';
 import { ProjectAllowedValidator } from './project-allowed.validator';
-import { IProject } from 'core-app/core/state/projects/project.model';
 import { map } from 'rxjs/operators';
 import { CapabilityResource } from 'core-app/features/hal/resources/capability-resource';
 import { IProjectAutocompleteItem } from 'core-app/shared/components/autocompleter/project-autocompleter/project-autocomplete-item';
@@ -139,15 +138,12 @@ export class ProjectSelectionComponent implements OnInit {
 
   APIFiltersForProjects = [['active', '=', true]];
 
-  projectFilterFn(projects:IProject[]):IProjectAutocompleteItem[] {
-    const mapped = projects.map((project:IProject) => ({
-      id: project.id,
-      name: project.name,
-      href: project._links.self.href,
-      ancestors: project._links.ancestors,
+  projectFilterFn(projects:IProjectAutocompleteItem[]):IProjectAutocompleteItem[] {
+    const mapped = projects.map((project) => ({
+      ...project,
       disabled: !this.projectInviteCapabilities.find((cap) => cap.context.id === project.id),
       disabledReason: this.text.project.noInviteRights,
-    }) as IProjectAutocompleteItem);
+    }));
 
     mapped.sort(
       (a, b) => (a.disabled ? 1 : 0) - (b.disabled ? 1 : 0),

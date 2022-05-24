@@ -3,10 +3,7 @@
   [model]="value"
   [trackByFn]="projectTracker"
 
-  (change)="onChange($event)" 
-
-  bindLabel="name"
-  bindValue="id"
+  (change)="writeValue($event)" 
 >
   <ng-template
     op-autocompleter-label-tmp

@@ -33,13 +33,15 @@ import {
   Input,
   OnInit,
   forwardRef,
+  EventEmitter,
+  Output,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { ApiV3ListFilter, listParamsString } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
@@ -52,6 +54,7 @@ import { IProjectAutocompleteItem } from './project-autocomplete-item';
 import { buildTree } from './insert-in-list';
 import { recursiveSort } from './recursive-sort';
 import { flattenProjectTree } from './flatten-project-tree';
+import { ID } from '@datorama/akita';
 
 export const projectsAutocompleterSelector = 'op-project-autocompleter';
 
@@ -80,30 +83,28 @@ export class ProjectAutocompleterComponent implements OnInit, ControlValueAccess
 
   @Input() public APIFilters:ApiV3ListFilter[] = [];
 
-  // This function maps the API results to the internally used IProjectAutocompleteItems.
-  // By default it does not do much, but it is overwritable so additional filtering or
-  // transforming can be done on the API result set.
+  // This function allows mapping of the results before they are fed to the tree
+  // structuring and destructuring algorithms used internally the this component
+  // to show the tree structure. By default it does not do much, but it is
+  // overwritable so additional filtering or transforming can be done on the
+  // API result set.
   @Input()
-  public mapResultsFn:(projects:IProject[]) => IProjectAutocompleteItem[] = (projects) => projects.map((project) => ({
-    id: project.id,
-    href: project._links.self.href,
-    name: project.name,
-    disabled: false,
-    ancestors: project._links.ancestors,
-    children: [],
-  }));
+  public mapResultsFn:(projects:IProjectAutocompleteItem[]) => IProjectAutocompleteItem[] = (projects) => projects;
 
-  @Input('value') public _value = '';
+  @Input('value') public _value:ID|null = null;
 
-  get value():string {
+  get value():ID|null {
     return this._value;
   }
 
-  set value(value:string) {
+  set value(value:ID|null) {
     this._value = value;
     this.onChange(value);
+    this.changeEmitter.emit(value);
     this.onTouched(value);
   }
+
+  @Output('change') changeEmitter = new EventEmitter();
 
   constructor(
     public elementRef:ElementRef,
@@ -145,6 +146,14 @@ export class ProjectAutocompleterComponent implements OnInit, ControlValueAccess
       },
     )
       .pipe(
+        map((projects) => projects.map((project) => ({
+          id: project.id,
+          href: project._links.self.href,
+          name: project.name,
+          disabled: false,
+          ancestors: project._links.ancestors,
+          children: [],
+        }))),
         map(this.mapResultsFn),
         map((projects) => projects.sort((a, b) => a.ancestors.length - b.ancestors.length)),
         map((projects) => buildTree(projects)),
@@ -153,23 +162,19 @@ export class ProjectAutocompleterComponent implements OnInit, ControlValueAccess
       );
   }
 
-  change(val:any) {
-    this.value = val;
-  }
-
-  writeValue(value:string) {
+  writeValue(value:ID|null) {
     this.value = value;
   }
 
-  onChange = (_:string):void => {};
+  onChange = (_:ID|null):void => {};
 
-  onTouched = (_:string):void => {};
+  onTouched = (_:ID|null):void => {};
 
-  registerOnChange(fn:(_:string) => void):void {
+  registerOnChange(fn:(_:ID|null) => void):void {
     this.onChange = fn;
   }
 
-  registerOnTouched(fn:(_:string) => void):void {
+  registerOnTouched(fn:(_:ID|null) => void):void {
     this.onTouched = fn;
   }
 }
