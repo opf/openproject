@@ -34,6 +34,13 @@ module API::V3::Days
 
     self_link path: :day, id_attribute: :date
 
+    link :weekday do
+      {
+        href: api_v3_paths.days_week_day(represented.day_of_week),
+        title: represented.name
+      }
+    end
+
     links :nonWorkingReasons do
       next if represented.working
 

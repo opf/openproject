@@ -120,5 +120,16 @@ describe ::API::V3::Days::DayRepresenter do
         end
       end
     end
+
+    describe 'weekday' do
+      it 'links to the weekday resource' do
+        expected_json = {
+          href: '/api/v3/days/week/2',
+          title: 'Tuesday'
+        }.to_json
+
+        expect(subject).to be_json_eql(expected_json).at_path('_links/weekday')
+      end
+    end
   end
 end
