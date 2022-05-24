@@ -118,6 +118,9 @@ get:
     - File links
   description: |-
     Gets all file links of a work package.
+    
+    As a side effect, for every file link a request is sent to the storage's origin to fetch live data and patch
+    the file link's data before returning, as well as retrieving permissions of the user on this origin file. 
   parameters:
     - name: id
       description: Work package id
