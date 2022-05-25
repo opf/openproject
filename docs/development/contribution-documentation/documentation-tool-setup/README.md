@@ -63,7 +63,7 @@ Before you can make changes you need to create a local clone of the OpenProject 
 
 In the modal window select the repository you forked in Step 5. Also select a folder on your computer for the cloned repository. Click "Clone".
 
-![image-20220524203252508](image-20220524203252508.png)
+![Clone a repository](image-20220525080127187-16534605509021.png)
 
 In the next screen select "*To contribute to the parent project*".
 
