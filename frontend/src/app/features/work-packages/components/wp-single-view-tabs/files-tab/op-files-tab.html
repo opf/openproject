@@ -15,6 +15,9 @@
       <h3 class="op-tab-content--header-text" [textContent]="storage.name"></h3>
     </div>
 
-    <op-file-link-list [resource]="workPackage"></op-file-link-list>
+    <op-file-link-list
+      [resource]="workPackage"
+      [storage]="storage"
+    ></op-file-link-list>
   </section>
 </div>

@@ -34,12 +34,14 @@ import {
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { HookService } from 'core-app/features/plugins/hook-service';
-import { forkJoin, Observable } from 'rxjs';
+import { forkJoin, Observable, of } from 'rxjs';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 import { StoragesResourceService } from 'core-app/core/state/storages/storages.service';
-import { IProject } from 'core-app/core/state/projects/project.model';
 import { IHalResourceLink, IHalResourceLinks } from 'core-app/core/state/hal-resource';
 import { switchMap } from 'rxjs/operators';
+import { IStorage } from 'core-app/core/state/storages/storage.model';
+import { ProjectsResourceService } from 'core-app/core/state/projects/projects.service';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 
 export interface ILiveFileLinkCollectionsLinks extends IHalResourceLinks {
   self:IHalResourceLink
@@ -73,32 +75,40 @@ export class WorkPackageFilesTabComponent implements OnInit {
 
   canViewFileLinks$:Observable<boolean>;
 
-  fileLinkCollections$:Observable<ILiveFileLinkCollection[]>;
+  storages$:Observable<IStorage[]>;
 
   constructor(
     readonly I18n:I18nService,
     protected hook:HookService,
     private currentUserService:CurrentUserService,
-    private storagesResourceService:StoragesResourceService,
+    private readonly projectsResourceService:ProjectsResourceService,
+    private readonly storagesResourceService:StoragesResourceService,
   ) { }
 
   ngOnInit():void {
-    const project = this.workPackage.$embedded.project as IProject;
+    const project = this.workPackage.$embedded.project as HalResource;
+    if (project.id === null) {
+      return;
+    }
 
     this.canViewFileLinks$ = this
       .currentUserService
-      .hasCapabilities$('file_links/view', project.id as string);
+      .hasCapabilities$('file_links/view', project.id);
 
-    const storageLinks = project._links.storages;
-    this.fileLinkCollections$ = forkJoin(
-      storageLinks.map((link) => this
-        .storagesResourceService
-        .lookup(link)
-        .pipe(
-          switchMap((storage) => this
-            .storagesResourceService
-            .liveLinks(storage)('WorkPackage', this.workPackage.id as string)),
-        )),
-    );
+    this.storages$ = this.projectsResourceService.lookup(project.id, true)
+      .pipe(
+        switchMap((p) => {
+          if (!p) {
+            return of([]);
+          }
+
+          const storageLinks = p._links.storages;
+          return forkJoin(
+            storageLinks.map((link) => this
+              .storagesResourceService
+              .lookup(link)),
+          );
+        }),
+      );
   }
 }

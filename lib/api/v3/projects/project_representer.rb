@@ -88,10 +88,10 @@ module API
           { href: api_v3_paths.work_packages_by_project(represented.id) }
         end
 
-        link :storages,
-             cache_if: -> {
-               current_user_allowed_to(:view_file_links, context: represented)
-             } do
+        links :storages,
+              cache_if: -> {
+                current_user_allowed_to(:view_file_links, context: represented)
+              } do
           represented.storages.map do |storage|
             {
               href: api_v3_paths.storage(storage.id),
@@ -210,7 +210,7 @@ module API
                    next unless represented.status&.code
 
                    ::API::V3::Projects::Statuses::StatusRepresenter
-                     .create(represented.status.code, current_user: current_user, embed_links: embed_links)
+                     .create(represented.status.code, current_user:, embed_links:)
                  },
                  link: ->(*) {
                    if represented.status&.code

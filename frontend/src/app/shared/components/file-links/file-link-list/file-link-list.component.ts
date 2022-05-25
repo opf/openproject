@@ -32,6 +32,7 @@ import {
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { Observable } from 'rxjs';
 import { IFileLink } from 'core-app/core/state/file-links/file-link.model';
+import { IStorage } from 'core-app/core/state/storages/storage.model';
 import { FileLinkResourceService } from 'core-app/core/state/file-links/file-links.service';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 import { tap } from 'rxjs/operators';
@@ -43,6 +44,8 @@ import { tap } from 'rxjs/operators';
 })
 export class FileLinkListComponent implements OnInit {
   @Input() public resource:HalResource;
+
+  @Input() public storage:IStorage;
 
   $fileLinks:Observable<IFileLink[]>;
 
@@ -63,7 +66,7 @@ export class FileLinkListComponent implements OnInit {
 
   private get fileLinkSelfLink():string {
     const fileLinks = this.resource.fileLinks as unknown&{ href:string };
-    return fileLinks.href;
+    return `${fileLinks.href}?filters=[{"storage":{"operator":"=","values":["${this.storage.id}"]}}]`;
   }
 
   private get collectionKey():string {
