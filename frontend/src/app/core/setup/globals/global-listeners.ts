@@ -39,6 +39,7 @@ import { listenToSettingChanges } from 'core-app/core/setup/globals/global-liste
 import { detectOnboardingTour } from 'core-app/core/setup/globals/onboarding/onboarding_tour_trigger';
 import { performAnchorHijacking } from './global-listeners/link-hijacking';
 import { fixFragmentAnchors } from 'core-app/core/setup/globals/global-listeners/fix-fragment-anchors';
+import { bootstrapTurboFrames } from 'core-app/core/setup/globals/global-listeners/bootstrap-turbo-frames';
 
 /**
  * A set of listeners that are relevant on every page to set sensible defaults
@@ -143,4 +144,7 @@ export function initializeGlobalListeners():void {
 
   // Replace fragment
   fixFragmentAnchors();
+
+  // Bootstrap on turbo frames
+  bootstrapTurboFrames();
 }

@@ -245,7 +245,7 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: hideSectionLinkSelector, cls: HideSectionLinkComponent },
   { selector: showSectionDropdownSelector, cls: ShowSectionDropdownComponent },
   { selector: addSectionDropdownSelector, cls: AddSectionDropdownComponent },
-  { selector: autocompleteSelectDecorationSelector, cls: AutocompleteSelectDecorationComponent },
+  { selector: autocompleteSelectDecorationSelector, cls: AutocompleteSelectDecorationComponent, embeddable: true },
   { selector: contentTabsSelector, cls: ContentTabsComponent },
   { selector: globalSearchTitleSelector, cls: GlobalSearchTitleComponent },
   { selector: copyToClipboardSelector, cls: CopyToClipboardDirective },
