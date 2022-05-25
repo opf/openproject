@@ -53,7 +53,7 @@ If you are an external contributor you don't have write permissions on the repos
 
 ![image-20220524202802004](image-20220524202802004.png)
 
-## Step 6: Clone the OpenProject repository in the GitHub desktop client
+## Step 6: Clone the forked OpenProject repository in the GitHub desktop client
 
 Before you can make changes you need to create a local clone of the OpenProject repository on your local computer. Open the GitHub desktop client and navigate to "File -> Clone repository".
 
@@ -75,11 +75,15 @@ Select the latest release branch e.g.`release/12.1` as the current branch.
 
 ![image-20220524204024162](C:\Users\nlind\AppData\Roaming\Typora\typora-user-images\image-20220524204024162.png)
 
-In the same drop down click on "New branch". In this window insert a branch name select the latest release branch e.g. `release/12.1`.
+In the same drop down click on "New branch". In this window insert a branch name that describes your changes and select the latest release branch e.g. `release/12.1` the created branch is based on.
 
 ![image-20220524204132363](C:\Users\nlind\AppData\Roaming\Typora\typora-user-images\image-20220524204132363.png)
 
 ## Step 8: Fetch origin (update local repository)
+
+ToDo: Upstream update of the branch.
+
+
 
 Every time you start editing please make sure you have fetched the latest changes from GitHub.com by clicking on "Fetch origin" in the main toolbar:
 
