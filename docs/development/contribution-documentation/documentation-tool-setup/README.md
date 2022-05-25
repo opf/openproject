@@ -11,27 +11,26 @@ keywords: contribution, documentation, documentation process, tool setup
 
 This guide aims to help users that are new to Git and Markdown to contribute to the OpenProject documentation. There are a two very helpful tools that makes it extremely easy to contribute to OpenProject:
 
-| Tool                      | Purpose of this tool                                         | Website and download                                         |
-| ------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| **Git**                   | Git is a software for tracking changes in any set of files, usually used for coordinating work among programmers collaboratively developing source code during software development. | [https://git-scm.com/downloads](https://git-scm.com/downloads) |
-| **Typora**                | Typora is an application that enables you to easily edit markdown files. The markdown file format is used used for the OpenProject documentation which allows you to focus on the content instead of the formatting. | https://desktop.github.com/                                  |
-| **GitHub desktop client** | Desktop is an application that enables you to interact with GitHub using a GUI instead of the command line or a web browser. | https://typora.io/                                           |
+| Tool               | Purpose of this tool                                         | Website and download        |
+| ------------------ | ------------------------------------------------------------ | --------------------------- |
+| **Typora**         | Typora is an application that enables you to easily edit markdown files. The markdown file format is used used for the OpenProject documentation which allows you to focus on the content instead of the formatting. | https://desktop.github.com/ |
+| **GitHub Desktop** | Desktop is an application that enables you to interact with GitHub using a GUI instead of the command line or a web browser. | https://typora.io/          |
 
-## Step 1: Install Git
+## Step 1: Create user account on GitHub.com
 
-If you do not already have Git installed, you can download and install the latest version of Git from [https://git-scm.com/downloads](https://git-scm.com/downloads).
+You need an account on GitHub.com to contribute to the OpenProject documentation. Here you can [sign-up a new account](https://github.com/signup).
 
 ## Step 2: Install Typora
 
 You can download the installer from the website https://typora.io/#download. Follow the prompts to complete the installation. In case you need more information there are very detailed [help](https://support.typora.io/) for each supported operating systems [Linux](https://support.typora.io/Typora-on-Linux/), [macOS](https://support.typora.io/Typora-on-macOS/) and [Windows](https://support.typora.io/Typora-on-Windows/). 
 
-## Step 3: Install GitHub desktop client
+## Step 3: Install GitHub Desktop
 
-You can install the GitHub desktop client on any [supported operating systems](/desktop/getting-started-with-github-desktop/supported-operating-systems). To install GitHub Desktop client navigate to [https://desktop.github.com/](https://desktop.github.com/) and download the appropriate version for your operating system. Follow the prompts to complete the installation.
+You can install GitHub Desktop on any [supported operating systems](/desktop/getting-started-with-github-desktop/supported-operating-systems). To install GitHub Desktop navigate to [https://desktop.github.com/](https://desktop.github.com/) and download the appropriate version for your operating system. Follow the prompts to complete the installation.
 
-## Step 4: Sign in into Github.com in GitHub desktop client
+## Step 4: Sign in into Github.com in GitHub Desktop
 
-You need an account on GitHub.com to contribute to the OpenProject documentation. To exchange data between your local and remote repositories you need to first sign (File -> Options -> Sign in).
+To exchange data between your local and remote repositories you need to first sign (File -> Options -> Sign in).
 
 ![image-20220524201335248](image-20220524201335248.png)
 
@@ -45,7 +44,7 @@ This opens your browser. To authenticate to type your GitHub.com credentials and
 
 Alternatively, if you were already signed in to GitHub, follow the prompts to return to GitHub Desktop to finish authenticating.
 
-After authenticating your account, you are ready to manage and contribute to projects with the GitHub desktop client.
+After authenticating your account, you are ready to manage and contribute to projects with GitHub Desktop.
 
 ## Step 5: Fork the OpenProject repository 
 
@@ -53,9 +52,9 @@ If you are an external contributor you don't have write permissions on the repos
 
 ![image-20220524202802004](image-20220524202802004.png)
 
-## Step 6: Clone the forked OpenProject repository in the GitHub desktop client
+## Step 6: Clone the forked OpenProject repository in GitHub Desktop
 
-Before you can make changes you need to create a local clone of the OpenProject repository on your local computer. Open the GitHub desktop client and navigate to "File -> Clone repository".
+Before you can make changes you need to create a local clone of the OpenProject repository on your local computer. Open GitHub Desktop and navigate to "File -> Clone repository".
 
 ![image-20220525075957387](image-20220525075957387.png)
 
@@ -85,7 +84,7 @@ Every time you start editing please make sure you have fetched the latest change
 
 ![image-20220525091734404](image-20220525091734404.png)
 
-Now you have fetched the latest changes from the main repository. Now you can fetch those changes in the GitHub desktop client by clicking "Fetch origin" in the main toolbar:
+Now you have fetched the latest changes from the main repository. Now you can fetch those changes in GitHub Desktop by clicking "Fetch origin" in the main toolbar:
 
 ![image-20220524204624785](image-20220524204624785.png)
 
@@ -99,9 +98,9 @@ In Typora open the files you want to change (File -> Open). In the file picker n
 
 The Typora editor makes it quite easy to make changes to the file. After you made your changes do not forgot to save.
 
-## Step 11: Commit the change to your local repository in the GitHub desktop client
+## Step 11: Commit the change to your local repository in GitHub Desktop
 
-Open the GitHub desktop client. Here you can see all the changes you made in the local repository.
+Open GitHub Desktop. Here you can see all the changes you made in the local repository.
 
 ![image-20220524205416700](image-20220524205416700.png)
 
