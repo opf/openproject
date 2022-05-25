@@ -120,7 +120,7 @@ export class WorkPackagesGridComponent implements WorkPackageViewOutputs {
   public switchToManualSorting() {
     const query = this.querySpace.query.value;
     if (query && this.wpTableSortBy.switchToManualSorting(query)) {
-      this.wpList.save(query);
+      this.wpList.createOrSave(query);
     }
   }
 }
