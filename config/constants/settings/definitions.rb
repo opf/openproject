@@ -402,7 +402,7 @@ Settings::Definition.define do
       writable: false
 
   add :feature_storages_module_active,
-      default: Rails.env.development? || Rails.env.test?,
+      default: Rails.env.development?,
       format: :boolean
 
   add :feeds_enabled,
