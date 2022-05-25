@@ -47,6 +47,8 @@ module API
       private
 
       def make_self_link(self_link_base, query)
+        return self_link_base if query.empty?
+
         "#{self_link_base}?#{query.to_query}"
       end
     end
