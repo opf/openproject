@@ -1,10 +1,10 @@
 ---
 sidebar_navigation:
-  title: Tool setup for non-techies
+  title: Tool setup
   priority: 999
 description: Setup the tools to easily contribute to the OpenProject documentation
 robots: index, follow
-keywords: contribution, documentation, documentation process
+keywords: contribution, documentation, documentation process, tool setup
 ---
 
 # Setup the tools to easily contribute to the OpenProject documentation
