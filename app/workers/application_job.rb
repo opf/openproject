@@ -88,15 +88,15 @@ class ApplicationJob < ::ActiveJob::Base
   # Since the email configuration is now done in the web app, we need to
   # make sure that any changes to the configuration is correctly picked up
   # by the background jobs at runtime.
-  def reload_mailer_configuration!
-    OpenProject::Configuration.reload_mailer_configuration!
+  def reload_mailer_settings!
+    Setting.reload_mailer_settings!
   end
 
   private
 
   def clean_context
     with_clean_request_store do
-      reload_mailer_configuration!
+      reload_mailer_settings!
 
       yield
     end

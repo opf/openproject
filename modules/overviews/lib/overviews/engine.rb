@@ -15,15 +15,17 @@ module Overviews
     end
 
     initializer 'overviews.permissions' do
-      OpenProject::AccessControl.permission(:view_project)
-        .controller_actions
-        .push('overviews/overviews/show')
+      Rails.application.reloader.to_prepare do
+        OpenProject::AccessControl.permission(:view_project)
+          .controller_actions
+          .push('overviews/overviews/show')
 
-      OpenProject::AccessControl.map do |ac_map|
-        ac_map.project_module nil do |map|
-          map.permission :manage_overview,
-                         { 'overviews/overviews': ['show'] },
-                         public: true
+        OpenProject::AccessControl.map do |ac_map|
+          ac_map.project_module nil do |map|
+            map.permission :manage_overview,
+                           { 'overviews/overviews': ['show'] },
+                           public: true
+          end
         end
       end
     end

@@ -54,7 +54,7 @@ module API
                                 end
 
             def _type
-              if relation_type == ::Relation::TYPE_HIERARCHY
+              if relation_type == ::Relation::TYPE_PARENT
                 "WorkPackageFormChildrenQueryGroup"
               else
                 "WorkPackageFormRelationQueryGroup"

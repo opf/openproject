@@ -176,7 +176,7 @@ describe 'Work package relations tab', js: true, selenium: true do
       end
 
       let!(:relatable) { create(:work_package, project: project) }
-      it 'should allow to manage relations' do
+      it 'allows to manage relations' do
         relations.add_relation(type: 'follows', to: relatable)
 
         # Relations counter badge should increase number of relations
@@ -189,10 +189,10 @@ describe 'Work package relations tab', js: true, selenium: true do
         tabs.expect_no_counter(relations_tab)
 
         work_package.reload
-        expect(work_package.relations.direct).to be_empty
+        expect(work_package.relations).to be_empty
       end
 
-      it 'should allow to move between split and full view (Regression #24194)' do
+      it 'allows to move between split and full view (Regression #24194)' do
         relations.add_relation(type: 'follows', to: relatable)
         # Relations counter should increase
         tabs.expect_counter(relations_tab, 1)
@@ -214,7 +214,7 @@ describe 'Work package relations tab', js: true, selenium: true do
         expect(page).to have_no_selector('.wp-relations--subject-field', text: relatable.subject)
       end
 
-      it 'should follow the relation links (Regression #26794)' do
+      it 'follows the relation links (Regression #26794)' do
         relations.add_relation(type: 'follows', to: relatable)
 
         relations.click_relation(relatable)
@@ -226,7 +226,7 @@ describe 'Work package relations tab', js: true, selenium: true do
         subject.expect_state_text work_package.subject
       end
 
-      it 'should allow to change relation descriptions' do
+      it 'allows to change relation descriptions' do
         relations.add_relation(type: 'follows', to: relatable)
 
         ## Toggle description
@@ -268,8 +268,7 @@ describe 'Work package relations tab', js: true, selenium: true do
         created_row.find('.wp-relation--description-read-value',
                          text: 'my description!').click
 
-        relation = work_package.relations.direct.first
-        relation.reload
+        relation = work_package.relations.first
         expect(relation.description).to eq('my description!')
 
         # Toggle to close

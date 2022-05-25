@@ -98,4 +98,14 @@ RSpec.describe Rake::Task, 'setting', :settings_reset do
       end
     end
   end
+
+  describe 'setting:available_envs' do
+    include_context 'rake'
+
+    it 'displays all environment variables which can override settings values' do
+      # just want to ensure the code does not raise any errors
+      expect { subject.invoke }
+        .to output(/OPENPROJECT_SMTP__ENABLE__STARTTLS__AUTO/).to_stdout
+    end
+  end
 end

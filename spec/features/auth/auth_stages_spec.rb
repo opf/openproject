@@ -87,7 +87,6 @@ describe 'Authentication Stages', type: :feature do
 
     it 'redirects to authentication stage after automatic registration and before login' do
       visit signin_path
-      click_on "Create a new account"
 
       within("#new_user") do
         fill_in "user_login", with: "h.wurst"
@@ -113,7 +112,6 @@ describe 'Authentication Stages', type: :feature do
 
     it 'redirects to authentication stage after registration via omniauth too' do
       visit signin_path
-      click_on "Create a new account"
 
       within("#new_user") do
         click_on "Omniauth Developer"

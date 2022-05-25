@@ -57,7 +57,7 @@ module ProjectsHelper
   end
 
   def no_projects_result_box_params
-    if User.current.allowed_to?(:add_project, nil, global: true)
+    if User.current.allowed_to_globally?(:add_project)
       { action_url: new_project_path, display_action: true }
     else
       {}

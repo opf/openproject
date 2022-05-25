@@ -26,7 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-if OpenProject::Configuration.disabled_modules.any?
-  to_disable = OpenProject::Configuration.disabled_modules
-  OpenProject::Plugins::ModuleHandler.disable_modules(to_disable)
+Rails.application.config.after_initialize do
+  if OpenProject::Configuration.disabled_modules.any?
+    to_disable = OpenProject::Configuration.disabled_modules
+    OpenProject::Plugins::ModuleHandler.disable_modules(to_disable)
+  end
 end

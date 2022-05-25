@@ -28,6 +28,7 @@
 
 require 'spec_helper'
 
+# rubocop:disable RSpec/MultipleMemoizedHelpers
 describe WorkPackages::UpdateService, 'integration tests', type: :model, with_mail: false do
   let(:user) do
     create(:user,
@@ -524,18 +525,14 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model, with_ma
                  role: role)
         end
       end
-      let(:duplicate_work_package) do
+      let!(:duplicate_work_package) do
         create(:work_package,
                work_package_attributes).tap do |wp|
-          wp.duplicated << work_package
+          create(:relation, relation_type: Relation::TYPE_DUPLICATES, from: wp, to: work_package)
         end
       end
 
       let(:attributes) { { status: status_closed } }
-
-      before do
-        duplicate_work_package
-      end
 
       it 'works and closes duplicates' do
         expect(subject)
@@ -577,7 +574,7 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model, with_ma
       let(:following_work_package) do
         create(:work_package,
                following_attributes).tap do |wp|
-          wp.follows << work_package
+          create(:follows_relation, from: wp, to: work_package)
         end
       end
       let(:following_parent_attributes) do
@@ -607,7 +604,7 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model, with_ma
       let(:following2_parent_work_package) do
         create(:work_package,
                following2_parent_attributes).tap do |wp|
-          wp.follows << following_parent_work_package
+          create(:follows_relation, from: wp, to: following_parent_work_package)
         end
       end
       let(:following3_attributes) do
@@ -619,7 +616,7 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model, with_ma
       let(:following3_work_package) do
         create(:work_package,
                following3_attributes).tap do |wp|
-          wp.follows << following2_work_package
+          create(:follows_relation, from: wp, to: following2_work_package)
         end
       end
       let(:following3_parent_attributes) do
@@ -751,7 +748,7 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model, with_ma
       let(:following_work_package) do
         create(:work_package,
                following_attributes).tap do |wp|
-          wp.follows << work_package
+          create(:follows_relation, from: wp, to: work_package)
         end
       end
       let(:following_parent_attributes) do
@@ -790,7 +787,7 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model, with_ma
       let(:following2_parent_work_package) do
         following2 = create(:work_package,
                             following2_parent_attributes).tap do |wp|
-          wp.follows << following_parent_work_package
+          create(:follows_relation, from: wp, to: following_parent_work_package)
         end
 
         create(:relation,
@@ -809,7 +806,7 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model, with_ma
       let(:following3_work_package) do
         create(:work_package,
                following3_attributes).tap do |wp|
-          wp.follows << following2_work_package
+          create(:follows_relation, from: wp, to: following2_work_package)
         end
       end
 
@@ -963,14 +960,14 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model, with_ma
         expect(work_package.due_date)
           .to eql work_package_attributes[:due_date]
 
-        # updates the former parent's dates
+        # updates the former parent's dates based on the only remaining child (former sibling)
         former_parent_work_package.reload
         expect(former_parent_work_package.start_date)
           .to eql former_sibling_attributes[:start_date]
         expect(former_parent_work_package.due_date)
           .to eql former_sibling_attributes[:due_date]
 
-        # updates the new parent's dates
+        # updates the new parent's dates based on the moved work package and its now sibling
         new_parent_work_package.reload
         expect(new_parent_work_package.start_date)
           .to eql work_package_attributes[:start_date]
@@ -1002,11 +999,9 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model, with_ma
         )
       end
       let(:new_parent_predecessor_work_package) do
-        wp = create(:work_package, new_parent_predecessor_attributes)
-
-        wp.precedes << new_parent_work_package
-
-        wp
+        create(:work_package, new_parent_predecessor_attributes).tap do |wp|
+          create(:follows_relation, from: new_parent_work_package, to: wp)
+        end
       end
 
       let(:work_package_attributes) do
@@ -1095,11 +1090,9 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model, with_ma
       end
 
       let(:sibling_work_package) do
-        wp = create(:work_package, sibling_attributes)
-
-        wp.follows << work_package
-
-        wp
+        create(:work_package, sibling_attributes).tap do |wp|
+          create(:follows_relation, from: wp, to: work_package)
+        end
       end
 
       before do
@@ -1242,3 +1235,4 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model, with_ma
     end
   end
 end
+# rubocop:enable RSpec/MultipleMemoizedHelpers

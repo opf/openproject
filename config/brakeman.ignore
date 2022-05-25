@@ -314,26 +314,6 @@
     {
       "warning_type": "SQL Injection",
       "warning_code": 0,
-      "fingerprint": "cd1b3c94dc92e20efe2c696ee1c086a4da2491b5d839a44617f828359fcd42f2",
-      "check_name": "SQL",
-      "message": "Possible SQL injection",
-      "file": "app/models/work_package.rb",
-      "line": 625,
-      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
-      "code": "where(\"id IN (SELECT common_id FROM (#{[Relation.hierarchy.where(:from_id => Relation.where(:to => work_packages).hierarchy_or_follows.select(:from_id)).select(\"to_id common_id\"), Relation.where(:to => work_packages).hierarchy_or_follows.select(\"from_id common_id\")].map(&:to_sql).join(\" UNION \")}) following_relations)\")",
-      "render_path": null,
-      "location": {
-        "type": "method",
-        "class": "WorkPackage",
-        "method": "WorkPackage.hierarchy_tree_following"
-      },
-      "user_input": "Relation.where(:to => work_packages).hierarchy_or_follows",
-      "confidence": "High",
-      "note": "static SQL"
-    },
-    {
-      "warning_type": "SQL Injection",
-      "warning_code": 0,
       "fingerprint": "d03d7e36092caec9c4d2782d06af3c842ffe37b96fcc605b0279b02066a90e98",
       "check_name": "SQL",
       "message": "Possible SQL injection",

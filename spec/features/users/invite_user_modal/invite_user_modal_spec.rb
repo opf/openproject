@@ -97,6 +97,38 @@ describe 'Invite user modal', type: :feature, js: true do
     end
   end
 
+  describe 'inviting a placeholder on a WP create', with_ee: %i[placeholder_users] do
+    let!(:principal) { create :placeholder_user, name: 'EXISTING PLACEHOLDER' }
+    let(:wp_page) { Pages::FullWorkPackageCreate.new(project: project) }
+    let(:assignee_field) { wp_page.edit_field :assignee }
+    let(:subject_field) { wp_page.edit_field :subject }
+    let!(:status) { FactoryBot.create :default_status }
+    let!(:priority) { FactoryBot.create :default_priority }
+    let(:permissions) { %i[view_work_packages add_work_packages edit_work_packages manage_members work_package_assigned] }
+
+    it 'selects the placeholder' do
+      wp_page.visit!
+      subject_field.expect_active!
+      subject_field.set_value 'foobar'
+      assignee_field.expect_active!
+
+      assignee_field.openSelectField
+      find('.ng-dropdown-footer button', text: 'Invite', wait: 10).click
+
+      modal.run_all_steps
+      expect(page).to have_selector('.ng-value-label', text: principal.name)
+
+      wp_page.save!
+      wp_page.expect_and_dismiss_toaster(message: 'Successful creation.')
+
+      assignee_field.expect_inactive!
+      assignee_field.expect_state_text principal
+
+      work_package = WorkPackage.last
+      expect(work_package.assigned_to).to eq principal
+    end
+  end
+
   describe 'inviting a principal to a project' do
     describe 'through the assignee field' do
       let(:wp_page) { Pages::FullWorkPackage.new(work_package, project) }

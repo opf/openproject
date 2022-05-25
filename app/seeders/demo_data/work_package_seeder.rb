@@ -197,11 +197,7 @@ module DemoData
     end
 
     def create_relation(to:, from:, type:)
-      from.new_relation.tap do |relation|
-        relation.to = to
-        relation.relation_type = type
-        relation.save!
-      end
+      from.relations.create!(from: from, to: to, relation_type: type)
     end
 
     def calculate_start_date(days_ahead)

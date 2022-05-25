@@ -59,6 +59,11 @@ export interface CreateAutocompleterValueOption {
   templateUrl: './create-autocompleter.component.html',
   selector: 'create-autocompleter',
   styleUrls: ['./create-autocompleter.component.sass'],
+  providers: [
+    // Provide a new version of the modal invite service,
+    // as otherwise the close event will be shared across all instances
+    OpInviteUserModalService,
+  ]
 })
 export class CreateAutocompleterComponent extends UntilDestroyedMixin implements AfterViewInit {
   @Input() public availableValues:CreateAutocompleterValueOption[];
@@ -95,7 +100,7 @@ export class CreateAutocompleterComponent extends UntilDestroyedMixin implements
 
   @Output() public onAfterViewInit = new EventEmitter<this>();
 
-  @Output() public onAddNew = new EventEmitter<this>();
+  @Output() public onAddNew = new EventEmitter<HalResource>();
 
   @ViewChild(NgSelectComponent) public ngSelectComponent:NgSelectComponent;
 
@@ -132,7 +137,7 @@ export class CreateAutocompleterComponent extends UntilDestroyedMixin implements
           filter((user) => !!user),
         )
         .subscribe((user:HalResource) => {
-          this.onChange.emit(user);
+          this.onAddNew.emit(user);
         });
     }
   }
