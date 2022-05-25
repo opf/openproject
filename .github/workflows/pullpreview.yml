@@ -31,7 +31,7 @@ jobs:
         admins: crohr,HDinger,machisuji,oliverguenther,ulferts,wielinde,b12f,cbliard
         always_on: dev
         compose_files: docker-compose.pullpreview.yml
-        instance_type: medium_2_0
+        instance_type: large_2_0
         ports: 80,443
         default_port: 443
       env:
