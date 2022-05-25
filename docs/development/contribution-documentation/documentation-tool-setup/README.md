@@ -9,13 +9,13 @@ keywords: contribution, documentation, documentation process
 
 # Setup the tools to easily contribute to the OpenProject documentation
 
-This how-to guide aims to help users that are new to Git and Markdown to contribute to the OpenProject documentation. There are a two of very helpful tools that makes it extremely easy to contribute to OpenProject:
+This guide aims to help users that are new to Git and Markdown to contribute to the OpenProject documentation. There are a two very helpful tools that makes it extremely easy to contribute to OpenProject:
 
-| Tool                  | Purpose of this tool                                         | Website and download                                         |
-| --------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| Git                   | Git is a software for tracking changes in any set of files, usually used for coordinating work among programmers collaboratively developing source code during software development. | [https://git-scm.com/downloads](https://git-scm.com/downloads) |
-| Typora                | Typora is an application that enables you to easily edit markdown files. The markdown file format is used used for the OpenProject documentation which allows you to focus on the content instead of the formatting. Typora is referred to as "What-You-See-Is-What-You-Mean". | https://desktop.github.com/                                  |
-| GitHub desktop client | Desktop is an application that enables you to interact with GitHub using a GUI instead of the command line or a web browser. GitHub Desktop encourages you and your team to collaborate using best practices with Git and GitHu | https://typora.io/                                           |
+| Tool                      | Purpose of this tool                                         | Website and download                                         |
+| ------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| **Git**                   | Git is a software for tracking changes in any set of files, usually used for coordinating work among programmers collaboratively developing source code during software development. | [https://git-scm.com/downloads](https://git-scm.com/downloads) |
+| **Typora**                | Typora is an application that enables you to easily edit markdown files. The markdown file format is used used for the OpenProject documentation which allows you to focus on the content instead of the formatting. | https://desktop.github.com/                                  |
+| **GitHub desktop client** | Desktop is an application that enables you to interact with GitHub using a GUI instead of the command line or a web browser. | https://typora.io/                                           |
 
 ## Step 1: Install Git
 
