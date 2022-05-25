@@ -58,22 +58,20 @@ module API
         property :subject
 
         property :startDate, column: :start_date,
-                             render_if: ->(*) { "startdatesms != true" },
-                             join: { table: :types,
-                                     condition: 'startDates.id = work_packages.type_id',
-                                     select: 'startDates.is_milestone startdatesms' }
+                             render_if: ->(*) { "is_milestone != true" }
 
         property :dueDate, column: :due_date,
-                           render_if: ->(*) { "duedatesms.is_milestone != true" },
-                           join: { table: :types,
-                                   condition: 'dueDates.id = work_packages.type_id',
-                                   select: 'dueDates.is_milestone duedatesms' }
+                           render_if: ->(*) { "is_milestone != true" }
 
         property :date, column: :start_date,
-                        render_if: ->(*) { "datesms.is_milestone = true" },
-                        join: { table: :types,
-                                condition: 'dates.id = work_packages.type_id',
-                                select: 'dates.is_milestone datesms' }
+                        render_if: ->(*) { "is_milestone = true" }
+
+        def self.joins(select, scope)
+          if (selected_properties(select).keys & %i[dueDate startDate date]).any?
+            scope = scope.joins(:type).select('types.is_milestone is_milestone')
+          end
+          super
+        end
       end
     end
   end
