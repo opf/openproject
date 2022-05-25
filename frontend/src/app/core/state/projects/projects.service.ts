@@ -28,7 +28,7 @@
 
 import { Injectable } from '@angular/core';
 import {
-  catchError,
+  catchError, map,
   tap,
 } from 'rxjs/operators';
 import { Observable } from 'rxjs';
@@ -81,7 +81,7 @@ export class ProjectsResourceService {
       );
   }
 
-  lookup(id:ID, require = false):Observable<IProject|undefined> {
+  lookup(id:ID, require = false):Observable<IProject> {
     if (require && !this.query.hasEntity(id)) {
       return this.http
         .get<IProject>(`${this.projectsPath}/${id}`)
@@ -94,7 +94,15 @@ export class ProjectsResourceService {
         );
     }
 
-    return this.query.selectEntity(id);
+    return this.query.selectEntity(id)
+      .pipe(
+        map((project) => {
+          if (!project) {
+            throw new Error('not found');
+          }
+          return project;
+        }),
+      );
   }
 
   update(id:ID, project:Partial<IProject>):void {

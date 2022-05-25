@@ -34,27 +34,13 @@ import {
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { HookService } from 'core-app/features/plugins/hook-service';
-import { forkJoin, Observable, of } from 'rxjs';
+import { forkJoin, Observable } from 'rxjs';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 import { StoragesResourceService } from 'core-app/core/state/storages/storages.service';
-import { IHalResourceLink, IHalResourceLinks } from 'core-app/core/state/hal-resource';
 import { switchMap } from 'rxjs/operators';
 import { IStorage } from 'core-app/core/state/storages/storage.model';
 import { ProjectsResourceService } from 'core-app/core/state/projects/projects.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-
-export interface ILiveFileLinkCollectionsLinks extends IHalResourceLinks {
-  self:IHalResourceLink
-}
-
-export interface ILiveFileLinkCollectionEmbeddings {
-
-}
-
-export interface ILiveFileLinkCollection {
-  _links:ILiveFileLinkCollectionsLinks;
-  _embedded:ILiveFileLinkCollectionEmbeddings;
-}
 
 @Component({
   selector: 'op-files-tab',
@@ -98,15 +84,12 @@ export class WorkPackageFilesTabComponent implements OnInit {
     this.storages$ = this.projectsResourceService.lookup(project.id, true)
       .pipe(
         switchMap((p) => {
-          if (!p) {
-            return of([]);
-          }
-
           const storageLinks = p._links.storages;
+
           return forkJoin(
             storageLinks.map((link) => this
               .storagesResourceService
-              .lookup(link)),
+              .lookup(link, true)),
           );
         }),
       );

@@ -26,21 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ID } from '@datorama/akita';
-import { IHalResourceLink, IHalResourceLinks } from 'core-app/core/state/hal-resource';
+import { QueryEntity } from '@datorama/akita';
+import { StoragesState } from 'core-app/core/state/storages/storages.store';
 
-export interface IStorageHalResourceLinks extends IHalResourceLinks {
-  self:IHalResourceLink;
-  type:IHalResourceLink;
-  origin:IHalResourceLink;
-  connectionState:IHalResourceLink;
-}
-
-export interface IStorage {
-  id:ID;
-  name:string;
-  createdAt?:string;
-  lastModifiedAt?:string;
-
-  _links?:IStorageHalResourceLinks;
-}
+export class StoragesQuery extends QueryEntity<StoragesState> {}

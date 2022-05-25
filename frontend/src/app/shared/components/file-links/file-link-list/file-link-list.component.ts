@@ -49,6 +49,8 @@ export class FileLinkListComponent implements OnInit {
 
   $fileLinks:Observable<IFileLink[]>;
 
+  storageConnectionState:'connected'|'authenticationFailed'|'connectionError';
+
   constructor(private readonly fileLinkResourceService:FileLinkResourceService) {}
 
   ngOnInit():void {
@@ -62,6 +64,21 @@ export class FileLinkListComponent implements OnInit {
           }
         }),
       );
+
+    this.deriveStorageInformation();
+  }
+
+  private deriveStorageInformation():void {
+    switch (this.storage._links?.connectionState.href) {
+      case 'urn:openproject-org:api:v3:storages:connection:FailedAuthentication':
+        this.storageConnectionState = 'authenticationFailed';
+        break;
+      case 'urn:openproject-org:api:v3:storages:connection:Error':
+        this.storageConnectionState = 'connectionError';
+        break;
+      default:
+        this.storageConnectionState = 'connected';
+    }
   }
 
   private get fileLinkSelfLink():string {

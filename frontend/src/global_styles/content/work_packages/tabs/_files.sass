@@ -32,6 +32,9 @@
     grid-template-columns: 1fr 1fr
     height: 40px
 
+    &.inactive
+      opacity: 0.5
+
     &--content
       align-self: center
       width: 100%
@@ -48,6 +51,47 @@
 
     &--file-info-timestamp
       margin-right: 8px
+
+  &--storage-info-box
+    margin-top: 14px
+    display: grid
+    grid-template: "icon text" "button button" / auto 1fr
+
+    .icon-box
+      height: 54px
+      width: 54px
+      grid-area: icon
+      display: flex
+      justify-content: center
+      align-items: center
+
+      .icon
+        color: #878787
+        font-size: 36px
+
+    .text-box
+      grid-area: text
+
+      .text-box-header
+        font-size: 16px
+        font-weight: 700
+        line-height: 24px
+
+      .text-box-content
+        font-size: 14px
+        font-weight: 400
+        line-height: 20px
+        color: #878787
+
+    .button-box
+      grid-area: button
+      display: flex
+      justify-content: end
+
+      .action-button
+        padding: 4px 12px
+        font-size: 14px
+        line-height: 20px
 
   &--color
     &-red
