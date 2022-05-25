@@ -122,7 +122,7 @@ export class WorkPackageViewSortByService extends WorkPackageQueryStateService<Q
   public switchToManualSorting(query:QueryResource):boolean {
     const { manualSortObject } = this;
     if (manualSortObject && !this.isManualSortingMode) {
-      query.sortBy = [manualSortObject];
+      query.setSortBy([manualSortObject]);
       return true;
     }
 
