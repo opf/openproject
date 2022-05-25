@@ -34,11 +34,7 @@ module API
         link :self,
              path: { api: :work_package, params: %w(id) },
              column: -> { :id },
-             title: -> { 'subject' },
-             join: { table: :types,
-                     condition: 'selves.id = work_packages.type_id',
-                     select: 'selves.is_milestone is_milestone' }
-
+             title: -> { 'subject' }
         link :project,
              path: { api: :project, params: %w(id) },
              column: -> { :project_id },
@@ -61,15 +57,23 @@ module API
 
         property :subject
 
-        property :startDate,
-                 column: :start_date,
-                 render_if: ->(*) { "is_milestone != true" }
+        property :startDate, column: :start_date,
+                             render_if: ->(*) { "startdatesms != true" },
+                             join: { table: :types,
+                                     condition: 'startDates.id = work_packages.type_id',
+                                     select: 'startDates.is_milestone startdatesms' }
 
         property :dueDate, column: :due_date,
-                           render_if: ->(*) { "is_milestone != true" }
+                           render_if: ->(*) { "duedatesms.is_milestone != true" },
+                           join: { table: :types,
+                                   condition: 'dueDates.id = work_packages.type_id',
+                                   select: 'dueDates.is_milestone duedatesms' }
 
         property :date, column: :start_date,
-                        render_if: ->(*) { "is_milestone = true" }
+                        render_if: ->(*) { "datesms.is_milestone = true" },
+                        join: { table: :types,
+                                condition: 'dates.id = work_packages.type_id',
+                                select: 'dates.is_milestone datesms' }
       end
     end
   end
