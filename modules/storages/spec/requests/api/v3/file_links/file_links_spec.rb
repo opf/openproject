@@ -39,19 +39,20 @@ describe 'API v3 file links resource', :enable_storages, type: :request do
     create(:user, member_in_project: project, member_with_permissions: permissions)
   end
 
-  let(:work_package) { create(:work_package, author: current_user, project: project) }
-  let(:another_work_package) { create(:work_package, author: current_user, project: project) }
+  let(:work_package) { create(:work_package, author: current_user, project:) }
+  let(:another_work_package) { create(:work_package, author: current_user, project:) }
 
   let(:storage) { create(:storage, creator: current_user) }
   let(:another_storage) { create(:storage, creator: current_user) }
 
-  let!(:project_storage) { create(:project_storage, project: project, storage: storage) }
+  let!(:project_storage) { create(:project_storage, project:, storage:) }
+  let!(:another_project_storage) { nil }
 
   let(:file_link) do
-    create(:file_link, creator: current_user, container: work_package, storage: storage)
+    create(:file_link, creator: current_user, container: work_package, storage:)
   end
   let(:file_link_of_other_work_package) do
-    create(:file_link, creator: current_user, container: another_work_package, storage: storage)
+    create(:file_link, creator: current_user, container: another_work_package, storage:)
   end
   # If a storage mapping between a project and a storage is removed, the file link still persist. This can occur on
   # moving a work package to another project, too, if target project does not yet have the storage mapping.
@@ -95,8 +96,35 @@ describe 'API v3 file links resource', :enable_storages, type: :request do
       end
     end
 
-    context 'when storages module is inactive', :disable_storages do
+    context 'if storages feature is inactive', :disable_storages do
       it_behaves_like 'not found'
+    end
+
+    describe 'with filter by storage' do
+      let!(:another_project_storage) { create(:project_storage, project:, storage: another_storage) }
+      let(:path) { "#{api_v3_paths.file_links(work_package.id)}?filters=#{CGI.escape(filters.to_json)}" }
+      let(:filters) do
+        [
+          { storage: { operator: '=', values: [storage_id] } }
+        ]
+      end
+
+      context 'if filtered by one storage' do
+        let(:storage_id) { storage.id }
+
+        it_behaves_like 'API V3 collection response', 1, 1, 'FileLink', 'Collection' do
+          let(:elements) { [file_link] }
+        end
+      end
+
+      context 'if filtered by another storage' do
+        let(:storage_id) { another_storage.id }
+
+        it_behaves_like 'API V3 collection response', 1, 1, 'FileLink', 'Collection' do
+          # has the now linked storage's file links
+          let(:elements) { [file_link_of_unlinked_storage] }
+        end
+      end
     end
   end
 
@@ -188,7 +216,7 @@ describe 'API v3 file links resource', :enable_storages, type: :request do
                origin_name: 'original name',
                creator: current_user,
                container: work_package,
-               storage: storage)
+               storage:)
       end
       let(:already_existing_file_link_payload) do
         build(:file_link_element,
