@@ -56,8 +56,8 @@ module API
 
         property :id
         property :subject
-        property :start_date
-        property :due_date
+        property :startDate, column: :start_date
+        property :dueDate, column: :due_date
       end
     end
   end

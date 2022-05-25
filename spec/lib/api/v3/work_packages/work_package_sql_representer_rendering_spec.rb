@@ -67,8 +67,8 @@ describe ::API::V3::WorkPackages::WorkPackageSqlRepresenter, 'rendering' do
         _type: "WorkPackage",
         id: rendered_work_package.id,
         subject: rendered_work_package.subject,
-        due_date: rendered_work_package.due_date,
-        start_date: rendered_work_package.start_date,
+        dueDate: rendered_work_package.due_date,
+        startDate: rendered_work_package.start_date,
         _links: {
           self: {
             href: api_v3_paths.work_package(rendered_work_package.id),
