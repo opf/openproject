@@ -162,6 +162,7 @@ import { FilterSearchableMultiselectValueComponent } from 'core-app/features/wor
 import { QueryFilterComponent } from 'core-app/features/work-packages/components/filters/query-filter/query-filter.component';
 import { FilterDatesValueComponent } from 'core-app/features/work-packages/components/filters/filter-dates-value/filter-dates-value.component';
 import { FilterStringValueComponent } from 'core-app/features/work-packages/components/filters/filter-string-value/filter-string-value.component';
+import { FilterProjectComponent } from 'core-app/features/work-packages/components/filters/filter-project/filter-project.component';
 import { FilterDateValueComponent } from 'core-app/features/work-packages/components/filters/filter-date-value/filter-date-value.component';
 import { FilterDateTimeValueComponent } from 'core-app/features/work-packages/components/filters/filter-date-time-value/filter-date-time-value.component';
 import { FilterToggledMultiselectValueComponent } from 'core-app/features/work-packages/components/filters/filter-toggled-multiselect-value/filter-toggled-multiselect-value.component';
@@ -286,6 +287,7 @@ import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
     FilterDateTimesValueComponent,
     FilterIntegerValueComponent,
     FilterStringValueComponent,
+    FilterProjectComponent,
     FilterToggledMultiselectValueComponent,
     FilterSearchableMultiselectValueComponent,
 

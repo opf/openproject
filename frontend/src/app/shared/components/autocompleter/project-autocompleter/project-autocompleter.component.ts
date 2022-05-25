@@ -90,7 +90,7 @@ export class ProjectAutocompleterComponent implements OnInit, ControlValueAccess
 
   @Input() public name = '';
 
-  @Input() public allowEmpty = false;
+  @Input() public focusDirectly = false;
 
   @Input() public multiple = false;
 

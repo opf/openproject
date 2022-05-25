@@ -1,7 +1,12 @@
 <op-autocompleter
-  [getOptionsFn]="getAvailableProjects.bind(this)"
   [model]="value"
+
+  [getOptionsFn]="getAvailableProjects.bind(this)"
   [trackByFn]="projectTracker"
+
+  [multiple]="multiple"
+  [focusDirectly]="focusDirectly"
+
   appendTo="body"
 
   (change)="writeValue($event)" 

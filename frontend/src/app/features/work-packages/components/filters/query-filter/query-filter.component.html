@@ -97,9 +97,12 @@
         [filter]="filter"
       ></op-filter-string-value>
 
-      <op-project-autocompleter
+      <op-filter-project
         *ngSwitchCase="'[]Project'"
-      ></op-project-autocompleter>
+        (filterChanged)="onFilterUpdated($event)"
+        [shouldFocus]="shouldFocus"
+        [filter]="filter"
+      ></op-filter-project>
 
       <ng-container *ngSwitchDefault>
         <op-filter-toggled-multiselect-value

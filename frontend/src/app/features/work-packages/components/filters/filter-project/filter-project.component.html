@@ -1,0 +1,13 @@
+<div
+  class="inline-label ng-select-container"
+  id="div-values-{{filter.id}}"
+>
+  <op-project-autocompleter
+    [value]="filter.values"
+    [focusDirectly]="shouldFocus"
+    [multiple]="true"
+    [id]="'values-' + filter.id"
+    class="advanced-filters--ng-select -multi-select"
+    (change)="onChange($event)"
+  ></op-project-autocompleter>
+</div>
