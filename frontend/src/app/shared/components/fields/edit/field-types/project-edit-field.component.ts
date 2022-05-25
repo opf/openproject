@@ -72,8 +72,6 @@ import idFromLink from 'core-app/features/hal/helpers/id-from-link';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProjectEditFieldComponent extends EditFieldComponent implements OnInit {
-  @ViewChild(NgSelectComponent, { static: true }) public ngSelectComponent:NgSelectComponent;
-
   isNew = isNewResource(this.resource);
 
   constructor(
@@ -99,8 +97,6 @@ export class ProjectEditFieldComponent extends EditFieldComponent implements OnI
     );
   }
 
-  public getOptionsFn = (query:string):Observable<unknown[]> => this.autocomplete(query);
-
   public onModelChange(project?:IProject):unknown {
     if (project) {
       // We fake a HalResource here because we're using a plain JS object, but the schema loading and editing
@@ -115,49 +111,16 @@ export class ProjectEditFieldComponent extends EditFieldComponent implements OnI
     return this.handler.handleUserSubmit();
   }
 
-  public autocomplete(searchText = ''):Observable<IProject[]> {
-    return from(this.change.getForm())
-      .pipe(
-        switchMap(() => getPaginatedResults<IProject>(
-          (params) => {
-            const collectionURL = listParamsString({ ...this.getParams(searchText), ...params });
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-            return this.http.get<IHALCollection<IProject>>(`${this.schema.allowedValues.$link.href as string}${collectionURL}`);
-          },
-        )),
-      );
-  }
-
-  public getParams(searchText = ''):ApiV3ListParameters {
-    const filters:ApiV3ListFilter[] = [
+  public get APIFilters() {
+    const filters = [
       ['active', '=', ['t']],
     ];
-
-    if (searchText) {
-      filters.push([
-        'name_and_identifier',
-        '~',
-        [searchText],
-      ]);
-    }
 
     if (isNewResource(this.resource) && this.change.value('type')) {
       const typeId = idFromLink((this.change.value('type') as HalResource).href);
       filters.push(['type_id', '=', [typeId]]);
     }
 
-    return {
-      filters,
-      pageSize: -1,
-      select: [
-        'elements/id',
-        'elements/identifier',
-        'elements/name',
-        'elements/self',
-        'total',
-        'count',
-        'pageSize',
-      ],
-    };
+    return filters;
   }
 }
