@@ -55,13 +55,17 @@ If you are an external contributor you don't have write permissions on the repos
 
 ## Step 6: Clone the OpenProject repository in the GitHub desktop client
 
-Before you can make changes you need to create a local clone of the OpenProject repository on your local computer. Open the GitHub desktop client and navigate to "File -> Clone repository". Here select the repository you forked in Step 5. Also select a folder on your computer for the cloned repository. Click "Clone".
+Before you can make changes you need to create a local clone of the OpenProject repository on your local computer. Open the GitHub desktop client and navigate to "File -> Clone repository".
+
+![image-20220525075957387](image-20220525075957387.png)
+
+
+
+In the modal window select the repository you forked in Step 5. Also select a folder on your computer for the cloned repository. Click "Clone".
 
 ![image-20220524203252508](image-20220524203252508.png)
 
-In the next screen select "To contribute to the parent project".
-
-
+In the next screen select "*To contribute to the parent project*".
 
 ![image-20220525074657702](image-20220525074657702.png)
 
