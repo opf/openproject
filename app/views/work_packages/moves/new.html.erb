@@ -58,9 +58,14 @@ See COPYRIGHT and LICENSE files for more details.
               <div class="form--field">
                 <label class="form--label" for="new_project_id"><%= WorkPackage.human_attribute_name(:project) %>:</label>
                   <div class="form--field-container">
-                    <%= styled_select_tag "new_project_id",
-                                          project_tree_options_for_select(@allowed_projects, selected: @target_project),
-                                          class: 'remote-field--input' %>
+                    <%= angular_component_tag 'op-project-autocompleter',
+                                              inputs: {
+                                                APIFilters: [],
+                                                name: 'new_project_id',
+                                              },
+                                              id: 'new_project_id',
+                                              class: 'remote-field--input'
+                    %>
                   </div>
               </div>
             <div class="form--field">

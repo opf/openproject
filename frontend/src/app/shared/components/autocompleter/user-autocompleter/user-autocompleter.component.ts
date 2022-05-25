@@ -43,7 +43,7 @@ import { NgSelectComponent } from '@ng-select/ng-select';
 import { UserResource } from 'core-app/features/hal/resources/user-resource';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { ApiV3FilterBuilder, FilterOperator } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
-import { DatasetInputs } from 'core-app/shared/components/dataset-inputs.decorator';
+import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
 
 export const usersAutocompleterSelector = 'user-autocompleter';
 
@@ -54,7 +54,6 @@ export interface IUserAutocompleteItem {
   avatar:string|null;
 }
 
-@DatasetInputs
 @Component({
   templateUrl: './user-autocompleter.component.html',
   selector: usersAutocompleterSelector,
@@ -100,7 +99,9 @@ export class UserAutocompleterComponent implements OnInit {
     readonly pathHelper:PathHelperService,
     readonly apiV3Service:ApiV3Service,
     readonly injector:Injector,
-  ) { }
+  ) {
+    populateInputsFromDataset(this);
+  }
 
   ngOnInit() {
     const input = this.elementRef.nativeElement.dataset.updateInput;

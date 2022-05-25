@@ -2,6 +2,7 @@
   [getOptionsFn]="getAvailableProjects.bind(this)"
   [model]="value"
   [trackByFn]="projectTracker"
+  appendTo="body"
 
   (change)="writeValue($event)" 
 >
@@ -29,3 +30,9 @@
     >{{ item.disabledReason }}</div>
   </ng-template>
 </op-autocompleter>
+
+<input
+  [name]="name" 
+  type="hidden"
+  [value]="value?.id"
+/>

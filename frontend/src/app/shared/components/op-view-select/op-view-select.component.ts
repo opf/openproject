@@ -43,7 +43,7 @@ import {
 import { States } from 'core-app/core/states/states.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { DatasetInputs } from 'core-app/shared/components/dataset-inputs.decorator';
+import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
 import { MainMenuNavigationService } from 'core-app/core/main-menu/main-menu-navigation.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { IOpSidemenuItem } from 'core-app/shared/components/sidemenu/sidemenu.component';
@@ -57,7 +57,6 @@ export type ViewType = 'WorkPackagesTable'|'Bim'|'TeamPlanner'|'WorkPackagesCale
 
 export const opViewSelectSelector = 'op-view-select';
 
-@DatasetInputs
 @Component({
   selector: opViewSelectSelector,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -104,6 +103,8 @@ export class ViewSelectComponent extends UntilDestroyedMixin implements OnInit {
     readonly viewsService:ViewsResourceService,
   ) {
     super();
+
+    populateInputsFromDataset(this);
   }
 
   public set search(input:string) {
