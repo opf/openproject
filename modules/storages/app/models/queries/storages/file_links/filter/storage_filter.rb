@@ -26,31 +26,24 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module API
-  module Decorators
-    class UnpaginatedCollection < ::API::Decorators::Collection
-      def initialize(models, self_link:, current_user:, query: {})
-        super(models, model_count(models), self_link: make_self_link(self_link, query), current_user:)
-      end
+module Queries::Storages::FileLinks::Filter
+  class StorageFilter < ::Queries::Filters::Base
+    self.model = ::Storages::FileLink
 
-      def model_count(models)
-        if models.respond_to?(:except)
-          # We do not want any order/selecting with counting
-          # when it would result in an invalid SELECT COUNT(DISTINCT *, ).
-          # As both, order and select should have no impact on the count result, we remove them.
-          models.except(:select, :order)
-        else
-          models
-        end.count
-      end
+    def human_name
+      ::Storages::FileLink.human_attribute_name(name)
+    end
 
-      private
+    def type
+      :list
+    end
 
-      def make_self_link(self_link_base, query)
-        return self_link_base if query.empty?
+    def allowed_values
+      ::Storages::Storage.pluck(:id).map { |id| [id, id.to_s] }
+    end
 
-        "#{self_link_base}?#{query.to_query}"
-      end
+    def where
+      operator_strategy.sql_for_field(values, ::Storages::FileLink.table_name, 'storage_id')
     end
   end
 end

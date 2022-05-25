@@ -29,6 +29,9 @@
 module API
   module V3
     module FileLinks
+      URN_PERMISSION_VIEW = "#{::API::V3::URN_PREFIX}file-links:permission:View".freeze
+      URN_PERMISSION_NOT_ALLOWED = "#{::API::V3::URN_PREFIX}file-links:permission:NotAllowed".freeze
+
       class FileLinkRepresenter < ::API::Decorators::Single
         include API::Decorators::LinkedResource
         include API::Decorators::DateProperty
@@ -63,6 +66,14 @@ module API
           {
             href: api_v3_paths.user(represented.creator_id),
             title: represented.creator.name
+          }
+        end
+
+        link :permission do
+          # TODO: replace with service to check real permission state
+          {
+            href: URN_PERMISSION_VIEW,
+            title: 'View'
           }
         end
 

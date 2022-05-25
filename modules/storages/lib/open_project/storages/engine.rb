@@ -101,6 +101,10 @@ module OpenProject::Storages
           filter filter
           exclude filter
         end
+
+        ::Queries::Register.register(::Queries::Storages::FileLinks::FileLinkQuery) do
+          filter ::Queries::Storages::FileLinks::Filter::StorageFilter
+        end
       end
     end
 

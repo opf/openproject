@@ -33,6 +33,11 @@
 module API
   module V3
     module Storages
+      URN_TYPE_NEXTCLOUD = "#{::API::V3::URN_PREFIX}storages:Nextcloud".freeze
+      URN_CONNECTION_CONNECTED = "#{::API::V3::URN_PREFIX}storages:connection:Connected".freeze
+      URN_CONNECTION_AUTH_FAILED = "#{::API::V3::URN_PREFIX}storages:connection:FailedAuthentication".freeze
+      URN_CONNECTION_ERROR = "#{::API::V3::URN_PREFIX}storages:connection:Error".freeze
+
       class StorageRepresenter < ::API::Decorators::Single
         # LinkedResource module defines helper methods to describe attributes
         include API::Decorators::LinkedResource
@@ -51,7 +56,7 @@ module API
 
         link :type do
           {
-            href: "#{::API::V3::URN_PREFIX}storages:nextcloud",
+            href: URN_TYPE_NEXTCLOUD,
             title: 'Nextcloud'
           }
         end
@@ -59,6 +64,14 @@ module API
         link :origin do
           {
             href: represented.host
+          }
+        end
+
+        link :connectionState do
+          # TODO: replace with service to check real connection state
+          {
+            href: URN_CONNECTION_CONNECTED,
+            title: 'Connected'
           }
         end
 

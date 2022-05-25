@@ -36,7 +36,7 @@ module API
                          scope: nil,
                          render_representer: nil,
                          self_path: api_name.underscore.pluralize)
-            super(model: model, api_name: api_name, scope: scope, render_representer: render_representer)
+            super(model:, api_name:, scope:, render_representer:)
 
             self.self_path = self_path
           end
@@ -82,7 +82,7 @@ module API
             if paginated_representer?
               render_paginated_success(results, query, params, self_path)
             else
-              render_unpaginated_success(results, self_path)
+              render_unpaginated_success(results, query, self_path)
             end
           end
 
@@ -99,10 +99,13 @@ module API
                       current_user: User.current)
           end
 
-          def render_unpaginated_success(results, self_path)
+          def render_unpaginated_success(results, query, self_path)
+            unpaginated_params = calculate_default_params(query).except(:offset, :pageSize)
+
             render_representer
               .new(results,
                    self_link: self_path,
+                   query: unpaginated_params,
                    current_user: User.current)
           end
 
@@ -117,7 +120,7 @@ module API
             return unless query.group_by
 
             query.group_values.map do |group, count|
-              ::API::Decorators::AggregationGroup.new(group, count, query: query, current_user: User.current)
+              ::API::Decorators::AggregationGroup.new(group, count, query:, current_user: User.current)
             end
           end
 
