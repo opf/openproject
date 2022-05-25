@@ -81,11 +81,11 @@ In the same drop down click on "New branch". In this window insert a branch name
 
 ## Step 8: Fetch origin (update local repository)
 
-ToDo: Upstream update of the branch.
+Every time you start editing please make sure you have fetched the latest changes from GitHub.com. First you need to update your forked repository. There you select the branch you are working on, e.g. release/12.1. If there are updates in the main repository opf/openproject click on on "Fetch upstream".
 
+![image-20220525091734404](image-20220525091734404.png)
 
-
-Every time you start editing please make sure you have fetched the latest changes from GitHub.com by clicking on "Fetch origin" in the main toolbar:
+Now you have fetched the latest changes from the main repository. Now you can fetch those changes in the GitHub desktop client by clicking "Fetch origin" in the main toolbar:
 
 ![image-20220524204624785](image-20220524204624785.png)
 
