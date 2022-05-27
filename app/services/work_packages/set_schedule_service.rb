@@ -67,7 +67,7 @@ class WorkPackages::SetScheduleService
   # Finds all work packages that need to be rescheduled because of a rescheduling of the service's work package
   # and reschedules them.
   # The order of the rescheduling is important as successors' dates are calculated based on their predecessors' dates and
-  # ancestors' dates based on their childrens' dates.
+  # ancestors' dates based on their children's dates.
   # Thus, the work packages following (having a follows relation, direct or transitively) the service's work package
   # are first all loaded, and then sorted by their need to be scheduled before one another:
   # - predecessors are scheduled before their successors
@@ -84,6 +84,16 @@ class WorkPackages::SetScheduleService
     end
 
     altered
+  end
+
+  def date_rescheduling_delta(predecessor)
+    if predecessor.due_date.present?
+      predecessor.due_date - (predecessor.due_date_was || predecessor.due_date)
+    elsif predecessor.start_date.present?
+      predecessor.start_date - (predecessor.start_date_was || predecessor.start_date)
+    else
+      0
+    end
   end
 
   # Schedules work packages based on either
@@ -128,20 +138,10 @@ class WorkPackages::SetScheduleService
     end
   end
 
-  def date_rescheduling_delta(predecessor)
-    if predecessor.due_date.present?
-      predecessor.due_date - (predecessor.due_date_was || predecessor.due_date)
-    elsif predecessor.start_date.present?
-      predecessor.start_date - (predecessor.start_date_was || predecessor.start_date)
-    else
-      0
-    end
-  end
-
   def reschedule_to_date(scheduled, date)
     new_start_date = [scheduled.start_date, date].compact.max
 
-    scheduled.due_date = new_start_date + scheduled.duration - 1
+    scheduled.due_date = new_start_date + scheduled.duration - 1 if scheduled.due_date
     scheduled.start_date = new_start_date
   end
 
@@ -156,7 +156,7 @@ class WorkPackages::SetScheduleService
   # went wrong before. So we fix it now by setting the date.
   def schedule_on_missing_dates(scheduled, min_start_date)
     scheduled.start_date = min_start_date
-    scheduled.due_date = scheduled.start_date + 1 if scheduled.due_date && scheduled.due_date < scheduled.start_date
+    scheduled.due_date = scheduled.start_date if scheduled.due_date && scheduled.due_date < scheduled.start_date
   end
 
   def follows_delta(dependency)
