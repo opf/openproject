@@ -110,7 +110,8 @@ module ApplicationHelper
   end
 
   def format_activity_description(text)
-    html_escape_once(truncate(text.to_s, length: 120).gsub(%r{[\r\n]*<(pre|code)>.*$}m, '...'))
+    truncate_lines(strip_tags(format_text(text.to_s)).html_safe, length: 120)
+      .strip
       .gsub(/[\r\n]+/, '<br />')
       .html_safe
   end

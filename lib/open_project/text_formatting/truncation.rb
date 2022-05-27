@@ -37,10 +37,9 @@ module OpenProject
         truncate(string.to_s, *args).gsub(%r{[\r\n]+}m, ' ').html_safe
       end
 
-      # Truncates at line break after 250 characters or options[:length]
-      def truncate_lines(string, options = {})
-        length = options[:length] || 250
-        if string.to_s =~ /\A(.{#{length}}.*?)$/m
+      # Truncates at line break after 250 characters
+      def truncate_lines(string, length: 250)
+        if string.to_s =~ /\A(.{#{length}}).*?$/m
           "#{$1}..."
         else
           string
