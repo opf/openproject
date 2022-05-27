@@ -167,12 +167,6 @@ describe WikiController, type: :routing do
     }
 
     it {
-      is_expected.to route(:get, '/projects/567/wiki/date_index').to(controller: 'wiki',
-                                                                     action: 'date_index',
-                                                                     project_id: '567')
-    }
-
-    it {
       is_expected.to route(:get, '/projects/567/wiki/export').to(controller: 'wiki',
                                                                  action: 'export',
                                                                  project_id: '567')
