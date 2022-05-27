@@ -8,7 +8,7 @@ describe 'Activity tab notifications', js: true, selenium: true do
   shared_let(:work_package) do
     work_package = create(:work_package,
                           project: project,
-                          created_at: 5.days.ago.to_date.to_s(:db))
+                          created_at: 5.days.ago.to_date.to_fs(:db))
 
     work_package.update({ journal_notes: 'First comment on this wp.',
                           updated_at: 5.days.ago.to_date.to_s })

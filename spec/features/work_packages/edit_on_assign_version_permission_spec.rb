@@ -22,7 +22,7 @@ describe 'edit work package', js: true do
            author: current_user,
            project: project,
            type: type,
-           created_at: 5.days.ago.to_date.to_s(:db))
+           created_at: 5.days.ago.to_date.to_fs(:db))
   end
   let(:status) { work_package.status }
 

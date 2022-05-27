@@ -15,7 +15,7 @@ describe 'Activity tab', js: true, selenium: true do
   let!(:work_package) do
     work_package = create(:work_package,
                           project: project,
-                          created_at: 5.days.ago.to_date.to_s(:db),
+                          created_at: 5.days.ago.to_date.to_fs(:db),
                           subject: initial_subject,
                           journal_notes: initial_comment)
 
@@ -39,7 +39,7 @@ describe 'Activity tab', js: true, selenium: true do
 
     alter_work_package_at(work_package,
                           attributes: attributes,
-                          at: 3.days.ago.to_date.to_s(:db),
+                          at: 3.days.ago.to_date.to_fs(:db),
                           user: user)
 
     work_package.journals.last
@@ -50,7 +50,7 @@ describe 'Activity tab', js: true, selenium: true do
 
     alter_work_package_at(work_package,
                           attributes: attributes,
-                          at: 1.days.ago.to_date.to_s(:db),
+                          at: 1.days.ago.to_date.to_fs(:db),
                           user: create(:admin))
 
     work_package.journals.last
@@ -66,7 +66,7 @@ describe 'Activity tab', js: true, selenium: true do
 
     changeset = build(:changeset,
                       comments: 'A comment on a changeset',
-                      committed_on: 2.days.ago.to_date.to_s(:db),
+                      committed_on: 2.days.ago.to_date.to_fs(:db),
                       repository: repo,
                       committer: 'cool@person.org')
 

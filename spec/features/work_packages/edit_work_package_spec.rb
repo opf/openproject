@@ -53,10 +53,10 @@ describe 'edit work package', js: true do
                           author: dev,
                           project: project,
                           type: type,
-                          created_at: 5.days.ago.to_date.to_s(:db))
+                          created_at: 5.days.ago.to_date.to_fs(:db))
 
     note_journal = work_package.journals.last
-    note_journal.update_column(:created_at, 5.days.ago.to_date.to_s(:db))
+    note_journal.update_column(:created_at, 5.days.ago.to_date.to_fs(:db))
 
     work_package
   end
