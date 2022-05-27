@@ -111,11 +111,4 @@ describe WikiPage, type: :model do
       assert_nil child.parent_id
     end
   end
-
-  it 'should updated on eager load' do
-    page = WikiPage.with_updated_at.first
-    assert page.is_a?(WikiPage)
-    refute_nil page.read_attribute(:updated_at)
-    assert_equal page.content.updated_at, page.updated_at
-  end
 end
