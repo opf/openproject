@@ -34,7 +34,14 @@ class MailHandler < ActionMailer::Base
 
   class MissingInformation < StandardError; end
 
-  attr_reader :email, :sender_email, :user, :options
+  attr_reader :email, :sender_email, :user, :options, :logs
+
+  def initialize
+    super
+
+    @result = false
+    @logs = []
+  end
 
   ##
   # Code copied from base class and extended with optional options parameter
@@ -70,7 +77,8 @@ class MailHandler < ActionMailer::Base
     @sender_email = email.from.to_a.first.to_s.strip
     # Ignore emails received from the application emission address to avoid hell cycles
     if sender_email.downcase == Setting.mail_from.to_s.strip.downcase
-      log "ignoring email from emission address [#{sender_email}]"
+      log "ignoring email from emission address [#{sender_email}]", report: false
+      # don't report back errors to ourselves
       return false
     end
     # Ignore auto generated emails
@@ -79,7 +87,8 @@ class MailHandler < ActionMailer::Base
       if value
         value = value.to_s.downcase
         if (ignored_value.is_a?(Regexp) && value.match(ignored_value)) || value == ignored_value
-          log "ignoring email with #{key}:#{value} header"
+          log "ignoring email with #{key}:#{value} header", report: false
+          # no point reporting back in case of auto-generated emails
           return false
         end
       end
@@ -112,6 +121,8 @@ class MailHandler < ActionMailer::Base
     end
     User.current = @user
     dispatch
+  ensure
+    report_errors if !@result && Setting.report_incoming_email_errors?
   end
 
   def options=(value)
@@ -151,14 +162,11 @@ class MailHandler < ActionMailer::Base
   # Relying on the subject of the mail, which had been implemented before, is brittle as it relies on the user not altering
   # the subject. Additionally, the subject structure might change, e.g. via localization changes.
   def dispatch
-    if (m, object_id = dispatch_target_from_header)
-      m.call(object_id)
-    else
-      dispatch_to_default
-    end
+    m, object_id = dispatch_target_from_header
+
+    @result = m ? m.call(object_id) : dispatch_to_default
   rescue ActiveRecord::RecordInvalid => e
-    # TODO: send a email to the user
-    logger&.error e.message
+    log "could not save record: #{e.message}", :error
     false
   rescue MissingInformation => e
     log "missing information from #{user}: #{e.message}", :error
@@ -597,9 +605,17 @@ class MailHandler < ActionMailer::Base
     get_keyword(:done_ratio, override: true, format: '(\d|10)?0')
   end
 
-  def log(message, level = :info)
+  def log(message, level = :info, report: true)
+    logs << "#{level}: #{message}" if report
+
     message = "MailHandler: #{message}"
     logger.public_send(level, message)
+  end
+
+  def report_errors
+    return if logs.empty?
+
+    UserMailer.incoming_email_error(user, email, logs).deliver_later
   end
 
   def work_package_create_contract_class
