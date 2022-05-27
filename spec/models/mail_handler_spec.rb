@@ -40,7 +40,10 @@ describe MailHandler, type: :model do
     priority_low
     anno_user
 
-    allow(UserMailer).to receive_message_chain(:incoming_email_error, :deliver_later)
+    mail = double("mail")
+
+    allow(mail).to receive(:deliver_later)
+    allow(UserMailer).to receive(:incoming_email_error).and_return mail
   end
 
   after do
@@ -486,7 +489,7 @@ describe MailHandler, type: :model do
         it 'does not result in an error email response' do
           subject # send email
 
-          expect(UserMailer).to_not have_received(:incoming_email_error)
+          expect(UserMailer).not_to have_received(:incoming_email_error)
         end
       end
 

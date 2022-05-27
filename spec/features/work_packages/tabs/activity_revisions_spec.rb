@@ -50,7 +50,7 @@ describe 'Activity tab', js: true, selenium: true do
 
     alter_work_package_at(work_package,
                           attributes: attributes,
-                          at: 1.days.ago.to_date.to_fs(:db),
+                          at: 1.day.ago.to_date.to_fs(:db),
                           user: create(:admin))
 
     work_package.journals.last

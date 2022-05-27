@@ -235,12 +235,12 @@ describe UserMailer, type: :mailer do
     let(:recipient) { user }
     let(:current_time) { "2022-11-03 9:15".to_time }
     let(:incoming_email) do
-      Mail.new(subject:, message_id: message_id, body:, from: from_email)
+      Mail.new(subject: mail_subject, message_id:, body:, from:)
     end
 
-    let(:subject) { 'New work package 42' }
+    let(:mail_subject) { 'New work package 42' }
     let(:message_id) { '<000501c8d452$a95cd7e0$0a00a8c0@osiris>' }
-    let(:from_email) { 'l.lustig@openproject.com' }
+    let(:from) { 'l.lustig@openproject.com' }
     let(:body) { "Project: demo-project" }
 
     let(:outgoing_email) { deliveries.first }
@@ -253,7 +253,7 @@ describe UserMailer, type: :mailer do
 
     it_behaves_like 'mail is sent' do
       it "references the incoming email's subject in its own" do
-        expect(outgoing_email.subject).to eql "Re: #{subject}"
+        expect(outgoing_email.subject).to eql "Re: #{mail_subject}"
       end
 
       it "it's a reply to the incoming email" do
@@ -270,7 +270,7 @@ describe UserMailer, type: :mailer do
       end
 
       it 'contains the email address from which the email was sent' do
-        expect(html_body).to include from_email
+        expect(html_body).to include from
       end
 
       it 'contains the logs' do
