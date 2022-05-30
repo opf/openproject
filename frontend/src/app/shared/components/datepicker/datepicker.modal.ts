@@ -84,8 +84,6 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
     endDate: this.I18n.t('js.work_packages.properties.dueDate'),
     placeholder: this.I18n.t('js.placeholders.default'),
     today: this.I18n.t('js.label_today'),
-    isParent: this.I18n.t('js.work_packages.scheduling.is_parent'),
-    isSwitchedFromManualToAutomatic: this.I18n.t('js.work_packages.scheduling.is_switched_from_manual_to_automatic'),
   };
 
   onDataUpdated = new EventEmitter<string>();
@@ -251,6 +249,11 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
         mode: this.singleDate ? 'single' : 'range',
         showMonths: this.browserDetector.isMobile ? 1 : 2,
         inline: true,
+        onReady: (selectedDates, dateStr, instance) => {
+          if (!this.isSchedulable) {
+            instance.calendarContainer.classList.add('disabled');
+          }
+        },
         onChange: (dates:Date[]) => {
           this.handleDatePickerChange(dates);
 

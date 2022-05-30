@@ -66,6 +66,7 @@ $datepicker--border-radius: 5px
         &:nth-child(7n+7),
         &:nth-child(7n+6)
           background: $spot-color-basic-gray-6
+          border-radius: 0
 
         &.today
           background: $spot-color-indication-current-date
@@ -91,3 +92,30 @@ $datepicker--border-radius: 5px
           background: $spot-color-feedback-info-light
           border-color: $spot-color-feedback-info-light
           border-radius: 0
+
+
+  &.disabled
+    .flatpickr-days
+      .flatpickr-day
+        color: $spot-color-basic-gray-4
+        background: $spot-color-basic-white
+        pointer-events: none
+        cursor: not-allowed
+
+        &:hover
+          border-color: transparent
+
+        &.selected,
+        &.startRange,
+        &.endRange
+          background: $spot-color-basic-gray-3
+          border-color: $spot-color-basic-gray-3
+          color: $spot-color-basic-gray-5
+
+        &.inRange
+          background: $spot-color-basic-gray-5
+          border-color: $spot-color-basic-gray-5
+          color: $spot-color-basic-gray-3
+
+        &.today
+          color: $spot-color-basic-gray-4
