@@ -27,10 +27,7 @@
 //++
 
 import { Injectable } from '@angular/core';
-import {
-  catchError, map,
-  tap,
-} from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { ID } from '@datorama/akita';
 import { HttpClient } from '@angular/common/http';

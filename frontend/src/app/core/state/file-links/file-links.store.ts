@@ -32,7 +32,7 @@ import { IFileLink } from 'core-app/core/state/file-links/file-link.model';
 
 export interface FileLinksState extends CollectionState<IFileLink> {}
 
-@StoreConfig({ name: 'attachments' })
+@StoreConfig({ name: 'file_links' })
 export class FileLinksStore extends EntityStore<FileLinksState> {
   constructor() {
     super(createInitialCollectionState());
