@@ -72,7 +72,7 @@ module API
         link :permission do
           # TODO: replace with service to check real permission state
           {
-            href: URN_PERMISSION_NOT_ALLOWED,
+            href: URN_PERMISSION_VIEW,
             title: 'View'
           }
         end
