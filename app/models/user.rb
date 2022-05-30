@@ -39,6 +39,7 @@ class User < Principal
   }.freeze
 
   include ::Associations::Groupable
+  include ::Users::Avatars
   extend DeprecatedAlias
 
   has_many :categories, foreign_key: 'assigned_to_id',
