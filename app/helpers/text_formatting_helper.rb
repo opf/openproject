@@ -82,7 +82,7 @@ module TextFormattingHelper
     stripped_text = strip_tags(format_text(text.to_s)).html_safe
 
     if length
-      truncate_lines(stripped_text, length: length)
+      truncate_multiline(stripped_text)
     else
       stripped_text
     end
@@ -90,5 +90,13 @@ module TextFormattingHelper
       .gsub(/[\r\n]+/, '<br />')
       .html_safe
     # rubocop:enable Rails/OutputSafety
+  end
+
+  def truncate_multiline(string)
+    if string.to_s =~ /\A(.{120}).*?$/m
+      "#{$1}..."
+    else
+      string
+    end
   end
 end
